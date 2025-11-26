@@ -335,7 +335,10 @@ const PhoneMockup = () => {
                     : "bg-white/5 border border-white/5 text-white group-hover:bg-white/10"
                 }`}
               >
-                <action.icon className="w-[18px] h-[18px] sm:w-5 sm:h-5 md:w-[22px] md:h-[22px]" strokeWidth={1.5} />
+                <action.icon
+                  className="w-[18px] h-[18px] sm:w-5 sm:h-5 md:w-[22px] md:h-[22px]"
+                  strokeWidth={1.5}
+                />
               </div>
               <span className="text-[8px] sm:text-[9px] md:text-[10px] text-gray-400 font-medium tracking-wide group-hover:text-white transition-colors">
                 {action.label}
@@ -358,16 +361,24 @@ const PhoneMockup = () => {
               <div className="flex items-center gap-2 sm:gap-3">
                 <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/5 flex items-center justify-center">
                   {i === 0 ? (
-                    <ArrowDownLeft size={12} className="sm:w-[14px] sm:h-[14px] text-[#2BFF88]" />
+                    <ArrowDownLeft
+                      size={12}
+                      className="sm:w-[14px] sm:h-[14px] text-[#2BFF88]"
+                    />
                   ) : (
-                    <Send size={12} className="sm:w-[14px] sm:h-[14px] text-white" />
+                    <Send
+                      size={12}
+                      className="sm:w-[14px] sm:h-[14px] text-white"
+                    />
                   )}
                 </div>
                 <div className="flex flex-col">
                   <span className="text-xs sm:text-sm text-white font-medium">
                     {i === 0 ? "Received USDC" : "Sent SOL"}
                   </span>
-                  <span className="text-[9px] sm:text-[10px] text-gray-500">2 min ago</span>
+                  <span className="text-[9px] sm:text-[10px] text-gray-500">
+                    2 min ago
+                  </span>
                 </div>
               </div>
               <span
@@ -389,7 +400,10 @@ const PhoneMockup = () => {
                 i === 2 ? "text-[#2BFF88]" : "text-gray-500 hover:text-white"
               } transition-colors cursor-pointer`}
             >
-              <Icon className="w-5 h-5 sm:w-[22px] sm:h-[22px]" strokeWidth={1.5} />
+              <Icon
+                className="w-5 h-5 sm:w-[22px] sm:h-[22px]"
+                strokeWidth={1.5}
+              />
               {i === 2 && (
                 <div className="w-1 h-1 bg-[#2BFF88] rounded-full shadow-[0_0_5px_#2BFF88]" />
               )}
@@ -441,16 +455,13 @@ const Hero = () => (
             Crypto native. P2P. Non-custodial.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
-            <button className="w-full sm:w-auto px-8 py-4 rounded-full bg-[#2BFF88] text-black font-bold text-lg hover:shadow-[0_0_40px_rgba(43,255,136,0.4)] hover:scale-105 transition-all flex items-center justify-center gap-2 group">
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 justify-center lg:justify-start">
+            <button className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 rounded-full bg-[#2BFF88] text-black font-bold text-base sm:text-lg hover:shadow-[0_0_40px_rgba(43,255,136,0.4)] hover:scale-105 transition-all flex items-center justify-center gap-2 group">
               Open App{" "}
-              <ArrowRight
-                size={20}
-                className="group-hover:translate-x-1 transition-transform"
-              />
+              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
             </button>
-            <button className="w-full sm:w-auto px-8 py-4 rounded-full border border-white/20 text-white font-medium hover:bg-white/5 hover:border-white/40 transition-all flex items-center gap-2">
-              <div className="w-6 h-6 rounded-full border border-white/30 flex items-center justify-center">
+            <button className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 rounded-full border border-white/20 text-white font-medium hover:bg-white/5 hover:border-white/40 transition-all flex items-center justify-center gap-2">
+              <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border border-white/30 flex items-center justify-center">
                 <div className="w-0 h-0 border-t-[3px] border-t-transparent border-l-[6px] border-l-white border-b-[3px] border-b-transparent ml-0.5"></div>
               </div>
               How Blip Works
@@ -473,23 +484,22 @@ const StepCard = ({ number, title, desc, icon: Icon, delay }: any) => (
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ delay, duration: 0.5 }}
-    className="relative p-8 rounded-3xl bg-[#0A0A0A] border border-white/5 hover:border-[#2BFF88]/30 transition-all group z-10 w-full md:w-[30%]"
+    className="relative p-6 sm:p-7 md:p-8 rounded-2xl sm:rounded-3xl bg-[#0A0A0A] border border-white/5 hover:border-[#2BFF88]/30 transition-all group z-10 w-full"
   >
-    <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl" />
+    <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl sm:rounded-3xl" />
     <div className="relative z-10">
-      <div className="w-14 h-14 rounded-2xl bg-[#111] border border-white/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform group-hover:border-[#2BFF88] shadow-lg">
-        <Icon
-          size={24}
-          className="text-white group-hover:text-[#2BFF88] transition-colors"
-        />
+      <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-[#111] border border-white/10 flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform group-hover:border-[#2BFF88] shadow-lg">
+        <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-white group-hover:text-[#2BFF88] transition-colors" />
       </div>
-      <div className="text-[#2BFF88] font-mono text-sm mb-2 tracking-wider">
+      <div className="text-[#2BFF88] font-mono text-xs sm:text-sm mb-2 tracking-wider">
         STEP 0{number}
       </div>
-      <h3 className="text-2xl font-bold text-white mb-3">{title}</h3>
+      <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 sm:mb-3">
+        {title}
+      </h3>
       <p className="text-gray-400 leading-relaxed text-sm">{desc}</p>
     </div>
-    <div className="absolute -inset-[1px] bg-gradient-to-br from-[#2BFF88] to-transparent rounded-3xl opacity-0 group-hover:opacity-20 blur-sm transition-opacity -z-10" />
+    <div className="absolute -inset-[1px] bg-gradient-to-br from-[#2BFF88] to-transparent rounded-2xl sm:rounded-3xl opacity-0 group-hover:opacity-20 blur-sm transition-opacity -z-10" />
   </motion.div>
 );
 
@@ -502,19 +512,19 @@ const CheckCircle = ({ size, className }: any) => (
 
 const HowItWorks = () => {
   return (
-    <section className="py-32 bg-black relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 relative">
-        <div className="text-center mb-24">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+    <section className="py-16 sm:py-24 md:py-32 bg-black relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative">
+        <div className="text-center mb-12 sm:mb-16 md:mb-24">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6">
             How Blip Works
           </h2>
-          <p className="text-gray-400 max-w-xl mx-auto">
+          <p className="text-sm sm:text-base text-gray-400 max-w-xl mx-auto px-4">
             Seamless movement from fiat to crypto and back again. Just follow
             the blip.
           </p>
         </div>
 
-        <div className="relative flex flex-col md:flex-row justify-between items-start gap-8 md:gap-0">
+        <div className="relative flex flex-col md:flex-row justify-between items-stretch gap-6 sm:gap-8">
           <div className="hidden md:block absolute top-[60px] left-[15%] right-[15%] h-[100px] pointer-events-none z-0">
             <svg
               width="100%"
@@ -587,52 +597,63 @@ const HowItWorks = () => {
 };
 
 const Comparison = () => (
-  <section className="py-24 bg-[#050505] border-y border-white/5">
-    <div className="max-w-6xl mx-auto px-6">
-      <div className="grid lg:grid-cols-2 gap-16 items-center">
+  <section className="py-16 sm:py-20 md:py-24 bg-[#050505] border-y border-white/5">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6">
+      <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
         <div>
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
             Built for <span className="text-[#2BFF88]">Speed</span>
           </h2>
-          <p className="text-gray-400 mb-8 text-lg">
+          <p className="text-gray-400 mb-6 sm:mb-8 text-base sm:text-lg">
             Banks sleep. Blockchain doesn't. Blip abstracts the complexity of
             crypto to deliver settlement speeds that feel like magic.
           </p>
 
-          <div className="space-y-6">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-[#2BFF88]/10 flex items-center justify-center text-[#2BFF88]">
-                <Zap size={20} />
+          <div className="space-y-4 sm:space-y-6">
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#2BFF88]/10 flex items-center justify-center text-[#2BFF88] flex-shrink-0">
+                <Zap className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
               <div>
-                <h4 className="text-white font-bold">400ms Settlement</h4>
-                <p className="text-sm text-gray-500">Solana mainnet finality</p>
+                <h4 className="text-white font-bold text-sm sm:text-base">
+                  400ms Settlement
+                </h4>
+                <p className="text-xs sm:text-sm text-gray-500">
+                  Solana mainnet finality
+                </p>
               </div>
             </div>
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-[#FFD43B]/10 flex items-center justify-center text-[#FFD43B]">
-                <ShieldCheck size={20} />
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#FFD43B]/10 flex items-center justify-center text-[#FFD43B] flex-shrink-0">
+                <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
               <div>
-                <h4 className="text-white font-bold">Non-Custodial</h4>
-                <p className="text-sm text-gray-500">Smart contract escrow</p>
+                <h4 className="text-white font-bold text-sm sm:text-base">
+                  Non-Custodial
+                </h4>
+                <p className="text-xs sm:text-sm text-gray-500">
+                  Smart contract escrow
+                </p>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="bg-[#0A0A0A] p-8 rounded-3xl border border-white/5 relative overflow-hidden">
-          <h3 className="text-white font-bold mb-8">Speed Comparison</h3>
+        <div className="bg-[#0A0A0A] p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-white/5 relative overflow-hidden mt-8 lg:mt-0">
+          <h3 className="text-white font-bold mb-6 sm:mb-8 text-base sm:text-lg">
+            Speed Comparison
+          </h3>
 
-          <div className="space-y-6">
+          <div className="space-y-5 sm:space-y-6">
             <div>
-              <div className="flex justify-between text-sm text-gray-400 mb-2">
-                <span className="text-white font-medium flex items-center gap-2">
-                  Blip <Zap size={12} className="text-[#2BFF88]" />
+              <div className="flex justify-between text-xs sm:text-sm text-gray-400 mb-2">
+                <span className="text-white font-medium flex items-center gap-1.5 sm:gap-2">
+                  Blip{" "}
+                  <Zap className="w-3 h-3 sm:w-[12px] sm:h-[12px] text-[#2BFF88]" />
                 </span>
                 <span className="text-[#2BFF88]">~0.4s</span>
               </div>
-              <div className="h-4 bg-white/5 rounded-full overflow-hidden relative">
+              <div className="h-3 sm:h-4 bg-white/5 rounded-full overflow-hidden relative">
                 <motion.div
                   initial={{ width: 0 }}
                   whileInView={{ width: "100%" }}
@@ -643,11 +664,11 @@ const Comparison = () => (
             </div>
 
             <div>
-              <div className="flex justify-between text-sm text-gray-400 mb-2">
+              <div className="flex justify-between text-xs sm:text-sm text-gray-400 mb-2">
                 <span>Remittance Apps</span>
-                <span>1-2 Hours</span>
+                <span className="text-xs sm:text-sm">1-2 Hours</span>
               </div>
-              <div className="h-4 bg-white/5 rounded-full overflow-hidden">
+              <div className="h-3 sm:h-4 bg-white/5 rounded-full overflow-hidden">
                 <motion.div
                   initial={{ width: 0 }}
                   whileInView={{ width: "60%" }}
@@ -658,11 +679,11 @@ const Comparison = () => (
             </div>
 
             <div>
-              <div className="flex justify-between text-sm text-gray-400 mb-2">
+              <div className="flex justify-between text-xs sm:text-sm text-gray-400 mb-2">
                 <span>Banks (SWIFT)</span>
-                <span>2-5 Days</span>
+                <span className="text-xs sm:text-sm">2-5 Days</span>
               </div>
-              <div className="h-4 bg-white/5 rounded-full overflow-hidden">
+              <div className="h-3 sm:h-4 bg-white/5 rounded-full overflow-hidden">
                 <motion.div
                   initial={{ width: 0 }}
                   whileInView={{ width: "15%" }}
@@ -706,23 +727,24 @@ const ProtocolNode = ({ cx, cy, label }: any) => (
 );
 
 const ProtocolSection = () => (
-  <section id="protocol" className="py-32 bg-black relative">
-    <div className="max-w-7xl mx-auto px-6 text-center mb-16">
-      <span className="text-[#FFD43B] text-xs font-bold tracking-[0.2em] uppercase mb-4 block">
+  <section id="protocol" className="py-16 sm:py-24 md:py-32 bg-black relative">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center mb-12 sm:mb-16">
+      <span className="text-[#FFD43B] text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase mb-3 sm:mb-4 block">
         The Backbone
       </span>
-      <h2 className="text-4xl md:text-5xl font-bold text-white">
+      <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white">
         The Blip Protocol
       </h2>
     </div>
 
-    <div className="w-full h-[400px] relative overflow-hidden flex items-center justify-center mb-12">
+    <div className="w-full h-[250px] sm:h-[350px] md:h-[400px] relative overflow-hidden flex items-center justify-center mb-8 sm:mb-10 md:mb-12 px-4">
       <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black z-10" />
       <svg
-        width="800"
-        height="400"
+        width="100%"
+        height="100%"
         viewBox="0 0 800 400"
-        className="opacity-80"
+        className="opacity-80 max-w-3xl"
+        preserveAspectRatio="xMidYMid meet"
       >
         <path
           d="M400,200 L200,100"
@@ -775,7 +797,7 @@ const ProtocolSection = () => (
       </svg>
     </div>
 
-    <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8 text-center">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 grid sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 text-center">
       {[
         {
           title: "Decentralized Routing",
@@ -787,9 +809,11 @@ const ProtocolSection = () => (
         },
         { title: "Permissionless", desc: "Anyone can run a node and earn." },
       ].map((item, i) => (
-        <div key={i} className="p-6">
-          <h3 className="text-white font-bold text-lg mb-2">{item.title}</h3>
-          <p className="text-gray-500 text-sm">{item.desc}</p>
+        <div key={i} className="p-4 sm:p-6">
+          <h3 className="text-white font-bold text-base sm:text-lg mb-2">
+            {item.title}
+          </h3>
+          <p className="text-gray-500 text-xs sm:text-sm">{item.desc}</p>
         </div>
       ))}
     </div>
@@ -813,46 +837,48 @@ const NeonRing = ({ size, color, duration, reverse }: any) => (
 const PeopleBank = () => (
   <section
     id="peoplebank"
-    className="py-32 relative overflow-hidden bg-[#020202]"
+    className="py-16 sm:py-24 md:py-32 relative overflow-hidden bg-[#020202]"
   >
-    <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
-      <div className="relative h-[500px] flex items-center justify-center">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
+      <div className="relative h-[300px] sm:h-[400px] md:h-[500px] flex items-center justify-center order-2 lg:order-1">
         <div
-          className="relative w-[400px] h-[400px] flex items-center justify-center [transform:rotateX(60deg)_rotateZ(-20deg)]"
+          className="relative w-[250px] h-[250px] sm:w-[350px] sm:h-[350px] md:w-[400px] md:h-[400px] flex items-center justify-center [transform:rotateX(60deg)_rotateZ(-20deg)]"
           style={{ transformStyle: "preserve-3d" }}
         >
           <NeonRing size="100%" color="#2BFF88" duration={20} />
           <NeonRing size="70%" color="#FFD43B" duration={15} reverse />
           <NeonRing size="40%" color="#2BFF88" duration={10} />
 
-          <div className="absolute w-20 h-20 bg-[#2BFF88] rounded-full blur-xl opacity-20 animate-pulse" />
-          <div className="absolute w-10 h-10 bg-white rounded-full shadow-[0_0_30px_#2BFF88]" />
+          <div className="absolute w-16 h-16 sm:w-20 sm:h-20 bg-[#2BFF88] rounded-full blur-xl opacity-20 animate-pulse" />
+          <div className="absolute w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-full shadow-[0_0_30px_#2BFF88]" />
 
           <div className="absolute inset-0 flex items-center justify-center [transform:rotateX(-60deg)]">
             <div className="flex flex-col items-center gap-1 animate-float">
-              <div className="text-[#2BFF88] font-mono text-xs">+12.4% APY</div>
-              <div className="w-[1px] h-10 bg-gradient-to-t from-[#2BFF88] to-transparent" />
+              <div className="text-[#2BFF88] font-mono text-[10px] sm:text-xs">
+                +12.4% APY
+              </div>
+              <div className="w-[1px] h-8 sm:h-10 bg-gradient-to-t from-[#2BFF88] to-transparent" />
             </div>
           </div>
         </div>
       </div>
 
-      <div>
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#2BFF88]/20 bg-[#2BFF88]/5 mb-6">
-          <TrendingUp size={14} className="text-[#2BFF88]" />
-          <span className="text-xs font-bold text-[#2BFF88] uppercase tracking-wider">
+      <div className="order-1 lg:order-2">
+        <div className="inline-flex items-center gap-2 px-2.5 sm:px-3 py-1 rounded-full border border-[#2BFF88]/20 bg-[#2BFF88]/5 mb-4 sm:mb-6">
+          <TrendingUp className="w-3 h-3 sm:w-[14px] sm:h-[14px] text-[#2BFF88]" />
+          <span className="text-[10px] sm:text-xs font-bold text-[#2BFF88] uppercase tracking-wider">
             Earn While You Sleep
           </span>
         </div>
-        <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6">
           PeopleBank Liquidity
         </h2>
-        <p className="text-xl text-gray-400 mb-8 font-light">
+        <p className="text-base sm:text-lg md:text-xl text-gray-400 mb-6 sm:mb-8 font-light">
           Be the bank. Deposit USDC/USDT into liquidity pools to facilitate
           instant transfers and earn yield from transaction volume.
         </p>
 
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {[
             {
               label: "Total Value Locked",
@@ -864,10 +890,14 @@ const PeopleBank = () => (
           ].map((stat, i) => (
             <div
               key={i}
-              className="flex items-center justify-between p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 transition-colors"
+              className="flex items-center justify-between p-3 sm:p-4 rounded-lg sm:rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 transition-colors"
             >
-              <span className="text-gray-400">{stat.label}</span>
-              <span className={`text-xl font-mono font-bold ${stat.color}`}>
+              <span className="text-gray-400 text-sm sm:text-base">
+                {stat.label}
+              </span>
+              <span
+                className={`text-lg sm:text-xl font-mono font-bold ${stat.color}`}
+              >
                 {stat.val}
               </span>
             </div>
@@ -880,15 +910,17 @@ const PeopleBank = () => (
 
 const AppScreens = () => {
   return (
-    <section className="py-32 bg-black border-t border-white/5">
-      <div className="max-w-7xl mx-auto px-6 mb-16 text-center">
-        <h2 className="text-4xl font-bold text-white mb-4">
+    <section className="py-16 sm:py-24 md:py-32 bg-black border-t border-white/5">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-12 sm:mb-16 text-center">
+        <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 sm:mb-4">
           One App. Total Control.
         </h2>
-        <p className="text-gray-500">Minimal by design. Powerful by nature.</p>
+        <p className="text-sm sm:text-base text-gray-500">
+          Minimal by design. Powerful by nature.
+        </p>
       </div>
 
-      <div className="flex flex-col md:flex-row justify-center gap-8 px-6 overflow-x-auto pb-8 snap-x">
+      <div className="flex flex-row md:justify-center gap-6 sm:gap-8 px-4 sm:px-6 overflow-x-auto pb-8 snap-x snap-mandatory scrollbar-hide">
         {[
           { title: "Home", color: "from-black to-black" },
           { title: "Send", color: "from-black to-[#2BFF88]/10" },
@@ -896,16 +928,16 @@ const AppScreens = () => {
         ].map((screen, i) => (
           <div
             key={i}
-            className={`min-w-[280px] h-[500px] rounded-[3rem] border border-white/10 bg-gradient-to-b ${screen.color} relative overflow-hidden p-6 snap-center group hover:-translate-y-2 transition-transform duration-500`}
+            className={`min-w-[240px] sm:min-w-[260px] md:min-w-[280px] h-[420px] sm:h-[460px] md:h-[500px] rounded-[2.5rem] sm:rounded-[3rem] border border-white/10 bg-gradient-to-b ${screen.color} relative overflow-hidden p-5 sm:p-6 snap-center group hover:-translate-y-2 transition-transform duration-500 flex-shrink-0`}
           >
-            <div className="w-20 h-6 rounded-full bg-white/5 mx-auto mb-8" />
-            <div className="space-y-4">
-              <div className="w-full h-32 rounded-2xl bg-white/5 border border-white/5" />
-              <div className="w-full h-12 rounded-xl bg-white/5" />
-              <div className="w-full h-12 rounded-xl bg-white/5" />
+            <div className="w-16 h-5 sm:w-20 sm:h-6 rounded-full bg-white/5 mx-auto mb-6 sm:mb-8" />
+            <div className="space-y-3 sm:space-y-4">
+              <div className="w-full h-28 sm:h-32 rounded-xl sm:rounded-2xl bg-white/5 border border-white/5" />
+              <div className="w-full h-10 sm:h-12 rounded-lg sm:rounded-xl bg-white/5" />
+              <div className="w-full h-10 sm:h-12 rounded-lg sm:rounded-xl bg-white/5" />
             </div>
-            <div className="absolute bottom-6 left-0 right-0 text-center">
-              <span className="text-xs font-bold uppercase tracking-widest text-gray-500 group-hover:text-white transition-colors">
+            <div className="absolute bottom-5 sm:bottom-6 left-0 right-0 text-center">
+              <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-gray-500 group-hover:text-white transition-colors">
                 {screen.title}
               </span>
             </div>
@@ -928,13 +960,13 @@ const Index = () => {
       <PeopleBank />
       <AppScreens />
 
-      <section className="py-24 text-center border-t border-white/5 relative">
+      <section className="py-16 sm:py-20 md:py-24 text-center border-t border-white/5 relative">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#111] to-black opacity-50" />
-        <div className="relative z-10">
-          <h2 className="text-3xl font-bold text-white mb-8">
+        <div className="relative z-10 px-4 sm:px-6">
+          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6 sm:mb-8">
             Live in 12 Countries
           </h2>
-          <div className="flex flex-wrap justify-center gap-3">
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-3 max-w-2xl mx-auto">
             {[
               "UAE",
               "India",
@@ -945,7 +977,7 @@ const Index = () => {
             ].map((country) => (
               <div
                 key={country}
-                className="px-4 py-2 rounded-full border border-white/10 bg-white/5 text-sm text-gray-300 flex items-center gap-2"
+                className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-white/10 bg-white/5 text-xs sm:text-sm text-gray-300 flex items-center gap-1.5 sm:gap-2"
               >
                 <div className="w-1.5 h-1.5 rounded-full bg-[#2BFF88] animate-pulse" />
                 {country}
