@@ -450,7 +450,9 @@ const Hero = () => (
           </div>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-[0.95] mb-6 sm:mb-8 tracking-tight">
-            Pay with Crypto Anyone,
+            Pay with Crypto
+            <br />
+            Anyone,
             <br />
             Anywhere —<br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2BFF88] via-[#2BFF88] to-[#2BFF88]/40 relative inline-block animate-pulse">
@@ -992,7 +994,7 @@ const Index = () => {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#111] to-black opacity-50" />
         <div className="relative z-10 px-4 sm:px-6">
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6 sm:mb-8">
-            Comming soon in 12 Countries
+            Coming soon in 12 Countries
           </h2>
           <div className="flex flex-wrap justify-center gap-2 sm:gap-3 max-w-2xl mx-auto">
             {[
