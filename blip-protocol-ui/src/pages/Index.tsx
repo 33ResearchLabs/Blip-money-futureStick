@@ -1,5 +1,5 @@
-import React from "react";
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
   Send,
@@ -14,6 +14,8 @@ import {
   ShieldCheck,
   Smartphone,
   TrendingUp,
+  Menu,
+  X,
 } from "lucide-react";
 
 // --- Visual Effects Components ---
@@ -60,40 +62,102 @@ const ParticleBackground = () => {
   );
 };
 
-const Navbar = () => (
-  <nav className="fixed top-0 w-full z-50 backdrop-blur-md border-b border-white/5 bg-black/60 supports-[backdrop-filter]:bg-black/40">
-    <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-      <div className="flex items-center gap-2">
-        <div className="relative">
-          <div className="w-3 h-3 rounded-full bg-[#2BFF88] shadow-[0_0_10px_#2BFF88] relative z-10" />
-          <div className="absolute inset-0 bg-[#2BFF88] rounded-full animate-ping opacity-50" />
+const Navbar = () => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  return (
+    <nav className="fixed top-0 w-full z-50 backdrop-blur-md border-b border-white/5 bg-black/60 supports-[backdrop-filter]:bg-black/40">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="relative">
+            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#2BFF88] shadow-[0_0_10px_#2BFF88] relative z-10" />
+            <div className="absolute inset-0 bg-[#2BFF88] rounded-full animate-ping opacity-50" />
+          </div>
+          <span className="text-xl sm:text-2xl font-bold tracking-tight text-white">
+            Blip.<span className="text-[#2BFF88]">money</span>
+          </span>
         </div>
-        <span className="text-2xl font-bold tracking-tight text-white">
-          Blip.money
-        </span>
-      </div>
-      <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
-        <a href="#protocol" className="hover:text-[#2BFF88] transition-colors">
-          Protocol
-        </a>
-        <a href="#merchants" className="hover:text-[#2BFF88] transition-colors">
-          Merchants
-        </a>
-        <a
-          href="#peoplebank"
-          className="hover:text-[#2BFF88] transition-colors"
+
+        {/* Desktop Menu */}
+        <div className="hidden lg:flex items-center gap-8">
+          <div className="flex items-center gap-8 text-sm font-medium text-gray-400">
+            <a
+              href="#protocol"
+              className="hover:text-[#2BFF88] transition-colors"
+            >
+              Protocol
+            </a>
+            <a
+              href="#merchants"
+              className="hover:text-[#2BFF88] transition-colors"
+            >
+              Merchants
+            </a>
+            <a
+              href="#peoplebank"
+              className="hover:text-[#2BFF88] transition-colors"
+            >
+              PeopleBank
+            </a>
+          </div>
+          <button className="px-5 py-2 rounded-full border border-white/10 text-white text-sm hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all bg-black/50 backdrop-blur-sm group">
+            <span className="group-hover:text-[#2BFF88] transition-colors">
+              Open App
+            </span>
+          </button>
+        </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="lg:hidden p-2 text-white hover:text-[#2BFF88] transition-colors"
+          aria-label="Toggle menu"
         >
-          PeopleBank
-        </a>
+          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="lg:hidden absolute top-full left-0 right-0 bg-black/95 backdrop-blur-xl border-b border-white/10"
+            >
+              <div className="flex flex-col p-6 space-y-4">
+                <a
+                  href="#protocol"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-gray-400 hover:text-[#2BFF88] transition-colors text-lg py-2"
+                >
+                  Protocol
+                </a>
+                <a
+                  href="#merchants"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-gray-400 hover:text-[#2BFF88] transition-colors text-lg py-2"
+                >
+                  Merchants
+                </a>
+                <a
+                  href="#peoplebank"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-gray-400 hover:text-[#2BFF88] transition-colors text-lg py-2"
+                >
+                  PeopleBank
+                </a>
+                <button className="w-full px-5 py-3 rounded-full border border-white/10 text-white hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all bg-black/50 backdrop-blur-sm mt-2">
+                  Open App
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
-      <button className="hidden md:block px-5 py-2 rounded-full border border-white/10 text-white text-sm hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all bg-black/50 backdrop-blur-sm group">
-        <span className="group-hover:text-[#2BFF88] transition-colors">
-          Open App
-        </span>
-      </button>
-    </div>
-  </nav>
-);
+    </nav>
+  );
+};
 
 const PulseWave = () => {
   return (
@@ -221,36 +285,39 @@ const PhoneMockup = () => {
       initial={{ y: 40, opacity: 0, rotateX: 10 }}
       animate={{ y: 0, opacity: 1, rotateX: 0 }}
       transition={{ duration: 1.2, ease: "easeOut" }}
-      className="relative mx-auto w-[320px] h-[650px] bg-[#050505] rounded-[3.5rem] border border-white/10 shadow-[0_0_60px_-15px_rgba(43,255,136,0.15)] overflow-hidden z-20"
+      className="relative mx-auto w-[280px] sm:w-[300px] md:w-[320px] h-[480px] sm:h-[520px] md:h-[560px] lg:h-[620px] bg-[#050505] rounded-[2.5rem] sm:rounded-[3rem] md:rounded-[3.5rem] border border-white/10 shadow-[0_0_60px_-15px_rgba(43,255,136,0.15)] overflow-hidden z-20"
       style={{ transformStyle: "preserve-3d" }}
     >
       <div className="absolute inset-0 rounded-[3.5rem] ring-1 ring-white/20 pointer-events-none z-50" />
       <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-white/5 to-transparent pointer-events-none z-40" />
 
-      <div className="w-full h-full flex flex-col p-6 pt-14 relative bg-black">
+      <div className="w-full h-full flex flex-col p-4 sm:p-5 md:p-6 pt-10 sm:pt-12 md:pt-14 relative bg-black">
         <div className="absolute top-[-20%] left-[-20%] w-[140%] h-[60%] bg-[#2BFF88] opacity-[0.06] blur-[90px] rounded-full pointer-events-none" />
 
-        <div className="text-center mb-10">
-          <p className="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-medium">
+        <div className="text-center mb-6 sm:mb-8 md:mb-10">
+          <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-gray-500 font-medium">
             Crypto Balance — Self Custody
           </p>
         </div>
 
-        <div className="relative w-full aspect-[1.4/1] flex flex-col justify-center items-center mb-8">
-          <div className="absolute w-32 h-32 bg-[#2BFF88] rounded-full opacity-[0.08] blur-2xl" />
+        <div className="relative w-full aspect-[1.4/1] flex flex-col justify-center items-center mb-6 sm:mb-7 md:mb-8">
+          <div className="absolute w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 bg-[#2BFF88] rounded-full opacity-[0.08] blur-2xl" />
 
-          <h2 className="text-5xl font-light text-white tracking-tight z-10 relative">
-            $23,590<span className="text-gray-500 text-3xl">.73</span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-white tracking-tight z-10 relative">
+            $23,590
+            <span className="text-gray-500 text-2xl sm:text-2xl md:text-3xl">
+              .73
+            </span>
           </h2>
-          <div className="flex items-center gap-2 mt-3 z-10 px-3 py-1 rounded-full bg-white/5 border border-white/5 backdrop-blur-md">
+          <div className="flex items-center gap-2 mt-2 sm:mt-3 z-10 px-2.5 sm:px-3 py-1 rounded-full bg-white/5 border border-white/5 backdrop-blur-md">
             <div className="w-1.5 h-1.5 bg-[#2BFF88] rounded-full animate-pulse shadow-[0_0_5px_#2BFF88]" />
-            <span className="text-[10px] text-gray-400 font-medium tracking-wide">
+            <span className="text-[8px] sm:text-[9px] md:text-[10px] text-gray-400 font-medium tracking-wide">
               UPDATED JUST NOW
             </span>
           </div>
         </div>
 
-        <div className="grid grid-cols-4 gap-2 mb-8">
+        <div className="grid grid-cols-4 gap-1.5 sm:gap-2 mb-6 sm:mb-7 md:mb-8">
           {[
             { icon: Send, label: "Send", active: true },
             { icon: ArrowDownLeft, label: "Request" },
@@ -259,52 +326,52 @@ const PhoneMockup = () => {
           ].map((action, i) => (
             <div
               key={i}
-              className="flex flex-col items-center gap-2 group cursor-pointer"
+              className="flex flex-col items-center gap-1.5 sm:gap-2 group cursor-pointer"
             >
               <div
-                className={`w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 ${
+                className={`w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center transition-all duration-300 ${
                   action.active
                     ? "bg-[#2BFF88]/10 border border-[#2BFF88] text-[#2BFF88] shadow-[0_0_15px_rgba(43,255,136,0.15)]"
                     : "bg-white/5 border border-white/5 text-white group-hover:bg-white/10"
                 }`}
               >
-                <action.icon size={22} strokeWidth={1.5} />
+                <action.icon className="w-[18px] h-[18px] sm:w-5 sm:h-5 md:w-[22px] md:h-[22px]" strokeWidth={1.5} />
               </div>
-              <span className="text-[10px] text-gray-400 font-medium tracking-wide group-hover:text-white transition-colors">
+              <span className="text-[8px] sm:text-[9px] md:text-[10px] text-gray-400 font-medium tracking-wide group-hover:text-white transition-colors">
                 {action.label}
               </span>
             </div>
           ))}
         </div>
 
-        <div className="flex-grow rounded-t-3xl bg-white/5 border-t border-white/5 p-4 relative overflow-hidden">
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">
+        <div className="flex-grow rounded-t-2xl sm:rounded-t-3xl bg-white/5 border-t border-white/5 p-3 sm:p-4 relative overflow-hidden">
+          <div className="flex items-center justify-between mb-3 sm:mb-4">
+            <span className="text-[10px] sm:text-xs font-bold text-gray-500 uppercase tracking-wider">
               Recent Blips
             </span>
           </div>
           {[1, 2, 3].map((_, i) => (
             <div
               key={i}
-              className="flex items-center justify-between py-3 border-b border-white/5 last:border-0"
+              className="flex items-center justify-between py-2 sm:py-3 border-b border-white/5 last:border-0"
             >
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/5 flex items-center justify-center">
                   {i === 0 ? (
-                    <ArrowDownLeft size={14} className="text-[#2BFF88]" />
+                    <ArrowDownLeft size={12} className="sm:w-[14px] sm:h-[14px] text-[#2BFF88]" />
                   ) : (
-                    <Send size={14} className="text-white" />
+                    <Send size={12} className="sm:w-[14px] sm:h-[14px] text-white" />
                   )}
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-sm text-white font-medium">
+                  <span className="text-xs sm:text-sm text-white font-medium">
                     {i === 0 ? "Received USDC" : "Sent SOL"}
                   </span>
-                  <span className="text-[10px] text-gray-500">2 min ago</span>
+                  <span className="text-[9px] sm:text-[10px] text-gray-500">2 min ago</span>
                 </div>
               </div>
               <span
-                className={`text-sm font-mono ${
+                className={`text-xs sm:text-sm font-mono ${
                   i === 0 ? "text-[#2BFF88]" : "text-white"
                 }`}
               >
@@ -314,15 +381,15 @@ const PhoneMockup = () => {
           ))}
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 h-20 bg-[#050505]/90 backdrop-blur-xl border-t border-white/5 flex items-center justify-between px-8 pb-4">
+        <div className="absolute bottom-0 left-0 right-0 h-16 sm:h-18 md:h-20 bg-[#050505]/90 backdrop-blur-xl border-t border-white/5 flex items-center justify-between px-6 sm:px-7 md:px-8 pb-3 sm:pb-4">
           {[Home, Activity, Wallet, User].map((Icon, i) => (
             <div
               key={i}
-              className={`flex flex-col items-center gap-1 ${
+              className={`flex flex-col items-center gap-0.5 sm:gap-1 ${
                 i === 2 ? "text-[#2BFF88]" : "text-gray-500 hover:text-white"
               } transition-colors cursor-pointer`}
             >
-              <Icon size={22} strokeWidth={1.5} />
+              <Icon className="w-5 h-5 sm:w-[22px] sm:h-[22px]" strokeWidth={1.5} />
               {i === 2 && (
                 <div className="w-1 h-1 bg-[#2BFF88] rounded-full shadow-[0_0_5px_#2BFF88]" />
               )}
@@ -335,40 +402,40 @@ const PhoneMockup = () => {
 };
 
 const Hero = () => (
-  <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+  <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 sm:pt-20">
     <ParticleBackground />
-    <div className="absolute top-[20%] right-[-10%] w-[500px] h-[500px] bg-[#FFD43B] opacity-[0.03] blur-[150px] rounded-full pointer-events-none animate-pulse-slow" />
+    <div className="absolute top-[20%] right-[-10%] w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] md:w-[500px] md:h-[500px] bg-[#FFD43B] opacity-[0.03] blur-[100px] sm:blur-[150px] rounded-full pointer-events-none animate-pulse-slow" />
 
     <PulseWave />
 
-    <div className="max-w-7xl mx-auto px-6 w-full grid lg:grid-cols-2 gap-16 items-center relative z-10">
-      <div className="text-center lg:text-left pt-10 lg:pt-0">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center relative z-10">
+      <div className="text-center lg:text-left pt-6 sm:pt-8 lg:pt-0">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#FFD43B]/20 bg-[#FFD43B]/5 backdrop-blur-sm mb-8 hover:bg-[#FFD43B]/10 transition-colors cursor-default">
+          <div className="inline-flex items-center gap-2 px-2.5 sm:px-3 py-1 rounded-full border border-[#FFD43B]/20 bg-[#FFD43B]/5 backdrop-blur-sm mb-6 sm:mb-8 hover:bg-[#FFD43B]/10 transition-colors cursor-default">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFD43B] opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FFD43B]"></span>
             </span>
-            <span className="text-xs font-bold text-[#FFD43B] uppercase tracking-wider">
+            <span className="text-[10px] sm:text-xs font-bold text-[#FFD43B] uppercase tracking-wider">
               Protocol V2 Live
             </span>
           </div>
 
-          <h1 className="text-5xl lg:text-8xl font-bold text-white leading-[0.95] mb-8 tracking-tight">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white leading-[0.95] mb-6 sm:mb-8 tracking-tight">
             Pay Anyone,
             <br />
             Anywhere —<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2BFF88] via-[#2BFF88] to-[#2BFF88]/40 relative inline-block">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2BFF88] via-[#2BFF88] to-[#2BFF88]/40 relative inline-block animate-pulse">
               In a Blip.
               <span className="absolute -inset-2 bg-[#2BFF88] opacity-25 blur-xl -z-10"></span>
             </span>
           </h1>
 
-          <p className="text-xl text-gray-400 mb-10 max-w-lg mx-auto lg:mx-0 leading-relaxed font-light">
+          <p className="text-base sm:text-lg md:text-xl text-gray-400 mb-8 sm:mb-10 max-w-lg mx-auto lg:mx-0 leading-relaxed font-light">
             Instant global transfers powered by the decentralized{" "}
             <span className="text-white font-medium">Blip Protocol</span>.
             Crypto native. P2P. Non-custodial.
