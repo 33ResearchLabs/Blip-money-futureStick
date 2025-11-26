@@ -449,8 +449,8 @@ const Hero = () => (
             </span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white leading-[0.95] mb-6 sm:mb-8 tracking-tight">
-            Pay Anyone,
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-[0.95] mb-6 sm:mb-8 tracking-tight">
+            Pay with Crypto Anyone,
             <br />
             Anywhere —<br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2BFF88] via-[#2BFF88] to-[#2BFF88]/40 relative inline-block animate-pulse">
