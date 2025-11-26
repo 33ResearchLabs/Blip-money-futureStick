@@ -285,39 +285,49 @@ const PhoneMockup = () => {
       initial={{ y: 40, opacity: 0, rotateX: 10 }}
       animate={{ y: 0, opacity: 1, rotateX: 0 }}
       transition={{ duration: 1.2, ease: "easeOut" }}
-      className="relative mx-auto w-[280px] sm:w-[300px] md:w-[320px] h-[480px] sm:h-[520px] md:h-[560px] lg:h-[620px] bg-[#050505] rounded-[2.5rem] sm:rounded-[3rem] md:rounded-[3.5rem] border border-white/10 shadow-[0_0_60px_-15px_rgba(43,255,136,0.15)] overflow-hidden z-20"
+      className="relative mx-auto w-[280px] sm:w-[300px] md:w-[275px] h-[480px] sm:h-[520px] md:h-[540px] lg:h-[600px] bg-[#050505] rounded-[2.5rem] sm:rounded-[3rem] md:rounded-[3.5rem] border border-white/10 shadow-[0_0_60px_-15px_rgba(43,255,136,0.15)] overflow-hidden z-20"
       style={{ transformStyle: "preserve-3d" }}
     >
-      <div className="absolute inset-0 rounded-[3.5rem] ring-1 ring-white/20 pointer-events-none z-50" />
-      <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-white/5 to-transparent pointer-events-none z-40" />
+      {/* Full screen background image */}
+      <img
+        src="/home.jpg"
+        alt="Home"
+        className="absolute inset-0 w-full h-full object-contain rounded-[2.5rem] sm:rounded-[3rem] md:rounded-[3.5rem]"
+      />
 
-      <div className="w-full h-full flex flex-col p-4 sm:p-5 md:p-6 pt-10 sm:pt-12 md:pt-14 relative bg-black">
+      {/* Dark overlay for better readability */}
+      {/* <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/80 rounded-[2.5rem] sm:rounded-[3rem] md:rounded-[3.5rem]" /> */}
+
+      {/* <div className="absolute inset-0 rounded-[3.5rem] ring-1 ring-white/20 pointer-events-none z-50" /> */}
+      {/* <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-white/5 to-transparent pointer-events-none z-40" /> */}
+
+      <div className="w-full h-full flex flex-col p-4 sm:p-5 md:p-6 pt-10 sm:pt-12 md:pt-14 relative">
         <div className="absolute top-[-20%] left-[-20%] w-[140%] h-[60%] bg-[#2BFF88] opacity-[0.06] blur-[90px] rounded-full pointer-events-none" />
 
-        <div className="text-center mb-6 sm:mb-8 md:mb-10">
+        {/* <div className="text-center mb-6 sm:mb-8 md:mb-10">
           <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-gray-500 font-medium">
             Crypto Balance — Self Custody
           </p>
-        </div>
+        </div> */}
 
-        <div className="relative w-full aspect-[1.4/1] flex flex-col justify-center items-center mb-6 sm:mb-7 md:mb-8">
+        {/* <div className="relative w-full aspect-[1.4/1] flex flex-col justify-center items-center mb-6 sm:mb-7 md:mb-8">
           <div className="absolute w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 bg-[#2BFF88] rounded-full opacity-[0.08] blur-2xl" />
 
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-white tracking-tight z-10 relative">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-white tracking-tight z-10 relative drop-shadow-lg">
             $23,590
             <span className="text-gray-500 text-2xl sm:text-2xl md:text-3xl">
               .73
             </span>
           </h2>
-          <div className="flex items-center gap-2 mt-2 sm:mt-3 z-10 px-2.5 sm:px-3 py-1 rounded-full bg-white/5 border border-white/5 backdrop-blur-md">
+          <div className="flex items-center gap-2 mt-2 sm:mt-3 z-10 px-2.5 sm:px-3 py-1 rounded-full bg-black/40 border border-white/10 backdrop-blur-md">
             <div className="w-1.5 h-1.5 bg-[#2BFF88] rounded-full animate-pulse shadow-[0_0_5px_#2BFF88]" />
             <span className="text-[8px] sm:text-[9px] md:text-[10px] text-gray-400 font-medium tracking-wide">
               UPDATED JUST NOW
             </span>
           </div>
-        </div>
+        </div> */}
 
-        <div className="grid grid-cols-4 gap-1.5 sm:gap-2 mb-6 sm:mb-7 md:mb-8">
+        {/* <div className="grid grid-cols-4 gap-1.5 sm:gap-2 mb-6 sm:mb-7 md:mb-8">
           {[
             { icon: Send, label: "Send", active: true },
             { icon: ArrowDownLeft, label: "Request" },
@@ -345,9 +355,9 @@ const PhoneMockup = () => {
               </span>
             </div>
           ))}
-        </div>
+        </div> */}
 
-        <div className="flex-grow rounded-t-2xl sm:rounded-t-3xl bg-white/5 border-t border-white/5 p-3 sm:p-4 relative overflow-hidden">
+        {/* <div className="flex-grow rounded-t-2xl sm:rounded-t-3xl bg-white/5 border-t border-white/5 p-3 sm:p-4 relative overflow-hidden">
           <div className="flex items-center justify-between mb-3 sm:mb-4">
             <span className="text-[10px] sm:text-xs font-bold text-gray-500 uppercase tracking-wider">
               Recent Blips
@@ -390,7 +400,7 @@ const PhoneMockup = () => {
               </span>
             </div>
           ))}
-        </div>
+        </div> */}
 
         <div className="absolute bottom-0 left-0 right-0 h-16 sm:h-18 md:h-20 bg-[#050505]/90 backdrop-blur-xl border-t border-white/5 flex items-center justify-between px-6 sm:px-7 md:px-8 pb-3 sm:pb-4">
           {[Home, Activity, Wallet, User].map((Icon, i) => (
@@ -922,26 +932,44 @@ const AppScreens = () => {
 
       <div className="flex flex-row md:justify-center gap-6 sm:gap-8 px-4 sm:px-6 overflow-x-auto pb-8 snap-x snap-mandatory scrollbar-hide">
         {[
-          { title: "Home", color: "from-black to-black" },
-          { title: "Send", color: "from-black to-[#2BFF88]/10" },
-          { title: "Scan", color: "from-black to-[#FFD43B]/10" },
+          { title: "My Ads", color: "from-black to-black", img: "/myads.jpg" },
+          {
+            title: "P2P",
+            color: "from-black to-[#2BFF88]/10",
+            img: "/p2p.jpg",
+          },
+          {
+            title: "Profile",
+            color: "from-black to-[#FFD43B]/10",
+            img: "/profile.jpg",
+          },
         ].map((screen, i) => (
           <div
             key={i}
-            className={`min-w-[240px] sm:min-w-[260px] md:min-w-[280px] h-[420px] sm:h-[460px] md:h-[500px] rounded-[2.5rem] sm:rounded-[3rem] border border-white/10 bg-gradient-to-b ${screen.color} relative overflow-hidden p-5 sm:p-6 snap-center group hover:-translate-y-2 transition-transform duration-500 flex-shrink-0`}
+            className={`min-w-[240px] sm:min-w-[260px] md:min-w-[230px] h-[420px] sm:h-[460px] md:h-[500px] rounded-[2.5rem] sm:rounded-[3rem] border border-white/10 relative overflow-hidden snap-center group hover:-translate-y-2 transition-transform duration-500 flex-shrink-0`}
           >
-            <div className="w-16 h-5 sm:w-20 sm:h-6 rounded-full bg-white/5 mx-auto mb-6 sm:mb-8" />
-            <div className="space-y-3 sm:space-y-4">
-              <div className="w-full h-28 sm:h-32 rounded-xl sm:rounded-2xl bg-white/5 border border-white/5" />
-              <div className="w-full h-10 sm:h-12 rounded-lg sm:rounded-xl bg-white/5" />
-              <div className="w-full h-10 sm:h-12 rounded-lg sm:rounded-xl bg-white/5" />
-            </div>
+            {/* Full screen background image */}
+            <img
+              src={screen.img}
+              alt={screen.title}
+              className="absolute inset-0 w-full h-full object-contain rounded-[3rem] sm:rounded-[4rem]"
+            />
+
+            {/* Dark overlay for better readability */}
+            {/* <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70 rounded-[2.5rem] sm:rounded-[3rem]" /> */}
+
+            {/* Top bar */}
+            {/* <div className="relative w-16 h-5 sm:w-20 sm:h-6 rounded-full bg-white/10 backdrop-blur-sm mx-auto mt-5 sm:mt-6 border border-white/20" /> */}
+
+            {/* Title */}
             <div className="absolute bottom-5 sm:bottom-6 left-0 right-0 text-center">
-              <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-gray-500 group-hover:text-white transition-colors">
+              <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-white drop-shadow-lg group-hover:text-[#2BFF88] transition-colors">
                 {screen.title}
               </span>
             </div>
-            <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+
+            {/* Hover overlay */}
+            <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none rounded-[2.5rem] sm:rounded-[3rem]" />
           </div>
         ))}
       </div>
@@ -964,7 +992,7 @@ const Index = () => {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#111] to-black opacity-50" />
         <div className="relative z-10 px-4 sm:px-6">
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6 sm:mb-8">
-            Live in 12 Countries
+            Comming soon in 12 Countries
           </h2>
           <div className="flex flex-wrap justify-center gap-2 sm:gap-3 max-w-2xl mx-auto">
             {[
