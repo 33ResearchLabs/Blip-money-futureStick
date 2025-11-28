@@ -375,53 +375,12 @@ const PulseWave = () => {
 };
 
 const PhoneMockup = () => (
-  <div className="relative w-[320px] h-[640px] bg-[#050505] rounded-[3.5rem] border-[6px] border-[#222] shadow-2xl overflow-hidden z-10 hover:scale-[1.02] transition-transform duration-700">
-    <div className="absolute inset-0 bg-gradient-to-br from-[#111] to-[#000]" />
-    <div
-      style={styles.gridBackground}
-      className="absolute inset-0 opacity-20"
+  <div className="relative w-[280px] h-[600px] bg-[#050505] rounded-[2.5rem] border-[6px] border-[#222] shadow-2xl overflow-hidden z-10 hover:scale-[1.02] transition-transform duration-700">
+    <img
+      src="/home.jpg"
+      alt="image"
+      className="w-full h-full object-cover p-0"
     />
-    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[100px] h-[30px] bg-black rounded-b-2xl z-20 border-b border-white/10" />
-    <div className="relative h-full flex flex-col p-6 pt-14 font-sans">
-      <div className="flex justify-between items-center mb-8">
-        <div className="w-8 h-8 rounded-full bg-white/10 backdrop-blur flex items-center justify-center">
-          <ArrowRight size={14} className="rotate-180 text-white" />
-        </div>
-        <div className="text-xs font-mono text-[#00FF94] tracking-widest">
-          LIVE PAYMENT
-        </div>
-      </div>
-      <div className="text-center mb-8">
-        <div className="w-20 h-20 mx-auto bg-[#00FF94]/10 rounded-full flex items-center justify-center border border-[#00FF94]/30 mb-4 animate-[pulse_3s_infinite]">
-          <Coffee size={32} className="text-[#00FF94]" />
-        </div>
-        <h3 className="text-white text-lg font-medium">Paying Neon Café</h3>
-        <div className="text-3xl font-bold text-white mt-2 font-mono flex items-center justify-center gap-2">
-          $12.50{" "}
-          <span className="text-xs text-gray-500 font-sans mt-2">USDC</span>
-        </div>
-      </div>
-      <div className="space-y-3 mb-auto">
-        <div className="p-4 rounded-xl bg-[#111] border border-white/5 flex justify-between items-center">
-          <span className="text-xs text-gray-500">SETTLEMENT</span>
-          <span className="text-xs text-[#00FF94] font-mono animate-pulse">
-            INSTANT • 40ms
-          </span>
-        </div>
-        <div className="p-4 rounded-xl bg-[#111] border border-white/5 flex justify-between items-center">
-          <span className="text-xs text-gray-500">FEES</span>
-          <span className="text-xs text-white font-mono">$0.00</span>
-        </div>
-      </div>
-      <div className="relative h-16 bg-[#111] rounded-full border border-white/10 overflow-hidden group cursor-pointer">
-        <div className="absolute left-1 top-1 bottom-1 w-14 bg-[#00FF94] rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(0,255,148,0.4)] z-10">
-          <ArrowRight size={20} className="text-black" />
-        </div>
-        <div className="absolute inset-0 flex items-center justify-center text-sm font-bold text-gray-500 tracking-wider">
-          SLIDE TO CONFIRM
-        </div>
-      </div>
-    </div>
   </div>
 );
 
