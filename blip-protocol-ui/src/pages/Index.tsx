@@ -2,23 +2,118 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
-  Send,
-  ArrowDownLeft,
-  RefreshCw,
-  LogOut,
-  Home,
   Activity,
   Wallet,
-  User,
-  Zap,
   ShieldCheck,
   Smartphone,
-  TrendingUp,
-  Menu,
   X,
+  Coffee,
+  Users,
+  Hexagon,
+  Utensils,
+  MapPin,
+  ShoppingBag,
+  Car,
+  Gem,
+  Package,
+  Truck,
+  Handshake,
+  Store,
+  Lock,
+  CreditCard,
+  Building2,
+  Landmark,
+  Menu,
 } from "lucide-react";
+import { SocialSidebar } from "@/components/SocialSidebar";
+
+const styles = {
+  glowText: {
+    textShadow: "0 0 30px rgba(0, 255, 148, 0.6)",
+  },
+  neonBorder: {
+    boxShadow:
+      "0 0 15px rgba(0, 255, 148, 0.15), inset 0 0 20px rgba(0, 255, 148, 0.05)",
+  },
+  gridBackground: {
+    backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)`,
+    backgroundSize: "50px 50px",
+  },
+  scanline: {
+    background:
+      "linear-gradient(to bottom, transparent 50%, rgba(0, 255, 148, 0.02) 50%)",
+    backgroundSize: "100% 4px",
+  },
+};
 
 // --- Visual Effects Components ---
+const ArchitectureNode = ({
+  step,
+  title,
+  sub,
+  icon: Icon,
+  color,
+  className,
+  delay = 0,
+  isMain = false,
+}) => (
+  <div
+    className={` absolute p-6 rounded-2xl border backdrop-blur-md flex flex-col items-center justify-center text-center transition-all duration-500 hover:scale-105 z-20 ${className} ${
+      isMain ? "w-56 md:w-64" : "w-48"
+    }`}
+    style={{
+      borderColor: `${color}40`,
+      background: `linear-gradient(145deg, ${color}08, #050505)`,
+      boxShadow: isMain ? `0 0 40px ${color}10` : `0 0 20px ${color}05`,
+      animationDelay: `${delay}ms`,
+    }}
+  >
+    {step && (
+      <div
+        className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#050505] border px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase z-30 shadow-lg"
+        style={{ borderColor: `${color}40`, color: color }}
+      >
+        Step {step}
+      </div>
+    )}
+    <div
+      className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 text-white relative z-10"
+      style={{ background: `${color}15`, border: `1px solid ${color}30` }}
+    >
+      <Icon size={isMain ? 24 : 20} style={{ color: color }} />
+    </div>
+    <h4 className="text-white font-bold text-sm mb-1">{title}</h4>
+    <p className="text-[10px] text-gray-400 font-mono uppercase tracking-wide leading-relaxed">
+      {sub}
+    </p>
+
+    {/* Glow Effect */}
+    <div
+      className="absolute inset-0 rounded-2xl opacity-20"
+      style={{ boxShadow: `inset 0 0 20px ${color}` }}
+    />
+  </div>
+);
+
+// Button UI
+const Button = ({ children, primary = false, className = "" }) => (
+  <button
+    className={`
+      relative overflow-hidden px-8 py-4 rounded-full font-bold tracking-wide transition-all duration-300 group cursor-pointer
+      ${
+        primary
+          ? "bg-[#00FF94] text-black hover:bg-[#00cc76] hover:shadow-[0_0_40px_rgba(0,255,148,0.5)]"
+          : "bg-transparent border border-[#333] text-white hover:border-[#00FF94] hover:text-[#00FF94] hover:shadow-[0_0_20px_rgba(0,255,148,0.2)]"
+      }
+      ${className}
+    `}
+  >
+    <span className="relative z-10 flex items-center gap-2">{children}</span>
+    {primary && (
+      <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 backdrop-blur-sm" />
+    )}
+  </button>
+);
 
 const ParticleBackground = () => {
   const particles = Array.from({ length: 40 });
@@ -279,151 +374,56 @@ const PulseWave = () => {
   );
 };
 
-const PhoneMockup = () => {
-  return (
-    <motion.div
-      initial={{ y: 40, opacity: 0, rotateX: 10 }}
-      animate={{ y: 0, opacity: 1, rotateX: 0 }}
-      transition={{ duration: 1.2, ease: "easeOut" }}
-      className="relative mx-auto w-[280px] sm:w-[300px] md:w-[275px] h-[480px] sm:h-[520px] md:h-[540px] lg:h-[600px] bg-[#050505] rounded-[2.5rem] sm:rounded-[3rem] md:rounded-[3.5rem] border border-white/10 shadow-[0_0_60px_-15px_rgba(43,255,136,0.15)] overflow-hidden z-20"
-      style={{ transformStyle: "preserve-3d" }}
-    >
-      {/* Full screen background image */}
-      <img
-        src="/home.jpg"
-        alt="Home"
-        className="absolute inset-0 w-full h-full object-contain rounded-[2.5rem] sm:rounded-[3rem] md:rounded-[3.5rem]"
-      />
-
-      {/* Dark overlay for better readability */}
-      {/* <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/80 rounded-[2.5rem] sm:rounded-[3rem] md:rounded-[3.5rem]" /> */}
-
-      {/* <div className="absolute inset-0 rounded-[3.5rem] ring-1 ring-white/20 pointer-events-none z-50" /> */}
-      {/* <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-white/5 to-transparent pointer-events-none z-40" /> */}
-
-      <div className="w-full h-full flex flex-col p-4 sm:p-5 md:p-6 pt-10 sm:pt-12 md:pt-14 relative">
-        <div className="absolute top-[-20%] left-[-20%] w-[140%] h-[60%] bg-[#2BFF88] opacity-[0.06] blur-[90px] rounded-full pointer-events-none" />
-
-        {/* <div className="text-center mb-6 sm:mb-8 md:mb-10">
-          <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-gray-500 font-medium">
-            Crypto Balance — Self Custody
-          </p>
-        </div> */}
-
-        {/* <div className="relative w-full aspect-[1.4/1] flex flex-col justify-center items-center mb-6 sm:mb-7 md:mb-8">
-          <div className="absolute w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 bg-[#2BFF88] rounded-full opacity-[0.08] blur-2xl" />
-
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-white tracking-tight z-10 relative drop-shadow-lg">
-            $23,590
-            <span className="text-gray-500 text-2xl sm:text-2xl md:text-3xl">
-              .73
-            </span>
-          </h2>
-          <div className="flex items-center gap-2 mt-2 sm:mt-3 z-10 px-2.5 sm:px-3 py-1 rounded-full bg-black/40 border border-white/10 backdrop-blur-md">
-            <div className="w-1.5 h-1.5 bg-[#2BFF88] rounded-full animate-pulse shadow-[0_0_5px_#2BFF88]" />
-            <span className="text-[8px] sm:text-[9px] md:text-[10px] text-gray-400 font-medium tracking-wide">
-              UPDATED JUST NOW
-            </span>
-          </div>
-        </div> */}
-
-        {/* <div className="grid grid-cols-4 gap-1.5 sm:gap-2 mb-6 sm:mb-7 md:mb-8">
-          {[
-            { icon: Send, label: "Send", active: true },
-            { icon: ArrowDownLeft, label: "Request" },
-            { icon: RefreshCw, label: "Swap" },
-            { icon: LogOut, label: "Cash Out" },
-          ].map((action, i) => (
-            <div
-              key={i}
-              className="flex flex-col items-center gap-1.5 sm:gap-2 group cursor-pointer"
-            >
-              <div
-                className={`w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center transition-all duration-300 ${
-                  action.active
-                    ? "bg-[#2BFF88]/10 border border-[#2BFF88] text-[#2BFF88] shadow-[0_0_15px_rgba(43,255,136,0.15)]"
-                    : "bg-white/5 border border-white/5 text-white group-hover:bg-white/10"
-                }`}
-              >
-                <action.icon
-                  className="w-[18px] h-[18px] sm:w-5 sm:h-5 md:w-[22px] md:h-[22px]"
-                  strokeWidth={1.5}
-                />
-              </div>
-              <span className="text-[8px] sm:text-[9px] md:text-[10px] text-gray-400 font-medium tracking-wide group-hover:text-white transition-colors">
-                {action.label}
-              </span>
-            </div>
-          ))}
-        </div> */}
-
-        {/* <div className="flex-grow rounded-t-2xl sm:rounded-t-3xl bg-white/5 border-t border-white/5 p-3 sm:p-4 relative overflow-hidden">
-          <div className="flex items-center justify-between mb-3 sm:mb-4">
-            <span className="text-[10px] sm:text-xs font-bold text-gray-500 uppercase tracking-wider">
-              Recent Blips
-            </span>
-          </div>
-          {[1, 2, 3].map((_, i) => (
-            <div
-              key={i}
-              className="flex items-center justify-between py-2 sm:py-3 border-b border-white/5 last:border-0"
-            >
-              <div className="flex items-center gap-2 sm:gap-3">
-                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/5 flex items-center justify-center">
-                  {i === 0 ? (
-                    <ArrowDownLeft
-                      size={12}
-                      className="sm:w-[14px] sm:h-[14px] text-[#2BFF88]"
-                    />
-                  ) : (
-                    <Send
-                      size={12}
-                      className="sm:w-[14px] sm:h-[14px] text-white"
-                    />
-                  )}
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-xs sm:text-sm text-white font-medium">
-                    {i === 0 ? "Received USDC" : "Sent SOL"}
-                  </span>
-                  <span className="text-[9px] sm:text-[10px] text-gray-500">
-                    2 min ago
-                  </span>
-                </div>
-              </div>
-              <span
-                className={`text-xs sm:text-sm font-mono ${
-                  i === 0 ? "text-[#2BFF88]" : "text-white"
-                }`}
-              >
-                {i === 0 ? "+" : "-"} $120.00
-              </span>
-            </div>
-          ))}
-        </div> */}
-
-        <div className="absolute bottom-0 left-0 right-0 h-16 sm:h-18 md:h-20 bg-[#050505]/90 backdrop-blur-xl border-t border-white/5 flex items-center justify-between px-6 sm:px-7 md:px-8 pb-3 sm:pb-4">
-          {[Home, Activity, Wallet, User].map((Icon, i) => (
-            <div
-              key={i}
-              className={`flex flex-col items-center gap-0.5 sm:gap-1 ${
-                i === 2 ? "text-[#2BFF88]" : "text-gray-500 hover:text-white"
-              } transition-colors cursor-pointer`}
-            >
-              <Icon
-                className="w-5 h-5 sm:w-[22px] sm:h-[22px]"
-                strokeWidth={1.5}
-              />
-              {i === 2 && (
-                <div className="w-1 h-1 bg-[#2BFF88] rounded-full shadow-[0_0_5px_#2BFF88]" />
-              )}
-            </div>
-          ))}
+const PhoneMockup = () => (
+  <div className="relative w-[320px] h-[640px] bg-[#050505] rounded-[3.5rem] border-[6px] border-[#222] shadow-2xl overflow-hidden z-10 hover:scale-[1.02] transition-transform duration-700">
+    <div className="absolute inset-0 bg-gradient-to-br from-[#111] to-[#000]" />
+    <div
+      style={styles.gridBackground}
+      className="absolute inset-0 opacity-20"
+    />
+    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[100px] h-[30px] bg-black rounded-b-2xl z-20 border-b border-white/10" />
+    <div className="relative h-full flex flex-col p-6 pt-14 font-sans">
+      <div className="flex justify-between items-center mb-8">
+        <div className="w-8 h-8 rounded-full bg-white/10 backdrop-blur flex items-center justify-center">
+          <ArrowRight size={14} className="rotate-180 text-white" />
+        </div>
+        <div className="text-xs font-mono text-[#00FF94] tracking-widest">
+          LIVE PAYMENT
         </div>
       </div>
-    </motion.div>
-  );
-};
+      <div className="text-center mb-8">
+        <div className="w-20 h-20 mx-auto bg-[#00FF94]/10 rounded-full flex items-center justify-center border border-[#00FF94]/30 mb-4 animate-[pulse_3s_infinite]">
+          <Coffee size={32} className="text-[#00FF94]" />
+        </div>
+        <h3 className="text-white text-lg font-medium">Paying Neon Café</h3>
+        <div className="text-3xl font-bold text-white mt-2 font-mono flex items-center justify-center gap-2">
+          $12.50{" "}
+          <span className="text-xs text-gray-500 font-sans mt-2">USDC</span>
+        </div>
+      </div>
+      <div className="space-y-3 mb-auto">
+        <div className="p-4 rounded-xl bg-[#111] border border-white/5 flex justify-between items-center">
+          <span className="text-xs text-gray-500">SETTLEMENT</span>
+          <span className="text-xs text-[#00FF94] font-mono animate-pulse">
+            INSTANT • 40ms
+          </span>
+        </div>
+        <div className="p-4 rounded-xl bg-[#111] border border-white/5 flex justify-between items-center">
+          <span className="text-xs text-gray-500">FEES</span>
+          <span className="text-xs text-white font-mono">$0.00</span>
+        </div>
+      </div>
+      <div className="relative h-16 bg-[#111] rounded-full border border-white/10 overflow-hidden group cursor-pointer">
+        <div className="absolute left-1 top-1 bottom-1 w-14 bg-[#00FF94] rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(0,255,148,0.4)] z-10">
+          <ArrowRight size={20} className="text-black" />
+        </div>
+        <div className="absolute inset-0 flex items-center justify-center text-sm font-bold text-gray-500 tracking-wider">
+          SLIDE TO CONFIRM
+        </div>
+      </div>
+    </div>
+  </div>
+);
 
 const Hero = () => (
   <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 sm:pt-20">
@@ -490,506 +490,832 @@ const Hero = () => (
   </section>
 );
 
-const StepCard = ({ number, title, desc, icon: Icon, delay }: any) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ delay, duration: 0.5 }}
-    className="relative p-6 sm:p-7 md:p-8 rounded-2xl sm:rounded-3xl bg-[#0A0A0A] border border-white/5 hover:border-[#2BFF88]/30 transition-all group z-10 w-full"
-  >
-    <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl sm:rounded-3xl" />
-    <div className="relative z-10">
-      <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-[#111] border border-white/10 flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform group-hover:border-[#2BFF88] shadow-lg">
-        <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-white group-hover:text-[#2BFF88] transition-colors" />
-      </div>
-      <div className="text-[#2BFF88] font-mono text-xs sm:text-sm mb-2 tracking-wider">
-        STEP 0{number}
-      </div>
-      <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 sm:mb-3">
-        {title}
-      </h3>
-      <p className="text-gray-400 leading-relaxed text-sm">{desc}</p>
-    </div>
-    <div className="absolute -inset-[1px] bg-gradient-to-br from-[#2BFF88] to-transparent rounded-2xl sm:rounded-3xl opacity-0 group-hover:opacity-20 blur-sm transition-opacity -z-10" />
-  </motion.div>
-);
-
 const CheckCircle = ({ size, className }: any) => (
   <div className={`relative ${className}`}>
     <div className="absolute inset-0 bg-[#2BFF88] rounded-full opacity-20 animate-ping" />
     <Smartphone size={size} />
   </div>
 );
-
-const HowItWorks = () => {
-  return (
-    <section className="py-16 sm:py-24 md:py-32 bg-black relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative">
-        <div className="text-center mb-12 sm:mb-16 md:mb-24">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6">
-            How Blip Works
-          </h2>
-          <p className="text-sm sm:text-base text-gray-400 max-w-xl mx-auto px-4">
-            Seamless movement from fiat to crypto and back again. Just follow
-            the blip.
-          </p>
-        </div>
-
-        <div className="relative flex flex-col md:flex-row justify-between items-stretch gap-6 sm:gap-8">
-          <div className="hidden md:block absolute top-[60px] left-[15%] right-[15%] h-[100px] pointer-events-none z-0">
-            <svg
-              width="100%"
-              height="100%"
-              viewBox="0 0 800 100"
-              fill="none"
-              preserveAspectRatio="none"
-            >
-              <path
-                d="M0,50 C200,50 200,50 400,50 C600,50 600,50 800,50"
-                stroke="rgba(255,255,255,0.1)"
-                strokeWidth="1"
-                strokeDasharray="5 5"
-              />
-              <path
-                d="M0,50 C200,50 200,50 400,50 C600,50 600,50 800,50"
-                stroke="url(#lineGradient)"
-                strokeWidth="2"
-                fill="none"
-                className="opacity-50"
-              />
-              <defs>
-                <linearGradient
-                  id="lineGradient"
-                  x1="0%"
-                  y1="0%"
-                  x2="100%"
-                  y2="0%"
-                >
-                  <stop offset="0%" stopColor="#2BFF88" stopOpacity="0" />
-                  <stop offset="50%" stopColor="#2BFF88" stopOpacity="1" />
-                  <stop offset="100%" stopColor="#2BFF88" stopOpacity="0" />
-                </linearGradient>
-              </defs>
-              <circle r="4" fill="#2BFF88" filter="url(#glow)">
-                <animateMotion
-                  dur="3s"
-                  repeatCount="indefinite"
-                  path="M0,50 C200,50 200,50 400,50 C600,50 600,50 800,50"
-                />
-              </circle>
-            </svg>
-          </div>
-
-          <StepCard
-            number="1"
-            title="Load Crypto"
-            desc="Deposit USDT/USDC directly from your bank or cash-in at local merchants."
-            icon={Wallet}
-            delay={0}
-          />
-          <StepCard
-            number="2"
-            title="Send in a Blip"
-            desc="Instant P2P routing finds the fastest, cheapest path on-chain."
-            icon={Zap}
-            delay={0.2}
-          />
-          <StepCard
-            number="3"
-            title="Receive Instantly"
-            desc="Recipient gets funds instantly. Keep in crypto or cash out locally."
-            icon={CheckCircle}
-            delay={0.4}
-          />
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const Comparison = () => (
-  <section className="py-16 sm:py-20 md:py-24 bg-[#050505] border-y border-white/5">
-    <div className="max-w-6xl mx-auto px-4 sm:px-6">
-      <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
-        <div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
-            Built for <span className="text-[#2BFF88]">Speed</span>
-          </h2>
-          <p className="text-gray-400 mb-6 sm:mb-8 text-base sm:text-lg">
-            Banks sleep. Blockchain doesn't. Blip abstracts the complexity of
-            crypto to deliver settlement speeds that feel like magic.
-          </p>
-
-          <div className="space-y-4 sm:space-y-6">
-            <div className="flex items-center gap-3 sm:gap-4">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#2BFF88]/10 flex items-center justify-center text-[#2BFF88] flex-shrink-0">
-                <Zap className="w-4 h-4 sm:w-5 sm:h-5" />
-              </div>
-              <div>
-                <h4 className="text-white font-bold text-sm sm:text-base">
-                  400ms Settlement
-                </h4>
-                <p className="text-xs sm:text-sm text-gray-500">
-                  Solana mainnet finality
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 sm:gap-4">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#FFD43B]/10 flex items-center justify-center text-[#FFD43B] flex-shrink-0">
-                <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5" />
-              </div>
-              <div>
-                <h4 className="text-white font-bold text-sm sm:text-base">
-                  Non-Custodial
-                </h4>
-                <p className="text-xs sm:text-sm text-gray-500">
-                  Smart contract escrow
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-[#0A0A0A] p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-white/5 relative overflow-hidden mt-8 lg:mt-0">
-          <h3 className="text-white font-bold mb-6 sm:mb-8 text-base sm:text-lg">
-            Speed Comparison
-          </h3>
-
-          <div className="space-y-5 sm:space-y-6">
-            <div>
-              <div className="flex justify-between text-xs sm:text-sm text-gray-400 mb-2">
-                <span className="text-white font-medium flex items-center gap-1.5 sm:gap-2">
-                  Blip{" "}
-                  <Zap className="w-3 h-3 sm:w-[12px] sm:h-[12px] text-[#2BFF88]" />
-                </span>
-                <span className="text-[#2BFF88]">~0.4s</span>
-              </div>
-              <div className="h-3 sm:h-4 bg-white/5 rounded-full overflow-hidden relative">
-                <motion.div
-                  initial={{ width: 0 }}
-                  whileInView={{ width: "100%" }}
-                  transition={{ duration: 0.4, delay: 0.2 }}
-                  className="absolute top-0 left-0 h-full bg-[#2BFF88] shadow-[0_0_10px_#2BFF88]"
-                />
-              </div>
-            </div>
-
-            <div>
-              <div className="flex justify-between text-xs sm:text-sm text-gray-400 mb-2">
-                <span>Remittance Apps</span>
-                <span className="text-xs sm:text-sm">1-2 Hours</span>
-              </div>
-              <div className="h-3 sm:h-4 bg-white/5 rounded-full overflow-hidden">
-                <motion.div
-                  initial={{ width: 0 }}
-                  whileInView={{ width: "60%" }}
-                  transition={{ duration: 1.5, delay: 0.4 }}
-                  className="h-full bg-white/20"
-                />
-              </div>
-            </div>
-
-            <div>
-              <div className="flex justify-between text-xs sm:text-sm text-gray-400 mb-2">
-                <span>Banks (SWIFT)</span>
-                <span className="text-xs sm:text-sm">2-5 Days</span>
-              </div>
-              <div className="h-3 sm:h-4 bg-white/5 rounded-full overflow-hidden">
-                <motion.div
-                  initial={{ width: 0 }}
-                  whileInView={{ width: "15%" }}
-                  transition={{ duration: 2, delay: 0.6 }}
-                  className="h-full bg-white/10"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 pointer-events-none" />
-        </div>
-      </div>
+const SectionLabel = ({ text }) => (
+  <div className="flex items-center gap-3 mb-8">
+    <div className="flex gap-1">
+      <div className="w-1 h-1 rounded-full bg-[#00FF94]" />
+      <div className="w-1 h-1 rounded-full bg-[#00FF94] opacity-50" />
+      <div className="w-1 h-1 rounded-full bg-[#00FF94] opacity-25" />
     </div>
-  </section>
+    <span className="text-[#00FF94] uppercase tracking-[0.3em] text-[10px] font-mono font-bold">
+      {text}
+    </span>
+  </div>
 );
 
-const ProtocolNode = ({ cx, cy, label }: any) => (
-  <g>
-    <circle
-      cx={cx}
-      cy={cy}
-      r="20"
-      fill="#0A0A0A"
-      stroke="rgba(255,255,255,0.1)"
-      strokeWidth="1"
-    />
-    <circle cx={cx} cy={cy} r="6" fill="#2BFF88" className="animate-pulse" />
-    <text
-      x={cx}
-      y={cy + 35}
-      textAnchor="middle"
-      fill="white"
-      fontSize="10"
-      fontFamily="monospace"
-      opacity="0.7"
-    >
-      {label}
-    </text>
-  </g>
-);
-
-const ProtocolSection = () => (
-  <section id="protocol" className="py-16 sm:py-24 md:py-32 bg-black relative">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center mb-12 sm:mb-16">
-      <span className="text-[#FFD43B] text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase mb-3 sm:mb-4 block">
-        The Backbone
-      </span>
-      <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white">
-        The Blip Protocol
-      </h2>
-    </div>
-
-    <div className="w-full h-[250px] sm:h-[350px] md:h-[400px] relative overflow-hidden flex items-center justify-center mb-8 sm:mb-10 md:mb-12 px-4">
-      <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black z-10" />
-      <svg
-        width="100%"
-        height="100%"
-        viewBox="0 0 800 400"
-        className="opacity-80 max-w-3xl"
-        preserveAspectRatio="xMidYMid meet"
-      >
-        <path
-          d="M400,200 L200,100"
-          stroke="rgba(43,255,136,0.1)"
-          strokeWidth="1"
-        />
-        <path
-          d="M400,200 L600,100"
-          stroke="rgba(43,255,136,0.1)"
-          strokeWidth="1"
-        />
-        <path
-          d="M400,200 L200,300"
-          stroke="rgba(43,255,136,0.1)"
-          strokeWidth="1"
-        />
-        <path
-          d="M400,200 L600,300"
-          stroke="rgba(43,255,136,0.1)"
-          strokeWidth="1"
-        />
-
-        <path
-          d="M200,100 L400,200 L600,300"
-          stroke="url(#activePathGrad)"
-          strokeWidth="2"
-          fill="none"
-        />
-        <defs>
-          <linearGradient id="activePathGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#2BFF88" stopOpacity="0" />
-            <stop offset="50%" stopColor="#2BFF88" stopOpacity="1" />
-            <stop offset="100%" stopColor="#2BFF88" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-
-        <circle r="3" fill="#fff">
-          <animateMotion
-            dur="2s"
-            repeatCount="indefinite"
-            path="M200,100 L400,200 L600,300"
-          />
-        </circle>
-
-        <ProtocolNode cx="400" cy="200" label="Core Router" />
-        <ProtocolNode cx="200" cy="100" label="Merchant Node A" />
-        <ProtocolNode cx="600" cy="100" label="Wallet B" />
-        <ProtocolNode cx="200" cy="300" label="User C" />
-        <ProtocolNode cx="600" cy="300" label="Liquidity Pool" />
-      </svg>
-    </div>
-
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 grid sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 text-center">
-      {[
-        {
-          title: "Decentralized Routing",
-          desc: "No central server. Pure P2P logic.",
-        },
-        {
-          title: "Liquidity Efficient",
-          desc: "Just-in-time provisioning via pools.",
-        },
-        { title: "Permissionless", desc: "Anyone can run a node and earn." },
-      ].map((item, i) => (
-        <div key={i} className="p-4 sm:p-6">
-          <h3 className="text-white font-bold text-base sm:text-lg mb-2">
-            {item.title}
-          </h3>
-          <p className="text-gray-500 text-xs sm:text-sm">{item.desc}</p>
-        </div>
-      ))}
-    </div>
-  </section>
-);
-
-const NeonRing = ({ size, color, duration, reverse }: any) => (
+const CinematicCard = ({ title, subtitle, icon: Icon, delay, active }) => (
   <div
-    className="absolute rounded-full border border-dashed opacity-30 animate-spin"
-    style={{
-      width: size,
-      height: size,
-      borderColor: color,
-      animationDuration: `${duration}s`,
-      animationDirection: reverse ? "reverse" : "normal",
-      boxShadow: `0 0 20px ${color}20`,
-    }}
-  />
-);
-
-const PeopleBank = () => (
-  <section
-    id="peoplebank"
-    className="py-16 sm:py-24 md:py-32 relative overflow-hidden bg-[#020202]"
+    className={`
+      relative group h-60 overflow-hidden rounded-2xl bg-[#080808] border transition-all duration-500 flex flex-col justify-between p-8
+      ${
+        active
+          ? "border-[#00FF94] shadow-[0_0_30px_rgba(0,255,148,0.15)]"
+          : "border-white/5 hover:border-[#00FF94] hover:shadow-[0_0_30px_rgba(0,255,148,0.15)]"
+      }
+    `}
+    style={{ animationDelay: `${delay}ms` }}
   >
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
-      <div className="relative h-[300px] sm:h-[400px] md:h-[500px] flex items-center justify-center order-2 lg:order-1">
-        <div
-          className="relative w-[250px] h-[250px] sm:w-[350px] sm:h-[350px] md:w-[400px] md:h-[400px] flex items-center justify-center [transform:rotateX(60deg)_rotateZ(-20deg)]"
-          style={{ transformStyle: "preserve-3d" }}
-        >
-          <NeonRing size="100%" color="#2BFF88" duration={20} />
-          <NeonRing size="70%" color="#FFD43B" duration={15} reverse />
-          <NeonRing size="40%" color="#2BFF88" duration={10} />
+    {/* Background Glow */}
+    <div
+      className={`absolute inset-0 bg-gradient-to-br from-[#00FF94]/5 via-transparent to-transparent opacity-0 transition-opacity duration-500 ${
+        active ? "opacity-100" : "group-hover:opacity-100"
+      }`}
+    />
 
-          <div className="absolute w-16 h-16 sm:w-20 sm:h-20 bg-[#2BFF88] rounded-full blur-xl opacity-20 animate-pulse" />
-          <div className="absolute w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-full shadow-[0_0_30px_#2BFF88]" />
-
-          <div className="absolute inset-0 flex items-center justify-center [transform:rotateX(-60deg)]">
-            <div className="flex flex-col items-center gap-1 animate-float">
-              <div className="text-[#2BFF88] font-mono text-[10px] sm:text-xs">
-                +12.4% APY
-              </div>
-              <div className="w-[1px] h-8 sm:h-10 bg-gradient-to-t from-[#2BFF88] to-transparent" />
-            </div>
-          </div>
-        </div>
+    {/* Top Row: Icon and Badge */}
+    <div className="relative z-10 flex justify-between items-start">
+      <div
+        className={`
+        w-12 h-12 rounded-xl bg-[#111] border flex items-center justify-center transition-all duration-300
+        ${
+          active
+            ? "text-[#00FF94] border-[#00FF94] shadow-[0_0_15px_rgba(0,255,148,0.3)]"
+            : "text-white border-white/10 group-hover:text-[#00FF94] group-hover:border-[#00FF94] group-hover:shadow-[0_0_15px_rgba(0,255,148,0.3)]"
+        }
+      `}
+      >
+        <Icon size={20} />
       </div>
 
-      <div className="order-1 lg:order-2">
-        <div className="inline-flex items-center gap-2 px-2.5 sm:px-3 py-1 rounded-full border border-[#2BFF88]/20 bg-[#2BFF88]/5 mb-4 sm:mb-6">
-          <TrendingUp className="w-3 h-3 sm:w-[14px] sm:h-[14px] text-[#2BFF88]" />
-          <span className="text-[10px] sm:text-xs font-bold text-[#2BFF88] uppercase tracking-wider">
-            Earn While You Sleep
-          </span>
-        </div>
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6">
-          PeopleBank Liquidity
-        </h2>
-        <p className="text-base sm:text-lg md:text-xl text-gray-400 mb-6 sm:mb-8 font-light">
-          Be the bank. Deposit USDC/USDT into liquidity pools to facilitate
-          instant transfers and earn yield from transaction volume.
-        </p>
-
-        <div className="space-y-3 sm:space-y-4">
-          {[
-            {
-              label: "Total Value Locked",
-              val: "$142.5M",
-              color: "text-white",
-            },
-            { label: "24h Volume", val: "$2.1B", color: "text-white" },
-            { label: "Current APY", val: "12.4%", color: "text-[#2BFF88]" },
-          ].map((stat, i) => (
-            <div
-              key={i}
-              className="flex items-center justify-between p-3 sm:p-4 rounded-lg sm:rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 transition-colors"
-            >
-              <span className="text-gray-400 text-sm sm:text-base">
-                {stat.label}
-              </span>
-              <span
-                className={`text-lg sm:text-xl font-mono font-bold ${stat.color}`}
-              >
-                {stat.val}
-              </span>
-            </div>
-          ))}
-        </div>
+      <div
+        className={`
+        px-3 py-1 rounded bg-[#00FF94]/10 border border-[#00FF94]/30 text-[#00FF94] text-[10px] font-mono font-bold tracking-widest uppercase transition-opacity duration-300
+        ${active ? "opacity-100" : "opacity-0 group-hover:opacity-100"}
+      `}
+      >
+        Settlement: 40ms
       </div>
     </div>
-  </section>
+
+    {/* Bottom Row: Content */}
+    <div className="relative z-10">
+      <h3 className="text-2xl font-bold text-white mb-3 group-hover:translate-x-1 transition-transform duration-300">
+        {title}
+      </h3>
+
+      <div className="flex items-center gap-3 mb-4">
+        <div
+          className={`h-[1px] w-6 transition-colors duration-300 ${
+            active ? "bg-[#00FF94]" : "bg-gray-600 group-hover:bg-[#00FF94]"
+          }`}
+        />
+        <span
+          className={`text-xs font-mono font-bold uppercase tracking-widest transition-colors duration-300 ${
+            active
+              ? "text-[#00FF94]"
+              : "text-gray-500 group-hover:text-[#00FF94]"
+          }`}
+        >
+          {subtitle}
+        </span>
+      </div>
+
+      <p className="text-sm text-gray-500 font-light leading-relaxed">
+        You pay in digital value.
+        <br />
+        They receive instantly.
+      </p>
+    </div>
+  </div>
 );
-
-const AppScreens = () => {
-  return (
-    <section className="py-16 sm:py-24 md:py-32 bg-black border-t border-white/5">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-12 sm:mb-16 text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 sm:mb-4">
-          One App. Total Control.
-        </h2>
-        <p className="text-sm sm:text-base text-gray-500">
-          Minimal by design. Powerful by nature.
-        </p>
-      </div>
-
-      <div className="flex flex-row md:justify-center gap-6 sm:gap-8 px-4 sm:px-6 overflow-x-auto pb-8 snap-x snap-mandatory scrollbar-hide">
-        {[
-          { title: "My Ads", color: "from-black to-black", img: "/myads.jpg" },
-          {
-            title: "P2P",
-            color: "from-black to-[#2BFF88]/10",
-            img: "/p2p.jpg",
-          },
-          {
-            title: "Profile",
-            color: "from-black to-[#FFD43B]/10",
-            img: "/profile.jpg",
-          },
-        ].map((screen, i) => (
-          <div
-            key={i}
-            className={`min-w-[240px] sm:min-w-[260px] md:min-w-[230px] h-[420px] sm:h-[460px] md:h-[500px] rounded-[2.5rem] sm:rounded-[3rem] border border-white/10 relative overflow-hidden snap-center group hover:-translate-y-2 transition-transform duration-500 flex-shrink-0`}
-          >
-            {/* Full screen background image */}
-            <img
-              src={screen.img}
-              alt={screen.title}
-              className="absolute inset-0 w-full h-full object-contain rounded-[3rem] sm:rounded-[4rem]"
-            />
-
-            {/* Dark overlay for better readability */}
-            {/* <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70 rounded-[2.5rem] sm:rounded-[3rem]" /> */}
-
-            {/* Top bar */}
-            {/* <div className="relative w-16 h-5 sm:w-20 sm:h-6 rounded-full bg-white/10 backdrop-blur-sm mx-auto mt-5 sm:mt-6 border border-white/20" /> */}
-
-            {/* Title */}
-            <div className="absolute bottom-5 sm:bottom-6 left-0 right-0 text-center">
-              <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-white drop-shadow-lg group-hover:text-[#2BFF88] transition-colors">
-                {screen.title}
-              </span>
-            </div>
-
-            {/* Hover overlay */}
-            <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none rounded-[2.5rem] sm:rounded-[3rem]" />
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-};
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-black text-white font-sans selection:bg-[#2BFF88] selection:text-black overflow-x-hidden">
       <Navbar />
       <Hero />
-      <HowItWorks />
-      <Comparison />
-      <ProtocolSection />
-      <PeopleBank />
-      <AppScreens />
+      <SocialSidebar />
+      {/* --- SECTION 2: HOW BLIP WORKS --- */}
+      <section className="py-24 bg-[#020202] border-t border-white/5">
+        {/* Animated Bar with Nodes */}
+        <div className="relative h-40 flex items-center justify-between max-w-5xl mx-auto">
+          {/* Static background line */}
+          <div className="absolute top-1/2 left-0 w-full h-[2px] bg-[#111]" />
 
+          {/* 1. Gradient pulse line - Fixed */}
+          <motion.div
+            className="absolute top-1/2 w-20 h-[2px] bg-gradient-to-r from-transparent via-[#00FF94] to-transparent opacity-50 rounded-full"
+            // CHANGED: Animate 'left' instead of 'x' to use parent width
+            animate={{ left: ["0%", "calc(100% - 5rem)"] }}
+            transition={{
+              duration: 1.5,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "easeInOut", // 'easeInOut' usually looks smoother for transfer animations
+            }}
+          />
+
+          {/* 2. Sliding bar - Fixed */}
+          <motion.div
+            className="absolute top-1/2 w-20 h-[4px] bg-[#00FF94] -translate-y-1/2 shadow-[0_0_20px_#00FF94] rounded-full"
+            // CHANGED: Animate 'left' instead of 'x'
+            animate={{ left: ["0%", "calc(100% - 5rem)"] }}
+            transition={{
+              duration: 1.5,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "easeInOut",
+            }}
+          />
+
+          {/* Nodes (Unchanged) */}
+          {[
+            { label: "YOU", icon: Users },
+            { label: "BLIP ENGINE", icon: Hexagon, mid: true },
+            { label: "RECEIVER", icon: CheckCircle },
+          ].map((node, i) => (
+            <div
+              key={i}
+              className="relative z-10 flex flex-col items-center gap-4"
+            >
+              <div
+                className={`w-16 h-16 rounded-2xl bg-[#050505] border flex items-center justify-center transition-all duration-300 ${
+                  node.mid
+                    ? "border-[#00FF94] shadow-[0_0_30px_rgba(0,255,148,0.2)] scale-110"
+                    : "border-white/10 text-gray-500"
+                }`}
+              >
+                <node.icon
+                  className={node.mid ? "text-[#00FF94]" : ""}
+                  size={24}
+                />
+              </div>
+              <span
+                className={`text-xs font-mono font-bold tracking-widest ${
+                  node.mid ? "text-[#00FF94]" : "text-gray-600"
+                }`}
+              >
+                {node.label}
+              </span>
+            </div>
+          ))}
+        </div>
+      </section>
+      {/* --- SECTION 4: REAL WORLD USAGE --- */}
+      <section className="py-32 bg-[#020202] relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-b from-[#050505] to-[#020202] pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <SectionLabel text="Real World Usage" />
+          <h2 className="text-5xl font-bold mb-16">
+            Use crypto the same way
+            <br />
+            you use money.
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <CinematicCard
+              title="Cafés"
+              subtitle="TAP TO PAY"
+              icon={Coffee}
+              delay={0}
+              active={true}
+            />
+            <CinematicCard
+              title="Restaurants"
+              subtitle="TABLE SETTLEMENT"
+              icon={Utensils}
+              delay={100}
+              active={false}
+            />
+            <CinematicCard
+              title="Hotels"
+              subtitle="INSTANT BOOKING"
+              icon={MapPin}
+              delay={200}
+              active={false}
+            />
+            <CinematicCard
+              title="Retail"
+              subtitle="POS INTEGRATION"
+              icon={ShoppingBag}
+              delay={300}
+              active={false}
+            />
+            <CinematicCard
+              title="Friends"
+              subtitle="P2P TRANSFER"
+              icon={Users}
+              delay={400}
+              active={false}
+            />
+            <CinematicCard
+              title="Transport"
+              subtitle="RIDE SETTLEMENT"
+              icon={Car}
+              delay={500}
+              active={false}
+            />
+          </div>
+        </div>
+      </section>
+      {/* --- SECTION 5: MERCHANTS --- */}
+      <section className="py-32 bg-[#050505] overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center">
+          <div className="order-2 lg:order-1">
+            <div className="bg-[#080808] rounded-xl border border-white/10 shadow-2xl relative group">
+              <div className="absolute -inset-1 bg-gradient-to-r from-[#00FF94] to-blue-600 rounded-xl opacity-20 blur-lg group-hover:opacity-30 transition-opacity" />
+              <div className="relative bg-[#0A0A0A] rounded-xl overflow-hidden p-1">
+                <div className="bg-[#111] px-4 py-3 border-b border-white/5 flex justify-between items-center">
+                  <div className="text-xs font-mono text-gray-500">
+                    BLIP MERCHANT TERMINAL
+                  </div>
+                  <div className="flex gap-2">
+                    <div className="w-2 h-2 rounded-full bg-red-500/50" />
+                    <div className="w-2 h-2 rounded-full bg-yellow-500/50" />
+                    <div className="w-2 h-2 rounded-full bg-green-500/50" />
+                  </div>
+                </div>
+                <div className="p-6">
+                  <div className="grid grid-cols-2 gap-4 mb-8">
+                    <div className="p-4 bg-[#111] rounded border border-white/5">
+                      <div className="text-[10px] text-gray-500 uppercase mb-1">
+                        Total Volume (24h)
+                      </div>
+                      <div className="text-2xl font-mono text-white">
+                        $42,921.50
+                      </div>
+                    </div>
+                    <div className="p-4 bg-[#00FF94]/5 rounded border border-[#00FF94]/20">
+                      <div className="text-[10px] text-[#00FF94] uppercase mb-1">
+                        Rewards Earned
+                      </div>
+                      <div className="text-2xl font-mono text-[#00FF94]">
+                        +2.5%
+                      </div>
+                    </div>
+                  </div>
+                  <div className="h-32 flex items-end justify-between gap-1 mb-6 px-1">
+                    {[30, 45, 35, 60, 50, 75, 65, 90, 80, 55, 70, 40].map(
+                      (h, i) => (
+                        <div
+                          key={i}
+                          className="w-full bg-[#1A1A1A] hover:bg-[#00FF94] transition-colors rounded-t-sm"
+                          style={{ height: `${h}%` }}
+                        />
+                      )
+                    )}
+                  </div>
+                  <div className="text-xs font-mono text-gray-600 border-t border-white/5 pt-4 flex justify-between">
+                    <span>NETWORK RATING</span>
+                    <span className="text-white">TIER 1 (TRUSTED)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="order-1 lg:order-2">
+            <SectionLabel text="Merchants" />
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              Accept crypto.
+              <br />
+              Receive value instantly.
+              <br />
+              No risk.
+            </h2>
+            <p className="text-xl text-gray-400 mb-8">
+              You don’t need crypto knowledge — payments settle instantly into
+              stable value.
+            </p>
+            <div className="flex items-center gap-4 p-4 border border-[#00FF94]/30 bg-[#00FF94]/5 rounded-lg mb-8">
+              <Gem className="text-[#00FF94]" />
+              <span className="text-[#00FF94] font-bold">
+                Earn up to 2.5% in Blip Tokens on every transaction.
+              </span>
+            </div>
+            <Button>Create Business Account</Button>
+          </div>
+        </div>
+      </section>
+      {/* --- SECTION 6: PREMIUM REWARDS --- */}
+      <section className="py-40 relative bg-[#020202] overflow-hidden flex items-center justify-center">
+        <div className="absolute inset-0 bg-radial-gradient from-[#00FF94]/5 to-transparent opacity-50" />
+        <div
+          style={styles.gridBackground}
+          className="absolute inset-0 opacity-20 pointer-events-none"
+        />
+        <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
+          <SectionLabel text="Incentives & Early Access" />
+          <h2 className="text-5xl md:text-7xl font-bold mb-8 text-white tracking-tight">
+            Get rewarded every
+            <br />
+            time you spend.
+          </h2>
+          <p className="text-xl text-gray-400 mb-20 max-w-2xl mx-auto">
+            Earn up to 2.5% in Blip Tokens on every payment — plus early
+            supporter airdrops.
+          </p>
+          <div className="relative w-[600px] h-[600px] mx-auto hidden md:block">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full border border-dashed border-[#00FF94]/10 animate-[spin_60s_linear_infinite]" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] rounded-full border border-[#00FF94]/20 animate-[spin_40s_linear_infinite_reverse]" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+              <div className="relative w-40 h-40 group cursor-pointer">
+                <div className="absolute inset-0 bg-[#00FF94] rounded-full blur-[80px] opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+                <div className="w-full h-full rounded-full bg-gradient-to-br from-[#111] to-black border-[6px] border-[#0A0A0A] flex items-center justify-center relative shadow-[0_0_60px_rgba(0,255,148,0.3)] animate-[spin_10s_linear_infinite]">
+                  <div className="absolute inset-1 rounded-full border border-[#00FF94]/40" />
+                  <div className="absolute inset-3 rounded-full border border-dashed border-[#00FF94]/20" />
+                  <span
+                    className="text-6xl font-black text-[#00FF94] italic"
+                    style={styles.glowText}
+                  >
+                    B
+                  </span>
+                </div>
+                <div className="absolute -inset-1 rounded-full border border-[#00FF94]/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
+              </div>
+              <div className="mt-8 text-xs font-mono text-[#00FF94] uppercase tracking-widest opacity-80">
+                Early users earn higher rewards
+              </div>
+            </div>
+            <div className="absolute inset-0 animate-[orbit_30s_linear_infinite]">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-6">
+                <div className="animate-[counterOrbit_30s_linear_infinite]">
+                  <button className="bg-black/80 backdrop-blur border border-[#00FF94]/30 text-[#00FF94] px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-[#00FF94] hover:text-black hover:shadow-[0_0_30px_#00FF94] transition-all duration-300 whitespace-nowrap">
+                    Join Early Supporters
+                  </button>
+                </div>
+              </div>
+              <div className="absolute bottom-[15%] right-[10%]">
+                <div className="animate-[counterOrbit_30s_linear_infinite]">
+                  <button className="bg-black/80 backdrop-blur border border-white/20 text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:border-[#00FF94] hover:text-[#00FF94] transition-all duration-300 whitespace-nowrap">
+                    Join the Waitlist
+                  </button>
+                </div>
+              </div>
+              <div className="absolute bottom-[15%] left-[10%]">
+                <div className="animate-[counterOrbit_30s_linear_infinite]">
+                  <button className="bg-black/80 backdrop-blur border border-white/20 text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:border-[#00FF94] hover:text-[#00FF94] transition-all duration-300 whitespace-nowrap">
+                    Get Airdrop Access
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="md:hidden flex flex-col gap-4 items-center">
+            <div className="w-32 h-32 rounded-full bg-gradient-to-br from-[#111] to-black border border-[#00FF94]/50 flex items-center justify-center mb-8 shadow-[0_0_30px_rgba(0,255,148,0.2)]">
+              <span className="text-4xl font-black text-[#00FF94] italic">
+                B
+              </span>
+            </div>
+            <Button primary className="w-full">
+              Join Early Supporters
+            </Button>
+            <Button className="w-full">Join the Waitlist</Button>
+            <Button className="w-full">Get Airdrop Access</Button>
+          </div>
+        </div>
+      </section>
+      {/* --- SECTION 7: PEOPLEBANK --- */}
+      <section className="py-32 bg-[#050505] border-t border-white/5">
+        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-20">
+          <div>
+            <SectionLabel text="The Network" />
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              A decentralized human-powered liquidity network.
+            </h2>
+            <p className="text-xl text-gray-400 mb-10 leading-relaxed">
+              PeopleBank is the network that powers real-time settlement. Anyone
+              can provide liquidity, route payments, and earn Blip Tokens for
+              supporting global value transfer.
+            </p>
+            <div className="space-y-6">
+              {[
+                "Liquidity providers join PeopleBank",
+                "They lock value in non-custodial channels",
+                "Blip routes P2P payments through available liquidity",
+                "Providers earn rewards",
+                "Everything is on-chain and transparent",
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-4 text-gray-300">
+                  <div className="w-6 h-6 rounded bg-[#111] border border-[#00FF94]/20 flex items-center justify-center text-[#00FF94] text-xs font-bold">
+                    {i + 1}
+                  </div>
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="relative bg-[#080808] rounded-2xl border border-white/5 p-8 flex items-center justify-center overflow-hidden">
+            <div
+              style={styles.gridBackground}
+              className="absolute inset-0 opacity-30"
+            />
+            <div className="relative w-full aspect-square max-w-md">
+              {[...Array(30)].map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute w-1.5 h-1.5 bg-[#00FF94] rounded-full shadow-[0_0_10px_#00FF94]"
+                  style={{
+                    top: `${Math.random() * 80 + 10}%`,
+                    left: `${Math.random() * 80 + 10}%`,
+                    animation: `pulse ${Math.random() * 2 + 1}s infinite`,
+                  }}
+                />
+              ))}
+              <svg className="absolute inset-0 w-full h-full opacity-20 pointer-events-none">
+                <path
+                  d="M50,50 Q150,150 250,50 T350,250"
+                  fill="none"
+                  stroke="#00FF94"
+                  strokeWidth="2"
+                  strokeDasharray="5,5"
+                />
+                <path
+                  d="M100,300 Q200,200 300,300"
+                  fill="none"
+                  stroke="#00FF94"
+                  strokeWidth="1"
+                />
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="text-xs font-mono text-[#00FF94] bg-black/50 px-2 rounded backdrop-blur">
+                  LIVE ROUTING
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* --- SECTION 8: PROTOCOL ARCHITECTURE (Fixed & Scalable) --- */}
+      {/* Added min-h-screen, flex, flex-col, and justify-center */}
+      <section className="min-h-screen flex flex-col justify-center py-32 bg-[#020202] relative border-t border-white/5 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#050505] to-[#020202]" />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
+          {/* Header */}
+          <div className="text-center mb-20">
+            <SectionLabel text="Protocol Architecture" />
+            <h2 className="text-4xl md:text-6xl font-bold mb-6 text-white">
+              How Blip Settles Value.
+            </h2>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+              A trustless mechanism connecting digital wallets to real-world
+              banking rails in three steps.
+            </p>
+          </div>
+
+          {/* Diagram Container */}
+          <div className="relative h-[800px] w-full max-w-7xl mx-auto rounded-3xl border border-white/5 bg-[#080808] overflow-hidden hidden lg:block shadow-2xl">
+            <div
+              style={styles.gridBackground}
+              className="absolute inset-0 opacity-10 top-[50%]"
+            />
+
+            <svg
+              className="absolute inset-0 w-full h-full pointer-events-none z-10"
+              viewBox="0 0 100 100"
+              preserveAspectRatio="none"
+            >
+              <defs>
+                <linearGradient
+                  id="flowGradient"
+                  x1="0%"
+                  y1="0%"
+                  x2="100%"
+                  y2="0%"
+                >
+                  <stop offset="0%" stopColor="#0088FF" stopOpacity="0.3" />
+                  <stop offset="50%" stopColor="#FBBF24" stopOpacity="0.5" />
+                  <stop offset="100%" stopColor="#00FF94" stopOpacity="0.3" />
+                </linearGradient>
+              </defs>
+
+              <path
+                d="M 15 50 L 50 50"
+                stroke="url(#flowGradient)"
+                strokeWidth="0.5"
+                strokeDasharray="1,1"
+                className="animate-[pulse_3s_infinite]"
+              />
+              <path
+                d="M 50 50 L 85 50"
+                stroke="url(#flowGradient)"
+                strokeWidth="0.5"
+                strokeDasharray="1,1"
+                className="animate-[pulse_3s_infinite]"
+              />
+              <path
+                d="M 50 50 Q 65 25 85 25"
+                fill="none"
+                stroke="#A855F7"
+                strokeWidth="0.2"
+                strokeDasharray="1,1"
+                opacity="0.3"
+              />
+              <path
+                d="M 50 50 Q 65 75 85 75"
+                fill="none"
+                stroke="#6366F1"
+                strokeWidth="0.2"
+                strokeDasharray="1,1"
+                opacity="0.3"
+              />
+            </svg>
+
+            <div className="absolute top-1/2 left-[15%] -translate-x-1/2 -translate-y-1/2">
+              <ArchitectureNode
+                step="1"
+                title="Sender Wallet"
+                sub="Locks USDT/USDC in Protocol"
+                icon={Wallet}
+                color="#0088FF"
+                className="shadow-[0_0_40px_rgba(0,136,255,0.1)]"
+                isMain
+              />
+            </div>
+
+            <div className="absolute top-1/2 left-[50%] -translate-x-1/2 -translate-y-1/2">
+              <ArchitectureNode
+                step="2"
+                title="Blip Protocol"
+                sub="Matches liquidity & Secures Escrow"
+                icon={Lock}
+                color="#FBBF24"
+                className="scale-110 shadow-[0_0_60px_rgba(251,191,36,0.2)] z-30 bg-[#0A0A0A]"
+                delay={200}
+                isMain
+              />
+              <div className="absolute inset-0 rounded-2xl border border-[#FBBF24]/20 animate-ping opacity-20 pointer-events-none" />
+            </div>
+
+            <div className="absolute top-1/2 left-[75%]  -translate-y-1/2">
+              <ArchitectureNode
+                step="3"
+                title="Receiver"
+                sub="Receives Fiat via Local Rails"
+                icon={Building2}
+                color="#00FF94"
+                className="shadow-[0_0_40px_rgba(0,255,148,0.1)]"
+                delay={400}
+                isMain
+              />
+            </div>
+
+            <div className="absolute top-[25%] right-[20%] -translate-y-1/2">
+              <ArchitectureNode
+                step="4"
+                title="Governance"
+                sub="DAO & Treasury"
+                icon={Landmark}
+                color="#A855F7"
+                className="scale-90 opacity-80"
+              />
+            </div>
+            <div className="absolute bottom-[25%] right-[20%] translate-y-1/2">
+              <ArchitectureNode
+                step="5"
+                title="Merchant Stakers"
+                sub="Collateral Providers"
+                icon={ShieldCheck}
+                color="#6366F1"
+                className="scale-90 opacity-80"
+              />
+            </div>
+
+            <div
+              className="absolute top-[50%] left-[15%] w-2 h-2 bg-blue-500 rounded-full shadow-[0_0_10px_#3B82F6] animate-[moveRight_3s_linear_infinite]"
+              style={{ transform: "translateY(-50%)" }}
+            />
+            <div
+              className="absolute top-[50%] left-[50%] w-2 h-2 bg-green-500 rounded-full shadow-[0_0_10px_#22C55E] animate-[moveRight_3s_linear_infinite]"
+              style={{
+                animationDelay: "1.5s",
+                transform: "translateY(-50%)",
+              }}
+            />
+
+            <div className="absolute bottom-8 left-8 p-4 rounded-xl border border-white/10 bg-black/50 backdrop-blur-md max-w-xs">
+              <div className="flex items-center gap-2 mb-2 text-xs text-gray-400 uppercase tracking-widest">
+                <Activity size={12} className="text-[#00FF94]" /> Live Logic
+              </div>
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-xs text-gray-500">
+                  <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />{" "}
+                  Digital Asset Lock
+                </div>
+                <div className="flex items-center gap-2 text-xs text-gray-500">
+                  <div className="w-1.5 h-1.5 rounded-full bg-yellow-500" />{" "}
+                  Smart Contract Escrow
+                </div>
+                <div className="flex items-center gap-2 text-xs text-gray-500">
+                  <div className="w-1.5 h-1.5 rounded-full bg-green-500" /> Fiat
+                  Settlement
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile View */}
+          <div className="lg:hidden space-y-4">
+            <ArchitectureNode
+              step="1"
+              title="Sender"
+              sub="Locks Crypto"
+              icon={Wallet}
+              color="#0088FF"
+              className="relative w-full translate-x-0 translate-y-0"
+              isMain
+            />
+            <div className="flex justify-center">
+              <ArrowRight className="rotate-90 text-gray-600" />
+            </div>
+            <ArchitectureNode
+              step="2"
+              title="Protocol"
+              sub="Matches & Escrows"
+              icon={Lock}
+              color="#FBBF24"
+              className="relative w-full translate-x-0 translate-y-0"
+              isMain
+            />
+            <div className="flex justify-center">
+              <ArrowRight className="rotate-90 text-gray-600" />
+            </div>
+            <ArchitectureNode
+              step="3"
+              title="Receiver"
+              sub="Gets Fiat"
+              icon={Building2}
+              color="#00FF94"
+              className="relative w-full translate-x-0 translate-y-0"
+              isMain
+            />
+          </div>
+        </div>
+      </section>
+      {/* --- NEW SECTION 8b: MULTI-PARTY PAYMENTS --- */}
+      <section className="py-32 bg-[#030303] relative border-t border-white/5 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-[#00FF94]/5 via-transparent to-transparent pointer-events-none" />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center">
+          {/* Left Content */}
+          <div>
+            <SectionLabel text="Native Splits" />
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
+              Built natively for <br />
+              <span
+                className="text-transparent bg-clip-text bg-gradient-to-r from-[#00FF94] to-cyan-400"
+                style={styles.glowText}
+              >
+                multi-party payments
+              </span>
+            </h2>
+            <p className="text-xl text-gray-400 leading-relaxed mb-8">
+              Blip natively supports multi-vendor basket and payment splits, so
+              you don't have to build complex workarounds.
+            </p>
+            <div className="space-y-4">
+              {[
+                "Automated Revenue Sharing",
+                "Marketplace Payouts",
+                "Commission Splits",
+                "Supply Chain Routing",
+              ].map((feature, i) => (
+                <div key={i} className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full bg-[#00FF94]/10 flex items-center justify-center border border-[#00FF94]/30 text-[#00FF94]">
+                    <CheckCircle size={12} />
+                  </div>
+                  <span className="text-gray-300 font-mono text-sm">
+                    {feature}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Right Visualization (Fan Out) */}
+          <div className="relative h-[500px] w-full bg-[#080808] rounded-3xl border border-white/5 flex items-center p-8 overflow-hidden">
+            <div
+              style={styles.gridBackground}
+              className="absolute inset-0 opacity-10"
+            />
+
+            {/* SVG Lines */}
+            <svg className="absolute inset-0 w-full h-full pointer-events-none">
+              <defs>
+                <linearGradient
+                  id="splitGradient"
+                  x1="0%"
+                  y1="0%"
+                  x2="100%"
+                  y2="0%"
+                >
+                  <stop offset="0%" stopColor="#00FF94" stopOpacity="0.8" />
+                  <stop offset="100%" stopColor="#0088FF" stopOpacity="0.2" />
+                </linearGradient>
+              </defs>
+              {[15, 32, 50, 68, 85].map((pos, i) => (
+                <path
+                  key={i}
+                  d={`M 100 ${250} C 250 ${250}, 300 ${pos * 5}, 450 ${
+                    pos * 5
+                  }`}
+                  fill="none"
+                  stroke="url(#splitGradient)"
+                  strokeWidth="1.5"
+                  strokeDasharray="4,4"
+                  className="animate-[pulse_2s_infinite]"
+                  style={{ animationDelay: `${i * 0.2}s` }}
+                />
+              ))}
+            </svg>
+
+            {/* Source Node (Left) */}
+            <div className="absolute left-[8%] top-1/2 -translate-y-1/2 z-20">
+              <div className="w-20 h-20 rounded-2xl bg-[#0A0A0A] border border-[#00FF94] shadow-[0_0_30px_rgba(0,255,148,0.2)] flex items-center justify-center relative">
+                <CreditCard size={32} className="text-[#00FF94]" />
+                <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-xs font-mono text-[#00FF94] whitespace-nowrap">
+                  Single Payment
+                </div>
+              </div>
+            </div>
+
+            {/* Destination Nodes (Right Fan) */}
+            <div className="absolute right-[8%] top-0 bottom-0 flex flex-col justify-between py-8 w-40">
+              {[
+                { label: "Freelancer", icon: Users, color: "#3B82F6" },
+                { label: "Supplier", icon: Package, color: "#8B5CF6" },
+                { label: "Driver", icon: Truck, color: "#10B981" },
+                { label: "Partner", icon: Handshake, color: "#F59E0B" },
+                { label: "Seller", icon: Store, color: "#EC4899" },
+              ].map((node, i) => (
+                <div
+                  key={i}
+                  className="flex items-center gap-3 bg-[#111] border border-white/10 p-3 rounded-lg z-20 transform hover:scale-105 transition-transform"
+                  style={{ borderColor: `${node.color}40` }}
+                >
+                  <div
+                    className="p-2 rounded bg-black/50"
+                    style={{ color: node.color }}
+                  >
+                    <node.icon size={16} />
+                  </div>
+                  <span className="text-xs font-bold text-gray-300">
+                    {node.label}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* Animated Packets */}
+            {[15, 32, 50, 68, 85].map((pos, i) => (
+              <div
+                key={i}
+                className="absolute w-2 h-2 bg-[#00FF94] rounded-full shadow-[0_0_10px_#00FF94]"
+                style={{
+                  left: "100px",
+                  top: "250px",
+                  animation: `fanOut${i} 3s linear infinite`,
+                  animationDelay: `${i * 0.3}s`,
+                }}
+              />
+            ))}
+
+            <style>{`
+                 ${[15, 32, 50, 68, 85]
+                   .map(
+                     (pos, i) => `
+                    @keyframes fanOut${i} {
+                       0% { transform: translate(0, 0); opacity: 0; }
+                       10% { opacity: 1; }
+                       100% { transform: translate(350px, ${
+                         pos * 5 - 250
+                       }px); opacity: 0; }
+                    }
+                 `
+                   )
+                   .join("")}
+              `}</style>
+          </div>
+        </div>
+      </section>
+      {/* --- SECTION 9: FINAL HERO --- */}
+      <section className="py-40 relative flex items-center justify-center overflow-hidden bg-black text-center border-t border-white/5">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#00FF94]/5 via-black to-black" />
+        <div className="relative z-10 max-w-4xl px-6">
+          <h2 className="text-6xl md:text-7xl font-bold text-white mb-8 tracking-tighter">
+            A new payment layer
+            <br />
+            for the real world.
+          </h2>
+          <div className="flex justify-center gap-4 text-gray-500 font-mono text-sm mb-12 uppercase tracking-widest">
+            <span>Instant</span>•<span>Bankless</span>•<span>Borderless</span>•
+            <span>P2P</span>
+          </div>
+          <Button
+            primary
+            className="text-lg px-12 py-5 shadow-[0_0_50px_rgba(0,255,148,0.2)] hover:shadow-[0_0_80px_rgba(0,255,148,0.4)] transform hover:scale-105"
+          >
+            Join Early Access
+          </Button>
+        </div>
+        <div className="absolute bottom-[-40vh] left-1/2 -translate-x-1/2 w-[150vw] h-[80vh] bg-[#00FF94]/5 rounded-[100%] blur-[120px] pointer-events-none" />
+      </section>
+      {/* section 10 */}
       <section className="py-16 sm:py-20 md:py-24 text-center border-t border-white/5 relative">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#111] to-black opacity-50" />
         <div className="relative z-10 px-4 sm:px-6">
