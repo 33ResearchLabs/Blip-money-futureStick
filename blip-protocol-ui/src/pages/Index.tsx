@@ -37,7 +37,7 @@ const styles = {
   },
   gridBackground: {
     backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)`,
-    backgroundSize: "50px 50px",
+    backgroundSize: "20px 50px",
   },
   scanline: {
     background:
@@ -375,11 +375,11 @@ const PulseWave = () => {
 };
 
 const PhoneMockup = () => (
-  <div className="relative w-[280px] h-[600px] bg-[#050505] rounded-[2.5rem] border-[6px] border-[#222] shadow-2xl overflow-hidden z-10 hover:scale-[1.02] transition-transform duration-700">
+  <div className="relative w-[230px] h-[460px] bg-[#050505] rounded-[2.5rem] border-[1px] border-[#222] shadow-2xl overflow-hidden z-10 hover:scale-[1.02] transition-transform duration-700">
     <img
-      src="/home.jpg"
+      src="/home.png"
       alt="image"
-      className="w-full h-full object-cover p-0"
+      className="w-full h-full object-cover p-0 shadow-2xl"
     />
   </div>
 );
@@ -404,11 +404,11 @@ const Hero = () => (
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FFD43B]"></span>
             </span>
             <span className="text-[10px] sm:text-xs font-bold text-[#FFD43B] uppercase tracking-wider">
-              Protocol V2 Live
+              Protocol Live
             </span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-[0.95] mb-6 sm:mb-8 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white leading-[0.95] mb-6 sm:mb-8 tracking-tight">
             Pay with Crypto
             <br />
             Anyone,
@@ -551,7 +551,7 @@ const Index = () => {
       <Hero />
       <SocialSidebar />
       {/* --- SECTION 2: HOW BLIP WORKS --- */}
-      <section className="py-24 bg-[#020202] border-t border-white/5">
+      <section className=" py-24 bg-[#020202] border-t border-white/5">
         {/* Animated Bar with Nodes */}
         <div className="relative h-40 flex items-center justify-between max-w-5xl mx-auto">
           {/* Static background line */}
@@ -673,7 +673,7 @@ const Index = () => {
         </div>
       </section>
       {/* --- SECTION 5: MERCHANTS --- */}
-      <section className="py-32 bg-[#050505] overflow-hidden">
+      <section id="merchants" className="py-32 bg-[#050505] overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center">
           <div className="order-2 lg:order-1">
             <div className="bg-[#080808] rounded-xl border border-white/10 shadow-2xl relative group">
@@ -751,85 +751,97 @@ const Index = () => {
         </div>
       </section>
       {/* --- SECTION 6: PREMIUM REWARDS --- */}
-      <section className="py-40 relative bg-[#020202] overflow-hidden flex items-center justify-center">
+      <section className="py-40 relative bg-[#020202] overflow-hidden">
         <div className="absolute inset-0 bg-radial-gradient from-[#00FF94]/5 to-transparent opacity-50" />
         <div
           style={styles.gridBackground}
           className="absolute inset-0 opacity-20 pointer-events-none"
         />
-        <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
-          <SectionLabel text="Incentives & Early Access" />
-          <h2 className="text-5xl md:text-7xl font-bold mb-8 text-white tracking-tight">
-            Get rewarded every
-            <br />
-            time you spend.
-          </h2>
-          <p className="text-xl text-gray-400 mb-20 max-w-2xl mx-auto">
-            Earn up to 2.5% in Blip Tokens on every payment — plus early
-            supporter airdrops.
-          </p>
-          <div className="relative w-[600px] h-[600px] mx-auto hidden md:block">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full border border-dashed border-[#00FF94]/10 animate-[spin_60s_linear_infinite]" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] rounded-full border border-[#00FF94]/20 animate-[spin_40s_linear_infinite_reverse]" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+
+        <div className="relative z-10 max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center gap-20">
+          {/* LEFT SIDE — TEXT */}
+          <div className="flex-1 text-left">
+            <SectionLabel text="Incentives & Early Access" />
+
+            <h2 className="text-5xl md:text-6xl font-bold mb-8 text-white tracking-tight">
+              Get rewarded every <br /> time you spend.
+            </h2>
+
+            <p className="text-xl text-gray-400 mb-10 max-w-lg">
+              Earn up to 2.5% in Blip Tokens on every payment — plus early
+              supporter airdrops.
+            </p>
+
+            <div className="flex flex-col gap-4 max-w-xs">
+              <button className="bg-black/80 backdrop-blur border border-[#00FF94]/30 text-[#00FF94] px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-[#00FF94] hover:text-black hover:shadow-[0_0_30px_#00FF94] transition-all duration-300">
+                Join Early Supporters
+              </button>
+
+              <button className="bg-black/80 backdrop-blur border border-white/20 text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:border-[#00FF94] hover:text-[#00FF94] transition-all duration-300">
+                Join the Waitlist
+              </button>
+
+              <button className="bg-black/80 backdrop-blur border border-white/20 text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:border-[#00FF94] hover:text-[#00FF94] transition-all duration-300">
+                Get Airdrop Access
+              </button>
+            </div>
+          </div>
+
+          {/* RIGHT SIDE — IMAGE / ANIMATION */}
+          <div className="flex-1 relative w-[450px] h-[450px] hidden md:block">
+            <div className="absolute inset-0 w-full h-full rounded-full border border-dashed border-[#00FF94]/10 animate-[spin_60s_linear_infinite]" />
+
+            <div className="absolute inset-0 w-[300px] h-[300px] m-auto rounded-full border border-[#00FF94]/20 animate-[spin_40s_linear_infinite_reverse]" />
+
+            <div className="absolute inset-0 flex items-center justify-center">
               <div className="relative w-40 h-40 group cursor-pointer">
                 <div className="absolute inset-0 bg-[#00FF94] rounded-full blur-[80px] opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+
                 <div className="w-full h-full rounded-full bg-gradient-to-br from-[#111] to-black border-[6px] border-[#0A0A0A] flex items-center justify-center relative shadow-[0_0_60px_rgba(0,255,148,0.3)] animate-[spin_10s_linear_infinite]">
                   <div className="absolute inset-1 rounded-full border border-[#00FF94]/40" />
                   <div className="absolute inset-3 rounded-full border border-dashed border-[#00FF94]/20" />
-                  <span
-                    className="text-6xl font-black text-[#00FF94] italic"
-                    style={styles.glowText}
-                  >
+                  <span className="text-6xl font-black text-[#00FF94] italic">
                     B
                   </span>
                 </div>
+
                 <div className="absolute -inset-1 rounded-full border border-[#00FF94]/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
               </div>
-              <div className="mt-8 text-xs font-mono text-[#00FF94] uppercase tracking-widest opacity-80">
+
+              <div className="absolute bottom-[-50px] text-xs font-mono text-[#00FF94] uppercase tracking-widest opacity-80">
                 Early users earn higher rewards
               </div>
             </div>
+
+            {/* Floating Buttons */}
             <div className="absolute inset-0 animate-[orbit_30s_linear_infinite]">
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-6">
-                <div className="animate-[counterOrbit_30s_linear_infinite]">
-                  <button className="bg-black/80 backdrop-blur border border-[#00FF94]/30 text-[#00FF94] px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-[#00FF94] hover:text-black hover:shadow-[0_0_30px_#00FF94] transition-all duration-300 whitespace-nowrap">
-                    Join Early Supporters
-                  </button>
-                </div>
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-6 animate-[counterOrbit_30s_linear_infinite]">
+                <button className="bg-black/80 backdrop-blur border border-[#00FF94]/30 text-[#00FF94] px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-[#00FF94] hover:text-black transition-all duration-300">
+                  Join Early Supporters
+                </button>
               </div>
-              <div className="absolute bottom-[15%] right-[10%]">
-                <div className="animate-[counterOrbit_30s_linear_infinite]">
-                  <button className="bg-black/80 backdrop-blur border border-white/20 text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:border-[#00FF94] hover:text-[#00FF94] transition-all duration-300 whitespace-nowrap">
-                    Join the Waitlist
-                  </button>
-                </div>
+
+              <div className="absolute bottom-[15%] right-[10%] animate-[counterOrbit_30s_linear_infinite]">
+                <button className="bg-black/80 backdrop-blur border border-white/20 text-white px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider hover:border-[#00FF94] hover:text-[#00FF94] transition-all duration-300">
+                  Join the Waitlist
+                </button>
               </div>
-              <div className="absolute bottom-[15%] left-[10%]">
-                <div className="animate-[counterOrbit_30s_linear_infinite]">
-                  <button className="bg-black/80 backdrop-blur border border-white/20 text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:border-[#00FF94] hover:text-[#00FF94] transition-all duration-300 whitespace-nowrap">
-                    Get Airdrop Access
-                  </button>
-                </div>
+
+              <div className="absolute bottom-[15%] left-[10%] animate-[counterOrbit_30s_linear_infinite]">
+                <button className="bg-black/80 backdrop-blur border border-white/20 text-white px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider hover:border-[#00FF94] hover:text-[#00FF94] transition-all duration-300">
+                  Get Airdrop Access
+                </button>
               </div>
             </div>
-          </div>
-          <div className="md:hidden flex flex-col gap-4 items-center">
-            <div className="w-32 h-32 rounded-full bg-gradient-to-br from-[#111] to-black border border-[#00FF94]/50 flex items-center justify-center mb-8 shadow-[0_0_30px_rgba(0,255,148,0.2)]">
-              <span className="text-4xl font-black text-[#00FF94] italic">
-                B
-              </span>
-            </div>
-            <Button primary className="w-full">
-              Join Early Supporters
-            </Button>
-            <Button className="w-full">Join the Waitlist</Button>
-            <Button className="w-full">Get Airdrop Access</Button>
           </div>
         </div>
       </section>
+
       {/* --- SECTION 7: PEOPLEBANK --- */}
-      <section className="py-32 bg-[#050505] border-t border-white/5">
+      <section
+        id="peoplebank"
+        className="py-32 bg-[#050505] border-t border-white/5"
+      >
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-20">
           <div>
             <SectionLabel text="The Network" />
@@ -901,14 +913,17 @@ const Index = () => {
       </section>
       {/* --- SECTION 8: PROTOCOL ARCHITECTURE (Fixed & Scalable) --- */}
       {/* Added min-h-screen, flex, flex-col, and justify-center */}
-      <section className="min-h-screen flex flex-col justify-center py-32 bg-[#020202] relative border-t border-white/5 overflow-hidden">
+      <section
+        id="protocol"
+        className="min-h-screen flex flex-col justify-center py-16 bg-[#020202] relative border-t border-white/5 overflow-hidden"
+      >
         <div className="absolute inset-0 bg-gradient-to-b from-[#050505] to-[#020202]" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
           {/* Header */}
-          <div className="text-center mb-20">
+          <div className="text-center mb-12">
             <SectionLabel text="Protocol Architecture" />
-            <h2 className="text-4xl md:text-6xl font-bold mb-6 text-white">
+            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white">
               How Blip Settles Value.
             </h2>
             <p className="text-xl text-gray-400 max-w-2xl mx-auto">
@@ -918,7 +933,7 @@ const Index = () => {
           </div>
 
           {/* Diagram Container */}
-          <div className="relative h-[800px] w-full max-w-7xl mx-auto rounded-3xl border border-white/5 bg-[#080808] overflow-hidden hidden lg:block shadow-2xl">
+          <div className="relative h-[800px]  max-w-7xl my-auto mx-auto rounded-3xl border border-white/5 bg-[#080808] overflow-hidden hidden lg:block shadow-2xl">
             <div
               style={styles.gridBackground}
               className="absolute inset-0 opacity-10 top-[50%]"
@@ -933,23 +948,24 @@ const Index = () => {
                 <linearGradient
                   id="flowGradient"
                   x1="0%"
-                  y1="0%"
+                  y1="50%"
                   x2="100%"
                   y2="0%"
                 >
                   <stop offset="0%" stopColor="#0088FF" stopOpacity="0.3" />
-                  <stop offset="50%" stopColor="#FBBF24" stopOpacity="0.5" />
-                  <stop offset="100%" stopColor="#00FF94" stopOpacity="0.3" />
+                  <stop offset="47%" stopColor="#FBBF24" stopOpacity="0.5" />
+                  <stop offset="70%" stopColor="#00FF94" stopOpacity="0.3" />
                 </linearGradient>
               </defs>
 
               <path
-                d="M 15 50 L 50 50"
+                d="M 50 55 L 85 55" // moved from 50 → 55 (5px below)
                 stroke="url(#flowGradient)"
                 strokeWidth="0.5"
                 strokeDasharray="1,1"
                 className="animate-[pulse_3s_infinite]"
               />
+
               <path
                 d="M 50 50 L 85 50"
                 stroke="url(#flowGradient)"
@@ -958,7 +974,7 @@ const Index = () => {
                 className="animate-[pulse_3s_infinite]"
               />
               <path
-                d="M 50 50 Q 65 25 85 25"
+                d="M 50 50 Q 60 30 75 25"
                 fill="none"
                 stroke="#A855F7"
                 strokeWidth="0.2"
@@ -966,7 +982,7 @@ const Index = () => {
                 opacity="0.3"
               />
               <path
-                d="M 50 50 Q 65 75 85 75"
+                d="M 50 50 Q 60 70 75 75"
                 fill="none"
                 stroke="#6366F1"
                 strokeWidth="0.2"
@@ -975,7 +991,7 @@ const Index = () => {
               />
             </svg>
 
-            <div className="absolute top-1/2 left-[15%] -translate-x-1/2 -translate-y-1/2">
+            <div className="absolute top-1/2 left-[25%] -translate-x-1/2 -translate-y-1/2">
               <ArchitectureNode
                 step="1"
                 title="Sender Wallet"
@@ -1001,7 +1017,7 @@ const Index = () => {
               <div className="absolute inset-0 rounded-2xl border border-[#FBBF24]/20 animate-ping opacity-20 pointer-events-none" />
             </div>
 
-            <div className="absolute top-1/2 left-[75%]  -translate-y-1/2">
+            <div className="absolute top-1/2 left-[75%] -translate-x-1/2 -translate-y-1/2">
               <ArchitectureNode
                 step="3"
                 title="Receiver"
@@ -1014,7 +1030,7 @@ const Index = () => {
               />
             </div>
 
-            <div className="absolute top-[25%] right-[20%] -translate-y-1/2">
+            <div className="absolute top-[25%] left-[75%] -translate-x-1/2 -translate-y-1/2">
               <ArchitectureNode
                 step="4"
                 title="Governance"
@@ -1024,7 +1040,7 @@ const Index = () => {
                 className="scale-90 opacity-80"
               />
             </div>
-            <div className="absolute bottom-[25%] right-[20%] translate-y-1/2">
+            <div className="absolute top-[75%] left-[75%] -translate-x-1/2 -translate-y-1/2">
               <ArchitectureNode
                 step="5"
                 title="Merchant Stakers"
@@ -1036,11 +1052,11 @@ const Index = () => {
             </div>
 
             <div
-              className="absolute top-[50%] left-[15%] w-2 h-2 bg-blue-500 rounded-full shadow-[0_0_10px_#3B82F6] animate-[moveRight_3s_linear_infinite]"
+              className="absolute top-[60%] left-[25%] w-2 h-2 bg-blue-500 rounded-full shadow-[0_0_10px_#3B82F6] animate-[moveRight_3s_linear_infinite]"
               style={{ transform: "translateY(-50%)" }}
             />
             <div
-              className="absolute top-[50%] left-[50%] w-2 h-2 bg-green-500 rounded-full shadow-[0_0_10px_#22C55E] animate-[moveRight_3s_linear_infinite]"
+              className="absolute top-[60%] left-[60%] w-2 h-2 bg-green-500 rounded-full shadow-[0_0_10px_#22C55E] animate-[moveRight_3s_linear_infinite]"
               style={{
                 animationDelay: "1.5s",
                 transform: "translateY(-50%)",
@@ -1252,6 +1268,7 @@ const Index = () => {
           </div>
         </div>
       </section>
+
       {/* --- SECTION 9: FINAL HERO --- */}
       <section className="py-40 relative flex items-center justify-center overflow-hidden bg-black text-center border-t border-white/5">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#00FF94]/5 via-black to-black" />

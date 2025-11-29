@@ -53,6 +53,7 @@ All colors MUST be HSL.
 
   body {
     @apply bg-black text-foreground font-sans antialiased;
+  
   }
 }
 

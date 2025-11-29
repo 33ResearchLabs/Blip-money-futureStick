@@ -19,43 +19,44 @@ export const SocialSidebar = () => {
   ];
 
   return (
-    <div className="fixed top-1/2 right-0 -translate-y-1/2 z-[9999]  flex flex-col gap-3">
+    <div className="fixed top-1/2 right-0 -translate-y-1/2 z-[9999] flex flex-col gap-3">
       {items.map((item, i) => (
         <motion.a
           key={i}
           href={item.link}
           target="_blank"
-          initial="initial"
-          whileHover="hover"
           variants={{
             initial: { x: 0 },
-            hover: { x: -20 }, // ⬅ move green background to the left by 20px
+            hover: { width: 0, x: 170 },
           }}
-          transition={{ type: "spring", stiffness: 200, damping: 30 }}
-          className="relative bg-[#2BFF88] text-black font-bold px-4 py-3 rounded-l-xl shadow-lg
-             cursor-pointer flex items-center overflow-visible"
+          transition={{
+            duration: 0.3,
+            ease: "easeInOut", // 👈 NO MORE SPRING EFFECT
+          }}
+          initial="initial"
+          whileHover="hover"
+          className="relative cursor-pointer flex items-center justify-end "
         >
           <motion.div
             variants={{
               initial: { x: 0 },
-              hover: { x: -120 },
+              hover: { x: -100 },
             }}
-            transition={{ type: "spring", stiffness: 200, damping: 30 }}
-            className="flex items-center gap-2"
+            transition={{ ease: "easeInOut", duration: 0.4 }}
+            className="bg-[#2BFF88] text-black font-bold px-4 py-3 rounded-l-xl shadow-lg flex items-center gap-3 ml-auto"
           >
-            <item.icon className="w-6 h-6" />
+            <motion.span
+              variants={{
+                initial: { opacity: 0, width: 0, marginRight: 0 },
+                hover: { opacity: 1, width: "auto", marginRight: 12 },
+              }}
+              transition={{ ease: "easeInOut", duration: 0.3 }}
+              className="whitespace-nowrap overflow-hidden block"
+            >
+              {item.label}
+            </motion.span>
+            <item.icon className="w-6 h-6 flex-shrink-0" />
           </motion.div>
-
-          <motion.span
-            variants={{
-              initial: { opacity: 0, x: 20 },
-              hover: { opacity: 1, x: 0 },
-            }}
-            transition={{ duration: 0.3 }}
-            className="absolute -left-5 whitespace-nowrap text-sm text-green-500"
-          >
-            {item.label}
-          </motion.span>
         </motion.a>
       ))}
     </div>
