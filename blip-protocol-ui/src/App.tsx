@@ -7,6 +7,7 @@ import GoogleAnalytics from "@/components/GoogleAnalytics";
 import StructuredData from "@/components/StructuredData";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import ComingSoon from "./components/ComminSoon";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +22,7 @@ const App = () => (
         <StructuredData type="website" />
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/comming-soon" element={<ComingSoon />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

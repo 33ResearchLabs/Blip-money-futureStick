@@ -26,6 +26,7 @@ import {
   Menu,
 } from "lucide-react";
 import { SocialSidebar } from "@/components/SocialSidebar";
+import { Link } from "react-router-dom";
 
 const styles = {
   glowText: {
@@ -157,13 +158,13 @@ const ParticleBackground = () => {
   );
 };
 
-const Navbar = () => {
+export const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <nav className="fixed top-0 w-full z-50 backdrop-blur-md border-b border-white/5 bg-black/60 supports-[backdrop-filter]:bg-black/40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
-        <div className="flex items-center gap-2">
+        <a href="/" className="flex items-center gap-2">
           <div className="relative">
             <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#2BFF88] shadow-[0_0_10px_#2BFF88] relative z-10" />
             <div className="absolute inset-0 bg-[#2BFF88] rounded-full animate-ping opacity-50" />
@@ -171,7 +172,7 @@ const Navbar = () => {
           <span className="text-xl sm:text-2xl font-bold tracking-tight text-white">
             Blip.<span className="text-[#2BFF88]">money</span>
           </span>
-        </div>
+        </a>
 
         {/* Desktop Menu */}
         <div className="hidden lg:flex items-center gap-8">
@@ -427,10 +428,12 @@ const Hero = () => (
           </p>
 
           <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 justify-center lg:justify-start">
-            <button className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 rounded-full bg-[#2BFF88] text-black font-bold text-base sm:text-lg hover:shadow-[0_0_40px_rgba(43,255,136,0.4)] hover:scale-105 transition-all flex items-center justify-center gap-2 group">
-              Open App{" "}
-              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
-            </button>
+            <Link to="/comming-soon">
+              <button className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 rounded-full bg-[#2BFF88] text-black font-bold text-base sm:text-lg hover:shadow-[0_0_40px_rgba(43,255,136,0.4)] hover:scale-105 transition-all flex items-center justify-center gap-2 group">
+                Open App{" "}
+                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
+              </button>
+            </Link>
             <button className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 rounded-full border border-white/20 text-white font-medium hover:bg-white/5 hover:border-white/40 transition-all flex items-center justify-center gap-2">
               <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border border-white/30 flex items-center justify-center">
                 <div className="w-0 h-0 border-t-[3px] border-t-transparent border-l-[6px] border-l-white border-b-[3px] border-b-transparent ml-0.5"></div>
@@ -545,6 +548,7 @@ const CinematicCard = ({ title, subtitle, icon: Icon, delay, active }) => (
 );
 
 const Index = () => {
+  const [activeCommingSoon, setActiveCommingSoon] = useState(false);
   return (
     <div className="min-h-screen bg-black text-white font-sans selection:bg-[#2BFF88] selection:text-black overflow-x-hidden">
       <Navbar />
@@ -1282,12 +1286,14 @@ const Index = () => {
             <span>Instant</span>•<span>Bankless</span>•<span>Borderless</span>•
             <span>P2P</span>
           </div>
-          <Button
-            primary
-            className="text-lg px-12 py-5 shadow-[0_0_50px_rgba(0,255,148,0.2)] hover:shadow-[0_0_80px_rgba(0,255,148,0.4)] transform hover:scale-105"
-          >
-            Join Early Access
-          </Button>
+          <a href="https://t.me/+Pi3Ijs3Q5-ZjZTAx" target="_blank">
+            <Button
+              primary
+              className="text-lg px-12 py-5 shadow-[0_0_50px_rgba(0,255,148,0.2)] hover:shadow-[0_0_80px_rgba(0,255,148,0.4)] transform hover:scale-105"
+            >
+              Join Early Access
+            </Button>
+          </a>
         </div>
         <div className="absolute bottom-[-40vh] left-1/2 -translate-x-1/2 w-[150vw] h-[80vh] bg-[#00FF94]/5 rounded-[100%] blur-[120px] pointer-events-none" />
       </section>
