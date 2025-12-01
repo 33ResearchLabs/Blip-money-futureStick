@@ -1,6 +1,6 @@
 import React from "react";
 
-const ComingSoon = ({ onBack }) => {
+const ComingSoon = () => {
   return (
     <>
       <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-black via-green-900 to-black text-white px-6 relative">
@@ -44,12 +44,11 @@ const ComingSoon = ({ onBack }) => {
           </p>
 
           {/* Button with green gradient */}
-          <button
-            className="mt-4 px-8 py-3 rounded-full bg-gradient-to-r from-green-500 to-green-700 hover:from-green-600 hover:to-green-800 transition duration-300 font-semibold shadow-lg"
-            onClick={() => alert("Thanks for your interest! Stay tuned.")}
-          >
-            Notify Me
-          </button>
+          <a href="/comming-soon">
+            <button className="mt-4 px-8 py-3 rounded-full bg-gradient-to-r from-green-500 to-green-700 hover:from-green-600 hover:to-green-800 transition duration-300 font-semibold shadow-lg">
+              Notify Me
+            </button>
+          </a>
         </div>
       </div>
     </>
