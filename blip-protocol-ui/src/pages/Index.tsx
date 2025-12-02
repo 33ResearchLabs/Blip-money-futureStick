@@ -1224,7 +1224,7 @@ const Index = () => {
             <br />
             for the real world.
           </h2>
-          <div className="flex justify-center gap-4 text-gray-500 font-mono text-sm mb-12 uppercase tracking-widest">
+          <div className="flex px-6 justify-center gap-2 text-gray-500 font-mono text-sm mb-12 uppercase tracking-widest">
             <span>Instant</span>•<span>Bankless</span>•<span>Borderless</span>•
             <span>P2P</span>
           </div>
