@@ -43,7 +43,7 @@ export const SocialSidebar = () => {
               hover: { x: -100 },
             }}
             transition={{ ease: "easeInOut", duration: 0.4 }}
-            className="bg-[#2BFF88] text-black font-bold px-4 py-3 rounded-l-xl shadow-lg flex items-center gap-3 ml-auto"
+            className="bg-[#2BFF88] text-black font-bold px-1 py-3 rounded-l-xl shadow-lg flex items-center gap-3 ml-auto"
           >
             <motion.span
               variants={{

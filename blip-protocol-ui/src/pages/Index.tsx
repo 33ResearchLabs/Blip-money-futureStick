@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { SocialSidebar } from "@/components/SocialSidebar";
 import { Link } from "react-router-dom";
+import TransferFlow from "@/components/TransferFlow";
 
 const styles = {
   glowText: {
@@ -197,11 +198,11 @@ export const Navbar = () => {
             </a>
           </div>
           <a href="/comming-soon">
-          <button className="px-5 py-2 rounded-full border border-white/10 text-white text-sm hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all bg-black/50 backdrop-blur-sm group">
-            <span className="group-hover:text-[#2BFF88] transition-colors">
-              Open App
-            </span>
-          </button>
+            <button className="px-5 py-2 rounded-full border border-white/10 text-white text-sm hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all bg-black/50 backdrop-blur-sm group">
+              <span className="group-hover:text-[#2BFF88] transition-colors">
+                Open App
+              </span>
+            </button>
           </a>
         </div>
 
@@ -557,82 +558,18 @@ const Index = () => {
       <Hero />
       <SocialSidebar />
       {/* --- SECTION 2: HOW BLIP WORKS --- */}
-      <section className=" py-24 bg-[#020202] border-t border-white/5">
-        {/* Animated Bar with Nodes */}
-        <div className="relative h-40 flex items-center justify-between max-w-5xl mx-auto">
-          {/* Static background line */}
-          <div className="absolute top-1/2 left-0 w-full h-[2px] bg-[#111]" />
-
-          {/* 1. Gradient pulse line - Fixed */}
-          <motion.div
-            className="absolute top-1/2 w-20 h-[2px] bg-gradient-to-r from-transparent via-[#00FF94] to-transparent opacity-50 rounded-full"
-            // CHANGED: Animate 'left' instead of 'x' to use parent width
-            animate={{ left: ["0%", "calc(100% - 5rem)"] }}
-            transition={{
-              duration: 1.5,
-              repeat: Infinity,
-              repeatType: "reverse",
-              ease: "easeInOut", // 'easeInOut' usually looks smoother for transfer animations
-            }}
-          />
-
-          {/* 2. Sliding bar - Fixed */}
-          <motion.div
-            className="absolute top-1/2 w-20 h-[4px] bg-[#00FF94] -translate-y-1/2 shadow-[0_0_20px_#00FF94] rounded-full"
-            // CHANGED: Animate 'left' instead of 'x'
-            animate={{ left: ["0%", "calc(100% - 5rem)"] }}
-            transition={{
-              duration: 1.5,
-              repeat: Infinity,
-              repeatType: "reverse",
-              ease: "easeInOut",
-            }}
-          />
-
-          {/* Nodes (Unchanged) */}
-          {[
-            { label: "YOU", icon: Users },
-            { label: "BLIP ENGINE", icon: Hexagon, mid: true },
-            { label: "RECEIVER", icon: CheckCircle },
-          ].map((node, i) => (
-            <div
-              key={i}
-              className="relative z-10 flex flex-col items-center gap-4"
-            >
-              <div
-                className={`w-16 h-16 rounded-2xl bg-[#050505] border flex items-center justify-center transition-all duration-300 ${
-                  node.mid
-                    ? "border-[#00FF94] shadow-[0_0_30px_rgba(0,255,148,0.2)] scale-110"
-                    : "border-white/10 text-gray-500"
-                }`}
-              >
-                <node.icon
-                  className={node.mid ? "text-[#00FF94]" : ""}
-                  size={24}
-                />
-              </div>
-              <span
-                className={`text-xs font-mono font-bold tracking-widest ${
-                  node.mid ? "text-[#00FF94]" : "text-gray-600"
-                }`}
-              >
-                {node.label}
-              </span>
-            </div>
-          ))}
-        </div>
-      </section>
+      <TransferFlow />
       {/* --- SECTION 4: REAL WORLD USAGE --- */}
-      <section className="py-32 bg-[#020202] relative overflow-hidden">
+      <section className="py-16 sm:py-24 md:py-32 bg-[#020202] relative overflow-hidden">
         <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-b from-[#050505] to-[#020202] pointer-events-none" />
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
           <SectionLabel text="Real World Usage" />
-          <h2 className="text-5xl font-bold mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8 sm:mb-12 md:mb-16 tracking-tight">
             Use crypto the same way
             <br />
             you use money.
           </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             <CinematicCard
               title="Cafés"
               subtitle="TAP TO PAY"
@@ -679,8 +616,11 @@ const Index = () => {
         </div>
       </section>
       {/* --- SECTION 5: MERCHANTS --- */}
-      <section id="merchants" className="py-32 bg-[#050505] overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center">
+      <section
+        id="merchants"
+        className="py-16 sm:py-24 md:py-32 bg-[#050505] overflow-hidden"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-10 sm:gap-16 lg:gap-20 items-center">
           <div className="order-2 lg:order-1">
             <div className="bg-[#080808] rounded-xl border border-white/10 shadow-2xl relative group">
               <div className="absolute -inset-1 bg-gradient-to-r from-[#00FF94] to-blue-600 rounded-xl opacity-20 blur-lg group-hover:opacity-30 transition-opacity" />
@@ -701,7 +641,7 @@ const Index = () => {
                       <div className="text-[10px] text-gray-500 uppercase mb-1">
                         Total Volume (24h)
                       </div>
-                      <div className="text-2xl font-mono text-white">
+                      <div className="text-xl font-mono text-white">
                         $42,921.50
                       </div>
                     </div>
@@ -709,7 +649,7 @@ const Index = () => {
                       <div className="text-[10px] text-[#00FF94] uppercase mb-1">
                         Rewards Earned
                       </div>
-                      <div className="text-2xl font-mono text-[#00FF94]">
+                      <div className="text-xl font-mono text-[#00FF94]">
                         +2.5%
                       </div>
                     </div>
@@ -735,7 +675,7 @@ const Index = () => {
           </div>
           <div className="order-1 lg:order-2">
             <SectionLabel text="Merchants" />
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 tracking-tight">
               Accept crypto.
               <br />
               Receive value instantly.
@@ -757,19 +697,19 @@ const Index = () => {
         </div>
       </section>
       {/* --- SECTION 6: PREMIUM REWARDS --- */}
-      <section className="py-40 relative bg-[#020202] overflow-hidden">
+      <section className="py-16 sm:py-24 md:py-32 lg:py-40 relative bg-[#020202] overflow-hidden">
         <div className="absolute inset-0 bg-radial-gradient from-[#00FF94]/5 to-transparent opacity-50" />
         <div
           style={styles.gridBackground}
           className="absolute inset-0 opacity-20 pointer-events-none"
         />
 
-        <div className="relative z-10 max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center gap-20">
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center gap-10 sm:gap-16 lg:gap-20">
           {/* LEFT SIDE — TEXT */}
           <div className="flex-1 text-left">
             <SectionLabel text="Incentives & Early Access" />
 
-            <h2 className="text-5xl md:text-6xl font-bold mb-8 text-white tracking-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-8 text-white tracking-tight">
               Get rewarded every <br /> time you spend.
             </h2>
 
@@ -851,7 +791,7 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-20">
           <div>
             <SectionLabel text="The Network" />
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 tracking-tight">
               A decentralized human-powered liquidity network.
             </h2>
             <p className="text-xl text-gray-400 mb-10 leading-relaxed">
@@ -929,7 +869,7 @@ const Index = () => {
           {/* Header */}
           <div className="text-center mb-12">
             <SectionLabel text="Protocol Architecture" />
-            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white tracking-tight">
               How Blip Settles Value.
             </h2>
             <p className="text-xl text-gray-400 max-w-2xl mx-auto">
@@ -1129,14 +1069,14 @@ const Index = () => {
         </div>
       </section>
       {/* --- NEW SECTION 8b: MULTI-PARTY PAYMENTS --- */}
-      <section className="py-32 bg-[#030303] relative border-t border-white/5 overflow-hidden">
+      <section className="py-16 sm:py-24 md:py-32 bg-[#030303] relative border-t border-white/5 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-[#00FF94]/5 via-transparent to-transparent pointer-events-none" />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-10 sm:gap-16 lg:gap-20 items-center">
           {/* Left Content */}
           <div>
             <SectionLabel text="Native Splits" />
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white tracking-tight">
               Built natively for <br />
               <span
                 className="text-transparent bg-clip-text bg-gradient-to-r from-[#00FF94] to-cyan-400"
@@ -1276,10 +1216,10 @@ const Index = () => {
       </section>
 
       {/* --- SECTION 9: FINAL HERO --- */}
-      <section className="py-40 relative flex items-center justify-center overflow-hidden bg-black text-center border-t border-white/5">
+      <section className="py-20 sm:py-28 md:py-36 lg:py-40 relative flex items-center justify-center overflow-hidden bg-black text-center border-t border-white/5">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#00FF94]/5 via-black to-black" />
-        <div className="relative z-10 max-w-4xl px-6">
-          <h2 className="text-6xl md:text-7xl font-bold text-white mb-8 tracking-tighter">
+        <div className="relative z-10 max-w-4xl px-4 sm:px-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8 tracking-tight">
             A new payment layer
             <br />
             for the real world.

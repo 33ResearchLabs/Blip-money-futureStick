@@ -4,10 +4,23 @@ const ComingSoon = () => {
   return (
     <>
       <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-black via-green-900 to-black text-white px-6 relative">
-        {/* Back Button */}
+        {/* Responsive Back Button */}
         <a
           href="/"
-          className="absolute top-6  left-28 flex items-center space-x-2 px-3 py-1 rounded-full bg-green-800 bg-opacity-70 hover:bg-green-700 transition text-sm font-semibold"
+          className="
+            absolute top-4
+            left-4
+            sm:top-6 sm:left-6
+            md:top-6 md:left-10
+            lg:top-8 lg:left-20
+            flex items-center space-x-2
+            px-4 py-2
+            rounded-full
+            bg-green-800/70 hover:bg-green-700
+            backdrop-blur
+            transition
+            text-sm font-semibold
+          "
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
