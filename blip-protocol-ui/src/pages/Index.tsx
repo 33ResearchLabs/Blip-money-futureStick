@@ -197,10 +197,10 @@ export const Navbar = () => {
               PeopleBank
             </a>
           </div>
-          <a href="/comming-soon">
+          <a href="#">
             <button className="px-5 py-2 rounded-full border border-white/10 text-white text-sm hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all bg-black/50 backdrop-blur-sm group">
               <span className="group-hover:text-[#2BFF88] transition-colors">
-                Open App
+                Coming Soon
               </span>
             </button>
           </a>
@@ -247,7 +247,7 @@ export const Navbar = () => {
                   PeopleBank
                 </a>
                 <button className="w-full px-5 py-3 rounded-full border border-white/10 text-white hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all bg-black/50 backdrop-blur-sm mt-2">
-                  Open App
+                 Coming Soon
                 </button>
               </div>
             </motion.div>
@@ -418,7 +418,7 @@ const Hero = () => (
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FFD43B]"></span>
             </span>
             <span className="text-[10px] sm:text-xs font-bold text-[#FFD43B] uppercase tracking-wider">
-              Protocol Live
+              Blip Protocol V1
             </span>
           </div>
 
@@ -442,9 +442,9 @@ const Hero = () => (
           </p>
 
           <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 justify-center lg:justify-start">
-            <Link to="/comming-soon">
+            <Link to="#">
               <button className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 rounded-full bg-[#2BFF88] text-black font-bold text-base sm:text-lg hover:shadow-[0_0_40px_rgba(43,255,136,0.4)] hover:scale-105 transition-all flex items-center justify-center gap-2 group">
-                Open App{" "}
+                Coming Soon{" "}
                 <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
               </button>
             </Link>
