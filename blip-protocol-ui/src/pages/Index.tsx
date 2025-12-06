@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
@@ -24,78 +24,14 @@ import {
   Building2,
   Landmark,
   Menu,
+  Zap,
+  Layers,
 } from "lucide-react";
 import { SocialSidebar } from "@/components/SocialSidebar";
 import { Link } from "react-router-dom";
 import TransferFlow from "@/components/TransferFlow";
 
-const styles = {
-  glowText: {
-    textShadow: "0 0 30px rgba(0, 255, 148, 0.6)",
-  },
-  neonBorder: {
-    boxShadow:
-      "0 0 15px rgba(0, 255, 148, 0.15), inset 0 0 20px rgba(0, 255, 148, 0.05)",
-  },
-  gridBackground: {
-    backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)`,
-    backgroundSize: "20px 50px",
-  },
-  scanline: {
-    background:
-      "linear-gradient(to bottom, transparent 50%, rgba(0, 255, 148, 0.02) 50%)",
-    backgroundSize: "100% 4px",
-  },
-};
-
 // --- Visual Effects Components ---
-const ArchitectureNode = ({
-  step,
-  title,
-  sub,
-  icon: Icon,
-  color,
-  className,
-  delay = 0,
-  isMain = false,
-}) => (
-  <div
-    className={` absolute p-6 rounded-2xl border backdrop-blur-md flex flex-col items-center justify-center text-center transition-all duration-500 hover:scale-105 z-20 ${className} ${
-      isMain ? "w-56 md:w-64" : "w-48"
-    }`}
-    style={{
-      borderColor: `${color}40`,
-      background: `linear-gradient(145deg, ${color}08, #050505)`,
-      boxShadow: isMain ? `0 0 40px ${color}10` : `0 0 20px ${color}05`,
-      animationDelay: `${delay}ms`,
-    }}
-  >
-    {step && (
-      <div
-        className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#050505] border px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase z-30 shadow-lg"
-        style={{ borderColor: `${color}40`, color: color }}
-      >
-        Step {step}
-      </div>
-    )}
-    <div
-      className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 text-white relative z-10"
-      style={{ background: `${color}15`, border: `1px solid ${color}30` }}
-    >
-      <Icon size={isMain ? 24 : 20} style={{ color: color }} />
-    </div>
-    <h4 className="text-white font-bold text-sm mb-1">{title}</h4>
-    <p className="text-[10px] text-gray-400 font-mono uppercase tracking-wide leading-relaxed">
-      {sub}
-    </p>
-
-    {/* Glow Effect */}
-    <div
-      className="absolute inset-0 rounded-2xl opacity-20"
-      style={{ boxShadow: `inset 0 0 20px ${color}` }}
-    />
-  </div>
-);
 
 // Button UI
 const Button = ({ children, primary = false, className = "" }) => (
@@ -379,15 +315,214 @@ const PulseWave = () => {
 };
 
 const PhoneMockup = () => (
-  <div className="relative w-[230px] h-[460px] bg-[#050505] rounded-[2.5rem] border-[1px] border-[#222] shadow-2xl overflow-hidden z-10 hover:scale-[1.02] transition-transform duration-700">
+  <div className="relative w-[230px] h-[460px]  overflow-hidden z-10 hover:scale-[1.02] transition-transform duration-700">
     <img
-      src="/home.png"
+      src="/home (1) - Edited.png"
       alt="image"
       className="w-full h-full object-cover p-0 shadow-2xl"
     />
   </div>
 );
 
+// 2. Reusable Architecture Node component
+const ArchitectureNode = ({
+  step,
+  title,
+  sub,
+  icon: Icon,
+  color,
+  className = "",
+  delay = 0,
+  isMain = false,
+}) => {
+  const shadowStyle = {
+    "--node-color": color,
+    animationDelay: `${delay}ms`,
+  };
+
+  const ringClass = isMain
+    ? `ring-4 ring-offset-4 ring-offset-[#080808] ring-[${color}]/30`
+    : "ring-2 ring-gray-700/50";
+  const bgColor = isMain ? "bg-[#0F0F0F]" : "bg-[#151515]";
+
+  return (
+    <div
+      className={`p-6 w-56 rounded-2xl border border-white/10 flex flex-col items-center text-center transition-all duration-500 ease-out hover:shadow-lg ${bgColor} ${className}`}
+      style={shadowStyle}
+    >
+      <div
+        className={`p-3 rounded-full ${bgColor} border border-white/10 mb-4 ${ringClass}`}
+      >
+        <Icon size={28} style={{ color }} />
+      </div>
+      <p className="text-sm font-medium text-gray-400 uppercase mb-1">
+        Step {step}
+      </p>
+      <h3 className="text-xl font-bold text-white mb-1">{title}</h3>
+      <p className="text-xs text-gray-500">{sub}</p>
+    </div>
+  );
+};
+
+// --- New Component for Steps 4 & 5 Focus ---
+
+const ProtocolSupportStructure = () => {
+  const items = [
+    {
+      step: "4",
+      title: "Governance DAO",
+      sub: "Protocol Upgrades & Parameter Voting",
+      icon: Landmark,
+      color: "#A855F7", // Purple
+    },
+    {
+      step: "5",
+      title: "Merchant Stakers",
+      sub: "Fiat Liquidity & Transaction Collateral",
+      icon: ShieldCheck,
+      color: "#6366F1", // Indigo
+    },
+  ];
+
+  return (
+    <div className="relative z-10 max-w-7xl mx-auto px-6 w-full mt-24">
+      {/* Header */}
+      <div className="text-center mb-12">
+        <SectionLabel text="Security & Foundation" />
+        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white tracking-tight">
+          The Decentralized Foundation.
+        </h2>
+        <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+          Steps 4 and 5 provide the trustless security and collateral that
+          underpin the core settlement mechanism.
+        </p>
+      </div>
+
+      {/* Focused Diagram */}
+      <div className="relative h-[600px] max-w-4xl mx-auto rounded-3xl border border-white/5 bg-[#080808] shadow-2xl flex items-center justify-center">
+        <div
+          className="absolute inset-0 opacity-10"
+          style={styles.gridBackground}
+        />
+
+        {/* Central Anchor: Blip Protocol (Step 2) */}
+        <div className="relative z-20">
+          <ArchitectureNode
+            step="2"
+            title="Blip Protocol"
+            sub="The Central Matching Engine"
+            icon={Lock}
+            color="#FBBF24"
+            className="scale-110 shadow-[0_0_80px_rgba(251,191,36,0.3)] bg-[#0A0A0A]"
+            isMain
+          />
+          <div className="absolute inset-0 rounded-2xl border border-[#FBBF24]/20 animate-ping opacity-20 pointer-events-none" />
+        </div>
+
+        {/* Supporting Nodes - Layered Below */}
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full flex items-center justify-center">
+          {/* Layer Ring 1 (Stakers) */}
+          <div className="absolute w-[80%] h-[80%] border border-[#6366F1]/30 rounded-full flex items-center justify-center animate-spin-slow-reverse">
+            <div className="absolute top-1/4 right-0 transform translate-x-1/2">
+              <ArchitectureNode
+                {...items[1]}
+                className="scale-95 bg-[#101015] shadow-[0_0_30px_rgba(99,102,241,0.2)]"
+              />
+            </div>
+          </div>
+
+          {/* Layer Ring 2 (Governance) */}
+          <div className="absolute w-[60%] h-[60%] border border-[#A855F7]/30 rounded-full flex items-center justify-center animate-spin-slow">
+            <div className="absolute top-0 left-1/4 transform -translate-y-1/2">
+              <ArchitectureNode
+                {...items[0]}
+                className="scale-95 bg-[#101015] shadow-[0_0_30px_rgba(168,85,247,0.2)]"
+              />
+            </div>
+          </div>
+
+          {/* Connection Lines (Static for Foundation) */}
+          <svg
+            className="absolute w-full h-full"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+          >
+            {/* Stakers to Protocol */}
+            <line
+              x1="75"
+              y1="50"
+              x2="55"
+              y2="50"
+              stroke="#6366F1"
+              strokeWidth="0.2"
+              strokeDasharray="1,1"
+              opacity="0.5"
+            />
+            <line
+              x1="25"
+              y1="50"
+              x2="45"
+              y2="50"
+              stroke="#6366F1"
+              strokeWidth="0.2"
+              strokeDasharray="1,1"
+              opacity="0.5"
+            />
+            {/* Governance to Protocol */}
+            <line
+              x1="50"
+              y1="25"
+              x2="50"
+              y2="45"
+              stroke="#A855F7"
+              strokeWidth="0.2"
+              strokeDasharray="1,1"
+              opacity="0.5"
+            />
+            <line
+              x1="50"
+              y1="75"
+              x2="50"
+              y2="55"
+              stroke="#A855F7"
+              strokeWidth="0.2"
+              strokeDasharray="1,1"
+              opacity="0.5"
+            />
+          </svg>
+        </div>
+
+        {/* Supporting Key */}
+        <div className="absolute bottom-8 right-8 p-4 rounded-xl border border-white/10 bg-black/50 backdrop-blur-md max-w-xs">
+          <div className="flex items-center gap-2 mb-2 text-xs text-gray-400 uppercase tracking-widest">
+            <Layers size={12} className="text-[#FBBF24]" /> Support Structure
+          </div>
+          <p className="text-xs text-gray-500">
+            The core protocol is anchored by Governance (4) for oversight and
+            Merchant Stakers (5) for guaranteed liquidity.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// --- Main Application Component ---
+
+const styles = {
+  gridBackground: {
+    backgroundImage: `radial-gradient(circle, #333333 1px, transparent 1px), radial-gradient(circle, #333333 1px, transparent 1px)`,
+    backgroundSize: "40px 40px",
+    backgroundPosition: "0 0, 20px 20px",
+  },
+};
+const stylesPeopleBank = {
+  gridBackground: {
+    backgroundImage: `linear-gradient(to right, #00FF9422 1px, transparent 1px),
+                      linear-gradient(to bottom, #00FF9422 1px, transparent 1px)`,
+    backgroundSize: "20px 20px",
+  },
+};
 const Hero = () => (
   <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 sm:pt-20">
     <ParticleBackground />
@@ -549,9 +684,51 @@ const CinematicCard = ({ title, subtitle, icon: Icon, delay, active }) => (
     </div>
   </div>
 );
+const INITIAL_NODES = Array.from({ length: 30 }).map(() => ({
+  top: `${Math.random() * 80 + 10}%`,
+  left: `${Math.random() * 80 + 10}%`,
+  animationDuration: `${Math.random() * 2 + 1}s`,
+  animationDelay: `-${Math.random() * 2}s`,
+}));
+
+// Custom styles for the glow effect and the grid background
+const stylesBlip = {
+  glowText: {
+    textShadow:
+      "0 0 15px rgba(0, 255, 148, 0.5), 0 0 5px rgba(0, 255, 148, 0.3)",
+  },
+  gridBackground: {
+    backgroundImage:
+      "linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)",
+    backgroundSize: "20px 20px",
+  },
+};
 
 const Index = () => {
   const [activeCommingSoon, setActiveCommingSoon] = useState(false);
+  const [nodes, setNodes] = useState(INITIAL_NODES);
+  const pathPositions = [15, 32, 50, 68, 85];
+  // Optional: Add a subtle movement to the nodes over time for more dynamism
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setNodes((prevNodes) =>
+        prevNodes.map((node) => ({
+          ...node,
+          // Apply small random shift
+          top: `${Math.min(
+            90,
+            Math.max(10, parseFloat(node.top) + (Math.random() - 0.5) * 0.5)
+          )}%`,
+          left: `${Math.min(
+            90,
+            Math.max(10, parseFloat(node.left) + (Math.random() - 0.5) * 0.5)
+          )}%`,
+        }))
+      );
+    }, 3000); // Shift every 3 seconds
+
+    return () => clearInterval(interval);
+  }, []);
   return (
     <div className="min-h-screen bg-black text-white font-sans selection:bg-[#2BFF88] selection:text-black overflow-x-hidden">
       <Navbar />
@@ -575,7 +752,7 @@ const Index = () => {
               subtitle="TAP TO PAY"
               icon={Coffee}
               delay={0}
-              active={true}
+              active={false}
             />
             <CinematicCard
               title="Restaurants"
@@ -760,7 +937,7 @@ const Index = () => {
             </div>
 
             {/* Floating Buttons */}
-            <div className="absolute inset-0 animate-[orbit_30s_linear_infinite]">
+            {/* <div className="absolute inset-0 animate-[orbit_30s_linear_infinite]">
               <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-6 animate-[counterOrbit_30s_linear_infinite]">
                 <button className="bg-black/80 backdrop-blur border border-[#00FF94]/30 text-[#00FF94] px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-[#00FF94] hover:text-black transition-all duration-300">
                   Join Early Supporters
@@ -778,91 +955,168 @@ const Index = () => {
                   Get Airdrop Access
                 </button>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
 
       {/* --- SECTION 7: PEOPLEBANK --- */}
-      <section
-        id="peoplebank"
-        className="py-32 bg-[#050505] border-t border-white/5"
-      >
-        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-20">
-          <div>
-            <SectionLabel text="The Network" />
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 tracking-tight">
-              A decentralized human-powered liquidity network.
-            </h2>
-            <p className="text-xl text-gray-400 mb-10 leading-relaxed">
-              PeopleBank is the network that powers real-time settlement. Anyone
-              can provide liquidity, route payments, and earn Blip Tokens for
-              supporting global value transfer.
-            </p>
-            <div className="space-y-6">
-              {[
-                "Liquidity providers join PeopleBank",
-                "They lock value in non-custodial channels",
-                "Blip routes P2P payments through available liquidity",
-                "Providers earn rewards",
-                "Everything is on-chain and transparent",
-              ].map((item, i) => (
-                <div key={i} className="flex items-center gap-4 text-gray-300">
-                  <div className="w-6 h-6 rounded bg-[#111] border border-[#00FF94]/20 flex items-center justify-center text-[#00FF94] text-xs font-bold">
-                    {i + 1}
+      <>
+        {" "}
+        <style>
+          {`
+          @keyframes pulse {
+            0%, 100% {
+              opacity: 1;
+              transform: scale(1);
+            }
+            50% {
+              opacity: 0.5;
+              transform: scale(1.2);
+            }
+          }
+          @keyframes flow-animation {
+            to {
+              /* Animates the dash pattern offset, simulating movement */
+              stroke-dashoffset: 0;
+            }
+          }
+        `}
+        </style>
+        <section
+          id="peoplebank"
+          className="py-16 md:py-32 bg-[#050505] border-t border-white/5 font-['Inter']"
+        >
+          <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-20">
+            {/* Left Content Area */}
+            <div>
+              <SectionLabel text="The Network" />
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 tracking-tight">
+                A decentralized human-powered liquidity network.
+              </h2>
+              <p className="text-xl text-gray-400 mb-10 leading-relaxed">
+                PeopleBank is the network that powers real-time settlement.
+                Anyone can provide liquidity, route payments, and earn Blip
+                Tokens for supporting global value transfer.
+              </p>
+              <div className="space-y-6">
+                {[
+                  "Liquidity providers join PeopleBank",
+                  "They lock value in non-custodial channels",
+                  "Blip routes P2P payments through available liquidity",
+                  "Providers earn rewards",
+                  "Everything is on-chain and transparent",
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start gap-4 text-gray-300">
+                    <div className="flex-shrink-0 w-6 h-6 rounded bg-[#111] border border-[#00FF94]/20 flex items-center justify-center text-[#00FF94] text-xs font-bold">
+                      {i + 1}
+                    </div>
+                    <p className="pt-0.5">{item}</p>
                   </div>
-                  {item}
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-          <div className="relative bg-[#080808] rounded-2xl border border-white/5 p-8 flex items-center justify-center overflow-hidden">
-            <div
-              style={styles.gridBackground}
-              className="absolute inset-0 opacity-30"
-            />
-            <div className="relative w-full aspect-square max-w-md">
-              {[...Array(30)].map((_, i) => (
-                <div
-                  key={i}
-                  className="absolute w-1.5 h-1.5 bg-[#00FF94] rounded-full shadow-[0_0_10px_#00FF94]"
-                  style={{
-                    top: `${Math.random() * 80 + 10}%`,
-                    left: `${Math.random() * 80 + 10}%`,
-                    animation: `pulse ${Math.random() * 2 + 1}s infinite`,
-                  }}
-                />
-              ))}
-              <svg className="absolute inset-0 w-full h-full opacity-20 pointer-events-none">
-                <path
-                  d="M50,50 Q150,150 250,50 T350,250"
-                  fill="none"
-                  stroke="#00FF94"
-                  strokeWidth="2"
-                  strokeDasharray="5,5"
-                />
-                <path
-                  d="M100,300 Q200,200 300,300"
-                  fill="none"
-                  stroke="#00FF94"
-                  strokeWidth="1"
-                />
-              </svg>
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="text-xs font-mono text-[#00FF94] bg-black/50 px-2 rounded backdrop-blur">
-                  LIVE ROUTING
+
+            {/* Right Live Routing Visualization */}
+            <div className="relative bg-[#080808] rounded-2xl border border-white/5 p-8 flex items-center justify-center overflow-hidden min-h-[400px]">
+              <div
+                style={stylesPeopleBank.gridBackground}
+                className="absolute inset-0 opacity-10"
+              />
+              {/* Network Container (Aspect Ratio fixed to square) */}
+              <div className="relative w-full aspect-square max-w-md">
+                {/* Animated Nodes (Dots) */}
+                {nodes.map((node, i) => (
+                  <div
+                    key={i}
+                    className="absolute w-1.5 h-1.5 bg-[#00FF94] rounded-full shadow-[0_0_10px_#00FF94] transition-all duration-300 ease-in-out"
+                    style={{
+                      top: node.top,
+                      left: node.left,
+                      animation: `pulse ${node.animationDuration} infinite`,
+                    }}
+                  />
+                ))}
+
+                {/* Animated Connecting Lines (SVG Paths) */}
+                <svg
+                  viewBox="0 0 400 400"
+                  className="absolute inset-0 w-full h-full opacity-50 pointer-events-none"
+                >
+                  {/* Path 1: Longer, Curvier Route */}
+                  <path
+                    d="M50,50 Q150,150 250,50 T350,250"
+                    fill="none"
+                    stroke="#00FF94"
+                    strokeWidth="2"
+                    // Animation Setup for Flow
+                    strokeDasharray="10 10" // Dash/Gap length
+                    style={{
+                      strokeDashoffset: "20", // Start offset (must be larger than dash array total)
+                      animation: "flow-animation 4s linear infinite",
+                    }}
+                  />
+
+                  {/* Path 2: Shorter, Direct Route */}
+                  <path
+                    d="M100,300 Q200,200 300,300"
+                    fill="none"
+                    stroke="#00FF94"
+                    strokeWidth="1"
+                    // Animation Setup for Flow
+                    strokeDasharray="5 5"
+                    style={{
+                      strokeDashoffset: "10",
+                      animation: "flow-animation 2s linear infinite reverse", // Reverse for variety
+                    }}
+                  />
+
+                  {/* Path 3: Diagonal Route */}
+                  <path
+                    d="M300,50 L50,350"
+                    fill="none"
+                    stroke="#00FF94"
+                    strokeWidth="1.5"
+                    // Animation Setup for Flow
+                    strokeDasharray="8 8"
+                    style={{
+                      strokeDashoffset: "16",
+                      animation: "flow-animation 3s linear infinite",
+                      filter: "drop-shadow(0 0 2px #00FF94)", // Add subtle glow to path
+                    }}
+                  />
+                </svg>
+
+                {/* LIVE ROUTING label */}
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div className="text-sm font-mono text-[#00FF94] bg-black/70 px-4 py-2 rounded-full border border-[#00FF94]/50 shadow-xl shadow-black/50">
+                    LIVE ROUTING
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </>
+
       {/* --- SECTION 8: PROTOCOL ARCHITECTURE (Fixed & Scalable) --- */}
       {/* Added min-h-screen, flex, flex-col, and justify-center */}
       <section
         id="protocol"
         className="min-h-screen flex flex-col justify-center py-16 bg-[#020202] relative border-t border-white/5 overflow-hidden"
       >
+        <style>
+          {`
+                @keyframes moveRight {
+                    0% { transform: translate(0, -50%); opacity: 1; }
+                    50% { transform: translate(300%, -50%); opacity: 1; }
+                    100% { transform: translate(0, -50%); opacity: 0; }
+                }
+                .animate-\\[moveRight_3s_linear_infinite\\] {
+                    animation: moveRight 3s linear infinite;
+                }
+                `}
+        </style>
         <div className="absolute inset-0 bg-gradient-to-b from-[#050505] to-[#020202]" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
@@ -878,13 +1132,14 @@ const Index = () => {
             </p>
           </div>
 
-          {/* Diagram Container */}
-          <div className="relative h-[800px]  max-w-7xl my-auto mx-auto rounded-3xl border border-white/5 bg-[#080808] overflow-hidden hidden lg:block shadow-2xl">
+          {/* Diagram Container (Desktop View) */}
+          <div className="relative h-[800px] max-w-7xl my-auto mx-auto rounded-3xl border border-white/5 bg-[#080808] overflow-hidden hidden lg:block shadow-2xl">
             <div
               style={styles.gridBackground}
               className="absolute inset-0 opacity-10 top-[50%]"
             />
 
+            {/* SVG Lines */}
             <svg
               className="absolute inset-0 w-full h-full pointer-events-none z-10"
               viewBox="0 0 100 100"
@@ -903,22 +1158,16 @@ const Index = () => {
                   <stop offset="70%" stopColor="#00FF94" stopOpacity="0.3" />
                 </linearGradient>
               </defs>
-
+              {/* Main Flow Lines (1->2->3) */}
               <path
-                d="M 50 55 L 85 55" // moved from 50 → 55 (5px below)
+                d="M 25 50 L 75 50" // Simplified straight path for better animation visual
                 stroke="url(#flowGradient)"
-                strokeWidth="0.5"
-                strokeDasharray="1,1"
+                strokeWidth="0.7"
+                strokeDasharray="4, 4"
                 className="animate-[pulse_3s_infinite]"
               />
 
-              <path
-                d="M 50 50 L 85 50"
-                stroke="url(#flowGradient)"
-                strokeWidth="0.5"
-                strokeDasharray="1,1"
-                className="animate-[pulse_3s_infinite]"
-              />
+              {/* Step 4 (Governance) Connection */}
               <path
                 d="M 50 50 Q 60 30 75 25"
                 fill="none"
@@ -927,6 +1176,7 @@ const Index = () => {
                 strokeDasharray="1,1"
                 opacity="0.3"
               />
+              {/* Step 5 (Stakers) Connection */}
               <path
                 d="M 50 50 Q 60 70 75 75"
                 fill="none"
@@ -937,6 +1187,7 @@ const Index = () => {
               />
             </svg>
 
+            {/* Step 1: Sender Wallet */}
             <div className="absolute top-1/2 left-[25%] -translate-x-1/2 -translate-y-1/2">
               <ArchitectureNode
                 step="1"
@@ -949,6 +1200,7 @@ const Index = () => {
               />
             </div>
 
+            {/* Step 2: Blip Protocol (Center) */}
             <div className="absolute top-1/2 left-[50%] -translate-x-1/2 -translate-y-1/2">
               <ArchitectureNode
                 step="2"
@@ -963,6 +1215,7 @@ const Index = () => {
               <div className="absolute inset-0 rounded-2xl border border-[#FBBF24]/20 animate-ping opacity-20 pointer-events-none" />
             </div>
 
+            {/* Step 3: Receiver */}
             <div className="absolute top-1/2 left-[75%] -translate-x-1/2 -translate-y-1/2">
               <ArchitectureNode
                 step="3"
@@ -976,6 +1229,7 @@ const Index = () => {
               />
             </div>
 
+            {/* Step 4: Governance (Top Right) */}
             <div className="absolute top-[25%] left-[75%] -translate-x-1/2 -translate-y-1/2">
               <ArchitectureNode
                 step="4"
@@ -983,9 +1237,11 @@ const Index = () => {
                 sub="DAO & Treasury"
                 icon={Landmark}
                 color="#A855F7"
-                className="scale-90 opacity-80"
+                className="scale-90 opacity-80 shadow-[0_0_20px_rgba(168,85,247,0.1)]"
               />
             </div>
+
+            {/* Step 5: Merchant Stakers (Bottom Right) */}
             <div className="absolute top-[75%] left-[75%] -translate-x-1/2 -translate-y-1/2">
               <ArchitectureNode
                 step="5"
@@ -993,22 +1249,24 @@ const Index = () => {
                 sub="Collateral Providers"
                 icon={ShieldCheck}
                 color="#6366F1"
-                className="scale-90 opacity-80"
+                className="scale-90 opacity-80 shadow-[0_0_20px_rgba(99,102,241,0.1)]"
               />
             </div>
 
+            {/* Live Logic Indicators (Animating circles) */}
             <div
-              className="absolute top-[60%] left-[25%] w-2 h-2 bg-blue-500 rounded-full shadow-[0_0_10px_#3B82F6] animate-[moveRight_3s_linear_infinite]"
+              className="absolute top-[50%] left-[25%] w-2 h-2 bg-blue-500 rounded-full shadow-[0_0_10px_#3B82F6] animate-[moveRight_3s_linear_infinite]"
               style={{ transform: "translateY(-50%)" }}
             />
             <div
-              className="absolute top-[60%] left-[60%] w-2 h-2 bg-green-500 rounded-full shadow-[0_0_10px_#22C55E] animate-[moveRight_3s_linear_infinite]"
+              className="absolute top-[50%] left-[60%] w-2 h-2 bg-green-500 rounded-full shadow-[0_0_10px_#22C55E] animate-[moveRight_3s_linear_infinite]"
               style={{
                 animationDelay: "1.5s",
                 transform: "translateY(-50%)",
               }}
             />
 
+            {/* Legend */}
             <div className="absolute bottom-8 left-8 p-4 rounded-xl border border-white/10 bg-black/50 backdrop-blur-md max-w-xs">
               <div className="flex items-center gap-2 mb-2 text-xs text-gray-400 uppercase tracking-widest">
                 <Activity size={12} className="text-[#00FF94]" /> Live Logic
@@ -1065,11 +1323,33 @@ const Index = () => {
               className="relative w-full translate-x-0 translate-y-0"
               isMain
             />
+            <div className="flex justify-center mt-4">
+              <Zap className="rotate-90 text-[#FBBF24]" size={20} />
+            </div>
+            {/* Steps 4 and 5 in Mobile View */}
+            <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-700/50">
+              <ArchitectureNode
+                step="4"
+                title="Governance"
+                sub="Oversight"
+                icon={Landmark}
+                color="#A855F7"
+                className="relative w-full translate-x-0 translate-y-0"
+              />
+              <ArchitectureNode
+                step="5"
+                title="Stakers"
+                sub="Collateral"
+                icon={ShieldCheck}
+                color="#6366F1"
+                className="relative w-full translate-x-0 translate-y-0"
+              />
+            </div>
           </div>
         </div>
       </section>
       {/* --- NEW SECTION 8b: MULTI-PARTY PAYMENTS --- */}
-      <section className="py-16 sm:py-24 md:py-32 bg-[#030303] relative border-t border-white/5 overflow-hidden">
+      <section className="py-16 sm:py-24 md:py-32 bg-[#030303] relative border border-white/5 rounded-3xl overflow-hidden shadow-2xl shadow-[#00FF94]/10 max-w-8xl mx-auto">
         <div className="absolute inset-0 bg-gradient-to-r from-[#00FF94]/5 via-transparent to-transparent pointer-events-none" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-10 sm:gap-16 lg:gap-20 items-center">
@@ -1080,14 +1360,15 @@ const Index = () => {
               Built natively for <br />
               <span
                 className="text-transparent bg-clip-text bg-gradient-to-r from-[#00FF94] to-cyan-400"
-                style={styles.glowText}
+                style={stylesBlip.glowText}
               >
                 multi-party payments
               </span>
             </h2>
             <p className="text-xl text-gray-400 leading-relaxed mb-8">
               Blip natively supports multi-vendor basket and payment splits, so
-              you don't have to build complex workarounds.
+              you don't have to build complex workarounds. Process a single
+              transaction and distribute funds instantly.
             </p>
             <div className="space-y-4">
               {[
@@ -1109,13 +1390,13 @@ const Index = () => {
           </div>
 
           {/* Right Visualization (Fan Out) */}
-          <div className="relative h-[500px] w-full bg-[#080808] rounded-3xl border border-white/5 flex items-center p-8 overflow-hidden">
+          <div className="relative h-[500px] w-full bg-[#080808] rounded-3xl border border-white/5 flex items-center p-8 overflow-hidden shadow-inner shadow-white/5">
             <div
               style={styles.gridBackground}
               className="absolute inset-0 opacity-10"
             />
 
-            {/* SVG Lines */}
+            {/* SVG Lines (Bezier curves for dynamic feel) */}
             <svg className="absolute inset-0 w-full h-full pointer-events-none">
               <defs>
                 <linearGradient
@@ -1129,88 +1410,103 @@ const Index = () => {
                   <stop offset="100%" stopColor="#0088FF" stopOpacity="0.2" />
                 </linearGradient>
               </defs>
-              {[15, 32, 50, 68, 85].map((pos, i) => (
+              {pathPositions.map((pos, i) => (
+                // Path drawn from (100, 250) to (450, pos*5), curving towards the right center
                 <path
                   key={i}
-                  d={`M 100 ${250} C 250 ${250}, 300 ${pos * 5}, 450 ${
-                    pos * 5
-                  }`}
+                  d={`M 100 250 C 250 250, 300 ${pos * 5}, 450 ${pos * 5}`}
                   fill="none"
                   stroke="url(#splitGradient)"
                   strokeWidth="1.5"
                   strokeDasharray="4,4"
-                  className="animate-[pulse_2s_infinite]"
-                  style={{ animationDelay: `${i * 0.2}s` }}
+                  className="animate-pulse"
+                  style={{ animationDelay: `${i * 0.4}s` }}
                 />
               ))}
             </svg>
 
-            {/* Source Node (Left) */}
+            {/* Source Node (Left: Single Payment) */}
             <div className="absolute left-[8%] top-1/2 -translate-y-1/2 z-20">
-              <div className="w-20 h-20 rounded-2xl bg-[#0A0A0A] border border-[#00FF94] shadow-[0_0_30px_rgba(0,255,148,0.2)] flex items-center justify-center relative">
-                <CreditCard size={32} className="text-[#00FF94]" />
-                <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-xs font-mono text-[#00FF94] whitespace-nowrap">
+              <div className="w-24 h-24 rounded-3xl bg-[#0A0A0A] border-2 border-[#00FF94] shadow-[0_0_30px_rgba(0,255,148,0.3)] flex items-center justify-center relative transition-all duration-300 hover:scale-[1.02]">
+                <CreditCard size={40} className="text-[#00FF94]" />
+                <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 text-sm font-bold text-[#00FF94] whitespace-nowrap bg-[#0A0A0A] px-2 py-1 rounded-md shadow-lg border border-[#00FF94]/50">
                   Single Payment
                 </div>
               </div>
             </div>
 
-            {/* Destination Nodes (Right Fan) */}
-            <div className="absolute right-[8%] top-0 bottom-0 flex flex-col justify-between py-8 w-40">
+            {/* Destination Nodes (Right Fan: Recipients) */}
+            {/* The py-12 adjustment helps position the elements to align with the SVG paths */}
+            <div className="absolute right-[8%] top-0 bottom-0 flex flex-col justify-between py-12 w-44">
               {[
-                { label: "Freelancer", icon: Users, color: "#3B82F6" },
-                { label: "Supplier", icon: Package, color: "#8B5CF6" },
-                { label: "Driver", icon: Truck, color: "#10B981" },
-                { label: "Partner", icon: Handshake, color: "#F59E0B" },
-                { label: "Seller", icon: Store, color: "#EC4899" },
+                { label: "Freelancer (35%)", icon: Users, color: "#3B82F6" },
+                { label: "Supplier (20%)", icon: Package, color: "#8B5CF6" },
+                { label: "Platform Fee (10%)", icon: Store, color: "#00FF94" },
+                { label: "Partner (20%)", icon: Handshake, color: "#F59E0B" },
+                { label: "Driver (15%)", icon: Truck, color: "#EC4899" },
               ].map((node, i) => (
                 <div
                   key={i}
-                  className="flex items-center gap-3 bg-[#111] border border-white/10 p-3 rounded-lg z-20 transform hover:scale-105 transition-transform"
+                  className="flex items-center gap-3 bg-[#111] border border-white/10 p-3 rounded-xl z-20 transform transition-all duration-300 hover:scale-[1.05] hover:shadow-xl"
                   style={{ borderColor: `${node.color}40` }}
                 >
                   <div
-                    className="p-2 rounded bg-black/50"
-                    style={{ color: node.color }}
+                    className="p-2 rounded-lg"
+                    style={{
+                      backgroundColor: `${node.color}20`,
+                      color: node.color,
+                    }}
                   >
-                    <node.icon size={16} />
+                    <node.icon size={18} />
                   </div>
-                  <span className="text-xs font-bold text-gray-300">
+                  <span className="text-xs font-bold text-gray-200">
                     {node.label}
                   </span>
                 </div>
               ))}
             </div>
 
-            {/* Animated Packets */}
-            {[15, 32, 50, 68, 85].map((pos, i) => (
+            {/* Animated Packets (Small dots moving along the paths) */}
+            {pathPositions.map((pos, i) => (
               <div
                 key={i}
-                className="absolute w-2 h-2 bg-[#00FF94] rounded-full shadow-[0_0_10px_#00FF94]"
+                className="absolute w-2 h-2 bg-[#00FF94] rounded-full shadow-[0_0_10px_#00FF94] z-30"
                 style={{
-                  left: "100px",
-                  top: "250px",
+                  left: "96px", // Aligned with the center of the source node (100px)
+                  top: "246px", // Aligned with the center of the source node (250px)
                   animation: `fanOut${i} 3s linear infinite`,
-                  animationDelay: `${i * 0.3}s`,
+                  animationDelay: `${i * 0.4 + 0.5}s`, // Stagger the start
                 }}
               />
             ))}
 
+            {/* CSS Keyframes for the Animation */}
             <style>{`
-                 ${[15, 32, 50, 68, 85]
-                   .map(
-                     (pos, i) => `
-                    @keyframes fanOut${i} {
-                       0% { transform: translate(0, 0); opacity: 0; }
-                       10% { opacity: 1; }
-                       100% { transform: translate(350px, ${
-                         pos * 5 - 250
-                       }px); opacity: 0; }
-                    }
-                 `
-                   )
-                   .join("")}
-              `}</style>
+              ${pathPositions
+                .map(
+                  (pos, i) => `
+                @keyframes fanOut${i} {
+                  0% { transform: translate(0, 0); opacity: 0; }
+                  10% { opacity: 1; }
+                  30% { opacity: 1; } /* Hold full opacity briefly */
+                  100% { 
+                    /* 350px horizontal shift (100->450) and vertical shift based on endpoint (pos*5) */
+                    transform: translate(350px, ${pos * 5 - 250}px); 
+                    opacity: 0; 
+                  }
+                }
+              `
+                )
+                .join("")}
+              /* Ensure the pulse animation is defined */
+              @keyframes pulse {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.5; }
+              }
+              .animate-pulse {
+                animation: pulse 2s infinite;
+              }
+            `}</style>
           </div>
         </div>
       </section>
