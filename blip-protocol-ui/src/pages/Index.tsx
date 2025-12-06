@@ -869,7 +869,7 @@ const Index = () => {
                 Earn up to 2.5% in Blip Tokens on every transaction.
               </span>
             </div>
-            <Button>Create Business Account</Button>
+            {/* <Button>Create Business Account</Button> */}
           </div>
         </div>
       </section>
