@@ -20,6 +20,10 @@ const config: Config = {
     },
     extend: {
       colors: {
+        'neon-green': '#19F7A7',
+                        'cyan-accent': '#00C8FF',
+                        'deep-black': '#000000',
+                        'dark-gray': '#0A0A0A',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -63,6 +67,13 @@ const config: Config = {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+      },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+      },
+      boxShadow: {
+        'neon': '0 0 15px #19F7A7, 0 0 30px rgba(25, 247, 167, 0.4)',
+        'neon-sm': '0 0 5px #19F7A7',
       },
       borderRadius: {
         lg: "var(--radius)",

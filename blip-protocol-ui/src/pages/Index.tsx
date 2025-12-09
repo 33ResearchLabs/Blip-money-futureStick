@@ -30,6 +30,8 @@ import {
 import { SocialSidebar } from "@/components/SocialSidebar";
 import { Link } from "react-router-dom";
 import TransferFlow from "@/components/TransferFlow";
+import useScrollActive from "@/hooks/useScrollActive";
+import ScrollReveal from "@/components/ScrollReveal";
 
 // --- Visual Effects Components ---
 
@@ -131,6 +133,12 @@ export const Navbar = () => {
               className="hover:text-[#2BFF88] transition-colors"
             >
               PeopleBank
+            </a>
+            <a
+              href="/tokenomics"
+              className="hover:text-[#2BFF88] transition-colors"
+            >
+              Tokenomics
             </a>
           </div>
           <a href="/comming-soon">
@@ -705,6 +713,8 @@ const stylesBlip = {
 };
 
 const Index = () => {
+  // Initialize scroll active hook
+  useScrollActive("hero");
   const [activeCommingSoon, setActiveCommingSoon] = useState(false);
   const [nodes, setNodes] = useState(INITIAL_NODES);
   const pathPositions = [15, 32, 50, 68, 85];
@@ -730,75 +740,467 @@ const Index = () => {
     return () => clearInterval(interval);
   }, []);
   return (
-    <div className="min-h-screen bg-black text-white font-sans selection:bg-[#2BFF88] selection:text-black overflow-x-hidden">
+    <div
+      className="min-h-screen   bg-black text-white font-sans selection:bg-[#2BFF88] selection:text-black overflow-x-hidden overflow-y-hidden scrollbar-hide"
+      style={{ scrollbarWidth: "none", scrollBehavior: "smooth" }}
+    >
       <Navbar />
       <Hero />
       <SocialSidebar />
-      {/* --- SECTION 2: HOW BLIP WORKS --- */}
-      <TransferFlow />
+
+      {/* <!-- 2. THE PROBLEM SECTION (Scroll-Reveal Timeline) -->
+        <!-- -------------------------------------- --> */}
+      <section id="the-problem" className="py-40 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center mb-24">
+          <SectionLabel
+            text="Global
+Payments"
+          />
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-8 mint-gradient-text tracking-tight text-left">
+            The Problem: Why{" "}
+            <span className="text-[#2BFF88]">
+              Global <br />
+              Payments
+            </span>
+            <br /> Are Broken Today
+          </h2>
+        </div>
+
+        <div className="relative max-w-2xl mx-auto">
+          <div className="timeline-line"></div>
+
+          <div className="space-y-40">
+            <div className="relative flex justify-start items-center group">
+              <div className="w-1/2 pr-16 text-right opacity-100 transition-all duration-500">
+                <h3 className="text-4xl font-bold tracking-tight text-white mb-3 relative inline-block">
+                  High Fees.
+                  <span className="absolute left-0 right-0 bottom-[-5px] h-[2px] bg-mint-gradient-bg opacity-30 group-hover:opacity-100 transition-opacity duration-300"></span>
+                </h3>
+                <p className="text-lg text-gray-400">
+                  Traditional banking and legacy systems impose excessive,
+                  hidden costs on cross-border transactions.
+                </p>
+              </div>
+              <div className="w-14 h-14 rounded-full bg-black border-2 border-mint-gradient-bg neon-glow-md absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-10 flex items-center justify-center">
+                <span className="text-sm font-bold text-mint-secondary">I</span>
+              </div>
+            </div>
+
+            <div className="relative flex justify-end items-center group">
+              <div className="w-1/2 pl-16 text-left opacity-100 transition-all duration-500">
+                <h3 className="text-4xl font-bold tracking-tight text-white mb-3 relative inline-block">
+                  Slow Settlement Times.
+                  <span className="absolute left-0 right-0 bottom-[-5px] h-[2px] bg-mint-gradient-bg opacity-30 group-hover:opacity-100 transition-opacity duration-300"></span>
+                </h3>
+                <p className="text-lg text-gray-400">
+                  Settlements often take days, crippling cash flow for
+                  businesses and individuals.
+                </p>
+              </div>
+              <div className="w-14 h-14 rounded-full bg-black border-2 border-mint-gradient-bg neon-glow-md absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-10 flex items-center justify-center">
+                <span className="text-sm font-bold text-mint-secondary">
+                  II
+                </span>
+              </div>
+            </div>
+
+            <div className="relative flex justify-start items-center group">
+              <div className="w-1/2 pr-16 text-right opacity-100 transition-all duration-500">
+                <h3 className="text-4xl font-bold tracking-tight text-white mb-3 relative inline-block">
+                  Lack of Privacy.
+                  <span className="absolute left-0 right-0 bottom-[-5px] h-[2px] bg-mint-gradient-bg opacity-30 group-hover:opacity-100 transition-opacity duration-300"></span>
+                </h3>
+                <p className="text-lg text-gray-400">
+                  Every transaction exposes sensitive data to multiple, often
+                  untrustworthy, intermediaries.
+                </p>
+              </div>
+              <div className="w-14 h-14 rounded-full bg-black border-2 border-mint-gradient-bg neon-glow-md absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-10 flex items-center justify-center">
+                <span className="text-sm font-bold text-mint-secondary">
+                  III
+                </span>
+              </div>
+            </div>
+
+            <div className="relative flex justify-end items-center group">
+              <div className="w-1/2 pl-16 text-left opacity-100 transition-all duration-500">
+                <h3 className="text-4xl font-bold tracking-tight text-white mb-3 relative inline-block">
+                  Opaque Intermediaries.
+                  <span className="absolute left-0 right-0 bottom-[-5px] h-[2px] bg-mint-gradient-bg opacity-30 group-hover:opacity-100 transition-opacity duration-300"></span>
+                </h3>
+                <p className="text-lg text-gray-400">
+                  The current system is controlled by centralized entities
+                  lacking transparent accountability.
+                </p>
+              </div>
+              <div className="w-14 h-14 rounded-full bg-black border-2 border-mint-gradient-bg neon-glow-md absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-10 flex items-center justify-center">
+                <span className="text-sm font-bold text-mint-secondary">
+                  IV
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/*
+     <!-- -------------------------------------- -->
+        <!-- 3. THE PROTOCOL SECTION (Cinematic Diagram) -->
+        <!-- -------------------------------------- --> */}
+      <section
+        id="protocol-section"
+        className="py-40 overflow-hidden bg-[#000000]"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+          {/* <!-- Text Block (Left) --> */}
+          <div className="lg:sticky lg:top-1/4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-8 mint-gradient-text tracking-tight">
+              Blip Protocol: The Global Settlement Layer
+            </h2>
+            <p className="text-2xl text-gray-300 mb-10 font-light">
+              Blip is a decentralized, open-source protocol built for instant,
+              low-cost global value transfer, leveraging Zero-Knowledge proofs
+              for privacy and Solana's speed for scalability. It's the new
+              financial infrastructure the world needs.
+            </p>
+            <button className="px-10 py-4 rounded-full text-base font-semibold bg-transparent border border-cyan-400/50 text-cyan-400 transition hover:bg-cyan-400/15 hover:shadow-[0_0_20px_rgba(0,200,255,0.5)]">
+              Explore Whitepaper
+            </button>
+          </div>
+
+          <div className="relative h-[700px] w-full">
+            {/* Background Glows */}
+            <div className="absolute inset-0 transform rotate-12 bg-cyan-400 opacity-10 blur-3xl"></div>
+            <div className="absolute inset-0 transform -rotate-6 bg-mint-primary opacity-10 blur-3xl"></div>
+
+            {/* SVG Network Diagram */}
+            <svg
+              className="absolute inset-0 w-full h-full"
+              viewBox="0 0 500 500"
+              preserveAspectRatio="xMidYMid meet"
+            >
+              {/* Central Node */}
+              <circle
+                cx="250"
+                cy="250"
+                r="50"
+                fill="#19F7A7"
+                className="neon-glow pulse-animation"
+                style={{
+                  filter:
+                    "drop-shadow(0 0 20px #19F7A7) drop-shadow(0 0 40px #19F7A7)",
+                  animation: "pulseGlow 3s infinite alternate",
+                }}
+              />
+              <text
+                x="250"
+                y="255"
+                textAnchor="middle"
+                fill="#000"
+                fontWeight="bold"
+                fontSize="22"
+              >
+                BLIP
+              </text>
+
+              {/* Peripheral Nodes */}
+              {[
+                { cx: 100, cy: 150, delay: "0s" },
+                { cx: 400, cy: 150, delay: "0.5s" },
+                { cx: 100, cy: 350, delay: "1s" },
+                { cx: 400, cy: 350, delay: "1.5s" },
+              ].map((node, idx) => (
+                <circle
+                  key={idx}
+                  cx={node.cx}
+                  cy={node.cy}
+                  r="20"
+                  fill="#00C8FF"
+                  className="float-element"
+                  style={{
+                    animation: `float 4s ease-in-out ${node.delay} infinite alternate`,
+                    filter:
+                      "drop-shadow(0 0 15px #00C8FF) drop-shadow(0 0 25px #00C8FF)",
+                  }}
+                />
+              ))}
+
+              {/* Animated Connections */}
+              {[
+                { d: "M100 150 Q250 100 400 150", delay: "0s" },
+                { d: "M100 350 L250 250", delay: "0.3s" },
+                { d: "M400 350 L250 250", delay: "0.6s" },
+              ].map((pathData, idx) => (
+                <path
+                  key={idx}
+                  d={pathData.d}
+                  stroke="#19F7A7"
+                  strokeWidth="2"
+                  fill="none"
+                  style={{
+                    strokeDasharray: 500,
+                    strokeDashoffset: 500,
+                    animation: `drawLine 2s ${pathData.delay} forwards`,
+                    filter: "drop-shadow(0 0 10px #19F7A7)",
+                  }}
+                />
+              ))}
+            </svg>
+
+            {/* Tailwind Animations */}
+            <style>{`
+              @keyframes pulseGlow {
+                0% {
+                  transform: scale(1);
+                  filter: drop-shadow(0 0 20px #19f7a7)
+                    drop-shadow(0 0 40px #19f7a7);
+                }
+                100% {
+                  transform: scale(1.05);
+                  filter: drop-shadow(0 0 30px #19f7a7)
+                    drop-shadow(0 0 60px #19f7a7);
+                }
+              }
+
+              @keyframes float {
+                0% {
+                  transform: translateY(0);
+                }
+                50% {
+                  transform: translateY(-8px);
+                }
+                100% {
+                  transform: translateY(0);
+                }
+              }
+
+              @keyframes drawLine {
+                to {
+                  stroke-dashoffset: 0;
+                }
+              }
+            `}</style>
+          </div>
+        </div>
+      </section>
+
+      {/* <!-- SECTION 3: HOW IT WORKS (3 STEPS - STRIPE VIBE) --> */}
+      <section id="how-it-works" className="py-32 border-t border-gray-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <h2
+            data-animate-on-scroll
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-8 sm:mb-12 md:mb-16 tracking-tight text-left line-clamp"
+          >
+            How It Works:
+            <br />3 Steps to Real-World Value
+          </h2>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            {/* <!-- Step 1 --> */}
+            <div
+              data-animate-on-scroll
+              className="relative p-12 rounded-xl bg-dark-gray border border-gray-900 transition duration-500 hover:border-neon-green/50 group hover:shadow-neon-sm hover:translate-y-[-5px]"
+            >
+              <span className="absolute -top-4 -left-4 text-8xl font-extrabold text-neon-green opacity-5 group-hover:opacity-10 transition duration-500 tracking-tighter">
+                01
+              </span>
+              <h3 className="text-2xl font-bold mb-4 flex items-center tracking-tight text-white/90">
+                <span className="text-neon-green text-3xl mr-3">⌲</span> Create
+                a payment using your wallet (choose cash, bank, wire, or goods).
+              </h3>
+              <p className="text-gray-400">
+                Details of your payment are encoded and submitted on-chain,
+                committing the crypto to an immutable escrow smart contract.
+              </p>
+            </div>
+
+            {/* <!-- Step 2 --> */}
+            <div
+              data-animate-on-scroll
+              className="relative p-12 rounded-xl bg-dark-gray border border-gray-900 transition duration-500 hover:border-neon-green/50 group hover:shadow-neon-sm hover:translate-y-[-5px]"
+              style={{ animationDelay: "100ms;" }}
+            >
+              <span className="absolute -top-4 -left-4 text-8xl font-extrabold text-neon-green opacity-5 group-hover:opacity-10 transition duration-500 tracking-tighter">
+                02
+              </span>
+              <h3 className="text-2xl font-bold mb-4 flex items-center tracking-tight text-white/90">
+                <span className="text-neon-green text-3xl mr-3">🤝</span>{" "}
+                Merchants in the target country bid to fulfill your order.
+              </h3>
+              <p className="text-gray-400">
+                The decentralized Merchant Network competes to provide the best
+                fulfillment service, ensuring competitive rates and speed.
+              </p>
+            </div>
+
+            {/* <!-- Step 3 --> */}
+            <div
+              data-animate-on-scroll
+              className="relative p-12 rounded-xl bg-dark-gray border border-gray-900 transition duration-500 hover:border-neon-green/50 group hover:shadow-neon-sm hover:translate-y-[-5px]"
+              style={{ animationDelay: "200ms" }}
+            >
+              <span className="absolute -top-4 -left-4 text-8xl font-extrabold text-neon-green opacity-5 group-hover:opacity-10 transition duration-500 tracking-tighter">
+                03
+              </span>
+              <h3 className="text-2xl font-bold mb-4 flex items-center tracking-tight text-white/90">
+                <span className="text-neon-green text-3xl mr-3">✓</span>{" "}
+                Receiver gets real-world value instantly, and settlement is
+                recorded on-chain.
+              </h3>
+              <p className="text-gray-400">
+                Once settlement proof is confirmed, the escrow is released and
+                the transaction is immutably recorded, completing the global
+                transfer.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* --- SECTION 4: REAL WORLD USAGE --- */}
       <section className="py-16 sm:py-24 md:py-32 bg-[#020202] relative overflow-hidden">
         <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-b from-[#050505] to-[#020202] pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
-          <SectionLabel text="Real World Usage" />
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8 sm:mb-12 md:mb-16 tracking-tight">
-            Use crypto the same way
-            <br />
-            you use money.
-          </h2>
+          <ScrollReveal delay={0}>
+            <SectionLabel text="Real World Usage" />
+          </ScrollReveal>
+          <ScrollReveal delay={0.1}>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-8 sm:mb-12 md:mb-16 tracking-tight">
+              Use crypto the same way
+              <br />
+              you use money.
+            </h2>
+          </ScrollReveal>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            <CinematicCard
-              title="Cafés"
-              subtitle="TAP TO PAY"
-              icon={Coffee}
-              delay={0}
-              active={false}
-            />
-            <CinematicCard
-              title="Restaurants"
-              subtitle="TABLE SETTLEMENT"
-              icon={Utensils}
-              delay={100}
-              active={false}
-            />
-            <CinematicCard
-              title="Hotels"
-              subtitle="INSTANT BOOKING"
-              icon={MapPin}
-              delay={200}
-              active={false}
-            />
-            <CinematicCard
-              title="Retail"
-              subtitle="POS INTEGRATION"
-              icon={ShoppingBag}
-              delay={300}
-              active={false}
-            />
-            <CinematicCard
-              title="Friends"
-              subtitle="P2P TRANSFER"
-              icon={Users}
-              delay={400}
-              active={false}
-            />
-            <CinematicCard
-              title="Transport"
-              subtitle="RIDE SETTLEMENT"
-              icon={Car}
-              delay={500}
-              active={false}
-            />
+            <ScrollReveal delay={0.2}>
+              <CinematicCard
+                title="Cafés"
+                subtitle="TAP TO PAY"
+                icon={Coffee}
+                delay={0}
+                active={false}
+              />
+            </ScrollReveal>
+            <ScrollReveal delay={0.3}>
+              <CinematicCard
+                title="Restaurants"
+                subtitle="TABLE SETTLEMENT"
+                icon={Utensils}
+                delay={100}
+                active={false}
+              />
+            </ScrollReveal>
+            <ScrollReveal delay={0.4}>
+              <CinematicCard
+                title="Hotels"
+                subtitle="INSTANT BOOKING"
+                icon={MapPin}
+                delay={200}
+                active={false}
+              />
+            </ScrollReveal>
+            <ScrollReveal delay={0.5}>
+              <CinematicCard
+                title="Retail"
+                subtitle="POS INTEGRATION"
+                icon={ShoppingBag}
+                delay={300}
+                active={false}
+              />
+            </ScrollReveal>
+            <ScrollReveal delay={0.6}>
+              <CinematicCard
+                title="Friends"
+                subtitle="P2P TRANSFER"
+                icon={Users}
+                delay={400}
+                active={false}
+              />
+            </ScrollReveal>
+            <ScrollReveal delay={0.7}>
+              <CinematicCard
+                title="Transport"
+                subtitle="RIDE SETTLEMENT"
+                icon={Car}
+                delay={500}
+                active={false}
+              />
+            </ScrollReveal>
           </div>
         </div>
       </section>
+
+      {/* <!-- SECTION 7: PRIVACY & TRUST (TWO-COLUMN MINIMAL) --> */}
+      <section className="py-32 border-t border-gray-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <h2
+            data-animate-on-scroll
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-8 sm:mb-12 md:mb-16 tracking-tight text-left"
+          >
+            Privacy by Design. Trust by
+            <br />
+            Protocol.
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            {/* <!-- Left: Privacy (Cyan Accent) --> */}
+            <div
+              data-animate-on-scroll
+              className="p-10 rounded-xl bg-dark-gray border border-cyan/50 shadow-neon-sm shadow-cyan/20 transition duration-300 hover:border-cyan"
+            >
+              <h3 className="text-3xl font-bold mb-4 text-cyan tracking-tight">
+                Privacy Layer
+              </h3>
+              <ul className="space-y-4 text-gray-300 text-lg">
+                <li className="flex items-start">
+                  <span className="text-2xl mr-3 text-cyan">◇</span>
+                  Wallet-based identity: Your wallet address is your ID,
+                  decoupled from personal data.
+                </li>
+                <li className="flex items-start">
+                  <span className="text-2xl mr-3 text-cyan">◇</span>
+                  No personal info required for small transfers, ensuring true
+                  freedom.
+                </li>
+                <li className="flex items-start">
+                  <span className="text-2xl mr-3 text-cyan">◇</span>
+                  End-to-end private transaction construction.
+                </li>
+              </ul>
+            </div>
+
+            {/* <!-- Right: On-chain transparency (Neon Green Accent) --> */}
+            <div
+              data-animate-on-scroll
+              className="p-10 rounded-xl bg-dark-gray border border-neon-green/50 shadow-neon-sm shadow-neon-green/20 transition duration-300 hover:border-neon-green"
+              style={{ animationDelay: "100ms" }}
+            >
+              <h3 className="text-3xl font-bold mb-4 text-neon-green tracking-tight">
+                On-chain Trust
+              </h3>
+              <ul className="space-y-4 text-gray-300 text-lg">
+                <li className="flex items-start">
+                  <span className="text-2xl mr-3 text-neon-green">✓</span>
+                  Orders and Matching are recorded on-chain for verification.
+                </li>
+                <li className="flex items-start">
+                  <span className="text-2xl mr-3 text-neon-green">✓</span>
+                  Settlement proofs guarantee real-world delivery.
+                </li>
+                <li className="flex items-start">
+                  <span className="text-2xl mr-3 text-neon-green">✓</span>
+                  Immutable audit trail of all transactions.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* --- SECTION 5: MERCHANTS --- */}
       <section
         id="merchants"
         className="py-16 sm:py-24 md:py-32 bg-[#050505] overflow-hidden"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-10 sm:gap-16 lg:gap-20 items-center">
-          <div className="order-2 lg:order-1">
+          <ScrollReveal delay={0} className="order-2 lg:order-1">
             <div className="bg-[#080808] rounded-xl border border-white/10 shadow-2xl relative group">
               <div className="absolute -inset-1 bg-gradient-to-r from-[#00FF94] to-blue-600 rounded-xl opacity-20 blur-lg group-hover:opacity-30 transition-opacity" />
               <div className="relative bg-[#0A0A0A] rounded-xl overflow-hidden p-1">
@@ -849,8 +1251,8 @@ const Index = () => {
                 </div>
               </div>
             </div>
-          </div>
-          <div className="order-1 lg:order-2">
+          </ScrollReveal>
+          <ScrollReveal delay={0.2} className="order-1 lg:order-2">
             <SectionLabel text="Merchants" />
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 tracking-tight">
               Accept crypto.
@@ -860,7 +1262,7 @@ const Index = () => {
               No risk.
             </h2>
             <p className="text-xl text-gray-400 mb-8">
-              You don’t need crypto knowledge — payments settle instantly into
+              You don't need crypto knowledge — payments settle instantly into
               stable value.
             </p>
             <div className="flex items-center gap-4 p-4 border border-[#00FF94]/30 bg-[#00FF94]/5 rounded-lg mb-8">
@@ -870,7 +1272,7 @@ const Index = () => {
               </span>
             </div>
             {/* <Button>Create Business Account</Button> */}
-          </div>
+          </ScrollReveal>
         </div>
       </section>
       {/* --- SECTION 6: PREMIUM REWARDS --- */}
@@ -886,7 +1288,7 @@ const Index = () => {
           <div className="flex-1 text-left">
             <SectionLabel text="Incentives & Early Access" />
 
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-8 text-white tracking-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-8 text-white tracking-tight">
               Get rewarded every <br /> time you spend.
             </h2>
 
@@ -991,7 +1393,7 @@ const Index = () => {
             {/* Left Content Area */}
             <div>
               <SectionLabel text="The Network" />
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 tracking-tight">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-6 tracking-tight">
                 A decentralized human-powered liquidity network.
               </h2>
               <p className="text-xl text-gray-400 mb-10 leading-relaxed">
@@ -1099,414 +1501,177 @@ const Index = () => {
         </section>
       </>
 
-      {/* --- SECTION 8: PROTOCOL ARCHITECTURE (Fixed & Scalable) --- */}
-      {/* Added min-h-screen, flex, flex-col, and justify-center */}
-      <section
-        id="protocol"
-        className="min-h-screen flex flex-col justify-center py-16 bg-[#020202] relative border-t border-white/5 overflow-hidden"
-      >
-        <style>
-          {`
-                @keyframes moveRight {
-                    0% { transform: translate(0, -50%); opacity: 1; }
-                    50% { transform: translate(300%, -50%); opacity: 1; }
-                    100% { transform: translate(0, -50%); opacity: 0; }
-                }
-                .animate-\\[moveRight_3s_linear_infinite\\] {
-                    animation: moveRight 3s linear infinite;
-                }
-                `}
-        </style>
-        <div className="absolute inset-0 bg-gradient-to-b from-[#050505] to-[#020202]" />
+      {/* SECTION 8: PROTOCOL ARCHITECTURE (HORIZONTAL FLOW) */}
+      <section className="py-32 border-t border-gray-900">
+        <div className="max-w-6xl mx-auto px-6 ">
+          <span data-animate-on-scroll>
+            <SectionLabel text=" System Map" />
+          </span>
+          <h2
+            data-animate-on-scroll
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-6 tracking-tight text-left"
+          >
+            Protocol Architecture
+            <br />
+            Overview
+          </h2>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
-          {/* Header */}
-          <div className="text-center mb-12">
-            <SectionLabel text="Protocol Architecture" />
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white tracking-tight">
-              How Blip Settles Value.
-            </h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-              A trustless mechanism connecting digital wallets to real-world
-              banking rails in three steps.
-            </p>
-          </div>
-
-          {/* Diagram Container (Desktop View) */}
-          <div className="relative h-[800px] max-w-7xl my-auto mx-auto rounded-3xl border border-white/5 bg-[#080808] overflow-hidden hidden lg:block shadow-2xl">
-            <div
-              style={styles.gridBackground}
-              className="absolute inset-0 opacity-10 top-[50%]"
-            />
-
-            {/* SVG Lines */}
-            <svg
-              className="absolute inset-0 w-full h-full pointer-events-none z-10"
-              viewBox="0 0 100 100"
-              preserveAspectRatio="none"
-            >
-              <defs>
-                <linearGradient
-                  id="flowGradient"
-                  x1="0%"
-                  y1="50%"
-                  x2="100%"
-                  y2="0%"
-                >
-                  <stop offset="0%" stopColor="#0088FF" stopOpacity="0.3" />
-                  <stop offset="47%" stopColor="#FBBF24" stopOpacity="0.5" />
-                  <stop offset="70%" stopColor="#00FF94" stopOpacity="0.3" />
-                </linearGradient>
-              </defs>
-              {/* Main Flow Lines (1->2->3) */}
-              <path
-                d="M 25 50 L 75 50" // Simplified straight path for better animation visual
-                stroke="url(#flowGradient)"
-                strokeWidth="0.7"
-                strokeDasharray="4, 4"
-                className="animate-[pulse_3s_infinite]"
-              />
-
-              {/* Step 4 (Governance) Connection */}
-              <path
-                d="M 50 50 Q 60 30 75 25"
-                fill="none"
-                stroke="#A855F7"
-                strokeWidth="0.2"
-                strokeDasharray="1,1"
-                opacity="0.3"
-              />
-              {/* Step 5 (Stakers) Connection */}
-              <path
-                d="M 50 50 Q 60 70 75 75"
-                fill="none"
-                stroke="#6366F1"
-                strokeWidth="0.2"
-                strokeDasharray="1,1"
-                opacity="0.3"
-              />
-            </svg>
-
-            {/* Step 1: Sender Wallet */}
-            <div className="absolute top-1/2 left-[25%] -translate-x-1/2 -translate-y-1/2">
-              <ArchitectureNode
-                step="1"
-                title="Sender Wallet"
-                sub="Locks USDT/USDC in Protocol"
-                icon={Wallet}
-                color="#0088FF"
-                className="shadow-[0_0_40px_rgba(0,136,255,0.1)]"
-                isMain
-              />
-            </div>
-
-            {/* Step 2: Blip Protocol (Center) */}
-            <div className="absolute top-1/2 left-[50%] -translate-x-1/2 -translate-y-1/2">
-              <ArchitectureNode
-                step="2"
-                title="Blip Protocol"
-                sub="Matches liquidity & Secures Escrow"
-                icon={Lock}
-                color="#FBBF24"
-                className="scale-110 shadow-[0_0_60px_rgba(251,191,36,0.2)] z-30 bg-[#0A0A0A]"
-                delay={200}
-                isMain
-              />
-              <div className="absolute inset-0 rounded-2xl border border-[#FBBF24]/20 animate-ping opacity-20 pointer-events-none" />
-            </div>
-
-            {/* Step 3: Receiver */}
-            <div className="absolute top-1/2 left-[75%] -translate-x-1/2 -translate-y-1/2">
-              <ArchitectureNode
-                step="3"
-                title="Receiver"
-                sub="Receives Fiat via Local Rails"
-                icon={Building2}
-                color="#00FF94"
-                className="shadow-[0_0_40px_rgba(0,255,148,0.1)]"
-                delay={400}
-                isMain
-              />
-            </div>
-
-            {/* Step 4: Governance (Top Right) */}
-            <div className="absolute top-[25%] left-[75%] -translate-x-1/2 -translate-y-1/2">
-              <ArchitectureNode
-                step="4"
-                title="Governance"
-                sub="DAO & Treasury"
-                icon={Landmark}
-                color="#A855F7"
-                className="scale-90 opacity-80 shadow-[0_0_20px_rgba(168,85,247,0.1)]"
-              />
-            </div>
-
-            {/* Step 5: Merchant Stakers (Bottom Right) */}
-            <div className="absolute top-[75%] left-[75%] -translate-x-1/2 -translate-y-1/2">
-              <ArchitectureNode
-                step="5"
-                title="Merchant Stakers"
-                sub="Collateral Providers"
-                icon={ShieldCheck}
-                color="#6366F1"
-                className="scale-90 opacity-80 shadow-[0_0_20px_rgba(99,102,241,0.1)]"
-              />
-            </div>
-
-            {/* Live Logic Indicators (Animating circles) */}
-            <div
-              className="absolute top-[50%] left-[25%] w-2 h-2 bg-blue-500 rounded-full shadow-[0_0_10px_#3B82F6] animate-[moveRight_3s_linear_infinite]"
-              style={{ transform: "translateY(-50%)" }}
-            />
-            <div
-              className="absolute top-[50%] left-[60%] w-2 h-2 bg-green-500 rounded-full shadow-[0_0_10px_#22C55E] animate-[moveRight_3s_linear_infinite]"
-              style={{
-                animationDelay: "1.5s",
-                transform: "translateY(-50%)",
-              }}
-            />
-
-            {/* Legend */}
-            <div className="absolute bottom-8 left-8 p-4 rounded-xl border border-white/10 bg-black/50 backdrop-blur-md max-w-xs">
-              <div className="flex items-center gap-2 mb-2 text-xs text-gray-400 uppercase tracking-widest">
-                <Activity size={12} className="text-[#00FF94]" /> Live Logic
+          {/* Clean Horizontal Diagram */}
+          <div
+            data-animate-on-scroll
+            className="p-10 bg-dark-gray rounded-xl border border-gray-900 shadow-neon-sm shadow-cyan/10"
+          >
+            <div className="flex items-center justify-between text-xs md:text-sm space-x-4">
+              {/* Component 1: User Wallet (Input) */}
+              <div className="flex-shrink-0 p-3 rounded-lg border border-neon-green/50 text-neon-green bg-deep-black shadow-neon-sm shadow-neon-green/10">
+                User Wallet
               </div>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-xs text-gray-500">
-                  <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />{" "}
-                  Digital Asset Lock
-                </div>
-                <div className="flex items-center gap-2 text-xs text-gray-500">
-                  <div className="w-1.5 h-1.5 rounded-full bg-yellow-500" />{" "}
-                  Smart Contract Escrow
-                </div>
-                <div className="flex items-center gap-2 text-xs text-gray-500">
-                  <div className="w-1.5 h-1.5 rounded-full bg-green-500" /> Fiat
-                  Settlement
-                </div>
-              </div>
-            </div>
-          </div>
 
-          {/* Mobile View */}
-          <div className="lg:hidden space-y-4">
-            <ArchitectureNode
-              step="1"
-              title="Sender"
-              sub="Locks Crypto"
-              icon={Wallet}
-              color="#0088FF"
-              className="relative w-full translate-x-0 translate-y-0"
-              isMain
-            />
-            <div className="flex justify-center">
-              <ArrowRight className="rotate-90 text-gray-600" />
-            </div>
-            <ArchitectureNode
-              step="2"
-              title="Protocol"
-              sub="Matches & Escrows"
-              icon={Lock}
-              color="#FBBF24"
-              className="relative w-full translate-x-0 translate-y-0"
-              isMain
-            />
-            <div className="flex justify-center">
-              <ArrowRight className="rotate-90 text-gray-600" />
-            </div>
-            <ArchitectureNode
-              step="3"
-              title="Receiver"
-              sub="Gets Fiat"
-              icon={Building2}
-              color="#00FF94"
-              className="relative w-full translate-x-0 translate-y-0"
-              isMain
-            />
-            <div className="flex justify-center mt-4">
-              <Zap className="rotate-90 text-[#FBBF24]" size={20} />
-            </div>
-            {/* Steps 4 and 5 in Mobile View */}
-            <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-700/50">
-              <ArchitectureNode
-                step="4"
-                title="Governance"
-                sub="Oversight"
-                icon={Landmark}
-                color="#A855F7"
-                className="relative w-full translate-x-0 translate-y-0"
-              />
-              <ArchitectureNode
-                step="5"
-                title="Stakers"
-                sub="Collateral"
-                icon={ShieldCheck}
-                color="#6366F1"
-                className="relative w-full translate-x-0 translate-y-0"
-              />
+              {/* Connector 1 */}
+              <div className="flex-grow h-px bg-neon-green/50 relative">
+                <div className="absolute w-3 h-3 rounded-full bg-neon-green -top-[5px] left-0 shadow-neon-sm animate-ping-slow-micro"></div>
+              </div>
+
+              {/* Component 2: Order Router */}
+              <div className="flex-shrink-0 p-3 rounded-lg border border-gray-700 text-white bg-dark-gray hover:border-cyan/50 transition">
+                Order Router
+              </div>
+
+              {/* Connector 2 */}
+              <div className="flex-grow h-px bg-cyan/50 relative"></div>
+
+              {/* Component 3: Escrow SCs */}
+              <div className="flex-shrink-0 p-3 rounded-lg border border-gray-700 text-white bg-dark-gray hover:border-cyan/50 transition">
+                Escrow Smart Contracts
+              </div>
+
+              {/* Connector 3 */}
+              <div className="flex-grow h-px bg-neon-green/50 relative"></div>
+
+              {/* Component 4: Settlement Verifier */}
+              <div className="flex-shrink-0 p-3 rounded-lg border border-gray-700 text-white bg-dark-gray hover:border-neon-green/50 transition">
+                Settlement Verifier
+              </div>
+
+              {/* Connector 4 */}
+              <div className="flex-grow h-px bg-cyan/50 relative"></div>
+
+              {/* Component 5: Merchant Nodes */}
+              <div className="flex-shrink-0 p-3 rounded-lg border border-gray-700 text-white bg-dark-gray hover:border-neon-green/50 transition">
+                Merchant Nodes
+              </div>
+
+              {/* Connector 5 */}
+              <div className="flex-grow h-px bg-neon-green/50 relative"></div>
+
+              {/* Component 6: PeopleBank (Core) */}
+              <div className="flex-shrink-0 p-3 rounded-lg border border-cyan/50 text-cyan bg-deep-black shadow-neon-sm shadow-cyan/10">
+                PeopleBank Liquidity Layer
+              </div>
             </div>
           </div>
         </div>
       </section>
-      {/* --- NEW SECTION 8b: MULTI-PARTY PAYMENTS --- */}
-      <section className="py-16 sm:py-24 md:py-32 bg-[#030303] relative border border-white/5 rounded-3xl overflow-hidden shadow-2xl shadow-[#00FF94]/10 max-w-8xl mx-auto">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#00FF94]/5 via-transparent to-transparent pointer-events-none" />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-10 sm:gap-16 lg:gap-20 items-center">
-          {/* Left Content */}
-          <div>
-            <SectionLabel text="Native Splits" />
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white tracking-tight">
-              Built natively for <br />
-              <span
-                className="text-transparent bg-clip-text bg-gradient-to-r from-[#00FF94] to-cyan-400"
-                style={stylesBlip.glowText}
-              >
-                multi-party payments
-              </span>
-            </h2>
-            <p className="text-xl text-gray-400 leading-relaxed mb-8">
-              Blip natively supports multi-vendor basket and payment splits, so
-              you don't have to build complex workarounds. Process a single
-              transaction and distribute funds instantly.
-            </p>
-            <div className="space-y-4">
-              {[
-                "Automated Revenue Sharing",
-                "Marketplace Payouts",
-                "Commission Splits",
-                "Supply Chain Routing",
-              ].map((feature, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-[#00FF94]/10 flex items-center justify-center border border-[#00FF94]/30 text-[#00FF94]">
-                    <CheckCircle size={12} />
-                  </div>
-                  <span className="text-gray-300 font-mono text-sm">
-                    {feature}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
+      {/* SECTION 9: TOKEN UTILITY (SIMPLE GRID) */}
+      <section className="py-32 border-t border-gray-900 container mx-auto px-4">
+        <div className="max-w-6xl mx-auto px-6">
+          <SectionLabel text="Protocol Token Utility" />
+          <h2
+            data-animate-on-scroll
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-8 sm:mb-12 md:mb-16 tracking-tight text-left"
+          >
+            Protocol Token Utility
+          </h2>
 
-          {/* Right Visualization (Fan Out) */}
-          <div className="relative h-[500px] w-full bg-[#080808] rounded-3xl border border-white/5 flex items-center p-8 overflow-hidden shadow-inner shadow-white/5">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-6 max-w-7xl mx-auto">
             <div
-              style={styles.gridBackground}
-              className="absolute inset-0 opacity-10"
-            />
-
-            {/* SVG Lines (Bezier curves for dynamic feel) */}
-            <svg className="absolute inset-0 w-full h-full pointer-events-none">
-              <defs>
-                <linearGradient
-                  id="splitGradient"
-                  x1="0%"
-                  y1="0%"
-                  x2="100%"
-                  y2="0%"
-                >
-                  <stop offset="0%" stopColor="#00FF94" stopOpacity="0.8" />
-                  <stop offset="100%" stopColor="#0088FF" stopOpacity="0.2" />
-                </linearGradient>
-              </defs>
-              {pathPositions.map((pos, i) => (
-                // Path drawn from (100, 250) to (450, pos*5), curving towards the right center
-                <path
-                  key={i}
-                  d={`M 100 250 C 250 250, 300 ${pos * 5}, 450 ${pos * 5}`}
-                  fill="none"
-                  stroke="url(#splitGradient)"
-                  strokeWidth="1.5"
-                  strokeDasharray="4,4"
-                  className="animate-pulse"
-                  style={{ animationDelay: `${i * 0.4}s` }}
-                />
-              ))}
-            </svg>
-
-            {/* Source Node (Left: Single Payment) */}
-            <div className="absolute left-[8%] top-1/2 -translate-y-1/2 z-20">
-              <div className="w-24 h-24 rounded-3xl bg-[#0A0A0A] border-2 border-[#00FF94] shadow-[0_0_30px_rgba(0,255,148,0.3)] flex items-center justify-center relative transition-all duration-300 hover:scale-[1.02]">
-                <CreditCard size={40} className="text-[#00FF94]" />
-                <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 text-sm font-bold text-[#00FF94] whitespace-nowrap bg-[#0A0A0A] px-2 py-1 rounded-md shadow-lg border border-[#00FF94]/50">
-                  Single Payment
-                </div>
+              data-animate-on-scroll
+              className="text-center p-6 bg-dark-gray rounded-lg border border-gray-800 hover:border-neon-green/50 transition duration-300 group hover:scale-[1.03]"
+            >
+              <div className="text-2xl text-neon-green mb-2 transition duration-300 group-hover:text-cyan">
+                ▊
               </div>
+              <p className="text-sm font-semibold text-gray-300">
+                Merchant Staking
+              </p>
             </div>
 
-            {/* Destination Nodes (Right Fan: Recipients) */}
-            {/* The py-12 adjustment helps position the elements to align with the SVG paths */}
-            <div className="absolute right-[8%] top-0 bottom-0 flex flex-col justify-between py-12 w-44">
-              {[
-                { label: "Freelancer (35%)", icon: Users, color: "#3B82F6" },
-                { label: "Supplier (20%)", icon: Package, color: "#8B5CF6" },
-                { label: "Platform Fee (10%)", icon: Store, color: "#00FF94" },
-                { label: "Partner (20%)", icon: Handshake, color: "#F59E0B" },
-                { label: "Driver (15%)", icon: Truck, color: "#EC4899" },
-              ].map((node, i) => (
-                <div
-                  key={i}
-                  className="flex items-center gap-3 bg-[#111] border border-white/10 p-3 rounded-xl z-20 transform transition-all duration-300 hover:scale-[1.05] hover:shadow-xl"
-                  style={{ borderColor: `${node.color}40` }}
-                >
-                  <div
-                    className="p-2 rounded-lg"
-                    style={{
-                      backgroundColor: `${node.color}20`,
-                      color: node.color,
-                    }}
-                  >
-                    <node.icon size={18} />
-                  </div>
-                  <span className="text-xs font-bold text-gray-200">
-                    {node.label}
-                  </span>
-                </div>
-              ))}
+            <div
+              data-animate-on-scroll
+              className="text-center p-6 bg-dark-gray rounded-lg border border-gray-800 hover:border-neon-green/50 transition duration-300 group hover:scale-[1.03]"
+              style={{ animationDelay: "50ms" }}
+            >
+              <div className="text-2xl text-neon-green mb-2 transition duration-300 group-hover:text-cyan">
+                ▊
+              </div>
+              <p className="text-sm font-semibold text-gray-300">
+                Routing Priority
+              </p>
             </div>
 
-            {/* Animated Packets (Small dots moving along the paths) */}
-            {pathPositions.map((pos, i) => (
-              <div
-                key={i}
-                className="absolute w-2 h-2 bg-[#00FF94] rounded-full shadow-[0_0_10px_#00FF94] z-30"
-                style={{
-                  left: "96px", // Aligned with the center of the source node (100px)
-                  top: "246px", // Aligned with the center of the source node (250px)
-                  animation: `fanOut${i} 3s linear infinite`,
-                  animationDelay: `${i * 0.4 + 0.5}s`, // Stagger the start
-                }}
-              />
-            ))}
+            <div
+              data-animate-on-scroll
+              className="text-center p-6 bg-dark-gray rounded-lg border border-gray-800 hover:border-neon-green/50 transition duration-300 group hover:scale-[1.03]"
+              style={{ animationDelay: "100ms" }}
+            >
+              <div className="text-2xl text-neon-green mb-2 transition duration-300 group-hover:text-cyan">
+                ▊
+              </div>
+              <p className="text-sm font-semibold text-gray-300">
+                Liquidity Rewards
+              </p>
+            </div>
 
-            {/* CSS Keyframes for the Animation */}
-            <style>{`
-              ${pathPositions
-                .map(
-                  (pos, i) => `
-                @keyframes fanOut${i} {
-                  0% { transform: translate(0, 0); opacity: 0; }
-                  10% { opacity: 1; }
-                  30% { opacity: 1; } /* Hold full opacity briefly */
-                  100% { 
-                    /* 350px horizontal shift (100->450) and vertical shift based on endpoint (pos*5) */
-                    transform: translate(350px, ${pos * 5 - 250}px); 
-                    opacity: 0; 
-                  }
-                }
-              `
-                )
-                .join("")}
-              /* Ensure the pulse animation is defined */
-              @keyframes pulse {
-                0%, 100% { opacity: 1; }
-                50% { opacity: 0.5; }
-              }
-              .animate-pulse {
-                animation: pulse 2s infinite;
-              }
-            `}</style>
+            <div
+              data-animate-on-scroll
+              className="text-center p-6 bg-dark-gray rounded-lg border border-gray-800 hover:border-neon-green/50 transition duration-300 group hover:scale-[1.03]"
+              style={{ animationDelay: "150ms" }}
+            >
+              <div className="text-2xl text-neon-green mb-2 transition duration-300 group-hover:text-cyan">
+                ▊
+              </div>
+              <p className="text-sm font-semibold text-gray-300">
+                Dispute Slashing
+              </p>
+            </div>
+
+            <div
+              data-animate-on-scroll
+              className="text-center p-6 bg-dark-gray rounded-lg border border-gray-800 hover:border-neon-green/50 transition duration-300 group hover:scale-[1.03]"
+              style={{ animationDelay: "200ms" }}
+            >
+              <div className="text-2xl text-neon-green mb-2 transition duration-300 group-hover:text-cyan">
+                ▊
+              </div>
+              <p className="text-sm font-semibold text-gray-300">Governance</p>
+            </div>
+
+            <div
+              data-animate-on-scroll
+              className="text-center p-6 bg-dark-gray rounded-lg border border-gray-800 hover:border-neon-green/50 transition duration-300 group hover:scale-[1.03]"
+              style={{ animationDelay: "250ms" }}
+            >
+              <div className="text-2xl text-neon-green mb-2 transition duration-300 group-hover:text-cyan">
+                ▊
+              </div>
+              <p className="text-sm font-semibold text-gray-300">
+                Fee Reductions
+              </p>
+            </div>
+
+            <div
+              data-animate-on-scroll
+              className="text-center p-6 bg-dark-gray rounded-lg border border-gray-800 hover:border-neon-green/50 transition duration-300 group hover:scale-[1.03]"
+              style={{ animationDelay: "300ms" }}
+            >
+              <div className="text-2xl text-neon-green mb-2 transition duration-300 group-hover:text-cyan">
+                ▊
+              </div>
+              <p className="text-sm font-semibold text-gray-300">
+                Marketplace Promotions
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -1515,7 +1680,7 @@ const Index = () => {
       <section className="py-20 sm:py-28 md:py-36 lg:py-40 relative flex items-center justify-center overflow-hidden bg-black text-center border-t border-white/5">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#00FF94]/5 via-black to-black" />
         <div className="relative z-10 max-w-4xl px-4 sm:px-6">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8 tracking-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-8 tracking-tight">
             A new payment layer
             <br />
             for the real world.
@@ -1539,7 +1704,7 @@ const Index = () => {
       <section className="py-16 sm:py-20 md:py-24 text-center border-t border-white/5 relative">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#111] to-black opacity-50" />
         <div className="relative z-10 px-4 sm:px-6">
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6 sm:mb-8">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-6 sm:mb-8">
             Coming soon in 12 Countries
           </h2>
           <div className="flex flex-wrap justify-center gap-2 sm:gap-3 max-w-2xl mx-auto">
