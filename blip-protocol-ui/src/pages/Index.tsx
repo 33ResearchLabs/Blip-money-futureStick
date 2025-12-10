@@ -142,7 +142,7 @@ export const Navbar = () => {
               Tokenomics
             </a>
           </div>
-          <a href="/comming-soon">
+          <a href="/coming-soon">
             <button className="px-5 py-2 rounded-full border border-white/10 text-white text-sm hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all bg-black/50 backdrop-blur-sm group">
               <span className="group-hover:text-[#2BFF88] transition-colors">
                 Open App
@@ -197,7 +197,7 @@ export const Navbar = () => {
                 >
                   Tokenomics
                 </a>
-                <a href="/comming-soon">
+                <a href="/coming-soon">
                   <button className="w-full px-5 py-3 rounded-full border border-white/10 text-white hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all bg-black/50 backdrop-blur-sm mt-2">
                     Open App
                   </button>

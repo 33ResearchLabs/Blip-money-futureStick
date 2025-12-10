@@ -154,13 +154,13 @@ export const BlipTokenomics = () => {
       `}</style>
 
       <div
-        className={`relative z-10 max-w-[1400px] mx-auto px-6 py-24 transition-all duration-1000 ${
+        className={`relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-24 transition-all duration-1000 ${
           isLoaded ? "opacity-100" : "opacity-0"
         }`}
       >
         {/* 1. HERO SECTION: Minimal & Massive */}
-        <section className="mb-48 text-center relative">
-          <div className="inline-flex items-center gap-3 mb-12 px-5 py-2 rounded-full border border-[#2BFF88]/20 bg-[#2BFF88]/5 backdrop-blur-sm">
+        <section className="mb-24 sm:mb-32 md:mb-40 lg:mb-48 text-center relative max-w-7xl mx-auto">
+          <div className="inline-flex items-center gap-2 sm:gap-3 mb-8 sm:mb-10 md:mb-12 px-4 sm:px-5 py-2 rounded-full border border-[#2BFF88]/20 bg-[#2BFF88]/5 backdrop-blur-sm">
             <span className="w-2 h-2 rounded-full bg-[#2BFF88] animate-pulse"></span>
             <span className="text-xs font-bold tracking-[0.2em] text-[#2BFF88] uppercase">
               Fixed Supply
@@ -174,23 +174,25 @@ export const BlipTokenomics = () => {
               <div className="w-2 h-2 bg-[#FFB743] rounded-full shadow-[0_0_15px_#FFB743]"></div>
             </div>
 
-            <h1 className="text-6xl sm:text-8xl md:text-[140px] leading-none font-medium tracking-tighter text-white hero-glow select-none">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl leading-none font-bold tracking-tighter text-white hero-glow select-none">
               1,000,000,000
             </h1>
           </div>
 
-          <div className="flex items-center justify-center gap-4 text-2xl md:text-3xl font-light tracking-[0.3em] uppercase opacity-80">
+          <div className="flex items-center justify-center gap-4 text-xl sm:text-2xl md:text-3xl font-light tracking-[0.2em] sm:tracking-[0.3em] uppercase opacity-80">
             <span className="text-white">BLIP</span>
-            <span className="text-[#FFB743] text-lg align-middle">•</span>
+            <span className="text-[#FFB743] text-base sm:text-lg align-middle">
+              •
+            </span>
             <span className="text-white">MONEY</span>
           </div>
         </section>
 
         {/* 2. DISTRIBUTION: Clean & Architectural */}
-        <section className="grid lg:grid-cols-2 gap-24 items-center mb-52">
+        <section className="grid lg:grid-cols-2 gap-12 sm:gap-16 md:gap-20 lg:gap-24 items-center mb-24 sm:mb-32 md:mb-40 lg:mb-52 max-w-7xl mx-auto">
           {/* Visual Side */}
           <div className="relative order-2 lg:order-1 flex justify-center">
-            <div className="w-[350px] h-[350px] md:w-[500px] md:h-[500px] relative">
+            <div className="w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] md:w-[450px] md:h-[450px] lg:w-[500px] lg:h-[500px] relative">
               {/* Minimal Rings */}
               <div className="absolute inset-[-40px] border border-white/5 rounded-full opacity-50"></div>
 
@@ -253,8 +255,8 @@ export const BlipTokenomics = () => {
 
           {/* List Side - Glass Cards with Pins */}
           <div className="order-1 lg:order-2">
-            <h2 className="text-5xl md:text-7xl font-light text-white mb-16 tracking-tight section-title-glow">
-              Token <span className="text-gray-500 font-thin">Split</span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-8 sm:mb-12 md:mb-16 tracking-tight section-title-glow">
+              Token <span className="text-gray-500 font-light">Split</span>
             </h2>
             <div className="space-y-4">
               {allocationData.map((item, idx) => (
@@ -273,11 +275,11 @@ export const BlipTokenomics = () => {
                     style={{ backgroundColor: item.color, color: item.color }}
                   ></div>
 
-                  <span className="text-2xl font-light text-gray-200 group-hover:text-white transition-colors">
+                  <span className="text-base sm:text-lg md:text-xl lg:text-2xl font-light text-gray-200 group-hover:text-white transition-colors">
                     {item.label}
                   </span>
                   <span
-                    className="text-3xl font-medium tracking-tight"
+                    className="text-xl sm:text-2xl md:text-3xl font-medium tracking-tight"
                     style={{ color: item.color }}
                   >
                     {item.value}%
@@ -289,16 +291,16 @@ export const BlipTokenomics = () => {
         </section>
 
         {/* 3. UTILITY SECTION: Large, Airy, Elegant */}
-        <section className="mb-52">
-          <div className="mb-20 flex flex-col md:flex-row justify-between items-end">
+        <section className="mb-24 sm:mb-32 md:mb-40 lg:mb-52 max-w-7xl mx-auto">
+          <div className="mb-12 sm:mb-16 md:mb-20 flex flex-col md:flex-row justify-between items-end">
             <div>
-              <h2 className="text-5xl md:text-7xl font-light text-white mb-4 section-title-glow">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 section-title-glow">
                 Utility{" "}
-                <span className="text-[#FFB743] text-6xl md:text-8xl leading-[0]">
+                <span className="text-[#FFB743] text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl leading-[0]">
                   .
                 </span>
               </h2>
-              <p className="text-xl text-gray-500 max-w-xl font-light mt-6">
+              <p className="text-base sm:text-lg md:text-xl text-gray-500 max-w-xl font-light mt-4 sm:mt-6">
                 Engineered for maximum ecosystem velocity.
               </p>
             </div>
@@ -338,19 +340,19 @@ export const BlipTokenomics = () => {
             ].map((card, i) => (
               <div
                 key={i}
-                className="glass-panel p-8 rounded-2xl glass-panel-hover group min-h-[280px] flex flex-col justify-between relative overflow-hidden"
+                className="glass-panel p-6 sm:p-8 rounded-2xl glass-panel-hover group min-h-[220px] sm:min-h-[260px] md:min-h-[280px] flex flex-col justify-between relative overflow-hidden"
               >
                 {/* Soft Light Pool */}
                 <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#2BFF88] opacity-[0.03] blur-[40px] rounded-full group-hover:opacity-[0.08] transition-opacity"></div>
 
                 <div className="relative z-10">
-                  <div className="mb-10 text-gray-400 group-hover:text-[#2BFF88] transition-colors duration-500">
+                  <div className="mb-6 sm:mb-8 md:mb-10 text-gray-400 group-hover:text-[#2BFF88] transition-colors duration-500">
                     {React.cloneElement(card.icon, { strokeWidth: 1 })}
                   </div>
-                  <h3 className="text-3xl font-light text-white mb-3">
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-light text-white mb-2 sm:mb-3">
                     {card.title}
                   </h3>
-                  <p className="text-sm font-medium text-gray-500 uppercase tracking-wider">
+                  <p className="text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
                     {card.desc}
                   </p>
                 </div>
@@ -363,9 +365,9 @@ export const BlipTokenomics = () => {
         </section>
 
         {/* 4. DEFLATION: Minimal & Impactful */}
-        <section className="mb-52">
-          <h2 className="text-5xl md:text-7xl font-light text-white mb-20 text-center section-title-glow">
-            Deflationary <span className="font-thin text-gray-600">Model</span>
+        <section className="mb-24 sm:mb-32 md:mb-40 lg:mb-52 max-w-7xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-12 sm:mb-16 md:mb-20 text-center section-title-glow">
+            Deflationary <span className="font-light text-gray-600">Model</span>
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             {[
@@ -387,19 +389,19 @@ export const BlipTokenomics = () => {
             ].map((card, i) => (
               <div
                 key={i}
-                className="glass-panel p-12 rounded-3xl flex flex-col items-center text-center glass-panel-hover group"
+                className="glass-panel p-8 sm:p-10 md:p-12 rounded-3xl flex flex-col items-center text-center glass-panel-hover group"
               >
-                <div className="mb-8 p-6 rounded-full border border-white/5 bg-black/20 group-hover:border-[#FFB743]/30 transition-colors duration-500">
+                <div className="mb-6 sm:mb-8 p-4 sm:p-5 md:p-6 rounded-full border border-white/5 bg-black/20 group-hover:border-[#FFB743]/30 transition-colors duration-500">
                   {React.cloneElement(card.icon, {
                     className:
-                      "text-white group-hover:text-[#FFB743] transition-colors",
+                      "text-white group-hover:text-[#FFB743] transition-colors w-8 h-8 sm:w-10 sm:h-10",
                     strokeWidth: 1,
                   })}
                 </div>
-                <h3 className="text-4xl font-light text-white mb-3">
+                <h3 className="text-2xl sm:text-3xl md:text-4xl font-light text-white mb-2 sm:mb-3">
                   {card.title}
                 </h3>
-                <p className="text-sm text-gray-500 uppercase tracking-widest">
+                <p className="text-xs sm:text-sm text-gray-500 uppercase tracking-widest">
                   {card.sub}
                 </p>
               </div>
@@ -408,23 +410,23 @@ export const BlipTokenomics = () => {
         </section>
 
         {/* 5. UNLOCK SCHEDULE: Pure Curve */}
-        <section className="relative">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-20 px-4">
+        <section className="relative max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-12 sm:mb-16 md:mb-20 px-4">
             <div>
-              <h2 className="text-5xl md:text-7xl font-light text-white mb-6 section-title-glow">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 sm:mb-6 section-title-glow">
                 Emissions
               </h2>
-              <p className="text-xl text-gray-500 font-light">
+              <p className="text-base sm:text-lg md:text-xl text-gray-500 font-light">
                 72-Month Vesting Curve
               </p>
             </div>
           </div>
 
-          <div className="w-full glass-panel rounded-[30px] p-8 md:p-16 overflow-hidden relative">
+          <div className="w-full glass-panel rounded-[20px] sm:rounded-[30px] p-4 sm:p-6 md:p-12 lg:p-16 overflow-hidden relative">
             {/* Chart Atmosphere - subtle green floor */}
             <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-[#2BFF88]/5 to-transparent"></div>
 
-            <div className="relative w-full aspect-[16/8] md:aspect-[21/9]">
+            <div className="relative w-full aspect-[16/10] sm:aspect-[16/9] md:aspect-[21/9]">
               <svg
                 viewBox="0 0 1000 500"
                 className="w-full h-full overflow-visible"
@@ -527,11 +529,11 @@ export const BlipTokenomics = () => {
         </section>
 
         {/* Footer */}
-        <footer className="mt-40 border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center pb-20">
+        <footer className="mt-20 sm:mt-28 md:mt-40 border-t border-white/5 pt-8 sm:pt-10 md:pt-12 flex flex-col md:flex-row justify-between items-center pb-12 sm:pb-16 md:pb-20 max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-6 md:mb-0">
             <div className="w-2 h-2 rounded-full bg-[#2BFF88]"></div>
-            <span className="text-xl font-light text-white tracking-widest">
-              BLIP<span className="text-gray-600">.FINANCE</span>
+            <span className="text-lg sm:text-xl font-light text-white tracking-widest">
+              BLIP<span className="text-gray-600">.MONEY</span>
             </span>
           </div>
           <div className="text-xs text-gray-600 tracking-[0.2em] uppercase">

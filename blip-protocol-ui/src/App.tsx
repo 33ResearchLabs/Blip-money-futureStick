@@ -24,7 +24,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/tokenomics" element={<BlipTokenomics />} />
-          <Route path="/comming-soon" element={<ComingSoon />} />
+          <Route path="/coming-soon" element={<ComingSoon />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
