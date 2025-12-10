@@ -191,9 +191,17 @@ export const Navbar = () => {
                 >
                   PeopleBank
                 </a>
-                <button className="w-full px-5 py-3 rounded-full border border-white/10 text-white hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all bg-black/50 backdrop-blur-sm mt-2">
-                  Open App
-                </button>
+                <a
+                  href="/tokenomics"
+                  className="hover:text-[#2BFF88] transition-colors"
+                >
+                  Tokenomics
+                </a>
+                <a href="/comming-soon">
+                  <button className="w-full px-5 py-3 rounded-full border border-white/10 text-white hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all bg-black/50 backdrop-blur-sm mt-2">
+                    Open App
+                  </button>
+                </a>
               </div>
             </motion.div>
           )}
@@ -432,9 +440,9 @@ const Hero = () => (
             Anyone,
             <br />
             Anywhere —<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2BFF88] via-[#2BFF88] to-[#2BFF88]/40 relative inline-block animate-pulse">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2BFF88] via-[#2BFF88] to-[#2BFF88]/40 relative inline-block ">
               In a Blip.
-              <span className="absolute -inset-2 bg-[#2BFF88] opacity-25 blur-xl -z-10"></span>
+              {/* <span className="absolute -inset-2 bg-[#2BFF88] opacity-25 blur-xl -z-10"></span> */}
             </span>
           </h1>
 
@@ -600,10 +608,10 @@ Payments"
           <h2 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-bold mb-8 mint-gradient-text tracking-tight text-center">
             The Problem: Why{" "}
             <span className="text-[#2BFF88]">
-              Global <br />
-              Payments
+              Global Payments
+              <br />
             </span>
-            <br /> Are Broken Today
+            Are Broken Today
           </h2>
         </div>
 
@@ -613,7 +621,7 @@ Payments"
           <div className="space-y-30">
             <div className="relative flex justify-start items-center group">
               <div className="w-1/2 pr-16 text-right opacity-100 transition-all duration-500">
-                <h3 className="text-4xl font-bold tracking-tight text-white mb-3 relative inline-block">
+                <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold tracking-tight text-white mb-3 relative inline-block">
                   High Fees.
                   <span className="absolute left-0 right-0 bottom-[-5px] h-[2px] bg-mint-gradient-bg opacity-30 group-hover:opacity-100 transition-opacity duration-300"></span>
                 </h3>
@@ -629,7 +637,7 @@ Payments"
 
             <div className="relative flex justify-end items-center group">
               <div className="w-1/2 pl-16 text-left opacity-100 transition-all duration-500">
-                <h3 className="text-4xl font-bold tracking-tight text-white mb-3 relative inline-block">
+                <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold tracking-tight text-white mb-3 relative inline-block">
                   Slow Settlement Times.
                   <span className="absolute left-0 right-0 bottom-[-5px] h-[2px] bg-mint-gradient-bg opacity-30 group-hover:opacity-100 transition-opacity duration-300"></span>
                 </h3>
@@ -647,7 +655,7 @@ Payments"
 
             <div className="relative flex justify-start items-center group">
               <div className="w-1/2 pr-16 text-right opacity-100 transition-all duration-500">
-                <h3 className="text-4xl font-bold tracking-tight text-white mb-3 relative inline-block">
+                <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold tracking-tight text-white mb-3 relative inline-block">
                   Lack of Privacy.
                   <span className="absolute left-0 right-0 bottom-[-5px] h-[2px] bg-mint-gradient-bg opacity-30 group-hover:opacity-100 transition-opacity duration-300"></span>
                 </h3>
@@ -665,7 +673,7 @@ Payments"
 
             <div className="relative flex justify-end items-center group">
               <div className="w-1/2 pl-16 text-left opacity-100 transition-all duration-500">
-                <h3 className="text-4xl font-bold tracking-tight text-white mb-3 relative inline-block">
+                <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold tracking-tight text-white mb-3 relative inline-block">
                   Opaque Intermediaries.
                   <span className="absolute left-0 right-0 bottom-[-5px] h-[2px] bg-mint-gradient-bg opacity-30 group-hover:opacity-100 transition-opacity duration-300"></span>
                 </h3>
@@ -684,7 +692,7 @@ Payments"
         </div>
       </section>
       {/*
-     <!-- -------------------------------------- -->
+    
         <!-- 3. THE PROTOCOL SECTION (Cinematic Diagram) -->
         <!-- -------------------------------------- --> */}
       <section
@@ -698,11 +706,11 @@ Payments"
               text="The Global Settlement Layer"
               className={"items-center justify-start"}
             />
-            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-8 mint-gradient-text tracking-tight text-left">
+            <h2 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-8 mint-gradient-text tracking-tight text-left">
               <span className="text-[#2BFF88]">Blip Protocol</span>: The Global
               Settlement Layer
             </h2>
-            <p className="text-2xl text-gray-300 mb-10 font-light">
+            <p className="text-lg text-gray-400">
               Blip is a decentralized, open-source protocol built for instant,
               low-cost global value transfer, leveraging Zero-Knowledge proofs
               for privacy and Solana's speed for scalability. It's the new
@@ -713,114 +721,111 @@ Payments"
             </button>
           </div>
 
-          <div className="relative h-[700px] w-full">
-            {/* Background Glows */}
-            <div className="absolute inset-0 transform rotate-12 bg-cyan-400 opacity-10 blur-3xl"></div>
-            <div className="absolute inset-0 transform -rotate-6 bg-mint-primary opacity-10 blur-3xl"></div>
+          {/* <!-- Protocol Diagram Mockup (Sophisticated Flow) --> */}
+          <div
+            data-animate-on-scroll
+            className="relative p-8 h-96 bg-dark-gray rounded-2xl border border-neon-green/30 shadow-neon-sm shadow-neon-green/20"
+          >
+            <div className="absolute inset-0 p-8">
+              <div className="text-center">
+                <div className="inline-block p-2 border-2 border-cyan/50 rounded-full text-cyan font-semibold text-sm tracking-widest">
+                  USER WALLET
+                </div>
+              </div>
+              <div className="flex justify-between mt-10">
+                <div className="p-2 border border-neon-green/50 rounded-lg text-xs text-neon-green tracking-tight">
+                  ESCROW CONTRACT
+                </div>
+                <div className="p-2 border border-neon-green/50 rounded-lg text-xs text-neon-green tracking-tight">
+                  ORDER MATCHING
+                </div>
+              </div>
+              <div className="flex justify-center my-10">
+                <div className="px-4 py-3 rounded-full bg-cyan/10 border-2 border-cyan text-xs flex items-center justify-center font-bold shadow-neon-sm shadow-cyan/50 text-white relative z-10">
+                  LIQUIDITY
+                </div>
+              </div>
+              <div className="text-center mt-20">
+                <div className="inline-block p-2 border-2 border-white/50 rounded-full text-white font-semibold text-sm tracking-widest">
+                  REAL-WORLD PAYOUT
+                </div>
+              </div>
 
-            {/* SVG Network Diagram */}
-            <svg
-              className="absolute inset-0 w-full h-full"
-              viewBox="0 0 500 500"
-              preserveAspectRatio="xMidYMid meet"
-            >
-              {/* Central Node */}
-              <circle
-                cx="250"
-                cy="250"
-                r="50"
-                fill="#19F7A7"
-                className="neon-glow pulse-animation"
-                style={{
-                  filter: "drop-shadow(0 0 20px #19F7A7)",
-                }}
-              />
-              <text
-                x="250"
-                y="255"
-                textAnchor="middle"
-                fill="#000"
-                fontWeight="bold"
-                fontSize="22"
+              {/* <!-- Thin connecting lines (Protocol Flow) --> */}
+              <svg
+                className="absolute inset-0 w-full h-full"
+                viewBox="0 0 100 100"
+                preserveAspectRatio="none"
               >
-                BLIP
-              </text>
-
-              {/* Peripheral Nodes */}
-              {[
-                { cx: 100, cy: 150, delay: "0s" },
-                { cx: 400, cy: 150, delay: "0.5s" },
-                { cx: 100, cy: 350, delay: "1s" },
-                { cx: 400, cy: 350, delay: "1.5s" },
-              ].map((node, idx) => (
-                <circle
-                  key={idx}
-                  cx={node.cx}
-                  cy={node.cy}
-                  r="20"
-                  fill="#00C8FF"
-                  className="float-element"
-                  style={{
-                    animation: `float 4s ease-in-out ${node.delay} infinite alternate`,
-                  }}
-                />
-              ))}
-
-              {/* Animated Connections */}
-              {[
-                { d: "M100 150 Q250 100 400 150", delay: "0s" },
-                { d: "M100 350 L250 250", delay: "0.3s" },
-                { d: "M400 350 L250 250", delay: "0.6s" },
-              ].map((pathData, idx) => (
-                <path
-                  key={idx}
-                  d={pathData.d}
+                <style>
+                  {`
+                    @keyframes flow {
+                      to { stroke-dashoffset: -100; }
+                    }
+                    .flow-line-green {
+                      stroke-dasharray: 10;
+                      stroke-dashoffset: 0;
+                      animation: flow 4s linear infinite;
+                    }
+                    .flow-line-cyan {
+                      stroke-dasharray: 10;
+                      stroke-dashoffset: 5;
+                      animation: flow 4s linear infinite;
+                    }
+                  `}
+                </style>
+                <line
+                  x1="50"
+                  y1="10"
+                  x2="30"
+                  y2="35"
                   stroke="#19F7A7"
-                  strokeWidth="2"
-                  fill="none"
-                  style={{
-                    strokeDasharray: 500,
-                    strokeDashoffset: 500,
-                    animation: `drawLine 2s ${pathData.delay} forwards`,
-                    filter: "drop-shadow(0 0 10px #19F7A7)",
-                  }}
+                  strokeWidth="0.7"
+                  className="flow-line-green"
                 />
-              ))}
-            </svg>
+                <line
+                  x1="50"
+                  y1="10"
+                  x2="70"
+                  y2="35"
+                  stroke="#19F7A7"
+                  strokeWidth="0.7"
+                  className="flow-line-green"
+                  style={{ animationDelay: "0.5s" }}
+                />
 
-            {/* Tailwind Animations */}
-            <style>{`
-              @keyframes pulseGlow {
-                0% {
-                  transform: scale(1);
-                  filter: drop-shadow(0 0 20px #19f7a7)
-                    drop-shadow(0 0 40px #19f7a7);
-                }
-                100% {
-                  transform: scale(1.05);
-                  filter: drop-shadow(0 0 30px #19f7a7)
-                    drop-shadow(0 0 60px #19f7a7);
-                }
-              }
+                <line
+                  x1="30"
+                  y1="35"
+                  x2="50"
+                  y2="50"
+                  stroke="#00C8FF"
+                  strokeWidth="0.7"
+                  className="flow-line-cyan"
+                />
+                <line
+                  x1="70"
+                  y1="35"
+                  x2="50"
+                  y2="50"
+                  stroke="#00C8FF"
+                  strokeWidth="0.7"
+                  className="flow-line-cyan"
+                  style={{ animationDelay: "0.5s" }}
+                />
 
-              @keyframes float {
-                0% {
-                  transform: translateY(0);
-                }
-                50% {
-                  transform: translateY(-8px);
-                }
-                100% {
-                  transform: translateY(0);
-                }
-              }
-
-              @keyframes drawLine {
-                to {
-                  stroke-dashoffset: 0;
-                }
-              }
-            `}</style>
+                <line
+                  x1="50"
+                  y1="65"
+                  x2="50"
+                  y2="90"
+                  stroke="#19F7A7"
+                  strokeWidth="0.7"
+                  className="flow-line-green"
+                  style={{ animationDelay: "1s" }}
+                />
+              </svg>
+            </div>
           </div>
         </div>
       </section>
@@ -1524,10 +1529,11 @@ Payments"
 
       {/* <!-- Footer --> */}
       <footer className="py-12 border-t border-gray-900 mt-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500 text-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-400 text-sm">
           <p>
-            &copy; <span id="year">2025</span> Blip.money Protocol. All Rights
-            Reserved. Bankless. Trustless. Instant.
+            &copy; <span id="year">2025</span> Blip.money Protocol. All rights
+            reserved. Bankless. Trustless. Instant. Secure and fully
+            trustworthy.
           </p>
         </div>
       </footer>
