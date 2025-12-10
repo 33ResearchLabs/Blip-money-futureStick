@@ -736,8 +736,8 @@ Payments"
                   ORDER MATCHING
                 </div>
               </div>
-              <div className="flex justify-center my-10">
-                <div className="px-4 py-3 rounded-full bg-cyan/10 border-2 border-cyan text-xs flex items-center justify-center font-bold shadow-neon-sm shadow-cyan/50 text-white relative z-10">
+              <div className="flex justify-center mt-14">
+                <div className="px-4 py-4 rounded-full bg-cyan/10 border-2 border-cyan text-xs flex items-center justify-center font-bold shadow-neon-sm shadow-cyan/50 text-white relative z-10">
                   LIQUIDITY
                 </div>
               </div>
@@ -759,14 +759,14 @@ Payments"
                       to { stroke-dashoffset: -100; }
                     }
                     .flow-line-green {
-                      stroke-dasharray: 10;
+                      stroke-dasharray: 2;
                       stroke-dashoffset: 0;
-                      animation: flow 4s linear infinite;
+                      animation: flow 8s linear infinite;
                     }
                     .flow-line-cyan {
-                      stroke-dasharray: 10;
+                      stroke-dasharray: 2;
                       stroke-dashoffset: 5;
-                      animation: flow 4s linear infinite;
+                      animation: flow 8s linear infinite;
                     }
                   `}
                 </style>
@@ -793,8 +793,8 @@ Payments"
                 <line
                   x1="30"
                   y1="35"
-                  x2="52"
-                  y2="48"
+                  x2="50"
+                  y2="50"
                   stroke="#00C8FF"
                   strokeWidth="0.7"
                   className="flow-line-cyan"
@@ -802,8 +802,8 @@ Payments"
                 <line
                   x1="70"
                   y1="35"
-                  x2="53"
-                  y2="45"
+                  x2="52"
+                  y2="50"
                   stroke="#00C8FF"
                   strokeWidth="0.7"
                   className="flow-line-cyan"
@@ -814,7 +814,7 @@ Payments"
                   x1="50"
                   y1="65"
                   x2="50"
-                  y2="90"
+                  y2="85"
                   stroke="#19F7A7"
                   strokeWidth="0.7"
                   className="flow-line-green"
