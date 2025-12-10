@@ -37,24 +37,24 @@ import { SectionLabel } from "@/components/SectionLable";
 // --- Visual Effects Components ---
 
 // Button UI
+// --- Visual Effects Components ---
+
 const Button = ({ children, primary = false, className = "" }) => (
   <button
     className={`
       relative overflow-hidden px-8 py-4 rounded-full font-bold tracking-wide transition-all duration-300 group cursor-pointer
       ${
         primary
-          ? "bg-[#00FF94] text-black hover:bg-[#00cc76] hover:shadow-[0_0_40px_rgba(0,255,148,0.5)]"
-          : "bg-transparent border border-[#333] text-white hover:border-[#00FF94] hover:text-[#00FF94] hover:shadow-[0_0_20px_rgba(0,255,148,0.2)]"
+          ? "bg-[#0B9A4A] text-black hover:bg-[#08793A] hover:shadow-[0_0_24px_rgba(11,154,74,0.4)]"
+          : "bg-transparent border border-[#2A2A2A] text-white hover:border-[#0B9A4A] hover:text-[#0B9A4A]"
       }
       ${className}
     `}
   >
     <span className="relative z-10 flex items-center gap-2">{children}</span>
-    {primary && (
-      <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 backdrop-blur-sm" />
-    )}
   </button>
 );
+
 
 const ParticleBackground = () => {
   const particles = Array.from({ length: 40 });
@@ -341,12 +341,9 @@ const PhoneMockup = () => (
   >
     <div className="relative">
       {/* NEON RIM LIGHT ON LEFT EDGE */}
-      <div className="absolute -left-8 top-6 bottom-6 w-10 
-                      bg-gradient-to-b from-[#2BFF88]/0 via-[#2BFF88]/40 to-[#2BFF88]/0 
-                      blur-2xl opacity-80 pointer-events-none" />
+    
 
       {/* OUTER GLOW AURA */}
-      <div className="absolute inset-[-24px] rounded-[2.4rem] bg-[#00ff94]/10 blur-2xl" />
 
       {/* PHONE + DEPTH SHADOWS */}
       <div
@@ -371,15 +368,7 @@ const PhoneMockup = () => (
 
       {/* SOFT REFLECTION BELOW (APPLE STYLE-ish) */}
       {/* SOFT REFLECTION */}
-<div className="absolute left-1/2 top-full -translate-x-1/2 mt-3 w-[75%] h-5 pointer-events-none">
-  <div
-    className="
-      w-full h-full rounded-full 
-      bg-gradient-to-b from-[#00ff94]/30 via-[#00ff94]/10 to-transparent 
-      blur-[10px] opacity-70
-    "
-  />
-</div>
+
 
     </div>
   </div>
@@ -498,7 +487,7 @@ const LiquidityEngineDiagram = () => {
             style={{ animation: "pulseCore 3.5s ease-in-out infinite" }}
           >
             <div className="absolute inset-[2px] rounded-full bg-black" />
-            <span className="relative text-[11px] font-semibold tracking-[0.12em] text-[#00FF94]">
+            <span className="relative text-[11px] text-center font-semibold tracking-[0.12em] text-[#00FF94]">
               LIQUIDITY
               <br />
               ENGINE
@@ -621,10 +610,7 @@ const stylesPeopleBank = {
 };
 const Hero = () => (
   <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 sm:pt-20">
-    <ParticleBackground />
-    <div className="absolute top-[20%] right-[-10%] w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] md:w-[500px] md:h-[500px] bg-[#FFD43B] opacity-[0.03] blur-[100px] sm:blur-[150px] rounded-full pointer-events-none animate-pulse-slow" />
 
-    <PulseWave />
 
     <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center relative z-10">
 
@@ -687,7 +673,7 @@ const Hero = () => (
 
           {/* CTA BUTTONS */}
           <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mt-8 justify-center lg:justify-start">
-            <Link to="/comming-soon">
+            <Link to="#">
               <button className="w-full sm:w-auto px-8 py-4 rounded-full bg-[#2BFF88] text-black font-bold text-lg hover:shadow-[0_0_40px_rgba(43,255,136,0.4)] hover:scale-105 transition-all flex items-center justify-center gap-2 group">
                 Open App{" "}
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -812,7 +798,6 @@ const INITIAL_NODES = Array.from({ length: 30 }).map(() => ({
 const Index = () => {
   // Initialize scroll active hook
   useScrollActive("hero");
-  const [activeCommingSoon, setActiveCommingSoon] = useState(false);
   const [nodes, setNodes] = useState(INITIAL_NODES);
   const pathPositions = [15, 32, 50, 68, 85];
   // Optional: Add a subtle movement to the nodes over time for more dynamism
