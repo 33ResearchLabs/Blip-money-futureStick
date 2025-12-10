@@ -333,26 +333,60 @@ const PulseWave = () => {
 
 const PhoneMockup = () => (
   <div
-    className="mt-20 md:mt-0 flex justify-center md:justify-end animate-fade-in"
-    style={{ animationDelay: "0.1s" }}
+    className="
+      mt-20 md:mt-0 flex justify-center md:justify-end 
+      animate-[phoneFloat_6s_ease-in-out_infinite]
+    "
+    style={{ perspective: "1800px" }}
   >
-    {/* GLOW WRAPPER */}
     <div className="relative">
-      {/* Outer green glow aura */}
-      <div className="absolute inset-0  blur-md bg-green-500/20"></div>
+      {/* NEON RIM LIGHT ON LEFT EDGE */}
+      <div className="absolute -left-8 top-6 bottom-6 w-10 
+                      bg-gradient-to-b from-[#2BFF88]/0 via-[#2BFF88]/40 to-[#2BFF88]/0 
+                      blur-2xl opacity-80 pointer-events-none" />
 
-      {/* PHONE FRAME */}
-      <div className="relative items-center justify-center  w-60 h-[455px] rounded-[2rem] overflow-hidden shadow-[0_0_60px_15px_rgba(0,255,127,0.25)] bg-green-500/20  p-0.5">
-        {/* INNER SCREEN (your image) */}
-        <img
-          src="home.png"
-          alt="app-screen"
-          className="w-full h-full object-cover "
-        />
+      {/* OUTER GLOW AURA */}
+      <div className="absolute inset-[-24px] rounded-[2.4rem] bg-[#00ff94]/10 blur-2xl" />
+
+      {/* PHONE + DEPTH SHADOWS */}
+      <div
+        className="
+          relative w-60 h-[455px] rounded-[2rem] overflow-hidden bg-[#020a06]
+          border border-white/5
+        "
+        style={{
+          boxShadow:
+            "0 40px 80px rgba(0,0,0,0.7), 0 0 80px rgba(0,255,148,0.35), 0 0 2px rgba(255,255,255,0.08)",
+        }}
+      >
+        {/* inner subtle border / bezel */}
+        <div className="absolute inset-[3px] rounded-[1.8rem] bg-black overflow-hidden">
+          <img
+            src="home.png"
+            alt="Blip.money app"
+            className="w-full h-full object-cover"
+          />
+        </div>
       </div>
+
+      {/* SOFT REFLECTION BELOW (APPLE STYLE-ish) */}
+      {/* SOFT REFLECTION */}
+<div className="absolute left-1/2 top-full -translate-x-1/2 mt-3 w-[75%] h-5 pointer-events-none">
+  <div
+    className="
+      w-full h-full rounded-full 
+      bg-gradient-to-b from-[#00ff94]/30 via-[#00ff94]/10 to-transparent 
+      blur-[10px] opacity-70
+    "
+  />
+</div>
+
     </div>
   </div>
 );
+
+
+
 
 // const ArchitectureNode = ({
 //   step,
@@ -394,6 +428,181 @@ const PhoneMockup = () => (
 // };
 
 // --- Main Application Component ---
+const LiquidityEngineDiagram = () => {
+  const gridBg = {
+    backgroundImage: `
+      radial-gradient(circle at 1px 1px, rgba(0,255,148,0.12) 1px, transparent 0),
+      radial-gradient(circle at 1px 1px, rgba(0,255,148,0.06) 1px, transparent 0)
+    `,
+    backgroundSize: "40px 40px, 40px 40px",
+    backgroundPosition: "0 0, 20px 20px",
+  };
+
+  return (
+    <div
+      data-animate-on-scroll
+      className="relative h-96 rounded-2xl border border-[#00FF94]/30 bg-[#050807] overflow-hidden shadow-[0_0_40px_rgba(0,255,148,0.15)]"
+      style={gridBg}
+    >
+      {/* local keyframes for spin */}
+      <style>
+        {`
+          @keyframes spinSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+          }
+          @keyframes spinReverse {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+          }
+          @keyframes pulseCore {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.08); opacity: 1; }
+          }
+          @keyframes flowDot {
+            0% { offset-distance: 0%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { offset-distance: 100%; opacity: 0; }
+          }
+        `}
+      </style>
+
+      {/* subtle vignette */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black via-transparent to-black opacity-80 pointer-events-none" />
+
+      {/* CENTRAL ENGINE */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="relative w-40 h-40">
+          {/* outer aura */}
+          <div className="absolute inset-[-40%] rounded-full bg-[#00FF94]/15 blur-3xl" />
+
+          {/* rotating outer ring */}
+          <div
+            className="absolute inset-[-14px] rounded-full border border-[#00FF94]/25"
+            style={{ animation: "spinSlow 26s linear infinite" }}
+          />
+
+          {/* second ring */}
+          <div
+            className="absolute inset-3 rounded-full border border-[#00FF94]/35 border-dashed"
+            style={{ animation: "spinReverse 18s linear infinite" }}
+          />
+
+          {/* inner glow disk */}
+          <div className="absolute inset-5 rounded-full bg-gradient-to-br from-[#02130b] via-[#041f11] to-[#000000] shadow-[0_0_40px_rgba(0,255,148,0.35)]" />
+
+          {/* core orb */}
+          <div
+            className="absolute inset-9 rounded-full bg-[#00FF94] flex items-center justify-center"
+            style={{ animation: "pulseCore 3.5s ease-in-out infinite" }}
+          >
+            <div className="absolute inset-[2px] rounded-full bg-black" />
+            <span className="relative text-[11px] font-semibold tracking-[0.12em] text-[#00FF94]">
+              LIQUIDITY
+              <br />
+              ENGINE
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* ORBIT LABELS */}
+      {/* USER WALLET (top) */}
+      <div className="absolute top-6 inset-x-0 flex justify-center">
+        <div className="px-4 py-1.5 rounded-full bg-black/70 border border-[#00FF94]/40 text-[11px] font-mono tracking-[0.16em] text-[#00FF94] uppercase">
+          User Wallets
+        </div>
+      </div>
+
+      {/* ESCROW (left) */}
+      <div className="absolute left-4 top-1/2 -translate-y-1/2">
+        <div className="px-3 py-1.5 rounded-full bg-black/80 border border-[#00FF94]/30 text-[10px] font-mono tracking-[0.14em] text-gray-200 uppercase">
+          Escrow
+          <span className="text-[#00FF94] ml-1">Contracts</span>
+        </div>
+      </div>
+
+      {/* ORDER MATCHING (right) */}
+      <div className="absolute right-4 top-1/2 -translate-y-1/2">
+        <div className="px-3 py-1.5 rounded-full bg-black/80 border border-[#00C8FF]/40 text-[10px] font-mono tracking-[0.14em] text-[#A7F5FF] uppercase">
+          Matching
+          <span className="ml-1 text-white/80">Engine</span>
+        </div>
+      </div>
+
+      {/* PAYOUT CHANNELS (bottom) */}
+      <div className="absolute bottom-6 inset-x-0 flex justify-center">
+        <div className="px-4 py-1.5 rounded-full bg-black/80 border border-white/30 text-[11px] font-mono tracking-[0.16em] text-white uppercase">
+          Fiat & Cash Payout Channels
+        </div>
+      </div>
+
+      {/* CONNECTION LINES (SVG) */}
+      <svg
+        className="absolute inset-0 w-full h-full pointer-events-none"
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+      >
+        <defs>
+          <linearGradient id="blipLine" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#00FF94" stopOpacity="0.1" />
+            <stop offset="50%" stopColor="#00FF94" stopOpacity="0.7" />
+            <stop offset="100%" stopColor="#00C8FF" stopOpacity="0.9" />
+          </linearGradient>
+        </defs>
+
+        {/* wallet → engine */}
+        <line
+          x1="50"
+          y1="18"
+          x2="50"
+          y2="40"
+          stroke="url(#blipLine)"
+          strokeWidth="0.7"
+          strokeLinecap="round"
+          strokeDasharray="1.2 2.4"
+        />
+
+        {/* escrow → engine */}
+        <line
+          x1="20"
+          y1="50"
+          x2="42"
+          y2="50"
+          stroke="url(#blipLine)"
+          strokeWidth="0.7"
+          strokeLinecap="round"
+          strokeDasharray="1.2 2.4"
+        />
+
+        {/* engine → matching */}
+        <line
+          x1="58"
+          y1="50"
+          x2="80"
+          y2="50"
+          stroke="url(#blipLine)"
+          strokeWidth="0.7"
+          strokeLinecap="round"
+          strokeDasharray="1.2 2.4"
+        />
+
+        {/* engine → payout */}
+        <line
+          x1="50"
+          y1="60"
+          x2="50"
+          y2="82"
+          stroke="url(#blipLine)"
+          strokeWidth="0.7"
+          strokeLinecap="round"
+          strokeDasharray="1.2 2.4"
+        />
+      </svg>
+    </div>
+  );
+};
 
 const styles = {
   gridBackground: {
@@ -418,64 +627,104 @@ const Hero = () => (
     <PulseWave />
 
     <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center relative z-10">
+
+      {/* LEFT SIDE CONTENT */}
       <div className="text-center lg:text-left pt-6 sm:pt-8 lg:pt-0">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <div className="inline-flex items-center gap-2 px-2.5 sm:px-3 py-1 rounded-full border border-[#FFD43B]/20 bg-[#FFD43B]/5 backdrop-blur-sm mb-6 sm:mb-8 hover:bg-[#FFD43B]/10 transition-colors cursor-default">
+          {/* SMALL BADGE */}
+          <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-[#FFD43B]/20 bg-[#FFD43B]/5 backdrop-blur-sm mb-6 hover:bg-[#FFD43B]/10 transition-colors cursor-default">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFD43B] opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FFD43B]"></span>
             </span>
-            <span className="text-[10px] sm:text-xs font-bold text-[#FFD43B] uppercase tracking-wider">
+            <span className="text-[10px] font-bold text-[#FFD43B] uppercase tracking-wider">
               Protocol Live
             </span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white leading-[0.95] mb-6 sm:mb-8 tracking-tight">
-            Pay with Crypto
+          {/* MAIN HEADING — YOUR ORIGINAL VERSION */}
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[0.95] mb-6 tracking-tight">
+            Pay with Crypto  
             <br />
-            Anyone,
+            Anyone, Anywhere —  
             <br />
-            Anywhere —<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2BFF88] via-[#2BFF88] to-[#2BFF88]/40 relative inline-block ">
-              In a Blip.
-              {/* <span className="absolute -inset-2 bg-[#2BFF88] opacity-25 blur-xl -z-10"></span> */}
-            </span>
+            <span className="text-[#2BFF88]">In a Blip.</span>
           </h1>
 
-          <p className="text-base sm:text-lg md:text-xl text-gray-400 mb-8 sm:mb-10 max-w-lg mx-auto lg:mx-0 leading-relaxed font-light">
+          {/* SUBTEXT */}
+          <p className="text-base sm:text-lg md:text-xl text-gray-400 mb-6 max-w-lg mx-auto lg:mx-0 leading-relaxed font-light">
             Instant global transfers powered by the decentralized{" "}
-            <span className="text-white font-medium">Blip Protocol</span>.
+            <span className="text-white font-medium">Blip Protocol</span>.  
             Crypto native. P2P. Non-custodial.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 justify-center lg:justify-start">
+          {/* FEATURE PILLS */}
+          <div className="flex flex-wrap gap-3 mt-6 max-w-md lg:max-w-lg mx-auto lg:mx-0">
+            <div className="px-4 py-2 rounded-full bg-black/40 border border-white/10 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#2BFF88]"></span>
+              <span className="text-sm text-gray-300">Send to local bank accounts</span>
+            </div>
+
+            <div className="px-4 py-2 rounded-full bg-black/40 border border-white/10 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#2BFF88]"></span>
+              <span className="text-sm text-gray-300">Cash out to physical cash</span>
+            </div>
+
+            <div className="px-4 py-2 rounded-full bg-black/40 border border-white/10 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#2BFF88]"></span>
+              <span className="text-sm text-gray-300">Pay merchants instantly</span>
+            </div>
+
+            <div className="px-4 py-2 rounded-full bg-black/40 border border-white/10 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#2BFF88]"></span>
+              <span className="text-sm text-gray-300">Cross-border P2P settlements</span>
+            </div>
+          </div>
+
+          {/* CTA BUTTONS */}
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mt-8 justify-center lg:justify-start">
             <Link to="/comming-soon">
-              <button className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 rounded-full bg-[#2BFF88] text-black font-bold text-base sm:text-lg hover:shadow-[0_0_40px_rgba(43,255,136,0.4)] hover:scale-105 transition-all flex items-center justify-center gap-2 group">
+              <button className="w-full sm:w-auto px-8 py-4 rounded-full bg-[#2BFF88] text-black font-bold text-lg hover:shadow-[0_0_40px_rgba(43,255,136,0.4)] hover:scale-105 transition-all flex items-center justify-center gap-2 group">
                 Open App{" "}
-                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
             </Link>
-            <button className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 rounded-full border border-white/20 text-white font-medium hover:bg-white/5 hover:border-white/40 transition-all flex items-center justify-center gap-2">
-              <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border border-white/30 flex items-center justify-center">
+
+            <button className="w-full sm:w-auto px-8 py-4 rounded-full border border-white/20 text-white font-medium hover:bg-white/5 hover:border-white/40 transition-all flex items-center justify-center gap-2">
+              <div className="w-6 h-6 rounded-full border border-white/30 flex items-center justify-center">
                 <div className="w-0 h-0 border-t-[3px] border-t-transparent border-l-[6px] border-l-white border-b-[3px] border-b-transparent ml-0.5"></div>
               </div>
               How Blip Works
             </button>
           </div>
+
         </motion.div>
       </div>
 
-      <div className="flex justify-center items-center relative perspective-[2000px]">
-        <div className="absolute inset-0 bg-gradient-to-tr from-[#2BFF88]/10 to-transparent blur-3xl rounded-full" />
-        <PhoneMockup />
-      </div>
+      {/* RIGHT SIDE — PHONE */}
+      <div className="
+  flex justify-center items-center relative 
+  translate-x-4 md:translate-x-8 
+  scale-[1.25] md:scale-[1.35] lg:scale-[1.4] xl:scale-[1.45] 
+  origin-center
+">
+  <div className="absolute inset-0 bg-gradient-to-tr from-[#2BFF88]/15 to-transparent blur-3xl rounded-full" />
+  <PhoneMockup />
+</div>
+
+
+
     </div>
   </section>
 );
+
+
+
+
 
 const CinematicCard = ({ title, subtitle, icon: Icon, delay, active }) => (
   <div
@@ -692,215 +941,148 @@ Payments"
     
         <!-- 3. THE PROTOCOL SECTION (Cinematic Diagram) -->
         <!-- -------------------------------------- --> */}
-      <section
-        id="protocol-section"
-        className="py-40 overflow-hidden bg-[#000000]"
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-          {/* <!-- Text Block (Left) --> */}
-          <div className="lg:sticky lg:top-1/4">
-            <SectionLabel
-              text="The Global Settlement Layer"
-              className={"items-center justify-start"}
-            />
-            <h2 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-8 mint-gradient-text tracking-tight text-left">
-              Blip Protocol: The Global Settlement Layer
-            </h2>
-            <p className="text-lg text-gray-400">
-              Blip is a decentralized, open-source protocol built for instant,
-              low-cost global value transfer, leveraging Zero-Knowledge proofs
-              for privacy and Solana's speed for scalability. It's the new
-              financial infrastructure the world needs.
-            </p>
-            <button className="bg-black/80 backdrop-blur border border-[#00FF94]/30 text-white hover:text-[#00FF94] px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider my-4   hover:shadow-[0_0_1px_#00FF94] transition-all duration-300">
-              Explore Whitepaper
-            </button>
-          </div>
+  <section
+  id="protocol-section"
+  className="py-40 overflow-hidden bg-[#000000]"
+>
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+    {/* Text Block (Left) */}
+    <div className="lg:sticky lg:top-1/4">
+      <SectionLabel
+        text="The Global Settlement Layer"
+        className={"items-center justify-start"}
+      />
+      <h2 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-8 mint-gradient-text tracking-tight text-left">
+        Blip Protocol: The Global Settlement Layer
+      </h2>
+      <p className="text-lg text-gray-400">
+        Blip is a decentralized, open-source protocol built for instant,
+        low-cost global value transfer, leveraging Zero-Knowledge proofs
+        for privacy and Solana&apos;s speed for scalability. It&apos;s the new
+        financial infrastructure the world needs.
+      </p>
+      <button className="bg-black/80 backdrop-blur border border-[#00FF94]/30 text-white hover:text-[#00FF94] px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider my-4 hover:shadow-[0_0_1px_#00FF94] transition-all duration-300">
+        Explore Whitepaper
+      </button>
+    </div>
 
-          {/* <!-- Protocol Diagram Mockup (Sophisticated Flow) --> */}
-          <div
-            data-animate-on-scroll
-            className="relative p-8 h-96 bg-dark-gray rounded-2xl border border-neon-green/30 shadow-neon-sm shadow-neon-green/20"
-          >
-            <div className="absolute inset-0 p-8">
-              <div className="text-center">
-                <div className="inline-block p-2 border-2 border-cyan/50 rounded-full text-cyan font-semibold text-sm tracking-widest">
-                  USER WALLET
-                </div>
-              </div>
-              <div className="flex justify-between mt-10">
-                <div className="p-2 border border-neon-green/50 rounded-lg text-xs text-neon-green tracking-tight">
-                  ESCROW CONTRACT
-                </div>
-                <div className="p-2 border border-neon-green/50 rounded-lg text-xs text-neon-green tracking-tight">
-                  ORDER MATCHING
-                </div>
-              </div>
-              <div className="flex justify-center mt-14">
-                <div className="px-4 py-4 rounded-full bg-cyan/10 border-2 border-cyan text-xs flex items-center justify-center font-bold shadow-neon-sm shadow-cyan/50 text-white relative z-10">
-                  LIQUIDITY
-                </div>
-              </div>
-              <div className="text-center mt-20">
-                <div className="inline-block p-2 border-2 border-white/50 rounded-full text-white font-semibold text-sm tracking-widest">
-                  REAL-WORLD PAYOUT
-                </div>
-              </div>
+    {/* Protocol Diagram — Liquidity Engine */}
+    <LiquidityEngineDiagram />
+  </div>
+</section>
 
-              {/* <!-- Thin connecting lines (Protocol Flow) --> */}
-              <svg
-                className="absolute inset-0 w-full h-full"
-                viewBox="0 0 100 100"
-                preserveAspectRatio="none"
-              >
-                <style>
-                  {`
-                    @keyframes flow {
-                      to { stroke-dashoffset: -100; }
-                    }
-                    .flow-line-green {
-                      stroke-dasharray: 2;
-                      stroke-dashoffset: 0;
-                      animation: flow 8s linear infinite;
-                    }
-                    .flow-line-cyan {
-                      stroke-dasharray: 2;
-                      stroke-dashoffset: 5;
-                      animation: flow 8s linear infinite;
-                    }
-                  `}
-                </style>
-                <line
-                  x1="50"
-                  y1="20"
-                  x2="30"
-                  y2="35"
-                  stroke="#19F7A7"
-                  strokeWidth="0.7"
-                  className="flow-line-green"
-                />
-                <line
-                  x1="50"
-                  y1="20"
-                  x2="70"
-                  y2="35"
-                  stroke="#19F7A7"
-                  strokeWidth="0.7"
-                  className="flow-line-green"
-                  style={{ animationDelay: "0.5s" }}
-                />
-
-                <line
-                  x1="30"
-                  y1="35"
-                  x2="50"
-                  y2="50"
-                  stroke="#00C8FF"
-                  strokeWidth="0.7"
-                  className="flow-line-cyan"
-                />
-                <line
-                  x1="70"
-                  y1="35"
-                  x2="52"
-                  y2="50"
-                  stroke="#00C8FF"
-                  strokeWidth="0.7"
-                  className="flow-line-cyan"
-                  style={{ animationDelay: "0.5s" }}
-                />
-
-                <line
-                  x1="50"
-                  y1="65"
-                  x2="50"
-                  y2="85"
-                  stroke="#19F7A7"
-                  strokeWidth="0.7"
-                  className="flow-line-green"
-                  style={{ animationDelay: "1s" }}
-                />
-              </svg>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* <!-- SECTION 3: HOW IT WORKS (3 STEPS - STRIPE VIBE) --> */}
-      <section id="how-it-works" className="py-32 border-t border-gray-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <SectionLabel
-            text="Real-World Value"
-            className={"items-center justify-center"}
-          />
-          <h2
-            data-animate-on-scroll
-            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-8 mint-gradient-text tracking-tight text-center"
-          >
-            How It Works:
-            <br />3 Steps to Real-World Value
-          </h2>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            {/* <!-- Step 1 --> */}
-            <div
-              data-animate-on-scroll
-              className="relative p-12 rounded-xl bg-dark-gray border border-gray-900 transition duration-500 hover:border-neon-green/50 group hover:shadow-neon-sm hover:translate-y-[-5px]"
-            >
-              <span className="absolute -top-4 -left-4 text-8xl font-extrabold text-neon-green opacity-5 group-hover:opacity-10 transition duration-500 tracking-tighter">
-                01
-              </span>
-              <h3 className="text-2xl font-bold mb-4 flex items-center tracking-tight text-white/90">
-                <span className="text-neon-green text-3xl mr-3">⌲</span> Create
-                a payment using your wallet (choose cash, bank, wire, or goods).
-              </h3>
-              <p className="text-gray-400">
-                Details of your payment are encoded and submitted on-chain,
-                committing the crypto to an immutable escrow smart contract.
-              </p>
-            </div>
+      <section id="how-it-works" className="py-32 border-t border-gray-900 bg-black">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6">
+    <SectionLabel
+      text="Real-World Value"
+      className="items-center justify-center"
+    />
 
-            {/* <!-- Step 2 --> */}
-            <div
-              data-animate-on-scroll
-              className="relative p-12 rounded-xl bg-dark-gray border border-gray-900 transition duration-500 hover:border-neon-green/50 group hover:shadow-neon-sm hover:translate-y-[-5px]"
-              style={{ animationDelay: "100ms;" }}
-            >
-              <span className="absolute -top-4 -left-4 text-8xl font-extrabold text-neon-green opacity-5 group-hover:opacity-10 transition duration-500 tracking-tighter">
-                02
-              </span>
-              <h3 className="text-2xl font-bold mb-4 flex items-center tracking-tight text-white/90">
-                <span className="text-neon-green text-3xl mr-3">🤝</span>{" "}
-                Merchants in the target country bid to fulfill your order.
-              </h3>
-              <p className="text-gray-400">
-                The decentralized Merchant Network competes to provide the best
-                fulfillment service, ensuring competitive rates and speed.
-              </p>
-            </div>
+    <h2
+      data-animate-on-scroll
+      className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-6 mint-gradient-text tracking-tight text-center"
+    >
+      How Blip Works
+      <span className="block text-base md:text-lg font-normal text-gray-400 mt-3">
+        One on-chain flow. Three simple steps.
+      </span>
+    </h2>
 
-            {/* <!-- Step 3 --> */}
-            <div
-              data-animate-on-scroll
-              className="relative p-12 rounded-xl bg-dark-gray border border-gray-900 transition duration-500 hover:border-neon-green/50 group hover:shadow-neon-sm hover:translate-y-[-5px]"
-              style={{ animationDelay: "200ms" }}
-            >
-              <span className="absolute -top-4 -left-4 text-8xl font-extrabold text-neon-green opacity-5 group-hover:opacity-10 transition duration-500 tracking-tighter">
-                03
-              </span>
-              <h3 className="text-2xl font-bold mb-4 flex items-center tracking-tight text-white/90">
-                <span className="text-neon-green text-3xl mr-3">✓</span>{" "}
-                Receiver gets real-world value instantly, and settlement is
-                recorded on-chain.
-              </h3>
-              <p className="text-gray-400">
-                Once settlement proof is confirmed, the escrow is released and
-                the transaction is immutably recorded, completing the global
-                transfer.
-              </p>
-            </div>
+    {/* STEP STRIP */}
+    <div className="mt-12 relative">
+      {/* glowing line behind steps */}
+      <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00FF94]/50 to-transparent pointer-events-none" />
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative z-10">
+        {/* STEP 1 */}
+        <div
+          data-animate-on-scroll
+          className="relative rounded-2xl bg-[#050505] border border-white/5 hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.25)] transition-all duration-500 p-8"
+        >
+          {/* step badge */}
+          <div className="absolute -top-5 left-6 w-10 h-10 rounded-full bg-black border border-[#00FF94]/60 flex items-center justify-center shadow-[0_0_20px_rgba(0,255,148,0.5)]">
+            <span className="text-xs font-mono tracking-[0.2em] text-[#00FF94]">
+              01
+            </span>
           </div>
+
+          <h3 className="text-xl md:text-2xl font-semibold mb-3 text-white flex items-center gap-2">
+            <span className="text-2xl text-[#00FF94]">⌲</span>
+            Create a payment from your wallet.
+          </h3>
+          <p className="text-sm md:text-base text-gray-400 mb-3">
+            Choose how they receive:{" "}
+            <span className="text-gray-200">
+              local bank, wire, cash pickup, or goods.
+            </span>
+          </p>
+          <p className="text-xs md:text-sm text-gray-500">
+            The crypto is locked into an on-chain escrow contract, ready to be
+            matched.
+          </p>
         </div>
-      </section>
+
+        {/* STEP 2 */}
+        <div
+          data-animate-on-scroll
+          className="relative rounded-2xl bg-[#050505] border border-white/5 hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.25)] transition-all duration-500 p-8"
+        >
+          <div className="absolute -top-5 left-6 w-10 h-10 rounded-full bg-black border border-[#00FF94]/60 flex items-center justify-center shadow-[0_0_20px_rgba(0,255,148,0.5)]">
+            <span className="text-xs font-mono tracking-[0.2em] text-[#00FF94]">
+              02
+            </span>
+          </div>
+
+          <h3 className="text-xl md:text-2xl font-semibold mb-3 text-white flex items-center gap-2">
+            <span className="text-2xl text-[#00FF94]">🤝</span>
+            Merchants compete to fulfill it.
+          </h3>
+          <p className="text-sm md:text-base text-gray-400 mb-3">
+            The{" "}
+            <span className="text-gray-200">Blip Merchant Network</span> bids to
+            take your order, routing it through the best available liquidity.
+          </p>
+          <p className="text-xs md:text-sm text-gray-500">
+            Matching, pricing and routing all happen on-chain via the Blip
+            Protocol.
+          </p>
+        </div>
+
+        {/* STEP 3 */}
+        <div
+          data-animate-on-scroll
+          className="relative rounded-2xl bg-[#050505] border border-white/5 hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.25)] transition-all duration-500 p-8"
+        >
+          <div className="absolute -top-5 left-6 w-10 h-10 rounded-full bg-black border border-[#00FF94]/60 flex items-center justify-center shadow-[0_0_20px_rgba(0,255,148,0.5)]">
+            <span className="text-xs font-mono tracking-[0.2em] text-[#00FF94]">
+              03
+            </span>
+          </div>
+
+          <h3 className="text-xl md:text-2xl font-semibold mb-3 text-white flex items-center gap-2">
+            <span className="text-2xl text-[#00FF94]">✓</span>
+            Receiver gets real-world value.
+          </h3>
+          <p className="text-sm md:text-base text-gray-400 mb-3">
+            They receive{" "}
+            <span className="text-gray-200">
+              bank funds, cash, or goods in minutes
+            </span>{" "}
+            while you stay fully crypto-native.
+          </p>
+          <p className="text-xs md:text-sm text-gray-500">
+            Settlement proof hits chain, escrow releases, and the transfer is
+            finalized forever.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 
       {/* --- SECTION 4: REAL WORLD USAGE --- */}
       <section className="py-16 sm:py-24 md:py-32 bg-[#020202] relative overflow-hidden">
@@ -979,74 +1161,120 @@ Payments"
       </section>
 
       {/* <!-- SECTION 7: PRIVACY & TRUST (TWO-COLUMN MINIMAL) --> */}
-      <section className="py-32 border-t border-gray-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <SectionLabel
-            text=" Privacy by Design."
-            className={"items-center justify-center"}
-          />
-          <h2
-            data-animate-on-scroll
-            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-8 mint-gradient-text tracking-tight text-center"
-          >
-            Privacy by Design. Trust by
-            <br />
-            Protocol.
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-            {/* <!-- Left: Privacy (Cyan Accent) --> */}
-            <div
-              data-animate-on-scroll
-              className="p-10 rounded-xl bg-dark-gray border border-neon-green/50 shadow-neon-sm shadow-neon-green/20 transition duration-300 hover:border-neon-green"
-            >
-              <h3 className="text-3xl font-bold mb-4 text-neon-green tracking-tight">
-                Privacy Layer
-              </h3>
-              <ul className="space-y-4 text-gray-300 text-lg">
-                <li className="flex items-start">
-                  <span className="text-2xl mr-3 text-neon-green">◇</span>
-                  Wallet-based identity: Your wallet address is your ID,
-                  decoupled from personal data.
-                </li>
-                <li className="flex items-start">
-                  <span className="text-2xl mr-3 text-neon-green">◇</span>
-                  No personal info required for small transfers, ensuring true
-                  freedom.
-                </li>
-                <li className="flex items-start">
-                  <span className="text-2xl mr-3 text-neon-green">◇</span>
-                  End-to-end private transaction construction.
-                </li>
-              </ul>
-            </div>
+      <section className="py-32 border-t border-gray-900 bg-black">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6">
+    <SectionLabel
+      text="Privacy by Design"
+      className="items-center justify-center"
+    />
 
-            {/* <!-- Right: On-chain transparency (Neon Green Accent) --> */}
-            <div
-              data-animate-on-scroll
-              className="p-10 rounded-xl bg-dark-gray border border-neon-green/50 shadow-neon-sm shadow-neon-green/20 transition duration-300 hover:border-neon-green"
-              style={{ animationDelay: "100ms" }}
-            >
-              <h3 className="text-3xl font-bold mb-4 text-neon-green tracking-tight">
-                On-chain Trust
-              </h3>
-              <ul className="space-y-4 text-gray-300 text-lg">
-                <li className="flex items-start">
-                  <span className="text-2xl mr-3 text-neon-green">✓</span>
-                  Orders and Matching are recorded on-chain for verification.
-                </li>
-                <li className="flex items-start">
-                  <span className="text-2xl mr-3 text-neon-green">✓</span>
-                  Settlement proofs guarantee real-world delivery.
-                </li>
-                <li className="flex items-start">
-                  <span className="text-2xl mr-3 text-neon-green">✓</span>
-                  Immutable audit trail of all transactions.
-                </li>
-              </ul>
-            </div>
+    <h2
+      data-animate-on-scroll
+      className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-10 mint-gradient-text tracking-tight text-center"
+    >
+      Privacy by Design.{" "}
+      <span className="block">Trust by Protocol.</span>
+    </h2>
+
+    {/* big split card */}
+    <div
+      data-animate-on-scroll
+      className="relative rounded-3xl bg-[#050505] border border-[#00FF94]/30 shadow-[0_0_60px_rgba(0,255,148,0.15)] overflow-hidden"
+    >
+      {/* faint grid background */}
+      <div className="absolute inset-0 opacity-20 pointer-events-none"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, #00FF9422 1px, transparent 1px), linear-gradient(to bottom, #00FF9422 1px, transparent 1px)",
+          backgroundSize: "28px 28px",
+        }}
+      />
+
+      <div className="relative grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-[#00FF94]/10">
+        {/* LEFT: PRIVACY */}
+        <div className="p-8 sm:p-10 lg:p-12">
+          <p className="text-xs font-mono tracking-[0.25em] text-[#00FF94] uppercase mb-3">
+            PRIVACY LAYER
+          </p>
+          <h3 className="text-2xl md:text-3xl font-semibold text-white mb-6">
+            Use Blip with your wallet.
+            <br />
+            Not your identity.
+          </h3>
+
+          <ul className="space-y-4 text-sm md:text-base text-gray-300">
+            <li className="flex items-start gap-3">
+              <span className="mt-1 h-2 w-2 rounded-full bg-[#00FF94] shadow-[0_0_10px_rgba(0,255,148,0.8)]" />
+              <span>
+                Wallet-based identity:{" "}
+                <span className="text-white">
+                  your address is your ID, decoupled from personal data.
+                </span>
+              </span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="mt-1 h-2 w-2 rounded-full bg-[#00FF94]" />
+              <span>
+                No personal info required for small transfers, keeping everyday
+                payments private.
+              </span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="mt-1 h-2 w-2 rounded-full bg-[#00FF94]" />
+              <span>
+                End-to-end private transaction construction with encrypted
+                order data.
+              </span>
+            </li>
+          </ul>
+        </div>
+
+        {/* RIGHT: TRUST */}
+        <div className="p-8 sm:p-10 lg:p-12 bg-gradient-to-br from-[#00FF9410] via-transparent to-black">
+          <p className="text-xs font-mono tracking-[0.25em] text-[#00FF94] uppercase mb-3">
+            ON-CHAIN TRUST
+          </p>
+          <h3 className="text-2xl md:text-3xl font-semibold text-white mb-6">
+            Everything verifiable.
+            <br />
+            Nothing custodial.
+          </h3>
+
+          <ul className="space-y-4 text-sm md:text-base text-gray-300">
+            <li className="flex items-start gap-3">
+              <span className="mt-0.5 text-[#00FF94] text-xl">✓</span>
+              <span>
+                Orders, matching and settlement events are{" "}
+                <span className="text-white">recorded on-chain</span> for anyone
+                to verify.
+              </span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="mt-0.5 text-[#00FF94] text-xl">✓</span>
+              <span>
+                Settlement proofs guarantee that{" "}
+                <span className="text-white">real-world payout actually
+                happened</span> before funds are released.
+              </span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="mt-0.5 text-[#00FF94] text-xl">✓</span>
+              <span>
+                Immutable audit trail of every transfer, dispute and merchant
+                action across the network.
+              </span>
+            </li>
+          </ul>
+
+          <div className="mt-8 inline-flex items-center gap-2 rounded-full border border-[#00FF94]/40 bg-black/40 px-4 py-2 text-xs font-mono uppercase tracking-[0.18em] text-gray-300">
+            <span className="h-2 w-2 rounded-full bg-[#00FF94] animate-pulse" />
+            Protocol, not promises.
           </div>
         </div>
-      </section>
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* --- SECTION 5: MERCHANTS --- */}
       <section
@@ -1497,7 +1725,7 @@ Payments"
       <section className="py-16 sm:py-20 md:py-24 text-center border-t border-white/5 relative">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#111] to-black opacity-50" />
         <div className="relative z-10 px-4 sm:px-6">
-          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-6 sm:mb-8">
+          <h2 className="text-xl sm:text-1xl md:text-1xl lg:text-2xl xl:text-3xl font-bold text-white mb-6 sm:mb-8">
             Coming soon in 12 Countries
           </h2>
           <div className="flex flex-wrap justify-center gap-2 sm:gap-3 max-w-2xl mx-auto">
