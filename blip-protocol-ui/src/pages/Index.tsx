@@ -606,11 +606,8 @@ Payments"
             className={"items-center justify-center"}
           />
           <h2 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-bold mb-8 mint-gradient-text tracking-tight text-center">
-            The Problem: Why{" "}
-            <span className="text-[#2BFF88]">
-              Global Payments
-              <br />
-            </span>
+            The Problem: Why Global Payments
+            <br />
             Are Broken Today
           </h2>
         </div>
@@ -707,8 +704,7 @@ Payments"
               className={"items-center justify-start"}
             />
             <h2 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-8 mint-gradient-text tracking-tight text-left">
-              <span className="text-[#2BFF88]">Blip Protocol</span>: The Global
-              Settlement Layer
+              Blip Protocol: The Global Settlement Layer
             </h2>
             <p className="text-lg text-gray-400">
               Blip is a decentralized, open-source protocol built for instant,
@@ -716,7 +712,7 @@ Payments"
               for privacy and Solana's speed for scalability. It's the new
               financial infrastructure the world needs.
             </p>
-            <button className="px-10 py-4 rounded-full text-base font-semibold bg-transparent border border-cyan-400/50 text-cyan-400 transition hover:bg-cyan-400/15 hover:shadow-[0_0_20px_rgba(0,200,255,0.5)]">
+            <button className="bg-black/80 backdrop-blur border border-[#00FF94]/30 text-white hover:text-[#00FF94] px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider my-4   hover:shadow-[0_0_1px_#00FF94] transition-all duration-300">
               Explore Whitepaper
             </button>
           </div>
@@ -776,7 +772,7 @@ Payments"
                 </style>
                 <line
                   x1="50"
-                  y1="10"
+                  y1="20"
                   x2="30"
                   y2="35"
                   stroke="#19F7A7"
@@ -785,7 +781,7 @@ Payments"
                 />
                 <line
                   x1="50"
-                  y1="10"
+                  y1="20"
                   x2="70"
                   y2="35"
                   stroke="#19F7A7"
@@ -797,8 +793,8 @@ Payments"
                 <line
                   x1="30"
                   y1="35"
-                  x2="50"
-                  y2="50"
+                  x2="52"
+                  y2="48"
                   stroke="#00C8FF"
                   strokeWidth="0.7"
                   className="flow-line-cyan"
@@ -806,8 +802,8 @@ Payments"
                 <line
                   x1="70"
                   y1="35"
-                  x2="50"
-                  y2="50"
+                  x2="53"
+                  y2="45"
                   stroke="#00C8FF"
                   strokeWidth="0.7"
                   className="flow-line-cyan"
@@ -842,8 +838,7 @@ Payments"
             className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-8 mint-gradient-text tracking-tight text-center"
           >
             How It Works:
-            <br />3 Steps to{" "}
-            <span className="text-[#2BFF88]">Real-World Value</span>
+            <br />3 Steps to Real-World Value
           </h2>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* <!-- Step 1 --> */}
@@ -919,9 +914,9 @@ Payments"
           </ScrollReveal>
           <ScrollReveal delay={0.1}>
             <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-8 mint-gradient-text tracking-tight text-center">
-              <span className="text-[#2BFF88]">Use crypto</span> the same way
+              Use crypto the same way
               <br />
-              you <span className="text-[#2BFF88]">use money.</span>
+              you use money.
             </h2>
           </ScrollReveal>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
@@ -994,7 +989,7 @@ Payments"
             data-animate-on-scroll
             className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-8 mint-gradient-text tracking-tight text-center"
           >
-            <span className="text-[#2BFF88]">Privacy</span> by Design. Trust by
+            Privacy by Design. Trust by
             <br />
             Protocol.
           </h2>
@@ -1002,7 +997,7 @@ Payments"
             {/* <!-- Left: Privacy (Cyan Accent) --> */}
             <div
               data-animate-on-scroll
-              className="p-10 rounded-xl bg-dark-gray border border-cyan/50 shadow-neon-sm shadow-cyan/20 transition duration-300 hover:border-cyan"
+              className="p-10 rounded-xl bg-dark-gray border border-neon-green/50 shadow-neon-sm shadow-neon-green/20 transition duration-300 hover:border-neon-green"
             >
               <h3 className="text-3xl font-bold mb-4 text-neon-green tracking-tight">
                 Privacy Layer
@@ -1116,7 +1111,7 @@ Payments"
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 tracking-tight">
               Accept crypto.
               <br />
-              Receive value <span className="text-[#2BFF88]">instantly.</span>
+              Receive value instantly.
               <br />
               No risk.
             </h2>
@@ -1134,6 +1129,7 @@ Payments"
           </ScrollReveal>
         </div>
       </section>
+
       {/* --- SECTION 6: PREMIUM REWARDS --- */}
       <section className="py-16 sm:py-24 md:py-32 lg:py-40 relative bg-[#020202] overflow-hidden">
         <div className="absolute inset-0 bg-radial-gradient from-[#00FF94]/5 to-transparent opacity-50" />
@@ -1148,8 +1144,7 @@ Payments"
             <SectionLabel text="Incentives & Early Access" />
 
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-8 text-white tracking-tight">
-              Get <span className="text-[#2BFF88]">rewarded</span> every <br />{" "}
-              time you spend.
+              Get rewarded every <br /> time you spend.
             </h2>
 
             <p className="text-xl text-gray-400 mb-10 max-w-lg">
@@ -1254,8 +1249,7 @@ Payments"
             <div>
               <SectionLabel text="The Network" />
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-6 tracking-light">
-                A <span className="text-[#2BFF88]">decentralized</span>{" "}
-                human-powered liquidity network.
+                A decentralized human-powered liquidity network.
               </h2>
               <p className="text-xl text-gray-400 mb-10 leading-relaxed">
                 PeopleBank is the network that powers real-time settlement.
@@ -1373,7 +1367,7 @@ Payments"
             data-animate-on-scroll
             className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-8 sm:mb-12 md:mb-16 tracking-tight text-center"
           >
-            Protocol <span className="text-[#2BFF88]">Token Utility</span>
+            Protocol Token Utility
           </h2>
 
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-6 max-w-7xl mx-auto">
