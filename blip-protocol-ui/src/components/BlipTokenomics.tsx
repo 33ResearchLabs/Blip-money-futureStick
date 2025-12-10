@@ -305,7 +305,7 @@ export const BlipTokenomics = () => {
               </p>
             </div>
             <Activity
-              className="text-[#2BFF88] w-12 h-12 opacity-50 hidden md:block"
+              className="text-[#2BFF88] w-12 h-12 opacity-0 hidden md:block"
               strokeWidth={1}
             />
           </div>
