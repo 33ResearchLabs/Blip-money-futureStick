@@ -163,9 +163,9 @@ export const BlipTokenomics = () => {
           <div className="inline-flex items-center gap-2 sm:gap-3 mb-8 sm:mb-10 md:mb-12 px-4 sm:px-5 py-2 rounded-full border border-[#2BFF88]/20 bg-[#2BFF88]/5 backdrop-blur-sm">
             <span className="w-2 h-2 rounded-full bg-[#2BFF88] animate-pulse"></span>
             <span className="text-xs font-bold tracking-[0.2em] text-[#2BFF88] uppercase">
-              Fixed Supply
+              Fixed Supply 
             </span>
-          </div>
+          </div><br></br>
 
           {/* Main Number */}
           <div className="relative inline-block group cursor-default mb-6">
@@ -173,8 +173,8 @@ export const BlipTokenomics = () => {
             <div className="absolute -top-4 -right-8 animate-float">
               <div className="w-2 h-2 bg-[#FFB743] rounded-full shadow-[0_0_15px_#FFB743]"></div>
             </div>
-
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl leading-none font-bold tracking-tighter text-white hero-glow select-none">
+        
+            <h1 className="text-4xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-6xl leading-none  tracking-tighter text-white hero-glow select-none">
               1,000,000,000
             </h1>
           </div>
@@ -182,9 +182,9 @@ export const BlipTokenomics = () => {
           <div className="flex items-center justify-center gap-4 text-xl sm:text-2xl md:text-3xl font-light tracking-[0.2em] sm:tracking-[0.3em] uppercase opacity-80">
             <span className="text-white">BLIP</span>
             <span className="text-[#FFB743] text-base sm:text-lg align-middle">
-              •
+            
             </span>
-            <span className="text-white">MONEY</span>
+            <span className="text-white">TOKENS</span>
           </div>
         </section>
 
@@ -255,7 +255,7 @@ export const BlipTokenomics = () => {
 
           {/* List Side - Glass Cards with Pins */}
           <div className="order-1 lg:order-2">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-8 sm:mb-12 md:mb-16 tracking-tight section-title-glow">
+            <h2 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl  text-white mb-8 sm:mb-12 md:mb-16 tracking-tight section-title-glow">
               Token <span className="text-gray-500 font-light">Split</span>
             </h2>
             <div className="space-y-4">
@@ -294,7 +294,7 @@ export const BlipTokenomics = () => {
         <section className="mb-24 sm:mb-32 md:mb-40 lg:mb-52 max-w-7xl mx-auto">
           <div className="mb-12 sm:mb-16 md:mb-20 flex flex-col md:flex-row justify-between items-end">
             <div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 section-title-glow">
+              <h2 className="text-1xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl  text-white mb-4 section-title-glow">
                 Utility{" "}
                 <span className="text-[#FFB743] text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl leading-[0]">
                   .
@@ -366,7 +366,7 @@ export const BlipTokenomics = () => {
 
         {/* 4. DEFLATION: Minimal & Impactful */}
         <section className="mb-24 sm:mb-32 md:mb-40 lg:mb-52 max-w-7xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-12 sm:mb-16 md:mb-20 text-center section-title-glow">
+          <h2 className="text-1xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl text-white mb-12 sm:mb-16 md:mb-20 text-center section-title-glow">
             Deflationary <span className="font-light text-gray-600">Model</span>
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
@@ -413,7 +413,7 @@ export const BlipTokenomics = () => {
         <section className="relative max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 sm:mb-16 md:mb-20 px-4">
             <div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 sm:mb-6 section-title-glow">
+              <h2 className="text-1xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl text-white mb-4 sm:mb-6 section-title-glow">
                 Emissions
               </h2>
               <p className="text-base sm:text-lg md:text-xl text-gray-500 font-light">
@@ -537,7 +537,7 @@ export const BlipTokenomics = () => {
             </span>
           </div>
           <div className="text-xs text-gray-600 tracking-[0.2em] uppercase">
-            Next Generation Protocol
+            P2P Settlement Protocol
           </div>
         </footer>
       </div>
