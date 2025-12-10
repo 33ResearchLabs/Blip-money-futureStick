@@ -32,6 +32,7 @@ import { Link } from "react-router-dom";
 import TransferFlow from "@/components/TransferFlow";
 import useScrollActive from "@/hooks/useScrollActive";
 import ScrollReveal from "@/components/ScrollReveal";
+import { SectionLabel } from "@/components/SectionLable";
 
 // --- Visual Effects Components ---
 
@@ -323,197 +324,66 @@ const PulseWave = () => {
 };
 
 const PhoneMockup = () => (
-  <div className="relative w-[230px] h-[460px]  overflow-hidden z-10 hover:scale-[1.02] transition-transform duration-700">
-    <img
-      src="/home (1) - Edited.png"
-      alt="image"
-      className="w-full h-full object-cover p-0 shadow-2xl"
-    />
+  <div
+    className="mt-20 md:mt-0 flex justify-center md:justify-end animate-fade-in"
+    style={{ animationDelay: "0.1s" }}
+  >
+    {/* GLOW WRAPPER */}
+    <div className="relative">
+      {/* Outer green glow aura */}
+      <div className="absolute inset-0  blur-md bg-green-500/20"></div>
+
+      {/* PHONE FRAME */}
+      <div className="relative items-center justify-center  w-60 h-[455px] rounded-[2rem] overflow-hidden shadow-[0_0_60px_15px_rgba(0,255,127,0.25)] bg-green-500/20  p-0.5">
+        {/* INNER SCREEN (your image) */}
+        <img
+          src="home.png"
+          alt="app-screen"
+          className="w-full h-full object-cover "
+        />
+      </div>
+    </div>
   </div>
 );
 
-// 2. Reusable Architecture Node component
-const ArchitectureNode = ({
-  step,
-  title,
-  sub,
-  icon: Icon,
-  color,
-  className = "",
-  delay = 0,
-  isMain = false,
-}) => {
-  const shadowStyle = {
-    "--node-color": color,
-    animationDelay: `${delay}ms`,
-  };
+// const ArchitectureNode = ({
+//   step,
+//   title,
+//   sub,
+//   icon: Icon,
+//   color,
+//   className = "",
+//   delay = 0,
+//   isMain = false,
+// }) => {
+//   const shadowStyle = {
+//     "--node-color": color,
+//     animationDelay: `${delay}ms`,
+//   };
 
-  const ringClass = isMain
-    ? `ring-4 ring-offset-4 ring-offset-[#080808] ring-[${color}]/30`
-    : "ring-2 ring-gray-700/50";
-  const bgColor = isMain ? "bg-[#0F0F0F]" : "bg-[#151515]";
+//   const ringClass = isMain
+//     ? `ring-4 ring-offset-4 ring-offset-[#080808] ring-[${color}]/30`
+//     : "ring-2 ring-gray-700/50";
+//   const bgColor = isMain ? "bg-[#0F0F0F]" : "bg-[#151515]";
 
-  return (
-    <div
-      className={`p-6 w-56 rounded-2xl border border-white/10 flex flex-col items-center text-center transition-all duration-500 ease-out hover:shadow-lg ${bgColor} ${className}`}
-      style={shadowStyle}
-    >
-      <div
-        className={`p-3 rounded-full ${bgColor} border border-white/10 mb-4 ${ringClass}`}
-      >
-        <Icon size={28} style={{ color }} />
-      </div>
-      <p className="text-sm font-medium text-gray-400 uppercase mb-1">
-        Step {step}
-      </p>
-      <h3 className="text-xl font-bold text-white mb-1">{title}</h3>
-      <p className="text-xs text-gray-500">{sub}</p>
-    </div>
-  );
-};
-
-// --- New Component for Steps 4 & 5 Focus ---
-
-const ProtocolSupportStructure = () => {
-  const items = [
-    {
-      step: "4",
-      title: "Governance DAO",
-      sub: "Protocol Upgrades & Parameter Voting",
-      icon: Landmark,
-      color: "#A855F7", // Purple
-    },
-    {
-      step: "5",
-      title: "Merchant Stakers",
-      sub: "Fiat Liquidity & Transaction Collateral",
-      icon: ShieldCheck,
-      color: "#6366F1", // Indigo
-    },
-  ];
-
-  return (
-    <div className="relative z-10 max-w-7xl mx-auto px-6 w-full mt-24">
-      {/* Header */}
-      <div className="text-center mb-12">
-        <SectionLabel text="Security & Foundation" />
-        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white tracking-tight">
-          The Decentralized Foundation.
-        </h2>
-        <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-          Steps 4 and 5 provide the trustless security and collateral that
-          underpin the core settlement mechanism.
-        </p>
-      </div>
-
-      {/* Focused Diagram */}
-      <div className="relative h-[600px] max-w-4xl mx-auto rounded-3xl border border-white/5 bg-[#080808] shadow-2xl flex items-center justify-center">
-        <div
-          className="absolute inset-0 opacity-10"
-          style={styles.gridBackground}
-        />
-
-        {/* Central Anchor: Blip Protocol (Step 2) */}
-        <div className="relative z-20">
-          <ArchitectureNode
-            step="2"
-            title="Blip Protocol"
-            sub="The Central Matching Engine"
-            icon={Lock}
-            color="#FBBF24"
-            className="scale-110 shadow-[0_0_80px_rgba(251,191,36,0.3)] bg-[#0A0A0A]"
-            isMain
-          />
-          <div className="absolute inset-0 rounded-2xl border border-[#FBBF24]/20 animate-ping opacity-20 pointer-events-none" />
-        </div>
-
-        {/* Supporting Nodes - Layered Below */}
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full flex items-center justify-center">
-          {/* Layer Ring 1 (Stakers) */}
-          <div className="absolute w-[80%] h-[80%] border border-[#6366F1]/30 rounded-full flex items-center justify-center animate-spin-slow-reverse">
-            <div className="absolute top-1/4 right-0 transform translate-x-1/2">
-              <ArchitectureNode
-                {...items[1]}
-                className="scale-95 bg-[#101015] shadow-[0_0_30px_rgba(99,102,241,0.2)]"
-              />
-            </div>
-          </div>
-
-          {/* Layer Ring 2 (Governance) */}
-          <div className="absolute w-[60%] h-[60%] border border-[#A855F7]/30 rounded-full flex items-center justify-center animate-spin-slow">
-            <div className="absolute top-0 left-1/4 transform -translate-y-1/2">
-              <ArchitectureNode
-                {...items[0]}
-                className="scale-95 bg-[#101015] shadow-[0_0_30px_rgba(168,85,247,0.2)]"
-              />
-            </div>
-          </div>
-
-          {/* Connection Lines (Static for Foundation) */}
-          <svg
-            className="absolute w-full h-full"
-            viewBox="0 0 100 100"
-            preserveAspectRatio="none"
-          >
-            {/* Stakers to Protocol */}
-            <line
-              x1="75"
-              y1="50"
-              x2="55"
-              y2="50"
-              stroke="#6366F1"
-              strokeWidth="0.2"
-              strokeDasharray="1,1"
-              opacity="0.5"
-            />
-            <line
-              x1="25"
-              y1="50"
-              x2="45"
-              y2="50"
-              stroke="#6366F1"
-              strokeWidth="0.2"
-              strokeDasharray="1,1"
-              opacity="0.5"
-            />
-            {/* Governance to Protocol */}
-            <line
-              x1="50"
-              y1="25"
-              x2="50"
-              y2="45"
-              stroke="#A855F7"
-              strokeWidth="0.2"
-              strokeDasharray="1,1"
-              opacity="0.5"
-            />
-            <line
-              x1="50"
-              y1="75"
-              x2="50"
-              y2="55"
-              stroke="#A855F7"
-              strokeWidth="0.2"
-              strokeDasharray="1,1"
-              opacity="0.5"
-            />
-          </svg>
-        </div>
-
-        {/* Supporting Key */}
-        <div className="absolute bottom-8 right-8 p-4 rounded-xl border border-white/10 bg-black/50 backdrop-blur-md max-w-xs">
-          <div className="flex items-center gap-2 mb-2 text-xs text-gray-400 uppercase tracking-widest">
-            <Layers size={12} className="text-[#FBBF24]" /> Support Structure
-          </div>
-          <p className="text-xs text-gray-500">
-            The core protocol is anchored by Governance (4) for oversight and
-            Merchant Stakers (5) for guaranteed liquidity.
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-};
+//   return (
+//     <div
+//       className={`p-6 w-56 rounded-2xl border border-white/10 flex flex-col items-center text-center transition-all duration-500 ease-out hover:shadow-lg ${bgColor} ${className}`}
+//       style={shadowStyle}
+//     >
+//       <div
+//         className={`p-3 rounded-full ${bgColor} border border-white/10 mb-4 ${ringClass}`}
+//       >
+//         <Icon size={28} style={{ color }} />
+//       </div>
+//       <p className="text-sm font-medium text-gray-400 uppercase mb-1">
+//         Step {step}
+//       </p>
+//       <h3 className="text-xl font-bold text-white mb-1">{title}</h3>
+//       <p className="text-xs text-gray-500">{sub}</p>
+//     </div>
+//   );
+// };
 
 // --- Main Application Component ---
 
@@ -524,6 +394,7 @@ const styles = {
     backgroundPosition: "0 0, 20px 20px",
   },
 };
+
 const stylesPeopleBank = {
   gridBackground: {
     backgroundImage: `linear-gradient(to right, #00FF9422 1px, transparent 1px),
@@ -596,25 +467,6 @@ const Hero = () => (
       </div>
     </div>
   </section>
-);
-
-const CheckCircle = ({ size, className }: any) => (
-  <div className={`relative ${className}`}>
-    <div className="absolute inset-0 bg-[#2BFF88] rounded-full opacity-20 animate-ping" />
-    <Smartphone size={size} />
-  </div>
-);
-const SectionLabel = ({ text }) => (
-  <div className="flex items-center gap-3 mb-8">
-    <div className="flex gap-1">
-      <div className="w-1 h-1 rounded-full bg-[#00FF94]" />
-      <div className="w-1 h-1 rounded-full bg-[#00FF94] opacity-50" />
-      <div className="w-1 h-1 rounded-full bg-[#00FF94] opacity-25" />
-    </div>
-    <span className="text-[#00FF94] uppercase tracking-[0.3em] text-[10px] font-mono font-bold">
-      {text}
-    </span>
-  </div>
 );
 
 const CinematicCard = ({ title, subtitle, icon: Icon, delay, active }) => (
@@ -692,25 +544,13 @@ const CinematicCard = ({ title, subtitle, icon: Icon, delay, active }) => (
     </div>
   </div>
 );
+
 const INITIAL_NODES = Array.from({ length: 30 }).map(() => ({
   top: `${Math.random() * 80 + 10}%`,
   left: `${Math.random() * 80 + 10}%`,
   animationDuration: `${Math.random() * 2 + 1}s`,
   animationDelay: `-${Math.random() * 2}s`,
 }));
-
-// Custom styles for the glow effect and the grid background
-const stylesBlip = {
-  glowText: {
-    textShadow:
-      "0 0 15px rgba(0, 255, 148, 0.5), 0 0 5px rgba(0, 255, 148, 0.3)",
-  },
-  gridBackground: {
-    backgroundImage:
-      "linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)",
-    backgroundSize: "20px 20px",
-  },
-};
 
 const Index = () => {
   // Initialize scroll active hook
@@ -755,8 +595,9 @@ const Index = () => {
           <SectionLabel
             text="Global
 Payments"
+            className={"items-center justify-center"}
           />
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-8 mint-gradient-text tracking-tight text-left">
+          <h2 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-bold mb-8 mint-gradient-text tracking-tight text-center">
             The Problem: Why{" "}
             <span className="text-[#2BFF88]">
               Global <br />
@@ -769,7 +610,7 @@ Payments"
         <div className="relative max-w-2xl mx-auto">
           <div className="timeline-line"></div>
 
-          <div className="space-y-40">
+          <div className="space-y-30">
             <div className="relative flex justify-start items-center group">
               <div className="w-1/2 pr-16 text-right opacity-100 transition-all duration-500">
                 <h3 className="text-4xl font-bold tracking-tight text-white mb-3 relative inline-block">
@@ -853,8 +694,13 @@ Payments"
         <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
           {/* <!-- Text Block (Left) --> */}
           <div className="lg:sticky lg:top-1/4">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-8 mint-gradient-text tracking-tight">
-              Blip Protocol: The Global Settlement Layer
+            <SectionLabel
+              text="The Global Settlement Layer"
+              className={"items-center justify-start"}
+            />
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-8 mint-gradient-text tracking-tight text-left">
+              <span className="text-[#2BFF88]">Blip Protocol</span>: The Global
+              Settlement Layer
             </h2>
             <p className="text-2xl text-gray-300 mb-10 font-light">
               Blip is a decentralized, open-source protocol built for instant,
@@ -886,9 +732,7 @@ Payments"
                 fill="#19F7A7"
                 className="neon-glow pulse-animation"
                 style={{
-                  filter:
-                    "drop-shadow(0 0 20px #19F7A7) drop-shadow(0 0 40px #19F7A7)",
-                  animation: "pulseGlow 3s infinite alternate",
+                  filter: "drop-shadow(0 0 20px #19F7A7)",
                 }}
               />
               <text
@@ -918,8 +762,6 @@ Payments"
                   className="float-element"
                   style={{
                     animation: `float 4s ease-in-out ${node.delay} infinite alternate`,
-                    filter:
-                      "drop-shadow(0 0 15px #00C8FF) drop-shadow(0 0 25px #00C8FF)",
                   }}
                 />
               ))}
@@ -986,12 +828,17 @@ Payments"
       {/* <!-- SECTION 3: HOW IT WORKS (3 STEPS - STRIPE VIBE) --> */}
       <section id="how-it-works" className="py-32 border-t border-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <SectionLabel
+            text="Real-World Value"
+            className={"items-center justify-center"}
+          />
           <h2
             data-animate-on-scroll
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-8 sm:mb-12 md:mb-16 tracking-tight text-left line-clamp"
+            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-8 mint-gradient-text tracking-tight text-center"
           >
             How It Works:
-            <br />3 Steps to Real-World Value
+            <br />3 Steps to{" "}
+            <span className="text-[#2BFF88]">Real-World Value</span>
           </h2>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* <!-- Step 1 --> */}
@@ -1060,13 +907,16 @@ Payments"
         <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-b from-[#050505] to-[#020202] pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
           <ScrollReveal delay={0}>
-            <SectionLabel text="Real World Usage" />
+            <SectionLabel
+              text="Real World Usage"
+              className={"items-center justify-center"}
+            />
           </ScrollReveal>
           <ScrollReveal delay={0.1}>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-8 sm:mb-12 md:mb-16 tracking-tight">
-              Use crypto the same way
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-8 mint-gradient-text tracking-tight text-center">
+              <span className="text-[#2BFF88]">Use crypto</span> the same way
               <br />
-              you use money.
+              you <span className="text-[#2BFF88]">use money.</span>
             </h2>
           </ScrollReveal>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
@@ -1131,11 +981,15 @@ Payments"
       {/* <!-- SECTION 7: PRIVACY & TRUST (TWO-COLUMN MINIMAL) --> */}
       <section className="py-32 border-t border-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <SectionLabel
+            text=" Privacy by Design."
+            className={"items-center justify-center"}
+          />
           <h2
             data-animate-on-scroll
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-8 sm:mb-12 md:mb-16 tracking-tight text-left"
+            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-8 mint-gradient-text tracking-tight text-center"
           >
-            Privacy by Design. Trust by
+            <span className="text-[#2BFF88]">Privacy</span> by Design. Trust by
             <br />
             Protocol.
           </h2>
@@ -1145,22 +999,22 @@ Payments"
               data-animate-on-scroll
               className="p-10 rounded-xl bg-dark-gray border border-cyan/50 shadow-neon-sm shadow-cyan/20 transition duration-300 hover:border-cyan"
             >
-              <h3 className="text-3xl font-bold mb-4 text-cyan tracking-tight">
+              <h3 className="text-3xl font-bold mb-4 text-neon-green tracking-tight">
                 Privacy Layer
               </h3>
               <ul className="space-y-4 text-gray-300 text-lg">
                 <li className="flex items-start">
-                  <span className="text-2xl mr-3 text-cyan">◇</span>
+                  <span className="text-2xl mr-3 text-neon-green">◇</span>
                   Wallet-based identity: Your wallet address is your ID,
                   decoupled from personal data.
                 </li>
                 <li className="flex items-start">
-                  <span className="text-2xl mr-3 text-cyan">◇</span>
+                  <span className="text-2xl mr-3 text-neon-green">◇</span>
                   No personal info required for small transfers, ensuring true
                   freedom.
                 </li>
                 <li className="flex items-start">
-                  <span className="text-2xl mr-3 text-cyan">◇</span>
+                  <span className="text-2xl mr-3 text-neon-green">◇</span>
                   End-to-end private transaction construction.
                 </li>
               </ul>
@@ -1257,7 +1111,7 @@ Payments"
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 tracking-tight">
               Accept crypto.
               <br />
-              Receive value instantly.
+              Receive value <span className="text-[#2BFF88]">instantly.</span>
               <br />
               No risk.
             </h2>
@@ -1289,7 +1143,8 @@ Payments"
             <SectionLabel text="Incentives & Early Access" />
 
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-8 text-white tracking-tight">
-              Get rewarded every <br /> time you spend.
+              Get <span className="text-[#2BFF88]">rewarded</span> every <br />{" "}
+              time you spend.
             </h2>
 
             <p className="text-xl text-gray-400 mb-10 max-w-lg">
@@ -1387,14 +1242,15 @@ Payments"
         </style>
         <section
           id="peoplebank"
-          className="py-16 md:py-32 bg-[#050505] border-t border-white/5 font-['Inter']"
+          className="py-16 md:py-32 bg-[#050505] border-t border-white/5 "
         >
           <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-20">
             {/* Left Content Area */}
             <div>
               <SectionLabel text="The Network" />
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-6 tracking-tight">
-                A decentralized human-powered liquidity network.
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-6 tracking-light">
+                A <span className="text-[#2BFF88]">decentralized</span>{" "}
+                human-powered liquidity network.
               </h2>
               <p className="text-xl text-gray-400 mb-10 leading-relaxed">
                 PeopleBank is the network that powers real-time settlement.
@@ -1501,172 +1357,110 @@ Payments"
         </section>
       </>
 
-      {/* SECTION 8: PROTOCOL ARCHITECTURE (HORIZONTAL FLOW) */}
-      <section className="py-32 border-t border-gray-900">
-        <div className="max-w-6xl mx-auto px-6 ">
-          <span data-animate-on-scroll>
-            <SectionLabel text=" System Map" />
-          </span>
-          <h2
-            data-animate-on-scroll
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-6 tracking-tight text-left"
-          >
-            Protocol Architecture
-            <br />
-            Overview
-          </h2>
-
-          {/* Clean Horizontal Diagram */}
-          <div
-            data-animate-on-scroll
-            className="p-10 bg-dark-gray rounded-xl border border-gray-900 shadow-neon-sm shadow-cyan/10"
-          >
-            <div className="flex items-center justify-between text-xs md:text-sm space-x-4">
-              {/* Component 1: User Wallet (Input) */}
-              <div className="flex-shrink-0 p-3 rounded-lg border border-neon-green/50 text-neon-green bg-deep-black shadow-neon-sm shadow-neon-green/10">
-                User Wallet
-              </div>
-
-              {/* Connector 1 */}
-              <div className="flex-grow h-px bg-neon-green/50 relative">
-                <div className="absolute w-3 h-3 rounded-full bg-neon-green -top-[5px] left-0 shadow-neon-sm animate-ping-slow-micro"></div>
-              </div>
-
-              {/* Component 2: Order Router */}
-              <div className="flex-shrink-0 p-3 rounded-lg border border-gray-700 text-white bg-dark-gray hover:border-cyan/50 transition">
-                Order Router
-              </div>
-
-              {/* Connector 2 */}
-              <div className="flex-grow h-px bg-cyan/50 relative"></div>
-
-              {/* Component 3: Escrow SCs */}
-              <div className="flex-shrink-0 p-3 rounded-lg border border-gray-700 text-white bg-dark-gray hover:border-cyan/50 transition">
-                Escrow Smart Contracts
-              </div>
-
-              {/* Connector 3 */}
-              <div className="flex-grow h-px bg-neon-green/50 relative"></div>
-
-              {/* Component 4: Settlement Verifier */}
-              <div className="flex-shrink-0 p-3 rounded-lg border border-gray-700 text-white bg-dark-gray hover:border-neon-green/50 transition">
-                Settlement Verifier
-              </div>
-
-              {/* Connector 4 */}
-              <div className="flex-grow h-px bg-cyan/50 relative"></div>
-
-              {/* Component 5: Merchant Nodes */}
-              <div className="flex-shrink-0 p-3 rounded-lg border border-gray-700 text-white bg-dark-gray hover:border-neon-green/50 transition">
-                Merchant Nodes
-              </div>
-
-              {/* Connector 5 */}
-              <div className="flex-grow h-px bg-neon-green/50 relative"></div>
-
-              {/* Component 6: PeopleBank (Core) */}
-              <div className="flex-shrink-0 p-3 rounded-lg border border-cyan/50 text-cyan bg-deep-black shadow-neon-sm shadow-cyan/10">
-                PeopleBank Liquidity Layer
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* SECTION 9: TOKEN UTILITY (SIMPLE GRID) */}
       <section className="py-32 border-t border-gray-900 container mx-auto px-4">
         <div className="max-w-6xl mx-auto px-6">
-          <SectionLabel text="Protocol Token Utility" />
+          <SectionLabel
+            text="Protocol Token Utility"
+            className="items-center justify-center"
+          />
           <h2
             data-animate-on-scroll
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-8 sm:mb-12 md:mb-16 tracking-tight text-left"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-8 sm:mb-12 md:mb-16 tracking-tight text-center"
           >
-            Protocol Token Utility
+            Protocol <span className="text-[#2BFF88]">Token Utility</span>
           </h2>
 
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-6 max-w-7xl mx-auto">
+            {/* Merchant Staking */}
             <div
               data-animate-on-scroll
               className="text-center p-6 bg-dark-gray rounded-lg border border-gray-800 hover:border-neon-green/50 transition duration-300 group hover:scale-[1.03]"
             >
               <div className="text-2xl text-neon-green mb-2 transition duration-300 group-hover:text-cyan">
-                ▊
+                ◆
               </div>
               <p className="text-sm font-semibold text-gray-300">
                 Merchant Staking
               </p>
             </div>
 
+            {/* Routing Priority */}
             <div
               data-animate-on-scroll
               className="text-center p-6 bg-dark-gray rounded-lg border border-gray-800 hover:border-neon-green/50 transition duration-300 group hover:scale-[1.03]"
               style={{ animationDelay: "50ms" }}
             >
-              <div className="text-2xl text-neon-green mb-2 transition duration-300 group-hover:text-cyan">
-                ▊
+              <div className="text-2xl text-cyan mb-2 transition duration-300 group-hover:text-neon-green">
+                ➤
               </div>
               <p className="text-sm font-semibold text-gray-300">
                 Routing Priority
               </p>
             </div>
 
+            {/* Liquidity Rewards */}
             <div
               data-animate-on-scroll
               className="text-center p-6 bg-dark-gray rounded-lg border border-gray-800 hover:border-neon-green/50 transition duration-300 group hover:scale-[1.03]"
               style={{ animationDelay: "100ms" }}
             >
-              <div className="text-2xl text-neon-green mb-2 transition duration-300 group-hover:text-cyan">
-                ▊
+              <div className="text-2xl text-purple-400 mb-2 transition duration-300 group-hover:text-cyan">
+                ◉
               </div>
               <p className="text-sm font-semibold text-gray-300">
                 Liquidity Rewards
               </p>
             </div>
 
+            {/* Dispute Slashing */}
             <div
               data-animate-on-scroll
               className="text-center p-6 bg-dark-gray rounded-lg border border-gray-800 hover:border-neon-green/50 transition duration-300 group hover:scale-[1.03]"
               style={{ animationDelay: "150ms" }}
             >
-              <div className="text-2xl text-neon-green mb-2 transition duration-300 group-hover:text-cyan">
-                ▊
+              <div className="text-2xl text-red-400 mb-2 transition duration-300 group-hover:text-cyan">
+                ⚔
               </div>
               <p className="text-sm font-semibold text-gray-300">
                 Dispute Slashing
               </p>
             </div>
 
+            {/* Governance */}
             <div
               data-animate-on-scroll
               className="text-center p-6 bg-dark-gray rounded-lg border border-gray-800 hover:border-neon-green/50 transition duration-300 group hover:scale-[1.03]"
               style={{ animationDelay: "200ms" }}
             >
-              <div className="text-2xl text-neon-green mb-2 transition duration-300 group-hover:text-cyan">
-                ▊
+              <div className="text-2xl text-yellow-300 mb-2 transition duration-300 group-hover:text-cyan">
+                ⚖
               </div>
               <p className="text-sm font-semibold text-gray-300">Governance</p>
             </div>
 
+            {/* Fee Reductions */}
             <div
               data-animate-on-scroll
               className="text-center p-6 bg-dark-gray rounded-lg border border-gray-800 hover:border-neon-green/50 transition duration-300 group hover:scale-[1.03]"
               style={{ animationDelay: "250ms" }}
             >
-              <div className="text-2xl text-neon-green mb-2 transition duration-300 group-hover:text-cyan">
-                ▊
+              <div className="text-2xl text-green-300 mb-2 transition duration-300 group-hover:text-cyan">
+                ⬉
               </div>
               <p className="text-sm font-semibold text-gray-300">
                 Fee Reductions
               </p>
             </div>
 
+            {/* Marketplace Promotions */}
             <div
               data-animate-on-scroll
               className="text-center p-6 bg-dark-gray rounded-lg border border-gray-800 hover:border-neon-green/50 transition duration-300 group hover:scale-[1.03]"
               style={{ animationDelay: "300ms" }}
             >
-              <div className="text-2xl text-neon-green mb-2 transition duration-300 group-hover:text-cyan">
-                ▊
+              <div className="text-2xl text-pink-400 mb-2 transition duration-300 group-hover:text-cyan">
+                ✦
               </div>
               <p className="text-sm font-semibold text-gray-300">
                 Marketplace Promotions
@@ -1704,7 +1498,7 @@ Payments"
       <section className="py-16 sm:py-20 md:py-24 text-center border-t border-white/5 relative">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#111] to-black opacity-50" />
         <div className="relative z-10 px-4 sm:px-6">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-6 sm:mb-8">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-6 sm:mb-8">
             Coming soon in 12 Countries
           </h2>
           <div className="flex flex-wrap justify-center gap-2 sm:gap-3 max-w-2xl mx-auto">
