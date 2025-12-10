@@ -255,7 +255,7 @@ export const BlipTokenomics = () => {
 
           {/* List Side - Glass Cards with Pins */}
           <div className="order-1 lg:order-2">
-            <h2 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl  text-white mb-8 sm:mb-12 md:mb-16 tracking-tight section-title-glow">
+            <h2 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl  text-white mb-8 sm:mb-12 md:mb-16 tracking-tight section-title-glow">
               Token <span className="text-gray-500 font-light">Split</span>
             </h2>
             <div className="space-y-4">
