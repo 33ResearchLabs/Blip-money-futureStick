@@ -55,6 +55,432 @@ const Button = ({ children, primary = false, className = "" }) => (
   </button>
 );
 
+const USAGE_SCENES = [
+  {
+    id: "cafe",
+    title: "Cafés",
+    subtitle: "TAP TO PAY",
+    icon: Coffee,
+    headline: "Tap to pay for coffee with crypto.",
+    description:
+      "You scan a QR, pay in USDT from your wallet. The café receives local currency in seconds, settled via Blip.",
+    statLabel: "Typical settlement",
+    statValue: "< 10s",
+    flow: ["Your Wallet", "Blip Protocol", "Cafe Bank / POS"],
+  },
+  {
+    id: "restaurant",
+    title: "Restaurants",
+    subtitle: "TABLE SETTLEMENT",
+    icon: Utensils,
+    headline: "Split the bill, stay on-chain.",
+    description:
+      "Everyone pays their share in crypto. Blip routes it to the restaurant as a single local-currency payout.",
+    statLabel: "Party size",
+    statValue: "2–20 guests",
+    flow: ["Multiple Wallets", "Blip Matching Engine", "Restaurant Account"],
+  },
+  {
+    id: "hotel",
+    title: "Hotels",
+    subtitle: "INSTANT BOOKING",
+    icon: MapPin,
+    headline: "Book stays without touching fiat.",
+    description:
+      "Lock your booking with crypto. Hotel gets guaranteed settlement in their own currency.",
+    statLabel: "Deposit hold",
+    statValue: "On-chain",
+    flow: ["Your Wallet", "Escrow Contract", "Hotel Payout"],
+  },
+  {
+    id: "retail",
+    title: "Retail",
+    subtitle: "POS INTEGRATION",
+    icon: ShoppingBag,
+    headline: "Swipe, tap, or scan at checkout.",
+    description:
+      "Blip plugs into existing POS flows so merchants see normal payouts while you stay fully crypto-native.",
+    statLabel: "Integration",
+    statValue: "POS / Online",
+    flow: ["Wallet", "Blip", "Store POS"],
+  },
+  {
+    id: "friends",
+    title: "Friends",
+    subtitle: "P2P TRANSFER",
+    icon: Users,
+    headline: "Pay back friends in any country.",
+    description:
+      "You send USDC, they receive local funds or cash-out through PeopleBank routes.",
+    statLabel: "Fees",
+    statValue: "P2P low",
+    flow: ["Your Wallet", "Blip Network", "Friend’s Bank / Cash"],
+  },
+  {
+    id: "transport",
+    title: "Transport",
+    subtitle: "RIDE SETTLEMENT",
+    icon: Car,
+    headline: "Settle rides without cards.",
+    description:
+      "From taxis to rentals, drivers get paid in their currency while you pay from your on-chain balance.",
+    statLabel: "Ideal for",
+    statValue: "Travel",
+    flow: ["Wallet", "Blip", "Driver / Fleet"],
+  },
+];
+const FLOW_STEPS = {
+  restaurant: [
+    {
+      label: "Scan & pay",
+      text: "Guests scan the table QR and approve a split payment from their own wallets.",
+    },
+    {
+      label: "P2P trader fills order",
+      text: "A PeopleBank trader accepts the payout leg on-chain through Blip.",
+    },
+    {
+      label: "Restaurant gets payout",
+      text: "Blip settles one clean local-currency payout to the restaurant account.",
+    },
+  ],
+  cafe: [
+    {
+      label: "Tap or scan",
+      text: "You tap or scan at the counter and approve a payment from your wallet.",
+    },
+    {
+      label: "Blip routes value",
+      text: "Blip finds a matching PeopleBank node to take the other side of the trade.",
+    },
+    {
+      label: "Cafe receives",
+      text: "The café sees a normal local settlement on their POS / bank account.",
+    },
+  ],
+  default: [
+    {
+      label: "Pay from wallet",
+      text: "You approve a payment in stablecoins or your chosen on-chain asset.",
+    },
+    {
+      label: "P2P trader executes",
+      text: "A PeopleBank trader locks their leg and confirms payout obligations.",
+    },
+    {
+      label: "Receiver gets value",
+      text: "They receive bank funds, cash or POS credit in their local currency.",
+    },
+  ],
+};
+
+
+
+const UsageCard = ({ scene, active, onClick }) => {
+  const Icon = scene.icon;
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`
+        group w-full text-left rounded-2xl p-4 sm:p-5 mb-2
+        border transition-all duration-200 flex items-start gap-3
+        bg-black/40
+        ${
+          active
+            ? "border-[#00FF94] shadow-[0_0_24px_rgba(0,255,148,0.25)]"
+            : "border-white/5 hover:border-[#00FF94]/60 hover:shadow-[0_0_18px_rgba(0,255,148,0.18)]"
+        }
+      `}
+    >
+      <div
+        className={`
+          flex-shrink-0 w-9 h-9 rounded-xl border flex items-center justify-center
+          ${
+            active
+              ? "border-[#00FF94]/70 bg-[#00FF94]/10 text-[#00FF94]"
+              : "border-white/10 bg-black/70 text-gray-200 group-hover:border-[#00FF94]/70 group-hover:text-[#00FF94]"
+          }
+        `}
+      >
+        <Icon size={18} />
+      </div>
+
+      <div className="flex-1 flex flex-col gap-1">
+        <div className="flex items-center justify-between gap-2">
+          <div>
+            <h3 className="text-sm sm:text-base font-semibold text-white">
+              {scene.title}
+            </h3>
+            <p className="text-[10px] font-mono tracking-[0.18em] uppercase text-gray-500">
+              {scene.subtitle}
+            </p>
+          </div>
+          <div className="hidden sm:flex flex-col items-end text-[10px] font-mono uppercase tracking-[0.16em] text-gray-500">
+            <span>{scene.statLabel}</span>
+            <span className="text-[#00FF94]">{scene.statValue}</span>
+          </div>
+        </div>
+
+        <p className="text-xs sm:text-sm text-gray-400 mt-1">
+          You pay in digital value. They receive instantly.
+        </p>
+      </div>
+    </button>
+  );
+};
+
+const LiveUsagePanel = ({ scene }) => {
+  const steps = FLOW_STEPS[scene.id] || FLOW_STEPS.default;
+
+  return (
+    <div className="relative w-full h-full min-h-[280px] lg:min-h-[340px] rounded-[32px] border border-[#00FF94]/35 bg-[#050806] overflow-hidden shadow-[0_0_40px_rgba(0,255,148,0.25)]">
+      {/* grid + glow */}
+      <div
+        className="absolute inset-0 opacity-18 pointer-events-none"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, #00FF9420 1px, transparent 1px), linear-gradient(to bottom, #00FF9420 1px, transparent 1px)",
+          backgroundSize: "26px 26px",
+        }}
+      />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(0,255,148,0.18),transparent_60%)]" />
+
+      <div className="relative z-10 flex flex-col h-full p-6 sm:p-7 lg:p-8 gap-5">
+        {/* HEADER */}
+        <div>
+          <p className="text-[10px] font-mono tracking-[0.26em] uppercase text-[#00FF94] mb-2">
+            EXAMPLE ROUTE
+          </p>
+          <h3 className="text-lg sm:text-xl font-semibold text-white mb-1">
+            {scene.headline}
+          </h3>
+          <p className="text-sm text-gray-300">{scene.description}</p>
+        </div>
+
+        {/* MAIN DIAGRAM CARD */}
+        <div className="mt-1 rounded-3xl bg-black/75 border border-white/10 px-4 py-4 sm:px-6 sm:py-5">
+          <div className="flex items-center justify-between gap-3">
+            {/* NODE 1 – WALLET */}
+            <div className="flex flex-col items-center gap-2 min-w-[80px]">
+              <div className="relative">
+                <div className="w-10 h-10 rounded-full bg-[#03140b] border border-[#00FF94]/70 flex items-center justify-center shadow-[0_0_16px_rgba(0,255,148,0.45)]">
+                  <Wallet className="w-4 h-4 text-[#00FF94]" />
+                </div>
+                <span className="absolute inset-0 rounded-full border border-[#00FF94]/30 blur-[3px]" />
+              </div>
+              <p className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.16em] text-gray-300 text-center">
+                Your Wallet
+              </p>
+            </div>
+
+            {/* CONNECTOR 1 */}
+            <div className="relative flex-1 h-10">
+              <svg
+                viewBox="0 0 100 20"
+                className="absolute inset-0 w-full h-full"
+                preserveAspectRatio="none"
+              >
+                <defs>
+                  <linearGradient id="routeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#00FF94" stopOpacity="0" />
+                    <stop offset="50%" stopColor="#00FF94" stopOpacity="0.8" />
+                    <stop offset="100%" stopColor="#00FF94" stopOpacity="0" />
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M0,15 C30,0 70,0 100,15"
+                  fill="none"
+                  stroke="url(#routeGradient)"
+                  strokeWidth="1.1"
+                  strokeLinecap="round"
+                />
+              </svg>
+              {/* animated dot */}
+              <div className="absolute inset-0">
+                <div className="route-dot animate-flow-dot" />
+              </div>
+            </div>
+
+            {/* NODE 2 – BLIP / PEOPLEBANK */}
+            <div className="flex flex-col items-center gap-2 min-w-[100px]">
+              <div className="relative">
+                <div className="w-11 h-11 rounded-full bg-[#020d09] border border-[#00FF94] flex items-center justify-center shadow-[0_0_22px_rgba(0,255,148,0.6)]">
+                  <Activity className="w-4 h-4 text-[#00FF94]" />
+                </div>
+                <span className="absolute inset-0 rounded-full border border-[#00FF94]/40 blur-[4px]" />
+              </div>
+              <p className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.16em] text-gray-300 text-center">
+                Blip · PeopleBank
+              </p>
+            </div>
+
+            {/* CONNECTOR 2 */}
+            <div className="relative flex-1 h-10">
+              <svg
+                viewBox="0 0 100 20"
+                className="absolute inset-0 w-full h-full"
+                preserveAspectRatio="none"
+              >
+                <path
+                  d="M0,5 C30,20 70,20 100,5"
+                  fill="none"
+                  stroke="url(#routeGradient)"
+                  strokeWidth="1.1"
+                  strokeLinecap="round"
+                />
+              </svg>
+              <div className="absolute inset-0">
+                <div
+                  className="route-dot animate-flow-dot"
+                  style={{ animationDelay: "0.4s" }}
+                />
+              </div>
+            </div>
+
+            {/* NODE 3 – REAL WORLD */}
+            <div className="flex flex-col items-center gap-2 min-w-[90px]">
+              <div className="relative">
+                <div className="w-10 h-10 rounded-full bg-[#101010] border border-white/35 flex items-center justify-center shadow-[0_0_18px_rgba(0,0,0,0.9)]">
+                  <Store className="w-4 h-4 text-white" />
+                </div>
+                <span className="absolute inset-0 rounded-full border border-white/20 blur-[3px]" />
+              </div>
+              <p className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.16em] text-gray-300 text-center">
+                Real-world payout
+              </p>
+            </div>
+          </div>
+
+          {/* Caption row under diagram */}
+          <div className="mt-4 flex justify-between text-[9px] sm:text-[10px] font-mono uppercase tracking-[0.18em] text-gray-500">
+            <span>Pay from wallet</span>
+            <span>On-chain routing</span>
+            <span>Merchant / receiver</span>
+          </div>
+        </div>
+
+        {/* THREE STEP EXPLANATION */}
+        <div className="grid sm:grid-cols-3 gap-3 text-[11px] sm:text-xs">
+          {steps.map((step, i) => (
+            <div
+              key={step.label + i}
+              className="rounded-2xl bg-black/70 border border-white/10 px-3 py-3 flex flex-col gap-1"
+            >
+              <div className="flex items-center gap-2">
+                <span className="h-4 w-4 rounded-full border border-[#00FF94]/60 text-[10px] font-mono text-[#00FF94] flex items-center justify-center">
+                  {i + 1}
+                </span>
+                <span className="uppercase tracking-[0.14em] text-gray-200">
+                  {step.label}
+                </span>
+              </div>
+              <p className="text-[11px] text-gray-400 mt-1 leading-snug">
+                {step.text}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {/* FOOTER NOTE */}
+        <div className="mt-1 flex items-center justify-between text-[10px] sm:text-[11px] font-mono text-gray-500 pt-1">
+          <span>Illustrative route for {scene.title}</span>
+          <span>Protocol animation · Not live data</span>
+        </div>
+      </div>
+
+      {/* keyframes + dot styling */}
+      <style>
+        {`
+          .route-dot {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 6px;
+            height: 6px;
+            border-radius: 999px;
+            background: #00FF94;
+            box-shadow: 0 0 16px rgba(0,255,148,0.9);
+            transform: translate(-10%, -50%);
+          }
+
+          @keyframes flowDot {
+            0%   { transform: translate(-10%, -50%); opacity: 0; }
+            10%  { opacity: 1; }
+            90%  { opacity: 1; }
+            100% { transform: translate(110%, -50%); opacity: 0; }
+          }
+
+          .animate-flow-dot {
+            animation: flowDot 2.6s linear infinite;
+          }
+        `}
+      </style>
+    </div>
+  );
+};
+
+
+
+const RealWorldUsageSection = () => {
+  const [activeId, setActiveId] = useState("cafe");
+  const activeScene =
+    USAGE_SCENES.find((scene) => scene.id === activeId) ?? USAGE_SCENES[0];
+
+  return (
+    <section className="py-16 sm:py-24 md:py-32 bg-black border-t border-white/5">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <ScrollReveal delay={0}>
+          <SectionLabel
+            text="Real World Usage"
+            className={"items-center justify-center"}
+          />
+        </ScrollReveal>
+
+        <ScrollReveal delay={0.1}>
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-8 sm:mb-10 mint-gradient-text tracking-tight text-center">
+            Use crypto the same way
+            <br />
+            you use money.
+          </h2>
+        </ScrollReveal>
+
+        {/* 40 / 60 split */}
+        <div className="grid gap-6 sm:gap-8 lg:grid-cols-[2fr_3fr] items-stretch">
+          {/* left: usage list */}
+          <div className="grid grid-cols-1 gap-3 max-h-[460px] lg:max-h-none overflow-y-auto pr-1">
+            {USAGE_SCENES.map((scene, idx) => (
+              <ScrollReveal key={scene.id} delay={0.15 + idx * 0.05}>
+                <UsageCard
+                  scene={scene}
+                  active={scene.id === activeId}
+                  onClick={() => setActiveId(scene.id)}
+                />
+              </ScrollReveal>
+            ))}
+          </div>
+
+          {/* right: live stats panel */}
+          <ScrollReveal delay={0.25}>
+            <motion.div
+              key={activeScene.id}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="h-full flex"
+            >
+              <LiveUsagePanel scene={activeScene} />
+            </motion.div>
+          </ScrollReveal>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+
+
+
 
 const ParticleBackground = () => {
   const particles = Array.from({ length: 40 });
@@ -210,6 +636,7 @@ export const Navbar = () => {
     </nav>
   );
 };
+
 const EarlyAdopterBanner = () => {
   return (
     <section className="relative overflow-hidden border-y border-white/5 bg-gradient-to-r from-[#040810] via-[#05030A] to-[#12040F]">
@@ -1345,80 +1772,8 @@ Payments"
 
 
       {/* --- SECTION 4: REAL WORLD USAGE --- */}
-      <section className="py-16 sm:py-24 md:py-32 bg-[#020202] relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-b from-[#050505] to-[#020202] pointer-events-none" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
-          <ScrollReveal delay={0}>
-            <SectionLabel
-              text="Real World Usage"
-              className={"items-center justify-center"}
-            />
-          </ScrollReveal>
-          <ScrollReveal delay={0.1}>
-            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-8 mint-gradient-text tracking-tight text-center">
-              Use crypto the same way
-              <br />
-              you use money.
-            </h2>
-          </ScrollReveal>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            <ScrollReveal delay={0.2}>
-              <CinematicCard
-                title="Cafés"
-                subtitle="TAP TO PAY"
-                icon={Coffee}
-                delay={0}
-                active={false}
-              />
-            </ScrollReveal>
-            <ScrollReveal delay={0.3}>
-              <CinematicCard
-                title="Restaurants"
-                subtitle="TABLE SETTLEMENT"
-                icon={Utensils}
-                delay={100}
-                active={false}
-              />
-            </ScrollReveal>
-            <ScrollReveal delay={0.4}>
-              <CinematicCard
-                title="Hotels"
-                subtitle="INSTANT BOOKING"
-                icon={MapPin}
-                delay={200}
-                active={false}
-              />
-            </ScrollReveal>
-            <ScrollReveal delay={0.5}>
-              <CinematicCard
-                title="Retail"
-                subtitle="POS INTEGRATION"
-                icon={ShoppingBag}
-                delay={300}
-                active={false}
-              />
-            </ScrollReveal>
-            <ScrollReveal delay={0.6}>
-              <CinematicCard
-                title="Friends"
-                subtitle="P2P TRANSFER"
-                icon={Users}
-                delay={400}
-                active={false}
-              />
-            </ScrollReveal>
-            <ScrollReveal delay={0.7}>
-              <CinematicCard
-                title="Transport"
-                subtitle="RIDE SETTLEMENT"
-                icon={Car}
-                delay={500}
-                active={false}
-              />
-            </ScrollReveal>
-          </div>
-        </div>
-      </section>
+
+      <RealWorldUsageSection />
 
 
       {/* <!-- SECTION 7: PRIVACY & TRUST (TWO-COLUMN MINIMAL) --> */}
