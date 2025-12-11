@@ -7,6 +7,7 @@ import RewardsLanding from "./pages/Rewards";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import StructuredData from "@/components/StructuredData";
 import Index from "./pages/Index";
+import UAELandingPage from "./pages/uae";
 import NotFound from "./pages/NotFound";
 import BlipTokenomics from "./components/BlipTokenomics";
 
@@ -25,6 +26,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/tokenomics" element={<BlipTokenomics />} />
           <Route path="/rewards" element={<RewardsLanding />} />
+          <Route path="/uae" element={<UAELandingPage />} />
 
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

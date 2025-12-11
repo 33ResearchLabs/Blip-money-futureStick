@@ -173,6 +173,33 @@ const FLOW_STEPS = {
     },
   ],
 };
+const LanguageSwitcher = ({ language, setLanguage }) => {
+  return (
+    <div className="flex items-center gap-2 text-sm font-medium">
+      <button
+        onClick={() => setLanguage("en")}
+        className={`px-3 py-1 rounded-full transition ${
+          language === "en"
+            ? "bg-[#00FF94] text-black"
+            : "text-gray-400 hover:text-white"
+        }`}
+      >
+        EN
+      </button>
+
+      <button
+        onClick={() => setLanguage("ar")}
+        className={`px-3 py-1 rounded-full transition ${
+          language === "ar"
+            ? "bg-[#00FF94] text-black"
+            : "text-gray-400 hover:text-white"
+        }`}
+      >
+        العربية
+      </button>
+    </div>
+  );
+};
 
 const TOKEN_UTILITIES = [
   {
@@ -572,6 +599,7 @@ const ParticleBackground = () => {
 
 export const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [language, setLanguage] = useState("en");
 
   return (
     <nav className="fixed top-0 w-full z-50 backdrop-blur-md border-b border-white/5 bg-black/60 supports-[backdrop-filter]:bg-black/40">
@@ -613,8 +641,9 @@ export const Navbar = () => {
             >
               Tokenomics
             </a>
-          </div>
-          <a href="/coming-soon">
+          </div>  <LanguageSwitcher language={language} setLanguage={setLanguage} />
+
+          <a href="#">
             <button className="px-5 py-2 rounded-full border border-white/10 text-white text-sm hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all bg-black/50 backdrop-blur-sm group">
               <span className="group-hover:text-[#2BFF88] transition-colors">
                 Open App
@@ -1572,6 +1601,62 @@ const Index = () => {
     >
       <Navbar />
       <Hero />
+      {/* UAE ANNOUNCEMENT SECTION */}
+{/* UAE ANNOUNCEMENT SECTION */}
+<section className="w-full py-14 bg-black relative border-t border-white/5">
+  <div className="max-w-6xl mx-auto px-6 flex flex-col items-center text-center">
+
+    {/* UAE FLAG STRIP */}
+    <div className="flex items-center mb-5 opacity-90">
+      <div className="w-5 h-6 bg-[#D91A20] rounded-l-sm" />
+      <div className="w-5 h-6 bg-white" />
+      <div className="w-5 h-6 bg-[#00732F]" />
+      <div className="w-5 h-6 bg-black rounded-r-sm border border-white/10" />
+    </div>
+
+    {/* TITLE */}
+    <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white mb-3 animate-fadeIn">
+      We’re coming to the <span className="text-[#2BFF88]">United Arab Emirates.</span>
+    </h2>
+
+    {/* SUBTEXT */}
+    <p className="text-gray-400 max-w-xl text-sm sm:text-base mb-6">
+      Blip.money will launch its next real-world settlement corridor in the UAE.
+      Fast, private, crypto-native payments built for a global hub.
+    </p>
+
+    {/* CTA BUTTON */}
+    <a href="/uae" className="mt-2">
+      <button
+        className="
+          px-7 py-3 rounded-full 
+          bg-[#2BFF88] text-black font-semibold 
+          hover:bg-[#21e07c] 
+          transition shadow-[0_0_18px_rgba(43,255,136,0.4)]
+        "
+      >
+        Join UAE Priority List →
+      </button>
+    </a>
+
+  </div>
+
+  {/* Glow */}
+  <div className="absolute inset-0 -z-10 opacity-20 bg-gradient-to-b from-[#2BFF88]/10 to-transparent blur-[80px]" />
+
+  {/* Animation */}
+  <style>{`
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fadeIn {
+      animation: fadeIn 0.6s ease-out forwards;
+    }
+  `}</style>
+</section>
+
+
       <CashbackBanner />
 
       <SocialSidebar />
