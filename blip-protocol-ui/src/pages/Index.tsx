@@ -210,6 +210,130 @@ export const Navbar = () => {
     </nav>
   );
 };
+const EarlyAdopterBanner = () => {
+  return (
+    <section className="relative overflow-hidden border-y border-white/5 bg-gradient-to-r from-[#040810] via-[#05030A] to-[#12040F]">
+      {/* background glows */}
+      <div className="pointer-events-none absolute inset-0 opacity-80">
+        <div className="absolute -left-24 top-1/2 h-64 w-64 -translate-y-1/2 rounded-full bg-[#00FF94]/18 blur-3xl" />
+        <div className="absolute right-[-40px] top-0 h-72 w-72 rounded-full bg-[#00C8FF]/18 blur-3xl" />
+        <div className="absolute bottom-[-60px] left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-[#FACC15]/10 blur-3xl" />
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-12 lg:py-16 grid lg:grid-cols-[1.1fr_minmax(0,1fr)] gap-10 items-center">
+        {/* Text block */}
+        <div className="text-center lg:text-left">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/40 border border-white/10 mb-4">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#00FF94] animate-pulse" />
+            <span className="text-[10px] font-mono tracking-[0.22em] uppercase text-gray-300">
+              EARLY ADOPTER PROGRAM
+            </span>
+          </div>
+
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-white tracking-tight mb-3">
+            Claim your{" "}
+            <span className="text-[#00FF94]">$100 early drop</span> when you
+            join Blip.
+          </h2>
+
+          <p className="text-sm sm:text-base text-gray-300 max-w-xl mx-auto lg:mx-0">
+            Register, connect your wallet and complete your first transfer.
+            We reserve $100 worth of Blip Tokens for every verified early
+            adopter.
+          </p>
+
+          <div className="mt-5 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start text-xs sm:text-sm text-gray-400">
+            <div className="inline-flex items-center gap-2">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#00FF94]" />
+              New wallet registration
+            </div>
+            <div className="inline-flex items-center gap-2">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#00FF94]" />
+              First successful Blip transfer
+            </div>
+            <div className="inline-flex items-center gap-2">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#00FF94]" />
+              $100 drop unlocked
+            </div>
+          </div>
+        </div>
+
+        {/* Premium card */}
+        <div className="flex justify-center lg:justify-end">
+          <div className="relative w-full max-w-md">
+            {/* outer glow */}
+            <div className="absolute -inset-2 rounded-[32px] bg-gradient-to-br from-[#00FF94]/35 via-[#00C8FF]/25 to-[#FACC15]/25 blur-2xl opacity-80" />
+
+            <div className="relative rounded-[32px] bg-[radial-gradient(circle_at_top,_#071B13,_#05040B_55%,_#020308_100%)] border border-white/8 shadow-[0_28px_80px_rgba(0,0,0,0.9)] overflow-hidden">
+              {/* subtle inner highlight */}
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/4 via-transparent to-black/60" />
+
+              <div className="relative px-7 sm:px-8 pt-7 pb-6 space-y-6">
+                {/* top row */}
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="text-[10px] font-mono tracking-[0.28em] uppercase text-gray-400">
+                      EARLY DROP BALANCE
+                    </p>
+                    <p className="mt-1 text-xs text-gray-400">
+                      Reserved for you once requirements are completed.
+                    </p>
+                  </div>
+
+                  <div className="w-10 h-10 rounded-2xl border border-[#00FF94]/50 bg-black/40 flex items-center justify-center text-[#00FF94] shadow-[0_0_18px_rgba(0,255,148,0.6)]">
+                    <Gem size={18} />
+                  </div>
+                </div>
+
+                {/* amount */}
+                <div className="flex items-baseline gap-3">
+                  <span className="text-4xl sm:text-5xl font-semibold text-[#00FF94] leading-none">
+                    $100
+                  </span>
+                  <div className="flex flex-col">
+                    <span className="text-sm text-gray-200">
+                      in Blip Tokens
+                    </span>
+                    <span className="text-[11px] text-gray-500">
+                      1x per user · limited supply
+                    </span>
+                  </div>
+                </div>
+
+                {/* progress bar style hint (fake) */}
+                <div className="space-y-2">
+                  <div className="flex justify-between text-[11px] text-gray-400 font-mono uppercase tracking-[0.16em]">
+                    <span>Allocation filled</span>
+                    <span className="text-[#00FF94]">72%</span>
+                  </div>
+                  <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
+                    <div className="h-full w-[72%] rounded-full bg-gradient-to-r from-[#00FF94] via-[#00C8FF] to-[#FACC15]" />
+                  </div>
+                </div>
+
+                {/* buttons */}
+                <div className="flex flex-col sm:flex-row gap-3 pt-1">
+                  <Button
+                    primary
+                    className="w-full sm:w-auto justify-center px-8 py-3 text-sm bg-[#00FF94] text-black hover:bg-[#0B9A4A]"
+                  >
+                    Become an Early Adopter
+                    <ArrowRight className="w-4 h-4" />
+                  </Button>
+
+                  <button className="w-full sm:w-auto px-8 py-3 rounded-full border border-white/25 text-xs sm:text-sm text-gray-100 hover:border-[#00FF94] hover:text-[#00FF94] bg-black/40 transition-all">
+                    View eligibility details
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 
 const PulseWave = () => {
   return (
@@ -608,6 +732,153 @@ const stylesPeopleBank = {
     backgroundSize: "20px 20px",
   },
 };
+const FeatureStrip = () => {
+  return (
+    <section className="relative overflow-hidden border-y border-white/5 bg-gradient-to-r from-[#02151f] via-[#05030a] to-[#140313]">
+      {/* soft glows */}
+      <div className="pointer-events-none absolute inset-0 opacity-60">
+        <div className="absolute -left-24 top-1/2 h-48 w-48 -translate-y-1/2 rounded-full bg-[#00FF94]/20 blur-3xl" />
+        <div className="absolute right-0 top-0 h-56 w-56 rounded-full bg-[#00C8FF]/20 blur-3xl" />
+        <div className="absolute bottom-[-40px] left-1/2 h-52 w-52 -translate-x-1/2 rounded-full bg-[#C084FC]/18 blur-3xl" />
+      </div>
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-12 flex flex-col gap-8">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+          <div className="text-center md:text-left">
+            <p className="text-[10px] font-mono tracking-[0.25em] uppercase text-gray-300 mb-2">
+              WHY BLIP FEELS DIFFERENT
+            </p>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-white tracking-tight">
+              Built for crypto users.  
+              <span className="text-[#00FF94]">Not for banks.</span>
+            </h2>
+          </div>
+
+          <div className="flex justify-center md:justify-end">
+            <div className="inline-flex items-center gap-3 px-3 py-2 rounded-full bg-black/40 border border-white/15 text-[11px] font-mono uppercase tracking-[0.18em] text-gray-300">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#00FF94] animate-pulse" />
+              LIVE P2P · NO CUSTODY · ON-CHAIN
+            </div>
+          </div>
+        </div>
+
+        {/* 3 feature columns */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+          {/* Fast & final */}
+          <div className="rounded-2xl bg-black/50 border border-white/10 p-5 sm:p-6 backdrop-blur">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-8 h-8 rounded-xl bg-[#00FF94]/10 flex items-center justify-center text-[#00FF94]">
+                <Zap size={18} />
+              </div>
+              <p className="text-xs font-mono tracking-[0.16em] uppercase text-gray-400">
+                Speed & Finality
+              </p>
+            </div>
+            <p className="text-sm sm:text-base text-gray-200">
+              Sub-second routing and settlement proofs on-chain. No “T+3.” No
+              bank hours.
+            </p>
+          </div>
+
+          {/* Private layer */}
+          <div className="rounded-2xl bg-black/50 border border-white/10 p-5 sm:p-6 backdrop-blur">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-8 h-8 rounded-xl bg-[#00C8FF]/10 flex items-center justify-center text-[#00C8FF]">
+                <ShieldCheck size={18} />
+              </div>
+              <p className="text-xs font-mono tracking-[0.16em] uppercase text-gray-400">
+                Privacy by default
+              </p>
+            </div>
+            <p className="text-sm sm:text-base text-gray-200">
+              Wallet-only transfers for small tickets. Your personal identity
+              stays off the wire.
+            </p>
+          </div>
+
+          {/* P2P liquidity */}
+          <div className="rounded-2xl bg-black/50 border border-white/10 p-5 sm:p-6 backdrop-blur">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-8 h-8 rounded-xl bg-[#C084FC]/15 flex items-center justify-center text-[#C084FC]">
+                <Layers size={18} />
+              </div>
+              <p className="text-xs font-mono tracking-[0.16em] uppercase text-gray-400">
+                PeopleBank Liquidity
+              </p>
+            </div>
+            <p className="text-sm sm:text-base text-gray-200">
+              Human nodes route value across borders and earn Blip Tokens for
+              every order they take.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const CashbackBanner = () => {
+  return (
+    <section className="relative overflow-hidden border-y border-white/5 bg-gradient-to-r from-[#041520] via-[#020c08] to-[#150418]">
+      {/* soft glows */}
+      <div className="pointer-events-none absolute inset-0 opacity-60">
+        <div className="absolute -left-32 top-1/2 h-64 w-64 -translate-y-1/2 rounded-full bg-[#00FF94]/20 blur-3xl" />
+        <div className="absolute right-0 top-0 h-64 w-64 rounded-full bg-[#00C8FF]/15 blur-3xl" />
+        <div className="absolute bottom-0 left-1/2 h-40 w-40 -translate-x-1/2 rounded-full bg-[#FFD43B]/10 blur-3xl" />
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10 flex flex-col md:flex-row gap-6 md:gap-10 items-center justify-between">
+        {/* Left copy */}
+        <div className="text-center md:text-left max-w-xl">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/40 border border-white/10 mb-3">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#00FF94] animate-pulse" />
+            <span className="text-[10px] font-mono tracking-[0.22em] uppercase text-gray-300">
+              LAUNCH REWARD · LIMITED TIME
+            </span>
+          </div>
+
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-white tracking-tight mb-2">
+            Get <span className="text-[#00FF94] font-bold">100% cashback</span> on your transfer.
+          </h2>
+
+          <p className="text-sm sm:text-base text-gray-300">
+            Early Blip users earn boosted rewards on all successful payments.
+            No tiers, no games — just more value every time you move money.
+          </p>
+        </div>
+
+        {/* Right stats / CTA pill */}
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+          <div className="flex-1 sm:flex-none px-4 py-3 rounded-2xl bg-black/60 border border-[#00FF94]/30 min-w-[210px]">
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-[11px] font-mono tracking-[0.18em] text-gray-400 uppercase">
+                Cashback Rate
+              </span>
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#00FF94]/10 text-[#00FF94] font-mono uppercase tracking-[0.18em]">
+                x2 launch
+              </span>
+            </div>
+            <div className="flex items-baseline gap-1">
+              <span className="text-3xl font-semibold text-[#00FF94]">
+                5%
+              </span>
+              <span className="text-xs text-gray-400">in Blip Tokens</span>
+            </div>
+          </div>
+
+          <Button
+            primary
+            className="w-full sm:w-auto px-8 py-3 text-sm sm:text-base bg-[#00FF94] text-black hover:bg-[#0B9A4A]"
+          >
+            Claim Early Rewards
+            <ArrowRight className="w-4 h-4" />
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const Hero = () => (
   <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 sm:pt-20">
 
@@ -628,7 +899,7 @@ const Hero = () => (
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FFD43B]"></span>
             </span>
             <span className="text-[10px] font-bold text-[#FFD43B] uppercase tracking-wider">
-              Protocol Live
+              Private On-Chain Payments.
             </span>
           </div>
 
@@ -828,6 +1099,8 @@ const Index = () => {
     >
       <Navbar />
       <Hero />
+      <CashbackBanner />
+
       <SocialSidebar />
 
       {/* <!-- 2. THE PROBLEM SECTION (Scroll-Reveal Timeline) -->
@@ -930,6 +1203,7 @@ Payments"
   id="protocol-section"
   className="py-40 overflow-hidden bg-[#000000]"
 >
+
   <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
     {/* Text Block (Left) */}
     <div className="lg:sticky lg:top-1/4">
@@ -955,6 +1229,7 @@ Payments"
     <LiquidityEngineDiagram />
   </div>
 </section>
+      <FeatureStrip />
 
 
       {/* <!-- SECTION 3: HOW IT WORKS (3 STEPS - STRIPE VIBE) --> */}
@@ -1145,6 +1420,7 @@ Payments"
         </div>
       </section>
 
+
       {/* <!-- SECTION 7: PRIVACY & TRUST (TWO-COLUMN MINIMAL) --> */}
       <section className="py-32 border-t border-gray-900 bg-black">
   <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -1260,6 +1536,7 @@ Payments"
     </div>
   </div>
 </section>
+<EarlyAdopterBanner />
 
       {/* --- SECTION 5: MERCHANTS --- */}
       <section
@@ -1454,9 +1731,17 @@ Payments"
         `}
         </style>
         <section
-          id="peoplebank"
-          className="py-16 md:py-32 bg-[#050505] border-t border-white/5 "
-        >
+  id="peoplebank"
+  className="relative py-16 md:py-32 border-t border-white/5 overflow-hidden
+             bg-gradient-to-br from-[#020813] via-[#030608] to-[#0a030d]"
+>
+
+<div className="pointer-events-none absolute inset-0 opacity-70">
+    <div className="absolute -top-24 left-1/4 w-72 h-72 rounded-full bg-[#00C8FF]/18 blur-3xl" />
+    <div className="absolute -bottom-32 right-0 w-80 h-80 rounded-full bg-[#00FF94]/20 blur-3xl" />
+    <div className="absolute top-1/3 -left-24 w-64 h-64 rounded-full bg-[#7C3AED]/16 blur-3xl" />
+  </div>
+
           <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-20">
             {/* Left Content Area */}
             <div>
