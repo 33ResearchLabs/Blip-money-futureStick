@@ -174,6 +174,57 @@ const FLOW_STEPS = {
   ],
 };
 
+const TOKEN_UTILITIES = [
+  {
+    id: "merchant-staking",
+    label: "Merchant Staking",
+    symbol: "◆",
+    color: "#00FF94",
+    description: "Stake BLIP to underwrite your volume and unlock higher trust tiers.",
+  },
+  {
+    id: "routing-priority",
+    label: "Routing Priority",
+    symbol: "➤",
+    color: "#38BDF8",
+    description: "More stake, better pricing and order flow routed through you first.",
+  },
+  {
+    id: "liquidity-rewards",
+    label: "Liquidity Rewards",
+    symbol: "◉",
+    color: "#A855F7",
+    description: "Provide cross-border liquidity and earn protocol rewards every fill.",
+  },
+  {
+    id: "dispute-slashing",
+    label: "Dispute Slashing",
+    symbol: "⚔",
+    color: "#F97373",
+    description: "Bad actors get slashed. Honest merchants are economically protected.",
+  },
+  {
+    id: "governance",
+    label: "Governance",
+    symbol: "⚖",
+    color: "#FACC15",
+    description: "Holders vote on fees, new corridors and protocol parameter changes.",
+  },
+  {
+    id: "fee-reductions",
+    label: "Fee Reductions",
+    symbol: "⬉",
+    color: "#4ADE80",
+    description: "Use BLIP to pay protocol fees and get discounted routes.",
+  },
+  {
+    id: "promotions",
+    label: "Marketplace Promotions",
+    symbol: "✦",
+    color: "#F472B6",
+    description: "Boost your routes, gain surface area in the Blip marketplace.",
+  },
+];
 
 
 const UsageCard = ({ scene, active, onClick }) => {
@@ -420,8 +471,6 @@ const LiveUsagePanel = ({ scene }) => {
   );
 };
 
-
-
 const RealWorldUsageSection = () => {
   const [activeId, setActiveId] = useState("cafe");
   const activeScene =
@@ -477,9 +526,6 @@ const RealWorldUsageSection = () => {
     </section>
   );
 };
-
-
-
 
 
 const ParticleBackground = () => {
@@ -2210,117 +2256,73 @@ Payments"
       </>
 
       {/* SECTION 9: TOKEN UTILITY (SIMPLE GRID) */}
-      <section className="py-32 border-t border-gray-900 container mx-auto px-4">
-        <div className="max-w-6xl mx-auto px-6">
-          <SectionLabel
-            text="Protocol Token Utility"
-            className="items-center justify-center"
-          />
-          <h2
-            data-animate-on-scroll
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-8 sm:mb-12 md:mb-16 tracking-tight text-center"
-          >
-            Protocol Token Utility
-          </h2>
+      <section
+  id="token-utility"
+  className="py-24 sm:py-32 border-t border-white/5 bg-[#020202]"
+>
+  <div className="max-w-6xl mx-auto px-4 sm:px-6">
+    <SectionLabel
+      text="Protocol Token Utility"
+      className="items-center justify-center"
+    />
 
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-6 max-w-7xl mx-auto">
-            {/* Merchant Staking */}
+    <h2
+      data-animate-on-scroll
+      className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-6 sm:mb-10 tracking-tight text-center"
+    >
+      Protocol Token Utility
+    </h2>
+
+    <p className="text-sm sm:text-base text-gray-400 text-center max-w-2xl mx-auto mb-10 sm:mb-14">
+      BLIP isn’t just a reward token. It powers how value flows, who gets paid
+      first and how the network defends itself.
+    </p>
+
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6">
+      {TOKEN_UTILITIES.map((item, idx) => (
+        <div
+          key={item.id}
+          data-animate-on-scroll
+          style={{ animationDelay: `${idx * 40}ms` }}
+          className="group relative rounded-2xl bg-[#050505] border border-white/5 
+                     hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.20)]
+                     transition-all duration-300 overflow-hidden"
+        >
+          {/* subtle glow */}
+          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
             <div
-              data-animate-on-scroll
-              className="text-center p-6 bg-dark-gray rounded-lg border border-gray-800 hover:border-neon-green/50 transition duration-300 group hover:scale-[1.03]"
-            >
-              <div className="text-2xl text-neon-green mb-2 transition duration-300 group-hover:text-cyan">
-                ◆
+              className="absolute inset-0 blur-3xl"
+              style={{ background: `radial-gradient(circle at top, ${item.color}33, transparent 60%)` }}
+            />
+          </div>
+
+          <div className="relative p-5 sm:p-6 flex flex-col gap-3">
+            {/* icon + tiny pill */}
+            <div className="flex items-center justify-between gap-3">
+              <div
+                className="w-9 h-9 rounded-xl bg-[#0A0A0A] border border-white/10 flex items-center justify-center text-lg"
+                style={{ color: item.color }}
+              >
+                {item.symbol}
               </div>
-              <p className="text-sm font-semibold text-gray-300">
-                Merchant Staking
-              </p>
+              <span className="text-[9px] font-mono uppercase tracking-[0.18em] text-gray-500">
+                UTILITY
+              </span>
             </div>
 
-            {/* Routing Priority */}
-            <div
-              data-animate-on-scroll
-              className="text-center p-6 bg-dark-gray rounded-lg border border-gray-800 hover:border-neon-green/50 transition duration-300 group hover:scale-[1.03]"
-              style={{ animationDelay: "50ms" }}
-            >
-              <div className="text-2xl text-cyan mb-2 transition duration-300 group-hover:text-neon-green">
-                ➤
-              </div>
-              <p className="text-sm font-semibold text-gray-300">
-                Routing Priority
-              </p>
-            </div>
+            <h3 className="text-sm sm:text-base font-semibold text-white mt-1">
+              {item.label}
+            </h3>
 
-            {/* Liquidity Rewards */}
-            <div
-              data-animate-on-scroll
-              className="text-center p-6 bg-dark-gray rounded-lg border border-gray-800 hover:border-neon-green/50 transition duration-300 group hover:scale-[1.03]"
-              style={{ animationDelay: "100ms" }}
-            >
-              <div className="text-2xl text-purple-400 mb-2 transition duration-300 group-hover:text-cyan">
-                ◉
-              </div>
-              <p className="text-sm font-semibold text-gray-300">
-                Liquidity Rewards
-              </p>
-            </div>
-
-            {/* Dispute Slashing */}
-            <div
-              data-animate-on-scroll
-              className="text-center p-6 bg-dark-gray rounded-lg border border-gray-800 hover:border-neon-green/50 transition duration-300 group hover:scale-[1.03]"
-              style={{ animationDelay: "150ms" }}
-            >
-              <div className="text-2xl text-red-400 mb-2 transition duration-300 group-hover:text-cyan">
-                ⚔
-              </div>
-              <p className="text-sm font-semibold text-gray-300">
-                Dispute Slashing
-              </p>
-            </div>
-
-            {/* Governance */}
-            <div
-              data-animate-on-scroll
-              className="text-center p-6 bg-dark-gray rounded-lg border border-gray-800 hover:border-neon-green/50 transition duration-300 group hover:scale-[1.03]"
-              style={{ animationDelay: "200ms" }}
-            >
-              <div className="text-2xl text-yellow-300 mb-2 transition duration-300 group-hover:text-cyan">
-                ⚖
-              </div>
-              <p className="text-sm font-semibold text-gray-300">Governance</p>
-            </div>
-
-            {/* Fee Reductions */}
-            <div
-              data-animate-on-scroll
-              className="text-center p-6 bg-dark-gray rounded-lg border border-gray-800 hover:border-neon-green/50 transition duration-300 group hover:scale-[1.03]"
-              style={{ animationDelay: "250ms" }}
-            >
-              <div className="text-2xl text-green-300 mb-2 transition duration-300 group-hover:text-cyan">
-                ⬉
-              </div>
-              <p className="text-sm font-semibold text-gray-300">
-                Fee Reductions
-              </p>
-            </div>
-
-            {/* Marketplace Promotions */}
-            <div
-              data-animate-on-scroll
-              className="text-center p-6 bg-dark-gray rounded-lg border border-gray-800 hover:border-neon-green/50 transition duration-300 group hover:scale-[1.03]"
-              style={{ animationDelay: "300ms" }}
-            >
-              <div className="text-2xl text-pink-400 mb-2 transition duration-300 group-hover:text-cyan">
-                ✦
-              </div>
-              <p className="text-sm font-semibold text-gray-300">
-                Marketplace Promotions
-              </p>
-            </div>
+            <p className="text-xs sm:text-[13px] text-gray-400 leading-relaxed">
+              {item.description}
+            </p>
           </div>
         </div>
-      </section>
+      ))}
+    </div>
+  </div>
+</section>
 
       {/* --- SECTION 9: FINAL HERO --- */}
       <section className="py-20 sm:py-28 md:py-36 lg:py-40 relative flex items-center justify-center overflow-hidden bg-black text-center border-t border-white/5">
