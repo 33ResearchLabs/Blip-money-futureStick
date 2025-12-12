@@ -1626,18 +1626,7 @@ const Index = () => {
     </p>
 
     {/* CTA BUTTON */}
-    <a href="/uae" className="mt-2">
-      <button
-        className="
-          px-7 py-3 rounded-full 
-          bg-[#2BFF88] text-black font-semibold 
-          hover:bg-[#21e07c] 
-          transition shadow-[0_0_18px_rgba(43,255,136,0.4)]
-        "
-      >
-        Join UAE Priority List →
-      </button>
-    </a>
+   
 
   </div>
 
