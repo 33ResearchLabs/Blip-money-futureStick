@@ -646,7 +646,7 @@ export const Navbar = () => {
           <a href="#">
             <button className="px-5 py-2 rounded-full border border-white/10 text-white text-sm hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all bg-black/50 backdrop-blur-sm group">
               <span className="group-hover:text-[#2BFF88] transition-colors">
-                Open App
+                Coming Soon
               </span>
             </button>
           </a>
@@ -815,13 +815,15 @@ const EarlyAdopterBanner = () => {
 
                 {/* buttons */}
                 <div className="flex flex-col sm:flex-row gap-3 pt-1">
-                  <Button
-                    primary
-                    className="w-full sm:w-auto justify-center px-8 py-3 text-sm bg-[#00FF94] text-black hover:bg-[#0B9A4A]"
-                  >
-                    Become an Early Adopter
-                    <ArrowRight className="w-4 h-4" />
-                  </Button>
+                <Link to="/rewards">
+  <Button
+    primary
+    className="w-full sm:w-auto justify-center px-8 py-3 text-sm bg-[#00FF94] text-black hover:bg-[#0B9A4A]"
+  >
+    Become an Early Adopter
+    <ArrowRight className="w-4 h-4" />
+  </Button>
+</Link>
 
                   <button className="w-full sm:w-auto px-8 py-3 rounded-full border border-white/25 text-xs sm:text-sm text-gray-100 hover:border-[#00FF94] hover:text-[#00FF94] bg-black/40 transition-all">
                     View eligibility details
@@ -1368,13 +1370,15 @@ const CashbackBanner = () => {
             </div>
           </div>
 
-          <Button
-            primary
-            className="w-full sm:w-auto px-8 py-3 text-sm sm:text-base bg-[#00FF94] text-black hover:bg-[#0B9A4A]"
-          >
-            Claim Early Rewards
-            <ArrowRight className="w-4 h-4" />
-          </Button>
+          <Link to="/rewards" target="_blank" rel="noopener noreferrer">
+  <Button
+    primary
+    className="w-full sm:w-auto px-8 py-3 text-sm sm:text-base bg-[#00FF94] text-black hover:bg-[#0B9A4A]"
+  >
+    Learn more
+    <ArrowRight className="w-4 h-4" />
+  </Button>
+</Link>
         </div>
       </div>
     </section>
@@ -1447,18 +1451,26 @@ const Hero = () => (
           {/* CTA BUTTONS */}
           <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mt-8 justify-center lg:justify-start">
             <Link to="#">
-              <button className="w-full sm:w-auto px-8 py-4 rounded-full bg-[#2BFF88] text-black font-bold text-lg hover:shadow-[0_0_40px_rgba(43,255,136,0.4)] hover:scale-105 transition-all flex items-center justify-center gap-2 group">
-                Open App{" "}
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            <button className="w-full sm:w-auto px-8 py-4 rounded-full border border-white/20 text-white font-medium hover:bg-white/5 hover:border-white/40 transition-all flex items-center justify-center gap-2">
+
+                Coming Soon
               </button>
             </Link>
 
-            <button className="w-full sm:w-auto px-8 py-4 rounded-full border border-white/20 text-white font-medium hover:bg-white/5 hover:border-white/40 transition-all flex items-center justify-center gap-2">
-              <div className="w-6 h-6 rounded-full border border-white/30 flex items-center justify-center">
-                <div className="w-0 h-0 border-t-[3px] border-t-transparent border-l-[6px] border-l-white border-b-[3px] border-b-transparent ml-0.5"></div>
-              </div>
-              How Blip Works
-            </button>
+            <a
+  href="/whitepaper.pdf"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="w-full sm:w-auto px-8 py-4 rounded-full bg-[#2BFF88] text-black font-bold text-lg hover:shadow-[0_0_40px_rgba(43,255,136,0.4)] hover:scale-105 transition-all flex items-center justify-center gap-2 group"
+>
+  <div className="w-6 h-6 rounded-full border border-white/30 flex items-center justify-center">
+    <div className="w-0 h-0 border-t-[3px] border-t-transparent border-l-[6px] border-l-white border-b-[3px] border-b-transparent ml-0.5"></div>
+  </div>
+
+  Read Whitepaper
+  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+</a>
+
           </div>
 
         </motion.div>
@@ -1767,9 +1779,15 @@ Payments"
         for privacy and Solana&apos;s speed for scalability. It&apos;s the new
         financial infrastructure the world needs.
       </p>
-      <button className="bg-black/80 backdrop-blur border border-[#00FF94]/30 text-white hover:text-[#00FF94] px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider my-4 hover:shadow-[0_0_1px_#00FF94] transition-all duration-300">
-        Explore Whitepaper
-      </button>
+      <a
+  href="/whitepaper.pdf"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="inline-block bg-black/80 backdrop-blur border border-[#00FF94]/30 text-white hover:text-[#00FF94] px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider my-4 hover:shadow-[0_0_1px_#00FF94] transition-all duration-300"
+>
+  Explore Whitepaper
+</a>
+
     </div>
 
     {/* Protocol Diagram — Liquidity Engine */}
@@ -2118,17 +2136,24 @@ Payments"
             </p>
 
             <div className="flex flex-col gap-4 max-w-xs">
-              <button className="bg-black/80 backdrop-blur border border-[#00FF94]/30 text-[#00FF94] px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-[#00FF94] hover:text-black hover:shadow-[0_0_30px_#00FF94] transition-all duration-300">
-                Join Early Supporters
-              </button>
+  <Link to="/rewards">
+    <button className="w-full bg-black/80 backdrop-blur border border-[#00FF94]/30 text-[#00FF94] px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-[#00FF94] hover:text-black hover:shadow-[0_0_30px_#00FF94] transition-all duration-300">
+      Join Early Supporters
+    </button>
+  </Link>
 
-              <button className="bg-black/80 backdrop-blur border border-white/20 text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:border-[#00FF94] hover:text-[#00FF94] transition-all duration-300">
-                Join the Waitlist
-              </button>
+  <Link to="/rewards">
+    <button className="w-full bg-black/80 backdrop-blur border border-white/20 text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:border-[#00FF94] hover:text-[#00FF94] transition-all duration-300">
+      Join the Waitlist
+    </button>
+  </Link>
 
-              <button className="bg-black/80 backdrop-blur border border-white/20 text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:border-[#00FF94] hover:text-[#00FF94] transition-all duration-300">
-                Get Airdrop Access
-              </button>
+  <Link to="/rewards">
+    <button className="w-full bg-black/80 backdrop-blur border border-white/20 text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:border-[#00FF94] hover:text-[#00FF94] transition-all duration-300">
+      Get Airdrop Access
+    </button>
+  </Link>
+
             </div>
           </div>
 

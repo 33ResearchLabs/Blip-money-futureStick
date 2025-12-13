@@ -10,7 +10,7 @@ import Index from "./pages/Index";
 import UAELandingPage from "./pages/uae";
 import NotFound from "./pages/NotFound";
 import BlipTokenomics from "./components/BlipTokenomics";
-
+import ComingSoon from "./components/ComingSoon";
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -27,6 +27,7 @@ const App = () => (
           <Route path="/tokenomics" element={<BlipTokenomics />} />
           <Route path="/rewards" element={<RewardsLanding />} />
           <Route path="/uae" element={<UAELandingPage />} />
+          <Route path="/comingsoon" element={<ComingSoon />} />
 
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
