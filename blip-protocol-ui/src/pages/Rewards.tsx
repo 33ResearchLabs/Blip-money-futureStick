@@ -14,11 +14,16 @@ import {
   Zap,
   DollarSign,
 } from "lucide-react";
+import { NavLink } from "react-router-dom";
+
 
 // --- MOCK/MIGRATED DEPENDENCIES (for single-file execution) ---
 
 // 1. Mock Link (using standard <a>)
 const Link = ({ to, children }) => <a href={to}>{children}</a>;
+
+
+
 
 // 2. Mock Navbar (Copied from previous file)
 export const Navbar = () => {
@@ -40,10 +45,30 @@ export const Navbar = () => {
         {/* Desktop Menu */}
         <div className="hidden lg:flex items-center gap-8">
           <div className="flex items-center gap-8 text-sm font-medium text-gray-400">
-            <a href="#" className="hover:text-[#2BFF88] transition-colors">Protocol</a>
-            <a href="#" className="hover:text-[#2BFF88] transition-colors">Merchants</a>
-            <a href="#" className="hover:text-[#2BFF88] transition-colors">PeopleBank</a>
-            <a href="#" className="hover:text-[#2BFF88] transition-colors">Tokenomics</a>
+            <a
+              href="#protocol"
+              className="hover:text-[#2BFF88] transition-colors"
+            >
+              Protocol
+            </a>
+            <a  href="#merchants" className="hover:text-[#2BFF88] transition-colors">
+              Merchants
+            </a>
+            <a  href="#peoplebank" className="hover:text-[#2BFF88] transition-colors">
+              PeopleBank
+            </a>
+            <NavLink
+              to="/tokenomics"
+              className={({ isActive }) =>
+                `transition-colors ${
+                  isActive
+                    ? "text-[#2BFF88] font-semibold"
+                    : "hover:text-[#2BFF88]"
+                }`
+              }
+            >
+              Tokenomics
+            </NavLink>
           </div>
           <a href="/coming-soon">
             <button className="px-5 py-2 rounded-full border border-white/10 text-white text-sm hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all bg-black/50 backdrop-blur-sm group">
@@ -73,10 +98,36 @@ export const Navbar = () => {
               className="lg:hidden absolute top-full left-0 right-0 bg-black/95 backdrop-blur-xl border-b border-white/10"
             >
               <div className="flex flex-col p-6 space-y-4">
-                <a href="#" className="text-gray-400 hover:text-[#2BFF88] transition-colors text-lg py-2">Protocol</a>
-                <a href="#" className="text-gray-400 hover:text-[#2BFF88] transition-colors text-lg py-2">Merchants</a>
-                <a href="#" className="text-gray-400 hover:text-[#2BFF88] transition-colors text-lg py-2">PeopleBank</a>
-                <a href="#" className="hover:text-[#2BFF88] transition-colors">Tokenomics</a>
+                <a
+                  href="#protocol"
+                  className="text-gray-400 hover:text-[#2BFF88] transition-colors text-lg py-2"
+                >
+                  Protocol
+                </a>
+                <a
+                   href="#merchants"
+                  className="text-gray-400 hover:text-[#2BFF88] transition-colors text-lg py-2"
+                >
+                  Merchants
+                </a>
+                <a
+                  href="#peoplebank"
+                  className="text-gray-400 hover:text-[#2BFF88] transition-colors text-lg py-2"
+                >
+                  PeopleBank
+                </a>
+                <NavLink
+                  to="/tokenomics"
+                  className={({ isActive }) =>
+                    `transition-colors ${
+                      isActive
+                        ? "text-[#2BFF88] font-semibold"
+                        : "hover:text-[#2BFF88]"
+                    }`
+                  }
+                >
+                  Tokenomics
+                </NavLink>
                 <a href="/coming-soon">
                   <button className="w-full px-5 py-3 rounded-full border border-white/10 text-white hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all bg-black/50 backdrop-blur-sm mt-2">
                     Open App
@@ -95,13 +146,27 @@ export const Navbar = () => {
 const SocialSidebar = () => (
   <div className="fixed left-0 top-1/2 -translate-y-1/2 z-40 hidden lg:block">
     <div className="flex flex-col gap-3 p-3 rounded-r-lg backdrop-blur-sm bg-black/40 border-r border-y border-white/5">
-      <a href="#" className="p-2 text-gray-400 hover:text-[#00FF94] transition-colors">T</a>
-      <a href="#" className="p-2 text-gray-400 hover:text-[#00FF94] transition-colors">D</a>
-      <a href="#" className="p-2 text-gray-400 hover:text-[#00FF94] transition-colors">M</a>
+      <a
+        href="https://t.me/+3DpHLzc2BfJhOWEx"
+        className="p-2 text-gray-400 hover:text-[#00FF94] transition-colors"
+      >
+        T
+      </a>
+      <a
+        href="#"
+        className="p-2 text-gray-400 hover:text-[#00FF94] transition-colors"
+      >
+        D
+      </a>
+      <a
+        href="#"
+        className="p-2 text-gray-400 hover:text-[#00FF94] transition-colors"
+      >
+        M
+      </a>
     </div>
   </div>
 );
-
 
 /* --------- SHARED BUTTON (Enhanced) --------- */
 const RewardsButton = ({ primary = false, className = "", children }) => (
@@ -127,9 +192,10 @@ const DigitalGridBackground = () => (
     <div
       className="absolute inset-0"
       style={{
-        backgroundImage: 'linear-gradient(to right, #00FF9410 1px, transparent 1px), linear-gradient(to bottom, #00FF9410 1px, transparent 1px)',
-        backgroundSize: '80px 80px',
-        animation: 'wave 60s linear infinite',
+        backgroundImage:
+          "linear-gradient(to right, #00FF9410 1px, transparent 1px), linear-gradient(to bottom, #00FF9410 1px, transparent 1px)",
+        backgroundSize: "80px 80px",
+        animation: "wave 60s linear infinite",
       }}
     />
     <div className="absolute inset-0 bg-gradient-to-br from-[#020202] via-transparent to-[#020202]" />
@@ -138,7 +204,6 @@ const DigitalGridBackground = () => (
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vh] rounded-full bg-[#00FF94]/5 blur-[100px] animate-[pulse-slow_6s_ease-in-out_infinite]" />
   </div>
 );
-
 
 /* --------- HERO RIGHT: FUN REWARD GRAPHIC --------- */
 const RewardOrbit = () => {
@@ -226,7 +291,6 @@ const RewardOrbit = () => {
 const RewardsHero = () => (
   <section className="relative min-h-[90vh] pt-32 sm:pt-36 lg:pt-40 overflow-hidden bg-[#020202]">
     <DigitalGridBackground /> {/* NEW DYNAMIC BACKGROUND */}
-
     <div className="relative max-w-7xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
       {/* LEFT */}
       <div className="w-full lg:w-[52%] text-center lg:text-left">
@@ -249,10 +313,12 @@ const RewardsHero = () => (
           </h1>
 
           <p className="text-sm sm:text-base md:text-lg text-gray-400 max-w-xl mx-auto lg:mx-0">
-            **100% cashback on your first transfer**, tiered rewards on ongoing volume,
-            and the first 1,000 users share a monumental{" "}
-            <span className="text-[#00FF94] font-semibold">20,000,000 BLIP</span> pool.
-            Be an early mover, get a massive drop.
+            **100% cashback on your first transfer**, tiered rewards on ongoing
+            volume, and the first 1,000 users share a monumental{" "}
+            <span className="text-[#00FF94] font-semibold">
+              20,000,000 BLIP
+            </span>{" "}
+            pool. Be an early mover, get a massive drop.
           </p>
 
           {/* SHORT PILLS */}
@@ -308,7 +374,9 @@ const RewardCard = ({ icon: Icon, badge, title, line1, line2, accent }) => (
   >
     <div
       className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-      style={{ background: `linear-gradient(to br, ${accent}15, transparent 60%)` }}
+      style={{
+        background: `linear-gradient(to br, ${accent}15, transparent 60%)`,
+      }}
     />
     <div className="relative flex flex-col gap-4">
       <div className="flex items-center justify-between gap-3">
@@ -320,7 +388,10 @@ const RewardCard = ({ icon: Icon, badge, title, line1, line2, accent }) => (
             {badge}
           </span>
         </div>
-        <Sparkles size={16} className="text-gray-500 group-hover:text-[#00FF94]" />
+        <Sparkles
+          size={16}
+          className="text-gray-500 group-hover:text-[#00FF94]"
+        />
       </div>
 
       <h3 className="text-lg sm:text-xl font-semibold text-white">{title}</h3>
@@ -383,132 +454,152 @@ const RewardsGrid = () => (
 /* --------- NEW SECTION 3: REWARDS CALCULATOR (UPDATED LOGIC) --------- */
 
 const RewardsCalculator = () => {
-    const [monthlyVolume, setMonthlyVolume] = useState(1500); // USD
-    const [tokenPrice] = useState(0.008); // USD per BLIP
-    const protocolFeeRate = 0.01; // 0.5% protocol fee
+  const [monthlyVolume, setMonthlyVolume] = useState(1500); // USD
+  const [tokenPrice] = useState(0.008); // USD per BLIP
+  const protocolFeeRate = 0.01; // 0.5% protocol fee
 
-    const calculateRewards = (volume) => {
-        const tier1Limit = 10000;
-        const tier2Limit = 200000;
-        const tier1Rate = 10; // 10% cashback on fees
-        const tier2Rate = 8; // 8% cashback on fees
-        let rewardUSD = 0;
+  const calculateRewards = (volume) => {
+    const tier1Limit = 10000;
+    const tier2Limit = 200000;
+    const tier1Rate = 10; // 10% cashback on fees
+    const tier2Rate = 8; // 8% cashback on fees
+    let rewardUSD = 0;
 
-        // Tier 1: 10% cashback up to $10,000
-        const volumeT1 = Math.min(volume, tier1Limit);
-        const feesT1 = volumeT1 * protocolFeeRate;
-        rewardUSD += feesT1 * tier1Rate;
+    // Tier 1: 10% cashback up to $10,000
+    const volumeT1 = Math.min(volume, tier1Limit);
+    const feesT1 = volumeT1 * protocolFeeRate;
+    rewardUSD += feesT1 * tier1Rate;
 
-        // Tier 2: 8% cashback from $10,001 up to $200,000
-        if (volume > tier1Limit) {
-            const volumeT2 = Math.min(volume, tier2Limit) - tier1Limit;
-            const feesT2 = volumeT2 * protocolFeeRate;
-            rewardUSD += feesT2 * tier2Rate;
-        }
-        
-        // Note: For volumes above $200k, the reward is currently capped at the T2 reward max for simplicity in the UI.
+    // Tier 2: 8% cashback from $10,001 up to $200,000
+    if (volume > tier1Limit) {
+      const volumeT2 = Math.min(volume, tier2Limit) - tier1Limit;
+      const feesT2 = volumeT2 * protocolFeeRate;
+      rewardUSD += feesT2 * tier2Rate;
+    }
 
-        return {
-            usd: rewardUSD,
-            blip: rewardUSD / tokenPrice,
-        };
+    // Note: For volumes above $200k, the reward is currently capped at the T2 reward max for simplicity in the UI.
+
+    return {
+      usd: rewardUSD,
+      blip: rewardUSD / tokenPrice,
     };
+  };
 
-    const { usd: estimatedMonthlyRewardsUSD, blip: estimatedMonthlyRewardsBLIP } = calculateRewards(monthlyVolume);
+  const { usd: estimatedMonthlyRewardsUSD, blip: estimatedMonthlyRewardsBLIP } =
+    calculateRewards(monthlyVolume);
 
-    // Simulate market data for fun
-    const [marketData] = useState({
-      blipPriceChange: '+3.2%',
-      blipPrice: `$${tokenPrice.toFixed(2)}`,
-    });
+  // Simulate market data for fun
+  const [marketData] = useState({
+    blipPriceChange: "+3.2%",
+    blipPrice: `$${tokenPrice.toFixed(2)}`,
+  });
 
-    const handleVolumeChange = (e) => setMonthlyVolume(Number(e.target.value));
+  const handleVolumeChange = (e) => setMonthlyVolume(Number(e.target.value));
 
-    return (
-        <section className="py-24 bg-[#020202] border-t border-white/5">
-            <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                <h2 className="text-3xl sm:text-4xl font-semibold text-white mb-12 tracking-tight text-center mint-gradient-text">
-                    Rewards Estimator ( Limited Airdrop))
-                </h2>
+  return (
+    <section className="py-24 bg-[#020202] border-t border-white/5">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <h2 className="text-3xl sm:text-4xl font-semibold text-white mb-12 tracking-tight text-center mint-gradient-text">
+          Rewards Estimator ( Limited Airdrop)
+        </h2>
 
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ duration: 0.6 }}
-                    className="grid lg:grid-cols-3 gap-8 rounded-3xl bg-[#080808] border border-[#00FF94]/20 p-6 sm:p-10 shadow-[0_0_60px_rgba(0,255,148,0.1)]"
-                >
-                    {/* LEFT: Input Control */}
-                    <div className="lg:col-span-1 space-y-8 p-4 lg:pr-8 lg:border-r lg:border-white/5">
-                        <h3 className="text-xl font-semibold text-white">Project your cashback earnings</h3>
-                        
-                        {/* Volume Input */}
-                        <div className="space-y-4">
-                            <label htmlFor="volume-slider" className="text-sm text-gray-400">Total Transaction Volume (USD)</label>
-                            <input
-                                id="volume-slider"
-                                type="range"
-                                min="100"
-                                max="200000" // Max volume for T2 calculation
-                                step="100"
-                                value={monthlyVolume}
-                                onChange={handleVolumeChange}
-                                className="w-full h-1 appearance-none bg-white/10 rounded-full transition-colors accent-[#00FF94] cursor-pointer"
-                            />
-                            <p className="text-3xl font-mono text-[#00FF94] tracking-wider font-bold">${monthlyVolume.toLocaleString()}</p>
-                        </div>
-                        
-                        {/* Assumptions/Info */}
-                        <div className="text-xs text-gray-500 pt-4 border-t border-white/5 space-y-1">
-                            <p>Assumed Protocol Fee: {protocolFeeRate * 100}%</p>
-                            <p>Cashback Tier 1: 10% on fees (Volume up to $10,000)</p>
-                            <p>Cashback Tier 2: 8% on fees (Volume $10,001 - $200,000)</p>
-                            <p>Current BLIP Price: {marketData.blipPrice} ({marketData.blipPriceChange})</p>
-                        </div>
-                        <p className="text-sm text-gray-400 border-t border-white/5 pt-4">
-                            *This calculator estimates your **ongoing monthly volume rewards**. It does not include the 100% cashback on your first transaction or the 20M BLIP airdrop.
-                        </p>
-                    </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.6 }}
+          className="grid lg:grid-cols-3 gap-8 rounded-3xl bg-[#080808] border border-[#00FF94]/20 p-6 sm:p-10 shadow-[0_0_60px_rgba(0,255,148,0.1)]"
+        >
+          {/* LEFT: Input Control */}
+          <div className="lg:col-span-1 space-y-8 p-4 lg:pr-8 lg:border-r lg:border-white/5">
+            <h3 className="text-xl font-semibold text-white">
+              Project your cashback earnings
+            </h3>
 
-                    {/* RIGHT: Results Display */}
-                    <div className="lg:col-span-2 grid sm:grid-cols-2 gap-6 pt-4 lg:pt-0">
-                        
-                        {/* Reward in BLIP */}
-                        <div className="rounded-2xl bg-black/40 border border-[#00FF94]/30 p-6 shadow-xl space-y-3">
-                            <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-[#00FF94]">Est. Cashback Rewards (BLIP)</p>
-                            <p className="text-5xl font-extrabold text-white">
-                                {estimatedMonthlyRewardsBLIP.toFixed(2)}
-                            </p>
-                            <div className="flex items-center gap-2 text-sm text-gray-300">
-                                <Sparkles size={16} className="text-[#00FF94]" />
-                                BLIP Tokens
-                            </div>
-                        </div>
-
-                        {/* Reward in USD */}
-                        <div className="rounded-2xl bg-black/40 border border-white/10 p-6 space-y-3">
-                            <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-gray-400">Equivalent Value</p>
-                            <p className="text-5xl font-extrabold text-white">
-                                <DollarSign className="inline w-6 h-6 mr-1 mb-1 text-gray-300"/>{estimatedMonthlyRewardsUSD.toFixed(2)}
-                            </p>
-                            <div className="flex items-center gap-2 text-sm text-gray-300">
-                                <Zap size={16} className="text-white/80" />
-                                Stable Value (USD)
-                            </div>
-                        </div>
-
-                         {/* CTA */}
-                        <div className="lg:col-span-2 p-6 rounded-2xl bg-[#00FF94]/10 border border-[#00FF94]/30 flex flex-col sm:flex-row items-center justify-between gap-4">
-                            <p className="text-sm font-semibold text-gray-200">Ready to unlock these rewards?</p>
-                            <RewardsButton primary className="text-sm px-6 py-2">
-                                Start Your First Transfer <ArrowRight size={16} />
-                            </RewardsButton>
-                        </div>
-                    </div>
-                </motion.div>
+            {/* Volume Input */}
+            <div className="space-y-4">
+              <label htmlFor="volume-slider" className="text-sm text-gray-400">
+                Total Transaction Volume (USD)
+              </label>
+              <input
+                id="volume-slider"
+                type="range"
+                min="100"
+                max="200000" // Max volume for T2 calculation
+                step="100"
+                value={monthlyVolume}
+                onChange={handleVolumeChange}
+                className="w-full h-1 appearance-none bg-white/10 rounded-full transition-colors accent-[#00FF94] cursor-pointer"
+              />
+              <p className="text-3xl font-mono text-[#00FF94] tracking-wider font-bold">
+                ${monthlyVolume.toLocaleString()}
+              </p>
             </div>
-        </section>
-    );
+
+            {/* Assumptions/Info */}
+            <div className="text-xs text-gray-500 pt-4 border-t border-white/5 space-y-1">
+              <p>Assumed Protocol Fee: {protocolFeeRate * 100}%</p>
+              <p>Cashback Tier 1: 10% on fees (Volume up to $10,000)</p>
+              <p>Cashback Tier 2: 8% on fees (Volume $10,001 - $200,000)</p>
+              <p>
+                Current BLIP Price: {marketData.blipPrice} (
+                {marketData.blipPriceChange})
+              </p>
+            </div>
+            <p className="text-sm text-gray-400 border-t border-white/5 pt-4">
+              *This calculator estimates your **ongoing monthly volume
+              rewards**. It does not include the 100% cashback on your first
+              transaction or the 20M BLIP airdrop.
+            </p>
+          </div>
+
+          {/* RIGHT: Results Display */}
+          <div className="lg:col-span-2 grid sm:grid-cols-2 gap-6 pt-4 lg:pt-0 ">
+            {/* Reward in BLIP */}
+            <div className="rounded-2xl bg-black/40 border border-[#00FF94]/30 p-6 shadow-xl space-y-3">
+              <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-[#00FF94]">
+                Est. Cashback Rewards (BLIP)
+              </p>
+              <p className="text-[46px] font-extrabold  text-white ">
+                {estimatedMonthlyRewardsBLIP.toFixed(2)}
+              </p>
+              <div className="flex items-center gap-2 text-sm text-gray-300">
+                <Sparkles size={16} className="text-[#00FF94]" />
+                BLIP Tokens
+              </div>
+            </div>
+
+            {/* Reward in USD */}
+            <div className="rounded-2xl bg-black/40 border border-white/10 p-6 space-y-3">
+              <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-gray-400">
+                Equivalent Value
+              </p>
+              <p className="text-[46px] font-extrabold text-white">
+                <DollarSign className="inline w-6 h-6 mr-1 mb-1 text-gray-300" />
+                {estimatedMonthlyRewardsUSD.toFixed(2)}
+              </p>
+              <div className="flex items-center gap-2 text-sm text-gray-300">
+                <Zap size={16} className="text-white/80" />
+                Stable Value (USD)
+              </div>
+            </div>
+
+            {/* CTA */}
+            <div className="lg:col-span-2 p-6 rounded-2xl bg-[#00FF94]/10 border border-[#00FF94]/30 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <p className="text-sm font-semibold text-gray-200">
+                Ready to unlock these rewards?
+              </p>
+              <Link to='/coming-soon'>
+              <RewardsButton primary className="text-sm px-6 py-2">
+                Start Your First Transfer <ArrowRight size={16} />
+              </RewardsButton>
+              </Link>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
 };
 
 /* --------- SECTION 4: REWARDS FLOW (EXISTING) --------- */
@@ -529,12 +620,8 @@ const FlowCard = ({ number, title, line1, line2, delay }) => (
     <h3 className="text-lg sm:text-xl font-semibold text-white mb-3">
       {title}
     </h3>
-    <p className="text-sm text-gray-300 mb-2">
-      {line1}
-    </p>
-    <p className="text-xs text-gray-500">
-      {line2}
-    </p>
+    <p className="text-sm text-gray-300 mb-2">{line1}</p>
+    <p className="text-xs text-gray-500">{line2}</p>
   </motion.div>
 );
 
@@ -555,23 +642,51 @@ const FlowSection = () => (
       <div className="relative grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Connector Lines (Desktop only) */}
         <div className="hidden lg:block absolute inset-0 pointer-events-none">
-            <svg viewBox="0 0 100 100" className="w-full h-full" preserveAspectRatio="none">
-                <defs>
-                    <linearGradient id="flowLine" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#00FF94" stopOpacity="0.2"/>
-                        <stop offset="50%" stopColor="#00FF94" stopOpacity="0.8"/>
-                        <stop offset="100%" stopColor="#00FF94" stopOpacity="0.2"/>
-                    </linearGradient>
-                </defs>
-                {/* Line 1 (Card 1 to Card 2) */}
-                <path d="M18,30 L45,30" stroke="url(#flowLine)" strokeWidth="2" strokeDasharray="4 4" style={{ filter: 'drop-shadow(0 0 2px #00FF94)' }} />
-                {/* Line 2 (Card 2 to Card 3) */}
-                <path d="M55,30 L82,30" stroke="url(#flowLine)" strokeWidth="2" strokeDasharray="4 4" style={{ filter: 'drop-shadow(0 0 2px #00FF94)' }} />
+          <svg
+            viewBox="0 0 100 100"
+            className="w-full h-full"
+            preserveAspectRatio="none"
+          >
+            <defs>
+              <linearGradient id="flowLine" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#00FF94" stopOpacity="0.2" />
+                <stop offset="50%" stopColor="#00FF94" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="#00FF94" stopOpacity="0.2" />
+              </linearGradient>
+            </defs>
+            {/* Line 1 (Card 1 to Card 2) */}
+            <path
+              d="M18,30 L45,30"
+              stroke="url(#flowLine)"
+              strokeWidth="2"
+              strokeDasharray="4 4"
+              style={{ filter: "drop-shadow(0 0 2px #00FF94)" }}
+            />
+            {/* Line 2 (Card 2 to Card 3) */}
+            <path
+              d="M55,30 L82,30"
+              stroke="url(#flowLine)"
+              strokeWidth="2"
+              strokeDasharray="4 4"
+              style={{ filter: "drop-shadow(0 0 2px #00FF94)" }}
+            />
 
-                {/* Flow dots */}
-                <circle cx="31.5" cy="30" r="3" fill="#00FF94" className="animate-[pulse_1.5s_ease-in-out_infinite]" />
-                <circle cx="68.5" cy="30" r="3" fill="#00FF94" className="animate-[pulse_1.5s_ease-in-out_infinite_1s]" />
-            </svg>
+            {/* Flow dots */}
+            <circle
+              cx="31.5"
+              cy="30"
+              r="3"
+              fill="#00FF94"
+              className="animate-[pulse_1.5s_ease-in-out_infinite]"
+            />
+            <circle
+              cx="68.5"
+              cy="30"
+              r="3"
+              fill="#00FF94"
+              className="animate-[pulse_1.5s_ease-in-out_infinite_1s]"
+            />
+          </svg>
         </div>
 
         <FlowCard
@@ -610,7 +725,7 @@ const EarlyPoolSection = () => {
   useEffect(() => {
     // Simulate pool filling up over time
     const interval = setInterval(() => {
-      setFilled(prev => Math.min(95, prev + (Math.random() * 5)));
+      setFilled((prev) => Math.min(95, prev + Math.random() * 5));
     }, 2000);
     return () => clearInterval(interval);
   }, []);
@@ -624,11 +739,13 @@ const EarlyPoolSection = () => {
             MEGA AIRDROP · FIRST 1,000 USERS
           </p>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-white mb-4 tracking-tight mint-gradient-text">
-            20,000,000 BLIP Tokens reserved for the first 1,000 people who move money.
+            20,000,000 BLIP Tokens reserved for the first 1,000 people who move
+            money.
           </h2>
           <p className="text-sm sm:text-base text-gray-300 mb-4">
             Early adopters don’t just test the protocol, they help shape it. So
-            we’re putting a serious, multi-million dollar reward pool on the table for you.
+            we’re putting a serious, multi-million dollar reward pool on the
+            table for you.
           </p>
 
           <ul className="space-y-3 text-sm text-gray-300">
@@ -651,23 +768,25 @@ const EarlyPoolSection = () => {
           </ul>
 
           <div className="mt-6 flex flex-wrap gap-3">
+            <Link to='/coming-soon'>
             <RewardsButton primary>
               Join the first 1,000
               <ArrowRight className="w-4 h-4" />
             </RewardsButton>
-            <RewardsButton>
-              View tokenomics page
-            </RewardsButton>
+            </Link>
+            <Link to='/tokenomics'>
+            <RewardsButton>View tokenomics page</RewardsButton>
+            </Link>
           </div>
         </div>
 
         {/* Right “progress” card */}
         <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, amount: 0.5 }}
-            transition={{ duration: 0.6 }}
-            className="relative"
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.6 }}
+          className="relative"
         >
           <div className="absolute -inset-3 bg-gradient-to-br from-[#00FF94]/25 via-[#00C8FF]/20 to-[#7C3AED]/18 blur-3xl opacity-85" />
           <div className="relative rounded-3xl bg-[#050707] border border-white/10 p-6 sm:p-7 shadow-[0_24px_80px_rgba(0,0,0,0.8)]">
@@ -700,14 +819,16 @@ const EarlyPoolSection = () => {
             <div className="mb-5">
               <div className="flex items-center justify-between text-xs text-gray-400 mb-2">
                 <span>Spots filled</span>
-                <span className="text-[#00FF94] font-semibold">{Math.round(filled * 10)} / 1,000*</span>
+                <span className="text-[#00FF94] font-semibold">
+                  {Math.round(filled * 10)} / 1,000*
+                </span>
               </div>
               <div className="h-2 rounded-full bg-white/5 overflow-hidden">
                 <motion.div
-                    className="h-full rounded-full bg-gradient-to-r from-[#00FF94] via-[#00C8FF] to-[#7C3AED]"
-                    initial={{ width: '0%' }}
-                    animate={{ width: `${filled}%` }}
-                    transition={{ duration: 0.5, ease: "easeOut" }}
+                  className="h-full rounded-full bg-gradient-to-r from-[#00FF94] via-[#00C8FF] to-[#7C3AED]"
+                  initial={{ width: "0%" }}
+                  animate={{ width: `${filled}%` }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
                 />
               </div>
               <p className="mt-2 text-[11px] text-gray-500">
@@ -744,47 +865,82 @@ const EarlyPoolSection = () => {
 
 /* --------- NEW SECTION 6: TOKEN UTILITY --------- */
 const BLIP_TOKEN_UTILITIES = [
-  { id: "staking", label: "Merchant Staking", symbol: "◆", color: "#00FF94", icon: Layers, description: "Stake BLIP to unlock Tier 1 trust and higher routing volume." },
-  { id: "priority", label: "Routing Priority", symbol: "➤", color: "#38BDF8", icon: Zap, description: "Holders get priority matching for faster cross-border settlements." },
-  { id: "rewards", label: "Liquidity Rewards", symbol: "◉", color: "#A855F7", icon: Gift, description: "Earn APY by providing value to PeopleBank liquidity pools." },
-  { id: "dispute", label: "Protocol Governance", symbol: "⚖", color: "#FACC15", icon: Info, description: "Vote on fees, reward schedules, and network upgrades." },
+  {
+    id: "staking",
+    label: "Merchant Staking",
+    symbol: "◆",
+    color: "#00FF94",
+    icon: Layers,
+    description: "Stake BLIP to unlock Tier 1 trust and higher routing volume.",
+  },
+  {
+    id: "priority",
+    label: "Routing Priority",
+    symbol: "➤",
+    color: "#38BDF8",
+    icon: Zap,
+    description:
+      "Holders get priority matching for faster cross-border settlements.",
+  },
+  {
+    id: "rewards",
+    label: "Liquidity Rewards",
+    symbol: "◉",
+    color: "#A855F7",
+    icon: Gift,
+    description: "Earn APY by providing value to PeopleBank liquidity pools.",
+  },
+  {
+    id: "dispute",
+    label: "Protocol Governance",
+    symbol: "⚖",
+    color: "#FACC15",
+    icon: Info,
+    description: "Vote on fees, reward schedules, and network upgrades.",
+  },
 ];
 
-
 const TokenUtilitySection = () => (
-    <section className="py-24 bg-[#020202] border-t border-white/5">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-            <h2 className="text-3xl sm:text-4xl font-semibold text-white mb-12 tracking-tight text-center mint-gradient-text">
-                The BLIP Token: More Than Just Rewards
-            </h2>
+  <section className="py-24 bg-[#020202] border-t border-white/5">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6">
+      <h2 className="text-3xl sm:text-4xl font-semibold text-white mb-12 tracking-tight text-center mint-gradient-text">
+        The BLIP Token: More Than Just Rewards
+      </h2>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {BLIP_TOKEN_UTILITIES.map((item, index) => {
-                    const Icon = item.icon;
-                    return (
-                    <motion.div
-                        key={item.id}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, amount: 0.3 }}
-                        transition={{ duration: 0.6, delay: index * 0.1 }}
-                        className="relative rounded-2xl bg-[#050505] border border-white/8 p-6 space-y-3 group hover:border-[#00FF94]/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,255,148,0.1)]"
-                    >
-                        <div className="w-10 h-10 rounded-xl bg-black border border-white/10 flex items-center justify-center text-xl" style={{ color: item.color }}>
-                            <Icon size={18} />
-                        </div>
-                        <h3 className="text-xl font-semibold text-white group-hover:text-[#00FF94] transition-colors">{item.label}</h3>
-                        <p className="text-sm text-gray-400">{item.description}</p>
-                    </motion.div>
-                )})}
-            </div>
-             <div className="mt-12 text-center">
-                <RewardsButton>Read the Full Tokenomics</RewardsButton>
-            </div>
-        </div>
-    </section>
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {BLIP_TOKEN_UTILITIES.map((item, index) => {
+          const Icon = item.icon;
+          return (
+            <motion.div
+              key={item.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              className="relative rounded-2xl bg-[#050505] border border-white/8 p-6 space-y-3 group hover:border-[#00FF94]/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,255,148,0.1)]"
+            >
+              <div
+                className="w-10 h-10 rounded-xl bg-black border border-white/10 flex items-center justify-center text-xl"
+                style={{ color: item.color }}
+              >
+                <Icon size={18} />
+              </div>
+              <h3 className="text-xl font-semibold text-white group-hover:text-[#00FF94] transition-colors">
+                {item.label}
+              </h3>
+              <p className="text-sm text-gray-400">{item.description}</p>
+            </motion.div>
+          );
+        })}
+      </div>
+      <div className="mt-12 text-center">
+        <Link to='/tokenomics'>
+        <RewardsButton>Read the Full Tokenomics</RewardsButton>
+         </Link>
+      </div>
+    </div>
+  </section>
 );
-
 
 /* --------- SECTION 7: FUN STRIP + MINI FAQ (EXISTING) --------- */
 
@@ -801,8 +957,8 @@ const FunStrip = () => (
         </h3>
         <p className="text-sm sm:text-base text-gray-300 mb-4">
           You move money the way you usually would. In the background, the
-          rewards engine keeps ticking: welcome bonus, sign-up drop, and
-          ongoing volume rewards.
+          rewards engine keeps ticking: welcome bonus, sign-up drop, and ongoing
+          volume rewards.
         </p>
         <div className="flex flex-wrap gap-3 text-xs sm:text-sm">
           <div className="px-4 py-2 rounded-full bg-black/60 border border-white/10 text-gray-300 hover:border-[#FACC15] transition-colors">
@@ -857,10 +1013,12 @@ const FunStrip = () => (
         </div>
 
         <div className="mt-6">
-          <RewardsButton primary className="w-full sm:w-auto">
-            I want a spot
-            <ArrowRight className="w-4 h-4" />
-          </RewardsButton>
+          <Link to="/coming-soon">
+            <RewardsButton primary className="w-full sm:w-auto">
+              I want a spot
+              <ArrowRight className="w-4 h-4" />
+            </RewardsButton>
+          </Link>
         </div>
       </div>
     </div>
@@ -870,6 +1028,8 @@ const FunStrip = () => (
 /* --------- PAGE WRAPPER --------- */
 
 const App = () => {
+
+  
   return (
     <div className="min-h-screen bg-black text-white font-sans overflow-x-hidden">
       {/* Custom Styles/Keyframes */}
@@ -904,20 +1064,21 @@ const App = () => {
       </style>
       <Navbar />
       <SocialSidebar />
-      <RewardsHero />       {/* 1. Enhanced Hero + Orbit */}
-      <RewardsGrid />       {/* 2. Three rewards cards */}
+      <RewardsHero /> {/* 1. Enhanced Hero + Orbit */}
+      <RewardsGrid /> {/* 2. Three rewards cards */}
       <RewardsCalculator /> {/* 3. Interactive reward estimation */}
-      <FlowSection />       {/* 4. How it flows */}
-      <EarlyPoolSection />  {/* 5. 20M BLIP Mega Airdrop */}
-      <TokenUtilitySection />{/* 6. Token utility grid */}
-      <FunStrip />          {/* 7. Fun TL;DR + FAQ */}
-
+      <FlowSection /> {/* 4. How it flows */}
+      <EarlyPoolSection /> {/* 5. 20M BLIP Mega Airdrop */}
+      <TokenUtilitySection />
+      {/* 6. Token utility grid */}
+      <FunStrip /> {/* 7. Fun TL;DR + FAQ */}
       {/* Footer */}
       <footer className="py-12 border-t border-gray-900 mt-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-400 text-sm">
           <p>
             &copy; <span id="year">2025</span> Blip.money Protocol. All rights
-            reserved.
+            reserved. Bankless. Trustless. Instant. Secure and fully
+            trustworthy.
           </p>
         </div>
       </footer>

@@ -14,7 +14,6 @@ import {
   ArrowUpRight,
   Sparkles,
 } from "lucide-react";
-import { Navbar } from "@/pages/Index";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export const BlipTokenomics = () => {
@@ -107,7 +106,7 @@ export const BlipTokenomics = () => {
     <div className="min-h-screen bg-[#020202] text-white font-sans overflow-x-hidden selection:bg-[#2BFF88] selection:text-black">
       <div className="py-6">
         {" "}
-        <Navbar />
+      
       </div>
       {/* --- ATMOSPHERE: Deep & Minimal --- */}
       <div className="fixed inset-0 pointer-events-none z-0">

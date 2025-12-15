@@ -84,7 +84,7 @@ import {
   X,
   Menu,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {motion ,  AnimatePresence } from "framer-motion";
 
 
@@ -138,30 +138,37 @@ export const Navbar = () => {
         <div className="hidden lg:flex items-center gap-8">
           <div className="flex items-center gap-8 text-sm font-medium text-gray-400">
             <a
-              href="#protocol"
+              href="/"
               className="hover:text-[#2BFF88] transition-colors"
             >
               Protocol
             </a>
             
             <a
-              href="#merchants"
+              href="/"
               className="hover:text-[#2BFF88] transition-colors"
             >
               Merchants
             </a>
             <a
-              href="#peoplebank"
+              href="/"
               className="hover:text-[#2BFF88] transition-colors"
             >
               PeopleBank
             </a>
-            <a
-              href="/tokenomics"
-              className="hover:text-[#2BFF88] transition-colors"
-            >
-              Tokenomics
-            </a>
+            <NavLink
+  to="/tokenomics"
+  className={({ isActive }) =>
+    `transition-colors ${
+      isActive
+        ? "text-[#2BFF88] font-semibold"
+        : "hover:text-[#2BFF88]"
+    }`
+  }
+>
+  Tokenomics
+</NavLink>
+
           </div>  <LanguageSwitcher language={language} setLanguage={setLanguage} />
 
           {/* <a href="/coming-soon">
@@ -396,7 +403,56 @@ const ComingSoon = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState(null); // 'success', 'error', 'loading'
+  const [hashVar, setHash] = useState(""); // 'success', 'error', 'loading'
+  useEffect(() => {
+    const { pathname, hash } = location;
+    console.log(pathname, hash);
+    // 1️⃣ If coming from another page with hash → redirect to home
+    if (pathname !== "/" && hash) {
+      setHash(hash);
+      navigate(
+        {
+          pathname: "/",
+          hash,
+        },
+        { replace: true }
+      );
+      return;
+    }
 
+    // 2️⃣ On homepage with hash → scroll AFTER render
+    if (pathname === "/" && hashVar) {
+      navigate(
+        {
+          pathname: "/",
+          hash:hashVar,
+        },
+        { replace: true }
+      );
+      const id = hash.replace("#", "");
+
+      const scrollToElement = () => {
+        const el = document.getElementById(id);
+        if (!el) return false;
+
+        el.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+        return true;
+      };
+
+      // Try immediately
+      if (scrollToElement()) return;
+
+      // Retry after next paint (safe for lazy sections)
+      const raf = requestAnimationFrame(() => {
+        scrollToElement();
+      });
+
+      return () => cancelAnimationFrame(raf);
+    }
+  }, [location.pathname, location.hash, navigate]);
   const handleWaitlistSubmit = useCallback((e) => {
     e.preventDefault();
     if (!email || status === 'loading') return;
@@ -421,7 +477,7 @@ const ComingSoon = () => {
 
     <div className="min-h-screen bg-black text-white font-sans overflow-hidden flex flex-col justify-center">
       
-      <button
+      {/* <button
   onClick={() => navigate(-1)}
   className="
     fixed
@@ -449,7 +505,7 @@ const ComingSoon = () => {
     <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
   </svg>
   Back
-</button>
+</button> */}
 
       
       <NetGridBackground />

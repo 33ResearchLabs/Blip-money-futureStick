@@ -28,7 +28,7 @@ import {
   Layers,
 } from "lucide-react";
 import { SocialSidebar } from "@/components/SocialSidebar";
-import { Link } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import TransferFlow from "@/components/TransferFlow";
 import useScrollActive from "@/hooks/useScrollActive";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -207,35 +207,40 @@ const TOKEN_UTILITIES = [
     label: "Merchant Staking",
     symbol: "◆",
     color: "#00FF94",
-    description: "Stake BLIP to underwrite your volume and unlock higher trust tiers.",
+    description:
+      "Stake BLIP to underwrite your volume and unlock higher trust tiers.",
   },
   {
     id: "routing-priority",
     label: "Routing Priority",
     symbol: "➤",
     color: "#38BDF8",
-    description: "More stake, better pricing and order flow routed through you first.",
+    description:
+      "More stake, better pricing and order flow routed through you first.",
   },
   {
     id: "liquidity-rewards",
     label: "Liquidity Rewards",
     symbol: "◉",
     color: "#A855F7",
-    description: "Provide cross-border liquidity and earn protocol rewards every fill.",
+    description:
+      "Provide cross-border liquidity and earn protocol rewards every fill.",
   },
   {
     id: "dispute-slashing",
     label: "Dispute Slashing",
     symbol: "⚔",
     color: "#F97373",
-    description: "Bad actors get slashed. Honest merchants are economically protected.",
+    description:
+      "Bad actors get slashed. Honest merchants are economically protected.",
   },
   {
     id: "governance",
     label: "Governance",
     symbol: "⚖",
     color: "#FACC15",
-    description: "Holders vote on fees, new corridors and protocol parameter changes.",
+    description:
+      "Holders vote on fees, new corridors and protocol parameter changes.",
   },
   {
     id: "fee-reductions",
@@ -249,10 +254,10 @@ const TOKEN_UTILITIES = [
     label: "Marketplace Promotions",
     symbol: "✦",
     color: "#F472B6",
-    description: "Boost your routes, gain surface area in the Blip marketplace.",
+    description:
+      "Boost your routes, gain surface area in the Blip marketplace.",
   },
 ];
-
 
 const UsageCard = ({ scene, active, onClick }) => {
   const Icon = scene.icon;
@@ -360,7 +365,13 @@ const LiveUsagePanel = ({ scene }) => {
                 preserveAspectRatio="none"
               >
                 <defs>
-                  <linearGradient id="routeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <linearGradient
+                    id="routeGradient"
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="0%"
+                  >
                     <stop offset="0%" stopColor="#00FF94" stopOpacity="0" />
                     <stop offset="50%" stopColor="#00FF94" stopOpacity="0.8" />
                     <stop offset="100%" stopColor="#00FF94" stopOpacity="0" />
@@ -554,7 +565,6 @@ const RealWorldUsageSection = () => {
   );
 };
 
-
 const ParticleBackground = () => {
   const particles = Array.from({ length: 40 });
 
@@ -597,121 +607,6 @@ const ParticleBackground = () => {
   );
 };
 
-export const Navbar = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [language, setLanguage] = useState("en");
-
-  return (
-    <nav className="fixed top-0 w-full z-50 backdrop-blur-md border-b border-white/5 bg-black/60 supports-[backdrop-filter]:bg-black/40">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
-        <a href="/" className="flex items-center gap-2">
-          <div className="relative">
-            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#2BFF88] shadow-[0_0_10px_#2BFF88] relative z-10" />
-            <div className="absolute inset-0 bg-[#2BFF88] rounded-full animate-ping opacity-50" />
-          </div>
-          <span className="text-xl sm:text-2xl font-bold tracking-tight text-white">
-            Blip.<span className="text-[#2BFF88]">money</span>
-          </span>
-        </a>
-
-        {/* Desktop Menu */}
-        <div className="hidden lg:flex items-center gap-8">
-          <div className="flex items-center gap-8 text-sm font-medium text-gray-400">
-            <a
-              href="#protocol"
-              className="hover:text-[#2BFF88] transition-colors"
-            >
-              Protocol
-            </a>
-            
-            <a
-              href="#merchants"
-              className="hover:text-[#2BFF88] transition-colors"
-            >
-              Merchants
-            </a>
-            <a
-              href="#peoplebank"
-              className="hover:text-[#2BFF88] transition-colors"
-            >
-              PeopleBank
-            </a>
-            <a
-              href="/tokenomics"
-              className="hover:text-[#2BFF88] transition-colors"
-            >
-              Tokenomics
-            </a>
-          </div>  <LanguageSwitcher language={language} setLanguage={setLanguage} />
-
-          <a href="/coming-soon">
-            <button className="px-5 py-2 rounded-full border border-white/10 text-white text-sm hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all bg-black/50 backdrop-blur-sm group">
-              <span className="group-hover:text-[#2BFF88] transition-colors">
-                Coming Soon
-              </span>
-            </button>
-          </a>
-        </div>
-
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="lg:hidden p-2 text-white hover:text-[#2BFF88] transition-colors"
-          aria-label="Toggle menu"
-        >
-          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {mobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="lg:hidden absolute top-full left-0 right-0 bg-black/95 backdrop-blur-xl border-b border-white/10"
-            >
-              <div className="flex flex-col p-6 space-y-4">
-                <a
-                  href="#protocol"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-gray-400 hover:text-[#2BFF88] transition-colors text-lg py-2"
-                >
-                  Protocol
-                </a>
-                <a
-                  href="#merchants"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-gray-400 hover:text-[#2BFF88] transition-colors text-lg py-2"
-                >
-                  Merchants
-                </a>
-                <a
-                  href="#peoplebank"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-gray-400 hover:text-[#2BFF88] transition-colors text-lg py-2"
-                >
-                  PeopleBank
-                </a>
-                <a
-                  href="/tokenomics"
-                  className="hover:text-[#2BFF88] transition-colors"
-                >
-                  Tokenomics
-                </a>
-                <a href="/coming-soon">
-                  <button className="w-full px-5 py-3 rounded-full border border-white/10 text-white hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all bg-black/50 backdrop-blur-sm mt-2">
-                    Open App
-                  </button>
-                </a>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </nav>
-  );
-};
 
 const EarlyAdopterBanner = () => {
   return (
@@ -734,15 +629,13 @@ const EarlyAdopterBanner = () => {
           </div>
 
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-white tracking-tight mb-3">
-            Claim your{" "}
-            <span className="text-[#00FF94]">$100 early drop</span> when you
-            join Blip.
+            Claim your <span className="text-[#00FF94]">$100 early drop</span>{" "}
+            when you join Blip.
           </h2>
 
           <p className="text-sm sm:text-base text-gray-300 max-w-xl mx-auto lg:mx-0">
-            Register, connect your wallet and complete your first transfer.
-            We reserve $100 worth of Blip Tokens for every verified early
-            adopter.
+            Register, connect your wallet and complete your first transfer. We
+            reserve $100 worth of Blip Tokens for every verified early adopter.
           </p>
 
           <div className="mt-5 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start text-xs sm:text-sm text-gray-400">
@@ -816,15 +709,15 @@ const EarlyAdopterBanner = () => {
 
                 {/* buttons */}
                 <div className="flex flex-col sm:flex-row gap-3 pt-1">
-                <Link to="/rewards">
-  <Button
-    primary
-    className="w-full sm:w-auto justify-center px-8 py-3 text-sm bg-[#00FF94] text-black hover:bg-[#0B9A4A]"
-  >
-    Become an Early Adopter
-    <ArrowRight className="w-4 h-4" />
-  </Button>
-</Link>
+                  <Link to="/rewards">
+                    <Button
+                      primary
+                      className="w-full sm:w-auto justify-center px-8 py-3 text-sm bg-[#00FF94] text-black hover:bg-[#0B9A4A]"
+                    >
+                      Become an Early Adopter
+                      <ArrowRight className="w-4 h-4" />
+                    </Button>
+                  </Link>
 
                   <button className="w-full sm:w-auto px-8 py-3 rounded-full border border-white/25 text-xs sm:text-sm text-gray-100 hover:border-[#00FF94] hover:text-[#00FF94] bg-black/40 transition-all">
                     View eligibility details
@@ -838,7 +731,6 @@ const EarlyAdopterBanner = () => {
     </section>
   );
 };
-
 
 const PulseWave = () => {
   return (
@@ -970,7 +862,6 @@ const PhoneMockup = () => (
   >
     <div className="relative">
       {/* NEON RIM LIGHT ON LEFT EDGE */}
-    
 
       {/* OUTER GLOW AURA */}
 
@@ -997,14 +888,9 @@ const PhoneMockup = () => (
 
       {/* SOFT REFLECTION BELOW (APPLE STYLE-ish) */}
       {/* SOFT REFLECTION */}
-
-
     </div>
   </div>
 );
-
-
-
 
 // const ArchitectureNode = ({
 //   step,
@@ -1254,7 +1140,7 @@ const FeatureStrip = () => {
               WHY BLIP FEELS DIFFERENT
             </p>
             <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-white tracking-tight">
-              Built for crypto users.  
+              Built for crypto users.
               <span className="text-[#00FF94]">Not for banks.</span>
             </h2>
           </div>
@@ -1343,12 +1229,13 @@ const CashbackBanner = () => {
           </div>
 
           <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-white tracking-tight mb-2">
-            Get <span className="text-[#00FF94] font-bold">100% cashback</span> on your transfer.
+            Get <span className="text-[#00FF94] font-bold">100% cashback</span>{" "}
+            on your transfer.
           </h2>
 
           <p className="text-sm sm:text-base text-gray-300">
-            Early Blip users earn boosted rewards on all successful payments.
-            No tiers, no games — just more value every time you move money.
+            Early Blip users earn boosted rewards on all successful payments. No
+            tiers, no games — just more value every time you move money.
           </p>
         </div>
 
@@ -1364,22 +1251,20 @@ const CashbackBanner = () => {
               </span>
             </div>
             <div className="flex items-baseline gap-1">
-              <span className="text-3xl font-semibold text-[#00FF94]">
-                5%
-              </span>
+              <span className="text-3xl font-semibold text-[#00FF94]">5%</span>
               <span className="text-xs text-gray-400">in Blip Tokens</span>
             </div>
           </div>
 
           <Link to="/rewards" target="_blank" rel="noopener noreferrer">
-  <Button
-    primary
-    className="w-full sm:w-auto px-8 py-3 text-sm sm:text-base bg-[#00FF94] text-black hover:bg-[#0B9A4A]"
-  >
-    Learn more
-    <ArrowRight className="w-4 h-4" />
-  </Button>
-</Link>
+            <Button
+              primary
+              className="w-full sm:w-auto px-8 py-3 text-sm sm:text-base bg-[#00FF94] text-black hover:bg-[#0B9A4A]"
+            >
+              Learn more
+              <ArrowRight className="w-4 h-4" />
+            </Button>
+          </Link>
         </div>
       </div>
     </section>
@@ -1388,10 +1273,7 @@ const CashbackBanner = () => {
 
 const Hero = () => (
   <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 sm:pt-20">
-
-
     <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center relative z-10">
-
       {/* LEFT SIDE CONTENT */}
       <div className="text-center lg:text-left pt-6 sm:pt-8 lg:pt-0">
         <motion.div
@@ -1412,9 +1294,9 @@ const Hero = () => (
 
           {/* MAIN HEADING — YOUR ORIGINAL VERSION */}
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[0.95] mb-6 tracking-tight">
-            Pay with Crypto  
+            Pay with Crypto
             <br />
-            Anyone, Anywhere —  
+            Anyone, Anywhere —
             <br />
             <span className="text-[#2BFF88]">In a Blip.</span>
           </h1>
@@ -1422,7 +1304,7 @@ const Hero = () => (
           {/* SUBTEXT */}
           <p className="text-base sm:text-lg md:text-xl text-gray-400 mb-6 max-w-lg mx-auto lg:mx-0 leading-relaxed font-light">
             Instant global transfers powered by the decentralized{" "}
-            <span className="text-white font-medium">Blip Protocol</span>.  
+            <span className="text-white font-medium">Blip Protocol</span>.
             Crypto native. P2P. Non-custodial.
           </p>
 
@@ -1430,73 +1312,72 @@ const Hero = () => (
           <div className="flex flex-wrap gap-3 mt-6 max-w-md lg:max-w-lg mx-auto lg:mx-0">
             <div className="px-4 py-2 rounded-full bg-black/40 border border-white/10 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-[#2BFF88]"></span>
-              <span className="text-sm text-gray-300">Send to local bank accounts</span>
+              <span className="text-sm text-gray-300">
+                Send to local bank accounts
+              </span>
             </div>
 
             <div className="px-4 py-2 rounded-full bg-black/40 border border-white/10 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-[#2BFF88]"></span>
-              <span className="text-sm text-gray-300">Cash out to physical cash</span>
+              <span className="text-sm text-gray-300">
+                Cash out to physical cash
+              </span>
             </div>
 
             <div className="px-4 py-2 rounded-full bg-black/40 border border-white/10 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-[#2BFF88]"></span>
-              <span className="text-sm text-gray-300">Pay merchants instantly</span>
+              <span className="text-sm text-gray-300">
+                Pay merchants instantly
+              </span>
             </div>
 
             <div className="px-4 py-2 rounded-full bg-black/40 border border-white/10 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-[#2BFF88]"></span>
-              <span className="text-sm text-gray-300">Cross-border P2P settlements</span>
+              <span className="text-sm text-gray-300">
+                Cross-border P2P settlements
+              </span>
             </div>
           </div>
 
           {/* CTA BUTTONS */}
           <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mt-8 justify-center lg:justify-start">
             <Link to="/coming-soon">
-            <button className="w-full sm:w-auto px-8 py-4 rounded-full border border-white/20 text-white font-medium hover:bg-white/5 hover:border-white/40 transition-all flex items-center justify-center gap-2">
-
+              <button className="w-full sm:w-auto px-8 py-4 rounded-full border border-white/20 text-white font-medium hover:bg-white/5 hover:border-white/40 transition-all flex items-center justify-center gap-2">
                 Coming Soon
               </button>
             </Link>
 
             <a
-  href="/whitepaper.pdf"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="w-full sm:w-auto px-8 py-4 rounded-full bg-[#2BFF88] text-black font-bold text-lg hover:shadow-[0_0_40px_rgba(43,255,136,0.4)] hover:scale-105 transition-all flex items-center justify-center gap-2 group"
->
-  <div className="w-6 h-6 rounded-full border border-white/30 flex items-center justify-center">
-    <div className="w-0 h-0 border-t-[3px] border-t-transparent border-l-[6px] border-l-white border-b-[3px] border-b-transparent ml-0.5"></div>
-  </div>
-
-  Read Whitepaper
-  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-</a>
-
+              href="/whitepaper.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto px-8 py-4 rounded-full bg-[#2BFF88] text-black font-bold text-lg hover:shadow-[0_0_40px_rgba(43,255,136,0.4)] hover:scale-105 transition-all flex items-center justify-center gap-2 group"
+            >
+              <div className="w-6 h-6 rounded-full border border-white/30 flex items-center justify-center">
+                <div className="w-0 h-0 border-t-[3px] border-t-transparent border-l-[6px] border-l-white border-b-[3px] border-b-transparent ml-0.5"></div>
+              </div>
+              Read Whitepaper
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </a>
           </div>
-
         </motion.div>
       </div>
 
       {/* RIGHT SIDE — PHONE */}
-      <div className="
+      <div
+        className="
   flex justify-center items-center relative 
   translate-x-4 md:translate-x-8 
   scale-[1.25] md:scale-[1.35] lg:scale-[1.4] xl:scale-[1.45] 
   origin-center
-">
-  <div className="absolute inset-0 bg-gradient-to-tr from-[#2BFF88]/15 to-transparent blur-3xl rounded-full" />
-  <PhoneMockup />
-</div>
-
-
-
+"
+      >
+        <div className="absolute inset-0 bg-gradient-to-tr from-[#2BFF88]/15 to-transparent blur-3xl rounded-full" />
+        <PhoneMockup />
+      </div>
     </div>
   </section>
 );
-
-
-
-
 
 const CinematicCard = ({ title, subtitle, icon: Icon, delay, active }) => (
   <div
@@ -1585,7 +1466,9 @@ const Index = () => {
   // Initialize scroll active hook
   useScrollActive("hero");
   const [nodes, setNodes] = useState(INITIAL_NODES);
+
   const pathPositions = [15, 32, 50, 68, 85];
+  const navigate = useNavigate();
   // Optional: Add a subtle movement to the nodes over time for more dynamism
   useEffect(() => {
     const interval = setInterval(() => {
@@ -1607,47 +1490,47 @@ const Index = () => {
 
     return () => clearInterval(interval);
   }, []);
+
   return (
     <div
       className="min-h-screen   bg-black text-white font-sans selection:bg-[#2BFF88] selection:text-black overflow-x-hidden overflow-y-hidden scrollbar-hide"
       style={{ scrollbarWidth: "none", scrollBehavior: "smooth" }}
     >
-      <Navbar />
+   
       <Hero />
       {/* UAE ANNOUNCEMENT SECTION */}
-{/* UAE ANNOUNCEMENT SECTION */}
-<section className="w-full py-14 bg-black relative border-t border-white/5">
-  <div className="max-w-6xl mx-auto px-6 flex flex-col items-center text-center">
+      {/* UAE ANNOUNCEMENT SECTION */}
+      <section className="w-full py-14 bg-black relative border-t border-white/5">
+        <div className="max-w-6xl mx-auto px-6 flex flex-col items-center text-center">
+          {/* UAE FLAG STRIP */}
+          <div className="flex items-center mb-5 opacity-90">
+            <div className="w-5 h-6 bg-[#D91A20] rounded-l-sm" />
+            <div className="w-5 h-6 bg-white" />
+            <div className="w-5 h-6 bg-[#00732F]" />
+            <div className="w-5 h-6 bg-black rounded-r-sm border border-white/10" />
+          </div>
 
-    {/* UAE FLAG STRIP */}
-    <div className="flex items-center mb-5 opacity-90">
-      <div className="w-5 h-6 bg-[#D91A20] rounded-l-sm" />
-      <div className="w-5 h-6 bg-white" />
-      <div className="w-5 h-6 bg-[#00732F]" />
-      <div className="w-5 h-6 bg-black rounded-r-sm border border-white/10" />
-    </div>
+          {/* TITLE */}
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white mb-3 animate-fadeIn">
+            We’re coming to the{" "}
+            <span className="text-[#2BFF88]">United Arab Emirates.</span>
+          </h2>
 
-    {/* TITLE */}
-    <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white mb-3 animate-fadeIn">
-      We’re coming to the <span className="text-[#2BFF88]">United Arab Emirates.</span>
-    </h2>
+          {/* SUBTEXT */}
+          <p className="text-gray-400 max-w-xl text-sm sm:text-base mb-6">
+            Blip.money will launch its next real-world settlement corridor in
+            the UAE. Fast, private, crypto-native payments built for a global
+            hub.
+          </p>
 
-    {/* SUBTEXT */}
-    <p className="text-gray-400 max-w-xl text-sm sm:text-base mb-6">
-      Blip.money will launch its next real-world settlement corridor in the UAE.
-      Fast, private, crypto-native payments built for a global hub.
-    </p>
+          {/* CTA BUTTON */}
+        </div>
 
-    {/* CTA BUTTON */}
-   
+        {/* Glow */}
+        <div className="absolute inset-0 -z-10 opacity-20 bg-gradient-to-b from-[#2BFF88]/10 to-transparent blur-[80px]" />
 
-  </div>
-
-  {/* Glow */}
-  <div className="absolute inset-0 -z-10 opacity-20 bg-gradient-to-b from-[#2BFF88]/10 to-transparent blur-[80px]" />
-
-  {/* Animation */}
-  <style>{`
+        {/* Animation */}
+        <style>{`
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
@@ -1656,8 +1539,7 @@ const Index = () => {
       animation: fadeIn 0.6s ease-out forwards;
     }
   `}</style>
-</section>
-
+      </section>
 
       <CashbackBanner />
 
@@ -1759,278 +1641,275 @@ Payments"
     
         <!-- 3. THE PROTOCOL SECTION (Cinematic Diagram) -->
         <!-- -------------------------------------- --> */}
-  <section
-  id="protocol-section"
-  className="py-40 overflow-hidden bg-[#000000]"
->
+      <section id="protocol" className="py-40 overflow-hidden bg-[#000000]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+          {/* Text Block (Left) */}
+          <div className="lg:sticky lg:top-1/4">
+            <SectionLabel
+              text="The Global Settlement Layer"
+              className={"items-center justify-start"}
+            />
+            <h2 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-8 mint-gradient-text tracking-tight text-left">
+              Blip Protocol: The Global Settlement Layer
+            </h2>
+            <p className="text-lg text-gray-400">
+              Blip is a decentralized, open-source protocol built for instant,
+              low-cost global value transfer, leveraging Zero-Knowledge proofs
+              for privacy and Solana&apos;s speed for scalability. It&apos;s the
+              new financial infrastructure the world needs.
+            </p>
+            <a
+              href="/whitepaper.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-black/80 backdrop-blur border border-[#00FF94]/30 text-white hover:text-[#00FF94] px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider my-4 hover:shadow-[0_0_1px_#00FF94] transition-all duration-300"
+            >
+              Explore Whitepaper
+            </a>
+          </div>
 
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-    {/* Text Block (Left) */}
-    <div className="lg:sticky lg:top-1/4">
-      <SectionLabel
-        text="The Global Settlement Layer"
-        className={"items-center justify-start"}
-      />
-      <h2 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-8 mint-gradient-text tracking-tight text-left">
-        Blip Protocol: The Global Settlement Layer
-      </h2>
-      <p className="text-lg text-gray-400">
-        Blip is a decentralized, open-source protocol built for instant,
-        low-cost global value transfer, leveraging Zero-Knowledge proofs
-        for privacy and Solana&apos;s speed for scalability. It&apos;s the new
-        financial infrastructure the world needs.
-      </p>
-      <a
-  href="/whitepaper.pdf"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="inline-block bg-black/80 backdrop-blur border border-[#00FF94]/30 text-white hover:text-[#00FF94] px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider my-4 hover:shadow-[0_0_1px_#00FF94] transition-all duration-300"
->
-  Explore Whitepaper
-</a>
-
-    </div>
-
-    {/* Protocol Diagram — Liquidity Engine */}
-    <LiquidityEngineDiagram />
-  </div>
-</section>
+          {/* Protocol Diagram — Liquidity Engine */}
+          <LiquidityEngineDiagram />
+        </div>
+      </section>
       <FeatureStrip />
 
-
       {/* <!-- SECTION 3: HOW IT WORKS (3 STEPS - STRIPE VIBE) --> */}
-      <section id="how-it-works" className="py-32 border-t border-gray-900 bg-black">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6">
-    <SectionLabel
-      text="Real-World Value"
-      className="items-center justify-center"
-    />
+      <section
+        id="how-it-works"
+        className="py-32 border-t border-gray-900 bg-black"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <SectionLabel
+            text="Real-World Value"
+            className="items-center justify-center"
+          />
 
-    <h2
-      data-animate-on-scroll
-      className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-6 mint-gradient-text tracking-tight text-center"
-    >
-      How Blip Works
-      <span className="block text-base md:text-lg font-normal text-gray-400 mt-3">
-        One on-chain flow. Three simple steps.
-      </span>
-    </h2>
-
-    {/* STEP STRIP */}
-    <div className="mt-12 relative">
-      {/* glowing line behind steps */}
-      <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00FF94]/50 to-transparent pointer-events-none" />
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative z-10">
-        {/* STEP 1 */}
-        <div
-          data-animate-on-scroll
-          className="relative rounded-2xl bg-[#050505] border border-white/5 hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.25)] transition-all duration-500 p-8"
-        >
-          {/* step badge */}
-          <div className="absolute -top-5 left-6 w-10 h-10 rounded-full bg-black border border-[#00FF94]/60 flex items-center justify-center shadow-[0_0_20px_rgba(0,255,148,0.5)]">
-            <span className="text-xs font-mono tracking-[0.2em] text-[#00FF94]">
-              01
+          <h2
+            data-animate-on-scroll
+            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-6 mint-gradient-text tracking-tight text-center"
+          >
+            How Blip Works
+            <span className="block text-base md:text-lg font-normal text-gray-400 mt-3">
+              One on-chain flow. Three simple steps.
             </span>
+          </h2>
+
+          {/* STEP STRIP */}
+          <div className="mt-12 relative">
+            {/* glowing line behind steps */}
+            <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00FF94]/50 to-transparent pointer-events-none" />
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative z-10">
+              {/* STEP 1 */}
+              <div
+                data-animate-on-scroll
+                className="relative rounded-2xl bg-[#050505] border border-white/5 hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.25)] transition-all duration-500 p-8"
+              >
+                {/* step badge */}
+                <div className="absolute -top-5 left-6 w-10 h-10 rounded-full bg-black border border-[#00FF94]/60 flex items-center justify-center shadow-[0_0_20px_rgba(0,255,148,0.5)]">
+                  <span className="text-xs font-mono tracking-[0.2em] text-[#00FF94]">
+                    01
+                  </span>
+                </div>
+
+                <h3 className="text-xl md:text-2xl font-semibold mb-3 text-white flex items-center gap-2">
+                  <span className="text-2xl text-[#00FF94]">⌲</span>
+                  Create a payment from your wallet.
+                </h3>
+                <p className="text-sm md:text-base text-gray-400 mb-3">
+                  Choose how they receive:{" "}
+                  <span className="text-gray-200">
+                    local bank, wire, cash pickup, or goods.
+                  </span>
+                </p>
+                <p className="text-xs md:text-sm text-gray-500">
+                  The crypto is locked into an on-chain escrow contract, ready
+                  to be matched.
+                </p>
+              </div>
+
+              {/* STEP 2 */}
+              <div
+                data-animate-on-scroll
+                className="relative rounded-2xl bg-[#050505] border border-white/5 hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.25)] transition-all duration-500 p-8"
+              >
+                <div className="absolute -top-5 left-6 w-10 h-10 rounded-full bg-black border border-[#00FF94]/60 flex items-center justify-center shadow-[0_0_20px_rgba(0,255,148,0.5)]">
+                  <span className="text-xs font-mono tracking-[0.2em] text-[#00FF94]">
+                    02
+                  </span>
+                </div>
+
+                <h3 className="text-xl md:text-2xl font-semibold mb-3 text-white flex items-center gap-2">
+                  <span className="text-2xl text-[#00FF94]">🤝</span>
+                  Merchants compete to fulfill it.
+                </h3>
+                <p className="text-sm md:text-base text-gray-400 mb-3">
+                  The{" "}
+                  <span className="text-gray-200">Blip Merchant Network</span>{" "}
+                  bids to take your order, routing it through the best available
+                  liquidity.
+                </p>
+                <p className="text-xs md:text-sm text-gray-500">
+                  Matching, pricing and routing all happen on-chain via the Blip
+                  Protocol.
+                </p>
+              </div>
+
+              {/* STEP 3 */}
+              <div
+                data-animate-on-scroll
+                className="relative rounded-2xl bg-[#050505] border border-white/5 hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.25)] transition-all duration-500 p-8"
+              >
+                <div className="absolute -top-5 left-6 w-10 h-10 rounded-full bg-black border border-[#00FF94]/60 flex items-center justify-center shadow-[0_0_20px_rgba(0,255,148,0.5)]">
+                  <span className="text-xs font-mono tracking-[0.2em] text-[#00FF94]">
+                    03
+                  </span>
+                </div>
+
+                <h3 className="text-xl md:text-2xl font-semibold mb-3 text-white flex items-center gap-2">
+                  <span className="text-2xl text-[#00FF94]">✓</span>
+                  Receiver gets real-world value.
+                </h3>
+                <p className="text-sm md:text-base text-gray-400 mb-3">
+                  They receive{" "}
+                  <span className="text-gray-200">
+                    bank funds, cash, or goods in minutes
+                  </span>{" "}
+                  while you stay fully crypto-native.
+                </p>
+                <p className="text-xs md:text-sm text-gray-500">
+                  Settlement proof hits chain, escrow releases, and the transfer
+                  is finalized forever.
+                </p>
+              </div>
+            </div>
           </div>
-
-          <h3 className="text-xl md:text-2xl font-semibold mb-3 text-white flex items-center gap-2">
-            <span className="text-2xl text-[#00FF94]">⌲</span>
-            Create a payment from your wallet.
-          </h3>
-          <p className="text-sm md:text-base text-gray-400 mb-3">
-            Choose how they receive:{" "}
-            <span className="text-gray-200">
-              local bank, wire, cash pickup, or goods.
-            </span>
-          </p>
-          <p className="text-xs md:text-sm text-gray-500">
-            The crypto is locked into an on-chain escrow contract, ready to be
-            matched.
-          </p>
         </div>
-
-        {/* STEP 2 */}
-        <div
-          data-animate-on-scroll
-          className="relative rounded-2xl bg-[#050505] border border-white/5 hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.25)] transition-all duration-500 p-8"
-        >
-          <div className="absolute -top-5 left-6 w-10 h-10 rounded-full bg-black border border-[#00FF94]/60 flex items-center justify-center shadow-[0_0_20px_rgba(0,255,148,0.5)]">
-            <span className="text-xs font-mono tracking-[0.2em] text-[#00FF94]">
-              02
-            </span>
-          </div>
-
-          <h3 className="text-xl md:text-2xl font-semibold mb-3 text-white flex items-center gap-2">
-            <span className="text-2xl text-[#00FF94]">🤝</span>
-            Merchants compete to fulfill it.
-          </h3>
-          <p className="text-sm md:text-base text-gray-400 mb-3">
-            The{" "}
-            <span className="text-gray-200">Blip Merchant Network</span> bids to
-            take your order, routing it through the best available liquidity.
-          </p>
-          <p className="text-xs md:text-sm text-gray-500">
-            Matching, pricing and routing all happen on-chain via the Blip
-            Protocol.
-          </p>
-        </div>
-
-        {/* STEP 3 */}
-        <div
-          data-animate-on-scroll
-          className="relative rounded-2xl bg-[#050505] border border-white/5 hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.25)] transition-all duration-500 p-8"
-        >
-          <div className="absolute -top-5 left-6 w-10 h-10 rounded-full bg-black border border-[#00FF94]/60 flex items-center justify-center shadow-[0_0_20px_rgba(0,255,148,0.5)]">
-            <span className="text-xs font-mono tracking-[0.2em] text-[#00FF94]">
-              03
-            </span>
-          </div>
-
-          <h3 className="text-xl md:text-2xl font-semibold mb-3 text-white flex items-center gap-2">
-            <span className="text-2xl text-[#00FF94]">✓</span>
-            Receiver gets real-world value.
-          </h3>
-          <p className="text-sm md:text-base text-gray-400 mb-3">
-            They receive{" "}
-            <span className="text-gray-200">
-              bank funds, cash, or goods in minutes
-            </span>{" "}
-            while you stay fully crypto-native.
-          </p>
-          <p className="text-xs md:text-sm text-gray-500">
-            Settlement proof hits chain, escrow releases, and the transfer is
-            finalized forever.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
+      </section>
 
       {/* --- SECTION 4: REAL WORLD USAGE --- */}
 
       <RealWorldUsageSection />
 
-
       {/* <!-- SECTION 7: PRIVACY & TRUST (TWO-COLUMN MINIMAL) --> */}
       <section className="py-32 border-t border-gray-900 bg-black">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6">
-    <SectionLabel
-      text="Privacy by Design"
-      className="items-center justify-center"
-    />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <SectionLabel
+            text="Privacy by Design"
+            className="items-center justify-center"
+          />
 
-    <h2
-      data-animate-on-scroll
-      className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-10 mint-gradient-text tracking-tight text-center"
-    >
-      Privacy by Design.{" "}
-      <span className="block">Trust by Protocol.</span>
-    </h2>
+          <h2
+            data-animate-on-scroll
+            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-10 mint-gradient-text tracking-tight text-center"
+          >
+            Privacy by Design. <span className="block">Trust by Protocol.</span>
+          </h2>
 
-    {/* big split card */}
-    <div
-      data-animate-on-scroll
-      className="relative rounded-3xl bg-[#050505] border border-[#00FF94]/30 shadow-[0_0_60px_rgba(0,255,148,0.15)] overflow-hidden"
-    >
-      {/* faint grid background */}
-      <div className="absolute inset-0 opacity-20 pointer-events-none"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, #00FF9422 1px, transparent 1px), linear-gradient(to bottom, #00FF9422 1px, transparent 1px)",
-          backgroundSize: "28px 28px",
-        }}
-      />
+          {/* big split card */}
+          <div
+            data-animate-on-scroll
+            className="relative rounded-3xl bg-[#050505] border border-[#00FF94]/30 shadow-[0_0_60px_rgba(0,255,148,0.15)] overflow-hidden"
+          >
+            {/* faint grid background */}
+            <div
+              className="absolute inset-0 opacity-20 pointer-events-none"
+              style={{
+                backgroundImage:
+                  "linear-gradient(to right, #00FF9422 1px, transparent 1px), linear-gradient(to bottom, #00FF9422 1px, transparent 1px)",
+                backgroundSize: "28px 28px",
+              }}
+            />
 
-      <div className="relative grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-[#00FF94]/10">
-        {/* LEFT: PRIVACY */}
-        <div className="p-8 sm:p-10 lg:p-12">
-          <p className="text-xs font-mono tracking-[0.25em] text-[#00FF94] uppercase mb-3">
-            PRIVACY LAYER
-          </p>
-          <h3 className="text-2xl md:text-3xl font-semibold text-white mb-6">
-            Use Blip with your wallet.
-            <br />
-            Not your identity.
-          </h3>
+            <div className="relative grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-[#00FF94]/10">
+              {/* LEFT: PRIVACY */}
+              <div className="p-8 sm:p-10 lg:p-12">
+                <p className="text-xs font-mono tracking-[0.25em] text-[#00FF94] uppercase mb-3">
+                  PRIVACY LAYER
+                </p>
+                <h3 className="text-2xl md:text-3xl font-semibold text-white mb-6">
+                  Use Blip with your wallet.
+                  <br />
+                  Not your identity.
+                </h3>
 
-          <ul className="space-y-4 text-sm md:text-base text-gray-300">
-            <li className="flex items-start gap-3">
-              <span className="mt-1 h-2 w-2 rounded-full bg-[#00FF94] shadow-[0_0_10px_rgba(0,255,148,0.8)]" />
-              <span>
-                Wallet-based identity:{" "}
-                <span className="text-white">
-                  your address is your ID, decoupled from personal data.
-                </span>
-              </span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="mt-1 h-2 w-2 rounded-full bg-[#00FF94]" />
-              <span>
-                No personal info required for small transfers, keeping everyday
-                payments private.
-              </span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="mt-1 h-2 w-2 rounded-full bg-[#00FF94]" />
-              <span>
-                End-to-end private transaction construction with encrypted
-                order data.
-              </span>
-            </li>
-          </ul>
-        </div>
+                <ul className="space-y-4 text-sm md:text-base text-gray-300">
+                  <li className="flex items-start gap-3">
+                    <span className="mt-1 h-2 w-2 rounded-full bg-[#00FF94] shadow-[0_0_10px_rgba(0,255,148,0.8)]" />
+                    <span>
+                      Wallet-based identity:{" "}
+                      <span className="text-white">
+                        your address is your ID, decoupled from personal data.
+                      </span>
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="mt-1 h-2 w-2 rounded-full bg-[#00FF94]" />
+                    <span>
+                      No personal info required for small transfers, keeping
+                      everyday payments private.
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="mt-1 h-2 w-2 rounded-full bg-[#00FF94]" />
+                    <span>
+                      End-to-end private transaction construction with encrypted
+                      order data.
+                    </span>
+                  </li>
+                </ul>
+              </div>
 
-        {/* RIGHT: TRUST */}
-        <div className="p-8 sm:p-10 lg:p-12 bg-gradient-to-br from-[#00FF9410] via-transparent to-black">
-          <p className="text-xs font-mono tracking-[0.25em] text-[#00FF94] uppercase mb-3">
-            ON-CHAIN TRUST
-          </p>
-          <h3 className="text-2xl md:text-3xl font-semibold text-white mb-6">
-            Everything verifiable.
-            <br />
-            Nothing custodial.
-          </h3>
+              {/* RIGHT: TRUST */}
+              <div className="p-8 sm:p-10 lg:p-12 bg-gradient-to-br from-[#00FF9410] via-transparent to-black">
+                <p className="text-xs font-mono tracking-[0.25em] text-[#00FF94] uppercase mb-3">
+                  ON-CHAIN TRUST
+                </p>
+                <h3 className="text-2xl md:text-3xl font-semibold text-white mb-6">
+                  Everything verifiable.
+                  <br />
+                  Nothing custodial.
+                </h3>
 
-          <ul className="space-y-4 text-sm md:text-base text-gray-300">
-            <li className="flex items-start gap-3">
-              <span className="mt-0.5 text-[#00FF94] text-xl">✓</span>
-              <span>
-                Orders, matching and settlement events are{" "}
-                <span className="text-white">recorded on-chain</span> for anyone
-                to verify.
-              </span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="mt-0.5 text-[#00FF94] text-xl">✓</span>
-              <span>
-                Settlement proofs guarantee that{" "}
-                <span className="text-white">real-world payout actually
-                happened</span> before funds are released.
-              </span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="mt-0.5 text-[#00FF94] text-xl">✓</span>
-              <span>
-                Immutable audit trail of every transfer, dispute and merchant
-                action across the network.
-              </span>
-            </li>
-          </ul>
+                <ul className="space-y-4 text-sm md:text-base text-gray-300">
+                  <li className="flex items-start gap-3">
+                    <span className="mt-0.5 text-[#00FF94] text-xl">✓</span>
+                    <span>
+                      Orders, matching and settlement events are{" "}
+                      <span className="text-white">recorded on-chain</span> for
+                      anyone to verify.
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="mt-0.5 text-[#00FF94] text-xl">✓</span>
+                    <span>
+                      Settlement proofs guarantee that{" "}
+                      <span className="text-white">
+                        real-world payout actually happened
+                      </span>{" "}
+                      before funds are released.
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="mt-0.5 text-[#00FF94] text-xl">✓</span>
+                    <span>
+                      Immutable audit trail of every transfer, dispute and
+                      merchant action across the network.
+                    </span>
+                  </li>
+                </ul>
 
-          <div className="mt-8 inline-flex items-center gap-2 rounded-full border border-[#00FF94]/40 bg-black/40 px-4 py-2 text-xs font-mono uppercase tracking-[0.18em] text-gray-300">
-            <span className="h-2 w-2 rounded-full bg-[#00FF94] animate-pulse" />
-            Protocol, not promises.
+                <div className="mt-8 inline-flex items-center gap-2 rounded-full border border-[#00FF94]/40 bg-black/40 px-4 py-2 text-xs font-mono uppercase tracking-[0.18em] text-gray-300">
+                  <span className="h-2 w-2 rounded-full bg-[#00FF94] animate-pulse" />
+                  Protocol, not promises.
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-<EarlyAdopterBanner />
+      </section>
+      <EarlyAdopterBanner />
 
       {/* --- SECTION 5: MERCHANTS --- */}
       <section
@@ -2137,24 +2016,23 @@ Payments"
             </p>
 
             <div className="flex flex-col gap-4 max-w-xs">
-  <Link to="/rewards">
-    <button className="w-full bg-black/80 backdrop-blur border border-[#00FF94]/30 text-[#00FF94] px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-[#00FF94] hover:text-black hover:shadow-[0_0_30px_#00FF94] transition-all duration-300">
-      Join Early Supporters
-    </button>
-  </Link>
+              <Link to="/rewards">
+                <button className="w-full bg-black/80 backdrop-blur border border-[#00FF94]/30 text-[#00FF94] px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-[#00FF94] hover:text-black hover:shadow-[0_0_30px_#00FF94] transition-all duration-300">
+                  Join Early Supporters
+                </button>
+              </Link>
 
-  <Link to="/rewards">
-    <button className="w-full bg-black/80 backdrop-blur border border-white/20 text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:border-[#00FF94] hover:text-[#00FF94] transition-all duration-300">
-      Join the Waitlist
-    </button>
-  </Link>
+              <Link to="/rewards">
+                <button className="w-full bg-black/80 backdrop-blur border border-white/20 text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:border-[#00FF94] hover:text-[#00FF94] transition-all duration-300">
+                  Join the Waitlist
+                </button>
+              </Link>
 
-  <Link to="/rewards">
-    <button className="w-full bg-black/80 backdrop-blur border border-white/20 text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:border-[#00FF94] hover:text-[#00FF94] transition-all duration-300">
-      Get Airdrop Access
-    </button>
-  </Link>
-
+              <Link to="/rewards">
+                <button className="w-full bg-black/80 backdrop-blur border border-white/20 text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:border-[#00FF94] hover:text-[#00FF94] transition-all duration-300">
+                  Get Airdrop Access
+                </button>
+              </Link>
             </div>
           </div>
 
@@ -2232,16 +2110,15 @@ Payments"
         `}
         </style>
         <section
-  id="peoplebank"
-  className="relative py-16 md:py-32 border-t border-white/5 overflow-hidden
+          id="peoplebank"
+          className="relative py-16 md:py-32 border-t border-white/5 overflow-hidden
              bg-gradient-to-br from-[#020813] via-[#030608] to-[#0a030d]"
->
-
-<div className="pointer-events-none absolute inset-0 opacity-70">
-    <div className="absolute -top-24 left-1/4 w-72 h-72 rounded-full bg-[#00C8FF]/18 blur-3xl" />
-    <div className="absolute -bottom-32 right-0 w-80 h-80 rounded-full bg-[#00FF94]/20 blur-3xl" />
-    <div className="absolute top-1/3 -left-24 w-64 h-64 rounded-full bg-[#7C3AED]/16 blur-3xl" />
-  </div>
+        >
+          <div className="pointer-events-none absolute inset-0 opacity-70">
+            <div className="absolute -top-24 left-1/4 w-72 h-72 rounded-full bg-[#00C8FF]/18 blur-3xl" />
+            <div className="absolute -bottom-32 right-0 w-80 h-80 rounded-full bg-[#00FF94]/20 blur-3xl" />
+            <div className="absolute top-1/3 -left-24 w-64 h-64 rounded-full bg-[#7C3AED]/16 blur-3xl" />
+          </div>
 
           <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-20">
             {/* Left Content Area */}
@@ -2357,72 +2234,74 @@ Payments"
 
       {/* SECTION 9: TOKEN UTILITY (SIMPLE GRID) */}
       <section
-  id="token-utility"
-  className="py-24 sm:py-32 border-t border-white/5 bg-[#020202]"
->
-  <div className="max-w-6xl mx-auto px-4 sm:px-6">
-    <SectionLabel
-      text="Protocol Token Utility"
-      className="items-center justify-center"
-    />
+        id="token-utility"
+        className="py-24 sm:py-32 border-t border-white/5 bg-[#020202]"
+      >
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <SectionLabel
+            text="Protocol Token Utility"
+            className="items-center justify-center"
+          />
 
-    <h2
-      data-animate-on-scroll
-      className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-6 sm:mb-10 tracking-tight text-center"
-    >
-      Protocol Token Utility
-    </h2>
+          <h2
+            data-animate-on-scroll
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-6 sm:mb-10 tracking-tight text-center"
+          >
+            Protocol Token Utility
+          </h2>
 
-    <p className="text-sm sm:text-base text-gray-400 text-center max-w-2xl mx-auto mb-10 sm:mb-14">
-      BLIP isn’t just a reward token. It powers how value flows, who gets paid
-      first and how the network defends itself.
-    </p>
+          <p className="text-sm sm:text-base text-gray-400 text-center max-w-2xl mx-auto mb-10 sm:mb-14">
+            BLIP isn’t just a reward token. It powers how value flows, who gets
+            paid first and how the network defends itself.
+          </p>
 
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6">
-      {TOKEN_UTILITIES.map((item, idx) => (
-        <div
-          key={item.id}
-          data-animate-on-scroll
-          style={{ animationDelay: `${idx * 40}ms` }}
-          className="group relative rounded-2xl bg-[#050505] border border-white/5 
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6">
+            {TOKEN_UTILITIES.map((item, idx) => (
+              <div
+                key={item.id}
+                data-animate-on-scroll
+                style={{ animationDelay: `${idx * 40}ms` }}
+                className="group relative rounded-2xl bg-[#050505] border border-white/5 
                      hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.20)]
                      transition-all duration-300 overflow-hidden"
-        >
-          {/* subtle glow */}
-          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-            <div
-              className="absolute inset-0 blur-3xl"
-              style={{ background: `radial-gradient(circle at top, ${item.color}33, transparent 60%)` }}
-            />
-          </div>
-
-          <div className="relative p-5 sm:p-6 flex flex-col gap-3">
-            {/* icon + tiny pill */}
-            <div className="flex items-center justify-between gap-3">
-              <div
-                className="w-9 h-9 rounded-xl bg-[#0A0A0A] border border-white/10 flex items-center justify-center text-lg"
-                style={{ color: item.color }}
               >
-                {item.symbol}
+                {/* subtle glow */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                  <div
+                    className="absolute inset-0 blur-3xl"
+                    style={{
+                      background: `radial-gradient(circle at top, ${item.color}33, transparent 60%)`,
+                    }}
+                  />
+                </div>
+
+                <div className="relative p-5 sm:p-6 flex flex-col gap-3">
+                  {/* icon + tiny pill */}
+                  <div className="flex items-center justify-between gap-3">
+                    <div
+                      className="w-9 h-9 rounded-xl bg-[#0A0A0A] border border-white/10 flex items-center justify-center text-lg"
+                      style={{ color: item.color }}
+                    >
+                      {item.symbol}
+                    </div>
+                    <span className="text-[9px] font-mono uppercase tracking-[0.18em] text-gray-500">
+                      UTILITY
+                    </span>
+                  </div>
+
+                  <h3 className="text-sm sm:text-base font-semibold text-white mt-1">
+                    {item.label}
+                  </h3>
+
+                  <p className="text-xs sm:text-[13px] text-gray-400 leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
               </div>
-              <span className="text-[9px] font-mono uppercase tracking-[0.18em] text-gray-500">
-                UTILITY
-              </span>
-            </div>
-
-            <h3 className="text-sm sm:text-base font-semibold text-white mt-1">
-              {item.label}
-            </h3>
-
-            <p className="text-xs sm:text-[13px] text-gray-400 leading-relaxed">
-              {item.description}
-            </p>
+            ))}
           </div>
         </div>
-      ))}
-    </div>
-  </div>
-</section>
+      </section>
 
       {/* --- SECTION 9: FINAL HERO --- */}
       <section className="py-20 sm:py-28 md:py-36 lg:py-40 relative flex items-center justify-center overflow-hidden bg-black text-center border-t border-white/5">
@@ -2437,7 +2316,7 @@ Payments"
             <span>Instant</span>•<span>Bankless</span>•<span>Borderless</span>•
             <span>P2P</span>
           </div>
-          <a href="https://t.me/+Pi3Ijs3Q5-ZjZTAx" target="_blank">
+          <a href="https://t.me/+3DpHLzc2BfJhOWEx" target="_blank">
             <Button
               primary
               className="text-lg px-12 py-5 shadow-[0_0_50px_rgba(0,255,148,0.2)] hover:shadow-[0_0_80px_rgba(0,255,148,0.4)] transform hover:scale-105"
@@ -2468,7 +2347,7 @@ Payments"
                 key={country}
                 className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-white/10 bg-white/5 text-xs sm:text-sm text-gray-300 flex items-center gap-1.5 sm:gap-2"
               >
-                <div className="w-1.5 h-1.5 rounded-full bg-[#2BFF88] animate-pulse" />
+                <div className="w-1.5 h-1.5 rounded-full bg-[#b8f1d1] animate-pulse" />
                 {country}
               </div>
             ))}
