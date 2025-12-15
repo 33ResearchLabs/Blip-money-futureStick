@@ -114,132 +114,132 @@ const LanguageSwitcher = ({ language, setLanguage }) => {
   );
 };
 
-export const Navbar = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [language, setLanguage] = useState("en");
+// export const Navbar = () => {
+//   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+//   const [language, setLanguage] = useState("en");
 
-  return (
-    <nav className="fixed top-0 w-full z-50 backdrop-blur-md border-b border-white/5 bg-black/60 supports-[backdrop-filter]:bg-black/40">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
-        <a href="/" className="flex items-center gap-2">
-          <div className="relative">
-            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#2BFF88] shadow-[0_0_10px_#2BFF88] relative z-10" />
-            <div className="absolute inset-0 bg-[#2BFF88] rounded-full animate-ping opacity-50" />
-          </div>
-          <span className="text-xl sm:text-2xl font-bold tracking-tight text-white">
-            Blip.<span className="text-[#2BFF88]">money</span>
-          </span>
-        </a>
+//   return (
+//     <nav className="fixed top-0 w-full z-50 backdrop-blur-md border-b border-white/5 bg-black/60 supports-[backdrop-filter]:bg-black/40">
+//       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
+//         <a href="/" className="flex items-center gap-2">
+//           <div className="relative">
+//             <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#2BFF88] shadow-[0_0_10px_#2BFF88] relative z-10" />
+//             <div className="absolute inset-0 bg-[#2BFF88] rounded-full animate-ping opacity-50" />
+//           </div>
+//           <span className="text-xl sm:text-2xl font-bold tracking-tight text-white">
+//             Blip.<span className="text-[#2BFF88]">money</span>
+//           </span>
+//         </a>
 
-        {/* Desktop Menu */}
-        <div className="hidden lg:flex items-center gap-8">
-          <div className="flex items-center gap-8 text-sm font-medium text-gray-400">
-            <a href="/" className="hover:text-[#2BFF88] transition-colors">
-              Protocol
-            </a>
+//         {/* Desktop Menu */}
+//         <div className="hidden lg:flex items-center gap-8">
+//           <div className="flex items-center gap-8 text-sm font-medium text-gray-400">
+//             <a href="/" className="hover:text-[#2BFF88] transition-colors">
+//               Protocol
+//             </a>
 
-            <a href="/" className="hover:text-[#2BFF88] transition-colors">
-              Merchants
-            </a>
-            <a href="/" className="hover:text-[#2BFF88] transition-colors">
-              PeopleBank
-            </a>
+//             <a href="/" className="hover:text-[#2BFF88] transition-colors">
+//               Merchants
+//             </a>
+//             <a href="/" className="hover:text-[#2BFF88] transition-colors">
+//               PeopleBank
+//             </a>
              
-             <NavLink
-                           to="/rewards"
-                           className={({ isActive }) =>
-                             `transition-colors ${
-                               isActive
-                                 ? "text-[#2BFF88] font-semibold"
-                                 : "hover:text-[#2BFF88]"
-                             }`
-                           }
-                         >
-                           Rewards
-                         </NavLink>
+//              <NavLink
+//                            to="/rewards"
+//                            className={({ isActive }) =>
+//                              `transition-colors ${
+//                                isActive
+//                                  ? "text-[#2BFF88] font-semibold"
+//                                  : "hover:text-[#2BFF88]"
+//                              }`
+//                            }
+//                          >
+//                            Rewards
+//                          </NavLink>
 
-            <NavLink
-              to="/tokenomics"
-              className={({ isActive }) =>
-                `transition-colors ${
-                  isActive
-                    ? "text-[#2BFF88] font-semibold"
-                    : "hover:text-[#2BFF88]"
-                }`
-              }
-            >
-              Tokenomics
-            </NavLink>
-          </div>{" "}
-          <LanguageSwitcher language={language} setLanguage={setLanguage} />
-          {/* <a href="/coming-soon">
-            <button className="px-5 py-2 rounded-full border border-white/10 text-white text-sm hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all bg-black/50 backdrop-blur-sm group">
-              <span className="group-hover:text-[#2BFF88] transition-colors">
-                Coming Soon
-              </span>
-            </button>
-          </a> */}
-        </div>
+//             <NavLink
+//               to="/tokenomics"
+//               className={({ isActive }) =>
+//                 `transition-colors ${
+//                   isActive
+//                     ? "text-[#2BFF88] font-semibold"
+//                     : "hover:text-[#2BFF88]"
+//                 }`
+//               }
+//             >
+//               Tokenomics
+//             </NavLink>
+//           </div>{" "}
+//           <LanguageSwitcher language={language} setLanguage={setLanguage} />
+//           {/* <a href="/coming-soon">
+//             <button className="px-5 py-2 rounded-full border border-white/10 text-white text-sm hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all bg-black/50 backdrop-blur-sm group">
+//               <span className="group-hover:text-[#2BFF88] transition-colors">
+//                 Coming Soon
+//               </span>
+//             </button>
+//           </a> */}
+//         </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="lg:hidden p-2 text-white hover:text-[#2BFF88] transition-colors"
-          aria-label="Toggle menu"
-        >
-          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+//         {/* Mobile Menu Button */}
+//         <button
+//           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+//           className="lg:hidden p-2 text-white hover:text-[#2BFF88] transition-colors"
+//           aria-label="Toggle menu"
+//         >
+//           {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+//         </button>
 
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {mobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="lg:hidden absolute top-full left-0 right-0 bg-black/95 backdrop-blur-xl border-b border-white/10"
-            >
-              <div className="flex flex-col p-6 space-y-4">
-                <a
-                  href="#protocol"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-gray-400 hover:text-[#2BFF88] transition-colors text-lg py-2"
-                >
-                  Protocol
-                </a>
-                <a
-                  href="#merchants"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-gray-400 hover:text-[#2BFF88] transition-colors text-lg py-2"
-                >
-                  Merchants
-                </a>
-                <a
-                  href="#peoplebank"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-gray-400 hover:text-[#2BFF88] transition-colors text-lg py-2"
-                >
-                  PeopleBank
-                </a>
-                <a
-                  href="/tokenomics"
-                  className="hover:text-[#2BFF88] transition-colors"
-                >
-                  Tokenomics
-                </a>
-                <a href="/coming-soon">
-                  <button className="w-full px-5 py-3 rounded-full border border-white/10 text-white hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all bg-black/50 backdrop-blur-sm mt-2">
-                    Open App
-                  </button>
-                </a>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </nav>
-  );
-};
+//         {/* Mobile Menu */}
+//         <AnimatePresence>
+//           {mobileMenuOpen && (
+//             <motion.div
+//               initial={{ opacity: 0, y: -20 }}
+//               animate={{ opacity: 1, y: 0 }}
+//               exit={{ opacity: 0, y: -20 }}
+//               className="lg:hidden absolute top-full left-0 right-0 bg-black/95 backdrop-blur-xl border-b border-white/10"
+//             >
+//               <div className="flex flex-col p-6 space-y-4">
+//                 <a
+//                   href="#protocol"
+//                   onClick={() => setMobileMenuOpen(false)}
+//                   className="text-gray-400 hover:text-[#2BFF88] transition-colors text-lg py-2"
+//                 >
+//                   Protocol
+//                 </a>
+//                 <a
+//                   href="#merchants"
+//                   onClick={() => setMobileMenuOpen(false)}
+//                   className="text-gray-400 hover:text-[#2BFF88] transition-colors text-lg py-2"
+//                 >
+//                   Merchants
+//                 </a>
+//                 <a
+//                   href="#peoplebank"
+//                   onClick={() => setMobileMenuOpen(false)}
+//                   className="text-gray-400 hover:text-[#2BFF88] transition-colors text-lg py-2"
+//                 >
+//                   PeopleBank
+//                 </a>
+//                 <a
+//                   href="/tokenomics"
+//                   className="hover:text-[#2BFF88] transition-colors"
+//                 >
+//                   Tokenomics
+//                 </a>
+//                 <a href="/coming-soon">
+//                   <button className="w-full px-5 py-3 rounded-full border border-white/10 text-white hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all bg-black/50 backdrop-blur-sm mt-2">
+//                     Open App
+//                   </button>
+//                 </a>
+//               </div>
+//             </motion.div>
+//           )}
+//         </AnimatePresence>
+//       </div>
+//     </nav>
+//   );
+// };
 
 // --- Canvas Grid Background Component (Replacing Three.js) ---
 const NetGridBackground = () => {
@@ -479,7 +479,7 @@ const ComingSoon = () => {
 
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
 
       <div className="min-h-screen bg-black text-white font-sans overflow-hidden flex flex-col justify-center">
         {/* <button

@@ -25,137 +25,6 @@ const Link = ({ to, children }) => <a href={to}>{children}</a>;
 
 
 
-// 2. Mock Navbar (Copied from previous file)
-export const Navbar = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  return (
-    <nav className="fixed top-0 w-full z-50 backdrop-blur-md border-b border-white/5 bg-black/60 supports-[backdrop-filter]:bg-black/40">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
-        <a href="/" className="flex items-center gap-2">
-          <div className="relative">
-            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#2BFF88] shadow-[0_0_10px_#2BFF88] relative z-10" />
-            <div className="absolute inset-0 bg-[#2BFF88] rounded-full animate-ping opacity-50" />
-          </div>
-          <span className="text-xl sm:text-2xl font-bold tracking-tight text-white">
-            Blip.<span className="text-[#2BFF88]">money</span>
-          </span>
-        </a>
-
-        {/* Desktop Menu */}
-        <div className="hidden lg:flex items-center gap-8">
-          <div className="flex items-center gap-8 text-sm font-medium text-gray-400">
-            <a
-              href="#protocol"
-              className="hover:text-[#2BFF88] transition-colors"
-            >
-              Protocol
-            </a>
-            <a  href="#merchants" className="hover:text-[#2BFF88] transition-colors">
-              Merchants
-            </a>
-            <a  href="#peoplebank" className="hover:text-[#2BFF88] transition-colors">
-              PeopleBank
-            </a>
-           
-            <NavLink
-              to="/rewards"
-              className={({ isActive }) =>
-                `transition-colors ${
-                  isActive
-                    ? "text-[#2BFF88] font-semibold"
-                    : "hover:text-[#2BFF88]"
-                }`
-              }
-            >
-              Rewards
-            </NavLink>
-            
-            <NavLink
-              to="/tokenomics"
-              className={({ isActive }) =>
-                `transition-colors ${
-                  isActive
-                    ? "text-[#2BFF88] font-semibold"
-                    : "hover:text-[#2BFF88]"
-                }`
-              }
-            >
-              Tokenomics
-            </NavLink>
-          </div>
-          <a href="/coming-soon">
-            <button className="px-5 py-2 rounded-full border border-white/10 text-white text-sm hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all bg-black/50 backdrop-blur-sm group">
-              <span className="group-hover:text-[#2BFF88] transition-colors">
-                Open App
-              </span>
-            </button>
-          </a>
-        </div>
-
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="lg:hidden p-2 text-white hover:text-[#2BFF88] transition-colors"
-          aria-label="Toggle menu"
-        >
-          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {mobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="lg:hidden absolute top-full left-0 right-0 bg-black/95 backdrop-blur-xl border-b border-white/10"
-            >
-              <div className="flex flex-col p-6 space-y-4">
-                <a
-                  href="#protocol"
-                  className="text-gray-400 hover:text-[#2BFF88] transition-colors text-lg py-2"
-                >
-                  Protocol
-                </a>
-                <a
-                   href="#merchants"
-                  className="text-gray-400 hover:text-[#2BFF88] transition-colors text-lg py-2"
-                >
-                  Merchants
-                </a>
-                <a
-                  href="#peoplebank"
-                  className="text-gray-400 hover:text-[#2BFF88] transition-colors text-lg py-2"
-                >
-                  PeopleBank
-                </a>
-                <NavLink
-                  to="/tokenomics"
-                  className={({ isActive }) =>
-                    `transition-colors ${
-                      isActive
-                        ? "text-[#2BFF88] font-semibold"
-                        : "hover:text-[#2BFF88]"
-                    }`
-                  }
-                >
-                  Tokenomics
-                </NavLink>
-                <a href="/coming-soon">
-                  <button className="w-full px-5 py-3 rounded-full border border-white/10 text-white hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all bg-black/50 backdrop-blur-sm mt-2">
-                    Open App
-                  </button>
-                </a>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </nav>
-  );
-};
-
 // 3. Mock SocialSidebar
 const SocialSidebar = () => (
   <div className="fixed left-0 top-1/2 -translate-y-1/2 z-40 hidden lg:block">
@@ -359,7 +228,7 @@ const RewardsHero = () => (
                 <ArrowRight className="w-4 h-4" />
               </RewardsButton>
             </Link>
-            <a href="#rewards-grid">
+            <a href="#rewardsgrid">
               <RewardsButton className="w-full sm:w-auto">
                 View reward breakdown
               </RewardsButton>
@@ -420,7 +289,7 @@ const RewardCard = ({ icon: Icon, badge, title, line1, line2, accent }) => (
 
 const RewardsGrid = () => (
   <section
-    id="rewards-grid"
+    id="#rewardsgrid "
     className="py-16 sm:py-20 bg-[#020202] border-t border-white/5"
   >
     <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -1076,7 +945,7 @@ const App = () => {
           }
         `}
       </style>
-      <Navbar />
+      {/* <Navbar /> */}
       <SocialSidebar />
       <RewardsHero /> {/* 1. Enhanced Hero + Orbit */}
       <RewardsGrid /> {/* 2. Three rewards cards */}
