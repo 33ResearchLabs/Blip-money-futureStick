@@ -623,6 +623,7 @@ export const Navbar = () => {
             >
               Protocol
             </a>
+            
             <a
               href="#merchants"
               className="hover:text-[#2BFF88] transition-colors"
@@ -643,7 +644,7 @@ export const Navbar = () => {
             </a>
           </div>  <LanguageSwitcher language={language} setLanguage={setLanguage} />
 
-          <a href="#">
+          <a href="/coming-soon">
             <button className="px-5 py-2 rounded-full border border-white/10 text-white text-sm hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all bg-black/50 backdrop-blur-sm group">
               <span className="group-hover:text-[#2BFF88] transition-colors">
                 Coming Soon
@@ -1450,7 +1451,7 @@ const Hero = () => (
 
           {/* CTA BUTTONS */}
           <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mt-8 justify-center lg:justify-start">
-            <Link to="#">
+            <Link to="/coming-soon">
             <button className="w-full sm:w-auto px-8 py-4 rounded-full border border-white/20 text-white font-medium hover:bg-white/5 hover:border-white/40 transition-all flex items-center justify-center gap-2">
 
                 Coming Soon

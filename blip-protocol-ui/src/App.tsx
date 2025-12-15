@@ -27,7 +27,7 @@ const App = () => (
           <Route path="/tokenomics" element={<BlipTokenomics />} />
           <Route path="/rewards" element={<RewardsLanding />} />
           <Route path="/uae" element={<UAELandingPage />} />
-          <Route path="/comingsoon" element={<ComingSoon />} />
+          <Route path="/coming-soon" element={<ComingSoon />} />
 
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
