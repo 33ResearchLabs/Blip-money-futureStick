@@ -57,6 +57,20 @@ export const Navbar = () => {
             <a  href="#peoplebank" className="hover:text-[#2BFF88] transition-colors">
               PeopleBank
             </a>
+           
+            <NavLink
+              to="/rewards"
+              className={({ isActive }) =>
+                `transition-colors ${
+                  isActive
+                    ? "text-[#2BFF88] font-semibold"
+                    : "hover:text-[#2BFF88]"
+                }`
+              }
+            >
+              Rewards
+            </NavLink>
+            
             <NavLink
               to="/tokenomics"
               className={({ isActive }) =>

@@ -70,7 +70,6 @@
 
 // export default ComingSoon;
 
-
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import {
   ArrowRight,
@@ -85,8 +84,7 @@ import {
   Menu,
 } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
-import {motion ,  AnimatePresence } from "framer-motion";
-
+import { motion, AnimatePresence } from "framer-motion";
 
 const LanguageSwitcher = ({ language, setLanguage }) => {
   return (
@@ -116,7 +114,6 @@ const LanguageSwitcher = ({ language, setLanguage }) => {
   );
 };
 
-
 export const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [language, setLanguage] = useState("en");
@@ -137,40 +134,44 @@ export const Navbar = () => {
         {/* Desktop Menu */}
         <div className="hidden lg:flex items-center gap-8">
           <div className="flex items-center gap-8 text-sm font-medium text-gray-400">
-            <a
-              href="/"
-              className="hover:text-[#2BFF88] transition-colors"
-            >
+            <a href="/" className="hover:text-[#2BFF88] transition-colors">
               Protocol
             </a>
-            
-            <a
-              href="/"
-              className="hover:text-[#2BFF88] transition-colors"
-            >
+
+            <a href="/" className="hover:text-[#2BFF88] transition-colors">
               Merchants
             </a>
-            <a
-              href="/"
-              className="hover:text-[#2BFF88] transition-colors"
-            >
+            <a href="/" className="hover:text-[#2BFF88] transition-colors">
               PeopleBank
             </a>
+             
+             <NavLink
+                           to="/rewards"
+                           className={({ isActive }) =>
+                             `transition-colors ${
+                               isActive
+                                 ? "text-[#2BFF88] font-semibold"
+                                 : "hover:text-[#2BFF88]"
+                             }`
+                           }
+                         >
+                           Rewards
+                         </NavLink>
+
             <NavLink
-  to="/tokenomics"
-  className={({ isActive }) =>
-    `transition-colors ${
-      isActive
-        ? "text-[#2BFF88] font-semibold"
-        : "hover:text-[#2BFF88]"
-    }`
-  }
->
-  Tokenomics
-</NavLink>
-
-          </div>  <LanguageSwitcher language={language} setLanguage={setLanguage} />
-
+              to="/tokenomics"
+              className={({ isActive }) =>
+                `transition-colors ${
+                  isActive
+                    ? "text-[#2BFF88] font-semibold"
+                    : "hover:text-[#2BFF88]"
+                }`
+              }
+            >
+              Tokenomics
+            </NavLink>
+          </div>{" "}
+          <LanguageSwitcher language={language} setLanguage={setLanguage} />
           {/* <a href="/coming-soon">
             <button className="px-5 py-2 rounded-full border border-white/10 text-white text-sm hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all bg-black/50 backdrop-blur-sm group">
               <span className="group-hover:text-[#2BFF88] transition-colors">
@@ -178,7 +179,6 @@ export const Navbar = () => {
               </span>
             </button>
           </a> */}
-
         </div>
 
         {/* Mobile Menu Button */}
@@ -241,142 +241,147 @@ export const Navbar = () => {
   );
 };
 
-
-
 // --- Canvas Grid Background Component (Replacing Three.js) ---
 const NetGridBackground = () => {
-    const canvasRef = useRef(null);
-    const animationRef = useRef(null);
+  const canvasRef = useRef(null);
+  const animationRef = useRef(null);
 
-    useEffect(() => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-        // Check for context support early
-        const ctx = canvas.getContext('2d');
-        if (!ctx) {
-             console.error("2D Canvas context not supported.");
-             return;
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    // Check for context support early
+    const ctx = canvas.getContext("2d");
+    if (!ctx) {
+      console.error("2D Canvas context not supported.");
+      return;
+    }
+
+    let width, height;
+    let particles = [];
+    // Reduce particle count on smaller screens for better performance
+    const particleCount = window.innerWidth > 768 ? 100 : 50;
+
+    const resizeCanvas = () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+    };
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.2; // Velocity X
+        this.vy = (Math.random() - 0.5) * 0.2; // Velocity Y
+        this.radius = Math.random() * 1 + 0.5;
+        // Use the neon colors
+        this.color = Math.random() > 0.5 ? "#2BFF88" : "#00C8FF";
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        // Bounce off edges
+        if (this.x < 0 || this.x > width) this.vx *= -1;
+        if (this.y < 0 || this.y > height) this.vy *= -1;
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+      }
+    }
+
+    const init = () => {
+      resizeCanvas();
+      particles = [];
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+      }
+    };
+
+    const drawConnections = () => {
+      for (let i = 0; i < particleCount; i++) {
+        for (let j = i + 1; j < particleCount; j++) {
+          const p1 = particles[i];
+          const p2 = particles[j];
+          const distance = Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2);
+
+          // Connect particles within a certain distance
+          if (distance < 150) {
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = "#2BFF88"; // Neon green lines
+            // Subtle opacity based on distance
+            ctx.lineWidth = 0.5;
+            ctx.globalAlpha = 0.1 + (1 - distance / 150) * 0.2;
+            ctx.stroke();
+          }
         }
+      }
+    };
 
-        let width, height;
-        let particles = [];
-        // Reduce particle count on smaller screens for better performance
-        const particleCount = window.innerWidth > 768 ? 100 : 50;
+    const animate = () => {
+      ctx.clearRect(0, 0, width, height);
 
-        const resizeCanvas = () => {
-            width = window.innerWidth;
-            height = window.innerHeight;
-            canvas.width = width;
-            canvas.height = height;
-        };
+      drawConnections();
 
-        class Particle {
-            constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 0.2; // Velocity X
-                this.vy = (Math.random() - 0.5) * 0.2; // Velocity Y
-                this.radius = Math.random() * 1 + 0.5;
-                // Use the neon colors
-                this.color = Math.random() > 0.5 ? '#2BFF88' : '#00C8FF'; 
-            }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
+      particles.forEach((p) => {
+        p.update();
+        p.draw();
+      });
 
-                // Bounce off edges
-                if (this.x < 0 || this.x > width) this.vx *= -1;
-                if (this.y < 0 || this.y > height) this.vy *= -1;
-            }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = this.color;
-                ctx.fill();
-            }
-        }
+      animationRef.current = requestAnimationFrame(animate);
+    };
 
-        const init = () => {
-            resizeCanvas();
-            particles = [];
-            for (let i = 0; i < particleCount; i++) {
-                particles.push(new Particle());
-            }
-        };
+    init();
+    animate();
 
-        const drawConnections = () => {
-            for (let i = 0; i < particleCount; i++) {
-                for (let j = i + 1; j < particleCount; j++) {
-                    const p1 = particles[i];
-                    const p2 = particles[j];
-                    const distance = Math.sqrt(
-                        (p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2
-                    );
+    window.addEventListener("resize", init);
 
-                    // Connect particles within a certain distance
-                    if (distance < 150) {
-                        ctx.beginPath();
-                        ctx.moveTo(p1.x, p1.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.strokeStyle = '#2BFF88'; // Neon green lines
-                        // Subtle opacity based on distance
-                        ctx.lineWidth = 0.5; 
-                        ctx.globalAlpha = 0.1 + (1 - distance / 150) * 0.2; 
-                        ctx.stroke();
-                    }
-                }
-            }
-        };
+    return () => {
+      cancelAnimationFrame(animationRef.current);
+      window.removeEventListener("resize", init);
+    };
+  }, []);
 
-        const animate = () => {
-            ctx.clearRect(0, 0, width, height);
-            
-            drawConnections();
-            
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
+  return (
+    <>
+      {/* The Canvas element for the particle effect */}
+      <canvas
+        ref={canvasRef}
+        className="fixed top-0 left-0 w-full h-full -z-20 opacity-40"
+      />
 
-            animationRef.current = requestAnimationFrame(animate);
-        };
-
-        init();
-        animate();
-
-        window.addEventListener('resize', init);
-
-        return () => {
-            cancelAnimationFrame(animationRef.current);
-            window.removeEventListener('resize', init);
-        };
-    }, []);
-
-    return (
-        <>
-            {/* The Canvas element for the particle effect */}
-            <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full -z-20 opacity-40" />
-            
-            {/* Static Glow effect */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-7xl max-h-7xl rounded-full bg-[#2BFF88]/10 blur-[180px] opacity-30 animate-pulse-slow" />
-            </div>
-            <style>
-                {`
+      {/* Static Glow effect */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-7xl max-h-7xl rounded-full bg-[#2BFF88]/10 blur-[180px] opacity-30 animate-pulse-slow" />
+      </div>
+      <style>
+        {`
                   @keyframes pulse-slow {
                     0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
                     50% { transform: translate(-50%, -50%) scale(1.05); opacity: 0.4; }
                   }
                 `}
-            </style>
-        </>
-    );
+      </style>
+    </>
+  );
 };
 
 // --- Helper Components & Styles ---
 
 // Button component for primary CTAs
-const Button = ({ children, primary = false, className = "", onClick, type = "button" }) => (
+const Button = ({
+  children,
+  primary = false,
+  className = "",
+  onClick,
+  type = "button",
+}) => (
   <button
     type={type}
     onClick={onClick}
@@ -395,7 +400,6 @@ const Button = ({ children, primary = false, className = "", onClick, type = "bu
     </span>
   </button>
 );
-
 
 // --- Main Waitlist Component ---
 
@@ -425,7 +429,7 @@ const ComingSoon = () => {
       navigate(
         {
           pathname: "/",
-          hash:hashVar,
+          hash: hashVar,
         },
         { replace: true }
       );
@@ -453,31 +457,32 @@ const ComingSoon = () => {
       return () => cancelAnimationFrame(raf);
     }
   }, [location.pathname, location.hash, navigate]);
-  const handleWaitlistSubmit = useCallback((e) => {
-    e.preventDefault();
-    if (!email || status === 'loading') return;
+  const handleWaitlistSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (!email || status === "loading") return;
 
-    setStatus('loading');
-    
-    // Simulate API call for email submission
-    setTimeout(() => {
-      if (email.includes('@') && email.length > 5) {
-        console.log(`Submitting email: ${email}`);
-        setStatus('success');
-      } else {
-        setStatus('error');
-      }
-    }, 1500);
+      setStatus("loading");
 
-  }, [email, status]);
+      // Simulate API call for email submission
+      setTimeout(() => {
+        if (email.includes("@") && email.length > 5) {
+          console.log(`Submitting email: ${email}`);
+          setStatus("success");
+        } else {
+          setStatus("error");
+        }
+      }, 1500);
+    },
+    [email, status]
+  );
 
   return (
-    <> 
-     <Navbar/>
+    <>
+      <Navbar />
 
-    <div className="min-h-screen bg-black text-white font-sans overflow-hidden flex flex-col justify-center">
-      
-      {/* <button
+      <div className="min-h-screen bg-black text-white font-sans overflow-hidden flex flex-col justify-center">
+        {/* <button
   onClick={() => navigate(-1)}
   className="
     fixed
@@ -507,175 +512,193 @@ const ComingSoon = () => {
   Back
 </button> */}
 
-      
-      <NetGridBackground />
+        <NetGridBackground />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 sm:pt-32 sm:pb-24 grid lg:grid-cols-[3fr_2fr] gap-12 lg:gap-16 items-start">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 sm:pt-32 sm:pb-24 grid lg:grid-cols-[3fr_2fr] gap-12 lg:gap-16 items-start">
+          {/* --- LEFT COLUMN: HERO CORE & EMAIL FORM --- */}
+          <div className="text-center lg:text-left">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#2BFF88]/40 bg-[#2BFF88]/5 mb-6 shadow-[0_0_10px_rgba(43,255,136,0.2)]">
+              <Zap className="w-4 h-4 text-[#2BFF88]" />
+              <span className="text-xs font-mono text-gray-300 uppercase tracking-widest">
+                PROTOCOL LAUNCH IMMINENT
+              </span>
+            </div>
 
-        {/* --- LEFT COLUMN: HERO CORE & EMAIL FORM --- */}
-        <div className="text-center lg:text-left">
-          
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#2BFF88]/40 bg-[#2BFF88]/5 mb-6 shadow-[0_0_10px_rgba(43,255,136,0.2)]">
-            <Zap className="w-4 h-4 text-[#2BFF88]" />
-            <span className="text-xs font-mono text-gray-300 uppercase tracking-widest">
-              PROTOCOL LAUNCH IMMINENT
-            </span>
-          </div>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter mb-6 leading-none">
+              The Protocol.
+              <br className="hidden md:block" />
+              <span className="mint-gradient-text">Instant Value.</span>
+              <br className="hidden md:block" />
+              Everywhere.
+            </h1>
+            <p className="text-lg sm:text-xl  text-gray-300 mb-10 max-w-4xl mx-auto lg:mx-0 font-light leading-relaxed">
+              Unify global commerce on a decentralized, non-custodial layer.
+              Join the exclusive list for Q1 access.
+            </p>
 
-          <h1 className="text-4xl sm:text-7xl md:text-8xl lg:text-[90px] font-extrabold tracking-tighter mb-6 leading-none">
-            The Protocol. 
-            <br className="hidden md:block"/>
-            <span className="mint-gradient-text">Instant Value.</span>
-            <br className="hidden md:block"/>
-            Everywhere.
-          </h1>
-          <p className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-10 max-w-4xl mx-auto lg:mx-0 font-light leading-relaxed">
-            Unify global commerce on a decentralized, non-custodial layer. Join the exclusive list for Q1 access.
-          </p>
+            {/* --- EMAIL FORM (LEFT SIDE HIGH-IMPACT) --- */}
+            <div className="relative max-w-lg lg:max-w-none w-full mx-auto lg:mx-0 p-1 rounded-[24px] bg-gradient-to-br from-[#2BFF88] to-[#00C8FF] shadow-[0_0_60px_rgba(43,255,136,0.3)] mt-8">
+              <div className="p-6 rounded-[22px] bg-black/90 backdrop-blur-md border border-white/10 text-center">
+                <h3 className="text-xl font-bold mb-4 flex items-center justify-center lg:justify-start gap-3">
+                  <Mail className="w-5 h-5 text-[#2BFF88]" />
+                  Secure Priority Access
+                </h3>
 
-          {/* --- EMAIL FORM (LEFT SIDE HIGH-IMPACT) --- */}
-          <div className="relative max-w-lg lg:max-w-none w-full mx-auto lg:mx-0 p-1 rounded-[24px] bg-gradient-to-br from-[#2BFF88] to-[#00C8FF] shadow-[0_0_60px_rgba(43,255,136,0.3)] mt-8">
-            <div className="p-6 rounded-[22px] bg-black/90 backdrop-blur-md border border-white/10 text-center">
-              <h3 className="text-xl font-bold mb-4 flex items-center justify-center lg:justify-start gap-3">
-                <Mail className="w-5 h-5 text-[#2BFF88]" />
-                Secure Priority Access
-              </h3>
-              
-              <form onSubmit={handleWaitlistSubmit} className="flex flex-col sm:flex-row gap-3">
-                <input
-                  type="email"
-                  placeholder="Enter Email to Lock In Spot"
-                  value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                    setStatus(null);
-                  }}
-                  required
-                  className="flex-1 px-5 py-3 rounded-full bg-black border border-white/10 focus:border-[#2BFF88] focus:ring-1 focus:ring-[#2BFF88] text-white placeholder-gray-500 transition-colors text-base"
-                  disabled={status === 'loading' || status === 'success'}
-                />
-                <Button 
-                  primary 
-                  type="submit" 
-                  className="w-full sm:w-auto px-6 py-3 text-base"
-                  disabled={status === 'loading' || status === 'success'}
+                <form
+                  onSubmit={handleWaitlistSubmit}
+                  className="flex flex-col sm:flex-row gap-3"
                 >
-                  {status === 'loading' && (
-                    <>
-                      <svg className="animate-spin h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                      </svg>
-                      Subscribing...
-                    </>
-                  )}
-                  {status === 'success' && (
-                    <>
-                      <Lock className="w-4 h-4" />
-                      Secured!
-                    </>
-                  )}
-                  {status === 'error' && "Try Again"}
-                  {status === null && (
-                    <>
-                      Join Early as Supporters
-                      <ArrowRight className="w-4 h-4" />
-                    </>
-                  )}
-                </Button>
-              </form>
+                  <input
+                    type="email"
+                    placeholder="Enter Email to Lock In Spot"
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      setStatus(null);
+                    }}
+                    required
+                    className="flex-1 px-5 py-3 rounded-full bg-black border border-white/10 focus:border-[#2BFF88] focus:ring-1 focus:ring-[#2BFF88] text-white placeholder-gray-500 transition-colors text-base"
+                    disabled={status === "loading" || status === "success"}
+                  />
+                  <Button
+                    primary
+                    type="submit"
+                    className="w-full sm:w-auto px-6 py-3 text-base"
+                    disabled={status === "loading" || status === "success"}
+                  >
+                    {status === "loading" && (
+                      <>
+                        <svg
+                          className="animate-spin h-5 w-5 text-black"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          ></path>
+                        </svg>
+                        Subscribing...
+                      </>
+                    )}
+                    {status === "success" && (
+                      <>
+                        <Lock className="w-4 h-4" />
+                        Secured!
+                      </>
+                    )}
+                    {status === "error" && "Try Again"}
+                    {status === null && (
+                      <>
+                        Join Early as Supporters
+                        <ArrowRight className="w-4 h-4" />
+                      </>
+                    )}
+                  </Button>
+                </form>
 
-              {status === 'success' && (
-                <p className="mt-4 text-sm text-[#2BFF88] font-medium">
-                  Success! You are locked in for early access and token rewards.
-                </p>
-              )}
-              {status === 'error' && (
-                <p className="mt-4 text-sm text-red-400">
-                  Please enter a valid email address.
-                </p>
-              )}
+                {status === "success" && (
+                  <p className="mt-4 text-sm text-[#2BFF88] font-medium">
+                    Success! You are locked in for early access and token
+                    rewards.
+                  </p>
+                )}
+                {status === "error" && (
+                  <p className="mt-4 text-sm text-red-400">
+                    Please enter a valid email address.
+                  </p>
+                )}
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* --- RIGHT COLUMN: FEATURE CARDS & BOOSTS --- */}
-        <div className="mt-10 lg:mt-0">
-          
-          <h2 className="text-xl font-bold mb-6 text-white text-center lg:text-left">
-            Access Channels & Priority Boost
-          </h2>
+          {/* --- RIGHT COLUMN: FEATURE CARDS & BOOSTS --- */}
+          <div className="mt-10 lg:mt-0">
+            <h2 className="text-xl font-bold mb-6 text-white text-center lg:text-left">
+              Access Channels & Priority Boost
+            </h2>
 
-          <div className="flex flex-col gap-6">
-            
-            {/* Merchant Section (Top Priority Card) */}
-            <div className="relative p-6 rounded-2xl bg-black/70 border border-[#2BFF88]/40 shadow-[0_0_20px_rgba(43,255,136,0.15)] text-left">
+            <div className="flex flex-col gap-6">
+              {/* Merchant Section (Top Priority Card) */}
+              <div className="relative p-6 rounded-2xl bg-black/70 border border-[#2BFF88]/40 shadow-[0_0_20px_rgba(43,255,136,0.15)] text-left">
                 <div className="flex items-center gap-4 mb-3">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#2BFF88]/15 flex items-center justify-center text-[#2BFF88] border border-[#2BFF88]/50 shadow-[0_0_15px_rgba(43,255,136,0.5)]">
-                        <Briefcase size={20} />
-                    </div>
-                    <h3 className="text-lg font-bold text-white">
-                        Merchant & Liquidity Pool
-                    </h3>
+                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#2BFF88]/15 flex items-center justify-center text-[#2BFF88] border border-[#2BFF88]/50 shadow-[0_0_15px_rgba(43,255,136,0.5)]">
+                    <Briefcase size={20} />
+                  </div>
+                  <h3 className="text-lg font-bold text-white">
+                    Merchant & Liquidity Pool
+                  </h3>
                 </div>
                 <p className="text-sm text-gray-400 mb-4">
-                    Secure your staking pool and access dedicated developer resources and fee revenue streams.
+                  Secure your staking pool and access dedicated developer
+                  resources and fee revenue streams.
                 </p>
-                <a 
-                    href="https://t.me/your-app-merchant-channel" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="block w-full"
+                <a
+                  href="https://t.me/+3DpHLzc2BfJhOWEx"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full"
                 >
-                    <Button
-                        primary={false}
-                        className="w-full bg-black/50 border-[#2BFF88] text-[#2BFF88] hover:bg-[#2BFF88] hover:text-black"
-                    >
-                        <Users className="w-4 h-4"/>
-                        Join Partner Telegram
-                    </Button>
+                  <Button
+                    primary={false}
+                    className="w-full bg-black/50 border-[#2BFF88] text-[#2BFF88] hover:bg-[#2BFF88] hover:text-black"
+                  >
+                    <Users className="w-4 h-4" />
+                    Join Partner Telegram
+                  </Button>
                 </a>
-            </div>
+              </div>
 
-            {/* Social Boosts (Lower Priority Grid) */}
-            <div className="grid grid-cols-2 gap-4">
-                
+              {/* Social Boosts (Lower Priority Grid) */}
+              <div className="grid grid-cols-2 gap-4">
                 {/* Follow on X */}
-                <a 
-                    href="https://twitter.com/your-app-handle" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="group flex flex-col items-center p-5 rounded-2xl bg-black/50 border border-white/10 hover:border-[#00C8FF]/70 transition-all duration-300 shadow-xl hover:shadow-[0_0_20px_rgba(0,200,255,0.2)] text-center"
+                <a
+                  href="https://x.com/blipmoney_"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex flex-col items-center p-5 rounded-2xl bg-black/50 border border-white/10 hover:border-[#00C8FF]/70 transition-all duration-300 shadow-xl hover:shadow-[0_0_20px_rgba(0,200,255,0.2)] text-center"
                 >
-                    <div className="w-8 h-8 rounded-full bg-[#00C8FF]/15 flex items-center justify-center text-[#00C8FF] border border-[#00C8FF]/50 mb-2">
-                        <Twitter size={16} />
-                    </div>
-                    <p className="text-sm font-semibold text-white group-hover:text-[#00C8FF]">Follow on X</p>
-                    <p className="text-xs text-gray-500">Tier +5 Priority</p>
+                  <div className="w-8 h-8 rounded-full bg-[#00C8FF]/15 flex items-center justify-center text-[#00C8FF] border border-[#00C8FF]/50 mb-2">
+                    <Twitter size={16} />
+                  </div>
+                  <p className="text-sm font-semibold text-white group-hover:text-[#00C8FF]">
+                    Follow on X
+                  </p>
+                  <p className="text-xs text-gray-500">Tier +5 Priority</p>
                 </a>
 
                 {/* Join Telegram */}
-                <a 
-                    href="https://t.me/your-app-community" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="group flex flex-col items-center p-5 rounded-2xl bg-black/50 border border-white/10 hover:border-[#2BFF88]/70 transition-all duration-300 shadow-xl hover:shadow-[0_0_20px_rgba(43,255,136,0.2)] text-center"
+                <a
+                  href="https://t.me/+3DpHLzc2BfJhOWEx"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex flex-col items-center p-5 rounded-2xl bg-black/50 border border-white/10 hover:border-[#2BFF88]/70 transition-all duration-300 shadow-xl hover:shadow-[0_0_20px_rgba(43,255,136,0.2)] text-center"
                 >
-                    <div className="w-8 h-8 rounded-full bg-[#2BFF88]/15 flex items-center justify-center text-[#2BFF88] border border-[#2BFF88]/50 mb-2">
-                        <Send size={16} />
-                    </div>
-                    <p className="text-sm font-semibold text-white group-hover:text-[#2BFF88]">Join Community TG</p>
-                    <p className="text-xs text-gray-500">Airdrop Qualification</p>
+                  <div className="w-8 h-8 rounded-full bg-[#2BFF88]/15 flex items-center justify-center text-[#2BFF88] border border-[#2BFF88]/50 mb-2">
+                    <Send size={16} />
+                  </div>
+                  <p className="text-sm font-semibold text-white group-hover:text-[#2BFF88]">
+                    Join Community TG
+                  </p>
+                  <p className="text-xs text-gray-500">Airdrop Qualification</p>
                 </a>
+              </div>
             </div>
-
           </div>
 
-        </div>
-        
-        {/* Aesthetic Gradient Style for Mint Text */}
-        <style>
-          {`
+          {/* Aesthetic Gradient Style for Mint Text */}
+          <style>
+            {`
             .mint-gradient-text {
               background-image: linear-gradient(to right, #2BFF88, #00C8FF);
               -webkit-background-clip: text;
@@ -686,9 +709,9 @@ const ComingSoon = () => {
                 animation: pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
             }
           `}
-        </style>
+          </style>
+        </div>
       </div>
-    </div>
     </>
   );
 };

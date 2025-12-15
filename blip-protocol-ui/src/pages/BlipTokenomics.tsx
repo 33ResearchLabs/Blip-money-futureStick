@@ -528,17 +528,15 @@ export const BlipTokenomics = () => {
         </section>
 
         {/* Footer */}
-        <footer className="mt-20 sm:mt-28 md:mt-40 border-t border-white/5 pt-8 sm:pt-10 md:pt-12 flex flex-col md:flex-row justify-between items-center pb-12 sm:pb-16 md:pb-20 max-w-7xl mx-auto">
-          <div className="flex items-center gap-3 mb-6 md:mb-0">
-            <div className="w-2 h-2 rounded-full bg-[#2BFF88]"></div>
-            <span className="text-lg sm:text-xl font-light text-white tracking-widest">
-              BLIP<span className="text-gray-600">.MONEY</span>
-            </span>
-          </div>
-          <div className="text-xs text-gray-600 tracking-[0.2em] uppercase">
-            P2P Settlement Protocol
-          </div>
-        </footer>
+          <footer className="py-12 border-t border-gray-900 mt-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-400 text-sm">
+          <p>
+            &copy; <span id="year">2025</span> Blip.money Protocol. All rights
+            reserved. Bankless. Trustless. Instant. Secure and fully
+            trustworthy.
+          </p>
+        </div>
+      </footer>
       </div>
     </div>
   );
