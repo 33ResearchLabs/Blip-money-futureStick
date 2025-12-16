@@ -33,6 +33,7 @@ import TransferFlow from "@/components/TransferFlow";
 import useScrollActive from "@/hooks/useScrollActive";
 import ScrollReveal from "@/components/ScrollReveal";
 import { SectionLabel } from "@/components/SectionLable";
+import { useTranslation } from "react-i18next";
 
 // --- Visual Effects Components ---
 
@@ -606,7 +607,6 @@ const ParticleBackground = () => {
     </div>
   );
 };
-
 
 const EarlyAdopterBanner = () => {
   return (
@@ -1463,6 +1463,7 @@ const INITIAL_NODES = Array.from({ length: 30 }).map(() => ({
 }));
 
 const Index = () => {
+  const { t } = useTranslation();
   // Initialize scroll active hook
   useScrollActive("hero");
   const [nodes, setNodes] = useState(INITIAL_NODES);
@@ -1496,7 +1497,6 @@ const Index = () => {
       className="min-h-screen   bg-black text-white font-sans selection:bg-[#2BFF88] selection:text-black overflow-x-hidden overflow-y-hidden scrollbar-hide"
       style={{ scrollbarWidth: "none", scrollBehavior: "smooth" }}
     >
-   
       <Hero />
       {/* UAE ANNOUNCEMENT SECTION */}
       {/* UAE ANNOUNCEMENT SECTION */}
@@ -2316,14 +2316,14 @@ Payments"
             <span>Instant</span>•<span>Bankless</span>•<span>Borderless</span>•
             <span>P2P</span>
           </div>
-          <a href="https://t.me/+3DpHLzc2BfJhOWEx" target="_blank">
+          <Link to={"/coming-soon"} target="_blank">
             <Button
               primary
               className="text-lg px-12 py-5 shadow-[0_0_50px_rgba(0,255,148,0.2)] hover:shadow-[0_0_80px_rgba(0,255,148,0.4)] transform hover:scale-105"
             >
               Join Early Access
             </Button>
-          </a>
+          </Link>
         </div>
         <div className="absolute bottom-[-40vh] left-1/2 -translate-x-1/2 w-[150vw] h-[80vh] bg-[#00FF94]/5 rounded-[100%] blur-[120px] pointer-events-none" />
       </section>
@@ -2354,17 +2354,6 @@ Payments"
           </div>
         </div>
       </section>
-
-      {/* <!-- Footer --> */}
-      <footer className="py-12 border-t border-gray-900 mt-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-400 text-sm">
-          <p>
-            &copy; <span id="year">2025</span> Blip.money Protocol. All rights
-            reserved. Bankless. Trustless. Instant. Secure and fully
-            trustworthy.
-          </p>
-        </div>
-      </footer>
     </div>
   );
 };

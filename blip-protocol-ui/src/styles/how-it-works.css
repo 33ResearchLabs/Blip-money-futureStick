@@ -1,0 +1,73 @@
+/* Global */
+body {
+  background-color: #000;
+  font-family: "Inter", sans-serif;
+  background-image: radial-gradient(
+    80% 60% at 50% 0%,
+    rgba(0, 255, 160, 0.06),
+    transparent 60%
+  );
+}
+
+/* Typography */
+.header-main {
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  line-height: 1.1;
+}
+
+.header-section {
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.code-title {
+  letter-spacing: 0.08em;
+}
+
+/* Cards */
+.card-style {
+  border-radius: 14px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.03),
+    rgba(255, 255, 255, 0.01)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.3s ease;
+}
+
+.card-style:hover {
+  border-color: rgba(0, 229, 153, 0.25);
+  box-shadow: 0 0 0 1px rgba(0, 229, 153, 0.15);
+}
+
+/* CTA */
+.cta-primary {
+  background-color: #00e599;
+  color: #000;
+  border-radius: 999px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+/* Separators */
+.section-separator {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Gradient Text */
+.text-gradient {
+  background: linear-gradient(90deg, #00e599, #00ffb3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Timeline */
+.timeline-line {
+  border-left: 1px solid rgba(0, 229, 153, 0.15);
+}
+
+.timeline-dot {
+  box-shadow: 0 0 0 4px #000, 0 0 10px rgba(0, 229, 153, 0.35);
+}

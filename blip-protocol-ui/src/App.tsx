@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import StructuredData from "@/components/StructuredData";
+import "./i18n";
 
 import MainLayout from "./Layout/RootLayout";
 
@@ -15,6 +16,7 @@ import UAELandingPage from "./pages/uae";
 import NotFound from "./pages/NotFound";
 import BlipTokenomics from "./pages/BlipTokenomics";
 import ComingSoon from "./components/ComingSoon";
+import { HowItWorksPage } from "./pages/HowItWorks";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +39,7 @@ const App = () => (
             <Route path="/rewards" element={<RewardsLanding />} />
             <Route path="/uae" element={<UAELandingPage />} />
             <Route path="/coming-soon" element={<ComingSoon />} />
+            <Route path="/howItWorks" element={<HowItWorksPage />} />
           </Route>
 
           {/* 404 */}

@@ -1,16 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Menu } from "lucide-react";
 import { Link, NavLink, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-const LanguageSwitcher = ({ language, setLanguage }) => {
+const LanguageSwitcher = () => {
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language;
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+    localStorage.setItem("lang", lng);
+  };
+
   return (
     <div className="flex items-center gap-2 text-sm font-medium">
       <Link
         to="#"
-        onClick={() => setLanguage("en")}
+        onClick={() => changeLanguage("en")}
         className={`px-3 py-1 rounded-full transition ${
-          language === "en"
+          currentLanguage === "en"
             ? "bg-[#00FF94] text-black"
             : "text-gray-400 hover:text-white"
         }`}
@@ -20,9 +29,9 @@ const LanguageSwitcher = ({ language, setLanguage }) => {
 
       <Link
         to="#"
-        onClick={() => setLanguage("ar")}
+        onClick={() => changeLanguage("ar")}
         className={`px-3 py-1 rounded-full transition ${
-          language === "ar"
+          currentLanguage === "ar"
             ? "bg-[#00FF94] text-black"
             : "text-gray-400 hover:text-white"
         }`}
@@ -35,8 +44,8 @@ const LanguageSwitcher = ({ language, setLanguage }) => {
 
 export const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [language, setLanguage] = useState("en");
   const location = useLocation();
+  const { t } = useTranslation();
 
   return (
     <nav className="fixed top-0 w-full z-50 backdrop-blur-md border-b border-white/5 bg-black/60">
@@ -56,14 +65,19 @@ export const Navbar = () => {
         <div className="hidden lg:flex items-center gap-8">
           <div className="flex gap-8 text-sm font-medium text-gray-400">
             <Link to="/#protocol" className="hover:text-[#2BFF88]">
-              Protocol
+              {t("protocol")}
             </Link>
-            <Link to="/#merchants" className="hover:text-[#2BFF88]">
-              Merchants
-            </Link>
-            <Link to="/#peoplebank" className="hover:text-[#2BFF88]">
-              PeopleBank
-            </Link>
+
+            <NavLink
+              to="/howItWorks"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-[#2BFF88] font-semibold"
+                  : "hover:text-[#2BFF88]"
+              }
+            >
+              {t("howItWorks")}
+            </NavLink>
 
             <NavLink
               to="/rewards"
@@ -73,7 +87,7 @@ export const Navbar = () => {
                   : "hover:text-[#2BFF88]"
               }
             >
-              Rewards
+              {t("rewards")}
             </NavLink>
 
             <NavLink
@@ -84,20 +98,30 @@ export const Navbar = () => {
                   : "hover:text-[#2BFF88]"
               }
             >
-              Tokenomics
+              {t("tokenomics")}
             </NavLink>
           </div>
 
-          <LanguageSwitcher language={language} setLanguage={setLanguage} />
+          <LanguageSwitcher />
 
-          {location.pathname !== "/coming-soon" && (
+          {/* {location.pathname !== "/coming-soon" && (
             <Link
               to="/coming-soon"
               className="px-5 py-2 rounded-full border border-white/10 text-white text-sm hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all"
             >
               Coming Soon
             </Link>
-          )}
+          )} */}
+          <NavLink
+            to="/coming-soon"
+            className={({ isActive }) =>
+              isActive
+                ? "text-[#2BFF88]  border border-[#2BFF88] px-5 py-2 rounded-full "
+                : "px-5 py-2 rounded-full border border-white/10 text-white text-sm hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all"
+            }
+          >
+            {t("comingSoon")}
+          </NavLink>
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -107,7 +131,6 @@ export const Navbar = () => {
         >
           {mobileMenuOpen ? <X /> : <Menu />}
         </button>
-
         {/* Mobile Menu */}
         <AnimatePresence>
           {mobileMenuOpen && (
@@ -119,20 +142,19 @@ export const Navbar = () => {
             >
               <div className="flex flex-col p-6 space-y-4 text-lg text-gray-400">
                 <Link to="/#protocol" onClick={() => setMobileMenuOpen(false)}>
-                  Protocol
+                  {t("protocol")}
                 </Link>
-                <Link to="/#merchants" onClick={() => setMobileMenuOpen(false)}>
-                  Merchants
+
+                <Link to="/howItWorks" onClick={() => setMobileMenuOpen(false)}>
+                  {t("howItWorks")}
                 </Link>
-                <Link
-                  to="/#peoplebank"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  PeopleBank
+
+                <Link to="/rewards" onClick={() => setMobileMenuOpen(false)}>
+                  {t("rewards")}
                 </Link>
 
                 <Link to="/tokenomics" onClick={() => setMobileMenuOpen(false)}>
-                  Tokenomics
+                  {t("tokenomics")}
                 </Link>
 
                 <Link
@@ -140,8 +162,12 @@ export const Navbar = () => {
                   onClick={() => setMobileMenuOpen(false)}
                   className="mt-4 px-5 py-3 text-center rounded-full border border-white/10 text-white hover:border-[#2BFF88]"
                 >
-                  Open App
+                  {t("comingSoon")}
                 </Link>
+
+                <div className="pt-4 border-t border-white/10">
+                  <LanguageSwitcher />
+                </div>
               </div>
             </motion.div>
           )}

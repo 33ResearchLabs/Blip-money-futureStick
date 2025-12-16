@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
@@ -48,10 +48,34 @@ const SocialSidebar = () => (
 );
 
 /* --------- SHARED BUTTON (Enhanced) --------- */
-const RewardsButton = ({ primary = false, className = "", children }) => (
+// const RewardsButton = ({ primary = false, className = "", children }) => (
+//   <button
+//     className={`
+//       relative overflow-hidden px-7 py-3 rounded-full font-semibold tracking-wide
+//       text-sm sm:text-base transition-all duration-300 group
+//       ${
+//         primary
+//           ? "bg-[#00FF94] text-black hover:bg-[#0B9A4A] hover:shadow-[0_0_40px_rgba(0,255,148,0.5)] transform hover:scale-[1.02]"
+//           : "border border-white/15 text-white bg-black/40 hover:border-[#00FF94] hover:text-[#00FF94] hover:shadow-[0_0_15px_rgba(0,255,148,0.1)]"
+//       }
+//       ${className}
+//     `}
+//   >
+//     <span className="relative z-10 flex items-center gap-2">{children}</span>
+//   </button>
+// );
+const RewardsButton = ({
+  primary = false,
+  className = "",
+  children,
+  onClick,
+  type = "button",
+}) => (
   <button
+    type={type}
+    onClick={onClick}
     className={`
-      relative overflow-hidden px-7 py-3 rounded-full font-semibold tracking-wide
+      relative overflow-hidden px-7 py-3 rounded-full font-semibold tracking-wide 
       text-sm sm:text-base transition-all duration-300 group
       ${
         primary
@@ -167,7 +191,7 @@ const RewardOrbit = () => {
 };
 
 /* --------- SECTION 1: HERO (UPDATED PT-CLASS) --------- */
-const RewardsHero = () => (
+const RewardsHero = ({ formSectionRef }) => (
   <section className="relative min-h-[90vh] pt-32 sm:pt-36 lg:pt-40 overflow-hidden bg-[#020202]">
     <DigitalGridBackground /> {/* NEW DYNAMIC BACKGROUND */}
     <div className="relative max-w-7xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
@@ -224,11 +248,18 @@ const RewardsHero = () => (
                 <ArrowRight className="w-4 h-4" />
               </RewardsButton>
             </Link>
-            <a href="#rewards-grid">
-              <RewardsButton className="w-full sm:w-auto">
-                View reward breakdown
-              </RewardsButton>
-            </a>
+
+            <RewardsButton
+              className="w-full sm:w-auto"
+              onClick={() => {
+                formSectionRef.current?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              }}
+            >
+              View reward breakdown
+            </RewardsButton>
           </div>
         </motion.div>
       </div>
@@ -283,9 +314,10 @@ const RewardCard = ({ icon: Icon, badge, title, line1, line2, accent }) => (
   </motion.div>
 );
 
-const RewardsGrid = () => (
+const RewardsGrid = ({ formSectionRef }) => (
   <section
-    id="rewards-grid"
+    ref={formSectionRef}
+    // id="#rewardsgrid "
     className="py-16 sm:py-20 bg-[#020202] border-t border-white/5"
   >
     <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -907,6 +939,12 @@ const FunStrip = () => (
 /* --------- PAGE WRAPPER --------- */
 
 const App = () => {
+  const formSectionRef = useRef(null);
+
+  useEffect(() => {
+    scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="min-h-screen bg-black text-white font-sans overflow-x-hidden">
       {/* Custom Styles/Keyframes */}
@@ -939,25 +977,18 @@ const App = () => {
           }
         `}
       </style>
+      {/* <Navbar /> */}
       <SocialSidebar />
-      <RewardsHero /> {/* 1. Enhanced Hero + Orbit */}
-      <RewardsGrid /> {/* 2. Three rewards cards */}
+      <RewardsHero formSectionRef={formSectionRef} />{" "}
+      {/* 1. Enhanced Hero + Orbit */}
+      <RewardsGrid formSectionRef={formSectionRef} />{" "}
+      {/* 2. Three rewards cards */}
       <RewardsCalculator /> {/* 3. Interactive reward estimation */}
       <FlowSection /> {/* 4. How it flows */}
       <EarlyPoolSection /> {/* 5. 20M BLIP Mega Airdrop */}
       <TokenUtilitySection />
       {/* 6. Token utility grid */}
       <FunStrip /> {/* 7. Fun TL;DR + FAQ */}
-      {/* Footer */}
-      <footer className="py-12 border-t border-gray-900 mt-0">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-400 text-sm">
-          <p>
-            &copy; <span id="year">2025</span> Blip.money Protocol. All rights
-            reserved. Bankless. Trustless. Instant. Secure and fully
-            trustworthy.
-          </p>
-        </div>
-      </footer>
     </div>
   );
 };
