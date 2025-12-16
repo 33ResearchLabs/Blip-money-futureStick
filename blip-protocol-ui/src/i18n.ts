@@ -13,8 +13,8 @@ i18n.use(initReactI18next).init({
         comingSoon: "Coming Soon",
 
         // How It Works Page
-        heroTitle: "Crypto. Settled.",
-        heroTitleHighlight: "Crypto. Settled.",
+        heroTitle: "Value. Settled.",
+        heroTitleHighlight: "Value. Settled.",
         heroSubtitle: "Privately.",
         heroDescription: "Blip.money is the on-chain protocol for instant, secure, and KYC-free global value transfer.",
 
