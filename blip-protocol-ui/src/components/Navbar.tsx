@@ -99,12 +99,12 @@ export const Navbar = () => {
               Coming Soon
             </Link>
           )} */}
-          <Link
+          <NavLink
               to="/coming-soon"
-              className="px-5 py-2 rounded-full border border-white/10 text-white text-sm hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all"
+              className={({isActive })=> isActive ? "text-[#2BFF88]  border border-[#2BFF88] px-5 py-2 rounded-full " : "px-5 py-2 rounded-full border border-white/10 text-white text-sm hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all" }
             >
               Coming Soon
-            </Link>
+            </NavLink>
         </div>
 
         {/* Mobile Menu Toggle */}

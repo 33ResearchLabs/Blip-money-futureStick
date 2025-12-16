@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
@@ -16,14 +16,10 @@ import {
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
-
 // --- MOCK/MIGRATED DEPENDENCIES (for single-file execution) ---
 
 // 1. Mock Link (using standard <a>)
 const Link = ({ to, children }) => <a href={to}>{children}</a>;
-
-
-
 
 // 3. Mock SocialSidebar
 const SocialSidebar = () => (
@@ -52,8 +48,32 @@ const SocialSidebar = () => (
 );
 
 /* --------- SHARED BUTTON (Enhanced) --------- */
-const RewardsButton = ({ primary = false, className = "", children }) => (
+// const RewardsButton = ({ primary = false, className = "", children }) => (
+//   <button
+//     className={`
+//       relative overflow-hidden px-7 py-3 rounded-full font-semibold tracking-wide
+//       text-sm sm:text-base transition-all duration-300 group
+//       ${
+//         primary
+//           ? "bg-[#00FF94] text-black hover:bg-[#0B9A4A] hover:shadow-[0_0_40px_rgba(0,255,148,0.5)] transform hover:scale-[1.02]"
+//           : "border border-white/15 text-white bg-black/40 hover:border-[#00FF94] hover:text-[#00FF94] hover:shadow-[0_0_15px_rgba(0,255,148,0.1)]"
+//       }
+//       ${className}
+//     `}
+//   >
+//     <span className="relative z-10 flex items-center gap-2">{children}</span>
+//   </button>
+// );
+const RewardsButton = ({
+  primary = false,
+  className = "",
+  children,
+  onClick,
+  type = "button",
+}) => (
   <button
+    type={type}
+    onClick={onClick}
     className={`
       relative overflow-hidden px-7 py-3 rounded-full font-semibold tracking-wide
       text-sm sm:text-base transition-all duration-300 group
@@ -171,7 +191,7 @@ const RewardOrbit = () => {
 };
 
 /* --------- SECTION 1: HERO (UPDATED PT-CLASS) --------- */
-const RewardsHero = () => (
+const RewardsHero = ({ formSectionRef }) => (
   <section className="relative min-h-[90vh] pt-32 sm:pt-36 lg:pt-40 overflow-hidden bg-[#020202]">
     <DigitalGridBackground /> {/* NEW DYNAMIC BACKGROUND */}
     <div className="relative max-w-7xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
@@ -228,11 +248,18 @@ const RewardsHero = () => (
                 <ArrowRight className="w-4 h-4" />
               </RewardsButton>
             </Link>
-            <a href="#rewardsgrid">
-              <RewardsButton className="w-full sm:w-auto">
-                View reward breakdown
-              </RewardsButton>
-            </a>
+
+            <RewardsButton
+              className="w-full sm:w-auto"
+              onClick={() => {
+                formSectionRef.current?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              }}
+            >
+              View reward breakdown
+            </RewardsButton>
           </div>
         </motion.div>
       </div>
@@ -287,9 +314,10 @@ const RewardCard = ({ icon: Icon, badge, title, line1, line2, accent }) => (
   </motion.div>
 );
 
-const RewardsGrid = () => (
+const RewardsGrid = ({ formSectionRef }) => (
   <section
-    id="#rewardsgrid "
+    ref={formSectionRef}
+    // id="#rewardsgrid "
     className="py-16 sm:py-20 bg-[#020202] border-t border-white/5"
   >
     <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -472,10 +500,10 @@ const RewardsCalculator = () => {
               <p className="text-sm font-semibold text-gray-200">
                 Ready to unlock these rewards?
               </p>
-              <Link to='/coming-soon'>
-              <RewardsButton primary className="text-sm px-6 py-2">
-                Start Your First Transfer <ArrowRight size={16} />
-              </RewardsButton>
+              <Link to="/coming-soon">
+                <RewardsButton primary className="text-sm px-6 py-2">
+                  Start Your First Transfer <ArrowRight size={16} />
+                </RewardsButton>
               </Link>
             </div>
           </div>
@@ -651,14 +679,14 @@ const EarlyPoolSection = () => {
           </ul>
 
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link to='/coming-soon'>
-            <RewardsButton primary>
-              Join the first 1,000
-              <ArrowRight className="w-4 h-4" />
-            </RewardsButton>
+            <Link to="/coming-soon">
+              <RewardsButton primary>
+                Join the first 1,000
+                <ArrowRight className="w-4 h-4" />
+              </RewardsButton>
             </Link>
-            <Link to='/tokenomics'>
-            <RewardsButton>View tokenomics page</RewardsButton>
+            <Link to="/tokenomics">
+              <RewardsButton>View tokenomics page</RewardsButton>
             </Link>
           </div>
         </div>
@@ -817,9 +845,9 @@ const TokenUtilitySection = () => (
         })}
       </div>
       <div className="mt-12 text-center">
-        <Link to='/tokenomics'>
-        <RewardsButton>Read the Full Tokenomics</RewardsButton>
-         </Link>
+        <Link to="/tokenomics">
+          <RewardsButton>Read the Full Tokenomics</RewardsButton>
+        </Link>
       </div>
     </div>
   </section>
@@ -911,8 +939,8 @@ const FunStrip = () => (
 /* --------- PAGE WRAPPER --------- */
 
 const App = () => {
+  const formSectionRef = useRef(null);
 
-  
   return (
     <div className="min-h-screen bg-black text-white font-sans overflow-x-hidden">
       {/* Custom Styles/Keyframes */}
@@ -947,8 +975,10 @@ const App = () => {
       </style>
       {/* <Navbar /> */}
       <SocialSidebar />
-      <RewardsHero /> {/* 1. Enhanced Hero + Orbit */}
-      <RewardsGrid /> {/* 2. Three rewards cards */}
+      <RewardsHero formSectionRef={formSectionRef} />{" "}
+      {/* 1. Enhanced Hero + Orbit */}
+      <RewardsGrid formSectionRef={formSectionRef} />{" "}
+      {/* 2. Three rewards cards */}
       <RewardsCalculator /> {/* 3. Interactive reward estimation */}
       <FlowSection /> {/* 4. How it flows */}
       <EarlyPoolSection /> {/* 5. 20M BLIP Mega Airdrop */}

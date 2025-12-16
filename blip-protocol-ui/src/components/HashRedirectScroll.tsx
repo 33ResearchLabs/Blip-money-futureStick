@@ -13,6 +13,10 @@ export const HashRedirectScroll = () => {
       navigate({ pathname: "/", hash }, { replace: true });
       return;
     }
+    // if (pathname === "/rewards" && hash) {
+    //   navigate({ pathname: "/rewards", hash }, { replace: true });
+    //   return;
+    // }
 
     // 2️⃣ On home with hash → WAIT until section exists
     if (pathname === "/" && hash) {
