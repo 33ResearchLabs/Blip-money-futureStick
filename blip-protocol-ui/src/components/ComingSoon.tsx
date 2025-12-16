@@ -144,20 +144,6 @@ export const Navbar = () => {
             <a href="/" className="hover:text-[#2BFF88] transition-colors">
               PeopleBank
             </a>
-             
-             <NavLink
-                           to="/rewards"
-                           className={({ isActive }) =>
-                             `transition-colors ${
-                               isActive
-                                 ? "text-[#2BFF88] font-semibold"
-                                 : "hover:text-[#2BFF88]"
-                             }`
-                           }
-                         >
-                           Rewards
-                         </NavLink>
-
             <NavLink
               to="/tokenomics"
               className={({ isActive }) =>
@@ -524,14 +510,14 @@ const ComingSoon = () => {
               </span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter mb-6 leading-none">
+            <h1 className="text-4xl sm:text-7xl md:text-8xl lg:text-[90px] font-extrabold tracking-tighter mb-6 leading-none">
               The Protocol.
               <br className="hidden md:block" />
               <span className="mint-gradient-text">Instant Value.</span>
               <br className="hidden md:block" />
               Everywhere.
             </h1>
-            <p className="text-lg sm:text-xl  text-gray-300 mb-10 max-w-4xl mx-auto lg:mx-0 font-light leading-relaxed">
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-10 max-w-4xl mx-auto lg:mx-0 font-light leading-relaxed">
               Unify global commerce on a decentralized, non-custodial layer.
               Join the exclusive list for Q1 access.
             </p>
@@ -644,13 +630,15 @@ const ComingSoon = () => {
                   resources and fee revenue streams.
                 </p>
                 <a
-                  href="https://t.me/+3DpHLzc2BfJhOWEx"
+                  href="https://t.me/your-app-merchant-channel"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block w-full"
                 >
                   <Button
                     primary={false}
+                    type={"button"}
+                    onClick={() => {}}
                     className="w-full bg-black/50 border-[#2BFF88] text-[#2BFF88] hover:bg-[#2BFF88] hover:text-black"
                   >
                     <Users className="w-4 h-4" />
@@ -663,7 +651,7 @@ const ComingSoon = () => {
               <div className="grid grid-cols-2 gap-4">
                 {/* Follow on X */}
                 <a
-                  href="https://x.com/blipmoney_"
+                  href="https://twitter.com/your-app-handle"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex flex-col items-center p-5 rounded-2xl bg-black/50 border border-white/10 hover:border-[#00C8FF]/70 transition-all duration-300 shadow-xl hover:shadow-[0_0_20px_rgba(0,200,255,0.2)] text-center"
@@ -679,7 +667,7 @@ const ComingSoon = () => {
 
                 {/* Join Telegram */}
                 <a
-                  href="https://t.me/+3DpHLzc2BfJhOWEx"
+                  href="https://t.me/your-app-community"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex flex-col items-center p-5 rounded-2xl bg-black/50 border border-white/10 hover:border-[#2BFF88]/70 transition-all duration-300 shadow-xl hover:shadow-[0_0_20px_rgba(43,255,136,0.2)] text-center"
