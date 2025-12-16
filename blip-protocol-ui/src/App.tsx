@@ -15,6 +15,7 @@ import UAELandingPage from "./pages/uae";
 import NotFound from "./pages/NotFound";
 import BlipTokenomics from "./pages/BlipTokenomics";
 import ComingSoon from "./components/ComingSoon";
+import HowItWorks from "./pages/HowItWorks";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ const App = () => (
             <Route path="/rewards" element={<RewardsLanding />} />
             <Route path="/uae" element={<UAELandingPage />} />
             <Route path="/coming-soon" element={<ComingSoon />} />
+            <Route path="/howItWorks" element={<HowItWorks />} />
           </Route>
 
           {/* 404 */}

@@ -64,7 +64,18 @@ export const Navbar = () => {
             </Link>
             <Link to="/#peoplebank" className="hover:text-[#2BFF88]">
               PeopleBank
-            </Link>
+            </Link> 
+
+            <NavLink
+              to="/howItWorks"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-[#2BFF88] font-semibold"
+                  : "hover:text-[#2BFF88]"
+              }
+            >
+              How it works
+            </NavLink>
 
             <NavLink
               to="/rewards"

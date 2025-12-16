@@ -75,7 +75,7 @@ const RewardsButton = ({
     type={type}
     onClick={onClick}
     className={`
-      relative overflow-hidden px-7 py-3 rounded-full font-semibold tracking-wide
+      relative overflow-hidden px-7 py-3 rounded-full font-semibold tracking-wide 
       text-sm sm:text-base transition-all duration-300 group
       ${
         primary
@@ -934,12 +934,18 @@ const FunStrip = () => (
       </div>
     </div>
   </section>
-);
+);  
+
+
 
 /* --------- PAGE WRAPPER --------- */
 
 const App = () => {
-  const formSectionRef = useRef(null);
+  const formSectionRef = useRef(null); 
+
+  useEffect(()=>{
+  scrollTo(0,0)
+},[])
 
   return (
     <div className="min-h-screen bg-black text-white font-sans overflow-x-hidden">
