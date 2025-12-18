@@ -1,9 +1,6 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
 
 export const HowItWorksPage = () => {
-  const { t } = useTranslation();
-
   // Custom Color Constants mapped from the original HTML
   const colors = {
     bgPrimary: "#000000",
@@ -42,12 +39,13 @@ export const HowItWorksPage = () => {
         {/* 1. Hero Section */}
         <section id="hero" className="text-center pt-[140px] pb-[120px] ">
           <h1 className="text-6xl sm:text-7xl lg:text-7xl mb-6 text-white font-semibold tracking-wide leading-[1.1]">
-            <span className="text-[#2BFF88]">{t("heroTitleHighlight")}</span>
+            <span className="text-[#2BFF88]">Value. Settled.</span>
             <br />
-            {t("heroSubtitle")}
+            Privately.
           </h1>
           <p className="text-xl sm:text-2xl text-[#A3B1AA] max-w-[720px] mx-auto mb-10 font- tracking-wider line-clamp-3">
-            {t("heroDescription")}
+            Blip.money is the on-chain protocol for instant, secure, and
+            KYC-free global value transfer.
           </p>
         </section>
 
@@ -56,12 +54,12 @@ export const HowItWorksPage = () => {
           id="key-features"
           className="pb-[120px] border-t border-white/15"
         >
-          <h2 className="sr-only">{t("keyConceptsTitle")}</h2>
+          <h2 className="sr-only">Key Concepts</h2>
           <div className="grid md:grid-cols-3 gap-8 mt-10">
             {[
               {
-                title: t("nonCustodialEscrow"),
-                desc: t("nonCustodialEscrowDesc"),
+                title: "Non-Custodial Escrow",
+                desc: "Funds are secured by code, not intermediaries.",
                 icon: (
                   <path
                     strokeLinecap="round"
@@ -72,8 +70,8 @@ export const HowItWorksPage = () => {
                 ),
               },
               {
-                title: t("zeroIntermediaries"),
-                desc: t("zeroIntermediariesDesc"),
+                title: "Zero Intermediaries",
+                desc: "Direct settlement between wallet and merchant processor.",
                 icon: (
                   <path
                     strokeLinecap="round"
@@ -84,8 +82,8 @@ export const HowItWorksPage = () => {
                 ),
               },
               {
-                title: t("privacyFirstDesign"),
-                desc: t("privacyFirstDesignDesc"),
+                title: "Privacy-First Design",
+                desc: "Wallet-based access with zero KYC required.",
                 icon: (
                   <path
                     strokeLinecap="round"
@@ -98,7 +96,7 @@ export const HowItWorksPage = () => {
             ].map((feature, idx) => (
               <div
                 key={idx}
-                className="p-6 text-center rounded-[14px] bg-gradient-to-b from-white/3 to-white/1 border border-white/6 hover:border-[#00E599]/25 hover:shadow-[0_0_0_1px_rgba(0,229,153,0.15)] hover:bg-[#0F1512] transition-all duration-300"
+                className="p-6 text-center rounded-[14px] bg-gradient-to-b from-white/3 to-white/1 border border-white/6 hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.25)] transition-all duration-500"
               >
                 <svg
                   className="w-8 h-8 text-[#00E599] mx-auto mb-3"
@@ -121,17 +119,19 @@ export const HowItWorksPage = () => {
         {/* 2. The Core Idea */}
         <section id="core-idea" className="py-[120px] border-t border-white/15">
           <h2 className="text-5xl max-w-4xl mx-auto mb-16 text-center text-white font-semibold tracking-wide">
-            {t("coreIdeaTitle")}
+            The Protocol: Trust Redefined.
           </h2>
           <p className="text-lg text-[#A3B1AA] max-w-[640px] mx-auto text-center mb-12">
-            {t("coreIdeaDescription")}
+            Blip.money is a decentralized, trust-minimized settlement layer that
+            enables global transfers across crypto, cash, and bank rails without
+            centralized intermediaries.
           </p>
 
           <div className="grid md:grid-cols-4 gap-6 max-w-6xl mx-auto text-center">
             {[
               {
-                title: t("escrowPDA"),
-                desc: t("escrowPDADesc"),
+                title: "1. Escrow PDA",
+                desc: "Funds are secured by an immutable smart contract account until conditions are met.",
                 icon: (
                   <path
                     strokeLinecap="round"
@@ -142,8 +142,8 @@ export const HowItWorksPage = () => {
                 ),
               },
               {
-                title: t("merchantStaking"),
-                desc: t("merchantStakingDesc"),
+                title: "2. Merchant Staking",
+                desc: "Off-chain executors lock collateral as skin-in-the-game for secure execution.",
                 icon: (
                   <>
                     <path
@@ -162,8 +162,8 @@ export const HowItWorksPage = () => {
                 ),
               },
               {
-                title: t("daoGovernance"),
-                desc: t("daoGovernanceDesc"),
+                title: "3. DAO Governance",
+                desc: "A decentralized body provides final, non-custodial arbitration during disputes.",
                 icon: (
                   <path
                     strokeLinecap="round"
@@ -174,8 +174,8 @@ export const HowItWorksPage = () => {
                 ),
               },
               {
-                title: t("walletOnlyAccess"),
-                desc: t("walletOnlyAccessDesc"),
+                title: "4. Wallet-Only Access",
+                desc: "Access requires zero KYC, ensuring financial privacy and censorship resistance.",
                 icon: (
                   <>
                     <path
@@ -196,7 +196,7 @@ export const HowItWorksPage = () => {
             ].map((item, idx) => (
               <div
                 key={idx}
-                className="p-4 rounded-[14px] bg-gradient-to-b from-white/3 to-white/1 border border-white/6 hover:border-[#00E599]/25 hover:shadow-[0_0_0_1px_rgba(0,229,153,0.15)] hover:bg-[#0F1512] transition-all duration-300"
+                className="p-4 rounded-[14px] bg-gradient-to-b from-white/3 to-white/1 border border-white/6 hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.25)] transition-all duration-500"
               >
                 <svg
                   className="w-8 h-8 text-[#00E599] mx-auto mb-3"
@@ -219,88 +219,101 @@ export const HowItWorksPage = () => {
         {/* 3. How It Works: Transaction Flow */}
         <section id="lifecycle" className="py-[120px] border-t border-white/15">
           <h2 className="text-5xl text-center mb-16 text-white font-semibold tracking-wide">
-            {t("transactionFlowTitle")}
+            How It Works: Atomic Transaction Flow
           </h2>
           <div className="max-w-[720px] mx-auto">
             <p className="text-lg text-[#A3B1AA] max-w-[640px] mx-auto text-center mb-10">
-              {t("transactionFlowDescription")}
+              The entire transaction executes atomically, guaranteed by on-chain
+              escrow state transitions.
             </p>
 
             <ol className="relative border-l border-[#00E599]/15 mx-auto max-w-2xl">
               {[
                 {
                   id: "1",
-                  title: t("initiationLock"),
-                  content: t("initiationLockContent"),
-                  result: t("initiationLockResult"),
+                  title: "01. Initiation & Lock",
+                  content:
+                    "User defines order parameters (amount, recipient) and executes FUND_ESCROW.",
+                  result:
+                    "Funds are immediately secured in the immutable Escrow PDA.",
                 },
                 {
                   id: "2",
-                  title: t("commitmentStake"),
-                  content: t("commitmentStakeContent"),
-                  result: t("commitmentStakeResult"),
+                  title: "02. Commitment & Stake",
+                  content:
+                    "A Merchant accepts the order and locks their proportional collateral stake.",
+                  result:
+                    "Escrow state moves to IN_PROGRESS. Merchant guarantees execution within the set timeout (τ_max).",
                 },
                 {
                   id: "3",
-                  title: t("offChainPayout"),
-                  content: t("offChainPayoutContent"),
-                  result: t("offChainPayoutResult"),
+                  title: "03. Off-Chain Payout",
+                  content:
+                    "The Merchant executes the fiat payout (cash, bank, or wire) to the designated recipient off-chain.",
+                  result:
+                    "Fiat value is delivered. The transaction is ready for on-chain verification.",
                 },
                 {
                   id: "4",
-                  title: t("verificationRelease"),
-                  content: t("verificationReleaseContent"),
-                  result: t("verificationReleaseResult"),
+                  title: "04. Verification & Release",
+                  content:
+                    "The user confirms receipt (or Merchant submits Proof). The escrow instantly executes RELEASE_FUNDS.",
+                  result:
+                    "Crypto is sent to the Merchant, stake is returned, and the escrow moves to COMPLETED.",
                 },
                 {
                   id: "5",
-                  title: t("finalityArbitration"),
-                  content: t("finalityArbitrationContent"),
-                  result: t("finalityArbitrationResult"),
+                  title: "05. Finality or Arbitration",
+                  content:
+                    "If a dispute is raised before the timeout, the DAO reviews evidence and votes on resolution.",
+                  result:
+                    "The transaction reaches its final state: COMPLETED, RESOLVED, or SLASHED.",
                 },
               ].map((step, idx) => (
-                <li
-                  key={idx}
-                  className={`mb-10 ml-6 p-5 rounded-[14px] bg-[#0B0F0D] border border-white/6 hover:border-[#00E599]/25 hover:shadow-[0_0_0_1px_rgba(0,229,153,0.15)] transition-all duration-300`}
-                >
-                  <span className="absolute flex items-center justify-center w-6 h-6 bg-[#00E599] rounded-full -left-3 ring-4 ring-[#000000] text-black font-semibold font-sans text-sm timeline-dot-shadow">
-                    {step.id}
-                  </span>
-                  <h3 className="flex items-center mb-1 text-2xl font-medium text-white font-sans tracking-tight">
-                    {step.title}
-                  </h3>
-                  <p className="mb-2 text-[#A3B1AA]">
-                    {step.content.split(" ").map((word, wIdx) =>
-                      ["FUND_ESCROW", "IN_PROGRESS", "RELEASE_FUNDS"].some(
-                        (k) => word.includes(k)
-                      ) ? (
-                        <span key={wIdx} className="text-[#00E599] font-sans">
-                          {word}{" "}
-                        </span>
-                      ) : (
-                        word + " "
-                      )
-                    )}
-                  </p>
-                  <p className="text-[#6F7C76] text-sm">
-                    Result:{" "}
-                    {step.result.split(" ").map((word, wIdx) =>
-                      [
-                        "PDA",
-                        "IN_PROGRESS",
-                        "COMPLETED",
-                        "RESOLVED",
-                        "SLASHED",
-                      ].some((k) => word.includes(k)) ? (
-                        <span key={wIdx} className="font-sans text-[#A3B1AA]">
-                          {word}{" "}
-                        </span>
-                      ) : (
-                        word + " "
-                      )
-                    )}
-                  </p>
-                </li>
+                <>
+                  <li
+                    key={idx}
+                    className={`mb-10 ml-6 p-5 rounded-[14px] bg-[#0B0F0D] border border-white/6 hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.25)] transition-all duration-500`}
+                  >
+                    <span className="absolute p-4 flex items-center justify-center w-6 h-6 text-white rounded-full -left-3 ring-4 ring-[#000000]  font-semibold font-sans text-sm timeline-dot-shadow">
+                      {step.id}
+                    </span>
+                    <h3 className="flex items-center mb-1 text-2xl font-medium text-white font-sans tracking-tight">
+                      {step.title}
+                    </h3>
+                    <p className="mb-2 text-[#A3B1AA]">
+                      {step.content.split(" ").map((word, wIdx) =>
+                        ["FUND_ESCROW", "IN_PROGRESS", "RELEASE_FUNDS"].some(
+                          (k) => word.includes(k)
+                        ) ? (
+                          <span key={wIdx} className="text-[#00E599] font-sans">
+                            {word}{" "}
+                          </span>
+                        ) : (
+                          word + " "
+                        )
+                      )}
+                    </p>
+                    <p className="text-[#6F7C76] text-sm">
+                      Result:{" "}
+                      {step.result.split(" ").map((word, wIdx) =>
+                        [
+                          "PDA",
+                          "IN_PROGRESS",
+                          "COMPLETED",
+                          "RESOLVED",
+                          "SLASHED",
+                        ].some((k) => word.includes(k)) ? (
+                          <span key={wIdx} className="font-sans text-[#A3B1AA]">
+                            {word}{" "}
+                          </span>
+                        ) : (
+                          word + " "
+                        )
+                      )}
+                    </p>
+                  </li>
+                </>
               ))}
             </ol>
           </div>
@@ -312,49 +325,53 @@ export const HowItWorksPage = () => {
           className="py-[120px] border-t border-white/15"
         >
           <h2 className="text-5xl text-center mb-16 text-white font-semibold tracking-wide">
-            {t("architectureTitle")}
+            System Architecture: Hybrid Trust
           </h2>
           <p className="text-lg text-[#A3B1AA] max-w-[640px] mx-auto text-center mb-10">
-            {t("architectureDescription")}
+            Blip.money uses a hybrid on-chain / off-chain architecture to
+            maximize speed, privacy, and scalability. On-chain logic is
+            minimized to only what must be trusted.
           </p>
 
           <div className="max-w-4xl mx-auto mb-16 rounded-[14px] bg-gradient-to-b from-white/3 to-white/1 border border-white/6 overflow-hidden">
             <div className="grid grid-cols-3 text-sm sm:text-base font-semibold text-[#00E599] border-b border-white/6 bg-[#070A08] p-4 font-sans tracking-tight">
-              <div className="uppercase">{t("layer")}</div>
-              <div className="uppercase">{t("responsibility")}</div>
-              <div className="uppercase">{t("onChainComponents")}</div>
+              <div className="uppercase">Layer</div>
+              <div className="uppercase">Responsibility</div>
+              <div className="uppercase">On-chain Components</div>
             </div>
             <div className="grid grid-cols-3 border-b border-white/6 p-4 hover:bg-[#0F1512] transition">
-              <div className="text-[#00E599] font-sans">{t("onChain")}</div>
-              <div className="text-white">{t("trustFinalityEnforcement")}</div>
+              <div className="text-[#00E599] font-sans">On-chain</div>
+              <div className="text-white">Trust, Finality, Enforcement</div>
               <div className="text-[#A3B1AA] text-sm">
-                {t("escrowLockingStakingVoting")}
+                Escrow Locking, Merchant Staking, Governance Voting
               </div>
             </div>
             <div className="grid grid-cols-3 p-4 hover:bg-[#0F1512] transition">
-              <div className="text-[#00E599] font-sans">{t("offChain")}</div>
-              <div className="text-white">{t("speedFiatInteraction")}</div>
+              <div className="text-[#00E599] font-sans">Off-chain</div>
+              <div className="text-white">
+                Speed, Fiat Interaction, Discovery
+              </div>
               <div className="text-[#A3B1AA] text-sm">
-                {t("fiatExecutionRouting")}
+                Fiat Execution, Merchant Routing, Proof Aggregation
               </div>
             </div>
           </div>
 
           <div className="max-w-4xl mx-auto pt-16 border-t border-white/15">
             <h3 className="text-2xl font-medium text-[#00E599] mb-8 text-center tracking-wide">
-              {t("escrowArchitectureTitle")}
+              Escrow Architecture
             </h3>
             <p className="text-lg text-[#A3B1AA] mb-8 text-center">
-              {t("escrowArchitectureDescription").split("PDA")[0]}
-              <span className="font-sans text-[#00E599]">PDA</span>
-              {t("escrowArchitectureDescription").split("PDA")[1]}
+              Each transaction utilizes a unique Escrow{" "}
+              <span className="font-sans text-[#00E599]">PDA</span> on Solana,
+              serving as the immutable trust primitive of the protocol.
             </p>
 
             <div className="grid md:grid-cols-3 gap-6 text-center">
               {[
                 {
-                  title: t("immutable"),
-                  desc: t("immutableDesc"),
+                  title: "IMMUTABLE",
+                  desc: "Conditions set at creation cannot be modified.",
                   icon: (
                     <path
                       strokeLinecap="round"
@@ -365,8 +382,8 @@ export const HowItWorksPage = () => {
                   ),
                 },
                 {
-                  title: t("timeBound"),
-                  desc: t("timeBoundDesc"),
+                  title: "TIME-BOUND",
+                  desc: "Timeouts enforce liveness and prevent state lock.",
                   icon: (
                     <path
                       strokeLinecap="round"
@@ -377,8 +394,8 @@ export const HowItWorksPage = () => {
                   ),
                 },
                 {
-                  title: t("deterministic"),
-                  desc: t("deterministicDesc"),
+                  title: "DETERMINISTIC",
+                  desc: "Fund release governed strictly by code state.",
                   icon: (
                     <path
                       strokeLinecap="round"
@@ -391,7 +408,7 @@ export const HowItWorksPage = () => {
               ].map((item, idx) => (
                 <div
                   key={idx}
-                  className="p-6 rounded-[14px] bg-gradient-to-b from-white/3 to-white/1 border border-white/6 hover:border-[#00E599]/25 hover:shadow-[0_0_0_1px_rgba(0,229,153,0.15)] hover:bg-[#0F1512] transition-all duration-300"
+                  className="p-6 rounded-[14px] bg-gradient-to-b from-white/3 to-white/1 border border-white/6 hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.25)] transition-all duration-500"
                 >
                   <svg
                     className="w-8 h-8 text-[#00E599] mx-auto mb-3"
@@ -415,13 +432,13 @@ export const HowItWorksPage = () => {
         {/* 5. Cryptographic Security Model */}
         <section id="security" className="py-[120px] border-t border-white/15">
           <h2 className="text-5xl text-center mb-16 text-white font-semibold tracking-wide">
-            {t("securityTitle")}
+            Cryptographic Security Model
           </h2>
           <div className="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto text-center">
             {[
               {
-                title: t("economicEnforcement"),
-                desc: t("economicEnforcementDesc"),
+                title: "Economic Enforcement",
+                desc: "Security is enforced by economic incentives, not promises. Merchant stake is always at risk (slashing) if delivery is unconfirmed or fraudulent.",
                 icon: (
                   <path
                     strokeLinecap="round"
@@ -432,8 +449,8 @@ export const HowItWorksPage = () => {
                 ),
               },
               {
-                title: t("immutableCode"),
-                desc: t("immutableCodeDesc"),
+                title: "Immutable Code",
+                desc: "No admin keys control user funds. The protocol leverages non-upgradable custody contracts, ensuring finality and preventing unauthorized changes.",
                 icon: (
                   <path
                     strokeLinecap="round"
@@ -444,8 +461,8 @@ export const HowItWorksPage = () => {
                 ),
               },
               {
-                title: t("daoArbiter"),
-                desc: t("daoArbiterDesc"),
+                title: "DAO Arbiter",
+                desc: "The DAO acts as the final arbiter during contested disputes. This mechanism decentralizes control and prevents single-party failure.",
                 icon: (
                   <>
                     <path
@@ -466,7 +483,7 @@ export const HowItWorksPage = () => {
             ].map((item, idx) => (
               <div
                 key={idx}
-                className="p-8 rounded-[14px] bg-gradient-to-b from-white/3 to-white/1 border border-white/6 hover:border-[#00E599]/25 hover:shadow-[0_0_0_1px_rgba(0,229,153,0.15)] hover:bg-[#0F1512] transition-all duration-300"
+                className="p-8 rounded-[14px] bg-gradient-to-b from-white/3 to-white/1 border border-white/6 hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.25)] transition-all duration-500"
               >
                 <svg
                   className="w-8 h-8 text-[#00E599] mx-auto mb-3"
@@ -487,32 +504,31 @@ export const HowItWorksPage = () => {
 
           <div className="mt-16 pt-12 border-t border-white/15 max-w-4xl mx-auto">
             <h3 className="text-3xl font-medium text-[#00E599] text-center mb-6 tracking-wide">
-              {t("latencySettlementTitle")}
+              Latency & Settlement Guarantees
             </h3>
             <div className="grid md:grid-cols-3 text-center gap-4 text-[#A3B1AA] font-sans">
               <div>
                 <p className="text-4xl font-extrabold text-white tracking-wide">
                   ~500ms
                 </p>
-                <p className="text-sm text-[#00E599]">{t("escrowLock")}</p>
+                <p className="text-sm text-[#00E599]">Escrow Lock</p>
               </div>
               <div>
                 <p className="text-4xl font-extrabold text-white tracking-wide">
                   {"< 1s"}
                 </p>
-                <p className="text-sm text-[#00E599]">
-                  {t("proofVerification")}
-                </p>
+                <p className="text-sm text-[#00E599]">Proof Verification</p>
               </div>
               <div>
                 <p className="text-4xl font-extrabold text-white tracking-wide">
                   Solana Finality
                 </p>
-                <p className="text-sm text-[#00E599]">{t("onChainFinality")}</p>
+                <p className="text-sm text-[#00E599]">On-chain Finality</p>
               </div>
             </div>
             <p className="text-lg text-[#A3B1AA] mt-8 text-center">
-              {t("settlementDescription")}
+              Blip.money targets near-instant settlement, minimizing exposure
+              time for both user and merchant.
             </p>
           </div>
         </section>
@@ -520,13 +536,13 @@ export const HowItWorksPage = () => {
         {/* 6. Order Types */}
         <section id="use-cases" className="py-[120px] border-t border-white/15">
           <h2 className="text-5xl text-center mb-16 text-white font-semibold tracking-wide">
-            {t("orderTypesTitle")}
+            Order Types
           </h2>
           <div className="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {[
               {
-                title: t("cryptoToCash"),
-                desc: t("cryptoToCashDesc"),
+                title: "Crypto → Cash",
+                desc: "The fastest way to convert digital assets into physical currency anywhere in the world, secured by localized, staked merchant commitment.",
                 icon: (
                   <path
                     strokeLinecap="round"
@@ -537,8 +553,8 @@ export const HowItWorksPage = () => {
                 ),
               },
               {
-                title: t("cryptoToBank"),
-                desc: t("cryptoToBankDesc"),
+                title: "Crypto → Bank / Wire",
+                desc: "Anonymously settle high-value transactions directly into any bank account or corporate wire system, bypassing traditional identity requirements.",
                 icon: (
                   <path
                     strokeLinecap="round"
@@ -549,8 +565,8 @@ export const HowItWorksPage = () => {
                 ),
               },
               {
-                title: t("cryptoToCrypto"),
-                desc: t("cryptoToCryptoDesc"),
+                title: "Crypto → Crypto",
+                desc: "Instantly swap assets across different chains using the same escrow security model, ensuring seamless capital mobility without relying on CEX infrastructure.",
                 icon: (
                   <path
                     strokeLinecap="round"
@@ -563,7 +579,7 @@ export const HowItWorksPage = () => {
             ].map((type, idx) => (
               <div
                 key={idx}
-                className="p-10 rounded-[14px] bg-gradient-to-b from-white/3 to-white/1 border border-white/6 hover:border-[#00E599]/25 hover:shadow-[0_0_0_1px_rgba(0,229,153,0.15)] hover:bg-[#0F1512] transition-all duration-300"
+                className="p-10 rounded-[14px] bg-gradient-to-b from-white/3 to-white/1 border border-white/6 hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.25)] transition-all duration-500"
               >
                 <svg
                   className="w-12 h-12 text-[#00E599] mb-4"
@@ -586,42 +602,58 @@ export const HowItWorksPage = () => {
         {/* 7. Protocol Economics */}
         <section id="fees" className="py-[120px] border-t border-white/15">
           <h2 className="text-5xl text-center mb-16 text-white font-semibold tracking-wide">
-            {t("economicsTitle")}
+            Protocol Economics & Governance
           </h2>
           <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
             {/* Merchant Staking */}
-            <div className="p-8 rounded-[14px] bg-gradient-to-b from-white/3 to-white/1 border border-white/6 hover:border-[#00E599]/25 hover:shadow-[0_0_0_1px_rgba(0,229,153,0.15)] hover:bg-[#0F1512] transition-all duration-300">
+            <div className="p-8 rounded-[14px] bg-gradient-to-b from-white/3 to-white/1 border border-white/6 hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.25)] transition-all duration-500">
               <h3 className="text-2xl font-medium mb-4 text-[#00E599]">
-                {t("merchantStakingReputation")}
+                Merchant Staking & Reputation
               </h3>
               <p className="text-[#A3B1AA] mb-4">
-                {t("merchantStakingReputationDesc")}
+                Merchants must stake BLIP tokens and accept slashing risk.
+                Reputation increases order priority, fee share, and trust score.
               </p>
               <ul className="list-disc list-inside text-[#A3B1AA] space-y-1 ml-4">
-                <li>{t("merchantStakingPoint1")}</li>
-                <li>{t("merchantStakingPoint2")}</li>
-                <li>{t("merchantStakingPoint3")}</li>
+                <li>
+                  High reputation provides increased order priority and greater
+                  fee share.
+                </li>
+                <li>
+                  DAO-governed protocol ensures decentralized evolution and fee
+                  distribution.
+                </li>
+                <li>
+                  Slashing mechanism enforces accountability and protects user
+                  funds.
+                </li>
               </ul>
             </div>
 
             {/* Fee Mechanics */}
-            <div className="p-8 rounded-[14px] bg-gradient-to-b from-white/3 to-white/1 border border-white/6 hover:border-[#00E599]/25 hover:shadow-[0_0_0_1px_rgba(0,229,153,0.15)] hover:bg-[#0F1512] transition-all duration-300">
+            <div className="p-8 rounded-[14px] bg-gradient-to-b from-white/3 to-white/1 border border-white/6 hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.25)] transition-all duration-500">
               <h3 className="text-2xl font-medium mb-4 text-[#00E599]">
-                {t("feeMechanicsTitle")}
+                Fee Mechanics & Transparency
               </h3>
               <p className="text-[#A3B1AA] mb-4">
-                {t("feeMechanicsDesc").split("3–5%")[0]}
-                <span className="font-sans text-[#00E599]">3–5%</span>
-                {t("feeMechanicsDesc").split("3–5%")[1]}
+                A transparent base fee (typically{" "}
+                <span className="font-sans text-[#00E599]">3–5%</span>) is
+                applied to the user, ensuring the protocol is self-sustaining
+                and incentivizes merchant participation.
               </p>
               <div className="bg-[#070A08] p-4 rounded-lg border border-white/6 font-sans">
                 <p className="font-semibold text-white mb-2 tracking-wide">
-                  {t("feeSplit")}
+                  Fee Split:
                 </p>
                 <ul className="text-[#A3B1AA] space-y-1 ml-4">
-                  <li>{t("merchantFee")}</li>
-                  <li>{t("daoTreasuryFee")}</li>
-                  <li>{t("protocolIncentivesFee")}</li>
+                  <li>**Merchant:** Compensation for off-chain execution.</li>
+                  <li>
+                    **DAO Treasury:** Used for protocol development and
+                    incentives.
+                  </li>
+                  <li>
+                    **Protocol Incentives:** Distributed to stake-holders.
+                  </li>
                 </ul>
               </div>
             </div>
@@ -631,13 +663,13 @@ export const HowItWorksPage = () => {
         {/* 8. Anonymity is Infrastructure */}
         <section id="anonymous" className="py-[120px] border-t border-white/15">
           <h2 className="text-5xl text-center mb-16 text-white font-semibold tracking-wide">
-            {t("anonymityTitle")}
+            Anonymity is Infrastructure
           </h2>
           <div className="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto text-center">
             {[
               {
-                title: t("zeroKYC"),
-                desc: t("zeroKYCDesc"),
+                title: "Zero KYC",
+                desc: "Blip.money does not require names, documents, or personal identifiers to use the core protocol functions.",
                 icon: (
                   <path
                     strokeLinecap="round"
@@ -648,8 +680,8 @@ export const HowItWorksPage = () => {
                 ),
               },
               {
-                title: t("walletOnly"),
-                desc: t("walletOnlyDesc"),
+                title: "Wallet-Only",
+                desc: "All interaction and authentication occurs solely via your cryptographic wallet signature. No accounts.",
                 icon: (
                   <path
                     strokeLinecap="round"
@@ -660,8 +692,8 @@ export const HowItWorksPage = () => {
                 ),
               },
               {
-                title: t("recipientIsolation"),
-                desc: t("recipientIsolationDesc"),
+                title: "Recipient Isolation",
+                desc: "The final fiat recipient does not interact with the protocol, preserving the sender's security posture.",
                 icon: (
                   <path
                     strokeLinecap="round"
@@ -674,7 +706,7 @@ export const HowItWorksPage = () => {
             ].map((item, idx) => (
               <div
                 key={idx}
-                className="p-4 rounded-[14px] bg-gradient-to-b from-white/3 to-white/1 border border-white/6 hover:border-[#00E599]/25 hover:shadow-[0_0_0_1px_rgba(0,229,153,0.15)] hover:bg-[#0F1512] transition-all duration-300"
+                className="p-4 rounded-[14px] bg-gradient-to-b from-white/3 to-white/1 border border-white/6 hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.25)] transition-all duration-500"
               >
                 <svg
                   className="w-8 h-8 text-[#00E599] mx-auto mb-3"
@@ -700,11 +732,13 @@ export const HowItWorksPage = () => {
           className="text-center py-[140px] border-t border-white/15"
         >
           <h2 className="text-5xl font-extrabold mb-10 text-white max-w-4xl mx-auto tracking-wide leading-tight">
-            <span className="text-[#2BFF88]">{t("closingTitleHighlight")}</span>{" "}
-            {t("closingSubtitle")}
+            <span className="text-[#2BFF88]">The Certainty of Code</span>{" "}
+            Replacing the Necessity of Trust.
           </h2>
           <p className="text-2xl sm:text-3xl text-[#A3B1AA] max-w-3xl mx-auto mb-12">
-            {t("closingDescription")}
+            Blip.money is the essential bridge between digital assets and the
+            physical world, abstracting away identity and geography to focus
+            purely on the secure, reliable transfer of economic value.
           </p>
           <a
             href="/whitepaper.pdf"
@@ -712,7 +746,7 @@ export const HowItWorksPage = () => {
             rel="noopener noreferrer"
             className="inline-block px-12 py-3 text-xl bg-[#00E599] text-black rounded-full font-medium tracking-wide transition duration-300 transform hover:scale-[1.02]"
           >
-            {t("exploreWhitepaper")}
+            Explore the Whitepaper Now →
           </a>
         </section>
       </main>

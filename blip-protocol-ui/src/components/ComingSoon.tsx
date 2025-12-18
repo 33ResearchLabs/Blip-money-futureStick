@@ -644,7 +644,7 @@ const ComingSoon = () => {
                   resources and fee revenue streams.
                 </p>
                 <a
-                  href="https://t.me/your-app-merchant-channel"
+                  href="https://t.me/+3DpHLzc2BfJhOWEx"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block w-full"
@@ -665,7 +665,7 @@ const ComingSoon = () => {
               <div className="grid grid-cols-2 gap-4">
                 {/* Follow on X */}
                 <a
-                  href="https://twitter.com/your-app-handle"
+                  href="https://x.com/blipmoney_"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex flex-col items-center p-5 rounded-2xl bg-black/50 border border-white/10 hover:border-[#00C8FF]/70 transition-all duration-300 shadow-xl hover:shadow-[0_0_20px_rgba(0,200,255,0.2)] text-center"
@@ -681,7 +681,7 @@ const ComingSoon = () => {
 
                 {/* Join Telegram */}
                 <a
-                  href="https://t.me/your-app-community"
+                  href="https://t.me/+3DpHLzc2BfJhOWEx"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex flex-col items-center p-5 rounded-2xl bg-black/50 border border-white/10 hover:border-[#2BFF88]/70 transition-all duration-300 shadow-xl hover:shadow-[0_0_20px_rgba(43,255,136,0.2)] text-center"
