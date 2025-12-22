@@ -12,17 +12,20 @@ import {
   Mail,
   MapPin,
 } from "lucide-react";
+import { sendFormNotification } from "@/api/telegram";
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
     name: "",
-    identifier: "",
+    email: "",
     inquiryType: "general",
     message: "",
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [copied, setCopied] = useState(false);
   const [status, setStatus] = useState("ACTIVE");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
   const inquiryTypes = [
     { value: "merchant", label: "Merchant Onboarding" },
@@ -46,13 +49,45 @@ const ContactUs = () => {
     document.body.removeChild(textArea);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setError("");
     setStatus("ENCRYPTING...");
-    setTimeout(() => {
-      setIsSubmitted(true);
-      setStatus("TRANSMITTED");
-    }, 1500);
+
+    try {
+      // Prepare data for Telegram
+      const telegramData = {
+        name: formData.name || "Anonymous",
+        email: formData.email,
+        companyName: formData.inquiryType,
+        website: window.location.origin,
+        goals: formData.message,
+      };
+
+      // Send to Telegram
+      await sendFormNotification(telegramData);
+
+      // Show success animation
+      setTimeout(() => {
+        setIsSubmitted(true);
+        setStatus("TRANSMITTED");
+        setIsSubmitting(false);
+
+        // Reset form data
+        setFormData({
+          name: "",
+          email: "",
+          inquiryType: "general",
+          message: "",
+        });
+      }, 1500);
+    } catch (err) {
+      console.error("Form submission error:", err);
+      setError("Failed to send message. Please try again or contact us directly.");
+      setStatus("ACTIVE");
+      setIsSubmitting(false);
+    }
   }; 
 
 
@@ -270,6 +305,12 @@ const ContactUs = () => {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="p-8 lg:p-12 space-y-8">
+                  {error && (
+                    <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+                      {error}
+                    </div>
+                  )}
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="group space-y-3">
                       <label className="text-[10px] uppercase font-black tracking-[0.2em] text-gray-500 group-focus-within:text-[#00FF94] transition-colors">
@@ -278,6 +319,8 @@ const ContactUs = () => {
                       <input
                         type="text"
                         placeholder="ANONYMOUS"
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         className="w-full bg-transparent border-b border-white/10 py-2 text-white placeholder:text-gray-800 focus:outline-none focus:border-[#00FF94] transition-all  text-sm"
                       />
                     </div>
@@ -287,8 +330,10 @@ const ContactUs = () => {
                       </label>
                       <input
                         required
-                        type="text"
+                        type="email"
                         placeholder=" EMAIL"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         className="w-full bg-transparent border-b border-white/20 py-2 text-white placeholder:text-gray-800 focus:outline-none focus:border-[#00FF94] transition-all  text-sm"
                       />
                     </div>
@@ -299,7 +344,11 @@ const ContactUs = () => {
                       Route_Selection
                     </label>
                     <div className="relative">
-                      <select className="w-full appearance-none bg-white/[0.03] border border-white/5 rounded-lg px-4 py-4 text-sm text-gray-300 focus:outline-none focus:border-[#00FF94]/50 cursor-pointer uppercase tracking-widest font-bold">
+                      <select
+                        value={formData.inquiryType}
+                        onChange={(e) => setFormData({ ...formData, inquiryType: e.target.value })}
+                        className="w-full appearance-none bg-white/[0.03] border border-white/5 rounded-lg px-4 py-4 text-sm text-gray-300 focus:outline-none focus:border-[#00FF94]/50 cursor-pointer uppercase tracking-widest font-bold"
+                      >
                         {inquiryTypes.map((type) => (
                           <option
                             key={type.value}
@@ -322,6 +371,8 @@ const ContactUs = () => {
                       required
                       rows={4}
                       placeholder="ENTER MESSAGE CONTENT..."
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       className="w-full bg-white/[0.03] border border-white/5 rounded-lg p-4 text-sm text-white placeholder:text-gray-800 focus:outline-none focus:border-[#00FF94]/50 transition-all resize-none "
                     ></textarea>
                   </div>
@@ -340,11 +391,12 @@ const ContactUs = () => {
 
                   <button
                     type="submit"
-                    className="w-full relative overflow-hidden group/btn bg-[#00FF94] hover:bg-[#00FF94] text-black font-black py-5 rounded-xl transition-all duration-500"
+                    disabled={isSubmitting}
+                    className="w-full relative overflow-hidden group/btn bg-[#00FF94] hover:bg-[#00FF94] text-black font-black py-5 rounded-xl transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-700" />
                     <span className="relative z-10 flex items-center justify-center uppercase tracking-[0.2em] text-sm">
-                      Establish Secure Connection
+                      {isSubmitting ? "Transmitting..." : "Establish Secure Connection"}
                       <Send className="w-4 h-4 ml-3 group-hover/btn:translate-x-1 transition-transform" />
                     </span>
                   </button>
