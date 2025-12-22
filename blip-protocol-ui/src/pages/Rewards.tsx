@@ -64,6 +64,7 @@ const SocialSidebar = () => (
 //     <span className="relative z-10 flex items-center gap-2">{children}</span>
 //   </button>
 // );
+
 const RewardsButton = ({
   primary = false,
   className = "",
@@ -193,7 +194,7 @@ const RewardOrbit = () => {
 /* --------- SECTION 1: HERO (UPDATED PT-CLASS) --------- */
 const RewardsHero = ({ formSectionRef }) => (
   <section className="relative min-h-[90vh] pt-32 sm:pt-36 lg:pt-40 overflow-hidden bg-[#020202]">
-    <DigitalGridBackground /> {/* NEW DYNAMIC BACKGROUND */}
+   <DigitalGridBackground />   {/* //NEW DYNAMIC BACKGROUND */}
     <div className="relative max-w-7xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
       {/* LEFT */}
       <div className="w-full lg:w-[52%] text-center lg:text-left">

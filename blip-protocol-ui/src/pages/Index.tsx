@@ -536,7 +536,7 @@ const RealWorldUsageSection = () => {
         {/* 40 / 60 split */}
         <div className="grid gap-6 sm:gap-8 lg:grid-cols-[2fr_3fr] items-stretch">
           {/* left: usage list */}
-          <div className="grid grid-cols-1 gap-3 max-h-[460px] lg:max-h-none overflow-y-auto pr-1">
+          <div className="grid grid-cols-1 gap-3 max-h-[460px] lg:max-h-none overflow-y-auto ">
             {USAGE_SCENES.map((scene, idx) => (
               <ScrollReveal key={scene.id} delay={0.15 + idx * 0.05}>
                 <UsageCard
@@ -1122,7 +1122,7 @@ const stylesPeopleBank = {
                       linear-gradient(to bottom, #00FF9422 1px, transparent 1px)`,
     backgroundSize: "20px 20px",
   },
-};
+}; 
 const FeatureStrip = () => {
   return (
     <section className="relative overflow-hidden border-y border-white/5 bg-gradient-to-r from-[#02151f] via-[#05030a] to-[#140313]">
@@ -1272,7 +1272,7 @@ const CashbackBanner = () => {
 };
 
 const Hero = () => (
-  <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 sm:pt-20">
+  <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 sm:pt-20">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center relative z-10">
       {/* LEFT SIDE CONTENT */}
       <div className="text-center lg:text-left pt-6 sm:pt-8 lg:pt-0">
@@ -1491,6 +1491,10 @@ const Index = () => {
 
     return () => clearInterval(interval);
   }, []);
+
+   useEffect(() => {
+      scrollTo(0, 0);
+    }, []);
 
   return (
     <div
@@ -1790,7 +1794,7 @@ Payments"
 
       {/* --- SECTION 4: REAL WORLD USAGE --- */}
 
-      <RealWorldUsageSection />
+      {/* <RealWorldUsageSection /> */}
 
       {/* <!-- SECTION 7: PRIVACY & TRUST (TWO-COLUMN MINIMAL) --> */}
       <section className="py-32 border-t border-gray-900 bg-black">

@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
+
+
 
 export const HowItWorksPage = () => {
   // Custom Color Constants mapped from the original HTML
@@ -12,8 +14,30 @@ export const HowItWorksPage = () => {
     textMuted: "#6F7C76",
   };
 
+  useEffect(()=>{
+    scrollTo(0,0)
+  },[])
+
+  const DigitalGridBackground = () => (
+  <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-40">
+    <div
+      className="absolute inset-0"
+      style={{
+        backgroundImage:
+          "linear-gradient(to right, #00FF9410 1px, transparent 1px), linear-gradient(to bottom, #00FF9410 1px, transparent 1px)",
+        backgroundSize: "80px 80px",
+        animation: "wave 60s linear infinite",
+      }}
+    />
+    <div className="absolute inset-0 bg-gradient-to-br from-[#020202] via-transparent to-[#020202]" />
+
+    {/* Center pulsing glow */}
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vh] rounded-full bg-[#00FF94]/5 blur-[100px] animate-[pulse-slow_6s_ease-in-out_infinite]" />
+  </div>
+);
+
   return (
-    <div className="min-h-screen bg-[#000000] text-[#A3B1AA] font-sans selection:bg-[#00E599] selection:text-black">
+    <div className="min-h-screen bg-[#000000] font-sans overflow-x-hidden ">
       {/* Inject Fonts and Global Styles */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;700&display=swap');
@@ -35,9 +59,11 @@ export const HowItWorksPage = () => {
         }
       `}</style>
 
-      <main className="max-w-7xl mx-auto px-6 lg:px-8">
+      <main className="max-w-7xl mx-auto ">
         {/* 1. Hero Section */}
-        <section id="hero" className="text-center pt-[140px] pb-[120px] ">
+        <section id="hero" className="text-center pt-[140px] pb-[120px] relative ">
+         {/* <div className="absolute inset-0 bg-gradient-to-tr from-[#2BFF88]/15 to-transparent blur-3xl rounded-full" />  */}
+         <DigitalGridBackground /> 
           <h1 className="text-6xl sm:text-7xl lg:text-7xl mb-6 text-white font-semibold tracking-wide leading-[1.1]">
             <span className="text-[#2BFF88]">Value. Settled.</span>
             <br />

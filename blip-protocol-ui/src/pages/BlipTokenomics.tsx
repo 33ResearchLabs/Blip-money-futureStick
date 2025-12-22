@@ -528,7 +528,7 @@ export const BlipTokenomics = () => {
         </section>
 
         {/* Footer */}
-          <footer className="py-12 border-t border-gray-900 mt-12">
+          {/* <footer className="py-12 border-t border-gray-900 mt-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-400 text-sm">
           <p>
             &copy; <span id="year">2025</span> Blip.money Protocol. All rights
@@ -536,7 +536,7 @@ export const BlipTokenomics = () => {
             trustworthy.
           </p>
         </div>
-      </footer>
+      </footer> */}
       </div>
     </div>
   );

@@ -17,6 +17,8 @@ import NotFound from "./pages/NotFound";
 import BlipTokenomics from "./pages/BlipTokenomics";
 import ComingSoon from "./components/ComingSoon";
 import { HowItWorksPage } from "./pages/HowItWorks";
+import ContactUs from "./pages/ContactUs";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -30,7 +32,7 @@ const App = () => (
         <GoogleAnalytics />
         <StructuredData type="organization" />
         <StructuredData type="website" />
-
+        <ScrollToTop />
         <Routes>
           {/* LAYOUT ROUTE */}
           <Route element={<MainLayout />}>
@@ -40,6 +42,7 @@ const App = () => (
             <Route path="/uae" element={<UAELandingPage />} />
             <Route path="/coming-soon" element={<ComingSoon />} />
             <Route path="/howItWorks" element={<HowItWorksPage />} />
+            <Route path="/contact" element={<ContactUs />} />
           </Route>
 
           {/* 404 */}
