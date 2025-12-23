@@ -84,22 +84,23 @@ const ContactUs = () => {
       }, 1500);
     } catch (err) {
       console.error("Form submission error:", err);
-      setError("Failed to send message. Please try again or contact us directly.");
+      setError(
+        "Failed to send message. Please try again or contact us directly."
+      );
       setStatus("ACTIVE");
       setIsSubmitting(false);
     }
-  }; 
-
+  };
 
   const copyToClipboard = (text, key) => {
-    const textArea = document.createElement('textarea');
+    const textArea = document.createElement("textarea");
     textArea.value = text;
     document.body.appendChild(textArea);
     textArea.select();
     try {
-      document.execCommand('copy');
-      setCopied(prev => ({ ...prev, [key]: true }));
-      setTimeout(() => setCopied(prev => ({ ...prev, [key]: false })), 2000);
+      document.execCommand("copy");
+      setCopied((prev) => ({ ...prev, [key]: true }));
+      setTimeout(() => setCopied((prev) => ({ ...prev, [key]: false })), 2000);
     } catch (err) {}
     document.body.removeChild(textArea);
   };
@@ -182,77 +183,74 @@ const ContactUs = () => {
                 ))}
               </div>
 
-              
+              <div className="space-y-6">
+                <p className="text-sm uppercase tracking-widest text-gray-500 font-semibold">
+                  Contact Us
+                </p>
 
-        
-
-<div className="space-y-6">
-  <p className="text-sm uppercase tracking-widest text-gray-500 font-semibold">
-    Contact Us
-  </p>
-
-  <div className="grid grid-cols-1 gap-4">
-    {/* Email Node */}
-    <button
-      type="button"
-      onClick={() => copyToClipboard("contact@blip.money", "email")}
-      className="w-full flex items-center justify-between p-4 rounded-xl
+                <div className="grid grid-cols-1 gap-4">
+                  {/* Email Node */}
+                  <button
+                    type="button"
+                    onClick={() =>
+                      copyToClipboard("contact@blip.money", "email")
+                    }
+                    className="w-full flex items-center justify-between p-4 rounded-xl
         bg-white/[0.02] border border-white/5
         hover:border-[#00FF94]/30 transition-all
         cursor-pointer group"
-      aria-label="Copy email address"
-    >
-      <div className="flex items-center space-x-4">
-        <div className="w-10 h-10 rounded-lg bg-[#00FF94]/5 flex items-center justify-center border border-[#00FF94]/10 group-hover:bg-[#00FF94]/10 transition-colors">
-          <Mail className="w-4 h-4 text-[#00FF94]" />
-        </div>
+                    aria-label="Copy email address"
+                  >
+                    <div className="flex items-center space-x-4">
+                      <div className="w-10 h-10 rounded-lg bg-[#00FF94]/5 flex items-center justify-center border border-[#00FF94]/10 group-hover:bg-[#00FF94]/10 transition-colors">
+                        <Mail className="w-4 h-4 text-[#00FF94]" />
+                      </div>
 
-        <div className="flex flex-col text-left">
-          <span className="text-[10px] uppercase font-black tracking-widest text-gray-500">
-            Digital Gateway
-          </span>
-          <span className="text-sm text-white tracking-tight">
-            contact@blip.money
-          </span>
-        </div>
-      </div>
+                      <div className="flex flex-col text-left">
+                        <span className="text-[10px] uppercase font-black tracking-widest text-gray-500">
+                          Digital Gateway
+                        </span>
+                        <span className="text-sm text-white tracking-tight">
+                          contact@blip.money
+                        </span>
+                      </div>
+                    </div>
 
-      {copied.email ? (
-        <Check className="w-4 h-4 text-[#00FF94]" />
-      ) : (
-        <Copy className="w-4 h-4 text-gray-700 group-hover:text-[#00FF94]" />
-      )}
-    </button>
+                    {copied.email ? (
+                      <Check className="w-4 h-4 text-[#00FF94]" />
+                    ) : (
+                      <Copy className="w-4 h-4 text-gray-700 group-hover:text-[#00FF94]" />
+                    )}
+                  </button>
 
-    {/* Location Node */}
-    <a
-      href="https://www.google.com/maps/search/?api=1&query=JLT+Cluster+Y+Dubai"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="flex items-start space-x-4 p-4 rounded-xl
+                  {/* Location Node */}
+                  <a
+                    href="https://www.google.com/maps/search/?api=1&query=JLT+Cluster+Y+Dubai"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-start space-x-4 p-4 rounded-xl
         bg-white/[0.02] border border-white/5
         hover:border-[#00FF94]/30 transition-all
         cursor-pointer group"
-      aria-label="Open location in Google Maps"
-    >
-      <div className="w-10 h-10 rounded-lg bg-[#00FF94]/5 flex items-center justify-center border border-[#00FF94]/10 group-hover:bg-[#00FF94]/10 transition-colors">
-        <MapPin className="w-4 h-4 text-[#00FF94]" />
-      </div>
+                    aria-label="Open location in Google Maps"
+                  >
+                    <div className="w-10 h-10 rounded-lg bg-[#00FF94]/5 flex items-center justify-center border border-[#00FF94]/10 group-hover:bg-[#00FF94]/10 transition-colors">
+                      <MapPin className="w-4 h-4 text-[#00FF94]" />
+                    </div>
 
-      <div className="flex flex-col">
-        <span className="text-[10px] uppercase font-black tracking-widest text-gray-500">
-          Location
-        </span>
-        <span className="text-sm text-white tracking-tight leading-snug">
-          Blip Money, 9th Floor,<br />
-          JLT Cluster Y, Dubai, UAE
-        </span>
-      </div>
-    </a>
-  </div>
-</div>
-
-
+                    <div className="flex flex-col">
+                      <span className="text-[10px] uppercase font-black tracking-widest text-gray-500">
+                        Location
+                      </span>
+                      <span className="text-sm text-white tracking-tight leading-snug">
+                        Blip Money, 9th Floor,
+                        <br />
+                        JLT Cluster Y, Dubai, UAE
+                      </span>
+                    </div>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -320,7 +318,9 @@ const ContactUs = () => {
                         type="text"
                         placeholder="ANONYMOUS"
                         value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, name: e.target.value })
+                        }
                         className="w-full bg-transparent border-b border-white/10 py-2 text-white placeholder:text-gray-800 focus:outline-none focus:border-[#00FF94] transition-all  text-sm"
                       />
                     </div>
@@ -333,7 +333,9 @@ const ContactUs = () => {
                         type="email"
                         placeholder=" EMAIL"
                         value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, email: e.target.value })
+                        }
                         className="w-full bg-transparent border-b border-white/20 py-2 text-white placeholder:text-gray-800 focus:outline-none focus:border-[#00FF94] transition-all  text-sm"
                       />
                     </div>
@@ -346,7 +348,12 @@ const ContactUs = () => {
                     <div className="relative">
                       <select
                         value={formData.inquiryType}
-                        onChange={(e) => setFormData({ ...formData, inquiryType: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            inquiryType: e.target.value,
+                          })
+                        }
                         className="w-full appearance-none bg-white/[0.03] border border-white/5 rounded-lg px-4 py-4 text-sm text-gray-300 focus:outline-none focus:border-[#00FF94]/50 cursor-pointer uppercase tracking-widest font-bold"
                       >
                         {inquiryTypes.map((type) => (
@@ -372,7 +379,9 @@ const ContactUs = () => {
                       rows={4}
                       placeholder="ENTER MESSAGE CONTENT..."
                       value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, message: e.target.value })
+                      }
                       className="w-full bg-white/[0.03] border border-white/5 rounded-lg p-4 text-sm text-white placeholder:text-gray-800 focus:outline-none focus:border-[#00FF94]/50 transition-all resize-none "
                     ></textarea>
                   </div>
@@ -396,7 +405,9 @@ const ContactUs = () => {
                   >
                     <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-700" />
                     <span className="relative z-10 flex items-center justify-center uppercase tracking-[0.2em] text-sm">
-                      {isSubmitting ? "Transmitting..." : "Establish Secure Connection"}
+                      {isSubmitting
+                        ? "Transmitting..."
+                        : "Establish Secure Connection"}
                       <Send className="w-4 h-4 ml-3 group-hover/btn:translate-x-1 transition-transform" />
                     </span>
                   </button>
@@ -421,7 +432,6 @@ const ContactUs = () => {
                       )}
                     </button>
                   </div> */}
-
                 </form>
               )}
             </div>

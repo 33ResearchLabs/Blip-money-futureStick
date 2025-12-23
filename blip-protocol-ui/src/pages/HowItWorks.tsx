@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 
-
-
 export const HowItWorksPage = () => {
   // Custom Color Constants mapped from the original HTML
   const colors = {
@@ -38,27 +36,6 @@ export const HowItWorksPage = () => {
 
   return (
     <div className="min-h-screen bg-[#000000] font-sans overflow-x-hidden ">
-      {/* Inject Fonts and Global Styles */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;700&display=swap');
-
-        body {
-          background-color: #000000;
-          background-image: radial-gradient(80% 60% at 50% 0%, rgba(0, 255, 160, 0.06), transparent 60%);
-        }
-
-        .text-[#2BFF88] {
-          background-image: linear-gradient(90deg, #00E599, #00FFB3);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-
-        .timeline-dot-shadow {
-          box-shadow: 0 0 0 4px #000000, 0 0 10px rgba(0, 229, 153, 0.35);
-        }
-      `}</style>
-
       <main className="max-w-7xl mx-auto ">
         {/* 1. Hero Section */}
         <section id="hero" className="text-center pt-[140px] pb-[120px] relative ">

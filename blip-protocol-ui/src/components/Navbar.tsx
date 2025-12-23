@@ -233,7 +233,13 @@ const {pathname} = useLocation()
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
 
         {/* Logo */}
-        <Link to="#hero"   className="flex items-center gap-2">
+        <Link to="#hero"   className="flex items-center gap-2"
+        onClick={() => {
+                const protocolSection = document.getElementById("hero");
+                if (protocolSection) {
+                  protocolSection.scrollIntoView({ behavior: "smooth" });
+                }
+              }}>
           <div className="relative">
             <div className="w-3 h-3 rounded-full bg-[#2BFF88] shadow-[0_0_10px_#2BFF88]" />
             <div className="absolute inset-0 rounded-full bg-[#2BFF88] animate-pulse opacity-50" />
@@ -246,7 +252,16 @@ const {pathname} = useLocation()
         {/* Desktop Menu */}
         <div className="hidden lg:flex items-center gap-10">
           <div className="flex gap-8 text-sm">
-            <Link to="/#protocol" className={navBase}>
+            <Link
+              to="/#protocol"
+              className={navBase}
+              onClick={() => {
+                const protocolSection = document.getElementById("protocol");
+                if (protocolSection) {
+                  protocolSection.scrollIntoView({ behavior: "smooth" });
+                }
+              }}
+            >
               {t("protocol")}
             </Link>
 
