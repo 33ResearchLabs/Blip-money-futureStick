@@ -457,6 +457,7 @@ const ComingSoon = () => {
       return () => cancelAnimationFrame(raf);
     }
   }, [location.pathname, location.hash, navigate]);
+
   const handleWaitlistSubmit = useCallback(
     (e) => {
       e.preventDefault();
