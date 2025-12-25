@@ -3,7 +3,7 @@ import {
   connectWallet,
   getWalletByUser,
   getWalletByAddress,
-} from "../controller/wallet.controller";
+} from "../controller/wallet.controller.js";
 
 const router = express.Router();
 

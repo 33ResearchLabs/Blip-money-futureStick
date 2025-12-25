@@ -4,7 +4,7 @@ import {
   getTasksByUser,
   updateTaskStatus,
   getTaskByType,
-} from "../controller/task.controller";
+} from "../controller/task.controller.js";
 
 const router = express.Router();
 

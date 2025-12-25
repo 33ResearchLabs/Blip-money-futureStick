@@ -4,7 +4,7 @@ import { Wallet } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export const WalletConnectButton = () => {
-  const { publicKey, disconnect, connected } = useWallet();
+  const { publicKey, disconnect, connected, connecting, wallet } = useWallet();
   const { setVisible } = useWalletModal();
   const [mounted, setMounted] = useState(false);
 
@@ -12,12 +12,30 @@ export const WalletConnectButton = () => {
     setMounted(true);
   }, []);
 
+  useEffect(() => {
+    console.log("🔍 Wallet Button State:", {
+      connected,
+      connecting,
+      hasPublicKey: !!publicKey,
+      publicKey: publicKey?.toBase58(),
+      walletName: wallet?.adapter.name,
+    });
+
+    if (connected && publicKey) {
+      console.log("✅ Wallet connected successfully:", publicKey.toBase58());
+    } else if (connected && !publicKey) {
+      console.error("⚠️ Wallet connected but no public key available!");
+    }
+  }, [connected, publicKey, connecting, wallet]);
+
   if (!mounted) return null;
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (connected) {
-      disconnect();
+      console.log("Disconnecting wallet...");
+      await disconnect();
     } else {
+      console.log("Opening wallet modal...");
       setVisible(true);
     }
   };
@@ -29,11 +47,14 @@ export const WalletConnectButton = () => {
   return (
     <button
       onClick={handleClick}
-      className="flex items-center gap-2 px-5 py-2 rounded-full border border-white/10 text-white text-sm hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all bg-black/40 backdrop-blur-sm"
+      disabled={connecting}
+      className="flex items-center gap-2 px-5 py-2 rounded-full border border-white/10 text-white text-sm hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all bg-black/40 backdrop-blur-sm disabled:opacity-50 disabled:cursor-not-allowed"
     >
       <Wallet className="w-4 h-4" />
       <span>
-        {connected && publicKey
+        {connecting
+          ? "Connecting..."
+          : connected && publicKey
           ? shortenAddress(publicKey.toBase58())
           : "Connect Wallet"}
       </span>

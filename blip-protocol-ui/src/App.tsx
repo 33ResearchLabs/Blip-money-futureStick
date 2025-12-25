@@ -19,37 +19,45 @@ import ComingSoon from "./components/ComingSoon";
 import { HowItWorksPage } from "./pages/HowItWorks";
 import ContactUs from "./pages/ContactUs";
 import ScrollToTop from "./components/ScrollToTop";
+import BlipAirdropHub from "./pages/JoinWaitlist";
+import { SolanaWalletProvider } from "./providers/SolanaWalletProvider";
+
+// Import wallet adapter CSS
+import "@solana/wallet-adapter-react-ui/styles.css";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
+    <SolanaWalletProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
 
-      <BrowserRouter>
-        <GoogleAnalytics />
-        <StructuredData type="organization" />
-        <StructuredData type="website" />
-        <ScrollToTop />
-        <Routes>
-          {/* LAYOUT ROUTE */}
-          <Route element={<MainLayout />}>
-            <Route path="/" element={<Index />} />
-            <Route path="/tokenomics" element={<BlipTokenomics />} />
-            <Route path="/rewards" element={<RewardsLanding />} />
-            <Route path="/uae" element={<UAELandingPage />} />
-            <Route path="/coming-soon" element={<ComingSoon />} />
-            <Route path="/howItWorks" element={<HowItWorksPage />} />
-            <Route path="/contact" element={<ContactUs />} />
-          </Route>
+        <BrowserRouter>
+          <GoogleAnalytics />
+          <StructuredData type="organization" />
+          <StructuredData type="website" />
+          <ScrollToTop />
+          <Routes>
+            {/* LAYOUT ROUTE */}
+            <Route element={<MainLayout />}>
+              <Route path="/" element={<Index />} />
+              <Route path="/airdrop" element={<BlipAirdropHub />} />
+              <Route path="/tokenomics" element={<BlipTokenomics />} />
+              <Route path="/rewards" element={<RewardsLanding />} />
+              <Route path="/uae" element={<UAELandingPage />} />
+              <Route path="/coming-soon" element={<ComingSoon />} />
+              <Route path="/howItWorks" element={<HowItWorksPage />} />
+              <Route path="/contact" element={<ContactUs />} />
+            </Route>
 
-          {/* 404 */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+            {/* 404 */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </SolanaWalletProvider>
   </QueryClientProvider>
 );
 

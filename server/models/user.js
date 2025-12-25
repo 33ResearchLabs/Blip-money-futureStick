@@ -19,7 +19,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+    },
 
+    referral_code: {
+      type: String,
+      trim: true,
     },
 
     status: {
@@ -28,6 +32,7 @@ const userSchema = new mongoose.Schema(
       default: "waitlisted",
       index: true,
     },
+
     lastLoginAt: {
       type: Date,
     },
@@ -41,8 +46,6 @@ const userSchema = new mongoose.Schema(
 userSchema.pre("validate", function (next) {
   if (!this.email && !this.phone) {
     next(new Error("Either email or phone number is required"));
-  } else {
-    next();
   }
 });
 

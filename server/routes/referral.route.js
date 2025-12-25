@@ -4,7 +4,7 @@ import {
   getReferralsByReferrer,
   getReferralByReferredUser,
   updateReferralRewardStatus,
-} from "../controller/referral.controller";
+} from "../controller/referral.controller.js"
 
 const router = express.Router();
 

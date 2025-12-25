@@ -22,10 +22,11 @@ import {
 import { WalletConnectButton } from "@/components/wallet/WalletConnectButton";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useToast } from "@/hooks/use-toast";
+import { airdropApi } from "@/services/Airdrop";
 
 const BlipAirdropHub = () => {
   // Solana Wallet Integration
-  const { publicKey, connected } = useWallet();
+  const { publicKey, connected, connecting, wallet } = useWallet();
   const { toast } = useToast();
 
   // Navigation & Identity State
@@ -39,6 +40,25 @@ const BlipAirdropHub = () => {
   const walletAddress = publicKey
     ? `${publicKey.toBase58().slice(0, 4)}...${publicKey.toBase58().slice(-4)}`
     : "";
+
+  // Debug wallet connection state
+  useEffect(() => {
+    console.log("📊 JoinWaitlist - Wallet State:", {
+      connected,
+      connecting,
+      publicKey: publicKey?.toBase58(),
+      walletName: wallet?.adapter.name,
+      currentView: view,
+    });
+
+    // If wallet connects, log it
+    if (connected && publicKey) {
+      console.log("🎉 Wallet connected in JoinWaitlist!", {
+        address: publicKey.toBase58(),
+        view: view,
+      });
+    }
+  }, [connected, connecting, publicKey, wallet, view]);
 
   // Dynamic Points & Tasks State
   const [points, setPoints] = useState(0);
@@ -107,58 +127,56 @@ const BlipAirdropHub = () => {
   // Effect: Save user data to backend when wallet connects
   useEffect(() => {
     const saveUserData = async () => {
-      if (connected && publicKey && view === "connect") {
-        setIsConnecting(true);
-        const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
+      if (!connected || !publicKey || view !== "connect") return;
 
-        try {
-          const response = await fetch(`${apiUrl}/api/save-user`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              email: email,
-              referral_code: referral_code,
-              wallet_address: publicKey.toBase58(),
-            }),
-          });
+      console.log("💾 Attempting to save user data:", {
+        wallet_address: publicKey.toBase58(),
+        email,
+        referral_code,
+        view,
+      });
 
-          if (!response.ok) {
-            throw new Error("Failed to save user data");
-          }
+      setIsConnecting(true);
 
-          const data = await response.json();
-          console.log("User data saved:", data);
+      try {
+        const response = await airdropApi.postAirdrop({
+          email: email,
+          referral_code: referral_code,
+          wallet_address: publicKey.toBase58(),
+        });
 
-          toast({
-            title: "Success!",
-            description: "Your wallet has been connected and data saved.",
-          });
+        console.log("✅ User data saved successfully:", response);
 
-          // Move to dashboard after successful save
-          setTimeout(() => {
-            setView("dashboard");
-            setIsConnecting(false);
-          }, 1000);
-        } catch (error) {
-          console.error("Error saving user data:", error);
+        toast({
+          title: "Success!",
+          description: "Your wallet has been connected and data saved.",
+        });
 
-          toast({
-            variant: "destructive",
-            title: "Error",
-            description: "Failed to save data. Please try again.",
-          });
-
-          setIsConnecting(false);
-          // Still move to dashboard even if save fails
+        setTimeout(() => {
           setView("dashboard");
-        }
+          setIsConnecting(false);
+        }, 1000);
+      } catch (error: any) {
+        console.error("❌ Error saving user data:", error);
+        console.error("Error response:", error.response?.data);
+        console.error("Error status:", error.response?.status);
+
+        // Still proceed to dashboard even if backend fails
+        toast({
+          title: "Wallet Connected",
+          description:
+            "Your wallet is connected. Some features may be limited.",
+        });
+
+        setTimeout(() => {
+          setView("dashboard");
+          setIsConnecting(false);
+        }, 1000);
       }
     };
 
     saveUserData();
-  }, [connected, publicKey, view, email, referral_code]);
+  }, [connected, publicKey, view, email, referral_code, toast]);
 
   // Actions
   const handleJoinWaitlist = (e) => {

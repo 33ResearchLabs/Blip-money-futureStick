@@ -5,11 +5,11 @@ import cookieParser from "cookie-parser";
 import http from "http";
 
 
-import { connectDB } from "./config/db.js"; 
+import { connectDB } from "./config/db.js";
 
 import userRoutes from "./routes/user.route.js";
-import walletRoutes from "./routes/wallet.routes.js";
-import taskRoutes from "./routes/task.routes.js";
+import walletRoutes from "./routes/wallet.route.js";
+import taskRoutes from "./routes/task.route.js";
 import referralRoutes from "./routes/referral.route.js";
 
 dotenv.config();
@@ -22,7 +22,7 @@ const server = http.createServer(app);
 
 // 🔧 Middlewares
 app.use(cors({
-  origin: true,
+  origin: process.env.CLIENT_URL,
   credentials: true,
 }));
 app.use(cookieParser());

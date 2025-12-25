@@ -3,7 +3,14 @@ import { signToken } from "../utils/jwt.js";
 
 export const loginOrRegister = async (req, res) => {
   try {
-    const { wallet_address, email, phone } = req.body;
+    const { wallet_address, email, phone, referral_code } = req.body;
+
+    console.log("📥 Login/Register request:", {
+      wallet_address,
+      email,
+      phone,
+      referral_code,
+    });
 
     if (!wallet_address) {
       return res.status(400).json({ message: "Wallet address is required" });
@@ -20,6 +27,12 @@ export const loginOrRegister = async (req, res) => {
     // ✅ LOGIN
     if (user) {
       user.lastLoginAt = new Date();
+
+      // Update referral_code if provided and not already set
+      if (referral_code && !user.referral_code) {
+        user.referral_code = referral_code;
+      }
+
       await user.save();
 
       const token = signToken({ id: user._id });
@@ -30,6 +43,8 @@ export const loginOrRegister = async (req, res) => {
         sameSite: "lax",
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
+
+      console.log("✅ User logged in:", user.wallet_address);
 
       return res.status(200).json({
         message: "Login successful",
@@ -43,6 +58,7 @@ export const loginOrRegister = async (req, res) => {
       wallet_address,
       email,
       phone,
+      referral_code,
       status: "connected",
       lastLoginAt: new Date(),
     });
@@ -56,13 +72,15 @@ export const loginOrRegister = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
+    console.log("✅ New user registered:", user.wallet_address);
+
     return res.status(201).json({
       message: "User registered successfully",
       user,
       isNewUser: true,
     });
   } catch (error) {
-    console.error(error);
+    console.error("❌ Error in loginOrRegister:", error);
     res.status(500).json({ message: error.message });
   }
 };
