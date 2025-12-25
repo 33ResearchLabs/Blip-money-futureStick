@@ -19,8 +19,11 @@ import ComingSoon from "./components/ComingSoon";
 import { HowItWorksPage } from "./pages/HowItWorks";
 import ContactUs from "./pages/ContactUs";
 import ScrollToTop from "./components/ScrollToTop";
-import BlipAirdropHub from "./pages/JoinWaitlist";
+import AirdropLogin from "./pages/AirdropLogin";
+import Dashboard from "./pages/Dashboard";
 import { SolanaWalletProvider } from "./providers/SolanaWalletProvider";
+import { AuthProvider } from "./contexts/AuthContext";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 // Import wallet adapter CSS
 import "@solana/wallet-adapter-react-ui/styles.css";
@@ -30,33 +33,47 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <SolanaWalletProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
 
-        <BrowserRouter>
-          <GoogleAnalytics />
-          <StructuredData type="organization" />
-          <StructuredData type="website" />
-          <ScrollToTop />
-          <Routes>
-            {/* LAYOUT ROUTE */}
-            <Route element={<MainLayout />}>
-              <Route path="/" element={<Index />} />
-              <Route path="/airdrop" element={<BlipAirdropHub />} />
-              <Route path="/tokenomics" element={<BlipTokenomics />} />
-              <Route path="/rewards" element={<RewardsLanding />} />
-              <Route path="/uae" element={<UAELandingPage />} />
-              <Route path="/coming-soon" element={<ComingSoon />} />
-              <Route path="/howItWorks" element={<HowItWorksPage />} />
-              <Route path="/contact" element={<ContactUs />} />
-            </Route>
+          <BrowserRouter>
+            <GoogleAnalytics />
+            <StructuredData type="organization" />
+            <StructuredData type="website" />
+            <ScrollToTop />
+            <Routes>
+              {/* PUBLIC ROUTES WITH LAYOUT */}
+              <Route element={<MainLayout />}>
+                <Route path="/" element={<Index />} />
+                <Route path="/tokenomics" element={<BlipTokenomics />} />
+                <Route path="/rewards" element={<RewardsLanding />} />
+                <Route path="/uae" element={<UAELandingPage />} />
+                <Route path="/coming-soon" element={<ComingSoon />} />
+                <Route path="/howItWorks" element={<HowItWorksPage />} />
+                <Route path="/contact" element={<ContactUs />} />
+              </Route>
 
-            {/* 404 */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
+              {/* AIRDROP LOGIN (NO LAYOUT) */}
+              <Route path="/airdrop" element={<AirdropLogin />} />
+
+              {/* PROTECTED DASHBOARD (NO LAYOUT) */}
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* 404 */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </AuthProvider>
     </SolanaWalletProvider>
   </QueryClientProvider>
 );
