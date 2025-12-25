@@ -8,17 +8,50 @@ import {
   Twitter,
   Users,
   BookOpen,
+  LogOut,
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useWallet } from "@solana/wallet-adapter-react";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 
 const Dashboard = () => {
-  const { user } = useAuth();
-  const { publicKey } = useWallet();
+  const { user, logout } = useAuth();
+  const { publicKey, disconnect } = useWallet();
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
   const walletAddress = publicKey
     ? `${publicKey.toBase58().slice(0, 4)}...${publicKey.toBase58().slice(-4)}`
     : "";
+
+  const handleLogout = async () => {
+    try {
+      console.log("🚪 Logging out...");
+
+      // Disconnect wallet
+      await disconnect();
+      console.log("✅ Wallet disconnected");
+
+      // Clear local auth state and call backend to clear HTTP-only cookie
+      await logout();
+      console.log("✅ Auth state cleared and cookie cleared");
+
+      toast({
+        title: "Logged out",
+        description: "You have been successfully logged out.",
+      });
+
+      navigate("/airdrop");
+    } catch (error) {
+      console.error("❌ Logout error:", error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to logout. Please try again.",
+      });
+    }
+  };
 
   // Dynamic Points & Tasks State
   const [points, setPoints] = useState(0);
@@ -170,6 +203,13 @@ const Dashboard = () => {
               <div className="w-8 h-8 rounded-full bg-[#39ff14]/10 border border-[#39ff14]/30 flex items-center justify-center">
                 <ShieldCheck className="text-[#39ff14]" size={16} />
               </div>
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 px-4 py-2 rounded-sm bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-zinc-600 transition-all text-xs font-bold uppercase tracking-wider text-zinc-300 hover:text-white"
+              >
+                <LogOut size={14} />
+                Logout
+              </button>
             </div>
           </div>
         </div>

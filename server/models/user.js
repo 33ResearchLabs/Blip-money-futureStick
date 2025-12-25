@@ -5,9 +5,9 @@ const userSchema = new mongoose.Schema(
   {
     email: {
       type: String,
-      unique: true,
       lowercase: true,
-      trim: true
+      trim: true,
+      sparse: true, // Allows multiple null/undefined, unique only when value exists
     },
 
     phone: {
@@ -30,7 +30,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ["waitlisted", "connected"],
       default: "waitlisted",
-      index: true,
     },
 
     lastLoginAt: {
@@ -42,11 +41,6 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-// ✅ Custom validation: email OR phone must exist
-userSchema.pre("validate", function (next) {
-  if (!this.email && !this.phone) {
-    next(new Error("Either email or phone number is required"));
-  }
-});
+
 
 export default mongoose.model("User", userSchema);

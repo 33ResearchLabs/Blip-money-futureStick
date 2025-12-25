@@ -90,3 +90,27 @@ export const logout = (req, res) => {
   res.clearCookie("token");
   res.status(200).json({ message: "Logged out successfully" });
 };
+
+export const getMe = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    console.log("✅ Session verified for user:", user.wallet_address);
+
+    return res.status(200).json({
+      user: {
+        wallet_address: user.wallet_address,
+        email: user.email,
+        referral_code: user.referral_code,
+        status: user.status,
+      }
+    });
+  } catch (error) {
+    console.error("❌ Error in getMe:", error);
+    res.status(500).json({ message: error.message });
+  }
+};

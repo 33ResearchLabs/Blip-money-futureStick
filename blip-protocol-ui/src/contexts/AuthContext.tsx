@@ -1,5 +1,12 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
+import { api } from "@/services/api"; // axios instance withCredentials:true
 
 interface User {
   wallet_address: string;
@@ -12,57 +19,104 @@ interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   login: (userData: User) => void;
-  logout: () => void;
+  logout: () => Promise<void>;
   isLoading: boolean;
+  refreshSession: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { publicKey, connected } = useWallet();
 
-  // Check for existing session on mount
-  useEffect(() => {
-    const storedUser = localStorage.getItem("blip_user");
-    if (storedUser) {
-      try {
-        const parsedUser = JSON.parse(storedUser);
-        setUser(parsedUser);
-      } catch (error) {
-        console.error("Error parsing stored user:", error);
-        localStorage.removeItem("blip_user");
+  /**
+   * 🔄 Verify session using cookies
+   * Backend reads httpOnly cookie and returns user
+   */
+  const refreshSession = async () => {
+    try {
+      setIsLoading(true);
+
+      // api.get returns response.data due to interceptor (see api.ts line 27)
+      const response: any = await api.get("/user/me"); // cookie auto-sent
+
+      if (response?.user) {
+        console.log("✅ Session restored from cookie:", response.user);
+        setUser(response.user);
+      } else {
+        console.log("❌ No session found");
+        setUser(null);
       }
+    } catch (error) {
+      console.log("❌ Session refresh failed:", error);
+      setUser(null);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
+  };
+
+  /**
+   * ✅ Check session on app load
+   */
+  useEffect(() => {
+    refreshSession();
   }, []);
 
-  // Sync with wallet connection
+  /**
+   * 🔐 Wallet ↔ session consistency check
+   */
   useEffect(() => {
     if (!connected || !publicKey) {
-      // Wallet disconnected, clear user
       setUser(null);
-      localStorage.removeItem("blip_user");
+      return;
     }
-  }, [connected, publicKey]);
 
+    if (user && user.wallet_address !== publicKey.toBase58()) {
+      console.warn("⚠️ Wallet mismatch, clearing session");
+      setUser(null);
+    }
+  }, [connected, publicKey, user]);
+
+  /**
+   * ✅ Called after successful backend login/signup
+   * (cookie already set by backend)
+   */
   const login = (userData: User) => {
-    console.log("🔐 Logging in user:", userData);
     setUser(userData);
-    localStorage.setItem("blip_user", JSON.stringify(userData));
   };
 
-  const logout = () => {
-    console.log("🚪 Logging out user");
-    setUser(null);
-    localStorage.removeItem("blip_user");
+  /**
+   * 🚪 Logout (clears cookie on backend)
+   */
+  const logout = async () => {
+    try {
+      console.log("🚪 Calling backend logout to clear HTTP-only cookie");
+      await api.post("/user/logout");
+      console.log("✅ Backend logout successful");
+    } catch (error) {
+      console.error("❌ Logout failed:", error);
+    } finally {
+      setUser(null);
+    }
   };
 
-  const isAuthenticated = !!user && connected && !!publicKey;
+  const isAuthenticated = !!user && connected && !!publicKey && !isLoading;
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, login, logout, isLoading }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        isAuthenticated,
+        login,
+        logout,
+        isLoading,
+        refreshSession,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -70,8 +124,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
+  if (!context) {
+    throw new Error("useAuth must be used within AuthProvider");
   }
   return context;
 };
