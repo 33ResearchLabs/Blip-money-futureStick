@@ -8,16 +8,17 @@ import User from "../models/user.js";
  */
 export const connectWallet = async (req, res) => {
   try {
-    const { wallet_address, user_id } = req.body;
+    const { wallet_address } = req.body;
+     const userId = req.user._id; 
 
-    if (!wallet_address || !user_id) {
+    if (!wallet_address || !userId) {
       return res.status(400).json({
         message: "wallet_address and user_id are required",
       });
     }
 
     // 🔍 Check user exists
-    const user = await User.findById(user_id);
+    const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({
         message: "User not found",
@@ -35,7 +36,7 @@ export const connectWallet = async (req, res) => {
     // ✅ Create wallet
     const wallet = await Wallet.create({
       wallet_address,
-      user_id,
+      userId,
     });
 
     // ✅ Update user status (optional but logical)
@@ -61,7 +62,7 @@ export const connectWallet = async (req, res) => {
  */
 export const getWalletByUser = async (req, res) => {
   try {
-    const { user_id } = req.params;
+    const { user_id } = req.user._id;
 
     const wallet = await Wallet.findOne({ user_id }).populate(
       "user_id",
