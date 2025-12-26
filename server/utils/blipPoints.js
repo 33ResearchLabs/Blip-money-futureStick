@@ -1,0 +1,1 @@
+export const REGISTER_BONUS_POINTS = 500;

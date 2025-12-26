@@ -33,7 +33,10 @@ const BlipAirdropHub = () => {
   const [email, setEmail] = useState("");
   const [referral_code, setReferralCode] = useState("");
   const [isConnecting, setIsConnecting] = useState(false);
-
+  console.log("connection", connected);
+  console.log("connecting", connecting);
+  console.log("wallet", wallet);
+  console.log("public key", publicKey);
   // Derived state from wallet
   const isWalletConnected = connected;
   const walletAddress = publicKey

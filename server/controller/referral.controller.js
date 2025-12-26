@@ -1,5 +1,5 @@
-import Referral from "../models/referral.js";
-import User from "../models/user.js";
+import Referral from "../models/referral.model.js";
+import User from "../models/user.model.js";
 
 /**
  * CREATE REFERRAL
