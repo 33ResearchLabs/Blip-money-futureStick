@@ -5,13 +5,13 @@ import {
   updateTaskStatus,
   getTaskByType,
 } from "../controller/task.controller.js";
-
+import { protect } from "../middlewares/auth.middleware.js";
 const router = express.Router();
 
 /**
  * POST /api/tasks
  */
-router.post("/", createTask);
+router.post("/",protect, createTask);
 
 /**
  * GET /api/tasks/user/:user_id

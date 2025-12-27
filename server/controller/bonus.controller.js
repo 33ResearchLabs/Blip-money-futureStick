@@ -1,5 +1,6 @@
 import UserBlipPoint from "../models/UserBlipPoint.js";
 import BlipPointLog from "../models/BlipPointLog.js";
+import Referral from "../models/referral.js";
 
 export const applyBonus = async (req, res) => {
   try {
@@ -17,13 +18,39 @@ export const applyBonus = async (req, res) => {
       CROSS_BORDER_SWAP: 750,
     };
 
-    const bonusPoints = BONUS_MAP[label];
+    const ACTION_MAP = {
+      TWITTER_FOLLOW: "FOLLOW_TWITTER",
+      TELEGRAM_JOIN: "JOIN_TELEGRAM",
+      WHITEPAPER_READ: "WHITEPAPER_READ",
+      CROSS_BORDER_SWAP: "CROSS_BORDER_SWAP",
+    };
 
-    if (!bonusPoints) {
+    const bonusPoints = BONUS_MAP[label];
+    const referralAction = ACTION_MAP[label];
+
+    if (!bonusPoints || !referralAction) {
       return res.status(400).json({ message: "Invalid bonus label" });
     }
 
-    // 🔎 Find or create user blip points
+    // 🔎 Find referral (ONLY if user was referred)
+    const referral = await Referral.findOne({
+      referred_user_id: userId,
+    });
+
+    // 🔁 Prevent duplicate bonus for same action
+    if (referral) {
+      const action = referral.actions.find(
+        (a) => a.action === referralAction
+      );
+
+      if (action && action.completed) {
+        return res.status(400).json({
+          message: "Bonus already claimed for this action",
+        });
+      }
+    }
+
+    // 🔎 Find or create blip points
     let userBlipPoint = await UserBlipPoint.findOne({ userId });
 
     if (!userBlipPoint) {
@@ -37,13 +64,29 @@ export const applyBonus = async (req, res) => {
     userBlipPoint.points += bonusPoints;
     await userBlipPoint.save();
 
-    // 🧾 LOG ENTRY (FIXED)
+    // 🧾 Log
     await BlipPointLog.create({
       userId,
-      bonusPoints: bonusPoints,         
-      totalPoints: userBlipPoint.points, 
+      bonusPoints,
+      totalPoints: userBlipPoint.points,
       event: label,
     });
+
+    // ✅ UPDATE REFERRAL ACTION (MAIN REQUIREMENT)
+    if (referral) {
+      await Referral.updateOne(
+        {
+          referred_user_id: userId,
+          "actions.action": referralAction,
+        },
+        {
+          $set: {
+            "actions.$.completed": true,
+            "actions.$.completedAt": new Date(),
+          },
+        }
+      );
+    }
 
     return res.status(200).json({
       message: "Bonus applied successfully",

@@ -8,7 +8,8 @@ const referralActionSchema = new mongoose.Schema(
         "REGISTER",
         "FOLLOW_TWITTER",
         "JOIN_TELEGRAM",
-        "JOIN_DISCORD",
+        "WHITEPAPER_READ",
+        "CROSS_BORDER_SWAP"
       ],
       required: true,
     },
@@ -51,8 +52,10 @@ const referralSchema = new mongoose.Schema(
       type: [referralActionSchema],
       default: [
         { action: "REGISTER", completed: true, completedAt: new Date() },
-        { action: "FOLLOW_TWITTER", completed: false },
-        { action: "JOIN_TELEGRAM", completed: false },
+        { action: "TWITTER_FOLLOW", completed: false },
+        { action: "TELEGRAM_JOIN", completed: false },
+        { action: "WHITEPAPER_READ", completed:false},
+        { action: "CROSS_BORDER_SWAP", completed:false}
       ],
     },
 

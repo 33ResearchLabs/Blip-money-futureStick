@@ -6,37 +6,41 @@ import Task from "../models/task.js";
  */
 export const createTask = async (req, res) => {
   try {
-    const { user_id, task_type, proof_data } = req.body;
+    const { task_type, proof_data } = req.body;
 
-    if (!user_id || !task_type) {
+    if (!task_type) {
       return res.status(400).json({
-        message: "user_id and task_type are required",
+        message: "task_type is required",
       });
     }
 
+    // logged-in user only
+    const user_id = req.user._id;
+  
     const task = await Task.create({
       user_id,
-      task_type,
-      proof_data,
+      task_type,       // must be: follow | post | quiz | verification
+      proof_data,      // must be object
     });
-
+   
     return res.status(201).json({
       message: "Task created successfully",
       task,
     });
   } catch (error) {
-    // Duplicate task error (unique index)
     if (error.code === 11000) {
       return res.status(409).json({
         message: "Task already exists for this user",
       });
     }
 
-    res.status(500).json({
+    return res.status(500).json({
       message: error.message,
     });
   }
 };
+
+
 
 /**
  * GET ALL TASKS BY USER

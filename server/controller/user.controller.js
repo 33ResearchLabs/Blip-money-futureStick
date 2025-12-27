@@ -3,7 +3,7 @@ import { signToken } from "../utils/jwt.js";
 import UserBlipPoint from "../models/UserBlipPoint.js";
 import BlipPointLog from "../models/BlipPointLog.js";
 import { REGISTER_BONUS_POINTS } from "../utils/blipPoints.js";
-import { generateReferralId } from "../utils/generateReferralId.js";
+import { generateReferralCode } from "../utils/generateReferralId.js";
 import jwt from 'jsonwebtoken'
 import referral from "../models/referral.js";
 /**
@@ -16,24 +16,22 @@ const generateToken = (userId) => {
     expiresIn: "7d",
   });
 };
+
+
 export const registerAndLoginUser = async (req, res) => {
   try {
-    const { email, phone,  wallet_address, referralCode } = req.body;
+    const { email, phone, wallet_address, referralCode } = req.body;
 
     // 1️⃣ Validation
     if (!email && !phone) {
-      return res
-        .status(400)
-        .json({ message: "Email or phone is required" });
+      return res.status(400).json({ message: "Email or phone is required" });
     }
 
     if (!wallet_address) {
-      return res
-        .status(400)
-        .json({ message: "Wallet address is required" });
+      return res.status(400).json({ message: "Wallet address is required" });
     }
 
-    // 2️⃣ Check if user already exists
+    // 2️⃣ Check if user exists
     let user = await User.findOne({
       $or: [
         email ? { email } : null,
@@ -48,6 +46,20 @@ export const registerAndLoginUser = async (req, res) => {
      * =====================
      */
     if (user) {
+      user.lastLoginAt = new Date();
+      await user.save();
+
+      const token = signToken(user._id);
+
+      // ✅ COOKIE SET (MAIN FIX)
+      res.cookie("token", token, {
+        httpOnly: true,
+        sameSite: process.env.NODE_ENV === "dev" ? "none" : "lax",
+        secure: process.env.NODE_ENV === "dev",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      });
+
+
       return res.status(200).json({
         success: true,
         message: "Login successful",
@@ -57,6 +69,7 @@ export const registerAndLoginUser = async (req, res) => {
           email: user.email,
           phone: user.phone,
           wallet_address: user.wallet_address,
+          referralCode: user.referralCode,
         },
       });
     }
@@ -66,22 +79,31 @@ export const registerAndLoginUser = async (req, res) => {
      * REGISTER FLOW
      * =====================
      */
+
+    // 🔑 generate self referral code (ALWAYS)
+    const selfReferralCode = await generateReferralCode({
+      wallet_address,
+      email,
+    });
+
     user = await User.create({
       email,
       phone,
       wallet_address,
+      referralCode: selfReferralCode,
+      lastLoginAt: new Date(),
     });
 
     /**
      * =====================
-     * REFERRAL LOGIC (only on register)
+     * REFERRAL MAPPING (IF CODE PROVIDED)
      * =====================
      */
     if (referralCode) {
       const referrer = await User.findOne({ referralCode });
 
-      // prevent self-referral
       if (referrer && referrer._id.toString() !== user._id.toString()) {
+        // Referral record
         await referral.create({
           referrer_id: referrer._id,
           referred_user_id: user._id,
@@ -94,14 +116,61 @@ export const registerAndLoginUser = async (req, res) => {
             },
             { action: "FOLLOW_TWITTER", completed: false },
             { action: "JOIN_TELEGRAM", completed: false },
+            { action: "WHITEPAPER_READ", completed: false },
+            { action: "CROSS_BORDER_SWAP", completed: false }
           ],
         });
+
+        // ✅ 1️⃣ Referrer ke document me new user add
+        await User.updateOne(
+          { _id: referrer._id },
+          { $addToSet: { referredByUsers: user._id } }
+        );
+
+        // ✅ 2️⃣ New user ke document me referrer ka userId save
+        await User.updateOne(
+          { _id: user._id },
+          { $addToSet: { referredByUsers: referrer._id } }
+        );
       }
     }
 
-    await User.findByIdAndUpdate(user._id, {$set : })
+    /**
+     * =====================
+     * REGISTER BONUS + LOG
+     * =====================
+     */
+    await UserBlipPoint.create({
+      userId: user._id,
+      points: REGISTER_BONUS_POINTS,
+    });
 
-    // 3️⃣ Send response
+
+    await BlipPointLog.create({
+      userId: user._id,
+      bonusPoints: REGISTER_BONUS_POINTS,
+      type: "CREDIT",
+      event: "REGISTER", // ✅ REQUIRED FIELD
+
+    });
+
+    /**
+     * =====================
+     * RESPONSE
+     * =====================
+     * 
+     * 
+     */
+
+    const token = signToken(user._id);
+
+    // ✅ COOKIE SET (REGISTER)
+    res.cookie("token", token, {
+      httpOnly: true,
+      sameSite: process.env.NODE_ENV === "dev" ? "none" : "lax",
+      secure: process.env.NODE_ENV === "dev",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
     return res.status(201).json({
       success: true,
       message: "User registered successfully",
@@ -111,6 +180,7 @@ export const registerAndLoginUser = async (req, res) => {
         email: user.email,
         phone: user.phone,
         wallet_address: user.wallet_address,
+        referralCode: user.referralCode,
       },
     });
   } catch (error) {
@@ -118,6 +188,7 @@ export const registerAndLoginUser = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
+
 
 
 

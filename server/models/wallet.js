@@ -17,6 +17,10 @@ const walletSchema = new mongoose.Schema(
       required: true,
       index: true,
     },
+    wallet_age:{
+      type:String,
+
+    },
 
     wallet_connection_timestamp: {
       type: Date,

@@ -1,16 +1,21 @@
 import crypto from "crypto";
+import User from "../models/user.js";
 
-export const generateReferralId = ({ email, walletAddress }) => {
-  const baseString = `${email || ""}:${walletAddress}`;
+export const generateReferralCode = async ({ wallet_address, email }) => {
+  let codeExists = true;
+  let code;
 
-  // create hash
-  const hash = crypto
-    .createHash("sha256")
-    .update(baseString)
-    .digest("hex");
+  while (codeExists) {
+    const base = `${wallet_address}${email || ""}${Date.now()}${Math.random()}`;
+    code = crypto
+      .createHash("sha256")
+      .update(base)
+      .digest("hex")
+      .substring(0, 8)
+      .toUpperCase();
 
-  // take random-looking part
-  const shortCode = hash.substring(0, 6).toUpperCase();
+    codeExists = await User.exists({ referralCode: code });
+  }
 
-  return `BLIP-${shortCode}`;
+  return code;
 };
