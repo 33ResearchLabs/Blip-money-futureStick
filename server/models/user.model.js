@@ -5,9 +5,9 @@ const userSchema = new mongoose.Schema(
   {
     email: {
       type: String,
-      unique: true,
       lowercase: true,
-      trim: true
+      trim: true,
+      sparse: true, // Allows multiple null/undefined, unique only when value exists
     },
 
     phone: {
@@ -19,8 +19,8 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
-
     },
+
     referralCode: {
       type: String,
       unique: true,
@@ -38,8 +38,8 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ["waitlisted", "connected"],
       default: "waitlisted",
-      index: true,
     },
+
     lastLoginAt: {
       type: Date,
     },
@@ -48,6 +48,7 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
 
 // ✅ Custom validation: email OR phone must exist
 userSchema.pre("validate", function () {

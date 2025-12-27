@@ -1,5 +1,5 @@
-import Wallet from "../models/wallet.js";
-import User from "../models/user.js";
+import Wallet from "../models/wallet.model.js";
+import User from "../models/user.model.js";
 
 /**
  * CREATE / CONNECT WALLET
@@ -9,7 +9,7 @@ import User from "../models/user.js";
 export const connectWallet = async (req, res) => {
   try {
     const { wallet_address } = req.body;
-     const userId = req.user._id; 
+    const userId = req.user._id;
 
     if (!wallet_address || !userId) {
       return res.status(400).json({

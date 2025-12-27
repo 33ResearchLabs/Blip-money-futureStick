@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 import http from "http";
 
 
-import { connectDB } from "./config/db.js"; 
+import { connectDB } from "./config/db.js";
 
 import userRoutes from "./routes/user.route.js";
 import walletRoutes from "./routes/wallet.route.js";
@@ -23,7 +23,7 @@ const server = http.createServer(app);
 
 // 🔧 Middlewares
 app.use(cors({
-  origin: true,
+  origin: process.env.CLIENT_URL,
   credentials: true,
 }));
 app.use(cookieParser());

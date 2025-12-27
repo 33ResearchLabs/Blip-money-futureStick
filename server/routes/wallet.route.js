@@ -10,12 +10,12 @@ const router = express.Router();
 /**
  * POST /api/wallet/connect
  */
-router.post("/connect", protect,connectWallet);
+router.post("/connect", protect, connectWallet);
 
 /**
  * GET /api/wallet/user/:user_id
  */
-router.get("/me", protect,getWalletByUser);
+router.get("/me", protect, getWalletByUser);
 
 /**
  * GET /api/wallet/address/:wallet_address

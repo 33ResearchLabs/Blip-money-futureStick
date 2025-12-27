@@ -1,6 +1,7 @@
 import UserBlipPoint from "../models/UserBlipPoint.js";
 import BlipPointLog from "../models/BlipPointLog.js";
 import Referral from "../models/referral.js";
+import UserBlipPoint from "../models/userBlipPoints.model.js";
 
 export const applyBonus = async (req, res) => {
   try {
@@ -67,7 +68,7 @@ export const applyBonus = async (req, res) => {
     // 🧾 Log
     await BlipPointLog.create({
       userId,
-      bonusPoints,
+      bonusPoints: bonusPoints,
       totalPoints: userBlipPoint.points,
       event: label,
     });
