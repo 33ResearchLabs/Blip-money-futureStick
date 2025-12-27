@@ -179,7 +179,6 @@ const Dashboard = () => {
               <span className="text-zinc-500 text-lg font-normal">.money</span>
             </span>
           </div>
-
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-6 mr-4 border-r border-zinc-800 pr-6">
               <div className="flex flex-col items-end">

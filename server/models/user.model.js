@@ -25,6 +25,17 @@ const userSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    referralCode: {
+      type: String,
+      unique: true,
+      index: true,
+    },
+    referredByUsers: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      }
+    ],
 
     status: {
       type: String,
@@ -42,5 +53,11 @@ const userSchema = new mongoose.Schema(
 );
 
 
+// ✅ Custom validation: email OR phone must exist
+userSchema.pre("validate", function () {
+  if (!this.email && !this.phone) {
+    this.invalidate("email", "Either email or phone number is required");
+  }
+});
 
 export default mongoose.model("User", userSchema);
