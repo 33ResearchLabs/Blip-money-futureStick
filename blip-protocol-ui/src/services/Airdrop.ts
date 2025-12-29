@@ -2,7 +2,7 @@ import { api } from "./api";
 
 interface AirdropLoginData {
   email: string;
-  referral_code: string;
+  referralCode: string;
   wallet_address: string;
 }
 

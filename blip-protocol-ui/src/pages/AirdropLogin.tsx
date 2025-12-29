@@ -64,7 +64,7 @@ const AirdropLogin = () => {
       try {
         const response = await airdropApi.postAirdrop({
           email: email,
-          referral_code: referral_code,
+          referralCode: referral_code,
           wallet_address: publicKey.toBase58(),
         });
 
