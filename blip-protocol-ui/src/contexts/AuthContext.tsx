@@ -12,6 +12,7 @@ interface User {
   wallet_address: string;
   email?: string;
   referral_code?: string;
+  referralCode?: string;
   isNewUser?: boolean;
 }
 

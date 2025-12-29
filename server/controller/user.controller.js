@@ -236,3 +236,32 @@ export const logout = (req, res) => {
   res.clearCookie("token");
   res.status(200).json({ message: "Logged out successfully" });
 };
+/**
+ * ============================
+ * GET CURRENT USER (ME)
+ * ============================
+ */
+export const getMe = async (req, res) => {
+  try {
+    // req.user is attached by protect middleware
+    const user = req.user;
+
+    if (!user) {
+      return res.status(401).json({ message: "Not authenticated" });
+    }
+
+    return res.status(200).json({
+      success: true,
+      user: {
+        id: user._id,
+        email: user.email,
+        phone: user.phone,
+        wallet_address: user.wallet_address,
+        referralCode: user.referralCode,
+      },
+    });
+  } catch (error) {
+    console.error("GetMe error:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};

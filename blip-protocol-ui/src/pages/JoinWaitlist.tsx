@@ -18,6 +18,10 @@ import {
   ArrowLeft,
   Loader2,
   HandCoins,
+  Zap,
+  Layers,
+  Shield,
+  Activity,
 } from "lucide-react";
 import { WalletConnectButton } from "@/components/wallet/WalletConnectButton";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -306,58 +310,140 @@ const BlipAirdropHub = () => {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-6 pt-12 pb-24">
         {/* STEP 0: LANDING */}
+        {/* STEP 0: ENHANCED LANDING */}
         {view === "landing" && (
-          <div className="flex flex-col items-center text-center max-w-3xl mx-auto py-12 lg:py-24 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#39ff14]/5 border border-[#39ff14]/20 text-[#39ff14] text-xs font-bold uppercase tracking-widest mb-8">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#39ff14] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#39ff14]"></span>
-              </span>
-              Mainnet Alpha Live
-            </div>
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-white mb-6 leading-[1.1]">
-              Join the{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-zinc-600">
-                Blip.money
-              </span>{" "}
-              Airdrop
-            </h1>
-            <p className="text-lg md:text-xl text-zinc-400 mb-10 leading-relaxed max-w-2xl">
-              The first privacy-preserving institutional payment protocol. Build
-              your on-chain reputation and earn allocation by participating in
-              network testing.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center gap-4">
-              <button
-                onClick={() => setView("waitlist")}
-                className="w-full sm:w-auto bg-[#39ff14] text-black px-10 py-4 rounded-sm font-black text-sm uppercase tracking-widest hover:bg-[#32e012] transition-all shadow-[0_10px_30px_-10px_rgba(57,255,20,0.3)] active:scale-95 flex items-center justify-center gap-2"
-              >
-                Join Waitlist <ChevronRight size={18} strokeWidth={3} />
-              </button>
+          <div className="animate-in fade-in duration-700">
+            {/* Hero Section */}
+            <div className="flex flex-col lg:flex-row items-center gap-16 py-20 lg:py-32">
+              <div className="flex-1 max-w-2xl">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-[#39ff14]/5 border border-[#39ff14]/20 text-[#39ff14] text-[10px] font-bold uppercase tracking-widest mb-10">
+                  <Activity size={12} className="animate-pulse" />
+                  Mainnet Alpha: Live Verification
+                </div>
+                <h1 className="text-6xl md:text-8xl font-bold tracking-tighter text-white mb-8 leading-[0.95] selection:bg-[#39ff14] selection:text-black">
+                  Earn in a Blip.
+                </h1>
+                <p className="text-xl text-zinc-500 mb-12 leading-relaxed max-w-xl">
+                  Support the first privacy-preserving institutional payment
+                  protocol. Earn rewards by validating network integrity and
+                  contributing to the global on-chain bridge.
+                </p>
+                <div className="flex flex-col sm:flex-row items-center gap-4">
+                  <button
+                    onClick={() => setView("waitlist")}
+                    className="w-full sm:w-auto bg-[#39ff14] text-black px-12 py-5 rounded-sm font-black text-[11px] uppercase tracking-[0.2em] hover:bg-[#32e012] transition-all shadow-[0_20px_40px_-15px_rgba(57,255,20,0.25)] active:scale-95 flex items-center justify-center gap-3"
+                  >
+                    Join Hub <ChevronRight size={16} strokeWidth={3} />
+                  </button>
+                  <button className="w-full sm:w-auto px-12 py-5 border border-zinc-800 rounded-sm font-bold text-[11px] uppercase tracking-[0.2em] text-zinc-400 hover:bg-zinc-900 transition-all">
+                    Read Whitepaper
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex-1 w-full lg:w-auto relative group">
+                {/* Visual Decorative Element: Abstract Terminal Card */}
+                <div className="bg-[#0c0c0c] border border-zinc-800 p-8 rounded-sm shadow-2xl relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#39ff14]/20 to-transparent" />
+                  <div className="flex justify-between items-center mb-8 pb-4 border-b border-zinc-900">
+                    <span className="text-[10px] font-mono text-zinc-500 uppercase">
+                      Protocol_Status
+                    </span>
+                    <span className="text-[10px] font-mono text-[#39ff14]">
+                      100% Operational
+                    </span>
+                  </div>
+                  <div className="space-y-6">
+                    {[1, 2, 3].map((i) => (
+                      <div key={i} className="flex gap-4">
+                        <div className="w-10 h-1 rounded-full bg-zinc-900 overflow-hidden">
+                          <div className="h-full bg-zinc-800 w-1/3 animate-ping" />
+                        </div>
+                        <div className="flex-1 space-y-2">
+                          <div className="h-2 w-full bg-zinc-900 rounded-sm" />
+                          <div className="h-2 w-2/3 bg-zinc-900 rounded-sm" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-12 flex items-end justify-between">
+                    <div className="space-y-1">
+                      <div className="text-[10px] text-zinc-600 font-bold uppercase">
+                        Volume (24h)
+                      </div>
+                      <div className="text-xl font-mono font-bold text-zinc-300 tracking-tighter">
+                        $14,293.00
+                      </div>
+                    </div>
+                    <div className="w-24 h-12 flex items-end gap-1">
+                      {[40, 60, 45, 80, 50, 90, 70].map((h, i) => (
+                        <div
+                          key={i}
+                          className="flex-1 bg-zinc-800 rounded-t-sm"
+                          style={{ height: `${h}%` }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                {/* Accent glow */}
+                <div className="absolute -inset-4 bg-[#39ff14]/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+              </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mt-32 w-full border-t border-zinc-900 pt-16">
-              <div className="flex flex-col items-center">
-                <span className="text-3xl font-bold text-white mb-2">
-                  18.4M
-                </span>
-                <span className="text-xs uppercase tracking-[0.2em] text-zinc-500 font-bold">
-                  Total Stake
-                </span>
+            {/* Feature Utility Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pb-32 border-t border-zinc-900 pt-20">
+              <div className="p-8 bg-zinc-900/20 border border-zinc-900 rounded-sm">
+                <Shield className="text-[#39ff14] mb-6" size={24} />
+                <h3 className="text-sm font-black uppercase tracking-[0.2em] text-white mb-4">
+                  Privacy Core.
+                </h3>
+                <p className="text-xs text-zinc-500 leading-relaxed">
+                  Every transaction is encrypted using zero-knowledge proofs.
+                  Privacy is no longer a luxury, it's a protocol standard.
+                </p>
               </div>
-              <div className="flex flex-col items-center">
-                <span className="text-3xl font-bold text-white mb-2">142K</span>
-                <span className="text-xs uppercase tracking-[0.2em] text-zinc-500 font-bold">
-                  Wallets
-                </span>
+              <div className="p-8 bg-zinc-900/20 border border-zinc-800/40 rounded-sm">
+                <Layers className="text-[#39ff14] mb-6" size={24} />
+                <h3 className="text-sm font-black uppercase tracking-[0.2em] text-white mb-4">
+                  Scalability.
+                </h3>
+                <p className="text-xs text-zinc-500 leading-relaxed">
+                  Processing thousands of transactions per second with near-zero
+                  latency. Built for the speed of institutional global finance.
+                </p>
               </div>
-              <div className="flex flex-col items-center">
-                <span className="text-3xl font-bold text-white mb-2">
-                  $4.2B
-                </span>
-                <span className="text-xs uppercase tracking-[0.2em] text-zinc-500 font-bold">
-                  Total Vol
-                </span>
+              <div className="p-8 bg-zinc-900/20 border border-zinc-900 rounded-sm">
+                <Zap className="text-[#39ff14] mb-6" size={24} />
+                <h3 className="text-sm font-black uppercase tracking-[0.2em] text-white mb-4">
+                  Instant Settlement.
+                </h3>
+                <p className="text-xs text-zinc-600 leading-relaxed">
+                  Eliminate wait times. Finality achieved in a blip, moving
+                  assets across borders in real-time.
+                </p>
+              </div>
+            </div>
+
+            {/* Network Trust Section */}
+            <div className="py-20 flex flex-col items-center border-t border-zinc-900 text-center">
+              <span className="text-[10px] font-bold text-zinc-600 uppercase tracking-[0.4em] mb-12">
+                Institutional Backing & Audits
+              </span>
+              <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-30 grayscale hover:grayscale-0 transition-all hover:opacity-100 cursor-default">
+                <div className="flex items-center gap-3 font-black text-xl tracking-tighter">
+                  CERTIK <div className="w-1 h-1 bg-[#39ff14] rounded-full" />
+                </div>
+                <div className="flex items-center gap-3 font-black text-xl tracking-tighter uppercase">
+                  Solana <div className="w-1 h-1 bg-[#39ff14] rounded-full" />
+                </div>
+                <div className="flex items-center gap-3 font-black text-xl tracking-tighter uppercase">
+                  TrailOfBits{" "}
+                  <div className="w-1 h-1 bg-[#39ff14] rounded-full" />
+                </div>
+                <div className="flex items-center gap-3 font-black text-xl tracking-tighter uppercase">
+                  Jump <div className="w-1 h-1 bg-[#39ff14] rounded-full" />
+                </div>
               </div>
             </div>
           </div>

@@ -7,7 +7,6 @@ import {
   ShieldCheck,
   Twitter,
   Users,
-  BookOpen,
   LogOut,
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
@@ -17,7 +16,7 @@ import { useToast } from "@/hooks/use-toast";
 import { airdropApi } from "@/services/Airdrop";
 
 const Dashboard = () => {
-  const { user, logout } = useAuth();
+  const { logout, user } = useAuth();
   const { publicKey, disconnect } = useWallet();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -28,17 +27,6 @@ const Dashboard = () => {
     WHITEPAPER_READ: "pending",
     CROSS_BORDER_SWAP: "pending",
   });
-
-  const [taskLoading, setTaskLoading] = useState({
-    TWITTER_FOLLOW: false,
-    TELEGRAM_JOIN: false,
-    WHITEPAPER_READ: false,
-    CROSS_BORDER_SWAP: false,
-  });
-
-  // const [walletAddress, setWalletAddress] = useState("");
-
-  const fullWalletAddress = publicKey ? publicKey.toBase58() : "";
 
   const displayWalletAddress = publicKey
     ? `${publicKey.toBase58().slice(0, 4)}...${publicKey.toBase58().slice(-4)}`
@@ -91,10 +79,6 @@ const Dashboard = () => {
 
     fetchPoints();
   }, []);
-  console.log("blippoints", blipPoints);
-
-  // Dynamic Points & Tasks State
-  const [points, setPoints] = useState(0);
 
   const StatusBadge = ({ status }: { status: string }) => {
     switch (status) {
@@ -214,8 +198,9 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchWalletStatus = async () => {
       try {
-        const res = await airdropApi.getWalletStatus();
-        setWalletConnected(!!res.data.connected);
+        const res: any = await airdropApi.getWalletStatus();
+        // res is already response.data due to axios interceptor
+        setWalletConnected(!!res.connected);
       } catch (err) {
         setWalletConnected(false);
       }
@@ -223,7 +208,7 @@ const Dashboard = () => {
 
     fetchWalletStatus();
   }, []);
-
+  console.log(user);
   return (
     <>
       <div className="min-h-screen bg-[#050505] text-zinc-100">
@@ -248,7 +233,7 @@ const Dashboard = () => {
                     Protocol Balance
                   </span>
                   <span className="text-[#39ff14] font-mono text-sm font-bold">
-                    {points} pts
+                    {blipPoints} pts
                   </span>
                 </div>
               </div>
@@ -305,7 +290,7 @@ const Dashboard = () => {
                 <div className="absolute bottom-0 left-0 w-full h-[2px] bg-zinc-800">
                   <div
                     className="h-full bg-[#39ff14] transition-all duration-1000"
-                    style={{ width: `${(points / 4000) * 100}%` }}
+                    style={{ width: `${(blipPoints / 4000) * 100}%` }}
                   />
                 </div>
               </div>
@@ -322,16 +307,18 @@ const Dashboard = () => {
               <div className="bg-[#39ff14]/5 border border-[#39ff14]/10 p-6 rounded-sm group cursor-pointer hover:bg-[#39ff14]/10 transition-all flex items-center justify-between">
                 <div>
                   <span className="text-[9px] font-black uppercase tracking-widest text-[#39ff14] block mb-1">
-                    Referral Boost
+                    Your Referral Code
                   </span>
-                  <span className="text-xs font-bold text-zinc-400">
-                    +15% Multiplier
+                  <span className="text-lg font-mono font-bold text-white tracking-wider">
+                    {user?.referralCode || "—"}
                   </span>
                 </div>
-                <ArrowUpRight
-                  className="text-[#39ff14] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
-                  size={18}
-                />
+                <div className="flex flex-col items-end">
+                  <span className="text-[9px] font-black uppercase tracking-widest text-zinc-500 mb-1">
+                    Bonus
+                  </span>
+                  <span className="text-xs font-bold text-[#39ff14]">+15%</span>
+                </div>
               </div>
             </div>
 
@@ -382,26 +369,23 @@ const Dashboard = () => {
                       </div>
 
                       <div className="flex items-center justify-between pt-4 border-t border-zinc-800/50">
-                        {/* <StatusBadge status="pending" /> */}
-                        <button
-                          onClick={handleConnectWallet}
-                          disabled={walletConnected || loading}
-                          className={`px-4 py-2 rounded font-bold transition ${
-                            walletConnected
-                              ? "bg-green-500/20 text-green-400 cursor-default"
-                              : "bg-[#39ff14] text-black hover:bg-[#2fe610]"
-                          }`}
-                        >
-                          {loading
-                            ? "Connecting..."
-                            : walletConnected
-                            ? "Wallet Already Connected"
-                            : "Connect Wallet"}
-                        </button>
+                        {walletConnected ? (
+                          <StatusBadge status="completed" />
+                        ) : (
+                          <button
+                            onClick={handleConnectWallet}
+                            disabled={loading}
+                            className="px-4 py-2 rounded font-bold transition bg-[#39ff14] text-black hover:bg-[#2fe610]"
+                          >
+                            {loading ? "Connecting..." : "Connect Wallet"}
+                          </button>
+                        )}
 
                         <ChevronRight
                           size={14}
-                          className="text-zinc-600 group-hover:translate-x-1 transition-transform"
+                          className={`text-zinc-600 transition-transform ${
+                            !walletConnected ? "group-hover:translate-x-1" : ""
+                          }`}
                         />
                       </div>
                     </div>

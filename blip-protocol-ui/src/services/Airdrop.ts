@@ -1,7 +1,13 @@
 import { api } from "./api";
 
+interface AirdropLoginData {
+  email: string;
+  referral_code: string;
+  wallet_address: string;
+}
+
 export const airdropApi = {
-  postAirdrop: async (data) => {
+  postAirdrop: async (data: AirdropLoginData) => {
     // api.post already returns response.data due to interceptor (see api.ts line 27)
     const response = await api.post("/user/login", data);
     return response;
@@ -27,7 +33,7 @@ export const airdropApi = {
     return res;
   },
 
-  // Apply Bonous
+  // Apply Bonus
   applyBonus: async (label: string) => {
   const res = await api.post("/bonus/apply", {
     label,
@@ -42,7 +48,7 @@ export const airdropApi = {
     return res;
   },
 
-  //  Fetch status of wallect connected or not
+  // Fetch status of wallet connected or not
   getWalletStatus: async () => {
     const res = await api.get("/wallet/status");
     return res;
