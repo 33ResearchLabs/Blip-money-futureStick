@@ -8,6 +8,8 @@ import {
   Twitter,
   Users,
   LogOut,
+  Check,
+  Copy,
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -31,6 +33,14 @@ const Dashboard = () => {
   const displayWalletAddress = publicKey
     ? `${publicKey.toBase58().slice(0, 4)}...${publicKey.toBase58().slice(-4)}`
     : "";
+
+  const followOnTwitter = () => {
+    window.open(
+      "https://twitter.com/intent/follow?screen_name=blipmoney_",
+      "_blank",
+      "noopener,noreferrer"
+    );
+  };
 
   const handleLogout = async () => {
     try {
@@ -84,7 +94,7 @@ const Dashboard = () => {
     switch (status) {
       case "completed":
         return (
-          <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-[#39ff14] bg-[#39ff14]/10 px-2 py-1 rounded border border-[#39ff14]/20">
+          <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-black bg-[#2BFF88] px-2 py-1 rounded border border-[#2BFF88]">
             <CheckCircle2 size={12} /> Claimed
           </span>
         );
@@ -209,15 +219,36 @@ const Dashboard = () => {
     fetchWalletStatus();
   }, []);
   console.log(user);
+
+  const code = user?.referralCode;
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    if (!code) return;
+
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+
+      toast.success("Copied", {
+        description: "Referral code copied to clipboard",
+      });
+
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      toast.error("Copy failed");
+    }
+  };
+
   return (
     <>
-      <div className="min-h-screen bg-[#050505] text-zinc-100">
+      <div className=" mt-16 bg-[#050505] text-zinc-100">
         {/* Navigation */}
-        <nav className="border-b border-zinc-800/50 bg-[#050505]/80 backdrop-blur-md sticky top-0 z-50">
+        {/* <nav className="border-b border-zinc-800/50 bg-[#050505]/80 backdrop-blur-md sticky top-0 z-50">
           <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded bg-zinc-900 border border-zinc-700 flex items-center justify-center">
-                <div className="w-1.5 h-1.5 bg-[#39ff14] rounded-full shadow-[0_0_8px_#39ff14]" />
+                <div className="w-1.5 h-1.5 bg-[#2BFF88] rounded-full shadow-[0_0_8px_#2BFF88]" />
               </div>
               <span className="text-xl font-bold tracking-tight">
                 Blip
@@ -232,7 +263,7 @@ const Dashboard = () => {
                   <span className="text-[9px] uppercase tracking-tighter text-zinc-500 font-bold">
                     Protocol Balance
                   </span>
-                  <span className="text-[#39ff14] font-mono text-sm font-bold">
+                  <span className="text-[#2BFF88] font-mono text-sm font-bold">
                     {blipPoints} pts
                   </span>
                 </div>
@@ -246,8 +277,8 @@ const Dashboard = () => {
                     {displayWalletAddress}
                   </span>
                 </div>
-                <div className="w-8 h-8 rounded-full bg-[#39ff14]/10 border border-[#39ff14]/30 flex items-center justify-center">
-                  <ShieldCheck className="text-[#39ff14]" size={16} />
+                <div className="w-8 h-8 rounded-full bg-[#2BFF88]/10 border border-[#2BFF88]/30 flex items-center justify-center">
+                  <ShieldCheck className="text-[#2BFF88]" size={16} />
                 </div>
                 <button
                   onClick={handleLogout}
@@ -259,7 +290,7 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-        </nav>
+        </nav> */}
 
         {/* Main Content */}
         <main className="max-w-7xl mx-auto px-6 pt-12 pb-24">
@@ -274,7 +305,7 @@ const Dashboard = () => {
                   <span className="text-xs font-bold text-zinc-200">
                     {displayWalletAddress}
                   </span>
-                  <div className="w-2 h-2 rounded-full bg-[#39ff14] shadow-[0_0_5px_#39ff14]" />
+                  <div className="w-2 h-2 rounded-full bg-[#2BFF88] shadow-[0_0_5px_#2BFF88]" />
                 </div>
               </div>
               <div className="bg-zinc-900/40 border border-zinc-800 p-6 rounded-sm relative overflow-hidden">
@@ -282,14 +313,14 @@ const Dashboard = () => {
                   Accumulated Points
                 </span>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-3xl font-black text-[#39ff14] tracking-tighter tabular-nums">
+                  <span className="text-3xl font-black text-[#2BFF88] tracking-tighter tabular-nums">
                     {blipPoints}
                   </span>
                 </div>
                 {/* Micro progress bar */}
                 <div className="absolute bottom-0 left-0 w-full h-[2px] bg-zinc-800">
                   <div
-                    className="h-full bg-[#39ff14] transition-all duration-1000"
+                    className="h-full bg-[#2BFF88] transition-all duration-1000"
                     style={{ width: `${(blipPoints / 4000) * 100}%` }}
                   />
                 </div>
@@ -304,20 +335,38 @@ const Dashboard = () => {
                   </span>
                 </div>
               </div>
-              <div className="bg-[#39ff14]/5 border border-[#39ff14]/10 p-6 rounded-sm group cursor-pointer hover:bg-[#39ff14]/10 transition-all flex items-center justify-between">
-                <div>
-                  <span className="text-[9px] font-black uppercase tracking-widest text-[#39ff14] block mb-1">
-                    Your Referral Code
-                  </span>
-                  <span className="text-lg font-mono font-bold text-white tracking-wider">
-                    {user?.referralCode || "—"}
-                  </span>
+              <div className="bg-[#2BFF88]/5 border border-[#2BFF88]/10 p-6 rounded-sm group cursor-pointer  transition-all flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div>
+                    <span className="text-[9px] font-black uppercase tracking-widest text-[#2BFF88] block mb-1">
+                      Your Referral Code
+                    </span>
+
+                    <span className="text-lg font-mono font-bold text-white tracking-wider">
+                      {code || "—"}
+                    </span>
+                  </div>
+
+                  {code && (
+                    <button
+                      onClick={handleCopy}
+                      className="p-2 rounded-md border border-white/10 hover:border-[#2BFF88] hover:bg-[#2BFF88]/10 transition"
+                      aria-label="Copy referral code"
+                    >
+                      {copied ? (
+                        <Check size={16} className="text-[#2BFF88]" />
+                      ) : (
+                        <Copy size={16} className="text-gray-400" />
+                      )}
+                    </button>
+                  )}
                 </div>
+
                 <div className="flex flex-col items-end">
                   <span className="text-[9px] font-black uppercase tracking-widest text-zinc-500 mb-1">
                     Bonus
                   </span>
-                  <span className="text-xs font-bold text-[#39ff14]">+15%</span>
+                  <span className="text-xs font-bold text-[#2BFF88]">+15%</span>
                 </div>
               </div>
             </div>
@@ -330,7 +379,7 @@ const Dashboard = () => {
                 </h2>
                 <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">
                   Update Frequency:{" "}
-                  <span className="text-[#39ff14]">Instant</span>
+                  <span className="text-[#2BFF88]">Instant</span>
                 </div>
               </div>
 
@@ -349,7 +398,7 @@ const Dashboard = () => {
                     <div className="group text-left p-6 bg-zinc-900/30 border border-zinc-800 rounded-sm hover:border-zinc-600 transition-all">
                       <div className="flex justify-between items-start mb-6">
                         <div>
-                          <h4 className="font-bold text-zinc-100 group-hover:text-[#39ff14]">
+                          <h4 className="font-bold text-zinc-100 group-hover:text-[#2BFF88]">
                             Initialize Private Vault
                           </h4>
                           <p className="text-[11px] text-zinc-500 mt-1 max-w-[240px]">
@@ -359,7 +408,7 @@ const Dashboard = () => {
                         </div>
 
                         <div className="text-right">
-                          <span className="text-sm font-mono font-bold text-[#39ff14]">
+                          <span className="text-sm font-mono font-bold text-[#2BFF88]">
                             +500
                           </span>
                           <div className="text-[8px] font-black uppercase text-zinc-600 tracking-widest">
@@ -368,14 +417,14 @@ const Dashboard = () => {
                         </div>
                       </div>
 
-                      <div className="flex items-center justify-between pt-4 border-t border-zinc-800/50">
+                      <div className="flex items-center justify-between pt-4 border-t border-zinc-800/50 ">
                         {walletConnected ? (
                           <StatusBadge status="completed" />
                         ) : (
                           <button
                             onClick={handleConnectWallet}
                             disabled={loading}
-                            className="px-4 py-2 rounded font-bold transition bg-[#39ff14] text-black hover:bg-[#2fe610]"
+                            className="px-4 py-2 rounded font-bold transition bg-[#2BFF88] text-black hover:bg-[#2BFF88] "
                           >
                             {loading ? "Connecting..." : "Connect Wallet"}
                           </button>
@@ -394,7 +443,7 @@ const Dashboard = () => {
                     <div className="group text-left p-6 bg-zinc-900/30 border border-zinc-800 rounded-sm hover:border-zinc-600 transition-all">
                       <div className="flex justify-between items-start mb-6">
                         <div>
-                          <h4 className="font-bold text-zinc-100 group-hover:text-[#39ff14]">
+                          <h4 className="font-bold text-zinc-100 group-hover:text-[#2BFF88]">
                             Execute Cross-Border Swap
                           </h4>
                           <p className="text-[11px] text-zinc-500 mt-1 max-w-[240px]">
@@ -404,7 +453,7 @@ const Dashboard = () => {
                         </div>
 
                         <div className="text-right">
-                          <span className="text-sm font-mono font-bold text-[#39ff14]">
+                          <span className="text-sm font-mono font-bold text-[#2BFF88]">
                             +750
                           </span>
                           <div className="text-[8px] font-black uppercase text-zinc-600 tracking-widest">
@@ -424,7 +473,7 @@ const Dashboard = () => {
                           className={`group flex items-center gap-2 px-3 py-1.5 rounded-sm border text-[10px] font-bold uppercase tracking-wider transition-all
       ${
         taskStatus.CROSS_BORDER_SWAP === "completed"
-          ? "border-[#39ff14]/30 text-[#39ff14] bg-[#39ff14]/10 cursor-default"
+          ? "border-[#2BFF88] text-black cursor-default"
           : "border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-200"
       }`}
                         >
@@ -455,98 +504,7 @@ const Dashboard = () => {
                     <div className="h-px w-full bg-zinc-900" />
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="group text-left p-6 bg-zinc-900/30 border border-zinc-800 rounded-sm hover:border-zinc-600 transition-all">
-                      <div className="flex justify-between items-start mb-6">
-                        <div className="flex gap-4">
-                          <div className="w-10 h-10 rounded bg-zinc-800 flex items-center justify-center text-zinc-500">
-                            <Twitter size={16} />
-                          </div>
-                          <div>
-                            <h4 className="font-bold text-zinc-100 group-hover:text-[#39ff14]">
-                              Follow Blip Institutional
-                            </h4>
-                          </div>
-                        </div>
-
-                        <div className="text-right">
-                          <span className="text-sm font-mono font-bold text-[#39ff14]">
-                            +100
-                          </span>
-                          <div className="text-[8px] font-black uppercase text-zinc-600 tracking-widest">
-                            Points
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center justify-between pt-4 border-t border-zinc-800/50">
-                        <button
-                          onClick={() => handleApplyBonus("TWITTER_FOLLOW")}
-                          disabled={taskStatus.TWITTER_FOLLOW !== "pending"}
-                          className={`flex items-center gap-2 px-3 py-1.5 rounded-sm border text-[10px] font-bold uppercase tracking-wider transition-all
-    ${
-      taskStatus.TWITTER_FOLLOW === "completed"
-        ? "border-[#39ff14]/30 text-[#39ff14] bg-[#39ff14]/10 cursor-default"
-        : "border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white"
-    }
-  `}
-                        >
-                          <StatusBadge status={taskStatus.TWITTER_FOLLOW} />
-                        </button>
-
-                        <ChevronRight
-                          size={14}
-                          className={`text-zinc-600 transition-transform ${
-                            taskStatus.TWITTER_FOLLOW === "pending"
-                              ? "group-hover:translate-x-1"
-                              : ""
-                          }`}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="group text-left p-6 bg-zinc-900/30 border border-zinc-800 rounded-sm hover:border-zinc-600 transition-all">
-                      <div className="flex justify-between items-start mb-6">
-                        <div className="flex gap-4">
-                          <div className="w-10 h-10 rounded bg-zinc-800 flex items-center justify-center text-zinc-500">
-                            <Users size={16} />
-                          </div>
-                          <div>
-                            <h4 className="font-bold text-zinc-100 group-hover:text-[#39ff14]">
-                              Join Global Telegram
-                            </h4>
-                          </div>
-                        </div>
-
-                        <div className="text-right">
-                          <span className="text-sm font-mono font-bold text-[#39ff14]">
-                            +100
-                          </span>
-                          <div className="text-[8px] font-black uppercase text-zinc-600 tracking-widest">
-                            Points
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center justify-between pt-4 border-t border-zinc-800/50">
-                        <button
-                          onClick={() => handleApplyBonus("TELEGRAM_JOIN")}
-                          disabled={taskStatus.TELEGRAM_JOIN !== "pending"}
-                          className={`flex items-center gap-2 px-3 py-1.5 rounded-sm border text-[10px] font-bold uppercase tracking-wider transition-all
-    ${
-      taskStatus.TELEGRAM_JOIN === "completed"
-        ? "border-[#39ff14]/30 text-[#39ff14] bg-[#39ff14]/10 cursor-default"
-        : "border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white"
-    }
-  `}
-                        >
-                          <StatusBadge status={taskStatus.TELEGRAM_JOIN} />
-                        </button>
-
-                        <ChevronRight size={14} className="text-zinc-600" />
-                      </div>
-                    </div>
-                  </div>
+                  
                 </div>
 
                 {/* ================= Education & Governance ================= */}
@@ -563,14 +521,14 @@ const Dashboard = () => {
                     <div className="group text-left p-6 bg-zinc-900/30 border border-zinc-800 rounded-sm hover:border-zinc-600 transition-all">
                       <div className="flex justify-between items-start mb-6">
                         <div>
-                          <h4 className="font-bold text-zinc-100 group-hover:text-[#39ff14]">
+                          <h4 className="font-bold text-zinc-100 group-hover:text-[#2BFF88]">
                             Read Whitepaper 2.0
                           </h4>
                           <p className="text-[11px] text-zinc-500 mt-1 max-w-[240px]"></p>
                         </div>
 
                         <div className="text-right">
-                          <span className="text-sm font-mono font-bold text-[#39ff14]">
+                          <span className="text-sm font-mono font-bold text-[#2BFF88]">
                             +200
                           </span>
                           <div className="text-[8px] font-black uppercase text-zinc-600 tracking-widest">
@@ -586,7 +544,7 @@ const Dashboard = () => {
                           className={`flex items-center gap-2 px-3 py-1.5 rounded-sm border text-[10px] font-bold uppercase tracking-wider transition-all
     ${
       taskStatus.WHITEPAPER_READ === "completed"
-        ? "border-[#39ff14]/30 text-[#39ff14] bg-[#39ff14]/10 cursor-default"
+        ? "border-[#2BFF88]/30 text-[#2BFF88] bg-[#2BFF88]/10 cursor-default"
         : "border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white"
     }
   `}
@@ -605,7 +563,7 @@ const Dashboard = () => {
                     <div className="group text-left p-6 bg-zinc-900/30 border border-zinc-800 rounded-sm hover:border-zinc-600 transition-all">
                       <div className="flex justify-between items-start mb-6">
                         <div>
-                          <h4 className="font-bold text-zinc-100 group-hover:text-[#39ff14]">
+                          <h4 className="font-bold text-zinc-100 group-hover:text-[#2BFF88]">
                             Stake BLIP for Voting
                           </h4>
                           <p className="text-[11px] text-zinc-500 mt-1 max-w-[240px]">
@@ -614,7 +572,7 @@ const Dashboard = () => {
                         </div>
 
                         <div className="text-right">
-                          <span className="text-sm font-mono font-bold text-[#39ff14]">
+                          <span className="text-sm font-mono font-bold text-[#2BFF88]">
                             +1000
                           </span>
                           <div className="text-[8px] font-black uppercase text-zinc-600 tracking-widest">
@@ -640,7 +598,7 @@ const Dashboard = () => {
 
         {/* Global Background UI Elements */}
         <div className="fixed inset-0 pointer-events-none z-[-1] overflow-hidden opacity-30">
-          <div className="absolute top-[-10%] left-[10%] w-[40%] h-[40%] bg-[#39ff14]/5 blur-[120px] rounded-full" />
+          <div className="absolute top-[-10%] left-[10%] w-[40%] h-[40%] bg-[#2BFF88]/5 blur-[120px] rounded-full" />
           <div className="absolute bottom-[-10%] right-[10%] w-[30%] h-[30%] bg-zinc-800/10 blur-[100px] rounded-full" />
         </div>
       </div>

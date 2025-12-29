@@ -53,20 +53,15 @@ const App = () => (
                 <Route path="/coming-soon" element={<ComingSoon />} />
                 <Route path="/howItWorks" element={<HowItWorksPage />} />
                 <Route path="/contact" element={<ContactUs />} />
+                <Route path="/airdrop" element={<AirdropLogin />} />
+                 <Route path="/dashboard" element={   <ProtectedRoute>     <Dashboard />   </ProtectedRoute>}/>
               </Route>
 
               {/* AIRDROP LOGIN (NO LAYOUT) */}
-              <Route path="/airdrop" element={<AirdropLogin />} />
+              
 
               {/* PROTECTED DASHBOARD (NO LAYOUT) */}
-              <Route
-                path="/dashboard"
-                element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
-                }
-              />
+              <Route path="/dashboard" element={   <ProtectedRoute>     <Dashboard />   </ProtectedRoute>}/>
 
               {/* 404 */}
               <Route path="*" element={<NotFound />} />

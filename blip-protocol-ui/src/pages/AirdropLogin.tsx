@@ -179,7 +179,7 @@ const AirdropLogin = () => {
     <>
       <div className="min-h-screen bg-[#050505] text-zinc-100 font-sans selection:bg-[#39ff14] selection:text-black transition-all duration-500">
         {/* Navigation */}
-        <nav className="border-b border-zinc-800/50 bg-[#050505]/80 backdrop-blur-md sticky top-0 z-50">
+        {/* <nav className="border-b border-zinc-800/50 bg-[#050505]/80 backdrop-blur-md sticky top-0 z-50">
           <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
             <div
               className="flex items-center gap-2 group cursor-pointer"
@@ -239,7 +239,7 @@ const AirdropLogin = () => {
               <Menu size={24} className="text-zinc-400" />
             </div>
           </div>
-        </nav>
+        </nav> */}
 
         {/* Main Content */}
         <main className="max-w-7xl mx-auto px-6 pt-12 pb-24">
@@ -250,11 +250,11 @@ const AirdropLogin = () => {
               {/* Hero Section */}
               <div className="flex flex-col lg:flex-row items-center gap-16 py-20 lg:py-32">
                 <div className="flex-1 max-w-2xl">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-[#39ff14]/5 border border-[#39ff14]/20 text-[#39ff14] text-[10px] font-bold uppercase tracking-widest mb-10">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm  border border-[#2BFF88] text-[#2BFF88] text-[10px] font-bold uppercase tracking-widest mb-10">
                     <Activity size={12} className="animate-pulse" />
                     Mainnet Alpha: Live Verification
                   </div>
-                  <h1 className="text-6xl md:text-8xl font-bold tracking-tighter text-white mb-8 leading-[0.95] selection:bg-[#39ff14] selection:text-black">
+                  <h1 className="text-6xl md:text-8xl font-bold tracking-tighter text-white mb-8 leading-[0.95] selection:bg-[#2BFF88] selection:text-black">
                     Earn in a Blip.
                   </h1>
                   <p className="text-xl text-zinc-500 mb-12 leading-relaxed max-w-xl">
@@ -265,25 +265,31 @@ const AirdropLogin = () => {
                   <div className="flex flex-col sm:flex-row items-center gap-4">
                     <button
                       onClick={() => setView("waitlist")}
-                      className="w-full sm:w-auto bg-[#39ff14] text-black px-12 py-5 rounded-sm font-black text-[11px] uppercase tracking-[0.2em] hover:bg-[#32e012] transition-all shadow-[0_20px_40px_-15px_rgba(57,255,20,0.25)] active:scale-95 flex items-center justify-center gap-3"
+                      className="w-full sm:w-auto bg-[#2BFF88] text-black px-12 py-5 rounded-sm font-black text-[11px] uppercase tracking-[0.2em] hover:bg-[#2BFF88] transition-all shadow-[0_20px_40px_-15px_rgba(57,255,20,0.25)] active:scale-95 flex items-center justify-center gap-3"
                     >
                       Join Hub <ChevronRight size={16} strokeWidth={3} />
                     </button>
-                    <button className="w-full sm:w-auto px-12 py-5 border border-zinc-800 rounded-sm font-bold text-[11px] uppercase tracking-[0.2em] text-zinc-400 hover:bg-zinc-900 transition-all">
-                      Read Whitepaper
-                    </button>
+                    <a
+                      href="/whitepaper.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <button className="w-full sm:w-auto px-12 py-5 border border-zinc-800 rounded-sm font-bold text-[11px] uppercase tracking-[0.2em] text-zinc-400 hover:bg-zinc-900 transition-all">
+                        Read Whitepaper
+                      </button>
+                    </a>
                   </div>
                 </div>
 
                 <div className="flex-1 w-full lg:w-auto relative group">
                   {/* Visual Decorative Element: Abstract Terminal Card */}
                   <div className="bg-[#0c0c0c] border border-zinc-800 p-8 rounded-sm shadow-2xl relative overflow-hidden">
-                    <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#39ff14]/20 to-transparent" />
+                    <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#2BFF88]/20 to-transparent" />
                     <div className="flex justify-between items-center mb-8 pb-4 border-b border-zinc-900">
                       <span className="text-[10px] font-mono text-zinc-500 uppercase">
                         Protocol_Status
                       </span>
-                      <span className="text-[10px] font-mono text-[#39ff14]">
+                      <span className="text-[10px] font-mono text-[#2BFF88]">
                         100% Operational
                       </span>
                     </div>
@@ -328,7 +334,7 @@ const AirdropLogin = () => {
               {/* Feature Utility Grid */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pb-32 border-t border-zinc-900 pt-20">
                 <div className="p-8 bg-zinc-900/20 border border-zinc-900 rounded-sm">
-                  <Shield className="text-[#39ff14] mb-6" size={24} />
+                  <Shield className="text-[#2BFF88] mb-6" size={24} />
                   <h3 className="text-sm font-black uppercase tracking-[0.2em] text-white mb-4">
                     Privacy Core.
                   </h3>
@@ -338,7 +344,7 @@ const AirdropLogin = () => {
                   </p>
                 </div>
                 <div className="p-8 bg-zinc-900/20 border border-zinc-800/40 rounded-sm">
-                  <Layers className="text-[#39ff14] mb-6" size={24} />
+                  <Layers className="text-[#2BFF88] mb-6" size={24} />
                   <h3 className="text-sm font-black uppercase tracking-[0.2em] text-white mb-4">
                     Scalability.
                   </h3>
@@ -349,7 +355,7 @@ const AirdropLogin = () => {
                   </p>
                 </div>
                 <div className="p-8 bg-zinc-900/20 border border-zinc-900 rounded-sm">
-                  <Zap className="text-[#39ff14] mb-6" size={24} />
+                  <Zap className="text-[#2BFF88] mb-6" size={24} />
                   <h3 className="text-sm font-black uppercase tracking-[0.2em] text-white mb-4">
                     Instant Settlement.
                   </h3>
@@ -367,17 +373,17 @@ const AirdropLogin = () => {
                 </span>
                 <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-30 grayscale hover:grayscale-0 transition-all hover:opacity-100 cursor-default">
                   <div className="flex items-center gap-3 font-black text-xl tracking-tighter">
-                    CERTIK <div className="w-1 h-1 bg-[#39ff14] rounded-full" />
+                    CERTIK <div className="w-1 h-1 b#2BFF88] rounded-full" />
                   </div>
                   <div className="flex items-center gap-3 font-black text-xl tracking-tighter uppercase">
-                    Solana <div className="w-1 h-1 bg-[#39ff14] rounded-full" />
+                    Solana <div className="w-1 h-1 bg-[#2BFF88] rounded-full" />
                   </div>
                   <div className="flex items-center gap-3 font-black text-xl tracking-tighter uppercase">
                     TrailOfBits{" "}
-                    <div className="w-1 h-1 bg-[#39ff14] rounded-full" />
+                    <div className="w-1 h-1 bg-[#2BFF88] rounded-full" />
                   </div>
                   <div className="flex items-center gap-3 font-black text-xl tracking-tighter uppercase">
-                    Jump <div className="w-1 h-1 bg-[#39ff14] rounded-full" />
+                    Jump <div className="w-1 h-1 bg-[#2BFF88] rounded-full" />
                   </div>
                 </div>
               </div>
@@ -387,7 +393,7 @@ const AirdropLogin = () => {
           {view === "waitlist" && (
             <div className="max-w-md mx-auto py-24 animate-in fade-in zoom-in-95 duration-500">
               <div className="mb-10 text-center">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#39ff14] block mb-4">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#2BFF88] block mb-4">
                   Step 1 of 2
                 </span>
                 <h2 className="text-3xl font-bold text-white mb-2">
@@ -402,34 +408,34 @@ const AirdropLogin = () => {
               <form onSubmit={handleJoinWaitlist} className="space-y-4">
                 <div className="relative group">
                   <Mail
-                    className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 group-focus-within:text-[#39ff14] transition-colors"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 group-focus-within:text-[#2BFF88] transition-colors"
                     size={18}
                   />
                   <input
                     type="email"
                     required
                     placeholder="example@gmail.com"
-                    className="w-full bg-zinc-900/50 border border-zinc-800 py-4 pl-12 pr-4 rounded-sm text-white focus:outline-none focus:border-[#39ff14]/50 focus:ring-1 focus:ring-[#39ff14]/20 transition-all"
+                    className="w-full bg-zinc-900/50 border border-zinc-800 py-4 pl-12 pr-4 rounded-sm text-white focus:outline-none focus:border-[#2BFF88] focus:ring-1 focus:ring-[#2BFF88] transition-all"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div className="relative group">
                   <HandCoins
-                    className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 group-focus-within:text-[#39ff14] transition-colors"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 group-focus-within:text-[#2BFF88] transition-colors"
                     size={18}
                   />
                   <input
                     type="text"
                     placeholder="Referral code (optional)"
-                    className="w-full bg-zinc-900/50 border border-zinc-800 py-4 pl-12 pr-4 rounded-sm text-white focus:outline-none focus:border-[#39ff14]/50 focus:ring-1 focus:ring-[#39ff14]/20 transition-all"
+                    className="w-full bg-zinc-900/50 border border-zinc-800 py-4 pl-12 pr-4 rounded-sm text-white focus:outline-none focus:border-[#2BFF88] focus:ring-1 focus:ring-[#2BFF88]/20 transition-all"
                     value={referral_code}
                     onChange={(e) => setReferralCode(e.target.value)}
                   />
                 </div>
                 <button
                   type="submit"
-                  className="w-full bg-[#39ff14] text-black py-4 rounded-sm font-black text-xs uppercase tracking-widest hover:bg-[#32e012] transition-all active:scale-[0.98]"
+                  className="w-full bg-[#2BFF88] text-black py-4 rounded-sm font-black text-xs uppercase tracking-widest hover:bg-[#2BFF88] transition-all active:scale-[0.98]"
                 >
                   Proceed to Connection
                 </button>
