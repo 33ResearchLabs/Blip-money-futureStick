@@ -112,3 +112,33 @@ export const getWalletByAddress = async (req, res) => {
     });
   }
 };
+
+
+// Status for wallet connected or not
+export const getWalletStatus = async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    if (!userId) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const wallet = await Wallet.findOne({ userId });
+
+    if (!wallet) {
+      return res.status(200).json({
+        connected: false,
+      });
+    }
+
+    return res.status(200).json({
+      connected: true,
+      wallet_address: wallet.wallet_address,
+    });
+  } catch (error) {
+    console.error("Get wallet status error:", error);
+    return res.status(500).json({
+      message: "Failed to fetch wallet status",
+    });
+  }
+};

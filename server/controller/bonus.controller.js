@@ -1,7 +1,8 @@
-import UserBlipPoint from "../models/UserBlipPoint.js";
-import BlipPointLog from "../models/BlipPointLog.js";
-import Referral from "../models/referral.js";
-import UserBlipPoint from "../models/userBlipPoints.model.js";
+
+import BlipPointLog from "../models/BlipPointLog.model.js";
+import Referral from "../models/referral.model.js";
+import UserBlipPoint from "../models/userBlipPoints.model.js"
+
 
 export const applyBonus = async (req, res) => {
   try {
@@ -33,6 +34,18 @@ export const applyBonus = async (req, res) => {
       return res.status(400).json({ message: "Invalid bonus label" });
     }
 
+    //  GLOBAL DUPLICATE CHECK 
+    const alreadyClaimed = await BlipPointLog.findOne({
+      userId,
+      event: label,
+    });
+
+    if (alreadyClaimed) {
+      return res.status(400).json({
+        message: "Bonus already claimed for this action",
+      });
+    }
+   
     // 🔎 Find referral (ONLY if user was referred)
     const referral = await Referral.findOne({
       referred_user_id: userId,
@@ -68,7 +81,7 @@ export const applyBonus = async (req, res) => {
     // 🧾 Log
     await BlipPointLog.create({
       userId,
-      bonusPoints: bonusPoints,
+      bonusPoints,
       totalPoints: userBlipPoint.points,
       event: label,
     });
@@ -99,6 +112,55 @@ export const applyBonus = async (req, res) => {
     console.error("Bonus apply error:", error);
     return res.status(500).json({
       message: "Failed to apply bonus",
+    });
+  }
+};
+
+
+export const getBonusStatus = async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    // 1️⃣ Default all actions as pending
+    const statusMap = {
+      TWITTER_FOLLOW: "pending",
+      TELEGRAM_JOIN: "pending",
+      WHITEPAPER_READ: "pending",
+      CROSS_BORDER_SWAP: "pending",
+    };
+
+    // 2️⃣ Check claimed bonuses globally (BlipPointLog)
+    const claimedLogs = await BlipPointLog.find({
+      userId,
+      event: { $in: Object.keys(statusMap) },
+    }).select("event");
+
+    claimedLogs.forEach((log) => {
+      statusMap[log.event] = "completed";
+    });
+
+    // 3️⃣ Check referral actions (if referral exists)
+    const referral = await Referral.findOne({
+      referred_user_id: userId,
+    }).select("actions");
+
+    if (referral) {
+      referral.actions.forEach((action) => {
+        if (action.completed && statusMap[action.action] !== undefined) {
+          statusMap[action.action] = "completed";
+        }
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      actions: statusMap,
+    });
+  } catch (error) {
+    console.error("Get bonus status error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch bonus status",
     });
   }
 };

@@ -8,6 +8,7 @@ import {
   Loader2,
   HandCoins,
   Menu,
+  LogOut,
 } from "lucide-react";
 import { WalletConnectButton } from "@/components/wallet/WalletConnectButton";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -19,7 +20,8 @@ import { useNavigate } from "react-router-dom";
 const AirdropLogin = () => {
   const { publicKey, connected } = useWallet();
   const { toast } = useToast();
-  const { login, isAuthenticated } = useAuth();
+  const { login, isAuthenticated , logout } = useAuth();
+   const { publicKeys, disconnect } = useWallet();
   const navigate = useNavigate();
 
   // Navigation & Identity State
@@ -109,7 +111,37 @@ const AirdropLogin = () => {
     }
   };
 
+
+  const handleLogout = async () => {
+    try {
+      console.log("🚪 Logging out...");
+
+      // Disconnect wallet
+      await disconnect();
+      console.log("✅ Wallet disconnected");
+
+      // Clear local auth state and call backend to clear HTTP-only cookie
+      await logout();
+      console.log("✅ Auth state cleared and cookie cleared");
+
+      toast({
+        title: "Logged out",
+        description: "You have been successfully logged out.",
+      });
+
+      navigate("/airdrop");
+    } catch (error) {
+      console.error("❌ Logout error:", error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to logout. Please try again.",
+      });
+    }
+  };
+
   return (
+    <>
     <div className="min-h-screen bg-[#050505] text-zinc-100 font-sans selection:bg-[#39ff14] selection:text-black transition-all duration-500">
       {/* Navigation */}
       <nav className="border-b border-zinc-800/50 bg-[#050505]/80 backdrop-blur-md sticky top-0 z-50">
@@ -148,6 +180,13 @@ const AirdropLogin = () => {
                 <div className="w-8 h-8 rounded-full bg-[#39ff14]/10 border border-[#39ff14]/30 flex items-center justify-center">
                   <ShieldCheck className="text-[#39ff14]" size={16} />
                 </div>
+                <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 px-4 py-2 rounded-sm bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-zinc-600 transition-all text-xs font-bold uppercase tracking-wider text-zinc-300 hover:text-white"
+              >
+                <LogOut size={14} />
+                Logout
+              </button>
               </div>
             ) : (
               <button
@@ -346,6 +385,7 @@ const AirdropLogin = () => {
         <div className="absolute bottom-[-10%] right-[10%] w-[30%] h-[30%] bg-zinc-800/10 blur-[100px] rounded-full" />
       </div>
     </div>
+    </>
   );
 };
 

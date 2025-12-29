@@ -12,6 +12,7 @@ import walletRoutes from "./routes/wallet.route.js";
 import taskRoutes from "./routes/task.route.js";
 import referralRoutes from "./routes/referral.route.js";
 import bonusRoutes from "./routes/bonus.routes.js";
+import userBlipPointRoutes from './routes/userBlipPoint.routes.js'
 
 dotenv.config();
 
@@ -36,6 +37,7 @@ app.use("/api/wallet", walletRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/referrals", referralRoutes);
 app.use("/api/bonus", bonusRoutes);
+app.use("/api/blip-points", userBlipPointRoutes);
 
 const PORT = process.env.PORT || 3300;
 

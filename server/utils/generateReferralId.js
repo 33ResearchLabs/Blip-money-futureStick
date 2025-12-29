@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import User from "../models/user.js";
+import User from "../models/user.model.js";
 
 export const generateReferralCode = async ({ wallet_address, email }) => {
   let codeExists = true;

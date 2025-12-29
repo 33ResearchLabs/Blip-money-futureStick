@@ -3,6 +3,7 @@ import {
   connectWallet,
   getWalletByUser,
   getWalletByAddress,
+  getWalletStatus,
 } from "../controller/wallet.controller.js";
 import { protect } from "../middlewares/auth.middleware.js";
 const router = express.Router();
@@ -21,5 +22,9 @@ router.get("/me", protect, getWalletByUser);
  * GET /api/wallet/address/:wallet_address
  */
 router.get("/address/:wallet_address", getWalletByAddress);
+
+// Status for wallet connected or not
+router.get("/status", protect, getWalletStatus);
+
 
 export default router;

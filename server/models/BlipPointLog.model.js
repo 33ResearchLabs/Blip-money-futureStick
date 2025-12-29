@@ -26,6 +26,8 @@ const blipPointLogSchema = new mongoose.Schema(
                 "TELEGRAM_JOIN",
                 "WHITEPAPER_READ",
                 "CROSS_BORDER_SWAP",
+                "REFERRAL_BONUS_EARNED",
+                "REFERRAL_BONUS_RECEIVED"
             ],
             required: true,
         },
