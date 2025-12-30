@@ -177,7 +177,6 @@
 //   );
 // };
 
-
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Menu, Coins } from "lucide-react";
@@ -245,22 +244,24 @@ export const Navbar = () => {
   const navActive =
     "text-[#2BFF88] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-full after:bg-[#2BFF88]";
 
- useEffect(() => {
-      scrollTo(0, 0);
-    }, [pathname]);
+  useEffect(() => {
+    scrollTo(0, 0);
+  }, [pathname]);
 
   return (
     <nav className="fixed top-0 w-full z-50 backdrop-blur-md bg-black/60 border-b border-white/5  overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
-
         {/* Logo */}
-        <Link to="#hero"   className="flex items-center gap-2"
-        onClick={() => {
-                const protocolSection = document.getElementById("hero");
-                if (protocolSection) {
-                  protocolSection.scrollIntoView({ behavior: "smooth" });
-                }
-              }}>
+        <Link
+          to="#hero"
+          className="flex items-center gap-2"
+          onClick={() => {
+            const protocolSection = document.getElementById("hero");
+            if (protocolSection) {
+              protocolSection.scrollIntoView({ behavior: "smooth" });
+            }
+          }}
+        >
           <div className="relative">
             <div className="w-3 h-3 rounded-full bg-[#2BFF88] shadow-[0_0_10px_#2BFF88]" />
             <div className="absolute inset-0 rounded-full bg-[#2BFF88] animate-pulse opacity-50" />
@@ -321,14 +322,12 @@ export const Navbar = () => {
             >
               {t("ContactUs")}
             </NavLink> */}
-
           </div>
 
           <LanguageSwitcher />
 
           {/* Blip Points Badge (shown when logged in) */}
           <BlipPointsBadge />
-
           {/* CTA - Show Dashboard link if authenticated, otherwise Coming Soon */}
           {isAuthenticated ? (
             <NavLink

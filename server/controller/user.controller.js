@@ -234,7 +234,13 @@ export const registerAndLoginUser = async (req, res) => {
  */
 
 export const logout = (req, res) => {
-  res.clearCookie("token");
+  // Must include same options used when setting the cookie
+  res.clearCookie("token", {
+    httpOnly: true,
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+  });
   res.status(200).json({ message: "Logged out successfully" });
 };
 /**
