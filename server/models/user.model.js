@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["WAITLISTED", "ACTIVE"],
+      enum: ["WAITLISTED", "ACTIVE", "waitlisted", "active"],
       default: "WAITLISTED",
     },
 
