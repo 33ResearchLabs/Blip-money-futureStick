@@ -131,60 +131,6 @@ const BlipAirdropHub = () => {
     },
   ]);
 
-  // Effect: Save user data to backend when wallet connects
-  useEffect(() => {
-    const saveUserData = async () => {
-      if (!connected || !publicKey || view !== "connect") return;
-
-      console.log("💾 Attempting to save user data:", {
-        wallet_address: publicKey.toBase58(),
-        email,
-        referral_code,
-        view,
-      });
-
-      setIsConnecting(true);
-
-      try {
-        const response = await airdropApi.postAirdrop({
-          email: email,
-          referral_code: referral_code,
-          wallet_address: publicKey.toBase58(),
-        });
-
-        console.log("✅ User data saved successfully:", response);
-
-        toast({
-          title: "Success!",
-          description: "Your wallet has been connected and data saved.",
-        });
-
-        setTimeout(() => {
-          setView("dashboard");
-          setIsConnecting(false);
-        }, 1000);
-      } catch (error: any) {
-        console.error("❌ Error saving user data:", error);
-        console.error("Error response:", error.response?.data);
-        console.error("Error status:", error.response?.status);
-
-        // Still proceed to dashboard even if backend fails
-        toast({
-          title: "Wallet Connected",
-          description:
-            "Your wallet is connected. Some features may be limited.",
-        });
-
-        setTimeout(() => {
-          setView("dashboard");
-          setIsConnecting(false);
-        }, 1000);
-      }
-    };
-
-    saveUserData();
-  }, [connected, publicKey, view, email, referral_code, toast]);
-
   // Actions
   const handleJoinWaitlist = (e) => {
     e.preventDefault();

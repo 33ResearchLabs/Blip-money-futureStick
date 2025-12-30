@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from "react";
 import {
   ChevronRight,
-  ShieldCheck,
   Globe,
   Mail,
   ArrowLeft,
   Loader2,
   HandCoins,
-  Menu,
-  LogOut,
   Activity,
   Shield,
   Layers,
   Zap,
+  ShieldCheck,
 } from "lucide-react";
 import { WalletConnectButton } from "@/components/wallet/WalletConnectButton";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -20,6 +18,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { airdropApi } from "@/services/Airdrop";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import PublicNavbar from "@/components/PublicNavbar";
 
 const AirdropLogin = () => {
   const { publicKey, connected, disconnect, connecting } = useWallet();
@@ -206,61 +205,12 @@ const AirdropLogin = () => {
     <>
       <div className="min-h-screen bg-[#050505] text-zinc-100 font-sans selection:bg-[#39ff14] selection:text-black transition-all duration-500">
         {/* Navigation */}
-        <nav className="border-b border-zinc-800/50 bg-[#050505]/80 backdrop-blur-md sticky top-0 z-50">
-          <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <div
-              className="flex items-center gap-2 group cursor-pointer"
-              onClick={() => setView("landing")}
-            >
-              <div className="w-8 h-8 rounded bg-zinc-900 border border-zinc-700 flex items-center justify-center relative overflow-hidden">
-                <div className="w-1.5 h-1.5 bg-[#39ff14] rounded-full shadow-[0_0_8px_#39ff14]" />
-              </div>
-              <span className="text-xl font-bold tracking-tight">
-                Blip
-                <span className="text-zinc-500 text-lg font-normal">
-                  .money
-                </span>
-              </span>
-            </div>
-
-            <div className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400">
-              <div className="h-4 w-px bg-zinc-800" />
-              {isWalletConnected ? (
-                <div className="flex items-center gap-4">
-                  <div className="flex flex-col items-end">
-                    <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold leading-none mb-1">
-                      Authenticated
-                    </span>
-                    <span className="text-zinc-200 font-mono text-xs">
-                      {walletAddress}
-                    </span>
-                  </div>
-                  <div className="w-8 h-8 rounded-full bg-[#39ff14]/10 border border-[#39ff14]/30 flex items-center justify-center">
-                    <ShieldCheck className="text-[#39ff14]" size={16} />
-                  </div>
-                  <button
-                    onClick={handleLogout}
-                    className="flex items-center gap-2 px-4 py-2 rounded-sm bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-zinc-600 transition-all text-xs font-bold uppercase tracking-wider text-zinc-300 hover:text-white"
-                  >
-                    <LogOut size={14} />
-                    Logout
-                  </button>
-                </div>
-              ) : (
-                <button
-                  onClick={() => setView("waitlist")}
-                  className="bg-zinc-100 text-black px-5 py-2 rounded-sm font-bold text-xs uppercase tracking-widest hover:bg-[#39ff14] transition-all duration-300 active:scale-95"
-                >
-                  Connect Wallet
-                </button>
-              )}
-            </div>
-
-            <div className="md:hidden">
-              <Menu size={24} className="text-zinc-400" />
-            </div>
-          </div>
-        </nav>
+        <PublicNavbar
+          isWalletConnected={isWalletConnected}
+          walletAddress={walletAddress}
+          onLogout={handleLogout}
+          onConnectClick={() => setView("waitlist")}
+        />
 
         {/* Main Content */}
         <main className="max-w-7xl mx-auto px-6 pt-12 pb-24">

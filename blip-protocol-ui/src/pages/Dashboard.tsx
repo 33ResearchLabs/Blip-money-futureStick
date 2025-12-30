@@ -3,9 +3,7 @@ import {
   CheckCircle2,
   Clock,
   ChevronRight,
-  ShieldCheck,
   Twitter,
-  LogOut,
   XCircle,
   ExternalLink,
   Loader2,
@@ -17,6 +15,7 @@ import {
   Copy,
   Share2,
   Check,
+  Link,
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -27,6 +26,7 @@ import WhitepaperQuiz from "@/components/WhitepaperQuiz";
 import TelegramVerify from "@/components/TelegramVerify";
 import ReferralModal from "@/components/ReferralModal";
 import PointsHistoryModal from "@/components/PointsHistoryModal";
+import DashboardNavbar from "@/components/DashboardNavbar";
 
 // Task types matching backend
 type TaskType = "TWITTER" | "TELEGRAM" | "QUIZ" | "WHITEPAPER" | "CUSTOM";
@@ -592,51 +592,11 @@ const Dashboard = () => {
       />
 
       {/* Navigation */}
-      <nav className="border-b border-zinc-800/50 bg-[#050505]/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded bg-zinc-900 border border-zinc-700 flex items-center justify-center">
-              <div className="w-1.5 h-1.5 bg-[#39ff14] rounded-full shadow-[0_0_8px_#39ff14]" />
-            </div>
-            <span className="text-xl font-bold tracking-tight">
-              Blip
-              <span className="text-zinc-500 text-lg font-normal">.money</span>
-            </span>
-          </div>
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-6 mr-4 border-r border-zinc-800 pr-6">
-              <div className="flex flex-col items-end">
-                <span className="text-[9px] uppercase tracking-tighter text-zinc-500 font-bold">
-                  Protocol Balance
-                </span>
-                <span className="text-[#39ff14] font-mono text-sm font-bold">
-                  {blipPoints} pts
-                </span>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="flex flex-col items-end">
-                <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold leading-none mb-1">
-                  Authenticated
-                </span>
-                <span className="text-zinc-200 font-mono text-xs">
-                  {displayWalletAddress}
-                </span>
-              </div>
-              <div className="w-8 h-8 rounded-full bg-[#39ff14]/10 border border-[#39ff14]/30 flex items-center justify-center">
-                <ShieldCheck className="text-[#39ff14]" size={16} />
-              </div>
-              <button
-                onClick={handleLogout}
-                className="flex items-center gap-2 px-4 py-2 rounded-sm bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-zinc-600 transition-all text-xs font-bold uppercase tracking-wider text-zinc-300 hover:text-white"
-              >
-                <LogOut size={14} />
-                Logout
-              </button>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <DashboardNavbar
+        walletAddress={displayWalletAddress}
+        blipPoints={blipPoints}
+        onLogout={handleLogout}
+      />
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-6 pt-12 pb-24">
