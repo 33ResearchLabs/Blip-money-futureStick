@@ -55,12 +55,12 @@ export default function AdminDashboard() {
 
   const fetchData = async () => {
     try {
-      const [statsRes, tasksRes] = await Promise.all([
+      const [statsRes, tasksRes]: any = await Promise.all([
         airdropApi.getAdminStats(),
         airdropApi.getAdminTasks(activeTab, taskTypeFilter || undefined),
       ]);
-      setStats(statsRes.data.stats);
-      setTasks(tasksRes.data.tasks);
+      setStats(statsRes.stats);
+      setTasks(tasksRes.tasks || []);
     } catch (error) {
       console.error("Failed to fetch admin data:", error);
       toast({
@@ -75,8 +75,8 @@ export default function AdminDashboard() {
 
   const fetchTasks = async (status: string, taskType?: string) => {
     try {
-      const res = await airdropApi.getAdminTasks(status, taskType || undefined);
-      setTasks(res.data.tasks);
+      const res: any = await airdropApi.getAdminTasks(status, taskType || undefined);
+      setTasks(res.tasks || []);
     } catch (error) {
       console.error("Failed to fetch tasks:", error);
     }
@@ -128,7 +128,7 @@ export default function AdminDashboard() {
 
   const handleLogout = async () => {
     await logout();
-    navigate("/airdrop");
+    navigate("/waitlist");
   };
 
   const formatDate = (dateStr: string) => {
