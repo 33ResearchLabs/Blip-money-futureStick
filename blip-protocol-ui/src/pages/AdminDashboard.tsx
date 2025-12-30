@@ -6,7 +6,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CheckCircle, XCircle, Users, Clock, Award, LogOut } from "lucide-react";
+import {
+  CheckCircle,
+  XCircle,
+  Users,
+  Clock,
+  Award,
+  LogOut,
+} from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface Task {
@@ -75,7 +82,10 @@ export default function AdminDashboard() {
 
   const fetchTasks = async (status: string, taskType?: string) => {
     try {
-      const res: any = await airdropApi.getAdminTasks(status, taskType || undefined);
+      const res: any = await airdropApi.getAdminTasks(
+        status,
+        taskType || undefined
+      );
       setTasks(res.tasks || []);
     } catch (error) {
       console.error("Failed to fetch tasks:", error);
@@ -159,7 +169,9 @@ export default function AdminDashboard() {
         <div className="flex items-center justify-between max-w-7xl mx-auto">
           <h1 className="text-2xl font-bold text-blue-400">Admin Dashboard</h1>
           <div className="flex items-center gap-4">
-            <span className="text-gray-400">{user?.wallet_address && truncateWallet(user.wallet_address)}</span>
+            <span className="text-gray-400">
+              {user?.wallet_address && truncateWallet(user.wallet_address)}
+            </span>
             <Button variant="outline" size="sm" onClick={handleLogout}>
               <LogOut className="w-4 h-4 mr-2" />
               Logout
@@ -179,7 +191,9 @@ export default function AdminDashboard() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-3xl font-bold text-white">{stats?.totalUsers || 0}</p>
+              <p className="text-3xl font-bold text-white">
+                {stats?.totalUsers || 0}
+              </p>
             </CardContent>
           </Card>
 
@@ -191,7 +205,9 @@ export default function AdminDashboard() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-3xl font-bold text-yellow-400">{stats?.pendingTasks || 0}</p>
+              <p className="text-3xl font-bold text-yellow-400">
+                {stats?.pendingTasks || 0}
+              </p>
             </CardContent>
           </Card>
 
@@ -203,7 +219,9 @@ export default function AdminDashboard() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-3xl font-bold text-orange-400">{stats?.submittedTasks || 0}</p>
+              <p className="text-3xl font-bold text-orange-400">
+                {stats?.submittedTasks || 0}
+              </p>
             </CardContent>
           </Card>
 
@@ -215,7 +233,9 @@ export default function AdminDashboard() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-3xl font-bold text-green-400">{stats?.verifiedTasks || 0}</p>
+              <p className="text-3xl font-bold text-green-400">
+                {stats?.verifiedTasks || 0}
+              </p>
             </CardContent>
           </Card>
         </div>
@@ -311,7 +331,8 @@ export default function AdminDashboard() {
                             {task.user_id.email && ` (${task.user_id.email})`}
                           </p>
                           <p className="text-xs text-gray-500">
-                            Points: {task.user_id.totalBlipPoints} | Submitted: {formatDate(task.createdAt)}
+                            Points: {task.user_id.totalBlipPoints} | Submitted:{" "}
+                            {formatDate(task.createdAt)}
                           </p>
                           {task.proof_data?.text_proof && (
                             <p className="text-xs text-gray-400 mt-2">

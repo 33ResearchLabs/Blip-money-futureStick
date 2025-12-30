@@ -35,6 +35,9 @@ export default function PointsHistoryModal({
   const [loading, setLoading] = useState(true);
   const [history, setHistory] = useState<PointLog[]>([]);
 
+  // Calculate total from history instead of using cached value
+  const calculatedTotal = history.reduce((sum, log) => sum + log.points, 0);
+
   useEffect(() => {
     if (isOpen) {
       fetchHistory();
@@ -139,7 +142,7 @@ export default function PointsHistoryModal({
                 Total Accumulated Points
               </span>
               <div className="text-4xl font-black text-[#39ff14] tracking-tighter mt-1">
-                {totalPoints}
+                {calculatedTotal || totalPoints}
               </div>
             </div>
             <div className="text-right">
