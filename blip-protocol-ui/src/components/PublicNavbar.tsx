@@ -4,6 +4,7 @@ import { ShieldCheck, LogOut, Menu, X, Wallet } from "lucide-react";
 
 interface PublicNavbarProps {
   isWalletConnected: boolean;
+  isAuthenticated?: boolean;
   walletAddress: string;
   onLogout?: () => void;
   onConnectClick?: () => void;
@@ -11,10 +12,13 @@ interface PublicNavbarProps {
 
 export default function PublicNavbar({
   isWalletConnected,
+  isAuthenticated = false,
   walletAddress,
   onLogout,
   onConnectClick,
 }: PublicNavbarProps) {
+  // Show authenticated state only if both wallet connected AND authenticated
+  const showAuthenticatedState = isWalletConnected && isAuthenticated;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
@@ -43,7 +47,7 @@ export default function PublicNavbar({
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400">
           <div className="h-4 w-px bg-zinc-800" />
-          {isWalletConnected ? (
+          {showAuthenticatedState ? (
             <div className="flex items-center gap-4">
               <div className="flex flex-col items-end">
                 <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold leading-none mb-1">
@@ -93,7 +97,7 @@ export default function PublicNavbar({
       {isMobileMenuOpen && (
         <div className="md:hidden border-t border-zinc-800/50 bg-[#050505]/95 backdrop-blur-md animate-in slide-in-from-top-2 duration-200">
           <div className="px-4 py-4 space-y-4">
-            {isWalletConnected ? (
+            {showAuthenticatedState ? (
               <>
                 {/* Wallet Info - Mobile */}
                 <div className="flex items-center justify-between p-3 bg-zinc-900/50 rounded-sm border border-zinc-800">

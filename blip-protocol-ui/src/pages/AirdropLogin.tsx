@@ -207,6 +207,7 @@ const AirdropLogin = () => {
         {/* Navigation */}
         <PublicNavbar
           isWalletConnected={isWalletConnected}
+          isAuthenticated={isAuthenticated}
           walletAddress={walletAddress}
           onLogout={handleLogout}
           onConnectClick={() => setView("waitlist")}
