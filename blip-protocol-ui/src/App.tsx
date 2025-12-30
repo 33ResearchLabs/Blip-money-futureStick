@@ -28,6 +28,10 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 
 // Import wallet adapter CSS
 import "@solana/wallet-adapter-react-ui/styles.css";
+import Privacy from "./components/Privecy";
+import TermsService from "./components/TermsService";
+import Cookies from "./components/Cookies";
+import Gdpr from "./components/Gdpr";
 
 const queryClient = new QueryClient();
 
@@ -52,8 +56,12 @@ const App = () => (
                 <Route path="/rewards" element={<RewardsLanding />} />
                 <Route path="/uae" element={<UAELandingPage />} />
                 <Route path="/coming-soon" element={<ComingSoon />} />
-                <Route path="/howItWorks" element={<HowItWorksPage />} />
+                <Route path="/how-it-works" element={<HowItWorksPage />} />
                 <Route path="/contact" element={<ContactUs />} />
+                <Route path="/privacy" element={<Privacy />} />
+                <Route path="/terms" element={<TermsService />} />
+                <Route path="/cookies" element={< Cookies />} />
+                <Route path="/gdpr" element={<Gdpr/>} />
               </Route>
 
               {/* WAITLIST LOGIN (NO LAYOUT) */}
