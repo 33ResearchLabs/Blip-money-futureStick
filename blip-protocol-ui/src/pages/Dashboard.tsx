@@ -86,6 +86,7 @@ const Dashboard = () => {
   const [whitepaperRead, setWhitepaperRead] = useState(false);
   const [showTelegramVerify, setShowTelegramVerify] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [walletCopied, setWalletCopied] = useState(false);
   const [showReferralModal, setShowReferralModal] = useState(false);
   const [showPointsHistoryModal, setShowPointsHistoryModal] = useState(false);
 
@@ -144,6 +145,27 @@ const Dashboard = () => {
   const displayWalletAddress = publicKey
     ? `${publicKey.toBase58().slice(0, 4)}...${publicKey.toBase58().slice(-4)}`
     : "";
+
+  // Copy full wallet address to clipboard
+  const handleCopyWalletAddress = async () => {
+    if (!publicKey) return;
+
+    try {
+      await navigator.clipboard.writeText(publicKey.toBase58());
+      setWalletCopied(true);
+      toast({
+        title: "Copied!",
+        description: "Wallet address copied to clipboard.",
+      });
+      setTimeout(() => setWalletCopied(false), 2000);
+    } catch (err) {
+      toast({
+        variant: "destructive",
+        title: "Failed to copy",
+        description: "Please copy the address manually.",
+      });
+    }
+  };
 
   // Fetch user's tasks on mount
   useEffect(() => {
@@ -614,11 +636,27 @@ const Dashboard = () => {
               <span className="text-[9px] font-black uppercase tracking-widest text-zinc-500 block mb-2">
                 Authenticated As
               </span>
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-zinc-200">
-                  {displayWalletAddress}
-                </span>
-                <div className="w-2 h-2 rounded-full bg-[#39ff14] shadow-[0_0_5px_#39ff14]" />
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-bold text-zinc-200">
+                    {displayWalletAddress}
+                  </span>
+                  <div className="w-2 h-2 rounded-full bg-[#39ff14] shadow-[0_0_5px_#39ff14]" />
+                </div>
+                <button
+                  onClick={handleCopyWalletAddress}
+                  className="p-1.5 rounded bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-[#39ff14]/50 transition-all"
+                  title="Copy wallet address"
+                >
+                  {walletCopied ? (
+                    <Check size={12} className="text-[#39ff14]" />
+                  ) : (
+                    <Copy
+                      size={12}
+                      className="text-zinc-400 hover:text-[#39ff14]"
+                    />
+                  )}
+                </button>
               </div>
             </div>
             <div
