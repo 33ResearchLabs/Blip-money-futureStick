@@ -187,6 +187,18 @@ export const registerAndLoginUser = async (req, res) => {
             ],
             { session }
           );
+
+          // 🔄 Update cached totalBlipPoints on User model
+          await User.updateOne(
+            { _id: referrer._id },
+            { $inc: { totalBlipPoints: REFERRAL_BONUS_POINTS } },
+            { session }
+          );
+          await User.updateOne(
+            { _id: user._id },
+            { $inc: { totalBlipPoints: REFERRAL_BONUS_POINTS } },
+            { session }
+          );
         }
       }
     }
@@ -239,6 +251,10 @@ export const getMe = async (req, res) => {
       return res.status(401).json({ message: "Not authenticated" });
     }
 
+    // Get actual points from UserBlipPoint collection
+    const userPoints = await UserBlipPoint.findOne({ userId: user._id });
+    const actualPoints = userPoints?.points || user.totalBlipPoints || 0;
+
     return res.status(200).json({
       success: true,
       user: {
@@ -247,7 +263,7 @@ export const getMe = async (req, res) => {
         phone: user.phone,
         wallet_address: user.wallet_address,
         referralCode: user.referralCode,
-        totalBlipPoints: user.totalBlipPoints,
+        totalBlipPoints: actualPoints,
         status: user.status,
         role: user.role,
       },
