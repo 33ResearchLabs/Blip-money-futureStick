@@ -6,8 +6,8 @@ const referralActionSchema = new mongoose.Schema(
       type: String,
       enum: [
         "REGISTER",
-        "FOLLOW_TWITTER",
-        "JOIN_TELEGRAM",
+        "TWITTER_FOLLOW",
+        "TELEGRAM_JOIN",
         "WHITEPAPER_READ",
         "CROSS_BORDER_SWAP"
       ],
@@ -54,8 +54,8 @@ const referralSchema = new mongoose.Schema(
         { action: "REGISTER", completed: true, completedAt: new Date() },
         { action: "TWITTER_FOLLOW", completed: false },
         { action: "TELEGRAM_JOIN", completed: false },
-        { action: "WHITEPAPER_READ", completed:false},
-        { action: "CROSS_BORDER_SWAP", completed:false}
+        { action: "WHITEPAPER_READ", completed: false },
+        { action: "CROSS_BORDER_SWAP", completed: false }
       ],
     },
 

@@ -180,9 +180,10 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Menu } from "lucide-react";
+import { X, Menu, Coins } from "lucide-react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "@/contexts/AuthContext";
 
 /* ---------------- Language Switcher ---------------- */
 const LanguageSwitcher = () => {
@@ -213,11 +214,31 @@ const LanguageSwitcher = () => {
   );
 };
 
+/* ---------------- Blip Points Badge ---------------- */
+const BlipPointsBadge = () => {
+  const { user, isAuthenticated } = useAuth();
+
+  if (!isAuthenticated || !user) return null;
+
+  return (
+    <Link
+      to="/dashboard"
+      className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#2BFF88]/10 border border-[#2BFF88]/30 hover:bg-[#2BFF88]/20 transition-all"
+    >
+      <Coins className="w-4 h-4 text-[#2BFF88]" />
+      <span className="text-sm font-bold text-[#2BFF88]">
+        {user.totalBlipPoints} pts
+      </span>
+    </Link>
+  );
+};
+
 /* ---------------- Navbar ---------------- */
 export const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { t } = useTranslation();
-const {pathname} = useLocation()
+  const { isAuthenticated } = useAuth();
+  const { pathname } = useLocation();
   const navBase =
     "relative pb-1 transition-colors font-medium text-gray-400 hover:text-[#2BFF88]";
 
@@ -305,19 +326,37 @@ const {pathname} = useLocation()
 
           <LanguageSwitcher />
 
-          {/* CTA */}
-          <NavLink
-            to="/coming-soon"
-            className={({ isActive }) =>
-              `px-5 py-2 rounded-full border text-sm transition-all ${
-                isActive
-                  ? "border-[#2BFF88] text-[#2BFF88]"
-                  : "border-white/10 text-white hover:border-[#2BFF88]"
-              }`
-            }
-          >
-            {t("comingSoon")}
-          </NavLink>
+          {/* Blip Points Badge (shown when logged in) */}
+          <BlipPointsBadge />
+
+          {/* CTA - Show Dashboard link if authenticated, otherwise Coming Soon */}
+          {isAuthenticated ? (
+            <NavLink
+              to="/dashboard"
+              className={({ isActive }) =>
+                `px-5 py-2 rounded-full border text-sm transition-all ${
+                  isActive
+                    ? "border-[#2BFF88] text-[#2BFF88]"
+                    : "border-white/10 text-white hover:border-[#2BFF88]"
+                }`
+              }
+            >
+              Dashboard
+            </NavLink>
+          ) : (
+            <NavLink
+              to="/coming-soon"
+              className={({ isActive }) =>
+                `px-5 py-2 rounded-full border text-sm transition-all ${
+                  isActive
+                    ? "border-[#2BFF88] text-[#2BFF88]"
+                    : "border-white/10 text-white hover:border-[#2BFF88]"
+                }`
+              }
+            >
+              {t("comingSoon")}
+            </NavLink>
+          )}
         </div>
 
         {/* Mobile Toggle */}
@@ -351,13 +390,31 @@ const {pathname} = useLocation()
                   {t("tokenomics")}
                 </Link>
 
-                <Link
-                  to="/coming-soon"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="mt-4 px-5 py-3 text-center rounded-full border border-white/10 text-white"
-                >
-                  {t("comingSoon")}
-                </Link>
+                {/* Mobile Blip Points & Dashboard for authenticated users */}
+                {isAuthenticated ? (
+                  <>
+                    <div className="pt-4 border-t border-white/10">
+                      <div onClick={() => setMobileMenuOpen(false)}>
+                        <BlipPointsBadge />
+                      </div>
+                    </div>
+                    <Link
+                      to="/dashboard"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="mt-2 px-5 py-3 text-center rounded-full border border-[#2BFF88] text-[#2BFF88]"
+                    >
+                      Dashboard
+                    </Link>
+                  </>
+                ) : (
+                  <Link
+                    to="/coming-soon"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="mt-4 px-5 py-3 text-center rounded-full border border-white/10 text-white"
+                  >
+                    {t("comingSoon")}
+                  </Link>
+                )}
 
                 <div className="pt-4 border-t border-white/10">
                   <LanguageSwitcher />

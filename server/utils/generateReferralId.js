@@ -7,12 +7,16 @@ export const generateReferralCode = async ({ wallet_address, email }) => {
 
   while (codeExists) {
     const base = `${wallet_address}${email || ""}${Date.now()}${Math.random()}`;
-    code = crypto
+    // Generate 5 character alphanumeric code (e.g., X9K2M)
+    const hash = crypto
       .createHash("sha256")
       .update(base)
       .digest("hex")
-      .substring(0, 8)
+      .substring(0, 5)
       .toUpperCase();
+
+    // Format: BLIP-X9K2M
+    code = `BLIP-${hash}`;
 
     codeExists = await User.exists({ referralCode: code });
   }

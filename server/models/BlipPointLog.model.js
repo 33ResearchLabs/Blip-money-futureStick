@@ -8,15 +8,14 @@ const blipPointLogSchema = new mongoose.Schema(
             required: true,
             index: true,
         },
-    
+
         bonusPoints: {
             type: Number,
-          
         },
 
         totalPoints: {
             type: Number,
-          
+
         },
         event: {
             type: String,

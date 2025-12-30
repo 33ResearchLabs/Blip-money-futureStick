@@ -21,6 +21,7 @@ import ContactUs from "./pages/ContactUs";
 import ScrollToTop from "./components/ScrollToTop";
 import AirdropLogin from "./pages/AirdropLogin";
 import Dashboard from "./pages/Dashboard";
+import AdminDashboard from "./pages/AdminDashboard";
 import { SolanaWalletProvider } from "./providers/SolanaWalletProvider";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
@@ -55,8 +56,8 @@ const App = () => (
                 <Route path="/contact" element={<ContactUs />} />
               </Route>
 
-              {/* AIRDROP LOGIN (NO LAYOUT) */}
-              <Route path="/airdrop" element={<AirdropLogin />} />
+              {/* WAITLIST LOGIN (NO LAYOUT) */}
+              <Route path="/waitlist" element={<AirdropLogin />} />
 
               {/* PROTECTED DASHBOARD (NO LAYOUT) */}
               <Route
@@ -64,6 +65,16 @@ const App = () => (
                 element={
                   <ProtectedRoute>
                     <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* ADMIN DASHBOARD (NO LAYOUT) */}
+              <Route
+                path="/admin"
+                element={
+                  <ProtectedRoute>
+                    <AdminDashboard />
                   </ProtectedRoute>
                 }
               />

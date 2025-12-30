@@ -19,19 +19,24 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { airdropApi } from "@/services/Airdrop";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const AirdropLogin = () => {
-  const { publicKey, connected, disconnect } = useWallet();
+  const { publicKey, connected, disconnect, connecting } = useWallet();
   const { toast } = useToast();
-  const { login, isAuthenticated, logout } = useAuth();
+  const { login, isAuthenticated, logout, isLoading } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   // Navigation & Identity State
-  const [view, setView] = useState("landing"); // 'landing', 'waitlist', 'connect'
+  // Check if user came via referral link - auto-fill referral code and go to waitlist
+  const refFromUrl = searchParams.get("ref") || "";
+  const [view, setView] = useState(refFromUrl ? "waitlist" : "landing"); // 'landing', 'waitlist', 'connect'
   const [email, setEmail] = useState("");
-  const [referral_code, setReferralCode] = useState("");
+  const [referral_code, setReferralCode] = useState(refFromUrl);
   const [isConnecting, setIsConnecting] = useState(false);
+  const [hasRedirected, setHasRedirected] = useState(false);
+  const [walletReady, setWalletReady] = useState(false);
 
   // Derived state from wallet
   const isWalletConnected = connected;
@@ -39,13 +44,41 @@ const AirdropLogin = () => {
     ? `${publicKey.toBase58().slice(0, 4)}...${publicKey.toBase58().slice(-4)}`
     : "";
 
-  // Redirect if already authenticated
+  // Wait for wallet to finish initializing before making redirect decisions
   useEffect(() => {
-    if (isAuthenticated) {
+    if (connecting) {
+      setWalletReady(false);
+      return;
+    }
+
+    // Give wallet adapter a moment to auto-reconnect on page refresh
+    const timer = setTimeout(() => {
+      setWalletReady(true);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [connecting, connected]);
+
+  // Redirect if already authenticated (only after loading completes AND wallet is ready)
+  useEffect(() => {
+    // Wait for auth loading AND wallet to be ready before checking
+    if (isLoading || !walletReady) return;
+
+    // Only redirect once to prevent loops
+    // Also check that wallet is connected and matches the authenticated user
+    if (isAuthenticated && connected && !hasRedirected) {
       console.log("✅ User already authenticated, redirecting to dashboard");
+      setHasRedirected(true);
       navigate("/dashboard", { replace: true });
     }
-  }, [isAuthenticated, navigate]);
+  }, [
+    isAuthenticated,
+    isLoading,
+    navigate,
+    hasRedirected,
+    walletReady,
+    connected,
+  ]);
 
   // Effect: Save user data to backend when wallet connects
   useEffect(() => {
@@ -62,48 +95,28 @@ const AirdropLogin = () => {
       setIsConnecting(true);
 
       try {
-        const response = await airdropApi.postAirdrop({
+        const response: any = await airdropApi.login({
           email: email,
-          referralCode: referral_code,
+          referral_code: referral_code,
           wallet_address: publicKey.toBase58(),
         });
 
         console.log("✅ User data saved successfully:", response);
 
-        // Login user with auth context (use referralCode from backend response)
+        // Login user with auth context (user data comes from backend)
         login({
+          id: response.user?.id || response.user?._id,
           wallet_address: publicKey.toBase58(),
           email,
-          referral_code,
           referralCode: response.user?.referralCode,
-          isNewUser: response.isNewUser,
+          totalBlipPoints: response.user?.totalBlipPoints || 500,
+          status: response.user?.status,
         });
 
-        // Connect wallet to earn 500 points
-        try {
-          await airdropApi.connectWallet(publicKey.toBase58());
-          console.log("✅ Wallet connected, 500 points awarded");
-          toast({
-            title: "Success! +500 Points",
-            description:
-              "Your wallet has been connected and you earned 500 points!",
-          });
-        } catch (walletError: any) {
-          // If wallet already connected (409), still show success
-          if (walletError?.response?.status === 409) {
-            console.log("ℹ️ Wallet already connected");
-            toast({
-              title: "Success!",
-              description: "Your wallet has been connected and data saved.",
-            });
-          } else {
-            console.error("❌ Error connecting wallet:", walletError);
-            toast({
-              title: "Success!",
-              description: "Your wallet has been connected and data saved.",
-            });
-          }
-        }
+        toast({
+          title: "Success! +500 Points",
+          description: "Your account has been created with 500 bonus points!",
+        });
 
         // Navigate to dashboard
         setTimeout(() => {
@@ -164,7 +177,7 @@ const AirdropLogin = () => {
         description: "You have been successfully logged out.",
       });
 
-      navigate("/airdrop");
+      navigate("/waitlist");
     } catch (error) {
       console.error("❌ Logout error:", error);
       toast({
@@ -174,6 +187,20 @@ const AirdropLogin = () => {
       });
     }
   };
+
+  // Show loading while checking authentication or wallet is connecting
+  if (isLoading || connecting || !walletReady) {
+    return (
+      <div className="min-h-screen bg-[#050505] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="w-8 h-8 text-[#39ff14] animate-spin" />
+          <span className="text-zinc-500 text-sm">
+            {isLoading ? "Loading..." : "Connecting wallet..."}
+          </span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -197,12 +224,6 @@ const AirdropLogin = () => {
             </div>
 
             <div className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400">
-              <a href="#" className="hover:text-white transition-colors">
-                Protocol
-              </a>
-              <a href="#" className="hover:text-white transition-colors">
-                Developers
-              </a>
               <div className="h-4 w-px bg-zinc-800" />
               {isWalletConnected ? (
                 <div className="flex items-center gap-4">
@@ -245,7 +266,8 @@ const AirdropLogin = () => {
         <main className="max-w-7xl mx-auto px-6 pt-12 pb-24">
           {/* STEP 0: LANDING */}
           {/* STEP 0: ENHANCED LANDING */}
-          {view === "landing" && (
+
+          {view === "landing" && !isAuthenticated && (
             <div className="animate-in fade-in duration-700">
               {/* Hero Section */}
               <div className="flex flex-col lg:flex-row items-center gap-16 py-20 lg:py-32">
@@ -267,7 +289,7 @@ const AirdropLogin = () => {
                       onClick={() => setView("waitlist")}
                       className="w-full sm:w-auto bg-[#39ff14] text-black px-12 py-5 rounded-sm font-black text-[11px] uppercase tracking-[0.2em] hover:bg-[#32e012] transition-all shadow-[0_20px_40px_-15px_rgba(57,255,20,0.25)] active:scale-95 flex items-center justify-center gap-3"
                     >
-                      Join Hub <ChevronRight size={16} strokeWidth={3} />
+                      Join waitlist <ChevronRight size={16} strokeWidth={3} />
                     </button>
                     <button className="w-full sm:w-auto px-12 py-5 border border-zinc-800 rounded-sm font-bold text-[11px] uppercase tracking-[0.2em] text-zinc-400 hover:bg-zinc-900 transition-all">
                       Read Whitepaper
@@ -276,47 +298,61 @@ const AirdropLogin = () => {
                 </div>
 
                 <div className="flex-1 w-full lg:w-auto relative group">
-                  {/* Visual Decorative Element: Abstract Terminal Card */}
-                  <div className="bg-[#0c0c0c] border border-zinc-800 p-8 rounded-sm shadow-2xl relative overflow-hidden">
-                    <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#39ff14]/20 to-transparent" />
-                    <div className="flex justify-between items-center mb-8 pb-4 border-b border-zinc-900">
-                      <span className="text-[10px] font-mono text-zinc-500 uppercase">
-                        Protocol_Status
-                      </span>
-                      <span className="text-[10px] font-mono text-[#39ff14]">
-                        100% Operational
+                  {/* Visual Decorative Element: Protocol Status Card */}
+                  <div className="bg-[#0a0a0a] border border-zinc-800 rounded-sm shadow-2xl relative overflow-hidden">
+                    {/* Header */}
+                    <div className="flex justify-between items-center px-6 py-4 border-b border-zinc-800/50">
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-[#39ff14] rounded-full shadow-[0_0_8px_#39ff14]" />
+                        <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
+                          Protocol Status
+                        </span>
+                      </div>
+                      <span className="text-[11px] font-mono font-bold text-[#39ff14] uppercase tracking-wider">
+                        Operational
                       </span>
                     </div>
-                    <div className="space-y-6">
-                      {[1, 2, 3].map((i) => (
-                        <div key={i} className="flex gap-4">
-                          <div className="w-10 h-1 rounded-full bg-zinc-900 overflow-hidden">
-                            <div className="h-full bg-zinc-800 w-1/3 animate-ping" />
-                          </div>
-                          <div className="flex-1 space-y-2">
-                            <div className="h-2 w-full bg-zinc-900 rounded-sm" />
-                            <div className="h-2 w-2/3 bg-zinc-900 rounded-sm" />
-                          </div>
-                        </div>
-                      ))}
+
+                    {/* Stats */}
+                    <div className="px-6 py-5 space-y-4 border-b border-zinc-800/50">
+                      <div className="flex justify-between items-center">
+                        <span className="text-[10px] font-mono text-zinc-600 uppercase tracking-wider">
+                          Network_Latency
+                        </span>
+                        <span className="text-sm font-mono font-bold text-zinc-300">
+                          412MS
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-[10px] font-mono text-zinc-600 uppercase tracking-wider">
+                          Active_Vaults
+                        </span>
+                        <span className="text-sm font-mono font-bold text-zinc-300">
+                          12,492
+                        </span>
+                      </div>
                     </div>
-                    <div className="mt-12 flex items-end justify-between">
+
+                    {/* Volume Section */}
+                    <div className="px-6 py-5 flex items-end justify-between">
                       <div className="space-y-1">
-                        <div className="text-[10px] text-zinc-600 font-bold uppercase">
-                          Volume (24h)
+                        <div className="text-[9px] text-zinc-600 font-mono uppercase tracking-wider">
+                          Global Vol (24H)
                         </div>
-                        <div className="text-xl font-mono font-bold text-zinc-300 tracking-tighter">
-                          $14,293.00
+                        <div className="text-2xl font-mono font-bold text-zinc-200 tracking-tight">
+                          $1,293.00
                         </div>
                       </div>
-                      <div className="w-24 h-12 flex items-end gap-1">
-                        {[40, 60, 45, 80, 50, 90, 70].map((h, i) => (
-                          <div
-                            key={i}
-                            className="flex-1 bg-zinc-800 rounded-t-sm"
-                            style={{ height: `${h}%` }}
-                          />
-                        ))}
+                      <div className="w-28 h-14 flex items-end gap-[3px]">
+                        {[35, 50, 40, 65, 45, 80, 55, 90, 60, 75].map(
+                          (h, i) => (
+                            <div
+                              key={i}
+                              className="flex-1 bg-zinc-700/80 rounded-t-[2px]"
+                              style={{ height: `${h}%` }}
+                            />
+                          )
+                        )}
                       </div>
                     </div>
                   </div>
@@ -384,7 +420,7 @@ const AirdropLogin = () => {
             </div>
           )}
           {/* STEP 1: WAITLIST (EMAIL) */}
-          {view === "waitlist" && (
+          {view === "waitlist" && !isAuthenticated && (
             <div className="max-w-md mx-auto py-24 animate-in fade-in zoom-in-95 duration-500">
               <div className="mb-10 text-center">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#39ff14] block mb-4">
@@ -445,7 +481,7 @@ const AirdropLogin = () => {
           )}
 
           {/* STEP 2: CONNECT WALLET */}
-          {view === "connect" && (
+          {view === "connect" && !isAuthenticated && (
             <div className="max-w-lg mx-auto py-12 animate-in fade-in zoom-in-95 duration-500">
               <div className="mb-12 text-center">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#39ff14] block mb-4">

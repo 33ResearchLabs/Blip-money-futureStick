@@ -9,11 +9,14 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { api } from "@/services/api"; // axios instance withCredentials:true
 
 interface User {
+  id: string;
   wallet_address: string;
   email?: string;
-  referral_code?: string;
+  phone?: string;
   referralCode?: string;
-  isNewUser?: boolean;
+  totalBlipPoints: number;
+  status?: string;
+  role?: "USER" | "ADMIN";
 }
 
 interface AuthContextType {
@@ -69,16 +72,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   /**
    * 🔐 Wallet ↔ session consistency check
+   * Only clear user if wallet is connected but address doesn't match
    */
   useEffect(() => {
-    if (!connected || !publicKey) {
-      setUser(null);
-      return;
-    }
-
-    if (user && user.wallet_address !== publicKey.toBase58()) {
-      console.warn("⚠️ Wallet mismatch, clearing session");
-      setUser(null);
+    // If wallet is connected and we have a user, verify addresses match
+    if (connected && publicKey && user) {
+      if (user.wallet_address !== publicKey.toBase58()) {
+        console.warn("⚠️ Wallet mismatch, clearing session");
+        setUser(null);
+      }
     }
   }, [connected, publicKey, user]);
 
@@ -105,7 +107,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  const isAuthenticated = !!user && connected && !!publicKey && !isLoading;
+  // User is authenticated if we have user data and not loading
+  // Wallet connection is checked separately for protected routes
+  const isAuthenticated = !!user && !isLoading;
 
   return (
     <AuthContext.Provider

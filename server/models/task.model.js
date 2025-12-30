@@ -1,4 +1,3 @@
-// models/Task.js
 import mongoose from "mongoose";
 
 const taskSchema = new mongoose.Schema(
@@ -12,14 +11,14 @@ const taskSchema = new mongoose.Schema(
 
     task_type: {
       type: String,
-      enum: ["follow", "post", "quiz", "verification"],
+      enum: ["TWITTER", "TELEGRAM", "QUIZ", "WHITEPAPER", "CUSTOM"],
       required: true,
     },
 
     status: {
       type: String,
-      enum: ["pending", "completed"],
-      default: "pending",
+      enum: ["PENDING", "SUBMITTED", "VERIFIED", "REJECTED"],
+      default: "PENDING",
       index: true,
     },
 
@@ -28,13 +27,13 @@ const taskSchema = new mongoose.Schema(
       screenshot_url: String,
       text_proof: String,
     },
+
+    completedAt: Date,
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
-// ✅ Prevent duplicate task per user
+// ❗ Prevent duplicate task per user
 taskSchema.index({ user_id: 1, task_type: 1 }, { unique: true });
 
 export default mongoose.model("Task", taskSchema);

@@ -3,55 +3,182 @@ import {
   CheckCircle2,
   Clock,
   ChevronRight,
-  ArrowUpRight,
   ShieldCheck,
   Twitter,
-  Users,
   LogOut,
+  XCircle,
+  ExternalLink,
+  Loader2,
+  Coins,
+  FileText,
+  HelpCircle,
+  BookOpen,
+  MessageCircle,
+  Copy,
+  Share2,
+  Check,
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { airdropApi } from "@/services/Airdrop";
+import WhitepaperQuiz from "@/components/WhitepaperQuiz";
+import TelegramVerify from "@/components/TelegramVerify";
+import ReferralModal from "@/components/ReferralModal";
+import PointsHistoryModal from "@/components/PointsHistoryModal";
+
+// Task types matching backend
+type TaskType = "TWITTER" | "TELEGRAM" | "QUIZ" | "WHITEPAPER" | "CUSTOM";
+type TaskStatus = "PENDING" | "SUBMITTED" | "VERIFIED" | "REJECTED";
+
+// 4-Stage UI Flow:
+// Stage 1: NOT_STARTED -> "Start Task" button
+// Stage 2: PENDING -> "Follow/Join/Read" button (opens link)
+// Stage 3: SUBMITTED -> "Verifying..." (auto-submitted after action)
+// Stage 4: VERIFIED -> "Earned +50" (completed)
+
+interface Task {
+  _id: string;
+  task_type: TaskType;
+  status: TaskStatus;
+  proof_data?: {
+    post_url?: string;
+    screenshot_url?: string;
+    text_proof?: string;
+  };
+  completedAt?: string;
+}
+
+// Task configuration with links and action labels
+const TASK_CONFIG: Record<TaskType, { actionLabel: string; link: string }> = {
+  TWITTER: {
+    actionLabel: "Follow",
+    link: "https://twitter.com/intent/follow?screen_name=blipmoney_",
+  },
+  TELEGRAM: {
+    actionLabel: "Join",
+    link: "https://t.me/+3DpHLzc2BfJhOWEx", // Replace with actual Telegram link
+  },
+  WHITEPAPER: {
+    actionLabel: "Read",
+    link: "https://www.blip.money/whitepaper.pdf", // Replace with actual whitepaper link
+  },
+  QUIZ: {
+    actionLabel: "Start Quiz",
+    link: "/quiz", // Or external quiz link
+  },
+  CUSTOM: {
+    actionLabel: "Complete",
+    link: "#",
+  },
+};
 
 const Dashboard = () => {
-  const { logout, user } = useAuth();
+  const { logout, user, refreshSession } = useAuth();
   const { publicKey, disconnect } = useWallet();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [walletConnected, setWalletConnected] = useState(false);
-  const [taskStatus, setTaskStatus] = useState({
-    TWITTER_FOLLOW: "pending",
-    TELEGRAM_JOIN: "pending",
-    WHITEPAPER_READ: "pending",
-    CROSS_BORDER_SWAP: "pending",
-  });
+
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [showQuiz, setShowQuiz] = useState(false);
+  const [whitepaperRead, setWhitepaperRead] = useState(false);
+  const [showTelegramVerify, setShowTelegramVerify] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [showReferralModal, setShowReferralModal] = useState(false);
+  const [showPointsHistoryModal, setShowPointsHistoryModal] = useState(false);
+
+  // Get points from user context (comes from /api/user/me)
+  const blipPoints = user?.totalBlipPoints ?? 0;
+
+  // Referral link
+  const referralLink = user?.referralCode
+    ? `${import.meta.env.VITE_FRONTEND_URL}/waitlist?ref=${user.referralCode}`
+    : "";
+
+  // Copy referral link to clipboard
+  const handleCopyReferral = async () => {
+    if (!referralLink) return;
+
+    try {
+      await navigator.clipboard.writeText(referralLink);
+      setCopied(true);
+      toast({
+        title: "Copied!",
+        description: "Referral link copied to clipboard.",
+      });
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      toast({
+        variant: "destructive",
+        title: "Failed to copy",
+        description: "Please copy the link manually.",
+      });
+    }
+  };
+
+  // Share referral link
+  const handleShareReferral = async () => {
+    if (!referralLink) return;
+
+    const shareData = {
+      title: "Join Blip Money",
+      text: `Join Blip Money and earn rewards! Use my referral code: ${user?.referralCode}`,
+      url: referralLink,
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        // Fallback: copy to clipboard
+        await handleCopyReferral();
+      }
+    } catch (err) {
+      // User cancelled share or error
+      console.log("Share cancelled or failed");
+    }
+  };
 
   const displayWalletAddress = publicKey
     ? `${publicKey.toBase58().slice(0, 4)}...${publicKey.toBase58().slice(-4)}`
     : "";
 
+  // Fetch user's tasks on mount
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        setLoading(true);
+        const res: any = await airdropApi.getMyTasks();
+        setTasks(res.tasks || []);
+      } catch (err) {
+        console.error("Failed to fetch tasks", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTasks();
+  }, []);
+
+  // Get task status by type
+  const getTaskStatus = (taskType: TaskType): TaskStatus | "NOT_STARTED" => {
+    const task = tasks.find((t) => t.task_type === taskType);
+    return task?.status || "NOT_STARTED";
+  };
+
   const handleLogout = async () => {
     try {
-      console.log("🚪 Logging out...");
-
-      // Disconnect wallet
       await disconnect();
-      console.log("✅ Wallet disconnected");
-
-      // Clear local auth state and call backend to clear HTTP-only cookie
       await logout();
-      console.log("✅ Auth state cleared and cookie cleared");
-
       toast({
         title: "Logged out",
         description: "You have been successfully logged out.",
       });
-
-      navigate("/airdrop");
+      navigate("/waitlist");
     } catch (error) {
-      console.error("❌ Logout error:", error);
+      console.error("Logout error:", error);
       toast({
         variant: "destructive",
         title: "Error",
@@ -60,89 +187,41 @@ const Dashboard = () => {
     }
   };
 
-  const [blipPoints, setBlipPoints] = useState<number>(0);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchPoints = async () => {
-      try {
-        setLoading(true);
-        const res = await airdropApi.getMyPoints();
-        setBlipPoints(res.data.points);
-      } catch (err: any) {
-        setError(err?.response?.data?.message || "Failed to load points");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPoints();
-  }, []);
-
-  const StatusBadge = ({ status }: { status: string }) => {
-    switch (status) {
-      case "completed":
-        return (
-          <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-[#39ff14] bg-[#39ff14]/10 px-2 py-1 rounded border border-[#39ff14]/20">
-            <CheckCircle2 size={12} /> Claimed
-          </span>
-        );
-
-      case "pending":
-        return (
-          <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-zinc-400 bg-zinc-800 px-2 py-1 rounded border border-zinc-700">
-            Start Task
-          </span>
-        );
-
-      case "under_review":
-        return (
-          <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-amber-500 bg-amber-500/10 px-2 py-1 rounded border border-amber-500/20 animate-pulse">
-            <Clock size={12} /> Verifying…
-          </span>
-        );
-
-      default:
-        return null;
-    }
-  };
-
-  //Wallet Connect
-  const handleConnectWallet = async () => {
-    if (!publicKey) {
-      toast({
-        variant: "destructive",
-        title: "Wallet not connected",
-        description: "Please connect your wallet first",
-      });
-      return;
-    }
-
+  // Stage 1: Create task (moves to PENDING)
+  const handleStartTask = async (taskType: TaskType) => {
     try {
       setLoading(true);
 
-      await airdropApi.connectWallet(publicKey.toBase58());
+      // Create the task - status will be PENDING
+      const createRes: any = await airdropApi.createTask({
+        task_type: taskType,
+      });
+      const newTask = createRes.task;
 
-      setWalletConnected(true);
+      // Update local state
+      setTasks((prev) => [
+        ...prev.filter((t) => t.task_type !== taskType),
+        newTask,
+      ]);
 
       toast({
-        title: "Wallet Connected",
-        description: "Wallet connected successfully",
+        title: "Task Started",
+        description: `Now complete the action to earn points.`,
       });
     } catch (err: any) {
       if (err?.response?.status === 409) {
-        setWalletConnected(true);
         toast({
-          title: "Wallet Already Connected",
-          description: err.response.data.message,
+          title: "Task Already Started",
+          description: "You have already started this task.",
         });
+        // Refresh tasks to get current state
+        const res: any = await airdropApi.getMyTasks();
+        setTasks(res.tasks || []);
       } else {
         toast({
           variant: "destructive",
           title: "Error",
-          description:
-            err?.response?.data?.message || "Failed to connect wallet",
+          description: err?.response?.data?.message || "Failed to start task",
         });
       }
     } finally {
@@ -150,501 +229,840 @@ const Dashboard = () => {
     }
   };
 
-  // Apply Bonous
+  // Stage 2: Complete action (Follow/Join/Read) and submit for verification
+  const handleCompleteAction = async (taskType: TaskType) => {
+    const task = tasks.find((t) => t.task_type === taskType);
+    if (!task) return;
 
-  const handleApplyBonus = async (label: string) => {
-    try {
-      setLoading(true);
+    const config = TASK_CONFIG[taskType];
 
-      const res = await airdropApi.applyBonus(label);
+    // Special handling for WHITEPAPER - open link and mark as read
+    if (taskType === "WHITEPAPER") {
+      window.open(config.link, "_blank");
+      setWhitepaperRead(true);
+      toast({
+        title: "Whitepaper Opened",
+        description:
+          "Read the whitepaper, then complete the quiz to earn points.",
+      });
+      return;
+    }
 
-      setTaskStatus((prev) => ({
-        ...prev,
-        [label]: "completed",
-      }));
+    // Special handling for TELEGRAM - show verification dialog
+    if (taskType === "TELEGRAM") {
+      setShowTelegramVerify(true);
+      return;
+    }
 
-      setBlipPoints(res.totalPoints);
+    // Open the link in new tab
+    window.open(config.link, "_blank");
+
+    // Wait a moment then submit for verification
+    setTimeout(async () => {
+      try {
+        setLoading(true);
+
+        // Submit the task for verification
+        await airdropApi.submitTask(task._id);
+
+        // Update local state to SUBMITTED
+        setTasks((prev) =>
+          prev.map((t) =>
+            t.task_type === taskType ? { ...t, status: "SUBMITTED" } : t
+          )
+        );
+
+        toast({
+          title: "Verifying...",
+          description: "Your action is being verified. Please wait.",
+        });
+      } catch (err: any) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: err?.response?.data?.message || "Failed to submit task",
+        });
+      } finally {
+        setLoading(false);
+      }
+    }, 2000); // Wait 2 seconds after opening link
+  };
+
+  // Handle Telegram verification
+  const handleTelegramVerify = async (telegramUserId: string) => {
+    const task = tasks.find((t) => t.task_type === "TELEGRAM");
+    if (!task) return;
+
+    const res: any = await airdropApi.verifyTelegram(task._id, telegramUserId);
+
+    if (res.success) {
+      // Update local state
+      setTasks((prev) =>
+        prev.map((t) =>
+          t.task_type === "TELEGRAM" ? { ...t, status: "VERIFIED" } : t
+        )
+      );
+
+      // Refresh user to get updated points
+      await refreshSession();
 
       toast({
-        title: "Bonus Applied",
-        description: `+${res.addedPoints} points added`,
+        title: "Telegram Verified!",
+        description: `You earned ${res.pointsAwarded || 50} points!`,
       });
-    } catch (err: any) {
-      toast({
-        variant: "destructive",
-        title: "Action Failed",
-        description: err?.response?.data?.message || "Bonus already claimed",
-      });
-    } finally {
-      setLoading(false);
+
+      setShowTelegramVerify(false);
     }
   };
 
-  // Get status of bonus points
-  useEffect(() => {
-    const loadStatus = async () => {
-      try {
-        const res = await airdropApi.fetchStatus();
-        setTaskStatus(res.actions);
-      } catch (err) {
-        console.error("Failed to fetch bonus status", err);
+  // Handle quiz completion
+  const handleQuizComplete = async (score: number, answers: number[]) => {
+    const task = tasks.find((t) => t.task_type === "WHITEPAPER");
+    if (!task) return;
+
+    try {
+      // Submit quiz answers to backend
+      const res: any = await airdropApi.submitQuiz(task._id, {
+        score,
+        answers,
+      });
+
+      if (res.success) {
+        // Update local state
+        setTasks((prev) =>
+          prev.map((t) =>
+            t.task_type === "WHITEPAPER" ? { ...t, status: "VERIFIED" } : t
+          )
+        );
+
+        // Refresh user to get updated points
+        await refreshSession();
+
+        toast({
+          title: "Quiz Completed!",
+          description: `You earned ${res.pointsAwarded || 50} points!`,
+        });
       }
-    };
 
-    loadStatus();
-  }, []);
+      setShowQuiz(false);
+      setWhitepaperRead(false);
+    } catch (err: any) {
+      toast({
+        variant: "destructive",
+        title: "Quiz Failed",
+        description:
+          err?.response?.data?.message ||
+          "You need at least 4/5 correct answers.",
+      });
+    }
+  };
 
-  // get status of wallet connected or not
-  useEffect(() => {
-    const fetchWalletStatus = async () => {
-      try {
-        const res: any = await airdropApi.getWalletStatus();
-        // res is already response.data due to axios interceptor
-        setWalletConnected(!!res.connected);
-      } catch (err) {
-        setWalletConnected(false);
-      }
-    };
+  // Task Card Component with 4-Stage Flow
+  const TaskCard = ({
+    taskType,
+    title,
+    description,
+    points,
+    icon,
+  }: {
+    taskType: TaskType;
+    title: string;
+    description?: string;
+    points: number;
+    icon?: React.ReactNode;
+  }) => {
+    const status = getTaskStatus(taskType);
+    const config = TASK_CONFIG[taskType];
 
-    fetchWalletStatus();
-  }, []);
-  console.log(user);
-  return (
-    <>
-      <div className="min-h-screen bg-[#050505] text-zinc-100">
-        {/* Navigation */}
-        <nav className="border-b border-zinc-800/50 bg-[#050505]/80 backdrop-blur-md sticky top-0 z-50">
-          <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded bg-zinc-900 border border-zinc-700 flex items-center justify-center">
-                <div className="w-1.5 h-1.5 bg-[#39ff14] rounded-full shadow-[0_0_8px_#39ff14]" />
-              </div>
-              <span className="text-xl font-bold tracking-tight">
-                Blip
-                <span className="text-zinc-500 text-lg font-normal">
-                  .money
+    // Render action button based on stage
+    const renderActionButton = () => {
+      switch (status) {
+        // Stage 1: Not started - Show "Start Task"
+        case "NOT_STARTED":
+          return (
+            <button
+              onClick={() => handleStartTask(taskType)}
+              disabled={loading}
+              className="px-4 py-2 rounded font-bold transition bg-zinc-700 text-white hover:bg-zinc-600 disabled:opacity-50"
+            >
+              {loading ? (
+                <span className="flex items-center gap-2">
+                  <Loader2 size={14} className="animate-spin" /> Processing...
                 </span>
-              </span>
+              ) : (
+                "Start Task"
+              )}
+            </button>
+          );
+
+        // Stage 2: Pending - Show action button (Follow/Join/Read)
+        case "PENDING":
+          // Special handling for WHITEPAPER - show quiz button after reading
+          if (taskType === "WHITEPAPER" && whitepaperRead) {
+            return (
+              <button
+                onClick={() => setShowQuiz(true)}
+                className="px-4 py-2 rounded font-bold transition bg-[#39ff14] text-black hover:bg-[#2fe610] flex items-center gap-2"
+              >
+                <HelpCircle size={14} />
+                Take Quiz
+              </button>
+            );
+          }
+
+          return (
+            <button
+              onClick={() => handleCompleteAction(taskType)}
+              disabled={loading}
+              className="px-4 py-2 rounded font-bold transition bg-[#39ff14] text-black hover:bg-[#2fe610] disabled:opacity-50 flex items-center gap-2"
+            >
+              {loading ? (
+                <span className="flex items-center gap-2">
+                  <Loader2 size={14} className="animate-spin" /> Processing...
+                </span>
+              ) : (
+                <>
+                  {config.actionLabel}
+                  <ExternalLink size={14} />
+                </>
+              )}
+            </button>
+          );
+
+        // Stage 3: Submitted - Show "Verifying..."
+        case "SUBMITTED":
+          return (
+            <span className="flex items-center gap-2 px-4 py-2 rounded font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">
+              <Loader2 size={14} className="animate-spin" />
+              Verifying...
+            </span>
+          );
+
+        // Stage 4: Verified - Show "Earned"
+        case "VERIFIED":
+          return (
+            <span className="flex items-center gap-2 px-4 py-2 rounded font-bold bg-[#39ff14]/20 text-[#39ff14] border border-[#39ff14]/30">
+              <Coins size={14} />
+              Earned +{points}
+            </span>
+          );
+
+        // Rejected - Show retry option
+        case "REJECTED":
+          return (
+            <span className="flex items-center gap-2 px-4 py-2 rounded font-bold bg-red-500/20 text-red-400 border border-red-500/30">
+              <XCircle size={14} />
+              Rejected
+            </span>
+          );
+
+        default:
+          return null;
+      }
+    };
+
+    // Progress indicator
+    const getStageNumber = () => {
+      switch (status) {
+        case "NOT_STARTED":
+          return 1;
+        case "PENDING":
+          return 2;
+        case "SUBMITTED":
+          return 3;
+        case "VERIFIED":
+          return 4;
+        default:
+          return 0;
+      }
+    };
+
+    const stage = getStageNumber();
+
+    return (
+      <div className="group text-left p-6 bg-zinc-900/30 border border-zinc-800 rounded-sm hover:border-zinc-600 transition-all">
+        {/* Progress Steps */}
+        <div className="flex items-center gap-1 mb-4">
+          {[1, 2, 3, 4].map((step) => (
+            <div
+              key={step}
+              className={`h-1 flex-1 rounded-full transition-all ${
+                step <= stage
+                  ? step === 4
+                    ? "bg-[#39ff14]"
+                    : "bg-[#39ff14]/60"
+                  : "bg-zinc-800"
+              }`}
+            />
+          ))}
+        </div>
+
+        <div className="flex justify-between items-start mb-6">
+          <div className="flex gap-4">
+            {icon && (
+              <div
+                className={`w-10 h-10 rounded flex items-center justify-center transition-all ${
+                  status === "VERIFIED"
+                    ? "bg-[#39ff14]/20 text-[#39ff14]"
+                    : "bg-zinc-800 text-zinc-500"
+                }`}
+              >
+                {status === "VERIFIED" ? <CheckCircle2 size={16} /> : icon}
+              </div>
+            )}
+            <div>
+              <h4
+                className={`font-bold transition-colors ${
+                  status === "VERIFIED"
+                    ? "text-[#39ff14]"
+                    : "text-zinc-100 group-hover:text-[#39ff14]"
+                }`}
+              >
+                {title}
+              </h4>
+              {description && (
+                <p className="text-[11px] text-zinc-500 mt-1 max-w-[240px]">
+                  {description}
+                </p>
+              )}
             </div>
-            <div className="flex items-center gap-6">
-              <div className="flex items-center gap-6 mr-4 border-r border-zinc-800 pr-6">
-                <div className="flex flex-col items-end">
-                  <span className="text-[9px] uppercase tracking-tighter text-zinc-500 font-bold">
-                    Protocol Balance
-                  </span>
-                  <span className="text-[#39ff14] font-mono text-sm font-bold">
-                    {blipPoints} pts
-                  </span>
+          </div>
+
+          <div className="text-right">
+            <span
+              className={`text-sm font-mono font-bold ${
+                status === "VERIFIED" ? "text-[#39ff14]" : "text-zinc-500"
+              }`}
+            >
+              +{points}
+            </span>
+            <div className="text-[8px] font-black uppercase text-zinc-600 tracking-widest">
+              Points
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between pt-4 border-t border-zinc-800/50">
+          {renderActionButton()}
+
+          <div className="text-[9px] font-bold uppercase tracking-wider text-zinc-600">
+            {status === "NOT_STARTED" && "Step 1/4"}
+            {status === "PENDING" && "Step 2/4"}
+            {status === "SUBMITTED" && "Step 3/4"}
+            {status === "VERIFIED" && "Complete"}
+            {status === "REJECTED" && "Failed"}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="min-h-screen bg-[#050505] text-zinc-100">
+      {/* Quiz Modal */}
+      {showQuiz && (
+        <WhitepaperQuiz
+          onComplete={handleQuizComplete}
+          onClose={() => setShowQuiz(false)}
+        />
+      )}
+
+      {/* Telegram Verify Modal */}
+      {showTelegramVerify && (
+        <TelegramVerify
+          onVerify={handleTelegramVerify}
+          onClose={() => setShowTelegramVerify(false)}
+          telegramLink={TASK_CONFIG.TELEGRAM.link}
+        />
+      )}
+
+      {/* Referral Modal */}
+      <ReferralModal
+        isOpen={showReferralModal}
+        onClose={() => setShowReferralModal(false)}
+        referralCode={user?.referralCode || ""}
+        referralLink={referralLink}
+      />
+
+      {/* Points History Modal */}
+      <PointsHistoryModal
+        isOpen={showPointsHistoryModal}
+        onClose={() => setShowPointsHistoryModal(false)}
+        totalPoints={blipPoints}
+      />
+
+      {/* Navigation */}
+      <nav className="border-b border-zinc-800/50 bg-[#050505]/80 backdrop-blur-md sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded bg-zinc-900 border border-zinc-700 flex items-center justify-center">
+              <div className="w-1.5 h-1.5 bg-[#39ff14] rounded-full shadow-[0_0_8px_#39ff14]" />
+            </div>
+            <span className="text-xl font-bold tracking-tight">
+              Blip
+              <span className="text-zinc-500 text-lg font-normal">.money</span>
+            </span>
+          </div>
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-6 mr-4 border-r border-zinc-800 pr-6">
+              <div className="flex flex-col items-end">
+                <span className="text-[9px] uppercase tracking-tighter text-zinc-500 font-bold">
+                  Protocol Balance
+                </span>
+                <span className="text-[#39ff14] font-mono text-sm font-bold">
+                  {blipPoints} pts
+                </span>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="flex flex-col items-end">
+                <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold leading-none mb-1">
+                  Authenticated
+                </span>
+                <span className="text-zinc-200 font-mono text-xs">
+                  {displayWalletAddress}
+                </span>
+              </div>
+              <div className="w-8 h-8 rounded-full bg-[#39ff14]/10 border border-[#39ff14]/30 flex items-center justify-center">
+                <ShieldCheck className="text-[#39ff14]" size={16} />
+              </div>
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 px-4 py-2 rounded-sm bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-zinc-600 transition-all text-xs font-bold uppercase tracking-wider text-zinc-300 hover:text-white"
+              >
+                <LogOut size={14} />
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-6 pt-12 pb-24">
+        <div className="space-y-12">
+          {/* Stats Header */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="bg-zinc-900/40 border border-zinc-800 p-6 rounded-sm">
+              <span className="text-[9px] font-black uppercase tracking-widest text-zinc-500 block mb-2">
+                Authenticated As
+              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold text-zinc-200">
+                  {displayWalletAddress}
+                </span>
+                <div className="w-2 h-2 rounded-full bg-[#39ff14] shadow-[0_0_5px_#39ff14]" />
+              </div>
+            </div>
+            <div
+              onClick={() => setShowPointsHistoryModal(true)}
+              className="bg-zinc-900/40 border border-zinc-800 p-6 rounded-sm relative overflow-hidden hover:border-[#39ff14]/30 transition-all cursor-pointer group"
+            >
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[9px] font-black uppercase tracking-widest text-zinc-500">
+                  Accumulated Points
+                </span>
+                <span className="text-[10px] text-zinc-600 group-hover:text-[#39ff14] transition-colors">
+                  View history →
+                </span>
+              </div>
+              <div className="flex items-baseline gap-1">
+                <span className="text-3xl font-black text-[#39ff14] tracking-tighter tabular-nums">
+                  {blipPoints}
+                </span>
+              </div>
+              <div className="absolute bottom-0 left-0 w-full h-[2px] bg-zinc-800">
+                <div
+                  className="h-full bg-[#39ff14] transition-all duration-1000"
+                  style={{
+                    width: `${Math.min((blipPoints / 4000) * 100, 100)}%`,
+                  }}
+                />
+              </div>
+            </div>
+            <div className="bg-zinc-900/40 border border-zinc-800 p-6 rounded-sm">
+              <span className="text-[9px] font-black uppercase tracking-widest text-zinc-500 block mb-2">
+                Protocol Status
+              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-bold text-white">
+                  {user?.status === "ACTIVE"
+                    ? "Active Participant"
+                    : "Waitlisted"}
+                </span>
+              </div>
+            </div>
+            <div
+              onClick={() => setShowReferralModal(true)}
+              className="bg-[#39ff14]/5 border border-[#39ff14]/10 p-6 rounded-sm hover:bg-[#39ff14]/10 transition-all cursor-pointer group"
+            >
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-[9px] font-black uppercase tracking-widest text-[#39ff14]">
+                  Your Referral Code
+                </span>
+                <span className="text-xs font-bold text-[#39ff14]">
+                  +100 pts per referral
+                </span>
+              </div>
+              <div className="flex items-center justify-between gap-3">
+                <span className="text-lg font-mono font-bold text-white tracking-wider">
+                  {user?.referralCode || "—"}
+                </span>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleCopyReferral();
+                    }}
+                    className="p-2 rounded bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-[#39ff14]/50 transition-all"
+                    title="Copy referral link"
+                  >
+                    {copied ? (
+                      <Check size={14} className="text-[#39ff14]" />
+                    ) : (
+                      <Copy
+                        size={14}
+                        className="text-zinc-400 hover:text-[#39ff14]"
+                      />
+                    )}
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleShareReferral();
+                    }}
+                    className="p-2 rounded bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-[#39ff14]/50 transition-all"
+                    title="Share referral link"
+                  >
+                    <Share2
+                      size={14}
+                      className="text-zinc-400 hover:text-[#39ff14]"
+                    />
+                  </button>
                 </div>
               </div>
-              <div className="flex items-center gap-4">
-                <div className="flex flex-col items-end">
-                  <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold leading-none mb-1">
-                    Authenticated
-                  </span>
-                  <span className="text-zinc-200 font-mono text-xs">
-                    {displayWalletAddress}
-                  </span>
-                </div>
-                <div className="w-8 h-8 rounded-full bg-[#39ff14]/10 border border-[#39ff14]/30 flex items-center justify-center">
-                  <ShieldCheck className="text-[#39ff14]" size={16} />
-                </div>
-                <button
-                  onClick={handleLogout}
-                  className="flex items-center gap-2 px-4 py-2 rounded-sm bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-zinc-600 transition-all text-xs font-bold uppercase tracking-wider text-zinc-300 hover:text-white"
-                >
-                  <LogOut size={14} />
-                  Logout
-                </button>
+              <div className="mt-3 pt-3 border-t border-zinc-800/50 flex items-center justify-between">
+                <p className="text-[10px] text-zinc-500 truncate flex-1">
+                  {referralLink || "Generate your referral link"}
+                </p>
+                <span className="text-[10px] text-zinc-600 group-hover:text-[#39ff14] transition-colors ml-2">
+                  Click to view referrals →
+                </span>
               </div>
             </div>
           </div>
-        </nav>
 
-        {/* Main Content */}
-        <main className="max-w-7xl mx-auto px-6 pt-12 pb-24">
+          {/* Tasks Section */}
           <div className="space-y-12">
-            {/* Stats Header */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="bg-zinc-900/40 border border-zinc-800 p-6 rounded-sm">
-                <span className="text-[9px] font-black uppercase tracking-widest text-zinc-500 block mb-2">
-                  Authenticated As
-                </span>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold text-zinc-200">
-                    {displayWalletAddress}
-                  </span>
-                  <div className="w-2 h-2 rounded-full bg-[#39ff14] shadow-[0_0_5px_#39ff14]" />
-                </div>
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-bold text-white tracking-tight">
+                Available Tasks
+              </h2>
+              <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">
+                Complete tasks to earn points
               </div>
-              <div className="bg-zinc-900/40 border border-zinc-800 p-6 rounded-sm relative overflow-hidden">
-                <span className="text-[9px] font-black uppercase tracking-widest text-zinc-500 block mb-2">
-                  Accumulated Points
-                </span>
-                <div className="flex items-baseline gap-1">
-                  <span className="text-3xl font-black text-[#39ff14] tracking-tighter tabular-nums">
-                    {blipPoints}
+            </div>
+
+            <div className="space-y-10">
+              {/* Social Verification Tasks */}
+              <div>
+                <div className="flex items-center gap-4 mb-6">
+                  <span className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600 whitespace-nowrap">
+                    Social Verification
                   </span>
+                  <div className="h-px w-full bg-zinc-900" />
                 </div>
-                {/* Micro progress bar */}
-                <div className="absolute bottom-0 left-0 w-full h-[2px] bg-zinc-800">
-                  <div
-                    className="h-full bg-[#39ff14] transition-all duration-1000"
-                    style={{ width: `${(blipPoints / 4000) * 100}%` }}
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <TaskCard
+                    taskType="TWITTER"
+                    title="Follow Blip on Twitter"
+                    description="Follow our official Twitter account for updates."
+                    points={50}
+                    icon={<Twitter size={16} />}
+                  />
+
+                  <TaskCard
+                    taskType="TELEGRAM"
+                    title="Join Telegram Community"
+                    description="Join our global Telegram group."
+                    points={50}
+                    icon={<MessageCircle size={16} />}
                   />
                 </div>
               </div>
-              <div className="bg-zinc-900/40 border border-zinc-800 p-6 rounded-sm">
-                <span className="text-[9px] font-black uppercase tracking-widest text-zinc-500 block mb-2">
-                  Protocol Status
-                </span>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-bold text-white">
-                    Active Participant
-                  </span>
-                </div>
-              </div>
-              <div className="bg-[#39ff14]/5 border border-[#39ff14]/10 p-6 rounded-sm group cursor-pointer hover:bg-[#39ff14]/10 transition-all flex items-center justify-between">
-                <div>
-                  <span className="text-[9px] font-black uppercase tracking-widest text-[#39ff14] block mb-1">
-                    Your Referral Code
-                  </span>
-                  <span className="text-lg font-mono font-bold text-white tracking-wider">
-                    {user?.referralCode || "—"}
-                  </span>
-                </div>
-                <div className="flex flex-col items-end">
-                  <span className="text-[9px] font-black uppercase tracking-widest text-zinc-500 mb-1">
-                    Bonus
-                  </span>
-                  <span className="text-xs font-bold text-[#39ff14]">+15%</span>
-                </div>
-              </div>
-            </div>
 
-            {/* Tasks Section */}
-            <div className="space-y-12">
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl font-bold text-white tracking-tight">
-                  Available Contributions
-                </h2>
-                <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">
-                  Update Frequency:{" "}
-                  <span className="text-[#39ff14]">Instant</span>
+              {/* Education Tasks */}
+              <div>
+                <div className="flex items-center gap-4 mb-6">
+                  <span className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600 whitespace-nowrap">
+                    Education
+                  </span>
+                  <div className="h-px w-full bg-zinc-900" />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <TaskCard
+                    taskType="WHITEPAPER"
+                    title="Read Whitepaper & Quiz"
+                    description="Read the whitepaper and complete a 5-question quiz to earn points."
+                    points={50}
+                    icon={<BookOpen size={16} />}
+                  />
                 </div>
               </div>
 
-              <div className="space-y-10">
-                {/* ================= CORE TASKS ================= */}
-                <div>
-                  <div className="flex items-center gap-4 mb-6">
-                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600 whitespace-nowrap">
-                      Core Tasks
-                    </span>
-                    <div className="h-px w-full bg-zinc-900" />
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {/* Card 1 */}
-                    <div className="group text-left p-6 bg-zinc-900/30 border border-zinc-800 rounded-sm hover:border-zinc-600 transition-all">
-                      <div className="flex justify-between items-start mb-6">
-                        <div>
-                          <h4 className="font-bold text-zinc-100 group-hover:text-[#39ff14]">
-                            Initialize Private Vault
-                          </h4>
-                          <p className="text-[11px] text-zinc-500 mt-1 max-w-[240px]">
-                            Set up your first encrypted liquidity vault on the
-                            Blip network.
-                          </p>
-                        </div>
-
-                        <div className="text-right">
-                          <span className="text-sm font-mono font-bold text-[#39ff14]">
-                            +500
-                          </span>
-                          <div className="text-[8px] font-black uppercase text-zinc-600 tracking-widest">
-                            Points
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center justify-between pt-4 border-t border-zinc-800/50">
-                        {walletConnected ? (
-                          <StatusBadge status="completed" />
-                        ) : (
-                          <button
-                            onClick={handleConnectWallet}
-                            disabled={loading}
-                            className="px-4 py-2 rounded font-bold transition bg-[#39ff14] text-black hover:bg-[#2fe610]"
-                          >
-                            {loading ? "Connecting..." : "Connect Wallet"}
-                          </button>
-                        )}
-
-                        <ChevronRight
-                          size={14}
-                          className={`text-zinc-600 transition-transform ${
-                            !walletConnected ? "group-hover:translate-x-1" : ""
-                          }`}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Card 2 */}
-                    <div className="group text-left p-6 bg-zinc-900/30 border border-zinc-800 rounded-sm hover:border-zinc-600 transition-all">
-                      <div className="flex justify-between items-start mb-6">
-                        <div>
-                          <h4 className="font-bold text-zinc-100 group-hover:text-[#39ff14]">
-                            Execute Cross-Border Swap
-                          </h4>
-                          <p className="text-[11px] text-zinc-500 mt-1 max-w-[240px]">
-                            Complete a transaction exceeding $100 equivalent in
-                            volume.
-                          </p>
-                        </div>
-
-                        <div className="text-right">
-                          <span className="text-sm font-mono font-bold text-[#39ff14]">
-                            +750
-                          </span>
-                          <div className="text-[8px] font-black uppercase text-zinc-600 tracking-widest">
-                            Points
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center justify-between pt-4 border-t border-zinc-800/50">
-                        {/* ACTION BUTTON */}
-                        <button
-                          onClick={() =>
-                            taskStatus.CROSS_BORDER_SWAP === "pending" &&
-                            handleApplyBonus("CROSS_BORDER_SWAP")
-                          }
-                          disabled={taskStatus.CROSS_BORDER_SWAP !== "pending"}
-                          className={`group flex items-center gap-2 px-3 py-1.5 rounded-sm border text-[10px] font-bold uppercase tracking-wider transition-all
-      ${
-        taskStatus.CROSS_BORDER_SWAP === "completed"
-          ? "border-[#39ff14]/30 text-[#39ff14] bg-[#39ff14]/10 cursor-default"
-          : "border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-200"
-      }`}
-                        >
-                          <StatusBadge status={taskStatus.CROSS_BORDER_SWAP} />
-                        </button>
-
-                        {/* CHEVRON */}
-                        <ChevronRight
-                          size={14}
-                          className={`transition-transform text-zinc-600
-      ${
-        taskStatus.CROSS_BORDER_SWAP === "pending"
-          ? "group-hover:translate-x-1"
-          : ""
-      }`}
-                        />
-                      </div>
-                    </div>
-                  </div>
+              <section>
+                <div className="flex items-center gap-6 mb-10 opacity-90">
+                  <h3 className="text-[11px] font-black uppercase tracking-[0.5em] text-zinc-700 whitespace-nowrap">
+                    CORE PROTOCOL (COMING SOON)
+                  </h3>
+                  <div className="h-px flex-1 bg-zinc-900/20"></div>
                 </div>
-
-                {/* ================= SOCIAL VERIFICATION ================= */}
-                <div>
-                  <div className="flex items-center gap-4 mb-6">
-                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600 whitespace-nowrap">
-                      Social Verification
-                    </span>
-                    <div className="h-px w-full bg-zinc-900" />
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="group text-left p-6 bg-zinc-900/30 border border-zinc-800 rounded-sm hover:border-zinc-600 transition-all">
-                      <div className="flex justify-between items-start mb-6">
-                        <div className="flex gap-4">
-                          <div className="w-10 h-10 rounded bg-zinc-800 flex items-center justify-center text-zinc-500">
-                            <Twitter size={16} />
-                          </div>
-                          <div>
-                            <h4 className="font-bold text-zinc-100 group-hover:text-[#39ff14]">
-                              Follow Blip Institutional
-                            </h4>
-                          </div>
-                        </div>
-
-                        <div className="text-right">
-                          <span className="text-sm font-mono font-bold text-[#39ff14]">
-                            +100
-                          </span>
-                          <div className="text-[8px] font-black uppercase text-zinc-600 tracking-widest">
-                            Points
-                          </div>
-                        </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="p-8 bg-zinc-950/40 border border-zinc-800/40 rounded-sm flex flex-col justify-between">
+                    <div className="mb-10 flex gap-6">
+                      <div className="w-12 h-12 bg-zinc-900 text-zinc-800 flex items-center justify-center rounded-sm">
+                        <i data-lucide="globe" className="w-5 h-5"></i>
                       </div>
-
-                      <div className="flex items-center justify-between pt-4 border-t border-zinc-800/50">
-                        <button
-                          onClick={() => handleApplyBonus("TWITTER_FOLLOW")}
-                          disabled={taskStatus.TWITTER_FOLLOW !== "pending"}
-                          className={`flex items-center gap-2 px-3 py-1.5 rounded-sm border text-[10px] font-bold uppercase tracking-wider transition-all
-    ${
-      taskStatus.TWITTER_FOLLOW === "completed"
-        ? "border-[#39ff14]/30 text-[#39ff14] bg-[#39ff14]/10 cursor-default"
-        : "border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white"
-    }
-  `}
-                        >
-                          <StatusBadge status={taskStatus.TWITTER_FOLLOW} />
-                        </button>
-
-                        <ChevronRight
-                          size={14}
-                          className={`text-zinc-600 transition-transform ${
-                            taskStatus.TWITTER_FOLLOW === "pending"
-                              ? "group-hover:translate-x-1"
-                              : ""
-                          }`}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="group text-left p-6 bg-zinc-900/30 border border-zinc-800 rounded-sm hover:border-zinc-600 transition-all">
-                      <div className="flex justify-between items-start mb-6">
-                        <div className="flex gap-4">
-                          <div className="w-10 h-10 rounded bg-zinc-800 flex items-center justify-center text-zinc-500">
-                            <Users size={16} />
-                          </div>
-                          <div>
-                            <h4 className="font-bold text-zinc-100 group-hover:text-[#39ff14]">
-                              Join Global Telegram
-                            </h4>
-                          </div>
-                        </div>
-
-                        <div className="text-right">
-                          <span className="text-sm font-mono font-bold text-[#39ff14]">
-                            +100
-                          </span>
-                          <div className="text-[8px] font-black uppercase text-zinc-600 tracking-widest">
-                            Points
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center justify-between pt-4 border-t border-zinc-800/50">
-                        <button
-                          onClick={() => handleApplyBonus("TELEGRAM_JOIN")}
-                          disabled={taskStatus.TELEGRAM_JOIN !== "pending"}
-                          className={`flex items-center gap-2 px-3 py-1.5 rounded-sm border text-[10px] font-bold uppercase tracking-wider transition-all
-    ${
-      taskStatus.TELEGRAM_JOIN === "completed"
-        ? "border-[#39ff14]/30 text-[#39ff14] bg-[#39ff14]/10 cursor-default"
-        : "border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white"
-    }
-  `}
-                        >
-                          <StatusBadge status={taskStatus.TELEGRAM_JOIN} />
-                        </button>
-
-                        <ChevronRight size={14} className="text-zinc-600" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* ================= Education & Governance ================= */}
-                <div>
-                  <div className="flex items-center gap-4 mb-6">
-                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600 whitespace-nowrap">
-                      Education & Governance
-                    </span>
-                    <div className="h-px w-full bg-zinc-900" />
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {/* Card 1 */}
-                    <div className="group text-left p-6 bg-zinc-900/30 border border-zinc-800 rounded-sm hover:border-zinc-600 transition-all">
-                      <div className="flex justify-between items-start mb-6">
-                        <div>
-                          <h4 className="font-bold text-zinc-100 group-hover:text-[#39ff14]">
-                            Read Whitepaper 2.0
+                      <div className="flex-1">
+                        <div className="flex justify-between items-start mb-2">
+                          <h4 className="text-xl font-bold tracking-tight text-zinc-500">
+                            Join Testnet Alpha
                           </h4>
-                          <p className="text-[11px] text-zinc-500 mt-1 max-w-[240px]"></p>
-                        </div>
-
-                        <div className="text-right">
-                          <span className="text-sm font-mono font-bold text-[#39ff14]">
-                            +200
-                          </span>
-                          <div className="text-[8px] font-black uppercase text-zinc-600 tracking-widest">
-                            Points
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center justify-between pt-4 border-t border-zinc-800/50">
-                        <button
-                          onClick={() => handleApplyBonus("WHITEPAPER_READ")}
-                          disabled={taskStatus.WHITEPAPER_READ !== "pending"}
-                          className={`flex items-center gap-2 px-3 py-1.5 rounded-sm border text-[10px] font-bold uppercase tracking-wider transition-all
-    ${
-      taskStatus.WHITEPAPER_READ === "completed"
-        ? "border-[#39ff14]/30 text-[#39ff14] bg-[#39ff14]/10 cursor-default"
-        : "border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white"
-    }
-  `}
-                        >
-                          <StatusBadge status={taskStatus.WHITEPAPER_READ} />
-                        </button>
-
-                        <ChevronRight
-                          size={14}
-                          className="text-zinc-600 group-hover:translate-x-1 transition-transform"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Card 2 */}
-                    <div className="group text-left p-6 bg-zinc-900/30 border border-zinc-800 rounded-sm hover:border-zinc-600 transition-all">
-                      <div className="flex justify-between items-start mb-6">
-                        <div>
-                          <h4 className="font-bold text-zinc-100 group-hover:text-[#39ff14]">
-                            Stake BLIP for Voting
-                          </h4>
-                          <p className="text-[11px] text-zinc-500 mt-1 max-w-[240px]">
-                            Participate in the Q1 Protocol Governance vote.
-                          </p>
-                        </div>
-
-                        <div className="text-right">
-                          <span className="text-sm font-mono font-bold text-[#39ff14]">
+                          <span className="font-mono text-xs font-bold text-zinc-800">
                             +1000
                           </span>
-                          <div className="text-[8px] font-black uppercase text-zinc-600 tracking-widest">
-                            Points
-                          </div>
                         </div>
+                        <p className="text-sm leading-relaxed text-zinc-600 font-medium">
+                          Test core features and earn highest participation
+                          tier.
+                        </p>
                       </div>
+                    </div>
+                    <div className="flex items-center justify-between pt-6 border-t border-zinc-900/30">
+                      <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400 bg-zinc-800/30 px-2 py-1 rounded-sm border border-zinc-700/50">
+                        <i data-lucide="lock" className="w-3 h-3"></i> Coming
+                        Soon.
+                      </span>
+                    </div>
+                  </div>
 
-                      <div className="flex items-center justify-between pt-4 border-t border-zinc-800/50">
-                        <StatusBadge status="pending" />
-                        <ChevronRight
-                          size={14}
-                          className="text-zinc-600 group-hover:translate-x-1 transition-transform"
-                        />
+                  <div className="p-8 bg-zinc-950/40 border border-zinc-800/40 rounded-sm flex flex-col justify-between">
+                    <div className="mb-10 flex gap-6">
+                      <div className="w-12 h-12 bg-zinc-900 text-zinc-800 flex items-center justify-center rounded-sm">
+                        <i data-lucide="lock" className="w-5 h-5"></i>
                       </div>
+                      <div className="flex-1">
+                        <div className="flex justify-between items-start mb-2">
+                          <h4 className="text-xl font-bold tracking-tight text-zinc-500">
+                            Initialize Private Vault
+                          </h4>
+                          <span className="font-mono text-xs font-bold text-zinc-800">
+                            +500
+                          </span>
+                        </div>
+                        <p className="text-sm leading-relaxed text-zinc-600 font-medium">
+                          Setup your first encrypted liquidity vault.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between pt-6 border-t border-zinc-900/30">
+                      <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400 bg-zinc-800/30 px-2 py-1 rounded-sm border border-zinc-700/50">
+                        <i data-lucide="lock" className="w-3 h-3"></i> Coming
+                        Soon.
+                      </span>
                     </div>
                   </div>
                 </div>
-              </div>
+              </section>
+
+              <section>
+                <div className="flex items-center gap-6 mb-10 opacity-90">
+                  <h3 className="text-[11px] font-black uppercase tracking-[0.5em] text-zinc-700 whitespace-nowrap">
+                    ACTIVITY & CONTRIBUTION (COMING SOON)
+                  </h3>
+                  <div className="h-px flex-1 bg-zinc-900/20"></div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="p-8 bg-zinc-950/40 border border-zinc-800/40 rounded-sm flex flex-col justify-between">
+                    <div className="mb-10 flex gap-6">
+                      <div className="w-12 h-12 bg-zinc-900 text-zinc-800 flex items-center justify-center rounded-sm">
+                        <i data-lucide="trending-up" className="w-5 h-5"></i>
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex justify-between items-start mb-2">
+                          <h4 className="text-lg font-bold tracking-tight text-zinc-500">
+                            Trade & Earn
+                          </h4>
+                          <span className="font-mono text-xs font-bold text-zinc-800">
+                            +1500
+                          </span>
+                        </div>
+                        <p className="text-xs leading-relaxed text-zinc-600 font-medium">
+                          Generate volume on the testnet or mainnet alpha.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between pt-6 border-t border-zinc-900/30">
+                      <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">
+                        Locked.
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="p-8 bg-zinc-950/40 border border-zinc-800/40 rounded-sm flex flex-col justify-between">
+                    <div className="mb-10 flex gap-6">
+                      <div className="w-12 h-12 bg-zinc-900 text-zinc-800 flex items-center justify-center rounded-sm">
+                        <i data-lucide="droplets" className="w-5 h-5"></i>
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex justify-between items-start mb-2">
+                          <h4 className="text-lg font-bold tracking-tight text-zinc-500">
+                            Provide Liquidity
+                          </h4>
+                          <span className="font-mono text-xs font-bold text-zinc-800">
+                            +2000
+                          </span>
+                        </div>
+                        <p className="text-xs leading-relaxed text-zinc-600 font-medium">
+                          Strengthen the protocol by staking in pools.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between pt-6 border-t border-zinc-900/30">
+                      <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">
+                        Locked.
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="p-8 bg-zinc-950/40 border border-zinc-800/40 rounded-sm flex flex-col justify-between">
+                    <div className="mb-10 flex gap-6">
+                      <div className="w-12 h-12 bg-zinc-900 text-zinc-800 flex items-center justify-center rounded-sm">
+                        <i data-lucide="coins" className="w-5 h-5"></i>
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex justify-between items-start mb-2">
+                          <h4 className="text-lg font-bold tracking-tight text-zinc-500">
+                            Deposit Vaults
+                          </h4>
+                          <span className="font-mono text-xs font-bold text-zinc-800">
+                            +1200
+                          </span>
+                        </div>
+                        <p className="text-xs leading-relaxed text-zinc-600 font-medium">
+                          Commit capital into protocol secure vaults.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between pt-6 border-t border-zinc-900/30">
+                      <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">
+                        Locked.
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <section>
+                <div className="flex items-center gap-6 mb-10 opacity-90">
+                  <h3 className="text-[11px] font-black uppercase tracking-[0.5em] text-zinc-700 whitespace-nowrap">
+                    GOVERNANCE & SECURITY (COMING SOON)
+                  </h3>
+                  <div className="h-px flex-1 bg-zinc-900/20"></div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="p-8 bg-zinc-950/40 border border-zinc-800/40 rounded-sm flex flex-col justify-between">
+                    <div className="mb-10 flex gap-6">
+                      <div className="w-12 h-12 bg-zinc-900 text-zinc-800 flex items-center justify-center rounded-sm">
+                        <i data-lucide="gavel" className="w-5 h-5"></i>
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex justify-between items-start mb-2">
+                          <h4 className="text-lg font-bold tracking-tight text-zinc-500">
+                            Snapshot Vote
+                          </h4>
+                          <span className="font-mono text-xs font-bold text-zinc-800">
+                            +400
+                          </span>
+                        </div>
+                        <p className="text-xs leading-relaxed text-zinc-600 font-medium">
+                          Participate in mock proposals for DAO readiness.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between pt-6 border-t border-zinc-900/30">
+                      <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">
+                        Locked.
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="p-8 bg-zinc-950/40 border border-zinc-800/40 rounded-sm flex flex-col justify-between">
+                    <div className="mb-10 flex gap-6">
+                      <div className="w-12 h-12 bg-zinc-900 text-zinc-800 flex items-center justify-center rounded-sm">
+                        <i data-lucide="bug" className="w-5 h-5"></i>
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex justify-between items-start mb-2">
+                          <h4 className="text-lg font-bold tracking-tight text-zinc-500">
+                            Report Bug
+                          </h4>
+                          <span className="font-mono text-xs font-bold text-zinc-800">
+                            +5000
+                          </span>
+                        </div>
+                        <p className="text-xs leading-relaxed text-zinc-600 font-medium">
+                          Submit valid safety reports to improve security.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between pt-6 border-t border-zinc-900/30">
+                      <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">
+                        Locked.
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="p-8 bg-zinc-950/40 border border-zinc-800/40 rounded-sm flex flex-col justify-between">
+                    <div className="mb-10 flex gap-6">
+                      <div className="w-12 h-12 bg-zinc-900 text-zinc-800 flex items-center justify-center rounded-sm">
+                        <i data-lucide="store" className="w-5 h-5"></i>
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex justify-between items-start mb-2">
+                          <h4 className="text-lg font-bold tracking-tight text-zinc-500">
+                            Merchant Trial
+                          </h4>
+                          <span className="font-mono text-xs font-bold text-zinc-800">
+                            +2500
+                          </span>
+                        </div>
+                        <p className="text-xs leading-relaxed text-zinc-600 font-medium">
+                          Test merchant payment flows as early adopter.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between pt-6 border-t border-zinc-900/30">
+                      <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">
+                        Locked.
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </section>
             </div>
           </div>
-        </main>
-
-        {/* Global Background UI Elements */}
-        <div className="fixed inset-0 pointer-events-none z-[-1] overflow-hidden opacity-30">
-          <div className="absolute top-[-10%] left-[10%] w-[40%] h-[40%] bg-[#39ff14]/5 blur-[120px] rounded-full" />
-          <div className="absolute bottom-[-10%] right-[10%] w-[30%] h-[30%] bg-zinc-800/10 blur-[100px] rounded-full" />
         </div>
+      </main>
+
+      {/* Global Background UI Elements */}
+      <div className="fixed inset-0 pointer-events-none z-[-1] overflow-hidden opacity-30">
+        <div className="absolute top-[-10%] left-[10%] w-[40%] h-[40%] bg-[#39ff14]/5 blur-[120px] rounded-full" />
+        <div className="absolute bottom-[-10%] right-[10%] w-[30%] h-[30%] bg-zinc-800/10 blur-[100px] rounded-full" />
       </div>
-    </>
+    </div>
   );
 };
 

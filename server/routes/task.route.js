@@ -1,31 +1,52 @@
 import express from "express";
-import {
-  createTask,
-  getTasksByUser,
-  updateTaskStatus,
-  getTaskByType,
-} from "../controller/task.controller.js";
+
+import { createTask, getMyTaskByType, getMyTasks, rejectTask, submitTask, verifyTask, submitQuiz, verifyTelegram } from "../controller/task.controller.js";
 import { protect } from "../middlewares/auth.middleware.js";
+
 const router = express.Router();
 
 /**
- * POST /api/tasks
+ * ============================
+ * USER ROUTES
+ * ============================
  */
-router.post("/",protect, createTask);
+
+// Create a task
+// POST /api/tasks
+router.post("/", protect, createTask);
+
+// Get logged-in user's tasks
+// GET /api/tasks
+router.get("/", protect, getMyTasks);
+
+// Get logged-in user's task by type
+// GET /api/tasks/type/:task_type
+router.get("/type/:task_type", protect, getMyTaskByType);
+
+// Submit task for verification
+// POST /api/tasks/:taskId/submit
+router.post("/:taskId/submit", protect, submitTask);
+
+// Submit quiz answers for whitepaper task
+// POST /api/tasks/:taskId/quiz
+router.post("/:taskId/quiz", protect, submitQuiz);
+
+// Verify Telegram channel membership
+// POST /api/tasks/:taskId/verify-telegram
+router.post("/:taskId/verify-telegram", protect, verifyTelegram);
 
 /**
- * GET /api/tasks/user/:user_id
+ * ============================
+ * ADMIN ROUTES
+ * ============================
  */
-router.get("/user/:user_id", getTasksByUser);
 
-/**
- * GET /api/tasks/:user_id/:task_type
- */
-router.get("/:user_id/:task_type", getTaskByType);
+// Verify task
+// POST /api/tasks/:taskId/verify
+router.post("/:taskId/verify", protect, verifyTask);
 
-/**
- * PATCH /api/tasks/:taskId
- */
-router.patch("/:taskId", updateTaskStatus);
+// Reject task
+// POST /api/tasks/:taskId/reject
+router.post("/:taskId/reject", protect, rejectTask);
 
 export default router;

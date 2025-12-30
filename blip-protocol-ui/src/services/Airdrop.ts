@@ -1,57 +1,132 @@
 import { api } from "./api";
 
 interface AirdropLoginData {
-  email: string;
-  referralCode: string;
+  email?: string;
+  phone?: string;
   wallet_address: string;
+  referral_code?: string;
+}
+
+interface TaskData {
+  task_type: "TWITTER" | "TELEGRAM" | "QUIZ" | "WHITEPAPER" | "CUSTOM";
+  proof_data?: {
+    post_url?: string;
+    screenshot_url?: string;
+    text_proof?: string;
+  };
 }
 
 export const airdropApi = {
-  postAirdrop: async (data: AirdropLoginData) => {
-    // api.post already returns response.data due to interceptor (see api.ts line 27)
+  // =====================
+  // USER ENDPOINTS
+  // =====================
+
+  // Register or Login user
+  login: async (data: AirdropLoginData) => {
     const response = await api.post("/user/login", data);
     return response;
   },
 
+  // Logout user
   logout: async () => {
-    // api.post already returns response.data due to interceptor
     const response = await api.post("/user/logout");
     return response;
   },
 
-  getMyPoints: async () => {
-    // withCredentials NOT needed if api.ts already sets it
-    const response = await api.get("/blip-points/my-points");
+  // Get current user profile (includes totalBlipPoints)
+  getMe: async () => {
+    const response = await api.get("/user/me");
     return response;
   },
 
-  // Wallet Connect
-  connectWallet: async (wallet_address: string) => {
-    const res = await api.post("/wallet/connect", {
-      wallet_address,
+  // Get my referrals (users I referred)
+  getMyReferrals: async () => {
+    const response = await api.get("/user/referrals");
+    return response;
+  },
+
+  // Get my points history
+  getMyPointsHistory: async () => {
+    const response = await api.get("/user/points-history");
+    return response;
+  },
+
+  // =====================
+  // TASK ENDPOINTS
+  // =====================
+
+  // Create a new task
+  createTask: async (data: TaskData) => {
+    const response = await api.post("/tasks", data);
+    return response;
+  },
+
+  // Get all user's tasks
+  getMyTasks: async () => {
+    const response = await api.get("/tasks");
+    return response;
+  },
+
+  // Get specific task by type
+  getTaskByType: async (taskType: string) => {
+    const response = await api.get(`/tasks/type/${taskType}`);
+    return response;
+  },
+
+  // Submit task for verification
+  submitTask: async (taskId: string, proofData?: TaskData["proof_data"]) => {
+    const response = await api.post(`/tasks/${taskId}/submit`, { proof_data: proofData });
+    return response;
+  },
+
+  // Submit quiz answers for whitepaper task
+  submitQuiz: async (taskId: string, quizData: { score: number; answers: number[] }) => {
+    const response = await api.post(`/tasks/${taskId}/quiz`, quizData);
+    return response;
+  },
+
+  // Verify Telegram channel membership
+  verifyTelegram: async (taskId: string, telegramUserId: string) => {
+    const response = await api.post(`/tasks/${taskId}/verify-telegram`, {
+      telegram_user_id: telegramUserId,
     });
-    return res;
+    return response;
   },
 
-  // Apply Bonus
-  applyBonus: async (label: string) => {
-  const res = await api.post("/bonus/apply", {
-    label,
-  });
-  return res;
-},
+  // =====================
+  // ADMIN ENDPOINTS
+  // =====================
 
-
-  // fetch status for bonus points 
- fetchStatus : async () => {
-    const res = await api.get("/bonus/bonus-status");
-    return res;
+  // Get admin dashboard stats
+  getAdminStats: async () => {
+    const response = await api.get("/admin/stats");
+    return response;
   },
 
-  // Fetch status of wallet connected or not
-  getWalletStatus: async () => {
-    const res = await api.get("/wallet/status");
-    return res;
+  // Get all users (admin only)
+  getAdminUsers: async () => {
+    const response = await api.get("/admin/users");
+    return response;
   },
 
+  // Get all tasks with filters (admin only)
+  getAdminTasks: async (status?: string, taskType?: string) => {
+    const params = new URLSearchParams();
+    if (status) params.append("status", status);
+    if (taskType) params.append("task_type", taskType);
+    const response = await api.get(`/admin/tasks?${params.toString()}`);
+    return response;
+  },
+
+  // Verify a task (admin only)
+  verifyTask: async (taskId: string) => {
+    const response = await api.post(`/admin/tasks/${taskId}/verify`);
+    return response;
+  },
+
+  // Reject a task (admin only)
+  rejectTask: async (taskId: string) => {
+    const response = await api.post(`/admin/tasks/${taskId}/reject`);
+    return response;
+  },
 };
