@@ -429,12 +429,19 @@ const Dashboard = () => {
             </button>
           );
 
-        // Stage 3: Submitted - Show "Verifying..."
+        // Stage 3: Submitted - Show "Awaiting Approval"
         case "SUBMITTED":
           return (
-            <span className="flex items-center gap-2 px-4 py-2 rounded font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">
-              <Loader2 size={14} className="animate-spin" />
-              Verifying...
+            <span
+              className="flex items-center gap-2 px-4 py-2 rounded font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 cursor-help relative group/tooltip"
+              title="Admin will review and approve your submission"
+            >
+              <Clock size={14} />
+              Awaiting Approval
+              {/* Tooltip on hover */}
+              <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-zinc-800 text-zinc-300 text-xs rounded border border-zinc-700 whitespace-nowrap opacity-0 group-hover/tooltip:opacity-100 transition-opacity pointer-events-none">
+                Admin will review and approve
+              </span>
             </span>
           );
 
