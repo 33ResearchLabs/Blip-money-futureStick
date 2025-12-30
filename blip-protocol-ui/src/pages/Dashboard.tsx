@@ -97,23 +97,23 @@ const Dashboard = () => {
     ? `${import.meta.env.VITE_FRONTEND_URL}/waitlist?ref=${user.referralCode}`
     : "";
 
-  // Copy referral link to clipboard
-  const handleCopyReferral = async () => {
-    if (!referralLink) return;
+  // Copy referral code to clipboard (just the code, not the full link)
+  const handleCopyReferralCode = async () => {
+    if (!user?.referralCode) return;
 
     try {
-      await navigator.clipboard.writeText(referralLink);
+      await navigator.clipboard.writeText(user.referralCode);
       setCopied(true);
       toast({
         title: "Copied!",
-        description: "Referral link copied to clipboard.",
+        description: "Referral code copied to clipboard.",
       });
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       toast({
         variant: "destructive",
         title: "Failed to copy",
-        description: "Please copy the link manually.",
+        description: "Please copy the code manually.",
       });
     }
   };
@@ -132,8 +132,8 @@ const Dashboard = () => {
       if (navigator.share) {
         await navigator.share(shareData);
       } else {
-        // Fallback: copy to clipboard
-        await handleCopyReferral();
+        // Fallback: copy code to clipboard
+        await handleCopyReferralCode();
       }
     } catch (err) {
       // User cancelled share or error
@@ -712,10 +712,10 @@ const Dashboard = () => {
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleCopyReferral();
+                      handleCopyReferralCode();
                     }}
                     className="p-2 rounded bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-[#39ff14]/50 transition-all"
-                    title="Copy referral link"
+                    title="Copy referral code"
                   >
                     {copied ? (
                       <Check size={14} className="text-[#39ff14]" />
