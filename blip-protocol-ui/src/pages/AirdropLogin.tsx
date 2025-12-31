@@ -366,7 +366,7 @@ const AirdropLogin = () => {
               </div>
 
               {/* Network Trust Section */}
-              <div className="py-20 flex flex-col items-center border-t border-zinc-900 text-center">
+              {/* <div className="py-20 flex flex-col items-center border-t border-zinc-900 text-center">
                 <span className="text-[10px] font-bold text-zinc-600 uppercase tracking-[0.4em] mb-12">
                   Institutional Backing & Audits
                 </span>
@@ -385,7 +385,8 @@ const AirdropLogin = () => {
                     Jump <div className="w-1 h-1 bg-[#39ff14] rounded-full" />
                   </div>
                 </div>
-              </div>
+              </div> */}
+
             </div>
           )}
           {/* STEP 1: WAITLIST (EMAIL) */}

@@ -4,6 +4,7 @@ import { Navbar } from "@/components/Navbar";
 import { SocialSidebar } from "@/components/SocialSidebar";
 import { Footer } from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
+import ScrollToBottomButton from "@/components/ScrollToBottomButton";
 
 const MainLayout = () => {
   const location = useLocation();
@@ -18,6 +19,7 @@ const MainLayout = () => {
       <SocialSidebar />
 
       <Outlet />
+      <ScrollToBottomButton/>
 
       <Footer />
     </>

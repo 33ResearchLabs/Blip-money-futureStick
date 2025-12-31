@@ -288,12 +288,12 @@ export const Navbar = () => {
             </Link>
 
             <NavLink
-              to="/howItWorks"
+              to="/how-it-works"
               className={({ isActive }) =>
                 `${navBase} ${isActive ? navActive : ""}`
               }
             >
-              {t("howItWorks")}
+              {t("How It Works")}
             </NavLink>
 
             <NavLink
