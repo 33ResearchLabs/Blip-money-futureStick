@@ -127,12 +127,29 @@ const AirdropLogin = () => {
         console.error("Error response:", error.response?.data);
         console.error("Error status:", error.response?.status);
 
+        const errorCode = error.response?.data?.code;
+        const errorMessage = error.response?.data?.message;
+
+        // Handle wallet already registered with different email
+        if (errorCode === "WALLET_EMAIL_MISMATCH" || error.response?.status === 409) {
+          toast({
+            variant: "destructive",
+            title: "Wallet Already Registered",
+            description: errorMessage || "This wallet is already registered with a different email. Please use the correct email or disconnect wallet.",
+          });
+
+          // Disconnect wallet and reset to waitlist view
+          await disconnect();
+          setEmail("");
+          setView("waitlist");
+          setIsConnecting(false);
+          return;
+        }
+
         toast({
           variant: "destructive",
           title: "Error",
-          description:
-            error.response?.data?.message ||
-            "Failed to save data. Please try again.",
+          description: errorMessage || "Failed to save data. Please try again.",
         });
 
         setIsConnecting(false);
@@ -149,6 +166,7 @@ const AirdropLogin = () => {
     toast,
     login,
     navigate,
+    disconnect,
   ]);
 
   // Actions

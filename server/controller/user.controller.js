@@ -48,6 +48,17 @@ export const registerAndLoginUser = async (req, res) => {
      * =====================
      */
     if (user) {
+      // Check if email matches (if user has email and request has email)
+      if (email && user.email && user.email !== email) {
+        await session.abortTransaction();
+        session.endSession();
+        return res.status(409).json({
+          success: false,
+          message: "This wallet is already registered with a different email",
+          code: "WALLET_EMAIL_MISMATCH",
+        });
+      }
+
       user.lastLoginAt = new Date();
       await user.save({ session });
 
@@ -90,6 +101,7 @@ export const registerAndLoginUser = async (req, res) => {
           wallet_address,
           referralCode: selfReferralCode,
           lastLoginAt: new Date(),
+          totalBlipPoints: REGISTER_BONUS_POINTS, // Set initial registration bonus
         },
       ],
       { session }
@@ -257,9 +269,18 @@ export const getMe = async (req, res) => {
       return res.status(401).json({ message: "Not authenticated" });
     }
 
-    // Get actual points from UserBlipPoint collection
-    const userPoints = await UserBlipPoint.findOne({ userId: user._id });
-    const actualPoints = userPoints?.points || user.totalBlipPoints || 0;
+    // Calculate actual points from BlipPointLog (most accurate)
+    const pointLogs = await BlipPointLog.find({ userId: user._id });
+    const calculatedPoints = pointLogs.reduce((sum, log) => {
+      return sum + (log.bonusPoints || log.totalPoints || 0);
+    }, 0);
+
+    // Fallback to UserBlipPoint if no logs found
+    let actualPoints = calculatedPoints;
+    if (actualPoints === 0) {
+      const userPoints = await UserBlipPoint.findOne({ userId: user._id });
+      actualPoints = userPoints?.points || user.totalBlipPoints || 0;
+    }
 
     return res.status(200).json({
       success: true,
@@ -371,6 +392,82 @@ export const getMyPointsHistory = async (req, res) => {
     });
   } catch (error) {
     console.error("GetMyPointsHistory error:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+/**
+ * ============================
+ * FIX POINTS DATA (MIGRATION)
+ * ============================
+ * Fixes BlipPointLog entries that have bonusPoints: 0 or missing
+ * This is needed because old entries were saved incorrectly
+ */
+export const fixPointsData = async (req, res) => {
+  try {
+    const pointsMap = {
+      REGISTER: 500,
+      TWITTER_FOLLOW: 50,
+      TELEGRAM_JOIN: 50,
+      WHITEPAPER_READ: 50,
+      CROSS_BORDER_SWAP: 100,
+      REFERRAL_BONUS_EARNED: 100,
+      REFERRAL_BONUS_RECEIVED: 100,
+    };
+
+    // Step 1: Fix all BlipPointLog entries with missing or zero bonusPoints
+    const logsToFix = await BlipPointLog.find({
+      $or: [
+        { bonusPoints: { $exists: false } },
+        { bonusPoints: 0 },
+        { bonusPoints: null },
+      ],
+    });
+
+    let fixedLogsCount = 0;
+
+    for (const log of logsToFix) {
+      const correctPoints = pointsMap[log.event] || 0;
+      if (correctPoints > 0) {
+        await BlipPointLog.updateOne(
+          { _id: log._id },
+          { $set: { bonusPoints: correctPoints } }
+        );
+        fixedLogsCount++;
+      }
+    }
+
+    // Step 2: Recalculate and fix User.totalBlipPoints for all users
+    const allUsers = await User.find({});
+    let fixedUsersCount = 0;
+
+    for (const user of allUsers) {
+      // Calculate total from BlipPointLog
+      const userLogs = await BlipPointLog.find({ userId: user._id });
+      const calculatedTotal = userLogs.reduce((sum, log) => {
+        return sum + (log.bonusPoints || pointsMap[log.event] || 0);
+      }, 0);
+
+      // Update user's totalBlipPoints if different
+      if (user.totalBlipPoints !== calculatedTotal && calculatedTotal > 0) {
+        await User.updateOne(
+          { _id: user._id },
+          { $set: { totalBlipPoints: calculatedTotal } }
+        );
+        fixedUsersCount++;
+      }
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: `Fixed ${fixedLogsCount} point logs and ${fixedUsersCount} user totals`,
+      fixedLogsCount,
+      fixedUsersCount,
+      totalLogsChecked: logsToFix.length,
+      totalUsersChecked: allUsers.length,
+    });
+  } catch (error) {
+    console.error("FixPointsData error:", error);
     return res.status(500).json({ message: "Server error" });
   }
 };
