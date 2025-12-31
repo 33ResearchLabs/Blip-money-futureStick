@@ -1,0 +1,46 @@
+config:
+  target: "http://localhost:4400"
+  phases:
+    # Warm up - 100 users/sec for 30 seconds = 3,000
+    - duration: 30
+      arrivalRate: 100
+      name: "Warm up"
+
+    # Ramp up - 100 to 1000 users/sec over 60 seconds = ~33,000
+    - duration: 60
+      arrivalRate: 100
+      rampTo: 1000
+      name: "Ramp up to 1000/sec"
+
+    # Sustained heavy load - 1000 users/sec for 120 seconds = 120,000
+    - duration: 120
+      arrivalRate: 1000
+      name: "Sustained 1000/sec"
+
+    # Extreme spike - 1500 users/sec for 30 seconds = 45,000
+    - duration: 30
+      arrivalRate: 1500
+      name: "Spike 1500/sec"
+
+  defaults:
+    headers:
+      Content-Type: "application/json"
+
+scenarios:
+  - name: "Health Check"
+    weight: 6
+    flow:
+      - get:
+          url: "/api/health"
+
+  - name: "Get Tasks"
+    weight: 3
+    flow:
+      - get:
+          url: "/api/tasks"
+
+  - name: "Get User Info"
+    weight: 1
+    flow:
+      - get:
+          url: "/api/user/me"

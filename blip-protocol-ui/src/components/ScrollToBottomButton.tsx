@@ -38,7 +38,7 @@ const ScrollToBottomButton = () => {
   };
 
   return (
-    <>
+    <div className="">
       {/* Scroll to Bottom */}
       <button
         onClick={scrollToBottom}
@@ -51,12 +51,12 @@ const ScrollToBottomButton = () => {
       {/* Scroll to Top */}
       <button
         onClick={scrollToTop}
-        className="fixed bottom-20 right-6 z-50 p-3 rounded-full  text-white shadow-lg hover:scale-105 transition"
+        className="fixed bottom-24 right-6 z-50 p-3 rounded-full  text-white shadow-lg hover:scale-105 transition"
         aria-label="Scroll to top"
       >
         <ArrowUp size={18} />
       </button>
-    </>
+    </div>
   );
 };
 

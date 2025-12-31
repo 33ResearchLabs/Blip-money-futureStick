@@ -21,7 +21,7 @@ scenarios:
     weight: 3
     flow:
       - get:
-          url: "/api/task/tasks"
+          url: "/api/tasks"
 
   - name: "Simulated Login"
     weight: 2
