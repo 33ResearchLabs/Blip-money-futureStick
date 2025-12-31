@@ -43,6 +43,10 @@ if (isProduction && cluster.isPrimary) {
   const app = express();
   const server = http.createServer(app);
 
+  // 🔒 Trust proxy - Required for Render/Heroku/etc (reverse proxy)
+  // This allows express-rate-limit to correctly identify users by IP
+  app.set("trust proxy", 1);
+
   // ⚡ Performance: Increase server connection limits
   server.maxConnections = 10000;
   server.keepAliveTimeout = 65000;
