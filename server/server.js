@@ -33,6 +33,16 @@ app.use("/api/user", userRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/admin", adminRoutes);
 
+// 🏥 Health Check Endpoint (for load testing)
+app.get("/api/health", (req, res) => {
+  res.status(200).json({
+    status: "ok",
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    memory: process.memoryUsage(),
+  });
+});
+
 const PORT = process.env.PORT || 3300;
 
 server.listen(PORT, () => {

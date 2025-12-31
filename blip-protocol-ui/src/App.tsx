@@ -60,11 +60,11 @@ const App = () => (
                 <Route path="/contact" element={<ContactUs />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/terms" element={<TermsService />} />
-                <Route path="/cookies" element={< Cookies />} />
-                <Route path="/gdpr" element={<Gdpr/>} />
+                <Route path="/cookies" element={<Cookies />} />
+                <Route path="/gdpr" element={<Gdpr />} />
               </Route>
 
-              {/* WAITLIST LOGIN (NO LAYOUT) */}
+              {/* WAITLIST LtOGIN (NO LAYOUT) */}
               <Route path="/waitlist" element={<AirdropLogin />} />
 
               {/* PROTECTED DASHBOARD (NO LAYOUT) */}

@@ -1,0 +1,33 @@
+config:
+  target: "http://localhost:8080"
+  phases:
+    # Quick test - 20 users for 30 seconds
+    - duration: 30
+      arrivalRate: 20
+      name: "Quick Load Test"
+
+  defaults:
+    headers:
+      Content-Type: "application/json"
+
+scenarios:
+  - name: "API Health Check"
+    weight: 5
+    flow:
+      - get:
+          url: "/api/health"
+
+  - name: "Get Tasks List"
+    weight: 3
+    flow:
+      - get:
+          url: "/api/task/tasks"
+
+  - name: "Simulated Login"
+    weight: 2
+    flow:
+      - post:
+          url: "/api/user/login"
+          json:
+            email: "test{{ $randomNumber(1, 10000) }}@example.com"
+            wallet_address: "0xLoadTest{{ $randomNumber(1, 100000) }}"

@@ -1,0 +1,59 @@
+config:
+  target: "http://localhost:8080"
+  phases:
+    # Warm up phase - 10 users over 30 seconds
+    - duration: 30
+      arrivalRate: 10
+      name: "Warm up"
+
+    # Ramp up phase - 10 to 50 users over 60 seconds
+    - duration: 60
+      arrivalRate: 10
+      rampTo: 50
+      name: "Ramp up load"
+
+    # Sustained load - 50 users for 120 seconds
+    - duration: 120
+      arrivalRate: 50
+      name: "Sustained load"
+
+    # Spike test - 100 users for 30 seconds
+    - duration: 30
+      arrivalRate: 100
+      name: "Spike test"
+
+  defaults:
+    headers:
+      Content-Type: "application/json"
+
+scenarios:
+  # Test public endpoints
+  - name: "Health Check"
+    weight: 3
+    flow:
+      - get:
+          url: "/api/health"
+
+  # Test login/register endpoint (simulated)
+  - name: "User Login Flow"
+    weight: 2
+    flow:
+      - post:
+          url: "/api/user/login"
+          json:
+            email: "loadtest{{ $randomNumber(1, 10000) }}@test.com"
+            wallet_address: "TestWallet{{ $randomNumber(1, 10000) }}Address"
+
+  # Test get user endpoint (will fail without auth, but tests server load)
+  - name: "Get User Info"
+    weight: 3
+    flow:
+      - get:
+          url: "/api/user/me"
+
+  # Test tasks endpoint
+  - name: "Get Tasks"
+    weight: 2
+    flow:
+      - get:
+          url: "/api/task/tasks"

@@ -269,17 +269,54 @@ export const getMe = async (req, res) => {
       return res.status(401).json({ message: "Not authenticated" });
     }
 
+    // Points mapping for events (in case bonusPoints is 0 or missing)
+    const pointsMap = {
+      REGISTER: 500,
+      TWITTER_FOLLOW: 50,
+      TELEGRAM_JOIN: 50,
+      WHITEPAPER_READ: 50,
+      CROSS_BORDER_SWAP: 100,
+      REFERRAL_BONUS_EARNED: 100,
+      REFERRAL_BONUS_RECEIVED: 100,
+    };
+
     // Calculate actual points from BlipPointLog (most accurate)
     const pointLogs = await BlipPointLog.find({ userId: user._id });
     const calculatedPoints = pointLogs.reduce((sum, log) => {
-      return sum + (log.bonusPoints || log.totalPoints || 0);
+      // Use bonusPoints if available, otherwise use mapping based on event type
+      const points = log.bonusPoints || log.totalPoints || pointsMap[log.event] || 0;
+      return sum + points;
     }, 0);
 
-    // Fallback to UserBlipPoint if no logs found
+    // Use calculated points, or fallback to UserBlipPoint/user model
     let actualPoints = calculatedPoints;
-    if (actualPoints === 0) {
+    if (actualPoints === 0 && pointLogs.length === 0) {
       const userPoints = await UserBlipPoint.findOne({ userId: user._id });
       actualPoints = userPoints?.points || user.totalBlipPoints || 0;
+    }
+
+    // 🔄 Auto-fix: Update User model and BlipPointLog if points don't match
+    if (pointLogs.length > 0) {
+      // Fix any BlipPointLog entries with missing bonusPoints
+      for (const log of pointLogs) {
+        if (!log.bonusPoints || log.bonusPoints === 0) {
+          const correctPoints = pointsMap[log.event] || 0;
+          if (correctPoints > 0) {
+            await BlipPointLog.updateOne(
+              { _id: log._id },
+              { $set: { bonusPoints: correctPoints } }
+            );
+          }
+        }
+      }
+
+      // Update User.totalBlipPoints if it doesn't match calculated
+      if (user.totalBlipPoints !== actualPoints) {
+        await User.updateOne(
+          { _id: user._id },
+          { $set: { totalBlipPoints: actualPoints } }
+        );
+      }
     }
 
     return res.status(200).json({
@@ -357,6 +394,17 @@ export const getMyPointsHistory = async (req, res) => {
   try {
     const userId = req.user._id;
 
+    // Points mapping for events (in case bonusPoints is 0 or missing)
+    const pointsMap = {
+      REGISTER: 500,
+      TWITTER_FOLLOW: 50,
+      TELEGRAM_JOIN: 50,
+      WHITEPAPER_READ: 50,
+      CROSS_BORDER_SWAP: 100,
+      REFERRAL_BONUS_EARNED: 100,
+      REFERRAL_BONUS_RECEIVED: 100,
+    };
+
     // Find all point logs for this user
     const pointsHistory = await BlipPointLog.find({
       userId: userId,
@@ -375,7 +423,8 @@ export const getMyPointsHistory = async (req, res) => {
 
     const history = pointsHistory.map((log) => ({
       id: log._id,
-      points: log.bonusPoints || log.totalPoints || 0,
+      // Use bonusPoints if available, otherwise use mapping based on event type
+      points: log.bonusPoints || log.totalPoints || pointsMap[log.event] || 0,
       event: log.event,
       eventLabel: eventLabels[log.event] || log.event,
       date: log.createdAt,
