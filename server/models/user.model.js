@@ -53,6 +53,17 @@ const userSchema = new mongoose.Schema(
     },
 
     lastLoginAt: Date,
+
+    twoFactorEnabled: {
+      type: Boolean,
+      default: false,
+    },
+
+    // 🔴🔴 NEW (Google Authenticator Secret)
+    twoFactorSecret: {
+      type: String, // base32
+    },
+
   },
   { timestamps: true }
 );

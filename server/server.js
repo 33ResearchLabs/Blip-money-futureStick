@@ -14,6 +14,7 @@ import { connectDB } from "./config/db.js";
 import userRoutes from "./routes/user.route.js";
 import taskRoutes from "./routes/task.route.js";
 import adminRoutes from "./routes/admin.route.js";
+import twoFactorRoutes from "./routes/twoFactor.routes.js"
 
 dotenv.config();
 
@@ -112,6 +113,7 @@ if (isProduction && cluster.isPrimary) {
   app.use("/api/user", userRoutes);
   app.use("/api/tasks", taskRoutes);
   app.use("/api/admin", adminRoutes);
+  app.use("/api/2fa",twoFactorRoutes)
 
   // 🏥 Health Check Endpoint (for load testing)
   app.get("/api/health", (req, res) => {

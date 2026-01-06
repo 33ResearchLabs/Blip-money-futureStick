@@ -60,6 +60,17 @@ export const registerAndLoginUser = async (req, res) => {
       }
 
       user.lastLoginAt = new Date();
+      if (user.twoFactorEnabled) {
+        await session.commitTransaction();
+        session.endSession();
+
+        return res.status(200).json({
+          success: true,
+          twoFactorRequired: true,
+          userId: user.email,
+          method: "GOOGLE_AUTH",
+        });
+      }
       await user.save({ session });
 
       await session.commitTransaction();
