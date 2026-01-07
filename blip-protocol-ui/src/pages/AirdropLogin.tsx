@@ -19,6 +19,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { airdropApi } from "@/services/Airdrop";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import PublicNavbar from "@/components/PublicNavbar";
+import { twoFactorApi } from "@/services/twoFatctor";
 
 const AirdropLogin = () => {
   const { publicKey, connected, disconnect, connecting } = useWallet();
@@ -36,6 +37,10 @@ const AirdropLogin = () => {
   const [isConnecting, setIsConnecting] = useState(false);
   const [hasRedirected, setHasRedirected] = useState(false);
   const [walletReady, setWalletReady] = useState(false);
+  const [show2FAModal, setShow2FAModal] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
+  const [pendingEmail, setPendingEmail] = useState("");
 
   // Derived state from wallet
   const isWalletConnected = connected;
@@ -82,7 +87,8 @@ const AirdropLogin = () => {
   // Effect: Save user data to backend when wallet connects
   useEffect(() => {
     const saveUserData = async () => {
-      if (!connected || !publicKey || view !== "connect") return;
+      if (!connected || !publicKey || view !== "connect" || show2FAModal)
+        return;
 
       console.log("💾 Attempting to save user data:", {
         wallet_address: publicKey.toBase58(),
@@ -102,9 +108,17 @@ const AirdropLogin = () => {
 
         console.log("✅ User data saved successfully:", response);
 
-        // Login user with auth context (user data comes from backend)
+        // 🚨 2FA REQUIRED
+        if (response.twoFactorRequired) {
+          setPendingEmail(email);
+          setShow2FAModal(true);
+          setIsConnecting(false);
+          return;
+        }
+
+        // ✅ NORMAL LOGIN (NO 2FA)
         login({
-          id: response.user?.id || response.user?._id,
+          id: response.user?._id,
           wallet_address: publicKey.toBase58(),
           email,
           referralCode: response.user?.referralCode,
@@ -131,11 +145,16 @@ const AirdropLogin = () => {
         const errorMessage = error.response?.data?.message;
 
         // Handle wallet already registered with different email
-        if (errorCode === "WALLET_EMAIL_MISMATCH" || error.response?.status === 409) {
+        if (
+          errorCode === "WALLET_EMAIL_MISMATCH" ||
+          error.response?.status === 409
+        ) {
           toast({
             variant: "destructive",
             title: "Wallet Already Registered",
-            description: errorMessage || "This wallet is already registered with a different email. Please use the correct email or disconnect wallet.",
+            description:
+              errorMessage ||
+              "This wallet is already registered with a different email. Please use the correct email or disconnect wallet.",
           });
 
           // Disconnect wallet and reset to waitlist view
@@ -218,6 +237,66 @@ const AirdropLogin = () => {
       </div>
     );
   }
+
+ const handleVerifyLoginOtp = async () => {
+  if (otp.length !== 6) {
+    toast({
+      variant: "destructive",
+      title: "Invalid OTP",
+      description: "Enter a valid 6-digit OTP",
+    });
+    return;
+  }
+
+  try {
+    setIsVerifyingOtp(true);
+
+    const res = await twoFactorApi.verifyOtpLogin({
+      email: pendingEmail,
+      otp,
+    });
+
+    console.log("✅ OTP VERIFY RESPONSE:", res);
+
+    // 🛡️ SAFETY CHECK
+    if (!res || !res.user) {
+      throw new Error("Invalid OTP response from server");
+    }
+
+    login({
+      id: res.user._id,
+      wallet_address: publicKey?.toBase58(),
+      email: res.user.email,
+      referralCode: res.user.referralCode,
+      totalBlipPoints: res.user.totalBlipPoints,
+      status: res.user.status,
+    });
+
+    setShow2FAModal(false);
+    setOtp("");
+
+    toast({
+      title: "Login Successful",
+      description: "OTP verified successfully",
+    });
+
+    navigate("/dashboard");
+  } catch (error) {
+    console.error("❌ error in otp", error);
+
+    toast({
+      variant: "destructive",
+      title: "OTP Failed",
+      description:
+        error?.message ||
+        error?.response?.data?.message ||
+        "OTP verification failed",
+    });
+  } finally {
+    setIsVerifyingOtp(false);
+  }
+};
+
 
   return (
     <>
@@ -364,29 +443,6 @@ const AirdropLogin = () => {
                   </p>
                 </div>
               </div>
-
-              {/* Network Trust Section */}
-              {/* <div className="py-20 flex flex-col items-center border-t border-zinc-900 text-center">
-                <span className="text-[10px] font-bold text-zinc-600 uppercase tracking-[0.4em] mb-12">
-                  Institutional Backing & Audits
-                </span>
-                <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-30 grayscale hover:grayscale-0 transition-all hover:opacity-100 cursor-default">
-                  <div className="flex items-center gap-3 font-black text-xl tracking-tighter">
-                    CERTIK <div className="w-1 h-1 bg-[#39ff14] rounded-full" />
-                  </div>
-                  <div className="flex items-center gap-3 font-black text-xl tracking-tighter uppercase">
-                    Solana <div className="w-1 h-1 bg-[#39ff14] rounded-full" />
-                  </div>
-                  <div className="flex items-center gap-3 font-black text-xl tracking-tighter uppercase">
-                    TrailOfBits{" "}
-                    <div className="w-1 h-1 bg-[#39ff14] rounded-full" />
-                  </div>
-                  <div className="flex items-center gap-3 font-black text-xl tracking-tighter uppercase">
-                    Jump <div className="w-1 h-1 bg-[#39ff14] rounded-full" />
-                  </div>
-                </div>
-              </div> */}
-
             </div>
           )}
           {/* STEP 1: WAITLIST (EMAIL) */}
@@ -516,6 +572,37 @@ const AirdropLogin = () => {
           <div className="absolute bottom-[-10%] right-[10%] w-[30%] h-[30%] bg-zinc-800/10 blur-[100px] rounded-full" />
         </div>
       </div>
+
+      {show2FAModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+          <div className="w-full max-w-sm bg-zinc-900 border border-zinc-700 rounded-md p-6">
+            <h3 className="text-sm font-bold text-white mb-4">
+              Two-Factor Authentication
+            </h3>
+
+            <p className="text-xs text-zinc-400 mb-4">
+              Enter the 6-digit code from Google Authenticator
+            </p>
+
+            <input
+              type="text"
+              maxLength={6}
+              value={otp}
+              onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
+              className="w-full bg-black border border-zinc-700 px-4 py-2 text-white rounded mb-4"
+              placeholder="123456"
+            />
+
+            <button
+              onClick={handleVerifyLoginOtp}
+              disabled={isVerifyingOtp}
+              className="w-full bg-[#39ff14] text-black py-2 rounded font-bold disabled:opacity-50"
+            >
+              {isVerifyingOtp ? "Verifying..." : "Verify & Login"}
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 };

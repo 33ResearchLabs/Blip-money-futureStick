@@ -20,7 +20,7 @@ export const enableGoogleAuth = async (req, res) => {
         }
 
         const secret = speakeasy.generateSecret({
-            name: "Blip Money",
+            name: `Blip Money Airdrop (${user.email})`,
         });
 
         const qrCode = await QRCode.toDataURL(secret.otpauth_url);
