@@ -1,3 +1,4 @@
+import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -32,6 +33,7 @@ import Privacy from "./components/Privecy";
 import TermsService from "./components/TermsService";
 import Cookies from "./components/Cookies";
 import Gdpr from "./components/Gdpr";
+import TwoFactorAuth from "./components/TwoFactorAuth";
 
 const queryClient = new QueryClient();
 
@@ -39,59 +41,67 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <SolanaWalletProvider>
       <AuthProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem={false}
+        >
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
 
-          <BrowserRouter>
-            <GoogleAnalytics />
-            <StructuredData type="organization" />
-            <StructuredData type="website" />
-            <ScrollToTop />
-            <Routes>
-              {/* PUBLIC ROUTES WITH LAYOUT */}
-              <Route element={<MainLayout />}>
-                <Route path="/" element={<Index />} />
-                <Route path="/tokenomics" element={<BlipTokenomics />} />
-                <Route path="/rewards" element={<RewardsLanding />} />
-                <Route path="/uae" element={<UAELandingPage />} />
-                <Route path="/coming-soon" element={<ComingSoon />} />
-                <Route path="/how-it-works" element={<HowItWorksPage />} />
-                <Route path="/contact" element={<ContactUs />} />
-                <Route path="/privacy" element={<Privacy />} />
-                <Route path="/terms" element={<TermsService />} />
-                <Route path="/cookies" element={<Cookies />} />
-                <Route path="/gdpr" element={<Gdpr />} />
-              </Route>
+            <BrowserRouter>
+              <GoogleAnalytics />
+              <StructuredData type="organization" />
+              <StructuredData type="website" />
+              <ScrollToTop />
+              <Routes>
+                {/* PUBLIC ROUTES WITH LAYOUT */}
+                <Route element={<MainLayout />}>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/tokenomics" element={<BlipTokenomics />} />
+                  <Route path="/rewards" element={<RewardsLanding />} />
+                  <Route path="/uae" element={<UAELandingPage />} />
+                  <Route path="/coming-soon" element={<ComingSoon />} />
+                  <Route path="/how-it-works" element={<HowItWorksPage />} />
+                  <Route path="/contact" element={<ContactUs />} />
+                  <Route path="/privacy" element={<Privacy />} />
+                  <Route path="/terms" element={<TermsService />} />
+                  <Route path="/cookies" element={<Cookies />} />
+                  <Route path="/gdpr" element={<Gdpr />} />
+                  <Route path="/twoFactorAuth" element={<TwoFactorAuth />} />
+                  <Route path="/waitlist" element={<AirdropLogin />} />
+                </Route>
 
-              {/* WAITLIST LtOGIN (NO LAYOUT) */}
-              <Route path="/waitlist" element={<AirdropLogin />} />
+                {/* WAITLIST LtOGIN (NO LAYOUT) */}
+                {/* <Route path="/waitlist" element={<AirdropLogin />} /> */}
 
-              {/* PROTECTED DASHBOARD (NO LAYOUT) */}
-              <Route
-                path="/dashboard"
-                element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
-                }
-              />
+                {/* PROTECTED DASHBOARD (NO LAYOUT) */}
+                <Route
+                  path="/dashboard"
+                  element={
+                    <ProtectedRoute>
+                      <Dashboard />
+                    </ProtectedRoute>
+                  }
+                />
 
-              {/* ADMIN DASHBOARD (NO LAYOUT) */}
-              <Route
-                path="/admin"
-                element={
-                  <ProtectedRoute>
-                    <AdminDashboard />
-                  </ProtectedRoute>
-                }
-              />
+                {/* ADMIN DASHBOARD (NO LAYOUT) */}
+                <Route
+                  path="/admin"
+                  element={
+                    <ProtectedRoute>
+                      <AdminDashboard />
+                    </ProtectedRoute>
+                  }
+                />
 
-              {/* 404 */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
+                {/* 404 */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </TooltipProvider>
+        </ThemeProvider>
       </AuthProvider>
     </SolanaWalletProvider>
   </QueryClientProvider>

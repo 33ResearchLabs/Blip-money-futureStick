@@ -25,7 +25,13 @@ export const twoFactorApi = {
       error?.response?.data?.message || "OTP verification failed"
     );
   }
-}
+},
+
+
+disableGoogleAuth: async (otp: string) => {
+    const { data } = await api.post("/2fa/disable", { otp });
+    return data;
+  },
 
 
 

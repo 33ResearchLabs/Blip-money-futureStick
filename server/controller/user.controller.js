@@ -341,6 +341,7 @@ export const getMe = async (req, res) => {
         totalBlipPoints: actualPoints,
         status: user.status,
         role: user.role,
+        twoFactorEnabled : user.twoFactorEnabled
       },
     });
   } catch (error) {

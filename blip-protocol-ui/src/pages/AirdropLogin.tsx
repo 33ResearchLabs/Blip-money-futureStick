@@ -302,13 +302,13 @@ const AirdropLogin = () => {
     <>
       <div className="min-h-screen bg-[#050505] text-zinc-100 font-sans selection:bg-[#39ff14] selection:text-black transition-all duration-500">
         {/* Navigation */}
-        <PublicNavbar
+        {/* <PublicNavbar
           isWalletConnected={isWalletConnected}
           isAuthenticated={isAuthenticated}
           walletAddress={walletAddress}
           onLogout={handleLogout}
           onConnectClick={() => setView("waitlist")}
-        />
+        /> */}
 
         {/* Main Content */}
         <main className="max-w-7xl mx-auto px-6 pt-12 pb-24">

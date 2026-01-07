@@ -17,6 +17,7 @@ interface User {
   totalBlipPoints: number;
   status?: string;
   role?: "USER" | "ADMIN";
+  twoFactorEnabled: boolean;
 }
 
 interface AuthContextType {
@@ -46,7 +47,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       setIsLoading(true);
 
       // api.get returns response.data due to interceptor (see api.ts line 27)
-      const response: any = await api.get("/user/me"); // cookie auto-sent
+      const response: any = await api.get("/user/me", {
+        headers: {
+          "Cache-Control": "no-cache",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
+      }); // cookie auto-sent
 
       if (response?.user) {
         console.log("✅ Session restored from cookie:", response.user);
