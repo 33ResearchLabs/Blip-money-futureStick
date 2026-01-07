@@ -718,10 +718,11 @@ const EarlyAdopterBanner = () => {
                       <ArrowRight className="w-4 h-4" />
                     </Button>
                   </Link>
-
+                   <Link to="/rewards">
                   <button className="w-full sm:w-auto px-8 py-3 rounded-full border border-white/25 text-xs sm:text-sm text-gray-100 hover:border-[#00FF94] hover:text-[#00FF94] bg-black/40 transition-all">
                     View eligibility details
                   </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -2026,13 +2027,13 @@ Payments"
                 </button>
               </Link>
 
-              <Link to="/rewards">
+              <Link to="/waitlist">
                 <button className="w-full bg-black/80 backdrop-blur border border-white/20 text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:border-[#00FF94] hover:text-[#00FF94] transition-all duration-300">
                   Join the Waitlist
                 </button>
               </Link>
 
-              <Link to="/rewards">
+              <Link to="/waitlist">
                 <button className="w-full bg-black/80 backdrop-blur border border-white/20 text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:border-[#00FF94] hover:text-[#00FF94] transition-all duration-300">
                   Get Airdrop Access
                 </button>

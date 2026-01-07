@@ -124,7 +124,7 @@ const ContactUs = () => {
         />
 
         {/* Scanning Line */}
-        <div className="absolute w-full h-[2px] bg-gradient-to-r from-transparent via-[#00FF00]/20 to-transparent top-0 animate-[scan_8s_linear_infinite]" />
+        {/* <div className="absolute w-full h-[2px] bg-gradient-to-r from-transparent via-[#00FF00]/20 to-transparent top-0 animate-[scan_8s_linear_infinite]" /> */}
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-24 lg:py-40 relative z-10">

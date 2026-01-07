@@ -47,7 +47,8 @@ export const Footer = () => {
           </Link>
 
           <p className="text-sm text-gray-400 leading-relaxed">
-            Pay with Crypto — Anyone, Anywhere. <br /> Blip money is the anonymous money protocol for cash, wire, and crypto transfers without KYC, secured by DAO escrow.
+            Pay with Crypto — Anyone, Anywhere.  <br />
+Blip money is the non-custodial settlement protocol for cash, wire, and crypto transfers without KYC, secured by DAO escrow.
           </p>
 
           {/* SOCIAL */}
