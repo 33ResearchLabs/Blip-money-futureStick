@@ -699,7 +699,7 @@ const Dashboard = () => {
             </div>
             <div
               onClick={() => setShowReferralModal(true)}
-              className="bg-[#39ff14]/5 border border-[#2BFF88]/10 p-6 rounded-sm hover:bg-[#2BFF88] transition-all cursor-pointer group"
+              className="bg-[#39ff14]/5 border border-[#2BFF88]/10 p-6 rounded-sm  transition-all cursor-pointer group"
             >
               <div className="flex items-center justify-between mb-3">
                 <span className="text-[9px] font-black uppercase tracking-widest text-[#2BFF88]">
