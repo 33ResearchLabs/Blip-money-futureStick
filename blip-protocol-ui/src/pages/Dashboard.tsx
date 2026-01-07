@@ -424,7 +424,7 @@ const Dashboard = () => {
             return (
               <button
                 onClick={() => setShowQuiz(true)}
-                className="px-4 py-2 rounded font-bold transition bg-[#39ff14] text-black hover:bg-[#2fe610] flex items-center gap-2"
+                className="px-4 py-2 rounded font-bold transition bg-[#2BFF88] text-black hover:bg-[#2BFF88] flex items-center gap-2"
               >
                 <HelpCircle size={14} />
                 Take Quiz
@@ -436,7 +436,7 @@ const Dashboard = () => {
             <button
               onClick={() => handleCompleteAction(taskType)}
               disabled={loading}
-              className="px-4 py-2 rounded font-bold transition bg-[#39ff14] text-black hover:bg-[#2fe610] disabled:opacity-50 flex items-center gap-2"
+              className="px-4 py-2 rounded font-bold transition bg-[#2BFF88] text-black hover:bg-[#2BFF88] disabled:opacity-50 flex items-center gap-2"
             >
               {loading ? (
                 <span className="flex items-center gap-2">
@@ -470,7 +470,7 @@ const Dashboard = () => {
         // Stage 4: Verified - Show "Earned"
         case "VERIFIED":
           return (
-            <span className="flex items-center gap-2 px-4 py-2 rounded font-bold bg-[#39ff14]/20 text-[#39ff14] border border-[#39ff14]/30">
+            <span className="flex items-center gap-2 px-4 py-2 rounded font-bold bg-[#39ff14]/20 text-[#2BFF88] border border-[#2BFF88]">
               <Coins size={14} />
               Earned +{points}
             </span>
@@ -518,8 +518,8 @@ const Dashboard = () => {
               className={`h-1 flex-1 rounded-full transition-all ${
                 step <= stage
                   ? step === 4
-                    ? "bg-[#39ff14]"
-                    : "bg-[#39ff14]/60"
+                    ? "bg-[#2BFF88]"
+                    : "bg-[#2BFF88]"
                   : "bg-zinc-800"
               }`}
             />
@@ -532,7 +532,7 @@ const Dashboard = () => {
               <div
                 className={`w-10 h-10 rounded flex items-center justify-center transition-all ${
                   status === "VERIFIED"
-                    ? "bg-[#39ff14]/20 text-[#39ff14]"
+                    ? "bg-[#39ff14]/20 text-[#2BFF88]"
                     : "bg-zinc-800 text-zinc-500"
                 }`}
               >
@@ -543,8 +543,8 @@ const Dashboard = () => {
               <h4
                 className={`font-bold transition-colors ${
                   status === "VERIFIED"
-                    ? "text-[#39ff14]"
-                    : "text-zinc-100 group-hover:text-[#39ff14]"
+                    ? "text-[#2BFF88]"
+                    : "text-zinc-100 group-hover:text-[#2BFF88]"
                 }`}
               >
                 {title}
@@ -560,7 +560,7 @@ const Dashboard = () => {
           <div className="text-right">
             <span
               className={`text-sm font-mono font-bold ${
-                status === "VERIFIED" ? "text-[#39ff14]" : "text-zinc-500"
+                status === "VERIFIED" ? "text-[#2BFF88]" : "text-zinc-500"
               }`}
             >
               +{points}
@@ -641,19 +641,19 @@ const Dashboard = () => {
                   <span className="text-xs font-bold text-zinc-200">
                     {displayWalletAddress}
                   </span>
-                  <div className="w-2 h-2 rounded-full bg-[#39ff14] shadow-[0_0_5px_#39ff14]" />
+                  <div className="w-2 h-2 rounded-full bg-[#2BFF88] shadow-[0_0_5px_#39ff14]" />
                 </div>
                 <button
                   onClick={handleCopyWalletAddress}
-                  className="p-1.5 rounded bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-[#39ff14]/50 transition-all"
+                  className="p-1.5 rounded bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-[#2BFF88] transition-all"
                   title="Copy wallet address"
                 >
                   {walletCopied ? (
-                    <Check size={12} className="text-[#39ff14]" />
+                    <Check size={12} className="text-[#2BFF88]" />
                   ) : (
                     <Copy
                       size={12}
-                      className="text-zinc-400 hover:text-[#39ff14]"
+                      className="text-zinc-400 hover:text-[#2BFF88]"
                     />
                   )}
                 </button>
@@ -667,18 +667,18 @@ const Dashboard = () => {
                 <span className="text-[9px] font-black uppercase tracking-widest text-zinc-500">
                   Accumulated Points
                 </span>
-                <span className="text-[10px] text-zinc-600 group-hover:text-[#39ff14] transition-colors">
+                <span className="text-[10px] text-[#2BFF88] group-hover:text-[#2BFF88] transition-colors">
                   View history →
                 </span>
               </div>
               <div className="flex items-baseline gap-1">
-                <span className="text-3xl font-black text-[#39ff14] tracking-tighter tabular-nums">
+                <span className="text-3xl font-black text-[#2BFF88] tracking-tighter tabular-nums">
                   {blipPoints}
                 </span>
               </div>
               <div className="absolute bottom-0 left-0 w-full h-[2px] bg-zinc-800">
                 <div
-                  className="h-full bg-[#39ff14] transition-all duration-1000"
+                  className="h-full bg-[#2BFF88] transition-all duration-1000"
                   style={{
                     width: `${Math.min((blipPoints / 4000) * 100, 100)}%`,
                   }}
@@ -699,13 +699,13 @@ const Dashboard = () => {
             </div>
             <div
               onClick={() => setShowReferralModal(true)}
-              className="bg-[#39ff14]/5 border border-[#39ff14]/10 p-6 rounded-sm hover:bg-[#39ff14]/10 transition-all cursor-pointer group"
+              className="bg-[#39ff14]/5 border border-[#2BFF88]/10 p-6 rounded-sm hover:bg-[#2BFF88] transition-all cursor-pointer group"
             >
               <div className="flex items-center justify-between mb-3">
-                <span className="text-[9px] font-black uppercase tracking-widest text-[#39ff14]">
+                <span className="text-[9px] font-black uppercase tracking-widest text-[#2BFF88]">
                   Your Referral Code
                 </span>
-                <span className="text-xs font-bold text-[#39ff14]">
+                <span className="text-xs font-bold text-[#2BFF88]">
                   +100 pts per referral
                 </span>
               </div>
@@ -723,11 +723,11 @@ const Dashboard = () => {
                     title="Copy referral code"
                   >
                     {copied ? (
-                      <Check size={14} className="text-[#39ff14]" />
+                      <Check size={14} className="text-[#2BFF88]" />
                     ) : (
                       <Copy
                         size={14}
-                        className="text-zinc-400 hover:text-[#39ff14]"
+                        className="text-zinc-400 hover:text-[#2BFF88]"
                       />
                     )}
                   </button>
@@ -741,7 +741,7 @@ const Dashboard = () => {
                   >
                     <Share2
                       size={14}
-                      className="text-zinc-400 hover:text-[#39ff14]"
+                      className="text-zinc-400 hover:text-[#2BFF88]"
                     />
                   </button>
                 </div>
@@ -750,7 +750,7 @@ const Dashboard = () => {
                 <p className="text-[10px] text-zinc-500 truncate flex-1">
                   {referralLink || "Generate your referral link"}
                 </p>
-                <span className="text-[10px] text-zinc-600 group-hover:text-[#39ff14] transition-colors ml-2">
+                <span className="text-[10px] text-zinc-600 group-hover:text-[#2BFF88] transition-colors ml-2">
                   Click to view referrals →
                 </span>
               </div>

@@ -67,7 +67,7 @@ export default function DashboardNavbar({
               <span className="text-[9px] uppercase tracking-tighter text-zinc-500 font-bold">
                 Protocol Balance
               </span>
-              <span className="text-[#39ff14] font-mono text-sm font-bold">
+              <span className="text-[#2BFF88] font-mono text-sm font-bold">
                 {blipPoints} pts
               </span>
             </div>
@@ -83,8 +83,8 @@ export default function DashboardNavbar({
                 {walletAddress}
               </span>
             </div>
-            <div className="w-8 h-8 rounded-full bg-[#39ff14]/10 border border-[#39ff14]/30 flex items-center justify-center">
-              <ShieldCheck className="text-[#39ff14]" size={16} />
+            <div className="w-8 h-8 rounded-full  border border-[#2BFF88] flex items-center justify-center">
+              <ShieldCheck className="text-[#2BFF88]" size={16} />
             </div>
             {/* <button
               onClick={onLogout}
@@ -99,7 +99,7 @@ export default function DashboardNavbar({
                 onClick={() => setOpen(!open)}
                 className="flex items-center gap-2 px-3 py-2 bg-black border border-zinc-700 text-zinc-300 text-sm"
               >
-                <User size={14} className="text-[#39ff14]" />
+                <User size={14} className="text-[#2BFF88]" />
                 User
               </button>
 
