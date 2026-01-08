@@ -15,6 +15,8 @@ import {
   Sparkles,
 } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { SEO } from "@/components";
+import { Helmet } from "react-helmet-async";
 
 export const BlipTokenomics = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -103,6 +105,13 @@ export const BlipTokenomics = () => {
   }, [colors]);
 
   return (
+    <>
+     <SEO
+        title="Blip money Tokenomics | Utility, Supply & Rewards Model"
+        description="Explore Blip money tokenomics, including token utility, supply distribution, and the rewards model powering the Blip money ecosystem."
+        canonical="https://blip.money/tokenomics"
+      />
+
     <div className="min-h-screen bg-[#020202] text-white font-sans overflow-x-hidden selection:bg-[#2BFF88] selection:text-black">
       <div className="py-6">
         {" "}
@@ -539,6 +548,8 @@ export const BlipTokenomics = () => {
       </footer> */}
       </div>
     </div>
+
+    </>
   );
 };
 

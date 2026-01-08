@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import SEO from "./SEO";
 
 const Cookies = () => {
   useEffect(() => {
@@ -6,6 +7,14 @@ const Cookies = () => {
   }, []);
 
   return (
+    <>
+    <SEO
+  title="Blip money Cookie Policy | Use of Cookies Explained"
+  description="Learn how Blip money uses cookies to enhance user experience, site performance, and functionality."
+  canonical="https://blip.money/cookies"
+/>
+
+
     <div className="min-h-screen bg-black text-white px-6 py-24">
       <div className="max-w-4xl mx-auto">
         {/* Title */}
@@ -145,6 +154,8 @@ const Cookies = () => {
         </section>
       </div>
     </div>
+
+    </>
   );
 };
 

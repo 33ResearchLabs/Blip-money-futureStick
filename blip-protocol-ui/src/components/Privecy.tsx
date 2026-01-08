@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import SEO from "./SEO";
 
 const Privacy = () => {
   useEffect(() => {
@@ -6,6 +7,13 @@ const Privacy = () => {
   }, []);
 
   return (
+    <>
+    <SEO
+  title="Blip money | Privacy Policy | Data Protection & Security"
+  description="Read the Blip money Privacy Policy to understand how your personal data is collected, used, and protected."
+  canonical="https://blip.money/privacy"
+/>
+
     <div className="min-h-screen bg-black text-white px-6 py-20">
       <div className="max-w-4xl mx-auto">
         {/* Title */}
@@ -171,6 +179,7 @@ const Privacy = () => {
         </section>
       </div>
     </div>
+    </>
   );
 };
 

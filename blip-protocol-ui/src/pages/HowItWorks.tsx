@@ -1,3 +1,4 @@
+import { SEO } from "@/components";
 import React, { useEffect } from "react";
 
 export const HowItWorksPage = () => {
@@ -35,6 +36,14 @@ export const HowItWorksPage = () => {
 );
 
   return (
+    <>
+     <SEO
+  title="How Blip money Works | Secure & Rewarding Payments"
+  description="Learn how Blip money works for users and merchants, enabling secure payments and rewarding transactions."
+  canonical="https://blip.money/how-it-works"
+/>
+
+
     <div className="min-h-screen bg-[#000000] font-sans overflow-x-hidden ">
       <main className="max-w-7xl mx-auto ">
         {/* 1. Hero Section */}
@@ -754,5 +763,6 @@ export const HowItWorksPage = () => {
         </section>
       </main>
     </div>
+    </>
   );
 };

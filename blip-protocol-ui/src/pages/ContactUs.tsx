@@ -13,6 +13,7 @@ import {
   MapPin,
 } from "lucide-react";
 import { sendFormNotification } from "@/api/telegram";
+import { SEO } from "@/components";
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -106,7 +107,15 @@ const ContactUs = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white  selection:bg-[#00FF00]/30 overflow-hidden relative selection:text-black">
+    <>
+    <SEO
+  title="Contact Blip money | Support & Business Inquiries"
+  description="Contact Blip money for customer support, partnerships, or general inquiries. Our team is here to help you."
+  canonical="https://blip.money/contact"
+/>
+
+
+        <div className="min-h-screen bg-[#050505] text-white  selection:bg-[#00FF00]/30 overflow-hidden relative selection:text-black">
       {/* Dynamic Background Elements */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         {/* Deep Radial Glows */}
@@ -450,6 +459,7 @@ const ContactUs = () => {
         }}
       />
     </div>
+    </>
   );
 };
 

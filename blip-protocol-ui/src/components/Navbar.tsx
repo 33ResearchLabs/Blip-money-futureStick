@@ -298,7 +298,7 @@ const BlipPointsBadge = ({ onClick }: { onClick?: () => void }) => {
     <Link
       to="/dashboard"
       onClick={onClick}
-      className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#2BFF88]/10 border border-[#2BFF88]/30 hover:bg-[#2BFF88]/20 transition-all"
+      className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#2BFF88]/10 border border-[#2BFF88]/30 hover:bg-[#2BFF88]/20 transition-all w-fit"
     >
       <Coins className="w-4 h-4 text-[#2BFF88]" />
       <span className="text-sm font-bold text-[#2BFF88]">
@@ -400,20 +400,22 @@ export const Navbar = () => {
             exit={{ opacity: 0, y: -10 }}
             className="lg:hidden bg-black/95 border-t border-white/10"
           >
-            <div className="flex flex-col p-6 space-y-5 text-lg text-gray-400">
+            <div className="flex flex-col p-6 space-y-5 text-base  text-gray-400">
               <Link to="/how-it-works">{t("howItWorks")}</Link>
               <Link to="/rewards">{t("rewards")}</Link>
               <Link to="/tokenomics">{t("tokenomics")}</Link>
 
               {isAuthenticated ? (
                 <>
+                <div className="flex items-center gap-2 text-sm font-medium">
                   <BlipPointsBadge />
                   <Link
                     to="/dashboard"
-                    className="px-4 py-1 text-center rounded-full border border-gray-500"
+                    className="px-4 py-1 text-center rounded-full border border-gray-500 w-fit"
                   >
                     Dashboard
                   </Link>
+                  </div>
                 </>
               ) : (
                 <Link

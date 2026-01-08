@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, MapPin, Zap, Users, Globe, Shield } from "lucide-react";
 import { SocialSidebar } from "@/components/SocialSidebar";
 import { Link } from "react-router-dom";
+import { SEO } from "@/components";
 
 const LaunchButton = ({ primary = false, className = "", children }) => (
   <button
@@ -352,6 +353,13 @@ const UAELaunchWhy = () => {
 
 const UAELaunchPage = () => {
   return (
+    <>
+    <SEO
+  title="Blip money UAE | Digital Payments & Rewards Platform"
+  description="Blip money in the UAE offers seamless digital payments, rewards, and merchant benefits across the United Arab Emirates."
+  canonical="https://blip.money/uae"
+/>
+
     <div className="min-h-screen bg-black text-white font-sans overflow-x-hidden">
       <style>
         {`
@@ -363,6 +371,7 @@ const UAELaunchPage = () => {
       <UAELaunchHero />
       <UAELaunchWhy />
     </div>
+    </>
   );
 };
 

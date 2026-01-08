@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import SEO from "./SEO";
 
 const Gdpr = () => {
   useEffect(() => {
@@ -6,6 +7,14 @@ const Gdpr = () => {
   }, []);
 
   return (
+    <>
+    <SEO
+  title="Blip money GDPR Compliance | Your Data Rights"
+  description="Understand Blip money GDPR compliance and how your data rights are protected under EU regulations."
+  canonical="https://blip.money/gdpr"
+/>
+
+
     <div className="min-h-screen bg-black text-white px-6 py-20">
       <div className="max-w-4xl mx-auto">
         {/* Title */}
@@ -159,6 +168,7 @@ const Gdpr = () => {
         </section>
       </div>
     </div>
+    </>
   );
 };
 

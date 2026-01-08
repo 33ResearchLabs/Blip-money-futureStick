@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck, X } from "lucide-react";
 import { toast } from "sonner";
 import { twoFactorApi } from "@/services/twoFatctor";
 import { useAuth } from "@/contexts/AuthContext";
+import { Helmet } from "react-helmet-async";
 
 export default function TwoFactorAuth() {
   const { user, refreshSession } = useAuth();
@@ -10,6 +11,7 @@ export default function TwoFactorAuth() {
   const [qrCode, setQrCode] = useState<string | null>(null);
   const [otp, setOtp] = useState("");
   const [disableOtp, setDisableOtp] = useState("");
+  const [disable, setDisable] = useState(false);
   const [loading, setLoading] = useState(false);
 
   if (!user) return null;
@@ -19,12 +21,10 @@ export default function TwoFactorAuth() {
     try {
       const res = await twoFactorApi.enableGoogleAuth();
 
-      
-        setQrCode(res.qrCode);
-        toast.success("Google Authenticator setup started", {
-          description: "Scan the QR code using the Google Authenticator app.",
-        });
-      
+      setQrCode(res.qrCode);
+      toast.success("Google Authenticator setup started", {
+        description: "Scan the QR code using the Google Authenticator app.",
+      });
     } catch (error: any) {
       toast.error(error?.response?.data?.message || "Failed to enable 2FA");
     }
@@ -80,7 +80,11 @@ export default function TwoFactorAuth() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto my-40 bg-zinc-900 border border-zinc-700 rounded-md p-6">
+<>
+ 
+
+
+    <div className="max-w-2xl mx-auto my-40  border border-zinc-700 rounded-md p-6 ">
       {/* HEADER */}
       <div className="flex items-center gap-2 mb-6">
         <ShieldCheck className="text-green-400" />
@@ -119,13 +123,34 @@ export default function TwoFactorAuth() {
                 className="w-full px-4 py-2 bg-zinc-900 border border-zinc-700 rounded text-white mb-3"
               />
 
-              <button
+              {/* <button
                 onClick={handleVerifyOtp}
                 disabled={loading}
                 className="w-full px-4 py-2 bg-green-500 text-black font-bold rounded disabled:opacity-50"
               >
                 {loading ? "Verifying..." : "Verify OTP"}
-              </button>
+              </button> */}
+           
+              <div className="flex gap-3">
+          <button
+            onClick={handleVerifyOtp}
+            disabled={loading || otp.length !== 6}
+            className="flex-1 px-4 py-2 bg-green-500 text-black font-bold rounded disabled:opacity-50"
+          >
+            {loading ? "Verifying..." : "Verify OTP"}
+          </button>
+
+          <button
+            onClick={() => {
+              setQrCode("");
+              setOtp("");
+            }}
+            className="flex-1 px-4 py-2 bg-zinc-700 text-white rounded hover:bg-zinc-600"
+          >
+            Cancel
+          </button>
+        </div>
+
             </div>
           )}
         </>
@@ -138,23 +163,54 @@ export default function TwoFactorAuth() {
             Disable Two-Factor Authentication
           </h3>
 
-          <input
-            value={disableOtp}
-            onChange={(e) => setDisableOtp(e.target.value.replace(/\D/g, ""))}
-            maxLength={6}
-            placeholder="Enter OTP to disable"
-            className="w-full px-4 py-2 bg-zinc-900 border border-zinc-700 rounded text-white mb-3"
-          />
+          {/* Disable Button */}
+          {!disable && (
+            <button
+              onClick={() => setDisable(true)}
+              className="px-4 py-2 bg-red-500 text-black text-sm font-bold rounded hover:bg-red-400 mb-4"
+            >
+              Disable 2FA
+            </button>
+          )}
 
-          <button
-            onClick={handleDisable2FA}
-            disabled={loading}
-            className="px-4 py-2 bg-red-500 text-black font-bold rounded disabled:opacity-50"
-          >
-            {loading ? "Disabling..." : "Disable 2FA"}
-          </button>
+          {/* OTP Input Section */}
+          {disable && (
+            <div className="space-y-3">
+              {/* Close Icon */}
+              <div className="flex justify-end">
+                <X
+                  onClick={() => {
+                    setDisable(false);
+                    setDisableOtp("");
+                  }}
+                  className="cursor-pointer text-zinc-400 hover:text-white"
+                  size={20}
+                />
+              </div>
+
+              <input
+                value={disableOtp}
+                onChange={(e) =>
+                  setDisableOtp(e.target.value.replace(/\D/g, ""))
+                }
+                maxLength={6}
+                placeholder="Enter OTP to disable"
+                className="w-full px-4 py-2 bg-zinc-900 border border-zinc-700 rounded text-white"
+              />
+
+              <button
+                onClick={handleDisable2FA}
+                disabled={loading || disableOtp.length !== 6}
+                className="px-4 py-2 bg-red-500 text-black font-bold rounded disabled:opacity-50"
+              >
+                {loading ? "Disabling..." : "Confirm Disable 2FA"}
+              </button>
+            </div>
+          )}
         </div>
       )}
     </div>
+
+    </>
   );
 }

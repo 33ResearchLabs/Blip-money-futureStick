@@ -28,7 +28,7 @@ export const Footer = () => {
       {/* MAIN CONTENT */}
       <div className="relative max-w-7xl mx-auto px-6 py-16 flex flex-col md:flex-row justify-between gap-12">
         {/* BRAND */}
-        <div className="max-w-sm space-y-4 text-center md:text-left -mt-2">
+        <div className="min-w-[180px]  space-y-4 text-center md:text-left -mt-2">
           <Link
             to="#hero"
             className="flex items-center gap-2 justify-center md:justify-start"
@@ -46,9 +46,10 @@ export const Footer = () => {
             </span>
           </Link>
 
-          <p className="text-sm text-gray-400 leading-relaxed">
-            Pay with Crypto — Anyone, Anywhere.  <br />
-Blip money is the non-custodial settlement protocol for cash, wire, and crypto transfers without KYC, secured by DAO escrow.
+          <p className="text-sm text-gray-400 leading-relaxed max-w-sm mx-auto">
+            Pay with Crypto — Anyone, Anywhere. <br />
+            Blip money is the non-custodial settlement protocol for cash, wire,
+            and crypto transfers without KYC, secured by DAO escrow.
           </p>
 
           {/* SOCIAL */}
@@ -97,10 +98,32 @@ Blip money is the non-custodial settlement protocol for cash, wire, and crypto t
             Product
           </h4>
           <ul className="space-y-3 text-sm text-gray-300">
-            <li><Link to="/how-it-works" className="hover:text-[#00FF94] transition">How it Works</Link></li>
-            <li><Link to="/waitlist" className="hover:text-[#00FF94] transition">Waitlist</Link></li>
-            <li><Link to="/tokenomics" className="hover:text-[#00FF94] transition">Tokenomics</Link></li>
-            <li><Link to="/rewards" className="hover:text-[#00FF94] transition">Rewards & Cashback</Link></li>
+            <li>
+              <Link
+                to="/how-it-works"
+                className="hover:text-[#00FF94] transition"
+              >
+                How it Works
+              </Link>
+            </li>
+            <li>
+              <Link to="/waitlist" className="hover:text-[#00FF94] transition">
+                Waitlist
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/tokenomics"
+                className="hover:text-[#00FF94] transition"
+              >
+                Tokenomics
+              </Link>
+            </li>
+            <li>
+              <Link to="/rewards" className="hover:text-[#00FF94] transition">
+                Rewards & Cashback
+              </Link>
+            </li>
           </ul>
         </div>
 
@@ -143,4 +166,3 @@ Blip money is the non-custodial settlement protocol for cash, wire, and crypto t
     </footer>
   );
 };
-

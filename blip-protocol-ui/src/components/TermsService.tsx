@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import SEO from "./SEO";
 
 const TermsService = () => {
   useEffect(() => {
@@ -6,6 +7,13 @@ const TermsService = () => {
   }, []);
 
   return (
+    <>
+    <SEO
+  title="Blip money | Terms & Conditions | User Agreement"
+  description="Review the Blip money Terms & Conditions outlining platform usage, user responsibilities, and legal policies."
+  canonical="https://blip.money/terms"
+/>
+
     <div className="min-h-screen bg-black text-white px-6 py-20">
       <div className="max-w-4xl mx-auto">
         {/* Title */}
@@ -179,6 +187,7 @@ const TermsService = () => {
         </section>
       </div>
     </div>
+    </>
   );
 };
 

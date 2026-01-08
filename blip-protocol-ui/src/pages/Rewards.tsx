@@ -15,6 +15,7 @@ import {
   DollarSign,
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import { SEO } from "@/components";
 
 // --- MOCK/MIGRATED DEPENDENCIES (for single-file execution) ---
 
@@ -947,6 +948,15 @@ const App = () => {
   }, []);
 
   return (
+
+    <>
+   <SEO
+  title="Blip money Rewards | Earn Rewards on Every Transaction"
+  description="Earn exciting rewards with Blip money on every transaction. Learn how Blip money benefits users and merchants."
+  canonical="https://blip.money/rewards"
+/>
+
+
     <div className="min-h-screen bg-black text-white font-sans overflow-x-hidden">
       {/* Custom Styles/Keyframes */}
       <style>
@@ -991,6 +1001,8 @@ const App = () => {
       {/* 6. Token utility grid */}
       <FunStrip /> {/* 7. Fun TL;DR + FAQ */}
     </div>
+
+    </>
   );
 };
 

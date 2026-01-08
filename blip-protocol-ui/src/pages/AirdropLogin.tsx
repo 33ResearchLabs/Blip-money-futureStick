@@ -20,6 +20,7 @@ import { airdropApi } from "@/services/Airdrop";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import PublicNavbar from "@/components/PublicNavbar";
 import { twoFactorApi } from "@/services/twoFatctor";
+import { SEO } from "@/components";
 
 const AirdropLogin = () => {
   const { publicKey, connected, disconnect, connecting } = useWallet();
@@ -300,6 +301,13 @@ const AirdropLogin = () => {
 
   return (
     <>
+      <SEO
+  title="Join the Blip money Waitlist | Early Access & Rewards"
+  description="Join the Blip money waitlist to get early access, exclusive rewards, and the latest platform updates."
+  canonical="https://blip.money/waitlist"
+/>
+
+
       <div className="min-h-screen bg-[#050505] text-zinc-100 font-sans selection:bg-[#2BFF88] selection:text-black transition-all duration-500">
         {/* Navigation */}
         {/* <PublicNavbar
