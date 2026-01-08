@@ -2,14 +2,14 @@ import { api } from "./api";
 
 export const twoFactorApi = {
   enableGoogleAuth: async () => {
-    const response = await api.post("/2fa/enable");
+    const response = await api.post("/twofa/enable");
     return response;
   },
 
     // Verify Otp  
    verifyGoogleAuth: async (otp) => {
     try {
-      const res = await api.post("/2fa/verify-enable", { otp });
+      const res = await api.post("/twofa/verify-enable", { otp });
       return res.data;
     } catch (error) {
       throw error?.response?.data || { message: "OTP verification failed" };
@@ -18,7 +18,7 @@ export const twoFactorApi = {
 
    verifyOtpLogin: async ({ email, otp }) => {
   try {
-    const res = await api.post("/2fa/verify-login", { email, otp });
+    const res = await api.post("/twofa/verify-login", { email, otp });
     return res; // ✅ already unwrapped
   } catch (error) {
     throw new Error(
@@ -29,7 +29,7 @@ export const twoFactorApi = {
 
 
 disableGoogleAuth: async (otp: string) => {
-    const { data } = await api.post("/2fa/disable", { otp });
+    const { data } = await api.post("/twofa/disable", { otp });
     return data;
   },
 

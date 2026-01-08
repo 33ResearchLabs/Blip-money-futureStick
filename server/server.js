@@ -113,7 +113,7 @@ if (isProduction && cluster.isPrimary) {
   app.use("/api/user", userRoutes);
   app.use("/api/tasks", taskRoutes);
   app.use("/api/admin", adminRoutes);
-  app.use("/api/2fa",twoFactorRoutes)
+  app.use("/api/twofa",twoFactorRoutes)
 
   // 🏥 Health Check Endpoint (for load testing)
   app.get("/api/health", (req, res) => {
