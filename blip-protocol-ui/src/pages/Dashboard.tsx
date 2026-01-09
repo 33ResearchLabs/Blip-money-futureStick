@@ -27,6 +27,7 @@ import TelegramVerify from "@/components/TelegramVerify";
 import ReferralModal from "@/components/ReferralModal";
 import PointsHistoryModal from "@/components/PointsHistoryModal";
 import DashboardNavbar from "@/components/DashboardNavbar";
+import { Footer } from "@/components/Footer";
 
 // Task types matching backend
 type TaskType = "TWITTER" | "TELEGRAM" | "QUIZ" | "WHITEPAPER" | "CUSTOM";
@@ -778,8 +779,8 @@ const Dashboard = () => {
                   <div className="h-px w-full bg-zinc-900" />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <TaskCard
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 h-10">
+                  {/* <TaskCard
                     taskType="TWITTER"
                     title="Follow Blip on Twitter"
                     description="Follow our official Twitter account for updates."
@@ -793,7 +794,8 @@ const Dashboard = () => {
                     description="Join our global Telegram group."
                     points={50}
                     icon={<MessageCircle size={16} />}
-                  />
+                  /> */}
+
                 </div>
               </div>
 
@@ -1067,6 +1069,7 @@ const Dashboard = () => {
         <div className="absolute top-[-10%] left-[10%] w-[40%] h-[40%] bg-[#39ff14]/5 blur-[120px] rounded-full" />
         <div className="absolute bottom-[-10%] right-[10%] w-[30%] h-[30%] bg-zinc-800/10 blur-[100px] rounded-full" />
       </div>
+      <Footer/>
     </div>
   );
 };

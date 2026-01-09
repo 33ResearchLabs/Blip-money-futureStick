@@ -17,7 +17,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { airdropApi } from "@/services/Airdrop";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import PublicNavbar from "@/components/PublicNavbar";
 import { twoFactorApi } from "@/services/twoFatctor";
 import { SEO } from "@/components";
@@ -239,74 +239,72 @@ const AirdropLogin = () => {
     );
   }
 
- const handleVerifyLoginOtp = async () => {
-  if (otp.length !== 6) {
-    toast({
-      variant: "destructive",
-      title: "Invalid OTP",
-      description: "Enter a valid 6-digit OTP",
-    });
-    return;
-  }
-
-  try {
-    setIsVerifyingOtp(true);
-
-    const res = await twoFactorApi.verifyOtpLogin({
-      email: pendingEmail,
-      otp,
-    });
-
-    console.log("✅ OTP VERIFY RESPONSE:", res);
-
-    // 🛡️ SAFETY CHECK
-    if (!res || !res.user) {
-      throw new Error("Invalid OTP response from server");
+  const handleVerifyLoginOtp = async () => {
+    if (otp.length !== 6) {
+      toast({
+        variant: "destructive",
+        title: "Invalid OTP",
+        description: "Enter a valid 6-digit OTP",
+      });
+      return;
     }
 
-    login({
-      id: res.user._id,
-      wallet_address: publicKey?.toBase58(),
-      email: res.user.email,
-      referralCode: res.user.referralCode,
-      totalBlipPoints: res.user.totalBlipPoints,
-      status: res.user.status,
-    });
+    try {
+      setIsVerifyingOtp(true);
 
-    setShow2FAModal(false);
-    setOtp("");
+      const res = await twoFactorApi.verifyOtpLogin({
+        email: pendingEmail,
+        otp,
+      });
 
-    toast({
-      title: "Login Successful",
-      description: "OTP verified successfully",
-    });
+      console.log("✅ OTP VERIFY RESPONSE:", res);
 
-    navigate("/dashboard");
-  } catch (error) {
-    console.error("❌ error in otp", error);
+      // 🛡️ SAFETY CHECK
+      if (!res || !res.user) {
+        throw new Error("Invalid OTP response from server");
+      }
 
-    toast({
-      variant: "destructive",
-      title: "OTP Failed",
-      description:
-        error?.message ||
-        error?.response?.data?.message ||
-        "OTP verification failed",
-    });
-  } finally {
-    setIsVerifyingOtp(false);
-  }
-};
+      login({
+        id: res.user._id,
+        wallet_address: publicKey?.toBase58(),
+        email: res.user.email,
+        referralCode: res.user.referralCode,
+        totalBlipPoints: res.user.totalBlipPoints,
+        status: res.user.status,
+      });
 
+      setShow2FAModal(false);
+      setOtp("");
+
+      toast({
+        title: "Login Successful",
+        description: "OTP verified successfully",
+      });
+
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("❌ error in otp", error);
+
+      toast({
+        variant: "destructive",
+        title: "OTP Failed",
+        description:
+          error?.message ||
+          error?.response?.data?.message ||
+          "OTP verification failed",
+      });
+    } finally {
+      setIsVerifyingOtp(false);
+    }
+  };
 
   return (
     <>
       <SEO
-  title="Join the Blip money Waitlist | Early Access & Rewards"
-  description="Join the Blip money waitlist to get early access, exclusive rewards, and the latest platform updates."
-  canonical="https://blip.money/waitlist"
-/>
-
+        title="Join the Blip money Waitlist | Early Access & Rewards"
+        description="Join the Blip money waitlist to get early access, exclusive rewards, and the latest platform updates."
+        canonical="https://blip.money/waitlist"
+      />
 
       <div className="min-h-screen bg-[#050505] text-zinc-100 font-sans selection:bg-[#2BFF88] selection:text-black transition-all duration-500">
         {/* Navigation */}
@@ -332,27 +330,50 @@ const AirdropLogin = () => {
                     <Activity size={12} className="animate-pulse" />
                     Mainnet Alpha: Live Verification
                   </div>
-                  <h1 className="text-6xl md:text-8xl font-bold tracking-tighter text-white mb-8 leading-[0.95] selection:bg-[#2BFF88] selection:text-black">
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.6rem]  font-bold tracking-tighter text-white mb-8 leading-[0.95] selection:bg-[#2BFF88] selection:text-black">
                     Earn in a Blip.
                   </h1>
-                  <p className="text-xl text-zinc-500 mb-12 leading-relaxed max-w-xl">
+                  <p className="text-sm sm:text-base md:text-lg text-gray-400  mb-12 leading-relaxed max-w-xl">
                     Support the first privacy-preserving institutional payment
                     protocol. Earn rewards by validating network integrity and
                     contributing to the global on-chain bridge.
                   </p>
-                  <div className="flex flex-col sm:flex-row items-center gap-4">
+
+                  {/* <div className="flex flex-col sm:flex-row items-center gap-4">
                     <button
                       onClick={() => setView("waitlist")}
-                      className="w-full sm:w-auto bg-[#2BFF88] text-black px-12 py-5 rounded-sm font-black text-[11px] uppercase tracking-[0.2em] hover:bg-[#2BFF88] transition-all shadow-[0_20px_40px_-15px_rgba(57,255,20,0.25)] active:scale-95 flex items-center justify-center gap-3"
+                      className="w-full sm:w-auto bg-[#00FF94] text-black px-12 py-5 rounded-full font-black text-[11px] uppercase tracking-[0.2em] hover:bg-[#00FF94]/80 transition-all shadow-[0_20px_40px_-15px_rgba(57,255,20,0.25)]  active:scale-95 flex items-center justify-center gap-3"
                     >
                       Join waitlist <ChevronRight size={16} strokeWidth={3} />
                     </button>
-                    <a href="/whitepaper.pdf"
-              target="_blank"
-              rel="noopener noreferrer">
-                    <button className="w-full sm:w-auto px-12 py-5 border border-zinc-800 rounded-sm font-bold text-[11px] uppercase tracking-[0.2em] text-zinc-400 hover:bg-zinc-900 transition-all">
-                      Read Whitepaper
-                    </button></a>
+                    
+                    <a
+                      href="/whitepaper.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <button className="w-full sm:w-auto px-12 py-5 border border-zinc-800 rounded-full font-bold text-[11px] uppercase tracking-[0.2em] text-zinc-400 hover:bg-zinc-900 transition-all">
+                        Read Whitepaper
+                      </button>
+                    </a>
+                  </div> */}
+
+                  <div className="flex gap-4 ">
+                    <div onClick={() => setView("waitlist")}>
+                      <button className="w-full bg-black/80 backdrop-blur border border-white/20 text-white px-16 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:border-[#00FF94] hover:text-[#00FF94] transition-all duration-300">
+                        Join the Waitlist
+                      </button>
+                    </div>
+
+                    <a
+                      href="/whitepaper.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <button className="w-full bg-black/80 backdrop-blur border border-white/20 text-white px-16 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:border-[#00FF94] hover:text-[#00FF94] transition-all duration-300">
+                        Read Whitepaper
+                      </button>
+                    </a>
                   </div>
                 </div>
 

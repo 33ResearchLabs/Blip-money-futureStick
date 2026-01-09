@@ -83,18 +83,40 @@ export default function DashboardNavbar({
                 {walletAddress}
               </span>
             </div>
-            <div className="w-8 h-8 rounded-full  border border-[#2BFF88] flex items-center justify-center">
-              <ShieldCheck className="text-[#2BFF88]" size={16} />
-            </div>
-            {/* <button
-              onClick={onLogout}
-              className="flex items-center gap-2 px-4 py-2 rounded-sm bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-zinc-600 transition-all text-xs font-bold uppercase tracking-wider text-zinc-300 hover:text-white"
-            >
-              <LogOut size={14} />
-              Logout
-            </button> */}
 
             <div ref={dropdownRef} className="relative">
+              <div
+                className="w-8 h-8 rounded-full  border border-[#2BFF88] flex items-center justify-center cursor-pointer"
+                onClick={() => setOpen(!open)}
+              >
+                <ShieldCheck className="text-[#2BFF88]" size={16} />
+              </div>
+
+              {open && (
+                <div className="absolute -right-20 mt-3 w-40 bg-zinc-900 border border-zinc-700 rounded-sm shadow-lg z-50">
+                  <button
+                    className="w-full flex items-center gap-2 px-4 py-2 text-xs text-zinc-300 hover:bg-zinc-800"
+                    onClick={() => navigate("/twoFactorAuth")}
+                  >
+                    <Settings size={14} />
+                    Settings
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      onLogout();
+                      setOpen(false);
+                    }}
+                    className="w-full flex items-center gap-2 px-4 py-2 text-xs text-red-400 hover:bg-zinc-800"
+                  >
+                    <LogOut size={14} />
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* <div ref={dropdownRef} className="relative">
               <button
                 onClick={() => setOpen(!open)}
                 className="flex items-center gap-2 px-3 py-2 bg-black border border-zinc-700 text-zinc-300 text-sm"
@@ -123,7 +145,8 @@ export default function DashboardNavbar({
                   </button>
                 </div>
               )}
-            </div>
+              
+            </div> */}
           </div>
         </div>
 
