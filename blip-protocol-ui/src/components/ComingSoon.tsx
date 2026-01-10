@@ -519,20 +519,20 @@ const ComingSoon = () => {
           {/* --- LEFT COLUMN: HERO CORE & EMAIL FORM --- */}
           <div className="text-center lg:text-left">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#2BFF88]/40 bg-[#2BFF88]/5 mb-6 shadow-[0_0_10px_rgba(43,255,136,0.2)]">
-              <Zap className="w-4 h-4 text-[#2BFF88]" />
-              <span className="text-xs font-mono text-gray-300 uppercase tracking-widest">
+              <Zap className="w-4 h-3 text-[#2BFF88]" />
+              <span className="text-[10px] font-mono text-gray-300 uppercase tracking-widest">
                 PROTOCOL LAUNCH IMMINENT
               </span>
             </div>
 
-            <h1 className="text-4xl sm:text-7xl md:text-8xl lg:text-[90px] font-extrabold tracking-tighter mb-6 leading-none">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold tracking-tighter mb-6 leading-none">
               The Protocol.
               <br className="hidden md:block" />
               <span className="mint-gradient-text">Instant Value.</span>
               <br className="hidden md:block" />
               Everywhere.
             </h1>
-            <p className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-10 max-w-4xl mx-auto lg:mx-0 font-light leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl text-gray-400 text-gray-300 mb-10 max-w-4xl mx-auto lg:mx-0 font-light leading-relaxed">
               Unify global commerce on a decentralized, non-custodial layer.
               Join the exclusive list for Q1 access.
             </p>

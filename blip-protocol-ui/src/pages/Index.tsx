@@ -34,6 +34,7 @@ import useScrollActive from "@/hooks/useScrollActive";
 import ScrollReveal from "@/components/ScrollReveal";
 import { SectionLabel } from "@/components/SectionLable";
 import { useTranslation } from "react-i18next";
+import { SEO } from "@/components";
 
 // --- Visual Effects Components ---
 
@@ -1498,6 +1499,15 @@ const Index = () => {
     }, []);
 
   return (
+     <>
+
+     <SEO
+  title="Blip Money - Fast, Secure, and Simple Payment Solutions"
+  description="Pay with Crypto — Anyone, Anywhere.
+Blip money is the non-custodial settlement protocol for cash, wire, and crypto transfers without KYC, secured by DAO escrow."
+  canonical="https://blip.money/"
+/>
+
     <div
       className="min-h-screen   bg-black text-white font-sans selection:bg-[#2BFF88] selection:text-black overflow-x-hidden overflow-y-hidden scrollbar-hide"
       style={{ scrollbarWidth: "none", scrollBehavior: "smooth" }}
@@ -2360,6 +2370,8 @@ Payments"
         </div>
       </section>
     </div>
+
+    </>
   );
 };
 

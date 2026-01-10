@@ -104,7 +104,16 @@ export default function ReferralModal({
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-zinc-900 border border-zinc-800 rounded-lg max-w-lg w-full max-h-[90vh] overflow-hidden">
+      <div className="bg-zinc-900 border border-zinc-800 rounded-lg   w-full
+    max-w-lg
+    sm:max-w-md
+    max-h-[90vh]
+
+    overflow-y-auto
+    overflow-x-hidden
+
+    mx-4
+    sm:mx-0">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-zinc-800">
           <div className="flex items-center gap-3">
