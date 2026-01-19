@@ -344,9 +344,9 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section ref={containerRef} className="relative h-[600vh] bg-black">
-      <div className="sticky top-0 h-screen overflow-hidden bg-black">
-        {/* ==================== IMMERSIVE MULTI-LAYER PARALLAX BACKGROUND ==================== */}
+    <section ref={containerRef} className="relative bg-black">
+      {/* ==================== IMMERSIVE MULTI-LAYER PARALLAX BACKGROUND (FIXED) ==================== */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         <div className="absolute inset-0 overflow-hidden">
           {/* Layer 1: Deep background gradient - slowest parallax */}
           <motion.div
@@ -479,47 +479,19 @@ const HeroSection = () => {
             />
           ))}
         </div>
+      </div>
 
-        {/* ==================== BOTTOM PROGRESS INDICATOR ==================== */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50">
-          <div className="flex flex-col items-center gap-3">
-            {/* Step labels */}
-            <div className="flex items-center gap-6 text-[10px] uppercase tracking-wider text-white/40">
-              <span>Claim</span>
-              <span>Escrow</span>
-              <span>Match</span>
-              <span>Verify</span>
-            </div>
-            {/* Progress bars */}
-            <div className="flex items-center gap-2">
-              {progressBars.map((progressWidth, i) => (
-                <motion.div
-                  key={i}
-                  className="relative h-1 rounded-full overflow-hidden"
-                  style={{
-                    width: 48,
-                    background: 'rgba(255, 255, 255, 0.1)',
-                  }}
-                >
-                  <motion.div
-                    className="absolute inset-y-0 left-0 rounded-full"
-                    style={{
-                      background: '#ff6b35',
-                      width: progressWidth,
-                    }}
-                  />
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
+      {/* ==================== CONTENT SECTIONS ==================== */}
+      <div className="relative z-10">
 
-        <div className="relative h-full flex items-center justify-center">
-          {/* ==================== STEP 1: CLAIM - Full iPhone Mockup ==================== */}
-          <motion.div
-            className="absolute inset-0 flex items-center justify-center z-20"
-            style={{ opacity: step1Opacity, scale: step1Scale }}
-          >
+        {/* ==================== STEP 1: CLAIM - Full iPhone Mockup ==================== */}
+        <motion.div
+          className="relative min-h-screen flex items-center justify-center z-20"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.3 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        >
             <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-16 xl:gap-20 items-center pt-16 sm:pt-20 lg:pt-0">
               {/* Left: Text content */}
               <div className="text-center lg:text-left order-2 lg:order-1">
@@ -835,11 +807,14 @@ const HeroSection = () => {
             </div>
           </motion.div>
 
-          {/* ==================== STEP 2: ESCROW - Full iPhone Mockup ==================== */}
-          <motion.div
-            className="absolute inset-0 flex items-center justify-center z-20"
-            style={{ opacity: step2Opacity, scale: step2Scale }}
-          >
+        {/* ==================== STEP 2: ESCROW - Full iPhone Mockup ==================== */}
+        <motion.div
+          className="relative min-h-screen flex items-center justify-center z-20"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.3 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        >
             <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-16 xl:gap-20 items-center pt-16 sm:pt-20 lg:pt-0">
               {/* Left: Full iPhone Mockup */}
               <motion.div className="relative flex justify-center">
@@ -995,13 +970,13 @@ const HeroSection = () => {
               {/* Right: Text content */}
               <div className="text-center lg:text-left">
                 <div className="inline-flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center">
-                    <span className="text-lg font-bold text-white/60">2</span>
+                  <div className="relative w-10 h-10 rounded-lg border border-white/[0.08] flex items-center justify-center group hover:border-white/20 transition-colors">
+                    <Lock className="w-4 h-4 text-white/40 group-hover:text-white/60 transition-colors" strokeWidth={1.5} />
+                    <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-black border border-white/10 flex items-center justify-center">
+                      <span className="text-[10px] font-medium text-white/50">2</span>
+                    </div>
                   </div>
-                  <div>
-                    <span className="text-[10px] uppercase tracking-[0.2em] text-white/40 block">Step Two</span>
-                    <span className="text-base font-semibold text-white">Escrow</span>
-                  </div>
+                  <span className="text-lg font-semibold text-white">Escrow</span>
                 </div>
 
                 <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl font-bold text-white mb-4 sm:mb-6 leading-[1.1] tracking-tight">
@@ -1038,22 +1013,25 @@ const HeroSection = () => {
             </div>
           </motion.div>
 
-          {/* ==================== STEP 3: MATCH - Advanced Merchant Dashboard ==================== */}
-          <motion.div
-            className="absolute inset-0 flex items-start justify-center z-20 pt-20 sm:pt-24 lg:pt-28"
-            style={{ opacity: step3Opacity, scale: step3Scale }}
-          >
+        {/* ==================== STEP 3: MATCH - Advanced Merchant Dashboard ==================== */}
+        <motion.div
+          className="relative min-h-screen flex items-start justify-center z-20 pt-20 sm:pt-24 lg:pt-28"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.3 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        >
             <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
               {/* Header */}
               <div className="text-center mb-4 sm:mb-6 lg:mb-8">
-                <div className="inline-flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[#ff6b35]/10 border border-[#ff6b35]/20 flex items-center justify-center">
-                    <span className="text-lg sm:text-xl font-bold text-[#ff6b35]">3</span>
+                <div className="inline-flex items-center gap-3 mb-4 sm:mb-6">
+                  <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-lg border border-white/[0.08] flex items-center justify-center group hover:border-white/20 transition-colors">
+                    <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-white/40 group-hover:text-[#ff6b35]/60 transition-colors" strokeWidth={1.5} />
+                    <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-black border border-white/10 flex items-center justify-center">
+                      <span className="text-[10px] font-medium text-white/50">3</span>
+                    </div>
                   </div>
-                  <div className="text-left">
-                    <span className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-white/40 block">Step Three</span>
-                    <span className="text-base sm:text-lg font-semibold text-white">Match</span>
-                  </div>
+                  <span className="text-lg sm:text-xl font-semibold text-white">Match</span>
                 </div>
                 <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-2 sm:mb-4 tracking-tight">
                   Instant <span className="text-white/20">bidding.</span>
@@ -1335,22 +1313,25 @@ const HeroSection = () => {
             </div>
           </motion.div>
 
-          {/* ==================== STEP 4: VERIFY - Full Browser Mockup ==================== */}
-          <motion.div
-            className="absolute inset-0 flex items-start justify-center z-20 pt-20 sm:pt-24 lg:pt-28"
-            style={{ opacity: step4Opacity, scale: step4Scale }}
-          >
+        {/* ==================== STEP 4: VERIFY - Full Browser Mockup ==================== */}
+        <motion.div
+          className="relative min-h-screen flex items-start justify-center z-20 pt-20 sm:pt-24 lg:pt-28"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.3 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        >
             <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
               {/* Header */}
               <div className="text-center mb-4 sm:mb-6 lg:mb-8">
-                <div className="inline-flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                    <span className="text-lg sm:text-xl font-bold text-emerald-400">4</span>
+                <div className="inline-flex items-center gap-3 mb-4 sm:mb-6">
+                  <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-lg border border-white/[0.08] flex items-center justify-center group hover:border-white/20 transition-colors">
+                    <Check className="w-4 h-4 sm:w-5 sm:h-5 text-white/40 group-hover:text-white/60 transition-colors" strokeWidth={1.5} />
+                    <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-black border border-white/10 flex items-center justify-center">
+                      <span className="text-[10px] font-medium text-white/50">4</span>
+                    </div>
                   </div>
-                  <div className="text-left">
-                    <span className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-white/40 block">Step Four</span>
-                    <span className="text-base sm:text-lg font-semibold text-white">Verify</span>
-                  </div>
+                  <span className="text-lg sm:text-xl font-semibold text-white">Verify</span>
                 </div>
                 <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-2 sm:mb-4 tracking-tight">
                   Settlement <span className="text-white/20">verified.</span>
@@ -1530,11 +1511,14 @@ const HeroSection = () => {
             </div>
           </motion.div>
 
-          {/* ==================== FINAL CTA - Enhanced Immersive ==================== */}
-          <motion.div
-            className="absolute inset-0 flex flex-col items-center justify-center z-30 px-6"
-            style={{ opacity: finalOpacity, y: finalY }}
-          >
+        {/* ==================== FINAL CTA - Enhanced Immersive ==================== */}
+        <motion.div
+          className="relative min-h-screen flex flex-col items-center justify-center z-30 px-6"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.3 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        >
             {/* Immersive background effects for final CTA */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
               {/* Central radial glow */}
@@ -1677,7 +1661,218 @@ const HeroSection = () => {
               </div>
             </div>
           </motion.div>
+      </div>
+    </section>
+  );
+};
+
+/* ============================================
+   BLIPSCAN EXPLORER SECTION - Linear.app style
+   Interactive real-time transaction viewer
+   ============================================ */
+const BlipscanExplorerSection = () => {
+  const [transactions, setTransactions] = useState([
+    { id: "BLP-7x2K", from: "0x8a9...3f2", to: "Ahmed M.", amount: "$500", time: "2s", new: false },
+    { id: "BLP-4mR8", from: "0x3b7...9k1", to: "Sarah K.", amount: "$1,200", time: "5s", new: false },
+    { id: "BLP-9pT4", from: "0x7c4...2m8", to: "James O.", amount: "$750", time: "8s", new: false },
+  ]);
+
+  // Add new transaction every 3 seconds
+  useEffect(() => {
+    const names = ["Alex T.", "Maria G.", "John D.", "Lisa W.", "Mike R.", "Emma S."];
+    const addresses = ["0x1a2...4b5", "0x6c7...8d9", "0x2e3...7f4", "0x9a1...3c6"];
+
+    const interval = setInterval(() => {
+      const newTx = {
+        id: `BLP-${Math.random().toString(36).substr(2, 4)}`,
+        from: addresses[Math.floor(Math.random() * addresses.length)],
+        to: names[Math.floor(Math.random() * names.length)],
+        amount: `$${(Math.random() * 2000 + 100).toFixed(0)}`,
+        time: "Just now",
+        new: true,
+      };
+
+      setTransactions(prev => {
+        const updated = [newTx, ...prev.slice(0, 4)].map((tx, i) => ({
+          ...tx,
+          new: i === 0,
+        }));
+        return updated;
+      });
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <section className="relative bg-black py-20 sm:py-32 overflow-hidden">
+      {/* Subtle background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-[#0a0a0a] to-black" />
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
+        {/* Header */}
+        <div className="text-center mb-12 sm:mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.02] border border-white/[0.05] mb-6"
+          >
+            <div className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
+            <span className="text-xs text-white/50 uppercase tracking-wider">Live on Solana</span>
+          </motion.div>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 tracking-tight"
+          >
+            Every transaction,{" "}
+            <span className="text-white/20">verified.</span>
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-white/50 text-base sm:text-lg max-w-2xl mx-auto"
+          >
+            Watch settlements happen in real-time on Blipscan Explorer
+          </motion.p>
         </div>
+
+        {/* Blipscan Window - Linear style */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="relative"
+        >
+          {/* Ambient glow */}
+          <div className="absolute -inset-4 bg-gradient-to-b from-[#ff6b35]/5 via-transparent to-transparent blur-3xl" />
+
+          {/* Main container */}
+          <div className="relative rounded-2xl border border-white/[0.06] bg-black/40 backdrop-blur-xl overflow-hidden">
+            {/* Header bar */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.06]">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
+                  <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
+                  <div className="w-3 h-3 rounded-full bg-[#28ca42]" />
+                </div>
+                <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/[0.02] border border-white/[0.04]">
+                  <Globe className="w-3.5 h-3.5 text-white/30" />
+                  <span className="text-xs text-white/40 font-mono">blipscan.io/explorer</span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <motion.div
+                  className="w-2 h-2 rounded-full bg-emerald-500"
+                  animate={{ opacity: [1, 0.5, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                />
+                <span className="text-xs text-emerald-400 font-medium">Live</span>
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="p-6">
+              {/* Stats row */}
+              <div className="grid grid-cols-3 gap-4 mb-6">
+                {[
+                  { label: "24h Volume", value: "$2.4M" },
+                  { label: "Settlements", value: "12,847" },
+                  { label: "Avg Speed", value: "1.8s" },
+                ].map((stat, i) => (
+                  <motion.div
+                    key={stat.label}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: 0.4 + i * 0.1 }}
+                    className="text-center p-3 rounded-lg bg-white/[0.01] border border-white/[0.04]"
+                  >
+                    <div className="text-xl sm:text-2xl font-bold text-white mb-1">{stat.value}</div>
+                    <div className="text-[10px] sm:text-xs text-white/40 uppercase tracking-wider">{stat.label}</div>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Transaction table */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between px-4 py-2">
+                  <span className="text-xs text-white/30 uppercase tracking-wider">Recent Settlements</span>
+                </div>
+
+                <AnimatePresence mode="popLayout">
+                  {transactions.map((tx) => (
+                    <motion.div
+                      key={tx.id}
+                      layout
+                      initial={{ opacity: 0, x: -20, scale: 0.95 }}
+                      animate={{
+                        opacity: 1,
+                        x: 0,
+                        scale: 1,
+                        backgroundColor: tx.new ? 'rgba(255, 107, 53, 0.05)' : 'rgba(255, 255, 255, 0.01)'
+                      }}
+                      exit={{ opacity: 0, x: 20, scale: 0.95 }}
+                      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                      className="flex items-center justify-between px-4 py-3 rounded-lg border border-white/[0.04] hover:border-white/[0.08] hover:bg-white/[0.02] transition-all group"
+                    >
+                      <div className="flex items-center gap-4 flex-1 min-w-0">
+                        <div className="w-8 h-8 rounded-lg bg-[#ff6b35]/10 border border-[#ff6b35]/20 flex items-center justify-center flex-shrink-0">
+                          <Check className="w-4 h-4 text-[#ff6b35]" strokeWidth={2} />
+                        </div>
+
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="text-sm font-mono text-white/60 truncate">{tx.id}</span>
+                            <span className="text-xs text-white/20">→</span>
+                            <span className="text-sm text-white font-medium truncate">{tx.to}</span>
+                          </div>
+                          <div className="text-xs text-white/30 font-mono truncate">{tx.from}</div>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-4 flex-shrink-0">
+                        <div className="text-right hidden sm:block">
+                          <div className="text-base font-semibold text-white">{tx.amount}</div>
+                          <div className="text-xs text-white/30">USDC</div>
+                        </div>
+                        <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-md bg-emerald-500/10 border border-emerald-500/20">
+                          <span className="text-xs text-emerald-400 font-medium whitespace-nowrap">{tx.time}</span>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </div>
+
+              {/* Footer */}
+              <div className="flex items-center justify-between mt-6 pt-4 border-t border-white/[0.04]">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-[#ff6b35]" />
+                  <span className="text-xs text-white/30">Powered by Blip Protocol</span>
+                </div>
+                <Link
+                  to="/explorer"
+                  className="text-xs text-[#ff6b35] hover:text-[#ff6b35]/80 transition-colors flex items-center gap-1"
+                >
+                  View Explorer
+                  <ArrowRight className="w-3 h-3" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -4210,6 +4405,7 @@ const Index = () => {
         <div className="grain-overlay" />
 
         <HeroSection />
+        <BlipscanExplorerSection />
         <UAESection />
         <CashbackBanner />
         <ProblemSection />

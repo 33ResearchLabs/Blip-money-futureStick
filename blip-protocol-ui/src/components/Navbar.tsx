@@ -17,30 +17,60 @@ const Logo = () => {
   return (
     <Link
       to="/"
-      className="flex items-center gap-1.5 group"
+      className="flex items-center gap-2 group"
       onClick={() => sounds.click()}
     >
       {/* Logo mark with "blip" text inside - Brand Orange #ff6b35 */}
       <motion.div
-        className="relative px-2 py-1.5 rounded-lg flex items-center justify-center overflow-hidden"
-        style={{ backgroundColor: '#ff6b35' }}
-        whileHover={{ scale: 1.05 }}
+        className="relative px-3 py-1.5 rounded-lg flex items-center justify-center overflow-hidden shadow-lg"
+        style={{
+          backgroundColor: '#ff6b35',
+          boxShadow: '0 0 20px rgba(255, 107, 53, 0.3)',
+        }}
+        whileHover={{
+          scale: 1.05,
+          boxShadow: '0 0 30px rgba(255, 107, 53, 0.5)',
+        }}
         whileTap={{ scale: 0.95 }}
+        transition={{ duration: 0.2 }}
       >
-        <span className="text-black font-bold text-[15px] tracking-tight lowercase">blip</span>
+        <span className="text-black font-bold text-[16px] tracking-tight lowercase leading-none">blip</span>
 
-        {/* Shine effect */}
+        {/* Animated shine effect */}
         <motion.div
           className="absolute inset-0 opacity-0 group-hover:opacity-100"
           style={{
-            background: 'linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 50%)',
+            background: 'linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.4) 50%, transparent 70%)',
+          }}
+          initial={{ x: '-100%' }}
+          whileHover={{ x: '100%' }}
+          transition={{ duration: 0.6, ease: "easeInOut" }}
+        />
+
+        {/* Subtle glow border */}
+        <motion.div
+          className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100"
+          style={{
+            boxShadow: 'inset 0 0 20px rgba(255, 255, 255, 0.2)',
           }}
           transition={{ duration: 0.3 }}
         />
       </motion.div>
 
-      {/* .money text outside */}
-      <span className="text-[17px] font-medium text-[#A1A1AA] tracking-tight lowercase">.money</span>
+      {/* .money text outside with gradient on hover */}
+      <motion.span
+        className="text-[17px] font-semibold tracking-tight lowercase leading-none relative"
+        style={{ color: '#A1A1AA' }}
+        whileHover={{ color: '#FFFFFF' }}
+        transition={{ duration: 0.2 }}
+      >
+        money
+        {/* Subtle underline effect on hover */}
+        <motion.div
+          className="absolute -bottom-0.5 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-[#ff6b35] to-transparent opacity-0 group-hover:opacity-100"
+          transition={{ duration: 0.3 }}
+        />
+      </motion.span>
     </Link>
   );
 };
@@ -381,7 +411,7 @@ export const Navbar = () => {
           borderBottom: isScrolled ? '1px solid rgba(255, 255, 255, 0.06)' : '1px solid transparent',
         }}
       >
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="h-[72px] flex items-center justify-between">
             {/* Logo */}
             <Logo />
