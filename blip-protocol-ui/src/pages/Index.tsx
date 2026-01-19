@@ -1153,10 +1153,10 @@ const HeroSection = () => {
                   </div>
 
                   {/* Dashboard content */}
-                  <div className="p-6 md:p-8">
-                    <div className="grid grid-cols-12 gap-6">
+                  <div className="p-4 sm:p-6 md:p-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6">
                       {/* Left Panel - Order Details */}
-                      <div className="col-span-5">
+                      <div className="lg:col-span-5">
                         <div className="rounded-xl bg-white/[0.02] border border-white/[0.06] p-5 mb-4">
                           <div className="flex items-center justify-between mb-4">
                             <span className="text-xs uppercase tracking-wider text-white/40">Active Order</span>
@@ -1237,7 +1237,7 @@ const HeroSection = () => {
                       </div>
 
                       {/* Right Panel - Live Merchant Bids */}
-                      <div className="col-span-7">
+                      <div className="lg:col-span-7">
                         <div className="flex items-center justify-between mb-4">
                           <div>
                             <h3 className="text-lg font-bold text-white">Live Merchant Bids</h3>
@@ -1615,7 +1615,7 @@ const HeroSection = () => {
               </motion.div>
 
               <motion.h2
-                className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-[1.05] tracking-tight"
+                className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6 leading-[1.05] tracking-tight px-4"
                 style={{
                   textShadow: '0 0 60px rgba(255,107,53,0.2)',
                 }}
@@ -1625,12 +1625,12 @@ const HeroSection = () => {
                 <span className="text-white/20">That's it.</span>
               </motion.h2>
 
-              <p className="text-white/50 text-xl mb-12 max-w-xl mx-auto">
+              <p className="text-white/50 text-base sm:text-lg md:text-xl mb-8 sm:mb-12 max-w-xl mx-auto px-4">
                 The fastest, most transparent way to convert crypto to local currency. Ready to experience it?
               </p>
 
               {/* Stats with stagger animation */}
-              <div className="flex justify-center gap-12 md:gap-20 mb-12">
+              <div className="flex justify-center gap-6 sm:gap-12 md:gap-20 mb-8 sm:mb-12">
                 {[
                   { value: "~2s", label: "Settlement" },
                   { value: "0.1%", label: "Fees" },
@@ -1644,23 +1644,23 @@ const HeroSection = () => {
                     transition={{ duration: 0.6, delay: i * 0.1 }}
                   >
                     <motion.div
-                      className="text-4xl md:text-5xl font-bold text-white mb-2"
+                      className="text-2xl sm:text-4xl md:text-5xl font-bold text-white mb-1 sm:mb-2"
                       whileHover={{ scale: 1.05, color: '#ff6b35' }}
                       transition={{ duration: 0.2 }}
                     >
                       {stat.value}
                     </motion.div>
-                    <div className="text-sm uppercase tracking-wider text-white/30">{stat.label}</div>
+                    <div className="text-xs sm:text-sm uppercase tracking-wider text-white/30">{stat.label}</div>
                   </motion.div>
                 ))}
               </div>
 
               {/* CTAs with enhanced hover effects */}
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 px-4">
                 <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
                   <Link
                     to="/waitlist"
-                    className="group flex items-center gap-3 px-10 py-5 bg-[#ff6b35] text-black rounded-2xl font-bold text-base shadow-[0_0_40px_rgba(255,107,53,0.3)] hover:shadow-[0_0_80px_rgba(255,107,53,0.5)] transition-all"
+                    className="group flex items-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 bg-[#ff6b35] text-black rounded-xl sm:rounded-2xl font-bold text-sm sm:text-base shadow-[0_0_40px_rgba(255,107,53,0.3)] hover:shadow-[0_0_80px_rgba(255,107,53,0.5)] transition-all"
                   >
                     Join Waitlist
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -1669,7 +1669,7 @@ const HeroSection = () => {
                 <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
                   <Link
                     to="/how-it-works"
-                    className="flex items-center gap-3 px-10 py-5 text-white/50 hover:text-white font-semibold text-base transition-colors border border-white/[0.1] rounded-2xl hover:border-white/20 hover:bg-white/[0.03]"
+                    className="flex items-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 text-white/50 hover:text-white font-semibold text-sm sm:text-base transition-colors border border-white/[0.1] rounded-xl sm:rounded-2xl hover:border-white/20 hover:bg-white/[0.03]"
                   >
                     Learn More
                   </Link>
@@ -1812,7 +1812,7 @@ const UAESection = () => {
           className="mb-8"
         >
           <h2
-            className="text-6xl md:text-8xl lg:text-9xl font-semibold tracking-tight leading-[0.9]"
+            className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-semibold tracking-tight leading-[0.9]"
             style={{
               background: 'linear-gradient(135deg, #ffffff 0%, #ff6b35 100%)',
               backgroundClip: 'text',
@@ -1828,7 +1828,7 @@ const UAESection = () => {
             viewport={{ once: true }}
             transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span className="text-6xl md:text-8xl lg:text-9xl font-semibold text-white/15 tracking-tight">
+            <span className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-semibold text-white/15 tracking-tight">
               is next.
             </span>
           </motion.div>
@@ -1853,7 +1853,7 @@ const UAESection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="flex items-center justify-center gap-12 md:gap-20"
+          className="flex items-center justify-center gap-6 sm:gap-12 md:gap-20"
         >
           {[
             { value: "40+", label: "Banks" },
@@ -1868,8 +1868,8 @@ const UAESection = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.8 + i * 0.1 }}
             >
-              <div className="text-2xl md:text-3xl font-semibold text-white mb-1">{stat.value}</div>
-              <div className="text-[11px] uppercase tracking-[0.2em] text-white/30">{stat.label}</div>
+              <div className="text-xl sm:text-2xl md:text-3xl font-semibold text-white mb-1">{stat.value}</div>
+              <div className="text-[9px] sm:text-[11px] uppercase tracking-[0.15em] sm:tracking-[0.2em] text-white/30">{stat.label}</div>
             </motion.div>
           ))}
         </motion.div>
@@ -2496,7 +2496,7 @@ const AppShowcaseSection = () => {
               </div>
 
               {/* Stats row */}
-              <div className="grid grid-cols-4 gap-4 mb-8">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
                 {[
                   { label: "Total Volume", value: "$2.4M", change: "+12.5%" },
                   { label: "Transactions", value: "12,847", change: "+8.2%" },
@@ -2505,19 +2505,19 @@ const AppShowcaseSection = () => {
                 ].map((stat) => (
                   <div
                     key={stat.label}
-                    className="p-4 rounded-lg bg-white/[0.02] border border-white/[0.04]"
+                    className="p-3 sm:p-4 rounded-lg bg-white/[0.02] border border-white/[0.04]"
                   >
-                    <div className="text-[11px] text-white/40 uppercase tracking-wider mb-2">{stat.label}</div>
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-xl font-semibold text-white">{stat.value}</span>
-                      <span className="text-xs text-[#ff6b35]">{stat.change}</span>
+                    <div className="text-[10px] sm:text-[11px] text-white/40 uppercase tracking-wider mb-1 sm:mb-2">{stat.label}</div>
+                    <div className="flex items-baseline gap-1.5 sm:gap-2">
+                      <span className="text-base sm:text-xl font-semibold text-white">{stat.value}</span>
+                      <span className="text-[10px] sm:text-xs text-[#ff6b35]">{stat.change}</span>
                     </div>
                   </div>
                 ))}
               </div>
 
-              {/* Transaction table */}
-              <div className="rounded-lg border border-white/[0.06] overflow-hidden">
+              {/* Transaction table - Desktop */}
+              <div className="rounded-lg border border-white/[0.06] overflow-hidden hidden md:block">
                 {/* Table header */}
                 <div className="grid grid-cols-6 gap-4 px-4 py-3 bg-white/[0.02] border-b border-white/[0.06]">
                   <div className="text-[11px] text-white/40 uppercase tracking-wider">Transaction ID</div>
@@ -2560,6 +2560,45 @@ const AppShowcaseSection = () => {
                       )}
                     </div>
                     <div className="text-sm text-white/40 text-right">{tx.time}</div>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Transaction cards - Mobile */}
+              <div className="space-y-3 md:hidden">
+                {transactions.slice(0, 3).map((tx, i) => (
+                  <motion.div
+                    key={tx.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: 0.3 + i * 0.05 }}
+                    className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06]"
+                  >
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-xs text-white/50 font-mono">{tx.id}</span>
+                      {tx.status === 'completed' ? (
+                        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#ff6b35]/10">
+                          <div className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]" />
+                          <span className="text-[10px] text-[#ff6b35] uppercase">Done</span>
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/10">
+                          <div className="w-1.5 h-1.5 rounded-full bg-white/60" />
+                          <span className="text-[10px] text-white/60 uppercase">Processing</span>
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="text-sm text-white font-medium">{tx.to}</div>
+                        <div className="text-xs text-white/30">{tx.from}</div>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-base font-semibold text-white">{tx.amount}</div>
+                        <div className="text-xs text-white/40">{tx.time}</div>
+                      </div>
+                    </div>
                   </motion.div>
                 ))}
               </div>
@@ -3247,22 +3286,22 @@ const PrivacySection = () => {
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
 
   return (
-    <section ref={containerRef} className="relative py-40 bg-black overflow-hidden">
-      <motion.div className="relative z-10 max-w-5xl mx-auto px-6" style={{ opacity }}>
+    <section ref={containerRef} className="relative py-20 sm:py-28 md:py-40 bg-black overflow-hidden">
+      <motion.div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6" style={{ opacity }}>
         {/* Header */}
-        <div className="text-center mb-20">
+        <div className="text-center mb-10 sm:mb-16 md:mb-20">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="flex items-center justify-center gap-3 mb-8"
+            className="flex items-center justify-center gap-2 sm:gap-3 mb-5 sm:mb-8"
           >
-            <div className="h-px w-12 bg-gradient-to-r from-transparent to-white/20" />
-            <span className="text-[11px] uppercase tracking-[0.4em] text-white/30 font-light">
+            <div className="h-px w-8 sm:w-12 bg-gradient-to-r from-transparent to-white/20" />
+            <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.3em] sm:tracking-[0.4em] text-white/30 font-light">
               Privacy & Trust
             </span>
-            <div className="h-px w-12 bg-gradient-to-l from-transparent to-white/20" />
+            <div className="h-px w-8 sm:w-12 bg-gradient-to-l from-transparent to-white/20" />
           </motion.div>
 
           <motion.h2
@@ -3270,7 +3309,7 @@ const PrivacySection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-4xl md:text-6xl lg:text-7xl font-semibold text-white tracking-tight leading-[1.1]"
+            className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-semibold text-white tracking-tight leading-[1.1]"
           >
             Your wallet.
             <br />
@@ -3279,14 +3318,14 @@ const PrivacySection = () => {
         </div>
 
         {/* Two column minimal grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/[0.03] rounded-2xl overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/[0.03] rounded-xl sm:rounded-2xl overflow-hidden">
           {/* Privacy */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="bg-black p-10 md:p-12"
+            className="bg-black p-6 sm:p-10 md:p-12"
           >
             <h3 className="text-xl font-medium text-white mb-6">Privacy</h3>
             <ul className="space-y-4">
@@ -3309,7 +3348,7 @@ const PrivacySection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="bg-black p-10 md:p-12"
+            className="bg-black p-6 sm:p-10 md:p-12"
           >
             <h3 className="text-xl font-medium text-white mb-6">Trust</h3>
             <ul className="space-y-4">
@@ -3422,9 +3461,9 @@ const EarlyAdopterBanner = () => {
               </motion.div>
 
               {/* Big animated number */}
-              <div className="mb-6">
+              <div className="mb-4 sm:mb-6">
                 <motion.div
-                  className="text-7xl md:text-8xl lg:text-9xl font-bold"
+                  className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold"
                   style={{
                     background: 'linear-gradient(135deg, #ffffff 0%, #ff6b35 50%, #ff8c50 100%)',
                     backgroundClip: 'text',
@@ -3435,18 +3474,18 @@ const EarlyAdopterBanner = () => {
                 >
                   ${count}
                 </motion.div>
-                <div className="text-2xl md:text-3xl font-semibold text-white mt-2">
+                <div className="text-xl sm:text-2xl md:text-3xl font-semibold text-white mt-2">
                   in Blip Tokens
                 </div>
               </div>
 
-              <p className="text-lg text-white/50 max-w-lg mx-auto">
+              <p className="text-sm sm:text-base md:text-lg text-white/50 max-w-lg mx-auto px-4">
                 Early supporters get rewarded. Connect your wallet and start earning today.
               </p>
             </div>
 
             {/* Rewards breakdown */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
+            <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-8 sm:mb-12">
               {rewards.map((reward, i) => (
                 <motion.div
                   key={reward.label}
@@ -3454,16 +3493,16 @@ const EarlyAdopterBanner = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: 0.3 + i * 0.1 }}
-                  className="relative p-6 rounded-2xl bg-white/[0.03] border border-white/[0.06] text-center group hover:border-[#ff6b35]/30 transition-all"
+                  className="relative p-3 sm:p-6 rounded-xl sm:rounded-2xl bg-white/[0.03] border border-white/[0.06] text-center group hover:border-[#ff6b35]/30 transition-all"
                 >
                   {/* Hover glow */}
-                  <div className="absolute inset-0 rounded-2xl bg-[#ff6b35]/0 group-hover:bg-[#ff6b35]/5 transition-all" />
+                  <div className="absolute inset-0 rounded-xl sm:rounded-2xl bg-[#ff6b35]/0 group-hover:bg-[#ff6b35]/5 transition-all" />
 
                   <div className="relative">
-                    <span className="text-4xl mb-4 block">{reward.icon}</span>
-                    <div className="text-2xl font-bold text-[#ff6b35] mb-1">{reward.value}</div>
-                    <div className="text-sm font-medium text-white mb-1">{reward.label}</div>
-                    <div className="text-xs text-white/40">{reward.desc}</div>
+                    <span className="text-2xl sm:text-4xl mb-2 sm:mb-4 block">{reward.icon}</span>
+                    <div className="text-lg sm:text-2xl font-bold text-[#ff6b35] mb-0.5 sm:mb-1">{reward.value}</div>
+                    <div className="text-xs sm:text-sm font-medium text-white mb-0.5 sm:mb-1">{reward.label}</div>
+                    <div className="text-[10px] sm:text-xs text-white/40 hidden sm:block">{reward.desc}</div>
                   </div>
                 </motion.div>
               ))}
@@ -3892,7 +3931,7 @@ const PeopleBankSection = () => {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.4 }}
-          className="relative h-[400px] md:h-[500px] mb-20 cursor-crosshair"
+          className="relative h-[280px] sm:h-[350px] md:h-[500px] mb-12 sm:mb-16 md:mb-20 cursor-crosshair"
         >
           {/* SVG Connection Lines */}
           <svg className="absolute inset-0 w-full h-full">
@@ -3960,7 +3999,7 @@ const PeopleBankSection = () => {
                   className={`
                     relative -translate-x-1/2 -translate-y-1/2 rounded-full flex items-center justify-center cursor-pointer
                     transition-all duration-300
-                    ${node.isCentral ? 'w-20 h-20 md:w-24 md:h-24' : 'w-12 h-12 md:w-14 md:h-14'}
+                    ${node.isCentral ? 'w-14 h-14 sm:w-18 sm:h-18 md:w-24 md:h-24' : 'w-8 h-8 sm:w-10 sm:h-10 md:w-14 md:h-14'}
                   `}
                   style={{
                     background: isHovered || node.isCentral
@@ -4134,7 +4173,7 @@ const CTASection = () => {
   const glowY = useTransform(scrollYProgress, [0, 1], [100, -100]);
 
   return (
-    <section ref={containerRef} className="relative py-48 bg-black overflow-hidden">
+    <section ref={containerRef} className="relative py-24 sm:py-32 md:py-48 bg-black overflow-hidden">
       {/* Immersive orange glow background */}
       <div className="absolute inset-0">
         <motion.div
@@ -4183,7 +4222,7 @@ const CTASection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tight leading-[0.95] mb-8"
+          className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tight leading-[0.95] mb-6 sm:mb-8"
         >
           <span className="text-white">The future</span>
           <br />
@@ -4204,7 +4243,7 @@ const CTASection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="text-lg text-white/40 max-w-md mx-auto mb-12"
+          className="text-base sm:text-lg text-white/40 max-w-md mx-auto mb-8 sm:mb-12 px-4"
         >
           Join the waitlist and be among the first.
         </motion.p>
@@ -4217,7 +4256,7 @@ const CTASection = () => {
         >
           <Link
             to="/waitlist"
-            className="group inline-flex items-center gap-3 px-10 py-5 rounded-full bg-[#ff6b35] text-black text-base font-semibold hover:bg-[#ff8c50] hover:shadow-[0_0_60px_rgba(255,107,53,0.5)] transition-all duration-300"
+            className="group inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-full bg-[#ff6b35] text-black text-sm sm:text-base font-semibold hover:bg-[#ff8c50] hover:shadow-[0_0_60px_rgba(255,107,53,0.5)] transition-all duration-300"
           >
             <span>Join Waitlist</span>
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
