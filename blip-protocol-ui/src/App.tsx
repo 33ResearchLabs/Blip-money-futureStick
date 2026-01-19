@@ -4,7 +4,6 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { CustomCursor } from "@/components/CustomCursor";
 
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import StructuredData from "@/components/StructuredData";
@@ -48,7 +47,6 @@ const App = () => (
           enableSystem={false}
         >
           <TooltipProvider>
-            <CustomCursor />
             <Toaster />
             <Sonner />
 

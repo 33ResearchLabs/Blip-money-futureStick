@@ -12,6 +12,7 @@ import { sounds } from "@/lib/sounds";
    ============================================ */
 
 /* ---------------- Logo ---------------- */
+/* Brand Orange: #ff6b35 - LOCKED COLOR */
 const Logo = () => {
   return (
     <Link
@@ -19,9 +20,10 @@ const Logo = () => {
       className="flex items-center gap-1.5 group"
       onClick={() => sounds.click()}
     >
-      {/* Logo mark with "blip" text inside */}
+      {/* Logo mark with "blip" text inside - Brand Orange #ff6b35 */}
       <motion.div
-        className="relative px-2 py-1.5 rounded-lg flex items-center justify-center overflow-hidden bg-orange-500"
+        className="relative px-2 py-1.5 rounded-lg flex items-center justify-center overflow-hidden"
+        style={{ backgroundColor: '#ff6b35' }}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
