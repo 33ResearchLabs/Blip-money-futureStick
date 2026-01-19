@@ -3078,28 +3078,35 @@ const HowItWorksSection = () => {
       app: "Blip App",
       appIcon: "📱",
       screen: (
-        <div className="p-4 h-full flex flex-col">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-[#ff6b35] flex items-center justify-center">
-                <Zap className="w-4 h-4 text-black" />
+        <div className="p-5 h-full flex flex-col overflow-hidden">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-[#ff6b35] flex items-center justify-center">
+                <Zap className="w-5 h-5 text-black" />
               </div>
-              <span className="text-sm font-semibold text-white">Blip</span>
+              <span className="text-base font-semibold text-white">Blip</span>
             </div>
-            <div className="w-7 h-7 rounded-full bg-white/5" />
-          </div>
-          <div className="flex-1 flex flex-col items-center justify-center">
-            <span className="text-[10px] text-white/40 uppercase mb-2">You send</span>
-            <div className="flex items-center gap-2 mb-4">
-              <span className="text-4xl font-bold text-white">500</span>
-              <span className="text-sm text-white/50">USDC</span>
-            </div>
-            <div className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.06] text-center">
-              <span className="text-xs text-white/40">→ 1,835 AED</span>
+            <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center">
+              <User className="w-4 h-4 text-white/40" />
             </div>
           </div>
-          <div className="w-full py-3 rounded-xl bg-[#ff6b35] text-center mt-4">
-            <span className="text-sm font-semibold text-black">Continue</span>
+          <div className="flex-1 flex flex-col items-center justify-center min-h-0">
+            <span className="text-xs text-white/40 uppercase tracking-wider mb-3">You send</span>
+            <div className="flex items-baseline gap-2 mb-6">
+              <span className="text-5xl font-bold text-white">500</span>
+              <span className="text-lg text-white/50">USDC</span>
+            </div>
+            <div className="w-full px-5 py-4 rounded-2xl bg-white/[0.03] border border-white/[0.06] text-center mb-3">
+              <span className="text-xs text-white/30 block mb-1">Recipient gets</span>
+              <span className="text-lg text-white font-medium">1,835 AED</span>
+            </div>
+            <div className="flex items-center gap-2 text-xs text-white/30">
+              <Check className="w-3 h-3 text-emerald-400" />
+              <span>Best rate locked</span>
+            </div>
+          </div>
+          <div className="w-full py-4 rounded-2xl bg-[#ff6b35] text-center mt-4 flex-shrink-0">
+            <span className="text-base font-semibold text-black">Continue</span>
           </div>
         </div>
       ),
@@ -3111,35 +3118,42 @@ const HowItWorksSection = () => {
       app: "Merchant Dashboard",
       appIcon: "🏪",
       screen: (
-        <div className="p-3 h-full flex flex-col text-left">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-semibold text-white">Live Orders</span>
-            <div className="flex items-center gap-1">
-              <div className="w-1.5 h-1.5 rounded-full bg-[#ff6b35] animate-pulse" />
-              <span className="text-[9px] text-[#ff6b35]">LIVE</span>
+        <div className="p-5 h-full flex flex-col text-left overflow-hidden">
+          <div className="flex items-center justify-between mb-5">
+            <span className="text-sm font-semibold text-white">Live Orders</span>
+            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ff6b35]/10">
+              <div className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
+              <span className="text-[10px] text-[#ff6b35] font-medium">LIVE</span>
             </div>
           </div>
-          <div className="space-y-2 flex-1">
+          <div className="space-y-3 flex-1 min-h-0 overflow-hidden">
             {[
-              { rate: "3.672", profit: "+$1.85", best: true },
-              { rate: "3.668", profit: "+$1.65", best: false },
-              { rate: "3.665", profit: "+$1.50", best: false },
+              { rate: "3.672", profit: "+$1.85", best: true, merchant: "Dubai Exchange" },
+              { rate: "3.668", profit: "+$1.65", best: false, merchant: "Emirates FX" },
+              { rate: "3.665", profit: "+$1.50", best: false, merchant: "Gulf Markets" },
+              { rate: "3.660", profit: "+$1.35", best: false, merchant: "Crypto Hub" },
             ].map((bid, i) => (
-              <div key={i} className={`p-2.5 rounded-lg ${bid.best ? 'bg-[#ff6b35]/10 border border-[#ff6b35]/20' : 'bg-white/[0.02] border border-white/[0.04]'}`}>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className={`w-5 h-5 rounded ${bid.best ? 'bg-[#ff6b35]/20' : 'bg-white/5'} flex items-center justify-center text-[10px]`}>
-                      {bid.best ? '🏆' : '⚡'}
+              <div key={i} className={`p-3.5 rounded-xl ${bid.best ? 'bg-[#ff6b35]/10 border border-[#ff6b35]/20' : 'bg-white/[0.02] border border-white/[0.04]'}`}>
+                <div className="flex items-center justify-between mb-1.5">
+                  <div className="flex items-center gap-2.5">
+                    <div className={`w-8 h-8 rounded-lg ${bid.best ? 'bg-[#ff6b35]/20' : 'bg-white/5'} flex items-center justify-center`}>
+                      {bid.best ? <CheckCircle2 className="w-4 h-4 text-[#ff6b35]" /> : <Building2 className="w-4 h-4 text-white/40" />}
                     </div>
-                    <span className="text-xs font-semibold text-white">{bid.rate} AED</span>
+                    <div>
+                      <span className="text-sm font-semibold text-white block">{bid.rate} AED</span>
+                      <span className="text-[10px] text-white/30">{bid.merchant}</span>
+                    </div>
                   </div>
-                  <span className="text-[9px] text-[#ff6b35]">{bid.profit}</span>
+                  <span className="text-xs text-emerald-400 font-medium">{bid.profit}</span>
                 </div>
               </div>
             ))}
           </div>
-          <div className="mt-3 p-2 rounded-lg bg-white/[0.02] border border-white/[0.04]">
-            <span className="text-[9px] text-white/40">Auto-selecting best rate...</span>
+          <div className="mt-4 p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.04] flex-shrink-0">
+            <div className="flex items-center gap-2.5">
+              <div className="w-4 h-4 rounded-full border-2 border-[#ff6b35]/30 border-t-[#ff6b35] animate-spin" />
+              <span className="text-xs text-white/40">Auto-selecting best rate...</span>
+            </div>
           </div>
         </div>
       ),
@@ -3151,41 +3165,43 @@ const HowItWorksSection = () => {
       app: "Blipscan",
       appIcon: "🔍",
       screen: (
-        <div className="p-3 h-full flex flex-col text-left">
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded bg-[#ff6b35] flex items-center justify-center">
-                <Zap className="w-3 h-3 text-black" />
+        <div className="p-5 h-full flex flex-col text-left overflow-hidden">
+          <div className="flex items-center justify-between mb-5">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-lg bg-[#ff6b35] flex items-center justify-center">
+                <Globe className="w-4 h-4 text-black" />
               </div>
-              <span className="text-xs font-semibold text-white">Blipscan</span>
+              <span className="text-sm font-semibold text-white">Blipscan</span>
             </div>
-            <div className="px-1.5 py-0.5 rounded bg-white/[0.05]">
-              <span className="text-[8px] text-white/40 font-mono">Mainnet</span>
+            <div className="px-2.5 py-1 rounded-md bg-white/[0.05]">
+              <span className="text-[10px] text-white/40 font-mono">Mainnet</span>
             </div>
           </div>
-          <div className="space-y-2 flex-1">
+          <div className="space-y-3 flex-1 min-h-0 overflow-hidden">
             {[
               { id: "BLP-7x2K", to: "Ahmed M.", amount: "$500", time: "2s" },
               { id: "BLP-4mR8", to: "Sarah K.", amount: "$1,200", time: "1.4s" },
+              { id: "BLP-9nP3", to: "John D.", amount: "$320", time: "1.8s" },
+              { id: "BLP-2kL9", to: "Maria L.", amount: "$750", time: "1.6s" },
             ].map((tx, i) => (
-              <div key={i} className="p-2.5 rounded-lg bg-white/[0.02] border border-white/[0.04]">
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-[9px] text-white/40 font-mono">{tx.id}...</span>
-                  <div className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-[#ff6b35]/10">
-                    <Check className="w-2.5 h-2.5 text-[#ff6b35]" />
-                    <span className="text-[8px] text-[#ff6b35]">{tx.time}</span>
+              <div key={i} className="p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[10px] text-white/40 font-mono">{tx.id}...</span>
+                  <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-emerald-500/10">
+                    <Check className="w-3 h-3 text-emerald-400" />
+                    <span className="text-[10px] text-emerald-400 font-medium">{tx.time}</span>
                   </div>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-xs text-white">{tx.to}</span>
-                  <span className="text-xs font-semibold text-white">{tx.amount}</span>
+                  <span className="text-sm text-white">{tx.to}</span>
+                  <span className="text-sm font-semibold text-white">{tx.amount}</span>
                 </div>
               </div>
             ))}
           </div>
-          <div className="mt-2 flex items-center gap-1.5">
-            <div className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]" />
-            <span className="text-[8px] text-white/30">Connected to Solana</span>
+          <div className="mt-4 flex items-center gap-2 flex-shrink-0 px-3 py-2 rounded-lg bg-white/[0.02]">
+            <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="text-[10px] text-white/40">Connected to Solana Mainnet</span>
           </div>
         </div>
       ),
@@ -3201,26 +3217,36 @@ const HowItWorksSection = () => {
 
       <motion.div className="relative z-10 max-w-6xl mx-auto px-6" style={{ opacity }}>
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-24">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.03] border border-white/[0.06] mb-8"
+          >
+            <div className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
+            <span className="text-xs text-white/50 uppercase tracking-wider">How it works</span>
+          </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.1] mb-4"
+            className="text-4xl md:text-5xl lg:text-7xl font-bold text-white tracking-tight leading-[1.1] mb-6"
           >
             Three steps.
             <br />
-            <span className="text-[#ff6b35]">That's it.</span>
+            <span className="text-[#ff6b35]">Zero friction.</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-base text-white/40 max-w-md mx-auto"
+            className="text-lg text-white/40 max-w-lg mx-auto"
           >
-            From wallet to real-world value in seconds. See how it works.
+            From crypto to cash in under 2 seconds. No banks, no delays, no complexity.
           </motion.p>
         </div>
 
@@ -3232,7 +3258,7 @@ const HowItWorksSection = () => {
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 1.5, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute top-[140px] left-[15%] right-[15%] h-[1px] bg-gradient-to-r from-transparent via-[#ff6b35]/20 to-transparent hidden lg:block"
+            className="absolute top-[260px] left-[15%] right-[15%] h-[1px] bg-gradient-to-r from-transparent via-[#ff6b35]/30 to-transparent hidden lg:block"
             style={{ originX: 0 }}
           />
 
@@ -3244,38 +3270,42 @@ const HowItWorksSection = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.2 + i * 0.15, ease: [0.16, 1, 0.3, 1] }}
-                className="relative text-center"
+                className="relative text-center group"
               >
-                {/* Mini phone mockup */}
-                <div className="relative mx-auto mb-6 w-[160px] sm:w-[180px]">
-                  <div className="rounded-[24px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[2px] shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
-                    <div className="rounded-[22px] bg-[#0a0a0a] p-[6px]">
-                      <div className="rounded-[18px] bg-black overflow-hidden h-[220px] sm:h-[240px] relative">
+                {/* Phone mockup - increased size */}
+                <div className="relative mx-auto mb-10 w-[260px] sm:w-[280px] md:w-[260px] lg:w-[300px]">
+                  {/* Glow effect on hover */}
+                  <div className="absolute inset-0 rounded-[40px] bg-[#ff6b35]/0 group-hover:bg-[#ff6b35]/5 blur-xl transition-all duration-500" />
+
+                  <div className="relative rounded-[40px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[3px] shadow-[0_40px_80px_rgba(0,0,0,0.6)]">
+                    <div className="rounded-[38px] bg-[#0a0a0a] p-[10px]">
+                      <div className="rounded-[30px] bg-black overflow-hidden h-[420px] sm:h-[460px] md:h-[420px] lg:h-[480px] relative">
                         {/* Dynamic Island */}
-                        <div className="absolute top-2 left-1/2 -translate-x-1/2 w-16 h-5 bg-black rounded-full z-10" />
+                        <div className="absolute top-4 left-1/2 -translate-x-1/2 w-24 h-7 bg-black rounded-full z-10" />
                         {/* Screen content */}
-                        <div className="pt-8 h-full">
+                        <div className="pt-12 h-full">
                           {step.screen}
                         </div>
                       </div>
                     </div>
                   </div>
+
                   {/* App label */}
-                  <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-white/[0.05] border border-white/[0.08]">
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-sm">{step.appIcon}</span>
-                      <span className="text-[10px] text-white/60 font-medium">{step.app}</span>
+                  <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 px-5 py-2 rounded-full bg-[#0d0d0d] border border-white/[0.08] shadow-lg">
+                    <div className="flex items-center gap-2">
+                      <span className="text-base">{step.appIcon}</span>
+                      <span className="text-sm text-white/70 font-medium">{step.app}</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Content */}
-                <div className="mt-8">
-                  <span className="text-[#ff6b35] text-xs font-mono mb-2 block">{step.num}</span>
-                  <h3 className="text-xl font-semibold text-white mb-2">
+                <div className="mt-12">
+                  <span className="inline-block px-3 py-1 rounded-full bg-[#ff6b35]/10 text-[#ff6b35] text-xs font-mono mb-3">{step.num}</span>
+                  <h3 className="text-2xl font-semibold text-white mb-3">
                     {step.title}
                   </h3>
-                  <p className="text-sm text-white/40 leading-relaxed max-w-[240px] mx-auto">
+                  <p className="text-sm text-white/40 leading-relaxed max-w-[300px] mx-auto">
                     {step.desc}
                   </p>
                 </div>
@@ -3657,67 +3687,167 @@ const RewardsSection = () => {
 
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
 
+  const rewards = [
+    { value: "2.5%", label: "Cashback", desc: "On every payment", color: "text-emerald-400" },
+    { value: "10x", label: "Early Bonus", desc: "For first 1000 users", color: "text-cyan-400" },
+    { value: "20M", label: "Pool", desc: "Total BLIP rewards", color: "text-violet-400" },
+  ];
+
   return (
-    <section ref={containerRef} className="relative py-40 bg-black overflow-hidden">
-      <motion.div className="relative z-10 max-w-4xl mx-auto px-6 text-center" style={{ opacity }}>
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="flex items-center justify-center gap-3 mb-8"
-        >
-          <div className="h-px w-12 bg-gradient-to-r from-transparent to-white/20" />
-          <span className="text-[11px] uppercase tracking-[0.4em] text-white/30 font-light">
-            Rewards
-          </span>
-          <div className="h-px w-12 bg-gradient-to-l from-transparent to-white/20" />
-        </motion.div>
+    <section ref={containerRef} className="relative py-32 md:py-40 bg-black overflow-hidden">
+      {/* Background glow - multi-color */}
+      <div className="absolute inset-0">
+        <div className="absolute top-1/3 left-1/4 w-[400px] h-[400px] rounded-full bg-emerald-500/[0.05] blur-[120px]" />
+        <div className="absolute bottom-1/3 right-1/4 w-[350px] h-[350px] rounded-full bg-violet-500/[0.04] blur-[100px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-cyan-500/[0.03] blur-[150px]" />
+      </div>
 
-        <motion.h2
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="text-4xl md:text-6xl lg:text-7xl font-semibold text-white tracking-tight leading-[1.1] mb-6"
-        >
-          Earn while
-          <br />
-          <span className="text-white/20">you spend.</span>
-        </motion.h2>
+      <motion.div className="relative z-10 max-w-6xl mx-auto px-6" style={{ opacity }}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          {/* Left: Content */}
+          <div>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              className="flex items-center gap-3 mb-6"
+            >
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 border border-emerald-500/20 flex items-center justify-center">
+                <Sparkles className="w-5 h-5 text-emerald-400" />
+              </div>
+              <span className="text-xs uppercase tracking-[0.3em] text-emerald-400/60">Rewards</span>
+            </motion.div>
 
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          className="text-lg text-white/40 max-w-lg mx-auto mb-12"
-        >
-          Up to 2.5% in Blip Tokens on every payment. Plus early supporter airdrops.
-        </motion.p>
+            <motion.h2
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="text-4xl md:text-5xl lg:text-6xl font-semibold text-white tracking-tight leading-[1.1] mb-6"
+            >
+              Stack rewards.
+              <br />
+              <span className="bg-gradient-to-r from-emerald-400 via-cyan-400 to-violet-400 bg-clip-text text-transparent">Every transaction.</span>
+            </motion.h2>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
-        >
-          <Link
-            to="/rewards"
-            className="group inline-flex items-center gap-3 px-6 py-3 rounded-full border border-white/20 text-white text-sm font-medium hover:border-white/40 hover:bg-white/5 transition-all duration-300"
-          >
-            <span>View Rewards</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Link>
-          <Link
-            to="/waitlist"
-            className="text-sm text-white/40 hover:text-white/60 transition-colors"
-          >
-            Join Waitlist
-          </Link>
-        </motion.div>
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="text-lg text-white/50 max-w-md mb-10 leading-relaxed"
+            >
+              Earn up to <span className="text-emerald-400 font-medium">2.5% back</span> in BLIP tokens on every payment. Early supporters unlock <span className="text-cyan-400 font-medium">10x multipliers</span> and exclusive airdrops.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="flex flex-wrap items-center gap-4"
+            >
+              <Link
+                to="/rewards"
+                className="group inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-emerald-500 to-cyan-500 text-black text-sm font-semibold hover:shadow-[0_0_30px_rgba(16,185,129,0.3)] transition-all duration-300"
+              >
+                <span>Explore Rewards</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <Link
+                to="/waitlist"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/10 text-white/60 text-sm font-medium hover:border-emerald-500/30 hover:text-white transition-all duration-300"
+              >
+                <span>Get Early Access</span>
+              </Link>
+            </motion.div>
+          </div>
+
+          {/* Right: Reward Cards */}
+          <div className="relative">
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="relative"
+            >
+              {/* Main card */}
+              <div className="p-6 rounded-3xl bg-gradient-to-br from-[#0d0d0d] to-[#080808] border border-white/[0.06] shadow-2xl relative overflow-hidden">
+                {/* Subtle gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/[0.02] via-transparent to-violet-500/[0.02] pointer-events-none" />
+
+                {/* Header */}
+                <div className="relative flex items-center justify-between mb-8">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                      <Zap className="w-6 h-6 text-black" />
+                    </div>
+                    <div>
+                      <div className="text-base font-semibold text-white">Blip Rewards</div>
+                      <div className="text-xs text-white/40">Active since Day 1</div>
+                    </div>
+                  </div>
+                  <div className="px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="text-[10px] text-emerald-400 font-medium">EARNING</span>
+                  </div>
+                </div>
+
+                {/* Stats grid */}
+                <div className="relative grid grid-cols-3 gap-4 mb-6">
+                  {rewards.map((reward, i) => (
+                    <motion.div
+                      key={reward.label}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: 0.3 + i * 0.1 }}
+                      className="text-center p-4 rounded-2xl bg-white/[0.02] border border-white/[0.04] hover:border-white/[0.08] transition-colors"
+                    >
+                      <div className={`text-2xl md:text-3xl font-bold mb-1 ${reward.color}`}>{reward.value}</div>
+                      <div className="text-[10px] uppercase tracking-wider text-white/60 mb-0.5">{reward.label}</div>
+                      <div className="text-[10px] text-white/30">{reward.desc}</div>
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Progress bar */}
+                <div className="relative p-4 rounded-2xl bg-white/[0.02] border border-white/[0.04]">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs text-white/40">Your Progress</span>
+                    <span className="text-xs text-cyan-400 font-medium">Level 2 - 3</span>
+                  </div>
+                  <div className="h-2 rounded-full bg-white/[0.06] overflow-hidden">
+                    <motion.div
+                      className="h-full rounded-full bg-gradient-to-r from-emerald-500 via-cyan-500 to-violet-500"
+                      initial={{ width: 0 }}
+                      whileInView={{ width: '65%' }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1.5, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                    />
+                  </div>
+                  <div className="flex items-center justify-between mt-2">
+                    <span className="text-[10px] text-white/30">$1,250 volume</span>
+                    <span className="text-[10px] text-white/30">$2,500 for next tier</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Floating accent elements */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+                className="absolute -top-4 -right-4 w-20 h-20 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 border border-emerald-500/20 flex items-center justify-center backdrop-blur-sm"
+              >
+                <span className="text-2xl font-bold text-emerald-400">+</span>
+              </motion.div>
+            </motion.div>
+          </div>
+        </div>
       </motion.div>
     </section>
   );
