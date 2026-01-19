@@ -3229,6 +3229,12 @@ const HowItWorksSection = () => {
                 transition={{ duration: 0.8, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
                 className="relative text-center"
               >
+                {/* App label - Above the phone */}
+                <div className="flex items-center justify-center gap-1.5 sm:gap-2 mb-4">
+                  <span className="text-sm sm:text-base">{step.appIcon}</span>
+                  <span className="text-xs sm:text-sm text-white/50 font-medium">{step.app}</span>
+                </div>
+
                 {/* Phone mockup - optimized for mobile */}
                 <div className="relative mx-auto mb-8 w-[200px] sm:w-[220px] md:w-[200px] lg:w-[260px]">
                   <div className="rounded-[32px] sm:rounded-[36px] lg:rounded-[40px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[2px] sm:p-[3px] shadow-[0_20px_40px_rgba(0,0,0,0.5)] sm:shadow-[0_30px_60px_rgba(0,0,0,0.6)]">
@@ -3241,14 +3247,6 @@ const HowItWorksSection = () => {
                           {step.screen}
                         </div>
                       </div>
-                    </div>
-                  </div>
-
-                  {/* App label */}
-                  <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 px-3 sm:px-4 py-1.5 rounded-full bg-[#0d0d0d] border border-white/[0.08] shadow-lg">
-                    <div className="flex items-center gap-1.5 sm:gap-2">
-                      <span className="text-sm sm:text-base">{step.appIcon}</span>
-                      <span className="text-xs sm:text-sm text-white/70 font-medium">{step.app}</span>
                     </div>
                   </div>
                 </div>
@@ -3629,7 +3627,7 @@ const MerchantsSection = () => {
 };
 
 /* ============================================
-   SECTION 11: REWARDS
+   SECTION 11: REWARDS - Minimal black/white
    ============================================ */
 
 const RewardsSection = () => {
@@ -3642,166 +3640,89 @@ const RewardsSection = () => {
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
 
   const rewards = [
-    { value: "2.5%", label: "Cashback", desc: "On every payment", color: "text-emerald-400" },
-    { value: "10x", label: "Early Bonus", desc: "For first 1000 users", color: "text-cyan-400" },
-    { value: "20M", label: "Pool", desc: "Total BLIP rewards", color: "text-violet-400" },
+    { value: "2.5%", label: "Cashback", desc: "On every payment" },
+    { value: "10x", label: "Early Bonus", desc: "For first 1000 users" },
+    { value: "20M", label: "Pool", desc: "Total BLIP rewards" },
   ];
 
   return (
     <section ref={containerRef} className="relative py-20 sm:py-28 md:py-32 lg:py-40 bg-black overflow-hidden">
-      {/* Background glow - multi-color (hidden on mobile for performance) */}
-      <div className="absolute inset-0 hidden sm:block">
-        <div className="absolute top-1/3 left-1/4 w-[300px] md:w-[400px] h-[300px] md:h-[400px] rounded-full bg-emerald-500/[0.05] blur-[100px] md:blur-[120px]" />
-        <div className="absolute bottom-1/3 right-1/4 w-[250px] md:w-[350px] h-[250px] md:h-[350px] rounded-full bg-violet-500/[0.04] blur-[80px] md:blur-[100px]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] md:w-[500px] h-[350px] md:h-[500px] rounded-full bg-cyan-500/[0.03] blur-[120px] md:blur-[150px]" />
-      </div>
+      <motion.div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6" style={{ opacity }}>
+        {/* Header */}
+        <div className="text-center mb-12 sm:mb-16 md:mb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="flex items-center justify-center gap-2 sm:gap-3 mb-6 sm:mb-8"
+          >
+            <div className="h-px w-8 sm:w-12 bg-gradient-to-r from-transparent to-white/20" />
+            <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.3em] sm:tracking-[0.4em] text-white/30 font-light">
+              Rewards
+            </span>
+            <div className="h-px w-8 sm:w-12 bg-gradient-to-l from-transparent to-white/20" />
+          </motion.div>
 
-      <motion.div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6" style={{ opacity }}>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-16 items-center">
-          {/* Left: Content */}
-          <div className="text-center lg:text-left">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-              className="flex items-center justify-center lg:justify-start gap-2 sm:gap-3 mb-4 sm:mb-6"
-            >
-              <div className="w-8 sm:w-10 h-8 sm:h-10 rounded-lg sm:rounded-xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 border border-emerald-500/20 flex items-center justify-center">
-                <Sparkles className="w-4 sm:w-5 h-4 sm:h-5 text-emerald-400" />
-              </div>
-              <span className="text-[10px] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.3em] text-emerald-400/60">Rewards</span>
-            </motion.div>
+          <motion.h2
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-semibold text-white tracking-tight leading-[1.1] mb-4 sm:mb-6"
+          >
+            Earn while you spend.
+            <br />
+            <span className="text-white/20">Every transaction.</span>
+          </motion.h2>
 
-            <motion.h2
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-white tracking-tight leading-[1.1] mb-4 sm:mb-6"
-            >
-              Stack rewards.
-              <br />
-              <span className="bg-gradient-to-r from-emerald-400 via-cyan-400 to-violet-400 bg-clip-text text-transparent">Every transaction.</span>
-            </motion.h2>
-
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="text-sm sm:text-base md:text-lg text-white/50 max-w-md mx-auto lg:mx-0 mb-8 sm:mb-10 leading-relaxed"
-            >
-              Earn up to <span className="text-emerald-400 font-medium">2.5% back</span> in BLIP tokens on every payment. Early supporters unlock <span className="text-cyan-400 font-medium">10x multipliers</span> and exclusive airdrops.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4"
-            >
-              <Link
-                to="/rewards"
-                className="w-full sm:w-auto group inline-flex items-center justify-center gap-2 sm:gap-3 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full bg-gradient-to-r from-emerald-500 to-cyan-500 text-black text-sm font-semibold hover:shadow-[0_0_30px_rgba(16,185,129,0.3)] transition-all duration-300"
-              >
-                <span>Explore Rewards</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <Link
-                to="/waitlist"
-                className="inline-flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full border border-white/10 text-white/60 text-sm font-medium hover:border-emerald-500/30 hover:text-white transition-all duration-300"
-              >
-                <span>Get Early Access</span>
-              </Link>
-            </motion.div>
-          </div>
-
-          {/* Right: Reward Cards */}
-          <div className="relative mt-8 lg:mt-0">
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative"
-            >
-              {/* Main card */}
-              <div className="p-4 sm:p-5 md:p-6 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-[#0d0d0d] to-[#080808] border border-white/[0.06] shadow-2xl relative overflow-hidden">
-                {/* Subtle gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/[0.02] via-transparent to-violet-500/[0.02] pointer-events-none" />
-
-                {/* Header */}
-                <div className="relative flex items-center justify-between mb-5 sm:mb-6 md:mb-8">
-                  <div className="flex items-center gap-2 sm:gap-3">
-                    <div className="w-10 sm:w-11 md:w-12 h-10 sm:h-11 md:h-12 rounded-xl sm:rounded-2xl bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
-                      <Zap className="w-5 sm:w-5 md:w-6 h-5 sm:h-5 md:h-6 text-black" />
-                    </div>
-                    <div>
-                      <div className="text-sm sm:text-base font-semibold text-white">Blip Rewards</div>
-                      <div className="text-[10px] sm:text-xs text-white/40">Active since Day 1</div>
-                    </div>
-                  </div>
-                  <div className="px-2 sm:px-3 py-1 sm:py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center gap-1 sm:gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                    <span className="text-[8px] sm:text-[10px] text-emerald-400 font-medium">EARNING</span>
-                  </div>
-                </div>
-
-                {/* Stats grid */}
-                <div className="relative grid grid-cols-3 gap-2 sm:gap-3 md:gap-4 mb-4 sm:mb-5 md:mb-6">
-                  {rewards.map((reward, i) => (
-                    <motion.div
-                      key={reward.label}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: 0.3 + i * 0.1 }}
-                      className="text-center p-2.5 sm:p-3 md:p-4 rounded-xl sm:rounded-2xl bg-white/[0.02] border border-white/[0.04]"
-                    >
-                      <div className={`text-xl sm:text-2xl md:text-3xl font-bold mb-0.5 sm:mb-1 ${reward.color}`}>{reward.value}</div>
-                      <div className="text-[8px] sm:text-[10px] uppercase tracking-wider text-white/60 mb-0.5">{reward.label}</div>
-                      <div className="text-[8px] sm:text-[10px] text-white/30 hidden sm:block">{reward.desc}</div>
-                    </motion.div>
-                  ))}
-                </div>
-
-                {/* Progress bar */}
-                <div className="relative p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-white/[0.02] border border-white/[0.04]">
-                  <div className="flex items-center justify-between mb-2 sm:mb-3">
-                    <span className="text-[10px] sm:text-xs text-white/40">Your Progress</span>
-                    <span className="text-[10px] sm:text-xs text-cyan-400 font-medium">Level 2 - 3</span>
-                  </div>
-                  <div className="h-1.5 sm:h-2 rounded-full bg-white/[0.06] overflow-hidden">
-                    <motion.div
-                      className="h-full rounded-full bg-gradient-to-r from-emerald-500 via-cyan-500 to-violet-500"
-                      initial={{ width: 0 }}
-                      whileInView={{ width: '65%' }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 1.5, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                    />
-                  </div>
-                  <div className="flex items-center justify-between mt-1.5 sm:mt-2">
-                    <span className="text-[8px] sm:text-[10px] text-white/30">$1,250 volume</span>
-                    <span className="text-[8px] sm:text-[10px] text-white/30">$2,500 for next tier</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Floating accent elements - hidden on mobile */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.6 }}
-                className="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 w-14 sm:w-16 md:w-20 h-14 sm:h-16 md:h-20 rounded-xl sm:rounded-2xl bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 border border-emerald-500/20 hidden sm:flex items-center justify-center backdrop-blur-sm"
-              >
-                <span className="text-xl sm:text-2xl font-bold text-emerald-400">+</span>
-              </motion.div>
-            </motion.div>
-          </div>
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="text-sm sm:text-base md:text-lg text-white/40 max-w-xl mx-auto leading-relaxed"
+          >
+            Up to 2.5% back in BLIP tokens on every payment. Early supporters unlock multipliers and exclusive airdrops.
+          </motion.p>
         </div>
+
+        {/* Stats grid */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          className="grid grid-cols-3 gap-px bg-white/[0.03] rounded-xl sm:rounded-2xl overflow-hidden mb-12 sm:mb-16"
+        >
+          {rewards.map((reward) => (
+            <div
+              key={reward.label}
+              className="bg-black p-6 sm:p-8 md:p-10 text-center"
+            >
+              <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2">{reward.value}</div>
+              <div className="text-xs sm:text-sm text-white/50 mb-1">{reward.label}</div>
+              <div className="text-[10px] sm:text-xs text-white/25 hidden sm:block">{reward.desc}</div>
+            </div>
+          ))}
+        </motion.div>
+
+        {/* Single CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="text-center"
+        >
+          <Link
+            to="/rewards"
+            className="group inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 rounded-full bg-[#ff6b35] text-black text-sm sm:text-base font-semibold hover:shadow-[0_0_40px_rgba(255,107,53,0.3)] transition-all duration-300"
+          >
+            <span>View Rewards</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </motion.div>
       </motion.div>
     </section>
   );
