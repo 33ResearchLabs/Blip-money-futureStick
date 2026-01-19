@@ -1,263 +1,123 @@
-
-
-// import { useEffect, useState } from "react";
-// import { motion, AnimatePresence } from "framer-motion";
-// import { X, Menu, Coins } from "lucide-react";
-// import { Link, NavLink, useLocation } from "react-router-dom";
-// import { useTranslation } from "react-i18next";
-// import { useAuth } from "@/contexts/AuthContext";
-
-// /* ---------------- Language Switcher ---------------- */
-// const LanguageSwitcher = () => {
-//   const { i18n } = useTranslation();
-//   const currentLanguage = i18n.language;
-
-//   const changeLanguage = (lng: string) => {
-//     i18n.changeLanguage(lng);
-//     localStorage.setItem("lang", lng);
-//   };
-
-//   return (
-//     <div className="flex items-center gap-2 text-sm font-medium">
-//       {["en", "ar"].map((lng) => (
-//         <button
-//           key={lng}
-//           onClick={() => changeLanguage(lng)}
-//           className={`px-3 py-1 rounded-full transition ${
-//             currentLanguage === lng
-//               ? "bg-[#00FF94] text-black"
-//               : "text-gray-400 hover:text-white"
-//           }`}
-//         >
-//           {lng === "en" ? "EN" : "العربية"}
-//         </button>
-//       ))}
-//     </div>
-//   );
-// };
-
-// /* ---------------- Blip Points Badge ---------------- */
-// const BlipPointsBadge = () => {
-//   const { user, isAuthenticated } = useAuth();
-
-//   if (!isAuthenticated || !user) return null;
-
-//   return (
-//     <Link
-//       to="/dashboard"
-//       className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#2BFF88]/10 border border-[#2BFF88]/30 hover:bg-[#2BFF88]/20 transition-all"
-//     >
-//       <Coins className="w-4 h-4 text-[#2BFF88]" />
-//       <span className="text-sm font-bold text-[#2BFF88]">
-//         {user.totalBlipPoints} pts
-//       </span>
-//     </Link>
-//   );
-// };
-
-// /* ---------------- Navbar ---------------- */
-// export const Navbar = () => {
-//   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-//   const { t } = useTranslation();
-//   const { isAuthenticated } = useAuth();
-//   const { pathname } = useLocation();
-//   const navBase =
-//     "relative pb-1 transition-colors font-medium text-gray-400 hover:text-[#2BFF88]";
-
-//   const navActive =
-//     "text-[#2BFF88] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-full after:bg-[#2BFF88]";
-
-//   useEffect(() => {
-//     scrollTo(0, 0);
-//   }, [pathname]);
-
-//   return (
-//     <nav className="fixed top-0 w-full z-50 backdrop-blur-md bg-black/60 border-b border-white/5  overflow-hidden">
-//       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
-//         {/* Logo */}
-//         <Link
-//           to="#hero"
-//           className="flex items-center gap-2"
-//           onClick={() => {
-//             const protocolSection = document.getElementById("hero");
-//             if (protocolSection) {
-//               protocolSection.scrollIntoView({ behavior: "smooth" });
-//             }
-//           }}
-//         >
-//           <div className="relative">
-//             <div className="w-3 h-3 rounded-full bg-[#2BFF88] shadow-[0_0_10px_#2BFF88]" />
-//             <div className="absolute inset-0 rounded-full bg-[#2BFF88] animate-pulse opacity-50" />
-//           </div>
-//           <span className="text-2xl font-bold text-white">
-//             Blip.<span className="text-[#2BFF88]">money</span>
-//           </span>
-//         </Link>
-
-//         {/* Desktop Menu */}
-//         <div className="hidden lg:flex items-center gap-10">
-//           <div className="flex gap-8 text-sm">
-//             <Link
-//               to="/#protocol"
-//               className={navBase}
-//               onClick={() => {
-//                 const protocolSection = document.getElementById("protocol");
-//                 if (protocolSection) {
-//                   protocolSection.scrollIntoView({ behavior: "smooth" });
-//                 }
-//               }}
-//             >
-//               {t("protocol")}
-//             </Link>
-
-//             <NavLink
-//               to="/how-it-works"
-//               className={({ isActive }) =>
-//                 `${navBase} ${isActive ? navActive : ""}`
-//               }
-//             >
-//               {t("How It Works")}
-//             </NavLink>
-
-//             <NavLink
-//               to="/rewards"
-//               className={({ isActive }) =>
-//                 `${navBase} ${isActive ? navActive : ""}`
-//               }
-//             >
-//               {t("rewards")}
-//             </NavLink>
-
-//             <NavLink
-//               to="/tokenomics"
-//               className={({ isActive }) =>
-//                 `${navBase} ${isActive ? navActive : ""}`
-//               }
-//             >
-//               {t("tokenomics")}
-//             </NavLink>
-
-//             {/* <NavLink
-//               to="/contactUs"
-//               className={({ isActive }) =>
-//                 `${navBase} ${isActive ? navActive : ""}`
-//               }
-//             >
-//               {t("ContactUs")}
-//             </NavLink> */}
-//           </div>
-
-//           <LanguageSwitcher />
-
-//           {/* Blip Points Badge (shown when logged in) */}
-//           <BlipPointsBadge />
-//           {/* CTA - Show Dashboard link if authenticated, otherwise Coming Soon */}
-//           {isAuthenticated ? (
-//             <NavLink
-//               to="/dashboard"
-//               className={({ isActive }) =>
-//                 `px-5 py-2 rounded-full border text-sm transition-all ${
-//                   isActive
-//                     ? "border-[#2BFF88] text-[#2BFF88]"
-//                     : "border-white/10 text-white hover:border-[#2BFF88]"
-//                 }`
-//               }
-//             >
-//               Dashboard
-//             </NavLink>
-//           ) : (
-//             <NavLink
-//               to="/coming-soon"
-//               className={({ isActive }) =>
-//                 `px-5 py-2 rounded-full border text-sm transition-all ${
-//                   isActive
-//                     ? "border-[#2BFF88] text-[#2BFF88]"
-//                     : "border-white/10 text-white hover:border-[#2BFF88]"
-//                 }`
-//               }
-//             >
-//               {t("comingSoon")}
-//             </NavLink>
-//           )}
-//         </div>
-
-//         {/* Mobile Toggle */}
-//         <button
-//            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-//   className="lg:hidden text-white"
-//         >
-//           {mobileMenuOpen ? <X /> : <Menu />}
-//         </button>
-
-//         {/* Mobile Menu */}
-//         <AnimatePresence>
-//           {mobileMenuOpen && (
-//             <motion.div
-//               initial={{ opacity: 0, y: -10 }}
-//               animate={{ opacity: 1, y: 0 }}
-//               exit={{ opacity: 0, y: -10 }}
-//               className="absolute top-full left-0 right-0 bg-black/95 border-b border-white/10 lg:hidden"
-//             >
-//               <div className="flex flex-col p-6 space-y-4 text-lg text-gray-400">
-//                 <Link to="/#protocol" onClick={() => setMobileMenuOpen(false)}>
-//                   {t("protocol")}
-//                 </Link>
-//                 <Link to="/how-it-works" onClick={() => setMobileMenuOpen(false)}>
-//   {t("howItWorks")}
-// </Link>
-
-//                 <Link to="/rewards" onClick={() => setMobileMenuOpen(false)}>
-//                   {t("rewards")}
-//                 </Link>
-//                 <Link to="/tokenomics" onClick={() => setMobileMenuOpen(false)}>
-//                   {t("tokenomics")}
-//                 </Link>
-
-//                 {/* Mobile Blip Points & Dashboard for authenticated users */}
-//                 {isAuthenticated ? (
-//                   <>
-//                     <div className="pt-4 border-t border-white/10">
-//                       <div onClick={() => setMobileMenuOpen(false)}>
-//                         <BlipPointsBadge />
-//                       </div>
-//                     </div>
-//                     <Link
-//                       to="/dashboard"
-//                       onClick={() => setMobileMenuOpen(false)}
-//                       className="mt-2 px-5 py-3 text-center rounded-full border border-[#2BFF88] text-[#2BFF88]"
-//                     >
-//                       Dashboard
-//                     </Link>
-//                   </>
-//                 ) : (
-//                   <Link
-//                     to="/coming-soon"
-//                     onClick={() => setMobileMenuOpen(false)}
-//                     className="mt-4 px-5 py-3 text-center rounded-full border border-white/10 text-white"
-//                   >
-//                     {t("comingSoon")}
-//                   </Link>
-//                 )}
-
-//                 <div className="pt-4 border-t border-white/10">
-//                   <LanguageSwitcher />
-//                 </div>
-//               </div>
-//             </motion.div>
-//           )}
-//         </AnimatePresence>
-//       </div>
-//     </nav>
-//   );
-// };
-
-
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { X, Menu, Coins } from "lucide-react";
+import { useEffect, useState, useRef } from "react";
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
+import { Menu, X, ChevronRight } from "lucide-react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
+import { sounds } from "@/lib/sounds";
+
+/* ============================================
+   LINEAR-INSPIRED NAVBAR
+   Minimal, refined, deeply interactive
+   ============================================ */
+
+/* ---------------- Logo ---------------- */
+const Logo = () => {
+  return (
+    <Link
+      to="/"
+      className="flex items-center gap-1.5 group"
+      onClick={() => sounds.click()}
+    >
+      {/* Logo mark with "blip" text inside */}
+      <motion.div
+        className="relative px-2 py-1.5 rounded-lg flex items-center justify-center overflow-hidden bg-orange-500"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <span className="text-black font-bold text-[15px] tracking-tight lowercase">blip</span>
+
+        {/* Shine effect */}
+        <motion.div
+          className="absolute inset-0 opacity-0 group-hover:opacity-100"
+          style={{
+            background: 'linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 50%)',
+          }}
+          transition={{ duration: 0.3 }}
+        />
+      </motion.div>
+
+      {/* .money text outside */}
+      <span className="text-[17px] font-medium text-[#A1A1AA] tracking-tight lowercase">.money</span>
+    </Link>
+  );
+};
+
+/* ---------------- Nav Link ---------------- */
+const NavItem = ({
+  to,
+  children,
+  onClick
+}: {
+  to: string;
+  children: React.ReactNode;
+  onClick?: () => void;
+}) => {
+  const location = useLocation();
+  const isActive = location.pathname === to;
+
+  return (
+    <NavLink
+      to={to}
+      onClick={() => {
+        sounds.click();
+        onClick?.();
+      }}
+      onMouseEnter={() => sounds.hover()}
+      className="relative px-3 py-2 text-[16px] font-medium transition-colors duration-200"
+    >
+      <span className={isActive ? "text-white" : "text-[#A1A1AA] hover:text-white"}>
+        {children}
+      </span>
+
+      {/* Active indicator */}
+      {isActive && (
+        <motion.div
+          layoutId="navIndicator"
+          className="absolute -bottom-[1px] left-3 right-3 h-[2px] rounded-full"
+          style={{ background: '#ff6b35' }}
+          transition={{ type: "spring", stiffness: 500, damping: 35 }}
+        />
+      )}
+    </NavLink>
+  );
+};
+
+/* ---------------- CTA Button ---------------- */
+const CTAButton = ({
+  to,
+  children,
+  variant = "primary"
+}: {
+  to: string;
+  children: React.ReactNode;
+  variant?: "primary" | "secondary";
+}) => {
+  const isPrimary = variant === "primary";
+
+  return (
+    <motion.div
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+    >
+      <Link
+        to={to}
+        onClick={() => sounds.click()}
+        onMouseEnter={() => sounds.hover()}
+        className={`
+          inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-[15px] font-medium
+          transition-all duration-200
+          ${isPrimary
+            ? "bg-white text-black hover:shadow-[0_0_30px_rgba(255,255,255,0.2)]"
+            : "bg-transparent text-white border border-[rgba(255,255,255,0.1)] hover:border-[rgba(255,255,255,0.2)]"
+          }
+        `}
+      >
+        {children}
+      </Link>
+    </motion.div>
+  );
+};
 
 /* ---------------- Language Switcher ---------------- */
 const LanguageSwitcher = () => {
@@ -265,174 +125,308 @@ const LanguageSwitcher = () => {
   const currentLanguage = i18n.language;
 
   const changeLanguage = (lng: string) => {
+    sounds.toggle(lng === 'en');
     i18n.changeLanguage(lng);
     localStorage.setItem("lang", lng);
   };
 
   return (
-    <div className="flex items-center gap-2 text-sm font-medium">
+    <div className="flex items-center p-1 rounded-md bg-[#18181B] border border-[rgba(255,255,255,0.06)]">
       {["en", "ar"].map((lng) => (
-        <button
+        <motion.button
           key={lng}
           onClick={() => changeLanguage(lng)}
-          className={`px-3 py-1 rounded-full transition ${
-            currentLanguage === lng
-              ? "bg-[#00FF94] text-black"
-              : "text-gray-400 hover:text-white"
-          }`}
+          className={`
+            relative px-2.5 py-1 text-[12px] font-medium rounded transition-colors
+            ${currentLanguage === lng
+              ? "text-white"
+              : "text-[#71717A] hover:text-[#A1A1AA]"
+            }
+          `}
+          whileTap={{ scale: 0.95 }}
         >
-          {lng === "en" ? "EN" : "العربية"}
-        </button>
+          {currentLanguage === lng && (
+            <motion.div
+              layoutId="langBg"
+              className="absolute inset-0 rounded bg-[#27272A]"
+              transition={{ type: "spring", stiffness: 500, damping: 35 }}
+            />
+          )}
+          <span className="relative z-10">{lng === "en" ? "EN" : "عربي"}</span>
+        </motion.button>
       ))}
     </div>
   );
 };
 
-/* ---------------- Blip Points Badge ---------------- */
-const BlipPointsBadge = ({ onClick }: { onClick?: () => void }) => {
-  const { user, isAuthenticated } = useAuth();
-
-  if (!isAuthenticated || !user) return null;
-
-  return (
-    <Link
-      to="/dashboard"
-      onClick={onClick}
-      className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#2BFF88]/10 border border-[#2BFF88]/30 hover:bg-[#2BFF88]/20 transition-all w-fit"
-    >
-      <Coins className="w-4 h-4 text-[#2BFF88]" />
-      <span className="text-sm font-bold text-[#2BFF88]">
-        {user.totalBlipPoints} pts
-      </span>
-    </Link>
-  );
-};
-
-/* ---------------- Navbar ---------------- */
-export const Navbar = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+/* ---------------- Mobile Menu ---------------- */
+const MobileMenu = ({
+  isOpen,
+  onClose
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) => {
   const { t } = useTranslation();
   const { isAuthenticated } = useAuth();
-  const { pathname } = useLocation();
 
-  const navBase =
-    "relative pb-1 transition-colors font-medium text-gray-400 hover:text-[#2BFF88]";
-  const navActive =
-    "text-[#2BFF88] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-full after:bg-[#2BFF88]";
-
-  /* ✅ Always close mobile menu on route change */
-  useEffect(() => {
-    setMobileMenuOpen(false);
-    window.scrollTo(0, 0);
-  }, [pathname]);
+  const menuItems = [
+    { to: "/how-it-works", label: t("howItWorks") },
+    { to: "/rewards", label: t("rewards") },
+    { to: "/tokenomics", label: t("tokenomics") },
+  ];
 
   return (
-    <nav className="fixed top-0 w-full z-50 backdrop-blur-md bg-black/60 border-b border-white/5">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
-        {/* Logo */}
-        <Link to="/" className="flex items-center gap-2">
-          <div className="relative">
-            <div className="w-3 h-3 rounded-full bg-[#2BFF88] shadow-[0_0_10px_#2BFF88]" />
-            <div className="absolute inset-0 rounded-full bg-[#2BFF88] animate-pulse opacity-50" />
-          </div>
-          <span className="text-2xl font-bold text-white">
-            Blip.<span className="text-[#2BFF88]">money</span>
-          </span>
-        </Link>
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+            onClick={onClose}
+          />
 
-        {/* Desktop Menu */}
-        <div className="hidden lg:flex items-center gap-10">
-          <div className="flex gap-8 text-sm">
-            <NavLink to="/how-it-works" className={({ isActive }) =>
-              `${navBase} ${isActive ? navActive : ""}`
-            }>
-              {t("howItWorks")}
-            </NavLink>
-
-            <NavLink to="/rewards" className={({ isActive }) =>
-              `${navBase} ${isActive ? navActive : ""}`
-            }>
-              {t("rewards")}
-            </NavLink>
-
-            <NavLink to="/tokenomics" className={({ isActive }) =>
-              `${navBase} ${isActive ? navActive : ""}`
-            }>
-              {t("tokenomics")}
-            </NavLink>
-          </div>
-
-          <LanguageSwitcher />
-          <BlipPointsBadge />
-
-          {isAuthenticated ? (
-            <NavLink
-              to="/dashboard"
-              className="px-4 py-1 rounded-full border border-gray-500"
-            >
-              Dashboard
-            </NavLink>
-          ) : (
-            <NavLink
-              to="/coming-soon"
-              className="px-5 py-2 rounded-full border border-white/10 text-white"
-            >
-              {t("comingSoon")}
-            </NavLink>
-          )}
-        </div>
-
-        {/* Mobile Toggle */}
-        <button
-          onClick={() => setMobileMenuOpen((v) => !v)}
-          className="lg:hidden text-white"
-        >
-          {mobileMenuOpen ? <X /> : <Menu />}
-        </button>
-      </div>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
+          {/* Menu panel */}
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="lg:hidden bg-black/95 border-t border-white/10"
+            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed top-[72px] left-4 right-4 z-50 rounded-xl overflow-hidden"
+            style={{
+              background: '#111113',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+              boxShadow: '0 20px 50px rgba(0, 0, 0, 0.5)',
+            }}
           >
-            <div className="flex flex-col p-6 space-y-5 text-base  text-gray-400">
-              <Link to="/how-it-works">{t("howItWorks")}</Link>
-              <Link to="/rewards">{t("rewards")}</Link>
-              <Link to="/tokenomics">{t("tokenomics")}</Link>
+            <div className="p-4 space-y-1">
+              {menuItems.map((item, index) => (
+                <motion.div
+                  key={item.to}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.05, duration: 0.2 }}
+                >
+                  <Link
+                    to={item.to}
+                    onClick={() => {
+                      sounds.click();
+                      onClose();
+                    }}
+                    className="flex items-center justify-between py-3 px-3 rounded-lg text-[15px] font-medium text-[#A1A1AA] hover:text-white hover:bg-[#18181B] transition-colors"
+                  >
+                    {item.label}
+                    <ChevronRight className="w-4 h-4 opacity-50" />
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
 
-              {isAuthenticated ? (
-                <>
-                <div className="flex items-center gap-2 text-sm font-medium">
-                  <BlipPointsBadge />
+            <div className="p-4 border-t border-[rgba(255,255,255,0.06)] space-y-3">
+              <LanguageSwitcher />
+
+              <div className="flex gap-2">
+                {isAuthenticated ? (
                   <Link
                     to="/dashboard"
-                    className="px-4 py-1 text-center rounded-full border border-gray-500 w-fit"
+                    onClick={() => {
+                      sounds.click();
+                      onClose();
+                    }}
+                    className="flex-1 py-2.5 text-center rounded-lg text-[13px] font-medium bg-[#8B5CF6] text-white"
                   >
                     Dashboard
                   </Link>
-                  </div>
-                </>
-              ) : (
-                <Link
-                  to="/coming-soon"
-                  className="px-5 py-3 text-center rounded-full border border-white/10 text-white"
-                >
-                  {t("comingSoon")}
-                </Link>
-              )}
-
-              <div className="pt-4 border-t border-white/10">
-                <LanguageSwitcher />
+                ) : (
+                  <Link
+                    to="/waitlist"
+                    onClick={() => {
+                      sounds.click();
+                      onClose();
+                    }}
+                    className="flex-1 py-2.5 text-center rounded-lg text-[13px] font-medium bg-[#8B5CF6] text-white"
+                  >
+                    Join Waitlist
+                  </Link>
+                )}
               </div>
             </div>
           </motion.div>
-        )}
-      </AnimatePresence>
-    </nav>
+        </>
+      )}
+    </AnimatePresence>
+  );
+};
+
+/* ---------------- Hamburger Button ---------------- */
+const HamburgerButton = ({
+  isOpen,
+  onClick
+}: {
+  isOpen: boolean;
+  onClick: () => void;
+}) => {
+  return (
+    <motion.button
+      onClick={() => {
+        sounds.click();
+        onClick();
+      }}
+      className="relative w-9 h-9 rounded-lg flex items-center justify-center bg-[#18181B] border border-[rgba(255,255,255,0.06)]"
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+    >
+      <div className="w-4 h-3 flex flex-col justify-between">
+        <motion.span
+          className="block h-[1.5px] bg-white rounded-full origin-left"
+          animate={{
+            rotate: isOpen ? 45 : 0,
+            y: isOpen ? -1 : 0,
+            width: isOpen ? "120%" : "100%",
+          }}
+          transition={{ duration: 0.2 }}
+        />
+        <motion.span
+          className="block h-[1.5px] bg-white rounded-full"
+          animate={{
+            opacity: isOpen ? 0 : 1,
+            x: isOpen ? 8 : 0,
+          }}
+          transition={{ duration: 0.15 }}
+        />
+        <motion.span
+          className="block h-[1.5px] bg-white rounded-full origin-left"
+          animate={{
+            rotate: isOpen ? -45 : 0,
+            y: isOpen ? 1 : 0,
+            width: isOpen ? "120%" : "70%",
+          }}
+          transition={{ duration: 0.2 }}
+        />
+      </div>
+    </motion.button>
+  );
+};
+
+/* ---------------- Main Navbar ---------------- */
+export const Navbar = () => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
+  const { t } = useTranslation();
+  const { isAuthenticated } = useAuth();
+  const { pathname } = useLocation();
+  const { scrollY } = useScroll();
+  const lastScrollY = useRef(0);
+
+  // Check if we're on the homepage
+  const isHomePage = pathname === "/" || pathname === "";
+
+  // Hide navbar on scroll down, show on scroll up
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const direction = latest > lastScrollY.current ? "down" : "up";
+
+    // Show navbar on all pages, hide on scroll down
+    if (direction === "down" && latest > 100) {
+      setIsHidden(true);
+    } else {
+      setIsHidden(false);
+    }
+
+    setIsScrolled(latest > 20);
+    lastScrollY.current = latest;
+  });
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
+
+  // Show navbar initially
+  useEffect(() => {
+    setIsHidden(false);
+  }, []);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
+
+  return (
+    <>
+      <motion.nav
+        initial={{ y: -100 }}
+        animate={{
+          y: isHidden && !mobileMenuOpen ? -100 : 0,
+        }}
+        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+        className="fixed top-0 w-full z-50"
+        style={{
+          background: isScrolled ? 'rgba(10, 10, 11, 0.8)' : 'transparent',
+          backdropFilter: isScrolled ? 'blur(12px) saturate(150%)' : 'none',
+          WebkitBackdropFilter: isScrolled ? 'blur(12px) saturate(150%)' : 'none',
+          borderBottom: isScrolled ? '1px solid rgba(255, 255, 255, 0.06)' : '1px solid transparent',
+        }}
+      >
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="h-[72px] flex items-center justify-between">
+            {/* Logo */}
+            <Logo />
+
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center gap-1">
+              <NavItem to="/how-it-works">{t("howItWorks")}</NavItem>
+              <NavItem to="/rewards">{t("rewards")}</NavItem>
+              <NavItem to="/tokenomics">{t("tokenomics")}</NavItem>
+            </div>
+
+            {/* Desktop Actions */}
+            <div className="hidden lg:flex items-center gap-3">
+              <LanguageSwitcher />
+
+              {isAuthenticated ? (
+                <CTAButton to="/dashboard" variant="primary">
+                  Dashboard
+                </CTAButton>
+              ) : (
+                <>
+                  <CTAButton to="/coming-soon" variant="secondary">
+                    {t("comingSoon")}
+                  </CTAButton>
+                  <CTAButton to="/waitlist" variant="primary">
+                    Join Waitlist
+                  </CTAButton>
+                </>
+              )}
+            </div>
+
+            {/* Mobile Menu Button */}
+            <div className="lg:hidden">
+              <HamburgerButton
+                isOpen={mobileMenuOpen}
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              />
+            </div>
+          </div>
+        </div>
+      </motion.nav>
+
+      {/* Mobile Menu */}
+      <MobileMenu
+        isOpen={mobileMenuOpen}
+        onClose={() => setMobileMenuOpen(false)}
+      />
+    </>
   );
 };

@@ -1,2376 +1,2856 @@
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import {
   ArrowRight,
-  Activity,
   Wallet,
-  ShieldCheck,
-  Smartphone,
-  X,
-  Coffee,
-  Users,
-  Hexagon,
-  Utensils,
-  MapPin,
-  ShoppingBag,
-  Car,
-  Gem,
-  Package,
-  Truck,
-  Handshake,
-  Store,
+  Check,
+  ChevronRight,
   Lock,
-  CreditCard,
+  Send,
+  Signal,
+  Wifi,
+  Battery,
   Building2,
-  Landmark,
-  Menu,
+  Shield,
   Zap,
-  Layers,
+  Globe,
+  Clock,
+  User,
+  ArrowDown,
+  Banknote,
+  CheckCircle2,
+  Sparkles,
 } from "lucide-react";
-import { SocialSidebar } from "@/components/SocialSidebar";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
-import TransferFlow from "@/components/TransferFlow";
-import useScrollActive from "@/hooks/useScrollActive";
-import ScrollReveal from "@/components/ScrollReveal";
-import { SectionLabel } from "@/components/SectionLable";
-import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import { SEO } from "@/components";
 
-// --- Visual Effects Components ---
+/* ============================================
+   2025/2026 DESIGN TRENDS INDEX PAGE
+   - Full-page feature reveals
+   - Subtle, clean aesthetic
+   - Animated phone mockup
+   - All original content preserved
+   ============================================ */
 
-// Button UI
-// --- Visual Effects Components ---
+/* ============================================
+   SECTION 1: HERO
+   ============================================ */
 
-const Button = ({ children, primary = false, className = "" }) => (
-  <button
-    className={`
-      relative overflow-hidden px-8 py-4 rounded-full font-bold tracking-wide transition-all duration-300 group cursor-pointer
-      ${
-        primary
-          ? "bg-[#0B9A4A] text-black hover:bg-[#08793A] hover:shadow-[0_0_24px_rgba(11,154,74,0.4)]"
-          : "bg-transparent border border-[#2A2A2A] text-white hover:border-[#0B9A4A] hover:text-[#0B9A4A]"
+/* Interactive Grid Component */
+const InteractiveGrid = () => {
+  const gridRef = useRef<HTMLDivElement>(null);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (gridRef.current) {
+        const rect = gridRef.current.getBoundingClientRect();
+        setMousePos({
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top,
+        });
       }
-      ${className}
-    `}
-  >
-    <span className="relative z-10 flex items-center gap-2">{children}</span>
-  </button>
-);
+    };
 
-const USAGE_SCENES = [
-  {
-    id: "cafe",
-    title: "Cafés",
-    subtitle: "TAP TO PAY",
-    icon: Coffee,
-    headline: "Tap to pay for coffee with crypto.",
-    description:
-      "You scan a QR, pay in USDT from your wallet. The café receives local currency in seconds, settled via Blip.",
-    statLabel: "Typical settlement",
-    statValue: "< 10s",
-    flow: ["Your Wallet", "Blip Protocol", "Cafe Bank / POS"],
-  },
-  {
-    id: "restaurant",
-    title: "Restaurants",
-    subtitle: "TABLE SETTLEMENT",
-    icon: Utensils,
-    headline: "Split the bill, stay on-chain.",
-    description:
-      "Everyone pays their share in crypto. Blip routes it to the restaurant as a single local-currency payout.",
-    statLabel: "Party size",
-    statValue: "2–20 guests",
-    flow: ["Multiple Wallets", "Blip Matching Engine", "Restaurant Account"],
-  },
-  {
-    id: "hotel",
-    title: "Hotels",
-    subtitle: "INSTANT BOOKING",
-    icon: MapPin,
-    headline: "Book stays without touching fiat.",
-    description:
-      "Lock your booking with crypto. Hotel gets guaranteed settlement in their own currency.",
-    statLabel: "Deposit hold",
-    statValue: "On-chain",
-    flow: ["Your Wallet", "Escrow Contract", "Hotel Payout"],
-  },
-  {
-    id: "retail",
-    title: "Retail",
-    subtitle: "POS INTEGRATION",
-    icon: ShoppingBag,
-    headline: "Swipe, tap, or scan at checkout.",
-    description:
-      "Blip plugs into existing POS flows so merchants see normal payouts while you stay fully crypto-native.",
-    statLabel: "Integration",
-    statValue: "POS / Online",
-    flow: ["Wallet", "Blip", "Store POS"],
-  },
-  {
-    id: "friends",
-    title: "Friends",
-    subtitle: "P2P TRANSFER",
-    icon: Users,
-    headline: "Pay back friends in any country.",
-    description:
-      "You send USDC, they receive local funds or cash-out through PeopleBank routes.",
-    statLabel: "Fees",
-    statValue: "P2P low",
-    flow: ["Your Wallet", "Blip Network", "Friend’s Bank / Cash"],
-  },
-  {
-    id: "transport",
-    title: "Transport",
-    subtitle: "RIDE SETTLEMENT",
-    icon: Car,
-    headline: "Settle rides without cards.",
-    description:
-      "From taxis to rentals, drivers get paid in their currency while you pay from your on-chain balance.",
-    statLabel: "Ideal for",
-    statValue: "Travel",
-    flow: ["Wallet", "Blip", "Driver / Fleet"],
-  },
-];
-const FLOW_STEPS = {
-  restaurant: [
-    {
-      label: "Scan & pay",
-      text: "Guests scan the table QR and approve a split payment from their own wallets.",
-    },
-    {
-      label: "P2P trader fills order",
-      text: "A PeopleBank trader accepts the payout leg on-chain through Blip.",
-    },
-    {
-      label: "Restaurant gets payout",
-      text: "Blip settles one clean local-currency payout to the restaurant account.",
-    },
-  ],
-  cafe: [
-    {
-      label: "Tap or scan",
-      text: "You tap or scan at the counter and approve a payment from your wallet.",
-    },
-    {
-      label: "Blip routes value",
-      text: "Blip finds a matching PeopleBank node to take the other side of the trade.",
-    },
-    {
-      label: "Cafe receives",
-      text: "The café sees a normal local settlement on their POS / bank account.",
-    },
-  ],
-  default: [
-    {
-      label: "Pay from wallet",
-      text: "You approve a payment in stablecoins or your chosen on-chain asset.",
-    },
-    {
-      label: "P2P trader executes",
-      text: "A PeopleBank trader locks their leg and confirms payout obligations.",
-    },
-    {
-      label: "Receiver gets value",
-      text: "They receive bank funds, cash or POS credit in their local currency.",
-    },
-  ],
-};
-const LanguageSwitcher = ({ language, setLanguage }) => {
+    const grid = gridRef.current;
+    if (grid) {
+      grid.addEventListener('mousemove', handleMouseMove);
+      grid.addEventListener('mouseenter', () => setIsHovering(true));
+      grid.addEventListener('mouseleave', () => setIsHovering(false));
+    }
+
+    return () => {
+      if (grid) {
+        grid.removeEventListener('mousemove', handleMouseMove);
+        grid.removeEventListener('mouseenter', () => setIsHovering(true));
+        grid.removeEventListener('mouseleave', () => setIsHovering(false));
+      }
+    };
+  }, []);
+
+  // Generate grid points
+  const gridSize = 60;
+  const cols = Math.ceil(1920 / gridSize);
+  const rows = Math.ceil(1080 / gridSize);
+
   return (
-    <div className="flex items-center gap-2 text-sm font-medium">
-      <button
-        onClick={() => setLanguage("en")}
-        className={`px-3 py-1 rounded-full transition ${
-          language === "en"
-            ? "bg-[#00FF94] text-black"
-            : "text-gray-400 hover:text-white"
-        }`}
-      >
-        EN
-      </button>
+    <div
+      ref={gridRef}
+      className="absolute inset-0 overflow-hidden"
+      style={{ pointerEvents: 'auto' }}
+    >
+      {/* Mouse-following glow */}
+      <motion.div
+        className="absolute w-[400px] h-[400px] rounded-full pointer-events-none"
+        style={{
+          background: 'radial-gradient(circle, rgba(255, 107, 53, 0.08) 0%, transparent 70%)',
+          x: mousePos.x - 200,
+          y: mousePos.y - 200,
+        }}
+        animate={{
+          opacity: isHovering ? 1 : 0,
+          scale: isHovering ? 1 : 0.8,
+        }}
+        transition={{ duration: 0.3 }}
+      />
 
-      <button
-        onClick={() => setLanguage("ar")}
-        className={`px-3 py-1 rounded-full transition ${
-          language === "ar"
-            ? "bg-[#00FF94] text-black"
-            : "text-gray-400 hover:text-white"
-        }`}
-      >
-        العربية
-      </button>
+      {/* Grid dots */}
+      <svg className="absolute inset-0 w-full h-full">
+        {Array.from({ length: rows }).map((_, row) =>
+          Array.from({ length: cols }).map((_, col) => {
+            const x = col * gridSize + gridSize / 2;
+            const y = row * gridSize + gridSize / 2;
+            const distance = Math.sqrt(
+              Math.pow(x - mousePos.x, 2) + Math.pow(y - mousePos.y, 2)
+            );
+            const maxDistance = 150;
+            const isActive = distance < maxDistance && isHovering;
+            const scale = isActive ? 1 + (1 - distance / maxDistance) * 2 : 1;
+            const opacity = isActive
+              ? 0.3 + (1 - distance / maxDistance) * 0.7
+              : 0.08;
+
+            return (
+              <motion.circle
+                key={`${row}-${col}`}
+                cx={x}
+                cy={y}
+                r={1.5}
+                fill={isActive ? '#ff6b35' : 'rgba(255, 255, 255, 0.15)'}
+                animate={{
+                  r: scale * 1.5,
+                  opacity,
+                }}
+                transition={{ duration: 0.2, ease: 'easeOut' }}
+                style={{
+                  filter: isActive ? 'drop-shadow(0 0 4px rgba(255, 107, 53, 0.5))' : 'none',
+                }}
+              />
+            );
+          })
+        )}
+      </svg>
     </div>
   );
 };
 
-const TOKEN_UTILITIES = [
-  {
-    id: "merchant-staking",
-    label: "Merchant Staking",
-    symbol: "◆",
-    color: "#00FF94",
-    description:
-      "Stake BLIP to underwrite your volume and unlock higher trust tiers.",
-  },
-  {
-    id: "routing-priority",
-    label: "Routing Priority",
-    symbol: "➤",
-    color: "#38BDF8",
-    description:
-      "More stake, better pricing and order flow routed through you first.",
-  },
-  {
-    id: "liquidity-rewards",
-    label: "Liquidity Rewards",
-    symbol: "◉",
-    color: "#A855F7",
-    description:
-      "Provide cross-border liquidity and earn protocol rewards every fill.",
-  },
-  {
-    id: "dispute-slashing",
-    label: "Dispute Slashing",
-    symbol: "⚔",
-    color: "#F97373",
-    description:
-      "Bad actors get slashed. Honest merchants are economically protected.",
-  },
-  {
-    id: "governance",
-    label: "Governance",
-    symbol: "⚖",
-    color: "#FACC15",
-    description:
-      "Holders vote on fees, new corridors and protocol parameter changes.",
-  },
-  {
-    id: "fee-reductions",
-    label: "Fee Reductions",
-    symbol: "⬉",
-    color: "#4ADE80",
-    description: "Use BLIP to pay protocol fees and get discounted routes.",
-  },
-  {
-    id: "promotions",
-    label: "Marketplace Promotions",
-    symbol: "✦",
-    color: "#F472B6",
-    description:
-      "Boost your routes, gain surface area in the Blip marketplace.",
-  },
-];
-
-const UsageCard = ({ scene, active, onClick }) => {
-  const Icon = scene.icon;
+/* ============================================
+   LARGE PHONE COMPONENT
+   Full-size phone mockup for immersive experience
+   ============================================ */
+const LargePhone = ({ children, className = "", glowColor = "orange" }: { children: React.ReactNode; className?: string; glowColor?: "orange" | "green" }) => {
+  const glowStyles = {
+    orange: "shadow-[0_0_100px_rgba(255,107,53,0.3),0_0_200px_rgba(255,107,53,0.1)]",
+    green: "shadow-[0_0_100px_rgba(255,107,53,0.3),0_0_200px_rgba(255,107,53,0.1)]"
+  };
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`
-        group w-full text-left rounded-2xl p-4 sm:p-5 mb-2
-        border transition-all duration-200 flex items-start gap-3
-        bg-black/40
-        ${
-          active
-            ? "border-[#00FF94] shadow-[0_0_24px_rgba(0,255,148,0.25)]"
-            : "border-white/5 hover:border-[#00FF94]/60 hover:shadow-[0_0_18px_rgba(0,255,148,0.18)]"
-        }
-      `}
-    >
-      <div
-        className={`
-          flex-shrink-0 w-9 h-9 rounded-xl border flex items-center justify-center
-          ${
-            active
-              ? "border-[#00FF94]/70 bg-[#00FF94]/10 text-[#00FF94]"
-              : "border-white/10 bg-black/70 text-gray-200 group-hover:border-[#00FF94]/70 group-hover:text-[#00FF94]"
-          }
-        `}
-      >
-        <Icon size={18} />
-      </div>
-
-      <div className="flex-1 flex flex-col gap-1">
-        <div className="flex items-center justify-between gap-2">
-          <div>
-            <h3 className="text-sm sm:text-base font-semibold text-white">
-              {scene.title}
-            </h3>
-            <p className="text-[10px] font-mono tracking-[0.18em] uppercase text-gray-500">
-              {scene.subtitle}
-            </p>
-          </div>
-          <div className="hidden sm:flex flex-col items-end text-[10px] font-mono uppercase tracking-[0.16em] text-gray-500">
-            <span>{scene.statLabel}</span>
-            <span className="text-[#00FF94]">{scene.statValue}</span>
-          </div>
+    <div className={`relative ${className}`} style={{ width: 280, height: 580 }}>
+      {/* Phone glow effect */}
+      <div className={`absolute inset-0 rounded-[44px] ${glowStyles[glowColor]} blur-sm`} />
+      {/* Phone frame */}
+      <div className="absolute inset-0 rounded-[44px] bg-[#1a1a1a] border border-white/20 overflow-hidden">
+        {/* Dynamic Island */}
+        <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-7 bg-black rounded-full z-20" />
+        {/* Screen content */}
+        <div className="absolute inset-[3px] rounded-[40px] bg-[#0a0a0a] overflow-hidden">
+          {children}
         </div>
-
-        <p className="text-xs sm:text-sm text-gray-400 mt-1">
-          You pay in digital value. They receive instantly.
-        </p>
+        {/* Home indicator */}
+        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-28 h-1 bg-white/40 rounded-full z-20" />
       </div>
-    </button>
+    </div>
   );
 };
 
-const LiveUsagePanel = ({ scene }) => {
-  const steps = FLOW_STEPS[scene.id] || FLOW_STEPS.default;
+/* ============================================
+   BLIPSCAN CARD COMPONENT
+   Transaction view styled like blipscan explorer
+   ============================================ */
+const BlipscanCard = ({ isVisible }: { isVisible: boolean }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30, scale: 0.95 }}
+      animate={isVisible ? { opacity: 1, y: 0, scale: 1 } : {}}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      className="w-full max-w-md"
+    >
+      <div className="rounded-2xl bg-[#111113] border border-white/10 overflow-hidden shadow-2xl">
+        <div className="px-5 py-4 border-b border-white/5 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
+            <span className="text-sm font-semibold text-white">blipscan</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-mono text-white/40 uppercase">LIVE</span>
+            <div className="px-2 py-0.5 rounded bg-[#ff6b35]/10 border border-[#ff6b35]/20">
+              <span className="text-[10px] font-semibold text-[#ff6b35]">RELEASED</span>
+            </div>
+          </div>
+        </div>
+        <div className="px-5 py-5 border-b border-white/5">
+          <p className="text-[10px] text-white/40 uppercase tracking-wider mb-1">Amount</p>
+          <div className="flex items-baseline gap-2">
+            <span className="text-3xl font-bold text-white">$500.00</span>
+            <span className="text-sm text-white/40">USDC</span>
+          </div>
+          <p className="text-[10px] text-white/30 mt-1">Fee: 0.10%</p>
+        </div>
+        <div className="px-5 py-4 space-y-3 border-b border-white/5">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] text-white/40 uppercase">From</span>
+            <span className="text-xs font-mono text-white/70">7xKp...3fG2</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] text-white/40 uppercase">To</span>
+            <span className="text-xs font-mono text-white/70">Ahmed M. (Dubai)</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] text-white/40 uppercase">Escrow</span>
+            <span className="text-xs font-mono text-orange-500">Blp4...kX9n</span>
+          </div>
+        </div>
+        <div className="px-5 py-4">
+          <p className="text-[10px] text-white/40 uppercase tracking-wider mb-3">Timeline</p>
+          <div className="space-y-2">
+            {[
+              { status: "Created", time: "2s ago", icon: "○", color: "text-blue-400" },
+              { status: "Locked", time: "1s ago", icon: "●", color: "text-yellow-400" },
+              { status: "Released", time: "now", icon: "✓", color: "text-[#ff6b35]" },
+            ].map((event) => (
+              <div key={event.status} className="flex items-center gap-3">
+                <span className={`text-xs ${event.color}`}>{event.icon}</span>
+                <span className="text-xs text-white/70 flex-1">{event.status}</span>
+                <span className="text-[10px] font-mono text-white/30">{event.time}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="px-5 py-3 bg-white/[0.02] flex items-center justify-between">
+          <span className="text-[10px] text-white/30 font-mono">Slot #294,721,443</span>
+          <div className="flex items-center gap-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]" />
+            <span className="text-[10px] text-[#ff6b35]">Finalized</span>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+const HeroSection = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+
+  // Phase transitions - more dramatic
+  const phase1Opacity = useTransform(smoothProgress, [0, 0.15], [1, 0]);
+  const phase1Scale = useTransform(smoothProgress, [0, 0.15], [1, 0.9]);
+  const phase2Opacity = useTransform(smoothProgress, [0.12, 0.20, 0.40, 0.48], [0, 1, 1, 0]);
+  const phase2Scale = useTransform(smoothProgress, [0.12, 0.20, 0.40, 0.48], [0.9, 1, 1, 0.9]);
+  const phase3Opacity = useTransform(smoothProgress, [0.45, 0.53, 0.70, 0.78], [0, 1, 1, 0]);
+  const phase3Scale = useTransform(smoothProgress, [0.45, 0.53], [0.9, 1]);
+  const phase4Opacity = useTransform(smoothProgress, [0.75, 0.88], [0, 1]);
+  const phase4Y = useTransform(smoothProgress, [0.75, 0.88], [80, 0]);
+
+  // Mouse parallax
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 2;
+      const y = (e.clientY / window.innerHeight - 0.5) * 2;
+      setMousePosition({ x, y });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   return (
-    <div className="relative w-full h-full min-h-[280px] lg:min-h-[340px] rounded-[32px] border border-[#00FF94]/35 bg-[#050806] overflow-hidden shadow-[0_0_40px_rgba(0,255,148,0.25)]">
-      {/* grid + glow */}
-      <div
-        className="absolute inset-0 opacity-18 pointer-events-none"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, #00FF9420 1px, transparent 1px), linear-gradient(to bottom, #00FF9420 1px, transparent 1px)",
-          backgroundSize: "26px 26px",
-        }}
-      />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(0,255,148,0.18),transparent_60%)]" />
-
-      <div className="relative z-10 flex flex-col h-full p-6 sm:p-7 lg:p-8 gap-5">
-        {/* HEADER */}
-        <div>
-          <p className="text-[10px] font-mono tracking-[0.26em] uppercase text-[#00FF94] mb-2">
-            EXAMPLE ROUTE
-          </p>
-          <h3 className="text-lg sm:text-xl font-semibold text-white mb-1">
-            {scene.headline}
-          </h3>
-          <p className="text-sm text-gray-300">{scene.description}</p>
+    <section ref={containerRef} className="relative h-[500vh] bg-black">
+      <div className="sticky top-0 h-screen overflow-hidden bg-black">
+        {/* Animated background */}
+        <div className="absolute inset-0">
+          {/* Mouse-following gradient */}
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              background: `radial-gradient(circle at ${50 + mousePosition.x * 20}% ${50 + mousePosition.y * 20}%, rgba(255,107,53,0.08) 0%, transparent 40%)`,
+            }}
+          />
+          {/* Secondary glow */}
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              background: `radial-gradient(circle at ${50 - mousePosition.x * 15}% ${60 + mousePosition.y * 10}%, rgba(255,107,53,0.04) 0%, transparent 50%)`,
+            }}
+          />
+          {/* Grid */}
+          <motion.div
+            className="absolute inset-0 opacity-30"
+            style={{
+              backgroundImage: `linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)`,
+              backgroundSize: '80px 80px',
+              backgroundPosition: `${mousePosition.x * 20}px ${mousePosition.y * 20}px`,
+            }}
+          />
         </div>
 
-        {/* MAIN DIAGRAM CARD */}
-        <div className="mt-1 rounded-3xl bg-black/75 border border-white/10 px-4 py-4 sm:px-6 sm:py-5">
-          <div className="flex items-center justify-between gap-3">
-            {/* NODE 1 – WALLET */}
-            <div className="flex flex-col items-center gap-2 min-w-[80px]">
-              <div className="relative">
-                <div className="w-10 h-10 rounded-full bg-[#03140b] border border-[#00FF94]/70 flex items-center justify-center shadow-[0_0_16px_rgba(0,255,148,0.45)]">
-                  <Wallet className="w-4 h-4 text-[#00FF94]" />
-                </div>
-                <span className="absolute inset-0 rounded-full border border-[#00FF94]/30 blur-[3px]" />
-              </div>
-              <p className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.16em] text-gray-300 text-center">
-                Your Wallet
-              </p>
-            </div>
-
-            {/* CONNECTOR 1 */}
-            <div className="relative flex-1 h-10">
-              <svg
-                viewBox="0 0 100 20"
-                className="absolute inset-0 w-full h-full"
-                preserveAspectRatio="none"
-              >
-                <defs>
-                  <linearGradient
-                    id="routeGradient"
-                    x1="0%"
-                    y1="0%"
-                    x2="100%"
-                    y2="0%"
-                  >
-                    <stop offset="0%" stopColor="#00FF94" stopOpacity="0" />
-                    <stop offset="50%" stopColor="#00FF94" stopOpacity="0.8" />
-                    <stop offset="100%" stopColor="#00FF94" stopOpacity="0" />
-                  </linearGradient>
-                </defs>
-                <path
-                  d="M0,15 C30,0 70,0 100,15"
-                  fill="none"
-                  stroke="url(#routeGradient)"
-                  strokeWidth="1.1"
-                  strokeLinecap="round"
-                />
-              </svg>
-              {/* animated dot */}
-              <div className="absolute inset-0">
-                <div className="route-dot animate-flow-dot" />
-              </div>
-            </div>
-
-            {/* NODE 2 – BLIP / PEOPLEBANK */}
-            <div className="flex flex-col items-center gap-2 min-w-[100px]">
-              <div className="relative">
-                <div className="w-11 h-11 rounded-full bg-[#020d09] border border-[#00FF94] flex items-center justify-center shadow-[0_0_22px_rgba(0,255,148,0.6)]">
-                  <Activity className="w-4 h-4 text-[#00FF94]" />
-                </div>
-                <span className="absolute inset-0 rounded-full border border-[#00FF94]/40 blur-[4px]" />
-              </div>
-              <p className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.16em] text-gray-300 text-center">
-                Blip · PeopleBank
-              </p>
-            </div>
-
-            {/* CONNECTOR 2 */}
-            <div className="relative flex-1 h-10">
-              <svg
-                viewBox="0 0 100 20"
-                className="absolute inset-0 w-full h-full"
-                preserveAspectRatio="none"
-              >
-                <path
-                  d="M0,5 C30,20 70,20 100,5"
-                  fill="none"
-                  stroke="url(#routeGradient)"
-                  strokeWidth="1.1"
-                  strokeLinecap="round"
-                />
-              </svg>
-              <div className="absolute inset-0">
-                <div
-                  className="route-dot animate-flow-dot"
-                  style={{ animationDelay: "0.4s" }}
-                />
-              </div>
-            </div>
-
-            {/* NODE 3 – REAL WORLD */}
-            <div className="flex flex-col items-center gap-2 min-w-[90px]">
-              <div className="relative">
-                <div className="w-10 h-10 rounded-full bg-[#101010] border border-white/35 flex items-center justify-center shadow-[0_0_18px_rgba(0,0,0,0.9)]">
-                  <Store className="w-4 h-4 text-white" />
-                </div>
-                <span className="absolute inset-0 rounded-full border border-white/20 blur-[3px]" />
-              </div>
-              <p className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.16em] text-gray-300 text-center">
-                Real-world payout
-              </p>
-            </div>
-          </div>
-
-          {/* Caption row under diagram */}
-          <div className="mt-4 flex justify-between text-[9px] sm:text-[10px] font-mono uppercase tracking-[0.18em] text-gray-500">
-            <span>Pay from wallet</span>
-            <span>On-chain routing</span>
-            <span>Merchant / receiver</span>
-          </div>
-        </div>
-
-        {/* THREE STEP EXPLANATION */}
-        <div className="grid sm:grid-cols-3 gap-3 text-[11px] sm:text-xs">
-          {steps.map((step, i) => (
-            <div
-              key={step.label + i}
-              className="rounded-2xl bg-black/70 border border-white/10 px-3 py-3 flex flex-col gap-1"
-            >
-              <div className="flex items-center gap-2">
-                <span className="h-4 w-4 rounded-full border border-[#00FF94]/60 text-[10px] font-mono text-[#00FF94] flex items-center justify-center">
-                  {i + 1}
-                </span>
-                <span className="uppercase tracking-[0.14em] text-gray-200">
-                  {step.label}
-                </span>
-              </div>
-              <p className="text-[11px] text-gray-400 mt-1 leading-snug">
-                {step.text}
-              </p>
-            </div>
+        {/* Floating particles */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {[...Array(20)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-1 h-1 rounded-full bg-[#ff6b35]/40"
+              style={{
+                left: `${10 + (i * 4.5)}%`,
+                top: `${20 + (i % 5) * 15}%`,
+              }}
+              animate={{
+                y: [-20, 20, -20],
+                opacity: [0.2, 0.5, 0.2],
+                scale: [1, 1.5, 1],
+              }}
+              transition={{
+                duration: 3 + (i % 3),
+                repeat: Infinity,
+                delay: i * 0.2,
+              }}
+            />
           ))}
         </div>
 
-        {/* FOOTER NOTE */}
-        <div className="mt-1 flex items-center justify-between text-[10px] sm:text-[11px] font-mono text-gray-500 pt-1">
-          <span>Illustrative route for {scene.title}</span>
-          <span>Protocol animation · Not live data</span>
-        </div>
-      </div>
+        <div className="relative h-full flex items-center justify-center">
+          {/* ==================== PHASE 1: IMMERSIVE INTRO WITH APP SHOWCASE ==================== */}
+          <motion.div
+            className="absolute inset-0 flex items-center justify-center z-20"
+            style={{ opacity: phase1Opacity, scale: phase1Scale }}
+          >
+            <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16 px-6 max-w-7xl mx-auto">
+              {/* Left: Text content */}
+              <div className="flex-1 text-center lg:text-left max-w-xl">
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6"
+                >
+                  <motion.div
+                    className="w-2 h-2 rounded-full bg-[#ff6b35]"
+                    animate={{ scale: [1, 1.3, 1], opacity: [1, 0.6, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  />
+                  <span className="text-white/60 text-sm">Peer-to-peer payments</span>
+                </motion.div>
 
-      {/* keyframes + dot styling */}
-      <style>
-        {`
-          .route-dot {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            width: 6px;
-            height: 6px;
-            border-radius: 999px;
-            background: #00FF94;
-            box-shadow: 0 0 16px rgba(0,255,148,0.9);
-            transform: translate(-10%, -50%);
-          }
+                <motion.h1
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1] mb-6"
+                >
+                  Send crypto,
+                  <br />
+                  <span className="bg-gradient-to-r from-[#ff6b35] to-[#ff8c50] bg-clip-text text-transparent">receive cash</span>
+                </motion.h1>
 
-          @keyframes flowDot {
-            0%   { transform: translate(-10%, -50%); opacity: 0; }
-            10%  { opacity: 1; }
-            90%  { opacity: 1; }
-            100% { transform: translate(110%, -50%); opacity: 0; }
-          }
+                <motion.p
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-white/40 text-lg md:text-xl mb-8 leading-relaxed"
+                >
+                  The fastest way to convert crypto to local currency. Non-custodial, instant, and transparent.
+                </motion.p>
 
-          .animate-flow-dot {
-            animation: flowDot 2.6s linear infinite;
-          }
-        `}
-      </style>
-    </div>
-  );
-};
+                {/* Quick stats */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  className="flex items-center justify-center lg:justify-start gap-8 mb-8"
+                >
+                  {[
+                    { value: "~2s", label: "Settlement" },
+                    { value: "0.1%", label: "Fees" },
+                    { value: "150+", label: "Countries" },
+                  ].map((stat) => (
+                    <div key={stat.label} className="text-center lg:text-left">
+                      <div className="text-xl md:text-2xl font-bold text-white">{stat.value}</div>
+                      <div className="text-xs text-white/30 uppercase tracking-wider">{stat.label}</div>
+                    </div>
+                  ))}
+                </motion.div>
 
-const RealWorldUsageSection = () => {
-  const [activeId, setActiveId] = useState("cafe");
-  const activeScene =
-    USAGE_SCENES.find((scene) => scene.id === activeId) ?? USAGE_SCENES[0];
+                {/* Scroll indicator */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1.2 }}
+                  className="flex items-center justify-center lg:justify-start gap-3"
+                >
+                  <span className="text-white/30 text-xs uppercase tracking-[0.2em]">Scroll to explore</span>
+                  <motion.div
+                    className="w-5 h-8 rounded-full border border-white/20 flex justify-center pt-1.5"
+                    animate={{ borderColor: ['rgba(255,255,255,0.2)', 'rgba(255,107,53,0.4)', 'rgba(255,255,255,0.2)'] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    <motion.div
+                      className="w-1 h-1 rounded-full bg-[#ff6b35]"
+                      animate={{ y: [0, 10, 0], opacity: [1, 0.5, 1] }}
+                      transition={{ duration: 1.5, repeat: Infinity }}
+                    />
+                  </motion.div>
+                </motion.div>
+              </div>
 
-  return (
-    <section className="py-16 sm:py-24 md:py-32 bg-black border-t border-white/5">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <ScrollReveal delay={0}>
-          <SectionLabel
-            text="Real World Usage"
-            className={"items-center justify-center"}
-          />
-        </ScrollReveal>
+              {/* Right: App showcase with floating elements */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                className="relative flex-1 flex items-center justify-center"
+                style={{
+                  x: mousePosition.x * -10,
+                  y: mousePosition.y * -8,
+                }}
+              >
+                {/* Glow effect behind phone */}
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <motion.div
+                    className="w-[400px] h-[400px] rounded-full"
+                    style={{
+                      background: 'radial-gradient(circle, rgba(255,107,53,0.15) 0%, transparent 60%)',
+                    }}
+                    animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.8, 0.5] }}
+                    transition={{ duration: 4, repeat: Infinity }}
+                  />
+                </div>
 
-        <ScrollReveal delay={0.1}>
-          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-8 sm:mb-10 mint-gradient-text tracking-tight text-center">
-            Use crypto the same way
-            <br />
-            you use money.
-          </h2>
-        </ScrollReveal>
+                {/* Floating card - top left */}
+                <motion.div
+                  className="absolute -top-4 -left-4 lg:top-4 lg:-left-16 z-20"
+                  initial={{ opacity: 0, x: -30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8, delay: 0.8 }}
+                  style={{
+                    x: mousePosition.x * 15,
+                    y: mousePosition.y * 10,
+                  }}
+                >
+                  <motion.div
+                    className="bg-[#111]/90 backdrop-blur-xl border border-white/10 rounded-2xl p-4 shadow-2xl"
+                    animate={{ y: [-5, 5, -5] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#ff6b35] to-[#ff8c50] flex items-center justify-center">
+                        <Lock className="w-5 h-5 text-white" />
+                      </div>
+                      <div>
+                        <div className="text-white text-sm font-semibold">Secured</div>
+                        <div className="text-white/40 text-xs">Smart contract</div>
+                      </div>
+                    </div>
+                  </motion.div>
+                </motion.div>
 
-        {/* 40 / 60 split */}
-        <div className="grid gap-6 sm:gap-8 lg:grid-cols-[2fr_3fr] items-stretch">
-          {/* left: usage list */}
-          <div className="grid grid-cols-1 gap-3 max-h-[460px] lg:max-h-none overflow-y-auto ">
-            {USAGE_SCENES.map((scene, idx) => (
-              <ScrollReveal key={scene.id} delay={0.15 + idx * 0.05}>
-                <UsageCard
-                  scene={scene}
-                  active={scene.id === activeId}
-                  onClick={() => setActiveId(scene.id)}
-                />
-              </ScrollReveal>
-            ))}
-          </div>
+                {/* Floating card - top right */}
+                <motion.div
+                  className="absolute -top-8 right-0 lg:top-0 lg:-right-12 z-20"
+                  initial={{ opacity: 0, x: 30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8, delay: 1 }}
+                  style={{
+                    x: mousePosition.x * -12,
+                    y: mousePosition.y * 8,
+                  }}
+                >
+                  <motion.div
+                    className="bg-[#111]/90 backdrop-blur-xl border border-white/10 rounded-2xl p-4 shadow-2xl"
+                    animate={{ y: [5, -5, 5] }}
+                    transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    <div className="flex items-center gap-3">
+                      <motion.div
+                        className="w-10 h-10 rounded-xl bg-[#ff6b35]/10 border border-[#ff6b35]/30 flex items-center justify-center"
+                        animate={{ borderColor: ['rgba(255,107,53,0.3)', 'rgba(255,107,53,0.6)', 'rgba(255,107,53,0.3)'] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      >
+                        <Zap className="w-5 h-5 text-[#ff6b35]" />
+                      </motion.div>
+                      <div>
+                        <div className="text-white text-sm font-semibold">Instant</div>
+                        <div className="text-white/40 text-xs">~2s settlement</div>
+                      </div>
+                    </div>
+                  </motion.div>
+                </motion.div>
 
-          {/* right: live stats panel */}
-          <ScrollReveal delay={0.25}>
-            <motion.div
-              key={activeScene.id}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className="h-full flex"
-            >
-              <LiveUsagePanel scene={activeScene} />
-            </motion.div>
-          </ScrollReveal>
+                {/* Floating transaction notification - bottom right */}
+                <motion.div
+                  className="absolute -bottom-4 -right-4 lg:bottom-16 lg:-right-20 z-20"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 1.2 }}
+                  style={{
+                    x: mousePosition.x * -18,
+                    y: mousePosition.y * -10,
+                  }}
+                >
+                  <motion.div
+                    className="bg-[#111]/90 backdrop-blur-xl border border-[#ff6b35]/20 rounded-2xl p-4 shadow-2xl"
+                    animate={{ y: [-3, 3, -3] }}
+                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-[#ff6b35]/20 flex items-center justify-center">
+                        <CheckCircle2 className="w-5 h-5 text-[#ff6b35]" />
+                      </div>
+                      <div>
+                        <div className="text-white text-sm font-semibold">$500 sent</div>
+                        <div className="text-[#ff6b35] text-xs">Just now</div>
+                      </div>
+                    </div>
+                  </motion.div>
+                </motion.div>
+
+                {/* Main phone */}
+                <LargePhone glowColor="orange">
+                  <div className="h-full bg-[#050505] p-4 pt-12 flex flex-col">
+                    {/* Status bar */}
+                    <div className="flex items-center justify-between text-[11px] text-white/50 mb-4">
+                      <span className="font-medium">9:41</span>
+                      <div className="flex items-center gap-1.5">
+                        <Signal className="w-4 h-4" />
+                        <Wifi className="w-4 h-4" />
+                        <Battery className="w-4 h-4" />
+                      </div>
+                    </div>
+
+                    {/* App header */}
+                    <div className="flex items-center justify-between mb-5">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#ff6b35] to-[#ff8c50] flex items-center justify-center">
+                          <span className="text-white font-bold text-sm">B</span>
+                        </div>
+                        <span className="text-white font-semibold">Blip</span>
+                      </div>
+                      <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
+                        <User className="w-4 h-4 text-white/50" />
+                      </div>
+                    </div>
+
+                    {/* Balance card */}
+                    <div className="bg-gradient-to-br from-[#ff6b35]/20 to-[#ff8c50]/5 rounded-2xl p-4 border border-[#ff6b35]/20 mb-4">
+                      <div className="text-white/50 text-xs uppercase tracking-wider mb-1">Total Balance</div>
+                      <div className="text-3xl font-bold text-white mb-2">$12,450.00</div>
+                      <div className="flex items-center gap-2">
+                        <div className="px-2 py-0.5 rounded-full bg-[#ff6b35]/20 text-[#ff6b35] text-xs font-medium">
+                          +2.4%
+                        </div>
+                        <span className="text-white/30 text-xs">this week</span>
+                      </div>
+                    </div>
+
+                    {/* Quick actions */}
+                    <div className="flex gap-3 mb-4">
+                      {[
+                        { icon: Send, label: "Send" },
+                        { icon: ArrowDown, label: "Receive" },
+                        { icon: Wallet, label: "Wallet" },
+                      ].map((action) => (
+                        <div key={action.label} className="flex-1 bg-white/5 rounded-xl p-3 flex flex-col items-center gap-2 border border-white/5">
+                          <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center">
+                            <action.icon className="w-4 h-4 text-white/70" />
+                          </div>
+                          <span className="text-white/50 text-[10px]">{action.label}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Recent activity */}
+                    <div className="flex-1">
+                      <div className="text-white/40 text-xs uppercase tracking-wider mb-3">Recent</div>
+                      <div className="space-y-2">
+                        {[
+                          { name: "Ahmed M.", amount: "-$500", status: "Completed", color: "text-[#ff6b35]" },
+                          { name: "Sarah K.", amount: "+$1,200", status: "Received", color: "text-green-400" },
+                        ].map((tx, i) => (
+                          <motion.div
+                            key={tx.name}
+                            className="flex items-center gap-3 p-2.5 rounded-xl bg-white/[0.03] border border-white/5"
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 1.5 + i * 0.2 }}
+                          >
+                            <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center">
+                              <span className="text-white text-xs font-medium">{tx.name[0]}</span>
+                            </div>
+                            <div className="flex-1">
+                              <div className="text-white text-sm font-medium">{tx.name}</div>
+                              <div className="text-white/30 text-xs">{tx.status}</div>
+                            </div>
+                            <div className={`text-sm font-semibold ${tx.color}`}>{tx.amount}</div>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </LargePhone>
+              </motion.div>
+            </div>
+          </motion.div>
+
+          {/* ==================== PHASE 2: LOCK IN ESCROW - FULL APP SCREEN ==================== */}
+          <motion.div
+            className="absolute inset-0 flex items-center justify-center z-20 px-6"
+            style={{ opacity: phase2Opacity, scale: phase2Scale }}
+          >
+            <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16 max-w-6xl">
+              {/* Left side - Large phone showing lock escrow screen */}
+              <motion.div
+                initial={{ x: -50, opacity: 0 }}
+                whileInView={{ x: 0, opacity: 1 }}
+                transition={{ duration: 0.8 }}
+                style={{
+                  x: mousePosition.x * -15,
+                  y: mousePosition.y * -10,
+                }}
+              >
+                <LargePhone glowColor="green">
+                  <div className="h-full bg-[#050505] p-5 pt-12 flex flex-col">
+                    {/* Status bar */}
+                    <div className="flex items-center justify-between text-[11px] text-white/50 mb-6">
+                      <span className="font-medium">9:41</span>
+                      <div className="flex items-center gap-1.5">
+                        <Signal className="w-4 h-4" />
+                        <Wifi className="w-4 h-4" />
+                        <Battery className="w-4 h-4" />
+                      </div>
+                    </div>
+
+                    {/* Header */}
+                    <div className="flex items-center justify-between mb-6">
+                      <ChevronRight className="w-6 h-6 text-white/50 rotate-180" />
+                      <span className="text-white font-semibold text-lg">Sell Crypto</span>
+                      <div className="w-6" />
+                    </div>
+
+                    {/* Sell Card */}
+                    <div className="bg-[#111] rounded-2xl p-4 border border-white/5 mb-4">
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="text-white/40 text-xs uppercase tracking-wider">You Sell</span>
+                        <div className="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-full">
+                          <div className="w-5 h-5 rounded-full bg-gradient-to-br from-blue-400 to-purple-500" />
+                          <span className="text-white text-sm font-medium">USDT</span>
+                          <ChevronRight className="w-4 h-4 text-white/40 rotate-90" />
+                        </div>
+                      </div>
+                      <div className="text-4xl font-bold text-white mb-1">500.00</div>
+                      <div className="text-white/30 text-sm">Available: 2,450.00 USDT</div>
+                    </div>
+
+                    {/* Arrow */}
+                    <div className="flex justify-center -my-2 z-10">
+                      <motion.div
+                        className="w-10 h-10 rounded-full bg-[#ff6b35] flex items-center justify-center"
+                        animate={{ scale: [1, 1.1, 1] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      >
+                        <ArrowDown className="w-5 h-5 text-black" />
+                      </motion.div>
+                    </div>
+
+                    {/* Receive Card */}
+                    <div className="bg-[#111] rounded-2xl p-4 border border-white/5 mb-4">
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="text-white/40 text-xs uppercase tracking-wider">Buyer Receives</span>
+                        <div className="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-full">
+                          <Banknote className="w-5 h-5 text-[#ff6b35]" />
+                          <span className="text-white text-sm font-medium">AED</span>
+                        </div>
+                      </div>
+                      <div className="text-4xl font-bold text-[#ff6b35]">1,835.00</div>
+                      <div className="text-white/30 text-sm">Rate: 1 USDT = 3.67 AED</div>
+                    </div>
+
+                    {/* Escrow Info */}
+                    <div className="bg-[#ff6b35]/5 rounded-xl p-3 border border-[#ff6b35]/20 mb-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-[#ff6b35]/20 flex items-center justify-center">
+                          <Lock className="w-4 h-4 text-[#ff6b35]" />
+                        </div>
+                        <div className="flex-1">
+                          <div className="text-white text-sm font-medium">Secured by Escrow</div>
+                          <div className="text-white/40 text-xs">Funds locked until confirmed</div>
+                        </div>
+                        <CheckCircle2 className="w-5 h-5 text-[#ff6b35]" />
+                      </div>
+                    </div>
+
+                    {/* Lock Button */}
+                    <motion.div
+                      className="bg-[#ff6b35] rounded-2xl py-4 flex items-center justify-center gap-2 mt-auto"
+                      animate={{ boxShadow: ['0 0 20px rgba(255,107,53,0.3)', '0 0 40px rgba(255,107,53,0.5)', '0 0 20px rgba(255,107,53,0.3)'] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    >
+                      <Lock className="w-5 h-5 text-black" />
+                      <span className="text-black font-bold text-base">Lock in Escrow</span>
+                    </motion.div>
+                  </div>
+                </LargePhone>
+              </motion.div>
+
+              {/* Right side - Info */}
+              <div className="flex-1 text-center lg:text-left max-w-md">
+                <motion.div
+                  initial={{ x: 50, opacity: 0 }}
+                  whileInView={{ x: 0, opacity: 1 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                >
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#ff6b35]/10 border border-[#ff6b35]/20 mb-6">
+                    <div className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
+                    <span className="text-[#ff6b35] text-sm font-medium">Step 2 of 3</span>
+                  </div>
+
+                  <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+                    Lock in<br /><span className="text-[#ff6b35]">Escrow</span>
+                  </h2>
+
+                  <p className="text-white/50 text-lg mb-8 leading-relaxed">
+                    Your crypto is securely locked in a smart contract. Non-custodial, transparent, and instantly verifiable on-chain.
+                  </p>
+
+                  {/* Features */}
+                  <div className="space-y-4">
+                    {[
+                      { icon: Shield, label: "Non-custodial", desc: "You control your keys" },
+                      { icon: Zap, label: "Instant lock", desc: "Sub-second confirmation" },
+                      { icon: Globe, label: "On-chain proof", desc: "Fully transparent" },
+                    ].map((feature, i) => (
+                      <motion.div
+                        key={feature.label}
+                        className="flex items-center gap-4 p-3 rounded-xl bg-white/5 border border-white/5"
+                        initial={{ opacity: 0, x: 20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.3 + i * 0.1 }}
+                      >
+                        <div className="w-10 h-10 rounded-lg bg-[#ff6b35]/10 flex items-center justify-center">
+                          <feature.icon className="w-5 h-5 text-[#ff6b35]" />
+                        </div>
+                        <div>
+                          <div className="text-white font-medium">{feature.label}</div>
+                          <div className="text-white/40 text-sm">{feature.desc}</div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* ==================== PHASE 3: SETTLEMENT - BLIPSCAN ==================== */}
+          <motion.div
+            className="absolute inset-0 flex items-center justify-center z-20 px-6"
+            style={{ opacity: phase3Opacity, scale: phase3Scale }}
+          >
+            <div className="flex flex-col items-center max-w-4xl">
+              <motion.div
+                initial={{ y: 30, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                className="text-center mb-10"
+              >
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#ff6b35]/10 border border-[#ff6b35]/20 mb-6">
+                  <CheckCircle2 className="w-4 h-4 text-[#ff6b35]" />
+                  <span className="text-[#ff6b35] text-sm font-medium">Transaction Complete</span>
+                </div>
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
+                  Settlement<br /><span className="text-[#ff6b35]">Verified</span>
+                </h2>
+                <p className="text-white/40 text-lg">Real-time on-chain verification</p>
+              </motion.div>
+
+              {/* Large Blipscan Card */}
+              <motion.div
+                initial={{ y: 50, opacity: 0, scale: 0.95 }}
+                whileInView={{ y: 0, opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className="w-full max-w-xl"
+                style={{
+                  x: mousePosition.x * 10,
+                  y: mousePosition.y * 5,
+                }}
+              >
+                <div className="rounded-3xl bg-[#0a0a0a] border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(255,107,53,0.15)]">
+                  {/* Header */}
+                  <div className="px-6 py-5 border-b border-white/5 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <motion.div
+                        className="w-3 h-3 rounded-full bg-[#ff6b35]"
+                        animate={{ scale: [1, 1.2, 1], opacity: [1, 0.7, 1] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                      />
+                      <span className="text-lg font-bold text-white">blipscan</span>
+                      <span className="text-white/30 text-sm">explorer</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs font-mono text-white/30 uppercase tracking-wider">LIVE</span>
+                      <div className="px-3 py-1.5 rounded-lg bg-[#ff6b35]/10 border border-[#ff6b35]/20">
+                        <span className="text-sm font-semibold text-[#ff6b35]">RELEASED</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Amount */}
+                  <div className="px-6 py-6 border-b border-white/5 bg-gradient-to-r from-[#ff6b35]/5 to-transparent">
+                    <p className="text-xs text-white/40 uppercase tracking-wider mb-2">Amount Transferred</p>
+                    <div className="flex items-baseline gap-3">
+                      <span className="text-5xl font-bold text-white">$500.00</span>
+                      <span className="text-xl text-white/40">USDC</span>
+                    </div>
+                    <div className="flex items-center gap-4 mt-3 text-sm">
+                      <span className="text-white/30">Fee: $0.50 (0.10%)</span>
+                      <span className="text-[#ff6b35]">• Instant settlement</span>
+                    </div>
+                  </div>
+
+                  {/* Details */}
+                  <div className="px-6 py-5 space-y-4 border-b border-white/5">
+                    {[
+                      { label: "From", value: "7xKpL9...3fG2hN", sub: "Your Wallet" },
+                      { label: "To", value: "Ahmed M.", sub: "Dubai, UAE" },
+                      { label: "Escrow", value: "Blp4mX...kX9nJp", sub: "Smart Contract", highlight: true },
+                    ].map((row) => (
+                      <div key={row.label} className="flex items-center justify-between">
+                        <span className="text-xs text-white/40 uppercase tracking-wider">{row.label}</span>
+                        <div className="text-right">
+                          <span className={`text-sm font-mono ${row.highlight ? 'text-[#ff6b35]' : 'text-white/80'}`}>{row.value}</span>
+                          <span className="text-xs text-white/30 block">{row.sub}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Timeline */}
+                  <div className="px-6 py-5">
+                    <p className="text-xs text-white/40 uppercase tracking-wider mb-4">Transaction Timeline</p>
+                    <div className="space-y-3">
+                      {[
+                        { status: "Created", time: "2.1s ago", color: "bg-blue-500", done: true },
+                        { status: "Locked in Escrow", time: "1.4s ago", color: "bg-yellow-500", done: true },
+                        { status: "Released to Recipient", time: "0.3s ago", color: "bg-[#ff6b35]", done: true },
+                      ].map((event, i) => (
+                        <motion.div
+                          key={event.status}
+                          className="flex items-center gap-4"
+                          initial={{ opacity: 0, x: -20 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          transition={{ delay: i * 0.15 }}
+                        >
+                          <div className={`w-3 h-3 rounded-full ${event.color}`} />
+                          <span className="text-white/80 flex-1">{event.status}</span>
+                          <span className="text-sm font-mono text-white/30">{event.time}</span>
+                          <CheckCircle2 className="w-4 h-4 text-[#ff6b35]" />
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Footer */}
+                  <div className="px-6 py-4 bg-white/[0.02] flex items-center justify-between">
+                    <span className="text-xs text-white/30 font-mono">Slot #294,721,443 • Solana Mainnet</span>
+                    <div className="flex items-center gap-2">
+                      <motion.span
+                        className="w-2 h-2 rounded-full bg-[#ff6b35]"
+                        animate={{ scale: [1, 1.3, 1] }}
+                        transition={{ duration: 1, repeat: Infinity }}
+                      />
+                      <span className="text-sm text-[#ff6b35] font-medium">Finalized</span>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </motion.div>
+
+          {/* ==================== PHASE 4: FINAL CTA ==================== */}
+          <motion.div
+            className="absolute inset-0 flex flex-col items-center justify-center z-30 px-6"
+            style={{ opacity: phase4Opacity, y: phase4Y }}
+          >
+            <div className="text-center max-w-3xl">
+              {/* Success icon */}
+              <motion.div
+                className="w-24 h-24 rounded-full bg-gradient-to-br from-[#ff6b35]/20 to-[#ff8c50]/20 border border-[#ff6b35]/30 flex items-center justify-center mx-auto mb-10"
+                animate={{
+                  boxShadow: ['0 0 30px rgba(255,107,53,0.2)', '0 0 60px rgba(255,107,53,0.4)', '0 0 30px rgba(255,107,53,0.2)'],
+                  scale: [1, 1.05, 1]
+                }}
+                transition={{ duration: 3, repeat: Infinity }}
+              >
+                <Sparkles className="w-12 h-12 text-[#ff6b35]" />
+              </motion.div>
+
+              <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+                The Future of<br />
+                <span className="bg-gradient-to-r from-[#ff6b35] to-[#ff8c50] bg-clip-text text-transparent">Global Payments</span>
+              </h2>
+
+              <p className="text-white/40 text-xl mb-12 max-w-xl mx-auto">
+                Sub-second settlement. Zero intermediaries. Complete transparency. Join the revolution.
+              </p>
+
+              {/* Stats */}
+              <div className="flex justify-center gap-12 md:gap-20 mb-12">
+                {[
+                  { value: "~2s", label: "Settlement Time" },
+                  { value: "0.1%", label: "Transaction Fee" },
+                  { value: "150+", label: "Countries" },
+                ].map((stat, i) => (
+                  <motion.div
+                    key={stat.label}
+                    className="text-center"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.1 }}
+                  >
+                    <div className="text-4xl md:text-5xl font-bold text-white mb-2">{stat.value}</div>
+                    <div className="text-xs uppercase tracking-wider text-white/30">{stat.label}</div>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* CTAs */}
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <Link
+                  to="/waitlist"
+                  className="group flex items-center gap-3 px-10 py-5 bg-[#ff6b35] text-black rounded-full font-bold text-base hover:shadow-[0_0_40px_rgba(255,107,53,0.4)] transition-all"
+                >
+                  Join Waitlist
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link
+                  to="/how-it-works"
+                  className="flex items-center gap-3 px-10 py-5 text-white/70 hover:text-white font-medium text-base transition-colors border border-white/10 rounded-full hover:border-white/20 hover:bg-white/5"
+                >
+                  Learn How It Works
+                </Link>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>
   );
 };
 
-const ParticleBackground = () => {
-  const particles = Array.from({ length: 40 });
+/* ============================================
+   SECTION 2: UAE ANNOUNCEMENT - Apple-style cinematic
+   ============================================ */
+
+const UAESection = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.9, 1, 1, 0.9]);
+
+  // Floating elements for depth - more dynamic
+  const float1Y = useTransform(scrollYProgress, [0, 1], [100, -150]);
+  const float2Y = useTransform(scrollYProgress, [0, 1], [50, -200]);
+  const float3Y = useTransform(scrollYProgress, [0, 1], [150, -100]);
+  const rotateOrb = useTransform(scrollYProgress, [0, 1], [0, 180]);
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-      {particles.map((_, i) => (
+    <section
+      ref={containerRef}
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black"
+    >
+      {/* Immersive background with orange glow */}
+      <div className="absolute inset-0">
+        {/* Deep gradient atmosphere */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-[#080404] to-black" />
+
+        {/* Orange ambient glow - top */}
+        <motion.div
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] rounded-full"
+          style={{
+            background: 'radial-gradient(ellipse, rgba(255,107,53,0.08) 0%, rgba(255,107,53,0.02) 40%, transparent 70%)',
+            y: float1Y,
+          }}
+        />
+
+        {/* Secondary orange glow - floating */}
+        <motion.div
+          className="absolute top-1/3 right-1/4 w-[500px] h-[500px] rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(255,107,53,0.06) 0%, transparent 60%)',
+            y: float2Y,
+            rotate: rotateOrb,
+          }}
+        />
+
+        {/* White ambient for contrast */}
+        <motion.div
+          className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(255,255,255,0.02) 0%, transparent 70%)',
+            y: float3Y,
+          }}
+        />
+
+        {/* Animated particles */}
+        {[...Array(15)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 rounded-full bg-[#ff6b35]"
+            style={{
+              left: `${10 + Math.random() * 80}%`,
+              top: `${10 + Math.random() * 80}%`,
+            }}
+            animate={{
+              y: [0, -30, 0],
+              opacity: [0.1, 0.6, 0.1],
+              scale: [1, 1.5, 1],
+            }}
+            transition={{
+              duration: 3 + Math.random() * 2,
+              repeat: Infinity,
+              delay: Math.random() * 2,
+            }}
+          />
+        ))}
+
+        {/* Grid overlay */}
+        <div
+          className="absolute inset-0 opacity-[0.02]"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(255,107,53,0.3) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(255,107,53,0.3) 1px, transparent 1px)
+            `,
+            backgroundSize: '80px 80px',
+          }}
+        />
+      </div>
+
+      {/* Main content */}
+      <motion.div
+        className="relative z-10 max-w-5xl mx-auto px-6 text-center"
+        style={{ opacity, scale }}
+      >
+        {/* Animated badge */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-12 backdrop-blur-sm"
+          style={{
+            background: 'rgba(255, 107, 53, 0.05)',
+            border: '1px solid rgba(255, 107, 53, 0.15)',
+          }}
+        >
+          <motion.span
+            className="w-2 h-2 rounded-full bg-[#ff6b35]"
+            animate={{ scale: [1, 1.3, 1], opacity: [1, 0.5, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          />
+          <span className="text-[13px] text-white/70 font-medium tracking-wide">
+            Launching 2025
+          </span>
+        </motion.div>
+
+        {/* Main headline with orange gradient */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-8"
+        >
+          <h2
+            className="text-6xl md:text-8xl lg:text-9xl font-semibold tracking-tight leading-[0.9]"
+            style={{
+              background: 'linear-gradient(135deg, #ffffff 0%, #ff6b35 100%)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}
+          >
+            Dubai
+          </h2>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <span className="text-6xl md:text-8xl lg:text-9xl font-semibold text-white/15 tracking-tight">
+              is next.
+            </span>
+          </motion.div>
+        </motion.div>
+
+        {/* Subtext */}
+        <motion.p
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className="text-lg md:text-xl text-white/40 max-w-2xl mx-auto leading-relaxed font-light mb-12"
+        >
+          The world's fastest-growing financial hub meets the future of payments.
+          <br className="hidden md:block" />
+          Private. Instant. Non-custodial.
+        </motion.p>
+
+        {/* Stats row */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="flex items-center justify-center gap-12 md:gap-20"
+        >
+          {[
+            { value: "40+", label: "Banks" },
+            { value: "180+", label: "Nationalities" },
+            { value: "$2T+", label: "Annual Trade" },
+          ].map((stat, i) => (
+            <motion.div
+              key={stat.label}
+              className="text-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.8 + i * 0.1 }}
+            >
+              <div className="text-2xl md:text-3xl font-semibold text-white mb-1">{stat.value}</div>
+              <div className="text-[11px] uppercase tracking-[0.2em] text-white/30">{stat.label}</div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </motion.div>
+
+      {/* Bottom fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent" />
+    </section>
+  );
+};
+
+/* ============================================
+   SECTION 3: REWARDS TEASER - Elegant minimal banner
+   ============================================ */
+
+const CashbackBanner = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const x = useTransform(scrollYProgress, [0, 1], [-50, 50]);
+
+  return (
+    <section ref={containerRef} className="relative py-20 bg-black overflow-hidden">
+      {/* Subtle horizontal line accent */}
+      <motion.div
+        className="absolute top-1/2 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"
+        style={{ x }}
+      />
+
+      <div className="relative z-10 max-w-5xl mx-auto px-6">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+          {/* Left content */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="flex-1"
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-1 h-8 bg-white/20 rounded-full" />
+              <span className="text-[11px] uppercase tracking-[0.3em] text-white/40">Early Access</span>
+            </div>
+            <h3 className="text-2xl md:text-3xl font-semibold text-white mb-2">
+              Earn while you transact.
+            </h3>
+            <p className="text-white/40 text-sm max-w-md">
+              Up to 5% cashback in BLIP tokens on every payment. No tiers. No complexity.
+            </p>
+          </motion.div>
+
+          {/* Right CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <Link
+              to="/rewards"
+              className="group inline-flex items-center gap-3 px-6 py-3 rounded-full border border-white/10 text-white text-sm font-medium hover:border-white/30 hover:bg-white/5 transition-all duration-300"
+            >
+              <span>View Rewards</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ============================================
+   SECTION 4: THE PROBLEM - Interactive Timeline
+   ============================================ */
+
+const ProblemSection = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+  const glowY = useTransform(scrollYProgress, [0, 1], [100, -100]);
+
+  const problems = [
+    { title: "High Fees", desc: "Hidden costs erode every transaction.", icon: "💸" },
+    { title: "Slow Settlement", desc: "Days, not seconds.", icon: "⏳" },
+    { title: "No Privacy", desc: "Your data, exposed to everyone.", icon: "🔓" },
+    { title: "Middlemen", desc: "Opaque. Unaccountable.", icon: "🏦" },
+  ];
+
+  return (
+    <section ref={containerRef} className="relative py-40 bg-black overflow-hidden">
+      {/* Immersive background with orange glow */}
+      <div className="absolute inset-0">
+        <motion.div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] rounded-full"
+          style={{
+            background: 'radial-gradient(ellipse, rgba(255,107,53,0.05) 0%, transparent 60%)',
+            y: glowY,
+          }}
+        />
+      </div>
+
+      <motion.div className="relative z-10 max-w-5xl mx-auto px-6" style={{ opacity }}>
+        {/* Header */}
+        <div className="text-center mb-24">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-8 backdrop-blur-sm"
+            style={{
+              background: 'rgba(255, 255, 255, 0.02)',
+              border: '1px solid rgba(255, 255, 255, 0.06)',
+            }}
+          >
+            <span className="text-[11px] uppercase tracking-[0.3em] text-white/40">
+              The Problem
+            </span>
+          </motion.div>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-4xl md:text-6xl lg:text-7xl font-semibold text-white tracking-tight leading-[1.1]"
+          >
+            Global payments
+            <br />
+            <span className="text-[#ff6b35]/50">are broken.</span>
+          </motion.h2>
+        </div>
+
+        {/* Problems Grid - with orange hover accents */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {problems.map((problem, i) => (
+            <motion.div
+              key={problem.title}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 + i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="group relative rounded-2xl p-8 cursor-default overflow-hidden"
+              style={{
+                background: 'rgba(255, 255, 255, 0.02)',
+                border: '1px solid rgba(255, 255, 255, 0.05)',
+              }}
+            >
+              {/* Hover glow */}
+              <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#ff6b35] opacity-0 group-hover:opacity-[0.08] blur-[60px] rounded-full transition-opacity duration-500" />
+
+              <div className="relative z-10">
+                <span className="text-2xl mb-4 block">{problem.icon}</span>
+                <span className="text-[10px] uppercase tracking-[0.3em] text-[#ff6b35]/50 font-medium mb-4 block">
+                  0{i + 1}
+                </span>
+                <h3 className="text-lg md:text-xl font-medium text-white mb-2 group-hover:text-white transition-colors">
+                  {problem.title}
+                </h3>
+                <p className="text-sm text-white/30 group-hover:text-white/50 transition-colors leading-relaxed">
+                  {problem.desc}
+                </p>
+              </div>
+
+              {/* Bottom accent line */}
+              <motion.div
+                className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#ff6b35] to-transparent"
+                initial={{ scaleX: 0, originX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1, delay: 0.5 + i * 0.1 }}
+              />
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+    </section>
+  );
+};
+
+/* ============================================
+   SECTION 5: BLIP PROTOCOL
+   ============================================ */
+
+const ProtocolSection = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], [80, -80]);
+  const rotateGlow = useTransform(scrollYProgress, [0, 1], [0, 90]);
+
+  return (
+    <section ref={containerRef} className="relative py-40 bg-black overflow-hidden">
+      {/* Immersive background with animated orange glow */}
+      <div className="absolute inset-0">
+        <motion.div
+          className="absolute top-1/4 right-1/4 w-[600px] h-[600px] rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(255,107,53,0.06) 0%, transparent 60%)',
+            y,
+            rotate: rotateGlow,
+          }}
+        />
+        <motion.div
+          className="absolute bottom-1/4 left-1/3 w-[400px] h-[400px] rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(255,107,53,0.04) 0%, transparent 70%)',
+            y: useTransform(scrollYProgress, [0, 1], [-50, 50]),
+          }}
+        />
+      </div>
+
+      <div className="relative z-10 max-w-6xl mx-auto px-6">
+        {/* Header */}
+        <div className="text-center mb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-8 backdrop-blur-sm"
+            style={{
+              background: 'rgba(255, 107, 53, 0.05)',
+              border: '1px solid rgba(255, 107, 53, 0.15)',
+            }}
+          >
+            <motion.span
+              className="w-2 h-2 rounded-full bg-[#ff6b35]"
+              animate={{ scale: [1, 1.3, 1], opacity: [1, 0.5, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
+            <span className="text-[11px] uppercase tracking-[0.3em] text-white/60">
+              The Protocol
+            </span>
+          </motion.div>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-4xl md:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.1] mb-6"
+            style={{
+              background: 'linear-gradient(135deg, #ff6b35 0%, #ffffff 50%, #ff8c50 100%)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}
+          >
+            Blip Protocol
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="text-lg md:text-xl text-white/40 max-w-2xl mx-auto leading-relaxed font-light"
+          >
+            A decentralized settlement layer for instant, private, global value transfer.
+          </motion.p>
+        </div>
+
+        {/* Features - with orange accents */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+          {[
+            { label: "Zero-Knowledge", desc: "Privacy by default", icon: "🔐" },
+            { label: "Solana-Powered", desc: "Sub-second finality", icon: "⚡" },
+            { label: "Non-Custodial", desc: "Your keys, your funds", icon: "🔑" },
+          ].map((item, i) => (
+            <motion.div
+              key={item.label}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.4 + i * 0.1 }}
+              className="group relative rounded-2xl p-8 text-center cursor-default overflow-hidden"
+              style={{
+                background: 'rgba(255, 255, 255, 0.02)',
+                border: '1px solid rgba(255, 255, 255, 0.05)',
+              }}
+            >
+              {/* Hover glow */}
+              <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-40 h-40 bg-[#ff6b35] opacity-0 group-hover:opacity-[0.1] blur-[60px] rounded-full transition-opacity duration-500" />
+
+              <span className="text-3xl mb-4 block">{item.icon}</span>
+              <h3 className="text-lg font-medium text-white mb-2 group-hover:text-[#ff6b35] transition-colors">
+                {item.label}
+              </h3>
+              <p className="text-sm text-white/30 group-hover:text-white/50 transition-colors">
+                {item.desc}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="flex justify-center"
+        >
+          <a
+            href="/whitepaper.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-[#ff6b35] text-black text-sm font-semibold hover:bg-[#ff8c50] hover:shadow-[0_0_40px_rgba(255,107,53,0.4)] transition-all duration-300"
+          >
+            <span>Read the Whitepaper</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </a>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+/* ============================================
+   SECTION 6: FEATURE STRIP
+   ============================================ */
+
+const FeatureStrip = () => {
+  return (
+    <section className="relative py-20 bg-black overflow-hidden">
+      {/* Subtle orange gradient line */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#ff6b35]/30 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#ff6b35]/30 to-transparent" />
+
+      <div className="max-w-6xl mx-auto px-6">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1 }}
+          className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16"
+        >
+          {[
+            "Sub-second settlement",
+            "Zero custody",
+            "Privacy by default",
+            "On-chain proofs",
+          ].map((feature, i) => (
+            <motion.div
+              key={feature}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="flex items-center gap-3 group cursor-default"
+            >
+              <motion.div
+                className="w-2 h-2 rounded-full bg-[#ff6b35]"
+                animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
+              />
+              <span className="text-sm md:text-base text-white/50 font-light tracking-wide group-hover:text-white/80 transition-colors">
+                {feature}
+              </span>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+/* ============================================
+   SECTION: BEAUTIFUL EFFORTLESS - Product Showcase
+   ============================================ */
+
+const BeautifulEffortlessSection = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const opacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0, 1, 1, 0]);
+  const dashboardY = useTransform(scrollYProgress, [0, 1], [80, -40]);
+  const dashboardYSmooth = useSpring(dashboardY, { stiffness: 100, damping: 30 });
+
+  // Sample transactions for the Blipscan preview
+  const transactions = [
+    { id: "BLP-7x2K...9fN3", from: "0x7a2...f91", to: "Ahmed M.", amount: "$500.00", status: "completed", time: "2s" },
+    { id: "BLP-4mR8...2hL5", from: "0x3b8...c42", to: "Sarah K.", amount: "$1,200.00", status: "processing", time: "—" },
+    { id: "BLP-9nQ1...6wT8", from: "0x5f2...a73", to: "Mohammed R.", amount: "$750.00", status: "completed", time: "1.4s" },
+  ];
+
+  return (
+    <section ref={containerRef} className="relative py-32 md:py-40 bg-black overflow-hidden">
+      {/* Subtle orange ambient glow */}
+      <div className="absolute inset-0">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] rounded-full bg-[#ff6b35]/[0.02] blur-[150px]" />
+      </div>
+
+      <motion.div className="relative z-10 max-w-7xl mx-auto px-6" style={{ opacity }}>
+        {/* Header */}
+        <div className="text-center mb-16 md:mb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="flex items-center justify-center gap-3 mb-8"
+          >
+            <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#ff6b35]/30" />
+            <span className="text-[11px] uppercase tracking-[0.4em] text-[#ff6b35]/50 font-light">
+              The Experience
+            </span>
+            <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#ff6b35]/30" />
+          </motion.div>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-4xl md:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.1] mb-6"
+          >
+            <span className="text-white">Beautiful.</span>
+            <br />
+            <span className="bg-gradient-to-r from-[#ff6b35] to-[#ff8c50] bg-clip-text text-transparent">Effortless.</span>
+          </motion.h2>
+        </div>
+
+        {/* 3-Step Journey */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-16">
+          {/* Step 1: Send */}
+          <motion.div
+            initial={{ opacity: 0, y: 60 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="relative"
+          >
+            <div className="rounded-2xl p-6 bg-white/[0.02] border border-white/[0.05] h-full">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-8 h-8 rounded-full bg-[#ff6b35]/10 border border-[#ff6b35]/20 flex items-center justify-center">
+                  <span className="text-sm font-mono text-[#ff6b35]">1</span>
+                </div>
+                <span className="text-xs uppercase tracking-[0.2em] text-white/40">Send</span>
+              </div>
+              <h3 className="text-xl font-semibold text-white mb-2">Initiate Transfer</h3>
+              <p className="text-sm text-white/50 mb-6">Connect wallet, enter amount, select recipient's currency.</p>
+              {/* Mini UI mockup */}
+              <div className="rounded-xl bg-black/50 border border-white/[0.04] p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-xs text-white/40">You send</span>
+                  <span className="text-xs text-white/30">Balance: 5,420 USDC</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl font-semibold text-white">500</span>
+                  <div className="px-2 py-1 rounded-lg bg-white/[0.05] text-xs text-white/60">USDC</div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Step 2: Match */}
+          <motion.div
+            initial={{ opacity: 0, y: 60 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="relative"
+          >
+            <div className="rounded-2xl p-6 bg-white/[0.02] border border-white/[0.05] h-full">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-8 h-8 rounded-full bg-[#ff6b35]/10 border border-[#ff6b35]/20 flex items-center justify-center">
+                  <span className="text-sm font-mono text-[#ff6b35]">2</span>
+                </div>
+                <span className="text-xs uppercase tracking-[0.2em] text-white/40">Match</span>
+              </div>
+              <h3 className="text-xl font-semibold text-white mb-2">Instant Matching</h3>
+              <p className="text-sm text-white/50 mb-6">AI routes through optimal liquidity providers.</p>
+              {/* Matching animation */}
+              <div className="rounded-xl bg-black/50 border border-white/[0.04] p-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center text-xs">👤</div>
+                    <div>
+                      <div className="text-xs text-white/60">You</div>
+                      <div className="text-[10px] text-white/30">500 USDC</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    {[0, 1, 2].map((i) => (
+                      <motion.div
+                        key={i}
+                        className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]"
+                        animate={{ opacity: [0.3, 1, 0.3] }}
+                        transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.2 }}
+                      />
+                    ))}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div>
+                      <div className="text-xs text-white/60 text-right">Merchant</div>
+                      <div className="text-[10px] text-white/30 text-right">1,835 AED</div>
+                    </div>
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center text-xs">🏪</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Step 3: Track on Blipscan - Full Dashboard */}
+          <motion.div
+            initial={{ opacity: 0, y: 60 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="relative lg:col-span-1"
+          >
+            <div className="rounded-2xl p-6 bg-gradient-to-b from-[#ff6b35]/[0.08] to-transparent border border-[#ff6b35]/20 h-full">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-8 h-8 rounded-full bg-[#ff6b35]/20 border border-[#ff6b35]/30 flex items-center justify-center">
+                  <span className="text-sm font-mono text-[#ff6b35]">3</span>
+                </div>
+                <span className="text-xs uppercase tracking-[0.2em] text-[#ff6b35]/60">Track</span>
+              </div>
+              <h3 className="text-xl font-semibold text-white mb-2">Live on Blipscan</h3>
+              <p className="text-sm text-white/50 mb-4">Every transaction visible in real-time.</p>
+
+              {/* Full Blipscan Dashboard */}
+              <div className="rounded-xl bg-black/80 border border-white/[0.08] overflow-hidden">
+                {/* Browser bar */}
+                <div className="flex items-center gap-2 px-3 py-2 border-b border-white/[0.04] bg-white/[0.02]">
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-2 h-2 rounded-full bg-white/10" />
+                    <div className="w-2 h-2 rounded-full bg-white/10" />
+                    <div className="w-2 h-2 rounded-full bg-white/10" />
+                  </div>
+                  <div className="flex-1 flex justify-center">
+                    <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-white/[0.03]">
+                      <motion.div
+                        className="w-2 h-2 rounded-full bg-[#ff6b35]"
+                        animate={{ scale: [1, 1.2, 1], opacity: [1, 0.7, 1] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                      />
+                      <span className="text-[9px] text-white/40 font-mono">blipscan.io/explorer</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Dashboard Header */}
+                <div className="px-3 py-2 border-b border-white/[0.04]">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-medium text-white">Live Transactions</span>
+                      <div className="flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-[#ff6b35]/10">
+                        <motion.div
+                          className="w-1 h-1 rounded-full bg-[#ff6b35]"
+                          animate={{ opacity: [1, 0.4, 1] }}
+                          transition={{ duration: 2, repeat: Infinity }}
+                        />
+                        <span className="text-[8px] uppercase text-[#ff6b35] font-medium">Live</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Stats Row */}
+                <div className="grid grid-cols-4 gap-1 px-2 py-2 border-b border-white/[0.04]">
+                  {[
+                    { label: "24h Vol", value: "$2.4M" },
+                    { label: "TXs", value: "12,847" },
+                    { label: "Avg", value: "1.2s" },
+                    { label: "Rate", value: "99.8%" },
+                  ].map((stat) => (
+                    <div key={stat.label} className="text-center">
+                      <div className="text-[10px] font-medium text-white">{stat.value}</div>
+                      <div className="text-[7px] text-white/40 uppercase">{stat.label}</div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Transaction Table */}
+                <div className="px-2 py-1">
+                  <div className="grid grid-cols-4 gap-1 px-1 py-1 text-[7px] text-white/30 uppercase border-b border-white/[0.03]">
+                    <span>TX ID</span>
+                    <span>To</span>
+                    <span className="text-right">Amount</span>
+                    <span className="text-right">Status</span>
+                  </div>
+                  {transactions.map((tx, i) => (
+                    <motion.div
+                      key={tx.id}
+                      initial={{ opacity: 0, x: -10 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: 0.5 + i * 0.08 }}
+                      className="grid grid-cols-4 gap-1 px-1 py-1.5 border-b border-white/[0.02] last:border-0"
+                    >
+                      <span className="text-[8px] text-white/50 font-mono truncate">{tx.id}</span>
+                      <span className="text-[8px] text-white/60 truncate">{tx.to}</span>
+                      <span className="text-[8px] text-white font-medium text-right">{tx.amount}</span>
+                      <div className="flex justify-end">
+                        {tx.status === 'completed' ? (
+                          <div className="flex items-center gap-1">
+                            <div className="w-1 h-1 rounded-full bg-[#ff6b35]" />
+                            <span className="text-[7px] text-[#ff6b35]">{tx.time}</span>
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-1">
+                            <motion.div
+                              className="w-1 h-1 rounded-full bg-white/40"
+                              animate={{ opacity: [1, 0.3, 1] }}
+                              transition={{ duration: 1.5, repeat: Infinity }}
+                            />
+                            <span className="text-[7px] text-white/40">pending</span>
+                          </div>
+                        )}
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Footer */}
+                <div className="px-2 py-1.5 border-t border-white/[0.03] bg-white/[0.01] flex items-center justify-between">
+                  <div className="flex items-center gap-1">
+                    <motion.div
+                      className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]"
+                      animate={{ scale: [1, 1.2, 1] }}
+                      transition={{ duration: 1, repeat: Infinity }}
+                    />
+                    <span className="text-[7px] text-white/30">Solana Mainnet</span>
+                  </div>
+                  <span className="text-[7px] text-white/20">Powered by Blip</span>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Full Blipscan Dashboard below the 3 steps */}
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          style={{ y: dashboardYSmooth }}
+          className="relative max-w-5xl mx-auto"
+        >
+          {/* Browser frame */}
+          <div
+            className="rounded-xl overflow-hidden"
+            style={{
+              background: 'linear-gradient(to bottom, rgba(255,255,255,0.06), rgba(255,255,255,0.02))',
+              border: '1px solid rgba(255,255,255,0.08)',
+              boxShadow: '0 50px 100px -20px rgba(0,0,0,0.5), 0 0 60px rgba(255,107,53,0.05)',
+            }}
+          >
+            {/* Browser top bar */}
+            <div className="flex items-center gap-3 px-4 py-3 border-b border-white/[0.04] bg-white/[0.02]">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-white/10" />
+                <div className="w-3 h-3 rounded-full bg-white/10" />
+                <div className="w-3 h-3 rounded-full bg-white/10" />
+              </div>
+              <div className="flex-1 flex justify-center">
+                <div className="flex items-center gap-2 px-4 py-1.5 rounded-md bg-white/[0.04] border border-white/[0.06]">
+                  <div className="w-3 h-3 rounded-full bg-[#ff6b35]/60" />
+                  <span className="text-xs text-white/40 font-mono">blipscan.io/explorer</span>
+                </div>
+              </div>
+              <div className="w-16" />
+            </div>
+
+            {/* Dashboard content */}
+            <div className="p-6 md:p-8 bg-[#0a0a0c]">
+              {/* Header */}
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-4">
+                  <h3 className="text-lg font-semibold text-white">Live Transactions</h3>
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#ff6b35]/10 border border-[#ff6b35]/20">
+                    <motion.div
+                      className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]"
+                      animate={{ opacity: [1, 0.4, 1] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    />
+                    <span className="text-[10px] uppercase tracking-wider text-[#ff6b35] font-medium">Live</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Stats row */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+                {[
+                  { label: "Volume 24h", value: "$2.4M", change: "+12.5%" },
+                  { label: "Transactions", value: "12,847", change: "+8.2%" },
+                  { label: "Avg. Time", value: "1.2s", change: "-0.3s" },
+                  { label: "Success", value: "99.8%", change: "+0.1%" },
+                ].map((stat) => (
+                  <div key={stat.label} className="p-3 rounded-lg bg-white/[0.02] border border-white/[0.04]">
+                    <div className="text-[10px] text-white/40 uppercase tracking-wider mb-1">{stat.label}</div>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-lg font-semibold text-white">{stat.value}</span>
+                      <span className="text-[10px] text-[#ff6b35]">{stat.change}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Transaction table */}
+              <div className="rounded-lg border border-white/[0.04] overflow-hidden">
+                <div className="hidden md:grid grid-cols-6 gap-4 px-4 py-2.5 bg-white/[0.02] border-b border-white/[0.04]">
+                  <div className="text-[10px] text-white/40 uppercase tracking-wider">TX ID</div>
+                  <div className="text-[10px] text-white/40 uppercase tracking-wider">From</div>
+                  <div className="text-[10px] text-white/40 uppercase tracking-wider">To</div>
+                  <div className="text-[10px] text-white/40 uppercase tracking-wider text-right">Amount</div>
+                  <div className="text-[10px] text-white/40 uppercase tracking-wider text-center">Status</div>
+                  <div className="text-[10px] text-white/40 uppercase tracking-wider text-right">Time</div>
+                </div>
+                {[
+                  { id: "BLP-7x2K...9fN3", from: "0x7a2...f91", to: "Ahmed M.", amount: "$500.00", status: "completed", time: "2s" },
+                  { id: "BLP-4mR8...2hL5", from: "0x3b8...c42", to: "Sarah K.", amount: "$1,200.00", status: "processing", time: "—" },
+                  { id: "BLP-9nQ1...6wT8", from: "0x5f2...a73", to: "Mohammed R.", amount: "$750.00", status: "completed", time: "1.4s" },
+                  { id: "BLP-2kL4...8pM7", from: "0x8c1...d56", to: "Lisa T.", amount: "$320.00", status: "completed", time: "0.8s" },
+                ].map((tx, i) => (
+                  <motion.div
+                    key={tx.id}
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: 0.5 + i * 0.05 }}
+                    className="grid grid-cols-2 md:grid-cols-6 gap-2 md:gap-4 px-4 py-3 border-b border-white/[0.02] hover:bg-white/[0.01] transition-colors"
+                  >
+                    <div className="text-sm text-white/70 font-mono">{tx.id}</div>
+                    <div className="hidden md:block text-sm text-white/50 font-mono">{tx.from}</div>
+                    <div className="hidden md:block text-sm text-white/70">{tx.to}</div>
+                    <div className="text-sm text-white font-medium text-right">{tx.amount}</div>
+                    <div className="hidden md:flex justify-center">
+                      {tx.status === 'completed' ? (
+                        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#ff6b35]/10">
+                          <div className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]" />
+                          <span className="text-[10px] text-[#ff6b35] uppercase tracking-wider">Done</span>
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/10">
+                          <motion.div
+                            className="w-1.5 h-1.5 rounded-full bg-white/60"
+                            animate={{ opacity: [1, 0.3, 1] }}
+                            transition={{ duration: 1.5, repeat: Infinity }}
+                          />
+                          <span className="text-[10px] text-white/60 uppercase tracking-wider">Pending</span>
+                        </div>
+                      )}
+                    </div>
+                    <div className="hidden md:block text-sm text-white/40 text-right">{tx.time}</div>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Footer */}
+              <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/[0.03]">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-[#ff6b35]" />
+                  <span className="text-[10px] text-white/40">Connected to Solana Mainnet</span>
+                </div>
+                <span className="text-[10px] text-white/30">Powered by Blip Protocol</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Reflection */}
+          <div
+            className="absolute -bottom-16 left-1/2 -translate-x-1/2 w-[70%] h-16 blur-2xl opacity-20"
+            style={{ background: 'linear-gradient(to bottom, rgba(255,107,53,0.3), transparent)' }}
+          />
+        </motion.div>
+      </motion.div>
+    </section>
+  );
+};
+
+/* ============================================
+   SECTION: BLIPSCAN DASHBOARD - Linear.app Inspired
+   ============================================ */
+
+const AppShowcaseSection = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+  const browserY = useTransform(scrollYProgress, [0, 1], [60, -30]);
+  const browserYSmooth = useSpring(browserY, { stiffness: 100, damping: 30 });
+
+  // Transaction data for the Blipscan dashboard
+  const transactions = [
+    { id: "BLP-7x2K...9fN3", from: "0x7a2...f91", to: "Ahmed M.", amount: "$500.00", status: "completed", time: "2s" },
+    { id: "BLP-4mR8...2hL5", from: "0x3b8...c42", to: "Sarah K.", amount: "$1,200.00", status: "processing", time: "—" },
+    { id: "BLP-9nQ1...6wT8", from: "0x5f2...a73", to: "Mohammed R.", amount: "$750.00", status: "completed", time: "1.4s" },
+    { id: "BLP-2kL4...8pM7", from: "0x8c1...d56", to: "Lisa T.", amount: "$320.00", status: "completed", time: "0.8s" },
+    { id: "BLP-6jP9...3mK2", from: "0x2e7...b89", to: "David W.", amount: "$890.00", status: "completed", time: "1.1s" },
+  ];
+
+  return (
+    <section ref={containerRef} className="relative py-32 md:py-40 bg-black overflow-hidden">
+      {/* Subtle gradient background - Linear style */}
+      <div className="absolute inset-0">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1400px] h-[600px] bg-gradient-to-b from-white/[0.02] to-transparent" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] rounded-full bg-[#ff6b35]/[0.03] blur-[120px]" />
+      </div>
+
+      <motion.div className="relative z-10 max-w-6xl mx-auto px-6" style={{ opacity }}>
+        {/* Header */}
+        <div className="text-center mb-16">
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-white mb-4"
+          >
+            Built for transparency.
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-lg text-white/40 max-w-xl mx-auto"
+          >
+            Every transaction visible. Every settlement tracked. Real-time on Blipscan.
+          </motion.p>
+        </div>
+
+        {/* Browser Window - Linear.app inspired */}
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          style={{ y: browserYSmooth }}
+          className="relative max-w-5xl mx-auto"
+        >
+          {/* Browser frame */}
+          <div
+            className="rounded-xl overflow-hidden"
+            style={{
+              background: 'linear-gradient(to bottom, rgba(255,255,255,0.08), rgba(255,255,255,0.03))',
+              border: '1px solid rgba(255,255,255,0.1)',
+              boxShadow: '0 50px 100px -20px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05) inset',
+            }}
+          >
+            {/* Browser top bar */}
+            <div className="flex items-center gap-3 px-4 py-3 border-b border-white/[0.06] bg-white/[0.02]">
+              {/* Traffic lights */}
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-white/10" />
+                <div className="w-3 h-3 rounded-full bg-white/10" />
+                <div className="w-3 h-3 rounded-full bg-white/10" />
+              </div>
+              {/* URL bar */}
+              <div className="flex-1 flex justify-center">
+                <div className="flex items-center gap-2 px-4 py-1.5 rounded-md bg-white/[0.04] border border-white/[0.06]">
+                  <div className="w-3 h-3 rounded-full bg-[#ff6b35]/60" />
+                  <span className="text-xs text-white/40 font-mono">blipscan.io/explorer</span>
+                </div>
+              </div>
+              <div className="w-16" />
+            </div>
+
+            {/* Dashboard content */}
+            <div className="p-6 md:p-8 bg-[#0a0a0c]">
+              {/* Dashboard header */}
+              <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center gap-4">
+                  <h3 className="text-xl font-semibold text-white">Transactions</h3>
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#ff6b35]/10 border border-[#ff6b35]/20">
+                    <motion.div
+                      className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]"
+                      animate={{ opacity: [1, 0.4, 1] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    />
+                    <span className="text-[10px] uppercase tracking-wider text-[#ff6b35] font-medium">Live</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="px-3 py-1.5 rounded-md bg-white/[0.04] border border-white/[0.06] text-xs text-white/50">
+                    Last 24h
+                  </div>
+                </div>
+              </div>
+
+              {/* Stats row */}
+              <div className="grid grid-cols-4 gap-4 mb-8">
+                {[
+                  { label: "Total Volume", value: "$2.4M", change: "+12.5%" },
+                  { label: "Transactions", value: "12,847", change: "+8.2%" },
+                  { label: "Avg. Settlement", value: "1.2s", change: "-0.3s" },
+                  { label: "Success Rate", value: "99.8%", change: "+0.1%" },
+                ].map((stat) => (
+                  <div
+                    key={stat.label}
+                    className="p-4 rounded-lg bg-white/[0.02] border border-white/[0.04]"
+                  >
+                    <div className="text-[11px] text-white/40 uppercase tracking-wider mb-2">{stat.label}</div>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-xl font-semibold text-white">{stat.value}</span>
+                      <span className="text-xs text-[#ff6b35]">{stat.change}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Transaction table */}
+              <div className="rounded-lg border border-white/[0.06] overflow-hidden">
+                {/* Table header */}
+                <div className="grid grid-cols-6 gap-4 px-4 py-3 bg-white/[0.02] border-b border-white/[0.06]">
+                  <div className="text-[11px] text-white/40 uppercase tracking-wider">Transaction ID</div>
+                  <div className="text-[11px] text-white/40 uppercase tracking-wider">From</div>
+                  <div className="text-[11px] text-white/40 uppercase tracking-wider">To</div>
+                  <div className="text-[11px] text-white/40 uppercase tracking-wider text-right">Amount</div>
+                  <div className="text-[11px] text-white/40 uppercase tracking-wider text-center">Status</div>
+                  <div className="text-[11px] text-white/40 uppercase tracking-wider text-right">Time</div>
+                </div>
+
+                {/* Table rows */}
+                {transactions.map((tx, i) => (
+                  <motion.div
+                    key={tx.id}
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: 0.3 + i * 0.05 }}
+                    className="grid grid-cols-6 gap-4 px-4 py-3 border-b border-white/[0.03] hover:bg-white/[0.02] transition-colors"
+                  >
+                    <div className="text-sm text-white/70 font-mono">{tx.id}</div>
+                    <div className="text-sm text-white/50 font-mono">{tx.from}</div>
+                    <div className="text-sm text-white/70">{tx.to}</div>
+                    <div className="text-sm text-white font-medium text-right">{tx.amount}</div>
+                    <div className="flex justify-center">
+                      {tx.status === 'completed' ? (
+                        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#ff6b35]/10">
+                          <div className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]" />
+                          <span className="text-[10px] text-[#ff6b35] uppercase tracking-wider">Completed</span>
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/10">
+                          <motion.div
+                            className="w-1.5 h-1.5 rounded-full bg-white/60"
+                            animate={{ opacity: [1, 0.3, 1] }}
+                            transition={{ duration: 1.5, repeat: Infinity }}
+                          />
+                          <span className="text-[10px] text-white/60 uppercase tracking-wider">Processing</span>
+                        </div>
+                      )}
+                    </div>
+                    <div className="text-sm text-white/40 text-right">{tx.time}</div>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Footer */}
+              <div className="flex items-center justify-between mt-6 pt-4 border-t border-white/[0.04]">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-[#ff6b35]" />
+                  <span className="text-xs text-white/40">Connected to Solana Mainnet</span>
+                </div>
+                <div className="text-xs text-white/30">
+                  Powered by Blip Protocol
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Reflection effect */}
+          <div
+            className="absolute -bottom-20 left-1/2 -translate-x-1/2 w-[80%] h-20 blur-2xl opacity-20"
+            style={{
+              background: 'linear-gradient(to bottom, rgba(255,107,53,0.3), transparent)',
+            }}
+          />
+        </motion.div>
+      </motion.div>
+    </section>
+  );
+};
+
+/* ============================================
+   SECTION 7: HOW IT WORKS - Interactive Horizontal Timeline
+   ============================================ */
+
+const HowItWorksSection = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+  const glowX = useTransform(scrollYProgress, [0, 1], [-100, 100]);
+
+  const steps = [
+    {
+      num: "01",
+      title: "Send",
+      desc: "Create a payment from your wallet. Crypto is locked in escrow.",
+      icon: "💳",
+    },
+    {
+      num: "02",
+      title: "Match",
+      desc: "The Blip network routes your payment through optimal liquidity.",
+      icon: "🔄",
+    },
+    {
+      num: "03",
+      title: "Receive",
+      desc: "Recipient gets real-world value. Bank, cash, or goods.",
+      icon: "✅",
+    },
+  ];
+
+  return (
+    <section ref={containerRef} className="relative py-40 bg-black overflow-hidden">
+      {/* Immersive background with moving glow */}
+      <div className="absolute inset-0">
+        <motion.div
+          className="absolute top-1/2 left-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full"
+          style={{
+            background: 'radial-gradient(ellipse, rgba(255,107,53,0.06) 0%, transparent 60%)',
+            x: glowX,
+          }}
+        />
+      </div>
+
+      <motion.div className="relative z-10 max-w-5xl mx-auto px-6" style={{ opacity }}>
+        {/* Header */}
+        <div className="text-center mb-24">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-8 backdrop-blur-sm"
+            style={{
+              background: 'rgba(255, 107, 53, 0.05)',
+              border: '1px solid rgba(255, 107, 53, 0.15)',
+            }}
+          >
+            <motion.span
+              className="w-2 h-2 rounded-full bg-[#ff6b35]"
+              animate={{ scale: [1, 1.3, 1], opacity: [1, 0.5, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
+            <span className="text-[11px] uppercase tracking-[0.3em] text-white/60">
+              How It Works
+            </span>
+          </motion.div>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-4xl md:text-6xl lg:text-7xl font-semibold text-white tracking-tight leading-[1.1]"
+          >
+            Three steps.
+            <br />
+            <span className="text-[#ff6b35]/60">That's it.</span>
+          </motion.h2>
+        </div>
+
+        {/* Steps with orange accents */}
+        <div className="relative">
+          {/* Connecting orange gradient line */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.5, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute top-14 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#ff6b35]/40 to-transparent hidden md:block"
+            style={{ originX: 0 }}
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
+            {steps.map((step, i) => (
+              <motion.div
+                key={step.num}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.2 + i * 0.15, ease: [0.16, 1, 0.3, 1] }}
+                className="relative text-center group"
+              >
+                {/* Step number circle with orange glow */}
+                <div className="inline-flex items-center justify-center w-28 h-28 rounded-full mb-8 relative">
+                  <div
+                    className="absolute inset-0 rounded-full"
+                    style={{
+                      background: 'linear-gradient(135deg, rgba(255,107,53,0.1) 0%, transparent 70%)',
+                      border: '1px solid rgba(255, 107, 53, 0.2)',
+                    }}
+                  />
+                  <span className="text-4xl">{step.icon}</span>
+                  {/* Pulse effect */}
+                  <motion.div
+                    className="absolute inset-0 rounded-full border border-[#ff6b35]/30"
+                    animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0, 0.5] }}
+                    transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
+                  />
+                </div>
+
+                {/* Content */}
+                <span className="text-[#ff6b35] text-xs font-mono mb-2 block">{step.num}</span>
+                <h3 className="text-2xl font-semibold text-white mb-3 group-hover:text-[#ff6b35] transition-colors">
+                  {step.title}
+                </h3>
+                <p className="text-sm text-white/40 leading-relaxed max-w-xs mx-auto">
+                  {step.desc}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+    </section>
+  );
+};
+
+/* ============================================
+   SECTION 8: PRIVACY & TRUST
+   ============================================ */
+
+const PrivacySection = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+
+  return (
+    <section ref={containerRef} className="relative py-40 bg-black overflow-hidden">
+      <motion.div className="relative z-10 max-w-5xl mx-auto px-6" style={{ opacity }}>
+        {/* Header */}
+        <div className="text-center mb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="flex items-center justify-center gap-3 mb-8"
+          >
+            <div className="h-px w-12 bg-gradient-to-r from-transparent to-white/20" />
+            <span className="text-[11px] uppercase tracking-[0.4em] text-white/30 font-light">
+              Privacy & Trust
+            </span>
+            <div className="h-px w-12 bg-gradient-to-l from-transparent to-white/20" />
+          </motion.div>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-4xl md:text-6xl lg:text-7xl font-semibold text-white tracking-tight leading-[1.1]"
+          >
+            Your wallet.
+            <br />
+            <span className="text-white/20">Your identity.</span>
+          </motion.h2>
+        </div>
+
+        {/* Two column minimal grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/[0.03] rounded-2xl overflow-hidden">
+          {/* Privacy */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="bg-black p-10 md:p-12"
+          >
+            <h3 className="text-xl font-medium text-white mb-6">Privacy</h3>
+            <ul className="space-y-4">
+              {[
+                "Wallet-only identity",
+                "No KYC for small transfers",
+                "Private by default",
+              ].map((item, i) => (
+                <li key={i} className="flex items-center gap-3 text-sm text-white/40">
+                  <div className="w-1 h-1 rounded-full bg-white/30" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+
+          {/* Trust */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="bg-black p-10 md:p-12"
+          >
+            <h3 className="text-xl font-medium text-white mb-6">Trust</h3>
+            <ul className="space-y-4">
+              {[
+                "Everything on-chain",
+                "Settlement proofs",
+                "Non-custodial always",
+              ].map((item, i) => (
+                <li key={i} className="flex items-center gap-3 text-sm text-white/40">
+                  <div className="w-1 h-1 rounded-full bg-white/30" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        </div>
+      </motion.div>
+    </section>
+  );
+};
+
+/* ============================================
+   SECTION 9: EARLY ADOPTER BANNER
+   ============================================ */
+
+const EarlyAdopterBanner = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const glowX = useTransform(scrollYProgress, [0, 1], [-50, 50]);
+
+  return (
+    <section ref={containerRef} className="relative py-28 bg-black overflow-hidden">
+      {/* Animated orange gradient lines */}
+      <motion.div
+        className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#ff6b35]/40 to-transparent"
+        style={{ x: glowX }}
+      />
+      <motion.div
+        className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#ff6b35]/40 to-transparent"
+        style={{ x: useTransform(scrollYProgress, [0, 1], [50, -50]) }}
+      />
+
+      {/* Background glow */}
+      <div className="absolute inset-0">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full bg-[#ff6b35]/5 blur-[100px]" />
+      </div>
+
+      <div className="relative z-10 max-w-4xl mx-auto px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center"
+        >
+          {/* Badge */}
+          <motion.div
+            className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-8"
+            style={{
+              background: 'rgba(255, 107, 53, 0.1)',
+              border: '1px solid rgba(255, 107, 53, 0.2)',
+            }}
+          >
+            <motion.span
+              className="w-2 h-2 rounded-full bg-[#ff6b35]"
+              animate={{ scale: [1, 1.3, 1], opacity: [1, 0.5, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
+            <span className="text-[12px] uppercase tracking-[0.2em] text-[#ff6b35]">Early Access</span>
+          </motion.div>
+
+          <h2
+            className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight mb-4"
+            style={{
+              background: 'linear-gradient(135deg, #ffffff 0%, #ff6b35 100%)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}
+          >
+            $100 in Blip Tokens
+          </h2>
+
+          <p className="text-base text-white/40 max-w-lg mx-auto mb-10">
+            Reserved for early adopters. Connect your wallet and complete your first transfer.
+          </p>
+
+          <Link
+            to="/rewards"
+            className="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-[#ff6b35] text-black text-sm font-semibold hover:bg-[#ff8c50] hover:shadow-[0_0_50px_rgba(255,107,53,0.4)] transition-all duration-300"
+          >
+            <span>Join Early Access</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+/* ============================================
+   SECTION 10: MERCHANTS
+   ============================================ */
+
+const MerchantsSection = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+
+  return (
+    <section ref={containerRef} className="relative py-40 bg-black overflow-hidden">
+      <motion.div className="relative z-10 max-w-5xl mx-auto px-6" style={{ opacity }}>
+        {/* Header */}
+        <div className="text-center mb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="flex items-center justify-center gap-3 mb-8"
+          >
+            <div className="h-px w-12 bg-gradient-to-r from-transparent to-white/20" />
+            <span className="text-[11px] uppercase tracking-[0.4em] text-white/30 font-light">
+              For Merchants
+            </span>
+            <div className="h-px w-12 bg-gradient-to-l from-transparent to-white/20" />
+          </motion.div>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-4xl md:text-6xl lg:text-7xl font-semibold text-white tracking-tight leading-[1.1] mb-6"
+          >
+            Accept crypto.
+            <br />
+            <span className="text-white/20">Zero risk.</span>
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="text-lg text-white/40 max-w-xl mx-auto"
+          >
+            Payments settle instantly into stable value. Earn 2.5% in Blip Tokens.
+          </motion.p>
+        </div>
+
+        {/* Minimal feature grid */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/[0.03] rounded-2xl overflow-hidden"
+        >
+          {[
+            { label: "Instant Settlement", desc: "No waiting. No volatility." },
+            { label: "2.5% Rewards", desc: "Earn on every transaction." },
+            { label: "No Crypto Needed", desc: "We handle everything." },
+          ].map((item, i) => (
+            <div key={item.label} className="bg-black p-10 text-center group cursor-default">
+              <h3 className="text-lg font-medium text-white mb-2">{item.label}</h3>
+              <p className="text-sm text-white/30">{item.desc}</p>
+            </div>
+          ))}
+        </motion.div>
+      </motion.div>
+    </section>
+  );
+};
+
+/* ============================================
+   SECTION 11: REWARDS
+   ============================================ */
+
+const RewardsSection = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+
+  return (
+    <section ref={containerRef} className="relative py-40 bg-black overflow-hidden">
+      <motion.div className="relative z-10 max-w-4xl mx-auto px-6 text-center" style={{ opacity }}>
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          className="flex items-center justify-center gap-3 mb-8"
+        >
+          <div className="h-px w-12 bg-gradient-to-r from-transparent to-white/20" />
+          <span className="text-[11px] uppercase tracking-[0.4em] text-white/30 font-light">
+            Rewards
+          </span>
+          <div className="h-px w-12 bg-gradient-to-l from-transparent to-white/20" />
+        </motion.div>
+
+        <motion.h2
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          className="text-4xl md:text-6xl lg:text-7xl font-semibold text-white tracking-tight leading-[1.1] mb-6"
+        >
+          Earn while
+          <br />
+          <span className="text-white/20">you spend.</span>
+        </motion.h2>
+
+        <motion.p
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          className="text-lg text-white/40 max-w-lg mx-auto mb-12"
+        >
+          Up to 2.5% in Blip Tokens on every payment. Plus early supporter airdrops.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-4"
+        >
+          <Link
+            to="/rewards"
+            className="group inline-flex items-center gap-3 px-6 py-3 rounded-full border border-white/20 text-white text-sm font-medium hover:border-white/40 hover:bg-white/5 transition-all duration-300"
+          >
+            <span>View Rewards</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </Link>
+          <Link
+            to="/waitlist"
+            className="text-sm text-white/40 hover:text-white/60 transition-colors"
+          >
+            Join Waitlist
+          </Link>
+        </motion.div>
+      </motion.div>
+    </section>
+  );
+};
+
+/* ============================================
+   SECTION 12: PEOPLEBANK
+   ============================================ */
+
+const PeopleBankSection = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+
+  return (
+    <section ref={containerRef} className="relative py-40 bg-black overflow-hidden">
+      {/* Subtle ambient glow */}
+      <div className="absolute inset-0">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-white/[0.01] blur-3xl" />
+      </div>
+
+      <motion.div className="relative z-10 max-w-5xl mx-auto px-6" style={{ opacity }}>
+        {/* Header */}
+        <div className="text-center mb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="flex items-center justify-center gap-3 mb-8"
+          >
+            <div className="h-px w-12 bg-gradient-to-r from-transparent to-white/20" />
+            <span className="text-[11px] uppercase tracking-[0.4em] text-white/30 font-light">
+              The Network
+            </span>
+            <div className="h-px w-12 bg-gradient-to-l from-transparent to-white/20" />
+          </motion.div>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-4xl md:text-6xl lg:text-7xl font-semibold text-white tracking-tight leading-[1.1] mb-6"
+          >
+            PeopleBank
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="text-lg md:text-xl text-white/40 max-w-2xl mx-auto leading-relaxed"
+          >
+            A decentralized, human-powered liquidity network. Provide liquidity. Route payments. Earn rewards.
+          </motion.p>
+        </div>
+
+        {/* Flow steps - minimal */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-4"
+        >
+          {[
+            "Join",
+            "Lock value",
+            "Route payments",
+            "Earn",
+          ].map((step, i) => (
+            <div key={step} className="flex items-center gap-4">
+              <div className="flex items-center gap-3">
+                <span className="text-[10px] uppercase tracking-[0.3em] text-white/20">{String(i + 1).padStart(2, '0')}</span>
+                <span className="text-sm text-white/60">{step}</span>
+              </div>
+              {i < 3 && (
+                <div className="hidden md:block w-12 h-px bg-white/10" />
+              )}
+            </div>
+          ))}
+        </motion.div>
+      </motion.div>
+    </section>
+  );
+};
+
+/* ============================================
+   SECTION 13: CTA
+   ============================================ */
+
+const CTASection = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.8, 1], [0, 1, 1, 0.8]);
+  const scale = useTransform(scrollYProgress, [0, 0.3], [0.95, 1]);
+  const glowY = useTransform(scrollYProgress, [0, 1], [100, -100]);
+
+  return (
+    <section ref={containerRef} className="relative py-48 bg-black overflow-hidden">
+      {/* Immersive orange glow background */}
+      <div className="absolute inset-0">
+        <motion.div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] rounded-full"
+          style={{
+            background: 'radial-gradient(ellipse, rgba(255,107,53,0.1) 0%, rgba(255,107,53,0.03) 40%, transparent 70%)',
+            y: glowY,
+          }}
+        />
+        <motion.div
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full"
+          style={{
+            background: 'radial-gradient(ellipse, rgba(255,107,53,0.08) 0%, transparent 60%)',
+          }}
+        />
+      </div>
+
+      {/* Animated particles */}
+      {[...Array(20)].map((_, i) => (
         <motion.div
           key={i}
-          className="absolute rounded-full bg-[#2BFF88]"
-          initial={{
-            x:
-              Math.random() *
-              (typeof window !== "undefined" ? window.innerWidth : 1000),
-            y:
-              Math.random() *
-              (typeof window !== "undefined" ? window.innerHeight : 1000),
-            opacity: 0,
-            scale: 0,
+          className="absolute w-1 h-1 rounded-full bg-[#ff6b35]"
+          style={{
+            left: `${10 + Math.random() * 80}%`,
+            top: `${10 + Math.random() * 80}%`,
           }}
           animate={{
-            y: [null, Math.random() * -200],
-            opacity: [0, 0.4, 0],
-            scale: [0, Math.random() * 3 + 1, 0],
+            y: [0, -40, 0],
+            opacity: [0.1, 0.5, 0.1],
+            scale: [1, 1.5, 1],
           }}
           transition={{
-            duration: Math.random() * 7 + 7,
+            duration: 4 + Math.random() * 3,
             repeat: Infinity,
-            ease: "linear",
-            delay: Math.random() * 7,
-          }}
-          style={{
-            width: Math.random() * 3 + 1 + "px",
-            height: Math.random() * 3 + 1 + "px",
-            filter: "blur(1px)",
+            delay: Math.random() * 3,
           }}
         />
       ))}
-      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(43,255,136,0.05),transparent_75%)]" />
-    </div>
-  );
-};
 
-const EarlyAdopterBanner = () => {
-  return (
-    <section className="relative overflow-hidden border-y border-white/5 bg-gradient-to-r from-[#040810] via-[#05030A] to-[#12040F]">
-      {/* background glows */}
-      <div className="pointer-events-none absolute inset-0 opacity-80">
-        <div className="absolute -left-24 top-1/2 h-64 w-64 -translate-y-1/2 rounded-full bg-[#00FF94]/18 blur-3xl" />
-        <div className="absolute right-[-40px] top-0 h-72 w-72 rounded-full bg-[#00C8FF]/18 blur-3xl" />
-        <div className="absolute bottom-[-60px] left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-[#FACC15]/10 blur-3xl" />
-      </div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-12 lg:py-16 grid lg:grid-cols-[1.1fr_minmax(0,1fr)] gap-10 items-center">
-        {/* Text block */}
-        <div className="text-center lg:text-left">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/40 border border-white/10 mb-4">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#00FF94] animate-pulse" />
-            <span className="text-[10px] font-mono tracking-[0.22em] uppercase text-gray-300">
-              EARLY ADOPTER PROGRAM
-            </span>
-          </div>
-
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-white tracking-tight mb-3">
-            Claim your <span className="text-[#00FF94]">$100 early drop</span>{" "}
-            when you join Blip.
-          </h2>
-
-          <p className="text-sm sm:text-base text-gray-300 max-w-xl mx-auto lg:mx-0">
-            Register, connect your wallet and complete your first transfer. We
-            reserve $100 worth of Blip Tokens for every verified early adopter.
-          </p>
-
-          <div className="mt-5 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start text-xs sm:text-sm text-gray-400">
-            <div className="inline-flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#00FF94]" />
-              New wallet registration
-            </div>
-            <div className="inline-flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#00FF94]" />
-              First successful Blip transfer
-            </div>
-            <div className="inline-flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#00FF94]" />
-              $100 drop unlocked
-            </div>
-          </div>
-        </div>
-
-        {/* Premium card */}
-        <div className="flex justify-center lg:justify-end">
-          <div className="relative w-full max-w-md">
-            {/* outer glow */}
-            <div className="absolute -inset-2 rounded-[32px] bg-gradient-to-br from-[#00FF94]/35 via-[#00C8FF]/25 to-[#FACC15]/25 blur-2xl opacity-80" />
-
-            <div className="relative rounded-[32px] bg-[radial-gradient(circle_at_top,_#071B13,_#05040B_55%,_#020308_100%)] border border-white/8 shadow-[0_28px_80px_rgba(0,0,0,0.9)] overflow-hidden">
-              {/* subtle inner highlight */}
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/4 via-transparent to-black/60" />
-
-              <div className="relative px-7 sm:px-8 pt-7 pb-6 space-y-6">
-                {/* top row */}
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <p className="text-[10px] font-mono tracking-[0.28em] uppercase text-gray-400">
-                      EARLY DROP BALANCE
-                    </p>
-                    <p className="mt-1 text-xs text-gray-400">
-                      Reserved for you once requirements are completed.
-                    </p>
-                  </div>
-
-                  <div className="w-10 h-10 rounded-2xl border border-[#00FF94]/50 bg-black/40 flex items-center justify-center text-[#00FF94] shadow-[0_0_18px_rgba(0,255,148,0.6)]">
-                    <Gem size={18} />
-                  </div>
-                </div>
-
-                {/* amount */}
-                <div className="flex items-baseline gap-3">
-                  <span className="text-4xl sm:text-5xl font-semibold text-[#00FF94] leading-none">
-                    $100
-                  </span>
-                  <div className="flex flex-col">
-                    <span className="text-sm text-gray-200">
-                      in Blip Tokens
-                    </span>
-                    <span className="text-[11px] text-gray-500">
-                      1x per user · limited supply
-                    </span>
-                  </div>
-                </div>
-
-                {/* progress bar style hint (fake) */}
-                <div className="space-y-2">
-                  <div className="flex justify-between text-[11px] text-gray-400 font-mono uppercase tracking-[0.16em]">
-                    <span>Allocation filled</span>
-                    <span className="text-[#00FF94]">72%</span>
-                  </div>
-                  <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
-                    <div className="h-full w-[72%] rounded-full bg-gradient-to-r from-[#00FF94] via-[#00C8FF] to-[#FACC15]" />
-                  </div>
-                </div>
-
-                {/* buttons */}
-                <div className="flex flex-col sm:flex-row gap-3 pt-1">
-                  <Link to="/rewards">
-                    <Button
-                      primary
-                      className="w-full sm:w-auto justify-center px-8 py-3 text-sm bg-[#00FF94] text-black hover:bg-[#0B9A4A]"
-                    >
-                      Become an Early Adopter
-                      <ArrowRight className="w-4 h-4" />
-                    </Button>
-                  </Link>
-                   <Link to="/rewards">
-                  <button className="w-full sm:w-auto px-8 py-3 rounded-full border border-white/25 text-xs sm:text-sm text-gray-100 hover:border-[#00FF94] hover:text-[#00FF94] bg-black/40 transition-all">
-                    View eligibility details
-                  </button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const PulseWave = () => {
-  return (
-    <div className="absolute top-1/2 left-0 w-full -translate-y-1/2 -z-10 pointer-events-none opacity-80 mix-blend-screen">
-      <svg
-        width="100%"
-        height="500"
-        viewBox="0 0 1440 500"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        preserveAspectRatio="none"
+      <motion.div
+        className="relative z-10 max-w-4xl mx-auto px-6 text-center"
+        style={{ opacity, scale }}
       >
-        <defs>
-          <linearGradient id="pulseGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#000000" stopOpacity="0" />
-            <stop offset="20%" stopColor="#2BFF88" stopOpacity="0.2" />
-            <stop offset="50%" stopColor="#2BFF88" stopOpacity="0.8" />
-            <stop offset="80%" stopColor="#2BFF88" stopOpacity="0.2" />
-            <stop offset="100%" stopColor="#000000" stopOpacity="0" />
-          </linearGradient>
-          <filter id="strongGlow">
-            <feGaussianBlur stdDeviation="25" result="coloredBlur" />
-            <feMerge>
-              <feMergeNode in="coloredBlur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-
-        <path
-          d="M-100,280 C300,200 400,50 720,280 C1040,400 1140,250 1540,280"
-          stroke="url(#pulseGradient)"
-          strokeWidth="1"
-          fill="none"
-          filter="url(#strongGlow)"
-          className="opacity-30"
+        <motion.h2
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          className="text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tight leading-[0.95] mb-8"
         >
-          <animate
-            attributeName="opacity"
-            values="0.3; 0.6; 0.3"
-            dur="6s"
-            repeatCount="indefinite"
-          />
-        </path>
-
-        <path
-          d="M-100,250 C300,250 400,100 720,250 C1040,400 1140,250 1540,250"
-          stroke="url(#pulseGradient)"
-          strokeWidth="10"
-          fill="none"
-          filter="url(#strongGlow)"
-          className="opacity-80"
-        />
-
-        <circle r="5" fill="white" filter="url(#strongGlow)">
-          <animateMotion
-            dur="4s"
-            repeatCount="indefinite"
-            path="M-100,250 C300,250 400,100 720,250 C1040,400 1140,250 1540,250"
-            keyPoints="0;1"
-            keyTimes="0;1"
-            calcMode="linear"
-          />
-          <animate
-            attributeName="opacity"
-            values="0; 1; 1; 0"
-            dur="4s"
-            repeatCount="indefinite"
-          />
-        </circle>
-
-        <circle
-          r="12"
-          stroke="#FFD43B"
-          strokeWidth="2"
-          fill="none"
-          opacity="0.8"
-        >
-          <animateMotion
-            dur="4s"
-            repeatCount="indefinite"
-            path="M-100,250 C300,250 400,100 720,250 C1040,400 1140,250 1540,250"
-            keyPoints="0;1"
-            keyTimes="0;1"
-            calcMode="linear"
-          />
-          <animate
-            attributeName="r"
-            values="8;18;8"
-            dur="1s"
-            repeatCount="indefinite"
-          />
-          <animate
-            attributeName="opacity"
-            values="0.5;1;0.5"
-            dur="1s"
-            repeatCount="indefinite"
-          />
-        </circle>
-
-        <circle cx="720" cy="250" r="0" fill="#FF8B1A" opacity="0.8">
-          <animate
-            attributeName="r"
-            values="0;60;0"
-            dur="4s"
-            begin="1.8s"
-            repeatCount="indefinite"
-          />
-          <animate
-            attributeName="opacity"
-            values="0;0.8;0"
-            dur="4s"
-            begin="1.8s"
-            repeatCount="indefinite"
-          />
-        </circle>
-      </svg>
-    </div>
-  );
-};
-
-const PhoneMockup = () => (
-  <div
-    className="
-      mt-20 md:mt-0 flex justify-center md:justify-end 
-      animate-[phoneFloat_6s_ease-in-out_infinite]
-    "
-    style={{ perspective: "1800px" }}
-  >
-    <div className="relative">
-      {/* NEON RIM LIGHT ON LEFT EDGE */}
-
-      {/* OUTER GLOW AURA */}
-
-      {/* PHONE + DEPTH SHADOWS */}
-      <div
-        className="
-          relative w-60 h-[455px] rounded-[2rem] overflow-hidden bg-[#020a06]
-          border border-white/5
-        "
-        style={{
-          boxShadow:
-            "0 40px 80px rgba(0,0,0,0.7), 0 0 80px rgba(0,255,148,0.35), 0 0 2px rgba(255,255,255,0.08)",
-        }}
-      >
-        {/* inner subtle border / bezel */}
-        <div className="absolute inset-[3px] rounded-[1.8rem] bg-black overflow-hidden">
-          <img
-            src="home.png"
-            alt="Blip.money app"
-            className="w-full h-full object-cover"
-          />
-        </div>
-      </div>
-
-      {/* SOFT REFLECTION BELOW (APPLE STYLE-ish) */}
-      {/* SOFT REFLECTION */}
-    </div>
-  </div>
-);
-
-// const ArchitectureNode = ({
-//   step,
-//   title,
-//   sub,
-//   icon: Icon,
-//   color,
-//   className = "",
-//   delay = 0,
-//   isMain = false,
-// }) => {
-//   const shadowStyle = {
-//     "--node-color": color,
-//     animationDelay: `${delay}ms`,
-//   };
-
-//   const ringClass = isMain
-//     ? `ring-4 ring-offset-4 ring-offset-[#080808] ring-[${color}]/30`
-//     : "ring-2 ring-gray-700/50";
-//   const bgColor = isMain ? "bg-[#0F0F0F]" : "bg-[#151515]";
-
-//   return (
-//     <div
-//       className={`p-6 w-56 rounded-2xl border border-white/10 flex flex-col items-center text-center transition-all duration-500 ease-out hover:shadow-lg ${bgColor} ${className}`}
-//       style={shadowStyle}
-//     >
-//       <div
-//         className={`p-3 rounded-full ${bgColor} border border-white/10 mb-4 ${ringClass}`}
-//       >
-//         <Icon size={28} style={{ color }} />
-//       </div>
-//       <p className="text-sm font-medium text-gray-400 uppercase mb-1">
-//         Step {step}
-//       </p>
-//       <h3 className="text-xl font-bold text-white mb-1">{title}</h3>
-//       <p className="text-xs text-gray-500">{sub}</p>
-//     </div>
-//   );
-// };
-
-// --- Main Application Component ---
-const LiquidityEngineDiagram = () => {
-  const gridBg = {
-    backgroundImage: `
-      radial-gradient(circle at 1px 1px, rgba(0,255,148,0.12) 1px, transparent 0),
-      radial-gradient(circle at 1px 1px, rgba(0,255,148,0.06) 1px, transparent 0)
-    `,
-    backgroundSize: "40px 40px, 40px 40px",
-    backgroundPosition: "0 0, 20px 20px",
-  };
-
-  return (
-    <div
-      data-animate-on-scroll
-      className="relative h-96 rounded-2xl border border-[#00FF94]/30 bg-[#050807] overflow-hidden shadow-[0_0_40px_rgba(0,255,148,0.15)]"
-      style={gridBg}
-    >
-      {/* local keyframes for spin */}
-      <style>
-        {`
-          @keyframes spinSlow {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-          }
-          @keyframes spinReverse {
-            from { transform: rotate(360deg); }
-            to { transform: rotate(0deg); }
-          }
-          @keyframes pulseCore {
-            0%, 100% { transform: scale(1); opacity: 0.9; }
-            50% { transform: scale(1.08); opacity: 1; }
-          }
-          @keyframes flowDot {
-            0% { offset-distance: 0%; opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { offset-distance: 100%; opacity: 0; }
-          }
-        `}
-      </style>
-
-      {/* subtle vignette */}
-      <div className="absolute inset-0 bg-gradient-to-br from-black via-transparent to-black opacity-80 pointer-events-none" />
-
-      {/* CENTRAL ENGINE */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="relative w-40 h-40">
-          {/* outer aura */}
-          <div className="absolute inset-[-40%] rounded-full bg-[#00FF94]/15 blur-3xl" />
-
-          {/* rotating outer ring */}
-          <div
-            className="absolute inset-[-14px] rounded-full border border-[#00FF94]/25"
-            style={{ animation: "spinSlow 26s linear infinite" }}
-          />
-
-          {/* second ring */}
-          <div
-            className="absolute inset-3 rounded-full border border-[#00FF94]/35 border-dashed"
-            style={{ animation: "spinReverse 18s linear infinite" }}
-          />
-
-          {/* inner glow disk */}
-          <div className="absolute inset-5 rounded-full bg-gradient-to-br from-[#02130b] via-[#041f11] to-[#000000] shadow-[0_0_40px_rgba(0,255,148,0.35)]" />
-
-          {/* core orb */}
-          <div
-            className="absolute inset-9 rounded-full bg-[#00FF94] flex items-center justify-center"
-            style={{ animation: "pulseCore 3.5s ease-in-out infinite" }}
+          <span className="text-white">The future</span>
+          <br />
+          <span
+            style={{
+              background: 'linear-gradient(135deg, #ff6b35 0%, #ff8c50 100%)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}
           >
-            <div className="absolute inset-[2px] rounded-full bg-black" />
-            <span className="relative text-[11px] text-center font-semibold tracking-[0.12em] text-[#00FF94]">
-              LIQUIDITY
-              <br />
-              ENGINE
-            </span>
-          </div>
-        </div>
-      </div>
+            is borderless.
+          </span>
+        </motion.h2>
 
-      {/* ORBIT LABELS */}
-      {/* USER WALLET (top) */}
-      <div className="absolute top-6 inset-x-0 flex justify-center">
-        <div className="px-4 py-1.5 rounded-full bg-black/70 border border-[#00FF94]/40 text-[11px] font-mono tracking-[0.16em] text-[#00FF94] uppercase">
-          User Wallets
-        </div>
-      </div>
-
-      {/* ESCROW (left) */}
-      <div className="absolute left-4 top-1/2 -translate-y-1/2">
-        <div className="px-3 py-1.5 rounded-full bg-black/80 border border-[#00FF94]/30 text-[10px] font-mono tracking-[0.14em] text-gray-200 uppercase">
-          Escrow
-          <span className="text-[#00FF94] ml-1">Contracts</span>
-        </div>
-      </div>
-
-      {/* ORDER MATCHING (right) */}
-      <div className="absolute right-4 top-1/2 -translate-y-1/2">
-        <div className="px-3 py-1.5 rounded-full bg-black/80 border border-[#00C8FF]/40 text-[10px] font-mono tracking-[0.14em] text-[#A7F5FF] uppercase">
-          Matching
-          <span className="ml-1 text-white/80">Engine</span>
-        </div>
-      </div>
-
-      {/* PAYOUT CHANNELS (bottom) */}
-      <div className="absolute bottom-6 inset-x-0 flex justify-center">
-        <div className="px-4 py-1.5 rounded-full bg-black/80 border border-white/30 text-[11px] font-mono tracking-[0.16em] text-white uppercase">
-          Fiat & Cash Payout Channels
-        </div>
-      </div>
-
-      {/* CONNECTION LINES (SVG) */}
-      <svg
-        className="absolute inset-0 w-full h-full pointer-events-none"
-        viewBox="0 0 100 100"
-        preserveAspectRatio="none"
-      >
-        <defs>
-          <linearGradient id="blipLine" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#00FF94" stopOpacity="0.1" />
-            <stop offset="50%" stopColor="#00FF94" stopOpacity="0.7" />
-            <stop offset="100%" stopColor="#00C8FF" stopOpacity="0.9" />
-          </linearGradient>
-        </defs>
-
-        {/* wallet → engine */}
-        <line
-          x1="50"
-          y1="18"
-          x2="50"
-          y2="40"
-          stroke="url(#blipLine)"
-          strokeWidth="0.7"
-          strokeLinecap="round"
-          strokeDasharray="1.2 2.4"
-        />
-
-        {/* escrow → engine */}
-        <line
-          x1="20"
-          y1="50"
-          x2="42"
-          y2="50"
-          stroke="url(#blipLine)"
-          strokeWidth="0.7"
-          strokeLinecap="round"
-          strokeDasharray="1.2 2.4"
-        />
-
-        {/* engine → matching */}
-        <line
-          x1="58"
-          y1="50"
-          x2="80"
-          y2="50"
-          stroke="url(#blipLine)"
-          strokeWidth="0.7"
-          strokeLinecap="round"
-          strokeDasharray="1.2 2.4"
-        />
-
-        {/* engine → payout */}
-        <line
-          x1="50"
-          y1="60"
-          x2="50"
-          y2="82"
-          stroke="url(#blipLine)"
-          strokeWidth="0.7"
-          strokeLinecap="round"
-          strokeDasharray="1.2 2.4"
-        />
-      </svg>
-    </div>
-  );
-};
-
-const styles = {
-  gridBackground: {
-    backgroundImage: `radial-gradient(circle, #333333 1px, transparent 1px), radial-gradient(circle, #333333 1px, transparent 1px)`,
-    backgroundSize: "40px 40px",
-    backgroundPosition: "0 0, 20px 20px",
-  },
-};
-
-const stylesPeopleBank = {
-  gridBackground: {
-    backgroundImage: `linear-gradient(to right, #00FF9422 1px, transparent 1px),
-                      linear-gradient(to bottom, #00FF9422 1px, transparent 1px)`,
-    backgroundSize: "20px 20px",
-  },
-}; 
-const FeatureStrip = () => {
-  return (
-    <section className="relative overflow-hidden border-y border-white/5 bg-gradient-to-r from-[#02151f] via-[#05030a] to-[#140313]">
-      {/* soft glows */}
-      <div className="pointer-events-none absolute inset-0 opacity-60">
-        <div className="absolute -left-24 top-1/2 h-48 w-48 -translate-y-1/2 rounded-full bg-[#00FF94]/20 blur-3xl" />
-        <div className="absolute right-0 top-0 h-56 w-56 rounded-full bg-[#00C8FF]/20 blur-3xl" />
-        <div className="absolute bottom-[-40px] left-1/2 h-52 w-52 -translate-x-1/2 rounded-full bg-[#C084FC]/18 blur-3xl" />
-      </div>
-
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-12 flex flex-col gap-8">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
-          <div className="text-center md:text-left">
-            <p className="text-[10px] font-mono tracking-[0.25em] uppercase text-gray-300 mb-2">
-              WHY BLIP FEELS DIFFERENT
-            </p>
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-white tracking-tight">
-              Built for crypto users.
-              <span className="text-[#00FF94]">Not for banks.</span>
-            </h2>
-          </div>
-
-          <div className="flex justify-center md:justify-end">
-            <div className="inline-flex items-center gap-3 px-3 py-2 rounded-full bg-black/40 border border-white/15 text-[11px] font-mono uppercase tracking-[0.18em] text-gray-300">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#00FF94] animate-pulse" />
-              LIVE P2P · NO CUSTODY · ON-CHAIN
-            </div>
-          </div>
-        </div>
-
-        {/* 3 feature columns */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-          {/* Fast & final */}
-          <div className="rounded-2xl bg-black/50 border border-white/10 p-5 sm:p-6 backdrop-blur">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-8 h-8 rounded-xl bg-[#00FF94]/10 flex items-center justify-center text-[#00FF94]">
-                <Zap size={18} />
-              </div>
-              <p className="text-xs font-mono tracking-[0.16em] uppercase text-gray-400">
-                Speed & Finality
-              </p>
-            </div>
-            <p className="text-sm sm:text-base text-gray-200">
-              Sub-second routing and settlement proofs on-chain. No “T+3.” No
-              bank hours.
-            </p>
-          </div>
-
-          {/* Private layer */}
-          <div className="rounded-2xl bg-black/50 border border-white/10 p-5 sm:p-6 backdrop-blur">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-8 h-8 rounded-xl bg-[#00C8FF]/10 flex items-center justify-center text-[#00C8FF]">
-                <ShieldCheck size={18} />
-              </div>
-              <p className="text-xs font-mono tracking-[0.16em] uppercase text-gray-400">
-                Privacy by default
-              </p>
-            </div>
-            <p className="text-sm sm:text-base text-gray-200">
-              Wallet-only transfers for small tickets. Your personal identity
-              stays off the wire.
-            </p>
-          </div>
-
-          {/* P2P liquidity */}
-          <div className="rounded-2xl bg-black/50 border border-white/10 p-5 sm:p-6 backdrop-blur">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-8 h-8 rounded-xl bg-[#C084FC]/15 flex items-center justify-center text-[#C084FC]">
-                <Layers size={18} />
-              </div>
-              <p className="text-xs font-mono tracking-[0.16em] uppercase text-gray-400">
-                PeopleBank Liquidity
-              </p>
-            </div>
-            <p className="text-sm sm:text-base text-gray-200">
-              Human nodes route value across borders and earn Blip Tokens for
-              every order they take.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const CashbackBanner = () => {
-  return (
-    <section className="relative overflow-hidden border-y border-white/5 bg-gradient-to-r from-[#041520] via-[#020c08] to-[#150418]">
-      {/* soft glows */}
-      <div className="pointer-events-none absolute inset-0 opacity-60">
-        <div className="absolute -left-32 top-1/2 h-64 w-64 -translate-y-1/2 rounded-full bg-[#00FF94]/20 blur-3xl" />
-        <div className="absolute right-0 top-0 h-64 w-64 rounded-full bg-[#00C8FF]/15 blur-3xl" />
-        <div className="absolute bottom-0 left-1/2 h-40 w-40 -translate-x-1/2 rounded-full bg-[#FFD43B]/10 blur-3xl" />
-      </div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10 flex flex-col md:flex-row gap-6 md:gap-10 items-center justify-between">
-        {/* Left copy */}
-        <div className="text-center md:text-left max-w-xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/40 border border-white/10 mb-3">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#00FF94] animate-pulse" />
-            <span className="text-[10px] font-mono tracking-[0.22em] uppercase text-gray-300">
-              LAUNCH REWARD · LIMITED TIME
-            </span>
-          </div>
-
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-white tracking-tight mb-2">
-            Get <span className="text-[#00FF94] font-bold">100% cashback</span>{" "}
-            on your transfer.
-          </h2>
-
-          <p className="text-sm sm:text-base text-gray-300">
-            Early Blip users earn boosted rewards on all successful payments. No
-            tiers, no games — just more value every time you move money.
-          </p>
-        </div>
-
-        {/* Right stats / CTA pill */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-          <div className="flex-1 sm:flex-none px-4 py-3 rounded-2xl bg-black/60 border border-[#00FF94]/30 min-w-[210px]">
-            <div className="flex items-center justify-between mb-1">
-              <span className="text-[11px] font-mono tracking-[0.18em] text-gray-400 uppercase">
-                Cashback Rate
-              </span>
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#00FF94]/10 text-[#00FF94] font-mono uppercase tracking-[0.18em]">
-                x2 launch
-              </span>
-            </div>
-            <div className="flex items-baseline gap-1">
-              <span className="text-3xl font-semibold text-[#00FF94]">5%</span>
-              <span className="text-xs text-gray-400">in Blip Tokens</span>
-            </div>
-          </div>
-
-          <Link to="/rewards" target="_blank" rel="noopener noreferrer">
-            <Button
-              primary
-              className="w-full sm:w-auto px-8 py-3 text-sm sm:text-base bg-[#00FF94] text-black hover:bg-[#0B9A4A]"
-            >
-              Learn more
-              <ArrowRight className="w-4 h-4" />
-            </Button>
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const Hero = () => (
-  <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 sm:pt-20">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center relative z-10">
-      {/* LEFT SIDE CONTENT */}
-      <div className="text-center lg:text-left pt-6 sm:pt-8 lg:pt-0">
-        <motion.div
+        <motion.p
           initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          className="text-lg text-white/40 max-w-md mx-auto mb-12"
         >
-          {/* SMALL BADGE */}
-          <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-[#FFD43B]/20 bg-[#FFD43B]/5 backdrop-blur-sm mb-6 hover:bg-[#FFD43B]/10 transition-colors cursor-default">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFD43B] opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FFD43B]"></span>
-            </span>
-            <span className="text-[10px] font-bold text-[#FFD43B] uppercase tracking-wider">
-              Private On-Chain Payments.
-            </span>
-          </div>
+          Join the waitlist and be among the first.
+        </motion.p>
 
-          {/* MAIN HEADING — YOUR ORIGINAL VERSION */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[0.95] mb-6 tracking-tight">
-            Pay with Crypto
-            <br />
-            Anyone, Anywhere —
-            <br />
-            <span className="text-[#2BFF88]">In a Blip.</span>
-          </h1>
-
-          {/* SUBTEXT */}
-          <p className="text-base sm:text-lg md:text-xl text-gray-400 mb-6 max-w-lg mx-auto lg:mx-0 leading-relaxed font-light">
-            Instant global transfers powered by the decentralized{" "}
-            <span className="text-white font-medium">Blip Protocol</span>.
-            Crypto native. P2P. Non-custodial.
-          </p>
-
-          {/* FEATURE PILLS */}
-          <div className="flex flex-wrap gap-3 mt-6 max-w-md lg:max-w-lg mx-auto lg:mx-0">
-            <div className="px-4 py-2 rounded-full bg-black/40 border border-white/10 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#2BFF88]"></span>
-              <span className="text-sm text-gray-300">
-                Send to local bank accounts
-              </span>
-            </div>
-
-            <div className="px-4 py-2 rounded-full bg-black/40 border border-white/10 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#2BFF88]"></span>
-              <span className="text-sm text-gray-300">
-                Cash out to physical cash
-              </span>
-            </div>
-
-            <div className="px-4 py-2 rounded-full bg-black/40 border border-white/10 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#2BFF88]"></span>
-              <span className="text-sm text-gray-300">
-                Pay merchants instantly
-              </span>
-            </div>
-
-            <div className="px-4 py-2 rounded-full bg-black/40 border border-white/10 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#2BFF88]"></span>
-              <span className="text-sm text-gray-300">
-                Cross-border P2P settlements
-              </span>
-            </div>
-          </div>
-
-          {/* CTA BUTTONS */}
-          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mt-8 justify-center lg:justify-start">
-            <Link to="/coming-soon">
-              <button className="w-full sm:w-auto px-8 py-4 rounded-full border border-white/20 text-white font-medium hover:bg-white/5 hover:border-white/40 transition-all flex items-center justify-center gap-2">
-                Coming Soon
-              </button>
-            </Link>
-
-            <a
-              href="/whitepaper.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto px-8 py-4 rounded-full bg-[#2BFF88] text-black font-bold text-lg hover:shadow-[0_0_40px_rgba(43,255,136,0.4)] hover:scale-105 transition-all flex items-center justify-center gap-2 group"
-            >
-              <div className="w-6 h-6 rounded-full border border-white/30 flex items-center justify-center">
-                <div className="w-0 h-0 border-t-[3px] border-t-transparent border-l-[6px] border-l-white border-b-[3px] border-b-transparent ml-0.5"></div>
-              </div>
-              Read Whitepaper
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </a>
-          </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <Link
+            to="/waitlist"
+            className="group inline-flex items-center gap-3 px-10 py-5 rounded-full bg-[#ff6b35] text-black text-base font-semibold hover:bg-[#ff8c50] hover:shadow-[0_0_60px_rgba(255,107,53,0.5)] transition-all duration-300"
+          >
+            <span>Join Waitlist</span>
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          </Link>
         </motion.div>
-      </div>
+      </motion.div>
+    </section>
+  );
+};
 
-      {/* RIGHT SIDE — PHONE */}
-      <div
-        className="
-  flex justify-center items-center relative 
-  translate-x-4 md:translate-x-8 
-  scale-[1.25] md:scale-[1.35] lg:scale-[1.4] xl:scale-[1.45] 
-  origin-center
-"
-      >
-        <div className="absolute inset-0 bg-gradient-to-tr from-[#2BFF88]/15 to-transparent blur-3xl rounded-full" />
-        <PhoneMockup />
-      </div>
-    </div>
-  </section>
-);
-
-const CinematicCard = ({ title, subtitle, icon: Icon, delay, active }) => (
-  <div
-    className={`
-      relative group h-60 overflow-hidden rounded-2xl bg-[#080808] border transition-all duration-500 flex flex-col justify-between p-8
-      ${
-        active
-          ? "border-[#00FF94] shadow-[0_0_30px_rgba(0,255,148,0.15)]"
-          : "border-white/5 hover:border-[#00FF94] hover:shadow-[0_0_30px_rgba(0,255,148,0.15)]"
-      }
-    `}
-    style={{ animationDelay: `${delay}ms` }}
-  >
-    {/* Background Glow */}
-    <div
-      className={`absolute inset-0 bg-gradient-to-br from-[#00FF94]/5 via-transparent to-transparent opacity-0 transition-opacity duration-500 ${
-        active ? "opacity-100" : "group-hover:opacity-100"
-      }`}
-    />
-
-    {/* Top Row: Icon and Badge */}
-    <div className="relative z-10 flex justify-between items-start">
-      <div
-        className={`
-        w-12 h-12 rounded-xl bg-[#111] border flex items-center justify-center transition-all duration-300
-        ${
-          active
-            ? "text-[#00FF94] border-[#00FF94] shadow-[0_0_15px_rgba(0,255,148,0.3)]"
-            : "text-white border-white/10 group-hover:text-[#00FF94] group-hover:border-[#00FF94] group-hover:shadow-[0_0_15px_rgba(0,255,148,0.3)]"
-        }
-      `}
-      >
-        <Icon size={20} />
-      </div>
-
-      <div
-        className={`
-        px-3 py-1 rounded bg-[#00FF94]/10 border border-[#00FF94]/30 text-[#00FF94] text-[10px] font-mono font-bold tracking-widest uppercase transition-opacity duration-300
-        ${active ? "opacity-100" : "opacity-0 group-hover:opacity-100"}
-      `}
-      >
-        Settlement: 40ms
-      </div>
-    </div>
-
-    {/* Bottom Row: Content */}
-    <div className="relative z-10">
-      <h3 className="text-2xl font-bold text-white mb-3 group-hover:translate-x-1 transition-transform duration-300">
-        {title}
-      </h3>
-
-      <div className="flex items-center gap-3 mb-4">
-        <div
-          className={`h-[1px] w-6 transition-colors duration-300 ${
-            active ? "bg-[#00FF94]" : "bg-gray-600 group-hover:bg-[#00FF94]"
-          }`}
-        />
-        <span
-          className={`text-xs font-mono font-bold uppercase tracking-widest transition-colors duration-300 ${
-            active
-              ? "text-[#00FF94]"
-              : "text-gray-500 group-hover:text-[#00FF94]"
-          }`}
-        >
-          {subtitle}
-        </span>
-      </div>
-
-      <p className="text-sm text-gray-500 font-light leading-relaxed">
-        You pay in digital value.
-        <br />
-        They receive instantly.
-      </p>
-    </div>
-  </div>
-);
-
-const INITIAL_NODES = Array.from({ length: 30 }).map(() => ({
-  top: `${Math.random() * 80 + 10}%`,
-  left: `${Math.random() * 80 + 10}%`,
-  animationDuration: `${Math.random() * 2 + 1}s`,
-  animationDelay: `-${Math.random() * 2}s`,
-}));
+/* ============================================
+   MAIN INDEX PAGE
+   ============================================ */
 
 const Index = () => {
-  const { t } = useTranslation();
-  // Initialize scroll active hook
-  useScrollActive("hero");
-  const [nodes, setNodes] = useState(INITIAL_NODES);
-
-  const pathPositions = [15, 32, 50, 68, 85];
-  const navigate = useNavigate();
-  // Optional: Add a subtle movement to the nodes over time for more dynamism
   useEffect(() => {
-    const interval = setInterval(() => {
-      setNodes((prevNodes) =>
-        prevNodes.map((node) => ({
-          ...node,
-          // Apply small random shift
-          top: `${Math.min(
-            90,
-            Math.max(10, parseFloat(node.top) + (Math.random() - 0.5) * 0.5)
-          )}%`,
-          left: `${Math.min(
-            90,
-            Math.max(10, parseFloat(node.left) + (Math.random() - 0.5) * 0.5)
-          )}%`,
-        }))
-      );
-    }, 3000); // Shift every 3 seconds
-
-    return () => clearInterval(interval);
+    window.scrollTo(0, 0);
   }, []);
 
-   useEffect(() => {
-      scrollTo(0, 0);
-    }, []);
-
   return (
-     <>
-
-     <SEO
-  title="Blip Money - Fast, Secure, and Simple Payment Solutions"
-  description="Pay with Crypto — Anyone, Anywhere.
-Blip money is the non-custodial settlement protocol for cash, wire, and crypto transfers without KYC, secured by DAO escrow."
-  canonical="https://blip.money/"
-/>
-
-    <div
-      className="min-h-screen   bg-black text-white font-sans selection:bg-[#2BFF88] selection:text-black overflow-x-hidden overflow-y-hidden scrollbar-hide"
-      style={{ scrollbarWidth: "none", scrollBehavior: "smooth" }}
-    >
-      <Hero />
-      {/* UAE ANNOUNCEMENT SECTION */}
-      {/* UAE ANNOUNCEMENT SECTION */}
-      <section className="w-full py-14 bg-black relative border-t border-white/5">
-        <div className="max-w-6xl mx-auto px-6 flex flex-col items-center text-center">
-          {/* UAE FLAG STRIP */}
-          <div className="flex items-center mb-5 opacity-90">
-            <div className="w-5 h-6 bg-[#D91A20] rounded-l-sm" />
-            <div className="w-5 h-6 bg-white" />
-            <div className="w-5 h-6 bg-[#00732F]" />
-            <div className="w-5 h-6 bg-black rounded-r-sm border border-white/10" />
-          </div>
-
-          {/* TITLE */}
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white mb-3 animate-fadeIn">
-            We’re coming to the{" "}
-            <span className="text-[#2BFF88]">United Arab Emirates.</span>
-          </h2>
-
-          {/* SUBTEXT */}
-          <p className="text-gray-400 max-w-xl text-sm sm:text-base mb-6">
-            Blip.money will launch its next real-world settlement corridor in
-            the UAE. Fast, private, crypto-native payments built for a global
-            hub.
-          </p>
-
-          {/* CTA BUTTON */}
-        </div>
-
-        {/* Glow */}
-        <div className="absolute inset-0 -z-10 opacity-20 bg-gradient-to-b from-[#2BFF88]/10 to-transparent blur-[80px]" />
-
-        {/* Animation */}
-        <style>{`
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fadeIn {
-      animation: fadeIn 0.6s ease-out forwards;
-    }
-  `}</style>
-      </section>
-
-      <CashbackBanner />
-
-      <SocialSidebar />
-
-      {/* <!-- 2. THE PROBLEM SECTION (Scroll-Reveal Timeline) -->
-        <!-- -------------------------------------- --> */}
-      <section id="the-problem" className="py-40 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center mb-24">
-          <SectionLabel
-            text="Global
-Payments"
-            className={"items-center justify-center"}
-          />
-          <h2 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-5xl font-bold mb-8 mint-gradient-text tracking-tight text-center">
-            The Problem: Why Global Payments
-            <br />
-            Are Broken Today
-          </h2>
-        </div>
-
-        <div className="relative max-w-2xl mx-auto">
-          <div className="timeline-line"></div>
-
-          <div className="space-y-30">
-            <div className="relative flex justify-start items-center group">
-              <div className="w-1/2 pr-16 text-right opacity-100 transition-all duration-500">
-                <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold tracking-tight text-white mb-3 relative inline-block">
-                  High Fees.
-                  <span className="absolute left-0 right-0 bottom-[-5px] h-[2px] bg-mint-gradient-bg opacity-30 group-hover:opacity-100 transition-opacity duration-300"></span>
-                </h3>
-                <p className="text-lg text-gray-400">
-                  Traditional banking and legacy systems impose excessive,
-                  hidden costs on cross-border transactions.
-                </p>
-              </div>
-              <div className="w-14 h-14 rounded-full bg-black border-2 border-mint-gradient-bg neon-glow-md absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-10 flex items-center justify-center">
-                <span className="text-sm font-bold text-mint-secondary">I</span>
-              </div>
-            </div>
-
-            <div className="relative flex justify-end items-center group">
-              <div className="w-1/2 pl-16 text-left opacity-100 transition-all duration-500">
-                <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold tracking-tight text-white mb-3 relative inline-block">
-                  Slow Settlement Times.
-                  <span className="absolute left-0 right-0 bottom-[-5px] h-[2px] bg-mint-gradient-bg opacity-30 group-hover:opacity-100 transition-opacity duration-300"></span>
-                </h3>
-                <p className="text-lg text-gray-400">
-                  Settlements often take days, crippling cash flow for
-                  businesses and individuals.
-                </p>
-              </div>
-              <div className="w-14 h-14 rounded-full bg-black border-2 border-mint-gradient-bg neon-glow-md absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-10 flex items-center justify-center">
-                <span className="text-sm font-bold text-mint-secondary">
-                  II
-                </span>
-              </div>
-            </div>
-
-            <div className="relative flex justify-start items-center group">
-              <div className="w-1/2 pr-16 text-right opacity-100 transition-all duration-500">
-                <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold tracking-tight text-white mb-3 relative inline-block">
-                  Lack of Privacy.
-                  <span className="absolute left-0 right-0 bottom-[-5px] h-[2px] bg-mint-gradient-bg opacity-30 group-hover:opacity-100 transition-opacity duration-300"></span>
-                </h3>
-                <p className="text-lg text-gray-400">
-                  Every transaction exposes sensitive data to multiple, often
-                  untrustworthy, intermediaries.
-                </p>
-              </div>
-              <div className="w-14 h-14 rounded-full bg-black border-2 border-mint-gradient-bg neon-glow-md absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-10 flex items-center justify-center">
-                <span className="text-sm font-bold text-mint-secondary">
-                  III
-                </span>
-              </div>
-            </div>
-
-            <div className="relative flex justify-end items-center group">
-              <div className="w-1/2 pl-16 text-left opacity-100 transition-all duration-500">
-                <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold tracking-tight text-white mb-3 relative inline-block">
-                  Opaque Intermediaries.
-                  <span className="absolute left-0 right-0 bottom-[-5px] h-[2px] bg-mint-gradient-bg opacity-30 group-hover:opacity-100 transition-opacity duration-300"></span>
-                </h3>
-                <p className="text-lg text-gray-400">
-                  The current system is controlled by centralized entities
-                  lacking transparent accountability.
-                </p>
-              </div>
-              <div className="w-14 h-14 rounded-full bg-black border-2 border-mint-gradient-bg neon-glow-md absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-10 flex items-center justify-center">
-                <span className="text-sm font-bold text-mint-secondary">
-                  IV
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      {/*
-    
-        <!-- 3. THE PROTOCOL SECTION (Cinematic Diagram) -->
-        <!-- -------------------------------------- --> */}
-      <section id="protocol" className="py-40 overflow-hidden bg-[#000000]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-          {/* Text Block (Left) */}
-          <div className="lg:sticky lg:top-1/4">
-            <SectionLabel
-              text="The Global Settlement Layer"
-              className={"items-center justify-start"}
-            />
-            <h2 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-8 mint-gradient-text tracking-tight text-left">
-              Blip Protocol: The Global Settlement Layer
-            </h2>
-            <p className="text-lg text-gray-400">
-              Blip is a decentralized, open-source protocol built for instant,
-              low-cost global value transfer, leveraging Zero-Knowledge proofs
-              for privacy and Solana&apos;s speed for scalability. It&apos;s the
-              new financial infrastructure the world needs.
-            </p>
-            <a
-              href="/whitepaper.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block bg-black/80 backdrop-blur border border-[#00FF94]/30 text-white hover:text-[#00FF94] px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider my-4 hover:shadow-[0_0_1px_#00FF94] transition-all duration-300"
-            >
-              Explore Whitepaper
-            </a>
-          </div>
-
-          {/* Protocol Diagram — Liquidity Engine */}
-          <LiquidityEngineDiagram />
-        </div>
-      </section>
-      <FeatureStrip />
-
-      {/* <!-- SECTION 3: HOW IT WORKS (3 STEPS - STRIPE VIBE) --> */}
-      <section
-        id="how-it-works"
-        className="py-32 border-t border-gray-900 bg-black"
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <SectionLabel
-            text="Real-World Value"
-            className="items-center justify-center"
-          />
-
-          <h2
-            data-animate-on-scroll
-            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-6 mint-gradient-text tracking-tight text-center"
-          >
-            How Blip Works
-            <span className="block text-base md:text-lg font-normal text-gray-400 mt-3">
-              One on-chain flow. Three simple steps.
-            </span>
-          </h2>
-
-          {/* STEP STRIP */}
-          <div className="mt-12 relative">
-            {/* glowing line behind steps */}
-            <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00FF94]/50 to-transparent pointer-events-none" />
-
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative z-10">
-              {/* STEP 1 */}
-              <div
-                data-animate-on-scroll
-                className="relative rounded-2xl bg-[#050505] border border-white/5 hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.25)] transition-all duration-500 p-8"
-              >
-                {/* step badge */}
-                <div className="absolute -top-5 left-6 w-10 h-10 rounded-full bg-black border border-[#00FF94]/60 flex items-center justify-center shadow-[0_0_20px_rgba(0,255,148,0.5)]">
-                  <span className="text-xs font-mono tracking-[0.2em] text-[#00FF94]">
-                    01
-                  </span>
-                </div>
-
-                <h3 className="text-xl md:text-2xl font-semibold mb-3 text-white flex items-center gap-2">
-                  <span className="text-2xl text-[#00FF94]">⌲</span>
-                  Create a payment from your wallet.
-                </h3>
-                <p className="text-sm md:text-base text-gray-400 mb-3">
-                  Choose how they receive:{" "}
-                  <span className="text-gray-200">
-                    local bank, wire, cash pickup, or goods.
-                  </span>
-                </p>
-                <p className="text-xs md:text-sm text-gray-500">
-                  The crypto is locked into an on-chain escrow contract, ready
-                  to be matched.
-                </p>
-              </div>
-
-              {/* STEP 2 */}
-              <div
-                data-animate-on-scroll
-                className="relative rounded-2xl bg-[#050505] border border-white/5 hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.25)] transition-all duration-500 p-8"
-              >
-                <div className="absolute -top-5 left-6 w-10 h-10 rounded-full bg-black border border-[#00FF94]/60 flex items-center justify-center shadow-[0_0_20px_rgba(0,255,148,0.5)]">
-                  <span className="text-xs font-mono tracking-[0.2em] text-[#00FF94]">
-                    02
-                  </span>
-                </div>
-
-                <h3 className="text-xl md:text-2xl font-semibold mb-3 text-white flex items-center gap-2">
-                  <span className="text-2xl text-[#00FF94]">🤝</span>
-                  Merchants compete to fulfill it.
-                </h3>
-                <p className="text-sm md:text-base text-gray-400 mb-3">
-                  The{" "}
-                  <span className="text-gray-200">Blip Merchant Network</span>{" "}
-                  bids to take your order, routing it through the best available
-                  liquidity.
-                </p>
-                <p className="text-xs md:text-sm text-gray-500">
-                  Matching, pricing and routing all happen on-chain via the Blip
-                  Protocol.
-                </p>
-              </div>
-
-              {/* STEP 3 */}
-              <div
-                data-animate-on-scroll
-                className="relative rounded-2xl bg-[#050505] border border-white/5 hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.25)] transition-all duration-500 p-8"
-              >
-                <div className="absolute -top-5 left-6 w-10 h-10 rounded-full bg-black border border-[#00FF94]/60 flex items-center justify-center shadow-[0_0_20px_rgba(0,255,148,0.5)]">
-                  <span className="text-xs font-mono tracking-[0.2em] text-[#00FF94]">
-                    03
-                  </span>
-                </div>
-
-                <h3 className="text-xl md:text-2xl font-semibold mb-3 text-white flex items-center gap-2">
-                  <span className="text-2xl text-[#00FF94]">✓</span>
-                  Receiver gets real-world value.
-                </h3>
-                <p className="text-sm md:text-base text-gray-400 mb-3">
-                  They receive{" "}
-                  <span className="text-gray-200">
-                    bank funds, cash, or goods in minutes
-                  </span>{" "}
-                  while you stay fully crypto-native.
-                </p>
-                <p className="text-xs md:text-sm text-gray-500">
-                  Settlement proof hits chain, escrow releases, and the transfer
-                  is finalized forever.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* --- SECTION 4: REAL WORLD USAGE --- */}
-
-      {/* <RealWorldUsageSection /> */}
-
-      {/* <!-- SECTION 7: PRIVACY & TRUST (TWO-COLUMN MINIMAL) --> */}
-      <section className="py-32 border-t border-gray-900 bg-black">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <SectionLabel
-            text="Privacy by Design"
-            className="items-center justify-center"
-          />
-
-          <h2
-            data-animate-on-scroll
-            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-10 mint-gradient-text tracking-tight text-center"
-          >
-            Privacy by Design. <span className="block">Trust by Protocol.</span>
-          </h2>
-
-          {/* big split card */}
-          <div
-            data-animate-on-scroll
-            className="relative rounded-3xl bg-[#050505] border border-[#00FF94]/30 shadow-[0_0_60px_rgba(0,255,148,0.15)] overflow-hidden"
-          >
-            {/* faint grid background */}
-            <div
-              className="absolute inset-0 opacity-20 pointer-events-none"
-              style={{
-                backgroundImage:
-                  "linear-gradient(to right, #00FF9422 1px, transparent 1px), linear-gradient(to bottom, #00FF9422 1px, transparent 1px)",
-                backgroundSize: "28px 28px",
-              }}
-            />
-
-            <div className="relative grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-[#00FF94]/10">
-              {/* LEFT: PRIVACY */}
-              <div className="p-8 sm:p-10 lg:p-12">
-                <p className="text-xs font-mono tracking-[0.25em] text-[#00FF94] uppercase mb-3">
-                  PRIVACY LAYER
-                </p>
-                <h3 className="text-2xl md:text-3xl font-semibold text-white mb-6">
-                  Use Blip with your wallet.
-                  <br />
-                  Not your identity.
-                </h3>
-
-                <ul className="space-y-4 text-sm md:text-base text-gray-300">
-                  <li className="flex items-start gap-3">
-                    <span className="mt-1 h-2 w-2 rounded-full bg-[#00FF94] shadow-[0_0_10px_rgba(0,255,148,0.8)]" />
-                    <span>
-                      Wallet-based identity:{" "}
-                      <span className="text-white">
-                        your address is your ID, decoupled from personal data.
-                      </span>
-                    </span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="mt-1 h-2 w-2 rounded-full bg-[#00FF94]" />
-                    <span>
-                      No personal info required for small transfers, keeping
-                      everyday payments private.
-                    </span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="mt-1 h-2 w-2 rounded-full bg-[#00FF94]" />
-                    <span>
-                      End-to-end private transaction construction with encrypted
-                      order data.
-                    </span>
-                  </li>
-                </ul>
-              </div>
-
-              {/* RIGHT: TRUST */}
-              <div className="p-8 sm:p-10 lg:p-12 bg-gradient-to-br from-[#00FF9410] via-transparent to-black">
-                <p className="text-xs font-mono tracking-[0.25em] text-[#00FF94] uppercase mb-3">
-                  ON-CHAIN TRUST
-                </p>
-                <h3 className="text-2xl md:text-3xl font-semibold text-white mb-6">
-                  Everything verifiable.
-                  <br />
-                  Nothing custodial.
-                </h3>
-
-                <ul className="space-y-4 text-sm md:text-base text-gray-300">
-                  <li className="flex items-start gap-3">
-                    <span className="mt-0.5 text-[#00FF94] text-xl">✓</span>
-                    <span>
-                      Orders, matching and settlement events are{" "}
-                      <span className="text-white">recorded on-chain</span> for
-                      anyone to verify.
-                    </span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="mt-0.5 text-[#00FF94] text-xl">✓</span>
-                    <span>
-                      Settlement proofs guarantee that{" "}
-                      <span className="text-white">
-                        real-world payout actually happened
-                      </span>{" "}
-                      before funds are released.
-                    </span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="mt-0.5 text-[#00FF94] text-xl">✓</span>
-                    <span>
-                      Immutable audit trail of every transfer, dispute and
-                      merchant action across the network.
-                    </span>
-                  </li>
-                </ul>
-
-                <div className="mt-8 inline-flex items-center gap-2 rounded-full border border-[#00FF94]/40 bg-black/40 px-4 py-2 text-xs font-mono uppercase tracking-[0.18em] text-gray-300">
-                  <span className="h-2 w-2 rounded-full bg-[#00FF94] animate-pulse" />
-                  Protocol, not promises.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <EarlyAdopterBanner />
-
-      {/* --- SECTION 5: MERCHANTS --- */}
-      <section
-        id="merchants"
-        className="py-16 sm:py-24 md:py-32 bg-[#050505] overflow-hidden"
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-10 sm:gap-16 lg:gap-20 items-center">
-          <ScrollReveal delay={0} className="order-2 lg:order-1">
-            <div className="bg-[#080808] rounded-xl border border-white/10 shadow-2xl relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-[#00FF94] to-blue-600 rounded-xl opacity-20 blur-lg group-hover:opacity-30 transition-opacity" />
-              <div className="relative bg-[#0A0A0A] rounded-xl overflow-hidden p-1">
-                <div className="bg-[#111] px-4 py-3 border-b border-white/5 flex justify-between items-center">
-                  <div className="text-xs font-mono text-gray-500">
-                    BLIP MERCHANT TERMINAL
-                  </div>
-                  <div className="flex gap-2">
-                    <div className="w-2 h-2 rounded-full bg-red-500/50" />
-                    <div className="w-2 h-2 rounded-full bg-yellow-500/50" />
-                    <div className="w-2 h-2 rounded-full bg-green-500/50" />
-                  </div>
-                </div>
-                <div className="p-6">
-                  <div className="grid grid-cols-2 gap-4 mb-8">
-                    <div className="p-4 bg-[#111] rounded border border-white/5">
-                      <div className="text-[10px] text-gray-500 uppercase mb-1">
-                        Total Volume (24h)
-                      </div>
-                      <div className="text-xl font-mono text-white">
-                        $42,921.50
-                      </div>
-                    </div>
-                    <div className="p-4 bg-[#00FF94]/5 rounded border border-[#00FF94]/20">
-                      <div className="text-[10px] text-[#00FF94] uppercase mb-1">
-                        Rewards Earned
-                      </div>
-                      <div className="text-xl font-mono text-[#00FF94]">
-                        +2.5%
-                      </div>
-                    </div>
-                  </div>
-                  <div className="h-32 flex items-end justify-between gap-1 mb-6 px-1">
-                    {[30, 45, 35, 60, 50, 75, 65, 90, 80, 55, 70, 40].map(
-                      (h, i) => (
-                        <div
-                          key={i}
-                          className="w-full bg-[#1A1A1A] hover:bg-[#00FF94] transition-colors rounded-t-sm"
-                          style={{ height: `${h}%` }}
-                        />
-                      )
-                    )}
-                  </div>
-                  <div className="text-xs font-mono text-gray-600 border-t border-white/5 pt-4 flex justify-between">
-                    <span>NETWORK RATING</span>
-                    <span className="text-white">TIER 1 (TRUSTED)</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </ScrollReveal>
-          <ScrollReveal delay={0.2} className="order-1 lg:order-2">
-            <SectionLabel text="Merchants" />
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 tracking-tight">
-              Accept crypto.
-              <br />
-              Receive value instantly.
-              <br />
-              No risk.
-            </h2>
-            <p className="text-xl text-gray-400 mb-8">
-              You don't need crypto knowledge — payments settle instantly into
-              stable value.
-            </p>
-            <div className="flex items-center gap-4 p-4 border border-[#00FF94]/30 bg-[#00FF94]/5 rounded-lg mb-8">
-              <Gem className="text-[#00FF94]" />
-              <span className="text-[#00FF94] font-bold">
-                Earn up to 2.5% in Blip Tokens on every transaction.
-              </span>
-            </div>
-            {/* <Button>Create Business Account</Button> */}
-          </ScrollReveal>
-        </div>
-      </section>
-
-      {/* --- SECTION 6: PREMIUM REWARDS --- */}
-      <section className="py-16 sm:py-24 md:py-32 lg:py-40 relative bg-[#020202] overflow-hidden">
-        <div className="absolute inset-0 bg-radial-gradient from-[#00FF94]/5 to-transparent opacity-50" />
-        <div
-          style={styles.gridBackground}
-          className="absolute inset-0 opacity-20 pointer-events-none"
-        />
-
-        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center gap-10 sm:gap-16 lg:gap-20">
-          {/* LEFT SIDE — TEXT */}
-          <div className="flex-1 text-left">
-            <SectionLabel text="Incentives & Early Access" />
-
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-8 text-white tracking-tight">
-              Get rewarded every <br /> time you spend.
-            </h2>
-
-            <p className="text-xl text-gray-400 mb-10 max-w-lg">
-              Earn up to 2.5% in Blip Tokens on every payment — plus early
-              supporter airdrops.
-            </p>
-
-            <div className="flex flex-col gap-4 max-w-xs">
-              <Link to="/rewards">
-                <button className="w-full bg-black/80 backdrop-blur border border-[#00FF94]/30 text-[#00FF94] px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-[#00FF94] hover:text-black hover:shadow-[0_0_30px_#00FF94] transition-all duration-300">
-                  Join Early Supporters
-                </button>
-              </Link>
-
-              <Link to="/waitlist">
-                <button className="w-full bg-black/80 backdrop-blur border border-white/20 text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:border-[#00FF94] hover:text-[#00FF94] transition-all duration-300">
-                  Join the Waitlist
-                </button>
-              </Link>
-
-              <Link to="/waitlist">
-                <button className="w-full bg-black/80 backdrop-blur border border-white/20 text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider hover:border-[#00FF94] hover:text-[#00FF94] transition-all duration-300">
-                  Get Airdrop Access
-                </button>
-              </Link>
-            </div>
-          </div>
-
-          {/* RIGHT SIDE — IMAGE / ANIMATION */}
-          <div className="flex-1 relative w-[450px] h-[450px] hidden md:block">
-            <div className="absolute inset-0 w-full h-full rounded-full border border-dashed border-[#00FF94]/10 animate-[spin_60s_linear_infinite]" />
-
-            <div className="absolute inset-0 w-[300px] h-[300px] m-auto rounded-full border border-[#00FF94]/20 animate-[spin_40s_linear_infinite_reverse]" />
-
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="relative w-40 h-40 group cursor-pointer">
-                <div className="absolute inset-0 bg-[#00FF94] rounded-full blur-[80px] opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-
-                <div className="w-full h-full rounded-full bg-gradient-to-br from-[#111] to-black border-[6px] border-[#0A0A0A] flex items-center justify-center relative shadow-[0_0_60px_rgba(0,255,148,0.3)] animate-[spin_10s_linear_infinite]">
-                  <div className="absolute inset-1 rounded-full border border-[#00FF94]/40" />
-                  <div className="absolute inset-3 rounded-full border border-dashed border-[#00FF94]/20" />
-                  <span className="text-6xl font-black text-[#00FF94] italic">
-                    B
-                  </span>
-                </div>
-
-                <div className="absolute -inset-1 rounded-full border border-[#00FF94]/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
-              </div>
-
-              <div className="absolute bottom-[-50px] text-xs font-mono text-[#00FF94] uppercase tracking-widest opacity-80">
-                Early users earn higher rewards
-              </div>
-            </div>
-
-            {/* Floating Buttons */}
-            {/* <div className="absolute inset-0 animate-[orbit_30s_linear_infinite]">
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-6 animate-[counterOrbit_30s_linear_infinite]">
-                <button className="bg-black/80 backdrop-blur border border-[#00FF94]/30 text-[#00FF94] px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-[#00FF94] hover:text-black transition-all duration-300">
-                  Join Early Supporters
-                </button>
-              </div>
-
-              <div className="absolute bottom-[15%] right-[10%] animate-[counterOrbit_30s_linear_infinite]">
-                <button className="bg-black/80 backdrop-blur border border-white/20 text-white px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider hover:border-[#00FF94] hover:text-[#00FF94] transition-all duration-300">
-                  Join the Waitlist
-                </button>
-              </div>
-
-              <div className="absolute bottom-[15%] left-[10%] animate-[counterOrbit_30s_linear_infinite]">
-                <button className="bg-black/80 backdrop-blur border border-white/20 text-white px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider hover:border-[#00FF94] hover:text-[#00FF94] transition-all duration-300">
-                  Get Airdrop Access
-                </button>
-              </div>
-            </div> */}
-          </div>
-        </div>
-      </section>
-
-      {/* --- SECTION 7: PEOPLEBANK --- */}
-      <>
-        {" "}
-        <style>
-          {`
-          @keyframes pulse {
-            0%, 100% {
-              opacity: 1;
-              transform: scale(1);
-            }
-            50% {
-              opacity: 0.5;
-              transform: scale(1.2);
-            }
-          }
-          @keyframes flow-animation {
-            to {
-              /* Animates the dash pattern offset, simulating movement */
-              stroke-dashoffset: 0;
-            }
-          }
-        `}
-        </style>
-        <section
-          id="peoplebank"
-          className="relative py-16 md:py-32 border-t border-white/5 overflow-hidden
-             bg-gradient-to-br from-[#020813] via-[#030608] to-[#0a030d]"
-        >
-          <div className="pointer-events-none absolute inset-0 opacity-70">
-            <div className="absolute -top-24 left-1/4 w-72 h-72 rounded-full bg-[#00C8FF]/18 blur-3xl" />
-            <div className="absolute -bottom-32 right-0 w-80 h-80 rounded-full bg-[#00FF94]/20 blur-3xl" />
-            <div className="absolute top-1/3 -left-24 w-64 h-64 rounded-full bg-[#7C3AED]/16 blur-3xl" />
-          </div>
-
-          <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-20">
-            {/* Left Content Area */}
-            <div>
-              <SectionLabel text="The Network" />
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-6 tracking-light">
-                A decentralized human-powered liquidity network.
-              </h2>
-              <p className="text-xl text-gray-400 mb-10 leading-relaxed">
-                PeopleBank is the network that powers real-time settlement.
-                Anyone can provide liquidity, route payments, and earn Blip
-                Tokens for supporting global value transfer.
-              </p>
-              <div className="space-y-6">
-                {[
-                  "Liquidity providers join PeopleBank",
-                  "They lock value in non-custodial channels",
-                  "Blip routes P2P payments through available liquidity",
-                  "Providers earn rewards",
-                  "Everything is on-chain and transparent",
-                ].map((item, i) => (
-                  <div key={i} className="flex items-start gap-4 text-gray-300">
-                    <div className="flex-shrink-0 w-6 h-6 rounded bg-[#111] border border-[#00FF94]/20 flex items-center justify-center text-[#00FF94] text-xs font-bold">
-                      {i + 1}
-                    </div>
-                    <p className="pt-0.5">{item}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Right Live Routing Visualization */}
-            <div className="relative bg-[#080808] rounded-2xl border border-white/5 p-8 flex items-center justify-center overflow-hidden min-h-[400px]">
-              <div
-                style={stylesPeopleBank.gridBackground}
-                className="absolute inset-0 opacity-10"
-              />
-              {/* Network Container (Aspect Ratio fixed to square) */}
-              <div className="relative w-full aspect-square max-w-md">
-                {/* Animated Nodes (Dots) */}
-                {nodes.map((node, i) => (
-                  <div
-                    key={i}
-                    className="absolute w-1.5 h-1.5 bg-[#00FF94] rounded-full shadow-[0_0_10px_#00FF94] transition-all duration-300 ease-in-out"
-                    style={{
-                      top: node.top,
-                      left: node.left,
-                      animation: `pulse ${node.animationDuration} infinite`,
-                    }}
-                  />
-                ))}
-
-                {/* Animated Connecting Lines (SVG Paths) */}
-                <svg
-                  viewBox="0 0 400 400"
-                  className="absolute inset-0 w-full h-full opacity-50 pointer-events-none"
-                >
-                  {/* Path 1: Longer, Curvier Route */}
-                  <path
-                    d="M50,50 Q150,150 250,50 T350,250"
-                    fill="none"
-                    stroke="#00FF94"
-                    strokeWidth="2"
-                    // Animation Setup for Flow
-                    strokeDasharray="10 10" // Dash/Gap length
-                    style={{
-                      strokeDashoffset: "20", // Start offset (must be larger than dash array total)
-                      animation: "flow-animation 4s linear infinite",
-                    }}
-                  />
-
-                  {/* Path 2: Shorter, Direct Route */}
-                  <path
-                    d="M100,300 Q200,200 300,300"
-                    fill="none"
-                    stroke="#00FF94"
-                    strokeWidth="1"
-                    // Animation Setup for Flow
-                    strokeDasharray="5 5"
-                    style={{
-                      strokeDashoffset: "10",
-                      animation: "flow-animation 2s linear infinite reverse", // Reverse for variety
-                    }}
-                  />
-
-                  {/* Path 3: Diagonal Route */}
-                  <path
-                    d="M300,50 L50,350"
-                    fill="none"
-                    stroke="#00FF94"
-                    strokeWidth="1.5"
-                    // Animation Setup for Flow
-                    strokeDasharray="8 8"
-                    style={{
-                      strokeDashoffset: "16",
-                      animation: "flow-animation 3s linear infinite",
-                      filter: "drop-shadow(0 0 2px #00FF94)", // Add subtle glow to path
-                    }}
-                  />
-                </svg>
-
-                {/* LIVE ROUTING label */}
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <div className="text-sm font-mono text-[#00FF94] bg-black/70 px-4 py-2 rounded-full border border-[#00FF94]/50 shadow-xl shadow-black/50">
-                    LIVE ROUTING
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </>
-
-      {/* SECTION 9: TOKEN UTILITY (SIMPLE GRID) */}
-      <section
-        id="token-utility"
-        className="py-24 sm:py-32 border-t border-white/5 bg-[#020202]"
-      >
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <SectionLabel
-            text="Protocol Token Utility"
-            className="items-center justify-center"
-          />
-
-          <h2
-            data-animate-on-scroll
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-6 sm:mb-10 tracking-tight text-center"
-          >
-            Protocol Token Utility
-          </h2>
-
-          <p className="text-sm sm:text-base text-gray-400 text-center max-w-2xl mx-auto mb-10 sm:mb-14">
-            BLIP isn’t just a reward token. It powers how value flows, who gets
-            paid first and how the network defends itself.
-          </p>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6">
-            {TOKEN_UTILITIES.map((item, idx) => (
-              <div
-                key={item.id}
-                data-animate-on-scroll
-                style={{ animationDelay: `${idx * 40}ms` }}
-                className="group relative rounded-2xl bg-[#050505] border border-white/5 
-                     hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.20)]
-                     transition-all duration-300 overflow-hidden"
-              >
-                {/* subtle glow */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                  <div
-                    className="absolute inset-0 blur-3xl"
-                    style={{
-                      background: `radial-gradient(circle at top, ${item.color}33, transparent 60%)`,
-                    }}
-                  />
-                </div>
-
-                <div className="relative p-5 sm:p-6 flex flex-col gap-3">
-                  {/* icon + tiny pill */}
-                  <div className="flex items-center justify-between gap-3">
-                    <div
-                      className="w-9 h-9 rounded-xl bg-[#0A0A0A] border border-white/10 flex items-center justify-center text-lg"
-                      style={{ color: item.color }}
-                    >
-                      {item.symbol}
-                    </div>
-                    <span className="text-[9px] font-mono uppercase tracking-[0.18em] text-gray-500">
-                      UTILITY
-                    </span>
-                  </div>
-
-                  <h3 className="text-sm sm:text-base font-semibold text-white mt-1">
-                    {item.label}
-                  </h3>
-
-                  <p className="text-xs sm:text-[13px] text-gray-400 leading-relaxed">
-                    {item.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* --- SECTION 9: FINAL HERO --- */}
-      <section className="py-20 sm:py-28 md:py-36 lg:py-40 relative flex items-center justify-center overflow-hidden bg-black text-center border-t border-white/5">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#00FF94]/5 via-black to-black" />
-        <div className="relative z-10 max-w-4xl px-4 sm:px-6">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-8 tracking-tight">
-            A new payment layer
-            <br />
-            for the real world.
-          </h2>
-          <div className="flex px-6 justify-center gap-2 text-gray-500 font-mono text-sm mb-12 uppercase tracking-widest">
-            <span>Instant</span>•<span>Bankless</span>•<span>Borderless</span>•
-            <span>P2P</span>
-          </div>
-          <Link to={"/coming-soon"} target="_blank">
-            <Button
-              primary
-              className="text-lg px-12 py-5 shadow-[0_0_50px_rgba(0,255,148,0.2)] hover:shadow-[0_0_80px_rgba(0,255,148,0.4)] transform hover:scale-105"
-            >
-              Join Early Access
-            </Button>
-          </Link>
-        </div>
-        <div className="absolute bottom-[-40vh] left-1/2 -translate-x-1/2 w-[150vw] h-[80vh] bg-[#00FF94]/5 rounded-[100%] blur-[120px] pointer-events-none" />
-      </section>
-      {/* section 10 */}
-      <section className="py-16 sm:py-20 md:py-24 text-center border-t border-white/5 relative">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#111] to-black opacity-50" />
-        <div className="relative z-10 px-4 sm:px-6">
-          <h2 className="text-xl sm:text-1xl md:text-1xl lg:text-2xl xl:text-3xl font-bold text-white mb-6 sm:mb-8">
-            Coming soon in 12 Countries
-          </h2>
-          <div className="flex flex-wrap justify-center gap-2 sm:gap-3 max-w-2xl mx-auto">
-            {[
-              "UAE",
-              "India",
-              "Philippines",
-              "Brazil",
-              "Nigeria",
-              "Vietnam",
-            ].map((country) => (
-              <div
-                key={country}
-                className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-white/10 bg-white/5 text-xs sm:text-sm text-gray-300 flex items-center gap-1.5 sm:gap-2"
-              >
-                <div className="w-1.5 h-1.5 rounded-full bg-[#b8f1d1] animate-pulse" />
-                {country}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    </div>
-
+    <>
+      <SEO
+        title="Blip Money - Pay with Crypto, Anyone, Anywhere"
+        description="Blip money is the non-custodial settlement protocol for cash, wire, and crypto transfers without KYC, secured by DAO escrow."
+        canonical="https://blip.money/"
+      />
+
+      <div className="bg-[#030303] text-white relative">
+        {/* Grain overlay for premium film texture */}
+        <div className="grain-overlay" />
+
+        <HeroSection />
+        <UAESection />
+        <CashbackBanner />
+        <ProblemSection />
+        <ProtocolSection />
+        <FeatureStrip />
+        <BeautifulEffortlessSection />
+        <HowItWorksSection />
+        <PrivacySection />
+        <EarlyAdopterBanner />
+        <MerchantsSection />
+        <RewardsSection />
+        <PeopleBankSection />
+        <CTASection />
+      </div>
     </>
   );
 };

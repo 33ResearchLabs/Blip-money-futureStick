@@ -1,768 +1,740 @@
+import { useRef, useEffect } from "react";
+import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
+import {
+  Shield,
+  Zap,
+  Lock,
+  Wallet,
+  Users,
+  Globe,
+  ArrowRight,
+  CheckCircle2,
+  ChevronDown,
+} from "lucide-react";
+import { Link } from "react-router-dom";
 import { SEO } from "@/components";
-import React, { useEffect } from "react";
+import { sounds } from "@/lib/sounds";
+import { MagneticWrapper } from "@/components/MagneticButton";
+
+/* ============================================
+   AWARD-WINNING HOW IT WORKS PAGE
+   Cinematic scroll animations with storytelling
+   ============================================ */
+
+const smoothConfig = { stiffness: 100, damping: 30, restDelta: 0.001 };
+
+/* ============================================
+   SECTION 1: CINEMATIC HERO
+   ============================================ */
+
+const HeroSection = () => {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+
+  const y = useSpring(useTransform(scrollYProgress, [0, 1], [0, 200]), smoothConfig);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
+
+  return (
+    <motion.section
+      ref={ref}
+      className="relative h-[180vh]"
+      style={{ opacity }}
+    >
+      <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
+        {/* Background with parallax */}
+        <motion.div className="absolute inset-0 z-0" style={{ y, scale }}>
+          <img
+            src="https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=2832&auto=format&fit=crop"
+            alt="Blockchain technology"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black" />
+        </motion.div>
+
+        {/* Grid overlay */}
+        <div className="absolute inset-0 z-[1] opacity-[0.03]">
+          <div
+            className="w-full h-full"
+            style={{
+              backgroundImage: `
+                linear-gradient(to right, white 1px, transparent 1px),
+                linear-gradient(to bottom, white 1px, transparent 1px)
+              `,
+              backgroundSize: '80px 80px',
+            }}
+          />
+        </div>
+
+        {/* Content */}
+        <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
+          {/* Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.2 }}
+            className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-10 backdrop-blur-sm"
+            style={{
+              background: 'rgba(255, 255, 255, 0.03)',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+            }}
+          >
+            <span className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
+            <span className="text-[14px] text-white/70 font-medium tracking-wide">How Blip Works</span>
+          </motion.div>
+
+          {/* Headlines */}
+          <div className="overflow-hidden mb-6">
+            <motion.h1
+              initial={{ y: 150 }}
+              animate={{ y: 0 }}
+              transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="text-[clamp(2.5rem,10vw,7rem)] font-semibold text-white leading-[0.95] tracking-[-0.04em]"
+            >
+              Value. Settled.
+            </motion.h1>
+          </div>
+          <div className="overflow-hidden mb-10">
+            <motion.h1
+              initial={{ y: 150 }}
+              animate={{ y: 0 }}
+              transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="text-[clamp(2.5rem,10vw,7rem)] font-semibold leading-[0.95] tracking-[-0.04em]"
+              style={{
+                background: 'linear-gradient(135deg, #ff6b35 0%, #ff8c50 50%, #ffffff 100%)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
+              Privately.
+            </motion.h1>
+          </div>
+
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.6 }}
+            className="text-xl md:text-2xl text-white/50 max-w-2xl mx-auto leading-relaxed"
+          >
+            The on-chain protocol for instant, secure, and KYC-free global value transfer.
+          </motion.p>
+
+          {/* Scroll indicator */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.5 }}
+            className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
+          >
+            <span className="text-xs text-white/40 uppercase tracking-[0.2em]">Explore</span>
+            <motion.div
+              animate={{ y: [0, 8, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            >
+              <ChevronDown className="w-5 h-5 text-white/40" />
+            </motion.div>
+          </motion.div>
+        </div>
+      </div>
+    </motion.section>
+  );
+};
+
+/* ============================================
+   SECTION 2: KEY CONCEPTS
+   ============================================ */
+
+const KeyConceptsSection = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  const concepts = [
+    {
+      icon: Lock,
+      title: "Non-Custodial Escrow",
+      desc: "Funds are secured by code, not intermediaries.",
+    },
+    {
+      icon: Zap,
+      title: "Zero Intermediaries",
+      desc: "Direct settlement between wallet and merchant.",
+    },
+    {
+      icon: Shield,
+      title: "Privacy-First Design",
+      desc: "Wallet-based access with zero KYC required.",
+    },
+  ];
+
+  return (
+    <section ref={ref} className="relative py-32 bg-black overflow-hidden">
+      {/* Background glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-white/5 blur-[150px] rounded-full" />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {concepts.map((concept, i) => (
+            <motion.div
+              key={concept.title}
+              initial={{ opacity: 0, y: 60 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}
+              className="group relative p-8 rounded-3xl overflow-hidden cursor-pointer"
+              style={{
+                background: 'rgba(255, 255, 255, 0.02)',
+                border: '1px solid rgba(255, 255, 255, 0.05)',
+              }}
+              onMouseEnter={() => sounds.hover()}
+            >
+              {/* Hover gradient */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#ff6b35]/[0.05] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+              <div className="relative z-10">
+                <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-6 group-hover:bg-white/10 transition-colors duration-500">
+                  <concept.icon className="w-6 h-6 text-white/70 group-hover:text-white/60 transition-colors duration-500" />
+                </div>
+                <h3 className="text-xl font-semibold text-white mb-3">{concept.title}</h3>
+                <p className="text-white/50">{concept.desc}</p>
+              </div>
+
+              {/* Bottom accent line */}
+              <motion.div
+                className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#ff6b35] to-transparent"
+                initial={{ scaleX: 0, originX: 0 }}
+                animate={isInView ? { scaleX: 1 } : {}}
+                transition={{ duration: 1, delay: 0.5 + i * 0.1 }}
+              />
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ============================================
+   SECTION 3: CORE PROTOCOL
+   ============================================ */
+
+const CoreProtocolSection = () => {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  const pillars = [
+    { icon: Lock, title: "Escrow PDA", desc: "Funds secured by immutable smart contract." },
+    { icon: Users, title: "Merchant Staking", desc: "Collateral locked for secure execution." },
+    { icon: Globe, title: "DAO Governance", desc: "Decentralized arbitration for disputes." },
+    { icon: Wallet, title: "Wallet-Only", desc: "Zero KYC, financial privacy preserved." },
+  ];
+
+  return (
+    <section ref={ref} className="relative py-40 bg-black overflow-hidden">
+      {/* Background text */}
+      <motion.div
+        className="absolute top-1/2 left-0 -translate-y-1/2 whitespace-nowrap text-[15vw] font-bold text-white/[0.015] select-none pointer-events-none"
+        style={{
+          x: useTransform(scrollYProgress, [0, 1], ["0%", "-30%"]),
+        }}
+      >
+        TRUST REDEFINED • TRUST REDEFINED • TRUST REDEFINED •
+      </motion.div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1 }}
+          className="text-center mb-24"
+        >
+          <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">The Protocol</span>
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-semibold text-white tracking-tight">
+            Trust<br />
+            <span className="text-white/30">Redefined.</span>
+          </h2>
+        </motion.div>
+
+        {/* Pillars grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {pillars.map((pillar, i) => (
+            <motion.div
+              key={pillar.title}
+              initial={{ opacity: 0, y: 60 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.8, delay: i * 0.1 }}
+              className="group relative p-8 rounded-3xl text-center"
+              style={{
+                background: 'rgba(255, 255, 255, 0.02)',
+                border: '1px solid rgba(255, 255, 255, 0.05)',
+              }}
+              onMouseEnter={() => sounds.hover()}
+            >
+              {/* Step number */}
+              <span className="absolute top-4 right-4 text-6xl font-bold text-white/[0.03] select-none">
+                0{i + 1}
+              </span>
+
+              <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mx-auto mb-6 group-hover:bg-white/10 transition-colors duration-500">
+                <pillar.icon className="w-7 h-7 text-white/60" />
+              </div>
+              <h3 className="text-lg font-semibold text-white mb-3">{pillar.title}</h3>
+              <p className="text-sm text-white/50">{pillar.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ============================================
+   SECTION 4: TRANSACTION FLOW
+   ============================================ */
+
+const TransactionFlowSection = () => {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  const steps = [
+    {
+      num: "01",
+      title: "Initiation & Lock",
+      content: "User defines order parameters and executes FUND_ESCROW.",
+      result: "Funds secured in immutable Escrow PDA.",
+    },
+    {
+      num: "02",
+      title: "Commitment & Stake",
+      content: "Merchant accepts and locks proportional collateral.",
+      result: "Escrow moves to IN_PROGRESS state.",
+    },
+    {
+      num: "03",
+      title: "Off-Chain Payout",
+      content: "Merchant executes fiat payout to recipient.",
+      result: "Value delivered, ready for verification.",
+    },
+    {
+      num: "04",
+      title: "Verification & Release",
+      content: "User confirms receipt, escrow executes RELEASE_FUNDS.",
+      result: "Crypto sent, stake returned, COMPLETED.",
+    },
+    {
+      num: "05",
+      title: "Finality or Arbitration",
+      content: "Disputes reviewed by DAO, final resolution voted.",
+      result: "COMPLETED, RESOLVED, or SLASHED.",
+    },
+  ];
+
+  const lineProgress = useSpring(useTransform(scrollYProgress, [0.1, 0.8], [0, 100]), smoothConfig);
+
+  return (
+    <section ref={ref} className="relative py-40 bg-black overflow-hidden">
+      {/* Background image with parallax */}
+      <div className="absolute inset-0 z-0">
+        <motion.div
+          style={{ y: useTransform(scrollYProgress, [0, 1], [-50, 50]) }}
+          className="w-full h-[120%] -mt-[10%]"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1518186285589-2f7649de83e0?q=80&w=2874&auto=format&fit=crop"
+            alt="Technology"
+            className="w-full h-full object-cover opacity-10"
+          />
+        </motion.div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black" />
+      </div>
+
+      <div className="relative z-10 max-w-4xl mx-auto px-6">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1 }}
+          className="text-center mb-24"
+        >
+          <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">Transaction Flow</span>
+          <h2 className="text-4xl md:text-6xl font-semibold text-white tracking-tight mb-6">
+            Atomic.<br />
+            <span className="text-white/30">Guaranteed.</span>
+          </h2>
+          <p className="text-xl text-white/50 max-w-xl mx-auto">
+            Every transaction executes atomically, guaranteed by on-chain escrow state transitions.
+          </p>
+        </motion.div>
+
+        {/* Timeline */}
+        <div className="relative">
+          {/* Progress line */}
+          <div className="absolute left-[23px] top-0 bottom-0 w-[2px] bg-white/10">
+            <motion.div
+              className="w-full bg-gradient-to-b from-[#ff6b35] to-[#ff6b35]/30"
+              style={{ height: lineProgress.get() + '%' }}
+            />
+          </div>
+
+          {/* Steps */}
+          <div className="space-y-8">
+            {steps.map((step, i) => (
+              <motion.div
+                key={step.num}
+                initial={{ opacity: 0, x: -40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
+                className="relative pl-16"
+              >
+                {/* Number circle */}
+                <div className="absolute left-0 top-0 w-12 h-12 rounded-full bg-black border-2 border-[#ff6b35]/50 flex items-center justify-center">
+                  <span className="text-sm font-mono text-white/60">{step.num}</span>
+                </div>
+
+                {/* Content card */}
+                <div
+                  className="p-8 rounded-2xl"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.02)',
+                    border: '1px solid rgba(255, 255, 255, 0.05)',
+                  }}
+                >
+                  <h3 className="text-xl font-semibold text-white mb-3">{step.title}</h3>
+                  <p className="text-white/60 mb-4">{step.content}</p>
+                  <div className="flex items-center gap-2 text-sm">
+                    <CheckCircle2 className="w-4 h-4 text-white/60" />
+                    <span className="text-white/40">Result: {step.result}</span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ============================================
+   SECTION 5: SECURITY MODEL
+   ============================================ */
+
+const SecuritySection = () => {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  const y1 = useSpring(useTransform(scrollYProgress, [0, 1], [100, -100]), smoothConfig);
+  const y2 = useSpring(useTransform(scrollYProgress, [0, 1], [50, -50]), smoothConfig);
+
+  const securityPillars = [
+    {
+      title: "Economic Enforcement",
+      desc: "Security enforced by economic incentives. Merchant stake at risk if delivery fails.",
+    },
+    {
+      title: "Immutable Code",
+      desc: "No admin keys control funds. Non-upgradable contracts ensure finality.",
+    },
+    {
+      title: "DAO Arbiter",
+      desc: "Decentralized control prevents single-party failure during disputes.",
+    },
+  ];
+
+  const metrics = [
+    { value: "~500ms", label: "Escrow Lock" },
+    { value: "< 1s", label: "Proof Verification" },
+    { value: "Instant", label: "On-chain Finality" },
+  ];
+
+  return (
+    <section ref={ref} className="relative py-40 bg-black overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+          {/* Left: Image with parallax */}
+          <motion.div
+            className="relative aspect-square rounded-3xl overflow-hidden"
+            style={{ y: y1 }}
+          >
+            <img
+              src="https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=2940&auto=format&fit=crop"
+              alt="Security"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+
+            {/* Floating metrics */}
+            <div className="absolute bottom-8 left-8 right-8 grid grid-cols-3 gap-4">
+              {metrics.map((metric, i) => (
+                <motion.div
+                  key={metric.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.3 + i * 0.1 }}
+                  className="text-center p-4 rounded-xl backdrop-blur-xl"
+                  style={{
+                    background: 'rgba(0, 0, 0, 0.5)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                  }}
+                >
+                  <div className="text-2xl font-semibold text-white">{metric.value}</div>
+                  <div className="text-xs text-white/60 uppercase tracking-wider">{metric.label}</div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Right: Content */}
+          <motion.div style={{ y: y2 }}>
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1 }}
+              className="mb-12"
+            >
+              <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">Security Model</span>
+              <h2 className="text-4xl md:text-5xl font-semibold text-white tracking-tight mb-6">
+                Cryptographic<br />
+                <span className="text-white/30">Security.</span>
+              </h2>
+            </motion.div>
+
+            <div className="space-y-6">
+              {securityPillars.map((pillar, i) => (
+                <motion.div
+                  key={pillar.title}
+                  initial={{ opacity: 0, x: 40 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                  className="group p-6 rounded-2xl transition-all duration-300 hover:bg-white/[0.02]"
+                  onMouseEnter={() => sounds.hover()}
+                >
+                  <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-white/60 transition-colors">
+                    {pillar.title}
+                  </h3>
+                  <p className="text-white/50">{pillar.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ============================================
+   SECTION 6: ORDER TYPES
+   ============================================ */
+
+const OrderTypesSection = () => {
+  const orderTypes = [
+    {
+      title: "Crypto → Cash",
+      desc: "Convert digital assets to physical currency anywhere, secured by staked merchant commitment.",
+      image: "https://images.unsplash.com/photo-1580519542036-c47de6196ba5?q=80&w=2942&auto=format&fit=crop",
+    },
+    {
+      title: "Crypto → Bank",
+      desc: "Settle high-value transactions directly into any bank account, bypassing identity requirements.",
+      image: "https://images.unsplash.com/photo-1541354329998-f4d9a9f9297f?q=80&w=2940&auto=format&fit=crop",
+    },
+    {
+      title: "Crypto → Crypto",
+      desc: "Swap assets across chains using the same escrow security, without CEX infrastructure.",
+      image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?q=80&w=2787&auto=format&fit=crop",
+    },
+  ];
+
+  return (
+    <section className="relative py-40 bg-black">
+      <div className="max-w-7xl mx-auto px-6">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1 }}
+          className="text-center mb-20"
+        >
+          <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">Order Types</span>
+          <h2 className="text-4xl md:text-6xl font-semibold text-white tracking-tight">
+            Multiple<br />
+            <span className="text-white/30">Destinations.</span>
+          </h2>
+        </motion.div>
+
+        {/* Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {orderTypes.map((type, i) => (
+            <motion.div
+              key={type.title}
+              initial={{ opacity: 0, y: 60 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.8, delay: i * 0.15 }}
+              className="group relative aspect-[3/4] rounded-3xl overflow-hidden cursor-pointer"
+              onMouseEnter={() => sounds.hover()}
+            >
+              {/* Image */}
+              <motion.img
+                src={type.image}
+                alt={type.title}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+
+              {/* Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+
+              {/* Content */}
+              <div className="absolute inset-0 p-8 flex flex-col justify-end">
+                <h3 className="text-2xl font-semibold text-white mb-3">{type.title}</h3>
+                <p className="text-white/60 leading-relaxed">{type.desc}</p>
+              </div>
+
+              {/* Hover border */}
+              <div className="absolute inset-0 rounded-3xl border border-white/0 group-hover:border-[#ff6b35]/30 transition-all duration-500" />
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ============================================
+   SECTION 7: FINAL CTA
+   ============================================ */
+
+const CTASection = () => {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  const scale = useSpring(useTransform(scrollYProgress, [0, 0.5], [0.8, 1]), smoothConfig);
+  const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
+
+  return (
+    <section ref={ref} className="relative min-h-screen flex items-center justify-center py-40 bg-black overflow-hidden">
+      {/* Background glow */}
+      <motion.div
+        className="absolute inset-0 flex items-center justify-center"
+        style={{ scale, opacity }}
+      >
+        <div className="w-[600px] h-[600px] rounded-full bg-white/10 blur-[150px]" />
+      </motion.div>
+
+      {/* Grid overlay */}
+      <div className="absolute inset-0 opacity-[0.02]">
+        <div
+          className="w-full h-full"
+          style={{
+            backgroundImage: `
+              linear-gradient(to right, white 1px, transparent 1px),
+              linear-gradient(to bottom, white 1px, transparent 1px)
+            `,
+            backgroundSize: '80px 80px',
+          }}
+        />
+      </div>
+
+      <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1 }}
+        >
+          <h2 className="text-5xl md:text-7xl lg:text-8xl font-semibold text-white tracking-tight mb-8">
+            Code over<br />
+            <span className="text-white/30">Trust.</span>
+          </h2>
+
+          <p className="text-xl text-white/50 max-w-xl mx-auto mb-12">
+            The certainty of code replacing the necessity of trust. Start your journey with Blip today.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <MagneticWrapper strength={0.2}>
+              <Link
+                to="/waitlist"
+                onClick={() => sounds.click()}
+                onMouseEnter={() => sounds.hover()}
+                className="group inline-flex items-center gap-4 px-10 py-5 rounded-full bg-white text-black text-lg font-medium transition-all duration-500 hover:shadow-[0_0_100px_rgba(255,255,255,0.4)]"
+              >
+                Get Started
+                <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-2" />
+              </Link>
+            </MagneticWrapper>
+
+            <MagneticWrapper strength={0.2}>
+              <a
+                href="/whitepaper.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => sounds.click()}
+                onMouseEnter={() => sounds.hover()}
+                className="group inline-flex items-center gap-4 px-10 py-5 rounded-full border border-white/15 text-white text-lg font-medium transition-all duration-500 hover:bg-white/5 hover:border-white/30"
+              >
+                Read Whitepaper
+              </a>
+            </MagneticWrapper>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+/* ============================================
+   MAIN PAGE COMPONENT
+   ============================================ */
 
 export const HowItWorksPage = () => {
-  // Custom Color Constants mapped from the original HTML
-  const colors = {
-    bgPrimary: "#000000",
-    bgSecondary: "#070A08",
-    bgCard: "#0B0F0D",
-    bgCardHover: "#0F1512",
-    greenPrimary: "#00E599",
-    textSecondary: "#A3B1AA",
-    textMuted: "#6F7C76",
-  };
-
-  useEffect(()=>{
-    scrollTo(0,0)
-  },[])
-
-  const DigitalGridBackground = () => (
-  <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-40">
-    <div
-      className="absolute inset-0"
-      style={{
-        backgroundImage:
-          "linear-gradient(to right, #00FF9410 1px, transparent 1px), linear-gradient(to bottom, #00FF9410 1px, transparent 1px)",
-        backgroundSize: "80px 80px",
-        animation: "wave 60s linear infinite",
-      }}
-    />
-    <div className="absolute inset-0 bg-gradient-to-br from-[#020202] via-transparent to-[#020202]" />
-
-    {/* Center pulsing glow */}
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vh] rounded-full bg-[#00FF94]/5 blur-[100px] animate-[pulse-slow_6s_ease-in-out_infinite]" />
-  </div>
-);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>
-     <SEO
-  title="How Blip money Works | Secure & Rewarding Payments"
-  description="Learn how Blip money works for users and merchants, enabling secure payments and rewarding transactions."
-  canonical="https://blip.money/how-it-works"
-/>
+      <SEO
+        title="How Blip money Works | Secure & Rewarding Payments"
+        description="Learn how Blip money works for users and merchants, enabling secure payments and rewarding transactions."
+        canonical="https://blip.money/how-it-works"
+      />
 
-
-    <div className="min-h-screen bg-[#000000] font-sans overflow-x-hidden ">
-      <main className="max-w-7xl mx-auto ">
-        {/* 1. Hero Section */}
-        <section id="hero" className="text-center pt-[140px] pb-[120px] relative ">
-         {/* <div className="absolute inset-0 bg-gradient-to-tr from-[#2BFF88]/15 to-transparent blur-3xl rounded-full" />  */}
-         <DigitalGridBackground /> 
-          <h1 className="text-6xl sm:text-7xl lg:text-7xl mb-6 text-white font-semibold tracking-wide leading-[1.1]">
-            <span className="text-[#2BFF88]">Value. Settled.</span>
-            <br />
-            Privately.
-          </h1>
-          <p className="text-xl sm:text-2xl text-[#A3B1AA] max-w-[720px] mx-auto mb-10 font- tracking-wider line-clamp-3">
-            Blip.money is the on-chain protocol for instant, secure, and
-            KYC-free global value transfer.
-          </p>
-        </section>
-
-        {/* Key Features Section */}
-        <section
-          id="key-features"
-          className="pb-[120px] border-t border-white/15"
-        >
-          <h2 className="sr-only">Key Concepts</h2>
-          <div className="grid md:grid-cols-3 gap-8 mt-10">
-            {[
-              {
-                title: "Non-Custodial Escrow",
-                desc: "Funds are secured by code, not intermediaries.",
-                icon: (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                  ></path>
-                ),
-              },
-              {
-                title: "Zero Intermediaries",
-                desc: "Direct settlement between wallet and merchant processor.",
-                icon: (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                    d="M13 10V3L4 14h7v7l9-11h-7z"
-                  ></path>
-                ),
-              },
-              {
-                title: "Privacy-First Design",
-                desc: "Wallet-based access with zero KYC required.",
-                icon: (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                    d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 8a8 8 0 01-8-8c0-2.887 2.146-5.267 5-5.917V6.083C7.146 6.733 5 9.113 5 12a7 7 0 1014 0z"
-                  ></path>
-                ),
-              },
-            ].map((feature, idx) => (
-              <div
-                key={idx}
-                className="p-6 text-center rounded-[14px] bg-gradient-to-b from-white/3 to-white/1 border border-white/6 hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.25)] transition-all duration-500"
-              >
-                <svg
-                  className="w-8 h-8 text-[#00E599] mx-auto mb-3"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  {feature.icon}
-                </svg>
-                <span className="text-xl font-semibold text-white font-sans tracking-tight">
-                  {feature.title}
-                </span>
-                <p className="text-sm text-[#6F7C76] mt-1">{feature.desc}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* 2. The Core Idea */}
-        <section id="core-idea" className="py-[120px] border-t border-white/15">
-          <h2 className="text-5xl max-w-4xl mx-auto mb-16 text-center text-white font-semibold tracking-wide">
-            The Protocol: Trust Redefined.
-          </h2>
-          <p className="text-lg text-[#A3B1AA] max-w-[640px] mx-auto text-center mb-12">
-            Blip.money is a decentralized, trust-minimized settlement layer that
-            enables global transfers across crypto, cash, and bank rails without
-            centralized intermediaries.
-          </p>
-
-          <div className="grid md:grid-cols-4 gap-6 max-w-6xl mx-auto text-center">
-            {[
-              {
-                title: "1. Escrow PDA",
-                desc: "Funds are secured by an immutable smart contract account until conditions are met.",
-                icon: (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                  ></path>
-                ),
-              },
-              {
-                title: "2. Merchant Staking",
-                desc: "Off-chain executors lock collateral as skin-in-the-game for secure execution.",
-                icon: (
-                  <>
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                      d="M15 7a2 2 0 012 2v5a2 2 0 01-2 2h-5a2 2 0 01-2-2V9a2 2 0 012-2h5z"
-                    ></path>
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                      d="M17 17L19 19"
-                    ></path>
-                  </>
-                ),
-              },
-              {
-                title: "3. DAO Governance",
-                desc: "A decentralized body provides final, non-custodial arbitration during disputes.",
-                icon: (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                    d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 8a8 8 0 01-8-8c0-2.887 2.146-5.267 5-5.917V6.083C7.146 6.733 5 9.113 5 12a7 7 0 1014 0z"
-                  ></path>
-                ),
-              },
-              {
-                title: "4. Wallet-Only Access",
-                desc: "Access requires zero KYC, ensuring financial privacy and censorship resistance.",
-                icon: (
-                  <>
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                      d="M12 11c0-1.657-1.343-3-3-3s-3 1.343-3 3v4a3 3 0 003 3h4a3 3 0 003-3v-4c0-1.657-1.343-3-3-3s-3 1.343-3 3v4"
-                    ></path>
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                      d="M12 22s-8-6-8-10A8 8 0 0112 2a8 8 0 018 8c0 4-8 10-8 10z"
-                    ></path>
-                  </>
-                ),
-              },
-            ].map((item, idx) => (
-              <div
-                key={idx}
-                className="p-4 rounded-[14px] bg-gradient-to-b from-white/3 to-white/1 border border-white/6 hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.25)] transition-all duration-500"
-              >
-                <svg
-                  className="w-8 h-8 text-[#00E599] mx-auto mb-3"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  {item.icon}
-                </svg>
-                <h3 className="text-xl font-medium text-[#00E599] mb-2 font-sans tracking-tight">
-                  {item.title}
-                </h3>
-                <p className="text-sm text-[#A3B1AA]">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* 3. How It Works: Transaction Flow */}
-        <section id="lifecycle" className="py-[120px] border-t border-white/15">
-          <h2 className="text-5xl text-center mb-16 text-white font-semibold tracking-wide">
-            How It Works: Atomic Transaction Flow
-          </h2>
-          <div className="max-w-[720px] mx-auto">
-            <p className="text-lg text-[#A3B1AA] max-w-[640px] mx-auto text-center mb-10">
-              The entire transaction executes atomically, guaranteed by on-chain
-              escrow state transitions.
-            </p>
-
-            <ol className="relative border-l border-[#00E599]/15 mx-auto max-w-2xl">
-              {[
-                {
-                  id: "1",
-                  title: "01. Initiation & Lock",
-                  content:
-                    "User defines order parameters (amount, recipient) and executes FUND_ESCROW.",
-                  result:
-                    "Funds are immediately secured in the immutable Escrow PDA.",
-                },
-                {
-                  id: "2",
-                  title: "02. Commitment & Stake",
-                  content:
-                    "A Merchant accepts the order and locks their proportional collateral stake.",
-                  result:
-                    "Escrow state moves to IN_PROGRESS. Merchant guarantees execution within the set timeout (τ_max).",
-                },
-                {
-                  id: "3",
-                  title: "03. Off-Chain Payout",
-                  content:
-                    "The Merchant executes the fiat payout (cash, bank, or wire) to the designated recipient off-chain.",
-                  result:
-                    "Fiat value is delivered. The transaction is ready for on-chain verification.",
-                },
-                {
-                  id: "4",
-                  title: "04. Verification & Release",
-                  content:
-                    "The user confirms receipt (or Merchant submits Proof). The escrow instantly executes RELEASE_FUNDS.",
-                  result:
-                    "Crypto is sent to the Merchant, stake is returned, and the escrow moves to COMPLETED.",
-                },
-                {
-                  id: "5",
-                  title: "05. Finality or Arbitration",
-                  content:
-                    "If a dispute is raised before the timeout, the DAO reviews evidence and votes on resolution.",
-                  result:
-                    "The transaction reaches its final state: COMPLETED, RESOLVED, or SLASHED.",
-                },
-              ].map((step, idx) => (
-                <>
-                  <li
-                    key={idx}
-                    className={`mb-10 ml-6 p-5 rounded-[14px] bg-[#0B0F0D] border border-white/6 hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.25)] transition-all duration-500`}
-                  >
-                    <span className="absolute p-4 flex items-center justify-center w-6 h-6 text-white rounded-full -left-3 ring-4 ring-[#000000]  font-semibold font-sans text-sm timeline-dot-shadow">
-                      {step.id}
-                    </span>
-                    <h3 className="flex items-center mb-1 text-2xl font-medium text-white font-sans tracking-tight">
-                      {step.title}
-                    </h3>
-                    <p className="mb-2 text-[#A3B1AA]">
-                      {step.content.split(" ").map((word, wIdx) =>
-                        ["FUND_ESCROW", "IN_PROGRESS", "RELEASE_FUNDS"].some(
-                          (k) => word.includes(k)
-                        ) ? (
-                          <span key={wIdx} className="text-[#00E599] font-sans">
-                            {word}{" "}
-                          </span>
-                        ) : (
-                          word + " "
-                        )
-                      )}
-                    </p>
-                    <p className="text-[#6F7C76] text-sm">
-                      Result:{" "}
-                      {step.result.split(" ").map((word, wIdx) =>
-                        [
-                          "PDA",
-                          "IN_PROGRESS",
-                          "COMPLETED",
-                          "RESOLVED",
-                          "SLASHED",
-                        ].some((k) => word.includes(k)) ? (
-                          <span key={wIdx} className="font-sans text-[#A3B1AA]">
-                            {word}{" "}
-                          </span>
-                        ) : (
-                          word + " "
-                        )
-                      )}
-                    </p>
-                  </li>
-                </>
-              ))}
-            </ol>
-          </div>
-        </section>
-
-        {/* 4. Technical Architecture */}
-        <section
-          id="architecture"
-          className="py-[120px] border-t border-white/15"
-        >
-          <h2 className="text-5xl text-center mb-16 text-white font-semibold tracking-wide">
-            System Architecture: Hybrid Trust
-          </h2>
-          <p className="text-lg text-[#A3B1AA] max-w-[640px] mx-auto text-center mb-10">
-            Blip.money uses a hybrid on-chain / off-chain architecture to
-            maximize speed, privacy, and scalability. On-chain logic is
-            minimized to only what must be trusted.
-          </p>
-
-          <div className="max-w-4xl mx-auto mb-16 rounded-[14px] bg-gradient-to-b from-white/3 to-white/1 border border-white/6 overflow-hidden">
-            <div className="grid grid-cols-3 text-sm sm:text-base font-semibold text-[#00E599] border-b border-white/6 bg-[#070A08] p-4 font-sans tracking-tight">
-              <div className="uppercase">Layer</div>
-              <div className="uppercase">Responsibility</div>
-              <div className="uppercase">On-chain Components</div>
-            </div>
-            <div className="grid grid-cols-3 border-b border-white/6 p-4 hover:bg-[#0F1512] transition">
-              <div className="text-[#00E599] font-sans">On-chain</div>
-              <div className="text-white">Trust, Finality, Enforcement</div>
-              <div className="text-[#A3B1AA] text-sm">
-                Escrow Locking, Merchant Staking, Governance Voting
-              </div>
-            </div>
-            <div className="grid grid-cols-3 p-4 hover:bg-[#0F1512] transition">
-              <div className="text-[#00E599] font-sans">Off-chain</div>
-              <div className="text-white">
-                Speed, Fiat Interaction, Discovery
-              </div>
-              <div className="text-[#A3B1AA] text-sm">
-                Fiat Execution, Merchant Routing, Proof Aggregation
-              </div>
-            </div>
-          </div>
-
-          <div className="max-w-4xl mx-auto pt-16 border-t border-white/15">
-            <h3 className="text-2xl font-medium text-[#00E599] mb-8 text-center tracking-wide">
-              Escrow Architecture
-            </h3>
-            <p className="text-lg text-[#A3B1AA] mb-8 text-center">
-              Each transaction utilizes a unique Escrow{" "}
-              <span className="font-sans text-[#00E599]">PDA</span> on Solana,
-              serving as the immutable trust primitive of the protocol.
-            </p>
-
-            <div className="grid md:grid-cols-3 gap-6 text-center">
-              {[
-                {
-                  title: "IMMUTABLE",
-                  desc: "Conditions set at creation cannot be modified.",
-                  icon: (
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                      d="M7 7h10M7 7v10M7 7l10 10m-3-10h3M10 10v3M10 10h3"
-                    ></path>
-                  ),
-                },
-                {
-                  title: "TIME-BOUND",
-                  desc: "Timeouts enforce liveness and prevent state lock.",
-                  icon: (
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                    ></path>
-                  ),
-                },
-                {
-                  title: "DETERMINISTIC",
-                  desc: "Fund release governed strictly by code state.",
-                  icon: (
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                      d="M14 10l-2 1m0 0l-2-1m2 1v2.5M12 21a9 9 0 100-18 9 9 0 000 18zm0 0l-1-1m1 1l1-1"
-                    ></path>
-                  ),
-                },
-              ].map((item, idx) => (
-                <div
-                  key={idx}
-                  className="p-6 rounded-[14px] bg-gradient-to-b from-white/3 to-white/1 border border-white/6 hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.25)] transition-all duration-500"
-                >
-                  <svg
-                    className="w-8 h-8 text-[#00E599] mx-auto mb-3"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    {item.icon}
-                  </svg>
-                  <p className="font-bold text-white text-xl font-sans tracking-wide">
-                    {item.title}
-                  </p>
-                  <p className="text-sm text-[#6F7C76] mt-2">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* 5. Cryptographic Security Model */}
-        <section id="security" className="py-[120px] border-t border-white/15">
-          <h2 className="text-5xl text-center mb-16 text-white font-semibold tracking-wide">
-            Cryptographic Security Model
-          </h2>
-          <div className="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto text-center">
-            {[
-              {
-                title: "Economic Enforcement",
-                desc: "Security is enforced by economic incentives, not promises. Merchant stake is always at risk (slashing) if delivery is unconfirmed or fraudulent.",
-                icon: (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                    d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
-                  ></path>
-                ),
-              },
-              {
-                title: "Immutable Code",
-                desc: "No admin keys control user funds. The protocol leverages non-upgradable custody contracts, ensuring finality and preventing unauthorized changes.",
-                icon: (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                    d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
-                  ></path>
-                ),
-              },
-              {
-                title: "DAO Arbiter",
-                desc: "The DAO acts as the final arbiter during contested disputes. This mechanism decentralizes control and prevents single-party failure.",
-                icon: (
-                  <>
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                      d="M17 14v6m-4-2h4m0 0l-4-4m4 4l-4 4"
-                    ></path>
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                      d="M12 18h4a2 2 0 002-2v-4a2 2 0 00-2-2H8a2 2 0 00-2 2v4a2 2 0 002 2h4z"
-                    ></path>
-                  </>
-                ),
-              },
-            ].map((item, idx) => (
-              <div
-                key={idx}
-                className="p-8 rounded-[14px] bg-gradient-to-b from-white/3 to-white/1 border border-white/6 hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.25)] transition-all duration-500"
-              >
-                <svg
-                  className="w-8 h-8 text-[#00E599] mx-auto mb-3"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  {item.icon}
-                </svg>
-                <h3 className="text-2xl font-medium mb-3 text-white">
-                  {item.title}
-                </h3>
-                <p className="text-[#A3B1AA]">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-16 pt-12 border-t border-white/15 max-w-4xl mx-auto">
-            <h3 className="text-3xl font-medium text-[#00E599] text-center mb-6 tracking-wide">
-              Latency & Settlement Guarantees
-            </h3>
-            <div className="grid md:grid-cols-3 text-center gap-4 text-[#A3B1AA] font-sans">
-              <div>
-                <p className="text-4xl font-extrabold text-white tracking-wide">
-                  ~500ms
-                </p>
-                <p className="text-sm text-[#00E599]">Escrow Lock</p>
-              </div>
-              <div>
-                <p className="text-4xl font-extrabold text-white tracking-wide">
-                  {"< 1s"}
-                </p>
-                <p className="text-sm text-[#00E599]">Proof Verification</p>
-              </div>
-              <div>
-                <p className="text-4xl font-extrabold text-white tracking-wide">
-                  Solana Finality
-                </p>
-                <p className="text-sm text-[#00E599]">On-chain Finality</p>
-              </div>
-            </div>
-            <p className="text-lg text-[#A3B1AA] mt-8 text-center">
-              Blip.money targets near-instant settlement, minimizing exposure
-              time for both user and merchant.
-            </p>
-          </div>
-        </section>
-
-        {/* 6. Order Types */}
-        <section id="use-cases" className="py-[120px] border-t border-white/15">
-          <h2 className="text-5xl text-center mb-16 text-white font-semibold tracking-wide">
-            Order Types
-          </h2>
-          <div className="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {[
-              {
-                title: "Crypto → Cash",
-                desc: "The fastest way to convert digital assets into physical currency anywhere in the world, secured by localized, staked merchant commitment.",
-                icon: (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                    d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
-                  ></path>
-                ),
-              },
-              {
-                title: "Crypto → Bank / Wire",
-                desc: "Anonymously settle high-value transactions directly into any bank account or corporate wire system, bypassing traditional identity requirements.",
-                icon: (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                    d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
-                  ></path>
-                ),
-              },
-              {
-                title: "Crypto → Crypto",
-                desc: "Instantly swap assets across different chains using the same escrow security model, ensuring seamless capital mobility without relying on CEX infrastructure.",
-                icon: (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                    d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
-                  ></path>
-                ),
-              },
-            ].map((type, idx) => (
-              <div
-                key={idx}
-                className="p-10 rounded-[14px] bg-gradient-to-b from-white/3 to-white/1 border border-white/6 hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.25)] transition-all duration-500"
-              >
-                <svg
-                  className="w-12 h-12 text-[#00E599] mb-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  {type.icon}
-                </svg>
-                <h3 className="text-2xl font-medium mb-3 text-white">
-                  {type.title}
-                </h3>
-                <p className="text-[#A3B1AA]">{type.desc}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* 7. Protocol Economics */}
-        <section id="fees" className="py-[120px] border-t border-white/15">
-          <h2 className="text-5xl text-center mb-16 text-white font-semibold tracking-wide">
-            Protocol Economics & Governance
-          </h2>
-          <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
-            {/* Merchant Staking */}
-            <div className="p-8 rounded-[14px] bg-gradient-to-b from-white/3 to-white/1 border border-white/6 hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.25)] transition-all duration-500">
-              <h3 className="text-2xl font-medium mb-4 text-[#00E599]">
-                Merchant Staking & Reputation
-              </h3>
-              <p className="text-[#A3B1AA] mb-4">
-                Merchants must stake BLIP tokens and accept slashing risk.
-                Reputation increases order priority, fee share, and trust score.
-              </p>
-              <ul className="list-disc list-inside text-[#A3B1AA] space-y-1 ml-4">
-                <li>
-                  High reputation provides increased order priority and greater
-                  fee share.
-                </li>
-                <li>
-                  DAO-governed protocol ensures decentralized evolution and fee
-                  distribution.
-                </li>
-                <li>
-                  Slashing mechanism enforces accountability and protects user
-                  funds.
-                </li>
-              </ul>
-            </div>
-
-            {/* Fee Mechanics */}
-            <div className="p-8 rounded-[14px] bg-gradient-to-b from-white/3 to-white/1 border border-white/6 hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.25)] transition-all duration-500">
-              <h3 className="text-2xl font-medium mb-4 text-[#00E599]">
-                Fee Mechanics & Transparency
-              </h3>
-              <p className="text-[#A3B1AA] mb-4">
-                A transparent base fee (typically{" "}
-                <span className="font-sans text-[#00E599]">3–5%</span>) is
-                applied to the user, ensuring the protocol is self-sustaining
-                and incentivizes merchant participation.
-              </p>
-              <div className="bg-[#070A08] p-4 rounded-lg border border-white/6 font-sans">
-                <p className="font-semibold text-white mb-2 tracking-wide">
-                  Fee Split:
-                </p>
-                <ul className="text-[#A3B1AA] space-y-1 ml-4">
-                  <li>**Merchant:** Compensation for off-chain execution.</li>
-                  <li>
-                    **DAO Treasury:** Used for protocol development and
-                    incentives.
-                  </li>
-                  <li>
-                    **Protocol Incentives:** Distributed to stake-holders.
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 8. Anonymity is Infrastructure */}
-        <section id="anonymous" className="py-[120px] border-t border-white/15">
-          <h2 className="text-5xl text-center mb-16 text-white font-semibold tracking-wide">
-            Anonymity is Infrastructure
-          </h2>
-          <div className="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto text-center">
-            {[
-              {
-                title: "Zero KYC",
-                desc: "Blip.money does not require names, documents, or personal identifiers to use the core protocol functions.",
-                icon: (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4m-4-2H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v3m-7 4l4-4-4-4"
-                  ></path>
-                ),
-              },
-              {
-                title: "Wallet-Only",
-                desc: "All interaction and authentication occurs solely via your cryptographic wallet signature. No accounts.",
-                icon: (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                    d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
-                  ></path>
-                ),
-              },
-              {
-                title: "Recipient Isolation",
-                desc: "The final fiat recipient does not interact with the protocol, preserving the sender's security posture.",
-                icon: (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                    d="M13 5l7 7-7 7M5 5l7 7-7 7"
-                  ></path>
-                ),
-              },
-            ].map((item, idx) => (
-              <div
-                key={idx}
-                className="p-4 rounded-[14px] bg-gradient-to-b from-white/3 to-white/1 border border-white/6 hover:border-[#00FF94]/60 hover:shadow-[0_0_40px_rgba(0,255,148,0.25)] transition-all duration-500"
-              >
-                <svg
-                  className="w-8 h-8 text-[#00E599] mx-auto mb-3"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  {item.icon}
-                </svg>
-                <h3 className="text-2xl font-medium mb-2 text-white">
-                  {item.title}
-                </h3>
-                <p className="text-[#A3B1AA] text-base">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* 9. Closing Section */}
-        <section
-          id="closing"
-          className="text-center py-[140px] border-t border-white/15"
-        >
-          <h2 className="text-5xl font-extrabold mb-10 text-white max-w-4xl mx-auto tracking-wide leading-tight">
-            <span className="text-[#2BFF88]">The Certainty of Code</span>{" "}
-            Replacing the Necessity of Trust.
-          </h2>
-          <p className="text-2xl sm:text-3xl text-[#A3B1AA] max-w-3xl mx-auto mb-12">
-            Blip.money is the essential bridge between digital assets and the
-            physical world, abstracting away identity and geography to focus
-            purely on the secure, reliable transfer of economic value.
-          </p>
-          <a
-            href="/whitepaper.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block px-12 py-3 text-xl bg-[#00E599] text-black rounded-full font-medium tracking-wide transition duration-300 transform hover:scale-[1.02]"
-          >
-            Explore the Whitepaper Now →
-          </a>
-        </section>
-      </main>
-    </div>
+      <div className="bg-black text-white overflow-x-hidden">
+        <HeroSection />
+        <KeyConceptsSection />
+        <CoreProtocolSection />
+        <TransactionFlowSection />
+        <SecuritySection />
+        <OrderTypesSection />
+        <CTASection />
+      </div>
     </>
   );
 };
+
+export default HowItWorksPage;

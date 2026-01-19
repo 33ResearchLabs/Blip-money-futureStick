@@ -1,166 +1,156 @@
-// import React from "react";
-
-// export const Footer = () => {
-//   return (
-//     <footer className="py-12 border-t border-gray-500  bg-black">
-//       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-400 text-sm">
-//         <p>
-//           © <span id="year">2025</span> Blip.money Protocol. All rights
-//           reserved. Bankless. Trustless. Instant. Secure and fully trustworthy.
-//         </p>
-//       </div>
-//     </footer>
-//   );
-// };
-
-import { Twitter, Send, Mail, Youtube } from "lucide-react";
+import { motion } from "framer-motion";
+import { Twitter, Send, Mail, Youtube, ArrowUpRight } from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
+import { sounds } from "@/lib/sounds";
+
+/* ============================================
+   LINEAR-INSPIRED FOOTER
+   Minimal, refined, deeply interactive
+   ============================================ */
+
+const Logo = () => {
+  return (
+    <Link
+      to="/"
+      className="flex items-center gap-2.5 group"
+      onClick={() => {
+        sounds.click();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }}
+    >
+      <motion.div
+        className="w-7 h-7 rounded-lg flex items-center justify-center"
+        style={{
+          background: 'linear-gradient(135deg, #ff6b35 0%, #00DD77 100%)',
+        }}
+        whileHover={{ scale: 1.05 }}
+      >
+        <span className="text-black font-bold text-xs">B</span>
+      </motion.div>
+      <span className="text-[14px] font-semibold text-white">
+        Blip<span className="text-[#71717A]">.money</span>
+      </span>
+    </Link>
+  );
+};
+
+const SocialLink = ({ href, icon: Icon, label }: { href: string; icon: any; label: string }) => {
+  return (
+    <motion.a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="w-9 h-9 rounded-lg flex items-center justify-center bg-[#18181B] border border-[rgba(255,255,255,0.06)] text-[#71717A] hover:text-white hover:border-[rgba(255,255,255,0.12)] transition-all"
+      whileHover={{ scale: 1.05, y: -2 }}
+      whileTap={{ scale: 0.95 }}
+      onMouseEnter={() => sounds.hover()}
+      onClick={() => sounds.click()}
+      aria-label={label}
+    >
+      <Icon className="w-4 h-4" />
+    </motion.a>
+  );
+};
+
+const FooterLink = ({ to, children }: { to: string; children: React.ReactNode }) => {
+  return (
+    <NavLink
+      to={to}
+      onClick={() => sounds.click()}
+      onMouseEnter={() => sounds.hover()}
+      className={({ isActive }) => `
+        group flex items-center gap-1 text-[13px] transition-colors
+        ${isActive ? "text-white" : "text-[#71717A] hover:text-[#A1A1AA]"}
+      `}
+    >
+      {children}
+    </NavLink>
+  );
+};
+
+const FooterColumn = ({ title, children }: { title: string; children: React.ReactNode }) => {
+  return (
+    <div className="space-y-3">
+      <h4 className="text-[11px] font-medium uppercase tracking-[0.1em] text-[#52525B]">
+        {title}
+      </h4>
+      <ul className="space-y-2">
+        {children}
+      </ul>
+    </div>
+  );
+};
 
 export const Footer = () => {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="relative border-t border-white/5 bg-black overflow-hidden">
-      {/* subtle glow */}
-      <div className="pointer-events-none absolute inset-0 opacity-40">
-        <div className="absolute -left-24 top-1/2 h-64 w-64 -translate-y-1/2 rounded-full bg-[#00FF94]/20 blur-3xl" />
-        <div className="absolute right-0 top-0 h-72 w-72 rounded-full bg-[#00C8FF]/15 blur-3xl" />
-      </div>
-
-      {/* MAIN CONTENT */}
-      <div className="relative max-w-7xl mx-auto px-6 py-16 flex flex-col md:flex-row justify-between gap-12">
-        {/* BRAND */}
-        <div className="min-w-[180px]  space-y-4 text-center md:text-left -mt-2">
-          <Link
-            to="#hero"
-            className="flex items-center gap-2 justify-center md:justify-start"
-            onClick={() => {
-              const hero = document.getElementById("hero");
-              hero?.scrollIntoView({ behavior: "smooth" });
-            }}
-          >
-            <div className="relative">
-              <div className="w-3 h-3 rounded-full bg-[#2BFF88] shadow-[0_0_10px_#2BFF88]" />
-              <div className="absolute inset-0 rounded-full bg-[#2BFF88] animate-pulse opacity-50" />
+    <footer className="relative border-t border-[rgba(255,255,255,0.06)] bg-[#0A0A0B]">
+      {/* Main content */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 lg:gap-12">
+          {/* Brand */}
+          <div className="col-span-2 lg:col-span-2 space-y-4">
+            <Logo />
+            <p className="text-[13px] text-[#71717A] leading-relaxed max-w-xs">
+              The non-custodial settlement protocol for instant global payments.
+            </p>
+            <div className="flex items-center gap-2">
+              <SocialLink href="https://x.com/blipmoney_" icon={Twitter} label="Twitter" />
+              <SocialLink href="https://t.me/+3DpHLzc2BfJhOWEx" icon={Send} label="Telegram" />
+              <SocialLink href="https://www.youtube.com/@BlipMoney" icon={Youtube} label="YouTube" />
+              <SocialLink href="mailto:blipmoney9@gmail.com" icon={Mail} label="Email" />
             </div>
-            <span className="text-2xl font-bold text-white">
-              Blip.<span className="text-[#2BFF88]">money</span>
-            </span>
-          </Link>
-
-          <p className="text-sm text-gray-400 leading-relaxed max-w-sm mx-auto">
-            Pay with Crypto — Anyone, Anywhere. <br />
-            Blip money is the non-custodial settlement protocol for cash, wire,
-            and crypto transfers without KYC, secured by DAO escrow.
-          </p>
-
-          {/* SOCIAL */}
-          <div className="flex items-center gap-3 pt-2 justify-center md:justify-start">
-            <a
-              href="https://x.com/blipmoney_"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-300 hover:text-[#00FF94] hover:border-[#00FF94] transition"
-            >
-              <Twitter size={16} />
-            </a>
-
-            <a
-              href="https://t.me/+3DpHLzc2BfJhOWEx"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-300 hover:text-[#00FF94] hover:border-[#00FF94] transition"
-            >
-              <Send size={16} />
-            </a>
-
-            <a
-              href="https://www.youtube.com/@BlipMoney"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-300 hover:text-[#00FF94] hover:border-[#00FF94] transition"
-            >
-              <Youtube size={16} />
-            </a>
-
-            <a
-              href="https://mail.google.com/mail/?view=cm&fs=1&to=blipmoney9@gmail.com&su=Support Request&body=Hello Team"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-300 hover:text-[#00FF94] hover:border-[#00FF94] transition"
-            >
-              <Mail size={16} />
-            </a>
           </div>
-        </div>
 
-        {/* PRODUCT */}
-        <div className="min-w-[180px] text-center md:text-left">
-          <h4 className="text-sm font-medium uppercase tracking-widest  mb-2">
-            Product
-          </h4>
-          <ul className="space-y-3 text-sm text-gray-300">
-            <li>
-              <Link
-                to="/how-it-works"
-                className="hover:text-[#00FF94] transition"
-              >
-                How it Works
-              </Link>
-            </li>
-            <li>
-              <Link to="/waitlist" className="hover:text-[#00FF94] transition">
-                Waitlist
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/tokenomics"
-                className="hover:text-[#00FF94] transition"
-              >
-                Tokenomics
-              </Link>
-            </li>
-            <li>
-              <Link to="/rewards" className="hover:text-[#00FF94] transition">
-                Rewards & Cashback
-              </Link>
-            </li>
-          </ul>
-        </div>
+          {/* Product */}
+          <FooterColumn title="Product">
+            <li><FooterLink to="/how-it-works">How It Works</FooterLink></li>
+            <li><FooterLink to="/rewards">Rewards</FooterLink></li>
+            <li><FooterLink to="/tokenomics">Tokenomics</FooterLink></li>
+            <li><FooterLink to="/waitlist">Waitlist</FooterLink></li>
+          </FooterColumn>
 
-        {/* LEGAL */}
-        <div className="min-w-[180px] text-center md:text-left">
-          <h4 className="text-sm font-medium uppercase tracking-widest  mb-2">
-            Legal
-          </h4>
-          <ul className="space-y-3 text-sm">
-            {[
-              { to: "/privacy", label: "Privacy Policy" },
-              { to: "/terms", label: "Terms of Service" },
-              { to: "/cookies", label: "Cookie Policy" },
-              { to: "/gdpr", label: "GDPR Compliance" },
-            ].map(({ to, label }) => (
-              <li key={to}>
-                <NavLink
-                  to={to}
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-[#00FF94] font-medium"
-                      : "text-gray-300 hover:text-[#00FF94] transition"
-                  }
-                >
-                  {label}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
+          {/* Resources */}
+          <FooterColumn title="Resources">
+            <li>
+              <a
+                href="/whitepaper.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => sounds.click()}
+                onMouseEnter={() => sounds.hover()}
+                className="group flex items-center gap-1 text-[13px] text-[#71717A] hover:text-[#A1A1AA] transition-colors"
+              >
+                Whitepaper
+                <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </a>
+            </li>
+            <li><FooterLink to="/contact">Contact</FooterLink></li>
+          </FooterColumn>
+
+          {/* Legal */}
+          <FooterColumn title="Legal">
+            <li><FooterLink to="/privacy">Privacy</FooterLink></li>
+            <li><FooterLink to="/terms">Terms</FooterLink></li>
+            <li><FooterLink to="/cookies">Cookies</FooterLink></li>
+            <li><FooterLink to="/gdpr">GDPR</FooterLink></li>
+          </FooterColumn>
         </div>
       </div>
 
-      {/* BOTTOM BAR */}
-      <div className="relative border-t border-white/5">
-        <div className="px-6 py-6 text-center text-xs text-gray-500">
-          © {new Date().getFullYear()} Blip.money Protocol. All rights reserved.
-          Bankless. Trustless. Instant. Secure and fully trustworthy.
+      {/* Bottom bar */}
+      <div className="border-t border-[rgba(255,255,255,0.06)]">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-[12px] text-[#52525B]">
+            © {currentYear} Blip.money. All rights reserved.
+          </p>
+          <div className="flex items-center gap-4 text-[11px] text-[#52525B]">
+            <span className="flex items-center gap-1.5">
+              <span className="w-1 h-1 rounded-full bg-[#ff6b35]" />
+              Built on Solana
+            </span>
+          </div>
         </div>
       </div>
     </footer>
