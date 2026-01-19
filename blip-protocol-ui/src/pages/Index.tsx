@@ -250,47 +250,62 @@ const HeroSection = () => {
     offset: ["start start", "end end"],
   });
 
-  // Smooth scroll progress - low stiffness for buttery smooth scrolling
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 50, damping: 40, mass: 0.5 });
+  // Smooth scroll progress - very low stiffness for ultra-smooth one-page-per-scroll feel
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 25, damping: 50, mass: 1.2 });
 
-  // Multi-layer parallax transforms for immersive depth
-  const bgLayer1Y = useTransform(scrollYProgress, [0, 1], [0, -200]);
-  const bgLayer2Y = useTransform(scrollYProgress, [0, 1], [0, -400]);
-  const bgLayer3Y = useTransform(scrollYProgress, [0, 1], [0, -100]);
-  const bgRotate = useTransform(scrollYProgress, [0, 1], [0, 15]);
-  const bgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.1, 1.2]);
+  // Responsive parallax values - reduced for smaller screens to prevent content overlap
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
 
-  // Smooth spring for parallax layers - higher damping prevents sticking
-  const layer1YSpring = useSpring(bgLayer1Y, { stiffness: 30, damping: 40, mass: 0.8 });
-  const layer2YSpring = useSpring(bgLayer2Y, { stiffness: 25, damping: 45, mass: 0.8 });
-  const layer3YSpring = useSpring(bgLayer3Y, { stiffness: 35, damping: 35, mass: 0.8 });
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 768);
+      setIsTablet(window.innerWidth >= 768 && window.innerWidth < 1024);
+    };
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
 
-  // Phase transitions for 4 steps + final CTA
-  // Step 1: Claim (0 - 0.18)
-  const step1Opacity = useTransform(smoothProgress, [0, 0.02, 0.15, 0.18], [1, 1, 1, 0]);
-  const step1Scale = useTransform(smoothProgress, [0, 0.15, 0.18], [1, 1, 0.95]);
+  // Multi-layer parallax transforms - scaled based on screen size
+  const parallaxMultiplier = isMobile ? 0.3 : isTablet ? 0.5 : 0.7;
+  const bgLayer1Y = useTransform(scrollYProgress, [0, 1], [0, -200 * parallaxMultiplier]);
+  const bgLayer2Y = useTransform(scrollYProgress, [0, 1], [0, -400 * parallaxMultiplier]);
+  const bgLayer3Y = useTransform(scrollYProgress, [0, 1], [0, -100 * parallaxMultiplier]);
+  const bgRotate = useTransform(scrollYProgress, [0, 1], [0, 15 * parallaxMultiplier]);
+  const bgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1 + (0.1 * parallaxMultiplier), 1 + (0.2 * parallaxMultiplier)]);
 
-  // Step 2: Escrow (0.16 - 0.38)
-  const step2Opacity = useTransform(smoothProgress, [0.16, 0.20, 0.35, 0.38], [0, 1, 1, 0]);
-  const step2Scale = useTransform(smoothProgress, [0.16, 0.20, 0.35, 0.38], [0.95, 1, 1, 0.95]);
+  // Smooth spring for parallax layers - very high damping for silky smooth movement
+  const layer1YSpring = useSpring(bgLayer1Y, { stiffness: 20, damping: 60, mass: 1.5 });
+  const layer2YSpring = useSpring(bgLayer2Y, { stiffness: 15, damping: 65, mass: 1.5 });
+  const layer3YSpring = useSpring(bgLayer3Y, { stiffness: 25, damping: 55, mass: 1.5 });
 
-  // Step 3: Match (0.36 - 0.58)
-  const step3Opacity = useTransform(smoothProgress, [0.36, 0.40, 0.55, 0.58], [0, 1, 1, 0]);
-  const step3Scale = useTransform(smoothProgress, [0.36, 0.40, 0.55, 0.58], [0.95, 1, 1, 0.95]);
+  // Phase transitions for 4 steps + final CTA - expanded for smoother one-page-per-scroll feel
+  // Step 1: Claim (0 - 0.17) - First section
+  const step1Opacity = useTransform(smoothProgress, [0, 0.02, 0.14, 0.17], [1, 1, 1, 0]);
+  const step1Scale = useTransform(smoothProgress, [0, 0.14, 0.17], [1, 1, 0.95]);
 
-  // Step 4: Verify (0.56 - 0.78)
-  const step4Opacity = useTransform(smoothProgress, [0.56, 0.60, 0.75, 0.78], [0, 1, 1, 0]);
-  const step4Scale = useTransform(smoothProgress, [0.56, 0.60, 0.75, 0.78], [0.95, 1, 1, 0.95]);
+  // Step 2: Escrow (0.15 - 0.35) - Second section
+  const step2Opacity = useTransform(smoothProgress, [0.15, 0.18, 0.32, 0.35], [0, 1, 1, 0]);
+  const step2Scale = useTransform(smoothProgress, [0.15, 0.18, 0.32, 0.35], [0.95, 1, 1, 0.95]);
 
-  // Final CTA (0.76 - 1.0)
-  const finalOpacity = useTransform(smoothProgress, [0.76, 0.82], [0, 1]);
-  const finalY = useTransform(smoothProgress, [0.76, 0.82], [60, 0]);
+  // Step 3: Match (0.33 - 0.53) - Third section
+  const step3Opacity = useTransform(smoothProgress, [0.33, 0.36, 0.50, 0.53], [0, 1, 1, 0]);
+  const step3Scale = useTransform(smoothProgress, [0.33, 0.36, 0.50, 0.53], [0.95, 1, 1, 0.95]);
 
-  // Progress bar transforms for 4 steps
-  const progressBar0 = useTransform(smoothProgress, [0, 0.2], ['0%', '100%']);
-  const progressBar1 = useTransform(smoothProgress, [0.2, 0.4], ['0%', '100%']);
-  const progressBar2 = useTransform(smoothProgress, [0.4, 0.6], ['0%', '100%']);
-  const progressBar3 = useTransform(smoothProgress, [0.6, 0.8], ['0%', '100%']);
+  // Step 4: Verify (0.51 - 0.71) - Fourth section
+  const step4Opacity = useTransform(smoothProgress, [0.51, 0.54, 0.68, 0.71], [0, 1, 1, 0]);
+  const step4Scale = useTransform(smoothProgress, [0.51, 0.54, 0.68, 0.71], [0.95, 1, 1, 0.95]);
+
+  // Final CTA (0.69 - 1.0) - Fifth section
+  const finalOpacity = useTransform(smoothProgress, [0.69, 0.75], [0, 1]);
+  const finalY = useTransform(smoothProgress, [0.69, 0.75], [60, 0]);
+
+  // Progress bar transforms for 4 steps - adjusted for new timing
+  const progressBar0 = useTransform(smoothProgress, [0, 0.17], ['0%', '100%']);
+  const progressBar1 = useTransform(smoothProgress, [0.17, 0.35], ['0%', '100%']);
+  const progressBar2 = useTransform(smoothProgress, [0.35, 0.53], ['0%', '100%']);
+  const progressBar3 = useTransform(smoothProgress, [0.53, 0.71], ['0%', '100%']);
   const progressBars = [progressBar0, progressBar1, progressBar2, progressBar3];
 
   // Merchant orders for step 3
@@ -329,7 +344,7 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section ref={containerRef} className="relative h-[500vh] bg-black">
+    <section ref={containerRef} className="relative h-[600vh] bg-black">
       <div className="sticky top-0 h-screen overflow-hidden bg-black">
         {/* ==================== IMMERSIVE MULTI-LAYER PARALLAX BACKGROUND ==================== */}
         <div className="absolute inset-0 overflow-hidden">
@@ -443,98 +458,59 @@ const HeroSection = () => {
           />
         </div>
 
-        {/* ==================== FLOATING PARTICLES SYSTEM ==================== */}
+        {/* ==================== MINIMAL FLOATING PARTICLES ==================== */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {/* Large floating particles */}
-          {[...Array(8)].map((_, i) => (
-            <motion.div
-              key={`large-${i}`}
-              className="absolute w-2 h-2 rounded-full"
+          {/* Reduced particles - only 4 static glowing dots for subtle ambiance */}
+          {[
+            { left: '15%', top: '25%', color: '#ff6b35' },
+            { left: '85%', top: '35%', color: 'rgba(255,255,255,0.3)' },
+            { left: '25%', top: '70%', color: 'rgba(255,255,255,0.2)' },
+            { left: '75%', top: '60%', color: '#ff6b35' },
+          ].map((dot, i) => (
+            <div
+              key={`dot-${i}`}
+              className="absolute w-1.5 h-1.5 rounded-full"
               style={{
-                left: `${5 + (i * 12)}%`,
-                top: `${15 + (i % 5) * 18}%`,
-                background: i % 3 === 0 ? 'rgba(255,107,53,0.6)' : 'rgba(255,255,255,0.3)',
-                boxShadow: i % 3 === 0 ? '0 0 20px rgba(255,107,53,0.4)' : 'none',
-              }}
-              animate={{
-                y: [-30, 30, -30],
-                x: [-10, 10, -10],
-                opacity: [0.2, 0.5, 0.2],
-                scale: [1, 1.5, 1],
-              }}
-              transition={{
-                duration: 6 + (i % 4),
-                repeat: Infinity,
-                delay: i * 0.5,
-                ease: "easeInOut",
-              }}
-            />
-          ))}
-          {/* Small floating particles */}
-          {[...Array(20)].map((_, i) => (
-            <motion.div
-              key={`small-${i}`}
-              className="absolute w-1 h-1 rounded-full bg-white/20"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                y: [-20, 20, -20],
-                opacity: [0.1, 0.4, 0.1],
-              }}
-              transition={{
-                duration: 4 + (i % 3),
-                repeat: Infinity,
-                delay: i * 0.2,
-              }}
-            />
-          ))}
-          {/* Rising sparkles */}
-          {[...Array(6)].map((_, i) => (
-            <motion.div
-              key={`sparkle-${i}`}
-              className="absolute w-1 h-1 rounded-full bg-[#ff6b35]"
-              style={{
-                left: `${20 + i * 12}%`,
-                bottom: '0%',
-              }}
-              animate={{
-                y: [0, -window.innerHeight],
-                opacity: [0, 0.8, 0],
-                scale: [0, 1.5, 0],
-              }}
-              transition={{
-                duration: 8 + (i % 3) * 2,
-                repeat: Infinity,
-                delay: i * 1.5,
-                ease: "easeOut",
+                left: dot.left,
+                top: dot.top,
+                background: dot.color,
+                opacity: dot.color === '#ff6b35' ? 0.4 : 0.2,
               }}
             />
           ))}
         </div>
 
-        {/* ==================== MINIMAL PROGRESS INDICATOR ==================== */}
-        <div className="absolute top-6 left-1/2 -translate-x-1/2 z-50">
-          <div className="flex items-center gap-1.5">
-            {progressBars.map((progressWidth, i) => (
-              <motion.div
-                key={i}
-                className="relative h-[3px] rounded-full overflow-hidden"
-                style={{
-                  width: 32,
-                  background: 'rgba(255, 255, 255, 0.08)',
-                }}
-              >
+        {/* ==================== BOTTOM PROGRESS INDICATOR ==================== */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50">
+          <div className="flex flex-col items-center gap-3">
+            {/* Step labels */}
+            <div className="flex items-center gap-6 text-[10px] uppercase tracking-wider text-white/40">
+              <span>Claim</span>
+              <span>Escrow</span>
+              <span>Match</span>
+              <span>Verify</span>
+            </div>
+            {/* Progress bars */}
+            <div className="flex items-center gap-2">
+              {progressBars.map((progressWidth, i) => (
                 <motion.div
-                  className="absolute inset-y-0 left-0 rounded-full"
+                  key={i}
+                  className="relative h-1 rounded-full overflow-hidden"
                   style={{
-                    background: '#ff6b35',
-                    width: progressWidth,
+                    width: 48,
+                    background: 'rgba(255, 255, 255, 0.1)',
                   }}
-                />
-              </motion.div>
-            ))}
+                >
+                  <motion.div
+                    className="absolute inset-y-0 left-0 rounded-full"
+                    style={{
+                      background: '#ff6b35',
+                      width: progressWidth,
+                    }}
+                  />
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -544,15 +520,15 @@ const HeroSection = () => {
             className="absolute inset-0 flex items-center justify-center z-20"
             style={{ opacity: step1Opacity, scale: step1Scale }}
           >
-            <div className="w-full max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-20 items-center">
+            <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-16 xl:gap-20 items-center pt-16 sm:pt-20 lg:pt-0">
               {/* Left: Text content */}
               <div className="text-center lg:text-left order-2 lg:order-1">
 
                 <motion.h1
-                  initial={{ opacity: 0, y: 40 }}
+                  initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-[1.05] mb-6 tracking-tight"
+                  transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white leading-[1.1] mb-3 sm:mb-5 tracking-tight"
                 >
                   Send money
                   <br />
@@ -581,20 +557,20 @@ const HeroSection = () => {
                 </motion.div>
 
                 <motion.p
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-white/50 text-xl mb-10 leading-relaxed max-w-md mx-auto lg:mx-0"
+                  transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-white/50 text-base sm:text-lg mb-8 leading-relaxed max-w-sm mx-auto lg:mx-0"
                 >
                   Fast, borderless transfers with crypto rails. Connect wallet, enter amount, and send globally in seconds.
                 </motion.p>
 
                 {/* Quick stats */}
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                  className="flex items-center justify-center lg:justify-start gap-10 mb-10"
+                  transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  className="flex items-center justify-center lg:justify-start gap-8 mb-8"
                 >
                   {[
                     { value: "~2s", label: "Settlement" },
@@ -602,8 +578,8 @@ const HeroSection = () => {
                     { value: "150+", label: "Countries" },
                   ].map((stat) => (
                     <div key={stat.label} className="text-center lg:text-left">
-                      <div className="text-2xl md:text-3xl font-bold text-white">{stat.value}</div>
-                      <div className="text-xs text-white/30 uppercase tracking-wider">{stat.label}</div>
+                      <div className="text-xl md:text-2xl font-bold text-white">{stat.value}</div>
+                      <div className="text-[10px] text-white/30 uppercase tracking-wider">{stat.label}</div>
                     </div>
                   ))}
                 </motion.div>
@@ -835,12 +811,12 @@ const HeroSection = () => {
                       background: `linear-gradient(${135 + mousePosition.x * 30}deg, rgba(255,255,255,0.08) 0%, transparent 50%, rgba(0,0,0,0.15) 100%)`,
                     }}
                   />
-                  <div className="w-[320px] md:w-[380px]">
+                  <div className="w-[220px] sm:w-[260px] md:w-[290px] lg:w-[320px]">
                     {/* Phone outer frame with enhanced shadow */}
-                    <div className="rounded-[52px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[3px] shadow-[0_50px_100px_rgba(0,0,0,0.8),0_0_80px_rgba(255,107,53,0.15)]">
-                      <div className="rounded-[50px] bg-[#0a0a0a] p-[12px]">
+                    <div className="rounded-[36px] sm:rounded-[40px] md:rounded-[44px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[2px] sm:p-[2.5px] shadow-[0_25px_50px_rgba(0,0,0,0.5),0_0_40px_rgba(255,107,53,0.08)] md:shadow-[0_40px_80px_rgba(0,0,0,0.6),0_0_60px_rgba(255,107,53,0.1)]">
+                      <div className="rounded-[34px] sm:rounded-[38px] md:rounded-[42px] bg-[#0a0a0a] p-[6px] sm:p-[8px] md:p-[10px]">
                         {/* Phone screen */}
-                        <div className="rounded-[38px] bg-black overflow-hidden relative">
+                        <div className="rounded-[28px] sm:rounded-[30px] md:rounded-[34px] bg-black overflow-hidden relative">
                           {/* Dynamic Island */}
                           <div className="absolute top-3 left-1/2 -translate-x-1/2 z-10">
                             <div className="w-28 h-7 rounded-full bg-black flex items-center justify-center">
@@ -944,34 +920,23 @@ const HeroSection = () => {
             className="absolute inset-0 flex items-center justify-center z-20"
             style={{ opacity: step2Opacity, scale: step2Scale }}
           >
-            <div className="w-full max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-20 items-center">
+            <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-16 xl:gap-20 items-center pt-16 sm:pt-20 lg:pt-0">
               {/* Left: Full iPhone Mockup */}
               <motion.div className="relative flex justify-center">
-                {/* Ambient glow behind phone - enhanced with parallax */}
+                {/* Ambient glow behind phone - subtle neutral with hint of orange */}
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  {/* Primary emerald glow */}
+                  {/* Primary subtle glow */}
                   <motion.div
-                    className="absolute w-[550px] h-[550px] rounded-full"
+                    className="absolute w-[450px] h-[450px] rounded-full"
                     style={{
-                      background: 'radial-gradient(circle, rgba(16,185,129,0.15) 0%, transparent 50%)',
-                      x: mousePosition.x * 15,
-                      y: mousePosition.y * 12,
+                      background: 'radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 50%)',
+                      x: mousePosition.x * 10,
+                      y: mousePosition.y * 8,
                     }}
-                    animate={{ scale: [1, 1.12, 1], opacity: [0.3, 0.5, 0.3] }}
-                    transition={{ duration: 4, repeat: Infinity }}
                   />
-                  {/* Secondary ring */}
-                  <motion.div
-                    className="absolute w-[400px] h-[400px] rounded-full border border-emerald-500/10"
-                    style={{
-                      x: mousePosition.x * -8,
-                      y: mousePosition.y * -8,
-                    }}
-                    animate={{
-                      scale: [1, 1.08, 1],
-                      borderColor: ['rgba(16,185,129,0.1)', 'rgba(16,185,129,0.2)', 'rgba(16,185,129,0.1)'],
-                    }}
-                    transition={{ duration: 3, repeat: Infinity, delay: 0.5 }}
+                  {/* Secondary ring - very subtle */}
+                  <div
+                    className="absolute w-[350px] h-[350px] rounded-full border border-white/[0.04]"
                   />
                 </div>
 
@@ -996,12 +961,12 @@ const HeroSection = () => {
                       background: `linear-gradient(${135 + mousePosition.x * 25}deg, rgba(255,255,255,0.06) 0%, transparent 50%, rgba(0,0,0,0.12) 100%)`,
                     }}
                   />
-                  <div className="w-[320px] md:w-[380px]">
-                    {/* Phone outer frame with emerald glow */}
-                    <div className="rounded-[52px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[3px] shadow-[0_50px_100px_rgba(0,0,0,0.8),0_0_60px_rgba(16,185,129,0.1)]">
-                      <div className="rounded-[50px] bg-[#0a0a0a] p-[12px]">
+                  <div className="w-[220px] sm:w-[260px] md:w-[290px] lg:w-[320px]">
+                    {/* Phone outer frame - subtle neutral shadow */}
+                    <div className="rounded-[36px] sm:rounded-[40px] md:rounded-[44px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[2px] sm:p-[2.5px] shadow-[0_25px_50px_rgba(0,0,0,0.5)] md:shadow-[0_40px_80px_rgba(0,0,0,0.6)]">
+                      <div className="rounded-[38px] sm:rounded-[44px] md:rounded-[50px] bg-[#0a0a0a] p-[8px] sm:p-[10px] md:p-[12px]">
                         {/* Phone screen */}
-                        <div className="rounded-[38px] bg-black overflow-hidden relative">
+                        <div className="rounded-[30px] sm:rounded-[34px] md:rounded-[38px] bg-black overflow-hidden relative">
                           {/* Dynamic Island */}
                           <div className="absolute top-3 left-1/2 -translate-x-1/2 z-10">
                             <div className="w-28 h-7 rounded-full bg-black flex items-center justify-center">
@@ -1034,31 +999,31 @@ const HeroSection = () => {
                             {/* Lock animation */}
                             <div className="flex justify-center mb-6">
                               <motion.div
-                                className="w-24 h-24 rounded-full bg-emerald-500/10 border-2 border-emerald-500/30 flex items-center justify-center"
-                                animate={{ scale: [1, 1.05, 1], borderColor: ['rgba(16,185,129,0.3)', 'rgba(16,185,129,0.6)', 'rgba(16,185,129,0.3)'] }}
-                                transition={{ duration: 2, repeat: Infinity }}
+                                className="w-20 h-20 rounded-full bg-white/[0.03] border border-white/[0.08] flex items-center justify-center"
+                                animate={{ scale: [1, 1.02, 1] }}
+                                transition={{ duration: 3, repeat: Infinity }}
                               >
-                                <Lock className="w-10 h-10 text-emerald-400" />
+                                <Lock className="w-8 h-8 text-white/60" />
                               </motion.div>
                             </div>
 
                             <div className="text-center mb-6">
-                              <span className="text-sm text-emerald-400 block mb-2">Funds Secured</span>
-                              <div className="text-4xl font-bold text-white">500 USDC</div>
-                              <span className="text-sm text-white/40">≈ $500.00</span>
+                              <span className="text-sm text-white/50 block mb-2">Funds Secured</span>
+                              <div className="text-3xl font-bold text-white">500 USDC</div>
+                              <span className="text-xs text-white/40">≈ $500.00</span>
                             </div>
 
                             {/* Status card */}
-                            <div className="rounded-2xl bg-white/[0.02] border border-white/[0.06] p-5 mb-6">
-                              <div className="flex items-center justify-between mb-4">
-                                <span className="text-sm text-white/40">Status</span>
+                            <div className="rounded-xl bg-white/[0.02] border border-white/[0.06] p-4 mb-5">
+                              <div className="flex items-center justify-between mb-3">
+                                <span className="text-xs text-white/40">Status</span>
                                 <div className="flex items-center gap-2">
                                   <motion.div
-                                    className="w-2 h-2 rounded-full bg-emerald-500"
+                                    className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]"
                                     animate={{ opacity: [1, 0.5, 1] }}
-                                    transition={{ duration: 1.5, repeat: Infinity }}
+                                    transition={{ duration: 2, repeat: Infinity }}
                                   />
-                                  <span className="text-sm text-emerald-400 font-medium">In Escrow</span>
+                                  <span className="text-xs text-[#ff6b35] font-medium">In Escrow</span>
                                 </div>
                               </div>
                               <div className="flex items-center justify-between mb-4">
@@ -1076,9 +1041,9 @@ const HeroSection = () => {
 
                             {/* Progress */}
                             <div className="flex items-center gap-2 mb-4">
-                              <div className="flex-1 h-1.5 rounded-full bg-emerald-500" />
-                              <div className="flex-1 h-1.5 rounded-full bg-emerald-500/30" />
-                              <div className="flex-1 h-1.5 rounded-full bg-white/10" />
+                              <div className="flex-1 h-1 rounded-full bg-[#ff6b35]" />
+                              <div className="flex-1 h-1 rounded-full bg-[#ff6b35]/30" />
+                              <div className="flex-1 h-1 rounded-full bg-white/10" />
                             </div>
 
                             <div className="text-center">
@@ -1109,27 +1074,27 @@ const HeroSection = () => {
 
               {/* Right: Text content */}
               <div className="text-center lg:text-left">
-                <div className="inline-flex items-center gap-3 mb-8">
-                  <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                    <span className="text-xl font-bold text-emerald-400">2</span>
+                <div className="inline-flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center">
+                    <span className="text-lg font-bold text-white/60">2</span>
                   </div>
                   <div>
-                    <span className="text-xs uppercase tracking-[0.2em] text-white/40 block">Step Two</span>
-                    <span className="text-lg font-semibold text-white">Escrow</span>
+                    <span className="text-[10px] uppercase tracking-[0.2em] text-white/40 block">Step Two</span>
+                    <span className="text-base font-semibold text-white">Escrow</span>
                   </div>
                 </div>
 
-                <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-[1.05] tracking-tight">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl font-bold text-white mb-4 sm:mb-6 leading-[1.1] tracking-tight">
                   Locked &
                   <br /><span className="text-white/20">secured.</span>
                 </h2>
 
-                <p className="text-white/50 text-xl mb-10 leading-relaxed max-w-md mx-auto lg:mx-0">
+                <p className="text-white/50 text-base sm:text-lg mb-8 leading-relaxed max-w-sm mx-auto lg:mx-0">
                   Funds locked in smart contract. Protected by DAO escrow. Your crypto stays safe until the transaction completes.
                 </p>
 
                 {/* Features */}
-                <div className="space-y-4 max-w-md mx-auto lg:mx-0">
+                <div className="space-y-3 max-w-sm mx-auto lg:mx-0">
                   {[
                     { icon: Shield, label: "Non-custodial", desc: "You control your keys" },
                     { icon: Zap, label: "Instant lock", desc: "Sub-second confirmation" },
@@ -1137,14 +1102,14 @@ const HeroSection = () => {
                   ].map((feature) => (
                     <div
                       key={feature.label}
-                      className="flex items-center gap-4 p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06]"
+                      className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]"
                     >
-                      <div className="w-12 h-12 rounded-xl bg-white/[0.03] flex items-center justify-center">
-                        <feature.icon className="w-6 h-6 text-white/50" />
+                      <div className="w-10 h-10 rounded-lg bg-white/[0.03] flex items-center justify-center">
+                        <feature.icon className="w-5 h-5 text-white/40" />
                       </div>
                       <div>
-                        <div className="text-white font-semibold">{feature.label}</div>
-                        <div className="text-white/40 text-sm">{feature.desc}</div>
+                        <div className="text-white text-sm font-medium">{feature.label}</div>
+                        <div className="text-white/40 text-xs">{feature.desc}</div>
                       </div>
                     </div>
                   ))}
@@ -1155,45 +1120,45 @@ const HeroSection = () => {
 
           {/* ==================== STEP 3: MATCH - Advanced Merchant Dashboard ==================== */}
           <motion.div
-            className="absolute inset-0 flex items-center justify-center z-20"
+            className="absolute inset-0 flex items-start justify-center z-20 pt-20 sm:pt-24 lg:pt-28"
             style={{ opacity: step3Opacity, scale: step3Scale }}
           >
-            <div className="w-full max-w-7xl mx-auto px-6">
+            <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
               {/* Header */}
-              <div className="text-center mb-8">
-                <div className="inline-flex items-center gap-3 mb-6">
-                  <div className="w-12 h-12 rounded-2xl bg-[#ff6b35]/10 border border-[#ff6b35]/20 flex items-center justify-center">
-                    <span className="text-xl font-bold text-[#ff6b35]">3</span>
+              <div className="text-center mb-4 sm:mb-6 lg:mb-8">
+                <div className="inline-flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[#ff6b35]/10 border border-[#ff6b35]/20 flex items-center justify-center">
+                    <span className="text-lg sm:text-xl font-bold text-[#ff6b35]">3</span>
                   </div>
                   <div className="text-left">
-                    <span className="text-xs uppercase tracking-[0.2em] text-white/40 block">Step Three</span>
-                    <span className="text-lg font-semibold text-white">Match</span>
+                    <span className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-white/40 block">Step Three</span>
+                    <span className="text-base sm:text-lg font-semibold text-white">Match</span>
                   </div>
                 </div>
-                <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 tracking-tight">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-2 sm:mb-4 tracking-tight">
                   Instant <span className="text-white/20">bidding.</span>
                 </h2>
-                <p className="text-white/50 text-lg max-w-2xl mx-auto">
+                <p className="text-white/50 text-sm sm:text-base lg:text-lg max-w-2xl mx-auto hidden sm:block">
                   Merchants compete in real-time to fulfill your order. Best rate wins automatically.
                 </p>
               </div>
 
-              {/* Powered by badge */}
-              <div className="flex justify-center mb-6">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.02] border border-white/[0.06]">
+              {/* Powered by badge - hidden on mobile */}
+              <div className="hidden sm:flex justify-center mb-4 lg:mb-6">
+                <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/[0.02] border border-white/[0.06]">
                   <motion.div
                     className="w-2 h-2 rounded-full bg-emerald-500"
                     animate={{ scale: [1, 1.3, 1], opacity: [1, 0.6, 1] }}
                     transition={{ duration: 1.5, repeat: Infinity }}
                   />
-                  <span className="text-xs text-white/50">Powered by</span>
-                  <span className="text-xs font-semibold text-white">150+ Verified Merchants</span>
+                  <span className="text-[10px] sm:text-xs text-white/50">Powered by</span>
+                  <span className="text-[10px] sm:text-xs font-semibold text-white">150+ Verified Merchants</span>
                 </div>
               </div>
 
-              {/* Full Browser Mockup with 3D Perspective */}
+              {/* Full Browser Mockup with 3D Perspective - Shows ~60% with gradient fade */}
               <motion.div
-                className="relative mx-auto max-w-6xl"
+                className="relative mx-auto max-w-5xl lg:max-w-6xl"
                 style={{
                   x: mousePosition.x * -12,
                   y: mousePosition.y * -8,
@@ -1236,21 +1201,21 @@ const HeroSection = () => {
                   }}
                 />
 
-                <div className="rounded-2xl overflow-hidden border border-white/[0.08] bg-[#0a0a0a] shadow-[0_50px_100px_rgba(0,0,0,0.5),0_0_80px_rgba(255,107,53,0.08)]">
+                <div className="rounded-2xl overflow-hidden border border-white/[0.08] bg-[#0a0a0a] shadow-[0_30px_60px_rgba(0,0,0,0.4)] sm:shadow-[0_50px_100px_rgba(0,0,0,0.5),0_0_80px_rgba(255,107,53,0.08)] max-h-[55vh] sm:max-h-[60vh] lg:max-h-[65vh] relative">
                   {/* Browser chrome */}
-                  <div className="flex items-center gap-3 px-5 py-4 bg-[#111] border-b border-white/[0.06]">
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
-                      <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
-                      <div className="w-3 h-3 rounded-full bg-[#28ca42]" />
+                  <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-5 py-2.5 sm:py-4 bg-[#111] border-b border-white/[0.06]">
+                    <div className="flex items-center gap-1.5 sm:gap-2">
+                      <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#ff5f57]" />
+                      <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#ffbd2e]" />
+                      <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#28ca42]" />
                     </div>
                     <div className="flex-1 flex justify-center">
-                      <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/[0.03] border border-white/[0.06] min-w-[400px]">
-                        <div className="w-4 h-4 rounded-full bg-white/10 flex items-center justify-center">
-                          <Lock className="w-2.5 h-2.5 text-white/40" />
+                      <div className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg bg-white/[0.03] border border-white/[0.06] w-full max-w-[200px] sm:max-w-[300px] md:max-w-[400px]">
+                        <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+                          <Lock className="w-2 h-2 sm:w-2.5 sm:h-2.5 text-white/40" />
                         </div>
-                        <span className="text-sm text-white/40 font-mono">settle.blipprotocol.com/merchant</span>
-                        <div className="flex items-center gap-1.5 ml-auto">
+                        <span className="text-[10px] sm:text-sm text-white/40 font-mono truncate">settle.blipprotocol.com/merchant</span>
+                        <div className="hidden sm:flex items-center gap-1.5 ml-auto shrink-0">
                           <motion.div
                             className="w-2 h-2 rounded-full bg-emerald-500"
                             animate={{ opacity: [1, 0.5, 1] }}
@@ -1260,7 +1225,7 @@ const HeroSection = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-center gap-3">
+                    <div className="hidden sm:flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center text-xs font-bold text-white">
                         M
                       </div>
@@ -1443,6 +1408,8 @@ const HeroSection = () => {
                       </div>
                     </div>
                   </div>
+                  {/* Gradient fade at bottom to show it continues */}
+                  <div className="absolute bottom-0 left-0 right-0 h-24 sm:h-32 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent pointer-events-none" />
                 </div>
               </motion.div>
             </div>
@@ -1450,32 +1417,32 @@ const HeroSection = () => {
 
           {/* ==================== STEP 4: VERIFY - Full Browser Mockup ==================== */}
           <motion.div
-            className="absolute inset-0 flex items-center justify-center z-20"
+            className="absolute inset-0 flex items-start justify-center z-20 pt-20 sm:pt-24 lg:pt-28"
             style={{ opacity: step4Opacity, scale: step4Scale }}
           >
-            <div className="w-full max-w-7xl mx-auto px-6">
+            <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
               {/* Header */}
-              <div className="text-center mb-10">
-                <div className="inline-flex items-center gap-3 mb-6">
-                  <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                    <span className="text-xl font-bold text-emerald-400">4</span>
+              <div className="text-center mb-4 sm:mb-6 lg:mb-8">
+                <div className="inline-flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+                    <span className="text-lg sm:text-xl font-bold text-emerald-400">4</span>
                   </div>
                   <div className="text-left">
-                    <span className="text-xs uppercase tracking-[0.2em] text-white/40 block">Step Four</span>
-                    <span className="text-lg font-semibold text-white">Verify</span>
+                    <span className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-white/40 block">Step Four</span>
+                    <span className="text-base sm:text-lg font-semibold text-white">Verify</span>
                   </div>
                 </div>
-                <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 tracking-tight">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-2 sm:mb-4 tracking-tight">
                   Settlement <span className="text-white/20">verified.</span>
                 </h2>
-                <p className="text-white/50 text-lg max-w-xl mx-auto">
+                <p className="text-white/50 text-sm sm:text-base lg:text-lg max-w-xl mx-auto hidden sm:block">
                   Every transaction on-chain. Transparent and immutable. Track in real-time.
                 </p>
               </div>
 
-              {/* Full Browser Mockup - Blipscan with 3D Perspective */}
+              {/* Full Browser Mockup - Blipscan with 3D Perspective - Shows ~60% */}
               <motion.div
-                className="relative mx-auto max-w-5xl"
+                className="relative mx-auto max-w-4xl lg:max-w-5xl"
                 style={{
                   x: mousePosition.x * -10,
                   y: mousePosition.y * -7,
@@ -1518,56 +1485,56 @@ const HeroSection = () => {
                   }}
                 />
 
-                <div className="rounded-2xl overflow-hidden border border-white/[0.08] bg-[#0a0a0a] shadow-[0_50px_100px_rgba(0,0,0,0.5),0_0_60px_rgba(16,185,129,0.06)]">
+                <div className="rounded-2xl overflow-hidden border border-white/[0.08] bg-[#0a0a0a] shadow-[0_30px_60px_rgba(0,0,0,0.4)] sm:shadow-[0_50px_100px_rgba(0,0,0,0.5),0_0_60px_rgba(16,185,129,0.06)] max-h-[55vh] sm:max-h-[60vh] lg:max-h-[65vh] relative">
                   {/* Browser chrome */}
-                  <div className="flex items-center gap-3 px-5 py-4 bg-[#111] border-b border-white/[0.06]">
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
-                      <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
-                      <div className="w-3 h-3 rounded-full bg-[#28ca42]" />
+                  <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-5 py-2.5 sm:py-4 bg-[#111] border-b border-white/[0.06]">
+                    <div className="flex items-center gap-1.5 sm:gap-2">
+                      <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#ff5f57]" />
+                      <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#ffbd2e]" />
+                      <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#28ca42]" />
                     </div>
                     <div className="flex-1 flex justify-center">
-                      <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/[0.03] border border-white/[0.06] min-w-[400px]">
-                        <div className="w-4 h-4 rounded-full bg-white/10 flex items-center justify-center">
-                          <Lock className="w-2.5 h-2.5 text-white/40" />
+                      <div className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg bg-white/[0.03] border border-white/[0.06] w-full max-w-[200px] sm:max-w-[300px] md:max-w-[400px]">
+                        <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+                          <Lock className="w-2 h-2 sm:w-2.5 sm:h-2.5 text-white/40" />
                         </div>
-                        <span className="text-sm text-white/40 font-mono">blipscan.io/explorer</span>
-                        <div className="w-2 h-2 rounded-full bg-[#ff6b35] ml-auto" />
+                        <span className="text-[10px] sm:text-sm text-white/40 font-mono truncate">blipscan.io/explorer</span>
+                        <div className="w-2 h-2 rounded-full bg-[#ff6b35] ml-auto shrink-0" />
                       </div>
                     </div>
-                    <div className="flex items-center gap-3">
+                    <div className="hidden sm:flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-white/5" />
                     </div>
                   </div>
 
                   {/* Blipscan content */}
-                  <div className="p-6 md:p-8">
+                  <div className="p-4 sm:p-6 md:p-8">
                     {/* Header */}
-                    <div className="flex items-center justify-between mb-8">
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-[#ff6b35] flex items-center justify-center">
-                          <Zap className="w-6 h-6 text-black" />
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4 sm:mb-6 lg:mb-8">
+                      <div className="flex items-center gap-3 sm:gap-4">
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-[#ff6b35] flex items-center justify-center shrink-0">
+                          <Zap className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
                         </div>
                         <div>
-                          <h3 className="text-xl font-bold text-white mb-1">Blipscan Explorer</h3>
+                          <h3 className="text-base sm:text-lg lg:text-xl font-bold text-white mb-0.5 sm:mb-1">Blipscan Explorer</h3>
                           <div className="flex items-center gap-2">
-                            <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-emerald-500/10">
-                              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                              <span className="text-[10px] text-emerald-400 uppercase font-medium">Mainnet</span>
+                            <div className="flex items-center gap-1 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full bg-emerald-500/10">
+                              <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-emerald-500" />
+                              <span className="text-[8px] sm:text-[10px] text-emerald-400 uppercase font-medium">Mainnet</span>
                             </div>
-                            <span className="text-sm text-white/30">Solana</span>
+                            <span className="text-xs sm:text-sm text-white/30">Solana</span>
                           </div>
                         </div>
                       </div>
-                      <div className="flex items-center gap-6">
+                      <div className="hidden md:flex items-center gap-4 lg:gap-6">
                         {[
                           { label: "Total Volume", value: "$2.4M" },
                           { label: "Settlements", value: "12,847" },
                           { label: "Success Rate", value: "99.8%" },
                         ].map((stat) => (
                           <div key={stat.label} className="text-right">
-                            <div className="text-xs text-white/40">{stat.label}</div>
-                            <div className="text-lg font-bold text-white">{stat.value}</div>
+                            <div className="text-[10px] lg:text-xs text-white/40">{stat.label}</div>
+                            <div className="text-base lg:text-lg font-bold text-white">{stat.value}</div>
                           </div>
                         ))}
                       </div>
@@ -1627,15 +1594,17 @@ const HeroSection = () => {
                       ))}
                     </div>
 
-                    {/* Footer */}
+                    {/* Footer - hidden as we clip the content */}
                     <div className="mt-6 flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <div className="w-2 h-2 rounded-full bg-[#ff6b35]" />
-                        <span className="text-sm text-white/30">Powered by Blip Protocol</span>
+                        <span className="text-xs sm:text-sm text-white/30">Powered by Blip Protocol</span>
                       </div>
-                      <button className="text-sm text-[#ff6b35] hover:underline">View all transactions →</button>
+                      <button className="text-xs sm:text-sm text-[#ff6b35] hover:underline">View all →</button>
                     </div>
                   </div>
+                  {/* Gradient fade at bottom to show it continues */}
+                  <div className="absolute bottom-0 left-0 right-0 h-24 sm:h-32 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent pointer-events-none" />
                 </div>
               </motion.div>
             </div>
@@ -2200,101 +2169,102 @@ const ProblemSection = () => {
   });
 
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-  const glowY = useTransform(scrollYProgress, [0, 1], [100, -100]);
 
   const problems = [
-    { title: "High Fees", desc: "Hidden costs erode every transaction.", icon: "💸" },
-    { title: "Slow Settlement", desc: "Days, not seconds.", icon: "⏳" },
-    { title: "No Privacy", desc: "Your data, exposed to everyone.", icon: "🔓" },
-    { title: "Middlemen", desc: "Opaque. Unaccountable.", icon: "🏦" },
+    { year: "2024", title: "High Fees", desc: "Banks charge 3-7% on international transfers. Hidden costs erode every transaction.", stat: "~$48B", statLabel: "Lost to fees annually" },
+    { year: "2025", title: "Slow Settlement", desc: "SWIFT takes 2-5 business days. Money stuck in limbo while you wait.", stat: "3-5 days", statLabel: "Average settlement" },
+    { year: "2026", title: "No Privacy", desc: "Every transaction tracked, reported, and stored. Your financial life exposed.", stat: "100%", statLabel: "Transactions monitored" },
+    { year: "Now", title: "Enter Blip", desc: "Sub-second settlement. 0.1% fees. Full privacy. The future of money transfer is here.", stat: "~2s", statLabel: "Settlement time", highlight: true },
   ];
 
   return (
-    <section ref={containerRef} className="relative py-40 bg-black overflow-hidden">
-      {/* Immersive background with orange glow */}
+    <section ref={containerRef} className="relative py-32 md:py-40 bg-black overflow-hidden">
+      {/* Subtle background gradient */}
       <div className="absolute inset-0">
-        <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] rounded-full"
-          style={{
-            background: 'radial-gradient(ellipse, rgba(255,107,53,0.05) 0%, transparent 60%)',
-            y: glowY,
-          }}
-        />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-[#ff6b35]/[0.03] blur-[120px]" />
       </div>
 
-      <motion.div className="relative z-10 max-w-5xl mx-auto px-6" style={{ opacity }}>
-        {/* Header */}
-        <div className="text-center mb-24">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-8 backdrop-blur-sm"
-            style={{
-              background: 'rgba(255, 255, 255, 0.02)',
-              border: '1px solid rgba(255, 255, 255, 0.06)',
-            }}
-          >
-            <span className="text-[11px] uppercase tracking-[0.3em] text-white/40">
-              The Problem
-            </span>
-          </motion.div>
-
+      <motion.div className="relative z-10 max-w-6xl mx-auto px-6" style={{ opacity }}>
+        {/* Header - Centered focus headline */}
+        <div className="text-center mb-20">
           <motion.h2
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-4xl md:text-6xl lg:text-7xl font-semibold text-white tracking-tight leading-[1.1]"
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[1.05] mb-6"
           >
             Global payments
             <br />
-            <span className="text-[#ff6b35]/50">are broken.</span>
+            <span className="text-[#ff6b35]">are broken.</span>
           </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="text-lg text-white/40 max-w-xl mx-auto"
+          >
+            The traditional financial system was built for a different era. It's time for something better.
+          </motion.p>
         </div>
 
-        {/* Problems Grid - with orange hover accents */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {problems.map((problem, i) => (
-            <motion.div
-              key={problem.title}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 + i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="group relative rounded-2xl p-8 cursor-default overflow-hidden"
-              style={{
-                background: 'rgba(255, 255, 255, 0.02)',
-                border: '1px solid rgba(255, 255, 255, 0.05)',
-              }}
-            >
-              {/* Hover glow */}
-              <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#ff6b35] opacity-0 group-hover:opacity-[0.08] blur-[60px] rounded-full transition-opacity duration-500" />
+        {/* Interactive Timeline */}
+        <div className="relative">
+          {/* Central timeline line */}
+          <motion.div
+            className="absolute left-8 md:left-1/2 md:-translate-x-px top-0 bottom-0 w-[2px] bg-gradient-to-b from-white/[0.06] via-[#ff6b35]/30 to-white/[0.06]"
+            initial={{ scaleY: 0, originY: 0 }}
+            whileInView={{ scaleY: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+          />
 
-              <div className="relative z-10">
-                <span className="text-2xl mb-4 block">{problem.icon}</span>
-                <span className="text-[10px] uppercase tracking-[0.3em] text-[#ff6b35]/50 font-medium mb-4 block">
-                  0{i + 1}
-                </span>
-                <h3 className="text-lg md:text-xl font-medium text-white mb-2 group-hover:text-white transition-colors">
-                  {problem.title}
-                </h3>
-                <p className="text-sm text-white/30 group-hover:text-white/50 transition-colors leading-relaxed">
-                  {problem.desc}
-                </p>
-              </div>
-
-              {/* Bottom accent line */}
+          {/* Timeline items */}
+          <div className="space-y-12 md:space-y-0">
+            {problems.map((problem, i) => (
               <motion.div
-                className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#ff6b35] to-transparent"
-                initial={{ scaleX: 0, originX: 0 }}
-                whileInView={{ scaleX: 1 }}
+                key={problem.title}
+                initial={{ opacity: 0, x: i % 2 === 0 ? -50 : 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 1, delay: 0.5 + i * 0.1 }}
-              />
-            </motion.div>
-          ))}
+                transition={{ duration: 0.8, delay: 0.2 + i * 0.15, ease: [0.16, 1, 0.3, 1] }}
+                className={`relative md:grid md:grid-cols-2 md:gap-12 ${i % 2 === 0 ? '' : 'md:direction-rtl'}`}
+              >
+                {/* Timeline dot */}
+                <div className={`absolute left-8 md:left-1/2 -translate-x-1/2 top-6 z-10`}>
+                  <motion.div
+                    className={`w-4 h-4 rounded-full border-2 ${problem.highlight ? 'bg-[#ff6b35] border-[#ff6b35]' : 'bg-black border-white/20'}`}
+                    whileInView={problem.highlight ? {
+                      boxShadow: ['0 0 0 0 rgba(255,107,53,0)', '0 0 20px 4px rgba(255,107,53,0.3)', '0 0 0 0 rgba(255,107,53,0)']
+                    } : {}}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  />
+                </div>
+
+                {/* Content card */}
+                <div className={`ml-20 md:ml-0 ${i % 2 === 0 ? 'md:text-right md:pr-16' : 'md:col-start-2 md:pl-16 md:text-left'}`}>
+                  <div className={`inline-block p-6 rounded-2xl ${problem.highlight ? 'bg-[#ff6b35]/[0.08] border border-[#ff6b35]/20' : 'bg-white/[0.02] border border-white/[0.05]'}`}>
+                    <div className={`text-[10px] uppercase tracking-[0.3em] ${problem.highlight ? 'text-[#ff6b35]' : 'text-white/30'} font-medium mb-2`}>
+                      {problem.year}
+                    </div>
+                    <h3 className={`text-xl md:text-2xl font-semibold ${problem.highlight ? 'text-[#ff6b35]' : 'text-white'} mb-2`}>
+                      {problem.title}
+                    </h3>
+                    <p className="text-sm text-white/50 mb-4 leading-relaxed max-w-sm">
+                      {problem.desc}
+                    </p>
+                    <div className="flex items-baseline gap-2">
+                      <span className={`text-2xl font-bold ${problem.highlight ? 'text-[#ff6b35]' : 'text-white'}`}>
+                        {problem.stat}
+                      </span>
+                      <span className="text-xs text-white/30">{problem.statLabel}</span>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </motion.div>
     </section>
@@ -3099,92 +3069,174 @@ const HowItWorksSection = () => {
   });
 
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-  const glowX = useTransform(scrollYProgress, [0, 1], [-100, 100]);
 
   const steps = [
     {
       num: "01",
       title: "Send",
-      desc: "Create a payment from your wallet. Crypto is locked in escrow.",
-      icon: "💳",
+      desc: "Create a payment from your wallet. Connect, enter amount, and send globally.",
+      app: "Blip App",
+      appIcon: "📱",
+      screen: (
+        <div className="p-4 h-full flex flex-col">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-[#ff6b35] flex items-center justify-center">
+                <Zap className="w-4 h-4 text-black" />
+              </div>
+              <span className="text-sm font-semibold text-white">Blip</span>
+            </div>
+            <div className="w-7 h-7 rounded-full bg-white/5" />
+          </div>
+          <div className="flex-1 flex flex-col items-center justify-center">
+            <span className="text-[10px] text-white/40 uppercase mb-2">You send</span>
+            <div className="flex items-center gap-2 mb-4">
+              <span className="text-4xl font-bold text-white">500</span>
+              <span className="text-sm text-white/50">USDC</span>
+            </div>
+            <div className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.06] text-center">
+              <span className="text-xs text-white/40">→ 1,835 AED</span>
+            </div>
+          </div>
+          <div className="w-full py-3 rounded-xl bg-[#ff6b35] text-center mt-4">
+            <span className="text-sm font-semibold text-black">Continue</span>
+          </div>
+        </div>
+      ),
     },
     {
       num: "02",
       title: "Match",
-      desc: "The Blip network routes your payment through optimal liquidity.",
-      icon: "🔄",
+      desc: "150+ verified merchants compete to fulfill your order. Best rate wins.",
+      app: "Merchant Dashboard",
+      appIcon: "🏪",
+      screen: (
+        <div className="p-3 h-full flex flex-col text-left">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-xs font-semibold text-white">Live Orders</span>
+            <div className="flex items-center gap-1">
+              <div className="w-1.5 h-1.5 rounded-full bg-[#ff6b35] animate-pulse" />
+              <span className="text-[9px] text-[#ff6b35]">LIVE</span>
+            </div>
+          </div>
+          <div className="space-y-2 flex-1">
+            {[
+              { rate: "3.672", profit: "+$1.85", best: true },
+              { rate: "3.668", profit: "+$1.65", best: false },
+              { rate: "3.665", profit: "+$1.50", best: false },
+            ].map((bid, i) => (
+              <div key={i} className={`p-2.5 rounded-lg ${bid.best ? 'bg-[#ff6b35]/10 border border-[#ff6b35]/20' : 'bg-white/[0.02] border border-white/[0.04]'}`}>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className={`w-5 h-5 rounded ${bid.best ? 'bg-[#ff6b35]/20' : 'bg-white/5'} flex items-center justify-center text-[10px]`}>
+                      {bid.best ? '🏆' : '⚡'}
+                    </div>
+                    <span className="text-xs font-semibold text-white">{bid.rate} AED</span>
+                  </div>
+                  <span className="text-[9px] text-[#ff6b35]">{bid.profit}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-3 p-2 rounded-lg bg-white/[0.02] border border-white/[0.04]">
+            <span className="text-[9px] text-white/40">Auto-selecting best rate...</span>
+          </div>
+        </div>
+      ),
     },
     {
       num: "03",
-      title: "Receive",
-      desc: "Recipient gets real-world value. Bank, cash, or goods.",
-      icon: "✅",
+      title: "Verify",
+      desc: "Every transaction on-chain. Track, verify, and confirm on Blipscan.",
+      app: "Blipscan",
+      appIcon: "🔍",
+      screen: (
+        <div className="p-3 h-full flex flex-col text-left">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 rounded bg-[#ff6b35] flex items-center justify-center">
+                <Zap className="w-3 h-3 text-black" />
+              </div>
+              <span className="text-xs font-semibold text-white">Blipscan</span>
+            </div>
+            <div className="px-1.5 py-0.5 rounded bg-white/[0.05]">
+              <span className="text-[8px] text-white/40 font-mono">Mainnet</span>
+            </div>
+          </div>
+          <div className="space-y-2 flex-1">
+            {[
+              { id: "BLP-7x2K", to: "Ahmed M.", amount: "$500", time: "2s" },
+              { id: "BLP-4mR8", to: "Sarah K.", amount: "$1,200", time: "1.4s" },
+            ].map((tx, i) => (
+              <div key={i} className="p-2.5 rounded-lg bg-white/[0.02] border border-white/[0.04]">
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[9px] text-white/40 font-mono">{tx.id}...</span>
+                  <div className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-[#ff6b35]/10">
+                    <Check className="w-2.5 h-2.5 text-[#ff6b35]" />
+                    <span className="text-[8px] text-[#ff6b35]">{tx.time}</span>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-white">{tx.to}</span>
+                  <span className="text-xs font-semibold text-white">{tx.amount}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-2 flex items-center gap-1.5">
+            <div className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]" />
+            <span className="text-[8px] text-white/30">Connected to Solana</span>
+          </div>
+        </div>
+      ),
     },
   ];
 
   return (
-    <section ref={containerRef} className="relative py-40 bg-black overflow-hidden">
-      {/* Immersive background with moving glow */}
+    <section ref={containerRef} className="relative py-32 md:py-40 bg-black overflow-hidden">
+      {/* Subtle background */}
       <div className="absolute inset-0">
-        <motion.div
-          className="absolute top-1/2 left-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full"
-          style={{
-            background: 'radial-gradient(ellipse, rgba(255,107,53,0.06) 0%, transparent 60%)',
-            x: glowX,
-          }}
-        />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full bg-[#ff6b35]/[0.02] blur-[100px]" />
       </div>
 
-      <motion.div className="relative z-10 max-w-5xl mx-auto px-6" style={{ opacity }}>
+      <motion.div className="relative z-10 max-w-6xl mx-auto px-6" style={{ opacity }}>
         {/* Header */}
-        <div className="text-center mb-24">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-8 backdrop-blur-sm"
-            style={{
-              background: 'rgba(255, 107, 53, 0.05)',
-              border: '1px solid rgba(255, 107, 53, 0.15)',
-            }}
-          >
-            <motion.span
-              className="w-2 h-2 rounded-full bg-[#ff6b35]"
-              animate={{ scale: [1, 1.3, 1], opacity: [1, 0.5, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
-            <span className="text-[11px] uppercase tracking-[0.3em] text-white/60">
-              How It Works
-            </span>
-          </motion.div>
-
+        <div className="text-center mb-16">
           <motion.h2
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-4xl md:text-6xl lg:text-7xl font-semibold text-white tracking-tight leading-[1.1]"
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.1] mb-4"
           >
             Three steps.
             <br />
-            <span className="text-[#ff6b35]/60">That's it.</span>
+            <span className="text-[#ff6b35]">That's it.</span>
           </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-base text-white/40 max-w-md mx-auto"
+          >
+            From wallet to real-world value in seconds. See how it works.
+          </motion.p>
         </div>
 
-        {/* Steps with orange accents */}
+        {/* Steps with phone mockups */}
         <div className="relative">
-          {/* Connecting orange gradient line */}
+          {/* Connecting line */}
           <motion.div
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 1.5, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute top-14 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#ff6b35]/40 to-transparent hidden md:block"
+            className="absolute top-[140px] left-[15%] right-[15%] h-[1px] bg-gradient-to-r from-transparent via-[#ff6b35]/20 to-transparent hidden lg:block"
             style={{ originX: 0 }}
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
             {steps.map((step, i) => (
               <motion.div
                 key={step.num}
@@ -3192,34 +3244,41 @@ const HowItWorksSection = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.2 + i * 0.15, ease: [0.16, 1, 0.3, 1] }}
-                className="relative text-center group"
+                className="relative text-center"
               >
-                {/* Step number circle with orange glow */}
-                <div className="inline-flex items-center justify-center w-28 h-28 rounded-full mb-8 relative">
-                  <div
-                    className="absolute inset-0 rounded-full"
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(255,107,53,0.1) 0%, transparent 70%)',
-                      border: '1px solid rgba(255, 107, 53, 0.2)',
-                    }}
-                  />
-                  <span className="text-4xl">{step.icon}</span>
-                  {/* Pulse effect */}
-                  <motion.div
-                    className="absolute inset-0 rounded-full border border-[#ff6b35]/30"
-                    animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0, 0.5] }}
-                    transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
-                  />
+                {/* Mini phone mockup */}
+                <div className="relative mx-auto mb-6 w-[160px] sm:w-[180px]">
+                  <div className="rounded-[24px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[2px] shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
+                    <div className="rounded-[22px] bg-[#0a0a0a] p-[6px]">
+                      <div className="rounded-[18px] bg-black overflow-hidden h-[220px] sm:h-[240px] relative">
+                        {/* Dynamic Island */}
+                        <div className="absolute top-2 left-1/2 -translate-x-1/2 w-16 h-5 bg-black rounded-full z-10" />
+                        {/* Screen content */}
+                        <div className="pt-8 h-full">
+                          {step.screen}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* App label */}
+                  <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-white/[0.05] border border-white/[0.08]">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-sm">{step.appIcon}</span>
+                      <span className="text-[10px] text-white/60 font-medium">{step.app}</span>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Content */}
-                <span className="text-[#ff6b35] text-xs font-mono mb-2 block">{step.num}</span>
-                <h3 className="text-2xl font-semibold text-white mb-3 group-hover:text-[#ff6b35] transition-colors">
-                  {step.title}
-                </h3>
-                <p className="text-sm text-white/40 leading-relaxed max-w-xs mx-auto">
-                  {step.desc}
-                </p>
+                <div className="mt-8">
+                  <span className="text-[#ff6b35] text-xs font-mono mb-2 block">{step.num}</span>
+                  <h3 className="text-xl font-semibold text-white mb-2">
+                    {step.title}
+                  </h3>
+                  <p className="text-sm text-white/40 leading-relaxed max-w-[240px] mx-auto">
+                    {step.desc}
+                  </p>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -3338,74 +3397,170 @@ const EarlyAdopterBanner = () => {
     offset: ["start end", "end start"],
   });
 
-  const glowX = useTransform(scrollYProgress, [0, 1], [-50, 50]);
+  const scale = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.95, 1, 1, 0.95]);
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+
+  // Animated counter for tokens
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (count < 100) {
+        setCount(prev => Math.min(prev + 2, 100));
+      }
+    }, 30);
+    return () => clearTimeout(timer);
+  }, [count]);
+
+  const rewards = [
+    { icon: "🎁", label: "Welcome Bonus", value: "$50", desc: "Connect wallet" },
+    { icon: "🚀", label: "First Transfer", value: "$25", desc: "Complete a transaction" },
+    { icon: "👥", label: "Referral", value: "$25", desc: "Invite a friend" },
+  ];
 
   return (
-    <section ref={containerRef} className="relative py-28 bg-black overflow-hidden">
-      {/* Animated orange gradient lines */}
-      <motion.div
-        className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#ff6b35]/40 to-transparent"
-        style={{ x: glowX }}
-      />
-      <motion.div
-        className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#ff6b35]/40 to-transparent"
-        style={{ x: useTransform(scrollYProgress, [0, 1], [50, -50]) }}
-      />
-
-      {/* Background glow */}
+    <section ref={containerRef} className="relative py-32 md:py-40 bg-black overflow-hidden">
+      {/* Dramatic background */}
       <div className="absolute inset-0">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full bg-[#ff6b35]/5 blur-[100px]" />
+        {/* Central glow */}
+        <motion.div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] rounded-full"
+          style={{
+            background: 'radial-gradient(ellipse, rgba(255,107,53,0.12) 0%, rgba(255,107,53,0.03) 40%, transparent 70%)',
+          }}
+        />
+        {/* Animated rings */}
+        <motion.div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full border border-[#ff6b35]/10"
+          animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.6, 0.3] }}
+          transition={{ duration: 4, repeat: Infinity }}
+        />
+        <motion.div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full border border-[#ff6b35]/5"
+          animate={{ scale: [1.1, 1, 1.1], opacity: [0.2, 0.4, 0.2] }}
+          transition={{ duration: 5, repeat: Infinity, delay: 1 }}
+        />
       </div>
 
-      <div className="relative z-10 max-w-4xl mx-auto px-6">
+      <motion.div className="relative z-10 max-w-5xl mx-auto px-6" style={{ opacity, scale }}>
+        {/* Main content card */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center"
+          className="relative rounded-3xl overflow-hidden"
+          style={{
+            background: 'linear-gradient(135deg, rgba(255,107,53,0.08) 0%, rgba(255,107,53,0.02) 50%, rgba(0,0,0,0.5) 100%)',
+            border: '1px solid rgba(255,107,53,0.15)',
+          }}
         >
-          {/* Badge */}
-          <motion.div
-            className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-8"
-            style={{
-              background: 'rgba(255, 107, 53, 0.1)',
-              border: '1px solid rgba(255, 107, 53, 0.2)',
-            }}
-          >
-            <motion.span
-              className="w-2 h-2 rounded-full bg-[#ff6b35]"
-              animate={{ scale: [1, 1.3, 1], opacity: [1, 0.5, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
-            <span className="text-[12px] uppercase tracking-[0.2em] text-[#ff6b35]">Early Access</span>
-          </motion.div>
+          {/* Inner glow effect */}
+          <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full bg-[#ff6b35]/10 blur-[120px] -translate-y-1/2 translate-x-1/2" />
 
-          <h2
-            className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight mb-4"
-            style={{
-              background: 'linear-gradient(135deg, #ffffff 0%, #ff6b35 100%)',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
-          >
-            $100 in Blip Tokens
-          </h2>
+          <div className="relative p-8 md:p-12 lg:p-16">
+            {/* Header */}
+            <div className="text-center mb-12">
+              {/* Badge */}
+              <motion.div
+                className="inline-flex items-center gap-3 px-4 py-2 rounded-full mb-8"
+                style={{
+                  background: 'rgba(255, 107, 53, 0.15)',
+                  border: '1px solid rgba(255, 107, 53, 0.3)',
+                }}
+              >
+                <motion.div
+                  className="w-2 h-2 rounded-full bg-[#ff6b35]"
+                  animate={{ scale: [1, 1.3, 1] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                />
+                <span className="text-xs uppercase tracking-[0.2em] text-[#ff6b35] font-medium">Limited Time Offer</span>
+              </motion.div>
 
-          <p className="text-base text-white/40 max-w-lg mx-auto mb-10">
-            Reserved for early adopters. Connect your wallet and complete your first transfer.
-          </p>
+              {/* Big animated number */}
+              <div className="mb-6">
+                <motion.div
+                  className="text-7xl md:text-8xl lg:text-9xl font-bold"
+                  style={{
+                    background: 'linear-gradient(135deg, #ffffff 0%, #ff6b35 50%, #ff8c50 100%)',
+                    backgroundClip: 'text',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    textShadow: '0 0 80px rgba(255,107,53,0.3)',
+                  }}
+                >
+                  ${count}
+                </motion.div>
+                <div className="text-2xl md:text-3xl font-semibold text-white mt-2">
+                  in Blip Tokens
+                </div>
+              </div>
 
-          <Link
-            to="/rewards"
-            className="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-[#ff6b35] text-black text-sm font-semibold hover:bg-[#ff8c50] hover:shadow-[0_0_50px_rgba(255,107,53,0.4)] transition-all duration-300"
-          >
-            <span>Join Early Access</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Link>
+              <p className="text-lg text-white/50 max-w-lg mx-auto">
+                Early supporters get rewarded. Connect your wallet and start earning today.
+              </p>
+            </div>
+
+            {/* Rewards breakdown */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
+              {rewards.map((reward, i) => (
+                <motion.div
+                  key={reward.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.3 + i * 0.1 }}
+                  className="relative p-6 rounded-2xl bg-white/[0.03] border border-white/[0.06] text-center group hover:border-[#ff6b35]/30 transition-all"
+                >
+                  {/* Hover glow */}
+                  <div className="absolute inset-0 rounded-2xl bg-[#ff6b35]/0 group-hover:bg-[#ff6b35]/5 transition-all" />
+
+                  <div className="relative">
+                    <span className="text-4xl mb-4 block">{reward.icon}</span>
+                    <div className="text-2xl font-bold text-[#ff6b35] mb-1">{reward.value}</div>
+                    <div className="text-sm font-medium text-white mb-1">{reward.label}</div>
+                    <div className="text-xs text-white/40">{reward.desc}</div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* CTA section */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
+                <Link
+                  to="/waitlist"
+                  className="group flex items-center gap-3 px-10 py-5 bg-[#ff6b35] text-black rounded-2xl font-bold text-base shadow-[0_0_50px_rgba(255,107,53,0.3)] hover:shadow-[0_0_80px_rgba(255,107,53,0.5)] transition-all"
+                >
+                  <span>Claim Your Tokens</span>
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </motion.div>
+              <Link
+                to="/rewards"
+                className="text-sm text-white/50 hover:text-white/80 transition-colors underline underline-offset-4"
+              >
+                View all rewards →
+              </Link>
+            </div>
+
+            {/* Stats footer */}
+            <div className="mt-12 pt-8 border-t border-white/[0.06]">
+              <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16">
+                {[
+                  { value: "2,847", label: "Early adopters" },
+                  { value: "$284K", label: "Tokens distributed" },
+                  { value: "12 days", label: "Until deadline" },
+                ].map((stat) => (
+                  <div key={stat.label} className="text-center">
+                    <div className="text-xl font-bold text-white">{stat.value}</div>
+                    <div className="text-xs text-white/40 uppercase tracking-wider">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   );
 };

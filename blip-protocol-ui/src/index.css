@@ -120,6 +120,20 @@
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
     letter-spacing: -0.011em;
+    /* Smooth momentum scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Smooth scroll container for hero sections */
+  .smooth-scroll-container {
+    scroll-behavior: smooth;
+    overscroll-behavior: contain;
+    scroll-snap-type: y proximity;
+  }
+
+  .smooth-scroll-section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
   }
 
   ::selection {
