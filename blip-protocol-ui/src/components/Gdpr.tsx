@@ -9,8 +9,8 @@ const Gdpr = () => {
   return (
     <>
     <SEO
-  title="Blip money GDPR Compliance | Your Data Rights"
-  description="Understand Blip money GDPR compliance and how your data rights are protected under EU regulations."
+  title="GDPR Compliance | Blip Money"
+  description="Learn how Blip Money complies with GDPR and protects user data and privacy rights."
   canonical="https://blip.money/gdpr"
 />
 

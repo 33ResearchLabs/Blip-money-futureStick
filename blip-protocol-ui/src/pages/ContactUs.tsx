@@ -86,32 +86,31 @@ const HeroSection = () => {
         </motion.div>
 
         {/* Headlines */}
-        <div className="overflow-hidden mb-4">
-          <motion.h1
-            initial={{ y: 120 }}
-            animate={{ y: 0 }}
-            transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[clamp(2.5rem,8vw,6rem)] font-semibold text-white leading-[0.95] tracking-[-0.04em]"
-          >
-            Protocol
-          </motion.h1>
-        </div>
         <div className="overflow-hidden mb-8">
-          <motion.h1
-            initial={{ y: 120 }}
-            animate={{ y: 0 }}
-            transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[clamp(2.5rem,8vw,6rem)] font-semibold leading-[0.95] tracking-[-0.04em]"
-            style={{
-              background: 'linear-gradient(135deg, #ff6b35 0%, #ff8c50 50%, #ffffff 100%)',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
-          >
-            Gateway
-          </motion.h1>
-        </div>
+  <motion.h1
+    initial={{ y: 120 }}
+    animate={{ y: 0 }}
+    transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+    className="text-[clamp(2.5rem,8vw,6rem)] font-semibold leading-[0.95] tracking-[-0.04em]"
+  >
+    <span className="block text-white">
+      Protocol
+    </span>
+
+    <span
+      className="block"
+      style={{
+        background: 'linear-gradient(135deg, #ff6b35 0%, #ff8c50 50%, #ffffff 100%)',
+        backgroundClip: 'text',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+      }}
+    >
+      Gateway
+    </span>
+  </motion.h1>
+</div>
+
 
         <motion.p
           initial={{ opacity: 0, y: 30 }}
@@ -555,8 +554,8 @@ const ContactUs = () => {
   return (
     <>
       <SEO
-        title="Contact Blip money | Support & Business Inquiries"
-        description="Contact Blip money for customer support, partnerships, or general inquiries. Our team is here to help you."
+        title="Contact Blip Money | Get in Touch with Our Team"
+        description="Contact Blip Money for support, partnerships, or general inquiries. Our team is here to help."
         canonical="https://blip.money/contact"
       />
 

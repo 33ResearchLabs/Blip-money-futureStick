@@ -128,8 +128,8 @@ const AirdropLogin = () => {
         });
 
         toast({
-          title: "Success! +500 Points",
-          description: "Your account has been created with 500 bonus points!",
+          title: "Success! +2000 Points",
+          description: "Your account has been created with 2000 bonus points!",
         });
 
         // Navigate to dashboard
@@ -301,8 +301,8 @@ const AirdropLogin = () => {
   return (
     <>
       <SEO
-        title="Join the Blip money Waitlist | Early Access & Rewards"
-        description="Join the Blip money waitlist to get early access, exclusive rewards, and the latest platform updates."
+        title="Join the Blip Money Waitlist | Early Access to Crypto Payments."
+        description="Sign up for the Blip Money waitlist and get early access to fast, secure, and borderless crypto payments."
         canonical="https://blip.money/waitlist"
       />
 

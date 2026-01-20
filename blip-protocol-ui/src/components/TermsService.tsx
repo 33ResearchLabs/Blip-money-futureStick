@@ -9,8 +9,8 @@ const TermsService = () => {
   return (
     <>
     <SEO
-  title="Blip money | Terms & Conditions | User Agreement"
-  description="Review the Blip money Terms & Conditions outlining platform usage, user responsibilities, and legal policies."
+  title="Terms and Conditions | Blip Money"
+  description="Read the terms and conditions governing the use of Blip Money services and platforms."
   canonical="https://blip.money/terms"
 />
 
@@ -18,7 +18,7 @@ const TermsService = () => {
       <div className="max-w-4xl mx-auto">
         {/* Title */}
         <h1 className="text-3xl sm:text-4xl font-bold mb-6 tracking-tight">
-          Terms of Service for Blip.money
+         Terms and Conditions for blip.money
         </h1>
 
         {/* Intro */}

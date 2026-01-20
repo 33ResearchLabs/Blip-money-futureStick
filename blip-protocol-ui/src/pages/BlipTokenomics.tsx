@@ -61,16 +61,20 @@ const HeroSection = () => {
   return (
     <motion.section
       ref={ref}
-      className="relative h-[90vh] min-h-[700px] flex items-center justify-center overflow-hidden"
+      className="relative min-h-[700px] flex items-center justify-center overflow-hidden"
       style={{ opacity }}
     >
       {/* Background with parallax */}
       <motion.div className="absolute inset-0 z-0" style={{ y, scale }}>
-        <img
-          src="https://images.unsplash.com/photo-1642104704074-907c0698b98d?q=80&w=2832&auto=format&fit=crop"
-          alt="Digital currency"
-          className="w-full h-full object-cover"
-        />
+        {/* <div className="relative w-full aspect-[16/9] overflow-hidden rounded-xl">
+  <img
+    src="https://images.unsplash.com/photo-1621761191319-c6fb62004040?q=80&w=2400&auto=format&fit=crop"
+    alt="Crypto payments"
+    className="absolute inset-0 w-full h-full object-cover"
+  />
+</div> */}
+
+
         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black" />
       </motion.div>
 
@@ -111,11 +115,17 @@ const HeroSection = () => {
             initial={{ y: 150 }}
             animate={{ y: 0 }}
             transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[clamp(2.5rem,10vw,8rem)] font-semibold text-white leading-[0.95] tracking-[-0.04em]"
+            className="text-[clamp(2.5rem,10vw,8rem)]
+           font-semibold text-white
+           leading-[1]
+           sm:leading-[0.95]
+           tracking-[-0.04em]"
           >
             1,000,000,000
           </motion.h1>
         </div>
+
+        
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -138,14 +148,15 @@ const HeroSection = () => {
           <span className="text-white/50">TOKENS</span>
         </motion.div>
 
-        {/* Scroll indicator */}
+         {/* Scroll indicator */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5 }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
+          className="  mt-4 
+             flex flex-col items-center gap-3"
         >
-          <span className="text-xs text-white/40 uppercase tracking-[0.2em]">Explore</span>
+          <span className="text-xs text-gray-500 uppercase tracking-[0.2em]">Explore</span>
           <motion.div
             animate={{ y: [0, 8, 0] }}
             transition={{ duration: 1.5, repeat: Infinity }}
@@ -153,6 +164,7 @@ const HeroSection = () => {
             <ChevronDown className="w-5 h-5 text-white/40" />
           </motion.div>
         </motion.div>
+        
       </div>
     </motion.section>
   );
@@ -335,7 +347,7 @@ const UtilitySection = () => {
         >
           <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">Token Utility</span>
           <h2 className="text-4xl md:text-6xl font-semibold text-white tracking-tight mb-6">
-            Utility<span className="text-[#FFB743]">.</span>
+            Utility<span className="text-[#ff6b35]">.</span>
           </h2>
           <p className="text-xl text-white/50 max-w-xl">
             Engineered for maximum ecosystem velocity.
@@ -370,7 +382,7 @@ const UtilitySection = () => {
               </div>
 
               {/* Accent line */}
-              <div className="w-8 h-[2px] bg-[#FFB743] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="w-8 h-[2px] bg-[#ff6b35] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </motion.div>
           ))}
         </div>
@@ -434,8 +446,8 @@ const DeflationSection = () => {
               }}
               onMouseEnter={() => sounds.hover()}
             >
-              <div className="mb-8 p-5 rounded-full border border-white/5 bg-black/20 inline-flex group-hover:border-[#FFB743]/30 transition-colors duration-500">
-                <item.icon className="w-10 h-10 text-white group-hover:text-[#FFB743] transition-colors" strokeWidth={1.5} />
+              <div className="mb-8 p-5 rounded-full border border-white/5 bg-black/20 inline-flex group-hover:border-[#ff6b35] transition-colors duration-500">
+                <item.icon className="w-10 h-10 text-white group-hover:text-[#ff6b35] transition-colors" strokeWidth={1.5} />
               </div>
               <h3 className="text-3xl font-light text-white mb-3">{item.title}</h3>
               <p className="text-sm text-white/50 uppercase tracking-widest">{item.sub}</p>
@@ -627,8 +639,8 @@ export const BlipTokenomics = () => {
   return (
     <>
       <SEO
-        title="Blip money Tokenomics | Utility, Supply & Rewards Model"
-        description="Explore Blip money tokenomics, including token utility, supply distribution, and the rewards model powering the Blip money ecosystem."
+        title="Blip Money Tokenomics | Sustainable Payment Economy"
+        description="Explore Blip Money tokenomics, including supply, utility, and incentives designed for long-term ecosystem growth."
         canonical="https://blip.money/tokenomics"
       />
 

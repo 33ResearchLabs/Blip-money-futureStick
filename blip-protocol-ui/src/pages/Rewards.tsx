@@ -43,7 +43,7 @@ const HeroSection = () => {
   return (
     <motion.section
       ref={ref}
-      className="relative h-[180vh]"
+      className="relative h-screen"
       style={{ opacity }}
     >
       <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
@@ -112,32 +112,31 @@ const HeroSection = () => {
           </motion.div>
 
           {/* Headlines */}
-          <div className="overflow-hidden mb-6">
-            <motion.h1
-              initial={{ y: 150 }}
-              animate={{ y: 0 }}
-              transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="text-[clamp(2.5rem,10vw,7rem)] font-semibold text-white leading-[0.95] tracking-[-0.04em]"
-            >
-              Earn in
-            </motion.h1>
-          </div>
           <div className="overflow-hidden mb-10">
-            <motion.h1
-              initial={{ y: 150 }}
-              animate={{ y: 0 }}
-              transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="text-[clamp(2.5rem,10vw,7rem)] font-semibold leading-[0.95] tracking-[-0.04em]"
-              style={{
-                background: 'linear-gradient(135deg, #ff6b35 0%, #ff8c50 50%, #ffffff 100%)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              }}
-            >
-              a Blip.
-            </motion.h1>
-          </div>
+  <motion.h1
+    initial={{ y: 150 }}
+    animate={{ y: 0 }}
+    transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+    className="text-[clamp(2.5rem,10vw,7rem)] font-semibold leading-[0.95] tracking-[-0.04em]"
+  >
+    <span className="block text-white">
+      Earn in
+    </span>
+
+    <span
+      className="block"
+      style={{
+        background: 'linear-gradient(135deg, #ff6b35 0%, #ff8c50 50%, #ffffff 100%)',
+        backgroundClip: 'text',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+      }}
+    >
+      a Blip.
+    </span>
+  </motion.h1>
+</div>
+
 
           <motion.p
             initial={{ opacity: 0, y: 30 }}
@@ -615,8 +614,8 @@ const Rewards = () => {
   return (
     <>
       <SEO
-        title="Blip money Rewards | Earn Cashback on Every Transaction"
-        description="Earn rewards on every transaction with Blip money. Join our rewards program and get up to 10% cashback."
+        title="Blip Money Rewards | Earn for Using Crypto Payments"
+        description="Discover how Blip Money rewards users for participating in secure and efficient crypto payment transactions."
         canonical="https://blip.money/rewards"
       />
 

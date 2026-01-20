@@ -3,68 +3,79 @@
 
   <url>
     <loc>https://blip.money/</loc>
+    <lastmod>2026-01-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
   <url>
-    <loc>https://blip.money/tokenomics</loc>
+    <loc>https://blip.money/how-it-works</loc>
+    <lastmod>2026-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://blip.money/rewards</loc>
+    <lastmod>2026-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://blip.money/uae</loc>
+    <loc>https://blip.money/tokenomics</loc>
+    <lastmod>2026-01-20</lastmod>
     <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://blip.money/waitlist</loc>
+    <lastmod>2026-01-20</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://blip.money/how-it-works</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
     <loc>https://blip.money/contact</loc>
+    <lastmod>2026-01-20</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://blip.money/privacy</loc>
+    <lastmod>2026-01-20</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.3</priority>
   </url>
 
   <url>
     <loc>https://blip.money/terms</loc>
+    <lastmod>2026-01-20</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.3</priority>
   </url>
 
   <url>
     <loc>https://blip.money/cookies</loc>
+    <lastmod>2026-01-20</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.4</priority>
+    <priority>0.3</priority>
   </url>
 
   <url>
     <loc>https://blip.money/gdpr</loc>
+    <lastmod>2026-01-20</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.4</priority>
+    <priority>0.3</priority>
   </url>
 
   <url>
-    <loc>https://blip.money/waitlist</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <loc>https://blip.money/whitepaper.pdf</loc>
+    <lastmod>2026-01-20</lastmod>
+    <changefreq>never</changefreq>
+    <priority>0.5</priority>
   </url>
 
 </urlset>

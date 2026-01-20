@@ -1,29 +1,16 @@
-# robots.txt for https://www.blip.money/
-# Generated for SEO & security best practices
-
 User-agent: *
-Allow: /
-
-# Block sensitive or internal areas
 Disallow: /admin/
-Disallow: /api/
 Disallow: /login/
-Disallow: /register/
-Disallow: /account/
-Disallow: /profile/
-Disallow: /checkout/
-Disallow: /cart/
-
-# Block search & filter URLs (if any)
-Disallow: /*?*
-Disallow: /*&*
+Disallow: /api/
+Disallow: /_next/
+Disallow: /static/
 
 # Allow important assets
-Allow: /assets/
+Allow: /_next/static/
 Allow: /static/
-Allow: /images/
-Allow: /*.css$
-Allow: /*.js$
 
-# Sitemap
+# Allow PDF documents
+Allow: /whitepaper.pdf
+
+# Sitemap location
 Sitemap: https://www.blip.money/sitemap.xml

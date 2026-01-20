@@ -87,32 +87,30 @@ const HeroSection = () => {
           </motion.div>
 
           {/* Headlines */}
-          <div className="overflow-hidden mb-6">
-            <motion.h1
-              initial={{ y: 150 }}
-              animate={{ y: 0 }}
-              transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="text-[clamp(2.5rem,10vw,7rem)] font-semibold text-white leading-[0.95] tracking-[-0.04em]"
-            >
-              Value. Settled.
-            </motion.h1>
-          </div>
           <div className="overflow-hidden mb-10">
-            <motion.h1
-              initial={{ y: 150 }}
-              animate={{ y: 0 }}
-              transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="text-[clamp(2.5rem,10vw,7rem)] font-semibold leading-[0.95] tracking-[-0.04em]"
-              style={{
-                background: 'linear-gradient(135deg, #ff6b35 0%, #ff8c50 50%, #ffffff 100%)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              }}
-            >
-              Privately.
-            </motion.h1>
-          </div>
+  <motion.h1
+    initial={{ y: 150 }}
+    animate={{ y: 0 }}
+    transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+    className="text-[clamp(2.5rem,10vw,7rem)] font-semibold text-white leading-[0.95] tracking-[-0.04em]"
+  >
+    <span className="block">
+      Value. Settled.
+    </span>
+
+    <span
+      className="block"
+      style={{
+        background: 'linear-gradient(135deg, #ff6b35 0%, #ff8c50 50%, #ffffff 100%)',
+        backgroundClip: 'text',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+      }}
+    >
+      Privately.
+    </span>
+  </motion.h1>
+</div>
 
           <motion.p
             initial={{ opacity: 0, y: 30 }}
@@ -681,7 +679,7 @@ const CTASection = () => {
                 to="/waitlist"
                 onClick={() => sounds.click()}
                 onMouseEnter={() => sounds.hover()}
-                className="group inline-flex items-center gap-4 px-10 py-5 rounded-full bg-white text-black text-lg font-medium transition-all duration-500 hover:shadow-[0_0_100px_rgba(255,255,255,0.4)]"
+                className="group inline-flex items-center gap-4 px-10 py-5 rounded-full   bg-[#ff6b35] text-black text-lg font-medium hover:bg-[#ff8c50] hover:shadow-[0_0_40px_rgba(255,107,53,0.4)] transition-all duration-300"
               >
                 Get Started
                 <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-2" />
@@ -695,7 +693,7 @@ const CTASection = () => {
                 rel="noopener noreferrer"
                 onClick={() => sounds.click()}
                 onMouseEnter={() => sounds.hover()}
-                className="group inline-flex items-center gap-4 px-10 py-5 rounded-full border border-white/15 text-white text-lg font-medium transition-all duration-500 hover:bg-white/5 hover:border-white/30"
+                className="group inline-flex items-center gap-4 px-10 py-[18px] rounded-full border border-white/15 text-white text-lg font-medium transition-all duration-500 hover:bg-white/5 hover:border-white/30"
               >
                 Read Whitepaper
               </a>
@@ -719,8 +717,8 @@ export const HowItWorksPage = () => {
   return (
     <>
       <SEO
-        title="How Blip money Works | Secure & Rewarding Payments"
-        description="Learn how Blip money works for users and merchants, enabling secure payments and rewarding transactions."
+        title="How Blip Money Works | Simple Crypto Payment Flow"
+        description="Learn how Blip Money enables seamless crypto payments through a simple, transparent, and secure settlement process."
         canonical="https://blip.money/how-it-works"
       />
 

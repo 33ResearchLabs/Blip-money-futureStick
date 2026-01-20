@@ -9,8 +9,8 @@ const Privacy = () => {
   return (
     <>
     <SEO
-  title="Blip money | Privacy Policy | Data Protection & Security"
-  description="Read the Blip money Privacy Policy to understand how your personal data is collected, used, and protected."
+  title="Privacy Policy | Blip Money"
+  description="Learn how Blip Money collects, uses, and protects your personal data in accordance with privacy regulations."
   canonical="https://blip.money/privacy"
 />
 
