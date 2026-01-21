@@ -41,7 +41,7 @@ const HeroSection = () => {
   return (
     <motion.section
       ref={ref}
-      className="relative h-[180vh]"
+      className="relative "
       style={{ opacity }}
     >
       <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">

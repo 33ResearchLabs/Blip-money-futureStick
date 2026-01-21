@@ -570,7 +570,7 @@ const HeroSection = () => {
             />
             {/* Floating orb 2 */}
             <motion.div
-              className="absolute bottom-[20%] left-[10%] w-[300px] h-[300px] rounded-full"
+              className="absolute bottom-[20%] left-[10%] w-[250px] h-[300px] rounded-full"
               style={{
                 background:
                   "radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%)",
@@ -2562,7 +2562,7 @@ const UAESection = () => {
             transition={{ duration: 2, repeat: Infinity }}
           />
           <span className="text-[13px] text-white/70 font-medium tracking-wide">
-            Launching 2025
+            Launching 2026{" "}
           </span>
         </motion.div>
 
@@ -3219,43 +3219,49 @@ const FeatureStrip = () => {
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#ff6b35]/30 to-transparent" />
 
       <div className="max-w-6xl mx-auto px-6">
+  <motion.div
+    initial={{ opacity: 0 }}
+    whileInView={{ opacity: 1 }}
+    viewport={{ once: true }}
+    transition={{ duration: 1 }}
+    className="flex justify-center"
+  >
+    {/* Centered block (like button) */}
+    <div className="w-fit">
+      {[
+        "Sub-second settlement",
+        "Zero custody",
+        "Privacy by default",
+        "On-chain proofs",
+      ].map((feature, i) => (
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          key={feature}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 1 }}
-          className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16"
+          transition={{
+            duration: 0.6,
+            delay: i * 0.1,
+            ease: [0.16, 1, 0.3, 1],
+          }}
+          className="flex items-start gap-3 mb-4"
         >
-          {[
-            "Sub-second settlement",
-            "Zero custody",
-            "Privacy by default",
-            "On-chain proofs",
-          ].map((feature, i) => (
-            <motion.div
-              key={feature}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{
-                duration: 0.6,
-                delay: i * 0.1,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              className="flex items-center gap-3 group cursor-default"
-            >
-              <motion.div
-                className="w-2 h-2 rounded-full bg-[#ff6b35]"
-                animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
-                transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
-              />
-              <span className="text-sm md:text-base text-white/50 font-light tracking-wide group-hover:text-white/80 transition-colors">
-                {feature}
-              </span>
-            </motion.div>
-          ))}
+          <motion.div
+            className="w-2 h-2 mt-2 rounded-full bg-[#ff6b35]"
+            animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
+            transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
+          />
+          <span className="text-sm text-white/50 font-light tracking-wide text-left">
+            {feature}
+          </span>
         </motion.div>
-      </div>
+      ))}
+    </div>
+  </motion.div>
+</div>
+
+
+
     </section>
   );
 };
@@ -4507,7 +4513,7 @@ const PrivacySection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative py-20 sm:py-28 md:py-40 bg-black overflow-hidden"
+      className="relative py-20 sm:py-28 md:py-40 bg-black overflow-hidden "
     >
       <motion.div
         className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6"
@@ -4543,17 +4549,18 @@ const PrivacySection = () => {
         </div>
 
         {/* Two column minimal grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/[0.03] rounded-xl sm:rounded-2xl overflow-hidden">
+        <div className="flex flex-col md:flex-row items-center md:items-start justify-center gap-12">
           {/* Privacy */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="bg-black p-6 sm:p-10 md:p-12"
+            className="bg-black p-6 sm:p-10 md:p-12 max-w-sm text-center md:text-left"
           >
             <h3 className="text-xl font-medium text-white mb-6">Privacy</h3>
-            <ul className="space-y-4">
+
+            <ul className="space-y-4 mx-auto md:mx-0 max-w-xs">
               {[
                 "Wallet-only identity",
                 "No KYC for small transfers",
@@ -4561,9 +4568,9 @@ const PrivacySection = () => {
               ].map((item, i) => (
                 <li
                   key={i}
-                  className="flex items-center gap-3 text-sm text-white/40"
+                  className="flex items-start gap-3 text-sm text-white/40"
                 >
-                  <div className="w-1 h-1 rounded-full bg-white/30" />
+                  <div className="w-1 h-1 rounded-full bg-white/30 mt-2" />
                   {item}
                 </li>
               ))}
@@ -4576,10 +4583,11 @@ const PrivacySection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="bg-black p-6 sm:p-10 md:p-12"
+            className="bg-black p-6 sm:p-10 md:p-12 max-w-sm text-center md:text-left"
           >
             <h3 className="text-xl font-medium text-white mb-6">Trust</h3>
-            <ul className="space-y-4">
+
+            <ul className="space-y-4 mx-auto md:mx-0 max-w-xs">
               {[
                 "Everything on-chain",
                 "Settlement proofs",
@@ -4587,9 +4595,9 @@ const PrivacySection = () => {
               ].map((item, i) => (
                 <li
                   key={i}
-                  className="flex items-center gap-3 text-sm text-white/40"
+                  className="flex items-start gap-3 text-sm text-white/40"
                 >
-                  <div className="w-1 h-1 rounded-full bg-white/30" />
+                  <div className="w-1 h-1 rounded-full bg-white/30 mt-2" />
                   {item}
                 </li>
               ))}

@@ -15,26 +15,33 @@ const Logo = () => {
       className="flex items-center gap-2.5 group"
       onClick={() => {
         sounds.click();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }}
     >
-      <motion.div
-        className="w-7 h-7 rounded-lg flex items-center justify-center"
-        style={{
-          background: 'linear-gradient(135deg, #ff6b35 0%, #00DD77 100%)',
-        }}
-        whileHover={{ scale: 1.05 }}
-      >
-        <span className="text-black font-bold text-xs">B</span>
-      </motion.div>
-      <span className="text-[14px] font-semibold text-white">
-        Blip<span className="text-[#71717A]">.money</span>
-      </span>
+      <div className="flex items-center gap-2 ">
+        {/* Dot */}
+        <span className="w-4 h-4 rounded-full bg-[#ff6b35]" />
+
+        {/* Text */}
+        <h1 className="text-2xl font-semibold tracking-tight">
+          <span className="text-white">blip</span>
+          <span className="text-white">.</span>
+          <span className="text-[#ff6b35]">money</span>
+        </h1>
+      </div>
     </Link>
   );
 };
 
-const SocialLink = ({ href, icon: Icon, label }: { href: string; icon: any; label: string }) => {
+const SocialLink = ({
+  href,
+  icon: Icon,
+  label,
+}: {
+  href: string;
+  icon: any;
+  label: string;
+}) => {
   return (
     <motion.a
       href={href}
@@ -52,7 +59,13 @@ const SocialLink = ({ href, icon: Icon, label }: { href: string; icon: any; labe
   );
 };
 
-const FooterLink = ({ to, children }: { to: string; children: React.ReactNode }) => {
+const FooterLink = ({
+  to,
+  children,
+}: {
+  to: string;
+  children: React.ReactNode;
+}) => {
   return (
     <NavLink
       to={to}
@@ -68,15 +81,19 @@ const FooterLink = ({ to, children }: { to: string; children: React.ReactNode })
   );
 };
 
-const FooterColumn = ({ title, children }: { title: string; children: React.ReactNode }) => {
+const FooterColumn = ({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) => {
   return (
     <div className="space-y-3">
-      <h4 className="text-[11px] font-medium uppercase tracking-[0.1em] text-[#52525B]">
+      <h4 className="text-[11px] font-bold uppercase tracking-[0.1em] text-white/80">
         {title}
       </h4>
-      <ul className="space-y-2">
-        {children}
-      </ul>
+      <ul className="space-y-2">{children}</ul>
     </div>
   );
 };
@@ -88,7 +105,7 @@ export const Footer = () => {
     <footer className="relative border-t border-[rgba(255,255,255,0.06)] bg-[#0A0A0B]">
       {/* Main content */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 lg:gap-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 lg:gap-16">
           {/* Brand */}
           <div className="col-span-2 lg:col-span-2 space-y-4">
             <Logo />
@@ -96,19 +113,43 @@ export const Footer = () => {
               The non-custodial settlement protocol for instant global payments.
             </p>
             <div className="flex items-center gap-2">
-              <SocialLink href="https://x.com/blipmoney_" icon={Twitter} label="Twitter" />
-              <SocialLink href="https://t.me/+3DpHLzc2BfJhOWEx" icon={Send} label="Telegram" />
-              <SocialLink href="https://www.youtube.com/@BlipMoney" icon={Youtube} label="YouTube" />
-              <SocialLink href="mailto:blipmoney9@gmail.com" icon={Mail} label="Email" />
+              <SocialLink
+                href="https://x.com/blipmoney_"
+                icon={Twitter}
+                label="Twitter"
+              />
+              <SocialLink
+                href="https://t.me/+3DpHLzc2BfJhOWEx"
+                icon={Send}
+                label="Telegram"
+              />
+              <SocialLink
+                href="https://www.youtube.com/@BlipMoney"
+                icon={Youtube}
+                label="YouTube"
+              />
+              <SocialLink
+                href="mailto:blipmoney9@gmail.com"
+                icon={Mail}
+                label="Email"
+              />
             </div>
           </div>
 
           {/* Product */}
           <FooterColumn title="Product">
-            <li><FooterLink to="/how-it-works">How It Works</FooterLink></li>
-            <li><FooterLink to="/rewards">Rewards</FooterLink></li>
-            <li><FooterLink to="/tokenomics">Tokenomics</FooterLink></li>
-            <li><FooterLink to="/waitlist">Waitlist</FooterLink></li>
+            <li>
+              <FooterLink to="/how-it-works">How It Works</FooterLink>
+            </li>
+            <li>
+              <FooterLink to="/rewards">Rewards</FooterLink>
+            </li>
+            <li>
+              <FooterLink to="/tokenomics">Tokenomics</FooterLink>
+            </li>
+            <li>
+              <FooterLink to="/waitlist">Waitlist</FooterLink>
+            </li>
           </FooterColumn>
 
           {/* Resources */}
@@ -126,30 +167,44 @@ export const Footer = () => {
                 <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
               </a>
             </li>
-            <li><FooterLink to="/contact">Contact</FooterLink></li>
+            <li>
+              <FooterLink to="/contact">Contact</FooterLink>
+            </li>
           </FooterColumn>
 
           {/* Legal */}
           <FooterColumn title="Legal">
-            <li><FooterLink to="/privacy">Privacy</FooterLink></li>
-            <li><FooterLink to="/terms">Terms</FooterLink></li>
-            <li><FooterLink to="/cookies">Cookies</FooterLink></li>
-            <li><FooterLink to="/gdpr">GDPR</FooterLink></li>
+            <li>
+              <FooterLink to="/privacy">Privacy</FooterLink>
+            </li>
+            <li>
+              <FooterLink to="/terms">Terms</FooterLink>
+            </li>
+            <li>
+              <FooterLink to="/cookies">Cookies</FooterLink>
+            </li>
+            <li>
+              <FooterLink to="/gdpr">GDPR</FooterLink>
+            </li>
           </FooterColumn>
         </div>
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-[rgba(255,255,255,0.06)]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-[12px] text-[#52525B]">
+      <div className="border-t border-[rgba(255,255,255,0.06)] w-full">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5">
+          <p className="col-span-2 lg:col-span-2 text-[12px] text-[#52525B]">
             © {currentYear} Blip.money. All rights reserved.
           </p>
-          <div className="flex items-center gap-4 text-[11px] text-[#52525B]">
-            <span className="flex items-center gap-1.5">
-              <span className="w-1 h-1 rounded-full bg-[#ff6b35]" />
-              Built on Solana
-            </span>
+
+          {/* Empty columns to align */}
+          <div className="hidden md:block" />
+          <div className="hidden md:block" />
+
+          {/* Legal-aligned */}
+          <div className="text-[11px] text-[#52525B] flex items-center gap-2 ml-4">
+            <span className="w-1 h-1 rounded-full bg-[#ff6b35]" />
+            Built on Solana
           </div>
         </div>
       </div>

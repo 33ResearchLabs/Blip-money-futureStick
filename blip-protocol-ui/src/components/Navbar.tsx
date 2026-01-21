@@ -15,62 +15,57 @@ import { sounds } from "@/lib/sounds";
 /* Brand Orange: #ff6b35 - LOCKED COLOR */
 const Logo = () => {
   return (
-    <Link
+     <Link
       to="/"
       className="flex items-center gap-2 group"
       onClick={() => sounds.click()}
     >
-      {/* Logo mark with "blip" text inside - Brand Orange #ff6b35 */}
-      <motion.div
-        className="relative px-3 py-1.5 rounded-lg flex items-center justify-center overflow-hidden shadow-lg"
+      {/* Dot with motion */}
+      <motion.span
+        className="relative w-4 h-4 rounded-full bg-[#ff6b35] overflow-hidden"
         style={{
-          backgroundColor: '#ff6b35',
-          boxShadow: '0 0 20px rgba(255, 107, 53, 0.3)',
+          boxShadow: "0 0 16px rgba(255, 107, 53, 0.35)",
         }}
         whileHover={{
-          scale: 1.05,
-          boxShadow: '0 0 30px rgba(255, 107, 53, 0.5)',
+          scale: 1.15,
+          boxShadow: "0 0 28px rgba(255, 107, 53, 0.6)",
         }}
-        whileTap={{ scale: 0.95 }}
+        whileTap={{ scale: 0.9 }}
         transition={{ duration: 0.2 }}
       >
-        <span className="text-black font-bold text-[16px] tracking-tight lowercase leading-none">blip</span>
-
-        {/* Animated shine effect */}
-        <motion.div
+        {/* Shine sweep */}
+        <motion.span
           className="absolute inset-0 opacity-0 group-hover:opacity-100"
           style={{
-            background: 'linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.4) 50%, transparent 70%)',
+            background:
+              "linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.5) 50%, transparent 70%)",
           }}
-          initial={{ x: '-100%' }}
-          whileHover={{ x: '100%' }}
+          initial={{ x: "-100%" }}
+          whileHover={{ x: "100%" }}
           transition={{ duration: 0.6, ease: "easeInOut" }}
         />
+      </motion.span>
 
-        {/* Subtle glow border */}
-        <motion.div
-          className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100"
-          style={{
-            boxShadow: 'inset 0 0 20px rgba(255, 255, 255, 0.2)',
-          }}
-          transition={{ duration: 0.3 }}
-        />
-      </motion.div>
-
-      {/* .money text outside with gradient on hover */}
-      <motion.span
-        className="text-[17px] font-semibold tracking-tight lowercase leading-none relative"
-        style={{ color: '#A1A1AA' }}
-        whileHover={{ color: '#FFFFFF' }}
+      {/* Text */}
+      <motion.h1
+        className="text-2xl font-semibold tracking-tight leading-none flex items-center"
+        whileHover={{ scale: 1.02 }}
         transition={{ duration: 0.2 }}
       >
-        money
-        {/* Subtle underline effect on hover */}
-        <motion.div
-          className="absolute -bottom-0.5 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-[#ff6b35] to-transparent opacity-0 group-hover:opacity-100"
-          transition={{ duration: 0.3 }}
-        />
-      </motion.span>
+        <span className="text-white">blip</span>
+        <span className="text-white">.</span>
+
+        {/* money text */}
+        <span className="relative text-[#ff6b35] ml-0.5">
+          money
+
+          {/* Underline effect */}
+          <motion.span
+            className="absolute -bottom-1 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-[#ff6b35] to-transparent opacity-0 group-hover:opacity-100"
+            transition={{ duration: 0.3 }}
+          />
+        </span>
+      </motion.h1>
     </Link>
   );
 };
