@@ -50,7 +50,7 @@ const HeroSection = () => {
           <img
             src="https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=2832&auto=format&fit=crop"
             alt="Blockchain technology"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover brightness-[0.25] contrast-[0.9]"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black" />
         </motion.div>

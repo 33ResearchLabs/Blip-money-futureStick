@@ -224,7 +224,7 @@ const BlipscanCard = ({ isVisible }: { isVisible: boolean }) => {
           </p>
           <div className="flex items-baseline gap-2">
             <span className="text-3xl font-bold text-white">$500.00</span>
-            <span className="text-sm text-white/40">USDC</span>
+            <span className="text-sm text-white/40">USDT</span>
           </div>
           <p className="text-[10px] text-white/30 mt-1">Fee: 0.10%</p>
         </div>
@@ -451,7 +451,7 @@ const HeroSection = () => {
       id: "ORD-7821",
       user: "🦁",
       name: "lionking_fx",
-      amount: "500 USDC",
+      amount: "500 USDT",
       rate: "₦1,620",
       country: "🇳🇬",
       time: "Just now",
@@ -460,7 +460,7 @@ const HeroSection = () => {
       id: "ORD-7820",
       user: "🐯",
       name: "tiger_trades",
-      amount: "1,200 USDC",
+      amount: "1,200 USDT",
       rate: "₦1,618",
       country: "🇳🇬",
       time: "2m ago",
@@ -469,7 +469,7 @@ const HeroSection = () => {
       id: "ORD-7819",
       user: "🦊",
       name: "fox_crypto",
-      amount: "800 USDC",
+      amount: "800 USDT",
       rate: "₦1,615",
       country: "🇳🇬",
       time: "5m ago",
@@ -715,7 +715,7 @@ const HeroSection = () => {
                   delay: 0.2,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="flex items-center gap-2 mb-8"
+                className="flex items-center justify-center sm:justify-start gap-2 mb-8"
               >
                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06]">
                   <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#ff8c5a] flex items-center justify-center">
@@ -949,14 +949,14 @@ const HeroSection = () => {
                     background: `linear-gradient(${135 + mousePosition.x * 30}deg, rgba(255,255,255,0.08) 0%, transparent 50%, rgba(0,0,0,0.15) 100%)`,
                   }}
                 />
-                <div className=" mt-8 md:mt-0 w-[290px] lg:w-[320px] ">
+                <div className=" mt-8 w-[200px] md:mt-0 sm:w-[250px] lg:w-[320px]  ">
                   {/* Phone outer frame with enhanced shadow */}
                   <div className="rounded-[36px] sm:rounded-[40px] md:rounded-[44px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[2px] sm:p-[2.5px] shadow-[0_25px_50px_rgba(0,0,0,0.5),0_0_40px_rgba(255,107,53,0.08)] md:shadow-[0_40px_80px_rgba(0,0,0,0.6),0_0_60px_rgba(255,107,53,0.1)]">
-                    <div className="rounded-[34px] sm:rounded-[38px] md:rounded-[42px] bg-[#0a0a0a] p-[6px] sm:p-[8px] md:p-[10px]">
+                    <div className="rounded-[34px] sm:rounded-[38px] md:rounded-[42px] bg-[#0a0a0a] p-[1px] sm:p-[8px] md:p-[10px]">
                       {/* Phone screen */}
                       <div className="rounded-[28px] sm:rounded-[30px] md:rounded-[34px] bg-black overflow-hidden relative">
                         {/* Dynamic Island */}
-                        <div className="absolute top-3 left-1/2 -translate-x-1/2 z-10">
+                        <div className=" hidden md:block absolute top-3 left-1/2 -translate-x-1/2 z-10">
                           <div className="w-28 h-7 rounded-full bg-black flex items-center justify-center">
                             <div className="w-3 h-3 rounded-full bg-[#1a1a1a] mr-2" />
                           </div>
@@ -964,72 +964,72 @@ const HeroSection = () => {
 
                         {/* Status bar */}
                         <div className="flex items-center justify-between px-8 pt-4 pb-2">
-                          <span className="text-[13px] text-white font-semibold">
+                          <span className="text-[10px] md:text-[13px] text-white font-semibold">
                             9:41
                           </span>
                           <div className="flex items-center gap-1.5">
-                            <Signal className="w-4 h-4 text-white" />
-                            <Wifi className="w-4 h-4 text-white" />
-                            <Battery className="w-6 h-6 text-white" />
+                            <Signal className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
+                            <Wifi className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
+                            <Battery className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
                           </div>
                         </div>
 
                         {/* App content */}
-                        <div className="px-6 pb-10 pt-8 max-w-[360px] mx-auto">
+                        <div className="px-6 pb-3 sm:pb-10 pt-1 sm:pt-8 max-w-[360px] mx-auto">
                           {/* App header */}
-                          <div className="flex items-center justify-between mb-6 sm:mb-8">
+                          <div className="flex items-center justify-between mb-2 sm:mb-8">
                             <div className="flex items-center gap-3">
-                              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#ff6b35] flex items-center justify-center">
+                              <div className="w-6 h-6 sm:w-10 sm:h-10 rounded-xl bg-[#ff6b35] flex items-center justify-center">
                                 <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-black" />
                               </div>
-                              <span className="text-base sm:text-lg font-bold text-white">
+                              <span className="text-sm sm:text-lg font-bold text-white">
                                 Blip
                               </span>
                             </div>
-                            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/5 flex items-center justify-center">
+                            <div className="w-6 h-6 sm:w-10 sm:h-10 rounded-full bg-white/5 flex items-center justify-center">
                               <User className="w-4 h-4 sm:w-5 sm:h-5 text-white/50" />
                             </div>
                           </div>
 
                           {/* Send label */}
                           <div className="text-center mb-3 sm:mb-4">
-                            <span className="text-[11px] sm:text-sm text-white/40 uppercase tracking-wider">
+                            <span className="text-[9px] sm:text-sm text-white/40 uppercase tracking-wider">
                               You send
                             </span>
                           </div>
 
                           {/* Amount input */}
-                          <div className="text-center mb-6 sm:mb-8">
+                          <div className="text-center mb-3 sm:mb-8">
                             <div className="flex items-center justify-center gap-2 sm:gap-3">
-                              <span className="text-[clamp(2rem,6vw,3.75rem)] font-bold text-white leading-none">
+                              <span className="text-sm sm:text-[clamp(2rem,6vw,3.75rem)] font-bold text-white leading-none">
                                 500
                               </span>
 
-                              <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/5">
+                              <div className="flex items-center gap-2 px-3 py-1 sm:py-2 rounded-xl bg-white/5">
                                 <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#2775CA] flex items-center justify-center">
-                                  <span className="text-white text-[10px] sm:text-xs font-bold">
+                                  <span className="text-white text-sm sm:text-xs font-bold">
                                     $
                                   </span>
                                 </div>
                                 <span className="text-sm sm:text-base md:text-lg text-white font-medium">
-                                  USDC
+                                  USDT
                                 </span>
-                                <ChevronDown className="w-4 h-4 text-white/40" />
+                                <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-white/40" />
                               </div>
                             </div>
                           </div>
 
                           {/* Divider with swap */}
-                          <div className="flex items-center justify-center my-4 sm:my-6">
+                          <div className="flex items-center justify-center my-2 sm:my-6">
                             <div className="flex-1 h-px bg-white/10" />
-                            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mx-3 sm:mx-4">
+                            <div className="w-6 h-6 sm:w-10 sm:h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mx-3 sm:mx-4">
                               <ArrowDown className="w-4 h-4 sm:w-5 sm:h-5 text-white/40" />
                             </div>
                             <div className="flex-1 h-px bg-white/10" />
                           </div>
 
                           {/* Receive preview */}
-                          <div className="rounded-2xl bg-white/[0.03] border border-white/[0.06] p-4 sm:p-5 mb-6 sm:mb-8">
+                          <div className="rounded-2xl bg-white/[0.03] border border-white/[0.06] p-3 sm:p-5 mb-3 sm:mb-8">
                             <div className="flex items-center justify-between mb-3">
                               <span className="text-xs sm:text-sm text-white/40">
                                 They receive
@@ -1049,14 +1049,14 @@ const HeroSection = () => {
                                 Rate
                               </span>
                               <span className="text-[10px] sm:text-xs text-white/50">
-                                1 USDC = 3.67 AED
+                                1 USDT = 3.67 AED
                               </span>
                             </div>
                           </div>
 
                           {/* CTA Button */}
                           <motion.button
-                            className="w-full py-4 sm:py-5 rounded-2xl bg-[#ff6b35] text-black text-sm sm:text-base font-bold"
+                            className="w-full py-1 sm:py-5 rounded-2xl bg-[#ff6b35] text-black text-sm sm:text-base font-bold"
                             animate={{
                               boxShadow: [
                                 "0 0 30px rgba(255,107,53,0.3)",
@@ -1186,7 +1186,7 @@ const HeroSection = () => {
                               Funds Secured
                             </span>
                             <div className="text-3xl font-bold text-white">
-                              500 USDC
+                              500 USDT
                             </div>
                             <span className="text-xs text-white/40">
                               ≈ $500.00
@@ -1505,7 +1505,7 @@ const HeroSection = () => {
                           </div>
                           <div>
                             <div className="text-2xl font-bold text-white">
-                              500 USDC
+                              500 USDT
                             </div>
                             <div className="flex items-center gap-2 text-sm text-white/40">
                               <ArrowRight className="w-3 h-3" />
@@ -1958,7 +1958,7 @@ const HeroSection = () => {
                               {tx.amount}
                             </div>
                             <div className="text-xs text-white/30">
-                              USDC → AED
+                              USDT → AED
                             </div>
                           </div>
                           <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-emerald-500/10">
@@ -2402,7 +2402,7 @@ const BlipscanExplorerSection = () => {
                           <div className="text-base font-semibold text-white">
                             {tx.amount}
                           </div>
-                          <div className="text-xs text-white/30">USDC</div>
+                          <div className="text-xs text-white/30">USDT</div>
                         </div>
                         <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-md bg-emerald-500/10 border border-emerald-500/20">
                           <span className="text-xs text-emerald-400 font-medium whitespace-nowrap">
@@ -2423,13 +2423,13 @@ const BlipscanExplorerSection = () => {
                     Powered by Blip Protocol
                   </span>
                 </div>
-                <Link
-                  to="/explorer"
-                  className="text-xs text-[#ff6b35] hover:text-[#ff6b35]/80 transition-colors flex items-center gap-1 cursor-not-allowed"
+                <div
+                  
+                  className="text-xs text-[#ff6b35] hover:text-[#ff6b35]/80 transition-colors flex items-center gap-1 cursor-pointer"
                 >
                   View Explorer
                   <ArrowRight className="w-3 h-3" />
-                </Link>
+                </div>
               </div>
             </div>
           </div>
@@ -3224,10 +3224,10 @@ const FeatureStrip = () => {
     whileInView={{ opacity: 1 }}
     viewport={{ once: true }}
     transition={{ duration: 1 }}
-    className="flex justify-center"
+    className="flex justify-center "
   >
     {/* Centered block (like button) */}
-    <div className="w-fit">
+    <div className="w-fit md:flex gap-12">
       {[
         "Sub-second settlement",
         "Zero custody",
@@ -3244,14 +3244,14 @@ const FeatureStrip = () => {
             delay: i * 0.1,
             ease: [0.16, 1, 0.3, 1],
           }}
-          className="flex items-start gap-3 mb-4"
+          className="flex items-start  gap-3 mb-4"
         >
           <motion.div
             className="w-2 h-2 mt-2 rounded-full bg-[#ff6b35]"
             animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
             transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
           />
-          <span className="text-sm text-white/50 font-light tracking-wide text-left">
+          <span className="text-sm text-white/50 font-light tracking-wide text-left hover:text-white">
             {feature}
           </span>
         </motion.div>
@@ -3629,7 +3629,7 @@ const MerchantDashboardSection = () => {
     {
       id: "ORD-7821",
       user: "🦁",
-      amount: "500 USDC",
+      amount: "500 USDT",
       rate: "₦1,620",
       time: "2m",
       country: "🇳🇬",
@@ -3637,7 +3637,7 @@ const MerchantDashboardSection = () => {
     {
       id: "ORD-7820",
       user: "🐯",
-      amount: "1,200 USDC",
+      amount: "1,200 USDT",
       rate: "₦1,618",
       time: "5m",
       country: "🇳🇬",
@@ -3645,7 +3645,7 @@ const MerchantDashboardSection = () => {
     {
       id: "ORD-7819",
       user: "🦊",
-      amount: "250 USDC",
+      amount: "250 USDT",
       rate: "3.67 AED",
       time: "8m",
       country: "🇦🇪",
@@ -3656,7 +3656,7 @@ const MerchantDashboardSection = () => {
     {
       id: "ORD-7815",
       user: "🐻",
-      amount: "800 USDC",
+      amount: "800 USDT",
       rate: "₦1,615",
       progress: 75,
       country: "🇳🇬",
@@ -3664,7 +3664,7 @@ const MerchantDashboardSection = () => {
     {
       id: "ORD-7812",
       user: "🐼",
-      amount: "2,000 USDC",
+      amount: "2,000 USDT",
       rate: "3.68 AED",
       progress: 40,
       country: "🇦🇪",
@@ -3675,21 +3675,21 @@ const MerchantDashboardSection = () => {
     {
       id: "ORD-7810",
       user: "🦅",
-      amount: "350 USDC",
+      amount: "350 USDT",
       rate: "₦1,620",
       time: "12m ago",
     },
     {
       id: "ORD-7808",
       user: "🐨",
-      amount: "1,500 USDC",
+      amount: "1,500 USDT",
       rate: "3.67 AED",
       time: "28m ago",
     },
     {
       id: "ORD-7805",
       user: "🦋",
-      amount: "600 USDC",
+      amount: "600 USDT",
       rate: "₦1,618",
       time: "45m ago",
     },
@@ -4103,7 +4103,7 @@ const MerchantDashboardSection = () => {
                     New order matched!
                   </div>
                   <div className="text-[10px] text-white/40">
-                    500 USDC → ₦810,000
+                    500 USDT → ₦810,000
                   </div>
                 </div>
               </div>
@@ -4201,7 +4201,7 @@ const HowItWorksSection = () => {
               <span className="text-3xl sm:text-4xl font-bold text-white">
                 500
               </span>
-              <span className="text-sm sm:text-base text-white/50">USDC</span>
+              <span className="text-sm sm:text-base text-white/50">USDT</span>
             </div>
             <div className="w-full px-3 py-3 rounded-xl bg-white/[0.03] border border-white/[0.06] text-center mb-2">
               <span className="text-[10px] text-white/30 block mb-0.5">
@@ -4549,7 +4549,7 @@ const PrivacySection = () => {
         </div>
 
         {/* Two column minimal grid */}
-        <div className="flex flex-col md:flex-row items-center md:items-start justify-center gap-12">
+        <div className="flex flex-col md:flex-row items-center md:items-start justify-center md:gap-40 gap-12">
           {/* Privacy */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -5381,8 +5381,8 @@ const PeopleBankSection = () => {
               className="group relative p-5 md:p-6 rounded-xl border border-white/[0.05] bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/[0.1] transition-all duration-300"
             >
               <div className="relative">
-                <span className="text-[10px] uppercase tracking-[0.3em] text-white/15 block mb-4 font-mono">
-                  {String(i + 1).padStart(2, "0")}
+                <span className="text-[12px] text-[#ff6b35] uppercase tracking-[0.3em]  block mb-4 font-mono">
+                  {String(i + 1).padStart(2, "#")}
                 </span>
                 <h4 className="text-base md:text-lg font-medium text-white mb-1 group-hover:text-white transition-colors">
                   {item.step}
@@ -5570,7 +5570,7 @@ const Index = () => {
         canonical="https://blip.money/"
       />
 
-      <div className="bg-[#030303] text-white relative">
+      <div className="bg-[#030303] text-white relative overflow-x-hidden">
         {/* Grain overlay for premium film texture */}
         <div className="grain-overlay" />
 
