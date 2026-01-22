@@ -1,5 +1,11 @@
 import { useRef, useState, useEffect, useMemo } from "react";
-import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  useInView,
+} from "framer-motion";
 import {
   Flame,
   Activity,
@@ -54,14 +60,17 @@ const HeroSection = () => {
     offset: ["start start", "end start"],
   });
 
-  const y = useSpring(useTransform(scrollYProgress, [0, 1], [0, 200]), smoothConfig);
+  const y = useSpring(
+    useTransform(scrollYProgress, [0, 1], [0, 200]),
+    smoothConfig,
+  );
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
 
   return (
     <motion.section
       ref={ref}
-      className="relative min-h-[700px] flex items-center justify-center overflow-hidden"
+      className="relative md:min-h-screen my-12 md:my-0 flex items-center justify-center overflow-hidden"
       style={{ opacity }}
     >
       {/* Background with parallax */}
@@ -73,7 +82,6 @@ const HeroSection = () => {
     className="absolute inset-0 w-full h-full object-cover"
   />
 </div> */}
-
 
         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black" />
       </motion.div>
@@ -87,7 +95,7 @@ const HeroSection = () => {
               linear-gradient(to right, white 1px, transparent 1px),
               linear-gradient(to bottom, white 1px, transparent 1px)
             `,
-            backgroundSize: '80px 80px',
+            backgroundSize: "80px 80px",
           }}
         />
       </div>
@@ -101,12 +109,14 @@ const HeroSection = () => {
           transition={{ duration: 1, delay: 0.2 }}
           className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-10 backdrop-blur-sm"
           style={{
-            background: 'rgba(255, 255, 255, 0.03)',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
+            background: "rgba(255, 255, 255, 0.03)",
+            border: "1px solid rgba(255, 255, 255, 0.08)",
           }}
         >
           <span className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
-          <span className="text-[14px] text-white/70 font-medium tracking-wide">Fixed Supply</span>
+          <span className="text-[14px] text-white/70 font-medium tracking-wide">
+            Fixed Supply
+          </span>
         </motion.div>
 
         {/* Main number */}
@@ -125,8 +135,6 @@ const HeroSection = () => {
           </motion.h1>
         </div>
 
-        
-
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -137,10 +145,10 @@ const HeroSection = () => {
           <span
             className="text-3xl"
             style={{
-              background: 'linear-gradient(135deg, #ff6b35 0%, #FFB743 100%)',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
+              background: "linear-gradient(135deg, #ff6b35 0%, #FFB743 100%)",
+              backgroundClip: "text",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
             }}
           >
             •
@@ -148,7 +156,7 @@ const HeroSection = () => {
           <span className="text-white/50">TOKENS</span>
         </motion.div>
 
-         {/* Scroll indicator */}
+        {/* Scroll indicator */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -156,7 +164,9 @@ const HeroSection = () => {
           className="  mt-4 
              flex flex-col items-center gap-3"
         >
-          <span className="text-xs text-gray-500 uppercase tracking-[0.2em]">Explore</span>
+          <span className="text-xs text-gray-500 uppercase tracking-[0.2em]">
+            Explore
+          </span>
           <motion.div
             animate={{ y: [0, 8, 0] }}
             transition={{ duration: 1.5, repeat: Infinity }}
@@ -164,7 +174,6 @@ const HeroSection = () => {
             <ChevronDown className="w-5 h-5 text-white/40" />
           </motion.div>
         </motion.div>
-        
       </div>
     </motion.section>
   );
@@ -180,12 +189,12 @@ const DistributionSection = () => {
   const [activeSegment, setActiveSegment] = useState<number | null>(null);
 
   return (
-    <section ref={ref} className="relative py-32 bg-black overflow-hidden">
+    <section ref={ref} className="relative py-32 bg-black overflow-hidden ">
       {/* Background glow */}
       <div className="absolute top-0 left-[-10%] w-[60vw] h-[60vw] bg-white/5 blur-[150px] rounded-full" />
       <div className="absolute bottom-0 right-[-10%] w-[50vw] h-[50vw] bg-[#FFB743]/5 blur-[150px] rounded-full" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 ">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
           {/* Chart */}
           <motion.div
@@ -196,16 +205,20 @@ const DistributionSection = () => {
           >
             <div className="relative w-full max-w-[500px] aspect-square mx-auto">
               {/* Outer ring */}
-              <div className="absolute inset-[-40px] border border-white/5 rounded-full" />
+              <div className="absolute inset-[-40px] border border-white/5 rounded-full " />
 
-              <svg viewBox="0 0 100 100" className="w-full h-full transform -rotate-90">
+              <svg
+                viewBox="0 0 100 100"
+                className="w-full h-full transform -rotate-90"
+              >
                 {(() => {
                   let offset = 0;
                   return allocationData.map((item, i) => {
                     const radius = 40;
                     const circumference = 2 * Math.PI * radius;
                     const strokeDasharray = `${(item.value / 100) * circumference} ${circumference}`;
-                    const strokeDashoffset = -1 * (offset / 100) * circumference;
+                    const strokeDashoffset =
+                      -1 * (offset / 100) * circumference;
                     offset += item.value;
                     const isActive = activeSegment === i;
 
@@ -222,10 +235,21 @@ const DistributionSection = () => {
                         strokeDashoffset={strokeDashoffset}
                         strokeLinecap="butt"
                         initial={{ opacity: 0 }}
-                        animate={isInView ? { opacity: activeSegment !== null && !isActive ? 0.2 : 0.9 } : {}}
+                        animate={
+                          isInView
+                            ? {
+                                opacity:
+                                  activeSegment !== null && !isActive
+                                    ? 0.2
+                                    : 0.9,
+                              }
+                            : {}
+                        }
                         transition={{ duration: 0.5, delay: i * 0.1 }}
                         style={{
-                          filter: isActive ? `drop-shadow(0 0 8px ${item.color})` : "none",
+                          filter: isActive
+                            ? `drop-shadow(0 0 8px ${item.color})`
+                            : "none",
                         }}
                         onMouseEnter={() => {
                           setActiveSegment(i);
@@ -241,8 +265,12 @@ const DistributionSection = () => {
 
               {/* Center */}
               <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-white/40 text-xs tracking-widest uppercase mb-2">Allocation</span>
-                <span className="text-5xl font-light text-white tracking-tight">100%</span>
+                <span className="text-white/40 text-xs tracking-widest uppercase mb-2">
+                  Allocation
+                </span>
+                <span className="text-5xl font-light text-white tracking-tight">
+                  100%
+                </span>
               </div>
             </div>
           </motion.div>
@@ -255,9 +283,12 @@ const DistributionSection = () => {
               transition={{ duration: 0.8 }}
               className="mb-12"
             >
-              <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">Distribution</span>
+              <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">
+                Distribution
+              </span>
               <h2 className="text-4xl md:text-5xl font-semibold text-white tracking-tight">
-                Token<br />
+                Token
+                <br />
                 <span className="text-white/30">Split.</span>
               </h2>
             </motion.div>
@@ -276,8 +307,11 @@ const DistributionSection = () => {
                   onMouseLeave={() => setActiveSegment(null)}
                   className="relative pl-6 pr-6 py-5 rounded-xl cursor-pointer transition-all duration-300 flex items-center justify-between group"
                   style={{
-                    background: activeSegment === idx ? 'rgba(255, 255, 255, 0.03)' : 'rgba(255, 255, 255, 0.01)',
-                    border: '1px solid rgba(255, 255, 255, 0.05)',
+                    background:
+                      activeSegment === idx
+                        ? "rgba(255, 255, 255, 0.03)"
+                        : "rgba(255, 255, 255, 0.01)",
+                    border: "1px solid rgba(255, 255, 255, 0.05)",
                   }}
                 >
                   {/* Color indicator */}
@@ -285,14 +319,20 @@ const DistributionSection = () => {
                     className="absolute left-0 top-0 bottom-0 w-1 rounded-l-xl transition-all duration-300"
                     style={{
                       backgroundColor: item.color,
-                      boxShadow: activeSegment === idx ? `0 0 15px ${item.color}` : 'none',
+                      boxShadow:
+                        activeSegment === idx
+                          ? `0 0 15px ${item.color}`
+                          : "none",
                     }}
                   />
 
                   <span className="text-lg text-white/80 group-hover:text-white transition-colors">
                     {item.label}
                   </span>
-                  <span className="text-2xl font-medium" style={{ color: item.color }}>
+                  <span
+                    className="text-2xl font-medium"
+                    style={{ color: item.color }}
+                  >
                     {item.value}%
                   </span>
                 </motion.div>
@@ -317,15 +357,23 @@ const UtilitySection = () => {
   });
 
   const utilities = [
-    { title: "Cashback", icon: RefreshCw, desc: "Instant rewards on every transaction." },
-    { title: "Merchants", icon: ShoppingBag, desc: "0% partner fees for holders." },
+    {
+      title: "Cashback",
+      icon: RefreshCw,
+      desc: "Instant rewards on every transaction.",
+    },
+    {
+      title: "Merchants",
+      icon: ShoppingBag,
+      desc: "0% partner fees for holders.",
+    },
     { title: "Discounts", icon: Percent, desc: "Reduced trading fees." },
     { title: "Staking", icon: Layers, desc: "Yield multiplier rewards." },
     { title: "Liquidity", icon: Activity, desc: "Market maker incentives." },
   ];
 
   return (
-    <section ref={ref} className="relative py-40 bg-black overflow-hidden">
+    <section ref={ref} className="relative py-12 md:py-40 bg-black overflow-hidden">
       {/* Background text */}
       <motion.div
         className="absolute top-1/2 left-0 -translate-y-1/2 whitespace-nowrap text-[15vw] font-bold text-white/[0.015] select-none pointer-events-none"
@@ -345,7 +393,9 @@ const UtilitySection = () => {
           transition={{ duration: 1 }}
           className="mb-20"
         >
-          <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">Token Utility</span>
+          <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">
+            Token Utility
+          </span>
           <h2 className="text-4xl md:text-6xl font-semibold text-white tracking-tight mb-6">
             Utility<span className="text-[#ff6b35]">.</span>
           </h2>
@@ -365,8 +415,8 @@ const UtilitySection = () => {
               transition={{ duration: 0.8, delay: i * 0.1 }}
               className="group relative p-8 rounded-3xl min-h-[280px] flex flex-col justify-between overflow-hidden"
               style={{
-                background: 'rgba(255, 255, 255, 0.02)',
-                border: '1px solid rgba(255, 255, 255, 0.05)',
+                background: "rgba(255, 255, 255, 0.02)",
+                border: "1px solid rgba(255, 255, 255, 0.05)",
               }}
               onMouseEnter={() => sounds.hover()}
             >
@@ -377,7 +427,9 @@ const UtilitySection = () => {
                 <div className="mb-8 text-white/40 group-hover:text-white/60 transition-colors duration-500">
                   <utility.icon className="w-8 h-8" strokeWidth={1.5} />
                 </div>
-                <h3 className="text-2xl font-light text-white mb-3">{utility.title}</h3>
+                <h3 className="text-2xl font-light text-white mb-3">
+                  {utility.title}
+                </h3>
                 <p className="text-sm text-white/50">{utility.desc}</p>
               </div>
 
@@ -403,7 +455,7 @@ const DeflationSection = () => {
   ];
 
   return (
-    <section className="relative py-40 bg-black overflow-hidden">
+    <section className="relative py-12 md:py-40 bg-black overflow-hidden">
       {/* Background image */}
       <div className="absolute inset-0 z-0">
         <img
@@ -423,9 +475,12 @@ const DeflationSection = () => {
           transition={{ duration: 1 }}
           className="text-center mb-20"
         >
-          <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">Economics</span>
+          <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">
+            Economics
+          </span>
           <h2 className="text-4xl md:text-6xl font-semibold text-white tracking-tight">
-            Deflationary<br />
+            Deflationary
+            <br />
             <span className="text-white/30">Model.</span>
           </h2>
         </motion.div>
@@ -441,16 +496,23 @@ const DeflationSection = () => {
               transition={{ duration: 0.8, delay: i * 0.15 }}
               className="group p-10 rounded-3xl text-center"
               style={{
-                background: 'rgba(255, 255, 255, 0.02)',
-                border: '1px solid rgba(255, 255, 255, 0.05)',
+                background: "rgba(255, 255, 255, 0.02)",
+                border: "1px solid rgba(255, 255, 255, 0.05)",
               }}
               onMouseEnter={() => sounds.hover()}
             >
               <div className="mb-8 p-5 rounded-full border border-white/5 bg-black/20 inline-flex group-hover:border-[#ff6b35] transition-colors duration-500">
-                <item.icon className="w-10 h-10 text-white group-hover:text-[#ff6b35] transition-colors" strokeWidth={1.5} />
+                <item.icon
+                  className="w-10 h-10 text-white group-hover:text-[#ff6b35] transition-colors"
+                  strokeWidth={1.5}
+                />
               </div>
-              <h3 className="text-3xl font-light text-white mb-3">{item.title}</h3>
-              <p className="text-sm text-white/50 uppercase tracking-widest">{item.sub}</p>
+              <h3 className="text-3xl font-light text-white mb-3">
+                {item.title}
+              </h3>
+              <p className="text-sm text-white/50 uppercase tracking-widest">
+                {item.sub}
+              </p>
             </motion.div>
           ))}
         </div>
@@ -489,8 +551,10 @@ const EmissionsSection = () => {
       categories.forEach((cat) => {
         let progress = 0;
         if (cat.id === "liquidity") progress = Math.min(1, (m + 5) / 25);
-        else if (cat.id === "team") progress = m < 12 ? 0 : Math.min(1, (m - 12) / 36);
-        else if (cat.id === "advisers") progress = m < 6 ? 0 : Math.min(1, (m - 6) / 24);
+        else if (cat.id === "team")
+          progress = m < 12 ? 0 : Math.min(1, (m - 12) / 36);
+        else if (cat.id === "advisers")
+          progress = m < 6 ? 0 : Math.min(1, (m - 6) / 24);
         else progress = Math.min(1, m / 72);
 
         const val = cat.max * progress;
@@ -505,7 +569,7 @@ const EmissionsSection = () => {
   }, []);
 
   return (
-    <section ref={ref} className="relative py-40 bg-black overflow-hidden">
+    <section ref={ref} className="relative py-12 md:py-40 bg-black overflow-hidden">
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         {/* Header */}
         <motion.div
@@ -515,7 +579,9 @@ const EmissionsSection = () => {
           transition={{ duration: 1 }}
           className="mb-16"
         >
-          <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">Vesting Schedule</span>
+          <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">
+            Vesting Schedule
+          </span>
           <h2 className="text-4xl md:text-5xl font-semibold text-white tracking-tight mb-4">
             Emissions
           </h2>
@@ -530,18 +596,28 @@ const EmissionsSection = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="rounded-3xl p-8 md:p-12 overflow-hidden relative"
           style={{
-            background: 'rgba(255, 255, 255, 0.02)',
-            border: '1px solid rgba(255, 255, 255, 0.05)',
+            background: "rgba(255, 255, 255, 0.02)",
+            border: "1px solid rgba(255, 255, 255, 0.05)",
           }}
         >
           {/* Chart glow */}
           <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-[#ff6b35]/5 to-transparent" />
 
           <div className="relative w-full aspect-[21/9]">
-            <svg viewBox="0 0 1000 500" className="w-full h-full overflow-visible">
+            <svg
+              viewBox="0 0 1000 500"
+              className="w-full h-full overflow-visible"
+            >
               <defs>
                 {chartData.categories.map((cat) => (
-                  <linearGradient key={cat.id} id={`grad-${cat.id}`} x1="0" y1="0" x2="0" y2="1">
+                  <linearGradient
+                    key={cat.id}
+                    id={`grad-${cat.id}`}
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
                     <stop offset="0%" stopColor={cat.color} stopOpacity="0.4" />
                     <stop offset="100%" stopColor={cat.color} stopOpacity="0" />
                   </linearGradient>
@@ -585,7 +661,9 @@ const EmissionsSection = () => {
                 stroke="white"
                 strokeWidth="3"
                 strokeLinecap="round"
-                style={{ filter: "drop-shadow(0 0 10px rgba(255,255,255,0.3))" }}
+                style={{
+                  filter: "drop-shadow(0 0 10px rgba(255,255,255,0.3))",
+                }}
               />
 
               {/* Milestones */}
@@ -593,8 +671,22 @@ const EmissionsSection = () => {
                 const x = (m / 72) * 1000;
                 return (
                   <g key={m}>
-                    <line x1={x} y1="500" x2={x} y2="510" stroke="#333" strokeWidth="1" />
-                    <text x={x} y="530" textAnchor="middle" fill="#666" fontSize="12" fontFamily="sans-serif">
+                    <line
+                      x1={x}
+                      y1="500"
+                      x2={x}
+                      y2="510"
+                      stroke="#333"
+                      strokeWidth="1"
+                    />
+                    <text
+                      x={x}
+                      y="530"
+                      textAnchor="middle"
+                      fill="#666"
+                      fontSize="12"
+                      fontFamily="sans-serif"
+                    >
                       M{m}
                     </text>
                   </g>

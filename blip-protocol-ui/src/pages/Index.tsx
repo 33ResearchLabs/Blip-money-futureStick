@@ -2243,7 +2243,7 @@ const BlipscanExplorerSection = () => {
   }, []);
 
   return (
-    <section className="relative bg-black py-20 sm:py-32 overflow-hidden">
+    <section className="relative bg-black py-10 sm:py-32 overflow-hidden">
       {/* Subtle background */}
       <div className="absolute inset-0 bg-gradient-to-b from-black via-[#0a0a0a] to-black" />
 
@@ -2468,7 +2468,7 @@ const UAESection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black"
+      className="relative md:min-h-screen  flex items-center justify-center overflow-hidden bg-black"
     >
       {/* Immersive background with orange glow */}
       <div className="absolute inset-0">
@@ -2668,7 +2668,7 @@ const CashbackBanner = () => {
   return (
     <section
       ref={containerRef}
-      className="relative py-32 bg-black overflow-hidden"
+      className="relative md:py-32 py-10 bg-black overflow-hidden"
     >
       {/* Animated gradient background */}
       <div className="absolute inset-0">
@@ -2683,31 +2683,26 @@ const CashbackBanner = () => {
       </div>
 
       {/* Floating coins animation */}
-      {[...Array(8)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute"
-          style={{
-            left: `${10 + i * 12}%`,
-            top: `${20 + (i % 3) * 25}%`,
-          }}
-          animate={{
-            y: [0, -20, 0],
-            rotate: [0, 180, 360],
-            opacity: [0.2, 0.5, 0.2],
-          }}
-          transition={{
-            duration: 4 + i * 0.5,
-            repeat: Infinity,
-            delay: i * 0.3,
-            ease: "easeInOut",
-          }}
-        >
-          <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#ff8c50] flex items-center justify-center text-[8px] font-bold text-black shadow-lg shadow-[#ff6b35]/20">
-            $
-          </div>
-        </motion.div>
-      ))}
+      {[...Array(15)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute  w-1 h-1 rounded-full bg-[#ff6b35]"
+            style={{
+              left: `${10 + Math.random() * 80}%`,
+              top: `${10 + Math.random() * 80}%`,
+            }}
+            animate={{
+              y: [0, -30, 0],
+              opacity: [0.1, 0.6, 0.1],
+              scale: [1, 1.5, 1],
+            }}
+            transition={{
+              duration: 3 + Math.random() * 2,
+              repeat: Infinity,
+              delay: Math.random() * 2,
+            }}
+          />
+        ))}
 
       {/* Horizontal animated lines */}
       <motion.div
@@ -2928,7 +2923,7 @@ const ProblemSection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative py-32 md:py-40 bg-black overflow-hidden"
+      className="relative py-12 md:py-40 bg-black overflow-hidden"
     >
       {/* Subtle background gradient */}
       <div className="absolute inset-0">
@@ -3069,7 +3064,7 @@ const ProtocolSection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative py-40 bg-black overflow-hidden"
+      className="relative md:py-40 py-12 bg-black overflow-hidden"
     >
       {/* Immersive background with animated orange glow */}
       <div className="absolute inset-0">
@@ -3697,7 +3692,7 @@ const MerchantDashboardSection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative py-32 md:py-48 bg-black overflow-hidden"
+      className="relative py-12 md:py-48 bg-black overflow-hidden"
     >
       {/* Background elements */}
       <div className="absolute inset-0">
@@ -4377,7 +4372,7 @@ const HowItWorksSection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative py-32 md:py-40 bg-black overflow-hidden"
+      className="relative py-12 md:py-40 bg-black overflow-hidden"
     >
       {/* Subtle background */}
       <div className="absolute inset-0">
@@ -4512,7 +4507,7 @@ const PrivacySection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative py-20 sm:py-28 md:py-40 bg-black overflow-hidden "
+      className="relative py-12 md:py-40 bg-black overflow-hidden "
     >
       <motion.div
         className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6"
@@ -4656,7 +4651,7 @@ const EarlyAdopterBanner = () => {
   return (
     <section
       ref={containerRef}
-      className="relative py-32 md:py-40 bg-black overflow-hidden"
+      className="relative py-12 md:py-40 bg-black overflow-hidden"
     >
       {/* Dramatic background */}
       <div className="absolute inset-0">
@@ -5098,7 +5093,7 @@ const PeopleBankSection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative py-32 md:py-48 bg-black overflow-hidden"
+      className="relative py-12 md:py-48 bg-black overflow-hidden"
     >
       {/* Subtle grid background */}
       <div

@@ -1,5 +1,11 @@
 import { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  useInView,
+} from "framer-motion";
 import {
   Send,
   Copy,
@@ -35,7 +41,10 @@ const HeroSection = () => {
     offset: ["start start", "end start"],
   });
 
-  const y = useSpring(useTransform(scrollYProgress, [0, 1], [0, 150]), smoothConfig);
+  const y = useSpring(
+    useTransform(scrollYProgress, [0, 1], [0, 150]),
+    smoothConfig,
+  );
   const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
   return (
@@ -63,7 +72,7 @@ const HeroSection = () => {
               linear-gradient(to right, white 1px, transparent 1px),
               linear-gradient(to bottom, white 1px, transparent 1px)
             `,
-            backgroundSize: '80px 80px',
+            backgroundSize: "80px 80px",
           }}
         />
       </div>
@@ -77,40 +86,40 @@ const HeroSection = () => {
           transition={{ duration: 1, delay: 0.2 }}
           className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-8 backdrop-blur-sm"
           style={{
-            background: 'rgba(255, 255, 255, 0.03)',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
+            background: "rgba(255, 255, 255, 0.03)",
+            border: "1px solid rgba(255, 255, 255, 0.08)",
           }}
         >
           <span className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
-          <span className="text-[14px] text-white/70 font-medium tracking-wide">System Status: Active</span>
+          <span className="text-[14px] text-white/70 font-medium tracking-wide">
+            System Status: Active
+          </span>
         </motion.div>
 
         {/* Headlines */}
         <div className="overflow-hidden mb-8">
-  <motion.h1
-    initial={{ y: 120 }}
-    animate={{ y: 0 }}
-    transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-    className="text-[clamp(2.5rem,8vw,6rem)] font-semibold leading-[0.95] tracking-[-0.04em]"
-  >
-    <span className="block text-white">
-      Protocol
-    </span>
+          <motion.h1
+            initial={{ y: 120 }}
+            animate={{ y: 0 }}
+            transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="text-[clamp(2.5rem,8vw,6rem)] font-semibold leading-[0.95] tracking-[-0.04em]"
+          >
+            <span className="block text-white">Protocol</span>
 
-    <span
-      className="block"
-      style={{
-        background: 'linear-gradient(135deg, #ff6b35 0%, #ff8c50 50%, #ffffff 100%)',
-        backgroundClip: 'text',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-      }}
-    >
-      Gateway
-    </span>
-  </motion.h1>
-</div>
-
+            <span
+              className="block"
+              style={{
+                background:
+                  "linear-gradient(135deg, #ff6b35 0%, #ff8c50 50%, #ffffff 100%)",
+                backgroundClip: "text",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              Gateway
+            </span>
+          </motion.h1>
+        </div>
 
         <motion.p
           initial={{ opacity: 0, y: 30 }}
@@ -164,7 +173,7 @@ const ContactOptionsSection = () => {
   ];
 
   return (
-    <section ref={ref} className="relative py-24 bg-black overflow-hidden">
+    <section ref={ref} className="relative py-12 md:py-24 bg-black overflow-hidden">
       {/* Background glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-white/5 blur-[150px] rounded-full" />
 
@@ -177,13 +186,17 @@ const ContactOptionsSection = () => {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8 }}
             >
-              <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">Get in Touch</span>
+              <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">
+                Get in Touch
+              </span>
               <h2 className="text-4xl md:text-5xl font-semibold text-white tracking-tight mb-6">
-                Connect<br />
+                Connect
+                <br />
                 <span className="text-white/30">Directly.</span>
               </h2>
               <p className="text-lg text-white/50 mb-10 max-w-md">
-                Routed through the global Blip validator network. Privacy-first, always.
+                Routed through the global Blip validator network. Privacy-first,
+                always.
               </p>
             </motion.div>
 
@@ -197,13 +210,15 @@ const ContactOptionsSection = () => {
                   transition={{ duration: 0.6, delay: 0.2 + i * 0.1 }}
                   className="group p-5 rounded-2xl cursor-pointer transition-all duration-300"
                   style={{
-                    background: 'rgba(255, 255, 255, 0.02)',
-                    border: '1px solid rgba(255, 255, 255, 0.05)',
+                    background: "rgba(255, 255, 255, 0.02)",
+                    border: "1px solid rgba(255, 255, 255, 0.05)",
                   }}
                   onMouseEnter={() => sounds.hover()}
                 >
                   <channel.icon className="w-5 h-5 text-white/60 mb-3 group-hover:scale-110 transition-transform" />
-                  <h3 className="text-sm font-semibold text-white mb-1">{channel.label}</h3>
+                  <h3 className="text-sm font-semibold text-white mb-1">
+                    {channel.label}
+                  </h3>
                   <p className="text-xs text-white/40">{channel.desc}</p>
                 </motion.div>
               ))}
@@ -218,8 +233,8 @@ const ContactOptionsSection = () => {
                 onClick={() => copyToClipboard("contact@blip.money", "email")}
                 className="w-full flex items-center justify-between p-5 rounded-2xl transition-all duration-300 group"
                 style={{
-                  background: 'rgba(255, 255, 255, 0.02)',
-                  border: '1px solid rgba(255, 255, 255, 0.05)',
+                  background: "rgba(255, 255, 255, 0.02)",
+                  border: "1px solid rgba(255, 255, 255, 0.05)",
                 }}
               >
                 <div className="flex items-center gap-4">
@@ -227,7 +242,9 @@ const ContactOptionsSection = () => {
                     <Mail className="w-5 h-5 text-white/60" />
                   </div>
                   <div className="text-left">
-                    <span className="text-[10px] uppercase tracking-widest text-white/40 block">Digital Gateway</span>
+                    <span className="text-[10px] uppercase tracking-widest text-white/40 block">
+                      Digital Gateway
+                    </span>
                     <span className="text-white">contact@blip.money</span>
                   </div>
                 </div>
@@ -247,8 +264,8 @@ const ContactOptionsSection = () => {
                 rel="noopener noreferrer"
                 className="w-full flex items-center p-5 rounded-2xl transition-all duration-300 group"
                 style={{
-                  background: 'rgba(255, 255, 255, 0.02)',
-                  border: '1px solid rgba(255, 255, 255, 0.05)',
+                  background: "rgba(255, 255, 255, 0.02)",
+                  border: "1px solid rgba(255, 255, 255, 0.05)",
                 }}
                 onMouseEnter={() => sounds.hover()}
               >
@@ -257,8 +274,12 @@ const ContactOptionsSection = () => {
                     <MapPin className="w-5 h-5 text-white/60" />
                   </div>
                   <div className="text-left">
-                    <span className="text-[10px] uppercase tracking-widest text-white/40 block">Location</span>
-                    <span className="text-white">Blip Money, 9th Floor, JLT Cluster Y, Dubai</span>
+                    <span className="text-[10px] uppercase tracking-widest text-white/40 block">
+                      Location
+                    </span>
+                    <span className="text-white">
+                      Blip Money, 9th Floor, JLT Cluster Y, Dubai
+                    </span>
                   </div>
                 </div>
               </motion.a>
@@ -320,7 +341,12 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
       setTimeout(() => {
         setIsSubmitted(true);
         setIsSubmitting(false);
-        setFormData({ name: "", email: "", inquiryType: "general", message: "" });
+        setFormData({
+          name: "",
+          email: "",
+          inquiryType: "general",
+          message: "",
+        });
       }, 1000);
     } catch (err) {
       console.error("Form submission error:", err);
@@ -336,8 +362,8 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
         animate={{ opacity: 1, scale: 1 }}
         className="relative rounded-3xl overflow-hidden p-12 text-center flex flex-col items-center justify-center min-h-[500px]"
         style={{
-          background: 'rgba(255, 255, 255, 0.02)',
-          border: '1px solid rgba(255, 255, 255, 0.05)',
+          background: "rgba(255, 255, 255, 0.02)",
+          border: "1px solid rgba(255, 255, 255, 0.05)",
         }}
       >
         <motion.div
@@ -367,8 +393,8 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
       transition={{ duration: 0.8, delay: 0.3 }}
       className="relative rounded-3xl overflow-hidden"
       style={{
-        background: 'rgba(255, 255, 255, 0.02)',
-        border: '1px solid rgba(255, 255, 255, 0.05)',
+        background: "rgba(255, 255, 255, 0.02)",
+        border: "1px solid rgba(255, 255, 255, 0.05)",
       }}
     >
       {/* Header */}
@@ -379,7 +405,9 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
         </div>
         <div className="flex items-center gap-2">
           <Lock className="w-3 h-3 text-white/40" />
-          <span className="text-[10px] text-white/40 uppercase tracking-wider">Encrypted</span>
+          <span className="text-[10px] text-white/40 uppercase tracking-wider">
+            Encrypted
+          </span>
         </div>
       </div>
 
@@ -392,38 +420,54 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
-            <label className="text-[10px] uppercase tracking-widest text-white/40">Name (Optional)</label>
+            <label className="text-[10px] uppercase tracking-widest text-white/40">
+              Name (Optional)
+            </label>
             <input
               type="text"
               placeholder="Anonymous"
               value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
               className="w-full bg-transparent border-b border-white/10 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-[#ff6b35] transition-colors"
             />
           </div>
           <div className="space-y-2">
-            <label className="text-[10px] uppercase tracking-widest text-white/60">Email (Required)</label>
+            <label className="text-[10px] uppercase tracking-widest text-white/60">
+              Email (Required)
+            </label>
             <input
               type="email"
               required
               placeholder="you@example.com"
               value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
               className="w-full bg-transparent border-b border-white/20 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-[#ff6b35] transition-colors"
             />
           </div>
         </div>
 
         <div className="space-y-2">
-          <label className="text-[10px] uppercase tracking-widest text-white/40">Inquiry Type</label>
+          <label className="text-[10px] uppercase tracking-widest text-white/40">
+            Inquiry Type
+          </label>
           <div className="relative">
             <select
               value={formData.inquiryType}
-              onChange={(e) => setFormData({ ...formData, inquiryType: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, inquiryType: e.target.value })
+              }
               className="w-full appearance-none bg-white/[0.03] border border-white/5 rounded-xl px-4 py-4 text-sm text-white/80 focus:outline-none focus:border-[#ff6b35]/50 cursor-pointer"
             >
               {inquiryTypes.map((type) => (
-                <option key={type.value} value={type.value} className="bg-black">
+                <option
+                  key={type.value}
+                  value={type.value}
+                  className="bg-black"
+                >
                   {type.label}
                 </option>
               ))}
@@ -433,13 +477,17 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
         </div>
 
         <div className="space-y-2">
-          <label className="text-[10px] uppercase tracking-widest text-white/40">Message</label>
+          <label className="text-[10px] uppercase tracking-widest text-white/40">
+            Message
+          </label>
           <textarea
             required
             rows={4}
             placeholder="Your message..."
             value={formData.message}
-            onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, message: e.target.value })
+            }
             className="w-full bg-white/[0.03] border border-white/5 rounded-xl p-4 text-white placeholder:text-white/20 focus:outline-none focus:border-[#ff6b35]/50 transition-colors resize-none"
           />
         </div>
@@ -473,10 +521,13 @@ const VisualSection = () => {
     offset: ["start end", "end start"],
   });
 
-  const y = useSpring(useTransform(scrollYProgress, [0, 1], [100, -100]), smoothConfig);
+  const y = useSpring(
+    useTransform(scrollYProgress, [0, 1], [100, -100]),
+    smoothConfig,
+  );
 
   return (
-    <section ref={ref} className="relative py-32 bg-black overflow-hidden">
+    <section ref={ref} className="relative py-12 md:py-32 bg-black overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -485,9 +536,12 @@ const VisualSection = () => {
           transition={{ duration: 1 }}
           className="text-center mb-16"
         >
-          <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">Global Network</span>
+          <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">
+            Global Network
+          </span>
           <h2 className="text-4xl md:text-5xl font-semibold text-white tracking-tight">
-            Dubai<br />
+            Dubai
+            <br />
             <span className="text-white/30">Headquarters</span>
           </h2>
         </motion.div>
@@ -527,14 +581,18 @@ const VisualSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.7 }}
-            className="absolute bottom-8 left-8 p-6 rounded-2xl backdrop-blur-xl max-w-sm"
+            className="absolute bottom-8 left-8 md:p-6 p-2 rounded-2xl backdrop-blur-xl max-w-sm"
             style={{
-              background: 'rgba(0, 0, 0, 0.6)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
+              background: "rgba(0, 0, 0, 0.6)",
+              border: "1px solid rgba(255, 255, 255, 0.1)",
             }}
           >
-            <h3 className="text-xl font-semibold text-white mb-2">Blip Money HQ</h3>
-            <p className="text-white/60 text-sm">9th Floor, JLT Cluster Y, Dubai, UAE</p>
+            <h3 className="md:text-xl text-xs font-semibold text-white mb-2">
+              Blip Money HQ
+            </h3>
+            <p className="text-white/60 md:text-sm text-[10px]">
+              9th Floor, JLT Cluster Y, Dubai, UAE
+            </p>
           </motion.div>
         </motion.div>
       </div>

@@ -148,8 +148,8 @@ const InteractiveGrid = () => {
 
 const PhoneMockup = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="relative" style={{ width: 280, height: 580 }}>
-      <div className="absolute inset-0 rounded-[44px] shadow-[0_0_100px_rgba(255,107,53,0.3),0_0_200px_rgba(255,107,53,0.1)] blur-sm" />
+    <div className="relative md:h-[600px] h-[480px] " style={{ width: 280,  }}>
+      <div className="absolute inset-0 rounded-[44px] shadow-[0_0_100px_rgba(255,107,53,0.3),0_0_200px_rgba(255,107,53,0.1)]" />
       <div className="absolute inset-0 rounded-[44px] bg-[#1a1a1a] border border-white/20 overflow-hidden">
         <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-7 bg-black rounded-full z-20" />
         <div className="absolute inset-[3px] rounded-[40px] bg-[#0a0a0a] overflow-hidden">
@@ -431,41 +431,41 @@ const HeroSection = () => {
           >
             <PhoneMockup>
               {/* Status bar */}
-              <div className="flex items-center justify-between px-6 pt-12 pb-2">
-                <span className="text-[13px] text-white font-semibold">
-                  9:41
-                </span>
-                <div className="flex items-center gap-1.5">
-                  <Signal className="w-4 h-4 text-white" />
-                  <Wifi className="w-4 h-4 text-white" />
-                  <Battery className="w-4 h-4 text-white" />
-                </div>
+              <div className="flex items-center justify-between px-8 pt-4 pb-2">
+                <span className="text-[10px] md:text-[13px] text-white font-semibold">
+                            9:41
+                          </span>
+                          <div className="flex items-center gap-1.5">
+                            <Signal className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
+                            <Wifi className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
+                            <Battery className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
+                          </div>
               </div>
 
               {/* App content - Rewards Screen */}
-              <div className="px-5 pt-4 pb-6">
+              <div className="px-6 pb-3 sm:pb-10 pt-1 sm:pt-8">
                 {/* Header */}
-                <div className="flex items-center justify-between mb-6">
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-xl bg-[#ff6b35] flex items-center justify-center">
-                      <Zap className="w-4 h-4 text-black" />
-                    </div>
-                    <span className="text-sm font-bold text-white">
-                      Blip Rewards
-                    </span>
-                  </div>
-                  <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
-                    <User className="w-4 h-4 text-white/50" />
-                  </div>
+                <div className="flex items-center justify-between mb-2 sm:mb-8">
+                  <div className="flex items-center gap-3">
+                              <div className="w-6 h-6 sm:w-10 sm:h-10 rounded-xl bg-[#ff6b35] flex items-center justify-center">
+                                <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-black" />
+                              </div>
+                              <span className="text-sm sm:text-lg font-bold text-white">
+                                Blip
+                              </span>
+                            </div>
+                   <div className="w-6 h-6 sm:w-10 sm:h-10 rounded-full bg-white/5 flex items-center justify-center">
+                              <User className="w-4 h-4 sm:w-5 sm:h-5 text-white/50" />
+                            </div>
                 </div>
 
                 {/* Total Rewards Card */}
-                <div className="rounded-2xl bg-gradient-to-br from-[#ff6b35]/20 to-[#ff6b35]/5 border border-[#ff6b35]/20 p-4 mb-4">
-                  <p className="text-[10px] text-white/50 uppercase tracking-wider mb-1">
+                <div className="rounded-2xl bg-gradient-to-br from-[#ff6b35]/20 to-[#ff6b35]/5 border border-[#ff6b35]/20 mb:p-4 p-2 mb-4">
+                  <p className="md:text-[10px] text-[8px] text-white/50 uppercase tracking-wider mb-1">
                     Total Earned
                   </p>
                   <div className="flex items-baseline gap-2">
-                    <span className="text-3xl font-bold text-white">2,450</span>
+                    <span className="md:text-3xl font-bold text-white">2,450</span>
                     <span className="text-sm text-[#ff6b35]">BLIP</span>
                   </div>
                   <div className="flex items-center gap-1 mt-2">
@@ -477,18 +477,18 @@ const HeroSection = () => {
                 </div>
 
                 {/* Current Tier */}
-                <div className="rounded-xl bg-white/[0.03] border border-white/[0.06] p-3 mb-4">
+                <div className="rounded-xl bg-white/[0.03] border border-white/[0.06] mb:p-3 p-2  mb-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-[10px] text-white/40 uppercase">
+                      <p className="md:text-[10px] text-[8px] text-white/40 uppercase">
                         Current Tier
                       </p>
-                      <p className="text-sm font-semibold text-white">
+                      <p className="md:text-sm text-[12px] font-semibold text-white">
                         Explorer
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className="text-[10px] text-white/40 uppercase">
+                      <p className="md:text-[10px] text-[8px] text-white/40 uppercase">
                         Cashback
                       </p>
                       <p className="text-lg font-bold text-[#ff6b35]">5%</p>
@@ -590,7 +590,7 @@ const RewardTiersSection = () => {
   ];
 
   return (
-    <section ref={ref} className="relative py-32 bg-black overflow-hidden">
+    <section ref={ref} className="relative md:py-32 py-12 bg-black overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-[#ff6b35]/[0.03] blur-[120px]" />
@@ -706,7 +706,7 @@ const HowItWorksSection = () => {
   ];
 
   return (
-    <section ref={ref} className="relative py-32 bg-black overflow-hidden">
+    <section ref={ref} className="relative py-12 md:py-32 bg-black overflow-hidden">
       {/* Background text */}
       <motion.div
         className="absolute top-1/2 left-0 -translate-y-1/2 whitespace-nowrap text-[12vw] font-bold text-white/[0.015] select-none pointer-events-none"
@@ -825,7 +825,7 @@ const FeaturesSection = () => {
   ];
 
   return (
-    <section ref={ref} className="relative py-32 bg-black overflow-hidden">
+    <section ref={ref} className="relative py-12 md:py-32 bg-black overflow-hidden">
       <div className="max-w-6xl mx-auto px-6">
       <motion.div
               initial={{ opacity: 0, y: 40 }}
@@ -940,7 +940,7 @@ const CTASection = () => {
   return (
     <section
       ref={ref}
-      className="relative min-h-screen flex items-center justify-center py-32 bg-black overflow-hidden"
+      className="relative md:min-h-screen flex items-center justify-center py-12 md:py-32 bg-black overflow-hidden"
     >
       {/* Background */}
       <motion.div
@@ -983,7 +983,7 @@ const CTASection = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/waitlist"
-              className="group inline-flex items-center justify-center gap-4 px-10 py-5 rounded-full bg-[#ff6b35] text-black text-lg font-semibold hover:bg-[#ff8c50] hover:shadow-[0_0_60px_rgba(255,107,53,0.4)] transition-all duration-300"
+              className="group inline-flex items-center justify-center gap-4 px-10 md:py-5 py-3 rounded-full bg-[#ff6b35] text-black text-lg font-semibold hover:bg-[#ff8c50] hover:shadow-[0_0_60px_rgba(255,107,53,0.4)] transition-all duration-300"
             >
               Join Waitlist
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -991,7 +991,7 @@ const CTASection = () => {
 
             <Link
               to="/how-it-works"
-              className="inline-flex items-center justify-center gap-4 px-10 py-5 rounded-full border border-white/10 text-white text-lg font-medium hover:bg-white/5 hover:border-white/20 transition-all duration-300"
+              className="inline-flex items-center justify-center gap-4 px-10 md:py-5 py-3 rounded-full border border-white/10 text-white text-lg font-medium hover:bg-white/5 hover:border-white/20 transition-all duration-300"
             >
               Learn More
             </Link>
