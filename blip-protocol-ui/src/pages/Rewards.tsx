@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
 import {
   Gift,
@@ -12,90 +12,247 @@ import {
   TrendingUp,
   Star,
   Shield,
+  CheckCircle2,
+  Coins,
+  Users,
+  Signal,
+  Wifi,
+  Battery,
+  User,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SEO } from "@/components";
-import { sounds } from "@/lib/sounds";
-import { MagneticWrapper } from "@/components/MagneticButton";
 
 /* ============================================
-   AWARD-WINNING REWARDS PAGE
-   Cinematic scroll animations with gamified design
+   2025/2026 REWARDS PAGE
+   Matching homepage design system
+   - Orange (#ff6b35) accent color
+   - Dark theme with subtle gradients
+   - Parallax animations
+   - Clean, minimal aesthetic
    ============================================ */
 
 const smoothConfig = { stiffness: 100, damping: 30, restDelta: 0.001 };
 
 /* ============================================
-   SECTION 1: CINEMATIC HERO
+   INTERACTIVE GRID BACKGROUND
+   ============================================ */
+
+const InteractiveGrid = () => {
+  const gridRef = useRef<HTMLDivElement>(null);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (gridRef.current) {
+        const rect = gridRef.current.getBoundingClientRect();
+        setMousePos({
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top,
+        });
+      }
+    };
+
+    const grid = gridRef.current;
+    if (grid) {
+      grid.addEventListener("mousemove", handleMouseMove);
+      grid.addEventListener("mouseenter", () => setIsHovering(true));
+      grid.addEventListener("mouseleave", () => setIsHovering(false));
+    }
+
+    return () => {
+      if (grid) {
+        grid.removeEventListener("mousemove", handleMouseMove);
+        grid.removeEventListener("mouseenter", () => setIsHovering(true));
+        grid.removeEventListener("mouseleave", () => setIsHovering(false));
+      }
+    };
+  }, []);
+
+  const gridSize = 60;
+  const cols = Math.ceil(1920 / gridSize);
+  const rows = Math.ceil(1080 / gridSize);
+
+  return (
+    <div
+      ref={gridRef}
+      className="absolute inset-0 overflow-hidden"
+      style={{ pointerEvents: "auto" }}
+    >
+      <motion.div
+        className="absolute w-[400px] h-[400px] rounded-full pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(255, 107, 53, 0.08) 0%, transparent 70%)",
+          x: mousePos.x - 200,
+          y: mousePos.y - 200,
+        }}
+        animate={{
+          opacity: isHovering ? 1 : 0,
+          scale: isHovering ? 1 : 0.8,
+        }}
+        transition={{ duration: 0.3 }}
+      />
+
+      <svg className="absolute inset-0 w-full h-full">
+        {Array.from({ length: rows }).map((_, row) =>
+          Array.from({ length: cols }).map((_, col) => {
+            const x = col * gridSize + gridSize / 2;
+            const y = row * gridSize + gridSize / 2;
+            const distance = Math.sqrt(
+              Math.pow(x - mousePos.x, 2) + Math.pow(y - mousePos.y, 2),
+            );
+            const maxDistance = 150;
+            const isActive = distance < maxDistance && isHovering;
+            const scale = isActive ? 1 + (1 - distance / maxDistance) * 2 : 1;
+            const opacity = isActive
+              ? 0.3 + (1 - distance / maxDistance) * 0.7
+              : 0.08;
+
+            return (
+              <motion.circle
+                key={`${row}-${col}`}
+                cx={x}
+                cy={y}
+                r={1.5}
+                fill={isActive ? "#ff6b35" : "rgba(255, 255, 255, 0.15)"}
+                animate={{
+                  r: scale * 1.5,
+                  opacity,
+                }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+                style={{
+                  filter: isActive
+                    ? "drop-shadow(0 0 4px rgba(255, 107, 53, 0.5))"
+                    : "none",
+                }}
+              />
+            );
+          }),
+        )}
+      </svg>
+    </div>
+  );
+};
+
+/* ============================================
+   PHONE MOCKUP COMPONENT
+   ============================================ */
+
+const PhoneMockup = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="relative" style={{ width: 280, height: 580 }}>
+      <div className="absolute inset-0 rounded-[44px] shadow-[0_0_100px_rgba(255,107,53,0.3),0_0_200px_rgba(255,107,53,0.1)] blur-sm" />
+      <div className="absolute inset-0 rounded-[44px] bg-[#1a1a1a] border border-white/20 overflow-hidden">
+        <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-7 bg-black rounded-full z-20" />
+        <div className="absolute inset-[3px] rounded-[40px] bg-[#0a0a0a] overflow-hidden">
+          {children}
+        </div>
+        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-28 h-1 bg-white/40 rounded-full z-20" />
+      </div>
+    </div>
+  );
+};
+
+/* ============================================
+   SECTION 1: HERO
    ============================================ */
 
 const HeroSection = () => {
   const ref = useRef<HTMLElement>(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
   });
 
-  const y = useSpring(useTransform(scrollYProgress, [0, 1], [0, 200]), smoothConfig);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
+  const y = useSpring(useTransform(scrollYProgress, [0, 1], [0, 100]), smoothConfig);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 2;
+      const y = (e.clientY / window.innerHeight - 0.5) * 2;
+      setMousePosition({ x, y });
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
 
   return (
     <motion.section
       ref={ref}
-      className="relative h-screen"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
       style={{ opacity }}
     >
-      <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
-        {/* Background with parallax */}
-        <motion.div className="absolute inset-0 z-0" style={{ y, scale }}>
-          <img
-            src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=2832&auto=format&fit=crop"
-            alt="Rewards"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/80 to-black" />
-        </motion.div>
+      {/* Background layers */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-[#050505] to-black" />
 
-        {/* Animated particles */}
-        <div className="absolute inset-0 z-[1]">
-          {[...Array(20)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1 h-1 bg-[#ff6b35] rounded-full"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                y: [-20, 20, -20],
-                opacity: [0.2, 0.8, 0.2],
-              }}
-              transition={{
-                duration: 3 + Math.random() * 2,
-                repeat: Infinity,
-                delay: Math.random() * 2,
-              }}
-            />
-          ))}
-        </div>
+        {/* Floating orbs */}
+        <motion.div
+          className="absolute top-[10%] right-[15%] w-[400px] h-[400px] rounded-full"
+          style={{
+            background: "radial-gradient(circle, rgba(255,107,53,0.1) 0%, transparent 70%)",
+            x: mousePosition.x * -30,
+            y: mousePosition.y * -20,
+          }}
+          animate={{ scale: [1, 1.15, 1], opacity: [0.4, 0.6, 0.4] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
+
+        <motion.div
+          className="absolute bottom-[20%] left-[10%] w-[300px] h-[300px] rounded-full"
+          style={{
+            background: "radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%)",
+            x: mousePosition.x * 20,
+            y: mousePosition.y * 15,
+          }}
+          animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        />
 
         {/* Grid overlay */}
-        <div className="absolute inset-0 z-[1] opacity-[0.03]">
-          <div
-            className="w-full h-full"
+        <div
+          className="absolute inset-0 opacity-[0.015]"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(255,107,53,0.5) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(255,107,53,0.5) 1px, transparent 1px)
+            `,
+            backgroundSize: "60px 60px",
+          }}
+        />
+
+        {/* Animated particles */}
+        {[...Array(12)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 rounded-full bg-[#ff6b35]"
             style={{
-              backgroundImage: `
-                linear-gradient(to right, white 1px, transparent 1px),
-                linear-gradient(to bottom, white 1px, transparent 1px)
-              `,
-              backgroundSize: '80px 80px',
+              left: `${10 + Math.random() * 80}%`,
+              top: `${10 + Math.random() * 80}%`,
+            }}
+            animate={{
+              y: [0, -30, 0],
+              opacity: [0.1, 0.6, 0.1],
+              scale: [1, 1.5, 1],
+            }}
+            transition={{
+              duration: 3 + Math.random() * 2,
+              repeat: Infinity,
+              delay: Math.random() * 2,
             }}
           />
-        </div>
+        ))}
+      </div>
 
-        {/* Content */}
-        <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
+      {/* Content */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center pt-20 lg:pt-0">
+        {/* Left: Text */}
+        <div className="text-center lg:text-left">
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -103,67 +260,80 @@ const HeroSection = () => {
             transition={{ duration: 1, delay: 0.2 }}
             className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-10 backdrop-blur-sm"
             style={{
-              background: 'rgba(255, 255, 255, 0.03)',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
+              background: "rgba(255, 107, 53, 0.05)",
+              border: "1px solid rgba(255, 107, 53, 0.15)",
             }}
           >
-            <span className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
-            <span className="text-[14px] text-white/70 font-medium tracking-wide">20M BLIP Rewards Pool</span>
+            <motion.span
+              className="w-2 h-2 rounded-full bg-[#ff6b35]"
+              animate={{ scale: [1, 1.3, 1], opacity: [1, 0.5, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
+            <span className="text-[13px] text-white/70 font-medium tracking-wide">
+              20M BLIP Rewards Pool
+            </span>
           </motion.div>
 
-          {/* Headlines */}
-          <div className="overflow-hidden mb-10">
-  <motion.h1
-    initial={{ y: 150 }}
-    animate={{ y: 0 }}
-    transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-    className="text-[clamp(2.5rem,10vw,7rem)] font-semibold leading-[0.95] tracking-[-0.04em]"
-  >
-    <span className="block text-white">
-      Earn in
-    </span>
-
-    <span
-      className="block"
-      style={{
-        background: 'linear-gradient(135deg, #ff6b35 0%, #ff8c50 50%, #ffffff 100%)',
-        backgroundClip: 'text',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-      }}
-    >
-      a Blip.
-    </span>
-  </motion.h1>
-</div>
-
+          {/* Headline */}
+          <motion.h1
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.05] mb-6 tracking-tight"
+          >
+            Earn in
+            <br />
+            <span className="text-[#ff6b35]">a Blip.</span>
+          </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.6 }}
-            className="text-xl md:text-2xl text-white/50 max-w-2xl mx-auto leading-relaxed mb-12"
+            transition={{ duration: 1, delay: 0.5 }}
+            className="text-lg md:text-xl text-white/50 max-w-md mx-auto lg:mx-0 leading-relaxed mb-10"
           >
-            Get rewarded for every transaction. First-mover advantages and tiered cashback await.
+            Get rewarded for every transaction. Instant cashback, tiered rewards, and first-mover advantages.
           </motion.p>
+
+          {/* Quick stats */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.6 }}
+            className="flex items-center justify-center lg:justify-start gap-8 mb-10"
+          >
+            {[
+              { value: "5%", label: "Max Cashback" },
+              { value: "100%", label: "First Transfer" },
+              { value: "∞", label: "No Cap" },
+            ].map((stat) => (
+              <div key={stat.label} className="text-center lg:text-left">
+                <div className="text-2xl md:text-3xl font-bold text-white">{stat.value}</div>
+                <div className="text-[10px] text-white/30 uppercase tracking-wider">{stat.label}</div>
+              </div>
+            ))}
+          </motion.div>
 
           {/* CTA */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.8 }}
+            transition={{ duration: 1, delay: 0.7 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
           >
-            <MagneticWrapper strength={0.2}>
-              <Link
-                to="/waitlist"
-                onClick={() => sounds.click()}
-                onMouseEnter={() => sounds.hover()}
-                className="group inline-flex items-center gap-4 px-10 py-5 rounded-full bg-white text-black text-lg font-medium transition-all duration-500 hover:shadow-[0_0_100px_rgba(255,255,255,0.4)]"
-              >
-                Start Earning
-                <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-2" />
-              </Link>
-            </MagneticWrapper>
+            <Link
+              to="/waitlist"
+              className="group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-[#ff6b35] text-black text-sm font-semibold hover:bg-[#ff8c50] hover:shadow-[0_0_40px_rgba(255,107,53,0.4)] transition-all duration-300"
+            >
+              Start Earning
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+            <Link
+              to="/how-it-works"
+              className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full border border-white/10 text-white text-sm font-medium hover:bg-white/5 hover:border-white/20 transition-all duration-300"
+            >
+              Learn More
+            </Link>
           </motion.div>
 
           {/* Scroll indicator */}
@@ -171,17 +341,135 @@ const HeroSection = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.5 }}
-            className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
+            className="mt-16 flex items-center justify-center lg:justify-start gap-3"
           >
-            <span className="text-xs text-white/40 uppercase tracking-[0.2em]">Discover</span>
-            <motion.div
-              animate={{ y: [0, 8, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-            >
-              <ChevronDown className="w-5 h-5 text-white/40" />
-            </motion.div>
+            <span className="text-white/30 text-xs uppercase tracking-[0.2em]">Scroll to explore</span>
+            <div className="w-6 h-10 rounded-full border border-white/20 flex justify-center pt-2">
+              <motion.div
+                className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]"
+                animate={{ y: [0, 8, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              />
+            </div>
           </motion.div>
         </div>
+
+        {/* Right: Phone Mockup */}
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          className="relative flex justify-center"
+          style={{ y }}
+        >
+          {/* Ambient glow */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div
+              className="absolute w-[500px] h-[500px] rounded-full opacity-40"
+              style={{
+                background: "radial-gradient(circle, rgba(255,107,53,0.2) 0%, transparent 50%)",
+              }}
+            />
+          </div>
+
+          {/* Phone with 3D tilt */}
+          <motion.div
+            style={{
+              x: mousePosition.x * -15,
+              y: mousePosition.y * -12,
+              rotateY: mousePosition.x * 8,
+              rotateX: mousePosition.y * -5,
+              transformPerspective: 1200,
+              transformStyle: "preserve-3d",
+            }}
+            whileHover={{ scale: 1.02 }}
+            transition={{ type: "spring", stiffness: 200, damping: 25 }}
+          >
+            <PhoneMockup>
+              {/* Status bar */}
+              <div className="flex items-center justify-between px-6 pt-12 pb-2">
+                <span className="text-[13px] text-white font-semibold">9:41</span>
+                <div className="flex items-center gap-1.5">
+                  <Signal className="w-4 h-4 text-white" />
+                  <Wifi className="w-4 h-4 text-white" />
+                  <Battery className="w-4 h-4 text-white" />
+                </div>
+              </div>
+
+              {/* App content - Rewards Screen */}
+              <div className="px-5 pt-4 pb-6">
+                {/* Header */}
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-xl bg-[#ff6b35] flex items-center justify-center">
+                      <Zap className="w-4 h-4 text-black" />
+                    </div>
+                    <span className="text-sm font-bold text-white">Blip Rewards</span>
+                  </div>
+                  <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
+                    <User className="w-4 h-4 text-white/50" />
+                  </div>
+                </div>
+
+                {/* Total Rewards Card */}
+                <div className="rounded-2xl bg-gradient-to-br from-[#ff6b35]/20 to-[#ff6b35]/5 border border-[#ff6b35]/20 p-4 mb-4">
+                  <p className="text-[10px] text-white/50 uppercase tracking-wider mb-1">Total Earned</p>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-3xl font-bold text-white">2,450</span>
+                    <span className="text-sm text-[#ff6b35]">BLIP</span>
+                  </div>
+                  <div className="flex items-center gap-1 mt-2">
+                    <TrendingUp className="w-3 h-3 text-green-400" />
+                    <span className="text-[10px] text-green-400">+125 this week</span>
+                  </div>
+                </div>
+
+                {/* Current Tier */}
+                <div className="rounded-xl bg-white/[0.03] border border-white/[0.06] p-3 mb-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-[10px] text-white/40 uppercase">Current Tier</p>
+                      <p className="text-sm font-semibold text-white">Explorer</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-[10px] text-white/40 uppercase">Cashback</p>
+                      <p className="text-lg font-bold text-[#ff6b35]">5%</p>
+                    </div>
+                  </div>
+                  {/* Progress bar */}
+                  <div className="mt-3">
+                    <div className="flex justify-between text-[9px] text-white/30 mb-1">
+                      <span>$2,450</span>
+                      <span>$5,000</span>
+                    </div>
+                    <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+                      <div className="h-full w-[49%] bg-gradient-to-r from-[#ff6b35] to-[#ff8c50] rounded-full" />
+                    </div>
+                    <p className="text-[9px] text-white/40 mt-1">$2,550 to Achiever tier</p>
+                  </div>
+                </div>
+
+                {/* Recent rewards */}
+                <div className="space-y-2">
+                  <p className="text-[10px] text-white/40 uppercase tracking-wider">Recent Rewards</p>
+                  {[
+                    { amount: "+25", desc: "Transfer to Lagos", time: "2m ago" },
+                    { amount: "+50", desc: "Transfer to Dubai", time: "1h ago" },
+                    { amount: "+100", desc: "First transfer bonus", time: "2h ago" },
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center justify-between py-2 border-b border-white/5 last:border-0">
+                      <div>
+                        <p className="text-xs text-white">{item.desc}</p>
+                        <p className="text-[10px] text-white/30">{item.time}</p>
+                      </div>
+                      <span className="text-sm font-semibold text-[#ff6b35]">{item.amount} BLIP</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </PhoneMockup>
+          </motion.div>
+        </motion.div>
       </div>
     </motion.section>
   );
@@ -202,33 +490,39 @@ const RewardTiersSection = () => {
       desc: "First transfer reward",
       icon: Sparkles,
       highlight: true,
+      color: "#ff6b35",
     },
     {
       name: "Explorer",
       reward: "5%",
       desc: "Standard cashback",
       icon: TrendingUp,
+      color: "#ffffff",
     },
     {
       name: "Achiever",
       reward: "7.5%",
       desc: "$5K+ volume",
       icon: Star,
+      color: "#ffffff",
     },
     {
       name: "Elite",
       reward: "10%",
       desc: "$25K+ volume",
       icon: Shield,
+      color: "#ffffff",
     },
   ];
 
   return (
     <section ref={ref} className="relative py-32 bg-black overflow-hidden">
-      {/* Background glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-white/5 blur-[150px] rounded-full" />
+      {/* Background */}
+      <div className="absolute inset-0">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-[#ff6b35]/[0.03] blur-[120px]" />
+      </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
+      <div className="relative z-10 max-w-6xl mx-auto px-6">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -236,11 +530,15 @@ const RewardTiersSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-20"
         >
-          <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">Reward Tiers</span>
-          <h2 className="text-4xl md:text-6xl font-semibold text-white tracking-tight">
-            More Volume.<br />
-            <span className="text-white/30">More Rewards.</span>
+          <span className="text-[10px] uppercase tracking-[0.3em] text-[#ff6b35] mb-4 block">Reward Tiers</span>
+          <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tight mb-6">
+            More Volume.
+            <br />
+            <span className="text-white/20">More Rewards.</span>
           </h2>
+          <p className="text-lg text-white/40 max-w-xl mx-auto">
+            Unlock higher cashback rates as your transaction volume grows.
+          </p>
         </motion.div>
 
         {/* Tier cards */}
@@ -251,35 +549,34 @@ const RewardTiersSection = () => {
               initial={{ opacity: 0, y: 60 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: i * 0.1 }}
-              className={`group relative p-8 rounded-3xl overflow-hidden ${
-                tier.highlight ? 'lg:scale-105' : ''
-              }`}
+              className={`group relative p-8 rounded-3xl overflow-hidden ${tier.highlight ? "lg:scale-105" : ""}`}
               style={{
                 background: tier.highlight
-                  ? 'linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 107, 53, 0.02) 100%)'
-                  : 'rgba(255, 255, 255, 0.02)',
+                  ? "linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 107, 53, 0.02) 100%)"
+                  : "rgba(255, 255, 255, 0.02)",
                 border: tier.highlight
-                  ? '1px solid rgba(255, 107, 53, 0.2)'
-                  : '1px solid rgba(255, 255, 255, 0.05)',
+                  ? "1px solid rgba(255, 107, 53, 0.2)"
+                  : "1px solid rgba(255, 255, 255, 0.05)",
               }}
-              onMouseEnter={() => sounds.hover()}
             >
               {/* Hover glow */}
               <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#ff6b35] opacity-0 group-hover:opacity-[0.08] blur-[60px] rounded-full transition-opacity duration-500" />
 
               {tier.highlight && (
-                <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-[#ff6b35]/20 text-white/60 text-[10px] font-medium uppercase tracking-wider">
+                <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-[#ff6b35]/20 text-[#ff6b35] text-[10px] font-medium uppercase tracking-wider">
                   Best Value
                 </div>
               )}
 
               <div className="relative z-10">
                 <div className="mb-6">
-                  <tier.icon className={`w-8 h-8 ${tier.highlight ? 'text-white/60' : 'text-white/50'}`} />
+                  <tier.icon className={`w-8 h-8 ${tier.highlight ? "text-[#ff6b35]" : "text-white/40"}`} />
                 </div>
 
                 <h3 className="text-lg text-white/60 mb-2">{tier.name}</h3>
-                <div className="text-5xl font-semibold text-white mb-4">{tier.reward}</div>
+                <div className={`text-5xl font-bold mb-4 ${tier.highlight ? "text-[#ff6b35]" : "text-white"}`}>
+                  {tier.reward}
+                </div>
                 <p className="text-sm text-white/40">{tier.desc}</p>
               </div>
             </motion.div>
@@ -329,10 +626,10 @@ const HowItWorksSection = () => {
   ];
 
   return (
-    <section ref={ref} className="relative py-40 bg-black overflow-hidden">
+    <section ref={ref} className="relative py-32 bg-black overflow-hidden">
       {/* Background text */}
       <motion.div
-        className="absolute top-1/2 left-0 -translate-y-1/2 whitespace-nowrap text-[15vw] font-bold text-white/[0.015] select-none pointer-events-none"
+        className="absolute top-1/2 left-0 -translate-y-1/2 whitespace-nowrap text-[12vw] font-bold text-white/[0.015] select-none pointer-events-none"
         style={{
           x: useTransform(scrollYProgress, [0, 1], ["0%", "-30%"]),
         }}
@@ -340,19 +637,20 @@ const HowItWorksSection = () => {
         EARN REWARDS • EARN REWARDS • EARN REWARDS •
       </motion.div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
+      <div className="relative z-10 max-w-6xl mx-auto px-6">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1 }}
-          className="text-center mb-24"
+          className="text-center mb-20"
         >
-          <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">Process</span>
-          <h2 className="text-4xl md:text-6xl font-semibold text-white tracking-tight">
-            How It<br />
-            <span className="text-white/30">Works.</span>
+          <span className="text-[10px] uppercase tracking-[0.3em] text-[#ff6b35] mb-4 block">Process</span>
+          <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tight">
+            How It
+            <br />
+            <span className="text-white/20">Works.</span>
           </h2>
         </motion.div>
 
@@ -366,18 +664,17 @@ const HowItWorksSection = () => {
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8, delay: i * 0.1 }}
               className="group relative"
-              onMouseEnter={() => sounds.hover()}
             >
               {/* Connector line */}
               {i < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-12 left-[60%] w-[80%] h-[2px] bg-gradient-to-r from-white/10 to-transparent" />
+                <div className="hidden lg:block absolute top-12 left-[60%] w-[80%] h-[1px] bg-gradient-to-r from-white/10 to-transparent" />
               )}
 
               <div
-                className="relative p-8 rounded-3xl h-full"
+                className="relative p-8 rounded-3xl h-full transition-all duration-300 group-hover:bg-white/[0.02]"
                 style={{
-                  background: 'rgba(255, 255, 255, 0.02)',
-                  border: '1px solid rgba(255, 255, 255, 0.05)',
+                  background: "rgba(255, 255, 255, 0.01)",
+                  border: "1px solid rgba(255, 255, 255, 0.05)",
                 }}
               >
                 {/* Number */}
@@ -385,8 +682,8 @@ const HowItWorksSection = () => {
                   {step.num}
                 </span>
 
-                <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-6 group-hover:bg-white/10 transition-colors duration-500">
-                  <step.icon className="w-7 h-7 text-white/60" />
+                <div className="w-14 h-14 rounded-2xl bg-[#ff6b35]/10 border border-[#ff6b35]/20 flex items-center justify-center mb-6 group-hover:bg-[#ff6b35]/20 transition-colors duration-500">
+                  <step.icon className="w-6 h-6 text-[#ff6b35]" />
                 </div>
 
                 <h3 className="text-xl font-semibold text-white mb-3">{step.title}</h3>
@@ -401,7 +698,7 @@ const HowItWorksSection = () => {
 };
 
 /* ============================================
-   SECTION 4: REWARD FEATURES
+   SECTION 4: FEATURES
    ============================================ */
 
 const FeaturesSection = () => {
@@ -417,80 +714,80 @@ const FeaturesSection = () => {
   const features = [
     {
       title: "Instant Cashback",
-      desc: "Rewards credited immediately after each successful transaction.",
+      desc: "Rewards credited immediately after each successful transaction. No waiting periods.",
+      icon: Zap,
     },
     {
       title: "No Minimum",
       desc: "Start earning from your very first transfer. No barriers to entry.",
+      icon: CheckCircle2,
     },
     {
       title: "Compounding",
-      desc: "Stake your BLIP rewards to earn additional yield.",
+      desc: "Stake your BLIP rewards to earn additional yield on your earnings.",
+      icon: Coins,
     },
     {
       title: "Referral Bonus",
-      desc: "Earn extra rewards when you invite friends to Blip.",
+      desc: "Earn extra rewards when you invite friends to join Blip.",
+      icon: Users,
     },
   ];
 
   return (
-    <section ref={ref} className="relative py-40 bg-black overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-          {/* Left: Image with parallax */}
-          <motion.div
-            className="relative aspect-square rounded-3xl overflow-hidden"
-            style={{ y: y1 }}
-          >
-            <img
-              src="https://images.unsplash.com/photo-1618044733300-9472054094ee?q=80&w=2942&auto=format&fit=crop"
-              alt="Rewards"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+    <section ref={ref} className="relative py-32 bg-black overflow-hidden">
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          {/* Left: Stats card */}
+          <motion.div style={{ y: y1 }} className="relative">
+            <div className="rounded-3xl bg-gradient-to-br from-white/[0.03] to-transparent border border-white/[0.06] p-8 md:p-12">
+              {/* Inner glow */}
+              <div className="absolute top-0 right-0 w-[300px] h-[300px] rounded-full bg-[#ff6b35]/10 blur-[100px] -translate-y-1/2 translate-x-1/2" />
 
-            {/* Floating stat */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="absolute bottom-8 left-8 right-8 p-6 rounded-2xl backdrop-blur-xl"
-              style={{
-                background: 'rgba(0, 0, 0, 0.6)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-              }}
-            >
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-sm text-white/50 mb-1">Total Rewards Pool</div>
-                  <div className="text-3xl font-semibold text-white">20,000,000</div>
+              <div className="relative">
+                <span className="text-[10px] uppercase tracking-[0.3em] text-[#ff6b35] mb-6 block">
+                  Total Rewards Pool
+                </span>
+                <div className="flex items-baseline gap-3 mb-8">
+                  <span className="text-5xl md:text-6xl font-bold text-white">20M</span>
+                  <span className="text-2xl text-white/40">BLIP</span>
                 </div>
-                <div className="text-right">
-                  <div className="text-sm text-white/50 mb-1">Token</div>
-                  <div className="text-3xl font-semibold text-white/60">BLIP</div>
+
+                <div className="grid grid-cols-2 gap-6">
+                  {[
+                    { value: "0%", label: "Min Spend" },
+                    { value: "∞", label: "Rewards Cap" },
+                    { value: "~2s", label: "Credit Time" },
+                    { value: "100%", label: "First Bonus" },
+                  ].map((stat) => (
+                    <div key={stat.label}>
+                      <div className="text-2xl font-bold text-white">{stat.value}</div>
+                      <div className="text-[10px] text-white/30 uppercase tracking-wider">{stat.label}</div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            </motion.div>
+            </div>
           </motion.div>
 
-          {/* Right: Content */}
+          {/* Right: Features list */}
           <motion.div style={{ y: y2 }}>
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 1 }}
-              className="mb-12"
+              className="mb-10"
             >
-              <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">Features</span>
-              <h2 className="text-4xl md:text-5xl font-semibold text-white tracking-tight mb-6">
-                Maximum<br />
-                <span className="text-white/30">Value.</span>
+              <span className="text-[10px] uppercase tracking-[0.3em] text-[#ff6b35] mb-4 block">Features</span>
+              <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">
+                Maximum
+                <br />
+                <span className="text-white/20">Value.</span>
               </h2>
             </motion.div>
 
-            <div className="space-y-6">
+            <div className="space-y-4">
               {features.map((feature, i) => (
                 <motion.div
                   key={feature.title}
@@ -498,16 +795,17 @@ const FeaturesSection = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
                   transition={{ duration: 0.6, delay: i * 0.1 }}
-                  className="group p-6 rounded-2xl transition-all duration-300 hover:bg-white/[0.02]"
-                  style={{
-                    border: '1px solid rgba(255, 255, 255, 0.05)',
-                  }}
-                  onMouseEnter={() => sounds.hover()}
+                  className="group p-5 rounded-2xl transition-all duration-300 hover:bg-white/[0.02] border border-white/[0.05]"
                 >
-                  <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-white/60 transition-colors">
-                    {feature.title}
-                  </h3>
-                  <p className="text-white/50">{feature.desc}</p>
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-xl bg-[#ff6b35]/10 flex items-center justify-center flex-shrink-0">
+                      <feature.icon className="w-5 h-5 text-[#ff6b35]" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-white mb-1">{feature.title}</h3>
+                      <p className="text-sm text-white/50">{feature.desc}</p>
+                    </div>
+                  </div>
                 </motion.div>
               ))}
             </div>
@@ -529,32 +827,27 @@ const CTASection = () => {
     offset: ["start end", "end start"],
   });
 
-  const scale = useSpring(useTransform(scrollYProgress, [0, 0.5], [0.8, 1]), smoothConfig);
+  const scale = useSpring(useTransform(scrollYProgress, [0, 0.5], [0.9, 1]), smoothConfig);
   const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
 
   return (
-    <section ref={ref} className="relative min-h-screen flex items-center justify-center py-40 bg-black overflow-hidden">
-      {/* Background glow */}
-      <motion.div
-        className="absolute inset-0 flex items-center justify-center"
-        style={{ scale, opacity }}
-      >
-        <div className="w-[600px] h-[600px] rounded-full bg-white/10 blur-[150px]" />
+    <section ref={ref} className="relative min-h-screen flex items-center justify-center py-32 bg-black overflow-hidden">
+      {/* Background */}
+      <motion.div className="absolute inset-0 flex items-center justify-center" style={{ scale, opacity }}>
+        <div className="w-[600px] h-[600px] rounded-full bg-[#ff6b35]/10 blur-[150px]" />
       </motion.div>
 
-      {/* Grid overlay */}
-      <div className="absolute inset-0 opacity-[0.02]">
-        <div
-          className="w-full h-full"
-          style={{
-            backgroundImage: `
-              linear-gradient(to right, white 1px, transparent 1px),
-              linear-gradient(to bottom, white 1px, transparent 1px)
-            `,
-            backgroundSize: '80px 80px',
-          }}
-        />
-      </div>
+      {/* Grid */}
+      <div
+        className="absolute inset-0 opacity-[0.02]"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(255,107,53,0.3) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,107,53,0.3) 1px, transparent 1px)
+          `,
+          backgroundSize: "80px 80px",
+        }}
+      />
 
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
         <motion.div
@@ -563,38 +856,31 @@ const CTASection = () => {
           viewport={{ once: true }}
           transition={{ duration: 1 }}
         >
-          <h2 className="text-5xl md:text-7xl lg:text-8xl font-semibold text-white tracking-tight mb-8">
-            Start<br />
-            <span className="text-white/30">Earning.</span>
+          <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight mb-8">
+            Start
+            <br />
+            <span className="text-white/20">Earning.</span>
           </h2>
 
           <p className="text-xl text-white/50 max-w-xl mx-auto mb-12">
-            Join the rewards program and get cashback on every transaction.
+            Join the rewards program and get cashback on every transaction. No minimum spend required.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <MagneticWrapper strength={0.2}>
-              <Link
-                to="/waitlist"
-                onClick={() => sounds.click()}
-                onMouseEnter={() => sounds.hover()}
-                className="group inline-flex items-center gap-4 px-10 py-5 rounded-full bg-white text-black text-lg font-medium transition-all duration-500 hover:shadow-[0_0_100px_rgba(255,255,255,0.4)]"
-              >
-                Join Waitlist
-                <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-2" />
-              </Link>
-            </MagneticWrapper>
+            <Link
+              to="/waitlist"
+              className="group inline-flex items-center justify-center gap-4 px-10 py-5 rounded-full bg-[#ff6b35] text-black text-lg font-semibold hover:bg-[#ff8c50] hover:shadow-[0_0_60px_rgba(255,107,53,0.4)] transition-all duration-300"
+            >
+              Join Waitlist
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </Link>
 
-            <MagneticWrapper strength={0.2}>
-              <Link
-                to="/how-it-works"
-                onClick={() => sounds.click()}
-                onMouseEnter={() => sounds.hover()}
-                className="group inline-flex items-center gap-4 px-10 py-5 rounded-full border border-white/15 text-white text-lg font-medium transition-all duration-500 hover:bg-white/5 hover:border-white/30"
-              >
-                Learn More
-              </Link>
-            </MagneticWrapper>
+            <Link
+              to="/how-it-works"
+              className="inline-flex items-center justify-center gap-4 px-10 py-5 rounded-full border border-white/10 text-white text-lg font-medium hover:bg-white/5 hover:border-white/20 transition-all duration-300"
+            >
+              Learn More
+            </Link>
           </div>
         </motion.div>
       </div>
@@ -614,8 +900,8 @@ const Rewards = () => {
   return (
     <>
       <SEO
-        title="Blip Money Rewards | Earn for Using Crypto Payments"
-        description="Discover how Blip Money rewards users for participating in secure and efficient crypto payment transactions."
+        title="Blip Money Rewards | Earn Cashback on Every Transaction"
+        description="Earn up to 10% cashback in BLIP tokens on every payment. Tiered rewards, instant credits, and first-transfer bonuses. Join the Blip rewards program today."
         canonical="https://blip.money/rewards"
       />
 

@@ -1,76 +1,5 @@
-// import React from "react";
-
-// const ComingSoon = () => {
-//   return (
-//     <>
-//       <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-black via-green-900 to-black text-white px-6 relative">
-//         {/* Responsive Back Button */}
-//         <a
-//           href="/"
-//           className="
-//             absolute top-4
-//             left-4
-//             sm:top-6 sm:left-6
-//             md:top-6 md:left-10
-//             lg:top-8 lg:left-20
-//             flex items-center space-x-2
-//             px-4 py-2
-//             rounded-full
-//             bg-green-800/70 hover:bg-green-700
-//             backdrop-blur
-//             transition
-//             text-sm font-semibold
-//           "
-//         >
-//           <svg
-//             xmlns="http://www.w3.org/2000/svg"
-//             className="h-5 w-5 text-green-400"
-//             fill="none"
-//             viewBox="0 0 24 24"
-//             stroke="currentColor"
-//             strokeWidth={2}
-//           >
-//             <path
-//               strokeLinecap="round"
-//               strokeLinejoin="round"
-//               d="M15 19l-7-7 7-7"
-//             />
-//           </svg>
-//           <span>Back</span>
-//         </a>
-
-//         <div className="max-w-lg text-center space-y-6">
-//           {/* Gradient "Coming Soon" badge */}
-//           <span className="inline-block px-4 py-1 rounded-full bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-400 text-black font-bold uppercase tracking-wide text-xs">
-//             Coming Soon
-//           </span>
-
-//           {/* Main heading */}
-//           <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight">
-//             Exciting Features <br /> Are On The Way
-//           </h1>
-
-//           {/* Subtext */}
-//           <p className="text-gray-300 text-lg">
-//             We're working hard to bring you something awesome. Stay tuned for
-//             updates and new releases.
-//           </p>
-
-//           {/* Button with green gradient */}
-//           <a href="/comming-soon">
-//             <button className="mt-4 px-8 py-3 rounded-full bg-gradient-to-r from-green-500 to-green-700 hover:from-green-600 hover:to-green-800 transition duration-300 font-semibold shadow-lg">
-//               Notify Me
-//             </button>
-//           </a>
-//         </div>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default ComingSoon;
-
 import React, { useState, useCallback, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
   Send,
@@ -80,640 +9,534 @@ import {
   Mail,
   Zap,
   Lock,
-  X,
-  Menu,
+  Rocket,
+  Clock,
+  Bell,
+  Sparkles,
+  ArrowLeft,
+  Shield,
+  Globe,
+  CheckCircle2,
 } from "lucide-react";
-import { NavLink, useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { Link, useNavigate } from "react-router-dom";
+import { SEO } from "@/components";
 
-const LanguageSwitcher = ({ language, setLanguage }) => {
-  return (
-    <div className="flex items-center gap-2 text-sm font-medium">
-      <button
-        onClick={() => setLanguage("en")}
-        className={`px-3 py-1 rounded-full transition ${
-          language === "en"
-            ? "bg-[#00FF94] text-black"
-            : "text-gray-400 hover:text-white"
-        }`}
-      >
-        EN
-      </button>
+/* ============================================
+   2025/2026 COMING SOON PAGE
+   Matching homepage design system
+   - Orange (#ff6b35) accent color
+   - Dark theme with subtle gradients
+   - Animated particles
+   - Clean, minimal aesthetic
+   ============================================ */
 
-      <button
-        onClick={() => setLanguage("ar")}
-        className={`px-3 py-1 rounded-full transition ${
-          language === "ar"
-            ? "bg-[#00FF94] text-black"
-            : "text-gray-400 hover:text-white"
-        }`}
-      >
-        العربية
-      </button>
-    </div>
-  );
-};
-
-// export const Navbar = () => {
-//   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-//   const [language, setLanguage] = useState("en");
-
-//   return (
-//     <nav className="fixed top-0 w-full z-50 backdrop-blur-md border-b border-white/5 bg-black/60 supports-[backdrop-filter]:bg-black/40">
-//       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
-//         <a href="/" className="flex items-center gap-2">
-//           <div className="relative">
-//             <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#2BFF88] shadow-[0_0_10px_#2BFF88] relative z-10" />
-//             <div className="absolute inset-0 bg-[#2BFF88] rounded-full animate-ping opacity-50" />
-//           </div>
-//           <span className="text-xl sm:text-2xl font-bold tracking-tight text-white">
-//             Blip.<span className="text-[#2BFF88]">money</span>
-//           </span>
-//         </a>
-
-//         {/* Desktop Menu */}
-//         <div className="hidden lg:flex items-center gap-8">
-//           <div className="flex items-center gap-8 text-sm font-medium text-gray-400">
-//             <a href="/" className="hover:text-[#2BFF88] transition-colors">
-//               Protocol
-//             </a>
-
-//             <a href="/" className="hover:text-[#2BFF88] transition-colors">
-//               Merchants
-//             </a>
-//             <a href="/" className="hover:text-[#2BFF88] transition-colors">
-//               PeopleBank
-//             </a>
-
-//              <NavLink
-//                            to="/rewards"
-//                            className={({ isActive }) =>
-//                              `transition-colors ${
-//                                isActive
-//                                  ? "text-[#2BFF88] font-semibold"
-//                                  : "hover:text-[#2BFF88]"
-//                              }`
-//                            }
-//                          >
-//                            Rewards
-//                          </NavLink>
-
-//             <NavLink
-//               to="/tokenomics"
-//               className={({ isActive }) =>
-//                 `transition-colors ${
-//                   isActive
-//                     ? "text-[#2BFF88] font-semibold"
-//                     : "hover:text-[#2BFF88]"
-//                 }`
-//               }
-//             >
-//               Tokenomics
-//             </NavLink>
-//           </div>{" "}
-//           <LanguageSwitcher language={language} setLanguage={setLanguage} />
-//           {/* <a href="/coming-soon">
-//             <button className="px-5 py-2 rounded-full border border-white/10 text-white text-sm hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all bg-black/50 backdrop-blur-sm group">
-//               <span className="group-hover:text-[#2BFF88] transition-colors">
-//                 Coming Soon
-//               </span>
-//             </button>
-//           </a> */}
-//         </div>
-
-//         {/* Mobile Menu Button */}
-//         <button
-//           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-//           className="lg:hidden p-2 text-white hover:text-[#2BFF88] transition-colors"
-//           aria-label="Toggle menu"
-//         >
-//           {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-//         </button>
-
-//         {/* Mobile Menu */}
-//         <AnimatePresence>
-//           {mobileMenuOpen && (
-//             <motion.div
-//               initial={{ opacity: 0, y: -20 }}
-//               animate={{ opacity: 1, y: 0 }}
-//               exit={{ opacity: 0, y: -20 }}
-//               className="lg:hidden absolute top-full left-0 right-0 bg-black/95 backdrop-blur-xl border-b border-white/10"
-//             >
-//               <div className="flex flex-col p-6 space-y-4">
-//                 <a
-//                   href="#protocol"
-//                   onClick={() => setMobileMenuOpen(false)}
-//                   className="text-gray-400 hover:text-[#2BFF88] transition-colors text-lg py-2"
-//                 >
-//                   Protocol
-//                 </a>
-//                 <a
-//                   href="#merchants"
-//                   onClick={() => setMobileMenuOpen(false)}
-//                   className="text-gray-400 hover:text-[#2BFF88] transition-colors text-lg py-2"
-//                 >
-//                   Merchants
-//                 </a>
-//                 <a
-//                   href="#peoplebank"
-//                   onClick={() => setMobileMenuOpen(false)}
-//                   className="text-gray-400 hover:text-[#2BFF88] transition-colors text-lg py-2"
-//                 >
-//                   PeopleBank
-//                 </a>
-//                 <a
-//                   href="/tokenomics"
-//                   className="hover:text-[#2BFF88] transition-colors"
-//                 >
-//                   Tokenomics
-//                 </a>
-//                 <a href="/coming-soon">
-//                   <button className="w-full px-5 py-3 rounded-full border border-white/10 text-white hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all bg-black/50 backdrop-blur-sm mt-2">
-//                     Open App
-//                   </button>
-//                 </a>
-//               </div>
-//             </motion.div>
-//           )}
-//         </AnimatePresence>
-//       </div>
-//     </nav>
-//   );
-// };
-
-// --- Canvas Grid Background Component (Replacing Three.js) ---
-const NetGridBackground = () => {
-  const canvasRef = useRef(null);
-  const animationRef = useRef(null);
+// Animated particle background
+const ParticleBackground = () => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const animationRef = useRef<number>();
+  const mouseRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    // Check for context support early
+
     const ctx = canvas.getContext("2d");
-    if (!ctx) {
-      console.error("2D Canvas context not supported.");
-      return;
+    if (!ctx) return;
+
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+
+    const particles: Array<{
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      radius: number;
+      color: string;
+      opacity: number;
+    }> = [];
+
+    const particleCount = window.innerWidth > 768 ? 80 : 40;
+
+    // Initialize particles
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        radius: Math.random() * 1.5 + 0.5,
+        color: Math.random() > 0.7 ? "#ff6b35" : "rgba(255, 255, 255, 0.3)",
+        opacity: Math.random() * 0.5 + 0.2,
+      });
     }
 
-    let width, height;
-    let particles = [];
-    // Reduce particle count on smaller screens for better performance
-    const particleCount = window.innerWidth > 768 ? 100 : 50;
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseRef.current = { x: e.clientX, y: e.clientY };
+    };
+    window.addEventListener("mousemove", handleMouseMove);
 
-    const resizeCanvas = () => {
+    const handleResize = () => {
       width = window.innerWidth;
       height = window.innerHeight;
       canvas.width = width;
       canvas.height = height;
     };
-
-    class Particle {
-      constructor() {
-        this.x = Math.random() * width;
-        this.y = Math.random() * height;
-        this.vx = (Math.random() - 0.5) * 0.2; // Velocity X
-        this.vy = (Math.random() - 0.5) * 0.2; // Velocity Y
-        this.radius = Math.random() * 1 + 0.5;
-        // Use the neon colors
-        this.color = Math.random() > 0.5 ? "#2BFF88" : "#00C8FF";
-      }
-      update() {
-        this.x += this.vx;
-        this.y += this.vy;
-
-        // Bounce off edges
-        if (this.x < 0 || this.x > width) this.vx *= -1;
-        if (this.y < 0 || this.y > height) this.vy *= -1;
-      }
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-      }
-    }
-
-    const init = () => {
-      resizeCanvas();
-      particles = [];
-      for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle());
-      }
-    };
-
-    const drawConnections = () => {
-      for (let i = 0; i < particleCount; i++) {
-        for (let j = i + 1; j < particleCount; j++) {
-          const p1 = particles[i];
-          const p2 = particles[j];
-          const distance = Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2);
-
-          // Connect particles within a certain distance
-          if (distance < 150) {
-            ctx.beginPath();
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = "#2BFF88"; // Neon green lines
-            // Subtle opacity based on distance
-            ctx.lineWidth = 0.5;
-            ctx.globalAlpha = 0.1 + (1 - distance / 150) * 0.2;
-            ctx.stroke();
-          }
-        }
-      }
-    };
+    window.addEventListener("resize", handleResize);
 
     const animate = () => {
       ctx.clearRect(0, 0, width, height);
 
-      drawConnections();
+      // Draw connections
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
 
+          if (distance < 120) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(255, 107, 53, ${0.1 * (1 - distance / 120)})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Update and draw particles
       particles.forEach((p) => {
-        p.update();
-        p.draw();
+        // Mouse interaction
+        const dx = mouseRef.current.x - p.x;
+        const dy = mouseRef.current.y - p.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 100) {
+          p.vx -= dx * 0.0001;
+          p.vy -= dy * 0.0001;
+        }
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Bounce off edges
+        if (p.x < 0 || p.x > width) p.vx *= -1;
+        if (p.y < 0 || p.y > height) p.vy *= -1;
+
+        // Draw particle
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = p.opacity;
+        ctx.fill();
+        ctx.globalAlpha = 1;
       });
 
       animationRef.current = requestAnimationFrame(animate);
     };
 
-    init();
     animate();
 
-    window.addEventListener("resize", init);
-
     return () => {
-      cancelAnimationFrame(animationRef.current);
-      window.removeEventListener("resize", init);
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
-  return (
-    <>
-      {/* The Canvas element for the particle effect */}
-      <canvas
-        ref={canvasRef}
-        className="fixed top-0 left-0 w-full h-full -z-20 opacity-40"
-      />
+  return <canvas ref={canvasRef} className="fixed inset-0 -z-10 opacity-60" />;
+};
 
-      {/* Static Glow effect */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-7xl max-h-7xl rounded-full bg-[#2BFF88]/10 blur-[180px] opacity-30 animate-pulse-slow" />
-      </div>
-      <style>
-        {`
-                  @keyframes pulse-slow {
-                    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
-                    50% { transform: translate(-50%, -50%) scale(1.05); opacity: 0.4; }
-                  }
-                `}
-      </style>
-    </>
+// Countdown timer component
+const CountdownTimer = () => {
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+
+  useEffect(() => {
+    // Set launch date to 30 days from now (adjust as needed)
+    const launchDate = new Date();
+    launchDate.setDate(launchDate.getDate() + 30);
+
+    const timer = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = launchDate.getTime() - now;
+
+      if (distance > 0) {
+        setTimeLeft({
+          days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+          seconds: Math.floor((distance % (1000 * 60)) / 1000),
+        });
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const timeUnits = [
+    { value: timeLeft.days, label: "Days" },
+    { value: timeLeft.hours, label: "Hours" },
+    { value: timeLeft.minutes, label: "Minutes" },
+    { value: timeLeft.seconds, label: "Seconds" },
+  ];
+
+  return (
+    <div className="flex items-center justify-center gap-3 md:gap-6">
+      {timeUnits.map((unit, i) => (
+        <React.Fragment key={unit.label}>
+          <div className="text-center">
+            <div className="relative">
+              <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center backdrop-blur-sm">
+                <span className="text-2xl md:text-3xl font-bold text-white tabular-nums">
+                  {String(unit.value).padStart(2, "0")}
+                </span>
+              </div>
+              <div className="absolute -inset-1 rounded-2xl bg-[#ff6b35]/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+            </div>
+            <span className="text-[10px] md:text-xs text-white/40 uppercase tracking-wider mt-2 block">
+              {unit.label}
+            </span>
+          </div>
+          {i < timeUnits.length - 1 && (
+            <span className="text-2xl md:text-3xl text-white/20 font-light">:</span>
+          )}
+        </React.Fragment>
+      ))}
+    </div>
   );
 };
 
-// --- Helper Components & Styles ---
-
-// Button component for primary CTAs
-const Button = ({
-  children,
-  primary = false,
-  className = "",
-  onClick,
-  type = "button",
-}) => (
-  <button
-    type={type}
-    onClick={onClick}
-    className={`
-      relative overflow-hidden px-6 py-3 rounded-full font-bold tracking-wide transition-all duration-300 group cursor-pointer text-sm
-      ${
-        primary
-          ? "bg-[#2BFF88] text-black hover:bg-[#1FD96E] hover:shadow-[0_0_24px_rgba(43,255,136,0.5)]"
-          : "bg-transparent border border-white/20 text-white hover:border-[#2BFF88] hover:text-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.15)]"
-      }
-      ${className}
-    `}
-  >
-    <span className="relative z-10 flex items-center justify-center gap-2">
-      {children}
-    </span>
-  </button>
-);
-
-// --- Main Waitlist Component ---
-
+// Main Coming Soon Component
 const ComingSoon = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState(null); // 'success', 'error', 'loading'
-  const [hashVar, setHash] = useState(""); // 'success', 'error', 'loading'
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
   useEffect(() => {
-    const { pathname, hash } = location;
-    console.log(pathname, hash);
-    // 1️⃣ If coming from another page with hash → redirect to home
-    if (pathname !== "/" && hash) {
-      setHash(hash);
-      navigate(
-        {
-          pathname: "/",
-          hash,
-        },
-        { replace: true }
-      );
-      return;
-    }
+    const handleMouseMove = (e: MouseEvent) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 2;
+      const y = (e.clientY / window.innerHeight - 0.5) * 2;
+      setMousePosition({ x, y });
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
 
-    // 2️⃣ On homepage with hash → scroll AFTER render
-    if (pathname === "/" && hashVar) {
-      navigate(
-        {
-          pathname: "/",
-          hash: hashVar,
-        },
-        { replace: true }
-      );
-      const id = hash.replace("#", "");
-
-      const scrollToElement = () => {
-        const el = document.getElementById(id);
-        if (!el) return false;
-
-        el.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-        return true;
-      };
-
-      // Try immediately
-      if (scrollToElement()) return;
-
-      // Retry after next paint (safe for lazy sections)
-      const raf = requestAnimationFrame(() => {
-        scrollToElement();
-      });
-
-      return () => cancelAnimationFrame(raf);
-    }
-  }, [location.pathname, location.hash, navigate]);
-
-  const handleWaitlistSubmit = useCallback(
-    (e) => {
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
       e.preventDefault();
       if (!email || status === "loading") return;
 
       setStatus("loading");
 
-      // Simulate API call for email submission
-      setTimeout(() => {
-        if (email.includes("@") && email.length > 5) {
-          console.log(`Submitting email: ${email}`);
-          setStatus("success");
-        } else {
-          setStatus("error");
-        }
-      }, 1500);
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      if (email.includes("@") && email.length > 5) {
+        setStatus("success");
+      } else {
+        setStatus("error");
+      }
     },
     [email, status]
   );
 
   return (
     <>
-      {/* <Navbar /> */}
+      <SEO
+        title="Coming Soon | Blip Money"
+        description="Something big is coming. Join the waitlist to be the first to know when we launch new features."
+        canonical="https://blip.money/coming-soon"
+      />
 
-      <div className="min-h-screen bg-black text-white font-sans overflow-hidden flex flex-col justify-center">
-        {/* <button
-  onClick={() => navigate(-1)}
-  className="
-    fixed
-    md:top-20 top-6
-    md:left-56 left-8
-    z-50
-    flex items-center gap-2
-    px-4 py-2
-    rounded-full
-    bg-green-800/70 hover:bg-green-700
-    backdrop-blur
-    transition
-    text-sm font-semibold
-    text-white
-  "
->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="h-5 w-5 text-green-400"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    strokeWidth={2}
-  >
-    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-  </svg>
-  Back
-</button> */}
+      <div className="min-h-screen bg-black text-white overflow-hidden">
+        {/* Background layers */}
+        <div className="fixed inset-0 pointer-events-none">
+          <div className="absolute inset-0 bg-gradient-to-b from-black via-[#050505] to-black" />
 
-        <NetGridBackground />
+          {/* Floating orbs */}
+          <motion.div
+            className="absolute top-[20%] right-[10%] w-[500px] h-[500px] rounded-full"
+            style={{
+              background: "radial-gradient(circle, rgba(255,107,53,0.15) 0%, transparent 70%)",
+              x: mousePosition.x * -40,
+              y: mousePosition.y * -30,
+            }}
+            animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.7, 0.5] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 sm:pt-32 sm:pb-24 grid lg:grid-cols-[3fr_2fr] gap-12 lg:gap-16 items-start">
-          {/* --- LEFT COLUMN: HERO CORE & EMAIL FORM --- */}
-          <div className="text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#2BFF88]/40 bg-[#2BFF88]/5 mb-6 shadow-[0_0_10px_rgba(43,255,136,0.2)]">
-              <Zap className="w-4 h-3 text-[#2BFF88]" />
-              <span className="text-[10px] font-mono text-gray-300 uppercase tracking-widest">
-                PROTOCOL LAUNCH IMMINENT
+          <motion.div
+            className="absolute bottom-[10%] left-[5%] w-[400px] h-[400px] rounded-full"
+            style={{
+              background: "radial-gradient(circle, rgba(255,107,53,0.08) 0%, transparent 70%)",
+              x: mousePosition.x * 30,
+              y: mousePosition.y * 20,
+            }}
+            animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.5, 0.3] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          />
+
+          {/* Grid overlay */}
+          <div
+            className="absolute inset-0 opacity-[0.02]"
+            style={{
+              backgroundImage: `
+                linear-gradient(rgba(255,107,53,0.5) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,107,53,0.5) 1px, transparent 1px)
+              `,
+              backgroundSize: "80px 80px",
+            }}
+          />
+        </div>
+
+        <ParticleBackground />
+
+        {/* Back button */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          className="fixed top-6 left-6 z-50"
+        >
+          <Link
+            to="/"
+            className="group flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.03] border border-white/10 hover:border-[#ff6b35]/30 hover:bg-white/[0.05] transition-all duration-300"
+          >
+            <ArrowLeft className="w-4 h-4 text-white/50 group-hover:text-[#ff6b35] transition-colors" />
+            <span className="text-sm text-white/50 group-hover:text-white transition-colors">Back</span>
+          </Link>
+        </motion.div>
+
+        {/* Main content */}
+        <main className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 py-20">
+          <div className="max-w-4xl mx-auto text-center">
+            {/* Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-10"
+              style={{
+                background: "rgba(255, 107, 53, 0.05)",
+                border: "1px solid rgba(255, 107, 53, 0.2)",
+              }}
+            >
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+              >
+                <Rocket className="w-4 h-4 text-[#ff6b35]" />
+              </motion.div>
+              <span className="text-[13px] text-white/70 font-medium tracking-wide">
+                Launch Imminent
               </span>
-            </div>
+            </motion.div>
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold tracking-tighter mb-6 leading-none">
-              The Protocol.
-              <br className="hidden md:block" />
-              <span className="mint-gradient-text">Instant Value.</span>
-              <br className="hidden md:block" />
-              Everywhere.
-            </h1>
-            <p className="text-base sm:text-lg md:text-xl text-gray-400 text-gray-300 mb-10 max-w-4xl mx-auto lg:mx-0 font-light leading-relaxed">
-              Unify global commerce on a decentralized, non-custodial layer.
-              Join the exclusive list for Q1 access.
-            </p>
+            {/* Main headline */}
+            <motion.h1
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.05] mb-6 tracking-tight"
+            >
+              Something
+              <br />
+              <span className="text-[#ff6b35]">Big</span> is Coming.
+            </motion.h1>
 
-            {/* --- EMAIL FORM (LEFT SIDE HIGH-IMPACT) --- */}
-            <div className="relative max-w-lg lg:max-w-none w-full mx-auto lg:mx-0 p-1 rounded-[24px] bg-gradient-to-br from-[#2BFF88] to-[#00C8FF] shadow-[0_0_60px_rgba(43,255,136,0.3)] mt-8">
-              <div className="p-6 rounded-[22px] bg-black/90 backdrop-blur-md border border-white/10 text-center">
-                <h3 className="text-xl font-bold mb-4 flex items-center justify-center lg:justify-start gap-3">
-                  <Mail className="w-5 h-5 text-[#2BFF88]" />
-                  Secure Priority Access
-                </h3>
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.5 }}
+              className="text-lg md:text-xl text-white/50 max-w-2xl mx-auto leading-relaxed mb-12"
+            >
+              We're building the future of decentralized payments. Be the first to experience
+              instant, borderless transactions with maximum privacy.
+            </motion.p>
 
-                <form
-                  onSubmit={handleWaitlistSubmit}
-                  className="flex flex-col sm:flex-row gap-3"
-                >
-                  <input
-                    type="email"
-                    placeholder="Enter Email to Lock In Spot"
-                    value={email}
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                      setStatus(null);
-                    }}
-                    required
-                    className="flex-1 px-5 py-3 rounded-full bg-black border border-white/10 focus:border-[#2BFF88] focus:ring-1 focus:ring-[#2BFF88] text-white placeholder-gray-500 transition-colors text-base"
-                    disabled={status === "loading" || status === "success"}
-                  />
-                  <Button
-                    primary
+            {/* Countdown timer */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.6 }}
+              className="mb-16"
+            >
+              <p className="text-[10px] text-white/30 uppercase tracking-[0.3em] mb-6">Launching In</p>
+              <CountdownTimer />
+            </motion.div>
+
+            {/* Email signup */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.7 }}
+              className="max-w-md mx-auto"
+            >
+              <div className="rounded-3xl bg-white/[0.02] border border-white/[0.08] p-6 backdrop-blur-sm">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-xl bg-[#ff6b35]/10 border border-[#ff6b35]/20 flex items-center justify-center">
+                    <Bell className="w-5 h-5 text-[#ff6b35]" />
+                  </div>
+                  <div className="text-left">
+                    <h3 className="text-sm font-semibold text-white">Get Notified</h3>
+                    <p className="text-xs text-white/40">Be first to know when we launch</p>
+                  </div>
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-3">
+                  <div className="relative">
+                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
+                    <input
+                      type="email"
+                      placeholder="Enter your email"
+                      value={email}
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                        if (status === "error") setStatus("idle");
+                      }}
+                      disabled={status === "loading" || status === "success"}
+                      className="w-full bg-white/[0.03] border border-white/[0.08] py-3.5 pl-11 pr-4 rounded-xl text-white placeholder:text-white/30 focus:outline-none focus:border-[#ff6b35]/50 focus:ring-1 focus:ring-[#ff6b35]/20 transition-all disabled:opacity-50"
+                    />
+                  </div>
+
+                  <button
                     type="submit"
-                    className="w-full sm:w-auto px-6 py-3 text-base"
                     disabled={status === "loading" || status === "success"}
+                    className="w-full bg-[#ff6b35] text-black py-3.5 rounded-xl font-semibold hover:bg-[#ff8c50] hover:shadow-[0_0_40px_rgba(255,107,53,0.3)] transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2"
                   >
                     {status === "loading" && (
                       <>
-                        <svg
-                          className="animate-spin h-5 w-5 text-black"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
+                        <motion.div
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                         >
-                          <circle
-                            className="opacity-25"
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                          ></circle>
-                          <path
-                            className="opacity-75"
-                            fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                          ></path>
-                        </svg>
-                        Subscribing...
+                          <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full" />
+                        </motion.div>
+                        <span>Subscribing...</span>
                       </>
                     )}
                     {status === "success" && (
                       <>
-                        <Lock className="w-4 h-4" />
-                        Secured!
+                        <CheckCircle2 className="w-4 h-4" />
+                        <span>You're on the list!</span>
                       </>
                     )}
-                    {status === "error" && "Try Again"}
-                    {status === null && (
+                    {status === "error" && <span>Try Again</span>}
+                    {status === "idle" && (
                       <>
-                        Join Early as Supporters
+                        <span>Notify Me</span>
                         <ArrowRight className="w-4 h-4" />
                       </>
                     )}
-                  </Button>
+                  </button>
                 </form>
 
                 {status === "success" && (
-                  <p className="mt-4 text-sm text-[#2BFF88] font-medium">
-                    Success! You are locked in for early access and token
-                    rewards.
-                  </p>
+                  <motion.p
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mt-4 text-sm text-[#ff6b35]"
+                  >
+                    We'll notify you as soon as we launch!
+                  </motion.p>
                 )}
                 {status === "error" && (
-                  <p className="mt-4 text-sm text-red-400">
+                  <motion.p
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mt-4 text-sm text-red-400"
+                  >
                     Please enter a valid email address.
-                  </p>
+                  </motion.p>
                 )}
               </div>
-            </div>
-          </div>
+            </motion.div>
 
-          {/* --- RIGHT COLUMN: FEATURE CARDS & BOOSTS --- */}
-          <div className="mt-10 lg:mt-0">
-            <h2 className="text-xl font-bold mb-6 text-white text-center lg:text-left">
-              Access Channels & Priority Boost
-            </h2>
-
-            <div className="flex flex-col gap-6">
-              {/* Merchant Section (Top Priority Card) */}
-              <div className="relative p-6 rounded-2xl bg-black/70 border border-[#2BFF88]/40 shadow-[0_0_20px_rgba(43,255,136,0.15)] text-left">
-                <div className="flex items-center gap-4 mb-3">
-                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#2BFF88]/15 flex items-center justify-center text-[#2BFF88] border border-[#2BFF88]/50 shadow-[0_0_15px_rgba(43,255,136,0.5)]">
-                    <Briefcase size={20} />
-                  </div>
-                  <h3 className="text-lg font-bold text-white">
-                    Merchant & Liquidity Pool
-                  </h3>
-                </div>
-                <p className="text-sm text-gray-400 mb-4">
-                  Secure your staking pool and access dedicated developer
-                  resources and fee revenue streams.
-                </p>
-                <a
-                  href="https://t.me/+3DpHLzc2BfJhOWEx"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block w-full"
-                >
-                  <Button
-                    primary={false}
-                    type={"button"}
-                    onClick={() => {}}
-                    className="w-full bg-black/50 border-[#2BFF88] text-[#2BFF88] hover:bg-[#2BFF88] hover:text-black"
-                  >
-                    <Users className="w-4 h-4" />
-                    Join Partner Telegram
-                  </Button>
-                </a>
-              </div>
-
-              {/* Social Boosts (Lower Priority Grid) */}
-              <div className="grid grid-cols-2 gap-4">
-                {/* Follow on X */}
+            {/* Social links */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.8 }}
+              className="mt-12"
+            >
+              <p className="text-[10px] text-white/30 uppercase tracking-[0.3em] mb-6">Join the Community</p>
+              <div className="flex items-center justify-center gap-4">
                 <a
                   href="https://x.com/blipmoney_"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex flex-col items-center p-5 rounded-2xl bg-black/50 border border-white/10 hover:border-[#00C8FF]/70 transition-all duration-300 shadow-xl hover:shadow-[0_0_20px_rgba(0,200,255,0.2)] text-center"
+                  className="group flex items-center gap-3 px-5 py-3 rounded-2xl bg-white/[0.02] border border-white/[0.08] hover:border-[#ff6b35]/30 hover:bg-white/[0.04] transition-all duration-300"
                 >
-                  <div className="w-8 h-8 rounded-full bg-[#00C8FF]/15 flex items-center justify-center text-[#00C8FF] border border-[#00C8FF]/50 mb-2">
-                    <Twitter size={16} />
+                  <div className="w-8 h-8 rounded-lg bg-white/[0.05] flex items-center justify-center group-hover:bg-[#ff6b35]/10 transition-colors">
+                    <Twitter className="w-4 h-4 text-white/50 group-hover:text-[#ff6b35] transition-colors" />
                   </div>
-                  <p className="text-sm font-semibold text-white group-hover:text-[#00C8FF]">
-                    Follow on X
-                  </p>
-                  <p className="text-xs text-gray-500">Tier +5 Priority</p>
+                  <span className="text-sm text-white/60 group-hover:text-white transition-colors">Follow on X</span>
                 </a>
 
-                {/* Join Telegram */}
                 <a
                   href="https://t.me/+3DpHLzc2BfJhOWEx"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex flex-col items-center p-5 rounded-2xl bg-black/50 border border-white/10 hover:border-[#2BFF88]/70 transition-all duration-300 shadow-xl hover:shadow-[0_0_20px_rgba(43,255,136,0.2)] text-center"
+                  className="group flex items-center gap-3 px-5 py-3 rounded-2xl bg-white/[0.02] border border-white/[0.08] hover:border-[#ff6b35]/30 hover:bg-white/[0.04] transition-all duration-300"
                 >
-                  <div className="w-8 h-8 rounded-full bg-[#2BFF88]/15 flex items-center justify-center text-[#2BFF88] border border-[#2BFF88]/50 mb-2">
-                    <Send size={16} />
+                  <div className="w-8 h-8 rounded-lg bg-white/[0.05] flex items-center justify-center group-hover:bg-[#ff6b35]/10 transition-colors">
+                    <Send className="w-4 h-4 text-white/50 group-hover:text-[#ff6b35] transition-colors" />
                   </div>
-                  <p className="text-sm font-semibold text-white group-hover:text-[#2BFF88]">
-                    Join Community TG
-                  </p>
-                  <p className="text-xs text-gray-500">Airdrop Qualification</p>
+                  <span className="text-sm text-white/60 group-hover:text-white transition-colors">Join Telegram</span>
                 </a>
               </div>
-            </div>
-          </div>
+            </motion.div>
 
-          {/* Aesthetic Gradient Style for Mint Text */}
-          <style>
-            {`
-            .mint-gradient-text {
-              background-image: linear-gradient(to right, #2BFF88, #00C8FF);
-              -webkit-background-clip: text;
-              -webkit-text-fill-color: transparent;
-              background-clip: text;
-            }
-            .animate-pulse {
-                animation: pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-            }
-          `}
-          </style>
-        </div>
+            {/* Features preview */}
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.9 }}
+              className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-6"
+            >
+              {[
+                {
+                  icon: Zap,
+                  title: "Instant Transfers",
+                  desc: "Sub-second settlement times globally",
+                },
+                {
+                  icon: Shield,
+                  title: "Maximum Privacy",
+                  desc: "Zero-knowledge proof transactions",
+                },
+                {
+                  icon: Globe,
+                  title: "Borderless",
+                  desc: "Send value anywhere, anytime",
+                },
+              ].map((feature, i) => (
+                <motion.div
+                  key={feature.title}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 1 + i * 0.1 }}
+                  className="p-6 rounded-2xl bg-white/[0.02] border border-white/[0.06] group hover:bg-white/[0.03] hover:border-white/[0.1] transition-all duration-300"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-[#ff6b35]/10 border border-[#ff6b35]/20 flex items-center justify-center mb-4 group-hover:bg-[#ff6b35]/20 transition-colors">
+                    <feature.icon className="w-5 h-5 text-[#ff6b35]" />
+                  </div>
+                  <h3 className="text-sm font-semibold text-white mb-2">{feature.title}</h3>
+                  <p className="text-xs text-white/40">{feature.desc}</p>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </main>
       </div>
     </>
   );
