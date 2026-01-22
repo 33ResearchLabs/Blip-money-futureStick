@@ -378,9 +378,9 @@ const AirdropLogin = () => {
                     transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
                     className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.05] mb-6 tracking-tight"
                   >
-                    Earn in
+                    Join the 
                     <br />
-                    <span className="text-[#ff6b35]">a Blip.</span>
+                    <span className="text-[#ff6b35]"> Blip</span> Waitlist
                   </motion.h1>
 
                   <motion.p

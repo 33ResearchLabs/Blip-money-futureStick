@@ -267,7 +267,7 @@ const BlipAirdropHub = () => {
                   Mainnet Alpha: Live Verification
                 </div>
                 <h1 className="text-6xl md:text-8xl font-bold tracking-tighter text-white mb-8 leading-[0.95] selection:bg-[#39ff14] selection:text-black">
-                  Earn in a Blip.
+                  Join the Blip Waitlist
                 </h1>
                 <p className="text-xl text-zinc-500 mb-12 leading-relaxed max-w-xl">
                   Support the first privacy-preserving institutional payment

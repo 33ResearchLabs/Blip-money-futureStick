@@ -203,9 +203,11 @@ const DistributionSection = () => {
             transition={{ duration: 1 }}
             className="relative"
           >
-            <div className="relative w-full max-w-[500px] aspect-square mx-auto">
+            <div className="relative w-[260px] sm:w-[320px] md:w-[420px] aspect-square mx-auto">
+
               {/* Outer ring */}
-              <div className="absolute inset-[-40px] border border-white/5 rounded-full " />
+              <div className="absolute -inset-6 md:-inset-10 border border-white/5 rounded-full" />
+
 
               <svg
                 viewBox="0 0 100 100"
