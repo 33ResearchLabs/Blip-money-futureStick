@@ -23,11 +23,11 @@ const Logo = () => {
         <span className="w-4 h-4 rounded-full bg-[#ff6b35]" />
 
         {/* Text */}
-        <h1 className="text-2xl font-semibold tracking-tight">
+        <span className="text-2xl font-semibold tracking-tight">
           <span className="text-white">blip</span>
           <span className="text-white">.</span>
           <span className="text-[#ff6b35]">money</span>
-        </h1>
+        </span>
       </div>
     </Link>
   );

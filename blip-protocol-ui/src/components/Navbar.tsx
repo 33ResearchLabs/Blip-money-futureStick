@@ -47,7 +47,7 @@ const Logo = () => {
       </motion.span>
 
       {/* Text */}
-      <motion.h1
+      <motion.span
         className="text-2xl font-semibold tracking-tight leading-none flex items-center"
         whileHover={{ scale: 1.02 }}
         transition={{ duration: 0.2 }}
@@ -65,7 +65,7 @@ const Logo = () => {
             transition={{ duration: 0.3 }}
           />
         </span>
-      </motion.h1>
+      </motion.span>
     </Link>
   );
 };
