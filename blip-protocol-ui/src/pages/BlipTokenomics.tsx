@@ -139,7 +139,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.5 }}
-          className="flex items-center justify-center gap-6 text-2xl md:text-3xl font-light tracking-[0.2em] uppercase"
+          className="flex items-center justify-center md:gap-4  text-2xl md:text-3xl font-light tracking-[0.2em] uppercase"
         >
           <span className="text-white">BLIP</span>
           <span
@@ -203,11 +203,9 @@ const DistributionSection = () => {
             transition={{ duration: 1 }}
             className="relative"
           >
-            <div className="relative w-[260px] sm:w-[320px] md:w-[420px] aspect-square mx-auto">
-
+            <div className="relative w-[290px] sm:w-[320px] md:w-[420px] aspect-square mx-auto">
               {/* Outer ring */}
-              <div className="absolute -inset-6 md:-inset-10 border border-white/5 rounded-full" />
-
+              <div className="absolute -inset-9 md:-inset-10 border border-white/5 rounded-full" />
 
               <svg
                 viewBox="0 0 100 100"
@@ -375,7 +373,10 @@ const UtilitySection = () => {
   ];
 
   return (
-    <section ref={ref} className="relative py-12 md:py-40 bg-black overflow-hidden">
+    <section
+      ref={ref}
+      className="relative py-12 md:py-24 bg-black overflow-hidden"
+    >
       {/* Background text */}
       <motion.div
         className="absolute top-1/2 left-0 -translate-y-1/2 whitespace-nowrap text-[15vw] font-bold text-white/[0.015] select-none pointer-events-none"
@@ -457,7 +458,7 @@ const DeflationSection = () => {
   ];
 
   return (
-    <section className="relative py-12 md:py-40 bg-black overflow-hidden">
+    <section className="relative py-12 md:py-24 bg-black overflow-hidden">
       {/* Background image */}
       <div className="absolute inset-0 z-0">
         <img
@@ -571,7 +572,10 @@ const EmissionsSection = () => {
   }, []);
 
   return (
-    <section ref={ref} className="relative py-12 md:py-40 bg-black overflow-hidden">
+    <section
+      ref={ref}
+      className="relative py-12 md:py-24 bg-black overflow-hidden"
+    >
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         {/* Header */}
         <motion.div
