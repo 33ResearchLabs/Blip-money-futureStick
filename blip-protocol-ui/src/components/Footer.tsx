@@ -54,7 +54,7 @@ const SocialLink = ({
       onClick={() => sounds.click()}
       aria-label={label}
     >
-      <Icon className="w-4 h-4" />
+      <Icon className="w-4 h-4 text-[#ff6b35]" />
     </motion.a>
   );
 };
@@ -104,7 +104,7 @@ export const Footer = () => {
   return (
     <footer className="relative border-t border-[rgba(255,255,255,0.06)] bg-[#0A0A0B]">
       {/* Main content */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 lg:gap-16">
           {/* Brand */}
           <div className="col-span-2 lg:col-span-2 space-y-4">
@@ -191,23 +191,24 @@ export const Footer = () => {
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-[rgba(255,255,255,0.06)] w-full">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5">
-          <p className="col-span-2 lg:col-span-2 text-[12px] text-[#52525B]">
+      <div className="border-t border-[rgba(255,255,255,0.06)]">
+        <div
+          className="max-w-7xl mx-auto px-4 sm:px-6 py-4
+                  flex flex-col items-center gap-2
+                  sm:flex-row sm:justify-between sm:items-center"
+        >
+          {/* Left text */}
+          <p className="text-[12px] text-[#52525B] text-center sm:text-left">
             © {currentYear} Blip.money. All rights reserved.
           </p>
 
-          {/* Empty columns to align */}
-          <div className="hidden md:block" />
-          <div className="hidden md:block" />
-
-          {/* Legal-aligned */}
-          <div className="text-[11px] text-[#52525B] flex items-center gap-2 ml-4">
-            <span className="w-1 h-1 rounded-full bg-[#ff6b35]" />
+          {/* Right text */}
+          <div className="text-[11px] text-[#52525B] flex items-center gap-2 sm:pr-32">
+            <span className="w-1 h-1 rounded-full bg-[#ff6b35] " />
             Built on Solana
           </div>
         </div>
-      </div>
+      </div>  
     </footer>
   );
 };

@@ -1126,105 +1126,104 @@ const HeroSection = () => {
               >
                 {/* Reflection effect */}
                 <motion.div
-                  className="absolute inset-0 rounded-[52px] pointer-events-none z-10"
+                  className="absolute inset-0 rounded-[28px] sm:rounded-[36px] md:rounded-[44px] lg:rounded-[52px] pointer-events-none z-10"
                   style={{
                     background: `linear-gradient(${135 + mousePosition.x * 25}deg, rgba(255,255,255,0.06) 0%, transparent 50%, rgba(0,0,0,0.12) 100%)`,
                   }}
                 />
-                <div className="w-[290px] lg:w-[320px]">
+                <div className="w-[200px] sm:w-[250px] md:w-[290px] lg:w-[320px]">
                   {/* Phone outer frame - subtle neutral shadow */}
-                  <div className="rounded-[36px] sm:rounded-[40px] md:rounded-[44px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[2px] sm:p-[2.5px] shadow-[0_25px_50px_rgba(0,0,0,0.5)] md:shadow-[0_40px_80px_rgba(0,0,0,0.6)]">
-                    <div className="rounded-[38px] sm:rounded-[44px] md:rounded-[50px] bg-[#0a0a0a] p-[8px] sm:p-[10px] md:p-[12px]">
+                  <div className="rounded-[28px] sm:rounded-[36px] md:rounded-[40px] lg:rounded-[44px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[1.5px] sm:p-[2px] md:p-[2.5px] shadow-[0_20px_40px_rgba(0,0,0,0.5)] sm:shadow-[0_25px_50px_rgba(0,0,0,0.5)] md:shadow-[0_40px_80px_rgba(0,0,0,0.6)]">
+                    <div className="rounded-[26px] sm:rounded-[34px] md:rounded-[38px] lg:rounded-[42px] bg-[#0a0a0a] p-[6px] sm:p-[8px] md:p-[10px] lg:p-[12px]">
                       {/* Phone screen */}
-                      <div className="rounded-[30px] sm:rounded-[34px] md:rounded-[38px] bg-black overflow-hidden relative">
+                      <div className="rounded-[22px] sm:rounded-[28px] md:rounded-[30px] lg:rounded-[34px] bg-black overflow-hidden relative">
                         {/* Dynamic Island */}
-                        <div className="absolute top-3 left-1/2 -translate-x-1/2 z-10">
-                          <div className="w-28 h-7 rounded-full bg-black flex items-center justify-center">
-                            <div className="w-3 h-3 rounded-full bg-[#1a1a1a] mr-2" />
+                        <div className="hidden sm:block absolute top-2 sm:top-3 left-1/2 -translate-x-1/2 z-10">
+                          <div className="w-24 h-6 sm:w-28 sm:h-7 rounded-full bg-black flex items-center justify-center">
+                            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#1a1a1a] mr-1.5 sm:mr-2" />
                           </div>
                         </div>
 
                         {/* Status bar */}
-                        <div className="flex items-center justify-between px-8 pt-4 pb-2">
-                          <span className="text-[13px] text-white font-semibold">
+                        <div className="flex items-center justify-between px-4 sm:px-6 md:px-8 pt-3 sm:pt-3.5 md:pt-4 pb-1.5 sm:pb-2">
+                          <span className="text-[9px] sm:text-[11px] md:text-[13px] text-white font-semibold">
                             9:41
                           </span>
-                          <div className="flex items-center gap-1.5">
-                            <Signal className="w-4 h-4 text-white" />
-                            <Wifi className="w-4 h-4 text-white" />
-                            <Battery className="w-6 h-6 text-white" />
+                          <div className="flex items-center gap-1 sm:gap-1.5">
+                            <Signal className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 text-white" />
+                            <Wifi className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 text-white" />
+                            <Battery className="w-3 h-3 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
                           </div>
                         </div>
 
                         {/* App content */}
-                        <div className="px-6 pb-10 pt-8">
+                        <div className="px-3 sm:px-4 md:px-5 lg:px-6 pb-6 sm:pb-8 md:pb-10 pt-4 sm:pt-6 md:pt-8">
                           {/* App header */}
-                          <div className="flex items-center justify-between mb-6">
-                            <button className="flex items-center gap-2 text-white/50">
-                              <ArrowLeft className="w-5 h-5" />
-                              <span className="text-sm">Back</span>
+                          <div className="flex items-center justify-between mb-4 sm:mb-5 md:mb-6">
+                            <button className="flex items-center gap-1.5 sm:gap-2 text-white/50">
+                              <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+                              <span className="text-xs sm:text-sm">Back</span>
                             </button>
-                            <span className="text-sm font-medium text-white">
+                            <span className="text-xs sm:text-sm font-medium text-white">
                               Transaction
                             </span>
-                            <div className="w-10" />
                           </div>
 
                           {/* Lock animation */}
-                          <div className="flex justify-center mb-6">
+                          <div className="flex justify-center mb-2 sm:mb-5 md:mb-6">
                             <motion.div
-                              className="w-20 h-20 rounded-full bg-white/[0.03] border border-white/[0.08] flex items-center justify-center"
+                              className="w-10 h-10 sm:w-18 sm:h-18 md:w-20 md:h-20 rounded-full bg-white/[0.03] border border-white/[0.08] flex items-center justify-center"
                               animate={{ scale: [1, 1.02, 1] }}
                               transition={{ duration: 3, repeat: Infinity }}
                             >
-                              <Lock className="w-8 h-8 text-white/60" />
+                              <Lock className="w-7 h-7 sm:w-7.5 sm:h-7.5 md:w-8 md:h-8 text-white/60" />
                             </motion.div>
                           </div>
 
-                          <div className="text-center mb-6">
-                            <span className="text-sm text-white/50 block mb-2">
+                          <div className="text-center mb-4 sm:mb-5 md:mb-6">
+                            <span className="text-xs sm:text-sm text-white/50 block mb-1.5 sm:mb-2">
                               Funds Secured
                             </span>
-                            <div className="text-3xl font-bold text-white">
+                            <div className="text-sm sm:text-2xl md:text-3xl font-bold text-white">
                               500 USDT
                             </div>
-                            <span className="text-xs text-white/40">
+                            <span className="text-[10px] sm:text-xs text-white/40">
                               ≈ $500.00
                             </span>
                           </div>
 
                           {/* Status card */}
-                          <div className="rounded-xl bg-white/[0.02] border border-white/[0.06] p-4 mb-5">
-                            <div className="flex items-center justify-between mb-3">
-                              <span className="text-xs text-white/40">
+                          <div className="rounded-lg sm:rounded-xl bg-white/[0.02] border border-white/[0.06] p-3 sm:p-3.5 md:p-4 mb-3 sm:mb-4 md:mb-5">
+                            <div className="flex items-center justify-between mb-2 sm:mb-2.5 md:mb-3">
+                              <span className="text-[10px] sm:text-xs text-white/40">
                                 Status
                               </span>
-                              <div className="flex items-center gap-2">
+                              <div className="flex items-center gap-1.5 sm:gap-2">
                                 <motion.div
                                   className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]"
                                   animate={{ opacity: [1, 0.5, 1] }}
                                   transition={{ duration: 2, repeat: Infinity }}
                                 />
-                                <span className="text-xs text-[#ff6b35] font-medium">
+                                <span className="text-[10px] sm:text-xs text-[#ff6b35] font-medium">
                                   In Escrow
                                 </span>
                               </div>
                             </div>
-                            <div className="flex items-center justify-between mb-4">
-                              <span className="text-sm text-white/40">
+                            <div className="flex items-center justify-between mb-3 sm:mb-4">
+                              <span className="text-xs sm:text-sm text-white/40">
                                 Contract
                               </span>
-                              <span className="text-sm text-white/60 font-mono">
+                              <span className="text-xs sm:text-sm text-white/60 font-mono">
                                 0x7a2...f91
                               </span>
                             </div>
                             <div className="flex items-center justify-between">
-                              <span className="text-sm text-white/40">
+                              <span className="text-xs sm:text-sm text-white/40">
                                 Network
                               </span>
-                              <div className="flex items-center gap-2">
-                                <div className="w-4 h-4 rounded-full bg-gradient-to-r from-purple-500 to-blue-500" />
-                                <span className="text-sm text-white/60">
+                              <div className="flex items-center gap-1.5 sm:gap-2">
+                                <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-gradient-to-r from-purple-500 to-blue-500" />
+                                <span className="text-xs sm:text-sm text-white/60">
                                   Solana
                                 </span>
                               </div>
@@ -1232,18 +1231,18 @@ const HeroSection = () => {
                           </div>
 
                           {/* Progress */}
-                          <div className="flex items-center gap-2 mb-4">
-                            <div className="flex-1 h-1 rounded-full bg-[#ff6b35]" />
-                            <div className="flex-1 h-1 rounded-full bg-[#ff6b35]/30" />
-                            <div className="flex-1 h-1 rounded-full bg-white/10" />
+                          <div className="flex items-center gap-1.5 sm:gap-2 mb-3 sm:mb-4">
+                            <div className="flex-1 h-0.5 sm:h-1 rounded-full bg-[#ff6b35]" />
+                            <div className="flex-1 h-0.5 sm:h-1 rounded-full bg-[#ff6b35]/30" />
+                            <div className="flex-1 h-0.5 sm:h-1 rounded-full bg-white/10" />
                           </div>
 
                           <div className="text-center">
-                            <div className="flex items-center justify-center gap-2">
+                            <div className="flex items-center justify-center gap-1.5 sm:gap-2">
                               {[0, 1, 2].map((i) => (
                                 <motion.div
                                   key={i}
-                                  className="w-1.5 h-1.5 rounded-full bg-white/40"
+                                  className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-white/40"
                                   animate={{ opacity: [0.3, 1, 0.3] }}
                                   transition={{
                                     duration: 1,
@@ -1253,15 +1252,15 @@ const HeroSection = () => {
                                 />
                               ))}
                             </div>
-                            <span className="text-xs text-white/30 mt-2 block">
+                            <span className="text-[10px] sm:text-xs text-white/30 mt-1.5 sm:mt-2 block">
                               Finding best merchant...
                             </span>
                           </div>
                         </div>
 
                         {/* Home indicator */}
-                        <div className="flex justify-center pb-2">
-                          <div className="w-32 h-1 bg-white/30 rounded-full" />
+                        <div className="flex justify-center pb-1.5 sm:pb-2">
+                          <div className="w-24 sm:w-28 md:w-32 h-0.5 sm:h-1 bg-white/30 rounded-full" />
                         </div>
                       </div>
                     </div>
@@ -1275,7 +1274,7 @@ const HeroSection = () => {
               <div className="inline-flex items-center gap-3 mb-6">
                 <div className="relative w-10 h-10 rounded-lg border border-white/[0.08] flex items-center justify-center group hover:border-white/20 transition-colors">
                   <Lock
-                    className="w-4 h-4 text-white/40 group-hover:text-white/60 transition-colors"
+                    className="w-4 h-4 text-white/40 group-hover:text-[#ff6b35] transition-colors"
                     strokeWidth={1.5}
                   />
                   <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-black border border-white/10 flex items-center justify-center">
@@ -1325,7 +1324,7 @@ const HeroSection = () => {
                       <feature.icon className="w-5 h-5 text-white/40" />
                     </div>
                     <div>
-                      <div className="text-white text-sm font-medium">
+                      <div className="text-white text-left text-sm font-medium">
                         {feature.label}
                       </div>
                       <div className="text-white/40 text-xs">
@@ -1409,7 +1408,7 @@ const HeroSection = () => {
               {/* Ambient glow - enhanced with parallax */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10">
                 <motion.div
-                  className="absolute w-full h-full rounded-3xl bg-gradient-to-b from-[#ff6b35]/8 to-transparent blur-3xl"
+                  className="absolute w-full h-full rounded-3xl bg-gradient-to-b from-[#ff6b35]/8 to-transparent "
                   style={{
                     x: mousePosition.x * 25,
                     y: mousePosition.y * 20,
@@ -1752,35 +1751,35 @@ const HeroSection = () => {
 
         {/* ==================== STEP 4: VERIFY - Full Browser Mockup ==================== */}
         <motion.div
-          className="relative min-h-screen flex items-start justify-center z-20 pt-20 sm:pt-24 lg:pt-28"
+          className="relative min-h-screen flex items-start justify-center z-20 pt-12 sm:pt-16 md:pt-20 lg:pt-24 xl:pt-28"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
-          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="w-full max-w-7xl mx-auto px-3 sm:px-4 md:px-6">
             {/* Header */}
-            <div className="text-center mb-4 sm:mb-6 lg:mb-8">
-              <div className="inline-flex items-center gap-3 mb-4 sm:mb-6">
-                <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-lg border border-white/[0.08] flex items-center justify-center group hover:border-white/20 transition-colors">
+            <div className="text-center mb-4 sm:mb-6 md:mb-8 lg:mb-10">
+              <div className="inline-flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4 md:mb-6">
+                <div className="relative w-9 h-9 sm:w-10 sm:h-10 md:w-11 md:h-11 rounded-lg border border-white/[0.08] flex items-center justify-center group hover:border-white/20 transition-colors">
                   <Check
-                    className="w-4 h-4 sm:w-5 sm:h-5 text-white/40 group-hover:text-white/60 transition-colors"
+                    className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white/40 group-hover:text-[#ff6b35] transition-colors"
                     strokeWidth={1.5}
                   />
-                  <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-black border border-white/10 flex items-center justify-center">
-                    <span className="text-[10px] font-medium text-white/50">
+                  <div className="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-black border border-white/10 flex items-center justify-center">
+                    <span className="text-[9px] sm:text-[10px] font-medium text-white/50">
                       4
                     </span>
                   </div>
                 </div>
-                <span className="text-lg sm:text-xl font-semibold text-white">
+                <span className="text-base sm:text-lg md:text-xl font-semibold text-white">
                   Verify
                 </span>
               </div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-2 sm:mb-4 tracking-tight">
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white mb-2 sm:mb-3 md:mb-4 tracking-tight px-4">
                 Settlement <span className="text-white/20">verified.</span>
               </h2>
-              <p className="text-white/50 text-sm sm:text-base lg:text-lg max-w-xl mx-auto hidden sm:block">
+              <p className="text-white/50 text-xs sm:text-sm md:text-base lg:text-lg max-w-xl mx-auto hidden sm:block px-4">
                 Every transaction on-chain. Transparent and immutable. Track in
                 real-time.
               </p>
@@ -1788,7 +1787,7 @@ const HeroSection = () => {
 
             {/* Full Browser Mockup - Blipscan with 3D Perspective - Shows ~60% */}
             <motion.div
-              className="relative mx-auto max-w-4xl lg:max-w-5xl"
+              className="relative mx-auto max-w-3xl md:max-w-4xl lg:max-w-5xl"
               style={{
                 x: mousePosition.x * -10,
                 y: mousePosition.y * -7,
@@ -1803,7 +1802,7 @@ const HeroSection = () => {
               {/* Ambient glow - enhanced */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10">
                 <motion.div
-                  className="absolute w-full h-full rounded-3xl bg-gradient-to-b from-emerald-500/8 to-transparent blur-3xl"
+                  className="absolute w-full h-full rounded-2xl sm:rounded-3xl bg-gradient-to-b from-emerald-500/8 to-transparent blur-2xl sm:blur-3xl"
                   style={{
                     x: mousePosition.x * 20,
                     y: mousePosition.y * 15,
@@ -1811,7 +1810,7 @@ const HeroSection = () => {
                 />
                 {/* Secondary glow ring */}
                 <motion.div
-                  className="absolute w-[85%] h-[85%] rounded-3xl border border-emerald-500/5"
+                  className="absolute w-[85%] h-[85%] rounded-2xl sm:rounded-3xl border border-emerald-500/5"
                   style={{
                     x: mousePosition.x * -8,
                     y: mousePosition.y * -6,
@@ -1829,72 +1828,72 @@ const HeroSection = () => {
 
               {/* Reflection overlay */}
               <motion.div
-                className="absolute inset-0 rounded-2xl pointer-events-none z-10"
+                className="absolute inset-0 rounded-xl sm:rounded-2xl pointer-events-none z-10"
                 style={{
                   background: `linear-gradient(${130 + mousePosition.x * 15}deg, rgba(255,255,255,0.03) 0%, transparent 45%, rgba(0,0,0,0.08) 100%)`,
                 }}
               />
 
-              <div className="rounded-2xl overflow-hidden border border-white/[0.08] bg-[#0a0a0a] shadow-[0_30px_60px_rgba(0,0,0,0.4)] sm:shadow-[0_50px_100px_rgba(0,0,0,0.5),0_0_60px_rgba(16,185,129,0.06)] max-h-[55vh] sm:max-h-[60vh] lg:max-h-[65vh] relative">
+              <div className="rounded-xl sm:rounded-2xl overflow-hidden border border-white/[0.08] bg-[#0a0a0a] shadow-[0_20px_40px_rgba(0,0,0,0.3)] sm:shadow-[0_30px_60px_rgba(0,0,0,0.4)] md:shadow-[0_50px_100px_rgba(0,0,0,0.5),0_0_60px_rgba(16,185,129,0.06)] max-h-[50vh] sm:max-h-[55vh] md:max-h-[60vh] lg:max-h-[65vh] relative">
                 {/* Browser chrome */}
-                <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-5 py-2.5 sm:py-4 bg-[#111] border-b border-white/[0.06]">
-                  <div className="flex items-center gap-1.5 sm:gap-2">
-                    <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#ff5f57]" />
-                    <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#ffbd2e]" />
-                    <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#28ca42]" />
+                <div className="flex items-center gap-2 sm:gap-3 px-2 sm:px-3 md:px-5 py-2 sm:py-2.5 md:py-4 bg-[#111] border-b border-white/[0.06]">
+                  <div className="flex items-center gap-1 sm:gap-1.5 md:gap-2">
+                    <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 rounded-full bg-[#ff5f57]" />
+                    <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 rounded-full bg-[#ffbd2e]" />
+                    <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 rounded-full bg-[#28ca42]" />
                   </div>
                   <div className="flex-1 flex justify-center">
-                    <div className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg bg-white/[0.03] border border-white/[0.06] w-full max-w-[200px] sm:max-w-[300px] md:max-w-[400px]">
-                      <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-                        <Lock className="w-2 h-2 sm:w-2.5 sm:h-2.5 text-white/40" />
+                    <div className="flex items-center gap-1 sm:gap-1.5 md:gap-2 px-2 sm:px-3 md:px-4 py-1 sm:py-1.5 md:py-2 rounded-md sm:rounded-lg bg-white/[0.03] border border-white/[0.06] w-full max-w-[150px] sm:max-w-[200px] md:max-w-[300px] lg:max-w-[400px]">
+                      <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-4 md:h-4 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+                        <Lock className="w-1.5 h-1.5 sm:w-2 sm:h-2 md:w-2.5 md:h-2.5 text-white/40" />
                       </div>
-                      <span className="text-[10px] sm:text-sm text-white/40 font-mono truncate">
+                      <span className="text-[9px] sm:text-[10px] md:text-sm text-white/40 font-mono truncate">
                         blipscan.io/explorer
                       </span>
-                      <div className="w-2 h-2 rounded-full bg-[#ff6b35] ml-auto shrink-0" />
+                      <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#ff6b35] ml-auto shrink-0" />
                     </div>
                   </div>
-                  <div className="hidden sm:flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-white/5" />
+                  <div className="hidden md:flex items-center gap-3">
+                    <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-white/5" />
                   </div>
                 </div>
 
                 {/* Blipscan content */}
-                <div className="p-4 sm:p-6 md:p-8">
+                <div className="p-3 sm:p-4 md:p-6 lg:p-8">
                   {/* Header */}
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4 sm:mb-6 lg:mb-8">
-                    <div className="flex items-center gap-3 sm:gap-4">
-                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-[#ff6b35] flex items-center justify-center shrink-0">
-                        <Zap className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-3 sm:mb-4 md:mb-6 lg:mb-8">
+                    <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
+                      <div className="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-lg sm:rounded-xl bg-[#ff6b35] flex items-center justify-center shrink-0">
+                        <Zap className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-black" />
                       </div>
                       <div>
-                        <h3 className="text-base sm:text-lg lg:text-xl font-bold text-white mb-0.5 sm:mb-1">
+                        <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-white mb-0.5 sm:mb-1">
                           Blipscan Explorer
                         </h3>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1.5 sm:gap-2">
                           <div className="flex items-center gap-1 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full bg-emerald-500/10">
                             <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-emerald-500" />
-                            <span className="text-[8px] sm:text-[10px] text-emerald-400 uppercase font-medium">
+                            <span className="text-[7px] sm:text-[8px] md:text-[10px] text-emerald-400 uppercase font-medium">
                               Mainnet
                             </span>
                           </div>
-                          <span className="text-xs sm:text-sm text-white/30">
+                          <span className="text-[10px] sm:text-xs md:text-sm text-white/30">
                             Solana
                           </span>
                         </div>
                       </div>
                     </div>
-                    <div className="hidden md:flex items-center gap-4 lg:gap-6">
+                    <div className="hidden lg:flex items-center gap-4 xl:gap-6">
                       {[
                         { label: "Total Volume", value: "$2.4M" },
                         { label: "Settlements", value: "12,847" },
                         { label: "Success Rate", value: "99.8%" },
                       ].map((stat) => (
                         <div key={stat.label} className="text-right">
-                          <div className="text-[10px] lg:text-xs text-white/40">
+                          <div className="text-[10px] xl:text-xs text-white/40">
                             {stat.label}
                           </div>
-                          <div className="text-base lg:text-lg font-bold text-white">
+                          <div className="text-sm xl:text-base 2xl:text-lg font-bold text-white">
                             {stat.value}
                           </div>
                         </div>
@@ -1903,67 +1902,73 @@ const HeroSection = () => {
                   </div>
 
                   {/* Transaction table header */}
-                  <div className="flex items-center justify-between px-4 py-3 rounded-t-xl bg-white/[0.02] border border-white/[0.06] border-b-0">
-                    <span className="text-xs text-white/40 uppercase tracking-wider">
+                  <div className="flex items-center justify-between px-2 sm:px-3 md:px-4 py-2 sm:py-2.5 md:py-3 rounded-t-lg sm:rounded-t-xl bg-white/[0.02] border border-white/[0.06] border-b-0">
+                    <span className="text-[9px] sm:text-[10px] md:text-xs text-white/40 uppercase tracking-wider">
                       Recent Verified Settlements
                     </span>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1 sm:gap-1.5 md:gap-2">
                       <motion.div
-                        className="w-2 h-2 rounded-full bg-emerald-500"
+                        className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-emerald-500"
                         animate={{ opacity: [1, 0.5, 1] }}
                         transition={{ duration: 1.5, repeat: Infinity }}
                       />
-                      <span className="text-xs text-emerald-400">Live</span>
+                      <span className="text-[9px] sm:text-[10px] md:text-xs text-emerald-400">
+                        Live
+                      </span>
                     </div>
                   </div>
 
                   {/* Transaction rows */}
-                  <div className="border border-white/[0.06] rounded-b-xl overflow-hidden">
+                  <div className="border border-white/[0.06] rounded-b-lg sm:rounded-b-xl overflow-x-auto">
                     {blipscanTxs.map((tx, i) => (
                       <motion.div
                         key={tx.id}
-                        className={`flex items-center justify-between p-5 ${i !== blipscanTxs.length - 1 ? "border-b border-white/[0.04]" : ""} hover:bg-white/[0.02] transition-colors`}
+                        className={`flex items-center justify-between gap-3 sm:gap-4 p-2.5 sm:p-3 md:p-4 lg:p-5 ${i !== blipscanTxs.length - 1 ? "border-b border-white/[0.04]" : ""} hover:bg-white/[0.02] transition-colors min-w-[500px] sm:min-w-0`}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.5, delay: i * 0.1 }}
                       >
-                        <div className="flex items-center gap-6">
-                          <div className="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center">
-                            <Check className="w-5 h-5 text-emerald-400" />
+                        <div className="flex items-center gap-2 sm:gap-3 md:gap-4 lg:gap-6 flex-1 min-w-0">
+                          <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0">
+                            <Check className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-emerald-400" />
                           </div>
-                          <div>
-                            <div className="flex items-center gap-2 mb-1">
-                              <span className="text-sm font-mono text-white/60">
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center gap-1.5 sm:gap-2 mb-0.5 sm:mb-1">
+                              <span className="text-[11px] sm:text-xs md:text-sm font-mono text-white/60 truncate">
                                 {tx.id}
                               </span>
-                              <span className="text-xs text-white/30">→</span>
-                              <span className="text-sm text-white font-medium">
+                              <span className="text-[10px] sm:text-xs text-white/30 shrink-0">
+                                →
+                              </span>
+                              <span className="text-[11px] sm:text-xs md:text-sm text-white font-medium truncate">
                                 {tx.to}
                               </span>
                             </div>
-                            <div className="flex items-center gap-3">
-                              <span className="text-xs text-white/30 font-mono">
+                            <div className="flex items-center gap-2 sm:gap-3">
+                              <span className="text-[9px] sm:text-[10px] md:text-xs text-white/30 font-mono truncate">
                                 {tx.from}
                               </span>
-                              <span className="text-xs text-white/20">•</span>
-                              <span className="text-xs text-white/30 font-mono">
+                              <span className="text-[9px] sm:text-[10px] md:text-xs text-white/20 shrink-0">
+                                •
+                              </span>
+                              <span className="text-[9px] sm:text-[10px] md:text-xs text-white/30 font-mono truncate">
                                 {tx.hash}
                               </span>
                             </div>
                           </div>
                         </div>
-                        <div className="flex items-center gap-8">
+                        <div className="flex items-center gap-3 sm:gap-4 md:gap-6 lg:gap-8 shrink-0">
                           <div className="text-right">
-                            <div className="text-base font-semibold text-white">
+                            <div className="text-sm sm:text-base font-semibold text-white">
                               {tx.amount}
                             </div>
-                            <div className="text-xs text-white/30">
+                            <div className="text-[9px] sm:text-[10px] md:text-xs text-white/30">
                               USDT → AED
                             </div>
                           </div>
-                          <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-emerald-500/10">
-                            <Check className="w-4 h-4 text-emerald-400" />
-                            <span className="text-sm text-emerald-400 font-medium">
+                          <div className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-2.5 md:px-3 py-1.5 sm:py-2 rounded-md sm:rounded-lg bg-emerald-500/10">
+                            <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 text-emerald-400" />
+                            <span className="text-[10px] sm:text-xs md:text-sm text-emerald-400 font-medium whitespace-nowrap">
                               {tx.time}
                             </span>
                           </div>
@@ -1973,20 +1978,20 @@ const HeroSection = () => {
                   </div>
 
                   {/* Footer - hidden as we clip the content */}
-                  <div className="mt-6 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 rounded-full bg-[#ff6b35]" />
-                      <span className="text-xs sm:text-sm text-white/30">
+                  <div className="mt-4 sm:mt-5 md:mt-6 flex items-center justify-between">
+                    <div className="flex items-center gap-1.5 sm:gap-2">
+                      <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#ff6b35]" />
+                      <span className="text-[10px] sm:text-xs md:text-sm text-white/30">
                         Powered by Blip Protocol
                       </span>
                     </div>
-                    <button className="text-xs sm:text-sm text-[#ff6b35] hover:underline">
+                    <button className="text-[10px] sm:text-xs md:text-sm text-[#ff6b35] hover:underline">
                       View all →
                     </button>
                   </div>
                 </div>
                 {/* Gradient fade at bottom to show it continues */}
-                <div className="absolute bottom-0 left-0 right-0 h-24 sm:h-32 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent pointer-events-none" />
+                <div className="absolute bottom-0 left-0 right-0 h-16 sm:h-20 md:h-24 lg:h-32 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent pointer-events-none" />
               </div>
             </motion.div>
           </div>
@@ -2423,10 +2428,7 @@ const BlipscanExplorerSection = () => {
                     Powered by Blip Protocol
                   </span>
                 </div>
-                <div
-                  
-                  className="text-xs text-[#ff6b35] hover:text-[#ff6b35]/80 transition-colors flex items-center gap-1 cursor-pointer"
-                >
+                <div className="text-xs text-[#ff6b35] hover:text-[#ff6b35]/80 transition-colors flex items-center gap-1 cursor-pointer">
                   View Explorer
                   <ArrowRight className="w-3 h-3" />
                 </div>
@@ -3017,7 +3019,7 @@ const ProblemSection = () => {
                     className={`inline-block p-6 rounded-2xl ${problem.highlight ? "bg-[#ff6b35]/[0.08] border border-[#ff6b35]/20" : "bg-white/[0.02] border border-white/[0.05]"}`}
                   >
                     <div
-                      className={`text-[10px] uppercase tracking-[0.3em] ${problem.highlight ? "text-[#ff6b35]" : "text-white/30"} font-medium mb-2`}
+                      className={`text-[10px] uppercase tracking-[0.3em] ${problem.highlight ? "text-[#ff6b35]" : "text-[#ff6b35]"} font-medium mb-2`}
                     >
                       {problem.year}
                     </div>
@@ -3219,49 +3221,46 @@ const FeatureStrip = () => {
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#ff6b35]/30 to-transparent" />
 
       <div className="max-w-6xl mx-auto px-6">
-  <motion.div
-    initial={{ opacity: 0 }}
-    whileInView={{ opacity: 1 }}
-    viewport={{ once: true }}
-    transition={{ duration: 1 }}
-    className="flex justify-center "
-  >
-    {/* Centered block (like button) */}
-    <div className="w-fit md:flex gap-12">
-      {[
-        "Sub-second settlement",
-        "Zero custody",
-        "Privacy by default",
-        "On-chain proofs",
-      ].map((feature, i) => (
         <motion.div
-          key={feature}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{
-            duration: 0.6,
-            delay: i * 0.1,
-            ease: [0.16, 1, 0.3, 1],
-          }}
-          className="flex items-start  gap-3 mb-4"
+          transition={{ duration: 1 }}
+          className="flex justify-center "
         >
-          <motion.div
-            className="w-2 h-2 mt-2 rounded-full bg-[#ff6b35]"
-            animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
-            transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
-          />
-          <span className="text-sm text-white/50 font-light tracking-wide text-left hover:text-white">
-            {feature}
-          </span>
+          {/* Centered block (like button) */}
+          <div className="w-fit md:flex gap-12">
+            {[
+              "Sub-second settlement",
+              "Zero custody",
+              "Privacy by default",
+              "On-chain proofs",
+            ].map((feature, i) => (
+              <motion.div
+                key={feature}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{
+                  duration: 0.6,
+                  delay: i * 0.1,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                className="flex items-start  gap-3 mb-4"
+              >
+                <motion.div
+                  className="w-2 h-2 mt-2 rounded-full bg-[#ff6b35]"
+                  animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
+                  transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
+                />
+                <span className="text-sm text-white/50 font-light tracking-wide text-left hover:text-white">
+                  {feature}
+                </span>
+              </motion.div>
+            ))}
+          </div>
         </motion.div>
-      ))}
-    </div>
-  </motion.div>
-</div>
-
-
-
+      </div>
     </section>
   );
 };
@@ -4091,9 +4090,9 @@ const MerchantDashboardSection = () => {
             whileInView={{ opacity: 1, x: 0, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 1 }}
-            className="absolute -right-4 top-24 hidden lg:block"
+            className="absolute right-6 top-24 hidden lg:block"
           >
-            <div className="p-3 rounded-xl bg-[#111111] border border-white/[0.08] shadow-xl">
+            <div className="p-3 pr-4 rounded-xl bg-[#111111] border border-white/[0.08] shadow-xl">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-[#ff6b35]/10 flex items-center justify-center">
                   <span className="text-sm">🔔</span>

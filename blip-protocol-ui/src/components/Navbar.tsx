@@ -264,7 +264,7 @@ const MobileMenu = ({
                       sounds.click();
                       onClose();
                     }}
-                    className="flex-1 py-2.5 text-center rounded-lg text-[13px] font-medium bg-[#8B5CF6] text-white"
+                    className="flex-1 py-2.5 text-center rounded-lg text-[13px] font-medium bg-[#ff6b35] text-white"
                   >
                     Dashboard
                   </Link>
@@ -275,7 +275,7 @@ const MobileMenu = ({
                       sounds.click();
                       onClose();
                     }}
-                    className="flex-1 py-2.5 text-center rounded-lg text-[13px] font-medium bg-[#8B5CF6] text-white"
+                    className="flex-1 py-2.5 text-center rounded-lg text-[13px] font-medium bg-[#ff6b35] text-white"
                   >
                     Join Waitlist
                   </Link>
@@ -420,7 +420,7 @@ export const Navbar = () => {
 
             {/* Desktop Actions */}
             <div className="hidden lg:flex items-center gap-3">
-              <LanguageSwitcher />
+              {/* <LanguageSwitcher /> */}
 
               {isAuthenticated ? (
                 <CTAButton to="/dashboard" variant="primary">

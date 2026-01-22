@@ -1,5 +1,11 @@
 import { useRef, useEffect, useState } from "react";
-import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  useInView,
+} from "framer-motion";
 import {
   Gift,
   Percent,
@@ -169,7 +175,10 @@ const HeroSection = () => {
   });
 
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const y = useSpring(useTransform(scrollYProgress, [0, 1], [0, 100]), smoothConfig);
+  const y = useSpring(
+    useTransform(scrollYProgress, [0, 1], [0, 100]),
+    smoothConfig,
+  );
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -185,7 +194,12 @@ const HeroSection = () => {
     <motion.section
       ref={ref}
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
-      style={{ opacity }}
+      style={{
+        opacity:
+          typeof window !== "undefined" && window.innerWidth < 1024
+            ? 1
+            : opacity,
+      }}
     >
       {/* Background layers */}
       <div className="absolute inset-0">
@@ -195,7 +209,8 @@ const HeroSection = () => {
         <motion.div
           className="absolute top-[10%] right-[15%] w-[400px] h-[400px] rounded-full"
           style={{
-            background: "radial-gradient(circle, rgba(255,107,53,0.1) 0%, transparent 70%)",
+            background:
+              "radial-gradient(circle, rgba(255,107,53,0.1) 0%, transparent 70%)",
             x: mousePosition.x * -30,
             y: mousePosition.y * -20,
           }}
@@ -206,12 +221,18 @@ const HeroSection = () => {
         <motion.div
           className="absolute bottom-[20%] left-[10%] w-[300px] h-[300px] rounded-full"
           style={{
-            background: "radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%)",
+            background:
+              "radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%)",
             x: mousePosition.x * 20,
             y: mousePosition.y * 15,
           }}
           animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2,
+          }}
         />
 
         {/* Grid overlay */}
@@ -219,9 +240,9 @@ const HeroSection = () => {
           className="absolute inset-0 opacity-[0.015]"
           style={{
             backgroundImage: `
-              linear-gradient(rgba(255,107,53,0.5) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(255,107,53,0.5) 1px, transparent 1px)
-            `,
+            linear-gradient(rgba(255,107,53,0.5) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,107,53,0.5) 1px, transparent 1px)
+          `,
             backgroundSize: "60px 60px",
           }}
         />
@@ -292,7 +313,8 @@ const HeroSection = () => {
             transition={{ duration: 1, delay: 0.5 }}
             className="text-lg md:text-xl text-white/50 max-w-md mx-auto lg:mx-0 leading-relaxed mb-10"
           >
-            Get rewarded for every transaction. Instant cashback, tiered rewards, and first-mover advantages.
+            Get rewarded for every transaction. Instant cashback, tiered
+            rewards, and first-mover advantages.
           </motion.p>
 
           {/* Quick stats */}
@@ -308,8 +330,12 @@ const HeroSection = () => {
               { value: "∞", label: "No Cap" },
             ].map((stat) => (
               <div key={stat.label} className="text-center lg:text-left">
-                <div className="text-2xl md:text-3xl font-bold text-white">{stat.value}</div>
-                <div className="text-[10px] text-white/30 uppercase tracking-wider">{stat.label}</div>
+                <div className="text-2xl md:text-3xl font-bold text-white">
+                  {stat.value}
+                </div>
+                <div className="text-[10px] text-white/30 uppercase tracking-wider">
+                  {stat.label}
+                </div>
               </div>
             ))}
           </motion.div>
@@ -343,7 +369,9 @@ const HeroSection = () => {
             transition={{ delay: 1.5 }}
             className="mt-16 flex items-center justify-center lg:justify-start gap-3"
           >
-            <span className="text-white/30 text-xs uppercase tracking-[0.2em]">Scroll to explore</span>
+            <span className="text-white/30 text-xs uppercase tracking-[0.2em]">
+              Scroll to explore
+            </span>
             <div className="w-6 h-10 rounded-full border border-white/20 flex justify-center pt-2">
               <motion.div
                 className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]"
@@ -359,15 +387,19 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 60 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="relative flex justify-center"
-          style={{ y }}
+          className="relative flex justify-center py-2"
+          style={{
+            y:
+              typeof window !== "undefined" && window.innerWidth < 1024 ? 0 : y,
+          }}
         >
           {/* Ambient glow */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <div
               className="absolute w-[500px] h-[500px] rounded-full opacity-40"
               style={{
-                background: "radial-gradient(circle, rgba(255,107,53,0.2) 0%, transparent 50%)",
+                background:
+                  "radial-gradient(circle, rgba(255,107,53,0.2) 0%, transparent 50%)",
               }}
             />
           </div>
@@ -375,10 +407,22 @@ const HeroSection = () => {
           {/* Phone with 3D tilt */}
           <motion.div
             style={{
-              x: mousePosition.x * -15,
-              y: mousePosition.y * -12,
-              rotateY: mousePosition.x * 8,
-              rotateX: mousePosition.y * -5,
+              x:
+                typeof window !== "undefined" && window.innerWidth < 1024
+                  ? 0
+                  : mousePosition.x * -15,
+              y:
+                typeof window !== "undefined" && window.innerWidth < 1024
+                  ? 0
+                  : mousePosition.y * -12,
+              rotateY:
+                typeof window !== "undefined" && window.innerWidth < 1024
+                  ? 0
+                  : mousePosition.x * 8,
+              rotateX:
+                typeof window !== "undefined" && window.innerWidth < 1024
+                  ? 0
+                  : mousePosition.y * -5,
               transformPerspective: 1200,
               transformStyle: "preserve-3d",
             }}
@@ -388,7 +432,9 @@ const HeroSection = () => {
             <PhoneMockup>
               {/* Status bar */}
               <div className="flex items-center justify-between px-6 pt-12 pb-2">
-                <span className="text-[13px] text-white font-semibold">9:41</span>
+                <span className="text-[13px] text-white font-semibold">
+                  9:41
+                </span>
                 <div className="flex items-center gap-1.5">
                   <Signal className="w-4 h-4 text-white" />
                   <Wifi className="w-4 h-4 text-white" />
@@ -404,7 +450,9 @@ const HeroSection = () => {
                     <div className="w-8 h-8 rounded-xl bg-[#ff6b35] flex items-center justify-center">
                       <Zap className="w-4 h-4 text-black" />
                     </div>
-                    <span className="text-sm font-bold text-white">Blip Rewards</span>
+                    <span className="text-sm font-bold text-white">
+                      Blip Rewards
+                    </span>
                   </div>
                   <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
                     <User className="w-4 h-4 text-white/50" />
@@ -413,14 +461,18 @@ const HeroSection = () => {
 
                 {/* Total Rewards Card */}
                 <div className="rounded-2xl bg-gradient-to-br from-[#ff6b35]/20 to-[#ff6b35]/5 border border-[#ff6b35]/20 p-4 mb-4">
-                  <p className="text-[10px] text-white/50 uppercase tracking-wider mb-1">Total Earned</p>
+                  <p className="text-[10px] text-white/50 uppercase tracking-wider mb-1">
+                    Total Earned
+                  </p>
                   <div className="flex items-baseline gap-2">
                     <span className="text-3xl font-bold text-white">2,450</span>
                     <span className="text-sm text-[#ff6b35]">BLIP</span>
                   </div>
                   <div className="flex items-center gap-1 mt-2">
                     <TrendingUp className="w-3 h-3 text-green-400" />
-                    <span className="text-[10px] text-green-400">+125 this week</span>
+                    <span className="text-[10px] text-green-400">
+                      +125 this week
+                    </span>
                   </div>
                 </div>
 
@@ -428,11 +480,17 @@ const HeroSection = () => {
                 <div className="rounded-xl bg-white/[0.03] border border-white/[0.06] p-3 mb-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-[10px] text-white/40 uppercase">Current Tier</p>
-                      <p className="text-sm font-semibold text-white">Explorer</p>
+                      <p className="text-[10px] text-white/40 uppercase">
+                        Current Tier
+                      </p>
+                      <p className="text-sm font-semibold text-white">
+                        Explorer
+                      </p>
                     </div>
                     <div className="text-right">
-                      <p className="text-[10px] text-white/40 uppercase">Cashback</p>
+                      <p className="text-[10px] text-white/40 uppercase">
+                        Cashback
+                      </p>
                       <p className="text-lg font-bold text-[#ff6b35]">5%</p>
                     </div>
                   </div>
@@ -445,24 +503,40 @@ const HeroSection = () => {
                     <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
                       <div className="h-full w-[49%] bg-gradient-to-r from-[#ff6b35] to-[#ff8c50] rounded-full" />
                     </div>
-                    <p className="text-[9px] text-white/40 mt-1">$2,550 to Achiever tier</p>
+                    <p className="text-[9px] text-white/40 mt-1">
+                      $2,550 to Achiever tier
+                    </p>
                   </div>
                 </div>
 
                 {/* Recent rewards */}
                 <div className="space-y-2">
-                  <p className="text-[10px] text-white/40 uppercase tracking-wider">Recent Rewards</p>
+                  <p className="text-[10px] text-white/40 uppercase tracking-wider">
+                    Recent Rewards
+                  </p>
                   {[
-                    { amount: "+25", desc: "Transfer to Lagos", time: "2m ago" },
-                    { amount: "+50", desc: "Transfer to Dubai", time: "1h ago" },
-                    { amount: "+100", desc: "First transfer bonus", time: "2h ago" },
+                    {
+                      amount: "+25",
+                      desc: "Transfer to Lagos",
+                      time: "2m ago",
+                    },
+                    {
+                      amount: "+50",
+                      desc: "Transfer to Dubai",
+                      time: "1h ago",
+                    },
                   ].map((item, i) => (
-                    <div key={i} className="flex items-center justify-between py-2 border-b border-white/5 last:border-0">
+                    <div
+                      key={i}
+                      className="flex items-center justify-between py-2 border-b border-white/5 last:border-0"
+                    >
                       <div>
                         <p className="text-xs text-white">{item.desc}</p>
                         <p className="text-[10px] text-white/30">{item.time}</p>
                       </div>
-                      <span className="text-sm font-semibold text-[#ff6b35]">{item.amount} BLIP</span>
+                      <span className="text-sm font-semibold text-[#ff6b35]">
+                        {item.amount} BLIP
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -530,7 +604,9 @@ const RewardTiersSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-20"
         >
-          <span className="text-[10px] uppercase tracking-[0.3em] text-[#ff6b35] mb-4 block">Reward Tiers</span>
+          <span className="text-[10px] uppercase tracking-[0.3em] text-[#ff6b35] mb-4 block">
+            Reward Tiers
+          </span>
           <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tight mb-6">
             More Volume.
             <br />
@@ -570,11 +646,15 @@ const RewardTiersSection = () => {
 
               <div className="relative z-10">
                 <div className="mb-6">
-                  <tier.icon className={`w-8 h-8 ${tier.highlight ? "text-[#ff6b35]" : "text-white/40"}`} />
+                  <tier.icon
+                    className={`w-8 h-8 ${tier.highlight ? "text-[#ff6b35]" : "text-white/40"}`}
+                  />
                 </div>
 
                 <h3 className="text-lg text-white/60 mb-2">{tier.name}</h3>
-                <div className={`text-5xl font-bold mb-4 ${tier.highlight ? "text-[#ff6b35]" : "text-white"}`}>
+                <div
+                  className={`text-5xl font-bold mb-4 ${tier.highlight ? "text-[#ff6b35]" : "text-white"}`}
+                >
                   {tier.reward}
                 </div>
                 <p className="text-sm text-white/40">{tier.desc}</p>
@@ -646,7 +726,9 @@ const HowItWorksSection = () => {
           transition={{ duration: 1 }}
           className="text-center mb-20"
         >
-          <span className="text-[10px] uppercase tracking-[0.3em] text-[#ff6b35] mb-4 block">Process</span>
+          <span className="text-[10px] uppercase tracking-[0.3em] text-[#ff6b35] mb-4 block">
+            Process
+          </span>
           <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tight">
             How It
             <br />
@@ -686,7 +768,9 @@ const HowItWorksSection = () => {
                   <step.icon className="w-6 h-6 text-[#ff6b35]" />
                 </div>
 
-                <h3 className="text-xl font-semibold text-white mb-3">{step.title}</h3>
+                <h3 className="text-xl font-semibold text-white mb-3">
+                  {step.title}
+                </h3>
                 <p className="text-white/50">{step.desc}</p>
               </div>
             </motion.div>
@@ -708,8 +792,14 @@ const FeaturesSection = () => {
     offset: ["start end", "end start"],
   });
 
-  const y1 = useSpring(useTransform(scrollYProgress, [0, 1], [100, -100]), smoothConfig);
-  const y2 = useSpring(useTransform(scrollYProgress, [0, 1], [50, -50]), smoothConfig);
+  const y1 = useSpring(
+    useTransform(scrollYProgress, [0, 1], [100, -100]),
+    smoothConfig,
+  );
+  const y2 = useSpring(
+    useTransform(scrollYProgress, [0, 1], [50, -50]),
+    smoothConfig,
+  );
 
   const features = [
     {
@@ -737,6 +827,25 @@ const FeaturesSection = () => {
   return (
     <section ref={ref} className="relative py-32 bg-black overflow-hidden">
       <div className="max-w-6xl mx-auto px-6">
+      <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1 }}
+              className="mb-10 flex justify-center"
+            >
+              <div className="flex flex-col justify-center"> 
+              <span className="text-[10px] text-center uppercase tracking-[0.3em] text-[#ff6b35] mb-4 block">
+                Features
+              </span>
+              <h2 className="text-4xl md:text-6xl font-bold text-center text-white tracking-tight mb-4">
+                Maximum
+                <br />
+                <span className="text-white/20 text-center">Value.</span>
+              </h2>
+              </div>
+             
+            </motion.div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Left: Stats card */}
           <motion.div style={{ y: y1 }} className="relative">
@@ -749,7 +858,9 @@ const FeaturesSection = () => {
                   Total Rewards Pool
                 </span>
                 <div className="flex items-baseline gap-3 mb-8">
-                  <span className="text-5xl md:text-6xl font-bold text-white">20M</span>
+                  <span className="text-5xl md:text-6xl font-bold text-white">
+                    20M
+                  </span>
                   <span className="text-2xl text-white/40">BLIP</span>
                 </div>
 
@@ -761,8 +872,12 @@ const FeaturesSection = () => {
                     { value: "100%", label: "First Bonus" },
                   ].map((stat) => (
                     <div key={stat.label}>
-                      <div className="text-2xl font-bold text-white">{stat.value}</div>
-                      <div className="text-[10px] text-white/30 uppercase tracking-wider">{stat.label}</div>
+                      <div className="text-2xl font-bold text-white">
+                        {stat.value}
+                      </div>
+                      <div className="text-[10px] text-white/30 uppercase tracking-wider">
+                        {stat.label}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -772,20 +887,7 @@ const FeaturesSection = () => {
 
           {/* Right: Features list */}
           <motion.div style={{ y: y2 }}>
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1 }}
-              className="mb-10"
-            >
-              <span className="text-[10px] uppercase tracking-[0.3em] text-[#ff6b35] mb-4 block">Features</span>
-              <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">
-                Maximum
-                <br />
-                <span className="text-white/20">Value.</span>
-              </h2>
-            </motion.div>
+          
 
             <div className="space-y-4">
               {features.map((feature, i) => (
@@ -802,7 +904,9 @@ const FeaturesSection = () => {
                       <feature.icon className="w-5 h-5 text-[#ff6b35]" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-semibold text-white mb-1">{feature.title}</h3>
+                      <h3 className="text-lg font-semibold text-white mb-1">
+                        {feature.title}
+                      </h3>
                       <p className="text-sm text-white/50">{feature.desc}</p>
                     </div>
                   </div>
@@ -827,13 +931,22 @@ const CTASection = () => {
     offset: ["start end", "end start"],
   });
 
-  const scale = useSpring(useTransform(scrollYProgress, [0, 0.5], [0.9, 1]), smoothConfig);
+  const scale = useSpring(
+    useTransform(scrollYProgress, [0, 0.5], [0.9, 1]),
+    smoothConfig,
+  );
   const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
 
   return (
-    <section ref={ref} className="relative min-h-screen flex items-center justify-center py-32 bg-black overflow-hidden">
+    <section
+      ref={ref}
+      className="relative min-h-screen flex items-center justify-center py-32 bg-black overflow-hidden"
+    >
       {/* Background */}
-      <motion.div className="absolute inset-0 flex items-center justify-center" style={{ scale, opacity }}>
+      <motion.div
+        className="absolute inset-0 flex items-center justify-center"
+        style={{ scale, opacity }}
+      >
         <div className="w-[600px] h-[600px] rounded-full bg-[#ff6b35]/10 blur-[150px]" />
       </motion.div>
 
@@ -863,7 +976,8 @@ const CTASection = () => {
           </h2>
 
           <p className="text-xl text-white/50 max-w-xl mx-auto mb-12">
-            Join the rewards program and get cashback on every transaction. No minimum spend required.
+            Join the rewards program and get cashback on every transaction. No
+            minimum spend required.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

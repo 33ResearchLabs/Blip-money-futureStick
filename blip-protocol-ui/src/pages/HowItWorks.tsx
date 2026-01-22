@@ -1,5 +1,11 @@
 import { useRef, useEffect } from "react";
-import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  useInView,
+} from "framer-motion";
 import {
   Shield,
   Zap,
@@ -34,16 +40,15 @@ const HeroSection = () => {
     offset: ["start start", "end start"],
   });
 
-  const y = useSpring(useTransform(scrollYProgress, [0, 1], [0, 200]), smoothConfig);
+  const y = useSpring(
+    useTransform(scrollYProgress, [0, 1], [0, 200]),
+    smoothConfig,
+  );
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
 
   return (
-    <motion.section
-      ref={ref}
-      className="relative "
-      style={{ opacity }}
-    >
+    <motion.section ref={ref} className="relative " style={{ opacity }}>
       <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
         {/* Background with parallax */}
         <motion.div className="absolute inset-0 z-0" style={{ y, scale }}>
@@ -64,7 +69,7 @@ const HeroSection = () => {
                 linear-gradient(to right, white 1px, transparent 1px),
                 linear-gradient(to bottom, white 1px, transparent 1px)
               `,
-              backgroundSize: '80px 80px',
+              backgroundSize: "80px 80px",
             }}
           />
         </div>
@@ -78,39 +83,44 @@ const HeroSection = () => {
             transition={{ duration: 1, delay: 0.2 }}
             className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-10 backdrop-blur-sm"
             style={{
-              background: 'rgba(255, 255, 255, 0.03)',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
+              background: "rgba(255, 255, 255, 0.03)",
+              border: "1px solid rgba(255, 255, 255, 0.08)",
             }}
           >
             <span className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
-            <span className="text-[14px] text-white/70 font-medium tracking-wide">How Blip Works</span>
+            <span className="text-[14px] text-white/70 font-medium tracking-wide">
+              How Blip Works
+            </span>
           </motion.div>
 
           {/* Headlines */}
           <div className="overflow-hidden mb-10">
-  <motion.h1
-    initial={{ y: 150 }}
-    animate={{ y: 0 }}
-    transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-    className="text-[clamp(2.5rem,10vw,7rem)] font-semibold text-white leading-[0.95] tracking-[-0.04em]"
-  >
-    <span className="block">
-      Value. Settled.
-    </span>
+            <motion.h1
+              initial={{ y: 150 }}
+              animate={{ y: 0 }}
+              transition={{
+                duration: 1.2,
+                delay: 0.3,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+              className="text-[clamp(2.5rem,10vw,7rem)] font-semibold text-white leading-[0.95] tracking-[-0.04em]"
+            >
+              <span className="block">Value. Settled.</span>
 
-    <span
-      className="block"
-      style={{
-        background: 'linear-gradient(135deg, #ff6b35 0%, #ff8c50 50%, #ffffff 100%)',
-        backgroundClip: 'text',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-      }}
-    >
-      Privately.
-    </span>
-  </motion.h1>
-</div>
+              <span
+                className="block"
+                style={{
+                  background:
+                    "linear-gradient(135deg, #ff6b35 0%, #ff8c50 50%, #ffffff 100%)",
+                  backgroundClip: "text",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                Privately.
+              </span>
+            </motion.h1>
+          </div>
 
           <motion.p
             initial={{ opacity: 0, y: 30 }}
@@ -118,7 +128,8 @@ const HeroSection = () => {
             transition={{ duration: 1, delay: 0.6 }}
             className="text-xl md:text-2xl text-white/50 max-w-2xl mx-auto leading-relaxed"
           >
-            The on-chain protocol for instant, secure, and KYC-free global value transfer.
+            The on-chain protocol for instant, secure, and KYC-free global value
+            transfer.
           </motion.p>
 
           {/* Scroll indicator */}
@@ -126,9 +137,11 @@ const HeroSection = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.5 }}
-            className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
+            className="absolute top-[400px] sm:top-[500px] left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
           >
-            <span className="text-xs text-white/40 uppercase tracking-[0.2em]">Explore</span>
+            <span className="text-xs text-white/40 uppercase tracking-[0.2em]">
+              Explore
+            </span>
             <motion.div
               animate={{ y: [0, 8, 0] }}
               transition={{ duration: 1.5, repeat: Infinity }}
@@ -180,11 +193,15 @@ const KeyConceptsSection = () => {
               key={concept.title}
               initial={{ opacity: 0, y: 60 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}
+              transition={{
+                duration: 0.8,
+                delay: i * 0.15,
+                ease: [0.16, 1, 0.3, 1],
+              }}
               className="group relative p-8 rounded-3xl overflow-hidden cursor-pointer"
               style={{
-                background: 'rgba(255, 255, 255, 0.02)',
-                border: '1px solid rgba(255, 255, 255, 0.05)',
+                background: "rgba(255, 255, 255, 0.02)",
+                border: "1px solid rgba(255, 255, 255, 0.05)",
               }}
               onMouseEnter={() => sounds.hover()}
             >
@@ -195,7 +212,9 @@ const KeyConceptsSection = () => {
                 <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-6 group-hover:bg-white/10 transition-colors duration-500">
                   <concept.icon className="w-6 h-6 text-white/70 group-hover:text-white/60 transition-colors duration-500" />
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-3">{concept.title}</h3>
+                <h3 className="text-xl font-semibold text-white mb-3">
+                  {concept.title}
+                </h3>
                 <p className="text-white/50">{concept.desc}</p>
               </div>
 
@@ -226,10 +245,26 @@ const CoreProtocolSection = () => {
   });
 
   const pillars = [
-    { icon: Lock, title: "Escrow PDA", desc: "Funds secured by immutable smart contract." },
-    { icon: Users, title: "Merchant Staking", desc: "Collateral locked for secure execution." },
-    { icon: Globe, title: "DAO Governance", desc: "Decentralized arbitration for disputes." },
-    { icon: Wallet, title: "Wallet-Only", desc: "Zero KYC, financial privacy preserved." },
+    {
+      icon: Lock,
+      title: "Escrow PDA",
+      desc: "Funds secured by immutable smart contract.",
+    },
+    {
+      icon: Users,
+      title: "Merchant Staking",
+      desc: "Collateral locked for secure execution.",
+    },
+    {
+      icon: Globe,
+      title: "DAO Governance",
+      desc: "Decentralized arbitration for disputes.",
+    },
+    {
+      icon: Wallet,
+      title: "Wallet-Only",
+      desc: "Zero KYC, financial privacy preserved.",
+    },
   ];
 
   return (
@@ -253,9 +288,12 @@ const CoreProtocolSection = () => {
           transition={{ duration: 1 }}
           className="text-center mb-24"
         >
-          <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">The Protocol</span>
+          <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">
+            The Protocol
+          </span>
           <h2 className="text-4xl md:text-6xl lg:text-7xl font-semibold text-white tracking-tight">
-            Trust<br />
+            Trust
+            <br />
             <span className="text-white/30">Redefined.</span>
           </h2>
         </motion.div>
@@ -271,8 +309,8 @@ const CoreProtocolSection = () => {
               transition={{ duration: 0.8, delay: i * 0.1 }}
               className="group relative p-8 rounded-3xl text-center"
               style={{
-                background: 'rgba(255, 255, 255, 0.02)',
-                border: '1px solid rgba(255, 255, 255, 0.05)',
+                background: "rgba(255, 255, 255, 0.02)",
+                border: "1px solid rgba(255, 255, 255, 0.05)",
               }}
               onMouseEnter={() => sounds.hover()}
             >
@@ -284,7 +322,9 @@ const CoreProtocolSection = () => {
               <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mx-auto mb-6 group-hover:bg-white/10 transition-colors duration-500">
                 <pillar.icon className="w-7 h-7 text-white/60" />
               </div>
-              <h3 className="text-lg font-semibold text-white mb-3">{pillar.title}</h3>
+              <h3 className="text-lg font-semibold text-white mb-3">
+                {pillar.title}
+              </h3>
               <p className="text-sm text-white/50">{pillar.desc}</p>
             </motion.div>
           ))}
@@ -338,7 +378,10 @@ const TransactionFlowSection = () => {
     },
   ];
 
-  const lineProgress = useSpring(useTransform(scrollYProgress, [0.1, 0.8], [0, 100]), smoothConfig);
+  const lineProgress = useSpring(
+    useTransform(scrollYProgress, [0.1, 0.8], [0, 100]),
+    smoothConfig,
+  );
 
   return (
     <section ref={ref} className="relative py-40 bg-black overflow-hidden">
@@ -366,13 +409,17 @@ const TransactionFlowSection = () => {
           transition={{ duration: 1 }}
           className="text-center mb-24"
         >
-          <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">Transaction Flow</span>
+          <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">
+            Transaction Flow
+          </span>
           <h2 className="text-4xl md:text-6xl font-semibold text-white tracking-tight mb-6">
-            Atomic.<br />
+            Atomic.
+            <br />
             <span className="text-white/30">Guaranteed.</span>
           </h2>
           <p className="text-xl text-white/50 max-w-xl mx-auto">
-            Every transaction executes atomically, guaranteed by on-chain escrow state transitions.
+            Every transaction executes atomically, guaranteed by on-chain escrow
+            state transitions.
           </p>
         </motion.div>
 
@@ -382,7 +429,7 @@ const TransactionFlowSection = () => {
           <div className="absolute left-[23px] top-0 bottom-0 w-[2px] bg-white/10">
             <motion.div
               className="w-full bg-gradient-to-b from-[#ff6b35] to-[#ff6b35]/30"
-              style={{ height: lineProgress.get() + '%' }}
+              style={{ height: lineProgress.get() + "%" }}
             />
           </div>
 
@@ -399,18 +446,22 @@ const TransactionFlowSection = () => {
               >
                 {/* Number circle */}
                 <div className="absolute left-0 top-0 w-12 h-12 rounded-full bg-black border-2 border-[#ff6b35]/50 flex items-center justify-center">
-                  <span className="text-sm font-mono text-white/60">{step.num}</span>
+                  <span className="text-sm font-mono text-white/60">
+                    {step.num}
+                  </span>
                 </div>
 
                 {/* Content card */}
                 <div
                   className="p-8 rounded-2xl"
                   style={{
-                    background: 'rgba(255, 255, 255, 0.02)',
-                    border: '1px solid rgba(255, 255, 255, 0.05)',
+                    background: "rgba(255, 255, 255, 0.02)",
+                    border: "1px solid rgba(255, 255, 255, 0.05)",
                   }}
                 >
-                  <h3 className="text-xl font-semibold text-white mb-3">{step.title}</h3>
+                  <h3 className="text-xl font-semibold text-white mb-3">
+                    {step.title}
+                  </h3>
                   <p className="text-white/60 mb-4">{step.content}</p>
                   <div className="flex items-center gap-2 text-sm">
                     <CheckCircle2 className="w-4 h-4 text-white/60" />
@@ -437,8 +488,14 @@ const SecuritySection = () => {
     offset: ["start end", "end start"],
   });
 
-  const y1 = useSpring(useTransform(scrollYProgress, [0, 1], [100, -100]), smoothConfig);
-  const y2 = useSpring(useTransform(scrollYProgress, [0, 1], [50, -50]), smoothConfig);
+  const y1 = useSpring(
+    useTransform(scrollYProgress, [0, 1], [100, -100]),
+    smoothConfig,
+  );
+  const y2 = useSpring(
+    useTransform(scrollYProgress, [0, 1], [50, -50]),
+    smoothConfig,
+  );
 
   const securityPillars = [
     {
@@ -486,14 +543,18 @@ const SecuritySection = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: 0.3 + i * 0.1 }}
-                  className="text-center p-4 rounded-xl backdrop-blur-xl"
+                  className="text-center px-2 p-4 sm:p-4 rounded-xl backdrop-blur-xl"
                   style={{
-                    background: 'rgba(0, 0, 0, 0.5)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    background: "rgba(0, 0, 0, 0.5)",
+                    border: "1px solid rgba(255, 255, 255, 0.1)",
                   }}
                 >
-                  <div className="text-2xl font-semibold text-white">{metric.value}</div>
-                  <div className="text-xs text-white/60 uppercase tracking-wider">{metric.label}</div>
+                  <div className="text-md sm:text-2xl font-semibold text-white">
+                    {metric.value}
+                  </div>
+                  <div className="text-[9px] sm:text-xs text-white/60 uppercase tracking-tight">
+                    {metric.label}
+                  </div>
                 </motion.div>
               ))}
             </div>
@@ -508,9 +569,12 @@ const SecuritySection = () => {
               transition={{ duration: 1 }}
               className="mb-12"
             >
-              <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">Security Model</span>
+              <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">
+                Security Model
+              </span>
               <h2 className="text-4xl md:text-5xl font-semibold text-white tracking-tight mb-6">
-                Cryptographic<br />
+                Cryptographic
+                <br />
                 <span className="text-white/30">Security.</span>
               </h2>
             </motion.div>
@@ -549,17 +613,20 @@ const OrderTypesSection = () => {
     {
       title: "Crypto → Cash",
       desc: "Convert digital assets to physical currency anywhere, secured by staked merchant commitment.",
-      image: "https://images.unsplash.com/photo-1580519542036-c47de6196ba5?q=80&w=2942&auto=format&fit=crop",
+      image:
+        "https://images.unsplash.com/photo-1580519542036-c47de6196ba5?q=80&w=2942&auto=format&fit=crop",
     },
     {
       title: "Crypto → Bank",
       desc: "Settle high-value transactions directly into any bank account, bypassing identity requirements.",
-      image: "https://images.unsplash.com/photo-1541354329998-f4d9a9f9297f?q=80&w=2940&auto=format&fit=crop",
+      image:
+        "https://images.unsplash.com/photo-1541354329998-f4d9a9f9297f?q=80&w=2940&auto=format&fit=crop",
     },
     {
       title: "Crypto → Crypto",
       desc: "Swap assets across chains using the same escrow security, without CEX infrastructure.",
-      image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?q=80&w=2787&auto=format&fit=crop",
+      image:
+        "https://images.unsplash.com/photo-1621761191319-c6fb62004040?q=80&w=2787&auto=format&fit=crop",
     },
   ];
 
@@ -574,9 +641,12 @@ const OrderTypesSection = () => {
           transition={{ duration: 1 }}
           className="text-center mb-20"
         >
-          <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">Order Types</span>
+          <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">
+            Order Types
+          </span>
           <h2 className="text-4xl md:text-6xl font-semibold text-white tracking-tight">
-            Multiple<br />
+            Multiple
+            <br />
             <span className="text-white/30">Destinations.</span>
           </h2>
         </motion.div>
@@ -605,7 +675,9 @@ const OrderTypesSection = () => {
 
               {/* Content */}
               <div className="absolute inset-0 p-8 flex flex-col justify-end">
-                <h3 className="text-2xl font-semibold text-white mb-3">{type.title}</h3>
+                <h3 className="text-2xl font-semibold text-white mb-3">
+                  {type.title}
+                </h3>
                 <p className="text-white/60 leading-relaxed">{type.desc}</p>
               </div>
 
@@ -630,11 +702,17 @@ const CTASection = () => {
     offset: ["start end", "end start"],
   });
 
-  const scale = useSpring(useTransform(scrollYProgress, [0, 0.5], [0.8, 1]), smoothConfig);
+  const scale = useSpring(
+    useTransform(scrollYProgress, [0, 0.5], [0.8, 1]),
+    smoothConfig,
+  );
   const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
 
   return (
-    <section ref={ref} className="relative min-h-screen flex items-center justify-center py-40 bg-black overflow-hidden">
+    <section
+      ref={ref}
+      className="relative min-h-screen flex items-center justify-center py-40 bg-black overflow-hidden"
+    >
       {/* Background glow */}
       <motion.div
         className="absolute inset-0 flex items-center justify-center"
@@ -652,7 +730,7 @@ const CTASection = () => {
               linear-gradient(to right, white 1px, transparent 1px),
               linear-gradient(to bottom, white 1px, transparent 1px)
             `,
-            backgroundSize: '80px 80px',
+            backgroundSize: "80px 80px",
           }}
         />
       </div>
@@ -665,12 +743,14 @@ const CTASection = () => {
           transition={{ duration: 1 }}
         >
           <h2 className="text-5xl md:text-7xl lg:text-8xl font-semibold text-white tracking-tight mb-8">
-            Code over<br />
+            Code over
+            <br />
             <span className="text-white/30">Trust.</span>
           </h2>
 
           <p className="text-xl text-white/50 max-w-xl mx-auto mb-12">
-            The certainty of code replacing the necessity of trust. Start your journey with Blip today.
+            The certainty of code replacing the necessity of trust. Start your
+            journey with Blip today.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
