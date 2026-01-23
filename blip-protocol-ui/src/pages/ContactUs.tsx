@@ -135,7 +135,7 @@ const HeroSection = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2 }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
+          className="absolute top-[380px] sm:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
         >
           <motion.div
             animate={{ y: [0, 8, 0] }}
@@ -215,7 +215,11 @@ const ContactOptionsSection = () => {
                   }}
                   onMouseEnter={() => sounds.hover()}
                 >
+<<<<<<< HEAD
                   <channel.icon className="w-5 h-5 text-white/60 mb-3 group-hover:scale-110 transition-transform" />
+=======
+                  <channel.icon className="w-5 h-5 text-[#ff6b35] mb-3 group-hover:scale-110 transition-transform" />
+>>>>>>> af6d712 (fix)
                   <h3 className="text-sm font-semibold text-white mb-1">
                     {channel.label}
                   </h3>
@@ -239,7 +243,7 @@ const ContactOptionsSection = () => {
               >
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center group-hover:bg-[#ff6b35]/20 transition-colors">
-                    <Mail className="w-5 h-5 text-white/60" />
+                    <Mail className="w-5 h-5 text-[#ff6b35]" />
                   </div>
                   <div className="text-left">
                     <span className="text-[10px] uppercase tracking-widest text-white/40 block">
@@ -271,7 +275,7 @@ const ContactOptionsSection = () => {
               >
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center group-hover:bg-[#ff6b35]/20 transition-colors">
-                    <MapPin className="w-5 h-5 text-white/60" />
+                    <MapPin className="w-5 h-5 text-[#ff6b35]" />
                   </div>
                   <div className="text-left">
                     <span className="text-[10px] uppercase tracking-widest text-white/40 block">
@@ -587,10 +591,17 @@ const VisualSection = () => {
               border: "1px solid rgba(255, 255, 255, 0.1)",
             }}
           >
+<<<<<<< HEAD
             <h3 className="md:text-xl text-xs font-semibold text-white mb-2">
               Blip Money HQ
             </h3>
             <p className="text-white/60 md:text-sm text-[10px]">
+=======
+            <h3 className="text-xl font-semibold text-white mb-2">
+              Blip Money HQ
+            </h3>
+            <p className="text-white/60 text-sm">
+>>>>>>> af6d712 (fix)
               9th Floor, JLT Cluster Y, Dubai, UAE
             </p>
           </motion.div>

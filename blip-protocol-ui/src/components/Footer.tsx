@@ -73,7 +73,7 @@ const FooterLink = ({
       onMouseEnter={() => sounds.hover()}
       className={({ isActive }) => `
         group flex items-center gap-1 text-[13px] transition-colors
-        ${isActive ? "text-white" : "text-[#71717A] hover:text-[#A1A1AA]"}
+        ${isActive ? "text-[#ff6b35]" : "text-[#71717A] hover:text-[#A1A1AA]"}
       `}
     >
       {children}
