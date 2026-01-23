@@ -19,7 +19,7 @@ type Screen = "send" | "confirm" | "success" | "status" | "complete";
 
 export default function PhoneMockupInteractive() {
   const [screen, setScreen] = useState<Screen>("send");
-  const [amount, setAmount] = useState("500");
+  const [amount, setAmount] = useState("5000");
   const [statusProgress, setStatusProgress] = useState(0);
 
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
@@ -150,14 +150,12 @@ export default function PhoneMockupInteractive() {
                       >
                         <Header />
 
-                        
-                          {/* Send label */}
-                          <div className="text-center mb-3 sm:mb-4">
-                            <span className="text-[9px] sm:text-sm text-white/40 uppercase tracking-wider">
-                              You send
-                            </span>
-                          </div>
-
+                        {/* Send label */}
+                        <div className="text-center mb-3 sm:mb-4">
+                          <span className="text-[9px] sm:text-sm text-white/40 uppercase tracking-wider">
+                            You send
+                          </span>
+                        </div>
 
                         <div className="flex justify-center items-center gap-1.5 sm:gap-2 mb-4 sm:mb-5 md:mb-6">
                           <input
@@ -166,7 +164,7 @@ export default function PhoneMockupInteractive() {
                             onChange={(e) =>
                               setAmount(e.target.value.replace(/\D/g, ""))
                             }
-                            className="bg-transparent text-white text-sm sm:text-[clamp(2rem,6vw,3.75rem)] font-bold w-[80px] sm:w-[100px] md:w-[120px] text-center outline-none"
+                            className="bg-transparent text-white text-sm sm:text-[clamp(2rem,6vw,2.75rem)] font-bold w-[80px] sm:w-[100px] md:w-[120px] text-center outline-none"
                           />
                           <Currency />
                         </div>
@@ -180,8 +178,13 @@ export default function PhoneMockupInteractive() {
                         <motion.button
                           onClick={() => setScreen("confirm")}
                           className="w-full py-2 sm:py-3 rounded-full bg-[#ff6b35] text-black font-bold text-sm sm:text-base"
-                          whileTap={{ scale: 0.93, boxShadow: "0 0 30px rgba(255, 107, 53, 0.6)" }}
-                          whileHover={{ boxShadow: "0 0 20px rgba(255, 107, 53, 0.4)" }}
+                          whileTap={{
+                            scale: 0.93,
+                            boxShadow: "0 0 30px rgba(255, 107, 53, 0.6)",
+                          }}
+                          whileHover={{
+                            boxShadow: "0 0 20px rgba(255, 107, 53, 0.4)",
+                          }}
                         >
                           Continue
                         </motion.button>
@@ -218,8 +221,13 @@ export default function PhoneMockupInteractive() {
                         <motion.button
                           onClick={() => setScreen("success")}
                           className="w-full py-2 sm:py-3 rounded-full bg-[#ff6b35] text-black font-bold text-sm sm:text-base mb-2 sm:mb-3"
-                          whileTap={{ scale: 0.93, boxShadow: "0 0 30px rgba(255, 107, 53, 0.6)" }}
-                          whileHover={{ boxShadow: "0 0 20px rgba(255, 107, 53, 0.4)" }}
+                          whileTap={{
+                            scale: 0.93,
+                            boxShadow: "0 0 30px rgba(255, 107, 53, 0.6)",
+                          }}
+                          whileHover={{
+                            boxShadow: "0 0 20px rgba(255, 107, 53, 0.4)",
+                          }}
                         >
                           Send Now
                         </motion.button>
@@ -342,8 +350,14 @@ export default function PhoneMockupInteractive() {
                             <Row label="To" value="John Smith" />
                             <div className="border-t border-white/5 my-2 sm:my-3" />
                             <Row label="Amount Sent" value={`${amount} USDT`} />
-                            <Row label="Amount Received" value={`${receiveAmount} AED`} />
-                            <Row label="Exchange Rate" value="1 USDT = 3.67 AED" />
+                            <Row
+                              label="Amount Received"
+                              value={`${receiveAmount} AED`}
+                            />
+                            <Row
+                              label="Exchange Rate"
+                              value="1 USDT = 3.67 AED"
+                            />
                             <Row label="Fee" value="$0.10" />
                             <div className="border-t border-white/5 my-2 sm:my-3" />
                             <Row label="Status" value="✓ Completed" />
@@ -352,9 +366,13 @@ export default function PhoneMockupInteractive() {
 
                           <div className="rounded-lg sm:rounded-xl bg-white/[0.02] border border-white/[0.06] p-3 sm:p-4 mb-3 sm:mb-4">
                             <div className="flex items-center justify-between">
-                              <span className="text-xs sm:text-sm text-white/40">Transaction ID</span>
+                              <span className="text-xs sm:text-sm text-white/40">
+                                Transaction ID
+                              </span>
                               <div className="flex items-center gap-1.5 sm:gap-2">
-                                <span className="text-[10px] sm:text-xs text-white/60 font-mono">0x7a2...f91</span>
+                                <span className="text-[10px] sm:text-xs text-white/60 font-mono">
+                                  0x7a2...f91
+                                </span>
                                 <Copy className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white/40" />
                               </div>
                             </div>
@@ -363,7 +381,7 @@ export default function PhoneMockupInteractive() {
 
                         <motion.button
                           onClick={() => setScreen("send")}
-                          className="w-full py-2 sm:py-3 rounded-full bg-[#ff6b35] text-black font-bold text-sm sm:text-base mb-2 sm:mb-3"
+                          className="w-full py-2 sm:py-3 rounded-full bg-[#ff6b35] text-black font-bold text-sm sm:text-base mb-1 sm:mb-1"
                           whileTap={{ scale: 0.97 }}
                         >
                           New Transaction
@@ -425,14 +443,12 @@ const Divider = () => (
 );
 
 const Preview = ({ receiveAmount }: { receiveAmount: string }) => (
-    <div className="rounded-2xl bg-white/[0.03] border border-white/[0.06] p-3 sm:p-5 mb-3 sm:mb-8">
+  <div className="rounded-2xl bg-white/[0.03] border border-white/[0.06] p-3 sm:p-5 mb-3 sm:mb-8">
     <div className="flex items-center justify-between mb-3">
-      <span className="text-xs sm:text-sm text-white/40">
-        They receive
-      </span>
+      <span className="text-xs sm:text-sm text-white/40">They receive</span>
       <div className="flex items-baseline gap-2">
         <span className="text-sm md:text-2xl font-bold text-white">
-        {receiveAmount}
+          {receiveAmount}
         </span>
         <span className="text-sm sm:text-base md:text-lg text-white/50">
           AED
@@ -441,9 +457,7 @@ const Preview = ({ receiveAmount }: { receiveAmount: string }) => (
     </div>
 
     <div className="flex items-center justify-between pt-3 border-t border-white/5">
-      <span className="text-[10px] sm:text-xs text-white/30">
-        Rate
-      </span>
+      <span className="text-[10px] sm:text-xs text-white/30">Rate</span>
       <span className="text-[10px] sm:text-xs text-white/50">
         1 USDT = 3.67 AED
       </span>
@@ -458,7 +472,7 @@ const Card = ({ children }: { children: React.ReactNode }) => (
 );
 
 const Row = ({ label, value }: { label: string; value: string }) => (
-  <div className="flex justify-between text-white text-[9px] sm:text-sm mb-1.5 sm:mb-2">
+  <div className="flex justify-between text-white text-[9px] sm:text-sm mb-1 sm:mb-1">
     <span>{label}</span>
     <span>{value}</span>
   </div>
@@ -483,7 +497,7 @@ const StatusItem = ({
   active?: boolean;
 }) => (
   <div
-    className={`flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 rounded-lg sm:rounded-2xl mb-2 sm:mb-3 border ${
+    className={`flex items-center gap-2 sm:gap-2 p-2 sm:p-1.5 rounded-lg sm:rounded-2xl mb-1 sm:mb-2 border ${
       active
         ? "border-[#ff6b35]/40 bg-[#ff6b35]/10"
         : "border-white/10 bg-white/[0.03]"

@@ -298,10 +298,10 @@ export default function LockedAndSecuredMockup() {
                           Funds Secured
                         </span>
                         <div className="text-sm sm:text-2xl md:text-3xl font-bold text-white">
-                          500 USDT
+                          5000 USDT
                         </div>
                         <span className="text-[10px] sm:text-xs text-white/40">
-                          ≈ $500.00
+                          ≈ $5000.00
                         </span>
                       </div>
 
@@ -535,8 +535,8 @@ export default function LockedAndSecuredMockup() {
                         <div className="rounded-lg sm:rounded-xl bg-white/[0.02] border border-white/[0.06] p-2.5 sm:p-3 mb-3 sm:mb-4 space-y-2 sm:space-y-2.5">
                           <DetailRow label="Order ID" value="#ESC-92847" />
                           <div className="border-t border-white/5" />
-                          <DetailRow label="Amount" value="500 USDT" />
-                          <DetailRow label="Received" value="1835 AED" />
+                          <DetailRow label="Amount" value="5000 USDT" />
+                          <DetailRow label="Received" value="18350 AED" />
                           <DetailRow label="Rate" value="1 USDT = 3.67 AED" />
                           <div className="border-t border-white/5" />
                           <DetailRow label="Network" value="Solana" />

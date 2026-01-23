@@ -25,6 +25,7 @@ import {
   Wifi,
   Battery,
   User,
+  BatteryFull,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SEO } from "@/components";
@@ -213,7 +214,7 @@ const PhoneMockup = ({ children }: { children: React.ReactNode }) => {
                     <div className="flex items-center gap-1.5">
                       <Signal className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
                       <Wifi className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
-                      <Battery className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
+                      <BatteryFull className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
                     </div>
                   </div>
 
@@ -504,18 +505,6 @@ const HeroSection = () => {
             transition={{ type: "spring", stiffness: 200, damping: 25 }}
           >
             <PhoneMockup>
-              {/* Status bar */}
-              {/* <div className="flex items-center justify-between px-8 pt-4 pb-2">
-                <span className="text-[10px] md:text-[13px] text-white font-semibold">
-                  9:41
-                </span>
-                <div className="flex items-center gap-1.5">
-                  <Signal className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
-                  <Wifi className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
-                  <Battery className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
-                </div>
-              </div> */}
-
               {/* App content - Rewards Screen */}
               <div className="px-6 pb-3 sm:pb-10 pt-1 sm:pt-8">
                 {/* Header */}

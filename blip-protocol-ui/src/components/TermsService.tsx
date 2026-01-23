@@ -21,7 +21,9 @@ const TermsService = () => {
             Terms of Service — blip.money
           </h1>
 
-          <p className="text-gray-500 mb-6 text-sm">Last updated: Date</p>
+          <p className="text-gray-500 mb-6 text-sm">
+            Last updated: {new Date().toLocaleDateString()}
+          </p>
 
           {/* Intro */}
           <p className="text-gray-300 mb-8 leading-relaxed">
