@@ -147,15 +147,88 @@ const InteractiveGrid = () => {
    ============================================ */
 
 const PhoneMockup = ({ children }: { children: React.ReactNode }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [mouse, setMouse] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const onMove = (e: PointerEvent) => {
+      const r = el.getBoundingClientRect();
+      setMouse({
+        x: ((e.clientX - r.left) / r.width - 0.5) * 2,
+        y: ((e.clientY - r.top) / r.height - 0.5) * 2,
+      });
+    };
+
+    const reset = () => setMouse({ x: 0, y: 0 });
+
+    el.addEventListener("pointermove", onMove);
+    el.addEventListener("pointerleave", reset);
+    return () => {
+      el.removeEventListener("pointermove", onMove);
+      el.removeEventListener("pointerleave", reset);
+    };
+  }, []);
+
   return (
-    <div className="relative md:h-[600px] h-[480px] " style={{ width: 280,  }}>
-      <div className="absolute inset-0 rounded-[44px] shadow-[0_0_100px_rgba(255,107,53,0.3),0_0_200px_rgba(255,107,53,0.1)]" />
-      <div className="absolute inset-0 rounded-[44px] bg-[#1a1a1a] border border-white/20 overflow-hidden">
-        <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-7 bg-black rounded-full z-20" />
-        <div className="absolute inset-[3px] rounded-[40px] bg-[#0a0a0a] overflow-hidden">
-          {children}
-        </div>
-        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-28 h-1 bg-white/40 rounded-full z-20" />
+    <div className="flex justify-center">
+      <div ref={containerRef} className="relative">
+        <motion.div
+          animate={{
+            x: mouse.x * -12,
+            y: mouse.y * -10,
+            rotateY: mouse.x * 6,
+            rotateX: mouse.y * -4,
+          }}
+          transition={{ type: "spring", stiffness: 200, damping: 25 }}
+          style={{ transformPerspective: 1200, transformStyle: "preserve-3d" }}
+        >
+          {/* Reflection effect */}
+          <motion.div
+            className="absolute inset-0 rounded-[28px] sm:rounded-[36px] md:rounded-[44px] pointer-events-none z-10"
+            style={{
+              background: `linear-gradient(${135 + mouse.x * 25}deg, rgba(255,255,255,0.06) 0%, transparent 50%, rgba(0,0,0,0.12) 100%)`,
+            }}
+          />
+          <div className="w-[200px] sm:w-[250px] md:w-[290px] lg:w-[320px]">
+            {/* Phone outer frame */}
+            <div className="rounded-[36px] sm:rounded-[40px] md:rounded-[44px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[2px] sm:p-[2.5px] shadow-[0_25px_50px_rgba(0,0,0,0.5),0_0_40px_rgba(255,107,53,0.08)] md:shadow-[0_40px_80px_rgba(0,0,0,0.6),0_0_60px_rgba(255,107,53,0.1)]">
+              <div className="rounded-[34px] sm:rounded-[38px] md:rounded-[42px] bg-[#0a0a0a] p-[1px] sm:p-[8px] md:p-[10px]">
+                {/* Phone screen */}
+                <div className="rounded-[28px] sm:rounded-[30px] md:rounded-[34px] bg-black overflow-y-auto overflow-x-hidden relative max-h-[500px] sm:max-h-[600px] md:max-h-[650px] scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+                  {/* Dynamic Island */}
+                  <div className="hidden md:block absolute top-3 left-1/2 -translate-x-1/2 z-10">
+                    <div className="w-28 h-7 rounded-full bg-black flex items-center justify-center">
+                      <div className="w-3 h-3 rounded-full bg-[#1a1a1a] mr-2" />
+                    </div>
+                  </div>
+
+                  {/* Status bar */}
+                  <div className="flex items-center justify-between px-8 pt-4 pb-2">
+                    <span className="text-[10px] md:text-[13px] text-white font-semibold">
+                      9:41
+                    </span>
+                    <div className="flex items-center gap-1.5">
+                      <Signal className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
+                      <Wifi className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
+                      <Battery className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  {children}
+
+                  {/* Home indicator */}
+                  <div className="flex justify-center pb-1.5 sm:pb-2">
+                    <div className="w-16 sm:w-24 md:w-28 lg:w-32 h-0.5 sm:h-1 bg-white/30 rounded-full" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </div>
   );
@@ -383,6 +456,7 @@ const HeroSection = () => {
         </div>
 
         {/* Right: Phone Mockup */}
+
         <motion.div
           initial={{ opacity: 0, y: 60 }}
           animate={{ opacity: 1, y: 0 }}
@@ -431,32 +505,32 @@ const HeroSection = () => {
           >
             <PhoneMockup>
               {/* Status bar */}
-              <div className="flex items-center justify-between px-8 pt-4 pb-2">
+              {/* <div className="flex items-center justify-between px-8 pt-4 pb-2">
                 <span className="text-[10px] md:text-[13px] text-white font-semibold">
-                            9:41
-                          </span>
-                          <div className="flex items-center gap-1.5">
-                            <Signal className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
-                            <Wifi className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
-                            <Battery className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
-                          </div>
-              </div>
+                  9:41
+                </span>
+                <div className="flex items-center gap-1.5">
+                  <Signal className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
+                  <Wifi className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
+                  <Battery className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
+                </div>
+              </div> */}
 
               {/* App content - Rewards Screen */}
               <div className="px-6 pb-3 sm:pb-10 pt-1 sm:pt-8">
                 {/* Header */}
                 <div className="flex items-center justify-between mb-2 sm:mb-8">
                   <div className="flex items-center gap-3">
-                              <div className="w-6 h-6 sm:w-10 sm:h-10 rounded-xl bg-[#ff6b35] flex items-center justify-center">
-                                <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-black" />
-                              </div>
-                              <span className="text-sm sm:text-lg font-bold text-white">
-                                Blip
-                              </span>
-                            </div>
-                   <div className="w-6 h-6 sm:w-10 sm:h-10 rounded-full bg-white/5 flex items-center justify-center">
-                              <User className="w-4 h-4 sm:w-5 sm:h-5 text-white/50" />
-                            </div>
+                    <div className="w-6 h-6 sm:w-10 sm:h-10 rounded-xl bg-[#ff6b35] flex items-center justify-center">
+                      <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-black" />
+                    </div>
+                    <span className="text-sm sm:text-lg font-bold text-white">
+                      Blip
+                    </span>
+                  </div>
+                  <div className="w-6 h-6 sm:w-10 sm:h-10 rounded-full bg-white/5 flex items-center justify-center">
+                    <User className="w-4 h-4 sm:w-5 sm:h-5 text-white/50" />
+                  </div>
                 </div>
 
                 {/* Total Rewards Card */}
@@ -465,7 +539,9 @@ const HeroSection = () => {
                     Total Earned
                   </p>
                   <div className="flex items-baseline gap-2">
-                    <span className="md:text-3xl font-bold text-white">2,450</span>
+                    <span className="md:text-3xl font-bold text-white">
+                      2,450
+                    </span>
                     <span className="text-sm text-[#ff6b35]">BLIP</span>
                   </div>
                   <div className="flex items-center gap-1 mt-2">
@@ -590,7 +666,10 @@ const RewardTiersSection = () => {
   ];
 
   return (
-    <section ref={ref} className="relative md:py-32 py-12 bg-black overflow-hidden">
+    <section
+      ref={ref}
+      className="relative md:py-32 py-12 bg-black overflow-hidden"
+    >
       {/* Background */}
       <div className="absolute inset-0">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-[#ff6b35]/[0.03] blur-[120px]" />
@@ -706,7 +785,10 @@ const HowItWorksSection = () => {
   ];
 
   return (
-    <section ref={ref} className="relative py-12 md:py-32 bg-black overflow-hidden">
+    <section
+      ref={ref}
+      className="relative py-12 md:py-32 bg-black overflow-hidden"
+    >
       {/* Background text */}
       <motion.div
         className="absolute top-1/2 left-0 -translate-y-1/2 whitespace-nowrap text-[12vw] font-bold text-white/[0.015] select-none pointer-events-none"
@@ -825,27 +907,29 @@ const FeaturesSection = () => {
   ];
 
   return (
-    <section ref={ref} className="relative py-12 md:py-32 bg-black overflow-hidden">
+    <section
+      ref={ref}
+      className="relative py-12 md:py-32 bg-black overflow-hidden"
+    >
       <div className="max-w-6xl mx-auto px-6">
-      <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1 }}
-              className="mb-10 flex justify-center"
-            >
-              <div className="flex flex-col justify-center"> 
-              <span className="text-[10px] text-center uppercase tracking-[0.3em] text-[#ff6b35] mb-4 block">
-                Features
-              </span>
-              <h2 className="text-4xl md:text-6xl font-bold text-center text-white tracking-tight mb-4">
-                Maximum
-                <br />
-                <span className="text-white/20 text-center">Value.</span>
-              </h2>
-              </div>
-             
-            </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1 }}
+          className="mb-10 flex justify-center"
+        >
+          <div className="flex flex-col justify-center">
+            <span className="text-[10px] text-center uppercase tracking-[0.3em] text-[#ff6b35] mb-4 block">
+              Features
+            </span>
+            <h2 className="text-4xl md:text-6xl font-bold text-center text-white tracking-tight mb-4">
+              Maximum
+              <br />
+              <span className="text-white/20 text-center">Value.</span>
+            </h2>
+          </div>
+        </motion.div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Left: Stats card */}
           <motion.div style={{ y: y1 }} className="relative">
@@ -887,8 +971,6 @@ const FeaturesSection = () => {
 
           {/* Right: Features list */}
           <motion.div style={{ y: y2 }}>
-          
-
             <div className="space-y-4">
               {features.map((feature, i) => (
                 <motion.div

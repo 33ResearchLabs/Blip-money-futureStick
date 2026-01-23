@@ -406,7 +406,7 @@ const Dashboard = () => {
             <button
               onClick={() => handleStartTask(taskType)}
               disabled={loading}
-              className="px-4 py-2 rounded font-bold transition bg-zinc-700 text-white hover:bg-zinc-600 disabled:opacity-50"
+              className="px-4 py-2 rounded-full font-bold transition bg-zinc-700 text-white hover:bg-zinc-600 disabled:opacity-50"
             >
               {loading ? (
                 <span className="flex items-center gap-2">
@@ -425,7 +425,7 @@ const Dashboard = () => {
             return (
               <button
                 onClick={() => setShowQuiz(true)}
-                className="px-4 py-2 rounded font-bold transition bg-[#2BFF88] text-black hover:bg-[#2BFF88] flex items-center gap-2"
+                className="px-4 py-2 rounded-full font-bold transition bg-[#2BFF88] text-black hover:bg-[#2BFF88] flex items-center gap-2"
               >
                 <HelpCircle size={14} />
                 Take Quiz
@@ -437,7 +437,7 @@ const Dashboard = () => {
             <button
               onClick={() => handleCompleteAction(taskType)}
               disabled={loading}
-              className="px-4 py-2 rounded font-bold transition bg-[#2BFF88] text-black hover:bg-[#2BFF88] disabled:opacity-50 flex items-center gap-2"
+              className="px-4 py-2 rounded-full font-bold transition bg-[#2BFF88] text-black hover:bg-[#2BFF88] disabled:opacity-50 flex items-center gap-2"
             >
               {loading ? (
                 <span className="flex items-center gap-2">
@@ -456,7 +456,7 @@ const Dashboard = () => {
         case "SUBMITTED":
           return (
             <span
-              className="flex items-center gap-2 px-4 py-2 rounded font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 cursor-help relative group/tooltip"
+              className="flex items-center gap-2 px-4 py-2 rounded-full font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 cursor-help relative group/tooltip"
               title="Admin will review and approve your submission"
             >
               <Clock size={14} />
@@ -471,7 +471,7 @@ const Dashboard = () => {
         // Stage 4: Verified - Show "Earned"
         case "VERIFIED":
           return (
-            <span className="flex items-center gap-2 px-4 py-2 rounded font-bold bg-[#39ff14]/20 text-[#2BFF88] border border-[#2BFF88]">
+            <span className="flex items-center gap-2 px-4 py-2 rounded-full font-bold bg-[#39ff14]/20 text-[#2BFF88] border border-[#2BFF88]">
               <Coins size={14} />
               Earned +{points}
             </span>
@@ -480,7 +480,7 @@ const Dashboard = () => {
         // Rejected - Show retry option
         case "REJECTED":
           return (
-            <span className="flex items-center gap-2 px-4 py-2 rounded font-bold bg-red-500/20 text-red-400 border border-red-500/30">
+            <span className="flex items-center gap-2 px-4 py-2 rounded-full font-bold bg-red-500/20 text-red-400 border border-red-500/30">
               <XCircle size={14} />
               Rejected
             </span>
@@ -646,7 +646,7 @@ const Dashboard = () => {
                 </div>
                 <button
                   onClick={handleCopyWalletAddress}
-                  className="p-1.5 rounded bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-[#2BFF88] transition-all"
+                  className="p-1.5 rounded-full bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-[#2BFF88] transition-all"
                   title="Copy wallet address"
                 >
                   {walletCopied ? (
@@ -720,7 +720,7 @@ const Dashboard = () => {
                       e.stopPropagation();
                       handleCopyReferralCode();
                     }}
-                    className="p-2 rounded bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-[#39ff14]/50 transition-all"
+                    className="p-2 rounded-full bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-[#39ff14]/50 transition-all"
                     title="Copy referral code"
                   >
                     {copied ? (
@@ -737,7 +737,7 @@ const Dashboard = () => {
                       e.stopPropagation();
                       handleShareReferral();
                     }}
-                    className="p-2 rounded bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-[#39ff14]/50 transition-all"
+                    className="p-2 rounded-full bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-[#39ff14]/50 transition-all"
                     title="Share referral link"
                   >
                     <Share2

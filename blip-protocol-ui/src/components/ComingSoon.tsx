@@ -159,13 +159,12 @@ const CountdownTimer = () => {
   });
 
   useEffect(() => {
-    // Set launch date to 30 days from now (adjust as needed)
-    const launchDate = new Date();
-    launchDate.setDate(launchDate.getDate() + 30);
+    // Fixed launch date: February 24, 2026
+    const launchDate = new Date(2026, 1, 24, 0, 0, 0).getTime();
 
     const timer = setInterval(() => {
       const now = new Date().getTime();
-      const distance = launchDate.getTime() - now;
+      const distance = launchDate - now;
 
       if (distance > 0) {
         setTimeLeft({
@@ -474,7 +473,7 @@ const ComingSoon = () => {
                   href="https://x.com/blipmoney_"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-3 px-5 py-3 rounded-2xl bg-white/[0.02] border border-white/[0.08] hover:border-[#ff6b35]/30 hover:bg-white/[0.04] transition-all duration-300"
+                  className="group flex items-center gap-3 px-5 py-3 rounded-full bg-white/[0.02] border border-white/[0.08] hover:border-[#ff6b35]/30 hover:bg-white/[0.04] transition-all duration-300"
                 >
                   <div className="w-8 h-8 rounded-lg bg-white/[0.05] flex items-center justify-center group-hover:bg-[#ff6b35]/10 transition-colors">
                     <Twitter className="w-4 h-4 text-white/50 group-hover:text-[#ff6b35] transition-colors" />
@@ -486,7 +485,7 @@ const ComingSoon = () => {
                   href="https://t.me/+3DpHLzc2BfJhOWEx"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-3 px-5 py-3 rounded-2xl bg-white/[0.02] border border-white/[0.08] hover:border-[#ff6b35]/30 hover:bg-white/[0.04] transition-all duration-300"
+                  className="group flex items-center gap-3 px-5 py-3 rounded-full bg-white/[0.02] border border-white/[0.08] hover:border-[#ff6b35]/30 hover:bg-white/[0.04] transition-all duration-300"
                 >
                   <div className="w-8 h-8 rounded-lg bg-white/[0.05] flex items-center justify-center group-hover:bg-[#ff6b35]/10 transition-colors">
                     <Send className="w-4 h-4 text-white/50 group-hover:text-[#ff6b35] transition-colors" />

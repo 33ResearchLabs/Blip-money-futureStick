@@ -86,7 +86,7 @@ export default function TwoFactorAuth() {
       <div className="max-w-2xl mx-auto my-20 sm:my-40 border border-zinc-700 rounded-md p-4 sm:p-6 relative ">
         <button
     onClick={() => navigate(-1)}
-    className="absolute -top-12 left-0 flex items-center gap-2 p-2 rounded hover:bg-zinc-800 border border-zinc-600"
+    className="absolute -top-12 left-0 flex items-center gap-2 p-2 rounded-full hover:bg-zinc-800 border border-zinc-600"
   >
     <ArrowLeft className="w-5 h-5 text-zinc-400" />
     <span className="hidden sm:inline text-sm text-zinc-400">Back</span>
@@ -109,7 +109,7 @@ export default function TwoFactorAuth() {
           <>
             <button
               onClick={handleEnable2FA}
-              className="px-4 py-2 bg-green-500 text-black text-sm font-bold rounded hover:bg-green-400"
+              className="px-4 py-2 bg-green-500 text-black text-sm font-bold rounded-full hover:bg-green-400"
             >
               Enable 2FA
             </button>
@@ -142,7 +142,7 @@ export default function TwoFactorAuth() {
                   <button
                     onClick={handleVerifyOtp}
                     disabled={loading || otp.length !== 6}
-                    className="flex-1 px-4 py-2 bg-green-500 text-black font-bold rounded disabled:opacity-50"
+                    className="flex-1 px-4 py-2 bg-green-500 text-black font-bold rounded-full disabled:opacity-50"
                   >
                     {loading ? "Verifying..." : "Verify OTP"}
                   </button>
@@ -152,7 +152,7 @@ export default function TwoFactorAuth() {
                       setQrCode("");
                       setOtp("");
                     }}
-                    className="flex-1 px-4 py-2 bg-zinc-700 text-white rounded hover:bg-zinc-600"
+                    className="flex-1 px-4 py-2 bg-zinc-700 text-white rounded-full hover:bg-zinc-600"
                   >
                     Cancel
                   </button>
@@ -173,7 +173,7 @@ export default function TwoFactorAuth() {
             {!disable && (
               <button
                 onClick={() => setDisable(true)}
-                className="px-4 py-2 bg-red-500 text-black text-sm font-bold rounded hover:bg-red-400 mb-4"
+                className="px-4 py-2 bg-red-500 text-black text-sm font-bold rounded-full hover:bg-red-400 mb-4"
               >
                 Disable 2FA
               </button>
@@ -207,7 +207,7 @@ export default function TwoFactorAuth() {
                 <button
                   onClick={handleDisable2FA}
                   disabled={loading || disableOtp.length !== 6}
-                  className="px-4 py-2 bg-red-500 text-black font-bold rounded disabled:opacity-50"
+                  className="px-4 py-2 bg-red-500 text-black font-bold rounded-full disabled:opacity-50"
                 >
                   {loading ? "Disabling..." : "Confirm Disable 2FA"}
                 </button>

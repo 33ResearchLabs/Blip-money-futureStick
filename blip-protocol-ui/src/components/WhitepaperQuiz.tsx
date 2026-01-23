@@ -188,7 +188,7 @@ export default function WhitepaperQuiz({
                 <button
                   onClick={handleSubmit}
                   disabled={submitting}
-                  className="flex-1 py-3 px-6 rounded font-bold bg-[#39ff14] text-black hover:bg-[#2fe610] transition disabled:opacity-50 flex items-center justify-center gap-2"
+                  className="flex-1 py-3 px-6 rounded-full font-bold bg-[#39ff14] text-black hover:bg-[#2fe610] transition disabled:opacity-50 flex items-center justify-center gap-2"
                 >
                   {submitting ? (
                     <>
@@ -205,7 +205,7 @@ export default function WhitepaperQuiz({
               ) : (
                 <button
                   onClick={onClose}
-                  className="flex-1 py-3 px-6 rounded font-bold bg-zinc-700 text-white hover:bg-zinc-600 transition"
+                  className="flex-1 py-3 px-6 rounded-full font-bold bg-zinc-700 text-white hover:bg-zinc-600 transition"
                 >
                   Close & Try Later
                 </button>
@@ -257,7 +257,7 @@ export default function WhitepaperQuiz({
             <button
               key={index}
               onClick={() => handleSelectAnswer(index)}
-              className={`w-full text-left p-4 rounded border transition-all ${
+              className={`w-full text-left p-4 rounded-full border transition-all ${
                 selectedAnswers[currentQuestion] === index
                   ? "bg-[#39ff14]/10 border-[#39ff14] text-white"
                   : "bg-zinc-800/50 border-zinc-700 text-zinc-300 hover:border-zinc-600 hover:bg-zinc-800"
@@ -289,7 +289,7 @@ export default function WhitepaperQuiz({
           <button
             onClick={handleNext}
             disabled={!hasSelected}
-            className="px-6 py-2 rounded font-bold bg-[#39ff14] text-black hover:bg-[#2fe610] transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            className="px-6 py-2 rounded-full font-bold bg-[#39ff14] text-black hover:bg-[#2fe610] transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
           >
             {currentQuestion === QUIZ_QUESTIONS.length - 1
               ? "See Results"

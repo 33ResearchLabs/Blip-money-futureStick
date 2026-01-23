@@ -111,7 +111,7 @@ const HeroSection = () => {
                 className="block"
                 style={{
                   background:
-                    "linear-gradient(135deg, #ff6b35 0%, #ff8c50 50%, #ffffff 100%)",
+                    "#ff6b35 linear-gradient(90deg, #ff6b35 0%, #ff8c50 100%) no-repeat ",
                   backgroundClip: "text",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",

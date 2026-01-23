@@ -590,7 +590,7 @@ const AirdropLogin = () => {
                 </div>
                 <button
                   type="submit"
-                  className="w-full bg-[#ff6b35] text-black py-4 rounded-2xl font-semibold hover:bg-[#ff8c50] hover:shadow-[0_0_40px_rgba(255,107,53,0.3)] transition-all duration-300"
+                  className="w-full bg-[#ff6b35] text-black py-4 rounded-full font-semibold hover:bg-[#ff8c50] hover:shadow-[0_0_40px_rgba(255,107,53,0.3)] transition-all duration-300"
                 >
                   Continue
                 </button>
@@ -744,7 +744,7 @@ const AirdropLogin = () => {
             <button
               onClick={handleVerifyLoginOtp}
               disabled={isVerifyingOtp}
-              className="w-full bg-[#ff6b35] text-black py-3 rounded-xl font-semibold disabled:opacity-50 hover:bg-[#ff8c50] transition-colors"
+              className="w-full bg-[#ff6b35] text-black py-3 rounded-full font-semibold disabled:opacity-50 hover:bg-[#ff8c50] transition-colors"
             >
               {isVerifyingOtp ? "Verifying..." : "Verify & Login"}
             </button>

@@ -1,6 +1,11 @@
 import { useEffect, useState, useRef } from "react";
-import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
-import { Menu, X, ChevronRight } from "lucide-react";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useMotionValueEvent,
+} from "framer-motion";
+import { Menu, X, ChevronRight, ArrowRight } from "lucide-react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
@@ -15,7 +20,7 @@ import { sounds } from "@/lib/sounds";
 /* Brand Orange: #ff6b35 - LOCKED COLOR */
 const Logo = () => {
   return (
-     <Link
+    <Link
       to="/"
       className="flex items-center gap-2 group"
       onClick={() => sounds.click()}
@@ -48,7 +53,7 @@ const Logo = () => {
 
       {/* Text */}
       <motion.span
-        className="text-2xl font-semibold tracking-tight leading-none flex items-center"
+        className="text-[20px] font-semibold tracking-tight leading-none flex items-center"
         whileHover={{ scale: 1.02 }}
         transition={{ duration: 0.2 }}
       >
@@ -58,7 +63,6 @@ const Logo = () => {
         {/* money text */}
         <span className="relative text-[#ff6b35] ml-0.5">
           money
-
           {/* Underline effect */}
           <motion.span
             className="absolute -bottom-1 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-[#ff6b35] to-transparent opacity-0 group-hover:opacity-100"
@@ -74,7 +78,7 @@ const Logo = () => {
 const NavItem = ({
   to,
   children,
-  onClick
+  onClick,
 }: {
   to: string;
   children: React.ReactNode;
@@ -93,7 +97,9 @@ const NavItem = ({
       onMouseEnter={() => sounds.hover()}
       className="relative px-3 py-2 text-[16px] font-medium transition-colors duration-200"
     >
-      <span className={isActive ? "text-white" : "text-[#A1A1AA] hover:text-white"}>
+      <span
+        className={isActive ? "text-white" : "text-[#A1A1AA] hover:text-white"}
+      >
         {children}
       </span>
 
@@ -102,7 +108,7 @@ const NavItem = ({
         <motion.div
           layoutId="navIndicator"
           className="absolute -bottom-[1px] left-3 right-3 h-[2px] rounded-full"
-          style={{ background: '#ff6b35' }}
+          style={{ background: "#ff6b35" }}
           transition={{ type: "spring", stiffness: 500, damping: 35 }}
         />
       )}
@@ -114,7 +120,7 @@ const NavItem = ({
 const CTAButton = ({
   to,
   children,
-  variant = "primary"
+  variant = "primary",
 }: {
   to: string;
   children: React.ReactNode;
@@ -123,24 +129,34 @@ const CTAButton = ({
   const isPrimary = variant === "primary";
 
   return (
-    <motion.div
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-    >
+    <motion.div whileTap={{ scale: 0.97 }} className="relative">
       <Link
         to={to}
         onClick={() => sounds.click()}
         onMouseEnter={() => sounds.hover()}
         className={`
-          inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-[15px] font-medium
-          transition-all duration-200
-          ${isPrimary
-            ? "bg-white text-black hover:shadow-[0_0_30px_rgba(255,255,255,0.2)]"
-            : "bg-transparent text-white border border-[rgba(255,255,255,0.1)] hover:border-[rgba(255,255,255,0.2)]"
+          group relative overflow-hidden inline-flex
+          items-center justify-center px-5 py-2.5 rounded-full
+          text-[16px] font-medium transition-all duration-300
+          ${
+            isPrimary
+              ? "bg-transparent text-white border border-white"
+              : "bg-transparent text-white border border-[rgba(255,255,255,0.25)]"
           }
         `}
       >
-        {children}
+        {/* LEFT-TO-RIGHT HOVER FILL ANIMATION */}
+        {isPrimary && (
+          <span className="absolute inset-0 bg-[#ff6b35] rounded-full scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-out" />
+        )}
+
+        {/* BUTTON TEXT */}
+        <span className="relative z-10 transition-colors duration-300 font-semibold flex items-center gap-2">
+          {children}
+          {isPrimary && (
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+          )}
+        </span>
       </Link>
     </motion.div>
   );
@@ -152,7 +168,7 @@ const LanguageSwitcher = () => {
   const currentLanguage = i18n.language;
 
   const changeLanguage = (lng: string) => {
-    sounds.toggle(lng === 'en');
+    sounds.toggle(lng === "en");
     i18n.changeLanguage(lng);
     localStorage.setItem("lang", lng);
   };
@@ -165,9 +181,10 @@ const LanguageSwitcher = () => {
           onClick={() => changeLanguage(lng)}
           className={`
             relative px-2.5 py-1 text-[12px] font-medium rounded transition-colors
-            ${currentLanguage === lng
-              ? "text-white"
-              : "text-[#71717A] hover:text-[#A1A1AA]"
+            ${
+              currentLanguage === lng
+                ? "text-white"
+                : "text-[#71717A] hover:text-[#A1A1AA]"
             }
           `}
           whileTap={{ scale: 0.95 }}
@@ -189,7 +206,7 @@ const LanguageSwitcher = () => {
 /* ---------------- Mobile Menu ---------------- */
 const MobileMenu = ({
   isOpen,
-  onClose
+  onClose,
 }: {
   isOpen: boolean;
   onClose: () => void;
@@ -225,9 +242,9 @@ const MobileMenu = ({
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="fixed top-[72px] left-4 right-4 z-50 rounded-xl overflow-hidden"
             style={{
-              background: '#111113',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-              boxShadow: '0 20px 50px rgba(0, 0, 0, 0.5)',
+              background: "#111113",
+              border: "1px solid rgba(255, 255, 255, 0.08)",
+              boxShadow: "0 20px 50px rgba(0, 0, 0, 0.5)",
             }}
           >
             <div className="p-4 space-y-1">
@@ -292,7 +309,7 @@ const MobileMenu = ({
 /* ---------------- Hamburger Button ---------------- */
 const HamburgerButton = ({
   isOpen,
-  onClick
+  onClick,
 }: {
   isOpen: boolean;
   onClick: () => void;
@@ -381,12 +398,12 @@ export const Navbar = () => {
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
     if (mobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     }
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     };
   }, [mobileMenuOpen]);
 
@@ -400,10 +417,14 @@ export const Navbar = () => {
         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
         className="fixed top-0 w-full z-50"
         style={{
-          background: isScrolled ? 'rgba(10, 10, 11, 0.8)' : 'transparent',
-          backdropFilter: isScrolled ? 'blur(12px) saturate(150%)' : 'none',
-          WebkitBackdropFilter: isScrolled ? 'blur(12px) saturate(150%)' : 'none',
-          borderBottom: isScrolled ? '1px solid rgba(255, 255, 255, 0.06)' : '1px solid transparent',
+          background: isScrolled ? "rgba(10, 10, 11, 0.8)" : "transparent",
+          backdropFilter: isScrolled ? "blur(12px) saturate(150%)" : "none",
+          WebkitBackdropFilter: isScrolled
+            ? "blur(12px) saturate(150%)"
+            : "none",
+          borderBottom: isScrolled
+            ? "1px solid rgba(255, 255, 255, 0.06)"
+            : "1px solid transparent",
         }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">

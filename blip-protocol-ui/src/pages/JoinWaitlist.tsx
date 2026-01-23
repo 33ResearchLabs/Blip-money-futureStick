@@ -240,7 +240,7 @@ const BlipAirdropHub = () => {
             ) : (
               <button
                 onClick={() => setView("waitlist")}
-                className="bg-zinc-100 text-black px-5 py-2 rounded-sm font-bold text-xs uppercase tracking-widest hover:bg-[#39ff14] transition-all duration-300 active:scale-95"
+                className="bg-zinc-100 text-black px-5 py-2 rounded-full font-bold text-xs uppercase tracking-widest hover:bg-[#39ff14] transition-all duration-300 active:scale-95"
               >
                 Connect Wallet
               </button>
@@ -277,11 +277,11 @@ const BlipAirdropHub = () => {
                 <div className="flex flex-col sm:flex-row items-center gap-4">
                   <button
                     onClick={() => setView("waitlist")}
-                    className="w-full sm:w-auto bg-[#39ff14] text-black px-12 py-5 rounded-sm font-black text-[11px] uppercase tracking-[0.2em] hover:bg-[#32e012] transition-all shadow-[0_20px_40px_-15px_rgba(57,255,20,0.25)] active:scale-95 flex items-center justify-center gap-3"
+                    className="w-full sm:w-auto bg-[#39ff14] text-black px-12 py-5 rounded-full font-black text-[11px] uppercase tracking-[0.2em] hover:bg-[#32e012] transition-all shadow-[0_20px_40px_-15px_rgba(57,255,20,0.25)] active:scale-95 flex items-center justify-center gap-3"
                   >
                     Join Hub <ChevronRight size={16} strokeWidth={3} />
                   </button>
-                  <button className="w-full sm:w-auto px-12 py-5 border border-zinc-800 rounded-sm font-bold text-[11px] uppercase tracking-[0.2em] text-zinc-400 hover:bg-zinc-900 transition-all">
+                  <button className="w-full sm:w-auto px-12 py-5 border border-zinc-800 rounded-full font-bold text-[11px] uppercase tracking-[0.2em] text-zinc-400 hover:bg-zinc-900 transition-all">
                     Read Whitepaper
                   </button>
                 </div>
@@ -442,7 +442,7 @@ const BlipAirdropHub = () => {
               </div>
               <button
                 type="submit"
-                className="w-full bg-[#39ff14] text-black py-4 rounded-sm font-black text-xs uppercase tracking-widest hover:bg-[#32e012] transition-all active:scale-[0.98]"
+                className="w-full bg-[#39ff14] text-black py-4 rounded-full font-black text-xs uppercase tracking-widest hover:bg-[#32e012] transition-all active:scale-[0.98]"
               >
                 Proceed to Connection
               </button>

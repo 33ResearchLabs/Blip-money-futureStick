@@ -173,7 +173,10 @@ const ContactOptionsSection = () => {
   ];
 
   return (
-    <section ref={ref} className="relative py-12 md:py-24 bg-black overflow-hidden">
+    <section
+      ref={ref}
+      className="relative py-12 md:py-24 bg-black overflow-hidden"
+    >
       {/* Background glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-white/5 blur-[150px] rounded-full" />
 
@@ -215,11 +218,7 @@ const ContactOptionsSection = () => {
                   }}
                   onMouseEnter={() => sounds.hover()}
                 >
-<<<<<<< HEAD
-                  <channel.icon className="w-5 h-5 text-white/60 mb-3 group-hover:scale-110 transition-transform" />
-=======
                   <channel.icon className="w-5 h-5 text-[#ff6b35] mb-3 group-hover:scale-110 transition-transform" />
->>>>>>> af6d712 (fix)
                   <h3 className="text-sm font-semibold text-white mb-1">
                     {channel.label}
                   </h3>
@@ -249,7 +248,7 @@ const ContactOptionsSection = () => {
                     <span className="text-[10px] uppercase tracking-widest text-white/40 block">
                       Digital Gateway
                     </span>
-                    <span className="text-white">contact@blip.money</span>
+                    <span className="text-white">support@blip.money</span>
                   </div>
                 </div>
                 {copied.email ? (
@@ -282,7 +281,7 @@ const ContactOptionsSection = () => {
                       Location
                     </span>
                     <span className="text-white">
-                      Blip Money, 9th Floor, JLT Cluster Y, Dubai
+                      Blip Money, JLT Cluster Y, Dubai
                     </span>
                   </div>
                 </div>
@@ -501,7 +500,7 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
           disabled={isSubmitting}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="w-full relative overflow-hidden group bg-[#ff6b35] text-black font-semibold py-5 rounded-xl transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-[0_0_60px_rgba(255,107,53,0.3)]"
+          className="w-full relative overflow-hidden group bg-[#ff6b35] text-black font-semibold py-5 rounded-full transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-[0_0_60px_rgba(255,107,53,0.3)]"
         >
           <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
           <span className="relative z-10 flex items-center justify-center gap-3 text-sm uppercase tracking-widest">
@@ -531,7 +530,10 @@ const VisualSection = () => {
   );
 
   return (
-    <section ref={ref} className="relative py-12 md:py-32 bg-black overflow-hidden">
+    <section
+      ref={ref}
+      className="relative py-12 md:py-32 bg-black overflow-hidden"
+    >
       <div className="max-w-7xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -591,18 +593,11 @@ const VisualSection = () => {
               border: "1px solid rgba(255, 255, 255, 0.1)",
             }}
           >
-<<<<<<< HEAD
             <h3 className="md:text-xl text-xs font-semibold text-white mb-2">
               Blip Money HQ
             </h3>
             <p className="text-white/60 md:text-sm text-[10px]">
-=======
-            <h3 className="text-xl font-semibold text-white mb-2">
-              Blip Money HQ
-            </h3>
-            <p className="text-white/60 text-sm">
->>>>>>> af6d712 (fix)
-              9th Floor, JLT Cluster Y, Dubai, UAE
+              JLT Cluster Y, Dubai, UAE
             </p>
           </motion.div>
         </motion.div>

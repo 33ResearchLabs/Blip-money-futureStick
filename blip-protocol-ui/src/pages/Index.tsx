@@ -9,11 +9,9 @@ import {
 import {
   ArrowRight,
   ArrowLeft,
-  ArrowDown,
   Wallet,
   Check,
   ChevronRight,
-  ChevronDown,
   Lock,
   Send,
   Signal,
@@ -31,6 +29,8 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SEO } from "@/components";
+import PhoneMockup from "@/components/Hero/PhoneMockup";
+import LockedAndSecuredMockup from "@/components/Hero/LockedAndSecuredMockup";
 
 /* ============================================
    2025/2026 DESIGN TRENDS INDEX PAGE
@@ -949,135 +949,8 @@ const HeroSection = () => {
                     background: `linear-gradient(${135 + mousePosition.x * 30}deg, rgba(255,255,255,0.08) 0%, transparent 50%, rgba(0,0,0,0.15) 100%)`,
                   }}
                 />
-                <div className=" mt-8 w-[200px] md:mt-0 sm:w-[250px] lg:w-[320px]  ">
-                  {/* Phone outer frame with enhanced shadow */}
-                  <div className="rounded-[36px] sm:rounded-[40px] md:rounded-[44px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[2px] sm:p-[2.5px] shadow-[0_25px_50px_rgba(0,0,0,0.5),0_0_40px_rgba(255,107,53,0.08)] md:shadow-[0_40px_80px_rgba(0,0,0,0.6),0_0_60px_rgba(255,107,53,0.1)]">
-                    <div className="rounded-[34px] sm:rounded-[38px] md:rounded-[42px] bg-[#0a0a0a] p-[1px] sm:p-[8px] md:p-[10px]">
-                      {/* Phone screen */}
-                      <div className="rounded-[28px] sm:rounded-[30px] md:rounded-[34px] bg-black overflow-hidden relative">
-                        {/* Dynamic Island */}
-                        <div className=" hidden md:block absolute top-3 left-1/2 -translate-x-1/2 z-10">
-                          <div className="w-28 h-7 rounded-full bg-black flex items-center justify-center">
-                            <div className="w-3 h-3 rounded-full bg-[#1a1a1a] mr-2" />
-                          </div>
-                        </div>
-
-                        {/* Status bar */}
-                        <div className="flex items-center justify-between px-8 pt-4 pb-2">
-                          <span className="text-[10px] md:text-[13px] text-white font-semibold">
-                            9:41
-                          </span>
-                          <div className="flex items-center gap-1.5">
-                            <Signal className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
-                            <Wifi className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
-                            <Battery className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
-                          </div>
-                        </div>
-
-                        {/* App content */}
-                        <div className="px-6 pb-3 sm:pb-10 pt-1 sm:pt-8 max-w-[360px] mx-auto">
-                          {/* App header */}
-                          <div className="flex items-center justify-between mb-2 sm:mb-8">
-                            <div className="flex items-center gap-3">
-                              <div className="w-6 h-6 sm:w-10 sm:h-10 rounded-xl bg-[#ff6b35] flex items-center justify-center">
-                                <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-black" />
-                              </div>
-                              <span className="text-sm sm:text-lg font-bold text-white">
-                                Blip
-                              </span>
-                            </div>
-                            <div className="w-6 h-6 sm:w-10 sm:h-10 rounded-full bg-white/5 flex items-center justify-center">
-                              <User className="w-4 h-4 sm:w-5 sm:h-5 text-white/50" />
-                            </div>
-                          </div>
-
-                          {/* Send label */}
-                          <div className="text-center mb-3 sm:mb-4">
-                            <span className="text-[9px] sm:text-sm text-white/40 uppercase tracking-wider">
-                              You send
-                            </span>
-                          </div>
-
-                          {/* Amount input */}
-                          <div className="text-center mb-3 sm:mb-8">
-                            <div className="flex items-center justify-center gap-2 sm:gap-3">
-                              <span className="text-sm sm:text-[clamp(2rem,6vw,3.75rem)] font-bold text-white leading-none">
-                                500
-                              </span>
-
-                              <div className="flex items-center gap-2 px-3 py-1 sm:py-2 rounded-xl bg-white/5">
-                                <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#2775CA] flex items-center justify-center">
-                                  <span className="text-white text-sm sm:text-xs font-bold">
-                                    $
-                                  </span>
-                                </div>
-                                <span className="text-sm sm:text-base md:text-lg text-white font-medium">
-                                  USDT
-                                </span>
-                                <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-white/40" />
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Divider with swap */}
-                          <div className="flex items-center justify-center my-2 sm:my-6">
-                            <div className="flex-1 h-px bg-white/10" />
-                            <div className="w-6 h-6 sm:w-10 sm:h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mx-3 sm:mx-4">
-                              <ArrowDown className="w-4 h-4 sm:w-5 sm:h-5 text-white/40" />
-                            </div>
-                            <div className="flex-1 h-px bg-white/10" />
-                          </div>
-
-                          {/* Receive preview */}
-                          <div className="rounded-2xl bg-white/[0.03] border border-white/[0.06] p-3 sm:p-5 mb-3 sm:mb-8">
-                            <div className="flex items-center justify-between mb-3">
-                              <span className="text-xs sm:text-sm text-white/40">
-                                They receive
-                              </span>
-                              <div className="flex items-baseline gap-2">
-                                <span className="text-sm md:text-2xl font-bold text-white">
-                                  1,835
-                                </span>
-                                <span className="text-sm sm:text-base md:text-lg text-white/50">
-                                  AED
-                                </span>
-                              </div>
-                            </div>
-
-                            <div className="flex items-center justify-between pt-3 border-t border-white/5">
-                              <span className="text-[10px] sm:text-xs text-white/30">
-                                Rate
-                              </span>
-                              <span className="text-[10px] sm:text-xs text-white/50">
-                                1 USDT = 3.67 AED
-                              </span>
-                            </div>
-                          </div>
-
-                          {/* CTA Button */}
-                          <motion.button
-                            className="w-full py-1 sm:py-5 rounded-2xl bg-[#ff6b35] text-black text-sm sm:text-base font-bold"
-                            animate={{
-                              boxShadow: [
-                                "0 0 30px rgba(255,107,53,0.3)",
-                                "0 0 60px rgba(255,107,53,0.5)",
-                                "0 0 30px rgba(255,107,53,0.3)",
-                              ],
-                            }}
-                            transition={{ duration: 2, repeat: Infinity }}
-                          >
-                            Continue
-                          </motion.button>
-                        </div>
-
-                        {/* Home indicator */}
-                        <div className="flex justify-center pb-2">
-                          <div className="w-32 h-1 bg-white/30 rounded-full" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                {/* Use the PhoneMockup Component */}
+                <PhoneMockup />
               </motion.div>
             </motion.div>
           </div>
@@ -1094,179 +967,7 @@ const HeroSection = () => {
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-16 xl:gap-20 items-center pt-16 sm:pt-20 lg:pt-0">
             {/* Left: Full iPhone Mockup */}
             <motion.div className="relative flex justify-center">
-              {/* Ambient glow behind phone - subtle neutral with hint of orange */}
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                {/* Primary subtle glow */}
-                <motion.div
-                  className="absolute w-[450px] h-[450px] rounded-full"
-                  style={{
-                    background:
-                      "radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 50%)",
-                    x: mousePosition.x * 10,
-                    y: mousePosition.y * 8,
-                  }}
-                />
-                {/* Secondary ring - very subtle */}
-                <div className="absolute w-[350px] h-[350px] rounded-full border border-white/[0.04]" />
-              </div>
-
-              {/* iPhone Frame with 3D Perspective Tilt */}
-              <motion.div
-                className="relative"
-                style={{
-                  x: mousePosition.x * -12,
-                  y: mousePosition.y * -10,
-                  rotateY: mousePosition.x * 6,
-                  rotateX: mousePosition.y * -4,
-                  transformPerspective: 1200,
-                  transformStyle: "preserve-3d",
-                }}
-                whileHover={{ scale: 1.02 }}
-                transition={{ type: "spring", stiffness: 200, damping: 25 }}
-              >
-                {/* Reflection effect */}
-                <motion.div
-                  className="absolute inset-0 rounded-[28px] sm:rounded-[36px] md:rounded-[44px] lg:rounded-[52px] pointer-events-none z-10"
-                  style={{
-                    background: `linear-gradient(${135 + mousePosition.x * 25}deg, rgba(255,255,255,0.06) 0%, transparent 50%, rgba(0,0,0,0.12) 100%)`,
-                  }}
-                />
-                <div className="w-[200px] sm:w-[250px] md:w-[290px] lg:w-[320px]">
-                  {/* Phone outer frame - subtle neutral shadow */}
-                  <div className="rounded-[28px] sm:rounded-[36px] md:rounded-[40px] lg:rounded-[44px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[1.5px] sm:p-[2px] md:p-[2.5px] shadow-[0_20px_40px_rgba(0,0,0,0.5)] sm:shadow-[0_25px_50px_rgba(0,0,0,0.5)] md:shadow-[0_40px_80px_rgba(0,0,0,0.6)]">
-                    <div className="rounded-[26px] sm:rounded-[34px] md:rounded-[38px] lg:rounded-[42px] bg-[#0a0a0a] p-[6px] sm:p-[8px] md:p-[10px] lg:p-[12px]">
-                      {/* Phone screen */}
-                      <div className="rounded-[22px] sm:rounded-[28px] md:rounded-[30px] lg:rounded-[34px] bg-black overflow-hidden relative">
-                        {/* Dynamic Island */}
-                        <div className="hidden sm:block absolute top-2 sm:top-3 left-1/2 -translate-x-1/2 z-10">
-                          <div className="w-24 h-6 sm:w-28 sm:h-7 rounded-full bg-black flex items-center justify-center">
-                            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#1a1a1a] mr-1.5 sm:mr-2" />
-                          </div>
-                        </div>
-
-                        {/* Status bar */}
-                        <div className="flex items-center justify-between px-4 sm:px-6 md:px-8 pt-3 sm:pt-3.5 md:pt-4 pb-1.5 sm:pb-2">
-                          <span className="text-[9px] sm:text-[11px] md:text-[13px] text-white font-semibold">
-                            9:41
-                          </span>
-                          <div className="flex items-center gap-1 sm:gap-1.5">
-                            <Signal className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 text-white" />
-                            <Wifi className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 text-white" />
-                            <Battery className="w-3 h-3 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
-                          </div>
-                        </div>
-
-                        {/* App content */}
-                        <div className="px-3 sm:px-4 md:px-5 lg:px-6 pb-6 sm:pb-8 md:pb-10 pt-4 sm:pt-6 md:pt-8">
-                          {/* App header */}
-                          <div className="flex items-center justify-between mb-4 sm:mb-5 md:mb-6">
-                            <button className="flex items-center gap-1.5 sm:gap-2 text-white/50">
-                              <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
-                              <span className="text-xs sm:text-sm">Back</span>
-                            </button>
-                            <span className="text-xs sm:text-sm font-medium text-white">
-                              Transaction
-                            </span>
-                          </div>
-
-                          {/* Lock animation */}
-                          <div className="flex justify-center mb-2 sm:mb-5 md:mb-6">
-                            <motion.div
-                              className="w-10 h-10 sm:w-18 sm:h-18 md:w-20 md:h-20 rounded-full bg-white/[0.03] border border-white/[0.08] flex items-center justify-center"
-                              animate={{ scale: [1, 1.02, 1] }}
-                              transition={{ duration: 3, repeat: Infinity }}
-                            >
-                              <Lock className="w-7 h-7 sm:w-7.5 sm:h-7.5 md:w-8 md:h-8 text-white/60" />
-                            </motion.div>
-                          </div>
-
-                          <div className="text-center mb-4 sm:mb-5 md:mb-6">
-                            <span className="text-xs sm:text-sm text-white/50 block mb-1.5 sm:mb-2">
-                              Funds Secured
-                            </span>
-                            <div className="text-sm sm:text-2xl md:text-3xl font-bold text-white">
-                              500 USDT
-                            </div>
-                            <span className="text-[10px] sm:text-xs text-white/40">
-                              ≈ $500.00
-                            </span>
-                          </div>
-
-                          {/* Status card */}
-                          <div className="rounded-lg sm:rounded-xl bg-white/[0.02] border border-white/[0.06] p-3 sm:p-3.5 md:p-4 mb-3 sm:mb-4 md:mb-5">
-                            <div className="flex items-center justify-between mb-2 sm:mb-2.5 md:mb-3">
-                              <span className="text-[10px] sm:text-xs text-white/40">
-                                Status
-                              </span>
-                              <div className="flex items-center gap-1.5 sm:gap-2">
-                                <motion.div
-                                  className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]"
-                                  animate={{ opacity: [1, 0.5, 1] }}
-                                  transition={{ duration: 2, repeat: Infinity }}
-                                />
-                                <span className="text-[10px] sm:text-xs text-[#ff6b35] font-medium">
-                                  In Escrow
-                                </span>
-                              </div>
-                            </div>
-                            <div className="flex items-center justify-between mb-3 sm:mb-4">
-                              <span className="text-xs sm:text-sm text-white/40">
-                                Contract
-                              </span>
-                              <span className="text-xs sm:text-sm text-white/60 font-mono">
-                                0x7a2...f91
-                              </span>
-                            </div>
-                            <div className="flex items-center justify-between">
-                              <span className="text-xs sm:text-sm text-white/40">
-                                Network
-                              </span>
-                              <div className="flex items-center gap-1.5 sm:gap-2">
-                                <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-gradient-to-r from-purple-500 to-blue-500" />
-                                <span className="text-xs sm:text-sm text-white/60">
-                                  Solana
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Progress */}
-                          <div className="flex items-center gap-1.5 sm:gap-2 mb-3 sm:mb-4">
-                            <div className="flex-1 h-0.5 sm:h-1 rounded-full bg-[#ff6b35]" />
-                            <div className="flex-1 h-0.5 sm:h-1 rounded-full bg-[#ff6b35]/30" />
-                            <div className="flex-1 h-0.5 sm:h-1 rounded-full bg-white/10" />
-                          </div>
-
-                          <div className="text-center">
-                            <div className="flex items-center justify-center gap-1.5 sm:gap-2">
-                              {[0, 1, 2].map((i) => (
-                                <motion.div
-                                  key={i}
-                                  className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-white/40"
-                                  animate={{ opacity: [0.3, 1, 0.3] }}
-                                  transition={{
-                                    duration: 1,
-                                    repeat: Infinity,
-                                    delay: i * 0.2,
-                                  }}
-                                />
-                              ))}
-                            </div>
-                            <span className="text-[10px] sm:text-xs text-white/30 mt-1.5 sm:mt-2 block">
-                              Finding best merchant...
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* Home indicator */}
-                        <div className="flex justify-center pb-1.5 sm:pb-2">
-                          <div className="w-24 sm:w-28 md:w-32 h-0.5 sm:h-1 bg-white/30 rounded-full" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
+              <LockedAndSecuredMockup />
             </motion.div>
 
             {/* Right: Text content */}
@@ -1504,7 +1205,7 @@ const HeroSection = () => {
                           </div>
                           <div>
                             <div className="text-2xl font-bold text-white">
-                              500 USDT
+                              5000 USDT
                             </div>
                             <div className="flex items-center gap-2 text-sm text-white/40">
                               <ArrowRight className="w-3 h-3" />
@@ -1624,7 +1325,7 @@ const HeroSection = () => {
                           {
                             name: "QuickSwap Pro",
                             rate: "3.672",
-                            profit: "+$1.85",
+                            profit: "+$185",
                             trades: "2,847",
                             time: "~30s",
                             best: true,
@@ -1633,7 +1334,7 @@ const HeroSection = () => {
                           {
                             name: "FastSettle UAE",
                             rate: "3.668",
-                            profit: "+$1.65",
+                            profit: "+$165",
                             trades: "1,923",
                             time: "~45s",
                             best: false,
@@ -1642,7 +1343,7 @@ const HeroSection = () => {
                           {
                             name: "DubaiExchange",
                             rate: "3.665",
-                            profit: "+$1.50",
+                            profit: "+$150",
                             trades: "3,102",
                             time: "~60s",
                             best: false,
@@ -1651,7 +1352,7 @@ const HeroSection = () => {
                           {
                             name: "GulfTrade",
                             rate: "3.660",
-                            profit: "+$1.25",
+                            profit: "+$125",
                             trades: "892",
                             time: "~90s",
                             best: false,
@@ -2146,7 +1847,7 @@ const HeroSection = () => {
               >
                 <Link
                   to="/waitlist"
-                  className="group flex items-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 bg-[#ff6b35] text-black rounded-xl sm:rounded-2xl font-bold text-sm sm:text-base shadow-[0_0_40px_rgba(255,107,53,0.3)] hover:shadow-[0_0_80px_rgba(255,107,53,0.5)] transition-all"
+                  className="group flex items-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 bg-[#ff6b35] text-black rounded-full font-bold text-sm sm:text-base shadow-[0_0_40px_rgba(255,107,53,0.3)] hover:shadow-[0_0_80px_rgba(255,107,53,0.5)] transition-all"
                 >
                   Join Waitlist
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -2158,7 +1859,7 @@ const HeroSection = () => {
               >
                 <Link
                   to="/how-it-works"
-                  className="flex items-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 text-white/50 hover:text-white font-semibold text-sm sm:text-base transition-colors border border-white/[0.1] rounded-xl sm:rounded-2xl hover:border-white/20 hover:bg-white/[0.03]"
+                  className="flex items-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 text-white/50 hover:text-white font-semibold text-sm sm:text-base transition-colors border border-white/[0.1] rounded-full hover:border-white/20 hover:bg-white/[0.03]"
                 >
                   Learn More
                 </Link>
@@ -2684,25 +2385,25 @@ const CashbackBanner = () => {
 
       {/* Floating coins animation */}
       {[...Array(15)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute  w-1 h-1 rounded-full bg-[#ff6b35]"
-            style={{
-              left: `${10 + Math.random() * 80}%`,
-              top: `${10 + Math.random() * 80}%`,
-            }}
-            animate={{
-              y: [0, -30, 0],
-              opacity: [0.1, 0.6, 0.1],
-              scale: [1, 1.5, 1],
-            }}
-            transition={{
-              duration: 3 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-            }}
-          />
-        ))}
+        <motion.div
+          key={i}
+          className="absolute  w-1 h-1 rounded-full bg-[#ff6b35]"
+          style={{
+            left: `${10 + Math.random() * 80}%`,
+            top: `${10 + Math.random() * 80}%`,
+          }}
+          animate={{
+            y: [0, -30, 0],
+            opacity: [0.1, 0.6, 0.1],
+            scale: [1, 1.5, 1],
+          }}
+          transition={{
+            duration: 3 + Math.random() * 2,
+            repeat: Infinity,
+            delay: Math.random() * 2,
+          }}
+        />
+      ))}
 
       {/* Horizontal animated lines */}
       <motion.div
@@ -2961,13 +2662,15 @@ const ProblemSection = () => {
 
         {/* Interactive Timeline */}
         <div className="relative">
-          {/* Central timeline line */}
+          {/* Central timeline line - static background */}
+          <div className="absolute left-8 md:left-1/2 md:-translate-x-px top-0 bottom-0 w-[2px] bg-gradient-to-b from-white/[0.06] via-[#ff6b35]/30 to-white/[0.06]" />
+
+          {/* Moving line following from top to bottom */}
           <motion.div
-            className="absolute left-8 md:left-1/2 md:-translate-x-px top-0 bottom-0 w-[2px] bg-gradient-to-b from-white/[0.06] via-[#ff6b35]/30 to-white/[0.06]"
-            initial={{ scaleY: 0, originY: 0 }}
-            whileInView={{ scaleY: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute left-8 md:left-1/2 md:-translate-x-px w-1 h-12 rounded-full bg-gradient-to-b from-transparent via-[#ff6b35] to-transparent shadow-[0_0_20px_rgba(255,107,53,0.8)]"
+            initial={{ top: "-50px" }}
+            animate={{ top: "100%" }}
+            transition={{ duration: 1.2, repeat: Infinity, ease: "linear" }}
           />
 
           {/* Timeline items */}
@@ -4550,11 +4253,12 @@ const PrivacySection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="bg-black p-6 sm:p-10 md:p-12 max-w-sm text-center md:text-left"
+            className="bg-black p-6 sm:p-10 md:p-12 max-w-sm w-full text-center"
           >
             <h3 className="text-xl font-medium text-white mb-6">Privacy</h3>
 
-            <ul className="space-y-4 mx-auto md:mx-0 max-w-xs">
+            {/* ALIGNED LIST */}
+            <ul className="space-y-4 mx-auto max-w-xs text-left pl-16 sm:pl-0">
               {[
                 "Wallet-only identity",
                 "No KYC for small transfers",
@@ -4562,13 +4266,18 @@ const PrivacySection = () => {
               ].map((item, i) => (
                 <li
                   key={i}
-                  className="flex items-start gap-3 text-sm text-white/40"
+                  className="grid grid-cols-[6px_1fr] gap-3 text-sm text-white/40"
                 >
                   <div className="w-1 h-1 rounded-full bg-white/30 mt-2" />
-                  {item}
+                  <span>{item}</span>
                 </li>
               ))}
             </ul>
+
+            {/* DESKTOP extra content */}
+            {/* <div className="hidden md:block mt-6 text-xs text-white/30">
+      Enterprise-grade privacy controls
+    </div> */}
           </motion.div>
 
           {/* Trust */}
@@ -4577,11 +4286,12 @@ const PrivacySection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="bg-black p-6 sm:p-10 md:p-12 max-w-sm text-center md:text-left"
+            className="bg-black p-6 sm:p-10 md:p-12 max-w-sm w-full text-center"
           >
             <h3 className="text-xl font-medium text-white mb-6">Trust</h3>
 
-            <ul className="space-y-4 mx-auto md:mx-0 max-w-xs">
+            {/* ALIGNED LIST */}
+            <ul className="space-y-4 mx-auto max-w-xs text-left pl-16 sm:pl-0">
               {[
                 "Everything on-chain",
                 "Settlement proofs",
@@ -4589,13 +4299,18 @@ const PrivacySection = () => {
               ].map((item, i) => (
                 <li
                   key={i}
-                  className="flex items-start gap-3 text-sm text-white/40"
+                  className="grid grid-cols-[6px_1fr] gap-3 text-sm text-white/40"
                 >
                   <div className="w-1 h-1 rounded-full bg-white/30 mt-2" />
-                  {item}
+                  <span>{item}</span>
                 </li>
               ))}
             </ul>
+
+            {/* DESKTOP extra content */}
+            {/* <div className="hidden md:block mt-6 text-xs text-white/30 ">
+      Verifiable trust architecture
+    </div> */}
           </motion.div>
         </div>
       </motion.div>
@@ -4783,7 +4498,7 @@ const EarlyAdopterBanner = () => {
               >
                 <Link
                   to="/waitlist"
-                  className="group flex items-center gap-3 px-10 py-5 bg-[#ff6b35] text-black rounded-2xl font-bold text-base shadow-[0_0_50px_rgba(255,107,53,0.3)] hover:shadow-[0_0_80px_rgba(255,107,53,0.5)] transition-all"
+                  className="group flex items-center gap-3 px-10 py-5 bg-[#ff6b35] text-black rounded-full font-bold text-base shadow-[0_0_50px_rgba(255,107,53,0.3)] hover:shadow-[0_0_80px_rgba(255,107,53,0.5)] transition-all"
                 >
                   <span>Claim Your Tokens</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

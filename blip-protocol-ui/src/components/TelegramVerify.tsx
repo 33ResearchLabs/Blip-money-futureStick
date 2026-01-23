@@ -53,7 +53,7 @@ export default function TelegramVerify({ onVerify, onClose, telegramLink }: Tele
           <div className="space-y-4">
             <button
               onClick={handleJoinChannel}
-              className="w-full py-3 px-6 rounded font-bold bg-blue-500 text-white hover:bg-blue-600 transition flex items-center justify-center gap-2"
+              className="w-full py-3 px-6 rounded-full font-bold bg-blue-500 text-white hover:bg-blue-600 transition flex items-center justify-center gap-2"
             >
               <MessageCircle className="w-5 h-5" />
               Join Telegram Channel
@@ -103,7 +103,7 @@ export default function TelegramVerify({ onVerify, onClose, telegramLink }: Tele
             <button
               onClick={handleVerify}
               disabled={verifying || !telegramUserId.trim()}
-              className="w-full py-3 px-6 rounded font-bold bg-[#39ff14] text-black hover:bg-[#2fe610] transition disabled:opacity-50 flex items-center justify-center gap-2"
+              className="w-full py-3 px-6 rounded-full font-bold bg-[#39ff14] text-black hover:bg-[#2fe610] transition disabled:opacity-50 flex items-center justify-center gap-2"
             >
               {verifying ? (
                 <>
