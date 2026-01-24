@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   Lock,
   ArrowLeft,
@@ -91,18 +91,6 @@ export default function LockedAndSecuredMockup() {
           amount: "750.00",
           currency: "USDT → AED",
           timestamp: "18s",
-        },
-        {
-          id: "BLP-3kL9...8vP1",
-          amount: "890.00",
-          currency: "USDT → AED",
-          timestamp: "25s",
-        },
-        {
-          id: "BLP-5nM3...7tQ4",
-          amount: "1,650.00",
-          currency: "USDT → AED",
-          timestamp: "31s",
         },
       ];
       setSettlements(initialSettlements);
@@ -250,7 +238,7 @@ export default function LockedAndSecuredMockup() {
                   </div>
 
                   {/* Status bar */}
-                  <div className="flex items-center justify-between px-8 pt-4 pb-2">
+                  <div className="flex items-center justify-between px-6 pt-4 pb-2">
                     <span className="text-[10px] md:text-[13px] text-white font-semibold">
                       9:41
                     </span>
@@ -298,10 +286,10 @@ export default function LockedAndSecuredMockup() {
                           Funds Secured
                         </span>
                         <div className="text-sm sm:text-2xl md:text-3xl font-bold text-white">
-                          5000 USDT
+                          5,000 USDT
                         </div>
                         <span className="text-[10px] sm:text-xs text-white/40">
-                          ≈ $5000.00
+                          ≈ $5,000.00
                         </span>
                       </div>
 
@@ -410,12 +398,12 @@ export default function LockedAndSecuredMockup() {
                         Start Transaction
                       </motion.button>
 
-                      <button
+                      {/* <button
                         onClick={() => setScreen("transaction")}
                         className="w-full text-center text-white/50 text-[9px] sm:text-xs"
                       >
                         ← Back
-                      </button>
+                      </button> */}
                     </motion.div>
                   )}
 
@@ -530,34 +518,65 @@ export default function LockedAndSecuredMockup() {
                       </div>
 
                       {/* Scrollable content area */}
-                      <div className="flex-1 overflow-y-auto pr-1">
+                      <div className="flex-1 pr-1">
                         {/* Order Details Card */}
-                        <div className="rounded-lg sm:rounded-xl bg-white/[0.02] border border-white/[0.06] p-2.5 sm:p-3 mb-3 sm:mb-4 space-y-2 sm:space-y-2.5">
-                          <DetailRow label="Order ID" value="#ESC-92847" />
+                        <div className="rounded-lg sm:rounded-xl bg-white/[0.02] border border-white/[0.06] p-2.5 sm:p-3 mb-3 sm:mb-4 space-y-2 sm:space-y-2.5 text-[10px] sm:text-xs text-white">
+                          {/* Order ID */}
+                          <div className="flex justify-between">
+                            <span className="text-white/40">Order ID</span>
+                            <span className="font-mono">#ESC-92847</span>
+                          </div>
+
                           <div className="border-t border-white/5" />
-                          <DetailRow label="Amount" value="5000 USDT" />
-                          <DetailRow label="Received" value="18350 AED" />
-                          <DetailRow label="Rate" value="1 USDT = 3.67 AED" />
+
+                          {/* Amounts */}
+                          <div className="flex justify-between">
+                            <span className="text-white/40">Amount</span>
+                            <span className="font-medium">5,000 USDT</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-white/40">Received</span>
+                            <span className="font-medium">18,350 AED</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-white/40">Rate</span>
+                            <span>1 USDT = 3.67 AED</span>
+                          </div>
+
                           <div className="border-t border-white/5" />
-                          <DetailRow label="Network" value="Solana" />
-                          <DetailRow label="Fee" value="$0.10" />
+
+                          {/* Network / Fee */}
+                          <div className="flex justify-between">
+                            <span className="text-white/40">Network</span>
+                            <span>Solana</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-white/40">Fee</span>
+                            <span>$0.10</span>
+                          </div>
+
                           <div className="border-t border-white/5" />
+
+                          {/* Status */}
                           <div className="flex items-center justify-between">
-                            <span className="text-[10px] sm:text-xs text-white/40">
-                              Status
-                            </span>
+                            <span className="text-white/40">Status</span>
                             <div className="flex items-center gap-1.5">
                               <CheckCircle className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#ff6b35]" />
-                              <span className="text-[10px] sm:text-xs text-[#ff6b35] font-medium">
+                              <span className="text-[#ff6b35] font-medium">
                                 Completed
                               </span>
                             </div>
                           </div>
-                          <DetailRow label="Date" value="Jan 23, 2026" />
+
+                          {/* Date */}
+                          <div className="flex justify-between">
+                            <span className="text-white/40">Date</span>
+                            <span>Jan 23, 2026</span>
+                          </div>
                         </div>
 
                         {/* Transaction ID */}
-                        <div className="rounded-lg sm:rounded-xl bg-white/[0.02] border border-white/[0.06] p-2.5 sm:p-3 mb-3 sm:mb-4">
+                        {/* <div className="rounded-lg sm:rounded-xl bg-white/[0.02] border border-white/[0.06] p-2.5 sm:p-3 mb-3 sm:mb-4">
                           <div className="flex items-center justify-between">
                             <span className="text-[10px] sm:text-xs text-white/40">
                               Transaction Hash
@@ -569,7 +588,7 @@ export default function LockedAndSecuredMockup() {
                               <Copy className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white/40" />
                             </div>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
 
                       <motion.button
@@ -586,12 +605,12 @@ export default function LockedAndSecuredMockup() {
                         View Settlements
                       </motion.button>
 
-                      <button
+                      {/* <button
                         onClick={() => setScreen("progress")}
                         className="w-full text-center text-white/50 text-[9px] sm:text-xs"
                       >
                         ← Back
-                      </button>
+                      </button> */}
                     </motion.div>
                   )}
 
@@ -622,36 +641,52 @@ export default function LockedAndSecuredMockup() {
                       </div>
 
                       {/* Scrollable settlements list */}
-                      <div className="flex-1 overflow-y-auto pr-1 space-y-2 sm:space-y-2.5">
-                        {settlements.map((settlement, index) => (
-                          <motion.div
-                            key={settlement.id + index}
-                            initial={{ opacity: 0, x: -8 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{
-                              duration: 0.01,
-                              ease: "linear",
-                            }}
-                            className="rounded-lg sm:rounded-xl bg-white/[0.02] border border-white/[0.06] p-2.5 sm:p-3 flex items-center justify-between"
-                          >
-                            <div className="flex items-center gap-2 sm:gap-2.5">
-                              <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-[#ff6b35]/10 flex items-center justify-center flex-shrink-0">
-                                <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-[#ff6b35]" />
-                              </div>
-                              <div>
-                                <div className="text-[10px] sm:text-xs text-white font-medium">
-                                  {settlement.amount} {settlement.currency}
+
+                      <div className="flex-1  pr-1 space-y-2 sm:space-y-2.5">
+                        <AnimatePresence initial={false}>
+                          {settlements.slice(2).map((settlement, index) => (
+                            <motion.div
+                              key={settlement.id} // ✅ stable key
+                              layout // ✅ smooth reflow
+                              initial={{ opacity: 0, x: -12 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              exit={{ opacity: 0, x: 12 }}
+                              transition={{
+                                duration: 0.25,
+                                ease: "easeOut",
+                              }}
+                              className="relative rounded-lg sm:rounded-xl bg-white/[0.02] border border-white/[0.06] p-2.5 sm:p-3 flex items-center justify-between"
+                            >
+                              {/* New item pulse (only top item) */}
+                              {index === 0 && (
+                                <motion.div
+                                  className="absolute inset-0 rounded-lg sm:rounded-xl bg-[#ff6b35]/10 pointer-events-none"
+                                  initial={{ opacity: 0 }}
+                                  animate={{ opacity: [0, 0.4, 0] }}
+                                  transition={{ duration: 1 }}
+                                />
+                              )}
+
+                              <div className="flex items-center gap-2 sm:gap-2.5">
+                                <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-[#ff6b35]/10 flex items-center justify-center flex-shrink-0">
+                                  <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-[#ff6b35]" />
                                 </div>
-                                <div className="text-[8px] sm:text-[10px] text-white/40">
-                                  {settlement.id}
+                                <div>
+                                  <div className="text-[10px] sm:text-xs text-white font-medium">
+                                    {settlement.amount} {settlement.currency}
+                                  </div>
+                                  <div className="text-[8px] sm:text-[10px] text-white/40 font-mono">
+                                    {settlement.id}
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                            <div className="text-[8px] sm:text-[10px] text-white/30">
-                              {settlement.timestamp}
-                            </div>
-                          </motion.div>
-                        ))}
+
+                              <div className="text-[8px] sm:text-[10px] text-white/30">
+                                {settlement.timestamp}
+                              </div>
+                            </motion.div>
+                          ))}
+                        </AnimatePresence>
                       </div>
 
                       <motion.button
@@ -668,12 +703,12 @@ export default function LockedAndSecuredMockup() {
                         New Transaction
                       </motion.button>
 
-                      <button
+                      {/* <button
                         onClick={() => setScreen("complete")}
                         className="w-full text-center text-white/50 text-[9px] sm:text-xs"
                       >
                         ← Back
-                      </button>
+                      </button> */}
                     </motion.div>
                   )}
 

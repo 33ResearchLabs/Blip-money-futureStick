@@ -14,18 +14,21 @@ import {
   Copy,
   BatteryFull,
 } from "lucide-react";
+import { a } from "node_modules/framer-motion/dist/types.d-DagZKalS";
 
 type Screen = "send" | "confirm" | "status" | "success" | "complete";
 
 export default function PhoneMockupInteractive() {
   const [screen, setScreen] = useState<Screen>("send");
-  const [amount, setAmount] = useState("5000");
+  const [amount, setAmount] = useState("5,000");
   const [statusProgress, setStatusProgress] = useState(0);
 
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  const receiveAmount = (Number(amount || 0) * 3.67).toFixed(0);
+  const receiveAmount = amount
+    ? (Number(amount) * 3.67).toLocaleString()
+    : "18,350";
 
   /* ---------------- Status progress animation ---------------- */
   useEffect(() => {
@@ -123,18 +126,18 @@ export default function PhoneMockupInteractive() {
                 {/* Phone screen */}
                 <div className="rounded-[28px] sm:rounded-[30px] md:rounded-[34px] bg-black overflow-y-auto overflow-x-hidden relative max-h-[500px] sm:max-h-[600px] md:max-h-[650px] scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
                   {/* Dynamic Island */}
-                  <div className=" hidden md:block absolute top-3 left-1/2 -translate-x-1/2 z-10">
+                  <div className=" hidden md:block absolute top-3 left-1/2 -translate-x-1/2 z-10 ">
                     <div className="w-28 h-7 rounded-full bg-black flex items-center justify-center">
-                      <div className="w-3 h-3 rounded-full bg-[#1a1a1a] mr-2" />
+                      <div className="w-3 h-3 rounded-full bg-[#1a1a1a] " />
                     </div>
                   </div>
 
                   {/* Status bar */}
-                  <div className="flex items-center justify-between px-8 pt-4 pb-2">
+                  <div className="flex items-center justify-between px-6 pt-4 pb-2">
                     <span className="text-[10px] md:text-[13px] text-white font-semibold">
                       9:41
                     </span>
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex items-center gap-1.5 ">
                       <Signal className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
                       <Wifi className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
                       <BatteryFull className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
@@ -169,7 +172,7 @@ export default function PhoneMockupInteractive() {
                             onChange={(e) =>
                               setAmount(e.target.value.replace(/\D/g, ""))
                             }
-                            className="bg-transparent text-white text-sm md:text-base lg:text-[clamp(1.5rem,6vw,2.75rem)] font-bold w-[80px] sm:w-[100px] md:w-[120px] text-center outline-none"
+                            className="bg-transparent text-white text-xl  md:text-3xl font-bold w-[80px] sm:w-[100px] md:w-[120px] text-center outline-none"
                           />
                           <Currency />
                         </div>
@@ -220,10 +223,7 @@ export default function PhoneMockupInteractive() {
                           <Row label="From" value="Alex" />
                           <Row label="To" value="John Smith" />
                           <Row label="Amount" value={`${amount} USDT`} />
-                          <Row
-                            label="They receive"
-                            value={`${receiveAmount} AED`}
-                          />
+                          <Row label="They receive" value={`${"18,350"} AED`} />
                           <Row label="Fee" value="$0.10" />
                         </Card>
 
@@ -243,7 +243,7 @@ export default function PhoneMockupInteractive() {
                           Send Now
                         </motion.button>
 
-                        <Back onClick={() => setScreen("send")} />
+                        {/* <Back onClick={() => setScreen("send")} /> */}
                       </motion.div>
                     )}
 
@@ -344,38 +344,77 @@ export default function PhoneMockupInteractive() {
                         className="px-6 pb-3 sm:pb-10 pt-1 sm:pt-8 flex flex-col min-h-[400px] sm:min-h-[500px] max-h-[400px] sm:max-h-[500px]"
                       >
                         <div className="flex items-center justify-between mb-3 sm:mb-4">
-                          <h3 className="text-white text-base sm:text-lg font-bold">
+                          <h3 className="text-white text-sm sm:text-lg font-bold">
                             Order Details
                           </h3>
                           <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#ff6b35]/10 flex items-center justify-center">
-                            <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-[#ff6b35]" />
+                            <FileText className="w-3 h-3 sm:w-5 sm:h-5 text-[#ff6b35]" />
                           </div>
                         </div>
 
                         {/* Scrollable content area */}
-                        <div className="flex-1 overflow-y-auto pr-1">
+                        <div className="flex-1  pr-1 ">
                           <Card>
-                            <Row label="Order ID" value="#BLP-78291" />
-                            <div className="border-t border-white/5 my-2 sm:my-3" />
-                            <Row label="From" value="Alex" />
-                            <Row label="To" value="John Smith" />
-                            <div className="border-t border-white/5 my-2 sm:my-3" />
-                            <Row label="Amount Sent" value={`${amount} USDT`} />
-                            <Row
-                              label="Amount Received"
-                              value={`${receiveAmount} AED`}
-                            />
-                            <Row
-                              label="Exchange Rate"
-                              value="1 USDT = 3.67 AED"
-                            />
-                            <Row label="Fee" value="$0.10" />
-                            <div className="border-t border-white/5 my-2 sm:my-3" />
-                            <Row label="Status" value="✓ Completed" />
-                            <Row label="Date" value="Jan 23, 2026" />
+                            <div className="space-y-2.5 sm:space-y-3 text-white text-[9px] sm:text-sm">
+                              {/* Order ID */}
+                              <div className="flex justify-between">
+                                <span className="text-white/60">Order ID</span>
+                                <span className="font-mono">#BLP-78291</span>
+                              </div>
+
+                              <div className="border-t border-white/5" />
+
+                              {/* Parties */}
+                              <div className="flex justify-between">
+                                <span className="text-white/60">From</span>
+                                <span>Alex</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-white/60">To</span>
+                                <span>John Smith</span>
+                              </div>
+
+                              <div className="border-t border-white/5" />
+
+                              {/* Amounts */}
+                              <div className="flex justify-between">
+                                <span className="text-white/60">
+                                  Amount Sent
+                                </span>
+                                <span>{amount} USDT</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-white/60">
+                                  Amount Received
+                                </span>
+                                <span>{"18,350"} AED</span>
+                              </div>
+                              {/* <div className="flex justify-between">
+        <span className="text-white/60">Exchange Rate</span>
+        <span>1 USDT = 3.67 AED</span>
+      </div> */}
+                              <div className="flex justify-between">
+                                <span className="text-white/60">Fee</span>
+                                <span>$0.10</span>
+                              </div>
+
+                              <div className="border-t border-white/5" />
+
+                              {/* Status */}
+                              <div className="flex justify-between">
+                                <span className="text-white/60">Status</span>
+                                <span className="text-emerald-400 font-medium">
+                                  ✓ Completed
+                                </span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-white/60">Date</span>
+                                <span>Jan 23, 2026</span>
+                              </div>
+                            </div>
                           </Card>
 
-                          <div className="rounded-lg sm:rounded-xl bg-white/[0.02] border border-white/[0.06] p-3 sm:p-4 mb-3 sm:mb-4">
+                          {/* <div className="rounded-lg sm:rounded-xl bg-white/[0.02] border border-white/[0.06] p-3 sm:p-4 mb-3 sm:mb-4">
                             <div className="flex items-center justify-between">
                               <span className="text-xs sm:text-sm text-white/40">
                                 Transaction ID
@@ -387,7 +426,7 @@ export default function PhoneMockupInteractive() {
                                 <Copy className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white/40" />
                               </div>
                             </div>
-                          </div>
+                          </div> */}
                         </div>
 
                         <motion.button
@@ -423,7 +462,11 @@ export const Header = ({ className = "" }) => (
   <div className={` ${className} group flex items-center gap-1`}>
     {/* Dot */}
     <motion.span
+<<<<<<< HEAD
       className={` relative inline-block w-4 h-4 rounded-full bg-[#ff6b35] overflow-hidden`}
+=======
+      className="relative inline-block w-2 h-2 rounded-full bg-[#ff6b35] overflow-hidden"
+>>>>>>> c2eb09c (update)
       style={{
         boxShadow: "0 0 16px rgba(255, 107, 53, 0.35)",
       }}
@@ -492,8 +535,8 @@ const Preview = ({ receiveAmount }: { receiveAmount: string }) => (
     <div className="flex items-center justify-between mb-3">
       <span className="text-xs sm:text-sm text-white/40">They receive</span>
       <div className="flex items-baseline gap-2">
-        <span className="text-sm md:text-2xl font-bold text-white">
-          {receiveAmount}
+        <span className="text-sm md:text-xl font-bold text-white">
+          {"18,350"}
         </span>
         <span className="text-sm sm:text-base md:text-lg text-white/50">
           AED

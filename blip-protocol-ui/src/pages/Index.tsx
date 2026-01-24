@@ -31,6 +31,7 @@ import { Link } from "react-router-dom";
 import { SEO } from "@/components";
 import PhoneMockup, { Header } from "@/components/Hero/PhoneMockup";
 import LockedAndSecuredMockup from "@/components/Hero/LockedAndSecuredMockup";
+import { MagneticWrapper } from "@/components/MagneticButton";
 
 /* ============================================
    2025/2026 DESIGN TRENDS INDEX PAGE
@@ -477,35 +478,69 @@ const HeroSection = () => {
   ];
 
   // Blipscan transactions for step 4
-  const blipscanTxs = [
-    {
-      id: "BLP-7x2K...9fN3",
-      from: "0x8a9...3f2",
-      to: "Ahmed M.",
-      amount: "$500.00",
-      status: "verified",
-      time: "2s",
-      hash: "4mK8...pQ2x",
-    },
-    {
-      id: "BLP-4mR8...2hL5",
-      from: "0x3b7...9k1",
-      to: "Sarah K.",
-      amount: "$1,200.00",
-      status: "verified",
-      time: "1.4s",
-      hash: "9nL3...rT7y",
-    },
-    {
-      id: "BLP-9pT4...6wM2",
-      from: "0x7c4...2m8",
-      to: "James O.",
-      amount: "$750.00",
-      status: "verified",
-      time: "1.8s",
-      hash: "2hF6...kM9z",
-    },
-  ];
+  const [blipscanTxs, setBlipscanTxs] = useState([
+  {
+    id: "BLP-7x2K...9fN3",
+    from: "0x8a9...3f2",
+    to: "Ahmed M.",
+    amount: "$500.00",
+    status: "verified",
+    time: "2s",
+    hash: "4mK8...pQ2x",
+  },
+  {
+    id: "BLP-4mR8...2hL5",
+    from: "0x3b7...9k1",
+    to: "Sarah K.",
+    amount: "$1,200.00",
+    status: "verified",
+    time: "1.4s",
+    hash: "9nL3...rT7y",
+  },
+  {
+    id: "BLP-9pT4...6wM2",
+    from: "0x7c4...2m8",
+    to: "James O.",
+    amount: "$750.00",
+    status: "verified",
+    time: "1.8s",
+    hash: "2hF6...kM9z",
+  },
+]);
+
+
+const names = ["Ahmed M.", "Sarah K.", "James O.", "Fatima A.", "Omar R."];
+
+const randomHex = () =>
+  `0x${Math.random().toString(16).slice(2, 6)}...${Math.random()
+    .toString(16)
+    .slice(2, 5)}`;
+
+const generateTx = () => ({
+  id: `BLP-${Math.random().toString(36).slice(2, 6)}...${Math.random()
+    .toString(36)
+    .slice(2, 5)}`,
+  from: randomHex(),
+  to: names[Math.floor(Math.random() * names.length)],
+  amount: `$${(Math.random() * 5000 + 5000).toFixed(2)}`,
+  status: "verified",
+  time: "now",
+  hash: `${Math.random().toString(36).slice(2, 6)}...${Math.random()
+    .toString(36)
+    .slice(2, 5)}`,
+});
+
+useEffect(() => {
+  const interval = setInterval(() => {
+    setBlipscanTxs((prev) => {
+      const next = [generateTx(), ...prev];
+      return next.slice(0, 8); // keep table clean (max 8 rows)
+    });
+  }, 1000); // every 3s (feels real, not spammy)
+
+  return () => clearInterval(interval);
+}, []);
+
 
   // Enhanced mouse parallax with hover detection
   useEffect(() => {
@@ -1630,15 +1665,23 @@ const HeroSection = () => {
                   </div>
 
                   {/* Transaction rows */}
-                  <div className="border border-white/[0.06] rounded-b-lg sm:rounded-b-xl overflow-x-auto">
+                  <div className="border border-white/[0.06] rounded-b-lg sm:rounded-b-xl ">
+                    <AnimatePresence initial={false}>
+ 
+
                     {blipscanTxs.map((tx, i) => (
                       <motion.div
-                        key={tx.id}
-                        className={`flex items-center justify-between gap-3 sm:gap-4 p-2.5 sm:p-3 md:p-4 lg:p-5 ${i !== blipscanTxs.length - 1 ? "border-b border-white/[0.04]" : ""} hover:bg-white/[0.02] transition-colors min-w-[500px] sm:min-w-0`}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5, delay: i * 0.1 }}
-                      >
+  key={tx.id}
+  layout
+  initial={{ opacity: 0, y: -10 }}
+  animate={{ opacity: 1, y: 0 }}
+  exit={{ opacity: 0, y: 10 }}
+  transition={{ duration: 0.35, ease: "easeOut" }}
+  className={`flex items-center justify-between gap-3 sm:gap-4 p-2.5 sm:p-3 md:p-4 lg:p-5
+    ${i !== blipscanTxs.length - 1 ? "border-b border-white/[0.04]" : ""}
+    hover:bg-white/[0.02] transition-colors  sm:min-w-0`}
+>
+
                         <div className="flex items-center gap-2 sm:gap-3 md:gap-4 lg:gap-6 flex-1 min-w-0">
                           <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0">
                             <Check className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-emerald-400" />
@@ -1686,6 +1729,8 @@ const HeroSection = () => {
                         </div>
                       </motion.div>
                     ))}
+                    </AnimatePresence>
+
                   </div>
 
                   {/* Footer - hidden as we clip the content */}
@@ -1779,7 +1824,7 @@ const HeroSection = () => {
 
           <div className="relative text-center max-w-3xl">
             {/* Success icon with enhanced glow */}
-            <motion.div
+            {/* <motion.div
               className="relative w-28 h-28 rounded-3xl bg-[#ff6b35]/10 border border-[#ff6b35]/20 flex items-center justify-center mx-auto mb-10"
               animate={{
                 borderColor: [
@@ -1796,14 +1841,14 @@ const HeroSection = () => {
               }}
               transition={{ duration: 3, repeat: Infinity }}
             >
-              {/* Inner glow */}
+              
               <motion.div
                 className="absolute inset-2 rounded-2xl bg-gradient-to-br from-[#ff6b35]/20 to-transparent"
                 animate={{ opacity: [0.3, 0.6, 0.3] }}
                 transition={{ duration: 2, repeat: Infinity }}
               />
               <Sparkles className="relative w-12 h-12 text-[#ff6b35]" />
-            </motion.div>
+            </motion.div> */}
 
             <motion.h2
               className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6 leading-[1.05] tracking-tight px-4"
@@ -1851,10 +1896,7 @@ const HeroSection = () => {
 
             {/* CTAs with enhanced hover effects */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 px-4">
-              <motion.div
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.98 }}
-              >
+              <MagneticWrapper strength={0.2}>
                 <Link
                   to="/waitlist"
                   className="group flex items-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 bg-[#ff6b35] text-black rounded-full font-bold text-sm sm:text-base shadow-[0_0_40px_rgba(255,107,53,0.3)] hover:shadow-[0_0_80px_rgba(255,107,53,0.5)] transition-all"
@@ -1862,18 +1904,16 @@ const HeroSection = () => {
                   Join Waitlist
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
-              </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.98 }}
-              >
+              </MagneticWrapper>
+
+              <MagneticWrapper strength={0.2}>
                 <Link
                   to="/how-it-works"
                   className="flex items-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 text-white/50 hover:text-white font-semibold text-sm sm:text-base transition-colors border border-white/[0.1] rounded-full hover:border-white/20 hover:bg-white/[0.03]"
                 >
                   Learn More
                 </Link>
-              </motion.div>
+              </MagneticWrapper>
             </div>
           </div>
         </motion.div>
@@ -1892,7 +1932,7 @@ const BlipscanExplorerSection = () => {
       id: "BLP-7x2K",
       from: "0x8a9...3f2",
       to: "Ahmed M.",
-      amount: "$500",
+      amount: "$5,750",
       time: "2s",
       new: false,
     },
@@ -1900,7 +1940,7 @@ const BlipscanExplorerSection = () => {
       id: "BLP-4mR8",
       from: "0x3b7...9k1",
       to: "Sarah K.",
-      amount: "$1,200",
+      amount: "$12,867",
       time: "5s",
       new: false,
     },
@@ -1908,7 +1948,7 @@ const BlipscanExplorerSection = () => {
       id: "BLP-9pT4",
       from: "0x7c4...2m8",
       to: "James O.",
-      amount: "$750",
+      amount: "$7,589",
       time: "8s",
       new: false,
     },
@@ -1936,7 +1976,8 @@ const BlipscanExplorerSection = () => {
         id: `BLP-${Math.random().toString(36).substr(2, 4)}`,
         from: addresses[Math.floor(Math.random() * addresses.length)],
         to: names[Math.floor(Math.random() * names.length)],
-        amount: `$${(Math.random() * 2000 + 100).toFixed(0)}`,
+        amount : `$${Math.floor(Math.random() * 10000 + 10000)}`,
+
         time: "Just now",
         new: true,
       };
