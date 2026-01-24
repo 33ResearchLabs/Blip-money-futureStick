@@ -169,7 +169,9 @@ const CountdownTimer = () => {
       if (distance > 0) {
         setTimeLeft({
           days: Math.floor(distance / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          hours: Math.floor(
+            (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+          ),
           minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
           seconds: Math.floor((distance % (1000 * 60)) / 1000),
         });
@@ -204,7 +206,9 @@ const CountdownTimer = () => {
             </span>
           </div>
           {i < timeUnits.length - 1 && (
-            <span className="text-2xl md:text-3xl text-white/20 font-light">:</span>
+            <span className="text-2xl md:text-3xl text-white/20 font-light">
+              :
+            </span>
           )}
         </React.Fragment>
       ))}
@@ -216,7 +220,9 @@ const CountdownTimer = () => {
 const ComingSoon = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -245,7 +251,7 @@ const ComingSoon = () => {
         setStatus("error");
       }
     },
-    [email, status]
+    [email, status],
   );
 
   return (
@@ -265,7 +271,8 @@ const ComingSoon = () => {
           <motion.div
             className="absolute top-[20%] right-[10%] w-[500px] h-[500px] rounded-full"
             style={{
-              background: "radial-gradient(circle, rgba(255,107,53,0.15) 0%, transparent 70%)",
+              background:
+                "radial-gradient(circle, rgba(255,107,53,0.15) 0%, transparent 70%)",
               x: mousePosition.x * -40,
               y: mousePosition.y * -30,
             }}
@@ -276,12 +283,18 @@ const ComingSoon = () => {
           <motion.div
             className="absolute bottom-[10%] left-[5%] w-[400px] h-[400px] rounded-full"
             style={{
-              background: "radial-gradient(circle, rgba(255,107,53,0.08) 0%, transparent 70%)",
+              background:
+                "radial-gradient(circle, rgba(255,107,53,0.08) 0%, transparent 70%)",
               x: mousePosition.x * 30,
               y: mousePosition.y * 20,
             }}
             animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.5, 0.3] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            transition={{
+              duration: 6,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 2,
+            }}
           />
 
           {/* Grid overlay */}
@@ -300,7 +313,7 @@ const ComingSoon = () => {
         <ParticleBackground />
 
         {/* Back button */}
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
@@ -313,7 +326,7 @@ const ComingSoon = () => {
             <ArrowLeft className="w-4 h-4 text-white/50 group-hover:text-[#ff6b35] transition-colors" />
             <span className="text-sm text-white/50 group-hover:text-white transition-colors">Back</span>
           </Link>
-        </motion.div>
+        </motion.div> */}
 
         {/* Main content */}
         <main className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 py-20">
@@ -358,8 +371,9 @@ const ComingSoon = () => {
               transition={{ duration: 1, delay: 0.5 }}
               className="text-lg md:text-xl text-white/50 max-w-2xl mx-auto leading-relaxed mb-12"
             >
-              We're building the future of decentralized payments. Be the first to experience
-              instant, borderless transactions with maximum privacy.
+              We're building the future of decentralized payments. Be the first
+              to experience instant, borderless transactions with maximum
+              privacy.
             </motion.p>
 
             {/* Countdown timer */}
@@ -369,7 +383,9 @@ const ComingSoon = () => {
               transition={{ duration: 1, delay: 0.6 }}
               className="mb-16"
             >
-              <p className="text-[10px] text-white/30 uppercase tracking-[0.3em] mb-6">Launching In</p>
+              <p className="text-[10px] text-white/30 uppercase tracking-[0.3em] mb-6">
+                Launching In
+              </p>
               <CountdownTimer />
             </motion.div>
 
@@ -386,8 +402,12 @@ const ComingSoon = () => {
                     <Bell className="w-5 h-5 text-[#ff6b35]" />
                   </div>
                   <div className="text-left">
-                    <h3 className="text-sm font-semibold text-white">Get Notified</h3>
-                    <p className="text-xs text-white/40">Be first to know when we launch</p>
+                    <h3 className="text-sm font-semibold text-white">
+                      Get Notified
+                    </h3>
+                    <p className="text-xs text-white/40">
+                      Be first to know when we launch
+                    </p>
                   </div>
                 </div>
 
@@ -416,7 +436,11 @@ const ComingSoon = () => {
                       <>
                         <motion.div
                           animate={{ rotate: 360 }}
-                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                          transition={{
+                            duration: 1,
+                            repeat: Infinity,
+                            ease: "linear",
+                          }}
                         >
                           <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full" />
                         </motion.div>
@@ -467,7 +491,9 @@ const ComingSoon = () => {
               transition={{ duration: 1, delay: 0.8 }}
               className="mt-12"
             >
-              <p className="text-[10px] text-white/30 uppercase tracking-[0.3em] mb-6">Join the Community</p>
+              <p className="text-[10px] text-white/30 uppercase tracking-[0.3em] mb-6">
+                Join the Community
+              </p>
               <div className="flex items-center justify-center gap-4">
                 <a
                   href="https://x.com/blipmoney_"
@@ -478,7 +504,9 @@ const ComingSoon = () => {
                   <div className="w-8 h-8 rounded-lg bg-white/[0.05] flex items-center justify-center group-hover:bg-[#ff6b35]/10 transition-colors">
                     <Twitter className="w-4 h-4 text-white/50 group-hover:text-[#ff6b35] transition-colors" />
                   </div>
-                  <span className="text-sm text-white/60 group-hover:text-white transition-colors">Follow on X</span>
+                  <span className="text-sm text-white/60 group-hover:text-white transition-colors">
+                    Follow on X
+                  </span>
                 </a>
 
                 <a
@@ -490,7 +518,9 @@ const ComingSoon = () => {
                   <div className="w-8 h-8 rounded-lg bg-white/[0.05] flex items-center justify-center group-hover:bg-[#ff6b35]/10 transition-colors">
                     <Send className="w-4 h-4 text-white/50 group-hover:text-[#ff6b35] transition-colors" />
                   </div>
-                  <span className="text-sm text-white/60 group-hover:text-white transition-colors">Join Telegram</span>
+                  <span className="text-sm text-white/60 group-hover:text-white transition-colors">
+                    Join Telegram
+                  </span>
                 </a>
               </div>
             </motion.div>
@@ -529,7 +559,9 @@ const ComingSoon = () => {
                   <div className="w-10 h-10 rounded-xl bg-[#ff6b35]/10 border border-[#ff6b35]/20 flex items-center justify-center mb-4 group-hover:bg-[#ff6b35]/20 transition-colors">
                     <feature.icon className="w-5 h-5 text-[#ff6b35]" />
                   </div>
-                  <h3 className="text-sm font-semibold text-white mb-2">{feature.title}</h3>
+                  <h3 className="text-sm font-semibold text-white mb-2">
+                    {feature.title}
+                  </h3>
                   <p className="text-xs text-white/40">{feature.desc}</p>
                 </motion.div>
               ))}

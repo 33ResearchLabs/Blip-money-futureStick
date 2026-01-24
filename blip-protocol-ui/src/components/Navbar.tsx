@@ -121,10 +121,12 @@ const CTAButton = ({
   to,
   children,
   variant = "primary",
+  className,
 }: {
   to: string;
   children: React.ReactNode;
   variant?: "primary" | "secondary";
+  className?: string;
 }) => {
   const isPrimary = variant === "primary";
 
@@ -135,9 +137,11 @@ const CTAButton = ({
         onClick={() => sounds.click()}
         onMouseEnter={() => sounds.hover()}
         className={`
+          ${className}
           group relative overflow-hidden inline-flex
           items-center justify-center px-5 py-2.5 rounded-full
           text-[16px] font-medium transition-all duration-300
+        
           ${
             isPrimary
               ? "bg-transparent text-white border border-white"
@@ -174,7 +178,7 @@ const LanguageSwitcher = () => {
   };
 
   return (
-    <div className="flex items-center p-1 rounded-md bg-[#18181B] border border-[rgba(255,255,255,0.06)]">
+    <div className="flex items-center p-1 rounded-full bg-[#18181B] border border-[rgba(255,255,255,0.06)]">
       {["en", "ar"].map((lng) => (
         <motion.button
           key={lng}
@@ -271,7 +275,7 @@ const MobileMenu = ({
             </div>
 
             <div className="p-4 border-t border-[rgba(255,255,255,0.06)] space-y-3">
-              <LanguageSwitcher />
+              {/* <LanguageSwitcher /> */}
 
               <div className="flex gap-2">
                 {isAuthenticated ? (
@@ -281,21 +285,27 @@ const MobileMenu = ({
                       sounds.click();
                       onClose();
                     }}
-                    className="flex-1 py-2.5 text-center rounded-lg text-[13px] font-medium bg-[#ff6b35] text-white"
+                    className="flex-1 py-2.5 text-center rounded-full text-[13px] font-medium bg-[#ff6b35] text-white"
                   >
                     Dashboard
                   </Link>
                 ) : (
-                  <Link
-                    to="/waitlist"
-                    onClick={() => {
-                      sounds.click();
-                      onClose();
-                    }}
-                    className="flex-1 py-2.5 text-center rounded-lg text-[13px] font-medium bg-[#ff6b35] text-white"
-                  >
-                    Join Waitlist
-                  </Link>
+                  <div className="flex flex-col w-full gap-2">
+                    <CTAButton
+                      to="/coming-soon"
+                      variant="secondary"
+                      className="w-full"
+                    >
+                      Join Waitlist
+                    </CTAButton>
+                    <CTAButton
+                      to="/waitlist"
+                      variant="primary"
+                      className="w-full"
+                    >
+                      Join Waitlist
+                    </CTAButton>
+                  </div>
                 )}
               </div>
             </div>

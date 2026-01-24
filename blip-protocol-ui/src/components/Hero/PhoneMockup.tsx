@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronDown,
@@ -41,7 +41,12 @@ export default function PhoneMockupInteractive() {
       setStatusProgress(0);
     }
   }, [screen]);
-
+  const handleScreen = useCallback(
+    (screen) => {
+      setScreen(screen);
+    },
+    [screen],
+  );
   /* ---------------- Auto-progression through screens ---------------- */
   useEffect(() => {
     const timings: Record<Screen, number> = {
@@ -111,7 +116,7 @@ export default function PhoneMockupInteractive() {
               background: `linear-gradient(${135 + mouse.x * 25}deg, rgba(255,255,255,0.06) 0%, transparent 50%, rgba(0,0,0,0.12) 100%)`,
             }}
           />
-          <div className=" mt-8 w-[200px] md:mt-0 sm:w-[250px] lg:w-[320px]  ">
+          <div className=" mt-8 w-[200px] md:mt-0 sm:w-[280px] md:w-[300px] lg:w-[320px]  ">
             {/* Phone outer frame */}
             <div className="rounded-[36px] sm:rounded-[40px] md:rounded-[44px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[2px] sm:p-[2.5px] shadow-[0_25px_50px_rgba(0,0,0,0.5),0_0_40px_rgba(255,107,53,0.08)] md:shadow-[0_40px_80px_rgba(0,0,0,0.6),0_0_60px_rgba(255,107,53,0.1)]">
               <div className="rounded-[34px] sm:rounded-[38px] md:rounded-[42px] bg-[#0a0a0a] p-[1px] sm:p-[8px] md:p-[10px]">
@@ -164,7 +169,7 @@ export default function PhoneMockupInteractive() {
                             onChange={(e) =>
                               setAmount(e.target.value.replace(/\D/g, ""))
                             }
-                            className="bg-transparent text-white text-sm sm:text-[clamp(2rem,6vw,2.75rem)] font-bold w-[80px] sm:w-[100px] md:w-[120px] text-center outline-none"
+                            className="bg-transparent text-white text-sm md:text-base lg:text-[clamp(1.5rem,6vw,2.75rem)] font-bold w-[80px] sm:w-[100px] md:w-[120px] text-center outline-none"
                           />
                           <Currency />
                         </div>
@@ -176,14 +181,20 @@ export default function PhoneMockupInteractive() {
                         <div className="flex-1" />
 
                         <motion.button
-                          onClick={() => setScreen("confirm")}
+                          onClick={() => handleScreen}
                           className="w-full py-2 sm:py-3 rounded-full bg-[#ff6b35] text-black font-bold text-sm sm:text-base"
+                          whileHover={{
+                            scale: 1.03,
+                            boxShadow: "0 0 20px rgba(255, 107, 53, 0.4)",
+                          }}
                           whileTap={{
                             scale: 0.93,
                             boxShadow: "0 0 30px rgba(255, 107, 53, 0.6)",
                           }}
-                          whileHover={{
-                            boxShadow: "0 0 20px rgba(255, 107, 53, 0.4)",
+                          transition={{
+                            type: "spring",
+                            stiffness: 400,
+                            damping: 20,
                           }}
                         >
                           Continue

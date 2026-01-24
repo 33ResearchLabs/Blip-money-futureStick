@@ -715,7 +715,7 @@ const HeroSection = () => {
                   delay: 0.2,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="flex items-center justify-center sm:justify-start gap-2 mb-8"
+                className="flex items-center justify-center lg:justify-start gap-2 mb-8"
               >
                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06]">
                   <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#ff8c5a] flex items-center justify-center">
@@ -2076,7 +2076,7 @@ const BlipscanExplorerSection = () => {
                     <motion.div
                       key={tx.id}
                       layout
-                      initial={{ opacity: 0, x: -20, scale: 0.95 }}
+                      initial={{ opacity: 0, x: -20, scale: 1 }}
                       animate={{
                         opacity: 1,
                         x: 0,
@@ -2085,7 +2085,7 @@ const BlipscanExplorerSection = () => {
                           ? "rgba(255, 107, 53, 0.05)"
                           : "rgba(255, 255, 255, 0.01)",
                       }}
-                      exit={{ opacity: 0, x: 20, scale: 0.95 }}
+                      exit={{ opacity: 0, x: 20, scale: 1 }}
                       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                       className="flex items-center justify-between px-4 py-3 rounded-lg border border-white/[0.04] hover:border-white/[0.08] hover:bg-white/[0.02] transition-all group"
                     >
@@ -2113,7 +2113,7 @@ const BlipscanExplorerSection = () => {
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-4 flex-shrink-0">
+                      <div className="flex items-center gap-4 md:gap-10 flex-shrink-0">
                         <div className="text-right hidden sm:block">
                           <div className="text-base font-semibold text-white">
                             {tx.amount}
