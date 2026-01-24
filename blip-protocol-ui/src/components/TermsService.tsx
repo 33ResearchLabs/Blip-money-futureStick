@@ -22,7 +22,7 @@ const TermsService = () => {
           </h1>
 
           <p className="text-gray-500 mb-6 text-sm">
-            Last updated: {new Date().toLocaleDateString()}
+            Last updated: {new Date().toLocaleDateString("en-GB")}
           </p>
 
           {/* Intro */}

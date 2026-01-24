@@ -250,14 +250,14 @@ export default function LockedAndSecuredMockup() {
                   </div>
 
                   {/* Status bar */}
-                  <div className="flex items-center justify-between px-4 sm:px-6 md:px-8 pt-3 sm:pt-3.5 md:pt-4 pb-1.5 sm:pb-2">
-                    <span className="text-[9px] sm:text-[11px] md:text-[13px] text-white font-semibold">
+                  <div className="flex items-center justify-between px-8 pt-4 pb-2">
+                    <span className="text-[10px] md:text-[13px] text-white font-semibold">
                       9:41
                     </span>
-                    <div className="flex items-center gap-1 sm:gap-1.5">
-                      <Signal className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 text-white" />
-                      <Wifi className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 text-white" />
-                      <BatteryFull className="w-3 h-3 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
+                    <div className="flex items-center gap-1.5">
+                      <Signal className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
+                      <Wifi className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
+                      <BatteryFull className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
                     </div>
                   </div>
 

@@ -29,7 +29,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SEO } from "@/components";
-import PhoneMockup from "@/components/Hero/PhoneMockup";
+import PhoneMockup, { Header } from "@/components/Hero/PhoneMockup";
 import LockedAndSecuredMockup from "@/components/Hero/LockedAndSecuredMockup";
 
 /* ============================================
@@ -780,14 +780,24 @@ const HeroSection = () => {
               </motion.div>
 
               {/* Scroll indicator - static */}
-              <div className="flex items-center justify-center lg:justify-start gap-3">
+              {/* Scroll indicator */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.5 }}
+                className="mt-16 flex items-center justify-center lg:justify-start gap-3"
+              >
                 <span className="text-white/30 text-xs uppercase tracking-[0.2em]">
                   Scroll to explore
                 </span>
                 <div className="w-6 h-10 rounded-full border border-white/20 flex justify-center pt-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]" />
+                  <motion.div
+                    className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]"
+                    animate={{ y: [0, 8, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  />
                 </div>
-              </div>
+              </motion.div>
             </div>
 
             {/* Right: Full iPhone Mockup with Global Network */}
@@ -3879,12 +3889,7 @@ const HowItWorksSection = () => {
         <div className="p-3 sm:p-4 h-full flex flex-col overflow-hidden">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <div className="w-7 sm:w-8 h-7 sm:h-8 rounded-lg bg-[#ff6b35] flex items-center justify-center">
-                <Zap className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-black" />
-              </div>
-              <span className="text-xs sm:text-sm font-semibold text-white">
-                Blip
-              </span>
+              <Header />
             </div>
             <div className="w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-white/5 flex items-center justify-center">
               <User className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-white/40" />

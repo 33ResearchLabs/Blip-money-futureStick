@@ -23,8 +23,8 @@ const Cookies = () => {
 
           {/* Intro */}
           <p className="text-gray-300 mb-8 leading-relaxed">
-            This Cookie Policy explains how Blip.money ("we," "us," or "our")
-            uses cookies and similar technologies on our website. This policy is
+            This Cookie Policy explains how Blip.money (we, us, our) uses
+            cookies and similar technologies on our website. This policy is
             designed to be transparent about our practices, in line with our
             core principle of user privacy and data minimization.
           </p>

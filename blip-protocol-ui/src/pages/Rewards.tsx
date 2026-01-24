@@ -29,6 +29,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SEO } from "@/components";
+import { Header } from "@/components/Hero/PhoneMockup";
 
 /* ============================================
    2025/2026 REWARDS PAGE
@@ -510,12 +511,7 @@ const HeroSection = () => {
                 {/* Header */}
                 <div className="flex items-center justify-between mb-2 sm:mb-8">
                   <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 sm:w-10 sm:h-10 rounded-xl bg-[#ff6b35] flex items-center justify-center">
-                      <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-black" />
-                    </div>
-                    <span className="text-sm sm:text-lg font-bold text-white">
-                      Blip
-                    </span>
+                    <Header />
                   </div>
                   <div className="w-6 h-6 sm:w-10 sm:h-10 rounded-full bg-white/5 flex items-center justify-center">
                     <User className="w-4 h-4 sm:w-5 sm:h-5 text-white/50" />

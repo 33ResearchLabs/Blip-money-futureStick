@@ -15,7 +15,7 @@ import {
   BatteryFull,
 } from "lucide-react";
 
-type Screen = "send" | "confirm" | "success" | "status" | "complete";
+type Screen = "send" | "confirm" | "status" | "success" | "complete";
 
 export default function PhoneMockupInteractive() {
   const [screen, setScreen] = useState<Screen>("send");
@@ -47,16 +47,16 @@ export default function PhoneMockupInteractive() {
     const timings: Record<Screen, number> = {
       send: 2500,
       confirm: 2000,
-      success: 2000,
       status: 3500,
+      success: 2000,
       complete: 2500,
     };
 
     const nextScreen: Record<Screen, Screen> = {
       send: "confirm",
-      confirm: "success",
-      success: "status",
-      status: "complete",
+      confirm: "status",
+      status: "success",
+      success: "complete",
       complete: "send",
     };
 
@@ -219,7 +219,7 @@ export default function PhoneMockupInteractive() {
                         <div className="flex-1" />
 
                         <motion.button
-                          onClick={() => setScreen("success")}
+                          onClick={() => setScreen("status")}
                           className="w-full py-2 sm:py-3 rounded-full bg-[#ff6b35] text-black font-bold text-sm sm:text-base mb-2 sm:mb-3"
                           whileTap={{
                             scale: 0.93,
@@ -233,34 +233,6 @@ export default function PhoneMockupInteractive() {
                         </motion.button>
 
                         <Back onClick={() => setScreen("send")} />
-                      </motion.div>
-                    )}
-
-                    {/* SUCCESS */}
-                    {screen === "success" && (
-                      <motion.div
-                        key="success"
-                        initial={{ scale: 0.9, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        className="px-6 pb-3 sm:pb-10 pt-6 sm:pt-8 text-center flex flex-col min-h-[400px] sm:min-h-[500px] justify-center"
-                      >
-                        <CheckCircle className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 mx-auto text-[#ff6b35]" />
-                        <h3 className="text-white text-base sm:text-lg font-bold mt-3 sm:mt-4">
-                          Transfer Sent
-                        </h3>
-                        <p className="text-white/50 text-xs sm:text-sm mb-4 sm:mb-6">
-                          {amount} USDT sent successfully
-                        </p>
-
-                        <div className="flex-1" />
-
-                        <motion.button
-                          onClick={() => setScreen("status")}
-                          className="w-full py-2 sm:py-3 rounded-full bg-[#ff6b35] text-black font-bold text-sm sm:text-base"
-                          whileTap={{ scale: 0.97 }}
-                        >
-                          View Order Status
-                        </motion.button>
                       </motion.div>
                     )}
 
@@ -313,8 +285,36 @@ export default function PhoneMockupInteractive() {
                         <div className="flex-1" />
 
                         <motion.button
-                          onClick={() => setScreen("complete")}
+                          onClick={() => setScreen("success")}
                           className="w-full py-2 sm:py-3  rounded-full bg-[#ff6b35] text-black font-bold text-sm sm:text-base"
+                          whileTap={{ scale: 0.97 }}
+                        >
+                          Continue
+                        </motion.button>
+                      </motion.div>
+                    )}
+
+                    {/* SUCCESS */}
+                    {screen === "success" && (
+                      <motion.div
+                        key="success"
+                        initial={{ scale: 0.9, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        className="px-6 pb-3 sm:pb-10 pt-6 sm:pt-8 text-center flex flex-col min-h-[400px] sm:min-h-[500px] justify-center"
+                      >
+                        <CheckCircle className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 mx-auto text-[#ff6b35]" />
+                        <h3 className="text-white text-base sm:text-lg font-bold mt-3 sm:mt-4">
+                          Transfer Sent
+                        </h3>
+                        <p className="text-white/50 text-xs sm:text-sm mb-4 sm:mb-6">
+                          {amount} USDT sent successfully
+                        </p>
+
+                        <div className="flex-1" />
+
+                        <motion.button
+                          onClick={() => setScreen("complete")}
+                          className="w-full py-2 sm:py-3 rounded-full bg-[#ff6b35] text-black font-bold text-sm sm:text-base"
                           whileTap={{ scale: 0.97 }}
                         >
                           View Details
@@ -387,7 +387,7 @@ export default function PhoneMockupInteractive() {
                           New Transaction
                         </motion.button>
 
-                        <Back onClick={() => setScreen("status")} />
+                        {/* <Back onClick={() => setScreen("success")} /> */}
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -408,17 +408,51 @@ export default function PhoneMockupInteractive() {
 
 /* ---------------- Small UI helpers ---------------- */
 
-const Header = () => (
-  <div className="flex items-center justify-between mb-4 sm:mb-5 md:mb-6">
-    <div className="flex items-center gap-1.5 sm:gap-2">
-      <div className="w-6 h-6 sm:w-10 sm:h-10 rounded-lg bg-[#ff6b35] flex items-center justify-center">
-        <Zap className="w-3 h-3 sm:w-5 sm:h-5 text-black" />
-      </div>
-      <span className="text-white font-bold text-sm sm:text-base">Blip</span>
-    </div>
-    <div className="w-6 h-6 sm:w-10 sm:h-10 rounded-full bg-white/10 flex items-center justify-center">
-      <User className="w-3 h-3 sm:w-5 sm:h-5 text-white/60" />
-    </div>
+export const Header = () => (
+  <div className=" group flex items-center gap-1">
+    {/* Dot */}
+    <motion.span
+      className="relative inline-block w-4 h-4 rounded-full bg-[#ff6b35] overflow-hidden"
+      style={{
+        boxShadow: "0 0 16px rgba(255, 107, 53, 0.35)",
+      }}
+      whileHover={{
+        scale: 1.15,
+        boxShadow: "0 0 28px rgba(255, 107, 53, 0.6)",
+      }}
+      whileTap={{ scale: 0.9 }}
+      transition={{ duration: 0.2 }}
+    >
+      {/* Shine sweep */}
+      <motion.span
+        className="absolute inset-0 opacity-0 group-hover:opacity-100"
+        style={{
+          background:
+            "linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.5) 50%, transparent 70%)",
+        }}
+        initial={{ x: "-100%" }}
+        whileHover={{ x: "100%" }}
+        transition={{ duration: 0.6, ease: "easeInOut" }}
+      />
+    </motion.span>
+
+    {/* Text */}
+    <motion.span
+      className="text-[9px] font-semibold tracking-tight leading-none flex items-center"
+      whileHover={{ scale: 1.02 }}
+      transition={{ duration: 0.2 }}
+    >
+      <span className="text-white">blip</span>
+      <span className="text-white">.</span>
+
+      <span className="relative text-[#ff6b35] ml-0.5">
+        money
+        <motion.span
+          className="absolute -bottom-1 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-[#ff6b35] to-transparent opacity-0 group-hover:opacity-100"
+          transition={{ duration: 0.3 }}
+        />
+      </span>
+    </motion.span>
   </div>
 );
 
