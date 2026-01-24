@@ -296,7 +296,7 @@ const MobileMenu = ({
                       variant="secondary"
                       className="w-full"
                     >
-                      Join Waitlist
+                      Coming-Soon
                     </CTAButton>
                     <CTAButton
                       to="/waitlist"
