@@ -462,11 +462,7 @@ export const Header = ({ className = "" }) => (
   <div className={` ${className} group flex items-center gap-1`}>
     {/* Dot */}
     <motion.span
-<<<<<<< HEAD
       className={` relative inline-block w-4 h-4 rounded-full bg-[#ff6b35] overflow-hidden`}
-=======
-      className="relative inline-block w-2 h-2 rounded-full bg-[#ff6b35] overflow-hidden"
->>>>>>> c2eb09c (update)
       style={{
         boxShadow: "0 0 16px rgba(255, 107, 53, 0.35)",
       }}
