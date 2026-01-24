@@ -34,6 +34,7 @@ import TermsService from "./components/TermsService";
 import Cookies from "./components/Cookies";
 import Gdpr from "./components/Gdpr";
 import TwoFactorAuth from "./components/TwoFactorAuth";
+import Merchant from "./pages/Merchant";
 
 const queryClient = new QueryClient();
 
@@ -61,6 +62,7 @@ const App = () => (
                   <Route path="/" element={<Index />} />
                   <Route path="/tokenomics" element={<BlipTokenomics />} />
                   <Route path="/rewards" element={<RewardsLanding />} />
+                  <Route path="/merchant" element={<Merchant />} />
                   <Route path="/uae" element={<UAELandingPage />} />
                   <Route path="/coming-soon" element={<ComingSoon />} />
                   <Route path="/how-it-works" element={<HowItWorksPage />} />

@@ -419,11 +419,11 @@ export default function PhoneMockupInteractive() {
 
 /* ---------------- Small UI helpers ---------------- */
 
-export const Header = () => (
-  <div className=" group flex items-center gap-1">
+export const Header = ({ className = "" }) => (
+  <div className={` ${className} group flex items-center gap-1`}>
     {/* Dot */}
     <motion.span
-      className="relative inline-block w-4 h-4 rounded-full bg-[#ff6b35] overflow-hidden"
+      className={` relative inline-block w-4 h-4 rounded-full bg-[#ff6b35] overflow-hidden`}
       style={{
         boxShadow: "0 0 16px rgba(255, 107, 53, 0.35)",
       }}

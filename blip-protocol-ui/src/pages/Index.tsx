@@ -2074,28 +2074,27 @@ const BlipscanExplorerSection = () => {
                 <AnimatePresence mode="popLayout">
                   {transactions.map((tx) => (
                     <motion.div
-  key={tx.id}
-  layout="position"
-  initial={{ opacity: 0, x: -10 }}
-  animate={{
-    opacity: 1,
-    x: 0,
-    backgroundColor: tx.new
-      ? "rgba(255, 107, 53, 0.05)"
-      : "rgba(255, 255, 255, 0.01)",
-  }}
-  exit={{ opacity: 0, x: 10 }}
-  transition={{
-    duration: 0.6,
-    ease: "easeOut",
-    layout: {
-      duration: 0.8,
-      ease: [0.22, 1, 0.36, 1], // very smooth
-    },
-  }}
-  className="flex items-center justify-between px-4 py-3 rounded-lg border border-white/[0.04]"
->
-
+                      key={tx.id}
+                      layout="position"
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{
+                        opacity: 1,
+                        x: 0,
+                        backgroundColor: tx.new
+                          ? "rgba(255, 107, 53, 0.05)"
+                          : "rgba(255, 255, 255, 0.01)",
+                      }}
+                      exit={{ opacity: 0, x: 10 }}
+                      transition={{
+                        duration: 0.6,
+                        ease: "easeOut",
+                        layout: {
+                          duration: 0.8,
+                          ease: [0.22, 1, 0.36, 1], // very smooth
+                        },
+                      }}
+                      className="flex items-center justify-between px-4 py-3 rounded-lg border border-white/[0.04]"
+                    >
                       <div className="flex items-center gap-4 flex-1 min-w-0">
                         <div className="w-8 h-8 rounded-lg bg-[#ff6b35]/10 border border-[#ff6b35]/20 flex items-center justify-center flex-shrink-0">
                           <Check
@@ -3340,7 +3339,7 @@ const AppShowcaseSection = () => {
    SECTION 6.5: MERCHANT DASHBOARD - Linear.app style
    ============================================ */
 
-const MerchantDashboardSection = () => {
+export const MerchantDashboardSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -3354,37 +3353,53 @@ const MerchantDashboardSection = () => {
   );
   const scale = useTransform(scrollYProgress, [0, 0.2], [0.95, 1]);
 
-  // Mock merchant order data
-const [newOrders, setNewOrders] = useState([
-  {
-    id: "ORD-7821",
-    user: "🦁",
-    amount: "500 USDT",
-    rate: "1,620 AED",
-    time: "2m",
-    country: "🇦🇪",
-  },
-  {
-    id: "ORD-7820",
-    user: "🐯",
-    amount: "1,200 USDT",
-    rate: "1,618 AED",
-    time: "5m",
-    country: "🇦🇪",
-  },
-  {
-    id: "ORD-7819",
-    user: "🦊",
-    amount: "250 USDT",
-    rate: "3.67 AED",
-    time: "8m",
-    country: "🇦🇪",
-  },
-]);
+  // Selected order state for detail view
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [activeTab, setActiveTab] = useState("inbox");
 
-const mockUsers = ["🦁", "🐯", "🦊", "🐼", "🐸"];
-const mockCountries = ["🇦🇪"]; // ✅ only AED region
-const mockRates = ["1,620 AED", "1,618 AED", "3.67 AED"];
+  // Mock merchant order data
+  const [newOrders, setNewOrders] = useState([
+    {
+      id: "ORD-7821",
+      user: "🦁",
+      userName: "Sarah M.",
+      amount: "500 USDT",
+      rate: "1,620 AED",
+      time: "2m",
+      country: "🇦🇪",
+      status: "new",
+      description: "Crypto to cash transfer - Dubai",
+      priority: "high",
+    },
+    {
+      id: "ORD-7820",
+      user: "🐯",
+      userName: "Ahmed K.",
+      amount: "1,200 USDT",
+      rate: "1,618 AED",
+      time: "5m",
+      country: "🇦🇪",
+      status: "new",
+      description: "Bulk exchange request",
+      priority: "medium",
+    },
+    {
+      id: "ORD-7819",
+      user: "🦊",
+      userName: "Lisa T.",
+      amount: "250 USDT",
+      rate: "3.67 AED",
+      time: "8m",
+      country: "🇦🇪",
+      status: "new",
+      description: "Quick cash out",
+      priority: "low",
+    },
+  ]);
+
+  const mockUsers = ["🦁", "🐯", "🦊", "🐼", "🐸"];
+  const mockCountries = ["🇦🇪"]; // ✅ only AED region
+  const mockRates = ["1,620 AED", "1,618 AED", "3.67 AED"];
 
   const generateOrder = () => {
     const id = `ORD-${Date.now()}-${Math.floor(Math.random() * 100)}`;
@@ -3399,8 +3414,6 @@ const mockRates = ["1,620 AED", "1,618 AED", "3.67 AED"];
     };
   };
 
-  
-
   // Auto-add orders every 6–10 seconds
 
   useEffect(() => {
@@ -3411,8 +3424,6 @@ const mockRates = ["1,620 AED", "1,618 AED", "3.67 AED"];
         if (prev.length >= 5) return prev;
         return [order, ...prev];
       });
-
-      
 
       showNotification("New order received", "Waiting for merchant action");
     }, 1000);
@@ -3433,8 +3444,6 @@ const mockRates = ["1,620 AED", "1,618 AED", "3.67 AED"];
     setNewOrders((prev) => prev.filter((o) => o.id !== order.id));
 
     setInEscrow((prev) => [{ ...order, progress: 60 }, ...prev]);
-
-    
 
     showNotification("Order moved to escrow", `${order.amount} secured`);
   };
@@ -3473,8 +3482,6 @@ const mockRates = ["1,620 AED", "1,618 AED", "3.67 AED"];
         const [order, ...rest] = prev;
 
         setInEscrow((escrow) => [{ ...order, progress: 40 }, ...escrow]);
-
-        
 
         showNotification(
           "Order auto-matched",
@@ -3680,7 +3687,6 @@ const mockRates = ["1,620 AED", "1,618 AED", "3.67 AED"];
                       {newOrders.slice(0, 4).map((order, i) => (
                         <motion.div
                           key={order.id}
-                          
                           initial="initial"
                           animate="initial"
                           exit="exit"
@@ -3762,9 +3768,7 @@ const mockRates = ["1,620 AED", "1,618 AED", "3.67 AED"];
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center gap-2">
                             <span className="text-lg">{order.user}</span>
-                            <span
-                              className={`text-xs font-mono text-white/40`}
-                            >
+                            <span className={`text-xs font-mono text-white/40`}>
                               {order.id}
                             </span>
                           </div>
@@ -4048,7 +4052,7 @@ const HowItWorksSection = () => {
         <div className="p-3 sm:p-4 h-full flex flex-col overflow-hidden">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <Header />
+              <Header className="text-xl w-28" />
             </div>
             <div className="w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-white/5 flex items-center justify-center">
               <User className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-white/40" />
@@ -4077,7 +4081,7 @@ const HowItWorksSection = () => {
               <span>Best rate locked</span>
             </div>
           </div>
-          <div className="w-full py-2.5 sm:py-3 rounded-xl bg-[#ff6b35] text-center mt-3 flex-shrink-0">
+          <div className="w-full py-2.5 sm:py-3 rounded-full bg-[#ff6b35] text-center mt-3 flex-shrink-0">
             <span className="text-xs sm:text-sm font-semibold text-black">
               Continue
             </span>

@@ -79,9 +79,10 @@ interface SEOProps {
   title: string;
   description: string;
   canonical: string;
+  keywords?:string
 }
 
-export default function SEO({ title, description, canonical }: SEOProps) {
+export default function SEO({ title, description, canonical, keywords }: SEOProps) {
   return (
     <Helmet>
       <title>{title}</title>
