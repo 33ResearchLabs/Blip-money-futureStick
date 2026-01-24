@@ -1948,7 +1948,7 @@ const BlipscanExplorerSection = () => {
         }));
         return updated;
       });
-    }, 3000);
+    }, 2000);
 
     return () => clearInterval(interval);
   }, []);
@@ -2075,19 +2075,27 @@ const BlipscanExplorerSection = () => {
                   {transactions.map((tx) => (
                     <motion.div
                       key={tx.id}
-                      layout
+                      layout="position"
                       initial={{ opacity: 0, x: -20, scale: 1 }}
                       animate={{
                         opacity: 1,
                         x: 0,
-                        scale: 1,
                         backgroundColor: tx.new
                           ? "rgba(255, 107, 53, 0.05)"
                           : "rgba(255, 255, 255, 0.01)",
                       }}
                       exit={{ opacity: 0, x: 20, scale: 1 }}
-                      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                    
                       className="flex items-center justify-between px-4 py-3 rounded-lg border border-white/[0.04] hover:border-white/[0.08] hover:bg-white/[0.02] transition-all group"
+                     
+                      transition={{
+                        duration: 0.6,
+                        ease: "easeOut",
+                        layout: {
+                          duration: 0.8,
+                          ease: [0.22, 1, 0.36, 1], // very smooth
+                        },
+                      }}
                     >
                       <div className="flex items-center gap-4 flex-1 min-w-0">
                         <div className="w-8 h-8 rounded-lg bg-[#ff6b35]/10 border border-[#ff6b35]/20 flex items-center justify-center flex-shrink-0">
@@ -2525,12 +2533,24 @@ const CashbackBanner = () => {
               className="flex flex-col items-center gap-4"
             >
               {/* Animated percentage circle */}
-              <motion.div
-                className="relative w-28 h-28"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              >
-                <svg className="w-full h-full -rotate-90">
+              {/* Percentage circle */}
+              <div className="relative w-28 h-28">
+                {/* ROTATING OUTER RING */}
+                <motion.svg
+                  className="w-full h-full -rotate-90"
+                  initial={{ rotate: 0 }}
+                  animate={{ rotate: 360 }}
+                  transition={{
+                    duration: 3, // ⬅ slower & calm
+                    repeat: Infinity,
+                    repeatType: "loop",
+                    ease: "linear",
+                  }}
+                  style={{
+                    transformOrigin: "50% 50%",
+                    willChange: "transform",
+                  }}
+                >
                   <circle
                     cx="56"
                     cy="56"
@@ -2539,6 +2559,7 @@ const CashbackBanner = () => {
                     stroke="rgba(255,255,255,0.05)"
                     strokeWidth="4"
                   />
+
                   <motion.circle
                     cx="56"
                     cy="56"
@@ -2553,6 +2574,7 @@ const CashbackBanner = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 1.5, delay: 0.5 }}
                   />
+
                   <defs>
                     <linearGradient
                       id="gradient"
@@ -2565,11 +2587,13 @@ const CashbackBanner = () => {
                       <stop offset="100%" stopColor="#ff8c50" />
                     </linearGradient>
                   </defs>
-                </svg>
+                </motion.svg>
+
+                {/* STATIC CENTER TEXT */}
                 <div className="absolute inset-0 flex items-center justify-center">
                   <span className="text-2xl font-bold text-white">5%</span>
                 </div>
-              </motion.div>
+              </div>
 
               <Link
                 to="/rewards"
@@ -3332,7 +3356,7 @@ const MerchantDashboardSection = () => {
   const scale = useTransform(scrollYProgress, [0, 0.2], [0.95, 1]);
 
   // Mock merchant order data
-  const newOrders = [
+  const [newOrders, setNewOrders] = useState([
     {
       id: "ORD-7821",
       user: "🦁",
@@ -3357,50 +3381,169 @@ const MerchantDashboardSection = () => {
       time: "8m",
       country: "🇦🇪",
     },
-  ];
+  ]);
 
-  const inEscrow = [
-    {
-      id: "ORD-7815",
-      user: "🐻",
-      amount: "800 USDT",
-      rate: "₦1,615",
-      progress: 75,
-      country: "🇳🇬",
-    },
-    {
-      id: "ORD-7812",
-      user: "🐼",
-      amount: "2,000 USDT",
-      rate: "3.68 AED",
-      progress: 40,
-      country: "🇦🇪",
-    },
-  ];
+  const mockUsers = ["🦁", "🐯", "🦊", "🐼", "🐸"];
+  const mockCountries = ["🇳🇬", "🇦🇪"];
+  const mockRates = ["₦1,620", "₦1,618", "3.67 AED"];
 
-  const completed = [
-    {
-      id: "ORD-7810",
-      user: "🦅",
-      amount: "350 USDT",
-      rate: "₦1,620",
-      time: "12m ago",
+  const generateOrder = () => {
+    const id = `ORD-${Date.now()}-${Math.floor(Math.random() * 100)}`;
+
+    return {
+      id,
+      user: mockUsers[Math.floor(Math.random() * mockUsers.length)],
+      amount: `${Math.floor(100 + Math.random() * 1500)} USDT`,
+      rate: mockRates[Math.floor(Math.random() * mockRates.length)],
+      time: "just now",
+      country: mockCountries[Math.floor(Math.random() * mockCountries.length)],
+    };
+  };
+
+  const [highlightedId, setHighlightedId] = useState(null);
+
+  const highlightOrder = (id) => {
+    setHighlightedId(id);
+
+    setTimeout(() => {
+      setHighlightedId(null);
+    }, 5000); // highlight duration
+  };
+
+  // Auto-add orders every 6–10 seconds
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const order = generateOrder();
+
+      setNewOrders((prev) => {
+        if (prev.length >= 5) return prev;
+        return [order, ...prev];
+      });
+
+      highlightOrder(order.id); // 👈 highlight new order
+
+      showNotification("New order received", "Waiting for merchant action");
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const [inEscrow, setInEscrow] = useState([]);
+  const [completed, setCompleted] = useState([]);
+
+  const [notification, setNotification] = useState({
+    visible: false,
+    title: "",
+    desc: "",
+  });
+
+  const acceptOrder = (order) => {
+    setNewOrders((prev) => prev.filter((o) => o.id !== order.id));
+
+    setInEscrow((prev) => [{ ...order, progress: 60 }, ...prev]);
+
+    highlightOrder(order.id); // 👈 escrow highlight
+
+    showNotification("Order moved to escrow", `${order.amount} secured`);
+  };
+
+  const releaseOrder = (order) => {
+    setInEscrow((prev) => prev.filter((o) => o.id !== order.id));
+    setCompleted((prev) => [...prev, order]);
+
+    showNotification("Order completed", `${order.amount} settled`);
+  };
+
+  const showNotification = (title, desc) => {
+    setNotification({
+      visible: true,
+      title,
+      desc,
+    });
+
+    setTimeout(() => {
+      setNotification((prev) => ({
+        ...prev,
+        visible: false,
+      }));
+    }, 2000); // 👈 2 seconds
+  };
+
+  // Auto-move New → Escrow (random)
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setNewOrders((prev) => {
+        if (prev.length === 0) return prev;
+
+        // 30% chance
+        if (Math.random() > 0.3) return prev;
+
+        const [order, ...rest] = prev;
+
+        setInEscrow((escrow) => [{ ...order, progress: 40 }, ...escrow]);
+
+        highlightOrder(order.id);
+
+        showNotification(
+          "Order auto-matched",
+          `${order.amount} moved to escrow`,
+        );
+
+        return rest;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  //  Auto-progress Escrow → Completed
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setInEscrow((prev) => {
+        if (prev.length === 0) return prev;
+
+        const updated = prev.map((order) =>
+          order.progress < 100
+            ? { ...order, progress: order.progress + 20 }
+            : order,
+        );
+
+        const completedOrders = updated.filter((o) => o.progress >= 100);
+        const remaining = updated.filter((o) => o.progress < 100);
+
+        if (completedOrders.length > 0) {
+          setCompleted((done) => [
+            ...completedOrders.map((o) => ({
+              ...o,
+              time: "just settled",
+            })),
+            ...done,
+          ]);
+
+          showNotification(
+            "Auto settlement completed",
+            `${completedOrders[0].amount} released`,
+          );
+        }
+
+        return remaining;
+      });
+    }, 2000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const transferVariants = {
+    initial: { scale: 1, opacity: 1 },
+    press: { scale: 0.96 },
+    exit: {
+      opacity: 0,
+      y: -20,
+      scale: 0.9,
+      transition: { duration: 0.25, ease: "easeInOut" },
     },
-    {
-      id: "ORD-7808",
-      user: "🐨",
-      amount: "1,500 USDT",
-      rate: "3.67 AED",
-      time: "28m ago",
-    },
-    {
-      id: "ORD-7805",
-      user: "🦋",
-      amount: "600 USDT",
-      rate: "₦1,618",
-      time: "45m ago",
-    },
-  ];
+  };
 
   return (
     <section
@@ -3541,48 +3684,69 @@ const MerchantDashboardSection = () => {
                       {newOrders.length}
                     </span>
                   </div>
-                  <div className="p-3 space-y-2">
-                    {newOrders.map((order, i) => (
-                      <motion.div
-                        key={order.id}
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: 0.4 + i * 0.1 }}
-                        className="group relative p-3 rounded-lg bg-[#111111] border border-white/[0.04] hover:border-[#ff6b35]/30 transition-all cursor-pointer"
-                      >
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center gap-2">
-                            <span className="text-lg">{order.user}</span>
-                            <span className="text-xs font-mono text-white/40">
-                              {order.id}
-                            </span>
-                          </div>
-                          <span className="text-lg">{order.country}</span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <div className="text-sm font-semibold text-white">
-                              {order.amount}
+                  <div className="p-3 space-y-2 max-h-[420px] overflow-y-auto scrollbar-thin scrollbar-thumb-white/10">
+                    <AnimatePresence initial={false}>
+                      {newOrders.slice(0, 4).map((order, i) => (
+                        <motion.div
+                          key={order.id}
+                          variants={transferVariants}
+                          initial="initial"
+                          animate="initial"
+                          exit="exit"
+                          whileTap="press"
+                          layout
+                          transition={{
+                            type: "spring",
+                            stiffness: 300,
+                            damping: 25,
+                          }}
+                          className={`group relative p-3 rounded-lg border transition-colors duration-300
+    ${
+      highlightedId === order.id
+        ? "bg-[#ff6b35] text-black"
+        : "bg-[#111111] border-white/[0.04]"
+    }`}
+                        >
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                              <span className="text-lg">{order.user}</span>
+                              <span
+                                className={`text-xs font-mono ${
+                                  highlightedId === order.id
+                                    ? "text-black/70"
+                                    : "text-white/40"
+                                }`}
+                              >
+                                {order.id}
+                              </span>
                             </div>
-                            <div className="text-[11px] text-white/40">
-                              @ {order.rate}
+                            <span className="text-lg">{order.country}</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <div className="text-sm font-semibold text-white">
+                                {order.amount}
+                              </div>
+                              <div className="text-[11px] text-white/40">
+                                @ {order.rate}
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-[10px] text-white/30">
+                                {order.time}
+                              </span>
+                              <motion.div
+                                className="px-2 py-1 rounded-md text-[10px] font-medium bg-[#ff6b35] text-black opacity-0 group-hover:opacity-100 transition-opacity"
+                                whileHover={{ scale: 1.05 }}
+                                onClick={() => acceptOrder(order)}
+                              >
+                                Accept
+                              </motion.div>
                             </div>
                           </div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-[10px] text-white/30">
-                              {order.time}
-                            </span>
-                            <motion.div
-                              className="px-2 py-1 rounded-md text-[10px] font-medium bg-[#ff6b35] text-black opacity-0 group-hover:opacity-100 transition-opacity"
-                              whileHover={{ scale: 1.05 }}
-                            >
-                              Accept
-                            </motion.div>
-                          </div>
-                        </div>
-                      </motion.div>
-                    ))}
+                        </motion.div>
+                      ))}
+                    </AnimatePresence>
                   </div>
                 </div>
 
@@ -3603,20 +3767,31 @@ const MerchantDashboardSection = () => {
                       {inEscrow.length}
                     </span>
                   </div>
-                  <div className="p-3 space-y-2">
-                    {inEscrow.map((order, i) => (
+                  <div className="p-3 space-y-2 max-h-[420px] overflow-y-auto scrollbar-thin scrollbar-thumb-white/10">
+                    {inEscrow.slice(0, 4).map((order, i) => (
                       <motion.div
                         key={order.id}
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.5 + i * 0.1 }}
-                        className="p-3 rounded-lg bg-[#111111] border border-yellow-500/10"
+                        className={`p-3 rounded-lg border transition-colors duration-300
+  ${
+    highlightedId === order.id
+      ? "bg-[#ff6b35] text-black"
+      : "bg-[#111111] border-yellow-500/10"
+  }`}
                       >
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center gap-2">
                             <span className="text-lg">{order.user}</span>
-                            <span className="text-xs font-mono text-white/40">
+                            <span
+                              className={`text-xs font-mono ${
+                                highlightedId === order.id
+                                  ? "text-black/70"
+                                  : "text-white/40"
+                              }`}
+                            >
                               {order.id}
                             </span>
                           </div>
@@ -3654,6 +3829,13 @@ const MerchantDashboardSection = () => {
                             />
                           </div>
                         </div>
+                        <motion.div
+                          whileHover={{ scale: 1.05 }}
+                          onClick={() => releaseOrder(order)}
+                          className="mt-3 text-center px-3 py-1.5 rounded-md text-[10px] font-medium bg-yellow-500 text-black cursor-pointer"
+                        >
+                          Release
+                        </motion.div>
                       </motion.div>
                     ))}
                   </div>
@@ -3672,8 +3854,8 @@ const MerchantDashboardSection = () => {
                       {completed.length}
                     </span>
                   </div>
-                  <div className="p-3 space-y-2">
-                    {completed.map((order, i) => (
+                  <div className="p-3 space-y-2 max-h-[420px] overflow-y-auto scrollbar-thin scrollbar-thumb-white/10">
+                    {completed.slice(0, 4).map((order, i) => (
                       <motion.div
                         key={order.id}
                         initial={{ opacity: 0, x: -20 }}
@@ -3793,29 +3975,33 @@ const MerchantDashboardSection = () => {
           </div>
 
           {/* Floating notification */}
-          <motion.div
-            initial={{ opacity: 0, x: 50, y: -20 }}
-            whileInView={{ opacity: 1, x: 0, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 1 }}
-            className="absolute right-6 top-24 hidden lg:block"
-          >
-            <div className="p-3 pr-4 rounded-xl bg-[#111111] border border-white/[0.08] shadow-xl">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#ff6b35]/10 flex items-center justify-center">
-                  <span className="text-sm">🔔</span>
-                </div>
-                <div>
-                  <div className="text-xs font-medium text-white">
-                    New order matched!
+          <AnimatePresence>
+            {notification.visible && (
+              <motion.div
+                initial={{ opacity: 0, x: 40, y: -10 }}
+                animate={{ opacity: 1, x: 0, y: 0 }}
+                exit={{ opacity: 0, x: 40, y: -10 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="absolute right-6 top-24 hidden lg:block z-50"
+              >
+                <div className="p-3 pr-4 rounded-xl bg-[#111111] border border-white/[0.08] shadow-xl">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-[#ff6b35]/10 flex items-center justify-center">
+                      <span className="text-sm">🔔</span>
+                    </div>
+                    <div>
+                      <div className="text-xs font-medium text-white">
+                        {notification.title}
+                      </div>
+                      <div className="text-[10px] text-white/40">
+                        {notification.desc}
+                      </div>
+                    </div>
                   </div>
-                  <div className="text-[10px] text-white/40">
-                    500 USDT → ₦810,000
-                  </div>
                 </div>
-              </div>
-            </div>
-          </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Reflection effect */}
           <div
