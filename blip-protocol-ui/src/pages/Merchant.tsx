@@ -25,6 +25,8 @@ import {
   ListChecks,
   Radio,
 } from "lucide-react";
+import { LayoutDashboard, ShieldCheck } from "lucide-react";
+
 import { Link } from "react-router-dom";
 import { SEO } from "@/components";
 import { MagneticWrapper } from "@/components/MagneticButton";
@@ -33,7 +35,7 @@ import { CinematicMockup } from "@/components/CinemeticMockup";
 import { sounds } from "@/lib/sounds";
 import { FeatureGrid } from "@/components/sections/FeatureGrid";
 import { CTASection } from "@/components/sections/CTASection";
-import { MerchantDashboardSection } from "./Index";
+import { MerchantDashboard } from "@/components/MerchantDashboard";
 
 /* ============================================
    MERCHANT PAGE
@@ -54,12 +56,9 @@ const MerchantHero = () => {
   ];
 
   return (
-    <section
-      ref={ref}
-      className="relative min-h-[100vh] overflow-hidden bg-black"
-    >
+    <section ref={ref} className="relative min-h-[100vh] overflow-visible ">
       {/* Background */}
-      <div className="absolute inset-0 bg-black" />
+      <div className="absolute inset-0 " />
 
       {/* Subtle gradient */}
       <div
@@ -80,9 +79,9 @@ const MerchantHero = () => {
         }}
       />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-24">
+      <div className="relative z-0 max-w-7xl mx-auto px-4 pt-32">
         {/* ---------------- TEXT CONTENT ---------------- */}
-        <div className="max-w-4xl">
+        <div className="max-w-7xl">
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -173,18 +172,19 @@ const MerchantHero = () => {
             </MagneticWrapper>
           </motion.div>
         </div>
+      </div>
 
-        {/* ---------------- DASHBOARD VISUAL ---------------- */}
+      {/* ---------------- DASHBOARD VISUAL ---------------- */}
+      <div className="relative z-10 w-screen max-w-none overflow-visible mx-auto px-4 ">
         <HeroDashboardVisual>
           <CinematicMockup>
-            {/* Replace this with your real dashboard component */}
-            <div className="w-[1100px] max-w-full h-[520px] bg-[#0f0f0f] border border-white/10 flex items-center justify-center text-white/30">
-              <MerchantDashboardSection />
+            {/* Linear-style Merchant Dashboard */}
+            <div className="w-[1200px] xl:w-[1400px] 2xl:w-[1600px] max-w-none">
+              <MerchantDashboard />
             </div>
           </CinematicMockup>
         </HeroDashboardVisual>
       </div>
-
       {/* Bottom border */}
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
     </section>
@@ -195,106 +195,198 @@ const MerchantHero = () => {
    HOW IT WORKS SECTION
    4 steps merchant flow
    ============================================ */
+
+/* ----------------------------------
+      CARD COMPONENT
+   ----------------------------------- */
+const Card = ({ title, subtitle, icon: Icon, children, delay, step }) => {
+  return (
+    <div
+      className="group relative flex flex-col overflow-hidden rounded-[2rem] border border-white/[0.03] bg-[#050505] p-8 transition-all duration-700 hover:border-white/10"
+      style={{
+        animation: `fadeInUp 0.8s cubic-bezier(0.2,0.8,0.2,1) ${delay}s both`,
+      }}
+    >
+      {/* Border beam */}
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+        <div className="absolute inset-[-1px] rounded-[2rem] border border-orange-500/20 [mask-image:linear-gradient(to_right,transparent,white,transparent)] animate-[move_5s_linear_infinite]" />
+      </div>
+
+      {/* Step number */}
+      <div className="absolute top-5 right-6 text-4xl font-mono text-white/[0.03]">
+        0{step}
+      </div>
+
+      {/* Icon */}
+      <div className="mb-8 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#0a0a0a] border border-white/5 text-zinc-500 group-hover:text-orange-500 group-hover:border-orange-500/30 transition">
+        <Icon size={22} strokeWidth={1.5} />
+      </div>
+
+      {/* Text */}
+      <h3 className="text-xl font-medium text-zinc-100 mb-2">{title}</h3>
+      <p className="text-sm text-zinc-500 mb-6">{subtitle}</p>
+
+      {/* Mockup */}
+      <div className="relative mt-auto h-52 rounded-2xl overflow-hidden border border-white/[0.05] bg-[#080808]">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:100%_4px]" />
+        <div className="relative z-10 h-full w-full">{children}</div>
+      </div>
+    </div>
+  );
+};
+
+/* ----------------------------------
+      MOCKUPS
+   ----------------------------------- */
+const MockupDashboard = () => (
+  <div className="p-4 flex flex-col h-full space-y-2">
+    {[1, 2, 3].map((i) => (
+      <div
+        key={i}
+        className="flex justify-between items-center p-2 rounded bg-zinc-900/30 border border-white/[0.03]"
+      >
+        <div className="h-1.5 w-10 bg-zinc-800 rounded" />
+        <div className="h-1.5 w-6 bg-orange-500/30 rounded" />
+      </div>
+    ))}
+    <div className="mt-auto h-2 bg-zinc-800 rounded overflow-hidden">
+      <div className="h-full w-1/3 bg-orange-500/40 group-hover:w-full transition-all duration-[2000ms]" />
+    </div>
+  </div>
+);
+
+const MockupLock = () => (
+  <div className="h-full flex items-center justify-center">
+    <div className="h-12 w-12 rounded-full bg-[#0a0a0a] border border-white/10 flex items-center justify-center">
+      <Lock size={18} className="text-zinc-600 group-hover:text-orange-500" />
+    </div>
+  </div>
+);
+
+const MockupEscrow = () => (
+  <div className="p-4 h-full">
+    <div className="rounded-xl border border-white/[0.03] p-4 bg-zinc-900/20">
+      <ShieldCheck
+        size={14}
+        className="text-zinc-600 group-hover:text-orange-500 mb-3"
+      />
+      <div className="space-y-2">
+        <div className="h-1 w-full bg-zinc-800 rounded" />
+        <div className="h-1 w-2/3 bg-zinc-800 rounded" />
+      </div>
+    </div>
+  </div>
+);
+
+const MockupOnChain = () => (
+  <div className="p-4 font-mono text-[9px] text-zinc-600">
+    <div>{`> SYSTEM_INIT`}</div>
+    <div className="mt-1">{`> TX_HASH: 0x82...11`}</div>
+    <div className="mt-3 text-orange-500/60">{`> VERIFIED`}</div>
+  </div>
+);
+
+/* ----------------------------------
+      MAIN SECTION
+   ----------------------------------- */
 const HowItWorksSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  const steps = [
-    {
-      number: "01",
-      title: "Requests appear in your dashboard",
-      description: "See amount, corridor, price, and urgency.",
-      icon: ListChecks,
-    },
-    {
-      number: "02",
-      title: "Accept to lock the request",
-      description: "Once accepted, the order is reserved for you.",
-      icon: CheckCircle2,
-    },
-    {
-      number: "03",
-      title: "Escrow secures the trade",
-      description: "Funds are held while the trade completes.",
-      icon: Lock,
-    },
-    {
-      number: "04",
-      title: "Settle + track on-chain",
-      description:
-        "Release happens on completion. Every trade is visible in Blip Scan.",
-      icon: Eye,
-    },
-  ];
+  const handleMouseMove = (e) => {
+    document.querySelectorAll(".group").forEach((card) => {
+      const rect = card.getBoundingClientRect();
+      (card as HTMLElement).style.setProperty(
+        "--mouse-x",
+        `${e.clientX - rect.left}px`,
+      );
+      (card as HTMLElement).style.setProperty(
+        "--mouse-y",
+        `${e.clientY - rect.top}px`,
+      );
+    });
+  };
 
   return (
-    <section ref={ref} className="relative py-24 md:py-32 overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-[#050505]" />
+    <section
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      className="relative py-24 md:py-32 bg-[#050505]"
+    >
+      <style>{`
+           @keyframes fadeInUp {
+             from { opacity: 0; transform: translateY(30px); }
+             to { opacity: 1; transform: translateY(0); }
+           }
+           @keyframes move {
+             from { transform: translateX(-100%); }
+             to { transform: translateX(200%); }
+           }
+         `}</style>
 
-      {/* Subtle pattern */}
-      <div
-        className="absolute inset-0 opacity-[0.02]"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle, rgba(255, 255, 255, 0.8) 1px, transparent 1px)",
-          backgroundSize: "32px 32px",
-        }}
-      />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
-        <div className="text-center mb-16 md:mb-20">
+        <div className="text-center mb-20">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="text-sm uppercase tracking-[0.2em] text-white/40 mb-4"
+            className="text-sm uppercase tracking-[0.3em] text-white/40 mb-4"
           >
             How It Works
           </motion.p>
+
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="heading-lg text-white"
+            transition={{ duration: 0.8 }}
+            className="text-5xl md:text-6xl font-bold text-white"
           >
             How merchants execute on Blip
           </motion.h2>
         </div>
 
-        {/* Steps Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {steps.map((step, index) => {
-            const Icon = step.icon;
-            return (
-              <motion.div
-                key={step.number}
-                initial={{ opacity: 0, y: 40 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
-                className="group relative p-6 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-all duration-500"
-                onMouseEnter={() => sounds.hover()}
-              >
-                {/* Step number */}
-                <div className="text-5xl font-semibold text-white/5 absolute top-4 right-4">
-                  {step.number}
-                </div>
+        {/* Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Card
+            title="Dashboard Stream"
+            subtitle="Automated order routing with real-time liquidity matching."
+            icon={LayoutDashboard}
+            delay={0.2}
+            step={1}
+          >
+            <MockupDashboard />
+          </Card>
 
-                {/* Icon */}
-                <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-5 group-hover:bg-[#ff6b35]/10 transition-colors">
-                  <Icon className="w-6 h-6 text-white/70 group-hover:text-[#ff6b35] transition-colors" />
-                </div>
+          <Card
+            title="Instant Asset Lock"
+            subtitle="Secure rates the moment you accept."
+            icon={Lock}
+            delay={0.3}
+            step={2}
+          >
+            <MockupLock />
+          </Card>
 
-                <h3 className="text-lg font-semibold text-white mb-3">
-                  {step.title}
-                </h3>
-                <p className="text-white/50 leading-relaxed text-sm">
-                  {step.description}
-                </p>
-              </motion.div>
-            );
-          })}
+          <Card
+            title="Vault Escrow"
+            subtitle="Non-custodial security layers."
+            icon={ShieldCheck}
+            delay={0.4}
+            step={3}
+          >
+            <MockupEscrow />
+          </Card>
+
+          <Card
+            title="Chain Finality"
+            subtitle="Immutable on-chain settlement proof."
+            icon={Activity}
+            delay={0.5}
+            step={4}
+          >
+            <MockupOnChain />
+          </Card>
         </div>
       </div>
     </section>
@@ -304,48 +396,242 @@ const HowItWorksSection = () => {
 /* ============================================
    WHY MERCHANTS CHOOSE BLIP
    ============================================ */
+import { ChevronRight, Sliders, LayoutList, Check } from "lucide-react";
+import { useMotionValue, useSpring, useTransform } from "framer-motion";
+
 const WhyBlipSection = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const cardRef = useRef(null);
+
+  /* -----------------------------
+        3D Mouse Tracking
+     ----------------------------- */
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x, { stiffness: 150, damping: 20 });
+  const mouseYSpring = useSpring(y, { stiffness: 150, damping: 20 });
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["30deg", "40deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
+
+  const shineX = useTransform(mouseXSpring, [-0.5, 0.5], ["0%", "100%"]);
+  const shineY = useTransform(mouseYSpring, [-0.5, 0.5], ["0%", "100%"]);
+
+  const handleMouseMove = (e) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    x.set((e.clientX - rect.left) / rect.width - 0.5);
+    y.set((e.clientY - rect.top) / rect.height - 0.5);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  /* -----------------------------
+        Features
+     ----------------------------- */
   const features = [
     {
       title: "No waiting",
       description: "Requests come to you instead of you hunting buyers",
-      icon: Zap,
+      icon: <Zap size={16} />,
     },
     {
       title: "More control",
       description: "Filters, limits, and corridor selection",
-      icon: Settings,
+      icon: <Sliders size={16} />,
     },
     {
       title: "Faster execution",
       description: "One flow, minimal steps, no noise",
-      icon: Gauge,
+      icon: <Activity size={16} />,
     },
     {
       title: "Lower risk",
       description: "Escrow-first design reduces failed trades",
-      icon: Shield,
+      icon: <ShieldCheck size={16} />,
     },
     {
       title: "Clear operations",
       description: "Status timeline + trade history",
-      icon: Activity,
+      icon: <LayoutList size={16} />,
     },
     {
       title: "Transparent proof",
       description: "On-chain visibility via Blip Scan",
-      icon: Eye,
+      icon: <Globe size={16} />,
     },
   ];
 
   return (
-    <FeatureGrid
-      title="Built for speed, control, and repeat volume"
-      subtitle="Why Merchants Choose Blip"
-      features={features}
-      columns={3}
-      variant="cards"
-    />
+    <section className="relative bg-[#050505] text-white overflow-hidden py-32">
+      {/* Ambient Background */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[1200px] h-[800px] bg-orange-600/[0.02] blur-[140px] rounded-full" />
+        <motion.div
+          animate={{ opacity: [0.03, 0.06, 0.03], scale: [1, 1.1, 1] }}
+          transition={{ duration: 10, repeat: Infinity }}
+          className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(249,115,22,0.04)_0%,transparent_60%)]"
+        />
+      </div>
+
+      <div className="relative max-w-6xl mx-auto px-8">
+        {/* Header */}
+        <div className="max-w-4xl mb-24">
+          <div className="flex items-center gap-2 mb-6">
+            <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
+            <span className="text-xs tracking-[0.2em] uppercase text-zinc-500">
+              Next-Gen Merchant Protocol
+            </span>
+          </div>
+
+          <h2 className="text-6xl font-bold tracking-tighter mb-6">
+            Why Merchants Choose Blip
+          </h2>
+
+          <p className="text-lg text-zinc-400 max-w-2xl mb-10">
+            Built for <span className="text-orange-500 italic">speed</span>,{" "}
+            <span className="text-orange-500 italic">control</span>, and{" "}
+            <span className="text-orange-500 italic">repeat volume</span>.
+          </p>
+
+          <button className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-orange-500 text-black font-bold hover:scale-105 transition">
+            Start Trading
+            <ChevronRight size={16} />
+          </button>
+        </div>
+
+        {/* 3D Interactive Card */}
+        <div
+          ref={cardRef}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          style={{ perspective: "1500px" }}
+          className="max-w-[840px] mx-auto"
+        >
+          <motion.div
+            style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+            className="relative rounded-[32px] border border-white/10 bg-[#0c0c0d]/90 backdrop-blur-3xl overflow-hidden"
+          >
+            {/* Shine */}
+            <motion.div
+              style={{ left: shineX, top: shineY }}
+              className="absolute -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-500/[0.05] blur-[80px] rounded-full pointer-events-none"
+            />
+
+            {/* Header */}
+            <div className="px-10 pt-8 pb-6 border-b border-white/5">
+              <h3 className="text-sm italic text-zinc-400">
+                Platform Capabilities
+              </h3>
+            </div>
+
+            {/* Feature List */}
+            <div className="px-6 py-6">
+              {features.map((f, index) => {
+                const isActive = activeIndex === index;
+                const isPrimary = index === 0;
+
+                return (
+                  <motion.div
+                    key={f.title}
+                    onClick={() => setActiveIndex(index)}
+                    initial={false}
+                    whileHover={
+                      isPrimary ? { y: -6, rotateX: 6, rotateY: -6 } : { y: -2 }
+                    }
+                    transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                    style={{
+                      transformStyle: "preserve-3d",
+                    }}
+                    className={`
+          relative flex items-center justify-between px-6 py-5 mb-3 rounded-2xl cursor-pointer
+          transition-all duration-300
+          ${
+            isPrimary
+              ? `
+                bg-white/[0.06]
+                border border-white/20
+                backdrop-blur-xl
+                shadow-[0_20px_40px_-10px_rgba(0,0,0,0.8),inset_0_1px_1px_rgba(255,255,255,0.12)]
+              `
+              : isActive
+                ? "bg-orange-500/[0.05] border border-orange-500/20"
+                : "opacity-60 hover:opacity-100 hover:bg-white/[0.02]"
+          }
+        `}
+                  >
+                    {/* Inner glow for 3D card */}
+                    {isPrimary && (
+                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/[0.08] to-transparent pointer-events-none" />
+                    )}
+
+                    <div className="flex items-center gap-5 relative z-10">
+                      {/* Icon */}
+                      <div
+                        className={`
+              w-12 h-12 rounded-xl flex items-center justify-center border transition-all
+              ${
+                isPrimary
+                  ? "bg-white text-black border-white/30 shadow-[0_8px_20px_rgba(0,0,0,0.6)]"
+                  : isActive
+                    ? "bg-orange-500 text-black border-orange-400"
+                    : "bg-[#151516] border-white/10 text-zinc-500"
+              }
+            `}
+                        style={
+                          isPrimary
+                            ? { transform: "translateZ(20px)" }
+                            : undefined
+                        }
+                      >
+                        {f.icon}
+                      </div>
+
+                      <div
+                        style={
+                          isPrimary
+                            ? { transform: "translateZ(16px)" }
+                            : undefined
+                        }
+                      >
+                        <div className="font-bold">{f.title}</div>
+                        <div className="text-sm text-zinc-400">
+                          {f.description}
+                        </div>
+                      </div>
+                    </div>
+
+                    {(isActive || isPrimary) && (
+                      <div
+                        className={`
+              relative z-10 w-8 h-8 rounded-full flex items-center justify-center
+              ${
+                isPrimary
+                  ? "bg-white/20 border border-white/30 text-white"
+                  : "bg-orange-500/10 border border-orange-500/30 text-orange-500"
+              }
+            `}
+                        style={
+                          isPrimary
+                            ? { transform: "translateZ(24px)" }
+                            : undefined
+                        }
+                      >
+                        <Check size={16} strokeWidth={3} />
+                      </div>
+                    )}
+                  </motion.div>
+                );
+              })}
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
   );
 };
 

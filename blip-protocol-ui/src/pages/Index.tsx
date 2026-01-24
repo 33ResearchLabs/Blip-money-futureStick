@@ -3403,14 +3403,35 @@ export const MerchantDashboardSection = () => {
 
   const generateOrder = () => {
     const id = `ORD-${Date.now()}-${Math.floor(Math.random() * 100)}`;
+    const userIdx = Math.floor(Math.random() * mockUsers.length);
+    const user = mockUsers[userIdx];
+    const userNames = [
+      "Sarah M.",
+      "Ahmed K.",
+      "Lisa T.",
+      "Panda P.",
+      "Froggy F.",
+    ];
+    const priorities = ["high", "medium", "low"];
+    const descriptions = [
+      "Crypto to cash transfer - Dubai",
+      "Bulk exchange request",
+      "Quick cash out",
+      "Standard order",
+      "Express payout",
+    ];
 
     return {
       id,
-      user: mockUsers[Math.floor(Math.random() * mockUsers.length)],
+      user,
+      userName: userNames[userIdx % userNames.length],
       amount: `${Math.floor(100 + Math.random() * 1500)} USDT`,
       rate: mockRates[Math.floor(Math.random() * mockRates.length)],
       time: "just now",
       country: mockCountries[Math.floor(Math.random() * mockCountries.length)],
+      status: "new",
+      description: descriptions[userIdx % descriptions.length],
+      priority: priorities[userIdx % priorities.length],
     };
   };
 
