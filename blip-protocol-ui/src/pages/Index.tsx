@@ -2074,29 +2074,28 @@ const BlipscanExplorerSection = () => {
                 <AnimatePresence mode="popLayout">
                   {transactions.map((tx) => (
                     <motion.div
-                      key={tx.id}
-                      layout="position"
-                      initial={{ opacity: 0, x: -20, scale: 1 }}
-                      animate={{
-                        opacity: 1,
-                        x: 0,
-                        backgroundColor: tx.new
-                          ? "rgba(255, 107, 53, 0.05)"
-                          : "rgba(255, 255, 255, 0.01)",
-                      }}
-                      exit={{ opacity: 0, x: 20, scale: 1 }}
-                    
-                      className="flex items-center justify-between px-4 py-3 rounded-lg border border-white/[0.04] hover:border-white/[0.08] hover:bg-white/[0.02] transition-all group"
-                     
-                      transition={{
-                        duration: 0.6,
-                        ease: "easeOut",
-                        layout: {
-                          duration: 0.8,
-                          ease: [0.22, 1, 0.36, 1], // very smooth
-                        },
-                      }}
-                    >
+  key={tx.id}
+  layout="position"
+  initial={{ opacity: 0, x: -10 }}
+  animate={{
+    opacity: 1,
+    x: 0,
+    backgroundColor: tx.new
+      ? "rgba(255, 107, 53, 0.05)"
+      : "rgba(255, 255, 255, 0.01)",
+  }}
+  exit={{ opacity: 0, x: 10 }}
+  transition={{
+    duration: 0.6,
+    ease: "easeOut",
+    layout: {
+      duration: 0.8,
+      ease: [0.22, 1, 0.36, 1], // very smooth
+    },
+  }}
+  className="flex items-center justify-between px-4 py-3 rounded-lg border border-white/[0.04]"
+>
+
                       <div className="flex items-center gap-4 flex-1 min-w-0">
                         <div className="w-8 h-8 rounded-lg bg-[#ff6b35]/10 border border-[#ff6b35]/20 flex items-center justify-center flex-shrink-0">
                           <Check
@@ -3356,36 +3355,36 @@ const MerchantDashboardSection = () => {
   const scale = useTransform(scrollYProgress, [0, 0.2], [0.95, 1]);
 
   // Mock merchant order data
-  const [newOrders, setNewOrders] = useState([
-    {
-      id: "ORD-7821",
-      user: "🦁",
-      amount: "500 USDT",
-      rate: "₦1,620",
-      time: "2m",
-      country: "🇳🇬",
-    },
-    {
-      id: "ORD-7820",
-      user: "🐯",
-      amount: "1,200 USDT",
-      rate: "₦1,618",
-      time: "5m",
-      country: "🇳🇬",
-    },
-    {
-      id: "ORD-7819",
-      user: "🦊",
-      amount: "250 USDT",
-      rate: "3.67 AED",
-      time: "8m",
-      country: "🇦🇪",
-    },
-  ]);
+const [newOrders, setNewOrders] = useState([
+  {
+    id: "ORD-7821",
+    user: "🦁",
+    amount: "500 USDT",
+    rate: "1,620 AED",
+    time: "2m",
+    country: "🇦🇪",
+  },
+  {
+    id: "ORD-7820",
+    user: "🐯",
+    amount: "1,200 USDT",
+    rate: "1,618 AED",
+    time: "5m",
+    country: "🇦🇪",
+  },
+  {
+    id: "ORD-7819",
+    user: "🦊",
+    amount: "250 USDT",
+    rate: "3.67 AED",
+    time: "8m",
+    country: "🇦🇪",
+  },
+]);
 
-  const mockUsers = ["🦁", "🐯", "🦊", "🐼", "🐸"];
-  const mockCountries = ["🇳🇬", "🇦🇪"];
-  const mockRates = ["₦1,620", "₦1,618", "3.67 AED"];
+const mockUsers = ["🦁", "🐯", "🦊", "🐼", "🐸"];
+const mockCountries = ["🇦🇪"]; // ✅ only AED region
+const mockRates = ["1,620 AED", "1,618 AED", "3.67 AED"];
 
   const generateOrder = () => {
     const id = `ORD-${Date.now()}-${Math.floor(Math.random() * 100)}`;
@@ -3400,15 +3399,7 @@ const MerchantDashboardSection = () => {
     };
   };
 
-  const [highlightedId, setHighlightedId] = useState(null);
-
-  const highlightOrder = (id) => {
-    setHighlightedId(id);
-
-    setTimeout(() => {
-      setHighlightedId(null);
-    }, 5000); // highlight duration
-  };
+  
 
   // Auto-add orders every 6–10 seconds
 
@@ -3421,7 +3412,7 @@ const MerchantDashboardSection = () => {
         return [order, ...prev];
       });
 
-      highlightOrder(order.id); // 👈 highlight new order
+      
 
       showNotification("New order received", "Waiting for merchant action");
     }, 1000);
@@ -3443,7 +3434,7 @@ const MerchantDashboardSection = () => {
 
     setInEscrow((prev) => [{ ...order, progress: 60 }, ...prev]);
 
-    highlightOrder(order.id); // 👈 escrow highlight
+    
 
     showNotification("Order moved to escrow", `${order.amount} secured`);
   };
@@ -3483,7 +3474,7 @@ const MerchantDashboardSection = () => {
 
         setInEscrow((escrow) => [{ ...order, progress: 40 }, ...escrow]);
 
-        highlightOrder(order.id);
+        
 
         showNotification(
           "Order auto-matched",
@@ -3655,7 +3646,7 @@ const MerchantDashboardSection = () => {
                       Today's Volume
                     </div>
                     <div className="text-sm font-semibold text-white">
-                      $12,450
+                      $55,450
                     </div>
                   </div>
                   <div className="text-right">
@@ -3663,7 +3654,7 @@ const MerchantDashboardSection = () => {
                       Earnings
                     </div>
                     <div className="text-sm font-semibold text-[#ff6b35]">
-                      +$311.25
+                      +$1,386
                     </div>
                   </div>
                 </div>
@@ -3689,7 +3680,7 @@ const MerchantDashboardSection = () => {
                       {newOrders.slice(0, 4).map((order, i) => (
                         <motion.div
                           key={order.id}
-                          variants={transferVariants}
+                          
                           initial="initial"
                           animate="initial"
                           exit="exit"
@@ -3700,22 +3691,13 @@ const MerchantDashboardSection = () => {
                             stiffness: 300,
                             damping: 25,
                           }}
-                          className={`group relative p-3 rounded-lg border transition-colors duration-300
-    ${
-      highlightedId === order.id
-        ? "bg-[#ff6b35] text-black"
-        : "bg-[#111111] border-white/[0.04]"
-    }`}
+                          className={`group relative p-3 rounded-lg border transition-colors duration-300 bg-[#111111] border-white/[0.04]`}
                         >
                           <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center gap-2">
                               <span className="text-lg">{order.user}</span>
                               <span
-                                className={`text-xs font-mono ${
-                                  highlightedId === order.id
-                                    ? "text-black/70"
-                                    : "text-white/40"
-                                }`}
+                                className={`text-xs font-mono text-white/40`}
                               >
                                 {order.id}
                               </span>
@@ -3775,22 +3757,13 @@ const MerchantDashboardSection = () => {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.5 + i * 0.1 }}
-                        className={`p-3 rounded-lg border transition-colors duration-300
-  ${
-    highlightedId === order.id
-      ? "bg-[#ff6b35] text-black"
-      : "bg-[#111111] border-yellow-500/10"
-  }`}
+                        className={`p-3 rounded-lg border transition-colors duration-300bg-[#111111] border-yellow-500/10`}
                       >
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center gap-2">
                             <span className="text-lg">{order.user}</span>
                             <span
-                              className={`text-xs font-mono ${
-                                highlightedId === order.id
-                                  ? "text-black/70"
-                                  : "text-white/40"
-                              }`}
+                              className={`text-xs font-mono text-white/40`}
                             >
                               {order.id}
                             </span>
@@ -3817,7 +3790,7 @@ const MerchantDashboardSection = () => {
                           </div>
                           <div className="h-1.5 bg-white/[0.05] rounded-full overflow-hidden">
                             <motion.div
-                              className="h-full bg-gradient-to-r from-yellow-500 to-[#ff6b35] rounded-full"
+                              className="h-full bg-[#ff6b35] rounded-full"
                               initial={{ width: 0 }}
                               whileInView={{ width: `${order.progress}%` }}
                               viewport={{ once: true }}
@@ -3832,7 +3805,7 @@ const MerchantDashboardSection = () => {
                         <motion.div
                           whileHover={{ scale: 1.05 }}
                           onClick={() => releaseOrder(order)}
-                          className="mt-3 text-center px-3 py-1.5 rounded-md text-[10px] font-medium bg-yellow-500 text-black cursor-pointer"
+                          className="mt-3 text-center px-3 py-1.5 rounded-md text-[10px] font-medium bg-[#ff6b35] text-black cursor-pointer"
                         >
                           Release
                         </motion.div>
