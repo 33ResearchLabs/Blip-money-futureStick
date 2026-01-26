@@ -479,68 +479,66 @@ const HeroSection = () => {
 
   // Blipscan transactions for step 4
   const [blipscanTxs, setBlipscanTxs] = useState([
-  {
-    id: "BLP-7x2K...9fN3",
-    from: "0x8a9...3f2",
-    to: "Ahmed M.",
-    amount: "$500.00",
+    {
+      id: "BLP-7x2K...9fN3",
+      from: "0x8a9...3f2",
+      to: "Ahmed M.",
+      amount: "$500.00",
+      status: "verified",
+      time: "2s",
+      hash: "4mK8...pQ2x",
+    },
+    {
+      id: "BLP-4mR8...2hL5",
+      from: "0x3b7...9k1",
+      to: "Sarah K.",
+      amount: "$1,200.00",
+      status: "verified",
+      time: "1.4s",
+      hash: "9nL3...rT7y",
+    },
+    {
+      id: "BLP-9pT4...6wM2",
+      from: "0x7c4...2m8",
+      to: "James O.",
+      amount: "$750.00",
+      status: "verified",
+      time: "1.8s",
+      hash: "2hF6...kM9z",
+    },
+  ]);
+
+  const names = ["Ahmed M.", "Sarah K.", "James O.", "Fatima A.", "Omar R."];
+
+  const randomHex = () =>
+    `0x${Math.random().toString(16).slice(2, 6)}...${Math.random()
+      .toString(16)
+      .slice(2, 5)}`;
+
+  const generateTx = () => ({
+    id: `BLP-${Math.random().toString(36).slice(2, 6)}...${Math.random()
+      .toString(36)
+      .slice(2, 5)}`,
+    from: randomHex(),
+    to: names[Math.floor(Math.random() * names.length)],
+    amount: `$${(Math.random() * 5000 + 5000).toFixed(2)}`,
     status: "verified",
-    time: "2s",
-    hash: "4mK8...pQ2x",
-  },
-  {
-    id: "BLP-4mR8...2hL5",
-    from: "0x3b7...9k1",
-    to: "Sarah K.",
-    amount: "$1,200.00",
-    status: "verified",
-    time: "1.4s",
-    hash: "9nL3...rT7y",
-  },
-  {
-    id: "BLP-9pT4...6wM2",
-    from: "0x7c4...2m8",
-    to: "James O.",
-    amount: "$750.00",
-    status: "verified",
-    time: "1.8s",
-    hash: "2hF6...kM9z",
-  },
-]);
+    time: "now",
+    hash: `${Math.random().toString(36).slice(2, 6)}...${Math.random()
+      .toString(36)
+      .slice(2, 5)}`,
+  });
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setBlipscanTxs((prev) => {
+        const next = [generateTx(), ...prev];
+        return next.slice(0, 8); // keep table clean (max 8 rows)
+      });
+    }, 1000); // every 3s (feels real, not spammy)
 
-const names = ["Ahmed M.", "Sarah K.", "James O.", "Fatima A.", "Omar R."];
-
-const randomHex = () =>
-  `0x${Math.random().toString(16).slice(2, 6)}...${Math.random()
-    .toString(16)
-    .slice(2, 5)}`;
-
-const generateTx = () => ({
-  id: `BLP-${Math.random().toString(36).slice(2, 6)}...${Math.random()
-    .toString(36)
-    .slice(2, 5)}`,
-  from: randomHex(),
-  to: names[Math.floor(Math.random() * names.length)],
-  amount: `$${(Math.random() * 5000 + 5000).toFixed(2)}`,
-  status: "verified",
-  time: "now",
-  hash: `${Math.random().toString(36).slice(2, 6)}...${Math.random()
-    .toString(36)
-    .slice(2, 5)}`,
-});
-
-useEffect(() => {
-  const interval = setInterval(() => {
-    setBlipscanTxs((prev) => {
-      const next = [generateTx(), ...prev];
-      return next.slice(0, 8); // keep table clean (max 8 rows)
-    });
-  }, 1000); // every 3s (feels real, not spammy)
-
-  return () => clearInterval(interval);
-}, []);
-
+    return () => clearInterval(interval);
+  }, []);
 
   // Enhanced mouse parallax with hover detection
   useEffect(() => {
@@ -1667,70 +1665,66 @@ useEffect(() => {
                   {/* Transaction rows */}
                   <div className="border border-white/[0.06] rounded-b-lg sm:rounded-b-xl ">
                     <AnimatePresence initial={false}>
- 
-
-                    {blipscanTxs.map((tx, i) => (
-                      <motion.div
-  key={tx.id}
-  layout
-  initial={{ opacity: 0, y: -10 }}
-  animate={{ opacity: 1, y: 0 }}
-  exit={{ opacity: 0, y: 10 }}
-  transition={{ duration: 0.35, ease: "easeOut" }}
-  className={`flex items-center justify-between gap-3 sm:gap-4 p-2.5 sm:p-3 md:p-4 lg:p-5
+                      {blipscanTxs.map((tx, i) => (
+                        <motion.div
+                          key={tx.id}
+                          layout
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 10 }}
+                          transition={{ duration: 0.35, ease: "easeOut" }}
+                          className={`flex items-center justify-between gap-3 sm:gap-4 p-2.5 sm:p-3 md:p-4 lg:p-5
     ${i !== blipscanTxs.length - 1 ? "border-b border-white/[0.04]" : ""}
     hover:bg-white/[0.02] transition-colors  sm:min-w-0`}
->
-
-                        <div className="flex items-center gap-2 sm:gap-3 md:gap-4 lg:gap-6 flex-1 min-w-0">
-                          <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0">
-                            <Check className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-emerald-400" />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <div className="flex items-center gap-1.5 sm:gap-2 mb-0.5 sm:mb-1">
-                              <span className="text-[11px] sm:text-xs md:text-sm font-mono text-white/60 truncate">
-                                {tx.id}
-                              </span>
-                              <span className="text-[10px] sm:text-xs text-white/30 shrink-0">
-                                →
-                              </span>
-                              <span className="text-[11px] sm:text-xs md:text-sm text-white font-medium truncate">
-                                {tx.to}
-                              </span>
+                        >
+                          <div className="flex items-center gap-2 sm:gap-3 md:gap-4 lg:gap-6 flex-1 min-w-0">
+                            <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0">
+                              <Check className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-emerald-400" />
                             </div>
-                            <div className="flex items-center gap-2 sm:gap-3">
-                              <span className="text-[9px] sm:text-[10px] md:text-xs text-white/30 font-mono truncate">
-                                {tx.from}
-                              </span>
-                              <span className="text-[9px] sm:text-[10px] md:text-xs text-white/20 shrink-0">
-                                •
-                              </span>
-                              <span className="text-[9px] sm:text-[10px] md:text-xs text-white/30 font-mono truncate">
-                                {tx.hash}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-3 sm:gap-4 md:gap-6 lg:gap-8 shrink-0">
-                          <div className="text-right">
-                            <div className="text-sm sm:text-base font-semibold text-white">
-                              {tx.amount}
-                            </div>
-                            <div className="text-[9px] sm:text-[10px] md:text-xs text-white/30">
-                              USDT → AED
+                            <div className="min-w-0 flex-1">
+                              <div className="flex items-center gap-1.5 sm:gap-2 mb-0.5 sm:mb-1">
+                                <span className="text-[11px] sm:text-xs md:text-sm font-mono text-white/60 truncate">
+                                  {tx.id}
+                                </span>
+                                <span className="text-[10px] sm:text-xs text-white/30 shrink-0">
+                                  →
+                                </span>
+                                <span className="text-[11px] sm:text-xs md:text-sm text-white font-medium truncate">
+                                  {tx.to}
+                                </span>
+                              </div>
+                              <div className="flex items-center gap-2 sm:gap-3">
+                                <span className="text-[9px] sm:text-[10px] md:text-xs text-white/30 font-mono truncate">
+                                  {tx.from}
+                                </span>
+                                <span className="text-[9px] sm:text-[10px] md:text-xs text-white/20 shrink-0">
+                                  •
+                                </span>
+                                <span className="text-[9px] sm:text-[10px] md:text-xs text-white/30 font-mono truncate">
+                                  {tx.hash}
+                                </span>
+                              </div>
                             </div>
                           </div>
-                          <div className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-2.5 md:px-3 py-1.5 sm:py-2 rounded-md sm:rounded-lg bg-emerald-500/10">
-                            <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 text-emerald-400" />
-                            <span className="text-[10px] sm:text-xs md:text-sm text-emerald-400 font-medium whitespace-nowrap">
-                              {tx.time}
-                            </span>
+                          <div className="flex items-center gap-3 sm:gap-4 md:gap-6 lg:gap-8 shrink-0">
+                            <div className="text-right">
+                              <div className="text-sm sm:text-base font-semibold text-white">
+                                {tx.amount}
+                              </div>
+                              <div className="text-[9px] sm:text-[10px] md:text-xs text-white/30">
+                                USDT → AED
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-2.5 md:px-3 py-1.5 sm:py-2 rounded-md sm:rounded-lg bg-emerald-500/10">
+                              <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 text-emerald-400" />
+                              <span className="text-[10px] sm:text-xs md:text-sm text-emerald-400 font-medium whitespace-nowrap">
+                                {tx.time}
+                              </span>
+                            </div>
                           </div>
-                        </div>
-                      </motion.div>
-                    ))}
+                        </motion.div>
+                      ))}
                     </AnimatePresence>
-
                   </div>
 
                   {/* Footer - hidden as we clip the content */}
@@ -1976,7 +1970,7 @@ const BlipscanExplorerSection = () => {
         id: `BLP-${Math.random().toString(36).substr(2, 4)}`,
         from: addresses[Math.floor(Math.random() * addresses.length)],
         to: names[Math.floor(Math.random() * names.length)],
-        amount : `$${Math.floor(Math.random() * 10000 + 10000)}`,
+        amount: `$${Math.floor(Math.random() * 10000 + 10000)}`,
 
         time: "Just now",
         new: true,
@@ -4488,7 +4482,7 @@ const PrivacySection = () => {
             <h3 className="text-xl font-medium text-white mb-6">Privacy</h3>
 
             {/* ALIGNED LIST */}
-            <ul className="space-y-4 mx-auto max-w-xs text-left pl-16 sm:pl-0">
+            <ul className="space-y-4 mx-auto max-w-xs text-left pl-16 sm:pl-12">
               {[
                 "Wallet-only identity",
                 "No KYC for small transfers",
@@ -4521,7 +4515,7 @@ const PrivacySection = () => {
             <h3 className="text-xl font-medium text-white mb-6">Trust</h3>
 
             {/* ALIGNED LIST */}
-            <ul className="space-y-4 mx-auto max-w-xs text-left pl-16 sm:pl-0">
+            <ul className="space-y-4 mx-auto max-w-xs text-left pl-16 sm:pl-12">
               {[
                 "Everything on-chain",
                 "Settlement proofs",
