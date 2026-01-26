@@ -255,11 +255,7 @@ const Card = ({ title, subtitle, icon: Icon, children, delay, step }) => {
       </div>
 
       {/* Icon */}
-<<<<<<< HEAD
-      <div className="mb-8 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#0a0a0a] border border-white/5 text-zinc-500 group-hover:text-[#ff6b35] group-hover:border-orange-500/30 transition">
-=======
       <div className="mb-8 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#0a0a0a] border border-white/5 text-zinc-500 group-hover:text-[#ff6b35] group-hover:border-[#ff6b35]/30 transition">
->>>>>>> b7fdbb4 (changesssss)
         <Icon size={22} strokeWidth={1.5} />
       </div>
 
@@ -336,11 +332,8 @@ const MockupOnChain = () => (
    ============================================ */
 import { ChevronRight, Sliders, LayoutList, Check } from "lucide-react";
 import { useMotionValue, useSpring, useTransform } from "framer-motion";
-<<<<<<< HEAD
-import HowItWorksSection from "@/components/merchant/How-it-works";
-=======
 import { CTAButton } from "@/components/Navbar";
->>>>>>> b7fdbb4 (changesssss)
+import HowItWorksSection from "@/components/merchant/How-it-works";
 
 const WhyBlipSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -441,15 +434,10 @@ const WhyBlipSection = () => {
             <span className="text-[#ff6b35] italic">repeat volume</span>.
           </p>
 
-<<<<<<< HEAD
           <button className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#ff6b35] text-black font-bold hover:scale-105 transition">
             Start Trading
             <ChevronRight size={16} />
           </button>
-=======
-          
-          <CTAButton to="">Start Trading</CTAButton>
->>>>>>> b7fdbb4 (changesssss)
         </div>
 
         {/* 3D Interactive Card */}
@@ -560,11 +548,7 @@ const WhyBlipSection = () => {
               ${
                 isPrimary
                   ? "bg-white/20 border border-white/30 text-white"
-<<<<<<< HEAD
-                  : "bg-orange-500/10 border border-orange-500/30 text-[#ff6b35]"
-=======
                   : "bg-[#ff6b35]/10 border border-[#ff6b35]/30 text-[#ff6b35]"
->>>>>>> b7fdbb4 (changesssss)
               }
             `}
                         style={
