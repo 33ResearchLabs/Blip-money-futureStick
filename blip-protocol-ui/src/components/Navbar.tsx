@@ -144,8 +144,8 @@ const CTAButton = ({
         
           ${
             isPrimary
-              ? "bg-transparent text-white border border-white"
-              : "bg-transparent text-white border border-[rgba(255,255,255,0.25)]"
+              ? "bg-transparent text-white border "
+              : "bg-transparent text-white border "
           }
         `}
       >

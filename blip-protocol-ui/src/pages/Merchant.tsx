@@ -37,182 +37,6 @@ import { FeatureGrid } from "@/components/sections/FeatureGrid";
 import { CTASection } from "@/components/sections/CTASection";
 import { MerchantDashboard } from "@/components/MerchantDashboard";
 
-/* ============================================
-   MERCHANT PAGE
-   Dedicated landing page for merchants
-   ============================================ */
-
-/* ============================================
-   HERO SECTION
-   ============================================ */
-// const MerchantHero = () => {
-//   const ref = useRef(null);
-//   const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-//   const bullets = [
-//     { icon: Radio, text: "Instant request feed (pick what you want)" },
-//     { icon: Lock, text: "Escrow-backed execution (safer trades)" },
-//     { icon: Eye, text: "Blip Scan transparency (audit trail)" },
-//   ];
-
-//   return (
-//     <section ref={ref} className="relative min-h-[100vh] overflow-visible ">
-//       {/* Background */}
-//       <div className="absolute inset-0 " />
-
-//       {/* Subtle gradient */}
-//       <div
-//         className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] opacity-[0.06]"
-//         style={{
-//           background:
-//             "radial-gradient(ellipse, rgba(255,107,53,1) 0%, transparent 70%)",
-//         }}
-//       />
-
-//       {/* Grid pattern */}
-//       <div
-//         className="absolute inset-0 opacity-[0.02]"
-//         style={{
-//           backgroundImage:
-//             "radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)",
-//           backgroundSize: "40px 40px",
-//         }}
-//       />
-
-//       <div className="relative z-0 max-w-7xl mx-auto px-4 pt-32">
-//         {/* ---------------- TEXT CONTENT ---------------- */}
-//         <div className="max-w-7xl">
-//           {/* Badge */}
-//           <motion.div
-//             initial={{ opacity: 0, y: 20 }}
-//             animate={isInView ? { opacity: 1, y: 0 } : {}}
-//             transition={{ duration: 0.6 }}
-//             className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/[0.02] mb-8"
-//           >
-//             <span className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
-//             <span className="text-sm text-white/60">
-//               Beta access open for qualified merchants
-//             </span>
-//           </motion.div>
-
-//           {/* Headline */}
-//           <motion.h1
-//             initial={{ opacity: 0, y: 30 }}
-//             animate={isInView ? { opacity: 1, y: 0 } : {}}
-//             transition={{ duration: 0.8, delay: 0.1 }}
-//             className="heading-xl text-white mb-6"
-//           >
-//             Become a Blip Merchant
-//           </motion.h1>
-
-//           {/* Subheadline */}
-//           <motion.p
-//             initial={{ opacity: 0, y: 20 }}
-//             animate={isInView ? { opacity: 1, y: 0 } : {}}
-//             transition={{ duration: 0.6, delay: 0.2 }}
-//             className="text-lg md:text-xl text-white/50 mb-8 max-w-2xl leading-relaxed"
-//           >
-//             Accept high-intent crypto-to-cash requests in seconds. Set your
-//             margin, execute with escrow protection, and track everything
-//             on-chain.
-//           </motion.p>
-
-//           {/* Bullets */}
-//           <motion.div
-//             initial={{ opacity: 0, y: 20 }}
-//             animate={isInView ? { opacity: 1, y: 0 } : {}}
-//             transition={{ duration: 0.6, delay: 0.25 }}
-//             className="flex flex-col sm:flex-row gap-4 sm:gap-6 mb-10"
-//           >
-//             {bullets.map((bullet, index) => {
-//               const Icon = bullet.icon;
-//               return (
-//                 <div
-//                   key={index}
-//                   className="flex items-center gap-2 text-sm text-white/60"
-//                 >
-//                   <Icon className="w-4 h-4 text-[#ff6b35]" />
-//                   <span>{bullet.text}</span>
-//                 </div>
-//               );
-//             })}
-//           </motion.div>
-
-//           {/* CTAs */}
-//           <motion.div
-//             initial={{ opacity: 0, y: 20 }}
-//             animate={isInView ? { opacity: 1, y: 0 } : {}}
-//             transition={{ duration: 0.6, delay: 0.3 }}
-//             className="flex flex-col sm:flex-row gap-4"
-//           >
-//             <MagneticWrapper strength={0.2}>
-//               <Link
-//                 to="/waitlist"
-//                 onClick={() => sounds.click()}
-//                 onMouseEnter={() => sounds.hover()}
-//                 className="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white text-black text-[15px] font-medium transition-all duration-500 hover:shadow-[0_0_60px_rgba(255,255,255,0.2)]"
-//               >
-//                 Apply as Merchant
-//                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-//               </Link>
-//             </MagneticWrapper>
-
-//             <MagneticWrapper strength={0.2}>
-//               <a
-//                 href="https://t.me/blip_money"
-//                 target="_blank"
-//                 rel="noopener noreferrer"
-//                 onClick={() => sounds.click()}
-//                 onMouseEnter={() => sounds.hover()}
-//                 className="group inline-flex items-center gap-3 px-8 py-4 rounded-full border border-white/10 text-white text-[15px] font-medium transition-all duration-500 hover:border-white/30 hover:bg-white/5"
-//               >
-//                 Join Merchant Community
-//                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-//               </a>
-//             </MagneticWrapper>
-//           </motion.div>
-//         </div>
-//       </div>
-
-//       {/* ---------------- DASHBOARD VISUAL ---------------- */}
-//       <div className="relative z-10 w-screen max-w-none overflow-visible mx-auto px-4 ">
-//         <HeroDashboardVisual>
-//           {/* <CinematicMockup> */}
-//           {/* Linear-style Merchant Dashboard */}
-//           <div className="w-[1200px] xl:w-[1400px] 2xl:w-[1600px] max-w-none">
-//             <motion.div
-//               initial={{ opacity: 0, y: 80 }}
-//               animate={{ opacity: 1, y: 0 }}
-//               transition={{ duration: 1.2, ease: "easeOut" }}
-//               style={{
-//                 transform: `
-//       perspective(1400px)
-//       rotateX(12deg)
-//       rotateY(-22deg)
-//       rotateZ(-3deg)
-//       translateY(60px)
-//     `,
-//                 transformStyle: "preserve-3d",
-//               }}
-//               className="absolute right-[-12%] bottom-[-18%] w-[900px]"
-//             >
-//               <MerchantDashboard />
-//             </motion.div>
-//           </div>
-//           {/* Depth fade */}
-//           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent pointer-events-none" />
-
-//           {/* Vignette */}
-//           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,black_100%)] pointer-events-none" />
-
-//           {/* </CinematicMockup> */}
-//         </HeroDashboardVisual>
-//       </div>
-//       {/* Bottom border */}
-//       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-//     </section>
-//   );
-// };
 const MerchantHero = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -380,8 +204,6 @@ const MerchantHero = () => {
         </HeroDashboardVisual>
       </div>
 
-      {/* Bottom divider */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
     </section>
   );
 };
@@ -412,7 +234,7 @@ const Card = ({ title, subtitle, icon: Icon, children, delay, step }) => {
       </div>
 
       {/* Icon */}
-      <div className="mb-8 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#0a0a0a] border border-white/5 text-zinc-500 group-hover:text-orange-500 group-hover:border-orange-500/30 transition">
+      <div className="mb-8 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#0a0a0a] border border-white/5 text-zinc-500 group-hover:text-[#ff6b35] group-hover:border-orange-500/30 transition">
         <Icon size={22} strokeWidth={1.5} />
       </div>
 
@@ -452,7 +274,7 @@ const MockupDashboard = () => (
 const MockupLock = () => (
   <div className="h-full flex items-center justify-center">
     <div className="h-12 w-12 rounded-full bg-[#0a0a0a] border border-white/10 flex items-center justify-center">
-      <Lock size={18} className="text-zinc-600 group-hover:text-orange-500" />
+      <Lock size={18} className="text-zinc-600 group-hover:text-[#ff6b35]" />
     </div>
   </div>
 );
@@ -462,7 +284,7 @@ const MockupEscrow = () => (
     <div className="rounded-xl border border-white/[0.03] p-4 bg-zinc-900/20">
       <ShieldCheck
         size={14}
-        className="text-zinc-600 group-hover:text-orange-500 mb-3"
+        className="text-zinc-600 group-hover:text-[#ff6b35] mb-3"
       />
       <div className="space-y-2">
         <div className="h-1 w-full bg-zinc-800 rounded" />
@@ -476,122 +298,20 @@ const MockupOnChain = () => (
   <div className="p-4 font-mono text-[9px] text-zinc-600">
     <div>{`> SYSTEM_INIT`}</div>
     <div className="mt-1">{`> TX_HASH: 0x82...11`}</div>
-    <div className="mt-3 text-orange-500/60">{`> VERIFIED`}</div>
+    <div className="mt-3 text-[#ff6b35]/60">{`> VERIFIED`}</div>
   </div>
 );
 
 /* ----------------------------------
       MAIN SECTION
    ----------------------------------- */
-const HowItWorksSection = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  const handleMouseMove = (e) => {
-    document.querySelectorAll(".group").forEach((card) => {
-      const rect = card.getBoundingClientRect();
-      (card as HTMLElement).style.setProperty(
-        "--mouse-x",
-        `${e.clientX - rect.left}px`,
-      );
-      (card as HTMLElement).style.setProperty(
-        "--mouse-y",
-        `${e.clientY - rect.top}px`,
-      );
-    });
-  };
-
-  return (
-    <section
-      ref={ref}
-      onMouseMove={handleMouseMove}
-      className="relative pb-20 md:py-32 overflow-visible"
-    >
-      <style>{`
-           @keyframes fadeInUp {
-             from { opacity: 0; transform: translateY(30px); }
-             to { opacity: 1; transform: translateY(0); }
-           }
-           @keyframes move {
-             from { transform: translateX(-100%); }
-             to { transform: translateX(200%); }
-           }
-         `}</style>
-
-      <div className="max-w-7xl mx-auto px-6">
-        {/* Header */}
-        <div className="text-center mb-20">
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6 }}
-            className="text-sm uppercase tracking-[0.3em] text-white/40 mb-4"
-          >
-            How It Works
-          </motion.p>
-
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-            className="text-5xl md:text-6xl font-bold text-white"
-          >
-            How merchants <span className="text-white/20">execute</span> on Blip
-          </motion.h2>
-        </div>
-
-        {/* Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Card
-            title="Dashboard Stream"
-            subtitle="Automated order routing with real-time liquidity matching."
-            icon={LayoutDashboard}
-            delay={0.2}
-            step={1}
-          >
-            <MockupDashboard />
-          </Card>
-
-          <Card
-            title="Instant Asset Lock"
-            subtitle="Secure rates the moment you accept."
-            icon={Lock}
-            delay={0.3}
-            step={2}
-          >
-            <MockupLock />
-          </Card>
-
-          <Card
-            title="Vault Escrow"
-            subtitle="Non-custodial security layers."
-            icon={ShieldCheck}
-            delay={0.4}
-            step={3}
-          >
-            <MockupEscrow />
-          </Card>
-
-          <Card
-            title="Chain Finality"
-            subtitle="Immutable on-chain settlement proof."
-            icon={Activity}
-            delay={0.5}
-            step={4}
-          >
-            <MockupOnChain />
-          </Card>
-        </div>
-      </div>
-    </section>
-  );
-};
 
 /* ============================================
    WHY MERCHANTS CHOOSE BLIP
    ============================================ */
 import { ChevronRight, Sliders, LayoutList, Check } from "lucide-react";
 import { useMotionValue, useSpring, useTransform } from "framer-motion";
+import HowItWorksSection from "@/components/merchant/How-it-works";
 
 const WhyBlipSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -687,12 +407,12 @@ const WhyBlipSection = () => {
           </h2>
 
           <p className="text-lg text-zinc-400 max-w-2xl mb-10">
-            Built for <span className="text-orange-500 italic">speed</span>,{" "}
-            <span className="text-orange-500 italic">control</span>, and{" "}
-            <span className="text-orange-500 italic">repeat volume</span>.
+            Built for <span className="text-[#ff6b35] italic">speed</span>,{" "}
+            <span className="text-[#ff6b35] italic">control</span>, and{" "}
+            <span className="text-[#ff6b35] italic">repeat volume</span>.
           </p>
 
-          <button className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-orange-500 text-black font-bold hover:scale-105 transition">
+          <button className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#ff6b35] text-black font-bold hover:scale-105 transition">
             Start Trading
             <ChevronRight size={16} />
           </button>
@@ -806,7 +526,7 @@ const WhyBlipSection = () => {
               ${
                 isPrimary
                   ? "bg-white/20 border border-white/30 text-white"
-                  : "bg-orange-500/10 border border-orange-500/30 text-orange-500"
+                  : "bg-orange-500/10 border border-orange-500/30 text-[#ff6b35]"
               }
             `}
                         style={
@@ -1128,7 +848,7 @@ const RolloutSection = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.1 }}
-              className="heading-lg text-white mb-8"
+              className="heading-md text-white mb-8"
             >
               Invite-only rollout
             </motion.h2>

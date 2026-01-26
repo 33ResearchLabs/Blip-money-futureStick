@@ -32,6 +32,8 @@ import { SEO } from "@/components";
 import PhoneMockup, { Header } from "@/components/Hero/PhoneMockup";
 import LockedAndSecuredMockup from "@/components/Hero/LockedAndSecuredMockup";
 import { MagneticWrapper } from "@/components/MagneticButton";
+import { MerchantDashboard } from "@/components/MerchantDashboard";
+import { MerchantDashboardIndex } from "@/components/Index/MerchantDashbaordIndex";
 
 /* ============================================
    2025/2026 DESIGN TRENDS INDEX PAGE
@@ -720,9 +722,9 @@ const HeroSection = () => {
           viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
-          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-16 xl:gap-20 items-center pt-16 sm:pt-20 lg:pt-0">
-            {/* Left: Text content */}
-            <div className="text-center lg:text-left order-2 lg:order-1">
+          <div className="w-full max-w-8xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12 xl:gap-16 items-center pt-16 sm:pt-20 lg:pt-0">
+            {/* Center: Text content */}
+            <div className="text-center lg:text-center order-2 lg:order-2 px-2 sm:px-4">
               <motion.h1
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -731,12 +733,11 @@ const HeroSection = () => {
                   delay: 0.1,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white leading-[1.1] mb-3 sm:mb-5 tracking-tight"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight mb-6 sm:mb-8 tracking-tight max-w-xl mx-auto lg:mx-0"
               >
-                Send money
+                Send money <span className="text-[#ff6b35]">anywhere,</span>
                 <br />
-                <span className="text-[#ff6b35]">anywhere,</span>{" "}
-                <span className="text-white/20">anytime.</span>
+                <span className="text-white/40">anytime.</span>
               </motion.h1>
 
               {/* Powered by crypto badge */}
@@ -748,7 +749,7 @@ const HeroSection = () => {
                   delay: 0.2,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="flex items-center justify-center lg:justify-start gap-2 mb-8"
+                className="flex items-center justify-center gap-2 mb-6 sm:mb-8"
               >
                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06]">
                   <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#ff8c5a] flex items-center justify-center">
@@ -779,7 +780,7 @@ const HeroSection = () => {
                   delay: 0.3,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="text-white/50 text-base sm:text-lg mb-8 leading-relaxed max-w-sm mx-auto lg:mx-0"
+                className="text-white/50 text-base sm:text-lg mb-8 sm:mb-10 leading-relaxed max-w-lg mx-auto lg:mx-0"
               >
                 Fast, borderless transfers with crypto rails. Connect wallet,
                 enter amount, and send globally in seconds.
@@ -794,33 +795,32 @@ const HeroSection = () => {
                   delay: 0.4,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="flex items-center justify-center lg:justify-start gap-8 mb-8"
+                className="flex items-center justify-center lg:justify-center gap-12 mb-10 sm:mb-12"
               >
                 {[
                   { value: "~2s", label: "Settlement" },
                   { value: "0.1%", label: "Fees" },
                   { value: "150+", label: "Countries" },
                 ].map((stat) => (
-                  <div key={stat.label} className="text-center lg:text-left">
-                    <div className="text-xl md:text-2xl font-bold text-white">
+                  <div key={stat.label} className="text-center">
+                    <div className="text-2xl sm:text-3xl font-bold text-white">
                       {stat.value}
                     </div>
-                    <div className="text-[10px] text-white/30 uppercase tracking-wider">
+                    <div className="text-xs text-white/40 uppercase tracking-widest font-medium">
                       {stat.label}
                     </div>
                   </div>
                 ))}
               </motion.div>
 
-              {/* Scroll indicator - static */}
               {/* Scroll indicator */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.5 }}
-                className="mt-16 flex items-center justify-center lg:justify-start gap-3"
+                className="mt-12 sm:mt-16 flex items-center justify-center gap-3"
               >
-                <span className="text-white/30 text-xs uppercase tracking-[0.2em]">
+                <span className="text-white/30 text-xs uppercase tracking-widest font-medium">
                   Scroll to explore
                 </span>
                 <div className="w-6 h-10 rounded-full border border-white/20 flex justify-center pt-2">
@@ -833,7 +833,7 @@ const HeroSection = () => {
               </motion.div>
             </div>
 
-            {/* Right: Full iPhone Mockup with Global Network */}
+            {/* Left: Full iPhone Mockup with Global Network */}
             <motion.div
               initial={{ opacity: 0, y: 60 }}
               animate={{ opacity: 1, y: 0 }}
@@ -842,7 +842,7 @@ const HeroSection = () => {
                 delay: 0.2,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="relative flex justify-center order-1 lg:order-2"
+              className="relative flex justify-center items-center order-1 lg:order-1 px-2 sm:px-4"
             >
               {/* Global Network Visualization Background */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
@@ -996,6 +996,12 @@ const HeroSection = () => {
                 <PhoneMockup />
               </motion.div>
             </motion.div>
+            {/* Right: Dashboard */}
+            <div className="flex w-full justify-center order-3 lg:order-3 h-auto min-h-[280px] sm:min-h-[340px] lg:min-h-[260px]">
+              <div className="w-full">
+                <MerchantDashboardIndex />
+              </div>
+            </div>
           </div>
         </motion.div>
 
