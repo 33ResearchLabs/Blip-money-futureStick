@@ -286,7 +286,7 @@ export const MerchantDashboardIndex = () => {
                             {order.country}
                           </span>
                         </div>
-                        <div className="flex justify-between items-center gap-1">
+                        <div className="flex md:flex-col justify-between items-center gap-1">
                           <div className="min-w-0">
                             <div className="text-xs sm:text-sm font-semibold text-white truncate">
                               {order.amount}
