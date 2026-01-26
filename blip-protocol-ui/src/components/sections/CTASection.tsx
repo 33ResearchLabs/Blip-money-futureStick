@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { sounds } from "@/lib/sounds";
 import { MagneticWrapper } from "@/components/MagneticButton";
+import { CTAButton } from "../Navbar";
 
 /* ============================================
    CTA SECTION COMPONENT
@@ -93,17 +94,12 @@ export const CTASection = ({
           transition={{ duration: 0.6, delay: 0.2 }}
           className="flex flex-col sm:flex-row gap-4 justify-center"
         >
-          <MagneticWrapper strength={0.2}>
-            <Link
-              to={primaryButtonLink}
-              onClick={() => sounds.click()}
-              onMouseEnter={() => sounds.hover()}
-              className="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white text-black text-[15px] font-medium transition-all duration-500 hover:shadow-[0_0_60px_rgba(255,255,255,0.2)]"
-            >
+          
+          <CTAButton to="/waitlist"  >
               {primaryButtonText}
-              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-          </MagneticWrapper>
+            
+          </CTAButton>
+          
 
           {secondaryButtonText && secondaryButtonLink && (
             <MagneticWrapper strength={0.2}>
@@ -111,7 +107,7 @@ export const CTASection = ({
                 to={secondaryButtonLink}
                 onClick={() => sounds.click()}
                 onMouseEnter={() => sounds.hover()}
-                className="group inline-flex items-center gap-3 px-8 py-4 rounded-full border border-white/10 text-white text-[15px] font-medium transition-all duration-500 hover:border-white/30 hover:bg-white/5"
+                className="group inline-flex items-center gap-3 px-5 py-2.5 rounded-full border border-white text-white  text-[16px] font-medium transition-all duration-500 hover:border-white/30 hover:bg-white/5 ml-2"
               >
                 {secondaryButtonText}
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />

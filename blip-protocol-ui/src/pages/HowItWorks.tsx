@@ -210,7 +210,7 @@ const KeyConceptsSection = () => {
 
               <div className="relative z-10">
                 <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-6 group-hover:bg-white/10 transition-colors duration-500">
-                  <concept.icon className="w-6 h-6 text-white/70 group-hover:text-white/60 transition-colors duration-500" />
+                  <concept.icon className="w-6 h-6 text-white/70 group-hover:text-[#ff6b35] transition-colors duration-500" />
                 </div>
                 <h3 className="text-xl font-semibold text-white mb-3">
                   {concept.title}
@@ -307,20 +307,20 @@ const CoreProtocolSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8, delay: i * 0.1 }}
-              className="group relative p-8 rounded-3xl text-center"
+              className="group relative p-8 rounded-3xl text-center border hover:border-[#ff6b35]/20"
               style={{
                 background: "rgba(255, 255, 255, 0.02)",
-                border: "1px solid rgba(255, 255, 255, 0.05)",
+                // border: "1px solid rgba(255, 255, 255, 0.05)",
               }}
               onMouseEnter={() => sounds.hover()}
             >
               {/* Step number */}
-              <span className="absolute top-4 right-4 text-6xl font-bold text-white/[0.03] select-none">
+              <span className="absolute top-4 right-4 text-4xl font-bold text-white/[0.03] select-none">
                 0{i + 1}
               </span>
 
               <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mx-auto mb-6 group-hover:bg-white/10 transition-colors duration-500">
-                <pillar.icon className="w-7 h-7 text-white/60" />
+                <pillar.icon className="w-7 h-7 text-white/60 group-hover:text-[#ff6b35]" />
               </div>
               <h3 className="text-lg font-semibold text-white mb-3">
                 {pillar.title}

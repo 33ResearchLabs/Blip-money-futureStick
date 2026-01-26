@@ -97,7 +97,8 @@ const MerchantHero = () => {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="heading-xl text-white mb-6"
           >
-            Become a Blip <span className="text-white/20">Merchant</span>
+            Become a <span className="text-[#ff6b35]">Blip</span>{" "}
+            <span className="text-white/20">Merchant</span>
           </motion.h1>
 
           {/* Subheadline */}
@@ -140,17 +141,37 @@ const MerchantHero = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="flex flex-col sm:flex-row gap-4"
           >
-            <MagneticWrapper strength={0.2}>
-              <Link
-                to="/waitlist"
-                onClick={() => sounds.click()}
-                onMouseEnter={() => sounds.hover()}
-                className="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white text-black text-[15px] font-medium transition-all duration-500 hover:shadow-[0_0_60px_rgba(255,255,255,0.2)]"
-              >
+            <Link
+              to="/waitlist"
+              onClick={() => sounds.click()}
+              onMouseEnter={() => sounds.hover()}
+              className="
+      group relative inline-flex items-center gap-3
+      px-8 py-4 rounded-full
+      bg-white text-black text-[15px] font-medium
+      overflow-hidden
+      transition-shadow duration-500
+      hover:shadow-[0_0_60px_rgba(255,255,255,0.2)]
+    "
+            >
+              {/* Hover fill */}
+              <span
+                className="
+        absolute inset-0
+        bg-[#ff6b35]
+        origin-left
+        scale-x-0
+        transition-transform duration-500 ease-out
+        group-hover:scale-x-100
+      "
+              />
+
+              {/* Content */}
+              <span className="relative z-10 flex items-center gap-3">
                 Apply as Merchant
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </MagneticWrapper>
+              </span>
+            </Link>
 
             <MagneticWrapper strength={0.2}>
               <a
@@ -159,7 +180,7 @@ const MerchantHero = () => {
                 rel="noopener noreferrer"
                 onClick={() => sounds.click()}
                 onMouseEnter={() => sounds.hover()}
-                className="group inline-flex items-center gap-3 px-8 py-4 rounded-full border border-white/10 text-white text-[15px] font-medium transition-all duration-500 hover:border-white/30 hover:bg-white/5"
+                className="group inline-flex items-center ml-2 gap-3 px-8 py-4 rounded-full border border-white/10 text-white text-[15px] font-medium transition-all duration-500 hover:border-white/30 hover:bg-white/5"
               >
                 Join Merchant Community
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -225,7 +246,7 @@ const Card = ({ title, subtitle, icon: Icon, children, delay, step }) => {
     >
       {/* Border beam */}
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-        <div className="absolute inset-[-1px] rounded-[2rem] border border-orange-500/20 [mask-image:linear-gradient(to_right,transparent,white,transparent)] animate-[move_5s_linear_infinite]" />
+        <div className="absolute inset-[-1px] rounded-[2rem] border border-[#ff6b35]/20 [mask-image:linear-gradient(to_right,transparent,white,transparent)] animate-[move_5s_linear_infinite]" />
       </div>
 
       {/* Step number */}
@@ -234,7 +255,11 @@ const Card = ({ title, subtitle, icon: Icon, children, delay, step }) => {
       </div>
 
       {/* Icon */}
+<<<<<<< HEAD
       <div className="mb-8 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#0a0a0a] border border-white/5 text-zinc-500 group-hover:text-[#ff6b35] group-hover:border-orange-500/30 transition">
+=======
+      <div className="mb-8 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#0a0a0a] border border-white/5 text-zinc-500 group-hover:text-[#ff6b35] group-hover:border-[#ff6b35]/30 transition">
+>>>>>>> b7fdbb4 (changesssss)
         <Icon size={22} strokeWidth={1.5} />
       </div>
 
@@ -262,11 +287,11 @@ const MockupDashboard = () => (
         className="flex justify-between items-center p-2 rounded bg-zinc-900/30 border border-white/[0.03]"
       >
         <div className="h-1.5 w-10 bg-zinc-800 rounded" />
-        <div className="h-1.5 w-6 bg-orange-500/30 rounded" />
+        <div className="h-1.5 w-6 bg-[#ff6b35]/30 rounded" />
       </div>
     ))}
     <div className="mt-auto h-2 bg-zinc-800 rounded overflow-hidden">
-      <div className="h-full w-1/3 bg-orange-500/40 group-hover:w-full transition-all duration-[2000ms]" />
+      <div className="h-full w-1/3 bg-[#ff6b35]/40 group-hover:w-full transition-all duration-[2000ms]" />
     </div>
   </div>
 );
@@ -311,7 +336,11 @@ const MockupOnChain = () => (
    ============================================ */
 import { ChevronRight, Sliders, LayoutList, Check } from "lucide-react";
 import { useMotionValue, useSpring, useTransform } from "framer-motion";
+<<<<<<< HEAD
 import HowItWorksSection from "@/components/merchant/How-it-works";
+=======
+import { CTAButton } from "@/components/Navbar";
+>>>>>>> b7fdbb4 (changesssss)
 
 const WhyBlipSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -396,7 +425,7 @@ const WhyBlipSection = () => {
         {/* Header */}
         <div className="max-w-4xl mb-24">
           <div className="flex items-center gap-2 mb-6">
-            <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
+            <div className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
             <span className="text-xs tracking-[0.2em] uppercase text-zinc-500">
               Next-Gen Merchant Protocol
             </span>
@@ -412,10 +441,15 @@ const WhyBlipSection = () => {
             <span className="text-[#ff6b35] italic">repeat volume</span>.
           </p>
 
+<<<<<<< HEAD
           <button className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#ff6b35] text-black font-bold hover:scale-105 transition">
             Start Trading
             <ChevronRight size={16} />
           </button>
+=======
+          
+          <CTAButton to="">Start Trading</CTAButton>
+>>>>>>> b7fdbb4 (changesssss)
         </div>
 
         {/* 3D Interactive Card */}
@@ -433,7 +467,7 @@ const WhyBlipSection = () => {
             {/* Shine */}
             <motion.div
               style={{ left: shineX, top: shineY }}
-              className="absolute -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-500/[0.05] blur-[80px] rounded-full pointer-events-none"
+              className="absolute -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#ff6b35]/[0.05] blur-[80px] rounded-full pointer-events-none"
             />
 
             {/* Header */}
@@ -473,7 +507,7 @@ const WhyBlipSection = () => {
                 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.8),inset_0_1px_1px_rgba(255,255,255,0.12)]
               `
               : isActive
-                ? "bg-orange-500/[0.05] border border-orange-500/20"
+                ? "bg-[#ff6b35]/[0.05] border border-[#ff6b35]/20"
                 : "opacity-60 hover:opacity-100 hover:bg-white/[0.02]"
           }
         `}
@@ -492,7 +526,7 @@ const WhyBlipSection = () => {
                 isPrimary
                   ? "bg-white text-black border-white/30 shadow-[0_8px_20px_rgba(0,0,0,0.6)]"
                   : isActive
-                    ? "bg-orange-500 text-black border-orange-400"
+                    ? "bg-[#ff6b35] text-black border-orange-400"
                     : "bg-[#151516] border-white/10 text-zinc-500"
               }
             `}
@@ -526,7 +560,11 @@ const WhyBlipSection = () => {
               ${
                 isPrimary
                   ? "bg-white/20 border border-white/30 text-white"
+<<<<<<< HEAD
                   : "bg-orange-500/10 border border-orange-500/30 text-[#ff6b35]"
+=======
+                  : "bg-[#ff6b35]/10 border border-[#ff6b35]/30 text-[#ff6b35]"
+>>>>>>> b7fdbb4 (changesssss)
               }
             `}
                         style={
@@ -627,13 +665,13 @@ const DashboardSection = () => {
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-stretch">
           {/* Dashboard Preview Placeholder */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8 }}
-            className="relative aspect-[4/3] rounded-2xl overflow-hidden order-2 lg:order-1"
+            className="relative aspect-[4/3] rounded-2xl  order-2 lg:order-1 "
           >
             {/* Placeholder frame */}
             <div className="absolute inset-0 bg-[#0a0a0a] border border-white/10 rounded-2xl">
@@ -664,7 +702,7 @@ const DashboardSection = () => {
               {/* "Screenshot coming soon" overlay */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center">
-                  <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mx-auto mb-4">
+                  <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mx-auto mt-4">
                     <BarChart3 className="w-8 h-8 text-white/20" />
                   </div>
                   <p className="text-sm text-white/30">Dashboard Preview</p>
@@ -688,7 +726,7 @@ const DashboardSection = () => {
               return (
                 <div
                   key={callout.title}
-                  className="flex items-start gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-colors"
+                  className="flex items-start gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/5 hover:border-[#ff6b35] transition-colors duration-500"
                   onMouseEnter={() => sounds.hover()}
                 >
                   <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
@@ -758,7 +796,7 @@ const PricingSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="p-6 rounded-2xl bg-white/[0.02] border border-white/5 max-w-xl mx-auto"
+          className="p-6 rounded-2xl bg-white/[0.02] border border-white/5 max-w-xl mx-auto hover:border-[#ff6b35]/30 transition-colors duration-500"
         >
           <div className="space-y-3 text-sm text-white/40">
             <p>
@@ -860,10 +898,10 @@ const RolloutSection = () => {
               className="space-y-6"
             >
               {/* Alpha */}
-              <div className="p-5 rounded-xl bg-white/[0.02] border border-white/5">
+              <div className="group p-5 rounded-xl bg-white/[0.02] hover:bg-[#ff6b35]/5 border hover:border-[#ff6b35]/20">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-2 h-2 rounded-full bg-white/30" />
-                  <h3 className="text-lg font-semibold text-white">Alpha</h3>
+                  <div className="w-2 h-2 rounded-full bg-white/30 group-hover:bg-[#ff6b35]" />
+                  <h3 className="text-lg font-semibold  text-white">Alpha</h3>
                   <span className="text-xs px-2 py-0.5 rounded-full bg-white/5 text-white/40">
                     Internal
                   </span>
@@ -874,9 +912,9 @@ const RolloutSection = () => {
               </div>
 
               {/* Beta */}
-              <div className="p-5 rounded-xl bg-[#ff6b35]/5 border border-[#ff6b35]/20">
+              <div className=" group p-5 rounded-xl hover:bg-[#ff6b35]/5 border hover:border-[#ff6b35]/20">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
+                  <div className="w-2 h-2 rounded-full bg-white/30 group-hover:bg-[#ff6b35] animate-pulse" />
                   <h3 className="text-lg font-semibold text-white">Beta</h3>
                   <span className="text-xs px-2 py-0.5 rounded-full bg-[#ff6b35]/10 text-[#ff6b35]">
                     Invite-only
@@ -895,7 +933,7 @@ const RolloutSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-sm uppercase tracking-[0.2em] text-white/40 mb-4"
+              className="text-sm uppercase tracking-[0.2em] text-[#ff6b35] mb-4"
             >
               Benefits
             </motion.p>
@@ -918,10 +956,10 @@ const RolloutSection = () => {
               {earlyBenefits.map((benefit, index) => (
                 <div
                   key={index}
-                  className="flex items-center gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/5"
+                  className="group flex items-center gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/5 hover:bg-[#ff6b35]/5  hover:border-[#ff6b35]/20"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-[#ff6b35]/10 flex items-center justify-center flex-shrink-0">
-                    <CheckCircle2 className="w-4 h-4 text-[#ff6b35]" />
+                  <div className="w-8 h-8 rounded-lg  flex items-center justify-center flex-shrink-0">
+                    <CheckCircle2 className="w-4 h-4 text-gray-600 group-hover:text-[#ff6b35]" />
                   </div>
                   <span className="text-white/70">{benefit}</span>
                 </div>
@@ -996,10 +1034,10 @@ const RequirementsSection = () => {
             return (
               <div
                 key={index}
-                className="flex items-start gap-4 p-5 rounded-xl bg-white/[0.02] border border-white/5"
+                className="group flex items-start gap-4 p-5 rounded-xl bg-white/[0.02] border border-white/5 hover:border-[#ff6b35]"
               >
                 <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
-                  <Icon className="w-5 h-5 text-white/60" />
+                  <Icon className="w-5 h-5 text-white/60 group-hover:text-[#ff6b35] " />
                 </div>
                 <p className="text-white/70 pt-2">{req.text}</p>
               </div>
@@ -1076,7 +1114,13 @@ const FAQSection = () => {
           {faqs.map((faq, index) => (
             <div
               key={index}
-              className="rounded-xl bg-white/[0.02] border border-white/5 overflow-hidden"
+              className={`rounded-xl border overflow-hidden transition-colors duration-300 hover:border-[#ff6b35]/20
+    ${
+      openIndex === index
+        ? "bg-[#ff6b35]/5 border-[#ff6b35]/20"
+        : "bg-white/[0.02] border-white/5"
+    }
+  `}
             >
               <button
                 onClick={() => {
@@ -1084,7 +1128,7 @@ const FAQSection = () => {
                   sounds.click();
                 }}
                 onMouseEnter={() => sounds.hover()}
-                className="w-full flex items-center justify-between p-5 text-left"
+                className="w-full flex items-center justify-between p-5 text-left "
               >
                 <span className="text-white font-medium">{faq.question}</span>
                 <ChevronDown

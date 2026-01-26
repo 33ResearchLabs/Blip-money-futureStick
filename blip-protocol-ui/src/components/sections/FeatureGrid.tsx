@@ -89,7 +89,7 @@ const FeatureCard = ({
       initial={{ opacity: 0, y: 40 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.8, delay: index * 0.1 }}
-      className="group p-6 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-all duration-500"
+      className="group p-6 rounded-2xl bg-white/[0.02] border border-transparent hover:border-[#ff6b35]/80 transition-colors duration-500"
       onMouseEnter={() => sounds.hover()}
     >
       {Icon && (

@@ -117,7 +117,7 @@ const NavItem = ({
 };
 
 /* ---------------- CTA Button ---------------- */
-const CTAButton = ({
+export const CTAButton = ({
   to,
   children,
   variant = "primary",

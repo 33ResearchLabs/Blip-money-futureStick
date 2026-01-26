@@ -408,7 +408,7 @@ const UtilitySection = () => {
         </motion.div>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 ">
           {utilities.map((utility, i) => (
             <motion.div
               key={utility.title}
@@ -416,10 +416,11 @@ const UtilitySection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8, delay: i * 0.1 }}
-              className="group relative p-8 rounded-3xl min-h-[280px] flex flex-col justify-between overflow-hidden"
+              className="group relative p-8 rounded-3xl min-h-[280px] flex flex-col justify-between overflow-hidden border border-transparent hover:border-[#ff6b35]/80 transition-colors duration-500 ease-out
+ "
               style={{
                 background: "rgba(255, 255, 255, 0.02)",
-                border: "1px solid rgba(255, 255, 255, 0.05)",
+                // border: "1px solid rgba(255, 255, 255, 0.05)",
               }}
               onMouseEnter={() => sounds.hover()}
             >
@@ -427,7 +428,7 @@ const UtilitySection = () => {
               <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#ff6b35] opacity-0 group-hover:opacity-[0.08] blur-[40px] rounded-full transition-opacity duration-500" />
 
               <div className="relative z-10">
-                <div className="mb-8 text-white/40 group-hover:text-white/60 transition-colors duration-500">
+                <div className="mb-8 text-white/40 group-hover:text-[#ff6b35] transition-colors duration-500">
                   <utility.icon className="w-8 h-8" strokeWidth={1.5} />
                 </div>
                 <h3 className="text-2xl font-light text-white mb-3">
@@ -497,10 +498,10 @@ const DeflationSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: i * 0.15 }}
-              className="group p-10 rounded-3xl text-center"
+              className="group p-10 rounded-3xl text-center border border-transparent hover:border-[#ff6b35]/80 transition-colors duration-500"
               style={{
                 background: "rgba(255, 255, 255, 0.02)",
-                border: "1px solid rgba(255, 255, 255, 0.05)",
+                // border: "1px solid rgba(255, 255, 255, 0.05)",
               }}
               onMouseEnter={() => sounds.hover()}
             >
@@ -523,6 +524,7 @@ const DeflationSection = () => {
     </section>
   );
 };
+
 
 /* ============================================
    SECTION 5: EMISSIONS CHART
