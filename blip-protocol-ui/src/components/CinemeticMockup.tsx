@@ -6,7 +6,7 @@ export const CinematicMockup = ({
   children: React.ReactNode;
 }) => {
   return (
-    <div className="relative mt-24">
+    <div className="relative mt-14">
       {/* Center container */}
       <div className="flex justify-center">
         <motion.div
@@ -25,7 +25,10 @@ export const CinematicMockup = ({
           </div>
 
           {/* Bottom fade (KEY PART 🔥) */}
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-black to-transparent" />
+          <div
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-32
+ bg-gradient-to-t from-black to-transparent"
+          />
         </motion.div>
       </div>
     </div>
