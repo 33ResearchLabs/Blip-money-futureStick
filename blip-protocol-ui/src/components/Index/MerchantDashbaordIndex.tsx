@@ -250,7 +250,7 @@ export const MerchantDashboardIndex = () => {
           </div>
 
           {/* ---------------- GRID ---------------- */}
-          <div className="grid grid-cols-3 gap-3 sm:gap-4 flex-1">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 flex-1">
             {/* Column Wrapper */}
             {[
               { title: "New Orders", data: newOrders },
