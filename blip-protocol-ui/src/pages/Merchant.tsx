@@ -226,14 +226,14 @@ const MerchantHero = () => {
   return (
     <section
       ref={ref}
-      className="relative min-h-[100vh] overflow-hidden bg-black"
+      className="relative min-h-[100vh] overflow-hidden bg-black border-none"
     >
       {/* ---------------- BACKGROUND ---------------- */}
       <div className="absolute inset-0" />
 
       {/* Subtle glow */}
       <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] opacity-[0.06]"
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] opacity-[0.06] border-none"
         style={{
           background:
             "radial-gradient(ellipse, rgba(255,107,53,1) 0%, transparent 70%)",
@@ -273,7 +273,7 @@ const MerchantHero = () => {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="heading-xl text-white mb-6"
           >
-            Become a Blip Merchant
+            Become a Blip <span className="text-white/20">Merchant</span>
           </motion.h1>
 
           {/* Subheadline */}
@@ -348,29 +348,34 @@ const MerchantHero = () => {
       {/* ---------------- DASHBOARD VISUAL ---------------- */}
       <div className="relative z-0 w-full mt-24">
         <HeroDashboardVisual>
-          <div className="relative w-full h-[900px] object-center">
+          <div className="relative w-full h-[1200px] object-center">
             <motion.div
               initial={{ opacity: 0, y: 80 }}
-              animate={{ opacity: 1, y: 0 }}
+              animate={{ opacity: 1, y: 90 }}
               transition={{ duration: 1.2, ease: "easeOut" }}
               className="
     reletive
     left-1/2
     -translate-x-1/2
     bottom-[-18%]
-    w-[1200px]
-    xl:w-[1400px]
-    2xl:w-[1600px]
   "
             >
               <MerchantDashboard />
             </motion.div>
 
             {/* Depth fade */}
-            {/* <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent pointer-events-none" /> */}
+            {/* <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent pointer-events-none" /> */}
+            <div
+              className="absolute inset-x-0 bottom-0 h-40
+  bg-gradient-to-t from-black/60 via-black/25 to-transparent"
+            />
 
             {/* Vignette */}
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,black_100%)] pointer-events-none" />
+            {/* <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,black_100%)] pointer-events-none" /> */}
+            <div
+              className="absolute inset-0 pointer-events-none
+  bg-[radial-gradient(ellipse_at_center,transparent_65%,rgba(0,0,0,0.6)_100%)]"
+            />
           </div>
         </HeroDashboardVisual>
       </div>
@@ -500,7 +505,7 @@ const HowItWorksSection = () => {
     <section
       ref={ref}
       onMouseMove={handleMouseMove}
-      className="relative py-24 md:py-32 bg-[#050505]"
+      className="relative pb-20 md:py-32 overflow-visible"
     >
       <style>{`
            @keyframes fadeInUp {
@@ -531,7 +536,7 @@ const HowItWorksSection = () => {
             transition={{ duration: 0.8 }}
             className="text-5xl md:text-6xl font-bold text-white"
           >
-            How merchants execute on Blip
+            How merchants <span className="text-white/20">execute</span> on Blip
           </motion.h2>
         </div>
 
@@ -678,7 +683,7 @@ const WhyBlipSection = () => {
           </div>
 
           <h2 className="text-6xl font-bold tracking-tighter mb-6">
-            Why Merchants Choose Blip
+            Why Merchants <span className="text-white/20">Choose </span>Blip
           </h2>
 
           <p className="text-lg text-zinc-400 max-w-2xl mb-10">
@@ -890,7 +895,7 @@ const DashboardSection = () => {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="heading-lg text-white mb-4"
           >
-            Your command center
+            Your <span className="text-white/20">command</span> center
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -1015,7 +1020,8 @@ const PricingSection = () => {
           transition={{ duration: 0.8, delay: 0.1 }}
           className="heading-lg text-white mb-6"
         >
-          You control pricing. We keep it simple.
+          You <span className="text-white/20">control pricing.</span> We keep it
+          simple.
         </motion.h2>
 
         <motion.p

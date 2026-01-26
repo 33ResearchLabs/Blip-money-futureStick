@@ -27,13 +27,19 @@ export const MerchantDashboard = () => {
   const mockCountries = ["🇦🇪"];
   const mockRates = ["1,620 AED", "1,618 AED", "3.67 AED"];
 
-  const mockUserNames = ["Sarah M.", "Ahmed K.", "Lisa T.", "John D.", "Emily R."];
+  const mockUserNames = [
+    "Sarah M.",
+    "Ahmed K.",
+    "Lisa T.",
+    "John D.",
+    "Emily R.",
+  ];
   const mockDescriptions = [
     "Crypto to cash transfer - Dubai",
     "Bulk exchange request",
     "Quick cash out",
     "Personal remittance",
-    "Business settlement"
+    "Business settlement",
   ];
   const mockPriorities = ["high", "medium", "low"];
 
@@ -49,8 +55,10 @@ export const MerchantDashboard = () => {
       time: "just now",
       country: mockCountries[Math.floor(Math.random() * mockCountries.length)],
       status: "new",
-      description: mockDescriptions[Math.floor(Math.random() * mockDescriptions.length)],
-      priority: mockPriorities[Math.floor(Math.random() * mockPriorities.length)],
+      description:
+        mockDescriptions[Math.floor(Math.random() * mockDescriptions.length)],
+      priority:
+        mockPriorities[Math.floor(Math.random() * mockPriorities.length)],
     };
   };
 
@@ -58,7 +66,7 @@ export const MerchantDashboard = () => {
     const interval = setInterval(() => {
       const order = generateOrder();
       setNewOrders((prev) => {
-        if (prev.length >= 5) return prev;
+        if (prev.length >= 8) return prev;
         return [order, ...prev];
       });
       showNotification("New order received", "Waiting for merchant action");
@@ -100,7 +108,10 @@ export const MerchantDashboard = () => {
         if (Math.random() > 0.3) return prev;
         const [order, ...rest] = prev;
         setInEscrow((escrow) => [{ ...order, progress: 40 }, ...escrow]);
-        showNotification("Order auto-matched", `${order.amount} moved to escrow`);
+        showNotification(
+          "Order auto-matched",
+          `${order.amount} moved to escrow`,
+        );
         return rest;
       });
     }, 1000);
@@ -112,7 +123,9 @@ export const MerchantDashboard = () => {
       setInEscrow((prev) => {
         if (prev.length === 0) return prev;
         const updated = prev.map((order) =>
-          order.progress < 100 ? { ...order, progress: order.progress + 20 } : order
+          order.progress < 100
+            ? { ...order, progress: order.progress + 20 }
+            : order,
         );
         const completedOrders = updated.filter((o) => o.progress >= 100);
         const remaining = updated.filter((o) => o.progress < 100);
@@ -121,7 +134,10 @@ export const MerchantDashboard = () => {
             ...completedOrders.map((o) => ({ ...o, time: "just settled" })),
             ...done,
           ]);
-          showNotification("Auto settlement completed", `${completedOrders[0].amount} released`);
+          showNotification(
+            "Auto settlement completed",
+            `${completedOrders[0].amount} released`,
+          );
         }
         return remaining;
       });
@@ -130,240 +146,141 @@ export const MerchantDashboard = () => {
   }, []);
 
   return (
-    <div className="relative w-full">
-      {/* Browser window with 3D tilt */}
+    <div
+      className="
+        relative mx-auto
+        w-[1200px]
+        xl:w-[1400px]
+        2xl:w-[1600px]
+      "
+    >
+      {/* Browser Window */}
       <motion.div
         initial={{ rotateX: 3, rotateY: -3 }}
         whileHover={{ rotateX: 0, rotateY: 0 }}
         transition={{ duration: 0.4, ease: "easeOut" }}
-        style={{ transformStyle: "preserve-3d", perspective: "1200px" }}
-        className="rounded-2xl overflow-hidden border border-white/[0.08] bg-[#0a0a0a] shadow-2xl w-full min-h-[850px]"
+        style={{ transformStyle: "preserve-3d", perspective: 1200 }}
+        className="
+        w-full
+        min-h-[1200px]
+        rounded-2xl
+        overflow-hidden
+        bg-[#0a0a0a]
+        border border-white/[0.08]
+        shadow-2xl
+        flex flex-col
+      "
       >
-        {/* Browser header */}
-        <div className="flex items-center gap-3 px-6 py-4 bg-[#111111] border-b border-white/[0.06]">
-          <div className="flex items-center gap-1.5">
+        {/* Browser Header */}
+        <div className="flex items-center gap-3 px-6 py-4 bg-[#111111] border-b border-white/[0.08]">
+          <div className="flex gap-1.5">
             <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
             <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
             <div className="w-3 h-3 rounded-full bg-[#28ca42]" />
           </div>
+
           <div className="flex-1 flex justify-center">
-            <div className="flex items-center gap-2 px-4 py-1.5 rounded-lg bg-black/40 border border-white/[0.06]">
-              <div className="w-3 h-3 rounded-full bg-[#ff6b35]/20 flex items-center justify-center">
-                <div className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]" />
-              </div>
-              <span className="text-xs text-white/40">merchant.blipprotocol.com</span>
+            <div className="px-4 py-1.5 rounded-lg bg-black/40 border border-white/[0.06] text-xs text-white/40">
+              merchant.blipprotocol.com
             </div>
           </div>
+
           <div className="w-16" />
         </div>
 
-        {/* Dashboard content */}
-        <div className="p-8 md:p-12">
+        {/* ---------------- CONTENT ---------------- */}
+        <div className="flex-1 p-8 flex flex-col">
           {/* Top stats */}
-          <div className="flex items-center justify-between mb-8 pb-6 border-b border-white/[0.04]">
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                <motion.div
-                  className="w-2 h-2 rounded-full bg-[#28ca42]"
-                  animate={{ scale: [1, 1.2, 1], opacity: [1, 0.7, 1] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                />
-                <span className="text-xs text-white/50">Live</span>
-              </div>
-              <div className="h-4 w-px bg-white/10" />
-              <span className="text-xs text-white/30">Connected to Solana Mainnet</span>
+          <div className="flex items-center justify-between pb-6 mb-6 border-b border-white/[0.04]">
+            <div className="flex items-center gap-3 text-sm text-white/50">
+              <span className="w-2 h-2 rounded-full bg-[#28ca42]" />
+              Live · Solana Mainnet
             </div>
-            <div className="flex items-center gap-6">
-              <div className="text-right">
-                <div className="text-[10px] text-white/30 uppercase tracking-wider">Today's Volume</div>
-                <div className="text-sm font-semibold text-white">$55,450</div>
+            <div className="flex gap-6 text-right">
+              <div>
+                <div className="text-xs text-white/30">Today's Volume</div>
+                <div className="text-base text-white font-semibold">
+                  $55,450
+                </div>
               </div>
-              <div className="text-right">
-                <div className="text-[10px] text-white/30 uppercase tracking-wider">Earnings</div>
-                <div className="text-sm font-semibold text-[#ff6b35]">+$1,386</div>
+              <div>
+                <div className="text-xs text-white/30">Earnings</div>
+                <div className="text-base text-[#ff6b35] font-semibold">
+                  +$1,386
+                </div>
               </div>
             </div>
           </div>
 
-          {/* 3 columns */}
-          <div className="grid grid-cols-3 gap-6">
-            {/* New Orders */}
-            <div className="rounded-xl bg-[#0d0d0d] border border-white/[0.04] overflow-hidden">
-              <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.04]">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-[#ff6b35]" />
-                  <span className="text-sm font-medium text-white">New Orders</span>
+          {/* ---------------- GRID ---------------- */}
+          <div className="grid grid-cols-3 gap-6 flex-1">
+            {/* Column Wrapper */}
+            {[
+              { title: "New Orders", data: newOrders },
+              { title: "In Escrow", data: inEscrow },
+              { title: "Completed", data: completed },
+            ].map((col, idx) => (
+              <div
+                key={col.title}
+                className="rounded-xl bg-[#0d0d0d] border border-white/[0.04] flex flex-col"
+              >
+                <div className="px-5 py-4 border-b border-white/[0.04] flex justify-between">
+                  <span className="text-base font-semibold text-white">
+                    {col.title}
+                  </span>
+                  <span className="text-sm text-white/30">
+                    {col.data.length}
+                  </span>
                 </div>
-                <span className="text-xs text-white/30 bg-white/[0.05] px-2 py-0.5 rounded-full">
-                  {newOrders.length}
-                </span>
-              </div>
-              <div className="p-4 space-y-3 min-h-[600px] max-h-[600px] overflow-y-auto">
-                <AnimatePresence initial={false}>
-                  {newOrders.slice(0, 4).map((order) => (
-                    <motion.div
-                      key={order.id}
-                      exit={{ opacity: 0, y: -20, scale: 0.9, transition: { duration: 0.25 } }}
-                      layout
-                      className="group p-4 rounded-lg bg-[#111111] border border-white/[0.04]"
-                    >
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center gap-2">
+
+                <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                  <AnimatePresence>
+                    {col.data.slice(0, 4).map((order: any) => (
+                      <motion.div
+                        key={order.id}
+                        layout
+                        className="p-4 rounded-lg bg-[#111111] border border-white/[0.04]"
+                      >
+                        <div className="flex justify-between mb-2">
                           <span className="text-lg">{order.user}</span>
-                          <span className="text-xs font-mono text-white/40">{order.id}</span>
+                          <span className="text-sm text-white/40">
+                            {order.country}
+                          </span>
                         </div>
-                        <span className="text-lg">{order.country}</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <div className="text-sm font-semibold text-white">{order.amount}</div>
-                          <div className="text-[11px] text-white/40">@ {order.rate}</div>
+                        <div className="flex justify-between items-center">
+                          <div>
+                            <div className="text-base font-semibold text-white">
+                              {order.amount}
+                            </div>
+                            <div className="text-sm text-white/40">
+                              @ {order.rate}
+                            </div>
+                          </div>
+
+                          {idx === 0 && (
+                            <button
+                              onClick={() => acceptOrder(order)}
+                              className="text-sm font-medium bg-[#ff6b35] text-black px-3 py-1.5 rounded"
+                            >
+                              Accept
+                            </button>
+                          )}
+
+                          {idx === 1 && (
+                            <button
+                              onClick={() => releaseOrder(order)}
+                              className="text-sm font-medium bg-[#ff6b35] text-black px-3 py-1.5 rounded"
+                            >
+                              Release
+                            </button>
+                          )}
                         </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-[10px] text-white/30">{order.time}</span>
-                          <motion.div
-                            className="px-2 py-1 rounded-md text-[10px] font-medium bg-[#ff6b35] text-black opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
-                            whileHover={{ scale: 1.05 }}
-                            onClick={() => acceptOrder(order)}
-                          >
-                            Accept
-                          </motion.div>
-                        </div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </AnimatePresence>
-              </div>
-            </div>
-
-            {/* In Escrow */}
-            <div className="rounded-xl bg-[#0d0d0d] border border-white/[0.04] overflow-hidden">
-              <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.04]">
-                <div className="flex items-center gap-2">
-                  <motion.div
-                    className="w-2 h-2 rounded-full bg-yellow-500"
-                    animate={{ opacity: [1, 0.5, 1] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                  />
-                  <span className="text-sm font-medium text-white">In Escrow</span>
-                </div>
-                <span className="text-xs text-white/30 bg-white/[0.05] px-2 py-0.5 rounded-full">
-                  {inEscrow.length}
-                </span>
-              </div>
-              <div className="p-4 space-y-3 min-h-[600px] max-h-[600px] overflow-y-auto">
-                {inEscrow.slice(0, 4).map((order, i) => (
-                  <motion.div
-                    key={order.id}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="p-4 rounded-lg bg-[#111111] border border-yellow-500/10"
-                  >
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <span className="text-lg">{order.user}</span>
-                        <span className="text-xs font-mono text-white/40">{order.id}</span>
-                      </div>
-                      <span className="text-lg">{order.country}</span>
-                    </div>
-                    <div className="mb-3">
-                      <div className="text-sm font-semibold text-white">{order.amount}</div>
-                      <div className="text-[11px] text-white/40">@ {order.rate}</div>
-                    </div>
-                    <div className="space-y-1">
-                      <div className="flex justify-between text-[10px]">
-                        <span className="text-white/30">Settlement progress</span>
-                        <span className="text-yellow-500">{order.progress}%</span>
-                      </div>
-                      <div className="h-1.5 bg-white/[0.05] rounded-full overflow-hidden">
-                        <motion.div
-                          className="h-full bg-[#ff6b35] rounded-full"
-                          animate={{ width: `${order.progress}%` }}
-                          transition={{ duration: 1 }}
-                        />
-                      </div>
-                    </div>
-                    <motion.div
-                      whileHover={{ scale: 1.05 }}
-                      onClick={() => releaseOrder(order)}
-                      className="mt-3 text-center px-3 py-1.5 rounded-md text-[10px] font-medium bg-[#ff6b35] text-black cursor-pointer"
-                    >
-                      Release
-                    </motion.div>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-
-            {/* Completed */}
-            <div className="rounded-xl bg-[#0d0d0d] border border-white/[0.04] overflow-hidden">
-              <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.04]">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-[#28ca42]" />
-                  <span className="text-sm font-medium text-white">Completed</span>
-                </div>
-                <span className="text-xs text-white/30 bg-white/[0.05] px-2 py-0.5 rounded-full">
-                  {completed.length}
-                </span>
-              </div>
-              <div className="p-4 space-y-3 min-h-[600px] max-h-[600px] overflow-y-auto">
-                {completed.slice(0, 4).map((order) => (
-                  <div key={order.id} className="p-4 rounded-lg bg-[#111111] border border-[#28ca42]/10">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <span className="text-lg">{order.user}</span>
-                        <span className="text-xs font-mono text-white/40">{order.id}</span>
-                      </div>
-                      <div className="flex items-center gap-1 text-[10px] text-[#28ca42]">
-                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
-                        <span>Settled</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <div className="text-sm font-semibold text-white">{order.amount}</div>
-                        <div className="text-[11px] text-white/40">@ {order.rate}</div>
-                      </div>
-                      <span className="text-[10px] text-white/30">{order.time}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Live matching */}
-          <div className="mt-8 p-6 rounded-xl bg-gradient-to-r from-[#ff6b35]/5 to-transparent border border-[#ff6b35]/10">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <motion.div
-                  className="relative w-10 h-10 rounded-full bg-[#ff6b35]/10 flex items-center justify-center"
-                  animate={{ scale: [1, 1.05, 1] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  <svg className="w-5 h-5 text-[#ff6b35]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                </motion.div>
-                <div>
-                  <div className="text-sm font-medium text-white">Live Matching Active</div>
-                  <div className="text-xs text-white/40">3 orders matched in the last 5 minutes</div>
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
                 </div>
               </div>
-              <div className="flex items-center gap-4">
-                <div className="text-right">
-                  <div className="text-[10px] text-white/30 uppercase tracking-wider">Avg. Match Time</div>
-                  <div className="text-sm font-semibold text-white">12 seconds</div>
-                </div>
-                <div className="h-8 w-px bg-white/10" />
-                <div className="text-right">
-                  <div className="text-[10px] text-white/30 uppercase tracking-wider">Success Rate</div>
-                  <div className="text-sm font-semibold text-[#28ca42]">99.8%</div>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </motion.div>
@@ -372,21 +289,14 @@ export const MerchantDashboard = () => {
       <AnimatePresence>
         {notification.visible && (
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
+            initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 40 }}
-            className="absolute right-6 top-24 z-50"
+            exit={{ opacity: 0, x: 30 }}
+            className="absolute top-6 right-6"
           >
-            <div className="p-3 rounded-xl bg-[#111111] border border-white/[0.08] shadow-xl">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#ff6b35]/10 flex items-center justify-center">
-                  <span className="text-sm">🔔</span>
-                </div>
-                <div>
-                  <div className="text-xs font-medium text-white">{notification.title}</div>
-                  <div className="text-[10px] text-white/40">{notification.desc}</div>
-                </div>
-              </div>
+            <div className="bg-[#111111] border border-white/[0.08] rounded-xl px-4 py-3 text-sm text-white">
+              <div className="font-medium text-base">{notification.title}</div>
+              <div className="text-white/40 text-sm">{notification.desc}</div>
             </div>
           </motion.div>
         )}
@@ -426,6 +336,30 @@ export const MerchantDashboardVisual = () => {
       status: "new",
       description: "Crypto to cash transfer - Dubai",
       priority: "high",
+    },
+    {
+      id: "ORD-7820",
+      user: "🐯",
+      userName: "Ahmed K.",
+      amount: "1,200 USDT",
+      rate: "1,618 AED",
+      time: "5m",
+      country: "🇦🇪",
+      status: "new",
+      description: "Bulk exchange request",
+      priority: "medium",
+    },
+    {
+      id: "ORD-7819",
+      user: "🦊",
+      userName: "Lisa T.",
+      amount: "250 USDT",
+      rate: "3.67 AED",
+      time: "8m",
+      country: "🇦🇪",
+      status: "new",
+      description: "Quick cash out",
+      priority: "low",
     },
     {
       id: "ORD-7820",
@@ -665,27 +599,29 @@ export const MerchantDashboardVisual = () => {
                       animate={{ scale: [1, 1.2, 1], opacity: [1, 0.7, 1] }}
                       transition={{ duration: 2, repeat: Infinity }}
                     />
-                    <span className="text-xs text-white/50">Live</span>
+                    <span className="text-sm text-white/50 font-medium">
+                      Live
+                    </span>
                   </div>
                   <div className="h-4 w-px bg-white/10" />
-                  <span className="text-xs text-white/30">
+                  <span className="text-sm text-white/30">
                     Connected to Solana Mainnet
                   </span>
                 </div>
                 <div className="flex items-center gap-6">
                   <div className="text-right">
-                    <div className="text-[10px] text-white/30 uppercase tracking-wider">
+                    <div className="text-xs text-white/30 uppercase tracking-wider font-semibold">
                       Today's Volume
                     </div>
-                    <div className="text-sm font-semibold text-white">
+                    <div className="text-lg font-semibold text-white">
                       $55,450
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-[10px] text-white/30 uppercase tracking-wider">
+                    <div className="text-xs text-white/30 uppercase tracking-wider font-semibold">
                       Earnings
                     </div>
-                    <div className="text-sm font-semibold text-[#ff6b35]">
+                    <div className="text-lg font-semibold text-[#ff6b35]">
                       +$1,386
                     </div>
                   </div>
@@ -699,11 +635,11 @@ export const MerchantDashboardVisual = () => {
                   <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.04]">
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 rounded-full bg-[#ff6b35]" />
-                      <span className="text-sm font-medium text-white">
+                      <span className="text-base font-semibold text-white">
                         New Orders
                       </span>
                     </div>
-                    <span className="text-xs text-white/30 bg-white/[0.05] px-2 py-0.5 rounded-full">
+                    <span className="text-sm text-white/30 bg-white/[0.05] px-2 py-0.5 rounded-full font-medium">
                       {newOrders.length}
                     </span>
                   </div>
@@ -726,30 +662,30 @@ export const MerchantDashboardVisual = () => {
                         >
                           <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center gap-2">
-                              <span className="text-lg">{order.user}</span>
+                              <span className="text-xl">{order.user}</span>
                               <span
                                 className={`text-xs font-mono text-white/40`}
                               >
                                 {order.id}
                               </span>
                             </div>
-                            <span className="text-lg">{order.country}</span>
+                            <span className="text-xl">{order.country}</span>
                           </div>
                           <div className="flex items-center justify-between">
                             <div>
-                              <div className="text-sm font-semibold text-white">
+                              <div className="text-base font-semibold text-white">
                                 {order.amount}
                               </div>
-                              <div className="text-[11px] text-white/40">
+                              <div className="text-sm text-white/40">
                                 @ {order.rate}
                               </div>
                             </div>
                             <div className="flex items-center gap-2">
-                              <span className="text-[10px] text-white/30">
+                              <span className="text-xs text-white/30">
                                 {order.time}
                               </span>
                               <motion.div
-                                className="px-2 py-1 rounded-md text-[10px] font-medium bg-[#ff6b35] text-black opacity-0 group-hover:opacity-100 transition-opacity"
+                                className="px-3 py-1.5 rounded-md text-sm font-medium bg-[#ff6b35] text-black opacity-0 group-hover:opacity-100 transition-opacity"
                                 whileHover={{ scale: 1.05 }}
                                 onClick={() => acceptOrder(order)}
                               >
@@ -772,11 +708,11 @@ export const MerchantDashboardVisual = () => {
                         animate={{ opacity: [1, 0.5, 1] }}
                         transition={{ duration: 1.5, repeat: Infinity }}
                       />
-                      <span className="text-sm font-medium text-white">
+                      <span className="text-base font-semibold text-white">
                         In Escrow
                       </span>
                     </div>
-                    <span className="text-xs text-white/30 bg-white/[0.05] px-2 py-0.5 rounded-full">
+                    <span className="text-sm text-white/30 bg-white/[0.05] px-2 py-0.5 rounded-full font-medium">
                       {inEscrow.length}
                     </span>
                   </div>
@@ -792,28 +728,28 @@ export const MerchantDashboardVisual = () => {
                       >
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center gap-2">
-                            <span className="text-lg">{order.user}</span>
+                            <span className="text-xl">{order.user}</span>
                             <span className={`text-xs font-mono text-white/40`}>
                               {order.id}
                             </span>
                           </div>
-                          <span className="text-lg">{order.country}</span>
+                          <span className="text-xl">{order.country}</span>
                         </div>
                         <div className="mb-3">
-                          <div className="text-sm font-semibold text-white">
+                          <div className="text-base font-semibold text-white">
                             {order.amount}
                           </div>
-                          <div className="text-[11px] text-white/40">
+                          <div className="text-sm text-white/40">
                             @ {order.rate}
                           </div>
                         </div>
                         {/* Progress bar */}
                         <div className="space-y-1">
-                          <div className="flex justify-between text-[10px]">
-                            <span className="text-white/30">
+                          <div className="flex justify-between text-xs">
+                            <span className="text-white/30 font-medium">
                               Settlement progress
                             </span>
-                            <span className="text-yellow-500">
+                            <span className="text-yellow-500 font-semibold">
                               {order.progress}%
                             </span>
                           </div>
@@ -834,7 +770,7 @@ export const MerchantDashboardVisual = () => {
                         <motion.div
                           whileHover={{ scale: 1.05 }}
                           onClick={() => releaseOrder(order)}
-                          className="mt-3 text-center px-3 py-1.5 rounded-md text-[10px] font-medium bg-[#ff6b35] text-black cursor-pointer"
+                          className="mt-3 text-center px-3 py-1.5 rounded-md text-sm font-medium bg-[#ff6b35] text-black cursor-pointer"
                         >
                           Release
                         </motion.div>
@@ -848,11 +784,11 @@ export const MerchantDashboardVisual = () => {
                   <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.04]">
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 rounded-full bg-[#28ca42]" />
-                      <span className="text-sm font-medium text-white">
+                      <span className="text-base font-semibold text-white">
                         Completed
                       </span>
                     </div>
-                    <span className="text-xs text-white/30 bg-white/[0.05] px-2 py-0.5 rounded-full">
+                    <span className="text-sm text-white/30 bg-white/[0.05] px-2 py-0.5 rounded-full font-medium">
                       {completed.length}
                     </span>
                   </div>
@@ -868,14 +804,14 @@ export const MerchantDashboardVisual = () => {
                       >
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center gap-2">
-                            <span className="text-lg">{order.user}</span>
+                            <span className="text-xl">{order.user}</span>
                             <span className="text-xs font-mono text-white/40">
                               {order.id}
                             </span>
                           </div>
-                          <div className="flex items-center gap-1 text-[10px] text-[#28ca42]">
+                          <div className="flex items-center gap-1 text-xs text-[#28ca42] font-semibold">
                             <svg
-                              className="w-3 h-3"
+                              className="w-4 h-4"
                               fill="none"
                               viewBox="0 0 24 24"
                               stroke="currentColor"
@@ -892,14 +828,14 @@ export const MerchantDashboardVisual = () => {
                         </div>
                         <div className="flex items-center justify-between">
                           <div>
-                            <div className="text-sm font-semibold text-white">
+                            <div className="text-base font-semibold text-white">
                               {order.amount}
                             </div>
-                            <div className="text-[11px] text-white/40">
+                            <div className="text-sm text-white/40">
                               @ {order.rate}
                             </div>
                           </div>
-                          <span className="text-[10px] text-white/30">
+                          <span className="text-xs text-white/30">
                             {order.time}
                           </span>
                         </div>
@@ -944,29 +880,29 @@ export const MerchantDashboardVisual = () => {
                       </svg>
                     </motion.div>
                     <div>
-                      <div className="text-sm font-medium text-white">
+                      <div className="text-base font-semibold text-white">
                         Live Matching Active
                       </div>
-                      <div className="text-xs text-white/40">
+                      <div className="text-sm text-white/40">
                         3 orders matched in the last 5 minutes
                       </div>
                     </div>
                   </div>
                   <div className="hidden sm:flex items-center gap-4">
                     <div className="text-right">
-                      <div className="text-[10px] text-white/30 uppercase tracking-wider">
+                      <div className="text-xs text-white/30 uppercase tracking-wider font-semibold">
                         Avg. Match Time
                       </div>
-                      <div className="text-sm font-semibold text-white">
+                      <div className="text-lg font-semibold text-white">
                         12 seconds
                       </div>
                     </div>
                     <div className="h-8 w-px bg-white/10" />
                     <div className="text-right">
-                      <div className="text-[10px] text-white/30 uppercase tracking-wider">
+                      <div className="text-xs text-white/30 uppercase tracking-wider font-semibold">
                         Success Rate
                       </div>
-                      <div className="text-sm font-semibold text-[#28ca42]">
+                      <div className="text-lg font-semibold text-[#28ca42]">
                         99.8%
                       </div>
                     </div>
@@ -989,13 +925,13 @@ export const MerchantDashboardVisual = () => {
                 <div className="p-3 pr-4 rounded-xl bg-[#111111] border border-white/[0.08] shadow-xl">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-full bg-[#ff6b35]/10 flex items-center justify-center">
-                      <span className="text-sm">🔔</span>
+                      <span className="text-lg">🔔</span>
                     </div>
                     <div>
-                      <div className="text-xs font-medium text-white">
+                      <div className="text-sm font-semibold text-white">
                         {notification.title}
                       </div>
-                      <div className="text-[10px] text-white/40">
+                      <div className="text-xs text-white/40">
                         {notification.desc}
                       </div>
                     </div>
@@ -1041,10 +977,10 @@ export const MerchantDashboardVisual = () => {
               key={feature.title}
               className="text-center p-6 rounded-xl bg-white/[0.02] border border-white/[0.04] hover:border-[#ff6b35]/20 transition-colors"
             >
-              <h3 className="text-base font-medium text-white mb-2">
+              <h3 className="text-lg font-semibold text-white mb-2">
                 {feature.title}
               </h3>
-              <p className="text-sm text-white/40">{feature.desc}</p>
+              <p className="text-base text-white/40">{feature.desc}</p>
             </div>
           ))}
         </motion.div>

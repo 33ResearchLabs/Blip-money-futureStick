@@ -6,14 +6,14 @@ export const HeroDashboardVisual = ({
   children: React.ReactNode;
 }) => {
   return (
-    <div className="relative z-20 mt-12 min-h-[700px] overflow-visible">
+    <div className="relative z-20 mt-12 min-h-[560px] overflow-visible">
       {/* Perspective stage */}
       <div className="absolute inset-0 flex justify-center">
         <motion.div
           initial={{ opacity: 0, y: 140 }}
           animate={{ opacity: 1, y: -100 }}
           transition={{ duration: 1.2, ease: "easeOut" }}
-          style={{ transformPerspective: 3200 }}
+          style={{ transformPerspective: 4200 }}
           className="relative"
         >
           <motion.div
@@ -28,12 +28,12 @@ export const HeroDashboardVisual = ({
       </div>
       {/* Right side fade */}
       <div
-        className="pointer-events-none absolute top-0 right-0 h-full w-48
-  bg-gradient-to-l from-black via-black/80 to-transparent"
+        className="pointer-events-none absolute top-[-20%] right-3  h-full w-40
+  bg-gradient-to-l from-black via-black/60 to-transparent"
       />
 
       {/* Bottom fade only - keeps image crisp */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-black via-black/80 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-black via-black/20 to-transparent" />
     </div>
   );
 };
