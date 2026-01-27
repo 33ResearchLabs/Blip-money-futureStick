@@ -511,6 +511,15 @@ const HeroSection = () => {
   ]);
 
   const names = ["Ahmed M.", "Sarah K.", "James O.", "Fatima A.", "Omar R."];
+  const [isDashboardHovered, setIsDashboardHovered] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const prefersReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    setPrefersReducedMotion(prefersReduced);
+  }, []);
 
   const randomHex = () =>
     `0x${Math.random().toString(16).slice(2, 6)}...${Math.random()
@@ -564,7 +573,7 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section ref={containerRef} className="relative bg-black">
+    <section ref={containerRef} className="relative max-w-7xl mx-auto bg-black">
       {/* ==================== IMMERSIVE MULTI-LAYER PARALLAX BACKGROUND (FIXED) ==================== */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         <div className="absolute inset-0 overflow-hidden">
@@ -720,11 +729,28 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, amount: 0.3 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          animate={{
+            scale: [1, 1.0015, 0.9985, 1],
+          }}
+          transition={{
+            scale: {
+              duration: 3,
+              repeat: Infinity,
+              ease: "easeInOut",
+            },
+            opacity: {
+              duration: 0.8,
+              ease: [0.16, 1, 0.3, 1],
+            },
+            y: {
+              duration: 0.8,
+              ease: [0.16, 1, 0.3, 1],
+            },
+          }}
         >
-          <div className="w-full max-w-8xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12 xl:gap-16 items-center pt-16 sm:pt-20 lg:pt-0">
-            {/* Center: Text content */}
-            <div className="text-center lg:text-center order-2 lg:order-2 px-2 sm:px-4">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-[0.9fr_1.2fr] gap-6 sm:gap-8 lg:gap-12 xl:gap-16 items-stretch pt-16 sm:pt-20 lg:pt-0">
+            {/* Left: Text content */}
+            <div className="text-center lg:text-left order-2 lg:order-1 px-2 sm:px-4">
               <motion.h1
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -833,7 +859,7 @@ const HeroSection = () => {
               </motion.div>
             </div>
 
-            {/* Left: Full iPhone Mockup with Global Network */}
+            {/* Right: Phone + Dashboard Overlapping */}
             <motion.div
               initial={{ opacity: 0, y: 60 }}
               animate={{ opacity: 1, y: 0 }}
@@ -842,166 +868,102 @@ const HeroSection = () => {
                 delay: 0.2,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="relative flex justify-center items-center order-1 lg:order-1 px-2 sm:px-4"
+              className="relative order-1 lg:order-2 px-2 sm:px-4 w-full min-h-[450px] sm:min-h-[550px] lg:min-h-[580px] flex items-center justify-center"
             >
-              {/* Global Network Visualization Background */}
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
-                <svg
-                  className="absolute w-[800px] h-[800px] opacity-60"
-                  viewBox="0 0 800 800"
-                >
-                  <defs>
-                    <radialGradient id="nodeGlow" cx="50%" cy="50%" r="50%">
-                      <stop offset="0%" stopColor="#ff6b35" stopOpacity="0.8" />
-                      <stop offset="100%" stopColor="#ff6b35" stopOpacity="0" />
-                    </radialGradient>
-                    <linearGradient
-                      id="lineGradient"
-                      x1="0%"
-                      y1="0%"
-                      x2="100%"
-                      y2="0%"
-                    >
-                      <stop offset="0%" stopColor="#ff6b35" stopOpacity="0" />
-                      <stop
-                        offset="50%"
-                        stopColor="#ff6b35"
-                        stopOpacity="0.6"
-                      />
-                      <stop offset="100%" stopColor="#ff6b35" stopOpacity="0" />
-                    </linearGradient>
-                  </defs>
-
-                  {/* Network nodes - representing global locations (static) */}
-                  {[
-                    { x: 400, y: 400, size: 8 }, // Center (you)
-                    { x: 200, y: 250, size: 5 }, // North America
-                    { x: 550, y: 200, size: 5 }, // Europe
-                    { x: 650, y: 350, size: 4 }, // Middle East
-                    { x: 580, y: 500, size: 4 }, // South Asia
-                    { x: 150, y: 450, size: 4 }, // South America
-                    { x: 680, y: 250, size: 3 }, // East Europe
-                    { x: 280, y: 350, size: 3 }, // West Africa
-                    { x: 500, y: 600, size: 3 }, // Southeast Asia
-                    { x: 120, y: 300, size: 3 }, // Canada
-                  ].map((node, i) => (
-                    <g key={i}>
-                      {/* Glow effect - static */}
-                      <circle
-                        cx={node.x}
-                        cy={node.y}
-                        r={node.size * 2}
-                        fill="url(#nodeGlow)"
-                        opacity="0.3"
-                      />
-                      {/* Main node */}
-                      <circle
-                        cx={node.x}
-                        cy={node.y}
-                        r={node.size}
-                        fill={i === 0 ? "#ff6b35" : "rgba(255,255,255,0.6)"}
-                      />
-                    </g>
-                  ))}
-
-                  {/* Connection lines - static */}
-                  {[
-                    { x1: 400, y1: 400, x2: 200, y2: 250 },
-                    { x1: 400, y1: 400, x2: 550, y2: 200 },
-                    { x1: 400, y1: 400, x2: 650, y2: 350 },
-                    { x1: 400, y1: 400, x2: 580, y2: 500 },
-                    { x1: 400, y1: 400, x2: 150, y2: 450 },
-                    { x1: 550, y1: 200, x2: 680, y2: 250 },
-                    { x1: 200, y1: 250, x2: 280, y2: 350 },
-                    { x1: 650, y1: 350, x2: 500, y2: 600 },
-                  ].map((line, i) => (
-                    <line
-                      key={i}
-                      x1={line.x1}
-                      y1={line.y1}
-                      x2={line.x2}
-                      y2={line.y2}
-                      stroke="rgba(255,255,255,0.1)"
-                      strokeWidth="1"
-                    />
-                  ))}
-
-                  {/* Location labels - static */}
-                  {[
-                    { x: 200, y: 230, label: "USA" },
-                    { x: 550, y: 180, label: "EU" },
-                    { x: 665, y: 335, label: "UAE" },
-                    { x: 580, y: 520, label: "India" },
-                    { x: 150, y: 470, label: "LATAM" },
-                  ].map((loc, i) => (
-                    <text
-                      key={`label-${i}`}
-                      x={loc.x}
-                      y={loc.y}
-                      textAnchor="middle"
-                      fill="rgba(255,255,255,0.3)"
-                      fontSize="11"
-                      fontWeight="500"
-                    >
-                      {loc.label}
-                    </text>
-                  ))}
-                </svg>
-              </div>
-
-              {/* Ambient glow behind phone - static */}
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                {/* Primary glow - static */}
-                <div
-                  className="absolute w-[600px] h-[600px] rounded-full opacity-40"
-                  style={{
-                    background:
-                      "radial-gradient(circle, rgba(255,107,53,0.2) 0%, transparent 50%)",
-                  }}
-                />
-                {/* Secondary ring glow - static */}
-                <div className="absolute w-[450px] h-[450px] rounded-full border border-[#ff6b35]/15" />
-                {/* Inner bright core - static */}
-                <div
-                  className="absolute w-[300px] h-[300px] rounded-full opacity-60 "
-                  style={{
-                    background:
-                      "radial-gradient(circle, rgba(255,107,53,0.15) 0%, transparent 70%)",
-                  }}
-                />
-              </div>
-
-              {/* iPhone Frame with 3D Perspective Tilt */}
+              {/* Dashboard - Base Layer (z-0), Centered */}
+              {/* Dashboard - Base Layer (hidden on mobile) */}
               <motion.div
-                className="relative"
-                style={{
-                  x: mousePosition.x * -15,
-                  y: mousePosition.y * -12,
-                  rotateY: mousePosition.x * 8,
-                  rotateX: mousePosition.y * -5,
-                  transformPerspective: 1200,
-                  transformStyle: "preserve-3d",
-                }}
-                whileHover={{ scale: 1.02 }}
-                transition={{ type: "spring", stiffness: 200, damping: 25 }}
+                className="
+    absolute inset-0 z-0
+    hidden lg:flex
+    items-center justify-center
+    pr-8 sm:pr-10 lg:pr-0
+  "
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                onMouseEnter={() => !isMobile && setIsDashboardHovered(true)}
+                onMouseLeave={() => setIsDashboardHovered(false)}
               >
-                {/* Reflection/shine effect on tilt */}
-                <motion.div
-                  className="absolute inset-0 rounded-[52px] pointer-events-none z-10"
-                  style={{
-                    background: `linear-gradient(${135 + mousePosition.x * 30}deg, rgba(255,255,255,0.08) 0%, transparent 50%, rgba(0,0,0,0.15) 100%)`,
-                  }}
-                />
-                {/* Use the PhoneMockup Component */}
-                <PhoneMockup />
+                <div className="w-full lg:w-[135%] xl:w-[145%]">
+                  <MerchantDashboardIndex />
+                </div>
+              </motion.div>
+
+              {/* Phone - Foreground Layer (z-10), Overlapping from Left, Positioned Higher */}
+              <motion.div
+                className="
+              absolute z-20
+             
+              sm:left-auto sm:translate-x-0
+              lg:-left-16
+              xl:-left-20
+              lg:top-[10%]
+              flex justify-center items-center
+            "
+                initial={{
+                  rotateX: 0,
+                  rotateY: -0,
+                  rotateZ: -0,
+                }}
+                animate={{
+                  opacity: isDashboardHovered ? 0 : 1,
+                  y: isDashboardHovered ? -16 : 0,
+                }}
+                transition={{
+                  opacity: {
+                    duration: prefersReducedMotion ? 0.01 : 0.35,
+                    ease: "easeInOut",
+                  },
+                  y: {
+                    duration: prefersReducedMotion ? 0.01 : 0.35,
+                    ease: "easeInOut",
+                  },
+                }}
+              >
+                <div className="relative flex justify-center items-center scale-60 sm:scale-75 md:scale-85 lg:scale-95 xl:scale-100">
+                  {/* Ambient glow behind phone */}
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div
+                      className="absolute w-[600px] h-[600px] rounded-full opacity-40"
+                      style={{
+                        background:
+                          "radial-gradient(circle, rgba(255,107,53,0.2) 0%, transparent 50%)",
+                      }}
+                    />
+                    <div className="absolute w-[450px] h-[450px] rounded-full border border-[#ff6b35]/15" />
+                    <div
+                      className="absolute w-[300px] h-[300px] rounded-full opacity-60"
+                      style={{
+                        background:
+                          "radial-gradient(circle, rgba(255,107,53,0.15) 0%, transparent 70%)",
+                      }}
+                    />
+                  </div>
+
+                  {/* iPhone Frame */}
+                  <motion.div
+                    className="
+    relative
+    mx-auto
+    flex justify-center
+    sm:mx-0
+  "
+                    whileHover={{ scale: 1.02 }}
+                    transition={{ type: "spring", stiffness: 200, damping: 25 }}
+                  >
+                    {/* Reflection/shine effect */}
+                    <motion.div
+                      className="absolute inset-0 rounded-[52px] pointer-events-none z-10"
+                      style={{
+                        background: `linear-gradient(${135 + mousePosition.x * 30}deg, rgba(255,255,255,0.08) 0%, transparent 50%, rgba(0,0,0,0.15) 100%)`,
+                      }}
+                    />
+                    <PhoneMockup />
+                  </motion.div>
+                </div>
               </motion.div>
             </motion.div>
-            {/* Right: Dashboard */}
-            <div className="flex w-full justify-center order-3 lg:order-3 h-auto min-h-[280px] sm:min-h-[340px] lg:min-h-[260px]">
-              <div className="w-full">
-                <MerchantDashboardIndex />
-              </div>
-            </div>
           </div>
         </motion.div>
 

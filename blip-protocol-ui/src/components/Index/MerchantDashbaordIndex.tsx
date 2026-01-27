@@ -47,7 +47,6 @@ const defaultCompletedOrders = [
   },
 ];
 
-
 // Standalone mockup without section wrapper
 export const MerchantDashboardIndex = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -151,8 +150,35 @@ export const MerchantDashboardIndex = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // Continuous flow for In Escrow column
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setInEscrow((prev) => {
+        if (prev.length > 0) {
+          return prev;
+        }
+        return prev;
+      });
+    }, 3000);
+    return () => clearInterval(timer);
+  }, []);
+
+  // Continuous flow for Completed column
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCompleted((prev) => {
+        if (prev.length > 8) {
+          const remaining = prev.slice(0, 3);
+          return remaining;
+        }
+        return prev;
+      });
+    }, 4000);
+    return () => clearInterval(timer);
+  }, []);
+
   const [inEscrow, setInEscrow] = useState<any[]>(defaultEscrowOrders);
-const [completed, setCompleted] = useState<any[]>(defaultCompletedOrders);
+  const [completed, setCompleted] = useState<any[]>(defaultCompletedOrders);
 
   const [notification, setNotification] = useState({
     visible: false,
@@ -224,12 +250,20 @@ const [completed, setCompleted] = useState<any[]>(defaultCompletedOrders);
   }, []);
 
   return (
-    <div
+    <motion.div
       ref={containerRef}
       className="
         relative mx-auto w-full
-        h-full min-h-[280px] sm:min-h-[340px] lg:min-h-[260px]
+        h-full min-h-[450px] sm:min-h-[550px] lg:min-h-[580px]
       "
+      animate={{
+        scale: [1, 1.002, 0.998, 1],
+      }}
+      transition={{
+        duration: 2.5,
+        repeat: Infinity,
+        ease: "easeInOut",
+      }}
       style={
         {
           // perspective: "600px",
@@ -251,22 +285,26 @@ const [completed, setCompleted] = useState<any[]>(defaultCompletedOrders);
         h-full
         rounded-2xl
         overflow-hidden
-        bg-[#0a0a0a]
-        border border-white/[0.08]
-        shadow-2xl
+        bg-gradient-to-br from-[#0a0a0a] via-[#0d0d0d] to-[#080808]
+        border border-[#ff6b35]/20
+        shadow-2xl shadow-[#ff6b35]/20
         flex flex-col
       "
       >
-        {/* Browser Header */}
-        <div className="flex items-center gap-3 px-6 py-4 bg-[#111111] border-b border-white/[0.08]">
+        {/* Browser Header - Enhanced */}
+        <div className="flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-[#111111] to-[#0a0a0a] border-b border-[#ff6b35]/10">
           <div className="flex gap-1.5">
-            <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
+            <motion.div
+              className="w-3 h-3 rounded-full bg-[#ff5f57]"
+              animate={{ scale: [1, 1.1, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
             <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
             <div className="w-3 h-3 rounded-full bg-[#28ca42]" />
           </div>
 
           <div className="flex-1 flex justify-center">
-            <div className="px-4 py-1.5 rounded-lg bg-black/40 border border-white/[0.06] text-xs text-white/40">
+            <div className="px-4 py-1.5 rounded-lg bg-gradient-to-r from-[#ff6b35]/10 to-black/40 border border-[#ff6b35]/20 text-xs text-[#ff6b35]/60 font-medium">
               merchant.blipprotocol.com
             </div>
           </div>
@@ -276,23 +314,38 @@ const [completed, setCompleted] = useState<any[]>(defaultCompletedOrders);
 
         {/* ---------------- CONTENT ---------------- */}
         <div className="flex-1 p-4 sm:p-6 flex flex-col">
-          {/* Top stats */}
-          <div className="flex items-center justify-between pb-3 mb-4 border-b border-white/[0.04] text-xs sm:text-sm">
-            <div className="flex items-center gap-2 text-xs text-white/50">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#28ca42]" />
-              Live · Solana Mainnet
+          {/* Top stats - Enhanced */}
+          <div className="flex items-center justify-between pb-4 mb-4 border-b border-[#ff6b35]/10 text-xs sm:text-sm">
+            <div className="flex items-center gap-2 text-xs">
+              <motion.span
+                className="w-1.5 h-1.5 rounded-full bg-[#28ca42]"
+                animate={{ scale: [1, 1.2, 1], opacity: [1, 0.6, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+              <span className="text-white/60 font-medium">
+                Live · Solana Mainnet
+              </span>
             </div>
-            <div className="flex gap-4 text-right">
-              <div>
-                <div className="text-[10px] text-white/30">Volume</div>
-                <div className="text-sm text-white font-semibold">$55,450</div>
-              </div>
-              <div>
-                <div className="text-[10px] text-white/30">Earnings</div>
-                <div className="text-sm text-[#ff6b35] font-semibold">
-                  +$1,386
+            <div className="flex gap-6 text-right">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                className="cursor-pointer"
+              >
+                <div className="text-[10px] text-white/40 uppercase tracking-wider font-semibold">
+                  Volume
                 </div>
-              </div>
+                <div className="text-sm text-white font-bold">$55,450</div>
+              </motion.div>
+              <div className="h-6 w-px bg-[#ff6b35]/20" />
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                className="cursor-pointer"
+              >
+                <div className="text-[10px] text-white/40 uppercase tracking-wider font-semibold">
+                  Earnings
+                </div>
+                <div className="text-sm text-[#ff6b35] font-bold">+$1,386</div>
+              </motion.div>
             </div>
           </div>
 
@@ -308,59 +361,160 @@ const [completed, setCompleted] = useState<any[]>(defaultCompletedOrders);
                 key={col.title}
                 className="rounded-lg sm:rounded-xl bg-[#0d0d0d] border border-white/[0.04] flex flex-col min-h-0"
               >
-                <div className="px-3 sm:px-4 py-2 sm:py-3 border-b border-white/[0.04] flex justify-between items-center">
-                  <span className="text-xs sm:text-sm font-semibold text-white truncate">
-                    {col.title}
-                  </span>
-                  <span className="text-xs text-white/30 ml-2">
+                <div className="px-3 sm:px-4 py-3 sm:py-4 border-b border-[#ff6b35]/10 flex justify-between items-center bg-gradient-to-r from-[#ff6b35]/5 to-transparent">
+                  <div className="flex items-center gap-2">
+                    <div
+                      className={`w-2 h-2 rounded-full ${
+                        idx === 0
+                          ? "bg-[#ff6b35]"
+                          : idx === 1
+                            ? "bg-yellow-500"
+                            : "bg-[#28ca42]"
+                      }`}
+                    />
+                    <span className="text-xs sm:text-sm font-bold text-white truncate">
+                      {col.title}
+                    </span>
+                  </div>
+                  <motion.span
+                    className={`text-xs font-bold ml-2 px-2 py-1 rounded-full ${
+                      idx === 0
+                        ? "bg-[#ff6b35]/20 text-[#ff6b35]"
+                        : idx === 1
+                          ? "bg-yellow-500/20 text-yellow-500"
+                          : "bg-[#28ca42]/20 text-[#28ca42]"
+                    }`}
+                    animate={{ scale: [1, 1.05, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
                     {col.data.length}
-                  </span>
+                  </motion.span>
                 </div>
 
-                <div className="flex-1 overflow-y-auto p-2 sm:p-3 space-y-2">
-                  <AnimatePresence>
+                <div className="flex-1 overflow-hidden p-2 sm:p-3 space-y-2">
+                  <AnimatePresence mode="popLayout">
                     {col.data.slice(0, 3).map((order: any) => (
                       <motion.div
                         key={order.id}
-                        layout
-                        className="p-2 sm:p-3 rounded-md sm:rounded-lg bg-[#111111] border border-white/[0.04]"
+                        layout="position"
+                        initial={{
+                          opacity: 0,
+                          y: -12,
+                        }}
+                        animate={{
+                          opacity: 1,
+                          y: 0,
+                        }}
+                        exit={{
+                          opacity: 0,
+                          y: -20,
+                          filter: "blur(6px)",
+                        }}
+                        transition={{
+                          opacity: { duration: 0.4, ease: "easeOut" },
+                          y: { duration: 0.5, ease: "easeOut" },
+                          filter: { duration: 0.4, ease: "easeOut" },
+                          layout: { duration: 0.25, ease: "easeInOut" },
+                        }}
+                        whileHover={{
+                          backgroundColor: "rgba(255, 107, 53, 0.05)",
+                          transition: { duration: 0.2 },
+                        }}
+                        className="relative p-3 rounded-lg bg-gradient-to-r from-[#111111] to-[#0d0d0d] border border-[#ff6b35]/20 hover:border-[#ff6b35]/40 transition-all group cursor-pointer"
                       >
-                        <div className="flex justify-between mb-1">
-                          <span className="text-base sm:text-lg">
+                        {/* Telegram-style particle dissolution overlay - independent animation */}
+                        <AnimatePresence>
+                          {true && (
+                            <motion.div
+                              key={`particles-${order.id}`}
+                              initial={{ opacity: 0 }}
+                              exit={{
+                                opacity: 0,
+                                transition: { duration: 0.7, ease: "easeOut" },
+                              }}
+                              className="absolute inset-0 pointer-events-none overflow-visible"
+                            >
+                              {[...Array(8)].map((_, i) => {
+                                const randomX = Math.random() * 100;
+                                const randomY = Math.random() * 100;
+                                const randomDelay = i * 0.04;
+                                const randomDuration =
+                                  0.5 + Math.random() * 0.2;
+
+                                return (
+                                  <motion.div
+                                    key={i}
+                                    initial={{
+                                      x: randomX,
+                                      y: randomY,
+                                      opacity: 0.7,
+                                      scale: 1,
+                                    }}
+                                    exit={{
+                                      x: randomX + (Math.random() * 40 - 20),
+                                      y: randomY - 60 - Math.random() * 40,
+                                      opacity: 0,
+                                      scale: 0.1,
+                                      transition: {
+                                        duration: randomDuration,
+                                        ease: "easeOut",
+                                        delay: randomDelay,
+                                      },
+                                    }}
+                                    className="absolute w-1.5 h-1.5 rounded-full bg-[#ff6b35]"
+                                    style={{
+                                      left: `${randomX}%`,
+                                      top: `${randomY}%`,
+                                      boxShadow:
+                                        "0 0 6px rgba(255, 107, 53, 0.6)",
+                                      filter: "blur(0.5px)",
+                                    }}
+                                  />
+                                );
+                              })}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                        <div className="flex justify-between mb-2">
+                          <span className="text-lg sm:text-xl font-bold">
                             {order.user}
                           </span>
-                          <span className="text-xs text-white/40">
+                          <span className="text-xs text-white/50 bg-white/5 px-2 py-1 rounded-full">
                             {order.country}
                           </span>
                         </div>
-                        <div className="flex md:flex-col justify-between items-center gap-1">
+                        <div className="flex md:flex-col justify-between items-start gap-2 mb-2">
                           <div className="min-w-0">
-                            <div className="text-xs sm:text-sm font-semibold text-white truncate">
+                            <div className="text-xs sm:text-sm font-bold text-white truncate">
                               {order.amount}
                             </div>
-                            <div className="text-xs text-white/40">
+                            <div className="text-xs text-white/40 font-medium">
                               @ {order.rate}
                             </div>
                           </div>
-
-                          {idx === 0 && (
-                            <button
-                              onClick={() => acceptOrder(order)}
-                              className="text-xs font-medium bg-[#ff6b35] text-black px-2 sm:px-3 py-1 sm:py-1.5 rounded flex-shrink-0 whitespace-nowrap"
-                            >
-                              Accept
-                            </button>
-                          )}
-
-                          {idx === 1 && (
-                            <button
-                              onClick={() => releaseOrder(order)}
-                              className="text-xs font-medium bg-[#ff6b35] text-black px-2 sm:px-3 py-1 sm:py-1.5 rounded flex-shrink-0 whitespace-nowrap"
-                            >
-                              Release
-                            </button>
-                          )}
                         </div>
+
+                        {idx === 0 && (
+                          <motion.button
+                            onClick={() => acceptOrder(order)}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="w-full text-xs font-bold bg-gradient-to-r from-[#ff6b35] to-[#ff8c5a] text-black px-2 sm:px-3 py-2 sm:py-2 rounded-lg flex-shrink-0 whitespace-nowrap"
+                          >
+                            Accept
+                          </motion.button>
+                        )}
+
+                        {idx === 1 && (
+                          <motion.button
+                            onClick={() => releaseOrder(order)}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="w-full text-xs font-bold bg-gradient-to-r from-yellow-500 to-yellow-600 text-black px-2 sm:px-3 py-2 sm:py-2 rounded-lg flex-shrink-0 whitespace-nowrap"
+                          >
+                            Release
+                          </motion.button>
+                        )}
                       </motion.div>
                     ))}
                   </AnimatePresence>
@@ -371,23 +525,34 @@ const [completed, setCompleted] = useState<any[]>(defaultCompletedOrders);
         </div>
       </motion.div>
 
-      {/* Notification */}
+      {/* Notification - Enhanced */}
       <AnimatePresence>
         {notification.visible && (
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 30 }}
-            className="absolute top-6 right-6"
+            initial={{ opacity: 0, x: 30, y: -20 }}
+            animate={{ opacity: 1, x: 0, y: 0 }}
+            exit={{ opacity: 0, x: 30, y: -20 }}
+            className="absolute top-6 right-6 z-50"
           >
-            <div className="bg-[#111111] border border-white/[0.08] rounded-xl px-4 py-2 text-sm text-white">
-              <div className="font-medium text-sm">{notification.title}</div>
-              <div className="text-white/40 text-xs">{notification.desc}</div>
-            </div>
+            <motion.div
+              className="bg-gradient-to-r from-[#111111] to-[#0d0d0d] border border-[#ff6b35]/40 rounded-xl px-4 py-3 text-sm text-white shadow-xl shadow-[#ff6b35]/20"
+              animate={{ y: [0, -5, 0] }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="flex items-center gap-2 mb-1">
+                <div className="w-2 h-2 rounded-full bg-[#ff6b35]" />
+                <div className="font-bold text-sm text-[#ff6b35]">
+                  {notification.title}
+                </div>
+              </div>
+              <div className="text-white/50 text-xs ml-4">
+                {notification.desc}
+              </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 };
 
