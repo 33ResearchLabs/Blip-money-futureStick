@@ -748,7 +748,7 @@ const HeroSection = () => {
             },
           }}
         >
-          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-[0.9fr_1.2fr] gap-6 sm:gap-8 lg:gap-12 xl:gap-16 items-stretch pt-16 sm:pt-20 lg:pt-0">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-[0.9fr_1.2fr] gap-6 sm:gap-8 lg:gap-12 xl:gap-16 items-stretch pt-16 sm:pt-20 lg:pt-0">
             {/* Left: Text content */}
             <div className="text-center lg:text-left order-2 lg:order-1 px-2 sm:px-4">
               <motion.h1
@@ -871,8 +871,14 @@ const HeroSection = () => {
               className="relative order-1 lg:order-2 px-2 sm:px-4 w-full min-h-[450px] sm:min-h-[550px] lg:min-h-[580px] flex items-center justify-center"
             >
               {/* Dashboard - Base Layer (z-0), Centered */}
+              {/* Dashboard - Base Layer (hidden on mobile) */}
               <motion.div
-                className="absolute inset-0 z-0 flex items-center justify-center pr-8 sm:pr-10 lg:pr-0"
+                className="
+    absolute inset-0 z-0
+    hidden lg:flex
+    items-center justify-center
+    pr-8 sm:pr-10 lg:pr-0
+  "
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
@@ -886,7 +892,15 @@ const HeroSection = () => {
 
               {/* Phone - Foreground Layer (z-10), Overlapping from Left, Positioned Higher */}
               <motion.div
-                className="absolute -left-6 sm:-left-10 lg:-left-16 xl:-left-20 top-[2%] sm:top-[8%] lg:top-[10%] z-20 flex justify-center items-center"
+                className="
+              absolute z-20
+             
+              sm:left-auto sm:translate-x-0
+              lg:-left-16
+              xl:-left-20
+              lg:top-[10%]
+              flex justify-center items-center
+            "
                 initial={{
                   rotateX: 0,
                   rotateY: -0,
@@ -929,7 +943,12 @@ const HeroSection = () => {
 
                   {/* iPhone Frame */}
                   <motion.div
-                    className="relative"
+                    className="
+    relative
+    mx-auto
+    flex justify-center
+    sm:mx-0
+  "
                     whileHover={{ scale: 1.02 }}
                     transition={{ type: "spring", stiffness: 200, damping: 25 }}
                   >
