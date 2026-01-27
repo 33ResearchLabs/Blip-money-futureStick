@@ -2,6 +2,52 @@ import { useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
+const defaultEscrowOrders = [
+  {
+    id: "ESC-1001",
+    user: "🦊",
+    userName: "John D.",
+    amount: "750 USDT",
+    rate: "1,619 AED",
+    time: "1m",
+    country: "🇦🇪",
+    status: "escrow",
+    progress: 60,
+    description: "Business settlement",
+    priority: "medium",
+  },
+  {
+    id: "ESC-1002",
+    user: "🐼",
+    userName: "Emily R.",
+    amount: "1,100 USDT",
+    rate: "1,620 AED",
+    time: "3m",
+    country: "🇦🇪",
+    status: "escrow",
+    progress: 40,
+    description: "Quick cash out",
+    priority: "high",
+  },
+];
+
+const defaultCompletedOrders = [
+  {
+    id: "CMP-2001",
+    user: "🐸",
+    userName: "Ahmed K.",
+    amount: "500 USDT",
+    rate: "1,618 AED",
+    time: "just settled",
+    country: "🇦🇪",
+    status: "completed",
+    progress: 100,
+    description: "Personal remittance",
+    priority: "low",
+  },
+];
+
+
 // Standalone mockup without section wrapper
 export const MerchantDashboardIndex = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -105,8 +151,9 @@ export const MerchantDashboardIndex = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const [inEscrow, setInEscrow] = useState<any[]>([]);
-  const [completed, setCompleted] = useState<any[]>([]);
+  const [inEscrow, setInEscrow] = useState<any[]>(defaultEscrowOrders);
+const [completed, setCompleted] = useState<any[]>(defaultCompletedOrders);
+
   const [notification, setNotification] = useState({
     visible: false,
     title: "",
@@ -333,9 +380,9 @@ export const MerchantDashboardIndex = () => {
             exit={{ opacity: 0, x: 30 }}
             className="absolute top-6 right-6"
           >
-            <div className="bg-[#111111] border border-white/[0.08] rounded-xl px-4 py-3 text-sm text-white">
-              <div className="font-medium text-base">{notification.title}</div>
-              <div className="text-white/40 text-sm">{notification.desc}</div>
+            <div className="bg-[#111111] border border-white/[0.08] rounded-xl px-4 py-2 text-sm text-white">
+              <div className="font-medium text-sm">{notification.title}</div>
+              <div className="text-white/40 text-xs">{notification.desc}</div>
             </div>
           </motion.div>
         )}
