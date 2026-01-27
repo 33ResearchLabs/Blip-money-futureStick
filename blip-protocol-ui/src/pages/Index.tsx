@@ -729,15 +729,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, amount: 0.3 }}
-          animate={{
-            scale: [1, 1.0015, 0.9985, 1],
-          }}
           transition={{
-            scale: {
-              duration: 3,
-              repeat: Infinity,
-              ease: "easeInOut",
-            },
             opacity: {
               duration: 0.8,
               ease: [0.16, 1, 0.3, 1],

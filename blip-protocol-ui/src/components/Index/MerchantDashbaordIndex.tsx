@@ -50,35 +50,6 @@ const defaultCompletedOrders = [
 // Standalone mockup without section wrapper
 export const MerchantDashboardIndex = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width - 0.5;
-        const y = (e.clientY - rect.top) / rect.height - 0.5;
-        setMousePosition({ x, y });
-      }
-    };
-
-    const handleMouseLeave = () => {
-      setMousePosition({ x: 0, y: 0 });
-    };
-
-    const el = containerRef.current;
-    if (el) {
-      el.addEventListener("mousemove", handleMouseMove);
-      el.addEventListener("mouseleave", handleMouseLeave);
-    }
-
-    return () => {
-      if (el) {
-        el.removeEventListener("mousemove", handleMouseMove);
-        el.removeEventListener("mouseleave", handleMouseLeave);
-      }
-    };
-  }, []);
 
   const [newOrders, setNewOrders] = useState([
     {
@@ -142,39 +113,12 @@ export const MerchantDashboardIndex = () => {
     const interval = setInterval(() => {
       const order = generateOrder();
       setNewOrders((prev) => {
-        if (prev.length >= 8) return prev;
+        if (prev.length >= 3) return prev;
         return [order, ...prev];
       });
       showNotification("New order received", "Waiting for merchant action");
     }, 1000);
     return () => clearInterval(interval);
-  }, []);
-
-  // Continuous flow for In Escrow column
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setInEscrow((prev) => {
-        if (prev.length > 0) {
-          return prev;
-        }
-        return prev;
-      });
-    }, 3000);
-    return () => clearInterval(timer);
-  }, []);
-
-  // Continuous flow for Completed column
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCompleted((prev) => {
-        if (prev.length > 8) {
-          const remaining = prev.slice(0, 3);
-          return remaining;
-        }
-        return prev;
-      });
-    }, 4000);
-    return () => clearInterval(timer);
   }, []);
 
   const [inEscrow, setInEscrow] = useState<any[]>(defaultEscrowOrders);
@@ -254,16 +198,8 @@ export const MerchantDashboardIndex = () => {
       ref={containerRef}
       className="
         relative mx-auto w-full
-        h-full min-h-[450px] sm:min-h-[550px] lg:min-h-[580px]
+        h-[450px] sm:h-[550px] lg:h-[710px]
       "
-      animate={{
-        scale: [1, 1.002, 0.998, 1],
-      }}
-      transition={{
-        duration: 2.5,
-        repeat: Infinity,
-        ease: "easeInOut",
-      }}
       style={
         {
           // perspective: "600px",
@@ -272,17 +208,12 @@ export const MerchantDashboardIndex = () => {
     >
       {/* Browser Window */}
       <motion.div
-        animate={{
-          x: mousePosition.x * -12,
-          y: mousePosition.y * -10,
-          rotateY: mousePosition.x * 6,
-          rotateX: mousePosition.y * -4,
-        }}
-        transition={{ type: "spring", stiffness: 200, damping: 25 }}
         style={{ transformPerspective: 1200, transformStyle: "preserve-3d" }}
         className="
         w-full
         h-full
+        min-h-full
+        max-h-full
         rounded-2xl
         overflow-hidden
         bg-gradient-to-br from-[#0a0a0a] via-[#0d0d0d] to-[#080808]
@@ -294,11 +225,7 @@ export const MerchantDashboardIndex = () => {
         {/* Browser Header - Enhanced */}
         <div className="flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-[#111111] to-[#0a0a0a] border-b border-[#ff6b35]/10">
           <div className="flex gap-1.5">
-            <motion.div
-              className="w-3 h-3 rounded-full bg-[#ff5f57]"
-              animate={{ scale: [1, 1.1, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
+            <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
             <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
             <div className="w-3 h-3 rounded-full bg-[#28ca42]" />
           </div>
@@ -317,11 +244,7 @@ export const MerchantDashboardIndex = () => {
           {/* Top stats - Enhanced */}
           <div className="flex items-center justify-between pb-4 mb-4 border-b border-[#ff6b35]/10 text-xs sm:text-sm">
             <div className="flex items-center gap-2 text-xs">
-              <motion.span
-                className="w-1.5 h-1.5 rounded-full bg-[#28ca42]"
-                animate={{ scale: [1, 1.2, 1], opacity: [1, 0.6, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#28ca42]" />
               <span className="text-white/60 font-medium">
                 Live · Solana Mainnet
               </span>
@@ -376,7 +299,7 @@ export const MerchantDashboardIndex = () => {
                       {col.title}
                     </span>
                   </div>
-                  <motion.span
+                  <span
                     className={`text-xs font-bold ml-2 px-2 py-1 rounded-full ${
                       idx === 0
                         ? "bg-[#ff6b35]/20 text-[#ff6b35]"
@@ -384,19 +307,16 @@ export const MerchantDashboardIndex = () => {
                           ? "bg-yellow-500/20 text-yellow-500"
                           : "bg-[#28ca42]/20 text-[#28ca42]"
                     }`}
-                    animate={{ scale: [1, 1.05, 1] }}
-                    transition={{ duration: 2, repeat: Infinity }}
                   >
                     {col.data.length}
-                  </motion.span>
+                  </span>
                 </div>
 
-                <div className="flex-1 overflow-hidden p-2 sm:p-3 space-y-2">
-                  <AnimatePresence mode="popLayout">
+                <div className="overflow-hidden p-2 sm:p-3 space-y-2 min-h-[450px] max-h-[380px]">
+                  <AnimatePresence mode="sync">
                     {col.data.slice(0, 3).map((order: any) => (
                       <motion.div
                         key={order.id}
-                        layout="position"
                         initial={{
                           opacity: 0,
                           y: -12,
@@ -414,7 +334,6 @@ export const MerchantDashboardIndex = () => {
                           opacity: { duration: 0.4, ease: "easeOut" },
                           y: { duration: 0.5, ease: "easeOut" },
                           filter: { duration: 0.4, ease: "easeOut" },
-                          layout: { duration: 0.25, ease: "easeInOut" },
                         }}
                         whileHover={{
                           backgroundColor: "rgba(255, 107, 53, 0.05)",
@@ -422,59 +341,6 @@ export const MerchantDashboardIndex = () => {
                         }}
                         className="relative p-3 rounded-lg bg-gradient-to-r from-[#111111] to-[#0d0d0d] border border-[#ff6b35]/20 hover:border-[#ff6b35]/40 transition-all group cursor-pointer"
                       >
-                        {/* Telegram-style particle dissolution overlay - independent animation */}
-                        <AnimatePresence>
-                          {true && (
-                            <motion.div
-                              key={`particles-${order.id}`}
-                              initial={{ opacity: 0 }}
-                              exit={{
-                                opacity: 0,
-                                transition: { duration: 0.7, ease: "easeOut" },
-                              }}
-                              className="absolute inset-0 pointer-events-none overflow-visible"
-                            >
-                              {[...Array(8)].map((_, i) => {
-                                const randomX = Math.random() * 100;
-                                const randomY = Math.random() * 100;
-                                const randomDelay = i * 0.04;
-                                const randomDuration =
-                                  0.5 + Math.random() * 0.2;
-
-                                return (
-                                  <motion.div
-                                    key={i}
-                                    initial={{
-                                      x: randomX,
-                                      y: randomY,
-                                      opacity: 0.7,
-                                      scale: 1,
-                                    }}
-                                    exit={{
-                                      x: randomX + (Math.random() * 40 - 20),
-                                      y: randomY - 60 - Math.random() * 40,
-                                      opacity: 0,
-                                      scale: 0.1,
-                                      transition: {
-                                        duration: randomDuration,
-                                        ease: "easeOut",
-                                        delay: randomDelay,
-                                      },
-                                    }}
-                                    className="absolute w-1.5 h-1.5 rounded-full bg-[#ff6b35]"
-                                    style={{
-                                      left: `${randomX}%`,
-                                      top: `${randomY}%`,
-                                      boxShadow:
-                                        "0 0 6px rgba(255, 107, 53, 0.6)",
-                                      filter: "blur(0.5px)",
-                                    }}
-                                  />
-                                );
-                              })}
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
                         <div className="flex justify-between mb-2">
                           <span className="text-lg sm:text-xl font-bold">
                             {order.user}
@@ -534,11 +400,7 @@ export const MerchantDashboardIndex = () => {
             exit={{ opacity: 0, x: 30, y: -20 }}
             className="absolute top-6 right-6 z-50"
           >
-            <motion.div
-              className="bg-gradient-to-r from-[#111111] to-[#0d0d0d] border border-[#ff6b35]/40 rounded-xl px-4 py-3 text-sm text-white shadow-xl shadow-[#ff6b35]/20"
-              animate={{ y: [0, -5, 0] }}
-              transition={{ duration: 0.6 }}
-            >
+            <div className="bg-gradient-to-r from-[#111111] to-[#0d0d0d] border border-[#ff6b35]/40 rounded-xl px-4 py-3 text-sm text-white shadow-xl shadow-[#ff6b35]/20">
               <div className="flex items-center gap-2 mb-1">
                 <div className="w-2 h-2 rounded-full bg-[#ff6b35]" />
                 <div className="font-bold text-sm text-[#ff6b35]">
@@ -548,7 +410,7 @@ export const MerchantDashboardIndex = () => {
               <div className="text-white/50 text-xs ml-4">
                 {notification.desc}
               </div>
-            </motion.div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -882,7 +744,7 @@ export const MerchantDashboardVisual = () => {
               {/* 3-Column Dashboard Layout */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {/* Column 1: New Orders */}
-                <div className="rounded-xl bg-[#0d0d0d] border border-white/[0.04] overflow-hidden">
+                <div className="rounded-xl bg-[#0d0d0d] border border-white/[0.04] overflow-hidden flex flex-col h-[520px]">
                   <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.04]">
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 rounded-full bg-[#ff6b35]" />
@@ -894,7 +756,7 @@ export const MerchantDashboardVisual = () => {
                       {newOrders.length}
                     </span>
                   </div>
-                  <div className="p-3 space-y-2 max-h-[420px] overflow-y-auto scrollbar-thin scrollbar-thumb-white/10">
+                  <div className="flex-1 p-3 space-y-2 overflow-y-auto scrollbar-thin scrollbar-thumb-white/10">
                     <AnimatePresence initial={false}>
                       {newOrders.slice(0, 4).map((order, i) => (
                         <motion.div
@@ -909,7 +771,7 @@ export const MerchantDashboardVisual = () => {
                             stiffness: 300,
                             damping: 25,
                           }}
-                          className={`group relative p-3 rounded-lg border transition-colors duration-300 bg-[#111111] border-white/[0.04]`}
+                          className="group relative h-[92px] p-3 rounded-lg border transition-colors duration-300 bg-[#111111] border-white/[0.04]"
                         >
                           <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center gap-2">
@@ -951,7 +813,7 @@ export const MerchantDashboardVisual = () => {
                 </div>
 
                 {/* Column 2: In Escrow */}
-                <div className="rounded-xl bg-[#0d0d0d] border border-white/[0.04] overflow-hidden">
+                <div className="rounded-xl bg-[#0d0d0d] border border-white/[0.04] overflow-hidden flex flex-col h-[520px]">
                   <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.04]">
                     <div className="flex items-center gap-2">
                       <motion.div
@@ -967,7 +829,7 @@ export const MerchantDashboardVisual = () => {
                       {inEscrow.length}
                     </span>
                   </div>
-                  <div className="p-3 space-y-2 max-h-[420px] overflow-y-auto scrollbar-thin scrollbar-thumb-white/10">
+                  <div className="flex-1 p-3 space-y-2 overflow-y-auto scrollbar-thin scrollbar-thumb-white/10">
                     {inEscrow.slice(0, 4).map((order, i) => (
                       <motion.div
                         key={order.id}
@@ -975,7 +837,7 @@ export const MerchantDashboardVisual = () => {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.5 + i * 0.1 }}
-                        className={`p-3 rounded-lg border transition-colors duration-300bg-[#111111] border-yellow-500/10`}
+                        className="group relative h-[92px] p-3 rounded-lg border transition-colors duration-300 bg-[#111111] border-white/[0.04]"
                       >
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center gap-2">
@@ -1031,7 +893,7 @@ export const MerchantDashboardVisual = () => {
                 </div>
 
                 {/* Column 3: Completed */}
-                <div className="rounded-xl bg-[#0d0d0d] border border-white/[0.04] overflow-hidden">
+                <div className="rounded-xl bg-[#0d0d0d] border border-white/[0.04] overflow-hidden flex flex-col h-[520px]">
                   <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.04]">
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 rounded-full bg-[#28ca42]" />
@@ -1043,7 +905,7 @@ export const MerchantDashboardVisual = () => {
                       {completed.length}
                     </span>
                   </div>
-                  <div className="p-3 space-y-2 max-h-[420px] overflow-y-auto scrollbar-thin scrollbar-thumb-white/10">
+                  <div className="flex-1 p-3 space-y-2 overflow-y-auto scrollbar-thin scrollbar-thumb-white/10">
                     {completed.slice(0, 4).map((order, i) => (
                       <motion.div
                         key={order.id}
@@ -1051,7 +913,7 @@ export const MerchantDashboardVisual = () => {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.6 + i * 0.1 }}
-                        className="p-3 rounded-lg bg-[#111111] border border-[#28ca42]/10"
+                        className="group relative h-[92px] p-3 rounded-lg border transition-colors duration-300 bg-[#111111] border-white/[0.04]"
                       >
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center gap-2">
