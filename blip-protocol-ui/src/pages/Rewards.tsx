@@ -30,6 +30,7 @@ import {
 import { Link } from "react-router-dom";
 import { SEO } from "@/components";
 import { Header } from "@/components/Hero/PhoneMockup";
+import { CTAButton } from "@/components/Navbar";
 
 /* ============================================
    2025/2026 REWARDS PAGE
@@ -689,15 +690,15 @@ const RewardTiersSection = () => {
               initial={{ opacity: 0, y: 60 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: i * 0.1 }}
-              className={`group relative p-8 rounded-3xl overflow-hidden ${tier.highlight ? "lg:scale-105" : ""}`}
-              style={{
-                background: tier.highlight
-                  ? "linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 107, 53, 0.02) 100%)"
-                  : "rgba(255, 255, 255, 0.02)",
-                border: tier.highlight
-                  ? "1px solid rgba(255, 107, 53, 0.2)"
-                  : "1px solid rgba(255, 255, 255, 0.05)",
-              }}
+              className={`group relative p-8 rounded-3xl overflow-hidden hover-lg:scale-105 border border-white/5" hover:border-[#ff6b35]/20 transition-colors duration-500 `}
+              // style={{
+              //   background: tier.highlight
+              //     ? "linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 107, 53, 0.02) 100%)"
+              //     : "rgba(255, 255, 255, 0.02)",
+              //   border: tier.highlight
+              //     ? "1px solid rgba(255, 107, 53, 0.2)"
+              //     : "1px solid rgba(255, 255, 255, 0.05)",
+              // }}
             >
               {/* Hover glow */}
               <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#ff6b35] opacity-0 group-hover:opacity-[0.08] blur-[60px] rounded-full transition-opacity duration-500" />
@@ -711,13 +712,13 @@ const RewardTiersSection = () => {
               <div className="relative z-10">
                 <div className="mb-6">
                   <tier.icon
-                    className={`w-8 h-8 ${tier.highlight ? "text-[#ff6b35]" : "text-white/40"}`}
+                    className={`w-8 h-8 text-white/40 group-hover:text-[#ff6b35] transition-colors duration-300 ease-in `}
                   />
                 </div>
 
                 <h3 className="text-lg text-white/60 mb-2">{tier.name}</h3>
                 <div
-                  className={`text-5xl font-bold mb-4 ${tier.highlight ? "text-[#ff6b35]" : "text-white"}`}
+                  className={`text-5xl font-bold mb-4 text-white/40 `}
                 >
                   {tier.reward}
                 </div>
@@ -812,7 +813,7 @@ const HowItWorksSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8, delay: i * 0.1 }}
-              className="group relative"
+              className="group relative "
             >
               {/* Connector line */}
               {i < steps.length - 1 && (
@@ -820,10 +821,10 @@ const HowItWorksSection = () => {
               )}
 
               <div
-                className="relative p-8 rounded-3xl h-full transition-all duration-300 group-hover:bg-white/[0.02]"
+                className="relative p-8 rounded-3xl h-full transition-all duration-300 group-hover:bg-white/[0.02] border group-hover:border-[#ff6b35]/20  "
                 style={{
                   background: "rgba(255, 255, 255, 0.01)",
-                  border: "1px solid rgba(255, 255, 255, 0.05)",
+                  
                 }}
               >
                 {/* Number */}
@@ -831,8 +832,8 @@ const HowItWorksSection = () => {
                   {step.num}
                 </span>
 
-                <div className="w-14 h-14 rounded-2xl bg-[#ff6b35]/10 border border-[#ff6b35]/20 flex items-center justify-center mb-6 group-hover:bg-[#ff6b35]/20 transition-colors duration-500">
-                  <step.icon className="w-6 h-6 text-[#ff6b35]" />
+                <div className="w-14 h-14 rounded-2xl border border-white/20 flex items-center justify-center mb-6 ">
+                  <step.icon className="w-6 h-6 group-hover:text-[#ff6b35] text-white/20" />
                 </div>
 
                 <h3 className="text-xl font-semibold text-white mb-3">
@@ -964,11 +965,11 @@ const FeaturesSection = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
                   transition={{ duration: 0.6, delay: i * 0.1 }}
-                  className="group p-5 rounded-2xl transition-all duration-300 hover:bg-white/[0.02] border border-white/[0.05]"
+                  className="group p-5 rounded-2xl transition-all duration-300  border border-white/[0.05] hover:border-[#ff6b35]/20  "
                 >
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-[#ff6b35]/10 flex items-center justify-center flex-shrink-0">
-                      <feature.icon className="w-5 h-5 text-[#ff6b35]" />
+                    <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
+                      <feature.icon className="w-5 h-5 group-hover:text-[#ff6b35]" />
                     </div>
                     <div>
                       <h3 className="text-lg font-semibold text-white mb-1">
@@ -1048,17 +1049,18 @@ const CTASection = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
+            {/* <Link
               to="/waitlist"
               className="group inline-flex items-center justify-center gap-4 px-10 md:py-5 py-3 rounded-full bg-[#ff6b35] text-black text-lg font-semibold hover:bg-[#ff8c50] hover:shadow-[0_0_60px_rgba(255,107,53,0.4)] transition-all duration-300"
             >
               Join Waitlist
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Link>
+            </Link> */}
+            <CTAButton to='/waitlist'>Join Waitlist</CTAButton>
 
             <Link
               to="/how-it-works"
-              className="inline-flex items-center justify-center gap-4 px-10 md:py-5 py-3 rounded-full border border-white/10 text-white text-lg font-medium hover:bg-white/5 hover:border-white/20 transition-all duration-300"
+              className="inline-flex w-fit mx-auto md:mx-0 items-center justify-center gap-4   px-5 py-2.5 rounded-full border  text-white  text-[16px] font-medium hover:bg-white/5 hover:border-white/20 transition-all duration-300"
             >
               Learn More
             </Link>

@@ -139,39 +139,9 @@ const MerchantHero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-4"
+            className="flex flex-col sm:flex-row gap-4 max-w-xl"
           >
-            <Link
-              to="/waitlist"
-              onClick={() => sounds.click()}
-              onMouseEnter={() => sounds.hover()}
-              className="
-      group relative inline-flex items-center gap-3
-      px-8 py-4 rounded-full
-      bg-white text-black text-[15px] font-medium
-      overflow-hidden
-      transition-shadow duration-500
-      hover:shadow-[0_0_60px_rgba(255,255,255,0.2)]
-    "
-            >
-              {/* Hover fill */}
-              <span
-                className="
-        absolute inset-0
-        bg-[#ff6b35]
-        origin-left
-        scale-x-0
-        transition-transform duration-500 ease-out
-        group-hover:scale-x-100
-      "
-              />
-
-              {/* Content */}
-              <span className="relative z-10 flex items-center gap-3">
-                Apply as Merchant
-                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-              </span>
-            </Link>
+            <CTAButton to='/waitlist' className="w-full sm:w-auto">Apply as Merchent</CTAButton>
 
             <MagneticWrapper strength={0.2}>
               <a
@@ -180,7 +150,20 @@ const MerchantHero = () => {
                 rel="noopener noreferrer"
                 onClick={() => sounds.click()}
                 onMouseEnter={() => sounds.hover()}
-                className="group inline-flex items-center ml-2 gap-3 px-8 py-4 rounded-full border border-white/10 text-white text-[15px] font-medium transition-all duration-500 hover:border-white/30 hover:bg-white/5"
+                className="group
+  inline-flex sm:inline-flex
+  w-full sm:w-auto
+  justify-center
+  items-center
+  gap-3
+  px-5 py-2.5
+  text-[16px]
+  rounded-full
+  border border-white/10
+  text-white
+  font-medium
+  transition-all duration-500
+  hover:border-white/30 hover:bg-white/5"
               >
                 Join Merchant Community
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -434,10 +417,11 @@ const WhyBlipSection = () => {
             <span className="text-[#ff6b35] italic">repeat volume</span>.
           </p>
 
-          <button className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#ff6b35] text-black font-bold hover:scale-105 transition">
-            Start Trading
-            <ChevronRight size={16} />
-          </button>
+          
+          
+            <CTAButton className="w-full sm:w-auto">Start Trading</CTAButton>
+        
+          
         </div>
 
         {/* 3D Interactive Card */}
@@ -655,7 +639,17 @@ const DashboardSection = () => {
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8 }}
-            className="relative aspect-[4/3] rounded-2xl  order-2 lg:order-1 "
+            className="
+  relative
+  w-full
+  min-h-[388px]
+  
+  md:min-h-[476px]
+  xl:min-h-[460px]
+  rounded-xl sm:rounded-2xl
+  order-2 lg:order-1 overflow-hidden lg:overflow-auto
+"
+
           >
             {/* Placeholder frame */}
             <div className="absolute inset-0 bg-[#0a0a0a] border border-white/10 rounded-2xl">
@@ -670,14 +664,17 @@ const DashboardSection = () => {
               </div>
 
               {/* Mock content */}
-              <div className="p-6 space-y-4">
-                <div className="flex gap-4">
+              <div className="p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4">
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+
                   <div className="flex-1 h-24 bg-white/[0.02] rounded-lg border border-white/5" />
                   <div className="flex-1 h-24 bg-white/[0.02] rounded-lg border border-white/5" />
                   <div className="flex-1 h-24 bg-white/[0.02] rounded-lg border border-white/5" />
                 </div>
                 <div className="h-40 bg-white/[0.02] rounded-lg border border-white/5" />
-                <div className="flex gap-4">
+               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+
                   <div className="flex-1 h-20 bg-white/[0.02] rounded-lg border border-white/5" />
                   <div className="flex-1 h-20 bg-white/[0.02] rounded-lg border border-white/5" />
                 </div>

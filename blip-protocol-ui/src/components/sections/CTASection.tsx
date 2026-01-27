@@ -92,10 +92,10 @@ export const CTASection = ({
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center"
+          className="flex flex-col sm:flex-row gap-4 justify-center "
         >
           
-          <CTAButton to="/waitlist"  >
+          <CTAButton to="/waitlist" className="w-full sm:w-auto"  >
               {primaryButtonText}
             
           </CTAButton>
@@ -107,7 +107,20 @@ export const CTASection = ({
                 to={secondaryButtonLink}
                 onClick={() => sounds.click()}
                 onMouseEnter={() => sounds.hover()}
-                className="group inline-flex items-center gap-3 px-5 py-2.5 rounded-full border border-white text-white  text-[16px] font-medium transition-all duration-500 hover:border-white/30 hover:bg-white/5 ml-2"
+                className="group
+  inline-flex sm:inline-flex
+  w-full sm:w-auto
+  justify-center
+  items-center
+  gap-3
+  px-5 py-2.5
+  text-[16px]
+  rounded-full
+  border border-white/10
+  text-white
+  font-medium
+  transition-all duration-500
+  hover:border-white/30 hover:bg-white/5"
               >
                 {secondaryButtonText}
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
