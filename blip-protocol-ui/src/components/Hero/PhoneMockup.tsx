@@ -113,13 +113,8 @@ export default function PhoneMockupInteractive() {
           style={{ transformPerspective: 1200, transformStyle: "preserve-3d" }}
         >
           {/* Reflection effect */}
-          <motion.div
-            className="absolute inset-0 rounded-[28px] sm:rounded-[36px] md:rounded-[40px] lg:rounded-[44px] pointer-events-none z-10"
-            style={{
-              background: `linear-gradient(${135 + mouse.x * 25}deg, rgba(255,255,255,0.06) 0%, transparent 50%, rgba(0,0,0,0.12) 100%)`,
-            }}
-          />
-          <div className=" mt-8 w-[200px] md:mt-0 sm:w-[250px] lg:w-[320px]  "> 
+          <motion.div className="absolute inset-0 rounded-[28px] sm:rounded-[36px] md:rounded-[40px] lg:rounded-[44px] pointer-events-none z-10" />
+          <div className=" mt-8 w-[200px] md:mt-0 sm:w-[250px] lg:w-[320px]  ">
             {/* Phone outer frame */}
             <div className="rounded-[36px] sm:rounded-[40px] md:rounded-[44px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[2px] sm:p-[2.5px] shadow-[0_25px_50px_rgba(0,0,0,0.5),0_0_40px_rgba(255,107,53,0.08)] md:shadow-[0_40px_80px_rgba(0,0,0,0.6),0_0_60px_rgba(255,107,53,0.1)]">
               <div className="rounded-[34px] sm:rounded-[38px] md:rounded-[42px] bg-[#0a0a0a] p-[1px] sm:p-[8px] md:p-[10px]">
