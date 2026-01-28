@@ -167,7 +167,7 @@ export const CinematicHeroOfMerchant = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-3xl sm:text-4md:text-6xl font-bold text-white mb-6 md:mb-8"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 md:mb-8 text-center lg:text-left"
           >
             On-demand <br className="hidden md:block" />
             crypto <span className="text-white/20">settlement.</span>
@@ -212,14 +212,14 @@ export const CinematicHeroOfMerchant = () => {
 
         {/* ==================== Dashboard Panel (3rd on mobile, 3rd on desktop) ==================== */}
         <div
-          className="w-full lg:w-1/3 flex justify-center antigravity-layer order-3 lg:order-3"
+          className="w-full px-2 sm:px-0 lg:w-1/3 flex justify-center antigravity-layer order-3 lg:order-3"
           ref={dashboardLayerRef}
         >
           <div
-            className="dashboard-container-hero animate-float-hero reflect-hero"
+            className="dashboard-container-hero animate-float-hero reflect-hero w-full max-w-[420px] xl:max-w-[460px]"
             style={{ animationDelay: "1s" }}
           >
-            <div className="w-[420px] xl:w-[460px] h-[520px] xl:h-[560px] glass-panel-hero rounded-3xl p-6 xl:p-8 relative overflow-hidden">
+            <div className="w-full h-[520px] xl:h-[560px] glass-panel-hero rounded-3xl p-4 sm:p-6 xl:p-8 relative overflow-hidden">
               {/* Header */}
               <div className="flex items-center justify-between mb-6 xl:mb-8">
                 <div className="flex items-center gap-2">

@@ -2225,6 +2225,34 @@
   min-height: 100vh;
 }
 
+/* Mobile: Reduce starfield brightness */
+@media (max-width: 768px) {
+  .starfield-container {
+    opacity: 0.4;
+  }
+
+  .starfield-fog {
+    opacity: 0.3;
+    height: 200px;
+  }
+
+  .starfield-mist {
+    opacity: 0.2;
+  }
+
+  .starfield-glow-white {
+    width: 400px;
+    height: 400px;
+    opacity: 0.5;
+  }
+
+  .starfield-glow-orange {
+    width: 300px;
+    height: 300px;
+    opacity: 0.5;
+  }
+}
+
 /* ============================================
    CINEMATIC HERO COMPONENTS
    iPhone mockup, glass panels, antigravity

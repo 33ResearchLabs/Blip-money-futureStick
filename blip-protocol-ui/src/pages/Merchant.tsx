@@ -404,8 +404,8 @@ const WhyBlipSection = () => {
         {/* Grid: 1 col on sm, 2 cols on lg */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left: Header */}
-          <div className="max-w-xl">
-            <div className="flex items-center gap-2 mb-6">
+          <div className="max-w-xl mx-auto lg:mx-0 text-center lg:text-left">
+            <div className="flex items-center justify-center lg:justify-start gap-2 mb-6">
               <div className="w-2 h-2 rounded-full bg-white/30 animate-pulse" />
               <span className="text-xs tracking-[0.2em] uppercase text-zinc-500">
                 Next-Gen Merchant Protocol
