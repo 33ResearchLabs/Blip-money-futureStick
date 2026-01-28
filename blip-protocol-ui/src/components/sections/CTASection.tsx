@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, ReactNode } from "react";
 import { motion, useInView } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -12,7 +12,7 @@ import { CTAButton } from "../Navbar";
    ============================================ */
 
 interface CTASectionProps {
-  title: string;
+  title: ReactNode;
   description?: string;
   primaryButtonText: string;
   primaryButtonLink: string;
@@ -95,7 +95,7 @@ export const CTASection = ({
           className="flex flex-col sm:flex-row gap-4 justify-center "
         >
           
-          <CTAButton to="/waitlist" className="w-full sm:w-auto"  >
+          <CTAButton to="/join-waitlist" className="w-full sm:w-auto"  >
               {primaryButtonText}
             
           </CTAButton>

@@ -1,0 +1,335 @@
+import { useRef, useEffect } from "react";
+import { motion, useInView } from "framer-motion";
+import { Link } from "react-router-dom";
+import { Lock, Users } from "lucide-react";
+
+/**
+ * CinematicHero - 3-column layout with parallax mouse tracking
+ * Matches the blip.money design with iPhone mockup, center text, and dashboard panel
+ */
+const CinematicHero = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const phoneLayerRef = useRef<HTMLDivElement>(null);
+  const textLayerRef = useRef<HTMLDivElement>(null);
+  const dashboardLayerRef = useRef<HTMLDivElement>(null);
+
+  // Mouse tracking for parallax/antigravity effect
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      const moveX = (e.clientX - centerX) / centerX;
+      const moveY = (e.clientY - centerY) / centerY;
+
+      // Phone layer - more movement
+      if (phoneLayerRef.current) {
+        const x = moveX * 25 * 0.02;
+        const y = moveY * 25 * 0.02;
+        const rotationX = moveY * 10 * 0.02;
+        const rotationY = -moveX * 10 * 0.02;
+        phoneLayerRef.current.style.transform = `translate3d(${x}px, ${y}px, 0) rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
+      }
+
+      // Text layer - subtle movement
+      if (textLayerRef.current) {
+        const x = moveX * 25 * 0.01;
+        const y = moveY * 25 * 0.01;
+        textLayerRef.current.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      }
+
+      // Dashboard layer - medium movement
+      if (dashboardLayerRef.current) {
+        const x = moveX * 25 * 0.015;
+        const y = moveY * 25 * 0.015;
+        const rotationX = moveY * 10 * 0.015;
+        const rotationY = -moveX * 10 * 0.015;
+        dashboardLayerRef.current.style.transform = `translate3d(${x}px, ${y}px, 0) rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
+      }
+    };
+
+    document.addEventListener("mousemove", handleMouseMove);
+    return () => document.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
+  return (
+    <section
+      ref={ref}
+      className="relative min-h-screen overflow-hidden bg-transparent"
+    >
+      {/* Main Hero Content - 3 Column Layout */}
+      <main className="relative z-10 pt-32 md:pt-44 pb-16 md:pb-32 px-4 md:px-10 max-w-[1500px] mx-auto flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-4">
+        {/* ==================== LEFT: iPhone Mockup ==================== */}
+        <div
+          className="hidden lg:flex w-full lg:w-1/4 justify-center lg:justify-start antigravity-layer"
+          ref={phoneLayerRef}
+        >
+          <div className="phone-container-hero animate-float-hero reflect-hero">
+            <div className="relative w-[280px] h-[570px] iphone-bezel rounded-[3.5rem] p-[8px]">
+              {/* iPhone physical buttons */}
+              <div className="iphone-button h-8 top-28 -left-[7px]" />
+              <div className="iphone-button h-16 top-40 -left-[7px]" />
+              <div className="iphone-button h-16 top-60 -left-[7px]" />
+              <div className="iphone-button h-24 top-44 -right-[7px]" />
+
+              {/* Screen */}
+              <div className="w-full h-full bg-black rounded-[3.2rem] relative overflow-hidden ring-1 ring-white/10">
+                <div className="iphone-reflection" />
+
+                {/* Status bar */}
+                <div className="absolute top-0 left-0 w-full h-12 flex items-center justify-between px-8 z-30">
+                  <div className="text-[12px] font-bold text-white">9:41</div>
+                  <div className="flex items-center gap-1.5">
+                    <svg
+                      width="14"
+                      height="10"
+                      viewBox="0 0 18 12"
+                      fill="white"
+                    >
+                      <path d="M0 10.5C0 10.2239 0.223858 10 0.5 10H1.5C1.77614 10 2 10.2239 2 10.5V11.5C2 11.7761 1.77614 12 1.5 12H0.5C0.223858 12 0 11.7761 0 11.5V10.5Z" />
+                      <path d="M4 8.5C4 8.22386 4.22386 8 4.5 8H5.5C5.77614 8 6 8.22386 6 8.5V11.5C6 11.7761 5.77614 12 5.5 12H4.5C4.22386 12 4 11.7761 4 11.5V8.5Z" />
+                      <path d="M8 5.5C8 5.22386 8.22386 5 8.5 5H9.5C9.77614 5 10 5.22386 10 5.5V11.5C10 11.7761 9.77614 12 9.5 12H8.5C8.22386 12 8 11.7761 8 11.5V5.5Z" />
+                      <path d="M12 2.5C12 2.22386 12.2239 2 12.5 2H13.5C13.7761 2 14 2.22386 14 2.5V11.5C14 11.7761 13.7761 12 13.5 12H12.5C12.2239 12 12 11.7761 12 11.5V2.5Z" />
+                    </svg>
+                    <div className="w-6 h-3 rounded-[2px] border border-white/40 relative flex items-center p-[1px]">
+                      <div className="bg-white h-full w-[80%] rounded-[1px]" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Dynamic Island */}
+                <div className="absolute top-3 left-1/2 -translate-x-1/2 w-[90px] h-[28px] bg-black rounded-full z-40 border border-white/5" />
+
+                {/* Screen Content */}
+                <div className="p-5 pt-14 flex flex-col h-full">
+                  <div className="text-[11px] text-white/40 mb-6 font-medium px-2">
+                    Accepting Requests
+                  </div>
+
+                  {/* Request Card */}
+                  <div className="glass-card-dark-hero rounded-2xl p-5 mb-5 border border-white/10 shadow-2xl">
+                    <div className="flex justify-between items-start mb-2">
+                      <div className="text-[26px] font-extrabold tracking-tighter text-white">
+                        5,000{" "}
+                        <span className="text-white/50 font-medium text-[18px]">
+                          USDT
+                        </span>
+                      </div>
+                      <div className="mt-2 text-[9px] bg-orange-500/20 px-2 py-0.5 rounded-full text-orange-400 font-bold border border-orange-500/20">
+                        +0.5%
+                      </div>
+                    </div>
+                    <div className="text-[13px] text-white/40 font-medium mb-10">
+                      AED → USDT
+                    </div>
+
+                    <div className="text-[11px] text-white/30 mb-3 italic font-medium">
+                      Accept within 1 min
+                    </div>
+
+                    <button className="w-full py-3.5 bg-white text-black text-[14px] font-black rounded-full mb-3 shadow-[0_4px_12px_rgba(255,255,255,0.2)]">
+                      Accept Request
+                    </button>
+
+                    <div className="flex items-center justify-start gap-3 text-[10px] text-white/50 font-medium">
+                      <span className="flex items-center gap-1">
+                        ✓ Escrow-secured
+                      </span>
+                      <span className="flex items-center gap-1">
+                        ✓ Visible on-chain
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Bottom security bar */}
+                  <div className="mt-auto mb-8 mx-2 p-3 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center gap-5">
+                    <div className="flex items-center gap-2 text-[9px] font-bold text-white/30">
+                      ✓ SECURED
+                    </div>
+                    <div className="flex items-center gap-2 text-[9px] font-bold text-white/30">
+                      ✓ VERIFIED
+                    </div>
+                  </div>
+
+                  {/* Home indicator */}
+                  <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-[100px] h-[4px] bg-white/20 rounded-full" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ==================== CENTER: Text Content ==================== */}
+        <div
+          className="w-full lg:w-2/5 text-center lg:text-left px-4 lg:px-8 antigravity-layer"
+          ref={textLayerRef}
+        >
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="text-5xl md:text-6xl font-bold text-white mb-6 md:mb-8"
+          >
+            On-demand <br className="hidden md:block" />
+            crypto{" "}
+            <span className="text-white/20">settlement.</span>
+            <br className="hidden md:block" />
+            Executed by <br className="hidden md:block" />
+            merchants.
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-base md:text-[17px] text-white/50 leading-relaxed mb-8 md:mb-10 max-w-md mx-auto lg:mx-0"
+          >
+            Users create requests.{" "}
+            <strong className="text-white/70">Merchants accept</strong>, price,
+            and settle off-chain.{" "}
+            <strong className="text-white/70">Escrow-secured</strong>, on-chain
+            verified.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4"
+          >
+            <Link
+              to="/merchant"
+              className="px-8 md:px-10 py-3.5 md:py-4 bg-white text-black font-bold text-[14px] md:text-[15px] rounded-full transition-all hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:-translate-y-1"
+            >
+              Become a Merchant
+            </Link>
+            <Link
+              to="/join-waitlist"
+              className="px-8 md:px-10 py-3.5 md:py-4 btn-pill-outline-hero font-bold text-[14px] md:text-[15px] bg-transparent hover:border-orange-500/30"
+            >
+              Join Waitlist
+            </Link>
+          </motion.div>
+        </div>
+
+        {/* ==================== RIGHT: Dashboard Panel ==================== */}
+        <div
+          className="hidden lg:flex w-full lg:w-1/3 justify-center lg:justify-end antigravity-layer"
+          ref={dashboardLayerRef}
+        >
+          <div
+            className="dashboard-container-hero animate-float-hero reflect-hero"
+            style={{ animationDelay: "1s" }}
+          >
+            <div className="w-[420px] xl:w-[460px] h-[520px] xl:h-[560px] glass-panel-hero rounded-3xl p-6 xl:p-8 relative overflow-hidden">
+              {/* Header */}
+              <div className="flex items-center justify-between mb-6 xl:mb-8">
+                <div className="flex items-center gap-2">
+                  <div className="w-2.5 h-2.5 bg-white/20 rounded-full" />
+                  <span className="text-sm font-medium text-white/40">
+                    blip.money
+                  </span>
+                </div>
+                <div className="flex gap-1.5">
+                  <div className="w-2 h-2 rounded-full bg-white/10" />
+                  <div className="w-2 h-2 rounded-full bg-orange-500/40 shadow-[0_0_8px_rgba(249,115,22,0.3)]" />
+                </div>
+              </div>
+
+              {/* Amount Section */}
+              <div className="flex justify-between items-start mb-8 xl:mb-10">
+                <div>
+                  <div className="inline-block px-3 py-1 bg-white/5 rounded-full text-[11px] text-white/60 font-medium mb-4">
+                    Request Accepted
+                  </div>
+                  <div className="text-3xl xl:text-4xl font-bold">
+                    5,000 <span className="text-white/40">USDT</span>
+                  </div>
+                  <div className="text-xs text-white/30 mt-2">
+                    Corridor AED ~ USDT
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="flex items-center gap-1 text-[11px] text-white/60 mb-1">
+                    <Lock className="w-3 h-3" />
+                    Escrow Locked
+                  </div>
+                  <div className="text-[13px] font-bold text-orange-400">
+                    88.5%
+                  </div>
+                </div>
+              </div>
+
+              {/* Timeline */}
+              <div className="mb-8 xl:mb-10">
+                <div className="text-[11px] text-white/30 font-bold uppercase tracking-wider mb-5 xl:mb-6">
+                  Overview
+                </div>
+                <div className="relative pl-8 space-y-6 xl:space-y-8">
+                  <div className="hero-timeline-line" />
+
+                  <div className="flex justify-between items-center relative">
+                    <div className="hero-timeline-dot" />
+                    <div className="flex-1 ml-4 text-[13px] font-medium text-white/80">
+                      Request Created
+                    </div>
+                    <div className="text-[11px] text-white/30 font-mono">
+                      09:41
+                    </div>
+                  </div>
+
+                  <div className="flex justify-between items-center relative">
+                    <div className="hero-timeline-dot" />
+                    <div className="flex-1 ml-4 text-[13px] font-medium text-white/80">
+                      Request Accepted
+                    </div>
+                    <div className="text-[11px] text-white/30 font-mono">
+                      09:42
+                    </div>
+                  </div>
+
+                  <div className="flex justify-between items-center relative">
+                    <div className="hero-timeline-dot active" />
+                    <div className="flex-1 ml-4 text-[13px] font-bold text-white">
+                      Escrow Locked
+                    </div>
+                    <div className="text-[11px] text-white/30 font-mono">
+                      09:43
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Merchant Card */}
+              <div className="border-t border-white/5 pt-6 xl:pt-8">
+                <div className="glass-card-dark-hero rounded-2xl p-4 flex items-center justify-between transition-all hover:border-white/20">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
+                      <Users className="w-4 h-4 opacity-50" />
+                    </div>
+                    <div>
+                      <div className="text-[13px] font-bold">
+                        PrimeX Holdings
+                      </div>
+                      <div className="text-[10px] text-white/20">
+                        Active now
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-[12px] font-bold">
+                      5,000 <span className="text-white/40">USDT</span>
+                    </div>
+                    <div className="text-[10px] text-orange-400">★ 4.95</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </section>
+  );
+};
+
+export default CinematicHero;

@@ -1,34 +1,6 @@
-import { useRef, useEffect, useState } from "react";
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useSpring,
-  AnimatePresence,
-} from "framer-motion";
-import {
-  ArrowRight,
-  ArrowLeft,
-  Wallet,
-  Check,
-  ChevronRight,
-  Lock,
-  Send,
-  Signal,
-  Wifi,
-  Battery,
-  Building2,
-  Shield,
-  Zap,
-  Globe,
-  Clock,
-  User,
-  Banknote,
-  CheckCircle2,
-  Sparkles,
-} from "lucide-react";
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
 import { SEO } from "@/components";
+<<<<<<< Updated upstream
 import PhoneMockup, { Header } from "@/components/Hero/PhoneMockup";
 import LockedAndSecuredMockup from "@/components/Hero/LockedAndSecuredMockup";
 import { MagneticWrapper } from "@/components/MagneticButton";
@@ -5445,6 +5417,24 @@ const CTASection = () => {
     </section>
   );
 };
+=======
+import CinematicHero from "@/components/CinematicHero";
+import {
+  BlipscanExplorerSection,
+  UAESection,
+  CashbackBanner,
+  ProblemSection,
+  ProtocolSection,
+  FeatureStrip,
+  MerchantDashboardSection,
+  HowItWorksSection,
+  PrivacySection,
+  EarlyAdopterBanner,
+  RewardsSection,
+  PeopleBankSection,
+  CTASection,
+} from "@/components/IndexSections";
+>>>>>>> Stashed changes
 
 /* ============================================
    MAIN INDEX PAGE
@@ -5463,11 +5453,11 @@ const Index = () => {
         canonical="https://blip.money/"
       />
 
-      <div className="bg-[#030303] text-white relative overflow-x-hidden">
+      <div className="bg-transparent text-white relative overflow-x-hidden">
         {/* Grain overlay for premium film texture */}
         <div className="grain-overlay" />
 
-        <HeroSection />
+        <CinematicHero />
         <BlipscanExplorerSection />
         <UAESection />
         <CashbackBanner />

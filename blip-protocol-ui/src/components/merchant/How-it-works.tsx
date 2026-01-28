@@ -58,7 +58,7 @@ const HowItWorksSection = () => {
           className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
           style={{
             background:
-              "radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgba(249,115,22,0.15), transparent 40%)",
+              "radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.08), transparent 40%)",
           }}
         />
 
@@ -66,7 +66,7 @@ const HowItWorksSection = () => {
         <div className="absolute top-6 right-6 flex items-center gap-2">
           <div
             className={`h-1.5 w-1.5 rounded-full ${
-              hovered ? "bg-orange-400 shadow-[0_0_8px_#f97316]" : "bg-zinc-800"
+              hovered ? "bg-gray-400 shadow-[0_0_8px_rgba(255,255,255,0.3)]" : "bg-zinc-800"
             }`}
           />
           <span className="text-[9px] font-mono tracking-[0.2em] text-zinc-600">
@@ -76,7 +76,7 @@ const HowItWorksSection = () => {
 
         {/* Icon + Text */}
         <div className="relative z-10 mb-8 flex flex-col gap-6">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-zinc-900 border border-white/5 text-zinc-500 group-hover:text-orange-400 group-hover:border-orange-500/30 transition">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-zinc-900 border border-white/5 text-zinc-500 group-hover:text-white/20 group-hover:border-white/30 transition">
             <Icon size={24} />
           </div>
 
@@ -88,11 +88,13 @@ const HowItWorksSection = () => {
 
         {/* Mockup */}
         <div className="relative mt-auto h-52 overflow-hidden rounded-2xl border border-white/5 bg-[#080808]">
-          <div className="absolute inset-0 bg-[radial-gradient(rgba(249,115,22,0.03)_1px,transparent_1px)] bg-[size:20px_20px]" />
+          <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:20px_20px]" />
           <div className="relative z-10 h-full">{children}</div>
 
           <div className="absolute bottom-0 inset-x-0 h-8 border-t border-white/5 bg-black/80 flex items-center justify-between px-4">
-            <span className="text-[8px] font-mono text-zinc-500">SYSTEM_ACTIVE</span>
+            <span className="text-[8px] font-mono text-zinc-500">
+              SYSTEM_ACTIVE
+            </span>
             <Cpu size={10} className="text-zinc-800" />
           </div>
         </div>
@@ -105,10 +107,13 @@ const HowItWorksSection = () => {
     <div className="p-4 flex flex-col gap-2">
       <div className="flex justify-between">
         <div className="h-1 w-12 bg-zinc-800 rounded-full" />
-        <Zap size={10} className="text-orange-500 animate-spin-slow" />
+        <Zap size={10} className="text-white/20 animate-spin-slow" />
       </div>
       {["USD/NGN", "EUR/GHS", "GBP/KES"].map((p, i) => (
-        <div key={i} className="bg-zinc-900/40 p-2 rounded-xl text-[9px] text-zinc-400">
+        <div
+          key={i}
+          className="bg-zinc-900/40 p-2 rounded-xl text-[9px] text-zinc-400"
+        >
           {p}
         </div>
       ))}
@@ -117,11 +122,11 @@ const HowItWorksSection = () => {
 
   const MockupLock = () => (
     <div className="h-full flex flex-col items-center justify-center gap-4">
-      <div className="h-16 w-16 rounded-3xl bg-black border border-orange-500/40 flex items-center justify-center">
-        <Lock className="text-orange-500" />
+      <div className="h-16 w-16 rounded-3xl bg-black border border-white/20 flex items-center justify-center">
+        <Lock className="text-white/20" />
       </div>
       <div className="h-1.5 w-24 bg-zinc-900 rounded-full overflow-hidden">
-        <div className="h-full bg-orange-500 w-1/3 group-hover:w-full transition-all duration-[1500ms]" />
+        <div className="h-full bg-white/20 w-1/3 group-hover:w-full transition-all duration-[1500ms]" />
       </div>
     </div>
   );
@@ -129,9 +134,9 @@ const HowItWorksSection = () => {
   const MockupEscrow = () => (
     <div className="p-4">
       <div className="bg-black rounded-xl border border-white/5 p-4">
-        <ShieldCheck className="text-orange-500 mb-3" size={14} />
+        <ShieldCheck className="text-white/20 mb-3" size={14} />
         <div className="h-2 bg-zinc-900 rounded-full overflow-hidden">
-          <div className="h-full bg-orange-500/40 w-1/2 animate-pulse" />
+          <div className="h-full bg-white/20 w-1/2 animate-pulse" />
         </div>
       </div>
     </div>
@@ -139,12 +144,15 @@ const HowItWorksSection = () => {
 
   const MockupOnChain = () => (
     <div className="p-4 font-mono text-[9px] text-zinc-500">
-      <div className="flex items-center gap-2 text-orange-400 mb-2">
+      <div className="flex items-center gap-2 text-white/20 mb-2">
         <Scan size={12} /> BLIP_SCAN
       </div>
       <div>{"> BLOCK CONFIRMED"}</div>
-      <div className="text-orange-400">{"> FINALIZED"}</div>
-      <Globe size={40} className="absolute bottom-2 right-2 text-orange-500/10" />
+      <div className="text-white/20">{"> FINALIZED"}</div>
+      <Globe
+        size={40}
+        className="absolute bottom-2 right-2 text-white/10"
+      />
     </div>
   );
 
@@ -174,19 +182,43 @@ const HowItWorksSection = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card title="Dashboard Stream" subtitle="Live routing engine." icon={LayoutDashboard} delay={0.2} step={1}>
+        <Card
+          title="Dashboard Stream"
+          subtitle="Live routing engine."
+          icon={LayoutDashboard}
+          delay={0.2}
+          step={1}
+        >
           <MockupDashboard />
         </Card>
 
-        <Card title="Protocol Lock" subtitle="Atomic rate locks." icon={Lock} delay={0.3} step={2}>
+        <Card
+          title="Protocol Lock"
+          subtitle="Atomic rate locks."
+          icon={Lock}
+          delay={0.3}
+          step={2}
+        >
           <MockupLock />
         </Card>
 
-        <Card title="Escrow Vault" subtitle="Non-custodial security." icon={ShieldCheck} delay={0.4} step={3}>
+        <Card
+          title="Escrow Vault"
+          subtitle="Non-custodial security."
+          icon={ShieldCheck}
+          delay={0.4}
+          step={3}
+        >
           <MockupEscrow />
         </Card>
 
-        <Card title="Chain Finality" subtitle="On-chain proof." icon={Activity} delay={0.5} step={4}>
+        <Card
+          title="Chain Finality"
+          subtitle="On-chain proof."
+          icon={Activity}
+          delay={0.5}
+          step={4}
+        >
           <MockupOnChain />
         </Card>
       </div>

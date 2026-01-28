@@ -151,7 +151,7 @@ export const CTAButton = ({
       >
         {/* LEFT-TO-RIGHT HOVER FILL ANIMATION */}
         {isPrimary && (
-          <span className="absolute inset-0 bg-[#ff6b35] rounded-full scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-out" />
+          <span className="absolute inset-0 bg-white/20 rounded-full scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-out" />
         )}
 
         {/* BUTTON TEXT */}
@@ -447,6 +447,7 @@ export const Navbar = () => {
               <NavItem to="/how-it-works">{t("howItWorks")}</NavItem>
               <NavItem to="/rewards">{t("rewards")}</NavItem>
               <NavItem to="/tokenomics">{t("tokenomics")}</NavItem>
+              <NavItem to="/merchant">{t("Merchant")}</NavItem>
             </div>
 
             {/* Desktop Actions */}

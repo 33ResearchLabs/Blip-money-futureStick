@@ -35,7 +35,11 @@ import { SEO } from "@/components";
    - Clean, minimal aesthetic
    ============================================ */
 
-const AirdropLogin = () => {
+interface AirdropLoginProps {
+  initialView?: "landing" | "waitlist" | "connect";
+}
+
+const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
   const { publicKey, connected, disconnect, connecting } = useWallet();
   const { toast } = useToast();
   const { login, isAuthenticated, logout, isLoading } = useAuth();
@@ -45,8 +49,17 @@ const AirdropLogin = () => {
 
   // Navigation & Identity State
   const refFromUrl = searchParams.get("ref") || "";
-  const [view, setView] = useState(refFromUrl ? "waitlist" : "landing");
+  const [view, setView] = useState(initialView || (refFromUrl ? "waitlist" : "landing"));
   const [email, setEmail] = useState("");
+
+  // Sync view state with initialView prop when it changes (for route changes)
+  useEffect(() => {
+    if (initialView) {
+      setView(initialView);
+    } else if (!refFromUrl) {
+      setView("landing");
+    }
+  }, [initialView, refFromUrl]);
   const [referral_code, setReferralCode] = useState(refFromUrl);
   const [isConnecting, setIsConnecting] = useState(false);
   const [hasRedirected, setHasRedirected] = useState(false);
@@ -401,7 +414,7 @@ const AirdropLogin = () => {
                     className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
                   >
                     <button
-                      onClick={() => setView("waitlist")}
+                      onClick={() => navigate("/join-waitlist")}
                       className="group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-[#ff6b35] text-black text-sm font-semibold hover:bg-[#ff8c50] hover:shadow-[0_0_40px_rgba(255,107,53,0.4)] transition-all duration-300"
                     >
                       Join Waitlist

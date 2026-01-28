@@ -424,7 +424,7 @@ const HeroSection = () => {
             className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
           >
             <Link
-              to="/waitlist"
+              to="/join-waitlist"
               className="group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-[#ff6b35] text-black text-sm font-semibold hover:bg-[#ff8c50] hover:shadow-[0_0_40px_rgba(255,107,53,0.4)] transition-all duration-300"
             >
               Start Earning
@@ -1056,7 +1056,11 @@ const CTASection = () => {
               Join Waitlist
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link> */}
+<<<<<<< Updated upstream
             <CTAButton to='/waitlist' className="sm:w-auto w-full">Join Waitlist</CTAButton>
+=======
+            <CTAButton to='/join-waitlist'>Join Waitlist</CTAButton>
+>>>>>>> Stashed changes
 
             <Link
               to="/how-it-works"

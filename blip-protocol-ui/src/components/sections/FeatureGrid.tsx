@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, ReactNode } from "react";
 import { motion, useInView } from "framer-motion";
 import { sounds } from "@/lib/sounds";
 import { LucideIcon } from "lucide-react";
@@ -16,7 +16,7 @@ interface Feature {
 }
 
 interface FeatureGridProps {
-  title: string;
+  title: ReactNode;
   subtitle?: string;
   description?: string;
   features: Feature[];
@@ -54,7 +54,9 @@ const FeatureCard = ({
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 p-6">
-          <h3 className="text-xl font-semibold text-white mb-2">{feature.title}</h3>
+          <h3 className="text-xl font-semibold text-white mb-2">
+            {feature.title}
+          </h3>
           <p className="text-sm text-white/60">{feature.description}</p>
         </div>
       </motion.div>
@@ -73,11 +75,15 @@ const FeatureCard = ({
       >
         {Icon && (
           <div className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center mb-4 group-hover:border-[#ff6b35]/30 transition-colors">
-            <Icon className="w-5 h-5 text-white/70 group-hover:text-[#ff6b35] transition-colors" />
+            <Icon className="w-5 h-5 text-white/70 group-hover:text-white transition-colors" />
           </div>
         )}
-        <h3 className="text-lg font-semibold text-white mb-2">{feature.title}</h3>
-        <p className="text-sm text-white/50 leading-relaxed">{feature.description}</p>
+        <h3 className="text-lg font-semibold text-white mb-2">
+          {feature.title}
+        </h3>
+        <p className="text-sm text-white/50 leading-relaxed">
+          {feature.description}
+        </p>
       </motion.div>
     );
   }
@@ -89,12 +95,12 @@ const FeatureCard = ({
       initial={{ opacity: 0, y: 40 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.8, delay: index * 0.1 }}
-      className="group p-6 rounded-2xl bg-white/[0.02] border border-transparent hover:border-[#ff6b35]/80 transition-colors duration-500"
+      className="group p-6 rounded-2xl bg-white/[0.02] border border-transparent hover:border-[#ffff]/20 transition-colors duration-500"
       onMouseEnter={() => sounds.hover()}
     >
       {Icon && (
         <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-5 group-hover:bg-[#ff6b35]/10 transition-colors">
-          <Icon className="w-6 h-6 text-white/70 group-hover:text-[#ff6b35] transition-colors" />
+          <Icon className="w-6 h-6 text-white/70 group-hover:text-[#ffff] transition-colors" />
         </div>
       )}
       <h3 className="text-xl font-semibold text-white mb-3">{feature.title}</h3>
@@ -127,8 +133,9 @@ export const FeatureGrid = ({
       <div
         className="absolute inset-0 opacity-[0.02]"
         style={{
-          backgroundImage: 'radial-gradient(circle, rgba(255, 255, 255, 0.8) 1px, transparent 1px)',
-          backgroundSize: '32px 32px',
+          backgroundImage:
+            "radial-gradient(circle, rgba(255, 255, 255, 0.8) 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
         }}
       />
 

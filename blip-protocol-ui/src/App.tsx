@@ -20,6 +20,7 @@ import ComingSoon from "./components/ComingSoon";
 import { HowItWorksPage } from "./pages/HowItWorks";
 import ContactUs from "./pages/ContactUs";
 import ScrollToTop from "./components/ScrollToTop";
+import StarfieldBackground from "./components/StarfieldBackground";
 import AirdropLogin from "./pages/AirdropLogin";
 import Dashboard from "./pages/Dashboard";
 import AdminDashboard from "./pages/AdminDashboard";
@@ -52,6 +53,7 @@ const App = () => (
             <Sonner />
 
             <BrowserRouter>
+              <StarfieldBackground />
               <GoogleAnalytics />
               <StructuredData type="organization" />
               <StructuredData type="website" />
@@ -73,6 +75,10 @@ const App = () => (
                   <Route path="/gdpr" element={<Gdpr />} />
                   <Route path="/twoFactorAuth" element={<TwoFactorAuth />} />
                   <Route path="/waitlist" element={<AirdropLogin />} />
+                  <Route
+                    path="/join-waitlist"
+                    element={<AirdropLogin initialView="waitlist" />}
+                  />
                 </Route>
 
                 {/* WAITLIST LtOGIN (NO LAYOUT) */}

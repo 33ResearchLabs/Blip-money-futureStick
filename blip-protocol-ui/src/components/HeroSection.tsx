@@ -244,7 +244,7 @@ export const HeroSection = () => {
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <CTAButton to="/waitlist" variant="primary">
+            <CTAButton to="/join-waitlist" variant="primary">
               Get Early Access
             </CTAButton>
             <CTAButton to="/how-it-works" variant="secondary" icon={Play}>

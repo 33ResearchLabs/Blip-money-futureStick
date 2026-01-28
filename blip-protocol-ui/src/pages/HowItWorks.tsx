@@ -756,7 +756,7 @@ const CTASection = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center ">
             <MagneticWrapper strength={0.2}>
               <Link
-                to="/waitlist"
+                to="/join-waitlist"
                 onClick={() => sounds.click()}
                 onMouseEnter={() => sounds.hover()}
                 className="group inline-flex items-center justify-center gap-4 

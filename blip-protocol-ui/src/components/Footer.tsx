@@ -102,7 +102,7 @@ export const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative border-t border-[rgba(255,255,255,0.06)] bg-[#0A0A0B]">
+    <footer className="relative border-t border-[rgba(255,255,255,0.06)] bg-black">
       {/* Main content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-16">
@@ -208,7 +208,7 @@ export const Footer = () => {
             Built on Solana
           </div>
         </div>
-      </div>  
+      </div>
     </footer>
   );
 };

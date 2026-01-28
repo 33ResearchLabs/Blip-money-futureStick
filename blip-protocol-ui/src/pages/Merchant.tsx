@@ -50,17 +50,17 @@ const MerchantHero = () => {
   return (
     <section
       ref={ref}
-      className="relative min-h-[100vh] overflow-hidden bg-black border-none"
+      className="relative min-h-[100vh] overflow-hidden bg-transparent border-none"
     >
       {/* ---------------- BACKGROUND ---------------- */}
       <div className="absolute inset-0" />
 
-      {/* Subtle glow */}
+      {/* Subtle white glow */}
       <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] opacity-[0.06] border-none"
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] opacity-[0.04] border-none"
         style={{
           background:
-            "radial-gradient(ellipse, rgba(255,107,53,1) 0%, transparent 70%)",
+            "radial-gradient(ellipse, rgba(255,255,255,1) 0%, transparent 70%)",
         }}
       />
 
@@ -84,7 +84,7 @@ const MerchantHero = () => {
             transition={{ duration: 0.6 }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/[0.02] mb-8"
           >
-            <span className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
             <span className="text-sm text-white/60">
               Beta access open for qualified merchants
             </span>
@@ -97,8 +97,8 @@ const MerchantHero = () => {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="heading-xl text-white mb-6"
           >
-            Become a <span className="text-[#ff6b35]">Blip</span>{" "}
-            <span className="text-white/20">Merchant</span>
+            Become a <span className="text-white">Blip</span>{" "}
+            <span className="text-white/30">Merchant</span>
           </motion.h1>
 
           {/* Subheadline */}
@@ -127,7 +127,7 @@ const MerchantHero = () => {
                   key={index}
                   className="flex items-center gap-2 text-sm text-white/60"
                 >
-                  <Icon className="w-4 h-4 text-[#ff6b35]" />
+                  <Icon className="w-4 h-4 text-white/70" />
                   <span>{bullet.text}</span>
                 </div>
               );
@@ -141,7 +141,9 @@ const MerchantHero = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="flex flex-col sm:flex-row gap-4 max-w-xl"
           >
-            <CTAButton to='/waitlist' className="w-full sm:w-auto">Apply as Merchent</CTAButton>
+            <CTAButton to="/join-waitlist" className="w-full sm:w-auto">
+              Apply as Merchent
+            </CTAButton>
 
             <MagneticWrapper strength={0.2}>
               <a
@@ -195,7 +197,7 @@ const MerchantHero = () => {
             {/* <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent pointer-events-none" /> */}
             <div
               className="absolute inset-x-0 bottom-0 h-40
-  bg-gradient-to-t from-black/60 via-black/25 to-transparent"
+  bg-gradient-to-t from-transparent via-transparent to-transparent"
             />
 
             {/* Vignette */}
@@ -207,7 +209,6 @@ const MerchantHero = () => {
           </div>
         </HeroDashboardVisual>
       </div>
-
     </section>
   );
 };
@@ -317,6 +318,7 @@ import { ChevronRight, Sliders, LayoutList, Check } from "lucide-react";
 import { useMotionValue, useSpring, useTransform } from "framer-motion";
 import { CTAButton } from "@/components/Navbar";
 import HowItWorksSection from "@/components/merchant/How-it-works";
+import CinematicHero from "@/components/CinematicHero";
 
 const WhyBlipSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -386,7 +388,7 @@ const WhyBlipSection = () => {
   ];
 
   return (
-    <section className="relative bg-[#050505] text-white overflow-hidden py-32">
+    <section className="relative bg-transparent text-white overflow-hidden py-32">
       {/* Ambient Background */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[1200px] h-[800px] bg-orange-600/[0.02] blur-[140px] rounded-full" />
@@ -397,6 +399,7 @@ const WhyBlipSection = () => {
         />
       </div>
 
+<<<<<<< Updated upstream
       <div className="relative max-w-6xl mx-auto px-8">
         {/* Header */}
         <div className="max-w-4xl mb-24">
@@ -447,27 +450,83 @@ const WhyBlipSection = () => {
               <h3 className="text-sm italic text-zinc-400">
                 Platform Capabilities
               </h3>
+=======
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
+        {/* Grid: 1 col on sm, 2 cols on lg */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Left: Header */}
+          <div className="max-w-xl">
+            <div className="flex items-center gap-2 mb-6">
+              <div className="w-2 h-2 rounded-full bg-white/30 animate-pulse" />
+              <span className="text-xs tracking-[0.2em] uppercase text-zinc-500">
+                Next-Gen Merchant Protocol
+              </span>
+>>>>>>> Stashed changes
             </div>
 
-            {/* Feature List */}
-            <div className="px-6 py-6">
-              {features.map((f, index) => {
-                const isActive = activeIndex === index;
-                const isPrimary = index === 0;
+            <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
+              Why Merchants <span className="text-white/20">Choose </span>Blip
+            </h2>
 
-                return (
-                  <motion.div
-                    key={f.title}
-                    onClick={() => setActiveIndex(index)}
-                    initial={false}
-                    whileHover={
-                      isPrimary ? { y: -6, rotateX: 6, rotateY: -6 } : { y: -2 }
-                    }
-                    transition={{ type: "spring", stiffness: 200, damping: 20 }}
-                    style={{
-                      transformStyle: "preserve-3d",
-                    }}
-                    className={`
+            <p className="text-lg text-zinc-400 max-w-2xl mb-10">
+              Built for speed control and repeat volume
+            </p>
+
+            <CTAButton to="/join-waitlist" className="w-full sm:w-auto">
+              Start Trading
+            </CTAButton>
+          </div>
+
+          {/* Right: 3D Interactive Card */}
+          <div
+            ref={cardRef}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            style={{ perspective: "1500px" }}
+            className="w-full"
+          >
+            <motion.div
+              style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+              className="relative rounded-[32px] border border-white/10 bg-[#0c0c0d]/90 backdrop-blur-3xl overflow-hidden"
+            >
+              {/* Shine */}
+              <motion.div
+                style={{ left: shineX, top: shineY }}
+                className="absolute -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#ff6b35]/[0.05] blur-[80px] rounded-full pointer-events-none"
+              />
+
+              {/* Header */}
+              <div className="px-10 pt-8 pb-6 border-b border-white/5">
+                <h3 className="text-sm italic text-zinc-400">
+                  Platform Capabilities
+                </h3>
+              </div>
+
+              {/* Feature List */}
+              <div className="px-6 py-6">
+                {features.map((f, index) => {
+                  const isActive = activeIndex === index;
+                  const isPrimary = index === 0;
+
+                  return (
+                    <motion.div
+                      key={f.title}
+                      onClick={() => setActiveIndex(index)}
+                      initial={false}
+                      whileHover={
+                        isPrimary
+                          ? { y: -6, rotateX: 6, rotateY: -6 }
+                          : { y: -2 }
+                      }
+                      transition={{
+                        type: "spring",
+                        stiffness: 200,
+                        damping: 20,
+                      }}
+                      style={{
+                        transformStyle: "preserve-3d",
+                      }}
+                      className={`
           relative flex items-center justify-between px-6 py-5 mb-3 rounded-2xl cursor-pointer
           transition-all duration-300
           ${
@@ -483,72 +542,73 @@ const WhyBlipSection = () => {
                 : "opacity-60 hover:opacity-100 hover:bg-white/[0.02]"
           }
         `}
-                  >
-                    {/* Inner glow for 3D card */}
-                    {isPrimary && (
-                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/[0.08] to-transparent pointer-events-none" />
-                    )}
+                    >
+                      {/* Inner glow for 3D card */}
+                      {isPrimary && (
+                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/[0.08] to-transparent pointer-events-none" />
+                      )}
 
-                    <div className="flex items-center gap-5 relative z-10">
-                      {/* Icon */}
-                      <div
-                        className={`
+                      <div className="flex items-center gap-5 relative z-10">
+                        {/* Icon */}
+                        <div
+                          className={`
               w-12 h-12 rounded-xl flex items-center justify-center border transition-all
               ${
                 isPrimary
                   ? "bg-white text-black border-white/30 shadow-[0_8px_20px_rgba(0,0,0,0.6)]"
                   : isActive
-                    ? "bg-[#ff6b35] text-black border-orange-400"
+                    ? "bg-white/30 text-black border-white/20"
                     : "bg-[#151516] border-white/10 text-zinc-500"
               }
             `}
-                        style={
-                          isPrimary
-                            ? { transform: "translateZ(20px)" }
-                            : undefined
-                        }
-                      >
-                        {f.icon}
-                      </div>
+                          style={
+                            isPrimary
+                              ? { transform: "translateZ(20px)" }
+                              : undefined
+                          }
+                        >
+                          {f.icon}
+                        </div>
 
-                      <div
-                        style={
-                          isPrimary
-                            ? { transform: "translateZ(16px)" }
-                            : undefined
-                        }
-                      >
-                        <div className="font-bold">{f.title}</div>
-                        <div className="text-sm text-zinc-400">
-                          {f.description}
+                        <div
+                          style={
+                            isPrimary
+                              ? { transform: "translateZ(16px)" }
+                              : undefined
+                          }
+                        >
+                          <div className="font-bold">{f.title}</div>
+                          <div className="text-sm text-zinc-400">
+                            {f.description}
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    {(isActive || isPrimary) && (
-                      <div
-                        className={`
+                      {(isActive || isPrimary) && (
+                        <div
+                          className={`
               relative z-10 w-8 h-8 rounded-full flex items-center justify-center
               ${
                 isPrimary
                   ? "bg-white/20 border border-white/30 text-white"
-                  : "bg-[#ff6b35]/10 border border-[#ff6b35]/30 text-[#ff6b35]"
+                  : "bg-[#ff6b35]/10 border border-[#ff6b35]/30 text-white"
               }
             `}
-                        style={
-                          isPrimary
-                            ? { transform: "translateZ(24px)" }
-                            : undefined
-                        }
-                      >
-                        <Check size={16} strokeWidth={3} />
-                      </div>
-                    )}
-                  </motion.div>
-                );
-              })}
-            </div>
-          </motion.div>
+                          style={
+                            isPrimary
+                              ? { transform: "translateZ(24px)" }
+                              : undefined
+                          }
+                        >
+                          <Check size={16} strokeWidth={3} />
+                        </div>
+                      )}
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>
@@ -649,7 +709,6 @@ const DashboardSection = () => {
   rounded-xl sm:rounded-2xl
   order-2 lg:order-1 overflow-hidden lg:overflow-auto
 "
-
           >
             {/* Placeholder frame */}
             <div className="absolute inset-0 bg-[#0a0a0a] border border-white/10 rounded-2xl">
@@ -665,16 +724,13 @@ const DashboardSection = () => {
 
               {/* Mock content */}
               <div className="p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4">
-
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-
                   <div className="flex-1 h-24 bg-white/[0.02] rounded-lg border border-white/5" />
                   <div className="flex-1 h-24 bg-white/[0.02] rounded-lg border border-white/5" />
                   <div className="flex-1 h-24 bg-white/[0.02] rounded-lg border border-white/5" />
                 </div>
                 <div className="h-40 bg-white/[0.02] rounded-lg border border-white/5" />
-               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   <div className="flex-1 h-20 bg-white/[0.02] rounded-lg border border-white/5" />
                   <div className="flex-1 h-20 bg-white/[0.02] rounded-lg border border-white/5" />
                 </div>
@@ -707,11 +763,11 @@ const DashboardSection = () => {
               return (
                 <div
                   key={callout.title}
-                  className="flex items-start gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/5 hover:border-[#ff6b35] transition-colors duration-500"
+                  className="flex items-start gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/5 hover:border-white/20 transition-colors duration-500"
                   onMouseEnter={() => sounds.hover()}
                 >
                   <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
-                    <Icon className="w-5 h-5 text-[#ff6b35]" />
+                    <Icon className="w-5 h-5 text-white/60" />
                   </div>
                   <div>
                     <h4 className="text-base font-medium text-white mb-1">
@@ -820,7 +876,7 @@ const TrustSection = () => {
 
   return (
     <FeatureGrid
-      title="Trades secured by escrow + transparency"
+      title={<>Trades secured by<br /><span className="text-white/20">escrow + transparency</span></>}
       subtitle="Trust & Safety"
       features={features}
       columns={4}
@@ -858,7 +914,7 @@ const RolloutSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6 }}
-              className="text-sm uppercase tracking-[0.2em] text-[#ff6b35] mb-4"
+              className="text-sm uppercase tracking-[0.2em] text-white/40 mb-4"
             >
               Rollout
             </motion.p>
@@ -879,9 +935,9 @@ const RolloutSection = () => {
               className="space-y-6"
             >
               {/* Alpha */}
-              <div className="group p-5 rounded-xl bg-white/[0.02] hover:bg-[#ff6b35]/5 border hover:border-[#ff6b35]/20">
+              <div className="group p-5 rounded-xl bg-white/[0.02] hover:bg-white/5 border hover:border-white/10">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-2 h-2 rounded-full bg-white/30 group-hover:bg-[#ff6b35]" />
+                  <div className="w-2 h-2 rounded-full bg-white/30 group-hover:bg-white/60" />
                   <h3 className="text-lg font-semibold  text-white">Alpha</h3>
                   <span className="text-xs px-2 py-0.5 rounded-full bg-white/5 text-white/40">
                     Internal
@@ -893,11 +949,11 @@ const RolloutSection = () => {
               </div>
 
               {/* Beta */}
-              <div className=" group p-5 rounded-xl hover:bg-[#ff6b35]/5 border hover:border-[#ff6b35]/20">
+              <div className=" group p-5 rounded-xl hover:bg-white/5 border hover:border-white/10">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-2 h-2 rounded-full bg-white/30 group-hover:bg-[#ff6b35] animate-pulse" />
+                  <div className="w-2 h-2 rounded-full bg-white/30 group-hover:bg-white/60 animate-pulse" />
                   <h3 className="text-lg font-semibold text-white">Beta</h3>
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-[#ff6b35]/10 text-[#ff6b35]">
+                  <span className="text-xs px-2 py-0.5 rounded-full bg-white/10 text-white/60">
                     Invite-only
                   </span>
                 </div>
@@ -914,7 +970,7 @@ const RolloutSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-sm uppercase tracking-[0.2em] text-[#ff6b35] mb-4"
+              className="text-sm uppercase tracking-[0.2em] text-white/40 mb-4"
             >
               Benefits
             </motion.p>
@@ -937,10 +993,10 @@ const RolloutSection = () => {
               {earlyBenefits.map((benefit, index) => (
                 <div
                   key={index}
-                  className="group flex items-center gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/5 hover:bg-[#ff6b35]/5  hover:border-[#ff6b35]/20"
+                  className="group flex items-center gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/5 hover:bg-white/5 hover:border-white/10"
                 >
                   <div className="w-8 h-8 rounded-lg  flex items-center justify-center flex-shrink-0">
-                    <CheckCircle2 className="w-4 h-4 text-gray-600 group-hover:text-[#ff6b35]" />
+                    <CheckCircle2 className="w-4 h-4 text-gray-600 group-hover:text-white/60" />
                   </div>
                   <span className="text-white/70">{benefit}</span>
                 </div>
@@ -1015,10 +1071,10 @@ const RequirementsSection = () => {
             return (
               <div
                 key={index}
-                className="group flex items-start gap-4 p-5 rounded-xl bg-white/[0.02] border border-white/5 hover:border-[#ff6b35]"
+                className="group flex items-start gap-4 p-5 rounded-xl bg-white/[0.02] border border-white/5 hover:border-white/20"
               >
                 <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
-                  <Icon className="w-5 h-5 text-white/60 group-hover:text-[#ff6b35] " />
+                  <Icon className="w-5 h-5 text-white/60 group-hover:text-white/80" />
                 </div>
                 <p className="text-white/70 pt-2">{req.text}</p>
               </div>
@@ -1095,10 +1151,10 @@ const FAQSection = () => {
           {faqs.map((faq, index) => (
             <div
               key={index}
-              className={`rounded-xl border overflow-hidden transition-colors duration-300 hover:border-[#ff6b35]/20
+              className={`rounded-xl border overflow-hidden transition-colors duration-300 hover:border-white/20
     ${
       openIndex === index
-        ? "bg-[#ff6b35]/5 border-[#ff6b35]/20"
+        ? "bg-white/5 border-white/20"
         : "bg-white/[0.02] border-white/5"
     }
   `}
@@ -1151,7 +1207,8 @@ const Merchant = () => {
         keywords="P2P merchant, crypto settlement, liquidity provider, escrow trading, Blip merchant"
       />
 
-      <MerchantHero />
+      {/* <MerchantHero /> */}
+      <CinematicHero />
       <HowItWorksSection />
       <WhyBlipSection />
       <DashboardSection />
@@ -1162,7 +1219,7 @@ const Merchant = () => {
       <FAQSection />
 
       <CTASection
-        title="Ready to become a Blip Merchant?"
+        title={<>Ready to become a Blip <span className="text-white/20">Merchant?</span></>}
         description="Apply now. Get access to the dashboard and start executing requests."
         primaryButtonText="Apply as Merchant"
         primaryButtonLink="/waitlist"
