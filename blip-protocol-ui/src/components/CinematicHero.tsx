@@ -127,7 +127,7 @@ const CinematicHero = () => {
                     <div className="text-[11px] text-white/30 mb-3 italic font-medium">
                       Accept within 1 min
                     </div>
-                    <button className="w-full py-3.5 bg-white text-black text-[14px] font-black rounded-full mb-3 shadow-[0_4px_12px_rgba(255,255,255,0.2)]">
+                    <button className="w-full py-2.5 bg-white text-black text-[14px] font-black rounded-full mb-3 shadow-[0_4px_12px_rgba(255,255,255,0.2)]">
                       Accept Request
                     </button>
                     <div className="flex items-center justify-start gap-3 text-[10px] text-white/50 font-medium">

@@ -222,6 +222,7 @@ const MobileMenu = ({
     { to: "/how-it-works", label: t("howItWorks") },
     { to: "/rewards", label: t("rewards") },
     { to: "/tokenomics", label: t("tokenomics") },
+    { to: "/merchant", label: t("merchant") },
   ];
 
   return (
