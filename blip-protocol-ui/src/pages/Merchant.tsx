@@ -399,58 +399,6 @@ const WhyBlipSection = () => {
         />
       </div>
 
-<<<<<<< Updated upstream
-      <div className="relative max-w-6xl mx-auto px-8">
-        {/* Header */}
-        <div className="max-w-4xl mb-24">
-          <div className="flex items-center gap-2 mb-6">
-            <div className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
-            <span className="text-xs tracking-[0.2em] uppercase text-zinc-500">
-              Next-Gen Merchant Protocol
-            </span>
-          </div>
-
-          <h2 className="text-6xl font-bold tracking-tighter mb-6">
-            Why Merchants <span className="text-white/20">Choose </span>Blip
-          </h2>
-
-          <p className="text-lg text-zinc-400 max-w-2xl mb-10">
-            Built for <span className="text-[#ff6b35] italic">speed</span>,{" "}
-            <span className="text-[#ff6b35] italic">control</span>, and{" "}
-            <span className="text-[#ff6b35] italic">repeat volume</span>.
-          </p>
-
-          
-          
-          <CTAButton className="w-full sm:w-auto">Start Trading</CTAButton>
-        
-          
-        </div>
-
-        {/* 3D Interactive Card */}
-        <div
-          ref={cardRef}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
-          style={{ perspective: "1500px" }}
-          className="max-w-[840px] mx-auto"
-        >
-          <motion.div
-            style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-            className="relative rounded-[32px] border border-white/10 bg-[#0c0c0d]/90 backdrop-blur-3xl overflow-hidden"
-          >
-            {/* Shine */}
-            <motion.div
-              style={{ left: shineX, top: shineY }}
-              className="absolute -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#ff6b35]/[0.05] blur-[80px] rounded-full pointer-events-none"
-            />
-
-            {/* Header */}
-            <div className="px-10 pt-8 pb-6 border-b border-white/5">
-              <h3 className="text-sm italic text-zinc-400">
-                Platform Capabilities
-              </h3>
-=======
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
         {/* Grid: 1 col on sm, 2 cols on lg */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -461,7 +409,6 @@ const WhyBlipSection = () => {
               <span className="text-xs tracking-[0.2em] uppercase text-zinc-500">
                 Next-Gen Merchant Protocol
               </span>
->>>>>>> Stashed changes
             </div>
 
             <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
