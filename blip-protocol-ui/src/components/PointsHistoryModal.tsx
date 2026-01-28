@@ -116,8 +116,8 @@ export default function PointsHistoryModal({
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-zinc-800">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-[#39ff14]/20 flex items-center justify-center">
-              <Coins className="w-5 h-5 text-[#39ff14]" />
+            <div className="w-10 h-10 rounded-full bg-[#ff6b35]/20 flex items-center justify-center">
+              <Coins className="w-5 h-5 text-[#ff6b35]" />
             </div>
             <div>
               <h2 className="text-lg font-bold text-white">Points History</h2>
@@ -135,13 +135,13 @@ export default function PointsHistoryModal({
         </div>
 
         {/* Total Points */}
-        <div className="p-6 border-b border-zinc-800 bg-gradient-to-r from-[#39ff14]/5 to-transparent">
+        <div className="p-6 border-b border-zinc-800 bg-gradient-to-r from-[#ff6b35]/5 to-transparent">
           <div className="flex items-center justify-between">
             <div>
               <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
                 Total Accumulated Points
               </span>
-              <div className="text-4xl font-black text-[#39ff14] tracking-tighter mt-1">
+              <div className="text-4xl font-black text-[#ff6b35] tracking-tighter mt-1">
                 {calculatedTotal || totalPoints}
               </div>
             </div>
@@ -164,7 +164,7 @@ export default function PointsHistoryModal({
 
           {loading ? (
             <div className="flex items-center justify-center py-8">
-              <Loader2 className="w-6 h-6 text-[#39ff14] animate-spin" />
+              <Loader2 className="w-6 h-6 text-[#ff6b35] animate-spin" />
             </div>
           ) : history.length === 0 ? (
             <div className="text-center py-8">
@@ -202,7 +202,7 @@ export default function PointsHistoryModal({
                     </div>
                   </div>
                   <div className="text-right">
-                    <span className="text-lg font-bold text-[#39ff14]">
+                    <span className="text-lg font-bold text-[#ff6b35]">
                       +{log.points}
                     </span>
                     <div className="text-[10px] text-zinc-500">pts</div>

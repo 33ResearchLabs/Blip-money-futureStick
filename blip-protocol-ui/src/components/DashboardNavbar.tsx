@@ -51,11 +51,11 @@ export default function DashboardNavbar({
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
           <div className="relative">
-            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#2BFF88] shadow-[0_0_10px_#2BFF88]" />
-            <div className="absolute inset-0 rounded-full bg-[#2BFF88] animate-pulse opacity-50" />
+            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#ff6b35] shadow-[0_0_10px_#ff6b35]" />
+            <div className="absolute inset-0 rounded-full bg-[#ff6b35] animate-pulse opacity-50" />
           </div>
           <span className="text-xl sm:text-2xl font-bold text-white">
-            Blip.<span className="text-[#2BFF88]">money</span>
+            Blip.<span className="text-[#ff6b35]">money</span>
           </span>
         </Link>
 
@@ -67,7 +67,7 @@ export default function DashboardNavbar({
               <span className="text-[9px] uppercase tracking-tighter text-zinc-500 font-bold">
                 Protocol Balance
               </span>
-              <span className="text-[#2BFF88] font-mono text-sm font-bold">
+              <span className="text-[#ff6b35] font-mono text-sm font-bold">
                 {blipPoints} pts
               </span>
             </div>
@@ -86,10 +86,10 @@ export default function DashboardNavbar({
 
             <div ref={dropdownRef} className="relative">
               <div
-                className="w-8 h-8 rounded-full  border border-[#2BFF88] flex items-center justify-center cursor-pointer"
+                className="w-8 h-8 rounded-full  border border-[#ff6b35] flex items-center justify-center cursor-pointer"
                 onClick={() => setOpen(!open)}
               >
-                <ShieldCheck className="text-[#2BFF88]" size={16} />
+                <ShieldCheck className="text-[#ff6b35]" size={16} />
               </div>
 
               {open && (
@@ -121,7 +121,7 @@ export default function DashboardNavbar({
                 onClick={() => setOpen(!open)}
                 className="flex items-center gap-2 px-3 py-2 bg-black border border-zinc-700 text-zinc-300 text-sm"
               >
-                <User size={14} className="text-[#2BFF88]" />
+                <User size={14} className="text-[#ff6b35]" />
                 User
               </button>
 
@@ -170,12 +170,12 @@ export default function DashboardNavbar({
             {/* Points Display - Mobile */}
             <div className="flex items-center justify-between p-3 bg-zinc-900/50 rounded-sm border border-zinc-800">
               <div className="flex items-center gap-2">
-                <Coins size={16} className="text-[#39ff14]" />
+                <Coins size={16} className="text-[#ff6b35]" />
                 <span className="text-xs text-zinc-500 uppercase font-bold">
                   Balance
                 </span>
               </div>
-              <span className="text-[#39ff14] font-mono text-sm font-bold">
+              <span className="text-[#ff6b35] font-mono text-sm font-bold">
                 {blipPoints} pts
               </span>
             </div>
@@ -183,8 +183,8 @@ export default function DashboardNavbar({
             {/* Wallet Info - Mobile */}
             <div className="flex items-center justify-between p-3 bg-zinc-900/50 rounded-sm border border-zinc-800">
               <div className="flex items-center gap-2">
-                <div className="w-6 h-6 rounded-full bg-[#39ff14]/10 border border-[#39ff14]/30 flex items-center justify-center">
-                  <ShieldCheck className="text-[#39ff14]" size={12} />
+                <div className="w-6 h-6 rounded-full bg-[#ff6b35]/10 border border-[#ff6b35]/30 flex items-center justify-center">
+                  <ShieldCheck className="text-[#ff6b35]" size={12} />
                 </div>
                 <span className="text-xs text-zinc-500 uppercase font-bold">
                   Wallet

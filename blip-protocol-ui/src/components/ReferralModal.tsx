@@ -117,8 +117,8 @@ export default function ReferralModal({
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-zinc-800">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-[#39ff14]/20 flex items-center justify-center">
-              <Users className="w-5 h-5 text-[#39ff14]" />
+            <div className="w-10 h-10 rounded-full bg-[#ff6b35]/20 flex items-center justify-center">
+              <Users className="w-5 h-5 text-[#ff6b35]" />
             </div>
             <div>
               <h2 className="text-lg font-bold text-white">Your Referrals</h2>
@@ -141,7 +141,7 @@ export default function ReferralModal({
             <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
               Your Referral Code
             </span>
-            <div className="text-2xl font-mono font-bold text-[#39ff14] mt-1">
+            <div className="text-2xl font-mono font-bold text-[#ff6b35] mt-1">
               {referralCode}
             </div>
           </div>
@@ -159,14 +159,14 @@ export default function ReferralModal({
               title="Copy link"
             >
               {copied ? (
-                <Check className="w-4 h-4 text-[#39ff14]" />
+                <Check className="w-4 h-4 text-[#ff6b35]" />
               ) : (
                 <Copy className="w-4 h-4 text-zinc-400" />
               )}
             </button>
             <button
               onClick={handleShare}
-              className="p-2 rounded bg-[#39ff14] hover:bg-[#2fe610] transition-colors"
+              className="p-2 rounded bg-[#ff6b35] hover:bg-[#ff6b35] transition-colors"
               title="Share link"
             >
               <Share2 className="w-4 h-4 text-black" />
@@ -194,7 +194,7 @@ export default function ReferralModal({
                 Rewards Earned
               </span>
             </div>
-            <span className="text-2xl font-bold text-[#39ff14]">
+            <span className="text-2xl font-bold text-[#ff6b35]">
               +{totalRewards}
             </span>
           </div>
@@ -208,7 +208,7 @@ export default function ReferralModal({
 
           {loading ? (
             <div className="flex items-center justify-center py-8">
-              <Loader2 className="w-6 h-6 text-[#39ff14] animate-spin" />
+              <Loader2 className="w-6 h-6 text-[#ff6b35] animate-spin" />
             </div>
           ) : referrals.length === 0 ? (
             <div className="text-center py-8">
@@ -247,7 +247,7 @@ export default function ReferralModal({
                     </div>
                   </div>
                   <div className="text-right">
-                    <span className="text-sm font-bold text-[#39ff14]">
+                    <span className="text-sm font-bold text-[#ff6b35]">
                       +{user.rewardAmount || 100}
                     </span>
                     <div className="text-[10px] text-zinc-500">pts earned</div>

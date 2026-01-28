@@ -532,7 +532,7 @@ const VisualSection = () => {
   return (
     <section
       ref={ref}
-      className="relative py-12 md:py-32 bg-black overflow-hidden"
+      className="relative py-12 md:py-24 bg-black overflow-hidden "
     >
       <div className="max-w-7xl mx-auto px-6">
         <motion.div
