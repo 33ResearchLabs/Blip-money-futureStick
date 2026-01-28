@@ -1208,7 +1208,7 @@ const HeroSection = () => {
                           </div>
                           <div>
                             <div className="text-2xl font-bold text-white">
-                              5000 USDT
+                              5,000 USDT
                             </div>
                             <div className="flex items-center gap-2 text-sm text-white/40">
                               <ArrowRight className="w-3 h-3" />

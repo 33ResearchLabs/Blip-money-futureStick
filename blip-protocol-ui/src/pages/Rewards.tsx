@@ -1056,11 +1056,11 @@ const CTASection = () => {
               Join Waitlist
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link> */}
-            <CTAButton to='/waitlist'>Join Waitlist</CTAButton>
+            <CTAButton to='/waitlist' className="sm:w-auto w-full">Join Waitlist</CTAButton>
 
             <Link
               to="/how-it-works"
-              className="inline-flex w-fit mx-auto md:mx-0 items-center justify-center gap-4   px-5 py-2.5 rounded-full border  text-white  text-[16px] font-medium hover:bg-white/5 hover:border-white/20 transition-all duration-300"
+              className="inline-flex sm:w-fit  w-full mx-auto md:mx-0 items-center justify-center gap-4   px-5 py-2.5 rounded-full border  text-white  text-[16px] font-medium hover:bg-white/5 hover:border-white/20 transition-all duration-300"
             >
               Learn More
             </Link>

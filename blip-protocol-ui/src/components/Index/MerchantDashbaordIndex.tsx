@@ -376,7 +376,7 @@ export const MerchantDashboardIndex = () => {
                             onClick={() => releaseOrder(order)}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="w-full text-xs font-bold bg-gradient-to-r from-yellow-500 to-yellow-600 text-black px-2 sm:px-3 py-2 sm:py-2 rounded-lg flex-shrink-0 whitespace-nowrap"
+                            className="w-full text-xs font-bold bg-gradient-to-r from-[#ff6b35] to-[#ff8c5a] text-black px-2 sm:px-3 py-2 sm:py-2 rounded-lg flex-shrink-0 whitespace-nowrap"
                           >
                             Release
                           </motion.button>

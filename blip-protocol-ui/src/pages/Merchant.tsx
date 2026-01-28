@@ -419,7 +419,7 @@ const WhyBlipSection = () => {
 
           
           
-            <CTAButton className="w-full sm:w-auto">Start Trading</CTAButton>
+          <CTAButton className="w-full sm:w-auto">Start Trading</CTAButton>
         
           
         </div>
@@ -1145,9 +1145,9 @@ const Merchant = () => {
   return (
     <>
       <SEO
-        title="Become a Merchant | Blip"
+        title="Blip Money Merchant Payments – Fast & Secure Business Solutions"
         canonical="https://blip.money/merchant"
-        description="Accept high-intent crypto-to-cash requests in seconds. Set your margin, execute with escrow protection, and track everything on-chain."
+        description="Grow your business with Blip Money’s merchant payment solutions — fast, secure, and simple tools to accept payments, manage sales, and boost revenue online and in-store"
         keywords="P2P merchant, crypto settlement, liquidity provider, escrow trading, Blip merchant"
       />
 

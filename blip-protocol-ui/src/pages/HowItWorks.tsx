@@ -753,13 +753,20 @@ const CTASection = () => {
             journey with Blip today.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center ">
             <MagneticWrapper strength={0.2}>
               <Link
                 to="/waitlist"
                 onClick={() => sounds.click()}
                 onMouseEnter={() => sounds.hover()}
-                className="group inline-flex items-center gap-4 px-10 md:py-5 py-3 rounded-full   bg-[#ff6b35] text-black text-lg font-medium hover:bg-[#ff8c50] hover:shadow-[0_0_40px_rgba(255,107,53,0.4)] transition-all duration-300"
+                className="group inline-flex items-center justify-center gap-4 
+px-10 md:py-5 py-3 rounded-full 
+sm:w-auto w-full 
+bg-[#ff6b35] text-black text-lg font-medium 
+hover:bg-[#ff8c50] 
+hover:shadow-[0_0_40px_rgba(255,107,53,0.4)] 
+transition-all duration-300"
+
               >
                 Get Started
                 <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-2" />
@@ -773,7 +780,13 @@ const CTASection = () => {
                 rel="noopener noreferrer"
                 onClick={() => sounds.click()}
                 onMouseEnter={() => sounds.hover()}
-                className="group inline-flex items-center gap-4 px-10 md:py-[18px] py-3 rounded-full border border-white/15 text-white text-lg font-medium transition-all duration-500 hover:bg-white/5 hover:border-white/30"
+                className="group inline-flex items-center justify-center gap-4 
+sm:w-auto w-full 
+px-10 md:py-[18px] py-3 rounded-full 
+border border-white/15 text-white text-lg font-medium 
+transition-all duration-500 
+hover:bg-white/5 hover:border-white/30"
+
               >
                 Read Whitepaper
               </a>
