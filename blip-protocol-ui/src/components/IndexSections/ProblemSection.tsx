@@ -49,7 +49,7 @@ const ProblemSection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative py-12 md:py-40 bg-transparent overflow-hidden"
+      className="relative py-12 md:py-40 bg-black overflow-hidden"
     >
       {/* Subtle background gradient */}
       <div className="absolute inset-0">

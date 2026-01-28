@@ -28,7 +28,7 @@ const UAESection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative md:min-h-screen  flex items-center justify-center overflow-hidden bg-transparent"
+      className="relative md:min-h-screen  flex items-center justify-center overflow-hidden bg-black"
     >
       {/* Immersive background with glow */}
       <div className="absolute inset-0">

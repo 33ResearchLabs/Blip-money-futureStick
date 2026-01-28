@@ -25,7 +25,7 @@ const RewardsSection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative py-20 sm:py-28 md:py-32 lg:py-40 bg-transparent overflow-hidden"
+      className="relative py-20 sm:py-28 md:py-32 lg:py-40 bg-black overflow-hidden"
     >
       <motion.div
         className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6"

@@ -17,7 +17,7 @@ const PrivacySection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative py-12 md:py-40 bg-transparent overflow-hidden "
+      className="relative py-12 md:py-40 bg-black overflow-hidden "
     >
       <motion.div
         className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 bg-black md:py-8 rounded-2xl "

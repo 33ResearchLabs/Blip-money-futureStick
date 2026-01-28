@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
 interface StarfieldBackgroundProps {
   starCount?: number;
@@ -21,18 +21,19 @@ const StarfieldBackground = ({
     if (!starfield) return;
 
     // Clear existing stars
-    starfield.innerHTML = '';
+    starfield.innerHTML = "";
 
     // Orange-tinted star colors
-    const orangeColors = ['#f97316', '#fb923c', '#fdba74', '#fff'];
+    const orangeColors = ["#ffff"];
 
     // Generate stars
     for (let i = 0; i < starCount; i++) {
-      const star = document.createElement('div');
-      star.className = 'starfield-star';
+      const star = document.createElement("div");
+      star.className = "starfield-star";
 
       const size = Math.random() * 2 + 0.6;
-      const color = orangeColors[Math.floor(Math.random() * orangeColors.length)];
+      const color =
+        orangeColors[Math.floor(Math.random() * orangeColors.length)];
       const duration = Math.random() * 3 + 2;
 
       star.style.cssText = `
@@ -73,10 +74,10 @@ const StarfieldBackground = ({
       }
     };
 
-    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener("mousemove", handleMouseMove);
 
     return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener("mousemove", handleMouseMove);
     };
   }, [starCount]);
 

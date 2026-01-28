@@ -53,7 +53,6 @@ const App = () => (
             <Sonner />
 
             <BrowserRouter>
-              <StarfieldBackground />
               <GoogleAnalytics />
               <StructuredData type="organization" />
               <StructuredData type="website" />

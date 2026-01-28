@@ -75,7 +75,7 @@ const BlipscanExplorerSection = () => {
   }, []);
 
   return (
-    <section className="relative bg-transparent py-10 sm:py-32 overflow-hidden">
+    <section className="relative bg-black py-10 sm:py-32 overflow-hidden">
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
         {/* Header */}

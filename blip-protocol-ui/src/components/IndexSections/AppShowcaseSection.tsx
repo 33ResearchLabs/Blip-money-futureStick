@@ -63,7 +63,7 @@ const AppShowcaseSection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative py-32 md:py-40 bg-transparent overflow-hidden"
+      className="relative py-32 md:py-40 bg-black overflow-hidden"
     >
       {/* Subtle gradient background - Linear style */}
       <div className="absolute inset-0">

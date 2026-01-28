@@ -19,7 +19,7 @@ const ProtocolSection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative md:py-40 py-12 bg-transparent overflow-hidden"
+      className="relative md:py-40 py-12 bg-black overflow-hidden"
     >
       {/* Immersive background with animated glow */}
       <div className="absolute inset-0">

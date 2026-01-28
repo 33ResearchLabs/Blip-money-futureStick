@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 const FeatureStrip = () => {
   return (
-    <section className="relative py-20 bg-transparent overflow-hidden">
+    <section className="relative py-20 bg-black overflow-hidden">
       {/* Subtle gradient line */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />

@@ -378,9 +378,9 @@ const HeroSection = () => {
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.05] mb-6 tracking-tight"
           >
-            Earn in
+            Earn in a
             <br />
-            <span className="text-[#ff6b35]">a Blip.</span>
+            <span className="text-white/20">Blip.</span>
           </motion.h1>
 
           <motion.p
@@ -717,9 +717,7 @@ const RewardTiersSection = () => {
                 </div>
 
                 <h3 className="text-lg text-white/60 mb-2">{tier.name}</h3>
-                <div
-                  className={`text-5xl font-bold mb-4 text-white/40 `}
-                >
+                <div className={`text-5xl font-bold mb-4 text-white/40 `}>
                   {tier.reward}
                 </div>
                 <p className="text-sm text-white/40">{tier.desc}</p>
@@ -824,7 +822,6 @@ const HowItWorksSection = () => {
                 className="relative p-8 rounded-3xl h-full transition-all duration-300 group-hover:bg-white/[0.02] border group-hover:border-[#ff6b35]/20  "
                 style={{
                   background: "rgba(255, 255, 255, 0.01)",
-                  
                 }}
               >
                 {/* Number */}
@@ -1056,7 +1053,7 @@ const CTASection = () => {
               Join Waitlist
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link> */}
-            <CTAButton to='/join-waitlist'>Join Waitlist</CTAButton>
+            <CTAButton to="/join-waitlist">Join Waitlist</CTAButton>
 
             <Link
               to="/how-it-works"

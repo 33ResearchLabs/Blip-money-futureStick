@@ -107,18 +107,7 @@ const HeroSection = () => {
             >
               <span className="block">Value. Settled.</span>
 
-              <span
-                className="block"
-                style={{
-                  background:
-                    "#ff6b35 linear-gradient(90deg, #ff6b35 0%, #ff8c50 100%) no-repeat ",
-                  backgroundClip: "text",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                }}
-              >
-                Privately.
-              </span>
+              <span className="block text-white/20">Privately.</span>
             </motion.h1>
           </div>
 
@@ -182,7 +171,10 @@ const KeyConceptsSection = () => {
   ];
 
   return (
-    <section ref={ref} className="relative md:py-32 py-12 bg-black overflow-hidden">
+    <section
+      ref={ref}
+      className="relative md:py-32 py-12 bg-black overflow-hidden"
+    >
       {/* Background glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-white/5 blur-[150px] rounded-full" />
 
@@ -268,7 +260,10 @@ const CoreProtocolSection = () => {
   ];
 
   return (
-    <section ref={ref} className="relative md:py-40 py-12 bg-black overflow-hidden">
+    <section
+      ref={ref}
+      className="relative md:py-40 py-12 bg-black overflow-hidden"
+    >
       {/* Background text */}
       <motion.div
         className="absolute top-1/2 left-0 -translate-y-1/2 whitespace-nowrap text-[15vw] font-bold text-white/[0.015] select-none pointer-events-none"
@@ -384,7 +379,10 @@ const TransactionFlowSection = () => {
   );
 
   return (
-    <section ref={ref} className="relative md:py-40 py-12 bg-black overflow-hidden">
+    <section
+      ref={ref}
+      className="relative md:py-40 py-12 bg-black overflow-hidden"
+    >
       {/* Background image with parallax */}
       <div className="absolute inset-0 z-0">
         <motion.div
@@ -519,7 +517,10 @@ const SecuritySection = () => {
   ];
 
   return (
-    <section ref={ref} className="relative md:py-40 py-12 bg-black overflow-hidden">
+    <section
+      ref={ref}
+      className="relative md:py-40 py-12 bg-black overflow-hidden"
+    >
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
           {/* Left: Image with parallax */}
@@ -766,7 +767,6 @@ bg-[#ff6b35] text-black text-lg font-medium
 hover:bg-[#ff8c50] 
 hover:shadow-[0_0_40px_rgba(255,107,53,0.4)] 
 transition-all duration-300"
-
               >
                 Get Started
                 <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-2" />
@@ -786,7 +786,6 @@ px-10 md:py-[18px] py-3 rounded-full
 border border-white/15 text-white text-lg font-medium 
 transition-all duration-500 
 hover:bg-white/5 hover:border-white/30"
-
               >
                 Read Whitepaper
               </a>

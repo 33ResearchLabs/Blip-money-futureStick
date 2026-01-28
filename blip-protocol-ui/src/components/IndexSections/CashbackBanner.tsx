@@ -20,7 +20,7 @@ const CashbackBanner = () => {
   return (
     <section
       ref={containerRef}
-      className="relative md:py-32 py-10 bg-transparent overflow-hidden"
+      className="relative md:py-32 py-10 bg-black overflow-hidden"
     >
       {/* Animated gradient background */}
       <div className="absolute inset-0">

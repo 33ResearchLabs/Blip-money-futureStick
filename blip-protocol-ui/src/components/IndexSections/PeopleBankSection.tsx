@@ -65,7 +65,7 @@ const PeopleBankSection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative py-12 md:py-48 bg-transparent overflow-hidden"
+      className="relative py-12 md:py-48 bg-black overflow-hidden"
     >
       {/* Subtle grid background */}
       <div
