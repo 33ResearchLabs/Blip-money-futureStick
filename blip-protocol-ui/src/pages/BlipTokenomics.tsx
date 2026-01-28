@@ -289,7 +289,7 @@ const DistributionSection = () => {
               <h2 className="text-4xl md:text-5xl font-semibold text-white tracking-tight">
                 Token
                 <br />
-                <span className="text-white/30">Split.</span>
+                <span className="text-white/30">Split</span>
               </h2>
             </motion.div>
 

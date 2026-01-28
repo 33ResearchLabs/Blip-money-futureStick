@@ -532,7 +532,11 @@ const HeroSection = () => {
       .slice(2, 5)}`,
     from: randomHex(),
     to: names[Math.floor(Math.random() * names.length)],
-    amount: `$${(Math.random() * 5000 + 5000).toFixed(2)}`,
+   amount: `$${(Math.random() * 5000 + 5000).toLocaleString('en-US', {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+})}`,
+
     status: "verified",
     time: "now",
     hash: `${Math.random().toString(36).slice(2, 6)}...${Math.random()
@@ -1082,7 +1086,7 @@ const HeroSection = () => {
             <div className="hidden sm:flex justify-center mb-4 lg:mb-6">
               <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/[0.02] border border-white/[0.06]">
                 <motion.div
-                  className="w-2 h-2 rounded-full bg-emerald-500"
+                  className="w-2 h-2 rounded-full bg-[#ff6b35]"
                   animate={{ scale: [1, 1.3, 1], opacity: [1, 0.6, 1] }}
                   transition={{ duration: 1.5, repeat: Infinity }}
                 />
@@ -1930,7 +1934,8 @@ const BlipscanExplorerSection = () => {
         id: `BLP-${Math.random().toString(36).substr(2, 4)}`,
         from: addresses[Math.floor(Math.random() * addresses.length)],
         to: names[Math.floor(Math.random() * names.length)],
-        amount: `$${Math.floor(Math.random() * 10000 + 10000)}`,
+        amount: `$${Math.floor(Math.random() * 10000 + 10000).toLocaleString('en-US')}`,
+
 
         time: "Just now",
         new: true,
@@ -2289,13 +2294,8 @@ const UAESection = () => {
           className="mb-8"
         >
           <h2
-            className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-semibold tracking-tight leading-[0.9]"
-            style={{
-              background: "linear-gradient(135deg, #ffffff 0%, #ff6b35 100%)",
-              backgroundClip: "text",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}
+            className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-semibold tracking-tight leading-[0.9] text-[#ff6b35] "
+            
           >
             Dubai
           </h2>
