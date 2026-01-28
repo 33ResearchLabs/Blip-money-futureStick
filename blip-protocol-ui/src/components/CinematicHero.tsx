@@ -273,7 +273,7 @@ const CinematicHero = () => {
 
         {/* ==================== Dashboard Panel (3rd on mobile, 3rd on desktop) ==================== */}
         <div
-          className="w-full lg:w-1/3 flex justify-center antigravity-layer order-3 lg:order-3"
+          className="w-full px-2 lg:w-1/3 flex justify-center antigravity-layer order-3 lg:order-3"
           ref={dashboardLayerRef}
         >
           <div

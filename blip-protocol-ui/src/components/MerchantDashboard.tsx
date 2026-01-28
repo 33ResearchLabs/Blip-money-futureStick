@@ -150,7 +150,8 @@ export const MerchantDashboard = () => {
     <div
       className="
         relative mx-auto
-        w-[1200px]
+        w-full max-w-full
+        md:w-[1200px]
         xl:w-[1400px]
         2xl:w-[1600px]
       "
@@ -268,7 +269,7 @@ export const MerchantDashboard = () => {
             </div>
 
             {/* Stats cards */}
-            <div className="grid grid-cols-4 gap-3 mb-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 mb-4">
               {[
                 { label: "Volume", value: "$55,450", change: "+12%" },
                 { label: "Earnings", value: "$1,386", change: "+8%" },
@@ -323,7 +324,7 @@ export const MerchantDashboard = () => {
             </div>
 
             {/* 3-Column Grid */}
-            <div className="grid grid-cols-3 gap-3 flex-1 min-h-0">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 flex-1 min-h-0">
               {[
                 { title: "New Orders", data: newOrders, dot: "bg-white/60" },
                 { title: "In Escrow", data: inEscrow, dot: "bg-amber-400" },
@@ -764,7 +765,7 @@ export const MerchantDashboardVisual = () => {
       </div>
 
       <motion.div
-        className="relative z-10 max-w-7xl mx-auto px-6"
+        className="relative z-10 max-w-7xl mx-auto px-2 md:px-6"
         style={{ opacity }}
       >
         {/* Merchant Dashboard Browser Mockup */}
@@ -891,7 +892,7 @@ export const MerchantDashboardVisual = () => {
                   </div>
 
                   {/* Stats cards row */}
-                  <div className="grid grid-cols-4 gap-3 mb-4">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 mb-4">
                     {[
                       {
                         label: "Volume",

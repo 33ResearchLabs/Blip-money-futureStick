@@ -167,7 +167,7 @@ export const CinematicHeroOfMerchant = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-5xl md:text-6xl font-bold text-white mb-6 md:mb-8"
+            className="text-3xl sm:text-4md:text-6xl font-bold text-white mb-6 md:mb-8"
           >
             On-demand <br className="hidden md:block" />
             crypto <span className="text-white/20">settlement.</span>
