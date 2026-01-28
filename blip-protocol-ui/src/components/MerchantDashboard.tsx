@@ -946,9 +946,15 @@ export const MerchantDashboardVisual = () => {
                           Volume Overview
                         </div>
                         <div className="flex items-baseline gap-2">
-                          <span className="text-xl font-bold text-white">$55,450</span>
+                          <span className="text-xl font-bold text-white">
+                            $55,450
+                          </span>
                           <span className="text-[10px] font-medium text-emerald-400 flex items-center gap-0.5">
-                            <svg className="w-2.5 h-2.5" viewBox="0 0 10 10" fill="currentColor">
+                            <svg
+                              className="w-2.5 h-2.5"
+                              viewBox="0 0 10 10"
+                              fill="currentColor"
+                            >
                               <path d="M5 2L8 6H2L5 2Z" />
                             </svg>
                             +12.5%
@@ -1011,19 +1017,29 @@ export const MerchantDashboardVisual = () => {
                               initial={{ height: 0 }}
                               whileInView={{ height: `${bar.value}%` }}
                               viewport={{ once: true }}
-                              transition={{ duration: 0.6, delay: i * 0.04, ease: [0.16, 1, 0.3, 1] }}
+                              transition={{
+                                duration: 0.6,
+                                delay: i * 0.04,
+                                ease: [0.16, 1, 0.3, 1],
+                              }}
                             >
                               {/* Bar with gradient */}
-                              <div className={`absolute inset-0 rounded-t-sm transition-all duration-200 ${
-                                i >= 9
-                                  ? "bg-gradient-to-t from-emerald-500/60 via-emerald-400/40 to-emerald-300/20 group-hover:from-emerald-500/80"
-                                  : "bg-gradient-to-t from-white/25 via-white/15 to-white/5 group-hover:from-white/35"
-                              }`} />
+                              <div
+                                className={`absolute inset-0 rounded-t-sm transition-all duration-200 ${
+                                  i >= 9
+                                    ? "bg-gradient-to-t from-emerald-500/60 via-emerald-400/40 to-emerald-300/20 group-hover:from-emerald-500/80"
+                                    : "bg-gradient-to-t from-white/25 via-white/15 to-white/5 group-hover:from-white/35"
+                                }`}
+                              />
 
                               {/* Glow on hover */}
-                              <div className={`absolute inset-0 rounded-t-sm opacity-0 group-hover:opacity-100 transition-opacity ${
-                                i >= 9 ? "shadow-[0_0_12px_rgba(16,185,129,0.3)]" : "shadow-[0_0_12px_rgba(255,255,255,0.1)]"
-                              }`} />
+                              <div
+                                className={`absolute inset-0 rounded-t-sm opacity-0 group-hover:opacity-100 transition-opacity ${
+                                  i >= 9
+                                    ? "shadow-[0_0_12px_rgba(16,185,129,0.3)]"
+                                    : "shadow-[0_0_12px_rgba(255,255,255,0.1)]"
+                                }`}
+                              />
 
                               {/* Tooltip on hover */}
                               <div className="absolute -top-8 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded bg-white/10 backdrop-blur-sm text-[8px] text-white font-medium opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
@@ -1035,8 +1051,19 @@ export const MerchantDashboardVisual = () => {
 
                         {/* X-axis labels */}
                         <div className="flex justify-between mt-2 px-0.5">
-                          {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day, i) => (
-                            <span key={day} className="text-[7px] text-white/30 font-medium">
+                          {[
+                            "Mon",
+                            "Tue",
+                            "Wed",
+                            "Thu",
+                            "Fri",
+                            "Sat",
+                            "Sun",
+                          ].map((day, i) => (
+                            <span
+                              key={day}
+                              className="text-[7px] text-white/30 font-medium"
+                            >
                               {day}
                             </span>
                           ))}
@@ -1048,11 +1075,15 @@ export const MerchantDashboardVisual = () => {
                     <div className="flex items-center gap-4 mt-3 pt-3 border-t border-white/[0.04] relative z-10">
                       <div className="flex items-center gap-1.5">
                         <div className="w-2 h-2 rounded-sm bg-gradient-to-t from-white/25 to-white/10" />
-                        <span className="text-[9px] text-white/40">This week</span>
+                        <span className="text-[9px] text-white/40">
+                          This week
+                        </span>
                       </div>
                       <div className="flex items-center gap-1.5">
                         <div className="w-2 h-2 rounded-sm bg-gradient-to-t from-emerald-500/60 to-emerald-400/30" />
-                        <span className="text-[9px] text-white/40">Peak days</span>
+                        <span className="text-[9px] text-white/40">
+                          Peak days
+                        </span>
                       </div>
                       <div className="ml-auto text-[9px] text-white/30">
                         Updated 2 min ago
@@ -1278,7 +1309,7 @@ export const MerchantDashboardVisual = () => {
                   </div>
 
                   {/* Recent Activity, Messages & Quick Actions */}
-                  <div className="mt-3 grid grid-cols-3 gap-3">
+                  <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                     {/* Recent Activity */}
                     <div className="p-3 rounded-lg bg-[#0c0c0c] border border-white/[0.03]">
                       <div className="flex items-center justify-between mb-2">

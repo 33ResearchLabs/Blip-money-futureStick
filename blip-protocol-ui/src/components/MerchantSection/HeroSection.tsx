@@ -2,13 +2,13 @@ import { useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Lock, Users } from "lucide-react";
-import StarfieldBackground from "./StarfieldBackground";
+import StarfieldBackground from "../StarfieldBackground";
 
 /**
  * CinematicHero - 3-column layout with parallax mouse tracking
  * Matches the blip.money design with iPhone mockup, center text, and dashboard panel
  */
-const CinematicHero = () => {
+export const CinematicHeroOfMerchant = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const phoneLayerRef = useRef<HTMLDivElement>(null);
@@ -163,112 +163,52 @@ const CinematicHero = () => {
           className="w-full lg:w-1/3 text-center lg:text-left px-4 lg:px-4 antigravity-layer order-2 lg:order-2"
           ref={textLayerRef}
         >
-          <div className="text-center lg:text-left order-2 lg:order-1 px-2 sm:px-4">
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.8,
-                delay: 0.1,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight mb-6 sm:mb-8 tracking-tight max-w-xl mx-auto lg:mx-0"
-            >
-              Send money <span className="text-[#ff6b35]">anywhere,</span>
-              <br />
-              <span className="text-white/40">anytime.</span>
-            </motion.h1>
+          
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="text-5xl md:text-6xl font-bold text-white mb-6 md:mb-8"
+          >
+            On-demand <br className="hidden md:block" />
+            crypto <span className="text-white/20">settlement.</span>
+            <br className="hidden md:block" />
+            Executed by <br className="hidden md:block" />
+            merchants.
+          </motion.h1>
 
-            {/* Powered by crypto badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 1,
-                delay: 0.2,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              className="flex items-center justify-center sm:justify-start gap-2 mb-6 sm:mb-8"
-            >
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06]">
-                <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#ff8c5a] flex items-center justify-center">
-                  <svg
-                    className="w-3 h-3 text-white"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                  >
-                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                    <path d="M2 17l10 5 10-5" />
-                    <path d="M2 12l10 5 10-5" />
-                  </svg>
-                </div>
-                <span className="text-xs text-white/50">Powered by</span>
-                <span className="text-xs font-semibold text-white">Solana</span>
-              </div>
-            </motion.div>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-base md:text-[17px] text-white/50 leading-relaxed mb-8 md:mb-10 max-w-md mx-auto lg:mx-0"
+          >
+            Users create requests.{" "}
+            <strong className="text-white/70">Merchants accept</strong>, price,
+            and settle off-chain.{" "}
+            <strong className="text-white/70">Escrow-secured</strong>, on-chain
+            verified.
+          </motion.p>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.8,
-                delay: 0.3,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              className="text-white/50 text-base sm:text-lg mb-8 sm:mb-10 leading-relaxed max-w-lg mx-auto lg:mx-0"
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4"
+          >
+            <Link
+              to="/merchant"
+              className="px-8 md:px-10 py-3.5 md:py-4 bg-white text-black font-bold text-[14px] md:text-[15px] rounded-full transition-all hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:-translate-y-1"
             >
-              Fast, borderless transfers with crypto rails. Connect wallet,
-              enter amount, and send globally in seconds.
-            </motion.p>
-
-            {/* Quick stats */}
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.8,
-                delay: 0.4,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              className="flex items-center justify-center lg:justify-center gap-12 mb-10 sm:mb-12"
+              Become a Merchant
+            </Link>
+            <Link
+              to="/join-waitlist"
+              className="px-8 md:px-10 py-3.5 md:py-4 btn-pill-outline-hero font-bold text-[14px] md:text-[15px] bg-transparent hover:border-orange-500/30"
             >
-              {[
-                { value: "~2s", label: "Settlement" },
-                { value: "0.1%", label: "Fees" },
-                { value: "150+", label: "Countries" },
-              ].map((stat) => (
-                <div key={stat.label} className="text-center">
-                  <div className="text-2xl sm:text-3xl font-bold text-white">
-                    {stat.value}
-                  </div>
-                  <div className="text-xs text-white/40 uppercase tracking-widest font-medium">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
-            </motion.div>
-
-            {/* Scroll indicator */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.5 }}
-              className="mt-12 sm:mt-16 flex items-center justify-center gap-3"
-            >
-              <span className="text-white/30 text-xs uppercase tracking-widest font-medium">
-                Scroll to explore
-              </span>
-              <div className="w-6 h-10 rounded-full border border-white/20 flex justify-center pt-2">
-                <motion.div
-                  className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]"
-                  animate={{ y: [0, 8, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                />
-              </div>
-            </motion.div>
-          </div>
+              Join Waitlist
+            </Link>
+          </motion.div>
         </div>
 
         {/* ==================== Dashboard Panel (3rd on mobile, 3rd on desktop) ==================== */}
@@ -390,5 +330,3 @@ const CinematicHero = () => {
     </section>
   );
 };
-
-export default CinematicHero;

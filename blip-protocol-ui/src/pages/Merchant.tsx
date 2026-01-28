@@ -319,6 +319,7 @@ import { useMotionValue, useSpring, useTransform } from "framer-motion";
 import { CTAButton } from "@/components/Navbar";
 import HowItWorksSection from "@/components/merchant/How-it-works";
 import CinematicHero from "@/components/CinematicHero";
+import { CinematicHeroOfMerchant } from "@/components/MerchantSection/HeroSection";
 
 const WhyBlipSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -823,7 +824,13 @@ const TrustSection = () => {
 
   return (
     <FeatureGrid
-      title={<>Trades secured by<br /><span className="text-white/20">escrow + transparency</span></>}
+      title={
+        <>
+          Trades secured by
+          <br />
+          <span className="text-white/20">escrow + transparency</span>
+        </>
+      }
       subtitle="Trust & Safety"
       features={features}
       columns={4}
@@ -1155,7 +1162,7 @@ const Merchant = () => {
       />
 
       {/* <MerchantHero /> */}
-      <CinematicHero />
+      <CinematicHeroOfMerchant />
       <HowItWorksSection />
       <WhyBlipSection />
       <DashboardSection />
@@ -1166,7 +1173,12 @@ const Merchant = () => {
       <FAQSection />
 
       <CTASection
-        title={<>Ready to become a Blip <span className="text-white/20">Merchant?</span></>}
+        title={
+          <>
+            Ready to become a Blip{" "}
+            <span className="text-white/20">Merchant?</span>
+          </>
+        }
         description="Apply now. Get access to the dashboard and start executing requests."
         primaryButtonText="Apply as Merchant"
         primaryButtonLink="/waitlist"
