@@ -1056,11 +1056,7 @@ const CTASection = () => {
               Join Waitlist
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link> */}
-<<<<<<< Updated upstream
-            <CTAButton to='/waitlist' className="sm:w-auto w-full">Join Waitlist</CTAButton>
-=======
             <CTAButton to='/join-waitlist'>Join Waitlist</CTAButton>
->>>>>>> Stashed changes
 
             <Link
               to="/how-it-works"

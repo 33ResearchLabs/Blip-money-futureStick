@@ -2088,7 +2088,7 @@
   border-color: rgba(255, 107, 53, 0.3);
   color: var(--accent-primary);
 }
-<<<<<<< Updated upstream
+
 @keyframes scanline {
   0% { transform: translateY(-100%); }
   100% { transform: translateY(100%); }
@@ -2115,7 +2115,7 @@
 }
 .text-glow {
   text-shadow: 0 0 10px rgba(var(--accent-primary-rgb), 0.5);
-=======
+}
 
 /* ============================================
    STARFIELD BACKGROUND
@@ -2351,5 +2351,4 @@
   background: rgba(255, 255, 255, 0.05);
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
   transform: translateY(-2px);
->>>>>>> Stashed changes
 }
