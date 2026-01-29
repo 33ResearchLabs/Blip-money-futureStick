@@ -183,7 +183,7 @@ const EarlyAdopterBanner = () => {
               >
                 <Link
                   to="/join-waitlist"
-                  className="group flex items-center gap-3 px-10 py-5 bg-white text-black rounded-full font-bold text-base shadow-[0_0_50px_rgba(255,255,255,0.2)] hover:shadow-[0_0_80px_rgba(255,255,255,0.3)] transition-all"
+                  className="group inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 rounded-full bg-white text-black text-sm sm:text-base font-semibold hover:shadow-[0_0_40px_rgba(255,255,255,0.2)] transition-all duration-300"
                 >
                   <span>Claim Your Tokens</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

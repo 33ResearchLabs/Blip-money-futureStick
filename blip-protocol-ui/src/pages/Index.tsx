@@ -15,6 +15,8 @@ import {
   RewardsSection,
   PeopleBankSection,
   CTASection,
+  LockedAndSecuredSection,
+  InstantBiddingSection,
 } from "@/components/IndexSections";
 
 /* ============================================
@@ -39,6 +41,8 @@ const Index = () => {
         <div className="grain-overlay" />
 
         <CinematicHero />
+        <LockedAndSecuredSection />
+        <InstantBiddingSection />
         <BlipscanExplorerSection />
         <UAESection />
         <CashbackBanner />
