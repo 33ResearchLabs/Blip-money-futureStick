@@ -177,7 +177,7 @@ const KeyConceptsSection = () => {
       className="relative md:py-32 py-12 bg-black overflow-hidden"
     >
       {/* Background glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-white/5 blur-[150px] rounded-full" />
+      {/* <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-white/5 blur-[150px] rounded-full" /> */}
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -716,12 +716,12 @@ const CTASection = () => {
       className="relative md:min-h-screen flex items-center justify-center md:py-40 py-12 bg-black overflow-hidden"
     >
       {/* Background glow */}
-      <motion.div
+      {/* <motion.div
         className="absolute inset-0 flex items-center justify-center"
         style={{ scale, opacity }}
       >
         <div className="w-[600px] h-[600px] rounded-full bg-white/10 blur-[150px]" />
-      </motion.div>
+      </motion.div> */}
 
       {/* Grid overlay */}
       <div className="absolute inset-0 opacity-[0.02]">
