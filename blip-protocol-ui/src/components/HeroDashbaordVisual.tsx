@@ -13,9 +13,6 @@ export const HeroDashboardVisual = ({
         style={{ perspective: "2000px" }}
       >
         <motion.div
-          initial={{ opacity: 0, y: 60 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           className="relative w-[120vw] md:w-[110vw] lg:w-[100vw] max-w-[1800px]"
           style={{
             transformStyle: "preserve-3d",
@@ -23,26 +20,30 @@ export const HeroDashboardVisual = ({
         >
           <motion.div
             initial={{
+              opacity: 0,
               x: -10,
-              y: [-180, -200, -180],
+              y: -420, // ⬅️ START far above screen
               z: -250,
-              x2: -200,
               rotateX: 20,
-              rotateZ: -25,
               rotateY: 25,
+              rotateZ: -25,
               zIndex: -40,
             }}
             animate={{
+              opacity: 1,
               x: -10,
-              y: [-180, -200, -180],
+              y: [-420, -180, -200, -180], // ⬇️ drop → settle → float
               z: -250,
-              x2: -200,
               rotateX: 20,
-              rotateZ: -25,
               rotateY: 25,
+              rotateZ: -25,
               zIndex: -40,
             }}
-            transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+            transition={{
+              duration: 2,
+              delay: 0.2,
+              ease: "easeInOut",
+            }}
             className="relative origin-top transform-gpu will-change-transform"
             style={{
               transformStyle: "preserve-3d",

@@ -105,7 +105,7 @@ text-3xl md:text-4xl lg:text-5xl xl:text-6xl
             className="flex flex-col sm:flex-row items-center justify-center md:justify-start lg:justify-start gap-3 md:gap-4"
           >
             <Link
-              to="/merchant"
+              to="/coming-soon"
               className="gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 bg-white text-black font-bold text-[14px] md:text-[15px] rounded-full transition-all hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:-translate-y-1"
             >
               Become a Merchant

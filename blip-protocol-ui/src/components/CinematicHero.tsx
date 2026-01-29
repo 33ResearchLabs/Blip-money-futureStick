@@ -59,10 +59,10 @@ const CinematicHero = () => {
       className="relative min-h-screen  overflow-hidden bg-transparent"
     >
       {/* Main Hero Content - 3-column Layout on Desktop */}
-      <main className="relative h-screen z-10 mt-96  lg:mt-0 px-4 md:px-10 max-w-[1600px] mx-auto flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-6">
+      <main className="relative min-h-screen z-10 pt-24 md:pt-28 lg:pt-0 px-4 md:px-10 max-w-[1600px] mx-auto flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-6">
         {/* ==================== Phone Mockup (1st on mobile, 1st on desktop) ==================== */}
         <div
-          className="w-full lg:w-1/3 flex justify-center order-1 lg:order-1 antigravity-layer"
+          className="w-full lg:w-1/3 flex justify-center order-1 lg:order-1 antigravity-layer relative z-20"
           ref={phoneLayerRef}
         >
           <div className="phone-container-hero animate-float-hero reflect-hero">
