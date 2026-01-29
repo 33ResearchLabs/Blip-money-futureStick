@@ -279,8 +279,6 @@ const HeroSection = () => {
             : opacity,
       }}
     >
-      
-
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center pt-20 lg:pt-0">
         {/* Left: Text */}
@@ -355,11 +353,7 @@ const HeroSection = () => {
           >
             <Link
               to="/join-waitlist"
-<<<<<<< HEAD
               className="group inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-full bg-[#ffffff] text-black text-sm font-semibold hover:bg-[#e5e5e5] hover:shadow-[0_0_40px_rgba(255,107,53,0.4)] transition-all duration-300"
-=======
-              className="group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-[#ffffff] text-black text-sm font-semibold hover:bg-[#e5e5e5]  transition-all duration-300"
->>>>>>> 6784510 (color & others  change)
             >
               Start Earning
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -979,7 +973,6 @@ const CTASection = () => {
             minimum spend required.
           </p>
 
-<<<<<<< HEAD
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             {/* <Link
               to="/waitlist"
@@ -989,16 +982,11 @@ const CTASection = () => {
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link> */}
             <CTAButton
-              to="/join-waitlist"
+              to="/waitlist"
               className="group inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-full"
             >
               Join Waitlist
             </CTAButton>
-=======
-          {/* <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            
-            <CTAButton to="/join-waitlist">Join Waitlist</CTAButton>
->>>>>>> 6784510 (color & others  change)
 
             <Link
               to="/how-it-works"
@@ -1006,7 +994,7 @@ const CTASection = () => {
             >
               Learn More
             </Link>
-          </div> */}
+          </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center ">
             <MagneticWrapper strength={0.2}>

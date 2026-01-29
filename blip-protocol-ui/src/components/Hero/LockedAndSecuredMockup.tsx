@@ -335,11 +335,7 @@ export default function LockedAndSecuredMockup() {
 
                       <motion.button
                         onClick={() => setScreen("secured")}
-<<<<<<< HEAD
-                        className="w-full py-2 sm:py-3 rounded-full bg-white text-black font-bold text-sm sm:text-base"
-=======
                         className="w-full py-2 sm:py-3 rounded-full bg-[#ffffff] text-black font-bold text-sm sm:text-base"
->>>>>>> 6784510 (color & others  change)
                         whileTap={{
                           scale: 0.93,
                           boxShadow: "0 0 30px rgba(255, 107, 53, 0.6)",
@@ -390,11 +386,7 @@ export default function LockedAndSecuredMockup() {
 
                       <motion.button
                         onClick={() => setScreen("progress")}
-<<<<<<< HEAD
-                        className="w-full py-2 sm:py-3 rounded-full bg-white text-black font-bold text-sm sm:text-base mb-2 sm:mb-3"
-=======
                         className="w-full py-2 sm:py-3 rounded-full bg-[#ffffff] text-black font-bold text-sm sm:text-base mb-2 sm:mb-3"
->>>>>>> 6784510 (color & others  change)
                         whileTap={{
                           scale: 0.93,
                           boxShadow: "0 0 30px rgba(255, 107, 53, 0.6)",
@@ -492,11 +484,7 @@ export default function LockedAndSecuredMockup() {
 
                       <motion.button
                         onClick={() => setScreen("complete")}
-<<<<<<< HEAD
-                        className="w-full py-2 sm:py-3 rounded-full bg-white text-black font-bold text-sm sm:text-base"
-=======
                         className="w-full py-2 sm:py-3 rounded-full bg-[#ffffff] text-black font-bold text-sm sm:text-base"
->>>>>>> 6784510 (color & others  change)
                         whileTap={{
                           scale: 0.93,
                           boxShadow: "0 0 30px rgba(255, 107, 53, 0.6)",
@@ -605,11 +593,7 @@ export default function LockedAndSecuredMockup() {
 
                       <motion.button
                         onClick={() => setScreen("verified")}
-<<<<<<< HEAD
-                        className="w-full py-2 sm:py-3 rounded-full bg-white text-black font-bold text-sm sm:text-base mb-2 sm:mb-3"
-=======
                         className="w-full py-2 sm:py-3 rounded-full bg-[#ffffff] text-black font-bold text-sm sm:text-base mb-2 sm:mb-3"
->>>>>>> 6784510 (color & others  change)
                         whileTap={{
                           scale: 0.93,
                           boxShadow: "0 0 30px rgba(255, 107, 53, 0.6)",
