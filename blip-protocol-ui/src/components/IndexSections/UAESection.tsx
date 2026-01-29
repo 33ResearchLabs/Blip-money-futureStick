@@ -281,7 +281,7 @@ const UAESection = () => {
 
         {/* Image parallax */}
         <motion.div
-          className="absolute inset-0 z-0 max-w-6xl mx-auto rounded-3xl"
+          className="absolute inset-0 z-0 max-w-7xl mx-auto rounded-3xl px-4 sm:px-6"
           style={{ y }}
         >
           <img
