@@ -1,9 +1,6 @@
 import { useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Lock, Users } from "lucide-react";
-import StarfieldBackground from "../StarfieldBackground";
-import { HeroDashboardMobVisual } from "../HeroDashMobVisual";
 import { MerchantDashboardVisual } from "../MerchantDashboard";
 import { HeroDashboardVisual } from "../HeroDashbaordVisual";
 
@@ -67,7 +64,7 @@ export const CinematicHeroOfMerchant = () => {
 
         {/* ==================== Text Content (2nd on mobile, 2nd on desktop) ==================== */}
         <div
-          className="w-full  px-4 pb-20 lg:px-4 antigravity-layer order-2 relative z-20"
+          className="w-full  px-4 pb-20 sm:pb-28  lg:pb-4 lg:px-4 antigravity-layer order-2 relative z-20"
           ref={textLayerRef}
         >
           <motion.h1

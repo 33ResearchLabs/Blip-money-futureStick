@@ -23,13 +23,13 @@ export const HeroDashboardVisual = ({
         >
           <motion.div
             initial={{
-              opacity: 0,
               x: -10,
-              y: -180,
+              y: [-180, -200, -180],
               z: -250,
+              x2: -200,
               rotateX: 20,
-              rotateY: 25,
               rotateZ: -25,
+              rotateY: 25,
               zIndex: -40,
             }}
             animate={{
