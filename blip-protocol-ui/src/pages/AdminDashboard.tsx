@@ -214,12 +214,12 @@ export default function AdminDashboard() {
           <Card className="bg-gray-800 border-gray-700">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm text-gray-400 flex items-center gap-2">
-                <Clock className="w-4 h-4 text-orange-400" />
+                <Clock className="w-4 h-4 text-white/70" />
                 Awaiting Verification
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-3xl font-bold text-orange-400">
+              <p className="text-3xl font-bold text-white/70">
                 {stats?.submittedTasks || 0}
               </p>
             </CardContent>
@@ -319,7 +319,7 @@ export default function AdminDashboard() {
                                 task.status === "VERIFIED"
                                   ? "bg-green-600"
                                   : task.status === "SUBMITTED"
-                                  ? "bg-orange-600"
+                                  ? "bg-white/80"
                                   : ""
                               }
                             >

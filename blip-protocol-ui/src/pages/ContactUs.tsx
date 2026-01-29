@@ -110,7 +110,7 @@ const HeroSection = () => {
               className="block"
               style={{
                 background:
-                  "linear-gradient(135deg, #ff6b35 0%, #ff8c50 50%, #ffffff 100%)",
+                  "linear-gradient(135deg, #ffffff 0%, #e5e5e5 50%, #ffffff 100%)",
                 backgroundClip: "text",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
@@ -218,7 +218,7 @@ const ContactOptionsSection = () => {
                   }}
                   onMouseEnter={() => sounds.hover()}
                 >
-                  <channel.icon className="w-5 h-5 text-[#ff6b35] mb-3 group-hover:scale-110 transition-transform" />
+                  <channel.icon className="w-5 h-5 text-[#ffffff] mb-3 group-hover:scale-110 transition-transform" />
                   <h3 className="text-sm font-semibold text-white mb-1">
                     {channel.label}
                   </h3>
@@ -241,8 +241,8 @@ const ContactOptionsSection = () => {
                 }}
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center group-hover:bg-[#ff6b35]/20 transition-colors">
-                    <Mail className="w-5 h-5 text-[#ff6b35]" />
+                  <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center group-hover:bg-[#ffffff]/20 transition-colors">
+                    <Mail className="w-5 h-5 text-[#ffffff]" />
                   </div>
                   <div className="text-left">
                     <span className="text-[10px] uppercase tracking-widest text-white/40 block">
@@ -273,8 +273,8 @@ const ContactOptionsSection = () => {
                 onMouseEnter={() => sounds.hover()}
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center group-hover:bg-[#ff6b35]/20 transition-colors">
-                    <MapPin className="w-5 h-5 text-[#ff6b35]" />
+                  <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center group-hover:bg-[#ffffff]/20 transition-colors">
+                    <MapPin className="w-5 h-5 text-[#ffffff]" />
                   </div>
                   <div className="text-left">
                     <span className="text-[10px] uppercase tracking-widest text-white/40 block">
@@ -373,7 +373,7 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="w-24 h-24 rounded-full bg-[#ff6b35]/20 flex items-center justify-center mb-8"
+          className="w-24 h-24 rounded-full bg-[#ffffff]/20 flex items-center justify-center mb-8"
         >
           <Check className="w-12 h-12 text-white/60" />
         </motion.div>
@@ -433,7 +433,7 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
               onChange={(e) =>
                 setFormData({ ...formData, name: e.target.value })
               }
-              className="w-full bg-transparent border-b border-white/10 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-[#ff6b35] transition-colors"
+              className="w-full bg-transparent border-b border-white/10 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-[#ffffff] transition-colors"
             />
           </div>
           <div className="space-y-2">
@@ -448,7 +448,7 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
               onChange={(e) =>
                 setFormData({ ...formData, email: e.target.value })
               }
-              className="w-full bg-transparent border-b border-white/20 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-[#ff6b35] transition-colors"
+              className="w-full bg-transparent border-b border-white/20 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-[#ffffff] transition-colors"
             />
           </div>
         </div>
@@ -463,7 +463,7 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
               onChange={(e) =>
                 setFormData({ ...formData, inquiryType: e.target.value })
               }
-              className="w-full appearance-none bg-white/[0.03] border border-white/5 rounded-xl px-4 py-4 text-sm text-white/80 focus:outline-none focus:border-[#ff6b35]/50 cursor-pointer"
+              className="w-full appearance-none bg-white/[0.03] border border-white/5 rounded-xl px-4 py-4 text-sm text-white/80 focus:outline-none focus:border-[#ffffff]/50 cursor-pointer"
             >
               {inquiryTypes.map((type) => (
                 <option
@@ -491,7 +491,7 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
             onChange={(e) =>
               setFormData({ ...formData, message: e.target.value })
             }
-            className="w-full bg-white/[0.03] border border-white/5 rounded-xl p-4 text-white placeholder:text-white/20 focus:outline-none focus:border-[#ff6b35]/50 transition-colors resize-none"
+            className="w-full bg-white/[0.03] border border-white/5 rounded-xl p-4 text-white placeholder:text-white/20 focus:outline-none focus:border-[#ffffff]/50 transition-colors resize-none"
           />
         </div>
 
@@ -500,7 +500,7 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
           disabled={isSubmitting}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="w-full relative overflow-hidden group bg-[#ff6b35] text-black font-semibold py-5 rounded-full transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-[0_0_60px_rgba(255,107,53,0.3)]"
+          className="w-full relative overflow-hidden group bg-[#ffffff] text-black font-semibold py-5 rounded-full transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-[0_0_60px_rgba(255,107,53,0.3)]"
         >
           <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
           <span className="relative z-10 flex items-center justify-center gap-3 text-sm uppercase tracking-widest">
@@ -572,9 +572,9 @@ const VisualSection = () => {
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
           >
             <div className="relative">
-              <div className="w-20 h-20 rounded-full bg-[#ff6b35]/20 animate-ping absolute inset-0" />
+              <div className="w-20 h-20 rounded-full bg-[#ffffff]/20 animate-ping absolute inset-0" />
               <div className="w-20 h-20 rounded-full bg-white/10 flex items-center justify-center relative">
-                <div className="w-8 h-8 rounded-full bg-[#ff6b35] flex items-center justify-center">
+                <div className="w-8 h-8 rounded-full bg-[#ffffff] flex items-center justify-center">
                   <MapPin className="w-4 h-4 text-black" />
                 </div>
               </div>

@@ -24,7 +24,7 @@ import { SEO } from "@/components";
 /* ============================================
    2025/2026 COMING SOON PAGE
    Matching homepage design system
-   - Orange (#ff6b35) accent color
+   - Orange (#ffffff) accent color
    - Dark theme with subtle gradients
    - Animated particles
    - Clean, minimal aesthetic
@@ -68,7 +68,7 @@ const ParticleBackground = () => {
         vx: (Math.random() - 0.5) * 0.3,
         vy: (Math.random() - 0.5) * 0.3,
         radius: Math.random() * 1.5 + 0.5,
-        color: Math.random() > 0.7 ? "#ff6b35" : "rgba(255, 255, 255, 0.3)",
+        color: Math.random() > 0.7 ? "#ffffff" : "rgba(255, 255, 255, 0.3)",
         opacity: Math.random() * 0.5 + 0.2,
       });
     }
@@ -199,7 +199,7 @@ const CountdownTimer = () => {
                   {String(unit.value).padStart(2, "0")}
                 </span>
               </div>
-              <div className="absolute -inset-1 rounded-2xl bg-[#ff6b35]/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute -inset-1 rounded-2xl bg-[#ffffff]/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
             <span className="text-[10px] md:text-xs text-white/40 uppercase tracking-wider mt-2 block">
               {unit.label}
@@ -321,9 +321,9 @@ const ComingSoon = () => {
         >
           <Link
             to="/"
-            className="group flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.03] border border-white/10 hover:border-[#ff6b35]/30 hover:bg-white/[0.05] transition-all duration-300"
+            className="group flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.03] border border-white/10 hover:border-[#ffffff]/30 hover:bg-white/[0.05] transition-all duration-300"
           >
-            <ArrowLeft className="w-4 h-4 text-white/50 group-hover:text-[#ff6b35] transition-colors" />
+            <ArrowLeft className="w-4 h-4 text-white/50 group-hover:text-[#ffffff] transition-colors" />
             <span className="text-sm text-white/50 group-hover:text-white transition-colors">Back</span>
           </Link>
         </motion.div> */}
@@ -346,7 +346,7 @@ const ComingSoon = () => {
                 animate={{ rotate: 360 }}
                 transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
               >
-                <Rocket className="w-4 h-4 text-[#ff6b35]" />
+                <Rocket className="w-4 h-4 text-[#ffffff]" />
               </motion.div>
               <span className="text-[13px] text-white/70 font-medium tracking-wide">
                 Launch Imminent
@@ -362,7 +362,7 @@ const ComingSoon = () => {
             >
               Something
               <br />
-              <span className="text-[#ff6b35]">Big</span> is Coming.
+              <span className="text-[#ffffff]">Big</span> is Coming.
             </motion.h1>
 
             <motion.p
@@ -398,8 +398,8 @@ const ComingSoon = () => {
             >
               <div className="rounded-3xl bg-white/[0.02] border border-white/[0.08] p-6 backdrop-blur-sm">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-[#ff6b35]/10 border border-[#ff6b35]/20 flex items-center justify-center">
-                    <Bell className="w-5 h-5 text-[#ff6b35]" />
+                  <div className="w-10 h-10 rounded-xl bg-[#ffffff]/10 border border-[#ffffff]/20 flex items-center justify-center">
+                    <Bell className="w-5 h-5 text-[#ffffff]" />
                   </div>
                   <div className="text-left">
                     <h3 className="text-sm font-semibold text-white">
@@ -423,14 +423,14 @@ const ComingSoon = () => {
                         if (status === "error") setStatus("idle");
                       }}
                       disabled={status === "loading" || status === "success"}
-                      className="w-full bg-white/[0.03] border border-white/[0.08] py-3.5 pl-11 pr-4 rounded-xl text-white placeholder:text-white/30 focus:outline-none focus:border-[#ff6b35]/50 focus:ring-1 focus:ring-[#ff6b35]/20 transition-all disabled:opacity-50"
+                      className="w-full bg-white/[0.03] border border-white/[0.08] py-3.5 pl-11 pr-4 rounded-xl text-white placeholder:text-white/30 focus:outline-none focus:border-[#ffffff]/50 focus:ring-1 focus:ring-[#ffffff]/20 transition-all disabled:opacity-50"
                     />
                   </div>
 
                   <button
                     type="submit"
                     disabled={status === "loading" || status === "success"}
-                    className="w-full bg-[#ff6b35] text-black py-3.5 rounded-xl font-semibold hover:bg-[#ff8c50] hover:shadow-[0_0_40px_rgba(255,107,53,0.3)] transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2"
+                    className="w-full bg-[#ffffff] text-black py-3.5 rounded-xl font-semibold hover:bg-[#e5e5e5] hover:shadow-[0_0_40px_rgba(255,107,53,0.3)] transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2"
                   >
                     {status === "loading" && (
                       <>
@@ -467,7 +467,7 @@ const ComingSoon = () => {
                   <motion.p
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="mt-4 text-sm text-[#ff6b35]"
+                    className="mt-4 text-sm text-[#ffffff]"
                   >
                     We'll notify you as soon as we launch!
                   </motion.p>
@@ -499,10 +499,10 @@ const ComingSoon = () => {
                   href="https://x.com/blipmoney_"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-3 px-5 py-3 rounded-full bg-white/[0.02] border border-white/[0.08] hover:border-[#ff6b35]/30 hover:bg-white/[0.04] transition-all duration-300"
+                  className="group flex items-center gap-3 px-5 py-3 rounded-full bg-white/[0.02] border border-white/[0.08] hover:border-[#ffffff]/30 hover:bg-white/[0.04] transition-all duration-300"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-white/[0.05] flex items-center justify-center group-hover:bg-[#ff6b35]/10 transition-colors">
-                    <Twitter className="w-4 h-4 text-white/50 group-hover:text-[#ff6b35] transition-colors" />
+                  <div className="w-8 h-8 rounded-lg bg-white/[0.05] flex items-center justify-center group-hover:bg-[#ffffff]/10 transition-colors">
+                    <Twitter className="w-4 h-4 text-white/50 group-hover:text-[#ffffff] transition-colors" />
                   </div>
                   <span className="text-sm text-white/60 group-hover:text-white transition-colors">
                     Follow on X
@@ -513,10 +513,10 @@ const ComingSoon = () => {
                   href="https://t.me/+3DpHLzc2BfJhOWEx"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-3 px-5 py-3 rounded-full bg-white/[0.02] border border-white/[0.08] hover:border-[#ff6b35]/30 hover:bg-white/[0.04] transition-all duration-300"
+                  className="group flex items-center gap-3 px-5 py-3 rounded-full bg-white/[0.02] border border-white/[0.08] hover:border-[#ffffff]/30 hover:bg-white/[0.04] transition-all duration-300"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-white/[0.05] flex items-center justify-center group-hover:bg-[#ff6b35]/10 transition-colors">
-                    <Send className="w-4 h-4 text-white/50 group-hover:text-[#ff6b35] transition-colors" />
+                  <div className="w-8 h-8 rounded-lg bg-white/[0.05] flex items-center justify-center group-hover:bg-[#ffffff]/10 transition-colors">
+                    <Send className="w-4 h-4 text-white/50 group-hover:text-[#ffffff] transition-colors" />
                   </div>
                   <span className="text-sm text-white/60 group-hover:text-white transition-colors">
                     Join Telegram
@@ -556,8 +556,8 @@ const ComingSoon = () => {
                   transition={{ duration: 0.8, delay: 1 + i * 0.1 }}
                   className="p-6 rounded-2xl bg-white/[0.02] border border-white/[0.06] group hover:bg-white/[0.03] hover:border-white/[0.1] transition-all duration-300"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-[#ff6b35]/10 border border-[#ff6b35]/20 flex items-center justify-center mb-4 group-hover:bg-[#ff6b35]/20 transition-colors">
-                    <feature.icon className="w-5 h-5 text-[#ff6b35]" />
+                  <div className="w-10 h-10 rounded-xl bg-[#ffffff]/10 border border-[#ffffff]/20 flex items-center justify-center mb-4 group-hover:bg-[#ffffff]/20 transition-colors">
+                    <feature.icon className="w-5 h-5 text-[#ffffff]" />
                   </div>
                   <h3 className="text-sm font-semibold text-white mb-2">
                     {feature.title}

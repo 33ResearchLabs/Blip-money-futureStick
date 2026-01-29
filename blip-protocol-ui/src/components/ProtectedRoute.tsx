@@ -35,7 +35,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     return (
       <div className="min-h-screen bg-[#050505] flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
-          <Loader2 className="w-8 h-8 text-[#ff6b35] animate-spin" />
+          <Loader2 className="w-8 h-8 text-[#ffffff] animate-spin" />
           <p className="text-zinc-400 text-sm">
             {isLoading ? "Checking authentication..." : "Connecting wallet..."}
           </p>

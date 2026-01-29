@@ -63,12 +63,12 @@
 //   }, [onComplete]);
 
 //   return (
-//     <div className="fixed inset-0 bg-black z-[100] flex items-center justify-center text-[#FF9F1A] scanline">
+//     <div className="fixed inset-0 bg-black z-[100] flex items-center justify-center text-[#ffffff] scanline">
 //       <div className="text-xs uppercase space-y-2">
 //         {logs.map((l, i) => (
 //           <div key={i}>{l}</div>
 //         ))}
-//         <div className="w-2 h-4 bg-[#FF9F1A] animate-blink" />
+//         <div className="w-2 h-4 bg-[#ffffff] animate-blink" />
 //       </div>
 //     </div>
 //   );
@@ -97,7 +97,7 @@
 //       <div
 //         className={`flex items-center gap-3 px-4 py-3 border rounded-sm ${
 //           type === "success"
-//             ? "bg-black border-[#FF9F1A] text-white"
+//             ? "bg-black border-[#ffffff] text-white"
 //             : "bg-red-950 border-red-500 text-red-200"
 //         }`}
 //       >
@@ -220,7 +220,7 @@
 //               className="bg-zinc-900/40 border p-6 cursor-pointer"
 //             >
 //               <p className="text-xs mb-2">Accumulated Points</p>
-//               <span className="text-3xl text-[#FF9F1A] font-bold">
+//               <span className="text-3xl text-[#ffffff] font-bold">
 //                 {blipPoints}
 //               </span>
 //             </div>
@@ -238,7 +238,7 @@
 //               onClick={() => setShowReferralModal(true)}
 //               className="border p-6 cursor-pointer"
 //             >
-//               <p className="text-xs mb-2 text-[#FF9F1A]">Referral Code</p>
+//               <p className="text-xs mb-2 text-[#ffffff]">Referral Code</p>
 //               <div className="flex justify-between items-center">
 //                 <span className="text-white font-mono">
 //                   {user?.referralCode}
@@ -434,7 +434,7 @@ const BootSequence = ({ onComplete }) => {
   }, [onComplete]);
 
   return (
-    <div className="fixed inset-0 bg-black z-[100] flex flex-col items-center justify-center font-mono text-[#FF9F1A] p-8 scanline">
+    <div className="fixed inset-0 bg-black z-[100] flex flex-col items-center justify-center font-mono text-[#ffffff] p-8 scanline">
       <div className="w-full max-w-lg">
         <div className="mb-8 flex justify-center">
           <Terminal className="w-12 h-12 animate-pulse" />
@@ -448,10 +448,10 @@ const BootSequence = ({ onComplete }) => {
               <span>{log}</span>
             </div>
           ))}
-          <div className="h-4 w-2 bg-[#FF9F1A] animate-blink mt-2" />
+          <div className="h-4 w-2 bg-[#ffffff] animate-blink mt-2" />
         </div>
         <div className="mt-8 h-1 w-full bg-neutral-900 rounded-full overflow-hidden">
-          <div className="h-full bg-[#FF9F1A] animate-[width_2.5s_ease-in-out_forwards] w-0" />
+          <div className="h-full bg-[#ffffff] animate-[width_2.5s_ease-in-out_forwards] w-0" />
         </div>
       </div>
     </div>
@@ -511,10 +511,10 @@ const SpotlightCard = ({ children, className = "", onClick, disabled }) => {
 
 const TechBorder = () => (
   <>
-    <div className="absolute top-0 left-0 w-2 h-2 border-l border-t border-[#FF9F1A]/30 transition-all duration-300 group-hover:w-4 group-hover:h-4 group-hover:border-[#FF9F1A]" />
-    <div className="absolute top-0 right-0 w-2 h-2 border-r border-t border-[#FF9F1A]/30 transition-all duration-300 group-hover:w-4 group-hover:h-4 group-hover:border-[#FF9F1A]" />
-    <div className="absolute bottom-0 left-0 w-2 h-2 border-l border-b border-[#FF9F1A]/30 transition-all duration-300 group-hover:w-4 group-hover:h-4 group-hover:border-[#FF9F1A]" />
-    <div className="absolute bottom-0 right-0 w-2 h-2 border-r border-b border-[#FF9F1A]/30 transition-all duration-300 group-hover:w-4 group-hover:h-4 group-hover:border-[#FF9F1A]" />
+    <div className="absolute top-0 left-0 w-2 h-2 border-l border-t border-[#ffffff]/30 transition-all duration-300 group-hover:w-4 group-hover:h-4 group-hover:border-[#ffffff]" />
+    <div className="absolute top-0 right-0 w-2 h-2 border-r border-t border-[#ffffff]/30 transition-all duration-300 group-hover:w-4 group-hover:h-4 group-hover:border-[#ffffff]" />
+    <div className="absolute bottom-0 left-0 w-2 h-2 border-l border-b border-[#ffffff]/30 transition-all duration-300 group-hover:w-4 group-hover:h-4 group-hover:border-[#ffffff]" />
+    <div className="absolute bottom-0 right-0 w-2 h-2 border-r border-b border-[#ffffff]/30 transition-all duration-300 group-hover:w-4 group-hover:h-4 group-hover:border-[#ffffff]" />
   </>
 );
 
@@ -522,7 +522,7 @@ const Badge = ({ children, type = "neutral" }) => {
   const styles = {
     neutral: "bg-neutral-900/80 text-neutral-400 border-neutral-800",
     orange:
-      "bg-[#FF9F1A]/10 text-[#FF9F1A] border-[#FF9F1A]/20 shadow-[0_0_10px_rgba(249,115,22,0.1)]",
+      "bg-[#ffffff]/10 text-[#ffffff] border-[#ffffff]/20 shadow-[0_0_10px_rgba(249,115,22,0.1)]",
     blue: "bg-blue-500/10 text-blue-400 border-blue-500/20",
   };
   return (
@@ -578,12 +578,12 @@ const Toast = ({ message, type = "success", onClose }) => {
       <div
         className={`flex items-center gap-3 px-4 py-3 border backdrop-blur-md rounded-sm shadow-[0_0_20px_rgba(0,0,0,0.5)] ${
           type === "success"
-            ? "bg-[#050505]/95 border-[#FF9F1A]/50 text-white shadow-[0_0_10px_rgba(249,115,22,0.2)]"
+            ? "bg-[#050505]/95 border-[#ffffff]/50 text-white shadow-[0_0_10px_rgba(249,115,22,0.2)]"
             : "bg-red-950/90 border-red-500/30 text-red-200"
         }`}
       >
         {type === "success" ? (
-          <CheckCircle className="w-4 h-4 text-[#FF9F1A]" />
+          <CheckCircle className="w-4 h-4 text-[#ffffff]" />
         ) : (
           <AlertCircle className="w-4 h-4 text-red-500" />
         )}
@@ -644,7 +644,7 @@ const Modal = ({ task, onClose, onExecute }) => {
           </button>
 
           <div className="flex items-center gap-4 mb-8">
-            <div className="p-4 bg-neutral-900 border border-neutral-800 text-[#FF9F1A] shadow-[0_0_15px_rgba(249,115,22,0.1)]">
+            <div className="p-4 bg-neutral-900 border border-neutral-800 text-[#ffffff] shadow-[0_0_15px_rgba(249,115,22,0.1)]">
               <task.icon className="w-8 h-8" />
             </div>
             <div>
@@ -667,7 +667,7 @@ const Modal = ({ task, onClose, onExecute }) => {
 
           <div className="space-y-4 mb-8">
             <div className="p-5 bg-neutral-900/30 border border-neutral-800/50 rounded-sm relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-1 h-full bg-[#FF9F1A]/50" />
+              <div className="absolute top-0 left-0 w-1 h-full bg-[#ffffff]/50" />
               <h4 className="text-[10px] uppercase tracking-widest text-neutral-500 mb-2 font-mono flex items-center gap-2">
                 <Info className="w-3 h-3" /> Mission Briefing
               </h4>
@@ -680,11 +680,11 @@ const Modal = ({ task, onClose, onExecute }) => {
               <div className="space-y-3 mt-6">
                 {/* Step 1: Connect */}
                 <div
-                  className={`p-3 border rounded-sm flex items-center justify-between transition-all ${gleamState.connected ? "bg-[#FF9F1A]/10 border-[#FF9F1A]/30" : "bg-neutral-900 border-neutral-800"}`}
+                  className={`p-3 border rounded-sm flex items-center justify-between transition-all ${gleamState.connected ? "bg-[#ffffff]/10 border-[#ffffff]/30" : "bg-neutral-900 border-neutral-800"}`}
                 >
                   <div className="flex items-center gap-3">
                     <div
-                      className={`p-1.5 rounded-full ${gleamState.connected ? "bg-[#FF9F1A] text-black" : "bg-neutral-800 text-neutral-500"}`}
+                      className={`p-1.5 rounded-full ${gleamState.connected ? "bg-[#ffffff] text-black" : "bg-neutral-800 text-neutral-500"}`}
                     >
                       {gleamState.connected ? (
                         <Check className="w-3 h-3" />
@@ -713,11 +713,11 @@ const Modal = ({ task, onClose, onExecute }) => {
 
                 {/* Step 2: Follow */}
                 <div
-                  className={`p-3 border rounded-sm flex items-center justify-between transition-all ${gleamState.followed ? "bg-[#FF9F1A]/10 border-[#FF9F1A]/30" : "bg-neutral-900 border-neutral-800"} ${!gleamState.connected ? "opacity-50" : ""}`}
+                  className={`p-3 border rounded-sm flex items-center justify-between transition-all ${gleamState.followed ? "bg-[#ffffff]/10 border-[#ffffff]/30" : "bg-neutral-900 border-neutral-800"} ${!gleamState.connected ? "opacity-50" : ""}`}
                 >
                   <div className="flex items-center gap-3">
                     <div
-                      className={`p-1.5 rounded-full ${gleamState.followed ? "bg-[#FF9F1A] text-black" : "bg-neutral-800 text-neutral-500"}`}
+                      className={`p-1.5 rounded-full ${gleamState.followed ? "bg-[#ffffff] text-black" : "bg-neutral-800 text-neutral-500"}`}
                     >
                       {gleamState.followed ? (
                         <Check className="w-3 h-3" />
@@ -746,11 +746,11 @@ const Modal = ({ task, onClose, onExecute }) => {
 
                 {/* Step 3: Verify */}
                 <div
-                  className={`p-3 border rounded-sm flex items-center justify-between transition-all ${gleamState.verified ? "bg-[#FF9F1A]/10 border-[#FF9F1A]/30" : "bg-neutral-900 border-neutral-800"} ${!gleamState.followed ? "opacity-50" : ""}`}
+                  className={`p-3 border rounded-sm flex items-center justify-between transition-all ${gleamState.verified ? "bg-[#ffffff]/10 border-[#ffffff]/30" : "bg-neutral-900 border-neutral-800"} ${!gleamState.followed ? "opacity-50" : ""}`}
                 >
                   <div className="flex items-center gap-3">
                     <div
-                      className={`p-1.5 rounded-full ${gleamState.verified ? "bg-[#FF9F1A] text-black" : "bg-neutral-800 text-neutral-500"}`}
+                      className={`p-1.5 rounded-full ${gleamState.verified ? "bg-[#ffffff] text-black" : "bg-neutral-800 text-neutral-500"}`}
                     >
                       {gleamState.verified ? (
                         <Check className="w-3 h-3" />
@@ -796,7 +796,7 @@ const Modal = ({ task, onClose, onExecute }) => {
                     ${
                       task.status !== "active"
                         ? "bg-neutral-800 text-neutral-500 cursor-not-allowed border border-transparent"
-                        : "bg-white text-black hover:bg-[#FF9F1A] hover:text-white border border-transparent hover:shadow-[0_0_20px_rgba(249,115,22,0.5)]"
+                        : "bg-white text-black hover:bg-[#ffffff] hover:text-white border border-transparent hover:shadow-[0_0_20px_rgba(249,115,22,0.5)]"
                     }`}
               >
                 {loading ? (
@@ -817,7 +817,7 @@ const Modal = ({ task, onClose, onExecute }) => {
                     ${
                       !gleamState.verified
                         ? "bg-neutral-800 text-neutral-500 cursor-not-allowed border border-transparent"
-                        : "bg-[#FF9F1A] text-white hover:bg-orange-400 border border-transparent hover:shadow-[0_0_20px_rgba(249,115,22,0.8)]"
+                        : "bg-[#ffffff] text-white hover:bg-white border border-transparent hover:shadow-[0_0_20px_rgba(249,115,22,0.8)]"
                     }`}
               >
                 {loading ? (
@@ -868,13 +868,13 @@ const TaskCard = ({ task, onClick, onComingSoon, onLocked }) => {
     >
       <div className="flex justify-between items-start mb-4 relative z-10 w-full">
         <div
-          className={`p-2 border rounded-sm transition-all duration-300 group-hover:scale-110 ${isLocked ? "bg-neutral-950 border-neutral-900 text-neutral-800" : isComingSoon ? "bg-neutral-900 border-neutral-800 text-neutral-600" : "bg-neutral-900/50 border-neutral-800 text-neutral-400 group-hover:text-[#FF9F1A] group-hover:border-[#FF9F1A]/50 group-hover:shadow-[0_0_10px_rgba(249,115,22,0.2)]"}`}
+          className={`p-2 border rounded-sm transition-all duration-300 group-hover:scale-110 ${isLocked ? "bg-neutral-950 border-neutral-900 text-neutral-800" : isComingSoon ? "bg-neutral-900 border-neutral-800 text-neutral-600" : "bg-neutral-900/50 border-neutral-800 text-neutral-400 group-hover:text-[#ffffff] group-hover:border-[#ffffff]/50 group-hover:shadow-[0_0_10px_rgba(249,115,22,0.2)]"}`}
         >
           <Icon className="w-5 h-5" />
         </div>
         <div className="flex flex-col items-end gap-1">
           {status === "active" && (
-            <span className="text-[#FF9F1A] font-mono text-[10px] tracking-wider border border-[#FF9F1A]/20 px-1.5 py-0.5 bg-[#FF9F1A]/5 group-hover:bg-[#FF9F1A]/10 transition-colors">
+            <span className="text-[#ffffff] font-mono text-[10px] tracking-wider border border-[#ffffff]/20 px-1.5 py-0.5 bg-[#ffffff]/5 group-hover:bg-[#ffffff]/10 transition-colors">
               +{reward} PTS
             </span>
           )}
@@ -914,7 +914,7 @@ const TaskCard = ({ task, onClick, onComingSoon, onLocked }) => {
           </span>
         )}
         {status === "active" && (
-          <div className="flex items-center text-xs text-neutral-400 group-hover:text-[#FF9F1A] transition-colors font-mono uppercase tracking-wider group-hover:translate-x-1 duration-300 ml-auto">
+          <div className="flex items-center text-xs text-neutral-400 group-hover:text-[#ffffff] transition-colors font-mono uppercase tracking-wider group-hover:translate-x-1 duration-300 ml-auto">
             Start <ArrowRight className="w-3 h-3 ml-2" />
           </div>
         )}
@@ -958,30 +958,30 @@ const EducationCard = ({ onStart, onStepClick }) => (
             onClick={() => onStepClick && onStepClick("reading")}
             className="flex items-center gap-3 text-sm font-mono text-neutral-400 group/item hover:text-white transition-colors cursor-pointer bg-neutral-900/20 p-2 rounded-sm border border-transparent hover:border-neutral-800"
           >
-            <div className="w-5 h-5 bg-neutral-800 rounded-full flex items-center justify-center text-[10px] text-[#FF9F1A] font-bold">
+            <div className="w-5 h-5 bg-neutral-800 rounded-full flex items-center justify-center text-[10px] text-[#ffffff] font-bold">
               1
             </div>
             <span>Read the Whitepaper</span>
-            <ArrowRight className="w-3 h-3 ml-auto opacity-0 group-hover/item:opacity-100 transition-opacity text-[#FF9F1A]" />
+            <ArrowRight className="w-3 h-3 ml-auto opacity-0 group-hover/item:opacity-100 transition-opacity text-[#ffffff]" />
           </div> </a>
           <div
             onClick={() => onStepClick && onStepClick("verify")}
             className="flex items-center gap-3 text-sm font-mono text-neutral-400 group/item hover:text-white transition-colors cursor-pointer bg-neutral-900/20 p-2 rounded-sm border border-transparent hover:border-neutral-800"
           >
-            <div className="w-5 h-5 bg-neutral-800 rounded-full flex items-center justify-center text-[10px] text-[#FF9F1A] font-bold">
+            <div className="w-5 h-5 bg-neutral-800 rounded-full flex items-center justify-center text-[10px] text-[#ffffff] font-bold">
               2
             </div>
             <span>Take the Quiz</span>
-            <ArrowRight className="w-3 h-3 ml-auto opacity-0 group-hover/item:opacity-100 transition-opacity text-[#FF9F1A]" />
+            <ArrowRight className="w-3 h-3 ml-auto opacity-0 group-hover/item:opacity-100 transition-opacity text-[#ffffff]" />
           </div>
         </div>
       </div>
 
       <div className="w-full md:w-72 bg-neutral-900/30 p-4 border border-neutral-800 backdrop-blur-sm relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-16 h-16 bg-[#FF9F1A]/20 blur-xl rounded-full -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute top-0 right-0 w-16 h-16 bg-[#ffffff]/20 blur-xl rounded-full -translate-y-1/2 translate-x-1/2" />
         <div className="flex justify-between text-[10px] text-neutral-400 mb-3 font-mono uppercase tracking-wider relative z-10">
           <span>Your Progress</span>
-          <span className="text-[#FF9F1A]">25%</span>
+          <span className="text-[#ffffff]">25%</span>
         </div>
 
         {/* Progress Bar */}
@@ -989,7 +989,7 @@ const EducationCard = ({ onStart, onStepClick }) => (
           {[...Array(20)].map((_, i) => (
             <div
               key={i}
-              className={`flex-1 transition-all duration-500 ${i < 5 ? "bg-[#FF9F1A] shadow-[0_0_8px_rgba(249,115,22,0.8)]" : "bg-neutral-800"}`}
+              className={`flex-1 transition-all duration-500 ${i < 5 ? "bg-[#ffffff] shadow-[0_0_8px_rgba(249,115,22,0.8)]" : "bg-neutral-800"}`}
               style={{ transitionDelay: `${i * 20}ms` }}
             />
           ))}
@@ -997,12 +997,12 @@ const EducationCard = ({ onStart, onStepClick }) => (
 
         <button
           onClick={onStart}
-          className="mt-6 w-full py-3 px-4 bg-white text-black text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#FF9F1A] hover:text-white transition-all duration-200 border-none group/btn relative overflow-hidden"
+          className="mt-6 w-full py-3 px-4 bg-white text-black text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#ffffff] hover:text-white transition-all duration-200 border-none group/btn relative overflow-hidden"
         >
           <span className="relative z-10 group-hover/btn:tracking-[0.3em] transition-all">
             Continue
           </span>
-          <div className="absolute inset-0 bg-orange-400 transform scale-x-0 group-hover/btn:scale-x-100 transition-transform origin-left duration-300" />
+          <div className="absolute inset-0 bg-white transform scale-x-0 group-hover/btn:scale-x-100 transition-transform origin-left duration-300" />
         </button>
       </div>
     </div>
@@ -1011,8 +1011,8 @@ const EducationCard = ({ onStart, onStepClick }) => (
 
 const SectionTitle = ({ title, count }) => (
   <div className="flex items-center gap-3 mb-6 mt-14 pb-2 border-b border-neutral-900">
-    <div className="w-1 h-1 bg-[#FF9F1A] shadow-[0_0_5px_orange]" />
-    <h2 className="text-xs font-bold text-white uppercase tracking-[0.2em] hover:text-[#FF9F1A] transition-colors cursor-default">
+    <div className="w-1 h-1 bg-[#ffffff] shadow-[0_0_5px_white]" />
+    <h2 className="text-xs font-bold text-white uppercase tracking-[0.2em] hover:text-[#ffffff] transition-colors cursor-default">
       {title}
     </h2>
     {count !== undefined && (
@@ -1255,7 +1255,7 @@ export default function BlipDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#030303] text-neutral-400 font-sans selection:bg-[#FF9F1A]/20 selection:text-[#FF9F1A] relative overflow-x-hidden scanline">
+    <div className="min-h-screen bg-[#030303] text-neutral-400 font-sans selection:bg-[#ffffff]/20 selection:text-[#ffffff] relative overflow-x-hidden scanline">
       <GlobalStyles />
 
       {/* Interaction Layers */}
@@ -1288,7 +1288,7 @@ export default function BlipDashboard() {
 
       {/* Ambient Glow */}
       <div
-        className="fixed top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-orange-900/10 blur-[120px] rounded-full pointer-events-none z-0 animate-pulse"
+        className="fixed top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-white/10 blur-[120px] rounded-full pointer-events-none z-0 animate-pulse"
         style={{ animationDuration: "4s" }}
       />
 
@@ -1311,19 +1311,19 @@ export default function BlipDashboard() {
                 <span className="text-xs font-bold text-zinc-200">
                   {displayWalletAddress ? "It will Show Others Details " : "Not Connected"}
                 </span>
-                <div className="w-2 h-2 rounded-full bg-[#FF9F1A] " />
+                <div className="w-2 h-2 rounded-full bg-[#ffffff] " />
               </div>
               <button
                 onClick={handleCopyWalletAddress}
-                className="p-1.5 rounded-full bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-[#FF9F1A] transition-all"
+                className="p-1.5 rounded-full bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-[#ffffff] transition-all"
                 title="Copy wallet address"
               >
                 {walletCopied ? (
-                  <Check size={12} className="text-[#FF9F1A]" />
+                  <Check size={12} className="text-[#ffffff]" />
                 ) : (
                   <Copy
                     size={12}
-                    className="text-zinc-400 hover:text-[#FF9F1A]"
+                    className="text-zinc-400 hover:text-[#ffffff]"
                   />
                 )}
               </button>
@@ -1332,13 +1332,13 @@ export default function BlipDashboard() {
 
           <div
             onClick={() => setShowPointsHistoryModal(true)}
-            className="bg-zinc-900/40 border border-zinc-800 p-6 rounded-sm relative overflow-hidden hover:border-text-[#FF9F1A]/30 transition-all cursor-pointer group"
+            className="bg-zinc-900/40 border border-zinc-800 p-6 rounded-sm relative overflow-hidden hover:border-text-[#ffffff]/30 transition-all cursor-pointer group"
           >
             <div className="flex items-center justify-between mb-2">
               <span className="text-[9px] font-black uppercase tracking-widest ">
                 Accumulated Points
               </span>
-              <span className="text-[10px] text-[#FF9F1A] group-hover:text-[#FF9F1A] transition-colors">
+              <span className="text-[10px] text-[#ffffff] group-hover:text-[#ffffff] transition-colors">
                 View history →
               </span>
             </div>
@@ -1349,7 +1349,7 @@ export default function BlipDashboard() {
             </div>
             <div className="absolute bottom-0 left-0 w-full h-[2px] bg-zinc-800">
               <div
-                className="h-full bg-[#FF9F1A] transition-all duration-1000"
+                className="h-full bg-[#ffffff] transition-all duration-1000"
                 style={{
                   width: `${Math.min((blipPoints / 4000) * 100, 100)}%`,
                 }}
@@ -1372,13 +1372,13 @@ export default function BlipDashboard() {
 
           <div
             onClick={() => setShowReferralModal(true)}
-            className=" border border-[#FF9F1A]/10 p-6 rounded-sm  transition-all cursor-pointer group"
+            className=" border border-[#ffffff]/10 p-6 rounded-sm  transition-all cursor-pointer group"
           >
             <div className="flex items-center justify-between mb-3">
-              <span className="text-[9px] font-black uppercase tracking-widest text-[#FF9F1A]">
+              <span className="text-[9px] font-black uppercase tracking-widest text-[#ffffff]">
                 Your Referral Code
               </span>
-              <span className="text-xs font-bold text-[#FF9F1A]">
+              <span className="text-xs font-bold text-[#ffffff]">
                 +100 pts per referral
               </span>
             </div>
@@ -1396,11 +1396,11 @@ export default function BlipDashboard() {
                   title="Copy referral code"
                 >
                   {copied ? (
-                    <Check size={14} className="text-[#FF9F1A]" />
+                    <Check size={14} className="text-[#ffffff]" />
                   ) : (
                     <Copy
                       size={14}
-                      className="text-zinc-400 hover:text-[#FF9F1A]"
+                      className="text-zinc-400 hover:text-[#ffffff]"
                     />
                   )}
                 </button>
@@ -1409,12 +1409,12 @@ export default function BlipDashboard() {
                     e.stopPropagation();
                     handleShareReferral();
                   }}
-                  className="p-2 rounded-full bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-[#FF9F1A]/50 transition-all"
+                  className="p-2 rounded-full bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-[#ffffff]/50 transition-all"
                   title="Share referral link"
                 >
                   <Share2
                     size={14}
-                    className="text-zinc-400 hover:text-[#FF9F1A]"
+                    className="text-zinc-400 hover:text-[#ffffff]"
                   />
                 </button>
               </div>
@@ -1423,7 +1423,7 @@ export default function BlipDashboard() {
               <p className="text-[10px]  truncate flex-1">
                 {referralLink || "Generate your referral link"}
               </p>
-              <span className="text-[10px] text-zinc-600 group-hover:text-[#FF9F1A] transition-colors ml-2">
+              <span className="text-[10px] text-zinc-600 group-hover:text-[#ffffff] transition-colors ml-2">
                 Click to view referrals →
               </span>
             </div>
@@ -1447,7 +1447,7 @@ export default function BlipDashboard() {
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
             <div>
-              <div className="flex items-center gap-2 mb-2 text-[#FF9F1A]">
+              <div className="flex items-center gap-2 mb-2 text-[#ffffff]">
                 <Radio className="w-4 h-4 animate-pulse" />
                 <span className="text-xs font-mono uppercase tracking-widest">
                   Incoming Transmission
@@ -1457,7 +1457,7 @@ export default function BlipDashboard() {
                 <TypewriterText text="Mission Control" speed={50} delay={500} />
               </h1>
               <p className="text-sm text-neutral-500 font-mono flex items-center gap-2">
-                <span className="text-[#FF9F1A]">
+                <span className="text-[#ffffff]">
                   {">"}
                   {">"}
                 </span>
@@ -1478,7 +1478,7 @@ export default function BlipDashboard() {
               </button>
               <button
                 onClick={() => setFilter("active")}
-                className={`px-4 py-2 border text-xs font-mono uppercase transition-all duration-300 hover:scale-105 active:scale-95 ${filter === "active" ? "bg-[#FF9F1A] text-white border-[#FF9F1A] shadow-[0_0_15px_rgba(249,115,22,0.4)]" : "border-neutral-800 bg-neutral-900/50 text-neutral-400 hover:text-white hover:border-neutral-600"}`}
+                className={`px-4 py-2 border text-xs font-mono uppercase transition-all duration-300 hover:scale-105 active:scale-95 ${filter === "active" ? "bg-[#ffffff] text-white border-[#ffffff] shadow-[0_0_15px_rgba(249,115,22,0.4)]" : "border-neutral-800 bg-neutral-900/50 text-neutral-400 hover:text-white hover:border-neutral-600"}`}
               >
                 Active Only
               </button>
@@ -1599,9 +1599,9 @@ export default function BlipDashboard() {
               {/* Institutional Notice */}
               <div className="mt-8 relative p-6 border border-neutral-800 bg-neutral-900/20 overflow-hidden group">
                 <div className="absolute top-0 right-0 p-2">
-                  <div className="w-1.5 h-1.5 bg-[#FF9F1A] rounded-full animate-ping" />
+                  <div className="w-1.5 h-1.5 bg-[#ffffff] rounded-full animate-ping" />
                 </div>
-                <p className="text-[10px] text-[#FF9F1A] uppercase tracking-[0.2em] font-bold mb-3 border-b border-neutral-800 pb-2 inline-block">
+                <p className="text-[10px] text-[#ffffff] uppercase tracking-[0.2em] font-bold mb-3 border-b border-neutral-800 pb-2 inline-block">
                   System Notice
                 </p>
                 <p className="text-xs text-neutral-500 leading-relaxed font-mono">

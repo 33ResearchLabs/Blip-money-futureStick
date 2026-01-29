@@ -17,7 +17,7 @@ import { sounds } from "@/lib/sounds";
    ============================================ */
 
 /* ---------------- Logo ---------------- */
-/* Brand Orange: #ff6b35 - LOCKED COLOR */
+/* Brand Orange: #ffffff - LOCKED COLOR */
 const Logo = () => {
   return (
     <Link
@@ -29,11 +29,11 @@ const Logo = () => {
       <motion.span
         className="relative w-4 h-4 rounded-full bg-[#ff6b35] overflow-hidden"
         style={{
-          boxShadow: "0 0 16px rgba(255, 107, 53, 0.35)",
+          boxShadow: "0 0 16px rgba(255, 255, 255, 0.35)",
         }}
         whileHover={{
           scale: 1.15,
-          boxShadow: "0 0 28px rgba(255, 107, 53, 0.6)",
+          boxShadow: "0 0 28px rgba(255, 255, 255, 0.6)",
         }}
         whileTap={{ scale: 0.9 }}
         transition={{ duration: 0.2 }}
@@ -65,7 +65,7 @@ const Logo = () => {
           money
           {/* Underline effect */}
           <motion.span
-            className="absolute -bottom-1 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-[#ff6b35] to-transparent opacity-0 group-hover:opacity-100"
+            className="absolute -bottom-1 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-[#ffffff] to-transparent opacity-0 group-hover:opacity-100"
             transition={{ duration: 0.3 }}
           />
         </span>
@@ -108,7 +108,7 @@ const NavItem = ({
         <motion.div
           layoutId="navIndicator"
           className="absolute -bottom-[1px] left-3 right-3 h-[2px] rounded-full"
-          style={{ background: "#ff6b35" }}
+          style={{ background: "#ffffff" }}
           transition={{ type: "spring", stiffness: 500, damping: 35 }}
         />
       )}
@@ -286,7 +286,7 @@ const MobileMenu = ({
                       sounds.click();
                       onClose();
                     }}
-                    className="flex-1 py-2.5 text-center rounded-full text-[13px] font-medium bg-[#ff6b35] text-white"
+                    className="flex-1 py-2.5 text-center rounded-full text-[13px] font-medium bg-[#ffffff] text-white"
                   >
                     Dashboard
                   </Link>

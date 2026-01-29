@@ -217,13 +217,13 @@ export const MerchantDashboardIndex = () => {
         rounded-2xl
         overflow-hidden
         bg-gradient-to-br from-[#0a0a0a] via-[#0d0d0d] to-[#080808]
-        border border-[#ff6b35]/20
-        shadow-2xl shadow-[#ff6b35]/20
+        border border-[#ffffff]/20
+        shadow-2xl shadow-[#ffffff]/20
         flex flex-col
       "
       >
         {/* Browser Header - Enhanced */}
-        <div className="flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-[#111111] to-[#0a0a0a] border-b border-[#ff6b35]/10">
+        <div className="flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-[#111111] to-[#0a0a0a] border-b border-[#ffffff]/10">
           <div className="flex gap-1.5">
             <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
             <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
@@ -231,7 +231,7 @@ export const MerchantDashboardIndex = () => {
           </div>
 
           <div className="flex-1 flex justify-center">
-            <div className="px-4 py-1.5 rounded-lg bg-gradient-to-r from-[#ff6b35]/10 to-black/40 border border-[#ff6b35]/20 text-xs text-[#ff6b35]/60 font-medium">
+            <div className="px-4 py-1.5 rounded-lg bg-gradient-to-r from-[#ffffff]/10 to-black/40 border border-[#ffffff]/20 text-xs text-[#ffffff]/60 font-medium">
               merchant.blipprotocol.com
             </div>
           </div>
@@ -242,7 +242,7 @@ export const MerchantDashboardIndex = () => {
         {/* ---------------- CONTENT ---------------- */}
         <div className="flex-1 p-4 sm:p-6 flex flex-col">
           {/* Top stats - Enhanced */}
-          <div className="flex items-center justify-between pb-4 mb-4 border-b border-[#ff6b35]/10 text-xs sm:text-sm">
+          <div className="flex items-center justify-between pb-4 mb-4 border-b border-[#ffffff]/10 text-xs sm:text-sm">
             <div className="flex items-center gap-2 text-xs">
               <span className="w-1.5 h-1.5 rounded-full bg-[#28ca42]" />
               <span className="text-white/60 font-medium">
@@ -259,7 +259,7 @@ export const MerchantDashboardIndex = () => {
                 </div>
                 <div className="text-sm text-white font-bold">$55,450</div>
               </motion.div>
-              <div className="h-6 w-px bg-[#ff6b35]/20" />
+              <div className="h-6 w-px bg-[#ffffff]/20" />
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 className="cursor-pointer"
@@ -267,7 +267,7 @@ export const MerchantDashboardIndex = () => {
                 <div className="text-[10px] text-white/40 uppercase tracking-wider font-semibold">
                   Earnings
                 </div>
-                <div className="text-sm text-[#ff6b35] font-bold">+$1,386</div>
+                <div className="text-sm text-[#ffffff] font-bold">+$1,386</div>
               </motion.div>
             </div>
           </div>
@@ -284,12 +284,12 @@ export const MerchantDashboardIndex = () => {
                 key={col.title}
                 className="rounded-lg sm:rounded-xl bg-[#0d0d0d] border border-white/[0.04] flex flex-col min-h-0"
               >
-                <div className="px-3 sm:px-4 py-3 sm:py-4 border-b border-[#ff6b35]/10 flex justify-between items-center bg-gradient-to-r from-[#ff6b35]/5 to-transparent">
+                <div className="px-3 sm:px-4 py-3 sm:py-4 border-b border-[#ffffff]/10 flex justify-between items-center bg-gradient-to-r from-[#ffffff]/5 to-transparent">
                   <div className="flex items-center gap-2">
                     <div
                       className={`w-2 h-2 rounded-full ${
                         idx === 0
-                          ? "bg-[#ff6b35]"
+                          ? "bg-[#ffffff]"
                           : idx === 1
                             ? "bg-yellow-500"
                             : "bg-[#28ca42]"
@@ -302,7 +302,7 @@ export const MerchantDashboardIndex = () => {
                   <span
                     className={`text-xs font-bold ml-2 px-2 py-1 rounded-full ${
                       idx === 0
-                        ? "bg-[#ff6b35]/20 text-[#ff6b35]"
+                        ? "bg-[#ffffff]/20 text-[#ffffff]"
                         : idx === 1
                           ? "bg-yellow-500/20 text-yellow-500"
                           : "bg-[#28ca42]/20 text-[#28ca42]"
@@ -339,7 +339,7 @@ export const MerchantDashboardIndex = () => {
                           backgroundColor: "rgba(255, 107, 53, 0.05)",
                           transition: { duration: 0.2 },
                         }}
-                        className="relative p-3 rounded-lg bg-gradient-to-r from-[#111111] to-[#0d0d0d] border border-[#ff6b35]/20 hover:border-[#ff6b35]/40 transition-all group cursor-pointer"
+                        className="relative p-3 rounded-lg bg-gradient-to-r from-[#111111] to-[#0d0d0d] border border-[#ffffff]/20 hover:border-[#ffffff]/40 transition-all group cursor-pointer"
                       >
                         <div className="flex justify-between mb-2">
                           <span className="text-lg sm:text-xl font-bold">
@@ -365,7 +365,7 @@ export const MerchantDashboardIndex = () => {
                             onClick={() => acceptOrder(order)}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="w-full text-xs font-bold bg-gradient-to-r from-[#ff6b35] to-[#ff8c5a] text-black px-2 sm:px-3 py-2 sm:py-2 rounded-lg flex-shrink-0 whitespace-nowrap"
+                            className="w-full text-xs font-bold bg-gradient-to-r from-[#ffffff] to-[#e5e5e5] text-black px-2 sm:px-3 py-2 sm:py-2 rounded-lg flex-shrink-0 whitespace-nowrap"
                           >
                             Accept
                           </motion.button>
@@ -376,7 +376,7 @@ export const MerchantDashboardIndex = () => {
                             onClick={() => releaseOrder(order)}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="w-full text-xs font-bold bg-gradient-to-r from-[#ff6b35] to-[#ff8c5a] text-black px-2 sm:px-3 py-2 sm:py-2 rounded-lg flex-shrink-0 whitespace-nowrap"
+                            className="w-full text-xs font-bold bg-gradient-to-r from-[#ffffff] to-[#e5e5e5] text-black px-2 sm:px-3 py-2 sm:py-2 rounded-lg flex-shrink-0 whitespace-nowrap"
                           >
                             Release
                           </motion.button>
@@ -400,10 +400,10 @@ export const MerchantDashboardIndex = () => {
             exit={{ opacity: 0, x: 30, y: -20 }}
             className="absolute top-6 right-6 z-50"
           >
-            <div className="bg-gradient-to-r from-[#111111] to-[#0d0d0d] border border-[#ff6b35]/40 rounded-xl px-4 py-3 text-sm text-white shadow-xl shadow-[#ff6b35]/20">
+            <div className="bg-gradient-to-r from-[#111111] to-[#0d0d0d] border border-[#ffffff]/40 rounded-xl px-4 py-3 text-sm text-white shadow-xl shadow-[#ffffff]/20">
               <div className="flex items-center gap-2 mb-1">
-                <div className="w-2 h-2 rounded-full bg-[#ff6b35]" />
-                <div className="font-bold text-sm text-[#ff6b35]">
+                <div className="w-2 h-2 rounded-full bg-[#ffffff]" />
+                <div className="font-bold text-sm text-[#ffffff]">
                   {notification.title}
                 </div>
               </div>
@@ -653,7 +653,7 @@ export const MerchantDashboardVisual = () => {
     >
       {/* Background elements */}
       <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-[#ff6b35]/[0.02] blur-[150px]" />
+        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-[#ffffff]/[0.02] blur-[150px]" />
         <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-white/[0.01] blur-[120px]" />
       </div>
 
@@ -690,8 +690,8 @@ export const MerchantDashboardVisual = () => {
               </div>
               <div className="flex-1 flex justify-center">
                 <div className="flex items-center gap-2 px-4 py-1.5 rounded-lg bg-black/40 border border-white/[0.06]">
-                  <div className="w-3 h-3 rounded-full bg-[#ff6b35]/20 flex items-center justify-center">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]" />
+                  <div className="w-3 h-3 rounded-full bg-[#ffffff]/20 flex items-center justify-center">
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#ffffff]" />
                   </div>
                   <span className="text-xs text-white/40">
                     merchant.blipprotocol.com
@@ -734,7 +734,7 @@ export const MerchantDashboardVisual = () => {
                     <div className="text-xs text-white/30 uppercase tracking-wider font-semibold">
                       Earnings
                     </div>
-                    <div className="text-lg font-semibold text-[#ff6b35]">
+                    <div className="text-lg font-semibold text-[#ffffff]">
                       +$1,386
                     </div>
                   </div>
@@ -747,7 +747,7 @@ export const MerchantDashboardVisual = () => {
                 <div className="rounded-xl bg-[#0d0d0d] border border-white/[0.04] overflow-hidden flex flex-col h-[520px]">
                   <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.04]">
                     <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 rounded-full bg-[#ff6b35]" />
+                      <div className="w-2 h-2 rounded-full bg-[#ffffff]" />
                       <span className="text-base font-semibold text-white">
                         New Orders
                       </span>
@@ -798,7 +798,7 @@ export const MerchantDashboardVisual = () => {
                                 {order.time}
                               </span>
                               <motion.div
-                                className="px-3 py-1.5 rounded-md text-sm font-medium bg-[#ff6b35] text-black opacity-0 group-hover:opacity-100 transition-opacity"
+                                className="px-3 py-1.5 rounded-md text-sm font-medium bg-[#ffffff] text-black opacity-0 group-hover:opacity-100 transition-opacity"
                                 whileHover={{ scale: 1.05 }}
                                 onClick={() => acceptOrder(order)}
                               >
@@ -868,7 +868,7 @@ export const MerchantDashboardVisual = () => {
                           </div>
                           <div className="h-1.5 bg-white/[0.05] rounded-full overflow-hidden">
                             <motion.div
-                              className="h-full bg-[#ff6b35] rounded-full"
+                              className="h-full bg-[#ffffff] rounded-full"
                               initial={{ width: 0 }}
                               whileInView={{ width: `${order.progress}%` }}
                               viewport={{ once: true }}
@@ -883,7 +883,7 @@ export const MerchantDashboardVisual = () => {
                         <motion.div
                           whileHover={{ scale: 1.05 }}
                           onClick={() => releaseOrder(order)}
-                          className="mt-3 text-center px-3 py-1.5 rounded-md text-sm font-medium bg-[#ff6b35] text-black cursor-pointer"
+                          className="mt-3 text-center px-3 py-1.5 rounded-md text-sm font-medium bg-[#ffffff] text-black cursor-pointer"
                         >
                           Release
                         </motion.div>
@@ -964,22 +964,22 @@ export const MerchantDashboardVisual = () => {
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.8 }}
-                className="mt-6 p-4 rounded-xl bg-gradient-to-r from-[#ff6b35]/5 to-transparent border border-[#ff6b35]/10"
+                className="mt-6 p-4 rounded-xl bg-gradient-to-r from-[#ffffff]/5 to-transparent border border-[#ffffff]/10"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <motion.div
-                      className="relative w-10 h-10 rounded-full bg-[#ff6b35]/10 flex items-center justify-center"
+                      className="relative w-10 h-10 rounded-full bg-[#ffffff]/10 flex items-center justify-center"
                       animate={{ scale: [1, 1.05, 1] }}
                       transition={{ duration: 2, repeat: Infinity }}
                     >
                       <motion.div
-                        className="absolute inset-0 rounded-full border border-[#ff6b35]/30"
+                        className="absolute inset-0 rounded-full border border-[#ffffff]/30"
                         animate={{ scale: [1, 1.3, 1], opacity: [0.5, 0, 0.5] }}
                         transition={{ duration: 2, repeat: Infinity }}
                       />
                       <svg
-                        className="w-5 h-5 text-[#ff6b35]"
+                        className="w-5 h-5 text-[#ffffff]"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -1037,7 +1037,7 @@ export const MerchantDashboardVisual = () => {
               >
                 <div className="p-3 pr-4 rounded-xl bg-[#111111] border border-white/[0.08] shadow-xl">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-[#ff6b35]/10 flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-full bg-[#ffffff]/10 flex items-center justify-center">
                       <span className="text-lg">🔔</span>
                     </div>
                     <div>
@@ -1088,7 +1088,7 @@ export const MerchantDashboardVisual = () => {
           ].map((feature, i) => (
             <div
               key={feature.title}
-              className="text-center p-6 rounded-xl bg-white/[0.02] border border-white/[0.04] hover:border-[#ff6b35]/20 transition-colors"
+              className="text-center p-6 rounded-xl bg-white/[0.02] border border-white/[0.04] hover:border-[#ffffff]/20 transition-colors"
             >
               <h3 className="text-lg font-semibold text-white mb-2">
                 {feature.title}

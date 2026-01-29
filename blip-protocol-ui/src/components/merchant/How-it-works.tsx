@@ -66,7 +66,9 @@ const HowItWorksSection = () => {
         <div className="absolute top-6 right-6 flex items-center gap-2">
           <div
             className={`h-1.5 w-1.5 rounded-full ${
-              hovered ? "bg-gray-400 shadow-[0_0_8px_rgba(255,255,255,0.3)]" : "bg-zinc-800"
+              hovered
+                ? "bg-gray-400 shadow-[0_0_8px_rgba(255,255,255,0.3)]"
+                : "bg-zinc-800"
             }`}
           />
           <span className="text-[9px] font-mono tracking-[0.2em] text-zinc-600">
@@ -149,10 +151,7 @@ const HowItWorksSection = () => {
       </div>
       <div>{"> BLOCK CONFIRMED"}</div>
       <div className="text-white/20">{"> FINALIZED"}</div>
-      <Globe
-        size={40}
-        className="absolute bottom-2 right-2 text-white/10"
-      />
+      <Globe size={40} className="absolute bottom-2 right-2 text-white/10" />
     </div>
   );
 
@@ -175,7 +174,7 @@ const HowItWorksSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-5xl md:text-6xl font-bold text-white"
+          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight mb-6 sm:mb-8 tracking-tight max-w-xl mx-auto lg:mx-0"
         >
           How merchants <span className="text-white/20">execute</span> on Blip
         </motion.h2>

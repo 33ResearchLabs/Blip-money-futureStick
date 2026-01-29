@@ -30,7 +30,7 @@ import { SEO } from "@/components";
 /* ============================================
    2025/2026 WAITLIST PAGE
    Matching homepage design system
-   - Orange (#ff6b35) accent color
+   - Orange (#ffffff) accent color
    - Dark theme with subtle gradients
    - Clean, minimal aesthetic
    ============================================ */
@@ -49,7 +49,9 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
 
   // Navigation & Identity State
   const refFromUrl = searchParams.get("ref") || "";
-  const [view, setView] = useState(initialView || (refFromUrl ? "waitlist" : "landing"));
+  const [view, setView] = useState(
+    initialView || (refFromUrl ? "waitlist" : "landing"),
+  );
   const [email, setEmail] = useState("");
 
   // Sync view state with initialView prop when it changes (for route changes)
@@ -106,12 +108,20 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
       setHasRedirected(true);
       navigate("/dashboard", { replace: true });
     }
-  }, [isAuthenticated, isLoading, navigate, hasRedirected, walletReady, connected]);
+  }, [
+    isAuthenticated,
+    isLoading,
+    navigate,
+    hasRedirected,
+    walletReady,
+    connected,
+  ]);
 
   // Save user data to backend when wallet connects
   useEffect(() => {
     const saveUserData = async () => {
-      if (!connected || !publicKey || view !== "connect" || show2FAModal) return;
+      if (!connected || !publicKey || view !== "connect" || show2FAModal)
+        return;
 
       console.log("💾 Attempting to save user data:", {
         wallet_address: publicKey.toBase58(),
@@ -162,7 +172,10 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
         const errorCode = error.response?.data?.code;
         const errorMessage = error.response?.data?.message;
 
-        if (errorCode === "WALLET_EMAIL_MISMATCH" || error.response?.status === 409) {
+        if (
+          errorCode === "WALLET_EMAIL_MISMATCH" ||
+          error.response?.status === 409
+        ) {
           toast({
             variant: "destructive",
             title: "Wallet Already Registered",
@@ -188,7 +201,17 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
     };
 
     saveUserData();
-  }, [connected, publicKey, view, email, referral_code, toast, login, navigate, disconnect]);
+  }, [
+    connected,
+    publicKey,
+    view,
+    email,
+    referral_code,
+    toast,
+    login,
+    navigate,
+    disconnect,
+  ]);
 
   const handleJoinWaitlist = (e: React.FormEvent) => {
     e.preventDefault();
@@ -258,7 +281,10 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
       toast({
         variant: "destructive",
         title: "OTP Failed",
-        description: error?.message || error?.response?.data?.message || "OTP verification failed",
+        description:
+          error?.message ||
+          error?.response?.data?.message ||
+          "OTP verification failed",
       });
     } finally {
       setIsVerifyingOtp(false);
@@ -270,7 +296,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
-          <Loader2 className="w-8 h-8 text-[#ff6b35] animate-spin" />
+          <Loader2 className="w-8 h-8 text-[#ffffff] animate-spin" />
           <span className="text-white/50 text-sm">
             {isLoading ? "Loading..." : "Connecting wallet..."}
           </span>
@@ -297,7 +323,8 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
           <motion.div
             className="absolute top-[10%] right-[15%] w-[400px] h-[400px] rounded-full"
             style={{
-              background: "radial-gradient(circle, rgba(255,107,53,0.1) 0%, transparent 70%)",
+              background:
+                "radial-gradient(circle, rgba(255,107,53,0.1) 0%, transparent 70%)",
               x: mousePosition.x * -30,
               y: mousePosition.y * -20,
             }}
@@ -308,12 +335,18 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
           <motion.div
             className="absolute bottom-[20%] left-[10%] w-[300px] h-[300px] rounded-full"
             style={{
-              background: "radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%)",
+              background:
+                "radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%)",
               x: mousePosition.x * 20,
               y: mousePosition.y * 15,
             }}
             animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            transition={{
+              duration: 6,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 2,
+            }}
           />
 
           {/* Grid overlay */}
@@ -332,7 +365,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
           {[...Array(10)].map((_, i) => (
             <motion.div
               key={i}
-              className="absolute w-1 h-1 rounded-full bg-[#ff6b35]"
+              className="absolute w-1 h-1 rounded-full bg-[#ffffff]"
               style={{
                 left: `${10 + Math.random() * 80}%`,
                 top: `${10 + Math.random() * 80}%`,
@@ -375,7 +408,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                     }}
                   >
                     <motion.div
-                      className="w-2 h-2 rounded-full bg-[#ff6b35]"
+                      className="w-2 h-2 rounded-full bg-[#ffffff]"
                       animate={{ scale: [1, 1.3, 1], opacity: [1, 0.5, 1] }}
                       transition={{ duration: 2, repeat: Infinity }}
                     />
@@ -388,12 +421,16 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                   <motion.h1
                     initial={{ opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{
+                      duration: 1,
+                      delay: 0.3,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
                     className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.05] mb-6 tracking-tight"
                   >
-                    Join the 
+                    Join the Blip
                     <br />
-                    <span className="text-[#ff6b35]"> Blip</span> Waitlist
+                    <span className="text-[#ffffff]/20">Waitlist </span>
                   </motion.h1>
 
                   <motion.p
@@ -402,8 +439,9 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                     transition={{ duration: 1, delay: 0.5 }}
                     className="text-lg md:text-xl text-white/50 max-w-xl mx-auto lg:mx-0 leading-relaxed mb-10"
                   >
-                    Support the first privacy-preserving institutional payment protocol.
-                    Earn rewards by validating network integrity and contributing to the global on-chain bridge.
+                    Support the first privacy-preserving institutional payment
+                    protocol. Earn rewards by validating network integrity and
+                    contributing to the global on-chain bridge.
                   </motion.p>
 
                   {/* CTAs */}
@@ -415,7 +453,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                   >
                     <button
                       onClick={() => navigate("/join-waitlist")}
-                      className="group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-[#ff6b35] text-black text-sm font-semibold hover:bg-[#ff8c50] hover:shadow-[0_0_40px_rgba(255,107,53,0.4)] transition-all duration-300"
+                      className="group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-[#ffffff] text-black text-sm font-semibold hover:bg-[#e5e5e5] hover:shadow-[0_0_40px_rgba(255,107,53,0.4)] transition-all duration-300"
                     >
                       Join Waitlist
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -435,7 +473,11 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                 <motion.div
                   initial={{ opacity: 0, y: 60 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{
+                    duration: 1.2,
+                    delay: 0.4,
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
                   className="flex-1 w-full max-w-md"
                 >
                   <div className="rounded-3xl bg-white/[0.02] border border-white/[0.06] overflow-hidden">
@@ -443,7 +485,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                     <div className="flex justify-between items-center px-6 py-4 border-b border-white/[0.06]">
                       <div className="flex items-center gap-2">
                         <motion.div
-                          className="w-2 h-2 bg-[#ff6b35] rounded-full"
+                          className="w-2 h-2 bg-[#ffffff] rounded-full"
                           animate={{ scale: [1, 1.3, 1], opacity: [1, 0.5, 1] }}
                           transition={{ duration: 2, repeat: Infinity }}
                         />
@@ -451,7 +493,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                           Protocol Status
                         </span>
                       </div>
-                      <span className="text-[11px] font-semibold text-[#ff6b35] uppercase tracking-wider">
+                      <span className="text-[11px] font-semibold text-[#ffffff] uppercase tracking-wider">
                         Operational
                       </span>
                     </div>
@@ -487,13 +529,15 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                         </div>
                       </div>
                       <div className="w-28 h-14 flex items-end gap-[3px]">
-                        {[35, 50, 40, 65, 45, 80, 55, 90, 60, 75].map((h, i) => (
-                          <div
-                            key={i}
-                            className="flex-1 bg-[#ff6b35]/30 rounded-t-[2px]"
-                            style={{ height: `${h}%` }}
-                          />
-                        ))}
+                        {[35, 50, 40, 65, 45, 80, 55, 90, 60, 75].map(
+                          (h, i) => (
+                            <div
+                              key={i}
+                              className="flex-1 bg-[#ffffff]/30 rounded-t-[2px]"
+                              style={{ height: `${h}%` }}
+                            />
+                          ),
+                        )}
                       </div>
                     </div>
                   </div>
@@ -531,11 +575,15 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                     transition={{ duration: 0.8, delay: 0.9 + i * 0.1 }}
                     className="p-8 rounded-3xl bg-white/[0.02] border border-white/[0.06] group hover:bg-white/[0.03] transition-all duration-300"
                   >
-                    <div className="w-12 h-12 rounded-2xl bg-[#ff6b35]/10 border border-[#ff6b35]/20 flex items-center justify-center mb-6 group-hover:bg-[#ff6b35]/20 transition-colors duration-300">
-                      <feature.icon className="w-5 h-5 text-[#ff6b35]" />
+                    <div className="w-12 h-12 rounded-2xl bg-[#ffffff]/10 border border-[#ffffff]/20 flex items-center justify-center mb-6 group-hover:bg-[#ffffff]/20 transition-colors duration-300">
+                      <feature.icon className="w-5 h-5 text-[#ffffff]" />
                     </div>
-                    <h3 className="text-lg font-semibold text-white mb-3">{feature.title}</h3>
-                    <p className="text-sm text-white/50 leading-relaxed">{feature.desc}</p>
+                    <h3 className="text-lg font-semibold text-white mb-3">
+                      {feature.title}
+                    </h3>
+                    <p className="text-sm text-white/50 leading-relaxed">
+                      {feature.desc}
+                    </p>
                   </motion.div>
                 ))}
               </motion.div>
@@ -561,7 +609,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                     border: "1px solid rgba(255, 107, 53, 0.15)",
                   }}
                 >
-                  <span className="text-[11px] font-semibold text-[#ff6b35] uppercase tracking-wider">
+                  <span className="text-[11px] font-semibold text-[#ffffff] uppercase tracking-wider">
                     Step 1 of 2
                   </span>
                 </motion.div>
@@ -576,34 +624,34 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
               <form onSubmit={handleJoinWaitlist} className="space-y-4">
                 <div className="relative group">
                   <Mail
-                    className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-[#ff6b35] transition-colors"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-[#ffffff] transition-colors"
                     size={18}
                   />
                   <input
                     type="email"
                     required
                     placeholder="example@gmail.com"
-                    className="w-full bg-white/[0.03] border border-white/[0.08] py-4 pl-12 pr-4 rounded-2xl text-white placeholder:text-white/30 focus:outline-none focus:border-[#ff6b35]/50 focus:ring-1 focus:ring-[#ff6b35]/20 transition-all"
+                    className="w-full bg-white/[0.03] border border-white/[0.08] py-4 pl-12 pr-4 rounded-2xl text-white placeholder:text-white/30 focus:outline-none focus:border-[#ffffff]/50 focus:ring-1 focus:ring-[#ffffff]/20 transition-all"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div className="relative group">
                   <HandCoins
-                    className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-[#ff6b35] transition-colors"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-[#ffffff] transition-colors"
                     size={18}
                   />
                   <input
                     type="text"
                     placeholder="Referral code (optional)"
-                    className="w-full bg-white/[0.03] border border-white/[0.08] py-4 pl-12 pr-4 rounded-2xl text-white placeholder:text-white/30 focus:outline-none focus:border-[#ff6b35]/50 focus:ring-1 focus:ring-[#ff6b35]/20 transition-all"
+                    className="w-full bg-white/[0.03] border border-white/[0.08] py-4 pl-12 pr-4 rounded-2xl text-white placeholder:text-white/30 focus:outline-none focus:border-[#ffffff]/50 focus:ring-1 focus:ring-[#ffffff]/20 transition-all"
                     value={referral_code}
                     onChange={(e) => setReferralCode(e.target.value)}
                   />
                 </div>
                 <button
                   type="submit"
-                  className="w-full bg-[#ff6b35] text-black py-4 rounded-full font-semibold hover:bg-[#ff8c50] hover:shadow-[0_0_40px_rgba(255,107,53,0.3)] transition-all duration-300"
+                  className="w-full bg-[#ffffff] text-black py-4 rounded-full font-semibold hover:bg-[#e5e5e5] hover:shadow-[0_0_40px_rgba(255,107,53,0.3)] transition-all duration-300"
                 >
                   Continue
                 </button>
@@ -632,7 +680,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                       key={i}
                       className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/[0.05]"
                     >
-                      <item.icon className="w-4 h-4 text-[#ff6b35]" />
+                      <item.icon className="w-4 h-4 text-[#ffffff]" />
                       <span className="text-xs text-white/60">{item.text}</span>
                     </div>
                   ))}
@@ -660,7 +708,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                     border: "1px solid rgba(255, 107, 53, 0.15)",
                   }}
                 >
-                  <span className="text-[11px] font-semibold text-[#ff6b35] uppercase tracking-wider">
+                  <span className="text-[11px] font-semibold text-[#ffffff] uppercase tracking-wider">
                     Step 2 of 2
                   </span>
                 </motion.div>
@@ -676,7 +724,10 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                 {/* Loading overlay */}
                 {isConnecting && (
                   <div className="absolute inset-0 bg-black/80 backdrop-blur-sm z-10 flex flex-col items-center justify-center gap-4 rounded-3xl">
-                    <Loader2 className="text-[#ff6b35] animate-spin" size={40} />
+                    <Loader2
+                      className="text-[#ffffff] animate-spin"
+                      size={40}
+                    />
                     <span className="text-sm text-white/70">
                       Creating your account...
                     </span>
@@ -750,14 +801,14 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
               maxLength={6}
               value={otp}
               onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
-              className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 text-white rounded-xl text-center text-xl tracking-[0.3em] mb-4 focus:outline-none focus:border-[#ff6b35]/50"
+              className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 text-white rounded-xl text-center text-xl tracking-[0.3em] mb-4 focus:outline-none focus:border-[#ffffff]/50"
               placeholder="000000"
             />
 
             <button
               onClick={handleVerifyLoginOtp}
               disabled={isVerifyingOtp}
-              className="w-full bg-[#ff6b35] text-black py-3 rounded-full font-semibold disabled:opacity-50 hover:bg-[#ff8c50] transition-colors"
+              className="w-full bg-[#ffffff] text-black py-3 rounded-full font-semibold disabled:opacity-50 hover:bg-[#e5e5e5] transition-colors"
             >
               {isVerifyingOtp ? "Verifying..." : "Verify & Login"}
             </button>

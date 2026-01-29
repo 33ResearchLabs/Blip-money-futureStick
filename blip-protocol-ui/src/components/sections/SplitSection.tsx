@@ -61,7 +61,7 @@ export const SplitSection = ({
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-sm uppercase tracking-[0.2em] text-[#ff6b35] mb-4"
+          className="text-sm uppercase tracking-[0.2em] text-[#ffffff] mb-4"
         >
           {subtitle}
         </motion.p>
@@ -94,7 +94,7 @@ export const SplitSection = ({
         >
           {features.map((feature, index) => (
             <li key={index} className="flex items-center gap-3">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#ffffff]" />
               <span className="text-white/70">{feature}</span>
             </li>
           ))}
@@ -112,7 +112,7 @@ export const SplitSection = ({
               to={ctaLink}
               onClick={() => sounds.click()}
               onMouseEnter={() => sounds.hover()}
-              className="group inline-flex items-center gap-2 text-white font-medium hover:text-[#ff6b35] transition-colors"
+              className="group inline-flex items-center gap-2 text-white font-medium hover:text-[#ffffff] transition-colors"
             >
               {ctaText}
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />

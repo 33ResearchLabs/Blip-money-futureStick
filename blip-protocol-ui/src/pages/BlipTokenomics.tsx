@@ -30,7 +30,7 @@ const smoothConfig = { stiffness: 100, damping: 30, restDelta: 0.001 };
 
 // Color palette
 const colors = {
-  ecosystem: "#ff6b35",
+  ecosystem: "#ffffff",
   liquidity: "#00C2FF",
   airdrop: "#FFFFFF",
   team: "#FFB743",
@@ -145,7 +145,7 @@ const HeroSection = () => {
           <span
             className="text-3xl"
             style={{
-              background: "linear-gradient(135deg, #ff6b35 0%, #FFB743 100%)",
+              background: "linear-gradient(135deg, #ffffff 0%, #FFB743 100%)",
               backgroundClip: "text",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
@@ -416,7 +416,7 @@ const UtilitySection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8, delay: i * 0.1 }}
-              className="group relative p-8 rounded-3xl min-h-[280px] flex flex-col justify-between overflow-hidden border border-transparent hover:border-[#ff6b35]/80 transition-colors duration-500 ease-out
+              className="group relative p-8 rounded-3xl min-h-[280px] flex flex-col justify-between overflow-hidden border border-transparent hover:border-[#ffffff]/80 transition-colors duration-500 ease-out
  "
               style={{
                 background: "rgba(255, 255, 255, 0.02)",
@@ -428,7 +428,7 @@ const UtilitySection = () => {
               <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#ff6b35] opacity-0 group-hover:opacity-[0.08] blur-[40px] rounded-full transition-opacity duration-500" />
 
               <div className="relative z-10">
-                <div className="mb-8 text-white/40 group-hover:text-[#ff6b35] transition-colors duration-500">
+                <div className="mb-8 text-white/40 group-hover:text-[#ffffff] transition-colors duration-500">
                   <utility.icon className="w-8 h-8" strokeWidth={1.5} />
                 </div>
                 <h3 className="text-2xl font-light text-white mb-3">
@@ -498,16 +498,16 @@ const DeflationSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: i * 0.15 }}
-              className="group p-10 rounded-3xl text-center border border-transparent hover:border-[#ff6b35]/80 transition-colors duration-500"
+              className="group p-10 rounded-3xl text-center border border-transparent hover:border-[#ffffff]/80 transition-colors duration-500"
               style={{
                 background: "rgba(255, 255, 255, 0.02)",
                 // border: "1px solid rgba(255, 255, 255, 0.05)",
               }}
               onMouseEnter={() => sounds.hover()}
             >
-              <div className="mb-8 p-5 rounded-full border border-white/5 bg-black/20 inline-flex group-hover:border-[#ff6b35] transition-colors duration-500">
+              <div className="mb-8 p-5 rounded-full border border-white/5 bg-black/20 inline-flex group-hover:border-[#ffffff] transition-colors duration-500">
                 <item.icon
-                  className="w-10 h-10 text-white group-hover:text-[#ff6b35] transition-colors"
+                  className="w-10 h-10 text-white group-hover:text-[#ffffff] transition-colors"
                   strokeWidth={1.5}
                 />
               </div>
@@ -609,7 +609,7 @@ const EmissionsSection = () => {
           }}
         >
           {/* Chart glow */}
-          <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-[#ff6b35]/5 to-transparent" />
+          <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-[#ffffff]/5 to-transparent" />
 
           <div className="relative w-full aspect-[21/9]">
             <svg

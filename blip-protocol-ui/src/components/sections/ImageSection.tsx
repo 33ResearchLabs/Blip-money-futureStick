@@ -101,7 +101,7 @@ export const ImageSection = ({
               border: '1px solid rgba(255, 255, 255, 0.1)',
             }}
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]" />
+            <span className="w-1.5 h-1.5 rounded-full bg-[#ffffff]" />
             <span className="text-[13px] text-white/70 font-medium">{badge}</span>
           </motion.div>
         )}

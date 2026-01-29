@@ -13,3 +13,5 @@ export { default as EarlyAdopterBanner } from './EarlyAdopterBanner';
 export { default as RewardsSection } from './RewardsSection';
 export { default as PeopleBankSection } from './PeopleBankSection';
 export { default as CTASection } from './CTASection';
+export { default as LockedAndSecuredSection } from './LockedAndSecuredSection';
+export { default as InstantBiddingSection } from './InstantBiddingSection';

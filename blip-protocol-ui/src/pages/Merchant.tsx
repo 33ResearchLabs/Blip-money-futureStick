@@ -230,7 +230,7 @@ const Card = ({ title, subtitle, icon: Icon, children, delay, step }) => {
     >
       {/* Border beam */}
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-        <div className="absolute inset-[-1px] rounded-[2rem] border border-[#ff6b35]/20 [mask-image:linear-gradient(to_right,transparent,white,transparent)] animate-[move_5s_linear_infinite]" />
+        <div className="absolute inset-[-1px] rounded-[2rem] border border-[#ffffff]/20 [mask-image:linear-gradient(to_right,transparent,white,transparent)] animate-[move_5s_linear_infinite]" />
       </div>
 
       {/* Step number */}
@@ -239,7 +239,7 @@ const Card = ({ title, subtitle, icon: Icon, children, delay, step }) => {
       </div>
 
       {/* Icon */}
-      <div className="mb-8 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#0a0a0a] border border-white/5 text-zinc-500 group-hover:text-[#ff6b35] group-hover:border-[#ff6b35]/30 transition">
+      <div className="mb-8 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#0a0a0a] border border-white/5 text-zinc-500 group-hover:text-[#ffffff] group-hover:border-[#ffffff]/30 transition">
         <Icon size={22} strokeWidth={1.5} />
       </div>
 
@@ -267,11 +267,11 @@ const MockupDashboard = () => (
         className="flex justify-between items-center p-2 rounded bg-zinc-900/30 border border-white/[0.03]"
       >
         <div className="h-1.5 w-10 bg-zinc-800 rounded" />
-        <div className="h-1.5 w-6 bg-[#ff6b35]/30 rounded" />
+        <div className="h-1.5 w-6 bg-[#ffffff]/30 rounded" />
       </div>
     ))}
     <div className="mt-auto h-2 bg-zinc-800 rounded overflow-hidden">
-      <div className="h-full w-1/3 bg-[#ff6b35]/40 group-hover:w-full transition-all duration-[2000ms]" />
+      <div className="h-full w-1/3 bg-[#ffffff]/40 group-hover:w-full transition-all duration-[2000ms]" />
     </div>
   </div>
 );
@@ -279,7 +279,7 @@ const MockupDashboard = () => (
 const MockupLock = () => (
   <div className="h-full flex items-center justify-center">
     <div className="h-12 w-12 rounded-full bg-[#0a0a0a] border border-white/10 flex items-center justify-center">
-      <Lock size={18} className="text-zinc-600 group-hover:text-[#ff6b35]" />
+      <Lock size={18} className="text-zinc-600 group-hover:text-[#ffffff]" />
     </div>
   </div>
 );
@@ -289,7 +289,7 @@ const MockupEscrow = () => (
     <div className="rounded-xl border border-white/[0.03] p-4 bg-zinc-900/20">
       <ShieldCheck
         size={14}
-        className="text-zinc-600 group-hover:text-[#ff6b35] mb-3"
+        className="text-zinc-600 group-hover:text-[#ffffff] mb-3"
       />
       <div className="space-y-2">
         <div className="h-1 w-full bg-zinc-800 rounded" />
@@ -303,7 +303,7 @@ const MockupOnChain = () => (
   <div className="p-4 font-mono text-[9px] text-zinc-600">
     <div>{`> SYSTEM_INIT`}</div>
     <div className="mt-1">{`> TX_HASH: 0x82...11`}</div>
-    <div className="mt-3 text-[#ff6b35]/60">{`> VERIFIED`}</div>
+    <div className="mt-3 text-[#ffffff]/60">{`> VERIFIED`}</div>
   </div>
 );
 
@@ -392,11 +392,11 @@ const WhyBlipSection = () => {
     <section className="relative bg-transparent text-white overflow-hidden py-32">
       {/* Ambient Background */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[1200px] h-[800px] bg-orange-600/[0.02] blur-[140px] rounded-full" />
+        <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[1200px] h-[800px] bg-white/[0.02] blur-[140px] rounded-full" />
         <motion.div
           animate={{ opacity: [0.03, 0.06, 0.03], scale: [1, 1.1, 1] }}
           transition={{ duration: 10, repeat: Infinity }}
-          className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(249,115,22,0.04)_0%,transparent_60%)]"
+          className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(255,255,255,0.04)_0%,transparent_60%)]"
         />
       </div>
 
@@ -412,7 +412,7 @@ const WhyBlipSection = () => {
               </span>
             </div>
 
-            <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight mb-6 sm:mb-8 tracking-tight max-w-xl mx-auto lg:mx-0">
               Why Merchants <span className="text-white/20">Choose </span>Blip
             </h2>
 
@@ -440,7 +440,7 @@ const WhyBlipSection = () => {
               {/* Shine */}
               <motion.div
                 style={{ left: shineX, top: shineY }}
-                className="absolute -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#ff6b35]/[0.05] blur-[80px] rounded-full pointer-events-none"
+                className="absolute -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#ffffff]/[0.05] blur-[80px] rounded-full pointer-events-none"
               />
 
               {/* Header */}
@@ -486,7 +486,7 @@ const WhyBlipSection = () => {
                 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.8),inset_0_1px_1px_rgba(255,255,255,0.12)]
               `
               : isActive
-                ? "bg-[#ff6b35]/[0.05] border border-[#ff6b35]/20"
+                ? "bg-[#ffffff]/[0.05] border border-[#ffffff]/20"
                 : "opacity-60 hover:opacity-100 hover:bg-white/[0.02]"
           }
         `}
@@ -539,7 +539,7 @@ const WhyBlipSection = () => {
               ${
                 isPrimary
                   ? "bg-white/20 border border-white/30 text-white"
-                  : "bg-[#ff6b35]/10 border border-[#ff6b35]/30 text-white"
+                  : "bg-[#ffffff]/10 border border-[#ffffff]/30 text-white"
               }
             `}
                           style={
@@ -608,7 +608,7 @@ const DashboardSection = () => {
         className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] opacity-[0.04]"
         style={{
           background:
-            "radial-gradient(ellipse, rgba(255, 107, 53, 1) 0%, transparent 70%)",
+            "radial-gradient(ellipse, rgba(255, 255, 255, 1) 0%, transparent 70%)",
         }}
       />
 
@@ -619,7 +619,7 @@ const DashboardSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="text-sm uppercase tracking-[0.2em] text-[#ff6b35] mb-4"
+            className="text-sm uppercase tracking-[0.2em] text-[#ffffff] mb-4"
           >
             Merchant Dashboard
           </motion.p>
@@ -696,7 +696,7 @@ const DashboardSection = () => {
             </div>
 
             {/* Glow effect */}
-            <div className="absolute inset-0 rounded-2xl shadow-[0_0_80px_rgba(255,107,53,0.1)] pointer-events-none" />
+            <div className="absolute inset-0 rounded-2xl shadow-[0_0_80px_rgba(255,255,255,0.1)] pointer-events-none" />
           </motion.div>
 
           {/* Callouts */}
@@ -781,7 +781,7 @@ const PricingSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="p-6 rounded-2xl bg-white/[0.02] border border-white/5 max-w-xl mx-auto hover:border-[#ff6b35]/30 transition-colors duration-500"
+          className="p-6 rounded-2xl bg-white/[0.02] border border-white/5 max-w-xl mx-auto hover:border-[#ffffff]/30 transition-colors duration-500"
         >
           <div className="space-y-3 text-sm text-white/40">
             <p>
@@ -1148,7 +1148,7 @@ const FAQSection = () => {
   );
 };
 
-/* ============================================
+/* ============================================F
    MAIN PAGE COMPONENT
    ============================================ */
 const Merchant = () => {

@@ -35,7 +35,7 @@ import { CTAButton } from "@/components/Navbar";
 /* ============================================
    2025/2026 REWARDS PAGE
    Matching homepage design system
-   - Orange (#ff6b35) accent color
+   - Orange (#ffffff) accent color
    - Dark theme with subtle gradients
    - Parallax animations
    - Clean, minimal aesthetic
@@ -93,7 +93,7 @@ const InteractiveGrid = () => {
         className="absolute w-[400px] h-[400px] rounded-full pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle, rgba(255, 107, 53, 0.08) 0%, transparent 70%)",
+            "radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%)",
           x: mousePos.x - 200,
           y: mousePos.y - 200,
         }}
@@ -125,7 +125,7 @@ const InteractiveGrid = () => {
                 cx={x}
                 cy={y}
                 r={1.5}
-                fill={isActive ? "#ff6b35" : "rgba(255, 255, 255, 0.15)"}
+                fill={isActive ? "#ffffff" : "rgba(255, 255, 255, 0.15)"}
                 animate={{
                   r: scale * 1.5,
                   opacity,
@@ -327,7 +327,7 @@ const HeroSection = () => {
         {[...Array(12)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-1 h-1 rounded-full bg-[#ff6b35]"
+            className="absolute w-1 h-1 rounded-full bg-[#ffffff]"
             style={{
               left: `${10 + Math.random() * 80}%`,
               top: `${10 + Math.random() * 80}%`,
@@ -362,7 +362,7 @@ const HeroSection = () => {
             }}
           >
             <motion.span
-              className="w-2 h-2 rounded-full bg-[#ff6b35]"
+              className="w-2 h-2 rounded-full bg-[#ffffff]"
               animate={{ scale: [1, 1.3, 1], opacity: [1, 0.5, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
             />
@@ -425,7 +425,7 @@ const HeroSection = () => {
           >
             <Link
               to="/join-waitlist"
-              className="group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-[#ff6b35] text-black text-sm font-semibold hover:bg-[#ff8c50] hover:shadow-[0_0_40px_rgba(255,107,53,0.4)] transition-all duration-300"
+              className="group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-[#ffffff] text-black text-sm font-semibold hover:bg-[#e5e5e5] hover:shadow-[0_0_40px_rgba(255,107,53,0.4)] transition-all duration-300"
             >
               Start Earning
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -450,7 +450,7 @@ const HeroSection = () => {
             </span>
             <div className="w-6 h-10 rounded-full border border-white/20 flex justify-center pt-2">
               <motion.div
-                className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]"
+                className="w-1.5 h-1.5 rounded-full bg-[#ffffff]"
                 animate={{ y: [0, 8, 0] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
               />
@@ -520,7 +520,7 @@ const HeroSection = () => {
                 </div>
 
                 {/* Total Rewards Card */}
-                <div className="rounded-2xl bg-gradient-to-br from-[#ff6b35]/20 to-[#ff6b35]/5 border border-[#ff6b35]/20 mb:p-4 p-2 mb-4">
+                <div className="rounded-2xl bg-gradient-to-br from-[#ffffff]/20 to-[#ffffff]/5 border border-[#ffffff]/20 mb:p-4 p-2 mb-4">
                   <p className="md:text-[10px] text-[8px] text-white/50 uppercase tracking-wider mb-1">
                     Total Earned
                   </p>
@@ -528,7 +528,7 @@ const HeroSection = () => {
                     <span className="md:text-3xl font-bold text-white">
                       2,450
                     </span>
-                    <span className="text-sm text-[#ff6b35]">BLIP</span>
+                    <span className="text-sm text-[#ffffff]">BLIP</span>
                   </div>
                   <div className="flex items-center gap-1 mt-2">
                     <TrendingUp className="w-3 h-3 text-green-400" />
@@ -553,7 +553,7 @@ const HeroSection = () => {
                       <p className="md:text-[10px] text-[8px] text-white/40 uppercase">
                         Cashback
                       </p>
-                      <p className="text-lg font-bold text-[#ff6b35]">5%</p>
+                      <p className="text-lg font-bold text-[#ffffff]">5%</p>
                     </div>
                   </div>
                   {/* Progress bar */}
@@ -563,7 +563,7 @@ const HeroSection = () => {
                       <span>$5,000</span>
                     </div>
                     <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
-                      <div className="h-full w-[49%] bg-gradient-to-r from-[#ff6b35] to-[#ff8c50] rounded-full" />
+                      <div className="h-full w-[49%] bg-gradient-to-r from-[#ffffff] to-[#e5e5e5] rounded-full" />
                     </div>
                     <p className="text-[9px] text-white/40 mt-1">
                       $2,550 to Achiever tier
@@ -596,7 +596,7 @@ const HeroSection = () => {
                         <p className="text-xs text-white">{item.desc}</p>
                         <p className="text-[10px] text-white/30">{item.time}</p>
                       </div>
-                      <span className="text-sm font-semibold text-[#ff6b35]">
+                      <span className="text-sm font-semibold text-[#ffffff]">
                         {item.amount} BLIP
                       </span>
                     </div>
@@ -626,7 +626,7 @@ const RewardTiersSection = () => {
       desc: "First transfer reward",
       icon: Sparkles,
       highlight: true,
-      color: "#ff6b35",
+      color: "#ffffff",
     },
     {
       name: "Explorer",
@@ -658,7 +658,7 @@ const RewardTiersSection = () => {
     >
       {/* Background */}
       <div className="absolute inset-0">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-[#ff6b35]/[0.03] blur-[120px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-[#ffffff]/[0.03] blur-[120px]" />
       </div>
 
       <div className="relative z-10 max-w-6xl mx-auto px-6">
@@ -669,7 +669,7 @@ const RewardTiersSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-20"
         >
-          <span className="text-[10px] uppercase tracking-[0.3em] text-[#ff6b35] mb-4 block">
+          <span className="text-[10px] uppercase tracking-[0.3em] text-[#ffffff] mb-4 block">
             Reward Tiers
           </span>
           <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tight mb-6">
@@ -690,7 +690,7 @@ const RewardTiersSection = () => {
               initial={{ opacity: 0, y: 60 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: i * 0.1 }}
-              className={`group relative p-8 rounded-3xl overflow-hidden hover-lg:scale-105 border border-white/5" hover:border-[#ff6b35]/20 transition-colors duration-500 `}
+              className={`group relative p-8 rounded-3xl overflow-hidden hover-lg:scale-105 border border-white/5" hover:border-[#ffffff]/20 transition-colors duration-500 `}
               // style={{
               //   background: tier.highlight
               //     ? "linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 107, 53, 0.02) 100%)"
@@ -701,10 +701,10 @@ const RewardTiersSection = () => {
               // }}
             >
               {/* Hover glow */}
-              <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#ff6b35] opacity-0 group-hover:opacity-[0.08] blur-[60px] rounded-full transition-opacity duration-500" />
+              <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#ffffff] opacity-0 group-hover:opacity-[0.08] blur-[60px] rounded-full transition-opacity duration-500" />
 
               {tier.highlight && (
-                <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-[#ff6b35]/20 text-[#ff6b35] text-[10px] font-medium uppercase tracking-wider">
+                <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-[#ffffff]/20 text-[#ffffff] text-[10px] font-medium uppercase tracking-wider">
                   Best Value
                 </div>
               )}
@@ -712,7 +712,7 @@ const RewardTiersSection = () => {
               <div className="relative z-10">
                 <div className="mb-6">
                   <tier.icon
-                    className={`w-8 h-8 text-white/40 group-hover:text-[#ff6b35] transition-colors duration-300 ease-in `}
+                    className={`w-8 h-8 text-white/40 group-hover:text-[#ffffff] transition-colors duration-300 ease-in `}
                   />
                 </div>
 
@@ -792,7 +792,7 @@ const HowItWorksSection = () => {
           transition={{ duration: 1 }}
           className="text-center mb-20"
         >
-          <span className="text-[10px] uppercase tracking-[0.3em] text-[#ff6b35] mb-4 block">
+          <span className="text-[10px] uppercase tracking-[0.3em] text-[#ffffff] mb-4 block">
             Process
           </span>
           <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tight">
@@ -819,7 +819,7 @@ const HowItWorksSection = () => {
               )}
 
               <div
-                className="relative p-8 rounded-3xl h-full transition-all duration-300 group-hover:bg-white/[0.02] border group-hover:border-[#ff6b35]/20  "
+                className="relative p-8 rounded-3xl h-full transition-all duration-300 group-hover:bg-white/[0.02] border group-hover:border-[#ffffff]/20  "
                 style={{
                   background: "rgba(255, 255, 255, 0.01)",
                 }}
@@ -830,7 +830,7 @@ const HowItWorksSection = () => {
                 </span>
 
                 <div className="w-14 h-14 rounded-2xl border border-white/20 flex items-center justify-center mb-6 ">
-                  <step.icon className="w-6 h-6 group-hover:text-[#ff6b35] text-white/20" />
+                  <step.icon className="w-6 h-6 group-hover:text-[#ffffff] text-white/20" />
                 </div>
 
                 <h3 className="text-xl font-semibold text-white mb-3">
@@ -903,7 +903,7 @@ const FeaturesSection = () => {
           className="mb-10 flex justify-center"
         >
           <div className="flex flex-col justify-center">
-            <span className="text-[10px] text-center uppercase tracking-[0.3em] text-[#ff6b35] mb-4 block">
+            <span className="text-[10px] text-center uppercase tracking-[0.3em] text-[#ffffff] mb-4 block">
               Features
             </span>
             <h2 className="text-4xl md:text-6xl font-bold text-center text-white tracking-tight mb-4">
@@ -918,10 +918,10 @@ const FeaturesSection = () => {
           <motion.div style={{ y: y1 }} className="relative">
             <div className="rounded-3xl bg-gradient-to-br from-white/[0.03] to-transparent border border-white/[0.06] p-8 md:p-12">
               {/* Inner glow */}
-              <div className="absolute top-0 right-0 w-[300px] h-[300px] rounded-full bg-[#ff6b35]/10 blur-[100px] -translate-y-1/2 translate-x-1/2" />
+              <div className="absolute top-0 right-0 w-[300px] h-[300px] rounded-full bg-[#ffffff]/10 blur-[100px] -translate-y-1/2 translate-x-1/2" />
 
               <div className="relative">
-                <span className="text-[10px] uppercase tracking-[0.3em] text-[#ff6b35] mb-6 block">
+                <span className="text-[10px] uppercase tracking-[0.3em] text-[#ffffff] mb-6 block">
                   Total Rewards Pool
                 </span>
                 <div className="flex items-baseline gap-3 mb-8">
@@ -962,11 +962,11 @@ const FeaturesSection = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
                   transition={{ duration: 0.6, delay: i * 0.1 }}
-                  className="group p-5 rounded-2xl transition-all duration-300  border border-white/[0.05] hover:border-[#ff6b35]/20  "
+                  className="group p-5 rounded-2xl transition-all duration-300  border border-white/[0.05] hover:border-[#ffffff]/20  "
                 >
                   <div className="flex items-start gap-4">
                     <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
-                      <feature.icon className="w-5 h-5 group-hover:text-[#ff6b35]" />
+                      <feature.icon className="w-5 h-5 group-hover:text-[#ffffff]" />
                     </div>
                     <div>
                       <h3 className="text-lg font-semibold text-white mb-1">
@@ -1012,7 +1012,7 @@ const CTASection = () => {
         className="absolute inset-0 flex items-center justify-center"
         style={{ scale, opacity }}
       >
-        <div className="w-[600px] h-[600px] rounded-full bg-[#ff6b35]/10 blur-[150px]" />
+        <div className="w-[600px] h-[600px] rounded-full bg-[#ffffff]/10 blur-[150px]" />
       </motion.div>
 
       {/* Grid */}
@@ -1048,7 +1048,7 @@ const CTASection = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             {/* <Link
               to="/waitlist"
-              className="group inline-flex items-center justify-center gap-4 px-10 md:py-5 py-3 rounded-full bg-[#ff6b35] text-black text-lg font-semibold hover:bg-[#ff8c50] hover:shadow-[0_0_60px_rgba(255,107,53,0.4)] transition-all duration-300"
+              className="group inline-flex items-center justify-center gap-4 px-10 md:py-5 py-3 rounded-full bg-[#ffffff] text-black text-lg font-semibold hover:bg-[#e5e5e5] hover:shadow-[0_0_60px_rgba(255,107,53,0.4)] transition-all duration-300"
             >
               Join Waitlist
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -1057,7 +1057,7 @@ const CTASection = () => {
 
             <Link
               to="/how-it-works"
-              className="inline-flex sm:w-fit  w-full mx-auto md:mx-0 items-center justify-center gap-4   px-5 py-2.5 rounded-full border  text-white  text-[16px] font-medium hover:bg-white/5 hover:border-white/20 transition-all duration-300"
+              className="w- sm:w-fit mx-auto md:mx-0 items-center justify-center gap-4   px-5 py-2.5 rounded-full border  text-white  text-[16px] font-medium hover:bg-white/5 hover:border-white/20 transition-all duration-300"
             >
               Learn More
             </Link>

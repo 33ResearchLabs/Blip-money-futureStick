@@ -342,8 +342,8 @@ export default function PhoneMockupInteractive() {
                           <h3 className="text-white text-sm sm:text-lg font-bold">
                             Order Details
                           </h3>
-                          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#ff6b35]/10 flex items-center justify-center">
-                            <FileText className="w-3 h-3 sm:w-5 sm:h-5 text-[#ff6b35]" />
+                          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#ffffff]/10 flex items-center justify-center">
+                            <FileText className="w-3 h-3 sm:w-5 sm:h-5 text-[#ffffff]" />
                           </div>
                         </div>
 
@@ -493,7 +493,7 @@ export const Header = ({ className = "" }) => (
       <span className="relative text-[#ff6b35] ml-0.5">
         money
         <motion.span
-          className="absolute -bottom-1 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-[#ff6b35] to-transparent opacity-0 group-hover:opacity-100"
+          className="absolute -bottom-1 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-[#ffffff] to-transparent opacity-0 group-hover:opacity-100"
           transition={{ duration: 0.3 }}
         />
       </span>
@@ -578,7 +578,7 @@ const StatusItem = ({
   <div
     className={`flex items-center gap-2 sm:gap-2 p-2 sm:p-1.5 rounded-lg sm:rounded-2xl mb-1 sm:mb-2 border ${
       active
-        ? "border-[#ff6b35]/40 bg-[#ff6b35]/10"
+        ? "border-[#ffffff]/40 bg-[#ffffff]/10"
         : "border-white/10 bg-white/[0.03]"
     }`}
   >

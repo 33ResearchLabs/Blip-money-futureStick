@@ -58,7 +58,6 @@ export const CinematicHeroOfMerchant = () => {
       ref={ref}
       className="relative min-h-screen overflow-hidden bg-transparent"
     >
-      <StarfieldBackground />
       {/* Main Hero Content - 3-column Layout on Desktop */}
       <main className="relative z-10 pt-32 md:pt-44 pb-16 md:pb-32 px-4 md:px-10 max-w-[1600px] mx-auto flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-6">
         {/* ==================== Phone Mockup (1st on mobile, 1st on desktop) ==================== */}
@@ -117,7 +116,7 @@ export const CinematicHeroOfMerchant = () => {
                           USDT
                         </span>
                       </div>
-                      <div className="mt-2 text-[9px] bg-orange-500/20 px-2 py-0.5 rounded-full text-orange-400 font-bold border border-orange-500/20">
+                      <div className="mt-2 text-[9px] bg-orange-500/20 px-2 py-0.5 rounded-full text-white/70 font-bold border border-orange-500/20">
                         +0.5%
                       </div>
                     </div>
@@ -167,7 +166,7 @@ export const CinematicHeroOfMerchant = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 md:mb-8 text-center lg:text-left"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight mb-6 sm:mb-8 tracking-tight max-w-xl mx-auto lg:mx-0"
           >
             On-demand <br className="hidden md:block" />
             crypto <span className="text-white/20">settlement.</span>
@@ -203,7 +202,7 @@ export const CinematicHeroOfMerchant = () => {
             </Link>
             <Link
               to="/join-waitlist"
-              className="px-8 md:px-10 py-3.5 md:py-4 btn-pill-outline-hero font-bold text-[14px] md:text-[15px] bg-transparent hover:border-orange-500/30"
+              className="px-8 md:px-10 py-3.5 md:py-4 btn-pill-outline-hero font-bold text-[14px] md:text-[15px] bg-transparent hover:border-white/30"
             >
               Join Waitlist
             </Link>
@@ -223,9 +222,9 @@ export const CinematicHeroOfMerchant = () => {
               {/* Header */}
               <div className="flex items-center justify-between mb-6 xl:mb-8">
                 <div className="flex items-center gap-2">
-                  <div className="w-2.5 h-2.5 bg-white/20 rounded-full" />
-                  <span className="text-sm font-medium text-white/40">
-                    blip.money
+                  <div className="w-2.5 h-2.5 bg-[#ff6b35] rounded-full" />
+                  <span className="text-sm font-medium text-white">
+                    blip. <span className="text-[#ff6b53]">money</span>
                   </span>
                 </div>
                 <div className="flex gap-1.5">
@@ -252,7 +251,7 @@ export const CinematicHeroOfMerchant = () => {
                     <Lock className="w-3 h-3" />
                     Escrow Locked
                   </div>
-                  <div className="text-[13px] font-bold text-orange-400">
+                  <div className="text-[13px] font-bold text-white/70">
                     88.5%
                   </div>
                 </div>
@@ -300,7 +299,7 @@ export const CinematicHeroOfMerchant = () => {
 
               {/* Merchant Card */}
               <div className="border-t border-white/5 pt-6 xl:pt-8">
-                <div className="glass-card-dark-hero rounded-2xl p-4 flex items-center justify-between transition-all hover:border-white/20">
+                <div className="glass-card-dark-hero rounded-2xl p-4 flex items-center justify-between transition-all hover:border-orange-500/30">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
                       <Users className="w-4 h-4 opacity-50" />
@@ -318,7 +317,7 @@ export const CinematicHeroOfMerchant = () => {
                     <div className="text-[12px] font-bold">
                       5,000 <span className="text-white/40">USDT</span>
                     </div>
-                    <div className="text-[10px] text-orange-400">★ 4.95</div>
+                    <div className="text-[10px] text-white/70">★ 4.95</div>
                   </div>
                 </div>
               </div>

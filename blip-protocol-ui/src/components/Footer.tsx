@@ -47,14 +47,14 @@ const SocialLink = ({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="w-9 h-9 rounded-lg flex items-center justify-center bg-[#18181B] border border-[rgba(255,255,255,0.06)] text-[#71717A] hover:text-[#ff6b35] hover:border-[rgba(255,255,255,0.12)] transition-all"
+      className="w-9 h-9 rounded-lg flex items-center justify-center bg-[#18181B] border border-[rgba(255,255,255,0.06)] text-[#71717A] hover:text-[#ffffff] hover:border-[rgba(255,255,255,0.12)] transition-all"
       whileHover={{ scale: 1.05, y: -2 }}
       whileTap={{ scale: 0.95 }}
       onMouseEnter={() => sounds.hover()}
       onClick={() => sounds.click()}
       aria-label={label}
     >
-      <Icon className="w-4 h-4 text-white  hover:text-[#ff6b35] " />
+      <Icon className="w-4 h-4 text-white  hover:text-[#ffffff] " />
     </motion.a>
   );
 };
@@ -73,7 +73,7 @@ const FooterLink = ({
       onMouseEnter={() => sounds.hover()}
       className={({ isActive }) => `
         group flex items-center gap-1 text-[13px] transition-colors
-        ${isActive ? "text-[#ff6b35]" : "text-[#71717A] hover:text-[#A1A1AA]"}
+        ${isActive ? "text-[#ffffff]" : "text-[#71717A] hover:text-[#A1A1AA]"}
       `}
     >
       {children}
@@ -204,7 +204,7 @@ export const Footer = () => {
 
           {/* Right text */}
           <div className="text-[11px] text-[#52525B] flex items-center gap-2 sm:pr-32">
-            <span className="w-1 h-1 rounded-full bg-[#ff6b35] " />
+            <span className="w-1 h-1 rounded-full bg-[#ffffff] " />
             Built on Solana
           </div>
         </div>

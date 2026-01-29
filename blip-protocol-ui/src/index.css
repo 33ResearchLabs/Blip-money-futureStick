@@ -23,23 +23,23 @@
   --text-tertiary: #666666;
   --text-muted: #444444;
 
-  /* Accent - Brand Orange (VERY sparingly - buttons & logo only) */
-  --accent-primary: #ff6b35;
-  --accent-secondary: #ff8c50;
-  --accent-muted: rgba(255, 107, 53, 0.05);
-  --accent-glow: rgba(255, 107, 53, 0.1);
+  /* Accent - White/Gray (clean monochrome) */
+  --accent-primary: #ffffff;
+  --accent-secondary: #e5e5e5;
+  --accent-muted: rgba(255, 255, 255, 0.05);
+  --accent-glow: rgba(255, 255, 255, 0.1);
 
   /* Borders - Very subtle */
   --border-subtle: rgba(255, 255, 255, 0.05);
   --border-default: rgba(255, 255, 255, 0.08);
   --border-hover: rgba(255, 255, 255, 0.12);
-  --border-active: rgba(255, 107, 53, 0.3);
+  --border-active: rgba(255, 255, 255, 0.3);
 
   /* Shadows */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.6);
   --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.7);
-  --shadow-glow: 0 0 60px rgba(255, 107, 53, 0.15);
+  --shadow-glow: 0 0 60px rgba(255, 255, 255, 0.15);
 
   /* Timing */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -54,29 +54,29 @@
   --card-foreground: 0 0% 100%;
   --popover: 0 0% 4%;
   --popover-foreground: 0 0% 100%;
-  --primary: 16 100% 60%;
+  --primary: 0 0% 100%;
   --primary-foreground: 0 0% 0%;
   --secondary: 0 0% 8%;
   --secondary-foreground: 0 0% 100%;
   --muted: 0 0% 10%;
   --muted-foreground: 0 0% 60%;
-  --accent: 16 100% 60%;
+  --accent: 0 0% 100%;
   --accent-foreground: 0 0% 0%;
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 100%;
   --border: 0 0% 10%;
   --input: 0 0% 10%;
-  --ring: 16 100% 60%;
+  --ring: 0 0% 100%;
   --radius: 0.5rem;
 
   --sidebar-background: 0 0% 2%;
   --sidebar-foreground: 0 0% 95%;
-  --sidebar-primary: 16 100% 60%;
+  --sidebar-primary: 0 0% 100%;
   --sidebar-primary-foreground: 0 0% 0%;
   --sidebar-accent: 0 0% 8%;
   --sidebar-accent-foreground: 0 0% 95%;
   --sidebar-border: 0 0% 10%;
-  --sidebar-ring: 16 100% 60%;
+  --sidebar-ring: 0 0% 100%;
 }
 
 /* ============================================
@@ -160,7 +160,7 @@
   }
 
   .text-gradient-accent {
-    background: linear-gradient(135deg, #ff6b35 0%, #ff8c50 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -2205,7 +2205,7 @@
   border-radius: 50%;
 }
 
-/* Orange Glow */
+/* Secondary White Glow */
 .starfield-glow-orange {
   position: absolute;
   top: 33%;
@@ -2213,7 +2213,7 @@
   transform: translate(-50%, -50%);
   width: 600px;
   height: 600px;
-  background: rgba(249, 115, 22, 0.01);
+  background: rgba(255, 255, 255, 0.01);
   filter: blur(150px);
   border-radius: 50%;
 }

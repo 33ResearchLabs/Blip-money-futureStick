@@ -258,7 +258,7 @@ export const LineDraw = ({
   return (
     <div ref={ref} className={`overflow-hidden ${className}`}>
       <motion.div
-        className={`bg-gradient-to-r from-[#ff6b35] to-[#ff8c50] ${
+        className={`bg-gradient-to-r from-[#ffffff] to-[#e5e5e5] ${
           direction === "horizontal" ? "h-[1px] w-full" : "w-[1px] h-full"
         }`}
         initial={{ scaleX: direction === "horizontal" ? 0 : 1, scaleY: direction === "vertical" ? 0 : 1 }}

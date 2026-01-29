@@ -628,8 +628,8 @@ export default function LockedAndSecuredMockup() {
                         <h3 className="text-white text-base sm:text-lg font-bold">
                           Live Settlements
                         </h3>
-                        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#ff6b35]/10 flex items-center justify-center">
-                          <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-[#ff6b35]" />
+                        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#ffffff]/10 flex items-center justify-center">
+                          <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-[#ffffff]" />
                         </div>
                       </div>
 
@@ -660,7 +660,7 @@ export default function LockedAndSecuredMockup() {
                               {/* New item pulse (only top item) */}
                               {index === 0 && (
                                 <motion.div
-                                  className="absolute inset-0 rounded-lg sm:rounded-xl bg-[#ff6b35]/10 pointer-events-none"
+                                  className="absolute inset-0 rounded-lg sm:rounded-xl bg-[#ffffff]/10 pointer-events-none"
                                   initial={{ opacity: 0 }}
                                   animate={{ opacity: [0, 0.4, 0] }}
                                   transition={{ duration: 1 }}
@@ -668,8 +668,8 @@ export default function LockedAndSecuredMockup() {
                               )}
 
                               <div className="flex items-center gap-2 sm:gap-2.5">
-                                <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-[#ff6b35]/10 flex items-center justify-center flex-shrink-0">
-                                  <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-[#ff6b35]" />
+                                <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-[#ffffff]/10 flex items-center justify-center flex-shrink-0">
+                                  <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-[#ffffff]" />
                                 </div>
                                 <div>
                                   <div className="text-[10px] sm:text-xs text-white font-medium">
@@ -691,7 +691,7 @@ export default function LockedAndSecuredMockup() {
 
                       <motion.button
                         onClick={() => setScreen("transaction")}
-                        className="w-full py-2 sm:py-3 rounded-full bg-[#ff6b35] text-black font-bold text-sm sm:text-base mb-2 sm:mb-3 mt-3 sm:mt-4"
+                        className="w-full py-2 sm:py-3 rounded-full bg-[#ffffff] text-black font-bold text-sm sm:text-base mb-2 sm:mb-3 mt-3 sm:mt-4"
                         whileTap={{
                           scale: 0.93,
                           boxShadow: "0 0 30px rgba(255, 107, 53, 0.6)",
@@ -729,7 +729,7 @@ export default function LockedAndSecuredMockup() {
 /* UI Components */
 const SecurityFeature = ({ label, desc }: { label: string; desc: string }) => (
   <div className="flex items-center gap-2.5 sm:gap-3">
-    <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-[#ff6b35] flex items-center justify-center flex-shrink-0">
+    <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-[#ffffff] flex items-center justify-center flex-shrink-0">
       <div className="w-2 h-2 rounded-full bg-black" />
     </div>
     <div>
@@ -750,7 +750,7 @@ const ProgressItem = ({
     <motion.div
       className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center border-2 transition-all ${
         active
-          ? "bg-[#ff6b35] border-[#ff6b35]"
+          ? "bg-[#ffffff] border-[#ffffff]"
           : "border-white/20 bg-white/[0.03]"
       }`}
       animate={active ? { scale: [1, 1.1, 1] } : {}}

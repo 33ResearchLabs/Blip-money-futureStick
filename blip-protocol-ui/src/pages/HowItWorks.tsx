@@ -198,11 +198,11 @@ const KeyConceptsSection = () => {
               onMouseEnter={() => sounds.hover()}
             >
               {/* Hover gradient */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#ff6b35]/[0.05] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-br from-[#ffffff]/[0.05] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
               <div className="relative z-10">
                 <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-6 group-hover:bg-white/10 transition-colors duration-500">
-                  <concept.icon className="w-6 h-6 text-white/70 group-hover:text-[#ff6b35] transition-colors duration-500" />
+                  <concept.icon className="w-6 h-6 text-white/70 group-hover:text-[#ffffff] transition-colors duration-500" />
                 </div>
                 <h3 className="text-xl font-semibold text-white mb-3">
                   {concept.title}
@@ -212,7 +212,7 @@ const KeyConceptsSection = () => {
 
               {/* Bottom accent line */}
               <motion.div
-                className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#ff6b35] to-transparent"
+                className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#ffffff] to-transparent"
                 initial={{ scaleX: 0, originX: 0 }}
                 animate={isInView ? { scaleX: 1 } : {}}
                 transition={{ duration: 1, delay: 0.5 + i * 0.1 }}
@@ -302,7 +302,7 @@ const CoreProtocolSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8, delay: i * 0.1 }}
-              className="group relative p-8 rounded-3xl text-center border hover:border-[#ff6b35]/20"
+              className="group relative p-8 rounded-3xl text-center border hover:border-[#ffffff]/20"
               style={{
                 background: "rgba(255, 255, 255, 0.02)",
                 // border: "1px solid rgba(255, 255, 255, 0.05)",
@@ -315,7 +315,7 @@ const CoreProtocolSection = () => {
               </span>
 
               <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mx-auto mb-6 group-hover:bg-white/10 transition-colors duration-500">
-                <pillar.icon className="w-7 h-7 text-white/60 group-hover:text-[#ff6b35]" />
+                <pillar.icon className="w-7 h-7 text-white/60 group-hover:text-[#ffffff]" />
               </div>
               <h3 className="text-lg font-semibold text-white mb-3">
                 {pillar.title}
@@ -426,7 +426,7 @@ const TransactionFlowSection = () => {
           {/* Progress line */}
           <div className="absolute left-[23px] top-0 bottom-0 w-[2px] bg-white/10">
             <motion.div
-              className="w-full bg-gradient-to-b from-[#ff6b35] to-[#ff6b35]/30"
+              className="w-full bg-gradient-to-b from-[#ffffff] to-[#ffffff]/30"
               style={{ height: lineProgress.get() + "%" }}
             />
           </div>
@@ -443,7 +443,7 @@ const TransactionFlowSection = () => {
                 className="relative pl-16"
               >
                 {/* Number circle */}
-                <div className="absolute left-0 top-0 w-12 h-12 rounded-full bg-black border-2 border-[#ff6b35]/50 flex items-center justify-center">
+                <div className="absolute left-0 top-0 w-12 h-12 rounded-full bg-black border-2 border-[#ffffff]/50 flex items-center justify-center">
                   <span className="text-sm font-mono text-white/60">
                     {step.num}
                   </span>
@@ -683,7 +683,7 @@ const OrderTypesSection = () => {
               </div>
 
               {/* Hover border */}
-              <div className="absolute inset-0 rounded-3xl border border-white/0 group-hover:border-[#ff6b35]/30 transition-all duration-500" />
+              <div className="absolute inset-0 rounded-3xl border border-white/0 group-hover:border-[#ffffff]/30 transition-all duration-500" />
             </motion.div>
           ))}
         </div>
@@ -763,7 +763,7 @@ const CTASection = () => {
                 className="group inline-flex items-center justify-center gap-4 
 px-10 md:py-5 py-3 rounded-full 
 sm:w-auto w-full 
-bg-[#ff6b35] text-black text-lg font-medium 
+bg-[#ffffff] text-black text-lg font-medium 
 hover:bg-[#ff8c50] 
 hover:shadow-[0_0_40px_rgba(255,107,53,0.4)] 
 transition-all duration-300"

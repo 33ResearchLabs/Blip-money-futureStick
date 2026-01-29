@@ -231,7 +231,7 @@ export const MerchantDashboard = () => {
             {/* User profile at bottom */}
             <div className="mt-auto p-2 rounded-lg bg-white/[0.03] border border-white/[0.04]">
               <div className="flex items-center gap-2">
-                <div className="w-5 h-5 rounded-full bg-gradient-to-br from-amber-400 to-orange-500">
+                <div className="w-5 h-5 rounded-full bg-gradient-to-br from-white to-white">
                   <User size={10} />
                 </div>
                 <div>
@@ -327,7 +327,7 @@ export const MerchantDashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 flex-1 min-h-0">
               {[
                 { title: "New Orders", data: newOrders, dot: "bg-white/60" },
-                { title: "In Escrow", data: inEscrow, dot: "bg-amber-400" },
+                { title: "In Escrow", data: inEscrow, dot: "bg-white" },
                 { title: "Completed", data: completed, dot: "bg-emerald-400" },
               ].map((col, idx) => (
                 <div
@@ -844,7 +844,7 @@ export const MerchantDashboardVisual = () => {
                   <div className="absolute bottom-6 left-4 right-4">
                     <div className="p-3 rounded-lg bg-white/[0.03] border border-white/[0.04]">
                       <div className="flex items-center gap-2 mb-2">
-                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-amber-400 to-orange-500" />
+                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-white to-white" />
                         <div className="flex flex-col">
                           <div className="text-xs font-medium text-white flex items-center gap-1 leading-none">
                             John
@@ -1161,7 +1161,7 @@ export const MerchantDashboardVisual = () => {
                       <div className="flex items-center justify-between px-3 py-2 border-b border-white/[0.03]">
                         <div className="flex items-center gap-1.5">
                           <motion.div
-                            className="w-1 h-1 rounded-full bg-amber-400"
+                            className="w-1 h-1 rounded-full bg-white"
                             animate={{ opacity: [1, 0.4, 1] }}
                             transition={{ duration: 2, repeat: Infinity }}
                           />
