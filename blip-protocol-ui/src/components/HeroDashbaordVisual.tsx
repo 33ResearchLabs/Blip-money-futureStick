@@ -22,7 +22,16 @@ export const HeroDashboardVisual = ({
           }}
         >
           <motion.div
-            initial={{}}
+            initial={{
+              opacity: 0,
+              x: -10,
+              y: -180,
+              z: -250,
+              rotateX: 20,
+              rotateY: 25,
+              rotateZ: -25,
+              zIndex: -40,
+            }}
             animate={{
               x: -10,
               y: [-180, -200, -180],

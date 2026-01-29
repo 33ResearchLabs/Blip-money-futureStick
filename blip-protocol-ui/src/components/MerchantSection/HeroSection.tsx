@@ -67,7 +67,7 @@ export const CinematicHeroOfMerchant = () => {
 
         {/* ==================== Text Content (2nd on mobile, 2nd on desktop) ==================== */}
         <div
-          className="w-full  px-4 lg:px-4 antigravity-layer order-2 relative z-20"
+          className="w-full  px-4 pb-20 lg:px-4 antigravity-layer order-2 relative z-20"
           ref={textLayerRef}
         >
           <motion.h1

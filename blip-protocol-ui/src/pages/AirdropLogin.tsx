@@ -155,6 +155,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
           referralCode: response.user?.referralCode,
           totalBlipPoints: response.user?.totalBlipPoints || 500,
           status: response.user?.status,
+          twoFactorEnabled: response.user?.twoFactorEnabled || false,
         });
 
         toast({
@@ -315,7 +316,6 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
 
       <div className="min-h-screen bg-black text-white overflow-hidden">
         {/* Background */}
-       
 
         {/* Main Content */}
         <main className="relative z-10 max-w-7xl mx-auto px-6 pt-20 pb-24">
@@ -335,7 +335,6 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
                     className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-10 border text-[#ff6b35] "
-                    
                   >
                     <motion.div
                       className="w-2 h-2 rounded-full bg-[#ff6b35]"
@@ -383,11 +382,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                   >
                     <button
                       onClick={() => navigate("/join-waitlist")}
-<<<<<<< HEAD
-                      className="group inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-full bg-[#ffffff] text-black text-sm font-semibold hover:bg-[#e5e5e5] hover:shadow-[0_0_40px_rgba(255,107,53,0.4)] transition-all duration-300"
-=======
                       className="group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-[#ffffff] text-black text-sm font-semibold hover:bg-[#e5e5e5]  transition-all duration-300"
->>>>>>> 6784510 (color & others  change)
                     >
                       Join Waitlist
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -418,10 +413,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                     {/* Header */}
                     <div className="flex justify-between items-center px-6 py-4 border-b border-white/[0.06]">
                       <div className="flex items-center gap-2">
-                        <motion.div
-                          className="w-2 h-2 bg-[#ff6b35] rounded-full"
-                          
-                        />
+                        <motion.div className="w-2 h-2 bg-[#ff6b35] rounded-full" />
                         <span className="text-[11px] font-medium text-white/50 uppercase tracking-wider">
                           Protocol Status
                         </span>

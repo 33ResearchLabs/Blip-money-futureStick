@@ -17,7 +17,7 @@ interface User {
   totalBlipPoints: number;
   status?: string;
   role?: "USER" | "ADMIN";
-  twoFactorEnabled: boolean;
+  twoFactorEnabled?: boolean;
 }
 
 interface AuthContextType {
