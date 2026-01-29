@@ -433,7 +433,7 @@ const UtilitySection = () => {
               </div>
 
               {/* Accent line */}
-              <div className="w-8 h-[2px] bg-[#ff6b35]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="w-8 h-[2px] bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </motion.div>
           ))}
         </div>
@@ -500,7 +500,7 @@ const DeflationSection = () => {
               }}
               onMouseEnter={() => sounds.hover()}
             >
-              <div className="mb-8 p-5 rounded-full border border-white/5 bg-black/20 inline-flex group-hover:border-[#ff6b35]/20 transition-colors duration-500">
+              <div className="mb-8 p-5 rounded-full border border-white/5 bg-black/20 inline-flex group-hover:border-white/20 transition-colors duration-500">
                 <item.icon
                   className="w-10 h-10 text-white group-hover:text-[#ffffff] transition-colors"
                   strokeWidth={1.5}

@@ -353,7 +353,7 @@ const HeroSection = () => {
           >
             <Link
               to="/join-waitlist"
-              className="group inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-full bg-[#ffffff] text-black text-sm font-semibold hover:bg-[#e5e5e5] hover:shadow-[0_0_40px_rgba(255,107,53,0.4)] transition-all duration-300"
+              className="group inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-full bg-[#ffffff] text-black text-sm font-semibold hover:bg-[#e5e5e5]  transition-all duration-300"
             >
               Start Earning
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -973,28 +973,7 @@ const CTASection = () => {
             minimum spend required.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {/* <Link
-              to="/waitlist"
-              className="group inline-flex items-center justify-center gap-4 px-10 md:py-5 py-3 rounded-full bg-[#ffffff] text-black text-lg font-semibold hover:bg-[#e5e5e5] hover:shadow-[0_0_60px_rgba(255,107,53,0.4)] transition-all duration-300"
-            >
-              Join Waitlist
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Link> */}
-            <CTAButton
-              to="/waitlist"
-              className="group inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-full"
-            >
-              Join Waitlist
-            </CTAButton>
-
-            <Link
-              to="/how-it-works"
-              className="w- sm:w-fit mx-auto md:mx-0 items-center justify-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-full border  text-white  text-[16px] font-medium hover:bg-white/5 hover:border-white/20 transition-all duration-300"
-            >
-              Learn More
-            </Link>
-          </div>
+          
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center ">
             <MagneticWrapper strength={0.2}>
@@ -1023,7 +1002,7 @@ const CTASection = () => {
                 className="group inline-flex items-center justify-center gap-4 
             px-10 md:py-4 py-3 rounded-full 
             sm:w-auto w-full 
-            bg-[#ffffff] text-black text-lg font-medium 
+            hover:bg-white/5 hover:border-white/20 border text-white text-lg font-medium 
             
             
             transition-all duration-300"

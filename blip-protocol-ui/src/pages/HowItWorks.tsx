@@ -102,9 +102,9 @@ const HeroSection = () => {
               transition={{
                 duration: 1.2,
                 delay: 0.3,
-                ease: [0.16, 1, 0.3, 1],
+                ease: [0.16, 1, 0.3, 1], //text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl
               }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-white leading-[1.20] tracking-[-0.04em]"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-8xl font-semibold text-white leading-[1.20] tracking-[-0.04em]"
             >
               <span className="block">Value. Settled.</span>
 
