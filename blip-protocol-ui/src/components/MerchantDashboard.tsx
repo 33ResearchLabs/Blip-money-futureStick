@@ -706,10 +706,9 @@ export const MerchantDashboardVisual = () => {
   return (
     <section
       ref={containerRef}
-      className="relative py-6 md:py-12 overflow-hidden"
+      className="relative py-0 overflow-hidden w-full"
       style={{
-        background:
-          "linear-gradient(180deg, #000000 0%, #0a0a0a 50%, #000000 100%)",
+        background: "transparent",
       }}
     >
       {/* Premium vignette effect */}
@@ -741,7 +740,7 @@ export const MerchantDashboardVisual = () => {
       </div>
 
       <motion.div
-        className="relative z-10 max-w-7xl mx-auto px-2 md:px-6"
+        className="relative z-10 max-w-[1800px] mx-auto px-0"
         style={{ opacity }}
       >
         {/* Merchant Dashboard Browser Mockup */}
@@ -755,7 +754,7 @@ export const MerchantDashboardVisual = () => {
             className="relative"
           >
             {/* Browser window - flat without tilt */}
-            <div className="rounded-2xl overflow-hidden border border-white/[0.08]   shadow-[0_60px_120px_-30px_rgba(0,0,0,0.9),0_40px_80px_-40px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.05)]">
+            <div className="rounded-2xl overflow-hidden border border-white/[0.08] shadow-[0_60px_120px_-30px_rgba(0,0,0,0.9),0_40px_80px_-40px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.05)] w-full min-w-[1200px]">
               {/* Browser header - minimal premium style */}
               <div className="flex items-center gap-3 px-5 py-3.5 bg-[#0d0d0d] border-b border-white/[0.04]">
                 <div className="flex items-center gap-2">

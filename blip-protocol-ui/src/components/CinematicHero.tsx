@@ -56,7 +56,7 @@ const CinematicHero = () => {
   return (
     <section
       ref={ref}
-      className="relative min-h-screen overflow-hidden bg-transparent"
+      className="relative min-h-screen  overflow-hidden bg-transparent"
     >
       {/* Main Hero Content - 3-column Layout on Desktop */}
       <main className="relative z-10 pt-28 md:pt-20 pb-16 md:pb-32 px-4 md:px-10 max-w-[1600px] mx-auto flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-6">
@@ -126,16 +126,15 @@ const CinematicHero = () => {
                     <div className="text-[11px] text-white/30 mb-3 italic font-medium">
                       Accept within 1 min
                     </div>
-                    <button className="w-full py-2.5 bg-white text-black text-[14px] font-black rounded-full mb-3 shadow-[0_4px_12px_rgba(255,255,255,0.2)]">
+                    <button className="w-full py-1.5 bg-white text-black text-[14px] font-black rounded-full mb-3 shadow-[0_4px_12px_rgba(255,255,255,0.2)]">
                       Accept Request
                     </button>
-                    <div className="flex  items-start justify-between gap-1 text-[10px] text-white/50 font-medium">
-                      <span className="flex flex-col items-center gap-1">
-                        ✓ Escrow- <span className="pl-2 ">secured</span>
+                    <div className=" flex  gap-2 text-[9px] text-white/50 font-medium">
+                      <span className="flex items-center gap-1">
+                        ✓ Escrow-secured
                       </span>
-                      <span className="flex flex-col items-center gap-1">
-                        ✓ Visible{" "}
-                        <span className="pl-2 sm:pl-3 ">on-chain</span>
+                      <span className="flex items-center gap-1">
+                        ✓ Visible on-chain
                       </span>
                     </div>
                   </div>
@@ -188,7 +187,7 @@ const CinematicHero = () => {
                 delay: 0.2,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="flex items-center justify-center lg:justify-start gap-2 mb-6 sm:mb-8"
+              className="flex items-center justify-center sm:justify-start gap-2 mb-6 sm:mb-8"
             >
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06]">
                 <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#ff8c5a] flex items-center justify-center">
