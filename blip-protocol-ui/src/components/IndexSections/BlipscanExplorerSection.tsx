@@ -89,7 +89,7 @@ const BlipscanExplorerSection = () => {
             transition={{ duration: 0.6 }}
             className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.02] border border-white/[0.05] mb-6"
           >
-            <div className="w-2 h-2 rounded-full bg-white/60 animate-pulse" />
+            <div className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
             <span className="text-xs text-white/50 uppercase tracking-wider">
               Live on Solana
             </span>
@@ -261,7 +261,7 @@ const BlipscanExplorerSection = () => {
               {/* Footer */}
               <div className="flex items-center justify-between mt-6 pt-4 border-t border-white/[0.04]">
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-white/60" />
+                  <div className="w-2 h-2 rounded-full bg-[#ff6b35]" />
                   <span className="text-xs text-white/30">
                     Powered by Blip Protocol
                   </span>

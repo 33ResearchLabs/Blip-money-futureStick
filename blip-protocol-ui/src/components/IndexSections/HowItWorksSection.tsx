@@ -238,7 +238,7 @@ const HowItWorksSection = () => {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/[0.03] border border-white/[0.06] mb-5 sm:mb-6 md:mb-8"
           >
-            <div className="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-white/60" />
+            <div className="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-[#ff6b35]" />
             <span className="text-[10px] sm:text-xs text-white/50 uppercase tracking-wider">
               How it works
             </span>

@@ -22,6 +22,7 @@ import { SEO } from "@/components";
 import { sounds } from "@/lib/sounds";
 import { MagneticWrapper } from "@/components/MagneticButton";
 
+
 /* ============================================
    AWARD-WINNING HOW IT WORKS PAGE
    Cinematic scroll animations with storytelling
@@ -94,7 +95,7 @@ const HeroSection = () => {
           </motion.div>
 
           {/* Headlines */}
-          <div className="overflow-hidden mb-10">
+          <div className="o mb-6 ">
             <motion.h1
               initial={{ y: 150 }}
               animate={{ y: 0 }}
@@ -103,7 +104,7 @@ const HeroSection = () => {
                 delay: 0.3,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="text-[clamp(2.5rem,10vw,7rem)] font-semibold text-white leading-[0.95] tracking-[-0.04em]"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-white leading-[1.20] tracking-[-0.04em]"
             >
               <span className="block">Value. Settled.</span>
 
@@ -115,7 +116,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.6 }}
-            className="text-xl md:text-2xl text-white/50 max-w-2xl mx-auto leading-relaxed"
+            className="text-base md:text-xl text-white/50 max-w-2xl mx-auto leading-relaxed"
           >
             The on-chain protocol for instant, secure, and KYC-free global value
             transfer.
@@ -126,7 +127,7 @@ const HeroSection = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.5 }}
-            className="absolute top-[400px] sm:top-[500px] left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
+            className="absolute top-[400px] sm:top-[400px] left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
           >
             <span className="text-xs text-white/40 uppercase tracking-[0.2em]">
               Explore
@@ -135,7 +136,7 @@ const HeroSection = () => {
               animate={{ y: [0, 8, 0] }}
               transition={{ duration: 1.5, repeat: Infinity }}
             >
-              <ChevronDown className="w-5 h-5 text-white/40" />
+              <ChevronDown className="w-5 h-5 text-[#ff6b35]" />
             </motion.div>
           </motion.div>
         </div>
@@ -190,15 +191,15 @@ const KeyConceptsSection = () => {
                 delay: i * 0.15,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="group relative p-8 rounded-3xl overflow-hidden cursor-pointer"
+              className="group relative p-8 rounded-3xl overflow-hidden cursor-pointer border border-transparent hover:border-white/20 duration-500 transition-colors"
               style={{
                 background: "rgba(255, 255, 255, 0.02)",
-                border: "1px solid rgba(255, 255, 255, 0.05)",
+                // border: "1px solid rgba(255, 255, 255, 0.05)",
               }}
               onMouseEnter={() => sounds.hover()}
             >
               {/* Hover gradient */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#ffffff]/[0.05] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-br from-[#ffffff]/[0.05] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 " />
 
               <div className="relative z-10">
                 <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-6 group-hover:bg-white/10 transition-colors duration-500">
@@ -212,7 +213,7 @@ const KeyConceptsSection = () => {
 
               {/* Bottom accent line */}
               <motion.div
-                className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#ffffff] to-transparent"
+                className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#ffffff] to-transparent group-hover:opacity-0"
                 initial={{ scaleX: 0, originX: 0 }}
                 animate={isInView ? { scaleX: 1 } : {}}
                 transition={{ duration: 1, delay: 0.5 + i * 0.1 }}
@@ -302,7 +303,7 @@ const CoreProtocolSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8, delay: i * 0.1 }}
-              className="group relative p-8 rounded-3xl text-center border hover:border-[#ffffff]/20"
+              className="group relative p-8 rounded-3xl text-center border  hover:border-white/20 duration-500 transition-colors"
               style={{
                 background: "rgba(255, 255, 255, 0.02)",
                 // border: "1px solid rgba(255, 255, 255, 0.05)",
@@ -443,7 +444,7 @@ const TransactionFlowSection = () => {
                 className="relative pl-16"
               >
                 {/* Number circle */}
-                <div className="absolute left-0 top-0 w-12 h-12 rounded-full bg-black border-2 border-[#ffffff]/50 flex items-center justify-center">
+                <div className="absolute left-0 top-0 w-12 h-12 rounded-full bg-black border-2 border-[#ff6b35]/20 flex items-center justify-center">
                   <span className="text-sm font-mono text-white/60">
                     {step.num}
                   </span>
@@ -761,11 +762,11 @@ const CTASection = () => {
                 onClick={() => sounds.click()}
                 onMouseEnter={() => sounds.hover()}
                 className="group inline-flex items-center justify-center gap-4 
-px-10 md:py-5 py-3 rounded-full 
+px-10 md:py-4 py-3   rounded-full 
 sm:w-auto w-full 
 bg-[#ffffff] text-black text-lg font-medium 
-hover:bg-[#ff8c50] 
-hover:shadow-[0_0_40px_rgba(255,107,53,0.4)] 
+
+
 transition-all duration-300"
               >
                 Get Started
@@ -780,9 +781,9 @@ transition-all duration-300"
                 rel="noopener noreferrer"
                 onClick={() => sounds.click()}
                 onMouseEnter={() => sounds.hover()}
-                className="group inline-flex items-center justify-center gap-4 
+                className="group inline-flex items-center justify-center gap-4 ml-2
 sm:w-auto w-full 
-px-10 md:py-[18px] py-3 rounded-full 
+px-10 md:py-[14px] py-3 rounded-full 
 border border-white/15 text-white text-lg font-medium 
 transition-all duration-500 
 hover:bg-white/5 hover:border-white/30"
@@ -822,6 +823,7 @@ export const HowItWorksPage = () => {
         <SecuritySection />
         <OrderTypesSection />
         <CTASection />
+      
       </div>
     </>
   );

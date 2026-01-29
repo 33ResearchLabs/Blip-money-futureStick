@@ -104,7 +104,7 @@ const CTASection = () => {
         >
           <Link
             to="/join-waitlist"
-            className="group inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-full bg-white text-black text-sm sm:text-base font-semibold hover:bg-white/90 hover:shadow-[0_0_60px_rgba(255,255,255,0.3)] transition-all duration-300"
+            className="group inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-full bg-white text-black text-sm sm:text-base font-semibold hover:bg-white/90  transition-all duration-300"
           >
             <span>Join Waitlist</span>
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

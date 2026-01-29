@@ -108,9 +108,8 @@ const EarlyAdopterBanner = () => {
                 }}
               >
                 <motion.div
-                  className="w-2 h-2 rounded-full bg-white/60"
-                  animate={{ scale: [1, 1.3, 1] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
+                  className="w-2 h-2 rounded-full bg-[#ff6b35]"
+                  
                 />
                 <span className="text-xs uppercase tracking-[0.2em] text-white/60 font-medium">
                   Limited Time Offer

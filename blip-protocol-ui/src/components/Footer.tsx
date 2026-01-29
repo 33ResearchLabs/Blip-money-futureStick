@@ -204,7 +204,7 @@ export const Footer = () => {
 
           {/* Right text */}
           <div className="text-[11px] text-[#52525B] flex items-center gap-2 sm:pr-32">
-            <span className="w-1 h-1 rounded-full bg-[#ffffff] " />
+            <span className="w-1 h-1 rounded-full bg-[#ff6b35] " />
             Built on Solana
           </div>
         </div>

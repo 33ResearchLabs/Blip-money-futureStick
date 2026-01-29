@@ -48,7 +48,7 @@ export const WalletConnectButton = () => {
     <button
       onClick={handleClick}
       disabled={connecting}
-      className="flex items-center gap-2 px-5 py-2 rounded-full border border-white/10 text-white text-sm hover:border-[#2BFF88] hover:shadow-[0_0_15px_rgba(43,255,136,0.3)] transition-all bg-black/40 backdrop-blur-sm disabled:opacity-50 disabled:cursor-not-allowed"
+      className="flex items-center gap-2 px-5 py-2 rounded-full border border-white/10 text-white text-sm hover:border-[#ff6b35]/20  transition-all bg-black/40 backdrop-blur-sm disabled:opacity-50 disabled:cursor-not-allowed"
     >
       <Wallet className="w-4 h-4" />
       <span>

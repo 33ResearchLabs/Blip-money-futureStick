@@ -344,7 +344,7 @@ const PeopleBankSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.5 + i * 0.1 }}
-              className="group relative p-5 md:p-6 rounded-xl border border-white/[0.05] bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/[0.1] transition-all duration-300"
+              className="group relative p-5 md:p-6 rounded-xl border border-white/[0.05] bg-white/[0.02]  hover:border-white/20  transition-all duration-300"
             >
               <div className="relative">
                 <span className="text-[12px] text-white/40 uppercase tracking-[0.3em]  block mb-4 font-mono">

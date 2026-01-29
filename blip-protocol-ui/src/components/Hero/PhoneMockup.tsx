@@ -457,13 +457,11 @@ export const Header = ({ className = "" }) => (
   <div className={` ${className} group flex items-center gap-1`}>
     {/* Dot */}
     <motion.span
-      className={` relative inline-block w-4 h-4 rounded-full bg-[#ff6b35] overflow-hidden`}
-      style={{
-        boxShadow: "0 0 16px rgba(255, 107, 53, 0.35)",
-      }}
+      className={` relative inline-block w-2 h-2 rounded-full bg-[#ff6b35] overflow-hidden`}
+      
       whileHover={{
         scale: 1.15,
-        boxShadow: "0 0 28px rgba(255, 107, 53, 0.6)",
+        
       }}
       whileTap={{ scale: 0.9 }}
       transition={{ duration: 0.2 }}

@@ -231,8 +231,8 @@ export const MerchantDashboard = () => {
             {/* User profile at bottom */}
             <div className="mt-auto p-2 rounded-lg bg-white/[0.03] border border-white/[0.04]">
               <div className="flex items-center gap-2">
-                <div className="w-5 h-5 rounded-full bg-gradient-to-br from-white to-white">
-                  <User size={10} />
+                <div className="w-5 h-5 rounded-full ">
+                  <User size={10} className="text-black" />
                 </div>
                 <div>
                   <div className="text-xs font-medium text-white flex items-center gap-1 leading-none">
@@ -758,9 +758,9 @@ export const MerchantDashboardVisual = () => {
               {/* Browser header - minimal premium style */}
               <div className="flex items-center gap-3 px-5 py-3.5 bg-[#0d0d0d] border-b border-white/[0.04]">
                 <div className="flex items-center gap-2">
-                  <div className="w-2.5 h-2.5 rounded-full bg-white/20" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-white/15" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-white/10" />
+                  <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
+                  <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
+                  <div className="w-3 h-3 rounded-full bg-[#28ca42]" />
                 </div>
                 <div className="flex-1 flex justify-center">
                   <div className="flex items-center gap-2 px-4 py-1.5 rounded-md bg-white/[0.03] border border-white/[0.04]">
@@ -819,7 +819,8 @@ export const MerchantDashboardVisual = () => {
                   <div className="absolute bottom-6 left-4 right-4">
                     <div className="p-3 rounded-lg bg-white/[0.03] border border-white/[0.04]">
                       <div className="flex items-center gap-2 mb-2">
-                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-white to-white" />
+                        <div className="w-6 h-6 flex justify-center items-center rounded-full bg-gradient-to-br from-white to-white">  <User size={16} className="text-black" /></div>
+                      
                         <div className="flex flex-col">
                           <div className="text-xs font-medium text-white flex items-center gap-1 leading-none">
                             John

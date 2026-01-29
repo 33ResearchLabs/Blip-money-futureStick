@@ -315,74 +315,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
 
       <div className="min-h-screen bg-black text-white overflow-hidden">
         {/* Background */}
-        <div className="fixed inset-0 pointer-events-none">
-          {/* Gradient background */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black via-[#050505] to-black" />
-
-          {/* Floating orbs */}
-          <motion.div
-            className="absolute top-[10%] right-[15%] w-[400px] h-[400px] rounded-full"
-            style={{
-              background:
-                "radial-gradient(circle, rgba(255,107,53,0.1) 0%, transparent 70%)",
-              x: mousePosition.x * -30,
-              y: mousePosition.y * -20,
-            }}
-            animate={{ scale: [1, 1.15, 1], opacity: [0.4, 0.6, 0.4] }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          />
-
-          <motion.div
-            className="absolute bottom-[20%] left-[10%] w-[300px] h-[300px] rounded-full"
-            style={{
-              background:
-                "radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%)",
-              x: mousePosition.x * 20,
-              y: mousePosition.y * 15,
-            }}
-            animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
-            transition={{
-              duration: 6,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 2,
-            }}
-          />
-
-          {/* Grid overlay */}
-          <div
-            className="absolute inset-0 opacity-[0.015]"
-            style={{
-              backgroundImage: `
-                linear-gradient(rgba(255,107,53,0.5) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,107,53,0.5) 1px, transparent 1px)
-              `,
-              backgroundSize: "60px 60px",
-            }}
-          />
-
-          {/* Animated particles */}
-          {[...Array(10)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1 h-1 rounded-full bg-[#ffffff]"
-              style={{
-                left: `${10 + Math.random() * 80}%`,
-                top: `${10 + Math.random() * 80}%`,
-              }}
-              animate={{
-                y: [0, -30, 0],
-                opacity: [0.1, 0.6, 0.1],
-                scale: [1, 1.5, 1],
-              }}
-              transition={{
-                duration: 3 + Math.random() * 2,
-                repeat: Infinity,
-                delay: Math.random() * 2,
-              }}
-            />
-          ))}
-        </div>
+       
 
         {/* Main Content */}
         <main className="relative z-10 max-w-7xl mx-auto px-6 pt-20 pb-24">
@@ -401,14 +334,11 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
-                    className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-10"
-                    style={{
-                      background: "rgba(255, 107, 53, 0.05)",
-                      border: "1px solid rgba(255, 107, 53, 0.15)",
-                    }}
+                    className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-10 border text-[#ff6b35] "
+                    
                   >
                     <motion.div
-                      className="w-2 h-2 rounded-full bg-[#ffffff]"
+                      className="w-2 h-2 rounded-full bg-[#ff6b35]"
                       animate={{ scale: [1, 1.3, 1], opacity: [1, 0.5, 1] }}
                       transition={{ duration: 2, repeat: Infinity }}
                     />
@@ -453,7 +383,11 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                   >
                     <button
                       onClick={() => navigate("/join-waitlist")}
+<<<<<<< HEAD
                       className="group inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-full bg-[#ffffff] text-black text-sm font-semibold hover:bg-[#e5e5e5] hover:shadow-[0_0_40px_rgba(255,107,53,0.4)] transition-all duration-300"
+=======
+                      className="group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-[#ffffff] text-black text-sm font-semibold hover:bg-[#e5e5e5]  transition-all duration-300"
+>>>>>>> 6784510 (color & others  change)
                     >
                       Join Waitlist
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -485,9 +419,8 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                     <div className="flex justify-between items-center px-6 py-4 border-b border-white/[0.06]">
                       <div className="flex items-center gap-2">
                         <motion.div
-                          className="w-2 h-2 bg-[#ffffff] rounded-full"
-                          animate={{ scale: [1, 1.3, 1], opacity: [1, 0.5, 1] }}
-                          transition={{ duration: 2, repeat: Infinity }}
+                          className="w-2 h-2 bg-[#ff6b35] rounded-full"
+                          
                         />
                         <span className="text-[11px] font-medium text-white/50 uppercase tracking-wider">
                           Protocol Status
@@ -651,7 +584,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                 </div>
                 <button
                   type="submit"
-                  className="w-full bg-[#ffffff] text-black py-4 rounded-full font-semibold hover:bg-[#e5e5e5] hover:shadow-[0_0_40px_rgba(255,107,53,0.3)] transition-all duration-300"
+                  className="w-full bg-[#ffffff] text-black py-4 rounded-full font-semibold hover:bg-[#e5e5e5]  transition-all duration-300"
                 >
                   Continue
                 </button>
@@ -713,7 +646,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                   </span>
                 </motion.div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
-                  Connect Wallet
+                  Connect Walletghgh
                 </h2>
                 <p className="text-white/50">
                   Link your Solana wallet to complete registration

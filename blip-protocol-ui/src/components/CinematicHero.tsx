@@ -141,10 +141,10 @@ const CinematicHero = () => {
 
                   {/* Bottom security bar */}
                   <div className="mt-auto mb-8 mx-2 p-3 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center gap-5">
-                    <div className="flex items-center gap-2 text-[9px] font-bold text-white/30">
+                    <div className="flex items-center gap-2 text-[9px] font-bold text-white/80">
                       ✓ SECURED
                     </div>
-                    <div className="flex items-center gap-2 text-[9px] font-bold text-white/30">
+                    <div className="flex items-center gap-2 text-[9px] font-bold text-white/80">
                       ✓ VERIFIED
                     </div>
                   </div>
@@ -369,7 +369,7 @@ const CinematicHero = () => {
                       <div className="text-[13px] font-bold">
                         PrimeX Holdings
                       </div>
-                      <div className="text-[10px] text-white/20">
+                      <div className="text-[10px] text-white/80">
                         Active now
                       </div>
                     </div>

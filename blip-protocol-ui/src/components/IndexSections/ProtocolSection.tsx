@@ -57,9 +57,8 @@ const ProtocolSection = () => {
             }}
           >
             <motion.span
-              className="w-2 h-2 rounded-full bg-white/60"
-              animate={{ scale: [1, 1.3, 1], opacity: [1, 0.5, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
+              className="w-2 h-2 rounded-full bg-[#ff6b35]"
+              
             />
             <span className="text-[11px] uppercase tracking-[0.3em] text-white/60">
               The Protocol

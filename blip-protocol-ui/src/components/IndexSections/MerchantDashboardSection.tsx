@@ -318,7 +318,7 @@ export const MerchantDashboardSection = () => {
           ].map((feature, i) => (
             <div
               key={feature.title}
-              className="text-center p-6 rounded-xl bg-white/[0.02] border border-white/[0.04] hover:border-white/20 transition-colors"
+              className="text-center p-6 rounded-xl bg-white/[0.02] border  hover:border-white/20 transition-colors"
             >
               <h3 className="text-base font-medium text-white mb-2">
                 {feature.title}

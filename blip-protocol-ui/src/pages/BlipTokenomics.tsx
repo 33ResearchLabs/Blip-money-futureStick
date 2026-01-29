@@ -143,13 +143,8 @@ const HeroSection = () => {
         >
           <span className="text-white">BLIP</span>
           <span
-            className="text-3xl"
-            style={{
-              background: "linear-gradient(135deg, #ffffff 0%, #FFB743 100%)",
-              backgroundClip: "text",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}
+            className="text-3xl text-white"
+            
           >
             •
           </span>
@@ -171,7 +166,7 @@ const HeroSection = () => {
             animate={{ y: [0, 8, 0] }}
             transition={{ duration: 1.5, repeat: Infinity }}
           >
-            <ChevronDown className="w-5 h-5 text-white/40" />
+            <ChevronDown className="w-5 h-5 text-[#ff6b35]" />
           </motion.div>
         </motion.div>
       </div>
@@ -400,7 +395,7 @@ const UtilitySection = () => {
             Token Utility
           </span>
           <h2 className="text-4xl md:text-6xl font-semibold text-white tracking-tight mb-6">
-            Utility<span className="text-[#ff6b35]">.</span>
+            Utility<span className="text-white">.</span>
           </h2>
           <p className="text-xl text-white/50 max-w-xl">
             Engineered for maximum ecosystem velocity.
@@ -416,7 +411,7 @@ const UtilitySection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8, delay: i * 0.1 }}
-              className="group relative p-8 rounded-3xl min-h-[280px] flex flex-col justify-between overflow-hidden border border-transparent hover:border-[#ffffff]/80 transition-colors duration-500 ease-out
+              className="group relative p-8 rounded-3xl min-h-[280px] flex flex-col justify-between overflow-hidden border border-transparent hover:border-white/20 transition-colors duration-500 ease-out
  "
               style={{
                 background: "rgba(255, 255, 255, 0.02)",
@@ -425,7 +420,7 @@ const UtilitySection = () => {
               onMouseEnter={() => sounds.hover()}
             >
               {/* Hover glow */}
-              <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#ff6b35] opacity-0 group-hover:opacity-[0.08] blur-[40px] rounded-full transition-opacity duration-500" />
+              <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#ff6b35]/20 opacity-0 group-hover:opacity-[0.08] blur-[40px] rounded-full transition-opacity duration-500" />
 
               <div className="relative z-10">
                 <div className="mb-8 text-white/40 group-hover:text-[#ffffff] transition-colors duration-500">
@@ -438,7 +433,7 @@ const UtilitySection = () => {
               </div>
 
               {/* Accent line */}
-              <div className="w-8 h-[2px] bg-[#ff6b35] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="w-8 h-[2px] bg-[#ff6b35]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </motion.div>
           ))}
         </div>
@@ -498,14 +493,14 @@ const DeflationSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: i * 0.15 }}
-              className="group p-10 rounded-3xl text-center border border-transparent hover:border-[#ffffff]/80 transition-colors duration-500"
+              className="group p-10 rounded-3xl text-center border border-transparent hover:border-white/20 transition-colors duration-500"
               style={{
                 background: "rgba(255, 255, 255, 0.02)",
                 // border: "1px solid rgba(255, 255, 255, 0.05)",
               }}
               onMouseEnter={() => sounds.hover()}
             >
-              <div className="mb-8 p-5 rounded-full border border-white/5 bg-black/20 inline-flex group-hover:border-[#ffffff] transition-colors duration-500">
+              <div className="mb-8 p-5 rounded-full border border-white/5 bg-black/20 inline-flex group-hover:border-[#ff6b35]/20 transition-colors duration-500">
                 <item.icon
                   className="w-10 h-10 text-white group-hover:text-[#ffffff] transition-colors"
                   strokeWidth={1.5}

@@ -21,11 +21,7 @@ const Privacy = () => {
             Privacy Policy
           </h1>
 
-          <p className="text-gray-500 mb-6 text-sm">
-            {" "}
-            Last updated: {new Date().toLocaleDateString("en-GB")}
-          </p>
-
+          
           {/* Intro */}
           <p className="text-gray-300 mb-8 leading-relaxed">
             blip.money (we, our, or, us) operates a non-custodial escrow and

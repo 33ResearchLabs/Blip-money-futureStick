@@ -117,9 +117,8 @@ const UAESection = () => {
           }}
         >
           <motion.span
-            className="w-2 h-2 rounded-full bg-white/60"
-            animate={{ scale: [1, 1.3, 1], opacity: [1, 0.5, 1] }}
-            transition={{ duration: 2, repeat: Infinity }}
+            className="w-2 h-2 rounded-full bg-[#ff6b35]"
+           
           />
           <span className="text-[13px] text-white/70 font-medium tracking-wide">
             Launching 2026{" "}

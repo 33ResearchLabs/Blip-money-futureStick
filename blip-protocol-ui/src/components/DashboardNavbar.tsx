@@ -51,11 +51,11 @@ export default function DashboardNavbar({
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
           <div className="relative">
-            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#ffffff] shadow-[0_0_10px_#ffffff]" />
-            <div className="absolute inset-0 rounded-full bg-[#ffffff] animate-pulse opacity-50" />
+            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#ff6b35] " />
+            <div className="absolute inset-0 rounded-full bg-[#ff6b35] animate-pulse opacity-50" />
           </div>
           <span className="text-xl sm:text-2xl font-bold text-white">
-            blip.<span className="text-[#ffffff]">money</span>
+            blip.<span className="text-[#ff6b35]">money</span>
           </span>
         </Link>
 

@@ -1186,7 +1186,7 @@ const Merchant = () => {
         primaryButtonLink="/waitlist"
         secondaryButtonText="Join Merchant Community"
         secondaryButtonLink="https://t.me/blip_money"
-        background="gradient"
+        // background="gradient"
       />
     </>
   );

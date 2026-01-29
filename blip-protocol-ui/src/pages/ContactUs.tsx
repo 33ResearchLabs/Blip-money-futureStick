@@ -500,7 +500,7 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
           disabled={isSubmitting}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="w-full relative overflow-hidden group bg-[#ffffff] text-black font-semibold py-5 rounded-full transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-[0_0_60px_rgba(255,107,53,0.3)]"
+          className="w-full relative overflow-hidden group bg-[#ffffff]/80 hover:bg-white text-black font-semibold py-5 rounded-full transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed "
         >
           <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
           <span className="relative z-10 flex items-center justify-center gap-3 text-sm uppercase tracking-widest">

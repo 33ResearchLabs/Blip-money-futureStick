@@ -31,6 +31,8 @@ import { Link } from "react-router-dom";
 import { SEO } from "@/components";
 import { Header } from "@/components/Hero/PhoneMockup";
 import { CTAButton } from "@/components/Navbar";
+import { MagneticWrapper } from "@/components/MagneticButton";
+import sounds from "@/lib/sounds";
 
 /* ============================================
    2025/2026 REWARDS PAGE
@@ -197,7 +199,7 @@ const PhoneMockup = ({ children }: { children: React.ReactNode }) => {
           />
           <div className="w-[200px] sm:w-[250px] md:w-[290px] lg:w-[320px]">
             {/* Phone outer frame */}
-            <div className="rounded-[36px] sm:rounded-[40px] md:rounded-[44px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[2px] sm:p-[2.5px] shadow-[0_25px_50px_rgba(0,0,0,0.5),0_0_40px_rgba(255,107,53,0.08)] md:shadow-[0_40px_80px_rgba(0,0,0,0.6),0_0_60px_rgba(255,107,53,0.1)]">
+            <div className="rounded-[36px] sm:rounded-[40px] md:rounded-[44px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[2px] sm:p-[2.5px] ">
               <div className="rounded-[34px] sm:rounded-[38px] md:rounded-[42px] bg-[#0a0a0a] p-[1px] sm:p-[8px] md:p-[10px]">
                 {/* Phone screen */}
                 <div className="rounded-[28px] sm:rounded-[30px] md:rounded-[34px] bg-black overflow-y-auto overflow-x-hidden relative max-h-[500px] sm:max-h-[600px] md:max-h-[650px] scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
@@ -277,74 +279,7 @@ const HeroSection = () => {
             : opacity,
       }}
     >
-      {/* Background layers */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-[#050505] to-black" />
-
-        {/* Floating orbs */}
-        <motion.div
-          className="absolute top-[10%] right-[15%] w-[400px] h-[400px] rounded-full"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(255,107,53,0.1) 0%, transparent 70%)",
-            x: mousePosition.x * -30,
-            y: mousePosition.y * -20,
-          }}
-          animate={{ scale: [1, 1.15, 1], opacity: [0.4, 0.6, 0.4] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        />
-
-        <motion.div
-          className="absolute bottom-[20%] left-[10%] w-[300px] h-[300px] rounded-full"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%)",
-            x: mousePosition.x * 20,
-            y: mousePosition.y * 15,
-          }}
-          animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 2,
-          }}
-        />
-
-        {/* Grid overlay */}
-        <div
-          className="absolute inset-0 opacity-[0.015]"
-          style={{
-            backgroundImage: `
-            linear-gradient(rgba(255,107,53,0.5) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,107,53,0.5) 1px, transparent 1px)
-          `,
-            backgroundSize: "60px 60px",
-          }}
-        />
-
-        {/* Animated particles */}
-        {[...Array(12)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 rounded-full bg-[#ffffff]"
-            style={{
-              left: `${10 + Math.random() * 80}%`,
-              top: `${10 + Math.random() * 80}%`,
-            }}
-            animate={{
-              y: [0, -30, 0],
-              opacity: [0.1, 0.6, 0.1],
-              scale: [1, 1.5, 1],
-            }}
-            transition={{
-              duration: 3 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-            }}
-          />
-        ))}
-      </div>
+      
 
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center pt-20 lg:pt-0">
@@ -355,17 +290,12 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
-            className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-10 backdrop-blur-sm"
+            className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-10 backdrop-blur-sm border border-white/10"
             style={{
               background: "rgba(255, 107, 53, 0.05)",
-              border: "1px solid rgba(255, 107, 53, 0.15)",
             }}
           >
-            <motion.span
-              className="w-2 h-2 rounded-full bg-[#ffffff]"
-              animate={{ scale: [1, 1.3, 1], opacity: [1, 0.5, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
+            <motion.span className="w-2 h-2 rounded-full bg-[#ff6b35] " />
             <span className="text-[13px] text-white/70 font-medium tracking-wide">
               20M BLIP Rewards Pool
             </span>
@@ -425,7 +355,11 @@ const HeroSection = () => {
           >
             <Link
               to="/join-waitlist"
+<<<<<<< HEAD
               className="group inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-full bg-[#ffffff] text-black text-sm font-semibold hover:bg-[#e5e5e5] hover:shadow-[0_0_40px_rgba(255,107,53,0.4)] transition-all duration-300"
+=======
+              className="group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-[#ffffff] text-black text-sm font-semibold hover:bg-[#e5e5e5]  transition-all duration-300"
+>>>>>>> 6784510 (color & others  change)
             >
               Start Earning
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -450,7 +384,7 @@ const HeroSection = () => {
             </span>
             <div className="w-6 h-10 rounded-full border border-white/20 flex justify-center pt-2">
               <motion.div
-                className="w-1.5 h-1.5 rounded-full bg-[#ffffff]"
+                className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]"
                 animate={{ y: [0, 8, 0] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
               />
@@ -690,7 +624,7 @@ const RewardTiersSection = () => {
               initial={{ opacity: 0, y: 60 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: i * 0.1 }}
-              className={`group relative p-8 rounded-3xl overflow-hidden hover-lg:scale-105 border border-white/5" hover:border-[#ffffff]/20 transition-colors duration-500 `}
+              className={`group relative p-8 rounded-3xl overflow-hidden hover-lg:scale-105 border border-white/5" hover:border-white/20 transition-colors duration-500 `}
               // style={{
               //   background: tier.highlight
               //     ? "linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 107, 53, 0.02) 100%)"
@@ -704,7 +638,7 @@ const RewardTiersSection = () => {
               <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#ffffff] opacity-0 group-hover:opacity-[0.08] blur-[60px] rounded-full transition-opacity duration-500" />
 
               {tier.highlight && (
-                <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-[#ffffff]/20 text-[#ffffff] text-[10px] font-medium uppercase tracking-wider">
+                <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-[#ffffff]/20 text-[#ff6b35] text-[10px] font-medium uppercase tracking-wider">
                   Best Value
                 </div>
               )}
@@ -819,7 +753,7 @@ const HowItWorksSection = () => {
               )}
 
               <div
-                className="relative p-8 rounded-3xl h-full transition-all duration-300 group-hover:bg-white/[0.02] border group-hover:border-[#ffffff]/20  "
+                className="relative p-8 rounded-3xl h-full transition-all duration-300 group-hover:bg-white/[0.02] border group-hover:border-white/20   "
                 style={{
                   background: "rgba(255, 255, 255, 0.01)",
                 }}
@@ -1045,6 +979,7 @@ const CTASection = () => {
             minimum spend required.
           </p>
 
+<<<<<<< HEAD
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             {/* <Link
               to="/waitlist"
@@ -1059,6 +994,11 @@ const CTASection = () => {
             >
               Join Waitlist
             </CTAButton>
+=======
+          {/* <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            
+            <CTAButton to="/join-waitlist">Join Waitlist</CTAButton>
+>>>>>>> 6784510 (color & others  change)
 
             <Link
               to="/how-it-works"
@@ -1066,6 +1006,44 @@ const CTASection = () => {
             >
               Learn More
             </Link>
+          </div> */}
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center ">
+            <MagneticWrapper strength={0.2}>
+              <Link
+                to="/join-waitlist"
+                onClick={() => sounds.click()}
+                onMouseEnter={() => sounds.hover()}
+                className="group inline-flex items-center justify-center gap-4 
+            px-10 md:py-4 py-3 rounded-full 
+            sm:w-auto w-full 
+            bg-[#ffffff] text-black text-lg font-medium 
+            
+            
+            transition-all duration-300"
+              >
+                Join Waitlist
+                <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-2" />
+              </Link>
+            </MagneticWrapper>
+
+            <MagneticWrapper strength={0.2}>
+              <Link
+                to="/how-it-works"
+                onClick={() => sounds.click()}
+                onMouseEnter={() => sounds.hover()}
+                className="group inline-flex items-center justify-center gap-4 
+            px-10 md:py-4 py-3 rounded-full 
+            sm:w-auto w-full 
+            bg-[#ffffff] text-black text-lg font-medium 
+            
+            
+            transition-all duration-300"
+              >
+                Learn More
+                <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-2" />
+              </Link>
+            </MagneticWrapper>
           </div>
         </motion.div>
       </div>
