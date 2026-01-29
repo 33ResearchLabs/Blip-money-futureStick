@@ -180,7 +180,7 @@ export default function PhoneMockupInteractive() {
 
                         <motion.button
                           onClick={() => handleScreen}
-                          className="w-full py-2 sm:py-3 rounded-full bg-[#ff6b35] text-black font-bold text-sm sm:text-base"
+                          className="w-full py-2 sm:py-3 rounded-full bg-[#ffffff] text-black font-bold text-sm sm:text-base"
                           whileHover={{
                             scale: 1.03,
                             boxShadow: "0 0 20px rgba(255, 107, 53, 0.4)",
@@ -226,7 +226,7 @@ export default function PhoneMockupInteractive() {
 
                         <motion.button
                           onClick={() => setScreen("status")}
-                          className="w-full py-2 sm:py-3 rounded-full bg-[#ff6b35] text-black font-bold text-sm sm:text-base mb-2 sm:mb-3"
+                          className="w-full py-2 sm:py-3 rounded-full bg-[#ffffff] text-black font-bold text-sm sm:text-base mb-2 sm:mb-3"
                           whileTap={{
                             scale: 0.93,
                             boxShadow: "0 0 30px rgba(255, 107, 53, 0.6)",
@@ -259,7 +259,7 @@ export default function PhoneMockupInteractive() {
                           active={statusProgress >= 1}
                           icon={
                             statusProgress >= 1 ? (
-                              <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-[#ff6b35]" />
+                              <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-[#ffffff]" />
                             ) : (
                               <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-white/40" />
                             )
@@ -270,7 +270,7 @@ export default function PhoneMockupInteractive() {
                           active={statusProgress >= 2}
                           icon={
                             statusProgress >= 2 ? (
-                              <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-[#ff6b35]" />
+                              <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-[#ffffff]" />
                             ) : (
                               <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-white/40" />
                             )
@@ -281,7 +281,7 @@ export default function PhoneMockupInteractive() {
                           active={statusProgress >= 3}
                           icon={
                             statusProgress >= 3 ? (
-                              <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-[#ff6b35]" />
+                              <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-[#ffffff]" />
                             ) : (
                               <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-white/20" />
                             )
@@ -292,7 +292,7 @@ export default function PhoneMockupInteractive() {
 
                         <motion.button
                           onClick={() => setScreen("success")}
-                          className="w-full py-2 sm:py-3  rounded-full bg-[#ff6b35] text-black font-bold text-sm sm:text-base"
+                          className="w-full py-2 sm:py-3  rounded-full bg-[#ffffff] text-black font-bold text-sm sm:text-base"
                           whileTap={{ scale: 0.97 }}
                         >
                           Continue
@@ -308,7 +308,7 @@ export default function PhoneMockupInteractive() {
                         animate={{ scale: 1, opacity: 1 }}
                         className="px-6 pb-3 sm:pb-10 pt-6 sm:pt-8 text-center flex flex-col min-h-[400px] sm:min-h-[500px] justify-center"
                       >
-                        <CheckCircle className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 mx-auto text-[#ff6b35]" />
+                        <CheckCircle className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 mx-auto text-[#ffffff]" />
                         <h3 className="text-white text-base sm:text-lg font-bold mt-3 sm:mt-4">
                           Transfer Sent
                         </h3>
@@ -320,7 +320,7 @@ export default function PhoneMockupInteractive() {
 
                         <motion.button
                           onClick={() => setScreen("complete")}
-                          className="w-full py-2 sm:py-3 rounded-full bg-[#ff6b35] text-black font-bold text-sm sm:text-base"
+                          className="w-full py-2 sm:py-3 rounded-full bg-[#ffffff] text-black font-bold text-sm sm:text-base"
                           whileTap={{ scale: 0.97 }}
                         >
                           View Details
@@ -342,8 +342,8 @@ export default function PhoneMockupInteractive() {
                           <h3 className="text-white text-sm sm:text-lg font-bold">
                             Order Details
                           </h3>
-                          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#ff6b35]/10 flex items-center justify-center">
-                            <FileText className="w-3 h-3 sm:w-5 sm:h-5 text-[#ff6b35]" />
+                          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#ffffff]/10 flex items-center justify-center">
+                            <FileText className="w-3 h-3 sm:w-5 sm:h-5 text-[#ffffff]" />
                           </div>
                         </div>
 
@@ -426,7 +426,7 @@ export default function PhoneMockupInteractive() {
 
                         <motion.button
                           onClick={() => setScreen("send")}
-                          className="w-full py-2 sm:py-3 rounded-full bg-[#ff6b35] text-black font-bold text-sm sm:text-base mb-1 sm:mb-1"
+                          className="w-full py-2 sm:py-3 rounded-full bg-[#ffffff] text-black font-bold text-sm sm:text-base mb-1 sm:mb-1"
                           whileTap={{ scale: 0.97 }}
                         >
                           New Transaction
@@ -457,7 +457,7 @@ export const Header = ({ className = "" }) => (
   <div className={` ${className} group flex items-center gap-1`}>
     {/* Dot */}
     <motion.span
-      className={` relative inline-block w-4 h-4 rounded-full bg-[#ff6b35] overflow-hidden`}
+      className={` relative inline-block w-4 h-4 rounded-full bg-[#ffffff] overflow-hidden`}
       style={{
         boxShadow: "0 0 16px rgba(255, 107, 53, 0.35)",
       }}
@@ -490,10 +490,10 @@ export const Header = ({ className = "" }) => (
       <span className="text-white">blip</span>
       <span className="text-white">.</span>
 
-      <span className="relative text-[#ff6b35] ml-0.5">
+      <span className="relative text-[#ffffff] ml-0.5">
         money
         <motion.span
-          className="absolute -bottom-1 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-[#ff6b35] to-transparent opacity-0 group-hover:opacity-100"
+          className="absolute -bottom-1 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-[#ffffff] to-transparent opacity-0 group-hover:opacity-100"
           transition={{ duration: 0.3 }}
         />
       </span>
@@ -578,7 +578,7 @@ const StatusItem = ({
   <div
     className={`flex items-center gap-2 sm:gap-2 p-2 sm:p-1.5 rounded-lg sm:rounded-2xl mb-1 sm:mb-2 border ${
       active
-        ? "border-[#ff6b35]/40 bg-[#ff6b35]/10"
+        ? "border-[#ffffff]/40 bg-[#ffffff]/10"
         : "border-white/10 bg-white/[0.03]"
     }`}
   >

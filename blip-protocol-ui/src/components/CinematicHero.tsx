@@ -58,7 +58,6 @@ const CinematicHero = () => {
       ref={ref}
       className="relative min-h-screen overflow-hidden bg-transparent"
     >
-      <StarfieldBackground />
       {/* Main Hero Content - 3-column Layout on Desktop */}
       <main className="relative z-10 pt-32 md:pt-44 pb-16 md:pb-32 px-4 md:px-10 max-w-[1600px] mx-auto flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-6">
         {/* ==================== Phone Mockup (1st on mobile, 1st on desktop) ==================== */}
@@ -117,7 +116,7 @@ const CinematicHero = () => {
                           USDT
                         </span>
                       </div>
-                      <div className="mt-2 text-[9px] bg-orange-500/20 px-2 py-0.5 rounded-full text-orange-400 font-bold border border-orange-500/20">
+                      <div className="mt-2 text-[9px] bg-white/10 px-2 py-0.5 rounded-full text-white/70 font-bold border border-white/20">
                         +0.5%
                       </div>
                     </div>
@@ -174,7 +173,7 @@ const CinematicHero = () => {
               }}
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight mb-6 sm:mb-8 tracking-tight max-w-xl mx-auto lg:mx-0"
             >
-              Send money <span className="text-[#ff6b35]">anywhere,</span>
+              Send money <span className="text-white">anywhere,</span>
               <br />
               <span className="text-white/40">anytime.</span>
             </motion.h1>
@@ -191,7 +190,7 @@ const CinematicHero = () => {
               className="flex items-center justify-center sm:justify-start gap-2 mb-6 sm:mb-8"
             >
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06]">
-                <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#ff8c5a] flex items-center justify-center">
+                <div className="w-5 h-5 rounded-full bg-gradient-to-br from-white to-white/60 flex items-center justify-center">
                   <svg
                     className="w-3 h-3 text-white"
                     viewBox="0 0 24 24"
@@ -262,7 +261,7 @@ const CinematicHero = () => {
               </span>
               <div className="w-6 h-10 rounded-full border border-white/20 flex justify-center pt-2">
                 <motion.div
-                  className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]"
+                  className="w-1.5 h-1.5 rounded-full bg-white"
                   animate={{ y: [0, 8, 0] }}
                   transition={{ duration: 1.5, repeat: Infinity }}
                 />
@@ -291,7 +290,7 @@ const CinematicHero = () => {
                 </div>
                 <div className="flex gap-1.5">
                   <div className="w-2 h-2 rounded-full bg-white/10" />
-                  <div className="w-2 h-2 rounded-full bg-orange-500/40 shadow-[0_0_8px_rgba(249,115,22,0.3)]" />
+                  <div className="w-2 h-2 rounded-full bg-white/40 shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
                 </div>
               </div>
 
@@ -313,7 +312,7 @@ const CinematicHero = () => {
                     <Lock className="w-3 h-3" />
                     Escrow Locked
                   </div>
-                  <div className="text-[13px] font-bold text-orange-400">
+                  <div className="text-[13px] font-bold text-white/70">
                     88.5%
                   </div>
                 </div>
@@ -379,7 +378,7 @@ const CinematicHero = () => {
                     <div className="text-[12px] font-bold">
                       5,000 <span className="text-white/40">USDT</span>
                     </div>
-                    <div className="text-[10px] text-orange-400">★ 4.95</div>
+                    <div className="text-[10px] text-white/60">★ 4.95</div>
                   </div>
                 </div>
               </div>

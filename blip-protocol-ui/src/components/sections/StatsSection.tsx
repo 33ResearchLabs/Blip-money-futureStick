@@ -89,7 +89,7 @@ export const StatsSection = ({
           <div className="absolute inset-0 bg-black/80" />
         </>
       ) : background === "accent" ? (
-        <div className="absolute inset-0 bg-gradient-to-br from-[#ff6b35]/5 via-black to-black" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#ffffff]/5 via-black to-black" />
       ) : (
         <div className="absolute inset-0 bg-[#050505]" />
       )}

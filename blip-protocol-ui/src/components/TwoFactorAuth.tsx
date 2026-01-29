@@ -94,7 +94,7 @@ export default function TwoFactorAuth() {
 
         {/* HEADER */}
         <div className="flex items-center gap-2 mb-6">
-          <ShieldCheck className="text-[#ff6b35]" />
+          <ShieldCheck className="text-[#ffffff]" />
           <h1 className="text-lg font-semibold text-white">
             Two-Factor Authentication
           </h1>
@@ -109,7 +109,7 @@ export default function TwoFactorAuth() {
           <>
             <button
               onClick={handleEnable2FA}
-              className="px-4 py-2 bg-[#ff6b35] text-black text-sm font-bold rounded-full hover:bg-[#ff6b35]/50"
+              className="px-4 py-2 bg-[#ffffff] text-black text-sm font-bold rounded-full hover:bg-[#ffffff]/50"
             >
               Enable 2FA
             </button>
@@ -142,7 +142,7 @@ export default function TwoFactorAuth() {
                   <button
                     onClick={handleVerifyOtp}
                     disabled={loading || otp.length !== 6}
-                    className="flex-1 px-4 py-2 bg-[#ff6b35] text-black font-bold rounded-full disabled:opacity-50"
+                    className="flex-1 px-4 py-2 bg-[#ffffff] text-black font-bold rounded-full disabled:opacity-50"
                   >
                     {loading ? "Verifying..." : "Verify OTP"}
                   </button>

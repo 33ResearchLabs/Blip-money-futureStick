@@ -33,7 +33,7 @@ const SubtleBackground = () => {
       <div
         className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] opacity-[0.03]"
         style={{
-          background: 'radial-gradient(ellipse, rgba(255, 107, 53, 1) 0%, transparent 70%)',
+          background: 'radial-gradient(ellipse, rgba(255, 255, 255, 1) 0%, transparent 70%)',
         }}
       />
 
@@ -176,7 +176,7 @@ const HeroImage = () => {
 
         {/* Live indicator */}
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-sm border border-white/10">
-          <span className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
+          <span className="w-2 h-2 rounded-full bg-[#ffffff] animate-pulse" />
           <span className="text-xs text-white/70 font-medium">Live on Solana</span>
         </div>
       </motion.div>
@@ -217,7 +217,7 @@ export const HeroSection = () => {
               border: '1px solid rgba(255, 255, 255, 0.08)',
             }}
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]" />
+            <span className="w-1.5 h-1.5 rounded-full bg-[#ffffff]" />
             <span className="text-[13px] text-white/60 font-medium">The future of payments</span>
           </motion.div>
 
