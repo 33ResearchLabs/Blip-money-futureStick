@@ -29,7 +29,7 @@ const ComingSoon = lazy(() => import("./components/ComingSoon"));
 const HowItWorksPage = lazy(() =>
   import("./pages/HowItWorks").then((module) => ({
     default: module.HowItWorksPage,
-  }))
+  })),
 );
 const ContactUs = lazy(() => import("./pages/ContactUs"));
 const AirdropLogin = lazy(() => import("./pages/AirdropLogin"));

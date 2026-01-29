@@ -950,20 +950,18 @@ const EducationCard = ({ onStart, onStepClick }) => (
 
         {/* Aligned Steps List */}
         <div className="flex flex-col gap-2">
-          <a
-            href="/whitepaper.pdf"
-            target="_blank"
-            rel="noopener noreferrer">
-          <div
-            onClick={() => onStepClick && onStepClick("reading")}
-            className="flex items-center gap-3 text-sm font-mono text-neutral-400 group/item hover:text-white transition-colors cursor-pointer bg-neutral-900/20 p-2 rounded-sm border border-transparent hover:border-neutral-800"
-          >
-            <div className="w-5 h-5 bg-neutral-800 rounded-full flex items-center justify-center text-[10px] text-[#ffffff] font-bold">
-              1
-            </div>
-            <span>Read the Whitepaper</span>
-            <ArrowRight className="w-3 h-3 ml-auto opacity-0 group-hover/item:opacity-100 transition-opacity text-[#ffffff]" />
-          </div> </a>
+          <a href="/whitepaper.pdf" target="_blank" rel="noopener noreferrer">
+            <div
+              onClick={() => onStepClick && onStepClick("reading")}
+              className="flex items-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 text-sm font-mono text-neutral-400 group/item hover:text-white transition-colors cursor-pointer bg-neutral-900/20 p-2 rounded-sm border border-transparent hover:border-neutral-800"
+            >
+              <div className="w-5 h-5 bg-neutral-800 rounded-full flex items-center justify-center text-[10px] text-[#ffffff] font-bold">
+                1
+              </div>
+              <span>Read the Whitepaper</span>
+              <ArrowRight className="w-3 h-3 ml-auto opacity-0 group-hover/item:opacity-100 transition-opacity text-[#ffffff]" />
+            </div>{" "}
+          </a>
           <div
             onClick={() => onStepClick && onStepClick("verify")}
             className="flex items-center gap-3 text-sm font-mono text-neutral-400 group/item hover:text-white transition-colors cursor-pointer bg-neutral-900/20 p-2 rounded-sm border border-transparent hover:border-neutral-800"
@@ -1309,7 +1307,9 @@ export default function BlipDashboard() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="text-xs font-bold text-zinc-200">
-                  {displayWalletAddress ? "It will Show Others Details " : "Not Connected"}
+                  {displayWalletAddress
+                    ? "It will Show Others Details "
+                    : "Not Connected"}
                 </span>
                 <div className="w-2 h-2 rounded-full bg-[#ffffff] " />
               </div>

@@ -195,7 +195,7 @@ export default function PhoneMockupInteractive() {
                             damping: 20,
                           }}
                         >
-                          Continue
+                          Continu
                         </motion.button>
                       </motion.div>
                     )}
