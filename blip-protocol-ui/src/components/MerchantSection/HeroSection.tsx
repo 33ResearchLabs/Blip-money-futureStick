@@ -111,7 +111,7 @@ text-3xl md:text-4xl lg:text-5xl xl:text-6xl
               Become a Merchant
             </Link>
             <Link
-              to="/join-waitlist"
+              to="/waitlist"
               className="gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 btn-pill-outline-hero font-bold text-[14px] md:text-[15px] bg-transparent hover:border-white/30"
             >
               Join Waitlist
