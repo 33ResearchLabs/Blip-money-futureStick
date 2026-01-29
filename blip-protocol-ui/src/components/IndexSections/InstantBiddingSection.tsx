@@ -140,7 +140,7 @@ const InstantBiddingSection = () => {
             }}
           />
 
-          <div className="rounded-2xl overflow-hidden border border-white/[0.08] bg-[#0a0a0a] shadow-[0_30px_60px_rgba(0,0,0,0.4)] sm:shadow-[0_50px_100px_rgba(0,0,0,0.5),0_0_80px_rgba(255,107,53,0.08)] max-h-[55vh] sm:max-h-[60vh] lg:max-h-[65vh] relative">
+          <div className="rounded-2xl overflow-hidden border border-white/[0.08] bg-[#0a0a0a] shadow-[0_30px_60px_rgba(0,0,0,0.4)] sm:shadow-[0_50px_100px_rgba(0,0,0,0.5),0_0_80px_rgba(255,107,53,0.08)] lg:max-h-[65vh] relative">
             {/* Browser chrome */}
             <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-5 py-2.5 sm:py-4 bg-[#111] border-b border-white/[0.06]">
               <div className="flex items-center gap-1.5 sm:gap-2">

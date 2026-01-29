@@ -335,7 +335,7 @@ export default function LockedAndSecuredMockup() {
 
                       <motion.button
                         onClick={() => setScreen("secured")}
-                        className="w-full py-2 sm:py-3 rounded-full bg-[#ff6b35] text-black font-bold text-sm sm:text-base"
+                        className="w-full py-2 sm:py-3 rounded-full bg-white text-black font-bold text-sm sm:text-base"
                         whileTap={{
                           scale: 0.93,
                           boxShadow: "0 0 30px rgba(255, 107, 53, 0.6)",
@@ -386,7 +386,7 @@ export default function LockedAndSecuredMockup() {
 
                       <motion.button
                         onClick={() => setScreen("progress")}
-                        className="w-full py-2 sm:py-3 rounded-full bg-[#ff6b35] text-black font-bold text-sm sm:text-base mb-2 sm:mb-3"
+                        className="w-full py-2 sm:py-3 rounded-full bg-white text-black font-bold text-sm sm:text-base mb-2 sm:mb-3"
                         whileTap={{
                           scale: 0.93,
                           boxShadow: "0 0 30px rgba(255, 107, 53, 0.6)",
@@ -484,7 +484,7 @@ export default function LockedAndSecuredMockup() {
 
                       <motion.button
                         onClick={() => setScreen("complete")}
-                        className="w-full py-2 sm:py-3 rounded-full bg-[#ff6b35] text-black font-bold text-sm sm:text-base"
+                        className="w-full py-2 sm:py-3 rounded-full bg-white text-black font-bold text-sm sm:text-base"
                         whileTap={{
                           scale: 0.93,
                           boxShadow: "0 0 30px rgba(255, 107, 53, 0.6)",
@@ -593,7 +593,7 @@ export default function LockedAndSecuredMockup() {
 
                       <motion.button
                         onClick={() => setScreen("verified")}
-                        className="w-full py-2 sm:py-3 rounded-full bg-[#ff6b35] text-black font-bold text-sm sm:text-base mb-2 sm:mb-3"
+                        className="w-full py-2 sm:py-3 rounded-full bg-white text-black font-bold text-sm sm:text-base mb-2 sm:mb-3"
                         whileTap={{
                           scale: 0.93,
                           boxShadow: "0 0 30px rgba(255, 107, 53, 0.6)",

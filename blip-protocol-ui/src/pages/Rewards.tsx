@@ -425,14 +425,14 @@ const HeroSection = () => {
           >
             <Link
               to="/join-waitlist"
-              className="group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-[#ffffff] text-black text-sm font-semibold hover:bg-[#e5e5e5] hover:shadow-[0_0_40px_rgba(255,107,53,0.4)] transition-all duration-300"
+              className="group inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-full bg-[#ffffff] text-black text-sm font-semibold hover:bg-[#e5e5e5] hover:shadow-[0_0_40px_rgba(255,107,53,0.4)] transition-all duration-300"
             >
               Start Earning
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
               to="/how-it-works"
-              className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full border border-white/10 text-white text-sm font-medium hover:bg-white/5 hover:border-white/20 transition-all duration-300"
+              className="inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-full border border-white/10 text-white text-sm font-medium hover:bg-white/5 hover:border-white/20 transition-all duration-300"
             >
               Learn More
             </Link>
@@ -1053,11 +1053,16 @@ const CTASection = () => {
               Join Waitlist
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link> */}
-            <CTAButton to="/join-waitlist">Join Waitlist</CTAButton>
+            <CTAButton
+              to="/join-waitlist"
+              className="group inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-full"
+            >
+              Join Waitlist
+            </CTAButton>
 
             <Link
               to="/how-it-works"
-              className="w- sm:w-fit mx-auto md:mx-0 items-center justify-center gap-4   px-5 py-2.5 rounded-full border  text-white  text-[16px] font-medium hover:bg-white/5 hover:border-white/20 transition-all duration-300"
+              className="w- sm:w-fit mx-auto md:mx-0 items-center justify-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-full border  text-white  text-[16px] font-medium hover:bg-white/5 hover:border-white/20 transition-all duration-300"
             >
               Learn More
             </Link>

@@ -79,7 +79,7 @@
 
       // 1. SCROLL GRID INTERACTION
       window.addEventListener("scroll", () => {
-        if (window.scrollY > heroSection.offsetHeight / 4) {
+        if (heroSection && window.scrollY > heroSection.offsetHeight / 4) {
           body.classList.add("scroll-active");
         } else {
           body.classList.remove("scroll-active");

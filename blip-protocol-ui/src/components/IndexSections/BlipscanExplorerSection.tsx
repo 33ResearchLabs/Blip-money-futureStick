@@ -56,7 +56,10 @@ const BlipscanExplorerSection = () => {
         id: `BLP-${Math.random().toString(36).substr(2, 4)}`,
         from: addresses[Math.floor(Math.random() * addresses.length)],
         to: names[Math.floor(Math.random() * names.length)],
-        amount: `$${Math.floor(Math.random() * 10000 + 10000)}`,
+        amount: new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+        }).format(Math.floor(Math.random() * 10000 + 10000)),
 
         time: "Just now",
         new: true,
@@ -76,7 +79,6 @@ const BlipscanExplorerSection = () => {
 
   return (
     <section className="relative bg-black py-10 sm:py-32 overflow-hidden">
-
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <div className="text-center mb-12 sm:mb-16">

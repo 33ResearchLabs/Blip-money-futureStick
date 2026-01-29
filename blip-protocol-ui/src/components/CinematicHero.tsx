@@ -129,12 +129,13 @@ const CinematicHero = () => {
                     <button className="w-full py-2.5 bg-white text-black text-[14px] font-black rounded-full mb-3 shadow-[0_4px_12px_rgba(255,255,255,0.2)]">
                       Accept Request
                     </button>
-                    <div className="flex items-center justify-start gap-3 text-[10px] text-white/50 font-medium">
-                      <span className="flex items-center gap-1">
-                        ✓ Escrow-secured
+                    <div className="flex  items-start justify-between gap-1 text-[10px] text-white/50 font-medium">
+                      <span className="flex flex-col items-center gap-1">
+                        ✓ Escrow- <span className="pl-2 ">secured</span>
                       </span>
-                      <span className="flex items-center gap-1">
-                        ✓ Visible on-chain
+                      <span className="flex flex-col items-center gap-1">
+                        ✓ Visible{" "}
+                        <span className="pl-2 sm:pl-3 ">on-chain</span>
                       </span>
                     </div>
                   </div>

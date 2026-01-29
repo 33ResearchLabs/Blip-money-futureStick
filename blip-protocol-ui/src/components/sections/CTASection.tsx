@@ -55,7 +55,8 @@ export const CTASection = ({
           <div
             className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] opacity-[0.07]"
             style={{
-              background: 'radial-gradient(ellipse, rgba(255, 107, 53, 1) 0%, transparent 70%)',
+              background:
+                "radial-gradient(ellipse, rgba(255, 107, 53, 1) 0%, transparent 70%)",
             }}
           />
         </>
@@ -94,12 +95,12 @@ export const CTASection = ({
           transition={{ duration: 0.6, delay: 0.2 }}
           className="flex flex-col sm:flex-row gap-4 justify-center "
         >
-          
-          <CTAButton to="/join-waitlist" className="w-full sm:w-auto"  >
-              {primaryButtonText}
-            
+          <CTAButton
+            to="/join-waitlist"
+            className="w-full sm:w-auto gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5"
+          >
+            {primaryButtonText}
           </CTAButton>
-          
 
           {secondaryButtonText && secondaryButtonLink && (
             <MagneticWrapper strength={0.2}>
@@ -112,8 +113,7 @@ export const CTASection = ({
   w-full sm:w-auto
   justify-center
   items-center
-  gap-3
-  px-5 py-2.5
+  gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5
   text-[16px]
   rounded-full
   border border-white/10

@@ -141,7 +141,10 @@ const MerchantHero = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="flex flex-col sm:flex-row gap-4 max-w-xl"
           >
-            <CTAButton to="/join-waitlist" className="w-full sm:w-auto">
+            <CTAButton
+              to="/join-waitlist"
+              className="w-full sm:w-auto gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5"
+            >
               Apply as Merchent
             </CTAButton>
 
@@ -157,8 +160,7 @@ const MerchantHero = () => {
   w-full sm:w-auto
   justify-center
   items-center
-  gap-3
-  px-5 py-2.5
+  gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5
   text-[16px]
   rounded-full
   border border-white/10

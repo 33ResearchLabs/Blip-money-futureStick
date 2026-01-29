@@ -743,7 +743,7 @@ const CTASection = () => {
           viewport={{ once: true }}
           transition={{ duration: 1 }}
         >
-          <h2 className="text-5xl md:text-7xl lg:text-8xl font-semibold text-white tracking-tight mb-8">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight mb-6 sm:mb-8 tracking-tight max-w-xl mx-auto lg:mx-0">
             Code over
             <br />
             <span className="text-white/30">Trust.</span>

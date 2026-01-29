@@ -430,7 +430,7 @@ const ComingSoon = () => {
                   <button
                     type="submit"
                     disabled={status === "loading" || status === "success"}
-                    className="w-full bg-[#ffffff] text-black py-3.5 rounded-xl font-semibold hover:bg-[#e5e5e5] hover:shadow-[0_0_40px_rgba(255,107,53,0.3)] transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2"
+                    className="w-full bg-[#ffffff] text-black py-3.5 rounded-full font-semibold hover:bg-[#e5e5e5] hover:shadow-[0_0_40px_rgba(255,107,53,0.3)] transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2"
                   >
                     {status === "loading" && (
                       <>

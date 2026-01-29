@@ -474,30 +474,6 @@ export const MerchantDashboardVisual = () => {
       description: "Quick cash out",
       priority: "low",
     },
-    {
-      id: "ORD-7820",
-      user: "🐯",
-      userName: "Ahmed K.",
-      amount: "1,200 USDT",
-      rate: "1,618 AED",
-      time: "5m",
-      country: "🇦🇪",
-      status: "new",
-      description: "Bulk exchange request",
-      priority: "medium",
-    },
-    {
-      id: "ORD-7819",
-      user: "🦊",
-      userName: "Lisa T.",
-      amount: "250 USDT",
-      rate: "3.67 AED",
-      time: "8m",
-      country: "🇦🇪",
-      status: "new",
-      description: "Quick cash out",
-      priority: "low",
-    },
   ]);
 
   const mockUsers = ["🦁", "🐯", "🦊", "🐼", "🐸"];

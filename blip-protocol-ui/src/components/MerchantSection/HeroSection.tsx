@@ -196,13 +196,13 @@ export const CinematicHeroOfMerchant = () => {
           >
             <Link
               to="/merchant"
-              className="px-8 md:px-10 py-3.5 md:py-4 bg-white text-black font-bold text-[14px] md:text-[15px] rounded-full transition-all hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:-translate-y-1"
+              className="gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 bg-white text-black font-bold text-[14px] md:text-[15px] rounded-full transition-all hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:-translate-y-1"
             >
               Become a Merchant
             </Link>
             <Link
               to="/join-waitlist"
-              className="px-8 md:px-10 py-3.5 md:py-4 btn-pill-outline-hero font-bold text-[14px] md:text-[15px] bg-transparent hover:border-white/30"
+              className="gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 btn-pill-outline-hero font-bold text-[14px] md:text-[15px] bg-transparent hover:border-white/30"
             >
               Join Waitlist
             </Link>
