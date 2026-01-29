@@ -309,6 +309,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import PointsHistoryModal from "@/components/PointsHistoryModal";
 import ReferralModal from "@/components/ReferralModal";
+import { Footer } from "../components/Footer";
 
 // --- Global Styles & Keyframes ---
 const GlobalStyles = () => (
@@ -1148,7 +1149,7 @@ const TASKS_DATA = {
 // --- Main Layout ---
 
 export default function BlipDashboard() {
-  const [booted, setBooted] = useState(false);
+  
   const [filter, setFilter] = useState("all");
   const [selectedTask, setSelectedTask] = useState(null);
   const [toast, setToast] = useState(null);
@@ -1163,14 +1164,7 @@ export default function BlipDashboard() {
   const { logout, user } = useAuth();
   const navigate = useNavigate();
 
-  if (!booted) {
-    return (
-      <>
-        <GlobalStyles />
-        <BootSequence onComplete={() => setBooted(true)} />
-      </>
-    );
-  }
+  
 
   const displayWalletAddress = publicKey
     ? `${publicKey.toBase58().slice(0, 4)}...${publicKey.toBase58().slice(-4)}`
@@ -1245,14 +1239,7 @@ export default function BlipDashboard() {
     return categoryTasks.filter((t) => t.status === "active");
   };
 
-  if (!booted) {
-    return (
-      <>
-        <GlobalStyles />
-        <BootSequence onComplete={() => setBooted(true)} />
-      </>
-    );
-  }
+  
 
   return (
     <div className="min-h-screen bg-[#030303] text-neutral-400 font-sans selection:bg-[#FF9F1A]/20 selection:text-[#FF9F1A] relative overflow-x-hidden scanline">
@@ -1619,6 +1606,7 @@ export default function BlipDashboard() {
           </div>
         </div>
       </main>
+      <Footer/>
     </div>
   );
 }
