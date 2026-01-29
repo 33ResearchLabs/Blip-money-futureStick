@@ -49,7 +49,9 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
 
   // Navigation & Identity State
   const refFromUrl = searchParams.get("ref") || "";
-  const [view, setView] = useState(initialView || (refFromUrl ? "waitlist" : "landing"));
+  const [view, setView] = useState(
+    initialView || (refFromUrl ? "waitlist" : "landing"),
+  );
   const [email, setEmail] = useState("");
 
   // Sync view state with initialView prop when it changes (for route changes)
@@ -106,12 +108,20 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
       setHasRedirected(true);
       navigate("/dashboard", { replace: true });
     }
-  }, [isAuthenticated, isLoading, navigate, hasRedirected, walletReady, connected]);
+  }, [
+    isAuthenticated,
+    isLoading,
+    navigate,
+    hasRedirected,
+    walletReady,
+    connected,
+  ]);
 
   // Save user data to backend when wallet connects
   useEffect(() => {
     const saveUserData = async () => {
-      if (!connected || !publicKey || view !== "connect" || show2FAModal) return;
+      if (!connected || !publicKey || view !== "connect" || show2FAModal)
+        return;
 
       console.log("💾 Attempting to save user data:", {
         wallet_address: publicKey.toBase58(),
@@ -162,7 +172,10 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
         const errorCode = error.response?.data?.code;
         const errorMessage = error.response?.data?.message;
 
-        if (errorCode === "WALLET_EMAIL_MISMATCH" || error.response?.status === 409) {
+        if (
+          errorCode === "WALLET_EMAIL_MISMATCH" ||
+          error.response?.status === 409
+        ) {
           toast({
             variant: "destructive",
             title: "Wallet Already Registered",
@@ -188,7 +201,17 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
     };
 
     saveUserData();
-  }, [connected, publicKey, view, email, referral_code, toast, login, navigate, disconnect]);
+  }, [
+    connected,
+    publicKey,
+    view,
+    email,
+    referral_code,
+    toast,
+    login,
+    navigate,
+    disconnect,
+  ]);
 
   const handleJoinWaitlist = (e: React.FormEvent) => {
     e.preventDefault();
@@ -258,7 +281,10 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
       toast({
         variant: "destructive",
         title: "OTP Failed",
-        description: error?.message || error?.response?.data?.message || "OTP verification failed",
+        description:
+          error?.message ||
+          error?.response?.data?.message ||
+          "OTP verification failed",
       });
     } finally {
       setIsVerifyingOtp(false);
@@ -297,7 +323,8 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
           <motion.div
             className="absolute top-[10%] right-[15%] w-[400px] h-[400px] rounded-full"
             style={{
-              background: "radial-gradient(circle, rgba(255,107,53,0.1) 0%, transparent 70%)",
+              background:
+                "radial-gradient(circle, rgba(255,107,53,0.1) 0%, transparent 70%)",
               x: mousePosition.x * -30,
               y: mousePosition.y * -20,
             }}
@@ -308,12 +335,18 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
           <motion.div
             className="absolute bottom-[20%] left-[10%] w-[300px] h-[300px] rounded-full"
             style={{
-              background: "radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%)",
+              background:
+                "radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%)",
               x: mousePosition.x * 20,
               y: mousePosition.y * 15,
             }}
             animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            transition={{
+              duration: 6,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 2,
+            }}
           />
 
           {/* Grid overlay */}
@@ -388,12 +421,16 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                   <motion.h1
                     initial={{ opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{
+                      duration: 1,
+                      delay: 0.3,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
                     className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.05] mb-6 tracking-tight"
                   >
-                    Join the 
+                    Join the Blip
                     <br />
-                    <span className="text-[#ffffff]"> Blip</span> Waitlist
+                    <span className="text-[#ffffff]/20">Waitlist </span>
                   </motion.h1>
 
                   <motion.p
@@ -402,8 +439,9 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                     transition={{ duration: 1, delay: 0.5 }}
                     className="text-lg md:text-xl text-white/50 max-w-xl mx-auto lg:mx-0 leading-relaxed mb-10"
                   >
-                    Support the first privacy-preserving institutional payment protocol.
-                    Earn rewards by validating network integrity and contributing to the global on-chain bridge.
+                    Support the first privacy-preserving institutional payment
+                    protocol. Earn rewards by validating network integrity and
+                    contributing to the global on-chain bridge.
                   </motion.p>
 
                   {/* CTAs */}
@@ -435,7 +473,11 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                 <motion.div
                   initial={{ opacity: 0, y: 60 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{
+                    duration: 1.2,
+                    delay: 0.4,
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
                   className="flex-1 w-full max-w-md"
                 >
                   <div className="rounded-3xl bg-white/[0.02] border border-white/[0.06] overflow-hidden">
@@ -487,13 +529,15 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                         </div>
                       </div>
                       <div className="w-28 h-14 flex items-end gap-[3px]">
-                        {[35, 50, 40, 65, 45, 80, 55, 90, 60, 75].map((h, i) => (
-                          <div
-                            key={i}
-                            className="flex-1 bg-[#ffffff]/30 rounded-t-[2px]"
-                            style={{ height: `${h}%` }}
-                          />
-                        ))}
+                        {[35, 50, 40, 65, 45, 80, 55, 90, 60, 75].map(
+                          (h, i) => (
+                            <div
+                              key={i}
+                              className="flex-1 bg-[#ffffff]/30 rounded-t-[2px]"
+                              style={{ height: `${h}%` }}
+                            />
+                          ),
+                        )}
                       </div>
                     </div>
                   </div>
@@ -534,8 +578,12 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                     <div className="w-12 h-12 rounded-2xl bg-[#ffffff]/10 border border-[#ffffff]/20 flex items-center justify-center mb-6 group-hover:bg-[#ffffff]/20 transition-colors duration-300">
                       <feature.icon className="w-5 h-5 text-[#ffffff]" />
                     </div>
-                    <h3 className="text-lg font-semibold text-white mb-3">{feature.title}</h3>
-                    <p className="text-sm text-white/50 leading-relaxed">{feature.desc}</p>
+                    <h3 className="text-lg font-semibold text-white mb-3">
+                      {feature.title}
+                    </h3>
+                    <p className="text-sm text-white/50 leading-relaxed">
+                      {feature.desc}
+                    </p>
                   </motion.div>
                 ))}
               </motion.div>
@@ -676,7 +724,10 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                 {/* Loading overlay */}
                 {isConnecting && (
                   <div className="absolute inset-0 bg-black/80 backdrop-blur-sm z-10 flex flex-col items-center justify-center gap-4 rounded-3xl">
-                    <Loader2 className="text-[#ffffff] animate-spin" size={40} />
+                    <Loader2
+                      className="text-[#ffffff] animate-spin"
+                      size={40}
+                    />
                     <span className="text-sm text-white/70">
                       Creating your account...
                     </span>

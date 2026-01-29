@@ -151,7 +151,7 @@ const BlipAirdropHub = () => {
       setTimeout(() => {
         const finalTasks = [...userTasks];
         const finalTask = finalTasks[groupIdx].items.find(
-          (t) => t.id === taskId
+          (t) => t.id === taskId,
         );
         finalTask.status = "completed";
         setPoints((prev) => prev + finalTask.points);
@@ -267,7 +267,7 @@ const BlipAirdropHub = () => {
                   Mainnet Alpha: Live Verification
                 </div>
                 <h1 className="text-6xl md:text-8xl font-bold tracking-tighter text-white mb-8 leading-[0.95] selection:bg-[#39ff14] selection:text-black">
-                  Join the Blip Waitlist
+                  Join the Blip <span className="text-white/20">Waitlist</span>
                 </h1>
                 <p className="text-xl text-zinc-500 mb-12 leading-relaxed max-w-xl">
                   Support the first privacy-preserving institutional payment

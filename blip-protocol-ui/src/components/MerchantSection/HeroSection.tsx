@@ -116,7 +116,7 @@ export const CinematicHeroOfMerchant = () => {
                           USDT
                         </span>
                       </div>
-                      <div className="mt-2 text-[9px] bg-white/20 px-2 py-0.5 rounded-full text-white/70 font-bold border border-white/20">
+                      <div className="mt-2 text-[9px] bg-orange-500/20 px-2 py-0.5 rounded-full text-white/70 font-bold border border-orange-500/20">
                         +0.5%
                       </div>
                     </div>
@@ -222,14 +222,14 @@ export const CinematicHeroOfMerchant = () => {
               {/* Header */}
               <div className="flex items-center justify-between mb-6 xl:mb-8">
                 <div className="flex items-center gap-2">
-                  <div className="w-2.5 h-2.5 bg-white/20 rounded-full" />
-                  <span className="text-sm font-medium text-white/40">
-                    blip.money
+                  <div className="w-2.5 h-2.5 bg-[#ff6b35] rounded-full" />
+                  <span className="text-sm font-medium text-white">
+                    blip. <span className="text-[#ff6b53]">money</span>
                   </span>
                 </div>
                 <div className="flex gap-1.5">
                   <div className="w-2 h-2 rounded-full bg-white/10" />
-                  <div className="w-2 h-2 rounded-full bg-white/40 shadow-[0_0_8px_rgba(249,115,22,0.3)]" />
+                  <div className="w-2 h-2 rounded-full bg-orange-500/40 shadow-[0_0_8px_rgba(249,115,22,0.3)]" />
                 </div>
               </div>
 
@@ -299,7 +299,7 @@ export const CinematicHeroOfMerchant = () => {
 
               {/* Merchant Card */}
               <div className="border-t border-white/5 pt-6 xl:pt-8">
-                <div className="glass-card-dark-hero rounded-2xl p-4 flex items-center justify-between transition-all hover:border-white/20">
+                <div className="glass-card-dark-hero rounded-2xl p-4 flex items-center justify-between transition-all hover:border-orange-500/30">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
                       <Users className="w-4 h-4 opacity-50" />

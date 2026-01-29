@@ -90,7 +90,7 @@ const HeroSection = () => {
             border: "1px solid rgba(255, 255, 255, 0.08)",
           }}
         >
-          <span className="w-2 h-2 rounded-full bg-[#ffffff] animate-pulse" />
+          <span className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
           <span className="text-[14px] text-white/70 font-medium tracking-wide">
             System Status: Active
           </span>

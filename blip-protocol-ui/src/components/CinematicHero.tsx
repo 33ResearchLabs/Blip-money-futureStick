@@ -116,7 +116,7 @@ const CinematicHero = () => {
                           USDT
                         </span>
                       </div>
-                      <div className="mt-2 text-[9px] bg-white/10 px-2 py-0.5 rounded-full text-white/70 font-bold border border-white/20">
+                      <div className="mt-2 text-[9px] bg-orange-500/20 px-2 py-0.5 rounded-full text-white/70 font-bold border border-orange-500/20">
                         +0.5%
                       </div>
                     </div>
@@ -190,7 +190,7 @@ const CinematicHero = () => {
               className="flex items-center justify-center sm:justify-start gap-2 mb-6 sm:mb-8"
             >
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06]">
-                <div className="w-5 h-5 rounded-full bg-gradient-to-br from-white to-white/60 flex items-center justify-center">
+                <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#ff8c5a] flex items-center justify-center">
                   <svg
                     className="w-3 h-3 text-white"
                     viewBox="0 0 24 24"
@@ -261,7 +261,7 @@ const CinematicHero = () => {
               </span>
               <div className="w-6 h-10 rounded-full border border-white/20 flex justify-center pt-2">
                 <motion.div
-                  className="w-1.5 h-1.5 rounded-full bg-white"
+                  className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]"
                   animate={{ y: [0, 8, 0] }}
                   transition={{ duration: 1.5, repeat: Infinity }}
                 />
@@ -283,14 +283,14 @@ const CinematicHero = () => {
               {/* Header */}
               <div className="flex items-center justify-between mb-6 xl:mb-8">
                 <div className="flex items-center gap-2">
-                  <div className="w-2.5 h-2.5 bg-white/20 rounded-full" />
-                  <span className="text-sm font-medium text-white/40">
-                    blip.money
+                  <div className="w-2.5 h-2.5 bg-[#ff6b35] rounded-full" />
+                  <span className="text-sm font-medium text-white">
+                    blip. <span className="text-[#ff6b35]">money</span>
                   </span>
                 </div>
                 <div className="flex gap-1.5">
                   <div className="w-2 h-2 rounded-full bg-white/10" />
-                  <div className="w-2 h-2 rounded-full bg-white/40 shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
+                  <div className="w-2 h-2 rounded-full bg-orange-500/40 shadow-[0_0_8px_rgba(249,115,22,0.3)]" />
                 </div>
               </div>
 

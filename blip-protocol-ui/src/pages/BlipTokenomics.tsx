@@ -113,7 +113,7 @@ const HeroSection = () => {
             border: "1px solid rgba(255, 255, 255, 0.08)",
           }}
         >
-          <span className="w-2 h-2 rounded-full bg-[#ffffff] animate-pulse" />
+          <span className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
           <span className="text-[14px] text-white/70 font-medium tracking-wide">
             Fixed Supply
           </span>
@@ -400,7 +400,7 @@ const UtilitySection = () => {
             Token Utility
           </span>
           <h2 className="text-4xl md:text-6xl font-semibold text-white tracking-tight mb-6">
-            Utility<span className="text-[#ffffff]">.</span>
+            Utility<span className="text-[#ff6b35]">.</span>
           </h2>
           <p className="text-xl text-white/50 max-w-xl">
             Engineered for maximum ecosystem velocity.
@@ -425,7 +425,7 @@ const UtilitySection = () => {
               onMouseEnter={() => sounds.hover()}
             >
               {/* Hover glow */}
-              <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#ffffff] opacity-0 group-hover:opacity-[0.08] blur-[40px] rounded-full transition-opacity duration-500" />
+              <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#ff6b35] opacity-0 group-hover:opacity-[0.08] blur-[40px] rounded-full transition-opacity duration-500" />
 
               <div className="relative z-10">
                 <div className="mb-8 text-white/40 group-hover:text-[#ffffff] transition-colors duration-500">
@@ -438,7 +438,7 @@ const UtilitySection = () => {
               </div>
 
               {/* Accent line */}
-              <div className="w-8 h-[2px] bg-[#ffffff] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="w-8 h-[2px] bg-[#ff6b35] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </motion.div>
           ))}
         </div>
