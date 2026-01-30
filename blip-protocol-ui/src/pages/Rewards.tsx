@@ -436,9 +436,9 @@ const HeroSection = () => {
           >
             <PhoneMockup>
               {/* App content - Rewards Screen */}
-              <div className="px-6 pb-3 sm:pb-10 pt-1 sm:pt-8">
+              <div className="px-6 pb-3 sm:pb-16 pt-1 sm:pt-2">
                 {/* Header */}
-                <div className="flex items-center justify-between mb-2 sm:mb-8">
+                <div className="flex items-center justify-between mb-2 sm:mb-4">
                   <div className="flex items-center gap-3">
                     <Header />
                   </div>
@@ -978,7 +978,7 @@ const CTASection = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center ">
             <MagneticWrapper strength={0.2}>
               <Link
-                to="/join-waitlist"
+                to="/waitlist"
                 onClick={() => sounds.click()}
                 onMouseEnter={() => sounds.hover()}
                 className="group inline-flex items-center justify-center gap-4 

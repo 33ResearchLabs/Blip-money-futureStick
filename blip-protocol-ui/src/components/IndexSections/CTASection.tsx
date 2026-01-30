@@ -103,7 +103,7 @@ const CTASection = () => {
           transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
         >
           <Link
-            to="/join-waitlist"
+            to="/waitlist"
             className="group inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-full bg-white text-black text-sm sm:text-base font-semibold hover:bg-white/90  transition-all duration-300"
           >
             <span>Join Waitlist</span>

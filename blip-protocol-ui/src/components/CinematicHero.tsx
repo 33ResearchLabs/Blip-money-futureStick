@@ -3,6 +3,7 @@ import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Lock, Users } from "lucide-react";
 import StarfieldBackground from "./StarfieldBackground";
+import { Logo } from "./Navbar";
 
 /**
  * CinematicHero - 3-column layout with parallax mouse tracking
@@ -103,7 +104,8 @@ const CinematicHero = () => {
 
                 {/* Screen Content */}
                 <div className="p-5 pt-14 flex flex-col h-full">
-                  <div className="text-[11px] text-white/40 mb-6 font-medium px-2">
+                  <Logo className="text-sm" />
+                  <div className="text-[11px] text-white/40 mb-6 font-medium px-2 py-2">
                     Accepting Requests
                   </div>
 
