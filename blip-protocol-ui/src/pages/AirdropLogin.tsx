@@ -582,7 +582,8 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setView("landing")}
+                  onClick={() => navigate(-1)}
+                
                   className="w-full flex items-center justify-center gap-2 text-white/40 hover:text-white/60 text-sm mt-4 transition-colors"
                 >
                   <ArrowLeft size={14} /> Back
