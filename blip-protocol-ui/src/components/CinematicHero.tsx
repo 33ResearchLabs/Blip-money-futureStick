@@ -1,8 +1,9 @@
 import { useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Lock, Users } from "lucide-react";
+import { Battery, BatteryFull, Lock, Users } from "lucide-react";
 import StarfieldBackground from "./StarfieldBackground";
+import { Logo } from "./Navbar";
 
 /**
  * CinematicHero - 3-column layout with parallax mouse tracking
@@ -30,6 +31,7 @@ const CinematicHero = () => {
         const rotationX = moveY * 10 * 0.02;
         const rotationY = -moveX * 10 * 0.02;
         phoneLayerRef.current.style.transform = `translate3d(${x}px, ${y}px, 0) rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
+        phoneLayerRef.current.style.transformStyle = 'preserve-3d';
       }
 
       // Text layer - subtle movement
@@ -37,6 +39,7 @@ const CinematicHero = () => {
         const x = moveX * 25 * 0.01;
         const y = moveY * 25 * 0.01;
         textLayerRef.current.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+        textLayerRef.current.style.transformStyle = 'preserve-3d';
       }
 
       // Dashboard layer - medium movement
@@ -46,6 +49,7 @@ const CinematicHero = () => {
         const rotationX = moveY * 10 * 0.015;
         const rotationY = -moveX * 10 * 0.015;
         dashboardLayerRef.current.style.transform = `translate3d(${x}px, ${y}px, 0) rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
+        dashboardLayerRef.current.style.transformStyle = 'preserve-3d';
       }
     };
 
@@ -92,8 +96,8 @@ const CinematicHero = () => {
                       <path d="M8 5.5C8 5.22386 8.22386 5 8.5 5H9.5C9.77614 5 10 5.22386 10 5.5V11.5C10 11.7761 9.77614 12 9.5 12H8.5C8.22386 12 8 11.7761 8 11.5V5.5Z" />
                       <path d="M12 2.5C12 2.22386 12.2239 2 12.5 2H13.5C13.7761 2 14 2.22386 14 2.5V11.5C14 11.7761 13.7761 12 13.5 12H12.5C12.2239 12 12 11.7761 12 11.5V2.5Z" />
                     </svg>
-                    <div className="w-6 h-3 rounded-[2px] border border-white/40 relative flex items-center p-[1px]">
-                      <div className="bg-white h-full w-[80%] rounded-[1px]" />
+                    <div className="w-6 h-3 rounded-[2px] border  relative flex items-center p-[1px]">
+                      <BatteryFull />
                     </div>
                   </div>
                 </div>
@@ -103,7 +107,8 @@ const CinematicHero = () => {
 
                 {/* Screen Content */}
                 <div className="p-5 pt-14 flex flex-col h-full">
-                  <div className="text-[11px] text-white/40 mb-6 font-medium px-2">
+                  <Logo className="text-sm" />
+                  <div className="text-[11px] text-white/40 mb-6 font-medium px-2 py-2">
                     Accepting Requests
                   </div>
 

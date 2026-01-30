@@ -14,7 +14,7 @@ import {
   Copy,
   BatteryFull,
 } from "lucide-react";
-import { a } from "node_modules/framer-motion/dist/types.d-DagZKalS";
+import { Logo } from "../Navbar";
 
 type Screen = "send" | "confirm" | "status" | "success" | "complete";
 
@@ -456,46 +456,9 @@ export default function PhoneMockupInteractive() {
 export const Header = ({ className = "" }) => (
   <div className={` ${className} group flex items-center gap-1`}>
     {/* Dot */}
-    <motion.span
-      className={` relative inline-block w-2 h-2 rounded-full bg-[#ff6b35] overflow-hidden`}
-      
-      whileHover={{
-        scale: 1.15,
-        
-      }}
-      whileTap={{ scale: 0.9 }}
-      transition={{ duration: 0.2 }}
-    >
-      {/* Shine sweep */}
-      <motion.span
-        className="absolute inset-0 opacity-0 group-hover:opacity-100"
-        style={{
-          background:
-            "linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.5) 50%, transparent 70%)",
-        }}
-        initial={{ x: "-100%" }}
-        whileHover={{ x: "100%" }}
-        transition={{ duration: 0.6, ease: "easeInOut" }}
-      />
-    </motion.span>
 
     {/* Text */}
-    <motion.span
-      className="text-[9px] font-semibold tracking-tight leading-none flex items-center"
-      whileHover={{ scale: 1.02 }}
-      transition={{ duration: 0.2 }}
-    >
-      <span className="text-white">blip</span>
-      <span className="text-white">.</span>
-
-      <span className="relative text-[#ff6b35] ml-0.5">
-        money
-        <motion.span
-          className="absolute -bottom-1 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-[#ffffff] to-transparent opacity-0 group-hover:opacity-100"
-          transition={{ duration: 0.3 }}
-        />
-      </span>
-    </motion.span>
+    <Logo className="text-sm" />
   </div>
 );
 

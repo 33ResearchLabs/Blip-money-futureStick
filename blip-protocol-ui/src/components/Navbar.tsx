@@ -18,7 +18,7 @@ import { sounds } from "@/lib/sounds";
 
 /* ---------------- Logo ---------------- */
 /* Brand Orange: #ffffff - LOCKED COLOR */
-const Logo = () => {
+export const Logo = ({ className = "" }) => {
   return (
     <Link
       to="/"
@@ -53,7 +53,7 @@ const Logo = () => {
 
       {/* Text */}
       <motion.span
-        className="text-[20px] font-semibold tracking-tight leading-none flex items-center"
+        className={`${className} text-[20px] font-semibold tracking-tight leading-none flex items-center`}
         whileHover={{ scale: 1.02 }}
         transition={{ duration: 0.2 }}
       >

@@ -5,6 +5,7 @@ import {
   useTransform,
   useSpring,
   useInView,
+  useMotionTemplate,
 } from "framer-motion";
 import {
   Shield,
@@ -21,7 +22,6 @@ import { Link } from "react-router-dom";
 import { SEO } from "@/components";
 import { sounds } from "@/lib/sounds";
 import { MagneticWrapper } from "@/components/MagneticButton";
-
 
 /* ============================================
    AWARD-WINNING HOW IT WORKS PAGE
@@ -374,10 +374,11 @@ const TransactionFlowSection = () => {
     },
   ];
 
-  const lineProgress = useSpring(
+  const lineProgressValue = useSpring(
     useTransform(scrollYProgress, [0.1, 0.8], [0, 100]),
     smoothConfig,
   );
+  const lineProgress = useMotionTemplate`${lineProgressValue}%`;
 
   return (
     <section
@@ -428,7 +429,7 @@ const TransactionFlowSection = () => {
           <div className="absolute left-[23px] top-0 bottom-0 w-[2px] bg-white/10">
             <motion.div
               className="w-full bg-gradient-to-b from-[#ffffff] to-[#ffffff]/30"
-              style={{ height: lineProgress.get() + "%" }}
+              style={{ height: lineProgress }}
             />
           </div>
 
@@ -758,7 +759,7 @@ const CTASection = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center ">
             <MagneticWrapper strength={0.2}>
               <Link
-                to="/join-waitlist"
+                to="/waitlist"
                 onClick={() => sounds.click()}
                 onMouseEnter={() => sounds.hover()}
                 className="group inline-flex items-center justify-center gap-4 
@@ -823,7 +824,6 @@ export const HowItWorksPage = () => {
         <SecuritySection />
         <OrderTypesSection />
         <CTASection />
-      
       </div>
     </>
   );
