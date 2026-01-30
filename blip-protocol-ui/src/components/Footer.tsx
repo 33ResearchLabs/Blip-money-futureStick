@@ -129,7 +129,7 @@ export const Footer = () => {
                 label="YouTube"
               />
               <SocialLink
-                href="mailto:blipmoney9@gmail.com"
+                href="mailto:blipmoney9@gmail.com?subject=Contact%20Blip%20Money&body=Hello%20Team,%0A%0AI%20would%20like%20to%20get%20in%20touch.%0A%0AThanks"
                 icon={Mail}
                 label="Email"
               />

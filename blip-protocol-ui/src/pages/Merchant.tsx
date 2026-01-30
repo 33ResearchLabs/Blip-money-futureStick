@@ -361,37 +361,37 @@ const WhyBlipSection = () => {
     {
       title: "No waiting",
       description: "Requests come to you instead of you hunting buyers",
-      icon: <Zap size={16} />,
+      icon: <Zap className="w-4 h-4 sm:w-5 sm:h-5" />,
     },
     {
       title: "More control",
       description: "Filters, limits, and corridor selection",
-      icon: <Sliders size={16} />,
+      icon: <Sliders className="w-4 h-4 sm:w-5 sm:h-5" />,
     },
     {
       title: "Faster execution",
       description: "One flow, minimal steps, no noise",
-      icon: <Activity size={16} />,
+      icon: <Activity className="w-4 h-4 sm:w-5 sm:h-5" />,
     },
     {
       title: "Lower risk",
       description: "Escrow-first design reduces failed trades",
-      icon: <ShieldCheck size={16} />,
+      icon: <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5" />,
     },
     {
       title: "Clear operations",
       description: "Status timeline + trade history",
-      icon: <LayoutList size={16} />,
+      icon: <LayoutList className="w-4 h-4 sm:w-5 sm:h-5" />,
     },
     {
       title: "Transparent proof",
       description: "On-chain visibility via Blip Scan",
-      icon: <Globe size={16} />,
+      icon: <Globe className="w-4 h-4 sm:w-5 sm:h-5" />,
     },
   ];
 
   return (
-    <section className="relative bg-transparent text-white overflow-hidden py-32">
+    <section className="relative bg-transparent text-white overflow-hidden py-12 sm:py-20 md:py-28 lg:py-32">
       {/* Ambient Background */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[1200px] h-[800px] bg-white/[0.02] blur-[140px] rounded-full" />
@@ -437,7 +437,7 @@ const WhyBlipSection = () => {
           >
             <motion.div
               style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-              className="relative rounded-[32px] border border-white/10 bg-[#0c0c0d]/90 backdrop-blur-3xl overflow-hidden"
+              className="relative rounded-[20px] sm:rounded-[24px] md:rounded-[28px] lg:rounded-[32px] border border-white/10 bg-[#0c0c0d]/90 backdrop-blur-3xl overflow-hidden"
             >
               {/* Shine */}
               <motion.div
@@ -446,14 +446,14 @@ const WhyBlipSection = () => {
               />
 
               {/* Header */}
-              <div className="px-10 pt-8 pb-6 border-b border-white/5">
-                <h3 className="text-sm italic text-zinc-400">
+              <div className="px-4 sm:px-6 md:px-8 lg:px-10 pt-5 sm:pt-6 md:pt-7 lg:pt-8 pb-4 sm:pb-5 md:pb-6 border-b border-white/5">
+                <h3 className="text-xs sm:text-sm md:text-base italic text-zinc-300 sm:text-zinc-400">
                   Platform Capabilities
                 </h3>
               </div>
 
               {/* Feature List */}
-              <div className="px-6 py-6">
+              <div className="px-3 sm:px-4 md:px-5 lg:px-6 py-4 sm:py-5 md:py-6">
                 {features.map((f, index) => {
                   const isActive = activeIndex === index;
                   const isPrimary = index === 0;
@@ -477,7 +477,7 @@ const WhyBlipSection = () => {
                         transformStyle: "preserve-3d",
                       }}
                       className={`
-          relative flex items-center justify-between px-6 py-5 mb-3 rounded-2xl cursor-pointer
+          relative flex items-center justify-between px-3 sm:px-4 md:px-5 lg:px-6 py-3 sm:py-4 md:py-5 mb-2 sm:mb-2.5 md:mb-3 rounded-xl sm:rounded-2xl cursor-pointer
           transition-all duration-300
           ${
             isPrimary
@@ -498,17 +498,17 @@ const WhyBlipSection = () => {
                         <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/[0.08] to-transparent pointer-events-none" />
                       )}
 
-                      <div className="flex items-center gap-5 relative z-10">
+                      <div className="flex items-center gap-3 sm:gap-4 md:gap-5 relative z-10">
                         {/* Icon */}
                         <div
                           className={`
-              w-12 h-12 rounded-xl flex items-center justify-center border transition-all
+              w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-lg sm:rounded-xl flex items-center justify-center border transition-all
               ${
                 isPrimary
                   ? "bg-white text-black border-white/30 shadow-[0_8px_20px_rgba(0,0,0,0.6)]"
                   : isActive
                     ? "bg-white/30 text-black border-white/20"
-                    : "bg-[#151516] border-white/10 text-zinc-500"
+                    : "bg-[#151516] border-white/10 text-zinc-400"
               }
             `}
                           style={
@@ -527,8 +527,8 @@ const WhyBlipSection = () => {
                               : undefined
                           }
                         >
-                          <div className="font-bold">{f.title}</div>
-                          <div className="text-sm text-zinc-400">
+                          <div className="text-sm sm:text-base md:text-lg font-bold text-white">{f.title}</div>
+                          <div className="text-xs sm:text-sm md:text-base text-zinc-300 sm:text-zinc-400 leading-relaxed">
                             {f.description}
                           </div>
                         </div>
@@ -537,7 +537,7 @@ const WhyBlipSection = () => {
                       {(isActive || isPrimary) && (
                         <div
                           className={`
-              relative z-10 w-8 h-8 rounded-full flex items-center justify-center
+              relative z-10 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center
               ${
                 isPrimary
                   ? "bg-white/20 border border-white/30 text-white"
@@ -550,7 +550,7 @@ const WhyBlipSection = () => {
                               : undefined
                           }
                         >
-                          <Check size={16} strokeWidth={3} />
+                          <Check className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={3} />
                         </div>
                       )}
                     </motion.div>

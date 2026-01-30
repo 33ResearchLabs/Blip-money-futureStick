@@ -112,7 +112,7 @@ text-3xl md:text-4xl lg:text-5xl xl:text-6xl
             </Link>
             <Link
               to="/waitlist"
-              className="gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 btn-pill-outline-hero font-bold text-[14px] md:text-[15px] bg-transparent hover:border-white/30"
+              className="group inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-full  text-white border border-white/20 text-sm sm:text-base font-semibold hover:bg-white/90  transition-all duration-300"
             >
               Join Waitlist
             </Link>
