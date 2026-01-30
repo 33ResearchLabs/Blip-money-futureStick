@@ -5,7 +5,7 @@ import {
   useTransform,
   AnimatePresence,
 } from "framer-motion";
-import { MerchantDashboardVisual } from "../MerchantDashboard";
+import { MerchantDashboardVisual, MerchantDashboardVisualHomepage } from "../MerchantDashboard";
 
 /* ============================================
    SECTION 6.5: MERCHANT DASHBOARD - Linear.app style
@@ -292,7 +292,7 @@ export const MerchantDashboardSection = () => {
         </div>
 
         {/* Merchant Dashboard Browser Mockup */}
-        <MerchantDashboardVisual />
+        <MerchantDashboardVisualHomepage />
 
         {/* Bottom feature highlights */}
         <motion.div

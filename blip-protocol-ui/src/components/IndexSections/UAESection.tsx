@@ -236,10 +236,7 @@ const UAESection = () => {
   const float3Y = useTransform(scrollYProgress, [0, 1], [150, -100]);
   const rotateOrb = useTransform(scrollYProgress, [0, 1], [0, 180]);
 
-  const y = useSpring(
-    useTransform(scrollYProgress, [0, 1], [0, 150]),
-    smoothConfig
-  );
+  
 
   return (
     <section
@@ -281,8 +278,8 @@ const UAESection = () => {
 
         {/* Image parallax */}
         <motion.div
-          className="absolute inset-0 z-0 max-w-7xl mx-auto rounded-3xl px-4 sm:px-6"
-          style={{ y }}
+          className="absolute inset-0 z-0 max-w-7xl mx-auto h-50 rounded-3xl px-4 sm:px-6"
+          
         >
           <img
             src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=2940&auto=format&fit=crop"

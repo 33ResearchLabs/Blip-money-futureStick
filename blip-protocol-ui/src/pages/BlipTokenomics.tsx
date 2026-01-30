@@ -142,12 +142,7 @@ const HeroSection = () => {
           className="flex items-center justify-center md:gap-4  text-2xl md:text-3xl font-light tracking-[0.2em] uppercase"
         >
           <span className="text-white">BLIP</span>
-          <span
-            className="text-3xl text-white"
-            
-          >
-            •
-          </span>
+          <span className="text-3xl text-white">•</span>
           <span className="text-white/50">TOKENS</span>
         </motion.div>
 
@@ -185,6 +180,23 @@ const DistributionSection = () => {
 
   return (
     <section ref={ref} className="relative py-32 bg-black overflow-hidden ">
+      <motion.div
+  initial={{ opacity: 0, y: 40 }}
+  animate={isInView ? { opacity: 1, y: 0 } : {}}
+  transition={{ duration: 0.8 }}
+  className="md:mb-12 mb-20 text-center"
+>
+  <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">
+    Distribution
+  </span>
+
+  <h2 className="text-4xl md:text-5xl font-semibold text-white tracking-tight">
+    Token
+    <br />
+    <span className="text-white/30">Split</span>
+  </h2>
+</motion.div>
+
       {/* Background glow */}
       <div className="absolute top-0 left-[-10%] w-[60vw] h-[60vw] bg-white/5 blur-[150px] rounded-full" />
       <div className="absolute bottom-0 right-[-10%] w-[50vw] h-[50vw] bg-[#FFB743]/5 blur-[150px] rounded-full" />
@@ -272,22 +284,6 @@ const DistributionSection = () => {
 
           {/* List */}
           <div>
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8 }}
-              className="mb-12"
-            >
-              <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">
-                Distribution
-              </span>
-              <h2 className="text-4xl md:text-5xl font-semibold text-white tracking-tight">
-                Token
-                <br />
-                <span className="text-white/30">Split</span>
-              </h2>
-            </motion.div>
-
             <div className="space-y-4">
               {allocationData.map((item, idx) => (
                 <motion.div
@@ -389,15 +385,17 @@ const UtilitySection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1 }}
-          className="mb-20"
+          className="mb-20 text-center md:text-left"
         >
           <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">
             Token Utility
           </span>
+
           <h2 className="text-4xl md:text-6xl font-semibold text-white tracking-tight mb-6">
             Utility<span className="text-white">.</span>
           </h2>
-          <p className="text-xl text-white/50 max-w-xl">
+
+          <p className="text-xl text-white/50 max-w-xl mx-auto md:mx-0">
             Engineered for maximum ecosystem velocity.
           </p>
         </motion.div>
@@ -411,7 +409,7 @@ const UtilitySection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8, delay: i * 0.1 }}
-              className="group relative p-8 rounded-3xl min-h-[280px] flex flex-col justify-between overflow-hidden border border-transparent hover:border-white/20 transition-colors duration-500 ease-out
+              className="group relative p-8 rounded-3xl min-h-[280px] flex flex-col justify-between overflow-hidden border hover:border-white/20 transition-colors duration-500 ease-out
  "
               style={{
                 background: "rgba(255, 255, 255, 0.02)",
@@ -457,11 +455,11 @@ const DeflationSection = () => {
     <section className="relative py-12 md:py-24 bg-black overflow-hidden">
       {/* Background image */}
       <div className="absolute inset-0 z-0">
-        <img
+        {/* <img
           src="https://images.unsplash.com/photo-1639762681057-408e52192e55?q=80&w=2832&auto=format&fit=crop"
           alt="Abstract"
           className="w-full h-full object-cover opacity-10"
-        />
+        /> */}
         <div className="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black" />
       </div>
 
@@ -493,7 +491,7 @@ const DeflationSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: i * 0.15 }}
-              className="group p-10 rounded-3xl text-center border border-transparent hover:border-white/20 transition-colors duration-500"
+              className="group p-10 rounded-3xl text-center border  hover:border-white/20 transition-colors duration-500"
               style={{
                 background: "rgba(255, 255, 255, 0.02)",
                 // border: "1px solid rgba(255, 255, 255, 0.05)",
@@ -519,7 +517,6 @@ const DeflationSection = () => {
     </section>
   );
 };
-
 
 /* ============================================
    SECTION 5: EMISSIONS CHART
@@ -580,15 +577,19 @@ const EmissionsSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1 }}
-          className="mb-16"
+          className="mb-16 text-center md:text-left"
         >
           <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">
             Vesting Schedule
           </span>
+
           <h2 className="text-4xl md:text-5xl font-semibold text-white tracking-tight mb-4">
             Emissions
           </h2>
-          <p className="text-xl text-white/50">72-Month Vesting Curve</p>
+
+          <p className="text-xl text-white/50 mx-auto md:mx-0">
+            72-Month Vesting Curve
+          </p>
         </motion.div>
 
         {/* Chart */}
