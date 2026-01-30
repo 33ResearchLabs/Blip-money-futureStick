@@ -422,7 +422,15 @@ const WhyBlipSection = () => {
               Built for speed control and repeat volume
             </p>
 
-            <CTAButton to="/join-waitlist" className="w-full sm:w-auto">
+            <CTAButton to="/join-waitlist" className="group inline-flex items-center justify-center gap-3
+      px-10 py-4
+      min-h-[52px] w-[220px]
+      rounded-full
+      border border-white/20
+      text-white
+      text-sm font-semibold
+      hover:bg-white/10
+      transition-all duration-300">
               Start Trading
             </CTAButton>
           </div>
@@ -1184,7 +1192,7 @@ const Merchant = () => {
         description="Apply now. Get access to the dashboard and start executing requests."
         primaryButtonText="Apply as Merchant"
         primaryButtonLink="/waitlist"
-        secondaryButtonText="Join Merchant Community"
+        secondaryButtonText="Join Merchant "
         secondaryButtonLink="https://t.me/blip_money"
         // background="gradient"
       />

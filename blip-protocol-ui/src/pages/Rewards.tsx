@@ -197,7 +197,7 @@ const PhoneMockup = ({ children }: { children: React.ReactNode }) => {
               background: `linear-gradient(${135 + mouse.x * 25}deg, rgba(255,255,255,0.06) 0%, transparent 50%, rgba(0,0,0,0.12) 100%)`,
             }}
           />
-          <div className="w-[200px] sm:w-[250px] md:w-[290px] lg:w-[320px]">
+          <div className="w-[250px] sm:w-[250px] md:w-[290px] lg:w-[320px]">
             {/* Phone outer frame */}
             <div className="rounded-[36px] sm:rounded-[40px] md:rounded-[44px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[2px] sm:p-[2.5px] ">
               <div className="rounded-[34px] sm:rounded-[38px] md:rounded-[42px] bg-[#0a0a0a] p-[1px] sm:p-[8px] md:p-[10px]">
@@ -345,26 +345,42 @@ const HeroSection = () => {
           </motion.div>
 
           {/* CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.7 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
-          >
-            <Link
-              to="/join-waitlist"
-              className="group inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-full bg-[#ffffff] text-black text-sm font-semibold hover:bg-[#e5e5e5]  transition-all duration-300"
-            >
-              Start Earning
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-            <Link
-              to="/how-it-works"
-              className="inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-full border border-white/10 text-white text-sm font-medium hover:bg-white/5 hover:border-white/20 transition-all duration-300"
-            >
-              Learn More
-            </Link>
-          </motion.div>
+<motion.div
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 1, delay: 0.7 }}
+  className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center"
+>
+  <Link
+    to="/waitlist"
+    className="group inline-flex items-center justify-center gap-3
+      w-[220px] h-[56px]
+      rounded-full
+      bg-[#ffffff] text-black
+      text-lg font-semibold
+      hover:bg-[#e5e5e5]
+      transition-all duration-300"
+  >
+    Start Earning
+    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+  </Link>
+
+  <Link
+    to="/how-it-works"
+    className="inline-flex items-center justify-center gap-3
+      w-[220px] h-[56px]
+      rounded-full
+      border border-white/10
+      text-white
+      text-lg font-semibold
+      hover:bg-white/5 hover:border-white/20
+      transition-all duration-300"
+  >
+    Learn More
+  </Link>
+</motion.div>
+
+
 
           {/* Scroll indicator */}
           <motion.div
@@ -384,6 +400,7 @@ const HeroSection = () => {
               />
             </div>
           </motion.div>
+
         </div>
 
         {/* Right: Phone Mockup */}

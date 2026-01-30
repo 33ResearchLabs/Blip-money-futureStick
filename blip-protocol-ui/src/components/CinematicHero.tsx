@@ -75,11 +75,11 @@ const CinematicHero = () => {
 >
         {/* ==================== Phone Mockup (1st on mobile, 1st on desktop) ==================== */}
         <div
-          className="w-full lg:w-1/3 flex justify-center order-1 lg:order-1 antigravity-layer relative z-20"
+          className="w-full lg:w-1/3 flex justify-center order-1 lg:order-1 antigravity-layer relative z-20 "
           ref={phoneLayerRef}
         >
-          <div className="phone-container-hero animate-float-hero reflect-hero">
-            <div className="relative w-[280px] h-[570px] iphone-bezel rounded-[3.5rem] p-[8px]">
+          <div className="phone-container-hero animate-float-hero reflect-hero ">
+            <div className="relative  w-[280px] h-[570px] iphone-bezel rounded-[3.5rem] p-[8px]">
               {/* iPhone physical buttons */}
               <div className="iphone-button h-8 top-28 -left-[7px]" />
               <div className="iphone-button h-16 top-40 -left-[7px]" />

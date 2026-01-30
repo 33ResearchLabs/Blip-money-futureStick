@@ -111,7 +111,7 @@ const HowItWorksSection = () => {
         <div className="h-1 w-12 bg-zinc-800 rounded-full" />
         <Zap size={10} className="text-white/20 animate-spin-slow" />
       </div>
-      {["USD/NGN", "EUR/GHS", "GBP/KES"].map((p, i) => (
+      {["USDT/AED", "AED/USDT", "USDT/Cash"].map((p, i) => (
         <div
           key={i}
           className="bg-zinc-900/40 p-2 rounded-xl text-[9px] text-zinc-400"

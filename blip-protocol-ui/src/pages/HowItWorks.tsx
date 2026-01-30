@@ -22,7 +22,6 @@ import { SEO } from "@/components";
 import { sounds } from "@/lib/sounds";
 import { MagneticWrapper } from "@/components/MagneticButton";
 
-
 /* ============================================
    AWARD-WINNING HOW IT WORKS PAGE
    Cinematic scroll animations with storytelling
@@ -755,19 +754,19 @@ const CTASection = () => {
             journey with Blip today.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center ">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <MagneticWrapper strength={0.2}>
               <Link
                 to="/waitlist"
                 onClick={() => sounds.click()}
                 onMouseEnter={() => sounds.hover()}
-                className="group inline-flex items-center justify-center gap-4 
-px-10 md:py-4 py-3   rounded-full 
-sm:w-auto w-full 
-bg-[#ffffff] text-black text-lg font-medium 
-
-
-transition-all duration-300"
+                className="group inline-flex items-center justify-center gap-4
+        px-10 py-4
+        rounded-full
+        sm:w-auto w-full
+        min-h-[52px]
+        bg-[#ffffff] text-black text-lg font-medium
+        transition-all duration-300"
               >
                 Get Started
                 <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-2" />
@@ -781,12 +780,15 @@ transition-all duration-300"
                 rel="noopener noreferrer"
                 onClick={() => sounds.click()}
                 onMouseEnter={() => sounds.hover()}
-                className="group inline-flex items-center justify-center gap-4 ml-2
-sm:w-auto w-full 
-px-10 md:py-[14px] py-3 rounded-full 
-border border-white/15 text-white text-lg font-medium 
-transition-all duration-500 
-hover:bg-white/5 hover:border-white/30"
+                className="group inline-flex items-center justify-center gap-4
+        px-10 py-4
+        rounded-full
+        sm:w-auto w-full
+        min-h-[52px]
+        border border-white/10
+        text-white text-lg font-medium
+        hover:bg-white/5 hover:border-white/20
+        transition-all duration-300"
               >
                 Read Whitepaper
               </a>
@@ -823,7 +825,6 @@ export const HowItWorksPage = () => {
         <SecuritySection />
         <OrderTypesSection />
         <CTASection />
-      
       </div>
     </>
   );

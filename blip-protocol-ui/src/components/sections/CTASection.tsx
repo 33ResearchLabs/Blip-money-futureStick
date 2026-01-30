@@ -90,44 +90,55 @@ export const CTASection = ({
         )}
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center "
-        >
-          <CTAButton
-            to="/join-waitlist"
-            className="w-full sm:w-auto gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5"
-          >
-            {primaryButtonText}
-          </CTAButton>
+  initial={{ opacity: 0, y: 20 }}
+  animate={isInView ? { opacity: 1, y: 0 } : {}}
+  transition={{ duration: 0.6, delay: 0.2 }}
+  className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+>
+  {/* PRIMARY */}
+  <CTAButton
+    to="/join-waitlist"
+    className="
+      w-[220px]
+      inline-flex items-center justify-center
+      gap-2 sm:gap-3
+      px-10 py-4
+      min-h-[52px]
+      text-[16px] font-medium
+    "
+  >
+    {primaryButtonText}
+  </CTAButton>
 
-          {secondaryButtonText && secondaryButtonLink && (
-            <MagneticWrapper strength={0.2}>
-              <Link
-                to={secondaryButtonLink}
-                onClick={() => sounds.click()}
-                onMouseEnter={() => sounds.hover()}
-                className="group
-  inline-flex sm:inline-flex
-  w-full sm:w-auto
-  justify-center
-  items-center
-  gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5
-  text-[16px]
-  rounded-full
-  border border-white/10
-  text-white
-  font-medium
-  transition-all duration-500
-  hover:border-white/30 hover:bg-white/5"
-              >
-                {secondaryButtonText}
-                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </MagneticWrapper>
-          )}
-        </motion.div>
+  {/* SECONDARY */}
+  {secondaryButtonText && secondaryButtonLink && (
+    <MagneticWrapper strength={0.2}>
+      <Link
+        to={secondaryButtonLink}
+        onClick={() => sounds.click()}
+        onMouseEnter={() => sounds.hover()}
+        className="
+          group
+          inline-flex items-center justify-center
+           
+          gap-2 sm:gap-3
+          px-10 py-4
+          min-h-[52px] w-[220px]
+          text-[16px] font-medium
+          rounded-full
+          border border-white/10
+          text-white
+          transition-all duration-500
+          hover:border-white/30 hover:bg-white/5
+        "
+      >
+        {secondaryButtonText}
+        <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+      </Link>
+    </MagneticWrapper>
+  )}
+</motion.div>
+
       </div>
     </section>
   );

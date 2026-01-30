@@ -99,24 +99,43 @@ text-3xl md:text-4xl lg:text-5xl xl:text-6xl
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center md:justify-start lg:justify-start gap-3 md:gap-4"
-          >
-            <Link
-              to="/coming-soon"
-              className="gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 bg-white text-black font-bold text-[14px] md:text-[15px] rounded-full transition-all hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:-translate-y-1"
-            >
-              Become a Merchant
-            </Link>
-            <Link
-              to="/waitlist"
-              className="group inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-full  text-white border border-white/20 text-sm sm:text-base font-semibold hover:bg-white/90  transition-all duration-300"
-            >
-              Join Waitlist
-            </Link>
-          </motion.div>
+  initial={{ opacity: 0, y: 20 }}
+  animate={isInView ? { opacity: 1, y: 0 } : {}}
+  transition={{ duration: 0.6, delay: 0.3 }}
+  className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3 md:gap-4"
+>
+  <Link
+    to="/coming-soon"
+    className="inline-flex items-center justify-center gap-3
+      px-10 py-4
+      min-h-[52px] w-[220px]
+      rounded-full
+      bg-white text-black
+      text-sm font-semibold
+      transition-all duration-300
+      hover:shadow-[0_0_30px_rgba(255,255,255,0.3)]
+      hover:-translate-y-1"
+  >
+    Become a Merchant
+  </Link>
+
+  <Link
+    to="/waitlist"
+    className="group inline-flex items-center justify-center gap-3
+      px-10 py-4
+      min-h-[52px] w-[220px]
+      rounded-full
+      border border-white/20
+      text-white
+      text-sm font-semibold
+      hover:bg-white/10
+      transition-all duration-300"
+  >
+    Join Waitlist
+  </Link>
+</motion.div>
+
+
         </div>
       </main>
 
