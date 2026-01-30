@@ -9,9 +9,9 @@ import LockedAndSecuredMockup from "@/components/Hero/LockedAndSecuredMockup";
 
 const LockedAndSecuredSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-black overflow-hidden py-16 sm:py-20 lg:py-0">
+    <section className="relative min-h-screen flex items-center justify-center bg-black overflow-hidden py-16 sm:py-20 lg:py-0 ">
       {/* Background elements */}
-      <div className="absolute inset-0 pointer-events-none">
+      <div className="absolute inset-0 pointer-events-none ">
         <div className="absolute inset-0 bg-gradient-to-b from-black via-[#050505] to-black" />
         <motion.div
           className="absolute top-[20%] right-[10%] w-[400px] h-[400px] rounded-full opacity-20"

@@ -224,7 +224,7 @@ export default function LockedAndSecuredMockup() {
             }}
           />
 
-          <div className=" mt-8 w-[200px] md:mt-0 sm:w-[250px] lg:w-[320px]  ">
+          <div className=" mt-8 mb-16 sm:mb-0 w-[200px] md:mt-0 sm:w-[250px] lg:w-[320px]  ">
             {/* Phone outer frame */}
             <div className="rounded-[28px] sm:rounded-[36px] md:rounded-[40px] lg:rounded-[44px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[1.5px] sm:p-[2px] md:p-[2.5px] shadow-[0_20px_40px_rgba(0,0,0,0.5)] sm:shadow-[0_25px_50px_rgba(0,0,0,0.5)] md:shadow-[0_40px_80px_rgba(0,0,0,0.6)]">
               <div className="rounded-[26px] sm:rounded-[34px] md:rounded-[38px] lg:rounded-[42px] bg-[#0a0a0a] p-[6px] sm:p-[8px] md:p-[10px] lg:p-[12px]">

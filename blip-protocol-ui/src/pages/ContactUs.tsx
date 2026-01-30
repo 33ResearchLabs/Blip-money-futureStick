@@ -373,7 +373,7 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="w-24 h-24 rounded-full bg-[#ffffff]/20 flex items-center justify-center mb-8"
+          className="w-24 h-24 rounded-full2 bg-[#ffffff]/20 flex items-center justify-center mb-8"
         >
           <Check className="w-12 h-12 text-white/60" />
         </motion.div>
@@ -421,7 +421,7 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1  gap-6">
           <div className="space-y-2">
             <label className="text-[10px] uppercase tracking-widest text-white/40">
               Name (Optional)
@@ -485,7 +485,7 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
           </label>
           <textarea
             required
-            rows={4}
+            rows={5}
             placeholder="Your message..."
             value={formData.message}
             onChange={(e) =>

@@ -20,7 +20,7 @@ const CashbackBanner = () => {
   return (
     <section
       ref={containerRef}
-      className="relative md:py-32 py-10 bg-black overflow-hidden"
+      className="relative md:py-32 py-16 bg-black overflow-hidden"
     >
       {/* Animated gradient background */}
       <div className="absolute inset-0">
@@ -57,14 +57,7 @@ const CashbackBanner = () => {
       ))}
 
       {/* Horizontal animated lines */}
-      <motion.div
-        className="absolute top-1/3 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"
-        style={{ x }}
-      />
-      <motion.div
-        className="absolute bottom-1/3 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"
-        style={{ x: useTransform(scrollYProgress, [0, 1], [50, -50]) }}
-      />
+      
 
       <motion.div
         className="relative z-10 max-w-5xl mx-auto px-6"

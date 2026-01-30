@@ -139,7 +139,7 @@ const ProblemSection = () => {
                   className={`ml-20 md:ml-0  ${i % 2 === 0 ? "md:text-right md:pr-16" : "md:col-start-2 md:pl-16 md:text-left"}`}
                 >
                   <div
-                    className={`inline-block p-6 rounded-2xl border  ${problem.highlight ? "bg-white/[0.06] border border-[#ff6b35]/20" : "bg-white/[0.02] border border-white/20 "}`}
+                    className={`inline-block p-6 rounded-2xl border  ${problem.highlight ? "bg-white/[0.06] border border-white" : "bg-white/[0.02] border border-white/20 "}`}
                   >
                     <div
                       className={`text-[10px] uppercase tracking-[0.3em] ${problem.highlight ? "text-white/60" : "text-white/40"} font-medium mb-2`}

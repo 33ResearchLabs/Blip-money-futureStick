@@ -16,10 +16,10 @@ import {
   ArrowLeft,
   Shield,
   Globe,
-  CheckCircle2,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { SEO } from "@/components";
+import { toast } from "sonner";
 
 /* ============================================
    2025/2026 COMING SOON PAGE
@@ -247,9 +247,19 @@ const ComingSoon = () => {
 
       if (email.includes("@") && email.length > 5) {
         setStatus("success");
+        toast.success("You're on the list!", {
+          description: "We'll notify you as soon as we launch!",
+        });
+        setEmail(""); // Clear email after successful submission
       } else {
         setStatus("error");
+        toast.error("Invalid email", {
+          description: "Please enter a valid email address.",
+        });
       }
+
+      // Reset status after showing toast
+      setTimeout(() => setStatus("idle"), 2000);
     },
     [email, status],
   );
@@ -422,17 +432,17 @@ const ComingSoon = () => {
                         setEmail(e.target.value);
                         if (status === "error") setStatus("idle");
                       }}
-                      disabled={status === "loading" || status === "success"}
+                      disabled={status === "loading"}
                       className="w-full bg-white/[0.03] border border-white/[0.08] py-3.5 pl-11 pr-4 rounded-xl text-white placeholder:text-white/30 focus:outline-none focus:border-[#ffffff]/50 focus:ring-1 focus:ring-[#ffffff]/20 transition-all disabled:opacity-50"
                     />
                   </div>
 
                   <button
                     type="submit"
-                    disabled={status === "loading" || status === "success"}
-                    className="w-full bg-[#ffffff] text-black py-3.5 rounded-full font-semibold hover:bg-[#e5e5e5] hover:shadow-[0_0_40px_rgba(255,107,53,0.3)] transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2"
+                    disabled={status === "loading"}
+                    className="w-full bg-[#ffffff] text-black py-3.5 rounded-full font-semibold hover:bg-[#e5e5e5]  transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2"
                   >
-                    {status === "loading" && (
+                    {status === "loading" ? (
                       <>
                         <motion.div
                           animate={{ rotate: 360 }}
@@ -446,15 +456,7 @@ const ComingSoon = () => {
                         </motion.div>
                         <span>Subscribing...</span>
                       </>
-                    )}
-                    {status === "success" && (
-                      <>
-                        <CheckCircle2 className="w-4 h-4" />
-                        <span>You're on the list!</span>
-                      </>
-                    )}
-                    {status === "error" && <span>Try Again</span>}
-                    {status === "idle" && (
+                    ) : (
                       <>
                         <span>Notify Me</span>
                         <ArrowRight className="w-4 h-4" />
@@ -462,25 +464,6 @@ const ComingSoon = () => {
                     )}
                   </button>
                 </form>
-
-                {status === "success" && (
-                  <motion.p
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="mt-4 text-sm text-[#ffffff]"
-                  >
-                    We'll notify you as soon as we launch!
-                  </motion.p>
-                )}
-                {status === "error" && (
-                  <motion.p
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="mt-4 text-sm text-red-400"
-                  >
-                    Please enter a valid email address.
-                  </motion.p>
-                )}
               </div>
             </motion.div>
 

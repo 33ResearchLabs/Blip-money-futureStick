@@ -17,50 +17,62 @@ const CinematicHero = () => {
   const dashboardLayerRef = useRef<HTMLDivElement>(null);
 
   // Mouse tracking for parallax/antigravity effect
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
+ useEffect(() => {
+  let rafId: number | null = null;
+
+  const handleMouseMove = (e: MouseEvent) => {
+    if (rafId) return;
+
+    rafId = requestAnimationFrame(() => {
       const centerX = window.innerWidth / 2;
       const centerY = window.innerHeight / 2;
       const moveX = (e.clientX - centerX) / centerX;
       const moveY = (e.clientY - centerY) / centerY;
 
-      // Phone layer - more movement
       if (phoneLayerRef.current) {
-        const x = moveX * 25 * 0.02;
-        const y = moveY * 25 * 0.02;
-        const rotationX = moveY * 10 * 0.02;
-        const rotationY = -moveX * 10 * 0.02;
-        phoneLayerRef.current.style.transform = `translate3d(${x}px, ${y}px, 0) rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
+        phoneLayerRef.current.style.transform =
+          `translate3d(${moveX * 0.5}px, ${moveY * 0.5}px, 0)
+           rotateX(${moveY * 2}deg) rotateY(${-moveX * 2}deg)`;
       }
 
-      // Text layer - subtle movement
       if (textLayerRef.current) {
-        const x = moveX * 25 * 0.01;
-        const y = moveY * 25 * 0.01;
-        textLayerRef.current.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+        textLayerRef.current.style.transform =
+          `translate3d(${moveX * 0.3}px, ${moveY * 0.3}px, 0)`;
       }
 
-      // Dashboard layer - medium movement
       if (dashboardLayerRef.current) {
-        const x = moveX * 25 * 0.015;
-        const y = moveY * 25 * 0.015;
-        const rotationX = moveY * 10 * 0.015;
-        const rotationY = -moveX * 10 * 0.015;
-        dashboardLayerRef.current.style.transform = `translate3d(${x}px, ${y}px, 0) rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
-      }
-    };
+        const rx = Math.max(-6, Math.min(6, moveY * 2));
+        const ry = Math.max(-6, Math.min(6, -moveX * 2));
 
-    document.addEventListener("mousemove", handleMouseMove);
-    return () => document.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+        dashboardLayerRef.current.style.transform =
+          `translate3d(${moveX * 0.4}px, ${moveY * 0.4}px, 0)
+           rotateX(${rx}deg) rotateY(${ry}deg)`;
+      }
+
+      rafId = null;
+    });
+  };
+
+  document.addEventListener("mousemove", handleMouseMove);
+  return () => {
+    document.removeEventListener("mousemove", handleMouseMove);
+    if (rafId) cancelAnimationFrame(rafId);
+  };
+}, []);
+
 
   return (
     <section
       ref={ref}
-      className="relative min-h-screen  overflow-hidden bg-transparent"
+      className="relative min-h-screen overflow-x-hidden overflow-y-visible bg-transparent"
+
     >
       {/* Main Hero Content - 3-column Layout on Desktop */}
-      <main className="relative min-h-screen z-10 pt-24 md:pt-28 lg:pt-0 px-4 md:px-10 max-w-[1600px] mx-auto flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-6">
+      <main className="relative min-h-screen z-10 pt-24 md:pt-28 lg:pt-0 px-4 md:px-10 
+             max-w-[1600px] mx-auto flex flex-col lg:flex-row 
+             items-center justify-center gap-8 lg:gap-6"
+  style={{ perspective: "1200px" }}
+>
         {/* ==================== Phone Mockup (1st on mobile, 1st on desktop) ==================== */}
         <div
           className="w-full lg:w-1/3 flex justify-center order-1 lg:order-1 antigravity-layer relative z-20"

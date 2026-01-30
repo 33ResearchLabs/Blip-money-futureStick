@@ -124,6 +124,8 @@
     -webkit-overflow-scrolling: touch;
   }
 
+ 
+
   /* Smooth scroll container for hero sections */
   .smooth-scroll-container {
     scroll-behavior: smooth;
@@ -2310,9 +2312,12 @@
 
 /* Antigravity Layers */
 .antigravity-layer {
-  transition: transform 0.15s ease-out;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
   will-change: transform;
+  transition: transform 0.15s ease-out;
 }
+
 
 .phone-container-hero {
   perspective: 1500px;
@@ -2320,8 +2325,9 @@
 
 .dashboard-container-hero {
   perspective: 2000px;
-  filter: drop-shadow(0 40px 80px rgba(0, 0, 0, 0.9));
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.9);
 }
+
 
 /* Reflection effect - WebKit only (not supported in Firefox) */
 .reflect-hero {
