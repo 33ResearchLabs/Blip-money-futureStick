@@ -284,7 +284,7 @@ export const MerchantDashboardSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-lg text-white/40 max-w-2xl mx-auto"
+            className="md:text-lg text-base text-white/40 max-w-2xl md:mx-auto mx-4"
           >
             Real-time order matching. Set your rates. Accept orders. Get paid
             instantly. No custody, no risk.

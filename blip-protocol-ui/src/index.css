@@ -2323,9 +2323,10 @@
   filter: drop-shadow(0 40px 80px rgba(0, 0, 0, 0.9));
 }
 
-/* Reflection effect */
+/* Reflection effect - WebKit only (not supported in Firefox) */
 .reflect-hero {
-  -webkit-box-reflect: below 10px linear-gradient(transparent 70%, rgba(255, 255, 255, 0.1));
+  /* Disabled for Firefox compatibility */
+  /* -webkit-box-reflect: below 10px linear-gradient(transparent 70%, rgba(255, 255, 255, 0.1)); */
 }
 
 /* Subtle Float Animation */

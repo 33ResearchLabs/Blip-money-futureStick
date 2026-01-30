@@ -552,7 +552,7 @@ export default function LockedAndSecuredMockup() {
                           </div>
                           <div className="flex justify-between">
                             <span className="text-white/40">Fee</span>
-                            <span>$0.10</span>
+                            <span>$250</span>
                           </div>
 
                           <div className="border-t border-white/5" />
