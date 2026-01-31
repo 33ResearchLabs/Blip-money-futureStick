@@ -25,7 +25,7 @@ const LockedAndSecuredSection = () => {
       </div>
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-16 xl:gap-20 items-center">
-        <div className="flex flex-col justify-center items-center lg:hidden">
+        <div className="flex flex-col justify-center items-center md:hidden">
           <div className="inline-flex items-center gap-3 mb-6">
             <div className="relative w-10 h-10 rounded-lg border border-white/[0.08] flex items-center justify-center group hover:border-white/20 transition-colors">
               <Lock
@@ -81,7 +81,7 @@ const LockedAndSecuredSection = () => {
           </div>
 
           {/* Heading */}
-          <h2 className="hidden lg:block text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 sm:mb-6 leading-[1.1] tracking-tight">
+          <h2 className="hidden sm:block text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 sm:mb-6 leading-[1.1] tracking-tight">
             Locked &
             <br />
             <span className="text-white/20">secured.</span>

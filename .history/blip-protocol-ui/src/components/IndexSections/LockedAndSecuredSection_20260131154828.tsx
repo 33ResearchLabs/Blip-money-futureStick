@@ -81,7 +81,7 @@ const LockedAndSecuredSection = () => {
           </div>
 
           {/* Heading */}
-          <h2 className="hidden lg:block text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 sm:mb-6 leading-[1.1] tracking-tight">
+          <h2 className="hidden sm:block text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 sm:mb-6 leading-[1.1] tracking-tight">
             Locked &
             <br />
             <span className="text-white/20">secured.</span>
