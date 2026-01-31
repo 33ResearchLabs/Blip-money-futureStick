@@ -112,7 +112,7 @@ const CinematicHero = () => {
             </motion.div>
           </div>
 
-          <div className="w-full text-center lg:text-left mt-0 sm:mt-12 lg:mt-0 pb-2 sm:pb-8 lg:pb-24 ">
+          <div className="w-full text-center lg:text-left mt-0 sm:mt-12 lg:mt-0 pb-2 lg:pb-24 sm:pb-0">
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -248,7 +248,7 @@ const CinematicHero = () => {
                 delay: 0.1,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="hidden lg:block text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight tracking-tight max-w-xl mx-auto lg:mx-0"
+              className="hidden md:block text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight tracking-tight max-w-xl mx-auto lg:mx-0"
             >
               {/* Mobile */}
               <span className="block sm:hidden">

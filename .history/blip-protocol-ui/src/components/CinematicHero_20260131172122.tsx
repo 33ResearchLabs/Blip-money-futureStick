@@ -70,79 +70,43 @@ const CinematicHero = () => {
     >
       {/* Main Hero Content - 3-column Layout on Desktop */}
       <main
-        className="relative min-h-screen z-10 pt-10 sm:pt-24 md:pt-28 lg:pt-0 px-4 md:px-10 
+        className="relative min-h-screen z-10 pt-14 sm:pt-24 md:pt-28 lg:pt-0 px-4 md:px-10 
              max-w-[1600px] mx-auto flex flex-col lg:flex-row 
              items-center justify-center gap-8 lg:gap-6"
         style={{ perspective: "1200px" }}
       >
-        {/* only phone screen show  */}
-        <div
-          className="w-full lg:w-1/3 text-center lg:text-left px-4 lg:px-4 antigravity-layer order-1 lg:hidden"
-          ref={textLayerRef}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 1,
+            delay: 0.2,
+            ease: [0.16, 1, 0.3, 1],
+          }}
+          className="hidden order-1 md:order-none md:flex items-center justify-center sm:py-2 lg:justify-start gap-2 mb-6 sm:mb-4"
         >
-          <div className="">
-            {/* Powered by crypto badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 1,
-                delay: 0.2,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              className="flex items-center justify-center sm:py-2 lg:justify-start gap-2 mb-0 sm:mb-4"
-            >
-              <div className="flex items-center gap-2 px-3 my-3 sm:my-0 py-1.5 sm:py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06]">
-                <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#ff8c5a] flex items-center justify-center">
-                  <svg
-                    className="w-3 h-3 text-white"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                  >
-                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                    <path d="M2 17l10 5 10-5" />
-                    <path d="M2 12l10 5 10-5" />
-                  </svg>
-                </div>
-                <span className="text-xs text-white/50">Powered by</span>
-                <span className="text-xs font-semibold text-white">Solana</span>
-              </div>
-            </motion.div>
+          <div className="flex items-center gap-2 px-3 my-3 sm:my-0 sm:py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06]">
+            <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#ff8c5a] flex items-center justify-center">
+              <svg
+                className="w-3 h-3 text-white"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+              >
+                <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                <path d="M2 17l10 5 10-5" />
+                <path d="M2 12l10 5 10-5" />
+              </svg>
+            </div>
+            <span className="text-xs text-white/50">Powered by</span>
+            <span className="text-xs font-semibold text-white">Solana</span>
           </div>
-
-          <div className="w-full text-center lg:text-left mt-0 sm:mt-12 lg:mt-0 pb-2 sm:pb-8 lg:pb-24 ">
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.8,
-                delay: 0.1,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight tracking-tight max-w-xl mx-auto lg:mx-0"
-            >
-              {/* Mobile */}
-              <span className="block sm:hidden">
-                Send money anywhere
-                <br />
-                <span className="text-white/40">anytime.</span>
-              </span>
-
-              {/* Desktop */}
-              <span className="hidden sm:inline">
-                Send money anywhere,
-                <br />
-                <span className="text-white/40">anytime.</span>
-              </span>
-            </motion.h1>
-          </div>
-        </div>
+        </motion.div>
 
         {/* ==================== Phone Mockup (1st on mobile, 1st on desktop) ==================== */}
         <div
-          className="w-full lg:w-1/3 flex justify-center order-2 md:order-1 antigravity-layer relative z-20 "
+          className="w-full lg:w-1/3 flex justify-center order-1 lg:order-1 antigravity-layer relative z-20 "
           ref={phoneLayerRef}
         >
           <div className="phone-container-hero animate-float-hero reflect-hero ">
@@ -236,10 +200,10 @@ const CinematicHero = () => {
 
         {/* ==================== Text Content (2nd on mobile, 2nd on desktop) ==================== */}
         <div
-          className="w-full lg:w-1/3 text-center lg:text-left px-4 lg:px-4 antigravity-layer order-3 lg:order-2"
+          className="w-full lg:w-1/3 text-center lg:text-left px-4 lg:px-4 antigravity-layer order-2 lg:order-2"
           ref={textLayerRef}
         >
-          <div className="w-full text-center lg:text-left mt-2 sm:mt-12 lg:mt-0 pb-2 lg:pb-24 ">
+          <div className="w-full text-center lg:text-left mt-2 sm:mt-12 lg:mt-0 pb-24 sm:pb-0">
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -248,7 +212,7 @@ const CinematicHero = () => {
                 delay: 0.1,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="hidden lg:block text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight tracking-tight max-w-xl mx-auto lg:mx-0"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight tracking-tight max-w-xl mx-auto lg:mx-0"
             >
               {/* Mobile */}
               <span className="block sm:hidden">
@@ -275,7 +239,7 @@ const CinematicHero = () => {
                   delay: 0.2,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="hidden lg:flex items-center justify-center sm:py-2 lg:justify-start gap-2 mb-6 sm:mb-4"
+                className="hidden  md:flex items-center justify-center sm:py-2 lg:justify-start gap-2 mb-6 sm:mb-4"
               >
                 <div className="flex items-center gap-2 px-3 my-3 sm:my-0 sm:py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06]">
                   <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#ff8c5a] flex items-center justify-center">
@@ -363,7 +327,7 @@ const CinematicHero = () => {
 
         {/* ==================== Dashboard Panel (3rd on mobile, 3rd on desktop) ==================== */}
         <div
-          className="w-full px-2 sm:px-0 lg:w-1/3 flex justify-center antigravity-layer order-4 lg:order-3"
+          className="w-full px-2 sm:px-0 lg:w-1/3 flex justify-center antigravity-layer order-3 lg:order-3"
           ref={dashboardLayerRef}
         >
           <div
@@ -481,7 +445,7 @@ const CinematicHero = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5 }}
-          className="lg:hidden order-5 md:order-4 mt-12 sm:mt-16 flex items-center justify-center gap-3"
+          className="lg:hidden order-4 mt-12 sm:mt-16 flex items-center justify-center gap-3"
         >
           <span className="text-white/30 text-xs uppercase tracking-widest font-medium">
             Scroll to explore
