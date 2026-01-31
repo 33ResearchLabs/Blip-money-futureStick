@@ -212,7 +212,7 @@ const CinematicHero = () => {
                 }}
                 className="flex items-center justify-center sm:py-2 lg:justify-start gap-2 mb-6 sm:mb-4"
               >
-                <div className="flex items-center gap-2 px-3 my-3 sm:my-0 sm:py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06]">
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06]">
                   <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#ff8c5a] flex items-center justify-center">
                     <svg
                       className="w-3 h-3 text-white"

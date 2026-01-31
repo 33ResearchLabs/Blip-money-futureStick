@@ -85,7 +85,8 @@ const CinematicHero = () => {
               {/* iPhone physical buttons */}
 
               {/* Screen */}
-              <div className="w-full h-full bg-black rounded-[3.2rem] relative overflow-hidden ring-1 ring-white/10">
+              {/* <div className="w-full h-full bg-black rounded-[3.2rem] relative overflow-hidden ring-1 ring-white/10"> */}
+              <div className="rounded-[28px] sm:rounded-[36px] md:rounded-[40px] lg:rounded-[44px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[1.5px] sm:p-[2px] md:p-[2.5px] shadow-[0_20px_40px_rgba(0,0,0,0.5)] sm:shadow-[0_25px_50px_rgba(0,0,0,0.5)] md:shadow-[0_40px_80px_rgba(0,0,0,0.6)]">
                 <div className="iphone-reflection" />
 
                 {/* Status bar */}
@@ -212,7 +213,7 @@ const CinematicHero = () => {
                 }}
                 className="flex items-center justify-center sm:py-2 lg:justify-start gap-2 mb-6 sm:mb-4"
               >
-                <div className="flex items-center gap-2 px-3 my-3 sm:my-0 sm:py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06]">
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06]">
                   <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#ff8c5a] flex items-center justify-center">
                     <svg
                       className="w-3 h-3 text-white"
