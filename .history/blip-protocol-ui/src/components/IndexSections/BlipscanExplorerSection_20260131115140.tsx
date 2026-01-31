@@ -128,7 +128,7 @@ const BlipscanExplorerSection = () => {
           <div className="absolute -inset-4 bg-gradient-to-b from-white/[0.03] via-transparent to-transparent blur-3xl" />
 
           {/* Main container */}
-          <div className="relative h-[450px] sm:[600px]  rounded-2xl border border-white/[0.06] bg-black/40 backdrop-blur-xl overflow-hidden">
+          <div className="relative rounded-2xl border border-white/[0.06] bg-black/40 backdrop-blur-xl overflow-hidden">
             {/* Header bar */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.06]">
               <div className="flex items-center gap-3">
@@ -259,7 +259,7 @@ const BlipscanExplorerSection = () => {
               </div>
 
               {/* Footer */}
-              <div className="hidden sm:flex items-center justify-between mt-6 pt-4 border-t border-white/[0.04]">
+              <div className="flex items-center justify-between mt-6 pt-4 border-t border-white/[0.04]">
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-[#ff6b35]" />
                   <span className="text-xs text-white/30">

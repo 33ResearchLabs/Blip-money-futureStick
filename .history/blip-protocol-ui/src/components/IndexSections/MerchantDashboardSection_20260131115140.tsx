@@ -5,10 +5,7 @@ import {
   useTransform,
   AnimatePresence,
 } from "framer-motion";
-import {
-  MerchantDashboardVisual,
-  MerchantDashboardVisualHomepage,
-} from "../MerchantDashboard";
+import { MerchantDashboardVisual, MerchantDashboardVisualHomepage } from "../MerchantDashboard";
 
 /* ============================================
    SECTION 6.5: MERCHANT DASHBOARD - Linear.app style
@@ -24,7 +21,7 @@ export const MerchantDashboardSection = () => {
   const opacity = useTransform(
     scrollYProgress,
     [0, 0.15, 0.85, 1],
-    [0, 1, 1, 0]
+    [0, 1, 1, 0],
   );
   const scale = useTransform(scrollYProgress, [0, 0.2], [0.95, 1]);
 
@@ -181,7 +178,7 @@ export const MerchantDashboardSection = () => {
 
         showNotification(
           "Order auto-matched",
-          `${order.amount} moved to escrow`
+          `${order.amount} moved to escrow`,
         );
 
         return rest;
@@ -200,7 +197,7 @@ export const MerchantDashboardSection = () => {
         const updated = prev.map((order) =>
           order.progress < 100
             ? { ...order, progress: order.progress + 20 }
-            : order
+            : order,
         );
 
         const completedOrders = updated.filter((o) => o.progress >= 100);
@@ -217,7 +214,7 @@ export const MerchantDashboardSection = () => {
 
           showNotification(
             "Auto settlement completed",
-            `${completedOrders[0].amount} released`
+            `${completedOrders[0].amount} released`,
           );
         }
 
@@ -303,7 +300,7 @@ export const MerchantDashboardSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="hidden sm:grid grid-cols-1 md:grid-cols-3 gap-6 mt-16"
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16"
         >
           {[
             {

@@ -51,9 +51,7 @@ export const MerchantDashboard = () => {
       id,
       user: mockUsers[Math.floor(Math.random() * mockUsers.length)],
       userName: mockUserNames[Math.floor(Math.random() * mockUserNames.length)],
-      amount: `${Math.floor(100 + Math.random() * 1500).toLocaleString(
-        "en-US"
-      )} USDT`,
+      amount: `${(Math.floor(100 + Math.random() * 1500)).toLocaleString("en-US")} USDT`,
 
       rate: mockRates[Math.floor(Math.random() * mockRates.length)],
       time: "just now",
@@ -114,7 +112,7 @@ export const MerchantDashboard = () => {
         setInEscrow((escrow) => [{ ...order, progress: 40 }, ...escrow]);
         showNotification(
           "Order auto-matched",
-          `${order.amount} moved to escrow`
+          `${order.amount} moved to escrow`,
         );
         return rest;
       });
@@ -129,7 +127,7 @@ export const MerchantDashboard = () => {
         const updated = prev.map((order) =>
           order.progress < 100
             ? { ...order, progress: order.progress + 20 }
-            : order
+            : order,
         );
         const completedOrders = updated.filter((o) => o.progress >= 100);
         const remaining = updated.filter((o) => o.progress < 100);
@@ -140,7 +138,7 @@ export const MerchantDashboard = () => {
           ]);
           showNotification(
             "Auto settlement completed",
-            `${completedOrders[0].amount} released`
+            `${completedOrders[0].amount} released`,
           );
         }
         return remaining;
@@ -306,11 +304,7 @@ export const MerchantDashboard = () => {
                   {["24h", "7d", "30d"].map((p) => (
                     <button
                       key={p}
-                      className={`px-1.5 py-0.5 rounded text-[10px] ${
-                        p === "7d"
-                          ? "bg-white/[0.08] text-white"
-                          : "text-white/50"
-                      }`}
+                      className={`px-1.5 py-0.5 rounded text-[10px] ${p === "7d" ? "bg-white/[0.08] text-white" : "text-white/50"}`}
                     >
                       {p}
                     </button>
@@ -325,7 +319,7 @@ export const MerchantDashboard = () => {
                       className="flex-1 bg-gradient-to-t from-white/20 to-white/5 rounded-sm"
                       style={{ height: `${h}%` }}
                     />
-                  )
+                  ),
                 )}
               </div>
             </div>
@@ -494,7 +488,7 @@ export const MerchantDashboardVisual = () => {
   const opacity = useTransform(
     scrollYProgress,
     [0, 0.15, 0.85, 1],
-    [0, 1, 1, 0]
+    [0, 1, 1, 0],
   );
   const scale = useTransform(scrollYProgress, [0, 0.2], [0.95, 1]);
 
@@ -652,7 +646,7 @@ export const MerchantDashboardVisual = () => {
 
         showNotification(
           "Order auto-matched",
-          `${order.amount} moved to escrow`
+          `${order.amount} moved to escrow`,
         );
 
         return rest;
@@ -671,7 +665,7 @@ export const MerchantDashboardVisual = () => {
         const updated = prev.map((order) =>
           order.progress < 100
             ? { ...order, progress: order.progress + 20 }
-            : order
+            : order,
         );
 
         const completedOrders = updated.filter((o) => o.progress >= 100);
@@ -688,7 +682,7 @@ export const MerchantDashboardVisual = () => {
 
           showNotification(
             "Auto settlement completed",
-            `${completedOrders[0].amount} released`
+            `${completedOrders[0].amount} released`,
           );
         }
 
@@ -912,9 +906,7 @@ export const MerchantDashboardVisual = () => {
                             {stat.value}
                           </div>
                           <div
-                            className={`text-[10px] font-medium ${
-                              stat.up ? "text-emerald-400" : "text-red-400"
-                            }`}
+                            className={`text-[10px] font-medium ${stat.up ? "text-emerald-400" : "text-red-400"}`}
                           >
                             {stat.change}
                           </div>
@@ -1475,7 +1467,7 @@ export const MerchantDashboardVisualHomepage = () => {
   const opacity = useTransform(
     scrollYProgress,
     [0, 0.15, 0.85, 1],
-    [0, 1, 1, 0]
+    [0, 1, 1, 0],
   );
   const scale = useTransform(scrollYProgress, [0, 0.2], [0.95, 1]);
 
@@ -1550,9 +1542,7 @@ export const MerchantDashboardVisualHomepage = () => {
       id,
       user: mockUsers[Math.floor(Math.random() * mockUsers.length)],
       userName: mockUserNames[Math.floor(Math.random() * mockUserNames.length)],
-      amount: `${Math.floor(100 + Math.random() * 1500).toLocaleString(
-        "en-US"
-      )} USDT`,
+      amount: `${(Math.floor(100 + Math.random() * 1500)).toLocaleString("en-US")} USDT`,
 
       rate: mockRates[Math.floor(Math.random() * mockRates.length)],
       time: "just now",
@@ -1636,7 +1626,7 @@ export const MerchantDashboardVisualHomepage = () => {
 
         showNotification(
           "Order auto-matched",
-          `${order.amount} moved to escrow`
+          `${order.amount} moved to escrow`,
         );
 
         return rest;
@@ -1655,7 +1645,7 @@ export const MerchantDashboardVisualHomepage = () => {
         const updated = prev.map((order) =>
           order.progress < 100
             ? { ...order, progress: order.progress + 20 }
-            : order
+            : order,
         );
 
         const completedOrders = updated.filter((o) => o.progress >= 100);
@@ -1672,7 +1662,7 @@ export const MerchantDashboardVisualHomepage = () => {
 
           showNotification(
             "Auto settlement completed",
-            `${completedOrders[0].amount} released`
+            `${completedOrders[0].amount} released`,
           );
         }
 
@@ -1903,9 +1893,7 @@ export const MerchantDashboardVisualHomepage = () => {
                             {stat.value}
                           </div>
                           <div
-                            className={`text-[10px] font-medium ${
-                              stat.up ? "text-emerald-400" : "text-red-400"
-                            }`}
+                            className={`text-[10px] font-medium ${stat.up ? "text-emerald-400" : "text-red-400"}`}
                           >
                             {stat.change}
                           </div>
@@ -1915,7 +1903,7 @@ export const MerchantDashboardVisualHomepage = () => {
                   </div>
 
                   {/* Chart area - Premium Volume Overview */}
-                  <div className="hidden sm:block mb-4 p-4 rounded-xl bg-gradient-to-br from-[#0c0c0c] to-[#080808] border border-white/[0.04] relative overflow-hidden">
+                  <div className="mb-4 p-4 rounded-xl bg-gradient-to-br from-[#0c0c0c] to-[#080808] border border-white/[0.04] relative overflow-hidden">
                     {/* Subtle glow effect */}
                     <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/[0.03] blur-[60px] rounded-full" />
 
@@ -2252,7 +2240,7 @@ export const MerchantDashboardVisualHomepage = () => {
                   </div>
 
                   {/* Live matching indicator */}
-                  <div className="hidden sm:block mt-4 p-3 rounded-lg bg-[#0c0c0c] border border-white/[0.03]">
+                  <div className="mt-4 p-3 rounded-lg bg-[#0c0c0c] border border-white/[0.03]">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">
@@ -2289,7 +2277,7 @@ export const MerchantDashboardVisualHomepage = () => {
                   </div>
 
                   {/* Recent Activity, Messages & Quick Actions */}
-                  <div className="hidden mt-3 sm:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                  <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                     {/* Recent Activity */}
                     <div className="p-3 rounded-lg bg-[#0c0c0c] border border-white/[0.03]">
                       <div className="flex items-center justify-between mb-2">

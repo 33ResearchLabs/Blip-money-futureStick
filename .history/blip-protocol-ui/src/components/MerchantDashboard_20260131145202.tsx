@@ -1915,7 +1915,7 @@ export const MerchantDashboardVisualHomepage = () => {
                   </div>
 
                   {/* Chart area - Premium Volume Overview */}
-                  <div className="hidden sm:block mb-4 p-4 rounded-xl bg-gradient-to-br from-[#0c0c0c] to-[#080808] border border-white/[0.04] relative overflow-hidden">
+                  <div className="mb-4 p-4 rounded-xl bg-gradient-to-br from-[#0c0c0c] to-[#080808] border border-white/[0.04] relative overflow-hidden">
                     {/* Subtle glow effect */}
                     <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/[0.03] blur-[60px] rounded-full" />
 
@@ -2252,7 +2252,7 @@ export const MerchantDashboardVisualHomepage = () => {
                   </div>
 
                   {/* Live matching indicator */}
-                  <div className="hidden sm:block mt-4 p-3 rounded-lg bg-[#0c0c0c] border border-white/[0.03]">
+                  <div className="mt-4 p-3 rounded-lg bg-[#0c0c0c] border border-white/[0.03]">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">

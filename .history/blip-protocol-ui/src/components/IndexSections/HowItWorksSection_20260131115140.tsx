@@ -106,18 +106,12 @@ const HowItWorksSection = () => {
             ].map((bid, i) => (
               <div
                 key={i}
-                className={`p-2.5 sm:p-3 rounded-lg sm:rounded-xl ${
-                  bid.best
-                    ? "bg-white/[0.06] border border-white/20"
-                    : "bg-white/[0.02] border border-white/[0.04]"
-                }`}
+                className={`p-2.5 sm:p-3 rounded-lg sm:rounded-xl ${bid.best ? "bg-white/[0.06] border border-white/20" : "bg-white/[0.02] border border-white/[0.04]"}`}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div
-                      className={`w-6 sm:w-7 h-6 sm:h-7 rounded-md sm:rounded-lg ${
-                        bid.best ? "bg-white/10" : "bg-white/5"
-                      } flex items-center justify-center`}
+                      className={`w-6 sm:w-7 h-6 sm:h-7 rounded-md sm:rounded-lg ${bid.best ? "bg-white/10" : "bg-white/5"} flex items-center justify-center`}
                     >
                       {bid.best ? (
                         <CheckCircle2 className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-white" />
@@ -202,9 +196,7 @@ const HowItWorksSection = () => {
                   </div>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-xs sm:text-sm md:text-base lg:text-lg text-white">
-                    {tx.to}
-                  </span>
+                  <span className="text-xs sm:text-sm md:text-base lg:text-lg text-white">{tx.to}</span>
                   <span className="text-xs sm:text-sm md:text-base lg:text-lg font-semibold text-white">
                     {tx.amount}
                   </span>
@@ -307,18 +299,7 @@ const HowItWorksSection = () => {
                     {step.app}
                   </span>
                 </div>
-                {/* Content */}
-                <div className=" sm:hidden mt-8 sm:mt-10 my-6">
-                  <span className="inline-block px-2.5 py-1 rounded-full bg-white/10 text-white/60 text-[10px] sm:text-xs font-mono mb-2 sm:mb-3">
-                    {step.num}
-                  </span>
-                  <h3 className="text-xl sm:text-2xl font-semibold text-white mb-2 sm:mb-3">
-                    {step.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-white/40 leading-relaxed max-w-[280px] mx-auto px-4 md:px-0">
-                    {step.desc}
-                  </p>
-                </div>
+
                 {/* Phone mockup - optimized for mobile */}
                 <div className="relative mx-auto mb-8 w-[200px] sm:w-[220px] md:w-[240px] lg:w-[260px]">
                   <div className="rounded-[32px] sm:rounded-[36px] md:rounded-[38px] lg:rounded-[40px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[2px] sm:p-[3px] shadow-[0_20px_40px_rgba(0,0,0,0.5)] sm:shadow-[0_30px_60px_rgba(0,0,0,0.6)]">
@@ -367,7 +348,7 @@ const HowItWorksSection = () => {
                 </div>
 
                 {/* Content */}
-                <div className="hidden sm:block mt-8 sm:mt-10">
+                <div className="mt-8 sm:mt-10">
                   <span className="inline-block px-2.5 py-1 rounded-full bg-white/10 text-white/60 text-[10px] sm:text-xs font-mono mb-2 sm:mb-3">
                     {step.num}
                   </span>

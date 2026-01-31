@@ -279,7 +279,7 @@ const CinematicHero = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.5 }}
-                className="hidden mt-12 sm:mt-16 lg:flex items-center justify-center gap-3"
+                className="hidden mt-12 sm:mt-16 md:flex items-center justify-center gap-3"
               >
                 <span className="text-white/30 text-xs uppercase tracking-widest font-medium">
                   Scroll to explore

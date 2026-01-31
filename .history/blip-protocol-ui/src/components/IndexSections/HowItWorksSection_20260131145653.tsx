@@ -308,7 +308,7 @@ const HowItWorksSection = () => {
                   </span>
                 </div>
                 {/* Content */}
-                <div className=" sm:hidden mt-8 sm:mt-10 my-6">
+                <div className=" sm:hidden mt-8 sm:mt-10">
                   <span className="inline-block px-2.5 py-1 rounded-full bg-white/10 text-white/60 text-[10px] sm:text-xs font-mono mb-2 sm:mb-3">
                     {step.num}
                   </span>

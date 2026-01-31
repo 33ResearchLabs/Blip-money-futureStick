@@ -195,11 +195,11 @@ const EarlyAdopterBanner = () => {
 
             {/* Stats footer */}
             <div className="mt-12 pt-8 border-t border-white/[0.06]">
-              <div className="grid grid-cols-3  items-center justify-center gap-8 md:gap-16">
+              <div className="grid grid-cols-3 sm:grid-cols-1 items-center justify-center gap-8 md:gap-16">
                 {[
                   { value: "2,847", label: "Early adopters" },
                   { value: "$284K", label: "Tokens distributed" },
-                  { value: "12days", label: "Until deadline" },
+                  { value: "12 days", label: "Until deadline" },
                 ].map((stat) => (
                   <div key={stat.label} className="text-center">
                     <div className="text-xl font-bold text-white">

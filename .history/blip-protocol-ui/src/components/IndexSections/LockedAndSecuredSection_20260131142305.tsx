@@ -25,7 +25,7 @@ const LockedAndSecuredSection = () => {
       </div>
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-16 xl:gap-20 items-center">
-        <div className="flex flex-col justify-center items-center xl:hidden">
+        <div className="flex flex-col justify-center items-center sm:hidden">
           <div className="inline-flex items-center gap-3 mb-6">
             <div className="relative w-10 h-10 rounded-lg border border-white/[0.08] flex items-center justify-center group hover:border-white/20 transition-colors">
               <Lock
@@ -67,7 +67,7 @@ const LockedAndSecuredSection = () => {
           transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
         >
           {/* Step indicator */}
-          <div className="hidden inline-flex items-center gap-3 mb-6">
+          <div className="inline-flex items-center gap-3 mb-6">
             <div className="relative w-10 h-10 rounded-lg border border-white/[0.08] flex items-center justify-center group hover:border-white/20 transition-colors">
               <Lock
                 className="w-4 h-4 text-white/40 group-hover:text-[#ff6b35] transition-colors"

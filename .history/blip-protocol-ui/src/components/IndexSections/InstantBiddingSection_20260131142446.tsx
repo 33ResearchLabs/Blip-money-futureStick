@@ -288,7 +288,7 @@ const InstantBiddingSection = () => {
                 </div>
 
                 {/* Right Panel - Live Merchant Bids */}
-                <div className="hidden sm:block lg:col-span-7">
+                <div className="hidden lg:col-span-7">
                   <div className="flex items-center justify-between mb-4">
                     <div>
                       <h3 className="text-lg font-bold text-white">

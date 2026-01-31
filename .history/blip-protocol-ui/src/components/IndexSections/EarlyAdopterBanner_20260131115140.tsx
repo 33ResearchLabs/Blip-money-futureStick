@@ -17,7 +17,7 @@ const EarlyAdopterBanner = () => {
   const scale = useTransform(
     scrollYProgress,
     [0, 0.3, 0.7, 1],
-    [0.95, 1, 1, 0.95]
+    [0.95, 1, 1, 0.95],
   );
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
 
@@ -107,7 +107,10 @@ const EarlyAdopterBanner = () => {
                   border: "1px solid rgba(255, 255, 255, 0.15)",
                 }}
               >
-                <motion.div className="w-2 h-2 rounded-full bg-[#ff6b35]" />
+                <motion.div
+                  className="w-2 h-2 rounded-full bg-[#ff6b35]"
+                  
+                />
                 <span className="text-xs uppercase tracking-[0.2em] text-white/60 font-medium">
                   Limited Time Offer
                 </span>
@@ -195,11 +198,11 @@ const EarlyAdopterBanner = () => {
 
             {/* Stats footer */}
             <div className="mt-12 pt-8 border-t border-white/[0.06]">
-              <div className="grid grid-cols-3  items-center justify-center gap-8 md:gap-16">
+              <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16">
                 {[
                   { value: "2,847", label: "Early adopters" },
                   { value: "$284K", label: "Tokens distributed" },
-                  { value: "12days", label: "Until deadline" },
+                  { value: "12 days", label: "Until deadline" },
                 ].map((stat) => (
                   <div key={stat.label} className="text-center">
                     <div className="text-xl font-bold text-white">

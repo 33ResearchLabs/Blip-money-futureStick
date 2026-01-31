@@ -136,9 +136,7 @@ const InstantBiddingSection = () => {
           <motion.div
             className="absolute inset-0 rounded-2xl pointer-events-none z-10"
             style={{
-              background: `linear-gradient(${
-                130 + mousePosition.x * 20
-              }deg, rgba(255,255,255,0.04) 0%, transparent 40%, rgba(0,0,0,0.1) 100%)`,
+              background: `linear-gradient(${130 + mousePosition.x * 20}deg, rgba(255,255,255,0.04) 0%, transparent 40%, rgba(0,0,0,0.1) 100%)`,
             }}
           />
 
@@ -288,7 +286,7 @@ const InstantBiddingSection = () => {
                 </div>
 
                 {/* Right Panel - Live Merchant Bids */}
-                <div className="hidden sm:block lg:col-span-7">
+                <div className="lg:col-span-7">
                   <div className="flex items-center justify-between mb-4">
                     <div>
                       <h3 className="text-lg font-bold text-white">
@@ -370,7 +368,9 @@ const InstantBiddingSection = () => {
                           <div className="flex items-center gap-3">
                             <div
                               className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl ${
-                                bid.best ? "bg-[#ff6b35]/20" : "bg-white/[0.05]"
+                                bid.best
+                                  ? "bg-[#ff6b35]/20"
+                                  : "bg-white/[0.05]"
                               }`}
                             >
                               {bid.avatar}
@@ -406,9 +406,7 @@ const InstantBiddingSection = () => {
                               </div>
                             </div>
                             <motion.div
-                              className={`w-3 h-3 rounded-full ${
-                                bid.best ? "bg-[#ff6b35]" : "bg-white/20"
-                              }`}
+                              className={`w-3 h-3 rounded-full ${bid.best ? "bg-[#ff6b35]" : "bg-white/20"}`}
                               animate={bid.best ? { scale: [1, 1.2, 1] } : {}}
                               transition={{ duration: 1, repeat: Infinity }}
                             />
