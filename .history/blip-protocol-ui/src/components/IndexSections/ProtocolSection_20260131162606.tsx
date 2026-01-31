@@ -85,7 +85,7 @@ const ProtocolSection = () => {
         </div>
 
         {/* Features - with orange accents */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 sm:mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
           {[
             { label: "Zero-Knowledge", desc: "Privacy by default", icon: "🔐" },
             {
@@ -113,7 +113,6 @@ const ProtocolSection = () => {
             >
               {/* Hover glow */}
               <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-40 h-40 bg-white opacity-0 group-hover:opacity-[0.06] blur-[60px] rounded-full transition-opacity duration-500" />
-
               <div className="flex gap-2 sm:flex-col justify-center items-center">
                 <span className="text-3xl mb-4 block">{item.icon}</span>
                 <h3 className="text-lg font-medium text-white mb-2 group-hover:text-white/80 transition-colors">
@@ -140,7 +139,7 @@ const ProtocolSection = () => {
             href="/whitepaper.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white text-black text-sm font-semibold hover:bg-white/90 hover:shadow-[0_0_40px_rgba(255,255,255,0.2)] transition-all duration-300"
+            className="group inline-flex items-center gap-3 px-8 py-1 sm:py-4 rounded-full bg-white text-black text-sm font-semibold hover:bg-white/90 hover:shadow-[0_0_40px_rgba(255,255,255,0.2)] transition-all duration-300"
           >
             <span>Read the Whitepaper</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

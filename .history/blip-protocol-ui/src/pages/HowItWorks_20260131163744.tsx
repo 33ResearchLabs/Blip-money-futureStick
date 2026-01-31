@@ -48,9 +48,9 @@ const HeroSection = () => {
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
 
   return (
-    <motion.section ref={ref} className="relative " style={{ opacity }}>
-      <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
-        {/* Background with parallax */}
+    <motion.section ref={ref} className="relative" style={{ opacity }}>
+      <div className="sticky top-0 min-h-[100svh] flex items-center justify-center overflow-hidden">
+        {/* Background */}
         <motion.div className="absolute inset-0 z-0" style={{ y, scale }}>
           <img
             src="https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=2832&auto=format&fit=crop"
@@ -60,22 +60,22 @@ const HeroSection = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black" />
         </motion.div>
 
-        {/* Grid overlay */}
+        {/* Grid */}
         <div className="absolute inset-0 z-[1] opacity-[0.03]">
           <div
             className="w-full h-full"
             style={{
               backgroundImage: `
-                linear-gradient(to right, white 1px, transparent 1px),
-                linear-gradient(to bottom, white 1px, transparent 1px)
-              `,
+            linear-gradient(to right, white 1px, transparent 1px),
+            linear-gradient(to bottom, white 1px, transparent 1px)
+          `,
               backgroundSize: "80px 80px",
             }}
           />
         </div>
 
         {/* Content */}
-        <div className="relative z-10 -top-20 sm:top-0 text-center px-6 max-w-5xl mx-auto py-10">
+        <div className="relative z-10 text-center px-6 max-w-5xl mx-auto pt-6 sm:pt-0">
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -93,23 +93,20 @@ const HeroSection = () => {
             </span>
           </motion.div>
 
-          {/* Headlines */}
-          <div className="o mb-6 ">
-            <motion.h1
-              initial={{ y: 150 }}
-              animate={{ y: 0 }}
-              transition={{
-                duration: 1.2,
-                delay: 0.3,
-                ease: [0.16, 1, 0.3, 1], //text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl
-              }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-8xl font-semibold text-white leading-[1.20] tracking-[-0.04em] "
-            >
-              <span className="block">Value. Settled.</span>
-
-              <span className="block text-white/20">Privately.</span>
-            </motion.h1>
-          </div>
+          {/* Headline */}
+          <motion.h1
+            initial={{ y: 150 }}
+            animate={{ y: 0 }}
+            transition={{
+              duration: 1.2,
+              delay: 0.3,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-8xl font-semibold text-white leading-[1.2] tracking-[-0.04em] mb-6"
+          >
+            <span className="block">Value. Settled.</span>
+            <span className="block text-white/20">Privately.</span>
+          </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 30 }}
@@ -121,12 +118,12 @@ const HeroSection = () => {
             transfer.
           </motion.p>
 
-          {/* Scroll indicator */}
+          {/* Scroll Indicator */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.5 }}
-            className="absolute top-[400px] sm:top-[400px] left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
+            className="absolute bottom-10 sm:bottom-16 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
           >
             <span className="text-xs text-white/40 uppercase tracking-[0.2em]">
               Explore

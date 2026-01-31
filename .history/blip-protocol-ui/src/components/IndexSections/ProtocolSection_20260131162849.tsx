@@ -85,7 +85,7 @@ const ProtocolSection = () => {
         </div>
 
         {/* Features - with orange accents */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 sm:mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 sm:mb-16">
           {[
             { label: "Zero-Knowledge", desc: "Privacy by default", icon: "🔐" },
             {

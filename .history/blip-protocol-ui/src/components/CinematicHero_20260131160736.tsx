@@ -115,7 +115,7 @@ const CinematicHero = () => {
                 {/* Screen Content */}
                 <div className="p-3 pt-10 sm:pt-14 flex flex-col h-full">
                   <Logo className="text-sm" />
-                  <div className="text-[11px] text-white/40 mb-2 sm:mb-6 font-medium px-2 py-2">
+                  <div className="text-[11px] text-white/40 mb-6 font-medium px-2 py-2">
                     Accepting Requests
                   </div>
 

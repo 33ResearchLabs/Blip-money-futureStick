@@ -44,7 +44,7 @@ const ProtocolSection = () => {
 
       <div className="relative z-10 max-w-6xl mx-auto px-6">
         {/* Header */}
-        <div className="text-center mb-10 sm:mb-20">
+        <div className="text-center mb-20">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -85,7 +85,7 @@ const ProtocolSection = () => {
         </div>
 
         {/* Features - with orange accents */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 sm:mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
           {[
             { label: "Zero-Knowledge", desc: "Privacy by default", icon: "🔐" },
             {
@@ -113,8 +113,7 @@ const ProtocolSection = () => {
             >
               {/* Hover glow */}
               <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-40 h-40 bg-white opacity-0 group-hover:opacity-[0.06] blur-[60px] rounded-full transition-opacity duration-500" />
-
-              <div className="flex gap-2 sm:flex-col justify-center items-center">
+              <div className="flex sm:flex-col justify-center items-center">
                 <span className="text-3xl mb-4 block">{item.icon}</span>
                 <h3 className="text-lg font-medium text-white mb-2 group-hover:text-white/80 transition-colors">
                   {item.label}

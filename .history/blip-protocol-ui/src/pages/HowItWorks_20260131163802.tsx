@@ -75,7 +75,7 @@ const HeroSection = () => {
         </div>
 
         {/* Content */}
-        <div className="relative z-10 -top-20 sm:top-0 text-center px-6 max-w-5xl mx-auto py-10">
+        <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -103,7 +103,7 @@ const HeroSection = () => {
                 delay: 0.3,
                 ease: [0.16, 1, 0.3, 1], //text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl
               }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-8xl font-semibold text-white leading-[1.20] tracking-[-0.04em] "
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-8xl font-semibold text-white leading-[1.20] tracking-[-0.04em]"
             >
               <span className="block">Value. Settled.</span>
 

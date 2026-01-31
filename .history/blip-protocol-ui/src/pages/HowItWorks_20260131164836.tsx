@@ -75,7 +75,7 @@ const HeroSection = () => {
         </div>
 
         {/* Content */}
-        <div className="relative z-10 -top-20 sm:top-0 text-center px-6 max-w-5xl mx-auto py-10">
+        <div className="relative z-10 text-center px-6 max-w-5xl mx-auto py-10">
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}

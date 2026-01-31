@@ -85,7 +85,7 @@ const ProtocolSection = () => {
         </div>
 
         {/* Features - with orange accents */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 sm:mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
           {[
             { label: "Zero-Knowledge", desc: "Privacy by default", icon: "🔐" },
             {
@@ -113,17 +113,18 @@ const ProtocolSection = () => {
             >
               {/* Hover glow */}
               <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-40 h-40 bg-white opacity-0 group-hover:opacity-[0.06] blur-[60px] rounded-full transition-opacity duration-500" />
+              <div className="flex flex-col justify-center items-center">
+                <div className="flex gap-2 sm:flex-col justify-center items-center">
+                  <span className="text-3xl mb-4 block">{item.icon}</span>
+                  <h3 className="text-lg font-medium text-white mb-2 group-hover:text-white/80 transition-colors">
+                    {item.label}
+                  </h3>
+                </div>
 
-              <div className="flex gap-2 sm:flex-col justify-center items-center">
-                <span className="text-3xl mb-4 block">{item.icon}</span>
-                <h3 className="text-lg font-medium text-white mb-2 group-hover:text-white/80 transition-colors">
-                  {item.label}
-                </h3>
+                <p className="text-sm text-white/30 group-hover:text-white/50 transition-colors">
+                  {item.desc}
+                </p>
               </div>
-
-              <p className="text-sm text-white/30 group-hover:text-white/50 transition-colors">
-                {item.desc}
-              </p>
             </motion.div>
           ))}
         </div>

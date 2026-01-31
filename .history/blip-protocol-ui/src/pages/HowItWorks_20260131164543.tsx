@@ -49,7 +49,7 @@ const HeroSection = () => {
 
   return (
     <motion.section ref={ref} className="relative " style={{ opacity }}>
-      <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
+      <div className="sticky -top-10 h-screen flex items-center justify-center overflow-hidden">
         {/* Background with parallax */}
         <motion.div className="absolute inset-0 z-0" style={{ y, scale }}>
           <img
@@ -75,7 +75,7 @@ const HeroSection = () => {
         </div>
 
         {/* Content */}
-        <div className="relative z-10 -top-20 sm:top-0 text-center px-6 max-w-5xl mx-auto py-10">
+        <div className="relative z-10 text-center px-6 max-w-5xl mx-auto py-10">
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
