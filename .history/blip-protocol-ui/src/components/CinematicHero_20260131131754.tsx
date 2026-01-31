@@ -178,7 +178,7 @@ const CinematicHero = () => {
           className="w-full lg:w-1/3 text-center lg:text-left px-4 lg:px-4 antigravity-layer order-2 lg:order-2"
           ref={textLayerRef}
         >
-          <div className="w-full text-center lg:text-left mt-2 sm:mt-12 lg:mt-0 pb-24 sm:pb-0">
+          <div className="w-full text-center lg:text-left mt-10 sm:mt-12 lg:mt-0 pb-24 sm:pb-0">
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -214,7 +214,7 @@ const CinematicHero = () => {
                   delay: 0.2,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="flex items-center justify-center sm:py-2 lg:justify-start gap-2 mb-6 sm:mb-4"
+                className="flex items-center justify-center lg:justify-start gap-2 mb-6 sm:mb-8"
               >
                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06]">
                   <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#ff8c5a] flex items-center justify-center">

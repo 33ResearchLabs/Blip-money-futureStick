@@ -81,7 +81,7 @@ const CinematicHero = () => {
           ref={phoneLayerRef}
         >
           <div className="phone-container-hero animate-float-hero reflect-hero ">
-            <div className="relative w-[250px] sm:w-[280px] h-[450px] sm:h-[570px] iphone-bezel rounded-[3.5rem] p-[8px]">
+            <div className="relative w-[250px] sm:w-[280px] h-[450px] sm:h-[570px]  p-[8px]">
               {/* iPhone physical buttons */}
               <div className="iphone-button h-8 top-28 -left-[7px]" />
               <div className="iphone-button h-16 top-40 -left-[7px]" />

@@ -214,7 +214,7 @@ const CinematicHero = () => {
                   delay: 0.2,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="flex items-center justify-center sm:py-2 lg:justify-start gap-2 mb-6 sm:mb-4"
+                className="flex items-center justify-center lg:justify-start gap-2 mb-6 sm:mb-8"
               >
                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06]">
                   <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#ff8c5a] flex items-center justify-center">
