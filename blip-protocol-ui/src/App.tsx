@@ -18,6 +18,7 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 
 // Import wallet adapter CSS
 import "@solana/wallet-adapter-react-ui/styles.css";
+import CryptoToUae from "./pages/CryptoToUae";
 
 // Lazy load page components
 const Index = lazy(() => import("./pages/Index"));
@@ -86,12 +87,14 @@ const App = () => (
                     <Route path="/cookies" element={<Cookies />} />
                     <Route path="/gdpr" element={<Gdpr />} />
                     <Route path="/twoFactorAuth" element={<TwoFactorAuth />} />
+                    <Route path="/cryptoToUae" element={<CryptoToUae />} />
                     <Route path="/waitlist" element={<AirdropLogin />} />
                     <Route
                       path="/join-waitlist"
                       element={<AirdropLogin initialView="waitlist" />}
                     />
                   </Route>
+
 
                   {/* PROTECTED DASHBOARD (NO LAYOUT) */}
                   <Route
