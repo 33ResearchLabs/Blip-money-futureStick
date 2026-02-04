@@ -796,7 +796,7 @@ const Modal = ({ task, onClose, onExecute }) => {
                     ${
                       task.status !== "active"
                         ? "bg-neutral-800 text-neutral-500 cursor-not-allowed border border-transparent"
-                        : "bg-white text-black hover:bg-[#ffffff] hover:text-white border border-transparent hover:shadow-[0_0_20px_rgba(249,115,22,0.5)]"
+                        : "bg-white text-black hover:bg-[#ffffff] border border-transparent hover:shadow-[0_0_20px_rgba(249,115,22,0.5)]"
                     }`}
               >
                 {loading ? (
@@ -995,7 +995,7 @@ const EducationCard = ({ onStart, onStepClick }) => (
 
         <button
           onClick={onStart}
-          className="mt-6 w-full py-3 px-4 bg-white text-black text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#ffffff] hover:text-white transition-all duration-200 border-none group/btn relative overflow-hidden"
+          className="mt-6 w-full py-3 px-4 bg-white text-black text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#ffffff] transition-all duration-200 border-none group/btn relative overflow-hidden"
         >
           <span className="relative z-10 group-hover/btn:tracking-[0.3em] transition-all">
             Continue
@@ -1456,7 +1456,7 @@ export default function BlipDashboard() {
               <h1 className="text-4xl font-medium text-white mb-2 tracking-tight">
                 <TypewriterText text="Mission Control" speed={50} delay={500} />
               </h1>
-              <p className="text-sm text-neutral-500 font-mono flex items-center gap-2">
+              <p className="text-sm text-neutral-500 font-mono flex items-start md:items-center gap-2 flex-wrap">
                 <span className="text-[#ffffff]">
                   {">"}
                   {">"}
@@ -1478,7 +1478,7 @@ export default function BlipDashboard() {
               </button>
               <button
                 onClick={() => setFilter("active")}
-                className={`px-4 py-2 border text-xs font-mono uppercase transition-all duration-300 hover:scale-105 active:scale-95 ${filter === "active" ? "bg-[#ffffff] text-white border-[#ffffff] shadow-[0_0_15px_rgba(249,115,22,0.4)]" : "border-neutral-800 bg-neutral-900/50 text-neutral-400 hover:text-white hover:border-neutral-600"}`}
+                className={`px-4 py-2 border text-xs font-mono uppercase transition-all duration-300 hover:scale-105 active:scale-95 ${filter === "active" ? "bg-[#ffffff] text-black border-[#ffffff] shadow-[0_0_15px_rgba(249,115,22,0.4)]" : "border-neutral-800 bg-neutral-900/50 text-neutral-400 hover:text-white hover:border-neutral-600"}`}
               >
                 Active Only
               </button>

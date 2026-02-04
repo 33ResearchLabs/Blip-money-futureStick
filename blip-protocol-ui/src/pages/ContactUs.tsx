@@ -116,7 +116,7 @@ const HeroSection = () => {
                 WebkitTextFillColor: "transparent",
               }}
             >
-              Gateway
+              Gateway  
             </span>
           </motion.h1>
         </div>
@@ -141,7 +141,7 @@ const HeroSection = () => {
             animate={{ y: [0, 8, 0] }}
             transition={{ duration: 1.5, repeat: Infinity }}
           >
-            <ChevronDown className="w-5 h-5 text-white/40" />
+            <ChevronDown className="w-5 h-5 text-[#ff6b35]" />
           </motion.div>
         </motion.div>
       </div>
@@ -633,3 +633,5 @@ const ContactUs = () => {
 };
 
 export default ContactUs;
+
+
