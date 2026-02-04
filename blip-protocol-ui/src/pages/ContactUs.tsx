@@ -116,7 +116,7 @@ const HeroSection = () => {
                 WebkitTextFillColor: "transparent",
               }}
             >
-              Gateway  
+              Gateway
             </span>
           </motion.h1>
         </div>
@@ -565,22 +565,21 @@ const VisualSection = () => {
 
           {/* Location pin */}
           <motion.div
-  initial={{ scale: 0 }}
-  whileInView={{ scale: 1 }}
-  viewport={{ once: true }}
-  transition={{ duration: 0.8, delay: 0.5 }}
-  className="absolute inset-0 flex items-center justify-center"
->
-  <div className="relative">
-    <div className="w-20 h-20 rounded-full bg-[#ffffff]/20 animate-ping absolute inset-0" />
-    <div className="w-20 h-20 rounded-full bg-white/10 flex items-center justify-center relative">
-      <div className="w-8 h-8 rounded-full bg-[#ffffff] flex items-center justify-center">
-        <MapPin className="w-4 h-4 text-black" />
-      </div>
-    </div>
-  </div>
-</motion.div>
-
+            initial={{ scale: 0 }}
+            whileInView={{ scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="absolute inset-0 flex items-center justify-center"
+          >
+            <div className="relative">
+              <div className="w-20 h-20 rounded-full bg-[#ffffff]/20 animate-ping absolute inset-0" />
+              <div className="w-20 h-20 rounded-full bg-white/10 flex items-center justify-center relative">
+                <div className="w-8 h-8 rounded-full bg-[#ffffff] flex items-center justify-center">
+                  <MapPin className="w-4 h-4 text-black" />
+                </div>
+              </div>
+            </div>
+          </motion.div>
 
           {/* Info card */}
           <motion.div
@@ -634,5 +633,3 @@ const ContactUs = () => {
 };
 
 export default ContactUs;
-
-

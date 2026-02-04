@@ -345,29 +345,29 @@ const HeroSection = () => {
           </motion.div>
 
           {/* CTA */}
-<motion.div
-  initial={{ opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 1, delay: 0.7 }}
-  className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center"
->
-  <Link
-    to="/waitlist"
-    className="group inline-flex items-center justify-center gap-3
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.7 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center"
+          >
+            <Link
+              to="/waitlist"
+              className="group inline-flex items-center justify-center gap-3
       w-[220px] h-[56px]
       rounded-full
       bg-[#ffffff] text-black
       text-lg font-semibold
       hover:bg-[#e5e5e5]
       transition-all duration-300"
-  >
-    Start Earning
-    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-  </Link>
+            >
+              Start Earning
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
 
-  <Link
-    to="/how-it-works"
-    className="inline-flex items-center justify-center gap-3
+            <Link
+              to="/how-it-works"
+              className="inline-flex items-center justify-center gap-3
       w-[220px] h-[56px]
       rounded-full
       border border-white/10
@@ -375,12 +375,10 @@ const HeroSection = () => {
       text-lg font-semibold
       hover:bg-white/5 hover:border-white/20
       transition-all duration-300"
-  >
-    Learn More
-  </Link>
-</motion.div>
-
-
+            >
+              Learn More
+            </Link>
+          </motion.div>
 
           {/* Scroll indicator */}
           <motion.div
@@ -400,7 +398,6 @@ const HeroSection = () => {
               />
             </div>
           </motion.div>
-
         </div>
 
         {/* Right: Phone Mockup */}
@@ -989,8 +986,6 @@ const CTASection = () => {
             Join the rewards program and get cashback on every transaction. No
             minimum spend required.
           </p>
-
-          
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center ">
             <MagneticWrapper strength={0.2}>
