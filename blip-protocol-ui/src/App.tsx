@@ -87,7 +87,7 @@ const App = () => (
                     <Route path="/cookies" element={<Cookies />} />
                     <Route path="/gdpr" element={<Gdpr />} />
                     <Route path="/twoFactorAuth" element={<TwoFactorAuth />} />
-                    <Route path="/cryptoToUae" element={<CryptoToUae />} />
+                    <Route path="/cryptoToAed" element={<CryptoToUae />} />
                     <Route path="/waitlist" element={<AirdropLogin />} />
                     <Route
                       path="/join-waitlist"
