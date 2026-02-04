@@ -240,7 +240,7 @@
 //             >
 //               <p className="text-xs mb-2 text-[#ffffff]">Referral Code</p>
 //               <div className="flex justify-between items-center">
-//                 <span className="text-white font-mono">
+//                 <span className="text-white ">
 //                   {user?.referralCode}
 //                 </span>
 //                 <div className="flex gap-2">
@@ -434,7 +434,7 @@ const BootSequence = ({ onComplete }) => {
   }, [onComplete]);
 
   return (
-    <div className="fixed inset-0 bg-black z-[100] flex flex-col items-center justify-center font-mono text-[#ffffff] p-8 scanline">
+    <div className="fixed inset-0 bg-black z-[100] flex flex-col items-center justify-center  text-[#ffffff] p-8 scanline">
       <div className="w-full max-w-lg">
         <div className="mb-8 flex justify-center">
           <Terminal className="w-12 h-12 animate-pulse" />
@@ -527,7 +527,7 @@ const Badge = ({ children, type = "neutral" }) => {
   };
   return (
     <span
-      className={`text-[10px] uppercase tracking-widest font-mono px-2 py-0.5 border ${styles[type]} backdrop-blur-sm transition-all hover:scale-105 select-none`}
+      className={`text-[10px] uppercase tracking-widest  px-2 py-0.5 border ${styles[type]} backdrop-blur-sm transition-all hover:scale-105 select-none`}
     >
       {children}
     </span>
@@ -587,7 +587,7 @@ const Toast = ({ message, type = "success", onClose }) => {
         ) : (
           <AlertCircle className="w-4 h-4 text-red-500" />
         )}
-        <span className="text-xs font-mono uppercase tracking-wider">
+        <span className="text-xs  uppercase tracking-wider">
           {message}
         </span>
       </div>
@@ -658,7 +658,7 @@ const Modal = ({ task, onClose, onExecute }) => {
                 {task.difficulty && (
                   <Badge type="blue">{task.difficulty}</Badge>
                 )}
-                <span className="text-xs font-mono text-neutral-500">
+                <span className="text-xs  text-neutral-500">
                   REWARD: {task.reward} PTS
                 </span>
               </div>
@@ -668,10 +668,10 @@ const Modal = ({ task, onClose, onExecute }) => {
           <div className="space-y-4 mb-8">
             <div className="p-5 bg-neutral-900/30 border border-neutral-800/50 rounded-sm relative overflow-hidden">
               <div className="absolute top-0 left-0 w-1 h-full bg-[#ffffff]/50" />
-              <h4 className="text-[10px] uppercase tracking-widest text-neutral-500 mb-2 font-mono flex items-center gap-2">
+              <h4 className="text-[10px] uppercase tracking-widest text-neutral-500 mb-2  flex items-center gap-2">
                 <Info className="w-3 h-3" /> Mission Briefing
               </h4>
-              <p className="text-sm text-neutral-300 font-mono leading-relaxed">
+              <p className="text-sm text-neutral-300  leading-relaxed">
                 {task.description}
               </p>
             </div>
@@ -693,7 +693,7 @@ const Modal = ({ task, onClose, onExecute }) => {
                       )}
                     </div>
                     <span
-                      className={`text-xs font-mono uppercase tracking-wider ${gleamState.connected ? "text-white" : "text-neutral-400"}`}
+                      className={`text-xs  uppercase tracking-wider ${gleamState.connected ? "text-white" : "text-neutral-400"}`}
                     >
                       {gleamState.connected
                         ? "Identity Linked: @user"
@@ -726,7 +726,7 @@ const Modal = ({ task, onClose, onExecute }) => {
                       )}
                     </div>
                     <span
-                      className={`text-xs font-mono uppercase tracking-wider ${gleamState.followed ? "text-white" : "text-neutral-400"}`}
+                      className={`text-xs  uppercase tracking-wider ${gleamState.followed ? "text-white" : "text-neutral-400"}`}
                     >
                       {gleamState.followed
                         ? "Uplink Established"
@@ -759,7 +759,7 @@ const Modal = ({ task, onClose, onExecute }) => {
                       )}
                     </div>
                     <span
-                      className={`text-xs font-mono uppercase tracking-wider ${gleamState.verified ? "text-white" : "text-neutral-400"}`}
+                      className={`text-xs  uppercase tracking-wider ${gleamState.verified ? "text-white" : "text-neutral-400"}`}
                     >
                       {gleamState.verified
                         ? "Compliance Verified"
@@ -783,7 +783,7 @@ const Modal = ({ task, onClose, onExecute }) => {
           <div className="flex gap-3">
             <button
               onClick={onClose}
-              className="flex-1 py-3 text-xs font-mono uppercase tracking-wider border border-neutral-800 hover:bg-neutral-900 transition-colors text-neutral-400"
+              className="flex-1 py-3 text-xs  uppercase tracking-wider border border-neutral-800 hover:bg-neutral-900 transition-colors text-neutral-400"
             >
               Abort
             </button>
@@ -792,7 +792,7 @@ const Modal = ({ task, onClose, onExecute }) => {
               <button
                 onClick={handleExecute}
                 disabled={task.status !== "active" || loading}
-                className={`flex-1 py-3 text-xs font-bold font-mono uppercase tracking-wider flex items-center justify-center gap-2 transition-all relative overflow-hidden
+                className={`flex-1 py-3 text-xs font-bold  uppercase tracking-wider flex items-center justify-center gap-2 transition-all relative overflow-hidden
                     ${
                       task.status !== "active"
                         ? "bg-neutral-800 text-neutral-500 cursor-not-allowed border border-transparent"
@@ -813,7 +813,7 @@ const Modal = ({ task, onClose, onExecute }) => {
               <button
                 onClick={handleExecute}
                 disabled={!gleamState.verified || loading}
-                className={`flex-1 py-3 text-xs font-bold font-mono uppercase tracking-wider flex items-center justify-center gap-2 transition-all relative overflow-hidden
+                className={`flex-1 py-3 text-xs font-bold  uppercase tracking-wider flex items-center justify-center gap-2 transition-all relative overflow-hidden
                     ${
                       !gleamState.verified
                         ? "bg-neutral-800 text-neutral-500 cursor-not-allowed border border-transparent"
@@ -874,7 +874,7 @@ const TaskCard = ({ task, onClick, onComingSoon, onLocked }) => {
         </div>
         <div className="flex flex-col items-end gap-1">
           {status === "active" && (
-            <span className="text-[#ffffff] font-mono text-[10px] tracking-wider border border-[#ffffff]/20 px-1.5 py-0.5 bg-[#ffffff]/5 group-hover:bg-[#ffffff]/10 transition-colors">
+            <span className="text-[#ffffff]  text-[10px] tracking-wider border border-[#ffffff]/20 px-1.5 py-0.5 bg-[#ffffff]/5 group-hover:bg-[#ffffff]/10 transition-colors">
               +{reward} PTS
             </span>
           )}
@@ -891,30 +891,30 @@ const TaskCard = ({ task, onClick, onComingSoon, onLocked }) => {
         >
           {title}
         </h3>
-        <p className="text-xs text-neutral-500 leading-relaxed mb-4 min-h-[2.5em] font-mono group-hover:text-neutral-400 transition-colors">
+        <p className="text-xs text-neutral-500 leading-relaxed mb-4 min-h-[2.5em]  group-hover:text-neutral-400 transition-colors">
           {description}
         </p>
       </div>
 
       <div className="flex items-center justify-between mt-auto relative z-10 w-full border-t border-neutral-900/50 pt-3">
         {difficulty && (
-          <span className="text-[10px] text-neutral-600 font-mono uppercase tracking-wider">
+          <span className="text-[10px] text-neutral-600  uppercase tracking-wider">
             {difficulty}
           </span>
         )}
 
         {isComingSoon && (
-          <span className="text-[10px] uppercase tracking-wider text-neutral-600 font-mono">
+          <span className="text-[10px] uppercase tracking-wider text-neutral-600 ">
             Coming Soon
           </span>
         )}
         {isLocked && (
-          <span className="text-[10px] uppercase tracking-wider text-red-900/70 font-mono group-hover:text-red-500 transition-colors">
+          <span className="text-[10px] uppercase tracking-wider text-red-900/70  group-hover:text-red-500 transition-colors">
             Locked
           </span>
         )}
         {status === "active" && (
-          <div className="flex items-center text-xs text-neutral-400 group-hover:text-[#ffffff] transition-colors font-mono uppercase tracking-wider group-hover:translate-x-1 duration-300 ml-auto">
+          <div className="flex items-center text-xs text-neutral-400 group-hover:text-[#ffffff] transition-colors  uppercase tracking-wider group-hover:translate-x-1 duration-300 ml-auto">
             Start <ArrowRight className="w-3 h-3 ml-2" />
           </div>
         )}
@@ -936,7 +936,7 @@ const EducationCard = ({ onStart, onStepClick }) => (
       <div className="flex-1">
         <div className="flex items-center gap-3 mb-4">
           <Badge type="orange">Start Here</Badge>
-          <span className="text-[10px] text-neutral-500 font-mono uppercase tracking-widest animate-pulse">
+          <span className="text-[10px] text-neutral-500  uppercase tracking-widest animate-pulse">
             Seq_ID: 001_A
           </span>
         </div>
@@ -953,7 +953,7 @@ const EducationCard = ({ onStart, onStepClick }) => (
           <a href="/whitepaper.pdf" target="_blank" rel="noopener noreferrer">
             <div
               onClick={() => onStepClick && onStepClick("reading")}
-              className="flex items-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 text-sm font-mono text-neutral-400 group/item hover:text-white transition-colors cursor-pointer bg-neutral-900/20 p-2 rounded-sm border border-transparent hover:border-neutral-800"
+              className="flex items-center gap-2 sm:gap-3  py-4 sm:py-5 text-sm  text-neutral-400 group/item hover:text-white transition-colors cursor-pointer bg-neutral-900/20 p-2 rounded-sm border border-transparent hover:border-neutral-800"
             >
               <div className="w-5 h-5 bg-neutral-800 rounded-full flex items-center justify-center text-[10px] text-[#ffffff] font-bold">
                 1
@@ -964,7 +964,7 @@ const EducationCard = ({ onStart, onStepClick }) => (
           </a>
           <div
             onClick={() => onStepClick && onStepClick("verify")}
-            className="flex items-center gap-3 text-sm font-mono text-neutral-400 group/item hover:text-white transition-colors cursor-pointer bg-neutral-900/20 p-2 rounded-sm border border-transparent hover:border-neutral-800"
+            className="flex items-center gap-3 text-sm  text-neutral-400 group/item hover:text-white transition-colors cursor-pointer bg-neutral-900/20 p-2 rounded-sm border border-transparent hover:border-neutral-800"
           >
             <div className="w-5 h-5 bg-neutral-800 rounded-full flex items-center justify-center text-[10px] text-[#ffffff] font-bold">
               2
@@ -977,7 +977,7 @@ const EducationCard = ({ onStart, onStepClick }) => (
 
       <div className="w-full md:w-72 bg-neutral-900/30 p-4 border border-neutral-800 backdrop-blur-sm relative overflow-hidden">
         <div className="absolute top-0 right-0 w-16 h-16 bg-[#ffffff]/20 blur-xl rounded-full -translate-y-1/2 translate-x-1/2" />
-        <div className="flex justify-between text-[10px] text-neutral-400 mb-3 font-mono uppercase tracking-wider relative z-10">
+        <div className="flex justify-between text-[10px] text-neutral-400 mb-3  uppercase tracking-wider relative z-10">
           <span>Your Progress</span>
           <span className="text-[#ffffff]">25%</span>
         </div>
@@ -1014,7 +1014,7 @@ const SectionTitle = ({ title, count }) => (
       {title}
     </h2>
     {count !== undefined && (
-      <span className="text-[10px] font-mono text-neutral-500 bg-neutral-900/50 border border-neutral-800 px-1.5 py-0.5">
+      <span className="text-[10px]  text-neutral-500 bg-neutral-900/50 border border-neutral-800 px-1.5 py-0.5">
         {count.toString().padStart(2, "0")}
       </span>
     )}
@@ -1383,7 +1383,7 @@ export default function BlipDashboard() {
               </span>
             </div>
             <div className="flex items-center justify-between gap-3">
-              <span className="text-lg font-mono font-bold text-white tracking-wider">
+              <span className="text-lg  font-bold text-white tracking-wider">
                 {user?.referralCode || "—"}
               </span>
               <div className="flex items-center gap-2">
@@ -1449,18 +1449,15 @@ export default function BlipDashboard() {
             <div>
               <div className="flex items-center gap-2 mb-2 text-[#ffffff]">
                 <Radio className="w-4 h-4 animate-pulse" />
-                <span className="text-xs font-mono uppercase tracking-widest">
+                <span className="text-xs  uppercase tracking-widest">
                   Incoming Transmission
                 </span>
               </div>
               <h1 className="text-4xl font-medium text-white mb-2 tracking-tight">
                 <TypewriterText text="Mission Control" speed={50} delay={500} />
               </h1>
-              <p className="text-sm text-neutral-500 font-mono flex items-start md:items-center gap-2 flex-wrap">
-                <span className="text-[#ffffff]">
-                  {">"}
-                  {">"}
-                </span>
+              <p className="text-sm text-neutral-500 ">
+                <span className="text-[#ffffff] mr-2">{">>"}</span>
                 <TypewriterText
                   text="Complete verification tasks to initialize vault allocation."
                   speed={20}
@@ -1472,13 +1469,13 @@ export default function BlipDashboard() {
             <div className="flex gap-2">
               <button
                 onClick={() => setFilter("all")}
-                className={`px-4 py-2 border text-xs font-mono uppercase transition-all duration-300 hover:scale-105 active:scale-95 ${filter === "all" ? "bg-white text-black border-white shadow-[0_0_15px_rgba(255,255,255,0.2)]" : "border-neutral-800 bg-neutral-900/50 text-neutral-400 hover:text-white hover:border-neutral-600"}`}
+                className={`px-4 py-2 border text-xs  uppercase transition-all duration-300 hover:scale-105 active:scale-95 ${filter === "all" ? "bg-white text-black border-white shadow-[0_0_15px_rgba(255,255,255,0.2)]" : "border-neutral-800 bg-neutral-900/50 text-neutral-400 hover:text-white hover:border-neutral-600"}`}
               >
                 All Tasks
               </button>
               <button
                 onClick={() => setFilter("active")}
-                className={`px-4 py-2 border text-xs font-mono uppercase transition-all duration-300 hover:scale-105 active:scale-95 ${filter === "active" ? "bg-[#ffffff] text-black border-[#ffffff] shadow-[0_0_15px_rgba(249,115,22,0.4)]" : "border-neutral-800 bg-neutral-900/50 text-neutral-400 hover:text-white hover:border-neutral-600"}`}
+                className={`px-4 py-2 border text-xs  uppercase transition-all duration-300 hover:scale-105 active:scale-95 ${filter === "active" ? "bg-[#ffffff] text-black border-[#ffffff] shadow-[0_0_15px_rgba(249,115,22,0.4)]" : "border-neutral-800 bg-neutral-900/50 text-neutral-400 hover:text-white hover:border-neutral-600"}`}
               >
                 Active Only
               </button>
@@ -1522,7 +1519,7 @@ export default function BlipDashboard() {
                   />
                 ))}
                 {getVisibleTasks(TASKS_DATA.social).length === 0 && (
-                  <div className="text-xs font-mono text-neutral-600 italic p-4">
+                  <div className="text-xs  text-neutral-600 italic p-4">
                     No active social tasks available.
                   </div>
                 )}
@@ -1544,7 +1541,7 @@ export default function BlipDashboard() {
                   />
                 ))}
                 {getVisibleTasks(TASKS_DATA.activity).length === 0 && (
-                  <div className="text-xs font-mono text-neutral-600 italic p-4">
+                  <div className="text-xs  text-neutral-600 italic p-4">
                     No active activity logs.
                   </div>
                 )}
@@ -1566,7 +1563,7 @@ export default function BlipDashboard() {
                   />
                 ))}
                 {getVisibleTasks(TASKS_DATA.core).length === 0 && (
-                  <div className="text-xs font-mono text-neutral-600 italic p-4">
+                  <div className="text-xs  text-neutral-600 italic p-4">
                     Infrastructure tasks pending activation.
                   </div>
                 )}
@@ -1590,7 +1587,7 @@ export default function BlipDashboard() {
                   />
                 ))}
                 {getVisibleTasks(TASKS_DATA.governance).length === 0 && (
-                  <div className="text-xs font-mono text-neutral-600 italic p-4">
+                  <div className="text-xs  text-neutral-600 italic p-4">
                     Governance proposals are currently restricted.
                   </div>
                 )}
@@ -1604,7 +1601,7 @@ export default function BlipDashboard() {
                 <p className="text-[10px] text-[#ffffff] uppercase tracking-[0.2em] font-bold mb-3 border-b border-neutral-800 pb-2 inline-block">
                   System Notice
                 </p>
-                <p className="text-xs text-neutral-500 leading-relaxed font-mono">
+                <p className="text-xs text-neutral-500 leading-relaxed ">
                   <span className="text-neutral-300">
                     {">"}
                     {">"} BETA_ACCESS_RESTRICTED

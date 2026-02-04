@@ -565,21 +565,22 @@ const VisualSection = () => {
 
           {/* Location pin */}
           <motion.div
-            initial={{ scale: 0 }}
-            whileInView={{ scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-          >
-            <div className="relative">
-              <div className="w-20 h-20 rounded-full bg-[#ffffff]/20 animate-ping absolute inset-0" />
-              <div className="w-20 h-20 rounded-full bg-white/10 flex items-center justify-center relative">
-                <div className="w-8 h-8 rounded-full bg-[#ffffff] flex items-center justify-center">
-                  <MapPin className="w-4 h-4 text-black" />
-                </div>
-              </div>
-            </div>
-          </motion.div>
+  initial={{ scale: 0 }}
+  whileInView={{ scale: 1 }}
+  viewport={{ once: true }}
+  transition={{ duration: 0.8, delay: 0.5 }}
+  className="absolute inset-0 flex items-center justify-center"
+>
+  <div className="relative">
+    <div className="w-20 h-20 rounded-full bg-[#ffffff]/20 animate-ping absolute inset-0" />
+    <div className="w-20 h-20 rounded-full bg-white/10 flex items-center justify-center relative">
+      <div className="w-8 h-8 rounded-full bg-[#ffffff] flex items-center justify-center">
+        <MapPin className="w-4 h-4 text-black" />
+      </div>
+    </div>
+  </div>
+</motion.div>
+
 
           {/* Info card */}
           <motion.div
@@ -587,13 +588,13 @@ const VisualSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.7 }}
-            className="absolute bottom-8 left-8 md:p-6 p-2 rounded-2xl backdrop-blur-xl max-w-sm"
+            className="absolute bottom-1 left-4 md:p-4 p-2 rounded-2xl backdrop-blur-xl max-w-sm"
             style={{
               background: "rgba(0, 0, 0, 0.6)",
               border: "1px solid rgba(255, 255, 255, 0.1)",
             }}
           >
-            <h3 className="md:text-xl text-xs font-semibold text-white mb-2">
+            <h3 className="md:text-lg text-xs font-semibold text-white mb-2">
               Blip Money HQ
             </h3>
             <p className="text-white/60 md:text-sm text-[10px]">

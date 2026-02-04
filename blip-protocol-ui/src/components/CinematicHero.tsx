@@ -206,7 +206,7 @@ const CinematicHero = () => {
                     <button className="w-full py-1.5 bg-white text-black text-[14px] font-black rounded-full mb-3 shadow-[0_4px_12px_rgba(255,255,255,0.2)]">
                       Accept Request
                     </button>
-                    <div className=" flex  gap-2 text-[9px] text-white/50 font-medium">
+                    <div className=" flex  md:gap-2 gap-1  text-[9px] text-white/50 font-medium">
                       <span className="flex items-center gap-1">
                         ✓ Escrow-secured
                       </span>
