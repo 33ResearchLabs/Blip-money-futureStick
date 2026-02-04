@@ -1,3 +1,4 @@
+import { SEO } from "@/components";
 import { AnimatePresence, motion } from "framer-motion";
 
 import {
@@ -33,6 +34,1303 @@ interface ServiceData {
   content: string;
 }
 
+/* ============================================
+   HERO SECTION
+   ============================================ */
+const HeroSection: React.FC<{
+  navigate: (path: string) => void;
+  scrollToSection: (id: string) => void;
+}> = ({ navigate, scrollToSection }) => {
+  return (
+    <main className="relative pt-40 pb-20 px-6">
+      <div className="absolute inset-0 bg-vignette pointer-events-none"></div>
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center relative z-10">
+        <div className="lg:col-span-7 space-y-8">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded border border-white/10 bg-[#0A0A0A]/30 text-[#A0A0A0] text-[10px]  tracking-wider">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]"></span>
+            ACTIVE ROUTING ENGINE
+          </div>
+
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-[-0.04em] leading-[1.05] ">
+            On-Demand <br />
+            P2P Settlement.
+          </h1>
+
+          <div className="space-y-4 max-w-lg">
+            <p className="text-lg text-[#A0A0A0] font-light leading-relaxed">
+              Broadcast your demand. Bonded merchants compete to fill your
+              order. Experience{" "}
+              <span className="text-white">Non-Custodial Escrow</span> and{" "}
+              <span className="text-white">Reputation-Weighted Routing</span>{" "}
+              for instant fiat settlement.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-4 pt-4">
+            <button
+              onClick={() => navigate("/coming-soon")}
+              className="group inline-flex items-center justify-center gap-3
+      w-[220px] h-[56px]
+      rounded-full
+      bg-[#ffffff] text-black
+      text-lg font-medium
+      hover:bg-[#e5e5e5]
+      transition-all duration-300"
+            >
+              Broadcast Request
+            </button>
+            <button
+              onClick={() => scrollToSection("mechanics")}
+              className="inline-flex items-center justify-center gap-3
+      w-[220px] h-[56px]
+      rounded-full
+      border border-white/10
+      text-white
+      text-lg font-medium
+      hover:bg-white/5 hover:border-white/20
+      transition-all duration-300"
+            >
+              How it Works
+            </button>
+          </div>
+
+          {/* Trust Signals */}
+          <div className="pt-12 border-t border-white/20 flex flex-wrap gap-8 items-center opacity-80">
+            <span className="text-[10px]  uppercase tracking-widest block w-full mb-1">
+              Settlement Assurance
+            </span>
+
+            <span className="flex items-center gap-2 text-white font-bold text-xs tracking-wide">
+              <ShieldCheck size={14} strokeWidth={2} />
+              BONDED MERCHANTS
+            </span>
+
+            <span className="flex items-center gap-2 text-white font-bold text-xs tracking-wide">
+              <Lock size={14} strokeWidth={2} />
+              SMART ESCROW
+            </span>
+
+            <span className="flex items-center gap-2 text-white font-bold text-xs tracking-wide">
+              <Zap size={14} strokeWidth={2} />
+              ALGO ROUTING
+            </span>
+          </div>
+        </div>
+      </div>
+    </main>
+  );
+};
+
+/* ============================================
+   SEO CONTENT BLOCK
+   ============================================ */
+const SEOContentBlock: React.FC = () => {
+  return (
+    <section className="border-b border-white/5 bg-black">
+      <div className="max-w-5xl mx-auto px-6 py-16 text-[#A0A0A0] text-sm leading-relaxed">
+        <h2 className="text-xl font-semibold text-white mb-4">
+          Crypto Cashout & USDT to AED in UAE
+        </h2>
+
+        <p>
+          Blip.money provides a decentralized way to perform crypto cashout in
+          UAE using non-custodial escrow and bonded merchants. Users can convert
+          USDT to AED, sell crypto in Dubai, or withdraw crypto directly to bank
+          accounts or physical cash locations without relying on centralized
+          exchanges.
+        </p>
+
+        <p className="mt-4">
+          Unlike traditional crypto off-ramps, Blip.money enables on-demand
+          settlement where merchants compete to fulfill your request. This
+          ensures better pricing, faster execution, and reduced counterparty
+          risk for crypto to cash Dubai transactions.
+        </p>
+
+        <p className="mt-4">
+          Supported services include crypto to AED conversion, USDT cashout in
+          Dubai, anonymous crypto withdrawals, and institutional-grade OTC
+          settlement across Dubai and Abu Dhabi.
+        </p>
+      </div>
+    </section>
+  );
+};
+
+/* ============================================
+   MARKET SIMULATION SECTION
+   ============================================ */
+const MarketSimulationSection: React.FC<{
+  simAsset: string;
+  setSimAsset: (value: string) => void;
+  simAmount: number;
+  setSimAmount: (value: number) => void;
+  simPriority: "cheapest" | "fastest";
+  setSimPriority: (value: "cheapest" | "fastest") => void;
+  pathAsset: string;
+  setPathAsset: (value: string) => void;
+  pathMethod: "bank" | "cash";
+  setPathMethod: (value: "bank" | "cash") => void;
+  pathRegion: "dxb" | "auh";
+  setPathRegion: (value: "dxb" | "auh") => void;
+  pathAmount: number;
+  setPathAmount: (value: number) => void;
+  merchantNodes: MerchantNode[];
+  openTerminal: (context: string) => void;
+}> = ({
+  simAsset,
+  setSimAsset,
+  simAmount,
+  setSimAmount,
+  simPriority,
+  setSimPriority,
+  pathAsset,
+  setPathAsset,
+  pathMethod,
+  setPathMethod,
+  pathRegion,
+  setPathRegion,
+  pathAmount,
+  setPathAmount,
+  merchantNodes,
+  openTerminal,
+}) => {
+  // Simulator calculation
+  const calculateSimulation = () => {
+    let rate = 3.674;
+    let target = "AED";
+
+    if (simAsset === "AED") {
+      rate = 0.2721;
+      target = "USDT";
+    } else if (simAsset === "USDC") {
+      rate = 3.672;
+    } else if (simAsset === "BTC") {
+      rate = 242000;
+    } else if (simAsset === "ETH") {
+      rate = 9800;
+    }
+
+    let spreadPercent = 0.012;
+    if (simPriority === "fastest") spreadPercent = 0.02;
+
+    const gross = simAmount * rate;
+    const fee = gross * spreadPercent;
+    const net = gross - fee;
+
+    return { net, fee, spreadPercent, target };
+  };
+
+  const simResult = calculateSimulation();
+
+  // Filter merchant nodes based on path parameters
+  const filteredMerchantNodes = merchantNodes.filter((node) => {
+    return (
+      node.type === pathMethod &&
+      node.region === pathRegion &&
+      pathAmount >= node.min
+    );
+  });
+
+  return (
+    <section
+      id="tools"
+      className="py-24 px-6 border-t border-white/5 bg-[#0A0A0A]"
+    >
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-12 flex items-end justify-between">
+          <div>
+            <h2 className="text-2xl font-semibold text-white mb-2 tracking-tight">
+              Market Simulation
+            </h2>
+            <p className="text-[#666666] text-sm ">
+              ESTIMATE BIDDING SPREADS & LIQUIDITY
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Rate Estimator */}
+          <div className="glass-panel p-6 rounded lg:col-span-2">
+            <div className="flex items-center gap-2 mb-6 border-b border-white/5 pb-4">
+              <div className="w-1.5 h-1.5 bg-[ ] rounded-sm"></div>
+              <h3 className=" text-xs text-white uppercase tracking-widest">
+                Rate Estimator
+              </h3>
+            </div>
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                  <label className="block text-[10px]  text-[#666666] mb-2 uppercase tracking-widest">
+                    Asset
+                  </label>
+                  <div className="relative inline-block">
+                    <select
+                      value={simAsset}
+                      onChange={(e) => setSimAsset(e.target.value)}
+                      className="w-full
+    bg-black/40
+    border border-white/10
+    text-white
+    px-4 pr-10 py-3
+    rounded-md
+    font-mono text-sm
+    transition
+    hover:border-white/20
+    focus:outline-none
+     appearance-none"
+                    >
+                      <option value="USDT" className="bg-[#0A0A0A]">
+                        USDT{" "}
+                      </option>
+                      <option value="USDC" className="bg-[#0A0A0A] ">
+                        USDC{" "}
+                      </option>
+                      <option value="BTC" className="bg-[#0A0A0A] ">
+                        BTC{" "}
+                      </option>
+                      <option value="ETH" className="bg-[#0A0A0A] ">
+                        ETH{" "}
+                      </option>
+                    </select>
+                    <ChevronDown
+                      className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"
+                      strokeWidth={2.5}
+                    />
+                  </div>
+                </div>
+
+                <div className="md:col-span-2">
+                  <label className="block text-[10px]  text-[#666666] mb-2 uppercase tracking-widest">
+                    Routing Strategy
+                  </label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <label className="cursor-pointer">
+                      <input
+                        type="radio"
+                        name="sim-priority"
+                        value="cheapest"
+                        checked={simPriority === "cheapest"}
+                        onChange={() => setSimPriority("cheapest")}
+                        className="peer sr-only"
+                      />
+                      <div className="border border-white/10 rounded p-2 hover:bg-[#0A0A0A] transition-all peer-checked:border-zinc-500 peer-checked:bg-[#0A0A0A]">
+                        <div className="flex justify-between items-center mb-1">
+                          <span className="text-xs font-medium text-white">
+                            Cheapest
+                          </span>
+                          <span className="text-[10px]  text-[#666666]">
+                            ~1.2% Spread
+                          </span>
+                        </div>
+                        <div className="text-[9px]  text-[#A0A0A0]">
+                          Wait for competitive fill
+                        </div>
+                      </div>
+                    </label>
+                    <label className="cursor-pointer">
+                      <input
+                        type="radio"
+                        name="sim-priority"
+                        value="fastest"
+                        checked={simPriority === "fastest"}
+                        onChange={() => setSimPriority("fastest")}
+                        className="peer sr-only"
+                      />
+                      <div className="border border-white/10 rounded p-2 hover:bg-[#0A0A0A] transition-all peer-checked:border-zinc-500 peer-checked:bg-[#0A0A0A]">
+                        <div className="flex justify-between items-center mb-1">
+                          <span className="text-xs font-medium text-white">
+                            Fastest
+                          </span>
+                          <span className="text-[10px]  text-[#666666]">
+                            ~2.0% Spread
+                          </span>
+                        </div>
+                        <div className="text-[9px]  text-[#A0A0A0]">
+                          Immediate acceptance
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+
+                <div className="col-span-full">
+                  <label className="block text-[10px]  text-[#666666] mb-2 uppercase tracking-widest">
+                    Volume
+                  </label>
+                  <div className="flex items-center gap-4 border-b border-white/10 pb-2">
+                    <input
+                      type="number"
+                      value={simAmount}
+                      onChange={(e) =>
+                        setSimAmount(parseFloat(e.target.value) || 0)
+                      }
+                      className="bg-transparent text-white  text-xl w-full outline-none"
+                    />
+                    <span className="text-xs  text-[#A0A0A0]">{simAsset}</span>
+                  </div>
+                  <div className="pt-4">
+                    <input
+                      type="range"
+                      min="100"
+                      max="1000000"
+                      step="100"
+                      value={simAmount}
+                      onChange={(e) => setSimAmount(parseFloat(e.target.value))}
+                      className="w-full accent-gray-600"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-[#0A0A0A]/30 p-4 rounded border border-white/10/50 flex justify-between items-end">
+                <div>
+                  <span className="text-[10px]  text-[#666666] block mb-1">
+                    EST. MERCHANT SPREAD (~
+                    {(simResult.spreadPercent * 100).toFixed(1)}%)
+                  </span>
+                  <span className="text-sm text-[#A0A0A0] ">
+                    {simResult.fee.toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                    })}{" "}
+                    {simResult.target}
+                  </span>
+                </div>
+                <div className="text-right">
+                  <span className="text-[10px]  text-[#666666] block mb-1">
+                    EST. NET ({simResult.target})
+                  </span>
+                  <span className="text-2xl font-bold text-white tracking-tight">
+                    {simResult.net.toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                    })}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Network Status */}
+          <div className="glass-panel p-6 rounded">
+            <div className="flex items-center gap-2 mb-6 border-b border-white/5 pb-4">
+              <div className="w-1.5 h-1.5 bg-[#ff6b35] rounded-full animate-pulse"></div>
+              <h3 className=" text-xs text-white uppercase tracking-widest">
+                Active Corridors
+              </h3>
+            </div>
+            <div className="space-y-6">
+              <div className="flex justify-between items-center border-b border-white/5 pb-3">
+                <span className="text-xs text-[#A0A0A0]">Dubai (DXB)</span>
+                <span className="text-[10px]  text-[#ff6b35] border border-[#ff6b35]/20 bg-[#ff6b35]/10 px-1.5 py-0.5 rounded">
+                  HIGH_LIQUIDITY
+                </span>
+              </div>
+              <div className="flex justify-between items-center border-b border-white/5 pb-3">
+                <span className="text-xs text-[#A0A0A0]">Abu Dhabi (AUH)</span>
+                <span className="text-[10px]  text-[#A0A0A0]">MODERATE</span>
+              </div>
+              <div className="pt-2">
+                <div className="flex justify-between text-[10px]  text-[#A0A0A0] mb-2">
+                  <span>TOTAL_BONDED_VALUE</span>
+                  <span className="text-white">$4.2M</span>
+                </div>
+                <div className="h-0.5 bg-[#111111] w-full">
+                  <div className="h-full bg-zinc-400 w-[75%]"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Path Finder */}
+          <div className="glass-panel p-8 rounded lg:col-span-3">
+            <div className="flex items-center gap-3 mb-8 border-b border-white/5 pb-6">
+              <svg
+                className="w-4 h-4 text-[#A0A0A0]"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 10V3L4 14h7v7l9-11h-7z"
+                />
+              </svg>
+              <div>
+                <h3 className="text-sm font-medium text-white">
+                  Liquidity Discovery
+                </h3>
+                <p className="text-[10px] text-[#666666]  mt-1">
+                  BROADCAST DEMAND TO MATCH WITH MERCHANT NODES
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+              <div>
+                <label className="block text-[10px]  text-[#666666] mb-2 uppercase tracking-widest">
+                  Input Asset
+                </label>
+                <div className="relative inline-block">
+                  <select
+                    value={pathAsset}
+                    onChange={(e) => setPathAsset(e.target.value)}
+                    className="
+    w-full
+    bg-black/40
+    border border-white/10
+    text-white
+    px-4 pr-10 py-3
+    rounded-md
+    font-mono text-sm
+    transition
+    hover:border-white/20
+    focus:outline-none
+     appearance-none
+  "
+                  >
+                    <option className="bg-[#0A0A0A]" value="USDT">
+                      USDT
+                    </option>
+                    <option className="bg-[#0A0A0A]" value="USDC">
+                      USDC
+                    </option>
+                    <option className="bg-[#0A0A0A]" value="BTC">
+                      BTC
+                    </option>
+                  </select>
+
+                  {/* Down Arrow */}
+                  <ChevronDown
+                    className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"
+                    strokeWidth={2.5}
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-[10px]  text-[#666666] mb-2 uppercase tracking-widest">
+                  Payout Method
+                </label>
+                <div className="relative inline-block">
+                  <select
+                    value={pathMethod}
+                    onChange={(e) =>
+                      setPathMethod(e.target.value as "bank" | "cash")
+                    }
+                    className="
+
+   bg-black/40
+    border
+    text-white
+    px-4 pr-16 py-3
+    rounded-md
+    font-mono text-sm
+    focus:outline-none appearance-none
+  "
+                  >
+                    <option className="bg-[#0A0A0A]">Bank Transfer</option>
+                    <option className="bg-[#0A0A0A]">Physical Vault</option>
+                  </select>
+                  <ChevronDown
+                    className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"
+                    strokeWidth={2.5}
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-[10px]  text-[#666666] mb-2 uppercase tracking-widest">
+                  Region
+                </label>
+                <div className="relative inline-block">
+                  <select
+                    value={pathRegion}
+                    onChange={(e) =>
+                      setPathRegion(e.target.value as "dxb" | "auh")
+                    }
+                    className="
+    w-full
+    bg-black/40
+    border border-white/10
+    text-white
+    px-4 pr-10 py-3
+    rounded-md
+    font-mono text-sm
+    transition
+    hover:border-white/20
+    focus:outline-none
+     appearance-none
+  "
+                  >
+                    <option className="bg-[#0A0A0A]" value="dxb">
+                      Dubai (Main)
+                    </option>
+                    <option className="bg-[#0A0A0A]" value="auh">
+                      Abu Dhabi
+                    </option>
+                  </select>
+                  <ChevronDown
+                    className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"
+                    strokeWidth={2.5}
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-[10px]  text-[#666666] mb-2 uppercase tracking-widest">
+                  Volume
+                </label>
+                <div className="pt-2">
+                  <input
+                    type="range"
+                    min="1000"
+                    max="1000000"
+                    step="5000"
+                    value={pathAmount}
+                    onChange={(e) => setPathAmount(parseInt(e.target.value))}
+                    className="w-full accent-gray-600"
+                  />
+                  <div className="text-right text-[10px] text-[#A0A0A0]  mt-1">
+                    {pathAmount.toLocaleString("en-US")} AED
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {filteredMerchantNodes.length === 0 ? (
+                <div className="col-span-full py-8 text-center text-[#444444]  text-xs">
+                  NO ACTIVE MERCHANTS FOR THESE PARAMETERS
+                </div>
+              ) : (
+                filteredMerchantNodes.map((node) => (
+                  <div
+                    key={node.id}
+                    className="border border-white/10 bg-[#0A0A0A]/20 p-4 rounded hover:border-white/20 transition-all cursor-default group"
+                  >
+                    <div className="flex justify-between items-start mb-3">
+                      <span className="text-[9px]  text-[#A0A0A0] uppercase tracking-wider">
+                        {node.type}
+                      </span>
+                      <span className="text-[9px]  text-[#A0A0A0] border border-white/10 px-1.5 py-0.5 rounded flex items-center gap-1">
+                        <div className="w-1.5 h-1.5 bg-[#ff6b35] rounded-full"></div>{" "}
+                        BOND: {node.bond}
+                      </span>
+                    </div>
+                    <h4 className="text-white font-medium text-sm mb-1 group-hover:text-white">
+                      {node.name}
+                    </h4>
+                    <p className="text-[10px] text-[#666666] mb-3">
+                      {node.desc}
+                    </p>
+                    <div className="flex items-center justify-between pt-2 border-t border-white/10/50">
+                      <span className="text-[9px] text-[#666666] ">
+                        MIN: {node.min.toLocaleString()}
+                      </span>
+                      <button
+                        onClick={() =>
+                          openTerminal(`Connecting to ${node.name}...`)
+                        }
+                        className="text-[9px] font-medium text-[#ff6b35] hover:text-[#ff6b35]/20"
+                      >
+                        REQUEST -&gt;
+                      </button>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ============================================
+   MERCHANT ASSURANCE SECTION
+   ============================================ */
+const MerchantAssuranceSection: React.FC = () => {
+  return (
+    <section className="py-24 px-6 border-t border-white/5 bg-black">
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-12 text-center">
+          <h2 className="text-2xl font-semibold text-white mb-2 tracking-tight">
+            Merchant Assurance Protocol
+          </h2>
+          <p className="text-[#666666] text-sm  uppercase tracking-widest">
+            Reputation-Weighted Routing (Section 11)
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Tier 3 */}
+          <div className="glass-panel p-6 rounded border border-white/30">
+            <div className="flex justify-between items-center mb-4">
+              <span className="text-xs  text-[#A0A0A0] uppercase">Tier 3</span>
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-[#111111]/50 transition-transform group-hover:scale-110">
+                <ShieldCheck className="w-4 h-4 text-[#A0A0A0]" />
+              </div>
+            </div>
+            <h3 className="text-lg font-bold text-white mb-2">Standard Node</h3>
+            <p className="text-xs text-[#A0A0A0] mb-4 h-10">
+              Entry-level merchants for retail volume.
+            </p>
+            <div className="space-y-2 border-t border-white/10 pt-4">
+              <div className="flex justify-between text-xs">
+                <span className="text-[#666666]">Min Bond</span>{" "}
+                <span className="text-[#A0A0A0]">$10,000</span>
+              </div>
+              <div className="flex justify-between text-xs">
+                <span className="text-[#666666]">Max Tx</span>{" "}
+                <span className="text-[#A0A0A0]">$5,000</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Tier 2 */}
+          <div className="glass-panel p-6 rounded border border-[#ff6b35]/30 relative overflow-hidden">
+            <div className="flex justify-between items-center mb-4">
+              <span className="text-xs  text-[#ff6b35] uppercase">Tier 2</span>
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-[#ff6b35]/30 transition-transform group-hover:scale-110">
+                <ShieldCheck className="w-4 h-4 text-[#ff6b35]" />
+              </div>
+            </div>
+            <h3 className="text-lg font-bold text-white mb-2">
+              Verified Merchant
+            </h3>
+            <p className="text-xs text-[#A0A0A0] mb-4 h-10">
+              High-volume nodes with automated settlement hooks.
+            </p>
+            <div className="space-y-2 border-t border-white/10 pt-4">
+              <div className="flex justify-between text-xs">
+                <span className="text-[#666666]">Min Bond</span>{" "}
+                <span className="text-white">$50,000</span>
+              </div>
+              <div className="flex justify-between text-xs">
+                <span className="text-[#666666]">Max Tx</span>{" "}
+                <span className="text-white">$100,000</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Tier 1 */}
+          <div className="glass-panel p-6 rounded border border-[#ff6b35]/50 bg-gradient-to-br from-zinc-900 to-black relative overflow-hidden">
+            <div className="flex justify-between items-center mb-4">
+              <span className="text-xs  text-[#ff6b35] uppercase font-bold">
+                Tier 1 • Institutional
+              </span>
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-[#ff6b35]/20 border border-[#ff6b35]/30">
+                <Building className="w-4 h-4 text-white" strokeWidth={2} />
+              </div>
+            </div>
+            <h3 className="text-lg font-bold text-white mb-2">
+              Liquidity Partner
+            </h3>
+            <p className="text-xs text-[#A0A0A0] mb-4 h-10">
+              Fully bonded institutions with direct banking APIs.
+            </p>
+            <div className="space-y-2 border-t border-white/10 pt-4">
+              <div className="flex justify-between text-xs">
+                <span className="text-[#A0A0A0]">Min Bond</span>{" "}
+                <span className="text-white ">$250,000+</span>
+              </div>
+              <div className="flex justify-between text-xs">
+                <span className="text-[#A0A0A0]">Max Tx</span>{" "}
+                <span className="text-white ">Unlimited</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ============================================
+   PROTOCOL MECHANICS SECTION
+   ============================================ */
+const ProtocolMechanicsSection: React.FC = () => {
+  return (
+    <section id="mechanics" className="py-24 px-6 border-t border-white/5">
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-16 text-center">
+          <h2 className="text-2xl font-semibold text-white mb-2 tracking-tight">
+            Protocol Mechanics
+          </h2>
+          <p className="text-[#666666] text-sm  uppercase tracking-widest">
+            From Demand Broadcast to Finality
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="glass-panel p-6 rounded relative group">
+            <div className="absolute -top-3 -left-3 w-8 h-8 bg-[#111111] rounded-full flex items-center justify-center text-[#A0A0A0]  text-xs border border-white/10">
+              01
+            </div>
+            <h3 className="text-sm font-bold text-white mb-2">
+              Demand Broadcast
+            </h3>
+            <p className="text-xs text-[#A0A0A0] leading-relaxed">
+              User broadcasts a settlement request (Asset, Volume, Max Time) to
+              the network. No static listings.
+            </p>
+          </div>
+          <div className="glass-panel p-6 rounded relative group">
+            <div className="absolute -top-3 -left-3 w-8 h-8 bg-[#111111] rounded-full flex items-center justify-center text-[#A0A0A0]  text-xs border border-white/10">
+              02
+            </div>
+            <h3 className="text-sm font-bold text-white mb-2">
+              Merchant Bidding
+            </h3>
+            <p className="text-xs text-[#A0A0A0] leading-relaxed">
+              Bonded merchants analyze the request and submit bids. Routing
+              engine selects best execution.
+            </p>
+          </div>
+          <div className="glass-panel p-6 rounded relative group">
+            <div className="absolute -top-3 -left-3 w-8 h-8 bg-[#111111] rounded-full flex items-center justify-center text-[#A0A0A0]  text-xs border border-white/10">
+              03
+            </div>
+            <h3 className="text-sm font-bold text-white mb-2">
+              Non-Custodial Escrow
+            </h3>
+            <p className="text-xs text-[#A0A0A0] leading-relaxed">
+              User funds are locked in a smart contract. Merchant sends fiat
+              off-chain.
+            </p>
+          </div>
+          <div className="glass-panel p-6 rounded relative group">
+            <div className="absolute -top-3 -left-3 w-8 h-8 bg-[#111111] rounded-full flex items-center justify-center text-[#A0A0A0]  text-xs border border-white/10">
+              04
+            </div>
+            <h3 className="text-sm font-bold text-white mb-2">
+              Proof & Release
+            </h3>
+            <p className="text-xs text-[#A0A0A0] leading-relaxed">
+              Oracle validates payment proof. Contract releases crypto to
+              merchant. Reputation score updates.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ============================================
+   SERVICES GRID SECTION
+   ============================================ */
+const ServicesGridSection: React.FC<{
+  openServiceModal: (serviceKey: string) => void;
+}> = ({ openServiceModal }) => {
+  return (
+    <section
+      id="services"
+      className="py-24 px-6 border-t border-white/5 bg-[#0A0A0A]"
+    >
+      <div className="max-w-7xl mx-auto">
+        <h4 className="text-xs  text-[#666666] uppercase tracking-widest mb-8">
+          Core Settlement Services
+        </h4>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[
+            {
+              key: "crypto_aed",
+              title: "Crypto to AED",
+              desc: "Convert your crypto directly to AED through our decentralized settlement network.",
+              icon: ArrowLeftRight,
+              bg: "bg-blue-900/20",
+              text: "text-blue-400",
+            },
+            {
+              key: "usdt_aed",
+              title: "USDT to AED",
+              desc: "Easily exchange USDT to AED securely and instantly.",
+              icon: LogOut,
+              bg: "bg-purple-900/20",
+              text: "text-purple-400",
+            },
+            {
+              key: "crypto_cashout",
+              title: "Crypto Cashout UAE",
+              desc: "Cash out your crypto in the UAE without custodial risk.",
+              icon: Coins,
+              bg: "bg-green-900/20",
+              text: "text-green-400",
+            },
+            {
+              key: "withdraw_crypto",
+              title: "Withdraw Crypto in Dubai",
+              desc: "Withdraw crypto in Dubai safely and privately.",
+              icon: Landmark,
+              bg: "bg-orange-900/20",
+              text: "text-orange-400",
+            },
+            {
+              key: "crypto_cash",
+              title: "Crypto to Cash Dubai",
+              desc: "Turn your crypto into cash in Dubai fast.",
+              icon: Banknote,
+              bg: "bg-pink-900/20",
+              text: "text-pink-400",
+            },
+            {
+              key: "sell_crypto",
+              title: "Sell Crypto UAE",
+              desc: "Sell your crypto in the UAE with ease.",
+              icon: TrendingUp,
+              bg: "bg-cyan-900/20",
+              text: "text-cyan-400",
+            },
+          ].map((service) => {
+            const Icon = service.icon;
+            return (
+              <div
+                key={service.key}
+                className="glass-panel p-6 rounded card-hover cursor-pointer group flex flex-col border border-white/20"
+              >
+                <div className="flex justify-between items-start mb-2">
+                  <div
+                    className={`w-12 h-12 rounded-xl flex items-center justify-center ${service.bg} ${service.text}`}
+                  >
+                    <Icon size={24} strokeWidth={2} />
+                  </div>
+                </div>
+                <h3 className="text-base font-bold text-white mb-3">
+                  {service.title}
+                </h3>
+                <p className="text-sm text-[#A0A0A0] leading-relaxed mb-6 flex-grow">
+                  {service.desc}
+                </p>
+                <button
+                  onClick={() => openServiceModal(service.key)}
+                  className={`w-full py-2 rounded border border-white/10 bg-[#0A0A0A]/50 text-xs font-medium text-[#A0A0A0] group-hover:border-${service.bg} group-hover:text-${service.bg} transition-all`}
+                >
+                  Learn More
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ============================================
+   ECOSYSTEM SECTION
+   ============================================ */
+const EcosystemSection: React.FC = () => {
+  return (
+    <section className="py-24 px-6 border-t border-white/5">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div>
+          <h2 className="text-xl font-semibold text-white mb-6 tracking-tight">
+            Ecosystem Integration
+          </h2>
+          <p className="text-[#A0A0A0] text-sm leading-relaxed mb-8">
+            Blip acts as the invisible settlement layer for the global economy.
+            Wallets, Fintechs, and DAOs can bridge directly into our merchant
+            network via API.
+          </p>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="bg-[#0A0A0A]/30 border border-white/10 p-4 rounded flex items-center gap-3">
+              <div className="w-8 h-8 rounded bg-[#111111] flex items-center justify-center">
+                <svg
+                  className="w-4 h-4 text-[#A0A0A0]"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+                  />
+                </svg>
+              </div>
+              <div>
+                <div className="text-sm font-medium text-white">Wallets</div>
+                <div className="text-[10px] text-[#666666]">
+                  Native "Cash Out" Button
+                </div>
+              </div>
+            </div>
+            <div className="bg-[#0A0A0A]/30 border border-white/10 p-4 rounded flex items-center gap-3">
+              <div className="w-8 h-8 rounded bg-[#111111] flex items-center justify-center">
+                <svg
+                  className="w-4 h-4 text-[#A0A0A0]"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
+              <div>
+                <div className="text-sm font-medium text-white">Fintechs</div>
+                <div className="text-[10px] text-[#666666]">
+                  Crypto-to-Fiat Rails
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h2 className="text-xl font-semibold text-white mb-6 tracking-tight">
+            Who is Blip For?
+          </h2>
+          <div className="space-y-4">
+            {[
+              {
+                title: "Freelancers & Remote Workers",
+                desc: "Get paid in crypto, spend in local AED instantly without exchange delays.",
+              },
+              {
+                title: "Institutions & Treasuries",
+                desc: "Off-ramp corporate treasury with high liquidity and compliant invoicing.",
+              },
+              {
+                title: "OTC Desks",
+                desc: "Source liquidity on-demand from a network of bonded counterparties.",
+              },
+            ].map((item, i) => (
+              <div key={i} className="flex gap-4">
+                <div className="mt-1">
+                  <svg
+                    className="w-5 h-5 text-[#ff6b35]"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-white">{item.title}</h4>
+                  <p className="text-xs text-[#A0A0A0]">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ============================================
+   COMPARISON TABLE SECTION
+   ============================================ */
+const ComparisonTableSection: React.FC = () => {
+  return (
+    <section
+      id="compare"
+      className="py-24 px-6 border-t border-white/5 bg-[#0A0A0A]"
+    >
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-12 text-center">
+          <h2 className="text-2xl font-semibold text-white mb-2 tracking-tight">
+            Market Structure Comparison
+          </h2>
+          <p className="text-[#666666] text-sm  uppercase tracking-widest">
+            Protocol Architecture vs Legacy Models
+          </p>
+        </div>
+
+        <div className="border border-white/10 rounded-lg overflow-hidden">
+          <div className="w-full overflow-x-auto">
+            <table className="min-w-[700px] w-full text-left text-sm">
+              <thead className="bg-[#0A0A0A]/50 text-[#A0A0A0] text-[10px] uppercase tracking-widest">
+                <tr>
+                  <th className="px-4 sm:px-8 py-4 font-medium">Core Metric</th>
+                  <th className="px-4 sm:px-8 py-4 font-medium">
+                    Standard P2P Listing
+                  </th>
+                  <th className="px-4 sm:px-8 py-4 font-medium text-[#ff6b35]">
+                    Blip On-Demand Protocol
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody className="divide-y divide-zinc-800/50 bg-[#0A0A0A]">
+                {[
+                  [
+                    "Discovery Model",
+                    "Static Listings (Passive)",
+                    "Active Demand Broadcasting",
+                  ],
+                  [
+                    "Merchant Availability",
+                    "Unknown / Offline Risk",
+                    "Live Routing (Online Only)",
+                  ],
+                  [
+                    "Pricing Efficiency",
+                    "Static / Wide Spreads",
+                    "Real-Time Competitive Bidding",
+                  ],
+                  [
+                    "Trust Mechanism",
+                    "Manual Dispute Resolution",
+                    "Programmatic Bonding & Slashing",
+                  ],
+                ].map((row, i) => (
+                  <tr key={i}>
+                    <td className="px-4 sm:px-8 py-4 text-[#A0A0A0] whitespace-nowrap">
+                      {row[0]}
+                    </td>
+                    <td className="px-4 sm:px-8 py-4 text-[#666666] whitespace-nowrap">
+                      {row[1]}
+                    </td>
+                    <td className="px-4 sm:px-8 py-4 text-white whitespace-nowrap">
+                      {row[2]}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ============================================
+   FAQ SECTION
+   ============================================ */
+const FAQSection: React.FC<{
+  openFaq: number | null;
+  toggleFaq: (index: number) => void;
+}> = ({ openFaq, toggleFaq }) => {
+  return (
+    <section id="faq" className="py-24 px-6 border-t border-white/5">
+      <div className="max-w-3xl mx-auto">
+        <div className="mb-16 text-center">
+          <h2 className="text-2xl font-semibold text-white mb-2 tracking-tight">
+            Protocol FAQ
+          </h2>
+          <p className="text-[#666666] text-sm  uppercase tracking-widest">
+            Technical & Operational Details
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          {[
+            {
+              q: "Is crypto cashout legal in UAE?",
+              a: "Crypto cashout in the UAE depends on the applicable local regulations and the method used. Blip Money operates as a decentralized coordination layer and does not directly handle fiat transactions. Individual settlement merchants are responsible for executing fiat payouts and complying with relevant local laws, licensing requirements, and regulatory obligations.",
+            },
+            {
+              q: "How can I convert USDT to AED in Dubai?",
+              a: "You can convert USDT to AED by broadcasting a settlement request on Blip.money. Bonded merchants submit bids and execute the transfer via bank or cash payout.",
+            },
+            {
+              q: 'How does "On-Demand" routing work?',
+              a: "Unlike legacy P2P platforms that rely on static order books, Blip Money uses an on-demand settlement model. When a user creates a settlement request, it is broadcast to eligible, bonded merchants. These merchants evaluate the request parameters—such as asset type, volume, and payout requirements—and submit competitive bids in real time. This process enables dynamic price discovery and helps ensure settlement occurs based on current market conditions and available liquidity.",
+            },
+            {
+              q: "Is the escrow custodial?",
+              a: "No. Blip Money uses smart-contract-enforced non-custodial escrow. Funds are locked on-chain and are only released according to protocol-defined settlement conditions. Release occurs after successful settlement verification, which may involve approved proof mechanisms or dispute resolution processes defined by the protocol.",
+            },
+            {
+              q: 'What is a "Bonded Merchant"?',
+              a: "A bonded merchant is a settlement participant who stakes a financial bond to become eligible to receive settlement requests. The bond acts as an economic guarantee of honest behavior. If a merchant accepts a request but fails to complete settlement according to protocol-defined conditions and timeframes, a portion of their bond may be slashed. This mechanism aligns incentives and encourages timely and reliable settlement.",
+            },
+            {
+              q: "Which chains are supported?",
+              a: "Blip Money is designed to be architecturally chain-agnostic. The current implementation operates on Solana, leveraging its high-throughput and low-latency settlement capabilities. Support for additional chains may be considered in the future as the protocol evolves.",
+            },
+            {
+              q: "Do I need to perform KYC?",
+              a: "The Blip Money protocol itself is neutral and permissionless and does not require KYC at the protocol level. However, individual settlement merchants may apply their own compliance requirements depending on their jurisdiction and the selected payout method. For example, certain fiat payout options may require beneficiary or source-of-funds information.",
+            },
+            {
+              q: "What are the settlement times?",
+              a: "Settlement times vary based on the selected payout method and merchant execution. Certain local or in-person settlement options may complete more quickly, while fiat bank transfers are subject to external banking systems and their operating hours. In general, settlement may occur the same day during local banking hours or the next business day, depending on the chosen rail and merchant availability",
+            },
+          ].map((faq, i) => (
+            <div
+              key={i}
+              className="border border-white/10 bg-[#0A0A0A]/20 rounded-lg overflow-hidden"
+            >
+              <button
+                className="w-full flex justify-between items-center p-5 text-left bg-[#0A0A0A]/40 hover:bg-[#111111]/60 transition-colors"
+                onClick={() => toggleFaq(i)}
+              >
+                <span className="font-medium text-white text-sm">{faq.q}</span>
+
+                <svg
+                  className={`w-4 h-4 text-[#A0A0A0] transition-transform duration-300 ${
+                    openFaq === i ? "rotate-180" : ""
+                  }`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              <AnimatePresence initial={false}>
+                {openFaq === i && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.35 }}
+                    className="bg-zinc-950/50 overflow-hidden"
+                  >
+                    <div className="p-5 text-xs text-[#A0A0A0] leading-relaxed border-t border-white/10">
+                      {faq.a}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ============================================
+   CTA SECTION
+   ============================================ */
+const CTASection: React.FC<{
+  navigate: (path: string) => void;
+}> = ({ navigate }) => {
+  return (
+    <section className="py-24 px-6 border-t border-white/5">
+      <div className="max-w-4xl mx-auto text-center">
+        <h2 className="text-3xl font-semibold text-white mb-6 tracking-tight">
+          Ready to Broadcast?
+        </h2>
+        <p className="text-[#A0A0A0] mb-8 max-w-lg mx-auto leading-relaxed">
+          Join the network where liquidity is routed, not listed. Institutional
+          settlement for the decentralized economy.
+        </p>
+        <button
+          onClick={() => navigate("/coming-soon")}
+          className="group inline-flex items-center justify-center gap-3
+      px-6 h-[52px]
+      rounded-full
+      bg-[#ffffff] text-black
+       font-medium
+      hover:bg-[#e5e5e5]
+      transition-all duration-300"
+        >
+          Launch Protocol Terminal
+        </button>
+      </div>
+    </section>
+  );
+};
+
+/* ============================================
+   DETAIL MODAL
+   ============================================ */
+const DetailModal: React.FC<{
+  isOpen: boolean;
+  title: string;
+  content: string;
+  onClose: () => void;
+}> = ({ isOpen, title, content, onClose }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-[70] bg-black/90 backdrop-blur-sm flex items-center justify-center p-6">
+      <div className="bg-[#0a0a0a] border border-white/10 p-8 rounded w-full max-w-lg shadow-2xl modal-animate relative">
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-[#A0A0A0] hover:text-white"
+        >
+          {/* <svg
+            className="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg> */}
+        </button>
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-1 h-6 bg-[#ff6b35] rounded-full"></div>
+          <h3 className="text-lg font-bold text-white">{title}</h3>
+        </div>
+        <div
+          className="text-sm text-[#A0A0A0] leading-relaxed font-light"
+          dangerouslySetInnerHTML={{ __html: content }}
+        />
+        <div className="mt-8 pt-6 border-t border-white/5 flex justify-end">
+          <button
+            onClick={onClose}
+            className="text-xs  text-[#A0A0A0] hover:text-white uppercase tracking-widest"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* ============================================
+   TERMINAL MODAL
+   ============================================ */
+const TerminalModal: React.FC<{
+  isOpen: boolean;
+  context: string;
+}> = ({ isOpen, context }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-[60] bg-black/90 backdrop-blur-sm flex items-center justify-center">
+      <div className="bg-[#0a0a0a] border border-white/10 p-8 rounded w-full max-w-md shadow-2xl modal-animate ">
+        <div className="flex items-center gap-3 mb-6 border-b border-white/5 pb-4">
+          <div className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse"></div>
+          <span className="text-xs text-white tracking-widest uppercase">
+            Protocol Handshake
+          </span>
+        </div>
+        <div className="space-y-2 text-xs text-[#A0A0A0] mb-6">
+          <p>
+            &gt; <span>{context}</span>
+          </p>
+          <p>&gt; Verifying device integrity...</p>
+          <p>&gt; Fetching active merchant bonds...</p>
+        </div>
+        <div className="h-0.5 w-full bg-[#0A0A0A] rounded-full overflow-hidden mb-4">
+          <div className="h-full bg-[#ff6b35]w-full transition-all duration-[2000ms] ease-out"></div>
+        </div>
+        <div className="text-[10px] text-white text-right">ESTABLISHED</div>
+      </div>
+    </div>
+  );
+};
+
+/* ============================================
+   MAIN COMPONENT
+   ============================================ */
 const CryptoToUae: React.FC = () => {
   // State management
   const [simAsset, setSimAsset] = useState<string>("USDT");
@@ -147,43 +1445,6 @@ const CryptoToUae: React.FC = () => {
     },
   ];
 
-  // Simulator calculation
-  const calculateSimulation = () => {
-    let rate = 3.674;
-    let target = "AED";
-
-    if (simAsset === "AED") {
-      rate = 0.2721;
-      target = "USDT";
-    } else if (simAsset === "USDC") {
-      rate = 3.672;
-    } else if (simAsset === "BTC") {
-      rate = 242000;
-    } else if (simAsset === "ETH") {
-      rate = 9800;
-    }
-
-    let spreadPercent = 0.012;
-    if (simPriority === "fastest") spreadPercent = 0.02;
-
-    const gross = simAmount * rate;
-    const fee = gross * spreadPercent;
-    const net = gross - fee;
-
-    return { net, fee, spreadPercent, target };
-  };
-
-  const simResult = calculateSimulation();
-
-  // Filter merchant nodes based on path parameters
-  const filteredMerchantNodes = merchantNodes.filter((node) => {
-    return (
-      node.type === pathMethod &&
-      node.region === pathRegion &&
-      pathAmount >= node.min
-    );
-  });
-
   // Modal handlers
   const openServiceModal = (serviceKey: string) => {
     const data = serviceData[serviceKey];
@@ -192,12 +1453,6 @@ const CryptoToUae: React.FC = () => {
       setModalContent(data.content);
       setDetailModalOpen(true);
     }
-  };
-
-  const showDetailModal = (title: string, content: string) => {
-    setModalTitle(title);
-    setModalContent(content);
-    setDetailModalOpen(true);
   };
 
   const closeDetailModal = () => {
@@ -215,10 +1470,6 @@ const CryptoToUae: React.FC = () => {
 
   const toggleFaq = (index: number) => {
     setOpenFaq(openFaq === index ? null : index);
-  };
-
-  const scrollToTop = () => {
-    window.scrollTo(0, 0);
   };
 
   const scrollToSection = (id: string) => {
@@ -260,1139 +1511,61 @@ const CryptoToUae: React.FC = () => {
 
   return (
     <div className="bg-[#030303] text-white min-h-screen selection:bg-white/20 selection:text-white overflow-x-hidden font-sans">
+      <SEO
+        title="Crypto to AED | USDT to AED Converter & Cashout in UAE | Blip Money
+"
+        description="Convert crypto to AED effortlessly with Blip Money. Instantly estimate USDT to AED rates, sell crypto in UAE, and explore reliable crypto cashout, withdrawals, and crypto-to-cash solutions tailored for UAE users."
+        canonical="https://blip.money/cryptoToAed"
+      />
+
       {/* Grain overlay for premium film texture */}
       <div className="grain-overlay" />
 
-      {/* Hero Section */}
-      <main className="relative pt-40 pb-20 px-6">
-        <div className="absolute inset-0 bg-vignette pointer-events-none"></div>
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center relative z-10">
-          <div className="lg:col-span-7 space-y-8">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded border border-white/10 bg-[#0A0A0A]/30 text-[#A0A0A0] text-[10px]  tracking-wider">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]"></span>
-              ACTIVE ROUTING ENGINE
-            </div>
+      <HeroSection navigate={navigate} scrollToSection={scrollToSection} />
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-[-0.04em] leading-[1.05] ">
-              On-Demand <br />
-              P2P Settlement.
-            </h1>
+      <SEOContentBlock />
 
-            <div className="space-y-4 max-w-lg">
-              <p className="text-lg text-[#A0A0A0] font-light leading-relaxed">
-                Broadcast your demand. Bonded merchants compete to fill your
-                order. Experience{" "}
-                <span className="text-white">Non-Custodial Escrow</span> and{" "}
-                <span className="text-white">Reputation-Weighted Routing</span>{" "}
-                for instant fiat settlement.
-              </p>
-            </div>
+      <MarketSimulationSection
+        simAsset={simAsset}
+        setSimAsset={setSimAsset}
+        simAmount={simAmount}
+        setSimAmount={setSimAmount}
+        simPriority={simPriority}
+        setSimPriority={setSimPriority}
+        pathAsset={pathAsset}
+        setPathAsset={setPathAsset}
+        pathMethod={pathMethod}
+        setPathMethod={setPathMethod}
+        pathRegion={pathRegion}
+        setPathRegion={setPathRegion}
+        pathAmount={pathAmount}
+        setPathAmount={setPathAmount}
+        merchantNodes={merchantNodes}
+        openTerminal={openTerminal}
+      />
 
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <button
-                onClick={() =>
-                 navigate("/coming-soon")
-                }
-                className="group inline-flex items-center justify-center gap-3
-      w-[220px] h-[56px]
-      rounded-full
-      bg-[#ffffff] text-black
-      text-lg font-medium
-      hover:bg-[#e5e5e5]
-      transition-all duration-300"
-              >
-                Broadcast Request
-              </button>
-              <button
-                onClick={() => scrollToSection("mechanics")}
-                className="inline-flex items-center justify-center gap-3
-      w-[220px] h-[56px]
-      rounded-full
-      border border-white/10
-      text-white
-      text-lg font-medium
-      hover:bg-white/5 hover:border-white/20
-      transition-all duration-300"
-              >
-                How it Works
-              </button>
-            </div>
+      <MerchantAssuranceSection />
 
-            {/* Trust Signals */}
-            <div className="pt-12 border-t border-white/20 flex flex-wrap gap-8 items-center opacity-80">
-              <span className="text-[10px]  uppercase tracking-widest block w-full mb-1">
-                Settlement Assurance
-              </span>
+      <ProtocolMechanicsSection />
 
-              <span className="flex items-center gap-2 text-white font-bold text-xs tracking-wide">
-                <ShieldCheck size={14} strokeWidth={2} />
-                BONDED MERCHANTS
-              </span>
+      <ServicesGridSection openServiceModal={openServiceModal} />
 
-              <span className="flex items-center gap-2 text-white font-bold text-xs tracking-wide">
-                <Lock size={14} strokeWidth={2} />
-                SMART ESCROW
-              </span>
+      <EcosystemSection />
 
-              <span className="flex items-center gap-2 text-white font-bold text-xs tracking-wide">
-                <Zap size={14} strokeWidth={2} />
-                ALGO ROUTING
-              </span>
-            </div>
-          </div>
-        </div>
-      </main>
+      <ComparisonTableSection />
 
-      {/* SEO Content Block */}
-      <section className="border-b border-white/5 bg-black">
-        <div className="max-w-5xl mx-auto px-6 py-16 text-[#A0A0A0] text-sm leading-relaxed">
-          <h2 className="text-xl font-semibold text-white mb-4">
-            Crypto Cashout & USDT to AED in UAE
-          </h2>
+      <FAQSection openFaq={openFaq} toggleFaq={toggleFaq} />
 
-          <p>
-            Blip.money provides a decentralized way to perform crypto cashout in
-            UAE using non-custodial escrow and bonded merchants. Users can
-            convert USDT to AED, sell crypto in Dubai, or withdraw crypto
-            directly to bank accounts or physical cash locations without relying
-            on centralized exchanges.
-          </p>
+      <CTASection navigate={navigate} />
 
-          <p className="mt-4">
-            Unlike traditional crypto off-ramps, Blip.money enables on-demand
-            settlement where merchants compete to fulfill your request. This
-            ensures better pricing, faster execution, and reduced counterparty
-            risk for crypto to cash Dubai transactions.
-          </p>
+      <DetailModal
+        isOpen={detailModalOpen}
+        title={modalTitle}
+        content={modalContent}
+        onClose={closeDetailModal}
+      />
 
-          <p className="mt-4">
-            Supported services include crypto to AED conversion, USDT cashout in
-            Dubai, anonymous crypto withdrawals, and institutional-grade OTC
-            settlement across Dubai and Abu Dhabi.
-          </p>
-        </div>
-      </section>
-
-      {/* Tools Section */}
-      <section
-        id="tools"
-        className="py-24 px-6 border-t border-white/5 bg-[#0A0A0A]"
-      >
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-12 flex items-end justify-between">
-            <div>
-              <h2 className="text-2xl font-semibold text-white mb-2 tracking-tight">
-                Market Simulation
-              </h2>
-              <p className="text-[#666666] text-sm ">
-                ESTIMATE BIDDING SPREADS & LIQUIDITY
-              </p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Rate Estimator */}
-            <div className="glass-panel p-6 rounded lg:col-span-2">
-              <div className="flex items-center gap-2 mb-6 border-b border-white/5 pb-4">
-                <div className="w-1.5 h-1.5 bg-[ ] rounded-sm"></div>
-                <h3 className=" text-xs text-white uppercase tracking-widest">
-                  Rate Estimator
-                </h3>
-              </div>
-              <div className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div>
-                    <label className="block text-[10px]  text-[#666666] mb-2 uppercase tracking-widest">
-                      Asset
-                    </label>
-                    <div className="relative inline-block">
-                      <select
-                        value={simAsset}
-                        onChange={(e) => setSimAsset(e.target.value)}
-                        className="w-full
-    bg-black/40
-    border border-white/10
-    text-white
-    px-4 pr-10 py-3
-    rounded-md
-    font-mono text-sm
-    transition
-    hover:border-white/20
-    focus:outline-none
-     appearance-none"
-                      >
-                        <option value="USDT" className="bg-[#0A0A0A]">USDT </option>
-                        <option value="USDC" className="bg-[#0A0A0A] ">USDC </option>
-                        <option value="BTC" className="bg-[#0A0A0A] " >BTC </option>
-                        <option value="ETH" className="bg-[#0A0A0A] " >ETH </option>
-                      </select>
-                      <ChevronDown
-                        className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"
-                        strokeWidth={2.5}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="md:col-span-2">
-                    <label className="block text-[10px]  text-[#666666] mb-2 uppercase tracking-widest">
-                      Routing Strategy
-                    </label>
-                    <div className="grid grid-cols-2 gap-2">
-                      <label className="cursor-pointer">
-                        <input
-                          type="radio"
-                          name="sim-priority"
-                          value="cheapest"
-                          checked={simPriority === "cheapest"}
-                          onChange={() => setSimPriority("cheapest")}
-                          className="peer sr-only"
-                        />
-                        <div className="border border-white/10 rounded p-2 hover:bg-[#0A0A0A] transition-all peer-checked:border-zinc-500 peer-checked:bg-[#0A0A0A]">
-                          <div className="flex justify-between items-center mb-1">
-                            <span className="text-xs font-medium text-white">
-                              Cheapest
-                            </span>
-                            <span className="text-[10px]  text-[#666666]">
-                              ~1.2% Spread
-                            </span>
-                          </div>
-                          <div className="text-[9px]  text-[#A0A0A0]">
-                            Wait for competitive fill
-                          </div>
-                        </div>
-                      </label>
-                      <label className="cursor-pointer">
-                        <input
-                          type="radio"
-                          name="sim-priority"
-                          value="fastest"
-                          checked={simPriority === "fastest"}
-                          onChange={() => setSimPriority("fastest")}
-                          className="peer sr-only"
-                        />
-                        <div className="border border-white/10 rounded p-2 hover:bg-[#0A0A0A] transition-all peer-checked:border-zinc-500 peer-checked:bg-[#0A0A0A]">
-                          <div className="flex justify-between items-center mb-1">
-                            <span className="text-xs font-medium text-white">
-                              Fastest
-                            </span>
-                            <span className="text-[10px]  text-[#666666]">
-                              ~2.0% Spread
-                            </span>
-                          </div>
-                          <div className="text-[9px]  text-[#A0A0A0]">
-                            Immediate acceptance
-                          </div>
-                        </div>
-                      </label>
-                    </div>
-                  </div>
-
-                  <div className="col-span-full">
-                    <label className="block text-[10px]  text-[#666666] mb-2 uppercase tracking-widest">
-                      Volume
-                    </label>
-                    <div className="flex items-center gap-4 border-b border-white/10 pb-2">
-                      <input
-                        type="number"
-                        value={simAmount}
-                        onChange={(e) =>
-                          setSimAmount(parseFloat(e.target.value) || 0)
-                        }
-                        className="bg-transparent text-white  text-xl w-full outline-none"
-                      />
-                      <span className="text-xs  text-[#A0A0A0]">
-                        {simAsset}
-                      </span>
-                    </div>
-                    <div className="pt-4">
-                      <input
-                        type="range"
-                        min="100"
-                        max="1000000"
-                        step="100"
-                        value={simAmount}
-                        onChange={(e) =>
-                          setSimAmount(parseFloat(e.target.value))
-                        }
-                        className="w-full accent-gray-600"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-[#0A0A0A]/30 p-4 rounded border border-white/10/50 flex justify-between items-end">
-                  <div>
-                    <span className="text-[10px]  text-[#666666] block mb-1">
-                      EST. MERCHANT SPREAD (~
-                      {(simResult.spreadPercent * 100).toFixed(1)}%)
-                    </span>
-                    <span className="text-sm text-[#A0A0A0] ">
-                      {simResult.fee.toLocaleString("en-US", {
-                        minimumFractionDigits: 2,
-                      })}{" "}
-                      {simResult.target}
-                    </span>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-[10px]  text-[#666666] block mb-1">
-                      EST. NET ({simResult.target})
-                    </span>
-                    <span className="text-2xl font-bold text-white tracking-tight">
-                      {simResult.net.toLocaleString("en-US", {
-                        minimumFractionDigits: 2,
-                      })}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Network Status */}
-            <div className="glass-panel p-6 rounded">
-              <div className="flex items-center gap-2 mb-6 border-b border-white/5 pb-4">
-                <div className="w-1.5 h-1.5 bg-[#ff6b35] rounded-full animate-pulse"></div>
-                <h3 className=" text-xs text-white uppercase tracking-widest">
-                  Active Corridors
-                </h3>
-              </div>
-              <div className="space-y-6">
-                <div className="flex justify-between items-center border-b border-white/5 pb-3">
-                  <span className="text-xs text-[#A0A0A0]">Dubai (DXB)</span>
-                  <span className="text-[10px]  text-[#ff6b35] border border-[#ff6b35]/20 bg-[#ff6b35]/10 px-1.5 py-0.5 rounded">
-                    HIGH_LIQUIDITY
-                  </span>
-                </div>
-                <div className="flex justify-between items-center border-b border-white/5 pb-3">
-                  <span className="text-xs text-[#A0A0A0]">
-                    Abu Dhabi (AUH)
-                  </span>
-                  <span className="text-[10px]  text-[#A0A0A0]">MODERATE</span>
-                </div>
-                <div className="pt-2">
-                  <div className="flex justify-between text-[10px]  text-[#A0A0A0] mb-2">
-                    <span>TOTAL_BONDED_VALUE</span>
-                    <span className="text-white">$4.2M</span>
-                  </div>
-                  <div className="h-0.5 bg-[#111111] w-full">
-                    <div className="h-full bg-zinc-400 w-[75%]"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Path Finder */}
-            <div className="glass-panel p-8 rounded lg:col-span-3">
-              <div className="flex items-center gap-3 mb-8 border-b border-white/5 pb-6">
-                <svg
-                  className="w-4 h-4 text-[#A0A0A0]"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 10V3L4 14h7v7l9-11h-7z"
-                  />
-                </svg>
-                <div>
-                  <h3 className="text-sm font-medium text-white">
-                    Liquidity Discovery
-                  </h3>
-                  <p className="text-[10px] text-[#666666]  mt-1">
-                    BROADCAST DEMAND TO MATCH WITH MERCHANT NODES
-                  </p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
-                <div>
-                  <label className="block text-[10px]  text-[#666666] mb-2 uppercase tracking-widest">
-                    Input Asset
-                  </label>
-                  <div className="relative inline-block">
-                    <select
-                      value={pathAsset}
-                      onChange={(e) => setPathAsset(e.target.value)}
-                      className="
-    w-full
-    bg-black/40
-    border border-white/10
-    text-white
-    px-4 pr-10 py-3
-    rounded-md
-    font-mono text-sm
-    transition
-    hover:border-white/20
-    focus:outline-none
-     appearance-none
-  "
-                    >
-                      <option className="bg-[#0A0A0A]" value="USDT">
-                        USDT
-                      </option>
-                      <option className="bg-[#0A0A0A]" value="USDC">
-                        USDC
-                      </option>
-                      <option className="bg-[#0A0A0A]" value="BTC">
-                        BTC
-                      </option>
-                    </select>
-
-                    {/* Down Arrow */}
-                    <ChevronDown
-                      className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"
-                      strokeWidth={2.5}
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-[10px]  text-[#666666] mb-2 uppercase tracking-widest">
-                    Payout Method
-                  </label>
-                  <div className="relative inline-block">
-                    <select
-                      value={pathMethod}
-                      onChange={(e) =>
-                        setPathMethod(e.target.value as "bank" | "cash")
-                      }
-                      className="
-    
-   bg-black/40
-    border 
-    text-white
-    px-4 pr-16 py-3
-    rounded-md
-    font-mono text-sm
-    focus:outline-none appearance-none
-  "
-                    >
-                      <option className="bg-[#0A0A0A]">Bank Transfer</option>
-                      <option className="bg-[#0A0A0A]">Physical Vault</option>
-                    </select>
-                    <ChevronDown
-                      className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"
-                      strokeWidth={2.5}
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-[10px]  text-[#666666] mb-2 uppercase tracking-widest">
-                    Region
-                  </label>
-                  <div className="relative inline-block">
-                    <select
-                      value={pathRegion}
-                      onChange={(e) =>
-                        setPathRegion(e.target.value as "dxb" | "auh")
-                      }
-                      className="
-    w-full
-    bg-black/40
-    border border-white/10
-    text-white
-    px-4 pr-10 py-3
-    rounded-md
-    font-mono text-sm
-    transition
-    hover:border-white/20
-    focus:outline-none
-     appearance-none
-  "
-                    >
-                      <option className="bg-[#0A0A0A]" value="dxb">
-                        Dubai (Main)
-                      </option>
-                      <option className="bg-[#0A0A0A]" value="auh">
-                        Abu Dhabi
-                      </option>
-                    </select>
-                    <ChevronDown
-                      className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"
-                      strokeWidth={2.5}
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-[10px]  text-[#666666] mb-2 uppercase tracking-widest">
-                    Volume
-                  </label>
-                  <div className="pt-2">
-                    <input
-                      type="range"
-                      min="1000"
-                      max="1000000"
-                      step="5000"
-                      value={pathAmount}
-                      onChange={(e) => setPathAmount(parseInt(e.target.value))}
-                      className="w-full accent-gray-600"
-                    />
-                    <div className="text-right text-[10px] text-[#A0A0A0]  mt-1">
-                      {pathAmount.toLocaleString("en-US")} AED
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {filteredMerchantNodes.length === 0 ? (
-                  <div className="col-span-full py-8 text-center text-[#444444]  text-xs">
-                    NO ACTIVE MERCHANTS FOR THESE PARAMETERS
-                  </div>
-                ) : (
-                  filteredMerchantNodes.map((node) => (
-                    <div
-                      key={node.id}
-                      className="border border-white/10 bg-[#0A0A0A]/20 p-4 rounded hover:border-white/20 transition-all cursor-default group"
-                    >
-                      <div className="flex justify-between items-start mb-3">
-                        <span className="text-[9px]  text-[#A0A0A0] uppercase tracking-wider">
-                          {node.type}
-                        </span>
-                        <span className="text-[9px]  text-[#A0A0A0] border border-white/10 px-1.5 py-0.5 rounded flex items-center gap-1">
-                          <div className="w-1.5 h-1.5 bg-[#ff6b35] rounded-full"></div>{" "}
-                          BOND: {node.bond}
-                        </span>
-                      </div>
-                      <h4 className="text-white font-medium text-sm mb-1 group-hover:text-white">
-                        {node.name}
-                      </h4>
-                      <p className="text-[10px] text-[#666666] mb-3">
-                        {node.desc}
-                      </p>
-                      <div className="flex items-center justify-between pt-2 border-t border-white/10/50">
-                        <span className="text-[9px] text-[#666666] ">
-                          MIN: {node.min.toLocaleString()}
-                        </span>
-                        <button
-                          onClick={() =>
-                            openTerminal(`Connecting to ${node.name}...`)
-                          }
-                          className="text-[9px] font-medium text-[#ff6b35] hover:text-[#ff6b35]/20"
-                        >
-                          REQUEST -&gt;
-                        </button>
-                      </div>
-                    </div>
-                  ))
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Merchant Assurance Levels */}
-      <section className="py-24 px-6 border-t border-white/5 bg-black">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-12 text-center">
-            <h2 className="text-2xl font-semibold text-white mb-2 tracking-tight">
-              Merchant Assurance Protocol
-            </h2>
-            <p className="text-[#666666] text-sm  uppercase tracking-widest">
-              Reputation-Weighted Routing (Section 11)
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Tier 3 */}
-            <div className="glass-panel p-6 rounded border border-white/30">
-              <div className="flex justify-between items-center mb-4">
-                <span className="text-xs  text-[#A0A0A0] uppercase">
-                  Tier 3
-                </span>
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-[#111111]/50 transition-transform group-hover:scale-110">
-                  <ShieldCheck className="w-4 h-4 text-[#A0A0A0]" />
-                </div>
-              </div>
-              <h3 className="text-lg font-bold text-white mb-2">
-                Standard Node
-              </h3>
-              <p className="text-xs text-[#A0A0A0] mb-4 h-10">
-                Entry-level merchants for retail volume.
-              </p>
-              <div className="space-y-2 border-t border-white/10 pt-4">
-                <div className="flex justify-between text-xs">
-                  <span className="text-[#666666]">Min Bond</span>{" "}
-                  <span className="text-[#A0A0A0]">$10,000</span>
-                </div>
-                <div className="flex justify-between text-xs">
-                  <span className="text-[#666666]">Max Tx</span>{" "}
-                  <span className="text-[#A0A0A0]">$5,000</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Tier 2 */}
-            <div className="glass-panel p-6 rounded border border-[#ff6b35]/30 relative overflow-hidden">
-              <div className="flex justify-between items-center mb-4">
-                <span className="text-xs  text-[#ff6b35] uppercase">
-                  Tier 2
-                </span>
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-[#ff6b35]/30 transition-transform group-hover:scale-110">
-                  <ShieldCheck className="w-4 h-4 text-[#ff6b35]" />
-                </div>
-              </div>
-              <h3 className="text-lg font-bold text-white mb-2">
-                Verified Merchant
-              </h3>
-              <p className="text-xs text-[#A0A0A0] mb-4 h-10">
-                High-volume nodes with automated settlement hooks.
-              </p>
-              <div className="space-y-2 border-t border-white/10 pt-4">
-                <div className="flex justify-between text-xs">
-                  <span className="text-[#666666]">Min Bond</span>{" "}
-                  <span className="text-white">$50,000</span>
-                </div>
-                <div className="flex justify-between text-xs">
-                  <span className="text-[#666666]">Max Tx</span>{" "}
-                  <span className="text-white">$100,000</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Tier 1 */}
-            <div className="glass-panel p-6 rounded border border-[#ff6b35]/50 bg-gradient-to-br from-zinc-900 to-black relative overflow-hidden">
-              <div className="flex justify-between items-center mb-4">
-                <span className="text-xs  text-[#ff6b35] uppercase font-bold">
-                  Tier 1 • Institutional
-                </span>
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-[#ff6b35]/20 border border-[#ff6b35]/30">
-                  <Building className="w-4 h-4 text-white" strokeWidth={2} />
-                </div>
-              </div>
-              <h3 className="text-lg font-bold text-white mb-2">
-                Liquidity Partner
-              </h3>
-              <p className="text-xs text-[#A0A0A0] mb-4 h-10">
-                Fully bonded institutions with direct banking APIs.
-              </p>
-              <div className="space-y-2 border-t border-white/10 pt-4">
-                <div className="flex justify-between text-xs">
-                  <span className="text-[#A0A0A0]">Min Bond</span>{" "}
-                  <span className="text-white ">$250,000+</span>
-                </div>
-                <div className="flex justify-between text-xs">
-                  <span className="text-[#A0A0A0]">Max Tx</span>{" "}
-                  <span className="text-white ">Unlimited</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Protocol Mechanics */}
-      <section id="mechanics" className="py-24 px-6 border-t border-white/5">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-16 text-center">
-            <h2 className="text-2xl font-semibold text-white mb-2 tracking-tight">
-              Protocol Mechanics
-            </h2>
-            <p className="text-[#666666] text-sm  uppercase tracking-widest">
-              From Demand Broadcast to Finality
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div className="glass-panel p-6 rounded relative group">
-              <div className="absolute -top-3 -left-3 w-8 h-8 bg-[#111111] rounded-full flex items-center justify-center text-[#A0A0A0]  text-xs border border-white/10">
-                01
-              </div>
-              <h3 className="text-sm font-bold text-white mb-2">
-                Demand Broadcast
-              </h3>
-              <p className="text-xs text-[#A0A0A0] leading-relaxed">
-                User broadcasts a settlement request (Asset, Volume, Max Time)
-                to the network. No static listings.
-              </p>
-            </div>
-            <div className="glass-panel p-6 rounded relative group">
-              <div className="absolute -top-3 -left-3 w-8 h-8 bg-[#111111] rounded-full flex items-center justify-center text-[#A0A0A0]  text-xs border border-white/10">
-                02
-              </div>
-              <h3 className="text-sm font-bold text-white mb-2">
-                Merchant Bidding
-              </h3>
-              <p className="text-xs text-[#A0A0A0] leading-relaxed">
-                Bonded merchants analyze the request and submit bids. Routing
-                engine selects best execution.
-              </p>
-            </div>
-            <div className="glass-panel p-6 rounded relative group">
-              <div className="absolute -top-3 -left-3 w-8 h-8 bg-[#111111] rounded-full flex items-center justify-center text-[#A0A0A0]  text-xs border border-white/10">
-                03
-              </div>
-              <h3 className="text-sm font-bold text-white mb-2">
-                Non-Custodial Escrow
-              </h3>
-              <p className="text-xs text-[#A0A0A0] leading-relaxed">
-                User funds are locked in a smart contract. Merchant sends fiat
-                off-chain.
-              </p>
-            </div>
-            <div className="glass-panel p-6 rounded relative group">
-              <div className="absolute -top-3 -left-3 w-8 h-8 bg-[#111111] rounded-full flex items-center justify-center text-[#A0A0A0]  text-xs border border-white/10">
-                04
-              </div>
-              <h3 className="text-sm font-bold text-white mb-2">
-                Proof & Release
-              </h3>
-              <p className="text-xs text-[#A0A0A0] leading-relaxed">
-                Oracle validates payment proof. Contract releases crypto to
-                merchant. Reputation score updates.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Services Grid */}
-      <section
-        id="services"
-        className="py-24 px-6 border-t border-white/5 bg-[#0A0A0A]"
-      >
-        <div className="max-w-7xl mx-auto">
-          <h4 className="text-xs  text-[#666666] uppercase tracking-widest mb-8">
-            Core Settlement Services
-          </h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              {
-                key: "crypto_aed",
-                title: "Crypto to AED",
-                desc: "Convert your crypto directly to AED through our decentralized settlement network.",
-                icon: ArrowLeftRight,
-                bg: "bg-blue-900/20",
-                text: "text-blue-400",
-              },
-              {
-                key: "usdt_aed",
-                title: "USDT to AED",
-                desc: "Easily exchange USDT to AED securely and instantly.",
-                icon: LogOut,
-                bg: "bg-purple-900/20",
-                text: "text-purple-400",
-              },
-              {
-                key: "crypto_cashout",
-                title: "Crypto Cashout UAE",
-                desc: "Cash out your crypto in the UAE without custodial risk.",
-                icon: Coins,
-                bg: "bg-green-900/20",
-                text: "text-green-400",
-              },
-              {
-                key: "withdraw_crypto",
-                title: "Withdraw Crypto in Dubai",
-                desc: "Withdraw crypto in Dubai safely and privately.",
-                icon: Landmark,
-                bg: "bg-orange-900/20",
-                text: "text-orange-400",
-              },
-              {
-                key: "crypto_cash",
-                title: "Crypto to Cash Dubai",
-                desc: "Turn your crypto into cash in Dubai fast.",
-                icon: Banknote,
-                bg: "bg-pink-900/20",
-                text: "text-pink-400",
-              },
-              {
-                key: "sell_crypto",
-                title: "Sell Crypto UAE",
-                desc: "Sell your crypto in the UAE with ease.",
-                icon: TrendingUp,
-                bg: "bg-cyan-900/20",
-                text: "text-cyan-400",
-              },
-            ].map((service) => {
-              const Icon = service.icon;
-              return (
-                <div
-                  key={service.key}
-                  className="glass-panel p-6 rounded card-hover cursor-pointer group flex flex-col border border-white/20"
-                >
-                  <div className="flex justify-between items-start mb-2">
-                    <div
-                      className={`w-12 h-12 rounded-xl flex items-center justify-center ${service.bg} ${service.text}`}
-                    >
-                      <Icon size={24} strokeWidth={2} />
-                    </div>
-                  </div>
-                  <h3 className="text-base font-bold text-white mb-3">
-                    {service.title}
-                  </h3>
-                  <p className="text-sm text-[#A0A0A0] leading-relaxed mb-6 flex-grow">
-                    {service.desc}
-                  </p>
-                  <button
-                    onClick={() => openServiceModal(service.key)}
-                    className={`w-full py-2 rounded border border-white/10 bg-[#0A0A0A]/50 text-xs font-medium text-[#A0A0A0] group-hover:border-${service.bg} group-hover:text-${service.bg} transition-all`}
-                  >
-                    Learn More
-                  </button>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Use Cases & Ecosystem */}
-      <section className="py-24 px-6 border-t border-white/5">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16">
-          <div>
-            <h2 className="text-xl font-semibold text-white mb-6 tracking-tight">
-              Ecosystem Integration
-            </h2>
-            <p className="text-[#A0A0A0] text-sm leading-relaxed mb-8">
-              Blip acts as the invisible settlement layer for the global
-              economy. Wallets, Fintechs, and DAOs can bridge directly into our
-              merchant network via API.
-            </p>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-[#0A0A0A]/30 border border-white/10 p-4 rounded flex items-center gap-3">
-                <div className="w-8 h-8 rounded bg-[#111111] flex items-center justify-center">
-                  <svg
-                    className="w-4 h-4 text-[#A0A0A0]"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <div className="text-sm font-medium text-white">Wallets</div>
-                  <div className="text-[10px] text-[#666666]">
-                    Native "Cash Out" Button
-                  </div>
-                </div>
-              </div>
-              <div className="bg-[#0A0A0A]/30 border border-white/10 p-4 rounded flex items-center gap-3">
-                <div className="w-8 h-8 rounded bg-[#111111] flex items-center justify-center">
-                  <svg
-                    className="w-4 h-4 text-[#A0A0A0]"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <div className="text-sm font-medium text-white">Fintechs</div>
-                  <div className="text-[10px] text-[#666666]">
-                    Crypto-to-Fiat Rails
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <h2 className="text-xl font-semibold text-white mb-6 tracking-tight">
-              Who is Blip For?
-            </h2>
-            <div className="space-y-4">
-              {[
-                {
-                  title: "Freelancers & Remote Workers",
-                  desc: "Get paid in crypto, spend in local AED instantly without exchange delays.",
-                },
-                {
-                  title: "Institutions & Treasuries",
-                  desc: "Off-ramp corporate treasury with high liquidity and compliant invoicing.",
-                },
-                {
-                  title: "OTC Desks",
-                  desc: "Source liquidity on-demand from a network of bonded counterparties.",
-                },
-              ].map((item, i) => (
-                <div key={i} className="flex gap-4">
-                  <div className="mt-1">
-                    <svg
-                      className="w-5 h-5 text-[#ff6b35]"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-white">
-                      {item.title}
-                    </h4>
-                    <p className="text-xs text-[#A0A0A0]">{item.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Comparison Table */}
-      <section
-        id="compare"
-        className="py-24 px-6 border-t border-white/5 bg-[#0A0A0A]"
-      >
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-12 text-center">
-            <h2 className="text-2xl font-semibold text-white mb-2 tracking-tight">
-              Market Structure Comparison
-            </h2>
-            <p className="text-[#666666] text-sm  uppercase tracking-widest">
-              Protocol Architecture vs Legacy Models
-            </p>
-          </div>
-
-          <div className="border border-white/10 rounded-lg overflow-hidden">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-[#0A0A0A]/50 text-[#A0A0A0]  text-[10px] uppercase tracking-widest">
-                <tr>
-                  <th className="px-8 py-4 font-medium">Core Metric</th>
-                  <th className="px-8 py-4 font-medium">
-                    Standard P2P Listing
-                  </th>
-                  <th className="px-8 py-4 font-medium text-[#ff6b35]">
-                    Blip On-Demand Protocol
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-zinc-800/50 bg-[#0A0A0A]">
-                {[
-                  [
-                    "Discovery Model",
-                    "Static Listings (Passive)",
-                    "Active Demand Broadcasting",
-                  ],
-                  [
-                    "Merchant Availability",
-                    "Unknown / Offline Risk",
-                    "Live Routing (Online Only)",
-                  ],
-                  [
-                    "Pricing Efficiency",
-                    "Static / Wide Spreads",
-                    "Real-Time Competitive Bidding",
-                  ],
-                  [
-                    "Trust Mechanism",
-                    "Manual Dispute Resolution",
-                    "Programmatic Bonding & Slashing",
-                  ],
-                ].map((row, i) => (
-                  <tr key={i}>
-                    <td className="px-8 py-4 text-[#A0A0A0]">{row[0]}</td>
-                    <td className="px-8 py-4 text-[#666666]">{row[1]}</td>
-                    <td className="px-8 py-4 text-white">{row[2]}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section id="faq" className="py-24 px-6 border-t border-white/5">
-        <div className="max-w-3xl mx-auto">
-          <div className="mb-16 text-center">
-            <h2 className="text-2xl font-semibold text-white mb-2 tracking-tight">
-              Protocol FAQ
-            </h2>
-            <p className="text-[#666666] text-sm  uppercase tracking-widest">
-              Technical & Operational Details
-            </p>
-          </div>
-
-          <div className="space-y-4">
-            {[
-              {
-                q: "Is crypto cashout legal in UAE?",
-                a: "Crypto cashout in the UAE depends on the applicable local regulations and the method used. Blip Money operates as a decentralized coordination layer and does not directly handle fiat transactions. Individual settlement merchants are responsible for executing fiat payouts and complying with relevant local laws, licensing requirements, and regulatory obligations.",
-              },
-              {
-                q: "How can I convert USDT to AED in Dubai?",
-                a: "You can convert USDT to AED by broadcasting a settlement request on Blip.money. Bonded merchants submit bids and execute the transfer via bank or cash payout.",
-              },
-              {
-                q: 'How does "On-Demand" routing work?',
-                a: "Unlike legacy P2P platforms that rely on static order books, Blip Money uses an on-demand settlement model. When a user creates a settlement request, it is broadcast to eligible, bonded merchants. These merchants evaluate the request parameters—such as asset type, volume, and payout requirements—and submit competitive bids in real time. This process enables dynamic price discovery and helps ensure settlement occurs based on current market conditions and available liquidity.",
-              },
-              {
-                q: "Is the escrow custodial?",
-                a: "No. Blip Money uses smart-contract-enforced non-custodial escrow. Funds are locked on-chain and are only released according to protocol-defined settlement conditions. Release occurs after successful settlement verification, which may involve approved proof mechanisms or dispute resolution processes defined by the protocol.",
-              },
-              {
-                q: 'What is a "Bonded Merchant"?',
-                a: "A bonded merchant is a settlement participant who stakes a financial bond to become eligible to receive settlement requests. The bond acts as an economic guarantee of honest behavior. If a merchant accepts a request but fails to complete settlement according to protocol-defined conditions and timeframes, a portion of their bond may be slashed. This mechanism aligns incentives and encourages timely and reliable settlement.",
-              },
-              {
-                q: "Which chains are supported?",
-                a: "Blip Money is designed to be architecturally chain-agnostic. The current implementation operates on Solana, leveraging its high-throughput and low-latency settlement capabilities. Support for additional chains may be considered in the future as the protocol evolves.",
-              },
-              {
-                q: "Do I need to perform KYC?",
-                a: "The Blip Money protocol itself is neutral and permissionless and does not require KYC at the protocol level. However, individual settlement merchants may apply their own compliance requirements depending on their jurisdiction and the selected payout method. For example, certain fiat payout options may require beneficiary or source-of-funds information.",
-              },
-              {
-                q: "What are the settlement times?",
-                a: "Settlement times vary based on the selected payout method and merchant execution. Certain local or in-person settlement options may complete more quickly, while fiat bank transfers are subject to external banking systems and their operating hours. In general, settlement may occur the same day during local banking hours or the next business day, depending on the chosen rail and merchant availability",
-              },
-            ].map((faq, i) => (
-              <div className="border border-white/10 bg-[#0A0A0A]/20 rounded-lg overflow-hidden">
-                <button
-                  className="w-full flex justify-between items-center p-5 text-left bg-[#0A0A0A]/40 hover:bg-[#111111]/60 transition-colors"
-                  onClick={() => toggleFaq(i)}
-                >
-                  <span className="font-medium text-white text-sm">
-                    {faq.q}
-                  </span>
-
-                  <svg
-                    className={`w-4 h-4 text-[#A0A0A0] transition-transform duration-300 ${
-                      openFaq === i ? "rotate-180" : ""
-                    }`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-
-                <AnimatePresence initial={false}>
-                  {openFaq === i && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.35 }}
-                      className="bg-zinc-950/50 overflow-hidden"
-                    >
-                      <div className="p-5 text-xs text-[#A0A0A0] leading-relaxed border-t border-white/10">
-                        {faq.a}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-24 px-6 border-t border-white/5">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-semibold text-white mb-6 tracking-tight">
-            Ready to Broadcast?
-          </h2>
-          <p className="text-[#A0A0A0] mb-8 max-w-lg mx-auto leading-relaxed">
-            Join the network where liquidity is routed, not listed.
-            Institutional settlement for the decentralized economy.
-          </p>
-          <button
-            onClick={() => navigate("/coming-soon")}
-            className="group inline-flex items-center justify-center gap-3
-      px-6 h-[52px]
-      rounded-full
-      bg-[#ffffff] text-black
-       font-medium
-      hover:bg-[#e5e5e5]
-      transition-all duration-300"
-          >
-            Launch Protocol Terminal
-          </button>
-        </div>
-      </section>
-
-      {/* Detail Modal */}
-      {detailModalOpen && (
-        <div className="fixed inset-0 z-[70] bg-black/90 backdrop-blur-sm flex items-center justify-center p-6">
-          <div className="bg-[#0a0a0a] border border-white/10 p-8 rounded w-full max-w-lg shadow-2xl modal-animate relative">
-            <button
-              onClick={closeDetailModal}
-              className="absolute top-4 right-4 text-[#A0A0A0] hover:text-white"
-            >
-              {/* <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg> */}
-            </button>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-1 h-6 bg-[#ff6b35] rounded-full"></div>
-              <h3 className="text-lg font-bold text-white">{modalTitle}</h3>
-            </div>
-            <div
-              className="text-sm text-[#A0A0A0] leading-relaxed font-light"
-              dangerouslySetInnerHTML={{ __html: modalContent }}
-            />
-            <div className="mt-8 pt-6 border-t border-white/5 flex justify-end">
-              <button
-                onClick={closeDetailModal}
-                className="text-xs  text-[#A0A0A0] hover:text-white uppercase tracking-widest"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Terminal Modal */}
-      {terminalModalOpen && (
-        <div className="fixed inset-0 z-[60] bg-black/90 backdrop-blur-sm flex items-center justify-center">
-          <div className="bg-[#0a0a0a] border border-white/10 p-8 rounded w-full max-w-md shadow-2xl modal-animate ">
-            <div className="flex items-center gap-3 mb-6 border-b border-white/5 pb-4">
-              <div className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse"></div>
-              <span className="text-xs text-white tracking-widest uppercase">
-                Protocol Handshake
-              </span>
-            </div>
-            <div className="space-y-2 text-xs text-[#A0A0A0] mb-6">
-              <p>
-                &gt; <span>{terminalContext}</span>
-              </p>
-              <p>&gt; Verifying device integrity...</p>
-              <p>&gt; Fetching active merchant bonds...</p>
-            </div>
-            <div className="h-0.5 w-full bg-[#0A0A0A] rounded-full overflow-hidden mb-4">
-              <div className="h-full bg-[#ff6b35]w-full transition-all duration-[2000ms] ease-out"></div>
-            </div>
-            <div className="text-[10px] text-white text-right">ESTABLISHED</div>
-          </div>
-        </div>
-      )}
+      <TerminalModal isOpen={terminalModalOpen} context={terminalContext} />
     </div>
   );
 };
