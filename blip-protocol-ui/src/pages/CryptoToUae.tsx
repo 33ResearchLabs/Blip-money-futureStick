@@ -1,5 +1,10 @@
 import { SEO } from "@/components";
-import { AnimatePresence, motion } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 
 import {
   ArrowLeftRight,
@@ -46,27 +51,47 @@ const HeroSection: React.FC<{
       <div className="absolute inset-0 bg-vignette pointer-events-none"></div>
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center relative z-10">
         <div className="lg:col-span-7 space-y-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded border border-white/10 bg-[#0A0A0A]/30 text-[#A0A0A0] text-[10px]  tracking-wider">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]"></span>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="inline-flex items-center gap-2 px-3 py-1 rounded border border-white/10 bg-[#0A0A0A]/30 text-[#A0A0A0] text-[10px]  tracking-wider"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35] animate-pulse"></span>
             ACTIVE ROUTING ENGINE
-          </div>
+          </motion.div>
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-[-0.04em] leading-[1.05] ">
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.4 }}
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.05] mb-6 tracking-tight"
+          >
             On-Demand <br />
             P2P Settlement.
-          </h1>
+          </motion.h1>
 
-          <div className="space-y-4 max-w-lg">
-            <p className="text-lg text-[#A0A0A0] font-light leading-relaxed">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.6 }}
+            className="space-y-4 max-w-lg"
+          >
+            <p className="text-base md:text-lg text-[#A0A0A0] font-light leading-relaxed">
               Broadcast your demand. Bonded merchants compete to fill your
               order. Experience{" "}
               <span className="text-white">Non-Custodial Escrow</span> and{" "}
               <span className="text-white">Reputation-Weighted Routing</span>{" "}
               for instant fiat settlement.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="flex flex-col sm:flex-row gap-4 pt-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.7 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center"
+          >
             <button
               onClick={() => navigate("/coming-soon")}
               className="group inline-flex items-center justify-center gap-3
@@ -92,29 +117,49 @@ const HeroSection: React.FC<{
             >
               How it Works
             </button>
-          </div>
+          </motion.div>
 
           {/* Trust Signals */}
-          <div className="pt-12 border-t border-white/20 flex flex-wrap gap-8 items-center opacity-80">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.9 }}
+            className="pt-12 border-t border-white/20 flex flex-wrap gap-8 items-center opacity-80"
+          >
             <span className="text-[10px]  uppercase tracking-widest block w-full mb-1">
               Settlement Assurance
             </span>
 
-            <span className="flex items-center gap-2 text-white font-bold text-xs tracking-wide">
+            <motion.span
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 1.1 }}
+              className="flex items-center gap-2 text-white font-bold text-xs tracking-wide"
+            >
               <ShieldCheck size={14} strokeWidth={2} />
               BONDED MERCHANTS
-            </span>
+            </motion.span>
 
-            <span className="flex items-center gap-2 text-white font-bold text-xs tracking-wide">
+            <motion.span
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 1.2 }}
+              className="flex items-center gap-2 text-white font-bold text-xs tracking-wide"
+            >
               <Lock size={14} strokeWidth={2} />
               SMART ESCROW
-            </span>
+            </motion.span>
 
-            <span className="flex items-center gap-2 text-white font-bold text-xs tracking-wide">
+            <motion.span
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 1.3 }}
+              className="flex items-center gap-2 text-white font-bold text-xs tracking-wide"
+            >
               <Zap size={14} strokeWidth={2} />
               ALGO ROUTING
-            </span>
-          </div>
+            </motion.span>
+          </motion.div>
         </div>
       </div>
     </main>
@@ -127,32 +172,61 @@ const HeroSection: React.FC<{
 const SEOContentBlock: React.FC = () => {
   return (
     <section className="border-b border-white/5 bg-black">
-      <div className="max-w-5xl mx-auto px-6 py-16 text-[#A0A0A0] text-sm leading-relaxed">
-        <h2 className="text-xl font-semibold text-white mb-4">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1 }}
+        className="max-w-5xl mx-auto px-6 py-16 text-[#A0A0A0] text-sm leading-relaxed"
+      >
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="text-xl font-semibold text-white mb-4"
+        >
           Crypto Cashout & USDT to AED in UAE
-        </h2>
+        </motion.h2>
 
-        <p>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+        >
           Blip.money provides a decentralized way to perform crypto cashout in
           UAE using non-custodial escrow and bonded merchants. Users can convert
           USDT to AED, sell crypto in Dubai, or withdraw crypto directly to bank
           accounts or physical cash locations without relying on centralized
           exchanges.
-        </p>
+        </motion.p>
 
-        <p className="mt-4">
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="mt-4"
+        >
           Unlike traditional crypto off-ramps, Blip.money enables on-demand
           settlement where merchants compete to fulfill your request. This
           ensures better pricing, faster execution, and reduced counterparty
           risk for crypto to cash Dubai transactions.
-        </p>
+        </motion.p>
 
-        <p className="mt-4">
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+          className="mt-4"
+        >
           Supported services include crypto to AED conversion, USDT cashout in
           Dubai, anonymous crypto withdrawals, and institutional-grade OTC
           settlement across Dubai and Abu Dhabi.
-        </p>
-      </div>
+        </motion.p>
+      </motion.div>
     </section>
   );
 };
@@ -238,20 +312,44 @@ const MarketSimulationSection: React.FC<{
       className="py-24 px-6 border-t border-white/5 bg-[#0A0A0A]"
     >
       <div className="max-w-7xl mx-auto">
-        <div className="mb-12 flex items-end justify-between">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="mb-12 flex items-end justify-between"
+        >
           <div>
-            <h2 className="text-2xl font-semibold text-white mb-2 tracking-tight">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-2xl font-semibold text-white mb-2 tracking-tight"
+            >
               Market Simulation
-            </h2>
-            <p className="text-[#666666] text-sm ">
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="text-[#666666] text-sm "
+            >
               ESTIMATE BIDDING SPREADS & LIQUIDITY
-            </p>
+            </motion.p>
           </div>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Rate Estimator */}
-          <div className="glass-panel p-6 rounded lg:col-span-2">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="glass-panel p-6 rounded lg:col-span-2"
+          >
             <div className="flex items-center gap-2 mb-6 border-b border-white/5 pb-4">
               <div className="w-1.5 h-1.5 bg-[ ] rounded-sm"></div>
               <h3 className=" text-xs text-white uppercase tracking-widest">
@@ -408,10 +506,16 @@ const MarketSimulationSection: React.FC<{
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Network Status */}
-          <div className="glass-panel p-6 rounded">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="glass-panel p-6 rounded"
+          >
             <div className="flex items-center gap-2 mb-6 border-b border-white/5 pb-4">
               <div className="w-1.5 h-1.5 bg-[#ff6b35] rounded-full animate-pulse"></div>
               <h3 className=" text-xs text-white uppercase tracking-widest">
@@ -439,10 +543,16 @@ const MarketSimulationSection: React.FC<{
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Path Finder */}
-          <div className="glass-panel p-8 rounded lg:col-span-3">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="glass-panel p-8 rounded lg:col-span-3"
+          >
             <div className="flex items-center gap-3 mb-8 border-b border-white/5 pb-6">
               <svg
                 className="w-4 h-4 text-[#A0A0A0]"
@@ -639,7 +749,7 @@ const MarketSimulationSection: React.FC<{
                 ))
               )}
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
@@ -653,18 +763,42 @@ const MerchantAssuranceSection: React.FC = () => {
   return (
     <section className="py-24 px-6 border-t border-white/5 bg-black">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-12 text-center">
-          <h2 className="text-2xl font-semibold text-white mb-2 tracking-tight">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="mb-12 text-center"
+        >
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-2xl font-semibold text-white mb-2 tracking-tight"
+          >
             Merchant Assurance Protocol
-          </h2>
-          <p className="text-[#666666] text-sm  uppercase tracking-widest">
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="text-[#666666] text-sm  uppercase tracking-widest"
+          >
             Reputation-Weighted Routing (Section 11)
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Tier 3 */}
-          <div className="glass-panel p-6 rounded border border-white/30">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="glass-panel p-6 rounded border border-white/30"
+          >
             <div className="flex justify-between items-center mb-4">
               <span className="text-xs  text-[#A0A0A0] uppercase">Tier 3</span>
               <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-[#111111]/50 transition-transform group-hover:scale-110">
@@ -685,10 +819,16 @@ const MerchantAssuranceSection: React.FC = () => {
                 <span className="text-[#A0A0A0]">$5,000</span>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Tier 2 */}
-          <div className="glass-panel p-6 rounded border border-[#ff6b35]/30 relative overflow-hidden">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="glass-panel p-6 rounded border border-[#ff6b35]/30 relative overflow-hidden"
+          >
             <div className="flex justify-between items-center mb-4">
               <span className="text-xs  text-[#ff6b35] uppercase">Tier 2</span>
               <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-[#ff6b35]/30 transition-transform group-hover:scale-110">
@@ -711,10 +851,16 @@ const MerchantAssuranceSection: React.FC = () => {
                 <span className="text-white">$100,000</span>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Tier 1 */}
-          <div className="glass-panel p-6 rounded border border-[#ff6b35]/50 bg-gradient-to-br from-zinc-900 to-black relative overflow-hidden">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="glass-panel p-6 rounded border border-[#ff6b35]/50 bg-gradient-to-br from-zinc-900 to-black relative overflow-hidden"
+          >
             <div className="flex justify-between items-center mb-4">
               <span className="text-xs  text-[#ff6b35] uppercase font-bold">
                 Tier 1 • Institutional
@@ -739,7 +885,7 @@ const MerchantAssuranceSection: React.FC = () => {
                 <span className="text-white ">Unlimited</span>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
@@ -753,17 +899,41 @@ const ProtocolMechanicsSection: React.FC = () => {
   return (
     <section id="mechanics" className="py-24 px-6 border-t border-white/5">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-16 text-center">
-          <h2 className="text-2xl font-semibold text-white mb-2 tracking-tight">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="mb-16 text-center"
+        >
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-2xl font-semibold text-white mb-2 tracking-tight"
+          >
             Protocol Mechanics
-          </h2>
-          <p className="text-[#666666] text-sm  uppercase tracking-widest">
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="text-[#666666] text-sm  uppercase tracking-widest"
+          >
             From Demand Broadcast to Finality
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="glass-panel p-6 rounded relative group">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="glass-panel p-6 rounded relative group"
+          >
             <div className="absolute -top-3 -left-3 w-8 h-8 bg-[#111111] rounded-full flex items-center justify-center text-[#A0A0A0]  text-xs border border-white/10">
               01
             </div>
@@ -774,8 +944,14 @@ const ProtocolMechanicsSection: React.FC = () => {
               User broadcasts a settlement request (Asset, Volume, Max Time) to
               the network. No static listings.
             </p>
-          </div>
-          <div className="glass-panel p-6 rounded relative group">
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="glass-panel p-6 rounded relative group"
+          >
             <div className="absolute -top-3 -left-3 w-8 h-8 bg-[#111111] rounded-full flex items-center justify-center text-[#A0A0A0]  text-xs border border-white/10">
               02
             </div>
@@ -786,8 +962,14 @@ const ProtocolMechanicsSection: React.FC = () => {
               Bonded merchants analyze the request and submit bids. Routing
               engine selects best execution.
             </p>
-          </div>
-          <div className="glass-panel p-6 rounded relative group">
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="glass-panel p-6 rounded relative group"
+          >
             <div className="absolute -top-3 -left-3 w-8 h-8 bg-[#111111] rounded-full flex items-center justify-center text-[#A0A0A0]  text-xs border border-white/10">
               03
             </div>
@@ -798,8 +980,14 @@ const ProtocolMechanicsSection: React.FC = () => {
               User funds are locked in a smart contract. Merchant sends fiat
               off-chain.
             </p>
-          </div>
-          <div className="glass-panel p-6 rounded relative group">
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="glass-panel p-6 rounded relative group"
+          >
             <div className="absolute -top-3 -left-3 w-8 h-8 bg-[#111111] rounded-full flex items-center justify-center text-[#A0A0A0]  text-xs border border-white/10">
               04
             </div>
@@ -810,7 +998,7 @@ const ProtocolMechanicsSection: React.FC = () => {
               Oracle validates payment proof. Contract releases crypto to
               merchant. Reputation score updates.
             </p>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
@@ -829,9 +1017,15 @@ const ServicesGridSection: React.FC<{
       className="py-24 px-6 border-t border-white/5 bg-[#0A0A0A]"
     >
       <div className="max-w-7xl mx-auto">
-        <h4 className="text-xs  text-[#666666] uppercase tracking-widest mb-8">
+        <motion.h4
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-xs  text-[#666666] uppercase tracking-widest mb-8"
+        >
           Core Settlement Services
-        </h4>
+        </motion.h4>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
             {
@@ -882,11 +1076,15 @@ const ServicesGridSection: React.FC<{
               bg: "bg-cyan-900/20",
               text: "text-cyan-400",
             },
-          ].map((service) => {
+          ].map((service, index) => {
             const Icon = service.icon;
             return (
-              <div
+              <motion.div
                 key={service.key}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.1 * index }}
                 className="glass-panel p-6 rounded card-hover cursor-pointer group flex flex-col border border-white/20"
               >
                 <div className="flex justify-between items-start mb-2">
@@ -908,7 +1106,7 @@ const ServicesGridSection: React.FC<{
                 >
                   Learn More
                 </button>
-              </div>
+              </motion.div>
             );
           })}
         </div>
@@ -924,16 +1122,39 @@ const EcosystemSection: React.FC = () => {
   return (
     <section className="py-24 px-6 border-t border-white/5">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16">
-        <div>
-          <h2 className="text-xl font-semibold text-white mb-6 tracking-tight">
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-xl font-semibold text-white mb-6 tracking-tight"
+          >
             Ecosystem Integration
-          </h2>
-          <p className="text-[#A0A0A0] text-sm leading-relaxed mb-8">
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="text-[#A0A0A0] text-sm leading-relaxed mb-8"
+          >
             Blip acts as the invisible settlement layer for the global economy.
             Wallets, Fintechs, and DAOs can bridge directly into our merchant
             network via API.
-          </p>
-          <div className="grid grid-cols-2 gap-4">
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="grid grid-cols-2 gap-4"
+          >
             <div className="bg-[#0A0A0A]/30 border border-white/10 p-4 rounded flex items-center gap-3">
               <div className="w-8 h-8 rounded bg-[#111111] flex items-center justify-center">
                 <svg
@@ -980,13 +1201,24 @@ const EcosystemSection: React.FC = () => {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        <div>
-          <h2 className="text-xl font-semibold text-white mb-6 tracking-tight">
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-xl font-semibold text-white mb-6 tracking-tight"
+          >
             Who is Blip For?
-          </h2>
+          </motion.h2>
           <div className="space-y-4">
             {[
               {
@@ -1002,7 +1234,14 @@ const EcosystemSection: React.FC = () => {
                 desc: "Source liquidity on-demand from a network of bonded counterparties.",
               },
             ].map((item, i) => (
-              <div key={i} className="flex gap-4">
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3 + i * 0.1 }}
+                className="flex gap-4"
+              >
                 <div className="mt-1">
                   <svg
                     className="w-5 h-5 text-[#ff6b35]"
@@ -1022,10 +1261,10 @@ const EcosystemSection: React.FC = () => {
                   <h4 className="text-sm font-bold text-white">{item.title}</h4>
                   <p className="text-xs text-[#A0A0A0]">{item.desc}</p>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -1041,16 +1280,40 @@ const ComparisonTableSection: React.FC = () => {
       className="py-24 px-6 border-t border-white/5 bg-[#0A0A0A]"
     >
       <div className="max-w-7xl mx-auto">
-        <div className="mb-12 text-center">
-          <h2 className="text-2xl font-semibold text-white mb-2 tracking-tight">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="mb-12 text-center"
+        >
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-2xl font-semibold text-white mb-2 tracking-tight"
+          >
             Market Structure Comparison
-          </h2>
-          <p className="text-[#666666] text-sm  uppercase tracking-widest">
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="text-[#666666] text-sm  uppercase tracking-widest"
+          >
             Protocol Architecture vs Legacy Models
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
-        <div className="border border-white/10 rounded-lg overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="border border-white/10 rounded-lg overflow-hidden"
+        >
           <div className="w-full overflow-x-auto">
             <table className="min-w-[700px] w-full text-left text-sm">
               <thead className="bg-[#0A0A0A]/50 text-[#A0A0A0] text-[10px] uppercase tracking-widest">
@@ -1103,7 +1366,7 @@ const ComparisonTableSection: React.FC = () => {
               </tbody>
             </table>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -1119,14 +1382,32 @@ const FAQSection: React.FC<{
   return (
     <section id="faq" className="py-24 px-6 border-t border-white/5">
       <div className="max-w-3xl mx-auto">
-        <div className="mb-16 text-center">
-          <h2 className="text-2xl font-semibold text-white mb-2 tracking-tight">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="mb-16 text-center"
+        >
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-2xl font-semibold text-white mb-2 tracking-tight"
+          >
             Protocol FAQ
-          </h2>
-          <p className="text-[#666666] text-sm  uppercase tracking-widest">
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="text-[#666666] text-sm  uppercase tracking-widest"
+          >
             Technical & Operational Details
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
         <div className="space-y-4">
           {[
@@ -1163,8 +1444,12 @@ const FAQSection: React.FC<{
               a: "Settlement times vary based on the selected payout method and merchant execution. Certain local or in-person settlement options may complete more quickly, while fiat bank transfers are subject to external banking systems and their operating hours. In general, settlement may occur the same day during local banking hours or the next business day, depending on the chosen rail and merchant availability",
             },
           ].map((faq, i) => (
-            <div
+            <motion.div
               key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 * i }}
               className="border border-white/10 bg-[#0A0A0A]/20 rounded-lg overflow-hidden"
             >
               <button
@@ -1200,7 +1485,7 @@ const FAQSection: React.FC<{
                   </motion.div>
                 )}
               </AnimatePresence>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
@@ -1217,14 +1502,32 @@ const CTASection: React.FC<{
   return (
     <section className="py-24 px-6 border-t border-white/5">
       <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-3xl font-semibold text-white mb-6 tracking-tight">
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-3xl font-semibold text-white mb-6 tracking-tight"
+        >
           Ready to Broadcast?
-        </h2>
-        <p className="text-[#A0A0A0] mb-8 max-w-lg mx-auto leading-relaxed">
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="text-[#A0A0A0] mb-8 max-w-lg mx-auto leading-relaxed"
+        >
           Join the network where liquidity is routed, not listed. Institutional
           settlement for the decentralized economy.
-        </p>
-        <button
+        </motion.p>
+        <motion.button
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           onClick={() => navigate("/coming-soon")}
           className="group inline-flex items-center justify-center gap-3
       px-6 h-[52px]
@@ -1235,7 +1538,7 @@ const CTASection: React.FC<{
       transition-all duration-300"
         >
           Launch Protocol Terminal
-        </button>
+        </motion.button>
       </div>
     </section>
   );

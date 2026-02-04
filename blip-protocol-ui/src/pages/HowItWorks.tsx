@@ -115,7 +115,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.6 }}
-            className="text-base md:text-xl text-white/50 max-w-2xl mx-auto leading-relaxed"
+            className="text-base md:text-lg text-white/50 max-w-2xl mx-auto leading-relaxed"
           >
             The on-chain protocol for instant, secure, and KYC-free global value
             transfer.
