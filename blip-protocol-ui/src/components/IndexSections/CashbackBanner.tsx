@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { CTAButton } from "../Navbar";
 
 /* ============================================
    SECTION 3: REWARDS TEASER - Elegant minimal banner
@@ -221,13 +222,14 @@ const CashbackBanner = () => {
                 </div>
               </div>
 
-              <Link
+              {/* <Link
                 to="/rewards"
                 className="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white text-black text-sm font-semibold hover:bg-white/90 hover:shadow-[0_0_40px_rgba(255,255,255,0.2)] transition-all duration-300"
               >
                 <span>View Rewards</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
+              </Link> */}
+              <CTAButton to="rewards">View Rewards </CTAButton>
             </motion.div>
           </div>
         </div>

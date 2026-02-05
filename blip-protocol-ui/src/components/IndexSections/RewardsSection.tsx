@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { CTAButton } from "../Navbar";
 
 /* ============================================
    SECTION 11: REWARDS - Minimal black/white
@@ -105,14 +106,17 @@ const RewardsSection = () => {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-center"
         >
-          <Link
+          {/* <Link
             to="/rewards"
             className="group inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 rounded-full bg-white text-black text-sm sm:text-base font-semibold hover:shadow-[0_0_40px_rgba(255,255,255,0.2)] transition-all duration-300"
           >
             <span>View Rewards</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Link>
+          </Link> */}
+          <CTAButton to="rewards">View Rewards</CTAButton>
         </motion.div>
+       
+
       </motion.div>
     </section>
   );

@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { CTAButton } from "../Navbar";
 
 /* ============================================
    SECTION 13: CTA
@@ -102,13 +103,14 @@ const CTASection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
         >
-          <Link
+          {/* <Link
             to="/waitlist"
             className="group inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-full bg-white text-black text-sm sm:text-base font-semibold hover:bg-white/90  transition-all duration-300"
           >
             <span>Join Waitlist</span>
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </Link>
+          </Link> */}
+          <CTAButton to="waitlist">View Rewards</CTAButton>
         </motion.div>
       </motion.div>
     </section>

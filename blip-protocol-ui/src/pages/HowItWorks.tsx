@@ -21,6 +21,7 @@ import { Link } from "react-router-dom";
 import { SEO } from "@/components";
 import { sounds } from "@/lib/sounds";
 import { MagneticWrapper } from "@/components/MagneticButton";
+import { CTAButton } from "@/components/Navbar";
 
 /* ============================================
    AWARD-WINNING HOW IT WORKS PAGE
@@ -756,7 +757,7 @@ const CTASection = () => {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <MagneticWrapper strength={0.2}>
-              <Link
+              {/* <Link
                 to="/waitlist"
                 onClick={() => sounds.click()}
                 onMouseEnter={() => sounds.hover()}
@@ -770,29 +771,46 @@ const CTASection = () => {
               >
                 Get Started
                 <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-2" />
-              </Link>
+              </Link> */}
+              <CTAButton to="waitlist">Get Started</CTAButton>
             </MagneticWrapper>
 
             <MagneticWrapper strength={0.2}>
-              <a
-                href="/whitepaper.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => sounds.click()}
-                onMouseEnter={() => sounds.hover()}
-                className="group inline-flex items-center justify-center gap-4
-        px-10 py-4
-        rounded-full
-        sm:w-auto w-full
-        min-h-[52px]
-        border border-white/10
-        text-white text-lg font-medium
-        hover:bg-white/5 hover:border-white/20
-        transition-all duration-300"
-              >
-                Read Whitepaper
-              </a>
-            </MagneticWrapper>
+  <a
+    href="/whitepaper.pdf"
+    target="_blank"
+    rel="noopener noreferrer"
+    onClick={() => sounds.click()}
+    onMouseEnter={() => sounds.hover()}
+    className="
+      group relative overflow-hidden inline-flex items-center justify-center gap-4
+      px-10 py-2
+      rounded-full
+      sm:w-auto w-full ml-2
+     
+      border border-white/10
+      text-white text-lg font-medium
+      transition-all duration-300
+    "
+  >
+    {/* LEFT TO RIGHT HOVER FILL (Same As CTA) */}
+    <span className="
+      absolute inset-0
+      bg-white/20
+      rounded-full
+      scale-x-0 group-hover:scale-x-100
+      origin-left
+      transition-transform duration-700 ease-out
+    " />
+
+    {/* BUTTON TEXT */}
+    <span className="relative z-10 flex items-center gap-3">
+      Read Whitepaper
+      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+    </span>
+  </a>
+</MagneticWrapper>
+
           </div>
         </motion.div>
       </div>

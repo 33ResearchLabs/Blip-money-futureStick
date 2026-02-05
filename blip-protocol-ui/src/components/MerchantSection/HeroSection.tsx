@@ -3,6 +3,7 @@ import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
 import { MerchantDashboardVisual } from "../MerchantDashboard";
 import { HeroDashboardVisual } from "../HeroDashbaordVisual";
+import { CTAButton } from "../Navbar";
 
 /**
  * CinematicHero - 3-column layout with parallax mouse tracking
@@ -104,7 +105,7 @@ text-3xl md:text-4xl lg:text-5xl xl:text-6xl
   transition={{ duration: 0.6, delay: 0.3 }}
   className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3 md:gap-4"
 >
-  <Link
+  {/* <Link
     to="/coming-soon"
     className="inline-flex items-center justify-center gap-3
       px-10 py-4
@@ -117,9 +118,10 @@ text-3xl md:text-4xl lg:text-5xl xl:text-6xl
       hover:-translate-y-1"
   >
     Become a Merchant
-  </Link>
+  </Link> */}
+  <CTAButton to="/waitlist">Become a Merchant</CTAButton> 
 
-  <Link
+  {/* <Link
     to="/waitlist"
     className="group inline-flex items-center justify-center gap-3
       px-10 py-4
@@ -132,7 +134,8 @@ text-3xl md:text-4xl lg:text-5xl xl:text-6xl
       transition-all duration-300"
   >
     Join Waitlist
-  </Link>
+  </Link> */}
+  <CTAButton to="/waitlist" >Join Waitlist</CTAButton>
 </motion.div>
 
 

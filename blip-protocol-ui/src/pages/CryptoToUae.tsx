@@ -1,4 +1,5 @@
 import { SEO } from "@/components";
+import { CTAButton } from "@/components/Navbar";
 import {
   AnimatePresence,
   motion,
@@ -92,7 +93,7 @@ const HeroSection: React.FC<{
             transition={{ duration: 1, delay: 0.7 }}
             className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center"
           >
-            <button
+            {/* <button
               onClick={() => navigate("/coming-soon")}
               className="group inline-flex items-center justify-center gap-3
       w-[220px] h-[56px]
@@ -103,8 +104,9 @@ const HeroSection: React.FC<{
       transition-all duration-300"
             >
               Broadcast Request
-            </button>
-            <button
+            </button> */}
+            <CTAButton to="/waitlist">Broadcast Request</CTAButton>
+            {/* <button
               onClick={() => scrollToSection("mechanics")}
               className="inline-flex items-center justify-center gap-3
       w-[220px] h-[56px]
@@ -116,7 +118,8 @@ const HeroSection: React.FC<{
       transition-all duration-300"
             >
               How it Works
-            </button>
+            </button> */}
+            <CTAButton to="/how-it-works" className="border border-white/10 hover:bg-white/5 hover:border-white/20">Learn More</CTAButton>
           </motion.div>
 
           {/* Trust Signals */}
@@ -1528,16 +1531,17 @@ const CTASection: React.FC<{
           transition={{ duration: 0.8, delay: 0.4 }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          onClick={() => navigate("/coming-soon")}
-          className="group inline-flex items-center justify-center gap-3
-      px-6 h-[52px]
-      rounded-full
-      bg-[#ffffff] text-black
-       font-medium
-      hover:bg-[#e5e5e5]
-      transition-all duration-300"
-        >
-          Launch Protocol Terminal
+          // onClick={() => navigate("/coming-soon")}
+      //     className="group inline-flex items-center justify-center gap-3
+      // px-6 h-[52px]
+      // rounded-full
+      // bg-[#ffffff] text-black
+      //  font-medium
+      // hover:bg-[#e5e5e5]
+      // transition-all duration-300"
+         >
+          <CTAButton to='coming-soon'>
+          Launch Protocol Terminal </CTAButton>
         </motion.button>
       </div>
     </section>

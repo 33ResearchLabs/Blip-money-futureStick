@@ -98,14 +98,8 @@ export const CTASection = ({
   {/* PRIMARY */}
   <CTAButton
     to="/join-waitlist"
-    className="
-      w-[220px]
-      inline-flex items-center justify-center
-      gap-2 sm:gap-3
-      px-10 py-4
-      min-h-[52px]
-      text-[16px] font-medium
-    "
+    
+    
   >
     {primaryButtonText}
   </CTAButton>
@@ -113,7 +107,7 @@ export const CTASection = ({
   {/* SECONDARY */}
   {secondaryButtonText && secondaryButtonLink && (
     <MagneticWrapper strength={0.2}>
-      <Link
+      {/* <Link
         to={secondaryButtonLink}
         onClick={() => sounds.click()}
         onMouseEnter={() => sounds.hover()}
@@ -134,7 +128,11 @@ export const CTASection = ({
       >
         {secondaryButtonText}
         <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-      </Link>
+      </Link> */}
+     <CTAButton to={secondaryButtonLink} className="border border-white/10 text-white hover:border-white/30 hover:bg-white/5">
+        {secondaryButtonText}
+        {/* <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" /> */}
+      </CTAButton> 
     </MagneticWrapper>
   )}
 </motion.div>

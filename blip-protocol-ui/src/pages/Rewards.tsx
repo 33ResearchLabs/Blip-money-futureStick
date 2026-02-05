@@ -351,7 +351,7 @@ const HeroSection = () => {
             transition={{ duration: 1, delay: 0.7 }}
             className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center"
           >
-            <Link
+            {/* <Link
               to="/waitlist"
               className="group inline-flex items-center justify-center gap-3
       w-[220px] h-[56px]
@@ -363,9 +363,10 @@ const HeroSection = () => {
             >
               Start Earning
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
+            </Link> */}
+            <CTAButton to="waitlist">Start Earning</CTAButton>
 
-            <Link
+            {/* <Link
               to="/how-it-works"
               className="inline-flex items-center justify-center gap-3
       w-[220px] h-[56px]
@@ -377,7 +378,8 @@ const HeroSection = () => {
       transition-all duration-300"
             >
               Learn More
-            </Link>
+            </Link> */}
+            <CTAButton to="how-it-works" >Learn More</CTAButton>
           </motion.div>
 
           {/* Scroll indicator */}
@@ -989,7 +991,7 @@ const CTASection = () => {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center ">
             <MagneticWrapper strength={0.2}>
-              <Link
+              {/* <Link
                 to="/waitlist"
                 onClick={() => sounds.click()}
                 onMouseEnter={() => sounds.hover()}
@@ -1003,11 +1005,12 @@ const CTASection = () => {
               >
                 Join Waitlist
                 <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-2" />
-              </Link>
+              </Link> */}
+              <CTAButton to="waitlist">Join Waitlist</CTAButton>
             </MagneticWrapper>
 
             <MagneticWrapper strength={0.2}>
-              <Link
+              {/* <Link
                 to="/how-it-works"
                 onClick={() => sounds.click()}
                 onMouseEnter={() => sounds.hover()}
@@ -1021,7 +1024,8 @@ const CTASection = () => {
               >
                 Learn More
                 <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-2" />
-              </Link>
+              </Link> */}
+              <CTAButton to="how-it-works" >Learn More</CTAButton>
             </MagneticWrapper>
           </div>
         </motion.div>
