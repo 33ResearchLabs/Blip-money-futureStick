@@ -112,7 +112,7 @@ const CinematicHero = () => {
             </motion.div>
           </div>
 
-          <div className="w-full text-center lg:text-left mt-0 sm:mt-12 lg:mt-0 pb-2 sm:pb-8 lg:pb-24 ">
+          {/* <div className="w-full text-center lg:text-left mt-0 sm:mt-12 lg:mt-0 pb-2 sm:pb-8 lg:pb-24 ">
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -123,21 +123,51 @@ const CinematicHero = () => {
               }}
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight tracking-tight max-w-xl mx-auto lg:mx-0"
             >
-              {/* Mobile */}
+             
               <span className="block sm:hidden">
                 Send money anywhere
                 <br />
                 <span className="text-white/40">anytime.</span>
               </span>
 
-              {/* Desktop */}
+              
               <span className="hidden sm:inline">
                 Send money anywhere,
                 <br />
                 <span className="text-white/40">anytime.</span>
               </span>
             </motion.h1>
-          </div>
+          </div> */}
+          <div className="w-full text-center lg:text-left mt-4 sm:mt-10 lg:mt-0 pb-6 sm:pb-12 lg:pb-20">
+  <motion.h1
+    initial={{ opacity: 0, y: 30 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{
+      duration: 0.8,
+      delay: 0.1,
+      ease: [0.16, 1, 0.3, 1],
+    }}
+    className="
+      font-bold text-white leading-[1.1] tracking-tight
+      
+      /* Fluid font scaling */
+      text-[clamp(28px,5vw,80px)]
+      
+      /* Width control */
+      max-w-[90%] 
+      sm:max-w-[650px] 
+      lg:max-w-[720px]
+
+      mx-auto lg:mx-0
+    "
+  >
+    Send money anywhere,
+    <br className="hidden sm:block" />
+    <span className="text-white/40">anytime.</span>
+  </motion.h1>
+</div>
+
+
         </div>
 
         {/* ==================== Phone Mockup (1st on mobile, 1st on desktop) ==================== */}
@@ -239,7 +269,7 @@ const CinematicHero = () => {
           className="w-full lg:w-1/3 text-center lg:text-left px-4 lg:px-4 antigravity-layer order-3 lg:order-2"
           ref={textLayerRef}
         >
-          <div className="w-full text-center lg:text-left mt-2 sm:mt-12 lg:mt-0 pb-2 lg:pb-24 ">
+          <div className="w-full text-center lg:text-left mt-2 sm:mt-12  lg:mt-0 pb-2 lg:pb-24 ">
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -248,11 +278,11 @@ const CinematicHero = () => {
                 delay: 0.1,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="hidden lg:block text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight tracking-tight max-w-xl mx-auto lg:mx-0"
+              className="hidden lg:block text-3xl sm:text-4xl  md:text-5xl lg:text-6xl  font-bold text-white leading-tight tracking-tight max-w-xl mx-auto lg:mx-0"
             >
               {/* Mobile */}
               <span className="block sm:hidden">
-                Send money anywhere
+                Send money anywhere 
                 <br />
                 <span className="text-white/40">anytime.</span>
               </span>

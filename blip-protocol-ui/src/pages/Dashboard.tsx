@@ -309,6 +309,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import PointsHistoryModal from "@/components/PointsHistoryModal";
 import ReferralModal from "@/components/ReferralModal";
+import { Footer } from "@/components/Footer";
 
 // --- Global Styles & Keyframes ---
 const GlobalStyles = () => (
@@ -1616,6 +1617,7 @@ export default function BlipDashboard() {
           </div>
         </div>
       </main>
+      <Footer></Footer>
     </div>
   );
 }

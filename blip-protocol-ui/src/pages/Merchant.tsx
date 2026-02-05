@@ -408,7 +408,7 @@ const WhyBlipSection = () => {
           {/* Left: Header */}
           <div className="max-w-xl mx-auto lg:mx-0 text-center lg:text-left">
             <div className="flex items-center justify-center lg:justify-start gap-2 mb-6">
-              <div className="w-2 h-2 rounded-full bg-white/30 animate-pulse" />
+              <div className="w-2 h-2 rounded-full bg-[#ff6b35] " />
               <span className="text-xs tracking-[0.2em] uppercase text-zinc-500">
                 Next-Gen Merchant Protocol
               </span>
@@ -422,7 +422,9 @@ const WhyBlipSection = () => {
               Built for speed control and repeat volume
             </p>
 
-            <CTAButton to="/join-waitlist" className="group inline-flex items-center justify-center gap-3
+            <CTAButton
+              to="/join-waitlist"
+              className="group inline-flex items-center justify-center gap-3
       px-10 py-4
       min-h-[52px] w-[220px]
       rounded-full
@@ -430,7 +432,8 @@ const WhyBlipSection = () => {
       text-white
       text-sm font-semibold
       hover:bg-white/10
-      transition-all duration-300">
+      transition-all duration-300"
+            >
               Start Trading
             </CTAButton>
           </div>
@@ -441,27 +444,41 @@ const WhyBlipSection = () => {
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
             style={{ perspective: "1500px" }}
-            className="w-full"
+            className="w-full max-w-[520px] sm:max-w-[560px] md:max-w-[620px] lg:max-w-[680px] xl:max-w-[720px] mx-auto lg:mx-0"
           >
             <motion.div
               style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-              className="relative rounded-[20px] sm:rounded-[24px] md:rounded-[28px] lg:rounded-[32px] border border-white/10 bg-[#0c0c0d]/90 backdrop-blur-3xl overflow-hidden"
+
+
+              className="relative
+rounded-[18px] sm:rounded-[22px] md:rounded-[26px] lg:rounded-[32px]
+border border-white/10
+bg-[#0c0c0d]/90
+backdrop-blur-2xl
+overflow-hidden"
             >
               {/* Shine */}
               <motion.div
                 style={{ left: shineX, top: shineY }}
-                className="absolute -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#ffffff]/[0.05] blur-[80px] rounded-full pointer-events-none"
+                className="absolute -translate-x-1/2 -translate-y-1/2
+  w-[300px] h-[300px]
+  sm:w-[420px] sm:h-[420px]
+  lg:w-[600px] lg:h-[600px]
+  bg-white/[0.05]
+  blur-[60px] sm:blur-[70px] lg:blur-[90px]
+  rounded-full pointer-events-none"
               />
 
               {/* Header */}
-              <div className="px-4 sm:px-6 md:px-8 lg:px-10 pt-5 sm:pt-6 md:pt-7 lg:pt-8 pb-4 sm:pb-5 md:pb-6 border-b border-white/5">
+              <div className="px-4 sm:px-5 md:px-6 lg:px-8 pt-5 sm:pt-6 md:pt-7 pb-4 sm:pb-5 border-b border-white/5">
+                {" "}
                 <h3 className="text-xs sm:text-sm md:text-base italic text-zinc-300 sm:text-zinc-400">
                   Platform Capabilities
                 </h3>
               </div>
 
               {/* Feature List */}
-              <div className="px-3 sm:px-4 md:px-5 lg:px-6 py-4 sm:py-5 md:py-6">
+              <div className="px-3 sm:px-4 md:px-5 py-4 sm:py-5">
                 {features.map((f, index) => {
                   const isActive = activeIndex === index;
                   const isPrimary = index === 0;
@@ -485,8 +502,16 @@ const WhyBlipSection = () => {
                         transformStyle: "preserve-3d",
                       }}
                       className={`
-          relative flex items-center justify-between px-3 sm:px-4 md:px-5 lg:px-6 py-3 sm:py-4 md:py-5 mb-2 sm:mb-2.5 md:mb-3 rounded-xl sm:rounded-2xl cursor-pointer
-          transition-all duration-300
+          relative
+flex items-center justify-between
+gap-3 sm:gap-4
+px-3 sm:px-4 md:px-5
+py-3 sm:py-4
+mb-2 sm:mb-2.5
+rounded-xl sm:rounded-2xl
+cursor-pointer
+transition-all duration-300
+min-w-0
           ${
             isPrimary
               ? `
@@ -506,11 +531,12 @@ const WhyBlipSection = () => {
                         <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/[0.08] to-transparent pointer-events-none" />
                       )}
 
-                      <div className="flex items-center gap-3 sm:gap-4 md:gap-5 relative z-10">
+                      <div className="flex items-center gap-3 sm:gap-4 md:gap-5 relative z-10 min-w-0 flex-1">
                         {/* Icon */}
                         <div
                           className={`
-              w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-lg sm:rounded-xl flex items-center justify-center border transition-all
+              w-9 h-9 sm:w-10 sm:h-10 md:w-11 md:h-11 lg:w-12 lg:h-12
+ rounded-lg sm:rounded-xl flex items-center justify-center border transition-all
               ${
                 isPrimary
                   ? "bg-white text-black border-white/30 shadow-[0_8px_20px_rgba(0,0,0,0.6)]"
@@ -535,9 +561,13 @@ const WhyBlipSection = () => {
                               : undefined
                           }
                         >
-                          <div className="text-sm sm:text-base md:text-lg font-bold text-white">{f.title}</div>
-                          <div className="text-xs sm:text-sm md:text-base text-zinc-300 sm:text-zinc-400 leading-relaxed">
-                            {f.description}
+                          <div className="min-w-0">
+                            <div className="text-sm sm:text-base md:text-lg font-bold text-white truncate">
+                              {f.title}
+                            </div>
+                            <div className="text-xs sm:text-sm md:text-[15px] text-zinc-400 leading-relaxed">
+                              {f.description}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -558,7 +588,10 @@ const WhyBlipSection = () => {
                               : undefined
                           }
                         >
-                          <Check className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={3} />
+                          <Check
+                            className="w-4 h-4 sm:w-5 sm:h-5"
+                            strokeWidth={3}
+                          />
                         </div>
                       )}
                     </motion.div>

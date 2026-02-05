@@ -211,12 +211,19 @@ const LanguageSwitcher = () => {
 const MobileMenu = ({
   isOpen,
   onClose,
+  onNavigate,
 }: {
   isOpen: boolean;
   onClose: () => void;
+  onNavigate: () => void;
 }) => {
   const { t } = useTranslation();
   const { isAuthenticated } = useAuth();
+
+  const handleNavClick = () => {
+    sounds.click();
+    onNavigate(); // CLOSE BEFORE NAVIGATION
+  };
 
   const menuItems = [
     { to: "/how-it-works", label: t("howItWorks") },
@@ -234,81 +241,60 @@ const MobileMenu = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
             className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
             onClick={onClose}
           />
 
-          {/* Menu panel */}
+          {/* Panel */}
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
+            initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.2 }}
             className="fixed top-[72px] left-4 right-4 z-50 rounded-xl overflow-hidden"
             style={{
               background: "#111113",
-              border: "1px solid rgba(255, 255, 255, 0.08)",
-              boxShadow: "0 20px 50px rgba(0, 0, 0, 0.5)",
+              border: "1px solid rgba(255,255,255,0.08)",
             }}
           >
             <div className="p-4 space-y-1">
-              {menuItems.map((item, index) => (
-                <motion.div
+              {menuItems.map((item) => (
+                <Link
                   key={item.to}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.05, duration: 0.2 }}
+                  to={item.to}
+                  onClick={handleNavClick}
+                  className="flex items-center justify-between py-3 px-3 rounded-lg text-[15px] text-[#A1A1AA] hover:text-white hover:bg-[#18181B]"
                 >
-                  <Link
-                    to={item.to}
-                    onClick={() => {
-                      sounds.click();
-                      onClose();
-                    }}
-                    className="flex items-center justify-between py-3 px-3 rounded-lg text-[15px] font-medium text-[#A1A1AA] hover:text-white hover:bg-[#18181B] transition-colors"
-                  >
-                    {item.label}
-                    <ChevronRight className="w-4 h-4 opacity-50" />
-                  </Link>
-                </motion.div>
+                  {item.label}
+                  <ChevronRight className="w-4 h-4 opacity-50" />
+                </Link>
               ))}
             </div>
 
-            <div className="p-4 border-t border-[rgba(255,255,255,0.06)] space-y-3">
-              {/* <LanguageSwitcher /> */}
-
-              <div className="flex gap-2">
-                {isAuthenticated ? (
-                  <Link
-                    to="/dashboard"
-                    onClick={() => {
-                      sounds.click();
-                      onClose();
-                    }}
-                    className="flex-1 py-2.5 text-center rounded-full text-[13px] font-medium bg-[#ffffff] text-white"
-                  >
-                    Dashboard
-                  </Link>
-                ) : (
-                  <div className="flex flex-col w-full gap-2">
-                    <CTAButton
-                      to="/coming-soon"
-                      variant="secondary"
-                      className="w-full"
-                    >
-                      Coming-Soon
+            <div className="p-4 border-t border-white/5 space-y-2">
+              {isAuthenticated ? (
+                <Link
+                  to="/dashboard"
+                  onClick={handleNavClick}
+                  className="block w-full text-center py-2.5 rounded-full bg-white text-black text-sm font-medium"
+                >
+                  Dashboard
+                </Link>
+              ) : (
+                <>
+                  <div onClick={handleNavClick}>
+                    <CTAButton to="/coming-soon" className="w-full">
+                      Coming Soon
                     </CTAButton>
-                    <CTAButton
-                      to="/waitlist"
-                      variant="primary"
-                      className="w-full"
-                    >
+                  </div>
+
+                  <div onClick={handleNavClick}>
+                    <CTAButton to="/waitlist" className="w-full">
                       Join Waitlist
                     </CTAButton>
                   </div>
-                )}
-              </div>
+                </>
+              )}
             </div>
           </motion.div>
         </>
@@ -316,6 +302,7 @@ const MobileMenu = ({
     </AnimatePresence>
   );
 };
+
 
 /* ---------------- Hamburger Button ---------------- */
 const HamburgerButton = ({
@@ -372,21 +359,24 @@ export const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
+
   const { t } = useTranslation();
   const { isAuthenticated } = useAuth();
-  const { pathname } = useLocation();
+  const location = useLocation();
+
   const { scrollY } = useScroll();
   const lastScrollY = useRef(0);
 
-  // Check if we're on the homepage
-  const isHomePage = pathname === "/" || pathname === "";
+  /* ---------------- SAFE NAV HANDLER ---------------- */
+  const handleNavigate = () => {
+    setMobileMenuOpen(false);
+  };
 
-  // Hide navbar on scroll down, show on scroll up
+  /* ---------------- SCROLL BEHAVIOR ---------------- */
   useMotionValueEvent(scrollY, "change", (latest) => {
     const direction = latest > lastScrollY.current ? "down" : "up";
 
-    // Show navbar on all pages, hide on scroll down
-    if (direction === "down" && latest > 100) {
+    if (direction === "down" && latest > 100 && !mobileMenuOpen) {
       setIsHidden(true);
     } else {
       setIsHidden(false);
@@ -396,27 +386,30 @@ export const Navbar = () => {
     lastScrollY.current = latest;
   });
 
-  // Close mobile menu on route change
+  /* ---------------- CLOSE ON ROUTE CHANGE ---------------- */
   useEffect(() => {
     setMobileMenuOpen(false);
-  }, [pathname]);
+  }, [location]);
 
-  // Show navbar initially
+  /* ---------------- BODY SCROLL LOCK ---------------- */
   useEffect(() => {
-    setIsHidden(false);
-  }, []);
-
-  // Prevent body scroll when mobile menu is open
-  useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
   }, [mobileMenuOpen]);
+
+  /* ---------------- CLOSE ON DESKTOP RESIZE ---------------- */
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <>
@@ -425,25 +418,21 @@ export const Navbar = () => {
         animate={{
           y: isHidden && !mobileMenuOpen ? -100 : 0,
         }}
-        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.25 }}
         className="fixed top-0 w-full z-50"
         style={{
-          background: isScrolled ? "rgba(10, 10, 11, 0.8)" : "transparent",
-          backdropFilter: isScrolled ? "blur(12px) saturate(150%)" : "none",
-          WebkitBackdropFilter: isScrolled
-            ? "blur(12px) saturate(150%)"
-            : "none",
+          background: isScrolled ? "rgba(10,10,11,0.8)" : "transparent",
+          backdropFilter: isScrolled ? "blur(12px)" : "none",
           borderBottom: isScrolled
-            ? "1px solid rgba(255, 255, 255, 0.06)"
+            ? "1px solid rgba(255,255,255,0.06)"
             : "1px solid transparent",
         }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="h-[72px] flex items-center justify-between">
-            {/* Logo */}
             <Logo />
 
-            {/* Desktop Navigation */}
+            {/* Desktop Nav */}
             <div className="hidden lg:flex items-center gap-1">
               <NavItem to="/how-it-works">{t("howItWorks")}</NavItem>
               <NavItem to="/rewards">{t("rewards")}</NavItem>
@@ -451,42 +440,37 @@ export const Navbar = () => {
               <NavItem to="/merchant">{t("Merchant")}</NavItem>
             </div>
 
-            {/* Desktop Actions */}
+            {/* Desktop CTA */}
             <div className="hidden lg:flex items-center gap-3">
-              {/* <LanguageSwitcher /> */}
-
               {isAuthenticated ? (
-                <CTAButton to="/dashboard" variant="primary">
-                  Dashboard
-                </CTAButton>
+                <CTAButton to="/dashboard">Dashboard</CTAButton>
               ) : (
                 <>
-                  <CTAButton to="/coming-soon" variant="secondary">
+                  <CTAButton to="/coming-soon">
                     {t("comingSoon")}
                   </CTAButton>
-                  <CTAButton to="/waitlist" variant="primary">
-                    Join Waitlist
-                  </CTAButton>
+                  <CTAButton to="/waitlist">Join Waitlist</CTAButton>
                 </>
               )}
             </div>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Button */}
             <div className="lg:hidden">
               <HamburgerButton
                 isOpen={mobileMenuOpen}
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                onClick={() => setMobileMenuOpen((prev) => !prev)}
               />
             </div>
           </div>
         </div>
       </motion.nav>
 
-      {/* Mobile Menu */}
       <MobileMenu
         isOpen={mobileMenuOpen}
         onClose={() => setMobileMenuOpen(false)}
+        onNavigate={handleNavigate}
       />
     </>
   );
 };
+
