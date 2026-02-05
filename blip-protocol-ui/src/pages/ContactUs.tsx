@@ -50,7 +50,7 @@ const HeroSection = () => {
   return (
     <motion.section
       ref={ref}
-      className="relative h-[70vh] min-h-[600px] flex items-center justify-center overflow-hidden"
+      className="relative h-[70vh] min-h-[600px] flex items-center justify-center overflow-hidden "
       style={{ opacity }}
     >
       {/* Background with parallax */}
@@ -102,7 +102,7 @@ const HeroSection = () => {
             initial={{ y: 120 }}
             animate={{ y: 0 }}
             transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[clamp(2.5rem,8vw,6rem)] font-semibold leading-[0.95] tracking-[-0.04em]"
+            className="text-[clamp(2.5rem,8vw,6rem)] font-semibold leading-[1.20] tracking-[-0.04em] "
           >
             <span className="block text-white">Protocol</span>
 

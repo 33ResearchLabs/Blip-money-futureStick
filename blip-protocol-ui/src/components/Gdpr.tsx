@@ -121,12 +121,12 @@ const Gdpr = () => {
 
             <ul className="list-disc list-inside text-gray-400 space-y-2">
               <li>
-                <span className="text-white">Control:</span> You control your
+                <span className="text-white">Control :</span> You control your
                 funds and data via your personal, non-custodial wallet and
                 private keys.
               </li>
               <li>
-                <span className="text-white">Anonymity:</span> As we do not link
+                <span className="text-white">Privacy :</span> As we do not link
                 your identity to your wallet address, there is no "personal
                 data" for us to access, rectify, or erase on your behalf.
               </li>
