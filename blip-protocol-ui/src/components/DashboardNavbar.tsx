@@ -12,6 +12,11 @@ import {
 import { BsPeople } from "react-icons/bs";
 import { twoFactorApi } from "@/services/twoFatctor";
 import { toast } from "sonner";
+import {
+  motion,
+  useScroll,
+  useMotionValueEvent,
+} from "framer-motion";
 
 interface DashboardNavbarProps {
   walletAddress: string;
@@ -25,12 +30,31 @@ export default function DashboardNavbar({
   onLogout,
 }: DashboardNavbarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
 
   const [open, setOpen] = useState(false);
 
   const dropdownRef = useRef(null);
+  const lastScrollY = useRef(0);
 
   const navigate = useNavigate();
+
+  const { scrollY } = useScroll();
+
+  /* ---------------- SCROLL BEHAVIOR ---------------- */
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const direction = latest > lastScrollY.current ? "down" : "up";
+
+    if (direction === "down" && latest > 100 && !isMobileMenuOpen) {
+      setIsHidden(true);
+    } else {
+      setIsHidden(false);
+    }
+
+    setIsScrolled(latest > 20);
+    lastScrollY.current = latest;
+  });
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -46,7 +70,21 @@ export default function DashboardNavbar({
   }, []);
 
   return (
-    <nav className="border-b border-zinc-800/50 bg-[#050505]/80 backdrop-blur-md sticky top-0 z-50">
+    <motion.nav
+      initial={{ y: -100 }}
+      animate={{
+        y: isHidden && !isMobileMenuOpen ? -100 : 0,
+      }}
+      transition={{ duration: 0.25 }}
+      className="fixed top-0 w-full z-50"
+      style={{
+        background: isScrolled ? "rgba(5, 5, 5, 0.8)" : "rgba(5, 5, 5, 0.8)",
+        backdropFilter: isScrolled ? "blur(12px)" : "blur(8px)",
+        borderBottom: isScrolled
+          ? "1px solid rgba(255, 255, 255, 0.06)"
+          : "1px solid rgba(255, 255, 255, 0.03)",
+      }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
@@ -217,6 +255,6 @@ export default function DashboardNavbar({
           </div>
         </div>
       )}
-    </nav>
+    </motion.nav>
   );
 }

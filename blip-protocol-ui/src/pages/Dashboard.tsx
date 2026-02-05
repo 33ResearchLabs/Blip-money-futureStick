@@ -1254,7 +1254,7 @@ export default function BlipDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#030303] text-neutral-400 font-sans selection:bg-[#ffffff]/20 selection:text-[#ffffff] relative overflow-x-hidden scanline">
+    <div className="min-h-screen bg-[#030303] text-neutral-400 font-sans selection:bg-[#ffffff]/20 selection:text-[#ffffff] relative overflow-x-hidden scanline mt-10">
       <GlobalStyles />
 
       {/* Interaction Layers */}
@@ -1617,7 +1617,7 @@ export default function BlipDashboard() {
           </div>
         </div>
       </main>
-      <Footer></Footer>
+      <Footer/>
     </div>
   );
 }

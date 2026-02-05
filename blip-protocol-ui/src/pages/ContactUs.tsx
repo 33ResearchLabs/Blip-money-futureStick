@@ -233,7 +233,7 @@ const ContactOptionsSection = () => {
                 initial={{ opacity: 0, x: -30 }}
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.6, delay: 0.6 }}
-                onClick={() => copyToClipboard("contact@blip.money", "email")}
+                onClick={() => copyToClipboard("support@blip.money", "email")}
                 className="w-full flex items-center justify-between p-5 rounded-2xl transition-all duration-300 group"
                 style={{
                   background: "rgba(255, 255, 255, 0.02)",
