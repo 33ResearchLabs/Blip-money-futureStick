@@ -755,26 +755,25 @@ const CTASection = () => {
             journey with Blip today.
           </p>
 
-         <div className="flex flex-col sm:flex-row gap-2 justify-center items-center">
-  {/* CTA */}
-  
-    <CTAButton
-      to="waitlist"
-      className="w-[220px]  h-[48px] border flex items-center justify-center"
-    >
-      Get Started
-    </CTAButton>
-  
+          <div className="flex flex-col sm:flex-row gap-2 justify-center items-center">
+            {/* CTA */}
 
-  {/* Whitepaper */}
- 
-    <a
-      href="/whitepaper.pdf"
-      target="_blank"
-      rel="noopener noreferrer"
-      onClick={() => sounds.click()}
-      onMouseEnter={() => sounds.hover()}
-      className="
+            <CTAButton
+              to="/waitlist"
+              className="w-[220px]  h-[48px] border flex items-center justify-center"
+            >
+              Get Started
+            </CTAButton>
+
+            {/* Whitepaper */}
+
+            <a
+              href="/whitepaper.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => sounds.click()}
+              onMouseEnter={() => sounds.hover()}
+              className="
         group relative overflow-hidden
         w-[220px]  h-[48px]
         inline-flex items-center justify-center gap-3
@@ -783,26 +782,26 @@ const CTASection = () => {
         text-white font-medium
         transition-all duration-300
       "
-    >
-      {/* Hover Fill */}
-      <span className="
+            >
+              {/* Hover Fill */}
+              <span
+                className="
         absolute inset-0
         bg-white/20
         rounded-full
         scale-x-0 group-hover:scale-x-100
         origin-left
         transition-transform duration-700 ease-out
-      " />
+      "
+              />
 
-      {/* Text */}
-      <span className="relative z-10 flex items-center gap-2">
-        Read Whitepaper
-        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-      </span>
-    </a>
-  
-</div>
-
+              {/* Text */}
+              <span className="relative z-10 flex items-center gap-2">
+                Read Whitepaper
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+              </span>
+            </a>
+          </div>
         </motion.div>
       </div>
     </section>

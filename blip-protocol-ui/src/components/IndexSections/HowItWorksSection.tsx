@@ -159,23 +159,23 @@ const HowItWorksSection = () => {
       app: "Blipscan",
       appIcon: "🔍",
       screen: (
-        <div className="p-3 sm:p-4 md:p-5 lg:p-6 h-full flex flex-col text-left overflow-hidden">
-          <div className="flex items-center justify-between mb-3 sm:mb-4 md:mb-5 ">
+        <div className="p-3 sm:p-4 h-full flex flex-col text-left overflow-hidden">
+          <div className="flex items-center justify-between mb-3  ">
             <div className="flex items-center gap-2 md:gap-2.5">
-              <div className="w-7 sm:w-8 md:w-9 lg:w-10 h-7 sm:h-8 md:h-9  rounded-md sm:rounded-lg bg-white flex items-center justify-center">
+              <div className="w-6 h-6  rounded-md sm:rounded-lg bg-white flex items-center justify-center">
                 <Globe className="w-3 sm:w-3.5 md:w-4 lg:w-4.5 h-3 sm:h-3.5 md:h-4 lg:h-4.5 text-black" />
               </div>
               <span className="text-xs sm:text-sm md:text-base  font-semibold text-white">
                 Blipscan
               </span>
             </div>
-            <div className="px-2 ml-1  py-0.5 md:py-1 rounded md:rounded-md bg-white/[0.05]">
-              <span className="text-[8px] sm:text-[10px] md:text-xs lg:text-sm text-white/40 font-mono">
+            <div className="px-2 py-0.5 rounded-full flex justify-normal  bg-white/[0.05]">
+              <span className="text-[8px] sm:text-[10px] text-white/60 font-medium">
                 Mainnet
               </span>
             </div>
           </div>
-          <div className="space-y-2 md:space-y-2.5 lg:space-y-3 flex-1 min-h-0 overflow-hidden">
+          <div className="space-y-2 flex-1 min-h-0 overflow-hidden">
             {[
               { id: "BLP-7x2K", to: "Ahmed M.", amount: "$500", time: "2s" },
               {
@@ -188,35 +188,39 @@ const HowItWorksSection = () => {
             ].map((tx, i) => (
               <div
                 key={i}
-                className="p-2.5 sm:p-3 md:p-3.5 lg:p-4 rounded-lg md:rounded-xl bg-white/[0.02] border border-white/[0.04]"
+                className="p-2.5 sm:p-3 rounded-lg md:rounded-xl bg-white/[0.02] border border-white/[0.04]"
               >
-                <div className="flex items-center justify-between mb-1.5 md:mb-2">
-                  <span className="text-[8px] sm:text-[10px] md:text-xs lg:text-sm text-white/40 font-mono">
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[8px] sm:text-[10px] md:text-xs  text-white/40 font-mono">
                     {tx.id}...
                   </span>
-                  <div className="flex items-center gap-1 md:gap-1.5 px-1.5 md:px-2 lg:px-2.5 py-0.5 md:py-1 rounded md:rounded-md bg-emerald-500/10">
-                    <Check className="w-2.5 sm:w-3 md:w-3.5 lg:w-4 h-2.5 sm:h-3 md:h-3.5 lg:h-4 text-emerald-400" />
-                    <span className="text-[8px] sm:text-[10px] md:text-xs lg:text-sm text-emerald-400 font-medium">
+                  <div className="flex items-center gap-1 md:gap-1.5 px-1.5 md:px-2 lg:px-2.5 py-0.5  rounded md:rounded-md bg-emerald-500/10">
+                    <Check className="w-2.5 sm:w-3   h-2.5 sm:h-3  text-emerald-400" />
+                    <span className="text-[10px] sm:text-xs text-emerald-400 font-medium">
                       {tx.time}
                     </span>
                   </div>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-xs sm:text-sm md:text-base lg:text-lg text-white">
+                  <span className="text-xs   text-white">
                     {tx.to}
                   </span>
-                  <span className="text-xs sm:text-sm md:text-base lg:text-lg font-semibold text-white">
+                  <span className="text-[13px] font-semibold text-white">
                     {tx.amount}
                   </span>
                 </div>
               </div>
             ))}
           </div>
-          <div className="mt-3 md:mt-4 flex items-center gap-1.5 md:gap-2 flex-shrink-0 px-2 md:px-2.5 lg:px-3 py-1.5 md:py-2 rounded-md bg-white/[0.02]">
-            <div className="w-1.5 md:w-2 h-1.5 md:h-2 rounded-full bg-emerald-400" />
-            <span className="text-[8px] sm:text-[10px] md:text-xs lg:text-sm text-white/40">
-              Connected to Solana
-            </span>
+          
+          <div className="mt-3 p-2.5 rounded-lg bg-white/[0.02] border border-white/[0.04] flex-shrink-0">
+            <div className="flex items-center justify-center gap-2">
+              {/* <div className="w-3 h-3 rounded-full border-2 border-white/30 border-t-white/60" /> */}
+              <div className="w-1.5 md:w-2 h-1.5 md:h-2 rounded-full bg-emerald-400" />
+              <span className="text-[10px] sm:text-xs text-white/40">
+                 Connected to Solana
+              </span>
+            </div>
           </div>
         </div>
       ),

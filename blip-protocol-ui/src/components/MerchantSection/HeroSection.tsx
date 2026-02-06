@@ -135,7 +135,7 @@ text-3xl md:text-4xl lg:text-5xl xl:text-6xl
   >
     Join Waitlist
   </Link> */}
-            <CTAButton to="/waitlist" className="w-[225px]  h-[48px]">Join Waitlist</CTAButton>
+            <CTAButton to="/join-waitlist" className="w-[225px]  h-[48px]">Join Waitlist</CTAButton>
           </motion.div>
         </div>
       </main>

@@ -119,7 +119,7 @@ const PeopleBankSection = () => {
             className="text-4xl md:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.1] mb-6"
           >
             <span className="text-white">People</span>
-            <span className="text-white/20">Bank</span>
+            <span className="text-white/20"> Bank</span>
           </motion.h2>
 
           <motion.p

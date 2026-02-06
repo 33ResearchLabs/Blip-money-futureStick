@@ -185,7 +185,7 @@ const EarlyAdopterBanner = () => {
                   <span>Claim Your Tokens</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link> */}
-                <CTAButton to="join-waitlist">Claim Your Tokens</CTAButton>
+                <CTAButton to="/waitlist" className="w-[220px] h-[48px]">Claim Your Tokens</CTAButton>
               </motion.div>
               <Link
                 to="/rewards"
@@ -201,7 +201,7 @@ const EarlyAdopterBanner = () => {
                 {[
                   { value: "2,847", label: "Early adopters" },
                   { value: "$284K", label: "Tokens distributed" },
-                  { value: "12days", label: "Until deadline" },
+                  { value: "12 days", label: "Until deadline" },
                 ].map((stat) => (
                   <div key={stat.label} className="text-center">
                     <div className="text-xs sm:text-xl font-bold text-white">
