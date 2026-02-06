@@ -569,7 +569,9 @@ export const MerchantDashboardVisual = () => {
       id,
       user: mockUsers[Math.floor(Math.random() * mockUsers.length)],
       userName: mockUserNames[Math.floor(Math.random() * mockUserNames.length)],
-      amount: `${Math.floor(100 + Math.random() * 1500)} USDT`,
+      amount: `${Math.floor(100 + Math.random() * 1500).toLocaleString(
+        "en-US"
+      )} USDT`,
       rate: mockRates[Math.floor(Math.random() * mockRates.length)],
       time: "just now",
       country: mockCountries[Math.floor(Math.random() * mockCountries.length)],

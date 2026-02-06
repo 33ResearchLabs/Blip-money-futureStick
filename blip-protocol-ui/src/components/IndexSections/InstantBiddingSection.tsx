@@ -200,7 +200,7 @@ const InstantBiddingSection = () => {
 
                     <div className="flex items-center gap-4 mb-6">
                       <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#ff6b35]/20 to-orange-500/10 flex items-center justify-center">
-                        <span className="text-2xl">🇺🇸</span>
+                        <span className="text-xl font-bold text-white">US</span>
                       </div>
                       <div>
                         <div className="text-2xl font-bold text-white">

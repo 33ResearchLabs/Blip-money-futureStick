@@ -423,9 +423,6 @@ export const Navbar = () => {
         style={{
           background: isScrolled ? "rgba(10,10,11,0.8)" : "transparent",
           backdropFilter: isScrolled ? "blur(12px)" : "none",
-          borderBottom: isScrolled
-            ? "1px solid rgba(255,255,255,0.06)"
-            : "1px solid transparent",
         }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
