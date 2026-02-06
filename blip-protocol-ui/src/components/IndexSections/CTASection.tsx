@@ -94,7 +94,7 @@ const CTASection = () => {
           transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           className="text-base sm:text-lg text-white/40 max-w-md mx-auto mb-8 sm:mb-12 px-4"
         >
-          Join the waitlist and be among the first.
+          Join waitlist and be among the first.
         </motion.p>
 
         <motion.div
@@ -110,7 +110,7 @@ const CTASection = () => {
             <span>Join Waitlist</span>
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link> */}
-          <CTAButton to="waitlist" className=" w-[220px]  h-[48px]">View Rewards</CTAButton>
+          <CTAButton to="/waitlist" className=" w-[220px]  h-[48px]">Waitlist</CTAButton>
         </motion.div>
       </motion.div>
     </section>

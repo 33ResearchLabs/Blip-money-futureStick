@@ -50,7 +50,7 @@ const HeroSection = () => {
   return (
     <motion.section
       ref={ref}
-      className="relative h-[70vh] min-h-[600px] flex items-center justify-center overflow-hidden "
+      className="relative h-[70vh] min-h-[600px] flex items-center justify-center overflow-hidden mt-12"
       style={{ opacity }}
     >
       {/* Background with parallax */}
