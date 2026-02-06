@@ -364,7 +364,7 @@ const HeroSection = () => {
               Start Earning
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link> */}
-            <CTAButton to="waitlist">Start Earning</CTAButton>
+            <CTAButton to="/waitlist">Start Earning</CTAButton>
 
             {/* <Link
               to="/how-it-works"
@@ -379,7 +379,7 @@ const HeroSection = () => {
             >
               Learn More
             </Link> */}
-            <CTAButton to="how-it-works" >Learn More</CTAButton>
+            <CTAButton to="/how-it-works" >Learn More</CTAButton>
           </motion.div>
 
           {/* Scroll indicator */}
@@ -1006,7 +1006,7 @@ const CTASection = () => {
                 Join Waitlist
                 <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-2" />
               </Link> */}
-              <CTAButton to="waitlist">Join Waitlist</CTAButton>
+              <CTAButton to="/waitlist">Join Waitlist</CTAButton>
             </MagneticWrapper>
 
             <MagneticWrapper strength={0.2}>
@@ -1025,7 +1025,7 @@ const CTASection = () => {
                 Learn More
                 <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-2" />
               </Link> */}
-              <CTAButton to="how-it-works" >Learn More</CTAButton>
+              <CTAButton to="/how-it-works" >Learn More</CTAButton>
             </MagneticWrapper>
           </div>
         </motion.div>

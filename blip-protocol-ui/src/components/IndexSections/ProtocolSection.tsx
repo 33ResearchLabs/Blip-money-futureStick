@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { CTAButton } from "../Navbar";
+import sounds from "@/lib/sounds";
 
 /* ============================================
    SECTION 5: BLIP PROTOCOL
@@ -138,15 +139,39 @@ const ProtocolSection = () => {
           transition={{ duration: 0.8, delay: 0.6 }}
           className="flex justify-center"
         >
-          <a
-            href="/whitepaper.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white text-black text-sm font-semibold hover:bg-white/90  transition-all duration-300"
-          >
-            <span>Read the Whitepaper</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </a>
+           <a
+              href="/whitepaper.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => sounds.click()}
+              onMouseEnter={() => sounds.hover()}
+              className="
+                group relative overflow-hidden inline-flex items-center justify-center gap-4
+                px-6 py-2
+                rounded-full
+                sm:w-auto w-full
+                
+                border border-white/10
+                text-white text-lg font-medium
+                transition-all duration-300
+              "
+            >
+              {/* LEFT TO RIGHT HOVER FILL (Same As CTA) */}
+              <span className="
+                absolute inset-0
+                bg-white/20
+                rounded-full
+                scale-x-0 group-hover:scale-x-100
+                origin-left
+                transition-transform duration-700 ease-out
+              " />
+          
+              {/* BUTTON TEXT */}
+              <span className="relative z-10 flex items-center gap-3">
+                Read Whitepaper
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+              </span>
+            </a>
         </motion.div>
       </div>
     </section>

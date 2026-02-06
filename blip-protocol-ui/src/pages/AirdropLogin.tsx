@@ -26,6 +26,8 @@ import { airdropApi } from "@/services/Airdrop";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { twoFactorApi } from "@/services/twoFatctor";
 import { SEO } from "@/components";
+import { CTAButton } from "@/components/Navbar";
+import sounds from "@/lib/sounds";
 
 /* ============================================
    2025/2026 WAITLIST PAGE
@@ -380,20 +382,56 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                     transition={{ duration: 1, delay: 0.6 }}
                     className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
                   >
-                    <button
+                    {/* <button
                       onClick={() => navigate("/join-waitlist")}
                       className="group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-[#ffffff] text-black text-sm font-semibold hover:bg-[#e5e5e5]  transition-all duration-300"
                     >
                       Join Waitlist
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </button>
-                    <a
+                    </button> */}
+                    <CTAButton to="/join-waitlist">Join Waitlist </CTAButton>
+                    {/* <a
                       href="/whitepaper.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-full border border-white/10 text-white text-sm font-medium hover:bg-white/5 hover:border-white/20 transition-all duration-300"
                     >
                       Read Whitepaper
+                    </a> */}
+                    <a
+                      href="/whitepaper.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => sounds.click()}
+                      onMouseEnter={() => sounds.hover()}
+                      className="
+      group relative overflow-hidden inline-flex items-center justify-center gap-4
+      px-6 py-1
+      rounded-full
+      sm:w-auto w-full
+      
+      border border-white/10
+      text-white text-lg font-medium
+      transition-all duration-300
+    "
+                    >
+                      {/* LEFT TO RIGHT HOVER FILL (Same As CTA) */}
+                      <span
+                        className="
+      absolute inset-0
+      bg-white/20
+      rounded-full
+      scale-x-0 group-hover:scale-x-100
+      origin-left
+      transition-transform duration-700 ease-out
+    "
+                      />
+
+                      {/* BUTTON TEXT */}
+                      <span className="relative z-10 flex items-center gap-3">
+                        Read Whitepaper
+                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                      </span>
                     </a>
                   </motion.div>
                 </div>
@@ -583,7 +621,6 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                 <button
                   type="button"
                   onClick={() => navigate(-1)}
-                
                   className="w-full flex items-center justify-center gap-2 text-white/40 hover:text-white/60 text-sm mt-4 transition-colors"
                 >
                   <ArrowLeft size={14} /> Back

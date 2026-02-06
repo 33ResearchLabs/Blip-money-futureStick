@@ -43,7 +43,7 @@ const HeroSection = () => {
 
   const y = useSpring(
     useTransform(scrollYProgress, [0, 1], [0, 200]),
-    smoothConfig
+    smoothConfig,
   );
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
@@ -376,7 +376,7 @@ const TransactionFlowSection = () => {
 
   const lineProgress = useSpring(
     useTransform(scrollYProgress, [0.1, 0.8], [0, 100]),
-    smoothConfig
+    smoothConfig,
   );
 
   return (
@@ -489,11 +489,11 @@ const SecuritySection = () => {
 
   const y1 = useSpring(
     useTransform(scrollYProgress, [0, 1], [100, -100]),
-    smoothConfig
+    smoothConfig,
   );
   const y2 = useSpring(
     useTransform(scrollYProgress, [0, 1], [50, -50]),
-    smoothConfig
+    smoothConfig,
   );
 
   const securityPillars = [
@@ -706,7 +706,7 @@ const CTASection = () => {
 
   const scale = useSpring(
     useTransform(scrollYProgress, [0, 0.5], [0.8, 1]),
-    smoothConfig
+    smoothConfig,
   );
   const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
 
@@ -755,63 +755,54 @@ const CTASection = () => {
             journey with Blip today.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <MagneticWrapper strength={0.2}>
-              {/* <Link
-                to="/waitlist"
-                onClick={() => sounds.click()}
-                onMouseEnter={() => sounds.hover()}
-                className="group inline-flex items-center justify-center gap-4
-        px-10 py-4
+         <div className="flex flex-col sm:flex-row gap-4 justify-center items-stretch">
+  {/* CTA */}
+  <MagneticWrapper strength={0.2} className="w-full sm:flex-1">
+    <CTAButton
+      to="waitlist"
+      className="w-full h-[48px] border flex items-center justify-center"
+    >
+      Get Started
+    </CTAButton>
+  </MagneticWrapper>
+
+  {/* Whitepaper */}
+  <MagneticWrapper strength={0.2} className="w-full sm:flex-1">
+    <a
+      href="/whitepaper.pdf"
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={() => sounds.click()}
+      onMouseEnter={() => sounds.hover()}
+      className="
+        group relative overflow-hidden
+        w-full h-[48px]
+        inline-flex items-center justify-center gap-3
         rounded-full
-        sm:w-auto w-full
-        min-h-[52px]
-        bg-[#ffffff] text-black text-lg font-medium
-        transition-all duration-300"
-              >
-                Get Started
-                <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-2" />
-              </Link> */}
-              <CTAButton to="waitlist">Get Started</CTAButton>
-            </MagneticWrapper>
+        border border-white/10
+        text-white font-medium
+        transition-all duration-300
+      "
+    >
+      {/* Hover Fill */}
+      <span className="
+        absolute inset-0
+        bg-white/20
+        rounded-full
+        scale-x-0 group-hover:scale-x-100
+        origin-left
+        transition-transform duration-700 ease-out
+      " />
 
-            <MagneticWrapper strength={0.2}>
-  <a
-    href="/whitepaper.pdf"
-    target="_blank"
-    rel="noopener noreferrer"
-    onClick={() => sounds.click()}
-    onMouseEnter={() => sounds.hover()}
-    className="
-      group relative overflow-hidden inline-flex items-center justify-center gap-4
-      px-10 py-2
-      rounded-full
-      sm:w-auto w-full ml-2
-     
-      border border-white/10
-      text-white text-lg font-medium
-      transition-all duration-300
-    "
-  >
-    {/* LEFT TO RIGHT HOVER FILL (Same As CTA) */}
-    <span className="
-      absolute inset-0
-      bg-white/20
-      rounded-full
-      scale-x-0 group-hover:scale-x-100
-      origin-left
-      transition-transform duration-700 ease-out
-    " />
+      {/* Text */}
+      <span className="relative z-10 flex items-center gap-2">
+        Read Whitepaper
+        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+      </span>
+    </a>
+  </MagneticWrapper>
+</div>
 
-    {/* BUTTON TEXT */}
-    <span className="relative z-10 flex items-center gap-3">
-      Read Whitepaper
-      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-    </span>
-  </a>
-</MagneticWrapper>
-
-          </div>
         </motion.div>
       </div>
     </section>
