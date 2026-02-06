@@ -110,7 +110,7 @@ const CTASection = () => {
             <span>Join Waitlist</span>
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link> */}
-          <CTAButton to="waitlist">View Rewards</CTAButton>
+          <CTAButton to="waitlist" className=" w-[220px]  h-[48px]">View Rewards</CTAButton>
         </motion.div>
       </motion.div>
     </section>

@@ -160,16 +160,16 @@ const HowItWorksSection = () => {
       appIcon: "🔍",
       screen: (
         <div className="p-3 sm:p-4 md:p-5 lg:p-6 h-full flex flex-col text-left overflow-hidden">
-          <div className="flex items-center justify-between mb-3 sm:mb-4 md:mb-5">
+          <div className="flex items-center justify-between mb-3 sm:mb-4 md:mb-5 ">
             <div className="flex items-center gap-2 md:gap-2.5">
-              <div className="w-7 sm:w-8 md:w-9 lg:w-10 h-7 sm:h-8 md:h-9 lg:h-10 rounded-md sm:rounded-lg bg-white flex items-center justify-center">
+              <div className="w-7 sm:w-8 md:w-9 lg:w-10 h-7 sm:h-8 md:h-9  rounded-md sm:rounded-lg bg-white flex items-center justify-center">
                 <Globe className="w-3 sm:w-3.5 md:w-4 lg:w-4.5 h-3 sm:h-3.5 md:h-4 lg:h-4.5 text-black" />
               </div>
-              <span className="text-xs sm:text-sm md:text-base lg:text-lg font-semibold text-white">
+              <span className="text-xs sm:text-sm md:text-base  font-semibold text-white">
                 Blipscan
               </span>
             </div>
-            <div className="px-2 md:px-2.5 lg:px-3 py-0.5 md:py-1 rounded md:rounded-md bg-white/[0.05]">
+            <div className="px-2 ml-1  py-0.5 md:py-1 rounded md:rounded-md bg-white/[0.05]">
               <span className="text-[8px] sm:text-[10px] md:text-xs lg:text-sm text-white/40 font-mono">
                 Mainnet
               </span>

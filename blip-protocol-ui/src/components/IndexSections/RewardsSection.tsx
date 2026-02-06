@@ -113,7 +113,7 @@ const RewardsSection = () => {
             <span>View Rewards</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link> */}
-          <CTAButton to="rewards">View Rewards</CTAButton>
+          <CTAButton to="rewards" className="w-[220px]  h-[48px]">View Rewards</CTAButton>
         </motion.div>
        
 

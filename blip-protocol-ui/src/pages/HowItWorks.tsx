@@ -755,19 +755,19 @@ const CTASection = () => {
             journey with Blip today.
           </p>
 
-         <div className="flex flex-col sm:flex-row gap-4 justify-center items-stretch">
+         <div className="flex flex-col sm:flex-row gap-2 justify-center items-center">
   {/* CTA */}
-  <MagneticWrapper strength={0.2} className="w-full sm:flex-1">
+  
     <CTAButton
       to="waitlist"
-      className="w-full h-[48px] border flex items-center justify-center"
+      className="w-[220px]  h-[48px] border flex items-center justify-center"
     >
       Get Started
     </CTAButton>
-  </MagneticWrapper>
+  
 
   {/* Whitepaper */}
-  <MagneticWrapper strength={0.2} className="w-full sm:flex-1">
+ 
     <a
       href="/whitepaper.pdf"
       target="_blank"
@@ -776,7 +776,7 @@ const CTASection = () => {
       onMouseEnter={() => sounds.hover()}
       className="
         group relative overflow-hidden
-        w-full h-[48px]
+        w-[220px]  h-[48px]
         inline-flex items-center justify-center gap-3
         rounded-full
         border border-white/10
@@ -800,7 +800,7 @@ const CTASection = () => {
         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
       </span>
     </a>
-  </MagneticWrapper>
+  
 </div>
 
         </motion.div>

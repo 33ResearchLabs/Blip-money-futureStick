@@ -105,7 +105,9 @@ const HeroSection: React.FC<{
             >
               Broadcast Request
             </button> */}
-            <CTAButton to="/waitlist">Broadcast Request</CTAButton>
+            <CTAButton to="/waitlist" className="w-[220px] h-[48px]">
+              Broadcast Request
+            </CTAButton>
             {/* <button
               onClick={() => scrollToSection("mechanics")}
               className="inline-flex items-center justify-center gap-3
@@ -119,7 +121,9 @@ const HeroSection: React.FC<{
             >
               How it Works
             </button> */}
-            <CTAButton to="/how-it-works" className="border border-white/10 hover:bg-white/5 hover:border-white/20">Learn More</CTAButton>
+            <CTAButton to="/how-it-works" className=" w-[220px] h-[48px]">
+              Learn More
+            </CTAButton>
           </motion.div>
 
           {/* Trust Signals */}
@@ -461,8 +465,8 @@ const MarketSimulationSection: React.FC<{
                   </label>
                   <div className="flex items-center gap-4 border-b border-white/10 pb-2">
                     <input
-                      type="number"
-                      value={simAmount}
+                      type="text"
+                      value={simAmount.toLocaleString("en-US")}
                       onChange={(e) =>
                         setSimAmount(parseFloat(e.target.value) || 0)
                       }
@@ -1105,7 +1109,7 @@ const ServicesGridSection: React.FC<{
                 </p>
                 <button
                   onClick={() => openServiceModal(service.key)}
-                  className={`w-full py-2 rounded border border-white/10 bg-[#0A0A0A]/50 text-xs font-medium text-[#A0A0A0] group-hover:border-${service.bg} group-hover:text-${service.bg} transition-all`}
+                  className={`w-full py-2 rounded border border-white/10 bg-[#0A0A0A]/50 text-xs font-medium text-[#A0A0A0] group-hover:border-white/40 group-hover:text-white/80 transition-all`}
                 >
                   Learn More
                 </button>
@@ -1158,7 +1162,7 @@ const EcosystemSection: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="grid grid-cols-2 gap-4"
           >
-            <div className="bg-[#0A0A0A]/30 border border-white/10 p-4 rounded flex items-center gap-3">
+            <div className="bg-[#0A0A0A]/30 border border-white/10 hover:border-white/50 p-4 rounded flex items-center gap-3">
               <div className="w-8 h-8 rounded bg-[#111111] flex items-center justify-center">
                 <svg
                   className="w-4 h-4 text-[#A0A0A0]"
@@ -1181,7 +1185,7 @@ const EcosystemSection: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div className="bg-[#0A0A0A]/30 border border-white/10 p-4 rounded flex items-center gap-3">
+            <div className="bg-[#0A0A0A]/30 border border-white/10 hover:border-white/50 p-4 rounded flex items-center gap-3">
               <div className="w-8 h-8 rounded bg-[#111111] flex items-center justify-center">
                 <svg
                   className="w-4 h-4 text-[#A0A0A0]"
@@ -1525,23 +1529,17 @@ const CTASection: React.FC<{
           settlement for the decentralized economy.
         </motion.p>
         <motion.button
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          
           // onClick={() => navigate("/coming-soon")}
-      //     className="group inline-flex items-center justify-center gap-3
-      // px-6 h-[52px]
-      // rounded-full
-      // bg-[#ffffff] text-black
-      //  font-medium
-      // hover:bg-[#e5e5e5]
-      // transition-all duration-300"
-         >
-          <CTAButton to='coming-soon'>
-          Launch Protocol Terminal </CTAButton>
+          //     className="group inline-flex items-center justify-center gap-3
+          // px-6 h-[52px]
+          // rounded-full
+          // bg-[#ffffff] text-black
+          //  font-medium
+          // hover:bg-[#e5e5e5]
+          // transition-all duration-300"
+        >
+          <CTAButton to="/coming-soon">Launch Protocol Terminal </CTAButton>
         </motion.button>
       </div>
     </section>

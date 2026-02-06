@@ -380,7 +380,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, delay: 0.6 }}
-                    className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+                    className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center"
                   >
                     {/* <button
                       onClick={() => navigate("/join-waitlist")}
@@ -389,7 +389,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                       Join Waitlist
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </button> */}
-                    <CTAButton to="/join-waitlist">Join Waitlist </CTAButton>
+                    <CTAButton to="/join-waitlist" className=" w-[225px]  h-[48px]">Join Waitlist </CTAButton>
                     {/* <a
                       href="/whitepaper.pdf"
                       target="_blank"
@@ -405,10 +405,10 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                       onClick={() => sounds.click()}
                       onMouseEnter={() => sounds.hover()}
                       className="
-      group relative overflow-hidden inline-flex items-center justify-center gap-4
-      px-6 py-1
+      group relative overflow-hidden inline-flex items-center justify-center gap-2
+      md:px-6  py-1
       rounded-full
-      sm:w-auto w-full
+       w-[230px]  h-[48px]
       
       border border-white/10
       text-white text-lg font-medium

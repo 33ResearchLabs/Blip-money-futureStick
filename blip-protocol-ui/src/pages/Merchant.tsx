@@ -426,7 +426,7 @@ const WhyBlipSection = () => {
               to="/join-waitlist"
               className="group inline-flex items-center justify-center gap-3
       px-10 py-4
-      min-h-[52px] w-[220px]
+      w-[220px]  h-[48px]
       rounded-full
       border border-white/20
       text-white

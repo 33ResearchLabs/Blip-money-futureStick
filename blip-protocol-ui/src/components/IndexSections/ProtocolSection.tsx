@@ -146,10 +146,10 @@ const ProtocolSection = () => {
               onClick={() => sounds.click()}
               onMouseEnter={() => sounds.hover()}
               className="
-                group relative overflow-hidden inline-flex items-center justify-center gap-4
-                px-6 py-2
+                group relative overflow-hidden inline-flex items-center justify-center gap-2
+                md:px-6 px-4 py-2
                 rounded-full
-                sm:w-auto w-full
+                 w-[230px]  h-[48px]
                 
                 border border-white/10
                 text-white text-lg font-medium

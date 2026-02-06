@@ -100,12 +100,12 @@ text-3xl md:text-4xl lg:text-5xl xl:text-6xl
           </motion.p>
 
           <motion.div
-  initial={{ opacity: 0, y: 20 }}
-  animate={isInView ? { opacity: 1, y: 0 } : {}}
-  transition={{ duration: 0.6, delay: 0.3 }}
-  className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3 md:gap-4"
->
-  {/* <Link
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3 md:gap-4"
+          >
+            {/* <Link
     to="/coming-soon"
     className="inline-flex items-center justify-center gap-3
       px-10 py-4
@@ -119,9 +119,9 @@ text-3xl md:text-4xl lg:text-5xl xl:text-6xl
   >
     Become a Merchant
   </Link> */}
-  <CTAButton to="/waitlist">Become a Merchant</CTAButton> 
+            <CTAButton to="/waitlist" className="w-[225px]  h-[48px]">Become a Merchant</CTAButton>
 
-  {/* <Link
+            {/* <Link
     to="/waitlist"
     className="group inline-flex items-center justify-center gap-3
       px-10 py-4
@@ -135,10 +135,8 @@ text-3xl md:text-4xl lg:text-5xl xl:text-6xl
   >
     Join Waitlist
   </Link> */}
-  <CTAButton to="/waitlist" >Join Waitlist</CTAButton>
-</motion.div>
-
-
+            <CTAButton to="/waitlist" className="w-[225px]  h-[48px]">Join Waitlist</CTAButton>
+          </motion.div>
         </div>
       </main>
 

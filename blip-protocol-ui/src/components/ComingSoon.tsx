@@ -20,6 +20,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { SEO } from "@/components";
 import { toast } from "sonner";
+import { CTAButton } from "./Navbar";
 
 /* ============================================
    2025/2026 COMING SOON PAGE
@@ -477,7 +478,7 @@ const ComingSoon = () => {
               <p className="text-[10px] text-white/30 uppercase tracking-[0.3em] mb-6">
                 Join the Community
               </p>
-              <div className="flex items-center justify-center gap-4">
+              {/* <div className="flex items-center justify-center gap-4">
                 <a
                   href="https://x.com/blipmoney_"
                   target="_blank"
@@ -490,6 +491,7 @@ const ComingSoon = () => {
                   <span className="text-sm text-white/60 group-hover:text-white transition-colors">
                     Follow on X
                   </span>
+                  
                 </a>
 
                 <a
@@ -505,7 +507,100 @@ const ComingSoon = () => {
                     Join Telegram
                   </span>
                 </a>
-              </div>
+              </div> */}
+      <div className="flex flex-wrap sm:flex-nowrap items-center justify-center gap-3 sm:gap-4 w-full">
+
+  {/* X Button */}
+  <a
+    href="https://x.com/blipmoney_"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="
+      group relative overflow-hidden
+      flex items-center justify-center gap-3
+      w-[220px] 
+      px-5 py-3
+      min-h-[48px]
+      rounded-full
+      border border-white/[0.08]
+      transition-all duration-300
+    "
+  >
+    {/* 🔥 Hover Fill Animation */}
+    <span className="
+      absolute inset-0
+      bg-white/20
+      rounded-full
+      scale-x-0 group-hover:scale-x-100
+      origin-left
+      transition-transform duration-700 ease-out
+    " />
+
+    {/* Content */}
+    <div className="relative z-10 flex items-center gap-3">
+      <div className="
+        w-8 h-8 rounded-lg
+        bg-white/[0.05]
+        flex items-center justify-center
+        group-hover:bg-white/10
+        transition-colors
+      ">
+        <Twitter className="w-4 h-4 text-white/60 group-hover:text-white transition-colors" />
+      </div>
+
+      <span className="text-sm text-white/70 group-hover:text-white transition-colors">
+        Follow on X
+      </span>
+    </div>
+  </a>
+
+  {/* Telegram Button */}
+  <a
+    href="https://t.me/+3DpHLzc2BfJhOWEx"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="
+      group relative overflow-hidden
+      flex items-center justify-center gap-3
+      w-[220px]
+      px-5 py-3
+      min-h-[48px]
+      rounded-full
+      border border-white/[0.08]
+      transition-all duration-300
+    "
+  >
+    {/* 🔥 Hover Fill Animation */}
+    <span className="
+      absolute inset-0
+      bg-white/20
+      rounded-full
+      scale-x-0 group-hover:scale-x-100
+      origin-left
+      transition-transform duration-700 ease-out
+    " />
+
+    {/* Content */}
+    <div className="relative z-10 flex items-center gap-3">
+      <div className="
+        w-8 h-8 rounded-lg
+        bg-white/[0.05]
+        flex items-center justify-center
+        group-hover:bg-white/10
+        transition-colors
+      ">
+        <Send className="w-4 h-4 text-white/60 group-hover:text-white transition-colors" />
+      </div>
+
+      <span className="text-sm text-white/70 group-hover:text-white transition-colors">
+        Join Telegram
+      </span>
+    </div>
+  </a>
+
+</div>
+
+
             </motion.div>
 
             {/* Features preview */}

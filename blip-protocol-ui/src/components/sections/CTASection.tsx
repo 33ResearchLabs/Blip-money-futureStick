@@ -90,24 +90,18 @@ export const CTASection = ({
         )}
 
         <motion.div
-  initial={{ opacity: 0, y: 20 }}
-  animate={isInView ? { opacity: 1, y: 0 } : {}}
-  transition={{ duration: 0.6, delay: 0.2 }}
-  className="flex flex-col sm:flex-row gap-4 justify-center items-center"
->
-  {/* PRIMARY */}
-  <CTAButton
-    to="/join-waitlist"
-    
-    
-  >
-    {primaryButtonText}
-  </CTAButton>
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+        >
+          {/* PRIMARY */}
+          <CTAButton to="/join-waitlist" className="w-[225px]  h-[48px]">{primaryButtonText}</CTAButton>
 
-  {/* SECONDARY */}
-  {secondaryButtonText && secondaryButtonLink && (
-    <MagneticWrapper strength={0.2}>
-      {/* <Link
+          {/* SECONDARY */}
+          {secondaryButtonText && secondaryButtonLink && (
+            <MagneticWrapper strength={0.2}>
+              {/* <Link
         to={secondaryButtonLink}
         onClick={() => sounds.click()}
         onMouseEnter={() => sounds.hover()}
@@ -129,14 +123,16 @@ export const CTASection = ({
         {secondaryButtonText}
         <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
       </Link> */}
-     <CTAButton to={secondaryButtonLink} className="border border-white/10 text-white hover:border-white/30 hover:bg-white/5">
-        {secondaryButtonText}
-        {/* <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" /> */}
-      </CTAButton> 
-    </MagneticWrapper>
-  )}
-</motion.div>
-
+              <CTAButton
+                to={secondaryButtonLink}
+                className="border border-white/10 text-white hover:border-white/30 hover:bg-white/5 w-[225px]  h-[48px]"
+              >
+                {secondaryButtonText}
+                {/* <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" /> */}
+              </CTAButton>
+            </MagneticWrapper>
+          )}
+        </motion.div>
       </div>
     </section>
   );
