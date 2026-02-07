@@ -208,6 +208,8 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import dubai
+ from '../../../public/Dubai.jpeg'
 
 /* ============================================
    SECTION 2: UAE ANNOUNCEMENT - Apple-style cinematic
@@ -282,7 +284,8 @@ const UAESection = () => {
           
         >
           <img
-            src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=2940&auto=format&fit=crop"
+            // src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=2940&auto=format&fit=crop"
+            src={dubai}
             alt="Dubai skyline"
             className="w-full h-full object-cover rounded-3xl"
           />

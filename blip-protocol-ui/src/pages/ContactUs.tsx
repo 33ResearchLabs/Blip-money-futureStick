@@ -22,6 +22,7 @@ import {
 import { sendFormNotification } from "@/api/telegram";
 import { SEO } from "@/components";
 import { sounds } from "@/lib/sounds";
+import dubai from '../../public/Dubai.jpeg'
 
 /* ============================================
    AWARD-WINNING CONTACT PAGE
@@ -59,6 +60,8 @@ const HeroSection = () => {
           src="https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2874&auto=format&fit=crop"
           alt="Modern office"
           className="w-full h-full object-cover"
+          onContextMenu={(e) => e.stopPropagation()}
+          draggable="true"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black" />
       </motion.div>
@@ -262,9 +265,9 @@ const ContactOptionsSection = () => {
                 initial={{ opacity: 0, x: -30 }}
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.6, delay: 0.7 }}
-                href="https://www.google.com/maps/search/?api=1&query=JLT+Cluster+Y+Dubai"
-                target="_blank"
-                rel="noopener noreferrer"
+                // href="https://www.google.com/maps/search/?api=1&query=JLT+Cluster+Y+Dubai"
+                // target="_blank"
+                // rel="noopener noreferrer"
                 className="w-full flex items-center p-5 rounded-2xl transition-all duration-300 group"
                 style={{
                   background: "rgba(255, 255, 255, 0.02)",
@@ -557,9 +560,12 @@ const VisualSection = () => {
           style={{ y }}
         >
           <img
-            src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=2940&auto=format&fit=crop"
+            // src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=2940&auto=format&fit=crop"
+            src={dubai}
             alt="Dubai skyline"
             className="w-full h-full object-cover"
+            onContextMenu={(e) => e.stopPropagation()}
+            draggable="true"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
@@ -628,6 +634,7 @@ const ContactUs = () => {
         <ContactOptionsSection />
         <VisualSection />
       </div>
+      
     </>
   );
 };

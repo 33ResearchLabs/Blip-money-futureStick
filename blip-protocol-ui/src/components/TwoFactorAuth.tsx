@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowLeft, ShieldCheck, X } from "lucide-react";
 import { toast } from "sonner";
 import { twoFactorApi } from "@/services/twoFatctor";
@@ -15,6 +15,11 @@ export default function TwoFactorAuth() {
   const [disable, setDisable] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  // Refresh session on mount to ensure 2FA status is up-to-date
+  useEffect(() => {
+    refreshSession();
+  }, [refreshSession]);
 
   if (!user) return null;
 

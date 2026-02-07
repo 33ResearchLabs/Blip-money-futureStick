@@ -270,7 +270,7 @@ const CinematicHero = () => {
           ref={textLayerRef}
         >
           <div className="w-full text-center lg:text-left mt-2 sm:mt-12  lg:mt-0 pb-2 lg:pb-24 ">
-            <motion.h1
+            <motion.p
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
@@ -293,7 +293,7 @@ const CinematicHero = () => {
                 <br />
                 <span className="text-white/40">anytime.</span>
               </span>
-            </motion.h1>
+            </motion.p>
 
             <div className="">
               {/* Powered by crypto badge */}

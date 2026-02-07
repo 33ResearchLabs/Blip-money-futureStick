@@ -3,6 +3,7 @@ import React, {
   useContext,
   useState,
   useEffect,
+  useCallback,
   ReactNode,
 } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -42,7 +43,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
    * 🔄 Verify session using cookies
    * Backend reads httpOnly cookie and returns user
    */
-  const refreshSession = async () => {
+  const refreshSession = useCallback(async () => {
     try {
       setIsLoading(true);
 
@@ -68,7 +69,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
   /**
    * ✅ Check session on app load
