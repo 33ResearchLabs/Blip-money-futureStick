@@ -86,19 +86,78 @@ const ProtocolSection = () => {
           </motion.p>
         </div>
 
-        {/* Features - with orange accents */}
+        {/* Features - with flat transparent icons */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 sm:mb-16">
           {[
-            { label: "Zero-Knowledge", desc: "Privacy by default", icon: "🔐" },
+            {
+              label: "Zero-Knowledge",
+              desc: "Privacy by default",
+              icon: (
+                <svg
+                  className="w-12 h-12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 2L4 6V11C4 16.55 7.84 21.74 13 23C18.16 21.74 22 16.55 22 11V6L14 2H12Z"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="text-white/40 group-hover:text-white/60 transition-colors"
+                  />
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="3"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    className="text-white/40 group-hover:text-white/60 transition-colors"
+                  />
+                </svg>
+              ),
+            },
             {
               label: "Solana-Powered",
               desc: "Sub-second finality",
-              icon: "⚡",
+              icon: (
+                <svg
+                  className="w-12 h-12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M13 2L3 14H12L11 22L21 10H12L13 2Z"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="text-white/40 group-hover:text-white/60 transition-colors"
+                  />
+                </svg>
+              ),
             },
             {
               label: "Non-Custodial",
               desc: "Your keys, your funds",
-              icon: "🔑",
+              icon: (
+                <svg
+                  className="w-12 h-12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M21 12C21 16.9706 16.9706 21 12 21M21 12C21 7.02944 16.9706 3 12 3M21 12H3M12 21C7.02944 21 3 16.9706 3 12M12 21C13.6569 21 15 16.9706 15 12C15 7.02944 13.6569 3 12 3M12 21C10.3431 21 9 16.9706 9 12C9 7.02944 10.3431 3 12 3M3 12C3 7.02944 7.02944 3 12 3"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    className="text-white/40 group-hover:text-white/60 transition-colors"
+                  />
+                </svg>
+              ),
             },
           ].map((item, i) => (
             <motion.div
@@ -117,7 +176,7 @@ const ProtocolSection = () => {
               <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-40 h-40 bg-white opacity-0 group-hover:opacity-[0.06] blur-[60px] rounded-full transition-opacity duration-500" />
 
               <div className="flex gap-2 sm:flex-col justify-center items-center">
-                <span className="text-3xl mb-4 block">{item.icon}</span>
+                <div className="mb-4">{item.icon}</div>
                 <h3 className="text-lg font-medium text-white mb-2 group-hover:text-white/80 transition-colors">
                   {item.label}
                 </h3>

@@ -1,10 +1,10 @@
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { Check, Globe, User, Building2, CheckCircle2 } from "lucide-react";
 import { Header } from "@/components/Hero/PhoneMockup";
 
 /* ============================================
-   SECTION 7: HOW IT WORKS - Interactive Horizontal Timeline
+   SECTION 7: HOW IT WORKS - Interactive Single Screen
    ============================================ */
 
 const HowItWorksSection = () => {
@@ -15,6 +15,15 @@ const HowItWorksSection = () => {
   });
 
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+  const [activeStep, setActiveStep] = useState(0);
+
+  // Auto-advance steps every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveStep((prev) => (prev + 1) % 3);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   const steps = [
     {
@@ -230,28 +239,36 @@ const HowItWorksSection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative py-12 md:py-40 bg-black overflow-hidden"
+      className="relative min-h-screen lg:h-screen flex items-center justify-center bg-black overflow-hidden py-12 lg:py-0"
     >
-      {/* Subtle background */}
+      {/* Animated background */}
       <div className="absolute inset-0">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full bg-white/[0.02] blur-[100px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full bg-white/[0.02] blur-[120px]" />
+        <motion.div
+          className="absolute top-1/4 right-1/4 w-[300px] h-[300px] rounded-full bg-[#ff6b35]/[0.03] blur-[100px]"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.03, 0.05, 0.03],
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
       </div>
 
       <motion.div
-        className="relative z-10 max-w-6xl mx-auto px-6"
+        className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 w-full"
         style={{ opacity }}
       >
         {/* Header */}
-        <div className="text-center mb-12 sm:mb-16 md:mb-20 lg:mb-24">
+        <div className="text-center mb-8 lg:mb-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/[0.03] border border-white/[0.06] mb-5 sm:mb-6 md:mb-8"
+            transition={{ duration: 0.8 }}
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06] mb-4"
           >
-            <div className="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-[#ff6b35]" />
-            <span className="text-[10px] sm:text-xs text-white/50 uppercase tracking-wider">
+            <div className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]" />
+            <span className="text-[10px] text-white/50 uppercase tracking-wider">
               How it works
             </span>
           </motion.div>
@@ -259,8 +276,8 @@ const HowItWorksSection = () => {
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white tracking-tight leading-[1.1] mb-4 sm:mb-5 md:mb-6 px-4 sm:px-0"
+            transition={{ duration: 1 }}
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.1] mb-3"
           >
             Three steps.
             <br />
@@ -270,121 +287,162 @@ const HowItWorksSection = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-sm sm:text-base md:text-lg text-white/40 max-w-md lg:max-w-lg mx-auto px-4 sm:px-0"
+            transition={{ duration: 1, delay: 0.1 }}
+            className="text-sm md:text-base text-white/40 max-w-2xl mx-auto px-2"
           >
             From crypto to cash in under 2 seconds. No banks, no delays, no
             complexity.
           </motion.p>
         </div>
 
-        {/* Steps with phone mockups */}
-        <div className="relative">
-          {/* Connecting line */}
+        {/* Interactive Single Screen Layout */}
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+          {/* Left: Phone Mockup with Dynamic Content */}
           <motion.div
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 1.5, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute top-[260px] left-[15%] right-[15%] h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent hidden lg:block"
-            style={{ originX: 0 }}
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-6 lg:gap-10">
-            {steps.map((step, i) => (
-              <motion.div
-                key={step.num}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{
-                  duration: 0.8,
-                  delay: i * 0.1,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-                className="relative text-center"
-              >
-                {/* App label - Above the phone */}
-                <div className="flex items-center justify-center gap-1.5 sm:gap-2 mb-4">
-                  <span className="text-sm sm:text-base">{step.appIcon}</span>
-                  <span className="text-xs sm:text-sm text-white/50 font-medium">
-                    {step.app}
-                  </span>
-                </div>
-                {/* Content */}
-                <div className=" sm:hidden mt-8 sm:mt-10 my-6">
-                  <span className="inline-block px-2.5 py-1 rounded-full bg-white/10 text-white/60 text-[10px] sm:text-xs font-mono mb-2 sm:mb-3">
-                    {step.num}
-                  </span>
-                  <h3 className="text-xl sm:text-2xl font-semibold text-white mb-2 sm:mb-3">
-                    {step.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-white/40 leading-relaxed max-w-[280px] mx-auto px-4 md:px-0">
-                    {step.desc}
-                  </p>
-                </div>
-                {/* Phone mockup - optimized for mobile */}
-                <div className="relative mx-auto mb-8 w-[200px] sm:w-[220px] md:w-[240px] lg:w-[260px]">
-                  <div className="rounded-[32px] sm:rounded-[36px] md:rounded-[38px] lg:rounded-[40px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[2px] sm:p-[3px] shadow-[0_20px_40px_rgba(0,0,0,0.5)] sm:shadow-[0_30px_60px_rgba(0,0,0,0.6)]">
-                    <div className="rounded-[30px] sm:rounded-[34px] md:rounded-[36px] lg:rounded-[38px] bg-[#0a0a0a] p-[6px] sm:p-[8px] md:p-[9px] lg:p-[10px]">
-                      <div className="rounded-[24px] sm:rounded-[28px] md:rounded-[29px] lg:rounded-[30px] bg-black overflow-hidden h-[320px] sm:h-[360px] md:h-[380px] lg:h-[400px] relative">
-                        {/* Status bar with time, signal, battery */}
-                        <div className="absolute top-0 left-0 right-0 h-8 sm:h-9 lg:h-10 flex items-center justify-between px-4 sm:px-5 lg:px-6 z-20">
-                          {/* Time */}
-                          <span className="text-[10px] sm:text-xs font-semibold text-white">
-                            9:41
-                          </span>
-                          {/* Right side - Signal, Wifi, Battery */}
-                          <div className="flex items-center gap-1 sm:gap-1.5">
-                            {/* Signal bars */}
-                            <div className="flex items-end gap-[1px] sm:gap-[2px]">
-                              <div className="w-[3px] sm:w-1 h-1 sm:h-1.5 bg-white rounded-[1px]" />
-                              <div className="w-[3px] sm:w-1 h-1.5 sm:h-2 bg-white rounded-[1px]" />
-                              <div className="w-[3px] sm:w-1 h-2 sm:h-2.5 bg-white rounded-[1px]" />
-                              <div className="w-[3px] sm:w-1 h-2.5 sm:h-3 bg-white rounded-[1px]" />
-                            </div>
-                            {/* Wifi */}
-                            <svg
-                              className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-white"
-                              viewBox="0 0 24 24"
-                              fill="currentColor"
-                            >
-                              <path d="M12 18c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm-4.9-2.3l1.4 1.4c1.9-1.9 5.1-1.9 7 0l1.4-1.4c-2.7-2.7-7.1-2.7-9.8 0zM3.5 12.1l1.4 1.4c3.9-3.9 10.2-3.9 14.1 0l1.4-1.4c-4.7-4.7-12.3-4.7-17 0z" />
-                            </svg>
-                            {/* Battery */}
-                            <div className="flex items-center">
-                              <div className="w-5 sm:w-6 h-2.5 sm:h-3 rounded-[3px] border border-white/80 p-[1px] sm:p-[2px]">
-                                <div className="h-full w-[80%] bg-white rounded-[1px]" />
-                              </div>
-                              <div className="w-[2px] h-1 sm:h-1.5 bg-white/80 rounded-r-[1px] ml-[1px]" />
-                            </div>
-                          </div>
+            transition={{ duration: 0.8 }}
+            className="flex justify-center items-center order-2 lg:order-1"
+          >
+            <div className="relative w-[200px] sm:w-[240px] md:w-[280px] lg:w-[320px]">
+              <div className="rounded-[36px] sm:rounded-[40px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[2px] sm:p-[2.5px] shadow-[0_20px_40px_rgba(0,0,0,0.6)]">
+                <div className="rounded-[34px] sm:rounded-[37.5px] bg-[#0a0a0a] p-[8px] sm:p-[10px]">
+                  <div className="rounded-[28px] sm:rounded-[30px] bg-black overflow-hidden h-[360px] sm:h-[420px] md:h-[480px] lg:h-[540px] relative">
+                    {/* Status bar */}
+                    <div className="absolute top-0 left-0 right-0 h-9 sm:h-10 flex items-center justify-between px-4 sm:px-5 z-20">
+                      <span className="text-[9px] sm:text-[10px] font-semibold text-white">
+                        9:41
+                      </span>
+                      <div className="flex items-center gap-1 sm:gap-1.5">
+                        <div className="flex items-end gap-[1.5px] sm:gap-[2px]">
+                          <div className="w-[3px] sm:w-1 h-1 sm:h-1.5 bg-white rounded-[1px]" />
+                          <div className="w-[3px] sm:w-1 h-1.5 sm:h-2 bg-white rounded-[1px]" />
+                          <div className="w-[3px] sm:w-1 h-2 sm:h-2.5 bg-white rounded-[1px]" />
+                          <div className="w-[3px] sm:w-1 h-2.5 sm:h-3 bg-white rounded-[1px]" />
                         </div>
-
-                        {/* Screen content */}
-                        <div className="pt-10 sm:pt-11 lg:pt-12 h-full">
-                          {step.screen}
+                        <div className="w-4 sm:w-5 h-2 sm:h-2.5 rounded-[2px] sm:rounded-[3px] border border-white/80 p-[1px] sm:p-[1.5px]">
+                          <div className="h-full w-[80%] bg-white rounded-[1px]" />
                         </div>
                       </div>
                     </div>
+
+                    {/* Dynamic Screen Content */}
+                    <div className="pt-9 sm:pt-10 h-full">
+                      <AnimatePresence mode="wait">
+                        <motion.div
+                          key={activeStep}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ duration: 0.4 }}
+                          className="h-full"
+                        >
+                          {steps[activeStep].screen}
+                        </motion.div>
+                      </AnimatePresence>
+                    </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </motion.div>
 
-                {/* Content */}
-                <div className="hidden sm:block mt-8 sm:mt-10">
-                  <span className="inline-block px-2.5 py-1 rounded-full bg-white/10 text-white/60 text-[10px] sm:text-xs font-mono mb-2 sm:mb-3">
+          {/* Right: Step Navigation & Content */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="space-y-3 lg:space-y-4 order-1 lg:order-2"
+          >
+            {steps.map((step, i) => (
+              <motion.div
+                key={i}
+                onClick={() => setActiveStep(i)}
+                className={`group cursor-pointer p-3 sm:p-4 lg:p-5 rounded-lg sm:rounded-xl lg:rounded-2xl border transition-all duration-300 ${
+                  activeStep === i
+                    ? "bg-white/[0.06] border-white/20"
+                    : "bg-white/[0.02] border-white/[0.05] hover:bg-white/[0.04] hover:border-white/10"
+                }`}
+              >
+                <div className="flex items-start gap-2.5 sm:gap-3 lg:gap-4">
+                  {/* Step Number */}
+                  <div
+                    className={`flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-md sm:rounded-lg lg:rounded-xl flex items-center justify-center font-mono font-bold text-xs sm:text-sm lg:text-base transition-all duration-300 ${
+                      activeStep === i
+                        ? "bg-white text-black"
+                        : "bg-white/5 text-white/40 group-hover:bg-white/10 group-hover:text-white/60"
+                    }`}
+                  >
                     {step.num}
-                  </span>
-                  <h3 className="text-xl sm:text-2xl font-semibold text-white mb-2 sm:mb-3">
-                    {step.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-white/40 leading-relaxed max-w-[280px] mx-auto px-4 md:px-0">
-                    {step.desc}
-                  </p>
+                  </div>
+
+                  {/* Content */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-1.5 sm:gap-2 mb-1">
+                      <span className="text-sm sm:text-base lg:text-lg">{step.appIcon}</span>
+                      <h3
+                        className={`text-sm sm:text-base lg:text-lg font-semibold transition-colors ${
+                          activeStep === i
+                            ? "text-white"
+                            : "text-white/60 group-hover:text-white/80"
+                        }`}
+                      >
+                        {step.title}
+                      </h3>
+                    </div>
+                    <p
+                      className={`text-[11px] sm:text-xs lg:text-sm leading-relaxed transition-colors ${
+                        activeStep === i
+                          ? "text-white/50"
+                          : "text-white/30 group-hover:text-white/40"
+                      }`}
+                    >
+                      {step.desc}
+                    </p>
+                    <div className="mt-1.5 sm:mt-2 text-[9px] sm:text-[10px] lg:text-xs text-white/30">
+                      {step.app}
+                    </div>
+                  </div>
+
+                  {/* Active Indicator */}
+                  {activeStep === i && (
+                    <motion.div
+                      layoutId="activeIndicator"
+                      className="flex-shrink-0 w-1.5 h-1.5 lg:w-2 lg:h-2 rounded-full bg-[#ff6b35]"
+                    />
+                  )}
                 </div>
+
+                {/* Progress Bar */}
+                {activeStep === i && (
+                  <motion.div
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: 5, ease: "linear" }}
+                    className="h-0.5 bg-gradient-to-r from-[#ff6b35] to-[#ff8c5a] rounded-full mt-2.5 sm:mt-3 lg:mt-4 origin-left"
+                  />
+                )}
               </motion.div>
             ))}
-          </div>
+
+            {/* Manual Navigation Dots */}
+            <div className="flex items-center justify-center gap-1.5 sm:gap-2 pt-2 sm:pt-3 lg:pt-4">
+              {steps.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActiveStep(i)}
+                  className={`h-1 sm:h-1.5 rounded-full transition-all duration-300 ${
+                    activeStep === i
+                      ? "w-5 sm:w-6 lg:w-8 bg-[#ff6b35]"
+                      : "w-1 sm:w-1.5 bg-white/20 hover:bg-white/40"
+                  }`}
+                  aria-label={`Go to step ${i + 1}`}
+                />
+              ))}
+            </div>
+          </motion.div>
         </div>
       </motion.div>
     </section>

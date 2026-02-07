@@ -3,7 +3,6 @@ import { motion, useInView } from "framer-motion";
 import { Lock, Users } from "lucide-react";
 import StarfieldBackground from "./StarfieldBackground";
 import { Logo } from "./Navbar";
-import { MerchantDashboardCompact } from "./MerchantDashboardCompact";
 
 const CinematicHero = () => {
   const ref = useRef(null);
@@ -57,6 +56,8 @@ const CinematicHero = () => {
       ref={ref}
       className="relative min-h-screen overflow-x-hidden bg-transparent"
     >
+      <StarfieldBackground />
+
       <main
         className="
           relative z-10 min-h-screen
@@ -71,8 +72,22 @@ const CinematicHero = () => {
         {/* ================= TEXT SECTION ================= */}
         <div
           ref={textLayerRef}
-          className="w-full my-24 lg:my-0 lg:w-1/2 antigravity-layer text-center lg:text-left"
+          className="w-full lg:w-1/2 antigravity-layer text-center lg:text-left"
         >
+          {/* Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="flex justify-center lg:justify-start mb-6"
+          >
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06]">
+              <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#ff8c5a]" />
+              <span className="text-xs text-white/50">Powered by</span>
+              <span className="text-xs font-semibold text-white">Solana</span>
+            </div>
+          </motion.div>
+
           {/* Heading */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
@@ -88,20 +103,6 @@ const CinematicHero = () => {
             <br />
             <span className="text-white/40">anytime.</span>
           </motion.h1>
-
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="flex justify-center lg:justify-start mb-6 my-6"
-          >
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06]">
-              <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#ff8c5a]" />
-              <span className="text-xs text-white/50">Powered by</span>
-              <span className="text-xs font-semibold text-white">Solana</span>
-            </div>
-          </motion.div>
 
           {/* Description */}
           <motion.p
@@ -139,7 +140,69 @@ const CinematicHero = () => {
         </div>
 
         {/* ================= DASHBOARD ================= */}
-        <MerchantDashboardCompact />
+        <div
+          ref={dashboardLayerRef}
+          className="w-full lg:w-1/2 antigravity-layer flex justify-center"
+        >
+          <div className="w-full max-w-[460px] glass-panel-hero rounded-3xl p-6 xl:p-8">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-2">
+                <div className="w-2.5 h-2.5 bg-[#ff6b35] rounded-full" />
+                <span className="text-sm font-medium text-white">
+                  blip.<span className="text-[#ff6b35]">money</span>
+                </span>
+              </div>
+            </div>
+
+            {/* Amount */}
+            <div className="mb-8">
+              <div className="inline-block px-3 py-1 bg-white/5 rounded-full text-xs text-white/60 mb-3">
+                Request Accepted
+              </div>
+              <div className="text-4xl font-bold">
+                5,000 <span className="text-white/40">USDT</span>
+              </div>
+              <div className="text-xs text-white/30 mt-1">AED → USDT</div>
+            </div>
+
+            {/* Timeline */}
+            <div className="space-y-5 mb-8">
+              {["Request Created", "Request Accepted", "Escrow Locked"].map(
+                (step, i) => (
+                  <div
+                    key={step}
+                    className={`flex justify-between items-center ${
+                      i === 2 ? "font-bold text-white" : "text-white/70"
+                    }`}
+                  >
+                    <span>{step}</span>
+                    <span className="text-xs text-white/30">09:4{i + 1}</span>
+                  </div>
+                ),
+              )}
+            </div>
+
+            {/* Merchant */}
+            <div className="border-t border-white/10 pt-6 flex justify-between items-center">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
+                  <Users className="w-4 h-4 opacity-60" />
+                </div>
+                <div>
+                  <div className="text-sm font-bold">PrimeX Holdings</div>
+                  <div className="text-xs text-white/50">Active now</div>
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="text-sm font-bold">
+                  5,000 <span className="text-white/40">USDT</span>
+                </div>
+                <div className="text-xs text-white/50">★ 4.95</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </main>
     </section>
   );

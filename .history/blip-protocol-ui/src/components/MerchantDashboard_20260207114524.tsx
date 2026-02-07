@@ -1753,7 +1753,7 @@ export const MerchantDashboardVisualHomepage = () => {
   shadow-[0_60px_120px_-30px_rgba(0,0,0,0.9),0_40px_80px_-40px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.05)]
   w-full
   min-w-0
-  md:min-w-[1200px]"
+  md:min-w-[1200px] h-[700px]"
             >
               {/* Browser header - minimal premium style */}
               <div className="flex items-center gap-3 px-5 py-3.5 bg-[#0d0d0d] border-b border-white/[0.04]">
@@ -2254,7 +2254,7 @@ export const MerchantDashboardVisualHomepage = () => {
                   </div>
 
                   {/* Live matching indicator */}
-                  {/* <div className="hidden sm:block mt-4 p-3 rounded-lg bg-[#0c0c0c] border border-white/[0.03]">
+                  <div className="hidden sm:block mt-4 p-3 rounded-lg bg-[#0c0c0c] border border-white/[0.03]">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">
@@ -2288,7 +2288,7 @@ export const MerchantDashboardVisualHomepage = () => {
                         </div>
                       </div>
                     </div>
-                  </div> */}
+                  </div>
 
                   {/* Recent Activity, Messages & Quick Actions */}
                   <div className="hidden mt-3 sm:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">

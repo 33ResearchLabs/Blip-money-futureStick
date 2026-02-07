@@ -26,6 +26,18 @@ export const Logo = ({ className = "" }) => {
       onClick={() => sounds.click()}
     >
       {/* Dot with motion */}
+      <motion.span
+        className="relative w-4 h-4 rounded-full bg-[#ff6b35] overflow-hidden"
+        style={{
+          boxShadow: "0 0 16px rgba(255, 255, 255, 0.35)",
+        }}
+        whileHover={{
+          scale: 1.15,
+          boxShadow: "0 0 28px rgba(255, 255, 255, 0.6)",
+        }}
+        whileTap={{ scale: 0.9 }}
+        transition={{ duration: 0.2 }}
+      ></motion.span>
 
       {/* Text */}
       <motion.span

@@ -94,7 +94,7 @@ const CinematicHero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="flex justify-center lg:justify-start mb-6 my-6"
+            className="flex justify-center lg:justify-start mb-6"
           >
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06]">
               <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#ff8c5a]" />
@@ -102,7 +102,7 @@ const CinematicHero = () => {
               <span className="text-xs font-semibold text-white">Solana</span>
             </div>
           </motion.div>
-
+          
           {/* Description */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}

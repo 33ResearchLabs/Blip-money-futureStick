@@ -18,28 +18,28 @@ const ProblemSection = () => {
     {
       year: "2024",
       title: "High Fees",
-      desc: "Banks charge 3-7% on international transfers.",
+      desc: "Banks charge 3-7% on international transfers. Hidden costs erode every transaction.",
       stat: "~$48B",
       statLabel: "Lost to fees annually",
     },
     {
       year: "2025",
       title: "Slow Settlement",
-      desc: "SWIFT takes 2-5 business days.",
+      desc: "SWIFT takes 2-5 business days. Money stuck in limbo while you wait.",
       stat: "3-5 days",
       statLabel: "Average settlement",
     },
     {
       year: "2026",
       title: "No Privacy",
-      desc: "Every transaction tracked, reported, and stored.",
+      desc: "Every transaction tracked, reported, and stored. Your financial life exposed.",
       stat: "100%",
       statLabel: "Transactions monitored",
     },
     {
       year: "Now",
       title: "Enter Blip",
-      desc: "Sub-second settlement. 0.1% fees. Full privacy.",
+      desc: "Sub-second settlement. 0.1% fees. Full privacy. The future of money transfer is here.",
       stat: "~2s",
       statLabel: "Settlement time",
       highlight: true,
@@ -78,7 +78,7 @@ const ProblemSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-xl md:text-2xl text-white/40 max-w-xl mx-auto"
+            className="text-lg text-white/40 max-w-xl mx-auto"
           >
             The traditional financial system was built for a different era. It's
             time for something better.
@@ -92,16 +92,10 @@ const ProblemSection = () => {
 
           {/* Moving line following from top to bottom */}
           <motion.div
-            className="absolute left-8 md:left-1/2 md:-translate-x-px w-1 h-12 rounded-full
-             bg-gradient-to-b from-transparent via-white/60 to-transparent
-             shadow-[0_0_20px_rgba(255,255,255,0.4)]"
+            className="absolute left-8 md:left-1/2 md:-translate-x-px w-1 h-12 rounded-full bg-gradient-to-b from-transparent via-white/60 to-transparent shadow-[0_0_20px_rgba(255,255,255,0.4)]"
             initial={{ top: "-50px" }}
             animate={{ top: "100%" }}
-            transition={{
-              duration: 6, // ✅ very slow & smooth
-              repeat: Infinity,
-              ease: "linear",
-            }}
+            transition={{ duration: 1.2, repeat: Infinity, ease: "linear" }}
           />
 
           {/* Timeline items */}
@@ -157,7 +151,7 @@ const ProblemSection = () => {
                     >
                       {problem.title}
                     </h3>
-                    <p className="text-base md:text-lg text-white/50 mb-4 leading-relaxed max-w-sm">
+                    <p className="text-sm text-white/50 mb-4 leading-relaxed max-w-sm">
                       {problem.desc}
                     </p>
                     <div className="flex items-baseline gap-2">

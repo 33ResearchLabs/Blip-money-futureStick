@@ -117,8 +117,8 @@ const LockedAndSecuredSection = () => {
                       <div className="flex items-center justify-between mb-3">
                         <span className="text-xs text-white/40">Status</span>
                         <div className="flex items-center gap-2">
-                          <div className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]" />
-                          <span className="text-xs text-white/40 font-medium">
+                          <div className="w-1.5 h-1.5 rounded-full " />
+                          <span className="text-xs text-[#ff6b35] font-medium">
                             In Escrow
                           </span>
                         </div>

@@ -3,7 +3,7 @@ import { motion, useInView } from "framer-motion";
 import { Lock, Users } from "lucide-react";
 import StarfieldBackground from "./StarfieldBackground";
 import { Logo } from "./Navbar";
-import { MerchantDashboardCompact } from "./MerchantDashboardCompact";
+import { MerchantDashboardVisualHomepage } from "./MerchantDashboard";
 
 const CinematicHero = () => {
   const ref = useRef(null);
@@ -71,8 +71,22 @@ const CinematicHero = () => {
         {/* ================= TEXT SECTION ================= */}
         <div
           ref={textLayerRef}
-          className="w-full my-24 lg:my-0 lg:w-1/2 antigravity-layer text-center lg:text-left"
+          className="w-full lg:w-1/2 antigravity-layer text-center lg:text-left"
         >
+          {/* Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="flex justify-center lg:justify-start mb-6"
+          >
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06]">
+              <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#ff8c5a]" />
+              <span className="text-xs text-white/50">Powered by</span>
+              <span className="text-xs font-semibold text-white">Solana</span>
+            </div>
+          </motion.div>
+
           {/* Heading */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
@@ -88,20 +102,6 @@ const CinematicHero = () => {
             <br />
             <span className="text-white/40">anytime.</span>
           </motion.h1>
-
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="flex justify-center lg:justify-start mb-6 my-6"
-          >
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06]">
-              <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#ff8c5a]" />
-              <span className="text-xs text-white/50">Powered by</span>
-              <span className="text-xs font-semibold text-white">Solana</span>
-            </div>
-          </motion.div>
 
           {/* Description */}
           <motion.p
@@ -139,7 +139,7 @@ const CinematicHero = () => {
         </div>
 
         {/* ================= DASHBOARD ================= */}
-        <MerchantDashboardCompact />
+        <MerchantDashboardVisualHomepage />
       </main>
     </section>
   );

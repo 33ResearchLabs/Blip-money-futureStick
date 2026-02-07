@@ -81,14 +81,8 @@ const LockedAndSecuredSection = () => {
                         <div className="w-[3px] h-[80%] bg-white rounded-full opacity-80" />
                         <div className="w-[3px] h-[100%] bg-white rounded-full" />
                       </div>
-                      <Wifi
-                        className="w-3.5 h-3.5 text-white"
-                        strokeWidth={2.5}
-                      />
-                      <Battery
-                        className="w-6 h-3.5 text-white"
-                        strokeWidth={2.5}
-                      />
+                      <Wifi className="w-3.5 h-3.5 text-white" strokeWidth={2.5} />
+                      <Battery className="w-6 h-3.5 text-white" strokeWidth={2.5} />
                     </div>
                   </div>
 
@@ -109,7 +103,9 @@ const LockedAndSecuredSection = () => {
                       <div className="text-3xl font-bold text-white mb-1">
                         5,000 USDT
                       </div>
-                      <div className="text-xs text-white/40">≈ $5,000.00</div>
+                      <div className="text-xs text-white/40">
+                        ≈ $5,000.00
+                      </div>
                     </div>
 
                     {/* Status card */}
@@ -118,7 +114,7 @@ const LockedAndSecuredSection = () => {
                         <span className="text-xs text-white/40">Status</span>
                         <div className="flex items-center gap-2">
                           <div className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]" />
-                          <span className="text-xs text-white/40 font-medium">
+                          <span className="text-xs text-[#ff6b35] font-medium">
                             In Escrow
                           </span>
                         </div>

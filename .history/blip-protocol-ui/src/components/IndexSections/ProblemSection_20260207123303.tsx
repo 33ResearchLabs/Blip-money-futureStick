@@ -78,7 +78,7 @@ const ProblemSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-xl md:text-2xl text-white/40 max-w-xl mx-auto"
+            className="text-lg text-white/40 max-w-xl mx-auto"
           >
             The traditional financial system was built for a different era. It's
             time for something better.
@@ -91,18 +91,12 @@ const ProblemSection = () => {
           <div className="absolute left-8 md:left-1/2 md:-translate-x-px top-0 bottom-0 w-[2px] bg-gradient-to-b from-white/[0.06] via-white/20 to-white/[0.06]" />
 
           {/* Moving line following from top to bottom */}
-          <motion.div
-            className="absolute left-8 md:left-1/2 md:-translate-x-px w-1 h-12 rounded-full
-             bg-gradient-to-b from-transparent via-white/60 to-transparent
-             shadow-[0_0_20px_rgba(255,255,255,0.4)]"
+          {/* <motion.div
+            className="absolute left-8 md:left-1/2 md:-translate-x-px w-1 h-12 rounded-full bg-gradient-to-b from-transparent via-white/60 to-transparent shadow-[0_0_20px_rgba(255,255,255,0.4)]"
             initial={{ top: "-50px" }}
             animate={{ top: "100%" }}
-            transition={{
-              duration: 6, // ✅ very slow & smooth
-              repeat: Infinity,
-              ease: "linear",
-            }}
-          />
+            transition={{ duration: 1000, repeat: Infinity, ease: "linear" }}
+          /> */}
 
           {/* Timeline items */}
           <div className="space-y-12 md:space-y-0">
@@ -157,7 +151,7 @@ const ProblemSection = () => {
                     >
                       {problem.title}
                     </h3>
-                    <p className="text-base md:text-lg text-white/50 mb-4 leading-relaxed max-w-sm">
+                    <p className="text-sm text-white/50 mb-4 leading-relaxed max-w-sm">
                       {problem.desc}
                     </p>
                     <div className="flex items-baseline gap-2">
