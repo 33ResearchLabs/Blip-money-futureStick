@@ -257,9 +257,9 @@
     text-wrap: balance;
   }
 
-  /* Headings - Huly-style, clean & geometric */
+  /* Headings - matching main page font (Space Grotesk) */
   .heading-xl {
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
     font-size: clamp(3rem, 8vw, 7rem);
     font-weight: 600;
     letter-spacing: -0.025em;
@@ -267,7 +267,7 @@
   }
 
   .heading-lg {
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
     font-size: clamp(2.5rem, 6vw, 5rem);
     font-weight: 600;
     letter-spacing: -0.022em;
@@ -275,7 +275,7 @@
   }
 
   .heading-md {
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
     font-size: clamp(2rem, 4vw, 3.5rem);
     font-weight: 600;
     letter-spacing: -0.019em;
@@ -283,7 +283,7 @@
   }
 
   .heading-sm {
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
     font-size: clamp(1.5rem, 2.5vw, 2.25rem);
     font-weight: 600;
     letter-spacing: -0.015em;

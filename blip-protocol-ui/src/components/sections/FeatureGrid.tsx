@@ -74,14 +74,14 @@ const FeatureCard = ({
         onMouseEnter={() => sounds.hover()}
       >
         {Icon && (
-          <div className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center mb-4 group-hover:border-[#ff6b35]/30 transition-colors">
-            <Icon className="w-5 h-5 text-white/70 group-hover:text-white transition-colors" />
+          <div className="w-10 h-10 rounded-lg bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center mb-4 group-hover:border-[#ff6b35]/30 transition-colors">
+            <Icon className="w-5 h-5 text-black/70 dark:text-white/70 group-hover:text-black dark:group-hover:text-white transition-colors" />
           </div>
         )}
-        <h3 className="text-lg font-semibold text-white mb-2">
+        <h3 className="text-lg font-semibold text-black dark:text-white mb-2">
           {feature.title}
         </h3>
-        <p className="text-sm text-white/50 leading-relaxed">
+        <p className="text-sm text-black/40 dark:text-white/50 leading-relaxed">
           {feature.description}
         </p>
       </motion.div>
@@ -95,16 +95,16 @@ const FeatureCard = ({
       initial={{ opacity: 0, y: 40 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.8, delay: index * 0.1 }}
-      className="group p-6 rounded-2xl bg-white/[0.02] border border-transparent hover:border-[#ffff]/20 transition-colors duration-500"
+      className="group p-6 rounded-2xl bg-white/60 dark:bg-white/[0.02] border border-black/[0.08] dark:border-transparent hover:border-black/20 dark:hover:border-white/20 transition-colors duration-500 backdrop-blur-xl"
       onMouseEnter={() => sounds.hover()}
     >
       {Icon && (
-        <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-5 group-hover:bg-white/20 transition-colors">
-          <Icon className="w-6 h-6 text-white/70 group-hover:text-[#ffff] transition-colors" />
+        <div className="w-12 h-12 rounded-xl bg-black/5 dark:bg-white/5 flex items-center justify-center mb-5 group-hover:bg-black/10 dark:group-hover:bg-white/20 transition-colors">
+          <Icon className="w-6 h-6 text-black/70 dark:text-white/70 group-hover:text-black dark:group-hover:text-white transition-colors" />
         </div>
       )}
-      <h3 className="text-xl font-semibold text-white mb-3">{feature.title}</h3>
-      <p className="text-white/50 leading-relaxed">{feature.description}</p>
+      <h3 className="text-xl font-semibold text-black dark:text-white mb-3">{feature.title}</h3>
+      <p className="text-black/40 dark:text-white/50 leading-relaxed">{feature.description}</p>
     </motion.div>
   );
 };
@@ -129,15 +129,7 @@ export const FeatureGrid = ({
   return (
     <section className="relative py-24 md:py-32 overflow-hidden">
       {/* Subtle background */}
-      <div className="absolute inset-0 bg-black" />
-      <div
-        className="absolute inset-0 opacity-[0.02]"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle, rgba(255, 255, 255, 0.8) 1px, transparent 1px)",
-          backgroundSize: "32px 32px",
-        }}
-      />
+      <div className="absolute inset-0 bg-[#FAF8F5] dark:bg-black" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         {/* Header */}
@@ -147,7 +139,7 @@ export const FeatureGrid = ({
               initial={{ opacity: 0, y: 20 }}
               animate={isHeaderInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6 }}
-              className="text-sm uppercase tracking-[0.2em] text-white/40 mb-4"
+              className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-4"
             >
               {subtitle}
             </motion.p>
@@ -156,7 +148,7 @@ export const FeatureGrid = ({
             initial={{ opacity: 0, y: 30 }}
             animate={isHeaderInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="heading-lg text-white mb-6"
+            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6"
           >
             {title}
           </motion.h2>
@@ -165,7 +157,7 @@ export const FeatureGrid = ({
               initial={{ opacity: 0, y: 20 }}
               animate={isHeaderInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-lg text-white/50 max-w-2xl mx-auto"
+              className="text-lg text-black/40 dark:text-white/50 max-w-2xl mx-auto font-medium"
             >
               {description}
             </motion.p>

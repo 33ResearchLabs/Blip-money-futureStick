@@ -47,7 +47,7 @@ const HowItWorksSection = () => {
           setHovered(false);
           setRotate({ x: 0, y: 0 });
         }}
-        className="group relative flex flex-col overflow-hidden rounded-[2.5rem] border border-white/[0.06] bg-[#050505] p-8 transition-all duration-500"
+        className="group relative flex flex-col overflow-hidden rounded-[2.5rem] border border-black/[0.08] dark:border-white/[0.06] bg-white/60 dark:bg-[#050505] backdrop-blur-xl p-8 transition-all duration-500"
         style={{
           animation: `fadeInUp 1s cubic-bezier(0.2,0.8,0.2,1) ${delay}s both`,
           transform: `perspective(1000px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg)`,
@@ -78,26 +78,26 @@ const HowItWorksSection = () => {
 
         {/* Icon + Text */}
         <div className="relative z-10 mb-8 flex flex-col gap-6">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-zinc-900 border border-white/5 text-zinc-500 group-hover:text-white/20 group-hover:border-white/30 transition">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-black/5 dark:bg-zinc-900 border border-black/10 dark:border-white/5 text-black/40 dark:text-zinc-500 group-hover:text-black/60 dark:group-hover:text-white/20 group-hover:border-black/20 dark:group-hover:border-white/30 transition">
             <Icon size={24} />
           </div>
 
           <div>
-            <h3 className="text-xl font-bold text-white mb-2">{title}</h3>
-            <p className="text-sm text-zinc-500">{subtitle}</p>
+            <h3 className="text-xl font-bold text-black dark:text-white mb-2">{title}</h3>
+            <p className="text-sm text-black/40 dark:text-zinc-500">{subtitle}</p>
           </div>
         </div>
 
         {/* Mockup */}
-        <div className="relative mt-auto h-52 overflow-hidden rounded-2xl border border-white/5 bg-[#080808]">
-          <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:20px_20px]" />
+        <div className="relative mt-auto h-52 overflow-hidden rounded-2xl border border-black/[0.06] dark:border-white/5 bg-black/[0.03] dark:bg-[#080808]">
+          <div className="absolute inset-0 bg-[radial-gradient(rgba(0,0,0,0.02)_1px,transparent_1px)] dark:bg-[radial-gradient(rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:20px_20px]" />
           <div className="relative z-10 h-full">{children}</div>
 
-          <div className="absolute bottom-0 inset-x-0 h-8 border-t border-white/5 bg-black/80 flex items-center justify-between px-4">
-            <span className="text-[8px] font-mono text-zinc-500">
+          <div className="absolute bottom-0 inset-x-0 h-8 border-t border-black/5 dark:border-white/5 bg-white/80 dark:bg-black/80 flex items-center justify-between px-4">
+            <span className="text-[8px] font-mono text-black/30 dark:text-zinc-500">
               SYSTEM_ACTIVE
             </span>
-            <Cpu size={10} className="text-zinc-800" />
+            <Cpu size={10} className="text-black/10 dark:text-zinc-800" />
           </div>
         </div>
       </div>
@@ -157,7 +157,7 @@ const HowItWorksSection = () => {
 
   /* ---------------- RENDER ---------------- */
   return (
-    <section ref={ref} className="relative max-w-7xl mx-auto px-6 py-32">
+    <section ref={ref} className="relative max-w-7xl mx-auto px-6 py-16 md:py-32">
       <style>{`
         @keyframes fadeInUp {
           from { opacity:0; transform:translateY(40px); }
@@ -169,14 +169,14 @@ const HowItWorksSection = () => {
         }
       `}</style>
 
-      <div className="text-center mb-24">
+      <div className="text-center mb-12 sm:mb-24">
         <motion.h2
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight mb-6 sm:mb-8 tracking-tight max-w-xl mx-auto lg:mx-0"
+          className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white leading-tight mb-6 sm:mb-8 tracking-tight max-w-xl mx-auto"
         >
-          How merchants <span className="text-white/20">execute</span> on Blip
+          How merchants <span className="text-black/20 dark:text-white/20">execute</span> on Blip
         </motion.h2>
       </div>
 

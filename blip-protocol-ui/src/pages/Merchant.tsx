@@ -391,14 +391,14 @@ const WhyBlipSection = () => {
   ];
 
   return (
-    <section className="relative bg-transparent text-white overflow-hidden py-12 sm:py-20 md:py-28 lg:py-32">
+    <section className="relative bg-[#FAF8F5] dark:bg-transparent text-black dark:text-white overflow-hidden py-12 sm:py-20 md:py-28 lg:py-32">
       {/* Ambient Background */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[1200px] h-[800px] bg-white/[0.02] blur-[140px] rounded-full" />
+        <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[1200px] h-[800px] bg-black/[0.02] dark:bg-white/[0.02] blur-[140px] rounded-full" />
         <motion.div
           animate={{ opacity: [0.03, 0.06, 0.03], scale: [1, 1.1, 1] }}
           transition={{ duration: 10, repeat: Infinity }}
-          className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(255,255,255,0.04)_0%,transparent_60%)]"
+          className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(0,0,0,0.03)_0%,transparent_60%)] dark:bg-[radial-gradient(circle_at_50%_40%,rgba(255,255,255,0.04)_0%,transparent_60%)]"
         />
       </div>
 
@@ -409,16 +409,16 @@ const WhyBlipSection = () => {
           <div className="max-w-xl mx-auto lg:mx-0 text-center lg:text-left">
             <div className="flex items-center justify-center lg:justify-start gap-2 mb-6">
               <div className="w-2 h-2 rounded-full bg-[#ff6b35] " />
-              <span className="text-xs tracking-[0.2em] uppercase text-zinc-500">
+              <span className="text-xs tracking-[0.2em] uppercase text-black/40 dark:text-white/40">
                 Next-Gen Merchant Protocol
               </span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight mb-6 sm:mb-8 tracking-tight max-w-xl mx-auto lg:mx-0">
-              Why Merchants <span className="text-white/20">Choose </span>Blip
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white leading-tight mb-6 sm:mb-8 tracking-tight max-w-xl mx-auto lg:mx-0">
+              Why Merchants <span className="text-black/20 dark:text-white/20">Choose </span>Blip
             </h2>
 
-            <p className="text-lg text-zinc-400 max-w-2xl mb-10">
+            <p className="text-lg text-black/40 dark:text-white/40 max-w-2xl mb-10">
               Built for speed control and repeat volume
             </p>
 
@@ -644,7 +644,7 @@ const DashboardSection = () => {
   return (
     <section ref={ref} className="relative py-24 md:py-32 overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-black" />
+      <div className="absolute inset-0 bg-[#FAF8F5] dark:bg-black" />
 
       {/* Gradient accent */}
       <div
@@ -662,7 +662,7 @@ const DashboardSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="text-sm uppercase tracking-[0.2em] text-[#ffffff] mb-4"
+            className="text-[11px] uppercase tracking-[0.3em] text-black dark:text-white/60 mb-4"
           >
             Merchant Dashboard
           </motion.p>
@@ -670,15 +670,15 @@ const DashboardSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="heading-lg text-white mb-4"
+            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-4"
           >
-            Your <span className="text-white/20">command</span> center
+            Your <span className="text-black/20 dark:text-white/20">command</span> center
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg text-white/50 max-w-xl mx-auto"
+            className="text-lg text-black/40 dark:text-white/50 max-w-xl mx-auto font-medium"
           >
             Everything needed to run a desk, without the clutter.
           </motion.p>
@@ -754,17 +754,17 @@ const DashboardSection = () => {
               return (
                 <div
                   key={callout.title}
-                  className="flex items-start gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/5 hover:border-white/20 transition-colors duration-500"
+                  className="flex items-start gap-4 p-4 rounded-xl bg-white/60 dark:bg-white/[0.02] border border-black/[0.08] dark:border-white/5 hover:border-black/20 dark:hover:border-white/20 transition-colors duration-500 backdrop-blur-xl"
                   onMouseEnter={() => sounds.hover()}
                 >
-                  <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
-                    <Icon className="w-5 h-5 text-white/60" />
+                  <div className="w-10 h-10 rounded-lg bg-black/5 dark:bg-white/5 flex items-center justify-center flex-shrink-0">
+                    <Icon className="w-5 h-5 text-black/60 dark:text-white/60" />
                   </div>
                   <div>
-                    <h4 className="text-base font-medium text-white mb-1">
+                    <h4 className="text-base font-medium text-black dark:text-white mb-1">
                       {callout.title}
                     </h4>
-                    <p className="text-sm text-white/50">
+                    <p className="text-sm text-black/40 dark:text-white/50">
                       {callout.description}
                     </p>
                   </div>
@@ -788,14 +788,14 @@ const PricingSection = () => {
   return (
     <section ref={ref} className="relative py-24 md:py-32 overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-[#050505]" />
+      <div className="absolute inset-0 bg-[#FAF8F5] dark:bg-black" />
 
       <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-sm uppercase tracking-[0.2em] text-white/40 mb-4"
+          className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-4"
         >
           Pricing
         </motion.p>
@@ -804,9 +804,9 @@ const PricingSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.1 }}
-          className="heading-lg text-white mb-6"
+          className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6"
         >
-          You <span className="text-white/20">control pricing.</span> We keep it
+          You <span className="text-black/20 dark:text-white/20">control pricing.</span> We keep it
           simple.
         </motion.h2>
 
@@ -814,7 +814,7 @@ const PricingSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-lg text-white/50 mb-10 max-w-2xl mx-auto leading-relaxed"
+          className="text-lg text-black/40 dark:text-white/50 mb-10 max-w-2xl mx-auto leading-relaxed font-medium"
         >
           Blip shows a live market reference rate. You can adjust your quote
           within allowed ranges to win the request faster when needed.
@@ -824,9 +824,9 @@ const PricingSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="p-6 rounded-2xl bg-white/[0.02] border border-white/5 max-w-xl mx-auto hover:border-[#ffffff]/30 transition-colors duration-500"
+          className="p-6 rounded-2xl bg-white/60 dark:bg-white/[0.02] border border-black/[0.08] dark:border-white/5 max-w-xl mx-auto hover:border-black/20 dark:hover:border-white/30 transition-colors duration-500 backdrop-blur-xl"
         >
-          <div className="space-y-3 text-sm text-white/40">
+          <div className="space-y-3 text-sm text-black/40 dark:text-white/40">
             <p>
               Exact fees and ranges may vary by corridor and stage (Alpha/Beta).
             </p>
@@ -871,7 +871,7 @@ const TrustSection = () => {
         <>
           Trades secured by
           <br />
-          <span className="text-white/20">escrow + transparency</span>
+          <span className="text-black/20 dark:text-white/20">escrow + transparency</span>
         </>
       }
       subtitle="Trust & Safety"
@@ -898,10 +898,10 @@ const RolloutSection = () => {
   return (
     <section ref={ref} className="relative py-24 md:py-32 overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-black" />
+      <div className="absolute inset-0 bg-[#FAF8F5] dark:bg-black" />
 
       {/* Border lines */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-black/10 dark:via-white/10 to-transparent" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
@@ -911,7 +911,7 @@ const RolloutSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6 }}
-              className="text-sm uppercase tracking-[0.2em] text-white/40 mb-4"
+              className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-4"
             >
               Rollout
             </motion.p>
@@ -920,7 +920,7 @@ const RolloutSection = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.1 }}
-              className="heading-md text-white mb-8"
+              className="font-display text-2xl sm:text-3xl md:text-4xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-8"
             >
               Invite-only rollout
             </motion.h2>
@@ -932,29 +932,29 @@ const RolloutSection = () => {
               className="space-y-6"
             >
               {/* Alpha */}
-              <div className="group p-5 rounded-xl bg-white/[0.02] hover:bg-white/5 border hover:border-white/10">
+              <div className="group p-5 rounded-xl bg-white/60 dark:bg-white/[0.02] hover:bg-white/80 dark:hover:bg-white/5 border border-black/[0.08] dark:border-transparent hover:border-black/15 dark:hover:border-white/10 backdrop-blur-xl">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-2 h-2 rounded-full bg-white/30 group-hover:bg-white/60" />
-                  <h3 className="text-lg font-semibold  text-white">Alpha</h3>
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-white/5 text-white/40">
+                  <div className="w-2 h-2 rounded-full bg-black/30 dark:bg-white/30 group-hover:bg-black/60 dark:group-hover:bg-white/60" />
+                  <h3 className="text-lg font-semibold text-black dark:text-white">Alpha</h3>
+                  <span className="text-xs px-2 py-0.5 rounded-full bg-black/5 dark:bg-white/5 text-black/40 dark:text-white/40">
                     Internal
                   </span>
                 </div>
-                <p className="text-white/50 text-sm">
+                <p className="text-black/40 dark:text-white/50 text-sm">
                   We test flows, edge cases, and reliability.
                 </p>
               </div>
 
               {/* Beta */}
-              <div className=" group p-5 rounded-xl hover:bg-white/5 border hover:border-white/10">
+              <div className="group p-5 rounded-xl bg-white/60 dark:bg-transparent hover:bg-white/80 dark:hover:bg-white/5 border border-black/[0.08] dark:border-transparent hover:border-black/15 dark:hover:border-white/10 backdrop-blur-xl">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-2 h-2 rounded-full bg-white/30 group-hover:bg-white/60 animate-pulse" />
-                  <h3 className="text-lg font-semibold text-white">Beta</h3>
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-white/10 text-white/60">
+                  <div className="w-2 h-2 rounded-full bg-black/30 dark:bg-white/30 group-hover:bg-black/60 dark:group-hover:bg-white/60 animate-pulse" />
+                  <h3 className="text-lg font-semibold text-black dark:text-white">Beta</h3>
+                  <span className="text-xs px-2 py-0.5 rounded-full bg-black/10 dark:bg-white/10 text-black/60 dark:text-white/60">
                     Invite-only
                   </span>
                 </div>
-                <p className="text-white/50 text-sm">
+                <p className="text-black/40 dark:text-white/50 text-sm">
                   Select merchants + partners in focused corridors.
                 </p>
               </div>
@@ -967,7 +967,7 @@ const RolloutSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-sm uppercase tracking-[0.2em] text-white/40 mb-4"
+              className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-4"
             >
               Benefits
             </motion.p>
@@ -976,7 +976,7 @@ const RolloutSection = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="heading-md text-white mb-8"
+              className="font-display text-2xl sm:text-3xl md:text-4xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-8"
             >
               Early merchant benefits
             </motion.h2>
@@ -990,12 +990,12 @@ const RolloutSection = () => {
               {earlyBenefits.map((benefit, index) => (
                 <div
                   key={index}
-                  className="group flex items-center gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/5 hover:bg-white/5 hover:border-white/10"
+                  className="group flex items-center gap-4 p-4 rounded-xl bg-white/60 dark:bg-white/[0.02] border border-black/[0.08] dark:border-white/5 hover:bg-white/80 dark:hover:bg-white/5 hover:border-black/15 dark:hover:border-white/10 backdrop-blur-xl"
                 >
-                  <div className="w-8 h-8 rounded-lg  flex items-center justify-center flex-shrink-0">
-                    <CheckCircle2 className="w-4 h-4 text-gray-600 group-hover:text-white/60" />
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <CheckCircle2 className="w-4 h-4 text-black/30 dark:text-gray-600 group-hover:text-black/60 dark:group-hover:text-white/60" />
                   </div>
-                  <span className="text-white/70">{benefit}</span>
+                  <span className="text-black/70 dark:text-white/70">{benefit}</span>
                 </div>
               ))}
             </motion.div>
@@ -1035,7 +1035,7 @@ const RequirementsSection = () => {
   return (
     <section ref={ref} className="relative py-24 md:py-32 overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-[#050505]" />
+      <div className="absolute inset-0 bg-[#FAF8F5] dark:bg-black" />
 
       <div className="relative z-10 max-w-4xl mx-auto px-6">
         <div className="text-center mb-12">
@@ -1043,7 +1043,7 @@ const RequirementsSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="text-sm uppercase tracking-[0.2em] text-white/40 mb-4"
+            className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-4"
           >
             Requirements
           </motion.p>
@@ -1051,7 +1051,7 @@ const RequirementsSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="heading-lg text-white"
+            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.1]"
           >
             Who should apply
           </motion.h2>
@@ -1068,12 +1068,12 @@ const RequirementsSection = () => {
             return (
               <div
                 key={index}
-                className="group flex items-start gap-4 p-5 rounded-xl bg-white/[0.02] border border-white/5 hover:border-white/20"
+                className="group flex items-start gap-4 p-5 rounded-xl bg-white/60 dark:bg-white/[0.02] border border-black/[0.08] dark:border-white/5 hover:border-black/20 dark:hover:border-white/20 backdrop-blur-xl"
               >
-                <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
-                  <Icon className="w-5 h-5 text-white/60 group-hover:text-white/80" />
+                <div className="w-10 h-10 rounded-lg bg-black/5 dark:bg-white/5 flex items-center justify-center flex-shrink-0">
+                  <Icon className="w-5 h-5 text-black/60 dark:text-white/60 group-hover:text-black/80 dark:group-hover:text-white/80" />
                 </div>
-                <p className="text-white/70 pt-2">{req.text}</p>
+                <p className="text-black/70 dark:text-white/70 pt-2">{req.text}</p>
               </div>
             );
           })}
@@ -1117,7 +1117,7 @@ const FAQSection = () => {
   return (
     <section ref={ref} className="relative py-24 md:py-32 overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-black" />
+      <div className="absolute inset-0 bg-[#FAF8F5] dark:bg-black" />
 
       <div className="relative z-10 max-w-3xl mx-auto px-6">
         <div className="text-center mb-12">
@@ -1125,7 +1125,7 @@ const FAQSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="text-sm uppercase tracking-[0.2em] text-white/40 mb-4"
+            className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-4"
           >
             FAQ
           </motion.p>
@@ -1133,7 +1133,7 @@ const FAQSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="heading-lg text-white"
+            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.1]"
           >
             Common questions
           </motion.h2>
@@ -1148,11 +1148,11 @@ const FAQSection = () => {
           {faqs.map((faq, index) => (
             <div
               key={index}
-              className={`rounded-xl border overflow-hidden transition-colors duration-300 hover:border-white/20
+              className={`rounded-xl border overflow-hidden transition-colors duration-300 hover:border-black/20 dark:hover:border-white/20 backdrop-blur-xl
     ${
       openIndex === index
-        ? "bg-white/5 border-white/20"
-        : "bg-white/[0.02] border-white/5"
+        ? "bg-white/80 dark:bg-white/5 border-black/20 dark:border-white/20"
+        : "bg-white/60 dark:bg-white/[0.02] border-black/[0.08] dark:border-white/5"
     }
   `}
             >
@@ -1162,11 +1162,11 @@ const FAQSection = () => {
                   sounds.click();
                 }}
                 onMouseEnter={() => sounds.hover()}
-                className="w-full flex items-center justify-between p-5 text-left "
+                className="w-full flex items-center justify-between p-5 text-left"
               >
-                <span className="text-white font-medium">{faq.question}</span>
+                <span className="text-black dark:text-white font-medium">{faq.question}</span>
                 <ChevronDown
-                  className={`w-5 h-5 text-white/40 transition-transform duration-300 ${
+                  className={`w-5 h-5 text-black/40 dark:text-white/40 transition-transform duration-300 ${
                     openIndex === index ? "rotate-180" : ""
                   }`}
                 />
@@ -1179,7 +1179,7 @@ const FAQSection = () => {
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <div className="px-5 pb-5 text-white/50">{faq.answer}</div>
+                    <div className="px-5 pb-5 text-black/40 dark:text-white/50">{faq.answer}</div>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -1219,7 +1219,7 @@ const Merchant = () => {
         title={
           <>
             Ready to become a Blip{" "}
-            <span className="text-white/20">Merchant?</span>
+            <span className="text-black/20 dark:text-white/20">Merchant?</span>
           </>
         }
         description="Apply now. Get access to the dashboard and start executing requests."

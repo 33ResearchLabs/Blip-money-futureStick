@@ -51,7 +51,7 @@ export const CTASection = ({
         </>
       ) : background === "gradient" ? (
         <>
-          <div className="absolute inset-0 bg-black" />
+          <div className="absolute inset-0 bg-[#FAF8F5] dark:bg-black" />
           <div
             className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] opacity-[0.07]"
             style={{
@@ -61,19 +61,19 @@ export const CTASection = ({
           />
         </>
       ) : (
-        <div className="absolute inset-0 bg-black" />
+        <div className="absolute inset-0 bg-[#FAF8F5] dark:bg-black" />
       )}
 
       {/* Border lines */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-black/10 dark:via-white/10 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-black/10 dark:via-white/10 to-transparent" />
 
       <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
         <motion.h2
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="heading-lg text-white mb-6"
+          className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6"
         >
           {title}
         </motion.h2>
@@ -83,7 +83,7 @@ export const CTASection = ({
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-lg md:text-xl text-white/50 mb-10 max-w-2xl mx-auto"
+            className="text-lg md:text-xl text-black/40 dark:text-white/50 mb-10 max-w-2xl mx-auto font-medium"
           >
             {description}
           </motion.p>

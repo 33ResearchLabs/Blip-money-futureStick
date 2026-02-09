@@ -5,7 +5,7 @@ import {
   useScroll,
   useMotionValueEvent,
 } from "framer-motion";
-import { Menu, X, ChevronRight, ArrowRight, Sun, Moon } from "lucide-react";
+import { Menu, X, ChevronRight, ArrowRight, Sun, Moon, Zap } from "lucide-react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
@@ -23,22 +23,22 @@ export const Logo = ({ className = "" }) => {
   return (
     <Link
       to="/"
-      className="flex items-center gap-2 group"
+      className="flex items-center gap-1.5 group"
       onClick={() => sounds.click()}
     >
-      {/* Dot with motion */}
+      {/* Zap icon */}
+      <Zap className="w-5 h-5 text-black dark:text-white fill-black dark:fill-white" strokeWidth={2} />
 
       {/* Text */}
       <motion.span
-        className={`${className} text-[26px] font-semibold tracking-tight leading-none flex items-center`}
+        className={`${className} text-[23px] font-semibold tracking-tight leading-none flex items-center`}
         whileHover={{ scale: 1.02 }}
         transition={{ duration: 0.2 }}
       >
-        <span className="text-black dark:text-white">blip</span>
-        <span className="text-black dark:text-white">.</span>
+        <span className="text-black dark:text-white">Blip</span>
 
-        {/* money text */}
-        <span className="relative text-black dark:text-white ml-0.5">
+        {/* Money text - italic */}
+        <span className="relative text-black dark:text-white ml-1 italic">
           money
           {/* Underline effect */}
           <motion.span
@@ -279,19 +279,11 @@ const MobileMenu = ({
                   Dashboard
                 </Link>
               ) : (
-                <>
-                  <div onClick={handleNavClick}>
-                    <CTAButton to="/coming-soon" className="w-full">
-                      Coming Soon
-                    </CTAButton>
-                  </div>
-
-                  <div onClick={handleNavClick}>
+                <div onClick={handleNavClick}>
                     <CTAButton to="/waitlist" className="w-full">
                       Join Waitlist
                     </CTAButton>
                   </div>
-                </>
               )}
             </div>
           </motion.div>
@@ -438,10 +430,7 @@ export const Navbar = () => {
               {isAuthenticated ? (
                 <CTAButton to="/dashboard">Dashboard</CTAButton>
               ) : (
-                <>
-                  <CTAButton to="/coming-soon">{t("comingSoon")}</CTAButton>
-                  <CTAButton to="/waitlist">Join Waitlist</CTAButton>
-                </>
+                <CTAButton to="/waitlist">Join Waitlist</CTAButton>
               )}
             </div>
 

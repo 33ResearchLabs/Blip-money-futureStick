@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
-import { Lock, Shield, Zap, Globe, Wifi, Battery } from "lucide-react";
+import { Lock, Shield, Zap, Globe, Check } from "lucide-react";
 import { MicroIcon } from "@/components/visuals/MicroIcon";
 
 /* ============================================
    LOCKED & SECURED SECTION
-   Escrow protection showcase with phone mockup
+   Escrow protection showcase with floating card
    ============================================ */
 
 const LockedAndSecuredSection = () => {
@@ -26,200 +26,251 @@ const LockedAndSecuredSection = () => {
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-16 xl:gap-20 items-center">
         <div className="flex flex-col justify-center items-center lg:hidden">
-          <div className="inline-flex items-center gap-3 mb-6">
-            <div className="relative w-10 h-10 rounded-lg border border-black/[0.08] dark:border-white/[0.08] flex items-center justify-center group hover:border-black/20 dark:hover:border-white/20 transition-colors">
+          <div className="inline-flex items-center gap-3 mb-4">
+            <div className="relative w-8 h-8 rounded-lg border border-black/[0.08] dark:border-white/[0.08] flex items-center justify-center group hover:border-black/20 dark:hover:border-white/20 transition-colors">
               <Lock
-                className="w-4 h-4 text-black dark:text-white/40 group-hover:text-[#ff6b35] transition-colors"
+                className="w-3.5 h-3.5 text-black dark:text-white/40 group-hover:text-[#ff6b35] transition-colors"
                 strokeWidth={1.5}
               />
-              <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#FAF8F5] dark:bg-black border border-black/10 dark:border-white/10 flex items-center justify-center">
-                <span className="text-[10px] font-medium text-black dark:text-white/50">2</span>
+              <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#FAF8F5] dark:bg-black border border-black/10 dark:border-white/10 flex items-center justify-center">
+                <span className="text-[8px] font-medium text-black dark:text-white/50">2</span>
               </div>
             </div>
-            <span className="text-lg font-semibold text-black dark:text-white">Escrow</span>
+            <span className="text-sm font-semibold text-black dark:text-white">Escrow</span>
           </div>
 
           {/* Heading */}
-          <h2 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-black dark:text-white mb-4 sm:mb-6 leading-[1.1] tracking-tight">
+          <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-black dark:text-white mb-4 leading-[1.1] tracking-tight text-center">
             Locked &
             <br />
-            <span className="text-black dark:text-white/20">secured.</span>
+            <span className="text-black/25 dark:text-white/20">secured.</span>
           </h2>
         </div>
 
-        {/* Left: Static Phone Mockup */}
+        {/* Left: Floating Escrow Card */}
         <motion.div
           className="relative flex justify-center items-center"
-          initial={{ opacity: 0, x: -40 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
-          {/* Phone Frame */}
-          <div className="relative w-[266px] sm:w-[294px] lg:w-[336px]">
-            {/* Phone outer frame */}
-            <div className="rounded-[34px] sm:rounded-[36px] lg:rounded-[41px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[3px] shadow-[0_21px_42px_rgba(0,0,0,0.6)]">
-              <div className="rounded-[32px] sm:rounded-[34px] lg:rounded-[39px] bg-[#0a0a0a] p-[8px] sm:p-[10px]">
-                {/* Phone screen */}
-                <div className="rounded-[25px] sm:rounded-[27px] lg:rounded-[31px] bg-black overflow-hidden relative h-[476px] sm:h-[525px] lg:h-[595px]">
-                  {/* Dynamic Island */}
-                  <div className="absolute top-3 left-1/2 -translate-x-1/2 z-10">
-                    <div className="w-[100px] h-6 rounded-full bg-black flex items-center justify-center">
-                      <div className="w-3 h-3 rounded-full bg-[#1a1a1a] mr-1" />
+          {/* Ambient glow behind card */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <motion.div
+              className="w-[320px] h-[320px] rounded-full"
+              style={{
+                background: "radial-gradient(circle, rgba(0,0,0,0.04) 0%, transparent 70%)",
+              }}
+              animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.8, 0.5] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+            />
+          </div>
+
+          <div className="relative w-full max-w-[380px]">
+            {/* Main card */}
+            <motion.div
+              className="rounded-2xl sm:rounded-3xl overflow-hidden border border-black/[0.08] dark:border-white/[0.08] bg-white/80 dark:bg-white/[0.04] backdrop-blur-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1),0_4px_20px_-5px_rgba(0,0,0,0.05)] dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)]"
+              whileHover={{ y: -4 }}
+              transition={{ duration: 0.3 }}
+            >
+              {/* Card header */}
+              <div className="px-6 pt-6 pb-4 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <motion.div
+                    className="relative w-10 h-10 rounded-xl bg-black/[0.04] dark:bg-white/[0.06] flex items-center justify-center"
+                    animate={{
+                      boxShadow: [
+                        "0 0 0 0 rgba(0, 0, 0, 0)",
+                        "0 0 20px 4px rgba(0, 0, 0, 0.04)",
+                        "0 0 0 0 rgba(0, 0, 0, 0)",
+                      ],
+                    }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    <Shield className="w-5 h-5 text-black/60 dark:text-white/60" strokeWidth={1.5} />
+                    <motion.div
+                      className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full bg-emerald-500 flex items-center justify-center"
+                      initial={{ scale: 0 }}
+                      whileInView={{ scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.8, type: "spring", stiffness: 300 }}
+                    >
+                      <Check className="w-2.5 h-2.5 text-white" strokeWidth={3} />
+                    </motion.div>
+                  </motion.div>
+                  <div>
+                    <div className="text-[10px] uppercase tracking-[0.15em] text-black/40 dark:text-white/30">
+                      Escrow Active
                     </div>
-                  </div>
-
-                  {/* Status bar */}
-                  <div className="flex items-center justify-between px-6 pt-4 pb-2">
-                    <span className="text-[12px] text-white font-semibold">
-                      9:41
-                    </span>
-                    <div className="flex items-center gap-1.5">
-                      {/* Signal bars */}
-                      <div className="flex items-end gap-[1px] h-3.5">
-                        <div className="w-[3.5px] h-[40%] bg-white rounded-full opacity-60" />
-                        <div className="w-[3.5px] h-[60%] bg-white rounded-full opacity-70" />
-                        <div className="w-[3.5px] h-[80%] bg-white rounded-full opacity-80" />
-                        <div className="w-[3.5px] h-[100%] bg-white rounded-full" />
-                      </div>
-                      <Wifi
-                        className="w-3.5 h-3.5 text-white"
-                        strokeWidth={2.5}
-                      />
-                      <Battery
-                        className="w-5 h-3.5 text-white"
-                        strokeWidth={2.5}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Screen Content */}
-                  <div className="px-5 pb-7 pt-7 flex flex-col h-full">
-                    {/* Lock icon with pulse/glow effect */}
-                    <div className="flex justify-center mb-7">
-                      <motion.div
-                        className="relative w-16 h-16 rounded-full bg-white/[0.05] border border-white/[0.08] flex items-center justify-center"
-                        animate={{
-                          boxShadow: [
-                            "0 0 0 0 rgba(255, 107, 53, 0)",
-                            "0 0 20px 4px rgba(255, 107, 53, 0.15)",
-                            "0 0 0 0 rgba(255, 107, 53, 0)",
-                          ],
-                        }}
-                        transition={{
-                          duration: 3,
-                          repeat: Infinity,
-                          ease: "easeInOut",
-                        }}
-                      >
-                        <motion.div
-                          animate={{
-                            scale: [1, 1.05, 1],
-                          }}
-                          transition={{
-                            duration: 3,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                          }}
-                        >
-                          <Lock className="w-8 h-8 text-white/60" />
-                        </motion.div>
-                      </motion.div>
-                    </div>
-
-                    {/* Main text */}
-                    <div className="text-center mb-7">
-                      <div className="text-xs text-white/50 mb-1">
-                        Funds Secured
-                      </div>
-                      <div className="text-3xl font-bold text-white mb-1">
-                        5,000 USDT
-                      </div>
-                      <div className="text-xs text-white/40">≈ $5,000.00</div>
-                    </div>
-
-                    {/* Status card */}
-                    <div className="rounded-xl bg-white/[0.02] border border-white/[0.06] p-3.5 mb-5">
-                      <div className="flex items-center justify-between mb-3">
-                        <span className="text-[10px] text-white/40">Status</span>
-                        <div className="flex items-center gap-1.5">
-                          <div className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]" />
-                          <span className="text-[10px] text-white/40 font-medium">
-                            In Escrow
-                          </span>
-                        </div>
-                      </div>
-                      <div className="flex items-center justify-between mb-3">
-                        <span className="text-xs text-white/40">Contract</span>
-                        <span className="text-xs text-white/60 font-mono">
-                          0x7a2...f91
-                        </span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs text-white/40">Network</span>
-                        <div className="flex items-center gap-1.5">
-                          <div className="w-3.5 h-3.5 rounded-full bg-white/20" />
-                          <span className="text-xs text-white/60">Solana</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex-1" />
-
-                    {/* Static button */}
-                    <div className="w-full py-3 rounded-full bg-white text-black font-bold text-sm text-center">
-                      Secured
-                    </div>
-
-                    {/* Home indicator */}
-                    <div className="flex justify-center pt-3.5">
-                      <div className="w-28 h-1 bg-white/30 rounded-full" />
+                    <div className="text-sm font-semibold text-black dark:text-white">
+                      Funds Secured
                     </div>
                   </div>
                 </div>
+                <div className="flex items-center gap-1.5">
+                  <motion.div
+                    className="w-2 h-2 rounded-full bg-emerald-500"
+                    animate={{ opacity: [1, 0.4, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  />
+                  <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">Live</span>
+                </div>
               </div>
-            </div>
+
+              {/* Divider */}
+              <div className="mx-6 h-px bg-black/[0.06] dark:bg-white/[0.06]" />
+
+              {/* Amount */}
+              <div className="px-6 py-5 text-center">
+                <div className="text-3xl sm:text-4xl font-bold text-black dark:text-white tracking-tight">
+                  5,000 USDT
+                </div>
+                <div className="text-xs text-black/40 dark:text-white/30 mt-1">
+                  ≈ $5,000.00
+                </div>
+              </div>
+
+              {/* Progress */}
+              <div className="px-6 pb-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[10px] uppercase tracking-wider text-black/30 dark:text-white/25">
+                    Escrow Progress
+                  </span>
+                  <span className="text-[10px] text-black/60 dark:text-white/50 font-medium">75%</span>
+                </div>
+                <div className="h-1.5 rounded-full bg-black/[0.04] dark:bg-white/[0.06] overflow-hidden">
+                  <motion.div
+                    className="h-full rounded-full bg-black dark:bg-white"
+                    initial={{ width: "0%" }}
+                    whileInView={{ width: "75%" }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1.5, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  />
+                </div>
+              </div>
+
+              {/* Divider */}
+              <div className="mx-6 h-px bg-black/[0.06] dark:bg-white/[0.06]" />
+
+              {/* Details */}
+              <div className="px-6 py-4 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-black/40 dark:text-white/30">Status</span>
+                  <div className="flex items-center gap-1.5">
+                    <motion.div
+                      className="w-1.5 h-1.5 rounded-full bg-black dark:bg-white"
+                      animate={{ opacity: [1, 0.3, 1] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    />
+                    <span className="text-xs text-black/70 dark:text-white/60 font-medium">In Escrow</span>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-black/40 dark:text-white/30">Contract</span>
+                  <span className="text-xs text-black/50 dark:text-white/40 font-mono">0x7a2...f91</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-black/40 dark:text-white/30">Network</span>
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-3.5 h-3.5 rounded-full bg-gradient-to-br from-[#9945FF] to-[#14F195]" />
+                    <span className="text-xs text-black/50 dark:text-white/40">Solana</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Button */}
+              <div className="px-6 pb-6 pt-2">
+                <div className="w-full py-3 rounded-xl bg-black dark:bg-white text-white dark:text-black font-semibold text-sm text-center">
+                  Secured
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Floating mini card - top right */}
+            <motion.div
+              className="absolute -top-4 -right-4 sm:-top-6 sm:-right-8 rounded-xl border border-black/[0.06] dark:border-white/[0.08] bg-white/90 dark:bg-white/[0.06] backdrop-blur-xl shadow-[0_8px_30px_-8px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_30px_-8px_rgba(0,0,0,0.3)] px-4 py-3"
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.6, duration: 0.6 }}
+            >
+              <div className="flex items-center gap-2">
+                <div className="w-6 h-6 rounded-full bg-emerald-500/10 dark:bg-emerald-500/20 flex items-center justify-center">
+                  <Check className="w-3 h-3 text-emerald-600 dark:text-emerald-400" strokeWidth={2.5} />
+                </div>
+                <div>
+                  <div className="text-[10px] text-black/40 dark:text-white/30">Verified</div>
+                  <div className="text-xs font-semibold text-black dark:text-white">On-chain</div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Floating mini card - bottom left */}
+            <motion.div
+              className="absolute -bottom-3 -left-3 sm:-bottom-5 sm:-left-6 rounded-xl border border-black/[0.06] dark:border-white/[0.08] bg-white/90 dark:bg-white/[0.06] backdrop-blur-xl shadow-[0_8px_30px_-8px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_30px_-8px_rgba(0,0,0,0.3)] px-4 py-3"
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.8, duration: 0.6 }}
+            >
+              <div className="flex items-center gap-2">
+                <div className="w-6 h-6 rounded-full bg-black/[0.04] dark:bg-white/10 flex items-center justify-center">
+                  <Lock className="w-3 h-3 text-black/60 dark:text-white/60" strokeWidth={2} />
+                </div>
+                <div>
+                  <div className="text-[10px] text-black/40 dark:text-white/30">Smart Contract</div>
+                  <div className="text-xs font-semibold text-black dark:text-white">Protected</div>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </motion.div>
 
         {/* Right: Text content */}
         <motion.div
           className="text-center lg:text-left"
-          initial={{ opacity: 0, x: 40 }}
+          initial={{ opacity: 0, x: 30 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
         >
           {/* Step indicator */}
-          <div className="hidden lg:inline-flex items-center gap-3 mb-6">
-            <div className="relative w-10 h-10 rounded-lg border border-black/[0.08] dark:border-white/[0.08] flex items-center justify-center group hover:border-black/20 dark:hover:border-white/20 transition-colors">
+          <div className="hidden lg:inline-flex items-center gap-3 mb-5">
+            <div className="relative w-8 h-8 rounded-lg border border-black/[0.08] dark:border-white/[0.08] flex items-center justify-center group hover:border-black/20 dark:hover:border-white/20 transition-colors">
               <Lock
-                className="w-4 h-4 text-black dark:text-white/40 group-hover:text-[#ff6b35] transition-colors"
+                className="w-3.5 h-3.5 text-black dark:text-white/40 group-hover:text-[#ff6b35] transition-colors"
                 strokeWidth={1.5}
               />
-              <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#FAF8F5] dark:bg-black border border-black/10 dark:border-white/10 flex items-center justify-center">
-                <span className="text-[10px] font-medium text-black dark:text-white/50">2</span>
+              <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#FAF8F5] dark:bg-black border border-black/10 dark:border-white/10 flex items-center justify-center">
+                <span className="text-[8px] font-medium text-black dark:text-white/50">2</span>
               </div>
             </div>
-            <span className="text-lg font-semibold text-black dark:text-white">Escrow</span>
+            <span className="text-sm font-semibold text-black dark:text-white">Escrow</span>
           </div>
 
           {/* Heading */}
-          <h2 className="font-display hidden lg:block text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-black dark:text-white mb-6 sm:mb-8 leading-[1.1] tracking-tight">
+          <h2 className="font-display hidden lg:block text-3xl lg:text-4xl xl:text-5xl font-bold text-black dark:text-white mb-5 leading-[1.1] tracking-tight">
             Locked &
             <br />
-            <span className="text-black dark:text-white/20">secured.</span>
+            <span className="text-black/25 dark:text-white/20">secured.</span>
           </h2>
 
           {/* Description */}
-          <p className="text-black dark:text-white/50 font-medium text-lg sm:text-xl lg:text-2xl mb-10 leading-relaxed max-w-xl mx-auto lg:mx-0">
+          <p className="text-black/70 dark:text-white/50 font-medium text-base sm:text-lg lg:text-xl mb-8 leading-relaxed max-w-md mx-auto lg:mx-0">
             Funds locked in smart contract. Protected by DAO escrow. Your crypto
             stays safe until the transaction completes.
           </p>
 
           {/* Features */}
-          <div className="space-y-4 max-w-xl mx-auto lg:mx-0">
+          <div className="space-y-3 max-w-md mx-auto lg:mx-0">
             {[
+              {
+                icon: Shield,
+                label: "Smart contract escrow",
+                desc: "Trustless fund protection",
+                variant: "pulse" as const,
+              },
               {
                 icon: Zap,
                 label: "Instant lock",
@@ -229,29 +280,32 @@ const LockedAndSecuredSection = () => {
               {
                 icon: Globe,
                 label: "On-chain proof",
-                desc: "Fully transparent",
+                desc: "Fully transparent & verifiable",
                 variant: "spin" as const,
               },
             ].map((feature, index) => (
               <motion.div
                 key={feature.label}
-                className="flex items-center gap-4 p-5 rounded-xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] shadow-[0_4px_30px_-8px_rgba(0,0,0,0.08)] dark:shadow-none hover:border-black/[0.15] dark:hover:border-white/[0.1] transition-colors"
+                className="flex items-center gap-3.5 p-4 rounded-xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.06] dark:border-white/[0.06] shadow-[0_2px_20px_-6px_rgba(0,0,0,0.06)] dark:shadow-none hover:border-black/[0.12] dark:hover:border-white/[0.1] transition-all duration-300"
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
                 whileHover={{ x: 4 }}
-                transition={{ duration: 0.2 }}
               >
-                <div className="w-14 h-14 rounded-lg bg-black/[0.03] dark:bg-white/[0.03] flex items-center justify-center">
+                <div className="w-10 h-10 rounded-lg bg-black/[0.03] dark:bg-white/[0.04] flex items-center justify-center flex-shrink-0">
                   <MicroIcon
                     icon={feature.icon}
                     variant={feature.variant}
-                    size={28}
+                    size={20}
                     delay={index * 0.3}
                   />
                 </div>
                 <div>
-                  <div className="text-black dark:text-white text-left text-lg font-medium">
+                  <div className="text-black dark:text-white text-left text-sm font-medium">
                     {feature.label}
                   </div>
-                  <div className="text-black dark:text-white/40 text-base">{feature.desc}</div>
+                  <div className="text-black/40 dark:text-white/30 text-xs">{feature.desc}</div>
                 </div>
               </motion.div>
             ))}

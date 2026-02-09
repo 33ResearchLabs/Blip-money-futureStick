@@ -57,7 +57,7 @@ export const CinematicHeroOfMerchant = () => {
   return (
     <section
       ref={ref}
-      className="relative min-h-screen overflow-hidden bg-transparent"
+      className="relative min-h-screen overflow-hidden bg-[#FAF8F5] dark:bg-transparent"
     >
       {/* Main Hero Content - 2-column Layout on Desktop */}
       <main className="relative z-10 pt-20 md:pt-24 lg:pt-20 pb-16 md:pb-20 lg:pb-36 px-4 md:px-8 lg:px-10 max-w-7xl mx-auto flex flex-col md:flex-row md:flex-wrap lg:flex-nowrap items-center md:items-start lg:items-center justify-center md:justify-center lg:justify-start gap-6 md:gap-8 lg:gap-12">
@@ -70,23 +70,22 @@ export const CinematicHeroOfMerchant = () => {
   "
         >
           <motion.h1
-            className="text-3xl md:text-4xl lg:text-5xl xl:text-8xl font-bold text-white leading-[1.15] mb-4 md:mb-6 lg:mb-8 tracking-tight max-w-2xl md:max-w-fit py-12  mx-auto text-center 
-  "
+            className="font-display text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold text-black dark:text-white leading-[1.1] mb-4 md:mb-6 lg:mb-8 tracking-tight max-w-2xl py-12 mx-auto text-center"
           >
-            Crypto <span className="text-white/20">settlement</span>,
-            <br /> executed by merchants.
+            The settlement layer
+            <br /> for <span className="text-black/20 dark:text-white/20">borderless</span> money.
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-black/40 dark:text-white/40 text-base sm:text-lg max-w-md mx-auto mb-12 leading-relaxed"
+            className="text-black/40 dark:text-white/40 text-base sm:text-lg max-w-md mx-auto mb-12 leading-relaxed font-medium"
           >
             Users create requests.{" "}
-            <strong className="text-white/70">Merchants accept</strong>, price,
+            <strong className="text-black/70 dark:text-white/70">Merchants accept</strong>, price,
             and settle off-chain.{" "}
-            <strong className="text-white/70">Escrow-secured</strong>, on-chain
+            <strong className="text-black/70 dark:text-white/70">Escrow-secured</strong>, on-chain
             verified.
           </motion.p>
 

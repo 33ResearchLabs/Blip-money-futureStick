@@ -74,11 +74,21 @@ const CinematicHero = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display font-bold text-black dark:text-white leading-[0.95] tracking-[-0.04em] text-[clamp(48px,10vw,120px)] mb-8"
+          className="font-display font-bold text-black dark:text-white leading-[0.95] tracking-[-0.04em] text-[clamp(38px,8vw,96px)] mb-8"
         >
-          Send money
+          The settlement layer
           <br />
-          <span className="text-black/80 dark:bg-gradient-to-r dark:from-white/50 dark:via-white/35 dark:to-white/50 dark:bg-clip-text dark:text-transparent">anywhere.</span>
+          <span className="text-black/80 dark:text-white/50">for{" "}
+            <span className="relative inline-block">
+              <span className="relative z-10">borderless</span>
+              <motion.span
+                className="absolute -bottom-1 left-0 right-0 h-[3px] rounded-full bg-gradient-to-r from-[#ff6b35] via-[#ff8f5e] to-[#ff6b35]/40"
+                initial={{ scaleX: 0, originX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: 1.2, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              />
+            </span>{" "}
+            money.</span>
         </motion.h1>
 
         {/* Subtext */}
@@ -86,11 +96,11 @@ const CinematicHero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-black dark:text-white/40 text-base sm:text-lg font-medium max-w-md mx-auto mb-12 leading-relaxed"
+          className="text-black dark:text-white/40 text-base sm:text-lg font-medium max-w-xl mx-auto mb-12 leading-relaxed"
         >
-          Fast, borderless transfers on Solana.
-          <br className="hidden sm:block" />
-          No banks. No delays. Sub-second settlement.
+          Users buy and sell crypto. Merchants provide liquidity.
+          <br />
+          Blip settles instantly.
         </motion.p>
 
         {/* Stats row */}
@@ -128,10 +138,11 @@ const CinematicHero = () => {
         >
           <Link
             to="/send"
-            className="group inline-flex items-center justify-center gap-3 w-[240px] h-[56px] rounded-full bg-black dark:bg-white text-white dark:text-black text-base font-semibold hover:bg-black/90 dark:hover:bg-white/90 transition-all duration-300"
+            className="group relative overflow-hidden inline-flex items-center justify-center gap-3 w-[240px] h-[56px] rounded-full bg-black dark:bg-white text-white dark:text-black text-base font-semibold transition-all duration-300"
           >
-            <span>Get Started</span>
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            <span className="absolute inset-0 bg-white/20 dark:bg-black/10 rounded-full scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-out" />
+            <span className="relative z-10">Get Started</span>
+            <ArrowRight className="relative z-10 w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
         </motion.div>
 
