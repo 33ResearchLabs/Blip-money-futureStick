@@ -21,50 +21,59 @@ const CashbackBanner = () => {
   return (
     <section
       ref={containerRef}
-      className="relative md:py-32 py-16 bg-white dark:bg-black overflow-hidden"
+      className="relative md:py-32 py-16 bg-[#FAF8F5] dark:bg-black overflow-hidden"
     >
-      {/* Animated gradient background */}
-      <div className="absolute inset-0">
+      {/* Accent gradient blobs */}
+      <div className="absolute inset-0 pointer-events-none">
         <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-[radial-gradient(ellipse,rgba(0,0,0,0.05)_0%,transparent_60%)] dark:bg-[radial-gradient(ellipse,rgba(255,255,255,0.05)_0%,transparent_60%)]"
+          className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[radial-gradient(ellipse,rgba(255,107,53,0.08)_0%,transparent_60%)] dark:bg-[radial-gradient(ellipse,rgba(255,107,53,0.06)_0%,transparent_60%)]"
           style={{
-            x: useTransform(scrollYProgress, [0, 1], [-100, 100]),
+            x: useTransform(scrollYProgress, [0, 1], [-80, 80]),
+          }}
+        />
+        <motion.div
+          className="absolute top-1/3 right-1/4 w-[400px] h-[400px] rounded-full bg-[radial-gradient(ellipse,rgba(0,200,150,0.06)_0%,transparent_60%)] dark:bg-[radial-gradient(ellipse,rgba(0,200,150,0.04)_0%,transparent_60%)]"
+          style={{
+            x: useTransform(scrollYProgress, [0, 1], [60, -60]),
           }}
         />
       </div>
 
-      {/* Floating coins animation */}
-      {[...Array(15)].map((_, i) => (
+      {/* Floating particles */}
+      {[...Array(20)].map((_, i) => (
         <motion.div
           key={i}
-          className="absolute  w-1 h-1 rounded-full bg-black/60 dark:bg-white/60"
+          className="absolute rounded-full"
           style={{
-            left: `${10 + Math.random() * 80}%`,
-            top: `${10 + Math.random() * 80}%`,
+            left: `${8 + Math.random() * 84}%`,
+            top: `${8 + Math.random() * 84}%`,
+            width: `${2 + Math.random() * 3}px`,
+            height: `${2 + Math.random() * 3}px`,
+            background: i % 3 === 0 ? 'rgba(255,107,53,0.4)' : i % 3 === 1 ? 'rgba(0,200,150,0.3)' : 'rgba(0,0,0,0.15)',
           }}
           animate={{
-            y: [0, -30, 0],
-            opacity: [0.1, 0.6, 0.1],
-            scale: [1, 1.5, 1],
+            y: [0, -40, 0],
+            opacity: [0.15, 0.7, 0.15],
+            scale: [1, 1.8, 1],
           }}
           transition={{
-            duration: 3 + Math.random() * 2,
+            duration: 3 + Math.random() * 3,
             repeat: Infinity,
-            delay: Math.random() * 2,
+            delay: Math.random() * 3,
           }}
         />
       ))}
-
-      {/* Horizontal animated lines */}
-      
 
       <motion.div
         className="relative z-10 max-w-5xl mx-auto px-6"
         style={{ opacity }}
       >
-        <div className="relative p-8 md:p-12 rounded-3xl border border-black/[0.06] dark:border-white/[0.06] bg-gradient-to-br from-black/[0.02] dark:from-white/[0.02] to-transparent backdrop-blur-sm overflow-hidden">
-          {/* Inner glow */}
-          <div className="absolute top-0 right-0 w-[300px] h-[300px] rounded-full bg-black/5 dark:bg-white/5 blur-[100px] -translate-y-1/2 translate-x-1/2" />
+        <div className="relative p-8 md:p-12 rounded-3xl border border-black/[0.08] dark:border-white/[0.06] bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl overflow-hidden shadow-[0_8px_60px_-12px_rgba(0,0,0,0.1)] dark:shadow-none">
+          {/* Accent gradient stripe */}
+          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#ff6b35]/40 to-transparent" />
+          {/* Inner glow - orange tint */}
+          <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full bg-[radial-gradient(circle,rgba(255,107,53,0.06)_0%,transparent_60%)] dark:bg-[radial-gradient(circle,rgba(255,107,53,0.04)_0%,transparent_60%)] -translate-y-1/2 translate-x-1/3" />
+          <div className="absolute bottom-0 left-0 w-[300px] h-[300px] rounded-full bg-[radial-gradient(circle,rgba(0,200,150,0.04)_0%,transparent_60%)] dark:bg-[radial-gradient(circle,rgba(0,200,150,0.03)_0%,transparent_60%)] translate-y-1/2 -translate-x-1/3" />
 
           <div className="relative flex flex-col md:flex-row items-center justify-between gap-8">
             {/* Left content */}
@@ -77,7 +86,7 @@ const CashbackBanner = () => {
             >
               <div className="flex items-center gap-3 mb-6">
                 <motion.div
-                  className="w-12 h-12 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center"
+                  className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#ff6b35]/10 to-[#ff6b35]/5 dark:from-[#ff6b35]/15 dark:to-[#ff6b35]/5 backdrop-blur-xl border border-[#ff6b35]/20 dark:border-[#ff6b35]/15 shadow-[0_4px_20px_-6px_rgba(255,107,53,0.15)] flex items-center justify-center"
                   animate={{ rotate: [0, 5, -5, 0] }}
                   transition={{
                     duration: 4,
@@ -85,7 +94,7 @@ const CashbackBanner = () => {
                     ease: "easeInOut",
                   }}
                 >
-                  <span className="text-lg font-bold text-black dark:text-white/60">%</span>
+                  <span className="text-lg font-bold text-[#ff6b35]">%</span>
                 </motion.div>
                 <div>
                   <span className="text-[10px] uppercase tracking-[0.3em] text-black dark:text-white/60 block">
@@ -97,12 +106,12 @@ const CashbackBanner = () => {
                 </div>
               </div>
 
-              <h3 className="text-3xl md:text-4xl font-bold text-black dark:text-white mb-4 tracking-tight">
+              <h3 className="font-display text-3xl md:text-4xl font-bold text-black dark:text-white mb-4 tracking-tight">
                 Earn while you{" "}
                 <span className="relative">
-                  <span className="relative z-10 text-black dark:text-white/60">spend.</span>
+                  <span className="relative z-10 text-[#ff6b35]">spend.</span>
                   <motion.span
-                    className="absolute bottom-1 left-0 right-0 h-3 bg-black/10 dark:bg-white/10 rounded-sm -z-0"
+                    className="absolute bottom-1 left-0 right-0 h-3 bg-[#ff6b35]/15 dark:bg-[#ff6b35]/10 rounded-sm -z-0"
                     initial={{ scaleX: 0 }}
                     whileInView={{ scaleX: 1 }}
                     viewport={{ once: true }}
@@ -113,7 +122,7 @@ const CashbackBanner = () => {
 
               <p className="text-black dark:text-white/50 text-base max-w-md mb-6 leading-relaxed">
                 Up to{" "}
-                <span className="text-black dark:text-white font-semibold">
+                <span className="text-[#ff6b35] font-semibold">
                   5% cashback
                 </span>{" "}
                 in BLIP tokens on every payment. No tiers. No complexity.
@@ -181,7 +190,7 @@ const CashbackBanner = () => {
                     cy="56"
                     r="50"
                     fill="none"
-                    className="stroke-black/5 dark:stroke-white/5"
+                    className="stroke-[#ff6b35]/10 dark:stroke-[#ff6b35]/10"
                     strokeWidth="4"
                   />
 
@@ -208,15 +217,15 @@ const CashbackBanner = () => {
                       x2="100%"
                       y2="0%"
                     >
-                      <stop offset="0%" className="dark:stop-[#ffffff] stop-[#000000]" />
-                      <stop offset="100%" className="dark:stop-[#cccccc] stop-[#333333]" />
+                      <stop offset="0%" stopColor="#ff6b35" />
+                      <stop offset="100%" stopColor="#ff8f5e" />
                     </linearGradient>
                   </defs>
                 </motion.svg>
 
                 {/* STATIC CENTER TEXT */}
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-2xl font-bold text-black dark:text-white">5%</span>
+                  <span className="text-2xl font-bold text-[#ff6b35]">5%</span>
                 </div>
               </div>
 

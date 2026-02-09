@@ -29,15 +29,15 @@ const CinematicHero = () => {
   return (
     <section
       ref={ref}
-      className="relative min-h-screen overflow-hidden bg-white dark:bg-black flex items-center justify-center"
+      className="relative min-h-screen overflow-hidden bg-[#FAF8F5] dark:bg-black flex items-center justify-center"
     >
       {/* Background layers */}
       <div className="absolute inset-0 pointer-events-none">
-        {/* Merchant dashboard background - revealed where mouse is */}
+        {/* Merchant dashboard background - dark mode only, revealed where mouse is */}
         <div
-          className="absolute inset-0 transition-all duration-150 ease-out"
+          className="absolute inset-0 transition-all duration-150 ease-out hidden dark:block"
           style={{
-            opacity: 0.35,
+            opacity: 0.2,
             maskImage: `radial-gradient(circle 900px at ${mousePosition.x}% ${mousePosition.y}%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 25%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.1) 75%, rgba(0,0,0,0) 100%)`,
             WebkitMaskImage: `radial-gradient(circle 900px at ${mousePosition.x}% ${mousePosition.y}%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 25%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.1) 75%, rgba(0,0,0,0) 100%)`,
           }}
@@ -45,12 +45,12 @@ const CinematicHero = () => {
           <img
             src="/images/merchant-dashboard.png"
             alt=""
-            className="w-full h-full object-cover object-center"
+            className="w-full h-full object-contain object-center"
           />
         </div>
 
         {/* Dark gradient edges */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/60 dark:from-black/60 via-transparent to-white/60 dark:to-black/60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#FAF8F5]/60 dark:from-black/60 via-transparent to-[#FAF8F5]/60 dark:to-black/60" />
 
         {/* Globe network visualization */}
         <GlobeVisualization />
@@ -74,7 +74,7 @@ const CinematicHero = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="font-bold text-black dark:text-white leading-[0.95] tracking-[-0.04em] text-[clamp(48px,10vw,120px)] mb-8"
+          className="font-display font-bold text-black dark:text-white leading-[0.95] tracking-[-0.04em] text-[clamp(48px,10vw,120px)] mb-8"
         >
           Send money
           <br />
@@ -128,10 +128,10 @@ const CinematicHero = () => {
         >
           <Link
             to="/send"
-            className="group inline-flex items-center gap-3 px-8 py-3.5 rounded-full bg-black dark:bg-white text-white dark:text-black text-sm font-semibold hover:bg-black/90 dark:hover:bg-white/90 transition-all duration-300"
+            className="group inline-flex items-center justify-center gap-3 w-[240px] h-[56px] rounded-full bg-black dark:bg-white text-white dark:text-black text-base font-semibold hover:bg-black/90 dark:hover:bg-white/90 transition-all duration-300"
           >
             <span>Get Started</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
         </motion.div>
 

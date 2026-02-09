@@ -19,7 +19,7 @@ const AbstractVisual = () => {
   return (
     <section
       ref={containerRef}
-      className="relative py-32 md:py-48 bg-white dark:bg-black overflow-hidden"
+      className="relative py-32 md:py-48 bg-[#FAF8F5] dark:bg-black overflow-hidden"
     >
       {/* Abstract flowing lines - suggesting speed and movement */}
       <motion.div style={{ opacity }} className="absolute inset-0">

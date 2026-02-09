@@ -242,7 +242,7 @@ export const MerchantDashboardSection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative py-12 md:py-48 bg-white dark:bg-black overflow-hidden"
+      className="relative py-12 md:py-48 bg-[#FAF8F5] dark:bg-black overflow-hidden"
     >
       {/* Background elements */}
       <div className="absolute inset-0">
@@ -321,7 +321,7 @@ export const MerchantDashboardSection = () => {
           ].map((feature, i) => (
             <div
               key={feature.title}
-              className="text-center p-6 rounded-xl bg-black/[0.02] dark:bg-white/[0.02] border hover:border-black/20 hover:dark:border-white/20 transition-colors"
+              className="text-center p-6 rounded-xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] shadow-[0_4px_30px_-8px_rgba(0,0,0,0.08)] dark:shadow-none hover:border-black/20 hover:dark:border-white/20 transition-colors"
             >
               <h3 className="text-base font-medium text-black dark:text-white mb-2">
                 {feature.title}

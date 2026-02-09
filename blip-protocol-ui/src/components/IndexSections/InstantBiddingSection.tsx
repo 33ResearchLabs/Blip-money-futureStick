@@ -21,12 +21,15 @@ const InstantBiddingSection = () => {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-start justify-center bg-white dark:bg-black overflow-hidden py-16 sm:py-20 lg:pt-28">
+    <section className="relative min-h-screen flex items-start justify-center bg-[#FAF8F5] dark:bg-black overflow-hidden py-16 sm:py-20 lg:pt-28">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-b from-white dark:from-black via-gray-100 dark:via-[#050505] to-white dark:to-black" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white dark:from-black via-gray-50/80 dark:via-[#050505] to-white dark:to-black" />
+        {/* Light mode soft ambient blobs */}
+        <div className="absolute top-[20%] right-[10%] w-[500px] h-[500px] rounded-full opacity-[0.07] dark:opacity-0" style={{ background: "radial-gradient(circle, rgba(120,119,255,0.8) 0%, transparent 70%)" }} />
+        <div className="absolute top-[50%] left-[5%] w-[400px] h-[400px] rounded-full opacity-[0.05] dark:opacity-0" style={{ background: "radial-gradient(circle, rgba(255,107,53,0.7) 0%, transparent 70%)" }} />
         <motion.div
-          className="absolute top-[30%] left-[5%] w-[300px] h-[300px] rounded-full opacity-15"
+          className="absolute top-[30%] left-[5%] w-[300px] h-[300px] rounded-full opacity-0 dark:opacity-15"
           style={{
             background:
               "radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 60%)",
@@ -49,7 +52,7 @@ const InstantBiddingSection = () => {
                 className="w-4 h-4 sm:w-5 sm:h-5 text-black dark:text-white/40 group-hover:text-black/60 group-hover:dark:text-white/60 transition-colors"
                 strokeWidth={1.5}
               />
-              <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-black border border-black/10 dark:border-white/10 flex items-center justify-center">
+              <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#FAF8F5] dark:bg-black border border-black/10 dark:border-white/10 flex items-center justify-center">
                 <span className="text-[10px] font-medium text-black dark:text-white/50">3</span>
               </div>
             </div>
@@ -57,8 +60,8 @@ const InstantBiddingSection = () => {
               Match
             </span>
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black dark:text-white mb-2 sm:mb-4 tracking-tight">
-            Instant <span className="text-black dark:text-white/20">bidding.</span>
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black dark:text-white mb-2 sm:mb-4 tracking-tight">
+            Instant <span className="text-black/30 dark:text-white/20">bidding.</span>
           </h2>
           <p className="text-black dark:text-white/50 font-medium text-sm sm:text-base lg:text-lg max-w-2xl mx-auto hidden sm:block">
             Merchants compete in real-time to fulfill your order. Best rate wins
@@ -109,23 +112,23 @@ const InstantBiddingSection = () => {
           {/* Ambient glow */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10">
             <motion.div
-              className="absolute w-full h-full rounded-3xl bg-gradient-to-b from-white/5 to-transparent"
+              className="absolute w-full h-full rounded-3xl bg-gradient-to-b from-black/[0.02] dark:from-white/5 to-transparent"
               style={{
                 x: mousePosition.x * 25,
                 y: mousePosition.y * 20,
               }}
             />
             <motion.div
-              className="absolute w-[90%] h-[90%] rounded-3xl border border-black/5 dark:border-white/5"
+              className="absolute w-[90%] h-[90%] rounded-3xl border border-black/[0.04] dark:border-white/5"
               style={{
                 x: mousePosition.x * -10,
                 y: mousePosition.y * -8,
               }}
               animate={{
                 borderColor: [
-                  "rgba(255,255,255,0.05)",
-                  "rgba(255,255,255,0.15)",
-                  "rgba(255,255,255,0.05)",
+                  "rgba(0,0,0,0.04)",
+                  "rgba(0,0,0,0.08)",
+                  "rgba(0,0,0,0.04)",
                 ],
               }}
               transition={{ duration: 3, repeat: Infinity }}
@@ -134,17 +137,26 @@ const InstantBiddingSection = () => {
 
           {/* Reflection overlay */}
           <motion.div
-            className="absolute inset-0 rounded-2xl pointer-events-none z-10"
+            className="absolute inset-0 rounded-2xl pointer-events-none z-10 hidden dark:block"
             style={{
               background: `linear-gradient(${
                 130 + mousePosition.x * 20
               }deg, rgba(255,255,255,0.04) 0%, transparent 40%, rgba(0,0,0,0.1) 100%)`,
             }}
           />
+          {/* Light mode subtle shine */}
+          <motion.div
+            className="absolute inset-0 rounded-2xl pointer-events-none z-10 dark:hidden"
+            style={{
+              background: `linear-gradient(${
+                130 + mousePosition.x * 20
+              }deg, rgba(255,255,255,0.6) 0%, transparent 30%, rgba(0,0,0,0.02) 100%)`,
+            }}
+          />
 
-          <div className="rounded-2xl overflow-hidden border border-black/[0.12] dark:border-white/[0.08] bg-[#fafafa] dark:bg-[#0a0a0a] shadow-[0_30px_60px_rgba(0,0,0,0.1)] sm:shadow-[0_50px_100px_rgba(0,0,0,0.12)] dark:shadow-[0_30px_60px_rgba(0,0,0,0.4)] dark:sm:shadow-[0_50px_100px_rgba(0,0,0,0.5),0_0_80px_rgba(255,255,255,0.04)] lg:max-h-[65vh] relative">
+          <div className="rounded-2xl overflow-hidden border border-black/[0.08] dark:border-white/[0.08] bg-white/70 dark:bg-[#0a0a0a] backdrop-blur-xl dark:backdrop-blur-none shadow-[0_8px_40px_-8px_rgba(0,0,0,0.08),0_30px_80px_-20px_rgba(0,0,0,0.06)] sm:shadow-[0_12px_60px_-12px_rgba(0,0,0,0.1),0_50px_120px_-30px_rgba(0,0,0,0.08)] dark:shadow-[0_30px_60px_rgba(0,0,0,0.4)] dark:sm:shadow-[0_50px_100px_rgba(0,0,0,0.5),0_0_80px_rgba(255,255,255,0.04)] lg:max-h-[65vh] relative">
             {/* Browser chrome */}
-            <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-5 py-2.5 sm:py-4 bg-[#f5f5f5] dark:bg-[#111] border-b border-black/[0.06] dark:border-white/[0.06]">
+            <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-5 py-2.5 sm:py-4 bg-white/80 dark:bg-[#111] backdrop-blur-sm dark:backdrop-blur-none border-b border-black/[0.06] dark:border-white/[0.06]">
               <div className="flex items-center gap-1.5 sm:gap-2">
                 <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-black/20 dark:bg-white/20" />
                 <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-black/20 dark:bg-white/20" />
@@ -178,11 +190,11 @@ const InstantBiddingSection = () => {
             </div>
 
             {/* Dashboard content */}
-            <div className="p-4 sm:p-6 md:p-8">
+            <div className="p-4 sm:p-6 md:p-8 bg-white/40 dark:bg-transparent">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6">
                 {/* Left Panel - Order Details */}
                 <div className="lg:col-span-5">
-                  <div className="rounded-xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.06] dark:border-white/[0.06] p-5 mb-4">
+                  <div className="rounded-xl bg-white/80 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.06] dark:border-white/[0.06] shadow-[0_2px_20px_-4px_rgba(0,0,0,0.06),0_4px_8px_-2px_rgba(0,0,0,0.04)] dark:shadow-none p-5 mb-4">
                     <div className="flex items-center justify-between mb-4">
                       <span className="text-xs uppercase tracking-wider text-black dark:text-white/40">
                         Active Order
@@ -270,13 +282,13 @@ const InstantBiddingSection = () => {
 
                   {/* Quick stats */}
                   <div className="grid grid-cols-2 gap-3">
-                    <div className="rounded-xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.06] dark:border-white/[0.06] p-4 text-center">
+                    <div className="rounded-xl bg-white/80 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.06] dark:border-white/[0.06] shadow-[0_2px_20px_-4px_rgba(0,0,0,0.06),0_4px_8px_-2px_rgba(0,0,0,0.04)] dark:shadow-none p-4 text-center">
                       <div className="text-2xl font-bold text-black dark:text-white">~8s</div>
                       <div className="text-[10px] text-black dark:text-white/40 uppercase tracking-wider">
                         Avg Match
                       </div>
                     </div>
-                    <div className="rounded-xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.06] dark:border-white/[0.06] p-4 text-center">
+                    <div className="rounded-xl bg-white/80 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.06] dark:border-white/[0.06] shadow-[0_2px_20px_-4px_rgba(0,0,0,0.06),0_4px_8px_-2px_rgba(0,0,0,0.04)] dark:shadow-none p-4 text-center">
                       <div className="text-2xl font-bold text-black dark:text-white">
                         99.9%
                       </div>
@@ -356,10 +368,10 @@ const InstantBiddingSection = () => {
                     ].map((bid, i) => (
                       <motion.div
                         key={bid.name}
-                        className={`p-4 rounded-xl border transition-all ${
+                        className={`p-4 rounded-xl border backdrop-blur-xl transition-all ${
                           bid.best
-                            ? "bg-black/[0.08] dark:bg-white/[0.08] border-black/20 dark:border-white/20"
-                            : "bg-black/[0.02] dark:bg-white/[0.02] border-black/[0.06] dark:border-white/[0.06] hover:bg-black/[0.04] hover:dark:bg-white/[0.04]"
+                            ? "bg-white/90 dark:bg-white/[0.08] border-black/[0.1] dark:border-white/20 shadow-[0_4px_24px_-6px_rgba(0,0,0,0.08),0_8px_16px_-4px_rgba(0,0,0,0.04)] dark:shadow-none"
+                            : "bg-white/70 dark:bg-white/[0.03] border-black/[0.06] dark:border-white/[0.06] shadow-[0_2px_12px_-4px_rgba(0,0,0,0.05)] dark:shadow-none hover:bg-white/80 hover:dark:bg-white/[0.05] hover:shadow-[0_4px_20px_-6px_rgba(0,0,0,0.08)]"
                         }`}
                         initial={{ opacity: 0, x: 20 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -419,7 +431,7 @@ const InstantBiddingSection = () => {
                   </div>
 
                   {/* Auto-select notice */}
-                  <div className="mt-4 p-4 rounded-xl bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-white/10">
+                  <div className="mt-4 p-4 rounded-xl bg-white/80 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.06] dark:border-white/[0.06] shadow-[0_2px_20px_-4px_rgba(0,0,0,0.06),0_4px_8px_-2px_rgba(0,0,0,0.04)] dark:shadow-none">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-lg bg-black/10 dark:bg-white/10 flex items-center justify-center">
                         <Zap className="w-4 h-4 text-black dark:text-white/60" />
@@ -439,7 +451,7 @@ const InstantBiddingSection = () => {
             </div>
 
             {/* Gradient fade at bottom */}
-            <div className="absolute bottom-0 left-0 right-0 h-24 sm:h-32 bg-gradient-to-t from-[#fafafa] via-[#fafafa]/80 to-transparent dark:from-[#0a0a0a] dark:via-[#0a0a0a]/80 pointer-events-none" />
+            <div className="absolute bottom-0 left-0 right-0 h-24 sm:h-32 bg-gradient-to-t from-white/90 via-white/60 to-transparent dark:from-[#0a0a0a] dark:via-[#0a0a0a]/80 pointer-events-none" />
           </div>
         </motion.div>
       </div>

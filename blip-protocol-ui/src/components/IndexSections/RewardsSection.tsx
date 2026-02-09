@@ -26,7 +26,7 @@ const RewardsSection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative py-20 sm:py-28 md:py-32 lg:py-40 bg-white dark:bg-black overflow-hidden"
+      className="relative py-20 sm:py-28 md:py-32 lg:py-40 bg-[#FAF8F5] dark:bg-black overflow-hidden"
     >
       <motion.div
         className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6"
@@ -53,7 +53,7 @@ const RewardsSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-4 sm:mb-6"
+            className="font-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-4 sm:mb-6"
           >
             Earn while you spend.
             <br />
@@ -83,7 +83,7 @@ const RewardsSection = () => {
           {rewards.map((reward) => (
             <div
               key={reward.label}
-              className="bg-white dark:bg-black p-6 sm:p-8 md:p-10 text-center"
+              className="bg-[#FAF8F5] dark:bg-black p-6 sm:p-8 md:p-10 text-center"
             >
               <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-black dark:text-white mb-2">
                 {reward.value}

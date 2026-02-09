@@ -49,7 +49,7 @@ const ProblemSection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative py-12 md:py-40 bg-white dark:bg-black overflow-hidden"
+      className="relative py-12 md:py-40 bg-[#FAF8F5] dark:bg-black overflow-hidden"
     >
       {/* Subtle background gradient */}
       <div className="absolute inset-0">
@@ -67,7 +67,7 @@ const ProblemSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold text-black dark:text-white tracking-tight leading-[1.05] mb-6"
+            className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-black dark:text-white tracking-tight leading-[1.05] mb-6"
           >
             Global payments
             <br />
@@ -122,7 +122,7 @@ const ProblemSection = () => {
                   className={`absolute left-8 md:left-1/2 -translate-x-1/2 top-6 z-10`}
                 >
                   <motion.div
-                    className={`w-4 h-4 rounded-full border-2 ${problem.highlight ? "bg-black dark:bg-white border-black dark:border-white" : "bg-white dark:bg-black border-black/20 dark:border-white/20"}`}
+                    className={`w-4 h-4 rounded-full border-2 ${problem.highlight ? "bg-black dark:bg-white border-black dark:border-white" : "bg-[#FAF8F5] dark:bg-black border-black/20 dark:border-white/20"}`}
                     whileInView={
                       problem.highlight
                         ? {
@@ -143,7 +143,7 @@ const ProblemSection = () => {
                   className={`ml-20 md:ml-0 ${i % 2 === 0 ? "md:text-right md:pr-16" : "md:col-start-2 md:pl-16 md:text-left"}`}
                 >
                   <div
-                    className={`inline-block p-6 rounded-2xl border ${problem.highlight ? "bg-black/[0.06] dark:bg-white/[0.06] border-black dark:border-white" : "bg-black/[0.02] dark:bg-white/[0.02] border-black/20 dark:border-white/20"}`}
+                    className={`inline-block p-6 rounded-2xl border backdrop-blur-xl ${problem.highlight ? "bg-white/70 dark:bg-white/[0.06] border-black dark:border-white shadow-[0_8px_40px_-8px_rgba(0,0,0,0.12)] dark:shadow-none" : "bg-white/60 dark:bg-white/[0.03] border-black/[0.08] dark:border-white/[0.06] shadow-[0_4px_30px_-8px_rgba(0,0,0,0.08)] dark:shadow-none"}`}
                   >
                     <div
                       className={`text-[10px] uppercase tracking-[0.3em] ${problem.highlight ? "text-black dark:text-white/60" : "text-black dark:text-white/40"} font-semibold mb-2`}

@@ -62,7 +62,7 @@ function renderContentSection(section: BlogContentSection, index: number) {
       return (
         <div
           key={index}
-          className="not-prose my-10 p-8 rounded-2xl bg-gray-50 dark:bg-white/[0.02] border border-gray-100 dark:border-white/[0.06]"
+          className="not-prose my-10 p-8 rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] shadow-[0_4px_30px_-8px_rgba(0,0,0,0.08)] dark:shadow-none"
         >
           <p className="text-gray-600 dark:text-white/60 text-[16px] leading-[1.8]">
             {section.content}

@@ -88,7 +88,7 @@ const config: Config = {
           'sans-serif',
         ],
         display: [
-          'Inter',
+          '"Space Grotesk"',
           'system-ui',
           'sans-serif',
         ],

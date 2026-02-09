@@ -239,7 +239,7 @@ const HowItWorksSection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen lg:h-screen flex items-center justify-center bg-white dark:bg-black overflow-hidden py-12 lg:py-0"
+      className="relative min-h-screen lg:h-screen flex items-center justify-center bg-[#FAF8F5] dark:bg-black overflow-hidden py-12 lg:py-0"
     >
       {/* Animated background */}
       <div className="absolute inset-0">
@@ -277,7 +277,7 @@ const HowItWorksSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1 }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black dark:text-white tracking-tight leading-[1.1] mb-3"
+            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black dark:text-white tracking-tight leading-[1.1] mb-3"
           >
             Three steps.
             <br />
@@ -308,7 +308,7 @@ const HowItWorksSection = () => {
             <div className="relative w-[200px] sm:w-[240px] md:w-[280px] lg:w-[320px]">
               <div className="rounded-[36px] sm:rounded-[40px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[2px] sm:p-[2.5px] shadow-[0_20px_40px_rgba(0,0,0,0.6)]">
                 <div className="rounded-[34px] sm:rounded-[37.5px] bg-[#fafafa] dark:bg-[#0a0a0a] p-[8px] sm:p-[10px]">
-                  <div className="rounded-[28px] sm:rounded-[30px] bg-white dark:bg-black overflow-hidden h-[360px] sm:h-[420px] md:h-[480px] lg:h-[540px] relative">
+                  <div className="rounded-[28px] sm:rounded-[30px] bg-[#FAF8F5] dark:bg-black overflow-hidden h-[360px] sm:h-[420px] md:h-[480px] lg:h-[540px] relative">
                     {/* Status bar */}
                     <div className="absolute top-0 left-0 right-0 h-9 sm:h-10 flex items-center justify-between px-4 sm:px-5 z-20">
                       <span className="text-[9px] sm:text-[10px] font-semibold text-black dark:text-white">
@@ -360,10 +360,10 @@ const HowItWorksSection = () => {
               <motion.div
                 key={i}
                 onClick={() => setActiveStep(i)}
-                className={`group cursor-pointer p-3 sm:p-4 lg:p-5 rounded-lg sm:rounded-xl lg:rounded-2xl border transition-all duration-300 ${
+                className={`group cursor-pointer p-3 sm:p-4 lg:p-5 rounded-lg sm:rounded-xl lg:rounded-2xl border backdrop-blur-xl transition-all duration-300 ${
                   activeStep === i
-                    ? "bg-black/[0.06] dark:bg-white/[0.06] border-black/20 dark:border-white/20"
-                    : "bg-black/[0.02] dark:bg-white/[0.02] border-black/[0.05] dark:border-white/[0.05] hover:bg-black/[0.04] hover:dark:bg-white/[0.04] hover:border-black/10 hover:dark:border-white/10"
+                    ? "bg-white/70 dark:bg-white/[0.06] border-black/20 dark:border-white/20 shadow-[0_8px_40px_-8px_rgba(0,0,0,0.12)] dark:shadow-none"
+                    : "bg-white/60 dark:bg-white/[0.03] border-black/[0.08] dark:border-white/[0.06] shadow-[0_4px_30px_-8px_rgba(0,0,0,0.08)] dark:shadow-none hover:bg-white/70 hover:dark:bg-white/[0.05] hover:border-black/15 hover:dark:border-white/10"
                 }`}
               >
                 <div className="flex items-start gap-2.5 sm:gap-3 lg:gap-4">

@@ -21,25 +21,37 @@ const ProtocolSection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative md:py-40 py-12 bg-white dark:bg-black overflow-hidden"
+      className="relative md:py-40 py-12 bg-[#FAF8F5] dark:bg-black overflow-hidden"
     >
-      {/* Immersive background with animated glow */}
-      <div className="absolute inset-0">
+      {/* Apple-style mesh gradient background */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Large soft color blobs - visible in light, muted in dark */}
         <motion.div
-          className="absolute top-1/4 right-1/4 w-[600px] h-[600px] rounded-full"
+          className="absolute -top-[20%] -right-[10%] w-[800px] h-[800px] rounded-full opacity-[0.15] dark:opacity-[0.05]"
           style={{
-            background:
-              "radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 60%)",
+            background: "radial-gradient(circle, rgba(120,119,255,0.8) 0%, rgba(120,119,255,0) 70%)",
             y,
+          }}
+        />
+        <motion.div
+          className="absolute top-[10%] -left-[15%] w-[700px] h-[700px] rounded-full opacity-[0.12] dark:opacity-[0.04]"
+          style={{
+            background: "radial-gradient(circle, rgba(255,107,53,0.7) 0%, rgba(255,107,53,0) 70%)",
+            y: useTransform(scrollYProgress, [0, 1], [-40, 40]),
+          }}
+        />
+        <motion.div
+          className="absolute -bottom-[15%] left-[20%] w-[900px] h-[600px] rounded-full opacity-[0.1] dark:opacity-[0.04]"
+          style={{
+            background: "radial-gradient(ellipse, rgba(52,199,165,0.7) 0%, rgba(52,199,165,0) 70%)",
             rotate: rotateGlow,
           }}
         />
         <motion.div
-          className="absolute bottom-1/4 left-1/3 w-[400px] h-[400px] rounded-full"
+          className="absolute top-[40%] right-[10%] w-[500px] h-[500px] rounded-full opacity-[0.08] dark:opacity-[0.03]"
           style={{
-            background:
-              "radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%)",
-            y: useTransform(scrollYProgress, [0, 1], [-50, 50]),
+            background: "radial-gradient(circle, rgba(168,85,247,0.6) 0%, rgba(168,85,247,0) 70%)",
+            y: useTransform(scrollYProgress, [0, 1], [30, -30]),
           }}
         />
       </div>
@@ -65,7 +77,7 @@ const ProtocolSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-3xl md:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.1] mb-6 text-black dark:text-white"
+            className="font-display text-3xl md:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.1] mb-6 text-black dark:text-white"
           >
             Blip Protocol
           </motion.h2>
@@ -101,7 +113,7 @@ const ProtocolSection = () => {
                     strokeWidth="1.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="text-black dark:text-white/40 group-hover:text-black/60 group-hover:dark:text-white/60 transition-colors"
+                    className="text-black/25 dark:text-white/25 group-hover:text-[#ff6b35] dark:group-hover:text-[#ff6b35] transition-colors duration-300"
                   />
                   <circle
                     cx="12"
@@ -109,7 +121,7 @@ const ProtocolSection = () => {
                     r="3"
                     stroke="currentColor"
                     strokeWidth="1.5"
-                    className="text-black dark:text-white/40 group-hover:text-black/60 group-hover:dark:text-white/60 transition-colors"
+                    className="text-black/25 dark:text-white/25 group-hover:text-[#ff6b35] dark:group-hover:text-[#ff6b35] transition-colors duration-300"
                   />
                 </svg>
               ),
@@ -130,7 +142,7 @@ const ProtocolSection = () => {
                     strokeWidth="1.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="text-black dark:text-white/40 group-hover:text-black/60 group-hover:dark:text-white/60 transition-colors"
+                    className="text-black/25 dark:text-white/25 group-hover:text-[#ff6b35] dark:group-hover:text-[#ff6b35] transition-colors duration-300"
                   />
                 </svg>
               ),
@@ -150,7 +162,7 @@ const ProtocolSection = () => {
                     stroke="currentColor"
                     strokeWidth="1.5"
                     strokeLinecap="round"
-                    className="text-black dark:text-white/40 group-hover:text-black/60 group-hover:dark:text-white/60 transition-colors"
+                    className="text-black/25 dark:text-white/25 group-hover:text-[#ff6b35] dark:group-hover:text-[#ff6b35] transition-colors duration-300"
                   />
                 </svg>
               ),
@@ -162,10 +174,10 @@ const ProtocolSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 + i * 0.1 }}
-              className="group relative rounded-2xl p-4 sm:p-8 text-center cursor-default overflow-hidden bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.06] dark:border-white/[0.05]"
+              className="group relative rounded-2xl p-4 sm:p-8 text-center cursor-default overflow-hidden bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] shadow-[0_4px_30px_-8px_rgba(0,0,0,0.08)] dark:shadow-none"
             >
-              {/* Hover glow */}
-              <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-40 h-40 bg-black dark:bg-white opacity-0 group-hover:opacity-[0.06] blur-[60px] rounded-full transition-opacity duration-500" />
+              {/* Hover glow - orange */}
+              <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-60 h-60 bg-[#ff6b35] opacity-0 group-hover:opacity-[0.1] blur-[80px] rounded-full transition-opacity duration-700" />
 
               <div className="flex gap-2 sm:flex-col justify-center items-center">
                 <div className="mb-4">{item.icon}</div>

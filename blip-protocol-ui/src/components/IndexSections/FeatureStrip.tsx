@@ -8,7 +8,7 @@ import { MicroIcon } from "../visuals/MicroIcon";
 
 const FeatureStrip = () => {
   return (
-    <section className="relative py-20 bg-white dark:bg-black overflow-hidden">
+    <section className="relative py-20 bg-[#FAF8F5] dark:bg-black overflow-hidden">
       {/* Subtle gradient line */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-black/20 dark:via-white/20 to-transparent" />
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-black/20 dark:via-white/20 to-transparent" />

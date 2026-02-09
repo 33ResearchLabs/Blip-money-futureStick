@@ -30,7 +30,7 @@ export const Logo = ({ className = "" }) => {
 
       {/* Text */}
       <motion.span
-        className={`${className} text-[20px] font-semibold tracking-tight leading-none flex items-center`}
+        className={`${className} text-[26px] font-semibold tracking-tight leading-none flex items-center`}
         whileHover={{ scale: 1.02 }}
         transition={{ duration: 0.2 }}
       >
@@ -72,10 +72,10 @@ const NavItem = ({
         onClick?.();
       }}
       onMouseEnter={() => sounds.hover()}
-      className="relative px-3 py-2 text-[16px] font-medium transition-colors duration-200"
+      className="relative px-3 py-2 text-[17px] font-semibold transition-colors duration-200"
     >
       <span
-        className={isActive ? "text-black dark:text-white" : "text-gray-500 dark:text-[#A1A1AA] hover:text-black dark:hover:text-white"}
+        className={isActive ? "text-black dark:text-white" : "text-black/70 dark:text-[#A1A1AA] hover:text-black dark:hover:text-white"}
       >
         {children}
       </span>
@@ -229,7 +229,6 @@ const MobileMenu = ({
 
   const menuItems = [
     { to: "/how-it-works", label: t("howItWorks") },
-    { to: "/rewards", label: t("rewards") },
     { to: "/tokenomics", label: t("tokenomics") },
     { to: "/merchant", label: "Merchant" },
     { to: "/blog", label: "Blog" },
@@ -254,7 +253,7 @@ const MobileMenu = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.2 }}
-            className="fixed top-[72px] left-4 right-4 z-50 rounded-xl overflow-hidden bg-white dark:bg-[#111113] border border-black/10 dark:border-white/[0.08]"
+            className="fixed top-[72px] left-4 right-4 z-50 rounded-xl overflow-hidden bg-[#FAF8F5] dark:bg-[#111113] border border-black/10 dark:border-white/[0.08]"
           >
             <div className="p-4 space-y-1">
               {menuItems.map((item) => (
@@ -418,7 +417,7 @@ export const Navbar = () => {
         }}
         transition={{ duration: 0.25 }}
         className={`fixed top-0 w-full z-50 ${
-          isScrolled ? "bg-white/80 dark:bg-[rgba(10,10,11,0.8)] backdrop-blur-xl" : "bg-transparent"
+          isScrolled ? "bg-[#FAF8F5] dark:bg-[rgba(10,10,11,0.8)] dark:backdrop-blur-xl border-b border-black/[0.06] dark:border-white/[0.06]" : "bg-transparent border-b border-transparent"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -428,7 +427,6 @@ export const Navbar = () => {
             {/* Desktop Nav */}
             <div className="hidden lg:flex items-center gap-1">
               <NavItem to="/how-it-works">{t("howItWorks")}</NavItem>
-              <NavItem to="/rewards">{t("rewards")}</NavItem>
               <NavItem to="/tokenomics">{t("tokenomics")}</NavItem>
               <NavItem to="/merchant">{t("Merchant")}</NavItem>
               <NavItem to="/blog">Blog</NavItem>

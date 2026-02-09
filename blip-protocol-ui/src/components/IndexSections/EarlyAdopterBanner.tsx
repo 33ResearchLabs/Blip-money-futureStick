@@ -50,7 +50,7 @@ const EarlyAdopterBanner = () => {
   return (
     <section
       ref={containerRef}
-      className="relative py-12 md:py-40 bg-white dark:bg-black overflow-hidden"
+      className="relative py-12 md:py-40 bg-[#FAF8F5] dark:bg-black overflow-hidden"
     >
       {/* Dramatic background */}
       <div className="absolute inset-0">
@@ -129,7 +129,7 @@ const EarlyAdopterBanner = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: 0.3 + i * 0.1 }}
-                  className="relative p-3 sm:p-6 rounded-xl sm:rounded-2xl bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] text-center group hover:border-black/20 dark:hover:border-white/20 transition-all"
+                  className="relative p-3 sm:p-6 rounded-xl sm:rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] shadow-[0_4px_30px_-8px_rgba(0,0,0,0.08)] dark:shadow-none text-center group hover:border-black/20 dark:hover:border-white/20 transition-all"
                 >
                   {/* Hover glow */}
                   <div className="absolute inset-0 rounded-xl sm:rounded-2xl bg-black/0 dark:bg-white/0 group-hover:bg-black/[0.03] dark:group-hover:bg-white/[0.03] transition-all" />

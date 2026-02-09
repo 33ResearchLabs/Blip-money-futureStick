@@ -9,7 +9,7 @@ import { MicroIcon } from "@/components/visuals/MicroIcon";
 
 const LockedAndSecuredSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-white dark:bg-black overflow-hidden py-16 sm:py-20 lg:py-0 ">
+    <section className="relative min-h-screen flex items-center justify-center bg-[#FAF8F5] dark:bg-black overflow-hidden py-16 sm:py-20 lg:py-0 ">
       {/* Background elements */}
       <div className="absolute inset-0 pointer-events-none ">
         <div className="absolute inset-0 bg-gradient-to-b from-white dark:from-black via-[#fafafa] dark:via-[#050505] to-white dark:to-black" />
@@ -32,7 +32,7 @@ const LockedAndSecuredSection = () => {
                 className="w-4 h-4 text-black dark:text-white/40 group-hover:text-[#ff6b35] transition-colors"
                 strokeWidth={1.5}
               />
-              <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-black border border-black/10 dark:border-white/10 flex items-center justify-center">
+              <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#FAF8F5] dark:bg-black border border-black/10 dark:border-white/10 flex items-center justify-center">
                 <span className="text-[10px] font-medium text-black dark:text-white/50">2</span>
               </div>
             </div>
@@ -40,7 +40,7 @@ const LockedAndSecuredSection = () => {
           </div>
 
           {/* Heading */}
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-black dark:text-white mb-4 sm:mb-6 leading-[1.1] tracking-tight">
+          <h2 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-black dark:text-white mb-4 sm:mb-6 leading-[1.1] tracking-tight">
             Locked &
             <br />
             <span className="text-black dark:text-white/20">secured.</span>
@@ -197,7 +197,7 @@ const LockedAndSecuredSection = () => {
                 className="w-4 h-4 text-black dark:text-white/40 group-hover:text-[#ff6b35] transition-colors"
                 strokeWidth={1.5}
               />
-              <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-black border border-black/10 dark:border-white/10 flex items-center justify-center">
+              <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#FAF8F5] dark:bg-black border border-black/10 dark:border-white/10 flex items-center justify-center">
                 <span className="text-[10px] font-medium text-black dark:text-white/50">2</span>
               </div>
             </div>
@@ -205,7 +205,7 @@ const LockedAndSecuredSection = () => {
           </div>
 
           {/* Heading */}
-          <h2 className="hidden lg:block text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-black dark:text-white mb-6 sm:mb-8 leading-[1.1] tracking-tight">
+          <h2 className="font-display hidden lg:block text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-black dark:text-white mb-6 sm:mb-8 leading-[1.1] tracking-tight">
             Locked &
             <br />
             <span className="text-black dark:text-white/20">secured.</span>
@@ -235,7 +235,7 @@ const LockedAndSecuredSection = () => {
             ].map((feature, index) => (
               <motion.div
                 key={feature.label}
-                className="flex items-center gap-4 p-5 rounded-xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.04] dark:border-white/[0.04] hover:border-black/[0.08] dark:hover:border-white/[0.08] transition-colors"
+                className="flex items-center gap-4 p-5 rounded-xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] shadow-[0_4px_30px_-8px_rgba(0,0,0,0.08)] dark:shadow-none hover:border-black/[0.15] dark:hover:border-white/[0.1] transition-colors"
                 whileHover={{ x: 4 }}
                 transition={{ duration: 0.2 }}
               >

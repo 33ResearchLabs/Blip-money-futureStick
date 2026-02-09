@@ -17,10 +17,10 @@ const PrivacySection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative py-12 md:py-40 bg-white dark:bg-black overflow-hidden"
+      className="relative py-12 md:py-40 bg-[#FAF8F5] dark:bg-black overflow-hidden"
     >
       <motion.div
-        className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 bg-white dark:bg-black md:py-8 rounded-2xl"
+        className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 bg-[#FAF8F5] dark:bg-black md:py-8 rounded-2xl"
         style={{ opacity }}
       >
         {/* Header */}
@@ -44,7 +44,7 @@ const PrivacySection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1]"
+            className="font-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1]"
           >
             Your wallet.
             <br />
@@ -60,7 +60,7 @@ const PrivacySection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="bg-white dark:bg-black p-6 sm:p-10 md:p-12 max-w-sm w-full text-center"
+            className="bg-[#FAF8F5] dark:bg-black p-6 sm:p-10 md:p-12 max-w-sm w-full text-center"
           >
             <h3 className="text-xl font-medium text-black dark:text-white mb-6">Privacy</h3>
 
@@ -88,7 +88,7 @@ const PrivacySection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="bg-white dark:bg-black p-6 sm:p-10 md:p-12 max-w-sm w-full text-center"
+            className="bg-[#FAF8F5] dark:bg-black p-6 sm:p-10 md:p-12 max-w-sm w-full text-center"
           >
             <h3 className="text-xl font-medium text-black dark:text-white mb-6">Trust</h3>
 

@@ -33,7 +33,7 @@ const FeaturedArticle = ({ article }: { article: BlogArticle }) => {
         onMouseEnter={() => sounds.hover()}
         className="group block"
       >
-        <div className="relative overflow-hidden rounded-3xl bg-gray-50 dark:bg-white/[0.02] border border-gray-100 dark:border-white/[0.06]">
+        <div className="relative overflow-hidden rounded-3xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] shadow-[0_8px_40px_-8px_rgba(0,0,0,0.1)] dark:shadow-none">
           {/* Large cover image */}
           <div className="relative h-[280px] sm:h-[360px] lg:h-[420px] overflow-hidden">
             <img

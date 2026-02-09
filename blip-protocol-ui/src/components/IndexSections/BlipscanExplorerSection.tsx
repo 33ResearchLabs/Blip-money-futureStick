@@ -78,7 +78,7 @@ const BlipscanExplorerSection = () => {
   }, []);
 
   return (
-    <section className="relative bg-white dark:bg-black py-10 sm:py-32 overflow-hidden">
+    <section className="relative bg-[#FAF8F5] dark:bg-black py-10 sm:py-32 overflow-hidden">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <div className="text-center mb-12 sm:mb-16">
@@ -100,7 +100,7 @@ const BlipscanExplorerSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black dark:text-white mb-4 tracking-tight"
+            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black dark:text-white mb-4 tracking-tight"
           >
             Every transaction, <span className="text-black dark:text-white/20">verified.</span>
           </motion.h2>
@@ -128,7 +128,7 @@ const BlipscanExplorerSection = () => {
           <div className="absolute -inset-4 bg-gradient-to-b from-white/[0.03] via-transparent to-transparent blur-3xl" />
 
           {/* Main container */}
-          <div className="relative h-[450px] sm:[600px] rounded-2xl border border-black/[0.06] dark:border-white/[0.06] bg-white/40 dark:bg-black/40 backdrop-blur-xl overflow-hidden">
+          <div className="relative h-[450px] sm:[600px] rounded-2xl border border-black/[0.08] dark:border-white/[0.06] bg-[#FAF8F5] dark:bg-black/40 backdrop-blur-xl overflow-hidden shadow-[0_8px_60px_-12px_rgba(0,0,0,0.15)] dark:shadow-none">
             {/* Header bar */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-black/[0.06] dark:border-white/[0.06]">
               <div className="flex items-center gap-3">
@@ -172,7 +172,7 @@ const BlipscanExplorerSection = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, delay: 0.4 + i * 0.1 }}
-                    className="text-center p-3 rounded-lg bg-black/[0.01] dark:bg-white/[0.01] border border-black/[0.04] dark:border-white/[0.04]"
+                    className="text-center p-3 rounded-lg bg-white/60 dark:bg-white/[0.02] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] shadow-[0_2px_20px_-6px_rgba(0,0,0,0.06)] dark:shadow-none"
                   >
                     <div className="text-xl sm:text-2xl font-bold text-black dark:text-white mb-1">
                       {stat.value}

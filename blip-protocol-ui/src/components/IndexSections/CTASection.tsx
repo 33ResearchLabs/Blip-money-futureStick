@@ -26,7 +26,7 @@ const CTASection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative py-24 sm:py-32 md:py-48 bg-white dark:bg-black overflow-hidden"
+      className="relative py-24 sm:py-32 md:py-48 bg-[#FAF8F5] dark:bg-black overflow-hidden"
     >
       {/* Immersive glow background */}
       <div className="absolute inset-0">
@@ -78,7 +78,7 @@ const CTASection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tight leading-[0.95] mb-6 sm:mb-8"
+          className="font-display text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tight leading-[0.95] mb-6 sm:mb-8"
         >
           <span className="text-black dark:text-white">The future</span>
           <br />
