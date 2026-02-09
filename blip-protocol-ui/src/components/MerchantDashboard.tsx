@@ -8,24 +8,24 @@ export const MerchantDashboard = () => {
   const [newOrders, setNewOrders] = useState([
     {
       id: "ORD-7821",
-      user: "🦁",
+      user: "SM",
       amount: "500 USDT",
       rate: "1,620 AED",
       time: "2m",
-      country: "🇦🇪",
+      country: "AE",
     },
     {
       id: "ORD-7820",
-      user: "🐯",
+      user: "AK",
       amount: "1,200 USDT",
       rate: "1,618 AED",
       time: "5m",
-      country: "🇦🇪",
+      country: "AE",
     },
   ]);
 
-  const mockUsers = ["🦁", "🐯", "🦊", "🐼", "🐸"];
-  const mockCountries = ["🇦🇪"];
+  const mockUsers = ["SM", "AK", "LT", "JD", "ER"];
+  const mockCountries = ["AE"];
   const mockRates = ["1,620 AED", "1,618 AED", "3.67 AED"];
 
   const mockUserNames = [
@@ -256,7 +256,7 @@ export const MerchantDashboard = () => {
             <div className="flex items-center justify-between mb-4 pb-3 border-b border-white/[0.03]">
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-white/60 animate-pulse" />
                   <span className="text-xs text-white/60">Live</span>
                 </div>
                 <span className="text-xs text-white/50">Solana Mainnet</span>
@@ -266,7 +266,7 @@ export const MerchantDashboard = () => {
                   ⌘K
                 </div>
                 <div className="w-6 h-6 rounded-full bg-white/[0.04] flex items-center justify-center text-white/60 text-xs">
-                  🔔
+                  !
                 </div>
               </div>
             </div>
@@ -290,7 +290,7 @@ export const MerchantDashboard = () => {
                     <span className="text-sm font-semibold text-white">
                       {stat.value}
                     </span>
-                    <span className="text-[10px] text-emerald-400">
+                    <span className="text-[10px] text-white/50">
                       {stat.change}
                     </span>
                   </div>
@@ -335,7 +335,7 @@ export const MerchantDashboard = () => {
               {[
                 { title: "New Orders", data: newOrders, dot: "bg-white/60" },
                 { title: "In Escrow", data: inEscrow, dot: "bg-white" },
-                { title: "Completed", data: completed, dot: "bg-emerald-400" },
+                { title: "Completed", data: completed, dot: "bg-white/60" },
               ].map((col, idx) => (
                 <div
                   key={col.title}
@@ -429,7 +429,7 @@ export const MerchantDashboard = () => {
                           </div>
                         </div>
                       </div>
-                      <span className="text-[10px] text-emerald-400">
+                      <span className="text-[10px] text-white/50">
                         {item.amount}
                       </span>
                     </div>
@@ -506,44 +506,44 @@ export const MerchantDashboardVisual = () => {
   const [newOrders, setNewOrders] = useState([
     {
       id: "ORD-7821",
-      user: "🦁",
+      user: "SM",
       userName: "Sarah M.",
       amount: "500 USDT",
       rate: "1,620 AED",
       time: "2m",
-      country: "🇦🇪",
+      country: "AE",
       status: "new",
       description: "Crypto to cash transfer - Dubai",
       priority: "high",
     },
     {
       id: "ORD-7820",
-      user: "🐯",
+      user: "AK",
       userName: "Ahmed K.",
       amount: "1,200 USDT",
       rate: "1,618 AED",
       time: "5m",
-      country: "🇦🇪",
+      country: "AE",
       status: "new",
       description: "Bulk exchange request",
       priority: "medium",
     },
     {
       id: "ORD-7819",
-      user: "🦊",
+      user: "LT",
       userName: "Lisa T.",
       amount: "250 USDT",
       rate: "3.67 AED",
       time: "8m",
-      country: "🇦🇪",
+      country: "AE",
       status: "new",
       description: "Quick cash out",
       priority: "low",
     },
   ]);
 
-  const mockUsers = ["🦁", "🐯", "🦊", "🐼", "🐸"];
-  const mockCountries = ["🇦🇪"]; // ✅ only AED region
+  const mockUsers = ["SM", "AK", "LT", "JD", "ER"];
+  const mockCountries = ["AE"]; // ✅ only AED region
   const mockRates = ["1,620 AED", "1,618 AED", "3.67 AED"];
 
   const mockUserNames = [
@@ -767,9 +767,9 @@ export const MerchantDashboardVisual = () => {
               {/* Browser header - minimal premium style */}
               <div className="flex items-center gap-3 px-5 py-3.5 bg-[#0d0d0d] border-b border-white/[0.04]">
                 <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
-                  <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
-                  <div className="w-3 h-3 rounded-full bg-[#28ca42]" />
+                  <div className="w-3 h-3 rounded-full bg-white/20" />
+                  <div className="w-3 h-3 rounded-full bg-white/20" />
+                  <div className="w-3 h-3 rounded-full bg-white/20" />
                 </div>
                 <div className="flex-1 flex justify-center">
                   <div className="flex items-center gap-2 px-4 py-1.5 rounded-md bg-white/[0.03] border border-white/[0.04]">
@@ -854,7 +854,7 @@ export const MerchantDashboardVisual = () => {
                     <div className="flex items-center gap-4">
                       <div className="flex items-center gap-2">
                         <motion.div
-                          className="w-1.5 h-1.5 rounded-full bg-emerald-400"
+                          className="w-1.5 h-1.5 rounded-full bg-white/60"
                           animate={{ opacity: [1, 0.5, 1] }}
                           transition={{ duration: 2, repeat: Infinity }}
                         />
@@ -874,7 +874,7 @@ export const MerchantDashboardVisual = () => {
                         <span className="text-xs text-white/50">Search...</span>
                       </div>
                       <div className="w-8 h-8 rounded-full bg-white/[0.04] flex items-center justify-center">
-                        <span className="text-white/60 text-sm">🔔</span>
+                        <span className="text-white/60 text-sm">!</span>
                       </div>
                     </div>
                   </div>
@@ -915,7 +915,7 @@ export const MerchantDashboardVisual = () => {
                           </div>
                           <div
                             className={`text-[10px] font-medium ${
-                              stat.up ? "text-emerald-400" : "text-red-400"
+                              stat.up ? "text-white/50" : "text-white/30"
                             }`}
                           >
                             {stat.change}
@@ -928,7 +928,7 @@ export const MerchantDashboardVisual = () => {
                   {/* Chart area - Premium Volume Overview */}
                   <div className="mb-4 p-4 rounded-xl bg-gradient-to-br from-[#0c0c0c] to-[#080808] border border-white/[0.04] relative overflow-hidden">
                     {/* Subtle glow effect */}
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/[0.03] blur-[60px] rounded-full" />
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-white/[0.03] blur-[60px] rounded-full" />
 
                     {/* Header */}
                     <div className="flex items-center justify-between mb-4 relative z-10">
@@ -940,7 +940,7 @@ export const MerchantDashboardVisual = () => {
                           <span className="text-xl font-bold text-white">
                             $55,450
                           </span>
-                          <span className="text-[10px] font-medium text-emerald-400 flex items-center gap-0.5">
+                          <span className="text-[10px] font-medium text-white/50 flex items-center gap-0.5">
                             <svg
                               className="w-2.5 h-2.5"
                               viewBox="0 0 10 10"
@@ -1018,7 +1018,7 @@ export const MerchantDashboardVisual = () => {
                               <div
                                 className={`absolute inset-0 rounded-t-sm transition-all duration-200 ${
                                   i >= 9
-                                    ? "bg-gradient-to-t from-emerald-500/60 via-emerald-400/40 to-emerald-300/20 group-hover:from-emerald-500/80"
+                                    ? "bg-gradient-to-t from-white/30 via-white/20 to-white/10 group-hover:from-white/40"
                                     : "bg-gradient-to-t from-white/25 via-white/15 to-white/5 group-hover:from-white/35"
                                 }`}
                               />
@@ -1071,7 +1071,7 @@ export const MerchantDashboardVisual = () => {
                         </span>
                       </div>
                       <div className="flex items-center gap-1.5">
-                        <div className="w-2 h-2 rounded-sm bg-gradient-to-t from-emerald-500/60 to-emerald-400/30" />
+                        <div className="w-2 h-2 rounded-sm bg-gradient-to-t from-white/30 to-white/15" />
                         <span className="text-[9px] text-white/40">
                           Peak days
                         </span>
@@ -1213,7 +1213,7 @@ export const MerchantDashboardVisual = () => {
                     <div className="rounded-lg bg-[#0f0f0f] border border-white/[0.04] overflow-hidden">
                       <div className="flex items-center justify-between px-3 py-2 border-b border-white/[0.03]">
                         <div className="flex items-center gap-1.5">
-                          <div className="w-1 h-1 rounded-full bg-emerald-400" />
+                          <div className="w-1 h-1 rounded-full bg-white/60" />
                           <span className="text-xs font-medium text-white">
                             Completed
                           </span>
@@ -1239,7 +1239,7 @@ export const MerchantDashboardVisual = () => {
                                   {order.id}
                                 </span>
                               </div>
-                              <span className="text-[10px] text-emerald-400 font-medium">
+                              <span className="text-[10px] text-white/50 font-medium">
                                 ✓ Settled
                               </span>
                             </div>
@@ -1291,7 +1291,7 @@ export const MerchantDashboardVisual = () => {
                           <div className="text-[8px] text-white/50 uppercase">
                             Success
                           </div>
-                          <div className="text-xs font-semibold text-emerald-400">
+                          <div className="text-xs font-semibold text-white/50">
                             99.8%
                           </div>
                         </div>
@@ -1337,7 +1337,7 @@ export const MerchantDashboardVisual = () => {
                                 </div>
                               </div>
                             </div>
-                            <span className="text-[10px] text-emerald-400">
+                            <span className="text-[10px] text-white/50">
                               {item.amount}
                             </span>
                           </div>
@@ -1358,13 +1358,13 @@ export const MerchantDashboardVisual = () => {
                       <div className="space-y-1.5">
                         {[
                           {
-                            user: "🦁",
+                            user: "SM",
                             name: "Sarah M.",
                             message: "Payment sent",
                             time: "1m",
                           },
                           {
-                            user: "🐯",
+                            user: "AK",
                             name: "Ahmed K.",
                             message: "Ready to trade",
                             time: "3m",
@@ -1435,7 +1435,7 @@ export const MerchantDashboardVisual = () => {
                   <div className="p-4 pr-5 rounded-xl bg-[#0d0d0d] border border-white/[0.04] shadow-2xl">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
-                        <span className="text-lg">🔔</span>
+                        <span className="text-lg">!</span>
                       </div>
                       <div>
                         <div className="text-sm font-semibold text-white">
@@ -1489,44 +1489,44 @@ export const MerchantDashboardVisualHomepage = () => {
   const [newOrders, setNewOrders] = useState([
     {
       id: "ORD-7821",
-      user: "🦁",
+      user: "SM",
       userName: "Sarah M.",
       amount: "500 USDT",
       rate: "1,620 AED",
       time: "2m",
-      country: "🇦🇪",
+      country: "AE",
       status: "new",
       description: "Crypto to cash transfer - Dubai",
       priority: "high",
     },
     {
       id: "ORD-7820",
-      user: "🐯",
+      user: "AK",
       userName: "Ahmed K.",
       amount: "1,200 USDT",
       rate: "1,618 AED",
       time: "5m",
-      country: "🇦🇪",
+      country: "AE",
       status: "new",
       description: "Bulk exchange request",
       priority: "medium",
     },
     {
       id: "ORD-7819",
-      user: "🦊",
+      user: "LT",
       userName: "Lisa T.",
       amount: "250 USDT",
       rate: "3.67 AED",
       time: "8m",
-      country: "🇦🇪",
+      country: "AE",
       status: "new",
       description: "Quick cash out",
       priority: "low",
     },
   ]);
 
-  const mockUsers = ["🦁", "🐯", "🦊", "🐼", "🐸"];
-  const mockCountries = ["🇦🇪"]; // ✅ only AED region
+  const mockUsers = ["SM", "AK", "LT", "JD", "ER"];
+  const mockCountries = ["AE"]; // ✅ only AED region
   const mockRates = ["1,620 AED", "1,618 AED", "3.67 AED"];
 
   const mockUserNames = [
@@ -1758,9 +1758,9 @@ export const MerchantDashboardVisualHomepage = () => {
               {/* Browser header - minimal premium style */}
               <div className="flex items-center gap-3 px-5 py-3.5 bg-[#0d0d0d] border-b border-white/[0.04]">
                 <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
-                  <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
-                  <div className="w-3 h-3 rounded-full bg-[#28ca42]" />
+                  <div className="w-3 h-3 rounded-full bg-white/20" />
+                  <div className="w-3 h-3 rounded-full bg-white/20" />
+                  <div className="w-3 h-3 rounded-full bg-white/20" />
                 </div>
                 <div className="flex-1 flex justify-center">
                   <div className="flex items-center gap-2 px-4 py-1.5 rounded-md bg-white/[0.03] border border-white/[0.04]">
@@ -1845,7 +1845,7 @@ export const MerchantDashboardVisualHomepage = () => {
                     <div className="flex items-center gap-4">
                       <div className="flex items-center gap-2">
                         <motion.div
-                          className="w-1.5 h-1.5 rounded-full bg-emerald-400"
+                          className="w-1.5 h-1.5 rounded-full bg-white/60"
                           animate={{ opacity: [1, 0.5, 1] }}
                           transition={{ duration: 2, repeat: Infinity }}
                         />
@@ -1865,7 +1865,7 @@ export const MerchantDashboardVisualHomepage = () => {
                         <span className="text-xs text-white/50">Search...</span>
                       </div>
                       <div className="w-8 h-8 rounded-full bg-white/[0.04] flex items-center justify-center">
-                        <span className="text-white/60 text-sm">🔔</span>
+                        <span className="text-white/60 text-sm">!</span>
                       </div>
                     </div>
                   </div>
@@ -1906,7 +1906,7 @@ export const MerchantDashboardVisualHomepage = () => {
                           </div>
                           <div
                             className={`text-[10px] font-medium ${
-                              stat.up ? "text-emerald-400" : "text-red-400"
+                              stat.up ? "text-white/50" : "text-white/30"
                             }`}
                           >
                             {stat.change}
@@ -1919,7 +1919,7 @@ export const MerchantDashboardVisualHomepage = () => {
                   {/* Chart area - Premium Volume Overview */}
                   <div className="hidden sm:block mb-4 p-4 rounded-xl bg-gradient-to-br from-[#0c0c0c] to-[#080808] border border-white/[0.04] relative overflow-hidden">
                     {/* Subtle glow effect */}
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/[0.03] blur-[60px] rounded-full" />
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-white/[0.03] blur-[60px] rounded-full" />
 
                     {/* Header */}
                     <div className="flex items-center justify-between mb-4 relative z-10">
@@ -1931,7 +1931,7 @@ export const MerchantDashboardVisualHomepage = () => {
                           <span className="text-xl font-bold text-white">
                             $55,450
                           </span>
-                          <span className="text-[10px] font-medium text-emerald-400 flex items-center gap-0.5">
+                          <span className="text-[10px] font-medium text-white/50 flex items-center gap-0.5">
                             <svg
                               className="w-2.5 h-2.5"
                               viewBox="0 0 10 10"
@@ -2009,7 +2009,7 @@ export const MerchantDashboardVisualHomepage = () => {
                               <div
                                 className={`absolute inset-0 rounded-t-sm transition-all duration-200 ${
                                   i >= 9
-                                    ? "bg-gradient-to-t from-emerald-500/60 via-emerald-400/40 to-emerald-300/20 group-hover:from-emerald-500/80"
+                                    ? "bg-gradient-to-t from-white/30 via-white/20 to-white/10 group-hover:from-white/40"
                                     : "bg-gradient-to-t from-white/25 via-white/15 to-white/5 group-hover:from-white/35"
                                 }`}
                               />
@@ -2062,7 +2062,7 @@ export const MerchantDashboardVisualHomepage = () => {
                         </span>
                       </div>
                       <div className="flex items-center gap-1.5">
-                        <div className="w-2 h-2 rounded-sm bg-gradient-to-t from-emerald-500/60 to-emerald-400/30" />
+                        <div className="w-2 h-2 rounded-sm bg-gradient-to-t from-white/30 to-white/15" />
                         <span className="text-[9px] text-white/40">
                           Peak days
                         </span>
@@ -2204,7 +2204,7 @@ export const MerchantDashboardVisualHomepage = () => {
                     <div className="rounded-lg bg-[#0f0f0f] border border-white/[0.04] overflow-hidden">
                       <div className="flex items-center justify-between px-3 py-2 border-b border-white/[0.03]">
                         <div className="flex items-center gap-1.5">
-                          <div className="w-1 h-1 rounded-full bg-emerald-400" />
+                          <div className="w-1 h-1 rounded-full bg-white/60" />
                           <span className="text-xs font-medium text-white">
                             Completed
                           </span>
@@ -2230,7 +2230,7 @@ export const MerchantDashboardVisualHomepage = () => {
                                   {order.id}
                                 </span>
                               </div>
-                              <span className="text-[10px] text-emerald-400 font-medium">
+                              <span className="text-[10px] text-white/50 font-medium">
                                 ✓ Settled
                               </span>
                             </div>
@@ -2282,7 +2282,7 @@ export const MerchantDashboardVisualHomepage = () => {
                           <div className="text-[8px] text-white/50 uppercase">
                             Success
                           </div>
-                          <div className="text-xs font-semibold text-emerald-400">
+                          <div className="text-xs font-semibold text-white/50">
                             99.8%
                           </div>
                         </div>
@@ -2328,7 +2328,7 @@ export const MerchantDashboardVisualHomepage = () => {
                                 </div>
                               </div>
                             </div>
-                            <span className="text-[10px] text-emerald-400">
+                            <span className="text-[10px] text-white/50">
                               {item.amount}
                             </span>
                           </div>
@@ -2349,13 +2349,13 @@ export const MerchantDashboardVisualHomepage = () => {
                       <div className="space-y-1.5">
                         {[
                           {
-                            user: "🦁",
+                            user: "SM",
                             name: "Sarah M.",
                             message: "Payment sent",
                             time: "1m",
                           },
                           {
-                            user: "🐯",
+                            user: "AK",
                             name: "Ahmed K.",
                             message: "Ready to trade",
                             time: "3m",
@@ -2426,7 +2426,7 @@ export const MerchantDashboardVisualHomepage = () => {
                   <div className="p-4 pr-5 rounded-xl bg-[#0d0d0d] border border-white/[0.04] shadow-2xl">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
-                        <span className="text-lg">🔔</span>
+                        <span className="text-lg">!</span>
                       </div>
                       <div>
                         <div className="text-sm font-semibold text-white">

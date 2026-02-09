@@ -9,32 +9,32 @@ export const MerchantDashboardCompact = () => {
   const [newOrders, setNewOrders] = useState([
     {
       id: "ORD-7821",
-      user: "🦁",
+      user: "SM",
       userName: "Sarah M.",
       amount: "500 USDT",
       rate: "1,620 AED",
       time: "2m",
-      country: "🇦🇪",
+      country: "AE",
       status: "new",
       description: "Crypto to cash transfer - Dubai",
       priority: "high",
     },
     {
       id: "ORD-7820",
-      user: "🐯",
+      user: "AK",
       userName: "Ahmed K.",
       amount: "1,200 USDT",
       rate: "1,618 AED",
       time: "5m",
-      country: "🇦🇪",
+      country: "AE",
       status: "new",
       description: "Bulk exchange request",
       priority: "medium",
     },
   ]);
 
-  const mockUsers = ["🦁", "🐯", "🦊", "🐼", "🐸"];
-  const mockCountries = ["🇦🇪"];
+  const mockUsers = ["SM", "AK", "LT", "JD", "ER"];
+  const mockCountries = ["AE"];
   const mockRates = ["1,620 AED", "1,618 AED", "3.67 AED"];
 
   const mockUserNames = [
@@ -224,9 +224,9 @@ export const MerchantDashboardCompact = () => {
           {/* Browser header */}
           <div className="flex items-center gap-2 px-4 py-2.5 bg-[#0d0d0d] border-b border-white/[0.04]">
             <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
-              <div className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
-              <div className="w-2.5 h-2.5 rounded-full bg-[#28ca42]" />
+              <div className="w-2.5 h-2.5 rounded-full bg-white/20" />
+              <div className="w-2.5 h-2.5 rounded-full bg-white/20" />
+              <div className="w-2.5 h-2.5 rounded-full bg-white/20" />
             </div>
             <div className="flex-1 flex justify-center">
               <div className="flex items-center gap-1.5 px-3 py-1 rounded-md bg-white/[0.03] border border-white/[0.04]">
@@ -284,7 +284,7 @@ export const MerchantDashboardCompact = () => {
               <div className="flex items-center justify-between mb-3 pb-2 border-b border-white/[0.03]">
                 <div className="flex items-center gap-2">
                   <motion.div
-                    className="w-1 h-1 rounded-full bg-emerald-400"
+                    className="w-1 h-1 rounded-full bg-white/60"
                     animate={{ opacity: [1, 0.5, 1] }}
                     transition={{ duration: 2, repeat: Infinity }}
                   />
@@ -333,7 +333,7 @@ export const MerchantDashboardCompact = () => {
                       </div>
                       <div
                         className={`text-[8px] font-medium ${
-                          stat.up ? "text-emerald-400" : "text-red-400"
+                          stat.up ? "text-white/50" : "text-white/30"
                         }`}
                       >
                         {stat.change}
@@ -346,7 +346,7 @@ export const MerchantDashboardCompact = () => {
               {/* Volume Chart - Compact */}
               <div className="mb-3 p-2.5 rounded-lg bg-gradient-to-br from-[#0c0c0c] to-[#080808] border border-white/[0.04] relative overflow-hidden">
                 {/* Subtle glow effect */}
-                <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/[0.03] blur-[40px] rounded-full" />
+                <div className="absolute top-0 right-0 w-24 h-24 bg-white/[0.03] blur-[40px] rounded-full" />
 
                 {/* Header */}
                 <div className="flex items-center justify-between mb-2.5 relative z-10">
@@ -358,7 +358,7 @@ export const MerchantDashboardCompact = () => {
                       <span className="text-sm font-bold text-white">
                         $55.4k
                       </span>
-                      <span className="text-[8px] font-medium text-emerald-400 flex items-center gap-0.5">
+                      <span className="text-[8px] font-medium text-white/50 flex items-center gap-0.5">
                         <svg
                           className="w-2 h-2"
                           viewBox="0 0 10 10"
@@ -445,7 +445,7 @@ export const MerchantDashboardCompact = () => {
                           <div
                             className={`absolute inset-0 rounded-t-sm opacity-0 group-hover:opacity-100 transition-opacity ${
                               i >= 9
-                                ? "shadow-[0_0_12px_rgba(16,185,129,0.3)]"
+                                ? "shadow-[0_0_12px_rgba(255,255,255,0.1)]"
                                 : "shadow-[0_0_12px_rgba(255,255,255,0.1)]"
                             }`}
                           />
@@ -481,7 +481,7 @@ export const MerchantDashboardCompact = () => {
                     <span className="text-[7px] text-white/40">This week</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <div className="w-1.5 h-1.5 rounded-sm bg-gradient-to-t from-emerald-500/60 to-emerald-400/30" />
+                    <div className="w-1.5 h-1.5 rounded-sm bg-gradient-to-t from-white/40 to-white/20" />
                     <span className="text-[7px] text-white/40">Peak days</span>
                   </div>
                   <div className="ml-auto text-[7px] text-white/30">
@@ -596,7 +596,7 @@ export const MerchantDashboardCompact = () => {
                           </div>
                           <div className="w-full bg-white/[0.08] h-1 rounded-full overflow-hidden">
                             <motion.div
-                              className="h-full bg-gradient-to-r from-emerald-500 to-emerald-400"
+                              className="h-full bg-gradient-to-r from-white/40 to-white/30"
                               initial={{ width: "0%" }}
                               animate={{ width: `${order.progress}%` }}
                               transition={{ duration: 1 }}
@@ -612,7 +612,7 @@ export const MerchantDashboardCompact = () => {
                 <div className="rounded-md bg-[#0f0f0f] border border-white/[0.04] overflow-hidden">
                   <div className="flex items-center justify-between px-2 py-1.5 border-b border-white/[0.03]">
                     <div className="flex items-center gap-1">
-                      <div className="w-0.5 h-0.5 rounded-full bg-emerald-400" />
+                      <div className="w-0.5 h-0.5 rounded-full bg-white/60" />
                       <span className="text-[10px] font-medium text-white">
                         Completed
                       </span>
@@ -628,7 +628,7 @@ export const MerchantDashboardCompact = () => {
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.3 }}
-                        className={`p-1.5 rounded border bg-[#0c1a0f] border-emerald-500/20`}
+                        className={`p-1.5 rounded border bg-white/[0.02] border-white/[0.08]`}
                       >
                         <div className="flex items-center justify-between mb-0.5">
                           <div className="flex items-center gap-1">
@@ -637,13 +637,13 @@ export const MerchantDashboardCompact = () => {
                               {order.id}
                             </span>
                           </div>
-                          <span className="text-[9px] text-emerald-400">✓</span>
+                          <span className="text-[9px] text-white/60">✓</span>
                         </div>
                         <div>
                           <div className="text-[10px] font-semibold text-white">
                             {order.amount}
                           </div>
-                          <div className="text-[8px] text-emerald-400/60">
+                          <div className="text-[8px] text-white/40">
                             Settled
                           </div>
                         </div>
@@ -666,19 +666,19 @@ export const MerchantDashboardCompact = () => {
                 <div className="space-y-1">
                   {[
                     {
-                      user: "🦁",
+                      user: "SM",
                       name: "Sarah M.",
                       message: "Payment sent",
                       time: "1m",
                     },
                     {
-                      user: "🐯",
+                      user: "AK",
                       name: "Ahmed K.",
                       message: "Ready to trade",
                       time: "3m",
                     },
                     {
-                      user: "🦊",
+                      user: "LT",
                       name: "Lisa T.",
                       message: "How long for confirmation?",
                       time: "5m",
@@ -721,7 +721,7 @@ export const MerchantDashboardCompact = () => {
               <div className="p-2.5 pr-3 rounded-lg bg-[#0d0d0d] border border-white/[0.04] shadow-2xl">
                 <div className="flex items-center gap-2">
                   <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">
-                    <span className="text-sm">🔔</span>
+                    <span className="text-[10px] font-bold text-white/60">!</span>
                   </div>
                   <div>
                     <div className="text-[11px] font-semibold text-white">

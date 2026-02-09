@@ -89,9 +89,9 @@ const InstantBiddingSection = () => {
           </div>
         </motion.div>
 
-        {/* Browser Mockup */}
+        {/* Browser Mockup - Larger size */}
         <motion.div
-          className="relative mx-auto max-w-5xl lg:max-w-6xl"
+          className="relative mx-auto max-w-6xl lg:max-w-7xl"
           style={{
             x: mousePosition.x * -12,
             y: mousePosition.y * -8,

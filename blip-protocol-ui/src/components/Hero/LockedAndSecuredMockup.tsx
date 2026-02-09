@@ -323,7 +323,7 @@ export default function LockedAndSecuredMockup() {
                             Network
                           </span>
                           <div className="flex items-center gap-1.5 sm:gap-2">
-                            <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-gradient-to-r from-purple-500 to-blue-500" />
+                            <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-white/20" />
                             <span className="text-xs sm:text-sm text-white/60">
                               Solana
                             </span>

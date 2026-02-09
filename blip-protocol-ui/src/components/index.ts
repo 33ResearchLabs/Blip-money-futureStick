@@ -7,3 +7,8 @@
 export { default as GoogleAnalytics } from './GoogleAnalytics';
 export { default as SEO } from './SEO';
 export { default as StructuredData, createBreadcrumbSchema, createArticleSchema, createProductSchema } from './StructuredData';
+
+/**
+ * Interactive Components
+ */
+export { InteractiveBackground } from './InteractiveBackground';

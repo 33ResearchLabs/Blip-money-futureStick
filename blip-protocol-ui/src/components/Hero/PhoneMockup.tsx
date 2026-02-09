@@ -399,7 +399,7 @@ export default function PhoneMockupInteractive() {
                               {/* Status */}
                               <div className="flex justify-between">
                                 <span className="text-white/60">Status</span>
-                                <span className="text-emerald-400 font-medium">
+                                <span className="text-white/50 font-medium">
                                   ✓ Completed
                                 </span>
                               </div>

@@ -67,24 +67,7 @@ const AbstractVisual = () => {
         />
       </motion.div>
 
-      {/* Center content - minimal text */}
-      <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <h2 className="text-4xl md:text-6xl lg:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6">
-            Speed meets
-            <br />
-            <span className="text-black/30 dark:text-white/30">simplicity.</span>
-          </h2>
-          <p className="text-lg text-black/40 dark:text-white/40 max-w-xl mx-auto">
-            Every transaction, instant. Every detail, effortless.
-          </p>
-        </motion.div>
-      </div>
+      {/* Center content - removed */}
     </section>
   );
 };

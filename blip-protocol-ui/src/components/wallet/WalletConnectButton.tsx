@@ -13,7 +13,7 @@ export const WalletConnectButton = () => {
   }, []);
 
   useEffect(() => {
-    console.log("🔍 Wallet Button State:", {
+    console.log("Wallet Button State:", {
       connected,
       connecting,
       hasPublicKey: !!publicKey,

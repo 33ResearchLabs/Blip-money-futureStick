@@ -55,22 +55,22 @@ const LockedAndSecuredSection = () => {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
-          {/* Phone Frame */}
-          <div className="relative w-[280px] sm:w-[300px] lg:w-[340px]">
+          {/* Phone Frame - 30% smaller */}
+          <div className="relative w-[196px] sm:w-[210px] lg:w-[238px]">
             {/* Phone outer frame */}
-            <div className="rounded-[36px] sm:rounded-[40px] lg:rounded-[44px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[2px] shadow-[0_25px_50px_rgba(0,0,0,0.6)]">
-              <div className="rounded-[34px] sm:rounded-[38px] lg:rounded-[42px] bg-[#0a0a0a] p-[10px] sm:p-[12px]">
+            <div className="rounded-[25px] sm:rounded-[28px] lg:rounded-[31px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[2px] shadow-[0_18px_35px_rgba(0,0,0,0.6)]">
+              <div className="rounded-[24px] sm:rounded-[27px] lg:rounded-[29px] bg-[#0a0a0a] p-[7px] sm:p-[8px]">
                 {/* Phone screen */}
-                <div className="rounded-[28px] sm:rounded-[30px] lg:rounded-[34px] bg-black overflow-hidden relative h-[500px] sm:h-[550px] lg:h-[600px]">
+                <div className="rounded-[20px] sm:rounded-[21px] lg:rounded-[24px] bg-black overflow-hidden relative h-[350px] sm:h-[385px] lg:h-[420px]">
                   {/* Dynamic Island */}
-                  <div className="absolute top-3 left-1/2 -translate-x-1/2 z-10">
-                    <div className="w-28 h-7 rounded-full bg-black flex items-center justify-center">
-                      <div className="w-3 h-3 rounded-full bg-[#1a1a1a] mr-2" />
+                  <div className="absolute top-2 left-1/2 -translate-x-1/2 z-10">
+                    <div className="w-20 h-5 rounded-full bg-black flex items-center justify-center">
+                      <div className="w-2 h-2 rounded-full bg-[#1a1a1a] mr-1" />
                     </div>
                   </div>
 
                   {/* Status bar */}
-                  <div className="flex items-center justify-between px-6 pt-4 pb-2">
+                  <div className="flex items-center justify-between px-4 pt-3 pb-1">
                     <span className="text-[13px] text-white font-semibold">
                       9:41
                     </span>
@@ -94,11 +94,11 @@ const LockedAndSecuredSection = () => {
                   </div>
 
                   {/* Screen Content */}
-                  <div className="px-6 pb-8 pt-8 flex flex-col h-full">
+                  <div className="px-4 pb-6 pt-6 flex flex-col h-full">
                     {/* Lock icon with pulse/glow effect */}
-                    <div className="flex justify-center mb-8">
+                    <div className="flex justify-center mb-6">
                       <motion.div
-                        className="relative w-20 h-20 rounded-full bg-white/[0.05] border border-white/[0.08] flex items-center justify-center"
+                        className="relative w-14 h-14 rounded-full bg-white/[0.05] border border-white/[0.08] flex items-center justify-center"
                         animate={{
                           boxShadow: [
                             "0 0 0 0 rgba(255, 107, 53, 0)",
@@ -122,44 +122,44 @@ const LockedAndSecuredSection = () => {
                             ease: "easeInOut",
                           }}
                         >
-                          <Lock className="w-10 h-10 text-white/60" />
+                          <Lock className="w-7 h-7 text-white/60" />
                         </motion.div>
                       </motion.div>
                     </div>
 
                     {/* Main text */}
-                    <div className="text-center mb-8">
-                      <div className="text-sm text-white/50 mb-2">
+                    <div className="text-center mb-6">
+                      <div className="text-xs text-white/50 mb-1">
                         Funds Secured
                       </div>
-                      <div className="text-3xl font-bold text-white mb-1">
+                      <div className="text-2xl font-bold text-white mb-1">
                         5,000 USDT
                       </div>
-                      <div className="text-xs text-white/40">≈ $5,000.00</div>
+                      <div className="text-[10px] text-white/40">≈ $5,000.00</div>
                     </div>
 
                     {/* Status card */}
-                    <div className="rounded-xl bg-white/[0.02] border border-white/[0.06] p-4 mb-6">
-                      <div className="flex items-center justify-between mb-3">
-                        <span className="text-xs text-white/40">Status</span>
-                        <div className="flex items-center gap-2">
-                          <div className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]" />
-                          <span className="text-xs text-white/40 font-medium">
+                    <div className="rounded-xl bg-white/[0.02] border border-white/[0.06] p-3 mb-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-[10px] text-white/40">Status</span>
+                        <div className="flex items-center gap-1.5">
+                          <div className="w-1 h-1 rounded-full bg-[#ff6b35]" />
+                          <span className="text-[10px] text-white/40 font-medium">
                             In Escrow
                           </span>
                         </div>
                       </div>
-                      <div className="flex items-center justify-between mb-3">
-                        <span className="text-sm text-white/40">Contract</span>
-                        <span className="text-sm text-white/60 font-mono">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-xs text-white/40">Contract</span>
+                        <span className="text-xs text-white/60 font-mono">
                           0x7a2...f91
                         </span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-white/40">Network</span>
-                        <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 rounded-full bg-white/20" />
-                          <span className="text-sm text-white/60">Solana</span>
+                        <span className="text-xs text-white/40">Network</span>
+                        <div className="flex items-center gap-1.5">
+                          <div className="w-3 h-3 rounded-full bg-white/20" />
+                          <span className="text-xs text-white/60">Solana</span>
                         </div>
                       </div>
                     </div>
@@ -167,13 +167,13 @@ const LockedAndSecuredSection = () => {
                     <div className="flex-1" />
 
                     {/* Static button */}
-                    <div className="w-full py-3 rounded-full bg-white text-black font-bold text-base text-center">
+                    <div className="w-full py-2 rounded-full bg-white text-black font-bold text-sm text-center">
                       Secured
                     </div>
 
                     {/* Home indicator */}
-                    <div className="flex justify-center pt-4">
-                      <div className="w-32 h-1 bg-white/30 rounded-full" />
+                    <div className="flex justify-center pt-3">
+                      <div className="w-24 h-0.5 bg-white/30 rounded-full" />
                     </div>
                   </div>
                 </div>
