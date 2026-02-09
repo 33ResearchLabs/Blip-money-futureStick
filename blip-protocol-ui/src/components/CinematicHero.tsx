@@ -46,32 +46,8 @@ const CinematicHero = () => {
             src="/images/merchant-dashboard.png"
             alt=""
             className="w-full h-full object-cover object-center"
-            style={{ mixBlendMode: "screen" }}
           />
         </div>
-
-        {/* Mouse glow orb */}
-        <div
-          className="absolute w-[800px] h-[800px] rounded-full transition-all duration-300 ease-out"
-          style={{
-            left: `${mousePosition.x}%`,
-            top: `${mousePosition.y}%`,
-            transform: "translate(-50%, -50%)",
-            background: `radial-gradient(circle, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.05) 35%, rgba(255,255,255,0.01) 60%, transparent 80%)`,
-          }}
-        />
-
-        {/* Accent color glow */}
-        <div
-          className="absolute w-[500px] h-[500px] rounded-full transition-all duration-200 ease-out"
-          style={{
-            left: `${mousePosition.x}%`,
-            top: `${mousePosition.y}%`,
-            transform: "translate(-50%, -50%)",
-            background: `radial-gradient(circle, rgba(0,210,190,0.08) 0%, rgba(0,210,190,0.03) 45%, transparent 70%)`,
-            filter: "blur(50px)",
-          }}
-        />
 
         {/* Dark gradient edges */}
         <div className="absolute inset-0 bg-gradient-to-b from-white/60 dark:from-black/60 via-transparent to-white/60 dark:to-black/60" />
