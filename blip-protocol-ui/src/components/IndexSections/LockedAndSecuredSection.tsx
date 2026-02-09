@@ -40,7 +40,7 @@ const LockedAndSecuredSection = () => {
           </div>
 
           {/* Heading */}
-          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-black dark:text-white mb-4 sm:mb-6 leading-[1.1] tracking-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-black dark:text-white mb-4 sm:mb-6 leading-[1.1] tracking-tight">
             Locked &
             <br />
             <span className="text-black/20 dark:text-white/20">secured.</span>
@@ -55,50 +55,50 @@ const LockedAndSecuredSection = () => {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
-          {/* Phone Frame - 30% smaller */}
-          <div className="relative w-[196px] sm:w-[210px] lg:w-[238px]">
+          {/* Phone Frame */}
+          <div className="relative w-[266px] sm:w-[294px] lg:w-[336px]">
             {/* Phone outer frame */}
-            <div className="rounded-[25px] sm:rounded-[28px] lg:rounded-[31px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[2px] shadow-[0_18px_35px_rgba(0,0,0,0.6)]">
-              <div className="rounded-[24px] sm:rounded-[27px] lg:rounded-[29px] bg-[#0a0a0a] p-[7px] sm:p-[8px]">
+            <div className="rounded-[34px] sm:rounded-[36px] lg:rounded-[41px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[3px] shadow-[0_21px_42px_rgba(0,0,0,0.6)]">
+              <div className="rounded-[32px] sm:rounded-[34px] lg:rounded-[39px] bg-[#0a0a0a] p-[8px] sm:p-[10px]">
                 {/* Phone screen */}
-                <div className="rounded-[20px] sm:rounded-[21px] lg:rounded-[24px] bg-black overflow-hidden relative h-[350px] sm:h-[385px] lg:h-[420px]">
+                <div className="rounded-[25px] sm:rounded-[27px] lg:rounded-[31px] bg-black overflow-hidden relative h-[476px] sm:h-[525px] lg:h-[595px]">
                   {/* Dynamic Island */}
-                  <div className="absolute top-2 left-1/2 -translate-x-1/2 z-10">
-                    <div className="w-20 h-5 rounded-full bg-black flex items-center justify-center">
-                      <div className="w-2 h-2 rounded-full bg-[#1a1a1a] mr-1" />
+                  <div className="absolute top-3 left-1/2 -translate-x-1/2 z-10">
+                    <div className="w-[100px] h-6 rounded-full bg-black flex items-center justify-center">
+                      <div className="w-3 h-3 rounded-full bg-[#1a1a1a] mr-1" />
                     </div>
                   </div>
 
                   {/* Status bar */}
-                  <div className="flex items-center justify-between px-4 pt-3 pb-1">
-                    <span className="text-[13px] text-white font-semibold">
+                  <div className="flex items-center justify-between px-6 pt-4 pb-2">
+                    <span className="text-[12px] text-white font-semibold">
                       9:41
                     </span>
                     <div className="flex items-center gap-1.5">
                       {/* Signal bars */}
-                      <div className="flex items-end gap-[1px] h-3">
-                        <div className="w-[3px] h-[40%] bg-white rounded-full opacity-60" />
-                        <div className="w-[3px] h-[60%] bg-white rounded-full opacity-70" />
-                        <div className="w-[3px] h-[80%] bg-white rounded-full opacity-80" />
-                        <div className="w-[3px] h-[100%] bg-white rounded-full" />
+                      <div className="flex items-end gap-[1px] h-3.5">
+                        <div className="w-[3.5px] h-[40%] bg-white rounded-full opacity-60" />
+                        <div className="w-[3.5px] h-[60%] bg-white rounded-full opacity-70" />
+                        <div className="w-[3.5px] h-[80%] bg-white rounded-full opacity-80" />
+                        <div className="w-[3.5px] h-[100%] bg-white rounded-full" />
                       </div>
                       <Wifi
                         className="w-3.5 h-3.5 text-white"
                         strokeWidth={2.5}
                       />
                       <Battery
-                        className="w-6 h-3.5 text-white"
+                        className="w-5 h-3.5 text-white"
                         strokeWidth={2.5}
                       />
                     </div>
                   </div>
 
                   {/* Screen Content */}
-                  <div className="px-4 pb-6 pt-6 flex flex-col h-full">
+                  <div className="px-5 pb-7 pt-7 flex flex-col h-full">
                     {/* Lock icon with pulse/glow effect */}
-                    <div className="flex justify-center mb-6">
+                    <div className="flex justify-center mb-7">
                       <motion.div
-                        className="relative w-14 h-14 rounded-full bg-white/[0.05] border border-white/[0.08] flex items-center justify-center"
+                        className="relative w-16 h-16 rounded-full bg-white/[0.05] border border-white/[0.08] flex items-center justify-center"
                         animate={{
                           boxShadow: [
                             "0 0 0 0 rgba(255, 107, 53, 0)",
@@ -122,34 +122,34 @@ const LockedAndSecuredSection = () => {
                             ease: "easeInOut",
                           }}
                         >
-                          <Lock className="w-7 h-7 text-white/60" />
+                          <Lock className="w-8 h-8 text-white/60" />
                         </motion.div>
                       </motion.div>
                     </div>
 
                     {/* Main text */}
-                    <div className="text-center mb-6">
+                    <div className="text-center mb-7">
                       <div className="text-xs text-white/50 mb-1">
                         Funds Secured
                       </div>
-                      <div className="text-2xl font-bold text-white mb-1">
+                      <div className="text-3xl font-bold text-white mb-1">
                         5,000 USDT
                       </div>
-                      <div className="text-[10px] text-white/40">≈ $5,000.00</div>
+                      <div className="text-xs text-white/40">≈ $5,000.00</div>
                     </div>
 
                     {/* Status card */}
-                    <div className="rounded-xl bg-white/[0.02] border border-white/[0.06] p-3 mb-4">
-                      <div className="flex items-center justify-between mb-2">
+                    <div className="rounded-xl bg-white/[0.02] border border-white/[0.06] p-3.5 mb-5">
+                      <div className="flex items-center justify-between mb-3">
                         <span className="text-[10px] text-white/40">Status</span>
                         <div className="flex items-center gap-1.5">
-                          <div className="w-1 h-1 rounded-full bg-[#ff6b35]" />
+                          <div className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]" />
                           <span className="text-[10px] text-white/40 font-medium">
                             In Escrow
                           </span>
                         </div>
                       </div>
-                      <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center justify-between mb-3">
                         <span className="text-xs text-white/40">Contract</span>
                         <span className="text-xs text-white/60 font-mono">
                           0x7a2...f91
@@ -158,7 +158,7 @@ const LockedAndSecuredSection = () => {
                       <div className="flex items-center justify-between">
                         <span className="text-xs text-white/40">Network</span>
                         <div className="flex items-center gap-1.5">
-                          <div className="w-3 h-3 rounded-full bg-white/20" />
+                          <div className="w-3.5 h-3.5 rounded-full bg-white/20" />
                           <span className="text-xs text-white/60">Solana</span>
                         </div>
                       </div>
@@ -167,13 +167,13 @@ const LockedAndSecuredSection = () => {
                     <div className="flex-1" />
 
                     {/* Static button */}
-                    <div className="w-full py-2 rounded-full bg-white text-black font-bold text-sm text-center">
+                    <div className="w-full py-3 rounded-full bg-white text-black font-bold text-sm text-center">
                       Secured
                     </div>
 
                     {/* Home indicator */}
-                    <div className="flex justify-center pt-3">
-                      <div className="w-24 h-0.5 bg-white/30 rounded-full" />
+                    <div className="flex justify-center pt-3.5">
+                      <div className="w-28 h-1 bg-white/30 rounded-full" />
                     </div>
                   </div>
                 </div>
@@ -205,7 +205,7 @@ const LockedAndSecuredSection = () => {
           </div>
 
           {/* Heading */}
-          <h2 className="hidden lg:block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-black dark:text-white mb-6 sm:mb-8 leading-[1.1] tracking-tight">
+          <h2 className="hidden lg:block text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-black dark:text-white mb-6 sm:mb-8 leading-[1.1] tracking-tight">
             Locked &
             <br />
             <span className="text-black/20 dark:text-white/20">secured.</span>
