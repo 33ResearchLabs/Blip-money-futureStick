@@ -82,7 +82,7 @@ const CTASection = () => {
         >
           <span className="text-black dark:text-white">The future</span>
           <br />
-          <span className="text-black/40 dark:text-white/40">
+          <span className="text-black/80 dark:text-white/40">
             is borderless.
           </span>
         </motion.h2>
@@ -92,7 +92,7 @@ const CTASection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="text-base sm:text-lg text-black/40 dark:text-white/40 max-w-md mx-auto mb-8 sm:mb-12 px-4"
+          className="text-base sm:text-lg text-black dark:text-white/40 font-medium max-w-md mx-auto mb-8 sm:mb-12 px-4"
         >
           Join waitlist and be among the first.
         </motion.p>

@@ -57,7 +57,7 @@ const FeatureStrip = () => {
 
                 <MicroIcon icon={feature.icon} variant="glow" size={14} delay={i * 0.2} />
 
-                <span className="text-sm text-black/50 dark:text-white/50 font-light tracking-wide text-left hover:text-black dark:hover:text-white transition-colors">
+                <span className="text-sm text-black dark:text-white/50 font-medium tracking-wide text-left hover:text-black dark:hover:text-white transition-colors">
                   {feature.text}
                 </span>
               </motion.div>

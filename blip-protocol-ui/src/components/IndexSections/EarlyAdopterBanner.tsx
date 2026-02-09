@@ -94,7 +94,7 @@ const EarlyAdopterBanner = () => {
                 className="inline-flex items-center gap-3 px-4 py-2 rounded-full mb-8 bg-black/8 dark:bg-white/8 border border-black/15 dark:border-white/15"
               >
                 <motion.div className="w-2 h-2 rounded-full bg-[#ff6b35]" />
-                <span className="text-xs uppercase tracking-[0.2em] text-black/60 dark:text-white/60 font-medium">
+                <span className="text-xs uppercase tracking-[0.2em] text-black dark:text-white/60 font-medium">
                   Limited Time Offer
                 </span>
               </motion.div>
@@ -114,7 +114,7 @@ const EarlyAdopterBanner = () => {
                 </div>
               </div>
 
-              <p className="text-sm sm:text-base md:text-lg text-black/50 dark:text-white/50 max-w-lg mx-auto px-4">
+              <p className="text-sm sm:text-base md:text-lg text-black dark:text-white/50 max-w-lg mx-auto px-4">
                 Early supporters get rewarded. Connect your wallet and start
                 earning today.
               </p>
@@ -144,7 +144,7 @@ const EarlyAdopterBanner = () => {
                     <div className="text-xs sm:text-sm font-medium text-black dark:text-white mb-0.5 sm:mb-1">
                       {reward.label}
                     </div>
-                    <div className="text-[10px] sm:text-xs text-black/40 dark:text-white/40 hidden sm:block">
+                    <div className="text-[10px] sm:text-xs text-black dark:text-white/40 hidden sm:block">
                       {reward.desc}
                     </div>
                   </div>
@@ -171,7 +171,7 @@ const EarlyAdopterBanner = () => {
               </motion.div>
               <Link
                 to="/rewards"
-                className="text-sm text-black/50 dark:text-white/50 hover:text-black/80 dark:hover:text-white/80 transition-colors underline underline-offset-4"
+                className="text-sm text-black dark:text-white/50 hover:text-black/80 dark:hover:text-white/80 transition-colors underline underline-offset-4"
               >
                 View all rewards →
               </Link>
@@ -189,7 +189,7 @@ const EarlyAdopterBanner = () => {
                     <div className="text-xs sm:text-xl font-bold text-black dark:text-white">
                       {stat.value}
                     </div>
-                    <div className="text-[9px] sm:text-xs text-black/40 dark:text-white/40 uppercase tracking-wider">
+                    <div className="text-[9px] sm:text-xs text-black dark:text-white/40 uppercase tracking-wider">
                       {stat.label}
                     </div>
                   </div>

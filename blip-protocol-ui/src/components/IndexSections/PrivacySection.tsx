@@ -33,7 +33,7 @@ const PrivacySection = () => {
             className="flex items-center justify-center gap-2 sm:gap-3 mb-5 sm:mb-8"
           >
             <div className="h-px w-8 sm:w-12 bg-gradient-to-r from-transparent to-white/20" />
-            <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.3em] sm:tracking-[0.4em] text-black/30 dark:text-white/30 font-light">
+            <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.3em] sm:tracking-[0.4em] text-black dark:text-white/30 font-light">
               Privacy & Trust
             </span>
             <div className="h-px w-8 sm:w-12 bg-gradient-to-l from-transparent to-white/20" />
@@ -48,7 +48,7 @@ const PrivacySection = () => {
           >
             Your wallet.
             <br />
-            <span className="text-black/20 dark:text-white/20">Your identity.</span>
+            <span className="text-black dark:text-white/20">Your identity.</span>
           </motion.h2>
         </div>
 
@@ -73,7 +73,7 @@ const PrivacySection = () => {
               ].map((item, i) => (
                 <li
                   key={i}
-                  className="grid grid-cols-[6px_1fr] gap-3 text-sm text-black/40 dark:text-white/40"
+                  className="grid grid-cols-[6px_1fr] gap-3 text-sm text-black dark:text-white/40"
                 >
                   <div className="w-1 h-1 rounded-full bg-black/30 dark:bg-white/30 mt-2" />
                   <span>{item}</span>
@@ -101,7 +101,7 @@ const PrivacySection = () => {
               ].map((item, i) => (
                 <li
                   key={i}
-                  className="grid grid-cols-[6px_1fr] gap-3 text-sm text-black/40 dark:text-white/40"
+                  className="grid grid-cols-[6px_1fr] gap-3 text-sm text-black dark:text-white/40"
                 >
                   <div className="w-1 h-1 rounded-full bg-black/30 dark:bg-white/30 mt-2" />
                   <span>{item}</span>

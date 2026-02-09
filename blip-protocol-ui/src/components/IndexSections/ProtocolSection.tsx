@@ -59,7 +59,7 @@ const ProtocolSection = () => {
             }}
           >
             <motion.span className="w-2 h-2 rounded-full bg-[#ff6b35]" />
-            <span className="text-[11px] uppercase tracking-[0.3em] text-black/60 dark:text-white/60">
+            <span className="text-[11px] uppercase tracking-[0.3em] text-black dark:text-white/60">
               The Protocol
             </span>
           </motion.div>
@@ -79,7 +79,7 @@ const ProtocolSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="text-lg md:text-xl text-black/40 dark:text-white/40 max-w-2xl mx-auto leading-relaxed font-light"
+            className="text-lg md:text-xl text-black dark:text-white/40 max-w-2xl mx-auto leading-relaxed font-medium"
           >
             A decentralized settlement layer for instant, private, global value
             transfer.
@@ -105,7 +105,7 @@ const ProtocolSection = () => {
                     strokeWidth="1.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="text-black/40 dark:text-white/40 group-hover:text-black/60 group-hover:dark:text-white/60 transition-colors"
+                    className="text-black dark:text-white/40 group-hover:text-black/60 group-hover:dark:text-white/60 transition-colors"
                   />
                   <circle
                     cx="12"
@@ -113,7 +113,7 @@ const ProtocolSection = () => {
                     r="3"
                     stroke="currentColor"
                     strokeWidth="1.5"
-                    className="text-black/40 dark:text-white/40 group-hover:text-black/60 group-hover:dark:text-white/60 transition-colors"
+                    className="text-black dark:text-white/40 group-hover:text-black/60 group-hover:dark:text-white/60 transition-colors"
                   />
                 </svg>
               ),
@@ -134,7 +134,7 @@ const ProtocolSection = () => {
                     strokeWidth="1.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="text-black/40 dark:text-white/40 group-hover:text-black/60 group-hover:dark:text-white/60 transition-colors"
+                    className="text-black dark:text-white/40 group-hover:text-black/60 group-hover:dark:text-white/60 transition-colors"
                   />
                 </svg>
               ),
@@ -154,7 +154,7 @@ const ProtocolSection = () => {
                     stroke="currentColor"
                     strokeWidth="1.5"
                     strokeLinecap="round"
-                    className="text-black/40 dark:text-white/40 group-hover:text-black/60 group-hover:dark:text-white/60 transition-colors"
+                    className="text-black dark:text-white/40 group-hover:text-black/60 group-hover:dark:text-white/60 transition-colors"
                   />
                 </svg>
               ),
@@ -182,7 +182,7 @@ const ProtocolSection = () => {
                 </h3>
               </div>
 
-              <p className="text-sm text-black/30 dark:text-white/30 group-hover:text-black/50 group-hover:dark:text-white/50 transition-colors">
+              <p className="text-sm text-black dark:text-white/30 group-hover:text-black/50 group-hover:dark:text-white/50 transition-colors">
                 {item.desc}
               </p>
             </motion.div>

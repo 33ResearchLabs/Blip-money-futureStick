@@ -42,6 +42,8 @@ const Cookies = lazy(() => import("./components/Cookies"));
 const Gdpr = lazy(() => import("./components/Gdpr"));
 const TwoFactorAuth = lazy(() => import("./components/TwoFactorAuth"));
 const Merchant = lazy(() => import("./pages/Merchant"));
+const Blog = lazy(() => import("./pages/Blog"));
+const BlogArticle = lazy(() => import("./pages/BlogArticle"));
 
 const queryClient = new QueryClient();
 
@@ -88,6 +90,8 @@ const App = () => (
                     <Route path="/gdpr" element={<Gdpr />} />
                     <Route path="/twoFactorAuth" element={<TwoFactorAuth />} />
                     <Route path="/cryptoToAed" element={<CryptoToUae />} />
+                    <Route path="/blog" element={<Blog />} />
+                    <Route path="/blog/:slug" element={<BlogArticle />} />
                     <Route path="/waitlist" element={<AirdropLogin initialView="waitlist" />} />
                     <Route
                       path="/join-waitlist"

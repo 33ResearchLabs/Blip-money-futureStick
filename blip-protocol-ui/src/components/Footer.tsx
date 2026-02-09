@@ -167,6 +167,9 @@ export const Footer = () => {
               </a>
             </li>
             <li>
+              <FooterLink to="/blog">Blog</FooterLink>
+            </li>
+            <li>
               <FooterLink to="/contact">Contact</FooterLink>
             </li>
           </FooterColumn>

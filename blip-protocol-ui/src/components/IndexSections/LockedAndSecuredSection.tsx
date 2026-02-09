@@ -29,11 +29,11 @@ const LockedAndSecuredSection = () => {
           <div className="inline-flex items-center gap-3 mb-6">
             <div className="relative w-10 h-10 rounded-lg border border-black/[0.08] dark:border-white/[0.08] flex items-center justify-center group hover:border-black/20 dark:hover:border-white/20 transition-colors">
               <Lock
-                className="w-4 h-4 text-black/40 dark:text-white/40 group-hover:text-[#ff6b35] transition-colors"
+                className="w-4 h-4 text-black dark:text-white/40 group-hover:text-[#ff6b35] transition-colors"
                 strokeWidth={1.5}
               />
               <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-black border border-black/10 dark:border-white/10 flex items-center justify-center">
-                <span className="text-[10px] font-medium text-black/50 dark:text-white/50">2</span>
+                <span className="text-[10px] font-medium text-black dark:text-white/50">2</span>
               </div>
             </div>
             <span className="text-lg font-semibold text-black dark:text-white">Escrow</span>
@@ -43,7 +43,7 @@ const LockedAndSecuredSection = () => {
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-black dark:text-white mb-4 sm:mb-6 leading-[1.1] tracking-tight">
             Locked &
             <br />
-            <span className="text-black/20 dark:text-white/20">secured.</span>
+            <span className="text-black dark:text-white/20">secured.</span>
           </h2>
         </div>
 
@@ -194,11 +194,11 @@ const LockedAndSecuredSection = () => {
           <div className="hidden lg:inline-flex items-center gap-3 mb-6">
             <div className="relative w-10 h-10 rounded-lg border border-black/[0.08] dark:border-white/[0.08] flex items-center justify-center group hover:border-black/20 dark:hover:border-white/20 transition-colors">
               <Lock
-                className="w-4 h-4 text-black/40 dark:text-white/40 group-hover:text-[#ff6b35] transition-colors"
+                className="w-4 h-4 text-black dark:text-white/40 group-hover:text-[#ff6b35] transition-colors"
                 strokeWidth={1.5}
               />
               <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-black border border-black/10 dark:border-white/10 flex items-center justify-center">
-                <span className="text-[10px] font-medium text-black/50 dark:text-white/50">2</span>
+                <span className="text-[10px] font-medium text-black dark:text-white/50">2</span>
               </div>
             </div>
             <span className="text-lg font-semibold text-black dark:text-white">Escrow</span>
@@ -208,11 +208,11 @@ const LockedAndSecuredSection = () => {
           <h2 className="hidden lg:block text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-black dark:text-white mb-6 sm:mb-8 leading-[1.1] tracking-tight">
             Locked &
             <br />
-            <span className="text-black/20 dark:text-white/20">secured.</span>
+            <span className="text-black dark:text-white/20">secured.</span>
           </h2>
 
           {/* Description */}
-          <p className="text-black/50 dark:text-white/50 text-lg sm:text-xl lg:text-2xl mb-10 leading-relaxed max-w-xl mx-auto lg:mx-0">
+          <p className="text-black dark:text-white/50 font-medium text-lg sm:text-xl lg:text-2xl mb-10 leading-relaxed max-w-xl mx-auto lg:mx-0">
             Funds locked in smart contract. Protected by DAO escrow. Your crypto
             stays safe until the transaction completes.
           </p>
@@ -251,7 +251,7 @@ const LockedAndSecuredSection = () => {
                   <div className="text-black dark:text-white text-left text-lg font-medium">
                     {feature.label}
                   </div>
-                  <div className="text-black/40 dark:text-white/40 text-base">{feature.desc}</div>
+                  <div className="text-black dark:text-white/40 text-base">{feature.desc}</div>
                 </div>
               </motion.div>
             ))}

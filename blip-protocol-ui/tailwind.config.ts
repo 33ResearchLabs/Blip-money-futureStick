@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 import animatePlugin from "tailwindcss-animate";
+import typographyPlugin from "@tailwindcss/typography";
 
 const config: Config = {
   darkMode: ["class"],
@@ -79,20 +80,15 @@ const config: Config = {
       },
       fontFamily: {
         sans: [
+          'Inter',
           '-apple-system',
           'BlinkMacSystemFont',
-          '"SF Pro Text"',
-          '"Inter"',
           '"Segoe UI"',
-          'Roboto',
           'system-ui',
           'sans-serif',
         ],
         display: [
-          '-apple-system',
-          'BlinkMacSystemFont',
-          '"SF Pro Display"',
-          '"Inter"',
+          'Inter',
           'system-ui',
           'sans-serif',
         ],
@@ -247,7 +243,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [animatePlugin],
+  plugins: [animatePlugin, typographyPlugin],
 };
 
 export default config;

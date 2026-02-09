@@ -71,14 +71,14 @@ const ProblemSection = () => {
           >
             Global payments
             <br />
-            <span className="text-black/20 dark:text-white/20">are broken.</span>
+            <span className="text-black dark:text-white/20">are broken.</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-xl md:text-2xl text-black/40 dark:text-white/40 max-w-xl mx-auto"
+            className="text-xl md:text-2xl text-black dark:text-white/40 font-medium max-w-xl mx-auto"
           >
             The traditional financial system was built for a different era. It's
             time for something better.
@@ -88,7 +88,7 @@ const ProblemSection = () => {
         {/* Interactive Timeline */}
         <div className="relative">
           {/* Central timeline line - static background */}
-          <div className="absolute left-8 md:left-1/2 md:-translate-x-px top-0 bottom-0 w-[2px] bg-gradient-to-b from-white/[0.06] via-white/20 to-white/[0.06]" />
+          <div className="absolute left-8 md:left-1/2 md:-translate-x-px top-0 bottom-0 w-[2px] bg-gradient-to-b from-black/[0.06] via-black/20 to-black/[0.06] dark:from-white/[0.06] dark:via-white/20 dark:to-white/[0.06]" />
 
           {/* Moving line following from top to bottom */}
           <motion.div
@@ -146,7 +146,7 @@ const ProblemSection = () => {
                     className={`inline-block p-6 rounded-2xl border ${problem.highlight ? "bg-black/[0.06] dark:bg-white/[0.06] border-black dark:border-white" : "bg-black/[0.02] dark:bg-white/[0.02] border-black/20 dark:border-white/20"}`}
                   >
                     <div
-                      className={`text-[10px] uppercase tracking-[0.3em] ${problem.highlight ? "text-black/60 dark:text-white/60" : "text-black/40 dark:text-white/40"} font-medium mb-2`}
+                      className={`text-[10px] uppercase tracking-[0.3em] ${problem.highlight ? "text-black dark:text-white/60" : "text-black dark:text-white/40"} font-semibold mb-2`}
                     >
                       {problem.year}
                     </div>
@@ -155,7 +155,7 @@ const ProblemSection = () => {
                     >
                       {problem.title}
                     </h3>
-                    <p className="text-base md:text-lg text-black/50 dark:text-white/50 mb-4 leading-relaxed max-w-sm">
+                    <p className="text-base md:text-lg text-black dark:text-white/50 font-medium mb-4 leading-relaxed max-w-sm">
                       {problem.desc}
                     </p>
                     <div className="flex items-baseline gap-2">
@@ -164,7 +164,7 @@ const ProblemSection = () => {
                       >
                         {problem.stat}
                       </span>
-                      <span className="text-xs text-black/30 dark:text-white/30">
+                      <span className="text-xs text-black dark:text-white/30 font-medium">
                         {problem.statLabel}
                       </span>
                     </div>

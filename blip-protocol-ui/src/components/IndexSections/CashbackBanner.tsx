@@ -85,13 +85,13 @@ const CashbackBanner = () => {
                     ease: "easeInOut",
                   }}
                 >
-                  <span className="text-lg font-bold text-black/60 dark:text-white/60">%</span>
+                  <span className="text-lg font-bold text-black dark:text-white/60">%</span>
                 </motion.div>
                 <div>
-                  <span className="text-[10px] uppercase tracking-[0.3em] text-black/60 dark:text-white/60 block">
+                  <span className="text-[10px] uppercase tracking-[0.3em] text-black dark:text-white/60 block">
                     Early Access
                   </span>
-                  <span className="text-xs text-black/40 dark:text-white/40">
+                  <span className="text-xs text-black dark:text-white/40">
                     Limited spots available
                   </span>
                 </div>
@@ -100,7 +100,7 @@ const CashbackBanner = () => {
               <h3 className="text-3xl md:text-4xl font-bold text-black dark:text-white mb-4 tracking-tight">
                 Earn while you{" "}
                 <span className="relative">
-                  <span className="relative z-10 text-black/60 dark:text-white/60">spend.</span>
+                  <span className="relative z-10 text-black dark:text-white/60">spend.</span>
                   <motion.span
                     className="absolute bottom-1 left-0 right-0 h-3 bg-black/10 dark:bg-white/10 rounded-sm -z-0"
                     initial={{ scaleX: 0 }}
@@ -111,7 +111,7 @@ const CashbackBanner = () => {
                 </span>
               </h3>
 
-              <p className="text-black/50 dark:text-white/50 text-base max-w-md mb-6 leading-relaxed">
+              <p className="text-black dark:text-white/50 text-base max-w-md mb-6 leading-relaxed">
                 Up to{" "}
                 <span className="text-black dark:text-white font-semibold">
                   5% cashback
@@ -137,7 +137,7 @@ const CashbackBanner = () => {
                     <div className="text-xl font-bold text-black dark:text-white">
                       {stat.value}
                     </div>
-                    <div className="text-[10px] text-black/30 dark:text-white/30 uppercase tracking-wider">
+                    <div className="text-[10px] text-black dark:text-white/30 uppercase tracking-wider">
                       {stat.label}
                     </div>
                   </motion.div>

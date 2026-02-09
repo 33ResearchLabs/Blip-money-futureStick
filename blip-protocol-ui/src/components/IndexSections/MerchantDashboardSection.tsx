@@ -264,7 +264,7 @@ export const MerchantDashboardSection = () => {
             className="flex items-center justify-center gap-3 mb-8"
           >
             <div className="h-px w-12 bg-gradient-to-r from-transparent to-white/20" />
-            <span className="text-[11px] uppercase tracking-[0.4em] text-black/30 dark:text-white/30 font-light">
+            <span className="text-[11px] uppercase tracking-[0.4em] text-black dark:text-white/30 font-light">
               For Merchants
             </span>
             <div className="h-px w-12 bg-gradient-to-l from-transparent to-white/20" />
@@ -279,7 +279,7 @@ export const MerchantDashboardSection = () => {
           >
             Live matching.
             <br />
-            <span className="text-black/20 dark:text-white/20">Instant profits.</span>
+            <span className="text-black dark:text-white/20">Instant profits.</span>
           </motion.h2>
 
           <motion.p
@@ -287,7 +287,7 @@ export const MerchantDashboardSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="md:text-lg text-base text-black/40 dark:text-white/40 max-w-2xl md:mx-auto mx-4"
+            className="md:text-lg text-base text-black dark:text-white/40 max-w-2xl md:mx-auto mx-4"
           >
             Real-time order matching. Set your rates. Accept orders. Get paid
             instantly. No custody, no risk.
@@ -326,7 +326,7 @@ export const MerchantDashboardSection = () => {
               <h3 className="text-base font-medium text-black dark:text-white mb-2">
                 {feature.title}
               </h3>
-              <p className="text-sm text-black/40 dark:text-white/40">{feature.desc}</p>
+              <p className="text-sm text-black dark:text-white/40">{feature.desc}</p>
             </div>
           ))}
         </motion.div>

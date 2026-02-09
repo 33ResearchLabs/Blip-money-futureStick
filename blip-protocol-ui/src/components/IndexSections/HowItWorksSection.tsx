@@ -39,28 +39,28 @@ const HowItWorksSection = () => {
               <Header className="text-xl w-28" />
             </div>
             <div className="w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center">
-              <User className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-black/40 dark:text-white/40" />
+              <User className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-black dark:text-white/40" />
             </div>
           </div>
           <div className="flex-1 flex flex-col items-center justify-center min-h-0">
-            <span className="text-[10px] sm:text-xs text-black/40 dark:text-white/40 uppercase tracking-wider mb-2">
+            <span className="text-[10px] sm:text-xs text-black dark:text-white/40 uppercase tracking-wider mb-2">
               You send
             </span>
             <div className="flex items-baseline gap-1.5 mb-4">
               <span className="text-3xl sm:text-4xl font-bold text-black dark:text-white">
                 500
               </span>
-              <span className="text-sm sm:text-base text-black/50 dark:text-white/50">USDT</span>
+              <span className="text-sm sm:text-base text-black dark:text-white/50">USDT</span>
             </div>
             <div className="w-full px-3 py-3 rounded-xl bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] text-center mb-2">
-              <span className="text-[10px] text-black/30 dark:text-white/30 block mb-0.5">
+              <span className="text-[10px] text-black dark:text-white/30 block mb-0.5">
                 Recipient gets
               </span>
               <span className="text-sm sm:text-base text-black dark:text-white font-medium">
                 1,835 AED
               </span>
             </div>
-            <div className="flex items-center gap-1.5 text-[10px] sm:text-xs text-black/30 dark:text-white/30">
+            <div className="flex items-center gap-1.5 text-[10px] sm:text-xs text-black dark:text-white/30">
               <Check className="w-2.5 sm:w-3 h-2.5 sm:h-3 text-emerald-400" />
               <span>Best rate locked</span>
             </div>
@@ -87,7 +87,7 @@ const HowItWorksSection = () => {
             </span>
             <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-black/10 dark:bg-white/10">
               <div className="w-1.5 h-1.5 rounded-full bg-black/60 dark:bg-white/60" />
-              <span className="text-[8px] sm:text-[10px] text-black/60 dark:text-white/60 font-medium">
+              <span className="text-[8px] sm:text-[10px] text-black dark:text-white/60 font-medium">
                 LIVE
               </span>
             </div>
@@ -131,14 +131,14 @@ const HowItWorksSection = () => {
                       {bid.best ? (
                         <CheckCircle2 className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-black dark:text-white" />
                       ) : (
-                        <Building2 className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-black/40 dark:text-white/40" />
+                        <Building2 className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-black dark:text-white/40" />
                       )}
                     </div>
                     <div>
                       <span className="text-xs sm:text-sm font-semibold text-black dark:text-white block">
                         {bid.rate} AED
                       </span>
-                      <span className="text-[8px] sm:text-[10px] text-black/30 dark:text-white/30">
+                      <span className="text-[8px] sm:text-[10px] text-black dark:text-white/30">
                         {bid.merchant}
                       </span>
                     </div>
@@ -153,7 +153,7 @@ const HowItWorksSection = () => {
           <div className="mt-3 p-2.5 rounded-lg bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.04] dark:border-white/[0.04] flex-shrink-0">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full border-2 border-black/30 dark:border-white/30 border-t-white/60" />
-              <span className="text-[10px] sm:text-xs text-black/40 dark:text-white/40">
+              <span className="text-[10px] sm:text-xs text-black dark:text-white/40">
                 Auto-selecting best rate...
               </span>
             </div>
@@ -179,7 +179,7 @@ const HowItWorksSection = () => {
               </span>
             </div>
             <div className="px-2 py-0.5 rounded-full flex justify-normal bg-black/[0.05] dark:bg-white/[0.05]">
-              <span className="text-[8px] sm:text-[10px] text-black/60 dark:text-white/60 font-medium">
+              <span className="text-[8px] sm:text-[10px] text-black dark:text-white/60 font-medium">
                 Mainnet
               </span>
             </div>
@@ -200,7 +200,7 @@ const HowItWorksSection = () => {
                 className="p-2.5 sm:p-3 rounded-lg md:rounded-xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.04] dark:border-white/[0.04]"
               >
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-[8px] sm:text-[10px] md:text-xs text-black/40 dark:text-white/40 font-mono">
+                  <span className="text-[8px] sm:text-[10px] md:text-xs text-black dark:text-white/40 font-mono">
                     {tx.id}...
                   </span>
                   <div className="flex items-center gap-1 md:gap-1.5 px-1.5 md:px-2 lg:px-2.5 py-0.5 rounded md:rounded-md bg-emerald-500/10">
@@ -226,7 +226,7 @@ const HowItWorksSection = () => {
             <div className="flex items-center justify-center gap-2">
               {/* <div className="w-3 h-3 rounded-full border-2 border-black/30 dark:border-white/30 border-t-white/60" /> */}
               <div className="w-1.5 md:w-2 h-1.5 md:h-2 rounded-full bg-emerald-400" />
-              <span className="text-[10px] sm:text-xs text-black/40 dark:text-white/40">
+              <span className="text-[10px] sm:text-xs text-black dark:text-white/40">
                  Connected to Solana
               </span>
             </div>
@@ -268,7 +268,7 @@ const HowItWorksSection = () => {
             className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] mb-4"
           >
             <div className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]" />
-            <span className="text-[10px] text-black/50 dark:text-white/50 uppercase tracking-wider">
+            <span className="text-[10px] text-black dark:text-white/50 uppercase tracking-wider">
               How it works
             </span>
           </motion.div>
@@ -281,14 +281,14 @@ const HowItWorksSection = () => {
           >
             Three steps.
             <br />
-            <span className="text-black/40 dark:text-white/40">Zero friction.</span>
+            <span className="text-black dark:text-white/40">Zero friction.</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.1 }}
-            className="text-sm md:text-base text-black/40 dark:text-white/40 max-w-2xl mx-auto px-2"
+            className="text-sm md:text-base text-black dark:text-white/40 font-medium max-w-2xl mx-auto px-2"
           >
             From crypto to cash in under 2 seconds. No banks, no delays, no
             complexity.
@@ -372,7 +372,7 @@ const HowItWorksSection = () => {
                     className={`flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-md sm:rounded-lg lg:rounded-xl flex items-center justify-center font-mono font-bold text-xs sm:text-sm lg:text-base transition-all duration-300 ${
                       activeStep === i
                         ? "bg-black dark:bg-white text-white dark:text-black"
-                        : "bg-black/5 dark:bg-white/5 text-black/40 dark:text-white/40 group-hover:bg-black/10 group-hover:dark:bg-white/10 group-hover:text-black/60 group-hover:dark:text-white/60"
+                        : "bg-black/5 dark:bg-white/5 text-black dark:text-white/40 group-hover:bg-black/10 group-hover:dark:bg-white/10 group-hover:text-black/60 group-hover:dark:text-white/60"
                     }`}
                   >
                     {step.num}
@@ -386,7 +386,7 @@ const HowItWorksSection = () => {
                         className={`text-sm sm:text-base lg:text-lg font-semibold transition-colors ${
                           activeStep === i
                             ? "text-black dark:text-white"
-                            : "text-black/60 dark:text-white/60 group-hover:text-black/80 group-hover:dark:text-white/80"
+                            : "text-black dark:text-white/60 group-hover:text-black/80 group-hover:dark:text-white/80"
                         }`}
                       >
                         {step.title}
@@ -395,13 +395,13 @@ const HowItWorksSection = () => {
                     <p
                       className={`text-[11px] sm:text-xs lg:text-sm leading-relaxed transition-colors ${
                         activeStep === i
-                          ? "text-black/50 dark:text-white/50"
-                          : "text-black/30 dark:text-white/30 group-hover:text-black/40 group-hover:dark:text-white/40"
+                          ? "text-black dark:text-white/50"
+                          : "text-black dark:text-white/30 group-hover:text-black/40 group-hover:dark:text-white/40"
                       }`}
                     >
                       {step.desc}
                     </p>
-                    <div className="mt-1.5 sm:mt-2 text-[9px] sm:text-[10px] lg:text-xs text-black/30 dark:text-white/30">
+                    <div className="mt-1.5 sm:mt-2 text-[9px] sm:text-[10px] lg:text-xs text-black dark:text-white/30">
                       {step.app}
                     </div>
                   </div>

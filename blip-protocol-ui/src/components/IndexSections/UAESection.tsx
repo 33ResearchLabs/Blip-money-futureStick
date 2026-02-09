@@ -120,7 +120,7 @@
 //             className="w-2 h-2 rounded-full bg-[#ff6b35]"
            
 //           />
-//           <span className="text-[13px] text-black/70 dark:text-white/70 font-medium tracking-wide">
+//           <span className="text-[13px] text-black dark:text-white/70 font-medium tracking-wide">
 //             Launching 2026{" "}
 //           </span>
 //         </motion.div>
@@ -144,7 +144,7 @@
 //             viewport={{ once: true }}
 //             transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
 //           >
-//             <span className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-semibold text-black/15 dark:text-white/15 tracking-tight">
+//             <span className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-semibold text-black dark:text-white/15 tracking-tight">
 //               is next.
 //             </span>
 //           </motion.div>
@@ -156,7 +156,7 @@
 //           whileInView={{ opacity: 1, y: 0 }}
 //           viewport={{ once: true }}
 //           transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-//           className="text-lg md:text-xl text-black/40 dark:text-white/40 max-w-2xl mx-auto leading-relaxed font-light mb-12"
+//           className="text-lg md:text-xl text-black dark:text-white/40 max-w-2xl mx-auto leading-relaxed font-light mb-12"
 //         >
 //           The world's fastest-growing financial hub meets the future of
 //           payments.
@@ -188,7 +188,7 @@
 //               <div className="text-xl sm:text-2xl md:text-3xl font-semibold text-black dark:text-white mb-1">
 //                 {stat.value}
 //               </div>
-//               <div className="text-[9px] sm:text-[11px] uppercase tracking-[0.15em] sm:tracking-[0.2em] text-black/30 dark:text-white/30">
+//               <div className="text-[9px] sm:text-[11px] uppercase tracking-[0.15em] sm:tracking-[0.2em] text-black dark:text-white/30">
 //                 {stat.label}
 //               </div>
 //             </motion.div>
@@ -323,7 +323,7 @@ const UAESection = () => {
           }}
         >
           <span className="w-2 h-2 rounded-full bg-[#ff6b35]" />
-          <span className="text-xs text-black/70 dark:text-white/70 tracking-wide">
+          <span className="text-xs text-black dark:text-white/70 tracking-wide">
             Launching 2026
           </span>
         </motion.div>
@@ -332,12 +332,12 @@ const UAESection = () => {
         <h2 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-semibold tracking-tight text-black dark:text-white leading-[0.9]">
           Dubai
         </h2>
-        <span className="block text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-semibold text-black/40 dark:text-white/40">
+        <span className="block text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-semibold text-black dark:text-white/40">
           is next.
         </span>
 
         {/* Subtext */}
-        <p className="mt-8 text-lg md:text-xl text-black/40 dark:text-white/40 max-w-2xl mx-auto">
+        <p className="mt-8 text-lg md:text-xl text-black dark:text-white/40 font-medium max-w-2xl mx-auto">
           The world's fastest-growing financial hub meets the future of payments.
           <br className="hidden md:block" />
           Private. Instant. Non-custodial.
@@ -354,7 +354,7 @@ const UAESection = () => {
               <div className="text-2xl md:text-3xl font-semibold text-black dark:text-white">
                 {stat.value}
               </div>
-              <div className="text-[10px] tracking-widest text-black/30 dark:text-white/30 uppercase">
+              <div className="text-[10px] tracking-widest text-black dark:text-white/30 font-medium uppercase">
                 {stat.label}
               </div>
             </div>

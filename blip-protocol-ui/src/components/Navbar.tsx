@@ -232,6 +232,7 @@ const MobileMenu = ({
     { to: "/rewards", label: t("rewards") },
     { to: "/tokenomics", label: t("tokenomics") },
     { to: "/merchant", label: "Merchant" },
+    { to: "/blog", label: "Blog" },
   ];
 
   return (
@@ -430,6 +431,7 @@ export const Navbar = () => {
               <NavItem to="/rewards">{t("rewards")}</NavItem>
               <NavItem to="/tokenomics">{t("tokenomics")}</NavItem>
               <NavItem to="/merchant">{t("Merchant")}</NavItem>
+              <NavItem to="/blog">Blog</NavItem>
             </div>
 
             {/* Desktop CTA */}

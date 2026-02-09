@@ -65,7 +65,7 @@ const CinematicHero = () => {
           transition={{ duration: 0.8, delay: 0.1 }}
           className="mb-8"
         >
-          <span className="text-[11px] uppercase tracking-[0.3em] text-black/30 dark:text-white/30 font-light">
+          <span className="text-[11px] uppercase tracking-[0.3em] text-black dark:text-white/30 font-semibold">
             The settlement protocol
           </span>
         </motion.div>
@@ -79,7 +79,7 @@ const CinematicHero = () => {
         >
           Send money
           <br />
-          <span className="text-black/20 dark:text-white/20">anywhere.</span>
+          <span className="text-black/80 dark:bg-gradient-to-r dark:from-white/50 dark:via-white/35 dark:to-white/50 dark:bg-clip-text dark:text-transparent">anywhere.</span>
         </motion.h1>
 
         {/* Subtext */}
@@ -87,7 +87,7 @@ const CinematicHero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-black/40 dark:text-white/40 text-base sm:text-lg max-w-md mx-auto mb-12 leading-relaxed"
+          className="text-black dark:text-white/40 text-base sm:text-lg font-medium max-w-md mx-auto mb-12 leading-relaxed"
         >
           Fast, borderless transfers on Solana.
           <br className="hidden sm:block" />
@@ -113,7 +113,7 @@ const CinematicHero = () => {
                   {stat.value}
                 </div>
               </div>
-              <div className="text-[10px] text-black/30 dark:text-white/30 uppercase tracking-[0.2em] mt-1">
+              <div className="text-[10px] text-black dark:text-white/30 uppercase tracking-[0.2em] font-semibold mt-1">
                 {stat.label}
               </div>
             </div>

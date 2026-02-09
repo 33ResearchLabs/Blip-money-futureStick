@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=SF+Pro+Display:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -19,9 +19,9 @@
 
   /* Light Mode - Text Colors */
   --text-primary: #000000;
-  --text-secondary: #666666;
-  --text-tertiary: #999999;
-  --text-muted: #bbbbbb;
+  --text-secondary: #444444;
+  --text-tertiary: #666666;
+  --text-muted: #888888;
 
   /* Light Mode - Accent */
   --accent-primary: #000000;
@@ -176,13 +176,13 @@
   }
 
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Segoe UI', 'Roboto', system-ui, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
     background: var(--bg-primary);
     color: var(--text-primary);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
-    letter-spacing: -0.003em;
+    letter-spacing: -0.011em;
     /* Smooth momentum scrolling on iOS */
     -webkit-overflow-scrolling: touch;
   }
@@ -257,44 +257,44 @@
     text-wrap: balance;
   }
 
-  /* Headings - Clean, Apple-like, minimal */
+  /* Headings - Huly-style, clean & geometric */
   .heading-xl {
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, sans-serif;
-    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(3rem, 8vw, 7rem);
     font-weight: 600;
-    letter-spacing: -0.022em;
-    line-height: 1.05;
+    letter-spacing: -0.025em;
+    line-height: 0.95;
   }
 
   .heading-lg {
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, sans-serif;
-    font-size: clamp(2.25rem, 5vw, 4.5rem);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 600;
+    letter-spacing: -0.022em;
+    line-height: 1;
+  }
+
+  .heading-md {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
     font-weight: 600;
     letter-spacing: -0.019em;
     line-height: 1.1;
   }
 
-  .heading-md {
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, sans-serif;
-    font-size: clamp(1.75rem, 3.5vw, 3rem);
+  .heading-sm {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(1.5rem, 2.5vw, 2.25rem);
     font-weight: 600;
     letter-spacing: -0.015em;
     line-height: 1.15;
-  }
-
-  .heading-sm {
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif;
-    font-size: clamp(1.375rem, 2.5vw, 2rem);
-    font-weight: 600;
-    letter-spacing: -0.011em;
-    line-height: 1.2;
   }
 
   .body-lg {
     font-size: 1.25rem;
     line-height: 1.6;
     font-weight: 400;
-    letter-spacing: -0.003em;
+    letter-spacing: -0.011em;
     color: var(--text-secondary);
   }
 

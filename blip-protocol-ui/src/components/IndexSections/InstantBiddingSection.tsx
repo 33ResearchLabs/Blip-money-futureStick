@@ -46,11 +46,11 @@ const InstantBiddingSection = () => {
           <div className="inline-flex items-center gap-3 mb-4 sm:mb-6">
             <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-lg border border-black/[0.08] dark:border-white/[0.08] flex items-center justify-center group hover:border-black/20 hover:dark:border-white/20 transition-colors">
               <Zap
-                className="w-4 h-4 sm:w-5 sm:h-5 text-black/40 dark:text-white/40 group-hover:text-black/60 group-hover:dark:text-white/60 transition-colors"
+                className="w-4 h-4 sm:w-5 sm:h-5 text-black dark:text-white/40 group-hover:text-black/60 group-hover:dark:text-white/60 transition-colors"
                 strokeWidth={1.5}
               />
               <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-black border border-black/10 dark:border-white/10 flex items-center justify-center">
-                <span className="text-[10px] font-medium text-black/50 dark:text-white/50">3</span>
+                <span className="text-[10px] font-medium text-black dark:text-white/50">3</span>
               </div>
             </div>
             <span className="text-lg sm:text-xl font-semibold text-black dark:text-white">
@@ -58,9 +58,9 @@ const InstantBiddingSection = () => {
             </span>
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black dark:text-white mb-2 sm:mb-4 tracking-tight">
-            Instant <span className="text-black/20 dark:text-white/20">bidding.</span>
+            Instant <span className="text-black dark:text-white/20">bidding.</span>
           </h2>
-          <p className="text-black/50 dark:text-white/50 text-sm sm:text-base lg:text-lg max-w-2xl mx-auto hidden sm:block">
+          <p className="text-black dark:text-white/50 font-medium text-sm sm:text-base lg:text-lg max-w-2xl mx-auto hidden sm:block">
             Merchants compete in real-time to fulfill your order. Best rate wins
             automatically.
           </p>
@@ -80,7 +80,7 @@ const InstantBiddingSection = () => {
               animate={{ scale: [1, 1.3, 1], opacity: [1, 0.6, 1] }}
               transition={{ duration: 1.5, repeat: Infinity }}
             />
-            <span className="text-[10px] sm:text-xs text-black/50 dark:text-white/50">
+            <span className="text-[10px] sm:text-xs text-black dark:text-white/50">
               Powered by
             </span>
             <span className="text-[10px] sm:text-xs font-semibold text-black dark:text-white">
@@ -153,9 +153,9 @@ const InstantBiddingSection = () => {
               <div className="flex-1 flex justify-center">
                 <div className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] w-full max-w-[200px] sm:max-w-[300px] md:max-w-[400px]">
                   <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center shrink-0">
-                    <Lock className="w-2 h-2 sm:w-2.5 sm:h-2.5 text-black/40 dark:text-white/40" />
+                    <Lock className="w-2 h-2 sm:w-2.5 sm:h-2.5 text-black dark:text-white/40" />
                   </div>
-                  <span className="text-[10px] sm:text-sm text-black/40 dark:text-white/40 font-mono truncate">
+                  <span className="text-[10px] sm:text-sm text-black dark:text-white/40 font-mono truncate">
                     settle.blipprotocol.com/merchant
                   </span>
                   <div className="hidden sm:flex items-center gap-1.5 ml-auto shrink-0">
@@ -164,7 +164,7 @@ const InstantBiddingSection = () => {
                       animate={{ opacity: [1, 0.5, 1] }}
                       transition={{ duration: 1.5, repeat: Infinity }}
                     />
-                    <span className="text-[10px] text-black/60 dark:text-white/60 font-medium">
+                    <span className="text-[10px] text-black dark:text-white/60 font-medium">
                       LIVE
                     </span>
                   </div>
@@ -184,7 +184,7 @@ const InstantBiddingSection = () => {
                 <div className="lg:col-span-5">
                   <div className="rounded-xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.06] dark:border-white/[0.06] p-5 mb-4">
                     <div className="flex items-center justify-between mb-4">
-                      <span className="text-xs uppercase tracking-wider text-black/40 dark:text-white/40">
+                      <span className="text-xs uppercase tracking-wider text-black dark:text-white/40">
                         Active Order
                       </span>
                       <motion.div
@@ -192,7 +192,7 @@ const InstantBiddingSection = () => {
                         animate={{ opacity: [1, 0.7, 1] }}
                         transition={{ duration: 2, repeat: Infinity }}
                       >
-                        <span className="text-[10px] text-black/60 dark:text-white/60 font-medium">
+                        <span className="text-[10px] text-black dark:text-white/60 font-medium">
                           BIDDING OPEN
                         </span>
                       </motion.div>
@@ -206,7 +206,7 @@ const InstantBiddingSection = () => {
                         <div className="text-2xl font-bold text-black dark:text-white">
                           5,000 USDT
                         </div>
-                        <div className="flex items-center gap-2 text-sm text-black/40 dark:text-white/40">
+                        <div className="flex items-center gap-2 text-sm text-black dark:text-white/40">
                           <ArrowRight className="w-3 h-3" />
                           <span>AED (United Arab Emirates)</span>
                         </div>
@@ -215,28 +215,28 @@ const InstantBiddingSection = () => {
 
                     <div className="space-y-3 mb-6">
                       <div className="flex items-center justify-between py-2 border-b border-black/[0.04] dark:border-white/[0.04]">
-                        <span className="text-sm text-black/40 dark:text-white/40">Order ID</span>
+                        <span className="text-sm text-black dark:text-white/40">Order ID</span>
                         <span className="text-sm text-black dark:text-white font-mono">
                           #BLP-8472
                         </span>
                       </div>
                       <div className="flex items-center justify-between py-2 border-b border-black/[0.04] dark:border-white/[0.04]">
-                        <span className="text-sm text-black/40 dark:text-white/40">
+                        <span className="text-sm text-black dark:text-white/40">
                           Escrow Status
                         </span>
                         <div className="flex items-center gap-2">
                           <div className="w-2 h-2 rounded-full bg-black/50 dark:bg-white/50" />
-                          <span className="text-sm text-black/60 dark:text-white/60">
+                          <span className="text-sm text-black dark:text-white/60">
                             Locked
                           </span>
                         </div>
                       </div>
                       <div className="flex items-center justify-between py-2">
-                        <span className="text-sm text-black/40 dark:text-white/40">
+                        <span className="text-sm text-black dark:text-white/40">
                           Time Remaining
                         </span>
                         <motion.span
-                          className="text-sm text-black/70 dark:text-white/70 font-mono font-medium"
+                          className="text-sm text-black dark:text-white/70 font-mono font-medium"
                           animate={{ opacity: [1, 0.6, 1] }}
                           transition={{ duration: 1, repeat: Infinity }}
                         >
@@ -259,10 +259,10 @@ const InstantBiddingSection = () => {
                       />
                     </div>
                     <div className="flex items-center justify-between mt-2">
-                      <span className="text-[10px] text-black/30 dark:text-white/30">
+                      <span className="text-[10px] text-black dark:text-white/30">
                         Collecting bids...
                       </span>
-                      <span className="text-[10px] text-black/30 dark:text-white/30">
+                      <span className="text-[10px] text-black dark:text-white/30">
                         4 merchants bidding
                       </span>
                     </div>
@@ -272,7 +272,7 @@ const InstantBiddingSection = () => {
                   <div className="grid grid-cols-2 gap-3">
                     <div className="rounded-xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.06] dark:border-white/[0.06] p-4 text-center">
                       <div className="text-2xl font-bold text-black dark:text-white">~8s</div>
-                      <div className="text-[10px] text-black/40 dark:text-white/40 uppercase tracking-wider">
+                      <div className="text-[10px] text-black dark:text-white/40 uppercase tracking-wider">
                         Avg Match
                       </div>
                     </div>
@@ -280,7 +280,7 @@ const InstantBiddingSection = () => {
                       <div className="text-2xl font-bold text-black dark:text-white">
                         99.9%
                       </div>
-                      <div className="text-[10px] text-black/40 dark:text-white/40 uppercase tracking-wider">
+                      <div className="text-[10px] text-black dark:text-white/40 uppercase tracking-wider">
                         Fill Rate
                       </div>
                     </div>
@@ -294,7 +294,7 @@ const InstantBiddingSection = () => {
                       <h3 className="text-lg font-bold text-black dark:text-white">
                         Live Merchant Bids
                       </h3>
-                      <span className="text-xs text-black/40 dark:text-white/40">
+                      <span className="text-xs text-black dark:text-white/40">
                         Real-time competitive pricing
                       </span>
                     </div>
@@ -370,7 +370,7 @@ const InstantBiddingSection = () => {
                           <div className="flex items-center gap-3">
                             <div
                               className={`w-10 h-10 rounded-xl flex items-center justify-center text-xs font-bold ${
-                                bid.best ? "bg-black/10 dark:bg-white/10 text-black/80 dark:text-white/80" : "bg-black/[0.05] dark:bg-white/[0.05] text-black/50 dark:text-white/50"
+                                bid.best ? "bg-black/10 dark:bg-white/10 text-black dark:text-white/80" : "bg-black/[0.05] dark:bg-white/[0.05] text-black dark:text-white/50"
                               }`}
                             >
                               {bid.avatar}
@@ -381,12 +381,12 @@ const InstantBiddingSection = () => {
                                   {bid.name}
                                 </span>
                                 {bid.best && (
-                                  <span className="px-2 py-0.5 rounded-full bg-black/10 dark:bg-white/10 text-[9px] text-black/70 dark:text-white/70 font-bold uppercase">
+                                  <span className="px-2 py-0.5 rounded-full bg-black/10 dark:bg-white/10 text-[9px] text-black dark:text-white/70 font-bold uppercase">
                                     Best Rate
                                   </span>
                                 )}
                               </div>
-                              <div className="flex items-center gap-2 text-xs text-black/40 dark:text-white/40">
+                              <div className="flex items-center gap-2 text-xs text-black dark:text-white/40">
                                 <span>{bid.trades} trades</span>
                                 <span>•</span>
                                 <span>ETA {bid.time}</span>
@@ -397,11 +397,11 @@ const InstantBiddingSection = () => {
                             <div className="text-right">
                               <div className="text-lg font-bold text-black dark:text-white">
                                 {bid.rate}{" "}
-                                <span className="text-xs text-black/40 dark:text-white/40">
+                                <span className="text-xs text-black dark:text-white/40">
                                   AED
                                 </span>
                               </div>
-                              <div className="text-xs text-black/50 dark:text-white/50">
+                              <div className="text-xs text-black dark:text-white/50">
                                 {bid.profit} profit
                               </div>
                             </div>
@@ -422,13 +422,13 @@ const InstantBiddingSection = () => {
                   <div className="mt-4 p-4 rounded-xl bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-white/10">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-lg bg-black/10 dark:bg-white/10 flex items-center justify-center">
-                        <Zap className="w-4 h-4 text-black/60 dark:text-white/60" />
+                        <Zap className="w-4 h-4 text-black dark:text-white/60" />
                       </div>
                       <div>
-                        <span className="text-sm text-black/70 dark:text-white/70 font-medium">
+                        <span className="text-sm text-black dark:text-white/70 font-medium">
                           Auto-selecting best offer
                         </span>
-                        <span className="text-xs text-black/40 dark:text-white/40 block">
+                        <span className="text-xs text-black dark:text-white/40 block">
                           You'll receive 18,360 AED in ~30 seconds
                         </span>
                       </div>

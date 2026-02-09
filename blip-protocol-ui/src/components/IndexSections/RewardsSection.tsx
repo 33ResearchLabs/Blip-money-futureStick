@@ -42,7 +42,7 @@ const RewardsSection = () => {
             className="flex items-center justify-center gap-2 sm:gap-3 mb-6 sm:mb-8"
           >
             <div className="h-px w-8 sm:w-12 bg-gradient-to-r from-transparent to-white/20" />
-            <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.3em] sm:tracking-[0.4em] text-black/30 dark:text-white/30 font-light">
+            <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.3em] sm:tracking-[0.4em] text-black dark:text-white/30 font-light">
               Rewards
             </span>
             <div className="h-px w-8 sm:w-12 bg-gradient-to-l from-transparent to-white/20" />
@@ -57,7 +57,7 @@ const RewardsSection = () => {
           >
             Earn while you spend.
             <br />
-            <span className="text-black/20 dark:text-white/20">Every transaction.</span>
+            <span className="text-black dark:text-white/20">Every transaction.</span>
           </motion.h2>
 
           <motion.p
@@ -65,7 +65,7 @@ const RewardsSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-sm sm:text-base md:text-lg text-black/40 dark:text-white/40 max-w-xl mx-auto leading-relaxed"
+            className="text-sm sm:text-base md:text-lg text-black dark:text-white/40 max-w-xl mx-auto leading-relaxed"
           >
             Up to 2.5% back in BLIP tokens on every payment. Early supporters
             unlock multipliers and exclusive airdrops.
@@ -88,10 +88,10 @@ const RewardsSection = () => {
               <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-black dark:text-white mb-2">
                 {reward.value}
               </div>
-              <div className="text-xs sm:text-sm text-black/50 dark:text-white/50 mb-1">
+              <div className="text-xs sm:text-sm text-black dark:text-white/50 mb-1">
                 {reward.label}
               </div>
-              <div className="text-[10px] sm:text-xs text-black/25 dark:text-white/25 hidden sm:block">
+              <div className="text-[10px] sm:text-xs text-black dark:text-white/25 hidden sm:block">
                 {reward.desc}
               </div>
             </div>
