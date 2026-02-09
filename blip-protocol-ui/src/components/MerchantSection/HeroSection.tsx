@@ -60,37 +60,28 @@ export const CinematicHeroOfMerchant = () => {
       className="relative min-h-screen overflow-hidden bg-transparent"
     >
       {/* Main Hero Content - 2-column Layout on Desktop */}
-      <main className="relative z-10 pt-20 md:pt-24 lg:pt-20 pb-16 md:pb-20 lg:pb-32 px-4 md:px-8 lg:px-10 max-w-7xl mx-auto flex flex-col md:flex-row md:flex-wrap lg:flex-nowrap items-center md:items-start lg:items-center justify-center md:justify-center lg:justify-start gap-6 md:gap-8 lg:gap-12">
+      <main className="relative z-10 pt-20 md:pt-24 lg:pt-20 pb-16 md:pb-20 lg:pb-36 px-4 md:px-8 lg:px-10 max-w-7xl mx-auto flex flex-col md:flex-row md:flex-wrap lg:flex-nowrap items-center md:items-start lg:items-center justify-center md:justify-center lg:justify-start gap-6 md:gap-8 lg:gap-12">
         {/* ==================== Phone Mockup (1st on mobile, 1st on desktop) ==================== */}
 
         {/* ==================== Text Content (2nd on mobile, 2nd on desktop) ==================== */}
         <div
-          className="w-full  px-4 pb-20 sm:pb-28  lg:pb-4 lg:px-4 antigravity-layer order-2 relative z-20"
           ref={textLayerRef}
+          className="w-full px-4 pb-20 sm:pb-28 lg:pb-4 lg:px-4 antigravity-layer order-2 relative z-20 text-center
+  "
         >
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="
-text-3xl md:text-4xl lg:text-5xl xl:text-6xl
-    font-bold text-white
-    leading-[1.15]
-    mb-4 md:mb-6 lg:mb-8
-    tracking-tight
-    max-w-2xl
-    mx-auto md:mx-0
+            className="text-3xl md:text-4xl lg:text-5xl xl:text-8xl font-bold text-white leading-[1.15] mb-4 md:mb-6 lg:mb-8 tracking-tight max-w-2xl md:max-w-fit py-12  mx-auto text-center 
   "
           >
-            On-demand crypto <span className="text-white/20">settlement</span>,
-            executed by merchants.
+            Crypto <span className="text-white/20">settlement</span>,
+            <br /> executed by merchants.
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-sm md:text-base lg:text-[17px] text-white/50 leading-relaxed mb-6 md:mb-8 lg:mb-10 max-w-md mx-auto md:mx-0 lg:mx-0"
+            className="text-black/40 dark:text-white/40 text-base sm:text-lg max-w-md mx-auto mb-12 leading-relaxed"
           >
             Users create requests.{" "}
             <strong className="text-white/70">Merchants accept</strong>, price,
@@ -103,7 +94,7 @@ text-3xl md:text-4xl lg:text-5xl xl:text-6xl
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3 md:gap-4"
+            className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4"
           >
             {/* <Link
     to="/coming-soon"
@@ -119,7 +110,9 @@ text-3xl md:text-4xl lg:text-5xl xl:text-6xl
   >
     Become a Merchant
   </Link> */}
-            <CTAButton to="/waitlist" className="w-[225px]  h-[48px]">Become a Merchant</CTAButton>
+            <CTAButton to="/waitlist" className="w-[225px]  h-[48px]">
+              Become a Merchant
+            </CTAButton>
 
             {/* <Link
     to="/waitlist"
@@ -135,7 +128,9 @@ text-3xl md:text-4xl lg:text-5xl xl:text-6xl
   >
     Join Waitlist
   </Link> */}
-            <CTAButton to="/join-waitlist" className="w-[225px]  h-[48px]">Join Waitlist</CTAButton>
+            <CTAButton to="/join-waitlist" className="w-[225px]  h-[48px]">
+              Join Waitlist
+            </CTAButton>
           </motion.div>
         </div>
       </main>
