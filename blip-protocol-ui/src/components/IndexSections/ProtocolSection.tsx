@@ -21,7 +21,7 @@ const ProtocolSection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative md:py-40 py-12 bg-black overflow-hidden"
+      className="relative md:py-40 py-12 bg-white dark:bg-black overflow-hidden"
     >
       {/* Immersive background with animated glow */}
       <div className="absolute inset-0">
@@ -59,7 +59,7 @@ const ProtocolSection = () => {
             }}
           >
             <motion.span className="w-2 h-2 rounded-full bg-[#ff6b35]" />
-            <span className="text-[11px] uppercase tracking-[0.3em] text-white/60">
+            <span className="text-[11px] uppercase tracking-[0.3em] text-black/60 dark:text-white/60">
               The Protocol
             </span>
           </motion.div>
@@ -69,7 +69,7 @@ const ProtocolSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-3xl md:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.1] mb-6 text-white"
+            className="text-3xl md:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.1] mb-6 text-black dark:text-white"
           >
             Blip Protocol
           </motion.h2>
@@ -79,7 +79,7 @@ const ProtocolSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="text-lg md:text-xl text-white/40 max-w-2xl mx-auto leading-relaxed font-light"
+            className="text-lg md:text-xl text-black/40 dark:text-white/40 max-w-2xl mx-auto leading-relaxed font-light"
           >
             A decentralized settlement layer for instant, private, global value
             transfer.
@@ -105,7 +105,7 @@ const ProtocolSection = () => {
                     strokeWidth="1.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="text-white/40 group-hover:text-white/60 transition-colors"
+                    className="text-black/40 dark:text-white/40 group-hover:text-black/60 group-hover:dark:text-white/60 transition-colors"
                   />
                   <circle
                     cx="12"
@@ -113,7 +113,7 @@ const ProtocolSection = () => {
                     r="3"
                     stroke="currentColor"
                     strokeWidth="1.5"
-                    className="text-white/40 group-hover:text-white/60 transition-colors"
+                    className="text-black/40 dark:text-white/40 group-hover:text-black/60 group-hover:dark:text-white/60 transition-colors"
                   />
                 </svg>
               ),
@@ -134,7 +134,7 @@ const ProtocolSection = () => {
                     strokeWidth="1.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="text-white/40 group-hover:text-white/60 transition-colors"
+                    className="text-black/40 dark:text-white/40 group-hover:text-black/60 group-hover:dark:text-white/60 transition-colors"
                   />
                 </svg>
               ),
@@ -154,7 +154,7 @@ const ProtocolSection = () => {
                     stroke="currentColor"
                     strokeWidth="1.5"
                     strokeLinecap="round"
-                    className="text-white/40 group-hover:text-white/60 transition-colors"
+                    className="text-black/40 dark:text-white/40 group-hover:text-black/60 group-hover:dark:text-white/60 transition-colors"
                   />
                 </svg>
               ),
@@ -177,12 +177,12 @@ const ProtocolSection = () => {
 
               <div className="flex gap-2 sm:flex-col justify-center items-center">
                 <div className="mb-4">{item.icon}</div>
-                <h3 className="text-lg font-medium text-white mb-2 group-hover:text-white/80 transition-colors">
+                <h3 className="text-lg font-medium text-black dark:text-white mb-2 group-hover:text-black/80 group-hover:dark:text-white/80 transition-colors">
                   {item.label}
                 </h3>
               </div>
 
-              <p className="text-sm text-white/30 group-hover:text-white/50 transition-colors">
+              <p className="text-sm text-black/30 dark:text-white/30 group-hover:text-black/50 group-hover:dark:text-white/50 transition-colors">
                 {item.desc}
               </p>
             </motion.div>
@@ -204,26 +204,10 @@ const ProtocolSection = () => {
               rel="noopener noreferrer"
               onClick={() => sounds.click()}
               onMouseEnter={() => sounds.hover()}
-              className="
-                group relative overflow-hidden inline-flex items-center justify-center gap-2
-                md:px-6 px-4 py-2
-                rounded-full
-                 w-[230px]  h-[48px]
-                
-                border border-white/10
-                text-white text-lg font-medium
-                transition-all duration-300
-              "
+              className="group relative overflow-hidden inline-flex items-center justify-center gap-2 md:px-6 px-4 py-2 rounded-full w-[230px] h-[48px] border border-black/10 dark:border-white/10 text-black dark:text-white text-lg font-medium transition-all duration-300"
             >
               {/* LEFT TO RIGHT HOVER FILL (Same As CTA) */}
-              <span className="
-                absolute inset-0
-                bg-white/20
-                rounded-full
-                scale-x-0 group-hover:scale-x-100
-                origin-left
-                transition-transform duration-700 ease-out
-              " />
+              <span className="absolute inset-0 bg-black/20 dark:bg-white/20 rounded-full scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-out" />
           
               {/* BUTTON TEXT */}
               <span className="relative z-10 flex items-center gap-3">

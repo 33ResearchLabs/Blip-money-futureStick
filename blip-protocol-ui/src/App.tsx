@@ -47,8 +47,8 @@ const queryClient = new QueryClient();
 
 // Loading fallback component
 const PageLoader = () => (
-  <div className="min-h-screen bg-black flex items-center justify-center">
-    <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+  <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
+    <div className="w-8 h-8 border-2 border-black/20 dark:border-white/20 border-t-black dark:border-t-white rounded-full animate-spin" />
   </div>
 );
 

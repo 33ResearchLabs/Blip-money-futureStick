@@ -1,145 +1,148 @@
-import { useRef, useEffect } from "react";
-import { motion, useInView } from "framer-motion";
-import { Lock, Users } from "lucide-react";
-import StarfieldBackground from "./StarfieldBackground";
-import { Logo } from "./Navbar";
-import { MerchantDashboardCompact } from "./MerchantDashboardCompact";
+import { useRef, useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { ArrowRight, Clock, Percent, Globe2 } from "lucide-react";
+import { Link } from "react-router-dom";
+import { GlobeVisualization } from "./visuals/GlobeVisualization";
+import { MicroIcon } from "./visuals/MicroIcon";
 
 const CinematicHero = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
 
-  const textLayerRef = useRef<HTMLDivElement>(null);
-  const dashboardLayerRef = useRef<HTMLDivElement>(null);
-
-  // Mouse parallax (text + dashboard only)
   useEffect(() => {
-    let rafId: number | null = null;
-
     const handleMouseMove = (e: MouseEvent) => {
-      if (rafId) return;
-
-      rafId = requestAnimationFrame(() => {
-        const centerX = window.innerWidth / 2;
-        const centerY = window.innerHeight / 2;
-        const moveX = (e.clientX - centerX) / centerX;
-        const moveY = (e.clientY - centerY) / centerY;
-
-        if (textLayerRef.current) {
-          textLayerRef.current.style.transform = `translate3d(${
-            moveX * 0.25
-          }px, ${moveY * 0.25}px, 0)`;
-        }
-
-        if (dashboardLayerRef.current) {
-          const rx = Math.max(-6, Math.min(6, moveY * 2));
-          const ry = Math.max(-6, Math.min(6, -moveX * 2));
-
-          dashboardLayerRef.current.style.transform = `translate3d(${
-            moveX * 0.4
-          }px, ${moveY * 0.4}px, 0)
-          rotateX(${rx}deg) rotateY(${ry}deg)`;
-        }
-
-        rafId = null;
-      });
+      if (ref.current) {
+        const rect = (ref.current as HTMLElement).getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        setMousePosition({ x, y });
+      }
     };
 
-    document.addEventListener("mousemove", handleMouseMove);
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      if (rafId) cancelAnimationFrame(rafId);
-    };
+    const element = ref.current;
+    if (element) {
+      element.addEventListener("mousemove", handleMouseMove);
+      return () => element.removeEventListener("mousemove", handleMouseMove);
+    }
   }, []);
 
   return (
     <section
       ref={ref}
-      className="relative min-h-screen overflow-x-hidden bg-transparent"
+      className="relative min-h-screen overflow-hidden bg-white dark:bg-black flex items-center justify-center"
     >
-      <main
-        className="
-          relative z-10 min-h-screen
-          px-4 md:px-10
-          max-w-[1400px] mx-auto
-          flex flex-col lg:flex-row
-          items-center justify-center
-          gap-12
-        "
-        style={{ perspective: "1200px" }}
-      >
-        {/* ================= TEXT SECTION ================= */}
+      {/* Background layers */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Merchant dashboard background - revealed where mouse is */}
         <div
-          ref={textLayerRef}
-          className="w-full my-24 lg:my-0 lg:w-1/2 antigravity-layer text-center lg:text-left"
+          className="absolute inset-0 transition-all duration-200 ease-out"
+          style={{
+            opacity: 0.08,
+            maskImage: `radial-gradient(circle 600px at ${mousePosition.x}% ${mousePosition.y}%, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0.15) 70%, rgba(0,0,0,0.08) 100%)`,
+            WebkitMaskImage: `radial-gradient(circle 600px at ${mousePosition.x}% ${mousePosition.y}%, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0.15) 70%, rgba(0,0,0,0.08) 100%)`,
+          }}
         >
-          {/* Heading */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9 }}
-            className="
-              font-bold text-white leading-[1.1] tracking-tight
-              text-[clamp(32px,5vw,80px)]
-              max-w-[720px] mx-auto lg:mx-0
-            "
-          >
-            Send money anywhere,
-            <br />
-            <span className="text-white/40">anytime.</span>
-          </motion.h1>
-
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="flex justify-center lg:justify-start mb-6 my-6"
-          >
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06]">
-              <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#ff8c5a]" />
-              <span className="text-xs text-white/50">Powered by</span>
-              <span className="text-xs font-semibold text-white">Solana</span>
-            </div>
-          </motion.div>
-
-          {/* Description */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="mt-6 text-white/50 text-lg max-w-lg mx-auto lg:mx-0"
-          >
-            Fast, borderless transfers using crypto rails. Connect your wallet,
-            enter an amount, and send globally in seconds.
-          </motion.p>
-
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="flex justify-center lg:justify-start gap-12 mt-10"
-          >
-            {[
-              { value: "~2s", label: "Settlement" },
-              { value: "0.1%", label: "Fees" },
-              { value: "150+", label: "Countries" },
-            ].map((stat) => (
-              <div key={stat.label} className="text-center">
-                <div className="text-3xl font-bold text-white">
-                  {stat.value}
-                </div>
-                <div className="text-xs text-white/40 uppercase tracking-widest">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </motion.div>
+          <img
+            src="/images/merchant-dashboard.png"
+            alt=""
+            className="w-full h-full object-cover object-center"
+            style={{ mixBlendMode: "screen" }}
+          />
         </div>
 
-        {/* ================= DASHBOARD ================= */}
-        <MerchantDashboardCompact />
+        {/* Dark gradient edges */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white/60 dark:from-black/60 via-transparent to-white/60 dark:to-black/60" />
+
+        {/* Globe network visualization */}
+        <GlobeVisualization />
+      </div>
+
+      <main className="relative z-10 w-full max-w-[1200px] mx-auto px-6 md:px-10 text-center">
+        {/* Small label */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.1 }}
+          className="mb-8"
+        >
+          <span className="text-[11px] uppercase tracking-[0.3em] text-black/30 dark:text-white/30 font-light">
+            The settlement protocol
+          </span>
+        </motion.div>
+
+        {/* Main heading - massive, clean */}
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          className="font-bold text-black dark:text-white leading-[0.95] tracking-[-0.04em] text-[clamp(48px,10vw,120px)] mb-8"
+        >
+          Send money
+          <br />
+          <span className="text-black/20 dark:text-white/20">anywhere.</span>
+        </motion.h1>
+
+        {/* Subtext */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="text-black/40 dark:text-white/40 text-base sm:text-lg max-w-md mx-auto mb-12 leading-relaxed"
+        >
+          Fast, borderless transfers on Solana.
+          <br className="hidden sm:block" />
+          No banks. No delays. Sub-second settlement.
+        </motion.p>
+
+        {/* Stats row */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="flex justify-center gap-16 sm:gap-20 mb-14"
+        >
+          {[
+            { value: "~2s", label: "Settlement", icon: Clock },
+            { value: "0.1%", label: "Fees", icon: Percent },
+            { value: "150+", label: "Countries", icon: Globe2 },
+          ].map((stat, i) => (
+            <div key={stat.label} className="text-center">
+              <div className="flex items-center justify-center gap-2 mb-1">
+                <MicroIcon icon={stat.icon} variant="pulse" size={14} delay={i * 0.2} />
+                <div className="text-2xl sm:text-3xl font-bold text-black dark:text-white tracking-tight">
+                  {stat.value}
+                </div>
+              </div>
+              <div className="text-[10px] text-black/30 dark:text-white/30 uppercase tracking-[0.2em] mt-1">
+                {stat.label}
+              </div>
+            </div>
+          ))}
+        </motion.div>
+
+        {/* CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+          className="flex justify-center"
+        >
+          <Link
+            to="/send"
+            className="group inline-flex items-center gap-3 px-8 py-3.5 rounded-full bg-black dark:bg-white text-white dark:text-black text-sm font-semibold hover:bg-black/90 dark:hover:bg-white/90 transition-all duration-300"
+          >
+            <span>Get Started</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </motion.div>
+
+        {/* Subtle bottom line */}
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 1.5, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="mx-auto mt-20 h-px w-full max-w-xs bg-gradient-to-r from-transparent via-black/10 dark:via-white/10 to-transparent"
+        />
       </main>
     </section>
   );

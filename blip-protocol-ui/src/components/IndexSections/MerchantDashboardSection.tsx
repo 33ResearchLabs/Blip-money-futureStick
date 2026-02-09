@@ -242,12 +242,12 @@ export const MerchantDashboardSection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative py-12 md:py-48 bg-black overflow-hidden"
+      className="relative py-12 md:py-48 bg-white dark:bg-black overflow-hidden"
     >
       {/* Background elements */}
       <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full " />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full  " />
+        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full" />
+        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full" />
       </div>
 
       <motion.div
@@ -264,7 +264,7 @@ export const MerchantDashboardSection = () => {
             className="flex items-center justify-center gap-3 mb-8"
           >
             <div className="h-px w-12 bg-gradient-to-r from-transparent to-white/20" />
-            <span className="text-[11px] uppercase tracking-[0.4em] text-white/30 font-light">
+            <span className="text-[11px] uppercase tracking-[0.4em] text-black/30 dark:text-white/30 font-light">
               For Merchants
             </span>
             <div className="h-px w-12 bg-gradient-to-l from-transparent to-white/20" />
@@ -275,11 +275,11 @@ export const MerchantDashboardSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-4xl md:text-6xl lg:text-7xl font-semibold text-white tracking-tight leading-[1.1] mb-6"
+            className="text-4xl md:text-6xl lg:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6"
           >
             Live matching.
             <br />
-            <span className="text-white/20">Instant profits.</span>
+            <span className="text-black/20 dark:text-white/20">Instant profits.</span>
           </motion.h2>
 
           <motion.p
@@ -287,7 +287,7 @@ export const MerchantDashboardSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="md:text-lg text-base text-white/40 max-w-2xl md:mx-auto mx-4"
+            className="md:text-lg text-base text-black/40 dark:text-white/40 max-w-2xl md:mx-auto mx-4"
           >
             Real-time order matching. Set your rates. Accept orders. Get paid
             instantly. No custody, no risk.
@@ -321,12 +321,12 @@ export const MerchantDashboardSection = () => {
           ].map((feature, i) => (
             <div
               key={feature.title}
-              className="text-center p-6 rounded-xl bg-white/[0.02] border  hover:border-white/20 transition-colors"
+              className="text-center p-6 rounded-xl bg-black/[0.02] dark:bg-white/[0.02] border hover:border-black/20 hover:dark:border-white/20 transition-colors"
             >
-              <h3 className="text-base font-medium text-white mb-2">
+              <h3 className="text-base font-medium text-black dark:text-white mb-2">
                 {feature.title}
               </h3>
-              <p className="text-sm text-white/40">{feature.desc}</p>
+              <p className="text-sm text-black/40 dark:text-white/40">{feature.desc}</p>
             </div>
           ))}
         </motion.div>

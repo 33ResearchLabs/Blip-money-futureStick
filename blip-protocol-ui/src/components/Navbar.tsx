@@ -5,11 +5,12 @@ import {
   useScroll,
   useMotionValueEvent,
 } from "framer-motion";
-import { Menu, X, ChevronRight, ArrowRight } from "lucide-react";
+import { Menu, X, ChevronRight, ArrowRight, Sun, Moon } from "lucide-react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
 import { sounds } from "@/lib/sounds";
+import { useTheme } from "next-themes";
 
 /* ============================================
    LINEAR-INSPIRED NAVBAR
@@ -33,15 +34,15 @@ export const Logo = ({ className = "" }) => {
         whileHover={{ scale: 1.02 }}
         transition={{ duration: 0.2 }}
       >
-        <span className="text-white">blip</span>
-        <span className="text-white">.</span>
+        <span className="text-black dark:text-white">blip</span>
+        <span className="text-black dark:text-white">.</span>
 
         {/* money text */}
-        <span className="relative text-white ml-0.5">
+        <span className="relative text-black dark:text-white ml-0.5">
           money
           {/* Underline effect */}
           <motion.span
-            className="absolute -bottom-1 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-[#ffffff] to-transparent opacity-0 group-hover:opacity-100"
+            className="absolute -bottom-1 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-black/50 dark:from-white/50 to-transparent opacity-0 group-hover:opacity-100"
             transition={{ duration: 0.3 }}
           />
         </span>
@@ -74,7 +75,7 @@ const NavItem = ({
       className="relative px-3 py-2 text-[16px] font-medium transition-colors duration-200"
     >
       <span
-        className={isActive ? "text-white" : "text-[#A1A1AA] hover:text-white"}
+        className={isActive ? "text-black dark:text-white" : "text-gray-500 dark:text-[#A1A1AA] hover:text-black dark:hover:text-white"}
       >
         {children}
       </span>
@@ -83,8 +84,7 @@ const NavItem = ({
       {isActive && (
         <motion.div
           layoutId="navIndicator"
-          className="absolute -bottom-[1px] left-3 right-3 h-[2px] rounded-full"
-          style={{ background: "#ffffff" }}
+          className="absolute -bottom-[1px] left-3 right-3 h-[2px] rounded-full bg-black dark:bg-white"
           transition={{ type: "spring", stiffness: 500, damping: 35 }}
         />
       )}
@@ -117,17 +117,17 @@ export const CTAButton = ({
           group relative overflow-hidden inline-flex
           items-center justify-center px-5 py-2.5 rounded-full
           text-[16px] font-medium transition-all duration-300
-        
+
           ${
             isPrimary
-              ? "bg-transparent text-white border "
-              : "bg-transparent text-white border "
+              ? "bg-transparent text-black dark:text-white border border-black/20 dark:border-white/20"
+              : "bg-transparent text-black dark:text-white border border-black/20 dark:border-white/20"
           }
         `}
       >
         {/* LEFT-TO-RIGHT HOVER FILL ANIMATION */}
         {isPrimary && (
-          <span className="absolute inset-0 bg-white/20 rounded-full scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-out" />
+          <span className="absolute inset-0 bg-black/10 dark:bg-white/20 rounded-full scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-out" />
         )}
 
         {/* BUTTON TEXT */}
@@ -139,6 +139,32 @@ export const CTAButton = ({
         </span>
       </Link>
     </motion.div>
+  );
+};
+
+/* ---------------- Theme Switcher ---------------- */
+const ThemeSwitcher = () => {
+  const { theme, setTheme } = useTheme();
+
+  const toggleTheme = () => {
+    const newTheme = theme === "dark" ? "light" : "dark";
+    sounds.toggle(newTheme === "light");
+    setTheme(newTheme);
+  };
+
+  return (
+    <motion.button
+      onClick={toggleTheme}
+      className="relative w-9 h-9 rounded-lg flex items-center justify-center bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 hover:bg-black/10 dark:hover:bg-white/10 transition-colors"
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+    >
+      {theme === "dark" ? (
+        <Sun className="w-4 h-4 text-white" />
+      ) : (
+        <Moon className="w-4 h-4 text-black" />
+      )}
+    </motion.button>
   );
 };
 
@@ -154,7 +180,7 @@ const LanguageSwitcher = () => {
   };
 
   return (
-    <div className="flex items-center p-1 rounded-full bg-[#18181B] border border-[rgba(255,255,255,0.06)]">
+    <div className="flex items-center p-1 rounded-full bg-black/5 dark:bg-[#18181B] border border-black/10 dark:border-[rgba(255,255,255,0.06)]">
       {["en", "ar"].map((lng) => (
         <motion.button
           key={lng}
@@ -163,8 +189,8 @@ const LanguageSwitcher = () => {
             relative px-2.5 py-1 text-[12px] font-medium rounded transition-colors
             ${
               currentLanguage === lng
-                ? "text-white"
-                : "text-[#71717A] hover:text-[#A1A1AA]"
+                ? "text-black dark:text-white"
+                : "text-gray-500 dark:text-[#71717A] hover:text-gray-700 dark:hover:text-[#A1A1AA]"
             }
           `}
           whileTap={{ scale: 0.95 }}
@@ -172,7 +198,7 @@ const LanguageSwitcher = () => {
           {currentLanguage === lng && (
             <motion.div
               layoutId="langBg"
-              className="absolute inset-0 rounded bg-[#27272A]"
+              className="absolute inset-0 rounded bg-black/10 dark:bg-[#27272A]"
               transition={{ type: "spring", stiffness: 500, damping: 35 }}
             />
           )}
@@ -227,11 +253,7 @@ const MobileMenu = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.2 }}
-            className="fixed top-[72px] left-4 right-4 z-50 rounded-xl overflow-hidden"
-            style={{
-              background: "#111113",
-              border: "1px solid rgba(255,255,255,0.08)",
-            }}
+            className="fixed top-[72px] left-4 right-4 z-50 rounded-xl overflow-hidden bg-white dark:bg-[#111113] border border-black/10 dark:border-white/[0.08]"
           >
             <div className="p-4 space-y-1">
               {menuItems.map((item) => (
@@ -239,7 +261,7 @@ const MobileMenu = ({
                   key={item.to}
                   to={item.to}
                   onClick={handleNavClick}
-                  className="flex items-center justify-between py-3 px-3 rounded-lg text-[15px] text-[#A1A1AA] hover:text-white hover:bg-[#18181B]"
+                  className="flex items-center justify-between py-3 px-3 rounded-lg text-[15px] text-gray-500 dark:text-[#A1A1AA] hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-[#18181B]"
                 >
                   {item.label}
                   <ChevronRight className="w-4 h-4 opacity-50" />
@@ -247,12 +269,12 @@ const MobileMenu = ({
               ))}
             </div>
 
-            <div className="p-4 border-t border-white/5 space-y-2">
+            <div className="p-4 border-t border-black/5 dark:border-white/5 space-y-2">
               {isAuthenticated ? (
                 <Link
                   to="/dashboard"
                   onClick={handleNavClick}
-                  className="block w-full text-center py-2.5 rounded-full bg-white text-black text-sm font-medium"
+                  className="block w-full text-center py-2.5 rounded-full bg-black dark:bg-white text-white dark:text-black text-sm font-medium"
                 >
                   Dashboard
                 </Link>
@@ -293,13 +315,13 @@ const HamburgerButton = ({
         sounds.click();
         onClick();
       }}
-      className="relative w-9 h-9 rounded-lg flex items-center justify-center bg-[#18181B] border border-[rgba(255,255,255,0.06)]"
+      className="relative w-9 h-9 rounded-lg flex items-center justify-center bg-black/5 dark:bg-[#18181B] border border-black/10 dark:border-[rgba(255,255,255,0.06)]"
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
     >
       <div className="w-4 h-3 flex flex-col justify-between">
         <motion.span
-          className="block h-[1.5px] bg-white rounded-full origin-left"
+          className="block h-[1.5px] bg-black dark:bg-white rounded-full origin-left"
           animate={{
             rotate: isOpen ? 45 : 0,
             y: isOpen ? -1 : 0,
@@ -308,7 +330,7 @@ const HamburgerButton = ({
           transition={{ duration: 0.2 }}
         />
         <motion.span
-          className="block h-[1.5px] bg-white rounded-full"
+          className="block h-[1.5px] bg-black dark:bg-white rounded-full"
           animate={{
             opacity: isOpen ? 0 : 1,
             x: isOpen ? 8 : 0,
@@ -316,7 +338,7 @@ const HamburgerButton = ({
           transition={{ duration: 0.15 }}
         />
         <motion.span
-          className="block h-[1.5px] bg-white rounded-full origin-left"
+          className="block h-[1.5px] bg-black dark:bg-white rounded-full origin-left"
           animate={{
             rotate: isOpen ? -45 : 0,
             y: isOpen ? 1 : 0,
@@ -394,11 +416,9 @@ export const Navbar = () => {
           y: isHidden && !mobileMenuOpen ? -100 : 0,
         }}
         transition={{ duration: 0.25 }}
-        className="fixed top-0 w-full z-50"
-        style={{
-          background: isScrolled ? "rgba(10,10,11,0.8)" : "transparent",
-          backdropFilter: isScrolled ? "blur(12px)" : "none",
-        }}
+        className={`fixed top-0 w-full z-50 ${
+          isScrolled ? "bg-white/80 dark:bg-[rgba(10,10,11,0.8)] backdrop-blur-xl" : "bg-transparent"
+        }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="h-[72px] flex items-center justify-between">
@@ -414,6 +434,7 @@ export const Navbar = () => {
 
             {/* Desktop CTA */}
             <div className="hidden lg:flex items-center gap-3">
+              <ThemeSwitcher />
               {isAuthenticated ? (
                 <CTAButton to="/dashboard">Dashboard</CTAButton>
               ) : (

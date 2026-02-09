@@ -183,7 +183,7 @@ const AppShowcaseSection = () => {
                       <span className="text-base sm:text-xl font-semibold text-white">
                         {stat.value}
                       </span>
-                      <span className="text-[10px] sm:text-xs text-emerald-400">
+                      <span className="text-[10px] sm:text-xs text-white/50">
                         {stat.change}
                       </span>
                     </div>
@@ -237,9 +237,9 @@ const AppShowcaseSection = () => {
                     </div>
                     <div className="flex justify-center">
                       {tx.status === "completed" ? (
-                        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10">
-                          <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                          <span className="text-[10px] text-emerald-400 uppercase tracking-wider">
+                        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/[0.05]">
+                          <div className="w-1.5 h-1.5 rounded-full bg-white/50" />
+                          <span className="text-[10px] text-white/50 uppercase tracking-wider">
                             Completed
                           </span>
                         </div>
@@ -279,9 +279,9 @@ const AppShowcaseSection = () => {
                         {tx.id}
                       </span>
                       {tx.status === "completed" ? (
-                        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10">
-                          <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                          <span className="text-[10px] text-emerald-400 uppercase">
+                        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/[0.05]">
+                          <div className="w-1.5 h-1.5 rounded-full bg-white/50" />
+                          <span className="text-[10px] text-white/50 uppercase">
                             Done
                           </span>
                         </div>
@@ -315,7 +315,7 @@ const AppShowcaseSection = () => {
               {/* Footer */}
               <div className="flex items-center justify-between mt-6 pt-4 border-t border-white/[0.04]">
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-emerald-400" />
+                  <div className="w-2 h-2 rounded-full bg-white/50" />
                   <span className="text-xs text-white/40">
                     Connected to Solana Mainnet
                   </span>

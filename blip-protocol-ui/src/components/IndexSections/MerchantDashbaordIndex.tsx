@@ -5,12 +5,12 @@ import { AnimatePresence, motion } from "framer-motion";
 const defaultEscrowOrders = [
   {
     id: "ESC-1001",
-    user: "🦊",
+    user: "LT",
     userName: "John D.",
     amount: "750 USDT",
     rate: "1,619 AED",
     time: "1m",
-    country: "🇦🇪",
+    country: "AE",
     status: "escrow",
     progress: 60,
     description: "Business settlement",
@@ -18,12 +18,12 @@ const defaultEscrowOrders = [
   },
   {
     id: "ESC-1002",
-    user: "🐼",
+    user: "JD",
     userName: "Emily R.",
     amount: "1,100 USDT",
     rate: "1,620 AED",
     time: "3m",
-    country: "🇦🇪",
+    country: "AE",
     status: "escrow",
     progress: 40,
     description: "Quick cash out",
@@ -34,12 +34,12 @@ const defaultEscrowOrders = [
 const defaultCompletedOrders = [
   {
     id: "CMP-2001",
-    user: "🐸",
+    user: "ER",
     userName: "Ahmed K.",
     amount: "500 USDT",
     rate: "1,618 AED",
     time: "just settled",
-    country: "🇦🇪",
+    country: "AE",
     status: "completed",
     progress: 100,
     description: "Personal remittance",
@@ -54,24 +54,24 @@ export const MerchantDashboardIndex = () => {
   const [newOrders, setNewOrders] = useState([
     {
       id: "ORD-7821",
-      user: "🦁",
+      user: "SM",
       amount: "500 USDT",
       rate: "1,620 AED",
       time: "2m",
-      country: "🇦🇪",
+      country: "AE",
     },
     {
       id: "ORD-7820",
-      user: "🐯",
+      user: "AK",
       amount: "1,200 USDT",
       rate: "1,618 AED",
       time: "5m",
-      country: "🇦🇪",
+      country: "AE",
     },
   ]);
 
-  const mockUsers = ["🦁", "🐯", "🦊", "🐼", "🐸"];
-  const mockCountries = ["🇦🇪"];
+  const mockUsers = ["SM", "AK", "LT", "JD", "ER"];
+  const mockCountries = ["AE"];
   const mockRates = ["1,620 AED", "1,618 AED", "3.67 AED"];
 
   const mockUserNames = [
@@ -225,9 +225,9 @@ export const MerchantDashboardIndex = () => {
         {/* Browser Header - Enhanced */}
         <div className="flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-[#111111] to-[#0a0a0a] border-b border-white/[0.06]">
           <div className="flex gap-1.5">
-            <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
-            <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
-            <div className="w-3 h-3 rounded-full bg-[#28ca42]" />
+            <div className="w-3 h-3 rounded-full bg-white/20" />
+            <div className="w-3 h-3 rounded-full bg-white/20" />
+            <div className="w-3 h-3 rounded-full bg-white/20" />
           </div>
 
           <div className="flex-1 flex justify-center">
@@ -244,7 +244,7 @@ export const MerchantDashboardIndex = () => {
           {/* Top stats - Enhanced */}
           <div className="flex items-center justify-between pb-4 mb-4 border-b border-white/[0.06] text-xs sm:text-sm">
             <div className="flex items-center gap-2 text-xs">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#28ca42]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-white/20" />
               <span className="text-white/60 font-medium">
                 Live · Solana Mainnet
               </span>
@@ -267,7 +267,7 @@ export const MerchantDashboardIndex = () => {
                 <div className="text-[10px] text-white/40 uppercase tracking-wider font-semibold">
                   Earnings
                 </div>
-                <div className="text-sm text-emerald-400 font-bold">+$1,386</div>
+                <div className="text-sm text-white/50 font-bold">+$1,386</div>
               </motion.div>
             </div>
           </div>
@@ -292,7 +292,7 @@ export const MerchantDashboardIndex = () => {
                           ? "bg-white/60"
                           : idx === 1
                             ? "bg-yellow-500"
-                            : "bg-[#28ca42]"
+                            : "bg-white/20"
                       }`}
                     />
                     <span className="text-xs sm:text-sm font-bold text-white truncate">
@@ -305,7 +305,7 @@ export const MerchantDashboardIndex = () => {
                         ? "bg-white/10 text-white/60"
                         : idx === 1
                           ? "bg-yellow-500/20 text-yellow-500"
-                          : "bg-[#28ca42]/20 text-[#28ca42]"
+                          : "bg-white/10 text-white/50"
                     }`}
                   >
                     {col.data.length}
@@ -440,44 +440,44 @@ export const MerchantDashboardVisual = () => {
   const [newOrders, setNewOrders] = useState([
     {
       id: "ORD-7821",
-      user: "🦁",
+      user: "SM",
       userName: "Sarah M.",
       amount: "500 USDT",
       rate: "1,620 AED",
       time: "2m",
-      country: "🇦🇪",
+      country: "AE",
       status: "new",
       description: "Crypto to cash transfer - Dubai",
       priority: "high",
     },
     {
       id: "ORD-7820",
-      user: "🐯",
+      user: "AK",
       userName: "Ahmed K.",
       amount: "1,200 USDT",
       rate: "1,618 AED",
       time: "5m",
-      country: "🇦🇪",
+      country: "AE",
       status: "new",
       description: "Bulk exchange request",
       priority: "medium",
     },
     {
       id: "ORD-7819",
-      user: "🦊",
+      user: "LT",
       userName: "Lisa T.",
       amount: "250 USDT",
       rate: "3.67 AED",
       time: "8m",
-      country: "🇦🇪",
+      country: "AE",
       status: "new",
       description: "Quick cash out",
       priority: "low",
     },
   ]);
 
-  const mockUsers = ["🦁", "🐯", "🦊", "🐼", "🐸"];
-  const mockCountries = ["🇦🇪"]; // ✅ only AED region
+  const mockUsers = ["SM", "AK", "LT", "JD", "ER"];
+  const mockCountries = ["AE"]; // ✅ only AED region
   const mockRates = ["1,620 AED", "1,618 AED", "3.67 AED"];
 
   const generateOrder = () => {
@@ -660,9 +660,9 @@ export const MerchantDashboardVisual = () => {
             {/* Browser header */}
             <div className="flex items-center gap-3 px-4 py-3 bg-[#111111] border-b border-white/[0.06]">
               <div className="flex items-center gap-1.5">
-                <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
-                <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
-                <div className="w-3 h-3 rounded-full bg-[#28ca42]" />
+                <div className="w-3 h-3 rounded-full bg-white/20" />
+                <div className="w-3 h-3 rounded-full bg-white/20" />
+                <div className="w-3 h-3 rounded-full bg-white/20" />
               </div>
               <div className="flex-1 flex justify-center">
                 <div className="flex items-center gap-2 px-4 py-1.5 rounded-lg bg-black/40 border border-white/[0.06]">
@@ -684,7 +684,7 @@ export const MerchantDashboardVisual = () => {
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-2">
                     <motion.div
-                      className="w-2 h-2 rounded-full bg-[#28ca42]"
+                      className="w-2 h-2 rounded-full bg-white/20"
                       animate={{ scale: [1, 1.2, 1], opacity: [1, 0.7, 1] }}
                       transition={{ duration: 2, repeat: Infinity }}
                     />
@@ -710,7 +710,7 @@ export const MerchantDashboardVisual = () => {
                     <div className="text-xs text-white/30 uppercase tracking-wider font-semibold">
                       Earnings
                     </div>
-                    <div className="text-lg font-semibold text-emerald-400">
+                    <div className="text-lg font-semibold text-white/50">
                       +$1,386
                     </div>
                   </div>
@@ -872,7 +872,7 @@ export const MerchantDashboardVisual = () => {
                 <div className="rounded-xl bg-[#0d0d0d] border border-white/[0.04] overflow-hidden flex flex-col h-[520px]">
                   <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.04]">
                     <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 rounded-full bg-[#28ca42]" />
+                      <div className="w-2 h-2 rounded-full bg-white/20" />
                       <span className="text-base font-semibold text-white">
                         Completed
                       </span>
@@ -898,7 +898,7 @@ export const MerchantDashboardVisual = () => {
                               {order.id}
                             </span>
                           </div>
-                          <div className="flex items-center gap-1 text-xs text-[#28ca42] font-semibold">
+                          <div className="flex items-center gap-1 text-xs text-white/50 font-semibold">
                             <svg
                               className="w-4 h-4"
                               fill="none"
@@ -991,7 +991,7 @@ export const MerchantDashboardVisual = () => {
                       <div className="text-xs text-white/30 uppercase tracking-wider font-semibold">
                         Success Rate
                       </div>
-                      <div className="text-lg font-semibold text-[#28ca42]">
+                      <div className="text-lg font-semibold text-white/50">
                         99.8%
                       </div>
                     </div>
@@ -1014,7 +1014,7 @@ export const MerchantDashboardVisual = () => {
                 <div className="p-3 pr-4 rounded-xl bg-[#111111] border border-white/[0.08] shadow-xl">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
-                      <span className="text-lg">🔔</span>
+                      <span className="text-sm font-bold text-white/60">!</span>
                     </div>
                     <div>
                       <div className="text-sm font-semibold text-white">

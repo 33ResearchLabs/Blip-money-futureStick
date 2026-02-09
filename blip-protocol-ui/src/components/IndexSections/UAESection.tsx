@@ -38,7 +38,7 @@
 //     <>
 //     <section
 //       ref={containerRef}
-//       className="relative md:min-h-screen  flex items-center justify-center overflow-hidden bg-black"
+//       className="relative md:min-h-screen flex items-center justify-center overflow-hidden bg-white dark:bg-black"
       
 //     >
 //       {/* Immersive background with glow */}
@@ -76,13 +76,13 @@
 //         />
 
 //        {/* Background with parallax */}
-//       <motion.div className="absolute aspect-[21/9]  inset-0 z-0 max-w-screen-2xl mx-auto rounded-3xl" style={{ y }}>
+//       <motion.div className="absolute aspect-[21/9] inset-0 z-0 max-w-screen-2xl mx-auto rounded-3xl" style={{ y }}>
 //         <img
 //            src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=2940&auto=format&fit=crop"
 //           alt="Modern office"
-//           className="w-full h-full object-cover rounded-3xl "
+//           className="w-full h-full object-cover rounded-3xl"
 //         />
-//         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black" />
+//         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-white dark:to-black" />
 //       </motion.div>
        
 
@@ -120,7 +120,7 @@
 //             className="w-2 h-2 rounded-full bg-[#ff6b35]"
            
 //           />
-//           <span className="text-[13px] text-white/70 font-medium tracking-wide">
+//           <span className="text-[13px] text-black/70 dark:text-white/70 font-medium tracking-wide">
 //             Launching 2026{" "}
 //           </span>
 //         </motion.div>
@@ -134,7 +134,7 @@
 //           className="mb-8"
 //         >
 //           <h2
-//             className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-semibold tracking-tight leading-[0.9] text-white"
+//             className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-semibold tracking-tight leading-[0.9] text-black dark:text-white"
 //           >
 //             Dubai
 //           </h2>
@@ -144,7 +144,7 @@
 //             viewport={{ once: true }}
 //             transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
 //           >
-//             <span className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-semibold text-white/15 tracking-tight">
+//             <span className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-semibold text-black/15 dark:text-white/15 tracking-tight">
 //               is next.
 //             </span>
 //           </motion.div>
@@ -156,7 +156,7 @@
 //           whileInView={{ opacity: 1, y: 0 }}
 //           viewport={{ once: true }}
 //           transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-//           className="text-lg md:text-xl text-white/40 max-w-2xl mx-auto leading-relaxed font-light mb-12"
+//           className="text-lg md:text-xl text-black/40 dark:text-white/40 max-w-2xl mx-auto leading-relaxed font-light mb-12"
 //         >
 //           The world's fastest-growing financial hub meets the future of
 //           payments.
@@ -185,10 +185,10 @@
 //               viewport={{ once: true }}
 //               transition={{ duration: 0.8, delay: 0.8 + i * 0.1 }}
 //             >
-//               <div className="text-xl sm:text-2xl md:text-3xl font-semibold text-white mb-1">
+//               <div className="text-xl sm:text-2xl md:text-3xl font-semibold text-black dark:text-white mb-1">
 //                 {stat.value}
 //               </div>
-//               <div className="text-[9px] sm:text-[11px] uppercase tracking-[0.15em] sm:tracking-[0.2em] text-white/30">
+//               <div className="text-[9px] sm:text-[11px] uppercase tracking-[0.15em] sm:tracking-[0.2em] text-black/30 dark:text-white/30">
 //                 {stat.label}
 //               </div>
 //             </motion.div>
@@ -197,7 +197,7 @@
 //       </motion.div>
 
 //       {/* Bottom fade */}
-//       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent" />
+//       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white dark:from-black to-transparent" />
 //     </section>
 //     </>
 //   );
@@ -243,7 +243,7 @@ const UAESection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-white dark:bg-black"
     >
       {/* Background */}
       <div className="absolute inset-0">
@@ -289,7 +289,7 @@ const UAESection = () => {
             alt="Dubai skyline"
             className="w-full h-full object-cover rounded-3xl"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black  lg:mr-6" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-white dark:to-black lg:mr-6" />
         </motion.div>
 
         {/* Grid overlay */}
@@ -323,21 +323,21 @@ const UAESection = () => {
           }}
         >
           <span className="w-2 h-2 rounded-full bg-[#ff6b35]" />
-          <span className="text-xs text-white/70 tracking-wide">
+          <span className="text-xs text-black/70 dark:text-white/70 tracking-wide">
             Launching 2026
           </span>
         </motion.div>
 
         {/* Headline */}
-        <h2 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-semibold tracking-tight text-white leading-[0.9]">
+        <h2 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-semibold tracking-tight text-black dark:text-white leading-[0.9]">
           Dubai
         </h2>
-        <span className="block text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-semibold text-white/40">
+        <span className="block text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-semibold text-black/40 dark:text-white/40">
           is next.
         </span>
 
         {/* Subtext */}
-        <p className="mt-8 text-lg md:text-xl text-white/40 max-w-2xl mx-auto">
+        <p className="mt-8 text-lg md:text-xl text-black/40 dark:text-white/40 max-w-2xl mx-auto">
           The world's fastest-growing financial hub meets the future of payments.
           <br className="hidden md:block" />
           Private. Instant. Non-custodial.
@@ -351,10 +351,10 @@ const UAESection = () => {
             { value: "$2T+", label: "Annual Trade" },
           ].map((stat) => (
             <div key={stat.label} className="text-center">
-              <div className="text-2xl md:text-3xl font-semibold text-white">
+              <div className="text-2xl md:text-3xl font-semibold text-black dark:text-white">
                 {stat.value}
               </div>
-              <div className="text-[10px] tracking-widest text-white/30 uppercase">
+              <div className="text-[10px] tracking-widest text-black/30 dark:text-white/30 uppercase">
                 {stat.label}
               </div>
             </div>
@@ -363,7 +363,7 @@ const UAESection = () => {
       </motion.div>
 
       {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white dark:from-black to-transparent" />
     </section>
   );
 };

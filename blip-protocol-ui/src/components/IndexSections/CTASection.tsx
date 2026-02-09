@@ -26,7 +26,7 @@ const CTASection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative py-24 sm:py-32 md:py-48 bg-black overflow-hidden"
+      className="relative py-24 sm:py-32 md:py-48 bg-white dark:bg-black overflow-hidden"
     >
       {/* Immersive glow background */}
       <div className="absolute inset-0">
@@ -51,7 +51,7 @@ const CTASection = () => {
       {[...Array(20)].map((_, i) => (
         <motion.div
           key={i}
-          className="absolute w-1 h-1 rounded-full bg-white/60"
+          className="absolute w-1 h-1 rounded-full bg-black/60 dark:bg-white/60"
           style={{
             left: `${10 + Math.random() * 80}%`,
             top: `${10 + Math.random() * 80}%`,
@@ -80,9 +80,9 @@ const CTASection = () => {
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tight leading-[0.95] mb-6 sm:mb-8"
         >
-          <span className="text-white">The future</span>
+          <span className="text-black dark:text-white">The future</span>
           <br />
-          <span className="text-white/40">
+          <span className="text-black/40 dark:text-white/40">
             is borderless.
           </span>
         </motion.h2>
@@ -92,7 +92,7 @@ const CTASection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="text-base sm:text-lg text-white/40 max-w-md mx-auto mb-8 sm:mb-12 px-4"
+          className="text-base sm:text-lg text-black/40 dark:text-white/40 max-w-md mx-auto mb-8 sm:mb-12 px-4"
         >
           Join waitlist and be among the first.
         </motion.p>
@@ -105,12 +105,12 @@ const CTASection = () => {
         >
           {/* <Link
             to="/waitlist"
-            className="group inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-full bg-white text-black text-sm sm:text-base font-semibold hover:bg-white/90  transition-all duration-300"
+            className="group inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-full bg-white text-black text-sm sm:text-base font-semibold hover:bg-white/90 transition-all duration-300"
           >
             <span>Join Waitlist</span>
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link> */}
-          <CTAButton to="/waitlist" className=" w-[220px]  h-[48px]">Waitlist</CTAButton>
+          <CTAButton to="/waitlist" className="w-[220px] h-[48px]">Waitlist</CTAButton>
         </motion.div>
       </motion.div>
     </section>

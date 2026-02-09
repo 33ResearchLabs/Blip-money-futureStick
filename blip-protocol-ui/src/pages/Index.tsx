@@ -13,11 +13,12 @@ import {
   PrivacySection,
   EarlyAdopterBanner,
   RewardsSection,
-  PeopleBankSection,
   CTASection,
   LockedAndSecuredSection,
   InstantBiddingSection,
 } from "@/components/IndexSections";
+import AbstractVisual from "@/components/IndexSections/AbstractVisual";
+import { InteractiveBackground } from "@/components/InteractiveBackground";
 
 /* ============================================
    MAIN INDEX PAGE
@@ -36,7 +37,10 @@ const Index = () => {
         canonical="https://blip.money/"
       />
 
-      <div className="bg-transparent text-white relative overflow-x-hidden">
+      <div className="bg-white dark:bg-transparent text-black dark:text-white relative overflow-x-hidden">
+        {/* Interactive merchant dashboard background */}
+        <InteractiveBackground />
+
         {/* Grain overlay for premium film texture */}
         <div className="grain-overlay" />
 
@@ -44,6 +48,7 @@ const Index = () => {
         <LockedAndSecuredSection />
         <InstantBiddingSection />
         <BlipscanExplorerSection />
+        <AbstractVisual />
         <UAESection />
         <CashbackBanner />
         <ProblemSection />
@@ -54,7 +59,6 @@ const Index = () => {
         <PrivacySection />
         <EarlyAdopterBanner />
         <RewardsSection />
-        <PeopleBankSection />
         <CTASection />
       </div>
     </>

@@ -49,11 +49,11 @@ const ProblemSection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative py-12 md:py-40 bg-black overflow-hidden"
+      className="relative py-12 md:py-40 bg-white dark:bg-black overflow-hidden"
     >
       {/* Subtle background gradient */}
       <div className="absolute inset-0">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-white/[0.02] blur-[120px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-black/[0.02] dark:bg-white/[0.02] blur-[120px]" />
       </div>
 
       <motion.div
@@ -67,18 +67,18 @@ const ProblemSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[1.05] mb-6"
+            className="text-4xl md:text-6xl lg:text-7xl font-bold text-black dark:text-white tracking-tight leading-[1.05] mb-6"
           >
             Global payments
             <br />
-            <span className="text-white/20">are broken.</span>
+            <span className="text-black/20 dark:text-white/20">are broken.</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-xl md:text-2xl text-white/40 max-w-xl mx-auto"
+            className="text-xl md:text-2xl text-black/40 dark:text-white/40 max-w-xl mx-auto"
           >
             The traditional financial system was built for a different era. It's
             time for something better.
@@ -92,9 +92,7 @@ const ProblemSection = () => {
 
           {/* Moving line following from top to bottom */}
           <motion.div
-            className="absolute left-8 md:left-1/2 md:-translate-x-px w-1 h-12 rounded-full
-             bg-gradient-to-b from-transparent via-white/60 to-transparent
-             shadow-[0_0_20px_rgba(255,255,255,0.4)]"
+            className="absolute left-8 md:left-1/2 md:-translate-x-px w-1 h-12 rounded-full bg-gradient-to-b from-transparent via-white/60 to-transparent shadow-[0_0_20px_rgba(255,255,255,0.4)]"
             initial={{ top: "-50px" }}
             animate={{ top: "100%" }}
             transition={{
@@ -124,7 +122,7 @@ const ProblemSection = () => {
                   className={`absolute left-8 md:left-1/2 -translate-x-1/2 top-6 z-10`}
                 >
                   <motion.div
-                    className={`w-4 h-4 rounded-full border-2 ${problem.highlight ? "bg-white border-white" : "bg-black border-white/20"}`}
+                    className={`w-4 h-4 rounded-full border-2 ${problem.highlight ? "bg-white dark:bg-white border-white dark:border-white" : "bg-white dark:bg-black border-white/20 dark:border-white/20"}`}
                     whileInView={
                       problem.highlight
                         ? {
@@ -142,31 +140,31 @@ const ProblemSection = () => {
 
                 {/* Content card */}
                 <div
-                  className={`ml-20 md:ml-0  ${i % 2 === 0 ? "md:text-right md:pr-16" : "md:col-start-2 md:pl-16 md:text-left"}`}
+                  className={`ml-20 md:ml-0 ${i % 2 === 0 ? "md:text-right md:pr-16" : "md:col-start-2 md:pl-16 md:text-left"}`}
                 >
                   <div
-                    className={`inline-block p-6 rounded-2xl border  ${problem.highlight ? "bg-white/[0.06] border border-white" : "bg-white/[0.02] border border-white/20 "}`}
+                    className={`inline-block p-6 rounded-2xl border ${problem.highlight ? "bg-black/[0.06] dark:bg-white/[0.06] border-black dark:border-white" : "bg-black/[0.02] dark:bg-white/[0.02] border-black/20 dark:border-white/20"}`}
                   >
                     <div
-                      className={`text-[10px] uppercase tracking-[0.3em] ${problem.highlight ? "text-white/60" : "text-white/40"} font-medium mb-2`}
+                      className={`text-[10px] uppercase tracking-[0.3em] ${problem.highlight ? "text-black/60 dark:text-white/60" : "text-black/40 dark:text-white/40"} font-medium mb-2`}
                     >
                       {problem.year}
                     </div>
                     <h3
-                      className={`text-xl md:text-2xl font-semibold ${problem.highlight ? "text-white" : "text-white"} mb-2`}
+                      className={`text-xl md:text-2xl font-semibold ${problem.highlight ? "text-black dark:text-white" : "text-black dark:text-white"} mb-2`}
                     >
                       {problem.title}
                     </h3>
-                    <p className="text-base md:text-lg text-white/50 mb-4 leading-relaxed max-w-sm">
+                    <p className="text-base md:text-lg text-black/50 dark:text-white/50 mb-4 leading-relaxed max-w-sm">
                       {problem.desc}
                     </p>
                     <div className="flex items-baseline gap-2">
                       <span
-                        className={`text-2xl font-bold ${problem.highlight ? "text-white" : "text-white"}`}
+                        className={`text-2xl font-bold ${problem.highlight ? "text-black dark:text-white" : "text-black dark:text-white"}`}
                       >
                         {problem.stat}
                       </span>
-                      <span className="text-xs text-white/30">
+                      <span className="text-xs text-black/30 dark:text-white/30">
                         {problem.statLabel}
                       </span>
                     </div>

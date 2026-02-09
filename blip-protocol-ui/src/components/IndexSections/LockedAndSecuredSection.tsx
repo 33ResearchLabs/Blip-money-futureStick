@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Lock, Shield, Zap, Globe, Wifi, Battery } from "lucide-react";
+import { MicroIcon } from "@/components/visuals/MicroIcon";
 
 /* ============================================
    LOCKED & SECURED SECTION
@@ -8,10 +9,10 @@ import { Lock, Shield, Zap, Globe, Wifi, Battery } from "lucide-react";
 
 const LockedAndSecuredSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-black overflow-hidden py-16 sm:py-20 lg:py-0 ">
+    <section className="relative min-h-screen flex items-center justify-center bg-white dark:bg-black overflow-hidden py-16 sm:py-20 lg:py-0 ">
       {/* Background elements */}
       <div className="absolute inset-0 pointer-events-none ">
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-[#050505] to-black" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white dark:from-black via-[#fafafa] dark:via-[#050505] to-white dark:to-black" />
         <motion.div
           className="absolute top-[20%] right-[10%] w-[400px] h-[400px] rounded-full opacity-20"
           style={{
@@ -26,23 +27,23 @@ const LockedAndSecuredSection = () => {
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-16 xl:gap-20 items-center">
         <div className="flex flex-col justify-center items-center lg:hidden">
           <div className="inline-flex items-center gap-3 mb-6">
-            <div className="relative w-10 h-10 rounded-lg border border-white/[0.08] flex items-center justify-center group hover:border-white/20 transition-colors">
+            <div className="relative w-10 h-10 rounded-lg border border-black/[0.08] dark:border-white/[0.08] flex items-center justify-center group hover:border-black/20 dark:hover:border-white/20 transition-colors">
               <Lock
-                className="w-4 h-4 text-white/40 group-hover:text-[#ff6b35] transition-colors"
+                className="w-4 h-4 text-black/40 dark:text-white/40 group-hover:text-[#ff6b35] transition-colors"
                 strokeWidth={1.5}
               />
-              <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-black border border-white/10 flex items-center justify-center">
-                <span className="text-[10px] font-medium text-white/50">2</span>
+              <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-black border border-black/10 dark:border-white/10 flex items-center justify-center">
+                <span className="text-[10px] font-medium text-black/50 dark:text-white/50">2</span>
               </div>
             </div>
-            <span className="text-lg font-semibold text-white">Escrow</span>
+            <span className="text-lg font-semibold text-black dark:text-white">Escrow</span>
           </div>
 
           {/* Heading */}
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 sm:mb-6 leading-[1.1] tracking-tight">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-black dark:text-white mb-4 sm:mb-6 leading-[1.1] tracking-tight">
             Locked &
             <br />
-            <span className="text-white/20">secured.</span>
+            <span className="text-black/20 dark:text-white/20">secured.</span>
           </h2>
         </div>
 
@@ -94,11 +95,36 @@ const LockedAndSecuredSection = () => {
 
                   {/* Screen Content */}
                   <div className="px-6 pb-8 pt-8 flex flex-col h-full">
-                    {/* Lock icon */}
+                    {/* Lock icon with pulse/glow effect */}
                     <div className="flex justify-center mb-8">
-                      <div className="w-20 h-20 rounded-full bg-white/[0.05] border border-white/[0.08] flex items-center justify-center">
-                        <Lock className="w-10 h-10 text-white/60" />
-                      </div>
+                      <motion.div
+                        className="relative w-20 h-20 rounded-full bg-white/[0.05] border border-white/[0.08] flex items-center justify-center"
+                        animate={{
+                          boxShadow: [
+                            "0 0 0 0 rgba(255, 107, 53, 0)",
+                            "0 0 20px 4px rgba(255, 107, 53, 0.15)",
+                            "0 0 0 0 rgba(255, 107, 53, 0)",
+                          ],
+                        }}
+                        transition={{
+                          duration: 3,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                        }}
+                      >
+                        <motion.div
+                          animate={{
+                            scale: [1, 1.05, 1],
+                          }}
+                          transition={{
+                            duration: 3,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                          }}
+                        >
+                          <Lock className="w-10 h-10 text-white/60" />
+                        </motion.div>
+                      </motion.div>
                     </div>
 
                     {/* Main text */}
@@ -132,7 +158,7 @@ const LockedAndSecuredSection = () => {
                       <div className="flex items-center justify-between">
                         <span className="text-sm text-white/40">Network</span>
                         <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 rounded-full bg-gradient-to-r from-purple-500 to-blue-500" />
+                          <div className="w-4 h-4 rounded-full bg-white/20" />
                           <span className="text-sm text-white/60">Solana</span>
                         </div>
                       </div>
@@ -166,64 +192,66 @@ const LockedAndSecuredSection = () => {
         >
           {/* Step indicator */}
           <div className="hidden lg:inline-flex items-center gap-3 mb-6">
-            <div className="relative w-10 h-10 rounded-lg border border-white/[0.08] flex items-center justify-center group hover:border-white/20 transition-colors">
+            <div className="relative w-10 h-10 rounded-lg border border-black/[0.08] dark:border-white/[0.08] flex items-center justify-center group hover:border-black/20 dark:hover:border-white/20 transition-colors">
               <Lock
-                className="w-4 h-4 text-white/40 group-hover:text-[#ff6b35] transition-colors"
+                className="w-4 h-4 text-black/40 dark:text-white/40 group-hover:text-[#ff6b35] transition-colors"
                 strokeWidth={1.5}
               />
-              <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-black border border-white/10 flex items-center justify-center">
-                <span className="text-[10px] font-medium text-white/50">2</span>
+              <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-black border border-black/10 dark:border-white/10 flex items-center justify-center">
+                <span className="text-[10px] font-medium text-black/50 dark:text-white/50">2</span>
               </div>
             </div>
-            <span className="text-lg font-semibold text-white">Escrow</span>
+            <span className="text-lg font-semibold text-black dark:text-white">Escrow</span>
           </div>
 
           {/* Heading */}
-          <h2 className="hidden lg:block text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 sm:mb-6 leading-[1.1] tracking-tight">
+          <h2 className="hidden lg:block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-black dark:text-white mb-6 sm:mb-8 leading-[1.1] tracking-tight">
             Locked &
             <br />
-            <span className="text-white/20">secured.</span>
+            <span className="text-black/20 dark:text-white/20">secured.</span>
           </h2>
 
           {/* Description */}
-          <p className="text-white/50 text-base sm:text-lg mb-8 leading-relaxed max-w-sm mx-auto lg:mx-0">
+          <p className="text-black/50 dark:text-white/50 text-lg sm:text-xl lg:text-2xl mb-10 leading-relaxed max-w-xl mx-auto lg:mx-0">
             Funds locked in smart contract. Protected by DAO escrow. Your crypto
             stays safe until the transaction completes.
           </p>
 
           {/* Features */}
-          <div className="space-y-3 max-w-sm mx-auto lg:mx-0">
+          <div className="space-y-4 max-w-xl mx-auto lg:mx-0">
             {[
-              {
-                icon: Shield,
-                label: "Non-custodial",
-                desc: "You control your keys",
-              },
               {
                 icon: Zap,
                 label: "Instant lock",
                 desc: "Sub-second confirmation",
+                variant: "pulse" as const,
               },
               {
                 icon: Globe,
                 label: "On-chain proof",
                 desc: "Fully transparent",
+                variant: "spin" as const,
               },
-            ].map((feature) => (
+            ].map((feature, index) => (
               <motion.div
                 key={feature.label}
-                className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04] hover:border-white/[0.08] transition-colors"
+                className="flex items-center gap-4 p-5 rounded-xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.04] dark:border-white/[0.04] hover:border-black/[0.08] dark:hover:border-white/[0.08] transition-colors"
                 whileHover={{ x: 4 }}
                 transition={{ duration: 0.2 }}
               >
-                <div className="w-10 h-10 rounded-lg bg-white/[0.03] flex items-center justify-center">
-                  <feature.icon className="w-5 h-5 text-white/40" />
+                <div className="w-14 h-14 rounded-lg bg-black/[0.03] dark:bg-white/[0.03] flex items-center justify-center">
+                  <MicroIcon
+                    icon={feature.icon}
+                    variant={feature.variant}
+                    size={28}
+                    delay={index * 0.3}
+                  />
                 </div>
                 <div>
-                  <div className="text-white text-left text-sm font-medium">
+                  <div className="text-black dark:text-white text-left text-lg font-medium">
                     {feature.label}
                   </div>
-                  <div className="text-white/40 text-xs">{feature.desc}</div>
+                  <div className="text-black/40 dark:text-white/40 text-base">{feature.desc}</div>
                 </div>
               </motion.div>
             ))}

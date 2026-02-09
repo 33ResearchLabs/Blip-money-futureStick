@@ -21,10 +21,10 @@ const InstantBiddingSection = () => {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-start justify-center bg-black overflow-hidden py-16 sm:py-20 lg:pt-28">
+    <section className="relative min-h-screen flex items-start justify-center bg-white dark:bg-black overflow-hidden py-16 sm:py-20 lg:pt-28">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-[#050505] to-black" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white dark:from-black via-gray-100 dark:via-[#050505] to-white dark:to-black" />
         <motion.div
           className="absolute top-[30%] left-[5%] w-[300px] h-[300px] rounded-full opacity-15"
           style={{
@@ -44,23 +44,23 @@ const InstantBiddingSection = () => {
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
           <div className="inline-flex items-center gap-3 mb-4 sm:mb-6">
-            <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-lg border border-white/[0.08] flex items-center justify-center group hover:border-white/20 transition-colors">
+            <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-lg border border-black/[0.08] dark:border-white/[0.08] flex items-center justify-center group hover:border-black/20 hover:dark:border-white/20 transition-colors">
               <Zap
-                className="w-4 h-4 sm:w-5 sm:h-5 text-white/40 group-hover:text-white/60 transition-colors"
+                className="w-4 h-4 sm:w-5 sm:h-5 text-black/40 dark:text-white/40 group-hover:text-black/60 group-hover:dark:text-white/60 transition-colors"
                 strokeWidth={1.5}
               />
-              <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-black border border-white/10 flex items-center justify-center">
-                <span className="text-[10px] font-medium text-white/50">3</span>
+              <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white dark:bg-black border border-black/10 dark:border-white/10 flex items-center justify-center">
+                <span className="text-[10px] font-medium text-black/50 dark:text-white/50">3</span>
               </div>
             </div>
-            <span className="text-lg sm:text-xl font-semibold text-white">
+            <span className="text-lg sm:text-xl font-semibold text-black dark:text-white">
               Match
             </span>
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2 sm:mb-4 tracking-tight">
-            Instant <span className="text-white/20">bidding.</span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black dark:text-white mb-2 sm:mb-4 tracking-tight">
+            Instant <span className="text-black/20 dark:text-white/20">bidding.</span>
           </h2>
-          <p className="text-white/50 text-sm sm:text-base lg:text-lg max-w-2xl mx-auto hidden sm:block">
+          <p className="text-black/50 dark:text-white/50 text-sm sm:text-base lg:text-lg max-w-2xl mx-auto hidden sm:block">
             Merchants compete in real-time to fulfill your order. Best rate wins
             automatically.
           </p>
@@ -74,16 +74,16 @@ const InstantBiddingSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
         >
-          <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/[0.02] border border-white/[0.06]">
+          <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.06] dark:border-white/[0.06]">
             <motion.div
-              className="w-2 h-2 rounded-full bg-white/40"
+              className="w-2 h-2 rounded-full bg-black/40 dark:bg-white/40"
               animate={{ scale: [1, 1.3, 1], opacity: [1, 0.6, 1] }}
               transition={{ duration: 1.5, repeat: Infinity }}
             />
-            <span className="text-[10px] sm:text-xs text-white/50">
+            <span className="text-[10px] sm:text-xs text-black/50 dark:text-white/50">
               Powered by
             </span>
-            <span className="text-[10px] sm:text-xs font-semibold text-white">
+            <span className="text-[10px] sm:text-xs font-semibold text-black dark:text-white">
               150+ Verified Merchants
             </span>
           </div>
@@ -116,7 +116,7 @@ const InstantBiddingSection = () => {
               }}
             />
             <motion.div
-              className="absolute w-[90%] h-[90%] rounded-3xl border border-white/5"
+              className="absolute w-[90%] h-[90%] rounded-3xl border border-black/5 dark:border-white/5"
               style={{
                 x: mousePosition.x * -10,
                 y: mousePosition.y * -8,
@@ -142,36 +142,36 @@ const InstantBiddingSection = () => {
             }}
           />
 
-          <div className="rounded-2xl overflow-hidden border border-white/[0.08] bg-[#0a0a0a] shadow-[0_30px_60px_rgba(0,0,0,0.4)] sm:shadow-[0_50px_100px_rgba(0,0,0,0.5),0_0_80px_rgba(255,255,255,0.04)] lg:max-h-[65vh] relative">
+          <div className="rounded-2xl overflow-hidden border border-black/[0.08] dark:border-white/[0.08] bg-[#fafafa] dark:bg-[#0a0a0a] shadow-[0_30px_60px_rgba(0,0,0,0.4)] sm:shadow-[0_50px_100px_rgba(0,0,0,0.5),0_0_80px_rgba(255,255,255,0.04)] lg:max-h-[65vh] relative">
             {/* Browser chrome */}
-            <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-5 py-2.5 sm:py-4 bg-[#111] border-b border-white/[0.06]">
+            <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-5 py-2.5 sm:py-4 bg-[#f5f5f5] dark:bg-[#111] border-b border-black/[0.06] dark:border-white/[0.06]">
               <div className="flex items-center gap-1.5 sm:gap-2">
-                <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/20" />
-                <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/20" />
-                <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/20" />
+                <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-black/20 dark:bg-white/20" />
+                <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-black/20 dark:bg-white/20" />
+                <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-black/20 dark:bg-white/20" />
               </div>
               <div className="flex-1 flex justify-center">
-                <div className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg bg-white/[0.03] border border-white/[0.06] w-full max-w-[200px] sm:max-w-[300px] md:max-w-[400px]">
-                  <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-                    <Lock className="w-2 h-2 sm:w-2.5 sm:h-2.5 text-white/40" />
+                <div className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] w-full max-w-[200px] sm:max-w-[300px] md:max-w-[400px]">
+                  <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center shrink-0">
+                    <Lock className="w-2 h-2 sm:w-2.5 sm:h-2.5 text-black/40 dark:text-white/40" />
                   </div>
-                  <span className="text-[10px] sm:text-sm text-white/40 font-mono truncate">
+                  <span className="text-[10px] sm:text-sm text-black/40 dark:text-white/40 font-mono truncate">
                     settle.blipprotocol.com/merchant
                   </span>
                   <div className="hidden sm:flex items-center gap-1.5 ml-auto shrink-0">
                     <motion.div
-                      className="w-2 h-2 rounded-full bg-white/50"
+                      className="w-2 h-2 rounded-full bg-black/50 dark:bg-white/50"
                       animate={{ opacity: [1, 0.5, 1] }}
                       transition={{ duration: 1.5, repeat: Infinity }}
                     />
-                    <span className="text-[10px] text-white/60 font-medium">
+                    <span className="text-[10px] text-black/60 dark:text-white/60 font-medium">
                       LIVE
                     </span>
                   </div>
                 </div>
               </div>
               <div className="hidden sm:flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-white/20 to-white/10 flex items-center justify-center text-xs font-bold text-white">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-white/20 to-white/10 flex items-center justify-center text-xs font-bold text-black dark:text-white">
                   M
                 </div>
               </div>
@@ -182,17 +182,17 @@ const InstantBiddingSection = () => {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6">
                 {/* Left Panel - Order Details */}
                 <div className="lg:col-span-5">
-                  <div className="rounded-xl bg-white/[0.02] border border-white/[0.06] p-5 mb-4">
+                  <div className="rounded-xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.06] dark:border-white/[0.06] p-5 mb-4">
                     <div className="flex items-center justify-between mb-4">
-                      <span className="text-xs uppercase tracking-wider text-white/40">
+                      <span className="text-xs uppercase tracking-wider text-black/40 dark:text-white/40">
                         Active Order
                       </span>
                       <motion.div
-                        className="px-2 py-1 rounded-full bg-white/5 border border-white/10"
+                        className="px-2 py-1 rounded-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10"
                         animate={{ opacity: [1, 0.7, 1] }}
                         transition={{ duration: 2, repeat: Infinity }}
                       >
-                        <span className="text-[10px] text-white/60 font-medium">
+                        <span className="text-[10px] text-black/60 dark:text-white/60 font-medium">
                           BIDDING OPEN
                         </span>
                       </motion.div>
@@ -200,13 +200,13 @@ const InstantBiddingSection = () => {
 
                     <div className="flex items-center gap-4 mb-6">
                       <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-white/10 to-white/5 flex items-center justify-center">
-                        <span className="text-xl font-bold text-white">US</span>
+                        <span className="text-xl font-bold text-black dark:text-white">US</span>
                       </div>
                       <div>
-                        <div className="text-2xl font-bold text-white">
+                        <div className="text-2xl font-bold text-black dark:text-white">
                           5,000 USDT
                         </div>
-                        <div className="flex items-center gap-2 text-sm text-white/40">
+                        <div className="flex items-center gap-2 text-sm text-black/40 dark:text-white/40">
                           <ArrowRight className="w-3 h-3" />
                           <span>AED (United Arab Emirates)</span>
                         </div>
@@ -214,29 +214,29 @@ const InstantBiddingSection = () => {
                     </div>
 
                     <div className="space-y-3 mb-6">
-                      <div className="flex items-center justify-between py-2 border-b border-white/[0.04]">
-                        <span className="text-sm text-white/40">Order ID</span>
-                        <span className="text-sm text-white font-mono">
+                      <div className="flex items-center justify-between py-2 border-b border-black/[0.04] dark:border-white/[0.04]">
+                        <span className="text-sm text-black/40 dark:text-white/40">Order ID</span>
+                        <span className="text-sm text-black dark:text-white font-mono">
                           #BLP-8472
                         </span>
                       </div>
-                      <div className="flex items-center justify-between py-2 border-b border-white/[0.04]">
-                        <span className="text-sm text-white/40">
+                      <div className="flex items-center justify-between py-2 border-b border-black/[0.04] dark:border-white/[0.04]">
+                        <span className="text-sm text-black/40 dark:text-white/40">
                           Escrow Status
                         </span>
                         <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 rounded-full bg-white/50" />
-                          <span className="text-sm text-white/60">
+                          <div className="w-2 h-2 rounded-full bg-black/50 dark:bg-white/50" />
+                          <span className="text-sm text-black/60 dark:text-white/60">
                             Locked
                           </span>
                         </div>
                       </div>
                       <div className="flex items-center justify-between py-2">
-                        <span className="text-sm text-white/40">
+                        <span className="text-sm text-black/40 dark:text-white/40">
                           Time Remaining
                         </span>
                         <motion.span
-                          className="text-sm text-white/70 font-mono font-medium"
+                          className="text-sm text-black/70 dark:text-white/70 font-mono font-medium"
                           animate={{ opacity: [1, 0.6, 1] }}
                           transition={{ duration: 1, repeat: Infinity }}
                         >
@@ -246,7 +246,7 @@ const InstantBiddingSection = () => {
                     </div>
 
                     {/* Progress bar */}
-                    <div className="relative h-2 rounded-full bg-white/[0.05] overflow-hidden">
+                    <div className="relative h-2 rounded-full bg-black/[0.05] dark:bg-white/[0.05] overflow-hidden">
                       <motion.div
                         className="absolute inset-y-0 left-0 bg-gradient-to-r from-white/40 to-white/20 rounded-full"
                         initial={{ width: "20%" }}
@@ -259,10 +259,10 @@ const InstantBiddingSection = () => {
                       />
                     </div>
                     <div className="flex items-center justify-between mt-2">
-                      <span className="text-[10px] text-white/30">
+                      <span className="text-[10px] text-black/30 dark:text-white/30">
                         Collecting bids...
                       </span>
-                      <span className="text-[10px] text-white/30">
+                      <span className="text-[10px] text-black/30 dark:text-white/30">
                         4 merchants bidding
                       </span>
                     </div>
@@ -270,17 +270,17 @@ const InstantBiddingSection = () => {
 
                   {/* Quick stats */}
                   <div className="grid grid-cols-2 gap-3">
-                    <div className="rounded-xl bg-white/[0.02] border border-white/[0.06] p-4 text-center">
-                      <div className="text-2xl font-bold text-white">~8s</div>
-                      <div className="text-[10px] text-white/40 uppercase tracking-wider">
+                    <div className="rounded-xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.06] dark:border-white/[0.06] p-4 text-center">
+                      <div className="text-2xl font-bold text-black dark:text-white">~8s</div>
+                      <div className="text-[10px] text-black/40 dark:text-white/40 uppercase tracking-wider">
                         Avg Match
                       </div>
                     </div>
-                    <div className="rounded-xl bg-white/[0.02] border border-white/[0.06] p-4 text-center">
-                      <div className="text-2xl font-bold text-white">
+                    <div className="rounded-xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.06] dark:border-white/[0.06] p-4 text-center">
+                      <div className="text-2xl font-bold text-black dark:text-white">
                         99.9%
                       </div>
-                      <div className="text-[10px] text-white/40 uppercase tracking-wider">
+                      <div className="text-[10px] text-black/40 dark:text-white/40 uppercase tracking-wider">
                         Fill Rate
                       </div>
                     </div>
@@ -291,10 +291,10 @@ const InstantBiddingSection = () => {
                 <div className="hidden sm:block lg:col-span-7">
                   <div className="flex items-center justify-between mb-4">
                     <div>
-                      <h3 className="text-lg font-bold text-white">
+                      <h3 className="text-lg font-bold text-black dark:text-white">
                         Live Merchant Bids
                       </h3>
-                      <span className="text-xs text-white/40">
+                      <span className="text-xs text-black/40 dark:text-white/40">
                         Real-time competitive pricing
                       </span>
                     </div>
@@ -302,7 +302,7 @@ const InstantBiddingSection = () => {
                       {[0, 1, 2].map((i) => (
                         <motion.div
                           key={i}
-                          className="w-1.5 h-1.5 rounded-full bg-white/40"
+                          className="w-1.5 h-1.5 rounded-full bg-black/40 dark:bg-white/40"
                           animate={{ opacity: [0.3, 1, 0.3] }}
                           transition={{
                             duration: 0.8,
@@ -358,8 +358,8 @@ const InstantBiddingSection = () => {
                         key={bid.name}
                         className={`p-4 rounded-xl border transition-all ${
                           bid.best
-                            ? "bg-white/[0.08] border-white/20"
-                            : "bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04]"
+                            ? "bg-black/[0.08] dark:bg-white/[0.08] border-black/20 dark:border-white/20"
+                            : "bg-black/[0.02] dark:bg-white/[0.02] border-black/[0.06] dark:border-white/[0.06] hover:bg-black/[0.04] hover:dark:bg-white/[0.04]"
                         }`}
                         initial={{ opacity: 0, x: 20 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -370,23 +370,23 @@ const InstantBiddingSection = () => {
                           <div className="flex items-center gap-3">
                             <div
                               className={`w-10 h-10 rounded-xl flex items-center justify-center text-xs font-bold ${
-                                bid.best ? "bg-white/10 text-white/80" : "bg-white/[0.05] text-white/50"
+                                bid.best ? "bg-black/10 dark:bg-white/10 text-black/80 dark:text-white/80" : "bg-black/[0.05] dark:bg-white/[0.05] text-black/50 dark:text-white/50"
                               }`}
                             >
                               {bid.avatar}
                             </div>
                             <div>
                               <div className="flex items-center gap-2">
-                                <span className="text-sm font-semibold text-white">
+                                <span className="text-sm font-semibold text-black dark:text-white">
                                   {bid.name}
                                 </span>
                                 {bid.best && (
-                                  <span className="px-2 py-0.5 rounded-full bg-white/10 text-[9px] text-white/70 font-bold uppercase">
+                                  <span className="px-2 py-0.5 rounded-full bg-black/10 dark:bg-white/10 text-[9px] text-black/70 dark:text-white/70 font-bold uppercase">
                                     Best Rate
                                   </span>
                                 )}
                               </div>
-                              <div className="flex items-center gap-2 text-xs text-white/40">
+                              <div className="flex items-center gap-2 text-xs text-black/40 dark:text-white/40">
                                 <span>{bid.trades} trades</span>
                                 <span>•</span>
                                 <span>ETA {bid.time}</span>
@@ -395,19 +395,19 @@ const InstantBiddingSection = () => {
                           </div>
                           <div className="flex items-center gap-4">
                             <div className="text-right">
-                              <div className="text-lg font-bold text-white">
+                              <div className="text-lg font-bold text-black dark:text-white">
                                 {bid.rate}{" "}
-                                <span className="text-xs text-white/40">
+                                <span className="text-xs text-black/40 dark:text-white/40">
                                   AED
                                 </span>
                               </div>
-                              <div className="text-xs text-white/50">
+                              <div className="text-xs text-black/50 dark:text-white/50">
                                 {bid.profit} profit
                               </div>
                             </div>
                             <motion.div
                               className={`w-3 h-3 rounded-full ${
-                                bid.best ? "bg-white/60" : "bg-white/20"
+                                bid.best ? "bg-black/60 dark:bg-white/60" : "bg-black/20 dark:bg-white/20"
                               }`}
                               animate={bid.best ? { scale: [1, 1.2, 1] } : {}}
                               transition={{ duration: 1, repeat: Infinity }}
@@ -419,16 +419,16 @@ const InstantBiddingSection = () => {
                   </div>
 
                   {/* Auto-select notice */}
-                  <div className="mt-4 p-4 rounded-xl bg-white/[0.03] border border-white/10">
+                  <div className="mt-4 p-4 rounded-xl bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-white/10">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
-                        <Zap className="w-4 h-4 text-white/60" />
+                      <div className="w-8 h-8 rounded-lg bg-black/10 dark:bg-white/10 flex items-center justify-center">
+                        <Zap className="w-4 h-4 text-black/60 dark:text-white/60" />
                       </div>
                       <div>
-                        <span className="text-sm text-white/70 font-medium">
+                        <span className="text-sm text-black/70 dark:text-white/70 font-medium">
                           Auto-selecting best offer
                         </span>
-                        <span className="text-xs text-white/40 block">
+                        <span className="text-xs text-black/40 dark:text-white/40 block">
                           You'll receive 18,360 AED in ~30 seconds
                         </span>
                       </div>

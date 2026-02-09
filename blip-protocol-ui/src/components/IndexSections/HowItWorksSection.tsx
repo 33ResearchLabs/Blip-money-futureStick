@@ -38,29 +38,29 @@ const HowItWorksSection = () => {
             <div className="flex items-center gap-2">
               <Header className="text-xl w-28" />
             </div>
-            <div className="w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-white/5 flex items-center justify-center">
-              <User className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-white/40" />
+            <div className="w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center">
+              <User className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-black/40 dark:text-white/40" />
             </div>
           </div>
           <div className="flex-1 flex flex-col items-center justify-center min-h-0">
-            <span className="text-[10px] sm:text-xs text-white/40 uppercase tracking-wider mb-2">
+            <span className="text-[10px] sm:text-xs text-black/40 dark:text-white/40 uppercase tracking-wider mb-2">
               You send
             </span>
             <div className="flex items-baseline gap-1.5 mb-4">
-              <span className="text-3xl sm:text-4xl font-bold text-white">
+              <span className="text-3xl sm:text-4xl font-bold text-black dark:text-white">
                 500
               </span>
-              <span className="text-sm sm:text-base text-white/50">USDT</span>
+              <span className="text-sm sm:text-base text-black/50 dark:text-white/50">USDT</span>
             </div>
-            <div className="w-full px-3 py-3 rounded-xl bg-white/[0.03] border border-white/[0.06] text-center mb-2">
-              <span className="text-[10px] text-white/30 block mb-0.5">
+            <div className="w-full px-3 py-3 rounded-xl bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] text-center mb-2">
+              <span className="text-[10px] text-black/30 dark:text-white/30 block mb-0.5">
                 Recipient gets
               </span>
-              <span className="text-sm sm:text-base text-white font-medium">
+              <span className="text-sm sm:text-base text-black dark:text-white font-medium">
                 1,835 AED
               </span>
             </div>
-            <div className="flex items-center gap-1.5 text-[10px] sm:text-xs text-white/30">
+            <div className="flex items-center gap-1.5 text-[10px] sm:text-xs text-black/30 dark:text-white/30">
               <Check className="w-2.5 sm:w-3 h-2.5 sm:h-3 text-emerald-400" />
               <span>Best rate locked</span>
             </div>
@@ -82,12 +82,12 @@ const HowItWorksSection = () => {
       screen: (
         <div className="p-3 sm:p-4 h-full flex flex-col text-left overflow-hidden">
           <div className="flex items-center justify-between mb-3 sm:mb-4">
-            <span className="text-xs sm:text-sm font-semibold text-white">
+            <span className="text-xs sm:text-sm font-semibold text-black dark:text-white">
               Live Orders
             </span>
-            <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/10">
-              <div className="w-1.5 h-1.5 rounded-full bg-white/60" />
-              <span className="text-[8px] sm:text-[10px] text-white/60 font-medium">
+            <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-black/10 dark:bg-white/10">
+              <div className="w-1.5 h-1.5 rounded-full bg-black/60 dark:bg-white/60" />
+              <span className="text-[8px] sm:text-[10px] text-black/60 dark:text-white/60 font-medium">
                 LIVE
               </span>
             </div>
@@ -117,28 +117,28 @@ const HowItWorksSection = () => {
                 key={i}
                 className={`p-2.5 sm:p-3 rounded-lg sm:rounded-xl ${
                   bid.best
-                    ? "bg-white/[0.06] border border-white/20"
-                    : "bg-white/[0.02] border border-white/[0.04]"
+                    ? "bg-black/[0.06] dark:bg-white/[0.06] border border-black/20 dark:border-white/20"
+                    : "bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.04] dark:border-white/[0.04]"
                 }`}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div
                       className={`w-6 sm:w-7 h-6 sm:h-7 rounded-md sm:rounded-lg ${
-                        bid.best ? "bg-white/10" : "bg-white/5"
+                        bid.best ? "bg-black/10 dark:bg-white/10" : "bg-black/5 dark:bg-white/5"
                       } flex items-center justify-center`}
                     >
                       {bid.best ? (
-                        <CheckCircle2 className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-white" />
+                        <CheckCircle2 className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-black dark:text-white" />
                       ) : (
-                        <Building2 className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-white/40" />
+                        <Building2 className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-black/40 dark:text-white/40" />
                       )}
                     </div>
                     <div>
-                      <span className="text-xs sm:text-sm font-semibold text-white block">
+                      <span className="text-xs sm:text-sm font-semibold text-black dark:text-white block">
                         {bid.rate} AED
                       </span>
-                      <span className="text-[8px] sm:text-[10px] text-white/30">
+                      <span className="text-[8px] sm:text-[10px] text-black/30 dark:text-white/30">
                         {bid.merchant}
                       </span>
                     </div>
@@ -150,10 +150,10 @@ const HowItWorksSection = () => {
               </div>
             ))}
           </div>
-          <div className="mt-3 p-2.5 rounded-lg bg-white/[0.02] border border-white/[0.04] flex-shrink-0">
+          <div className="mt-3 p-2.5 rounded-lg bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.04] dark:border-white/[0.04] flex-shrink-0">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full border-2 border-white/30 border-t-white/60" />
-              <span className="text-[10px] sm:text-xs text-white/40">
+              <div className="w-3 h-3 rounded-full border-2 border-black/30 dark:border-white/30 border-t-white/60" />
+              <span className="text-[10px] sm:text-xs text-black/40 dark:text-white/40">
                 Auto-selecting best rate...
               </span>
             </div>
@@ -169,17 +169,17 @@ const HowItWorksSection = () => {
       appIcon: "🔍",
       screen: (
         <div className="p-3 sm:p-4 h-full flex flex-col text-left overflow-hidden">
-          <div className="flex items-center justify-between mb-3  ">
+          <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2 md:gap-2.5">
-              <div className="w-6 h-6  rounded-md sm:rounded-lg bg-white flex items-center justify-center">
+              <div className="w-6 h-6 rounded-md sm:rounded-lg bg-white flex items-center justify-center">
                 <Globe className="w-3 sm:w-3.5 md:w-4 lg:w-4.5 h-3 sm:h-3.5 md:h-4 lg:h-4.5 text-black" />
               </div>
-              <span className="text-xs sm:text-sm md:text-base  font-semibold text-white">
+              <span className="text-xs sm:text-sm md:text-base font-semibold text-black dark:text-white">
                 Blipscan
               </span>
             </div>
-            <div className="px-2 py-0.5 rounded-full flex justify-normal  bg-white/[0.05]">
-              <span className="text-[8px] sm:text-[10px] text-white/60 font-medium">
+            <div className="px-2 py-0.5 rounded-full flex justify-normal bg-black/[0.05] dark:bg-white/[0.05]">
+              <span className="text-[8px] sm:text-[10px] text-black/60 dark:text-white/60 font-medium">
                 Mainnet
               </span>
             </div>
@@ -197,24 +197,24 @@ const HowItWorksSection = () => {
             ].map((tx, i) => (
               <div
                 key={i}
-                className="p-2.5 sm:p-3 rounded-lg md:rounded-xl bg-white/[0.02] border border-white/[0.04]"
+                className="p-2.5 sm:p-3 rounded-lg md:rounded-xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.04] dark:border-white/[0.04]"
               >
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-[8px] sm:text-[10px] md:text-xs  text-white/40 font-mono">
+                  <span className="text-[8px] sm:text-[10px] md:text-xs text-black/40 dark:text-white/40 font-mono">
                     {tx.id}...
                   </span>
-                  <div className="flex items-center gap-1 md:gap-1.5 px-1.5 md:px-2 lg:px-2.5 py-0.5  rounded md:rounded-md bg-emerald-500/10">
-                    <Check className="w-2.5 sm:w-3   h-2.5 sm:h-3  text-emerald-400" />
+                  <div className="flex items-center gap-1 md:gap-1.5 px-1.5 md:px-2 lg:px-2.5 py-0.5 rounded md:rounded-md bg-emerald-500/10">
+                    <Check className="w-2.5 sm:w-3 h-2.5 sm:h-3 text-emerald-400" />
                     <span className="text-[10px] sm:text-xs text-emerald-400 font-medium">
                       {tx.time}
                     </span>
                   </div>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-xs   text-white">
+                  <span className="text-xs text-black dark:text-white">
                     {tx.to}
                   </span>
-                  <span className="text-[13px] font-semibold text-white">
+                  <span className="text-[13px] font-semibold text-black dark:text-white">
                     {tx.amount}
                   </span>
                 </div>
@@ -222,11 +222,11 @@ const HowItWorksSection = () => {
             ))}
           </div>
           
-          <div className="mt-3 p-2.5 rounded-lg bg-white/[0.02] border border-white/[0.04] flex-shrink-0">
+          <div className="mt-3 p-2.5 rounded-lg bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.04] dark:border-white/[0.04] flex-shrink-0">
             <div className="flex items-center justify-center gap-2">
-              {/* <div className="w-3 h-3 rounded-full border-2 border-white/30 border-t-white/60" /> */}
+              {/* <div className="w-3 h-3 rounded-full border-2 border-black/30 dark:border-white/30 border-t-white/60" /> */}
               <div className="w-1.5 md:w-2 h-1.5 md:h-2 rounded-full bg-emerald-400" />
-              <span className="text-[10px] sm:text-xs text-white/40">
+              <span className="text-[10px] sm:text-xs text-black/40 dark:text-white/40">
                  Connected to Solana
               </span>
             </div>
@@ -239,11 +239,11 @@ const HowItWorksSection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen lg:h-screen flex items-center justify-center bg-black overflow-hidden py-12 lg:py-0"
+      className="relative min-h-screen lg:h-screen flex items-center justify-center bg-white dark:bg-black overflow-hidden py-12 lg:py-0"
     >
       {/* Animated background */}
       <div className="absolute inset-0">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full bg-white/[0.02] blur-[120px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full bg-black/[0.02] dark:bg-white/[0.02] blur-[120px]" />
         <motion.div
           className="absolute top-1/4 right-1/4 w-[300px] h-[300px] rounded-full bg-[#ff6b35]/[0.03] blur-[100px]"
           animate={{
@@ -265,10 +265,10 @@ const HowItWorksSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06] mb-4"
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] mb-4"
           >
             <div className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]" />
-            <span className="text-[10px] text-white/50 uppercase tracking-wider">
+            <span className="text-[10px] text-black/50 dark:text-white/50 uppercase tracking-wider">
               How it works
             </span>
           </motion.div>
@@ -277,18 +277,18 @@ const HowItWorksSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1 }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.1] mb-3"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black dark:text-white tracking-tight leading-[1.1] mb-3"
           >
             Three steps.
             <br />
-            <span className="text-white/40">Zero friction.</span>
+            <span className="text-black/40 dark:text-white/40">Zero friction.</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.1 }}
-            className="text-sm md:text-base text-white/40 max-w-2xl mx-auto px-2"
+            className="text-sm md:text-base text-black/40 dark:text-white/40 max-w-2xl mx-auto px-2"
           >
             From crypto to cash in under 2 seconds. No banks, no delays, no
             complexity.
@@ -307,11 +307,11 @@ const HowItWorksSection = () => {
           >
             <div className="relative w-[200px] sm:w-[240px] md:w-[280px] lg:w-[320px]">
               <div className="rounded-[36px] sm:rounded-[40px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[2px] sm:p-[2.5px] shadow-[0_20px_40px_rgba(0,0,0,0.6)]">
-                <div className="rounded-[34px] sm:rounded-[37.5px] bg-[#0a0a0a] p-[8px] sm:p-[10px]">
-                  <div className="rounded-[28px] sm:rounded-[30px] bg-black overflow-hidden h-[360px] sm:h-[420px] md:h-[480px] lg:h-[540px] relative">
+                <div className="rounded-[34px] sm:rounded-[37.5px] bg-[#fafafa] dark:bg-[#0a0a0a] p-[8px] sm:p-[10px]">
+                  <div className="rounded-[28px] sm:rounded-[30px] bg-white dark:bg-black overflow-hidden h-[360px] sm:h-[420px] md:h-[480px] lg:h-[540px] relative">
                     {/* Status bar */}
                     <div className="absolute top-0 left-0 right-0 h-9 sm:h-10 flex items-center justify-between px-4 sm:px-5 z-20">
-                      <span className="text-[9px] sm:text-[10px] font-semibold text-white">
+                      <span className="text-[9px] sm:text-[10px] font-semibold text-black dark:text-white">
                         9:41
                       </span>
                       <div className="flex items-center gap-1 sm:gap-1.5">
@@ -321,7 +321,7 @@ const HowItWorksSection = () => {
                           <div className="w-[3px] sm:w-1 h-2 sm:h-2.5 bg-white rounded-[1px]" />
                           <div className="w-[3px] sm:w-1 h-2.5 sm:h-3 bg-white rounded-[1px]" />
                         </div>
-                        <div className="w-4 sm:w-5 h-2 sm:h-2.5 rounded-[2px] sm:rounded-[3px] border border-white/80 p-[1px] sm:p-[1.5px]">
+                        <div className="w-4 sm:w-5 h-2 sm:h-2.5 rounded-[2px] sm:rounded-[3px] border border-black/80 dark:border-white/80 p-[1px] sm:p-[1.5px]">
                           <div className="h-full w-[80%] bg-white rounded-[1px]" />
                         </div>
                       </div>
@@ -362,8 +362,8 @@ const HowItWorksSection = () => {
                 onClick={() => setActiveStep(i)}
                 className={`group cursor-pointer p-3 sm:p-4 lg:p-5 rounded-lg sm:rounded-xl lg:rounded-2xl border transition-all duration-300 ${
                   activeStep === i
-                    ? "bg-white/[0.06] border-white/20"
-                    : "bg-white/[0.02] border-white/[0.05] hover:bg-white/[0.04] hover:border-white/10"
+                    ? "bg-black/[0.06] dark:bg-white/[0.06] border-black/20 dark:border-white/20"
+                    : "bg-black/[0.02] dark:bg-white/[0.02] border-black/[0.05] dark:border-white/[0.05] hover:bg-black/[0.04] hover:dark:bg-white/[0.04] hover:border-black/10 hover:dark:border-white/10"
                 }`}
               >
                 <div className="flex items-start gap-2.5 sm:gap-3 lg:gap-4">
@@ -371,8 +371,8 @@ const HowItWorksSection = () => {
                   <div
                     className={`flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-md sm:rounded-lg lg:rounded-xl flex items-center justify-center font-mono font-bold text-xs sm:text-sm lg:text-base transition-all duration-300 ${
                       activeStep === i
-                        ? "bg-white text-black"
-                        : "bg-white/5 text-white/40 group-hover:bg-white/10 group-hover:text-white/60"
+                        ? "bg-black dark:bg-white text-white dark:text-black"
+                        : "bg-black/5 dark:bg-white/5 text-black/40 dark:text-white/40 group-hover:bg-black/10 group-hover:dark:bg-white/10 group-hover:text-black/60 group-hover:dark:text-white/60"
                     }`}
                   >
                     {step.num}
@@ -385,8 +385,8 @@ const HowItWorksSection = () => {
                       <h3
                         className={`text-sm sm:text-base lg:text-lg font-semibold transition-colors ${
                           activeStep === i
-                            ? "text-white"
-                            : "text-white/60 group-hover:text-white/80"
+                            ? "text-black dark:text-white"
+                            : "text-black/60 dark:text-white/60 group-hover:text-black/80 group-hover:dark:text-white/80"
                         }`}
                       >
                         {step.title}
@@ -395,13 +395,13 @@ const HowItWorksSection = () => {
                     <p
                       className={`text-[11px] sm:text-xs lg:text-sm leading-relaxed transition-colors ${
                         activeStep === i
-                          ? "text-white/50"
-                          : "text-white/30 group-hover:text-white/40"
+                          ? "text-black/50 dark:text-white/50"
+                          : "text-black/30 dark:text-white/30 group-hover:text-black/40 group-hover:dark:text-white/40"
                       }`}
                     >
                       {step.desc}
                     </p>
-                    <div className="mt-1.5 sm:mt-2 text-[9px] sm:text-[10px] lg:text-xs text-white/30">
+                    <div className="mt-1.5 sm:mt-2 text-[9px] sm:text-[10px] lg:text-xs text-black/30 dark:text-white/30">
                       {step.app}
                     </div>
                   </div>
@@ -436,7 +436,7 @@ const HowItWorksSection = () => {
                   className={`h-1 sm:h-1.5 rounded-full transition-all duration-300 ${
                     activeStep === i
                       ? "w-5 sm:w-6 lg:w-8 bg-[#ff6b35]"
-                      : "w-1 sm:w-1.5 bg-white/20 hover:bg-white/40"
+                      : "w-1 sm:w-1.5 bg-black/20 dark:bg-white/20 hover:bg-black/40 hover:dark:bg-white/40"
                   }`}
                   aria-label={`Go to step ${i + 1}`}
                 />

@@ -21,15 +21,13 @@ const CashbackBanner = () => {
   return (
     <section
       ref={containerRef}
-      className="relative md:py-32 py-16 bg-black overflow-hidden"
+      className="relative md:py-32 py-16 bg-white dark:bg-black overflow-hidden"
     >
       {/* Animated gradient background */}
       <div className="absolute inset-0">
         <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-[radial-gradient(ellipse,rgba(0,0,0,0.05)_0%,transparent_60%)] dark:bg-[radial-gradient(ellipse,rgba(255,255,255,0.05)_0%,transparent_60%)]"
           style={{
-            background:
-              "radial-gradient(ellipse, rgba(255,255,255,0.05) 0%, transparent 60%)",
             x: useTransform(scrollYProgress, [0, 1], [-100, 100]),
           }}
         />
@@ -39,7 +37,7 @@ const CashbackBanner = () => {
       {[...Array(15)].map((_, i) => (
         <motion.div
           key={i}
-          className="absolute  w-1 h-1 rounded-full bg-white/60"
+          className="absolute  w-1 h-1 rounded-full bg-black/60 dark:bg-white/60"
           style={{
             left: `${10 + Math.random() * 80}%`,
             top: `${10 + Math.random() * 80}%`,
@@ -64,9 +62,9 @@ const CashbackBanner = () => {
         className="relative z-10 max-w-5xl mx-auto px-6"
         style={{ opacity }}
       >
-        <div className="relative p-8 md:p-12 rounded-3xl border border-white/[0.06] bg-gradient-to-br from-white/[0.02] to-transparent backdrop-blur-sm overflow-hidden">
+        <div className="relative p-8 md:p-12 rounded-3xl border border-black/[0.06] dark:border-white/[0.06] bg-gradient-to-br from-black/[0.02] dark:from-white/[0.02] to-transparent backdrop-blur-sm overflow-hidden">
           {/* Inner glow */}
-          <div className="absolute top-0 right-0 w-[300px] h-[300px] rounded-full bg-white/5 blur-[100px] -translate-y-1/2 translate-x-1/2" />
+          <div className="absolute top-0 right-0 w-[300px] h-[300px] rounded-full bg-black/5 dark:bg-white/5 blur-[100px] -translate-y-1/2 translate-x-1/2" />
 
           <div className="relative flex flex-col md:flex-row items-center justify-between gap-8">
             {/* Left content */}
@@ -79,7 +77,7 @@ const CashbackBanner = () => {
             >
               <div className="flex items-center gap-3 mb-6">
                 <motion.div
-                  className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center"
+                  className="w-12 h-12 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center"
                   animate={{ rotate: [0, 5, -5, 0] }}
                   transition={{
                     duration: 4,
@@ -87,24 +85,24 @@ const CashbackBanner = () => {
                     ease: "easeInOut",
                   }}
                 >
-                  <span className="text-2xl">💰</span>
+                  <span className="text-lg font-bold text-black/60 dark:text-white/60">%</span>
                 </motion.div>
                 <div>
-                  <span className="text-[10px] uppercase tracking-[0.3em] text-white/60 block">
+                  <span className="text-[10px] uppercase tracking-[0.3em] text-black/60 dark:text-white/60 block">
                     Early Access
                   </span>
-                  <span className="text-xs text-white/40">
+                  <span className="text-xs text-black/40 dark:text-white/40">
                     Limited spots available
                   </span>
                 </div>
               </div>
 
-              <h3 className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">
+              <h3 className="text-3xl md:text-4xl font-bold text-black dark:text-white mb-4 tracking-tight">
                 Earn while you{" "}
                 <span className="relative">
-                  <span className="relative z-10 text-white/60">spend.</span>
+                  <span className="relative z-10 text-black/60 dark:text-white/60">spend.</span>
                   <motion.span
-                    className="absolute bottom-1 left-0 right-0 h-3 bg-white/10 rounded-sm -z-0"
+                    className="absolute bottom-1 left-0 right-0 h-3 bg-black/10 dark:bg-white/10 rounded-sm -z-0"
                     initial={{ scaleX: 0 }}
                     whileInView={{ scaleX: 1 }}
                     viewport={{ once: true }}
@@ -113,9 +111,9 @@ const CashbackBanner = () => {
                 </span>
               </h3>
 
-              <p className="text-white/50 text-base max-w-md mb-6 leading-relaxed">
+              <p className="text-black/50 dark:text-white/50 text-base max-w-md mb-6 leading-relaxed">
                 Up to{" "}
-                <span className="text-white font-semibold">
+                <span className="text-black dark:text-white font-semibold">
                   5% cashback
                 </span>{" "}
                 in BLIP tokens on every payment. No tiers. No complexity.
@@ -136,10 +134,10 @@ const CashbackBanner = () => {
                     transition={{ duration: 0.5, delay: 0.3 + i * 0.1 }}
                     className="text-center"
                   >
-                    <div className="text-xl font-bold text-white">
+                    <div className="text-xl font-bold text-black dark:text-white">
                       {stat.value}
                     </div>
-                    <div className="text-[10px] text-white/30 uppercase tracking-wider">
+                    <div className="text-[10px] text-black/30 dark:text-white/30 uppercase tracking-wider">
                       {stat.label}
                     </div>
                   </motion.div>
@@ -183,7 +181,7 @@ const CashbackBanner = () => {
                     cy="56"
                     r="50"
                     fill="none"
-                    stroke="rgba(255,255,255,0.05)"
+                    className="stroke-black/5 dark:stroke-white/5"
                     strokeWidth="4"
                   />
 
@@ -210,15 +208,15 @@ const CashbackBanner = () => {
                       x2="100%"
                       y2="0%"
                     >
-                      <stop offset="0%" stopColor="#ffffff" />
-                      <stop offset="100%" stopColor="#cccccc" />
+                      <stop offset="0%" className="dark:stop-[#ffffff] stop-[#000000]" />
+                      <stop offset="100%" className="dark:stop-[#cccccc] stop-[#333333]" />
                     </linearGradient>
                   </defs>
                 </motion.svg>
 
                 {/* STATIC CENTER TEXT */}
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-2xl font-bold text-white">5%</span>
+                  <span className="text-2xl font-bold text-black dark:text-white">5%</span>
                 </div>
               </div>
 
