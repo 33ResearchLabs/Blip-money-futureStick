@@ -142,7 +142,7 @@ const InstantBiddingSection = () => {
             }}
           />
 
-          <div className="rounded-2xl overflow-hidden border border-black/[0.08] dark:border-white/[0.08] bg-[#fafafa] dark:bg-[#0a0a0a] shadow-[0_30px_60px_rgba(0,0,0,0.4)] sm:shadow-[0_50px_100px_rgba(0,0,0,0.5),0_0_80px_rgba(255,255,255,0.04)] lg:max-h-[65vh] relative">
+          <div className="rounded-2xl overflow-hidden border border-black/[0.12] dark:border-white/[0.08] bg-[#fafafa] dark:bg-[#0a0a0a] shadow-[0_30px_60px_rgba(0,0,0,0.1)] sm:shadow-[0_50px_100px_rgba(0,0,0,0.12)] dark:shadow-[0_30px_60px_rgba(0,0,0,0.4)] dark:sm:shadow-[0_50px_100px_rgba(0,0,0,0.5),0_0_80px_rgba(255,255,255,0.04)] lg:max-h-[65vh] relative">
             {/* Browser chrome */}
             <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-5 py-2.5 sm:py-4 bg-[#f5f5f5] dark:bg-[#111] border-b border-black/[0.06] dark:border-white/[0.06]">
               <div className="flex items-center gap-1.5 sm:gap-2">
@@ -171,7 +171,7 @@ const InstantBiddingSection = () => {
                 </div>
               </div>
               <div className="hidden sm:flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-white/20 to-white/10 flex items-center justify-center text-xs font-bold text-black dark:text-white">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-black/10 to-black/5 dark:from-white/20 dark:to-white/10 flex items-center justify-center text-xs font-bold text-black dark:text-white">
                   M
                 </div>
               </div>
@@ -199,7 +199,7 @@ const InstantBiddingSection = () => {
                     </div>
 
                     <div className="flex items-center gap-4 mb-6">
-                      <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-white/10 to-white/5 flex items-center justify-center">
+                      <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-black/[0.06] to-black/[0.02] dark:from-white/10 dark:to-white/5 flex items-center justify-center">
                         <span className="text-xl font-bold text-black dark:text-white">US</span>
                       </div>
                       <div>
@@ -248,7 +248,7 @@ const InstantBiddingSection = () => {
                     {/* Progress bar */}
                     <div className="relative h-2 rounded-full bg-black/[0.05] dark:bg-white/[0.05] overflow-hidden">
                       <motion.div
-                        className="absolute inset-y-0 left-0 bg-gradient-to-r from-white/40 to-white/20 rounded-full"
+                        className="absolute inset-y-0 left-0 bg-gradient-to-r from-black/30 to-black/15 dark:from-white/40 dark:to-white/20 rounded-full"
                         initial={{ width: "20%" }}
                         animate={{ width: "65%" }}
                         transition={{
@@ -439,7 +439,7 @@ const InstantBiddingSection = () => {
             </div>
 
             {/* Gradient fade at bottom */}
-            <div className="absolute bottom-0 left-0 right-0 h-24 sm:h-32 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent pointer-events-none" />
+            <div className="absolute bottom-0 left-0 right-0 h-24 sm:h-32 bg-gradient-to-t from-[#fafafa] via-[#fafafa]/80 to-transparent dark:from-[#0a0a0a] dark:via-[#0a0a0a]/80 pointer-events-none" />
           </div>
         </motion.div>
       </div>

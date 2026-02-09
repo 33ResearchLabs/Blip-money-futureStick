@@ -52,11 +52,7 @@ const ProtocolSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-8 backdrop-blur-sm"
-            style={{
-              background: "rgba(255, 255, 255, 0.03)",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
-            }}
+            className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-8 backdrop-blur-sm bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-white/10"
           >
             <motion.span className="w-2 h-2 rounded-full bg-[#ff6b35]" />
             <span className="text-[11px] uppercase tracking-[0.3em] text-black dark:text-white/60">
@@ -166,14 +162,10 @@ const ProtocolSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 + i * 0.1 }}
-              className="group relative rounded-2xl p-4 sm:p-8 text-center cursor-default overflow-hidden"
-              style={{
-                background: "rgba(255, 255, 255, 0.02)",
-                border: "1px solid rgba(255, 255, 255, 0.05)",
-              }}
+              className="group relative rounded-2xl p-4 sm:p-8 text-center cursor-default overflow-hidden bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.06] dark:border-white/[0.05]"
             >
               {/* Hover glow */}
-              <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-40 h-40 bg-white opacity-0 group-hover:opacity-[0.06] blur-[60px] rounded-full transition-opacity duration-500" />
+              <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-40 h-40 bg-black dark:bg-white opacity-0 group-hover:opacity-[0.06] blur-[60px] rounded-full transition-opacity duration-500" />
 
               <div className="flex gap-2 sm:flex-col justify-center items-center">
                 <div className="mb-4">{item.icon}</div>

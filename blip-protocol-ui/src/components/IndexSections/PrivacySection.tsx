@@ -32,11 +32,11 @@ const PrivacySection = () => {
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
             className="flex items-center justify-center gap-2 sm:gap-3 mb-5 sm:mb-8"
           >
-            <div className="h-px w-8 sm:w-12 bg-gradient-to-r from-transparent to-white/20" />
+            <div className="h-px w-8 sm:w-12 bg-gradient-to-r from-transparent to-black/20 dark:to-white/20" />
             <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.3em] sm:tracking-[0.4em] text-black dark:text-white/30 font-light">
               Privacy & Trust
             </span>
-            <div className="h-px w-8 sm:w-12 bg-gradient-to-l from-transparent to-white/20" />
+            <div className="h-px w-8 sm:w-12 bg-gradient-to-l from-transparent to-black/20 dark:to-white/20" />
           </motion.div>
 
           <motion.h2

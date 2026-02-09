@@ -316,11 +316,7 @@ const UAESection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1 }}
-          className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-12 backdrop-blur-sm"
-          style={{
-            background: "rgba(255,255,255,0.03)",
-            border: "1px solid rgba(255,255,255,0.1)",
-          }}
+          className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-12 backdrop-blur-sm bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-white/10"
         >
           <span className="w-2 h-2 rounded-full bg-[#ff6b35]" />
           <span className="text-xs text-black dark:text-white/70 tracking-wide">

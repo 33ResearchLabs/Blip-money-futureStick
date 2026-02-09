@@ -316,13 +316,13 @@ const HowItWorksSection = () => {
                       </span>
                       <div className="flex items-center gap-1 sm:gap-1.5">
                         <div className="flex items-end gap-[1.5px] sm:gap-[2px]">
-                          <div className="w-[3px] sm:w-1 h-1 sm:h-1.5 bg-white rounded-[1px]" />
-                          <div className="w-[3px] sm:w-1 h-1.5 sm:h-2 bg-white rounded-[1px]" />
-                          <div className="w-[3px] sm:w-1 h-2 sm:h-2.5 bg-white rounded-[1px]" />
-                          <div className="w-[3px] sm:w-1 h-2.5 sm:h-3 bg-white rounded-[1px]" />
+                          <div className="w-[3px] sm:w-1 h-1 sm:h-1.5 bg-black dark:bg-white rounded-[1px]" />
+                          <div className="w-[3px] sm:w-1 h-1.5 sm:h-2 bg-black dark:bg-white rounded-[1px]" />
+                          <div className="w-[3px] sm:w-1 h-2 sm:h-2.5 bg-black dark:bg-white rounded-[1px]" />
+                          <div className="w-[3px] sm:w-1 h-2.5 sm:h-3 bg-black dark:bg-white rounded-[1px]" />
                         </div>
                         <div className="w-4 sm:w-5 h-2 sm:h-2.5 rounded-[2px] sm:rounded-[3px] border border-black/80 dark:border-white/80 p-[1px] sm:p-[1.5px]">
-                          <div className="h-full w-[80%] bg-white rounded-[1px]" />
+                          <div className="h-full w-[80%] bg-black dark:bg-white rounded-[1px]" />
                         </div>
                       </div>
                     </div>

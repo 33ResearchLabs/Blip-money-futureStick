@@ -35,11 +35,11 @@ const CinematicHero = () => {
       <div className="absolute inset-0 pointer-events-none">
         {/* Merchant dashboard background - revealed where mouse is */}
         <div
-          className="absolute inset-0 transition-all duration-200 ease-out"
+          className="absolute inset-0 transition-all duration-150 ease-out"
           style={{
-            opacity: 0.08,
-            maskImage: `radial-gradient(circle 600px at ${mousePosition.x}% ${mousePosition.y}%, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0.15) 70%, rgba(0,0,0,0.08) 100%)`,
-            WebkitMaskImage: `radial-gradient(circle 600px at ${mousePosition.x}% ${mousePosition.y}%, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0.15) 70%, rgba(0,0,0,0.08) 100%)`,
+            opacity: 0.35,
+            maskImage: `radial-gradient(circle 900px at ${mousePosition.x}% ${mousePosition.y}%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 25%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.1) 75%, rgba(0,0,0,0) 100%)`,
+            WebkitMaskImage: `radial-gradient(circle 900px at ${mousePosition.x}% ${mousePosition.y}%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 25%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.1) 75%, rgba(0,0,0,0) 100%)`,
           }}
         >
           <img
@@ -49,6 +49,29 @@ const CinematicHero = () => {
             style={{ mixBlendMode: "screen" }}
           />
         </div>
+
+        {/* Mouse glow orb */}
+        <div
+          className="absolute w-[800px] h-[800px] rounded-full transition-all duration-300 ease-out"
+          style={{
+            left: `${mousePosition.x}%`,
+            top: `${mousePosition.y}%`,
+            transform: "translate(-50%, -50%)",
+            background: `radial-gradient(circle, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.05) 35%, rgba(255,255,255,0.01) 60%, transparent 80%)`,
+          }}
+        />
+
+        {/* Accent color glow */}
+        <div
+          className="absolute w-[500px] h-[500px] rounded-full transition-all duration-200 ease-out"
+          style={{
+            left: `${mousePosition.x}%`,
+            top: `${mousePosition.y}%`,
+            transform: "translate(-50%, -50%)",
+            background: `radial-gradient(circle, rgba(0,210,190,0.08) 0%, rgba(0,210,190,0.03) 45%, transparent 70%)`,
+            filter: "blur(50px)",
+          }}
+        />
 
         {/* Dark gradient edges */}
         <div className="absolute inset-0 bg-gradient-to-b from-white/60 dark:from-black/60 via-transparent to-white/60 dark:to-black/60" />

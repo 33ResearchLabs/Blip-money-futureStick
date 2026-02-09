@@ -720,8 +720,8 @@ export const MerchantDashboardVisual = () => {
         background: "transparent",
       }}
     >
-      {/* Premium vignette effect */}
-      <div className="absolute inset-0 pointer-events-none">
+      {/* Premium vignette effect - dark mode only */}
+      <div className="absolute inset-0 pointer-events-none hidden dark:block">
         {/* Top spotlight glow */}
         <div
           className="absolute inset-0"
@@ -1704,8 +1704,8 @@ export const MerchantDashboardVisualHomepage = () => {
         background: "transparent",
       }}
     >
-      {/* Premium vignette effect */}
-      <div className="absolute inset-0 pointer-events-none">
+      {/* Premium vignette effect - dark mode only */}
+      <div className="absolute inset-0 pointer-events-none hidden dark:block">
         {/* Top spotlight glow */}
         <div
           className="absolute inset-0"
@@ -1748,9 +1748,9 @@ export const MerchantDashboardVisualHomepage = () => {
           >
             {/* Browser window - flat without tilt */}
             <div
-              className=" rounded-2xl overflow-hidden 
-  border border-white/[0.08]
-  shadow-[0_60px_120px_-30px_rgba(0,0,0,0.9),0_40px_80px_-40px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.05)]
+              className=" rounded-2xl overflow-hidden
+  border border-black/[0.12] dark:border-white/[0.08]
+  shadow-[0_60px_120px_-30px_rgba(0,0,0,0.15),0_40px_80px_-40px_rgba(0,0,0,0.1)] dark:shadow-[0_60px_120px_-30px_rgba(0,0,0,0.9),0_40px_80px_-40px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.05)]
   w-full
   min-w-0
   md:min-w-[1200px]"

@@ -201,9 +201,6 @@ const BlipscanExplorerSection = () => {
                       animate={{
                         opacity: 1,
                         x: 0,
-                        backgroundColor: tx.new
-                          ? "rgba(255, 255, 255, 0.04)"
-                          : "rgba(255, 255, 255, 0.01)",
                       }}
                       exit={{ opacity: 0, x: 10 }}
                       transition={{

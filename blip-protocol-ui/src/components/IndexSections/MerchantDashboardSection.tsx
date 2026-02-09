@@ -263,11 +263,11 @@ export const MerchantDashboardSection = () => {
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
             className="flex items-center justify-center gap-3 mb-8"
           >
-            <div className="h-px w-12 bg-gradient-to-r from-transparent to-white/20" />
+            <div className="h-px w-12 bg-gradient-to-r from-transparent to-black/20 dark:to-white/20" />
             <span className="text-[11px] uppercase tracking-[0.4em] text-black dark:text-white/30 font-light">
               For Merchants
             </span>
-            <div className="h-px w-12 bg-gradient-to-l from-transparent to-white/20" />
+            <div className="h-px w-12 bg-gradient-to-l from-transparent to-black/20 dark:to-white/20" />
           </motion.div>
 
           <motion.h2

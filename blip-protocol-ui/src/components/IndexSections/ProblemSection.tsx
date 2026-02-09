@@ -92,7 +92,7 @@ const ProblemSection = () => {
 
           {/* Moving line following from top to bottom */}
           <motion.div
-            className="absolute left-8 md:left-1/2 md:-translate-x-px w-1 h-12 rounded-full bg-gradient-to-b from-transparent via-white/60 to-transparent shadow-[0_0_20px_rgba(255,255,255,0.4)]"
+            className="absolute left-8 md:left-1/2 md:-translate-x-px w-1 h-12 rounded-full bg-gradient-to-b from-transparent via-black/40 to-transparent dark:via-white/60 shadow-[0_0_20px_rgba(0,0,0,0.2)] dark:shadow-[0_0_20px_rgba(255,255,255,0.4)]"
             initial={{ top: "-50px" }}
             animate={{ top: "100%" }}
             transition={{
@@ -122,14 +122,14 @@ const ProblemSection = () => {
                   className={`absolute left-8 md:left-1/2 -translate-x-1/2 top-6 z-10`}
                 >
                   <motion.div
-                    className={`w-4 h-4 rounded-full border-2 ${problem.highlight ? "bg-white dark:bg-white border-white dark:border-white" : "bg-white dark:bg-black border-white/20 dark:border-white/20"}`}
+                    className={`w-4 h-4 rounded-full border-2 ${problem.highlight ? "bg-black dark:bg-white border-black dark:border-white" : "bg-white dark:bg-black border-black/20 dark:border-white/20"}`}
                     whileInView={
                       problem.highlight
                         ? {
                             boxShadow: [
-                              "0 0 0 0 rgba(255,255,255,0)",
-                              "0 0 20px 4px rgba(255,255,255,0.3)",
-                              "0 0 0 0 rgba(255,255,255,0)",
+                              "0 0 0 0 rgba(0,0,0,0)",
+                              "0 0 20px 4px rgba(0,0,0,0.15)",
+                              "0 0 0 0 rgba(0,0,0,0)",
                             ],
                           }
                         : {}
