@@ -148,7 +148,7 @@ const CinematicHero = () => {
           className="flex justify-center"
         >
           <Link
-            to="/send"
+            to="/waitlist"
             className="group relative overflow-hidden inline-flex items-center justify-center gap-3 w-[240px] h-[56px] rounded-full bg-black dark:bg-white text-white dark:text-black text-base font-semibold transition-all duration-300"
           >
             <span className="absolute inset-0 bg-white/20 dark:bg-black/10 rounded-full scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-out" />

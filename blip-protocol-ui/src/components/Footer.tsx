@@ -2,35 +2,12 @@ import { motion } from "framer-motion";
 import { Twitter, Send, Mail, Youtube, ArrowUpRight } from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
 import { sounds } from "@/lib/sounds";
+import { Logo } from "./Navbar";
 
 /* ============================================
    LINEAR-INSPIRED FOOTER
    Minimal, refined, deeply interactive
    ============================================ */
-
-const Logo = () => {
-  return (
-    <Link
-      to="/"
-      className="flex items-center gap-2.5 group"
-      onClick={() => {
-        sounds.click();
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }}
-    >
-      <div className="flex items-center gap-2 ">
-        {/* Dot */}
-
-        {/* Text */}
-        <span className="text-2xl font-semibold tracking-tight">
-          <span className="text-black dark:text-white">blip</span>
-          <span className="text-black dark:text-white">.</span>
-          <span className="text-black dark:text-white">money</span>
-        </span>
-      </div>
-    </Link>
-  );
-};
 
 const SocialLink = ({
   href,

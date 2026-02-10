@@ -452,7 +452,8 @@ export const Navbar = () => {
             </div>
 
             {/* Mobile Button */}
-            <div className="lg:hidden">
+            <div className="flex gap-2 lg:hidden">
+              <ThemeSwitcher />
               <HamburgerButton
                 isOpen={mobileMenuOpen}
                 onClick={() => setMobileMenuOpen((prev) => !prev)}
