@@ -67,11 +67,11 @@ const HowItWorksSection = () => {
           <div
             className={`h-1.5 w-1.5 rounded-full ${
               hovered
-                ? "bg-gray-400 shadow-[0_0_8px_rgba(255,255,255,0.3)]"
-                : "bg-zinc-800"
+                ? "bg-gray-400 dark:bg-gray-400 shadow-[0_0_8px_rgba(100,100,100,0.3)] dark:shadow-[0_0_8px_rgba(255,255,255,0.3)]"
+                : "bg-black/40 dark:bg-zinc-800"
             }`}
           />
-          <span className="text-[9px] font-mono tracking-[0.2em] text-zinc-600">
+          <span className="text-[9px] font-mono tracking-[0.2em] text-black/50 dark:text-zinc-600">
             STEP_0{step}
           </span>
         </div>
@@ -112,13 +112,13 @@ const HowItWorksSection = () => {
   const MockupDashboard = () => (
     <div className="p-4 flex flex-col gap-2">
       <div className="flex justify-between">
-        <div className="h-1 w-12 bg-zinc-800 rounded-full" />
-        <Zap size={10} className="text-white/20 animate-spin-slow" />
+        <div className="h-1 w-12 bg-black/30 dark:bg-zinc-800 rounded-full" />
+        <Zap size={10} className="text-black/20 dark:text-white/20 animate-spin-slow" />
       </div>
       {["USDT/AED", "AED/USDT", "USDT/Cash"].map((p, i) => (
         <div
           key={i}
-          className="bg-zinc-900/40 p-2 rounded-xl text-[9px] text-zinc-400"
+          className="bg-black/10 dark:bg-zinc-900/40 p-2 rounded-xl text-[9px] text-black/60 dark:text-zinc-400"
         >
           {p}
         </div>
@@ -128,34 +128,34 @@ const HowItWorksSection = () => {
 
   const MockupLock = () => (
     <div className="h-full flex flex-col items-center justify-center gap-4">
-      <div className="h-16 w-16 rounded-3xl bg-black border border-white/20 flex items-center justify-center">
-        <Lock className="text-white/20" />
+      <div className="h-16 w-16 rounded-3xl bg-black/90 dark:bg-black border border-black/20 dark:border-white/20 flex items-center justify-center">
+        <Lock className="text-white/40 dark:text-white/20" />
       </div>
-      <div className="h-1.5 w-24 bg-zinc-900 rounded-full overflow-hidden">
-        <div className="h-full bg-white/20 w-1/3 group-hover:w-full transition-all duration-[1500ms]" />
+      <div className="h-1.5 w-24 bg-black/20 dark:bg-zinc-900 rounded-full overflow-hidden">
+        <div className="h-full bg-black/40 dark:bg-white/20 w-1/3 group-hover:w-full transition-all duration-[1500ms]" />
       </div>
     </div>
   );
 
   const MockupEscrow = () => (
     <div className="p-4">
-      <div className="bg-black rounded-xl border border-white/5 p-4">
-        <ShieldCheck className="text-white/20 mb-3" size={14} />
-        <div className="h-2 bg-zinc-900 rounded-full overflow-hidden">
-          <div className="h-full bg-white/20 w-1/2 animate-pulse" />
+      <div className="bg-black/90 dark:bg-black rounded-xl border border-black/10 dark:border-white/5 p-4">
+        <ShieldCheck className="text-white/40 dark:text-white/20 mb-3" size={14} />
+        <div className="h-2 bg-black/20 dark:bg-zinc-900 rounded-full overflow-hidden">
+          <div className="h-full bg-white/40 dark:bg-white/20 w-1/2 animate-pulse" />
         </div>
       </div>
     </div>
   );
 
   const MockupOnChain = () => (
-    <div className="p-4 font-mono text-[9px] text-zinc-500">
-      <div className="flex items-center gap-2 text-white/20 mb-2">
+    <div className="p-4 font-mono text-[9px] text-black/60 dark:text-zinc-500">
+      <div className="flex items-center gap-2 text-black/30 dark:text-white/20 mb-2">
         <Scan size={12} /> BLIP_SCAN
       </div>
       <div>{"> BLOCK CONFIRMED"}</div>
-      <div className="text-white/20">{"> FINALIZED"}</div>
-      <Globe size={40} className="absolute bottom-2 right-2 text-white/10" />
+      <div className="text-black/30 dark:text-white/20">{"> FINALIZED"}</div>
+      <Globe size={40} className="absolute bottom-2 right-2 text-black/10 dark:text-white/10" />
     </div>
   );
 

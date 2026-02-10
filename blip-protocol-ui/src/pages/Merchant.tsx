@@ -422,7 +422,7 @@ const WhyBlipSection = () => {
 
             <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white leading-tight mb-6 sm:mb-8 tracking-tight max-w-xl mx-auto lg:mx-0">
               Why Merchants{" "}
-              <span className="text-black/20 dark:text-white/20">Choose </span>
+              <span className="text-black/80 dark:text-white/50">Choose </span>
               Blip
             </h2>
 
@@ -679,7 +679,7 @@ const DashboardSection = () => {
             className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-4"
           >
             Your{" "}
-            <span className="text-black/20 dark:text-white/20">command</span>{" "}
+            <span className="text-black/80 dark:text-white/50">command</span>{" "}
             center
           </motion.h2>
           <motion.p
@@ -817,7 +817,7 @@ const PricingSection = () => {
           className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6"
         >
           You{" "}
-          <span className="text-black/20 dark:text-white/20">
+          <span className="text-black/80 dark:text-white/50">
             control pricing.
           </span>{" "}
           We keep it simple.
@@ -884,7 +884,7 @@ const TrustSection = () => {
         <>
           Trades secured by
           <br />
-          <span className="text-black/20 dark:text-white/20">
+          <span className="text-black/80 dark:text-white/50">
             escrow + transparency
           </span>
         </>

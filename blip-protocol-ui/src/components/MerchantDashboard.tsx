@@ -821,18 +821,18 @@ export const MerchantDashboardVisual = () => {
             className="relative"
           >
             {/* Browser window - flat without tilt */}
-            <div className="rounded-2xl overflow-hidden border border-white/[0.08] shadow-[0_60px_120px_-30px_rgba(0,0,0,0.9),0_40px_80px_-40px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.05)] w-full min-w-[1200px]">
+            <div className="rounded-2xl overflow-hidden border border-black/[0.12] dark:border-white/[0.08] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15),0_10px_30px_-10px_rgba(0,0,0,0.1)] dark:shadow-[0_60px_120px_-30px_rgba(0,0,0,0.9),0_40px_80px_-40px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.05)] w-full min-w-[1200px]">
               {/* Browser header - minimal premium style */}
-              <div className="flex items-center gap-3 px-5 py-3.5 bg-[#0d0d0d] border-b border-white/[0.04]">
+              <div className="flex items-center gap-3 px-5 py-3.5 bg-[#f5f5f5] dark:bg-[#0d0d0d] border-b border-black/[0.08] dark:border-white/[0.04]">
                 <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-white/20" />
-                  <div className="w-3 h-3 rounded-full bg-white/20" />
-                  <div className="w-3 h-3 rounded-full bg-white/20" />
+                  <div className="w-3 h-3 rounded-full bg-black/20 dark:bg-white/20" />
+                  <div className="w-3 h-3 rounded-full bg-black/20 dark:bg-white/20" />
+                  <div className="w-3 h-3 rounded-full bg-black/20 dark:bg-white/20" />
                 </div>
                 <div className="flex-1 flex justify-center">
-                  <div className="flex items-center gap-2 px-4 py-1.5 rounded-md bg-white/[0.03] border border-white/[0.04]">
-                    <div className="w-2 h-2 rounded-full bg-white/30" />
-                    <span className="text-xs text-white/50 font-medium tracking-wide">
+                  <div className="flex items-center gap-2 px-4 py-1.5 rounded-md bg-black/[0.06] dark:bg-white/[0.03] border border-black/[0.08] dark:border-white/[0.04]">
+                    <div className="w-2 h-2 rounded-full bg-black/30 dark:bg-white/30" />
+                    <span className="text-xs text-black/70 dark:text-white/50 font-medium tracking-wide">
                       merchant.blipprotocol.com
                     </span>
                   </div>
@@ -1332,35 +1332,35 @@ export const MerchantDashboardVisual = () => {
                   </div>
 
                   {/* Live matching indicator */}
-                  <div className="mt-4 p-3 rounded-lg bg-[#0c0c0c] border border-white/[0.03]">
+                  <div className="mt-4 p-3 rounded-lg bg-white dark:bg-[#0c0c0c] border border-black/[0.08] dark:border-white/[0.03]">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">
+                        <div className="w-6 h-6 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center">
                           <span className="text-xs">⚡</span>
                         </div>
                         <div>
-                          <div className="text-xs font-semibold text-white">
+                          <div className="text-xs font-semibold text-black dark:text-white">
                             Live Matching Active
                           </div>
-                          <div className="text-[10px] text-white/60">
+                          <div className="text-[10px] text-black/70 dark:text-white/60">
                             3 orders matched in 5 min
                           </div>
                         </div>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="text-right">
-                          <div className="text-[8px] text-white/50 uppercase">
+                          <div className="text-[8px] text-black/70 dark:text-white/50 uppercase">
                             Avg. Time
                           </div>
-                          <div className="text-xs font-semibold text-white">
+                          <div className="text-xs font-semibold text-black dark:text-white">
                             12 seconds
                           </div>
                         </div>
                         <div className="text-right">
-                          <div className="text-[8px] text-white/50 uppercase">
+                          <div className="text-[8px] text-black/70 dark:text-white/50 uppercase">
                             Success
                           </div>
-                          <div className="text-xs font-semibold text-white/50">
+                          <div className="text-xs font-semibold text-black/70 dark:text-white/50">
                             99.8%
                           </div>
                         </div>
