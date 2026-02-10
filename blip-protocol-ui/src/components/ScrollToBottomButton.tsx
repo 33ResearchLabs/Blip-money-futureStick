@@ -42,7 +42,7 @@ const ScrollToBottomButton = () => {
       {/* Scroll to Bottom */}
       <button
         onClick={scrollToBottom}
-        className="fixed bottom-14 right-6 z-50 p-3 rounded-full  text-white shadow-lg hover:scale-105 transition"
+        className="fixed bottom-16 right-6 z-50 p-1  dark:text-white text-black  hover:scale-105 transition "
         aria-label="Scroll to bottom"
       >
         <ArrowDown size={18} />
@@ -51,7 +51,7 @@ const ScrollToBottomButton = () => {
       {/* Scroll to Top */}
       <button
         onClick={scrollToTop}
-        className="fixed bottom-24 right-6 z-50 p-3 rounded-full  text-white shadow-lg hover:scale-105 transition"
+        className="fixed bottom-24 right-6 z-50 p-1   dark:text-white text-black  hover:scale-105 transition "
         aria-label="Scroll to top"
       >
         <ArrowUp size={18} />
