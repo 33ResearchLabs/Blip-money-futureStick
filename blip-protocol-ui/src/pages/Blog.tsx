@@ -183,9 +183,9 @@ const ArticleRow = ({
 
 /* ── Main Blog Page ── */
 export default function Blog() {
-  const [activeCategory, setActiveCategory] = useState<
-    BlogCategory | "All"
-  >("All");
+  const [activeCategory, setActiveCategory] = useState<BlogCategory | "All">(
+    "All",
+  );
 
   const filteredArticles =
     activeCategory === "All"
@@ -217,9 +217,9 @@ export default function Blog() {
               <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold text-black dark:text-white tracking-tight mb-5">
                 Blog
               </h1>
-              <p className="text-lg sm:text-xl text-gray-400 dark:text-white/40 max-w-lg mx-auto leading-relaxed">
-                Insights on crypto payments, escrow, and the
-                infrastructure powering global settlement.
+              <p className="text-lg sm:text-xl text-black dark:text-white/40 max-w-lg mx-auto leading-relaxed">
+                Insights on crypto payments, escrow, and the infrastructure
+                powering global settlement.
               </p>
             </motion.div>
           </div>
@@ -284,11 +284,7 @@ export default function Blog() {
           {/* Feed articles */}
           <div className="divide-y divide-gray-100 dark:divide-white/[0.06]">
             {feedArticles.map((article, index) => (
-              <ArticleRow
-                key={article.id}
-                article={article}
-                index={index}
-              />
+              <ArticleRow key={article.id} article={article} index={index} />
             ))}
           </div>
 

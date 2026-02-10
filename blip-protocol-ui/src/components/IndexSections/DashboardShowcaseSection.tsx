@@ -1,10 +1,32 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useRef } from "react";
 
 /* ============================================
-   USE-CASE SHOWCASE
-   Floating tilted image cards around heading
+   SEND MONEY SHOWCASE — SCROLL STORY
+   ────────────────────────────────────────────
+   The heading is the ANCHOR. Everything reacts to it.
+
+   HOW IT WORKS:
+   - offset ["start center", "end end"] means the section
+     enters from the BOTTOM of the viewport.
+   - The sticky container scrolls UP naturally through
+     the viewport (heading visible, moving with the page).
+   - When the sticky container's top hits viewport top
+     (at ~25% scroll progress), position:sticky engages.
+   - The heading FREEZES at exact center. CSS does this.
+     No translateY. No Framer y transform. Pure sticky.
+   - Only scale + opacity animate on the heading after lock.
+   - Cards begin entering AFTER heading is locked.
+
+   Section: 190vh. Scroll range: ~140vh.
+   Sticky engages at ~36% (50vh / 140vh).
+
+   Phase 1  (0.00–0.36)  Heading scrolls naturally to center
+   Phase 2  (0.36–0.42)  Heading LOCKED. Scale/opacity shift.
+   Phase 3  (0.42–0.95)  Cards enter from offscreen → overlap
+   Phase 4  (0.95–1.00)  ~7vh hold, then section scrolls away
    ============================================ */
 
 const floatingCards = [
@@ -13,175 +35,237 @@ const floatingCards = [
     sub: "Pay globally in seconds",
     image:
       "https://images.unsplash.com/photo-1616077168712-fc6c788db4af?w=300&h=300&fit=crop&q=80",
-    position: "top-[8%] left-[10%] sm:left-[13%] lg:left-[16%]",
-    rotate: -10,
-    size: "w-28 h-32 sm:w-34 sm:h-38 lg:w-40 lg:h-44",
-    delay: 0,
+    size: "w-44 h-56 sm:w-52 sm:h-64 lg:w-56 lg:h-72",
     glow: "rgba(255,107,53,0.15)",
+    start: { x: -700, y: -500 },
+    end: { x: -70, y: -30 },
+    finalRotate: -6,
   },
   {
     label: "ON-CHAIN\nSETTLEMENT",
     sub: "Transparent escrow-based settlement",
     image:
       "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=300&h=300&fit=crop&q=80",
-    position: "top-[6%] right-[10%] sm:right-[13%] lg:right-[16%]",
-    rotate: 8,
-    size: "w-28 h-32 sm:w-34 sm:h-38 lg:w-40 lg:h-44",
-    delay: 0.1,
+    size: "w-44 h-56 sm:w-52 sm:h-64 lg:w-56 lg:h-72",
     glow: "rgba(99,102,241,0.15)",
+    start: { x: 700, y: -500 },
+    end: { x: 80, y: -20 },
+    finalRotate: 5,
   },
   {
     label: "NON-\nCUSTODIAL",
     sub: "Users keep control of funds",
     image:
       "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=300&h=300&fit=crop&q=80",
-    position: "top-[42%] sm:top-[38%] right-[8%] sm:right-[10%] lg:right-[12%]",
-    rotate: 6,
-    size: "w-24 h-28 sm:w-30 sm:h-34 lg:w-34 lg:h-38",
-    delay: 0.2,
+    size: "w-40 h-52 sm:w-48 sm:h-60 lg:w-52 lg:h-64",
     glow: "rgba(16,185,129,0.15)",
+    start: { x: -700, y: 500 },
+    end: { x: -55, y: 45 },
+    finalRotate: 4,
   },
   {
     label: "MERCHANT\nLIQUIDITY",
     sub: "Offers with real limits and SLAs",
     image:
       "https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=300&h=300&fit=crop&q=80",
-    position: "bottom-[10%] left-[12%] sm:left-[16%] lg:left-[18%]",
-    rotate: -7,
-    size: "w-28 h-32 sm:w-34 sm:h-38 lg:w-38 lg:h-42",
-    delay: 0.3,
+    size: "w-44 h-56 sm:w-52 sm:h-64 lg:w-56 lg:h-68",
     glow: "rgba(251,191,36,0.15)",
+    start: { x: 700, y: 500 },
+    end: { x: 65, y: 50 },
+    finalRotate: -5,
   },
   {
     label: "BEST\nRATES",
     sub: "Merchants compete for your trade",
     image:
       "https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=300&h=300&fit=crop&q=80",
-    position: "bottom-[12%] right-[12%] sm:right-[16%] lg:right-[18%]",
-    rotate: 11,
-    size: "w-28 h-32 sm:w-34 sm:h-38 lg:w-38 lg:h-42",
-    delay: 0.4,
+    size: "w-44 h-56 sm:w-52 sm:h-64 lg:w-56 lg:h-72",
     glow: "rgba(139,92,246,0.15)",
+    start: { x: 0, y: -600 },
+    end: { x: 5, y: 5 },
+    finalRotate: 2,
   },
 ];
 
-const DashboardShowcaseSection = () => {
+export default function DashboardShowcaseSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    // CRITICAL: "start center" means progress=0 when section top
+    // reaches viewport center. The sticky container physically
+    // scrolls through the viewport before engaging.
+    // Sticky engages at ~36% progress (50vh / 140vh total scroll).
+    offset: ["start center", "end end"],
+  });
+
+  // ── Heading transforms ─────────────────────────────
+  // NO y transform. Zero. None.
+  // Heading vertical position = CSS only:
+  //   Before sticky: container scrolls naturally → heading moves with page
+  //   After sticky:  container pinned at top:0 → heading locked at center
+  //
+  // Framer only controls scale + opacity (after lock at ~0.36):
+  // Scale: 1.15 → 0.75 = dramatic 35% shrink as cards pile on
+  const headingScale = useTransform(
+    scrollYProgress,
+    [0, 0.36, 0.95, 1],
+    [1.9, 1.3, 0.75, 0.75],
+  );
+  // Opacity: 1 → 0.15 = heading nearly invisible behind overlapping cards
+  const headingOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.36, 0.95, 1],
+    [1, 1, 0.15, 0.15],
+  );
+
+  // ── Card 0 · top-left → overlaps left side of heading ──
+  const c0x = useTransform(
+    scrollYProgress,
+    [0, 0.42, 0.95, 1],
+    [-700, -700, -70, -70],
+  );
+  const c0y = useTransform(
+    scrollYProgress,
+    [0, 0.42, 0.95, 1],
+    [-500, -500, -30, -30],
+  );
+  const c0o = useTransform(scrollYProgress, [0, 0.42, 0.7, 1], [0, 0, 1, 1]);
+  const c0s = useTransform(
+    scrollYProgress,
+    [0, 0.42, 0.95, 1],
+    [0.9, 0.9, 1, 1],
+  );
+  const c0r = useTransform(scrollYProgress, [0, 0.42, 0.95, 1], [0, 0, -6, -6]);
+
+  // ── Card 1 · top-right → overlaps right side of heading ──
+  const c1x = useTransform(
+    scrollYProgress,
+    [0, 0.42, 0.95, 1],
+    [700, 700, 80, 80],
+  );
+  const c1y = useTransform(
+    scrollYProgress,
+    [0, 0.42, 0.95, 1],
+    [-500, -500, -20, -20],
+  );
+  const c1o = useTransform(scrollYProgress, [0, 0.44, 0.72, 1], [0, 0, 1, 1]);
+  const c1s = useTransform(
+    scrollYProgress,
+    [0, 0.42, 0.95, 1],
+    [0.9, 0.9, 1, 1],
+  );
+  const c1r = useTransform(scrollYProgress, [0, 0.42, 0.95, 1], [0, 0, 5, 5]);
+
+  // ── Card 2 · bottom-left → overlaps CTA left ──
+  const c2x = useTransform(
+    scrollYProgress,
+    [0, 0.42, 0.95, 1],
+    [-700, -700, -55, -55],
+  );
+  const c2y = useTransform(
+    scrollYProgress,
+    [0, 0.42, 0.95, 1],
+    [500, 500, 45, 45],
+  );
+  const c2o = useTransform(scrollYProgress, [0, 0.46, 0.74, 1], [0, 0, 1, 1]);
+  const c2s = useTransform(
+    scrollYProgress,
+    [0, 0.42, 0.95, 1],
+    [0.9, 0.9, 1, 1],
+  );
+  const c2r = useTransform(scrollYProgress, [0, 0.42, 0.95, 1], [0, 0, 4, 4]);
+
+  // ── Card 3 · bottom-right → overlaps CTA right ──
+  const c3x = useTransform(
+    scrollYProgress,
+    [0, 0.42, 0.95, 1],
+    [700, 700, 65, 65],
+  );
+  const c3y = useTransform(
+    scrollYProgress,
+    [0, 0.42, 0.95, 1],
+    [500, 500, 50, 50],
+  );
+  const c3o = useTransform(scrollYProgress, [0, 0.48, 0.76, 1], [0, 0, 1, 1]);
+  const c3s = useTransform(
+    scrollYProgress,
+    [0, 0.42, 0.95, 1],
+    [0.9, 0.9, 1, 1],
+  );
+  const c3r = useTransform(scrollYProgress, [0, 0.42, 0.95, 1], [0, 0, -5, -5]);
+
+  // ── Card 4 · dead center → covers heading directly (topmost) ──
+  const c4x = useTransform(scrollYProgress, [0, 0.42, 0.95, 1], [0, 0, 5, 5]);
+  const c4y = useTransform(
+    scrollYProgress,
+    [0, 0.42, 0.95, 1],
+    [-600, -600, 5, 5],
+  );
+  const c4o = useTransform(scrollYProgress, [0, 0.43, 0.71, 1], [0, 0, 1, 1]);
+  const c4s = useTransform(
+    scrollYProgress,
+    [0, 0.42, 0.95, 1],
+    [0.9, 0.9, 1, 1],
+  );
+  const c4r = useTransform(scrollYProgress, [0, 0.42, 0.95, 1], [0, 0, 2, 2]);
+
+  const transforms = [
+    { x: c0x, y: c0y, opacity: c0o, scale: c0s, rotate: c0r },
+    { x: c1x, y: c1y, opacity: c1o, scale: c1s, rotate: c1r },
+    { x: c2x, y: c2y, opacity: c2o, scale: c2s, rotate: c2r },
+    { x: c3x, y: c3y, opacity: c3o, scale: c3s, rotate: c3r },
+    { x: c4x, y: c4y, opacity: c4o, scale: c4s, rotate: c4r },
+  ];
+
   return (
-    <section className="relative overflow-hidden bg-black py-20 sm:py-28 md:py-36 lg:py-44">
-      {/* Subtle radial glow behind center */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] opacity-[0.08]"
-          style={{
-            background:
-              "radial-gradient(ellipse, rgba(255,255,255,1) 0%, transparent 70%)",
-          }}
-        />
-      </div>
-
-      {/* Floating image cards - desktop */}
-      <div className="absolute inset-0 hidden sm:block">
-        {floatingCards.map((card, index) => (
-          <motion.div
-            key={card.label}
-            className={`absolute ${card.position} ${card.size}`}
-            initial={{ opacity: 0, y: 30, rotate: card.rotate }}
-            whileInView={{
-              opacity: 1,
-              y: 0,
-              rotate: card.rotate,
-            }}
-            viewport={{ once: true }}
-            transition={{
-              duration: 0.7,
-              delay: card.delay,
-              ease: [0.16, 1, 0.3, 1],
-            }}
-          >
-            {/* Glow behind card */}
-            <div
-              className="absolute -inset-4 rounded-3xl blur-2xl opacity-60"
-              style={{ background: card.glow }}
-            />
-
-            <motion.div
-              className="relative w-full h-full rounded-2xl overflow-hidden border border-white/[0.12] shadow-[0_8px_40px_-10px_rgba(0,0,0,0.5)]"
-              animate={{ y: [0, -5, 0] }}
-              transition={{
-                duration: 3.5 + index * 0.4,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              whileHover={{ scale: 1.08, rotate: 0 }}
-            >
-              <img
-                src={card.image}
-                alt=""
-                className="absolute inset-0 w-full h-full object-cover"
-                loading="lazy"
-              />
-              {/* Dark overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/5" />
-
-              {/* Label */}
-              <div className="absolute bottom-0 left-0 right-0 p-2.5 sm:p-3">
-                <span className="block text-[9px] sm:text-[10px] lg:text-[11px] font-extrabold text-white uppercase tracking-[0.15em] leading-tight whitespace-pre-line">
-                  {card.label}
-                </span>
-                <span className="block text-[7px] sm:text-[8px] lg:text-[9px] text-white/50 mt-0.5 font-semibold tracking-wide">
-                  {card.sub}
-                </span>
-              </div>
-            </motion.div>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Connecting lines between cards and center - subtle */}
-      <div className="absolute inset-0 hidden lg:block pointer-events-none">
-        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <radialGradient id="lineGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="white" stopOpacity="0.06" />
-              <stop offset="100%" stopColor="white" stopOpacity="0" />
-            </radialGradient>
-          </defs>
-          {/* Subtle radial lines from center */}
-          <line x1="50%" y1="50%" x2="20%" y2="20%" stroke="white" strokeOpacity="0.04" strokeWidth="1" />
-          <line x1="50%" y1="50%" x2="80%" y2="18%" stroke="white" strokeOpacity="0.04" strokeWidth="1" />
-          <line x1="50%" y1="50%" x2="85%" y2="50%" stroke="white" strokeOpacity="0.04" strokeWidth="1" />
-          <line x1="50%" y1="50%" x2="22%" y2="80%" stroke="white" strokeOpacity="0.04" strokeWidth="1" />
-          <line x1="50%" y1="50%" x2="78%" y2="80%" stroke="white" strokeOpacity="0.04" strokeWidth="1" />
-        </svg>
-      </div>
-
-      {/* Center content */}
-      <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 min-h-[360px] sm:min-h-[420px] lg:min-h-[480px]">
-        {/* Mobile cards - horizontal scroll */}
-        <div className="flex gap-3 mb-8 sm:hidden overflow-x-auto pb-2 -mx-6 px-6 scrollbar-hide">
+    <section
+      ref={sectionRef}
+      className="relative h-[190vh] bg-white dark:bg-black"
+    >
+      {/*
+        Sticky viewport — the KEY to the entire effect.
+        - Before sticky: this div scrolls UP through the viewport naturally.
+          The heading (centered inside) scrolls with it = "normal scroll".
+        - Sticky engages when this div's top hits viewport top (top:0).
+          Everything inside FREEZES. Heading locked at center.
+        - Stays stuck for 90vh of scroll (190vh section - 100vh container).
+      */}
+      <div className="sticky top-0 h-screen overflow-hidden">
+        {/* ── Desktop cards — z-20, ABOVE heading for overlap depth ── */}
+        <div className="absolute inset-0 z-20 hidden sm:flex items-center justify-center pointer-events-none">
           {floatingCards.map((card, index) => (
             <motion.div
               key={card.label}
-              className="flex-shrink-0 w-28 h-32 rounded-xl overflow-hidden border border-white/[0.1]"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.08, duration: 0.5 }}
-              style={{ rotate: `${card.rotate * 0.5}deg` }}
+              className={`absolute ${card.size}`}
+              style={{
+                x: transforms[index].x,
+                y: transforms[index].y,
+                opacity: transforms[index].opacity,
+                scale: transforms[index].scale,
+                rotate: transforms[index].rotate,
+                zIndex: index === 4 ? 25 : 20 - index,
+              }}
             >
-              <div className="relative w-full h-full">
+              {/* Subtle glow */}
+              <div
+                className="absolute -inset-4 rounded-3xl blur-2xl opacity-50"
+                style={{ background: card.glow }}
+              />
+
+              {/* Card face */}
+              <div className="relative w-full h-full rounded-2xl overflow-hidden border border-white/[0.10] shadow-[0_12px_48px_-8px_rgba(0,0,0,0.5)]">
                 <img
                   src={card.image}
                   alt=""
                   className="absolute inset-0 w-full h-full object-cover"
-                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/5" />
-                <div className="absolute bottom-0 left-0 right-0 p-2">
-                  <span className="block text-[9px] font-extrabold text-white uppercase tracking-[0.12em] leading-tight whitespace-pre-line">
+                <div className="absolute bottom-0 left-0 right-0 p-4">
+                  <span className="block text-xs sm:text-sm font-extrabold text-white uppercase tracking-[0.15em] leading-tight whitespace-pre-line">
                     {card.label}
                   </span>
-                  <span className="block text-[7px] text-white/50 mt-0.5 font-semibold tracking-wide">
+                  <span className="block text-[10px] sm:text-xs text-white/50 mt-1 font-semibold tracking-wide">
                     {card.sub}
                   </span>
                 </div>
@@ -190,58 +274,41 @@ const DashboardShowcaseSection = () => {
           ))}
         </div>
 
-        <motion.p
-          className="text-[11px] uppercase tracking-[0.3em] text-white/25 font-semibold mb-5"
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        >
-          How Blip works
-        </motion.p>
-
-        <motion.h2
-          className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-semibold text-white tracking-tight leading-[0.95]"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        >
-          Send money to
-          <br />
-          anyone, anywhere.
-        </motion.h2>
-
-        {/* Pill box: explainer text + CTA */}
-        <motion.div
-          className="mt-8 sm:mt-10 inline-flex flex-col sm:flex-row items-center gap-4 sm:gap-6 rounded-full bg-white/[0.06] border border-white/[0.08] px-6 sm:px-8 py-4 sm:py-4 backdrop-blur-sm"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <div className="flex flex-col gap-1.5 text-left">
-            <p className="text-white/55 text-sm sm:text-[15px] font-medium leading-relaxed">
-              Users buy and sell crypto with local merchants.
-            </p>
-            <p className="text-white/50 text-sm sm:text-[15px] font-medium leading-relaxed">
-              Merchants provide liquidity and compete on price.
-            </p>
-            <p className="text-white/60 text-sm sm:text-[15px] font-medium leading-relaxed">
-              Blip settles instantly on-chain.
-            </p>
-          </div>
-          <Link
-            to="/send"
-            className="group shrink-0 inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black text-sm font-semibold transition-all duration-200 hover:bg-[#000] hover:text-[#fff] border border-transparent hover:border-white/20"
+        {/* ── Heading — absolute centered, z-10 BELOW cards ──
+             NO y transform. Position = CSS only.
+             Framer only touches scale + opacity. ── */}
+        <div className="absolute inset-0 z-10 flex items-center justify-center">
+          <motion.div
+            className="text-center px-6 max-w-3xl"
+            style={{
+              scale: headingScale,
+              opacity: headingOpacity,
+            }}
           >
-            Get started
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-          </Link>
-        </motion.div>
+            <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-semibold tracking-tight leading-[0.95] text-black dark:text-white">
+              Send money to
+              <br />
+              anyone, anywhere.
+            </h2>
+
+            <div className="mt-10 flex flex-col sm:flex-row items-center gap-6 rounded-full border border-black/10 dark:border-white/[0.08] px-10 py-6 backdrop-blur-sm">
+              <div className="text-sm text-black/60 dark:text-white/40 space-y-1">
+                <p>Users buy and sell crypto with local merchants.</p>
+                <p>Merchants provide liquidity and compete on price.</p>
+                <p>Blip settles instantly on-chain.</p>
+              </div>
+
+              <Link
+                to="/send"
+                className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-black text-white dark:bg-white dark:text-black text-sm font-semibold hover:bg-neutral-800 dark:hover:bg-neutral-200 transition"
+              >
+                Get started
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
-};
-
-export default DashboardShowcaseSection;
+}

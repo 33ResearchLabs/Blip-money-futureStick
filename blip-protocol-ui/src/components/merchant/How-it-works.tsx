@@ -83,8 +83,12 @@ const HowItWorksSection = () => {
           </div>
 
           <div>
-            <h3 className="text-xl font-bold text-black dark:text-white mb-2">{title}</h3>
-            <p className="text-sm text-black/40 dark:text-zinc-500">{subtitle}</p>
+            <h3 className="text-xl font-bold text-black dark:text-white mb-2">
+              {title}
+            </h3>
+            <p className="text-sm text-black/40 dark:text-zinc-500">
+              {subtitle}
+            </p>
           </div>
         </div>
 
@@ -157,7 +161,10 @@ const HowItWorksSection = () => {
 
   /* ---------------- RENDER ---------------- */
   return (
-    <section ref={ref} className="relative max-w-7xl mx-auto px-6 py-16 md:py-32">
+    <section
+      ref={ref}
+      className="relative max-w-7xl mx-auto px-6 py-16 md:py-32"
+    >
       <style>{`
         @keyframes fadeInUp {
           from { opacity:0; transform:translateY(40px); }
@@ -176,7 +183,9 @@ const HowItWorksSection = () => {
           transition={{ duration: 0.8 }}
           className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white leading-tight mb-6 sm:mb-8 tracking-tight max-w-xl mx-auto"
         >
-          How merchants <span className="text-black/20 dark:text-white/20">execute</span> on Blip
+          How merchants{" "}
+          <span className="text-black/80 dark:text-white/50">execute</span> on
+          Blip
         </motion.h2>
       </div>
 

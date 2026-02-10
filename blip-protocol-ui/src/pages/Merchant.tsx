@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import {
   ArrowRight,
   Wallet,
@@ -20,7 +20,6 @@ import {
   Filter,
   Timer,
   Activity,
-  ChevronDown,
   Gauge,
   ListChecks,
   Radio,
@@ -106,7 +105,7 @@ const MerchantHero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg md:text-xl text-black/50 dark:text-white/50 mb-8 max-w-2xl leading-relaxed"
+            className="text-lg md:text-xl text-black dark:text-white/40 mb-8 max-w-2xl leading-relaxed"
           >
             Accept high-intent crypto-to-cash requests in seconds. Set your
             margin, execute with escrow protection, and track everything
@@ -246,8 +245,12 @@ const Card = ({ title, subtitle, icon: Icon, children, delay, step }) => {
       </div>
 
       {/* Text */}
-      <h3 className="text-xl font-medium text-black dark:text-zinc-100 mb-2">{title}</h3>
-      <p className="text-sm text-black/50 dark:text-zinc-500 mb-6">{subtitle}</p>
+      <h3 className="text-xl font-medium text-black dark:text-zinc-100 mb-2">
+        {title}
+      </h3>
+      <p className="text-sm text-black/50 dark:text-zinc-500 mb-6">
+        {subtitle}
+      </p>
 
       {/* Mockup */}
       <div className="relative mt-auto h-52 rounded-2xl overflow-hidden border border-black/[0.06] dark:border-white/[0.05] bg-[#FAF8F5] dark:bg-[#080808]">
@@ -281,7 +284,10 @@ const MockupDashboard = () => (
 const MockupLock = () => (
   <div className="h-full flex items-center justify-center">
     <div className="h-12 w-12 rounded-full bg-[#FAF8F5] dark:bg-[#0a0a0a] border border-black/10 dark:border-white/10 flex items-center justify-center">
-      <Lock size={18} className="text-zinc-400 dark:text-zinc-600 group-hover:text-black dark:group-hover:text-[#ffffff]" />
+      <Lock
+        size={18}
+        className="text-zinc-400 dark:text-zinc-600 group-hover:text-black dark:group-hover:text-[#ffffff]"
+      />
     </div>
   </div>
 );
@@ -415,7 +421,9 @@ const WhyBlipSection = () => {
             </div>
 
             <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white leading-tight mb-6 sm:mb-8 tracking-tight max-w-xl mx-auto lg:mx-0">
-              Why Merchants <span className="text-black/20 dark:text-white/20">Choose </span>Blip
+              Why Merchants{" "}
+              <span className="text-black/20 dark:text-white/20">Choose </span>
+              Blip
             </h2>
 
             <p className="text-lg text-black/40 dark:text-white/40 max-w-2xl mb-10">
@@ -448,8 +456,6 @@ const WhyBlipSection = () => {
           >
             <motion.div
               style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-
-
               className="relative
 rounded-[18px] sm:rounded-[22px] md:rounded-[26px] lg:rounded-[32px]
 border border-black/10 dark:border-white/10
@@ -672,13 +678,15 @@ const DashboardSection = () => {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-4"
           >
-            Your <span className="text-black/20 dark:text-white/20">command</span> center
+            Your{" "}
+            <span className="text-black/20 dark:text-white/20">command</span>{" "}
+            center
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg text-black/40 dark:text-white/50 max-w-xl mx-auto font-medium"
+            className="text-lg text-black dark:text-white/40 max-w-xl mx-auto font-medium"
           >
             Everything needed to run a desk, without the clutter.
           </motion.p>
@@ -733,7 +741,9 @@ const DashboardSection = () => {
                   <div className="w-16 h-16 rounded-2xl bg-black/5 dark:bg-white/5 flex items-center justify-center mx-auto mt-4">
                     <BarChart3 className="w-8 h-8 text-black/20 dark:text-white/20" />
                   </div>
-                  <p className="text-sm text-black/30 dark:text-white/30">Dashboard Preview</p>
+                  <p className="text-sm text-black/30 dark:text-white/30">
+                    Dashboard Preview
+                  </p>
                 </div>
               </div>
             </div>
@@ -764,7 +774,7 @@ const DashboardSection = () => {
                     <h4 className="text-base font-medium text-black dark:text-white mb-1">
                       {callout.title}
                     </h4>
-                    <p className="text-sm text-black/40 dark:text-white/50">
+                    <p className="text-sm text-black dark:text-white/40">
                       {callout.description}
                     </p>
                   </div>
@@ -806,15 +816,18 @@ const PricingSection = () => {
           transition={{ duration: 0.8, delay: 0.1 }}
           className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6"
         >
-          You <span className="text-black/20 dark:text-white/20">control pricing.</span> We keep it
-          simple.
+          You{" "}
+          <span className="text-black/20 dark:text-white/20">
+            control pricing.
+          </span>{" "}
+          We keep it simple.
         </motion.h2>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-lg text-black/40 dark:text-white/50 mb-10 max-w-2xl mx-auto leading-relaxed font-medium"
+          className="text-lg text-black dark:text-white/40 mb-10 max-w-2xl mx-auto leading-relaxed font-medium"
         >
           Blip shows a live market reference rate. You can adjust your quote
           within allowed ranges to win the request faster when needed.
@@ -871,7 +884,9 @@ const TrustSection = () => {
         <>
           Trades secured by
           <br />
-          <span className="text-black/20 dark:text-white/20">escrow + transparency</span>
+          <span className="text-black/20 dark:text-white/20">
+            escrow + transparency
+          </span>
         </>
       }
       subtitle="Trust & Safety"
@@ -935,12 +950,14 @@ const RolloutSection = () => {
               <div className="group p-5 rounded-xl bg-white/60 dark:bg-white/[0.02] hover:bg-white/80 dark:hover:bg-white/5 border border-black/[0.08] dark:border-transparent hover:border-black/15 dark:hover:border-white/10 backdrop-blur-xl">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-2 h-2 rounded-full bg-black/30 dark:bg-white/30 group-hover:bg-black/60 dark:group-hover:bg-white/60" />
-                  <h3 className="text-lg font-semibold text-black dark:text-white">Alpha</h3>
+                  <h3 className="text-lg font-semibold text-black dark:text-white">
+                    Alpha
+                  </h3>
                   <span className="text-xs px-2 py-0.5 rounded-full bg-black/5 dark:bg-white/5 text-black/40 dark:text-white/40">
                     Internal
                   </span>
                 </div>
-                <p className="text-black/40 dark:text-white/50 text-sm">
+                <p className="text-black dark:text-white/40 text-sm">
                   We test flows, edge cases, and reliability.
                 </p>
               </div>
@@ -949,12 +966,14 @@ const RolloutSection = () => {
               <div className="group p-5 rounded-xl bg-white/60 dark:bg-transparent hover:bg-white/80 dark:hover:bg-white/5 border border-black/[0.08] dark:border-transparent hover:border-black/15 dark:hover:border-white/10 backdrop-blur-xl">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-2 h-2 rounded-full bg-black/30 dark:bg-white/30 group-hover:bg-black/60 dark:group-hover:bg-white/60 animate-pulse" />
-                  <h3 className="text-lg font-semibold text-black dark:text-white">Beta</h3>
+                  <h3 className="text-lg font-semibold text-black dark:text-white">
+                    Beta
+                  </h3>
                   <span className="text-xs px-2 py-0.5 rounded-full bg-black/10 dark:bg-white/10 text-black/60 dark:text-white/60">
                     Invite-only
                   </span>
                 </div>
-                <p className="text-black/40 dark:text-white/50 text-sm">
+                <p className="text-black dark:text-white/40 text-sm">
                   Select merchants + partners in focused corridors.
                 </p>
               </div>
@@ -995,7 +1014,9 @@ const RolloutSection = () => {
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0">
                     <CheckCircle2 className="w-4 h-4 text-black/30 dark:text-gray-600 group-hover:text-black/60 dark:group-hover:text-white/60" />
                   </div>
-                  <span className="text-black/70 dark:text-white/70">{benefit}</span>
+                  <span className="text-black/70 dark:text-white/70">
+                    {benefit}
+                  </span>
                 </div>
               ))}
             </motion.div>
@@ -1073,7 +1094,9 @@ const RequirementsSection = () => {
                 <div className="w-10 h-10 rounded-lg bg-black/5 dark:bg-white/5 flex items-center justify-center flex-shrink-0">
                   <Icon className="w-5 h-5 text-black/60 dark:text-white/60 group-hover:text-black/80 dark:group-hover:text-white/80" />
                 </div>
-                <p className="text-black/70 dark:text-white/70 pt-2">{req.text}</p>
+                <p className="text-black/70 dark:text-white/70 pt-2">
+                  {req.text}
+                </p>
               </div>
             );
           })}
@@ -1084,112 +1107,9 @@ const RequirementsSection = () => {
 };
 
 /* ============================================
-   FAQ SECTION
+   FAQ SECTION — Imported from separate component
    ============================================ */
-const FAQSection = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  const faqs = [
-    {
-      question: "How do I receive orders?",
-      answer: "Orders appear in your dashboard feed. You accept to lock.",
-    },
-    {
-      question: "Can I adjust pricing to win orders?",
-      answer: "Yes, within allowed ranges.",
-    },
-    {
-      question: "What if a user doesn't complete?",
-      answer: "The trade follows the escrow timeline and dispute rules.",
-    },
-    {
-      question: "Do I need full KYC?",
-      answer: "Not during early Beta. Basic verification is required.",
-    },
-    {
-      question: "Which corridors launch first?",
-      answer: "Starting with Dubai-focused corridors, expanding in stages.",
-    },
-  ];
-
-  return (
-    <section ref={ref} className="relative py-24 md:py-32 overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-[#FAF8F5] dark:bg-black" />
-
-      <div className="relative z-10 max-w-3xl mx-auto px-6">
-        <div className="text-center mb-12">
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6 }}
-            className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-4"
-          >
-            FAQ
-          </motion.p>
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.1]"
-          >
-            Common questions
-          </motion.h2>
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="space-y-3"
-        >
-          {faqs.map((faq, index) => (
-            <div
-              key={index}
-              className={`rounded-xl border overflow-hidden transition-colors duration-300 hover:border-black/20 dark:hover:border-white/20 backdrop-blur-xl
-    ${
-      openIndex === index
-        ? "bg-white/80 dark:bg-white/5 border-black/20 dark:border-white/20"
-        : "bg-white/60 dark:bg-white/[0.02] border-black/[0.08] dark:border-white/5"
-    }
-  `}
-            >
-              <button
-                onClick={() => {
-                  setOpenIndex(openIndex === index ? null : index);
-                  sounds.click();
-                }}
-                onMouseEnter={() => sounds.hover()}
-                className="w-full flex items-center justify-between p-5 text-left"
-              >
-                <span className="text-black dark:text-white font-medium">{faq.question}</span>
-                <ChevronDown
-                  className={`w-5 h-5 text-black/40 dark:text-white/40 transition-transform duration-300 ${
-                    openIndex === index ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-              <AnimatePresence>
-                {openIndex === index && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <div className="px-5 pb-5 text-black/40 dark:text-white/50">{faq.answer}</div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          ))}
-        </motion.div>
-      </div>
-    </section>
-  );
-};
+import ScrollFAQ from "@/components/merchant/ScrollFAQ";
 
 /* ============================================F
    MAIN PAGE COMPONENT
@@ -1213,7 +1133,7 @@ const Merchant = () => {
       <TrustSection />
       <RolloutSection />
       <RequirementsSection />
-      <FAQSection />
+      <ScrollFAQ />
 
       <CTASection
         title={

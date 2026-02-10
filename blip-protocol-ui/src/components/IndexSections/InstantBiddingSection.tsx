@@ -61,7 +61,17 @@ const InstantBiddingSection = () => {
             </span>
           </div>
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black dark:text-white mb-2 sm:mb-4 tracking-tight">
-            Instant <span className="text-black/30 dark:text-white/20">bidding.</span>
+            Instant{" "}
+            <span className="text-black/80 dark:text-white/20 relative inline-block">
+              <span className="relative z-10">bidding.</span>
+              <motion.span
+                className="absolute -bottom-1 left-0 right-0 h-[1.5px] rounded-full bg-gradient-to-r from-[#ff6b35]/60 via-[#ff8f5e]/50 to-[#ff6b35]/20"
+                initial={{ scaleX: 0, originX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.2, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              />
+            </span>
           </h2>
           <p className="text-black dark:text-white/50 font-medium text-sm sm:text-base lg:text-lg max-w-2xl mx-auto hidden sm:block">
             Merchants compete in real-time for your order. You automatically

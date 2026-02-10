@@ -38,23 +38,8 @@ const CinematicHero = () => {
           className="absolute inset-0 transition-all duration-150 ease-out hidden dark:block"
           style={{
             opacity: 0.65,
-            // maskImage: `radial-gradient(circle 1000px at ${mousePosition.x}% ${mousePosition.y}%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 20%, rgba(0,0,0,0.5) 45%, rgba(0,0,0,0.15) 70%, rgba(0,0,0,0) 100%)`,
-            // WebkitMaskImage: `radial-gradient(circle 1000px at ${mousePosition.x}% ${mousePosition.y}%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 20%, rgba(0,0,0,0.5) 45%, rgba(0,0,0,0.15) 70%, rgba(0,0,0,0) 100%)`,
-            maskImage: `radial-gradient(ellipse 380px 300px at ${mousePosition.x}% ${mousePosition.y}%, 
-  rgba(0,0,0,0.75) 0%, 
-  rgba(0,0,0,0.65) 25%, 
-  rgba(0,0,0,0.45) 50%, 
-  rgba(0,0,0,0.25) 70%, 
-  rgba(0,0,0,0.05) 90%, 
-  rgba(0,0,0,0) 100%)`,
-
-            WebkitMaskImage: `radial-gradient(ellipse 380px 300px at ${mousePosition.x}% ${mousePosition.y}%, 
-  rgba(0,0,0,0.75) 0%, 
-  rgba(0,0,0,0.65) 25%, 
-  rgba(0,0,0,0.45) 50%, 
-  rgba(0,0,0,0.25) 70%, 
-  rgba(0,0,0,0.05) 90%, 
-  rgba(0,0,0,0) 100%)`,
+            maskImage: `radial-gradient(circle 1000px at ${mousePosition.x}% ${mousePosition.y}%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 20%, rgba(0,0,0,0.5) 45%, rgba(0,0,0,0.15) 70%, rgba(0,0,0,0) 100%)`,
+            WebkitMaskImage: `radial-gradient(circle 1000px at ${mousePosition.x}% ${mousePosition.y}%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 20%, rgba(0,0,0,0.5) 45%, rgba(0,0,0,0.15) 70%, rgba(0,0,0,0) 100%)`,
           }}
         >
           <img

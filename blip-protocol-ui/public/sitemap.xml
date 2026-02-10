@@ -99,14 +99,6 @@
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
-
-  
-   <url>
-    <loc>https://blip.money/blog</loc>
-    <lastmod>2026-02-10</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
   
 
 </urlset>

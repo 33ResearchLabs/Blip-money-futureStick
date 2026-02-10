@@ -38,7 +38,7 @@ const Index = () => {
         canonical="https://blip.money/"
       />
 
-      <div className="bg-white dark:bg-transparent text-black dark:text-white relative overflow-x-hidden">
+      <div className="bg-white dark:bg-transparent text-black dark:text-white relative overflow-x-clip">
         {/* Interactive merchant dashboard background */}
         <InteractiveBackground />
 

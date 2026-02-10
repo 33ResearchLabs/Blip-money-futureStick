@@ -33,7 +33,7 @@ const Privacy = () => {
         canonical="https://blip.money/privacy"
       />
 
-      <div className="min-h-screen bg-white dark:bg-[#0a0a0a] text-black dark:text-white">
+      <div className="min-h-screen bg-[#FAF8F5] dark:bg-[#0a0a0b] text-black dark:text-white">
         {/* Hero Header */}
         <div className="pt-32 pb-16 px-6">
           <div className="max-w-6xl mx-auto">

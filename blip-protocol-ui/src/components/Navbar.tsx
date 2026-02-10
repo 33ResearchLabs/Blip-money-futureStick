@@ -5,7 +5,15 @@ import {
   useScroll,
   useMotionValueEvent,
 } from "framer-motion";
-import { Menu, X, ChevronRight, ArrowRight, Sun, Moon, Zap } from "lucide-react";
+import {
+  Menu,
+  X,
+  ChevronRight,
+  ArrowRight,
+  Sun,
+  Moon,
+  Zap,
+} from "lucide-react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
@@ -27,7 +35,10 @@ export const Logo = ({ className = "" }) => {
       onClick={() => sounds.click()}
     >
       {/* Zap icon */}
-      <Zap className="w-5 h-5 text-black dark:text-white fill-black dark:fill-white" strokeWidth={2} />
+      <Zap
+        className="w-5 h-5 text-black dark:text-white fill-black dark:fill-white"
+        strokeWidth={2}
+      />
 
       {/* Text */}
       <motion.span
@@ -75,7 +86,11 @@ const NavItem = ({
       className="relative px-3 py-2 text-[17px] font-semibold transition-colors duration-200"
     >
       <span
-        className={isActive ? "text-black dark:text-white" : "text-black/70 dark:text-[#A1A1AA] hover:text-black dark:hover:text-white"}
+        className={
+          isActive
+            ? "text-black dark:text-white"
+            : "text-black/70 dark:text-[#A1A1AA] hover:text-black dark:hover:text-white"
+        }
       >
         {children}
       </span>
@@ -280,10 +295,10 @@ const MobileMenu = ({
                 </Link>
               ) : (
                 <div onClick={handleNavClick}>
-                    <CTAButton to="/waitlist" className="w-full">
-                      Join Waitlist
-                    </CTAButton>
-                  </div>
+                  <CTAButton to="/waitlist" className="w-full">
+                    Join Waitlist
+                  </CTAButton>
+                </div>
               )}
             </div>
           </motion.div>
@@ -409,7 +424,9 @@ export const Navbar = () => {
         }}
         transition={{ duration: 0.25 }}
         className={`fixed top-0 w-full z-50 ${
-          isScrolled ? "bg-[#FAF8F5] dark:bg-[rgba(10,10,11,0.8)] dark:backdrop-blur-xl border-b border-black/[0.06] dark:border-white/[0.06]" : "bg-transparent border-b border-transparent"
+          isScrolled
+            ? "bg-[#FAF8F5] dark:bg-[rgba(10,10,11,0.8)] dark:backdrop-blur-xl border-b border-black/[0.06] dark:border-white/[0.06]"
+            : "bg-transparent border-b border-transparent"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">

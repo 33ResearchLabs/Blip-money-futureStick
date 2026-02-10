@@ -55,13 +55,16 @@ export const HeroDashboardVisual = ({
       </div>
 
       {/* Right side fade */}
+      {/* Right side fade */}
       <div
         className="
     pointer-events-none
     absolute top-0 right-0
     h-screen
     w-44 md:w-52 lg:w-[32rem]
-    bg-gradient-to-l from-black via-black/70 to-transparent
+    bg-gradient-to-l
+    from-white via-white/80 to-transparent
+    dark:from-black dark:via-black/70
     -skew-y-10
     origin-top-right
   "
@@ -71,7 +74,18 @@ export const HeroDashboardVisual = ({
       {/* <div className="pointer-events-none absolute top-0 left-0 h-full w-20 md:w-28 bg-gradient-to-r from-black via-black/70 to-transparent" /> */}
 
       {/* Bottom fade */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 md:h-56 bg-gradient-to-t from-black via-black/40 to-transparent -skew-x-6" />
+      {/* Bottom fade */}
+      <div
+        className="
+    pointer-events-none
+    absolute inset-x-0 bottom-0
+    h-32 md:h-56
+    bg-gradient-to-t
+    from-white via-white/70 to-transparent
+    dark:from-black dark:via-black/40
+    -skew-x-6
+  "
+      />
     </div>
   );
 };

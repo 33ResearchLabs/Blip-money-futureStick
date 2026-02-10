@@ -69,24 +69,30 @@ export const CinematicHeroOfMerchant = () => {
           className="w-full px-4 pb-20 sm:pb-28 lg:pb-4 lg:px-4 antigravity-layer order-2 relative z-20 text-center
   "
         >
-          <motion.h1
-            className="font-display text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold text-black dark:text-white leading-[1.1] mb-4 md:mb-6 lg:mb-8 tracking-tight max-w-2xl py-12 mx-auto text-center"
-          >
+          <motion.h1 className="font-display text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold text-black dark:text-white leading-[1.1] mb-4 md:mb-6 lg:mb-8 tracking-tight max-w-2xl py-12 mx-auto text-center">
             The settlement layer
-            <br /> for <span className="text-black/20 dark:text-white/20">borderless</span> money.
+            <br /> for{" "}
+            <span className="text-black/80 dark:text-white/50">
+              borderless
+            </span>{" "}
+            money.
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-black/40 dark:text-white/40 text-base sm:text-lg max-w-md mx-auto mb-12 leading-relaxed font-medium"
+            className="text-black dark:text-white/40 text-base sm:text-lg max-w-md mx-auto mb-12 leading-relaxed font-medium"
           >
             Users create requests.{" "}
-            <strong className="text-black/70 dark:text-white/70">Merchants accept</strong>, price,
-            and settle off-chain.{" "}
-            <strong className="text-black/70 dark:text-white/70">Escrow-secured</strong>, on-chain
-            verified.
+            <strong className="text-black/70 dark:text-white/70">
+              Merchants accept
+            </strong>
+            , price, and settle off-chain.{" "}
+            <strong className="text-black/70 dark:text-white/70">
+              Escrow-secured
+            </strong>
+            , on-chain verified.
           </motion.p>
 
           <motion.div

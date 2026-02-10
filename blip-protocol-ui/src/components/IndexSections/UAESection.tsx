@@ -327,8 +327,15 @@ const UAESection = () => {
           <h2 className="font-display text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-semibold tracking-tight text-black dark:text-white leading-[0.9]">
             Dubai
           </h2>
-          <span className="block text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-semibold text-black/25 dark:text-white/15">
-            is next.
+          <span className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-semibold text-black/80 dark:text-white/15 relative inline-block">
+            <span className="relative z-10">is next.</span>
+            <motion.span
+              className="absolute -bottom-1 left-0 right-0 h-[1.5px] rounded-full bg-gradient-to-r from-[#ff6b35]/60 via-[#ff8f5e]/50 to-[#ff6b35]/20"
+              initial={{ scaleX: 0, originX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.2, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            />
           </span>
 
           {/* Subtext */}

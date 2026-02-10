@@ -38,7 +38,7 @@ function renderContentSection(section: BlogContentSection, index: number) {
       );
     case "paragraph":
       return (
-        <p key={index} className="mb-6 leading-[1.8] text-[17px]">
+        <p key={index} className="mb-6 leading-[1.8] text-[17px] text-black dark:text-white/40">
           {section.content}
         </p>
       );
@@ -64,7 +64,7 @@ function renderContentSection(section: BlogContentSection, index: number) {
           key={index}
           className="not-prose my-10 p-8 rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] shadow-[0_4px_30px_-8px_rgba(0,0,0,0.08)] dark:shadow-none"
         >
-          <p className="text-gray-600 dark:text-white/60 text-[16px] leading-[1.8]">
+          <p className="text-black dark:text-white/40 text-[16px] leading-[1.8]">
             {section.content}
           </p>
         </div>
@@ -243,7 +243,7 @@ export default function BlogArticle() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.3, ease: [0.19, 1, 0.22, 1] }}
         >
-          <div className="prose prose-lg dark:prose-invert prose-headings:tracking-tight prose-headings:text-black dark:prose-headings:text-white prose-p:text-gray-600 dark:prose-p:text-white/60 prose-a:text-neon-mint prose-blockquote:border-l-2 prose-blockquote:border-gray-200 dark:prose-blockquote:border-white/10 prose-blockquote:text-gray-500 dark:prose-blockquote:text-white/50 prose-blockquote:font-normal prose-blockquote:not-italic prose-li:text-gray-600 dark:prose-li:text-white/60 max-w-none">
+          <div className="prose prose-lg dark:prose-invert prose-headings:tracking-tight prose-headings:text-black dark:prose-headings:text-white prose-p:text-black dark:prose-p:text-white/40 prose-a:text-neon-mint prose-blockquote:border-l-2 prose-blockquote:border-gray-200 dark:prose-blockquote:border-white/10 prose-blockquote:text-gray-500 dark:prose-blockquote:text-white/50 prose-blockquote:font-normal prose-blockquote:not-italic prose-li:text-black dark:prose-li:text-white/40 max-w-none">
             {article.content.map((section, i) =>
               renderContentSection(section, i)
             )}
