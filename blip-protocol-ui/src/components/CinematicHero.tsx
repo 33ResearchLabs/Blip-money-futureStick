@@ -37,9 +37,9 @@ const CinematicHero = () => {
         <div
           className="absolute inset-0 transition-all duration-150 ease-out hidden dark:block"
           style={{
-            opacity: 0.4,
-            maskImage: `radial-gradient(circle 900px at ${mousePosition.x}% ${mousePosition.y}%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 25%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.1) 75%, rgba(0,0,0,0) 100%)`,
-            WebkitMaskImage: `radial-gradient(circle 900px at ${mousePosition.x}% ${mousePosition.y}%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 25%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.1) 75%, rgba(0,0,0,0) 100%)`,
+            opacity: 0.65,
+            maskImage: `radial-gradient(circle 1000px at ${mousePosition.x}% ${mousePosition.y}%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 20%, rgba(0,0,0,0.5) 45%, rgba(0,0,0,0.15) 70%, rgba(0,0,0,0) 100%)`,
+            WebkitMaskImage: `radial-gradient(circle 1000px at ${mousePosition.x}% ${mousePosition.y}%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 20%, rgba(0,0,0,0.5) 45%, rgba(0,0,0,0.15) 70%, rgba(0,0,0,0) 100%)`,
           }}
         >
           <img
