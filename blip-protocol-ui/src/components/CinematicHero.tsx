@@ -38,8 +38,23 @@ const CinematicHero = () => {
           className="absolute inset-0 transition-all duration-150 ease-out hidden dark:block"
           style={{
             opacity: 0.65,
-            maskImage: `radial-gradient(circle 1000px at ${mousePosition.x}% ${mousePosition.y}%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 20%, rgba(0,0,0,0.5) 45%, rgba(0,0,0,0.15) 70%, rgba(0,0,0,0) 100%)`,
-            WebkitMaskImage: `radial-gradient(circle 1000px at ${mousePosition.x}% ${mousePosition.y}%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 20%, rgba(0,0,0,0.5) 45%, rgba(0,0,0,0.15) 70%, rgba(0,0,0,0) 100%)`,
+            // maskImage: `radial-gradient(circle 1000px at ${mousePosition.x}% ${mousePosition.y}%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 20%, rgba(0,0,0,0.5) 45%, rgba(0,0,0,0.15) 70%, rgba(0,0,0,0) 100%)`,
+            // WebkitMaskImage: `radial-gradient(circle 1000px at ${mousePosition.x}% ${mousePosition.y}%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 20%, rgba(0,0,0,0.5) 45%, rgba(0,0,0,0.15) 70%, rgba(0,0,0,0) 100%)`,
+            maskImage: `radial-gradient(ellipse 380px 300px at ${mousePosition.x}% ${mousePosition.y}%, 
+  rgba(0,0,0,0.75) 0%, 
+  rgba(0,0,0,0.65) 25%, 
+  rgba(0,0,0,0.45) 50%, 
+  rgba(0,0,0,0.25) 70%, 
+  rgba(0,0,0,0.05) 90%, 
+  rgba(0,0,0,0) 100%)`,
+
+            WebkitMaskImage: `radial-gradient(ellipse 380px 300px at ${mousePosition.x}% ${mousePosition.y}%, 
+  rgba(0,0,0,0.75) 0%, 
+  rgba(0,0,0,0.65) 25%, 
+  rgba(0,0,0,0.45) 50%, 
+  rgba(0,0,0,0.25) 70%, 
+  rgba(0,0,0,0.05) 90%, 
+  rgba(0,0,0,0) 100%)`,
           }}
         >
           <img
@@ -78,17 +93,23 @@ const CinematicHero = () => {
         >
           The settlement layer
           <br />
-          <span className="text-black/80 dark:text-white/50">for{" "}
+          <span className="text-black/80 dark:text-white/50">
+            for{" "}
             <span className="relative inline-block">
               <span className="relative z-10">borderless</span>
               <motion.span
                 className="absolute -bottom-1 left-0 right-0 h-[1.5px] rounded-full bg-gradient-to-r from-[#ff6b35]/60 via-[#ff8f5e]/50 to-[#ff6b35]/20"
                 initial={{ scaleX: 0, originX: 0 }}
                 animate={{ scaleX: 1 }}
-                transition={{ duration: 1.2, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                transition={{
+                  duration: 1.2,
+                  delay: 0.8,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
               />
             </span>{" "}
-            money.</span>
+            money.
+          </span>
         </motion.h1>
 
         {/* Subtext */}
@@ -117,7 +138,12 @@ const CinematicHero = () => {
           ].map((stat, i) => (
             <div key={stat.label} className="text-center">
               <div className="flex items-center justify-center gap-2 mb-1">
-                <MicroIcon icon={stat.icon} variant="pulse" size={14} delay={i * 0.2} />
+                <MicroIcon
+                  icon={stat.icon}
+                  variant="pulse"
+                  size={14}
+                  delay={i * 0.2}
+                />
                 <div className="text-2xl sm:text-3xl font-bold text-black dark:text-white tracking-tight">
                   {stat.value}
                 </div>
