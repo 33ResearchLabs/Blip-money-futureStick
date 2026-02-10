@@ -64,8 +64,8 @@ const InstantBiddingSection = () => {
             Instant <span className="text-black/30 dark:text-white/20">bidding.</span>
           </h2>
           <p className="text-black dark:text-white/50 font-medium text-sm sm:text-base lg:text-lg max-w-2xl mx-auto hidden sm:block">
-            Merchants compete in real-time to fulfill your order. Best rate wins
-            automatically.
+            Merchants compete in real-time for your order. You automatically
+            get the best rate.
           </p>
         </motion.div>
 

@@ -82,10 +82,10 @@ const MerchantHero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/[0.02] mb-8"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-black/10 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.02] mb-8"
           >
-            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-            <span className="text-sm text-white/60">
+            <span className="w-2 h-2 rounded-full bg-black dark:bg-white animate-pulse" />
+            <span className="text-sm text-black/60 dark:text-white/60">
               Beta access open for qualified merchants
             </span>
           </motion.div>
@@ -95,10 +95,10 @@ const MerchantHero = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="heading-xl text-white mb-6"
+            className="heading-xl text-black dark:text-white mb-6"
           >
-            Become a <span className="text-white">Blip</span>{" "}
-            <span className="text-white/30">Merchant</span>
+            Become a <span className="text-black dark:text-white">Blip</span>{" "}
+            <span className="text-black/30 dark:text-white/30">Merchant</span>
           </motion.h1>
 
           {/* Subheadline */}
@@ -106,7 +106,7 @@ const MerchantHero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg md:text-xl text-white/50 mb-8 max-w-2xl leading-relaxed"
+            className="text-lg md:text-xl text-black/50 dark:text-white/50 mb-8 max-w-2xl leading-relaxed"
           >
             Accept high-intent crypto-to-cash requests in seconds. Set your
             margin, execute with escrow protection, and track everything
@@ -125,9 +125,9 @@ const MerchantHero = () => {
               return (
                 <div
                   key={index}
-                  className="flex items-center gap-2 text-sm text-white/60"
+                  className="flex items-center gap-2 text-sm text-black/60 dark:text-white/60"
                 >
-                  <Icon className="w-4 h-4 text-white/70" />
+                  <Icon className="w-4 h-4 text-black/70 dark:text-white/70" />
                   <span>{bullet.text}</span>
                 </div>
               );
@@ -163,11 +163,11 @@ const MerchantHero = () => {
   gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5
   text-[16px]
   rounded-full
-  border border-white/10
-  text-white
+  border border-black/10 dark:border-white/10
+  text-black dark:text-white
   font-medium
   transition-all duration-500
-  hover:border-white/30 hover:bg-white/5"
+  hover:border-black/30 dark:hover:border-white/30 hover:bg-black/5 dark:hover:bg-white/5"
               >
                 Join Merchant Community
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -225,7 +225,7 @@ const MerchantHero = () => {
 const Card = ({ title, subtitle, icon: Icon, children, delay, step }) => {
   return (
     <div
-      className="group relative flex flex-col overflow-hidden rounded-[2rem] border border-white/[0.03] bg-[#050505] p-8 transition-all duration-700 hover:border-white/10"
+      className="group relative flex flex-col overflow-hidden rounded-[2rem] border border-black/[0.06] dark:border-white/[0.03] bg-white/80 dark:bg-[#050505] p-8 transition-all duration-700 hover:border-black/10 dark:hover:border-white/10"
       style={{
         animation: `fadeInUp 0.8s cubic-bezier(0.2,0.8,0.2,1) ${delay}s both`,
       }}
@@ -236,21 +236,21 @@ const Card = ({ title, subtitle, icon: Icon, children, delay, step }) => {
       </div>
 
       {/* Step number */}
-      <div className="absolute top-5 right-6 text-4xl font-mono text-white/[0.03]">
+      <div className="absolute top-5 right-6 text-4xl font-mono text-black/[0.06] dark:text-white/[0.03]">
         0{step}
       </div>
 
       {/* Icon */}
-      <div className="mb-8 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#0a0a0a] border border-white/5 text-zinc-500 group-hover:text-[#ffffff] group-hover:border-[#ffffff]/30 transition">
+      <div className="mb-8 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FAF8F5] dark:bg-[#0a0a0a] border border-black/5 dark:border-white/5 text-zinc-500 group-hover:text-black dark:group-hover:text-[#ffffff] group-hover:border-black/30 dark:group-hover:border-[#ffffff]/30 transition">
         <Icon size={22} strokeWidth={1.5} />
       </div>
 
       {/* Text */}
-      <h3 className="text-xl font-medium text-zinc-100 mb-2">{title}</h3>
-      <p className="text-sm text-zinc-500 mb-6">{subtitle}</p>
+      <h3 className="text-xl font-medium text-black dark:text-zinc-100 mb-2">{title}</h3>
+      <p className="text-sm text-black/50 dark:text-zinc-500 mb-6">{subtitle}</p>
 
       {/* Mockup */}
-      <div className="relative mt-auto h-52 rounded-2xl overflow-hidden border border-white/[0.05] bg-[#080808]">
+      <div className="relative mt-auto h-52 rounded-2xl overflow-hidden border border-black/[0.06] dark:border-white/[0.05] bg-[#FAF8F5] dark:bg-[#080808]">
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:100%_4px]" />
         <div className="relative z-10 h-full w-full">{children}</div>
       </div>
@@ -266,46 +266,46 @@ const MockupDashboard = () => (
     {[1, 2, 3].map((i) => (
       <div
         key={i}
-        className="flex justify-between items-center p-2 rounded bg-zinc-900/30 border border-white/[0.03]"
+        className="flex justify-between items-center p-2 rounded bg-black/[0.03] dark:bg-zinc-900/30 border border-black/[0.06] dark:border-white/[0.03]"
       >
-        <div className="h-1.5 w-10 bg-zinc-800 rounded" />
-        <div className="h-1.5 w-6 bg-[#ffffff]/30 rounded" />
+        <div className="h-1.5 w-10 bg-black/10 dark:bg-zinc-800 rounded" />
+        <div className="h-1.5 w-6 bg-black/30 dark:bg-[#ffffff]/30 rounded" />
       </div>
     ))}
-    <div className="mt-auto h-2 bg-zinc-800 rounded overflow-hidden">
-      <div className="h-full w-1/3 bg-[#ffffff]/40 group-hover:w-full transition-all duration-[2000ms]" />
+    <div className="mt-auto h-2 bg-black/10 dark:bg-zinc-800 rounded overflow-hidden">
+      <div className="h-full w-1/3 bg-black/40 dark:bg-[#ffffff]/40 group-hover:w-full transition-all duration-[2000ms]" />
     </div>
   </div>
 );
 
 const MockupLock = () => (
   <div className="h-full flex items-center justify-center">
-    <div className="h-12 w-12 rounded-full bg-[#0a0a0a] border border-white/10 flex items-center justify-center">
-      <Lock size={18} className="text-zinc-600 group-hover:text-[#ffffff]" />
+    <div className="h-12 w-12 rounded-full bg-[#FAF8F5] dark:bg-[#0a0a0a] border border-black/10 dark:border-white/10 flex items-center justify-center">
+      <Lock size={18} className="text-zinc-400 dark:text-zinc-600 group-hover:text-black dark:group-hover:text-[#ffffff]" />
     </div>
   </div>
 );
 
 const MockupEscrow = () => (
   <div className="p-4 h-full">
-    <div className="rounded-xl border border-white/[0.03] p-4 bg-zinc-900/20">
+    <div className="rounded-xl border border-black/[0.06] dark:border-white/[0.03] p-4 bg-black/[0.02] dark:bg-zinc-900/20">
       <ShieldCheck
         size={14}
-        className="text-zinc-600 group-hover:text-[#ffffff] mb-3"
+        className="text-zinc-400 dark:text-zinc-600 group-hover:text-black dark:group-hover:text-[#ffffff] mb-3"
       />
       <div className="space-y-2">
-        <div className="h-1 w-full bg-zinc-800 rounded" />
-        <div className="h-1 w-2/3 bg-zinc-800 rounded" />
+        <div className="h-1 w-full bg-black/10 dark:bg-zinc-800 rounded" />
+        <div className="h-1 w-2/3 bg-black/10 dark:bg-zinc-800 rounded" />
       </div>
     </div>
   </div>
 );
 
 const MockupOnChain = () => (
-  <div className="p-4 font-mono text-[9px] text-zinc-600">
+  <div className="p-4 font-mono text-[9px] text-black/40 dark:text-zinc-600">
     <div>{`> SYSTEM_INIT`}</div>
     <div className="mt-1">{`> TX_HASH: 0x82...11`}</div>
-    <div className="mt-3 text-[#ffffff]/60">{`> VERIFIED`}</div>
+    <div className="mt-3 text-black/60 dark:text-[#ffffff]/60">{`> VERIFIED`}</div>
   </div>
 );
 
@@ -452,8 +452,8 @@ const WhyBlipSection = () => {
 
               className="relative
 rounded-[18px] sm:rounded-[22px] md:rounded-[26px] lg:rounded-[32px]
-border border-white/10
-bg-[#0c0c0d]/90
+border border-black/10 dark:border-white/10
+bg-white/90 dark:bg-[#0c0c0d]/90
 backdrop-blur-2xl
 overflow-hidden"
             >
@@ -470,9 +470,9 @@ overflow-hidden"
               />
 
               {/* Header */}
-              <div className="px-4 sm:px-5 md:px-6 lg:px-8 pt-5 sm:pt-6 md:pt-7 pb-4 sm:pb-5 border-b border-white/5">
+              <div className="px-4 sm:px-5 md:px-6 lg:px-8 pt-5 sm:pt-6 md:pt-7 pb-4 sm:pb-5 border-b border-black/5 dark:border-white/5">
                 {" "}
-                <h3 className="text-xs sm:text-sm md:text-base italic text-zinc-300 sm:text-zinc-400">
+                <h3 className="text-xs sm:text-sm md:text-base italic text-black/60 dark:text-zinc-300 sm:dark:text-zinc-400">
                   Platform Capabilities
                 </h3>
               </div>
@@ -515,14 +515,14 @@ min-w-0
           ${
             isPrimary
               ? `
-                bg-white/[0.06]
-                border border-white/20
+                bg-black/[0.04] dark:bg-white/[0.06]
+                border border-black/20 dark:border-white/20
                 backdrop-blur-xl
-                shadow-[0_20px_40px_-10px_rgba(0,0,0,0.8),inset_0_1px_1px_rgba(255,255,255,0.12)]
+                shadow-[0_20px_40px_-10px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.8),inset_0_1px_1px_rgba(255,255,255,0.12)]
               `
               : isActive
-                ? "bg-[#ffffff]/[0.05] border border-[#ffffff]/20"
-                : "opacity-60 hover:opacity-100 hover:bg-white/[0.02]"
+                ? "bg-black/[0.03] dark:bg-[#ffffff]/[0.05] border border-black/20 dark:border-[#ffffff]/20"
+                : "opacity-60 hover:opacity-100 hover:bg-black/[0.02] dark:hover:bg-white/[0.02]"
           }
         `}
                     >
@@ -539,10 +539,10 @@ min-w-0
  rounded-lg sm:rounded-xl flex items-center justify-center border transition-all
               ${
                 isPrimary
-                  ? "bg-white text-black border-white/30 shadow-[0_8px_20px_rgba(0,0,0,0.6)]"
+                  ? "bg-black dark:bg-white text-white dark:text-black border-black/30 dark:border-white/30 shadow-[0_8px_20px_rgba(0,0,0,0.2)] dark:shadow-[0_8px_20px_rgba(0,0,0,0.6)]"
                   : isActive
-                    ? "bg-white/30 text-black border-white/20"
-                    : "bg-[#151516] border-white/10 text-zinc-400"
+                    ? "bg-black/30 dark:bg-white/30 text-white dark:text-black border-black/20 dark:border-white/20"
+                    : "bg-[#FAF8F5] dark:bg-[#151516] border-black/10 dark:border-white/10 text-zinc-400"
               }
             `}
                           style={
@@ -562,10 +562,10 @@ min-w-0
                           }
                         >
                           <div className="min-w-0">
-                            <div className="text-sm sm:text-base md:text-lg font-bold text-white truncate">
+                            <div className="text-sm sm:text-base md:text-lg font-bold text-black dark:text-white truncate">
                               {f.title}
                             </div>
-                            <div className="text-xs sm:text-sm md:text-[15px] text-zinc-400 leading-relaxed">
+                            <div className="text-xs sm:text-sm md:text-[15px] text-black/40 dark:text-zinc-400 leading-relaxed">
                               {f.description}
                             </div>
                           </div>
@@ -578,8 +578,8 @@ min-w-0
               relative z-10 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center
               ${
                 isPrimary
-                  ? "bg-white/20 border border-white/30 text-white"
-                  : "bg-[#ffffff]/10 border border-[#ffffff]/30 text-white"
+                  ? "bg-black/20 dark:bg-white/20 border border-black/30 dark:border-white/30 text-black dark:text-white"
+                  : "bg-black/10 dark:bg-[#ffffff]/10 border border-black/30 dark:border-[#ffffff]/30 text-black dark:text-white"
               }
             `}
                           style={
@@ -662,7 +662,7 @@ const DashboardSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="text-[11px] uppercase tracking-[0.3em] text-black dark:text-white/60 mb-4"
+            className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/60 mb-4"
           >
             Merchant Dashboard
           </motion.p>
@@ -702,38 +702,38 @@ const DashboardSection = () => {
 "
           >
             {/* Placeholder frame */}
-            <div className="absolute inset-0 bg-[#0a0a0a] border border-white/10 rounded-2xl">
+            <div className="absolute inset-0 bg-white/80 dark:bg-[#0a0a0a] border border-black/10 dark:border-white/10 rounded-2xl">
               {/* Mock dashboard header */}
-              <div className="p-4 border-b border-white/5">
+              <div className="p-4 border-b border-black/5 dark:border-white/5">
                 <div className="flex items-center gap-3">
-                  <div className="w-3 h-3 rounded-full bg-white/10" />
-                  <div className="w-3 h-3 rounded-full bg-white/10" />
-                  <div className="w-3 h-3 rounded-full bg-white/10" />
-                  <div className="flex-1 h-4 bg-white/5 rounded ml-4" />
+                  <div className="w-3 h-3 rounded-full bg-black/10 dark:bg-white/10" />
+                  <div className="w-3 h-3 rounded-full bg-black/10 dark:bg-white/10" />
+                  <div className="w-3 h-3 rounded-full bg-black/10 dark:bg-white/10" />
+                  <div className="flex-1 h-4 bg-black/5 dark:bg-white/5 rounded ml-4" />
                 </div>
               </div>
 
               {/* Mock content */}
               <div className="p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-                  <div className="flex-1 h-24 bg-white/[0.02] rounded-lg border border-white/5" />
-                  <div className="flex-1 h-24 bg-white/[0.02] rounded-lg border border-white/5" />
-                  <div className="flex-1 h-24 bg-white/[0.02] rounded-lg border border-white/5" />
+                  <div className="flex-1 h-24 bg-black/[0.02] dark:bg-white/[0.02] rounded-lg border border-black/5 dark:border-white/5" />
+                  <div className="flex-1 h-24 bg-black/[0.02] dark:bg-white/[0.02] rounded-lg border border-black/5 dark:border-white/5" />
+                  <div className="flex-1 h-24 bg-black/[0.02] dark:bg-white/[0.02] rounded-lg border border-black/5 dark:border-white/5" />
                 </div>
-                <div className="h-40 bg-white/[0.02] rounded-lg border border-white/5" />
+                <div className="h-40 bg-black/[0.02] dark:bg-white/[0.02] rounded-lg border border-black/5 dark:border-white/5" />
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                  <div className="flex-1 h-20 bg-white/[0.02] rounded-lg border border-white/5" />
-                  <div className="flex-1 h-20 bg-white/[0.02] rounded-lg border border-white/5" />
+                  <div className="flex-1 h-20 bg-black/[0.02] dark:bg-white/[0.02] rounded-lg border border-black/5 dark:border-white/5" />
+                  <div className="flex-1 h-20 bg-black/[0.02] dark:bg-white/[0.02] rounded-lg border border-black/5 dark:border-white/5" />
                 </div>
               </div>
 
               {/* "Screenshot coming soon" overlay */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center">
-                  <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mx-auto mt-4">
-                    <BarChart3 className="w-8 h-8 text-white/20" />
+                  <div className="w-16 h-16 rounded-2xl bg-black/5 dark:bg-white/5 flex items-center justify-center mx-auto mt-4">
+                    <BarChart3 className="w-8 h-8 text-black/20 dark:text-white/20" />
                   </div>
-                  <p className="text-sm text-white/30">Dashboard Preview</p>
+                  <p className="text-sm text-black/30 dark:text-white/30">Dashboard Preview</p>
                 </div>
               </div>
             </div>

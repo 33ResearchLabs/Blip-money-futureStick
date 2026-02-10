@@ -37,7 +37,7 @@ const CinematicHero = () => {
         <div
           className="absolute inset-0 transition-all duration-150 ease-out hidden dark:block"
           style={{
-            opacity: 0.2,
+            opacity: 0.4,
             maskImage: `radial-gradient(circle 900px at ${mousePosition.x}% ${mousePosition.y}%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 25%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.1) 75%, rgba(0,0,0,0) 100%)`,
             WebkitMaskImage: `radial-gradient(circle 900px at ${mousePosition.x}% ${mousePosition.y}%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 25%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.1) 75%, rgba(0,0,0,0) 100%)`,
           }}
@@ -82,7 +82,7 @@ const CinematicHero = () => {
             <span className="relative inline-block">
               <span className="relative z-10">borderless</span>
               <motion.span
-                className="absolute -bottom-1 left-0 right-0 h-[3px] rounded-full bg-gradient-to-r from-[#ff6b35] via-[#ff8f5e] to-[#ff6b35]/40"
+                className="absolute -bottom-1 left-0 right-0 h-[1.5px] rounded-full bg-gradient-to-r from-[#ff6b35]/60 via-[#ff8f5e]/50 to-[#ff6b35]/20"
                 initial={{ scaleX: 0, originX: 0 }}
                 animate={{ scaleX: 1 }}
                 transition={{ duration: 1.2, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}

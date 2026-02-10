@@ -297,10 +297,10 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
   // Loading state
   if (isLoading || connecting || !walletReady) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="min-h-screen bg-[#FAF8F5] dark:bg-black flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <Loader2 className="w-8 h-8 text-[#ffffff] animate-spin" />
-          <span className="text-white/50 text-sm">
+          <span className="text-black/50 dark:text-white/50 text-sm">
             {isLoading ? "Loading..." : "Connecting wallet..."}
           </span>
         </div>
@@ -316,7 +316,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
         canonical="https://blip.money/waitlist"
       />
 
-      <div className="min-h-screen bg-black text-white overflow-hidden">
+      <div className="min-h-screen bg-[#FAF8F5] dark:bg-black text-black dark:text-white overflow-hidden">
         {/* Background */}
 
         {/* Main Content */}
@@ -343,7 +343,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                       animate={{ scale: [1, 1.3, 1], opacity: [1, 0.5, 1] }}
                       transition={{ duration: 2, repeat: Infinity }}
                     />
-                    <span className="text-[13px] text-white/70 font-medium tracking-wide">
+                    <span className="text-[13px] text-black/70 dark:text-white/70 font-medium tracking-wide">
                       Mainnet Alpha: Live
                     </span>
                   </motion.div>
@@ -357,18 +357,18 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                       delay: 0.3,
                       ease: [0.16, 1, 0.3, 1],
                     }}
-                    className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.05] mb-6 tracking-tight"
+                    className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-black dark:text-white leading-[1.05] mb-6 tracking-tight"
                   >
                     Join the Blip
                     <br />
-                    <span className="text-[#ffffff]/20">Waitlist </span>
+                    <span className="text-black/20 dark:text-[#ffffff]/20">Waitlist </span>
                   </motion.h1>
 
                   <motion.p
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, delay: 0.5 }}
-                    className="text-lg md:text-xl text-white/50 max-w-xl mx-auto lg:mx-0 leading-relaxed mb-10"
+                    className="text-lg md:text-xl text-black/50 dark:text-white/50 max-w-xl mx-auto lg:mx-0 leading-relaxed mb-10"
                   >
                     Support the first privacy-preserving institutional payment
                     protocol. Earn rewards by validating network integrity and
@@ -410,8 +410,8 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
       rounded-full
        w-[230px]  h-[48px]
       
-      border border-white/10
-      text-white text-lg font-medium
+      border border-black/10 dark:border-white/10
+      text-black dark:text-white text-lg font-medium
       transition-all duration-300
     "
                     >
@@ -419,7 +419,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                       <span
                         className="
       absolute inset-0
-      bg-white/20
+      bg-black/10 dark:bg-white/20
       rounded-full
       scale-x-0 group-hover:scale-x-100
       origin-left
@@ -447,12 +447,12 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                   }}
                   className="flex-1 w-full max-w-md"
                 >
-                  <div className="rounded-3xl bg-white/[0.02] border border-white/[0.06] overflow-hidden">
+                  <div className="rounded-3xl bg-white/80 dark:bg-white/[0.02] border border-black/[0.06] dark:border-white/[0.06] overflow-hidden">
                     {/* Header */}
-                    <div className="flex justify-between items-center px-6 py-4 border-b border-white/[0.06]">
+                    <div className="flex justify-between items-center px-6 py-4 border-b border-black/[0.06] dark:border-white/[0.06]">
                       <div className="flex items-center gap-2">
                         <motion.div className="w-2 h-2 bg-[#ff6b35] rounded-full" />
-                        <span className="text-[11px] font-medium text-white/50 uppercase tracking-wider">
+                        <span className="text-[11px] font-medium text-black/50 dark:text-white/50 uppercase tracking-wider">
                           Protocol Status
                         </span>
                       </div>
@@ -462,20 +462,20 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                     </div>
 
                     {/* Stats */}
-                    <div className="px-6 py-5 space-y-4 border-b border-white/[0.06]">
+                    <div className="px-6 py-5 space-y-4 border-b border-black/[0.06] dark:border-white/[0.06]">
                       <div className="flex justify-between items-center">
-                        <span className="text-[11px] text-white/40 uppercase tracking-wider">
+                        <span className="text-[11px] text-black/40 dark:text-white/40 uppercase tracking-wider">
                           Network Latency
                         </span>
-                        <span className="text-sm font-semibold text-white">
+                        <span className="text-sm font-semibold text-black dark:text-white">
                           412ms
                         </span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <span className="text-[11px] text-white/40 uppercase tracking-wider">
+                        <span className="text-[11px] text-black/40 dark:text-white/40 uppercase tracking-wider">
                           Active Vaults
                         </span>
-                        <span className="text-sm font-semibold text-white">
+                        <span className="text-sm font-semibold text-black dark:text-white">
                           12,492
                         </span>
                       </div>
@@ -484,10 +484,10 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                     {/* Volume */}
                     <div className="px-6 py-5 flex items-end justify-between">
                       <div>
-                        <div className="text-[10px] text-white/40 uppercase tracking-wider mb-1">
+                        <div className="text-[10px] text-black/40 dark:text-white/40 uppercase tracking-wider mb-1">
                           Global Vol (24H)
                         </div>
-                        <div className="text-2xl font-bold text-white">
+                        <div className="text-2xl font-bold text-black dark:text-white">
                           $1,293.00
                         </div>
                       </div>
@@ -496,7 +496,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                           (h, i) => (
                             <div
                               key={i}
-                              className="flex-1 bg-[#ffffff]/30 rounded-t-[2px]"
+                              className="flex-1 bg-black/20 dark:bg-[#ffffff]/30 rounded-t-[2px]"
                               style={{ height: `${h}%` }}
                             />
                           ),
@@ -512,7 +512,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.8 }}
-                className="grid grid-cols-1 md:grid-cols-3 gap-6 pb-20 border-t border-white/[0.06] pt-20"
+                className="grid grid-cols-1 md:grid-cols-3 gap-6 pb-20 border-t border-black/[0.06] dark:border-white/[0.06] pt-20"
               >
                 {[
                   {
@@ -536,15 +536,15 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.9 + i * 0.1 }}
-                    className="p-8 rounded-3xl bg-white/[0.02] border border-white/[0.06] group hover:bg-white/[0.03] transition-all duration-300"
+                    className="p-8 rounded-3xl bg-white/80 dark:bg-white/[0.02] border border-black/[0.06] dark:border-white/[0.06] group hover:bg-white dark:hover:bg-white/[0.03] transition-all duration-300"
                   >
                     <div className="w-12 h-12 rounded-2xl bg-[#ffffff]/10 border border-[#ffffff]/20 flex items-center justify-center mb-6 group-hover:bg-[#ffffff]/20 transition-colors duration-300">
                       <feature.icon className="w-5 h-5 text-[#ffffff]" />
                     </div>
-                    <h3 className="text-lg font-semibold text-white mb-3">
+                    <h3 className="text-lg font-semibold text-black dark:text-white mb-3">
                       {feature.title}
                     </h3>
-                    <p className="text-sm text-white/50 leading-relaxed">
+                    <p className="text-sm text-black/50 dark:text-white/50 leading-relaxed">
                       {feature.desc}
                     </p>
                   </motion.div>
@@ -576,10 +576,10 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                     Step 1 of 2
                   </span>
                 </motion.div>
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
+                <h2 className="text-3xl md:text-4xl font-bold text-black dark:text-white mb-3">
                   Reserve Your Spot
                 </h2>
-                <p className="text-white/50">
+                <p className="text-black/50 dark:text-white/50">
                   Enter your email to begin verification
                 </p>
               </div>
@@ -587,27 +587,27 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
               <form onSubmit={handleJoinWaitlist} className="space-y-4">
                 <div className="relative group">
                   <Mail
-                    className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-[#ffffff] transition-colors"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-black/30 dark:text-white/30 group-focus-within:text-[#ffffff] transition-colors"
                     size={18}
                   />
                   <input
                     type="email"
                     required
                     placeholder="example@gmail.com"
-                    className="w-full bg-white/[0.03] border border-white/[0.08] py-4 pl-12 pr-4 rounded-2xl text-white placeholder:text-white/30 focus:outline-none focus:border-[#ffffff]/50 focus:ring-1 focus:ring-[#ffffff]/20 transition-all"
+                    className="w-full bg-white dark:bg-white/[0.03] border border-black/[0.08] dark:border-white/[0.08] py-4 pl-12 pr-4 rounded-2xl text-black dark:text-white placeholder:text-black/30 dark:placeholder:text-white/30 focus:outline-none focus:border-[#ffffff]/50 focus:ring-1 focus:ring-[#ffffff]/20 transition-all"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div className="relative group">
                   <HandCoins
-                    className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-[#ffffff] transition-colors"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-black/30 dark:text-white/30 group-focus-within:text-[#ffffff] transition-colors"
                     size={18}
                   />
                   <input
                     type="text"
                     placeholder="Referral code (optional)"
-                    className="w-full bg-white/[0.03] border border-white/[0.08] py-4 pl-12 pr-4 rounded-2xl text-white placeholder:text-white/30 focus:outline-none focus:border-[#ffffff]/50 focus:ring-1 focus:ring-[#ffffff]/20 transition-all"
+                    className="w-full bg-white dark:bg-white/[0.03] border border-black/[0.08] dark:border-white/[0.08] py-4 pl-12 pr-4 rounded-2xl text-black dark:text-white placeholder:text-black/30 dark:placeholder:text-white/30 focus:outline-none focus:border-[#ffffff]/50 focus:ring-1 focus:ring-[#ffffff]/20 transition-all"
                     value={referral_code}
                     onChange={(e) => setReferralCode(e.target.value)}
                   />
@@ -621,15 +621,15 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                 <button
                   type="button"
                   onClick={() => navigate(-1)}
-                  className="w-full flex items-center justify-center gap-2 text-white/40 hover:text-white/60 text-sm mt-4 transition-colors"
+                  className="w-full flex items-center justify-center gap-2 text-black/40 dark:text-white/40 hover:text-black/60 dark:hover:text-white/60 text-sm mt-4 transition-colors"
                 >
                   <ArrowLeft size={14} /> Back
                 </button>
               </form>
 
               {/* Benefits */}
-              <div className="mt-12 pt-8 border-t border-white/[0.06]">
-                <p className="text-[10px] text-white/40 uppercase tracking-wider mb-4 text-center">
+              <div className="mt-12 pt-8 border-t border-black/[0.06] dark:border-white/[0.06]">
+                <p className="text-[10px] text-black/40 dark:text-white/40 uppercase tracking-wider mb-4 text-center">
                   What you get
                 </p>
                 <div className="grid grid-cols-2 gap-4">
@@ -641,10 +641,10 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                   ].map((item, i) => (
                     <div
                       key={i}
-                      className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/[0.05]"
+                      className="flex items-center gap-3 p-3 rounded-xl bg-white/80 dark:bg-white/[0.02] border border-black/[0.05] dark:border-white/[0.05]"
                     >
                       <item.icon className="w-4 h-4 text-[#ffffff]" />
-                      <span className="text-xs text-white/60">{item.text}</span>
+                      <span className="text-xs text-black/60 dark:text-white/60">{item.text}</span>
                     </div>
                   ))}
                 </div>
@@ -675,15 +675,15 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                     Step 2 of 2
                   </span>
                 </motion.div>
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
+                <h2 className="text-3xl md:text-4xl font-bold text-black dark:text-white mb-3">
                   Connect Walletghgh
                 </h2>
-                <p className="text-white/50">
+                <p className="text-black/50 dark:text-white/50">
                   Link your Solana wallet to complete registration
                 </p>
               </div>
 
-              <div className="rounded-3xl bg-white/[0.02] border border-white/[0.06] p-8 relative overflow-hidden">
+              <div className="rounded-3xl bg-white/80 dark:bg-white/[0.02] border border-black/[0.06] dark:border-white/[0.06] p-8 relative overflow-hidden">
                 {/* Loading overlay */}
                 {isConnecting && (
                   <div className="absolute inset-0 bg-black/80 backdrop-blur-sm z-10 flex flex-col items-center justify-center gap-4 rounded-3xl">
@@ -691,7 +691,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                       className="text-[#ffffff] animate-spin"
                       size={40}
                     />
-                    <span className="text-sm text-white/70">
+                    <span className="text-sm text-white/70 dark:text-white/70">
                       Creating your account...
                     </span>
                   </div>
@@ -699,9 +699,9 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
 
                 {/* Email display */}
                 <div className="text-center mb-8">
-                  <p className="text-white/50 text-sm">
+                  <p className="text-black/50 dark:text-white/50 text-sm">
                     Authorized account:{" "}
-                    <span className="text-white font-medium">{email}</span>
+                    <span className="text-black dark:text-white font-medium">{email}</span>
                   </p>
                 </div>
 
@@ -711,22 +711,22 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                 </div>
 
                 {/* Trust badges */}
-                <div className="flex items-center justify-center gap-8 pt-6 border-t border-white/[0.06]">
+                <div className="flex items-center justify-center gap-8 pt-6 border-t border-black/[0.06] dark:border-white/[0.06]">
                   <div className="flex flex-col items-center">
-                    <ShieldCheck size={18} className="text-white/30 mb-2" />
-                    <span className="text-[10px] text-white/30 uppercase tracking-wider">
+                    <ShieldCheck size={18} className="text-black/30 dark:text-white/30 mb-2" />
+                    <span className="text-[10px] text-black/30 dark:text-white/30 uppercase tracking-wider">
                       Secure
                     </span>
                   </div>
                   <div className="flex flex-col items-center">
-                    <Globe size={18} className="text-white/30 mb-2" />
-                    <span className="text-[10px] text-white/30 uppercase tracking-wider">
+                    <Globe size={18} className="text-black/30 dark:text-white/30 mb-2" />
+                    <span className="text-[10px] text-black/30 dark:text-white/30 uppercase tracking-wider">
                       Global
                     </span>
                   </div>
                   <div className="flex flex-col items-center">
-                    <Zap size={18} className="text-white/30 mb-2" />
-                    <span className="text-[10px] text-white/30 uppercase tracking-wider">
+                    <Zap size={18} className="text-black/30 dark:text-white/30 mb-2" />
+                    <span className="text-[10px] text-black/30 dark:text-white/30 uppercase tracking-wider">
                       Instant
                     </span>
                   </div>
@@ -735,7 +735,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
 
               <button
                 onClick={() => setView("waitlist")}
-                className="mt-8 flex items-center justify-center gap-2 text-white/40 hover:text-white/60 text-sm mx-auto transition-colors"
+                className="mt-8 flex items-center justify-center gap-2 text-black/40 dark:text-white/40 hover:text-black/60 dark:hover:text-white/60 text-sm mx-auto transition-colors"
               >
                 <ArrowLeft size={14} /> Change Email
               </button>
@@ -750,12 +750,12 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="w-full max-w-sm bg-[#111] border border-white/10 rounded-3xl p-6"
+            className="w-full max-w-sm bg-white dark:bg-[#111] border border-black/10 dark:border-white/10 rounded-3xl p-6"
           >
-            <h3 className="text-lg font-semibold text-white mb-2">
+            <h3 className="text-lg font-semibold text-black dark:text-white mb-2">
               Two-Factor Authentication
             </h3>
-            <p className="text-sm text-white/50 mb-6">
+            <p className="text-sm text-black/50 dark:text-white/50 mb-6">
               Enter the 6-digit code from Google Authenticator
             </p>
 
@@ -764,7 +764,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
               maxLength={6}
               value={otp}
               onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
-              className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 text-white rounded-xl text-center text-xl tracking-[0.3em] mb-4 focus:outline-none focus:border-[#ffffff]/50"
+              className="w-full bg-white dark:bg-white/[0.03] border border-black/10 dark:border-white/10 px-4 py-3 text-black dark:text-white rounded-xl text-center text-xl tracking-[0.3em] mb-4 focus:outline-none focus:border-[#ffffff]/50"
               placeholder="000000"
             />
 

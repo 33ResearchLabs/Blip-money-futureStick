@@ -288,13 +288,13 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
-            className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-10 backdrop-blur-sm border border-white/10"
+            className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-10 backdrop-blur-sm border border-black/10 dark:border-white/10"
             style={{
               background: "rgba(255, 107, 53, 0.05)",
             }}
           >
             <motion.span className="w-2 h-2 rounded-full bg-[#ff6b35] " />
-            <span className="text-[13px] text-white/70 font-medium tracking-wide">
+            <span className="text-[13px] text-black/70 dark:text-white/70 font-medium tracking-wide">
               20M BLIP Rewards Pool
             </span>
           </motion.div>
@@ -304,18 +304,18 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.05] mb-6 tracking-tight"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-black dark:text-white leading-[1.05] mb-6 tracking-tight"
           >
             Earn in a
             <br />
-            <span className="text-white/20">Blip.</span>
+            <span className="text-black/20 dark:text-white/20">Blip.</span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.5 }}
-            className="text-lg md:text-xl text-white/50 max-w-md mx-auto lg:mx-0 leading-relaxed mb-10"
+            className="text-lg md:text-xl text-black/50 dark:text-white/50 max-w-md mx-auto lg:mx-0 leading-relaxed mb-10"
           >
             Get rewarded for every transaction. Instant cashback, tiered
             rewards, and first-mover advantages.
@@ -334,10 +334,10 @@ const HeroSection = () => {
               { value: "∞", label: "No Cap" },
             ].map((stat) => (
               <div key={stat.label} className="text-center lg:text-left">
-                <div className="text-2xl md:text-3xl font-bold text-white">
+                <div className="text-2xl md:text-3xl font-bold text-black dark:text-white">
                   {stat.value}
                 </div>
-                <div className="text-[10px] text-white/30 uppercase tracking-wider">
+                <div className="text-[10px] text-black/30 dark:text-white/30 uppercase tracking-wider">
                   {stat.label}
                 </div>
               </div>
@@ -373,10 +373,10 @@ const HeroSection = () => {
             transition={{ delay: 1.5 }}
             className="mt-16 flex items-center justify-center lg:justify-start gap-3"
           >
-            <span className="text-white/30 text-xs uppercase tracking-[0.2em]">
+            <span className="text-black/30 dark:text-white/30 text-xs uppercase tracking-[0.2em]">
               Scroll to explore
             </span>
-            <div className="w-6 h-10 rounded-full border border-white/20 flex justify-center pt-2">
+            <div className="w-6 h-10 rounded-full border border-black/20 dark:border-white/20 flex justify-center pt-2">
               <motion.div
                 className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]"
                 animate={{ y: [0, 8, 0] }}
@@ -582,7 +582,7 @@ const RewardTiersSection = () => {
   return (
     <section
       ref={ref}
-      className="relative md:py-32 py-12 bg-black overflow-hidden"
+      className="relative md:py-32 py-12 bg-[#FAF8F5] dark:bg-black overflow-hidden"
     >
       {/* Background */}
       <div className="absolute inset-0">
@@ -600,12 +600,12 @@ const RewardTiersSection = () => {
           <span className="text-[10px] uppercase tracking-[0.3em] text-[#ffffff] mb-4 block">
             Reward Tiers
           </span>
-          <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tight mb-6">
+          <h2 className="text-4xl md:text-6xl font-bold text-black dark:text-white tracking-tight mb-6">
             More Volume.
             <br />
-            <span className="text-white/20">More Rewards.</span>
+            <span className="text-black/20 dark:text-white/20">More Rewards.</span>
           </h2>
-          <p className="text-lg text-white/40 max-w-xl mx-auto">
+          <p className="text-lg text-black/40 dark:text-white/40 max-w-xl mx-auto">
             Unlock higher cashback rates as your transaction volume grows.
           </p>
         </motion.div>
@@ -618,7 +618,7 @@ const RewardTiersSection = () => {
               initial={{ opacity: 0, y: 60 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: i * 0.1 }}
-              className={`group relative p-8 rounded-3xl overflow-hidden hover-lg:scale-105 border border-white/5" hover:border-white/20 transition-colors duration-500 `}
+              className={`group relative p-8 rounded-3xl overflow-hidden hover-lg:scale-105 border border-black/[0.06] dark:border-white/5 hover:border-black/20 dark:hover:border-white/20 transition-colors duration-500 bg-white/80 dark:bg-transparent `}
               // style={{
               //   background: tier.highlight
               //     ? "linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 107, 53, 0.02) 100%)"
@@ -640,15 +640,15 @@ const RewardTiersSection = () => {
               <div className="relative z-10">
                 <div className="mb-6">
                   <tier.icon
-                    className={`w-8 h-8 text-white/40 group-hover:text-[#ffffff] transition-colors duration-300 ease-in `}
+                    className={`w-8 h-8 text-black/40 dark:text-white/40 group-hover:text-[#ffffff] transition-colors duration-300 ease-in `}
                   />
                 </div>
 
-                <h3 className="text-lg text-white/60 mb-2">{tier.name}</h3>
-                <div className={`text-5xl font-bold mb-4 text-white/40 `}>
+                <h3 className="text-lg text-black/60 dark:text-white/60 mb-2">{tier.name}</h3>
+                <div className={`text-5xl font-bold mb-4 text-black/40 dark:text-white/40 `}>
                   {tier.reward}
                 </div>
-                <p className="text-sm text-white/40">{tier.desc}</p>
+                <p className="text-sm text-black/40 dark:text-white/40">{tier.desc}</p>
               </div>
             </motion.div>
           ))}
@@ -699,11 +699,11 @@ const HowItWorksSection = () => {
   return (
     <section
       ref={ref}
-      className="relative py-12 md:py-32 bg-black overflow-hidden"
+      className="relative py-12 md:py-32 bg-[#FAF8F5] dark:bg-black overflow-hidden"
     >
       {/* Background text */}
       <motion.div
-        className="absolute top-1/2 left-0 -translate-y-1/2 whitespace-nowrap text-[12vw] font-bold text-white/[0.015] select-none pointer-events-none"
+        className="absolute top-1/2 left-0 -translate-y-1/2 whitespace-nowrap text-[12vw] font-bold text-black/[0.015] dark:text-white/[0.015] select-none pointer-events-none"
         style={{
           x: useTransform(scrollYProgress, [0, 1], ["0%", "-30%"]),
         }}
@@ -723,10 +723,10 @@ const HowItWorksSection = () => {
           <span className="text-[10px] uppercase tracking-[0.3em] text-[#ffffff] mb-4 block">
             Process
           </span>
-          <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tight">
+          <h2 className="text-4xl md:text-6xl font-bold text-black dark:text-white tracking-tight">
             How It
             <br />
-            <span className="text-white/20">Works.</span>
+            <span className="text-black/20 dark:text-white/20">Works.</span>
           </h2>
         </motion.div>
 
@@ -743,28 +743,25 @@ const HowItWorksSection = () => {
             >
               {/* Connector line */}
               {i < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-12 left-[60%] w-[80%] h-[1px] bg-gradient-to-r from-white/10 to-transparent" />
+                <div className="hidden lg:block absolute top-12 left-[60%] w-[80%] h-[1px] bg-gradient-to-r from-black/10 dark:from-white/10 to-transparent" />
               )}
 
               <div
-                className="relative p-8 rounded-3xl h-full transition-all duration-300 group-hover:bg-white/[0.02] border group-hover:border-white/20   "
-                style={{
-                  background: "rgba(255, 255, 255, 0.01)",
-                }}
+                className="relative p-8 rounded-3xl h-full transition-all duration-300 group-hover:bg-black/[0.02] dark:group-hover:bg-white/[0.02] border border-black/[0.06] dark:border-transparent group-hover:border-black/20 dark:group-hover:border-white/20 bg-white/80 dark:bg-white/[0.01]"
               >
                 {/* Number */}
-                <span className="absolute top-4 right-4 text-6xl font-bold text-white/[0.03] select-none">
+                <span className="absolute top-4 right-4 text-6xl font-bold text-black/[0.03] dark:text-white/[0.03] select-none">
                   {step.num}
                 </span>
 
-                <div className="w-14 h-14 rounded-2xl border border-white/20 flex items-center justify-center mb-6 ">
-                  <step.icon className="w-6 h-6 group-hover:text-[#ffffff] text-white/20" />
+                <div className="w-14 h-14 rounded-2xl border border-black/20 dark:border-white/20 flex items-center justify-center mb-6 ">
+                  <step.icon className="w-6 h-6 group-hover:text-[#ffffff] text-black/20 dark:text-white/20" />
                 </div>
 
-                <h3 className="text-xl font-semibold text-white mb-3">
+                <h3 className="text-xl font-semibold text-black dark:text-white mb-3">
                   {step.title}
                 </h3>
-                <p className="text-white/50">{step.desc}</p>
+                <p className="text-black/50 dark:text-white/50">{step.desc}</p>
               </div>
             </motion.div>
           ))}
@@ -820,7 +817,7 @@ const FeaturesSection = () => {
   return (
     <section
       ref={ref}
-      className="relative py-12 md:py-32 bg-black overflow-hidden"
+      className="relative py-12 md:py-32 bg-[#FAF8F5] dark:bg-black overflow-hidden"
     >
       <div className="max-w-6xl mx-auto px-6">
         <motion.div
@@ -834,17 +831,17 @@ const FeaturesSection = () => {
             <span className="text-[10px] text-center uppercase tracking-[0.3em] text-[#ffffff] mb-4 block">
               Features
             </span>
-            <h2 className="text-4xl md:text-6xl font-bold text-center text-white tracking-tight mb-4">
+            <h2 className="text-4xl md:text-6xl font-bold text-center text-black dark:text-white tracking-tight mb-4">
               Maximum
               <br />
-              <span className="text-white/20 text-center">Value.</span>
+              <span className="text-black/20 dark:text-white/20 text-center">Value.</span>
             </h2>
           </div>
         </motion.div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Left: Stats card */}
           <motion.div style={{ y: y1 }} className="relative">
-            <div className="rounded-3xl bg-gradient-to-br from-white/[0.03] to-transparent border border-white/[0.06] p-8 md:p-12">
+            <div className="rounded-3xl bg-gradient-to-br from-white/80 dark:from-white/[0.03] to-transparent border border-black/[0.06] dark:border-white/[0.06] p-8 md:p-12">
               {/* Inner glow */}
               <div className="absolute top-0 right-0 w-[300px] h-[300px] rounded-full bg-[#ffffff]/10 blur-[100px] -translate-y-1/2 translate-x-1/2" />
 
@@ -853,10 +850,10 @@ const FeaturesSection = () => {
                   Total Rewards Pool
                 </span>
                 <div className="flex items-baseline gap-3 mb-8">
-                  <span className="text-5xl md:text-6xl font-bold text-white">
+                  <span className="text-5xl md:text-6xl font-bold text-black dark:text-white">
                     20M
                   </span>
-                  <span className="text-2xl text-white/40">BLIP</span>
+                  <span className="text-2xl text-black/40 dark:text-white/40">BLIP</span>
                 </div>
 
                 <div className="grid grid-cols-2 gap-6">
@@ -867,10 +864,10 @@ const FeaturesSection = () => {
                     { value: "100%", label: "First Bonus" },
                   ].map((stat) => (
                     <div key={stat.label}>
-                      <div className="text-2xl font-bold text-white">
+                      <div className="text-2xl font-bold text-black dark:text-white">
                         {stat.value}
                       </div>
-                      <div className="text-[10px] text-white/30 uppercase tracking-wider">
+                      <div className="text-[10px] text-black/30 dark:text-white/30 uppercase tracking-wider">
                         {stat.label}
                       </div>
                     </div>
@@ -890,17 +887,17 @@ const FeaturesSection = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
                   transition={{ duration: 0.6, delay: i * 0.1 }}
-                  className="group p-5 rounded-2xl transition-all duration-300  border border-white/[0.05] hover:border-[#ffffff]/20  "
+                  className="group p-5 rounded-2xl transition-all duration-300 border border-black/[0.06] dark:border-white/[0.05] hover:border-black/20 dark:hover:border-[#ffffff]/20 bg-white/80 dark:bg-transparent"
                 >
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
+                    <div className="w-10 h-10 rounded-xl bg-black/5 dark:bg-white/20 flex items-center justify-center flex-shrink-0">
                       <feature.icon className="w-5 h-5 group-hover:text-[#ffffff]" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-semibold text-white mb-1">
+                      <h3 className="text-lg font-semibold text-black dark:text-white mb-1">
                         {feature.title}
                       </h3>
-                      <p className="text-sm text-white/50">{feature.desc}</p>
+                      <p className="text-sm text-black/50 dark:text-white/50">{feature.desc}</p>
                     </div>
                   </div>
                 </motion.div>
@@ -933,7 +930,7 @@ const CTASection = () => {
   return (
     <section
       ref={ref}
-      className="relative md:min-h-screen flex items-center justify-center py-12 md:py-32 bg-black overflow-hidden"
+      className="relative md:min-h-screen flex items-center justify-center py-12 md:py-32 bg-[#FAF8F5] dark:bg-black overflow-hidden"
     >
       {/* Background */}
       <motion.div
@@ -962,13 +959,13 @@ const CTASection = () => {
           viewport={{ once: true }}
           transition={{ duration: 1 }}
         >
-          <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight mb-8">
+          <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold text-black dark:text-white tracking-tight mb-8">
             Start
             <br />
-            <span className="text-white/20">Earning.</span>
+            <span className="text-black/20 dark:text-white/20">Earning.</span>
           </h2>
 
-          <p className="text-xl text-white/50 max-w-xl mx-auto mb-12">
+          <p className="text-xl text-black/50 dark:text-white/50 max-w-xl mx-auto mb-12">
             Join the rewards program and get cashback on every transaction. No
             minimum spend required.
           </p>
@@ -1011,7 +1008,7 @@ const Rewards = () => {
         canonical="https://blip.money/rewards"
       />
 
-      <div className="bg-black text-white overflow-x-hidden">
+      <div className="bg-[#FAF8F5] dark:bg-black text-black dark:text-white overflow-x-hidden">
         <HeroSection />
         <RewardTiersSection />
         <HowItWorksSection />

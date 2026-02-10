@@ -15,3 +15,4 @@ export { default as PeopleBankSection } from './PeopleBankSection';
 export { default as CTASection } from './CTASection';
 export { default as LockedAndSecuredSection } from './LockedAndSecuredSection';
 export { default as InstantBiddingSection } from './InstantBiddingSection';
+export { default as DashboardShowcaseSection } from './DashboardShowcaseSection';

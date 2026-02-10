@@ -16,6 +16,7 @@ import {
   CTASection,
   LockedAndSecuredSection,
   InstantBiddingSection,
+  DashboardShowcaseSection,
 } from "@/components/IndexSections";
 import AbstractVisual from "@/components/IndexSections/AbstractVisual";
 import { InteractiveBackground } from "@/components/InteractiveBackground";
@@ -45,6 +46,7 @@ const Index = () => {
         <div className="grain-overlay" />
 
         <CinematicHero />
+        <DashboardShowcaseSection />
         <LockedAndSecuredSection />
         <InstantBiddingSection />
         <BlipscanExplorerSection />

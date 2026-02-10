@@ -83,7 +83,7 @@ const HeroSection = () => {
   />
 </div> */}
 
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#FAF8F5]/80 via-[#FAF8F5]/60 to-[#FAF8F5] dark:from-black/80 dark:via-black/60 dark:to-black" />
       </motion.div>
 
       {/* Grid overlay */}
@@ -114,7 +114,7 @@ const HeroSection = () => {
           }}
         >
           <span className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
-          <span className="text-[14px] text-white/70 font-medium tracking-wide">
+          <span className="text-[14px] text-black/70 dark:text-white/70 font-medium tracking-wide">
             Fixed Supply
           </span>
         </motion.div>
@@ -126,7 +126,7 @@ const HeroSection = () => {
             animate={{ y: 0 }}
             transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="text-[clamp(2.5rem,10vw,8rem)]
-           font-semibold text-white
+           font-semibold text-black dark:text-white
            leading-[1]
            sm:leading-[0.95]
            tracking-[-0.04em]"
@@ -141,9 +141,9 @@ const HeroSection = () => {
           transition={{ duration: 1, delay: 0.5 }}
           className="flex items-center justify-center md:gap-4  text-2xl md:text-3xl font-light tracking-[0.2em] uppercase"
         >
-          <span className="text-white">BLIP</span>
-          <span className="text-3xl text-white">•</span>
-          <span className="text-white/50">TOKENS</span>
+          <span className="text-black dark:text-white">BLIP</span>
+          <span className="text-3xl text-black dark:text-white">•</span>
+          <span className="text-black/50 dark:text-white/50">TOKENS</span>
         </motion.div>
 
         {/* Scroll indicator */}
@@ -179,26 +179,26 @@ const DistributionSection = () => {
   const [activeSegment, setActiveSegment] = useState<number | null>(null);
 
   return (
-    <section ref={ref} className="relative py-32 bg-black overflow-hidden ">
+    <section ref={ref} className="relative py-32 bg-[#FAF8F5] dark:bg-black overflow-hidden ">
       <motion.div
   initial={{ opacity: 0, y: 40 }}
   animate={isInView ? { opacity: 1, y: 0 } : {}}
   transition={{ duration: 0.8 }}
   className="md:mb-12 mb-20 text-center"
 >
-  <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">
+  <span className="text-xs uppercase tracking-[0.3em] text-black/60 dark:text-white/60 mb-6 block">
     Distribution
   </span>
 
-  <h2 className="text-4xl md:text-5xl font-semibold text-white tracking-tight">
+  <h2 className="text-4xl md:text-5xl font-semibold text-black dark:text-white tracking-tight">
     Token
     <br />
-    <span className="text-white/30">Split</span>
+    <span className="text-black/30 dark:text-white/30">Split</span>
   </h2>
 </motion.div>
 
       {/* Background glow */}
-      <div className="absolute top-0 left-[-10%] w-[60vw] h-[60vw] bg-white/5 blur-[150px] rounded-full" />
+      <div className="absolute top-0 left-[-10%] w-[60vw] h-[60vw] bg-black/5 dark:bg-white/5 blur-[150px] rounded-full" />
       <div className="absolute bottom-0 right-[-10%] w-[50vw] h-[50vw] bg-[#FFB743]/5 blur-[150px] rounded-full" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 ">
@@ -212,7 +212,7 @@ const DistributionSection = () => {
           >
             <div className="relative w-[290px] sm:w-[320px] md:w-[420px] aspect-square mx-auto">
               {/* Outer ring */}
-              <div className="absolute -inset-9 md:-inset-10 border border-white/5 rounded-full" />
+              <div className="absolute -inset-9 md:-inset-10 border border-black/5 dark:border-white/5 rounded-full" />
 
               <svg
                 viewBox="0 0 100 100"
@@ -272,10 +272,10 @@ const DistributionSection = () => {
 
               {/* Center */}
               <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-white/40 text-xs tracking-widest uppercase mb-2">
+                <span className="text-black/40 dark:text-white/40 text-xs tracking-widest uppercase mb-2">
                   Allocation
                 </span>
-                <span className="text-5xl font-light text-white tracking-tight">
+                <span className="text-5xl font-light text-black dark:text-white tracking-tight">
                   100%
                 </span>
               </div>
@@ -317,7 +317,7 @@ const DistributionSection = () => {
                     }}
                   />
 
-                  <span className="text-lg text-white/80 group-hover:text-white transition-colors">
+                  <span className="text-lg text-black/80 dark:text-white/80 group-hover:text-black dark:group-hover:text-white transition-colors">
                     {item.label}
                   </span>
                   <span
@@ -366,11 +366,11 @@ const UtilitySection = () => {
   return (
     <section
       ref={ref}
-      className="relative py-12 md:py-24 bg-black overflow-hidden"
+      className="relative py-12 md:py-24 bg-[#FAF8F5] dark:bg-black overflow-hidden"
     >
       {/* Background text */}
       <motion.div
-        className="absolute top-1/2 left-0 -translate-y-1/2 whitespace-nowrap text-[15vw] font-bold text-white/[0.015] select-none pointer-events-none"
+        className="absolute top-1/2 left-0 -translate-y-1/2 whitespace-nowrap text-[15vw] font-bold text-black/[0.015] dark:text-white/[0.015] select-none pointer-events-none"
         style={{
           x: useTransform(scrollYProgress, [0, 1], ["0%", "-30%"]),
         }}
@@ -387,15 +387,15 @@ const UtilitySection = () => {
           transition={{ duration: 1 }}
           className="mb-20 text-center md:text-left"
         >
-          <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">
+          <span className="text-xs uppercase tracking-[0.3em] text-black/60 dark:text-white/60 mb-6 block">
             Token Utility
           </span>
 
-          <h2 className="text-4xl md:text-6xl font-semibold text-white tracking-tight mb-6">
-            Utility<span className="text-white">.</span>
+          <h2 className="text-4xl md:text-6xl font-semibold text-black dark:text-white tracking-tight mb-6">
+            Utility<span className="text-black dark:text-white">.</span>
           </h2>
 
-          <p className="text-xl text-white/50 max-w-xl mx-auto md:mx-0">
+          <p className="text-xl text-black/50 dark:text-white/50 max-w-xl mx-auto md:mx-0">
             Engineered for maximum ecosystem velocity.
           </p>
         </motion.div>
@@ -409,7 +409,7 @@ const UtilitySection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8, delay: i * 0.1 }}
-              className="group relative p-8 rounded-3xl min-h-[280px] flex flex-col justify-between overflow-hidden border hover:border-white/20 transition-colors duration-500 ease-out
+              className="group relative p-8 rounded-3xl min-h-[280px] flex flex-col justify-between overflow-hidden border border-black/[0.06] dark:border-white/[0.06] hover:border-black/20 dark:hover:border-white/20 transition-colors duration-500 ease-out
  "
               style={{
                 background: "rgba(255, 255, 255, 0.02)",
@@ -421,17 +421,17 @@ const UtilitySection = () => {
               <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#ff6b35]/20 opacity-0 group-hover:opacity-[0.08] blur-[40px] rounded-full transition-opacity duration-500" />
 
               <div className="relative z-10">
-                <div className="mb-8 text-white/40 group-hover:text-[#ffffff] transition-colors duration-500">
+                <div className="mb-8 text-black/40 dark:text-white/40 group-hover:text-black dark:group-hover:text-white transition-colors duration-500">
                   <utility.icon className="w-8 h-8" strokeWidth={1.5} />
                 </div>
-                <h3 className="text-2xl font-light text-white mb-3">
+                <h3 className="text-2xl font-light text-black dark:text-white mb-3">
                   {utility.title}
                 </h3>
-                <p className="text-sm text-white/50">{utility.desc}</p>
+                <p className="text-sm text-black/50 dark:text-white/50">{utility.desc}</p>
               </div>
 
               {/* Accent line */}
-              <div className="w-8 h-[2px] bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="w-8 h-[2px] bg-black/20 dark:bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </motion.div>
           ))}
         </div>
@@ -452,7 +452,7 @@ const DeflationSection = () => {
   ];
 
   return (
-    <section className="relative py-12 md:py-24 bg-black overflow-hidden">
+    <section className="relative py-12 md:py-24 bg-[#FAF8F5] dark:bg-black overflow-hidden">
       {/* Background image */}
       <div className="absolute inset-0 z-0">
         {/* <img
@@ -460,7 +460,7 @@ const DeflationSection = () => {
           alt="Abstract"
           className="w-full h-full object-cover opacity-10"
         /> */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#FAF8F5] via-[#FAF8F5]/95 to-[#FAF8F5] dark:from-black dark:via-black/95 dark:to-black" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
@@ -472,13 +472,13 @@ const DeflationSection = () => {
           transition={{ duration: 1 }}
           className="text-center mb-20"
         >
-          <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">
+          <span className="text-xs uppercase tracking-[0.3em] text-black/60 dark:text-white/60 mb-6 block">
             Economics
           </span>
-          <h2 className="text-4xl md:text-6xl font-semibold text-white tracking-tight">
+          <h2 className="text-4xl md:text-6xl font-semibold text-black dark:text-white tracking-tight">
             Deflationary
             <br />
-            <span className="text-white/30">Model.</span>
+            <span className="text-black/30 dark:text-white/30">Model.</span>
           </h2>
         </motion.div>
 
@@ -491,23 +491,23 @@ const DeflationSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: i * 0.15 }}
-              className="group p-10 rounded-3xl text-center border  hover:border-white/20 transition-colors duration-500"
+              className="group p-10 rounded-3xl text-center border border-black/[0.06] dark:border-white/[0.06] hover:border-black/20 dark:hover:border-white/20 transition-colors duration-500"
               style={{
                 background: "rgba(255, 255, 255, 0.02)",
                 // border: "1px solid rgba(255, 255, 255, 0.05)",
               }}
               onMouseEnter={() => sounds.hover()}
             >
-              <div className="mb-8 p-5 rounded-full border border-white/5 bg-black/20 inline-flex group-hover:border-white/20 transition-colors duration-500">
+              <div className="mb-8 p-5 rounded-full border border-black/5 dark:border-white/5 bg-white/20 dark:bg-black/20 inline-flex group-hover:border-black/20 dark:group-hover:border-white/20 transition-colors duration-500">
                 <item.icon
-                  className="w-10 h-10 text-white group-hover:text-[#ffffff] transition-colors"
+                  className="w-10 h-10 text-black dark:text-white group-hover:text-black dark:group-hover:text-white transition-colors"
                   strokeWidth={1.5}
                 />
               </div>
-              <h3 className="text-3xl font-light text-white mb-3">
+              <h3 className="text-3xl font-light text-black dark:text-white mb-3">
                 {item.title}
               </h3>
-              <p className="text-sm text-white/50 uppercase tracking-widest">
+              <p className="text-sm text-black/50 dark:text-white/50 uppercase tracking-widest">
                 {item.sub}
               </p>
             </motion.div>
@@ -568,7 +568,7 @@ const EmissionsSection = () => {
   return (
     <section
       ref={ref}
-      className="relative py-12 md:py-24 bg-black overflow-hidden"
+      className="relative py-12 md:py-24 bg-[#FAF8F5] dark:bg-black overflow-hidden"
     >
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         {/* Header */}
@@ -579,15 +579,15 @@ const EmissionsSection = () => {
           transition={{ duration: 1 }}
           className="mb-16 text-center md:text-left"
         >
-          <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">
+          <span className="text-xs uppercase tracking-[0.3em] text-black/60 dark:text-white/60 mb-6 block">
             Vesting Schedule
           </span>
 
-          <h2 className="text-4xl md:text-5xl font-semibold text-white tracking-tight mb-4">
+          <h2 className="text-4xl md:text-5xl font-semibold text-black dark:text-white tracking-tight mb-4">
             Emissions
           </h2>
 
-          <p className="text-xl text-white/50 mx-auto md:mx-0">
+          <p className="text-xl text-black/50 dark:text-white/50 mx-auto md:mx-0">
             72-Month Vesting Curve
           </p>
         </motion.div>
@@ -605,7 +605,7 @@ const EmissionsSection = () => {
           }}
         >
           {/* Chart glow */}
-          <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-[#ffffff]/5 to-transparent" />
+          <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black/5 dark:from-[#ffffff]/5 to-transparent" />
 
           <div className="relative w-full aspect-[21/9]">
             <svg
@@ -740,7 +740,7 @@ export const BlipTokenomics = () => {
         canonical="https://blip.money/tokenomics"
       />
 
-      <div className="bg-black text-white overflow-x-hidden">
+      <div className="bg-[#FAF8F5] dark:bg-black text-black dark:text-white overflow-x-hidden">
         <HeroSection />
         <DistributionSection />
         <UtilitySection />

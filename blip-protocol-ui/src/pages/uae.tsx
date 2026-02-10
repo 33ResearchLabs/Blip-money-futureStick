@@ -13,7 +13,7 @@ const LaunchButton = ({ primary = false, className = "", children }) => (
       ${
         primary
           ? "bg-gradient-to-r from-[#00FF94] via-[#19F7A7] to-[#00C8FF] text-black shadow-[0_0_30px_rgba(0,255,148,0.5)] hover:shadow-[0_0_45px_rgba(0,255,148,0.7)] hover:scale-[1.02]"
-          : "border border-white/15 text-white bg-white/5 hover:border-[#00FF94] hover:text-[#00FF94] hover:bg-white/10"
+          : "border border-black/10 dark:border-white/15 text-black dark:text-white bg-black/5 dark:bg-white/5 hover:border-[#00FF94] hover:text-[#00FF94] hover:bg-black/10 dark:hover:bg-white/10"
       }
       ${className}
     `}
@@ -40,7 +40,7 @@ const UAELaunchBackground = () => (
 
     {/* UAE angled flag ribbon */}
     <div className="pointer-events-none absolute -top-32 -right-32 w-[420px] h-[420px] rotate-12 opacity-80">
-      <div className="w-full h-full rounded-[40px] overflow-hidden shadow-[0_0_80px_rgba(0,0,0,0.9)] border border-white/10 bg-black/80 backdrop-blur-xl flex">
+      <div className="w-full h-full rounded-[40px] overflow-hidden shadow-[0_0_80px_rgba(0,0,0,0.9)] border border-black/[0.06] dark:border-white/10 bg-white/80 dark:bg-black/80 backdrop-blur-xl flex">
         {/* Red */}
         <div className="w-[26%] bg-[#D91A20]" />
         {/* Green / White / Black gradient */}
@@ -57,7 +57,7 @@ const UAELaunchBackground = () => (
 
 const UAELaunchHero = () => {
   return (
-    <section className="relative min-h-screen bg-[#020203] pt-24 sm:pt-28 lg:pt-32 pb-16 overflow-hidden">
+    <section className="relative min-h-screen bg-[#FAF8F5] dark:bg-[#020203] pt-24 sm:pt-28 lg:pt-32 pb-16 overflow-hidden">
       <UAELaunchBackground />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
@@ -69,7 +69,7 @@ const UAELaunchHero = () => {
           transition={{ duration: 0.7 }}
         >
           {/* Launch pill */}
-          <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-black/70 border border-white/10 mb-6 shadow-lg">
+          <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/80 dark:bg-black/70 border border-black/[0.06] dark:border-white/10 mb-6 shadow-lg">
             <MapPin className="w-4 h-4 text-[#00FF94]" />
             <span className="text-[11px] font-mono tracking-[0.24em] uppercase text-gray-300">
               Flagship Launch · United Arab Emirates
@@ -77,7 +77,7 @@ const UAELaunchHero = () => {
           </div>
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl xl:text-[3.9rem] font-extrabold leading-[1.05] tracking-tight mb-5">
-            <span className="block text-white">
+            <span className="block text-black dark:text-white">
               Blip.money is{" "}
               <span className="bg-gradient-to-r from-[#00FF94] via-[#19F7A7] to-[#00C8FF] bg-clip-text text-transparent">
                 landing in the UAE
@@ -139,12 +139,12 @@ const UAELaunchHero = () => {
             <div className="absolute -inset-0.5 rounded-[32px] bg-gradient-to-br from-[#00FF94]/40 via-[#19F7A7]/10 to-[#D91A20]/35 blur-xl opacity-70" />
 
             {/* Content card */}
-            <div className="relative rounded-[28px] bg-black/80 border border-white/8 backdrop-blur-2xl p-6 sm:p-8 flex flex-col gap-6 shadow-[0_0_60px_rgba(0,0,0,0.9)]">
+            <div className="relative rounded-[28px] bg-white/80 dark:bg-black/80 border border-black/[0.06] dark:border-white/8 backdrop-blur-2xl p-6 sm:p-8 flex flex-col gap-6 shadow-[0_0_60px_rgba(0,0,0,0.2)] dark:shadow-[0_0_60px_rgba(0,0,0,0.9)]">
               {/* Flag + label */}
               <div className="flex items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
                   {/* UAE flag mini */}
-                  <div className="w-10 h-7 rounded-md overflow-hidden flex shadow-md border border-white/10">
+                  <div className="w-10 h-7 rounded-md overflow-hidden flex shadow-md border border-black/[0.06] dark:border-white/10">
                     <div className="w-[28%] bg-[#D91A20]" />
                     <div className="flex-1 bg-[linear-gradient(180deg,#00732F_0%,#FFFFFF_50%,#050505_100%)]" />
                   </div>
@@ -152,7 +152,7 @@ const UAELaunchHero = () => {
                     <p className="text-xs uppercase tracking-[0.2em] text-gray-400">
                       Launch Corridor
                     </p>
-                    <p className="text-sm font-semibold text-white">UAE · MENA</p>
+                    <p className="text-sm font-semibold text-black dark:text-white">UAE · MENA</p>
                   </div>
                 </div>
                 <span className="text-[11px] px-3 py-1 rounded-full border border-[#00FF94]/40 bg-[#00FF94]/5 text-[#00FF94] font-mono tracking-[0.16em] uppercase">
@@ -161,7 +161,7 @@ const UAELaunchHero = () => {
               </div>
 
               {/* Stylised “Dubai rails” */}
-              <div className="relative h-40 sm:h-44 rounded-2xl bg-[radial-gradient(circle_at_top,_rgba(0,255,148,0.22),_transparent_55%),radial-gradient(circle_at_bottom,_rgba(217,26,32,0.3),_transparent_60%)] border border-white/10 overflow-hidden">
+              <div className="relative h-40 sm:h-44 rounded-2xl bg-[radial-gradient(circle_at_top,_rgba(0,255,148,0.22),_transparent_55%),radial-gradient(circle_at_bottom,_rgba(217,26,32,0.3),_transparent_60%)] border border-black/[0.06] dark:border-white/10 overflow-hidden">
                 {/* Fake “skyline” using bars */}
                 <div className="absolute inset-x-4 bottom-3 flex items-end gap-2 opacity-90">
                   {[26, 40, 58, 34, 70, 46, 32].map((h, i) => (
@@ -187,13 +187,13 @@ const UAELaunchHero = () => {
                   <p className="text-[10px] uppercase tracking-[0.18em] text-gray-500 mb-1">
                     Corridor
                   </p>
-                  <p className="text-white">UAE → 50+ lanes*</p>
+                  <p className="text-black dark:text-white">UAE → 50+ lanes*</p>
                 </div>
                 <div>
                   <p className="text-[10px] uppercase tracking-[0.18em] text-gray-500 mb-1">
                     Designed for
                   </p>
-                  <p className="text-white">Crypto-native flows</p>
+                  <p className="text-black dark:text-white">Crypto-native flows</p>
                 </div>
                 <div>
                   <p className="text-[10px] uppercase tracking-[0.18em] text-gray-500 mb-1">
@@ -243,16 +243,16 @@ const UAELaunchWhy = () => {
   return (
     <section
       id="uae-why"
-      className="relative bg-[#050507] border-t border-white/5 py-20 sm:py-24"
+      className="relative bg-[#FAF8F5] dark:bg-[#050507] border-t border-black/[0.06] dark:border-white/5 py-20 sm:py-24"
     >
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-black/10 dark:via-white/15 to-transparent" />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-12">
           <p className="text-[11px] font-mono tracking-[0.28em] uppercase text-gray-500 mb-3">
             Why UAE first?
           </p>
-          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white mb-4">
+          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-black dark:text-white mb-4">
             The first Blip corridor for{" "}
             <span className="bg-gradient-to-r from-[#00FF94] to-[#19F7A7] bg-clip-text text-transparent">
               real crypto money.
@@ -272,20 +272,20 @@ const UAELaunchWhy = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.35 }}
               transition={{ duration: 0.45, delay: idx * 0.06 }}
-              className="relative rounded-2xl border border-white/8 bg-gradient-to-br from-[#050608] via-[#050505] to-[#020203] p-6 shadow-[0_0_40px_rgba(0,0,0,0.9)] overflow-hidden group"
+              className="relative rounded-2xl border border-black/[0.06] dark:border-white/8 bg-gradient-to-br from-white dark:from-[#050608] via-gray-50 dark:via-[#050505] to-[#FAF8F5] dark:to-[#020203] p-6 shadow-[0_0_40px_rgba(0,0,0,0.1)] dark:shadow-[0_0_40px_rgba(0,0,0,0.9)] overflow-hidden group"
             >
               {/* subtle glow */}
               <div className="absolute -inset-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-[radial-gradient(circle_at_top,_rgba(0,255,148,0.18),transparent_60%)] pointer-events-none" />
               <div className="relative flex flex-col gap-4">
                 <div className="flex items-center justify-between gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-black/70 border border-white/10 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-xl bg-white/80 dark:bg-black/70 border border-black/[0.06] dark:border-white/10 flex items-center justify-center">
                     <Icon className="w-5 h-5 text-[#00FF94]" />
                   </div>
                   <span className="text-[10px] uppercase tracking-[0.22em] text-gray-500">
                     {tag}
                   </span>
                 </div>
-                <h3 className="text-lg font-semibold text-white">{title}</h3>
+                <h3 className="text-lg font-semibold text-black dark:text-white">{title}</h3>
                 <p className="text-sm text-gray-400 leading-relaxed">{body}</p>
               </div>
             </motion.div>
@@ -293,12 +293,12 @@ const UAELaunchWhy = () => {
         </div>
 
         {/* Timeline / phases */}
-        <div className="border border-white/10 rounded-3xl px-5 sm:px-8 py-6 sm:py-7 bg-black/60 backdrop-blur-xl flex flex-col md:flex-row items-center gap-6 md:gap-10">
+        <div className="border border-black/[0.06] dark:border-white/10 rounded-3xl px-5 sm:px-8 py-6 sm:py-7 bg-white/80 dark:bg-black/60 backdrop-blur-xl flex flex-col md:flex-row items-center gap-6 md:gap-10">
           <div className="flex-1 text-center md:text-left">
             <p className="text-[11px] font-mono tracking-[0.26em] uppercase text-gray-500 mb-2">
               Rollout rhythm
             </p>
-            <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">
+            <h3 className="text-lg sm:text-xl font-semibold text-black dark:text-white mb-2">
               From UAE testers to global corridors.
             </h3>
             <p className="text-sm text-gray-400">
@@ -360,11 +360,15 @@ const UAELaunchPage = () => {
   canonical="https://blip.money/uae"
 />
 
-    <div className="min-h-screen bg-black text-white font-sans overflow-x-hidden">
+    <div className="min-h-screen bg-[#FAF8F5] dark:bg-black text-black dark:text-white font-sans overflow-x-hidden">
       <style>
         {`
           /* you can move this to globals if you want */
-          html, body, #root { background: #000000; }
+          html, body, #root { background: #FAF8F5; }
+          .dark html, .dark body, .dark #root { background: #000000; }
+          @media (prefers-color-scheme: dark) {
+            html, body, #root { background: #000000; }
+          }
         `}
       </style>
       <SocialSidebar />

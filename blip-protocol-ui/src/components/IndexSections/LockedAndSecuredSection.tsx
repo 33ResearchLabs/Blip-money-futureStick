@@ -36,7 +36,7 @@ const LockedAndSecuredSection = () => {
                 <span className="text-[8px] font-medium text-black dark:text-white/50">2</span>
               </div>
             </div>
-            <span className="text-sm font-semibold text-black dark:text-white">Escrow</span>
+            <span className="text-sm font-semibold text-black dark:text-white">Protection</span>
           </div>
 
           {/* Heading */}
@@ -246,7 +246,7 @@ const LockedAndSecuredSection = () => {
                 <span className="text-[8px] font-medium text-black dark:text-white/50">2</span>
               </div>
             </div>
-            <span className="text-sm font-semibold text-black dark:text-white">Escrow</span>
+            <span className="text-sm font-semibold text-black dark:text-white">Protection</span>
           </div>
 
           {/* Heading */}
@@ -258,8 +258,8 @@ const LockedAndSecuredSection = () => {
 
           {/* Description */}
           <p className="text-black/70 dark:text-white/50 font-medium text-base sm:text-lg lg:text-xl mb-8 leading-relaxed max-w-md mx-auto lg:mx-0">
-            Funds locked in smart contract. Protected by DAO escrow. Your crypto
-            stays safe until the transaction completes.
+            Your funds are held in a secure on-chain escrow. Neither party can
+            touch them until the trade is complete.
           </p>
 
           {/* Features */}
@@ -267,20 +267,20 @@ const LockedAndSecuredSection = () => {
             {[
               {
                 icon: Shield,
-                label: "Smart contract escrow",
-                desc: "Trustless fund protection",
+                label: "Escrow protection",
+                desc: "Funds held safely until complete",
                 variant: "pulse" as const,
               },
               {
                 icon: Zap,
                 label: "Instant lock",
-                desc: "Sub-second confirmation",
+                desc: "Secured in under a second",
                 variant: "pulse" as const,
               },
               {
                 icon: Globe,
-                label: "On-chain proof",
-                desc: "Fully transparent & verifiable",
+                label: "Fully verifiable",
+                desc: "Every step recorded on-chain",
                 variant: "spin" as const,
               },
             ].map((feature, index) => (

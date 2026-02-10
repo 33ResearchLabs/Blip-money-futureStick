@@ -56,7 +56,7 @@ const HeroSection: React.FC<{
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded border border-white/10 bg-[#0A0A0A]/30 text-[#A0A0A0] text-[10px]  tracking-wider"
+            className="inline-flex items-center gap-2 px-3 py-1 rounded border border-black/[0.06] dark:border-white/10 bg-white/80 dark:bg-[#0A0A0A]/30 text-[#666666] dark:text-[#A0A0A0] text-[10px]  tracking-wider"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35] animate-pulse"></span>
             ACTIVE ROUTING ENGINE
@@ -66,7 +66,7 @@ const HeroSection: React.FC<{
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.4 }}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.05] mb-6 tracking-tight"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-black dark:text-white leading-[1.05] mb-6 tracking-tight"
           >
             On-Demand <br />
             P2P Settlement.
@@ -81,8 +81,8 @@ const HeroSection: React.FC<{
             <p className="text-base md:text-lg text-[#A0A0A0] font-light leading-relaxed">
               Broadcast your demand. Bonded merchants compete to fill your
               order. Experience{" "}
-              <span className="text-white">Non-Custodial Escrow</span> and{" "}
-              <span className="text-white">Reputation-Weighted Routing</span>{" "}
+              <span className="text-black dark:text-white">Non-Custodial Escrow</span> and{" "}
+              <span className="text-black dark:text-white">Reputation-Weighted Routing</span>{" "}
               for instant fiat settlement.
             </p>
           </motion.div>
@@ -131,7 +131,7 @@ const HeroSection: React.FC<{
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.9 }}
-            className="pt-12 border-t border-white/20 flex flex-wrap gap-8 items-center opacity-80"
+            className="pt-12 border-t border-black/10 dark:border-white/20 flex flex-wrap gap-8 items-center opacity-80"
           >
             <span className="text-[10px]  uppercase tracking-widest block w-full mb-1">
               Settlement Assurance
@@ -141,7 +141,7 @@ const HeroSection: React.FC<{
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 1.1 }}
-              className="flex items-center gap-2 text-white font-bold text-xs tracking-wide"
+              className="flex items-center gap-2 text-black dark:text-white font-bold text-xs tracking-wide"
             >
               <ShieldCheck size={14} strokeWidth={2} />
               BONDED MERCHANTS
@@ -151,7 +151,7 @@ const HeroSection: React.FC<{
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 1.2 }}
-              className="flex items-center gap-2 text-white font-bold text-xs tracking-wide"
+              className="flex items-center gap-2 text-black dark:text-white font-bold text-xs tracking-wide"
             >
               <Lock size={14} strokeWidth={2} />
               SMART ESCROW
@@ -161,7 +161,7 @@ const HeroSection: React.FC<{
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 1.3 }}
-              className="flex items-center gap-2 text-white font-bold text-xs tracking-wide"
+              className="flex items-center gap-2 text-black dark:text-white font-bold text-xs tracking-wide"
             >
               <Zap size={14} strokeWidth={2} />
               ALGO ROUTING
@@ -178,7 +178,7 @@ const HeroSection: React.FC<{
    ============================================ */
 const SEOContentBlock: React.FC = () => {
   return (
-    <section className="border-b border-white/5 bg-black">
+    <section className="border-b border-black/[0.06] dark:border-white/5 bg-[#FAF8F5] dark:bg-black">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -191,7 +191,7 @@ const SEOContentBlock: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-xl font-semibold text-white mb-4"
+          className="text-xl font-semibold text-black dark:text-white mb-4"
         >
           Crypto Cashout & USDT to AED in UAE
         </motion.h2>
@@ -316,7 +316,7 @@ const MarketSimulationSection: React.FC<{
   return (
     <section
       id="tools"
-      className="py-24 px-6 border-t border-white/5 bg-[#0A0A0A]"
+      className="py-24 px-6 border-t border-black/[0.06] dark:border-white/5 bg-white dark:bg-[#0A0A0A]"
     >
       <div className="max-w-7xl mx-auto">
         <motion.div
@@ -332,7 +332,7 @@ const MarketSimulationSection: React.FC<{
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-2xl font-semibold text-white mb-2 tracking-tight"
+              className="text-2xl font-semibold text-black dark:text-white mb-2 tracking-tight"
             >
               Market Simulation
             </motion.h2>
@@ -357,9 +357,9 @@ const MarketSimulationSection: React.FC<{
             transition={{ duration: 0.8, delay: 0.1 }}
             className="glass-panel p-6 rounded lg:col-span-2"
           >
-            <div className="flex items-center gap-2 mb-6 border-b border-white/5 pb-4">
+            <div className="flex items-center gap-2 mb-6 border-b border-black/[0.06] dark:border-white/5 pb-4">
               <div className="w-1.5 h-1.5 bg-[ ] rounded-sm"></div>
-              <h3 className=" text-xs text-white uppercase tracking-widest">
+              <h3 className=" text-xs text-black dark:text-white uppercase tracking-widest">
                 Rate Estimator
               </h3>
             </div>
@@ -374,27 +374,27 @@ const MarketSimulationSection: React.FC<{
                       value={simAsset}
                       onChange={(e) => setSimAsset(e.target.value)}
                       className="w-full
-    bg-black/40
-    border border-white/10
-    text-white
+    bg-white/80 dark:bg-black/40
+    border border-black/[0.06] dark:border-white/10
+    text-black dark:text-white
     px-4 pr-10 py-3
     rounded-md
     font-mono text-sm
     transition
-    hover:border-white/20
+    hover:border-black/20 dark:hover:border-white/20
     focus:outline-none
      appearance-none"
                     >
-                      <option value="USDT" className="bg-[#0A0A0A]">
+                      <option value="USDT" className="bg-white dark:bg-[#0A0A0A]">
                         USDT{" "}
                       </option>
-                      <option value="USDC" className="bg-[#0A0A0A] ">
+                      <option value="USDC" className="bg-white dark:bg-[#0A0A0A] ">
                         USDC{" "}
                       </option>
-                      <option value="BTC" className="bg-[#0A0A0A] ">
+                      <option value="BTC" className="bg-white dark:bg-[#0A0A0A] ">
                         BTC{" "}
                       </option>
-                      <option value="ETH" className="bg-[#0A0A0A] ">
+                      <option value="ETH" className="bg-white dark:bg-[#0A0A0A] ">
                         ETH{" "}
                       </option>
                     </select>
@@ -419,9 +419,9 @@ const MarketSimulationSection: React.FC<{
                         onChange={() => setSimPriority("cheapest")}
                         className="peer sr-only"
                       />
-                      <div className="border border-white/10 rounded p-2 hover:bg-[#0A0A0A] transition-all peer-checked:border-zinc-500 peer-checked:bg-[#0A0A0A]">
+                      <div className="border border-black/[0.06] dark:border-white/10 rounded p-2 hover:bg-gray-100 dark:hover:bg-[#0A0A0A] transition-all peer-checked:border-zinc-400 dark:peer-checked:border-zinc-500 peer-checked:bg-gray-100 dark:peer-checked:bg-[#0A0A0A]">
                         <div className="flex justify-between items-center mb-1">
-                          <span className="text-xs font-medium text-white">
+                          <span className="text-xs font-medium text-black dark:text-white">
                             Cheapest
                           </span>
                           <span className="text-[10px]  text-[#666666]">
@@ -442,9 +442,9 @@ const MarketSimulationSection: React.FC<{
                         onChange={() => setSimPriority("fastest")}
                         className="peer sr-only"
                       />
-                      <div className="border border-white/10 rounded p-2 hover:bg-[#0A0A0A] transition-all peer-checked:border-zinc-500 peer-checked:bg-[#0A0A0A]">
+                      <div className="border border-black/[0.06] dark:border-white/10 rounded p-2 hover:bg-gray-100 dark:hover:bg-[#0A0A0A] transition-all peer-checked:border-zinc-400 dark:peer-checked:border-zinc-500 peer-checked:bg-gray-100 dark:peer-checked:bg-[#0A0A0A]">
                         <div className="flex justify-between items-center mb-1">
-                          <span className="text-xs font-medium text-white">
+                          <span className="text-xs font-medium text-black dark:text-white">
                             Fastest
                           </span>
                           <span className="text-[10px]  text-[#666666]">
@@ -463,14 +463,14 @@ const MarketSimulationSection: React.FC<{
                   <label className="block text-[10px]  text-[#666666] mb-2 uppercase tracking-widest">
                     Volume
                   </label>
-                  <div className="flex items-center gap-4 border-b border-white/10 pb-2">
+                  <div className="flex items-center gap-4 border-b border-black/[0.06] dark:border-white/10 pb-2">
                     <input
                       type="text"
                       value={simAmount.toLocaleString("en-US")}
                       onChange={(e) =>
                         setSimAmount(parseFloat(e.target.value) || 0)
                       }
-                      className="bg-transparent text-white  text-xl w-full outline-none"
+                      className="bg-transparent text-black dark:text-white  text-xl w-full outline-none"
                     />
                     <span className="text-xs  text-[#A0A0A0]">{simAsset}</span>
                   </div>
@@ -488,7 +488,7 @@ const MarketSimulationSection: React.FC<{
                 </div>
               </div>
 
-              <div className="bg-[#0A0A0A]/30 p-4 rounded border border-white/10/50 flex justify-between items-end">
+              <div className="bg-gray-50 dark:bg-[#0A0A0A]/30 p-4 rounded border border-black/[0.06] dark:border-white/10/50 flex justify-between items-end">
                 <div>
                   <span className="text-[10px]  text-[#666666] block mb-1">
                     EST. MERCHANT SPREAD (~
@@ -505,7 +505,7 @@ const MarketSimulationSection: React.FC<{
                   <span className="text-[10px]  text-[#666666] block mb-1">
                     EST. NET ({simResult.target})
                   </span>
-                  <span className="text-2xl font-bold text-white tracking-tight">
+                  <span className="text-2xl font-bold text-black dark:text-white tracking-tight">
                     {simResult.net.toLocaleString("en-US", {
                       minimumFractionDigits: 2,
                     })}
@@ -523,29 +523,29 @@ const MarketSimulationSection: React.FC<{
             transition={{ duration: 0.8, delay: 0.2 }}
             className="glass-panel p-6 rounded"
           >
-            <div className="flex items-center gap-2 mb-6 border-b border-white/5 pb-4">
+            <div className="flex items-center gap-2 mb-6 border-b border-black/[0.06] dark:border-white/5 pb-4">
               <div className="w-1.5 h-1.5 bg-[#ff6b35] rounded-full animate-pulse"></div>
-              <h3 className=" text-xs text-white uppercase tracking-widest">
+              <h3 className=" text-xs text-black dark:text-white uppercase tracking-widest">
                 Active Corridors
               </h3>
             </div>
             <div className="space-y-6">
-              <div className="flex justify-between items-center border-b border-white/5 pb-3">
+              <div className="flex justify-between items-center border-b border-black/[0.06] dark:border-white/5 pb-3">
                 <span className="text-xs text-[#A0A0A0]">Dubai (DXB)</span>
                 <span className="text-[10px]  text-[#ff6b35] border border-[#ff6b35]/20 bg-[#ff6b35]/10 px-1.5 py-0.5 rounded">
                   HIGH_LIQUIDITY
                 </span>
               </div>
-              <div className="flex justify-between items-center border-b border-white/5 pb-3">
+              <div className="flex justify-between items-center border-b border-black/[0.06] dark:border-white/5 pb-3">
                 <span className="text-xs text-[#A0A0A0]">Abu Dhabi (AUH)</span>
                 <span className="text-[10px]  text-[#A0A0A0]">MODERATE</span>
               </div>
               <div className="pt-2">
                 <div className="flex justify-between text-[10px]  text-[#A0A0A0] mb-2">
                   <span>TOTAL_BONDED_VALUE</span>
-                  <span className="text-white">$4.2M</span>
+                  <span className="text-black dark:text-white">$4.2M</span>
                 </div>
-                <div className="h-0.5 bg-[#111111] w-full">
+                <div className="h-0.5 bg-gray-200 dark:bg-[#111111] w-full">
                   <div className="h-full bg-zinc-400 w-[75%]"></div>
                 </div>
               </div>
@@ -560,7 +560,7 @@ const MarketSimulationSection: React.FC<{
             transition={{ duration: 0.8, delay: 0.3 }}
             className="glass-panel p-8 rounded lg:col-span-3"
           >
-            <div className="flex items-center gap-3 mb-8 border-b border-white/5 pb-6">
+            <div className="flex items-center gap-3 mb-8 border-b border-black/[0.06] dark:border-white/5 pb-6">
               <svg
                 className="w-4 h-4 text-[#A0A0A0]"
                 fill="none"
@@ -575,7 +575,7 @@ const MarketSimulationSection: React.FC<{
                 />
               </svg>
               <div>
-                <h3 className="text-sm font-medium text-white">
+                <h3 className="text-sm font-medium text-black dark:text-white">
                   Liquidity Discovery
                 </h3>
                 <p className="text-[10px] text-[#666666]  mt-1">
@@ -595,25 +595,25 @@ const MarketSimulationSection: React.FC<{
                     onChange={(e) => setPathAsset(e.target.value)}
                     className="
     w-full
-    bg-black/40
-    border border-white/10
-    text-white
+    bg-white/80 dark:bg-black/40
+    border border-black/[0.06] dark:border-white/10
+    text-black dark:text-white
     px-4 pr-10 py-3
     rounded-md
     font-mono text-sm
     transition
-    hover:border-white/20
+    hover:border-black/20 dark:hover:border-white/20
     focus:outline-none
      appearance-none
   "
                   >
-                    <option className="bg-[#0A0A0A]" value="USDT">
+                    <option className="bg-white dark:bg-[#0A0A0A]" value="USDT">
                       USDT
                     </option>
-                    <option className="bg-[#0A0A0A]" value="USDC">
+                    <option className="bg-white dark:bg-[#0A0A0A]" value="USDC">
                       USDC
                     </option>
-                    <option className="bg-[#0A0A0A]" value="BTC">
+                    <option className="bg-white dark:bg-[#0A0A0A]" value="BTC">
                       BTC
                     </option>
                   </select>
@@ -637,17 +637,17 @@ const MarketSimulationSection: React.FC<{
                     }
                     className="
 
-   bg-black/40
+   bg-white/80 dark:bg-black/40
     border
-    text-white
+    text-black dark:text-white
     px-4 pr-16 py-3
     rounded-md
     font-mono text-sm
     focus:outline-none appearance-none
   "
                   >
-                    <option className="bg-[#0A0A0A]">Bank Transfer</option>
-                    <option className="bg-[#0A0A0A]">Physical Vault</option>
+                    <option className="bg-white dark:bg-[#0A0A0A]">Bank Transfer</option>
+                    <option className="bg-white dark:bg-[#0A0A0A]">Physical Vault</option>
                   </select>
                   <ChevronDown
                     className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"
@@ -667,22 +667,22 @@ const MarketSimulationSection: React.FC<{
                     }
                     className="
     w-full
-    bg-black/40
-    border border-white/10
-    text-white
+    bg-white/80 dark:bg-black/40
+    border border-black/[0.06] dark:border-white/10
+    text-black dark:text-white
     px-4 pr-10 py-3
     rounded-md
     font-mono text-sm
     transition
-    hover:border-white/20
+    hover:border-black/20 dark:hover:border-white/20
     focus:outline-none
      appearance-none
   "
                   >
-                    <option className="bg-[#0A0A0A]" value="dxb">
+                    <option className="bg-white dark:bg-[#0A0A0A]" value="dxb">
                       Dubai (Main)
                     </option>
-                    <option className="bg-[#0A0A0A]" value="auh">
+                    <option className="bg-white dark:bg-[#0A0A0A]" value="auh">
                       Abu Dhabi
                     </option>
                   </select>
@@ -722,24 +722,24 @@ const MarketSimulationSection: React.FC<{
                 filteredMerchantNodes.map((node) => (
                   <div
                     key={node.id}
-                    className="border border-white/10 bg-[#0A0A0A]/20 p-4 rounded hover:border-white/20 transition-all cursor-default group"
+                    className="border border-black/[0.06] dark:border-white/10 bg-white/80 dark:bg-[#0A0A0A]/20 p-4 rounded hover:border-black/20 dark:hover:border-white/20 transition-all cursor-default group"
                   >
                     <div className="flex justify-between items-start mb-3">
                       <span className="text-[9px]  text-[#A0A0A0] uppercase tracking-wider">
                         {node.type}
                       </span>
-                      <span className="text-[9px]  text-[#A0A0A0] border border-white/10 px-1.5 py-0.5 rounded flex items-center gap-1">
+                      <span className="text-[9px]  text-[#A0A0A0] border border-black/[0.06] dark:border-white/10 px-1.5 py-0.5 rounded flex items-center gap-1">
                         <div className="w-1.5 h-1.5 bg-[#ff6b35] rounded-full"></div>{" "}
                         BOND: {node.bond}
                       </span>
                     </div>
-                    <h4 className="text-white font-medium text-sm mb-1 group-hover:text-white">
+                    <h4 className="text-black dark:text-white font-medium text-sm mb-1 group-hover:text-black dark:group-hover:text-white">
                       {node.name}
                     </h4>
                     <p className="text-[10px] text-[#666666] mb-3">
                       {node.desc}
                     </p>
-                    <div className="flex items-center justify-between pt-2 border-t border-white/10/50">
+                    <div className="flex items-center justify-between pt-2 border-t border-black/[0.06] dark:border-white/10/50">
                       <span className="text-[9px] text-[#666666] ">
                         MIN: {node.min.toLocaleString()}
                       </span>
@@ -768,7 +768,7 @@ const MarketSimulationSection: React.FC<{
    ============================================ */
 const MerchantAssuranceSection: React.FC = () => {
   return (
-    <section className="py-24 px-6 border-t border-white/5 bg-black">
+    <section className="py-24 px-6 border-t border-black/[0.06] dark:border-white/5 bg-[#FAF8F5] dark:bg-black">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -782,7 +782,7 @@ const MerchantAssuranceSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-2xl font-semibold text-white mb-2 tracking-tight"
+            className="text-2xl font-semibold text-black dark:text-white mb-2 tracking-tight"
           >
             Merchant Assurance Protocol
           </motion.h2>
@@ -804,19 +804,19 @@ const MerchantAssuranceSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="glass-panel p-6 rounded border border-white/30"
+            className="glass-panel p-6 rounded border border-black/10 dark:border-white/30"
           >
             <div className="flex justify-between items-center mb-4">
               <span className="text-xs  text-[#A0A0A0] uppercase">Tier 3</span>
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-[#111111]/50 transition-transform group-hover:scale-110">
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-gray-100 dark:bg-[#111111]/50 transition-transform group-hover:scale-110">
                 <ShieldCheck className="w-4 h-4 text-[#A0A0A0]" />
               </div>
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">Standard Node</h3>
+            <h3 className="text-lg font-bold text-black dark:text-white mb-2">Standard Node</h3>
             <p className="text-xs text-[#A0A0A0] mb-4 h-10">
               Entry-level merchants for retail volume.
             </p>
-            <div className="space-y-2 border-t border-white/10 pt-4">
+            <div className="space-y-2 border-t border-black/[0.06] dark:border-white/10 pt-4">
               <div className="flex justify-between text-xs">
                 <span className="text-[#666666]">Min Bond</span>{" "}
                 <span className="text-[#A0A0A0]">$10,000</span>
@@ -842,20 +842,20 @@ const MerchantAssuranceSection: React.FC = () => {
                 <ShieldCheck className="w-4 h-4 text-[#ff6b35]" />
               </div>
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">
+            <h3 className="text-lg font-bold text-black dark:text-white mb-2">
               Verified Merchant
             </h3>
             <p className="text-xs text-[#A0A0A0] mb-4 h-10">
               High-volume nodes with automated settlement hooks.
             </p>
-            <div className="space-y-2 border-t border-white/10 pt-4">
+            <div className="space-y-2 border-t border-black/[0.06] dark:border-white/10 pt-4">
               <div className="flex justify-between text-xs">
                 <span className="text-[#666666]">Min Bond</span>{" "}
-                <span className="text-white">$50,000</span>
+                <span className="text-black dark:text-white">$50,000</span>
               </div>
               <div className="flex justify-between text-xs">
                 <span className="text-[#666666]">Max Tx</span>{" "}
-                <span className="text-white">$100,000</span>
+                <span className="text-black dark:text-white">$100,000</span>
               </div>
             </div>
           </motion.div>
@@ -866,30 +866,30 @@ const MerchantAssuranceSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="glass-panel p-6 rounded border border-[#ff6b35]/50 bg-gradient-to-br from-zinc-900 to-black relative overflow-hidden"
+            className="glass-panel p-6 rounded border border-[#ff6b35]/50 bg-gradient-to-br from-zinc-100 dark:from-zinc-900 to-white dark:to-black relative overflow-hidden"
           >
             <div className="flex justify-between items-center mb-4">
               <span className="text-xs  text-[#ff6b35] uppercase font-bold">
                 Tier 1 • Institutional
               </span>
               <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-[#ff6b35]/20 border border-[#ff6b35]/30">
-                <Building className="w-4 h-4 text-white" strokeWidth={2} />
+                <Building className="w-4 h-4 text-black dark:text-white" strokeWidth={2} />
               </div>
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">
+            <h3 className="text-lg font-bold text-black dark:text-white mb-2">
               Liquidity Partner
             </h3>
             <p className="text-xs text-[#A0A0A0] mb-4 h-10">
               Fully bonded institutions with direct banking APIs.
             </p>
-            <div className="space-y-2 border-t border-white/10 pt-4">
+            <div className="space-y-2 border-t border-black/[0.06] dark:border-white/10 pt-4">
               <div className="flex justify-between text-xs">
                 <span className="text-[#A0A0A0]">Min Bond</span>{" "}
-                <span className="text-white ">$250,000+</span>
+                <span className="text-black dark:text-white ">$250,000+</span>
               </div>
               <div className="flex justify-between text-xs">
                 <span className="text-[#A0A0A0]">Max Tx</span>{" "}
-                <span className="text-white ">Unlimited</span>
+                <span className="text-black dark:text-white ">Unlimited</span>
               </div>
             </div>
           </motion.div>
@@ -904,7 +904,7 @@ const MerchantAssuranceSection: React.FC = () => {
    ============================================ */
 const ProtocolMechanicsSection: React.FC = () => {
   return (
-    <section id="mechanics" className="py-24 px-6 border-t border-white/5">
+    <section id="mechanics" className="py-24 px-6 border-t border-black/[0.06] dark:border-white/5">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -918,7 +918,7 @@ const ProtocolMechanicsSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-2xl font-semibold text-white mb-2 tracking-tight"
+            className="text-2xl font-semibold text-black dark:text-white mb-2 tracking-tight"
           >
             Protocol Mechanics
           </motion.h2>
@@ -941,10 +941,10 @@ const ProtocolMechanicsSection: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="glass-panel p-6 rounded relative group"
           >
-            <div className="absolute -top-3 -left-3 w-8 h-8 bg-[#111111] rounded-full flex items-center justify-center text-[#A0A0A0]  text-xs border border-white/10">
+            <div className="absolute -top-3 -left-3 w-8 h-8 bg-gray-100 dark:bg-[#111111] rounded-full flex items-center justify-center text-[#A0A0A0]  text-xs border border-black/[0.06] dark:border-white/10">
               01
             </div>
-            <h3 className="text-sm font-bold text-white mb-2">
+            <h3 className="text-sm font-bold text-black dark:text-white mb-2">
               Demand Broadcast
             </h3>
             <p className="text-xs text-[#A0A0A0] leading-relaxed">
@@ -959,10 +959,10 @@ const ProtocolMechanicsSection: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="glass-panel p-6 rounded relative group"
           >
-            <div className="absolute -top-3 -left-3 w-8 h-8 bg-[#111111] rounded-full flex items-center justify-center text-[#A0A0A0]  text-xs border border-white/10">
+            <div className="absolute -top-3 -left-3 w-8 h-8 bg-gray-100 dark:bg-[#111111] rounded-full flex items-center justify-center text-[#A0A0A0]  text-xs border border-black/[0.06] dark:border-white/10">
               02
             </div>
-            <h3 className="text-sm font-bold text-white mb-2">
+            <h3 className="text-sm font-bold text-black dark:text-white mb-2">
               Merchant Bidding
             </h3>
             <p className="text-xs text-[#A0A0A0] leading-relaxed">
@@ -977,10 +977,10 @@ const ProtocolMechanicsSection: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="glass-panel p-6 rounded relative group"
           >
-            <div className="absolute -top-3 -left-3 w-8 h-8 bg-[#111111] rounded-full flex items-center justify-center text-[#A0A0A0]  text-xs border border-white/10">
+            <div className="absolute -top-3 -left-3 w-8 h-8 bg-gray-100 dark:bg-[#111111] rounded-full flex items-center justify-center text-[#A0A0A0]  text-xs border border-black/[0.06] dark:border-white/10">
               03
             </div>
-            <h3 className="text-sm font-bold text-white mb-2">
+            <h3 className="text-sm font-bold text-black dark:text-white mb-2">
               Non-Custodial Escrow
             </h3>
             <p className="text-xs text-[#A0A0A0] leading-relaxed">
@@ -995,10 +995,10 @@ const ProtocolMechanicsSection: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="glass-panel p-6 rounded relative group"
           >
-            <div className="absolute -top-3 -left-3 w-8 h-8 bg-[#111111] rounded-full flex items-center justify-center text-[#A0A0A0]  text-xs border border-white/10">
+            <div className="absolute -top-3 -left-3 w-8 h-8 bg-gray-100 dark:bg-[#111111] rounded-full flex items-center justify-center text-[#A0A0A0]  text-xs border border-black/[0.06] dark:border-white/10">
               04
             </div>
-            <h3 className="text-sm font-bold text-white mb-2">
+            <h3 className="text-sm font-bold text-black dark:text-white mb-2">
               Proof & Release
             </h3>
             <p className="text-xs text-[#A0A0A0] leading-relaxed">
@@ -1021,7 +1021,7 @@ const ServicesGridSection: React.FC<{
   return (
     <section
       id="services"
-      className="py-24 px-6 border-t border-white/5 bg-[#0A0A0A]"
+      className="py-24 px-6 border-t border-black/[0.06] dark:border-white/5 bg-white dark:bg-[#0A0A0A]"
     >
       <div className="max-w-7xl mx-auto">
         <motion.h4
@@ -1092,7 +1092,7 @@ const ServicesGridSection: React.FC<{
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.1 * index }}
-                className="glass-panel p-6 rounded card-hover cursor-pointer group flex flex-col border border-white/20"
+                className="glass-panel p-6 rounded card-hover cursor-pointer group flex flex-col border border-black/10 dark:border-white/20"
               >
                 <div className="flex justify-between items-start mb-2">
                   <div
@@ -1101,7 +1101,7 @@ const ServicesGridSection: React.FC<{
                     <Icon size={24} strokeWidth={2} />
                   </div>
                 </div>
-                <h3 className="text-base font-bold text-white mb-3">
+                <h3 className="text-base font-bold text-black dark:text-white mb-3">
                   {service.title}
                 </h3>
                 <p className="text-sm text-[#A0A0A0] leading-relaxed mb-6 flex-grow">
@@ -1109,7 +1109,7 @@ const ServicesGridSection: React.FC<{
                 </p>
                 <button
                   onClick={() => openServiceModal(service.key)}
-                  className={`w-full py-2 rounded border border-white/10 bg-[#0A0A0A]/50 text-xs font-medium text-[#A0A0A0] group-hover:border-white/40 group-hover:text-white/80 transition-all`}
+                  className={`w-full py-2 rounded border border-black/[0.06] dark:border-white/10 bg-gray-50 dark:bg-[#0A0A0A]/50 text-xs font-medium text-[#A0A0A0] group-hover:border-black/20 dark:group-hover:border-white/40 group-hover:text-black/80 dark:group-hover:text-white/80 transition-all`}
                 >
                   Learn More
                 </button>
@@ -1127,7 +1127,7 @@ const ServicesGridSection: React.FC<{
    ============================================ */
 const EcosystemSection: React.FC = () => {
   return (
-    <section className="py-24 px-6 border-t border-white/5">
+    <section className="py-24 px-6 border-t border-black/[0.06] dark:border-white/5">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16">
         <motion.div
           initial={{ opacity: 0, x: -30 }}
@@ -1140,7 +1140,7 @@ const EcosystemSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl font-semibold text-white mb-6 tracking-tight"
+            className="text-xl font-semibold text-black dark:text-white mb-6 tracking-tight"
           >
             Ecosystem Integration
           </motion.h2>
@@ -1162,8 +1162,8 @@ const EcosystemSection: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="grid grid-cols-2 gap-4"
           >
-            <div className="bg-[#0A0A0A]/30 border border-white/10 hover:border-white/50 p-4 rounded flex items-center gap-3">
-              <div className="w-8 h-8 rounded bg-[#111111] flex items-center justify-center">
+            <div className="bg-white/80 dark:bg-[#0A0A0A]/30 border border-black/[0.06] dark:border-white/10 hover:border-black/20 dark:hover:border-white/50 p-4 rounded flex items-center gap-3">
+              <div className="w-8 h-8 rounded bg-gray-100 dark:bg-[#111111] flex items-center justify-center">
                 <svg
                   className="w-4 h-4 text-[#A0A0A0]"
                   fill="none"
@@ -1179,14 +1179,14 @@ const EcosystemSection: React.FC = () => {
                 </svg>
               </div>
               <div>
-                <div className="text-sm font-medium text-white">Wallets</div>
+                <div className="text-sm font-medium text-black dark:text-white">Wallets</div>
                 <div className="text-[10px] text-[#666666]">
                   Native "Cash Out" Button
                 </div>
               </div>
             </div>
-            <div className="bg-[#0A0A0A]/30 border border-white/10 hover:border-white/50 p-4 rounded flex items-center gap-3">
-              <div className="w-8 h-8 rounded bg-[#111111] flex items-center justify-center">
+            <div className="bg-white/80 dark:bg-[#0A0A0A]/30 border border-black/[0.06] dark:border-white/10 hover:border-black/20 dark:hover:border-white/50 p-4 rounded flex items-center gap-3">
+              <div className="w-8 h-8 rounded bg-gray-100 dark:bg-[#111111] flex items-center justify-center">
                 <svg
                   className="w-4 h-4 text-[#A0A0A0]"
                   fill="none"
@@ -1202,7 +1202,7 @@ const EcosystemSection: React.FC = () => {
                 </svg>
               </div>
               <div>
-                <div className="text-sm font-medium text-white">Fintechs</div>
+                <div className="text-sm font-medium text-black dark:text-white">Fintechs</div>
                 <div className="text-[10px] text-[#666666]">
                   Crypto-to-Fiat Rails
                 </div>
@@ -1222,7 +1222,7 @@ const EcosystemSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl font-semibold text-white mb-6 tracking-tight"
+            className="text-xl font-semibold text-black dark:text-white mb-6 tracking-tight"
           >
             Who is Blip For?
           </motion.h2>
@@ -1265,7 +1265,7 @@ const EcosystemSection: React.FC = () => {
                   </svg>
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-white">{item.title}</h4>
+                  <h4 className="text-sm font-bold text-black dark:text-white">{item.title}</h4>
                   <p className="text-xs text-[#A0A0A0]">{item.desc}</p>
                 </div>
               </motion.div>
@@ -1284,7 +1284,7 @@ const ComparisonTableSection: React.FC = () => {
   return (
     <section
       id="compare"
-      className="py-24 px-6 border-t border-white/5 bg-[#0A0A0A]"
+      className="py-24 px-6 border-t border-black/[0.06] dark:border-white/5 bg-white dark:bg-[#0A0A0A]"
     >
       <div className="max-w-7xl mx-auto">
         <motion.div
@@ -1299,7 +1299,7 @@ const ComparisonTableSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-2xl font-semibold text-white mb-2 tracking-tight"
+            className="text-2xl font-semibold text-black dark:text-white mb-2 tracking-tight"
           >
             Market Structure Comparison
           </motion.h2>
@@ -1319,11 +1319,11 @@ const ComparisonTableSection: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="border border-white/10 rounded-lg overflow-hidden"
+          className="border border-black/[0.06] dark:border-white/10 rounded-lg overflow-hidden"
         >
           <div className="w-full overflow-x-auto">
             <table className="min-w-[700px] w-full text-left text-sm">
-              <thead className="bg-[#0A0A0A]/50 text-[#A0A0A0] text-[10px] uppercase tracking-widest">
+              <thead className="bg-gray-50 dark:bg-[#0A0A0A]/50 text-[#A0A0A0] text-[10px] uppercase tracking-widest">
                 <tr>
                   <th className="px-4 sm:px-8 py-4 font-medium">Core Metric</th>
                   <th className="px-4 sm:px-8 py-4 font-medium">
@@ -1335,7 +1335,7 @@ const ComparisonTableSection: React.FC = () => {
                 </tr>
               </thead>
 
-              <tbody className="divide-y divide-zinc-800/50 bg-[#0A0A0A]">
+              <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800/50 bg-white dark:bg-[#0A0A0A]">
                 {[
                   [
                     "Discovery Model",
@@ -1365,7 +1365,7 @@ const ComparisonTableSection: React.FC = () => {
                     <td className="px-4 sm:px-8 py-4 text-[#666666] whitespace-nowrap">
                       {row[1]}
                     </td>
-                    <td className="px-4 sm:px-8 py-4 text-white whitespace-nowrap">
+                    <td className="px-4 sm:px-8 py-4 text-black dark:text-white whitespace-nowrap">
                       {row[2]}
                     </td>
                   </tr>
@@ -1387,7 +1387,7 @@ const FAQSection: React.FC<{
   toggleFaq: (index: number) => void;
 }> = ({ openFaq, toggleFaq }) => {
   return (
-    <section id="faq" className="py-24 px-6 border-t border-white/5">
+    <section id="faq" className="py-24 px-6 border-t border-black/[0.06] dark:border-white/5">
       <div className="max-w-3xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -1401,7 +1401,7 @@ const FAQSection: React.FC<{
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-2xl font-semibold text-white mb-2 tracking-tight"
+            className="text-2xl font-semibold text-black dark:text-white mb-2 tracking-tight"
           >
             Protocol FAQ
           </motion.h2>
@@ -1457,13 +1457,13 @@ const FAQSection: React.FC<{
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.1 * i }}
-              className="border border-white/10 bg-[#0A0A0A]/20 rounded-lg overflow-hidden"
+              className="border border-black/[0.06] dark:border-white/10 bg-white/80 dark:bg-[#0A0A0A]/20 rounded-lg overflow-hidden"
             >
               <button
-                className="w-full flex justify-between items-center p-5 text-left bg-[#0A0A0A]/40 hover:bg-[#111111]/60 transition-colors"
+                className="w-full flex justify-between items-center p-5 text-left bg-gray-50 dark:bg-[#0A0A0A]/40 hover:bg-gray-100 dark:hover:bg-[#111111]/60 transition-colors"
                 onClick={() => toggleFaq(i)}
               >
-                <span className="font-medium text-white text-sm">{faq.q}</span>
+                <span className="font-medium text-black dark:text-white text-sm">{faq.q}</span>
 
                 <svg
                   className={`w-4 h-4 text-[#A0A0A0] transition-transform duration-300 ${
@@ -1484,9 +1484,9 @@ const FAQSection: React.FC<{
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.35 }}
-                    className="bg-zinc-950/50 overflow-hidden"
+                    className="bg-gray-50 dark:bg-zinc-950/50 overflow-hidden"
                   >
-                    <div className="p-5 text-xs text-[#A0A0A0] leading-relaxed border-t border-white/10">
+                    <div className="p-5 text-xs text-[#A0A0A0] leading-relaxed border-t border-black/[0.06] dark:border-white/10">
                       {faq.a}
                     </div>
                   </motion.div>
@@ -1507,14 +1507,14 @@ const CTASection: React.FC<{
   navigate: (path: string) => void;
 }> = ({ navigate }) => {
   return (
-    <section className="py-24 px-6 border-t border-white/5">
+    <section className="py-24 px-6 border-t border-black/[0.06] dark:border-white/5">
       <div className="max-w-4xl mx-auto text-center">
         <motion.h2
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-3xl font-semibold text-white mb-6 tracking-tight"
+          className="text-3xl font-semibold text-black dark:text-white mb-6 tracking-tight"
         >
           Ready to Broadcast?
         </motion.h2>
@@ -1558,11 +1558,11 @@ const DetailModal: React.FC<{
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[70] bg-black/90 backdrop-blur-sm flex items-center justify-center p-6">
-      <div className="bg-[#0a0a0a] border border-white/10 p-8 rounded w-full max-w-lg shadow-2xl modal-animate relative">
+    <div className="fixed inset-0 z-[70] bg-black/50 dark:bg-black/90 backdrop-blur-sm flex items-center justify-center p-6">
+      <div className="bg-white dark:bg-[#0a0a0a] border border-black/[0.06] dark:border-white/10 p-8 rounded w-full max-w-lg shadow-2xl modal-animate relative">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-[#A0A0A0] hover:text-white"
+          className="absolute top-4 right-4 text-[#A0A0A0] hover:text-black dark:hover:text-white"
         >
           {/* <svg
             className="w-5 h-5"
@@ -1580,16 +1580,16 @@ const DetailModal: React.FC<{
         </button>
         <div className="flex items-center gap-3 mb-4">
           <div className="w-1 h-6 bg-[#ff6b35] rounded-full"></div>
-          <h3 className="text-lg font-bold text-white">{title}</h3>
+          <h3 className="text-lg font-bold text-black dark:text-white">{title}</h3>
         </div>
         <div
           className="text-sm text-[#A0A0A0] leading-relaxed font-light"
           dangerouslySetInnerHTML={{ __html: content }}
         />
-        <div className="mt-8 pt-6 border-t border-white/5 flex justify-end">
+        <div className="mt-8 pt-6 border-t border-black/[0.06] dark:border-white/5 flex justify-end">
           <button
             onClick={onClose}
-            className="text-xs  text-[#A0A0A0] hover:text-white uppercase tracking-widest"
+            className="text-xs  text-[#A0A0A0] hover:text-black dark:hover:text-white uppercase tracking-widest"
           >
             Close
           </button>
@@ -1609,11 +1609,11 @@ const TerminalModal: React.FC<{
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[60] bg-black/90 backdrop-blur-sm flex items-center justify-center">
-      <div className="bg-[#0a0a0a] border border-white/10 p-8 rounded w-full max-w-md shadow-2xl modal-animate ">
-        <div className="flex items-center gap-3 mb-6 border-b border-white/5 pb-4">
+    <div className="fixed inset-0 z-[60] bg-black/50 dark:bg-black/90 backdrop-blur-sm flex items-center justify-center">
+      <div className="bg-white dark:bg-[#0a0a0a] border border-black/[0.06] dark:border-white/10 p-8 rounded w-full max-w-md shadow-2xl modal-animate ">
+        <div className="flex items-center gap-3 mb-6 border-b border-black/[0.06] dark:border-white/5 pb-4">
           <div className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse"></div>
-          <span className="text-xs text-white tracking-widest uppercase">
+          <span className="text-xs text-black dark:text-white tracking-widest uppercase">
             Protocol Handshake
           </span>
         </div>
@@ -1624,10 +1624,10 @@ const TerminalModal: React.FC<{
           <p>&gt; Verifying device integrity...</p>
           <p>&gt; Fetching active merchant bonds...</p>
         </div>
-        <div className="h-0.5 w-full bg-[#0A0A0A] rounded-full overflow-hidden mb-4">
+        <div className="h-0.5 w-full bg-gray-200 dark:bg-[#0A0A0A] rounded-full overflow-hidden mb-4">
           <div className="h-full bg-[#ff6b35]w-full transition-all duration-[2000ms] ease-out"></div>
         </div>
-        <div className="text-[10px] text-white text-right">ESTABLISHED</div>
+        <div className="text-[10px] text-black dark:text-white text-right">ESTABLISHED</div>
       </div>
     </div>
   );
@@ -1815,7 +1815,7 @@ const CryptoToUae: React.FC = () => {
   }, []);
 
   return (
-    <div className="bg-[#030303] text-white min-h-screen selection:bg-white/20 selection:text-white overflow-x-hidden font-sans">
+    <div className="bg-[#FAF8F5] dark:bg-[#030303] text-black dark:text-white min-h-screen selection:bg-black/20 dark:selection:bg-white/20 selection:text-black dark:selection:text-white overflow-x-hidden font-sans">
       <SEO
         title="Crypto to AED | USDT to AED Converter & Cashout in UAE | Blip Money
 "

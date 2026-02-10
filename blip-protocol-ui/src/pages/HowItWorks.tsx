@@ -58,7 +58,7 @@ const HeroSection = () => {
             alt="Blockchain technology"
             className="w-full h-full object-cover brightness-[0.25] contrast-[0.9]"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-[#FAF8F5] dark:to-black" />
         </motion.div>
 
         {/* Grid overlay */}
@@ -89,7 +89,7 @@ const HeroSection = () => {
             }}
           >
             <span className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
-            <span className="text-[14px] text-white/70 font-medium tracking-wide">
+            <span className="text-[14px] text-black/70 dark:text-white/70 font-medium tracking-wide">
               How Blip Works
             </span>
           </motion.div>
@@ -104,11 +104,11 @@ const HeroSection = () => {
                 delay: 0.3,
                 ease: [0.16, 1, 0.3, 1], //text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl
               }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-8xl font-semibold text-white leading-[1.20] tracking-[-0.04em] "
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-8xl font-semibold text-black dark:text-white leading-[1.20] tracking-[-0.04em] "
             >
               <span className="block">Value. Settled.</span>
 
-              <span className="block text-white/20">Privately.</span>
+              <span className="block text-black/20 dark:text-white/20">Privately.</span>
             </motion.h1>
           </div>
 
@@ -116,7 +116,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.6 }}
-            className="text-base md:text-lg text-white/50 max-w-2xl mx-auto leading-relaxed"
+            className="text-base md:text-lg text-black/50 dark:text-white/50 max-w-2xl mx-auto leading-relaxed"
           >
             The on-chain protocol for instant, secure, and KYC-free global value
             transfer.
@@ -129,7 +129,7 @@ const HeroSection = () => {
             transition={{ delay: 1.5 }}
             className="absolute top-[400px] sm:top-[400px] left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
           >
-            <span className="text-xs text-white/40 uppercase tracking-[0.2em]">
+            <span className="text-xs text-black/40 dark:text-white/40 uppercase tracking-[0.2em]">
               Explore
             </span>
             <motion.div
@@ -174,7 +174,7 @@ const KeyConceptsSection = () => {
   return (
     <section
       ref={ref}
-      className="relative md:py-32 py-12 bg-black overflow-hidden"
+      className="relative md:py-32 py-12 bg-[#FAF8F5] dark:bg-black overflow-hidden"
     >
       {/* Background glow */}
       {/* <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-white/5 blur-[150px] rounded-full" /> */}
@@ -191,7 +191,7 @@ const KeyConceptsSection = () => {
                 delay: i * 0.15,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="group relative p-8 rounded-3xl overflow-hidden cursor-pointer border border-transparent hover:border-white/20 duration-500 transition-colors"
+              className="group relative p-8 rounded-3xl overflow-hidden cursor-pointer border border-transparent hover:border-black/20 dark:hover:border-white/20 duration-500 transition-colors"
               style={{
                 background: "rgba(255, 255, 255, 0.02)",
                 // border: "1px solid rgba(255, 255, 255, 0.05)",
@@ -202,13 +202,13 @@ const KeyConceptsSection = () => {
               <div className="absolute inset-0 bg-gradient-to-br from-[#ffffff]/[0.05] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 " />
 
               <div className="relative z-10">
-                <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-6 group-hover:bg-white/10 transition-colors duration-500">
-                  <concept.icon className="w-6 h-6 text-white/70 group-hover:text-[#ffffff] transition-colors duration-500" />
+                <div className="w-14 h-14 rounded-2xl bg-black/5 dark:bg-white/5 flex items-center justify-center mb-6 group-hover:bg-black/10 dark:group-hover:bg-white/10 transition-colors duration-500">
+                  <concept.icon className="w-6 h-6 text-black/70 dark:text-white/70 group-hover:text-black dark:group-hover:text-[#ffffff] transition-colors duration-500" />
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-3">
+                <h3 className="text-xl font-semibold text-black dark:text-white mb-3">
                   {concept.title}
                 </h3>
-                <p className="text-white/50">{concept.desc}</p>
+                <p className="text-black/50 dark:text-white/50">{concept.desc}</p>
               </div>
 
               {/* Bottom accent line */}
@@ -263,11 +263,11 @@ const CoreProtocolSection = () => {
   return (
     <section
       ref={ref}
-      className="relative md:py-40 py-12 bg-black overflow-hidden"
+      className="relative md:py-40 py-12 bg-[#FAF8F5] dark:bg-black overflow-hidden"
     >
       {/* Background text */}
       <motion.div
-        className="absolute top-1/2 left-0 -translate-y-1/2 whitespace-nowrap text-[15vw] font-bold text-white/[0.015] select-none pointer-events-none"
+        className="absolute top-1/2 left-0 -translate-y-1/2 whitespace-nowrap text-[15vw] font-bold text-black/[0.015] dark:text-white/[0.015] select-none pointer-events-none"
         style={{
           x: useTransform(scrollYProgress, [0, 1], ["0%", "-30%"]),
         }}
@@ -284,13 +284,13 @@ const CoreProtocolSection = () => {
           transition={{ duration: 1 }}
           className="text-center mb-24"
         >
-          <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">
+          <span className="text-xs uppercase tracking-[0.3em] text-black/60 dark:text-white/60 mb-6 block">
             The Protocol
           </span>
-          <h2 className="text-4xl md:text-6xl lg:text-7xl font-semibold text-white tracking-tight">
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-semibold text-black dark:text-white tracking-tight">
             Trust
             <br />
-            <span className="text-white/30">Redefined.</span>
+            <span className="text-black/30 dark:text-white/30">Redefined.</span>
           </h2>
         </motion.div>
 
@@ -303,7 +303,7 @@ const CoreProtocolSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8, delay: i * 0.1 }}
-              className="group relative p-8 rounded-3xl text-center border  hover:border-white/20 duration-500 transition-colors"
+              className="group relative p-8 rounded-3xl text-center border hover:border-black/20 dark:hover:border-white/20 duration-500 transition-colors"
               style={{
                 background: "rgba(255, 255, 255, 0.02)",
                 // border: "1px solid rgba(255, 255, 255, 0.05)",
@@ -311,17 +311,17 @@ const CoreProtocolSection = () => {
               onMouseEnter={() => sounds.hover()}
             >
               {/* Step number */}
-              <span className="absolute top-4 right-4 text-4xl font-bold text-white/[0.03] select-none">
+              <span className="absolute top-4 right-4 text-4xl font-bold text-black/[0.03] dark:text-white/[0.03] select-none">
                 0{i + 1}
               </span>
 
-              <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mx-auto mb-6 group-hover:bg-white/10 transition-colors duration-500">
-                <pillar.icon className="w-7 h-7 text-white/60 group-hover:text-[#ffffff]" />
+              <div className="w-16 h-16 rounded-2xl bg-black/5 dark:bg-white/5 flex items-center justify-center mx-auto mb-6 group-hover:bg-black/10 dark:group-hover:bg-white/10 transition-colors duration-500">
+                <pillar.icon className="w-7 h-7 text-black/60 dark:text-white/60 group-hover:text-black dark:group-hover:text-[#ffffff]" />
               </div>
-              <h3 className="text-lg font-semibold text-white mb-3">
+              <h3 className="text-lg font-semibold text-black dark:text-white mb-3">
                 {pillar.title}
               </h3>
-              <p className="text-sm text-white/50">{pillar.desc}</p>
+              <p className="text-sm text-black/50 dark:text-white/50">{pillar.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -382,7 +382,7 @@ const TransactionFlowSection = () => {
   return (
     <section
       ref={ref}
-      className="relative md:py-40 py-12 bg-black overflow-hidden"
+      className="relative md:py-40 py-12 bg-[#FAF8F5] dark:bg-black overflow-hidden"
     >
       {/* Background image with parallax */}
       <div className="absolute inset-0 z-0">
@@ -396,7 +396,7 @@ const TransactionFlowSection = () => {
             className="w-full h-full object-cover opacity-10"
           />
         </motion.div>
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#FAF8F5] via-[#FAF8F5]/95 to-[#FAF8F5] dark:from-black dark:via-black/95 dark:to-black" />
       </div>
 
       <div className="relative z-10 max-w-4xl mx-auto px-6">
@@ -408,15 +408,15 @@ const TransactionFlowSection = () => {
           transition={{ duration: 1 }}
           className="text-center mb-24"
         >
-          <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">
+          <span className="text-xs uppercase tracking-[0.3em] text-black/60 dark:text-white/60 mb-6 block">
             Transaction Flow
           </span>
-          <h2 className="text-4xl md:text-6xl font-semibold text-white tracking-tight mb-6">
+          <h2 className="text-4xl md:text-6xl font-semibold text-black dark:text-white tracking-tight mb-6">
             Atomic.
             <br />
-            <span className="text-white/30">Guaranteed.</span>
+            <span className="text-black/30 dark:text-white/30">Guaranteed.</span>
           </h2>
-          <p className="text-xl text-white/50 max-w-xl mx-auto">
+          <p className="text-xl text-black/50 dark:text-white/50 max-w-xl mx-auto">
             Every transaction executes atomically, guaranteed by on-chain escrow
             state transitions.
           </p>
@@ -425,7 +425,7 @@ const TransactionFlowSection = () => {
         {/* Timeline */}
         <div className="relative">
           {/* Progress line */}
-          <div className="absolute left-[23px] top-0 bottom-0 w-[2px] bg-white/10">
+          <div className="absolute left-[23px] top-0 bottom-0 w-[2px] bg-black/10 dark:bg-white/10">
             <motion.div
               className="w-full bg-gradient-to-b from-[#ffffff] to-[#ffffff]/30"
               style={{ height: lineProgress.get() + "%" }}
@@ -444,8 +444,8 @@ const TransactionFlowSection = () => {
                 className="relative pl-16"
               >
                 {/* Number circle */}
-                <div className="absolute left-0 top-0 w-12 h-12 rounded-full bg-black border-2 border-[#ff6b35]/20 flex items-center justify-center">
-                  <span className="text-sm font-mono text-white/60">
+                <div className="absolute left-0 top-0 w-12 h-12 rounded-full bg-[#FAF8F5] dark:bg-black border-2 border-[#ff6b35]/20 flex items-center justify-center">
+                  <span className="text-sm font-mono text-black/60 dark:text-white/60">
                     {step.num}
                   </span>
                 </div>
@@ -458,13 +458,13 @@ const TransactionFlowSection = () => {
                     border: "1px solid rgba(255, 255, 255, 0.05)",
                   }}
                 >
-                  <h3 className="text-xl font-semibold text-white mb-3">
+                  <h3 className="text-xl font-semibold text-black dark:text-white mb-3">
                     {step.title}
                   </h3>
-                  <p className="text-white/60 mb-4">{step.content}</p>
+                  <p className="text-black/60 dark:text-white/60 mb-4">{step.content}</p>
                   <div className="flex items-center gap-2 text-sm">
-                    <CheckCircle2 className="w-4 h-4 text-white/60" />
-                    <span className="text-white/40">Result: {step.result}</span>
+                    <CheckCircle2 className="w-4 h-4 text-black/60 dark:text-white/60" />
+                    <span className="text-black/40 dark:text-white/40">Result: {step.result}</span>
                   </div>
                 </div>
               </motion.div>
@@ -520,7 +520,7 @@ const SecuritySection = () => {
   return (
     <section
       ref={ref}
-      className="relative md:py-40 py-12 bg-black overflow-hidden"
+      className="relative md:py-40 py-12 bg-[#FAF8F5] dark:bg-black overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
@@ -571,13 +571,13 @@ const SecuritySection = () => {
               transition={{ duration: 1 }}
               className="mb-12"
             >
-              <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">
+              <span className="text-xs uppercase tracking-[0.3em] text-black/60 dark:text-white/60 mb-6 block">
                 Security Model
               </span>
-              <h2 className="text-4xl md:text-5xl font-semibold text-white tracking-tight mb-6">
+              <h2 className="text-4xl md:text-5xl font-semibold text-black dark:text-white tracking-tight mb-6">
                 Cryptographic
                 <br />
-                <span className="text-white/30">Security.</span>
+                <span className="text-black/30 dark:text-white/30">Security.</span>
               </h2>
             </motion.div>
 
@@ -589,13 +589,13 @@ const SecuritySection = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
                   transition={{ duration: 0.6, delay: i * 0.1 }}
-                  className="group p-6 rounded-2xl transition-all duration-300 hover:bg-white/[0.02]"
+                  className="group p-6 rounded-2xl transition-all duration-300 hover:bg-black/[0.02] dark:hover:bg-white/[0.02]"
                   onMouseEnter={() => sounds.hover()}
                 >
-                  <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-white/60 transition-colors">
+                  <h3 className="text-lg font-semibold text-black dark:text-white mb-2 group-hover:text-black/60 dark:group-hover:text-white/60 transition-colors">
                     {pillar.title}
                   </h3>
-                  <p className="text-white/50">{pillar.desc}</p>
+                  <p className="text-black/50 dark:text-white/50">{pillar.desc}</p>
                 </motion.div>
               ))}
             </div>
@@ -633,7 +633,7 @@ const OrderTypesSection = () => {
   ];
 
   return (
-    <section className="relative md:py-40 py-12 bg-black">
+    <section className="relative md:py-40 py-12 bg-[#FAF8F5] dark:bg-black">
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
         <motion.div
@@ -643,13 +643,13 @@ const OrderTypesSection = () => {
           transition={{ duration: 1 }}
           className="text-center mb-20"
         >
-          <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">
+          <span className="text-xs uppercase tracking-[0.3em] text-black/60 dark:text-white/60 mb-6 block">
             Order Types
           </span>
-          <h2 className="text-4xl md:text-6xl font-semibold text-white tracking-tight">
+          <h2 className="text-4xl md:text-6xl font-semibold text-black dark:text-white tracking-tight">
             Multiple
             <br />
-            <span className="text-white/30">Destinations.</span>
+            <span className="text-black/30 dark:text-white/30">Destinations.</span>
           </h2>
         </motion.div>
 
@@ -713,7 +713,7 @@ const CTASection = () => {
   return (
     <section
       ref={ref}
-      className="relative md:min-h-screen flex items-center justify-center md:py-40 py-12 bg-black overflow-hidden"
+      className="relative md:min-h-screen flex items-center justify-center md:py-40 py-12 bg-[#FAF8F5] dark:bg-black overflow-hidden"
     >
       {/* Background glow */}
       {/* <motion.div
@@ -744,13 +744,13 @@ const CTASection = () => {
           viewport={{ once: true }}
           transition={{ duration: 1 }}
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight mb-6 sm:mb-8 tracking-tight max-w-xl mx-auto lg:mx-0">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-black dark:text-white leading-tight mb-6 sm:mb-8 tracking-tight max-w-xl mx-auto lg:mx-0">
             Code over
             <br />
-            <span className="text-white/30">Trust.</span>
+            <span className="text-black/30 dark:text-white/30">Trust.</span>
           </h2>
 
-          <p className="text-xl text-white/50 max-w-xl mx-auto mb-12">
+          <p className="text-xl text-black/50 dark:text-white/50 max-w-xl mx-auto mb-12">
             The certainty of code replacing the necessity of trust. Start your
             journey with Blip today.
           </p>
@@ -778,8 +778,8 @@ const CTASection = () => {
         w-[220px]  h-[48px]
         inline-flex items-center justify-center gap-3
         rounded-full
-        border border-white/10
-        text-white font-medium
+        border border-black/10 dark:border-white/10
+        text-black dark:text-white font-medium
         transition-all duration-300
       "
             >
@@ -787,7 +787,7 @@ const CTASection = () => {
               <span
                 className="
         absolute inset-0
-        bg-white/20
+        bg-black/10 dark:bg-white/20
         rounded-full
         scale-x-0 group-hover:scale-x-100
         origin-left
@@ -825,7 +825,7 @@ export const HowItWorksPage = () => {
         canonical="https://blip.money/how-it-works"
       />
 
-      <div className="bg-black text-white overflow-x-hidden">
+      <div className="bg-[#FAF8F5] dark:bg-black text-black dark:text-white overflow-x-hidden">
         <HeroSection />
         <KeyConceptsSection />
         <CoreProtocolSection />

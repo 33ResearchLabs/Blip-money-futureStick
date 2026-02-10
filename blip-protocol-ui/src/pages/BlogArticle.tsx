@@ -167,7 +167,7 @@ export default function BlogArticle() {
         ])}
       />
 
-      <div className="min-h-screen bg-white dark:bg-transparent">
+      <div className="min-h-screen bg-[#FAF8F5] dark:bg-transparent">
         {/* Article Header */}
         <header className="relative pt-32 sm:pt-40 pb-10 sm:pb-14">
           <div className="max-w-[720px] mx-auto px-4 sm:px-6">

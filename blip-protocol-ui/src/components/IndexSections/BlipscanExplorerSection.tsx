@@ -112,7 +112,7 @@ const BlipscanExplorerSection = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-black dark:text-white/50 font-medium text-base sm:text-lg max-w-2xl mx-auto"
           >
-            Watch settlements happen in real-time on Blipscan Explorer
+            Every settlement is public and verifiable on Blipscan.
           </motion.p>
         </div>
 

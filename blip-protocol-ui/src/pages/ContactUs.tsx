@@ -63,7 +63,7 @@ const HeroSection = () => {
           onContextMenu={(e) => e.stopPropagation()}
           draggable="true"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#FAF8F5]/80 via-[#FAF8F5]/60 to-[#FAF8F5] dark:from-black/80 dark:via-black/60 dark:to-black" />
       </motion.div>
 
       {/* Grid overlay */}
@@ -94,7 +94,7 @@ const HeroSection = () => {
           }}
         >
           <span className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
-          <span className="text-[14px] text-white/70 font-medium tracking-wide">
+          <span className="text-[14px] text-black/70 dark:text-white/70 font-medium tracking-wide">
             System Status: Active
           </span>
         </motion.div>
@@ -107,7 +107,7 @@ const HeroSection = () => {
             transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="text-[clamp(2.5rem,8vw,6rem)] font-semibold leading-[1.20] tracking-[-0.04em] "
           >
-            <span className="block text-white">Protocol</span>
+            <span className="block text-black dark:text-white">Protocol</span>
 
             <span
               className="block"
@@ -128,7 +128,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.6 }}
-          className="text-lg md:text-xl text-white/50 max-w-xl mx-auto"
+          className="text-lg md:text-xl text-black/50 dark:text-white/50 max-w-xl mx-auto"
         >
           Direct peer-to-protocol messaging. Encrypted by default.
         </motion.p>
@@ -178,10 +178,10 @@ const ContactOptionsSection = () => {
   return (
     <section
       ref={ref}
-      className="relative py-12 md:py-24 bg-black overflow-hidden"
+      className="relative py-12 md:py-24 bg-[#FAF8F5] dark:bg-black overflow-hidden"
     >
       {/* Background glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-white/5 blur-[150px] rounded-full" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-black/5 dark:bg-white/5 blur-[150px] rounded-full" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
@@ -192,15 +192,15 @@ const ContactOptionsSection = () => {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8 }}
             >
-              <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">
+              <span className="text-xs uppercase tracking-[0.3em] text-black/60 dark:text-white/60 mb-6 block">
                 Get in Touch
               </span>
-              <h2 className="text-4xl md:text-5xl font-semibold text-white tracking-tight mb-6">
+              <h2 className="text-4xl md:text-5xl font-semibold text-black dark:text-white tracking-tight mb-6">
                 Connect
                 <br />
-                <span className="text-white/30">Directly.</span>
+                <span className="text-black/30 dark:text-white/30">Directly.</span>
               </h2>
-              <p className="text-lg text-white/50 mb-10 max-w-md">
+              <p className="text-lg text-black/50 dark:text-white/50 mb-10 max-w-md">
                 Routed through the global Blip validator network. Privacy-first,
                 always.
               </p>
@@ -221,11 +221,11 @@ const ContactOptionsSection = () => {
                   }}
                   onMouseEnter={() => sounds.hover()}
                 >
-                  <channel.icon className="w-5 h-5 text-[#ffffff] mb-3 group-hover:scale-110 transition-transform" />
-                  <h3 className="text-sm font-semibold text-white mb-1">
+                  <channel.icon className="w-5 h-5 text-black dark:text-[#ffffff] mb-3 group-hover:scale-110 transition-transform" />
+                  <h3 className="text-sm font-semibold text-black dark:text-white mb-1">
                     {channel.label}
                   </h3>
-                  <p className="text-xs text-white/40">{channel.desc}</p>
+                  <p className="text-xs text-black/40 dark:text-white/40">{channel.desc}</p>
                 </motion.div>
               ))}
             </div>
@@ -244,20 +244,20 @@ const ContactOptionsSection = () => {
                 }}
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center group-hover:bg-[#ffffff]/20 transition-colors">
-                    <Mail className="w-5 h-5 text-[#ffffff]" />
+                  <div className="w-12 h-12 rounded-xl bg-black/10 dark:bg-white/10 flex items-center justify-center group-hover:bg-black/20 dark:group-hover:bg-[#ffffff]/20 transition-colors">
+                    <Mail className="w-5 h-5 text-black dark:text-[#ffffff]" />
                   </div>
                   <div className="text-left">
-                    <span className="text-[10px] uppercase tracking-widest text-white/40 block">
+                    <span className="text-[10px] uppercase tracking-widest text-black/40 dark:text-white/40 block">
                       Digital Gateway
                     </span>
-                    <span className="text-white">support@blip.money</span>
+                    <span className="text-black dark:text-white">support@blip.money</span>
                   </div>
                 </div>
                 {copied.email ? (
-                  <Check className="w-4 h-4 text-white/60" />
+                  <Check className="w-4 h-4 text-black/60 dark:text-white/60" />
                 ) : (
-                  <Copy className="w-4 h-4 text-white/30 group-hover:text-white/60 transition-colors" />
+                  <Copy className="w-4 h-4 text-black/30 dark:text-white/30 group-hover:text-black/60 dark:group-hover:text-white/60 transition-colors" />
                 )}
               </motion.button>
 
@@ -276,14 +276,14 @@ const ContactOptionsSection = () => {
                 onMouseEnter={() => sounds.hover()}
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center group-hover:bg-[#ffffff]/20 transition-colors">
-                    <MapPin className="w-5 h-5 text-[#ffffff]" />
+                  <div className="w-12 h-12 rounded-xl bg-black/10 dark:bg-white/10 flex items-center justify-center group-hover:bg-black/20 dark:group-hover:bg-[#ffffff]/20 transition-colors">
+                    <MapPin className="w-5 h-5 text-black dark:text-[#ffffff]" />
                   </div>
                   <div className="text-left">
-                    <span className="text-[10px] uppercase tracking-widest text-white/40 block">
+                    <span className="text-[10px] uppercase tracking-widest text-black/40 dark:text-white/40 block">
                       Location
                     </span>
-                    <span className="text-white">
+                    <span className="text-black dark:text-white">
                       Blip Money, JLT Cluster Y, Dubai
                     </span>
                   </div>
@@ -376,15 +376,15 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="w-24 h-24 rounded-full2 bg-[#ffffff]/20 flex items-center justify-center mb-8"
+          className="w-24 h-24 rounded-full2 bg-black/20 dark:bg-[#ffffff]/20 flex items-center justify-center mb-8"
         >
-          <Check className="w-12 h-12 text-white/60" />
+          <Check className="w-12 h-12 text-black/60 dark:text-white/60" />
         </motion.div>
-        <h3 className="text-3xl font-semibold text-white mb-4">Message Sent</h3>
-        <p className="text-white/50 mb-8">We'll get back to you shortly.</p>
+        <h3 className="text-3xl font-semibold text-black dark:text-white mb-4">Message Sent</h3>
+        <p className="text-black/50 dark:text-white/50 mb-8">We'll get back to you shortly.</p>
         <button
           onClick={() => setIsSubmitted(false)}
-          className="text-white/60 text-sm font-medium hover:underline"
+          className="text-black/60 dark:text-white/60 text-sm font-medium hover:underline"
         >
           Send another message
         </button>
@@ -404,14 +404,14 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
       }}
     >
       {/* Header */}
-      <div className="flex items-center justify-between px-8 py-5 border-b border-white/5">
+      <div className="flex items-center justify-between px-8 py-5 border-b border-black/5 dark:border-white/5">
         <div className="flex items-center gap-3">
-          <MessageSquare className="w-5 h-5 text-white/60" />
-          <span className="text-sm font-medium text-white">Secure Channel</span>
+          <MessageSquare className="w-5 h-5 text-black/60 dark:text-white/60" />
+          <span className="text-sm font-medium text-black dark:text-white">Secure Channel</span>
         </div>
         <div className="flex items-center gap-2">
-          <Lock className="w-3 h-3 text-white/40" />
-          <span className="text-[10px] text-white/40 uppercase tracking-wider">
+          <Lock className="w-3 h-3 text-black/40 dark:text-white/40" />
+          <span className="text-[10px] text-black/40 dark:text-white/40 uppercase tracking-wider">
             Encrypted
           </span>
         </div>
@@ -426,7 +426,7 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
 
         <div className="grid grid-cols-1  gap-6">
           <div className="space-y-2">
-            <label className="text-[10px] uppercase tracking-widest text-white/40">
+            <label className="text-[10px] uppercase tracking-widest text-black/40 dark:text-white/40">
               Name (Optional)
             </label>
             <input
@@ -436,11 +436,11 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
               onChange={(e) =>
                 setFormData({ ...formData, name: e.target.value })
               }
-              className="w-full bg-transparent border-b border-white/10 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-[#ffffff] transition-colors"
+              className="w-full bg-transparent border-b border-black/10 dark:border-white/10 py-3 text-black dark:text-white placeholder:text-black/20 dark:placeholder:text-white/20 focus:outline-none focus:border-black dark:focus:border-[#ffffff] transition-colors"
             />
           </div>
           <div className="space-y-2">
-            <label className="text-[10px] uppercase tracking-widest text-white/60">
+            <label className="text-[10px] uppercase tracking-widest text-black/60 dark:text-white/60">
               Email (Required)
             </label>
             <input
@@ -451,13 +451,13 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
               onChange={(e) =>
                 setFormData({ ...formData, email: e.target.value })
               }
-              className="w-full bg-transparent border-b border-white/20 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-[#ffffff] transition-colors"
+              className="w-full bg-transparent border-b border-black/20 dark:border-white/20 py-3 text-black dark:text-white placeholder:text-black/20 dark:placeholder:text-white/20 focus:outline-none focus:border-black dark:focus:border-[#ffffff] transition-colors"
             />
           </div>
         </div>
 
         <div className="space-y-2">
-          <label className="text-[10px] uppercase tracking-widest text-white/40">
+          <label className="text-[10px] uppercase tracking-widest text-black/40 dark:text-white/40">
             Inquiry Type
           </label>
           <div className="relative">
@@ -466,24 +466,24 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
               onChange={(e) =>
                 setFormData({ ...formData, inquiryType: e.target.value })
               }
-              className="w-full appearance-none bg-white/[0.03] border border-white/5 rounded-xl px-4 py-4 text-sm text-white/80 focus:outline-none focus:border-[#ffffff]/50 cursor-pointer"
+              className="w-full appearance-none bg-black/[0.03] dark:bg-white/[0.03] border border-black/5 dark:border-white/5 rounded-xl px-4 py-4 text-sm text-black/80 dark:text-white/80 focus:outline-none focus:border-black/50 dark:focus:border-[#ffffff]/50 cursor-pointer"
             >
               {inquiryTypes.map((type) => (
                 <option
                   key={type.value}
                   value={type.value}
-                  className="bg-black"
+                  className="bg-white dark:bg-black"
                 >
                   {type.label}
                 </option>
               ))}
             </select>
-            <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40 pointer-events-none" />
+            <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-black/40 dark:text-white/40 pointer-events-none" />
           </div>
         </div>
 
         <div className="space-y-2">
-          <label className="text-[10px] uppercase tracking-widest text-white/40">
+          <label className="text-[10px] uppercase tracking-widest text-black/40 dark:text-white/40">
             Message
           </label>
           <textarea
@@ -494,7 +494,7 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
             onChange={(e) =>
               setFormData({ ...formData, message: e.target.value })
             }
-            className="w-full bg-white/[0.03] border border-white/5 rounded-xl p-4 text-white placeholder:text-white/20 focus:outline-none focus:border-[#ffffff]/50 transition-colors resize-none"
+            className="w-full bg-black/[0.03] dark:bg-white/[0.03] border border-black/5 dark:border-white/5 rounded-xl p-4 text-black dark:text-white placeholder:text-black/20 dark:placeholder:text-white/20 focus:outline-none focus:border-black/50 dark:focus:border-[#ffffff]/50 transition-colors resize-none"
           />
         </div>
 
@@ -503,7 +503,7 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
           disabled={isSubmitting}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="w-full relative overflow-hidden group bg-[#ffffff]/80 hover:bg-white text-black font-semibold py-5 rounded-full transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed "
+          className="w-full relative overflow-hidden group bg-black hover:bg-black/90 dark:bg-[#ffffff]/80 dark:hover:bg-white text-white dark:text-black font-semibold py-5 rounded-full transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed "
         >
           <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
           <span className="relative z-10 flex items-center justify-center gap-3 text-sm uppercase tracking-widest">
@@ -535,7 +535,7 @@ const VisualSection = () => {
   return (
     <section
       ref={ref}
-      className="relative py-12 md:py-24 bg-black overflow-hidden "
+      className="relative py-12 md:py-24 bg-[#FAF8F5] dark:bg-black overflow-hidden "
     >
       <div className="max-w-7xl mx-auto px-6">
         <motion.div
@@ -545,13 +545,13 @@ const VisualSection = () => {
           transition={{ duration: 1 }}
           className="text-center mb-16"
         >
-          <span className="text-xs uppercase tracking-[0.3em] text-white/60 mb-6 block">
+          <span className="text-xs uppercase tracking-[0.3em] text-black/60 dark:text-white/60 mb-6 block">
             Global Network
           </span>
-          <h2 className="text-4xl md:text-5xl font-semibold text-white tracking-tight">
+          <h2 className="text-4xl md:text-5xl font-semibold text-black dark:text-white tracking-tight">
             Dubai
             <br />
-            <span className="text-white/30">Headquarters</span>
+            <span className="text-black/30 dark:text-white/30">Headquarters</span>
           </h2>
         </motion.div>
 
@@ -567,7 +567,7 @@ const VisualSection = () => {
             onContextMenu={(e) => e.stopPropagation()}
             draggable="true"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#FAF8F5]/80 via-[#FAF8F5]/20 dark:from-black/80 dark:via-black/20 to-transparent" />
 
           {/* Location pin */}
           <motion.div
@@ -578,8 +578,8 @@ const VisualSection = () => {
             className="absolute inset-0 flex items-center justify-center"
           >
             <div className="relative">
-              <div className="w-20 h-20 rounded-full bg-[#ffffff]/20 animate-ping absolute inset-0" />
-              <div className="w-20 h-20 rounded-full bg-white/10 flex items-center justify-center relative">
+              <div className="w-20 h-20 rounded-full bg-black/20 dark:bg-[#ffffff]/20 animate-ping absolute inset-0" />
+              <div className="w-20 h-20 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center relative">
                 <div className="w-8 h-8 rounded-full bg-[#ffffff] flex items-center justify-center">
                   <MapPin className="w-4 h-4 text-black" />
                 </div>
@@ -629,7 +629,7 @@ const ContactUs = () => {
         canonical="https://blip.money/contact"
       />
 
-      <div className="bg-black text-white overflow-x-hidden">
+      <div className="bg-[#FAF8F5] dark:bg-black text-black dark:text-white overflow-x-hidden">
         <HeroSection />
         <ContactOptionsSection />
         <VisualSection />
