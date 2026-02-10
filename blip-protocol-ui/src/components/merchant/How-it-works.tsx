@@ -113,7 +113,10 @@ const HowItWorksSection = () => {
     <div className="p-4 flex flex-col gap-2">
       <div className="flex justify-between">
         <div className="h-1 w-12 bg-black/30 dark:bg-zinc-800 rounded-full" />
-        <Zap size={10} className="text-black/20 dark:text-white/20 animate-spin-slow" />
+        <Zap
+          size={10}
+          className="text-black/20 dark:text-white/20 animate-spin-slow"
+        />
       </div>
       {["USDT/AED", "AED/USDT", "USDT/Cash"].map((p, i) => (
         <div
@@ -128,7 +131,7 @@ const HowItWorksSection = () => {
 
   const MockupLock = () => (
     <div className="h-full flex flex-col items-center justify-center gap-4">
-      <div className="h-16 w-16 rounded-3xl bg-black/90 dark:bg-black border border-black/20 dark:border-white/20 flex items-center justify-center">
+      <div className="h-16 w-16 rounded-3xl bg-zinc-800/20 dark:bg-black border border-black/20 dark:border-white/20 flex items-center justify-center">
         <Lock className="text-white/40 dark:text-white/20" />
       </div>
       <div className="h-1.5 w-24 bg-black/20 dark:bg-zinc-900 rounded-full overflow-hidden">
@@ -139,10 +142,39 @@ const HowItWorksSection = () => {
 
   const MockupEscrow = () => (
     <div className="p-4">
-      <div className="bg-black/90 dark:bg-black rounded-xl border border-black/10 dark:border-white/5 p-4">
-        <ShieldCheck className="text-white/40 dark:text-white/20 mb-3" size={14} />
-        <div className="h-2 bg-black/20 dark:bg-zinc-900 rounded-full overflow-hidden">
-          <div className="h-full bg-white/40 dark:bg-white/20 w-1/2 animate-pulse" />
+      <div
+        className="
+        bg-zinc-100
+        dark:bg-white/10
+        rounded-xl
+        border border-zinc-300
+        dark:border-white/10
+        p-4
+      "
+      >
+        <ShieldCheck
+          className="text-zinc-500 dark:text-white/40 mb-3"
+          size={14}
+        />
+
+        <div
+          className="
+          h-2
+          bg-zinc-300
+          dark:bg-white/20
+          rounded-full
+          overflow-hidden
+        "
+        >
+          <div
+            className="
+              h-full
+              w-1/2
+              bg-zinc-400
+              dark:bg-white/40
+              animate-pulse
+            "
+          />
         </div>
       </div>
     </div>
@@ -155,7 +187,10 @@ const HowItWorksSection = () => {
       </div>
       <div>{"> BLOCK CONFIRMED"}</div>
       <div className="text-black/30 dark:text-white/20">{"> FINALIZED"}</div>
-      <Globe size={40} className="absolute bottom-2 right-2 text-black/10 dark:text-white/10" />
+      <Globe
+        size={40}
+        className="absolute bottom-2 right-2 text-black/10 dark:text-white/10"
+      />
     </div>
   );
 
