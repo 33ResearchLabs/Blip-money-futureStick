@@ -23,9 +23,9 @@ const Logo = () => {
 
         {/* Text */}
         <span className="text-2xl font-semibold tracking-tight">
-          <span className="text-white">blip</span>
-          <span className="text-white">.</span>
-          <span className="text-white">money</span>
+          <span className="text-black dark:text-white">blip</span>
+          <span className="text-black dark:text-white">.</span>
+          <span className="text-black dark:text-white">money</span>
         </span>
       </div>
     </Link>
@@ -46,14 +46,14 @@ const SocialLink = ({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="w-9 h-9 rounded-lg flex items-center justify-center bg-[#18181B] border border-[rgba(255,255,255,0.06)] text-[#71717A] hover:text-[#ffffff] hover:border-[rgba(255,255,255,0.12)] transition-all"
+      className="w-9 h-9 rounded-lg flex items-center justify-center bg-black/5 dark:bg-[#18181B] border border-black/10 dark:border-[rgba(255,255,255,0.06)] text-gray-500 dark:text-[#71717A] hover:text-black dark:hover:text-white hover:border-black/20 dark:hover:border-[rgba(255,255,255,0.12)] transition-all"
       whileHover={{ scale: 1.05, y: -2 }}
       whileTap={{ scale: 0.95 }}
       onMouseEnter={() => sounds.hover()}
       onClick={() => sounds.click()}
       aria-label={label}
     >
-      <Icon className="w-4 h-4 text-white  hover:text-[#ffffff] " />
+      <Icon className="w-4 h-4 text-black dark:text-white" />
     </motion.a>
   );
 };
@@ -72,7 +72,7 @@ const FooterLink = ({
       onMouseEnter={() => sounds.hover()}
       className={({ isActive }) => `
         group flex items-center gap-1 text-[13px] transition-colors
-        ${isActive ? "text-[#ffffff]" : "text-[#71717A] hover:text-[#A1A1AA]"}
+        ${isActive ? "text-black dark:text-white" : "text-gray-500 dark:text-[#71717A] hover:text-gray-700 dark:hover:text-[#A1A1AA]"}
       `}
     >
       {children}
@@ -89,7 +89,7 @@ const FooterColumn = ({
 }) => {
   return (
     <div className="space-y-3">
-      <h4 className="text-[11px] font-bold uppercase tracking-[0.1em] text-white/80">
+      <h4 className="text-[11px] font-bold uppercase tracking-[0.1em] text-black/80 dark:text-white/80">
         {title}
       </h4>
       <ul className="space-y-2">{children}</ul>
@@ -101,14 +101,14 @@ export const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative border-t border-[rgba(255,255,255,0.06)] bg-black">
+    <footer className="relative border-t border-black/10 dark:border-[rgba(255,255,255,0.06)] bg-white dark:bg-black">
       {/* Main content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-16">
           {/* Brand */}
           <div className="col-span-4 lg:col-span-2 space-y-4">
             <Logo />
-            <p className="text-[13px] text-[#71717A] leading-relaxed max-w-xs">
+            <p className="text-[13px] text-gray-500 dark:text-[#71717A] leading-relaxed max-w-xs">
               The non-custodial settlement protocol for instant global payments.
             </p>
             <div className="flex items-center gap-2">
@@ -160,7 +160,7 @@ export const Footer = () => {
                 rel="noopener noreferrer"
                 onClick={() => sounds.click()}
                 onMouseEnter={() => sounds.hover()}
-                className="group flex items-center gap-1 text-[13px] text-[#71717A] hover:text-[#A1A1AA] transition-colors"
+                className="group flex items-center gap-1 text-[13px] text-gray-500 dark:text-[#71717A] hover:text-gray-700 dark:hover:text-[#A1A1AA] transition-colors"
               >
                 Whitepaper
                 <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -193,19 +193,19 @@ export const Footer = () => {
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-[rgba(255,255,255,0.06)]">
+      <div className="border-t border-black/10 dark:border-[rgba(255,255,255,0.06)]">
         <div
           className="max-w-7xl mx-auto px-4 sm:px-6 py-4
                   flex flex-col items-center gap-2
                   sm:flex-row sm:justify-between sm:items-center"
         >
           {/* Left text */}
-          <p className="text-[12px] text-[#52525B] text-center sm:text-left">
+          <p className="text-[12px] text-gray-500 dark:text-[#52525B] text-center sm:text-left">
             © {currentYear} Blip.money. All rights reserved.
           </p>
 
           {/* Right text */}
-          <div className="text-[11px] text-[#52525B] flex items-center gap-2 sm:pr-32">
+          <div className="text-[11px] text-gray-500 dark:text-[#52525B] flex items-center gap-2 sm:pr-32">
             <span className="w-1 h-1 rounded-full bg-[#ff6b35] " />
             Built on Solana
           </div>

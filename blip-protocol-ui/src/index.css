@@ -156,6 +156,7 @@
     scroll-behavior: smooth;
     scrollbar-width: thin;
     scrollbar-color: var(--bg-tertiary) transparent;
+    background: var(--bg-primary);
   }
 
   html::-webkit-scrollbar {
