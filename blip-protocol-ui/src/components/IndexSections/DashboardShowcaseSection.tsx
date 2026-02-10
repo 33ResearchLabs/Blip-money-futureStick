@@ -1,89 +1,97 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useRef } from "react";
+import { useRef, useMemo } from "react";
 
 /* ============================================
-   SEND MONEY SHOWCASE — SCROLL STORY
+   SEND MONEY SHOWCASE — OPTIMIZED SCROLL STORY
    ────────────────────────────────────────────
-   The heading is the ANCHOR. Everything reacts to it.
+   Smoother, lighter animations with reduced height (140vh).
 
-   HOW IT WORKS:
-   - offset ["start center", "end end"] means the section
-     enters from the BOTTOM of the viewport.
-   - The sticky container scrolls UP naturally through
-     the viewport (heading visible, moving with the page).
-   - When the sticky container's top hits viewport top
-     (at ~25% scroll progress), position:sticky engages.
-   - The heading FREEZES at exact center. CSS does this.
-     No translateY. No Framer y transform. Pure sticky.
-   - Only scale + opacity animate on the heading after lock.
-   - Cards begin entering AFTER heading is locked.
+   OPTIMIZATIONS:
+   - Reduced section height for snappier feel
+   - Earlier animation start (0.3 vs 0.42) for responsiveness
+   - Lighter scale transitions for smoothness
+   - GPU-accelerated with willChange hints
+   - Memoized transforms to reduce recalculations
 
-   Section: 190vh. Scroll range: ~140vh.
-   Sticky engages at ~36% (50vh / 140vh).
-
-   Phase 1  (0.00–0.36)  Heading scrolls naturally to center
-   Phase 2  (0.36–0.42)  Heading LOCKED. Scale/opacity shift.
-   Phase 3  (0.42–0.95)  Cards enter from offscreen → overlap
-   Phase 4  (0.95–1.00)  ~7vh hold, then section scrolls away
+   Phase 1  (0.0–0.2)   Heading shrinks gently
+   Phase 2  (0.2–0.7)   Cards fly in and settle
+   Phase 3  (0.7–1.0)   Hold final composition
    ============================================ */
 
 const floatingCards = [
   {
-    label: "SEND TO\nANYONE",
-    sub: "Pay globally in seconds",
-    image:
-      "https://images.unsplash.com/photo-1616077168712-fc6c788db4af?w=300&h=300&fit=crop&q=80",
-    size: "w-44 h-56 sm:w-52 sm:h-64 lg:w-56 lg:h-72",
-    glow: "rgba(255,107,53,0.15)",
-    start: { x: -700, y: -500 },
-    end: { x: -70, y: -30 },
-    finalRotate: -6,
+    label: "PARENTS",
+    type: "default",
+    size: "w-52 h-60 sm:w-60 sm:h-72 lg:w-64 lg:h-80",
+    glow: "rgba(34,197,94,0.15)",
+    bgColor: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
+    textColor: "#ffffff",
+    icon: "💚",
+    iconBg: "rgba(255,255,255,0.2)",
+    subtitle: "TO PARENTS",
+    mainText: "$500",
+    secondaryText: "Sent today",
+    footer: "Completed",
+    footerBg: "rgba(255,255,255,0.2)",
+    footerColor: "#ffffff",
   },
   {
-    label: "ON-CHAIN\nSETTLEMENT",
-    sub: "Transparent escrow-based settlement",
-    image:
-      "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=300&h=300&fit=crop&q=80",
-    size: "w-44 h-56 sm:w-52 sm:h-64 lg:w-56 lg:h-72",
-    glow: "rgba(99,102,241,0.15)",
-    start: { x: 700, y: -500 },
-    end: { x: 80, y: -20 },
-    finalRotate: 5,
+    label: "CRYPTO",
+    type: "default",
+    size: "w-52 h-60 sm:w-60 sm:h-72 lg:w-64 lg:h-80",
+    glow: "rgba(59,130,246,0.15)",
+    bgColor: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
+    textColor: "#ffffff",
+    icon: "₿",
+    iconBg: "rgba(255,255,255,0.2)",
+    subtitle: "BITCOIN",
+    mainText: "0.034",
+    secondaryText: "≈ $1,847",
+    footer: "Send",
+    footerBg: "rgba(255,255,255,0.2)",
+    footerColor: "#ffffff",
   },
   {
-    label: "NON-\nCUSTODIAL",
-    sub: "Users keep control of funds",
-    image:
-      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=300&h=300&fit=crop&q=80",
-    size: "w-40 h-52 sm:w-48 sm:h-60 lg:w-52 lg:h-64",
-    glow: "rgba(16,185,129,0.15)",
-    start: { x: -700, y: 500 },
-    end: { x: -55, y: 45 },
-    finalRotate: 4,
-  },
-  {
-    label: "MERCHANT\nLIQUIDITY",
-    sub: "Offers with real limits and SLAs",
-    image:
-      "https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=300&h=300&fit=crop&q=80",
-    size: "w-44 h-56 sm:w-52 sm:h-64 lg:w-56 lg:h-68",
-    glow: "rgba(251,191,36,0.15)",
-    start: { x: 700, y: 500 },
-    end: { x: 65, y: 50 },
-    finalRotate: -5,
-  },
-  {
-    label: "BEST\nRATES",
-    sub: "Merchants compete for your trade",
-    image:
-      "https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=300&h=300&fit=crop&q=80",
-    size: "w-44 h-56 sm:w-52 sm:h-64 lg:w-56 lg:h-72",
+    label: "ONCHAIN",
+    type: "onchain",
+    size: "w-52 h-64 sm:w-60 sm:h-72 lg:w-64 lg:h-80",
     glow: "rgba(139,92,246,0.15)",
-    start: { x: 0, y: -600 },
-    end: { x: 5, y: 5 },
-    finalRotate: 2,
+    bgColor: "linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)",
+    textColor: "#ffffff",
+  },
+  {
+    label: "BILLS",
+    type: "default",
+    size: "w-52 h-60 sm:w-60 sm:h-72 lg:w-64 lg:h-80",
+    glow: "rgba(251,146,60,0.15)",
+    bgColor: "linear-gradient(135deg, #fb923c 0%, #f97316 100%)",
+    textColor: "#ffffff",
+    icon: "⚡",
+    iconBg: "rgba(255,255,255,0.2)",
+    subtitle: "ELECTRIC BILL",
+    mainText: "$145",
+    secondaryText: "Due today",
+    footer: "Pay Now",
+    footerBg: "rgba(255,255,255,0.2)",
+    footerColor: "#ffffff",
+  },
+  {
+    label: "MERCHANT",
+    type: "default",
+    size: "w-52 h-60 sm:w-60 sm:h-72 lg:w-64 lg:h-80",
+    glow: "rgba(99,102,241,0.15)",
+    bgColor: "rgba(255, 255, 255, 0.98)",
+    textColor: "#1e293b",
+    icon: "🏪",
+    iconBg: "rgba(99,102,241,0.1)",
+    subtitle: "BEST RATE",
+    mainText: "0.99%",
+    secondaryText: "Processing fee",
+    footer: "Accept",
+    footerBg: "#6366f1",
+    footerColor: "#ffffff",
   },
 ];
 
@@ -92,136 +100,78 @@ export default function DashboardShowcaseSection() {
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    // CRITICAL: "start center" means progress=0 when section top
-    // reaches viewport center. The sticky container physically
-    // scrolls through the viewport before engaging.
-    // Sticky engages at ~36% progress (50vh / 140vh total scroll).
-    offset: ["start center", "end end"],
+    // Smoother, lighter scroll range
+    offset: ["start start", "end end"],
   });
 
-  // ── Heading transforms ─────────────────────────────
-  // NO y transform. Zero. None.
-  // Heading vertical position = CSS only:
-  //   Before sticky: container scrolls naturally → heading moves with page
-  //   After sticky:  container pinned at top:0 → heading locked at center
-  //
-  // Framer only controls scale + opacity (after lock at ~0.36):
-  // Scale: 1.15 → 0.75 = dramatic 35% shrink as cards pile on
+  // ── Heading transforms - Smoother, lighter animations ─────────────────────────────
+  // Scale: Gentler transition for smoother feel
   const headingScale = useTransform(
     scrollYProgress,
-    [0, 0.36, 0.85, 1],
-    [1.9, 1.3, 0.75, 0.75],
+    [0, 0.2, 0.7, 1],
+    [1.5, 1.2, 0.85, 0.85],
   );
-  // Opacity: 1 → 0.15 = heading nearly invisible behind overlapping cards
+  // Opacity: Lighter fade for better visibility
   const headingOpacity = useTransform(
     scrollYProgress,
-    [0, 0.36, 0.85, 1],
-    [1, 1, 0.15, 0.15],
+    [0, 0.2, 0.7, 1],
+    [1, 1, 0.3, 0.3],
   );
 
-  // ── Card 0 · top-left → overlaps left side of heading ──
-  const c0x = useTransform(
-    scrollYProgress,
-    [0, 0.42, 0.85, 1],
-    [-700, -700, -70, -70],
-  );
-  const c0y = useTransform(
-    scrollYProgress,
-    [0, 0.42, 0.85, 1],
-    [-500, -500, -30, -30],
-  );
-  const c0o = useTransform(scrollYProgress, [0, 0.42, 0.7, 1], [0, 0, 1, 1]);
-  const c0s = useTransform(
-    scrollYProgress,
-    [0, 0.42, 0.85, 1],
-    [0.9, 0.9, 1, 1],
-  );
-  const c0r = useTransform(scrollYProgress, [0, 0.42, 0.85, 1], [0, 0, -6, -6]);
+  // ── Card animations - Staggered, organic floating from spatial depths ──
+  // Inspired by premium fintech sites but smoother
 
-  // ── Card 1 · top-right → overlaps right side of heading ──
-  const c1x = useTransform(
-    scrollYProgress,
-    [0, 0.42, 0.85, 1],
-    [700, 700, 80, 80],
-  );
-  const c1y = useTransform(
-    scrollYProgress,
-    [0, 0.42, 0.85, 1],
-    [-500, -500, -20, -20],
-  );
-  const c1o = useTransform(scrollYProgress, [0, 0.44, 0.72, 1], [0, 0, 1, 1]);
-  const c1s = useTransform(
-    scrollYProgress,
-    [0, 0.42, 0.85, 1],
-    [0.9, 0.9, 1, 1],
-  );
-  const c1r = useTransform(scrollYProgress, [0, 0.42, 0.85, 1], [0, 0, 5, 5]);
+  // Card 0 - Top-left, arrives first
+  const c0x = useTransform(scrollYProgress, [0, 0.25, 0.65, 1], [-700, -700, -70, -70]);
+  const c0y = useTransform(scrollYProgress, [0, 0.25, 0.65, 1], [-500, -500, -30, -30]);
+  const c0o = useTransform(scrollYProgress, [0, 0.25, 0.55, 1], [0, 0, 1, 1]);
+  const c0s = useTransform(scrollYProgress, [0, 0.25, 0.65, 1], [0.85, 0.85, 1, 1]);
+  const c0r = useTransform(scrollYProgress, [0, 0.25, 0.65, 1], [-8, -8, -6, -6]);
 
-  // ── Card 2 · bottom-left → overlaps CTA left ──
-  const c2x = useTransform(
-    scrollYProgress,
-    [0, 0.42, 0.85, 1],
-    [-700, -700, -55, -55],
-  );
-  const c2y = useTransform(
-    scrollYProgress,
-    [0, 0.42, 0.85, 1],
-    [500, 500, 45, 45],
-  );
-  const c2o = useTransform(scrollYProgress, [0, 0.46, 0.74, 1], [0, 0, 1, 1]);
-  const c2s = useTransform(
-    scrollYProgress,
-    [0, 0.42, 0.85, 1],
-    [0.9, 0.9, 1, 1],
-  );
-  const c2r = useTransform(scrollYProgress, [0, 0.42, 0.85, 1], [0, 0, 4, 4]);
+  // Card 1 - Top-right, staggered entry
+  const c1x = useTransform(scrollYProgress, [0, 0.28, 0.68, 1], [700, 700, 80, 80]);
+  const c1y = useTransform(scrollYProgress, [0, 0.28, 0.68, 1], [-500, -500, -20, -20]);
+  const c1o = useTransform(scrollYProgress, [0, 0.28, 0.58, 1], [0, 0, 1, 1]);
+  const c1s = useTransform(scrollYProgress, [0, 0.28, 0.68, 1], [0.9, 0.9, 1, 1]);
+  const c1r = useTransform(scrollYProgress, [0, 0.28, 0.68, 1], [8, 8, 5, 5]);
 
-  // ── Card 3 · bottom-right → overlaps CTA right ──
-  const c3x = useTransform(
-    scrollYProgress,
-    [0, 0.42, 0.85, 1],
-    [700, 700, 65, 65],
-  );
-  const c3y = useTransform(
-    scrollYProgress,
-    [0, 0.42, 0.85, 1],
-    [500, 500, 50, 50],
-  );
-  const c3o = useTransform(scrollYProgress, [0, 0.48, 0.76, 1], [0, 0, 1, 1]);
-  const c3s = useTransform(
-    scrollYProgress,
-    [0, 0.42, 0.85, 1],
-    [0.9, 0.9, 1, 1],
-  );
-  const c3r = useTransform(scrollYProgress, [0, 0.42, 0.85, 1], [0, 0, -5, -5]);
+  // Card 2 - Bottom-left, arrives later for depth
+  const c2x = useTransform(scrollYProgress, [0, 0.31, 0.71, 1], [-700, -700, -55, -55]);
+  const c2y = useTransform(scrollYProgress, [0, 0.31, 0.71, 1], [500, 500, 45, 45]);
+  const c2o = useTransform(scrollYProgress, [0, 0.31, 0.61, 1], [0, 0, 1, 1]);
+  const c2s = useTransform(scrollYProgress, [0, 0.31, 0.71, 1], [0.88, 0.88, 1, 1]);
+  const c2r = useTransform(scrollYProgress, [0, 0.31, 0.71, 1], [6, 6, 4, 4]);
 
-  // ── Card 4 · dead center → covers heading directly (topmost) ──
-  const c4x = useTransform(scrollYProgress, [0, 0.42, 0.85, 1], [0, 0, 5, 5]);
-  const c4y = useTransform(
-    scrollYProgress,
-    [0, 0.42, 0.85, 1],
-    [-600, -600, 5, 5],
-  );
-  const c4o = useTransform(scrollYProgress, [0, 0.43, 0.71, 1], [0, 0, 1, 1]);
-  const c4s = useTransform(
-    scrollYProgress,
-    [0, 0.42, 0.85, 1],
-    [0.9, 0.9, 1, 1],
-  );
-  const c4r = useTransform(scrollYProgress, [0, 0.42, 0.85, 1], [0, 0, 2, 2]);
+  // Card 3 - Bottom-right
+  const c3x = useTransform(scrollYProgress, [0, 0.34, 0.74, 1], [700, 700, 65, 65]);
+  const c3y = useTransform(scrollYProgress, [0, 0.34, 0.74, 1], [500, 500, 50, 50]);
+  const c3o = useTransform(scrollYProgress, [0, 0.34, 0.64, 1], [0, 0, 1, 1]);
+  const c3s = useTransform(scrollYProgress, [0, 0.34, 0.74, 1], [0.92, 0.92, 1, 1]);
+  const c3r = useTransform(scrollYProgress, [0, 0.34, 0.74, 1], [-7, -7, -5, -5]);
 
-  const transforms = [
-    { x: c0x, y: c0y, opacity: c0o, scale: c0s, rotate: c0r },
-    { x: c1x, y: c1y, opacity: c1o, scale: c1s, rotate: c1r },
-    { x: c2x, y: c2y, opacity: c2o, scale: c2s, rotate: c2r },
-    { x: c3x, y: c3y, opacity: c3o, scale: c3s, rotate: c3r },
-    { x: c4x, y: c4y, opacity: c4o, scale: c4s, rotate: c4r },
-  ];
+  // Card 4 - Center, arrives last (hero card)
+  const c4x = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 0, 5, 5]);
+  const c4y = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [-600, -600, 5, 5]);
+  const c4o = useTransform(scrollYProgress, [0, 0.3, 0.6, 1], [0, 0, 1, 1]);
+  const c4s = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.8, 0.8, 1, 1]);
+  const c4r = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 0, 2, 2]);
+
+  const transforms = useMemo(
+    () => [
+      { x: c0x, y: c0y, opacity: c0o, scale: c0s, rotate: c0r },
+      { x: c1x, y: c1y, opacity: c1o, scale: c1s, rotate: c1r },
+      { x: c2x, y: c2y, opacity: c2o, scale: c2s, rotate: c2r },
+      { x: c3x, y: c3y, opacity: c3o, scale: c3s, rotate: c3r },
+      { x: c4x, y: c4y, opacity: c4o, scale: c4s, rotate: c4r },
+    ],
+    [c0x, c0y, c0o, c0s, c0r, c1x, c1y, c1o, c1s, c1r, c2x, c2y, c2o, c2s, c2r, c3x, c3y, c3o, c3s, c3r, c4x, c4y, c4o, c4s, c4r]
+  );
 
   return (
     <section
       ref={sectionRef}
-      className="relative h-[190vh] bg-white dark:bg-black"
+      className="relative h-[140vh] bg-white dark:bg-black"
+      style={{ contain: "paint", touchAction: "pan-y" }}
     >
       {/*
         Sticky viewport — the KEY to the entire effect.
@@ -231,7 +181,7 @@ export default function DashboardShowcaseSection() {
           Everything inside FREEZES. Heading locked at center.
         - Stays stuck for 90vh of scroll (190vh section - 100vh container).
       */}
-      <div className="sticky top-0 h-screen overflow-hidden">
+      <div className="sticky top-0 h-screen overflow-hidden" style={{ transform: "translate3d(0, 0, 0)" }}>
         {/* ── Desktop cards — z-20, ABOVE heading for overlap depth ── */}
         <div className="absolute inset-0 z-20 hidden sm:flex items-center justify-center pointer-events-none">
           {floatingCards.map((card, index) => (
@@ -245,30 +195,136 @@ export default function DashboardShowcaseSection() {
                 scale: transforms[index].scale,
                 rotate: transforms[index].rotate,
                 zIndex: index === 4 ? 25 : 20 - index,
+                willChange: "transform, opacity",
               }}
             >
               {/* Subtle glow */}
               <div
-                className="absolute -inset-4 rounded-3xl blur-2xl opacity-50"
+                className="absolute -inset-4 rounded-3xl blur-2xl opacity-40"
                 style={{ background: card.glow }}
               />
 
-              {/* Card face */}
-              <div className="relative w-full h-full rounded-2xl overflow-hidden border border-white/[0.10] shadow-[0_12px_48px_-8px_rgba(0,0,0,0.5)]">
-                <img
-                  src={card.image}
-                  alt=""
-                  className="absolute inset-0 w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/5" />
-                <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <span className="block text-xs sm:text-sm font-extrabold text-white uppercase tracking-[0.15em] leading-tight whitespace-pre-line">
-                    {card.label}
-                  </span>
-                  <span className="block text-[10px] sm:text-xs text-white/50 mt-1 font-semibold tracking-wide">
-                    {card.sub}
-                  </span>
-                </div>
+              {/* Custom UI Card */}
+              <div
+                className="relative w-full h-full rounded-2xl overflow-hidden shadow-[0_12px_48px_-8px_rgba(0,0,0,0.4)] transition-shadow duration-300"
+                style={{
+                  backdropFilter: "blur(20px)",
+                  background: card.bgColor || "rgba(255, 255, 255, 0.95)"
+                }}
+              >
+                {card.type === "onchain" ? (
+                  // Onchain Transaction Card
+                  <div className="p-5 h-full flex flex-col">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-2">
+                        <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-lg">
+                          ⛓️
+                        </div>
+                        <div>
+                          <div className="text-white/60 text-[10px] font-bold">ONCHAIN</div>
+                          <div className="text-white text-xs font-bold">TX SETTLED</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex-1 flex flex-col justify-center space-y-3">
+                      <div className="bg-white/15 rounded-xl p-3">
+                        <div className="text-white/60 text-[10px] font-bold mb-2">TRANSACTION</div>
+                        <div className="text-white text-xl sm:text-2xl font-bold mb-1">$2,340</div>
+                        <div className="flex items-center gap-2">
+                          <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></div>
+                          <span className="text-white/70 text-[10px] font-semibold">Confirmed</span>
+                        </div>
+                      </div>
+
+                      <div className="bg-white/15 rounded-xl p-3">
+                        <div className="text-white/60 text-[10px] font-bold mb-1">BLOCK</div>
+                        <div className="text-white text-sm font-mono font-bold">8,742,891</div>
+                      </div>
+                    </div>
+
+                    <div className="mt-3 bg-white/20 rounded-xl py-2.5 px-4 text-center">
+                      <span className="text-white text-xs font-bold">View on Explorer</span>
+                    </div>
+                  </div>
+                ) : card.type === "app" ? (
+                  // Special App Interface Card
+                  <div className="p-5 h-full flex flex-col">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-xl">
+                        💳
+                      </div>
+                      <div className="text-white/60 text-xs font-semibold">BLIP</div>
+                    </div>
+
+                    <div className="flex-1 flex flex-col justify-center space-y-4">
+                      <div className="bg-white/10 rounded-xl p-3 backdrop-blur-sm">
+                        <div className="text-white/60 text-[10px] font-bold mb-1">TOTAL BALANCE</div>
+                        <div className="text-white text-2xl sm:text-3xl font-bold">$12,847</div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-2">
+                        <div className="bg-white/10 rounded-lg p-2.5 backdrop-blur-sm">
+                          <div className="text-white/60 text-[9px] font-bold mb-1">SENT</div>
+                          <div className="text-white text-sm font-bold">$8.2K</div>
+                        </div>
+                        <div className="bg-white/10 rounded-lg p-2.5 backdrop-blur-sm">
+                          <div className="text-white/60 text-[9px] font-bold mb-1">RECEIVED</div>
+                          <div className="text-white text-sm font-bold">$4.6K</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 bg-white rounded-xl py-2.5 px-4 text-center">
+                      <span className="text-indigo-900 text-xs font-bold">Open App</span>
+                    </div>
+                  </div>
+                ) : (
+                  // Default Card
+                  <div className="p-5 h-full flex flex-col justify-between">
+                    {/* Card Icon/Badge */}
+                    {card.icon && (
+                      <div className="flex items-center gap-2 mb-4">
+                        <div
+                          className="w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold"
+                          style={{ background: card.iconBg }}
+                        >
+                          {card.icon}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Main Content */}
+                    <div className="flex-1">
+                      <p className="text-xs sm:text-sm font-bold opacity-60 mb-2 tracking-wider" style={{ color: card.textColor || "#000" }}>
+                        {card.subtitle}
+                      </p>
+                      <p className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-2 leading-tight" style={{ color: card.textColor || "#000" }}>
+                        {card.mainText}
+                      </p>
+                      {card.secondaryText && (
+                        <p className="text-sm sm:text-base font-semibold opacity-80" style={{ color: card.textColor || "#000" }}>
+                          {card.secondaryText}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Footer/Action */}
+                    {card.footer && (
+                      <div className="mt-4">
+                        <div
+                          className="text-xs sm:text-sm font-bold px-4 py-3 rounded-xl inline-block"
+                          style={{
+                            background: card.footerBg || "rgba(0,0,0,0.1)",
+                            color: card.footerColor || "#000"
+                          }}
+                        >
+                          {card.footer}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             </motion.div>
           ))}
@@ -283,6 +339,7 @@ export default function DashboardShowcaseSection() {
             style={{
               scale: headingScale,
               opacity: headingOpacity,
+              willChange: "transform, opacity",
             }}
           >
             <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-semibold tracking-tight leading-[0.95] text-black dark:text-white">
