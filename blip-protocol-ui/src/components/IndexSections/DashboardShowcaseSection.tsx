@@ -109,106 +109,106 @@ export default function DashboardShowcaseSection() {
   // Scale: 1.15 → 0.75 = dramatic 35% shrink as cards pile on
   const headingScale = useTransform(
     scrollYProgress,
-    [0, 0.36, 0.95, 1],
+    [0, 0.36, 0.85, 1],
     [1.9, 1.3, 0.75, 0.75],
   );
   // Opacity: 1 → 0.15 = heading nearly invisible behind overlapping cards
   const headingOpacity = useTransform(
     scrollYProgress,
-    [0, 0.36, 0.95, 1],
+    [0, 0.36, 0.85, 1],
     [1, 1, 0.15, 0.15],
   );
 
   // ── Card 0 · top-left → overlaps left side of heading ──
   const c0x = useTransform(
     scrollYProgress,
-    [0, 0.42, 0.95, 1],
+    [0, 0.42, 0.85, 1],
     [-700, -700, -70, -70],
   );
   const c0y = useTransform(
     scrollYProgress,
-    [0, 0.42, 0.95, 1],
+    [0, 0.42, 0.85, 1],
     [-500, -500, -30, -30],
   );
   const c0o = useTransform(scrollYProgress, [0, 0.42, 0.7, 1], [0, 0, 1, 1]);
   const c0s = useTransform(
     scrollYProgress,
-    [0, 0.42, 0.95, 1],
+    [0, 0.42, 0.85, 1],
     [0.9, 0.9, 1, 1],
   );
-  const c0r = useTransform(scrollYProgress, [0, 0.42, 0.95, 1], [0, 0, -6, -6]);
+  const c0r = useTransform(scrollYProgress, [0, 0.42, 0.85, 1], [0, 0, -6, -6]);
 
   // ── Card 1 · top-right → overlaps right side of heading ──
   const c1x = useTransform(
     scrollYProgress,
-    [0, 0.42, 0.95, 1],
+    [0, 0.42, 0.85, 1],
     [700, 700, 80, 80],
   );
   const c1y = useTransform(
     scrollYProgress,
-    [0, 0.42, 0.95, 1],
+    [0, 0.42, 0.85, 1],
     [-500, -500, -20, -20],
   );
   const c1o = useTransform(scrollYProgress, [0, 0.44, 0.72, 1], [0, 0, 1, 1]);
   const c1s = useTransform(
     scrollYProgress,
-    [0, 0.42, 0.95, 1],
+    [0, 0.42, 0.85, 1],
     [0.9, 0.9, 1, 1],
   );
-  const c1r = useTransform(scrollYProgress, [0, 0.42, 0.95, 1], [0, 0, 5, 5]);
+  const c1r = useTransform(scrollYProgress, [0, 0.42, 0.85, 1], [0, 0, 5, 5]);
 
   // ── Card 2 · bottom-left → overlaps CTA left ──
   const c2x = useTransform(
     scrollYProgress,
-    [0, 0.42, 0.95, 1],
+    [0, 0.42, 0.85, 1],
     [-700, -700, -55, -55],
   );
   const c2y = useTransform(
     scrollYProgress,
-    [0, 0.42, 0.95, 1],
+    [0, 0.42, 0.85, 1],
     [500, 500, 45, 45],
   );
   const c2o = useTransform(scrollYProgress, [0, 0.46, 0.74, 1], [0, 0, 1, 1]);
   const c2s = useTransform(
     scrollYProgress,
-    [0, 0.42, 0.95, 1],
+    [0, 0.42, 0.85, 1],
     [0.9, 0.9, 1, 1],
   );
-  const c2r = useTransform(scrollYProgress, [0, 0.42, 0.95, 1], [0, 0, 4, 4]);
+  const c2r = useTransform(scrollYProgress, [0, 0.42, 0.85, 1], [0, 0, 4, 4]);
 
   // ── Card 3 · bottom-right → overlaps CTA right ──
   const c3x = useTransform(
     scrollYProgress,
-    [0, 0.42, 0.95, 1],
+    [0, 0.42, 0.85, 1],
     [700, 700, 65, 65],
   );
   const c3y = useTransform(
     scrollYProgress,
-    [0, 0.42, 0.95, 1],
+    [0, 0.42, 0.85, 1],
     [500, 500, 50, 50],
   );
   const c3o = useTransform(scrollYProgress, [0, 0.48, 0.76, 1], [0, 0, 1, 1]);
   const c3s = useTransform(
     scrollYProgress,
-    [0, 0.42, 0.95, 1],
+    [0, 0.42, 0.85, 1],
     [0.9, 0.9, 1, 1],
   );
-  const c3r = useTransform(scrollYProgress, [0, 0.42, 0.95, 1], [0, 0, -5, -5]);
+  const c3r = useTransform(scrollYProgress, [0, 0.42, 0.85, 1], [0, 0, -5, -5]);
 
   // ── Card 4 · dead center → covers heading directly (topmost) ──
-  const c4x = useTransform(scrollYProgress, [0, 0.42, 0.95, 1], [0, 0, 5, 5]);
+  const c4x = useTransform(scrollYProgress, [0, 0.42, 0.85, 1], [0, 0, 5, 5]);
   const c4y = useTransform(
     scrollYProgress,
-    [0, 0.42, 0.95, 1],
+    [0, 0.42, 0.85, 1],
     [-600, -600, 5, 5],
   );
   const c4o = useTransform(scrollYProgress, [0, 0.43, 0.71, 1], [0, 0, 1, 1]);
   const c4s = useTransform(
     scrollYProgress,
-    [0, 0.42, 0.95, 1],
+    [0, 0.42, 0.85, 1],
     [0.9, 0.9, 1, 1],
   );
-  const c4r = useTransform(scrollYProgress, [0, 0.42, 0.95, 1], [0, 0, 2, 2]);
+  const c4r = useTransform(scrollYProgress, [0, 0.42, 0.85, 1], [0, 0, 2, 2]);
 
   const transforms = [
     { x: c0x, y: c0y, opacity: c0o, scale: c0s, rotate: c0r },
@@ -299,12 +299,11 @@ export default function DashboardShowcaseSection() {
               </div>
 
               <Link
-                to="/waitlist"
-                className="group relative overflow-hidden inline-flex items-center justify-center gap-3 w-[240px] h-[56px] rounded-full bg-black dark:bg-white text-white dark:text-black text-base font-semibold transition-all duration-300"
+                to="/send"
+                className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-black text-white dark:bg-white dark:text-black text-sm font-semibold hover:bg-neutral-800 dark:hover:bg-neutral-200 transition"
               >
-                <span className="absolute inset-0 bg-white/20 dark:bg-black/10 rounded-full scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-out" />
-                <span className="relative z-10">Get Started</span>
-                <ArrowRight className="relative z-10 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                Get started
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
               </Link>
             </div>
           </motion.div>

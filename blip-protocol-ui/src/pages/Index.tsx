@@ -41,28 +41,28 @@ const Index = () => {
       <div className="bg-white dark:bg-transparent text-black dark:text-white relative overflow-x-clip">
         {/* Interactive merchant dashboard background */}
         <InteractiveBackground />
-      <div className="bg-white dark:bg-transparent text-black dark:text-white relative">
-        {/* Sections with overflow-x-hidden */}
-        <div className="overflow-x-hidden">
-          {/* Interactive merchant dashboard background */}
-          <InteractiveBackground />
+        <div className="bg-white dark:bg-transparent text-black dark:text-white relative">
+          {/* Sections with overflow-x-hidden */}
+          <div className="overflow-x-clip">
+            {/* Interactive merchant dashboard background */}
+            <InteractiveBackground />
 
-          {/* Grain overlay for premium film texture */}
-          <div className="grain-overlay" />
+            {/* Grain overlay for premium film texture */}
+            <div className="grain-overlay" />
 
-          <CinematicHero />
-          <DashboardShowcaseSection />
-          <LockedAndSecuredSection />
-          <InstantBiddingSection />
-          <BlipscanExplorerSection />
-          <AbstractVisual />
-          <UAESection />
-          <CashbackBanner />
-          <ProblemSection />
-          <ProtocolSection />
-          <FeatureStrip />
-          <MerchantDashboardSection />
-        </div>
+            <CinematicHero />
+            <DashboardShowcaseSection />
+            <LockedAndSecuredSection />
+            <InstantBiddingSection />
+            <BlipscanExplorerSection />
+            <AbstractVisual />
+            <UAESection />
+            <CashbackBanner />
+            <ProblemSection />
+            <ProtocolSection />
+            <FeatureStrip />
+            <MerchantDashboardSection />
+          </div>
         </div>
 
         {/* HowItWorksSection isolated - no overflow-x-hidden parent */}

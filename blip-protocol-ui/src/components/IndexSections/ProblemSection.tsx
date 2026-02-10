@@ -143,7 +143,7 @@ const ProblemSection = () => {
                   className={`ml-20 md:ml-0 ${i % 2 === 0 ? "md:text-right md:pr-16" : "md:col-start-2 md:pl-16 md:text-left"}`}
                 >
                   <div
-                    className={`inline-block p-6 rounded-2xl border backdrop-blur-xl ${problem.highlight ? "bg-white/70 dark:bg-white/[0.06] border-black dark:border-white shadow-[0_8px_40px_-8px_rgba(0,0,0,0.12)] dark:shadow-none" : "bg-white/60 dark:bg-white/[0.03] border-black/[0.08] dark:border-white/[0.06] shadow-[0_4px_30px_-8px_rgba(0,0,0,0.08)] dark:shadow-none"}`}
+                    className={`w-full max-w-[380px] p-6 rounded-2xl border backdrop-blur-xl ${problem.highlight ? "bg-white/70 dark:bg-white/[0.06] border-black dark:border-white shadow-[0_8px_40px_-8px_rgba(0,0,0,0.12)] dark:shadow-none" : "bg-white/60 dark:bg-white/[0.03] border-black/[0.08] dark:border-white/[0.06] shadow-[0_4px_30px_-8px_rgba(0,0,0,0.08)] dark:shadow-none"}`}
                   >
                     <div
                       className={`text-[10px] uppercase tracking-[0.3em] ${problem.highlight ? "text-black dark:text-white/60" : "text-black dark:text-white/40"} font-semibold mb-2`}

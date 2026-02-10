@@ -131,17 +131,7 @@ export const Footer = () => {
           {/* Resources */}
           <FooterColumn title="Resources">
             <li>
-              <a
-                href="/whitepaper.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => sounds.click()}
-                onMouseEnter={() => sounds.hover()}
-                className="group flex items-center gap-1 text-[13px] text-gray-500 dark:text-[#71717A] hover:text-gray-700 dark:hover:text-[#A1A1AA] transition-colors"
-              >
-                Whitepaper
-                <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </a>
+              <FooterLink to="/whitepaper">Whitepaper</FooterLink>
             </li>
             <li>
               <FooterLink to="/blog">Blog</FooterLink>

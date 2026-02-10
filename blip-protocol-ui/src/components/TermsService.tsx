@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import SEO from "./SEO";
 
 const sections = [
@@ -17,8 +17,47 @@ const sections = [
 ];
 
 const TermsService = () => {
+  const [activeSection, setActiveSection] = useState("");
+
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: "-20% 0px -70% 0px",
+      threshold: 0,
+    };
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(
+      observerCallback,
+      observerOptions
+    );
+
+    sections.forEach((section) => {
+      const element = document.getElementById(section.id);
+      if (element) {
+        observer.observe(element);
+      }
+    });
+
+    return () => {
+      sections.forEach((section) => {
+        const element = document.getElementById(section.id);
+        if (element) {
+          observer.unobserve(element);
+        }
+      });
+    };
   }, []);
 
   const scrollToSection = (id: string) => {
@@ -61,7 +100,11 @@ const TermsService = () => {
                       <button
                         key={section.id}
                         onClick={() => scrollToSection(section.id)}
-                        className="block text-sm text-gray-500 dark:text-gray-400 hover:text-white transition-colors text-left"
+                        className={`block text-sm transition-colors text-left ${
+                          activeSection === section.id
+                            ? "text-black dark:text-white font-semibold"
+                            : "text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white"
+                        }`}
                       >
                         {index + 1}. {section.title}
                       </button>
