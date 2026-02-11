@@ -91,7 +91,7 @@ const CinematicHero = () => {
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           className="font-display font-bold text-black dark:text-white leading-[0.95] tracking-[-0.04em] text-[clamp(38px,8vw,96px)] mb-8"
         >
-          The settlement layer
+          test The settlement layer
           <br />
           <span className="text-black/80 dark:text-white/50">
             for{" "}
