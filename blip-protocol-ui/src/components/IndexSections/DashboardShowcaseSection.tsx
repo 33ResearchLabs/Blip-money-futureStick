@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useRef, useMemo } from "react";
@@ -104,16 +104,23 @@ export default function DashboardShowcaseSection() {
     offset: ["start start", "end end"],
   });
 
+  // Add smooth spring physics to scroll progress
+  const smoothScrollProgress = useSpring(scrollYProgress, {
+    stiffness: 50,
+    damping: 20,
+    restDelta: 0.001,
+  });
+
   // ── Heading transforms - Smoother, lighter animations ─────────────────────────────
   // Scale: Gentler transition for smoother feel
   const headingScale = useTransform(
-    scrollYProgress,
+    smoothScrollProgress,
     [0, 0.2, 0.7, 1],
     [1.5, 1.2, 0.85, 0.85],
   );
   // Opacity: Lighter fade for better visibility
   const headingOpacity = useTransform(
-    scrollYProgress,
+    smoothScrollProgress,
     [0, 0.2, 0.7, 1],
     [1, 1, 0.3, 0.3],
   );
@@ -123,98 +130,138 @@ export default function DashboardShowcaseSection() {
 
   // Card 0 - Top-left, arrives first
   const c0x = useTransform(
-    scrollYProgress,
+    smoothScrollProgress,
     [0, 0.25, 0.65, 1],
     [-700, -700, -70, -70],
   );
   const c0y = useTransform(
-    scrollYProgress,
+    smoothScrollProgress,
     [0, 0.25, 0.65, 1],
     [-500, -500, -30, -30],
   );
-  const c0o = useTransform(scrollYProgress, [0, 0.25, 0.55, 1], [0, 0, 1, 1]);
+  const c0o = useTransform(
+    smoothScrollProgress,
+    [0, 0.25, 0.55, 1],
+    [0, 0, 1, 1],
+  );
   const c0s = useTransform(
-    scrollYProgress,
+    smoothScrollProgress,
     [0, 0.25, 0.65, 1],
     [0.85, 0.85, 1, 1],
   );
   const c0r = useTransform(
-    scrollYProgress,
+    smoothScrollProgress,
     [0, 0.25, 0.65, 1],
     [-8, -8, -6, -6],
   );
 
   // Card 1 - Top-right, staggered entry
   const c1x = useTransform(
-    scrollYProgress,
+    smoothScrollProgress,
     [0, 0.28, 0.68, 1],
     [700, 700, 80, 80],
   );
   const c1y = useTransform(
-    scrollYProgress,
+    smoothScrollProgress,
     [0, 0.28, 0.68, 1],
     [-500, -500, -20, -20],
   );
-  const c1o = useTransform(scrollYProgress, [0, 0.28, 0.58, 1], [0, 0, 1, 1]);
+  const c1o = useTransform(
+    smoothScrollProgress,
+    [0, 0.28, 0.58, 1],
+    [0, 0, 1, 1],
+  );
   const c1s = useTransform(
-    scrollYProgress,
+    smoothScrollProgress,
     [0, 0.28, 0.68, 1],
     [0.9, 0.9, 1, 1],
   );
-  const c1r = useTransform(scrollYProgress, [0, 0.28, 0.68, 1], [8, 8, 5, 5]);
+  const c1r = useTransform(
+    smoothScrollProgress,
+    [0, 0.28, 0.68, 1],
+    [8, 8, 5, 5],
+  );
 
   // Card 2 - Bottom-left, arrives later for depth
   const c2x = useTransform(
-    scrollYProgress,
+    smoothScrollProgress,
     [0, 0.31, 0.71, 1],
     [-700, -700, -55, -55],
   );
   const c2y = useTransform(
-    scrollYProgress,
+    smoothScrollProgress,
     [0, 0.31, 0.71, 1],
     [500, 500, 45, 45],
   );
-  const c2o = useTransform(scrollYProgress, [0, 0.31, 0.61, 1], [0, 0, 1, 1]);
+  const c2o = useTransform(
+    smoothScrollProgress,
+    [0, 0.31, 0.61, 1],
+    [0, 0, 1, 1],
+  );
   const c2s = useTransform(
-    scrollYProgress,
+    smoothScrollProgress,
     [0, 0.31, 0.71, 1],
     [0.88, 0.88, 1, 1],
   );
-  const c2r = useTransform(scrollYProgress, [0, 0.31, 0.71, 1], [6, 6, 4, 4]);
+  const c2r = useTransform(
+    smoothScrollProgress,
+    [0, 0.31, 0.71, 1],
+    [6, 6, 4, 4],
+  );
 
   // Card 3 - Bottom-right
   const c3x = useTransform(
-    scrollYProgress,
+    smoothScrollProgress,
     [0, 0.34, 0.74, 1],
     [700, 700, 65, 65],
   );
   const c3y = useTransform(
-    scrollYProgress,
+    smoothScrollProgress,
     [0, 0.34, 0.74, 1],
     [500, 500, 50, 50],
   );
-  const c3o = useTransform(scrollYProgress, [0, 0.34, 0.64, 1], [0, 0, 1, 1]);
+  const c3o = useTransform(
+    smoothScrollProgress,
+    [0, 0.34, 0.64, 1],
+    [0, 0, 1, 1],
+  );
   const c3s = useTransform(
-    scrollYProgress,
+    smoothScrollProgress,
     [0, 0.34, 0.74, 1],
     [0.92, 0.92, 1, 1],
   );
   const c3r = useTransform(
-    scrollYProgress,
+    smoothScrollProgress,
     [0, 0.34, 0.74, 1],
     [-7, -7, -5, -5],
   );
 
   // Card 4 - Center, arrives last (hero card)
-  const c4x = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 0, 5, 5]);
+  const c4x = useTransform(
+    smoothScrollProgress,
+    [0, 0.3, 0.7, 1],
+    [0, 0, 5, 5],
+  );
   const c4y = useTransform(
-    scrollYProgress,
+    smoothScrollProgress,
     [0, 0.3, 0.7, 1],
     [-600, -600, 5, 5],
   );
-  const c4o = useTransform(scrollYProgress, [0, 0.3, 0.6, 1], [0, 0, 1, 1]);
-  const c4s = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.8, 0.8, 1, 1]);
-  const c4r = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 0, 2, 2]);
+  const c4o = useTransform(
+    smoothScrollProgress,
+    [0, 0.3, 0.6, 1],
+    [0, 0, 1, 1],
+  );
+  const c4s = useTransform(
+    smoothScrollProgress,
+    [0, 0.3, 0.7, 1],
+    [0.8, 0.8, 1, 1],
+  );
+  const c4r = useTransform(
+    smoothScrollProgress,
+    [0, 0.3, 0.7, 1],
+    [0, 0, 2, 2],
+  );
 
   const transforms = useMemo(
     () => [
@@ -280,10 +327,9 @@ export default function DashboardShowcaseSection() {
               style={{
                 x: transforms[index].x,
                 y: transforms[index].y,
-                opacity: transforms[index].opacity,
                 scale: transforms[index].scale,
                 rotate: transforms[index].rotate,
-                zIndex: index === 4 ? 25 : 20 - index,
+                opacity: transforms[index].opacity,
                 willChange: "transform, opacity",
               }}
             >

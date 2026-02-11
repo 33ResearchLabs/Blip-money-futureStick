@@ -1,5 +1,12 @@
 import React, { useRef, useState } from "react";
-import { motion, useScroll, useInView } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useInView,
+  useTransform,
+  useSpring,
+  MotionValue,
+} from "framer-motion";
 
 /* ============================================
    FAQ SECTION — Cascading Card Reveal
@@ -37,23 +44,32 @@ const TOTAL_FAQS = faqs.length;
 // Scroll timeline: 0–70% cards appear one by one | 70–100% hold
 const ITEMS_END = 0.7;
 
-// Smooth ease-out cubic
-const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
-
-// Returns 0→1 entrance progress for each card
-const getCardEntrance = (index: number, progress: number) => {
+// Smooth card entrance animation
+const useCardEntrance = (
+  index: number,
+  scrollProgress: MotionValue<number>,
+) => {
   const segmentSize = ITEMS_END / TOTAL_FAQS;
   const cardStart = index * segmentSize;
   const cardEnd = cardStart + segmentSize * 0.85;
 
-  if (progress <= cardStart) return 0;
-  if (progress >= cardEnd) return 1;
-  return (progress - cardStart) / (cardEnd - cardStart);
+  // Transform scroll progress to card entrance value
+  const entrance = useTransform(scrollProgress, [cardStart, cardEnd], [0, 1]);
+
+  // Add spring physics for smoother animation
+  const smoothEntrance = useSpring(entrance, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
+  });
+
+  return smoothEntrance;
 };
 
 const ScrollFAQ = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   const headingInView = useInView(headingRef, { once: false, margin: "-10%" });
 
@@ -62,18 +78,25 @@ const ScrollFAQ = () => {
     offset: ["start start", "end end"],
   });
 
-  const [progress, setProgress] = useState(0);
+  // Add smooth spring physics to scroll progress
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
+  });
 
   React.useEffect(() => {
-    const unsub = scrollYProgress.on("change", (v) => setProgress(v));
-    return unsub;
-  }, [scrollYProgress]);
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   return (
     <section
       ref={containerRef}
       className="relative"
-      style={{ height: "300vh" }}
+      style={{ height: isMobile ? "300vh" : "500vh" }}
     >
       {/* Sticky viewport */}
       <div className="sticky top-0 h-screen overflow-hidden">
@@ -93,46 +116,50 @@ const ScrollFAQ = () => {
               headingInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
             }
             transition={{ duration: 0.7, ease: "easeOut" }}
-            className="text-center pt-16 sm:pt-20 md:pt-24 px-6"
+            className="text-center pt-12 sm:pt-16 md:pt-20 lg:pt-24 px-4 sm:px-6"
           >
-            <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.05]">
-              Frequently Asked <span className="text-black/80 dark:text-white/50">Questions</span>
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.05]">
+              Frequently Asked{" "}
+              <span className="text-black/80 dark:text-white/50">
+                Questions
+              </span>
             </h2>
           </motion.div>
 
           {/* Cards — normal flow, no overlap */}
-          <div className="flex-1 flex items-center justify-center px-6 pb-8 overflow-y-auto">
-            <div className="w-full max-w-xl space-y-3">
+          <div className="flex-1 flex items-center justify-center px-4 sm:px-6 pb-6 sm:pb-8 mt-6 sm:mt-8 md:mt-12">
+            <div className="w-full max-w-xl space-y-2.5 sm:space-y-3">
               {faqs.map((faq, index) => {
-                const entrance = getCardEntrance(index, progress);
-                const eased = easeOut(entrance);
+                const smoothEntrance = useCardEntrance(index, smoothProgress);
+                const opacity = useTransform(smoothEntrance, [0, 1], [0, 1]);
+                const y = useTransform(smoothEntrance, [0, 1], [30, 0]);
 
                 return (
-                  <div
+                  <motion.div
                     key={index}
                     style={{
-                      opacity: eased,
-                      transform: `translateY(${(1 - eased) * 30}px)`,
-                      pointerEvents: entrance > 0.5 ? "auto" : "none",
+                      opacity,
+                      y,
+                      willChange: "transform, opacity",
                     }}
-                    className="rounded-2xl border border-black/[0.08] dark:border-white/[0.06] bg-white/80 dark:bg-[#2a2a2a]/80 backdrop-blur-2xl p-6 sm:p-7 shadow-[0_8px_32px_rgba(0,0,0,0.15)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
+                    className="rounded-xl sm:rounded-2xl border border-black/[0.08] dark:border-white/[0.06] bg-white/80 dark:bg-[#2a2a2a]/80 backdrop-blur-2xl p-4 sm:p-6 md:p-7 shadow-[0_8px_32px_rgba(0,0,0,0.15)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
                   >
-                    <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center">
-                        <span className="text-xs font-mono text-black/50 dark:text-white/50">
+                    <div className="flex items-start gap-3 sm:gap-4">
+                      <div className="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center">
+                        <span className="text-[10px] sm:text-xs font-mono text-black/50 dark:text-white/50">
                           {String(index + 1).padStart(2, "0")}
                         </span>
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="text-base sm:text-lg font-medium text-black dark:text-white mb-2 leading-snug">
+                        <h3 className="text-sm sm:text-base md:text-lg font-medium text-black dark:text-white mb-1.5 sm:mb-2 leading-snug">
                           {faq.question}
                         </h3>
-                        <p className="text-sm sm:text-base text-black/60 dark:text-white/60 leading-relaxed">
+                        <p className="text-xs sm:text-sm md:text-base text-black/60 dark:text-white/60 leading-relaxed">
                           {faq.answer}
                         </p>
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 );
               })}
             </div>

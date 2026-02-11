@@ -76,7 +76,7 @@ const Privacy = () => {
         {/* Hero Header */}
         <div className="pt-32 pb-16 px-6">
           <div className="max-w-6xl mx-auto">
-            <h1 className="text-5xl sm:text-6xl font-bold tracking-tight italic">
+            <h1 className="text-5xl sm:text-6xl font-bold tracking-tight ">
               Privacy Policy
             </h1>
           </div>

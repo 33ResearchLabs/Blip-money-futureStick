@@ -42,13 +42,16 @@ const PhoneMockup = ({ activeSection, steps }) => (
     />
 
     {/* Phone Frame */}
-    <div className="relative z-10 w-full h-[500px] bg-black/5 dark:bg-[#0a0a0a] rounded-[3rem] p-2.5 border border-black/10 dark:border-white/10 shadow-2xl transition-all duration-300">
-      <div className="w-full h-full bg-white dark:bg-black rounded-[2.5rem] overflow-hidden relative">
+    <div className="relative z-10 w-full h-[55vh] max-h-[650px] min-h-[450px] bg-black/5 dark:bg-[#0a0a0a] rounded-[3rem] p-2.5 border border-black/10 dark:border-white/10 shadow-2xl transition-all duration-300">
+      <div
+        className="w-full h-full bg-white dark:bg-black rounded-[2.5rem] overflow-hidden relative"
+        style={{ fontSize: "clamp(10px, 1.8vh, 16px)" }}
+      >
         {/* Dynamic Island */}
         <div className="absolute top-4 left-1/2 -translate-x-1/2 w-28 h-7 bg-black rounded-full z-50" />
 
         {/* Screen Content */}
-        <div className="w-full h-full pt-12">
+        <div className="w-full h-full pt-[9vh]">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeSection}
@@ -261,7 +264,7 @@ const App = () => {
 
           {/* Content Section */}
           <div className="order-1 w-full flex items-center overflow-clip">
-            <div className="w-full relative">
+            <div className="w-full relative px-2">
               <AnimatePresence mode="wait">
                 {activeSection === 0 && (
                   <motion.section
@@ -344,7 +347,7 @@ const App = () => {
           </div>
 
           {/* RIGHT SIDE: Content Narrative */}
-          <div className="w-full lg:w-[55%] py-24 lg:py-48 space-y-72">
+          <div className="w-full lg:w-[55%] min-h-[150vh] flex flex-col lg:mt-32 justify-end space-y-72 pb-[calc(50vh-290px)]">
             {/* Section 01: Initiation */}
             <section className="content-section space-y-12">
               <div className="space-y-4">
@@ -543,7 +546,7 @@ const App = () => {
               </div>
             </section>
 
-            <div className="h-40" />
+            {/* <div className="h-40" /> */}
           </div>
         </div>
       </div>
@@ -554,16 +557,16 @@ const App = () => {
 // --- APP SCREENS ---
 
 const RequestScreen = () => (
-  <div className="p-4 pt-10 flex flex-col h-full bg-[#FAF8F5] dark:bg-black text-black dark:text-white font-sans">
+  <div className="p-4 pt-[8vh] flex flex-col h-full bg-[#FAF8F5] dark:bg-black text-black dark:text-white font-sans">
     <div className="flex justify-between items-start mb-3">
       <div>
-        <p className="text-[8px] font-semibold text-black/40 dark:text-white/30 uppercase tracking-[0.2em] mb-0.5">
+        <p className="text-[0.65em] font-semibold text-black/40 dark:text-white/30 uppercase tracking-[0.2em] mb-0.5">
           Portfolio
         </p>
-        <h3 className="text-2xl font-semibold tracking-tight text-black dark:text-white/90">
+        <h3 className="text-[2em] font-semibold tracking-tight text-black dark:text-white/90">
           24,500.00
         </h3>
-        <p className="text-[8px] text-black/60 dark:text-white/50 font-medium mt-0.5 tracking-tight italic">
+        <p className="text-[0.65em] text-black/60 dark:text-white/50 font-medium mt-0.5 tracking-tight italic">
           USDT (ERC-20)
         </p>
       </div>
@@ -575,18 +578,18 @@ const RequestScreen = () => (
     <div className="space-y-1">
       <div className="bg-white/80 dark:bg-white/[0.03] p-2.5 rounded-[2rem] border border-black/[0.06] dark:border-white/5">
         <div className="flex justify-between items-center mb-1.5">
-          <span className="text-[8px] font-semibold text-black/50 dark:text-white/30 uppercase tracking-widest">
+          <span className="text-[0.65em] font-semibold text-black/50 dark:text-white/30 uppercase tracking-widest">
             Swap
           </span>
-          <span className="text-[8px] text-black/60 dark:text-white/40 font-medium uppercase tracking-wider">
+          <span className="text-[0.65em] text-black/60 dark:text-white/40 font-medium uppercase tracking-wider">
             Sell
           </span>
         </div>
         <div className="flex justify-between items-baseline">
-          <span className="text-2xl font-semibold tracking-tight text-black dark:text-white/90">
+          <span className="text-[2em] font-semibold tracking-tight text-black dark:text-white/90">
             10,000
           </span>
-          <span className="text-[9px] font-semibold text-black/60 dark:text-white/50 tracking-widest uppercase">
+          <span className="text-[0.7em] font-semibold text-black/60 dark:text-white/50 tracking-widest uppercase">
             USDT
           </span>
         </div>
@@ -602,16 +605,18 @@ const RequestScreen = () => (
 
       <div className="bg-black dark:bg-white p-3.5 rounded-[2rem] shadow-2xl">
         <div className="flex justify-between items-center mb-1.5 text-white/60 dark:text-black/70">
-          <span className="text-[8px] font-semibold uppercase tracking-widest">
+          <span className="text-[0.65em] font-semibold uppercase tracking-widest">
             Receive
           </span>
-          <span className="text-[8px] font-medium tracking-wider">
+          <span className="text-[0.65em] font-medium tracking-wider">
             Spot_AED
           </span>
         </div>
         <div className="flex justify-between items-baseline text-white dark:text-black">
-          <span className="text-2xl font-semibold tracking-tight">36,730</span>
-          <span className="text-[9px] font-semibold opacity-60 uppercase tracking-widest font-mono italic">
+          <span className="text-[2em] font-semibold tracking-tight">
+            36,730
+          </span>
+          <span className="text-[0.7em] font-semibold opacity-60 uppercase tracking-widest font-mono italic">
             AED
           </span>
         </div>
@@ -619,14 +624,14 @@ const RequestScreen = () => (
     </div>
 
     <div className="mt-3">
-      <p className="text-[8px] font-semibold text-black/50 dark:text-white/30 uppercase tracking-widest mb-1.5">
+      <p className="text-[0.65em] font-semibold text-black/50 dark:text-white/30 uppercase tracking-widest mb-1.5">
         Destination
       </p>
       <div className="flex gap-2">
-        <div className="w-9 h-9 rounded-full bg-black/10 dark:bg-white/10 border border-black/10 dark:border-white/10 flex items-center justify-center text-[9px] font-semibold text-black dark:text-white/70">
+        <div className="w-9 h-9 rounded-full bg-black/10 dark:bg-white/10 border border-black/10 dark:border-white/10 flex items-center justify-center text-[0.7em] font-semibold text-black dark:text-white/70">
           DXB
         </div>
-        <div className="w-9 h-9 rounded-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center text-[9px] font-semibold text-black/60 dark:text-white/40">
+        <div className="w-9 h-9 rounded-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center text-[0.7em] font-semibold text-black/60 dark:text-white/40">
           AUH
         </div>
         <div className="w-9 h-9 rounded-full border border-dashed border-black/10 dark:border-white/10 flex items-center justify-center text-black/50 dark:text-white/30">
@@ -635,7 +640,7 @@ const RequestScreen = () => (
       </div>
     </div>
 
-    <div className="mt-auto mb-2.5 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-black/60 dark:text-white/50 py-2 rounded-3xl text-center font-semibold text-[8px] uppercase tracking-[0.2em] flex items-center justify-center gap-2">
+    <div className="mt-auto mb-2.5 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-black/60 dark:text-white/50 py-2 rounded-3xl text-center font-semibold text-[0.65em] uppercase tracking-[0.2em] flex items-center justify-center gap-2">
       <Lock size={9} className="text-[#ff6b35]/70" />
       Secure Authorization
     </div>
@@ -643,7 +648,7 @@ const RequestScreen = () => (
 );
 
 const MatchScreen = () => (
-  <div className="p-4 pt-16 flex flex-col h-full bg-[#FAF8F5] dark:bg-black items-center font-sans">
+  <div className="p-4 pt-[12vh] flex flex-col h-full bg-[#FAF8F5] dark:bg-black items-center font-sans">
     <div className="relative w-24 h-24 mb-4">
       <motion.div
         animate={{ rotate: 360, opacity: [0.05, 0.1, 0.05] }}
@@ -658,7 +663,7 @@ const MatchScreen = () => (
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="w-16 h-16 bg-white/80 dark:bg-white/5 backdrop-blur-xl rounded-full border border-black/10 dark:border-white/10 flex flex-col items-center justify-center shadow-2xl text-black/60 dark:text-white/50">
           <RefreshCcw size={22} className="mb-0.5" />
-          <span className="text-[6px] font-semibold tracking-[0.2em] uppercase text-black/50 dark:text-white/30">
+          <span className="text-[0.5em] font-semibold tracking-[0.2em] uppercase text-black/50 dark:text-white/30">
             Routing
           </span>
         </div>
@@ -667,10 +672,10 @@ const MatchScreen = () => (
 
     <div className="w-full space-y-1">
       <div className="flex justify-between items-baseline px-2 mb-1">
-        <h3 className="text-base font-semibold text-black dark:text-white/90 tracking-tight">
+        <h3 className="text-[1.3em] font-semibold text-black dark:text-white/90 tracking-tight">
           Liquidity
         </h3>
-        <span className="text-[7px] text-[#ff6b35]/70 font-semibold tracking-[0.2em] uppercase animate-pulse">
+        <span className="text-[0.6em] text-[#ff6b35]/70 font-semibold tracking-[0.2em] uppercase animate-pulse">
           Syncing AED
         </span>
       </div>
@@ -691,16 +696,16 @@ const MatchScreen = () => (
               className={`w-1.5 h-1.5 rounded-full ${node.active ? "bg-[#ff6b35]/70 shadow-[0_0_8px_#ff6b35]" : "bg-black/20 dark:bg-white/10"}`}
             />
             <div>
-              <p className="text-[9px] font-semibold text-black dark:text-white/70 uppercase tracking-tight">
+              <p className="text-[0.7em] font-semibold text-black dark:text-white/70 uppercase tracking-tight">
                 {node.city}
               </p>
-              <p className="text-[7px] text-black/60 dark:text-white/40 tracking-widest font-mono">
+              <p className="text-[0.6em] text-black/60 dark:text-white/40 tracking-widest font-mono">
                 RATE: {node.value}
               </p>
             </div>
           </div>
           <span
-            className={`text-[7px] font-semibold tracking-widest uppercase ${node.active ? "text-black dark:text-white/70" : "text-black/50 dark:text-white/30"}`}
+            className={`text-[0.6em] font-semibold tracking-widest uppercase ${node.active ? "text-black dark:text-white/70" : "text-black/50 dark:text-white/30"}`}
           >
             {node.active ? "Match" : "Wait"}
           </span>
@@ -709,10 +714,10 @@ const MatchScreen = () => (
     </div>
 
     <div className="mt-auto w-full p-2.5 bg-white/80 dark:bg-white/5 rounded-2xl border border-black/[0.06] dark:border-white/5 flex justify-between items-center mb-2.5">
-      <span className="text-[7px] font-semibold text-black/60 dark:text-white/40 uppercase tracking-[0.2em]">
+      <span className="text-[0.6em] font-semibold text-black/60 dark:text-white/40 uppercase tracking-[0.2em]">
         Efficiency
       </span>
-      <span className="text-[11px] font-semibold text-black dark:text-white/90 tracking-tight">
+      <span className="text-[0.9em] font-semibold text-black dark:text-white/90 tracking-tight">
         99.98%
       </span>
     </div>
@@ -720,7 +725,7 @@ const MatchScreen = () => (
 );
 
 const VerifyScreen = () => (
-  <div className="p-4 pt-20 flex flex-col h-full bg-[#FAF8F5] dark:bg-black items-center font-sans text-center">
+  <div className="p-4 pt-[15vh] flex flex-col h-full bg-[#FAF8F5] dark:bg-black items-center font-sans text-center">
     <div className="flex flex-col items-center justify-center flex-1 w-full">
       <div className="relative mb-3">
         <motion.div
@@ -733,10 +738,10 @@ const VerifyScreen = () => (
         </motion.div>
       </div>
 
-      <h3 className="text-xl font-semibold text-black dark:text-white/90 uppercase tracking-[0.1em]">
+      <h3 className="text-[1.6em] font-semibold text-black dark:text-white/90 uppercase tracking-[0.1em]">
         Settled
       </h3>
-      <p className="text-[8px] text-black/50 dark:text-white/30 font-semibold tracking-[0.3em] uppercase mt-2">
+      <p className="text-[0.65em] text-black/50 dark:text-white/30 font-semibold tracking-[0.3em] uppercase mt-2">
         LEDGER_ID: 0x9A...F21
       </p>
     </div>
@@ -745,22 +750,22 @@ const VerifyScreen = () => (
       <div className="bg-white/80 dark:bg-white/5 p-2.5 rounded-2xl border border-black/[0.06] dark:border-white/5 flex justify-between items-center">
         <div className="flex items-center gap-2">
           <Fingerprint size={12} className="text-black/60 dark:text-white/40" />
-          <span className="text-[7px] font-semibold text-black/60 dark:text-white/40 uppercase tracking-widest">
+          <span className="text-[0.6em] font-semibold text-black/60 dark:text-white/40 uppercase tracking-widest">
             Authorization
           </span>
         </div>
-        <span className="text-[7px] font-semibold text-black dark:text-white/70 tracking-widest uppercase">
+        <span className="text-[0.6em] font-semibold text-black dark:text-white/70 tracking-widest uppercase">
           Success
         </span>
       </div>
       <div className="bg-white/80 dark:bg-white/5 p-2.5 rounded-2xl border border-black/[0.06] dark:border-white/5 flex justify-between items-center">
         <div className="flex items-center gap-2">
           <Zap size={12} className="text-[#ff6b35]/70" />
-          <span className="text-[7px] font-semibold text-black/60 dark:text-white/40 uppercase tracking-widest">
+          <span className="text-[0.6em] font-semibold text-black/60 dark:text-white/40 uppercase tracking-widest">
             Settlement
           </span>
         </div>
-        <span className="text-[7px] font-semibold text-black dark:text-white/70 tracking-widest uppercase">
+        <span className="text-[0.6em] font-semibold text-black dark:text-white/70 tracking-widest uppercase">
           420MS
         </span>
       </div>

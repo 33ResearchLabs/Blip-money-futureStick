@@ -40,7 +40,7 @@ const CinematicHero = () => {
             opacity: 0.65,
             // maskImage: `radial-gradient(circle 1000px at ${mousePosition.x}% ${mousePosition.y}%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 20%, rgba(0,0,0,0.5) 45%, rgba(0,0,0,0.15) 70%, rgba(0,0,0,0) 100%)`,
             // WebkitMaskImage: `radial-gradient(circle 1000px at ${mousePosition.x}% ${mousePosition.y}%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 20%, rgba(0,0,0,0.5) 45%, rgba(0,0,0,0.15) 70%, rgba(0,0,0,0) 100%)`,
-             maskImage: `radial-gradient(ellipse 380px 300px at ${mousePosition.x}% ${mousePosition.y}%, 
+            maskImage: `radial-gradient(ellipse 380px 300px at ${mousePosition.x}% ${mousePosition.y}%, 
   rgba(0,0,0,0.75) 0%, 
   rgba(0,0,0,0.65) 25%, 
   rgba(0,0,0,0.45) 50%, 
@@ -71,7 +71,7 @@ const CinematicHero = () => {
         <GlobeVisualization />
       </div>
 
-      <main className="relative z-10 w-full max-w-[1200px] mx-auto px-6 md:px-10 text-center">
+      <main className="relative z-10 w-full max-w-[1200px] mx-auto px-6 md:px-10 text-center pt-12 sm:pt-0">
         {/* Small label */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
@@ -79,7 +79,7 @@ const CinematicHero = () => {
           transition={{ duration: 0.8, delay: 0.1 }}
           className="mb-8"
         >
-          <span className="text-[11px] uppercase tracking-[0.3em] text-black dark:text-white/30 font-semibold">
+          <span className="text-[11px]  uppercase tracking-[0.3em] text-black dark:text-white/30 font-semibold">
             The settlement protocol
           </span>
         </motion.div>
