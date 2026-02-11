@@ -1,0 +1,248 @@
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import { CTAButton } from "../Navbar";
+
+/* ============================================
+   SECTION 3: REWARDS TEASER - Elegant minimal banner
+   ============================================ */
+
+const CashbackBanner = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const x = useTransform(scrollYProgress, [0, 1], [-50, 50]);
+  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
+
+  return (
+    <section
+      ref={containerRef}
+      className="relative md:py-32 py-16 bg-[#FAF8F5] dark:bg-black overflow-hidden"
+    >
+      {/* Accent gradient blobs */}
+      <div className="absolute inset-0 pointer-events-none">
+        <motion.div
+          className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[radial-gradient(ellipse,rgba(255,107,53,0.08)_0%,transparent_60%)] dark:bg-[radial-gradient(ellipse,rgba(255,107,53,0.06)_0%,transparent_60%)]"
+          style={{
+            x: useTransform(scrollYProgress, [0, 1], [-80, 80]),
+          }}
+        />
+        <motion.div
+          className="absolute top-1/3 right-1/4 w-[400px] h-[400px] rounded-full bg-[radial-gradient(ellipse,rgba(0,200,150,0.06)_0%,transparent_60%)] dark:bg-[radial-gradient(ellipse,rgba(0,200,150,0.04)_0%,transparent_60%)]"
+          style={{
+            x: useTransform(scrollYProgress, [0, 1], [60, -60]),
+          }}
+        />
+      </div>
+
+      {/* Floating particles */}
+      {[...Array(20)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full"
+          style={{
+            left: `${8 + Math.random() * 84}%`,
+            top: `${8 + Math.random() * 84}%`,
+            width: `${2 + Math.random() * 3}px`,
+            height: `${2 + Math.random() * 3}px`,
+            background: i % 3 === 0 ? 'rgba(255,107,53,0.4)' : i % 3 === 1 ? 'rgba(0,200,150,0.3)' : 'rgba(0,0,0,0.15)',
+          }}
+          animate={{
+            y: [0, -40, 0],
+            opacity: [0.15, 0.7, 0.15],
+            scale: [1, 1.8, 1],
+          }}
+          transition={{
+            duration: 3 + Math.random() * 3,
+            repeat: Infinity,
+            delay: Math.random() * 3,
+          }}
+        />
+      ))}
+
+      <motion.div
+        className="relative z-10 max-w-5xl mx-auto px-6"
+        style={{ opacity }}
+      >
+        <div className="relative p-8 md:p-12 rounded-3xl border border-black/[0.08] dark:border-white/[0.06] bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl overflow-hidden shadow-[0_8px_60px_-12px_rgba(0,0,0,0.1)] dark:shadow-none">
+          {/* Accent gradient stripe */}
+          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#ff6b35]/40 to-transparent" />
+          {/* Inner glow - orange tint */}
+          <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full bg-[radial-gradient(circle,rgba(255,107,53,0.06)_0%,transparent_60%)] dark:bg-[radial-gradient(circle,rgba(255,107,53,0.04)_0%,transparent_60%)] -translate-y-1/2 translate-x-1/3" />
+          <div className="absolute bottom-0 left-0 w-[300px] h-[300px] rounded-full bg-[radial-gradient(circle,rgba(0,200,150,0.04)_0%,transparent_60%)] dark:bg-[radial-gradient(circle,rgba(0,200,150,0.03)_0%,transparent_60%)] translate-y-1/2 -translate-x-1/3" />
+
+          <div className="relative flex flex-col md:flex-row items-center justify-between gap-8">
+            {/* Left content */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="flex-1"
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <motion.div
+                  className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#ff6b35]/10 to-[#ff6b35]/5 dark:from-[#ff6b35]/15 dark:to-[#ff6b35]/5 backdrop-blur-xl border border-[#ff6b35]/20 dark:border-[#ff6b35]/15 shadow-[0_4px_20px_-6px_rgba(255,107,53,0.15)] flex items-center justify-center"
+                  animate={{ rotate: [0, 5, -5, 0] }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                >
+                  <span className="text-lg font-bold text-[#ff6b35]">%</span>
+                </motion.div>
+                <div>
+                  <span className="text-[10px] uppercase tracking-[0.3em] text-black dark:text-white/60 block">
+                    Early Access
+                  </span>
+                  <span className="text-xs text-black dark:text-white/40">
+                    Limited spots available
+                  </span>
+                </div>
+              </div>
+
+              <h3 className="font-display text-3xl md:text-4xl font-bold text-black dark:text-white mb-4 tracking-tight">
+                Earn while you{" "}
+                <span className="relative">
+                  <span className="relative z-10 text-[#ff6b35]">spend.</span>
+                  <motion.span
+                    className="absolute bottom-1 left-0 right-0 h-3 bg-[#ff6b35]/15 dark:bg-[#ff6b35]/10 rounded-sm -z-0"
+                    initial={{ scaleX: 0 }}
+                    whileInView={{ scaleX: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.5 }}
+                  />
+                </span>
+              </h3>
+
+              <p className="text-black dark:text-white/50 text-base max-w-md mb-6 leading-relaxed">
+                Up to{" "}
+                <span className="text-[#ff6b35] font-semibold">
+                  5% cashback
+                </span>{" "}
+                in BLIP tokens on every payment. No tiers. No complexity.
+              </p>
+
+              {/* Mini stats */}
+              <div className="flex items-center gap-6">
+                {[
+                  { value: "5%", label: "Max Cashback" },
+                  { value: "0", label: "Min Spend" },
+                  { value: "∞", label: "Rewards Cap" },
+                ].map((stat, i) => (
+                  <motion.div
+                    key={stat.label}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.3 + i * 0.1 }}
+                    className="text-center"
+                  >
+                    <div className="text-xl font-bold text-black dark:text-white">
+                      {stat.value}
+                    </div>
+                    <div className="text-[10px] text-black dark:text-white/30 uppercase tracking-wider">
+                      {stat.label}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Right CTA */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{
+                duration: 0.8,
+                delay: 0.2,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+              className="flex flex-col items-center gap-4"
+            >
+              {/* Animated percentage circle */}
+              {/* Percentage circle */}
+              <div className="relative w-28 h-28">
+                {/* ROTATING OUTER RING */}
+                <motion.svg
+                  className="w-full h-full -rotate-90"
+                  initial={{ rotate: 0 }}
+                  animate={{ rotate: 360 }}
+                  transition={{
+                    duration: 3, // ⬅ slower & calm
+                    repeat: Infinity,
+                    repeatType: "loop",
+                    ease: "linear",
+                  }}
+                  style={{
+                    transformOrigin: "50% 50%",
+                    willChange: "transform",
+                  }}
+                >
+                  <circle
+                    cx="56"
+                    cy="56"
+                    r="50"
+                    fill="none"
+                    className="stroke-[#ff6b35]/10 dark:stroke-[#ff6b35]/10"
+                    strokeWidth="4"
+                  />
+
+                  <motion.circle
+                    cx="56"
+                    cy="56"
+                    r="50"
+                    fill="none"
+                    stroke="url(#gradient)"
+                    strokeWidth="4"
+                    strokeLinecap="round"
+                    strokeDasharray="314"
+                    initial={{ strokeDashoffset: 314 }}
+                    whileInView={{ strokeDashoffset: 157 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1.5, delay: 0.5 }}
+                  />
+
+                  <defs>
+                    <linearGradient
+                      id="gradient"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="0%"
+                    >
+                      <stop offset="0%" stopColor="#ff6b35" />
+                      <stop offset="100%" stopColor="#ff8f5e" />
+                    </linearGradient>
+                  </defs>
+                </motion.svg>
+
+                {/* STATIC CENTER TEXT */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-2xl font-bold text-[#ff6b35]">5%</span>
+                </div>
+              </div>
+
+              {/* <Link
+                to="/rewards"
+                className="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white text-black text-sm font-semibold hover:bg-white/90 hover:shadow-[0_0_40px_rgba(255,255,255,0.2)] transition-all duration-300"
+              >
+                <span>View Rewards</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link> */}
+              <CTAButton to="rewards">View Rewards </CTAButton>
+            </motion.div>
+          </div>
+        </div>
+      </motion.div>
+    </section>
+  );
+};
+
+export default CashbackBanner;

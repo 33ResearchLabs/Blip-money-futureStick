@@ -1,0 +1,91 @@
+import { motion } from "framer-motion";
+
+export const HeroDashboardVisual = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  return (
+    <div className="relative z-10 min-h-[550px] md:min-h-[650px] lg:min-h-[750px] overflow-visible">
+      {/* Perspective stage - Linear style */}
+      <div
+        className="absolute inset-0 flex justify-center"
+        style={{ perspective: "2000px" }}
+      >
+        <motion.div
+          className="relative w-[120vw] md:w-[110vw] lg:w-[100vw] max-w-[1800px]"
+          style={{
+            transformStyle: "preserve-3d",
+          }}
+        >
+          <motion.div
+            initial={{
+              opacity: 0,
+              x: -10,
+              y: -420, // ⬅️ START far above screen
+              z: -250,
+              rotateX: 20,
+              rotateY: 25,
+              rotateZ: -25,
+              zIndex: -40,
+            }}
+            animate={{
+              opacity: 1,
+              x: -10,
+              y: [-420, -180, -200, -180], // ⬇️ drop → settle → float
+              z: -250,
+              rotateX: 20,
+              rotateY: 25,
+              rotateZ: -25,
+              zIndex: -40,
+            }}
+            transition={{
+              duration: 2,
+              delay: 0.2,
+              ease: "easeInOut",
+            }}
+            className="relative origin-top transform-gpu will-change-transform"
+            style={{
+              transformStyle: "preserve-3d",
+            }}
+          >
+            {children}
+          </motion.div>
+        </motion.div>
+      </div>
+
+      {/* Right side fade */}
+      {/* Right side fade */}
+      <div
+        className="
+    pointer-events-none
+    absolute top-0 right-0
+    h-screen
+    w-44 md:w-52 lg:w-[32rem]
+    bg-gradient-to-l
+    from-white via-white/80 to-transparent
+    dark:from-black dark:via-black/70
+    -skew-y-10
+    origin-top-right
+  "
+      />
+
+      {/* Left side fade */}
+      {/* <div className="pointer-events-none absolute top-0 left-0 h-full w-20 md:w-28 bg-gradient-to-r from-black via-black/70 to-transparent" /> */}
+
+      {/* Bottom fade */}
+      {/* Bottom fade */}
+      <div
+        className="
+    pointer-events-none
+    absolute inset-x-0 bottom-0
+    h-32 md:h-56
+    bg-gradient-to-t
+    from-white via-white/70 to-transparent
+    dark:from-black dark:via-black/40
+    -skew-x-6
+  "
+      />
+    </div>
+  );
+};
