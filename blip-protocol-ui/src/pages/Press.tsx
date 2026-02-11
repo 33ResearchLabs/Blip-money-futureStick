@@ -5,7 +5,6 @@ import {
   ArrowUpRight,
   Download,
   FileText,
-  Palette,
   Package,
   Mail,
   ArrowRight,
@@ -52,21 +51,14 @@ const brandAssets = [
     icon: FileText,
     title: "Logo Package",
     description:
-      "Zap icon + wordmark in SVG format. Dark, light, and orange icon variants included.",
-    href: "/brand/blip-logo-dark.svg",
-  },
-  {
-    icon: Palette,
-    title: "Brand Guidelines",
-    description:
-      "Colors: Black/White + #ff6b35 orange accent. Font: Inter. Cards: white/60 with subtle borders. Bg: #FAF8F5 light, black dark.",
+      "Blip Money wordmark with Zap icon in SVG format.",
     href: "/brand/blip-logo-dark.svg",
   },
   {
     icon: Package,
     title: "Icon Only",
     description:
-      "Standalone Zap icon in SVG — black, white, and brand orange variants for flexible use.",
+      "Standalone Zap icon in SVG — black, white, and brand orange variants.",
     href: "/brand/blip-icon-orange.svg",
   },
 ];
