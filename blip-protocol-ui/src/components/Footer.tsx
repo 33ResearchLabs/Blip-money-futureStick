@@ -416,7 +416,7 @@ export const Footer = () => {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8 lg:gap-12">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-12">
             {/* Protocol */}
             <div className="space-y-3">
               <h4 className="text-[11px] font-bold uppercase tracking-[0.12em] text-black/80 dark:text-white/80">
@@ -488,18 +488,6 @@ export const Footer = () => {
               </ul>
             </div>
 
-            {/* Legal */}
-            <div className="space-y-3">
-              <h4 className="text-[11px] font-bold uppercase tracking-[0.12em] text-black/80 dark:text-white/80">
-                Legal
-              </h4>
-              <ul className="space-y-2">
-                <li><FooterLink to="/privacy">Privacy</FooterLink></li>
-                <li><FooterLink to="/terms">Terms</FooterLink></li>
-                <li><FooterLink to="/gdpr">GDPR</FooterLink></li>
-                <li><FooterLink to="/compliance">Compliance</FooterLink></li>
-              </ul>
-            </div>
           </div>
         </div>
       </div>

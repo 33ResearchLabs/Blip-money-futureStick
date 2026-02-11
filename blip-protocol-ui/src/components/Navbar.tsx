@@ -244,11 +244,9 @@ const MobileMenu = ({
 
   const menuItems = [
     { to: "/how-it-works", label: t("howItWorks") },
-    { to: "/tokenomics", label: t("tokenomics") },
     { to: "/merchant", label: "Merchant" },
     { to: "/research", label: "Research" },
     { to: "/blog", label: "Blog" },
-    { to: "/about", label: "About" },
     { to: "/docs", label: "Docs" },
   ];
 
@@ -439,11 +437,9 @@ export const Navbar = () => {
             {/* Desktop Nav */}
             <div className="hidden lg:flex items-center gap-1">
               <NavItem to="/how-it-works">{t("howItWorks")}</NavItem>
-              <NavItem to="/tokenomics">{t("tokenomics")}</NavItem>
               <NavItem to="/merchant">{t("Merchant")}</NavItem>
               <NavItem to="/research">Research</NavItem>
               <NavItem to="/blog">Blog</NavItem>
-              <NavItem to="/about">About</NavItem>
               <NavItem to="/docs">Docs</NavItem>
             </div>
 
