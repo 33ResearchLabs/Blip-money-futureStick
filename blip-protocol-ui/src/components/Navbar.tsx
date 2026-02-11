@@ -246,6 +246,7 @@ const MobileMenu = ({
     { to: "/how-it-works", label: t("howItWorks") },
     { to: "/tokenomics", label: t("tokenomics") },
     { to: "/merchant", label: "Merchant" },
+    { to: "/research", label: "Research" },
     { to: "/blog", label: "Blog" },
   ];
 
@@ -438,6 +439,7 @@ export const Navbar = () => {
               <NavItem to="/how-it-works">{t("howItWorks")}</NavItem>
               <NavItem to="/tokenomics">{t("tokenomics")}</NavItem>
               <NavItem to="/merchant">{t("Merchant")}</NavItem>
+              <NavItem to="/research">Research</NavItem>
               <NavItem to="/blog">Blog</NavItem>
             </div>
 

@@ -45,6 +45,8 @@ const Whitepaper = lazy(() => import("./pages/Whitepaper"));
 const Merchant = lazy(() => import("./pages/Merchant"));
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogArticle = lazy(() => import("./pages/BlogArticle"));
+const Research = lazy(() => import("./pages/Research"));
+const ResearchArticle = lazy(() => import("./pages/ResearchArticle"));
 
 const queryClient = new QueryClient();
 
@@ -94,6 +96,8 @@ const App = () => (
                     <Route path="/cryptoToAed" element={<CryptoToUae />} />
                     <Route path="/blog" element={<Blog />} />
                     <Route path="/blog/:slug" element={<BlogArticle />} />
+                    <Route path="/research" element={<Research />} />
+                    <Route path="/research/:slug" element={<ResearchArticle />} />
                     <Route
                       path="/waitlist"
                       element={<AirdropLogin initialView="waitlist" />}
