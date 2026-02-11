@@ -248,6 +248,8 @@ const MobileMenu = ({
     { to: "/merchant", label: "Merchant" },
     { to: "/research", label: "Research" },
     { to: "/blog", label: "Blog" },
+    { to: "/about", label: "About" },
+    { to: "/docs", label: "Docs" },
   ];
 
   return (
@@ -441,6 +443,8 @@ export const Navbar = () => {
               <NavItem to="/merchant">{t("Merchant")}</NavItem>
               <NavItem to="/research">Research</NavItem>
               <NavItem to="/blog">Blog</NavItem>
+              <NavItem to="/about">About</NavItem>
+              <NavItem to="/docs">Docs</NavItem>
             </div>
 
             {/* Desktop CTA */}
