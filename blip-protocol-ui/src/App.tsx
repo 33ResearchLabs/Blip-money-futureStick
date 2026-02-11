@@ -41,7 +41,7 @@ const TermsService = lazy(() => import("./components/TermsService"));
 const Cookies = lazy(() => import("./components/Cookies"));
 const Gdpr = lazy(() => import("./components/Gdpr"));
 const TwoFactorAuth = lazy(() => import("./components/TwoFactorAuth"));
-const Whitepaper = lazy(() => import("./components/Whitepaper"));
+const Whitepaper = lazy(() => import("./pages/Whitepaper"));
 const Merchant = lazy(() => import("./pages/Merchant"));
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogArticle = lazy(() => import("./pages/BlogArticle"));
@@ -94,13 +94,15 @@ const App = () => (
                     <Route path="/cryptoToAed" element={<CryptoToUae />} />
                     <Route path="/blog" element={<Blog />} />
                     <Route path="/blog/:slug" element={<BlogArticle />} />
-                    <Route path="/waitlist" element={<AirdropLogin initialView="waitlist" />} />
+                    <Route
+                      path="/waitlist"
+                      element={<AirdropLogin initialView="waitlist" />}
+                    />
                     <Route
                       path="/join-waitlist"
                       element={<AirdropLogin initialView="waitlist" />}
                     />
                   </Route>
-
 
                   {/* PROTECTED DASHBOARD (NO LAYOUT) */}
                   <Route

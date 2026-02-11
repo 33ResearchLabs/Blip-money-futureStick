@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import SEO from "./SEO";
 
 const sections = [
@@ -11,8 +11,47 @@ const sections = [
 ];
 
 const Cookies = () => {
+  const [activeSection, setActiveSection] = useState("");
+
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: "-20% 0px -70% 0px",
+      threshold: 0,
+    };
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(
+      observerCallback,
+      observerOptions,
+    );
+
+    sections.forEach((section) => {
+      const element = document.getElementById(section.id);
+      if (element) {
+        observer.observe(element);
+      }
+    });
+
+    return () => {
+      sections.forEach((section) => {
+        const element = document.getElementById(section.id);
+        if (element) {
+          observer.unobserve(element);
+        }
+      });
+    };
   }, []);
 
   const scrollToSection = (id: string) => {
@@ -30,7 +69,7 @@ const Cookies = () => {
         canonical="https://blip.money/cookies"
       />
 
-      <div className="min-h-screen bg-[#FAF8F5] dark:bg-[#0a0a0b] text-black dark:text-white">
+      <div className="min-h-screen bg-[#FAF8F5] dark:bg-[#0a0a0b] text-black dark:text-white mt-12">
         {/* Hero Header */}
         <div className="pt-32 pb-16 px-6">
           <div className="max-w-6xl mx-auto">
@@ -47,7 +86,7 @@ const Cookies = () => {
               {/* Left Sidebar */}
               <aside className="hidden lg:block w-56 flex-shrink-0">
                 <div className="sticky top-24">
-                  <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-4">
+                  <p className="text-xs font-bold text-black dark:text-white uppercase tracking-wider mb-4">
                     Contents
                   </p>
                   <nav className="space-y-2">
@@ -55,7 +94,11 @@ const Cookies = () => {
                       <button
                         key={section.id}
                         onClick={() => scrollToSection(section.id)}
-                        className="block text-sm text-gray-500 dark:text-gray-400 hover:text-white transition-colors text-left"
+                        className={`block text-sm transition-all text-left w-full rounded-md ${
+                          activeSection === section.id
+                            ? "text-black dark:text-white font-bold bg-black/10 dark:bg-white/10 px-3 py-2"
+                            : "text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 px-3 py-2"
+                        }`}
                       >
                         {index + 1}. {section.title}
                       </button>
