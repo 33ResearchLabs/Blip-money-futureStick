@@ -32,7 +32,7 @@ const defaultOrganizationSchema: OrganizationSchema = {
   '@type': 'Organization',
   name: 'Blip Money',
   url: 'https://blip.money',
-  logo: 'https://blip.money/public/logo.png',
+  logo: 'https://blip.money/logo.png',
   description: 'Fast, secure, and simple payment processing solutions for businesses of all sizes.',
   contactPoint: {
     '@type': 'ContactPoint',
@@ -40,10 +40,9 @@ const defaultOrganizationSchema: OrganizationSchema = {
     email: 'support@blip.money',
   },
   sameAs: [
-    // Add your social media profiles here
-    // 'https://twitter.com/blipmoney',
-    // 'https://www.facebook.com/blipmoney',
-    // 'https://www.linkedin.com/company/blipmoney',
+    'https://x.com/blipmoney_',
+    'https://t.me/+3DpHLzc2BfJhOWEx',
+    'https://www.youtube.com/@BlipMoney',
   ],
 };
 
@@ -146,7 +145,7 @@ export const createArticleSchema = (article: {
     name: 'Blip Money',
     logo: {
       '@type': 'ImageObject',
-      url: 'https://blip.money/public/logo.png',
+      url: 'https://blip.money/logo.png',
     },
   },
 });
