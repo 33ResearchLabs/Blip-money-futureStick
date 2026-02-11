@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { motion, useInView } from "framer-motion";
 import {
   ArrowDownUp,
@@ -61,17 +61,28 @@ const COINGECKO_URL =
 
 const REFRESH_INTERVAL = 30_000; // 30 seconds
 
+// Pre-rendered static rates so Google crawler sees real content on first paint (no empty placeholders)
+const STATIC_RATES: Rates = {
+  tether: { aed: 3.67, usd: 1.0, aed_24h_change: 0.01 },
+  "usd-coin": { aed: 3.67, usd: 1.0, aed_24h_change: 0.02 },
+  bitcoin: { aed: 357000, usd: 97200, aed_24h_change: 1.2 },
+  ethereum: { aed: 9800, usd: 2670, aed_24h_change: 0.8 },
+  solana: { aed: 700, usd: 190, aed_24h_change: 1.5 },
+};
+
 /* ═══════════════════════════════════════════════
    LIVE RATES HOOK
    ═══════════════════════════════════════════════ */
 
 function useLiveRates() {
-  const [rates, setRates] = useState<Rates | null>(null);
+  const [rates, setRates] = useState<Rates>(STATIC_RATES);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [isLive, setIsLive] = useState(false);
 
   const fetchRates = useCallback(async () => {
+    setLoading(true);
     try {
       const res = await fetch(COINGECKO_URL);
       if (!res.ok) throw new Error("API error");
@@ -79,6 +90,7 @@ function useLiveRates() {
       setRates(data);
       setLastUpdated(new Date());
       setError(false);
+      setIsLive(true);
     } catch {
       setError(true);
     } finally {
@@ -92,7 +104,7 @@ function useLiveRates() {
     return () => clearInterval(interval);
   }, [fetchRates]);
 
-  return { rates, lastUpdated, loading, error, refresh: fetchRates };
+  return { rates, lastUpdated, loading, error, isLive, refresh: fetchRates };
 }
 
 /* ═══════════════════════════════════════════════
@@ -221,6 +233,104 @@ function Section({ children, className = "" }: { children: React.ReactNode; clas
     >
       {children}
     </motion.section>
+  );
+}
+
+/* ═══════════════════════════════════════════════
+   PRICE CHART
+   ═══════════════════════════════════════════════ */
+
+const CHART_PERIODS = [
+  { label: "7D", days: 7 },
+  { label: "30D", days: 30 },
+  { label: "90D", days: 90 },
+  { label: "1Y", days: 365 },
+] as const;
+
+function usePriceHistory(coinId: string, days: number) {
+  const [data, setData] = useState<[number, number][]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    setLoading(true);
+    fetch(
+      `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=aed&days=${days}`
+    )
+      .then((res) => res.json())
+      .then((json) => {
+        if (!cancelled && json.prices) setData(json.prices);
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [coinId, days]);
+
+  return { data, loading };
+}
+
+function PriceChart({
+  data,
+  loading,
+  change,
+}: {
+  data: [number, number][];
+  loading: boolean;
+  change: number;
+}) {
+  if (loading || data.length < 2) {
+    return (
+      <div className="h-[200px] flex items-center justify-center">
+        <div className="w-6 h-6 border-2 border-black/10 dark:border-white/10 border-t-black/40 dark:border-t-white/40 rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  const prices = data.map((d) => d[1]);
+  const min = Math.min(...prices);
+  const max = Math.max(...prices);
+  const range = max - min || 1;
+
+  const W = 800;
+  const H = 200;
+  const pad = 4;
+
+  const points = prices
+    .map((p, i) => {
+      const x = (i / (prices.length - 1)) * W;
+      const y = H - pad - ((p - min) / range) * (H - pad * 2);
+      return `${x},${y}`;
+    })
+    .join(" ");
+
+  const color = change >= 0 ? "#10b981" : "#ef4444";
+  const fillPoints = `0,${H} ${points} ${W},${H}`;
+
+  return (
+    <svg
+      viewBox={`0 0 ${W} ${H}`}
+      className="w-full h-[200px]"
+      preserveAspectRatio="none"
+    >
+      <defs>
+        <linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={color} stopOpacity="0.12" />
+          <stop offset="100%" stopColor={color} stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <polygon points={fillPoints} fill="url(#chartFill)" />
+      <polyline
+        points={points}
+        fill="none"
+        stroke={color}
+        strokeWidth="2"
+        vectorEffect="non-scaling-stroke"
+      />
+    </svg>
   );
 }
 
@@ -384,16 +494,45 @@ function buildSchemas(rates: Rates | null) {
    ═══════════════════════════════════════════════ */
 
 export default function CryptoToAed() {
-  const { rates, lastUpdated, loading, error, refresh } = useLiveRates();
+  const { rates, lastUpdated, loading, error, isLive, refresh } = useLiveRates();
   const timeAgo = useTimeAgo(lastUpdated);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  // Converter state
-  const [selectedAsset, setSelectedAsset] = useState(CRYPTO_ASSETS[0]);
-  const [amount, setAmount] = useState("1000");
-  const [direction, setDirection] = useState<"sell" | "buy">("sell");
+  // Initialize from URL params (?from=btc&amount=5000&direction=buy)
+  const [selectedAsset, setSelectedAsset] = useState(() => {
+    const from = searchParams.get("from");
+    return (
+      (from &&
+        CRYPTO_ASSETS.find(
+          (a) => a.symbol.toLowerCase() === from.toLowerCase()
+        )) ||
+      CRYPTO_ASSETS[0]
+    );
+  });
+  const [amount, setAmount] = useState(searchParams.get("amount") || "1000");
+  const [direction, setDirection] = useState<"sell" | "buy">(
+    searchParams.get("direction") === "buy" ? "buy" : "sell"
+  );
 
   // FAQ state
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  // Chart state
+  const [chartPeriod, setChartPeriod] = useState(7);
+  const { data: priceHistory, loading: chartLoading } = usePriceHistory(
+    selectedAsset.id,
+    chartPeriod
+  );
+
+  // Sync converter state → URL for shareable deep links
+  useEffect(() => {
+    const p = new URLSearchParams();
+    if (amount && amount !== "1000") p.set("amount", amount);
+    if (selectedAsset.symbol !== "USDT")
+      p.set("from", selectedAsset.symbol.toLowerCase());
+    if (direction !== "sell") p.set("direction", direction);
+    setSearchParams(p, { replace: true });
+  }, [selectedAsset, amount, direction, setSearchParams]);
 
   // Computed conversion
   const conversion = useMemo(() => {
@@ -466,7 +605,7 @@ export default function CryptoToAed() {
                   <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">Live Rates</span>
                 </div>
                 <span className="text-xs text-black/30 dark:text-white/30">
-                  Updated {timeAgo}
+                  {isLive ? `Updated ${timeAgo}` : "Updating live rates..."}
                 </span>
                 <button
                   onClick={() => { refresh(); sounds.click(); }}
@@ -607,6 +746,82 @@ export default function CryptoToAed() {
             </motion.div>
           </div>
         </header>
+
+        {/* ═══════════════════════════════════════════
+            PRICE CHART — Increases dwell time
+            ═══════════════════════════════════════════ */}
+        <Section className="py-16 sm:py-20 border-t border-black/[0.04] dark:border-white/[0.04]">
+          <div className="max-w-[900px] mx-auto px-4 sm:px-6">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+              <div>
+                <h2 className="text-2xl sm:text-3xl font-bold text-black dark:text-white">
+                  {selectedAsset.symbol}/AED Price Chart
+                </h2>
+                <p className="text-black/40 dark:text-white/35 mt-1">
+                  Historical {selectedAsset.name} to AED exchange rate
+                </p>
+              </div>
+              <div className="flex items-center gap-1 bg-black/5 dark:bg-white/5 rounded-lg p-1 self-start">
+                {CHART_PERIODS.map((p) => (
+                  <button
+                    key={p.days}
+                    onClick={() => {
+                      setChartPeriod(p.days);
+                      sounds.click();
+                    }}
+                    className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-colors ${
+                      chartPeriod === p.days
+                        ? "bg-white dark:bg-white/10 text-black dark:text-white shadow-sm"
+                        : "text-black/40 dark:text-white/30 hover:text-black/60 dark:hover:text-white/50"
+                    }`}
+                  >
+                    {p.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-white/80 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] rounded-2xl p-6 sm:p-8">
+              <PriceChart
+                data={priceHistory}
+                loading={chartLoading}
+                change={conversion?.change ?? 0}
+              />
+
+              {priceHistory.length > 1 && !chartLoading && (
+                <div className="flex items-center justify-between mt-4 pt-4 border-t border-black/[0.06] dark:border-white/[0.06]">
+                  {[
+                    {
+                      label: "Low",
+                      value: Math.min(...priceHistory.map((d) => d[1])),
+                    },
+                    {
+                      label: "High",
+                      value: Math.max(...priceHistory.map((d) => d[1])),
+                    },
+                    {
+                      label: "Current",
+                      value: priceHistory[priceHistory.length - 1][1],
+                    },
+                  ].map((stat) => (
+                    <div key={stat.label} className="text-center">
+                      <span className="block text-[11px] font-semibold uppercase tracking-[0.12em] text-black/30 dark:text-white/25">
+                        {stat.label}
+                      </span>
+                      <span className="block text-sm font-bold text-black dark:text-white tabular-nums mt-1">
+                        {stat.value.toLocaleString("en-US", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}{" "}
+                        AED
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </Section>
 
         {/* ═══════════════════════════════════════════
             LIVE RATES TABLE
