@@ -29,7 +29,6 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SEO } from "@/components";
-import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { HreflangTags } from "@/components/HreflangTags";
 import { Header } from "@/components/Hero/PhoneMockup";
 import { CTAButton } from "@/components/Navbar";
@@ -1012,7 +1011,6 @@ const Rewards = () => {
       <HreflangTags path="/rewards" />
 
       <div className="bg-[#FAF8F5] dark:bg-black text-black dark:text-white overflow-x-hidden">
-        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Rewards" }]} />
         <HeroSection />
         <RewardTiersSection />
         <HowItWorksSection />

@@ -26,7 +26,6 @@ import { airdropApi } from "@/services/Airdrop";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { twoFactorApi } from "@/services/twoFatctor";
 import { SEO } from "@/components";
-import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { HreflangTags } from "@/components/HreflangTags";
 import { CTAButton } from "@/components/Navbar";
 import sounds from "@/lib/sounds";
@@ -320,7 +319,6 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
       <HreflangTags path="/waitlist" />
 
       <div className="min-h-screen bg-[#FAF8F5] dark:bg-black text-black dark:text-white overflow-hidden">
-        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Waitlist" }]} />
         {/* Background */}
 
         {/* Main Content */}

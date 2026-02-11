@@ -1,5 +1,4 @@
 import { SEO } from "@/components";
-import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { HreflangTags } from "@/components/HreflangTags";
 import { CTAButton } from "@/components/Navbar";
 import {
@@ -1825,7 +1824,6 @@ const CryptoToUae: React.FC = () => {
         canonical="https://blip.money/cryptoToAed"
       />
       <HreflangTags path="/cryptoToAed" />
-      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Crypto to AED" }]} />
 
       {/* Grain overlay for premium film texture */}
       <div className="grain-overlay" />

@@ -21,7 +21,6 @@ import {
 } from "lucide-react";
 import { sendFormNotification } from "@/api/telegram";
 import { SEO } from "@/components";
-import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { HreflangTags } from "@/components/HreflangTags";
 import { sounds } from "@/lib/sounds";
 import dubai from '../../public/Dubai.jpeg'
@@ -633,7 +632,6 @@ const ContactUs = () => {
       <HreflangTags path="/contact" />
 
       <div className="bg-[#FAF8F5] dark:bg-black text-black dark:text-white overflow-x-hidden">
-        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Contact" }]} />
         <HeroSection />
         <ContactOptionsSection />
         <VisualSection />

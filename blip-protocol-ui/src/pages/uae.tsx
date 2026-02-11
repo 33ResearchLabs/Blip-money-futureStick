@@ -4,7 +4,6 @@ import { ArrowRight, MapPin, Zap, Users, Globe, Shield } from "lucide-react";
 import { SocialSidebar } from "@/components/SocialSidebar";
 import { Link } from "react-router-dom";
 import { SEO } from "@/components";
-import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { HreflangTags } from "@/components/HreflangTags";
 
 const LaunchButton = ({ primary = false, className = "", children }) => (
@@ -375,7 +374,6 @@ const UAELaunchPage = () => {
         `}
       </style>
       <SocialSidebar />
-      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "UAE" }]} />
       <UAELaunchHero />
       <UAELaunchWhy />
     </div>

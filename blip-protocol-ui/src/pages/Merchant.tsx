@@ -28,7 +28,6 @@ import { LayoutDashboard, ShieldCheck } from "lucide-react";
 
 import { Link } from "react-router-dom";
 import { SEO } from "@/components";
-import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { HreflangTags } from "@/components/HreflangTags";
 import StructuredData from "@/components/StructuredData";
 import { MagneticWrapper } from "@/components/MagneticButton";

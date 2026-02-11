@@ -19,7 +19,6 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SEO } from "@/components";
-import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { HreflangTags } from "@/components/HreflangTags";
 import { sounds } from "@/lib/sounds";
 import { MagneticWrapper } from "@/components/MagneticButton";
@@ -847,7 +846,6 @@ export const HowItWorksPage = () => {
       <HreflangTags path="/how-it-works" />
 
       <div className="bg-[#FAF8F5] dark:bg-black text-black dark:text-white overflow-x-hidden">
-        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "How It Works" }]} />
         <HeroSection />
         <KeyConceptsSection />
         <CoreProtocolSection />

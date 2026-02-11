@@ -416,7 +416,7 @@ export const Footer = () => {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-12">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8 lg:gap-12">
             {/* Protocol */}
             <div className="space-y-3">
               <h4 className="text-[11px] font-bold uppercase tracking-[0.12em] text-black/80 dark:text-white/80">
@@ -456,13 +456,22 @@ export const Footer = () => {
                 <li><FooterLink to="/faq">FAQ</FooterLink></li>
                 <li><FooterLink to="/glossary">Glossary</FooterLink></li>
                 <li><FooterLink to="/compare">Compare</FooterLink></li>
+              </ul>
+            </div>
+
+            {/* Markets */}
+            <div className="space-y-3">
+              <h4 className="text-[11px] font-bold uppercase tracking-[0.12em] text-black/80 dark:text-white/80">
+                Markets
+              </h4>
+              <ul className="space-y-2">
                 <li><FooterLink to="/crypto-to-aed">Crypto to AED</FooterLink></li>
                 <li><FooterLink to="/btc-to-aed">BTC to AED</FooterLink></li>
                 <li><FooterLink to="/usdt-vs-usdc">USDT vs USDC</FooterLink></li>
-                <li><FooterLink to="/crypto-tax-uae">Crypto Tax UAE</FooterLink></li>
                 <li><FooterLink to="/buy-usdt-dubai">Buy USDT Dubai</FooterLink></li>
                 <li><FooterLink to="/crypto-otc-dubai">Crypto OTC Dubai</FooterLink></li>
                 <li><FooterLink to="/bitcoin-price-uae">Bitcoin Price UAE</FooterLink></li>
+                <li><FooterLink to="/crypto-tax-uae">Crypto Tax UAE</FooterLink></li>
               </ul>
             </div>
 
