@@ -52,19 +52,22 @@ const brandAssets = [
     icon: FileText,
     title: "Logo Package",
     description:
-      "Primary and secondary logos in SVG, PNG, and dark/light variants.",
+      "Zap icon + wordmark in SVG format. Dark, light, and orange icon variants included.",
+    href: "/brand/blip-logo-dark.svg",
   },
   {
     icon: Palette,
     title: "Brand Guidelines",
     description:
-      "Typography, color palette, spacing, and usage rules for the Blip brand.",
+      "Colors: Black/White + #ff6b35 orange accent. Font: Inter. Cards: white/60 with subtle borders. Bg: #FAF8F5 light, black dark.",
+    href: "/brand/blip-logo-dark.svg",
   },
   {
     icon: Package,
-    title: "Media Kit",
+    title: "Icon Only",
     description:
-      "Press-ready assets including product screenshots, team photos, and fact sheet.",
+      "Standalone Zap icon in SVG — black, white, and brand orange variants for flexible use.",
+    href: "/brand/blip-icon-orange.svg",
   },
 ];
 
@@ -214,23 +217,28 @@ const BrandAssetCard = ({
       initial={{ opacity: 0, y: 20 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay: index * 0.1, ease: easeOut }}
-      onMouseEnter={() => sounds.hover()}
-      onClick={() => sounds.click()}
-      className="group p-6 sm:p-8 rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] hover:border-black/[0.15] dark:hover:border-white/[0.12] transition-all duration-300 cursor-pointer"
     >
-      <div className="flex items-start justify-between mb-5">
-        <div className="w-12 h-12 rounded-xl bg-black/[0.04] dark:bg-white/[0.06] flex items-center justify-center group-hover:scale-110 transition-transform">
-          <asset.icon className="w-5 h-5 text-black dark:text-white" />
+      <a
+        href={asset.href}
+        download
+        onMouseEnter={() => sounds.hover()}
+        onClick={() => sounds.click()}
+        className="group block p-6 sm:p-8 rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] hover:border-black/[0.15] dark:hover:border-white/[0.12] transition-all duration-300 cursor-pointer"
+      >
+        <div className="flex items-start justify-between mb-5">
+          <div className="w-12 h-12 rounded-xl bg-black/[0.04] dark:bg-white/[0.06] flex items-center justify-center group-hover:scale-110 transition-transform">
+            <asset.icon className="w-5 h-5 text-black dark:text-white" />
+          </div>
+          <Download className="w-4 h-4 text-gray-300 dark:text-white/20 group-hover:text-black dark:group-hover:text-white transition-colors" />
         </div>
-        <Download className="w-4 h-4 text-gray-300 dark:text-white/20 group-hover:text-black dark:group-hover:text-white transition-colors" />
-      </div>
 
-      <h3 className="text-lg font-semibold text-black dark:text-white mb-2">
-        {asset.title}
-      </h3>
-      <p className="text-[14px] text-gray-500 dark:text-white/40 leading-relaxed">
-        {asset.description}
-      </p>
+        <h3 className="text-lg font-semibold text-black dark:text-white mb-2">
+          {asset.title}
+        </h3>
+        <p className="text-[14px] text-gray-500 dark:text-white/40 leading-relaxed">
+          {asset.description}
+        </p>
+      </a>
     </motion.div>
   );
 };
