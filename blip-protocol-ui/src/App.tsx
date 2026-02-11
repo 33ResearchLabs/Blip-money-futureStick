@@ -78,6 +78,10 @@ const UsdtVsUsdc = lazy(() => import("./pages/UsdtVsUsdc"));
 const CryptoTaxUae = lazy(() => import("./pages/CryptoTaxUae"));
 const CryptoEscrowUae = lazy(() => import("./pages/CryptoEscrowUae"));
 const CryptoSalaryUae = lazy(() => import("./pages/CryptoSalaryUae"));
+const BuyUsdtDubai = lazy(() => import("./pages/BuyUsdtDubai"));
+const CryptoOtcDubai = lazy(() => import("./pages/CryptoOtcDubai"));
+const BestCryptoExchangeUae = lazy(() => import("./pages/BestCryptoExchangeUae"));
+const BitcoinPriceUae = lazy(() => import("./pages/BitcoinPriceUae"));
 
 const queryClient = new QueryClient();
 
@@ -161,6 +165,10 @@ const App = () => (
                     <Route path="/crypto-tax-uae" element={<CryptoTaxUae />} />
                     <Route path="/crypto-escrow-uae" element={<CryptoEscrowUae />} />
                     <Route path="/crypto-salary-uae" element={<CryptoSalaryUae />} />
+                    <Route path="/buy-usdt-dubai" element={<BuyUsdtDubai />} />
+                    <Route path="/crypto-otc-dubai" element={<CryptoOtcDubai />} />
+                    <Route path="/best-crypto-exchange-uae" element={<BestCryptoExchangeUae />} />
+                    <Route path="/bitcoin-price-uae" element={<BitcoinPriceUae />} />
 
                     <Route
                       path="/waitlist"

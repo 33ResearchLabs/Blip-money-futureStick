@@ -1,4 +1,6 @@
 import { SEO } from "@/components";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { HreflangTags } from "@/components/HreflangTags";
 import { CTAButton } from "@/components/Navbar";
 import {
   AnimatePresence,
@@ -1822,6 +1824,8 @@ const CryptoToUae: React.FC = () => {
         description="Convert crypto to AED effortlessly with Blip Money. Instantly estimate USDT to AED rates, sell crypto in UAE, and explore reliable crypto cashout, withdrawals, and crypto-to-cash solutions tailored for UAE users."
         canonical="https://blip.money/cryptoToAed"
       />
+      <HreflangTags path="/cryptoToAed" />
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Crypto to AED" }]} />
 
       {/* Grain overlay for premium film texture */}
       <div className="grain-overlay" />

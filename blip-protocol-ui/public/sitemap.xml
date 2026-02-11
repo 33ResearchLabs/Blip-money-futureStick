@@ -290,6 +290,34 @@
     <priority>0.85</priority>
   </url>
 
+  <url>
+    <loc>https://blip.money/buy-usdt-dubai</loc>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://blip.money/crypto-otc-dubai</loc>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://blip.money/best-crypto-exchange-uae</loc>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://blip.money/bitcoin-price-uae</loc>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
   <!-- Geo Landing Pages -->
   <url>
     <loc>https://blip.money/sell-usdt-dubai</loc>

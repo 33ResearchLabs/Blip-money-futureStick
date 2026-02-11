@@ -29,6 +29,8 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SEO } from "@/components";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { HreflangTags } from "@/components/HreflangTags";
 import { Header } from "@/components/Hero/PhoneMockup";
 import { CTAButton } from "@/components/Navbar";
 import { MagneticWrapper } from "@/components/MagneticButton";
@@ -1007,8 +1009,10 @@ const Rewards = () => {
         description="Earn up to 10% cashback in BLIP tokens on every payment. Tiered rewards, instant credits, and first-transfer bonuses. Join the Blip rewards program today."
         canonical="https://blip.money/rewards"
       />
+      <HreflangTags path="/rewards" />
 
       <div className="bg-[#FAF8F5] dark:bg-black text-black dark:text-white overflow-x-hidden">
+        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Rewards" }]} />
         <HeroSection />
         <RewardTiersSection />
         <HowItWorksSection />

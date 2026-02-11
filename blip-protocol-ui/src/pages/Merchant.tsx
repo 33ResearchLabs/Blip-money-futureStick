@@ -28,6 +28,9 @@ import { LayoutDashboard, ShieldCheck } from "lucide-react";
 
 import { Link } from "react-router-dom";
 import { SEO } from "@/components";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { HreflangTags } from "@/components/HreflangTags";
+import StructuredData from "@/components/StructuredData";
 import { MagneticWrapper } from "@/components/MagneticButton";
 import { HeroDashboardVisual } from "@/components/HeroDashbaordVisual";
 import { CinematicMockup } from "@/components/CinemeticMockup";
@@ -841,8 +844,58 @@ const Merchant = () => {
       <SEO
         title="Blip Money Merchant Payments – Fast & Secure Business Solutions"
         canonical="https://blip.money/merchant"
-        description="Grow your business with Blip Money’s merchant payment solutions — fast, secure, and simple tools to accept payments, manage sales, and boost revenue online and in-store"
+        description="Grow your business with Blip Money's merchant payment solutions — fast, secure, and simple tools to accept payments, manage sales, and boost revenue online and in-store"
         keywords="P2P merchant, crypto settlement, liquidity provider, escrow trading, Blip merchant"
+      />
+      <HreflangTags path="/merchant" />
+      <StructuredData
+        type="custom"
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: [
+            {
+              '@type': 'Question',
+              name: 'How do I receive orders?',
+              acceptedAnswer: {
+                '@type': 'Answer',
+                text: 'Orders appear in your dashboard feed. You accept to lock.',
+              },
+            },
+            {
+              '@type': 'Question',
+              name: 'Can I adjust pricing to win orders?',
+              acceptedAnswer: {
+                '@type': 'Answer',
+                text: 'Yes, within allowed ranges.',
+              },
+            },
+            {
+              '@type': 'Question',
+              name: 'What if a user doesn\'t complete?',
+              acceptedAnswer: {
+                '@type': 'Answer',
+                text: 'The trade follows the escrow timeline and dispute rules.',
+              },
+            },
+            {
+              '@type': 'Question',
+              name: 'Do I need full KYC?',
+              acceptedAnswer: {
+                '@type': 'Answer',
+                text: 'Not during early Beta. Basic verification is required.',
+              },
+            },
+            {
+              '@type': 'Question',
+              name: 'Which corridors launch first?',
+              acceptedAnswer: {
+                '@type': 'Answer',
+                text: 'Starting with Dubai-focused corridors, expanding in stages.',
+              },
+            },
+          ],
+        }}
       />
 
       {/* <MerchantHero /> */}

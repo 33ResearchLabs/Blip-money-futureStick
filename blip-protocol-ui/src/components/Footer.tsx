@@ -460,6 +460,9 @@ export const Footer = () => {
                 <li><FooterLink to="/btc-to-aed">BTC to AED</FooterLink></li>
                 <li><FooterLink to="/usdt-vs-usdc">USDT vs USDC</FooterLink></li>
                 <li><FooterLink to="/crypto-tax-uae">Crypto Tax UAE</FooterLink></li>
+                <li><FooterLink to="/buy-usdt-dubai">Buy USDT Dubai</FooterLink></li>
+                <li><FooterLink to="/crypto-otc-dubai">Crypto OTC Dubai</FooterLink></li>
+                <li><FooterLink to="/bitcoin-price-uae">Bitcoin Price UAE</FooterLink></li>
               </ul>
             </div>
 

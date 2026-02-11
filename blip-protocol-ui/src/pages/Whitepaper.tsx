@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Download } from "lucide-react";
 import SEO from "../components/SEO";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { HreflangTags } from "@/components/HreflangTags";
 
 const sections = [
   { id: "abstract", title: "Abstract" },
@@ -81,11 +83,13 @@ const Whitepaper = () => {
         description="Blip.money: A Pseudonymous, On-Chain Protocol for Global Peer-to-Peer Value Settlement"
         canonical="https://blip.money/whitepaper"
       />
+      <HreflangTags path="/whitepaper" />
 
       <div className="min-h-screen bg-[#FAF8F5] dark:bg-[#0a0a0b] text-black dark:text-white mt-12">
         {/* Hero Header */}
         <div className="pt-32 pb-16 px-6">
           <div className="max-w-6xl mx-auto">
+            <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Whitepaper" }]} />
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-6">
               Blip<span className="text-orange-500">.money</span>: A
               Pseudonymous, On-Chain Protocol for Global Peer-to-Peer Value

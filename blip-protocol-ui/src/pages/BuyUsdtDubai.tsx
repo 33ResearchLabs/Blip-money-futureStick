@@ -5,7 +5,6 @@ import {
   Wallet,
   Shield,
   Zap,
-  Clock,
   ChevronDown,
   Banknote,
   Building2,
@@ -39,7 +38,7 @@ const HeroSection = () => {
       </div>
 
       <div className="relative z-10 max-w-5xl mx-auto px-6">
-        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Sell USDT Dubai" }]} />
+        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Buy USDT Dubai" }]} />
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -58,7 +57,7 @@ const HeroSection = () => {
           transition={{ duration: 1, delay: 0.3 }}
           className="text-5xl sm:text-6xl md:text-7xl font-bold text-black dark:text-white tracking-tight leading-[1.1] mb-6"
         >
-          Sell USDT
+          Buy USDT
           <br />
           <span className="text-black/80 dark:text-white/50">in Dubai.</span>
         </motion.h1>
@@ -69,9 +68,9 @@ const HeroSection = () => {
           transition={{ duration: 0.8, delay: 0.5 }}
           className="text-lg sm:text-xl text-black dark:text-white/40 max-w-2xl mb-10 leading-relaxed"
         >
-          Convert USDT to AED instantly through Blip's decentralized settlement
-          network. Competitive rates, escrow-protected trades, and direct bank
-          or cash payout across Dubai and the UAE.
+          Purchase USDT with AED instantly through Blip's decentralized
+          settlement network. Competitive rates, escrow-protected trades, and
+          multiple payment options across Dubai and the UAE.
         </motion.p>
 
         <motion.div
@@ -85,7 +84,7 @@ const HeroSection = () => {
             onMouseEnter={() => sounds.hover()}
             className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-black dark:bg-white text-white dark:text-black font-semibold hover:opacity-90 transition-all"
           >
-            Start Selling USDT
+            Start Buying USDT
             <ArrowRight className="w-4 h-4" />
           </Link>
         </motion.div>
@@ -110,14 +109,14 @@ const HowItWorksSection = () => {
     },
     {
       num: "02",
-      title: "Enter Amount & Confirm",
-      desc: "Specify how much USDT you want to sell. Bonded merchants compete in real time to offer you the best AED rate.",
+      title: "Choose Amount",
+      desc: "Enter the amount of USDT you want to buy. Bonded merchants compete in real time to offer you the best AED-to-USDT rate.",
       icon: ArrowLeftRight,
     },
     {
       num: "03",
-      title: "Receive AED",
-      desc: "Once matched, funds are locked in escrow. The merchant sends AED to your bank account or cash payout point. Confirm and release.",
+      title: "Receive USDT",
+      desc: "Once matched, send AED via bank transfer, instant transfer, or cash. The merchant's USDT is held in escrow and released to your wallet upon confirmation.",
       icon: Banknote,
     },
   ];
@@ -181,9 +180,9 @@ const HowItWorksSection = () => {
 };
 
 /* ============================================
-   WHY SELL USDT ON BLIP SECTION
+   WHY BUY USDT ON BLIP SECTION
    ============================================ */
-const WhySellSection = () => {
+const WhyBuySection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -191,17 +190,17 @@ const WhySellSection = () => {
     {
       icon: Zap,
       title: "Instant Settlement",
-      desc: "Merchants compete to fill your order in real time. No waiting for buyers or matching delays.",
+      desc: "Merchants compete to fill your order in real time. No waiting for sellers or matching delays.",
     },
     {
-      icon: Banknote,
-      title: "Low Fees",
-      desc: "Competitive merchant bidding drives spreads down. Pay less than traditional exchanges or OTC desks.",
+      icon: Shield,
+      title: "Competitive Rates",
+      desc: "Competitive merchant bidding drives spreads down. Pay less than traditional exchanges or OTC desks for USDT.",
     },
     {
       icon: Lock,
       title: "Escrow Protection",
-      desc: "Your USDT is locked in a non-custodial smart contract until the merchant delivers AED. Zero counterparty risk.",
+      desc: "Merchant USDT is locked in a non-custodial smart contract until your AED payment is confirmed. Zero counterparty risk.",
     },
     {
       icon: BadgeCheck,
@@ -228,7 +227,7 @@ const WhySellSection = () => {
             Advantages
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-black dark:text-white tracking-tight">
-            Why Sell USDT{" "}
+            Why Buy USDT{" "}
             <span className="text-black/80 dark:text-white/50">on Blip</span>
           </h2>
         </motion.div>
@@ -276,19 +275,19 @@ const PaymentMethodsSection = () => {
     {
       icon: Building2,
       title: "Bank Transfer (AED)",
-      desc: "Receive AED directly into your UAE bank account. Supports all major banks including Emirates NBD, ADCB, FAB, and more.",
+      desc: "Send AED from your UAE bank account to purchase USDT. Supports all major banks including Emirates NBD, ADCB, FAB, and more.",
       badge: "Most Popular",
     },
     {
       icon: Zap,
       title: "Instant Transfer (IPP)",
-      desc: "Instant Payment Platform transfers for near-immediate AED delivery to your local bank account during banking hours.",
+      desc: "Use the Instant Payment Platform for near-immediate AED delivery to the merchant, speeding up your USDT purchase during banking hours.",
       badge: "Fastest",
     },
     {
       icon: CreditCard,
-      title: "Physical Cash Payout",
-      desc: "Collect AED in cash from bonded merchant locations across Dubai and Abu Dhabi. Ideal for high-value, same-day settlement.",
+      title: "Cash Payment",
+      desc: "Pay AED in cash at bonded merchant locations across Dubai and Abu Dhabi. Ideal for high-value, same-day USDT purchases.",
       badge: "In-Person",
     },
   ];
@@ -308,7 +307,7 @@ const PaymentMethodsSection = () => {
           className="text-center mb-16"
         >
           <span className="text-xs uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-4 block">
-            Payout Options
+            Payment Options
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-black dark:text-white tracking-tight">
             Supported{" "}
@@ -356,33 +355,33 @@ const PaymentMethodsSection = () => {
 /* ============================================
    FAQ SECTION
    ============================================ */
+const faqs = [
+  {
+    q: "How do I buy USDT with AED in Dubai?",
+    a: "Connect your wallet on Blip, enter the amount of USDT you want to buy, and submit a purchase request. Bonded merchants will compete to offer you the best rate. Once matched, the merchant's USDT is locked in escrow. You send AED via bank transfer, instant transfer, or cash. After payment confirmation, the USDT is released directly to your wallet.",
+  },
+  {
+    q: "What is the exchange rate for AED to USDT?",
+    a: "Rates are determined by real-time competitive bidding from bonded merchants. This typically results in tighter spreads than centralized exchanges. The estimated rate is shown before you confirm, and the final rate is locked when a merchant accepts your request. Since USDT is pegged to USD, the rate closely tracks the official AED/USD exchange rate of approximately 3.6725.",
+  },
+  {
+    q: "Is it safe to buy USDT on Blip in Dubai?",
+    a: "Yes. Blip uses non-custodial escrow smart contracts to secure every trade. The merchant's USDT is locked on-chain before you send any AED, ensuring you are always protected. Merchants are bonded, meaning they have staked collateral that can be slashed for dishonest behavior. You never send money without the USDT already being held in escrow.",
+  },
+  {
+    q: "How long does it take to receive USDT after paying?",
+    a: "Once your AED payment is confirmed by the merchant, USDT is released from escrow to your wallet within seconds on Solana. The total time depends on your chosen payment method. Instant transfers (IPP) can confirm in minutes. Bank transfers typically settle within a few hours. Cash payments are confirmed on the spot at merchant locations.",
+  },
+  {
+    q: "Do I need KYC to buy USDT on Blip?",
+    a: "The Blip protocol itself is permissionless and does not require KYC at the protocol level. However, individual settlement merchants may apply their own compliance requirements depending on the payment method and jurisdiction. Wallet-based access is all that is needed to get started.",
+  },
+];
+
 const FAQSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-
-  const faqs = [
-    {
-      q: "How do I sell USDT for AED in Dubai?",
-      a: "Connect your wallet on Blip, enter the amount of USDT you want to sell, and broadcast a settlement request. Bonded merchants will bid to fill your order. Once matched, your USDT is locked in escrow and the merchant sends AED to your bank account or cash payout point. You confirm receipt and the escrow releases.",
-    },
-    {
-      q: "What is the exchange rate for USDT to AED?",
-      a: "Rates are determined by real-time competitive bidding from bonded merchants. This typically results in tighter spreads than centralized exchanges. The estimated rate is shown before you confirm, and the final rate is locked when a merchant accepts your request.",
-    },
-    {
-      q: "Is it safe to sell USDT on Blip in Dubai?",
-      a: "Yes. Blip uses non-custodial escrow smart contracts to secure every trade. Your USDT is locked on-chain and only released after the merchant delivers AED and you confirm receipt. Merchants are bonded, meaning they have staked collateral that can be slashed for dishonest behavior.",
-    },
-    {
-      q: "How long does it take to receive AED after selling USDT?",
-      a: "Settlement times depend on the payout method. Bank transfers typically settle within a few hours during banking hours. Instant transfers (IPP) can arrive in minutes. Cash payouts can be completed same-day at bonded merchant locations in Dubai and Abu Dhabi.",
-    },
-    {
-      q: "Do I need KYC to sell USDT on Blip?",
-      a: "The Blip protocol itself is permissionless and does not require KYC at the protocol level. However, individual settlement merchants may apply their own compliance requirements depending on the payout method and jurisdiction. Wallet-based access is all that is needed to get started.",
-    },
-  ];
 
   return (
     <section
@@ -458,6 +457,62 @@ const FAQSection = () => {
 };
 
 /* ============================================
+   SEO CONTENT BLOCK
+   ============================================ */
+const SEOContentBlock = () => {
+  return (
+    <section className="border-t border-black/[0.06] dark:border-white/5 bg-[#FAF8F5] dark:bg-black">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1 }}
+        className="max-w-5xl mx-auto px-6 py-16 text-black dark:text-white/40 text-sm leading-relaxed"
+      >
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="text-xl font-semibold text-black dark:text-white mb-4"
+        >
+          Buy USDT in Dubai & UAE
+        </motion.h2>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+        >
+          Blip Money provides a fast, secure way to buy USDT in Dubai and
+          convert AED to Tether through a decentralized settlement protocol.
+          Whether you need to buy USDT with AED via bank transfer, instant
+          payment, or cash, Blip connects you with bonded merchants who compete
+          to offer the best rates in real time. Purchasing USDT in Dubai has
+          never been easier or more transparent.
+        </motion.p>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="mt-4"
+        >
+          Unlike traditional crypto exchanges or informal OTC desks, buying
+          USDT on Blip in Dubai is protected by non-custodial escrow smart
+          contracts. The merchant's USDT is locked on-chain before you send any
+          payment, ensuring your funds are never at risk during the settlement
+          process. This makes Blip one of the safest and most reliable ways to
+          buy USDT with AED in the UAE.
+        </motion.p>
+      </motion.div>
+    </section>
+  );
+};
+
+/* ============================================
    CTA SECTION
    ============================================ */
 const CTABottomSection = () => {
@@ -478,7 +533,7 @@ const CTABottomSection = () => {
           transition={{ duration: 0.8 }}
           className="text-3xl sm:text-4xl md:text-5xl font-bold text-black dark:text-white tracking-tight mb-6"
         >
-          Ready to Sell{" "}
+          Ready to Buy{" "}
           <span className="text-black/80 dark:text-white/50">USDT?</span>
         </motion.h2>
 
@@ -488,7 +543,7 @@ const CTABottomSection = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-lg text-black dark:text-white/40 max-w-xl mx-auto mb-10 leading-relaxed"
         >
-          Join thousands of users converting USDT to AED through Blip's
+          Join thousands of users purchasing USDT with AED through Blip's
           decentralized settlement network in Dubai.
         </motion.p>
 
@@ -503,7 +558,7 @@ const CTABottomSection = () => {
             onMouseEnter={() => sounds.hover()}
             className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-black dark:bg-white text-white dark:text-black font-semibold hover:opacity-90 transition-all"
           >
-            Start Selling USDT
+            Start Buying USDT
             <ArrowRight className="w-4 h-4" />
           </Link>
         </motion.div>
@@ -513,72 +568,18 @@ const CTABottomSection = () => {
 };
 
 /* ============================================
-   SEO CONTENT BLOCK
-   ============================================ */
-const SEOContentBlock = () => {
-  return (
-    <section className="border-t border-black/[0.06] dark:border-white/5 bg-[#FAF8F5] dark:bg-black">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1 }}
-        className="max-w-5xl mx-auto px-6 py-16 text-black dark:text-white/40 text-sm leading-relaxed"
-      >
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-xl font-semibold text-black dark:text-white mb-4"
-        >
-          Sell USDT in Dubai & UAE
-        </motion.h2>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-        >
-          Blip Money provides a fast, secure way to sell USDT in Dubai and
-          convert Tether to AED through a decentralized settlement protocol.
-          Whether you need to sell USDT for AED via bank transfer or cash
-          payout, Blip connects you with bonded merchants who compete to offer
-          the best rates in real time.
-        </motion.p>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="mt-4"
-        >
-          Unlike traditional crypto exchanges or informal OTC desks, selling
-          USDT on Blip in Dubai is protected by non-custodial escrow smart
-          contracts. This ensures your funds are never at risk during the
-          settlement process, making it one of the safest ways to convert crypto
-          to AED in the UAE.
-        </motion.p>
-      </motion.div>
-    </section>
-  );
-};
-
-/* ============================================
    MAIN PAGE COMPONENT
    ============================================ */
-const SellUsdtDubai = () => {
+const BuyUsdtDubai = () => {
   return (
     <>
       <SEO
-        title="Sell USDT in Dubai - Instant Crypto to AED Conversion | Blip Money"
-        description="Sell USDT in Dubai and convert Tether to AED instantly with Blip Money. Escrow-protected trades, competitive rates, and multiple payout options across the UAE."
-        canonical="https://blip.money/sell-usdt-dubai"
-        keywords="sell USDT Dubai, USDT to AED, sell tether Dubai, crypto to AED Dubai, convert USDT Dubai, sell crypto Dubai, USDT cashout Dubai"
+        title="Buy USDT in Dubai - Instant Tether Purchase | Blip Money"
+        description="Buy USDT in Dubai and convert AED to Tether instantly with Blip Money. Escrow-protected trades, competitive rates, and multiple payment options across the UAE."
+        canonical="https://blip.money/buy-usdt-dubai"
+        keywords="buy USDT Dubai, AED to USDT, buy tether Dubai, buy crypto Dubai, purchase USDT Dubai, USDT Dubai price, buy USDT UAE"
       />
-      <HreflangTags path="/sell-usdt-dubai" />
+      <HreflangTags path="/buy-usdt-dubai" />
       <StructuredData
         type="custom"
         schema={{
@@ -587,42 +588,42 @@ const SellUsdtDubai = () => {
           mainEntity: [
             {
               '@type': 'Question',
-              name: 'How do I sell USDT for AED in Dubai?',
+              name: 'How do I buy USDT with AED in Dubai?',
               acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'Connect your wallet on Blip, enter the amount of USDT you want to sell, and broadcast a settlement request. Bonded merchants will bid to fill your order. Once matched, your USDT is locked in escrow and the merchant sends AED to your bank account or cash payout point. You confirm receipt and the escrow releases.',
+                text: 'Connect your wallet on Blip, enter the amount of USDT you want to buy, and submit a purchase request. Bonded merchants will compete to offer you the best rate. Once matched, the merchant\'s USDT is locked in escrow. You send AED via bank transfer, instant transfer, or cash. After payment confirmation, the USDT is released directly to your wallet.',
               },
             },
             {
               '@type': 'Question',
-              name: 'What is the exchange rate for USDT to AED?',
+              name: 'What is the exchange rate for AED to USDT?',
               acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'Rates are determined by real-time competitive bidding from bonded merchants. This typically results in tighter spreads than centralized exchanges. The estimated rate is shown before you confirm, and the final rate is locked when a merchant accepts your request.',
+                text: 'Rates are determined by real-time competitive bidding from bonded merchants. This typically results in tighter spreads than centralized exchanges. The estimated rate is shown before you confirm, and the final rate is locked when a merchant accepts your request. Since USDT is pegged to USD, the rate closely tracks the official AED/USD exchange rate of approximately 3.6725.',
               },
             },
             {
               '@type': 'Question',
-              name: 'Is it safe to sell USDT on Blip in Dubai?',
+              name: 'Is it safe to buy USDT on Blip in Dubai?',
               acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'Yes. Blip uses non-custodial escrow smart contracts to secure every trade. Your USDT is locked on-chain and only released after the merchant delivers AED and you confirm receipt. Merchants are bonded, meaning they have staked collateral that can be slashed for dishonest behavior.',
+                text: 'Yes. Blip uses non-custodial escrow smart contracts to secure every trade. The merchant\'s USDT is locked on-chain before you send any AED, ensuring you are always protected. Merchants are bonded, meaning they have staked collateral that can be slashed for dishonest behavior. You never send money without the USDT already being held in escrow.',
               },
             },
             {
               '@type': 'Question',
-              name: 'How long does it take to receive AED after selling USDT?',
+              name: 'How long does it take to receive USDT after paying?',
               acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'Settlement times depend on the payout method. Bank transfers typically settle within a few hours during banking hours. Instant transfers (IPP) can arrive in minutes. Cash payouts can be completed same-day at bonded merchant locations in Dubai and Abu Dhabi.',
+                text: 'Once your AED payment is confirmed by the merchant, USDT is released from escrow to your wallet within seconds on Solana. The total time depends on your chosen payment method. Instant transfers (IPP) can confirm in minutes. Bank transfers typically settle within a few hours. Cash payments are confirmed on the spot at merchant locations.',
               },
             },
             {
               '@type': 'Question',
-              name: 'Do I need KYC to sell USDT on Blip?',
+              name: 'Do I need KYC to buy USDT on Blip?',
               acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'The Blip protocol itself is permissionless and does not require KYC at the protocol level. However, individual settlement merchants may apply their own compliance requirements depending on the payout method and jurisdiction. Wallet-based access is all that is needed to get started.',
+                text: 'The Blip protocol itself is permissionless and does not require KYC at the protocol level. However, individual settlement merchants may apply their own compliance requirements depending on the payment method and jurisdiction. Wallet-based access is all that is needed to get started.',
               },
             },
           ],
@@ -632,7 +633,7 @@ const SellUsdtDubai = () => {
       <div className="bg-[#FAF8F5] dark:bg-black text-black dark:text-white overflow-x-hidden">
         <HeroSection />
         <HowItWorksSection />
-        <WhySellSection />
+        <WhyBuySection />
         <PaymentMethodsSection />
         <FAQSection />
         <SEOContentBlock />
@@ -642,4 +643,4 @@ const SellUsdtDubai = () => {
   );
 };
 
-export default SellUsdtDubai;
+export default BuyUsdtDubai;

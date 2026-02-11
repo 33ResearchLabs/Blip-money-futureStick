@@ -19,6 +19,8 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SEO } from "@/components";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { HreflangTags } from "@/components/HreflangTags";
 import { sounds } from "@/lib/sounds";
 import { MagneticWrapper } from "@/components/MagneticButton";
 import { CTAButton } from "@/components/Navbar";
@@ -842,8 +844,10 @@ export const HowItWorksPage = () => {
         description="Learn how Blip Money enables seamless crypto payments through a simple, transparent, and secure settlement process."
         canonical="https://blip.money/how-it-works"
       />
+      <HreflangTags path="/how-it-works" />
 
       <div className="bg-[#FAF8F5] dark:bg-black text-black dark:text-white overflow-x-hidden">
+        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "How It Works" }]} />
         <HeroSection />
         <KeyConceptsSection />
         <CoreProtocolSection />

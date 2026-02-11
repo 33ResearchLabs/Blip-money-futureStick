@@ -4,6 +4,8 @@ import { ArrowRight, MapPin, Zap, Users, Globe, Shield } from "lucide-react";
 import { SocialSidebar } from "@/components/SocialSidebar";
 import { Link } from "react-router-dom";
 import { SEO } from "@/components";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { HreflangTags } from "@/components/HreflangTags";
 
 const LaunchButton = ({ primary = false, className = "", children }) => (
   <button
@@ -359,6 +361,7 @@ const UAELaunchPage = () => {
   description="Blip money in the UAE offers seamless digital payments, rewards, and merchant benefits across the United Arab Emirates."
   canonical="https://blip.money/uae"
 />
+    <HreflangTags path="/uae" />
 
     <div className="min-h-screen bg-[#FAF8F5] dark:bg-black text-black dark:text-white font-sans overflow-x-hidden">
       <style>
@@ -372,6 +375,7 @@ const UAELaunchPage = () => {
         `}
       </style>
       <SocialSidebar />
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "UAE" }]} />
       <UAELaunchHero />
       <UAELaunchWhy />
     </div>
