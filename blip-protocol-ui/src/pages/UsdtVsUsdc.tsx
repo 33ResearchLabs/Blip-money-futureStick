@@ -332,25 +332,25 @@ const SideBySideSection = () => {
               <div
                 className={`text-center p-3 rounded-xl text-sm ${
                   row.winner === "usdt"
-                    ? "bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200/60 dark:border-emerald-500/20 text-emerald-800 dark:text-emerald-300"
+                    ? "bg-white/80 dark:bg-white/[0.04] border border-[#ff6b35]/20 dark:border-[#ff6b35]/15 text-black dark:text-white"
                     : "bg-white/60 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] text-black/70 dark:text-white/60"
                 }`}
               >
                 <span>{row.usdt}</span>
                 {row.winner === "usdt" && (
-                  <Check className="w-3.5 h-3.5 inline ml-1.5 text-emerald-600 dark:text-emerald-400" />
+                  <Check className="w-3.5 h-3.5 inline ml-1.5 text-[#ff6b35]" />
                 )}
               </div>
               <div
                 className={`text-center p-3 rounded-xl text-sm ${
                   row.winner === "usdc"
-                    ? "bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200/60 dark:border-emerald-500/20 text-emerald-800 dark:text-emerald-300"
+                    ? "bg-white/80 dark:bg-white/[0.04] border border-[#ff6b35]/20 dark:border-[#ff6b35]/15 text-black dark:text-white"
                     : "bg-white/60 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] text-black/70 dark:text-white/60"
                 }`}
               >
                 <span>{row.usdc}</span>
                 {row.winner === "usdc" && (
-                  <Check className="w-3.5 h-3.5 inline ml-1.5 text-emerald-600 dark:text-emerald-400" />
+                  <Check className="w-3.5 h-3.5 inline ml-1.5 text-[#ff6b35]" />
                 )}
               </div>
             </motion.div>
@@ -470,7 +470,7 @@ const ComparisonTableSection = () => {
                           <Minus className="w-3 h-3" /> Tie
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-xs text-emerald-700 dark:text-emerald-400 font-medium">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/80 dark:bg-white/[0.04] border border-[#ff6b35]/20 dark:border-[#ff6b35]/15 text-xs text-black dark:text-white font-medium">
                           <Check className="w-3 h-3" />
                           {row.winner === "usdt" ? "USDT" : "USDC"}
                         </span>

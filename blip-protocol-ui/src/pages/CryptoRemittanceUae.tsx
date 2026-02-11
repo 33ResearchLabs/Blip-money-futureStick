@@ -315,7 +315,7 @@ function CorridorDropdown({
                   <span className="block text-sm font-semibold text-black dark:text-white">{c.name}</span>
                   <span className="block text-xs text-black/40 dark:text-white/40">{c.currency}</span>
                 </div>
-                {key === selected && <Check className="w-4 h-4 text-emerald-500 ml-auto" />}
+                {key === selected && <Check className="w-4 h-4 text-[#ff6b35] ml-auto" />}
               </button>
             );
           })}
@@ -382,9 +382,9 @@ export default function CryptoRemittanceUae() {
               </p>
 
               <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
-                  <TrendingDown className="w-3.5 h-3.5 text-emerald-500" />
-                  <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">90% lower fees</span>
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]">
+                  <TrendingDown className="w-3.5 h-3.5 text-[#ff6b35]" />
+                  <span className="text-xs font-semibold text-black/60 dark:text-white/40">90% lower fees</span>
                 </div>
                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/5 dark:bg-white/5 border border-black/[0.06] dark:border-white/[0.06]">
                   <Clock className="w-3.5 h-3.5 text-black/40 dark:text-white/40" />
@@ -444,23 +444,23 @@ export default function CryptoRemittanceUae() {
                 initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.3 }}
-                className="mb-8 p-5 rounded-xl bg-emerald-500/10 border border-emerald-500/20"
+                className="mb-8 p-5 rounded-xl bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]"
               >
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                   <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-emerald-600 dark:text-emerald-400 mb-1">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30 mb-1">
                       You save with Blip
                     </p>
-                    <p className="text-3xl sm:text-4xl font-bold text-emerald-600 dark:text-emerald-400">
+                    <p className="text-3xl sm:text-4xl font-bold text-[#ff6b35]">
                       {calc.bestSavings.toFixed(0)} AED
-                      <span className="text-base font-medium text-emerald-500/70 ml-2">per transfer</span>
+                      <span className="text-base font-medium text-[#ff6b35]/70 ml-2">per transfer</span>
                     </p>
                   </div>
                   <div className="sm:text-right">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-emerald-600/70 dark:text-emerald-400/70 mb-1">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30 mb-1">
                       Annual savings (monthly transfers)
                     </p>
-                    <p className="text-xl font-bold text-emerald-600 dark:text-emerald-400">
+                    <p className="text-xl font-bold text-[#ff6b35]">
                       {calc.annualSavings.toLocaleString("en-US", { maximumFractionDigits: 0 })} AED/year
                     </p>
                   </div>
@@ -476,7 +476,7 @@ export default function CryptoRemittanceUae() {
                       <th className="text-center px-3 py-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">Bank Wire</th>
                       <th className="text-center px-3 py-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">Western Union</th>
                       <th className="text-center px-3 py-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">Wise</th>
-                      <th className="text-center px-3 py-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-black dark:text-white bg-emerald-500/5 rounded-t-lg">
+                      <th className="text-center px-3 py-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-black dark:text-white bg-black/[0.02] dark:bg-white/[0.02] rounded-t-lg">
                         Crypto (Blip)
                       </th>
                     </tr>
@@ -488,7 +488,7 @@ export default function CryptoRemittanceUae() {
                       <td className="text-center px-3 py-3 text-black/50 dark:text-white/40 tabular-nums">{calc.bank.fee} AED</td>
                       <td className="text-center px-3 py-3 text-black/50 dark:text-white/40 tabular-nums">{calc.wu.fee} AED</td>
                       <td className="text-center px-3 py-3 text-black/50 dark:text-white/40 tabular-nums">{calc.wise.fee} AED</td>
-                      <td className="text-center px-3 py-3 font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/5 tabular-nums">{calc.blip.fee} AED</td>
+                      <td className="text-center px-3 py-3 font-semibold text-black dark:text-white bg-black/[0.02] dark:bg-white/[0.02] tabular-nums">{calc.blip.fee} AED</td>
                     </tr>
                     {/* Rate Markup */}
                     <tr className="border-b border-black/[0.04] dark:border-white/[0.04]">
@@ -496,7 +496,7 @@ export default function CryptoRemittanceUae() {
                       <td className="text-center px-3 py-3 text-black/50 dark:text-white/40">{(corridor.bankMarkup * 100).toFixed(0)}-{(corridor.bankMarkup * 100 + 1).toFixed(0)}%</td>
                       <td className="text-center px-3 py-3 text-black/50 dark:text-white/40">{(corridor.wuMarkup * 100).toFixed(0)}-{(corridor.wuMarkup * 100 + 1.5).toFixed(0)}%</td>
                       <td className="text-center px-3 py-3 text-black/50 dark:text-white/40">{(corridor.wiseMarkup * 100).toFixed(1)}-{(corridor.wiseMarkup * 100 + 0.3).toFixed(1)}%</td>
-                      <td className="text-center px-3 py-3 font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/5">0-0.5%</td>
+                      <td className="text-center px-3 py-3 font-semibold text-black dark:text-white bg-black/[0.02] dark:bg-white/[0.02]">0-0.5%</td>
                     </tr>
                     {/* Markup Cost */}
                     <tr className="border-b border-black/[0.04] dark:border-white/[0.04]">
@@ -504,7 +504,7 @@ export default function CryptoRemittanceUae() {
                       <td className="text-center px-3 py-3 text-red-400 tabular-nums">~{calc.bank.markupCost.toFixed(0)} AED</td>
                       <td className="text-center px-3 py-3 text-red-400 tabular-nums">~{calc.wu.markupCost.toFixed(0)} AED</td>
                       <td className="text-center px-3 py-3 text-black/50 dark:text-white/40 tabular-nums">~{calc.wise.markupCost.toFixed(0)} AED</td>
-                      <td className="text-center px-3 py-3 font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/5 tabular-nums">~{calc.blip.markupCost.toFixed(0)} AED</td>
+                      <td className="text-center px-3 py-3 font-semibold text-black dark:text-white bg-black/[0.02] dark:bg-white/[0.02] tabular-nums">~{calc.blip.markupCost.toFixed(0)} AED</td>
                     </tr>
                     {/* Total Cost */}
                     <tr className="border-b border-black/[0.04] dark:border-white/[0.04]">
@@ -512,7 +512,7 @@ export default function CryptoRemittanceUae() {
                       <td className="text-center px-3 py-3 font-bold text-black/70 dark:text-white/60 tabular-nums">~{calc.bank.totalCost.toFixed(0)} AED</td>
                       <td className="text-center px-3 py-3 font-bold text-black/70 dark:text-white/60 tabular-nums">~{calc.wu.totalCost.toFixed(0)} AED</td>
                       <td className="text-center px-3 py-3 font-bold text-black/70 dark:text-white/60 tabular-nums">~{calc.wise.totalCost.toFixed(0)} AED</td>
-                      <td className="text-center px-3 py-3 font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/5 tabular-nums">~{calc.blip.totalCost.toFixed(0)} AED</td>
+                      <td className="text-center px-3 py-3 font-bold text-[#ff6b35] bg-black/[0.02] dark:bg-white/[0.02] tabular-nums">~{calc.blip.totalCost.toFixed(0)} AED</td>
                     </tr>
                     {/* Recipient Gets */}
                     <tr className="border-b border-black/[0.04] dark:border-white/[0.04]">
@@ -520,7 +520,7 @@ export default function CryptoRemittanceUae() {
                       <td className="text-center px-3 py-3 text-black/50 dark:text-white/40 tabular-nums">{calc.bank.received.toLocaleString("en-US", { maximumFractionDigits: 0 })} {corridor.currency}</td>
                       <td className="text-center px-3 py-3 text-black/50 dark:text-white/40 tabular-nums">{calc.wu.received.toLocaleString("en-US", { maximumFractionDigits: 0 })} {corridor.currency}</td>
                       <td className="text-center px-3 py-3 text-black/50 dark:text-white/40 tabular-nums">{calc.wise.received.toLocaleString("en-US", { maximumFractionDigits: 0 })} {corridor.currency}</td>
-                      <td className="text-center px-3 py-3 font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/5 tabular-nums">{calc.blip.received.toLocaleString("en-US", { maximumFractionDigits: 0 })} {corridor.currency}</td>
+                      <td className="text-center px-3 py-3 font-bold text-black dark:text-white bg-black/[0.02] dark:bg-white/[0.02] tabular-nums">{calc.blip.received.toLocaleString("en-US", { maximumFractionDigits: 0 })} {corridor.currency}</td>
                     </tr>
                     {/* You Save */}
                     <tr className="border-b border-black/[0.04] dark:border-white/[0.04]">
@@ -528,7 +528,7 @@ export default function CryptoRemittanceUae() {
                       <td className="text-center px-3 py-3 text-black/30 dark:text-white/20">--</td>
                       <td className="text-center px-3 py-3 text-black/30 dark:text-white/20">--</td>
                       <td className="text-center px-3 py-3 text-black/30 dark:text-white/20">--</td>
-                      <td className="text-center px-3 py-3 font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/5 tabular-nums">{calc.bestSavings.toFixed(0)} AED</td>
+                      <td className="text-center px-3 py-3 font-bold text-[#ff6b35] bg-black/[0.02] dark:bg-white/[0.02] tabular-nums">{calc.bestSavings.toFixed(0)} AED</td>
                     </tr>
                     {/* Arrival Time */}
                     <tr>
@@ -536,7 +536,7 @@ export default function CryptoRemittanceUae() {
                       <td className="text-center px-3 py-3 text-black/50 dark:text-white/40">1-3 days</td>
                       <td className="text-center px-3 py-3 text-black/50 dark:text-white/40">Min - 1 day</td>
                       <td className="text-center px-3 py-3 text-black/50 dark:text-white/40">1-2 days</td>
-                      <td className="text-center px-3 py-3 font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/5 rounded-b-lg">Under 15 min</td>
+                      <td className="text-center px-3 py-3 font-semibold text-black dark:text-white bg-black/[0.02] dark:bg-white/[0.02] rounded-b-lg">Under 15 min</td>
                     </tr>
                   </tbody>
                 </table>
@@ -546,7 +546,7 @@ export default function CryptoRemittanceUae() {
               <div className="mt-6 pt-6 border-t border-black/[0.06] dark:border-white/[0.06] text-center">
                 <p className="text-black/50 dark:text-white/40 text-sm">
                   If you send <span className="font-semibold text-black dark:text-white">{displayAmount.toLocaleString()} AED/month</span>, you save{" "}
-                  <span className="font-bold text-emerald-600 dark:text-emerald-400">{calc.annualSavings.toLocaleString("en-US", { maximumFractionDigits: 0 })} AED/year</span> with Blip
+                  <span className="font-bold text-[#ff6b35]">{calc.annualSavings.toLocaleString("en-US", { maximumFractionDigits: 0 })} AED/year</span> with Blip
                 </p>
               </div>
 
@@ -687,9 +687,9 @@ export default function CryptoRemittanceUae() {
                   </div>
                   <p className="text-[14px] text-black/50 dark:text-white/40 leading-relaxed mb-4">{section.content}</p>
                   <div className="flex items-center gap-3">
-                    <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
-                      <Check className="w-3 h-3 text-emerald-500" />
-                      <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                    <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]">
+                      <Check className="w-3 h-3 text-[#ff6b35]" />
+                      <span className="text-xs font-semibold text-black/60 dark:text-white/40">
                         Rate: 1 AED = {CORRIDORS[section.currency].rate} {section.currency}
                       </span>
                     </div>
@@ -724,7 +724,7 @@ export default function CryptoRemittanceUae() {
                   <thead>
                     <tr className="border-b border-black/[0.08] dark:border-white/[0.08]">
                       <th className="text-left px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">Feature</th>
-                      <th className="text-center px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black dark:text-white bg-emerald-500/5">Crypto (Blip)</th>
+                      <th className="text-center px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black dark:text-white bg-black/[0.02] dark:bg-white/[0.02]">Crypto (Blip)</th>
                       <th className="text-center px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">Traditional</th>
                     </tr>
                   </thead>
@@ -746,7 +746,7 @@ export default function CryptoRemittanceUae() {
                               <span className="font-medium text-black/70 dark:text-white/60">{row.feature}</span>
                             </div>
                           </td>
-                          <td className="text-center px-6 py-4 font-semibold text-black dark:text-white bg-emerald-500/[0.03]">{row.crypto}</td>
+                          <td className="text-center px-6 py-4 font-semibold text-black dark:text-white bg-black/[0.02] dark:bg-white/[0.02]">{row.crypto}</td>
                           <td className="text-center px-6 py-4 text-black/50 dark:text-white/40">{row.traditional}</td>
                         </tr>
                       );

@@ -111,7 +111,7 @@ function SafetyRating({ rating }: { rating: number }) {
           key={dot}
           className={`w-2 h-2 rounded-full ${
             dot <= rating
-              ? "bg-emerald-500"
+              ? "bg-[#ff6b35]"
               : "bg-black/10 dark:bg-white/10"
           }`}
         />
@@ -519,14 +519,14 @@ export default function CryptoToBankUae() {
                     className={`relative text-left p-5 sm:p-6 rounded-2xl border transition-all duration-300 ${
                       isActive
                         ? method.recommended
-                          ? "bg-emerald-50/80 dark:bg-emerald-500/[0.06] border-emerald-500/30 dark:border-emerald-500/20 shadow-[0_4px_24px_-8px_rgba(16,185,129,0.12)]"
+                          ? "bg-white/80 dark:bg-white/[0.04] border-[#ff6b35]/30 dark:border-[#ff6b35]/20 shadow-[0_4px_24px_-8px_rgba(255,107,53,0.12)]"
                           : "bg-white/90 dark:bg-white/[0.06] border-black/[0.15] dark:border-white/[0.12] shadow-[0_4px_24px_-8px_rgba(0,0,0,0.08)]"
                         : "bg-white/60 dark:bg-white/[0.03] border-black/[0.06] dark:border-white/[0.06] hover:border-black/[0.12] dark:hover:border-white/[0.1]"
                     }`}
                   >
                     {/* Badge */}
                     {method.badge && (
-                      <span className="absolute top-4 right-4 text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                      <span className="absolute top-4 right-4 text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-black/5 dark:bg-white/5 text-black/60 dark:text-white/40 border border-black/[0.06] dark:border-white/[0.06]">
                         {method.badge}
                       </span>
                     )}
@@ -535,12 +535,12 @@ export default function CryptoToBankUae() {
                     <div className="flex items-center gap-3 mb-4">
                       <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
                         method.recommended
-                          ? "bg-emerald-500/10 dark:bg-emerald-500/10"
+                          ? "bg-[#ff6b35]/10 dark:bg-[#ff6b35]/10"
                           : "bg-black/5 dark:bg-white/5"
                       }`}>
                         <Icon className={`w-5 h-5 ${
                           method.recommended
-                            ? "text-emerald-600 dark:text-emerald-400"
+                            ? "text-[#ff6b35] dark:text-[#ff6b35]"
                             : "text-black/40 dark:text-white/40"
                         }`} />
                       </div>
@@ -601,7 +601,7 @@ export default function CryptoToBankUae() {
                   >
                     <div className={`p-6 sm:p-8 rounded-2xl border ${
                       method.recommended
-                        ? "bg-emerald-50/50 dark:bg-emerald-500/[0.04] border-emerald-500/20 dark:border-emerald-500/10"
+                        ? "bg-black/[0.02] dark:bg-white/[0.02] border-[#ff6b35]/20 dark:border-[#ff6b35]/10"
                         : "bg-white/80 dark:bg-white/[0.04] border-black/[0.08] dark:border-white/[0.06]"
                     } backdrop-blur-xl`}>
                       <div className="flex items-start justify-between mb-5">
@@ -658,7 +658,7 @@ export default function CryptoToBankUae() {
                           >
                             <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold ${
                               method.recommended
-                                ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                                ? "bg-[#ff6b35]/10 text-[#ff6b35]"
                                 : "bg-black/5 dark:bg-white/5 text-black/40 dark:text-white/40"
                             }`}>
                               {i + 1}
@@ -670,7 +670,7 @@ export default function CryptoToBankUae() {
 
                       {/* CTA for Blip */}
                       {method.recommended && (
-                        <div className="mt-6 pt-5 border-t border-emerald-500/10">
+                        <div className="mt-6 pt-5 border-t border-black/[0.06] dark:border-white/[0.06]">
                           <Link
                             to="/waitlist"
                             onClick={() => sounds.click()}
@@ -760,10 +760,10 @@ export default function CryptoToBankUae() {
                     </div>
                     <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold self-start ${
                       bank.cryptoFriendly === "high"
-                        ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                        ? "bg-black/5 dark:bg-white/5 text-black/60 dark:text-white/40"
                         : bank.cryptoFriendly === "medium"
-                        ? "bg-amber-500/10 text-amber-600 dark:text-amber-400"
-                        : "bg-red-500/10 text-red-500 dark:text-red-400"
+                        ? "bg-black/5 dark:bg-white/5 text-black/40 dark:text-white/30"
+                        : "bg-black/5 dark:bg-white/5 text-black/40 dark:text-white/30"
                     }`}>
                       {bank.cryptoFriendly === "high" && <Check className="w-3 h-3" />}
                       {bank.cryptoFriendly === "medium" && <AlertTriangle className="w-3 h-3" />}
@@ -820,14 +820,14 @@ export default function CryptoToBankUae() {
                         key={i}
                         className={`border-b border-black/[0.04] dark:border-white/[0.04] last:border-0 ${
                           row.highlight
-                            ? "bg-emerald-50/50 dark:bg-emerald-500/[0.03]"
+                            ? "bg-black/[0.02] dark:bg-white/[0.02]"
                             : ""
                         }`}
                       >
                         <td className="px-5 py-3.5">
                           <div className="flex items-center gap-2">
                             {row.highlight && (
-                              <BadgeCheck className="w-4 h-4 text-emerald-500 flex-shrink-0" />
+                              <BadgeCheck className="w-4 h-4 text-[#ff6b35] flex-shrink-0" />
                             )}
                             <span className={`font-medium ${
                               row.highlight
@@ -849,7 +849,7 @@ export default function CryptoToBankUae() {
                         </td>
                         <td className={`px-3 py-3.5 text-center font-semibold ${
                           row.highlight
-                            ? "text-emerald-600 dark:text-emerald-400"
+                            ? "text-[#ff6b35]"
                             : "text-black dark:text-white"
                         }`}>
                           {row.totalCost}
@@ -919,10 +919,10 @@ export default function CryptoToBankUae() {
               ))}
             </div>
 
-            <div className="mt-6 p-4 rounded-xl bg-amber-50/50 dark:bg-amber-500/[0.04] border border-amber-500/15 dark:border-amber-500/10">
+            <div className="mt-6 p-4 rounded-xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.08] dark:border-white/[0.08]">
               <div className="flex items-start gap-3">
-                <AlertTriangle className="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5" />
-                <p className="text-[13px] text-black/60 dark:text-white/50 leading-relaxed">
+                <AlertTriangle className="w-4 h-4 text-black/40 dark:text-white/30 flex-shrink-0 mt-0.5" />
+                <p className="text-[13px] text-black/60 dark:text-white/40 leading-relaxed">
                   <strong>Disclaimer:</strong> This is general information, not tax or legal advice. Tax regulations change frequently. Consult a UAE-based tax advisor or legal professional for guidance specific to your situation.
                 </p>
               </div>

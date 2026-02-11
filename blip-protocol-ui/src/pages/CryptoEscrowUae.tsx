@@ -151,7 +151,7 @@ const ESCROW_STEPS = [
     dispute:
       "Either party can cancel before locking. No funds are at risk at this stage.",
     icon: Handshake,
-    color: "bg-blue-500/10 text-blue-600 dark:text-blue-400",
+    color: "bg-black/5 dark:bg-white/5 text-black/60 dark:text-white/40",
   },
   {
     step: 2,
@@ -162,7 +162,7 @@ const ESCROW_STEPS = [
     dispute:
       "If the buyer fails to lock within the agreed time, the trade expires automatically.",
     icon: Lock,
-    color: "bg-amber-500/10 text-amber-600 dark:text-amber-400",
+    color: "bg-black/5 dark:bg-white/5 text-black/60 dark:text-white/40",
   },
   {
     step: 3,
@@ -173,7 +173,7 @@ const ESCROW_STEPS = [
     dispute:
       "If the seller doesn't send fiat within the time limit, the buyer can reclaim the locked crypto.",
     icon: ArrowDownUp,
-    color: "bg-green-500/10 text-green-600 dark:text-green-400",
+    color: "bg-black/5 dark:bg-white/5 text-black/60 dark:text-white/40",
   },
   {
     step: 4,
@@ -184,7 +184,7 @@ const ESCROW_STEPS = [
     dispute:
       "If the buyer doesn't confirm within the window, the seller can raise a dispute with bank proof.",
     icon: CheckCircle2,
-    color: "bg-purple-500/10 text-purple-600 dark:text-purple-400",
+    color: "bg-black/5 dark:bg-white/5 text-black/60 dark:text-white/40",
   },
   {
     step: 5,
@@ -195,7 +195,7 @@ const ESCROW_STEPS = [
     dispute:
       "Release is automatic and irreversible once confirmed. Full on-chain audit trail maintained.",
     icon: Shield,
-    color: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
+    color: "bg-black/5 dark:bg-white/5 text-black/60 dark:text-white/40",
   },
 ];
 
@@ -231,7 +231,7 @@ const HeroSection = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 backdrop-blur-sm border border-black/[0.06] dark:border-white/10 bg-white/80 dark:bg-white/[0.03]"
         >
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
           <span className="text-xs text-black/60 dark:text-white/60 tracking-wide font-medium">
             Non-Custodial Smart Contract Escrow
           </span>
@@ -375,7 +375,7 @@ const EscrowFlowSection = () => {
                 <span className="text-black/40 dark:text-white/30 text-xs block">
                   Seller Receives
                 </span>
-                <span className="text-emerald-600 dark:text-emerald-400 font-semibold">
+                <span className="text-black dark:text-white font-semibold">
                   AED {netAmount}
                 </span>
               </div>
@@ -444,9 +444,9 @@ const EscrowFlowSection = () => {
                       <p className="text-sm text-black/50 dark:text-white/40 leading-relaxed">
                         {item.description}
                       </p>
-                      <div className="flex items-start gap-2 p-3 rounded-xl bg-amber-50/80 dark:bg-amber-500/5 border border-amber-200/50 dark:border-amber-500/10">
-                        <AlertTriangle className="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5" />
-                        <p className="text-xs text-amber-700 dark:text-amber-400/70 leading-relaxed">
+                      <div className="flex items-start gap-2 p-3 rounded-xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.06] dark:border-white/[0.06]">
+                        <AlertTriangle className="w-4 h-4 text-black/40 dark:text-white/30 flex-shrink-0 mt-0.5" />
+                        <p className="text-xs text-black/60 dark:text-white/40 leading-relaxed">
                           <span className="font-semibold">Dispute scenario:</span>{" "}
                           {item.dispute}
                         </p>

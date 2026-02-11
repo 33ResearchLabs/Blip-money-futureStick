@@ -133,11 +133,11 @@ const RATES: Record<string, number> = {
 };
 
 const CRYPTO_OPTIONS = [
-  { symbol: "BTC", name: "Bitcoin", color: "text-orange-500" },
-  { symbol: "ETH", name: "Ethereum", color: "text-blue-500" },
-  { symbol: "USDT", name: "Tether", color: "text-green-500" },
-  { symbol: "USDC", name: "USD Coin", color: "text-blue-400" },
-  { symbol: "SOL", name: "Solana", color: "text-purple-500" },
+  { symbol: "BTC", name: "Bitcoin", color: "text-black/60 dark:text-white/40" },
+  { symbol: "ETH", name: "Ethereum", color: "text-black/60 dark:text-white/40" },
+  { symbol: "USDT", name: "Tether", color: "text-black/60 dark:text-white/40" },
+  { symbol: "USDC", name: "USD Coin", color: "text-black/60 dark:text-white/40" },
+  { symbol: "SOL", name: "Solana", color: "text-black/60 dark:text-white/40" },
 ];
 
 /* ═══════════════════════════════════════════════
@@ -172,7 +172,7 @@ const HeroSection = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 backdrop-blur-sm border border-black/[0.06] dark:border-white/10 bg-white/80 dark:bg-white/[0.03]"
         >
-          <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
+          <span className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
           <span className="text-xs text-black/60 dark:text-white/60 tracking-wide font-medium">
             Crypto Payroll Guide 2026
           </span>
@@ -434,7 +434,7 @@ const SalaryConverterSection = () => {
               <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30 block mb-1">
                 Crypto in Wallet
               </span>
-              <span className={`text-2xl font-bold ${selectedOption?.color}`}>
+              <span className="text-2xl font-bold text-black dark:text-white">
                 {formatCrypto(calculations.cryptoAmount)}
               </span>
               <span className="text-black/40 dark:text-white/30 text-sm ml-1">
@@ -459,7 +459,7 @@ const SalaryConverterSection = () => {
                 <TrendingUp className="w-4 h-4" />
                 If {selectedCrypto} grows 20%/yr, worth
               </span>
-              <span className="font-semibold text-emerald-600 dark:text-emerald-400">
+              <span className="font-semibold text-[#ff6b35]">
                 AED{" "}
                 {calculations.growthScenario.toLocaleString("en-AE", {
                   minimumFractionDigits: 0,

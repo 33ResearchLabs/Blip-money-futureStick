@@ -600,9 +600,9 @@ export default function CryptoToAed() {
 
               {/* Live status badge */}
               <div className="flex items-center gap-3 mb-8">
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
-                  <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">Live Rates</span>
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/5 dark:bg-white/5 border border-black/[0.08] dark:border-white/[0.08]">
+                  <div className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
+                  <span className="text-xs font-semibold text-black/60 dark:text-white/40">Live Rates</span>
                 </div>
                 <span className="text-xs text-black/30 dark:text-white/30">
                   {isLive ? `Updated ${timeAgo}` : "Updating live rates..."}
@@ -674,7 +674,7 @@ export default function CryptoToAed() {
                   <label className="block text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30 mb-2">
                     You Receive
                   </label>
-                  <div className="flex items-center gap-3 p-4 rounded-xl bg-emerald-50/50 dark:bg-emerald-500/[0.04] border border-emerald-500/10 dark:border-emerald-500/10">
+                  <div className="flex items-center gap-3 p-4 rounded-xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.06] dark:border-white/[0.06]">
                     <div className="flex-1 text-2xl sm:text-3xl font-bold text-black dark:text-white min-w-0">
                       {loading ? (
                         <span className="text-black/20 dark:text-white/20">Loading...</span>

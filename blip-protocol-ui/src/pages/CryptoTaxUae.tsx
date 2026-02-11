@@ -152,7 +152,7 @@ const HeroSection = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 backdrop-blur-sm border border-black/[0.06] dark:border-white/10 bg-white/80 dark:bg-white/[0.03]"
         >
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
           <span className="text-xs text-black/60 dark:text-white/60 tracking-wide font-medium">
             2026 Guide
           </span>
@@ -304,35 +304,35 @@ const TaxCheckerSection = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -12 }}
                 transition={{ duration: 0.35 }}
-                className="p-6 rounded-2xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200/60 dark:border-emerald-500/20"
+                className="p-6 rounded-2xl bg-white/60 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]"
               >
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
-                    <Check className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                  <div className="w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center flex-shrink-0">
+                    <Check className="w-5 h-5 text-black/60 dark:text-white/40" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-emerald-900 dark:text-emerald-300 mb-2">
+                    <h3 className="text-lg font-semibold text-black dark:text-white mb-2">
                       Your crypto gains are 0% taxed in the UAE
                     </h3>
-                    <ul className="space-y-2 text-sm text-emerald-800/80 dark:text-emerald-300/70">
+                    <ul className="space-y-2 text-sm text-black/60 dark:text-white/40">
                       <li className="flex items-start gap-2">
-                        <Check className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-emerald-600 dark:text-emerald-400" />
+                        <Check className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-black/60 dark:text-white/40" />
                         No personal income tax on crypto profits
                       </li>
                       <li className="flex items-start gap-2">
-                        <Check className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-emerald-600 dark:text-emerald-400" />
+                        <Check className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-black/60 dark:text-white/40" />
                         No capital gains tax on crypto trades
                       </li>
                       <li className="flex items-start gap-2">
-                        <Check className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-emerald-600 dark:text-emerald-400" />
+                        <Check className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-black/60 dark:text-white/40" />
                         Crypto-to-crypto swaps are not taxed
                       </li>
                       <li className="flex items-start gap-2">
-                        <Check className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-emerald-600 dark:text-emerald-400" />
+                        <Check className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-black/60 dark:text-white/40" />
                         No inheritance or wealth tax on crypto holdings
                       </li>
                     </ul>
-                    <p className="text-xs text-emerald-700/60 dark:text-emerald-400/50 mt-4">
+                    <p className="text-xs text-black/40 dark:text-white/30 mt-4">
                       Note: Keep transaction records for CARF reporting compliance (effective 2027).
                     </p>
                   </div>
@@ -444,17 +444,17 @@ const TaxCheckerSection = () => {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.35 }}
-                      className="p-6 rounded-2xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200/60 dark:border-emerald-500/20"
+                      className="p-6 rounded-2xl bg-white/60 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]"
                     >
                       <div className="flex items-start gap-4">
-                        <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
-                          <Check className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                        <div className="w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center flex-shrink-0">
+                          <Check className="w-5 h-5 text-black/60 dark:text-white/40" />
                         </div>
                         <div>
-                          <h3 className="text-lg font-semibold text-emerald-900 dark:text-emerald-300 mb-2">
+                          <h3 className="text-lg font-semibold text-black dark:text-white mb-2">
                             0% Corporate Tax
                           </h3>
-                          <p className="text-sm text-emerald-800/80 dark:text-emerald-300/70">
+                          <p className="text-sm text-black/60 dark:text-white/40">
                             Taxable income up to 375,000 AED is taxed at 0%.
                             Your crypto business profits below this threshold
                             are not subject to corporate tax. You still need to
@@ -471,17 +471,17 @@ const TaxCheckerSection = () => {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.35 }}
-                      className="p-6 rounded-2xl bg-blue-50 dark:bg-blue-500/10 border border-blue-200/60 dark:border-blue-500/20"
+                      className="p-6 rounded-2xl bg-white/60 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]"
                     >
                       <div className="flex items-start gap-4">
-                        <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-500/20 flex items-center justify-center flex-shrink-0">
-                          <Shield className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                        <div className="w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center flex-shrink-0">
+                          <Shield className="w-5 h-5 text-black/60 dark:text-white/40" />
                         </div>
                         <div>
-                          <h3 className="text-lg font-semibold text-blue-900 dark:text-blue-300 mb-2">
+                          <h3 className="text-lg font-semibold text-black dark:text-white mb-2">
                             Potentially 0% on Qualifying Income
                           </h3>
-                          <p className="text-sm text-blue-800/80 dark:text-blue-300/70">
+                          <p className="text-sm text-black/60 dark:text-white/40">
                             Qualifying Free Zone Persons may benefit from a 0%
                             corporate tax rate on qualifying income. Your crypto
                             activities must meet specific conditions set by the
@@ -500,17 +500,17 @@ const TaxCheckerSection = () => {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.35 }}
-                      className="p-6 rounded-2xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200/60 dark:border-amber-500/20"
+                      className="p-6 rounded-2xl bg-white/60 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]"
                     >
                       <div className="flex items-start gap-4">
-                        <div className="w-10 h-10 rounded-full bg-amber-100 dark:bg-amber-500/20 flex items-center justify-center flex-shrink-0">
-                          <FileText className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+                        <div className="w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center flex-shrink-0">
+                          <FileText className="w-5 h-5 text-black/60 dark:text-white/40" />
                         </div>
                         <div>
-                          <h3 className="text-lg font-semibold text-amber-900 dark:text-amber-300 mb-2">
+                          <h3 className="text-lg font-semibold text-black dark:text-white mb-2">
                             9% Corporate Tax Applies
                           </h3>
-                          <p className="text-sm text-amber-800/80 dark:text-amber-300/70">
+                          <p className="text-sm text-black/60 dark:text-white/40">
                             Taxable income exceeding 375,000 AED is subject to a
                             9% corporate tax rate. This applies to all crypto
                             business profits, including trading gains, service
@@ -592,36 +592,36 @@ const TaxRulesSection = () => {
 
   const colorMap = {
     emerald: {
-      bg: "bg-emerald-50 dark:bg-emerald-500/10",
-      border: "border-emerald-200/60 dark:border-emerald-500/20",
-      text: "text-emerald-800 dark:text-emerald-300",
-      icon: "text-emerald-600 dark:text-emerald-400",
-      iconBg: "bg-emerald-100 dark:bg-emerald-500/20",
-      check: "text-emerald-500 dark:text-emerald-400",
+      bg: "bg-white/60 dark:bg-white/[0.03]",
+      border: "border-black/[0.06] dark:border-white/[0.06]",
+      text: "text-black dark:text-white",
+      icon: "text-black/60 dark:text-white/40",
+      iconBg: "bg-black/5 dark:bg-white/5",
+      check: "text-black/40 dark:text-white/30",
     },
     amber: {
-      bg: "bg-amber-50 dark:bg-amber-500/10",
-      border: "border-amber-200/60 dark:border-amber-500/20",
-      text: "text-amber-800 dark:text-amber-300",
-      icon: "text-amber-600 dark:text-amber-400",
-      iconBg: "bg-amber-100 dark:bg-amber-500/20",
-      check: "text-amber-500 dark:text-amber-400",
+      bg: "bg-white/60 dark:bg-white/[0.03]",
+      border: "border-black/[0.06] dark:border-white/[0.06]",
+      text: "text-black dark:text-white",
+      icon: "text-black/60 dark:text-white/40",
+      iconBg: "bg-black/5 dark:bg-white/5",
+      check: "text-black/40 dark:text-white/30",
     },
     blue: {
-      bg: "bg-blue-50 dark:bg-blue-500/10",
-      border: "border-blue-200/60 dark:border-blue-500/20",
-      text: "text-blue-800 dark:text-blue-300",
-      icon: "text-blue-600 dark:text-blue-400",
-      iconBg: "bg-blue-100 dark:bg-blue-500/20",
-      check: "text-blue-500 dark:text-blue-400",
+      bg: "bg-white/60 dark:bg-white/[0.03]",
+      border: "border-black/[0.06] dark:border-white/[0.06]",
+      text: "text-black dark:text-white",
+      icon: "text-black/60 dark:text-white/40",
+      iconBg: "bg-black/5 dark:bg-white/5",
+      check: "text-black/40 dark:text-white/30",
     },
     violet: {
-      bg: "bg-violet-50 dark:bg-violet-500/10",
-      border: "border-violet-200/60 dark:border-violet-500/20",
-      text: "text-violet-800 dark:text-violet-300",
-      icon: "text-violet-600 dark:text-violet-400",
-      iconBg: "bg-violet-100 dark:bg-violet-500/20",
-      check: "text-violet-500 dark:text-violet-400",
+      bg: "bg-white/60 dark:bg-white/[0.03]",
+      border: "border-black/[0.06] dark:border-white/[0.06]",
+      text: "text-black dark:text-white",
+      icon: "text-black/60 dark:text-white/40",
+      iconBg: "bg-black/5 dark:bg-white/5",
+      check: "text-black/40 dark:text-white/30",
     },
   };
 
@@ -957,7 +957,7 @@ const ComparisonSection = () => {
                     transition={{ duration: 0.4, delay: 0.05 * i + 0.3 }}
                     className={`border-b border-black/[0.04] dark:border-white/[0.04] last:border-0 transition-colors ${
                       row.highlight
-                        ? "bg-emerald-50/60 dark:bg-emerald-500/[0.06]"
+                        ? "bg-black/[0.02] dark:bg-white/[0.02]"
                         : "hover:bg-black/[0.02] dark:hover:bg-white/[0.02]"
                     }`}
                     onMouseEnter={() => sounds.hover()}
@@ -966,7 +966,7 @@ const ComparisonSection = () => {
                       <span className="flex items-center gap-2">
                         {row.country}
                         {row.highlight && (
-                          <span className="px-1.5 py-0.5 text-[10px] rounded bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 font-medium">
+                          <span className="px-1.5 py-0.5 text-[10px] rounded bg-[#ff6b35]/10 dark:bg-[#ff6b35]/20 text-[#ff6b35] font-medium">
                             Best
                           </span>
                         )}
@@ -976,7 +976,7 @@ const ComparisonSection = () => {
                       <span
                         className={
                           row.personalTax === "0%"
-                            ? "text-emerald-600 dark:text-emerald-400 font-medium"
+                            ? "text-[#ff6b35] font-medium"
                             : "text-black/60 dark:text-white/50"
                         }
                       >
@@ -987,7 +987,7 @@ const ComparisonSection = () => {
                       <span
                         className={
                           row.capitalGains.startsWith("0%")
-                            ? "text-emerald-600 dark:text-emerald-400 font-medium"
+                            ? "text-[#ff6b35] font-medium"
                             : "text-black/60 dark:text-white/50"
                         }
                       >
