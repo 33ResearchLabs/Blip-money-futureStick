@@ -456,6 +456,7 @@ export const Footer = () => {
                 <li><FooterLink to="/faq">FAQ</FooterLink></li>
                 <li><FooterLink to="/glossary">Glossary</FooterLink></li>
                 <li><FooterLink to="/compare">Compare</FooterLink></li>
+                <li><FooterLink to="/crypto-to-aed">Crypto to AED</FooterLink></li>
               </ul>
             </div>
 

@@ -64,6 +64,7 @@ const Community = lazy(() => import("./pages/Community"));
 const SellUsdtDubai = lazy(() => import("./pages/SellUsdtDubai"));
 const CryptoPaymentsUAE = lazy(() => import("./pages/CryptoPaymentsUAE"));
 const AcceptCryptoBusiness = lazy(() => import("./pages/AcceptCryptoBusiness"));
+const CryptoToAed = lazy(() => import("./pages/CryptoToAed"));
 
 const queryClient = new QueryClient();
 
@@ -133,6 +134,7 @@ const App = () => (
                     <Route path="/sell-usdt-dubai" element={<SellUsdtDubai />} />
                     <Route path="/crypto-payments-uae" element={<CryptoPaymentsUAE />} />
                     <Route path="/accept-crypto-business" element={<AcceptCryptoBusiness />} />
+                    <Route path="/crypto-to-aed" element={<CryptoToAed />} />
 
                     <Route
                       path="/waitlist"

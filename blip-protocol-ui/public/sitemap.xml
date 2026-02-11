@@ -217,6 +217,14 @@
     <priority>0.7</priority>
   </url>
 
+  <!-- Crypto to AED Converter (Tool Page) -->
+  <url>
+    <loc>https://blip.money/crypto-to-aed</loc>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+
   <!-- Geo Landing Pages -->
   <url>
     <loc>https://blip.money/sell-usdt-dubai</loc>
