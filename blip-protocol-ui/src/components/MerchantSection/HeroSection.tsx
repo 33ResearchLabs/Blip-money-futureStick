@@ -69,7 +69,21 @@ export const CinematicHeroOfMerchant = () => {
           className="w-full px-4 pb-20 sm:pb-28 lg:pb-4 lg:px-4 antigravity-layer order-2 relative z-20 text-center
   "
         >
-          <motion.h1 className="font-display text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold text-black dark:text-white leading-[1.1] mb-4 md:mb-6 lg:mb-8 tracking-tight max-w-2xl py-12 mx-auto text-center">
+          <motion.h1
+            className="
+    font-display
+    font-bold
+    text-black dark:text-white
+    leading-[0.95]
+    tracking-[-0.04em]
+    text-[clamp(38px,8vw,96px)]
+    max-w-2xl
+    mx-auto
+    text-center
+    py-12
+    mb-8
+  "
+          >
             The settlement layer
             <br /> for{" "}
             <span className="text-black/80 dark:text-white/50">
