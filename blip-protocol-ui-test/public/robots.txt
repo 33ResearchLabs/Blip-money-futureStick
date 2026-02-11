@@ -1,16 +1,12 @@
 User-agent: *
-Disallow: /admin/
-Disallow: /login/
-Disallow: /api/
-Disallow: /_next/
-Disallow: /static/
+Allow: /
 
-# Allow important assets
-Allow: /_next/static/
-Allow: /static/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /api/
 
 # Allow PDF documents
 Allow: /whitepaper.pdf
 
 # Sitemap location
-Sitemap: https://www.blip.money/sitemap.xml
+Sitemap: https://blip.money/sitemap.xml

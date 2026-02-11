@@ -5,10 +5,10 @@ import {
   ArrowUpRight,
   Download,
   FileText,
-  Palette,
   Package,
   Mail,
   ArrowRight,
+  Palette,
 } from "lucide-react";
 import SEO from "@/components/SEO";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -27,33 +27,15 @@ const easeOut = [0.19, 1, 0.22, 1] as const;
 const pressReleases = [
   {
     date: "2025-12-15",
-    title: "Blip Money Launches Non-Custodial Payment Protocol on Solana Mainnet",
+    title: "Blip Money Launches Non-Custodial Payment Protocol on Solana Devnet",
     description:
-      "Blip Money officially goes live on Solana mainnet, enabling instant stablecoin settlements for merchants and consumers worldwide with on-chain escrow protection.",
-  },
-  {
-    date: "2025-10-28",
-    title: "Blip Money Raises $4.2M Seed Round to Build Decentralized Settlement Infrastructure",
-    description:
-      "The round was led by leading crypto-native funds with participation from strategic angel investors across the DeFi and payments ecosystem.",
-  },
-  {
-    date: "2025-08-14",
-    title: "Blip Money Partners with Major UAE Payment Processors for Fiat On-Ramp",
-    description:
-      "Strategic partnership enables seamless AED to stablecoin conversion, unlocking crypto payments for thousands of merchants across the UAE.",
+      "Blip Money goes live on Solana devnet, enabling stablecoin settlements for merchants and consumers with on-chain escrow protection. Public testing begins with 20 early users.",
   },
   {
     date: "2025-06-20",
     title: "Blip Protocol Introduces On-Chain Escrow with Automated Dispute Resolution",
     description:
-      "A first-of-its-kind trustless escrow system that leverages smart contracts and DAO governance to resolve payment disputes without intermediaries.",
-  },
-  {
-    date: "2025-04-10",
-    title: "Blip Money Surpasses 10,000 Transactions in Public Beta",
-    description:
-      "The protocol reaches a major milestone as early adopters process over $2M in total volume during the invite-only beta testing phase.",
+      "A trustless escrow system that leverages smart contracts to resolve payment disputes without intermediaries. Currently in development and internal testing.",
   },
   {
     date: "2025-02-05",
@@ -63,57 +45,45 @@ const pressReleases = [
   },
 ];
 
-const mediaMentions = [
-  {
-    publication: "CoinDesk",
-    title: "Blip Money Is Building the Stripe of Crypto Payments on Solana",
-    date: "2025-11-22",
-  },
-  {
-    publication: "The Block",
-    title: "Non-Custodial Settlement: How Blip Protocol Rethinks Merchant Payments",
-    date: "2025-10-05",
-  },
-  {
-    publication: "CoinTelegraph",
-    title: "UAE Startup Blip Money Secures Seed Funding for Decentralized Payment Rails",
-    date: "2025-09-18",
-  },
-  {
-    publication: "Decrypt",
-    title: "Solana-Based Blip Money Aims to Replace Traditional Payment Gateways",
-    date: "2025-08-30",
-  },
-  {
-    publication: "Blockworks",
-    title: "On-Chain Escrow Is the Next Big Thing in Crypto Payments, Says Blip Team",
-    date: "2025-07-12",
-  },
-  {
-    publication: "DL News",
-    title: "How Blip Money Plans to Onboard 100K Merchants to Crypto",
-    date: "2025-05-25",
-  },
-];
+const mediaMentions: { publication: string; title: string; date: string }[] = [];
 
 const brandAssets = [
   {
     icon: FileText,
-    title: "Logo Package",
-    description:
-      "Primary and secondary logos in SVG, PNG, and dark/light variants.",
+    title: "Logo — Dark",
+    description: "Blip Money wordmark (black on transparent) — SVG.",
+    href: "/brand/blip-logo-dark.svg",
+  },
+  {
+    icon: FileText,
+    title: "Logo — Light",
+    description: "Blip Money wordmark (white on transparent) — SVG.",
+    href: "/brand/blip-logo-light.svg",
+  },
+  {
+    icon: Package,
+    title: "Icon — Black",
+    description: "Standalone Zap icon in black — SVG.",
+    href: "/brand/blip-icon.svg",
+  },
+  {
+    icon: Package,
+    title: "Icon — White",
+    description: "Standalone Zap icon in white — SVG.",
+    href: "/brand/blip-icon-white.svg",
+  },
+  {
+    icon: Package,
+    title: "Icon — Orange",
+    description: "Standalone Zap icon in brand orange (#ff6b35) — SVG.",
+    href: "/brand/blip-icon-orange.svg",
   },
   {
     icon: Palette,
     title: "Brand Guidelines",
     description:
-      "Typography, color palette, spacing, and usage rules for the Blip brand.",
-  },
-  {
-    icon: Package,
-    title: "Media Kit",
-    description:
-      "Press-ready assets including product screenshots, team photos, and fact sheet.",
+      "Font: Inter. Colors: black / white / #ff6b35. Light bg: #FAF8F5. Dark bg: black. Cards: white/60 with subtle borders.",
+    href: "",
   },
 ];
 
@@ -256,22 +226,17 @@ const BrandAssetCard = ({
 }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-40px" });
+  const isDownloadable = !!asset.href;
 
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay: index * 0.1, ease: easeOut }}
-      onMouseEnter={() => sounds.hover()}
-      onClick={() => sounds.click()}
-      className="group p-6 sm:p-8 rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] hover:border-black/[0.15] dark:hover:border-white/[0.12] transition-all duration-300 cursor-pointer"
-    >
+  const inner = (
+    <>
       <div className="flex items-start justify-between mb-5">
         <div className="w-12 h-12 rounded-xl bg-black/[0.04] dark:bg-white/[0.06] flex items-center justify-center group-hover:scale-110 transition-transform">
           <asset.icon className="w-5 h-5 text-black dark:text-white" />
         </div>
-        <Download className="w-4 h-4 text-gray-300 dark:text-white/20 group-hover:text-black dark:group-hover:text-white transition-colors" />
+        {isDownloadable && (
+          <Download className="w-4 h-4 text-gray-300 dark:text-white/20 group-hover:text-black dark:group-hover:text-white transition-colors" />
+        )}
       </div>
 
       <h3 className="text-lg font-semibold text-black dark:text-white mb-2">
@@ -280,6 +245,34 @@ const BrandAssetCard = ({
       <p className="text-[14px] text-gray-500 dark:text-white/40 leading-relaxed">
         {asset.description}
       </p>
+    </>
+  );
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 20 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.5, delay: index * 0.1, ease: easeOut }}
+    >
+      {isDownloadable ? (
+        <a
+          href={asset.href}
+          download
+          onMouseEnter={() => sounds.hover()}
+          onClick={() => sounds.click()}
+          className="group block p-6 sm:p-8 rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] hover:border-black/[0.15] dark:hover:border-white/[0.12] transition-all duration-300 cursor-pointer"
+        >
+          {inner}
+        </a>
+      ) : (
+        <div
+          onMouseEnter={() => sounds.hover()}
+          className="group block p-6 sm:p-8 rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] transition-all duration-300"
+        >
+          {inner}
+        </div>
+      )}
     </motion.div>
   );
 };
@@ -346,6 +339,7 @@ export default function Press() {
         </section>
 
         {/* ── In The Media ── */}
+        {mediaMentions.length > 0 && (
         <section className="py-16 sm:py-24">
           <div className="max-w-[1100px] mx-auto px-4 sm:px-6">
             <AnimatedSection className="text-center mb-14">
@@ -368,6 +362,7 @@ export default function Press() {
             </div>
           </div>
         </section>
+        )}
 
         {/* ── Brand Assets ── */}
         <section className="py-16 sm:py-24">

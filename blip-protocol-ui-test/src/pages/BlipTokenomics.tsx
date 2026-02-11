@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SEO } from "@/components";
+import { HreflangTags } from "@/components/HreflangTags";
 import { sounds } from "@/lib/sounds";
 
 /* ============================================
@@ -750,6 +751,7 @@ export const BlipTokenomics = () => {
         description="Explore Blip Money tokenomics, including supply, utility, and incentives designed for long-term ecosystem growth."
         canonical="https://blip.money/tokenomics"
       />
+      <HreflangTags path="/tokenomics" />
 
       <div className="bg-[#FAF8F5] dark:bg-black text-black dark:text-white overflow-x-hidden">
         <HeroSection />

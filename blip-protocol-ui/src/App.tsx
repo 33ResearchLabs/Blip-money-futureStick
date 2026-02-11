@@ -1,6 +1,5 @@
 import { lazy, Suspense } from "react";
 import { ThemeProvider } from "next-themes";
-import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -19,6 +18,7 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 // Import wallet adapter CSS
 import "@solana/wallet-adapter-react-ui/styles.css";
 import CryptoToUae from "./pages/CryptoToUae";
+import { Toaster } from "./components/ui/toaster";
 
 // Lazy load page components
 const Index = lazy(() => import("./pages/Index"));
@@ -80,7 +80,9 @@ const CryptoEscrowUae = lazy(() => import("./pages/CryptoEscrowUae"));
 const CryptoSalaryUae = lazy(() => import("./pages/CryptoSalaryUae"));
 const BuyUsdtDubai = lazy(() => import("./pages/BuyUsdtDubai"));
 const CryptoOtcDubai = lazy(() => import("./pages/CryptoOtcDubai"));
-const BestCryptoExchangeUae = lazy(() => import("./pages/BestCryptoExchangeUae"));
+const BestCryptoExchangeUae = lazy(
+  () => import("./pages/BestCryptoExchangeUae"),
+);
 const BitcoinPriceUae = lazy(() => import("./pages/BitcoinPriceUae"));
 
 const queryClient = new QueryClient();
@@ -132,14 +134,20 @@ const App = () => (
                     <Route path="/blog" element={<Blog />} />
                     <Route path="/blog/:slug" element={<BlogArticle />} />
                     <Route path="/research" element={<Research />} />
-                    <Route path="/research/:slug" element={<ResearchArticle />} />
+                    <Route
+                      path="/research/:slug"
+                      element={<ResearchArticle />}
+                    />
 
                     {/* SEO & Content Pages */}
                     <Route path="/faq" element={<FAQ />} />
                     <Route path="/glossary" element={<Glossary />} />
                     <Route path="/changelog" element={<Changelog />} />
                     <Route path="/use-cases" element={<UseCases />} />
-                    <Route path="/use-cases/:slug" element={<UseCaseDetail />} />
+                    <Route
+                      path="/use-cases/:slug"
+                      element={<UseCaseDetail />}
+                    />
                     <Route path="/compare" element={<Compare />} />
                     <Route path="/compare/:slug" element={<Compare />} />
                     <Route path="/docs" element={<Docs />} />
@@ -148,11 +156,23 @@ const App = () => (
                     <Route path="/community" element={<Community />} />
 
                     {/* Geo Landing Pages */}
-                    <Route path="/sell-usdt-dubai" element={<SellUsdtDubai />} />
-                    <Route path="/crypto-payments-uae" element={<CryptoPaymentsUAE />} />
-                    <Route path="/accept-crypto-business" element={<AcceptCryptoBusiness />} />
+                    <Route
+                      path="/sell-usdt-dubai"
+                      element={<SellUsdtDubai />}
+                    />
+                    <Route
+                      path="/crypto-payments-uae"
+                      element={<CryptoPaymentsUAE />}
+                    />
+                    <Route
+                      path="/accept-crypto-business"
+                      element={<AcceptCryptoBusiness />}
+                    />
                     <Route path="/crypto-to-aed" element={<CryptoToAed />} />
-                    <Route path="/crypto-remittance-uae" element={<CryptoRemittanceUae />} />
+                    <Route
+                      path="/crypto-remittance-uae"
+                      element={<CryptoRemittanceUae />}
+                    />
 
                     {/* Per-Coin Converter Pages */}
                     <Route path="/btc-to-aed" element={<BtcToAed />} />
@@ -160,15 +180,33 @@ const App = () => (
                     <Route path="/sol-to-aed" element={<SolToAed />} />
 
                     {/* Keyword Landing Pages */}
-                    <Route path="/crypto-to-bank-uae" element={<CryptoToBankUae />} />
+                    <Route
+                      path="/crypto-to-bank-uae"
+                      element={<CryptoToBankUae />}
+                    />
                     <Route path="/usdt-vs-usdc" element={<UsdtVsUsdc />} />
                     <Route path="/crypto-tax-uae" element={<CryptoTaxUae />} />
-                    <Route path="/crypto-escrow-uae" element={<CryptoEscrowUae />} />
-                    <Route path="/crypto-salary-uae" element={<CryptoSalaryUae />} />
+                    <Route
+                      path="/crypto-escrow-uae"
+                      element={<CryptoEscrowUae />}
+                    />
+                    <Route
+                      path="/crypto-salary-uae"
+                      element={<CryptoSalaryUae />}
+                    />
                     <Route path="/buy-usdt-dubai" element={<BuyUsdtDubai />} />
-                    <Route path="/crypto-otc-dubai" element={<CryptoOtcDubai />} />
-                    <Route path="/best-crypto-exchange-uae" element={<BestCryptoExchangeUae />} />
-                    <Route path="/bitcoin-price-uae" element={<BitcoinPriceUae />} />
+                    <Route
+                      path="/crypto-otc-dubai"
+                      element={<CryptoOtcDubai />}
+                    />
+                    <Route
+                      path="/best-crypto-exchange-uae"
+                      element={<BestCryptoExchangeUae />}
+                    />
+                    <Route
+                      path="/bitcoin-price-uae"
+                      element={<BitcoinPriceUae />}
+                    />
 
                     <Route
                       path="/waitlist"

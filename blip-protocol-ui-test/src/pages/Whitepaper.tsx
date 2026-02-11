@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Download } from "lucide-react";
 import SEO from "../components/SEO";
+import { HreflangTags } from "@/components/HreflangTags";
 
 const sections = [
   { id: "abstract", title: "Abstract" },
@@ -81,6 +82,7 @@ const Whitepaper = () => {
         description="Blip.money: A Pseudonymous, On-Chain Protocol for Global Peer-to-Peer Value Settlement"
         canonical="https://blip.money/whitepaper"
       />
+      <HreflangTags path="/whitepaper" />
 
       <div className="min-h-screen bg-[#FAF8F5] dark:bg-[#0a0a0b] text-black dark:text-white mt-12">
         {/* Hero Header */}

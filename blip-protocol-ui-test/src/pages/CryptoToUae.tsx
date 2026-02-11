@@ -1,4 +1,5 @@
 import { SEO } from "@/components";
+import { HreflangTags } from "@/components/HreflangTags";
 import { CTAButton } from "@/components/Navbar";
 import {
   AnimatePresence,
@@ -543,7 +544,7 @@ const MarketSimulationSection: React.FC<{
               <div className="pt-2">
                 <div className="flex justify-between text-[10px]  text-[#A0A0A0] mb-2">
                   <span>TOTAL_BONDED_VALUE</span>
-                  <span className="text-black dark:text-white">$4.2M</span>
+                  <span className="text-black dark:text-white">$12K</span>
                 </div>
                 <div className="h-0.5 bg-gray-200 dark:bg-[#111111] w-full">
                   <div className="h-full bg-zinc-400 w-[75%]"></div>
@@ -1822,6 +1823,7 @@ const CryptoToUae: React.FC = () => {
         description="Convert crypto to AED effortlessly with Blip Money. Instantly estimate USDT to AED rates, sell crypto in UAE, and explore reliable crypto cashout, withdrawals, and crypto-to-cash solutions tailored for UAE users."
         canonical="https://blip.money/cryptoToAed"
       />
+      <HreflangTags path="/cryptoToAed" />
 
       {/* Grain overlay for premium film texture */}
       <div className="grain-overlay" />

@@ -456,7 +456,22 @@ export const Footer = () => {
                 <li><FooterLink to="/faq">FAQ</FooterLink></li>
                 <li><FooterLink to="/glossary">Glossary</FooterLink></li>
                 <li><FooterLink to="/compare">Compare</FooterLink></li>
+              </ul>
+            </div>
+
+            {/* Markets */}
+            <div className="space-y-3">
+              <h4 className="text-[11px] font-bold uppercase tracking-[0.12em] text-black/80 dark:text-white/80">
+                Markets
+              </h4>
+              <ul className="space-y-2">
                 <li><FooterLink to="/crypto-to-aed">Crypto to AED</FooterLink></li>
+                <li><FooterLink to="/btc-to-aed">BTC to AED</FooterLink></li>
+                <li><FooterLink to="/usdt-vs-usdc">USDT vs USDC</FooterLink></li>
+                <li><FooterLink to="/buy-usdt-dubai">Buy USDT Dubai</FooterLink></li>
+                <li><FooterLink to="/crypto-otc-dubai">Crypto OTC Dubai</FooterLink></li>
+                <li><FooterLink to="/bitcoin-price-uae">Bitcoin Price UAE</FooterLink></li>
+                <li><FooterLink to="/crypto-tax-uae">Crypto Tax UAE</FooterLink></li>
               </ul>
             </div>
 
@@ -473,18 +488,6 @@ export const Footer = () => {
               </ul>
             </div>
 
-            {/* Legal */}
-            <div className="space-y-3">
-              <h4 className="text-[11px] font-bold uppercase tracking-[0.12em] text-black/80 dark:text-white/80">
-                Legal
-              </h4>
-              <ul className="space-y-2">
-                <li><FooterLink to="/privacy">Privacy</FooterLink></li>
-                <li><FooterLink to="/terms">Terms</FooterLink></li>
-                <li><FooterLink to="/gdpr">GDPR</FooterLink></li>
-                <li><FooterLink to="/compliance">Compliance</FooterLink></li>
-              </ul>
-            </div>
           </div>
         </div>
       </div>
