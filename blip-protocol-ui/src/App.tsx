@@ -48,6 +48,23 @@ const BlogArticle = lazy(() => import("./pages/BlogArticle"));
 const Research = lazy(() => import("./pages/Research"));
 const ResearchArticle = lazy(() => import("./pages/ResearchArticle"));
 
+// SEO & Content Pages
+const FAQ = lazy(() => import("./pages/FAQ"));
+const Glossary = lazy(() => import("./pages/Glossary"));
+const Changelog = lazy(() => import("./pages/Changelog"));
+const UseCases = lazy(() => import("./pages/UseCases"));
+const UseCaseDetail = lazy(() => import("./pages/UseCaseDetail"));
+const Compare = lazy(() => import("./pages/Compare"));
+const Docs = lazy(() => import("./pages/Docs"));
+const About = lazy(() => import("./pages/About"));
+const Press = lazy(() => import("./pages/Press"));
+const Community = lazy(() => import("./pages/Community"));
+
+// Geo Landing Pages
+const SellUsdtDubai = lazy(() => import("./pages/SellUsdtDubai"));
+const CryptoPaymentsUAE = lazy(() => import("./pages/CryptoPaymentsUAE"));
+const AcceptCryptoBusiness = lazy(() => import("./pages/AcceptCryptoBusiness"));
+
 const queryClient = new QueryClient();
 
 // Loading fallback component
@@ -98,6 +115,25 @@ const App = () => (
                     <Route path="/blog/:slug" element={<BlogArticle />} />
                     <Route path="/research" element={<Research />} />
                     <Route path="/research/:slug" element={<ResearchArticle />} />
+
+                    {/* SEO & Content Pages */}
+                    <Route path="/faq" element={<FAQ />} />
+                    <Route path="/glossary" element={<Glossary />} />
+                    <Route path="/changelog" element={<Changelog />} />
+                    <Route path="/use-cases" element={<UseCases />} />
+                    <Route path="/use-cases/:slug" element={<UseCaseDetail />} />
+                    <Route path="/compare" element={<Compare />} />
+                    <Route path="/compare/:slug" element={<Compare />} />
+                    <Route path="/docs" element={<Docs />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/press" element={<Press />} />
+                    <Route path="/community" element={<Community />} />
+
+                    {/* Geo Landing Pages */}
+                    <Route path="/sell-usdt-dubai" element={<SellUsdtDubai />} />
+                    <Route path="/crypto-payments-uae" element={<CryptoPaymentsUAE />} />
+                    <Route path="/accept-crypto-business" element={<AcceptCryptoBusiness />} />
+
                     <Route
                       path="/waitlist"
                       element={<AirdropLogin initialView="waitlist" />}
