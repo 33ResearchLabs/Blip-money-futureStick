@@ -8,6 +8,7 @@ import {
   Package,
   Mail,
   ArrowRight,
+  Palette,
 } from "lucide-react";
 import SEO from "@/components/SEO";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -49,17 +50,40 @@ const mediaMentions: { publication: string; title: string; date: string }[] = []
 const brandAssets = [
   {
     icon: FileText,
-    title: "Logo Package",
-    description:
-      "Blip Money wordmark with Zap icon in SVG format.",
+    title: "Logo — Dark",
+    description: "Blip Money wordmark (black on transparent) — SVG.",
     href: "/brand/blip-logo-dark.svg",
   },
   {
+    icon: FileText,
+    title: "Logo — Light",
+    description: "Blip Money wordmark (white on transparent) — SVG.",
+    href: "/brand/blip-logo-light.svg",
+  },
+  {
     icon: Package,
-    title: "Icon Only",
-    description:
-      "Standalone Zap icon in SVG — black, white, and brand orange variants.",
+    title: "Icon — Black",
+    description: "Standalone Zap icon in black — SVG.",
+    href: "/brand/blip-icon.svg",
+  },
+  {
+    icon: Package,
+    title: "Icon — White",
+    description: "Standalone Zap icon in white — SVG.",
+    href: "/brand/blip-icon-white.svg",
+  },
+  {
+    icon: Package,
+    title: "Icon — Orange",
+    description: "Standalone Zap icon in brand orange (#ff6b35) — SVG.",
     href: "/brand/blip-icon-orange.svg",
+  },
+  {
+    icon: Palette,
+    title: "Brand Guidelines",
+    description:
+      "Font: Inter. Colors: black / white / #ff6b35. Light bg: #FAF8F5. Dark bg: black. Cards: white/60 with subtle borders.",
+    href: "",
   },
 ];
 
@@ -202,6 +226,27 @@ const BrandAssetCard = ({
 }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-40px" });
+  const isDownloadable = !!asset.href;
+
+  const inner = (
+    <>
+      <div className="flex items-start justify-between mb-5">
+        <div className="w-12 h-12 rounded-xl bg-black/[0.04] dark:bg-white/[0.06] flex items-center justify-center group-hover:scale-110 transition-transform">
+          <asset.icon className="w-5 h-5 text-black dark:text-white" />
+        </div>
+        {isDownloadable && (
+          <Download className="w-4 h-4 text-gray-300 dark:text-white/20 group-hover:text-black dark:group-hover:text-white transition-colors" />
+        )}
+      </div>
+
+      <h3 className="text-lg font-semibold text-black dark:text-white mb-2">
+        {asset.title}
+      </h3>
+      <p className="text-[14px] text-gray-500 dark:text-white/40 leading-relaxed">
+        {asset.description}
+      </p>
+    </>
+  );
 
   return (
     <motion.div
@@ -210,27 +255,24 @@ const BrandAssetCard = ({
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay: index * 0.1, ease: easeOut }}
     >
-      <a
-        href={asset.href}
-        download
-        onMouseEnter={() => sounds.hover()}
-        onClick={() => sounds.click()}
-        className="group block p-6 sm:p-8 rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] hover:border-black/[0.15] dark:hover:border-white/[0.12] transition-all duration-300 cursor-pointer"
-      >
-        <div className="flex items-start justify-between mb-5">
-          <div className="w-12 h-12 rounded-xl bg-black/[0.04] dark:bg-white/[0.06] flex items-center justify-center group-hover:scale-110 transition-transform">
-            <asset.icon className="w-5 h-5 text-black dark:text-white" />
-          </div>
-          <Download className="w-4 h-4 text-gray-300 dark:text-white/20 group-hover:text-black dark:group-hover:text-white transition-colors" />
+      {isDownloadable ? (
+        <a
+          href={asset.href}
+          download
+          onMouseEnter={() => sounds.hover()}
+          onClick={() => sounds.click()}
+          className="group block p-6 sm:p-8 rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] hover:border-black/[0.15] dark:hover:border-white/[0.12] transition-all duration-300 cursor-pointer"
+        >
+          {inner}
+        </a>
+      ) : (
+        <div
+          onMouseEnter={() => sounds.hover()}
+          className="group block p-6 sm:p-8 rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] transition-all duration-300"
+        >
+          {inner}
         </div>
-
-        <h3 className="text-lg font-semibold text-black dark:text-white mb-2">
-          {asset.title}
-        </h3>
-        <p className="text-[14px] text-gray-500 dark:text-white/40 leading-relaxed">
-          {asset.description}
-        </p>
-      </a>
+      )}
     </motion.div>
   );
 };

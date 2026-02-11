@@ -549,8 +549,8 @@ export default function EthToAed() {
                       type="text"
                       inputMode="decimal"
                       value={amount}
-                      onChange={(e) => setAmount(e.target.value.replace(/[^0-9.]/g, ""))}
-                      className="flex-1 bg-transparent text-2xl sm:text-3xl font-bold text-black dark:text-white outline-none placeholder:text-black/20 dark:placeholder:text-white/20 min-w-0"
+                      onChange={(e) => { const v = e.target.value.replace(/[^0-9.]/g, ""); if (v.replace(".", "").length <= 7) setAmount(v); }}
+                      className="flex-1 bg-transparent text-2xl sm:text-3xl font-bold text-black dark:text-white outline-none placeholder:text-black/20 dark:placeholder:text-white/20 min-w-0 truncate"
                       placeholder="0"
                     />
                     {direction === "sell" ? (
@@ -583,7 +583,7 @@ export default function EthToAed() {
                     You Receive
                   </label>
                   <div className="flex items-center gap-3 p-4 rounded-xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.06] dark:border-white/[0.06]">
-                    <div className="flex-1 text-2xl sm:text-3xl font-bold text-black dark:text-white min-w-0">
+                    <div className="flex-1 text-2xl sm:text-3xl font-bold text-black dark:text-white min-w-0 truncate">
                       {loading ? (
                         <span className="text-black/20 dark:text-white/20">Loading...</span>
                       ) : error ? (
