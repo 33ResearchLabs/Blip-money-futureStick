@@ -65,6 +65,19 @@ const SellUsdtDubai = lazy(() => import("./pages/SellUsdtDubai"));
 const CryptoPaymentsUAE = lazy(() => import("./pages/CryptoPaymentsUAE"));
 const AcceptCryptoBusiness = lazy(() => import("./pages/AcceptCryptoBusiness"));
 const CryptoToAed = lazy(() => import("./pages/CryptoToAed"));
+const CryptoRemittanceUae = lazy(() => import("./pages/CryptoRemittanceUae"));
+
+// Per-Coin Converter Pages
+const BtcToAed = lazy(() => import("./pages/BtcToAed"));
+const EthToAed = lazy(() => import("./pages/EthToAed"));
+const SolToAed = lazy(() => import("./pages/SolToAed"));
+
+// Keyword Landing Pages
+const CryptoToBankUae = lazy(() => import("./pages/CryptoToBankUae"));
+const UsdtVsUsdc = lazy(() => import("./pages/UsdtVsUsdc"));
+const CryptoTaxUae = lazy(() => import("./pages/CryptoTaxUae"));
+const CryptoEscrowUae = lazy(() => import("./pages/CryptoEscrowUae"));
+const CryptoSalaryUae = lazy(() => import("./pages/CryptoSalaryUae"));
 
 const queryClient = new QueryClient();
 
@@ -135,6 +148,19 @@ const App = () => (
                     <Route path="/crypto-payments-uae" element={<CryptoPaymentsUAE />} />
                     <Route path="/accept-crypto-business" element={<AcceptCryptoBusiness />} />
                     <Route path="/crypto-to-aed" element={<CryptoToAed />} />
+                    <Route path="/crypto-remittance-uae" element={<CryptoRemittanceUae />} />
+
+                    {/* Per-Coin Converter Pages */}
+                    <Route path="/btc-to-aed" element={<BtcToAed />} />
+                    <Route path="/eth-to-aed" element={<EthToAed />} />
+                    <Route path="/sol-to-aed" element={<SolToAed />} />
+
+                    {/* Keyword Landing Pages */}
+                    <Route path="/crypto-to-bank-uae" element={<CryptoToBankUae />} />
+                    <Route path="/usdt-vs-usdc" element={<UsdtVsUsdc />} />
+                    <Route path="/crypto-tax-uae" element={<CryptoTaxUae />} />
+                    <Route path="/crypto-escrow-uae" element={<CryptoEscrowUae />} />
+                    <Route path="/crypto-salary-uae" element={<CryptoSalaryUae />} />
 
                     <Route
                       path="/waitlist"

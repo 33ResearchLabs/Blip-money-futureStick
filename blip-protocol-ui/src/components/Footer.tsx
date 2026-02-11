@@ -457,6 +457,9 @@ export const Footer = () => {
                 <li><FooterLink to="/glossary">Glossary</FooterLink></li>
                 <li><FooterLink to="/compare">Compare</FooterLink></li>
                 <li><FooterLink to="/crypto-to-aed">Crypto to AED</FooterLink></li>
+                <li><FooterLink to="/btc-to-aed">BTC to AED</FooterLink></li>
+                <li><FooterLink to="/usdt-vs-usdc">USDT vs USDC</FooterLink></li>
+                <li><FooterLink to="/crypto-tax-uae">Crypto Tax UAE</FooterLink></li>
               </ul>
             </div>
 
