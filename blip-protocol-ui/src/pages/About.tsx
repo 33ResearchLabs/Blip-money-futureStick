@@ -80,23 +80,6 @@ const coreValues = [
   },
 ];
 
-const teamMembers = [
-  { name: "Alex Mercer", role: "CEO & Co-Founder" },
-  { name: "Sarah Chen", role: "CTO & Co-Founder" },
-  { name: "David Okafor", role: "Head of Product" },
-  { name: "Maria Santos", role: "Lead Engineer" },
-  { name: "James Wright", role: "Head of Growth" },
-  { name: "Lina Patel", role: "Community Lead" },
-];
-
-const partners = [
-  "Partner 1",
-  "Partner 2",
-  "Partner 3",
-  "Partner 4",
-  "Partner 5",
-  "Partner 6",
-];
 
 /* -- Animated Section Wrapper -- */
 
@@ -197,44 +180,6 @@ const ValueCard = ({
   );
 };
 
-/* ============================================
-   TEAM MEMBER CARD
-   ============================================ */
-
-const TeamMemberCard = ({
-  member,
-  index,
-}: {
-  member: (typeof teamMembers)[0];
-  index: number;
-}) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-40px" });
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay: index * 0.08, ease: easeOut }}
-      onMouseEnter={() => sounds.hover()}
-      className="group p-6 sm:p-8 rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] hover:border-black/[0.15] dark:hover:border-white/[0.12] transition-all duration-300 text-center"
-    >
-      {/* Avatar with initial */}
-      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-gray-200 dark:from-white/10 to-gray-300 dark:to-white/5 flex items-center justify-center mx-auto mb-5">
-        <span className="text-xl font-bold text-gray-500 dark:text-white/50">
-          {member.name.charAt(0)}
-        </span>
-      </div>
-      <h3 className="text-base font-semibold text-black dark:text-white mb-1">
-        {member.name}
-      </h3>
-      <p className="text-[13px] text-gray-400 dark:text-white/40">
-        {member.role}
-      </p>
-    </motion.div>
-  );
-};
 
 /* ============================================
    MAIN ABOUT PAGE
@@ -244,8 +189,8 @@ export default function About() {
   return (
     <>
       <SEO
-        title="About Blip Money - Our Mission, Vision & Team"
-        description="Learn about Blip Money's mission to build non-custodial settlement infrastructure for the world. Meet the team behind the protocol."
+        title="About Blip Money - Our Mission & Vision"
+        description="Learn about Blip Money's mission to build non-custodial settlement infrastructure for the world. Instant payments, on-chain escrow, powered by Solana."
         canonical="https://blip.money/about"
         keywords="Blip Money about, Blip team, crypto payments mission, settlement infrastructure"
       />
@@ -350,77 +295,6 @@ export default function About() {
           </div>
         </section>
 
-        {/* ── The Team ── */}
-        <section className="py-16 sm:py-24">
-          <div className="max-w-[1100px] mx-auto px-4 sm:px-6">
-            <AnimatedSection className="text-center mb-14">
-              <span className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 block mb-5">
-                The Team
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-bold text-black dark:text-white tracking-tight mb-4">
-                Built by a global team
-              </h2>
-              <p className="text-lg text-gray-500 dark:text-white/40 max-w-lg mx-auto">
-                Engineers, designers, and operators from leading crypto and
-                fintech companies, united by a shared mission.
-              </p>
-            </AnimatedSection>
-
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6">
-              {teamMembers.map((member, index) => (
-                <TeamMemberCard
-                  key={member.name}
-                  member={member}
-                  index={index}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ── Backed By ── */}
-        <section className="py-16 sm:py-24">
-          <div className="max-w-[1100px] mx-auto px-4 sm:px-6">
-            <AnimatedSection className="text-center mb-14">
-              <span className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 block mb-5">
-                Backed By
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-bold text-black dark:text-white tracking-tight">
-                Our investors and partners
-              </h2>
-            </AnimatedSection>
-
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6">
-              {partners.map((partner, index) => {
-                const ref = useRef(null);
-                const isInView = useInView(ref, {
-                  once: true,
-                  margin: "-40px",
-                });
-
-                return (
-                  <motion.div
-                    ref={ref}
-                    key={partner}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{
-                      duration: 0.5,
-                      delay: index * 0.08,
-                      ease: easeOut,
-                    }}
-                    onMouseEnter={() => sounds.hover()}
-                    className="group h-24 sm:h-28 rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] hover:border-black/[0.15] dark:hover:border-white/[0.12] transition-all duration-300 flex items-center justify-center"
-                  >
-                    <span className="text-sm font-medium text-gray-400 dark:text-white/30 group-hover:text-gray-500 dark:group-hover:text-white/50 transition-colors">
-                      {partner}
-                    </span>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
 
         {/* ── Join Us CTA ── */}
         <section className="py-16 sm:py-24 pb-24 sm:pb-32">
