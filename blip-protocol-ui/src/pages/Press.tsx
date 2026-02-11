@@ -27,33 +27,15 @@ const easeOut = [0.19, 1, 0.22, 1] as const;
 const pressReleases = [
   {
     date: "2025-12-15",
-    title: "Blip Money Launches Non-Custodial Payment Protocol on Solana Mainnet",
+    title: "Blip Money Launches Non-Custodial Payment Protocol on Solana Devnet",
     description:
-      "Blip Money officially goes live on Solana mainnet, enabling instant stablecoin settlements for merchants and consumers worldwide with on-chain escrow protection.",
-  },
-  {
-    date: "2025-10-28",
-    title: "Blip Money Raises $4.2M Seed Round to Build Decentralized Settlement Infrastructure",
-    description:
-      "The round was led by leading crypto-native funds with participation from strategic angel investors across the DeFi and payments ecosystem.",
-  },
-  {
-    date: "2025-08-14",
-    title: "Blip Money Partners with Major UAE Payment Processors for Fiat On-Ramp",
-    description:
-      "Strategic partnership enables seamless AED to stablecoin conversion, unlocking crypto payments for thousands of merchants across the UAE.",
+      "Blip Money goes live on Solana devnet, enabling stablecoin settlements for merchants and consumers with on-chain escrow protection. Public testing begins with 20 early users.",
   },
   {
     date: "2025-06-20",
     title: "Blip Protocol Introduces On-Chain Escrow with Automated Dispute Resolution",
     description:
-      "A first-of-its-kind trustless escrow system that leverages smart contracts and DAO governance to resolve payment disputes without intermediaries.",
-  },
-  {
-    date: "2025-04-10",
-    title: "Blip Money Surpasses 10,000 Transactions in Public Beta",
-    description:
-      "The protocol reaches a major milestone as early adopters process over $2M in total volume during the invite-only beta testing phase.",
+      "A trustless escrow system that leverages smart contracts to resolve payment disputes without intermediaries. Currently in development and internal testing.",
   },
   {
     date: "2025-02-05",
@@ -63,38 +45,7 @@ const pressReleases = [
   },
 ];
 
-const mediaMentions = [
-  {
-    publication: "CoinDesk",
-    title: "Blip Money Is Building the Stripe of Crypto Payments on Solana",
-    date: "2025-11-22",
-  },
-  {
-    publication: "The Block",
-    title: "Non-Custodial Settlement: How Blip Protocol Rethinks Merchant Payments",
-    date: "2025-10-05",
-  },
-  {
-    publication: "CoinTelegraph",
-    title: "UAE Startup Blip Money Secures Seed Funding for Decentralized Payment Rails",
-    date: "2025-09-18",
-  },
-  {
-    publication: "Decrypt",
-    title: "Solana-Based Blip Money Aims to Replace Traditional Payment Gateways",
-    date: "2025-08-30",
-  },
-  {
-    publication: "Blockworks",
-    title: "On-Chain Escrow Is the Next Big Thing in Crypto Payments, Says Blip Team",
-    date: "2025-07-12",
-  },
-  {
-    publication: "DL News",
-    title: "How Blip Money Plans to Onboard 100K Merchants to Crypto",
-    date: "2025-05-25",
-  },
-];
+const mediaMentions: { publication: string; title: string; date: string }[] = [];
 
 const brandAssets = [
   {
@@ -346,6 +297,7 @@ export default function Press() {
         </section>
 
         {/* ── In The Media ── */}
+        {mediaMentions.length > 0 && (
         <section className="py-16 sm:py-24">
           <div className="max-w-[1100px] mx-auto px-4 sm:px-6">
             <AnimatedSection className="text-center mb-14">
@@ -368,6 +320,7 @@ export default function Press() {
             </div>
           </div>
         </section>
+        )}
 
         {/* ── Brand Assets ── */}
         <section className="py-16 sm:py-24">

@@ -544,7 +544,7 @@ const MarketSimulationSection: React.FC<{
               <div className="pt-2">
                 <div className="flex justify-between text-[10px]  text-[#A0A0A0] mb-2">
                   <span>TOTAL_BONDED_VALUE</span>
-                  <span className="text-black dark:text-white">$4.2M</span>
+                  <span className="text-black dark:text-white">$12K</span>
                 </div>
                 <div className="h-0.5 bg-gray-200 dark:bg-[#111111] w-full">
                   <div className="h-full bg-zinc-400 w-[75%]"></div>
