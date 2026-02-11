@@ -9,6 +9,8 @@ import {
   Minus,
 } from "lucide-react";
 import SEO from "@/components/SEO";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { HreflangTags } from "@/components/HreflangTags";
 import {
   comparisons,
   type ComparisonPage,
@@ -102,11 +104,13 @@ const CompareListing = () => {
         canonical="https://blip.money/compare"
         keywords="Blip vs Wise, Blip vs Binance P2P, crypto comparison, P2P trading comparison, escrow comparison"
       />
+      <HreflangTags path="/compare" />
 
       <div className="min-h-screen bg-[#FAF8F5] dark:bg-transparent">
         {/* Hero */}
         <section className="relative pt-32 sm:pt-36 pb-12 sm:pb-16">
           <div className="max-w-[900px] mx-auto px-4 sm:px-6">
+            <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Compare" }]} />
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -231,45 +235,13 @@ const CompareDetail = ({ comparison }: { comparison: ComparisonPage }) => {
         canonical={comparison.seo.canonical}
         keywords={comparison.seo.keywords}
       />
+      <HreflangTags path={`/compare/${comparison.slug}`} />
 
       <div className="min-h-screen bg-[#FAF8F5] dark:bg-transparent">
-        {/* Breadcrumb */}
-        <section className="pt-28 sm:pt-32">
-          <div className="max-w-[900px] mx-auto px-4 sm:px-6">
-            <motion.nav
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4 }}
-              className="flex items-center gap-1.5 text-[13px] text-gray-400 dark:text-white/35"
-            >
-              <Link
-                to="/"
-                onClick={() => sounds.click()}
-                onMouseEnter={() => sounds.hover()}
-                className="hover:text-black dark:hover:text-white transition-colors"
-              >
-                Home
-              </Link>
-              <ChevronRight className="w-3.5 h-3.5" />
-              <Link
-                to="/compare"
-                onClick={() => sounds.click()}
-                onMouseEnter={() => sounds.hover()}
-                className="hover:text-black dark:hover:text-white transition-colors"
-              >
-                Compare
-              </Link>
-              <ChevronRight className="w-3.5 h-3.5" />
-              <span className="text-black dark:text-white/70 font-medium">
-                {comparison.title}
-              </span>
-            </motion.nav>
-          </div>
-        </section>
-
         {/* Hero */}
-        <section className="relative pt-8 sm:pt-12 pb-12 sm:pb-16">
+        <section className="relative pt-32 sm:pt-36 pb-12 sm:pb-16">
           <div className="max-w-[900px] mx-auto px-4 sm:px-6">
+            <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Compare", href: "/compare" }, { label: comparison.title }]} />
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

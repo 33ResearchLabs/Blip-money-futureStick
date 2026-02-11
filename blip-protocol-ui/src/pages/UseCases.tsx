@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { motion, useInView } from "framer-motion";
 import { Laptop, TrendingUp, ShoppingCart, Globe, ArrowRight } from "lucide-react";
 import SEO from "@/components/SEO";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { HreflangTags } from "@/components/HreflangTags";
 import { useCases, type UseCase } from "@/data/useCasesData";
 import { sounds } from "@/lib/sounds";
 
@@ -85,11 +87,13 @@ export default function UseCases() {
         canonical="https://blip.money/use-cases"
         keywords="Blip use cases, crypto payments freelancers, OTC trading escrow, crypto ecommerce, crypto remittance"
       />
+      <HreflangTags path="/use-cases" />
 
       <div className="min-h-screen bg-[#FAF8F5] dark:bg-transparent">
         {/* Hero */}
         <section className="relative pt-32 sm:pt-36 pb-12 sm:pb-16">
           <div className="max-w-[900px] mx-auto px-4 sm:px-6">
+            <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Use Cases" }]} />
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

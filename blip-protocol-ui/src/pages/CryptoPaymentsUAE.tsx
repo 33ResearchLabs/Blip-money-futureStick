@@ -17,6 +17,8 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SEO } from "@/components";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { HreflangTags } from "@/components/HreflangTags";
 import { sounds } from "@/lib/sounds";
 
 /* ============================================
@@ -37,6 +39,7 @@ const HeroSection = () => {
       </div>
 
       <div className="relative z-10 max-w-5xl mx-auto px-6">
+        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Crypto Payments UAE" }]} />
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -585,6 +588,7 @@ const CryptoPaymentsUAE = () => {
         canonical="https://blip.money/crypto-payments-uae"
         keywords="crypto payments UAE, cryptocurrency UAE, Bitcoin payments Dubai, crypto to fiat UAE, buy crypto AED, sell crypto UAE, crypto settlement Dubai"
       />
+      <HreflangTags path="/crypto-payments-uae" />
 
       <div className="bg-[#FAF8F5] dark:bg-black text-black dark:text-white overflow-x-hidden">
         <HeroSection />

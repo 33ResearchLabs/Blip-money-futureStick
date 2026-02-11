@@ -2,6 +2,8 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Tag, Calendar } from "lucide-react";
 import SEO from "@/components/SEO";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { HreflangTags } from "@/components/HreflangTags";
 import {
   changelogEntries,
   type ChangelogEntry,
@@ -151,11 +153,13 @@ export default function Changelog() {
         canonical="https://blip.money/changelog"
         keywords="Blip Money changelog, product updates, release notes, Blip features, development timeline"
       />
+      <HreflangTags path="/changelog" />
 
       <div className="min-h-screen bg-[#FAF8F5] dark:bg-transparent">
         {/* Hero */}
         <section className="relative pt-32 sm:pt-36 pb-12 sm:pb-16">
           <div className="max-w-[900px] mx-auto px-4 sm:px-6">
+            <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Changelog" }]} />
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

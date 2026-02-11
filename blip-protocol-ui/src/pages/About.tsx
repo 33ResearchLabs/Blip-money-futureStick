@@ -13,6 +13,8 @@ import {
   ArrowRight,
 } from "lucide-react";
 import SEO from "@/components/SEO";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { HreflangTags } from "@/components/HreflangTags";
 import { sounds } from "@/lib/sounds";
 
 /* ============================================
@@ -247,11 +249,13 @@ export default function About() {
         canonical="https://blip.money/about"
         keywords="Blip Money about, Blip team, crypto payments mission, settlement infrastructure"
       />
+      <HreflangTags path="/about" />
 
       <div className="min-h-screen bg-[#FAF8F5] dark:bg-transparent">
         {/* ── Hero ── */}
         <section className="relative pt-32 sm:pt-36 pb-12 sm:pb-16">
           <div className="max-w-[900px] mx-auto px-4 sm:px-6">
+            <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "About" }]} />
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

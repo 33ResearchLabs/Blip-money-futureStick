@@ -25,6 +25,8 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SEO } from "@/components";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { HreflangTags } from "@/components/HreflangTags";
 import { sounds } from "@/lib/sounds";
 
 /* ============================================
@@ -45,6 +47,7 @@ const HeroSection = () => {
       </div>
 
       <div className="relative z-10 max-w-5xl mx-auto px-6">
+        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Accept Crypto for Business" }]} />
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -635,6 +638,7 @@ const AcceptCryptoBusiness = () => {
         canonical="https://blip.money/accept-crypto-business"
         keywords="accept crypto payments business, cryptocurrency payment gateway, crypto merchant, accept Bitcoin business, crypto payments for business, accept USDT business"
       />
+      <HreflangTags path="/accept-crypto-business" />
 
       <div className="bg-[#FAF8F5] dark:bg-black text-black dark:text-white overflow-x-hidden">
         <HeroSection />

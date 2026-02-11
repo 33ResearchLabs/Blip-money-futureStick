@@ -8,6 +8,8 @@ import {
   ChevronRight,
 } from "lucide-react";
 import SEO from "@/components/SEO";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { HreflangTags } from "@/components/HreflangTags";
 import { useCases } from "@/data/useCasesData";
 import { sounds } from "@/lib/sounds";
 
@@ -111,45 +113,13 @@ export default function UseCaseDetail() {
         canonical={useCase.seo.canonical}
         keywords={useCase.seo.keywords}
       />
+      <HreflangTags path={`/use-cases/${slug}`} />
 
       <div className="min-h-screen bg-[#FAF8F5] dark:bg-transparent">
-        {/* Breadcrumb */}
-        <section className="pt-28 sm:pt-32">
-          <div className="max-w-[900px] mx-auto px-4 sm:px-6">
-            <motion.nav
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4 }}
-              className="flex items-center gap-1.5 text-[13px] text-gray-400 dark:text-white/35"
-            >
-              <Link
-                to="/"
-                onClick={() => sounds.click()}
-                onMouseEnter={() => sounds.hover()}
-                className="hover:text-black dark:hover:text-white transition-colors"
-              >
-                Home
-              </Link>
-              <ChevronRight className="w-3.5 h-3.5" />
-              <Link
-                to="/use-cases"
-                onClick={() => sounds.click()}
-                onMouseEnter={() => sounds.hover()}
-                className="hover:text-black dark:hover:text-white transition-colors"
-              >
-                Use Cases
-              </Link>
-              <ChevronRight className="w-3.5 h-3.5" />
-              <span className="text-black dark:text-white/70 font-medium">
-                {useCase.title}
-              </span>
-            </motion.nav>
-          </div>
-        </section>
-
         {/* Hero */}
-        <section className="relative pt-8 sm:pt-12 pb-12 sm:pb-16">
+        <section className="relative pt-32 sm:pt-36 pb-12 sm:pb-16">
           <div className="max-w-[900px] mx-auto px-4 sm:px-6">
+            <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Use Cases", href: "/use-cases" }, { label: useCase.title }]} />
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

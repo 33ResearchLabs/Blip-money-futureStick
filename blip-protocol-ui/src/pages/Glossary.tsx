@@ -2,6 +2,8 @@ import { useState, useRef, useMemo } from "react";
 import { motion, useInView } from "framer-motion";
 import { Search } from "lucide-react";
 import SEO from "@/components/SEO";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { HreflangTags } from "@/components/HreflangTags";
 import {
   glossaryTerms,
   glossaryCategories,
@@ -123,11 +125,13 @@ export default function Glossary() {
         canonical="https://blip.money/glossary"
         keywords="crypto glossary, DeFi terms, blockchain glossary, Blip Money glossary, crypto dictionary"
       />
+      <HreflangTags path="/glossary" />
 
       <div className="min-h-screen bg-[#FAF8F5] dark:bg-transparent">
         {/* Hero */}
         <section className="relative pt-32 sm:pt-36 pb-12 sm:pb-16">
           <div className="max-w-[900px] mx-auto px-4 sm:px-6">
+            <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Glossary" }]} />
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
