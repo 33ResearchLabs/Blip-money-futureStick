@@ -632,7 +632,7 @@ export const researchArticles: ResearchArticle[] = [
     category: "Telegram Bots",
     readTime: "8 min read",
     coverImage:
-      "https://images.unsplash.com/photo-1636114673156-052a83e67977?w=1200&h=630&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1633265486064-086b219458ec?w=1200&h=630&fit=crop&q=80",
     coverGradient: "from-blue-500/20 via-neon-cyan/10 to-transparent",
     seo: {
       title: "Telegram Mini Apps for Web3 Payments | Blip Research",

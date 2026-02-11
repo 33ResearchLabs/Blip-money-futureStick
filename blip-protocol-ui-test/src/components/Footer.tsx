@@ -183,6 +183,7 @@
 // };
 
 import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import {
   Twitter,
   Linkedin,
@@ -198,6 +199,15 @@ import {
  * Professional messaging for blip.money.
  * Added: Scroll-triggered entrance animations using Intersection Observer.
  */
+
+const FooterLink = ({ to, children }: { to: string; children: React.ReactNode }) => (
+  <Link
+    to={to}
+    className="text-[13px] text-black/50 dark:text-zinc-500 hover:text-black dark:hover:text-white transition-colors"
+  >
+    {children}
+  </Link>
+);
 
 export const Footer = () => {
   const [isActive, setIsActive] = useState(false);
@@ -394,6 +404,86 @@ export const Footer = () => {
                 <Slack className="w-3.5 h-3.5 text-black/50 dark:text-zinc-500 group-hover:text-black dark:group-hover:text-white transition-colors" />
                 Get Support
               </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* FOOTER LINKS GRID */}
+      <div
+        className={`border-t border-black/5 dark:border-white/5 transition-all duration-[1200ms] delay-300 ease-out ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-12">
+            {/* Protocol */}
+            <div className="space-y-3">
+              <h4 className="text-[11px] font-bold uppercase tracking-[0.12em] text-black/80 dark:text-white/80">
+                Protocol
+              </h4>
+              <ul className="space-y-2">
+                <li><FooterLink to="/how-it-works">How It Works</FooterLink></li>
+                <li><FooterLink to="/tokenomics">Tokenomics</FooterLink></li>
+                <li><FooterLink to="/whitepaper">Whitepaper</FooterLink></li>
+                <li><FooterLink to="/docs">Documentation</FooterLink></li>
+                <li><FooterLink to="/changelog">Changelog</FooterLink></li>
+              </ul>
+            </div>
+
+            {/* Use Cases */}
+            <div className="space-y-3">
+              <h4 className="text-[11px] font-bold uppercase tracking-[0.12em] text-black/80 dark:text-white/80">
+                Use Cases
+              </h4>
+              <ul className="space-y-2">
+                <li><FooterLink to="/use-cases/freelancers">Freelancers</FooterLink></li>
+                <li><FooterLink to="/use-cases/otc-traders">OTC Traders</FooterLink></li>
+                <li><FooterLink to="/use-cases/e-commerce">E-Commerce</FooterLink></li>
+                <li><FooterLink to="/use-cases/remittance">Remittances</FooterLink></li>
+                <li><FooterLink to="/merchant">Merchants</FooterLink></li>
+              </ul>
+            </div>
+
+            {/* Resources */}
+            <div className="space-y-3">
+              <h4 className="text-[11px] font-bold uppercase tracking-[0.12em] text-black/80 dark:text-white/80">
+                Resources
+              </h4>
+              <ul className="space-y-2">
+                <li><FooterLink to="/blog">Blog</FooterLink></li>
+                <li><FooterLink to="/research">Research</FooterLink></li>
+                <li><FooterLink to="/faq">FAQ</FooterLink></li>
+                <li><FooterLink to="/glossary">Glossary</FooterLink></li>
+                <li><FooterLink to="/compare">Compare</FooterLink></li>
+                <li><FooterLink to="/crypto-to-aed">Crypto to AED</FooterLink></li>
+              </ul>
+            </div>
+
+            {/* Company */}
+            <div className="space-y-3">
+              <h4 className="text-[11px] font-bold uppercase tracking-[0.12em] text-black/80 dark:text-white/80">
+                Company
+              </h4>
+              <ul className="space-y-2">
+                <li><FooterLink to="/about">About</FooterLink></li>
+                <li><FooterLink to="/press">Press</FooterLink></li>
+                <li><FooterLink to="/community">Community</FooterLink></li>
+                <li><FooterLink to="/waitlist">Waitlist</FooterLink></li>
+              </ul>
+            </div>
+
+            {/* Legal */}
+            <div className="space-y-3">
+              <h4 className="text-[11px] font-bold uppercase tracking-[0.12em] text-black/80 dark:text-white/80">
+                Legal
+              </h4>
+              <ul className="space-y-2">
+                <li><FooterLink to="/privacy">Privacy</FooterLink></li>
+                <li><FooterLink to="/terms">Terms</FooterLink></li>
+                <li><FooterLink to="/gdpr">GDPR</FooterLink></li>
+                <li><FooterLink to="/compliance">Compliance</FooterLink></li>
+              </ul>
             </div>
           </div>
         </div>

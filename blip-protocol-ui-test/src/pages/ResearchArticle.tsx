@@ -3,6 +3,8 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { ArrowLeft, Clock, ArrowRight, FlaskConical } from "lucide-react";
 import SEO from "@/components/SEO";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { HreflangTags } from "@/components/HreflangTags";
 import StructuredData, {
   createArticleSchema,
   createBreadcrumbSchema,
@@ -164,7 +166,7 @@ export default function ResearchArticle() {
         schema={createArticleSchema({
           headline: article.seo.title,
           description: article.seo.description,
-          image: "https://blip.money/logo.png",
+          image: article.coverImage.startsWith("http") ? article.coverImage : `https://blip.money${article.coverImage}`,
           datePublished: article.date,
           author: article.author.name,
         })}
@@ -178,6 +180,7 @@ export default function ResearchArticle() {
           { name: article.title, url: article.seo.canonical },
         ])}
       />
+      <HreflangTags path={`/research/${slug}`} />
 
       <div className="min-h-screen bg-[#FAF8F5] dark:bg-transparent">
         {/* Article Header */}
@@ -188,6 +191,8 @@ export default function ResearchArticle() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.19, 1, 0.22, 1] }}
             >
+              <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Research", href: "/research" }, { label: article.title }]} />
+
               {/* Back link */}
               <Link
                 to="/research"
@@ -285,6 +290,32 @@ export default function ResearchArticle() {
                 View all research
                 <ArrowRight className="w-4 h-4" />
               </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* Cross-links to other content */}
+        <section className="border-t border-gray-100 dark:border-white/[0.06] bg-[#FAF8F5]/50 dark:bg-white/[0.01]">
+          <div className="max-w-[720px] mx-auto px-4 sm:px-6 py-12">
+            <h3 className="text-[11px] font-semibold uppercase tracking-[0.15em] text-gray-400 dark:text-white/30 mb-6">
+              Explore More
+            </h3>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {[
+                { label: "FAQ", href: "/faq", desc: "Common questions" },
+                { label: "Glossary", href: "/glossary", desc: "Crypto terms" },
+                { label: "Use Cases", href: "/use-cases", desc: "Who it's for" },
+                { label: "Compare", href: "/compare", desc: "How we differ" },
+              ].map((link) => (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  className="group p-4 rounded-xl bg-white/60 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] hover:border-black/[0.12] dark:hover:border-white/[0.12] transition-colors"
+                >
+                  <span className="block text-sm font-semibold text-black dark:text-white group-hover:text-gray-600 dark:group-hover:text-white/80 transition-colors">{link.label}</span>
+                  <span className="block text-xs text-gray-400 dark:text-white/30 mt-1">{link.desc}</span>
+                </Link>
+              ))}
             </div>
           </div>
         </section>
