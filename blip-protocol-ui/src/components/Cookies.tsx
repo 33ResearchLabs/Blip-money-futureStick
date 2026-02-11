@@ -64,8 +64,8 @@ const Cookies = () => {
   return (
     <>
       <SEO
-        title="Cookie Policy | Blip Money"
-        description="Understand how Blip Money uses cookies to improve user experience and website functionality."
+        title="Blip Money – Cookie Policy "
+        description="Learn how Blip Money uses cookies and similar technologies to improve user experience, enhance security, and analyze website performance."
         canonical="https://blip.money/cookies"
       />
 

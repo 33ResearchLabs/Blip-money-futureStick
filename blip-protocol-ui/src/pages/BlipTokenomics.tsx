@@ -30,14 +30,25 @@ const smoothConfig = { stiffness: 100, damping: 30, restDelta: 0.001 };
 
 // Color palette
 const colors = {
-  ecosystem: "#ffffff",
+  ecosystem: "#52525B",
   liquidity: "#00C2FF",
-  airdrop: "#FFFFFF",
+  airdrop: "#52525B",
   team: "#FFB743",
   advisers: "#FCD34D",
   partners: "#9CA3AF",
   treasury: "#4B5563",
 };
+// const colors = {
+//   ecosystem: "#334155",   // slate dark
+//   liquidity: "#475569",   // slate medium
+//   airdrop: "#64748B",     // slate light
+//   team: "#78716C",        // warm gray
+//   advisers: "#A8A29E",    // soft gray
+//   partners: "#94A3B8",    // cool gray
+//   treasury: "#52525B",    // neutral dark gray
+// };
+
+
 
 const allocationData = [
   { label: "Ecosystem Rewards", value: 30, color: colors.ecosystem },
@@ -321,7 +332,7 @@ const DistributionSection = () => {
                     {item.label}
                   </span>
                   <span
-                    className="text-2xl font-medium"
+                    className="text-2xl font-medium "
                     style={{ color: item.color }}
                   >
                     {item.value}%
