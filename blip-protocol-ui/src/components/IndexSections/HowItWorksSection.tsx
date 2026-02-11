@@ -51,7 +51,7 @@ const PhoneMockup = ({ activeSection, steps }) => (
         <div className="absolute top-4 left-1/2 -translate-x-1/2 w-28 h-7 bg-black rounded-full z-50" />
 
         {/* Screen Content */}
-        <div className="w-full h-full pt-[9vh]">
+        <div className="w-full h-full pt-[0vh]">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeSection}
@@ -264,24 +264,25 @@ const App = () => {
 
           {/* Content Section */}
           <div className="order-1 w-full flex items-center overflow-clip">
-            <div className="w-full relative px-2">
+            <div className="w-full relative px-2 pt-4">
               <AnimatePresence mode="wait">
                 {activeSection === 0 && (
                   <motion.section
                     key="section-1"
-                    className="space-y-6"
+                    className="space-y-4"
                     initial={{ x: 100, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     exit={{ x: -100, opacity: 0 }}
                     transition={{ duration: 0.6, ease: "easeOut" }}
                   >
-                    <h1 className="text-3xl sm:text-4xl font-semibold leading-tight text-black dark:text-white">
+                    <h1 className="text-xl font-semibold leading-snug text-black dark:text-white">
                       Request Your <br />
-                      <span className="text-black/80 dark:text-white/50">
+                      <span className="text-black/70 dark:text-white/50">
                         Capital Flow.
                       </span>
                     </h1>
-                    <p className="text-lg sm:text-xl text-black/80 dark:text-white/50 leading-relaxed max-w-xl">
+
+                    <p className="text-base text-black/80 dark:text-white/60 leading-relaxed max-w-md">
                       Connect institutional treasuries. Blip enables instant
                       payment requests across 40+ fiat rails with sub-second
                       finality.
@@ -292,19 +293,20 @@ const App = () => {
                 {activeSection === 1 && (
                   <motion.section
                     key="section-2"
-                    className="space-y-6"
+                    className="space-y-4"
                     initial={{ x: 100, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     exit={{ x: -100, opacity: 0 }}
                     transition={{ duration: 0.6, ease: "easeOut" }}
                   >
-                    <h2 className="text-4xl sm:text-5xl font-semibold leading-tight text-black dark:text-white">
+                    <h2 className="text-xl font-semibold leading-snug text-black dark:text-white">
                       Price <br />
-                      <span className="text-black/80 dark:text-white/50">
+                      <span className="text-black/70 dark:text-white/50">
                         Optimization.
                       </span>
                     </h2>
-                    <p className="text-lg sm:text-xl text-black/80 dark:text-white/50 leading-relaxed max-w-xl">
+
+                    <p className="text-base text-black/80 dark:text-white/60 leading-relaxed max-w-md">
                       Our engine scans local liquidity to find the exact
                       mid-market exchange rate without hidden bank fees.
                     </p>
@@ -314,19 +316,20 @@ const App = () => {
                 {activeSection === 2 && (
                   <motion.section
                     key="section-3"
-                    className="space-y-6"
+                    className="space-y-4"
                     initial={{ x: 100, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     exit={{ x: -100, opacity: 0 }}
                     transition={{ duration: 0.6, ease: "easeOut" }}
                   >
-                    <h2 className="text-4xl sm:text-5xl font-semibold leading-tight text-black dark:text-white">
+                    <h2 className="text-xl font-semibold leading-snug text-black dark:text-white">
                       Secure <br />
-                      <span className="text-black/80 dark:text-white/50">
+                      <span className="text-black/70 dark:text-white/50">
                         Execution.
                       </span>
                     </h2>
-                    <p className="text-lg sm:text-xl text-black/80 dark:text-white/50 leading-relaxed max-w-xl">
+
+                    <p className="text-base text-black/80 dark:text-white/60 leading-relaxed max-w-md">
                       Multi-sig verification ensures funds are validated before
                       instant release to your destination.
                     </p>
@@ -347,32 +350,33 @@ const App = () => {
           </div>
 
           {/* RIGHT SIDE: Content Narrative */}
-          <div className="w-full lg:w-[55%] min-h-[150vh] flex flex-col lg:mt-32 justify-end space-y-72 pb-[calc(50vh-290px)]">
+          <div className="w-full lg:w-[55%] min-h-[150vh] flex flex-col lg:mt-32 justify-end space-y-40 pb-[calc(50vh-290px)]">
             {/* Section 01: Initiation */}
-            <section className="content-section space-y-12">
-              <div className="space-y-4">
-                <span className="text-black/80 dark:text-white/50 font-bold tracking-[0.4em] uppercase text-[10px]">
+            <section className="content-section space-y-8">
+              <div className="space-y-3">
+                <span className="text-black/80 dark:text-white/50 font-bold tracking-[0.3em] uppercase text-xs">
                   Initiation
                 </span>
+
                 <motion.h1
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  className="text-7xl font-semibold tracking-tight leading-[0.85] text-black dark:text-white"
+                  className="text-3xl font-semibold tracking-tight leading-tight text-black dark:text-white"
                 >
                   Request Your <br />
-                  <span className="text-black/80 dark:text-white/50">
+                  <span className="text-black/70 dark:text-white/50">
                     Capital Flow.
                   </span>
                 </motion.h1>
               </div>
 
-              <p className="text-2xl text-black/80 dark:text-white/50 font-normal leading-relaxed max-w-xl">
+              <p className="text-lg text-black/80 dark:text-white/60 leading-relaxed max-w-xl">
                 Connect institutional treasuries. Blip enables instant payment
                 requests across 40+ fiat rails with sub-second finality.
               </p>
 
-              <div className="bg-white/80 dark:bg-white/[0.03] border-l-[1px] border-black/10 dark:border-white/10 p-8 rounded-r-3xl backdrop-blur-md">
-                <p className="text-xl leading-relaxed text-black/70 dark:text-white/60">
+              <div className="bg-white/80 dark:bg-white/[0.03] border-l border-black/10 dark:border-white/10 p-6 rounded-r-2xl backdrop-blur-md">
+                <p className="text-base leading-relaxed text-black/70 dark:text-white/60">
                   <span className="font-semibold text-black dark:text-white">
                     Autonomous Rails:
                   </span>{" "}
@@ -385,7 +389,7 @@ const App = () => {
                 {["STABLECOINS", "LOCAL FIAT", "API HOOKS"].map((tag) => (
                   <span
                     key={tag}
-                    className="px-5 py-2 bg-white/80 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/10 rounded-full text-[10px] font-semibold tracking-widest text-black/80 dark:text-white/50"
+                    className="px-4 py-2 bg-white/80 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/10 rounded-full text-xs font-semibold tracking-widest text-black/80 dark:text-white/50"
                   >
                     {tag}
                   </span>
@@ -394,159 +398,113 @@ const App = () => {
             </section>
 
             {/* Section 02: Match */}
-            <section className="content-section space-y-12">
-              <div className="space-y-4">
-                <span className="text-black/80 dark:text-white/50 font-bold tracking-[0.4em] uppercase text-[10px]">
+            <section className="content-section space-y-8">
+              <div className="space-y-3">
+                <span className="text-black/80 dark:text-white/50 font-bold tracking-[0.3em] uppercase text-xs">
                   Match
                 </span>
+
                 <motion.h2
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  className="text-7xl font-semibold tracking-tight leading-[0.85] text-black dark:text-white"
+                  className="text-3xl font-semibold tracking-tight leading-tight text-black dark:text-white"
                 >
                   Price <br />
-                  <span className="text-black/80 dark:text-white/50 italic underline underline-offset-8 decoration-black/10 dark:decoration-white/10">
+                  <span className="text-black/70 dark:text-white/50 italic underline underline-offset-4 decoration-black/10 dark:decoration-white/10">
                     Optimization.
                   </span>
                 </motion.h2>
+              </div>
 
-                <p className="text-2xl text-black/80 dark:text-white/50 font-normal leading-relaxed max-w-xl">
-                  Behind the scenes, our engine scans local liquidity in Dubai
-                  to find the exact mid-market exchange rate, avoiding hidden
-                  bank fees.
-                </p>
+              <p className="text-lg text-black/80 dark:text-white/60 leading-relaxed max-w-xl">
+                Behind the scenes, our engine scans local liquidity in Dubai to
+                find the exact mid-market exchange rate, avoiding hidden bank
+                fees.
+              </p>
 
-                <div className="grid grid-cols-2 gap-6">
-                  <div className="p-8 bg-white/80 dark:bg-white/[0.03] rounded-3xl border border-black/[0.06] dark:border-white/5 group hover:border-black/20 dark:hover:border-[#ff6b35]/20 transition-all">
-                    <Layers
-                      className="text-black/40 dark:text-white/40 mb-6 group-hover:text-black dark:group-hover:text-white transition-colors"
-                      size={24}
-                    />
-                    <h4 className="font-semibold text-xl mb-1 text-black dark:text-white">
-                      Best Rate
-                    </h4>
-                    <p className="text-xs text-black/40 dark:text-white/20 font-medium tracking-widest uppercase">
-                      1 USDT = 3.67 AED
-                    </p>
-                  </div>
-                  <div className="p-8 bg-white/80 dark:bg-white/[0.03] rounded-3xl border border-black/[0.06] dark:border-white/5 group hover:border-black/20 dark:hover:border-[#ff6b35]/20 transition-all">
-                    <Activity
-                      className="text-black/40 dark:text-white/40 mb-6 group-hover:text-black dark:group-hover:text-white transition-colors"
-                      size={24}
-                    />
-                    <h4 className="font-semibold text-xl mb-1 text-black dark:text-white">
-                      Live Search
-                    </h4>
-                    <p className="text-xs text-black/40 dark:text-white/20 font-medium tracking-widest uppercase">
-                      Liquidity Scan
-                    </p>
-                  </div>
-                </div>
-
-                <div className="bg-white/80 dark:bg-white/5 border-l-[1px] border-black/20 dark:border-white/20 p-8 rounded-r-3xl backdrop-blur-md">
-                  <p className="text-xl leading-relaxed text-black/70 dark:text-white/70">
-                    <span className="font-semibold text-black dark:text-white">
-                      The Match Stage:
-                    </span>{" "}
-                    This module finds the "match" between your USDT and
-                    real-time liquidity providers in Dubai at the fairest price
-                    globally.
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="p-6 bg-white/80 dark:bg-white/[0.03] rounded-2xl border border-black/[0.06] dark:border-white/5 transition-all">
+                  <Layers
+                    className="text-black/40 dark:text-white/40 mb-4"
+                    size={20}
+                  />
+                  <h4 className="font-semibold text-base mb-1 text-black dark:text-white">
+                    Best Rate
+                  </h4>
+                  <p className="text-xs text-black/40 dark:text-white/30 font-medium tracking-widest uppercase">
+                    1 USDT = 3.67 AED
                   </p>
                 </div>
+
+                <div className="p-6 bg-white/80 dark:bg-white/[0.03] rounded-2xl border border-black/[0.06] dark:border-white/5 transition-all">
+                  <Activity
+                    className="text-black/40 dark:text-white/40 mb-4"
+                    size={20}
+                  />
+                  <h4 className="font-semibold text-base mb-1 text-black dark:text-white">
+                    Live Search
+                  </h4>
+                  <p className="text-xs text-black/40 dark:text-white/30 font-medium tracking-widest uppercase">
+                    Liquidity Scan
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-white/80 dark:bg-white/5 border-l border-black/20 dark:border-white/20 p-6 rounded-r-2xl backdrop-blur-md">
+                <p className="text-base leading-relaxed text-black/70 dark:text-white/70">
+                  <span className="font-semibold text-black dark:text-white">
+                    The Match Stage:
+                  </span>{" "}
+                  This module finds the match between your USDT and real-time
+                  liquidity providers in Dubai at the fairest price globally.
+                </p>
               </div>
             </section>
 
             {/* Section 03: Verify */}
-            <section className="content-section space-y-12">
-              <div className="space-y-4">
-                <span className="text-black/80 dark:text-white/50 font-bold tracking-[0.4em] uppercase text-[10px]">
+            <section className="content-section space-y-8">
+              <div className="space-y-3">
+                <span className="text-black/80 dark:text-white/50 font-bold tracking-[0.3em] uppercase text-xs">
                   Verify
                 </span>
+
                 <motion.h2
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  className="text-7xl font-semibold tracking-tight leading-[0.85] text-black dark:text-white"
+                  className="text-3xl font-semibold tracking-tight leading-tight text-black dark:text-white"
                 >
                   Secure <br />
-                  <span className="text-black/80 dark:text-white/50">
+                  <span className="text-black/70 dark:text-white/50">
                     Execution.
                   </span>
                 </motion.h2>
+              </div>
 
-                <p className="text-2xl text-black/80 dark:text-white/50 font-normal leading-relaxed max-w-xl">
-                  The final check. We verify the legality of the funds through
-                  multi-sig protocols. Once cleared, the AED is released to your
-                  destination instantly.
-                </p>
+              <p className="text-lg text-black/80 dark:text-white/60 leading-relaxed max-w-xl">
+                The final check. We verify the legality of the funds through
+                multi-sig protocols. Once cleared, the AED is released
+                instantly.
+              </p>
 
-                <div className="bg-white/90 dark:bg-[#080808] rounded-[32px] overflow-hidden shadow-2xl border border-black/[0.06] dark:border-white/10">
-                  <div className="flex items-center justify-between px-6 py-4 bg-black/[0.03] dark:bg-white/5 border-b border-black/[0.06] dark:border-white/5">
-                    <div className="flex gap-2 text-black/40 dark:text-white/20">
-                      <Zap size={12} />
-                    </div>
-                    <div className="text-[10px] text-black/40 dark:text-white/20 font-mono tracking-widest uppercase">
-                      trade_finalize.v1
-                    </div>
-                    <Lock
-                      size={12}
-                      className="text-black/20 dark:text-white/10"
-                    />
-                  </div>
-                  <div className="p-10 font-mono text-[14px] leading-relaxed text-black/80 dark:text-white/50">
-                    <div className="flex gap-4">
-                      <span className="text-black/20 dark:text-white/10">
-                        01
-                      </span>
-                      <span className="text-black/70 dark:text-white/80">
-                        await
-                      </span>{" "}
-                      ledger.
-                      <span className="text-black dark:text-white">
-                        confirm
-                      </span>
-                      (trade_USDT_AED);
-                    </div>
-                    <div className="flex gap-4">
-                      <span className="text-black/20 dark:text-white/10">
-                        02
-                      </span>
-                      <span className="text-black/20 dark:text-white/10">
-                        // Status: Compliance Verified
-                      </span>
-                    </div>
-                    <div className="flex gap-4">
-                      <span className="text-black/20 dark:text-white/10">
-                        03
-                      </span>
-                      <span className="text-black/40 dark:text-white/20">
-                        const
-                      </span>{" "}
-                      receipt ={" "}
-                      <span className="text-black/70 dark:text-white/80">
-                        "AED_TX_DUBAI_SAFE"
-                      </span>
-                      ;
-                    </div>
-                    <div className="flex gap-4">
-                      <span className="text-black/20 dark:text-white/10">
-                        04
-                      </span>
-                      blip.
-                      <span className="text-black dark:text-white font-semibold">
-                        release
-                      </span>
-                      (receipt);
-                    </div>
+              <div className="bg-white/90 dark:bg-[#080808] rounded-2xl overflow-hidden shadow-xl border border-black/[0.06] dark:border-white/10">
+                <div className="flex items-center justify-between px-6 py-3 bg-black/[0.03] dark:bg-white/5 border-b border-black/[0.06] dark:border-white/5">
+                  <div className="text-xs text-black/40 dark:text-white/20 font-mono tracking-widest uppercase">
+                    trade_finalize.v1
                   </div>
                 </div>
 
-                <CTAButton to="" className="w-[220px] h-[48px] uppercase">
-                  Initiate Trade
-                </CTAButton>
+                <div className="p-6 font-mono text-sm leading-relaxed text-black/80 dark:text-white/50 space-y-2">
+                  <div>01 await ledger.confirm(trade_USDT_AED);</div>
+                  <div>02 // Status: Compliance Verified</div>
+                  <div>03 const receipt = "AED_TX_DUBAI_SAFE";</div>
+                  <div>04 blip.release(receipt);</div>
+                </div>
               </div>
-            </section>
 
-            {/* <div className="h-40" /> */}
+              <CTAButton to="" className="w-[200px] h-[44px] uppercase text-sm">
+                Initiate Trade
+              </CTAButton>
+            </section>
           </div>
         </div>
       </div>

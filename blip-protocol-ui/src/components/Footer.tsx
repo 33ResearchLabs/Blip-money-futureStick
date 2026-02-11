@@ -200,7 +200,13 @@ import {
  * Added: Scroll-triggered entrance animations using Intersection Observer.
  */
 
-const FooterLink = ({ to, children }: { to: string; children: React.ReactNode }) => (
+const FooterLink = ({
+  to,
+  children,
+}: {
+  to: string;
+  children: React.ReactNode;
+}) => (
   <Link
     to={to}
     className="text-[13px] text-black/50 dark:text-zinc-500 hover:text-black dark:hover:text-white transition-colors"
@@ -385,18 +391,15 @@ export const Footer = () => {
             }`}
           >
             <h2 className="text-3xl lg:text-4xl font-bold tracking-tighter mb-3 leading-[0.9]">
-              <span className="text-black dark:text-white">Join the</span> <br />
+              <span className="text-black dark:text-white">Join the</span>{" "}
+              <br />
               <span className="bg-gradient-to-b from-black to-black/50 dark:from-white dark:to-zinc-500 bg-clip-text text-transparent">
                 Movement
               </span>
             </h2>
             <p className="text-sm lg:text-base text-black/60 dark:text-zinc-500 max-w-md mb-6 leading-relaxed font-light">
               Simple, fast, and secure financial infrastructure for modern
-              businesses and individuals.{" "}
-              <span className="text-black dark:text-white font-normal underline decoration-[#ff6b35]/50 underline-offset-4">
-                blip.money
-              </span>{" "}
-              is how money moves now.
+              blip.money businesses and individuals. is how money moves now.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center gap-3 justify-center lg:justify-start">
@@ -423,11 +426,21 @@ export const Footer = () => {
                 Protocol
               </h4>
               <ul className="space-y-2">
-                <li><FooterLink to="/how-it-works">How It Works</FooterLink></li>
-                <li><FooterLink to="/tokenomics">Tokenomics</FooterLink></li>
-                <li><FooterLink to="/whitepaper">Whitepaper</FooterLink></li>
-                <li><FooterLink to="/docs">Documentation</FooterLink></li>
-                <li><FooterLink to="/changelog">Changelog</FooterLink></li>
+                <li>
+                  <FooterLink to="/how-it-works">How It Works</FooterLink>
+                </li>
+                <li>
+                  <FooterLink to="/tokenomics">Tokenomics</FooterLink>
+                </li>
+                <li>
+                  <FooterLink to="/whitepaper">Whitepaper</FooterLink>
+                </li>
+                <li>
+                  <FooterLink to="/docs">Documentation</FooterLink>
+                </li>
+                <li>
+                  <FooterLink to="/changelog">Changelog</FooterLink>
+                </li>
               </ul>
             </div>
 
@@ -437,11 +450,27 @@ export const Footer = () => {
                 Use Cases
               </h4>
               <ul className="space-y-2">
-                <li><FooterLink to="/use-cases/freelancers">Freelancers</FooterLink></li>
-                <li><FooterLink to="/use-cases/otc-traders">OTC Traders</FooterLink></li>
-                <li><FooterLink to="/use-cases/e-commerce">E-Commerce</FooterLink></li>
-                <li><FooterLink to="/use-cases/remittance">Remittances</FooterLink></li>
-                <li><FooterLink to="/merchant">Merchants</FooterLink></li>
+                <li>
+                  <FooterLink to="/use-cases/freelancers">
+                    Freelancers
+                  </FooterLink>
+                </li>
+                <li>
+                  <FooterLink to="/use-cases/otc-traders">
+                    OTC Traders
+                  </FooterLink>
+                </li>
+                <li>
+                  <FooterLink to="/use-cases/e-commerce">E-Commerce</FooterLink>
+                </li>
+                <li>
+                  <FooterLink to="/use-cases/remittance">
+                    Remittances
+                  </FooterLink>
+                </li>
+                <li>
+                  <FooterLink to="/merchant">Merchants</FooterLink>
+                </li>
               </ul>
             </div>
 
@@ -451,11 +480,21 @@ export const Footer = () => {
                 Resources
               </h4>
               <ul className="space-y-2">
-                <li><FooterLink to="/blog">Blog</FooterLink></li>
-                <li><FooterLink to="/research">Research</FooterLink></li>
-                <li><FooterLink to="/faq">FAQ</FooterLink></li>
-                <li><FooterLink to="/glossary">Glossary</FooterLink></li>
-                <li><FooterLink to="/compare">Compare</FooterLink></li>
+                <li>
+                  <FooterLink to="/blog">Blog</FooterLink>
+                </li>
+                <li>
+                  <FooterLink to="/research">Research</FooterLink>
+                </li>
+                <li>
+                  <FooterLink to="/faq">FAQ</FooterLink>
+                </li>
+                <li>
+                  <FooterLink to="/glossary">Glossary</FooterLink>
+                </li>
+                <li>
+                  <FooterLink to="/compare">Compare</FooterLink>
+                </li>
               </ul>
             </div>
 
@@ -465,13 +504,31 @@ export const Footer = () => {
                 Markets
               </h4>
               <ul className="space-y-2">
-                <li><FooterLink to="/crypto-to-aed">Crypto to AED</FooterLink></li>
-                <li><FooterLink to="/btc-to-aed">BTC to AED</FooterLink></li>
-                <li><FooterLink to="/usdt-vs-usdc">USDT vs USDC</FooterLink></li>
-                <li><FooterLink to="/buy-usdt-dubai">Buy USDT Dubai</FooterLink></li>
-                <li><FooterLink to="/crypto-otc-dubai">Crypto OTC Dubai</FooterLink></li>
-                <li><FooterLink to="/bitcoin-price-uae">Bitcoin Price UAE</FooterLink></li>
-                <li><FooterLink to="/crypto-tax-uae">Crypto Tax UAE</FooterLink></li>
+                <li>
+                  <FooterLink to="/crypto-to-aed">Crypto to AED</FooterLink>
+                </li>
+                <li>
+                  <FooterLink to="/btc-to-aed">BTC to AED</FooterLink>
+                </li>
+                <li>
+                  <FooterLink to="/usdt-vs-usdc">USDT vs USDC</FooterLink>
+                </li>
+                <li>
+                  <FooterLink to="/buy-usdt-dubai">Buy USDT Dubai</FooterLink>
+                </li>
+                <li>
+                  <FooterLink to="/crypto-otc-dubai">
+                    Crypto OTC Dubai
+                  </FooterLink>
+                </li>
+                <li>
+                  <FooterLink to="/bitcoin-price-uae">
+                    Bitcoin Price UAE
+                  </FooterLink>
+                </li>
+                <li>
+                  <FooterLink to="/crypto-tax-uae">Crypto Tax UAE</FooterLink>
+                </li>
               </ul>
             </div>
 
@@ -481,13 +538,20 @@ export const Footer = () => {
                 Company
               </h4>
               <ul className="space-y-2">
-                <li><FooterLink to="/about">About</FooterLink></li>
-                <li><FooterLink to="/press">Press</FooterLink></li>
-                <li><FooterLink to="/community">Community</FooterLink></li>
-                <li><FooterLink to="/waitlist">Waitlist</FooterLink></li>
+                <li>
+                  <FooterLink to="/about">About</FooterLink>
+                </li>
+                <li>
+                  <FooterLink to="/press">Press</FooterLink>
+                </li>
+                <li>
+                  <FooterLink to="/community">Community</FooterLink>
+                </li>
+                <li>
+                  <FooterLink to="/waitlist">Waitlist</FooterLink>
+                </li>
               </ul>
             </div>
-
           </div>
         </div>
       </div>
@@ -500,10 +564,16 @@ export const Footer = () => {
           <div className="flex flex-col md:flex-row items-center gap-8 text-[13.5px] text-black/60 dark:text-zinc-600 uppercase tracking-widest font-medium">
             <span>© 2025 blip.money</span>
             <div className="flex items-center gap-8">
-              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">
+              <a
+                href="#"
+                className="hover:text-black dark:hover:text-white transition-colors"
+              >
                 Compliance
               </a>
-              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">
+              <a
+                href="#"
+                className="hover:text-black dark:hover:text-white transition-colors"
+              >
                 Privacy
               </a>
             </div>
