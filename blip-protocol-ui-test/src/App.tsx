@@ -105,7 +105,7 @@ const App = () => (
         >
           <TooltipProvider>
             <Toaster />
-            {/* <Sonner /> */}
+            <Sonner />
 
             <BrowserRouter>
               <GoogleAnalytics />
