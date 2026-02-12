@@ -156,14 +156,9 @@ const WhyBlipSection = () => {
             <CTAButton
               to="/join-waitlist"
               className="group inline-flex items-center justify-center gap-3
-      px-10 py-4
+      
       w-[220px]  h-[48px]
-      rounded-full
-      border border-white/20
-      text-white
-      text-sm font-semibold
-      hover:bg-white/10
-      transition-all duration-300"
+ "
             >
               Start Trading
             </CTAButton>
@@ -850,47 +845,47 @@ const Merchant = () => {
       <StructuredData
         type="custom"
         schema={{
-          '@context': 'https://schema.org',
-          '@type': 'FAQPage',
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
           mainEntity: [
             {
-              '@type': 'Question',
-              name: 'How do I receive orders?',
+              "@type": "Question",
+              name: "How do I receive orders?",
               acceptedAnswer: {
-                '@type': 'Answer',
-                text: 'Orders appear in your dashboard feed. You accept to lock.',
+                "@type": "Answer",
+                text: "Orders appear in your dashboard feed. You accept to lock.",
               },
             },
             {
-              '@type': 'Question',
-              name: 'Can I adjust pricing to win orders?',
+              "@type": "Question",
+              name: "Can I adjust pricing to win orders?",
               acceptedAnswer: {
-                '@type': 'Answer',
-                text: 'Yes, within allowed ranges.',
+                "@type": "Answer",
+                text: "Yes, within allowed ranges.",
               },
             },
             {
-              '@type': 'Question',
-              name: 'What if a user doesn\'t complete?',
+              "@type": "Question",
+              name: "What if a user doesn't complete?",
               acceptedAnswer: {
-                '@type': 'Answer',
-                text: 'The trade follows the escrow timeline and dispute rules.',
+                "@type": "Answer",
+                text: "The trade follows the escrow timeline and dispute rules.",
               },
             },
             {
-              '@type': 'Question',
-              name: 'Do I need full KYC?',
+              "@type": "Question",
+              name: "Do I need full KYC?",
               acceptedAnswer: {
-                '@type': 'Answer',
-                text: 'Not during early Beta. Basic verification is required.',
+                "@type": "Answer",
+                text: "Not during early Beta. Basic verification is required.",
               },
             },
             {
-              '@type': 'Question',
-              name: 'Which corridors launch first?',
+              "@type": "Question",
+              name: "Which corridors launch first?",
               acceptedAnswer: {
-                '@type': 'Answer',
-                text: 'Starting with Dubai-focused corridors, expanding in stages.',
+                "@type": "Answer",
+                text: "Starting with Dubai-focused corridors, expanding in stages.",
               },
             },
           ],

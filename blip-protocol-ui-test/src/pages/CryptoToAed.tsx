@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { motion, useInView } from "framer-motion";
+import { AnimatePresence, motion, useInView } from "framer-motion";
 import {
   ArrowDownUp,
   Clock,
@@ -23,6 +23,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { HreflangTags } from "@/components/HreflangTags";
 import StructuredData from "@/components/StructuredData";
 import { sounds } from "@/lib/sounds";
+import { CTAButton } from "@/components/Navbar";
 
 /* ═══════════════════════════════════════════════
    TYPES
@@ -148,7 +149,8 @@ function AssetDropdown({
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+      if (ref.current && !ref.current.contains(e.target as Node))
+        setOpen(false);
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
@@ -157,12 +159,17 @@ function AssetDropdown({
   return (
     <div ref={ref} className="relative">
       <button
-        onClick={() => { setOpen(!open); sounds.click(); }}
+        onClick={() => {
+          setOpen(!open);
+          sounds.click();
+        }}
         className="flex items-center gap-2 px-3 py-2 rounded-lg bg-black/5 dark:bg-white/5 border border-black/[0.08] dark:border-white/[0.08] hover:border-black/[0.15] dark:hover:border-white/[0.15] transition-colors text-sm font-semibold"
       >
         <span className="text-lg leading-none">{selected.icon}</span>
         <span className="text-black dark:text-white">{selected.symbol}</span>
-        <ChevronDown className={`w-3.5 h-3.5 text-black/40 dark:text-white/40 transition-transform ${open ? "rotate-180" : ""}`} />
+        <ChevronDown
+          className={`w-3.5 h-3.5 text-black/40 dark:text-white/40 transition-transform ${open ? "rotate-180" : ""}`}
+        />
       </button>
 
       {open && (
@@ -174,15 +181,25 @@ function AssetDropdown({
           {assets.map((a) => (
             <button
               key={a.id}
-              onClick={() => { onSelect(a); setOpen(false); sounds.click(); }}
+              onClick={() => {
+                onSelect(a);
+                setOpen(false);
+                sounds.click();
+              }}
               className="flex items-center gap-3 w-full px-4 py-3 hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
             >
               <span className="text-lg leading-none">{a.icon}</span>
               <div className="text-left">
-                <span className="block text-sm font-semibold text-black dark:text-white">{a.symbol}</span>
-                <span className="block text-xs text-black/40 dark:text-white/40">{a.name}</span>
+                <span className="block text-sm font-semibold text-black dark:text-white">
+                  {a.symbol}
+                </span>
+                <span className="block text-xs text-black/40 dark:text-white/40">
+                  {a.name}
+                </span>
               </div>
-              {a.id === selected.id && <Check className="w-4 h-4 text-emerald-500 ml-auto" />}
+              {a.id === selected.id && (
+                <Check className="w-4 h-4 text-emerald-500 ml-auto" />
+              )}
             </button>
           ))}
         </motion.div>
@@ -195,22 +212,41 @@ function AssetDropdown({
    FAQ ACCORDION
    ═══════════════════════════════════════════════ */
 
-function FAQItem({ q, a, open, toggle }: { q: string; a: string; open: boolean; toggle: () => void }) {
+function FAQItem({
+  q,
+  a,
+  open,
+  toggle,
+}: {
+  q: string;
+  a: string;
+  open: boolean;
+  toggle: () => void;
+}) {
   return (
     <div className="border-b border-black/[0.06] dark:border-white/[0.06]">
       <button
-        onClick={() => { toggle(); sounds.click(); }}
+        onClick={() => {
+          toggle();
+          sounds.click();
+        }}
         className="flex items-center justify-between w-full py-5 text-left"
       >
-        <span className="text-[15px] font-semibold text-black dark:text-white pr-8">{q}</span>
-        <ChevronDown className={`w-4 h-4 text-black/30 dark:text-white/30 transition-transform flex-shrink-0 ${open ? "rotate-180" : ""}`} />
+        <span className="text-[15px] font-semibold text-black dark:text-white pr-8">
+          {q}
+        </span>
+        <ChevronDown
+          className={`w-4 h-4 text-black/30 dark:text-white/30 transition-transform flex-shrink-0 ${open ? "rotate-180" : ""}`}
+        />
       </button>
       <motion.div
         initial={false}
         animate={{ height: open ? "auto" : 0, opacity: open ? 1 : 0 }}
         className="overflow-hidden"
       >
-        <p className="pb-5 text-[14px] text-black/50 dark:text-white/40 leading-relaxed">{a}</p>
+        <p className="pb-5 text-[14px] text-black/50 dark:text-white/40 leading-relaxed">
+          {a}
+        </p>
       </motion.div>
     </div>
   );
@@ -220,7 +256,13 @@ function FAQItem({ q, a, open, toggle }: { q: string; a: string; open: boolean; 
    ANIMATED SECTION WRAPPER
    ═══════════════════════════════════════════════ */
 
-function Section({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+function Section({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
   return (
@@ -255,7 +297,7 @@ function usePriceHistory(coinId: string, days: number) {
     let cancelled = false;
     setLoading(true);
     fetch(
-      `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=aed&days=${days}`
+      `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=aed&days=${days}`,
     )
       .then((res) => res.json())
       .then((json) => {
@@ -394,16 +436,76 @@ const FAQ_DATA = [
    ═══════════════════════════════════════════════ */
 
 const COMPARISON = [
-  { feature: "Settlement Speed", blip: "5-15 minutes", binance: "15-60 minutes", wise: "1-3 business days", otc: "Same day" },
-  { feature: "Fees", blip: "~0.5-1%", binance: "0-1% + spread", wise: "0.4-1.5% + markup", otc: "2-5% + negotiation" },
-  { feature: "Custody Model", blip: "Non-custodial", binance: "Custodial", wise: "Custodial", otc: "Trust-based" },
-  { feature: "Escrow Protection", blip: "On-chain smart contract", binance: "Centralized", wise: "None", otc: "None" },
-  { feature: "KYC Required", blip: "Minimal", binance: "Full KYC", wise: "Full KYC", otc: "Varies" },
-  { feature: "Account Freeze Risk", blip: "None", binance: "Yes", wise: "Yes", otc: "N/A" },
-  { feature: "Transaction Transparency", blip: "Fully on-chain", binance: "Internal only", wise: "Tracking number", otc: "None" },
-  { feature: "Minimum Amount", blip: "~100 AED", binance: "Varies", wise: "1 AED", otc: "Usually $1,000+" },
-  { feature: "24/7 Availability", blip: "Yes", binance: "Yes", wise: "Business hours", otc: "Business hours" },
-  { feature: "Rewards / Cashback", blip: "BLIP token cashback", binance: "BNB discounts", wise: "None", otc: "None" },
+  {
+    feature: "Settlement Speed",
+    blip: "5-15 minutes",
+    binance: "15-60 minutes",
+    wise: "1-3 business days",
+    otc: "Same day",
+  },
+  {
+    feature: "Fees",
+    blip: "~0.5-1%",
+    binance: "0-1% + spread",
+    wise: "0.4-1.5% + markup",
+    otc: "2-5% + negotiation",
+  },
+  {
+    feature: "Custody Model",
+    blip: "Non-custodial",
+    binance: "Custodial",
+    wise: "Custodial",
+    otc: "Trust-based",
+  },
+  {
+    feature: "Escrow Protection",
+    blip: "On-chain smart contract",
+    binance: "Centralized",
+    wise: "None",
+    otc: "None",
+  },
+  {
+    feature: "KYC Required",
+    blip: "Minimal",
+    binance: "Full KYC",
+    wise: "Full KYC",
+    otc: "Varies",
+  },
+  {
+    feature: "Account Freeze Risk",
+    blip: "None",
+    binance: "Yes",
+    wise: "Yes",
+    otc: "N/A",
+  },
+  {
+    feature: "Transaction Transparency",
+    blip: "Fully on-chain",
+    binance: "Internal only",
+    wise: "Tracking number",
+    otc: "None",
+  },
+  {
+    feature: "Minimum Amount",
+    blip: "~100 AED",
+    binance: "Varies",
+    wise: "1 AED",
+    otc: "Usually $1,000+",
+  },
+  {
+    feature: "24/7 Availability",
+    blip: "Yes",
+    binance: "Yes",
+    wise: "Business hours",
+    otc: "Business hours",
+  },
+  {
+    feature: "Rewards / Cashback",
+    blip: "BLIP token cashback",
+    binance: "BNB discounts",
+    wise: "None",
+    otc: "None",
+  },
 ];
 
 /* ═══════════════════════════════════════════════
@@ -414,22 +516,26 @@ const HOW_TO_STEPS = [
   {
     step: 1,
     title: "Connect your wallet",
-    description: "Open Blip and connect your Solana wallet (Phantom, Solflare, or Backpack). No account creation or lengthy sign-up required.",
+    description:
+      "Open Blip and connect your Solana wallet (Phantom, Solflare, or Backpack). No account creation or lengthy sign-up required.",
   },
   {
     step: 2,
     title: "Enter conversion amount",
-    description: "Select the crypto you want to sell (USDT, USDC, SOL) and enter the amount. You'll see the live AED rate and exact amount you'll receive.",
+    description:
+      "Select the crypto you want to sell (USDT, USDC, SOL) and enter the amount. You'll see the live AED rate and exact amount you'll receive.",
   },
   {
     step: 3,
     title: "Confirm and escrow",
-    description: "Review the rate, fees, and matched merchant. Confirm the trade — your crypto is locked in an on-chain escrow smart contract on Solana.",
+    description:
+      "Review the rate, fees, and matched merchant. Confirm the trade — your crypto is locked in an on-chain escrow smart contract on Solana.",
   },
   {
     step: 4,
     title: "Receive AED",
-    description: "The merchant sends AED to your bank account or preferred payment method. Once confirmed, the escrow releases automatically. Done in under 15 minutes.",
+    description:
+      "The merchant sends AED to your bank account or preferred payment method. Once confirmed, the escrow releases automatically. Done in under 15 minutes.",
   },
 ];
 
@@ -452,7 +558,8 @@ function buildSchemas(rates: Rates | null) {
     "@context": "https://schema.org",
     "@type": "HowTo",
     name: "How to Convert Crypto to AED",
-    description: "Step-by-step guide to convert cryptocurrency to UAE Dirhams using Blip Money's escrow-protected settlement protocol.",
+    description:
+      "Step-by-step guide to convert cryptocurrency to UAE Dirhams using Blip Money's escrow-protected settlement protocol.",
     totalTime: "PT15M",
     estimatedCost: { "@type": "MonetaryAmount", currency: "AED", value: "0" },
     step: HOW_TO_STEPS.map((s) => ({
@@ -467,7 +574,8 @@ function buildSchemas(rates: Rates | null) {
     "@context": "https://schema.org",
     "@type": "FinancialService",
     name: "Blip Money — Crypto to AED Converter",
-    description: "Convert cryptocurrency to UAE Dirhams instantly with non-custodial escrow protection. Live rates, low fees, settlement in under 15 minutes.",
+    description:
+      "Convert cryptocurrency to UAE Dirhams instantly with non-custodial escrow protection. Live rates, low fees, settlement in under 15 minutes.",
     url: "https://blip.money/crypto-to-aed",
     areaServed: { "@type": "Country", name: "United Arab Emirates" },
     serviceType: "Cryptocurrency Exchange",
@@ -494,7 +602,8 @@ function buildSchemas(rates: Rates | null) {
    ═══════════════════════════════════════════════ */
 
 export default function CryptoToAed() {
-  const { rates, lastUpdated, loading, error, isLive, refresh } = useLiveRates();
+  const { rates, lastUpdated, loading, error, isLive, refresh } =
+    useLiveRates();
   const timeAgo = useTimeAgo(lastUpdated);
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -504,14 +613,14 @@ export default function CryptoToAed() {
     return (
       (from &&
         CRYPTO_ASSETS.find(
-          (a) => a.symbol.toLowerCase() === from.toLowerCase()
+          (a) => a.symbol.toLowerCase() === from.toLowerCase(),
         )) ||
       CRYPTO_ASSETS[0]
     );
   });
   const [amount, setAmount] = useState(searchParams.get("amount") || "1000");
   const [direction, setDirection] = useState<"sell" | "buy">(
-    searchParams.get("direction") === "buy" ? "buy" : "sell"
+    searchParams.get("direction") === "buy" ? "buy" : "sell",
   );
 
   // FAQ state
@@ -521,7 +630,7 @@ export default function CryptoToAed() {
   const [chartPeriod, setChartPeriod] = useState(7);
   const { data: priceHistory, loading: chartLoading } = usePriceHistory(
     selectedAsset.id,
-    chartPeriod
+    chartPeriod,
   );
 
   // Sync converter state → URL for shareable deep links
@@ -543,7 +652,8 @@ export default function CryptoToAed() {
     const fee = numAmount * 0.005; // 0.5% protocol fee
     const netAmount = direction === "sell" ? numAmount - fee : numAmount;
     const aedAmount = direction === "sell" ? netAmount * rate : numAmount;
-    const cryptoAmount = direction === "buy" ? (numAmount / rate) * (1 - 0.005) : numAmount;
+    const cryptoAmount =
+      direction === "buy" ? (numAmount / rate) * (1 - 0.005) : numAmount;
 
     return {
       rate,
@@ -578,7 +688,9 @@ export default function CryptoToAed() {
             ═══════════════════════════════════════════ */}
         <header className="relative pt-32 sm:pt-36 pb-12 sm:pb-16">
           <div className="max-w-[900px] mx-auto px-4 sm:px-6">
-            <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Crypto to AED" }]} />
+            <Breadcrumbs
+              items={[{ label: "Home", href: "/" }, { label: "Crypto to AED" }]}
+            />
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -595,24 +707,32 @@ export default function CryptoToAed() {
                 </span>
               </h1>
               <p className="text-lg sm:text-xl text-black/50 dark:text-white/40 max-w-xl leading-relaxed mb-10">
-                Convert USDT, USDC, BTC, ETH & SOL to UAE Dirhams instantly. Live rates, non-custodial escrow, settlement under 15 minutes.
+                Convert USDT, USDC, BTC, ETH & SOL to UAE Dirhams instantly.
+                Live rates, non-custodial escrow, settlement under 15 minutes.
               </p>
 
               {/* Live status badge */}
               <div className="flex items-center gap-3 mb-8">
                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/5 dark:bg-white/5 border border-black/[0.08] dark:border-white/[0.08]">
                   <div className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
-                  <span className="text-xs font-semibold text-black/60 dark:text-white/40">Live Rates</span>
+                  <span className="text-xs font-semibold text-black/60 dark:text-white/40">
+                    Live Rates
+                  </span>
                 </div>
                 <span className="text-xs text-black/30 dark:text-white/30">
                   {isLive ? `Updated ${timeAgo}` : "Updating live rates..."}
                 </span>
                 <button
-                  onClick={() => { refresh(); sounds.click(); }}
+                  onClick={() => {
+                    refresh();
+                    sounds.click();
+                  }}
                   className="p-1 rounded-md hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
                   title="Refresh rates"
                 >
-                  <RefreshCw className={`w-3.5 h-3.5 text-black/30 dark:text-white/30 ${loading ? "animate-spin" : ""}`} />
+                  <RefreshCw
+                    className={`w-3.5 h-3.5 text-black/30 dark:text-white/30 ${loading ? "animate-spin" : ""}`}
+                  />
                 </button>
               </div>
 
@@ -621,13 +741,19 @@ export default function CryptoToAed() {
                 {/* Direction toggle */}
                 <div className="flex items-center gap-3 mb-6">
                   <button
-                    onClick={() => { setDirection("sell"); sounds.click(); }}
+                    onClick={() => {
+                      setDirection("sell");
+                      sounds.click();
+                    }}
                     className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${direction === "sell" ? "bg-black dark:bg-white text-white dark:text-black" : "bg-black/5 dark:bg-white/5 text-black/50 dark:text-white/50"}`}
                   >
                     Sell Crypto
                   </button>
                   <button
-                    onClick={() => { setDirection("buy"); sounds.click(); }}
+                    onClick={() => {
+                      setDirection("buy");
+                      sounds.click();
+                    }}
                     className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${direction === "buy" ? "bg-black dark:bg-white text-white dark:text-black" : "bg-black/5 dark:bg-white/5 text-black/50 dark:text-white/50"}`}
                   >
                     Buy Crypto
@@ -644,12 +770,19 @@ export default function CryptoToAed() {
                       type="text"
                       inputMode="decimal"
                       value={amount}
-                      onChange={(e) => { const v = e.target.value.replace(/[^0-9.]/g, ""); if (v.replace(".", "").length <= 7) setAmount(v); }}
+                      onChange={(e) => {
+                        const v = e.target.value.replace(/[^0-9.]/g, "");
+                        if (v.replace(".", "").length <= 7) setAmount(v);
+                      }}
                       className="flex-1 bg-transparent text-2xl sm:text-3xl font-bold text-black dark:text-white outline-none placeholder:text-black/20 dark:placeholder:text-white/20 min-w-0 truncate"
                       placeholder="0"
                     />
                     {direction === "sell" ? (
-                      <AssetDropdown selected={selectedAsset} assets={CRYPTO_ASSETS} onSelect={setSelectedAsset} />
+                      <AssetDropdown
+                        selected={selectedAsset}
+                        assets={CRYPTO_ASSETS}
+                        onSelect={setSelectedAsset}
+                      />
                     ) : (
                       <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-black/5 dark:bg-white/5 border border-black/[0.08] dark:border-white/[0.08] text-sm font-semibold">
                         <span className="text-lg leading-none">🇦🇪</span>
@@ -662,7 +795,10 @@ export default function CryptoToAed() {
                 {/* Swap button */}
                 <div className="flex justify-center -my-1 relative z-10">
                   <button
-                    onClick={() => { setDirection(direction === "sell" ? "buy" : "sell"); sounds.click(); }}
+                    onClick={() => {
+                      setDirection(direction === "sell" ? "buy" : "sell");
+                      sounds.click();
+                    }}
                     className="w-10 h-10 rounded-full bg-white dark:bg-[#111] border border-black/[0.08] dark:border-white/[0.08] flex items-center justify-center hover:border-black/[0.15] dark:hover:border-white/[0.15] transition-colors shadow-sm"
                   >
                     <ArrowDownUp className="w-4 h-4 text-black/40 dark:text-white/40" />
@@ -677,13 +813,19 @@ export default function CryptoToAed() {
                   <div className="flex items-center gap-3 p-4 rounded-xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.06] dark:border-white/[0.06]">
                     <div className="flex-1 text-2xl sm:text-3xl font-bold text-black dark:text-white min-w-0 truncate">
                       {loading ? (
-                        <span className="text-black/20 dark:text-white/20">Loading...</span>
+                        <span className="text-black/20 dark:text-white/20">
+                          Loading...
+                        </span>
                       ) : error ? (
-                        <span className="text-red-400 text-lg">Rate unavailable</span>
+                        <span className="text-red-400 text-lg">
+                          Rate unavailable
+                        </span>
                       ) : conversion ? (
-                        direction === "sell"
-                          ? `${conversion.aedAmount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-                          : `${conversion.cryptoAmount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: selectedAsset.decimals })}`
+                        direction === "sell" ? (
+                          `${conversion.aedAmount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+                        ) : (
+                          `${conversion.cryptoAmount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: selectedAsset.decimals })}`
+                        )
                       ) : (
                         "—"
                       )}
@@ -694,7 +836,11 @@ export default function CryptoToAed() {
                         <span className="text-black dark:text-white">AED</span>
                       </div>
                     ) : (
-                      <AssetDropdown selected={selectedAsset} assets={CRYPTO_ASSETS} onSelect={setSelectedAsset} />
+                      <AssetDropdown
+                        selected={selectedAsset}
+                        assets={CRYPTO_ASSETS}
+                        onSelect={setSelectedAsset}
+                      />
                     )}
                   </div>
                 </div>
@@ -703,27 +849,52 @@ export default function CryptoToAed() {
                 {conversion && !loading && !error && (
                   <div className="space-y-2 mb-6 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-black/40 dark:text-white/30">Exchange Rate</span>
+                      <span className="text-black/40 dark:text-white/30">
+                        Exchange Rate
+                      </span>
                       <span className="font-semibold text-black dark:text-white">
-                        1 {selectedAsset.symbol} = {conversion.rate.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} AED
+                        1 {selectedAsset.symbol} ={" "}
+                        {conversion.rate.toLocaleString("en-US", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}{" "}
+                        AED
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-black/40 dark:text-white/30">24h Change</span>
-                      <span className={`font-semibold flex items-center gap-1 ${conversion.change >= 0 ? "text-emerald-500" : "text-red-400"}`}>
-                        {conversion.change >= 0 ? <TrendingUp className="w-3.5 h-3.5" /> : <TrendingDown className="w-3.5 h-3.5" />}
+                      <span className="text-black/40 dark:text-white/30">
+                        24h Change
+                      </span>
+                      <span
+                        className={`font-semibold flex items-center gap-1 ${conversion.change >= 0 ? "text-emerald-500" : "text-red-400"}`}
+                      >
+                        {conversion.change >= 0 ? (
+                          <TrendingUp className="w-3.5 h-3.5" />
+                        ) : (
+                          <TrendingDown className="w-3.5 h-3.5" />
+                        )}
                         {Math.abs(conversion.change).toFixed(2)}%
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-black/40 dark:text-white/30">Protocol Fee (0.5%)</span>
+                      <span className="text-black/40 dark:text-white/30">
+                        Protocol Fee (0.5%)
+                      </span>
                       <span className="text-black/60 dark:text-white/40">
-                        {conversion.fee.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} AED
+                        {conversion.fee.toLocaleString("en-US", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}{" "}
+                        AED
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-black/40 dark:text-white/30">Network Fee</span>
-                      <span className="text-black/60 dark:text-white/40">&lt; $0.01 (Solana)</span>
+                      <span className="text-black/40 dark:text-white/30">
+                        Network Fee
+                      </span>
+                      <span className="text-black/60 dark:text-white/40">
+                        &lt; $0.01 (Solana)
+                      </span>
                     </div>
                   </div>
                 )}
@@ -832,7 +1003,8 @@ export default function CryptoToAed() {
               Live Crypto to AED Rates
             </h2>
             <p className="text-black/40 dark:text-white/35 mb-8">
-              Real-time exchange rates for popular cryptocurrencies against UAE Dirhams.
+              Real-time exchange rates for popular cryptocurrencies against UAE
+              Dirhams.
             </p>
 
             <div className="bg-white/80 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] rounded-2xl overflow-hidden">
@@ -840,10 +1012,18 @@ export default function CryptoToAed() {
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-black/[0.06] dark:border-white/[0.06]">
-                      <th className="text-left px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">Asset</th>
-                      <th className="text-right px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">Price (AED)</th>
-                      <th className="text-right px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">Price (USD)</th>
-                      <th className="text-right px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">24h Change</th>
+                      <th className="text-left px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">
+                        Asset
+                      </th>
+                      <th className="text-right px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">
+                        Price (AED)
+                      </th>
+                      <th className="text-right px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">
+                        Price (USD)
+                      </th>
+                      <th className="text-right px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">
+                        24h Change
+                      </th>
                       <th className="text-right px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30"></th>
                     </tr>
                   </thead>
@@ -852,28 +1032,51 @@ export default function CryptoToAed() {
                       const r = rates?.[asset.id];
                       const change = r?.aed_24h_change ?? 0;
                       return (
-                        <tr key={asset.id} className="border-b border-black/[0.04] dark:border-white/[0.04] last:border-0 hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors">
+                        <tr
+                          key={asset.id}
+                          className="border-b border-black/[0.04] dark:border-white/[0.04] last:border-0 hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors"
+                        >
                           <td className="px-6 py-4">
                             <div className="flex items-center gap-3">
-                              <span className="text-xl leading-none">{asset.icon}</span>
+                              <span className="text-xl leading-none">
+                                {asset.icon}
+                              </span>
                               <div>
-                                <span className="font-semibold text-black dark:text-white">{asset.symbol}</span>
-                                <span className="text-black/30 dark:text-white/25 ml-2">{asset.name}</span>
+                                <span className="font-semibold text-black dark:text-white">
+                                  {asset.symbol}
+                                </span>
+                                <span className="text-black/30 dark:text-white/25 ml-2">
+                                  {asset.name}
+                                </span>
                               </div>
                             </div>
                           </td>
                           <td className="px-6 py-4 text-right font-semibold text-black dark:text-white tabular-nums">
-                            {loading ? "—" : r ? `${r.aed.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : "—"}
+                            {loading
+                              ? "—"
+                              : r
+                                ? `${r.aed.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+                                : "—"}
                           </td>
                           <td className="px-6 py-4 text-right text-black/50 dark:text-white/40 tabular-nums">
-                            {loading ? "—" : r ? `$${r.usd.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : "—"}
+                            {loading
+                              ? "—"
+                              : r
+                                ? `$${r.usd.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+                                : "—"}
                           </td>
                           <td className="px-6 py-4 text-right">
                             {loading ? (
                               "—"
                             ) : r ? (
-                              <span className={`inline-flex items-center gap-1 font-semibold ${change >= 0 ? "text-emerald-500" : "text-red-400"}`}>
-                                {change >= 0 ? <TrendingUp className="w-3.5 h-3.5" /> : <TrendingDown className="w-3.5 h-3.5" />}
+                              <span
+                                className={`inline-flex items-center gap-1 font-semibold ${change >= 0 ? "text-emerald-500" : "text-red-400"}`}
+                              >
+                                {change >= 0 ? (
+                                  <TrendingUp className="w-3.5 h-3.5" />
+                                ) : (
+                                  <TrendingDown className="w-3.5 h-3.5" />
+                                )}
                                 {Math.abs(change).toFixed(2)}%
                               </span>
                             ) : (
@@ -882,7 +1085,11 @@ export default function CryptoToAed() {
                           </td>
                           <td className="px-6 py-4 text-right">
                             <button
-                              onClick={() => { setSelectedAsset(asset); window.scrollTo({ top: 0, behavior: "smooth" }); sounds.click(); }}
+                              onClick={() => {
+                                setSelectedAsset(asset);
+                                window.scrollTo({ top: 0, behavior: "smooth" });
+                                sounds.click();
+                              }}
                               className="text-xs font-semibold text-black/40 dark:text-white/30 hover:text-black dark:hover:text-white transition-colors"
                             >
                               Convert →
@@ -907,7 +1114,8 @@ export default function CryptoToAed() {
               How to Convert Crypto to AED
             </h2>
             <p className="text-black/40 dark:text-white/35 mb-10">
-              Convert any supported cryptocurrency to UAE Dirhams in 4 simple steps.
+              Convert any supported cryptocurrency to UAE Dirhams in 4 simple
+              steps.
             </p>
 
             <div className="grid sm:grid-cols-2 gap-6">
@@ -920,9 +1128,13 @@ export default function CryptoToAed() {
                     <div className="w-8 h-8 rounded-full bg-black dark:bg-white flex items-center justify-center text-white dark:text-black text-sm font-bold">
                       {s.step}
                     </div>
-                    <h3 className="text-[15px] font-bold text-black dark:text-white">{s.title}</h3>
+                    <h3 className="text-[15px] font-bold text-black dark:text-white">
+                      {s.title}
+                    </h3>
                   </div>
-                  <p className="text-[14px] text-black/50 dark:text-white/40 leading-relaxed">{s.description}</p>
+                  <p className="text-[14px] text-black/50 dark:text-white/40 leading-relaxed">
+                    {s.description}
+                  </p>
                 </div>
               ))}
             </div>
@@ -940,18 +1152,38 @@ export default function CryptoToAed() {
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                { icon: Zap, title: "Under 15 Minutes", desc: "From trade initiation to AED in your bank. Powered by Solana's sub-second finality." },
-                { icon: Shield, title: "Escrow Protected", desc: "Every trade secured by on-chain smart contract escrow. Audited and transparent." },
-                { icon: Wallet, title: "Non-Custodial", desc: "Your crypto stays in your wallet until you trade. No centralized exchange risks." },
-                { icon: Lock, title: "Minimal KYC", desc: "Basic verification only. No lengthy document processes or account freezing risk." },
+                {
+                  icon: Zap,
+                  title: "Under 15 Minutes",
+                  desc: "From trade initiation to AED in your bank. Powered by Solana's sub-second finality.",
+                },
+                {
+                  icon: Shield,
+                  title: "Escrow Protected",
+                  desc: "Every trade secured by on-chain smart contract escrow. Audited and transparent.",
+                },
+                {
+                  icon: Wallet,
+                  title: "Non-Custodial",
+                  desc: "Your crypto stays in your wallet until you trade. No centralized exchange risks.",
+                },
+                {
+                  icon: Lock,
+                  title: "Minimal KYC",
+                  desc: "Basic verification only. No lengthy document processes or account freezing risk.",
+                },
               ].map((item) => (
                 <div
                   key={item.title}
                   className="p-6 rounded-2xl bg-white/60 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]"
                 >
                   <item.icon className="w-5 h-5 text-black/30 dark:text-white/25 mb-4" />
-                  <h3 className="text-[15px] font-bold text-black dark:text-white mb-2">{item.title}</h3>
-                  <p className="text-[13px] text-black/50 dark:text-white/40 leading-relaxed">{item.desc}</p>
+                  <h3 className="text-[15px] font-bold text-black dark:text-white mb-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-[13px] text-black/50 dark:text-white/40 leading-relaxed">
+                    {item.desc}
+                  </p>
                 </div>
               ))}
             </div>
@@ -967,7 +1199,8 @@ export default function CryptoToAed() {
               Blip vs Other Crypto to AED Methods
             </h2>
             <p className="text-black/40 dark:text-white/35 mb-8">
-              How Blip compares to Binance P2P, Wise, and local OTC desks for converting crypto to UAE Dirhams.
+              How Blip compares to Binance P2P, Wise, and local OTC desks for
+              converting crypto to UAE Dirhams.
             </p>
 
             <div className="bg-white/80 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] rounded-2xl overflow-hidden">
@@ -975,21 +1208,44 @@ export default function CryptoToAed() {
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-black/[0.08] dark:border-white/[0.08]">
-                      <th className="text-left px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">Feature</th>
-                      <th className="text-center px-4 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black dark:text-white bg-black/[0.03] dark:bg-white/[0.03]">Blip</th>
-                      <th className="text-center px-4 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">Binance P2P</th>
-                      <th className="text-center px-4 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">Wise</th>
-                      <th className="text-center px-4 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">Local OTC</th>
+                      <th className="text-left px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">
+                        Feature
+                      </th>
+                      <th className="text-center px-4 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black dark:text-white bg-black/[0.03] dark:bg-white/[0.03]">
+                        Blip
+                      </th>
+                      <th className="text-center px-4 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">
+                        Binance P2P
+                      </th>
+                      <th className="text-center px-4 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">
+                        Wise
+                      </th>
+                      <th className="text-center px-4 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">
+                        Local OTC
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
                     {COMPARISON.map((row, i) => (
-                      <tr key={i} className="border-b border-black/[0.04] dark:border-white/[0.04] last:border-0">
-                        <td className="px-5 py-3.5 font-medium text-black/70 dark:text-white/60">{row.feature}</td>
-                        <td className="px-4 py-3.5 text-center font-semibold text-black dark:text-white bg-black/[0.02] dark:bg-white/[0.02]">{row.blip}</td>
-                        <td className="px-4 py-3.5 text-center text-black/50 dark:text-white/40">{row.binance}</td>
-                        <td className="px-4 py-3.5 text-center text-black/50 dark:text-white/40">{row.wise}</td>
-                        <td className="px-4 py-3.5 text-center text-black/50 dark:text-white/40">{row.otc}</td>
+                      <tr
+                        key={i}
+                        className="border-b border-black/[0.04] dark:border-white/[0.04] last:border-0"
+                      >
+                        <td className="px-5 py-3.5 font-medium text-black/70 dark:text-white/60">
+                          {row.feature}
+                        </td>
+                        <td className="px-4 py-3.5 text-center font-semibold text-black dark:text-white bg-black/[0.02] dark:bg-white/[0.02]">
+                          {row.blip}
+                        </td>
+                        <td className="px-4 py-3.5 text-center text-black/50 dark:text-white/40">
+                          {row.binance}
+                        </td>
+                        <td className="px-4 py-3.5 text-center text-black/50 dark:text-white/40">
+                          {row.wise}
+                        </td>
+                        <td className="px-4 py-3.5 text-center text-black/50 dark:text-white/40">
+                          {row.otc}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -1045,13 +1301,30 @@ export default function CryptoToAed() {
                   key={item.symbol}
                   className="p-6 rounded-2xl bg-white/60 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]"
                 >
-                  <h3 className="text-lg font-bold text-black dark:text-white mb-2">{item.h}</h3>
-                  <p className="text-[14px] text-black/50 dark:text-white/40 leading-relaxed">{item.text}</p>
-                  {rates?.[CRYPTO_ASSETS.find((a) => a.symbol === item.symbol)?.id ?? ""] && (
+                  <h3 className="text-lg font-bold text-black dark:text-white mb-2">
+                    {item.h}
+                  </h3>
+                  <p className="text-[14px] text-black/50 dark:text-white/40 leading-relaxed">
+                    {item.text}
+                  </p>
+                  {rates?.[
+                    CRYPTO_ASSETS.find((a) => a.symbol === item.symbol)?.id ??
+                      ""
+                  ] && (
                     <div className="mt-3 flex items-center gap-2">
-                      <span className="text-[13px] text-black/30 dark:text-white/25">Current rate:</span>
+                      <span className="text-[13px] text-black/30 dark:text-white/25">
+                        Current rate:
+                      </span>
                       <span className="text-[13px] font-semibold text-black dark:text-white">
-                        1 {item.symbol} = {rates[CRYPTO_ASSETS.find((a) => a.symbol === item.symbol)!.id].aed.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} AED
+                        1 {item.symbol} ={" "}
+                        {rates[
+                          CRYPTO_ASSETS.find((a) => a.symbol === item.symbol)!
+                            .id
+                        ].aed.toLocaleString("en-US", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}{" "}
+                        AED
                       </span>
                     </div>
                   )}
@@ -1070,22 +1343,39 @@ export default function CryptoToAed() {
               Crypto to AED in the UAE — What You Need to Know
             </h2>
             <p className="text-black/40 dark:text-white/35 mb-8">
-              The UAE has one of the world's most progressive regulatory frameworks for cryptocurrency.
+              The UAE has one of the world's most progressive regulatory
+              frameworks for cryptocurrency.
             </p>
 
             <div className="grid sm:grid-cols-3 gap-6 mb-8">
               {[
-                { icon: BadgeCheck, title: "VARA Regulated", desc: "Dubai's Virtual Assets Regulatory Authority provides a clear licensing framework for crypto activities, making the UAE one of the most crypto-friendly jurisdictions globally." },
-                { icon: Globe, title: "Global Hub", desc: "With over 30% crypto ownership rate and $25B+ annual trading volume, the UAE is the Middle East's leading crypto hub. Over 40 licensed exchanges operate in the region." },
-                { icon: Shield, title: "Investor Protection", desc: "VARA and ADGM FSRA frameworks prioritize consumer protection while enabling innovation. Blip operates within these guidelines to ensure safe, compliant crypto-to-AED settlement." },
+                {
+                  icon: BadgeCheck,
+                  title: "VARA Regulated",
+                  desc: "Dubai's Virtual Assets Regulatory Authority provides a clear licensing framework for crypto activities, making the UAE one of the most crypto-friendly jurisdictions globally.",
+                },
+                {
+                  icon: Globe,
+                  title: "Global Hub",
+                  desc: "With over 30% crypto ownership rate and $25B+ annual trading volume, the UAE is the Middle East's leading crypto hub. Over 40 licensed exchanges operate in the region.",
+                },
+                {
+                  icon: Shield,
+                  title: "Investor Protection",
+                  desc: "VARA and ADGM FSRA frameworks prioritize consumer protection while enabling innovation. Blip operates within these guidelines to ensure safe, compliant crypto-to-AED settlement.",
+                },
               ].map((item) => (
                 <div
                   key={item.title}
                   className="p-6 rounded-2xl bg-white/60 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]"
                 >
                   <item.icon className="w-5 h-5 text-black/30 dark:text-white/25 mb-4" />
-                  <h3 className="text-[15px] font-bold text-black dark:text-white mb-2">{item.title}</h3>
-                  <p className="text-[13px] text-black/50 dark:text-white/40 leading-relaxed">{item.desc}</p>
+                  <h3 className="text-[15px] font-bold text-black dark:text-white mb-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-[13px] text-black/50 dark:text-white/40 leading-relaxed">
+                    {item.desc}
+                  </p>
                 </div>
               ))}
             </div>
@@ -1101,10 +1391,11 @@ export default function CryptoToAed() {
               Crypto to AED — Frequently Asked Questions
             </h2>
             <p className="text-black/40 dark:text-white/35 mb-8">
-              Everything you need to know about converting cryptocurrency to UAE Dirhams.
+              Everything you need to know about converting cryptocurrency to UAE
+              Dirhams.
             </p>
 
-            <div className="bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] rounded-2xl px-6 sm:px-8">
+            {/* <div className="bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] rounded-2xl px-6 sm:px-8">
               {FAQ_DATA.map((item, i) => (
                 <FAQItem
                   key={i}
@@ -1113,6 +1404,51 @@ export default function CryptoToAed() {
                   open={openFaq === i}
                   toggle={() => setOpenFaq(openFaq === i ? null : i)}
                 />
+              ))}
+            </div> */}
+            <div className="space-y-4 ">
+              {FAQ_DATA.map((faq, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 1, y: 20 }}
+                  // animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.6, delay: 0.1 * i }}
+                  className="border border-black/[0.08] dark:border-white/[0.06] bg-white/60 dark:bg-white/[0.02] backdrop-blur-xl rounded-xl overflow-hidden"
+                >
+                  <button
+                    className="w-full flex justify-between items-center p-5 text-left hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors"
+                    onClick={() => {
+                      setOpenFaq(openFaq === i ? null : i);
+                      sounds.click();
+                    }}
+                    onMouseEnter={() => sounds.hover()}
+                  >
+                    <span className="font-medium text-black dark:text-white text-sm pr-4">
+                      {faq.q}
+                    </span>
+                    <ChevronDown
+                      className={`w-4 h-4 text-black/40 dark:text-white/40 flex-shrink-0 transition-transform duration-300 ${
+                        openFaq === i ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+
+                  <AnimatePresence initial={false}>
+                    {openFaq === i && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.35 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="px-5 pb-5 text-sm text-black dark:text-white/40 leading-relaxed border-t border-black/[0.06] dark:border-white/[0.06] pt-4">
+                          {faq.a}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -1127,9 +1463,10 @@ export default function CryptoToAed() {
               Ready to Convert?
             </h2>
             <p className="text-lg text-black/40 dark:text-white/35 max-w-lg mx-auto mb-8">
-              Join thousands converting crypto to AED on the fastest, most secure settlement protocol in the UAE.
+              Join thousands converting crypto to AED on the fastest, most
+              secure settlement protocol in the UAE.
             </p>
-            <Link
+            {/* <Link
               to="/waitlist"
               onClick={() => sounds.click()}
               onMouseEnter={() => sounds.hover()}
@@ -1137,7 +1474,10 @@ export default function CryptoToAed() {
             >
               Get Started
               <ArrowRight className="w-4 h-4" />
-            </Link>
+            </Link> */}
+            <CTAButton to="/waitlist" className="w-[220px] h-[48px]">
+              Get Started
+            </CTAButton>
           </div>
         </Section>
 
@@ -1151,18 +1491,30 @@ export default function CryptoToAed() {
             </h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               {[
-                { label: "How It Works", href: "/how-it-works", desc: "Protocol explained" },
+                {
+                  label: "How It Works",
+                  href: "/how-it-works",
+                  desc: "Protocol explained",
+                },
                 { label: "FAQ", href: "/faq", desc: "Common questions" },
                 { label: "Compare", href: "/compare", desc: "Blip vs others" },
-                { label: "Sell USDT Dubai", href: "/sell-usdt-dubai", desc: "Dubai guide" },
+                {
+                  label: "Sell USDT Dubai",
+                  href: "/sell-usdt-dubai",
+                  desc: "Dubai guide",
+                },
               ].map((link) => (
                 <Link
                   key={link.href}
                   to={link.href}
                   className="group p-4 rounded-xl bg-white/60 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] hover:border-black/[0.12] dark:hover:border-white/[0.12] transition-colors"
                 >
-                  <span className="block text-sm font-semibold text-black dark:text-white group-hover:text-gray-600 dark:group-hover:text-white/80 transition-colors">{link.label}</span>
-                  <span className="block text-xs text-black/30 dark:text-white/25 mt-1">{link.desc}</span>
+                  <span className="block text-sm font-semibold text-black dark:text-white group-hover:text-gray-600 dark:group-hover:text-white/80 transition-colors">
+                    {link.label}
+                  </span>
+                  <span className="block text-xs text-black/30 dark:text-white/25 mt-1">
+                    {link.desc}
+                  </span>
                 </Link>
               ))}
             </div>

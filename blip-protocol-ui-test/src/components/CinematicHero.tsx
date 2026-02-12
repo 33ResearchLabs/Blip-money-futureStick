@@ -4,6 +4,7 @@ import { ArrowRight, Clock, Percent, Globe2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { GlobeVisualization } from "./visuals/GlobeVisualization";
 import { MicroIcon } from "./visuals/MicroIcon";
+import { CTAButton } from "./Navbar";
 
 const CinematicHero = () => {
   const ref = useRef(null);
@@ -68,7 +69,7 @@ const CinematicHero = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-[#FAF8F5]/60 dark:from-black/60 via-transparent to-[#FAF8F5]/60 dark:to-black/60" />
 
         {/* Globe network visualization */}
-        <GlobeVisualization />
+        {/* <GlobeVisualization /> */}
       </div>
 
       <main className="relative z-10 w-full max-w-[1200px] mx-auto px-6 md:px-10 text-center pt-12 sm:pt-0">
@@ -162,14 +163,15 @@ const CinematicHero = () => {
           transition={{ duration: 0.8, delay: 0.5 }}
           className="flex justify-center"
         >
-          <Link
+          {/* <Link
             to="/waitlist"
             className="group relative overflow-hidden inline-flex items-center justify-center gap-3 w-[240px] h-[56px] rounded-full bg-black dark:bg-white text-white dark:text-black text-base font-semibold transition-all duration-300"
           >
             <span className="absolute inset-0 bg-white/20 dark:bg-black/10 rounded-full scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-out" />
             <span className="relative z-10">Get Started</span>
             <ArrowRight className="relative z-10 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </Link>
+          </Link> */}
+          <CTAButton to="/join-waitlist" className="w-[220px] h-[48px]">Get Started</CTAButton>
         </motion.div>
 
         {/* Subtle bottom line */}

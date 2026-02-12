@@ -17,6 +17,7 @@ import {
   type ComparisonFeature,
 } from "@/data/comparisonData";
 import { sounds } from "@/lib/sounds";
+import { CTAButton } from "@/components/Navbar";
 
 /* ============================================
    LISTING PAGE COMPONENTS
@@ -239,7 +240,7 @@ const CompareDetail = ({ comparison }: { comparison: ComparisonPage }) => {
 
       <div className="min-h-screen bg-[#FAF8F5] dark:bg-transparent">
         {/* Hero */}
-        <section className="relative pt-32 sm:pt-36 pb-12 sm:pb-16">
+        <section className="relative pt-32 sm:pt-36 pb-4 ">
           <div className="max-w-[900px] mx-auto px-4 sm:px-6">
             <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Compare", href: "/compare" }, { label: comparison.title }]} />
             <motion.div
@@ -252,7 +253,7 @@ const CompareDetail = ({ comparison }: { comparison: ComparisonPage }) => {
                 {comparison.title}
               </h1>
               <p className="text-lg sm:text-xl text-black dark:text-white/40 max-w-xl mx-auto leading-relaxed">
-                {comparison.headline}
+                {comparison.headline}dgfg
               </p>
             </motion.div>
           </div>
@@ -383,7 +384,7 @@ const CompareDetail = ({ comparison }: { comparison: ComparisonPage }) => {
               the first to use Blip Money.
             </p>
 
-            <Link
+            {/* <Link
               to="/waitlist"
               onClick={() => sounds.click()}
               onMouseEnter={() => sounds.hover()}
@@ -391,7 +392,8 @@ const CompareDetail = ({ comparison }: { comparison: ComparisonPage }) => {
             >
               Join Waitlist
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-            </Link>
+            </Link> */}
+            <CTAButton to="/waitlist"  className="w-[220px] h-[48px]">Join Waitlist</CTAButton>
           </motion.div>
         </section>
       </div>

@@ -26,6 +26,8 @@ const FAQAccordionItem = ({
 }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-40px" });
+  const [visibleCount, setVisibleCount] = useState(8);
+
 
   return (
     <motion.div
@@ -86,6 +88,9 @@ export default function FAQ() {
     "All",
   );
   const [expandedItems, setExpandedItems] = useState<Set<number>>(new Set());
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   const filteredItems =
     activeCategory === "All"
@@ -141,9 +146,11 @@ export default function FAQ() {
 
       <div className="min-h-screen bg-[#FAF8F5] dark:bg-transparent">
         {/* Hero */}
-        <section className="relative pt-32 sm:pt-36 pb-12 sm:pb-16">
+        <section ref={ref} className="relative pt-32 sm:pt-36 pb-12 sm:pb-16">
           <div className="max-w-[900px] mx-auto px-4 sm:px-6">
-            <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "FAQ" }]} />
+            <Breadcrumbs
+              items={[{ label: "Home", href: "/" }, { label: "FAQ" }]}
+            />
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -164,7 +171,7 @@ export default function FAQ() {
         {/* Category tabs */}
         <section className="max-w-[900px] mx-auto px-4 sm:px-6 mb-12">
           <motion.div
-            className="flex items-center gap-1 overflow-x-auto pb-1 border-b border-gray-100 dark:border-white/[0.06] scrollbar-hide"
+            className="flex items-center gap-1 overflow-x-auto pb-1  dark:border-white/[0.06] scrollbar-hide"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4, delay: 0.2 }}
@@ -200,7 +207,7 @@ export default function FAQ() {
         {/* FAQ Items */}
         <div className="max-w-[900px] mx-auto px-4 sm:px-6 pb-24">
           {/* Count label */}
-          {filteredItems.length > 0 && (
+          {/* {filteredItems.length > 0 && (
             <div className="flex items-center gap-4 mb-2">
               <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-gray-400 dark:text-white/30">
                 {filteredItems.length}{" "}
@@ -208,10 +215,10 @@ export default function FAQ() {
               </span>
               <div className="flex-1 h-px bg-gray-100 dark:bg-white/[0.06]" />
             </div>
-          )}
+          )} */}
 
           {/* Accordion list */}
-          <div>
+          {/* <div>
             {filteredItems.map((item, index) => (
               <FAQAccordionItem
                 key={`${activeCategory}-${index}`}
@@ -220,6 +227,52 @@ export default function FAQ() {
                 isExpanded={expandedItems.has(index)}
                 onToggle={() => toggleItem(index)}
               />
+            ))}
+          </div> */}
+
+          <div className="space-y-4  ">
+            {filteredItems.map((faq, i) => (
+              <motion.div
+                key={`${activeCategory}-${i}`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: 0.1 * i }}
+                className="border border-black/[0.08] dark:border-white/[0.06] bg-white/60 dark:bg-white/[0.02] backdrop-blur-xl rounded-xl overflow-hidden"
+              >
+                <button
+                  className="w-full flex justify-between items-center p-5 text-left hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors"
+                  onClick={() => {
+                    setOpenFaq(openFaq === i ? null : i);
+                    sounds.click();
+                  }}
+                  onMouseEnter={() => sounds.hover()}
+                >
+                  <span className="font-medium text-black dark:text-white text-sm pr-4">
+                    {faq.question}
+                  </span>
+                  <ChevronDown
+                    className={`w-4 h-4 text-black/40 dark:text-white/40 flex-shrink-0 transition-transform duration-300 ${
+                      openFaq === i ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+
+                <AnimatePresence initial={false}>
+                  {openFaq === i && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.35 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-5 pb-5 text-sm text-black dark:text-white/40 leading-relaxed border-t border-black/[0.06] dark:border-white/[0.06] pt-4">
+                        {faq.answer}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
             ))}
           </div>
 

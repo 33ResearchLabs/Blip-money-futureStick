@@ -125,7 +125,7 @@ export const CTASection = ({
       </Link> */}
               <CTAButton
                 to={secondaryButtonLink}
-                className="border border-white/10 text-white hover:border-white/30 hover:bg-white/5 w-[225px]  h-[48px]"
+                className=" w-[225px]  h-[48px]"
               >
                 {secondaryButtonText}
                 {/* <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" /> */}

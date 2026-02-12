@@ -275,12 +275,12 @@ const App = () => {
                     exit={{ x: -100, opacity: 0 }}
                     transition={{ duration: 0.6, ease: "easeOut" }}
                   >
-                    <h1 className="text-xl font-semibold leading-snug text-black dark:text-white">
+                    <span className="text-xl font-semibold leading-snug text-black dark:text-white">
                       Request Your <br />
                       <span className="text-black/70 dark:text-white/50">
                         Capital Flow.
                       </span>
-                    </h1>
+                    </span>
 
                     <p className="text-base text-black/80 dark:text-white/60 leading-relaxed max-w-md">
                       Connect institutional treasuries. Blip enables instant
@@ -353,12 +353,12 @@ const App = () => {
           <div className="w-full lg:w-[55%] min-h-[150vh] flex flex-col lg:mt-32 justify-end space-y-40 pb-[calc(50vh-290px)]">
             {/* Section 01: Initiation */}
             <section className="content-section space-y-8">
-              <div className="space-y-3">
+              {/* <div className="space-y-3 ">
                 <span className="text-black/80 dark:text-white/50 font-bold tracking-[0.3em] uppercase text-xs">
                   Initiation
                 </span>
 
-                <motion.h1
+                <motion.span
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   className="text-3xl font-semibold tracking-tight leading-tight text-black dark:text-white"
@@ -367,7 +367,23 @@ const App = () => {
                   <span className="text-black/70 dark:text-white/50">
                     Capital Flow.
                   </span>
-                </motion.h1>
+                </motion.span>
+              </div> */}
+              <div className="space-y-3">
+                <span className="text-black/80 dark:text-white/50 font-bold tracking-[0.3em] uppercase text-xs">
+                  Initiation
+                </span>
+
+                <motion.h2
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  className="text-3xl font-semibold tracking-tight leading-tight text-black dark:text-white"
+                >
+                  Request Your <br />
+                  <span className="text-black/70 dark:text-white/50  decoration-black/10 dark:decoration-white/10">
+                   Capital Flow.
+                  </span>
+                </motion.h2>
               </div>
 
               <p className="text-lg text-black/80 dark:text-white/60 leading-relaxed max-w-xl">
@@ -410,7 +426,7 @@ const App = () => {
                   className="text-3xl font-semibold tracking-tight leading-tight text-black dark:text-white"
                 >
                   Price <br />
-                  <span className="text-black/70 dark:text-white/50 italic underline underline-offset-4 decoration-black/10 dark:decoration-white/10">
+                  <span className="text-black/70 dark:text-white/50  decoration-black/10 dark:decoration-white/10">
                     Optimization.
                   </span>
                 </motion.h2>

@@ -6,12 +6,14 @@ import {
   CheckCircle2,
   AlertTriangle,
   ChevronRight,
+  ArrowLeft,
 } from "lucide-react";
 import SEO from "@/components/SEO";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { HreflangTags } from "@/components/HreflangTags";
 import { useCases } from "@/data/useCasesData";
 import { sounds } from "@/lib/sounds";
+import { CTAButton } from "@/components/Navbar";
 
 /* ── Pain Point Card ── */
 const PainPointCard = ({
@@ -228,15 +230,16 @@ export default function UseCaseDetail() {
               crypto settlement.
             </p>
 
-            <Link
+            {/* <Link
               to={useCase.cta.link}
               onClick={() => sounds.click()}
               onMouseEnter={() => sounds.hover()}
               className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-black dark:bg-white text-white dark:text-black font-medium text-[15px] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
             >
               {useCase.cta.text}
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-            </Link>
+              <ArrowLeft className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+            </Link> */}
+            <CTAButton to={useCase.cta.link}className=" h-[48px]">{useCase.cta.text}</CTAButton>
           </motion.div>
         </section>
       </div>

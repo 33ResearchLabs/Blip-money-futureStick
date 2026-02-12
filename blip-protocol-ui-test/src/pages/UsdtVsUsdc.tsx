@@ -20,6 +20,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { HreflangTags } from "@/components/HreflangTags";
 import StructuredData from "@/components/StructuredData";
 import { sounds } from "@/lib/sounds";
+import { CTAButton } from "@/components/Navbar";
 
 /* ═══════════════════════════════════════════════
    FAQ STRUCTURED DATA
@@ -180,7 +181,7 @@ const HeroSection = () => {
           regulatory compliance, and which works best on Blip.
         </motion.p>
 
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.7 }}
@@ -195,6 +196,7 @@ const HeroSection = () => {
             View Comparison
             <ArrowRight className="w-4 h-4" />
           </a>
+          
           <a
             href="#which-to-use"
             onClick={() => sounds.click()}
@@ -203,7 +205,7 @@ const HeroSection = () => {
           >
             Which Should I Use?
           </a>
-        </motion.div>
+        </motion.div> */}
       </div>
     </section>
   );
@@ -828,7 +830,7 @@ const CTASection = () => {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <Link
+          {/* <Link
             to="/waitlist"
             onClick={() => sounds.click()}
             onMouseEnter={() => sounds.hover()}
@@ -836,7 +838,8 @@ const CTASection = () => {
           >
             Start Using Blip
             <ArrowRight className="w-4 h-4" />
-          </Link>
+          </Link> */}
+          <CTAButton to="/waitlist" className="w-[220px] h-[48px]"> Start Using Blip</CTAButton>
         </motion.div>
 
         {/* Cross-links */}

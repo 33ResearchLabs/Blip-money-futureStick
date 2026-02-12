@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { motion, useInView } from "framer-motion";
+import { AnimatePresence, motion, useInView } from "framer-motion";
 import {
   ArrowDownUp,
   TrendingUp,
@@ -18,6 +18,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { HreflangTags } from "@/components/HreflangTags";
 import StructuredData from "@/components/StructuredData";
 import { sounds } from "@/lib/sounds";
+import { CTAButton } from "@/components/Navbar";
 
 /* ═══════════════════════════════════════════════
    CONSTANTS
@@ -210,7 +211,7 @@ function usePriceHistory(days: number) {
     let cancelled = false;
     setLoading(true);
     fetch(
-      `https://api.coingecko.com/api/v3/coins/${COIN_ID}/market_chart?vs_currency=aed&days=${days}`
+      `https://api.coingecko.com/api/v3/coins/${COIN_ID}/market_chart?vs_currency=aed&days=${days}`,
     )
       .then((res) => res.json())
       .then((json) => {
@@ -297,22 +298,41 @@ function PriceChart({
    FAQ ACCORDION
    ═══════════════════════════════════════════════ */
 
-function FAQItem({ q, a, open, toggle }: { q: string; a: string; open: boolean; toggle: () => void }) {
+function FAQItem({
+  q,
+  a,
+  open,
+  toggle,
+}: {
+  q: string;
+  a: string;
+  open: boolean;
+  toggle: () => void;
+}) {
   return (
     <div className="border-b border-black/[0.06] dark:border-white/[0.06]">
       <button
-        onClick={() => { toggle(); sounds.click(); }}
+        onClick={() => {
+          toggle();
+          sounds.click();
+        }}
         className="flex items-center justify-between w-full py-5 text-left"
       >
-        <span className="text-[15px] font-semibold text-black dark:text-white pr-8">{q}</span>
-        <ChevronDown className={`w-4 h-4 text-black/30 dark:text-white/30 transition-transform flex-shrink-0 ${open ? "rotate-180" : ""}`} />
+        <span className="text-[15px] font-semibold text-black dark:text-white pr-8">
+          {q}
+        </span>
+        <ChevronDown
+          className={`w-4 h-4 text-black/30 dark:text-white/30 transition-transform flex-shrink-0 ${open ? "rotate-180" : ""}`}
+        />
       </button>
       <motion.div
         initial={false}
         animate={{ height: open ? "auto" : 0, opacity: open ? 1 : 0 }}
         className="overflow-hidden"
       >
-        <p className="pb-5 text-[14px] text-black/50 dark:text-white/40 leading-relaxed">{a}</p>
+        <p className="pb-5 text-[14px] text-black/50 dark:text-white/40 leading-relaxed">
+          {a}
+        </p>
       </motion.div>
     </div>
   );
@@ -322,7 +342,13 @@ function FAQItem({ q, a, open, toggle }: { q: string; a: string; open: boolean; 
    ANIMATED SECTION WRAPPER
    ═══════════════════════════════════════════════ */
 
-function Section({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+function Section({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
   return (
@@ -421,11 +447,12 @@ export default function BtcToAed() {
 
   const [amount, setAmount] = useState(searchParams.get("amount") || "1");
   const [direction, setDirection] = useState<"sell" | "buy">(
-    searchParams.get("direction") === "buy" ? "buy" : "sell"
+    searchParams.get("direction") === "buy" ? "buy" : "sell",
   );
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [chartPeriod, setChartPeriod] = useState(7);
-  const { data: priceHistory, loading: chartLoading } = usePriceHistory(chartPeriod);
+  const { data: priceHistory, loading: chartLoading } =
+    usePriceHistory(chartPeriod);
 
   // Sync state to URL
   useEffect(() => {
@@ -443,7 +470,8 @@ export default function BtcToAed() {
     const fee = numAmount * 0.005;
     const netAmount = direction === "sell" ? numAmount - fee : numAmount;
     const aedAmount = direction === "sell" ? netAmount * r : numAmount;
-    const cryptoAmount = direction === "buy" ? (numAmount / r) * (1 - 0.005) : numAmount;
+    const cryptoAmount =
+      direction === "buy" ? (numAmount / r) * (1 - 0.005) : numAmount;
 
     return {
       rate: r,
@@ -500,24 +528,32 @@ export default function BtcToAed() {
                 </span>
               </h1>
               <p className="text-lg sm:text-xl text-black/50 dark:text-white/40 max-w-xl leading-relaxed mb-10">
-                Convert BTC to UAE Dirhams instantly. Live BTC/AED rate, escrow-protected settlement, under 15 minutes.
+                Convert BTC to UAE Dirhams instantly. Live BTC/AED rate,
+                escrow-protected settlement, under 15 minutes.
               </p>
 
               {/* Live status badge */}
               <div className="flex items-center gap-3 mb-8">
                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/5 dark:bg-white/5 border border-black/[0.08] dark:border-white/[0.08]">
                   <div className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
-                  <span className="text-xs font-semibold text-black/60 dark:text-white/40">Live Rate</span>
+                  <span className="text-xs font-semibold text-black/60 dark:text-white/40">
+                    Live Rate
+                  </span>
                 </div>
                 <span className="text-xs text-black/30 dark:text-white/30">
                   {isLive ? `Updated ${timeAgo}` : "Updating live rate..."}
                 </span>
                 <button
-                  onClick={() => { refresh(); sounds.click(); }}
+                  onClick={() => {
+                    refresh();
+                    sounds.click();
+                  }}
                   className="p-1 rounded-md hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
                   title="Refresh rate"
                 >
-                  <RefreshCw className={`w-3.5 h-3.5 text-black/30 dark:text-white/30 ${loading ? "animate-spin" : ""}`} />
+                  <RefreshCw
+                    className={`w-3.5 h-3.5 text-black/30 dark:text-white/30 ${loading ? "animate-spin" : ""}`}
+                  />
                 </button>
               </div>
 
@@ -526,13 +562,19 @@ export default function BtcToAed() {
                 {/* Direction toggle */}
                 <div className="flex items-center gap-3 mb-6">
                   <button
-                    onClick={() => { setDirection("sell"); sounds.click(); }}
+                    onClick={() => {
+                      setDirection("sell");
+                      sounds.click();
+                    }}
                     className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${direction === "sell" ? "bg-black dark:bg-white text-white dark:text-black" : "bg-black/5 dark:bg-white/5 text-black/50 dark:text-white/50"}`}
                   >
                     Sell BTC
                   </button>
                   <button
-                    onClick={() => { setDirection("buy"); sounds.click(); }}
+                    onClick={() => {
+                      setDirection("buy");
+                      sounds.click();
+                    }}
                     className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${direction === "buy" ? "bg-black dark:bg-white text-white dark:text-black" : "bg-black/5 dark:bg-white/5 text-black/50 dark:text-white/50"}`}
                   >
                     Buy BTC
@@ -549,14 +591,21 @@ export default function BtcToAed() {
                       type="text"
                       inputMode="decimal"
                       value={amount}
-                      onChange={(e) => { const v = e.target.value.replace(/[^0-9.]/g, ""); if (v.replace(".", "").length <= 7) setAmount(v); }}
+                      onChange={(e) => {
+                        const v = e.target.value.replace(/[^0-9.]/g, "");
+                        if (v.replace(".", "").length <= 7) setAmount(v);
+                      }}
                       className="flex-1 bg-transparent text-2xl sm:text-3xl font-bold text-black dark:text-white outline-none placeholder:text-black/20 dark:placeholder:text-white/20 min-w-0 truncate"
                       placeholder="0"
                     />
                     {direction === "sell" ? (
                       <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-black/5 dark:bg-white/5 border border-black/[0.08] dark:border-white/[0.08] text-sm font-semibold">
-                        <span className="text-lg leading-none">{COIN_ICON}</span>
-                        <span className="text-black dark:text-white">{COIN_SYMBOL}</span>
+                        <span className="text-lg leading-none">
+                          {COIN_ICON}
+                        </span>
+                        <span className="text-black dark:text-white">
+                          {COIN_SYMBOL}
+                        </span>
                       </div>
                     ) : (
                       <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-black/5 dark:bg-white/5 border border-black/[0.08] dark:border-white/[0.08] text-sm font-semibold">
@@ -570,7 +619,10 @@ export default function BtcToAed() {
                 {/* Swap button */}
                 <div className="flex justify-center -my-1 relative z-10">
                   <button
-                    onClick={() => { setDirection(direction === "sell" ? "buy" : "sell"); sounds.click(); }}
+                    onClick={() => {
+                      setDirection(direction === "sell" ? "buy" : "sell");
+                      sounds.click();
+                    }}
                     className="w-10 h-10 rounded-full bg-white dark:bg-[#111] border border-black/[0.08] dark:border-white/[0.08] flex items-center justify-center hover:border-black/[0.15] dark:hover:border-white/[0.15] transition-colors shadow-sm"
                   >
                     <ArrowDownUp className="w-4 h-4 text-black/40 dark:text-white/40" />
@@ -585,13 +637,19 @@ export default function BtcToAed() {
                   <div className="flex items-center gap-3 p-4 rounded-xl bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.06] dark:border-white/[0.06]">
                     <div className="flex-1 text-2xl sm:text-3xl font-bold text-black dark:text-white min-w-0 truncate">
                       {loading ? (
-                        <span className="text-black/20 dark:text-white/20">Loading...</span>
+                        <span className="text-black/20 dark:text-white/20">
+                          Loading...
+                        </span>
                       ) : error ? (
-                        <span className="text-red-400 text-lg">Rate unavailable</span>
+                        <span className="text-red-400 text-lg">
+                          Rate unavailable
+                        </span>
                       ) : conversion ? (
-                        direction === "sell"
-                          ? `${conversion.aedAmount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-                          : `${conversion.cryptoAmount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: COIN_DECIMALS })}`
+                        direction === "sell" ? (
+                          `${conversion.aedAmount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+                        ) : (
+                          `${conversion.cryptoAmount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: COIN_DECIMALS })}`
+                        )
                       ) : (
                         "—"
                       )}
@@ -603,8 +661,12 @@ export default function BtcToAed() {
                       </div>
                     ) : (
                       <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-black/5 dark:bg-white/5 border border-black/[0.08] dark:border-white/[0.08] text-sm font-semibold">
-                        <span className="text-lg leading-none">{COIN_ICON}</span>
-                        <span className="text-black dark:text-white">{COIN_SYMBOL}</span>
+                        <span className="text-lg leading-none">
+                          {COIN_ICON}
+                        </span>
+                        <span className="text-black dark:text-white">
+                          {COIN_SYMBOL}
+                        </span>
                       </div>
                     )}
                   </div>
@@ -614,27 +676,52 @@ export default function BtcToAed() {
                 {conversion && !loading && !error && (
                   <div className="space-y-2 mb-6 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-black/40 dark:text-white/30">Exchange Rate</span>
+                      <span className="text-black/40 dark:text-white/30">
+                        Exchange Rate
+                      </span>
                       <span className="font-semibold text-black dark:text-white">
-                        1 {COIN_SYMBOL} = {conversion.rate.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} AED
+                        1 {COIN_SYMBOL} ={" "}
+                        {conversion.rate.toLocaleString("en-US", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}{" "}
+                        AED
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-black/40 dark:text-white/30">24h Change</span>
-                      <span className={`font-semibold flex items-center gap-1 ${conversion.change >= 0 ? "text-emerald-500" : "text-red-400"}`}>
-                        {conversion.change >= 0 ? <TrendingUp className="w-3.5 h-3.5" /> : <TrendingDown className="w-3.5 h-3.5" />}
+                      <span className="text-black/40 dark:text-white/30">
+                        24h Change
+                      </span>
+                      <span
+                        className={`font-semibold flex items-center gap-1 ${conversion.change >= 0 ? "text-emerald-500" : "text-red-400"}`}
+                      >
+                        {conversion.change >= 0 ? (
+                          <TrendingUp className="w-3.5 h-3.5" />
+                        ) : (
+                          <TrendingDown className="w-3.5 h-3.5" />
+                        )}
                         {Math.abs(conversion.change).toFixed(2)}%
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-black/40 dark:text-white/30">Protocol Fee (0.5%)</span>
+                      <span className="text-black/40 dark:text-white/30">
+                        Protocol Fee (0.5%)
+                      </span>
                       <span className="text-black/60 dark:text-white/40">
-                        {conversion.fee.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} AED
+                        {conversion.fee.toLocaleString("en-US", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}{" "}
+                        AED
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-black/40 dark:text-white/30">Network Fee</span>
-                      <span className="text-black/60 dark:text-white/40">&lt; $0.01 (Solana)</span>
+                      <span className="text-black/40 dark:text-white/30">
+                        Network Fee
+                      </span>
+                      <span className="text-black/60 dark:text-white/40">
+                        &lt; $0.01 (Solana)
+                      </span>
                     </div>
                   </div>
                 )}
@@ -676,7 +763,10 @@ export default function BtcToAed() {
                 {CHART_PERIODS.map((p) => (
                   <button
                     key={p.days}
-                    onClick={() => { setChartPeriod(p.days); sounds.click(); }}
+                    onClick={() => {
+                      setChartPeriod(p.days);
+                      sounds.click();
+                    }}
                     className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-colors ${
                       chartPeriod === p.days
                         ? "bg-white dark:bg-white/10 text-black dark:text-white shadow-sm"
@@ -690,21 +780,38 @@ export default function BtcToAed() {
             </div>
 
             <div className="bg-white/80 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] rounded-2xl p-6 sm:p-8">
-              <PriceChart data={priceHistory} loading={chartLoading} change={conversion.change} />
+              <PriceChart
+                data={priceHistory}
+                loading={chartLoading}
+                change={conversion.change}
+              />
 
               {priceHistory.length > 1 && !chartLoading && (
                 <div className="flex items-center justify-between mt-4 pt-4 border-t border-black/[0.06] dark:border-white/[0.06]">
                   {[
-                    { label: "Low", value: Math.min(...priceHistory.map((d) => d[1])) },
-                    { label: "High", value: Math.max(...priceHistory.map((d) => d[1])) },
-                    { label: "Current", value: priceHistory[priceHistory.length - 1][1] },
+                    {
+                      label: "Low",
+                      value: Math.min(...priceHistory.map((d) => d[1])),
+                    },
+                    {
+                      label: "High",
+                      value: Math.max(...priceHistory.map((d) => d[1])),
+                    },
+                    {
+                      label: "Current",
+                      value: priceHistory[priceHistory.length - 1][1],
+                    },
                   ].map((stat) => (
                     <div key={stat.label} className="text-center">
                       <span className="block text-[11px] font-semibold uppercase tracking-[0.12em] text-black/30 dark:text-white/25">
                         {stat.label}
                       </span>
                       <span className="block text-sm font-bold text-black dark:text-white tabular-nums mt-1">
-                        {stat.value.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} AED
+                        {stat.value.toLocaleString("en-US", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}{" "}
+                        AED
                       </span>
                     </div>
                   ))}
@@ -724,13 +831,27 @@ export default function BtcToAed() {
             </h2>
             <div className="bg-white/60 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] rounded-2xl p-6 sm:p-8">
               <p className="text-[15px] text-black/50 dark:text-white/40 leading-relaxed mb-4">
-                Bitcoin (BTC) is the world's first and largest cryptocurrency by market capitalization, created in 2009 by the pseudonymous Satoshi Nakamoto. It operates on a decentralized peer-to-peer network secured by proof-of-work mining, with a fixed supply of 21 million coins — making it a deflationary digital asset often referred to as "digital gold."
+                Bitcoin (BTC) is the world's first and largest cryptocurrency by
+                market capitalization, created in 2009 by the pseudonymous
+                Satoshi Nakamoto. It operates on a decentralized peer-to-peer
+                network secured by proof-of-work mining, with a fixed supply of
+                21 million coins — making it a deflationary digital asset often
+                referred to as "digital gold."
               </p>
               <p className="text-[15px] text-black/50 dark:text-white/40 leading-relaxed mb-4">
-                In the UAE, Bitcoin is one of the most widely held cryptocurrencies, with growing adoption for both investment and cross-border payments. Dubai's VARA framework explicitly recognizes Bitcoin as a regulated virtual asset, and many UAE-based businesses and individuals hold BTC as part of their digital asset portfolio.
+                In the UAE, Bitcoin is one of the most widely held
+                cryptocurrencies, with growing adoption for both investment and
+                cross-border payments. Dubai's VARA framework explicitly
+                recognizes Bitcoin as a regulated virtual asset, and many
+                UAE-based businesses and individuals hold BTC as part of their
+                digital asset portfolio.
               </p>
               <p className="text-[15px] text-black/50 dark:text-white/40 leading-relaxed">
-                Converting Bitcoin to AED allows holders to realize gains, fund local expenses, or diversify into fiat currency. Blip provides a fast, non-custodial way to settle BTC to AED through escrow-protected merchant matching, without the risks of centralized exchange custody.
+                Converting Bitcoin to AED allows holders to realize gains, fund
+                local expenses, or diversify into fiat currency. Blip provides a
+                fast, non-custodial way to settle BTC to AED through
+                escrow-protected merchant matching, without the risks of
+                centralized exchange custody.
               </p>
             </div>
           </div>
@@ -751,27 +872,49 @@ export default function BtcToAed() {
             <div className="bg-white/80 dark:bg-white/[0.04] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] rounded-2xl p-6 sm:p-8">
               <div className="flex flex-col sm:flex-row sm:items-end gap-4 mb-6">
                 <div>
-                  <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/30 dark:text-white/25">1 BTC =</span>
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/30 dark:text-white/25">
+                    1 BTC =
+                  </span>
                   <div className="text-3xl sm:text-4xl font-bold text-black dark:text-white tabular-nums mt-1">
-                    {rate.aed.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} AED
+                    {rate.aed.toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}{" "}
+                    AED
                   </div>
                 </div>
-                <div className={`flex items-center gap-1 text-sm font-semibold ${(rate.aed_24h_change ?? 0) >= 0 ? "text-emerald-500" : "text-red-400"}`}>
-                  {(rate.aed_24h_change ?? 0) >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
+                <div
+                  className={`flex items-center gap-1 text-sm font-semibold ${(rate.aed_24h_change ?? 0) >= 0 ? "text-emerald-500" : "text-red-400"}`}
+                >
+                  {(rate.aed_24h_change ?? 0) >= 0 ? (
+                    <TrendingUp className="w-4 h-4" />
+                  ) : (
+                    <TrendingDown className="w-4 h-4" />
+                  )}
                   {Math.abs(rate.aed_24h_change ?? 0).toFixed(2)}% (24h)
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-4 rounded-xl bg-[#FAF8F5] dark:bg-white/[0.03] border border-black/[0.04] dark:border-white/[0.04]">
-                  <span className="block text-[11px] font-semibold uppercase tracking-[0.12em] text-black/30 dark:text-white/25">USD Price</span>
+                  <span className="block text-[11px] font-semibold uppercase tracking-[0.12em] text-black/30 dark:text-white/25">
+                    USD Price
+                  </span>
                   <span className="block text-lg font-bold text-black dark:text-white mt-1 tabular-nums">
-                    ${rate.usd.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    $
+                    {rate.usd.toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
                   </span>
                 </div>
                 <div className="p-4 rounded-xl bg-[#FAF8F5] dark:bg-white/[0.03] border border-black/[0.04] dark:border-white/[0.04]">
-                  <span className="block text-[11px] font-semibold uppercase tracking-[0.12em] text-black/30 dark:text-white/25">AED/USD Peg</span>
-                  <span className="block text-lg font-bold text-black dark:text-white mt-1 tabular-nums">3.6725</span>
+                  <span className="block text-[11px] font-semibold uppercase tracking-[0.12em] text-black/30 dark:text-white/25">
+                    AED/USD Peg
+                  </span>
+                  <span className="block text-lg font-bold text-black dark:text-white mt-1 tabular-nums">
+                    3.6725
+                  </span>
                 </div>
               </div>
             </div>
@@ -787,27 +930,47 @@ export default function BtcToAed() {
               Bitcoin to AED Conversion Table
             </h2>
             <p className="text-black/40 dark:text-white/35 mb-8">
-              Quick reference for common BTC to AED amounts at the current live rate.
+              Quick reference for common BTC to AED amounts at the current live
+              rate.
             </p>
 
             <div className="bg-white/80 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] rounded-2xl overflow-hidden">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-black/[0.06] dark:border-white/[0.06]">
-                    <th className="text-left px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">Bitcoin (BTC)</th>
-                    <th className="text-right px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">UAE Dirham (AED)</th>
-                    <th className="text-right px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">US Dollar (USD)</th>
+                    <th className="text-left px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">
+                      Bitcoin (BTC)
+                    </th>
+                    <th className="text-right px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">
+                      UAE Dirham (AED)
+                    </th>
+                    <th className="text-right px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">
+                      US Dollar (USD)
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {CONVERSION_TABLE.map((row) => (
-                    <tr key={row.amount} className="border-b border-black/[0.04] dark:border-white/[0.04] last:border-0 hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors">
-                      <td className="px-6 py-4 font-semibold text-black dark:text-white">{row.label}</td>
+                    <tr
+                      key={row.amount}
+                      className="border-b border-black/[0.04] dark:border-white/[0.04] last:border-0 hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors"
+                    >
+                      <td className="px-6 py-4 font-semibold text-black dark:text-white">
+                        {row.label}
+                      </td>
                       <td className="px-6 py-4 text-right font-semibold text-black dark:text-white tabular-nums">
-                        {(row.amount * rate.aed).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} AED
+                        {(row.amount * rate.aed).toLocaleString("en-US", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}{" "}
+                        AED
                       </td>
                       <td className="px-6 py-4 text-right text-black/50 dark:text-white/40 tabular-nums">
-                        ${(row.amount * rate.usd).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        $
+                        {(row.amount * rate.usd).toLocaleString("en-US", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
                       </td>
                     </tr>
                   ))}
@@ -837,10 +1000,19 @@ export default function BtcToAed() {
                     {item.label}
                   </span>
                   <span className="block text-lg font-bold text-black dark:text-white mt-1 tabular-nums">
-                    {(item.crypto * rate.aed).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} AED
+                    {(item.crypto * rate.aed).toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}{" "}
+                    AED
                   </span>
                   <span className="block text-xs text-black/30 dark:text-white/25 mt-1">
-                    ${(item.crypto * rate.usd).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD
+                    $
+                    {(item.crypto * rate.usd).toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}{" "}
+                    USD
                   </span>
                 </Link>
               ))}
@@ -857,7 +1029,8 @@ export default function BtcToAed() {
               How to Convert Bitcoin to AED
             </h2>
             <p className="text-black/40 dark:text-white/35 mb-10">
-              Convert BTC to UAE Dirhams in 4 simple steps using Blip's escrow-protected settlement.
+              Convert BTC to UAE Dirhams in 4 simple steps using Blip's
+              escrow-protected settlement.
             </p>
 
             <div className="grid sm:grid-cols-2 gap-6">
@@ -870,9 +1043,13 @@ export default function BtcToAed() {
                     <div className="w-8 h-8 rounded-full bg-black dark:bg-white flex items-center justify-center text-white dark:text-black text-sm font-bold">
                       {s.step}
                     </div>
-                    <h3 className="text-[15px] font-bold text-black dark:text-white">{s.title}</h3>
+                    <h3 className="text-[15px] font-bold text-black dark:text-white">
+                      {s.title}
+                    </h3>
                   </div>
-                  <p className="text-[14px] text-black/50 dark:text-white/40 leading-relaxed">{s.description}</p>
+                  <p className="text-[14px] text-black/50 dark:text-white/40 leading-relaxed">
+                    {s.description}
+                  </p>
                 </div>
               ))}
             </div>
@@ -890,18 +1067,38 @@ export default function BtcToAed() {
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                { icon: Zap, title: "Under 15 Minutes", desc: "From trade initiation to AED in your bank. No waiting for exchange withdrawals or confirmations." },
-                { icon: Shield, title: "Escrow Protected", desc: "Every BTC trade secured by on-chain smart contract escrow. Audited and fully transparent." },
-                { icon: Wallet, title: "Non-Custodial", desc: "Your Bitcoin stays in your control. No centralized exchange deposit required." },
-                { icon: Lock, title: "Best BTC/AED Rate", desc: "Competitive rates sourced from global markets. No hidden spread markup on your BTC conversion." },
+                {
+                  icon: Zap,
+                  title: "Under 15 Minutes",
+                  desc: "From trade initiation to AED in your bank. No waiting for exchange withdrawals or confirmations.",
+                },
+                {
+                  icon: Shield,
+                  title: "Escrow Protected",
+                  desc: "Every BTC trade secured by on-chain smart contract escrow. Audited and fully transparent.",
+                },
+                {
+                  icon: Wallet,
+                  title: "Non-Custodial",
+                  desc: "Your Bitcoin stays in your control. No centralized exchange deposit required.",
+                },
+                {
+                  icon: Lock,
+                  title: "Best BTC/AED Rate",
+                  desc: "Competitive rates sourced from global markets. No hidden spread markup on your BTC conversion.",
+                },
               ].map((item) => (
                 <div
                   key={item.title}
                   className="p-6 rounded-2xl bg-white/60 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]"
                 >
                   <item.icon className="w-5 h-5 text-black/30 dark:text-white/25 mb-4" />
-                  <h3 className="text-[15px] font-bold text-black dark:text-white mb-2">{item.title}</h3>
-                  <p className="text-[13px] text-black/50 dark:text-white/40 leading-relaxed">{item.desc}</p>
+                  <h3 className="text-[15px] font-bold text-black dark:text-white mb-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-[13px] text-black/50 dark:text-white/40 leading-relaxed">
+                    {item.desc}
+                  </p>
                 </div>
               ))}
             </div>
@@ -913,14 +1110,15 @@ export default function BtcToAed() {
             ═══════════════════════════════════════════ */}
         <Section className="py-16 sm:py-20 border-t border-black/[0.04] dark:border-white/[0.04]">
           <div className="max-w-[900px] mx-auto px-4 sm:px-6">
-            <h2 className="text-2xl sm:text-3xl font-bold text-black dark:text-white mb-2">
-              Bitcoin to AED — Frequently Asked Questions
+            <h2 className="text-2xl sm:text-3xl text-center font-bold text-black dark:text-white mb-2">
+              Bitcoin to AED — FAQ
             </h2>
-            <p className="text-black/40 dark:text-white/35 mb-8">
-              Everything you need to know about converting Bitcoin to UAE Dirhams.
+            <p className="text-black/40 dark:text-white/35 mb-8 text-center">
+              Everything you need to know about converting Bitcoin to UAE
+              Dirhams.
             </p>
 
-            <div className="bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] rounded-2xl px-6 sm:px-8">
+            {/* <div className="bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] rounded-2xl px-6 sm:px-8">
               {FAQ_DATA.map((item, i) => (
                 <FAQItem
                   key={i}
@@ -929,6 +1127,51 @@ export default function BtcToAed() {
                   open={openFaq === i}
                   toggle={() => setOpenFaq(openFaq === i ? null : i)}
                 />
+              ))}
+            </div> */}
+            <div className="space-y-4 ">
+              {FAQ_DATA.map((faq, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 1, y: 20 }}
+                  // animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.6, delay: 0.1 * i }}
+                  className="border border-black/[0.08] dark:border-white/[0.06] bg-white/60 dark:bg-white/[0.02] backdrop-blur-xl rounded-xl overflow-hidden"
+                >
+                  <button
+                    className="w-full flex justify-between items-center p-5 text-left hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors"
+                    onClick={() => {
+                      setOpenFaq(openFaq === i ? null : i);
+                      sounds.click();
+                    }}
+                    onMouseEnter={() => sounds.hover()}
+                  >
+                    <span className="font-medium text-black dark:text-white text-sm pr-4">
+                      {faq.q}
+                    </span>
+                    <ChevronDown
+                      className={`w-4 h-4 text-black/40 dark:text-white/40 flex-shrink-0 transition-transform duration-300 ${
+                        openFaq === i ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+
+                  <AnimatePresence initial={false}>
+                    {openFaq === i && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.35 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="px-5 pb-5 text-sm text-black dark:text-white/40 leading-relaxed border-t border-black/[0.06] dark:border-white/[0.06] pt-4">
+                          {faq.a}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -943,9 +1186,10 @@ export default function BtcToAed() {
               Ready to Convert Bitcoin to AED?
             </h2>
             <p className="text-lg text-black/40 dark:text-white/35 max-w-lg mx-auto mb-8">
-              Join thousands converting BTC to AED on the fastest, most secure settlement protocol in the UAE.
+              Join thousands converting BTC to AED on the fastest, most secure
+              settlement protocol in the UAE.
             </p>
-            <Link
+            {/* <Link
               to="/waitlist"
               onClick={() => sounds.click()}
               onMouseEnter={() => sounds.hover()}
@@ -953,7 +1197,10 @@ export default function BtcToAed() {
             >
               Get Started
               <ArrowRight className="w-4 h-4" />
-            </Link>
+            </Link> */}
+            <CTAButton to="/waitlist" className="w-[220px] h-[48px]">
+              Get Started
+            </CTAButton>
           </div>
         </Section>
 
@@ -967,18 +1214,38 @@ export default function BtcToAed() {
             </h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               {[
-                { label: "Crypto to AED", href: "/crypto-to-aed", desc: "All crypto rates" },
-                { label: "ETH to AED", href: "/eth-to-aed", desc: "Ethereum converter" },
-                { label: "SOL to AED", href: "/sol-to-aed", desc: "Solana converter" },
-                { label: "Sell USDT Dubai", href: "/sell-usdt-dubai", desc: "Dubai guide" },
+                {
+                  label: "Crypto to AED",
+                  href: "/crypto-to-aed",
+                  desc: "All crypto rates",
+                },
+                {
+                  label: "ETH to AED",
+                  href: "/eth-to-aed",
+                  desc: "Ethereum converter",
+                },
+                {
+                  label: "SOL to AED",
+                  href: "/sol-to-aed",
+                  desc: "Solana converter",
+                },
+                {
+                  label: "Sell USDT Dubai",
+                  href: "/sell-usdt-dubai",
+                  desc: "Dubai guide",
+                },
               ].map((link) => (
                 <Link
                   key={link.href}
                   to={link.href}
                   className="group p-4 rounded-xl bg-white/60 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] hover:border-black/[0.12] dark:hover:border-white/[0.12] transition-colors"
                 >
-                  <span className="block text-sm font-semibold text-black dark:text-white group-hover:text-gray-600 dark:group-hover:text-white/80 transition-colors">{link.label}</span>
-                  <span className="block text-xs text-black/30 dark:text-white/25 mt-1">{link.desc}</span>
+                  <span className="block text-sm font-semibold text-black dark:text-white group-hover:text-gray-600 dark:group-hover:text-white/80 transition-colors">
+                    {link.label}
+                  </span>
+                  <span className="block text-xs text-black/30 dark:text-white/25 mt-1">
+                    {link.desc}
+                  </span>
                 </Link>
               ))}
             </div>

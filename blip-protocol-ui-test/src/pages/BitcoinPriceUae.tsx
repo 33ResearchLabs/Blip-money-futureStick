@@ -16,6 +16,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { HreflangTags } from "@/components/HreflangTags";
 import StructuredData from "@/components/StructuredData";
 import { sounds } from "@/lib/sounds";
+import { CTAButton } from "@/components/Navbar";
 
 /* ═══════════════════════════════════════════════
    CONSTANTS
@@ -235,7 +236,9 @@ const BitcoinPriceUae = () => {
 
   /* ── Section refs ── */
   const heroRef = useRef(null);
+  const ref = useRef(null);
   const heroInView = useInView(heroRef, { once: true, margin: "-60px" });
+  const isInView = useInView(heroRef, { once: true, margin: "-100px" });
 
   return (
     <>
@@ -294,7 +297,7 @@ const BitcoinPriceUae = () => {
                 for UAE residents, updated every minute from global markets.
               </p>
 
-              <Link
+              {/* <Link
                 to="/btc-to-aed"
                 onClick={() => sounds.click()}
                 onMouseEnter={() => sounds.hover()}
@@ -302,7 +305,8 @@ const BitcoinPriceUae = () => {
               >
                 Convert BTC to AED
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
+              </Link> */}
+              <CTAButton to="/btc-to-aed" className="w-[220px] h-[48px]">Convert BTC to AED</CTAButton>
             </motion.div>
           </div>
         </header>
@@ -447,13 +451,13 @@ const BitcoinPriceUae = () => {
               {HOW_TO_STEPS.map((s) => (
                 <div
                   key={s.step}
-                  className="relative p-6 rounded-2xl bg-white/60 dark:bg-white/[0.03] border border-black/[0.08] dark:border-white/[0.06]"
+                  className="relative p-4 rounded-2xl bg-white/60 dark:bg-white/[0.03] border border-black/[0.08] dark:border-white/[0.06]"
                 >
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-8 h-8 rounded-full bg-black dark:bg-white flex items-center justify-center text-white dark:text-black text-sm font-bold">
+                  <div className="flex items-center  gap-2 mb-3">
+                    <div className="w-8 h-8 rounded-full bg-black dark:bg-white flex items-center justify-center text-white dark:text-black text-sm font-semibold">
                       {s.step}
                     </div>
-                    <h3 className="text-[15px] font-bold text-black dark:text-white">
+                    <h3 className="text-[14px] font-bold text-black dark:text-white">
                       {s.title}
                     </h3>
                   </div>
@@ -465,7 +469,7 @@ const BitcoinPriceUae = () => {
             </div>
 
             <div className="mt-8 text-center">
-              <Link
+              {/* <Link
                 to="/btc-to-aed"
                 onClick={() => sounds.click()}
                 onMouseEnter={() => sounds.hover()}
@@ -473,7 +477,8 @@ const BitcoinPriceUae = () => {
               >
                 Open BTC to AED Converter
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
+              </Link> */}
+               <CTAButton to="/btc-to-aed" className="w-[220px] h-[48px]">Convert BTC to AED</CTAButton>
             </div>
           </div>
         </Section>
@@ -483,17 +488,17 @@ const BitcoinPriceUae = () => {
             ═══════════════════════════════════════════════ */}
         <Section className="py-16 sm:py-20 border-t border-black/[0.04] dark:border-white/[0.04]">
           <div className="max-w-[900px] mx-auto px-4 sm:px-6">
-            <p className="text-xs uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-4">
+            <p className="text-xs text-center uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-4">
               Common Questions
             </p>
-            <h2 className="text-2xl sm:text-3xl font-bold text-black dark:text-white mb-2">
+            <h2 className="text-2xl sm:text-3xl text-center font-bold text-black dark:text-white mb-2">
               Bitcoin Price UAE — FAQ
             </h2>
-            <p className="text-black/80 dark:text-white/50 mb-8">
+            <p className="text-black/80 text-center dark:text-white/50 mb-8">
               Everything you need to know about Bitcoin pricing and trading in
               the United Arab Emirates.
             </p>
-
+{/* 
             <div className="bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] rounded-2xl px-6 sm:px-8">
               {FAQ_DATA.map((item, i) => (
                 <FAQItem
@@ -504,7 +509,53 @@ const BitcoinPriceUae = () => {
                   toggle={() => setOpenFaq(openFaq === i ? null : i)}
                 />
               ))}
-            </div>
+            </div> */}
+
+            <div className="space-y-4">
+                      {FAQ_DATA.map((faq, i) => (
+                        <motion.div
+                          key={i}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={isInView ? { opacity: 1, y: 0 } : {}}
+                          transition={{ duration: 0.6, delay: 0.1 * i }}
+                          className="border border-black/[0.08] dark:border-white/[0.06] bg-white/60 dark:bg-white/[0.02] backdrop-blur-xl rounded-xl overflow-hidden"
+                        >
+                          <button
+                            className="w-full flex justify-between items-center p-5 text-left hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors"
+                            onClick={() => {
+                              setOpenFaq(openFaq === i ? null : i);
+                              sounds.click();
+                            }}
+                            onMouseEnter={() => sounds.hover()}
+                          >
+                            <span className="font-medium text-black dark:text-white text-sm pr-4">
+                              {faq.q}
+                            </span>
+                            <ChevronDown
+                              className={`w-4 h-4 text-black/40 dark:text-white/40 flex-shrink-0 transition-transform duration-300 ${
+                                openFaq === i ? "rotate-180" : ""
+                              }`}
+                            />
+                          </button>
+            
+                          <AnimatePresence initial={false}>
+                            {openFaq === i && (
+                              <motion.div
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: "auto", opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                transition={{ duration: 0.35 }}
+                                className="overflow-hidden"
+                              >
+                                <div className="px-5 pb-5 text-sm text-black dark:text-white/40 leading-relaxed border-t border-black/[0.06] dark:border-white/[0.06] pt-4">
+                                  {faq.a}
+                                </div>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </motion.div>
+                      ))}
+                    </div>
           </div>
         </Section>
 
@@ -575,7 +626,7 @@ const BitcoinPriceUae = () => {
               Use our BTC to AED converter to check exact amounts and convert
               Bitcoin to UAE Dirhams with escrow protection.
             </p>
-            <Link
+            {/* <Link
               to="/btc-to-aed"
               onClick={() => sounds.click()}
               onMouseEnter={() => sounds.hover()}
@@ -583,7 +634,8 @@ const BitcoinPriceUae = () => {
             >
               Convert BTC to AED
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
+            </Link> */}
+            <CTAButton to="/btc-to-aed" className="w-[220px] h-[48px]">Convert BTC to AED</CTAButton>
           </div>
         </Section>
 

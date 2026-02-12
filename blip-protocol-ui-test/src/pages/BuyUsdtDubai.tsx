@@ -19,6 +19,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { HreflangTags } from "@/components/HreflangTags";
 import StructuredData from "@/components/StructuredData";
 import { sounds } from "@/lib/sounds";
+import { CTAButton } from "@/components/Navbar";
 
 /* ============================================
    HERO SECTION
@@ -78,7 +79,7 @@ const HeroSection = () => {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.7 }}
         >
-          <Link
+          {/* <Link
             to="/waitlist"
             onClick={() => sounds.click()}
             onMouseEnter={() => sounds.hover()}
@@ -86,7 +87,8 @@ const HeroSection = () => {
           >
             Start Buying USDT
             <ArrowRight className="w-4 h-4" />
-          </Link>
+          </Link> */}
+          <CTAButton to="/waitlist" className="w-[220px] h-[48px]">Start Buying USDT</CTAButton>
         </motion.div>
       </div>
     </section>
@@ -451,6 +453,7 @@ const FAQSection = () => {
             </motion.div>
           ))}
         </div>
+
       </div>
     </section>
   );
@@ -552,7 +555,7 @@ const CTABottomSection = () => {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <Link
+          {/* <Link
             to="/waitlist"
             onClick={() => sounds.click()}
             onMouseEnter={() => sounds.hover()}
@@ -560,7 +563,9 @@ const CTABottomSection = () => {
           >
             Start Buying USDT
             <ArrowRight className="w-4 h-4" />
-          </Link>
+          </Link> */}
+          <CTAButton to="waitlist" >   Start Buying USDT</CTAButton>
+
         </motion.div>
       </div>
     </section>

@@ -18,6 +18,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { HreflangTags } from "@/components/HreflangTags";
 import StructuredData from "@/components/StructuredData";
 import { sounds } from "@/lib/sounds";
+import { CTAButton } from "@/components/Navbar";
 
 /* ============================================
    FAQ DATA (shared between section + schema)
@@ -112,7 +113,7 @@ const HeroSection = () => {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.7 }}
         >
-          <Link
+          {/* <Link
             to="/waitlist"
             onClick={() => sounds.click()}
             onMouseEnter={() => sounds.hover()}
@@ -120,7 +121,8 @@ const HeroSection = () => {
           >
             Start OTC Trading
             <ArrowRight className="w-4 h-4" />
-          </Link>
+          </Link> */}
+           <CTAButton to="/waitlist" className="w-[220px] h-[48px]">Start OTC Trading</CTAButton>
         </motion.div>
       </div>
     </section>
@@ -594,7 +596,7 @@ const CTABottomSection = () => {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <Link
+          {/* <Link
             to="/waitlist"
             onClick={() => sounds.click()}
             onMouseEnter={() => sounds.hover()}
@@ -602,7 +604,8 @@ const CTABottomSection = () => {
           >
             Start OTC Trading
             <ArrowRight className="w-4 h-4" />
-          </Link>
+          </Link> */}
+          <CTAButton to="/waitlist" className="w-[220px] h-[48px]">Start OTC Trading</CTAButton>
         </motion.div>
       </div>
     </section>

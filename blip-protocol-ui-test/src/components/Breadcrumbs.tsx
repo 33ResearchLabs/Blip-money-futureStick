@@ -32,7 +32,7 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
       />
 
       {/* Visible breadcrumb navigation */}
-      <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-sm">
+      <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-sm mb-4">
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
 

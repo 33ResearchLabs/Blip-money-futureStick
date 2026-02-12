@@ -42,7 +42,7 @@ const FeatureStrip = () => {
                 className="flex items-center gap-3 mb-4"
               >
                 {/* Pulsing dot with ripple effect */}
-                <div className="relative flex items-center justify-center">
+                {/* <div className="relative flex items-center justify-center">
                   <motion.div
                     className="absolute w-4 h-4 rounded-full bg-black/20 dark:bg-white/20"
                     animate={{ scale: [1, 2, 1], opacity: [0.3, 0, 0.3] }}
@@ -53,7 +53,7 @@ const FeatureStrip = () => {
                     animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
                     transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
                   />
-                </div>
+                </div> */}
 
                 <MicroIcon icon={feature.icon} variant="glow" size={14} delay={i * 0.2} />
 
