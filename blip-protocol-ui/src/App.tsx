@@ -19,6 +19,7 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import "@solana/wallet-adapter-react-ui/styles.css";
 import CryptoToUae from "./pages/CryptoToUae";
 import { Toaster } from "./components/ui/toaster";
+import LegalPage from "./pages/LeagalPage";
 
 // Lazy load page components
 const Index = lazy(() => import("./pages/Index"));
@@ -128,6 +129,8 @@ const App = () => (
                     <Route path="/terms" element={<TermsService />} />
                     <Route path="/cookies" element={<Cookies />} />
                     <Route path="/gdpr" element={<Gdpr />} />
+                    <Route path="/legal/:tab" element={<LegalPage />} />
+
                     <Route path="/whitepaper" element={<Whitepaper />} />
                     <Route path="/twoFactorAuth" element={<TwoFactorAuth />} />
                     <Route path="/cryptoToAed" element={<CryptoToUae />} />
