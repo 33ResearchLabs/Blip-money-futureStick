@@ -106,19 +106,85 @@ const comparisonRows: {
   winner: "usdt" | "usdc" | "tie";
 }[] = [
   { feature: "Market Cap", usdt: "~$140B", usdc: "~$45B", winner: "usdt" },
-  { feature: "Transparency", usdt: "Quarterly attestations", usdc: "Monthly Deloitte audits", winner: "usdc" },
-  { feature: "Blockchain Support", usdt: "14+ chains", usdc: "10+ chains", winner: "usdt" },
-  { feature: "Trading Pairs", usdt: "Most extensive", usdc: "Growing rapidly", winner: "usdt" },
-  { feature: "Regulatory Compliance", usdt: "Varies by jurisdiction", usdc: "Full US compliance", winner: "usdc" },
-  { feature: "UAE Availability", usdt: "All exchanges", usdc: "Most exchanges", winner: "tie" },
+  {
+    feature: "Transparency",
+    usdt: "Quarterly attestations",
+    usdc: "Monthly Deloitte audits",
+    winner: "usdc",
+  },
+  {
+    feature: "Blockchain Support",
+    usdt: "14+ chains",
+    usdc: "10+ chains",
+    winner: "usdt",
+  },
+  {
+    feature: "Trading Pairs",
+    usdt: "Most extensive",
+    usdc: "Growing rapidly",
+    winner: "usdt",
+  },
+  {
+    feature: "Regulatory Compliance",
+    usdt: "Varies by jurisdiction",
+    usdc: "Full US compliance",
+    winner: "usdc",
+  },
+  {
+    feature: "UAE Availability",
+    usdt: "All exchanges",
+    usdc: "Most exchanges",
+    winner: "tie",
+  },
   { feature: "Blip Support", usdt: "Full", usdc: "Full", winner: "tie" },
-  { feature: "Solana Speed", usdt: "Sub-second", usdc: "Sub-second", winner: "tie" },
-  { feature: "AED Off-ramp", usdt: "Via Blip, exchanges", usdc: "Via Blip, exchanges", winner: "tie" },
-  { feature: "De-peg History", usdt: "Brief de-peg 2022", usdc: "Never de-pegged", winner: "usdc" },
+  {
+    feature: "Solana Speed",
+    usdt: "Sub-second",
+    usdc: "Sub-second",
+    winner: "tie",
+  },
+  {
+    feature: "AED Off-ramp",
+    usdt: "Via Blip, exchanges",
+    usdc: "Via Blip, exchanges",
+    winner: "tie",
+  },
+  {
+    feature: "De-peg History",
+    usdt: "Brief de-peg 2022",
+    usdc: "Never de-pegged",
+    winner: "usdc",
+  },
 ];
 
-const usdtChains = ["Ethereum", "Solana", "Tron", "BNB Chain", "Avalanche", "Polygon", "Arbitrum", "Optimism", "TON", "Near", "Cosmos", "Polkadot", "Algorand", "Celo"];
-const usdcChains = ["Ethereum", "Solana", "Avalanche", "Polygon", "Arbitrum", "Optimism", "Base", "Stellar", "Noble", "Hedera"];
+const usdtChains = [
+  "Ethereum",
+  "Solana",
+  "Tron",
+  "BNB Chain",
+  "Avalanche",
+  "Polygon",
+  "Arbitrum",
+  "Optimism",
+  "TON",
+  "Near",
+  "Cosmos",
+  "Polkadot",
+  "Algorand",
+  "Celo",
+];
+const usdcChains = [
+  "Ethereum",
+  "Solana",
+  "Avalanche",
+  "Polygon",
+  "Arbitrum",
+  "Optimism",
+  "Base",
+  "Stellar",
+  "Noble",
+  "Hedera",
+];
 
 /* ═══════════════════════════════════════════════
    HERO SECTION
@@ -138,10 +204,7 @@ const HeroSection = () => {
 
       <div className="relative z-10 max-w-[900px] mx-auto px-6">
         <Breadcrumbs
-          items={[
-            { label: "Home", href: "/" },
-            { label: "USDT vs USDC" },
-          ]}
+          items={[{ label: "Home", href: "/" }, { label: "USDT vs USDC" }]}
         />
 
         <motion.div
@@ -177,8 +240,8 @@ const HeroSection = () => {
         >
           Tether (USDT) and USD Coin (USDC) are the two largest stablecoins by
           market cap. This guide breaks down every difference that matters for
-          UAE-based traders, including AED off-ramping, transparency,
-          regulatory compliance, and which works best on Blip.
+          UAE-based traders, including AED off-ramping, transparency, regulatory
+          compliance, and which works best on Blip.
         </motion.p>
 
         {/* <motion.div
@@ -308,12 +371,20 @@ const SideBySideSection = () => {
         >
           <div />
           <div className="text-center p-4 rounded-2xl bg-white/80 dark:bg-white/[0.04] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06]">
-            <div className="text-lg font-bold text-black dark:text-white">USDT</div>
-            <div className="text-xs text-black/40 dark:text-white/40 mt-1">Tether</div>
+            <div className="text-lg font-bold text-black dark:text-white">
+              USDT
+            </div>
+            <div className="text-xs text-black/40 dark:text-white/40 mt-1">
+              Tether
+            </div>
           </div>
           <div className="text-center p-4 rounded-2xl bg-white/80 dark:bg-white/[0.04] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06]">
-            <div className="text-lg font-bold text-black dark:text-white">USDC</div>
-            <div className="text-xs text-black/40 dark:text-white/40 mt-1">USD Coin</div>
+            <div className="text-lg font-bold text-black dark:text-white">
+              USDC
+            </div>
+            <div className="text-xs text-black/40 dark:text-white/40 mt-1">
+              USD Coin
+            </div>
           </div>
         </motion.div>
 
@@ -328,7 +399,7 @@ const SideBySideSection = () => {
               className="grid grid-cols-3 gap-3 items-center"
               onMouseEnter={() => sounds.hover()}
             >
-              <div className="text-sm font-medium text-black/60 dark:text-white/50 pr-2">
+              <div className="text-sm font-medium text-black/90 dark:text-white/50 pr-2">
                 {row.label}
               </div>
               <div
@@ -839,7 +910,10 @@ const CTASection = () => {
             Start Using Blip
             <ArrowRight className="w-4 h-4" />
           </Link> */}
-          <CTAButton to="/waitlist" className="w-[220px] h-[48px]"> Start Using Blip</CTAButton>
+          <CTAButton to="/waitlist" className="w-[220px] h-[48px]">
+            {" "}
+            Start Using Blip
+          </CTAButton>
         </motion.div>
 
         {/* Cross-links */}

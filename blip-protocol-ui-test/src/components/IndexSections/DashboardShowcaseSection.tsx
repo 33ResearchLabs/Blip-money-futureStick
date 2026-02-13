@@ -303,7 +303,7 @@ export default function DashboardShowcaseSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative h-[140vh] bg-white dark:bg-black"
+      className="relative h-[350vh] bg-white dark:bg-black"
       style={{ contain: "paint", touchAction: "pan-y" }}
     >
       {/*

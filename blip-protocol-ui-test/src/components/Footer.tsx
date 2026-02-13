@@ -214,7 +214,7 @@ const FooterLink = ({
   <Link
     to={to}
     className="
-      text-[13px] text-black/50 dark:text-zinc-500
+      text-[13px] text-black/80 dark:text-zinc-500
       hover:text-black dark:hover:text-white
       transition-all duration-300 font-light
       flex items-center gap-0 hover:gap-2 group/link
@@ -304,35 +304,52 @@ export const Footer = () => {
             {/* Expanding Shockwaves */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div
-                className={`absolute w-24 h-24 rounded-full border border-orange-500/60 transition-all duration-[1500ms] ease-out ${isActive ? "scale-[3.5] opacity-0" : "scale-1 opacity-0"}`}
+                className={`absolute w-24 h-24 rounded-full border border-orange-500/60 transition-all duration-[1500ms] ease-out ${
+                  isActive ? "scale-[3.5] opacity-0" : "scale-1 opacity-0"
+                }`}
               ></div>
               <div
-                className={`absolute w-24 h-24 rounded-full border border-white/30 transition-all duration-[1200ms] delay-150 ease-out ${isActive ? "scale-[2.5] opacity-0" : "scale-1 opacity-0"}`}
+                className={`absolute w-24 h-24 rounded-full border border-gray-300 dark:border-white/30 transition-all duration-[1200ms] delay-150 ease-out ${
+                  isActive ? "scale-[2.5] opacity-0" : "scale-1 opacity-0"
+                }`}
               ></div>
             </div>
 
             {/* Background Environmental Atmosphere */}
             <div
-              className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[180%] h-[140%] rotate-[-15deg] pointer-events-none transition-opacity duration-1000 ${isActive ? "opacity-80" : "opacity-35"}`}
+              className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[180%] h-[140%] rotate-[-15deg] pointer-events-none transition-opacity duration-1000 ${
+                isActive ? "opacity-80" : "opacity-35"
+              }`}
             >
-              <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-500/30 to-transparent blur-sm transform -translate-y-18"></div>
-              <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-orange-500/30 to-transparent blur-sm transform translate-y-18"></div>
+              <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-500/30 to-transparent blur-sm -translate-y-18"></div>
+              <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-orange-500/30 to-transparent blur-sm translate-y-18"></div>
             </div>
 
-            {/* The Main Dial Chassis */}
+            {/* Main Dial */}
             <div
-              className={`relative z-10 w-full h-full rounded-full border-[4px] bg-[#080808] shadow-[0_0_80px_rgba(0,0,0,1),inset_0_0_50px_rgba(0,0,0,0.9)] flex items-center justify-center overflow-hidden transition-all duration-1000 border-black ${isActive ? "ring-1 ring-white/10" : ""}`}
+              className={`relative z-10 w-full h-full rounded-full border-[4px] 
+    bg-white dark:bg-[#080808] 
+    border-gray-200 dark:border-black
+    shadow-[0_0_40px_rgba(0,0,0,0.08),inset_0_0_30px_rgba(0,0,0,0.05)]
+    dark:shadow-[0_0_80px_rgba(0,0,0,1),inset_0_0_50px_rgba(0,0,0,0.9)]
+    flex items-center justify-center overflow-hidden 
+    transition-all duration-1000
+    ${isActive ? "ring-1 ring-black/10 dark:ring-white/10" : ""}`}
             >
+              {/* Dot Grid Texture */}
               <div
-                className="absolute inset-0 opacity-[0.18]"
+                className="absolute inset-0 opacity-[0.08] dark:opacity-[0.18]"
                 style={{
                   backgroundImage:
-                    "radial-gradient(circle, #ffffff 0.5px, transparent 0.5px)",
+                    "radial-gradient(circle, rgba(0,0,0,0.3) 0.5px, transparent 0.5px)",
                   backgroundSize: "8px 8px",
                 }}
               ></div>
-              <div className="absolute inset-9 rounded-full border border-white/15"></div>
-              <div className="absolute inset-18 rounded-full border border-white/10 opacity-60"></div>
+
+              <div className="absolute inset-9 rounded-full border border-gray-300/60 dark:border-white/15"></div>
+              <div className="absolute inset-18 rounded-full border border-gray-300/40 dark:border-white/10 opacity-60"></div>
+
+              {/* Conic Glow Layers */}
               <div
                 className="absolute inset-5 rounded-full opacity-25 blur-[1px]"
                 style={{
@@ -352,21 +369,32 @@ export const Footer = () => {
               {[...Array(24)].map((_, i) => (
                 <div
                   key={i}
-                  className={`absolute w-[1.5px] transition-all duration-700 ${i % 6 === 0 ? "h-3 bg-zinc-500" : "h-1.5 bg-zinc-700"} ${isActive ? "bg-orange-500/60 shadow-[0_0_8px_rgba(249,115,22,0.4)]" : ""}`}
+                  className={`absolute w-[1.5px] transition-all duration-700 ${
+                    i % 6 === 0
+                      ? "h-3 bg-gray-400 dark:bg-zinc-500"
+                      : "h-1.5 bg-gray-300 dark:bg-zinc-700"
+                  } ${
+                    isActive
+                      ? "bg-orange-500/60 shadow-[0_0_8px_rgba(249,115,22,0.4)]"
+                      : ""
+                  }`}
                   style={{
                     transform: `rotate(${i * 15}deg) translateY(-131px)`,
                   }}
                 />
               ))}
 
-              {/* THE CENTRAL GLOWING CORE */}
+              {/* Central Core */}
               <div className="relative z-20 w-36 h-36 flex items-center justify-center">
                 <div
-                  className={`absolute w-24 h-24 bg-orange-500/20 blur-3xl rounded-full transition-all duration-700 ${isActive ? "opacity-100 scale-125" : "opacity-0 scale-100"}`}
+                  className={`absolute w-24 h-24 bg-orange-500/20 blur-3xl rounded-full transition-all duration-700 ${
+                    isActive ? "opacity-100 scale-125" : "opacity-0 scale-100"
+                  }`}
                 ></div>
+
                 <svg
                   viewBox="0 0 100 100"
-                  className="w-full h-full overflow-visible"
+                  className="w-full h-full overflow-visible text-black dark:text-white"
                 >
                   <defs>
                     <linearGradient
@@ -378,16 +406,16 @@ export const Footer = () => {
                     >
                       <stop
                         offset="0%"
-                        stopColor={isActive ? "#f97316" : "white"}
-                        className="transition-all duration-700"
+                        stopColor={isActive ? "#f97316" : "currentColor"}
                       />
                       <stop offset="50%" stopColor="#f97316" />
                       <stop
                         offset="100%"
-                        stopColor={isActive ? "#f97316" : "white"}
+                        stopColor={isActive ? "#f97316" : "currentColor"}
                       />
                     </linearGradient>
                   </defs>
+
                   <path
                     d="M26 50 L38 50 L46 28 L54 72 L62 50 L74 50"
                     fill="none"
@@ -404,11 +432,12 @@ export const Footer = () => {
                         : "none",
                     }}
                   />
+
                   <circle
                     cx="50"
                     cy="50"
                     r="46"
-                    stroke={isActive ? "#f97316" : "white"}
+                    stroke={isActive ? "#f97316" : "currentColor"}
                     strokeWidth="0.5"
                     fill="none"
                     className="transition-all duration-1000"
@@ -416,8 +445,15 @@ export const Footer = () => {
                   />
                 </svg>
               </div>
+
+              {/* Center Dot */}
               <div
-                className={`absolute w-3 h-3 rounded-full border border-white/20 bg-[#111] z-30 transition-shadow duration-1000 ${isActive ? "shadow-[0_0_12px_rgba(249,115,22,0.6)]" : ""}`}
+                className={`absolute w-3 h-3 rounded-full 
+      bg-white dark:bg-[#111] 
+      border border-gray-300 dark:border-white/20
+      z-30 transition-shadow duration-1000 ${
+        isActive ? "shadow-[0_0_12px_rgba(249,115,22,0.6)]" : ""
+      }`}
               ></div>
             </div>
           </div>
@@ -613,8 +649,8 @@ export const Footer = () => {
               >
                 Compliance
               </a>
-              <Link to="/privacy"
-                
+              <Link
+                to="/privacy"
                 className="hover:text-black dark:hover:text-white transition-colors"
               >
                 Privacy
@@ -666,7 +702,6 @@ export const Footer = () => {
         }
       `,
         }}
-        
       />
 
       <style>{`
@@ -677,7 +712,6 @@ export const Footer = () => {
           100% { stroke-dashoffset: -140; opacity: 0; }
         }
       `}</style>
-
     </footer>
   );
 };

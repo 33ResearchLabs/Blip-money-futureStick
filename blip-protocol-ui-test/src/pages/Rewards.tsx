@@ -172,6 +172,7 @@ const PhoneMockup = ({ children }: { children: React.ReactNode }) => {
 
     el.addEventListener("pointermove", onMove);
     el.addEventListener("pointerleave", reset);
+
     return () => {
       el.removeEventListener("pointermove", onMove);
       el.removeEventListener("pointerleave", reset);
@@ -183,52 +184,86 @@ const PhoneMockup = ({ children }: { children: React.ReactNode }) => {
       <div ref={containerRef} className="relative">
         <motion.div
           animate={{
-            x: mouse.x * -12,
-            y: mouse.y * -10,
-            rotateY: mouse.x * 6,
-            rotateX: mouse.y * -4,
+            x: mouse.x * -8,
+            y: mouse.y * -6,
+            rotateY: mouse.x * 4,
+            rotateX: mouse.y * -3,
           }}
           transition={{ type: "spring", stiffness: 200, damping: 25 }}
-          style={{ transformPerspective: 1200, transformStyle: "preserve-3d" }}
+          style={{ transformPerspective: 1400 }}
         >
-          {/* Reflection effect */}
+          {/* Reflection */}
           <motion.div
-            className="absolute inset-0 rounded-[28px] sm:rounded-[36px] md:rounded-[44px] pointer-events-none z-10"
+            className="absolute inset-0 rounded-[44px] pointer-events-none z-10"
             style={{
-              background: `linear-gradient(${135 + mouse.x * 25}deg, rgba(255,255,255,0.06) 0%, transparent 50%, rgba(0,0,0,0.12) 100%)`,
+              background: `linear-gradient(${
+                135 + mouse.x * 20
+              }deg, rgba(255,255,255,0.05) 0%, transparent 50%, rgba(0,0,0,0.08) 100%)`,
             }}
           />
+
           <div className="w-[250px] sm:w-[250px] md:w-[290px] lg:w-[320px]">
-            {/* Phone outer frame */}
-            <div className="rounded-[36px] sm:rounded-[40px] md:rounded-[44px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[2px] sm:p-[2.5px] ">
-              <div className="rounded-[34px] sm:rounded-[38px] md:rounded-[42px] bg-[#0a0a0a] p-[1px] sm:p-[8px] md:p-[10px]">
-                {/* Phone screen */}
-                <div className="rounded-[28px] sm:rounded-[30px] md:rounded-[34px] bg-black overflow-y-auto overflow-x-hidden relative max-h-[500px] sm:max-h-[600px] md:max-h-[650px] scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+            {/* Outer Frame */}
+            <div
+              className="rounded-[44px] p-[2px] 
+                 bg-gradient-to-b 
+                 from-zinc-300 to-zinc-200
+                 dark:from-[#2a2a2a] dark:to-[#1a1a1a]"
+            >
+              {/* Inner Frame */}
+              <div
+                className="rounded-[42px] 
+                   bg-white 
+                   dark:bg-[#0a0a0a] 
+                   p-[10px]"
+              >
+                {/* Screen */}
+                <div
+                  className="rounded-[34px] 
+                     bg-white 
+                     dark:bg-black 
+                     text-zinc-900 
+                     dark:text-white
+                     overflow-y-auto overflow-x-hidden 
+                     relative 
+                     max-h-[650px]
+                     scrollbar-thin 
+                     scrollbar-thumb-black/10 
+                     dark:scrollbar-thumb-white/10 
+                     scrollbar-track-transparent"
+                >
                   {/* Dynamic Island */}
                   <div className="hidden md:block absolute top-3 left-1/2 -translate-x-1/2 z-10">
-                    <div className="w-28 h-7 rounded-full bg-black flex items-center justify-center">
-                      <div className="w-3 h-3 rounded-full bg-[#1a1a1a] mr-2" />
+                    <div
+                      className="w-28 h-7 rounded-full 
+                         bg-zinc-200 
+                         dark:bg-black 
+                         flex items-center justify-center"
+                    >
+                      <div className="w-3 h-3 rounded-full bg-zinc-400 dark:bg-[#1a1a1a] mr-2" />
                     </div>
                   </div>
 
-                  {/* Status bar */}
+                  {/* Status Bar */}
                   <div className="flex items-center justify-between px-8 pt-4 pb-2">
-                    <span className="text-[10px] md:text-[13px] text-white font-semibold">
-                      9:41
-                    </span>
+                    <span className="text-[13px] font-semibold">9:41</span>
                     <div className="flex items-center gap-1.5">
-                      <Signal className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
-                      <Wifi className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
-                      <BatteryFull className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
+                      <Signal className="w-4 h-4" />
+                      <Wifi className="w-4 h-4" />
+                      <BatteryFull className="w-4 h-4" />
                     </div>
                   </div>
 
-                  {/* Content */}
-                  {children}
+                  {/* App Content */}
+                  <div className="px-4 pb-4">{children}</div>
 
-                  {/* Home indicator */}
-                  <div className="flex justify-center pb-1.5 sm:pb-2">
-                    <div className="w-16 sm:w-24 md:w-28 lg:w-32 h-0.5 sm:h-1 bg-white/30 rounded-full" />
+                  {/* Home Indicator */}
+                  <div className="flex justify-center pb-2">
+                    <div
+                      className="w-24 h-1 rounded-full 
+                         bg-black/20 
+                         dark:bg-white/30"
+                    />
                   </div>
                 </div>
               </div>
@@ -309,14 +344,14 @@ const HeroSection = () => {
           >
             Earn in a
             <br />
-            <span className="text-black/20 dark:text-white/20">Blip.</span>
+            <span className="text-black/80 dark:text-white/50">Blip.</span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.5 }}
-            className="text-lg md:text-xl text-black/50 dark:text-white/50 max-w-md mx-auto lg:mx-0 leading-relaxed mb-10"
+            className="text-lg md:text-xl text-black dark:text-white/50 max-w-md mx-auto lg:mx-0 leading-relaxed mb-10"
           >
             Get rewarded for every transaction. Instant cashback, tiered
             rewards, and first-mover advantages.
@@ -374,12 +409,12 @@ const HeroSection = () => {
             transition={{ delay: 1.5 }}
             className="mt-16 flex items-center justify-center lg:justify-start gap-3"
           >
-            <span className="text-black/30 dark:text-white/30 text-xs uppercase tracking-[0.2em]">
+            <span className="text-black/80 dark:text-white/50 text-xs uppercase tracking-[0.2em]">
               Scroll to explore
             </span>
             <div className="w-6 h-10 rounded-full border border-black/20 dark:border-white/20 flex justify-center pt-2">
               <motion.div
-                className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]"
+                className="w-1.5 h-1.5 rounded-full bg-black dark:bg-white"
                 animate={{ y: [0, 8, 0] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
               />
@@ -443,21 +478,23 @@ const HeroSection = () => {
                   <div className="flex items-center gap-3">
                     <Header />
                   </div>
-                  <div className="w-6 h-6 sm:w-10 sm:h-10 rounded-full bg-white/5 flex items-center justify-center">
-                    <User className="w-4 h-4 sm:w-5 sm:h-5 text-white/50" />
+                  <div className="w-6 h-6 sm:w-10 sm:h-10 rounded-full bg-zinc-900/5 dark:bg-white/5 flex items-center justify-center">
+                    <User className="w-4 h-4 sm:w-5 sm:h-5 text-zinc-900/50 dark:text-white/50" />
                   </div>
                 </div>
 
                 {/* Total Rewards Card */}
-                <div className="rounded-2xl bg-gradient-to-br from-[#ffffff]/20 to-[#ffffff]/5 border border-[#ffffff]/20 mb:p-4 p-2 mb-4">
-                  <p className="md:text-[10px] text-[8px] text-white/50 uppercase tracking-wider mb-1">
+                <div className="rounded-2xl bg-gradient-to-br from-zinc-900/20 dark:from-[#ffffff]/20 to-zinc-900/5 dark:to-[#ffffff]/5 border border-zinc-900/20 dark:border-[#ffffff]/20 mb:p-4 p-2 mb-4">
+                  <p className="md:text-[10px] text-[8px] text-zinc-900/50 dark:text-white/50 uppercase tracking-wider mb-1">
                     Total Earned
                   </p>
                   <div className="flex items-baseline gap-2">
-                    <span className="md:text-3xl font-bold text-white">
+                    <span className="md:text-3xl font-bold text-zinc-900 dark:text-white">
                       2,450
                     </span>
-                    <span className="text-sm text-[#ffffff]">BLIP</span>
+                    <span className="text-sm text-zinc-900 dark:text-[#ffffff]">
+                      BLIP
+                    </span>
                   </div>
                   <div className="flex items-center gap-1 mt-2">
                     <TrendingUp className="w-3 h-3 text-green-400" />
@@ -468,33 +505,35 @@ const HeroSection = () => {
                 </div>
 
                 {/* Current Tier */}
-                <div className="rounded-xl bg-white/[0.03] border border-white/[0.06] mb:p-3 p-2  mb-4">
+                <div className="rounded-xl bg-zinc-900/[0.03] dark:bg-white/[0.03] border border-zinc-900/[0.06] dark:border-white/[0.06] mb:p-3 p-2  mb-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="md:text-[10px] text-[8px] text-white/40 uppercase">
+                      <p className="md:text-[10px] text-[8px] text-zinc-900/40 dark:text-white/40 uppercase">
                         Current Tier
                       </p>
-                      <p className="md:text-sm text-[12px] font-semibold text-white">
+                      <p className="md:text-sm text-[12px] font-semibold text-zinc-900 dark:text-white">
                         Explorer
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className="md:text-[10px] text-[8px] text-white/40 uppercase">
+                      <p className="md:text-[10px] text-[8px] text-zinc-900/40 dark:text-white/40 uppercase">
                         Cashback
                       </p>
-                      <p className="text-lg font-bold text-[#ffffff]">5%</p>
+                      <p className="text-lg font-bold text-zinc-900 dark:text-[#ffffff]">
+                        5%
+                      </p>
                     </div>
                   </div>
                   {/* Progress bar */}
                   <div className="mt-3">
-                    <div className="flex justify-between text-[9px] text-white/30 mb-1">
+                    <div className="flex justify-between text-[9px] text-zinc-900/30 dark:text-white/30 mb-1">
                       <span>$2,450</span>
                       <span>$5,000</span>
                     </div>
-                    <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
-                      <div className="h-full w-[49%] bg-gradient-to-r from-[#ffffff] to-[#e5e5e5] rounded-full" />
+                    <div className="h-1.5 bg-zinc-900/10 dark:bg-white/10 rounded-full overflow-hidden">
+                      <div className="h-full w-[49%] bg-gradient-to-r from-zinc-900 dark:from-[#ffffff] to-zinc-700 dark:to-[#e5e5e5] rounded-full" />
                     </div>
-                    <p className="text-[9px] text-white/40 mt-1">
+                    <p className="text-[9px] text-zinc-900/40 dark:text-white/40 mt-1">
                       $2,550 to Achiever tier
                     </p>
                   </div>
@@ -502,7 +541,7 @@ const HeroSection = () => {
 
                 {/* Recent rewards */}
                 <div className="space-y-2">
-                  <p className="text-[10px] text-white/40 uppercase tracking-wider">
+                  <p className="text-[10px] text-zinc-900/40 dark:text-white/40 uppercase tracking-wider">
                     Recent Rewards
                   </p>
                   {[
@@ -519,13 +558,17 @@ const HeroSection = () => {
                   ].map((item, i) => (
                     <div
                       key={i}
-                      className="flex items-center justify-between py-2 border-b border-white/5 last:border-0"
+                      className="flex items-center justify-between py-2 border-b border-zinc-900/5 dark:border-white/5 last:border-0"
                     >
                       <div>
-                        <p className="text-xs text-white">{item.desc}</p>
-                        <p className="text-[10px] text-white/30">{item.time}</p>
+                        <p className="text-xs text-zinc-900 dark:text-white">
+                          {item.desc}
+                        </p>
+                        <p className="text-[10px] text-zinc-900/30 dark:text-white/30">
+                          {item.time}
+                        </p>
                       </div>
-                      <span className="text-sm font-semibold text-[#ffffff]">
+                      <span className="text-sm font-semibold text-zinc-900 dark:text-[#ffffff]">
                         {item.amount} BLIP
                       </span>
                     </div>
@@ -598,17 +641,17 @@ const RewardTiersSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-20"
         >
-          <span className="text-[10px] uppercase tracking-[0.3em] text-[#ffffff] mb-4 block">
+          <span className="text-[10px] uppercase tracking-[0.3em] text-[#ff6b35] mb-4 block">
             Reward Tiers
           </span>
           <h2 className="text-4xl md:text-6xl font-bold text-black dark:text-white tracking-tight mb-6">
             More Volume.
             <br />
-            <span className="text-black/20 dark:text-white/20">
+            <span className="text-black/80 dark:text-white/50">
               More Rewards.
             </span>
           </h2>
-          <p className="text-lg text-black/40 dark:text-white/40 max-w-xl mx-auto">
+          <p className="text-lg text-black dark:text-white/40 max-w-xl mx-auto">
             Unlock higher cashback rates as your transaction volume grows.
           </p>
         </motion.div>
@@ -636,12 +679,11 @@ dark:hover:border-white/15 transition-colors duration-500 bg-white/80 dark:bg-tr
               <div className="relative z-10">
                 <div className="mb-6">
                   <tier.icon
-                    className={`w-8 h-8 text-black/40 dark:text-white/40 group-hover:text-black
-dark:group-hover:text-white/70 ntransition-colors duration-300 ease-in `}
+                    className={`w-8 h-8 text-black/40 dark:text-white/40 group-hover:text-black dark:group-hover:text-white transition-colors duration-300 ease-in `}
                   />
                 </div>
 
-                <h3 className="text-lg text-black/60 dark:text-white/60 mb-2">
+                <h3 className="text-lg text-black dark:text-white/60 mb-2">
                   {tier.name}
                 </h3>
                 <div
@@ -723,13 +765,13 @@ const HowItWorksSection = () => {
           transition={{ duration: 1 }}
           className="text-center mb-20"
         >
-          <span className="text-[10px] uppercase tracking-[0.3em] text-[#ffffff] mb-4 block">
+          <span className="text-[10px] uppercase tracking-[0.3em] text-[#ff6b35] mb-4 block">
             Process
           </span>
           <h2 className="text-4xl md:text-6xl font-bold text-black dark:text-white tracking-tight">
             How It
             <br />
-            <span className="text-black/20 dark:text-white/20">Works.</span>
+            <span className="text-black/80 dark:text-white/50">Works.</span>
           </h2>
         </motion.div>
 
@@ -749,35 +791,20 @@ const HowItWorksSection = () => {
                 <div className="hidden lg:block absolute top-12 left-[60%] w-[80%] h-[1px] bg-gradient-to-r from-black/10 dark:from-white/10 to-transparent" />
               )}
 
-              <div
-                className="relative p-8 rounded-3xl h-full transition-all duration-300 group-hover:bg-black/[0.02] dark:group-hover:bg-white/[0.02] border border-black/[0.06] 
-dark:border-white/[0.06]
-
-
-
-group-hover:border-black/25 
-dark:group-hover:border-white/15
- bg-white/80 dark:bg-white/[0.01]"
-              >
+              <div className="relative p-8 rounded-3xl h-full transition-all duration-300 group-hover:bg-black/[0.02] dark:group-hover:bg-white/[0.02] border border-black/[0.06] dark:border-transparent group-hover:border-black/20 dark:group-hover:border-white/20 bg-white/80 dark:bg-white/[0.01]">
                 {/* Number */}
                 <span className="absolute top-4 right-4 text-6xl font-bold text-black/[0.03] dark:text-white/[0.03] select-none">
                   {step.num}
                 </span>
 
                 <div className="w-14 h-14 rounded-2xl border border-black/20 dark:border-white/20 flex items-center justify-center mb-6 ">
-                  <step.icon
-                    className="w-6 h-6 text-black/30 dark:text-white/30
-group-hover:text-black
-dark:group-hover:text-white/70
-transition-colors duration-300
- "
-                  />
+                  <step.icon className="w-6 h-6 group-hover:text-black dark:group-hover:text-white  text-black/20 dark:text-white/20" />
                 </div>
 
                 <h3 className="text-xl font-semibold text-black dark:text-white mb-3">
                   {step.title}
                 </h3>
-                <p className="text-black/50 dark:text-white/50">{step.desc}</p>
+                <p className="text-black dark:text-white/50">{step.desc}</p>
               </div>
             </motion.div>
           ))}
@@ -844,13 +871,13 @@ const FeaturesSection = () => {
           className="mb-10 flex justify-center"
         >
           <div className="flex flex-col justify-center">
-            <span className="text-[10px] text-center uppercase tracking-[0.3em] text-[#ffffff] mb-4 block">
+            <span className="text-[10px] text-center uppercase tracking-[0.3em] text-[#ff6b35] mb-4 block">
               Features
             </span>
             <h2 className="text-4xl md:text-6xl font-bold text-center text-black dark:text-white tracking-tight mb-4">
               Maximum
               <br />
-              <span className="text-black/20 dark:text-white/20 text-center">
+              <span className="text-black/80 dark:text-white/50 text-center">
                 Value.
               </span>
             </h2>
@@ -918,27 +945,14 @@ dark:hover:border-white/15
 bg-white/80 dark:bg-transparent"
                 >
                   <div className="flex items-start gap-4">
-                    <div
-                      className="w-10 h-10 rounded-xl border
-border-black/5 dark:border-white/10
-group-hover:border-black/10
-dark:group-hover:border-white/20
-transition-colors duration-300
-flex items-center justify-center flex-shrink-0"
-                    >
-                      <feature.icon
-                        className="w-5 h-5
-text-black/60 dark:text-white/60
-group-hover:text-black
-dark:group-hover:text-white
-transition-colors duration-300"
-                      />
+                    <div className="w-10 h-10 rounded-xl bg-black/5 dark:bg-white/20 flex items-center justify-center flex-shrink-0">
+                      <feature.icon className="w-5 h-5 group-hover:text-black dark:group-hover:text-white" />
                     </div>
                     <div>
                       <h3 className="text-lg font-semibold text-black dark:text-white mb-1">
                         {feature.title}
                       </h3>
-                      <p className="text-sm text-black/50 dark:text-white/50">
+                      <p className="text-sm text-black dark:text-white/50">
                         {feature.desc}
                       </p>
                     </div>
@@ -1005,10 +1019,10 @@ const CTASection = () => {
           <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold text-black dark:text-white tracking-tight mb-8">
             Start
             <br />
-            <span className="text-black/20 dark:text-white/20">Earning.</span>
+            <span className="text-black/80 dark:text-white/50">Earning.</span>
           </h2>
 
-          <p className="text-xl text-black/50 dark:text-white/50 max-w-xl mx-auto mb-12">
+          <p className="text-xl text-black dark:text-white/50 max-w-xl mx-auto mb-12">
             Join the rewards program and get cashback on every transaction. No
             minimum spend required.
           </p>

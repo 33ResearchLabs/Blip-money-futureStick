@@ -246,7 +246,7 @@ min-w-0
               `
               : isActive
                 ? "bg-black/[0.03] dark:bg-[#ffffff]/[0.05] border border-black/20 dark:border-[#ffffff]/20"
-                : "opacity-60 hover:opacity-100 hover:bg-black/[0.02] dark:hover:bg-white/[0.02]"
+                : "opacity-70 hover:opacity-100 hover:bg-black/[0.02] dark:hover:bg-white/[0.02]"
           }
         `}
                     >
@@ -907,7 +907,7 @@ const Merchant = () => {
         title={
           <>
             Ready to become a Blip{" "}
-            <span className="text-black/20 dark:text-white/20">Merchant?</span>
+            <span className="text-black/80 dark:text-white/50">Merchant?</span>
           </>
         }
         description="Apply now. Get access to the dashboard and start executing requests."
