@@ -23,7 +23,7 @@ import { sendFormNotification } from "@/api/telegram";
 import { SEO } from "@/components";
 import { HreflangTags } from "@/components/HreflangTags";
 import { sounds } from "@/lib/sounds";
-import dubai from '../../public/Dubai.jpeg'
+import dubai from "../../public/Dubai.jpeg";
 
 /* ============================================
    AWARD-WINNING CONTACT PAGE
@@ -52,7 +52,7 @@ const HeroSection = () => {
   return (
     <motion.section
       ref={ref}
-      className="relative h-[70vh] min-h-[600px] flex items-center justify-center overflow-hidden mt-12"
+      className="relative h-[70vh] min-h-[600px] flex items-center justify-center overflow-hidden mt-20"
       style={{ opacity }}
     >
       {/* Background with parallax */}
@@ -64,7 +64,7 @@ const HeroSection = () => {
           onContextMenu={(e) => e.stopPropagation()}
           draggable="true"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#FAF8F5]/80 via-[#FAF8F5]/60 to-[#FAF8F5] dark:from-black/80 dark:via-black/60 dark:to-black" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#FAF8F5]/20 via-[#FAF8F5]/10 to-[#FAF8F5]/90   dark:from-black/80 dark:via-black/60 dark:to-black" />
       </motion.div>
 
       {/* Grid overlay */}
@@ -106,19 +106,15 @@ const HeroSection = () => {
             initial={{ y: 120 }}
             animate={{ y: 0 }}
             transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[clamp(2.5rem,8vw,6rem)] font-semibold leading-[1.20] tracking-[-0.04em] "
+            className="text-[clamp(2.5rem,8vw,6rem)] font-semibold leading-[1.20] tracking-[-0.04em]"
           >
             <span className="block text-black dark:text-white">Protocol</span>
 
             <span
-              className="block"
-              style={{
-                background:
-                  "linear-gradient(135deg, #ffffff 0%, #e5e5e5 50%, #ffffff 100%)",
-                backgroundClip: "text",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
+              className="block bg-gradient-to-br 
+      from-black/80 via-black/60 to-black/80 
+      dark:from-white/60 dark:via-white/40 dark:to-white/60
+      bg-clip-text text-transparent"
             >
               Gateway
             </span>
@@ -129,7 +125,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.6 }}
-          className="text-lg md:text-xl text-black/50 dark:text-white/50 max-w-xl mx-auto"
+          className="text-lg md:text-xl text-black/80 dark:text-white/50 max-w-xl mx-auto"
         >
           Direct peer-to-protocol messaging. Encrypted by default.
         </motion.p>
@@ -199,7 +195,9 @@ const ContactOptionsSection = () => {
               <h2 className="text-4xl md:text-5xl font-semibold text-black dark:text-white tracking-tight mb-6">
                 Connect
                 <br />
-                <span className="text-black/30 dark:text-white/30">Directly.</span>
+                <span className="text-black/80 dark:text-white/50">
+                  Directly.
+                </span>
               </h2>
               <p className="text-lg text-black/50 dark:text-white/50 mb-10 max-w-md">
                 Routed through the global Blip validator network. Privacy-first,
@@ -226,7 +224,9 @@ const ContactOptionsSection = () => {
                   <h3 className="text-sm font-semibold text-black dark:text-white mb-1">
                     {channel.label}
                   </h3>
-                  <p className="text-xs text-black/40 dark:text-white/40">{channel.desc}</p>
+                  <p className="text-xs text-black/40 dark:text-white/40">
+                    {channel.desc}
+                  </p>
                 </motion.div>
               ))}
             </div>
@@ -252,7 +252,9 @@ const ContactOptionsSection = () => {
                     <span className="text-[10px] uppercase tracking-widest text-black/40 dark:text-white/40 block">
                       Digital Gateway
                     </span>
-                    <span className="text-black dark:text-white">support@blip.money</span>
+                    <span className="text-black dark:text-white">
+                      support@blip.money
+                    </span>
                   </div>
                 </div>
                 {copied.email ? (
@@ -381,8 +383,12 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
         >
           <Check className="w-12 h-12 text-black/60 dark:text-white/60" />
         </motion.div>
-        <h3 className="text-3xl font-semibold text-black dark:text-white mb-4">Message Sent</h3>
-        <p className="text-black/50 dark:text-white/50 mb-8">We'll get back to you shortly.</p>
+        <h3 className="text-3xl font-semibold text-black dark:text-white mb-4">
+          Message Sent
+        </h3>
+        <p className="text-black/50 dark:text-white/50 mb-8">
+          We'll get back to you shortly.
+        </p>
         <button
           onClick={() => setIsSubmitted(false)}
           className="text-black/60 dark:text-white/60 text-sm font-medium hover:underline"
@@ -408,7 +414,9 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
       <div className="flex items-center justify-between px-8 py-5 border-b border-black/5 dark:border-white/5">
         <div className="flex items-center gap-3">
           <MessageSquare className="w-5 h-5 text-black/60 dark:text-white/60" />
-          <span className="text-sm font-medium text-black dark:text-white">Secure Channel</span>
+          <span className="text-sm font-medium text-black dark:text-white">
+            Secure Channel
+          </span>
         </div>
         <div className="flex items-center gap-2">
           <Lock className="w-3 h-3 text-black/40 dark:text-white/40" />
@@ -427,7 +435,7 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
 
         <div className="grid grid-cols-1  gap-6">
           <div className="space-y-2">
-            <label className="text-[10px] uppercase tracking-widest text-black/40 dark:text-white/40">
+            <label className="text-[10px] uppercase tracking-widest text-black dark:text-white/40">
               Name (Optional)
             </label>
             <input
@@ -441,7 +449,7 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
             />
           </div>
           <div className="space-y-2">
-            <label className="text-[10px] uppercase tracking-widest text-black/60 dark:text-white/60">
+            <label className="text-[10px] uppercase tracking-widest text-black dark:text-white/60">
               Email (Required)
             </label>
             <input
@@ -458,7 +466,7 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
         </div>
 
         <div className="space-y-2">
-          <label className="text-[10px] uppercase tracking-widest text-black/40 dark:text-white/40">
+          <label className="text-[10px] uppercase tracking-widest text-black dark:text-white/40">
             Inquiry Type
           </label>
           <div className="relative">
@@ -484,7 +492,7 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
         </div>
 
         <div className="space-y-2">
-          <label className="text-[10px] uppercase tracking-widest text-black/40 dark:text-white/40">
+          <label className="text-[10px] uppercase tracking-widest text-black dark:text-white/40">
             Message
           </label>
           <textarea
@@ -552,7 +560,9 @@ const VisualSection = () => {
           <h2 className="text-4xl md:text-5xl font-semibold text-black dark:text-white tracking-tight">
             Dubai
             <br />
-            <span className="text-black/30 dark:text-white/30">Headquarters</span>
+            <span className="text-black/80 dark:text-white/50">
+              Headquarters
+            </span>
           </h2>
         </motion.div>
 
@@ -636,7 +646,6 @@ const ContactUs = () => {
         <ContactOptionsSection />
         <VisualSection />
       </div>
-      
     </>
   );
 };

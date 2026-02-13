@@ -26,8 +26,20 @@ const InstantBiddingSection = () => {
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-b from-white dark:from-black via-gray-50/80 dark:via-[#050505] to-white dark:to-black" />
         {/* Light mode soft ambient blobs */}
-        <div className="absolute top-[20%] right-[10%] w-[500px] h-[500px] rounded-full opacity-[0.07] dark:opacity-0" style={{ background: "radial-gradient(circle, rgba(120,119,255,0.8) 0%, transparent 70%)" }} />
-        <div className="absolute top-[50%] left-[5%] w-[400px] h-[400px] rounded-full opacity-[0.05] dark:opacity-0" style={{ background: "radial-gradient(circle, rgba(255,107,53,0.7) 0%, transparent 70%)" }} />
+        <div
+          className="absolute top-[20%] right-[10%] w-[500px] h-[500px] rounded-full opacity-[0.07] dark:opacity-0"
+          style={{
+            background:
+              "radial-gradient(circle, rgba(120,119,255,0.8) 0%, transparent 70%)",
+          }}
+        />
+        <div
+          className="absolute top-[50%] left-[5%] w-[400px] h-[400px] rounded-full opacity-[0.05] dark:opacity-0"
+          style={{
+            background:
+              "radial-gradient(circle, rgba(255,107,53,0.7) 0%, transparent 70%)",
+          }}
+        />
         <motion.div
           className="absolute top-[30%] left-[5%] w-[300px] h-[300px] rounded-full opacity-0 dark:opacity-15"
           style={{
@@ -49,11 +61,13 @@ const InstantBiddingSection = () => {
           <div className="inline-flex items-center gap-3 mb-4 sm:mb-6">
             <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-lg border border-black/[0.08] dark:border-white/[0.08] flex items-center justify-center group hover:border-black/20 hover:dark:border-white/20 transition-colors">
               <Zap
-                className="w-4 h-4 sm:w-5 sm:h-5 text-black dark:text-white/40 group-hover:text-black/60 group-hover:dark:text-white/60 transition-colors"
+                className="w-4 h-4 sm:w-5 sm:h-5 text-black dark:text-white/70 group-hover:text-black/60 group-hover:dark:text-white/60 transition-colors"
                 strokeWidth={1.5}
               />
               <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#FAF8F5] dark:bg-black border border-black/10 dark:border-white/10 flex items-center justify-center">
-                <span className="text-[10px] font-medium text-black dark:text-white/50">3</span>
+                <span className="text-[10px] font-medium text-black dark:text-white/50">
+                  3
+                </span>
               </div>
             </div>
             <span className="text-lg sm:text-xl font-semibold text-black dark:text-white">
@@ -69,13 +83,17 @@ const InstantBiddingSection = () => {
                 initial={{ scaleX: 0, originX: 0 }}
                 whileInView={{ scaleX: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 1.2, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                transition={{
+                  duration: 1.2,
+                  delay: 0.8,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
               />
             </span>
           </h2>
           <p className="text-black dark:text-white/50 font-medium text-sm sm:text-base lg:text-lg max-w-2xl mx-auto hidden sm:block">
-            Merchants compete in real-time for your order. You automatically
-            get the best rate.
+            Merchants compete in real-time for your order. You automatically get
+            the best rate.
           </p>
         </motion.div>
 
@@ -106,12 +124,8 @@ const InstantBiddingSection = () => {
         <motion.div
           className="relative mx-auto max-w-6xl lg:max-w-7xl"
           style={{
-            x: mousePosition.x * -12,
-            y: mousePosition.y * -8,
-            rotateY: mousePosition.x * 4,
-            rotateX: mousePosition.y * -2,
-            transformPerspective: 1500,
-            transformStyle: "preserve-3d",
+            x: mousePosition.x * -6,
+            y: mousePosition.y * -4,
           }}
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -121,13 +135,13 @@ const InstantBiddingSection = () => {
         >
           {/* Ambient glow */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10">
-            <motion.div
+            {/* <motion.div
               className="absolute w-full h-full rounded-3xl bg-gradient-to-b from-black/[0.02] dark:from-white/5 to-transparent"
               style={{
                 x: mousePosition.x * 25,
                 y: mousePosition.y * 20,
               }}
-            />
+            /> */}
             <motion.div
               className="absolute w-[90%] h-[90%] rounded-3xl border border-black/[0.04] dark:border-white/5"
               style={{
@@ -164,13 +178,13 @@ const InstantBiddingSection = () => {
             }}
           />
 
-          <div className="rounded-2xl overflow-hidden border border-black/[0.08] dark:border-white/[0.08] bg-white/70 dark:bg-[#0a0a0a] backdrop-blur-xl dark:backdrop-blur-none shadow-[0_8px_40px_-8px_rgba(0,0,0,0.08),0_30px_80px_-20px_rgba(0,0,0,0.06)] sm:shadow-[0_12px_60px_-12px_rgba(0,0,0,0.1),0_50px_120px_-30px_rgba(0,0,0,0.08)] dark:shadow-[0_30px_60px_rgba(0,0,0,0.4)] dark:sm:shadow-[0_50px_100px_rgba(0,0,0,0.5),0_0_80px_rgba(255,255,255,0.04)] lg:max-h-[65vh] relative">
+          <div className="rounded-2xl overflow-hidden border border-black/[0.08] dark:border-white/[0.08] bg-white/90 dark:bg-[#0a0a0a] backdrop-blur-xl dark:backdrop-blur-none shadow-[0_8px_40px_-8px_rgba(0,0,0,0.08),0_30px_80px_-20px_rgba(0,0,0,0.06)] sm:shadow-[0_12px_60px_-12px_rgba(0,0,0,0.1),0_50px_120px_-30px_rgba(0,0,0,0.08)] dark:shadow-[0_30px_60px_rgba(0,0,0,0.4)] dark:sm:shadow-[0_50px_100px_rgba(0,0,0,0.5),0_0_80px_rgba(255,255,255,0.04)] lg:max-h-[65vh] relative">
             {/* Browser chrome */}
-            <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-5 py-2.5 sm:py-4 bg-white/80 dark:bg-[#111] backdrop-blur-sm dark:backdrop-blur-none border-b border-black/[0.06] dark:border-white/[0.06]">
+            <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-5 py-2.5 sm:py-4 bg-white/90 dark:bg-[#111] backdrop-blur-sm dark:backdrop-blur-none border-b border-black/[0.06] dark:border-white/[0.06]">
               <div className="flex items-center gap-1.5 sm:gap-2">
-                <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-black/20 dark:bg-white/20" />
-                <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-black/20 dark:bg-white/20" />
-                <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-black/20 dark:bg-white/20" />
+                <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
+                <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
+                <div className="w-3 h-3 rounded-full bg-[#28ca42]" />
               </div>
               <div className="flex-1 flex justify-center">
                 <div className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] w-full max-w-[200px] sm:max-w-[300px] md:max-w-[400px]">
@@ -200,11 +214,11 @@ const InstantBiddingSection = () => {
             </div>
 
             {/* Dashboard content */}
-            <div className="p-4 sm:p-6 md:p-8 bg-white/40 dark:bg-transparent">
+            <div className="p-4 sm:p-6 md:p-8 bg-white/40 dark:bg-transparent text-zinc-900 dark:text-white">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6">
                 {/* Left Panel - Order Details */}
                 <div className="lg:col-span-5">
-                  <div className="rounded-xl bg-white/80 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.06] dark:border-white/[0.06] shadow-[0_2px_20px_-4px_rgba(0,0,0,0.06),0_4px_8px_-2px_rgba(0,0,0,0.04)] dark:shadow-none p-5 mb-4">
+                  <div className="rounded-xl bg-white/90 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.06] dark:border-white/[0.06] shadow-[0_2px_20px_-4px_rgba(0,0,0,0.06),0_4px_8px_-2px_rgba(0,0,0,0.04)] dark:shadow-none p-5 mb-4">
                     <div className="flex items-center justify-between mb-4">
                       <span className="text-xs uppercase tracking-wider text-black dark:text-white/40">
                         Active Order
@@ -222,7 +236,9 @@ const InstantBiddingSection = () => {
 
                     <div className="flex items-center gap-4 mb-6">
                       <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-black/[0.06] to-black/[0.02] dark:from-white/10 dark:to-white/5 flex items-center justify-center">
-                        <span className="text-xl font-bold text-black dark:text-white">US</span>
+                        <span className="text-xl font-bold text-black dark:text-white">
+                          US
+                        </span>
                       </div>
                       <div>
                         <div className="text-2xl font-bold text-black dark:text-white">
@@ -237,7 +253,9 @@ const InstantBiddingSection = () => {
 
                     <div className="space-y-3 mb-6">
                       <div className="flex items-center justify-between py-2 border-b border-black/[0.04] dark:border-white/[0.04]">
-                        <span className="text-sm text-black dark:text-white/40">Order ID</span>
+                        <span className="text-sm text-black dark:text-white/40">
+                          Order ID
+                        </span>
                         <span className="text-sm text-black dark:text-white font-mono">
                           #BLP-8472
                         </span>
@@ -293,7 +311,9 @@ const InstantBiddingSection = () => {
                   {/* Quick stats */}
                   <div className="grid grid-cols-2 gap-3">
                     <div className="rounded-xl bg-white/80 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.06] dark:border-white/[0.06] shadow-[0_2px_20px_-4px_rgba(0,0,0,0.06),0_4px_8px_-2px_rgba(0,0,0,0.04)] dark:shadow-none p-4 text-center">
-                      <div className="text-2xl font-bold text-black dark:text-white">~8s</div>
+                      <div className="text-2xl font-bold text-black dark:text-white">
+                        ~8s
+                      </div>
                       <div className="text-[10px] text-black dark:text-white/40 uppercase tracking-wider">
                         Avg Match
                       </div>
@@ -392,7 +412,9 @@ const InstantBiddingSection = () => {
                           <div className="flex items-center gap-3">
                             <div
                               className={`w-10 h-10 rounded-xl flex items-center justify-center text-xs font-bold ${
-                                bid.best ? "bg-black/10 dark:bg-white/10 text-black dark:text-white/80" : "bg-black/[0.05] dark:bg-white/[0.05] text-black dark:text-white/50"
+                                bid.best
+                                  ? "bg-black/10 dark:bg-white/10 text-black dark:text-white/80"
+                                  : "bg-black/[0.05] dark:bg-white/[0.05] text-black dark:text-white/50"
                               }`}
                             >
                               {bid.avatar}
@@ -429,7 +451,9 @@ const InstantBiddingSection = () => {
                             </div>
                             <motion.div
                               className={`w-3 h-3 rounded-full ${
-                                bid.best ? "bg-black/60 dark:bg-white/60" : "bg-black/20 dark:bg-white/20"
+                                bid.best
+                                  ? "bg-black/60 dark:bg-white/60"
+                                  : "bg-black/20 dark:bg-white/20"
                               }`}
                               animate={bid.best ? { scale: [1, 1.2, 1] } : {}}
                               transition={{ duration: 1, repeat: Infinity }}

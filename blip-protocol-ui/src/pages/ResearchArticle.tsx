@@ -28,10 +28,7 @@ function renderContentSection(section: ResearchContentSection, index: number) {
   switch (section.type) {
     case "heading":
       return (
-        <h2
-          key={index}
-          className="text-2xl sm:text-3xl font-bold mt-12 mb-4"
-        >
+        <h2 key={index} className="text-2xl sm:text-3xl font-bold mt-12 mb-4">
           {section.content}
         </h2>
       );
@@ -166,7 +163,9 @@ export default function ResearchArticle() {
         schema={createArticleSchema({
           headline: article.seo.title,
           description: article.seo.description,
-          image: article.coverImage.startsWith("http") ? article.coverImage : `https://blip.money${article.coverImage}`,
+          image: article.coverImage.startsWith("http")
+            ? article.coverImage
+            : `https://blip.money${article.coverImage}`,
           datePublished: article.date,
           author: article.author.name,
         })}
@@ -185,13 +184,19 @@ export default function ResearchArticle() {
       <div className="min-h-screen bg-[#FAF8F5] dark:bg-transparent">
         {/* Article Header */}
         <header className="relative pt-32 sm:pt-40 pb-10 sm:pb-14">
-          <div className="max-w-[720px] mx-auto px-4 sm:px-6">
+          <div className="max-w-[900px] mx-auto px-4 sm:px-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.19, 1, 0.22, 1] }}
             >
-              <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Research", href: "/research" }, { label: article.title }]} />
+              <Breadcrumbs
+                items={[
+                  { label: "Home", href: "/" },
+                  { label: "Research", href: "/research" },
+                  { label: article.title },
+                ]}
+              />
 
               {/* Back link */}
               <Link
@@ -304,7 +309,11 @@ export default function ResearchArticle() {
               {[
                 { label: "FAQ", href: "/faq", desc: "Common questions" },
                 { label: "Glossary", href: "/glossary", desc: "Crypto terms" },
-                { label: "Use Cases", href: "/use-cases", desc: "Who it's for" },
+                {
+                  label: "Use Cases",
+                  href: "/use-cases",
+                  desc: "Who it's for",
+                },
                 { label: "Compare", href: "/compare", desc: "How we differ" },
               ].map((link) => (
                 <Link
@@ -312,8 +321,12 @@ export default function ResearchArticle() {
                   to={link.href}
                   className="group p-4 rounded-xl bg-white/60 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] hover:border-black/[0.12] dark:hover:border-white/[0.12] transition-colors"
                 >
-                  <span className="block text-sm font-semibold text-black dark:text-white group-hover:text-gray-600 dark:group-hover:text-white/80 transition-colors">{link.label}</span>
-                  <span className="block text-xs text-gray-400 dark:text-white/30 mt-1">{link.desc}</span>
+                  <span className="block text-sm font-semibold text-black dark:text-white group-hover:text-gray-600 dark:group-hover:text-white/80 transition-colors">
+                    {link.label}
+                  </span>
+                  <span className="block text-xs text-gray-400 dark:text-white/30 mt-1">
+                    {link.desc}
+                  </span>
                 </Link>
               ))}
             </div>

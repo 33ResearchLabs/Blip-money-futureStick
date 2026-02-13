@@ -153,7 +153,7 @@ export const CTAButton = ({
           )}
         </span>
       </Link> */}
-       <Link
+      <Link
         to={to}
         onClick={() => sounds.click()}
         onMouseEnter={() => sounds.hover()}
@@ -475,7 +475,7 @@ export const Navbar = () => {
 
             {/* Desktop CTA */}
             <div className="hidden lg:flex items-center gap-3">
-              <ThemeSwitcher />
+              {/* <ThemeSwitcher /> */}
               {isAuthenticated ? (
                 <CTAButton to="/dashboard">Dashboard</CTAButton>
               ) : (
@@ -485,7 +485,7 @@ export const Navbar = () => {
 
             {/* Mobile Button */}
             <div className="flex gap-2 lg:hidden">
-              <ThemeSwitcher />
+              {/* <ThemeSwitcher /> */}
               <HamburgerButton
                 isOpen={mobileMenuOpen}
                 onClick={() => setMobileMenuOpen((prev) => !prev)}

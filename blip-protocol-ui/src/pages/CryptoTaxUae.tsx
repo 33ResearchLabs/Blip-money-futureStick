@@ -20,6 +20,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { HreflangTags } from "@/components/HreflangTags";
 import StructuredData from "@/components/StructuredData";
 import { sounds } from "@/lib/sounds";
+import { CTAButton } from "@/components/Navbar";
 
 /* ═══════════════════════════════════════════════
    FAQ STRUCTURED DATA
@@ -184,7 +185,7 @@ const HeroSection = () => {
           UAE compares globally.
         </motion.p>
 
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.7 }}
@@ -207,7 +208,7 @@ const HeroSection = () => {
           >
             UAE vs Other Countries
           </a>
-        </motion.div>
+        </motion.div> */}
       </div>
     </section>
   );
@@ -930,7 +931,7 @@ const ComparisonSection = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="rounded-2xl bg-white/80 dark:bg-white/[0.04] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] overflow-hidden"
         >
-          <div className="overflow-x-auto">
+          <div className="overflow-x-scroll">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-black/[0.06] dark:border-white/[0.06]">
@@ -1188,7 +1189,7 @@ const CTASection = () => {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <Link
+          {/* <Link
             to="/waitlist"
             onClick={() => sounds.click()}
             onMouseEnter={() => sounds.hover()}
@@ -1196,7 +1197,8 @@ const CTASection = () => {
           >
             Start Using Blip
             <ArrowRight className="w-4 h-4" />
-          </Link>
+          </Link> */}
+          <CTAButton to="/waitlist" className="w-[220px] h-[48px]">Start Using Blip</CTAButton>
         </motion.div>
 
         {/* Cross-links */}

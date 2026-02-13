@@ -88,11 +88,11 @@ const ProblemSection = () => {
         {/* Interactive Timeline */}
         <div className="relative">
           {/* Central timeline line - static background */}
-          <div className="absolute left-8 md:left-1/2 md:-translate-x-px top-0 bottom-0 w-[2px] bg-gradient-to-b from-black/[0.06] via-black/20 to-black/[0.06] dark:from-white/[0.06] dark:via-white/20 dark:to-white/[0.06]" />
+          <div className="absolute left-8 md:left-[46.5%] md:-translate-x-px top-0 bottom-0 w-[2px] bg-gradient-to-b from-black/[0.06] via-black/20 to-black/[0.06] dark:from-white/[0.06] dark:via-white/20 dark:to-white/[0.06]" />
 
           {/* Moving line following from top to bottom */}
           <motion.div
-            className="absolute left-8 md:left-1/2 md:-translate-x-px w-1 h-12 rounded-full bg-gradient-to-b from-transparent via-black/40 to-transparent dark:via-white/60 shadow-[0_0_20px_rgba(0,0,0,0.2)] dark:shadow-[0_0_20px_rgba(255,255,255,0.4)]"
+            className="absolute left-8 md:left-[46.5%]  md:-translate-x-px w-1 h-12 rounded-full bg-gradient-to-b from-transparent via-black/40 to-transparent dark:via-white/60 shadow-[0_0_20px_rgba(0,0,0,0.2)] dark:shadow-[0_0_20px_rgba(255,255,255,0.4)]"
             initial={{ top: "-50px" }}
             animate={{ top: "100%" }}
             transition={{
@@ -119,7 +119,7 @@ const ProblemSection = () => {
               >
                 {/* Timeline dot */}
                 <div
-                  className={`absolute left-8 md:left-1/2 -translate-x-1/2 top-6 z-10`}
+                  className={`absolute left-8 md:left-[46.5%]  -translate-x-1/2 top-6 z-10`}
                 >
                   <motion.div
                     className={`w-4 h-4 rounded-full border-2 ${problem.highlight ? "bg-black dark:bg-white border-black dark:border-white" : "bg-[#FAF8F5] dark:bg-black border-black/20 dark:border-white/20"}`}

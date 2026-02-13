@@ -22,6 +22,10 @@ import SEO from "@/components/SEO";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { HreflangTags } from "@/components/HreflangTags";
 import { sounds } from "@/lib/sounds";
+import { CTAButton } from "@/components/Navbar";
+import { FaTelegramPlane, FaYoutube, FaGithub, FaLinkedin } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+
 
 /* ============================================
    COMMUNITY & ECOSYSTEM PAGE
@@ -34,46 +38,40 @@ const easeOut = [0.19, 1, 0.22, 1] as const;
 
 const socialPlatforms = [
   {
-    icon: MessageCircle,
+    icon: FaTelegramPlane,
     name: "Telegram",
     description:
       "Join our main community chat for real-time discussions, announcements, and support from the core team.",
     members: "12K+ members",
-    href: "#",
+    href: "https://t.me/+3DpHLzc2BfJhOWEx",
   },
   {
-    icon: () => (
-      <svg
-        viewBox="0 0 24 24"
-        fill="currentColor"
-        className="w-5 h-5"
-      >
-        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-      </svg>
-    ),
+    icon: FaXTwitter,
     name: "Twitter / X",
     description:
       "Follow us for the latest protocol updates, partnerships, product launches, and ecosystem news.",
     members: "25K+ followers",
-    href: "#",
+    href: "https://x.com/blipmoney_",
   },
   {
-    icon: MessageCircle,
-    name: "Discord",
+    icon: FaYoutube,
+    name: "YouTube",
     description:
-      "Join our developer and community hub. Channels for governance, support, feedback, and building.",
-    members: "8K+ members",
-    href: "#",
+      "Watch product demos, feature walkthroughs, announcements, and ecosystem updates.",
+    members: "Video channel",
+    href: "https://www.youtube.com/@BlipMoney",
   },
-  {
-    icon: Github,
-    name: "GitHub",
-    description:
-      "Explore our open-source repositories, contribute to the protocol, and review smart contract code.",
-    members: "Open source",
-    href: "#",
-  },
+{
+  icon: FaLinkedin,
+  name: "LinkedIn",
+  description:
+    "Connect with us for company updates, hiring announcements, partnerships, and professional ecosystem news.",
+  members: "Professional network",
+  href: "https://www.linkedin.com/in/blip-money-849946386/",
+},
+
 ];
+
 
 const ecosystemPartners = [
   {
@@ -220,6 +218,10 @@ const AnimatedCounter = ({
 /* ============================================
    SOCIAL PLATFORM CARD
    ============================================ */
+   
+
+
+
 
 const SocialCard = ({
   platform,
@@ -551,7 +553,7 @@ export default function Community() {
                   ))}
                 </div>
 
-                <a
+                {/* <a
                   href="#"
                   onClick={() => sounds.click()}
                   onMouseEnter={() => sounds.hover()}
@@ -559,7 +561,8 @@ export default function Community() {
                 >
                   Apply Now
                   <ArrowRight className="w-4 h-4" />
-                </a>
+                </a> */}
+                <CTAButton to="/waitlist" className="w-[220px] h-[48px]"> Apply Now</CTAButton>
               </div>
             </AnimatedSection>
           </div>
@@ -599,7 +602,7 @@ export default function Community() {
                   infrastructure for the world.
                 </p>
                 <a
-                  href="https://t.me/blipmoney"
+                  href="https://t.me/+3DpHLzc2BfJhOWEx"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => sounds.click()}

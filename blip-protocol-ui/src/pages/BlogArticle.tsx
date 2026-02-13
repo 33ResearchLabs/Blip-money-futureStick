@@ -34,13 +34,19 @@ function renderContentSection(section: BlogContentSection, index: number) {
       );
     case "subheading":
       return (
-        <h3 key={index} className="text-xl sm:text-2xl font-semibold mt-10 mb-3">
+        <h3
+          key={index}
+          className="text-xl sm:text-2xl font-semibold mt-10 mb-3"
+        >
           {section.content}
         </h3>
       );
     case "paragraph":
       return (
-        <p key={index} className="mb-6 leading-[1.8] text-[17px] text-black dark:text-white/40">
+        <p
+          key={index}
+          className="mb-6 leading-[1.8] text-[17px] text-black dark:text-white/40"
+        >
           {section.content}
         </p>
       );
@@ -56,7 +62,10 @@ function renderContentSection(section: BlogContentSection, index: number) {
       );
     case "quote":
       return (
-        <blockquote key={index} className="my-10 text-xl sm:text-2xl leading-[1.5]">
+        <blockquote
+          key={index}
+          className="my-10 text-xl sm:text-2xl leading-[1.5]"
+        >
           {section.content}
         </blockquote>
       );
@@ -154,7 +163,9 @@ export default function BlogArticle() {
         schema={createArticleSchema({
           headline: article.seo.title,
           description: article.seo.description,
-          image: article.coverImage.startsWith("http") ? article.coverImage : `https://blip.money${article.coverImage}`,
+          image: article.coverImage.startsWith("http")
+            ? article.coverImage
+            : `https://blip.money${article.coverImage}`,
           datePublished: article.date,
           author: article.author.name,
         })}
@@ -173,13 +184,19 @@ export default function BlogArticle() {
       <div className="min-h-screen bg-[#FAF8F5] dark:bg-transparent">
         {/* Article Header */}
         <header className="relative pt-32 sm:pt-40 pb-10 sm:pb-14">
-          <div className="max-w-[720px] mx-auto px-4 sm:px-6">
+          <div className="max-w-[900px] mx-auto px-4 sm:px-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.19, 1, 0.22, 1] }}
             >
-              <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Blog", href: "/blog" }, { label: article.title }]} />
+              <Breadcrumbs
+                items={[
+                  { label: "Home", href: "/" },
+                  { label: "Blog", href: "/blog" },
+                  { label: article.title },
+                ]}
+              />
 
               {/* Back link */}
               <Link
@@ -250,7 +267,7 @@ export default function BlogArticle() {
         >
           <div className="prose prose-lg dark:prose-invert prose-headings:tracking-tight prose-headings:text-black dark:prose-headings:text-white prose-p:text-black dark:prose-p:text-white/40 prose-a:text-neon-mint prose-blockquote:border-l-2 prose-blockquote:border-gray-200 dark:prose-blockquote:border-white/10 prose-blockquote:text-gray-500 dark:prose-blockquote:text-white/50 prose-blockquote:font-normal prose-blockquote:not-italic prose-li:text-black dark:prose-li:text-white/40 max-w-none">
             {article.content.map((section, i) =>
-              renderContentSection(section, i)
+              renderContentSection(section, i),
             )}
           </div>
         </motion.div>
@@ -291,7 +308,11 @@ export default function BlogArticle() {
               {[
                 { label: "FAQ", href: "/faq", desc: "Common questions" },
                 { label: "Glossary", href: "/glossary", desc: "Crypto terms" },
-                { label: "Use Cases", href: "/use-cases", desc: "Who it's for" },
+                {
+                  label: "Use Cases",
+                  href: "/use-cases",
+                  desc: "Who it's for",
+                },
                 { label: "Compare", href: "/compare", desc: "How we differ" },
               ].map((link) => (
                 <Link
@@ -299,8 +320,12 @@ export default function BlogArticle() {
                   to={link.href}
                   className="group p-4 rounded-xl bg-white/60 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] hover:border-black/[0.12] dark:hover:border-white/[0.12] transition-colors"
                 >
-                  <span className="block text-sm font-semibold text-black dark:text-white group-hover:text-gray-600 dark:group-hover:text-white/80 transition-colors">{link.label}</span>
-                  <span className="block text-xs text-gray-400 dark:text-white/30 mt-1">{link.desc}</span>
+                  <span className="block text-sm font-semibold text-black dark:text-white group-hover:text-gray-600 dark:group-hover:text-white/80 transition-colors">
+                    {link.label}
+                  </span>
+                  <span className="block text-xs text-gray-400 dark:text-white/30 mt-1">
+                    {link.desc}
+                  </span>
                 </Link>
               ))}
             </div>

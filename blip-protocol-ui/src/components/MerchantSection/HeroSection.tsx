@@ -66,9 +66,19 @@ export const CinematicHeroOfMerchant = () => {
         {/* ==================== Text Content (2nd on mobile, 2nd on desktop) ==================== */}
         <div
           ref={textLayerRef}
-          className="w-full px-4 pb-20 sm:pb-28 lg:pb-4 lg:px-4 antigravity-layer order-2 relative z-20 text-center
+          className="w-full pt-20 px-4 pb-20 sm:pb-28 lg:pb-4 lg:px-4 antigravity-layer order-2 relative z-20 text-center
   "
         >
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="mb-8"
+          >
+            <span className="text-[11px]  uppercase tracking-[0.3em] text-black dark:text-white/30 font-semibold">
+              The merchant protocol
+            </span>
+          </motion.div>
           <motion.h1
             className="
     font-display
@@ -77,7 +87,7 @@ export const CinematicHeroOfMerchant = () => {
     leading-[0.95]
     tracking-[-0.04em]
     text-[clamp(38px,8vw,96px)]
-    max-w-2xl
+  
     mx-auto
     text-center
     py-12

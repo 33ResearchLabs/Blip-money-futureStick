@@ -1,20 +1,7 @@
-import React, { useRef, useState } from "react";
-import {
-  motion,
-  useScroll,
-  useInView,
-  useTransform,
-  useSpring,
-  MotionValue,
-} from "framer-motion";
-
-/* ============================================
-   FAQ SECTION — Cascading Card Reveal
-
-   Cards appear one by one as you scroll.
-   All revealed cards stay visible.
-   Normal flow layout — no overlap.
-   ============================================ */
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown } from "lucide-react";
+import sounds from "@/lib/sounds";
 
 const faqs = [
   {
@@ -39,132 +26,72 @@ const faqs = [
   },
 ];
 
-const TOTAL_FAQS = faqs.length;
-
-// Scroll timeline: 0–70% cards appear one by one | 70–100% hold
-const ITEMS_END = 0.7;
-
-// Smooth card entrance animation
-const useCardEntrance = (
-  index: number,
-  scrollProgress: MotionValue<number>,
-) => {
-  const segmentSize = ITEMS_END / TOTAL_FAQS;
-  const cardStart = index * segmentSize;
-  const cardEnd = cardStart + segmentSize * 0.85;
-
-  // Transform scroll progress to card entrance value
-  const entrance = useTransform(scrollProgress, [cardStart, cardEnd], [0, 1]);
-
-  // Add spring physics for smoother animation
-  const smoothEntrance = useSpring(entrance, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001,
-  });
-
-  return smoothEntrance;
-};
-
 const ScrollFAQ = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const headingRef = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
-
-  const headingInView = useInView(headingRef, { once: false, margin: "-10%" });
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
-
-  // Add smooth spring physics to scroll progress
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001,
-  });
-
-  React.useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   return (
-    <section
-      ref={containerRef}
-      className="relative"
-      style={{ height: isMobile ? "300vh" : "500vh" }}
-    >
-      {/* Sticky viewport */}
-      <div className="sticky top-0 h-screen overflow-hidden">
-        {/* Background image */}
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url('/faq.jpg')" }}
-        />
-        <div className="absolute inset-0 bg-white/30 dark:bg-black/50" />
+    <section className="py-24 px-4">
+      <div className="max-w-3xl mx-auto">
+        
+        {/* Heading */}
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-semibold text-black dark:text-white">
+            Frequently Asked Questions
+          </h2>
 
-        <div className="relative z-10 h-full flex flex-col">
-          {/* Heading */}
-          <motion.div
-            ref={headingRef}
-            initial={{ opacity: 0, y: 30 }}
-            animate={
-              headingInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
-            }
-            transition={{ duration: 0.7, ease: "easeOut" }}
-            className="text-center pt-12 sm:pt-16 md:pt-20 lg:pt-24 px-4 sm:px-6"
-          >
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.05]">
-              Frequently Asked{" "}
-              <span className="text-black/80 dark:text-white/50">
-                Questions
-              </span>
-            </h2>
-          </motion.div>
+          <p className="mt-4 text-black/60 dark:text-white/60 text-sm md:text-base max-w-xl mx-auto">
+            Everything you need to know about how Blip works, onboarding, and trading flow.
+          </p>
+        </div>
 
-          {/* Cards — normal flow, no overlap */}
-          <div className="flex-1 flex items-center justify-center px-4 sm:px-6 pb-6 sm:pb-8 mt-6 sm:mt-8 md:mt-12">
-            <div className="w-full max-w-xl space-y-2.5 sm:space-y-3">
-              {faqs.map((faq, index) => {
-                const smoothEntrance = useCardEntrance(index, smoothProgress);
-                const opacity = useTransform(smoothEntrance, [0, 1], [0, 1]);
-                const y = useTransform(smoothEntrance, [0, 1], [30, 0]);
+        {/* FAQ List */}
+        <div className="space-y-4">
+          {faqs.map((faq, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: i * 0.05 }}
+              className="border border-black/[0.08] dark:border-white/[0.06] bg-white/60 dark:bg-white/[0.02] backdrop-blur-xl rounded-xl overflow-hidden"
+            >
+              <button
+                className="w-full flex justify-between items-center p-5 text-left hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors"
+                onClick={() => {
+                  setOpenFaq(openFaq === i ? null : i);
+                  sounds.click();
+                }}
+                onMouseEnter={() => sounds.hover()}
+              >
+                <span className="font-medium text-black dark:text-white text-sm pr-4">
+                  {faq.question}
+                </span>
 
-                return (
+                <ChevronDown
+                  className={`w-4 h-4 text-black/40 dark:text-white/40 transition-transform duration-300 ${
+                    openFaq === i ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              <AnimatePresence initial={false}>
+                {openFaq === i && (
                   <motion.div
-                    key={index}
-                    style={{
-                      opacity,
-                      y,
-                      willChange: "transform, opacity",
-                    }}
-                    className="rounded-xl sm:rounded-2xl border border-black/[0.08] dark:border-white/[0.06] bg-white/80 dark:bg-[#2a2a2a]/80 backdrop-blur-2xl p-4 sm:p-6 md:p-7 shadow-[0_8px_32px_rgba(0,0,0,0.15)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
                   >
-                    <div className="flex items-start gap-3 sm:gap-4">
-                      <div className="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center">
-                        <span className="text-[10px] sm:text-xs font-mono text-black/50 dark:text-white/50">
-                          {String(index + 1).padStart(2, "0")}
-                        </span>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h3 className="text-sm sm:text-base md:text-lg font-medium text-black dark:text-white mb-1.5 sm:mb-2 leading-snug">
-                          {faq.question}
-                        </h3>
-                        <p className="text-xs sm:text-sm md:text-base text-black/60 dark:text-white/60 leading-relaxed">
-                          {faq.answer}
-                        </p>
-                      </div>
+                    <div className="px-5 pb-5 pt-4 text-sm text-black dark:text-white/60 border-t border-black/[0.06] dark:border-white/[0.06]">
+                      {faq.answer}
                     </div>
                   </motion.div>
-                );
-              })}
-            </div>
-          </div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          ))}
         </div>
+
       </div>
     </section>
   );

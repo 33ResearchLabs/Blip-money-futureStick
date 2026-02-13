@@ -29,12 +29,12 @@ const LockedAndSecuredSection = () => {
           <div className="inline-flex items-center gap-3 mb-4">
             <div className="relative w-8 h-8 rounded-lg border border-black/[0.08] dark:border-white/[0.08] flex items-center justify-center group hover:border-black/20 dark:hover:border-white/20 transition-colors">
               <Lock
-                className="w-3.5 h-3.5 text-black dark:text-white/40 group-hover:text-[#ff6b35] transition-colors"
+                className="w-3.5 h-3.5 text-black dark:text-white/40 dark:hover:text-white transition-colors"
                 strokeWidth={1.5}
               />
               <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#FAF8F5] dark:bg-black border border-black/10 dark:border-white/10 flex items-center justify-center">
                 <span className="text-[8px] font-medium text-black dark:text-white/50">
-                  2
+                  5
                 </span>
               </div>
             </div>
@@ -47,9 +47,9 @@ const LockedAndSecuredSection = () => {
           <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-black dark:text-white mb-4 leading-[1.1] tracking-tight text-center">
             Locked &
             <br />
-            <span className="text-black/80 dark:text-white/20 relative inline-block">
+            <span className="text-black/80 dark:text-white/50 relative inline-block">
               <span className="relative z-10">secured.</span>
-              <motion.span
+              {/* <motion.span
                 className="absolute -bottom-1 left-0 right-0 h-[1.5px] rounded-full bg-gradient-to-r from-[#ff6b35]/60 via-[#ff8f5e]/50 to-[#ff6b35]/20"
                 initial={{ scaleX: 0, originX: 0 }}
                 whileInView={{ scaleX: 1 }}
@@ -59,7 +59,7 @@ const LockedAndSecuredSection = () => {
                   delay: 0.8,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-              />
+              /> */}
             </span>
           </h2>
         </div>
@@ -241,7 +241,7 @@ const LockedAndSecuredSection = () => {
 
             {/* Floating mini card - top right */}
             <motion.div
-              className="absolute -top-4 -right-4 sm:-top-6 sm:-right-8 rounded-xl border border-black/[0.06] dark:border-white/[0.08] bg-white/90 dark:bg-white/[0.06] backdrop-blur-xl shadow-[0_8px_30px_-8px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_30px_-8px_rgba(0,0,0,0.3)] px-4 py-3"
+              className="absolute -top-8 -right-2 sm:-top-6 sm:-right-8 rounded-xl border border-black/[0.06] dark:border-white/[0.08] bg-white/90 dark:bg-white/[0.06] backdrop-blur-xl shadow-[0_8px_30px_-8px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_30px_-8px_rgba(0,0,0,0.3)] px-4 py-3"
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -267,7 +267,7 @@ const LockedAndSecuredSection = () => {
 
             {/* Floating mini card - bottom left */}
             <motion.div
-              className="absolute -bottom-3 -left-3 sm:-bottom-5 sm:-left-6 rounded-xl border border-black/[0.06] dark:border-white/[0.08] bg-white/90 dark:bg-white/[0.06] backdrop-blur-xl shadow-[0_8px_30px_-8px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_30px_-8px_rgba(0,0,0,0.3)] px-4 py-3"
+              className="absolute -bottom-6 -left-3 sm:-bottom-5 sm:-left-6 rounded-xl border border-black/[0.06] dark:border-white/[0.08] bg-white/90 dark:bg-white/[0.06] backdrop-blur-xl shadow-[0_8px_30px_-8px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_30px_-8px_rgba(0,0,0,0.3)] px-4 py-3"
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -305,7 +305,7 @@ const LockedAndSecuredSection = () => {
           <div className="hidden lg:inline-flex items-center gap-3 mb-5">
             <div className="relative w-8 h-8 rounded-lg border border-black/[0.08] dark:border-white/[0.08] flex items-center justify-center group hover:border-black/20 dark:hover:border-white/20 transition-colors">
               <Lock
-                className="w-3.5 h-3.5 text-black dark:text-white/40 group-hover:text-[#ff6b35] transition-colors"
+                className="w-3.5 h-3.5 text-black dark:text-white/40 group-hover:text-black/60 group-hover:dark:text-white/60  transition-colors"
                 strokeWidth={1.5}
               />
               <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#FAF8F5] dark:bg-black border border-black/10 dark:border-white/10 flex items-center justify-center">

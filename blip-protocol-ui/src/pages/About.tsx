@@ -16,6 +16,7 @@ import SEO from "@/components/SEO";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { HreflangTags } from "@/components/HreflangTags";
 import { sounds } from "@/lib/sounds";
+import { CTAButton } from "@/components/Navbar";
 
 /* ============================================
    ABOUT / TEAM PAGE
@@ -309,7 +310,7 @@ export default function About() {
                   We are always looking for talented people who share our
                   vision for open, decentralized finance.
                 </p>
-                <Link
+                {/* <Link
                   to="/contact"
                   onClick={() => sounds.click()}
                   onMouseEnter={() => sounds.hover()}
@@ -317,7 +318,8 @@ export default function About() {
                 >
                   Get in Touch
                   <ArrowRight className="w-4 h-4" />
-                </Link>
+                </Link> */}
+                <CTAButton to="/contact" className="w-[220px] h-[48px]">Get in Touch</CTAButton>
               </div>
             </AnimatedSection>
           </div>

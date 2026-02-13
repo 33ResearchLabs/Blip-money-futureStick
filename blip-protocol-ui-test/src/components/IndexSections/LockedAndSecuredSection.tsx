@@ -47,7 +47,7 @@ const LockedAndSecuredSection = () => {
           <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-black dark:text-white mb-4 leading-[1.1] tracking-tight text-center">
             Locked &
             <br />
-            <span className="text-black/80 dark:text-white/20 relative inline-block">
+            <span className="text-black/80 dark:text-white/50 relative inline-block">
               <span className="relative z-10">secured.</span>
               {/* <motion.span
                 className="absolute -bottom-1 left-0 right-0 h-[1.5px] rounded-full bg-gradient-to-r from-[#ff6b35]/60 via-[#ff8f5e]/50 to-[#ff6b35]/20"

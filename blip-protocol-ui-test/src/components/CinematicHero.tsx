@@ -130,7 +130,7 @@ const CinematicHero = () => {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="flex justify-center gap-16 sm:gap-20 mb-14"
+          className="flex justify-center gap-12 sm:gap-20 mb-14"
         >
           {[
             { value: "~2s", label: "Settlement", icon: Clock },
@@ -171,7 +171,9 @@ const CinematicHero = () => {
             <span className="relative z-10">Get Started</span>
             <ArrowRight className="relative z-10 w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link> */}
-          <CTAButton to="/join-waitlist" className="w-[220px] h-[48px]">Get Started</CTAButton>
+          <CTAButton to="/join-waitlist" className="w-[220px] h-[48px]">
+            Get Started
+          </CTAButton>
         </motion.div>
 
         {/* Subtle bottom line */}

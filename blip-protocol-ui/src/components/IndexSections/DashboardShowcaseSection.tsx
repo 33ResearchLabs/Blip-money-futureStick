@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useState, useEffect } from "react";
 
 /* ============================================
    SEND MONEY SHOWCASE — OPTIMIZED SCROLL STORY
@@ -98,6 +98,19 @@ const floatingCards = [
 export default function DashboardShowcaseSection() {
   const sectionRef = useRef<HTMLElement>(null);
 
+  // Detect mobile screen size
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640); // sm breakpoint
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     // Smoother, lighter scroll range
@@ -113,10 +126,11 @@ export default function DashboardShowcaseSection() {
 
   // ── Heading transforms - Smoother, lighter animations ─────────────────────────────
   // Scale: Gentler transition for smoother feel
+  // Mobile: stays larger (1.1) for readability, Desktop: shrinks more (0.85)
   const headingScale = useTransform(
     smoothScrollProgress,
     [0, 0.2, 0.7, 1],
-    [1.5, 1.2, 0.85, 0.85],
+    isMobile ? [1.2, 1, 0.9, 0.8] : [1.5, 1.2, 0.85, 0.85],
   );
   // Opacity: Lighter fade for better visibility
   const headingOpacity = useTransform(
@@ -303,7 +317,7 @@ export default function DashboardShowcaseSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative h-[140vh] bg-white dark:bg-black"
+      className="relative h-[350vh] bg-white dark:bg-black"
       style={{ contain: "paint", touchAction: "pan-y" }}
     >
       {/*

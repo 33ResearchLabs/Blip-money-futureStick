@@ -27,13 +27,15 @@ const easeOut = [0.19, 1, 0.22, 1] as const;
 const pressReleases = [
   {
     date: "2025-12-15",
-    title: "Blip Money Launches Non-Custodial Payment Protocol on Solana Devnet",
+    title:
+      "Blip Money Launches Non-Custodial Payment Protocol on Solana Devnet",
     description:
       "Blip Money goes live on Solana devnet, enabling stablecoin settlements for merchants and consumers with on-chain escrow protection. Public testing begins with 20 early users.",
   },
   {
     date: "2025-06-20",
-    title: "Blip Protocol Introduces On-Chain Escrow with Automated Dispute Resolution",
+    title:
+      "Blip Protocol Introduces On-Chain Escrow with Automated Dispute Resolution",
     description:
       "A trustless escrow system that leverages smart contracts to resolve payment disputes without intermediaries. Currently in development and internal testing.",
   },
@@ -45,7 +47,8 @@ const pressReleases = [
   },
 ];
 
-const mediaMentions: { publication: string; title: string; date: string }[] = [];
+const mediaMentions: { publication: string; title: string; date: string }[] =
+  [];
 
 const brandAssets = [
   {
@@ -296,7 +299,9 @@ export default function Press() {
         {/* ── Hero ── */}
         <section className="relative pt-32 sm:pt-36 pb-12 sm:pb-16">
           <div className="max-w-[900px] mx-auto px-4 sm:px-6">
-            <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Press" }]} />
+            <Breadcrumbs
+              items={[{ label: "Home", href: "/" }, { label: "Press" }]}
+            />
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -340,28 +345,28 @@ export default function Press() {
 
         {/* ── In The Media ── */}
         {mediaMentions.length > 0 && (
-        <section className="py-16 sm:py-24">
-          <div className="max-w-[1100px] mx-auto px-4 sm:px-6">
-            <AnimatedSection className="text-center mb-14">
-              <span className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 block mb-5">
-                In The Media
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-bold text-black dark:text-white tracking-tight">
-                What others are saying
-              </h2>
-            </AnimatedSection>
+          <section className="py-16 sm:py-24">
+            <div className="max-w-[1100px] mx-auto px-4 sm:px-6">
+              <AnimatedSection className="text-center mb-14">
+                <span className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 block mb-5">
+                  In The Media
+                </span>
+                <h2 className="text-3xl sm:text-4xl font-bold text-black dark:text-white tracking-tight">
+                  What others are saying
+                </h2>
+              </AnimatedSection>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-              {mediaMentions.map((mention, index) => (
-                <MediaMentionCard
-                  key={mention.publication + mention.date}
-                  mention={mention}
-                  index={index}
-                />
-              ))}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                {mediaMentions.map((mention, index) => (
+                  <MediaMentionCard
+                    key={mention.publication + mention.date}
+                    mention={mention}
+                    index={index}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
         )}
 
         {/* ── Brand Assets ── */}
@@ -382,11 +387,7 @@ export default function Press() {
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
               {brandAssets.map((asset, index) => (
-                <BrandAssetCard
-                  key={asset.title}
-                  asset={asset}
-                  index={index}
-                />
+                <BrandAssetCard key={asset.title} asset={asset} index={index} />
               ))}
             </div>
           </div>
@@ -419,10 +420,19 @@ export default function Press() {
                 {/* Social links */}
                 <div className="flex items-center justify-center gap-6 pt-6 border-t border-gray-100 dark:border-white/[0.06]">
                   {[
-                    { label: "Twitter / X", href: "#" },
-                    { label: "Telegram", href: "#" },
-                    { label: "Discord", href: "#" },
-                    { label: "LinkedIn", href: "#" },
+                    { label: "Twitter / X", href: "https://x.com/blipmoney_" },
+                    {
+                      label: "Telegram",
+                      href: "https://t.me/+3DpHLzc2BfJhOWEx",
+                    },
+                    {
+                      label: "Youtube",
+                      href: "https://www.youtube.com/@BlipMoney",
+                    },
+                    {
+                      label: "LinkedIn",
+                      href: "https://www.linkedin.com/in/blip-money-849946386/",
+                    },
                   ].map((social) => (
                     <a
                       key={social.label}

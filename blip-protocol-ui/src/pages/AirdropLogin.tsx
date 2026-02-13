@@ -363,7 +363,9 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                   >
                     Join the Blip
                     <br />
-                    <span className="text-black/20 dark:text-[#ffffff]/20">Waitlist </span>
+                    <span className="text-black/20 dark:text-[#ffffff]/20">
+                      Waitlist{" "}
+                    </span>
                   </motion.h1>
 
                   <motion.p
@@ -391,7 +393,12 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                       Join Waitlist
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </button> */}
-                    <CTAButton to="/join-waitlist" className=" w-[225px]  h-[48px]">Join Waitlist </CTAButton>
+                    <CTAButton
+                      to="/join-waitlist"
+                      className=" w-[225px]  h-[48px]"
+                    >
+                      Join Waitlist{" "}
+                    </CTAButton>
                     {/* <a
                       href="/whitepaper.pdf"
                       target="_blank"
@@ -574,7 +581,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                     border: "1px solid rgba(255, 107, 53, 0.15)",
                   }}
                 >
-                  <span className="text-[11px] font-semibold text-[#ffffff] uppercase tracking-wider">
+                  <span className="text-[11px] font-semibold text-gray-600 dark:text-whiteuppercase tracking-wider">
                     Step 1 of 2
                   </span>
                 </motion.div>
@@ -589,9 +596,17 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
               <form onSubmit={handleJoinWaitlist} className="space-y-4">
                 <div className="relative group">
                   <Mail
-                    className="absolute left-4 top-1/2 -translate-y-1/2 text-black/30 dark:text-white/30 group-focus-within:text-[#ffffff] transition-colors"
+                    className="
+    absolute left-4 top-1/2 -translate-y-1/2 
+    text-gray-400 
+    dark:text-gray-500
+    group-focus-within:text-black 
+    dark:group-focus-within:text-white
+    transition-colors duration-200
+  "
                     size={18}
                   />
+
                   <input
                     type="email"
                     required
@@ -603,7 +618,12 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                 </div>
                 <div className="relative group">
                   <HandCoins
-                    className="absolute left-4 top-1/2 -translate-y-1/2 text-black/30 dark:text-white/30 group-focus-within:text-[#ffffff] transition-colors"
+                    className=" absolute left-4 top-1/2 -translate-y-1/2 
+                    text-gray-400 
+                    dark:text-gray-500
+                    group-focus-within:text-black 
+                    dark:group-focus-within:text-white
+                    transition-colors duration-200"
                     size={18}
                   />
                   <input
@@ -646,7 +666,9 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                       className="flex items-center gap-3 p-3 rounded-xl bg-white/80 dark:bg-white/[0.02] border border-black/[0.05] dark:border-white/[0.05]"
                     >
                       <item.icon className="w-4 h-4 text-[#ffffff]" />
-                      <span className="text-xs text-black/60 dark:text-white/60">{item.text}</span>
+                      <span className="text-xs text-black/60 dark:text-white/60">
+                        {item.text}
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -703,7 +725,9 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                 <div className="text-center mb-8">
                   <p className="text-black/50 dark:text-white/50 text-sm">
                     Authorized account:{" "}
-                    <span className="text-black dark:text-white font-medium">{email}</span>
+                    <span className="text-black dark:text-white font-medium">
+                      {email}
+                    </span>
                   </p>
                 </div>
 
@@ -715,19 +739,28 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                 {/* Trust badges */}
                 <div className="flex items-center justify-center gap-8 pt-6 border-t border-black/[0.06] dark:border-white/[0.06]">
                   <div className="flex flex-col items-center">
-                    <ShieldCheck size={18} className="text-black/30 dark:text-white/30 mb-2" />
+                    <ShieldCheck
+                      size={18}
+                      className="text-black/30 dark:text-white/30 mb-2"
+                    />
                     <span className="text-[10px] text-black/30 dark:text-white/30 uppercase tracking-wider">
                       Secure
                     </span>
                   </div>
                   <div className="flex flex-col items-center">
-                    <Globe size={18} className="text-black/30 dark:text-white/30 mb-2" />
+                    <Globe
+                      size={18}
+                      className="text-black/30 dark:text-white/30 mb-2"
+                    />
                     <span className="text-[10px] text-black/30 dark:text-white/30 uppercase tracking-wider">
                       Global
                     </span>
                   </div>
                   <div className="flex flex-col items-center">
-                    <Zap size={18} className="text-black/30 dark:text-white/30 mb-2" />
+                    <Zap
+                      size={18}
+                      className="text-black/30 dark:text-white/30 mb-2"
+                    />
                     <span className="text-[10px] text-black/30 dark:text-white/30 uppercase tracking-wider">
                       Instant
                     </span>

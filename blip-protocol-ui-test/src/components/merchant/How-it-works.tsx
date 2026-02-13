@@ -65,13 +65,13 @@ const HowItWorksSection = () => {
         {/* Step */}
         <div className="absolute top-6 right-6 flex items-center gap-2">
           <div
-            className="h-1.5 w-1.5 rounded-full transition-all duration-300"
-            style={{
-              backgroundColor: hovered ? "rgb(156,163,175)" : "rgba(0,0,0,0.4)",
-              boxShadow: hovered ? "0 0 8px rgba(100,100,100,0.3)" : "none",
-            }}
+            className={`h-1.5 w-1.5 rounded-full transition-all duration-300 ${
+              hovered
+                ? "bg-gray-400 dark:bg-gray-500 shadow-[0_0_8px_rgba(100,100,100,0.3)]"
+                : "bg-black/40 dark:bg-white/40"
+            }`}
           />
-          <span className="text-[9px] font-mono tracking-[0.2em] text-black/50 dark:text-zinc-600">
+          <span className="text-[9px] font-mono tracking-[0.2em] text-black/50 dark:text-white/50">
             STEP_0{step}
           </span>
         </div>
@@ -79,14 +79,11 @@ const HowItWorksSection = () => {
         {/* Icon + Text */}
         <div className="relative z-10 mb-8 flex flex-col gap-6">
           <div
-            className="flex h-14 w-14 items-center justify-center rounded-2xl border transition-all duration-300"
-            style={{
-              backgroundColor: hovered
-                ? "rgba(0,0,0,0.08)"
-                : "rgba(0,0,0,0.05)",
-              borderColor: hovered ? "rgba(0,0,0,0.2)" : "rgba(0,0,0,0.1)",
-              color: hovered ? "rgba(0,0,0,0.6)" : "rgba(0,0,0,0.4)",
-            }}
+            className={`flex h-14 w-14 items-center justify-center rounded-2xl border transition-all duration-300 ${
+              hovered
+                ? "bg-black/[0.08] dark:bg-white/[0.08] border-black/20 dark:border-white/20 text-black/60 dark:text-white/60"
+                : "bg-black/[0.05] dark:bg-white/[0.05] border-black/10 dark:border-white/10 text-black/40 dark:text-white/40"
+            }`}
           >
             <Icon size={24} />
           </div>
@@ -95,7 +92,7 @@ const HowItWorksSection = () => {
             <h3 className="text-xl font-bold text-black dark:text-white mb-2">
               {title}
             </h3>
-            <p className="text-sm text-black/40 dark:text-zinc-500">
+            <p className="text-sm text-black/40 dark:text-white/40">
               {subtitle}
             </p>
           </div>
@@ -112,10 +109,10 @@ const HowItWorksSection = () => {
           </div>
 
           <div className="absolute bottom-0 inset-x-0 h-8 border-t border-black/5 dark:border-white/5 bg-white/80 dark:bg-black/80 flex items-center justify-between px-4">
-            <span className="text-[8px] font-mono text-black/70 dark:text-zinc-500">
+            <span className="text-[8px] font-mono text-black/70 dark:text-white/50">
               SYSTEM_ACTIVE
             </span>
-            <Cpu size={10} className="text-black/10 dark:text-zinc-800" />
+            <Cpu size={10} className="text-black/10 dark:text-white/20" />
           </div>
         </div>
       </div>
@@ -126,7 +123,7 @@ const HowItWorksSection = () => {
   const MockupDashboard = ({ hovered }: { hovered: boolean }) => (
     <div className="p-4 flex flex-col gap-2">
       <div className="flex justify-between items-center">
-        <div className="h-1 w-12 bg-black/30 dark:bg-zinc-800 rounded-full" />
+        <div className="h-1 w-12 bg-black/30 dark:bg-white/30 rounded-full" />
         <Zap
           size={10}
           className="text-black/20 dark:text-white/20"
@@ -138,10 +135,12 @@ const HowItWorksSection = () => {
       {["USDT/AED", "AED/USDT", "USDT/Cash"].map((p, i) => (
         <div
           key={i}
-          className="p-2 rounded-xl text-[9px] transition-all duration-300"
+          className={`p-2 rounded-xl text-[9px] transition-all duration-300 ${
+            hovered
+              ? "bg-black/[0.12] dark:bg-white/[0.12] text-black/70 dark:text-white/70"
+              : "bg-black/[0.06] dark:bg-white/[0.06] text-black/20 dark:text-white/40"
+          }`}
           style={{
-            backgroundColor: hovered ? "rgba(0,0,0,0.12)" : "rgba(0,0,0,0.06)",
-            color: hovered ? "rgba(0,0,0,0.7)" : "rgba(0,0,0,0.4)",
             transform: hovered ? `translateX(${i * 2}px)` : "translateX(0)",
             transitionDelay: `${i * 60}ms`,
           }}
@@ -155,35 +154,33 @@ const HowItWorksSection = () => {
   const MockupLock = ({ hovered }: { hovered: boolean }) => (
     <div className="h-full flex flex-col items-center justify-center gap-4">
       <div
-        className="h-16 w-16 rounded-3xl flex items-center justify-center transition-all duration-500"
-        style={{
-          backgroundColor: hovered ? "rgba(0,0,0,0.15)" : "rgba(0,0,0,0.08)",
-          borderColor: hovered ? "rgba(0,0,0,0.35)" : "rgba(0,0,0,0.15)",
-          borderWidth: "1px",
-          borderStyle: "solid",
-          transform: hovered ? "scale(1.08)" : "scale(1)",
-        }}
+        className={`h-16 w-16 rounded-3xl flex items-center justify-center transition-all duration-500 border ${
+          hovered
+            ? "bg-black/[0.15] dark:bg-white/[0.15] border-black/[0.35] dark:border-white/[0.35] scale-[1.08]"
+            : "bg-black/[0.08] dark:bg-white/[0.08] border-black/[0.15] dark:border-white/[0.15] scale-100"
+        }`}
       >
         <Lock
           size={24}
-          style={{
-            color: hovered ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.2)",
-            transition: "color 0.4s",
-          }}
+          className={`transition-colors duration-400 ${
+            hovered
+              ? "text-black/50 dark:text-white/50"
+              : "text-black/20 dark:text-white/20"
+          }`}
         />
       </div>
-      <div className="h-1.5 w-24 bg-black/10 dark:bg-zinc-900 rounded-full overflow-hidden">
+      <div className="h-1.5 w-24 bg-black/10 dark:bg-white/10 rounded-full overflow-hidden">
         <div
-          className="h-full bg-black/40 dark:bg-white/20 rounded-full transition-all duration-[1500ms]"
+          className="h-full bg-black/40 dark:bg-white/40 rounded-full transition-all duration-[1500ms]"
           style={{ width: hovered ? "100%" : "33%" }}
         />
       </div>
       <span
-        className="text-[8px] font-mono tracking-widest transition-all duration-300"
-        style={{
-          color: hovered ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.2)",
-          opacity: hovered ? 1 : 0,
-        }}
+        className={`text-[8px] font-mono tracking-widest transition-all duration-300 ${
+          hovered
+            ? "text-black/50 dark:text-white/50 opacity-100"
+            : "text-black/20 dark:text-white/20 opacity-0"
+        }`}
       >
         LOCKED
       </span>
@@ -193,27 +190,30 @@ const HowItWorksSection = () => {
   const MockupEscrow = ({ hovered }) => (
     <div className="p-4">
       <div
-        className="rounded-xl border p-4 transition-all duration-500"
-        style={{
-          backgroundColor: hovered ? "rgba(0,0,0,0.1)" : "rgba(0,0,0,0.04)",
-          borderColor: hovered ? "rgba(0,0,0,0.2)" : "rgba(0,0,0,0.08)",
-          transform: hovered ? "scale(1.03)" : "scale(1)",
-        }}
+        className={`rounded-xl border p-4 transition-all duration-500 ${
+          hovered
+            ? "bg-black/[0.1] dark:bg-white/[0.1] border-black/20 dark:border-white/20 scale-[1.03]"
+            : "bg-black/[0.04] dark:bg-white/[0.04] border-black/[0.08] dark:border-white/[0.08] scale-100"
+        }`}
       >
         <ShieldCheck
           size={14}
-          className="mb-3 transition-all duration-300"
-          style={{
-            color: hovered ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.2)",
-          }}
+          className={`mb-3 transition-all duration-300 ${
+            hovered
+              ? "text-black/50 dark:text-white/50"
+              : "text-black/20 dark:text-white/20"
+          }`}
         />
 
         <div className="h-2 bg-black/10 dark:bg-white/10 rounded-full overflow-hidden">
           <div
-            className="h-full rounded-full transition-all duration-[1200ms]"
+            className={`h-full rounded-full transition-all duration-[1200ms] ${
+              hovered
+                ? "bg-black/50 dark:bg-white/50"
+                : "bg-black/[0.25] dark:bg-white/[0.25]"
+            }`}
             style={{
               width: hovered ? "80%" : "50%",
-              backgroundColor: hovered ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.25)",
               animation: hovered ? "none" : "pulse 1.5s infinite",
             }}
           />
@@ -223,11 +223,12 @@ const HowItWorksSection = () => {
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className="h-1 flex-1 rounded-full transition-all duration-300"
+              className={`h-1 flex-1 rounded-full transition-all duration-300 ${
+                hovered
+                  ? "bg-black/30 dark:bg-white/30"
+                  : "bg-black/[0.08] dark:bg-white/[0.08]"
+              }`}
               style={{
-                backgroundColor: hovered
-                  ? "rgba(0,0,0,0.3)"
-                  : "rgba(0,0,0,0.08)",
                 transitionDelay: `${i * 80}ms`,
               }}
             />
@@ -238,26 +239,35 @@ const HowItWorksSection = () => {
   );
 
   const MockupOnChain = ({ hovered }) => (
-    <div className="p-4 font-mono text-[9px] text-black/60 dark:text-zinc-500 relative h-full overflow-hidden">
+    <div className="p-4 font-mono text-[9px] text-black/60 dark:text-white/60 relative h-full overflow-hidden">
       <div
-        className="flex items-center gap-2 mb-2 transition-colors duration-300"
-        style={{ color: hovered ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.25)" }}
+        className={`flex items-center gap-2 mb-2 transition-colors duration-300 ${
+          hovered
+            ? "text-black/50 dark:text-white/50"
+            : "text-black/[0.25] dark:text-white/[0.25]"
+        }`}
       >
         <Scan size={12} /> BLIP_SCAN
       </div>
       <div
-        className="transition-all duration-300"
+        className={`transition-all duration-300 ${
+          hovered
+            ? "text-black/70 dark:text-white/70"
+            : "text-black/40 dark:text-white/40"
+        }`}
         style={{
-          color: hovered ? "rgba(0,0,0,0.7)" : "rgba(0,0,0,0.4)",
           transform: hovered ? "translateX(4px)" : "translateX(0)",
         }}
       >
         {"> BLOCK CONFIRMED"}
       </div>
       <div
-        className="transition-all duration-500"
+        className={`transition-all duration-500 ${
+          hovered
+            ? "text-black/40 dark:text-white/40"
+            : "text-black/20 dark:text-white/20"
+        }`}
         style={{
-          color: hovered ? "rgba(0,0,0,0.4)" : "rgba(0,0,0,0.2)",
           transform: hovered ? "translateX(4px)" : "translateX(0)",
           transitionDelay: "80ms",
         }}
@@ -267,10 +277,10 @@ const HowItWorksSection = () => {
 
       {/* Extra lines that fade in on hover */}
       <div
-        className="transition-all duration-500 mt-1"
+        className={`transition-all duration-500 mt-1 text-black/[0.25] dark:text-white/[0.25] ${
+          hovered ? "opacity-100" : "opacity-0"
+        }`}
         style={{
-          color: "rgba(0,0,0,0.25)",
-          opacity: hovered ? 1 : 0,
           transform: hovered ? "translateX(4px)" : "translateX(0)",
           transitionDelay: "160ms",
         }}
@@ -280,9 +290,12 @@ const HowItWorksSection = () => {
 
       <Globe
         size={40}
-        className="absolute bottom-2 right-2 transition-all duration-500"
+        className={`absolute bottom-2 right-2 transition-all duration-500 ${
+          hovered
+            ? "text-black/[0.15] dark:text-white/[0.15]"
+            : "text-black/[0.06] dark:text-white/[0.06]"
+        }`}
         style={{
-          color: hovered ? "rgba(0,0,0,0.15)" : "rgba(0,0,0,0.06)",
           transform: hovered
             ? "rotate(15deg) scale(1.1)"
             : "rotate(0deg) scale(1)",

@@ -84,11 +84,11 @@ const Whitepaper = () => {
       />
       <HreflangTags path="/whitepaper" />
 
-      <div className="min-h-screen bg-[#FAF8F5] dark:bg-[#0a0a0b] text-black dark:text-white mt-12">
+      <div className="min-h-screen bg-[#FAF8F5] dark:bg-[#0a0a0b] text-black dark:text-white mt-20">
         {/* Hero Header */}
         <div className="pt-32 pb-16 px-6">
           <div className="max-w-6xl mx-auto">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-tight">
               Blip<span className="text-orange-500">.money</span>: A
               Pseudonymous, On-Chain Protocol for Global Peer-to-Peer Value
               Settlement
@@ -108,10 +108,31 @@ const Whitepaper = () => {
         {/* Content Area with Sidebar */}
         <div className="bg-gray-50 dark:bg-[#111111]">
           <div className="max-w-6xl mx-auto px-6 py-16">
-            <div className="flex gap-16">
+            <div className="flex flex-col lg:flex-row gap-10 lg:gap-16">
               {/* Left Sidebar */}
-              <aside className="hidden lg:block w-56 flex-shrink-0">
-                <div className="sticky top-24">
+              {/* Left Sidebar */}
+              <aside className="lg:w-60 flex-shrink-0">
+                {/* Mobile Horizontal Scroll Menu */}
+                <div className="lg:hidden overflow-x-auto pb-4">
+                  <div className="flex gap-3 min-w-max">
+                    {sections.map((section, index) => (
+                      <button
+                        key={section.id}
+                        onClick={() => scrollToSection(section.id)}
+                        className={`whitespace-nowrap px-4 py-2 rounded-full text-sm transition ${
+                          activeSection === section.id
+                            ? "bg-black dark:bg-white text-white dark:text-black"
+                            : "bg-gray-200 dark:bg-[#222] text-gray-600 dark:text-gray-400"
+                        }`}
+                      >
+                        {index + 1}. {section.title}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Desktop Sticky Sidebar */}
+                <div className="hidden lg:block sticky top-24">
                   <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-4">
                     Contents
                   </p>
@@ -134,7 +155,7 @@ const Whitepaper = () => {
               </aside>
 
               {/* Main Content */}
-              <div className="flex-1 max-w-3xl">
+              <div className="flex-1 min-w-0">
                 {/* Abstract */}
                 <section id="abstract" className="mb-16">
                   <h2 className="text-3xl font-bold text-black dark:text-white mb-6">

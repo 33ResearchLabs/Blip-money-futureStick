@@ -123,7 +123,7 @@ export const CTAButton = ({
 
   return (
     <motion.div whileTap={{ scale: 0.97 }} className="relative">
-      <Link
+      {/* <Link
         to={to}
         onClick={() => sounds.click()}
         onMouseEnter={() => sounds.hover()}
@@ -140,9 +140,39 @@ export const CTAButton = ({
           }
         `}
       >
-        {/* LEFT-TO-RIGHT HOVER FILL ANIMATION */}
+       
         {isPrimary && (
           <span className="absolute inset-0 bg-black/10 dark:bg-white/20 rounded-full scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-out" />
+        )}
+
+       
+        <span className="relative z-10 transition-colors duration-300 font-semibold flex items-center gap-2">
+          {children}
+          {isPrimary && (
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+          )}
+        </span>
+      </Link> */}
+      <Link
+        to={to}
+        onClick={() => sounds.click()}
+        onMouseEnter={() => sounds.hover()}
+        className={`
+          ${className}
+          group relative overflow-hidden inline-flex
+          items-center justify-center px-5 py-2.5 rounded-full
+          text-[16px] font-medium transition-all duration-300
+
+          ${
+            isPrimary
+              ? "bg-transparent text-black hover:text-white dark:hover:text-black dark:text-white border border-black/20 dark:border-white/20"
+              : "bg-transparent text-black dark:text-white border border-black/20 dark:border-white/20"
+          }
+        `}
+      >
+        {/* LEFT-TO-RIGHT HOVER FILL ANIMATION */}
+        {isPrimary && (
+          <span className="absolute inset-0 bg-black dark:bg-white rounded-full scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-out" />
         )}
 
         {/* BUTTON TEXT */}
@@ -445,7 +475,7 @@ export const Navbar = () => {
 
             {/* Desktop CTA */}
             <div className="hidden lg:flex items-center gap-3">
-              <ThemeSwitcher />
+              {/* <ThemeSwitcher /> */}
               {isAuthenticated ? (
                 <CTAButton to="/dashboard">Dashboard</CTAButton>
               ) : (
@@ -455,7 +485,7 @@ export const Navbar = () => {
 
             {/* Mobile Button */}
             <div className="flex gap-2 lg:hidden">
-              <ThemeSwitcher />
+              {/* <ThemeSwitcher /> */}
               <HamburgerButton
                 isOpen={mobileMenuOpen}
                 onClick={() => setMobileMenuOpen((prev) => !prev)}

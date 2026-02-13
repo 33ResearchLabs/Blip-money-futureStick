@@ -27,49 +27,6 @@ import {
 } from "lucide-react";
 import { CTAButton } from "../Navbar";
 
-// Mobile Phone Mockup Component
-const PhoneMockup = ({ activeSection, steps }) => (
-  <div className="relative w-full max-w-[320px] sm:max-w-[340px] pointer-events-auto">
-    {/* Glow Effect */}
-    <motion.div
-      animate={{ opacity: [0.02, 0.04, 0.02], scale: [1, 1.1, 1] }}
-      transition={{
-        duration: 8,
-        repeat: Infinity,
-        ease: "easeInOut",
-      }}
-      className="absolute inset-0 bg-[#ff6b35] dark:bg-white blur-[80px] rounded-full pointer-events-none"
-    />
-
-    {/* Phone Frame */}
-    <div className="relative z-10 w-full h-[55vh] max-h-[650px] min-h-[450px] bg-black/5 dark:bg-[#0a0a0a] rounded-[3rem] p-2.5 border border-black/10 dark:border-white/10 shadow-2xl transition-all duration-300">
-      <div
-        className="w-full h-full bg-white dark:bg-black rounded-[2.5rem] overflow-hidden relative"
-        style={{ fontSize: "clamp(10px, 1.8vh, 16px)" }}
-      >
-        {/* Dynamic Island */}
-        <div className="absolute top-4 left-1/2 -translate-x-1/2 w-28 h-7 bg-black rounded-full z-50" />
-
-        {/* Screen Content */}
-        <div className="w-full h-full pt-[0vh]">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeSection}
-              initial={{ opacity: 0, x: 100 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -100 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className="w-full h-full"
-            >
-              {steps[activeSection % 3].screen}
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </div>
-    </div>
-  </div>
-);
-
 // Desktop Phone Mockup Component
 const DesktopPhoneMockup = ({ activeSection, steps }) => (
   <div className="relative w-full max-w-[320px] h-[580px]">
@@ -140,8 +97,8 @@ const App = () => {
   });
 
   const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
+    stiffness: 200,
+    damping: 25,
     restDelta: 0.001,
   });
 
@@ -153,7 +110,7 @@ const App = () => {
         // Desktop: scroll-based detection for content sections
         const sections = document.querySelectorAll(".content-section");
         const viewportHeight = window.innerHeight;
-        const triggerPoint = viewportHeight * 0.6;
+        const triggerPoint = viewportHeight * 0.45; // More responsive trigger
 
         let newActiveSection = 0;
         let closestDistance = Infinity;
@@ -254,91 +211,155 @@ const App = () => {
         style={{ scaleX }}
       />
 
-      {/* MOBILE LAYOUT - Sticky with scroll-controlled transitions */}
-      <div className="lg:hidden relative w-full min-h-[400vh]">
-        <div className="sticky top-0 h-screen max-w-7xl mx-auto px-4 flex flex-col gap-4">
-          {/* Phone Section */}
-          <div className="order-2 flex items-center justify-center h-full py-2">
-            <PhoneMockup activeSection={activeSection} steps={steps} />
+      {/* MOBILE LAYOUT - Card-based instead of phone mockup */}
+      <div className="lg:hidden max-w-7xl mx-auto px-4 space-y-12 py-8">
+        {/* Step 1: Initiation */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.5 }}
+          className="space-y-4"
+        >
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]">
+            <span className="text-xs text-black/60 dark:text-white/40 font-bold tracking-widest uppercase">
+              01 • Initiation
+            </span>
           </div>
 
-          {/* Content Section */}
-          <div className="order-1 w-full flex items-center overflow-clip">
-            <div className="w-full relative px-2 pt-4">
-              <AnimatePresence mode="wait">
-                {activeSection === 0 && (
-                  <motion.section
-                    key="section-1"
-                    className="space-y-4"
-                    initial={{ x: 100, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    exit={{ x: -100, opacity: 0 }}
-                    transition={{ duration: 0.6, ease: "easeOut" }}
-                  >
-                    <span className="text-xl font-semibold leading-snug text-black dark:text-white">
-                      Request Your <br />
-                      <span className="text-black/70 dark:text-white/50">
-                        Capital Flow.
-                      </span>
-                    </span>
+          <h3 className="text-2xl font-semibold leading-snug text-black dark:text-white">
+            Request Your <br />
+            <span className="text-black/70 dark:text-white/50">
+              Capital Flow.
+            </span>
+          </h3>
 
-                    <p className="text-base text-black/80 dark:text-white/60 leading-relaxed max-w-md">
-                      Connect institutional treasuries. Blip enables instant
-                      payment requests across 40+ fiat rails with sub-second
-                      finality.
-                    </p>
-                  </motion.section>
-                )}
+          <p className="text-base text-black/80 dark:text-white/60 leading-relaxed">
+            Connect institutional treasuries. Blip enables instant payment
+            requests across 40+ fiat rails with sub-second finality.
+          </p>
 
-                {activeSection === 1 && (
-                  <motion.section
-                    key="section-2"
-                    className="space-y-4"
-                    initial={{ x: 100, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    exit={{ x: -100, opacity: 0 }}
-                    transition={{ duration: 0.6, ease: "easeOut" }}
-                  >
-                    <h2 className="text-xl font-semibold leading-snug text-black dark:text-white">
-                      Price <br />
-                      <span className="text-black/70 dark:text-white/50">
-                        Optimization.
-                      </span>
-                    </h2>
-
-                    <p className="text-base text-black/80 dark:text-white/60 leading-relaxed max-w-md">
-                      Our engine scans local liquidity to find the exact
-                      mid-market exchange rate without hidden bank fees.
-                    </p>
-                  </motion.section>
-                )}
-
-                {activeSection === 2 && (
-                  <motion.section
-                    key="section-3"
-                    className="space-y-4"
-                    initial={{ x: 100, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    exit={{ x: -100, opacity: 0 }}
-                    transition={{ duration: 0.6, ease: "easeOut" }}
-                  >
-                    <h2 className="text-xl font-semibold leading-snug text-black dark:text-white">
-                      Secure <br />
-                      <span className="text-black/70 dark:text-white/50">
-                        Execution.
-                      </span>
-                    </h2>
-
-                    <p className="text-base text-black/80 dark:text-white/60 leading-relaxed max-w-md">
-                      Multi-sig verification ensures funds are validated before
-                      instant release to your destination.
-                    </p>
-                  </motion.section>
-                )}
-              </AnimatePresence>
+          <div className="bg-white/80 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/10 p-5 rounded-2xl">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center">
+                <Send size={18} className="text-black/60 dark:text-white/50" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-black dark:text-white">Quick Request</p>
+                <p className="text-xs text-black/50 dark:text-white/30">Instant setup</p>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {["STABLECOINS", "LOCAL FIAT", "API HOOKS"].map((tag) => (
+                <span
+                  key={tag}
+                  className="px-3 py-1 bg-black/5 dark:bg-white/5 rounded-full text-xs font-semibold text-black/60 dark:text-white/40"
+                >
+                  {tag}
+                </span>
+              ))}
             </div>
           </div>
-        </div>
+        </motion.div>
+
+        {/* Step 2: Match */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.5 }}
+          className="space-y-4"
+        >
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]">
+            <span className="text-xs text-black/60 dark:text-white/40 font-bold tracking-widest uppercase">
+              02 • Match
+            </span>
+          </div>
+
+          <h3 className="text-2xl font-semibold leading-snug text-black dark:text-white">
+            Price <br />
+            <span className="text-black/70 dark:text-white/50">
+              Optimization.
+            </span>
+          </h3>
+
+          <p className="text-base text-black/80 dark:text-white/60 leading-relaxed">
+            Our engine scans local liquidity to find the exact mid-market
+            exchange rate without hidden bank fees.
+          </p>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div className="bg-white/80 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/10 p-4 rounded-2xl">
+              <Layers size={18} className="text-black/40 dark:text-white/40 mb-2" />
+              <p className="text-sm font-semibold text-black dark:text-white mb-0.5">Best Rate</p>
+              <p className="text-xs text-black/40 dark:text-white/30 font-medium">1 USDT = 3.67 AED</p>
+            </div>
+            <div className="bg-white/80 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/10 p-4 rounded-2xl">
+              <Activity size={18} className="text-black/40 dark:text-white/40 mb-2" />
+              <p className="text-sm font-semibold text-black dark:text-white mb-0.5">Live Search</p>
+              <p className="text-xs text-black/40 dark:text-white/30 font-medium">Liquidity Scan</p>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Step 3: Verify */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.5 }}
+          className="space-y-4"
+        >
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]">
+            <span className="text-xs text-black/60 dark:text-white/40 font-bold tracking-widest uppercase">
+              03 • Verify
+            </span>
+          </div>
+
+          <h3 className="text-2xl font-semibold leading-snug text-black dark:text-white">
+            Secure <br />
+            <span className="text-black/70 dark:text-white/50">
+              Execution.
+            </span>
+          </h3>
+
+          <p className="text-base text-black/80 dark:text-white/60 leading-relaxed">
+            Multi-sig verification ensures funds are validated before instant
+            release to your destination.
+          </p>
+
+          <div className="bg-white/80 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/10 rounded-2xl overflow-hidden">
+            <div className="px-4 py-3 bg-black/[0.03] dark:bg-white/5 border-b border-black/[0.06] dark:border-white/5 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <CheckCircle2 size={16} className="text-black/60 dark:text-white/50" />
+                <span className="text-xs font-semibold text-black/60 dark:text-white/40 uppercase tracking-wider">
+                  Verified
+                </span>
+              </div>
+              <span className="text-xs font-semibold text-black dark:text-white">420ms</span>
+            </div>
+            <div className="p-4 space-y-2">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Fingerprint size={14} className="text-black/60 dark:text-white/40" />
+                  <span className="text-xs font-medium text-black/60 dark:text-white/40">Authorization</span>
+                </div>
+                <span className="text-xs font-semibold text-black dark:text-white/70">Success</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Zap size={14} className="text-[#ff6b35]/70" />
+                  <span className="text-xs font-medium text-black/60 dark:text-white/40">Settlement</span>
+                </div>
+                <span className="text-xs font-semibold text-black dark:text-white/70">Instant</span>
+              </div>
+            </div>
+          </div>
+
+          <CTAButton to="" className="w-full h-12 uppercase text-sm">
+            Initiate Trade
+          </CTAButton>
+        </motion.div>
       </div>
 
       {/* DESKTOP LAYOUT - Sticky phone with scrolling content sections */}
