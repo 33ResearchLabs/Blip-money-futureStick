@@ -58,7 +58,7 @@ const Index = () => {
             <AbstractVisual />
             <UAESection />
             <CashbackBanner />
-            <ProblemSection />
+            {/* <ProblemSection /> */}
             <ProtocolSection />
             <FeatureStrip />
             <MerchantDashboardSection />
