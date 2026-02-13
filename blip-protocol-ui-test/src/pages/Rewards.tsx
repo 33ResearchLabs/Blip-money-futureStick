@@ -604,7 +604,9 @@ const RewardTiersSection = () => {
           <h2 className="text-4xl md:text-6xl font-bold text-black dark:text-white tracking-tight mb-6">
             More Volume.
             <br />
-            <span className="text-black/20 dark:text-white/20">More Rewards.</span>
+            <span className="text-black/20 dark:text-white/20">
+              More Rewards.
+            </span>
           </h2>
           <p className="text-lg text-black/40 dark:text-white/40 max-w-xl mx-auto">
             Unlock higher cashback rates as your transaction volume grows.
@@ -619,15 +621,8 @@ const RewardTiersSection = () => {
               initial={{ opacity: 0, y: 60 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: i * 0.1 }}
-              className={`group relative p-8 rounded-3xl overflow-hidden hover-lg:scale-105 border border-black/[0.06] dark:border-white/5 hover:border-black/20 dark:hover:border-white/20 transition-colors duration-500 bg-white/80 dark:bg-transparent `}
-              // style={{
-              //   background: tier.highlight
-              //     ? "linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 107, 53, 0.02) 100%)"
-              //     : "rgba(255, 255, 255, 0.02)",
-              //   border: tier.highlight
-              //     ? "1px solid rgba(255, 107, 53, 0.2)"
-              //     : "1px solid rgba(255, 255, 255, 0.05)",
-              // }}
+              className={`group relative p-8 rounded-3xl overflow-hidden hover-lg:scale-105 border border-black/[0.06] dark:border-white/5  hover:border-black/30 
+dark:hover:border-white/15 transition-colors duration-500 bg-white/80 dark:bg-transparent `}
             >
               {/* Hover glow */}
               <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#ffffff] opacity-0 group-hover:opacity-[0.08] blur-[60px] rounded-full transition-opacity duration-500" />
@@ -641,15 +636,22 @@ const RewardTiersSection = () => {
               <div className="relative z-10">
                 <div className="mb-6">
                   <tier.icon
-                    className={`w-8 h-8 text-black/40 dark:text-white/40 group-hover:text-[#ffffff] transition-colors duration-300 ease-in `}
+                    className={`w-8 h-8 text-black/40 dark:text-white/40 group-hover:text-black
+dark:group-hover:text-white/70 ntransition-colors duration-300 ease-in `}
                   />
                 </div>
 
-                <h3 className="text-lg text-black/60 dark:text-white/60 mb-2">{tier.name}</h3>
-                <div className={`text-5xl font-bold mb-4 text-black/40 dark:text-white/40 `}>
+                <h3 className="text-lg text-black/60 dark:text-white/60 mb-2">
+                  {tier.name}
+                </h3>
+                <div
+                  className={`text-5xl font-bold mb-4 text-black/40 dark:text-white/40 `}
+                >
                   {tier.reward}
                 </div>
-                <p className="text-sm text-black/40 dark:text-white/40">{tier.desc}</p>
+                <p className="text-sm text-black/40 dark:text-white/40">
+                  {tier.desc}
+                </p>
               </div>
             </motion.div>
           ))}
@@ -748,7 +750,14 @@ const HowItWorksSection = () => {
               )}
 
               <div
-                className="relative p-8 rounded-3xl h-full transition-all duration-300 group-hover:bg-black/[0.02] dark:group-hover:bg-white/[0.02] border border-black/[0.06] dark:border-transparent group-hover:border-black/20 dark:group-hover:border-white/20 bg-white/80 dark:bg-white/[0.01]"
+                className="relative p-8 rounded-3xl h-full transition-all duration-300 group-hover:bg-black/[0.02] dark:group-hover:bg-white/[0.02] border border-black/[0.06] 
+dark:border-white/[0.06]
+
+
+
+group-hover:border-black/25 
+dark:group-hover:border-white/15
+ bg-white/80 dark:bg-white/[0.01]"
               >
                 {/* Number */}
                 <span className="absolute top-4 right-4 text-6xl font-bold text-black/[0.03] dark:text-white/[0.03] select-none">
@@ -756,7 +765,13 @@ const HowItWorksSection = () => {
                 </span>
 
                 <div className="w-14 h-14 rounded-2xl border border-black/20 dark:border-white/20 flex items-center justify-center mb-6 ">
-                  <step.icon className="w-6 h-6 group-hover:text-[#ffffff] text-black/20 dark:text-white/20" />
+                  <step.icon
+                    className="w-6 h-6 text-black/30 dark:text-white/30
+group-hover:text-black
+dark:group-hover:text-white/70
+transition-colors duration-300
+ "
+                  />
                 </div>
 
                 <h3 className="text-xl font-semibold text-black dark:text-white mb-3">
@@ -835,7 +850,9 @@ const FeaturesSection = () => {
             <h2 className="text-4xl md:text-6xl font-bold text-center text-black dark:text-white tracking-tight mb-4">
               Maximum
               <br />
-              <span className="text-black/20 dark:text-white/20 text-center">Value.</span>
+              <span className="text-black/20 dark:text-white/20 text-center">
+                Value.
+              </span>
             </h2>
           </div>
         </motion.div>
@@ -854,7 +871,9 @@ const FeaturesSection = () => {
                   <span className="text-5xl md:text-6xl font-bold text-black dark:text-white">
                     20M
                   </span>
-                  <span className="text-2xl text-black/40 dark:text-white/40">BLIP</span>
+                  <span className="text-2xl text-black/40 dark:text-white/40">
+                    BLIP
+                  </span>
                 </div>
 
                 <div className="grid grid-cols-2 gap-6">
@@ -888,17 +907,40 @@ const FeaturesSection = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
                   transition={{ duration: 0.6, delay: i * 0.1 }}
-                  className="group p-5 rounded-2xl transition-all duration-300 border border-black/[0.06] dark:border-white/[0.05] hover:border-black/20 dark:hover:border-[#ffffff]/20 bg-white/80 dark:bg-transparent"
+                  className="group p-5 rounded-2xl
+transition-all duration-300
+
+border border-black/[0.06] dark:border-white/[0.05]
+
+hover:border-black/25
+dark:hover:border-white/15
+
+bg-white/80 dark:bg-transparent"
                 >
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-black/5 dark:bg-white/20 flex items-center justify-center flex-shrink-0">
-                      <feature.icon className="w-5 h-5 group-hover:text-[#ffffff]" />
+                    <div
+                      className="w-10 h-10 rounded-xl border
+border-black/5 dark:border-white/10
+group-hover:border-black/10
+dark:group-hover:border-white/20
+transition-colors duration-300
+flex items-center justify-center flex-shrink-0"
+                    >
+                      <feature.icon
+                        className="w-5 h-5
+text-black/60 dark:text-white/60
+group-hover:text-black
+dark:group-hover:text-white
+transition-colors duration-300"
+                      />
                     </div>
                     <div>
                       <h3 className="text-lg font-semibold text-black dark:text-white mb-1">
                         {feature.title}
                       </h3>
-                      <p className="text-sm text-black/50 dark:text-white/50">{feature.desc}</p>
+                      <p className="text-sm text-black/50 dark:text-white/50">
+                        {feature.desc}
+                      </p>
                     </div>
                   </div>
                 </motion.div>

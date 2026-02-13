@@ -466,7 +466,7 @@ const App = () => {
                 </div>
               </div>
 
-              <div className="bg-white/80 dark:bg-white/5 border-l border-black/20 dark:border-white/20 p-6 rounded-r-2xl backdrop-blur-md">
+              <div className="bg-white/80 dark:bg-white/5  border-black/20 dark:border-white/20 p-6 rounded-2xl backdrop-blur-md">
                 <p className="text-base leading-relaxed text-black/70 dark:text-white/70">
                   <span className="font-semibold text-black dark:text-white">
                     The Match Stage:
