@@ -165,14 +165,29 @@ export const CTAButton = ({
 
           ${
             isPrimary
-              ? "bg-transparent text-black hover:text-white dark:hover:text-black dark:text-white border border-black/20 dark:border-white/20"
+              ? `
+      bg-black text-white border border-black
+     
+      
+      dark:bg-white dark:text-black dark:border-white
+     
+    `
               : "bg-transparent text-black dark:text-white border border-black/20 dark:border-white/20"
           }
         `}
       >
         {/* LEFT-TO-RIGHT HOVER FILL ANIMATION */}
         {isPrimary && (
-          <span className="absolute inset-0 bg-black dark:bg-white rounded-full scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-out" />
+          <span
+            className="
+    absolute inset-0 
+    
+    rounded-full 
+    scale-x-0 group-hover:scale-x-100 
+    origin-left 
+    transition-transform duration-700 ease-out
+  "
+          />
         )}
 
         {/* BUTTON TEXT */}
