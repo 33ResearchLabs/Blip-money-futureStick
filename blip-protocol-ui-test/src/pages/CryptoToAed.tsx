@@ -719,7 +719,7 @@ export default function CryptoToAed() {
                     Live Rates
                   </span>
                 </div>
-                <span className="text-xs text-black/30 dark:text-white/30">
+                <span className="text-xs text-black/50 dark:text-white/30">
                   {isLive ? `Updated ${timeAgo}` : "Updating live rates..."}
                 </span>
                 <button
@@ -910,7 +910,7 @@ export default function CryptoToAed() {
                   <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />
                 </Link>
 
-                <p className="text-center text-[11px] text-black/30 dark:text-white/20 mt-3">
+                <p className="text-center text-[12px] text-black/50 dark:text-white/20 mt-3">
                   Non-custodial escrow on Solana. Your keys, your crypto.
                 </p>
               </div>
@@ -1462,7 +1462,7 @@ export default function CryptoToAed() {
             <h2 className="text-3xl sm:text-4xl font-bold text-black dark:text-white mb-4">
               Ready to Convert?
             </h2>
-            <p className="text-lg text-black/40 dark:text-white/35 max-w-lg mx-auto mb-8">
+            <p className="text-lg text-black/50 dark:text-white/35 max-w-lg mx-auto mb-8">
               Join thousands converting crypto to AED on the fastest, most
               secure settlement protocol in the UAE.
             </p>
@@ -1507,12 +1507,12 @@ export default function CryptoToAed() {
                 <Link
                   key={link.href}
                   to={link.href}
-                  className="group p-4 rounded-xl bg-white/60 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] hover:border-black/[0.12] dark:hover:border-white/[0.12] transition-colors"
+                  className="group p-4 rounded-xl bg-white/60 dark:bg-white/[0.03] border border-black/30 dark:border-white/[0.06] hover:border-black/[0.12] dark:hover:border-white/[0.12] transition-colors"
                 >
                   <span className="block text-sm font-semibold text-black dark:text-white group-hover:text-gray-600 dark:group-hover:text-white/80 transition-colors">
                     {link.label}
                   </span>
-                  <span className="block text-xs text-black/30 dark:text-white/25 mt-1">
+                  <span className="block text-xs text-black/50 dark:text-white/25 mt-1">
                     {link.desc}
                   </span>
                 </Link>

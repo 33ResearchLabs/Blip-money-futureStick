@@ -139,9 +139,9 @@ export const CinematicHeroOfMerchant = () => {
   >
     Become a Merchant
   </Link> */}
-            <CTAButton to="/waitlist" className="w-[225px]  h-[48px]">
+            {/* <CTAButton to="/waitlist" className="w-[225px]  h-[48px]">
               Become a Merchant
-            </CTAButton>
+            </CTAButton> */}
 
             {/* <Link
     to="/waitlist"

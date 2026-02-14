@@ -245,22 +245,22 @@ const SocialCard = ({
       transition={{ duration: 0.5, delay: index * 0.1, ease: easeOut }}
       onMouseEnter={() => sounds.hover()}
       onClick={() => sounds.click()}
-      className="group block p-6 sm:p-8 rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] hover:border-black/[0.15] dark:hover:border-white/[0.12] transition-all duration-300"
+      className="group block p-6 sm:p-8 rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/40 dark:border-white/[0.06] hover:border-black/[0.15] dark:hover:border-white/[0.12] transition-all duration-300"
     >
       <div className="flex items-start justify-between mb-5">
         <div className="w-12 h-12 rounded-xl bg-black/[0.04] dark:bg-white/[0.06] flex items-center justify-center group-hover:scale-110 transition-transform">
           <Icon className="w-5 h-5 text-black dark:text-white" />
         </div>
-        <ArrowUpRight className="w-4 h-4 text-gray-300 dark:text-white/20 group-hover:text-black dark:group-hover:text-white transition-colors" />
+        <ArrowUpRight className="w-4 h-4 text-black/80 dark:text-white/40 group-hover:text-black dark:group-hover:text-white transition-colors" />
       </div>
 
       <h3 className="text-lg font-semibold text-black dark:text-white mb-2">
         {platform.name}
       </h3>
-      <p className="text-[14px] text-gray-500 dark:text-white/40 leading-relaxed mb-4">
+      <p className="text-[14px] text-black/80 dark:text-white/40 leading-relaxed mb-4">
         {platform.description}
       </p>
-      <span className="text-[12px] font-medium text-gray-400 dark:text-white/30">
+      <span className="text-[12px] font-medium text-black/80 dark:text-white/40">
         {platform.members}
       </span>
     </motion.a>
@@ -339,7 +339,7 @@ const DaoStepCard = ({
       onMouseEnter={() => sounds.hover()}
       className="group p-6 sm:p-8 rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] hover:border-black/[0.15] dark:hover:border-white/[0.12] transition-all duration-300 text-center"
     >
-      <span className="text-[11px] font-semibold uppercase tracking-[0.3em] text-gray-400 dark:text-white/30 block mb-4">
+      <span className="text-[11px] font-semibold uppercase tracking-[0.3em] text-black/80 dark:text-white/40 block mb-4">
         Step {step.step}
       </span>
 
@@ -387,7 +387,7 @@ const StatCard = ({
           prefix={stat.prefix}
         />
       </div>
-      <span className="text-[13px] text-gray-400 dark:text-white/40">
+      <span className="text-[13px] text-black/80 dark:text-white/40">
         {stat.label}
       </span>
     </motion.div>
@@ -436,7 +436,7 @@ export default function Community() {
         <section className="py-16 sm:py-24">
           <div className="max-w-[1100px] mx-auto px-4 sm:px-6">
             <AnimatedSection className="text-center mb-14">
-              <span className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 block mb-5">
+              <span className="text-[11px] uppercase tracking-[0.3em] text-black/80 dark:text-white/40 block mb-5">
                 Join the Community
               </span>
               <h2 className="text-3xl sm:text-4xl font-bold text-black dark:text-white tracking-tight">
@@ -460,7 +460,7 @@ export default function Community() {
         <section className="py-16 sm:py-24">
           <div className="max-w-[1100px] mx-auto px-4 sm:px-6">
             <AnimatedSection className="text-center mb-14">
-              <span className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 block mb-5">
+              <span className="text-[11px] uppercase tracking-[0.3em] text-black/80 dark:text-white/40 block mb-5">
                 Ecosystem Partners
               </span>
               <h2 className="text-3xl sm:text-4xl font-bold text-black dark:text-white tracking-tight mb-4">
@@ -488,7 +488,7 @@ export default function Community() {
         <section className="py-16 sm:py-24">
           <div className="max-w-[1100px] mx-auto px-4 sm:px-6">
             <AnimatedSection className="text-center mb-14">
-              <span className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 block mb-5">
+              <span className="text-[11px] uppercase tracking-[0.3em] text-black/80 dark:text-white/40 block mb-5">
                 DAO Governance
               </span>
               <h2 className="text-3xl sm:text-4xl font-bold text-black dark:text-white tracking-tight mb-4">
@@ -516,7 +516,7 @@ export default function Community() {
               <div className="p-8 sm:p-12 rounded-3xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06]">
                 <div className="flex items-center gap-3 mb-6">
                   <Award className="w-6 h-6 text-black dark:text-white" />
-                  <span className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40">
+                  <span className="text-[11px] uppercase tracking-[0.3em] text-black/80 dark:text-white/40">
                     Ambassador Program
                   </span>
                 </div>
@@ -572,7 +572,7 @@ export default function Community() {
         <section className="py-16 sm:py-24">
           <div className="max-w-[1100px] mx-auto px-4 sm:px-6">
             <AnimatedSection className="text-center mb-14">
-              <span className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 block mb-5">
+              <span className="text-[11px] uppercase tracking-[0.3em] text-black/80 dark:text-white/40 block mb-5">
                 Community Stats
               </span>
               <h2 className="text-3xl sm:text-4xl font-bold text-black dark:text-white tracking-tight">

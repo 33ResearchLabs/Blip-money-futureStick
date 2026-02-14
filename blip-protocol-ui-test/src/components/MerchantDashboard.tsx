@@ -2428,15 +2428,15 @@ export const MerchantDashboardVisualHomepage = () => {
                                 ✓
                               </div>
                               <div>
-                                <div className="text-[10px] text-black/70 dark:text-white/70">
+                                <div className="text-[10px] text-black/90 dark:text-white/70">
                                   {item.action}
                                 </div>
-                                <div className="text-[8px] text-black/70 dark:text-white/50">
+                                <div className="text-[8px] text-black/90 dark:text-white/50">
                                   {item.time}
                                 </div>
                               </div>
                             </div>
-                            <span className="text-[10px] text-black/70 dark:text-white/50">
+                            <span className="text-[10px] text-black/90 dark:text-white/50">
                               {item.amount}
                             </span>
                           </div>
@@ -2509,7 +2509,7 @@ export const MerchantDashboardVisualHomepage = () => {
                             <div className="text-[8px] text-black/80 dark:text-white/60">
                               {action.icon}
                             </div>
-                            <div className="text-[10px] text-black/70 dark:text-white/70">
+                            <div className="text-[10px] text-black dark:text-white/70 text-bold">
                               {action.label}
                             </div>
                           </button>

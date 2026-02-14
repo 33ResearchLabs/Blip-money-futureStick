@@ -153,7 +153,7 @@ const PressReleaseCard = ({
         {/* Date */}
         <div className="flex items-center gap-2 mb-3">
           <Calendar className="w-3.5 h-3.5 text-gray-400 dark:text-white/30" />
-          <span className="text-[12px] text-gray-400 dark:text-white/30">
+          <span className="text-[12px] text-black/80 dark:text-white/40">
             {formatDate(release.date)}
           </span>
         </div>
@@ -164,7 +164,7 @@ const PressReleaseCard = ({
         </h3>
 
         {/* Description */}
-        <p className="text-[15px] text-gray-500 dark:text-white/40 leading-relaxed max-w-3xl">
+        <p className="text-[15px] text-black/80 dark:text-white/40 leading-relaxed max-w-3xl">
           {release.description}
         </p>
       </div>
@@ -196,7 +196,7 @@ const MediaMentionCard = ({
       className="group p-6 sm:p-8 rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] hover:border-black/[0.15] dark:hover:border-white/[0.12] transition-all duration-300 cursor-pointer"
     >
       {/* Publication name */}
-      <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-gray-400 dark:text-white/35 block mb-3">
+      <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-black/80 dark:text-white/40 block mb-3">
         {mention.publication}
       </span>
 
@@ -210,7 +210,7 @@ const MediaMentionCard = ({
         <span className="text-[12px] text-gray-400 dark:text-white/30">
           {formatDate(mention.date)}
         </span>
-        <ArrowUpRight className="w-4 h-4 text-gray-300 dark:text-white/20 group-hover:text-black dark:group-hover:text-white transition-colors" />
+        <ArrowUpRight className="w-4 h-4 text-black/80 dark:text-white/40 group-hover:text-black dark:group-hover:text-white transition-colors" />
       </div>
     </motion.div>
   );
@@ -238,7 +238,7 @@ const BrandAssetCard = ({
           <asset.icon className="w-5 h-5 text-black dark:text-white" />
         </div>
         {isDownloadable && (
-          <Download className="w-4 h-4 text-gray-300 dark:text-white/20 group-hover:text-black dark:group-hover:text-white transition-colors" />
+          <Download className="w-4 h-4 text-black/80 dark:text-white/40 group-hover:text-black dark:group-hover:text-white transition-colors" />
         )}
       </div>
 
@@ -253,30 +253,32 @@ const BrandAssetCard = ({
 
   return (
     <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay: index * 0.1, ease: easeOut }}
+  ref={ref}
+  className="h-full"
+  initial={{ opacity: 0, y: 20 }}
+  animate={isInView ? { opacity: 1, y: 0 } : {}}
+  transition={{ duration: 0.5, delay: index * 0.1, ease: easeOut }}
+>
+  {isDownloadable ? (
+    <a
+      href={asset.href}
+      download
+      onMouseEnter={() => sounds.hover()}
+      onClick={() => sounds.click()}
+      className="group flex flex-col h-full p-6 sm:p-8 rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] hover:border-black/[0.15] dark:hover:border-white/[0.12] transition-all duration-300 cursor-pointer"
     >
-      {isDownloadable ? (
-        <a
-          href={asset.href}
-          download
-          onMouseEnter={() => sounds.hover()}
-          onClick={() => sounds.click()}
-          className="group block p-6 sm:p-8 rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] hover:border-black/[0.15] dark:hover:border-white/[0.12] transition-all duration-300 cursor-pointer"
-        >
-          {inner}
-        </a>
-      ) : (
-        <div
-          onMouseEnter={() => sounds.hover()}
-          className="group block p-6 sm:p-8 rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] transition-all duration-300"
-        >
-          {inner}
-        </div>
-      )}
-    </motion.div>
+      {inner}
+    </a>
+  ) : (
+    <div
+      onMouseEnter={() => sounds.hover()}
+      className="group flex flex-col h-full p-6 sm:p-8 rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] transition-all duration-300"
+    >
+      {inner}
+    </div>
+  )}
+</motion.div>
+
   );
 };
 
@@ -324,7 +326,7 @@ export default function Press() {
           <div className="max-w-[900px] mx-auto px-4 sm:px-6">
             <AnimatedSection>
               <div className="flex items-center gap-4 mb-2">
-                <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-gray-400 dark:text-white/30">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-black/80 dark:text-white/40">
                   Press Releases
                 </span>
                 <div className="flex-1 h-px bg-gray-100 dark:bg-white/[0.06]" />
@@ -373,7 +375,7 @@ export default function Press() {
         <section className="py-16 sm:py-24">
           <div className="max-w-[1100px] mx-auto px-4 sm:px-6">
             <AnimatedSection className="text-center mb-14">
-              <span className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 block mb-5">
+              <span className="text-[11px] uppercase tracking-[0.3em] text-black/80 dark:text-white/40 block mb-5">
                 Brand Assets
               </span>
               <h2 className="text-3xl sm:text-4xl font-bold text-black dark:text-white tracking-tight mb-4">
@@ -440,7 +442,7 @@ export default function Press() {
                       target="_blank"
                       rel="noopener noreferrer"
                       onMouseEnter={() => sounds.hover()}
-                      className="text-[13px] font-medium text-gray-400 dark:text-white/35 hover:text-black dark:hover:text-white transition-colors flex items-center gap-1"
+                      className="text-[13px] font-medium text-black/80 dark:text-white/40 hover:text-black dark:hover:text-white transition-colors flex items-center gap-1"
                     >
                       {social.label}
                       <ArrowUpRight className="w-3 h-3" />

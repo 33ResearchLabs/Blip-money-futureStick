@@ -86,7 +86,7 @@ const InstantBiddingSection = () => {
                 transition={{
                   duration: 1.2,
                   delay: 0.8,
-                  ease: [0.16, 1, 0.3, 1],
+                  ease: [0.16, 1, 0.3, 1],   
                 }}
               />
             </span>
@@ -178,7 +178,7 @@ const InstantBiddingSection = () => {
             }}
           />
 
-          <div className="rounded-2xl overflow-hidden border border-black/[0.08] dark:border-white/[0.08] bg-white/90 dark:bg-[#0a0a0a] backdrop-blur-xl dark:backdrop-blur-none shadow-[0_8px_40px_-8px_rgba(0,0,0,0.08),0_30px_80px_-20px_rgba(0,0,0,0.06)] sm:shadow-[0_12px_60px_-12px_rgba(0,0,0,0.1),0_50px_120px_-30px_rgba(0,0,0,0.08)] dark:shadow-[0_30px_60px_rgba(0,0,0,0.4)] dark:sm:shadow-[0_50px_100px_rgba(0,0,0,0.5),0_0_80px_rgba(255,255,255,0.04)] lg:max-h-[65vh] relative">
+          <div className="rounded-2xl overflow-hidden border border-black/[0.08] dark:border-white/[0.08] bg-white/90 dark:bg-[#0a0a0a]  dark:backdrop-blur-none shadow-[0_8px_40px_-8px_rgba(0,0,0,0.08),0_30px_80px_-20px_rgba(0,0,0,0.06)] sm:shadow-[0_12px_60px_-12px_rgba(0,0,0,0.1),0_50px_120px_-30px_rgba(0,0,0,0.08)] dark:shadow-[0_30px_60px_rgba(0,0,0,0.4)] dark:sm:shadow-[0_50px_100px_rgba(0,0,0,0.5),0_0_80px_rgba(255,255,255,0.04)] lg:max-h-[65vh] relative">
             {/* Browser chrome */}
             <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-5 py-2.5 sm:py-4 bg-white/90 dark:bg-[#111] backdrop-blur-sm dark:backdrop-blur-none border-b border-black/[0.06] dark:border-white/[0.06]">
               <div className="flex items-center gap-1.5 sm:gap-2">
@@ -485,7 +485,7 @@ const InstantBiddingSection = () => {
             </div>
 
             {/* Gradient fade at bottom */}
-            <div className="absolute bottom-0 left-0 right-0 h-24 sm:h-32 bg-gradient-to-t from-white/90 via-white/60 to-transparent dark:from-[#0a0a0a] dark:via-[#0a0a0a]/80 pointer-events-none" />
+            <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white/90 via-white/30 to-transparent dark:from-[#0a0a0a] dark:via-[#0a0a0a]/80 pointer-events-none" />
           </div>
         </motion.div>
       </div>

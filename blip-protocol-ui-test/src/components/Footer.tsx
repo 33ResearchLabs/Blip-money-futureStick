@@ -248,7 +248,7 @@ const socialPlatforms = [
 
   {
     icon: FaLinkedin,
-    href: "https://www.linkedin.com/in/blip-money-849946386/",
+    href: "https://www.linkedin.com/company/blipmoneyofficial/",
   },
 ];
 
@@ -469,7 +469,7 @@ export const Footer = () => {
             <h2 className="text-3xl lg:text-4xl font-bold tracking-tighter mb-3 leading-[0.9]">
               <span className="text-black dark:text-white">Join the</span>{" "}
               <br />
-              <span className="bg-gradient-to-b from-black to-black/50 dark:from-white dark:to-zinc-500 bg-clip-text text-transparent">
+              <span className="text-black/80 dark:text-white/80">
                 Movement
               </span>
             </h2>
@@ -514,9 +514,9 @@ export const Footer = () => {
                 <li>
                   <FooterLink to="/whitepaper">Whitepaper</FooterLink>
                 </li>
-                <li>
+                {/* <li>
                   <FooterLink to="/docs">Documentation</FooterLink>
-                </li>
+                </li> */}
                 <li>
                   <FooterLink to="/changelog">Changelog</FooterLink>
                 </li>
@@ -650,10 +650,10 @@ export const Footer = () => {
                 Compliance
               </a>
               <Link
-                to="/privacy"
+                to="/legal/:tab"
                 className="hover:text-black dark:hover:text-white transition-colors"
               >
-                Privacy
+                Legal
               </Link>
             </div>
           </div>
@@ -669,8 +669,8 @@ export const Footer = () => {
                   rel="noopener noreferrer"
                 >
                   <Icon
-                    className="w-5 h-5 text-black/50 dark:text-zinc-500
-      hover:text-black dark:hover:text-white"
+                    className="w-5 h-5 text-black/90 dark:text-white/90
+      hover:text-black hover dark:hover:text-white"
                   />
                 </a>
               );

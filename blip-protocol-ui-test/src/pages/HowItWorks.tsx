@@ -93,7 +93,7 @@ const HeroSection = () => {
               border: "1px solid rgba(255, 255, 255, 0.08)",
             }}
           >
-            <span className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-[#ff6b35] " />
             <span className="text-[14px] text-black/70 dark:text-white/70 font-medium tracking-wide">
               How Blip Works
             </span>
@@ -136,7 +136,7 @@ const HeroSection = () => {
             transition={{ delay: 1.5 }}
             className="absolute top-[400px] sm:top-[400px] left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
           >
-            <span className="text-xs text-black/40 dark:text-white/40 uppercase tracking-[0.2em]">
+            <span className="text-xs text-black/60 dark:text-white/40 uppercase tracking-[0.2em]">
               Explore
             </span>
             <motion.div
@@ -318,7 +318,7 @@ const CoreProtocolSection = () => {
               onMouseEnter={() => sounds.hover()}
             >
               {/* Step number */}
-              <span className="absolute top-4 right-4 text-4xl font-bold text-black/[0.03] dark:text-white/[0.03] select-none">
+              <span className="absolute top-4 right-4 text-4xl font-bold text-black/20 dark:text-white/[0.03] select-none">
                 0{i + 1}
               </span>
 

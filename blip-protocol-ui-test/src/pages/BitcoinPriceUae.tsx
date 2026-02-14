@@ -287,9 +287,10 @@ const BitcoinPriceUae = () => {
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-black dark:text-white tracking-tight leading-[1.08] mb-4">
                 Bitcoin Price
                 <br />
-                <span className="bg-gradient-to-r from-black/60 to-black/30 dark:from-white/60 dark:to-white/30 bg-clip-text text-transparent">
-                  in the UAE.
-                </span>
+                <span className="text-black/80 dark:text-white/60">
+  in the UAE.
+</span>
+
               </h1>
 
               <p className="text-lg sm:text-xl text-black/50 dark:text-white/40 max-w-xl leading-relaxed mb-10">
@@ -316,7 +317,7 @@ const BitcoinPriceUae = () => {
             ═══════════════════════════════════════════════ */}
         <Section className="py-16 sm:py-20 border-t border-black/[0.04] dark:border-white/[0.04]">
           <div className="max-w-[900px] mx-auto px-4 sm:px-6">
-            <p className="text-xs uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-4">
+            <p className="text-xs uppercase tracking-[0.3em] text-black/80 dark:text-white/40 mb-4">
               Live Bitcoin Price
             </p>
             <h2 className="text-2xl sm:text-3xl font-bold text-black dark:text-white mb-8">
@@ -364,7 +365,7 @@ const BitcoinPriceUae = () => {
               {/* Last updated */}
               <div className="flex items-center gap-2 pt-4 border-t border-black/[0.06] dark:border-white/[0.06]">
                 <div className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
-                <span className="text-xs text-black/40 dark:text-white/40">
+                <span className="text-xs text-black/80 dark:text-white/40">
                   {lastUpdated
                     ? `Last updated: ${lastUpdated}`
                     : "Fetching live rate..."}
@@ -403,7 +404,7 @@ const BitcoinPriceUae = () => {
             ═══════════════════════════════════════════════ */}
         <Section className="py-16 sm:py-20 border-t border-black/[0.04] dark:border-white/[0.04]">
           <div className="max-w-[900px] mx-auto px-4 sm:px-6">
-            <p className="text-xs uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-4">
+            <p className="text-xs uppercase tracking-[0.3em] text-black/80 dark:text-white/40 mb-4">
               For UAE Residents
             </p>
             <h2 className="text-2xl sm:text-3xl font-bold text-black dark:text-white mb-10">
@@ -436,7 +437,7 @@ const BitcoinPriceUae = () => {
             ═══════════════════════════════════════════════ */}
         <Section className="py-16 sm:py-20 border-t border-black/[0.04] dark:border-white/[0.04]">
           <div className="max-w-[900px] mx-auto px-4 sm:px-6">
-            <p className="text-xs uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-4">
+            <p className="text-xs uppercase tracking-[0.3em] text-black/80 dark:text-white/40 mb-4">
               Step by Step
             </p>
             <h2 className="text-2xl sm:text-3xl font-bold text-black dark:text-white mb-2">
@@ -488,7 +489,7 @@ const BitcoinPriceUae = () => {
             ═══════════════════════════════════════════════ */}
         <Section className="py-16 sm:py-20 border-t border-black/[0.04] dark:border-white/[0.04]">
           <div className="max-w-[900px] mx-auto px-4 sm:px-6">
-            <p className="text-xs text-center uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-4">
+            <p className="text-xs text-center uppercase tracking-[0.3em] text-black/80 dark:text-white/40 mb-4">
               Common Questions
             </p>
             <h2 className="text-2xl sm:text-3xl text-center font-bold text-black dark:text-white mb-2">
@@ -564,7 +565,7 @@ const BitcoinPriceUae = () => {
             ═══════════════════════════════════════════════ */}
         <Section className="py-16 sm:py-20 border-t border-black/[0.04] dark:border-white/[0.04]">
           <div className="max-w-[900px] mx-auto px-4 sm:px-6">
-            <p className="text-xs uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-4">
+            <p className="text-xs uppercase tracking-[0.3em] text-black/80 dark:text-white/40 mb-4">
               Market Context
             </p>
             <h2 className="text-2xl sm:text-3xl font-bold text-black dark:text-white mb-6">
@@ -618,7 +619,7 @@ const BitcoinPriceUae = () => {
             ═══════════════════════════════════════════════ */}
         <Section className="py-16 sm:py-20 border-t border-black/[0.04] dark:border-white/[0.04]">
           <div className="max-w-[900px] mx-auto px-4 sm:px-6 text-center">
-            <div className="w-3 h-3 rounded-full bg-[#ff6b35] mx-auto mb-6" />
+            {/* <div className="w-3 h-3 rounded-full bg-[#ff6b35] mx-auto mb-6" /> */}
             <h2 className="text-3xl sm:text-4xl font-bold text-black dark:text-white mb-4">
               Ready to Convert Bitcoin?
             </h2>
@@ -644,7 +645,7 @@ const BitcoinPriceUae = () => {
             ═══════════════════════════════════════════════ */}
         <section className="border-t border-black/[0.06] dark:border-white/[0.06] bg-[#FAF8F5]/50 dark:bg-white/[0.01]">
           <div className="max-w-[900px] mx-auto px-4 sm:px-6 py-12">
-            <h3 className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30 mb-6">
+            <h3 className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/30 mb-6">
               Related Pages
             </h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -657,7 +658,7 @@ const BitcoinPriceUae = () => {
                 <Link
                   key={link.href}
                   to={link.href}
-                  className="group p-4 rounded-xl bg-white/60 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] hover:border-black/[0.12] dark:hover:border-white/[0.12] transition-colors"
+                  className="group p-4 rounded-xl bg-white/60 dark:bg-white/[0.03] border border-black/40 dark:border-white/[0.06] hover:border-black/[0.12] dark:hover:border-white/[0.12] transition-colors"
                 >
                   <span className="block text-sm font-semibold text-black dark:text-white group-hover:text-gray-600 dark:group-hover:text-white/80 transition-colors">
                     {link.label}

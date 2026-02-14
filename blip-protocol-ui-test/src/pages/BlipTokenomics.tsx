@@ -155,7 +155,7 @@ const HeroSection = () => {
         >
           <span className="text-black dark:text-white">BLIP</span>
           <span className="text-3xl text-black dark:text-white">•</span>
-          <span className="text-black/50 dark:text-white/50">TOKENS</span>
+          <span className="text-black/80 dark:text-white/50">TOKENS</span>
         </motion.div>
 
         {/* Scroll indicator */}
@@ -205,7 +205,7 @@ const DistributionSection = () => {
   <h2 className="text-4xl md:text-5xl font-semibold text-black dark:text-white tracking-tight">
     Token
     <br />
-    <span className="text-black/30 dark:text-white/30">Split</span>
+    <span className="text-black/80 dark:text-white/30">Split</span>
   </h2>
 </motion.div>
 
@@ -490,7 +490,7 @@ const DeflationSection = () => {
           <h2 className="text-4xl md:text-6xl font-semibold text-black dark:text-white tracking-tight">
             Deflationary
             <br />
-            <span className="text-black/30 dark:text-white/30">Model.</span>
+            <span className="text-black/80 dark:text-white/30">Model.</span>
           </h2>
         </motion.div>
 

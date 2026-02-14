@@ -30,37 +30,26 @@ const FeatureStrip = () => {
               { text: "On-chain proofs", icon: CheckCircle2 },
             ].map((feature, i) => (
               <motion.div
-                key={feature.text}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{
-                  duration: 0.6,
-                  delay: i * 0.1,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-                className="flex items-center gap-3 mb-4"
-              >
-                {/* Pulsing dot with ripple effect */}
-                {/* <div className="relative flex items-center justify-center">
-                  <motion.div
-                    className="absolute w-4 h-4 rounded-full bg-black/20 dark:bg-white/20"
-                    animate={{ scale: [1, 2, 1], opacity: [0.3, 0, 0.3] }}
-                    transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
-                  />
-                  <motion.div
-                    className="w-2 h-2 rounded-full bg-black/60 dark:bg-white/60"
-                    animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
-                    transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
-                  />
-                </div> */}
+  key={feature.text}
+  initial={{ opacity: 0, y: 20 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  
+  className="group flex items-center gap-3 mb-4 cursor-pointer"
+>
+  <MicroIcon
+    icon={feature.icon}
+    variant="glow"
+    size={16}
+    
+    className="transition-all duration-300 group-hover:scale-110"
+  />
 
-                <MicroIcon icon={feature.icon} variant="glow" size={14} delay={i * 0.2} />
+  <span className="text-sm text-black dark:text-white/50 font-medium tracking-wide text-left transition-colors group-hover:text-black dark:group-hover:text-white">
+    {feature.text}
+  </span>
+</motion.div>
 
-                <span className="text-sm text-black dark:text-white/50 font-medium tracking-wide text-left hover:text-black dark:hover:text-white transition-colors">
-                  {feature.text}
-                </span>
-              </motion.div>
             ))}
           </div>
         </motion.div>

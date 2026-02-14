@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Globe, Shield, Zap } from "lucide-react";
 import { CTAButton } from "../Navbar";
 import sounds from "@/lib/sounds";
 
@@ -29,28 +29,32 @@ const ProtocolSection = () => {
         <motion.div
           className="absolute -top-[20%] -right-[10%] w-[800px] h-[800px] rounded-full opacity-[0.15] dark:opacity-[0.05]"
           style={{
-            background: "radial-gradient(circle, rgba(120,119,255,0.8) 0%, rgba(120,119,255,0) 70%)",
+            background:
+              "radial-gradient(circle, rgba(120,119,255,0.8) 0%, rgba(120,119,255,0) 70%)",
             y,
           }}
         />
         <motion.div
           className="absolute top-[10%] -left-[15%] w-[700px] h-[700px] rounded-full opacity-[0.12] dark:opacity-[0.04]"
           style={{
-            background: "radial-gradient(circle, rgba(255,107,53,0.7) 0%, rgba(255,107,53,0) 70%)",
+            background:
+              "radial-gradient(circle, rgba(255,107,53,0.7) 0%, rgba(255,107,53,0) 70%)",
             y: useTransform(scrollYProgress, [0, 1], [-40, 40]),
           }}
         />
         <motion.div
           className="absolute -bottom-[15%] left-[20%] w-[900px] h-[600px] rounded-full opacity-[0.1] dark:opacity-[0.04]"
           style={{
-            background: "radial-gradient(ellipse, rgba(52,199,165,0.7) 0%, rgba(52,199,165,0) 70%)",
+            background:
+              "radial-gradient(ellipse, rgba(52,199,165,0.7) 0%, rgba(52,199,165,0) 70%)",
             rotate: rotateGlow,
           }}
         />
         <motion.div
           className="absolute top-[40%] right-[10%] w-[500px] h-[500px] rounded-full opacity-[0.08] dark:opacity-[0.03]"
           style={{
-            background: "radial-gradient(circle, rgba(168,85,247,0.6) 0%, rgba(168,85,247,0) 70%)",
+            background:
+              "radial-gradient(circle, rgba(168,85,247,0.6) 0%, rgba(168,85,247,0) 70%)",
             y: useTransform(scrollYProgress, [0, 1], [30, -30]),
           }}
         />
@@ -101,70 +105,45 @@ const ProtocolSection = () => {
               label: "Zero-Knowledge",
               desc: "Privacy by default",
               icon: (
-                <svg
-                  className="w-12 h-12"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12 2L4 6V11C4 16.55 7.84 21.74 13 23C18.16 21.74 22 16.55 22 11V6L14 2H12Z"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="text-black/25 dark:text-white/25 group-hover:text-[#ff6b35] dark:group-hover:text-[#ff6b35] transition-colors duration-300"
-                  />
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="3"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    className="text-black/25 dark:text-white/25 group-hover:text-[#ff6b35] dark:group-hover:text-[#ff6b35] transition-colors duration-300"
-                  />
-                </svg>
+                <Shield
+                  className="
+          w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 lg:w-11 lg:h-11
+          text-black/50 dark:text-white/25
+          group-hover:text-black dark:group-hover:text-white
+          transition-colors duration-300
+        "
+                  strokeWidth={1.5}
+                />
               ),
             },
             {
               label: "Solana-Powered",
               desc: "Sub-second finality",
               icon: (
-                <svg
-                  className="w-12 h-12"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M13 2L3 14H12L11 22L21 10H12L13 2Z"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="text-black/25 dark:text-white/25 group-hover:text-[#ff6b35] dark:group-hover:text-[#ff6b35] transition-colors duration-300"
-                  />
-                </svg>
+                <Zap
+                  className="
+          w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 lg:w-11 lg:h-11
+          text-black/50 dark:text-white/25
+          group-hover:text-black dark:group-hover:text-white
+          transition-colors duration-300
+        "
+                  strokeWidth={1.5}
+                />
               ),
             },
             {
               label: "Non-Custodial",
               desc: "Your keys, your funds",
               icon: (
-                <svg
-                  className="w-12 h-12"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M21 12C21 16.9706 16.9706 21 12 21M21 12C21 7.02944 16.9706 3 12 3M21 12H3M12 21C7.02944 21 3 16.9706 3 12M12 21C13.6569 21 15 16.9706 15 12C15 7.02944 13.6569 3 12 3M12 21C10.3431 21 9 16.9706 9 12C9 7.02944 10.3431 3 12 3M3 12C3 7.02944 7.02944 3 12 3"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    className="text-black/25 dark:text-white/25 group-hover:text-[#ff6b35] dark:group-hover:text-[#ff6b35] transition-colors duration-300"
-                  />
-                </svg>
+                <Globe
+                  className="
+          w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 lg:w-11 lg:h-11
+          text-black/50 dark:text-white/25
+          group-hover:text-black dark:group-hover:text-white
+          transition-colors duration-300
+        "
+                  strokeWidth={1.5}
+                />
               ),
             },
           ].map((item, i) => (
@@ -181,12 +160,27 @@ const ProtocolSection = () => {
 
               <div className="flex gap-2 sm:flex-col justify-center items-center">
                 <div className="mb-4">{item.icon}</div>
-                <h3 className="text-lg font-medium text-black dark:text-white mb-2 group-hover:text-black/80 group-hover:dark:text-white/80 transition-colors">
+
+                <h3
+                  className="
+      text-lg font-medium mb-2
+      text-black/80 dark:text-white/80
+      group-hover:text-black dark:group-hover:text-white
+      transition-colors duration-300
+    "
+                >
                   {item.label}
                 </h3>
               </div>
 
-              <p className="text-sm text-black dark:text-white/30 group-hover:text-black/50 group-hover:dark:text-white/50 transition-colors">
+              <p
+                className="
+    text-sm
+    text-black/50 dark:text-white/40
+    group-hover:text-black/70 dark:group-hover:text-white/70
+    transition-colors duration-300
+  "
+              >
                 {item.desc}
               </p>
             </motion.div>
@@ -194,7 +188,7 @@ const ProtocolSection = () => {
         </div>
 
         {/* CTA */}
-       
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -202,7 +196,7 @@ const ProtocolSection = () => {
           transition={{ duration: 0.8, delay: 0.6 }}
           className="flex justify-center"
         >
-           {/* <a
+          {/* <a
               href="/whitepaper.pdf"
               target="_blank"
               rel="noopener noreferrer"
@@ -219,7 +213,10 @@ const ProtocolSection = () => {
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
               </span>
             </a> */}
-            <CTAButton to="/whitepaper" className="w-[220px] h-[48px]"> Read Whitepaper </CTAButton>
+          <CTAButton to="/whitepaper" className="w-[220px] h-[48px]">
+            {" "}
+            Read Whitepaper{" "}
+          </CTAButton>
         </motion.div>
       </div>
     </section>

@@ -96,12 +96,14 @@ export const CTASection = ({
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
           {/* PRIMARY */}
-          <CTAButton to="/join-waitlist" className="w-[225px]  h-[48px]">{primaryButtonText}</CTAButton>
+          <CTAButton to="/join-waitlist" className="w-[225px]  h-[48px]">
+            {primaryButtonText}
+          </CTAButton>
 
           {/* SECONDARY */}
-          {secondaryButtonText && secondaryButtonLink && (
+          {/* {secondaryButtonText && secondaryButtonLink && (
             <MagneticWrapper strength={0.2}>
-              {/* <Link
+              <Link
         to={secondaryButtonLink}
         onClick={() => sounds.click()}
         onMouseEnter={() => sounds.hover()}
@@ -122,15 +124,32 @@ export const CTASection = ({
       >
         {secondaryButtonText}
         <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-      </Link> */}
-              <CTAButton
-                to={secondaryButtonLink}
-                className=" w-[225px]  h-[48px]"
+      </Link> 
+              <button
+                // to={secondaryButtonLink}
+                className=" w-[225px]  h-[48px]  text-[16px] font-medium rounded-full dark:text-white border border-black
+     
+      
+       text-black dark:border-white
+     "
               >
                 {secondaryButtonText}
-                {/* <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" /> */}
-              </CTAButton>
+                
+              </button>
             </MagneticWrapper>
+          )} */}
+          {secondaryButtonText && secondaryButtonLink && (
+            <Link
+              to={secondaryButtonLink}
+              className=" w-[225px]  px-5 py-2.5 h-[48px]  text-[16px] font-medium rounded-full dark:text-white border border-black
+     
+      
+       text-black dark:border-white
+     "
+            >
+              {secondaryButtonText}
+              {/* <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" /> */}
+            </Link>
           )}
         </motion.div>
       </div>

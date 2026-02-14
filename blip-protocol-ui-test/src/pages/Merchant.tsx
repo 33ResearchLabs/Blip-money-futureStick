@@ -644,7 +644,7 @@ const RolloutSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6 }}
-              className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-4"
+              className="text-[11px] uppercase tracking-[0.3em] text-black/60 dark:text-white/40 mb-4"
             >
               Rollout
             </motion.p>
@@ -704,7 +704,7 @@ const RolloutSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-4"
+              className="text-[11px] uppercase tracking-[0.3em] text-black/0 dark:text-white/40 mb-4"
             >
               Benefits
             </motion.p>

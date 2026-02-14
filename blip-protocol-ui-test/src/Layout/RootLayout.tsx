@@ -16,7 +16,7 @@ const MainLayout = () => {
 
       {/* ✅ SAFE PLACE for non-route logic */}
       <HashRedirectScroll />
-      <SocialSidebar />
+      {/* <SocialSidebar /> */}
 
       <Outlet />
       <ScrollToBottomButton/>

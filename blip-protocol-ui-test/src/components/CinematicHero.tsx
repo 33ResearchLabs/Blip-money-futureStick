@@ -130,14 +130,14 @@ const CinematicHero = () => {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="flex justify-center gap-12 sm:gap-20 mb-14"
+          className="flex justify-center gap-8 sm:gap-20 mb-14 mx-4"
         >
           {[
             { value: "~2s", label: "Settlement", icon: Clock },
             { value: "0.1%", label: "Fees", icon: Percent },
             { value: "150+", label: "Countries", icon: Globe2 },
           ].map((stat, i) => (
-            <div key={stat.label} className="text-center">
+            <div key={stat.label} className="text-center ">
               <div className="flex items-center justify-center gap-2 mb-1">
                 <MicroIcon
                   icon={stat.icon}
