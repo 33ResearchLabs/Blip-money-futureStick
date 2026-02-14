@@ -49,8 +49,6 @@ const colors = {
 //   treasury: "#52525B",    // neutral dark gray
 // };
 
-
-
 const allocationData = [
   { label: "Ecosystem Rewards", value: 30, color: colors.ecosystem },
   { label: "LP, MM & Early Inv.", value: 25, color: colors.liquidity },
@@ -82,7 +80,7 @@ const HeroSection = () => {
   return (
     <motion.section
       ref={ref}
-      className="relative md:min-h-screen my-12 md:my-0 flex items-center justify-center overflow-hidden"
+      className="relative min-h-screen my-20 md:my-0 flex items-center justify-center overflow-hidden"
       style={{ opacity }}
     >
       {/* Background with parallax */}
@@ -154,7 +152,7 @@ const HeroSection = () => {
           className="flex items-center justify-center md:gap-4  text-2xl md:text-3xl font-light tracking-[0.2em] uppercase"
         >
           <span className="text-black dark:text-white">BLIP</span>
-          <span className="text-3xl text-black dark:text-white">•</span>
+          <span className="text-3xl text-black/70 dark:text-white">•</span>
           <span className="text-black/80 dark:text-white/50">TOKENS</span>
         </motion.div>
 
@@ -191,23 +189,26 @@ const DistributionSection = () => {
   const [activeSegment, setActiveSegment] = useState<number | null>(null);
 
   return (
-    <section ref={ref} className="relative py-32 bg-[#FAF8F5] dark:bg-black overflow-hidden ">
+    <section
+      ref={ref}
+      className="relative py-32 bg-[#FAF8F5] dark:bg-black overflow-hidden "
+    >
       <motion.div
-  initial={{ opacity: 0, y: 40 }}
-  animate={isInView ? { opacity: 1, y: 0 } : {}}
-  transition={{ duration: 0.8 }}
-  className="md:mb-12 mb-20 text-center"
->
-  <span className="text-xs uppercase tracking-[0.3em] text-black/60 dark:text-white/60 mb-6 block">
-    Distribution
-  </span>
+        initial={{ opacity: 0, y: 40 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.8 }}
+        className="md:mb-12 mb-20 text-center"
+      >
+        <span className="text-xs uppercase tracking-[0.3em] text-black/60 dark:text-white/60 mb-6 block">
+          Distribution
+        </span>
 
-  <h2 className="text-4xl md:text-5xl font-semibold text-black dark:text-white tracking-tight">
-    Token
-    <br />
-    <span className="text-black/80 dark:text-white/30">Split</span>
-  </h2>
-</motion.div>
+        <h2 className="text-4xl md:text-5xl font-semibold text-black dark:text-white tracking-tight">
+          Token
+          <br />
+          <span className="text-black/80 dark:text-white/30">Split</span>
+        </h2>
+      </motion.div>
 
       {/* Background glow */}
       <div className="absolute top-0 left-[-10%] w-[60vw] h-[60vw] bg-black/5 dark:bg-white/5 blur-[150px] rounded-full" />
@@ -439,7 +440,9 @@ const UtilitySection = () => {
                 <h3 className="text-2xl font-light text-black dark:text-white mb-3">
                   {utility.title}
                 </h3>
-                <p className="text-sm text-black/50 dark:text-white/50">{utility.desc}</p>
+                <p className="text-sm text-black/50 dark:text-white/50">
+                  {utility.desc}
+                </p>
               </div>
 
               {/* Accent line */}

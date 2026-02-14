@@ -1,8 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { useWallet } from "@solana/wallet-adapter-react";
 import { Loader2 } from "lucide-react";
-import { useState, useEffect } from "react";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -10,57 +8,35 @@ interface ProtectedRouteProps {
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const { isAuthenticated, isLoading, user } = useAuth();
-  const { connected, publicKey, connecting } = useWallet();
-  const [walletChecked, setWalletChecked] = useState(false);
 
-  // Wait for wallet to finish initializing before making decisions
-  // Wallet adapter auto-reconnects on page refresh, but takes time
-  useEffect(() => {
-    // If wallet is connecting, wait
-    if (connecting) {
-      setWalletChecked(false);
-      return;
-    }
-
-    // Give wallet adapter a moment to auto-reconnect on page refresh
-    const timer = setTimeout(() => {
-      setWalletChecked(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [connecting, connected]);
-
-  // Show loading while auth is loading OR wallet is still connecting/initializing
-  if (isLoading || connecting || !walletChecked) {
+  // Show loading while checking authentication
+  if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#050505] flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
-          <Loader2 className="w-8 h-8 text-[#ffffff] animate-spin" />
-          <p className="text-zinc-400 text-sm">
-            {isLoading ? "Checking authentication..." : "Connecting wallet..."}
+          <Loader2 className="w-8 h-8 text-black dark:text-white animate-spin" />
+          <p className="text-black/60 dark:text-white/60 text-sm">
+            Checking authentication...
           </p>
         </div>
       </div>
     );
   }
 
-  // Check if user session exists
-  if (!isAuthenticated) {
-    console.log("🚫 Not authenticated, redirecting to /waitlist");
-    return <Navigate to="/waitlist" replace />;
+  // Check if user is logged in
+  if (!isAuthenticated || !user) {
+    console.log("🚫 Not authenticated, redirecting to /login");
+    return <Navigate to="/login" replace />;
   }
 
-  // Check if wallet is connected and matches user
-  if (!connected || !publicKey) {
-    console.log("🚫 Wallet not connected, redirecting to /waitlist");
-    return <Navigate to="/waitlist" replace />;
+  // Check if email is verified
+  if (!user.emailVerified) {
+    console.log("🚫 Email not verified, redirecting to verification pending");
+    return <Navigate to="/verification-pending" replace state={{ email: user.email }} />;
   }
 
-  // Verify wallet address matches user
-  if (user && user.wallet_address !== publicKey.toBase58()) {
-    console.log("🚫 Wallet mismatch, redirecting to /waitlist");
-    return <Navigate to="/waitlist" replace />;
-  }
-
+  // User is authenticated and email is verified
+  // They can access the dashboard even without wallet linked
+  // The dashboard will prompt them to link wallet if needed
   return <>{children}</>;
 };

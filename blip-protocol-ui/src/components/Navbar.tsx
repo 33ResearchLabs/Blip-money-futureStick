@@ -355,7 +355,7 @@ const MobileMenu = ({
 };
 
 /* ---------------- Hamburger Button ---------------- */
-const HamburgerButton = ({
+export const HamburgerButton = ({
   isOpen,
   onClick,
 }: {

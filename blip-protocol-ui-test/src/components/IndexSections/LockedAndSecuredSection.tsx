@@ -24,8 +24,9 @@ const LockedAndSecuredSection = () => {
         />
       </div>
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-16 xl:gap-20 items-center">
-        <div className="flex flex-col justify-center items-center lg:hidden">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6">
+        {/* Mobile heading - shown only on mobile */}
+        <div className="flex flex-col justify-center items-center lg:hidden mb-8">
           <div className="inline-flex items-center gap-3 mb-4">
             <div className="relative w-8 h-8 rounded-lg border border-black/[0.08] dark:border-white/[0.08] flex items-center justify-center group hover:border-black/20 dark:hover:border-white/20 transition-colors">
               <Lock
@@ -44,12 +45,47 @@ const LockedAndSecuredSection = () => {
           </div>
 
           {/* Heading */}
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black dark:text-white mb-4 leading-[1.1] tracking-tight text-center">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white mb-4 leading-[1.1] tracking-tight text-center">
             Locked &
             <br />
-            <span className="text-black/80 dark:text-white/50 relative inline-block">
+            <span className="text-black/70 dark:text-white/50 relative inline-block">
               <span className="relative z-10">secured.</span>
-              {/* <motion.span
+            </span>
+          </h2>
+        </div>
+
+        {/* Desktop centered heading - shown only on desktop */}
+        <motion.div
+          className="hidden lg:flex flex-col items-center text-center mb-16 lg:mb-20"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        >
+          {/* Step indicator */}
+          <div className="inline-flex items-center gap-3 mb-6">
+            <div className="relative w-8 h-8 rounded-lg border border-black/[0.08] dark:border-white/[0.08] flex items-center justify-center group hover:border-black/20 dark:hover:border-white/20 transition-colors">
+              <Lock
+                className="w-3.5 h-3.5 text-black dark:text-white/40 group-hover:text-black/60 group-hover:dark:text-white/60 transition-colors"
+                strokeWidth={1.5}
+              />
+              <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#FAF8F5] dark:bg-black border border-black/10 dark:border-white/10 flex items-center justify-center">
+                <span className="text-[8px] font-medium text-black dark:text-white/50">
+                  2
+                </span>
+              </div>
+            </div>
+            <span className="text-sm font-semibold text-black dark:text-white">
+              Protection
+            </span>
+          </div>
+
+          {/* Heading */}
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white leading-[1.1] tracking-tight">
+            Locked &{" "}
+            <span className="text-black/70 dark:text-white/50 relative inline-block">
+              <span className="relative z-10">secured.</span>
+              <motion.span
                 className="absolute -bottom-1 left-0 right-0 h-[1.5px] rounded-full bg-gradient-to-r from-[#ff6b35]/60 via-[#ff8f5e]/50 to-[#ff6b35]/20"
                 initial={{ scaleX: 0, originX: 0 }}
                 whileInView={{ scaleX: 1 }}
@@ -59,10 +95,13 @@ const LockedAndSecuredSection = () => {
                   delay: 0.8,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-              /> */}
+              />
             </span>
           </h2>
-        </div>
+        </motion.div>
+
+        {/* Two column layout for card and content */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-16 xl:gap-20 items-center">
 
         {/* Left: Floating Escrow Card */}
         <motion.div
@@ -132,7 +171,7 @@ const LockedAndSecuredSection = () => {
                     </motion.div>
                   </motion.div>
                   <div>
-                    <div className="text-[10px] uppercase tracking-[0.15em] text-black/80 dark:text-white/30">
+                    <div className="text-[11px] uppercase tracking-[0.3em] text-black/70 dark:text-white/30 font-semibold">
                       Escrow Active
                     </div>
                     <div className="text-sm font-semibold text-black dark:text-white">
@@ -157,10 +196,10 @@ const LockedAndSecuredSection = () => {
 
               {/* Amount */}
               <div className="px-6 py-5 text-center">
-                <div className="text-3xl sm:text-4xl font-bold text-black dark:text-white tracking-tight">
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-black dark:text-white tracking-tight">
                   5,000 USDT
                 </div>
-                <div className="text-xs text-black/80 dark:text-white/30 mt-1">
+                <div className="text-xs text-black/70 dark:text-white/30 mt-1">
                   ≈ $5,000.00
                 </div>
               </div>
@@ -293,54 +332,16 @@ const LockedAndSecuredSection = () => {
           </div>
         </motion.div>
 
-        {/* Right: Text content */}
-        <motion.div
-          className="text-center lg:text-left"
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-        >
-          {/* Step indicator */}
-          <div className="hidden lg:inline-flex items-center gap-3 mb-5">
-            <div className="relative w-8 h-8 rounded-lg border border-black/[0.08] dark:border-white/[0.08] flex items-center justify-center group hover:border-black/20 dark:hover:border-white/20 transition-colors">
-              <Lock
-                className="w-3.5 h-3.5 text-black dark:text-white/40 group-hover:text-black/60 group-hover:dark:text-white/60  transition-colors"
-                strokeWidth={1.5}
-              />
-              <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#FAF8F5] dark:bg-black border border-black/10 dark:border-white/10 flex items-center justify-center">
-                <span className="text-[8px] font-medium text-black dark:text-white/50">
-                  2
-                </span>
-              </div>
-            </div>
-            <span className="text-sm font-semibold text-black dark:text-white">
-              Protection
-            </span>
-          </div>
-
-          {/* Heading */}
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black dark:text-white mb-5 leading-[1.1] tracking-tight">
-            Locked &
-            <br />
-            <span className="text-black/80 dark:text-white/20 relative inline-block">
-              <span className="relative z-10">secured.</span>
-              <motion.span
-                className="absolute -bottom-1 left-0 right-0 h-[1.5px] rounded-full bg-gradient-to-r from-[#ff6b35]/60 via-[#ff8f5e]/50 to-[#ff6b35]/20"
-                initial={{ scaleX: 0, originX: 0 }}
-                whileInView={{ scaleX: 1 }}
-                viewport={{ once: true }}
-                transition={{
-                  duration: 1.2,
-                  delay: 0.8,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-              />
-            </span>
-          </h2>
-
-          {/* Description */}
-          <p className="text-black/80 dark:text-white/50 font-medium text-base sm:text-lg lg:text-xl mb-8 leading-relaxed max-w-md mx-auto lg:mx-0">
+          {/* Right: Text content */}
+          <motion.div
+            className="text-center lg:text-left"
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {/* Description */}
+            <p className="text-base md:text-lg lg:text-xl text-black/60 dark:text-white/50 font-medium mb-8 leading-relaxed max-w-md mx-auto lg:mx-0">
             Your funds are held in a secure on-chain escrow. Neither party can
             touch them until the trade is complete.
           </p>
@@ -395,7 +396,8 @@ const LockedAndSecuredSection = () => {
               </motion.div>
             ))}
           </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

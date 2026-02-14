@@ -1,6 +1,4 @@
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
 import { useRef, useMemo, useState, useEffect } from "react";
 
 /* ============================================
@@ -22,34 +20,34 @@ import { useRef, useMemo, useState, useEffect } from "react";
 
 const floatingCards = [
   {
-    label: "PARENTS",
+    label: "USDT_AED",
     type: "default",
     size: "w-52 h-60 sm:w-60 sm:h-72 lg:w-64 lg:h-80",
     glow: "rgba(34,197,94,0.15)",
     bgColor: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
     textColor: "#ffffff",
-    icon: "💚",
+    icon: "🇦🇪",
     iconBg: "rgba(255,255,255,0.2)",
-    subtitle: "TO PARENTS",
-    mainText: "$500",
-    secondaryText: "Sent today",
-    footer: "Completed",
+    subtitle: "USDT → AED",
+    mainText: "$2,500",
+    secondaryText: "Escrow Locked",
+    footer: "Released",
     footerBg: "rgba(255,255,255,0.2)",
     footerColor: "#ffffff",
   },
   {
-    label: "CRYPTO",
+    label: "BTC_NGN",
     type: "default",
     size: "w-52 h-60 sm:w-60 sm:h-72 lg:w-64 lg:h-80",
     glow: "rgba(59,130,246,0.15)",
     bgColor: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
     textColor: "#ffffff",
-    icon: "₿",
+    icon: "🇳🇬",
     iconBg: "rgba(255,255,255,0.2)",
-    subtitle: "BITCOIN",
+    subtitle: "BTC → NGN",
     mainText: "0.034",
-    secondaryText: "≈ $1,847",
-    footer: "Send",
+    secondaryText: "≈ ₦2.8M",
+    footer: "Payment Sent",
     footerBg: "rgba(255,255,255,0.2)",
     footerColor: "#ffffff",
   },
@@ -62,18 +60,18 @@ const floatingCards = [
     textColor: "#ffffff",
   },
   {
-    label: "BILLS",
+    label: "USDC_INR",
     type: "default",
     size: "w-52 h-60 sm:w-60 sm:h-72 lg:w-64 lg:h-80",
     glow: "rgba(251,146,60,0.15)",
     bgColor: "linear-gradient(135deg, #fb923c 0%, #f97316 100%)",
     textColor: "#ffffff",
-    icon: "⚡",
+    icon: "🇮🇳",
     iconBg: "rgba(255,255,255,0.2)",
-    subtitle: "ELECTRIC BILL",
-    mainText: "$145",
-    secondaryText: "Due today",
-    footer: "Pay Now",
+    subtitle: "USDC → INR",
+    mainText: "$1,200",
+    secondaryText: "Escrow Locked",
+    footer: "Released",
     footerBg: "rgba(255,255,255,0.2)",
     footerColor: "#ffffff",
   },
@@ -84,12 +82,12 @@ const floatingCards = [
     glow: "rgba(99,102,241,0.15)",
     bgColor: "rgba(255, 255, 255, 0.98)",
     textColor: "#1e293b",
-    icon: "🏪",
+    icon: "⚡",
     iconBg: "rgba(99,102,241,0.1)",
-    subtitle: "BEST RATE",
-    mainText: "0.99%",
-    secondaryText: "Processing fee",
-    footer: "Accept",
+    subtitle: "LIQUIDITY MATCHED",
+    mainText: "0.1%",
+    secondaryText: "Settlement fee",
+    footer: "Settled",
     footerBg: "#6366f1",
     footerColor: "#ffffff",
   },
@@ -362,7 +360,6 @@ export default function DashboardShowcaseSection() {
                 }}
               >
                 {card.type === "onchain" ? (
-                  // Onchain Transaction Card
                   <div className="p-5 h-full flex flex-col">
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-2">
@@ -371,10 +368,10 @@ export default function DashboardShowcaseSection() {
                         </div>
                         <div>
                           <div className="text-white/60 text-[10px] font-bold">
-                            ONCHAIN
+                            ESCROW
                           </div>
                           <div className="text-white text-xs font-bold">
-                            TX SETTLED
+                            SETTLED
                           </div>
                         </div>
                       </div>
@@ -383,7 +380,7 @@ export default function DashboardShowcaseSection() {
                     <div className="flex-1 flex flex-col justify-center space-y-3">
                       <div className="bg-white/15 rounded-xl p-3">
                         <div className="text-white/60 text-[10px] font-bold mb-2">
-                          TRANSACTION
+                          USDT → AED
                         </div>
                         <div className="text-white text-xl sm:text-2xl font-bold mb-1">
                           $2,340
@@ -391,24 +388,24 @@ export default function DashboardShowcaseSection() {
                         <div className="flex items-center gap-2">
                           <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></div>
                           <span className="text-white/70 text-[10px] font-semibold">
-                            Confirmed
+                            Released
                           </span>
                         </div>
                       </div>
 
                       <div className="bg-white/15 rounded-xl p-3">
                         <div className="text-white/60 text-[10px] font-bold mb-1">
-                          BLOCK
+                          SETTLEMENT
                         </div>
                         <div className="text-white text-sm font-mono font-bold">
-                          8,742,891
+                          1.8s
                         </div>
                       </div>
                     </div>
 
                     <div className="mt-3 bg-white/20 rounded-xl py-2.5 px-4 text-center">
                       <span className="text-white text-xs font-bold">
-                        View on Explorer
+                        View on Blipscan
                       </span>
                     </div>
                   </div>
@@ -532,37 +529,15 @@ export default function DashboardShowcaseSection() {
               willChange: "transform, opacity",
             }}
           >
-            <h2 className="font-display text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-semibold tracking-tight leading-[0.95] sm:leading-[0.95] text-black dark:text-white px-2">
-              Send money to
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold tracking-tight leading-[1.1] text-black dark:text-white px-2">
+              Money moves
               <br />
-              anyone, anywhere.
+              freely now.
             </h2>
 
-            <div className="mt-6 sm:mt-8 md:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 md:gap-6 rounded-2xl sm:rounded-full border border-black/10 dark:border-white/[0.08] px-4 sm:px-6 md:px-10 py-3 sm:py-4 md:py-6 backdrop-blur-sm mx-auto max-w-2xl">
-              <div className="text-xs sm:text-sm text-black/60 dark:text-white/40 space-y-1 text-center sm:text-left">
-                <p className="hidden sm:block">
-                  Users buy and sell crypto with local merchants.
-                </p>
-                <p className="hidden sm:block">
-                  Merchants provide liquidity and compete on price.
-                </p>
-                <p className="hidden sm:block">
-                  Blip settles instantly on-chain.
-                </p>
-                <p className="sm:hidden">
-                  Buy & sell crypto with local merchants. Instant on-chain
-                  settlement.
-                </p>
-              </div>
-
-              <Link
-                to="/send"
-                className="group inline-flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full bg-black text-white dark:bg-white dark:text-black text-xs sm:text-sm font-semibold hover:bg-neutral-800 dark:hover:bg-neutral-200 transition whitespace-nowrap flex-shrink-0"
-              >
-                Get started
-                <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-0.5 transition-transform" />
-              </Link>
-            </div>
+            <p className="mt-4 sm:mt-6 text-base md:text-lg lg:text-xl text-black/60 dark:text-white/50 font-medium leading-relaxed">
+              Across borders. Between people. At internet speed.
+            </p>
           </motion.div>
         </div>
       </div>

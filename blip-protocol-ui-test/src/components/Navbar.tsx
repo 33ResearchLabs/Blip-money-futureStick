@@ -355,7 +355,7 @@ const MobileMenu = ({
 };
 
 /* ---------------- Hamburger Button ---------------- */
-const HamburgerButton = ({
+export const HamburgerButton = ({
   isOpen,
   onClick,
 }: {
@@ -500,7 +500,7 @@ export const Navbar = () => {
 
             {/* Mobile Button */}
             <div className="flex gap-2 lg:hidden">
-              {/* <ThemeSwitcher /> */}
+              <ThemeSwitcher />
               <HamburgerButton
                 isOpen={mobileMenuOpen}
                 onClick={() => setMobileMenuOpen((prev) => !prev)}

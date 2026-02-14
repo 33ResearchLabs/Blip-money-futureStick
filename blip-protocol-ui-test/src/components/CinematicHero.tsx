@@ -80,7 +80,7 @@ const CinematicHero = () => {
           transition={{ duration: 0.8, delay: 0.1 }}
           className="mb-8"
         >
-          <span className="text-[11px]  uppercase tracking-[0.3em] text-black dark:text-white/30 font-semibold">
+          <span className="text-[11px] uppercase tracking-[0.3em] text-black dark:text-white/30 font-semibold">
             The settlement protocol
           </span>
         </motion.div>
@@ -90,26 +90,24 @@ const CinematicHero = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display font-bold text-black dark:text-white leading-[0.95] tracking-[-0.04em] text-[clamp(38px,8vw,96px)] mb-8"
+          className="font-display font-bold text-black dark:text-white leading-[1.1] tracking-tight text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl mb-8"
         >
-          The settlement layer
+          The liquidity layer for
           <br />
           <span className="text-black/80 dark:text-white/50">
-            for{" "}
             <span className="relative inline-block">
-              <span className="relative z-10">borderless</span>
+              <span className="relative z-10">global crypto.</span>
               <motion.span
-                className="absolute -bottom-1 left-0 right-0 h-[1.5px] rounded-full bg-gradient-to-r from-[#ff6b35]/60 via-[#ff8f5e]/50 to-[#ff6b35]/20"
-                initial={{ scaleX: 0, originX: 0 }}
+                className="absolute -bottom-1 left-0 right-0 h-[1px] rounded-full bg-[#ff6b35]/40 -rotate-[1.5deg] origin-left"
+                initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
                 transition={{
-                  duration: 1.2,
-                  delay: 0.8,
+                  duration: 1.4,
+                  delay: 1,
                   ease: [0.16, 1, 0.3, 1],
                 }}
               />
-            </span>{" "}
-            money.
+            </span>
           </span>
         </motion.h1>
 
@@ -118,11 +116,9 @@ const CinematicHero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-black dark:text-white/40 text-base sm:text-lg font-medium max-w-xl mx-auto mb-12 leading-relaxed"
+          className="text-base md:text-lg lg:text-xl text-black/60 dark:text-white/50 font-medium max-w-xl mx-auto mb-12 leading-relaxed"
         >
-          Users buy and sell crypto. Merchants provide liquidity.
-          <br />
-          Blip settles instantly.
+          Liquidity is matched. Funds are locked. Settlement is enforced.
         </motion.p>
 
         {/* Stats row */}
@@ -145,35 +141,39 @@ const CinematicHero = () => {
                   size={14}
                   delay={i * 0.2}
                 />
-                <div className="text-2xl sm:text-3xl font-bold text-black dark:text-white tracking-tight">
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-black dark:text-white tracking-tight">
                   {stat.value}
                 </div>
               </div>
-              <div className="text-[10px] text-black dark:text-white/30 uppercase tracking-[0.2em] font-semibold mt-1">
+              <div className="text-[11px] text-black dark:text-white/30 uppercase tracking-[0.3em] font-semibold mt-1">
                 {stat.label}
               </div>
             </div>
           ))}
         </motion.div>
 
-        {/* CTA */}
+        {/* CTAs */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
-          className="flex justify-center"
+          className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
-          {/* <Link
+          <Link
             to="/waitlist"
-            className="group relative overflow-hidden inline-flex items-center justify-center gap-3 w-[240px] h-[56px] rounded-full bg-black dark:bg-white text-white dark:text-black text-base font-semibold transition-all duration-300"
+            className="group relative overflow-hidden inline-flex items-center justify-center gap-3 w-[240px] h-[56px] rounded-full bg-black dark:bg-white text-white dark:text-black text-base font-semibold transition-all duration-300 ring-1 ring-[#ff6b35]/20 hover:ring-[#ff6b35]/40"
           >
             <span className="absolute inset-0 bg-white/20 dark:bg-black/10 rounded-full scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-out" />
-            <span className="relative z-10">Get Started</span>
-            <ArrowRight className="relative z-10 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </Link> */}
-          <CTAButton to="/join-waitlist" className="w-[220px] h-[48px]">
-            Get Started
-          </CTAButton>
+            <span className="relative z-10">Enter the Network</span>
+            <ArrowRight className="relative z-10 w-5 h-5 text-[#ff6b35] group-hover:translate-x-1 transition-transform" />
+          </Link>
+
+          <Link
+            to="/merchant"
+            className="inline-flex items-center justify-center w-[240px] h-[56px] rounded-full border border-[#ff6b35]/15 text-black/60 dark:text-white/50 text-base font-medium hover:border-[#ff6b35]/35 hover:text-black dark:hover:text-white/70 transition-all duration-300"
+          >
+            Become a Liquidity Partner
+          </Link>
         </motion.div>
 
         {/* Subtle bottom line */}

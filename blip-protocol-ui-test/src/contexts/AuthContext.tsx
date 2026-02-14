@@ -11,14 +11,16 @@ import { api } from "@/services/api"; // axios instance withCredentials:true
 
 interface User {
   id: string;
-  wallet_address: string;
-  email?: string;
+  email: string;
+  wallet_address?: string;
   phone?: string;
   referralCode?: string;
   totalBlipPoints: number;
   status?: string;
   role?: "USER" | "ADMIN";
   twoFactorEnabled?: boolean;
+  emailVerified: boolean;
+  walletLinked: boolean;
 }
 
 interface AuthContextType {
@@ -26,6 +28,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   login: (userData: User) => void;
   logout: () => Promise<void>;
+  linkWallet: (walletAddress: string) => Promise<void>;
   isLoading: boolean;
   refreshSession: () => Promise<void>;
 }
@@ -79,15 +82,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   }, []);
 
   /**
-   * 🔐 Wallet ↔ session consistency check
-   * Only clear user if wallet is connected but address doesn't match
+   * 🔐 Wallet ↔ session consistency check (OPTIONAL)
+   * Since wallet is now optional, we only verify if both wallet and user.wallet_address exist
    */
   useEffect(() => {
-    // If wallet is connected and we have a user, verify addresses match
-    if (connected && publicKey && user) {
+    // If wallet is connected and user has a linked wallet, verify addresses match
+    if (connected && publicKey && user?.wallet_address && user.walletLinked) {
       if (user.wallet_address !== publicKey.toBase58()) {
-        console.warn("⚠️ Wallet mismatch, clearing session");
-        setUser(null);
+        console.warn("⚠️ Wallet mismatch detected");
+        // Don't auto-logout - user might have switched wallets
+        // They can manually unlink/relink in settings
       }
     }
   }, [connected, publicKey, user]);
@@ -101,12 +105,30 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   /**
+   * 🔗 Link wallet to user account
+   */
+  const linkWallet = async (walletAddress: string) => {
+    try {
+      const response: any = await api.post("/auth/link-wallet", {
+        wallet_address: walletAddress,
+      });
+
+      if (response?.user) {
+        setUser(response.user);
+      }
+    } catch (error) {
+      console.error("❌ Wallet linking failed:", error);
+      throw error;
+    }
+  };
+
+  /**
    * 🚪 Logout (clears cookie on backend)
    */
   const logout = async () => {
     try {
       console.log("🚪 Calling backend logout to clear HTTP-only cookie");
-      await api.post("/user/logout");
+      await api.post("/auth/logout");
       console.log("✅ Backend logout successful");
     } catch (error) {
       console.error("❌ Logout failed:", error);
@@ -126,6 +148,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         isAuthenticated,
         login,
         logout,
+        linkWallet,
         isLoading,
         refreshSession,
       }}

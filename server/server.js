@@ -12,9 +12,12 @@ import os from "os";
 import { connectDB } from "./config/db.js";
 
 import userRoutes from "./routes/user.route.js";
+import authRoutes from "./routes/auth.route.js";
 import taskRoutes from "./routes/task.route.js";
 import adminRoutes from "./routes/admin.route.js";
-import twoFactorRoutes from "./routes/twoFactor.routes.js"
+import twoFactorRoutes from "./routes/twoFactor.routes.js";
+import twitterRoutes from "./routes/twitter.route.js";
+import telegramRoutes from "./routes/telegram.route.js";
 
 dotenv.config();
 
@@ -54,20 +57,24 @@ if (isProduction && cluster.isPrimary) {
   server.headersTimeout = 66000;
 
   // 🛡️ Security Middlewares
-  app.use(helmet({
-    crossOriginResourcePolicy: { policy: "cross-origin" },
-    crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
-  }));
+  app.use(
+    helmet({
+      crossOriginResourcePolicy: { policy: "cross-origin" },
+      crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
+    }),
+  );
 
   // 📦 Compression - Reduce response size by ~70%
-  app.use(compression({
-    level: 6, // Balanced compression level
-    threshold: 1024, // Only compress responses > 1KB
-    filter: (req, res) => {
-      if (req.headers["x-no-compression"]) return false;
-      return compression.filter(req, res);
-    },
-  }));
+  app.use(
+    compression({
+      level: 6, // Balanced compression level
+      threshold: 1024, // Only compress responses > 1KB
+      filter: (req, res) => {
+        if (req.headers["x-no-compression"]) return false;
+        return compression.filter(req, res);
+      },
+    }),
+  );
 
   // 🚦 Rate Limiting (increased for production)
   const globalLimiter = rateLimit({
@@ -95,10 +102,12 @@ if (isProduction && cluster.isPrimary) {
   });
 
   // 🔧 Middlewares
-  app.use(cors({
-    origin: process.env.CLIENT_URL,
-    credentials: true,
-  }));
+  app.use(
+    cors({
+      origin: process.env.CLIENT_URL,
+      credentials: true,
+    }),
+  );
   app.use(cookieParser());
   app.use(express.json({ limit: "10kb" })); // Limit body size
   app.use(express.urlencoded({ extended: true, limit: "10kb" }));
@@ -108,12 +117,17 @@ if (isProduction && cluster.isPrimary) {
 
   // Apply stricter rate limiting to auth endpoints
   app.use("/api/user/login", authLimiter);
+  app.use("/api/auth/login", authLimiter);
+  app.use("/api/auth/register", authLimiter);
 
   // 🔗 ROUTER MOUNT
+  app.use("/api/auth", authRoutes);
   app.use("/api/user", userRoutes);
   app.use("/api/tasks", taskRoutes);
   app.use("/api/admin", adminRoutes);
-  app.use("/api/twofa",twoFactorRoutes)
+  app.use("/api/twofa", twoFactorRoutes);
+  app.use("/api/twitter", twitterRoutes);
+  app.use("/api/telegram", telegramRoutes);
 
   // 🏥 Health Check Endpoint (for load testing)
   app.get("/api/health", (req, res) => {

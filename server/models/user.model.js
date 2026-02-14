@@ -4,9 +4,42 @@ const userSchema = new mongoose.Schema(
   {
     email: {
       type: String,
+      required: true,
+      unique: true,
       lowercase: true,
       trim: true,
-      sparse: true,
+      index: true,
+    },
+
+    password: {
+      type: String,
+      required: true,
+      select: false, // Don't return password in queries by default
+    },
+
+    emailVerified: {
+      type: Boolean,
+      default: false,
+    },
+
+    emailVerificationToken: {
+      type: String,
+      select: false,
+    },
+
+    emailVerificationExpires: {
+      type: Date,
+      select: false,
+    },
+
+    passwordResetToken: {
+      type: String,
+      select: false,
+    },
+
+    passwordResetExpires: {
+      type: Date,
+      select: false,
     },
 
     phone: {
@@ -17,9 +50,15 @@ const userSchema = new mongoose.Schema(
 
     wallet_address: {
       type: String,
-      required: true,
+      required: false,
       unique: true,
+      sparse: true, // Allow null but enforce uniqueness when set
       index: true,
+    },
+
+    walletLinked: {
+      type: Boolean,
+      default: false,
     },
 
     referralCode: {
@@ -62,6 +101,17 @@ const userSchema = new mongoose.Schema(
     // 🔴🔴 NEW (Google Authenticator Secret)
     twoFactorSecret: {
       type: String, // base32
+    },
+
+    // Telegram verification
+    telegramUserId: {
+      type: String,
+      sparse: true,
+      index: true,
+    },
+    telegramVerified: {
+      type: Boolean,
+      default: false,
     },
 
   },

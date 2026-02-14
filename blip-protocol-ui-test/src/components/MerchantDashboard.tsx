@@ -514,6 +514,9 @@ export const MerchantDashboard = () => {
   );
 };
 
+// 🔥 LIGHT MODE VISIBILITY FIXED VERSION
+// Dark mode untouched
+
 export const MerchantDashboardVisual = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -832,7 +835,7 @@ export const MerchantDashboardVisual = () => {
                 <div className="flex-1 flex justify-center">
                   <div className="flex items-center gap-2 px-4 py-1.5 rounded-md bg-black/[0.06] dark:bg-white/[0.03] border border-black/[0.08] dark:border-white/[0.04]">
                     <div className="w-2 h-2 rounded-full bg-black/30 dark:bg-white/30" />
-                    <span className="text-xs text-black/70 dark:text-white/50 font-medium tracking-wide">
+                    <span className="text-xs text-black/85 dark:text-white/50 font-medium tracking-wide">
                       merchant.blipprotocol.com
                     </span>
                   </div>
@@ -924,17 +927,17 @@ export const MerchantDashboardVisual = () => {
                         </span>
                       </div>
                       <div className="h-3 w-px bg-black/[0.1] dark:bg-white/[0.06]" />
-                      <span className="text-sm text-black/70 dark:text-white/50">
+                      <span className="text-sm text-black/85 dark:text-white/50">
                         Solana Mainnet
                       </span>
                     </div>
                     {/* Search bar */}
                     <div className="flex items-center gap-3">
                       <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.08] dark:border-white/[0.04]">
-                        <span className="text-black/70 dark:text-white/50 text-xs">
+                        <span className="text-black/85 dark:text-white/50 text-xs">
                           ⌘K
                         </span>
-                        <span className="text-xs text-black/70 dark:text-white/50">
+                        <span className="text-xs text-black/85 dark:text-white/50">
                           Search...
                         </span>
                       </div>
@@ -973,7 +976,7 @@ export const MerchantDashboardVisual = () => {
                         key={stat.label}
                         className="p-3 rounded-lg bg-white dark:bg-[#0c0c0c] border border-black/[0.06] dark:border-white/[0.03]"
                       >
-                        <div className="text-[8px] text-black/70 dark:text-white/50 uppercase tracking-widest font-medium mb-0.5">
+                        <div className="text-[8px] text-black/85 dark:text-white/50 uppercase tracking-widest font-medium mb-0.5">
                           {stat.label}
                         </div>
                         <div className="flex items-end justify-between">
@@ -983,7 +986,7 @@ export const MerchantDashboardVisual = () => {
                           <div
                             className={`text-[10px] font-medium ${
                               stat.up
-                                ? "text-black/70 dark:text-white/50"
+                                ? "text-black/85 dark:text-white/50"
                                 : "text-black/80 dark:text-white/50"
                             }`}
                           >
@@ -1009,7 +1012,7 @@ export const MerchantDashboardVisual = () => {
                           <span className="text-xl font-bold text-black dark:text-white">
                             $55,450
                           </span>
-                          <span className="text-[10px] font-medium text-black/70 dark:text-white/50 flex items-center gap-0.5">
+                          <span className="text-[10px] font-medium text-black/85 dark:text-white/50 flex items-center gap-0.5">
                             <svg
                               className="w-2.5 h-2.5"
                               viewBox="0 0 10 10"
@@ -1162,7 +1165,7 @@ export const MerchantDashboardVisual = () => {
                             New Orders
                           </span>
                         </div>
-                        <span className="text-[10px] text-black/70 dark:text-white/50 bg-black/[0.04] dark:bg-white/[0.04] px-1.5 py-0.5 rounded font-medium">
+                        <span className="text-[10px] text-black/85 dark:text-white/50 bg-black/[0.04] dark:bg-white/[0.04] px-1.5 py-0.5 rounded font-medium">
                           {newOrders.length}
                         </span>
                       </div>
@@ -1228,7 +1231,7 @@ export const MerchantDashboardVisual = () => {
                             In Escrow
                           </span>
                         </div>
-                        <span className="text-[10px] text-black/70 dark:text-white/50 bg-black/[0.04] dark:bg-white/[0.04] px-1.5 py-0.5 rounded font-medium">
+                        <span className="text-[10px] text-black/85 dark:text-white/50 bg-black/[0.04] dark:bg-white/[0.04] px-1.5 py-0.5 rounded font-medium">
                           {inEscrow.length}
                         </span>
                       </div>
@@ -1287,7 +1290,7 @@ export const MerchantDashboardVisual = () => {
                             Completed
                           </span>
                         </div>
-                        <span className="text-[10px] text-black/70 dark:text-white/50 bg-black/[0.04] dark:bg-white/[0.04] px-1.5 py-0.5 rounded font-medium">
+                        <span className="text-[10px] text-black/85 dark:text-white/50 bg-black/[0.04] dark:bg-white/[0.04] px-1.5 py-0.5 rounded font-medium">
                           {completed.length}
                         </span>
                       </div>
@@ -1308,7 +1311,7 @@ export const MerchantDashboardVisual = () => {
                                   {order.id}
                                 </span>
                               </div>
-                              <span className="text-[10px] text-black/70 dark:text-white/50 font-medium">
+                              <span className="text-[10px] text-black/85 dark:text-white/50 font-medium">
                                 ✓ Settled
                               </span>
                             </div>
@@ -1321,7 +1324,7 @@ export const MerchantDashboardVisual = () => {
                                   @ {order.rate}
                                 </div>
                               </div>
-                              <span className="text-[10px] text-black/70 dark:text-white/50">
+                              <span className="text-[10px] text-black/85 dark:text-white/50">
                                 {order.time}
                               </span>
                             </div>
@@ -1342,14 +1345,14 @@ export const MerchantDashboardVisual = () => {
                           <div className="text-xs font-semibold text-black dark:text-white">
                             Live Matching Active
                           </div>
-                          <div className="text-[10px] text-black/70 dark:text-white/60">
+                          <div className="text-[10px] text-black/85 dark:text-white/60">
                             3 orders matched in 5 min
                           </div>
                         </div>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="text-right">
-                          <div className="text-[8px] text-black/70 dark:text-white/50 uppercase">
+                          <div className="text-[8px] text-black/85 dark:text-white/50 uppercase">
                             Avg. Time
                           </div>
                           <div className="text-xs font-semibold text-black dark:text-white">
@@ -1357,10 +1360,10 @@ export const MerchantDashboardVisual = () => {
                           </div>
                         </div>
                         <div className="text-right">
-                          <div className="text-[8px] text-black/70 dark:text-white/50 uppercase">
+                          <div className="text-[8px] text-black/85 dark:text-white/50 uppercase">
                             Success
                           </div>
-                          <div className="text-xs font-semibold text-black/70 dark:text-white/50">
+                          <div className="text-xs font-semibold text-black/85 dark:text-white/50">
                             99.8%
                           </div>
                         </div>
@@ -1376,7 +1379,7 @@ export const MerchantDashboardVisual = () => {
                         <span className="text-xs font-medium text-black dark:text-white">
                           Recent Activity
                         </span>
-                        <span className="text-[10px] text-black/70 dark:text-white/50">
+                        <span className="text-[10px] text-black/85 dark:text-white/50">
                           View all
                         </span>
                       </div>
@@ -1398,15 +1401,15 @@ export const MerchantDashboardVisual = () => {
                                 ✓
                               </div>
                               <div>
-                                <div className="text-[10px] text-black/70 dark:text-white/70">
+                                <div className="text-[10px] text-black/85 dark:text-white/70">
                                   {item.action}
                                 </div>
-                                <div className="text-[8px] text-black/70 dark:text-white/50">
+                                <div className="text-[8px] text-black/85 dark:text-white/50">
                                   {item.time}
                                 </div>
                               </div>
                             </div>
-                            <span className="text-[10px] text-black/70 dark:text-white/50">
+                            <span className="text-[10px] text-black/85 dark:text-white/50">
                               {item.amount}
                             </span>
                           </div>

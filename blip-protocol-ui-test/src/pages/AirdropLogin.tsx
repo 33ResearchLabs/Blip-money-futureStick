@@ -17,6 +17,9 @@ import {
   Gift,
   Users,
   CheckCircle2,
+  Lock,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 import { WalletConnectButton } from "@/components/wallet/WalletConnectButton";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -29,6 +32,7 @@ import { SEO } from "@/components";
 import { HreflangTags } from "@/components/HreflangTags";
 import { CTAButton } from "@/components/Navbar";
 import sounds from "@/lib/sounds";
+import Login from "./Login";
 
 /* ============================================
    2025/2026 WAITLIST PAGE
@@ -56,6 +60,10 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
     initialView || (refFromUrl ? "waitlist" : "landing"),
   );
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   // Sync view state with initialView prop when it changes (for route changes)
   useEffect(() => {
@@ -138,6 +146,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
       try {
         const response: any = await airdropApi.login({
           email: email,
+          password: password,
           referral_code: referral_code,
           wallet_address: publicKey.toBase58(),
         });
@@ -219,9 +228,51 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
 
   const handleJoinWaitlist = (e: React.FormEvent) => {
     e.preventDefault();
-    if (email.includes("@")) {
-      setView("connect");
+
+    // Validate email
+    if (!email.includes("@")) {
+      toast({
+        variant: "destructive",
+        title: "Invalid Email",
+        description: "Please enter a valid email address",
+      });
+      return;
     }
+
+    // Validate password
+    if (!password || password.length < 8) {
+      toast({
+        variant: "destructive",
+        title: "Invalid Password",
+        description: "Password must be at least 8 characters long",
+      });
+      return;
+    }
+
+    // Check if password has uppercase, number
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    if (!hasUppercase || !hasNumber) {
+      toast({
+        variant: "destructive",
+        title: "Weak Password",
+        description:
+          "Password must contain at least 1 uppercase letter and 1 number",
+      });
+      return;
+    }
+
+    // Validate password match
+    if (password !== confirmPassword) {
+      toast({
+        variant: "destructive",
+        title: "Passwords Don't Match",
+        description: "Please make sure both passwords match",
+      });
+      return;
+    }
+
+    setView("connect");
   };
 
   const handleLogout = async () => {
@@ -570,84 +621,29 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
               transition={{ duration: 0.6 }}
               className="max-w-md mx-auto py-24"
             >
-              <div className="mb-10 text-center">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.1 }}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
-                  style={{
-                    background: "rgba(255, 107, 53, 0.05)",
-                    border: "1px solid rgba(255, 107, 53, 0.15)",
-                  }}
-                >
-                  <span className="text-[11px] font-semibold text-gray-600 dark:text-whiteuppercase tracking-wider">
-                    Step 1 of 2
-                  </span>
-                </motion.div>
-                <h2 className="text-3xl md:text-4xl font-bold text-black dark:text-white mb-3">
-                  Reserve Your Spot
-                </h2>
-                <p className="text-black/50 dark:text-white/50">
-                  Enter your email to begin verification
+              <Login />
+
+              {/* Login/Register Links */}
+              <div className="mt-6 text-center space-y-3">
+                <p className="text-sm text-black/60 dark:text-white/60">
+                  Already have an account?{" "}
+                  <Link
+                    to="/login"
+                    className="text-black dark:text-white font-medium hover:underline"
+                  >
+                    Sign in
+                  </Link>
+                </p>
+                <p className="text-sm text-black/60 dark:text-white/60">
+                  Want full features?{" "}
+                  <Link
+                    to="/register"
+                    className="text-black dark:text-white font-medium hover:underline"
+                  >
+                    Create account
+                  </Link>
                 </p>
               </div>
-
-              <form onSubmit={handleJoinWaitlist} className="space-y-4">
-                <div className="relative group">
-                  <Mail
-                    className="
-    absolute left-4 top-1/2 -translate-y-1/2 
-    text-gray-400 
-    dark:text-gray-500
-    group-focus-within:text-black 
-    dark:group-focus-within:text-white
-    transition-colors duration-200
-  "
-                    size={18}
-                  />
-
-                  <input
-                    type="email"
-                    required
-                    placeholder="example@gmail.com"
-                    className="w-full bg-white dark:bg-white/[0.03] border border-black/[0.08] dark:border-white/[0.08] py-4 pl-12 pr-4 rounded-2xl text-black dark:text-white placeholder:text-black/30 dark:placeholder:text-white/30 focus:outline-none focus:border-[#ffffff]/50 focus:ring-1 focus:ring-[#ffffff]/20 transition-all"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-                <div className="relative group">
-                  <HandCoins
-                    className=" absolute left-4 top-1/2 -translate-y-1/2 
-                    text-gray-400 
-                    dark:text-gray-500
-                    group-focus-within:text-black 
-                    dark:group-focus-within:text-white
-                    transition-colors duration-200"
-                    size={18}
-                  />
-                  <input
-                    type="text"
-                    placeholder="Referral code (optional)"
-                    className="w-full bg-white dark:bg-white/[0.03] border border-black/[0.08] dark:border-white/[0.08] py-4 pl-12 pr-4 rounded-2xl text-black dark:text-white placeholder:text-black/30 dark:placeholder:text-white/30 focus:outline-none focus:border-[#ffffff]/50 focus:ring-1 focus:ring-[#ffffff]/20 transition-all"
-                    value={referral_code}
-                    onChange={(e) => setReferralCode(e.target.value)}
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full bg-[#ffffff] text-black py-4 rounded-full font-semibold hover:bg-[#e5e5e5]  transition-all duration-300"
-                >
-                  Continue
-                </button>
-                <button
-                  type="button"
-                  onClick={() => navigate(-1)}
-                  className="w-full flex items-center justify-center gap-2 text-black/40 dark:text-white/40 hover:text-black/60 dark:hover:text-white/60 text-sm mt-4 transition-colors"
-                >
-                  <ArrowLeft size={14} /> Back
-                </button>
-              </form>
 
               {/* Benefits */}
               <div className="mt-12 pt-8 border-t border-black/[0.06] dark:border-white/[0.06]">

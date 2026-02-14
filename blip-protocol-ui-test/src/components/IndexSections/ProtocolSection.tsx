@@ -81,7 +81,7 @@ const ProtocolSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="font-display text-3xl md:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.1] mb-6 text-black dark:text-white"
+            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold tracking-tight leading-[1.1] mb-6 text-black dark:text-white"
           >
             Blip Protocol
           </motion.h2>
@@ -91,7 +91,7 @@ const ProtocolSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="text-lg md:text-xl text-black dark:text-white/40 max-w-2xl mx-auto leading-relaxed font-medium"
+            className="text-base md:text-lg lg:text-xl text-black/60 dark:text-white/50 max-w-2xl mx-auto leading-relaxed font-medium"
           >
             A decentralized settlement layer for instant, private, global value
             transfer.
@@ -163,8 +163,8 @@ const ProtocolSection = () => {
 
                 <h3
                   className="
-      text-lg font-medium mb-2
-      text-black/80 dark:text-white/80
+      text-lg font-semibold mb-2
+      text-black/70 dark:text-white/70
       group-hover:text-black dark:group-hover:text-white
       transition-colors duration-300
     "
@@ -175,8 +175,8 @@ const ProtocolSection = () => {
 
               <p
                 className="
-    text-sm
-    text-black/50 dark:text-white/40
+    text-sm font-medium
+    text-black/50 dark:text-white/50
     group-hover:text-black/70 dark:group-hover:text-white/70
     transition-colors duration-300
   "

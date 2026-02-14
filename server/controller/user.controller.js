@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 
 import User from "../models/user.model.js";
 import { signToken } from "../utils/jwt.js";
@@ -26,7 +27,7 @@ export const registerAndLoginUser = async (req, res) => {
   session.startTransaction();
 
   try {
-    const { email, phone, wallet_address, referral_code } = req.body;
+    const { email, phone, wallet_address, referral_code, password } = req.body;
 
     // 1️⃣ BASIC VALIDATION
     if (!wallet_address) {
@@ -98,6 +99,24 @@ export const registerAndLoginUser = async (req, res) => {
      * =====================
      */
 
+    // Validate password if provided (for new waitlist flow with password)
+    if (password) {
+      if (password.length < 8) {
+        await session.abortTransaction();
+        session.endSession();
+        return res.status(400).json({
+          success: false,
+          message: "Password must be at least 8 characters long",
+        });
+      }
+    }
+
+    // Hash password if provided
+    let hashedPassword = null;
+    if (password) {
+      hashedPassword = await bcrypt.hash(password, 10);
+    }
+
     // 🔑 Generate self referral code
     const selfReferralCode = await generateReferralCode({
       wallet_address,
@@ -110,6 +129,9 @@ export const registerAndLoginUser = async (req, res) => {
           email,
           phone,
           wallet_address,
+          password: hashedPassword, // Store hashed password
+          emailVerified: true, // Auto-verify for waitlist flow (backward compatibility)
+          walletLinked: true, // Wallet is linked during registration
           referralCode: selfReferralCode,
           lastLoginAt: new Date(),
           totalBlipPoints: REGISTER_BONUS_POINTS, // Set initial registration bonus
@@ -341,7 +363,9 @@ export const getMe = async (req, res) => {
         totalBlipPoints: actualPoints,
         status: user.status,
         role: user.role,
-        twoFactorEnabled : user.twoFactorEnabled
+        twoFactorEnabled: user.twoFactorEnabled,
+        emailVerified: user.emailVerified || false,
+        walletLinked: user.walletLinked || false,
       },
     });
   } catch (error) {

@@ -73,7 +73,7 @@ export const CTASection = ({
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6"
+          className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6"
         >
           {title}
         </motion.h2>
@@ -83,7 +83,7 @@ export const CTASection = ({
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-lg md:text-xl text-black/40 dark:text-white/50 mb-10 max-w-2xl mx-auto font-medium"
+            className="text-base md:text-lg lg:text-xl text-black/60 dark:text-white/50 mb-10 max-w-2xl mx-auto font-medium leading-relaxed"
           >
             {description}
           </motion.p>

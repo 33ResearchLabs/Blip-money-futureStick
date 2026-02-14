@@ -74,9 +74,9 @@ const InstantBiddingSection = () => {
               Match
             </span>
           </div>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black dark:text-white mb-2 sm:mb-4 tracking-tight">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white mb-2 sm:mb-4 tracking-tight leading-[1.1]">
             Instant{" "}
-            <span className="text-black/80 dark:text-white/20 relative inline-block">
+            <span className="text-black/70 dark:text-white/50 relative inline-block">
               <span className="relative z-10">bidding.</span>
               <motion.span
                 className="absolute -bottom-1 left-0 right-0 h-[1.5px] rounded-full bg-gradient-to-r from-[#ff6b35]/60 via-[#ff8f5e]/50 to-[#ff6b35]/20"
@@ -91,7 +91,7 @@ const InstantBiddingSection = () => {
               />
             </span>
           </h2>
-          <p className="text-black dark:text-white/50 font-medium text-sm sm:text-base lg:text-lg max-w-2xl mx-auto hidden sm:block">
+          <p className="text-base md:text-lg lg:text-xl text-black/60 dark:text-white/50 font-medium max-w-2xl mx-auto hidden sm:block leading-relaxed">
             Merchants compete in real-time for your order. You automatically get
             the best rate.
           </p>
@@ -241,10 +241,10 @@ const InstantBiddingSection = () => {
                         </span>
                       </div>
                       <div>
-                        <div className="text-2xl font-bold text-black dark:text-white">
+                        <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-black dark:text-white tracking-tight">
                           5,000 USDT
                         </div>
-                        <div className="flex items-center gap-2 text-sm text-black dark:text-white/40">
+                        <div className="flex items-center gap-2 text-sm text-black/70 dark:text-white/50">
                           <ArrowRight className="w-3 h-3" />
                           <span>AED (United Arab Emirates)</span>
                         </div>
@@ -311,18 +311,18 @@ const InstantBiddingSection = () => {
                   {/* Quick stats */}
                   <div className="grid grid-cols-2 gap-3">
                     <div className="rounded-xl bg-white/80 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.06] dark:border-white/[0.06] shadow-[0_2px_20px_-4px_rgba(0,0,0,0.06),0_4px_8px_-2px_rgba(0,0,0,0.04)] dark:shadow-none p-4 text-center">
-                      <div className="text-2xl font-bold text-black dark:text-white">
+                      <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-black dark:text-white">
                         ~8s
                       </div>
-                      <div className="text-[10px] text-black dark:text-white/40 uppercase tracking-wider">
+                      <div className="text-[11px] text-black dark:text-white/30 uppercase tracking-[0.3em] font-semibold">
                         Avg Match
                       </div>
                     </div>
                     <div className="rounded-xl bg-white/80 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.06] dark:border-white/[0.06] shadow-[0_2px_20px_-4px_rgba(0,0,0,0.06),0_4px_8px_-2px_rgba(0,0,0,0.04)] dark:shadow-none p-4 text-center">
-                      <div className="text-2xl font-bold text-black dark:text-white">
+                      <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-black dark:text-white">
                         99.9%
                       </div>
-                      <div className="text-[10px] text-black dark:text-white/40 uppercase tracking-wider">
+                      <div className="text-[11px] text-black dark:text-white/30 uppercase tracking-[0.3em] font-semibold">
                         Fill Rate
                       </div>
                     </div>
