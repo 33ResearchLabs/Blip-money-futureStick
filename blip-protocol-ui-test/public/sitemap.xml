@@ -593,4 +593,92 @@
     <priority>0.7</priority>
   </url>
 
+  <!-- RESEARCH ARTICLES SITEMAP -->
+
+<url>
+  <loc>https://blip.money/research/ai-bots-p2p-crypto-transactions</loc>
+  <lastmod>2026-02-10</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.7</priority>
+</url>
+
+<url>
+  <loc>https://blip.money/research/telegram-trading-bots-complete-guide</loc>
+  <lastmod>2026-02-09</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.7</priority>
+</url>
+
+<url>
+  <loc>https://blip.money/research/autonomous-ai-agents-on-chain</loc>
+  <lastmod>2026-02-08</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.7</priority>
+</url>
+
+<url>
+  <loc>https://blip.money/research/smart-contract-automation-with-ai</loc>
+  <lastmod>2026-02-07</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.7</priority>
+</url>
+
+<url>
+  <loc>https://blip.money/research/mev-bots-and-defi-dark-forest</loc>
+  <lastmod>2026-02-06</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.7</priority>
+</url>
+
+<url>
+  <loc>https://blip.money/research/telegram-mini-apps-web3-payments</loc>
+  <lastmod>2026-02-05</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.7</priority>
+</url>
+
+<url>
+  <loc>https://blip.money/research/ai-escrow-systems-p2p-trading</loc>
+  <lastmod>2026-02-04</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.7</priority>
+</url>
+
+<url>
+  <loc>https://blip.money/research/text-to-transaction-natural-language-crypto</loc>
+  <lastmod>2026-02-03</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.7</priority>
+</url>
+
+<url>
+  <loc>https://blip.money/research/ai-fraud-detection-p2p-crypto</loc>
+  <lastmod>2026-02-02</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.7</priority>
+</url>
+
+<url>
+  <loc>https://blip.money/research/stablecoin-remittance-ai-bots</loc>
+  <lastmod>2026-02-01</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.7</priority>
+</url>
+
+<url>
+  <loc>https://blip.money/research/ai-market-makers-liquidity-bots</loc>
+  <lastmod>2026-01-30</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.7</priority>
+</url>
+
+<url>
+  <loc>https://blip.money/research/agentic-finance-future-ai-blockchain</loc>
+  <lastmod>2026-01-28</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.7</priority>
+</url>
+
+
+
 </urlset>

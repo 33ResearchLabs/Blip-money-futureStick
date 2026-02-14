@@ -786,7 +786,7 @@ const CTASection = () => {
 
             {/* Whitepaper */}
 
-            <a
+            {/* <a
               href="/whitepaper.pdf"
               target="_blank"
               rel="noopener noreferrer"
@@ -802,7 +802,7 @@ const CTASection = () => {
         transition-all duration-300
       "
             >
-              {/* Hover Fill */}
+             
               <span
                 className="
         absolute inset-0
@@ -814,12 +814,13 @@ const CTASection = () => {
       "
               />
 
-              {/* Text */}
+              
               <span className="relative z-10 flex items-center gap-2">
                 Read Whitepaper
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
               </span>
-            </a>
+            </a> */}
+            <CTAButton  to="/whitepaper" className="w-[220px] h-[48px]"> Read Whitepaper </CTAButton>
           </div>
         </motion.div>
       </div>

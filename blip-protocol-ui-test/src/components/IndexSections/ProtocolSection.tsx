@@ -202,7 +202,7 @@ const ProtocolSection = () => {
           transition={{ duration: 0.8, delay: 0.6 }}
           className="flex justify-center"
         >
-           <a
+           {/* <a
               href="/whitepaper.pdf"
               target="_blank"
               rel="noopener noreferrer"
@@ -210,15 +210,16 @@ const ProtocolSection = () => {
               onMouseEnter={() => sounds.hover()}
               className="group relative overflow-hidden inline-flex items-center justify-center gap-2 md:px-6 px-4 py-2 rounded-full w-[230px] h-[48px] border border-black/10 dark:border-white/10 text-black dark:text-white text-lg font-medium transition-all duration-300"
             >
-              {/* LEFT TO RIGHT HOVER FILL (Same As CTA) */}
+              
               <span className="absolute inset-0 bg-black/20 dark:bg-white/20 rounded-full scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-out" />
           
-              {/* BUTTON TEXT */}
+              
               <span className="relative z-10 flex items-center gap-3">
                 Read Whitepaper
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
               </span>
-            </a>
+            </a> */}
+            <CTAButton to="/whitepaper" className="w-[220px] h-[48px]"> Read Whitepaper </CTAButton>
         </motion.div>
       </div>
     </section>
