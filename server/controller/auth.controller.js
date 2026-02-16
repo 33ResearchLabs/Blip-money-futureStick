@@ -69,13 +69,22 @@ export const registerWithEmail = async (req, res) => {
     });
 
     // Send email
-    sendVerificationEmailNew(email, rawOTP);
+    try {
+      await sendVerificationEmailNew(email, rawOTP);
+    } catch (emailError) {
+      console.error("Email sending failed:", emailError);
+      return res.status(500).json({
+        success: false,
+        message: "Failed to send verification email. Please try again.",
+      });
+    }
 
     res.status(200).json({
       success: true,
       message: "OTP sent to your email",
     });
   } catch (error) {
+    console.error("Registration error:", error);
     res.status(500).json({
       success: false,
       message: "Registration failed",

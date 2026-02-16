@@ -12,7 +12,7 @@ export const api = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  timeout: 10000,
+  timeout: 60000,
 });
 
 api.interceptors.request.use(
@@ -21,7 +21,7 @@ api.interceptors.request.use(
     // Cookies are automatically attached by the browser
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 api.interceptors.response.use(
   (response) => response.data,
@@ -43,5 +43,5 @@ api.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
