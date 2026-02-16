@@ -103,8 +103,12 @@ const FeatureCard = ({
           <Icon className="w-6 h-6 text-black/70 dark:text-white/70 group-hover:text-black dark:group-hover:text-white transition-colors" />
         </div>
       )}
-      <h3 className="text-xl font-semibold text-black dark:text-white mb-3">{feature.title}</h3>
-      <p className="text-black/40 dark:text-white/50 leading-relaxed">{feature.description}</p>
+      <h3 className="text-xl font-semibold text-black dark:text-white mb-3">
+        {feature.title}
+      </h3>
+      <p className="text-black/70 dark:text-white/50 leading-relaxed">
+        {feature.description}
+      </p>
     </motion.div>
   );
 };
@@ -139,7 +143,7 @@ export const FeatureGrid = ({
               initial={{ opacity: 0, y: 20 }}
               animate={isHeaderInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6 }}
-              className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-4"
+              className="text-[11px] uppercase tracking-[0.3em] text-black/80 dark:text-white/40 mb-4"
             >
               {subtitle}
             </motion.p>

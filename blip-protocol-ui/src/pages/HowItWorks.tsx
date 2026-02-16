@@ -93,8 +93,8 @@ const HeroSection = () => {
               border: "1px solid rgba(255, 255, 255, 0.08)",
             }}
           >
-            <span className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
-            <span className="text-[14px] text-black/70 dark:text-white/70 font-medium tracking-wide">
+            <span className="w-2 h-2 rounded-full bg-[#ff6b35] " />
+            <span className="text-[11px] uppercase tracking-[0.3em] text-black/70 dark:text-white/70 font-semibold">
               How Blip Works
             </span>
           </motion.div>
@@ -109,11 +109,11 @@ const HeroSection = () => {
                 delay: 0.3,
                 ease: [0.16, 1, 0.3, 1], //text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl
               }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-8xl font-semibold text-black dark:text-white leading-[1.20] tracking-[-0.04em] "
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white leading-[1.1] tracking-tight"
             >
               <span className="block">Value. Settled.</span>
 
-              <span className="text-black/80 dark:text-white/50">
+              <span className="text-black/70 dark:text-white/50">
                 Privately.
               </span>
             </motion.h1>
@@ -123,7 +123,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.6 }}
-            className="text-base md:text-lg text-black dark:text-white/40 max-w-2xl mx-auto leading-relaxed"
+            className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-2xl mx-auto leading-relaxed font-medium"
           >
             The on-chain protocol for instant, secure, and KYC-free global value
             transfer.
@@ -136,7 +136,7 @@ const HeroSection = () => {
             transition={{ delay: 1.5 }}
             className="absolute top-[400px] sm:top-[400px] left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
           >
-            <span className="text-xs text-black/40 dark:text-white/40 uppercase tracking-[0.2em]">
+            <span className="text-[11px] text-black/60 dark:text-white/50 uppercase tracking-[0.3em] font-semibold">
               Explore
             </span>
             <motion.div
@@ -212,10 +212,10 @@ const KeyConceptsSection = () => {
                 <div className="w-14 h-14 rounded-2xl bg-black/5 dark:bg-white/5 flex items-center justify-center mb-6 group-hover:bg-black/10 dark:group-hover:bg-white/10 transition-colors duration-500">
                   <concept.icon className="w-6 h-6 text-black/70 dark:text-white/70 group-hover:text-black dark:group-hover:text-[#ffffff] transition-colors duration-500" />
                 </div>
-                <h3 className="text-xl font-semibold text-black dark:text-white mb-3">
+                <h3 className="text-lg font-semibold text-black/70 dark:text-white/70 mb-3">
                   {concept.title}
                 </h3>
-                <p className="text-black dark:text-white/40">{concept.desc}</p>
+                <p className="text-sm font-medium text-black/50 dark:text-white/50">{concept.desc}</p>
               </div>
 
               {/* Bottom accent line */}
@@ -291,13 +291,13 @@ const CoreProtocolSection = () => {
           transition={{ duration: 1 }}
           className="text-center mb-24"
         >
-          <span className="text-xs uppercase tracking-[0.3em] text-black/60 dark:text-white/60 mb-6 block">
+          <span className="text-[11px] uppercase tracking-[0.3em] text-black/70 dark:text-white/30 mb-6 block font-semibold">
             The Protocol
           </span>
-          <h2 className="text-4xl md:text-6xl lg:text-7xl font-semibold text-black dark:text-white tracking-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1]">
             Trust
             <br />
-            <span className="text-black/80 dark:text-white/50">Redefined.</span>
+            <span className="text-black/70 dark:text-white/50">Redefined.</span>
           </h2>
         </motion.div>
 
@@ -318,17 +318,17 @@ const CoreProtocolSection = () => {
               onMouseEnter={() => sounds.hover()}
             >
               {/* Step number */}
-              <span className="absolute top-4 right-4 text-4xl font-bold text-black/[0.03] dark:text-white/[0.03] select-none">
+              <span className="absolute top-4 right-4 text-4xl font-bold text-black/20 dark:text-white/[0.03] select-none">
                 0{i + 1}
               </span>
 
               <div className="w-16 h-16 rounded-2xl bg-black/5 dark:bg-white/5 flex items-center justify-center mx-auto mb-6 group-hover:bg-black/10 dark:group-hover:bg-white/10 transition-colors duration-500">
                 <pillar.icon className="w-7 h-7 text-black/60 dark:text-white/60 group-hover:text-black dark:group-hover:text-[#ffffff]" />
               </div>
-              <h3 className="text-lg font-semibold text-black dark:text-white mb-3">
+              <h3 className="text-lg font-semibold text-black/70 dark:text-white/70 mb-3">
                 {pillar.title}
               </h3>
-              <p className="text-sm text-black dark:text-white/40">
+              <p className="text-sm font-medium text-black/50 dark:text-white/50">
                 {pillar.desc}
               </p>
             </motion.div>
@@ -417,17 +417,17 @@ const TransactionFlowSection = () => {
           transition={{ duration: 1 }}
           className="text-center mb-24"
         >
-          <span className="text-xs uppercase tracking-[0.3em] text-black/60 dark:text-white/60 mb-6 block">
+          <span className="text-[11px] uppercase tracking-[0.3em] text-black/70 dark:text-white/30 mb-6 block font-semibold">
             Transaction Flow
           </span>
-          <h2 className="text-4xl md:text-6xl font-semibold text-black dark:text-white tracking-tight mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6">
             Atomic.
             <br />
-            <span className="text-black/80 dark:text-white/50">
+            <span className="text-black/70 dark:text-white/50">
               Guaranteed.
             </span>
           </h2>
-          <p className="text-xl text-black dark:text-white/40 max-w-xl mx-auto">
+          <p className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-xl mx-auto font-medium leading-relaxed">
             Every transaction executes atomically, guaranteed by on-chain escrow
             state transitions.
           </p>
@@ -469,15 +469,15 @@ const TransactionFlowSection = () => {
                     border: "1px solid rgba(255, 255, 255, 0.05)",
                   }}
                 >
-                  <h3 className="text-xl font-semibold text-black dark:text-white mb-3">
+                  <h3 className="text-lg font-semibold text-black/70 dark:text-white/70 mb-3">
                     {step.title}
                   </h3>
-                  <p className="text-black dark:text-white/40 mb-4">
+                  <p className="text-sm font-medium text-black/60 dark:text-white/50 mb-4">
                     {step.content}
                   </p>
                   <div className="flex items-center gap-2 text-sm">
-                    <CheckCircle2 className="w-4 h-4 text-black dark:text-white/40" />
-                    <span className="text-black dark:text-white/40">
+                    <CheckCircle2 className="w-4 h-4 text-black/50 dark:text-white/50" />
+                    <span className="text-black/50 dark:text-white/50 font-medium">
                       Result: {step.result}
                     </span>
                   </div>
@@ -586,13 +586,13 @@ const SecuritySection = () => {
               transition={{ duration: 1 }}
               className="mb-12"
             >
-              <span className="text-xs uppercase tracking-[0.3em] text-black/60 dark:text-white/60 mb-6 block">
+              <span className="text-[11px] uppercase tracking-[0.3em] text-black/70 dark:text-white/30 mb-6 block font-semibold">
                 Security Model
               </span>
-              <h2 className="text-4xl md:text-5xl font-semibold text-black dark:text-white tracking-tight mb-6">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6">
                 Cryptographic
                 <br />
-                <span className="text-black/80 dark:text-white/50">
+                <span className="text-black/70 dark:text-white/50">
                   Security.
                 </span>
               </h2>
@@ -609,10 +609,10 @@ const SecuritySection = () => {
                   className="group p-6 rounded-2xl transition-all duration-300 hover:bg-black/[0.02] dark:hover:bg-white/[0.02]"
                   onMouseEnter={() => sounds.hover()}
                 >
-                  <h3 className="text-lg font-semibold text-black dark:text-white mb-2 group-hover:text-black/60 dark:group-hover:text-white/60 transition-colors">
+                  <h3 className="text-lg font-semibold text-black/70 dark:text-white/70 mb-2 group-hover:text-black dark:group-hover:text-white transition-colors">
                     {pillar.title}
                   </h3>
-                  <p className="text-black dark:text-white/40">{pillar.desc}</p>
+                  <p className="text-sm font-medium text-black/50 dark:text-white/50">{pillar.desc}</p>
                 </motion.div>
               ))}
             </div>
@@ -660,13 +660,13 @@ const OrderTypesSection = () => {
           transition={{ duration: 1 }}
           className="text-center mb-20"
         >
-          <span className="text-xs uppercase tracking-[0.3em] text-black/60 dark:text-white/60 mb-6 block">
+          <span className="text-[11px] uppercase tracking-[0.3em] text-black/70 dark:text-white/30 mb-6 block font-semibold">
             Order Types
           </span>
-          <h2 className="text-4xl md:text-6xl font-semibold text-black dark:text-white tracking-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1]">
             Multiple
             <br />
-            <span className="text-black/80 dark:text-white/50">
+            <span className="text-black/70 dark:text-white/50">
               Destinations.
             </span>
           </h2>
@@ -763,13 +763,13 @@ const CTASection = () => {
           viewport={{ once: true }}
           transition={{ duration: 1 }}
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-black dark:text-white leading-tight mb-6 sm:mb-8 tracking-tight max-w-xl mx-auto lg:mx-0">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white leading-[1.1] mb-6 sm:mb-8 tracking-tight max-w-xl mx-auto lg:mx-0">
             Code over
             <br />
-            <span className="text-black/80 dark:text-white/50">Trust.</span>
+            <span className="text-black/70 dark:text-white/50">Trust.</span>
           </h2>
 
-          <p className="text-xl text-black dark:text-white/40 max-w-xl mx-auto mb-12">
+          <p className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-xl mx-auto mb-12 font-medium leading-relaxed">
             The certainty of code replacing the necessity of trust. Start your
             journey with Blip today.
           </p>
@@ -786,7 +786,7 @@ const CTASection = () => {
 
             {/* Whitepaper */}
 
-            <a
+            {/* <a
               href="/whitepaper.pdf"
               target="_blank"
               rel="noopener noreferrer"
@@ -802,7 +802,7 @@ const CTASection = () => {
         transition-all duration-300
       "
             >
-              {/* Hover Fill */}
+             
               <span
                 className="
         absolute inset-0
@@ -814,12 +814,13 @@ const CTASection = () => {
       "
               />
 
-              {/* Text */}
+              
               <span className="relative z-10 flex items-center gap-2">
                 Read Whitepaper
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
               </span>
-            </a>
+            </a> */}
+            <CTAButton  to="/whitepaper" className="w-[220px] h-[48px]"> Read Whitepaper </CTAButton>
           </div>
         </motion.div>
       </div>

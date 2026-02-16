@@ -3,41 +3,34 @@ import { ArrowLeft, ShieldCheck, X } from "lucide-react";
 import { toast } from "sonner";
 import { twoFactorApi } from "@/services/twoFatctor";
 import { useAuth } from "@/contexts/AuthContext";
-import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 
 export default function TwoFactorAuth() {
   const { user, refreshSession } = useAuth();
+  const navigate = useNavigate();
 
   const [qrCode, setQrCode] = useState<string | null>(null);
   const [otp, setOtp] = useState("");
   const [disableOtp, setDisableOtp] = useState("");
   const [disable, setDisable] = useState(false);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
-  // Refresh session on mount to ensure 2FA status is up-to-date
   useEffect(() => {
     refreshSession();
   }, [refreshSession]);
 
   if (!user) return null;
 
-  // ================= ENABLE 2FA =================
   const handleEnable2FA = async () => {
     try {
       const res = await twoFactorApi.enableGoogleAuth();
-
       setQrCode(res.qrCode);
-      toast.success("Google Authenticator setup started", {
-        description: "Scan the QR code using the Google Authenticator app.",
-      });
+      toast.success("Google Authenticator setup started");
     } catch (error: any) {
       toast.error(error?.response?.data?.message || "Failed to enable 2FA");
     }
   };
 
-  // ================= VERIFY OTP =================
   const handleVerifyOtp = async () => {
     if (otp.length !== 6) {
       toast.error("Enter a valid 6-digit OTP");
@@ -46,12 +39,8 @@ export default function TwoFactorAuth() {
 
     try {
       setLoading(true);
-      const res = await twoFactorApi.verifyGoogleAuth(otp);
-
-      toast.success("Google Authenticator enabled", {
-        description: "Two-factor authentication is now active on your account.",
-      });
-
+      await twoFactorApi.verifyGoogleAuth(otp);
+      toast.success("2FA Enabled Successfully");
       setQrCode(null);
       setOtp("");
       await refreshSession();
@@ -62,7 +51,6 @@ export default function TwoFactorAuth() {
     }
   };
 
-  // ================= DISABLE 2FA =================
   const handleDisable2FA = async () => {
     if (disableOtp.length !== 6) {
       toast.error("Enter a valid 6-digit OTP");
@@ -71,12 +59,8 @@ export default function TwoFactorAuth() {
 
     try {
       setLoading(true);
-      const res = await twoFactorApi.disableGoogleAuth(disableOtp);
-
-      toast.success("Google Authenticator disabled", {
-        description: "Two-factor authentication has been turned off.",
-      });
-
+      await twoFactorApi.disableGoogleAuth(disableOtp);
+      toast.success("2FA Disabled Successfully");
       setDisableOtp("");
       await refreshSession();
     } catch (error: any) {
@@ -87,77 +71,109 @@ export default function TwoFactorAuth() {
   };
 
   return (
-    <>
-      <div className="max-w-2xl mx-auto my-20 sm:my-40 border border-zinc-700 rounded-md p-4 sm:p-6 relative ">
+    <div
+      className="min-h-screen flex items-center justify-center px-4 
+      bg-gradient-to-br from-white via-gray-50 to-gray-100 
+      dark:from-black dark:via-[#0a0a0a] dark:to-black"
+    >
+      <div
+        className="relative w-full max-w-2xl 
+        bg-white dark:bg-[#0f0f0f] 
+        border border-black/10 dark:border-white/10
+        shadow-xl dark:shadow-[0_0_40px_rgba(255,255,255,0.05)]
+        rounded-2xl p-8"
+      >
+        {/* Back Button */}
         <button
-    onClick={() => navigate(-1)}
-    className="absolute -top-12 left-0 flex items-center gap-2 p-2 rounded-full hover:bg-zinc-800 border border-zinc-600"
-  >
-    <ArrowLeft className="w-5 h-5 text-zinc-400" />
-    <span className="hidden sm:inline text-sm text-zinc-400">Back</span>
-  </button>
+          onClick={() => navigate(-1)}
+          className="absolute -top-12 left-0 flex items-center gap-2 
+          px-3 py-1.5 rounded-full
+          bg-black/5 dark:bg-white/5
+          hover:bg-black/10 dark:hover:bg-white/10
+          border border-black/10 dark:border-white/10
+          text-black/60 dark:text-white/60 transition"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span className="text-sm">Back</span>
+        </button>
 
-        {/* HEADER */}
-        <div className="flex items-center gap-2 mb-6">
-          <ShieldCheck className="text-[#ffffff]" />
-          <h1 className="text-lg font-semibold text-white">
-            Two-Factor Authentication
-          </h1>
+        {/* Header */}
+        <div className="flex items-center gap-3 mb-6">
+          <div
+            className="p-2 rounded-lg 
+            bg-black/5 dark:bg-white/10 
+            text-black dark:text-white"
+          >
+            <ShieldCheck className="w-6 h-6" />
+          </div>
+          <div>
+            <h1 className="text-xl font-semibold text-black dark:text-white">
+              Two-Factor Authentication
+            </h1>
+            <p className="text-sm text-black/60 dark:text-white/40">
+              Secure your account with Google Authenticator
+            </p>
+          </div>
         </div>
 
-        <p className="text-sm text-zinc-400 mb-6">
-          Add an extra layer of security using Google Authenticator.
-        </p>
-
-        {/* ================= ENABLE FLOW ================= */}
+        {/* Enable Section */}
         {!user.twoFactorEnabled && (
           <>
             <button
               onClick={handleEnable2FA}
-              className="px-4 py-2 bg-[#ffffff] text-black text-sm font-bold rounded-full hover:bg-[#ffffff]/50"
+              className="px-6 py-2.5 rounded-full font-semibold text-sm
+              bg-black text-white 
+              dark:bg-white dark:text-black
+              hover:opacity-90 transition"
             >
               Enable 2FA
             </button>
 
             {qrCode && (
-              <div className="mt-6 p-4 bg-black border border-zinc-700 rounded">
-                <p className="text-xs text-zinc-400 mb-3">
+              <div
+                className="mt-6 p-6 rounded-xl
+                bg-gray-50 dark:bg-black
+                border border-black/10 dark:border-white/10"
+              >
+                <p className="text-sm text-black/60 dark:text-white/40 mb-4 text-center">
                   Scan the QR code and enter OTP
                 </p>
 
-                <img src={qrCode} alt="2FA QR" className="mb-4 mx-auto" />
+                <img src={qrCode} alt="QR Code" className="mx-auto mb-4 w-40" />
 
                 <input
                   value={otp}
                   onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
                   maxLength={6}
                   placeholder="Enter 6-digit OTP"
-                  className="w-full px-4 py-2 bg-zinc-900 border border-zinc-700 rounded text-white mb-3"
+                  className="w-full px-4 py-2.5 rounded-lg
+                  bg-white dark:bg-[#111]
+                  border border-black/10 dark:border-white/10
+                  text-black dark:text-white
+                  focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
                 />
 
-                {/* <button
-                onClick={handleVerifyOtp}
-                disabled={loading}
-                className="w-full px-4 py-2 bg-green-500 text-black font-bold rounded disabled:opacity-50"
-              >
-                {loading ? "Verifying..." : "Verify OTP"}
-              </button> */}
-
-                <div className="flex gap-3">
+                <div className="flex gap-3 mt-4">
                   <button
                     onClick={handleVerifyOtp}
                     disabled={loading || otp.length !== 6}
-                    className="flex-1 px-4 py-2 bg-[#ffffff] text-black font-bold rounded-full disabled:opacity-50"
+                    className="flex-1 py-2.5 rounded-full font-semibold text-sm
+                    bg-black text-white 
+                    dark:bg-white dark:text-black
+                    disabled:opacity-50 transition"
                   >
                     {loading ? "Verifying..." : "Verify OTP"}
                   </button>
 
                   <button
                     onClick={() => {
-                      setQrCode("");
+                      setQrCode(null);
                       setOtp("");
                     }}
-                    className="flex-1 px-4 py-2 bg-zinc-700 text-white rounded-full hover:bg-zinc-600"
+                    className="flex-1 py-2.5 rounded-full text-sm
+                    bg-gray-200 dark:bg-white/10
+                    text-black dark:text-white
+                    hover:bg-gray-300 dark:hover:bg-white/20 transition"
                   >
                     Cancel
                   </button>
@@ -167,35 +183,33 @@ export default function TwoFactorAuth() {
           </>
         )}
 
-        {/* ================= DISABLE FLOW ================= */}
+        {/* Disable Section */}
         {user.twoFactorEnabled && (
-          <div className="mt-8 border-t border-zinc-700 pt-6">
-            <h3 className="text-sm text-red-400 mb-2">
+          <div className="mt-8 pt-6 border-t border-black/10 dark:border-white/10">
+            <h3 className="text-sm font-semibold text-red-600 dark:text-red-400 mb-3">
               Disable Two-Factor Authentication
             </h3>
 
-            {/* Disable Button */}
             {!disable && (
               <button
                 onClick={() => setDisable(true)}
-                className="px-4 py-2 bg-red-500 text-black text-sm font-bold rounded-full hover:bg-red-400 mb-4"
+                className="px-6 py-2.5 rounded-full text-sm font-semibold
+                bg-red-600 text-white
+                hover:bg-red-700 transition"
               >
                 Disable 2FA
               </button>
             )}
 
-            {/* OTP Input Section */}
             {disable && (
-              <div className="space-y-3">
-                {/* Close Icon */}
+              <div className="mt-4 space-y-4">
                 <div className="flex justify-end">
                   <X
                     onClick={() => {
                       setDisable(false);
                       setDisableOtp("");
                     }}
-                    className="cursor-pointer text-zinc-400 hover:text-white"
-                    size={20}
+                    className="cursor-pointer text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white"
                   />
                 </div>
 
@@ -206,21 +220,27 @@ export default function TwoFactorAuth() {
                   }
                   maxLength={6}
                   placeholder="Enter OTP to disable"
-                  className="w-full px-4 py-2 bg-zinc-900 border border-zinc-700 rounded text-white"
+                  className="w-full px-4 py-2.5 rounded-lg
+                  bg-white dark:bg-[#111]
+                  border border-black/10 dark:border-white/10
+                  text-black dark:text-white
+                  focus:outline-none focus:ring-2 focus:ring-red-500"
                 />
 
                 <button
                   onClick={handleDisable2FA}
                   disabled={loading || disableOtp.length !== 6}
-                  className="px-4 py-2 bg-red-500 text-black font-bold rounded-full disabled:opacity-50"
+                  className="w-full py-2.5 rounded-full text-sm font-semibold
+                  bg-red-600 text-white
+                  hover:bg-red-700 disabled:opacity-50 transition"
                 >
-                  {loading ? "Disabling..." : "Confirm Disable 2FA"}
+                  {loading ? "Disabling..." : "Confirm Disable"}
                 </button>
               </div>
             )}
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }

@@ -1,7 +1,10 @@
 import { useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
-import { MerchantDashboardVisual } from "../MerchantDashboard";
+import {
+  MerchantDashboardVisual,
+  MerchantHeroDashbaord,
+} from "../MerchantDashboard";
 import { HeroDashboardVisual } from "../HeroDashbaordVisual";
 import { CTAButton } from "../Navbar";
 
@@ -139,9 +142,9 @@ export const CinematicHeroOfMerchant = () => {
   >
     Become a Merchant
   </Link> */}
-            <CTAButton to="/waitlist" className="w-[225px]  h-[48px]">
+            {/* <CTAButton to="/waitlist" className="w-[225px]  h-[48px]">
               Become a Merchant
-            </CTAButton>
+            </CTAButton> */}
 
             {/* <Link
     to="/waitlist"
@@ -170,7 +173,7 @@ export const CinematicHeroOfMerchant = () => {
       // ref={dashboardLayerRef}
       >
         <HeroDashboardVisual>
-          <MerchantDashboardVisual />
+          <MerchantHeroDashbaord />
         </HeroDashboardVisual>
       </div>
     </section>

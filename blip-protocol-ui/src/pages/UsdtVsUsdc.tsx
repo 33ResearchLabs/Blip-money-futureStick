@@ -353,7 +353,7 @@ const SideBySideSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-12"
         >
-          <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40 mb-4 block">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/40 mb-4 block">
             Head to Head
           </span>
           <h2 className="text-3xl sm:text-4xl font-semibold text-black dark:text-white tracking-tight">
@@ -485,7 +485,7 @@ const ComparisonTableSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-12"
         >
-          <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40 mb-4 block">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/50 dark:text-white/40 mb-4 block">
             Full Breakdown
           </span>
           <h2 className="text-3xl sm:text-4xl font-semibold text-black dark:text-white tracking-tight">
@@ -504,16 +504,16 @@ const ComparisonTableSection = () => {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-black/[0.06] dark:border-white/[0.06]">
-                  <th className="text-left p-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40">
+                  <th className="text-left p-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/40">
                     Feature
                   </th>
-                  <th className="text-left p-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40">
+                  <th className="text-left p-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/40">
                     USDT (Tether)
                   </th>
-                  <th className="text-left p-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40">
+                  <th className="text-left p-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/40">
                     USDC (USD Coin)
                   </th>
-                  <th className="text-center p-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40">
+                  <th className="text-center p-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/40">
                     Winner
                   </th>
                 </tr>
@@ -613,7 +613,7 @@ const WhichToUseSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-12"
         >
-          <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40 mb-4 block">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/50 dark:text-white/40 mb-4 block">
             Recommendations
           </span>
           <h2 className="text-3xl sm:text-4xl font-semibold text-black dark:text-white tracking-tight">
@@ -701,7 +701,7 @@ const StablecoinBasicsSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-12"
         >
-          <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40 mb-4 block">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/50 dark:text-white/40 mb-4 block">
             Fundamentals
           </span>
           <h2 className="text-3xl sm:text-4xl font-semibold text-black dark:text-white tracking-tight">
@@ -795,7 +795,7 @@ const FAQSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-12"
         >
-          <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40 mb-4 block">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/50 dark:text-white/40 mb-4 block">
             Common Questions
           </span>
           <h2 className="text-3xl sm:text-4xl font-semibold text-black dark:text-white tracking-tight">
@@ -923,7 +923,7 @@ const CTASection = () => {
           transition={{ duration: 0.6, delay: 0.6 }}
           className="mt-14 pt-8 border-t border-black/[0.06] dark:border-white/[0.06]"
         >
-          <div className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40 mb-4">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/50 dark:text-white/40 mb-4">
             Related Pages
           </div>
           <div className="flex flex-wrap justify-center gap-3">

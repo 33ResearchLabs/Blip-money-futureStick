@@ -529,13 +529,13 @@ export default function DashboardShowcaseSection() {
               willChange: "transform, opacity",
             }}
           >
-            <h2 className="font-display text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-semibold tracking-tight leading-[0.95] sm:leading-[0.95] text-black dark:text-white px-2">
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold tracking-tight leading-[1.1] text-black dark:text-white px-2">
               Money moves
               <br />
               freely now.
             </h2>
 
-            <p className="mt-4 sm:mt-6 text-sm sm:text-base text-black/50 dark:text-white/35 tracking-wide">
+            <p className="mt-4 sm:mt-6 text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 font-medium leading-relaxed">
               Across borders. Between people. At internet speed.
             </p>
           </motion.div>

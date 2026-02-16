@@ -192,7 +192,7 @@ export default function Login() {
   }
 
   return (
-    <div className="flex  p-4">
+    <div className="min-h-screen flex  p-4">
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="mb-10 ">

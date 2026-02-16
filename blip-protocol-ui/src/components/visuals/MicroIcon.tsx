@@ -45,20 +45,7 @@ export const MicroIcon = ({
         delay,
       },
     },
-    glow: {
-      opacity: [0.4, 0.8, 0.4],
-      filter: [
-        "drop-shadow(0 0 2px rgba(255,255,255,0.3))",
-        "drop-shadow(0 0 6px rgba(255,255,255,0.6))",
-        "drop-shadow(0 0 2px rgba(255,255,255,0.3))",
-      ],
-      transition: {
-        duration: 2.5,
-        repeat: Infinity,
-        ease: "easeInOut",
-        delay,
-      },
-    },
+    
     static: {},
   };
 
@@ -67,7 +54,16 @@ export const MicroIcon = ({
       className={`inline-flex items-center justify-center ${className}`}
       animate={variants[variant]}
     >
-      <Icon size={size} className="text-black/60 dark:text-white/60" strokeWidth={1.5} />
+      <Icon
+  size={size}
+  className="
+    text-black/80 dark:text-white/60
+    transition-all duration-300
+    group-hover:text-black dark:group-hover:text-white
+  "
+  strokeWidth={1.5}
+/>
+
     </motion.div>
   );
 };

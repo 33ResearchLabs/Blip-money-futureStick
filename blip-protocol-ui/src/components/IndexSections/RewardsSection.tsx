@@ -42,7 +42,7 @@ const RewardsSection = () => {
             className="flex items-center justify-center gap-2 sm:gap-3 mb-6 sm:mb-8"
           >
             <div className="h-px w-8 sm:w-12 bg-gradient-to-r from-transparent to-black/20 dark:to-white/20" />
-            <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.3em] sm:tracking-[0.4em] text-black dark:text-white/30 font-light">
+            <span className="text-[11px] uppercase tracking-[0.3em] text-black dark:text-white/30 font-semibold">
               Rewards
             </span>
             <div className="h-px w-8 sm:w-12 bg-gradient-to-l from-transparent to-black/20 dark:to-white/20" />
@@ -53,11 +53,11 @@ const RewardsSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="font-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-4 sm:mb-6"
+            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-4 sm:mb-6"
           >
             Earn while you spend.
             <br />
-            <span className="text-black dark:text-white/20">Every transaction.</span>
+            <span className="text-black/70 dark:text-white/50">Every transaction.</span>
           </motion.h2>
 
           <motion.p
@@ -65,7 +65,7 @@ const RewardsSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-sm sm:text-base md:text-lg text-black dark:text-white/40 max-w-xl mx-auto leading-relaxed"
+            className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-xl mx-auto leading-relaxed font-medium"
           >
             Up to 2.5% back in BLIP tokens on every payment. Early supporters
             unlock multipliers and exclusive airdrops.
@@ -85,13 +85,13 @@ const RewardsSection = () => {
               key={reward.label}
               className="bg-[#FAF8F5] dark:bg-black p-6 sm:p-8 md:p-10 text-center"
             >
-              <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-black dark:text-white mb-2">
+              <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-black dark:text-white mb-2 tracking-tight">
                 {reward.value}
               </div>
-              <div className="text-xs sm:text-sm text-black dark:text-white/50 mb-1">
+              <div className="text-sm font-semibold text-black dark:text-white/70 mb-1">
                 {reward.label}
               </div>
-              <div className="text-[10px] sm:text-xs text-black dark:text-white/25 hidden sm:block">
+              <div className="text-xs text-black/70 dark:text-white/30 hidden sm:block font-medium">
                 {reward.desc}
               </div>
             </div>

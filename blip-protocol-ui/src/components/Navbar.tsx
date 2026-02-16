@@ -292,7 +292,7 @@ const MobileMenu = ({
     { to: "/merchant", label: "Merchant" },
     { to: "/research", label: "Research" },
     { to: "/blog", label: "Blog" },
-    { to: "/docs", label: "Docs" },
+    // { to: "/docs", label: "Docs" },
   ];
 
   return (
@@ -485,12 +485,12 @@ export const Navbar = () => {
               <NavItem to="/merchant">{t("Merchant")}</NavItem>
               <NavItem to="/research">Research</NavItem>
               <NavItem to="/blog">Blog</NavItem>
-              <NavItem to="/docs">Docs</NavItem>
+              {/* <NavItem to="/docs">Docs</NavItem> */}
             </div>
 
             {/* Desktop CTA */}
             <div className="hidden lg:flex items-center gap-3">
-              {/* <ThemeSwitcher /> */}
+              <ThemeSwitcher />
               {isAuthenticated ? (
                 <CTAButton to="/dashboard">Dashboard</CTAButton>
               ) : (
@@ -500,7 +500,7 @@ export const Navbar = () => {
 
             {/* Mobile Button */}
             <div className="flex gap-2 lg:hidden">
-              {/* <ThemeSwitcher /> */}
+              <ThemeSwitcher />
               <HamburgerButton
                 isOpen={mobileMenuOpen}
                 onClick={() => setMobileMenuOpen((prev) => !prev)}

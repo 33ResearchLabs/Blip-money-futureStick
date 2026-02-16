@@ -225,7 +225,7 @@ export default function About() {
           <div className="max-w-[900px] mx-auto px-4 sm:px-6">
             <AnimatedSection>
               <div className="flex items-center gap-4 mb-8">
-                <span className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40">
+                <span className="text-[11px] uppercase tracking-[0.3em] text-black/80 dark:text-white/40">
                   Our Mission
                 </span>
                 <div className="flex-1 h-px bg-gray-100 dark:bg-white/[0.06]" />
@@ -260,7 +260,7 @@ export default function About() {
         <section className="py-16 sm:py-24">
           <div className="max-w-[1100px] mx-auto px-4 sm:px-6">
             <AnimatedSection className="text-center mb-14">
-              <span className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 block mb-5">
+              <span className="text-[11px] uppercase tracking-[0.3em] text-black/80 dark:text-white/40 block mb-5">
                 Our Vision
               </span>
               <h2 className="text-3xl sm:text-4xl font-bold text-black dark:text-white tracking-tight">
@@ -280,7 +280,7 @@ export default function About() {
         <section className="py-16 sm:py-24">
           <div className="max-w-[1100px] mx-auto px-4 sm:px-6">
             <AnimatedSection className="text-center mb-14">
-              <span className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 block mb-5">
+              <span className="text-[11px] uppercase tracking-[0.3em] text-black/80 dark:text-white/40 block mb-5">
                 Core Values
               </span>
               <h2 className="text-3xl sm:text-4xl font-bold text-black dark:text-white tracking-tight">

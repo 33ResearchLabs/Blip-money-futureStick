@@ -623,30 +623,8 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
             >
               <Login />
 
-              {/* Login/Register Links */}
-              <div className="mt-6 text-center space-y-3">
-                <p className="text-sm text-black/60 dark:text-white/60">
-                  Already have an account?{" "}
-                  <Link
-                    to="/login"
-                    className="text-black dark:text-white font-medium hover:underline"
-                  >
-                    Sign in
-                  </Link>
-                </p>
-                <p className="text-sm text-black/60 dark:text-white/60">
-                  Want full features?{" "}
-                  <Link
-                    to="/register"
-                    className="text-black dark:text-white font-medium hover:underline"
-                  >
-                    Create account
-                  </Link>
-                </p>
-              </div>
-
               {/* Benefits */}
-              <div className="mt-12 pt-8 border-t border-black/[0.06] dark:border-white/[0.06]">
+              <div className=" border-t border-black/[0.06] dark:border-white/[0.06]">
                 <p className="text-[10px] text-black/40 dark:text-white/40 uppercase tracking-wider mb-4 text-center">
                   What you get
                 </p>

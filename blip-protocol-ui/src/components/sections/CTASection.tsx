@@ -73,7 +73,7 @@ export const CTASection = ({
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6"
+          className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6"
         >
           {title}
         </motion.h2>
@@ -83,7 +83,7 @@ export const CTASection = ({
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-lg md:text-xl text-black/40 dark:text-white/50 mb-10 max-w-2xl mx-auto font-medium"
+            className="text-base md:text-lg lg:text-xl text-black/60 dark:text-white/50 mb-10 max-w-2xl mx-auto font-medium leading-relaxed"
           >
             {description}
           </motion.p>
@@ -96,12 +96,14 @@ export const CTASection = ({
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
           {/* PRIMARY */}
-          <CTAButton to="/join-waitlist" className="w-[225px]  h-[48px]">{primaryButtonText}</CTAButton>
+          <CTAButton to="/join-waitlist" className="w-[225px]  h-[48px]">
+            {primaryButtonText}
+          </CTAButton>
 
           {/* SECONDARY */}
-          {secondaryButtonText && secondaryButtonLink && (
+          {/* {secondaryButtonText && secondaryButtonLink && (
             <MagneticWrapper strength={0.2}>
-              {/* <Link
+              <Link
         to={secondaryButtonLink}
         onClick={() => sounds.click()}
         onMouseEnter={() => sounds.hover()}
@@ -122,15 +124,32 @@ export const CTASection = ({
       >
         {secondaryButtonText}
         <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-      </Link> */}
-              <CTAButton
-                to={secondaryButtonLink}
-                className=" w-[225px]  h-[48px]"
+      </Link> 
+              <button
+                // to={secondaryButtonLink}
+                className=" w-[225px]  h-[48px]  text-[16px] font-medium rounded-full dark:text-white border border-black
+     
+      
+       text-black dark:border-white
+     "
               >
                 {secondaryButtonText}
-                {/* <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" /> */}
-              </CTAButton>
+                
+              </button>
             </MagneticWrapper>
+          )} */}
+          {secondaryButtonText && secondaryButtonLink && (
+            <Link
+              to={secondaryButtonLink}
+              className=" w-[225px]  px-5 py-2.5 h-[48px]  text-[16px] font-medium rounded-full dark:text-white border border-black
+     
+      
+       text-black dark:border-white
+     "
+            >
+              {secondaryButtonText}
+              {/* <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" /> */}
+            </Link>
           )}
         </motion.div>
       </div>

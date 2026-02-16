@@ -244,14 +244,14 @@ const TaxCheckerSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-12"
         >
-          <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40 mb-4 block">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/40 mb-4 block">
             Interactive Tool
           </span>
           <h2 className="text-3xl sm:text-4xl font-semibold text-black dark:text-white tracking-tight">
             Tax Status{" "}
             <span className="text-black/80 dark:text-white/50">Checker</span>
           </h2>
-          <p className="text-sm text-black/50 dark:text-white/40 mt-3 max-w-lg mx-auto">
+          <p className="text-sm text-black/70 dark:text-white/40 mt-3 max-w-lg mx-auto">
             Answer a few questions to see how cryptocurrency is taxed based on
             your situation in the UAE.
           </p>
@@ -265,7 +265,7 @@ const TaxCheckerSection = () => {
         >
           {/* Entity type toggle */}
           <div className="p-6 rounded-2xl bg-white/80 dark:bg-white/[0.04] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] mb-4">
-            <div className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40 mb-4">
+            <div className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/40 mb-4">
               Are you an individual or a business?
             </div>
             <div className="flex gap-3">
@@ -353,7 +353,7 @@ const TaxCheckerSection = () => {
               >
                 {/* Revenue question */}
                 <div className="p-6 rounded-2xl bg-white/80 dark:bg-white/[0.04] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06]">
-                  <div className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40 mb-4">
+                  <div className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/40 mb-4">
                     Is your taxable income over 375,000 AED?
                   </div>
                   <div className="flex gap-3">
@@ -638,7 +638,7 @@ const TaxRulesSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-12"
         >
-          <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40 mb-4 block">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/40 mb-4 block">
             Tax Framework
           </span>
           <h2 className="text-3xl sm:text-4xl font-semibold text-black dark:text-white tracking-tight">
@@ -724,7 +724,7 @@ const CARFSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-12"
         >
-          <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40 mb-4 block">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/40 mb-4 block">
             New for 2026-2027
           </span>
           <h2 className="text-3xl sm:text-4xl font-semibold text-black dark:text-white tracking-tight">
@@ -750,7 +750,7 @@ const CARFSection = () => {
                 <h3 className="text-base font-semibold text-black dark:text-white mb-2">
                   {point.title}
                 </h3>
-                <p className="text-sm text-black/50 dark:text-white/40 leading-relaxed">
+                <p className="text-sm text-black/50 dark:text-white/70 leading-relaxed">
                   {point.desc}
                 </p>
               </div>
@@ -808,7 +808,7 @@ const VARASection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-12"
         >
-          <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40 mb-4 block">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/40 mb-4 block">
             Dubai Regulation
           </span>
           <h2 className="text-3xl sm:text-4xl font-semibold text-black dark:text-white tracking-tight">
@@ -847,7 +847,7 @@ const VARASection = () => {
                   <div className="text-sm font-medium text-black dark:text-white">
                     {cat.title}
                   </div>
-                  <div className="text-xs text-black/40 dark:text-white/30 mt-0.5">
+                  <div className="text-xs text-black/70 dark:text-white/30 mt-0.5">
                     {cat.desc}
                   </div>
                 </div>
@@ -867,7 +867,7 @@ const VARASection = () => {
             <h4 className="text-sm font-semibold text-black dark:text-white mb-2">
               Impact on Taxation
             </h4>
-            <p className="text-xs text-black/50 dark:text-white/40 leading-relaxed">
+            <p className="text-xs text-black/70 dark:text-white/40 leading-relaxed">
               VARA-licensed entities must maintain proper books and records,
               which aligns with corporate tax compliance requirements. VARA
               mandates AML/KYC procedures that create audit trails used by tax
@@ -883,7 +883,7 @@ const VARASection = () => {
             <h4 className="text-sm font-semibold text-black dark:text-white mb-2">
               For Individual Traders
             </h4>
-            <p className="text-xs text-black/50 dark:text-white/40 leading-relaxed">
+            <p className="text-xs text-black/70 dark:text-white/40 leading-relaxed">
               You do not need a VARA license to trade crypto as an individual.
               Use VARA-licensed platforms for regulatory protection and dispute
               resolution. Your personal trading remains 0% taxed regardless
@@ -916,7 +916,7 @@ const ComparisonSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-12"
         >
-          <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40 mb-4 block">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/40 mb-4 block">
             Global Context
           </span>
           <h2 className="text-3xl sm:text-4xl font-semibold text-black dark:text-white tracking-tight">
@@ -935,16 +935,16 @@ const ComparisonSection = () => {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-black/[0.06] dark:border-white/[0.06]">
-                  <th className="text-left p-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40">
+                  <th className="text-left p-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/40">
                     Country
                   </th>
-                  <th className="text-left p-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40">
+                  <th className="text-left p-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/40">
                     Personal Crypto Tax
                   </th>
-                  <th className="text-left p-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40">
+                  <th className="text-left p-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/40">
                     Capital Gains
                   </th>
-                  <th className="text-left p-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40">
+                  <th className="text-left p-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/40">
                     Corporate Tax
                   </th>
                 </tr>
@@ -1009,7 +1009,7 @@ const ComparisonSection = () => {
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.6 }}
-          className="text-xs text-black/40 dark:text-white/30 text-center mt-4"
+          className="text-xs text-black/70 dark:text-white/30 text-center mt-4"
         >
           Rates as of 2026. This is general information and does not constitute
           tax advice. Consult a qualified tax professional for your specific
@@ -1083,7 +1083,7 @@ const FAQSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-12"
         >
-          <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40 mb-4 block">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/40 mb-4 block">
             Common Questions
           </span>
           <h2 className="text-3xl sm:text-4xl font-semibold text-black dark:text-white tracking-tight">
@@ -1208,7 +1208,7 @@ const CTASection = () => {
           transition={{ duration: 0.6, delay: 0.6 }}
           className="mt-14 pt-8 border-t border-black/[0.06] dark:border-white/[0.06]"
         >
-          <div className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40 mb-4">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/40 mb-4">
             Related Pages
           </div>
           <div className="flex flex-wrap justify-center gap-3">

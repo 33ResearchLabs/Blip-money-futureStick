@@ -137,7 +137,7 @@ const HowItWorksSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <span className="text-xs uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-4 block">
+          <span className="text-xs uppercase tracking-[0.3em] text-black/80 dark:text-white/40 mb-4 block">
             Simple Process
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-black dark:text-white tracking-tight">
@@ -225,7 +225,7 @@ const WhyBuySection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <span className="text-xs uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-4 block">
+          <span className="text-xs uppercase tracking-[0.3em] text-black/80 dark:text-white/40 mb-4 block">
             Advantages
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-black dark:text-white tracking-tight">
@@ -308,7 +308,7 @@ const PaymentMethodsSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <span className="text-xs uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-4 block">
+          <span className="text-xs uppercase tracking-[0.3em] text-black/80 dark:text-white/40 mb-4 block">
             Payment Options
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-black dark:text-white tracking-tight">
@@ -332,7 +332,7 @@ const PaymentMethodsSection = () => {
                 onMouseEnter={() => sounds.hover()}
               >
                 {method.badge && (
-                  <span className="absolute top-4 right-4 text-[10px] uppercase tracking-wider px-2 py-1 rounded-full bg-black/5 dark:bg-white/5 text-black/40 dark:text-white/40">
+                  <span className="absolute top-4 right-4 text-[10px] uppercase tracking-wider px-2 py-1 rounded-full bg-black/5 dark:bg-white/5 text-black/80 dark:text-white/40">
                     {method.badge}
                   </span>
                 )}
@@ -399,7 +399,7 @@ const FAQSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <span className="text-xs uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-4 block">
+          <span className="text-xs uppercase tracking-[0.3em] text-black/80 dark:text-white/40 mb-4 block">
             Common Questions
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-black dark:text-white tracking-tight">
@@ -564,7 +564,7 @@ const CTABottomSection = () => {
             Start Buying USDT
             <ArrowRight className="w-4 h-4" />
           </Link> */}
-          <CTAButton to="waitlist" >   Start Buying USDT</CTAButton>
+          <CTAButton to="/waitlist" > Start Buying USDT</CTAButton>
 
         </motion.div>
       </div>

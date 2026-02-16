@@ -89,7 +89,7 @@ const Whitepaper = () => {
         <div className="pt-32 pb-16 px-6">
           <div className="max-w-6xl mx-auto">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-tight">
-              Blip<span className="text-orange-500">.money</span>: A
+              Blip<span className="text-black/80">.money</span>: A
               Pseudonymous, On-Chain Protocol for Global Peer-to-Peer Value
               Settlement
             </h1>

@@ -80,7 +80,7 @@ const CinematicHero = () => {
           transition={{ duration: 0.8, delay: 0.1 }}
           className="mb-8"
         >
-          <span className="text-[11px]  uppercase tracking-[0.3em] text-black dark:text-white/30 font-semibold">
+          <span className="text-[11px] uppercase tracking-[0.3em] text-black dark:text-white/30 font-semibold">
             The settlement protocol
           </span>
         </motion.div>
@@ -90,7 +90,7 @@ const CinematicHero = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display font-bold text-black dark:text-white leading-[0.95] tracking-[-0.04em] text-[clamp(38px,8vw,96px)] mb-8"
+          className="font-display font-bold text-black dark:text-white leading-[1.1] tracking-tight text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl mb-8"
         >
           The liquidity layer for
           <br />
@@ -116,7 +116,7 @@ const CinematicHero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-black dark:text-white/40 text-base sm:text-lg font-medium max-w-xl mx-auto mb-12 leading-relaxed"
+          className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 font-medium max-w-xl mx-auto mb-12 leading-relaxed"
         >
           Liquidity is matched. Funds are locked. Settlement is enforced.
         </motion.p>
@@ -126,14 +126,14 @@ const CinematicHero = () => {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="flex justify-center gap-12 sm:gap-20 mb-14"
+          className="flex justify-center gap-8 sm:gap-20 mb-14 mx-4"
         >
           {[
             { value: "~2s", label: "Settlement", icon: Clock },
             { value: "0.1%", label: "Fees", icon: Percent },
             { value: "150+", label: "Countries", icon: Globe2 },
           ].map((stat, i) => (
-            <div key={stat.label} className="text-center">
+            <div key={stat.label} className="text-center ">
               <div className="flex items-center justify-center gap-2 mb-1">
                 <MicroIcon
                   icon={stat.icon}
@@ -141,11 +141,11 @@ const CinematicHero = () => {
                   size={14}
                   delay={i * 0.2}
                 />
-                <div className="text-2xl sm:text-3xl font-bold text-black dark:text-white tracking-tight">
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-black dark:text-white tracking-tight">
                   {stat.value}
                 </div>
               </div>
-              <div className="text-[10px] text-black dark:text-white/30 uppercase tracking-[0.2em] font-semibold mt-1">
+              <div className="text-[11px] text-black dark:text-white/30 uppercase tracking-[0.3em] font-semibold mt-1">
                 {stat.label}
               </div>
             </div>
@@ -170,7 +170,7 @@ const CinematicHero = () => {
 
           <Link
             to="/merchant"
-            className="inline-flex items-center justify-center w-[240px] h-[56px] rounded-full border border-[#ff6b35]/15 text-black/60 dark:text-white/50 text-base font-medium hover:border-[#ff6b35]/35 hover:text-black dark:hover:text-white/70 transition-all duration-300"
+            className="inline-flex items-center justify-center w-[240px] h-[56px] rounded-full border border-[#ff6b35]/50 text-black/80 dark:text-white/50 text-base font-medium hover:border-[#ff6b35]/80 hover:text-black dark:hover:text-white/70 transition-all duration-300"
           >
             Become a Liquidity Partner
           </Link>

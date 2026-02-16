@@ -48,15 +48,15 @@ const FeaturedArticle = ({ article }: { article: BlogArticle }) => {
 
           {/* Content overlay */}
           <div className="relative px-8 sm:px-12 pb-10 -mt-32 sm:-mt-40">
-            <span className="inline-block text-[11px] font-semibold uppercase tracking-[0.15em] text-gray-500 dark:text-white/40 mb-4">
+            <span className="inline-block text-[11px] font-semibold uppercase tracking-[0.3em] text-black/70 dark:text-white/30 mb-4">
               Featured
             </span>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black dark:text-white tracking-tight leading-[1.1] mb-5 group-hover:text-gray-700 dark:group-hover:text-white/90 transition-colors">
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-5 group-hover:text-black/70 dark:group-hover:text-white/90 transition-colors">
               {article.title}
             </h2>
 
-            <p className="text-lg sm:text-xl text-gray-500 dark:text-white/50 leading-relaxed max-w-2xl mb-6">
+            <p className="text-base md:text-lg lg:text-xl text-black/60 dark:text-white/50 leading-relaxed max-w-2xl mb-6 font-medium">
               {article.excerpt}
             </p>
 
@@ -125,7 +125,7 @@ const ArticleRow = ({
           <div className="flex-1 min-w-0">
             {/* Category + date */}
             <div className="flex items-center gap-3 mb-3">
-              <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-gray-400 dark:text-white/35">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.3em] text-black/70 dark:text-white/30">
                 {article.category}
               </span>
               <span className="w-1 h-1 rounded-full bg-gray-200 dark:bg-white/15" />
@@ -135,7 +135,7 @@ const ArticleRow = ({
             </div>
 
             {/* Title */}
-            <h3 className="text-xl sm:text-2xl font-bold text-black dark:text-white leading-snug mb-2 group-hover:text-gray-600 dark:group-hover:text-white/80 transition-colors">
+            <h3 className="text-xl sm:text-2xl font-semibold text-black dark:text-white leading-snug mb-2 group-hover:text-black/70 dark:group-hover:text-white/80 transition-colors">
               {article.title}
             </h3>
 
@@ -211,17 +211,19 @@ export default function Blog() {
         {/* Hero */}
         <section className="relative pt-32 sm:pt-36 pb-12 sm:pb-16">
           <div className="max-w-[900px] mx-auto px-4 sm:px-6">
-            <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Blog" }]} />
+            <Breadcrumbs
+              items={[{ label: "Home", href: "/" }, { label: "Blog" }]}
+            />
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.19, 1, 0.22, 1] }}
               className="text-center"
             >
-              <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold text-black dark:text-white tracking-tight mb-5">
+              <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-5">
                 Blog
               </h1>
-              <p className="text-lg sm:text-xl text-black dark:text-white/40 max-w-lg mx-auto leading-relaxed">
+              <p className="text-base md:text-lg lg:text-xl text-black dark:text-white/50 max-w-lg mx-auto leading-relaxed font-medium">
                 Insights on crypto payments, escrow, and the infrastructure
                 powering global settlement.
               </p>
@@ -248,7 +250,7 @@ export default function Blog() {
                 className={`relative px-4 py-3 text-[13px] font-medium whitespace-nowrap transition-colors ${
                   activeCategory === cat
                     ? "text-black dark:text-white"
-                    : "text-gray-400 dark:text-white/35 hover:text-gray-600 dark:hover:text-white/60"
+                    : "text-gray-700 dark:text-white/35 hover:text-gray-600 dark:hover:text-white/60"
                 }`}
               >
                 {cat}
@@ -278,7 +280,7 @@ export default function Blog() {
           {/* Divider label */}
           {feedArticles.length > 0 && (
             <div className="flex items-center gap-4 mb-2">
-              <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-gray-400 dark:text-white/30">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.3em] text-black/70 dark:text-white/30">
                 Latest
               </span>
               <div className="flex-1 h-px bg-gray-100 dark:bg-white/[0.06]" />

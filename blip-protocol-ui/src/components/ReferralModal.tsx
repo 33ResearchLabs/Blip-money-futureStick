@@ -103,98 +103,100 @@ export default function ReferralModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-zinc-900 border border-zinc-800 rounded-lg   w-full
-    max-w-lg
-    sm:max-w-md
-    max-h-[90vh]
-
-    overflow-y-auto
-    overflow-x-hidden
-
-    mx-4
-    sm:mx-0">
+    <div className="fixed inset-0 bg-black/50 dark:bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div
+        className="
+          bg-white dark:bg-[#0A0A0A]
+          border border-black/10 dark:border-neutral-800
+          rounded-sm shadow-2xl
+          w-full max-w-lg sm:max-w-md
+          max-h-[90vh] overflow-y-auto overflow-x-hidden
+          mx-4 sm:mx-0
+        "
+      >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-zinc-800">
+        <div className="flex items-center justify-between p-6 border-b border-black/10 dark:border-neutral-800">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-[#ffffff]/20 flex items-center justify-center">
-              <Users className="w-5 h-5 text-[#ffffff]" />
+            <div className="w-10 h-10 rounded-full bg-black/5 dark:bg-white/10 flex items-center justify-center">
+              <Users className="w-5 h-5 text-black dark:text-white" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-white">Your Referrals</h2>
-              <p className="text-xs text-zinc-500">
+              <h2 className="text-lg font-bold text-black dark:text-white">
+                Your Referrals
+              </h2>
+              <p className="text-xs text-black/50 dark:text-neutral-500">
                 Earn +100 pts for each referral
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded hover:bg-zinc-800 transition-colors"
+            className="p-2 rounded hover:bg-black/5 dark:hover:bg-neutral-800 transition-colors"
           >
-            <X className="w-5 h-5 text-zinc-400" />
+            <X className="w-5 h-5 text-black/50 dark:text-neutral-400" />
           </button>
         </div>
 
         {/* Referral Link Section */}
-        <div className="p-6 border-b border-zinc-800 bg-zinc-900/50">
+        <div className="p-6 border-b border-black/10 dark:border-neutral-800 bg-black/[0.02] dark:bg-neutral-900/50">
           <div className="mb-3">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-black/50 dark:text-neutral-500">
               Your Referral Code
             </span>
-            <div className="text-2xl font-mono font-bold text-[#ffffff] mt-1">
+            <div className="text-2xl font-mono font-bold text-black dark:text-white mt-1">
               {referralCode}
             </div>
           </div>
 
-          <div className="flex items-center gap-2 p-3 bg-zinc-800/50 border border-zinc-700 rounded">
+          <div className="flex items-center gap-2 p-3 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-neutral-700 rounded-sm">
             <input
               type="text"
               value={referralLink}
               readOnly
-              className="flex-1 bg-transparent text-xs text-zinc-400 outline-none truncate"
+              className="flex-1 bg-transparent text-xs text-black/60 dark:text-neutral-400 outline-none truncate"
             />
             <button
               onClick={handleCopy}
-              className="p-2 rounded bg-zinc-700 hover:bg-zinc-600 transition-colors"
+              className="p-2 rounded-sm bg-black/5 dark:bg-neutral-700 hover:bg-black/10 dark:hover:bg-neutral-600 transition-colors"
               title="Copy link"
             >
               {copied ? (
-                <Check className="w-4 h-4 text-[#ffffff]" />
+                <Check className="w-4 h-4 text-green-600 dark:text-green-400" />
               ) : (
-                <Copy className="w-4 h-4 text-zinc-400" />
+                <Copy className="w-4 h-4 text-black/60 dark:text-neutral-400" />
               )}
             </button>
             <button
               onClick={handleShare}
-              className="p-2 rounded bg-[#ffffff] hover:bg-[#ffffff] transition-colors"
+              className="p-2 rounded-sm bg-black dark:bg-white hover:opacity-90 transition-colors"
               title="Share link"
             >
-              <Share2 className="w-4 h-4 text-black" />
+              <Share2 className="w-4 h-4 text-white dark:text-black" />
             </button>
           </div>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 gap-4 p-6 border-b border-zinc-800">
-          <div className="p-4 bg-zinc-800/30 border border-zinc-800 rounded">
+        <div className="grid grid-cols-2 gap-4 p-6 border-b border-black/10 dark:border-neutral-800">
+          <div className="p-4 bg-black/[0.03] dark:bg-white/5 border border-black/10 dark:border-neutral-800 rounded-sm">
             <div className="flex items-center gap-2 mb-2">
-              <Users className="w-4 h-4 text-zinc-500" />
-              <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+              <Users className="w-4 h-4 text-black/40 dark:text-neutral-500" />
+              <span className="text-[10px] font-bold uppercase tracking-widest text-black/50 dark:text-neutral-500">
                 Total Referrals
               </span>
             </div>
-            <span className="text-2xl font-bold text-white">
+            <span className="text-2xl font-bold text-black dark:text-white">
               {referrals.length}
             </span>
           </div>
-          <div className="p-4 bg-zinc-800/30 border border-zinc-800 rounded">
+          <div className="p-4 bg-black/[0.03] dark:bg-white/5 border border-black/10 dark:border-neutral-800 rounded-sm">
             <div className="flex items-center gap-2 mb-2">
-              <Gift className="w-4 h-4 text-zinc-500" />
-              <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+              <Gift className="w-4 h-4 text-black/40 dark:text-neutral-500" />
+              <span className="text-[10px] font-bold uppercase tracking-widest text-black/50 dark:text-neutral-500">
                 Rewards Earned
               </span>
             </div>
-            <span className="text-2xl font-bold text-[#ffffff]">
+            <span className="text-2xl font-bold text-black dark:text-white">
               +{totalRewards}
             </span>
           </div>
@@ -202,19 +204,21 @@ export default function ReferralModal({
 
         {/* Referred Users List */}
         <div className="p-6 max-h-[300px] overflow-y-auto">
-          <h3 className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-4">
+          <h3 className="text-[10px] font-bold uppercase tracking-widest text-black/50 dark:text-neutral-500 mb-4">
             Referred Users
           </h3>
 
           {loading ? (
             <div className="flex items-center justify-center py-8">
-              <Loader2 className="w-6 h-6 text-[#ffffff] animate-spin" />
+              <Loader2 className="w-6 h-6 text-black dark:text-white animate-spin" />
             </div>
           ) : referrals.length === 0 ? (
             <div className="text-center py-8">
-              <Users className="w-12 h-12 text-zinc-700 mx-auto mb-3" />
-              <p className="text-zinc-500 text-sm">No referrals yet</p>
-              <p className="text-zinc-600 text-xs mt-1">
+              <Users className="w-12 h-12 text-black/20 dark:text-neutral-700 mx-auto mb-3" />
+              <p className="text-black/50 dark:text-neutral-500 text-sm">
+                No referrals yet
+              </p>
+              <p className="text-black/40 dark:text-neutral-600 text-xs mt-1">
                 Share your link to start earning rewards!
               </p>
             </div>
@@ -223,34 +227,36 @@ export default function ReferralModal({
               {referrals.map((user, index) => (
                 <div
                   key={user.id || index}
-                  className="flex items-center justify-between p-4 bg-zinc-800/30 border border-zinc-800 rounded hover:border-zinc-700 transition-colors"
+                  className="flex items-center justify-between p-4 bg-black/[0.03] dark:bg-white/5 border border-black/10 dark:border-neutral-800 rounded-sm hover:border-black/20 dark:hover:border-neutral-700 transition-colors"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-zinc-700 flex items-center justify-center">
-                      <span className="text-xs font-bold text-zinc-400">
+                    <div className="w-8 h-8 rounded-full bg-black/10 dark:bg-neutral-700 flex items-center justify-center">
+                      <span className="text-xs font-bold text-black/60 dark:text-neutral-400">
                         {index + 1}
                       </span>
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <Wallet className="w-3 h-3 text-zinc-500" />
-                        <span className="text-sm font-mono text-zinc-300">
+                        <Wallet className="w-3 h-3 text-black/40 dark:text-neutral-500" />
+                        <span className="text-sm font-mono text-black/70 dark:text-neutral-300">
                           {formatWallet(user.wallet_address)}
                         </span>
                       </div>
                       <div className="flex items-center gap-2 mt-1">
-                        <Calendar className="w-3 h-3 text-zinc-600" />
-                        <span className="text-[10px] text-zinc-500">
+                        <Calendar className="w-3 h-3 text-black/30 dark:text-neutral-600" />
+                        <span className="text-[10px] text-black/40 dark:text-neutral-500">
                           Joined {formatDate(user.joinedAt)}
                         </span>
                       </div>
                     </div>
                   </div>
                   <div className="text-right">
-                    <span className="text-sm font-bold text-[#ffffff]">
+                    <span className="text-sm font-bold text-black dark:text-white">
                       +{user.rewardAmount || 100}
                     </span>
-                    <div className="text-[10px] text-zinc-500">pts earned</div>
+                    <div className="text-[10px] text-black/40 dark:text-neutral-500">
+                      pts earned
+                    </div>
                   </div>
                 </div>
               ))}
@@ -259,10 +265,10 @@ export default function ReferralModal({
         </div>
 
         {/* Footer */}
-        <div className="p-4 border-t border-zinc-800 bg-zinc-900/50">
+        <div className="p-4 border-t border-black/10 dark:border-neutral-800 bg-black/[0.02] dark:bg-neutral-900/50">
           <button
             onClick={onClose}
-            className="w-full py-3 rounded font-bold bg-zinc-800 text-zinc-300 hover:bg-zinc-700 transition-colors"
+            className="w-full py-3 rounded-sm font-bold bg-black/5 dark:bg-neutral-800 text-black/70 dark:text-neutral-300 hover:bg-black/10 dark:hover:bg-neutral-700 transition-colors"
           >
             Close
           </button>

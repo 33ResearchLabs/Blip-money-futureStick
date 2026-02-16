@@ -56,17 +56,14 @@ const WhyBlipSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const cardRef = useRef(null);
 
-  /* -----------------------------
-        3D Mouse Tracking
-     ----------------------------- */
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
   const mouseXSpring = useSpring(x, { stiffness: 150, damping: 20 });
   const mouseYSpring = useSpring(y, { stiffness: 150, damping: 20 });
 
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["30deg", "40deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["28deg", "40deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-12deg", "12deg"]);
 
   const shineX = useTransform(mouseXSpring, [-0.5, 0.5], ["0%", "100%"]);
   const shineY = useTransform(mouseYSpring, [-0.5, 0.5], ["0%", "100%"]);
@@ -83,126 +80,75 @@ const WhyBlipSection = () => {
     y.set(0);
   };
 
-  /* -----------------------------
-        Features
-     ----------------------------- */
   const features = [
     {
       title: "No waiting",
       description: "Requests come to you instead of you hunting buyers",
-      icon: <Zap className="w-4 h-4 sm:w-5 sm:h-5" />,
+      icon: <Zap className="w-5 h-5" />,
     },
     {
       title: "More control",
       description: "Filters, limits, and corridor selection",
-      icon: <Sliders className="w-4 h-4 sm:w-5 sm:h-5" />,
+      icon: <Sliders className="w-5 h-5" />,
     },
     {
       title: "Faster execution",
       description: "One flow, minimal steps, no noise",
-      icon: <Activity className="w-4 h-4 sm:w-5 sm:h-5" />,
+      icon: <Activity className="w-5 h-5" />,
     },
     {
       title: "Lower risk",
       description: "Escrow-first design reduces failed trades",
-      icon: <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5" />,
+      icon: <ShieldCheck className="w-5 h-5" />,
     },
     {
       title: "Clear operations",
       description: "Status timeline + trade history",
-      icon: <LayoutList className="w-4 h-4 sm:w-5 sm:h-5" />,
+      icon: <LayoutList className="w-5 h-5" />,
     },
     {
       title: "Transparent proof",
       description: "On-chain visibility via Blip Scan",
-      icon: <Globe className="w-4 h-4 sm:w-5 sm:h-5" />,
+      icon: <Globe className="w-5 h-5" />,
     },
   ];
 
   return (
-    <section className="relative bg-[#FAF8F5] dark:bg-transparent text-black dark:text-white overflow-hidden py-12 sm:py-20 md:py-28 lg:py-32">
-      {/* Ambient Background */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[1200px] h-[800px] bg-black/[0.02] dark:bg-white/[0.02] blur-[140px] rounded-full" />
-        <motion.div
-          animate={{ opacity: [0.03, 0.06, 0.03], scale: [1, 1.1, 1] }}
-          transition={{ duration: 10, repeat: Infinity }}
-          className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(0,0,0,0.03)_0%,transparent_60%)] dark:bg-[radial-gradient(circle_at_50%_40%,rgba(255,255,255,0.04)_0%,transparent_60%)]"
-        />
-      </div>
-
+    <section className="relative bg-[#FAF8F5] dark:bg-transparent text-black dark:text-white overflow-hidden py-20 lg:py-28">
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
-        {/* Grid: 1 col on sm, 2 cols on lg */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left: Header */}
-          <div className="max-w-xl mx-auto lg:mx-0 text-center lg:text-left">
-            <div className="flex items-center justify-center lg:justify-start gap-2 mb-6">
-              <div className="w-2 h-2 rounded-full bg-[#ff6b35] " />
-              <span className="text-xs tracking-[0.2em] uppercase text-black/40 dark:text-white/40">
-                Next-Gen Merchant Protocol
-              </span>
-            </div>
-
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white leading-tight mb-6 sm:mb-8 tracking-tight max-w-xl mx-auto lg:mx-0">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          {/* LEFT */}
+          <div className="max-w-xl text-center lg:text-left">
+            <h2 className=" text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white leading-[1.1] mb-6">
               Why Merchants{" "}
-              <span className="text-black/80 dark:text-white/50">Choose </span>
+              <span className="text-black/70 dark:text-white/70">Choose</span>{" "}
               Blip
             </h2>
 
-            <p className="text-lg text-black/40 dark:text-white/40 max-w-2xl mb-10">
-              Built for speed control and repeat volume
+            <p className="text-base md:text-lg lg:text-xl text-black/60 dark:text-white/50 font-medium leading-relaxed mb-10">
+              Built for speed, control and repeat volume.
             </p>
-
-            <CTAButton
-              to="/join-waitlist"
-              className="group inline-flex items-center justify-center gap-3
-      
-      w-[220px]  h-[48px]
- "
-            >
-              Start Trading
-            </CTAButton>
           </div>
 
-          {/* Right: 3D Interactive Card */}
+          {/* RIGHT CARD */}
           <div
             ref={cardRef}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
             style={{ perspective: "1500px" }}
-            className="w-full max-w-[520px] sm:max-w-[560px] md:max-w-[620px] lg:max-w-[680px] xl:max-w-[720px] mx-auto lg:mx-0"
+            className="w-full max-w-[680px] mx-auto"
           >
             <motion.div
               style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-              className="relative
-rounded-[18px] sm:rounded-[22px] md:rounded-[26px] lg:rounded-[32px]
-border border-black/10 dark:border-white/10
-bg-white/90 dark:bg-[#0c0c0d]/90
-backdrop-blur-2xl
-overflow-hidden"
+              className="relative rounded-[28px]
+              border border-black/15 dark:border-white/10
+              bg-white dark:bg-[#0c0c0d]
+              backdrop-blur-xl
+              shadow-xl dark:shadow-[0_20px_60px_rgba(0,0,0,0.6)]
+              overflow-hidden"
             >
-              {/* Shine */}
-              <motion.div
-                style={{ left: shineX, top: shineY }}
-                className="absolute -translate-x-1/2 -translate-y-1/2
-  w-[300px] h-[300px]
-  sm:w-[420px] sm:h-[420px]
-  lg:w-[600px] lg:h-[600px]
-  bg-white/[0.05]
-  blur-[60px] sm:blur-[70px] lg:blur-[90px]
-  rounded-full pointer-events-none"
-              />
-
-              {/* Header */}
-              <div className="px-4 sm:px-5 md:px-6 lg:px-8 pt-5 sm:pt-6 md:pt-7 pb-4 sm:pb-5 border-b border-black/5 dark:border-white/5">
-                {" "}
-                <h3 className="text-xs sm:text-sm md:text-base italic text-black/60 dark:text-zinc-300 sm:dark:text-zinc-400">
-                  Platform Capabilities
-                </h3>
-              </div>
-
               {/* Feature List */}
-              <div className="px-3 sm:px-4 md:px-5 py-4 sm:py-5">
+              <div className="p-6">
                 {features.map((f, index) => {
                   const isActive = activeIndex === index;
                   const isPrimary = index === 0;
@@ -211,111 +157,73 @@ overflow-hidden"
                     <motion.div
                       key={f.title}
                       onClick={() => setActiveIndex(index)}
-                      initial={false}
-                      whileHover={
-                        isPrimary
-                          ? { y: -6, rotateX: 6, rotateY: -6 }
-                          : { y: -2 }
-                      }
+                      whileHover={{
+                        y: -4,
+                        scale: 1.02,
+                      }}
                       transition={{
                         type: "spring",
-                        stiffness: 200,
-                        damping: 20,
-                      }}
-                      style={{
-                        transformStyle: "preserve-3d",
+                        stiffness: 220,
+                        damping: 18,
                       }}
                       className={`
-          relative
-flex items-center justify-between
-gap-3 sm:gap-4
-px-3 sm:px-4 md:px-5
-py-3 sm:py-4
-mb-2 sm:mb-2.5
-rounded-xl sm:rounded-2xl
-cursor-pointer
-transition-all duration-300
-min-w-0
-          ${
-            isPrimary
-              ? `
-                bg-black/[0.04] dark:bg-white/[0.06]
-                border border-black/20 dark:border-white/20
-                backdrop-blur-xl
-                shadow-[0_20px_40px_-10px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.8),inset_0_1px_1px_rgba(255,255,255,0.12)]
-              `
-              : isActive
-                ? "bg-black/[0.03] dark:bg-[#ffffff]/[0.05] border border-black/20 dark:border-[#ffffff]/20"
-                : "opacity-70 hover:opacity-100 hover:bg-black/[0.02] dark:hover:bg-white/[0.02]"
-          }
-        `}
+                        flex items-center justify-between
+                        px-5 py-4 mb-3
+                        rounded-2xl
+                        cursor-pointer
+                        transition-all duration-300
+                        ${
+                          isPrimary
+                            ? `
+                              bg-black/10 dark:bg-white/10
+                              border border-black/30 dark:border-white/20
+                              shadow-lg
+                            `
+                            : isActive
+                              ? `
+                              bg-black/8 dark:bg-white/8
+                              border border-black/20 dark:border-white/20
+                            `
+                              : `
+                              bg-white hover:bg-black/5
+                              dark:bg-transparent dark:hover:bg-white/5
+                            `
+                        }
+                      `}
                     >
-                      {/* Inner glow for 3D card */}
-                      {isPrimary && (
-                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/[0.08] to-transparent pointer-events-none" />
-                      )}
-
-                      <div className="flex items-center gap-3 sm:gap-4 md:gap-5 relative z-10 min-w-0 flex-1">
-                        {/* Icon */}
+                      {/* LEFT CONTENT */}
+                      <div className="flex items-center gap-4 flex-1">
                         <div
                           className={`
-              w-9 h-9 sm:w-10 sm:h-10 md:w-11 md:h-11 lg:w-12 lg:h-12
- rounded-lg sm:rounded-xl flex items-center justify-center border transition-all
-              ${
-                isPrimary
-                  ? "bg-black dark:bg-white text-white dark:text-black border-black/30 dark:border-white/30 shadow-[0_8px_20px_rgba(0,0,0,0.2)] dark:shadow-[0_8px_20px_rgba(0,0,0,0.6)]"
-                  : isActive
-                    ? "bg-black/30 dark:bg-white/30 text-white dark:text-black border-black/20 dark:border-white/20"
-                    : "bg-[#FAF8F5] dark:bg-[#151516] border-black/10 dark:border-white/10 text-zinc-400"
-              }
-            `}
-                          style={
-                            isPrimary
-                              ? { transform: "translateZ(20px)" }
-                              : undefined
-                          }
+                            w-11 h-11 rounded-xl
+                            flex items-center justify-center
+                            border transition-all
+                            ${
+                              isPrimary
+                                ? "bg-black text-white border-black shadow-md"
+                                : isActive
+                                  ? "bg-black/80 text-white border-black/40"
+                                  : "bg-black/5 dark:bg-white/5 text-black dark:text-white border-black/20 dark:border-white/20"
+                            }
+                          `}
                         >
                           {f.icon}
                         </div>
 
-                        <div
-                          style={
-                            isPrimary
-                              ? { transform: "translateZ(16px)" }
-                              : undefined
-                          }
-                        >
-                          <div className="min-w-0">
-                            <div className="text-sm sm:text-base md:text-lg font-bold text-black dark:text-white truncate">
-                              {f.title}
-                            </div>
-                            <div className="text-xs sm:text-sm md:text-[15px] text-black/40 dark:text-zinc-400 leading-relaxed">
-                              {f.description}
-                            </div>
+                        <div>
+                          <div className="text-lg font-semibold text-black/80 dark:text-white/70">
+                            {f.title}
+                          </div>
+                          <div className="text-sm font-medium text-black/70 dark:text-white/50">
+                            {f.description}
                           </div>
                         </div>
                       </div>
 
+                      {/* RIGHT CHECK */}
                       {(isActive || isPrimary) && (
-                        <div
-                          className={`
-              relative z-10 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center
-              ${
-                isPrimary
-                  ? "bg-black/20 dark:bg-white/20 border border-black/30 dark:border-white/30 text-black dark:text-white"
-                  : "bg-black/10 dark:bg-[#ffffff]/10 border border-black/30 dark:border-[#ffffff]/30 text-black dark:text-white"
-              }
-            `}
-                          style={
-                            isPrimary
-                              ? { transform: "translateZ(24px)" }
-                              : undefined
-                          }
-                        >
-                          <Check
-                            className="w-4 h-4 sm:w-5 sm:h-5"
-                            strokeWidth={3}
-                          />
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center bg-black text-white dark:bg-white dark:text-black shadow-md">
+                          <Check className="w-4 h-4" strokeWidth={3} />
                         </div>
                       )}
                     </motion.div>
@@ -386,7 +294,7 @@ const DashboardSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/60 mb-4"
+            className="text-[11px] uppercase tracking-[0.3em] text-black/80 dark:text-white/30 font-semibold mb-4"
           >
             Merchant Dashboard
           </motion.p>
@@ -394,17 +302,17 @@ const DashboardSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-4"
+            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-4"
           >
             Your{" "}
-            <span className="text-black/80 dark:text-white/50">command</span>{" "}
+            <span className="text-black/70 dark:text-white/50">command</span>{" "}
             center
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg text-black dark:text-white/40 max-w-xl mx-auto font-medium"
+            className="text-base md:text-lg lg:text-xl text-black/60 dark:text-white/50 max-w-xl mx-auto font-medium leading-relaxed"
           >
             Everything needed to run a desk, without the clutter.
           </motion.p>
@@ -523,7 +431,7 @@ const PricingSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-4"
+          className="text-[11px] uppercase tracking-[0.3em] text-black/80 dark:text-white/30 font-semibold mb-4"
         >
           Pricing
         </motion.p>
@@ -532,10 +440,10 @@ const PricingSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.1 }}
-          className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6"
+          className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6"
         >
           You{" "}
-          <span className="text-black/80 dark:text-white/50">
+          <span className="text-black/70 dark:text-white/50">
             control pricing.
           </span>{" "}
           We keep it simple.
@@ -545,7 +453,7 @@ const PricingSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-lg text-black dark:text-white/40 mb-10 max-w-2xl mx-auto leading-relaxed font-medium"
+          className="text-base md:text-lg lg:text-xl text-black/60 dark:text-white/50 mb-10 max-w-2xl mx-auto leading-relaxed font-medium"
         >
           Blip shows a live market reference rate. You can adjust your quote
           within allowed ranges to win the request faster when needed.
@@ -557,7 +465,7 @@ const PricingSection = () => {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="p-6 rounded-2xl bg-white/60 dark:bg-white/[0.02] border border-black/[0.08] dark:border-white/5 max-w-xl mx-auto hover:border-black/20 dark:hover:border-white/30 transition-colors duration-500 backdrop-blur-xl"
         >
-          <div className="space-y-3 text-sm text-black/40 dark:text-white/40">
+          <div className="space-y-3 text-sm text-black dark:text-white/40">
             <p>
               Exact fees and ranges may vary by corridor and stage (Alpha/Beta).
             </p>
@@ -644,7 +552,7 @@ const RolloutSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6 }}
-              className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-4"
+              className="text-[11px] uppercase tracking-[0.3em] text-black/70 dark:text-white/30 font-semibold mb-4"
             >
               Rollout
             </motion.p>
@@ -704,7 +612,7 @@ const RolloutSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-4"
+              className="text-[11px] uppercase tracking-[0.3em] text-black/70 dark:text-white/30 font-semibold mb-4"
             >
               Benefits
             </motion.p>
@@ -730,9 +638,9 @@ const RolloutSection = () => {
                   className="group flex items-center gap-4 p-4 rounded-xl bg-white/60 dark:bg-white/[0.02] border border-black/[0.08] dark:border-white/5 hover:bg-white/80 dark:hover:bg-white/5 hover:border-black/15 dark:hover:border-white/10 backdrop-blur-xl"
                 >
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <CheckCircle2 className="w-4 h-4 text-black/30 dark:text-gray-600 group-hover:text-black/60 dark:group-hover:text-white/60" />
+                    <CheckCircle2 className="w-4 h-4 text-black/40 dark:text-gray-600 group-hover:text-black/60 dark:group-hover:text-white/60" />
                   </div>
-                  <span className="text-black/70 dark:text-white/70">
+                  <span className="text-black dark:text-white/70">
                     {benefit}
                   </span>
                 </div>
@@ -782,7 +690,7 @@ const RequirementsSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-4"
+            className="text-[11px] uppercase tracking-[0.3em] text-black/80 dark:text-white/30 font-semibold mb-4"
           >
             Requirements
           </motion.p>
@@ -790,7 +698,7 @@ const RequirementsSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.1]"
+            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1]"
           >
             Who should apply
           </motion.h2>
@@ -812,9 +720,7 @@ const RequirementsSection = () => {
                 <div className="w-10 h-10 rounded-lg bg-black/5 dark:bg-white/5 flex items-center justify-center flex-shrink-0">
                   <Icon className="w-5 h-5 text-black/60 dark:text-white/60 group-hover:text-black/80 dark:group-hover:text-white/80" />
                 </div>
-                <p className="text-black/70 dark:text-white/70 pt-2">
-                  {req.text}
-                </p>
+                <p className="text-black dark:text-white/70 pt-2">{req.text}</p>
               </div>
             );
           })}
@@ -914,7 +820,8 @@ const Merchant = () => {
         primaryButtonText="Apply as Merchant"
         primaryButtonLink="/waitlist"
         secondaryButtonText="Join Merchant "
-        secondaryButtonLink="https://t.me/blip_money"
+        secondaryButtonLink="/waitlist"
+        // secondaryButtonLink="https://t.me/blip_money"
         // background="gradient"
       />
     </>

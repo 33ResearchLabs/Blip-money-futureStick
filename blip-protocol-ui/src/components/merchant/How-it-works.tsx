@@ -47,31 +47,37 @@ const HowItWorksSection = () => {
           setHovered(false);
           setRotate({ x: 0, y: 0 });
         }}
-        className="group relative flex flex-col overflow-hidden rounded-[2.5rem] border border-black/[0.08] dark:border-white/[0.06] bg-white/60 dark:bg-[#050505] backdrop-blur-xl p-8 transition-all duration-500"
+        className="group relative flex flex-col overflow-hidden rounded-[2.5rem] 
+        border border-black/10 dark:border-white/[0.06] 
+        bg-white/80 dark:bg-[#050505] 
+        backdrop-blur-xl p-8 
+        transition-all duration-500
+        hover:shadow-2xl hover:shadow-black/20 dark:hover:shadow-white/10
+        hover:-translate-y-2"
         style={{
           animation: `fadeInUp 1s cubic-bezier(0.2,0.8,0.2,1) ${delay}s both`,
           transform: `perspective(1000px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg)`,
         }}
       >
-        {/* Spotlight */}
+        {/* Stronger Spotlight */}
         <div
-          className="absolute inset-0 transition-opacity duration-500"
+          className="absolute inset-0 transition-opacity duration-500 pointer-events-none"
           style={{
             opacity: hovered ? 1 : 0,
-            background: `radial-gradient(400px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255,255,255,0.08), transparent 40%)`,
+            background: `radial-gradient(500px circle at ${mousePos.x}px ${mousePos.y}px, rgba(0,0,0,0.08), transparent 40%)`,
           }}
         />
 
         {/* Step */}
         <div className="absolute top-6 right-6 flex items-center gap-2">
           <div
-            className={`h-1.5 w-1.5 rounded-full transition-all duration-300 ${
+            className={`h-2 w-2 rounded-full transition-all duration-300 ${
               hovered
-                ? "bg-gray-400 dark:bg-gray-500 shadow-[0_0_8px_rgba(100,100,100,0.3)]"
-                : "bg-black/40 dark:bg-white/40"
+                ? "bg-black dark:bg-white shadow-[0_0_12px_rgba(0,0,0,0.4)] dark:shadow-[0_0_12px_rgba(255,255,255,0.4)]"
+                : "bg-black/50 dark:bg-white/50"
             }`}
           />
-          <span className="text-[9px] font-mono tracking-[0.2em] text-black/50 dark:text-white/50">
+          <span className="text-[9px] font-mono tracking-[0.2em] text-black/60 dark:text-white/60">
             STEP_0{step}
           </span>
         </div>
@@ -81,8 +87,8 @@ const HowItWorksSection = () => {
           <div
             className={`flex h-14 w-14 items-center justify-center rounded-2xl border transition-all duration-300 ${
               hovered
-                ? "bg-black/[0.08] dark:bg-white/[0.08] border-black/20 dark:border-white/20 text-black/60 dark:text-white/60"
-                : "bg-black/[0.05] dark:bg-white/[0.05] border-black/10 dark:border-white/10 text-black/40 dark:text-white/40"
+                ? "bg-black/10 dark:bg-white/10 border-black/30 dark:border-white/30 text-black dark:text-white scale-110"
+                : "bg-black/5 dark:bg-white/5 border-black/20 dark:border-white/20 text-black/70 dark:text-white/70"
             }`}
           >
             <Icon size={24} />
@@ -92,57 +98,48 @@ const HowItWorksSection = () => {
             <h3 className="text-xl font-bold text-black dark:text-white mb-2">
               {title}
             </h3>
-            <p className="text-sm text-black/40 dark:text-white/40">
+            <p className="text-sm text-black/70 dark:text-white/50">
               {subtitle}
             </p>
           </div>
         </div>
 
-        {/* Mockup — pass hovered down via React clone */}
-        <div className="relative mt-auto h-52 overflow-hidden rounded-2xl border border-black/[0.06] dark:border-white/5 bg-black/[0.03] dark:bg-[#080808]">
-          <div className="absolute inset-0 bg-[radial-gradient(rgba(0,0,0,0.02)_1px,transparent_1px)] dark:bg-[radial-gradient(rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:20px_20px]" />
+        {/* Mockup */}
+        <div
+          className="relative mt-auto h-52 overflow-hidden rounded-2xl 
+        border border-black/10 dark:border-white/5 
+        bg-black/5 dark:bg-[#080808]"
+        >
           <div className="relative z-10 h-full">
-            {/* Inject hovered prop into children */}
             {React.isValidElement(children)
               ? React.cloneElement(children, { hovered })
               : children}
           </div>
 
-          <div className="absolute bottom-0 inset-x-0 h-8 border-t border-black/5 dark:border-white/5 bg-white/80 dark:bg-black/80 flex items-center justify-between px-4">
-            <span className="text-[8px] font-mono text-black/70 dark:text-white/50">
+          <div className="absolute bottom-0 inset-x-0 h-8 border-t border-black/10 dark:border-white/5 bg-white dark:bg-black flex items-center justify-between px-4">
+            <span className="text-[8px] font-mono text-black/80 dark:text-white/60">
               SYSTEM_ACTIVE
             </span>
-            <Cpu size={10} className="text-black/10 dark:text-white/20" />
+            <Cpu size={10} className="text-black/50 dark:text-white/30" />
           </div>
         </div>
       </div>
     );
   };
 
-  /* ---------------- MOCKUPS ---------------- */
-  const MockupDashboard = ({ hovered }: { hovered: boolean }) => (
+  /* ---------------- MOCKUP DASHBOARD (FIXED VISIBILITY) ---------------- */
+  const MockupDashboard = ({ hovered }) => (
     <div className="p-4 flex flex-col gap-2">
-      <div className="flex justify-between items-center">
-        <div className="h-1 w-12 bg-black/30 dark:bg-white/30 rounded-full" />
-        <Zap
-          size={10}
-          className="text-black/20 dark:text-white/20"
-          style={{
-            animation: hovered ? "spin-slow 2s linear infinite" : "none",
-          }}
-        />
-      </div>
       {["USDT/AED", "AED/USDT", "USDT/Cash"].map((p, i) => (
         <div
           key={i}
-          className={`p-2 rounded-xl text-[9px] transition-all duration-300 ${
+          className={`p-2 rounded-xl text-[10px] font-medium transition-all duration-300 ${
             hovered
-              ? "bg-black/[0.12] dark:bg-white/[0.12] text-black/70 dark:text-white/70"
-              : "bg-black/[0.06] dark:bg-white/[0.06] text-black/20 dark:text-white/40"
+              ? "bg-black/20 dark:bg-white/15 text-black dark:text-white shadow-md"
+              : "bg-black/10 dark:bg-white/10 text-black/80 dark:text-white/70"
           }`}
           style={{
-            transform: hovered ? `translateX(${i * 2}px)` : "translateX(0)",
-            transitionDelay: `${i * 60}ms`,
+            transform: hovered ? `translateX(${i * 4}px)` : "translateX(0)",
           }}
         >
           {p}
@@ -151,156 +148,27 @@ const HowItWorksSection = () => {
     </div>
   );
 
-  const MockupLock = ({ hovered }: { hovered: boolean }) => (
+  /* ---------------- MOCKUP LOCK ---------------- */
+  const MockupLock = ({ hovered }) => (
     <div className="h-full flex flex-col items-center justify-center gap-4">
       <div
         className={`h-16 w-16 rounded-3xl flex items-center justify-center transition-all duration-500 border ${
           hovered
-            ? "bg-black/[0.15] dark:bg-white/[0.15] border-black/[0.35] dark:border-white/[0.35] scale-[1.08]"
-            : "bg-black/[0.08] dark:bg-white/[0.08] border-black/[0.15] dark:border-white/[0.15] scale-100"
+            ? "bg-black/20 dark:bg-white/20 border-black/40 dark:border-white/40 scale-110 shadow-lg"
+            : "bg-black/10 dark:bg-white/10 border-black/20 dark:border-white/20"
         }`}
       >
-        <Lock
-          size={24}
-          className={`transition-colors duration-400 ${
-            hovered
-              ? "text-black/50 dark:text-white/50"
-              : "text-black/20 dark:text-white/20"
-          }`}
-        />
-      </div>
-      <div className="h-1.5 w-24 bg-black/10 dark:bg-white/10 rounded-full overflow-hidden">
-        <div
-          className="h-full bg-black/40 dark:bg-white/40 rounded-full transition-all duration-[1500ms]"
-          style={{ width: hovered ? "100%" : "33%" }}
-        />
+        <Lock size={24} className="text-black dark:text-white" />
       </div>
       <span
-        className={`text-[8px] font-mono tracking-widest transition-all duration-300 ${
+        className={`text-[9px] font-mono tracking-widest transition-all duration-300 ${
           hovered
-            ? "text-black/50 dark:text-white/50 opacity-100"
-            : "text-black/20 dark:text-white/20 opacity-0"
+            ? "text-black dark:text-white opacity-100"
+            : "text-black/70 dark:text-white/50 opacity-70"
         }`}
       >
         LOCKED
       </span>
-    </div>
-  );
-
-  const MockupEscrow = ({ hovered }) => (
-    <div className="p-4">
-      <div
-        className={`rounded-xl border p-4 transition-all duration-500 ${
-          hovered
-            ? "bg-black/[0.1] dark:bg-white/[0.1] border-black/20 dark:border-white/20 scale-[1.03]"
-            : "bg-black/[0.04] dark:bg-white/[0.04] border-black/[0.08] dark:border-white/[0.08] scale-100"
-        }`}
-      >
-        <ShieldCheck
-          size={14}
-          className={`mb-3 transition-all duration-300 ${
-            hovered
-              ? "text-black/50 dark:text-white/50"
-              : "text-black/20 dark:text-white/20"
-          }`}
-        />
-
-        <div className="h-2 bg-black/10 dark:bg-white/10 rounded-full overflow-hidden">
-          <div
-            className={`h-full rounded-full transition-all duration-[1200ms] ${
-              hovered
-                ? "bg-black/50 dark:bg-white/50"
-                : "bg-black/[0.25] dark:bg-white/[0.25]"
-            }`}
-            style={{
-              width: hovered ? "80%" : "50%",
-              animation: hovered ? "none" : "pulse 1.5s infinite",
-            }}
-          />
-        </div>
-
-        <div className="mt-3 flex gap-1">
-          {[1, 2, 3].map((i) => (
-            <div
-              key={i}
-              className={`h-1 flex-1 rounded-full transition-all duration-300 ${
-                hovered
-                  ? "bg-black/30 dark:bg-white/30"
-                  : "bg-black/[0.08] dark:bg-white/[0.08]"
-              }`}
-              style={{
-                transitionDelay: `${i * 80}ms`,
-              }}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-
-  const MockupOnChain = ({ hovered }) => (
-    <div className="p-4 font-mono text-[9px] text-black/60 dark:text-white/60 relative h-full overflow-hidden">
-      <div
-        className={`flex items-center gap-2 mb-2 transition-colors duration-300 ${
-          hovered
-            ? "text-black/50 dark:text-white/50"
-            : "text-black/[0.25] dark:text-white/[0.25]"
-        }`}
-      >
-        <Scan size={12} /> BLIP_SCAN
-      </div>
-      <div
-        className={`transition-all duration-300 ${
-          hovered
-            ? "text-black/70 dark:text-white/70"
-            : "text-black/40 dark:text-white/40"
-        }`}
-        style={{
-          transform: hovered ? "translateX(4px)" : "translateX(0)",
-        }}
-      >
-        {"> BLOCK CONFIRMED"}
-      </div>
-      <div
-        className={`transition-all duration-500 ${
-          hovered
-            ? "text-black/40 dark:text-white/40"
-            : "text-black/20 dark:text-white/20"
-        }`}
-        style={{
-          transform: hovered ? "translateX(4px)" : "translateX(0)",
-          transitionDelay: "80ms",
-        }}
-      >
-        {"> FINALIZED"}
-      </div>
-
-      {/* Extra lines that fade in on hover */}
-      <div
-        className={`transition-all duration-500 mt-1 text-black/[0.25] dark:text-white/[0.25] ${
-          hovered ? "opacity-100" : "opacity-0"
-        }`}
-        style={{
-          transform: hovered ? "translateX(4px)" : "translateX(0)",
-          transitionDelay: "160ms",
-        }}
-      >
-        {"> HASH_0xA3F…"}
-      </div>
-
-      <Globe
-        size={40}
-        className={`absolute bottom-2 right-2 transition-all duration-500 ${
-          hovered
-            ? "text-black/[0.15] dark:text-white/[0.15]"
-            : "text-black/[0.06] dark:text-white/[0.06]"
-        }`}
-        style={{
-          transform: hovered
-            ? "rotate(15deg) scale(1.1)"
-            : "rotate(0deg) scale(1)",
-        }}
-      />
     </div>
   );
 
@@ -315,32 +183,17 @@ const HowItWorksSection = () => {
           from { opacity: 0; transform: translateY(40px); }
           to   { opacity: 1; transform: translateY(0);    }
         }
-        @keyframes spin-slow {
-          from { transform: rotate(0deg); }
-          to   { transform: rotate(360deg); }
-        }
-        @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50%       { opacity: 0.4; }
-        }
       `}</style>
 
       <div className="text-center mb-12 sm:mb-24">
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white leading-tight mb-6 sm:mb-8 tracking-tight max-w-xl mx-auto"
-        >
-          How merchants{" "}
-          <span className="text-black/80 dark:text-white/50">execute</span> on
-          Blip
-        </motion.h2>
+        <h2 className="text-4xl md:text-6xl font-bold text-black dark:text-white">
+          How merchants execute on Blip
+        </h2>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card
-          title="Dashboard Stream"
+          title="Dashboard Stream" 
           subtitle="Live routing engine."
           icon={LayoutDashboard}
           delay={0.2}
@@ -366,7 +219,7 @@ const HowItWorksSection = () => {
           delay={0.4}
           step={3}
         >
-          <MockupEscrow />
+          <MockupDashboard />
         </Card>
 
         <Card
@@ -376,7 +229,7 @@ const HowItWorksSection = () => {
           delay={0.5}
           step={4}
         >
-          <MockupOnChain />
+          <MockupDashboard />
         </Card>
       </div>
     </section>
