@@ -294,7 +294,7 @@ const EcosystemCard = ({
         <partner.icon className="w-5 h-5 text-black dark:text-white" />
       </div>
 
-      <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-gray-400 dark:text-white/35 block mb-2">
+      <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-gray-800 dark:text-white/35 block mb-2">
         {partner.category}
       </span>
 
@@ -309,7 +309,7 @@ const EcosystemCard = ({
         ))}
       </div>
 
-      <p className="text-[14px] text-gray-500 dark:text-white/40 leading-relaxed">
+      <p className="text-[14px] text-gray-600 dark:text-white/40 leading-relaxed">
         {partner.description}
       </p>
     </motion.div>

@@ -420,7 +420,7 @@ export default function Press() {
                 </a>
 
                 {/* Social links */}
-                <div className="flex items-center justify-center gap-6 pt-6 border-t border-gray-100 dark:border-white/[0.06]">
+                <div className="flex flex-wrap items-center justify-center gap-6 pt-6 border-t border-gray-100 dark:border-white/[0.06]">
                   {[
                     { label: "Twitter / X", href: "https://x.com/blipmoney_" },
                     {
@@ -442,7 +442,7 @@ export default function Press() {
                       target="_blank"
                       rel="noopener noreferrer"
                       onMouseEnter={() => sounds.hover()}
-                      className="text-[13px] font-medium text-black/80 dark:text-white/40 hover:text-black dark:hover:text-white transition-colors flex items-center gap-1"
+                      className="text-[13px] font-medium text-black/80 dark:text-white/40 hover:text-black dark:hover:text-white transition-colors flex items-center  gap-1"
                     >
                       {social.label}
                       <ArrowUpRight className="w-3 h-3" />

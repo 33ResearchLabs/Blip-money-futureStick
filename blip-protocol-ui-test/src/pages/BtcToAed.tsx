@@ -523,7 +523,7 @@ export default function BtcToAed() {
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-black dark:text-white tracking-tight leading-[1.08] mb-4">
                 Bitcoin to AED
                 <br />
-                <span className="bg-gradient-to-r from-black/60 to-black/30 dark:from-white/60 dark:to-white/30 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-black/80 to-black/70 dark:from-white/60 dark:to-white/30 bg-clip-text text-transparent">
                   Live Converter
                 </span>
               </h1>
@@ -737,7 +737,7 @@ export default function BtcToAed() {
                   <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />
                 </Link>
 
-                <p className="text-center text-[11px] text-black/50 dark:text-white/20 mt-3">
+                <p className="text-center text-[11px] text-black/80 dark:text-white/20 mt-3">
                   Non-custodial escrow on Solana. Your keys, your Bitcoin.
                 </p>
               </div>
@@ -938,13 +938,13 @@ export default function BtcToAed() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-black/[0.06] dark:border-white/[0.06]">
-                    <th className="text-left px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">
+                    <th className="text-left px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/30">
                       Bitcoin (BTC)
                     </th>
-                    <th className="text-right px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">
+                    <th className="text-right px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/30">
                       UAE Dirham (AED)
                     </th>
-                    <th className="text-right px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">
+                    <th className="text-right px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/30">
                       US Dollar (USD)
                     </th>
                   </tr>

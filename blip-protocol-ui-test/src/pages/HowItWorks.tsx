@@ -472,7 +472,7 @@ const TransactionFlowSection = () => {
                   <h3 className="text-lg font-semibold text-black/70 dark:text-white/70 mb-3">
                     {step.title}
                   </h3>
-                  <p className="text-sm font-medium text-black/50 dark:text-white/50 mb-4">
+                  <p className="text-sm font-medium text-black/60 dark:text-white/50 mb-4">
                     {step.content}
                   </p>
                   <div className="flex items-center gap-2 text-sm">

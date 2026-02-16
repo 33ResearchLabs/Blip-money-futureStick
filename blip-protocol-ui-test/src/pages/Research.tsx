@@ -125,11 +125,11 @@ const ArticleRow = ({
           <div className="flex-1 min-w-0">
             {/* Category + date */}
             <div className="flex items-center gap-3 mb-3">
-              <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-gray-400 dark:text-white/35">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/35">
                 {article.category}
               </span>
               <span className="w-1 h-1 rounded-full bg-gray-200 dark:bg-white/15" />
-              <span className="text-[12px] text-gray-400 dark:text-white/30">
+              <span className="text-[12px] text-black/80 dark:text-white/30">
                 {formatDate(article.date)}
               </span>
             </div>
@@ -148,18 +148,18 @@ const ArticleRow = ({
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
                 <div className="w-6 h-6 rounded-full bg-gradient-to-br from-gray-200 dark:from-white/10 to-gray-300 dark:to-white/5 flex items-center justify-center">
-                  <span className="text-[9px] font-bold text-gray-500 dark:text-white/50">
+                  <span className="text-[9px] font-bold text-gray-800 dark:text-white/50">
                     {article.author.name.charAt(0)}
                   </span>
                 </div>
-                <span className="text-[13px] text-gray-500 dark:text-white/50">
+                <span className="text-[13px] text-black/80 dark:text-white/50">
                   {article.author.name}
                 </span>
               </div>
 
               <span className="w-1 h-1 rounded-full bg-gray-200 dark:bg-white/15" />
 
-              <span className="flex items-center gap-1 text-[13px] text-gray-400 dark:text-white/30">
+              <span className="flex items-center gap-1 text-[13px] text-black/80 dark:text-white/30">
                 <Clock className="w-3 h-3" />
                 {article.readTime}
               </span>
@@ -277,7 +277,7 @@ export default function Research() {
           {/* Divider label */}
           {feedArticles.length > 0 && (
             <div className="flex items-center gap-4 mb-2">
-              <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-gray-400 dark:text-white/30">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-black/80 dark:text-white/30">
                 All Research
               </span>
               <div className="flex-1 h-px bg-gray-100 dark:bg-white/[0.06]" />

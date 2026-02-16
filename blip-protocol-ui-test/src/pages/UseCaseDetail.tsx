@@ -44,7 +44,7 @@ const PainPointCard = ({
       </div>
 
       <div className="flex-1 min-w-0">
-        <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-red-500/60 dark:text-red-400/50 mb-1 block">
+        <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-red-500 dark:text-red-400/50 mb-1 block">
           Pain Point {index + 1}
         </span>
         <p className="text-[15px] text-black dark:text-white/60 leading-relaxed">
@@ -164,7 +164,7 @@ export default function UseCaseDetail() {
             transition={{ duration: 0.6 }}
             className="mb-10"
           >
-            <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-red-500/60 dark:text-red-400/50 mb-3 block">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-red-500 dark:text-red-400/50 mb-3 block">
               The Problem
             </span>
             <h2 className="text-3xl sm:text-4xl font-bold text-black dark:text-white tracking-tight">
@@ -193,7 +193,7 @@ export default function UseCaseDetail() {
             transition={{ duration: 0.6 }}
             className="mb-10"
           >
-            <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-emerald-500/60 dark:text-emerald-400/50 mb-3 block">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-emerald-500 dark:text-emerald-400/50 mb-3 block">
               The Solution
             </span>
             <h2 className="text-3xl sm:text-4xl font-bold text-black dark:text-white tracking-tight">

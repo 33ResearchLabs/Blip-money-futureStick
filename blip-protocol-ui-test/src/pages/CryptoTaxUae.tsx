@@ -265,7 +265,7 @@ const TaxCheckerSection = () => {
         >
           {/* Entity type toggle */}
           <div className="p-6 rounded-2xl bg-white/80 dark:bg-white/[0.04] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] mb-4">
-            <div className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40 mb-4">
+            <div className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/40 mb-4">
               Are you an individual or a business?
             </div>
             <div className="flex gap-3">
@@ -353,7 +353,7 @@ const TaxCheckerSection = () => {
               >
                 {/* Revenue question */}
                 <div className="p-6 rounded-2xl bg-white/80 dark:bg-white/[0.04] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06]">
-                  <div className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40 mb-4">
+                  <div className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/40 mb-4">
                     Is your taxable income over 375,000 AED?
                   </div>
                   <div className="flex gap-3">
@@ -935,16 +935,16 @@ const ComparisonSection = () => {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-black/[0.06] dark:border-white/[0.06]">
-                  <th className="text-left p-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40">
+                  <th className="text-left p-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/40">
                     Country
                   </th>
-                  <th className="text-left p-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40">
+                  <th className="text-left p-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/40">
                     Personal Crypto Tax
                   </th>
-                  <th className="text-left p-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40">
+                  <th className="text-left p-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/40">
                     Capital Gains
                   </th>
-                  <th className="text-left p-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40">
+                  <th className="text-left p-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/40">
                     Corporate Tax
                   </th>
                 </tr>

@@ -702,11 +702,11 @@ export default function CryptoToAed() {
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-black dark:text-white tracking-tight leading-[1.08] mb-4">
                 Crypto to AED
                 <br />
-                <span className="bg-gradient-to-r from-black/60 to-black/30 dark:from-white/60 dark:to-white/30 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-black/80 to-black/70 dark:from-white/60 dark:to-white/30 bg-clip-text text-transparent">
                   Live Converter
                 </span>
               </h1>
-              <p className="text-lg sm:text-xl text-black/50 dark:text-white/40 max-w-xl leading-relaxed mb-10">
+              <p className="text-lg sm:text-xl text-black/80 dark:text-white/40 max-w-xl leading-relaxed mb-10">
                 Convert USDT, USDC, BTC, ETH & SOL to UAE Dirhams instantly.
                 Live rates, non-custodial escrow, settlement under 15 minutes.
               </p>
@@ -1012,19 +1012,19 @@ export default function CryptoToAed() {
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-black/[0.06] dark:border-white/[0.06]">
-                      <th className="text-left px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">
+                      <th className="text-left px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/30">
                         Asset
                       </th>
-                      <th className="text-right px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">
+                      <th className="text-right px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/30">
                         Price (AED)
                       </th>
-                      <th className="text-right px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">
+                      <th className="text-right px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/30">
                         Price (USD)
                       </th>
-                      <th className="text-right px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">
+                      <th className="text-right px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/30">
                         24h Change
                       </th>
-                      <th className="text-right px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30"></th>
+                      <th className="text-right px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/30"></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1208,19 +1208,19 @@ export default function CryptoToAed() {
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-black/[0.08] dark:border-white/[0.08]">
-                      <th className="text-left px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">
+                      <th className="text-left px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/30">
                         Feature
                       </th>
-                      <th className="text-center px-4 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black dark:text-white bg-black/[0.03] dark:bg-white/[0.03]">
+                      <th className="text-center px-4 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white bg-black/[0.03] dark:bg-white/[0.03]">
                         Blip
                       </th>
-                      <th className="text-center px-4 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">
+                      <th className="text-center px-4 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/30">
                         Binance P2P
                       </th>
-                      <th className="text-center px-4 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">
+                      <th className="text-center px-4 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/30">
                         Wise
                       </th>
-                      <th className="text-center px-4 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/30">
+                      <th className="text-center px-4 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/30">
                         Local OTC
                       </th>
                     </tr>
