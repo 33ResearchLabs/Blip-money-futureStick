@@ -1,187 +1,3 @@
-// import { motion } from "framer-motion";
-// import { Twitter, Send, Mail, Youtube, ArrowUpRight } from "lucide-react";
-// import { Link, NavLink } from "react-router-dom";
-// import { sounds } from "@/lib/sounds";
-// import { Logo } from "./Navbar";
-
-// /* ============================================
-//    LINEAR-INSPIRED FOOTER
-//    Minimal, refined, deeply interactive
-//    ============================================ */
-
-// const SocialLink = ({
-//   href,
-//   icon: Icon,
-//   label,
-// }: {
-//   href: string;
-//   icon: any;
-//   label: string;
-// }) => {
-//   return (
-//     <motion.a
-//       href={href}
-//       target="_blank"
-//       rel="noopener noreferrer"
-//       className="w-9 h-9 rounded-lg flex items-center justify-center bg-black/5 dark:bg-[#18181B] border border-black/10 dark:border-[rgba(255,255,255,0.06)] text-gray-500 dark:text-[#71717A] hover:text-black dark:hover:text-white hover:border-black/20 dark:hover:border-[rgba(255,255,255,0.12)] transition-all"
-//       whileHover={{ scale: 1.05, y: -2 }}
-//       whileTap={{ scale: 0.95 }}
-//       onMouseEnter={() => sounds.hover()}
-//       onClick={() => sounds.click()}
-//       aria-label={label}
-//     >
-//       <Icon className="w-4 h-4 text-black dark:text-white" />
-//     </motion.a>
-//   );
-// };
-
-// const FooterLink = ({
-//   to,
-//   children,
-// }: {
-//   to: string;
-//   children: React.ReactNode;
-// }) => {
-//   return (
-//     <NavLink
-//       to={to}
-//       onClick={() => sounds.click()}
-//       onMouseEnter={() => sounds.hover()}
-//       className={({ isActive }) => `
-//         group flex items-center gap-1 text-[13px] transition-colors
-//         ${isActive ? "text-black dark:text-white" : "text-gray-500 dark:text-[#71717A] hover:text-gray-700 dark:hover:text-[#A1A1AA]"}
-//       `}
-//     >
-//       {children}
-//     </NavLink>
-//   );
-// };
-
-// const FooterColumn = ({
-//   title,
-//   children,
-// }: {
-//   title: string;
-//   children: React.ReactNode;
-// }) => {
-//   return (
-//     <div className="space-y-3">
-//       <h4 className="text-[11px] font-bold uppercase tracking-[0.1em] text-black/80 dark:text-white/80">
-//         {title}
-//       </h4>
-//       <ul className="space-y-2">{children}</ul>
-//     </div>
-//   );
-// };
-
-// export const Footer = () => {
-//   const currentYear = new Date().getFullYear();
-
-//   return (
-//     <footer className="relative border-t border-black/10 dark:border-[rgba(255,255,255,0.06)] bg-white dark:bg-black">
-//       {/* Main content */}
-//       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-//         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-16">
-//           {/* Brand */}
-//           <div className="col-span-4 lg:col-span-2 space-y-4">
-//             <Logo />
-//             <p className="text-[13px] text-gray-500 dark:text-[#71717A] leading-relaxed max-w-xs">
-//               The non-custodial settlement protocol for instant global payments.
-//             </p>
-//             <div className="flex items-center gap-2">
-//               <SocialLink
-//                 href="https://x.com/blipmoney_"
-//                 icon={Twitter}
-//                 label="Twitter"
-//               />
-//               <SocialLink
-//                 href="https://t.me/+3DpHLzc2BfJhOWEx"
-//                 icon={Send}
-//                 label="Telegram"
-//               />
-//               <SocialLink
-//                 href="https://www.youtube.com/@BlipMoney"
-//                 icon={Youtube}
-//                 label="YouTube"
-//               />
-//               <SocialLink
-//                 href="https://mail.google.com/mail/?view=cm&fs=1&to=support@blip.money&su=Contact%20Blip%20Money&body=Hello%20Team,%0A%0AI%20would%20like%20to%20get%20in%20touch.%0A%0AThanks"
-//                 icon={Mail}
-//                 label="Email"
-//               />
-//             </div>
-//           </div>
-
-//           {/* Product */}
-//           <FooterColumn title="Product">
-//             <li>
-//               <FooterLink to="/how-it-works">How It Works</FooterLink>
-//             </li>
-//             <li>
-//               <FooterLink to="/rewards">Rewards</FooterLink>
-//             </li>
-//             <li>
-//               <FooterLink to="/tokenomics">Tokenomics</FooterLink>
-//             </li>
-//             <li>
-//               <FooterLink to="/waitlist">Waitlist</FooterLink>
-//             </li>
-//           </FooterColumn>
-
-//           {/* Resources */}
-//           <FooterColumn title="Resources">
-//             <li>
-//               <FooterLink to="/whitepaper">Whitepaper</FooterLink>
-//             </li>
-//             <li>
-//               <FooterLink to="/blog">Blog</FooterLink>
-//             </li>
-//             <li>
-//               <FooterLink to="/contact">Contact</FooterLink>
-//             </li>
-//           </FooterColumn>
-
-//           {/* Legal */}
-//           <FooterColumn title="Legal">
-//             <li>
-//               <FooterLink to="/privacy">Privacy</FooterLink>
-//             </li>
-//             <li>
-//               <FooterLink to="/terms">Terms</FooterLink>
-//             </li>
-//             <li>
-//               <FooterLink to="/cookies">Cookies</FooterLink>
-//             </li>
-//             <li>
-//               <FooterLink to="/gdpr">GDPR</FooterLink>
-//             </li>
-//           </FooterColumn>
-//         </div>
-//       </div>
-
-//       {/* Bottom bar */}
-//       <div className="border-t border-black/10 dark:border-[rgba(255,255,255,0.06)]">
-//         <div
-//           className="max-w-7xl mx-auto px-4 sm:px-6 py-4
-//                   flex flex-col items-center gap-2
-//                   sm:flex-row sm:justify-between sm:items-center"
-//         >
-//           {/* Left text */}
-//           <p className="text-[12px] text-gray-500 dark:text-[#52525B] text-center sm:text-left">
-//             © {currentYear} Blip.money. All rights reserved.
-//           </p>
-
-//           {/* Right text */}
-//           <div className="text-[11px] text-gray-500 dark:text-[#52525B] flex items-center gap-2 sm:pr-32">
-//             <span className="w-1 h-1 rounded-full bg-[#ff6b35] " />
-//             Built on Solana
-//           </div>
-//         </div>
-//       </div>
-//     </footer>
-//   );
-// };
-
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -304,15 +120,15 @@ export const Footer = () => {
             {/* Expanding Shockwaves */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div
-                className={`absolute w-24 h-24 rounded-full border border-orange-500/60 transition-all duration-[1500ms] ease-out ${
+                className={`absolute w-24 h-24 rounded-full border border-orange-500/70 transition-all duration-[1500ms] ease-out ${
                   isActive ? "scale-[3.5] opacity-0" : "scale-1 opacity-0"
                 }`}
-              ></div>
+              />
               <div
-                className={`absolute w-24 h-24 rounded-full border border-gray-300 dark:border-white/30 transition-all duration-[1200ms] delay-150 ease-out ${
+                className={`absolute w-24 h-24 rounded-full border border-gray-400 dark:border-white/30 transition-all duration-[1200ms] delay-150 ease-out ${
                   isActive ? "scale-[2.5] opacity-0" : "scale-1 opacity-0"
                 }`}
-              ></div>
+              />
             </div>
 
             {/* Background Environmental Atmosphere */}
@@ -321,49 +137,51 @@ export const Footer = () => {
                 isActive ? "opacity-80" : "opacity-35"
               }`}
             >
-              <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-500/30 to-transparent blur-sm -translate-y-18"></div>
-              <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-orange-500/30 to-transparent blur-sm translate-y-18"></div>
+              <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-500/40 to-transparent blur-sm -translate-y-18"></div>
+              <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-orange-500/40 to-transparent blur-sm translate-y-18"></div>
             </div>
 
             {/* Main Dial */}
             <div
-              className={`relative z-10 w-full h-full rounded-full border-[4px] 
-    bg-white dark:bg-[#080808] 
-    border-gray-200 dark:border-black
-    shadow-[0_0_40px_rgba(0,0,0,0.08),inset_0_0_30px_rgba(0,0,0,0.05)]
-    dark:shadow-[0_0_80px_rgba(0,0,0,1),inset_0_0_50px_rgba(0,0,0,0.9)]
-    flex items-center justify-center overflow-hidden 
-    transition-all duration-1000
-    ${isActive ? "ring-1 ring-black/10 dark:ring-white/10" : ""}`}
+              className={`relative z-10 w-full h-full rounded-full border-[4px]
+      bg-white dark:bg-[#080808]
+      border-gray-400 dark:border-black
+      shadow-[0_10px_40px_rgba(0,0,0,0.15),inset_0_0_25px_rgba(0,0,0,0.08)]
+      dark:shadow-[0_0_80px_rgba(0,0,0,1),inset_0_0_50px_rgba(0,0,0,0.9)]
+      flex items-center justify-center overflow-hidden
+      transition-all duration-1000
+      ${isActive ? "ring-1 ring-black/20 dark:ring-white/10" : ""}`}
             >
               {/* Dot Grid Texture */}
               <div
-                className="absolute inset-0 opacity-[0.08] dark:opacity-[0.18]"
+                className="absolute inset-0 opacity-[0.12] dark:opacity-[0.18]"
                 style={{
                   backgroundImage:
-                    "radial-gradient(circle, rgba(0,0,0,0.3) 0.5px, transparent 0.5px)",
+                    "radial-gradient(circle, rgba(0,0,0,0.35) 0.5px, transparent 0.5px)",
                   backgroundSize: "8px 8px",
                 }}
-              ></div>
+              />
 
-              <div className="absolute inset-9 rounded-full border border-gray-300/60 dark:border-white/15"></div>
-              <div className="absolute inset-18 rounded-full border border-gray-300/40 dark:border-white/10 opacity-60"></div>
+              <div className="absolute inset-9 rounded-full border border-gray-400/70 dark:border-white/15"></div>
+              <div className="absolute inset-18 rounded-full border border-gray-400/50 dark:border-white/10 opacity-70"></div>
 
               {/* Conic Glow Layers */}
               <div
-                className="absolute inset-5 rounded-full opacity-25 blur-[1px]"
+                className="absolute inset-5 rounded-full opacity-30 blur-[1px]"
                 style={{
-                  background: `conic-gradient(from 180deg at 50% 50%, transparent 0deg, #f97316 40deg, transparent 120deg)`,
+                  background:
+                    "conic-gradient(from 180deg at 50% 50%, transparent 0deg, #f97316 40deg, transparent 120deg)",
                   transform: "rotate(-45deg)",
                 }}
-              ></div>
+              />
               <div
-                className="absolute inset-5 rounded-full opacity-25 blur-[1px]"
+                className="absolute inset-5 rounded-full opacity-30 blur-[1px]"
                 style={{
-                  background: `conic-gradient(from 0deg at 50% 50%, transparent 0deg, #3b82f6 40deg, transparent 120deg)`,
+                  background:
+                    "conic-gradient(from 0deg at 50% 50%, transparent 0deg, #3b82f6 40deg, transparent 120deg)",
                   transform: "rotate(-45deg)",
                 }}
-              ></div>
+              />
 
               {/* Hash Markers */}
               {[...Array(24)].map((_, i) => (
@@ -371,11 +189,11 @@ export const Footer = () => {
                   key={i}
                   className={`absolute w-[1.5px] transition-all duration-700 ${
                     i % 6 === 0
-                      ? "h-3 bg-gray-400 dark:bg-zinc-500"
-                      : "h-1.5 bg-gray-300 dark:bg-zinc-700"
+                      ? "h-3 bg-gray-500 dark:bg-zinc-500"
+                      : "h-1.5 bg-gray-400 dark:bg-zinc-700"
                   } ${
                     isActive
-                      ? "bg-orange-500/60 shadow-[0_0_8px_rgba(249,115,22,0.4)]"
+                      ? "bg-orange-500/70 shadow-[0_0_8px_rgba(249,115,22,0.5)]"
                       : ""
                   }`}
                   style={{
@@ -387,14 +205,14 @@ export const Footer = () => {
               {/* Central Core */}
               <div className="relative z-20 w-36 h-36 flex items-center justify-center">
                 <div
-                  className={`absolute w-24 h-24 bg-orange-500/20 blur-3xl rounded-full transition-all duration-700 ${
+                  className={`absolute w-24 h-24 bg-orange-500/25 blur-3xl rounded-full transition-all duration-700 ${
                     isActive ? "opacity-100 scale-125" : "opacity-0 scale-100"
                   }`}
-                ></div>
+                />
 
                 <svg
                   viewBox="0 0 100 100"
-                  className="w-full h-full overflow-visible text-black dark:text-white"
+                  className="w-full h-full overflow-visible text-zinc-900 dark:text-white"
                 >
                   <defs>
                     <linearGradient
@@ -420,7 +238,7 @@ export const Footer = () => {
                     d="M26 50 L38 50 L46 28 L54 72 L62 50 L74 50"
                     fill="none"
                     stroke="url(#waveGradient)"
-                    strokeWidth="1.2"
+                    strokeWidth="1.4"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     className="animate-[dash_2.5s_ease-in-out_infinite]"
@@ -438,23 +256,23 @@ export const Footer = () => {
                     cy="50"
                     r="46"
                     stroke={isActive ? "#f97316" : "currentColor"}
-                    strokeWidth="0.5"
+                    strokeWidth="0.8"
                     fill="none"
                     className="transition-all duration-1000"
-                    opacity={isActive ? "0.4" : "0.15"}
+                    opacity={isActive ? "0.5" : "0.25"}
                   />
                 </svg>
               </div>
 
               {/* Center Dot */}
               <div
-                className={`absolute w-3 h-3 rounded-full 
-      bg-white dark:bg-[#111] 
-      border border-gray-300 dark:border-white/20
-      z-30 transition-shadow duration-1000 ${
-        isActive ? "shadow-[0_0_12px_rgba(249,115,22,0.6)]" : ""
-      }`}
-              ></div>
+                className={`absolute w-3 h-3 rounded-full
+        bg-white dark:bg-[#111]
+        border border-gray-400 dark:border-white/20
+        z-30 transition-shadow duration-1000 ${
+          isActive ? "shadow-[0_0_14px_rgba(249,115,22,0.6)]" : ""
+        }`}
+              />
             </div>
           </div>
 
@@ -469,11 +287,9 @@ export const Footer = () => {
             <h2 className="text-3xl lg:text-4xl font-bold tracking-tighter mb-3 leading-[0.9]">
               <span className="text-black dark:text-white">Join the</span>{" "}
               <br />
-              <span className="text-black/80 dark:text-white/80">
-                Movement
-              </span>
+              <span className="text-black/80 dark:text-white/80">Movement</span>
             </h2>
-            <p className="text-sm lg:text-base text-black/60 dark:text-zinc-500 max-w-md mb-6 leading-relaxed font-light">
+            <p className="text-sm lg:text-base text-black dark:text-zinc-500 max-w-md mb-6 leading-relaxed font-light">
               Simple, fast, and secure financial infrastructure for modern
               blip.money businesses and individuals. is how money moves now.
             </p>
@@ -517,9 +333,9 @@ export const Footer = () => {
                 {/* <li>
                   <FooterLink to="/docs">Documentation</FooterLink>
                 </li> */}
-                <li>
+                {/* <li>
                   <FooterLink to="/changelog">Changelog</FooterLink>
-                </li>
+                </li> */}
               </ul>
             </div>
 

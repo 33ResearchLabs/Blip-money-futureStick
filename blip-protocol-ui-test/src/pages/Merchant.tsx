@@ -121,7 +121,8 @@ const WhyBlipSection = () => {
           <div className="max-w-xl text-center lg:text-left">
             <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6">
               Why Merchants{" "}
-              <span className="text-black/70 dark:text-white/70">Choose</span> Blip
+              <span className="text-black/70 dark:text-white/70">Choose</span>{" "}
+              Blip
             </h2>
 
             <p className="text-base md:text-lg lg:text-xl text-black/60 dark:text-white/50 font-medium leading-relaxed mb-10">
@@ -142,7 +143,7 @@ const WhyBlipSection = () => {
               className="relative rounded-[28px]
               border border-black/15 dark:border-white/10
               bg-white dark:bg-[#0c0c0d]
-              backdrop-blur-2xl
+              backdrop-blur-xl
               shadow-xl dark:shadow-[0_20px_60px_rgba(0,0,0,0.6)]
               overflow-hidden"
             >
@@ -210,10 +211,10 @@ const WhyBlipSection = () => {
                         </div>
 
                         <div>
-                          <div className="text-lg font-semibold text-black/70 dark:text-white/70">
+                          <div className="text-lg font-semibold text-black/80 dark:text-white/70">
                             {f.title}
                           </div>
-                          <div className="text-sm font-medium text-black/50 dark:text-white/50">
+                          <div className="text-sm font-medium text-black/70 dark:text-white/50">
                             {f.description}
                           </div>
                         </div>
@@ -637,9 +638,9 @@ const RolloutSection = () => {
                   className="group flex items-center gap-4 p-4 rounded-xl bg-white/60 dark:bg-white/[0.02] border border-black/[0.08] dark:border-white/5 hover:bg-white/80 dark:hover:bg-white/5 hover:border-black/15 dark:hover:border-white/10 backdrop-blur-xl"
                 >
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <CheckCircle2 className="w-4 h-4 text-black/30 dark:text-gray-600 group-hover:text-black/60 dark:group-hover:text-white/60" />
+                    <CheckCircle2 className="w-4 h-4 text-black/40 dark:text-gray-600 group-hover:text-black/60 dark:group-hover:text-white/60" />
                   </div>
-                  <span className="text-black/70 dark:text-white/70">
+                  <span className="text-black dark:text-white/70">
                     {benefit}
                   </span>
                 </div>
@@ -719,9 +720,7 @@ const RequirementsSection = () => {
                 <div className="w-10 h-10 rounded-lg bg-black/5 dark:bg-white/5 flex items-center justify-center flex-shrink-0">
                   <Icon className="w-5 h-5 text-black/60 dark:text-white/60 group-hover:text-black/80 dark:group-hover:text-white/80" />
                 </div>
-                <p className="text-black/70 dark:text-white/70 pt-2">
-                  {req.text}
-                </p>
+                <p className="text-black dark:text-white/70 pt-2">{req.text}</p>
               </div>
             );
           })}

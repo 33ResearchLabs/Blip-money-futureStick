@@ -26,8 +26,11 @@ import {
   Twitter,
   Check,
   Info,
+  UserPlus,
+  Send,
 } from "lucide-react";
 import DashboardNavbar from "@/components/DashboardNavbar";
+import { api } from "@/services/api";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -449,30 +452,39 @@ const Modal = ({ task, onClose, onExecute }) => {
   );
 };
 
-const TaskCard = ({ task, onClick }) => {
+const TaskCard = ({ task, onClick, redeemed = false }) => {
   const { title, description, reward, status, icon: Icon } = task;
 
   return (
     <div
-      onClick={() => onClick(task)}
-      className="w-full text-left p-5 flex flex-col h-full cursor-pointer
-        bg-white dark:bg-neutral-900/50
-        border border-black/10 dark:border-neutral-800
-        hover:border-black/30 dark:hover:border-white/40
-        transition-all duration-300 group"
+      onClick={() => !redeemed && onClick(task)}
+      className={`w-full text-left p-5 flex flex-col h-full
+        border transition-all duration-300 group
+        ${
+          redeemed
+            ? "bg-white dark:bg-white/[0.02] border-green-500/20 dark:border-green-500/20 cursor-default"
+            : "bg-white dark:bg-neutral-900/50 border-black/10 dark:border-neutral-800 hover:border-black/30 dark:hover:border-white/40 cursor-pointer"
+        }`}
     >
       <div className="flex justify-between items-start mb-4">
         <div
-          className="p-2 border rounded-sm
-          bg-black/5 dark:bg-neutral-900
-          border-black/10 dark:border-neutral-800
-          text-black dark:text-neutral-400"
+          className={`p-2 border rounded-sm ${
+            redeemed
+              ? "bg-green-500/10 border-green-500/20 text-green-600 dark:text-green-400"
+              : "bg-black/5 dark:bg-neutral-900 border-black/10 dark:border-neutral-800 text-black dark:text-neutral-400"
+          }`}
         >
           <Icon className="w-5 h-5" />
         </div>
 
         {status === "active" && (
-          <span className="text-black dark:text-white text-[10px] tracking-wider border border-black/20 dark:border-white/20 px-1.5 py-0.5 bg-black/5 dark:bg-white/5">
+          <span
+            className={`text-[10px] tracking-wider px-1.5 py-0.5 border ${
+              redeemed
+                ? "bg-green-500/10 border-green-500/20 text-green-600 dark:text-green-400"
+                : "text-black dark:text-white border-black/20 dark:border-white/20 bg-black/5 dark:bg-white/5"
+            }`}
+          >
             +{reward} PTS
           </span>
         )}
@@ -486,10 +498,19 @@ const TaskCard = ({ task, onClick }) => {
         {description}
       </p>
 
-      {status === "active" && (
-        <div className="mt-auto text-xs text-black/60 dark:text-neutral-400 uppercase tracking-wider group-hover:translate-x-1 transition-transform">
-          Start →
+      {redeemed ? (
+        <div className="mt-auto flex items-center gap-2 text-green-600 dark:text-green-400">
+          <CheckCircle className="w-4 h-4" />
+          <span className="text-xs font-semibold uppercase tracking-wider">
+            Redeemed
+          </span>
         </div>
+      ) : (
+        status === "active" && (
+          <div className="mt-auto text-xs text-black/60 dark:text-neutral-400 uppercase tracking-wider group-hover:translate-x-1 transition-transform">
+            Start →
+          </div>
+        )
       )}
     </div>
   );
@@ -568,6 +589,85 @@ const SectionTitle = ({ title, count }) => (
       <span className="text-[10px] text-black/60 dark:text-neutral-500 bg-black/5 dark:bg-neutral-900/50 border border-black/10 dark:border-neutral-800 px-2 py-0.5 rounded-sm">
         {count.toString().padStart(2, "0")}
       </span>
+    )}
+  </div>
+);
+
+// --- Reward Card Component ---
+
+const RewardCard = ({
+  title,
+  description,
+  points,
+  redeemed,
+  icon: Icon,
+  onRedeem,
+}: {
+  title: string;
+  description: string;
+  points: number;
+  redeemed: boolean;
+  icon: any;
+  onRedeem: () => void;
+}) => (
+  <div
+    className={`
+      relative p-6 rounded-sm border transition-all duration-300 group
+      ${
+        redeemed
+          ? "bg-white dark:bg-white/[0.02] border-green-500/20 dark:border-green-500/20"
+          : "bg-white dark:bg-white/5 border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/20 hover:shadow-md"
+      }
+    `}
+  >
+    <div className="flex items-start justify-between mb-4">
+      <div
+        className={`
+          p-2.5 rounded-sm border
+          ${
+            redeemed
+              ? "bg-green-500/10 border-green-500/20 text-green-600 dark:text-green-400"
+              : "bg-black/5 dark:bg-neutral-900 border-black/10 dark:border-neutral-800 text-black dark:text-neutral-400"
+          }
+        `}
+      >
+        <Icon className="w-5 h-5" />
+      </div>
+      <span
+        className={`
+          text-[10px] font-black uppercase tracking-wider px-2 py-0.5 border rounded-sm
+          ${
+            redeemed
+              ? "bg-green-500/10 border-green-500/20 text-green-600 dark:text-green-400"
+              : "bg-black/5 dark:bg-white/5 border-black/20 dark:border-white/20 text-black dark:text-white"
+          }
+        `}
+      >
+        +{points} PTS
+      </span>
+    </div>
+
+    <h3 className="text-sm font-semibold text-black dark:text-white mb-1">
+      {title}
+    </h3>
+    <p className="text-xs text-black/60 dark:text-neutral-500 mb-5">
+      {description}
+    </p>
+
+    {redeemed ? (
+      <div className="flex items-center gap-2 text-green-600 dark:text-green-400">
+        <CheckCircle className="w-4 h-4" />
+        <span className="text-xs font-semibold uppercase tracking-wider">
+          Redeemed
+        </span>
+      </div>
+    ) : (
+      <button
+        onClick={onRedeem}
+        className="w-full py-2.5 text-xs font-bold uppercase tracking-wider bg-black text-white dark:bg-white dark:text-black hover:opacity-90 transition-all rounded-sm"
+      >
+        Complete Task
+      </button>
     )}
   </div>
 );
@@ -704,12 +804,18 @@ export default function BlipDashboard() {
   const [isWalletConnected, setIsWalletConnected] = useState(true);
 
   const [copied, setCopied] = useState(false);
+  const [linkCopied, setLinkCopied] = useState(false);
   const [walletCopied, setWalletCopied] = useState(false);
   const [showPointsHistoryModal, setShowPointsHistoryModal] = useState(false);
   const [showReferralModal, setShowReferralModal] = useState(false);
   const [showWalletLinkingModal, setShowWalletLinkingModal] = useState(false);
   const [showTwitterModal, setShowTwitterModal] = useState(false);
   const [showTelegramModal, setShowTelegramModal] = useState(false);
+  const [rewardStatus, setRewardStatus] = useState({
+    signup: true,
+    telegram: false,
+    twitter: false,
+  });
 
   const { publicKey, disconnect, connected } = useWallet();
   const { logout, user } = useAuth();
@@ -727,6 +833,28 @@ export default function BlipDashboard() {
     }
   }, [user, booted]);
 
+  // Check reward verification status
+  useEffect(() => {
+    const checkRewardStatus = async () => {
+      try {
+        const [telegramRes, twitterRes]: any[] = await Promise.all([
+          api.get("/telegram/status"),
+          api.get("/twitter/campaign-status/general_twitter_share"),
+        ]);
+
+        setRewardStatus((prev) => ({
+          ...prev,
+          telegram: !!telegramRes?.data?.verified,
+          twitter: !!twitterRes?.data?.completed,
+        }));
+      } catch (err) {
+        console.error("Failed to check reward status:", err);
+      }
+    };
+
+    if (user && booted) checkRewardStatus();
+  }, [user, booted]);
+
   if (!booted) {
     return (
       <>
@@ -741,6 +869,11 @@ export default function BlipDashboard() {
     : "Not Connected";
 
   const blipPoints = user?.totalBlipPoints ?? 0;
+
+  const totalRewardPoints =
+    (rewardStatus.signup ? 200 : 0) +
+    (rewardStatus.telegram ? 100 : 0) +
+    (rewardStatus.twitter ? 100 : 0);
 
   const referralLink = user?.referralCode
     ? `${import.meta.env.VITE_FRONTEND_URL}/waitlist?ref=${user.referralCode}`
@@ -762,14 +895,23 @@ export default function BlipDashboard() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleCopyAffiliateLink = async () => {
+    if (!referralLink) return;
+    await navigator.clipboard.writeText(referralLink);
+    setLinkCopied(true);
+    showToast("Affiliate link copied");
+    setTimeout(() => setLinkCopied(false), 2000);
+  };
+
   const handleShareReferral = async () => {
     if (navigator.share) {
       await navigator.share({
         title: "Join Blip Money",
+        text: `Join Blip Money and earn rewards! Use my referral code: ${user?.referralCode}`,
         url: referralLink,
       });
     } else {
-      handleCopyReferralCode();
+      handleCopyAffiliateLink();
     }
   };
 
@@ -885,6 +1027,14 @@ export default function BlipDashboard() {
         onSuccess={handleTelegramSuccess}
       />
 
+      {/* Referral Modal */}
+      <ReferralModal
+        isOpen={showReferralModal}
+        onClose={() => setShowReferralModal(false)}
+        referralCode={user?.referralCode || ""}
+        referralLink={referralLink}
+      />
+
       {/* Wallet Linking Modal */}
       <WalletLinkingModal
         isOpen={showWalletLinkingModal}
@@ -994,6 +1144,98 @@ export default function BlipDashboard() {
           </div>
         </div>
 
+        {/* ===== AFFILIATE / REFERRAL SHARING SECTION ===== */}
+        {user?.referralCode && (
+          <div className="mb-6 bg-white dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-sm p-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-black/5 dark:bg-white/10 rounded-full flex items-center justify-center">
+                  <Share2 className="w-5 h-5 text-black dark:text-white" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-black dark:text-white uppercase tracking-wider">
+                    Invite & Earn
+                  </h3>
+                  <p className="text-xs text-black/60 dark:text-white/50">
+                    Earn +100 pts for every friend who joins
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowReferralModal(true)}
+                className="text-[10px] font-bold uppercase tracking-wider text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors flex items-center gap-1"
+              >
+                View Referrals <ArrowRight className="w-3 h-3" />
+              </button>
+            </div>
+
+            {/* Referral Code Row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Code */}
+              <div>
+                <span className="text-[10px] font-bold uppercase tracking-widest text-black/50 dark:text-white/40 block mb-2">
+                  Referral Code
+                </span>
+                <div className="flex items-center gap-2">
+                  <div className="flex-1 px-4 py-3 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-sm font-mono text-sm font-bold text-black dark:text-white tracking-wider">
+                    {user.referralCode}
+                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleCopyReferralCode();
+                    }}
+                    className="px-4 py-3 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-sm hover:bg-black/10 dark:hover:bg-white/10 transition-colors"
+                    title="Copy referral code"
+                  >
+                    {copied ? (
+                      <Check className="w-4 h-4 text-green-600 dark:text-green-400" />
+                    ) : (
+                      <Copy className="w-4 h-4 text-black/60 dark:text-white/60" />
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* Affiliate Link */}
+              <div>
+                <span className="text-[10px] font-bold uppercase tracking-widest text-black/50 dark:text-white/40 block mb-2">
+                  Affiliate Link
+                </span>
+                <div className="flex items-center gap-2">
+                  <div className="flex-1 px-4 py-3 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-sm text-xs text-black/60 dark:text-white/50 truncate">
+                    {referralLink}
+                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleCopyAffiliateLink();
+                    }}
+                    className="px-4 py-3 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-sm hover:bg-black/10 dark:hover:bg-white/10 transition-colors"
+                    title="Copy affiliate link"
+                  >
+                    {linkCopied ? (
+                      <Check className="w-4 h-4 text-green-600 dark:text-green-400" />
+                    ) : (
+                      <Copy className="w-4 h-4 text-black/60 dark:text-white/60" />
+                    )}
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleShareReferral();
+                    }}
+                    className="px-4 py-3 bg-black dark:bg-white text-white dark:text-black rounded-sm hover:opacity-90 transition-all"
+                    title="Share affiliate link"
+                  >
+                    <Share2 className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* ===== WALLET CONNECTION BANNER ===== */}
         {(!connected || !publicKey || !user?.walletLinked) && (
           <div className="mb-6 bg-gradient-to-r from-orange-500/10 via-red-500/10 to-orange-500/10 border border-orange-500/30 dark:border-orange-400/30 rounded-sm p-6 animate-in fade-in slide-in-from-top-4 duration-500">
@@ -1024,6 +1266,79 @@ export default function BlipDashboard() {
           </div>
         )}
 
+        {/* ===== REWARDS SECTION ===== */}
+        <div className="mb-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
+          {/* Section Header with Total Points */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <div>
+              <h2 className="text-2xl font-semibold text-black dark:text-white mb-1">
+                Rewards
+              </h2>
+              <p className="text-sm text-black/60 dark:text-white/50">
+                Complete tasks to earn points
+              </p>
+            </div>
+            <div className="flex items-center gap-3 px-5 py-3 bg-white dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-sm">
+              <Zap className="w-4 h-4 text-orange-500" />
+              <div>
+                <span className="text-[9px] font-black uppercase tracking-widest text-black/60 dark:text-white/50 block">
+                  Total Earned
+                </span>
+                <span className="text-xl font-black text-black dark:text-white">
+                  {totalRewardPoints}
+                  <span className="text-xs font-normal text-black/40 dark:text-white/40 ml-1">
+                    / 400 PTS
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Reward Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <RewardCard
+              title="Sign Up"
+              description="Create your Blip Money account"
+              points={200}
+              redeemed={rewardStatus.signup}
+              icon={UserPlus}
+              onRedeem={() => {}}
+            />
+
+            <RewardCard
+              title="Join Telegram"
+              description="Join our official Telegram channel"
+              points={100}
+              redeemed={rewardStatus.telegram}
+              icon={Send}
+              onRedeem={() => {
+                if (!user?.walletLinked || !publicKey) {
+                  showToast("Please link your wallet first", "error");
+                  setShowWalletLinkingModal(true);
+                  return;
+                }
+                setShowTelegramModal(true);
+              }}
+            />
+
+            <RewardCard
+              title="Follow on X"
+              description="Follow us on X (Twitter)"
+              points={100}
+              redeemed={rewardStatus.twitter}
+              icon={Twitter}
+              onRedeem={() => {
+                if (!user?.walletLinked || !publicKey) {
+                  showToast("Please link your wallet first", "error");
+                  setShowWalletLinkingModal(true);
+                  return;
+                }
+                setShowTwitterModal(true);
+              }}
+            />
+          </div>
+        </div>
+
         {/* ===== MAIN CONTENT ===== */}
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
           <div className="mb-8">
@@ -1047,6 +1362,10 @@ export default function BlipDashboard() {
                     onClick={handleTaskClick}
                     onComingSoon={handleComingSoon}
                     onLocked={handleLocked}
+                    redeemed={
+                      (task.id === "s2" && rewardStatus.twitter) ||
+                      (task.id === "s3" && rewardStatus.telegram)
+                    }
                   />
                 ))}
               </div>

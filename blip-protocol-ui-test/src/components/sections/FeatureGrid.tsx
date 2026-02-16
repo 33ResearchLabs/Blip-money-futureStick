@@ -103,8 +103,12 @@ const FeatureCard = ({
           <Icon className="w-6 h-6 text-black/70 dark:text-white/70 group-hover:text-black dark:group-hover:text-white transition-colors" />
         </div>
       )}
-      <h3 className="text-xl font-semibold text-black dark:text-white mb-3">{feature.title}</h3>
-      <p className="text-black/40 dark:text-white/50 leading-relaxed">{feature.description}</p>
+      <h3 className="text-xl font-semibold text-black dark:text-white mb-3">
+        {feature.title}
+      </h3>
+      <p className="text-black/70 dark:text-white/50 leading-relaxed">
+        {feature.description}
+      </p>
     </motion.div>
   );
 };

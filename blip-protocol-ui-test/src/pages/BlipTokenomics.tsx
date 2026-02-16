@@ -440,7 +440,7 @@ const UtilitySection = () => {
                 <h3 className="text-2xl font-light text-black dark:text-white mb-3">
                   {utility.title}
                 </h3>
-                <p className="text-sm text-black/50 dark:text-white/50">
+                <p className="text-sm text-black/80 dark:text-white/50">
                   {utility.desc}
                 </p>
               </div>
@@ -522,7 +522,7 @@ const DeflationSection = () => {
               <h3 className="text-3xl font-light text-black dark:text-white mb-3">
                 {item.title}
               </h3>
-              <p className="text-sm text-black/50 dark:text-white/50 uppercase tracking-widest">
+              <p className="text-sm text-black/80 dark:text-white/50 uppercase tracking-widest">
                 {item.sub}
               </p>
             </motion.div>

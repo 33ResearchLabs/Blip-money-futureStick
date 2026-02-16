@@ -211,7 +211,9 @@ export default function Blog() {
         {/* Hero */}
         <section className="relative pt-32 sm:pt-36 pb-12 sm:pb-16">
           <div className="max-w-[900px] mx-auto px-4 sm:px-6">
-            <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Blog" }]} />
+            <Breadcrumbs
+              items={[{ label: "Home", href: "/" }, { label: "Blog" }]}
+            />
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -221,7 +223,7 @@ export default function Blog() {
               <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-5">
                 Blog
               </h1>
-              <p className="text-base md:text-lg lg:text-xl text-black/60 dark:text-white/50 max-w-lg mx-auto leading-relaxed font-medium">
+              <p className="text-base md:text-lg lg:text-xl text-black dark:text-white/50 max-w-lg mx-auto leading-relaxed font-medium">
                 Insights on crypto payments, escrow, and the infrastructure
                 powering global settlement.
               </p>
@@ -248,7 +250,7 @@ export default function Blog() {
                 className={`relative px-4 py-3 text-[13px] font-medium whitespace-nowrap transition-colors ${
                   activeCategory === cat
                     ? "text-black dark:text-white"
-                    : "text-gray-400 dark:text-white/35 hover:text-gray-600 dark:hover:text-white/60"
+                    : "text-gray-700 dark:text-white/35 hover:text-gray-600 dark:hover:text-white/60"
                 }`}
               >
                 {cat}
