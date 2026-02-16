@@ -4,10 +4,15 @@ export const sendVerificationEmailNew = async (email, otp) => {
   try {
     const transporter = nodemailer.createTransport({
       service: "gmail",
+      secure: false, // true only if port 465
+      requireTLS: true,
       auth: {
         user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        pass: process.env.EMAIL_PASS, // must be App Password
       },
+      connectionTimeout: 20000,
+      greetingTimeout: 20000,
+      socketTimeout: 20000,
     });
 
     const mailOptions = {
