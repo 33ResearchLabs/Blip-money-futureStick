@@ -49,7 +49,7 @@ interface AirdropLoginProps {
 const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
   const { publicKey, connected, disconnect, connecting } = useWallet();
   const { toast } = useToast();
-  const { login, isAuthenticated, logout, isLoading } = useAuth();
+  const { login, isAuthenticated, logout, isLoading, user } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -111,10 +111,10 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
     return () => clearTimeout(timer);
   }, [connecting, connected]);
 
-  // Redirect if already authenticated
+  // Redirect if already authenticated and email verified
   useEffect(() => {
     if (isLoading || !walletReady) return;
-    if (isAuthenticated && connected && !hasRedirected) {
+    if (isAuthenticated && user?.emailVerified && connected && !hasRedirected) {
       console.log("✅ User already authenticated, redirecting to dashboard");
       setHasRedirected(true);
       navigate("/dashboard", { replace: true });
@@ -126,6 +126,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
     hasRedirected,
     walletReady,
     connected,
+    user,
   ]);
 
   // Save user data to backend when wallet connects

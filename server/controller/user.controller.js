@@ -304,20 +304,20 @@ export const getMe = async (req, res) => {
 
     // Points mapping for events (in case bonusPoints is 0 or missing)
     const pointsMap = {
-      REGISTER: 500,
-      TWITTER_FOLLOW: 50,
-      TELEGRAM_JOIN: 50,
+      REGISTER: 200,
+      TWITTER_FOLLOW: 100,
+      TELEGRAM_JOIN: 100,
       WHITEPAPER_READ: 50,
       CROSS_BORDER_SWAP: 100,
       REFERRAL_BONUS_EARNED: 100,
       REFERRAL_BONUS_RECEIVED: 100,
     };
 
-    // Calculate actual points from BlipPointLog (most accurate)
+    // Calculate actual points from BlipPointLog using current pointsMap values
     const pointLogs = await BlipPointLog.find({ userId: user._id });
     const calculatedPoints = pointLogs.reduce((sum, log) => {
-      // Use bonusPoints if available, otherwise use mapping based on event type
-      const points = log.bonusPoints || log.totalPoints || pointsMap[log.event] || 0;
+      // Always use pointsMap for known events, fallback to stored value for unknown
+      const points = pointsMap[log.event] || log.bonusPoints || log.totalPoints || 0;
       return sum + points;
     }, 0);
 
@@ -328,18 +328,15 @@ export const getMe = async (req, res) => {
       actualPoints = userPoints?.points || user.totalBlipPoints || 0;
     }
 
-    // 🔄 Auto-fix: Update User model and BlipPointLog if points don't match
+    // 🔄 Auto-fix: Update BlipPointLog and User model to match current point values
     if (pointLogs.length > 0) {
-      // Fix any BlipPointLog entries with missing bonusPoints
       for (const log of pointLogs) {
-        if (!log.bonusPoints || log.bonusPoints === 0) {
-          const correctPoints = pointsMap[log.event] || 0;
-          if (correctPoints > 0) {
-            await BlipPointLog.updateOne(
-              { _id: log._id },
-              { $set: { bonusPoints: correctPoints } }
-            );
-          }
+        const correctPoints = pointsMap[log.event] || 0;
+        if (correctPoints > 0 && log.bonusPoints !== correctPoints) {
+          await BlipPointLog.updateOne(
+            { _id: log._id },
+            { $set: { bonusPoints: correctPoints } }
+          );
         }
       }
 
@@ -432,9 +429,9 @@ export const getMyPointsHistory = async (req, res) => {
 
     // Points mapping for events (in case bonusPoints is 0 or missing)
     const pointsMap = {
-      REGISTER: 500,
-      TWITTER_FOLLOW: 50,
-      TELEGRAM_JOIN: 50,
+      REGISTER: 200,
+      TWITTER_FOLLOW: 100,
+      TELEGRAM_JOIN: 100,
       WHITEPAPER_READ: 50,
       CROSS_BORDER_SWAP: 100,
       REFERRAL_BONUS_EARNED: 100,
@@ -459,8 +456,8 @@ export const getMyPointsHistory = async (req, res) => {
 
     const history = pointsHistory.map((log) => ({
       id: log._id,
-      // Use bonusPoints if available, otherwise use mapping based on event type
-      points: log.bonusPoints || log.totalPoints || pointsMap[log.event] || 0,
+      // Always use current pointsMap for known events
+      points: pointsMap[log.event] || log.bonusPoints || log.totalPoints || 0,
       event: log.event,
       eventLabel: eventLabels[log.event] || log.event,
       date: log.createdAt,
@@ -491,9 +488,9 @@ export const getMyPointsHistory = async (req, res) => {
 export const fixPointsData = async (req, res) => {
   try {
     const pointsMap = {
-      REGISTER: 500,
-      TWITTER_FOLLOW: 50,
-      TELEGRAM_JOIN: 50,
+      REGISTER: 200,
+      TWITTER_FOLLOW: 100,
+      TELEGRAM_JOIN: 100,
       WHITEPAPER_READ: 50,
       CROSS_BORDER_SWAP: 100,
       REFERRAL_BONUS_EARNED: 100,

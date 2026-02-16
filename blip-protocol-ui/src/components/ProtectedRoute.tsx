@@ -25,14 +25,14 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 
   // Check if user is logged in
   if (!isAuthenticated || !user) {
-    console.log("🚫 Not authenticated, redirecting to /login");
-    return <Navigate to="/login" replace />;
+    console.log("🚫 Not authenticated, redirecting to /waitlist");
+    return <Navigate to="/waitlist" replace />;
   }
 
   // Check if email is verified
   if (!user.emailVerified) {
-    console.log("🚫 Email not verified, redirecting to verification pending");
-    return <Navigate to="/verification-pending" replace state={{ email: user.email }} />;
+    console.log("🚫 Email not verified, redirecting to /waitlist");
+    return <Navigate to="/waitlist" replace state={{ email: user.email }} />;
   }
 
   // User is authenticated and email is verified

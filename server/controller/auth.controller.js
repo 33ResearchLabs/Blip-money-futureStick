@@ -13,6 +13,7 @@ import {
 } from "../services/email.service.js";
 import PendingEmailModel from "../models/PendingEmail.model.js";
 import { sendVerificationEmailNew } from "../utils/VerificationEmail.js";
+import { REGISTER_BONUS_POINTS, REFERRAL_BONUS_POINTS } from "../utils/blipPoints.js";
 
 const production = process.env.NODE_ENV === "production";
 
@@ -309,10 +310,63 @@ export const verifyEmailOTP = async (req, res) => {
       password: pending.password,
       emailVerified: true,
       referralCode,
-      totalBlipPoints: 500,
+      totalBlipPoints: REGISTER_BONUS_POINTS,
       status: "WAITLISTED",
       role: "USER",
     });
+
+    // Create UserBlipPoints entry
+    await UserBlipPoints.create({
+      userId: newUser._id,
+      points: REGISTER_BONUS_POINTS,
+      isActive: true,
+    });
+
+    // Log registration bonus points
+    await BlipPointLog.create({
+      userId: newUser._id,
+      bonusPoints: REGISTER_BONUS_POINTS,
+      event: "REGISTER",
+    });
+
+    // Handle referral if provided
+    if (pending.referral_code) {
+      const referrer = await User.findOne({ referralCode: pending.referral_code });
+      if (referrer && referrer._id.toString() !== newUser._id.toString()) {
+        // Referrer bonus
+        referrer.totalBlipPoints = (referrer.totalBlipPoints || 0) + REFERRAL_BONUS_POINTS;
+        await referrer.save();
+
+        await UserBlipPoints.findOneAndUpdate(
+          { userId: referrer._id },
+          { $inc: { points: REFERRAL_BONUS_POINTS } },
+          { upsert: true }
+        );
+
+        await BlipPointLog.create({
+          userId: referrer._id,
+          bonusPoints: REFERRAL_BONUS_POINTS,
+          event: "REFERRAL_BONUS_EARNED",
+        });
+
+        // New user referral bonus
+        newUser.totalBlipPoints = (newUser.totalBlipPoints || 0) + REFERRAL_BONUS_POINTS;
+        newUser.referredBy = referrer._id;
+        await newUser.save();
+
+        await UserBlipPoints.findOneAndUpdate(
+          { userId: newUser._id },
+          { $inc: { points: REFERRAL_BONUS_POINTS } },
+          { upsert: true }
+        );
+
+        await BlipPointLog.create({
+          userId: newUser._id,
+          bonusPoints: REFERRAL_BONUS_POINTS,
+          event: "REFERRAL_BONUS_RECEIVED",
+        });
+      }
+    }
 
     // Delete pending
     await PendingEmailModel.deleteOne({ email: pending.email });
@@ -322,6 +376,14 @@ export const verifyEmailOTP = async (req, res) => {
       expiresIn: "7d",
     });
 
+    // Set httpOnly cookie (same as login)
+    res.cookie("token", token, {
+      httpOnly: true,
+      sameSite: production ? "none" : "lax",
+      secure: production ? true : false,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
     res.status(201).json({
       success: true,
       message: "Email verified successfully",
@@ -329,6 +391,15 @@ export const verifyEmailOTP = async (req, res) => {
       user: {
         id: newUser._id,
         email: newUser.email,
+        wallet_address: newUser.wallet_address,
+        phone: newUser.phone,
+        referralCode: newUser.referralCode,
+        totalBlipPoints: newUser.totalBlipPoints,
+        status: newUser.status,
+        role: newUser.role,
+        twoFactorEnabled: newUser.twoFactorEnabled || false,
+        emailVerified: newUser.emailVerified,
+        walletLinked: newUser.walletLinked || false,
       },
     });
   } catch (error) {
@@ -347,7 +418,7 @@ export const resendOTP = async (req, res) => {
   try {
     const { email } = req.body;
 
-    const pending = await PendingEmail.findOne({
+    const pending = await PendingEmailModel.findOne({
       email: email.toLowerCase(),
     });
 
@@ -367,7 +438,7 @@ export const resendOTP = async (req, res) => {
 
     await pending.save();
 
-    await sendVerificationEmail(email, rawOTP);
+    await sendVerificationEmailNew(email, rawOTP);
 
     res.status(200).json({
       success: true,
@@ -546,10 +617,39 @@ export const resendVerificationEmail = async (req, res) => {
       });
     }
 
+    // Check PendingEmailModel first (new OTP flow)
+    const pending = await PendingEmailModel.findOne({ email: email.toLowerCase() });
+
+    if (pending) {
+      // Generate new OTP
+      const rawOTP = Math.floor(100000 + Math.random() * 900000).toString();
+      const hashedOTP = await bcrypt.hash(rawOTP, 10);
+
+      pending.otp = hashedOTP;
+      pending.otpExpires = new Date(Date.now() + 10 * 60 * 1000);
+      pending.otpAttempts = 0;
+      await pending.save();
+
+      try {
+        await sendVerificationEmailNew(email, rawOTP);
+      } catch (emailError) {
+        console.error("Email sending failed:", emailError);
+        return res.status(500).json({
+          success: false,
+          message: "Failed to send verification email",
+        });
+      }
+
+      return res.status(200).json({
+        success: true,
+        message: "Verification code resent successfully",
+      });
+    }
+
+    // Fallback: check User model (old flow)
     const user = await User.findOne({ email: email.toLowerCase() });
 
     if (!user) {
-      // Don't reveal if email exists
       return res.status(200).json({
         success: true,
         message: "If the email exists, a verification link has been sent.",
@@ -563,7 +663,7 @@ export const resendVerificationEmail = async (req, res) => {
       });
     }
 
-    // Generate new token
+    // Generate new token for old flow
     const verificationToken = crypto.randomBytes(32).toString("hex");
     const verificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
@@ -571,7 +671,6 @@ export const resendVerificationEmail = async (req, res) => {
     user.emailVerificationExpires = verificationExpires;
     await user.save();
 
-    // Send email
     try {
       await sendVerificationEmail(email, verificationToken);
     } catch (emailError) {

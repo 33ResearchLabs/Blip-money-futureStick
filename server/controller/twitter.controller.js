@@ -86,7 +86,7 @@ export const verifyTweet = async (req, res) => {
     const { tweetData } = verificationResult;
 
     // Points to award
-    const pointsAwarded = 250;
+    const pointsAwarded = 100;
 
     // Save successful verification
     const verification = await TweetVerification.create({

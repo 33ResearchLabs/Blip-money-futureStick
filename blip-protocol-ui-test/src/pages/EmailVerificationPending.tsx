@@ -28,7 +28,9 @@ export default function EmailVerificationPending() {
       setTimeout(() => setResent(false), 5000);
     } catch (error: any) {
       console.error("Resend error:", error);
-      const message = error.response?.data?.message || "Failed to resend email. Please try again.";
+      const message =
+        error.response?.data?.message ||
+        "Failed to resend email. Please try again.";
       toast.error(message);
     } finally {
       setIsResending(false);
@@ -101,7 +103,7 @@ export default function EmailVerificationPending() {
 
         {/* Back to Login */}
         <Link
-          to="/login"
+          to="/waitlist"
           className="inline-block text-sm text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white transition-colors"
         >
           Back to Login

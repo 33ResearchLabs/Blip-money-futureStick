@@ -78,7 +78,7 @@ export default function Login() {
         error.response?.data?.emailVerified === false
       ) {
         toast.error("Please verify your email before logging in");
-        navigate("/verification-pending", {
+        navigate("/waitlist", {
           state: { email: formData.email },
         });
       } else {
@@ -192,7 +192,7 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen flex  p-4">
+    <div className="flex  p-4">
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="mb-10 ">

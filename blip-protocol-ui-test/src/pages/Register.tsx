@@ -36,6 +36,8 @@ export default function Register() {
   const [showOTPModal, setShowOTPModal] = useState(false);
   const [otp, setOtp] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
+  const [isResending, setIsResending] = useState(false);
+  const [resendCooldown, setResendCooldown] = useState(0);
 
   // Password strength checker
   const checkPasswordStrength = (password: string) => {
@@ -144,6 +146,32 @@ export default function Register() {
       setOtp("");
     } finally {
       setIsVerifying(false);
+    }
+  };
+
+  const handleResendOTP = async () => {
+    if (resendCooldown > 0) return;
+
+    setIsResending(true);
+    try {
+      await authApi.resendVerification(formData.email);
+      toast.success("Verification code resent! Check your email.");
+      setResendCooldown(60);
+      const interval = setInterval(() => {
+        setResendCooldown((prev) => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    } catch (error: any) {
+      const message =
+        error.response?.data?.message || "Failed to resend code. Try again.";
+      toast.error(message);
+    } finally {
+      setIsResending(false);
     }
   };
 
@@ -510,6 +538,24 @@ export default function Register() {
                   "Verify & Continue"
                 )}
               </button>
+
+              <div className="text-center">
+                <p className="text-sm text-black/50 dark:text-white/50 mb-2">
+                  Didn't receive the code?
+                </p>
+                <button
+                  type="button"
+                  onClick={handleResendOTP}
+                  disabled={isResending || resendCooldown > 0}
+                  className="text-sm font-medium text-black dark:text-white hover:underline disabled:opacity-40 disabled:no-underline disabled:cursor-not-allowed transition-all"
+                >
+                  {isResending
+                    ? "Sending..."
+                    : resendCooldown > 0
+                      ? `Resend in ${resendCooldown}s`
+                      : "Resend Email"}
+                </button>
+              </div>
 
               <button
                 type="button"

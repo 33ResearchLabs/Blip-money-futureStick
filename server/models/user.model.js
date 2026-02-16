@@ -88,7 +88,7 @@ const userSchema = new mongoose.Schema(
 
     totalBlipPoints: {
       type: Number,
-      default: 500, // 🔥 cache for fast reads
+      default: 200, // 🔥 cache for fast reads
     },
 
     lastLoginAt: Date,
@@ -113,9 +113,8 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.model("User", userSchema);

@@ -1,7 +1,7 @@
 import User from "../models/user.model.js";
 import { verifyTelegramMembership, getBotInfo } from "../utils/telegram.js";
 
-const TELEGRAM_REWARD_POINTS = 500;
+const TELEGRAM_REWARD_POINTS = 100;
 
 /**
  * Verify Telegram channel membership and award points

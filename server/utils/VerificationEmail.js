@@ -1,11 +1,23 @@
-import { Resend } from "resend";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import nodemailer from "nodemailer";
 
 export const sendVerificationEmailNew = async (email, otp) => {
   try {
-    await resend.emails.send({
-      from: process.env.EMAIL_FROM || "Blip Money <onboarding@resend.dev>",
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+      connectionTimeout: 20000,
+      greetingTimeout: 20000,
+      socketTimeout: 20000,
+      tls: { rejectUnauthorized: false },
+    });
+
+    const mailOptions = {
+      from: `"Blip Money" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: "Verify Your Email - Blip Money",
       html: `
@@ -18,7 +30,9 @@ export const sendVerificationEmailNew = async (email, otp) => {
           <p>If you didn't request this, please ignore this email.</p>
         </div>
       `,
-    });
+    };
+
+    await transporter.sendMail(mailOptions);
     console.log("Verification email sent successfully");
   } catch (error) {
     console.error("Error sending email:", error);

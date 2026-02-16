@@ -1,2 +1,2 @@
-export const REGISTER_BONUS_POINTS = 2000;
+export const REGISTER_BONUS_POINTS = 200;
 export const REFERRAL_BONUS_POINTS = 100; 

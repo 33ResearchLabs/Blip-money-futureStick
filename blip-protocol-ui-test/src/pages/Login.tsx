@@ -78,7 +78,7 @@ export default function Login() {
         error.response?.data?.emailVerified === false
       ) {
         toast.error("Please verify your email before logging in");
-        navigate("/verification-pending", {
+        navigate("/waitlist", {
           state: { email: formData.email },
         });
       } else {
