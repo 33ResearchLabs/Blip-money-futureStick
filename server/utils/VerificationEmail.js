@@ -8,6 +8,9 @@ export const sendVerificationEmailNew = async (email, otp) => {
         user: process.env.EMAIL_USER, // your gmail
         pass: process.env.EMAIL_PASS, // app password
       },
+      connectionTimeout: 20000,
+      greetingTimeout: 20000,
+      socketTimeout: 20000,
     });
 
     const mailOptions = {
