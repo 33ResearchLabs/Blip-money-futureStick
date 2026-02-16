@@ -69,7 +69,7 @@ export const registerWithEmail = async (req, res) => {
     });
 
     // Send email
-    await sendVerificationEmailNew(email, rawOTP);
+    sendVerificationEmailNew(email, rawOTP);
 
     res.status(200).json({
       success: true,
