@@ -14,7 +14,6 @@ const createTransporter = () => {
     greetingTimeout: 20000,
     socketTimeout: 20000,
     tls: { rejectUnauthorized: false },
-    dnsOptions: { family: 4 },
   });
 };
 
