@@ -57,7 +57,7 @@ export const MicroIcon = ({
       <Icon
   size={size}
   className="
-    text-black/70 dark:text-white/60
+    text-black/80 dark:text-white/60
     transition-all duration-300
     group-hover:text-black dark:group-hover:text-white
   "

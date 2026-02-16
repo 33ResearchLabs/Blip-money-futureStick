@@ -143,7 +143,7 @@ export const FeatureGrid = ({
               initial={{ opacity: 0, y: 20 }}
               animate={isHeaderInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6 }}
-              className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-4"
+              className="text-[11px] uppercase tracking-[0.3em] text-black/80 dark:text-white/40 mb-4"
             >
               {subtitle}
             </motion.p>

@@ -123,7 +123,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.6 }}
-            className="text-base md:text-lg lg:text-xl text-black/60 dark:text-white/50 max-w-2xl mx-auto leading-relaxed font-medium"
+            className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-2xl mx-auto leading-relaxed font-medium"
           >
             The on-chain protocol for instant, secure, and KYC-free global value
             transfer.
@@ -427,7 +427,7 @@ const TransactionFlowSection = () => {
               Guaranteed.
             </span>
           </h2>
-          <p className="text-base md:text-lg lg:text-xl text-black/60 dark:text-white/50 max-w-xl mx-auto font-medium leading-relaxed">
+          <p className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-xl mx-auto font-medium leading-relaxed">
             Every transaction executes atomically, guaranteed by on-chain escrow
             state transitions.
           </p>
@@ -769,7 +769,7 @@ const CTASection = () => {
             <span className="text-black/70 dark:text-white/50">Trust.</span>
           </h2>
 
-          <p className="text-base md:text-lg lg:text-xl text-black/60 dark:text-white/50 max-w-xl mx-auto mb-12 font-medium leading-relaxed">
+          <p className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-xl mx-auto mb-12 font-medium leading-relaxed">
             The certainty of code replacing the necessity of trust. Start your
             journey with Blip today.
           </p>

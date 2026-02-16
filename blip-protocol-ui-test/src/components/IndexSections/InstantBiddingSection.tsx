@@ -91,7 +91,7 @@ const InstantBiddingSection = () => {
               />
             </span>
           </h2>
-          <p className="text-base md:text-lg lg:text-xl text-black/60 dark:text-white/50 font-medium max-w-2xl mx-auto hidden sm:block leading-relaxed">
+          <p className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 font-medium max-w-2xl mx-auto hidden sm:block leading-relaxed">
             Merchants compete in real-time for your order. You automatically get
             the best rate.
           </p>

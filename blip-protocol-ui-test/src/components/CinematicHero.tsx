@@ -116,7 +116,7 @@ const CinematicHero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-base md:text-lg lg:text-xl text-black/60 dark:text-white/50 font-medium max-w-xl mx-auto mb-12 leading-relaxed"
+          className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 font-medium max-w-xl mx-auto mb-12 leading-relaxed"
         >
           Liquidity is matched. Funds are locked. Settlement is enforced.
         </motion.p>
@@ -170,7 +170,7 @@ const CinematicHero = () => {
 
           <Link
             to="/merchant"
-            className="inline-flex items-center justify-center w-[240px] h-[56px] rounded-full border border-[#ff6b35]/15 text-black/60 dark:text-white/50 text-base font-medium hover:border-[#ff6b35]/35 hover:text-black dark:hover:text-white/70 transition-all duration-300"
+            className="inline-flex items-center justify-center w-[240px] h-[56px] rounded-full border border-[#ff6b35]/50 text-black/80 dark:text-white/50 text-base font-medium hover:border-[#ff6b35]/80 hover:text-black dark:hover:text-white/70 transition-all duration-300"
           >
             Become a Liquidity Partner
           </Link>

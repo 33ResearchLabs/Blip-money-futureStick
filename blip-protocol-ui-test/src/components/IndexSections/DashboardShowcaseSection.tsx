@@ -535,7 +535,7 @@ export default function DashboardShowcaseSection() {
               freely now.
             </h2>
 
-            <p className="mt-4 sm:mt-6 text-base md:text-lg lg:text-xl text-black/60 dark:text-white/50 font-medium leading-relaxed">
+            <p className="mt-4 sm:mt-6 text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 font-medium leading-relaxed">
               Across borders. Between people. At internet speed.
             </p>
           </motion.div>

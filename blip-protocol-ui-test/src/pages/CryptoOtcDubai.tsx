@@ -173,7 +173,7 @@ const WhyOtcSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <span className="text-xs uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-4 block">
+          <span className="text-xs uppercase tracking-[0.3em] text-black/80 dark:text-white/40 mb-4 block">
             Advantages
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-black dark:text-white tracking-tight">
@@ -256,7 +256,7 @@ const HowOtcWorksSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <span className="text-xs uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-4 block">
+          <span className="text-xs uppercase tracking-[0.3em] text-black/80 dark:text-white/40 mb-4 block">
             Simple Process
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-black dark:text-white tracking-tight">
@@ -342,7 +342,7 @@ const OtcAdvantagesSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <span className="text-xs uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-4 block">
+          <span className="text-xs uppercase tracking-[0.3em] text-black/80 dark:text-white/40 mb-4 block">
             Blip vs Traditional
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-black dark:text-white tracking-tight">
@@ -376,7 +376,7 @@ const OtcAdvantagesSection = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="p-4 rounded-xl border border-black/[0.06] dark:border-white/[0.04] bg-black/[0.02] dark:bg-white/[0.01]">
-                    <span className="text-[10px] uppercase tracking-wider px-2 py-1 rounded-full bg-black/5 dark:bg-white/5 text-black/40 dark:text-white/40 mb-3 inline-block">
+                    <span className="text-[10px] uppercase tracking-wider px-2 py-1 rounded-full bg-black/5 dark:bg-white/5 text-black/80 dark:text-white/40 mb-3 inline-block">
                       Traditional OTC
                     </span>
                     <p className="text-sm text-black dark:text-white/40 leading-relaxed">
@@ -384,7 +384,7 @@ const OtcAdvantagesSection = () => {
                     </p>
                   </div>
                   <div className="p-4 rounded-xl border border-black/[0.08] dark:border-white/[0.06] bg-white/80 dark:bg-white/[0.02]">
-                    <span className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-wider px-2 py-1 rounded-full bg-black/5 dark:bg-white/5 text-black/40 dark:text-white/40 mb-3">
+                    <span className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-wider px-2 py-1 rounded-full bg-black/5 dark:bg-white/5 text-black/80 dark:text-white/40 mb-3">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]" />
                       Blip OTC
                     </span>
@@ -424,7 +424,7 @@ const FAQSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <span className="text-xs uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-4 block">
+          <span className="text-xs uppercase tracking-[0.3em] text-black/80 dark:text-white/40 mb-4 block">
             Common Questions
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-black dark:text-white tracking-tight">

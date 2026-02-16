@@ -110,7 +110,7 @@ const BlipscanExplorerSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-black dark:text-white/50 font-medium text-base sm:text-lg max-w-2xl mx-auto"
+            className="text-black/80 dark:text-white/50 font-medium text-base sm:text-lg max-w-2xl mx-auto"
           >
             Every settlement is public and verifiable on Blipscan.
           </motion.p>

@@ -564,7 +564,7 @@ const CTABottomSection = () => {
             Start Buying USDT
             <ArrowRight className="w-4 h-4" />
           </Link> */}
-          <CTAButton to="waitlist" >   Start Buying USDT</CTAButton>
+          <CTAButton to="/waitlist" > Start Buying USDT</CTAButton>
 
         </motion.div>
       </div>

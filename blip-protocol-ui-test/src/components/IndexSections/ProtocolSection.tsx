@@ -91,7 +91,7 @@ const ProtocolSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="text-base md:text-lg lg:text-xl text-black/60 dark:text-white/50 max-w-2xl mx-auto leading-relaxed font-medium"
+            className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-2xl mx-auto leading-relaxed font-medium"
           >
             A decentralized settlement layer for instant, private, global value
             transfer.

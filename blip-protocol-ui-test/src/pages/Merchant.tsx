@@ -119,7 +119,7 @@ const WhyBlipSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* LEFT */}
           <div className="max-w-xl text-center lg:text-left">
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6">
+            <h2 className=" text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white leading-[1.1] mb-6">
               Why Merchants{" "}
               <span className="text-black/70 dark:text-white/70">Choose</span>{" "}
               Blip
@@ -294,7 +294,7 @@ const DashboardSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="text-[11px] uppercase tracking-[0.3em] text-black/70 dark:text-white/30 font-semibold mb-4"
+            className="text-[11px] uppercase tracking-[0.3em] text-black/80 dark:text-white/30 font-semibold mb-4"
           >
             Merchant Dashboard
           </motion.p>
@@ -431,7 +431,7 @@ const PricingSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-[11px] uppercase tracking-[0.3em] text-black/70 dark:text-white/30 font-semibold mb-4"
+          className="text-[11px] uppercase tracking-[0.3em] text-black/80 dark:text-white/30 font-semibold mb-4"
         >
           Pricing
         </motion.p>
@@ -690,7 +690,7 @@ const RequirementsSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="text-[11px] uppercase tracking-[0.3em] text-black/70 dark:text-white/30 font-semibold mb-4"
+            className="text-[11px] uppercase tracking-[0.3em] text-black/80 dark:text-white/30 font-semibold mb-4"
           >
             Requirements
           </motion.p>
@@ -820,7 +820,8 @@ const Merchant = () => {
         primaryButtonText="Apply as Merchant"
         primaryButtonLink="/waitlist"
         secondaryButtonText="Join Merchant "
-        secondaryButtonLink="https://t.me/blip_money"
+        secondaryButtonLink="/waitlist"
+        // secondaryButtonLink="https://t.me/blip_money"
         // background="gradient"
       />
     </>

@@ -65,7 +65,7 @@ const RewardsSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-base md:text-lg lg:text-xl text-black/60 dark:text-white/50 max-w-xl mx-auto leading-relaxed font-medium"
+            className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-xl mx-auto leading-relaxed font-medium"
           >
             Up to 2.5% back in BLIP tokens on every payment. Early supporters
             unlock multipliers and exclusive airdrops.
