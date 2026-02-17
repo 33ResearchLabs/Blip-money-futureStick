@@ -10,6 +10,7 @@ import {
   unlinkWallet,
   forgotPassword,
   resetPassword,
+  syncPassword,
   logout,
 } from "../controller/auth.controller.js";
 import { protect } from "../middlewares/auth.middleware.js";
@@ -25,6 +26,7 @@ router.post("/login", loginWithEmail);
 router.post("/resend-verification", resendVerificationEmail);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password/:token", resetPassword);
+router.post("/sync-password", syncPassword);
 router.post("/logout", logout);
 
 // Protected routes (require authentication)

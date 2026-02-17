@@ -3,7 +3,7 @@ import { ThemeProvider } from "next-themes";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useSearchParams } from "react-router-dom";
 
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import StructuredData from "@/components/StructuredData";
@@ -91,6 +91,19 @@ const BestCryptoExchangeUae = lazy(
 );
 const BitcoinPriceUae = lazy(() => import("./pages/BitcoinPriceUae"));
 
+// Handle Firebase auth action URLs (e.g. /?mode=resetPassword&oobCode=...)
+const FirebaseActionHandler = ({ children }: { children: React.ReactNode }) => {
+  const [searchParams] = useSearchParams();
+  const mode = searchParams.get("mode");
+  const oobCode = searchParams.get("oobCode");
+
+  if (mode === "resetPassword" && oobCode) {
+    return <Navigate to={`/reset-password?oobCode=${oobCode}`} replace />;
+  }
+
+  return <>{children}</>;
+};
+
 const queryClient = new QueryClient();
 
 // Loading fallback component
@@ -122,7 +135,7 @@ const App = () => (
                 <Routes>
                   {/* PUBLIC ROUTES WITH LAYOUT */}
                   <Route element={<MainLayout />}>
-                    <Route path="/" element={<Index />} />
+                    <Route path="/" element={<FirebaseActionHandler><Index /></FirebaseActionHandler>} />
                     <Route path="/register" element={<Register />} />
                     <Route
                       path="/email-verification-pending"
@@ -133,7 +146,7 @@ const App = () => (
                       element={<ForgotPassword />}
                     />
                     <Route
-                      path="/reset-password/:token"
+                      path="/reset-password"
                       element={<ResetPassword />}
                     />
                     <Route path="/tokenomics" element={<BlipTokenomics />} />

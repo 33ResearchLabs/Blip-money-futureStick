@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import {
   Lock,
   Eye,
@@ -7,21 +7,51 @@ import {
   Loader2,
   ArrowLeft,
   CheckCircle2,
+  AlertCircle,
 } from "lucide-react";
 import { toast } from "sonner";
-import authApi from "@/services/auth";
 import { motion } from "framer-motion";
+import { verifyPasswordResetCode, confirmPasswordReset } from "firebase/auth";
+import { firebaseAuth } from "@/config/firebase";
+import authApi from "@/services/auth";
 
 export default function ResetPassword() {
-  const { token } = useParams<{ token: string }>();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
+  const oobCode = searchParams.get("oobCode");
+
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(true);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isInvalidLink, setIsInvalidLink] = useState(false);
+
+  // Verify the oobCode on mount
+  useEffect(() => {
+    const verifyCode = async () => {
+      if (!oobCode) {
+        setIsInvalidLink(true);
+        setIsVerifying(false);
+        return;
+      }
+
+      try {
+        const userEmail = await verifyPasswordResetCode(firebaseAuth, oobCode);
+        setEmail(userEmail);
+      } catch {
+        setIsInvalidLink(true);
+      } finally {
+        setIsVerifying(false);
+      }
+    };
+
+    verifyCode();
+  }, [oobCode]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,7 +73,7 @@ export default function ResetPassword() {
       return;
     }
 
-    if (!token) {
+    if (!oobCode) {
       toast.error("Invalid reset link");
       return;
     }
@@ -51,18 +81,87 @@ export default function ResetPassword() {
     setIsLoading(true);
 
     try {
-      await authApi.resetPassword(token, password);
+      // Reset password in Firebase
+      await confirmPasswordReset(firebaseAuth, oobCode, password);
+
+      // Sync new password to backend MongoDB
+      try {
+        await authApi.syncPassword(email, password);
+      } catch {
+        // Backend sync failure is non-critical - Firebase password is already updated
+        console.error("Backend password sync failed");
+      }
+
       setIsSuccess(true);
       toast.success("Password reset successfully!");
     } catch (error: any) {
-      const message =
-        error.response?.data?.message ||
-        "Failed to reset password. The link may have expired.";
-      toast.error(message);
+      if (error.code === "auth/expired-action-code") {
+        toast.error("Reset link has expired. Please request a new one.");
+      } else if (error.code === "auth/invalid-action-code") {
+        toast.error("Invalid reset link. Please request a new one.");
+      } else if (error.code === "auth/weak-password") {
+        toast.error("Password is too weak. Please choose a stronger password.");
+      } else {
+        toast.error("Failed to reset password. Please try again.");
+      }
     } finally {
       setIsLoading(false);
     }
   };
+
+  // Loading state while verifying oobCode
+  if (isVerifying) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <div className="text-center">
+          <Loader2 className="w-8 h-8 animate-spin text-black/40 dark:text-white/40 mx-auto mb-4" />
+          <p className="text-black/50 dark:text-white/50">
+            Verifying reset link...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // Invalid or expired link
+  if (isInvalidLink) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="w-full max-w-md text-center"
+        >
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-500/10 mb-6">
+            <AlertCircle className="w-8 h-8 text-red-500" />
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold text-black dark:text-white mb-3">
+            Invalid Reset Link
+          </h2>
+          <p className="text-black/50 dark:text-white/50 mb-8">
+            This password reset link is invalid or has expired. Please request a
+            new one.
+          </p>
+
+          <div className="space-y-3">
+            <button
+              onClick={() => navigate("/forgot-password")}
+              className="w-full py-3 bg-black dark:bg-white text-white dark:text-black font-medium rounded-sm hover:bg-black/90 dark:hover:bg-white/90 transition-all"
+            >
+              Request New Link
+            </button>
+            <Link
+              to="/waitlist"
+              className="w-full py-3 flex items-center justify-center gap-2 text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white text-sm transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4" /> Back to Login
+            </Link>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
 
   if (isSuccess) {
     return (
@@ -117,7 +216,10 @@ export default function ResetPassword() {
             Set New Password
           </h2>
           <p className="text-black/50 dark:text-white/50">
-            Enter your new password below
+            Enter your new password for{" "}
+            <span className="text-black dark:text-white font-medium">
+              {email}
+            </span>
           </p>
         </div>
 

@@ -1114,6 +1114,51 @@ export const resetPassword = async (req, res) => {
 };
 
 /**
+ * Sync password from Firebase reset to MongoDB
+ * POST /api/auth/sync-password
+ */
+export const syncPassword = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Email and password are required",
+      });
+    }
+
+    const user = await User.findOne({ email: email.toLowerCase() }).select("+password");
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    // Hash new password and update
+    const hashedPassword = await bcrypt.hash(password, 10);
+    user.password = hashedPassword;
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Password synced successfully",
+    });
+  } catch (error) {
+    console.error("Password sync error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to sync password",
+      error: error.message,
+    });
+  }
+};
+
+/**
  * Logout user
  * POST /api/auth/logout
  */

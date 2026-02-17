@@ -87,8 +87,10 @@ export const sendVerificationEmail = async (email, token) => {
 export const sendPasswordResetEmail = async (email, token) => {
   const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${token}`;
 
+  console.log("📧 Sending password reset email:", { to: email, from: FROM_EMAIL, resetUrl });
+
   try {
-    await resend.emails.send({
+    const result = await resend.emails.send({
       from: FROM_EMAIL,
       to: [email],
       subject: "Password Reset Request - Blip Money",
@@ -154,9 +156,9 @@ export const sendPasswordResetEmail = async (email, token) => {
     `,
       text: `Password Reset Request - Blip Money\n\nReset Link: ${resetUrl}\n\nThis link will expire in 1 hour.\n\nIf you didn't request a password reset, please ignore this email.`,
     });
-    console.log(`Password reset email sent to ${email}`);
+    console.log(`✅ Password reset email sent to ${email}`, result);
   } catch (error) {
-    console.error("Error sending password reset email:", error);
+    console.error("❌ Error sending password reset email:", error);
     throw new Error("Failed to send password reset email");
   }
 };

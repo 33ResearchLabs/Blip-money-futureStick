@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Mail, Loader2, ArrowLeft, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
-import authApi from "@/services/auth";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { firebaseAuth } from "@/config/firebase";
 import { motion } from "framer-motion";
 
 export default function ForgotPassword() {
@@ -21,14 +22,19 @@ export default function ForgotPassword() {
     setIsLoading(true);
 
     try {
-      await authApi.forgotPassword(email);
+      await sendPasswordResetEmail(firebaseAuth, email, {
+        url: `${window.location.origin}/waitlist`,
+      });
       setIsSent(true);
       toast.success("Reset link sent! Check your email.");
     } catch (error: any) {
-      const message =
-        error.response?.data?.message ||
-        "Failed to send reset email. Please try again.";
-      toast.error(message);
+      if (error.code === "auth/user-not-found") {
+        // Don't reveal if email exists - show success anyway
+        setIsSent(true);
+        toast.success("Reset link sent! Check your email.");
+      } else {
+        toast.error("Failed to send reset email. Please try again.");
+      }
     } finally {
       setIsLoading(false);
     }

@@ -57,10 +57,16 @@ export const authApi = {
     api.post("/auth/forgot-password", { email }),
 
   /**
-   * Reset password with token
+   * Reset password with token (legacy)
    */
   resetPassword: (token: string, password: string) =>
     api.post(`/auth/reset-password/${token}`, { password }),
+
+  /**
+   * Sync password after Firebase reset to update MongoDB
+   */
+  syncPassword: (email: string, password: string) =>
+    api.post("/auth/sync-password", { email, password }),
 
   /**
    * Link wallet to authenticated user
