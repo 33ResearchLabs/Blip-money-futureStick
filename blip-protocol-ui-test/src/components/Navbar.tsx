@@ -1,32 +1,14 @@
 import { useEffect, useState, useRef } from "react";
-import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useMotionValueEvent,
-} from "framer-motion";
-import {
-  Menu,
-  X,
-  ChevronRight,
-  ArrowRight,
-  Sun,
-  Moon,
-  Zap,
-} from "lucide-react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import { ChevronRight, ArrowRight, Sun, Moon, Zap, Menu, X } from "lucide-react";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
 import { sounds } from "@/lib/sounds";
 import { useTheme } from "next-themes";
 
-/* ============================================
-   LINEAR-INSPIRED NAVBAR
-   Minimal, refined, deeply interactive
-   ============================================ */
-
 /* ---------------- Logo ---------------- */
-/* Brand Orange: #ffffff - LOCKED COLOR */
+
 export const Logo = ({ className = "" }) => {
   return (
     <Link
@@ -34,24 +16,19 @@ export const Logo = ({ className = "" }) => {
       className="flex items-center gap-1.5 group"
       onClick={() => sounds.click()}
     >
-      {/* Zap icon */}
       <Zap
         className="w-5 h-5 text-black dark:text-white fill-black dark:fill-white"
         strokeWidth={2}
       />
 
-      {/* Text */}
       <motion.span
         className={`${className} text-[23px] font-semibold tracking-tight leading-none flex items-center`}
         whileHover={{ scale: 1.02 }}
         transition={{ duration: 0.2 }}
       >
         <span className="text-black dark:text-white">Blip</span>
-
-        {/* Money text - italic */}
         <span className="relative text-black dark:text-white ml-1 italic">
           money
-          {/* Underline effect */}
           <motion.span
             className="absolute -bottom-1 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-black/50 dark:from-white/50 to-transparent opacity-0 group-hover:opacity-100"
             transition={{ duration: 0.3 }}
@@ -62,26 +39,16 @@ export const Logo = ({ className = "" }) => {
   );
 };
 
-/* ---------------- Nav Link ---------------- */
-const NavItem = ({
-  to,
-  children,
-  onClick,
-}: {
-  to: string;
-  children: React.ReactNode;
-  onClick?: () => void;
-}) => {
+/* ---------------- Nav Item ---------------- */
+
+const NavItem = ({ to, children }: any) => {
   const location = useLocation();
   const isActive = location.pathname === to;
 
   return (
     <NavLink
       to={to}
-      onClick={() => {
-        sounds.click();
-        onClick?.();
-      }}
+      onClick={() => sounds.click()}
       onMouseEnter={() => sounds.hover()}
       className="relative px-3 py-2 text-[17px] font-semibold transition-colors duration-200"
     >
@@ -95,7 +62,6 @@ const NavItem = ({
         {children}
       </span>
 
-      {/* Active indicator */}
       {isActive && (
         <motion.div
           layoutId="navIndicator"
@@ -108,51 +74,10 @@ const NavItem = ({
 };
 
 /* ---------------- CTA Button ---------------- */
-export const CTAButton = ({
-  to,
-  children,
-  variant = "primary",
-  className,
-}: {
-  to: string;
-  children: React.ReactNode;
-  variant?: "primary" | "secondary";
-  className?: string;
-}) => {
-  const isPrimary = variant === "primary";
 
+export const CTAButton = ({ to, children, className }: any) => {
   return (
     <motion.div whileTap={{ scale: 0.97 }} className="relative">
-      {/* <Link
-        to={to}
-        onClick={() => sounds.click()}
-        onMouseEnter={() => sounds.hover()}
-        className={`
-          ${className}
-          group relative overflow-hidden inline-flex
-          items-center justify-center px-5 py-2.5 rounded-full
-          text-[16px] font-medium transition-all duration-300
-
-          ${
-            isPrimary
-              ? "bg-transparent text-black dark:text-white border border-black/20 dark:border-white/20"
-              : "bg-transparent text-black dark:text-white border border-black/20 dark:border-white/20"
-          }
-        `}
-      >
-       
-        {isPrimary && (
-          <span className="absolute inset-0 bg-black/10 dark:bg-white/20 rounded-full scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-out" />
-        )}
-
-       
-        <span className="relative z-10 transition-colors duration-300 font-semibold flex items-center gap-2">
-          {children}
-          {isPrimary && (
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-          )}
-        </span>
-      </Link> */}
       <Link
         to={to}
         onClick={() => sounds.click()}
@@ -162,40 +87,13 @@ export const CTAButton = ({
           group relative overflow-hidden inline-flex
           items-center justify-center px-5 py-2.5 rounded-full
           text-[16px] font-medium transition-all duration-300
-
-          ${
-            isPrimary
-              ? `
-      bg-black text-white border border-black
-     
-      
-      dark:bg-white dark:text-black dark:border-white
-     
-    `
-              : "bg-transparent text-black dark:text-white border border-black/20 dark:border-white/20"
-          }
+          bg-black text-white border border-black
+          dark:bg-white dark:text-black dark:border-white
         `}
       >
-        {/* LEFT-TO-RIGHT HOVER FILL ANIMATION */}
-        {isPrimary && (
-          <span
-            className="
-    absolute inset-0 
-    
-    rounded-full 
-    scale-x-0 group-hover:scale-x-100 
-    origin-left 
-    transition-transform duration-700 ease-out
-  "
-          />
-        )}
-
-        {/* BUTTON TEXT */}
-        <span className="relative z-10 transition-colors duration-300 font-semibold flex items-center gap-2">
+        <span className="relative z-10 font-semibold flex items-center gap-2">
           {children}
-          {isPrimary && (
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-          )}
+          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
         </span>
       </Link>
     </motion.div>
@@ -203,6 +101,7 @@ export const CTAButton = ({
 };
 
 /* ---------------- Theme Switcher ---------------- */
+
 const ThemeSwitcher = () => {
   const { theme, setTheme } = useTheme();
 
@@ -228,63 +127,29 @@ const ThemeSwitcher = () => {
   );
 };
 
-/* ---------------- Language Switcher ---------------- */
-const LanguageSwitcher = () => {
-  const { i18n } = useTranslation();
-  const currentLanguage = i18n.language;
-
-  const changeLanguage = (lng: string) => {
-    sounds.toggle(lng === "en");
-    i18n.changeLanguage(lng);
-    localStorage.setItem("lang", lng);
-  };
-
-  return (
-    <div className="flex items-center p-1 rounded-full bg-black/5 dark:bg-[#18181B] border border-black/10 dark:border-[rgba(255,255,255,0.06)]">
-      {["en", "ar"].map((lng) => (
-        <motion.button
-          key={lng}
-          onClick={() => changeLanguage(lng)}
-          className={`
-            relative px-2.5 py-1 text-[12px] font-medium rounded transition-colors
-            ${
-              currentLanguage === lng
-                ? "text-black dark:text-white"
-                : "text-gray-500 dark:text-[#71717A] hover:text-gray-700 dark:hover:text-[#A1A1AA]"
-            }
-          `}
-          whileTap={{ scale: 0.95 }}
-        >
-          {currentLanguage === lng && (
-            <motion.div
-              layoutId="langBg"
-              className="absolute inset-0 rounded bg-black/10 dark:bg-[#27272A]"
-              transition={{ type: "spring", stiffness: 500, damping: 35 }}
-            />
-          )}
-          <span className="relative z-10">{lng === "en" ? "EN" : "عربي"}</span>
-        </motion.button>
-      ))}
-    </div>
-  );
-};
-
 /* ---------------- Mobile Menu ---------------- */
+
 const MobileMenu = ({
   isOpen,
   onClose,
-  onNavigate,
 }: {
   isOpen: boolean;
   onClose: () => void;
-  onNavigate: () => void;
 }) => {
   const { t } = useTranslation();
   const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
-  const handleNavClick = () => {
+  if (!isOpen) return null;
+
+  const handleNavClick = (e: React.MouseEvent, to: string) => {
+    e.preventDefault();
     sounds.click();
-    onNavigate(); // CLOSE BEFORE NAVIGATION
+    onClose();
+
+    setTimeout(() => {
+      navigate(to);
+    }, 100);
   };
 
   const menuItems = [
@@ -292,119 +157,58 @@ const MobileMenu = ({
     { to: "/merchant", label: "Merchant" },
     { to: "/research", label: "Research" },
     { to: "/blog", label: "Blog" },
-    // { to: "/docs", label: "Docs" },
   ];
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <>
-          {/* Backdrop */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
-            onClick={onClose}
-          />
+    <>
+      <div
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+        onClick={onClose}
+      />
 
-          {/* Panel */}
-          <motion.div
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.2 }}
-            className="fixed top-[72px] left-4 right-4 z-50 rounded-xl overflow-hidden bg-[#FAF8F5] dark:bg-[#111113] border border-black/10 dark:border-white/[0.08]"
-          >
-            <div className="p-4 space-y-1">
-              {menuItems.map((item) => (
-                <Link
-                  key={item.to}
-                  to={item.to}
-                  onClick={handleNavClick}
-                  className="flex items-center justify-between py-3 px-3 rounded-lg text-[15px] text-gray-500 dark:text-[#A1A1AA] hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-[#18181B]"
-                >
-                  {item.label}
-                  <ChevronRight className="w-4 h-4 opacity-50" />
-                </Link>
-              ))}
-            </div>
+      <div className="fixed top-[72px] left-4 right-4 z-50 rounded-xl overflow-hidden bg-[#FAF8F5] dark:bg-[#111113] border border-black/10 dark:border-white/[0.08]">
+        <div className="p-4 space-y-1">
+          {menuItems.map((item) => (
+            <a
+              key={item.to}
+              href={item.to}
+              onClick={(e) => handleNavClick(e, item.to)}
+              className="flex items-center justify-between py-3 px-3 rounded-lg text-[15px] text-gray-500 dark:text-[#A1A1AA] hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-[#18181B] transition-colors"
+            >
+              {item.label}
+              <ChevronRight className="w-4 h-4 " />
+            </a>
+          ))}
+        </div>
 
-            <div className="p-4 border-t border-black/5 dark:border-white/5 space-y-2">
-              {isAuthenticated ? (
-                <Link
-                  to="/dashboard"
-                  onClick={handleNavClick}
-                  className="block w-full text-center py-2.5 rounded-full bg-black dark:bg-white text-white dark:text-black text-sm font-medium"
-                >
-                  Dashboard
-                </Link>
-              ) : (
-                <div onClick={handleNavClick}>
-                  <CTAButton to="/waitlist" className="w-full">
-                    Join Waitlist
-                  </CTAButton>
-                </div>
-              )}
-            </div>
-          </motion.div>
-        </>
-      )}
-    </AnimatePresence>
-  );
-};
-
-/* ---------------- Hamburger Button ---------------- */
-export const HamburgerButton = ({
-  isOpen,
-  onClick,
-}: {
-  isOpen: boolean;
-  onClick: () => void;
-}) => {
-  return (
-    <motion.button
-      onClick={() => {
-        sounds.click();
-        onClick();
-      }}
-      className="relative w-9 h-9 rounded-lg flex items-center justify-center bg-black/5 dark:bg-[#18181B] border border-black/10 dark:border-[rgba(255,255,255,0.06)]"
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-    >
-      <div className="w-4 h-3 flex flex-col justify-between">
-        <motion.span
-          className="block h-[1.5px] bg-black dark:bg-white rounded-full origin-left"
-          animate={{
-            rotate: isOpen ? 45 : 0,
-            y: isOpen ? -1 : 0,
-            width: isOpen ? "120%" : "100%",
-          }}
-          transition={{ duration: 0.2 }}
-        />
-        <motion.span
-          className="block h-[1.5px] bg-black dark:bg-white rounded-full"
-          animate={{
-            opacity: isOpen ? 0 : 1,
-            x: isOpen ? 8 : 0,
-          }}
-          transition={{ duration: 0.15 }}
-        />
-        <motion.span
-          className="block h-[1.5px] bg-black dark:bg-white rounded-full origin-left"
-          animate={{
-            rotate: isOpen ? -45 : 0,
-            y: isOpen ? 1 : 0,
-            width: isOpen ? "120%" : "70%",
-          }}
-          transition={{ duration: 0.2 }}
-        />
+        <div className="p-4 border-t border-black/5 dark:border-white/5 space-y-2">
+          {isAuthenticated ? (
+            <a
+              href="/dashboard"
+              onClick={(e) => handleNavClick(e, "/dashboard")}
+              className="block w-full text-center py-2.5 rounded-full bg-black dark:bg-white text-white dark:text-black text-sm font-medium"
+            >
+              Dashboard
+            </a>
+          ) : (
+            <a
+              href="/waitlist"
+              onClick={(e) => handleNavClick(e, "/waitlist")}
+              className="block w-full"
+            >
+              <CTAButton to="/waitlist" className="w-full">
+                Join Waitlist
+              </CTAButton>
+            </a>
+          )}
+        </div>
       </div>
-    </motion.button>
+    </>
   );
 };
 
 /* ---------------- Main Navbar ---------------- */
+
 export const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -417,12 +221,6 @@ export const Navbar = () => {
   const { scrollY } = useScroll();
   const lastScrollY = useRef(0);
 
-  /* ---------------- SAFE NAV HANDLER ---------------- */
-  const handleNavigate = () => {
-    setMobileMenuOpen(false);
-  };
-
-  /* ---------------- SCROLL BEHAVIOR ---------------- */
   useMotionValueEvent(scrollY, "change", (latest) => {
     const direction = latest > lastScrollY.current ? "down" : "up";
 
@@ -436,30 +234,16 @@ export const Navbar = () => {
     lastScrollY.current = latest;
   });
 
-  /* ---------------- CLOSE ON ROUTE CHANGE ---------------- */
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [location]);
 
-  /* ---------------- BODY SCROLL LOCK ---------------- */
   useEffect(() => {
     document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
   }, [mobileMenuOpen]);
-
-  /* ---------------- CLOSE ON DESKTOP RESIZE ---------------- */
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1024) {
-        setMobileMenuOpen(false);
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   return (
     <>
@@ -479,16 +263,13 @@ export const Navbar = () => {
           <div className="h-[72px] flex items-center justify-between">
             <Logo />
 
-            {/* Desktop Nav */}
             <div className="hidden lg:flex items-center gap-1">
               <NavItem to="/how-it-works">{t("howItWorks")}</NavItem>
-              <NavItem to="/merchant">{t("Merchant")}</NavItem>
+              <NavItem to="/merchant">Merchant</NavItem>
               <NavItem to="/research">Research</NavItem>
               <NavItem to="/blog">Blog</NavItem>
-              {/* <NavItem to="/docs">Docs</NavItem> */}
             </div>
 
-            {/* Desktop CTA */}
             <div className="hidden lg:flex items-center gap-3">
               <ThemeSwitcher />
               {isAuthenticated ? (
@@ -498,13 +279,18 @@ export const Navbar = () => {
               )}
             </div>
 
-            {/* Mobile Button */}
             <div className="flex gap-2 lg:hidden">
               <ThemeSwitcher />
-              <HamburgerButton
-                isOpen={mobileMenuOpen}
+              <button
                 onClick={() => setMobileMenuOpen((prev) => !prev)}
-              />
+                className="w-9 h-9 rounded-lg bg-black/5 dark:bg-[#18181B] border border-black/10 dark:border-white/[0.06] flex items-center justify-center"
+              >
+                {mobileMenuOpen ? (
+                  <X className="w-4 h-4 text-black dark:text-white" />
+                ) : (
+                  <Menu className="w-4 h-4 text-black dark:text-white" />
+                )}
+              </button>
             </div>
           </div>
         </div>
@@ -513,7 +299,6 @@ export const Navbar = () => {
       <MobileMenu
         isOpen={mobileMenuOpen}
         onClose={() => setMobileMenuOpen(false)}
-        onNavigate={handleNavigate}
       />
     </>
   );
