@@ -107,7 +107,7 @@ const ProtocolSection = () => {
               icon: (
                 <Shield
                   className="
-          w-6 h-6 sm:w-9 sm:h-9 md:w-10 md:h-10 
+          w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 lg:w-11 lg:h-11
           text-black/50 dark:text-white/25
           group-hover:text-black dark:group-hover:text-white
           transition-colors duration-300
@@ -153,19 +153,34 @@ const ProtocolSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 + i * 0.1 }}
-              className="group relative rounded-2xl p-5 sm:p-7 md:p-8 text-center cursor-default overflow-hidden bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] shadow-[0_4px_30px_-8px_rgba(0,0,0,0.08)] dark:shadow-none"
+              className="group relative rounded-2xl p-4 sm:p-8 text-center cursor-default overflow-hidden bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] shadow-[0_4px_30px_-8px_rgba(0,0,0,0.08)] dark:shadow-none"
             >
+              {/* Hover glow - orange */}
               <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-60 h-60 bg-[#ff6b35] opacity-0 group-hover:opacity-[0.1] blur-[80px] rounded-full transition-opacity duration-700" />
 
-              <div className="flex flex-col items-center justify-center gap-3">
-                <div className="mb-2">{item.icon}</div>
+              <div className="flex gap-2 sm:flex-col justify-center items-center">
+                <div className="mb-4">{item.icon}</div>
 
-                <h3 className="text-base sm:text-lg font-semibold text-black/70 dark:text-white/70 group-hover:text-black dark:group-hover:text-white transition-colors duration-300">
+                <h3
+                  className="
+      text-lg font-semibold mb-2
+      text-black/70 dark:text-white/70
+      group-hover:text-black dark:group-hover:text-white
+      transition-colors duration-300
+    "
+                >
                   {item.label}
                 </h3>
               </div>
 
-              <p className="text-xs sm:text-sm font-medium text-black/50 dark:text-white/50 group-hover:text-black/70 dark:group-hover:text-white/70 transition-colors duration-300">
+              <p
+                className="
+    text-sm font-medium
+    text-black/50 dark:text-white/50
+    group-hover:text-black/70 dark:group-hover:text-white/70
+    transition-colors duration-300
+  "
+              >
                 {item.desc}
               </p>
             </motion.div>

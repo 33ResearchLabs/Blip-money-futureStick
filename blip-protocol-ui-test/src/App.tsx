@@ -3,7 +3,13 @@ import { ThemeProvider } from "next-themes";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate, useSearchParams } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useSearchParams,
+} from "react-router-dom";
 
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import StructuredData from "@/components/StructuredData";
@@ -17,79 +23,81 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 
 // Import wallet adapter CSS
 import "@solana/wallet-adapter-react-ui/styles.css";
-import CryptoToUae from "./pages/CryptoToUae";
+import CryptoToUae from "./pages/Markets/CryptoToUae";
 import { Toaster } from "./components/ui/toaster";
-import LegalPage from "./pages/LeagalPage";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
-import EmailVerificationPending from "./pages/EmailVerificationPending";
+import LegalPage from "./pages/Legel/LeagalPage";
+import Login from "./pages/Waitlist/Login";
+import Register from "./pages/Waitlist/Register";
+import ForgotPassword from "./pages/Waitlist/ForgotPassword";
+import ResetPassword from "./pages/Waitlist/ResetPassword";
+import EmailVerificationPending from "./pages/Waitlist/EmailVerificationPending";
 
 // Lazy load page components
 const Index = lazy(() => import("./pages/Index"));
-const RewardsLanding = lazy(() => import("./pages/Rewards"));
-const UAELandingPage = lazy(() => import("./pages/uae"));
+const RewardsLanding = lazy(() => import("./pages/Unused/Rewards"));
+const UAELandingPage = lazy(() => import("./pages/Unused/uae"));
 const NotFound = lazy(() => import("./pages/NotFound"));
-const BlipTokenomics = lazy(() => import("./pages/BlipTokenomics"));
+const BlipTokenomics = lazy(() => import("./pages/Protocol/BlipTokenomics"));
 const ComingSoon = lazy(() => import("./components/ComingSoon"));
 const HowItWorksPage = lazy(() =>
-  import("./pages/HowItWorks").then((module) => ({
+  import("./pages/Protocol/HowItWorks").then((module) => ({
     default: module.HowItWorksPage,
   })),
 );
-const ContactUs = lazy(() => import("./pages/ContactUs"));
-const AirdropLogin = lazy(() => import("./pages/AirdropLogin"));
-const Dashboard = lazy(() => import("./pages/Dashboard"));
-const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
-const Privacy = lazy(() => import("./components/Privecy"));
+const ContactUs = lazy(() => import("./pages/Company/ContactUs"));
+const AirdropLogin = lazy(() => import("./pages/Waitlist/AirdropLogin"));
+const Dashboard = lazy(() => import("./pages/Waitlist/Dashboard"));
+const AdminDashboard = lazy(() => import("./pages/Unused/AdminDashboard"));
+const Privacy = lazy(() => import("./pages/Legel/Privecy"));
 const TermsService = lazy(() => import("./components/TermsService"));
 const Cookies = lazy(() => import("./components/Cookies"));
-const Gdpr = lazy(() => import("./components/Gdpr"));
+const Gdpr = lazy(() => import("./pages/Legel/Gdpr"));
 const TwoFactorAuth = lazy(() => import("./components/TwoFactorAuth"));
-const Whitepaper = lazy(() => import("./pages/Whitepaper"));
-const Merchant = lazy(() => import("./pages/Merchant"));
-const Blog = lazy(() => import("./pages/Blog"));
-const BlogArticle = lazy(() => import("./pages/BlogArticle"));
-const Research = lazy(() => import("./pages/Research"));
-const ResearchArticle = lazy(() => import("./pages/ResearchArticle"));
+const Whitepaper = lazy(() => import("./pages/Protocol/Whitepaper"));
+const Merchant = lazy(() => import("./pages/UseCases/Merchant"));
+const Blog = lazy(() => import("./pages/Resources/Blog"));
+const BlogArticle = lazy(() => import("./pages/Resources/BlogArticle"));
+const Research = lazy(() => import("./pages/Resources/Research"));
+const ResearchArticle = lazy(() => import("./pages/Resources/ResearchArticle"));
 
 // SEO & Content Pages
-const FAQ = lazy(() => import("./pages/FAQ"));
-const Glossary = lazy(() => import("./pages/Glossary"));
-const Changelog = lazy(() => import("./pages/Changelog"));
-const UseCases = lazy(() => import("./pages/UseCases"));
-const UseCaseDetail = lazy(() => import("./pages/UseCaseDetail"));
-const Compare = lazy(() => import("./pages/Compare"));
-const Docs = lazy(() => import("./pages/Docs"));
-const About = lazy(() => import("./pages/About"));
-const Press = lazy(() => import("./pages/Press"));
-const Community = lazy(() => import("./pages/Community"));
+const FAQ = lazy(() => import("./pages/Resources/FAQ"));
+const Glossary = lazy(() => import("./pages/Resources/Glossary"));
+const Changelog = lazy(() => import("./pages/Protocol/Changelog"));
+const UseCases = lazy(() => import("./pages/UseCases/UseCases"));
+const UseCaseDetail = lazy(() => import("./pages/UseCases/UseCaseDetail"));
+const Compare = lazy(() => import("./pages/Resources/Compare"));
+const Docs = lazy(() => import("./pages/Unused/Docs"));
+const About = lazy(() => import("./pages/Company/About"));
+const Press = lazy(() => import("./pages/Company/Press"));
+const Community = lazy(() => import("./pages/Company/Community"));
 
-// Geo Landing Pages
-const SellUsdtDubai = lazy(() => import("./pages/SellUsdtDubai"));
-const CryptoPaymentsUAE = lazy(() => import("./pages/CryptoPaymentsUAE"));
-const AcceptCryptoBusiness = lazy(() => import("./pages/AcceptCryptoBusiness"));
-const CryptoToAed = lazy(() => import("./pages/CryptoToAed"));
-const CryptoRemittanceUae = lazy(() => import("./pages/CryptoRemittanceUae"));
-
-// Per-Coin Converter Pages
-const BtcToAed = lazy(() => import("./pages/BtcToAed"));
-const EthToAed = lazy(() => import("./pages/EthToAed"));
-const SolToAed = lazy(() => import("./pages/SolToAed"));
-
-// Keyword Landing Pages
-const CryptoToBankUae = lazy(() => import("./pages/CryptoToBankUae"));
-const UsdtVsUsdc = lazy(() => import("./pages/UsdtVsUsdc"));
-const CryptoTaxUae = lazy(() => import("./pages/CryptoTaxUae"));
-const CryptoEscrowUae = lazy(() => import("./pages/CryptoEscrowUae"));
-const CryptoSalaryUae = lazy(() => import("./pages/CryptoSalaryUae"));
-const BuyUsdtDubai = lazy(() => import("./pages/BuyUsdtDubai"));
-const CryptoOtcDubai = lazy(() => import("./pages/CryptoOtcDubai"));
-const BestCryptoExchangeUae = lazy(
-  () => import("./pages/BestCryptoExchangeUae"),
+// Markets Pages
+const SellUsdtDubai = lazy(() => import("./pages/Markets/SellUsdtDubai"));
+const CryptoPaymentsUAE = lazy(
+  () => import("./pages/Markets/CryptoPaymentsUAE"),
 );
-const BitcoinPriceUae = lazy(() => import("./pages/BitcoinPriceUae"));
+const AcceptCryptoBusiness = lazy(
+  () => import("./pages/Markets/AcceptCryptoBusiness"),
+);
+const CryptoToAed = lazy(() => import("./pages/Markets/CryptoToAed"));
+const CryptoRemittanceUae = lazy(
+  () => import("./pages/Markets/CryptoRemittanceUae"),
+);
+const BtcToAed = lazy(() => import("./pages/Markets/BtcToAed"));
+const EthToAed = lazy(() => import("./pages/Markets/EthToAed"));
+const SolToAed = lazy(() => import("./pages/Markets/SolToAed"));
+const CryptoToBankUae = lazy(() => import("./pages/Markets/CryptoToBankUae"));
+const UsdtVsUsdc = lazy(() => import("./pages/Markets/UsdtVsUsdc"));
+const CryptoTaxUae = lazy(() => import("./pages/Markets/CryptoTaxUae"));
+const CryptoEscrowUae = lazy(() => import("./pages/Markets/CryptoEscrowUae"));
+const CryptoSalaryUae = lazy(() => import("./pages/Markets/CryptoSalaryUae"));
+const BuyUsdtDubai = lazy(() => import("./pages/Markets/BuyUsdtDubai"));
+const CryptoOtcDubai = lazy(() => import("./pages/Markets/CryptoOtcDubai"));
+const BestCryptoExchangeUae = lazy(
+  () => import("./pages/Markets/BestCryptoExchangeUae"),
+);
+const BitcoinPriceUae = lazy(() => import("./pages/Markets/BitcoinPriceUae"));
 
 // Handle Firebase auth action URLs (e.g. /?mode=resetPassword&oobCode=...)
 const FirebaseActionHandler = ({ children }: { children: React.ReactNode }) => {
@@ -135,7 +143,14 @@ const App = () => (
                 <Routes>
                   {/* PUBLIC ROUTES WITH LAYOUT */}
                   <Route element={<MainLayout />}>
-                    <Route path="/" element={<FirebaseActionHandler><Index /></FirebaseActionHandler>} />
+                    <Route
+                      path="/"
+                      element={
+                        <FirebaseActionHandler>
+                          <Index />
+                        </FirebaseActionHandler>
+                      }
+                    />
                     <Route path="/register" element={<Register />} />
                     <Route
                       path="/email-verification-pending"
@@ -145,10 +160,7 @@ const App = () => (
                       path="/forgot-password"
                       element={<ForgotPassword />}
                     />
-                    <Route
-                      path="/reset-password"
-                      element={<ResetPassword />}
-                    />
+                    <Route path="/reset-password" element={<ResetPassword />} />
                     <Route path="/tokenomics" element={<BlipTokenomics />} />
                     <Route path="/rewards" element={<RewardsLanding />} />
                     <Route path="/merchant" element={<Merchant />} />
@@ -258,16 +270,6 @@ const App = () => (
                     element={
                       <ProtectedRoute>
                         <Dashboard />
-                      </ProtectedRoute>
-                    }
-                  />
-
-                  {/* ADMIN DASHBOARD (NO LAYOUT) */}
-                  <Route
-                    path="/admin"
-                    element={
-                      <ProtectedRoute>
-                        <AdminDashboard />
                       </ProtectedRoute>
                     }
                   />

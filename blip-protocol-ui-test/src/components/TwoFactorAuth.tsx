@@ -71,9 +71,7 @@ export default function TwoFactorAuth() {
   };
 
   return (
-    <div
-      className="flex flex-col items-center px-4 pt-24 pb-12"
-    >
+    <div className="flex flex-col items-center px-4 pt-24 my-32 pb-12">
       <div className="w-full max-w-2xl mb-4">
         <button
           onClick={() => navigate(-1)}
@@ -95,7 +93,6 @@ export default function TwoFactorAuth() {
         shadow-xl dark:shadow-[0_0_40px_rgba(255,255,255,0.05)]
         rounded-2xl p-8"
       >
-
         {/* Header */}
         <div className="flex items-center gap-3 mb-6">
           <div

@@ -9,8 +9,10 @@ import jwt from "jsonwebtoken";
 import {
   sendVerificationEmail,
   sendPasswordResetEmail,
+  sendCustomPasswordResetEmail,
   sendWelcomeEmail,
 } from "../services/email.service.js";
+import { getFirebaseAdminAuth } from "../config/firebase-admin.js";
 import PendingEmailModel from "../models/PendingEmail.model.js";
 import { sendVerificationEmailNew } from "../utils/VerificationEmail.js";
 import Referral from "../models/referral.model.js";
@@ -1007,23 +1009,24 @@ export const forgotPassword = async (req, res) => {
       });
     }
 
-    // Generate reset token
-    const resetToken = crypto.randomBytes(32).toString("hex");
-    const resetExpires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
-
-    user.passwordResetToken = resetToken;
-    user.passwordResetExpires = resetExpires;
-    await user.save();
-
-    // Send email
     try {
-      await sendPasswordResetEmail(email, resetToken);
-    } catch (emailError) {
-      console.error("Email sending failed:", emailError);
-      user.passwordResetToken = undefined;
-      user.passwordResetExpires = undefined;
-      await user.save();
+      // Generate Firebase password reset link
+      const firebaseResetLink = await getFirebaseAdminAuth().generatePasswordResetLink(
+        email.toLowerCase(),
+        {
+          url: `${process.env.FRONTEND_URL}/waitlist`,
+        }
+      );
 
+      // Extract oobCode from Firebase link and build our own clean URL
+      const url = new URL(firebaseResetLink);
+      const oobCode = url.searchParams.get("oobCode");
+      const resetUrl = `${process.env.FRONTEND_URL}/reset-password?oobCode=${oobCode}`;
+
+      // Send via Resend with our custom branded template
+      await sendCustomPasswordResetEmail(email, resetUrl);
+    } catch (emailError) {
+      console.error("Password reset email failed:", emailError);
       return res.status(500).json({
         success: false,
         message: "Failed to send password reset email",

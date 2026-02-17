@@ -1,2 +1,4 @@
 /docs
 /ze
+# Firebase service account key (contains secrets)
+server/config/firebase-service-account.json

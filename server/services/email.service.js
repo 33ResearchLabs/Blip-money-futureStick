@@ -164,6 +164,86 @@ export const sendPasswordResetEmail = async (email, token) => {
 };
 
 /**
+ * Send custom branded password reset email via Resend (with Firebase reset link)
+ * @param {string} email - User's email address
+ * @param {string} resetUrl - Full reset URL with oobCode
+ */
+export const sendCustomPasswordResetEmail = async (email, resetUrl) => {
+  try {
+    const result = await resend.emails.send({
+      from: FROM_EMAIL,
+      to: [email],
+      subject: "Reset Your Password - Blip Money",
+      html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <style>
+            body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.6; color: #333; background: #f5f5f5; margin: 0; padding: 0; }
+            .container { max-width: 600px; margin: 40px auto; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+            .header { background: #000000; color: #ffffff; padding: 30px; text-align: center; }
+            .header h1 { margin: 0; font-size: 28px; font-weight: 700; }
+            .content { padding: 40px 30px; }
+            .content h2 { color: #000000; font-size: 20px; margin-top: 0; }
+            .content p { color: #666; font-size: 16px; margin: 16px 0; }
+            .button-container { text-align: center; margin: 30px 0; }
+            .button { display: inline-block; background: #000000; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 4px; font-weight: 600; font-size: 16px; }
+            .footer { background: #f9f9f9; padding: 20px 30px; text-align: center; font-size: 14px; color: #888; }
+            .footer a { color: #000000; text-decoration: none; }
+            .warning { background: #fff3cd; border-left: 4px solid #ffc107; padding: 16px; margin: 20px 0; font-size: 14px; color: #856404; }
+            .note { background: #f9f9f9; border-left: 4px solid #000000; padding: 16px; margin: 20px 0; font-size: 14px; color: #666; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>Blip Money</h1>
+            </div>
+            <div class="content">
+              <h2>Password Reset Request</h2>
+              <p>We received a request to reset your password. Click the button below to create a new password:</p>
+
+              <div class="button-container">
+                <a href="${resetUrl}" class="button">Reset Password</a>
+              </div>
+
+              <div class="note">
+                <strong>Note:</strong> This password reset link will expire in 1 hour for security reasons.
+              </div>
+
+              <div class="warning">
+                <strong>Security Notice:</strong> If you didn't request a password reset, please ignore this email. Your password will remain unchanged.
+              </div>
+
+              <p style="font-size: 14px; color: #888;">
+                If the button above doesn't work, copy and paste this link into your browser:<br>
+                <a href="${resetUrl}" style="color: #000000; word-break: break-all;">${resetUrl}</a>
+              </p>
+            </div>
+            <div class="footer">
+              <p>&copy; ${new Date().getFullYear()} Blip Money. All rights reserved.</p>
+              <p>
+                <a href="${process.env.FRONTEND_URL}">Home</a> &middot;
+                <a href="${process.env.FRONTEND_URL}/contact">Support</a> &middot;
+                <a href="${process.env.FRONTEND_URL}/privacy">Privacy Policy</a>
+              </p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `,
+      text: `Password Reset Request - Blip Money\n\nReset Link: ${resetUrl}\n\nThis link will expire in 1 hour.\n\nIf you didn't request a password reset, please ignore this email.`,
+    });
+    console.log(`✅ Custom password reset email sent to ${email}`, result);
+  } catch (error) {
+    console.error("❌ Error sending custom password reset email:", error);
+    throw new Error("Failed to send password reset email");
+  }
+};
+
+/**
  * Send welcome email after successful verification
  * @param {string} email - User's email address
  * @param {string} name - User's name (optional)
@@ -248,5 +328,6 @@ export const sendWelcomeEmail = async (email, name = "there") => {
 export default {
   sendVerificationEmail,
   sendPasswordResetEmail,
+  sendCustomPasswordResetEmail,
   sendWelcomeEmail,
 };

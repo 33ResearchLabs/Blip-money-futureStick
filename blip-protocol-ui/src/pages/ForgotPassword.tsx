@@ -27,14 +27,8 @@ export default function ForgotPassword() {
       });
       setIsSent(true);
       toast.success("Reset link sent! Check your email.");
-    } catch (error: any) {
-      if (error.code === "auth/user-not-found") {
-        // Don't reveal if email exists - show success anyway
-        setIsSent(true);
-        toast.success("Reset link sent! Check your email.");
-      } else {
-        toast.error("Failed to send reset email. Please try again.");
-      }
+    } catch {
+      toast.error("Failed to send reset email. Please try again.");
     } finally {
       setIsLoading(false);
     }

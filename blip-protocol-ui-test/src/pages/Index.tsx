@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { SEO } from "@/components";
-import CinematicHero from "@/components/CinematicHero";
+import CinematicHero from "@/components/IndexSections/CinematicHero";
 import {
   BlipscanExplorerSection,
   UAESection,
