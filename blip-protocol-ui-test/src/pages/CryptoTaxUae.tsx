@@ -829,7 +829,7 @@ const VARASection = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="p-6 rounded-2xl bg-white/80 dark:bg-white/[0.04] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] mb-6"
         >
-          <div className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/40 dark:text-white/40 mb-5">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/80 dark:text-white/40 mb-5">
             VARA Licensing Categories
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

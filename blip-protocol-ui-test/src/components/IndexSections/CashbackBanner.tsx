@@ -190,7 +190,7 @@ const CashbackBanner = () => {
                     cy="56"
                     r="50"
                     fill="none"
-                    className="stroke-black/10 dark:stroke-white/10"
+                    className="stroke-black/10 dark:stroke-white/60"
                     strokeWidth="4"
                   />
 
