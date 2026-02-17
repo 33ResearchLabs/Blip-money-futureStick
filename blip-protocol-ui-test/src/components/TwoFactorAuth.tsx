@@ -72,21 +72,12 @@ export default function TwoFactorAuth() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center px-4 
-      bg-gradient-to-br from-white via-gray-50 to-gray-100 
-      dark:from-black dark:via-[#0a0a0a] dark:to-black"
+      className="flex flex-col items-center px-4 pt-24 pb-12"
     >
-      <div
-        className="relative w-full max-w-2xl 
-        bg-white dark:bg-[#0f0f0f] 
-        border border-black/10 dark:border-white/10
-        shadow-xl dark:shadow-[0_0_40px_rgba(255,255,255,0.05)]
-        rounded-2xl p-8"
-      >
-        {/* Back Button */}
+      <div className="w-full max-w-2xl mb-4">
         <button
           onClick={() => navigate(-1)}
-          className="absolute -top-12 left-0 flex items-center gap-2 
+          className="flex items-center gap-2
           px-3 py-1.5 rounded-full
           bg-black/5 dark:bg-white/5
           hover:bg-black/10 dark:hover:bg-white/10
@@ -96,6 +87,14 @@ export default function TwoFactorAuth() {
           <ArrowLeft className="w-4 h-4" />
           <span className="text-sm">Back</span>
         </button>
+      </div>
+      <div
+        className="w-full max-w-2xl
+        bg-white dark:bg-[#0f0f0f]
+        border border-black/10 dark:border-white/10
+        shadow-xl dark:shadow-[0_0_40px_rgba(255,255,255,0.05)]
+        rounded-2xl p-8"
+      >
 
         {/* Header */}
         <div className="flex items-center gap-3 mb-6">

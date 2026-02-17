@@ -164,7 +164,7 @@ export default function Login() {
   // 2FA Modal
   if (show2FA) {
     return (
-      <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center p-4">
+      <div className="  flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-black/10 dark:bg-white/10 mb-4">

@@ -68,13 +68,15 @@ const socialPlatforms = [
   },
 ];
 
-export const Footer = () => {
+export const Footer = ({ skipAnimation = false }: { skipAnimation?: boolean }) => {
   const [isActive, setIsActive] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(skipAnimation);
   const footerRef = useRef(null);
 
   // Intersection Observer to trigger entrance animation on scroll
   useEffect(() => {
+    if (skipAnimation) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -90,7 +92,7 @@ export const Footer = () => {
     }
 
     return () => observer.disconnect();
-  }, []);
+  }, [skipAnimation]);
 
   // Automated glow cycle synchronized with the pulse (Total cycle: 3s, Glow duration: 2s)
   useEffect(() => {
@@ -453,7 +455,7 @@ export const Footer = () => {
 
       {/* BOTTOM FOOTER BAR */}
       <div
-        className={`border-t border-black/5 dark:border-white/5 px-6 py-10 bg-white dark:bg-[#030303] transition-opacity duration-1000 delay-500 ${isVisible ? "opacity-100" : "opacity-0"}`}
+        className={`border-t border-black/5 dark:border-white/5 px-6 py-10 bg-white dark:bg-[#030303] `}
       >
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-10">
           <div className="flex flex-col md:flex-row items-center gap-8 text-[13.5px] text-black/60 dark:text-zinc-600 uppercase tracking-widest font-medium">

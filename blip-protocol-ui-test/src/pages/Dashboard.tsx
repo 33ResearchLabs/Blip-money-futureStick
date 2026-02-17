@@ -1084,11 +1084,14 @@ export default function BlipDashboard() {
           {/* Referral */}
           <div
             onClick={() => setShowReferralModal(true)}
-            className="bg-white dark:bg-white/5 border border-black/10 dark:border-white/10 p-6 rounded-sm shadow-sm hover:shadow-md transition-all cursor-pointer"
+            className="bg-white dark:bg-white/5 border border-black/10 dark:border-white/10 p-6 rounded-sm shadow-sm hover:shadow-md transition-all cursor-pointer group"
           >
-            <span className="text-[9px] font-black uppercase tracking-widest text-black/70 dark:text-white/70 block mb-2">
-              Your Referral Code
-            </span>
+            <div className="flex items-center justify-between">
+              <span className="text-[9px] font-black uppercase tracking-widest text-black/70 dark:text-white/70 block mb-2">
+                Your Referral Code
+              </span>
+              <ArrowRight className="w-4 h-4 text-black/30 dark:text-white/30 group-hover:text-black dark:group-hover:text-white group-hover:translate-x-0.5 transition-all" />
+            </div>
             <span className="text-lg font-bold text-black dark:text-white">
               {user?.referralCode || "—"}
             </span>
@@ -1212,7 +1215,7 @@ export default function BlipDashboard() {
         </div>
       </main>
 
-      <Footer />
+      <Footer skipAnimation />
     </div>
   );
 }

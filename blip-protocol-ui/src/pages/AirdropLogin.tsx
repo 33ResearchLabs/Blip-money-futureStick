@@ -120,13 +120,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
       setHasRedirected(true);
       navigate("/dashboard", { replace: true });
     }
-  }, [
-    isAuthenticated,
-    isLoading,
-    navigate,
-    hasRedirected,
-    user,
-  ]);
+  }, [isAuthenticated, isLoading, navigate, hasRedirected, user]);
 
   // Save user data to backend when wallet connects
   useEffect(() => {
@@ -635,7 +629,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                 </p>
                 <div className="grid grid-cols-2 gap-4">
                   {[
-                    { icon: Gift, text: "2000 Bonus Points" },
+                    { icon: Gift, text: "200 Bonus Points" },
                     { icon: Zap, text: "Early Access" },
                     { icon: Users, text: "Referral Rewards" },
                     { icon: Shield, text: "Priority Support" },
@@ -764,7 +758,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="w-full max-w-sm bg-white dark:bg-[#111] border border-black/10 dark:border-white/10 rounded-3xl p-6"
+            className="w-full max-w-sm  border border-black/10 dark:border-white/10 rounded-3xl p-6"
           >
             <h3 className="text-lg font-semibold text-black dark:text-white mb-2">
               Two-Factor Authentication

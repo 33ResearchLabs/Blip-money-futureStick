@@ -44,6 +44,20 @@ export const registerAndLoginUser = async (req, res) => {
       wallet_address,
     }).session(session);
 
+    // 2.5️⃣ Check if email already belongs to a different user (with different wallet)
+    if (!user && email) {
+      const emailUser = await User.findOne({ email }).session(session);
+      if (emailUser) {
+        await session.abortTransaction();
+        session.endSession();
+        return res.status(409).json({
+          success: false,
+          message: "This email is already registered with a different wallet",
+          code: "EMAIL_WALLET_MISMATCH",
+        });
+      }
+    }
+
     /**
      * =====================
      * LOGIN FLOW

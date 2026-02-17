@@ -861,9 +861,18 @@ export const linkWallet = async (req, res) => {
       });
     }
 
-    // Check if wallet already exists
-    const existingWallet = await User.findOne({ wallet_address });
-    if (existingWallet) {
+    // Check if wallet already linked to a DIFFERENT user
+    const existingUser = await User.findOne({ wallet_address, _id: { $ne: userId } });
+    if (existingUser) {
+      return res.status(409).json({
+        success: false,
+        message: "This wallet is already linked to another account",
+      });
+    }
+
+    // Also check Wallet collection (safety net for unlinked-but-not-cleaned entries)
+    const existingWalletEntry = await Wallet.findOne({ wallet_address, userId: { $ne: userId } });
+    if (existingWalletEntry) {
       return res.status(409).json({
         success: false,
         message: "This wallet is already linked to another account",

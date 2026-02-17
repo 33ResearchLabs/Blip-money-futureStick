@@ -235,7 +235,7 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center p-4 mt-10">
+    <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center p-4 mt-20">
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">
