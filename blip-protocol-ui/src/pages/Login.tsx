@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Mail, Lock, Loader2, Shield } from "lucide-react";
 import { toast } from "sonner";
@@ -8,7 +8,14 @@ import { twoFactorApi } from "@/services/twoFatctor";
 import { motion } from "framer-motion";
 export default function Login() {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, isAuthenticated } = useAuth();
+
+  // Redirect already-authenticated users to dashboard
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -22,7 +29,6 @@ export default function Login() {
   // 2FA state
   const [show2FA, setShow2FA] = useState(false);
   const [twoFactorCode, setTwoFactorCode] = useState("");
-  const [userId, setUserId] = useState("");
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -58,7 +64,6 @@ export default function Login() {
 
       // Check if 2FA is required
       if (response.twoFactorRequired) {
-        setUserId(response.userId);
         setShow2FA(true);
         setIsLoading(false);
         return;
@@ -100,7 +105,10 @@ export default function Login() {
     setIsLoading(true);
 
     try {
-      const response = await twoFactorApi.verifyOtpLogin(userId, twoFactorCode);
+      const response = await twoFactorApi.verifyOtpLogin({
+        email: formData.email,
+        otp: twoFactorCode,
+      });
 
       login(response.user);
       toast.success("Login successful!");
@@ -179,7 +187,6 @@ export default function Login() {
               onClick={() => {
                 setShow2FA(false);
                 setTwoFactorCode("");
-                setUserId("");
               }}
               className="w-full py-3 border border-black/20 dark:border-white/20 text-black dark:text-white font-medium rounded-sm hover:bg-black/5 dark:hover:bg-white/5 transition-all"
             >

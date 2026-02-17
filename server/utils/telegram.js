@@ -8,8 +8,12 @@
  * 4. Set TELEGRAM_CHANNEL_ID in .env (e.g., @channelname or -1001234567890)
  */
 
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const TELEGRAM_CHANNEL_ID = process.env.TELEGRAM_CHANNEL_ID || "@blipmoney"; // Your channel username or ID
+// Read env vars at function call time (not module load time)
+// to ensure dotenv has loaded the .env file
+const getConfig = () => ({
+  botToken: process.env.TELEGRAM_BOT_TOKEN,
+  channelId: process.env.TELEGRAM_CHANNEL_ID || "@blipmoney",
+});
 
 /**
  * Check if a user is a member of the Telegram channel
@@ -17,7 +21,9 @@ const TELEGRAM_CHANNEL_ID = process.env.TELEGRAM_CHANNEL_ID || "@blipmoney"; // 
  * @returns {Promise<{isMember: boolean, status: string, error?: string}>}
  */
 export const verifyTelegramMembership = async (telegramUserId) => {
-  if (!TELEGRAM_BOT_TOKEN) {
+  const { botToken, channelId } = getConfig();
+
+  if (!botToken) {
     console.error("TELEGRAM_BOT_TOKEN not configured");
     return { isMember: false, status: "error", error: "Bot not configured" };
   }
@@ -27,7 +33,7 @@ export const verifyTelegramMembership = async (telegramUserId) => {
   }
 
   try {
-    const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getChatMember`;
+    const url = `https://api.telegram.org/bot${botToken}/getChatMember`;
 
     const response = await fetch(url, {
       method: "POST",
@@ -35,7 +41,7 @@ export const verifyTelegramMembership = async (telegramUserId) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        chat_id: TELEGRAM_CHANNEL_ID,
+        chat_id: channelId,
         user_id: telegramUserId,
       }),
     });
@@ -75,13 +81,15 @@ export const verifyTelegramMembership = async (telegramUserId) => {
  * Get bot info (useful for testing if bot token is valid)
  */
 export const getBotInfo = async () => {
-  if (!TELEGRAM_BOT_TOKEN) {
+  const { botToken } = getConfig();
+
+  if (!botToken) {
     return { ok: false, error: "Bot not configured" };
   }
 
   try {
     const response = await fetch(
-      `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getMe`
+      `https://api.telegram.org/bot${botToken}/getMe`
     );
     return await response.json();
   } catch (error) {

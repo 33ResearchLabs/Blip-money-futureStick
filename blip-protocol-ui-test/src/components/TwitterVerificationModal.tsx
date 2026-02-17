@@ -28,7 +28,7 @@ Join the revolution: ${typeof window !== 'undefined' ? window.location.origin : 
 
 #BlipMoney #DeFi #Web3`;
 
-const REWARD_POINTS = 250;
+const REWARD_POINTS = 100;
 
 export default function TwitterVerificationModal({
   isOpen,

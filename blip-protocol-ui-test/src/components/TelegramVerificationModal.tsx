@@ -17,7 +17,7 @@ interface TelegramVerificationModalProps {
 
 type Step = "join" | "verify" | "verifying" | "success" | "error";
 
-const REWARD_POINTS = 500;
+const REWARD_POINTS = 100;
 const CHANNEL_URL =
   import.meta.env.VITE_TELEGRAM_CHANNEL_URL || "https://t.me/blipmoney";
 

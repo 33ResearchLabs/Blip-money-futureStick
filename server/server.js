@@ -1,6 +1,6 @@
+import "dotenv/config"; // Side-effect import - loads .env before other modules
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import http from "http";
 import helmet from "helmet";
@@ -18,8 +18,6 @@ import adminRoutes from "./routes/admin.route.js";
 import twoFactorRoutes from "./routes/twoFactor.routes.js";
 import twitterRoutes from "./routes/twitter.route.js";
 import telegramRoutes from "./routes/telegram.route.js";
-
-dotenv.config();
 
 // 🚀 Cluster Mode for Multi-Core CPU Utilization
 const numCPUs = os.cpus().length;
