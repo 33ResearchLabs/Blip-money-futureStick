@@ -6,6 +6,8 @@ import {
   Loader2,
   ExternalLink,
   MessageCircle,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 import { api } from "@/services/api";
 
@@ -29,6 +31,7 @@ export default function TelegramVerificationModal({
   const [step, setStep] = useState<Step>("join");
   const [telegramId, setTelegramId] = useState("");
   const [error, setError] = useState("");
+  const [showExample, setShowExample] = useState(false);
 
   // Check if already verified on open
   useEffect(() => {
@@ -208,15 +211,101 @@ export default function TelegramVerificationModal({
                   Enter your Telegram User ID and click verify to confirm your
                   channel membership and claim {REWARD_POINTS} points.
                 </p>
-                <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900/30 p-3 rounded-sm">
-                  <div className="flex gap-2">
+                <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900/30 p-4 rounded-sm">
+                  <div className="flex gap-2 mb-3">
                     <AlertCircle className="w-4 h-4 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
-                    <p className="text-xs text-blue-800 dark:text-blue-300">
-                      To find your Telegram User ID, open Telegram and message{" "}
-                      <strong>@userinfobot</strong> — it will reply with your
-                      numeric ID.
+                    <p className="text-xs font-semibold text-blue-800 dark:text-blue-300">
+                      How to find your Telegram User ID:
                     </p>
                   </div>
+                  <ol className="space-y-2 ml-6 text-xs text-blue-800 dark:text-blue-300">
+                    <li className="flex items-start gap-2">
+                      <span className="font-bold min-w-[16px]">1.</span>
+                      <span>Open Telegram and search for <strong>@userinfobot</strong></span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="font-bold min-w-[16px]">2.</span>
+                      <span>Tap on the bot and press <strong>Start</strong></span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="font-bold min-w-[16px]">3.</span>
+                      <span>The bot will reply with your info — copy the <strong>Id</strong> number (e.g. <code className="bg-blue-100 dark:bg-blue-900/40 px-1 rounded">123456789</code>)</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="font-bold min-w-[16px]">4.</span>
+                      <span>Paste that number below</span>
+                    </li>
+                  </ol>
+
+                  <div className="ml-6 mt-3 flex items-center gap-3">
+                    <a
+                      href="https://t.me/userinfobot"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+                    >
+                      Open @userinfobot
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                    <span className="text-blue-300 dark:text-blue-700">|</span>
+                    <button
+                      type="button"
+                      onClick={() => setShowExample(!showExample)}
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+                    >
+                      {showExample ? "Hide" : "See"} example
+                      {showExample ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                    </button>
+                  </div>
+
+                  {/* Mock Telegram Chat Screenshot */}
+                  {showExample && (
+                    <div className="mt-3 ml-6 rounded-lg overflow-hidden border border-blue-200 dark:border-blue-900/40">
+                      {/* Telegram header */}
+                      <div className="bg-[#517da2] dark:bg-[#2b5278] px-3 py-2 flex items-center gap-2">
+                        <div className="w-7 h-7 rounded-full bg-[#5cacee] flex items-center justify-center">
+                          <span className="text-white text-[10px] font-bold">UI</span>
+                        </div>
+                        <div>
+                          <p className="text-white text-[11px] font-semibold leading-tight">UserInfoBot</p>
+                          <p className="text-white/60 text-[9px] leading-tight">bot</p>
+                        </div>
+                      </div>
+                      {/* Chat area */}
+                      <div className="bg-[#e5ddd5] dark:bg-[#0e1621] px-3 py-3 space-y-2">
+                        {/* User message */}
+                        <div className="flex justify-end">
+                          <div className="bg-[#dcf8c6] dark:bg-[#2b5278] rounded-lg px-3 py-1.5 max-w-[70%]">
+                            <p className="text-[11px] text-black dark:text-white">/start</p>
+                            <p className="text-[8px] text-black/40 dark:text-white/40 text-right">12:00</p>
+                          </div>
+                        </div>
+                        {/* Bot response */}
+                        <div className="flex justify-start">
+                          <div className="bg-white dark:bg-[#182533] rounded-lg px-3 py-2 max-w-[85%] shadow-sm">
+                            <p className="text-[11px] text-black dark:text-white leading-relaxed">
+                              <span className="text-black/50 dark:text-white/50">@your_username</span>
+                              {"\n"}
+                              <span className="font-bold text-black dark:text-white">Id: </span>
+                              <span className="font-mono bg-yellow-200 dark:bg-yellow-500/30 px-1 rounded text-black dark:text-yellow-300">123456789</span>
+                              {"\n"}
+                              <span className="text-black/50 dark:text-white/50">First: John</span>
+                              {"\n"}
+                              <span className="text-black/50 dark:text-white/50">Lang: en</span>
+                            </p>
+                            <p className="text-[8px] text-black/40 dark:text-white/40 text-right mt-1">12:00</p>
+                          </div>
+                        </div>
+                        {/* Arrow pointing to ID */}
+                        <div className="flex items-center gap-1 pl-1">
+                          <span className="text-[10px]">👆</span>
+                          <span className="text-[10px] font-semibold text-blue-700 dark:text-blue-400">
+                            Copy this number — that's your User ID
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
 

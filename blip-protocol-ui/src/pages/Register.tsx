@@ -141,7 +141,9 @@ export default function Register() {
           );
           if (!existingUser.user.emailVerified) {
             await sendEmailVerification(existingUser.user);
-            toast.success("Verification email resent! Please check your inbox.");
+            toast.success(
+              "Verification email resent! Please check your inbox.",
+            );
             navigate("/email-verification-pending", {
               state: { email: formData.email },
             });
@@ -233,7 +235,7 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center p-4">
+    <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center p-4 mt-10">
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">

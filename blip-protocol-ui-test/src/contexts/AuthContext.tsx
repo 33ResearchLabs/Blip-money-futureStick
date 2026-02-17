@@ -4,6 +4,7 @@ import React, {
   useState,
   useEffect,
   useCallback,
+  useRef,
   ReactNode,
 } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -42,6 +43,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { publicKey, connected } = useWallet();
+  const hasLoadedOnce = useRef(false);
 
   /**
    * 🔄 Verify session using cookies
@@ -49,11 +51,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
    */
   const refreshSession = useCallback(async () => {
     try {
-      // Only set isLoading on initial load (when no user exists yet)
-      // This prevents ProtectedRoute from flashing the loading screen
-      // when refreshing an already-authenticated session
-      const isInitialLoad = !user;
-      if (isInitialLoad) {
+      // Only set isLoading on initial load (first time)
+      // This prevents ProtectedRoute from unmounting Dashboard
+      // when manually refreshing points
+      if (!hasLoadedOnce.current) {
         setIsLoading(true);
       }
 
@@ -78,8 +79,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       setUser(null);
     } finally {
       setIsLoading(false);
+      hasLoadedOnce.current = true;
     }
-  }, [user]);
+  }, []);
 
   /**
    * ✅ Check session on app load
