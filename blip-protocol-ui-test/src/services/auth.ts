@@ -4,6 +4,7 @@ export interface RegisterData {
   email: string;
   password: string;
   referral_code?: string;
+  captchaToken?: string;
 }
 
 export interface LoginData {

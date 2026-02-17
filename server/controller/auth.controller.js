@@ -24,13 +24,43 @@ const production = process.env.NODE_ENV === "production";
 
 export const registerWithEmail = async (req, res) => {
   try {
-    const { email, password, referral_code } = req.body;
+    const { email, password, referral_code, captchaToken } = req.body;
 
     if (!email || !password) {
       return res.status(400).json({
         success: false,
         message: "Email and password required",
       });
+    }
+
+    // Verify reCAPTCHA (only in production when secret key is set)
+    if (process.env.RECAPTCHA_SECRET_KEY) {
+      if (!captchaToken) {
+        return res.status(400).json({
+          success: false,
+          message: "Captcha verification required",
+        });
+      }
+
+      try {
+        const captchaResponse = await fetch(
+          `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${captchaToken}`,
+          { method: "POST" }
+        );
+        const captchaData = await captchaResponse.json();
+        if (!captchaData.success) {
+          return res.status(400).json({
+            success: false,
+            message: "Captcha verification failed",
+          });
+        }
+      } catch (captchaError) {
+        console.error("Captcha verification error:", captchaError);
+        return res.status(500).json({
+          success: false,
+          message: "Captcha verification failed",
+        });
+      }
     }
 
     if (password.length < 8) {
@@ -51,38 +81,114 @@ export const registerWithEmail = async (req, res) => {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Generate OTP
-    const rawOTP = Math.floor(100000 + Math.random() * 900000).toString();
-    const hashedOTP = await bcrypt.hash(rawOTP, 10);
+    // Generate referral code
+    const generateReferralCode = () => {
+      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      let code = "BLIP";
+      for (let i = 0; i < 6; i++) {
+        code += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return code;
+    };
 
-    const otpExpires = new Date(Date.now() + 10 * 60 * 1000);
-
-    // Delete old pending if exists
-    await PendingEmailModel.deleteOne({ email: email.toLowerCase() });
-
-    // Save pending
-    await PendingEmailModel.create({
-      email: email.toLowerCase(),
-      password: hashedPassword,
-      referral_code,
-      otp: hashedOTP,
-      otpExpires,
-    });
-
-    // Send email
-    try {
-      await sendVerificationEmailNew(email, rawOTP);
-    } catch (emailError) {
-      console.error("Email sending failed:", emailError);
-      return res.status(500).json({
-        success: false,
-        message: "Failed to send verification email. Please try again.",
-      });
+    let referralCode = generateReferralCode();
+    let codeExists = await User.findOne({ referralCode });
+    while (codeExists) {
+      referralCode = generateReferralCode();
+      codeExists = await User.findOne({ referralCode });
     }
 
-    res.status(200).json({
+    // EMAIL VERIFICATION BYPASSED - Create user directly
+    const newUser = await User.create({
+      email: email.toLowerCase(),
+      password: hashedPassword,
+      emailVerified: true,
+      referralCode,
+      totalBlipPoints: REGISTER_BONUS_POINTS,
+      status: "WAITLISTED",
+      role: "USER",
+    });
+
+    // Create UserBlipPoints entry
+    await UserBlipPoints.create({
+      userId: newUser._id,
+      points: REGISTER_BONUS_POINTS,
+      isActive: true,
+    });
+
+    // Log registration bonus points
+    await BlipPointLog.create({
+      userId: newUser._id,
+      bonusPoints: REGISTER_BONUS_POINTS,
+      event: "REGISTER",
+    });
+
+    // Handle referral if provided
+    if (referral_code) {
+      const referrer = await User.findOne({ referralCode: referral_code });
+      if (referrer && referrer._id.toString() !== newUser._id.toString()) {
+        referrer.totalBlipPoints = (referrer.totalBlipPoints || 0) + REFERRAL_BONUS_POINTS;
+        await referrer.save();
+
+        await UserBlipPoints.findOneAndUpdate(
+          { userId: referrer._id },
+          { $inc: { points: REFERRAL_BONUS_POINTS } },
+          { upsert: true }
+        );
+
+        await BlipPointLog.create({
+          userId: referrer._id,
+          bonusPoints: REFERRAL_BONUS_POINTS,
+          event: "REFERRAL_BONUS_EARNED",
+        });
+
+        newUser.totalBlipPoints = (newUser.totalBlipPoints || 0) + REFERRAL_BONUS_POINTS;
+        newUser.referredBy = referrer._id;
+        await newUser.save();
+
+        await UserBlipPoints.findOneAndUpdate(
+          { userId: newUser._id },
+          { $inc: { points: REFERRAL_BONUS_POINTS } },
+          { upsert: true }
+        );
+
+        await BlipPointLog.create({
+          userId: newUser._id,
+          bonusPoints: REFERRAL_BONUS_POINTS,
+          event: "REFERRAL_BONUS_RECEIVED",
+        });
+      }
+    }
+
+    // Generate JWT
+    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
+
+    // Set httpOnly cookie
+    res.cookie("token", token, {
+      httpOnly: true,
+      sameSite: production ? "none" : "lax",
+      secure: production ? true : false,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    res.status(201).json({
       success: true,
-      message: "OTP sent to your email",
+      message: "Registration successful",
+      user: {
+        id: newUser._id,
+        email: newUser.email,
+        wallet_address: newUser.wallet_address,
+        phone: newUser.phone,
+        referralCode: newUser.referralCode,
+        totalBlipPoints: newUser.totalBlipPoints,
+        status: newUser.status,
+        role: newUser.role,
+        twoFactorEnabled: newUser.twoFactorEnabled || false,
+        emailVerified: newUser.emailVerified,
+        walletLinked: newUser.walletLinked || false,
+      },
     });
   } catch (error) {
     console.error("Registration error:", error);

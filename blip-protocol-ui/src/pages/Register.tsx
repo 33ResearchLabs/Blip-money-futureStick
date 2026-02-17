@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import {
   Eye,
@@ -13,6 +13,7 @@ import {
 import { toast } from "sonner";
 import authApi from "@/services/auth";
 import { useAuth } from "@/contexts/AuthContext";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -31,8 +32,10 @@ export default function Register() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
-  // OTP verification state
+  // OTP verification state (kept for future email verification)
   const [showOTPModal, setShowOTPModal] = useState(false);
   const [otp, setOtp] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
@@ -95,19 +98,25 @@ export default function Register() {
       return;
     }
 
+    if (import.meta.env.VITE_RECAPTCHA_SITE_KEY && !captchaToken) {
+      toast.error("Please complete the captcha verification");
+      return;
+    }
+
     setIsLoading(true);
 
     try {
-      await authApi.register({
+      const response: any = await authApi.register({
         email: formData.email,
         password: formData.password,
         referral_code: formData.referral_code || undefined,
+        captchaToken,
       });
 
-      toast.success(
-        "Registration successful! Please check your email for the verification code.",
-      );
-      setShowOTPModal(true);
+      // Email verification bypassed - login directly
+      login(response.user);
+      toast.success("Registration successful! Welcome to Blip Money.");
+      navigate("/dashboard");
     } catch (error: any) {
       console.error("Registration error:", error);
       const message =
@@ -433,10 +442,23 @@ export default function Register() {
             />
           </div>
 
+          {/* reCAPTCHA */}
+          {import.meta.env.VITE_RECAPTCHA_SITE_KEY && (
+            <div className="flex justify-center">
+              <ReCAPTCHA
+                ref={recaptchaRef}
+                sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+                onChange={(token) => setCaptchaToken(token)}
+                onExpired={() => setCaptchaToken(null)}
+                theme={document.documentElement.classList.contains("dark") ? "dark" : "light"}
+              />
+            </div>
+          )}
+
           {/* Submit Button */}
           <button
             type="submit"
-            disabled={isLoading}
+            disabled={isLoading || (import.meta.env.VITE_RECAPTCHA_SITE_KEY && !captchaToken)}
             className="w-full py-3 bg-black dark:bg-white text-white dark:text-black font-medium rounded-sm hover:bg-black/90 dark:hover:bg-white/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
           >
             {isLoading ? (
