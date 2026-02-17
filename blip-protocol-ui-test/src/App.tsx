@@ -24,6 +24,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import EmailVerificationPending from "./pages/EmailVerificationPending";
 
 // Lazy load page components
 const Index = lazy(() => import("./pages/Index"));
@@ -123,6 +124,10 @@ const App = () => (
                   <Route element={<MainLayout />}>
                     <Route path="/" element={<Index />} />
                     <Route path="/register" element={<Register />} />
+                    <Route
+                      path="/email-verification-pending"
+                      element={<EmailVerificationPending />}
+                    />
                     <Route
                       path="/forgot-password"
                       element={<ForgotPassword />}

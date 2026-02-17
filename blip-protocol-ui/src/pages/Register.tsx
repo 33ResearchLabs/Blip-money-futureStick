@@ -14,6 +14,11 @@ import { toast } from "sonner";
 import authApi from "@/services/auth";
 import { useAuth } from "@/contexts/AuthContext";
 import ReCAPTCHA from "react-google-recaptcha";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
+import { firebaseAuth } from "@/config/firebase";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -98,31 +103,42 @@ export default function Register() {
       return;
     }
 
-    if (import.meta.env.VITE_RECAPTCHA_SITE_KEY && !captchaToken) {
-      toast.error("Please complete the captcha verification");
-      return;
-    }
-
     setIsLoading(true);
 
     try {
-      const response: any = await authApi.register({
+      // 1. Create Firebase user and send verification email
+      const firebaseUser = await createUserWithEmailAndPassword(
+        firebaseAuth,
+        formData.email,
+        formData.password,
+      );
+      await sendEmailVerification(firebaseUser.user);
+
+      // 2. Register on backend (creates MongoDB user with emailVerified: false)
+      await authApi.register({
         email: formData.email,
         password: formData.password,
         referral_code: formData.referral_code || undefined,
         captchaToken: captchaToken || undefined,
       });
 
-      // Email verification bypassed - login directly
-      login(response.user);
-      toast.success("Registration successful! Welcome to Blip Money.");
-      navigate("/dashboard");
+      // 3. Navigate to verification pending page
+      toast.success("Verification email sent! Please check your inbox.");
+      navigate("/email-verification-pending", {
+        state: { email: formData.email },
+      });
     } catch (error: any) {
       console.error("Registration error:", error);
-      const message =
-        error.response?.data?.message ||
-        "Registration failed. Please try again.";
-      toast.error(message);
+      // Handle Firebase-specific errors
+      if (error.code === "auth/email-already-in-use") {
+        toast.error("Email already registered. Please login instead.");
+      } else {
+        const message =
+          error.response?.data?.message ||
+          error.message ||
+          "Registration failed. Please try again.";
+        toast.error(message);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -450,7 +466,11 @@ export default function Register() {
                 sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
                 onChange={(token) => setCaptchaToken(token)}
                 onExpired={() => setCaptchaToken(null)}
-                theme={document.documentElement.classList.contains("dark") ? "dark" : "light"}
+                theme={
+                  document.documentElement.classList.contains("dark")
+                    ? "dark"
+                    : "light"
+                }
               />
             </div>
           )}
@@ -458,7 +478,10 @@ export default function Register() {
           {/* Submit Button */}
           <button
             type="submit"
-            disabled={isLoading || (!!import.meta.env.VITE_RECAPTCHA_SITE_KEY && !captchaToken)}
+            disabled={
+              isLoading ||
+              (!!import.meta.env.VITE_RECAPTCHA_SITE_KEY && !captchaToken)
+            }
             className="w-full py-3 bg-black dark:bg-white text-white dark:text-black font-medium rounded-sm hover:bg-black/90 dark:hover:bg-white/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
           >
             {isLoading ? (

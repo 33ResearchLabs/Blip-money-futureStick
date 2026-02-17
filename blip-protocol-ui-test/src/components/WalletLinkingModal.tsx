@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { X, Wallet, AlertCircle, CheckCircle, Loader2 } from "lucide-react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
@@ -20,6 +20,23 @@ export default function WalletLinkingModal({
   const { linkWallet, user } = useAuth();
   const [isLinking, setIsLinking] = useState(false);
   const [linked, setLinked] = useState(false);
+  const hasAutoLinked = useRef(false);
+
+  // Auto-link and close when wallet connects
+  useEffect(() => {
+    if (isOpen && connected && publicKey && !linked && !isLinking && !user?.walletLinked && !hasAutoLinked.current) {
+      hasAutoLinked.current = true;
+      handleLinkWallet();
+    }
+  }, [connected, publicKey, isOpen]);
+
+  // Reset ref when modal closes
+  useEffect(() => {
+    if (!isOpen) {
+      hasAutoLinked.current = false;
+      setLinked(false);
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -36,14 +53,15 @@ export default function WalletLinkingModal({
       setLinked(true);
       toast.success("Wallet linked successfully!");
 
-      // Close modal after 2 seconds
+      // Auto-close modal after short delay
       setTimeout(() => {
         if (onClose) onClose();
-      }, 2000);
+      }, 1000);
     } catch (error: any) {
       console.error("Wallet linking error:", error);
       const message = error.response?.data?.message || "Failed to link wallet";
       toast.error(message);
+      hasAutoLinked.current = false;
     } finally {
       setIsLinking(false);
     }

@@ -5,6 +5,7 @@ import User from "../models/user.model.js";
 import { signToken } from "../utils/jwt.js";
 import UserBlipPoint from "../models/userBlipPoints.model.js";
 import BlipPointLog from "../models/BlipPointLog.model.js";
+import TweetVerification from "../models/TweetVerification.model.js";
 import { REGISTER_BONUS_POINTS, REFERRAL_BONUS_POINTS } from "../utils/blipPoints.js";
 import { generateReferralCode } from "../utils/generateReferralId.js";
 import jwt from 'jsonwebtoken'
@@ -312,6 +313,30 @@ export const getMe = async (req, res) => {
       REFERRAL_BONUS_EARNED: 100,
       REFERRAL_BONUS_RECEIVED: 100,
     };
+
+    // Backfill missing BlipPointLog entries for Twitter/Telegram verifications
+    const existingEvents = await BlipPointLog.find({ userId: user._id }).distinct("event");
+
+    if (!existingEvents.includes("TWITTER_FOLLOW")) {
+      const twitterVerified = await TweetVerification.findOne({ userId: user._id, verificationStatus: "verified" });
+      if (twitterVerified) {
+        await BlipPointLog.create({
+          userId: user._id,
+          event: "TWITTER_FOLLOW",
+          bonusPoints: 100,
+          totalPoints: (user.totalBlipPoints || 0),
+        });
+      }
+    }
+
+    if (!existingEvents.includes("TELEGRAM_JOIN") && user.telegramVerified) {
+      await BlipPointLog.create({
+        userId: user._id,
+        event: "TELEGRAM_JOIN",
+        bonusPoints: 100,
+        totalPoints: (user.totalBlipPoints || 0),
+      });
+    }
 
     // Calculate actual points from BlipPointLog using current pointsMap values
     const pointLogs = await BlipPointLog.find({ userId: user._id });

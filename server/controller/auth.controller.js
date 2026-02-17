@@ -99,11 +99,11 @@ export const registerWithEmail = async (req, res) => {
       codeExists = await User.findOne({ referralCode });
     }
 
-    // EMAIL VERIFICATION BYPASSED - Create user directly
+    // Create user with email verification pending (Firebase handles verification)
     const newUser = await User.create({
       email: email.toLowerCase(),
       password: hashedPassword,
-      emailVerified: true,
+      emailVerified: false,
       referralCode,
       totalBlipPoints: REGISTER_BONUS_POINTS,
       status: "WAITLISTED",
@@ -170,35 +170,11 @@ export const registerWithEmail = async (req, res) => {
       }
     }
 
-    // Generate JWT
-    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
-    });
-
-    // Set httpOnly cookie
-    res.cookie("token", token, {
-      httpOnly: true,
-      sameSite: production ? "none" : "lax",
-      secure: production ? true : false,
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
-
+    // Don't set JWT cookie - user must verify email first via Firebase
     res.status(201).json({
       success: true,
-      message: "Registration successful",
-      user: {
-        id: newUser._id,
-        email: newUser.email,
-        wallet_address: newUser.wallet_address,
-        phone: newUser.phone,
-        referralCode: newUser.referralCode,
-        totalBlipPoints: newUser.totalBlipPoints,
-        status: newUser.status,
-        role: newUser.role,
-        twoFactorEnabled: newUser.twoFactorEnabled || false,
-        emailVerified: newUser.emailVerified,
-        walletLinked: newUser.walletLinked || false,
-      },
+      message: "Registration successful. Please verify your email.",
+      emailVerified: false,
     });
   } catch (error) {
     console.error("Registration error:", error);
@@ -206,6 +182,55 @@ export const registerWithEmail = async (req, res) => {
       success: false,
       message: "Registration failed",
       Error: error.message,
+    });
+  }
+};
+
+/**
+ * Confirm email verified via Firebase
+ * POST /api/auth/confirm-email-verified
+ */
+export const confirmEmailVerified = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: "Email is required",
+      });
+    }
+
+    const user = await User.findOne({ email: email.toLowerCase() });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    if (user.emailVerified) {
+      return res.status(200).json({
+        success: true,
+        message: "Email already verified",
+      });
+    }
+
+    // Mark email as verified
+    user.emailVerified = true;
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Email verified successfully. You can now login.",
+    });
+  } catch (error) {
+    console.error("Confirm email verified error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Verification failed",
+      error: error.message,
     });
   }
 };

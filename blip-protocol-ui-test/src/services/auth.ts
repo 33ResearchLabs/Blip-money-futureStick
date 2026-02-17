@@ -39,6 +39,12 @@ export const authApi = {
     api.post("/auth/verify-otp", { email, otp }),
 
   /**
+   * Confirm email verified via Firebase
+   */
+  confirmEmailVerified: (email: string) =>
+    api.post("/auth/confirm-email-verified", { email }),
+
+  /**
    * Resend verification email
    */
   resendVerification: (email: string) =>

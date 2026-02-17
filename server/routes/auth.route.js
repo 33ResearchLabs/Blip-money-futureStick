@@ -3,6 +3,7 @@ import {
   registerWithEmail,
   verifyEmail,
   verifyEmailOTP,
+  confirmEmailVerified,
   loginWithEmail,
   resendVerificationEmail,
   linkWallet,
@@ -19,6 +20,7 @@ const router = express.Router();
 router.post("/register", registerWithEmail);
 router.get("/verify-email/:token", verifyEmail); // Old method (URL token)
 router.post("/verify-otp", verifyEmailOTP); // New method (OTP)
+router.post("/confirm-email-verified", confirmEmailVerified); // Firebase verification
 router.post("/login", loginWithEmail);
 router.post("/resend-verification", resendVerificationEmail);
 router.post("/forgot-password", forgotPassword);

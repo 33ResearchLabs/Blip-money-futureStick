@@ -1,5 +1,6 @@
 import TweetVerification from "../models/TweetVerification.model.js";
 import User from "../models/user.model.js";
+import BlipPointLog from "../models/BlipPointLog.model.js";
 import twitterService from "../services/twitter.service.js";
 
 /**
@@ -120,6 +121,14 @@ export const verifyTweet = async (req, res) => {
     });
 
     await user.save();
+
+    // Create BlipPointLog entry so getMe recalculation includes these points
+    await BlipPointLog.create({
+      userId,
+      event: "TWITTER_FOLLOW",
+      bonusPoints: pointsAwarded,
+      totalPoints: user.totalBlipPoints,
+    });
 
     return res.status(200).json({
       success: true,

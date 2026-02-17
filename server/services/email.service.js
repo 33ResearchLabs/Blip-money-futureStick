@@ -1,21 +1,8 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
-// Create reusable transporter
-const createTransporter = () => {
-  return nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false,
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-    connectionTimeout: 20000,
-    greetingTimeout: 20000,
-    socketTimeout: 20000,
-    tls: { rejectUnauthorized: false },
-  });
-};
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+const FROM_EMAIL = process.env.EMAIL_FROM || "Blip Money <onboarding@resend.dev>";
 
 /**
  * Send email verification code
@@ -23,13 +10,12 @@ const createTransporter = () => {
  * @param {string} token - Verification token/OTP
  */
 export const sendVerificationEmail = async (email, token) => {
-  const transporter = createTransporter();
-
-  const mailOptions = {
-    from: `"Blip Money" <${process.env.EMAIL_USER}>`,
-    to: email,
-    subject: "Verify Your Email - Blip Money",
-    html: `
+  try {
+    await resend.emails.send({
+      from: FROM_EMAIL,
+      to: [email],
+      subject: "Verify Your Email - Blip Money",
+      html: `
       <!DOCTYPE html>
       <html>
         <head>
@@ -84,23 +70,8 @@ export const sendVerificationEmail = async (email, token) => {
         </body>
       </html>
     `,
-    text: `
-Welcome to Blip Money!
-
-Thank you for registering. Please use the verification code below to complete your account setup.
-
-Your Verification Code: ${token}
-
-This code will expire in 10 minutes.
-
-If you didn't create an account with Blip Money, please ignore this email.
-
-© ${new Date().getFullYear()} Blip Money
-    `,
-  };
-
-  try {
-    await transporter.sendMail(mailOptions);
+      text: `Welcome to Blip Money!\n\nYour Verification Code: ${token}\n\nThis code will expire in 10 minutes.\n\nIf you didn't create an account with Blip Money, please ignore this email.`,
+    });
     console.log(`Verification email sent to ${email}`);
   } catch (error) {
     console.error("Error sending verification email:", error);
@@ -114,15 +85,14 @@ If you didn't create an account with Blip Money, please ignore this email.
  * @param {string} token - Reset token
  */
 export const sendPasswordResetEmail = async (email, token) => {
-  const transporter = createTransporter();
-
   const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${token}`;
 
-  const mailOptions = {
-    from: `"Blip Money" <${process.env.EMAIL_USER}>`,
-    to: email,
-    subject: "Password Reset Request - Blip Money",
-    html: `
+  try {
+    await resend.emails.send({
+      from: FROM_EMAIL,
+      to: [email],
+      subject: "Password Reset Request - Blip Money",
+      html: `
       <!DOCTYPE html>
       <html>
         <head>
@@ -140,7 +110,6 @@ export const sendPasswordResetEmail = async (email, token) => {
             .button { display: inline-block; background: #000000; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 4px; font-weight: 600; font-size: 16px; }
             .footer { background: #f9f9f9; padding: 20px 30px; text-align: center; font-size: 14px; color: #888; }
             .footer a { color: #000000; text-decoration: none; }
-            .divider { height: 1px; background: #e5e5e5; margin: 30px 0; }
             .warning { background: #fff3cd; border-left: 4px solid #ffc107; padding: 16px; margin: 20px 0; font-size: 14px; color: #856404; }
             .note { background: #f9f9f9; border-left: 4px solid #000000; padding: 16px; margin: 20px 0; font-size: 14px; color: #666; }
           </style>
@@ -166,8 +135,6 @@ export const sendPasswordResetEmail = async (email, token) => {
                 <strong>Security Notice:</strong> If you didn't request a password reset, please ignore this email. Your password will remain unchanged.
               </div>
 
-              <div class="divider"></div>
-
               <p style="font-size: 14px; color: #888;">
                 If the button above doesn't work, copy and paste this link into your browser:<br>
                 <a href="${resetUrl}" style="color: #000000; word-break: break-all;">${resetUrl}</a>
@@ -185,23 +152,8 @@ export const sendPasswordResetEmail = async (email, token) => {
         </body>
       </html>
     `,
-    text: `
-Password Reset Request - Blip Money
-
-We received a request to reset your password.
-
-Reset Link: ${resetUrl}
-
-This link will expire in 1 hour.
-
-If you didn't request a password reset, please ignore this email. Your password will remain unchanged.
-
-© ${new Date().getFullYear()} Blip Money
-    `,
-  };
-
-  try {
-    await transporter.sendMail(mailOptions);
+      text: `Password Reset Request - Blip Money\n\nReset Link: ${resetUrl}\n\nThis link will expire in 1 hour.\n\nIf you didn't request a password reset, please ignore this email.`,
+    });
     console.log(`Password reset email sent to ${email}`);
   } catch (error) {
     console.error("Error sending password reset email:", error);
@@ -215,13 +167,12 @@ If you didn't request a password reset, please ignore this email. Your password 
  * @param {string} name - User's name (optional)
  */
 export const sendWelcomeEmail = async (email, name = "there") => {
-  const transporter = createTransporter();
-
-  const mailOptions = {
-    from: `"Blip Money" <${process.env.EMAIL_USER}>`,
-    to: email,
-    subject: "Welcome to Blip Money!",
-    html: `
+  try {
+    await resend.emails.send({
+      from: FROM_EMAIL,
+      to: [email],
+      subject: "Welcome to Blip Money!",
+      html: `
       <!DOCTYPE html>
       <html>
         <head>
@@ -283,29 +234,8 @@ export const sendWelcomeEmail = async (email, name = "there") => {
         </body>
       </html>
     `,
-    text: `
-Welcome to Blip Money!
-
-Hi ${name}!
-
-Congratulations! Your email has been verified successfully and your account is now active.
-
-What's Next?
-- Connect Your Wallet: Link your Solana wallet to unlock full features
-- Earn Points: Complete tasks and earn BLIP points
-- Refer Friends: Share your referral code and get bonus points
-- Stay Updated: Keep an eye on new features and rewards
-
-Login here: ${process.env.FRONTEND_URL}/login
-
-If you have any questions, our support team is here to help!
-
-© ${new Date().getFullYear()} Blip Money
-    `,
-  };
-
-  try {
-    await transporter.sendMail(mailOptions);
+      text: `Welcome to Blip Money!\n\nHi ${name}!\n\nYour email has been verified and your account is now active.\n\nLogin here: ${process.env.FRONTEND_URL}/login`,
+    });
     console.log(`Welcome email sent to ${email}`);
   } catch (error) {
     console.error("Error sending welcome email:", error);

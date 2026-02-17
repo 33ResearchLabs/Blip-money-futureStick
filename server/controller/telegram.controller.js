@@ -1,4 +1,5 @@
 import User from "../models/user.model.js";
+import BlipPointLog from "../models/BlipPointLog.model.js";
 import { verifyTelegramMembership, getBotInfo } from "../utils/telegram.js";
 
 const TELEGRAM_REWARD_POINTS = 100;
@@ -94,6 +95,14 @@ export const verifyMembership = async (req, res) => {
     });
 
     await user.save();
+
+    // Create BlipPointLog entry so getMe recalculation includes these points
+    await BlipPointLog.create({
+      userId: user._id,
+      event: "TELEGRAM_JOIN",
+      bonusPoints: TELEGRAM_REWARD_POINTS,
+      totalPoints: user.totalBlipPoints,
+    });
 
     return res.status(200).json({
       success: true,
