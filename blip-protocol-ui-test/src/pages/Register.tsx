@@ -98,10 +98,10 @@ export default function Register() {
       return;
     }
 
-    if (import.meta.env.VITE_RECAPTCHA_SITE_KEY && !captchaToken) {
-      toast.error("Please complete the captcha verification");
-      return;
-    }
+    // if (import.meta.env.VITE_RECAPTCHA_SITE_KEY && !captchaToken) {
+    //   toast.error("Please complete the captcha verification");
+    //   return;
+    // }
 
     setIsLoading(true);
 
@@ -450,7 +450,11 @@ export default function Register() {
                 sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
                 onChange={(token) => setCaptchaToken(token)}
                 onExpired={() => setCaptchaToken(null)}
-                theme={document.documentElement.classList.contains("dark") ? "dark" : "light"}
+                theme={
+                  document.documentElement.classList.contains("dark")
+                    ? "dark"
+                    : "light"
+                }
               />
             </div>
           )}
@@ -458,7 +462,10 @@ export default function Register() {
           {/* Submit Button */}
           <button
             type="submit"
-            disabled={isLoading || (!!import.meta.env.VITE_RECAPTCHA_SITE_KEY && !captchaToken)}
+            disabled={
+              isLoading ||
+              (!!import.meta.env.VITE_RECAPTCHA_SITE_KEY && !captchaToken)
+            }
             className="w-full py-3 bg-black dark:bg-white text-white dark:text-black font-medium rounded-sm hover:bg-black/90 dark:hover:bg-white/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
           >
             {isLoading ? (

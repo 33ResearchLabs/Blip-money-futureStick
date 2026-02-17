@@ -818,7 +818,7 @@ export default function BlipDashboard() {
   });
 
   const { publicKey, disconnect, connected } = useWallet();
-  const { logout, user } = useAuth();
+  const { logout, user, updatePoints } = useAuth();
   const navigate = useNavigate();
 
   // Show wallet linking modal only if user hasn't linked wallet (first time login)
@@ -870,13 +870,11 @@ export default function BlipDashboard() {
 
   const blipPoints = user?.totalBlipPoints ?? 0;
 
-  const totalRewardPoints =
-    (rewardStatus.signup ? 200 : 0) +
-    (rewardStatus.telegram ? 100 : 0) +
-    (rewardStatus.twitter ? 100 : 0);
+  // Use actual blip points from backend (includes referral bonuses etc.)
+  const totalRewardPoints = blipPoints;
 
   const referralLink = user?.referralCode
-    ? `${import.meta.env.VITE_FRONTEND_URL}/waitlist?ref=${user.referralCode}`
+    ? `${import.meta.env.VITE_FRONTEND_URL}/register?ref=${user.referralCode}`
     : "";
 
   const handleCopyWalletAddress = async () => {
@@ -958,12 +956,12 @@ export default function BlipDashboard() {
 
   const handleTwitterSuccess = (points) => {
     showToast(`Tweet verified! +${points} points awarded`, "success");
-    window.location.reload();
+    updatePoints(points);
   };
 
   const handleTelegramSuccess = (points) => {
     showToast(`Telegram verified! +${points} points awarded`, "success");
-    window.location.reload();
+    updatePoints(points);
   };
 
   const handleComingSoon = () => {
@@ -1042,6 +1040,13 @@ export default function BlipDashboard() {
         required={!user?.walletLinked}
       />
 
+      {/* Points History Modal */}
+      <PointsHistoryModal
+        isOpen={showPointsHistoryModal}
+        onClose={() => setShowPointsHistoryModal(false)}
+        totalPoints={blipPoints}
+      />
+
       {/* Grid Background */}
       <div
         className="fixed inset-0 z-0 pointer-events-none"
@@ -1067,6 +1072,7 @@ export default function BlipDashboard() {
         walletAddress={displayWalletAddress}
         blipPoints={blipPoints}
         onLogout={handleLogout}
+        onPointsClick={() => setShowPointsHistoryModal(true)}
       />
 
       <main className="max-w-7xl mx-auto px-6 py-12 relative z-10">
@@ -1287,7 +1293,7 @@ export default function BlipDashboard() {
                 <span className="text-xl font-black text-black dark:text-white">
                   {totalRewardPoints}
                   <span className="text-xs font-normal text-black/40 dark:text-white/40 ml-1">
-                    / 400 PTS
+                    PTS
                   </span>
                 </span>
               </div>

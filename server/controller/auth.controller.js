@@ -13,6 +13,7 @@ import {
 } from "../services/email.service.js";
 import PendingEmailModel from "../models/PendingEmail.model.js";
 import { sendVerificationEmailNew } from "../utils/VerificationEmail.js";
+import Referral from "../models/referral.model.js";
 import { REGISTER_BONUS_POINTS, REFERRAL_BONUS_POINTS } from "../utils/blipPoints.js";
 
 const production = process.env.NODE_ENV === "production";
@@ -140,6 +141,15 @@ export const registerWithEmail = async (req, res) => {
           userId: referrer._id,
           bonusPoints: REFERRAL_BONUS_POINTS,
           event: "REFERRAL_BONUS_EARNED",
+        });
+
+        // Create Referral document for tracking
+        await Referral.create({
+          referrer_id: referrer._id,
+          referred_user_id: newUser._id,
+          referral_code: referral_code,
+          reward_status: "credited",
+          reward_amount: REFERRAL_BONUS_POINTS,
         });
 
         newUser.totalBlipPoints = (newUser.totalBlipPoints || 0) + REFERRAL_BONUS_POINTS;

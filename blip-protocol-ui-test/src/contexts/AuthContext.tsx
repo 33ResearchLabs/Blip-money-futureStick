@@ -31,6 +31,7 @@ interface AuthContextType {
   linkWallet: (walletAddress: string) => Promise<void>;
   isLoading: boolean;
   refreshSession: () => Promise<void>;
+  updatePoints: (pointsToAdd: number) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -48,7 +49,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
    */
   const refreshSession = useCallback(async () => {
     try {
-      setIsLoading(true);
+      // Only set isLoading on initial load (when no user exists yet)
+      // This prevents ProtectedRoute from flashing the loading screen
+      // when refreshing an already-authenticated session
+      const isInitialLoad = !user;
+      if (isInitialLoad) {
+        setIsLoading(true);
+      }
 
       // api.get returns response.data due to interceptor (see api.ts line 27)
       const response: any = await api.get("/user/me", {
@@ -72,7 +79,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [user]);
 
   /**
    * ✅ Check session on app load
@@ -124,6 +131,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   /**
+   * 🔢 Update points locally (instant UI update, no refresh)
+   */
+  const updatePoints = useCallback((pointsToAdd: number) => {
+    setUser((prev) =>
+      prev
+        ? { ...prev, totalBlipPoints: (prev.totalBlipPoints || 0) + pointsToAdd }
+        : prev
+    );
+  }, []);
+
+  /**
    * 🚪 Logout (clears cookie on backend)
    */
   const logout = async () => {
@@ -152,6 +170,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         linkWallet,
         isLoading,
         refreshSession,
+        updatePoints,
       }}
     >
       {children}

@@ -25,12 +25,14 @@ interface DashboardNavbarProps {
   walletAddress: string;
   blipPoints: number;
   onLogout: () => void;
+  onPointsClick?: () => void;
 }
 
 export default function DashboardNavbar({
   walletAddress,
   blipPoints,
   onLogout,
+  onPointsClick,
 }: DashboardNavbarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -96,7 +98,10 @@ export default function DashboardNavbar({
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-6">
           {/* Points Display */}
-          <div className="flex items-center gap-6 mr-4 border-r border-black/10 dark:border-white/10 pr-6">
+          <div
+            onClick={onPointsClick}
+            className="flex items-center gap-6 mr-4 border-r border-black/10 dark:border-white/10 pr-6 cursor-pointer hover:opacity-80 transition-opacity"
+          >
             <div className="flex flex-col items-end">
               <span className="text-[9px] uppercase tracking-tighter text-black/50 dark:text-white/50 font-bold">
                 Protocol Balance
@@ -248,7 +253,10 @@ export default function DashboardNavbar({
         <div className="md:hidden border-t border-black/10 dark:border-white/10 bg-white/95 dark:bg-black/95 backdrop-blur-md animate-in slide-in-from-top-2 duration-200">
           <div className="px-4 py-4 space-y-4">
             {/* Points Display - Mobile */}
-            <div className="flex items-center justify-between p-3 bg-black/5 dark:bg-white/5 rounded-sm border border-black/10 dark:border-white/10">
+            <div
+              onClick={onPointsClick}
+              className="flex items-center justify-between p-3 bg-black/5 dark:bg-white/5 rounded-sm border border-black/10 dark:border-white/10 cursor-pointer hover:bg-black/10 dark:hover:bg-white/10 transition-colors"
+            >
               <div className="flex items-center gap-2">
                 <Coins size={16} className="text-black dark:text-white" />
                 <span className="text-xs text-black/50 dark:text-white/50 uppercase font-bold">
