@@ -24,6 +24,7 @@ import {
   Construction,
   Check,
   Info,
+  RefreshCw,
 } from "lucide-react";
 import DashboardNavbar from "@/components/DashboardNavbar";
 import { api } from "@/services/api";
@@ -501,13 +502,13 @@ const TaskCard = ({ task, onClick, redeemed = false }) => {
             Redeemed
           </span>
         </div>
-      ) : status === "active" ? (
-        <button
-          className="mt-auto w-full py-2.5 text-xs font-bold uppercase tracking-wider bg-black text-white dark:bg-white dark:text-black hover:opacity-90 transition-all rounded-sm"
-        >
-          Complete Task
-        </button>
-      ) : null}
+      ) : (
+        status === "active" && (
+          <div className="mt-auto text-xs text-black/60 dark:text-neutral-400 uppercase tracking-wider group-hover:translate-x-1 transition-transform">
+            Start →
+          </div>
+        )
+      )}
     </div>
   );
 };
@@ -735,7 +736,8 @@ export default function BlipDashboard() {
   });
 
   const { publicKey, disconnect, connected } = useWallet();
-  const { logout, user, updatePoints } = useAuth();
+  const { logout, user, updatePoints, refreshSession } = useAuth();
+  const [isRefreshingPoints, setIsRefreshingPoints] = useState(false);
   const navigate = useNavigate();
 
   // Show wallet linking modal only if user hasn't linked wallet (first time login)
@@ -827,6 +829,18 @@ export default function BlipDashboard() {
     }
   };
 
+  const handleRefreshPoints = async () => {
+    setIsRefreshingPoints(true);
+    try {
+      await refreshSession();
+      showToast("Points refreshed", "success");
+    } catch {
+      showToast("Failed to refresh points", "error");
+    } finally {
+      setIsRefreshingPoints(false);
+    }
+  };
+
   const handleLogout = async () => {
     await disconnect();
     await logout();
@@ -871,11 +885,13 @@ export default function BlipDashboard() {
   const handleTwitterSuccess = (points) => {
     showToast(`Tweet verified! +${points} points awarded`, "success");
     updatePoints(points);
+    setRewardStatus((prev) => ({ ...prev, twitter: true }));
   };
 
   const handleTelegramSuccess = (points) => {
     showToast(`Telegram verified! +${points} points awarded`, "success");
     updatePoints(points);
+    setRewardStatus((prev) => ({ ...prev, telegram: true }));
   };
 
   const handleComingSoon = () => {
@@ -1021,13 +1037,28 @@ export default function BlipDashboard() {
 
           {/* Points Card */}
           <div
-            onClick={() => setShowPointsHistoryModal(true)}
             className="bg-white dark:bg-white/5 border border-black/10 dark:border-white/10 p-6 rounded-sm shadow-sm hover:shadow-md transition-all cursor-pointer group relative"
           >
-            <span className="text-[9px] font-black uppercase tracking-widest text-black/60 dark:text-white/50 block mb-2">
-              Accumulated Points
-            </span>
-            <span className="text-3xl font-black text-black dark:text-white">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[9px] font-black uppercase tracking-widest text-black/60 dark:text-white/50">
+                Accumulated Points
+              </span>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleRefreshPoints();
+                }}
+                disabled={isRefreshingPoints}
+                className="p-1 rounded-sm hover:bg-black/10 dark:hover:bg-white/10 transition-colors disabled:opacity-50"
+                title="Refresh points"
+              >
+                <RefreshCw className={`w-3.5 h-3.5 text-black/40 dark:text-white/40 ${isRefreshingPoints ? "animate-spin" : ""}`} />
+              </button>
+            </div>
+            <span
+              onClick={() => setShowPointsHistoryModal(true)}
+              className="text-3xl font-black text-black dark:text-white"
+            >
               {blipPoints}
             </span>
             <div className="absolute bottom-0 left-0 w-full h-[2px] bg-black/10 dark:bg-white/10">

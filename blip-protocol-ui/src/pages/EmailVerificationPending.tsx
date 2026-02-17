@@ -3,20 +3,43 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Mail, RefreshCw, CheckCircle, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { firebaseAuth } from "@/config/firebase";
-import { sendEmailVerification } from "firebase/auth";
+import { sendEmailVerification, onAuthStateChanged } from "firebase/auth";
 import authApi from "@/services/auth";
 
 export default function EmailVerificationPending() {
   const location = useLocation();
   const navigate = useNavigate();
-  const email = location.state?.email || "";
+
+  // Use location state first, then sessionStorage as fallback
+  const stateEmail = location.state?.email || "";
+  const [email, setEmail] = useState(() => {
+    if (stateEmail) {
+      sessionStorage.setItem("verification_email", stateEmail);
+      return stateEmail;
+    }
+    return sessionStorage.getItem("verification_email") || "";
+  });
 
   const [isResending, setIsResending] = useState(false);
   const [resent, setResent] = useState(false);
   const [isChecking, setIsChecking] = useState(false);
+  const [firebaseReady, setFirebaseReady] = useState(false);
 
-  // Auto-check Firebase verification status every 5 seconds
+  // Wait for Firebase auth to initialize before polling
   useEffect(() => {
+    const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
+      setFirebaseReady(true);
+      if (user && !email) {
+        setEmail(user.email || "");
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // Auto-check Firebase verification status every 5 seconds (only after Firebase is ready)
+  useEffect(() => {
+    if (!firebaseReady) return;
+
     const interval = setInterval(async () => {
       const user = firebaseAuth.currentUser;
       if (user) {
@@ -29,15 +52,16 @@ export default function EmailVerificationPending() {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [firebaseReady, email]);
 
   const handleVerified = async () => {
     setIsChecking(true);
     try {
-      // Tell backend email is verified
-      await authApi.confirmEmailVerified(email);
+      const verifyEmail = email || firebaseAuth.currentUser?.email || "";
+      await authApi.confirmEmailVerified(verifyEmail);
+      sessionStorage.removeItem("verification_email");
       toast.success("Email verified! You can now login.");
-      navigate("/waitlist", { state: { email } });
+      navigate("/waitlist", { state: { email: verifyEmail } });
     } catch (error: any) {
       console.error("Confirm verification error:", error);
       toast.error("Something went wrong. Please try logging in.");
@@ -57,8 +81,11 @@ export default function EmailVerificationPending() {
           await handleVerified();
           return;
         }
+        toast.error("Email not verified yet. Please check your inbox.");
+      } else {
+        toast.error("Session expired. Please register again.");
+        navigate("/register");
       }
-      toast.error("Email not verified yet. Please check your inbox.");
     } catch (error) {
       console.error("Check verification error:", error);
       toast.error("Could not check verification status.");
@@ -78,6 +105,7 @@ export default function EmailVerificationPending() {
         setTimeout(() => setResent(false), 5000);
       } else {
         toast.error("Session expired. Please register again.");
+        navigate("/register");
       }
     } catch (error: any) {
       console.error("Resend error:", error);

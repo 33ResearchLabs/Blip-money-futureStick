@@ -6,6 +6,8 @@ import authApi from "@/services/auth";
 import { useAuth } from "@/contexts/AuthContext";
 import { twoFactorApi } from "@/services/twoFatctor";
 import { motion } from "framer-motion";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { firebaseAuth } from "@/config/firebase";
 export default function Login() {
   const navigate = useNavigate();
   const { login, isAuthenticated } = useAuth();
@@ -82,8 +84,35 @@ export default function Login() {
         error.response?.status === 403 &&
         error.response?.data?.emailVerified === false
       ) {
+        // Check if Firebase has it verified - if so, sync to backend and retry
+        try {
+          const fbUser = await signInWithEmailAndPassword(
+            firebaseAuth,
+            formData.email,
+            formData.password,
+          );
+          if (fbUser.user.emailVerified) {
+            await authApi.confirmEmailVerified(formData.email);
+            // Retry login now that backend is synced
+            const retryResponse = await authApi.login({
+              email: formData.email,
+              password: formData.password,
+            });
+            if (retryResponse.twoFactorRequired) {
+              setShow2FA(true);
+              setIsLoading(false);
+              return;
+            }
+            login(retryResponse.user);
+            toast.success("Login successful!");
+            navigate("/dashboard");
+            return;
+          }
+        } catch {
+          // Firebase sign-in failed or sync failed - show original error
+        }
         toast.error("Please verify your email before logging in");
-        navigate("/waitlist", {
+        navigate("/email-verification-pending", {
           state: { email: formData.email },
         });
       } else {

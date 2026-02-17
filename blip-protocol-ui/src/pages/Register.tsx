@@ -17,6 +17,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 import { firebaseAuth } from "@/config/firebase";
 
@@ -131,7 +132,29 @@ export default function Register() {
       console.error("Registration error:", error);
       // Handle Firebase-specific errors
       if (error.code === "auth/email-already-in-use") {
-        toast.error("Email already registered. Please login instead.");
+        // Try to sign in - if user exists but isn't verified, resend verification
+        try {
+          const existingUser = await signInWithEmailAndPassword(
+            firebaseAuth,
+            formData.email,
+            formData.password,
+          );
+          if (!existingUser.user.emailVerified) {
+            await sendEmailVerification(existingUser.user);
+            toast.success("Verification email resent! Please check your inbox.");
+            navigate("/email-verification-pending", {
+              state: { email: formData.email },
+            });
+            return;
+          }
+          // Firebase says verified - sync to backend then redirect to login
+          try {
+            await authApi.confirmEmailVerified(formData.email);
+          } catch {}
+          toast.info("Email already verified. Please login.");
+        } catch {
+          toast.error("Email already registered. Please login instead.");
+        }
       } else {
         const message =
           error.response?.data?.message ||
