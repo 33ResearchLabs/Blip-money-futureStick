@@ -114,7 +114,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       });
 
       if (response?.user) {
-        setUser(response.user);
+        // Merge with existing user data to prevent losing fields like emailVerified
+        setUser((prev) => (prev ? { ...prev, ...response.user } : response.user));
       }
     } catch (error) {
       console.error("❌ Wallet linking failed:", error);

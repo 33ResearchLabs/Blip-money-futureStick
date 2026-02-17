@@ -862,6 +862,13 @@ export const linkWallet = async (req, res) => {
         id: user._id,
         email: user.email,
         wallet_address: user.wallet_address,
+        phone: user.phone,
+        referralCode: user.referralCode,
+        totalBlipPoints: user.totalBlipPoints,
+        status: user.status,
+        role: user.role,
+        twoFactorEnabled: user.twoFactorEnabled || false,
+        emailVerified: user.emailVerified || false,
         walletLinked: true,
       },
     });
@@ -910,6 +917,14 @@ export const unlinkWallet = async (req, res) => {
       user: {
         id: user._id,
         email: user.email,
+        wallet_address: null,
+        phone: user.phone,
+        referralCode: user.referralCode,
+        totalBlipPoints: user.totalBlipPoints,
+        status: user.status,
+        role: user.role,
+        twoFactorEnabled: user.twoFactorEnabled || false,
+        emailVerified: user.emailVerified || false,
         walletLinked: false,
       },
     });

@@ -110,7 +110,7 @@ export default function Register() {
         email: formData.email,
         password: formData.password,
         referral_code: formData.referral_code || undefined,
-        captchaToken,
+        captchaToken: captchaToken || undefined,
       });
 
       // Email verification bypassed - login directly
@@ -458,7 +458,7 @@ export default function Register() {
           {/* Submit Button */}
           <button
             type="submit"
-            disabled={isLoading || (import.meta.env.VITE_RECAPTCHA_SITE_KEY && !captchaToken)}
+            disabled={isLoading || (!!import.meta.env.VITE_RECAPTCHA_SITE_KEY && !captchaToken)}
             className="w-full py-3 bg-black dark:bg-white text-white dark:text-black font-medium rounded-sm hover:bg-black/90 dark:hover:bg-white/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
           >
             {isLoading ? (

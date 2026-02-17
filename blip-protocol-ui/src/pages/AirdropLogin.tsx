@@ -112,9 +112,10 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
   }, [connecting, connected]);
 
   // Redirect if already authenticated and email verified
+  // Wallet connection is NOT required - dashboard handles wallet linking
   useEffect(() => {
-    if (isLoading || !walletReady) return;
-    if (isAuthenticated && user?.emailVerified && connected && !hasRedirected) {
+    if (isLoading) return;
+    if (isAuthenticated && user?.emailVerified && !hasRedirected) {
       console.log("✅ User already authenticated, redirecting to dashboard");
       setHasRedirected(true);
       navigate("/dashboard", { replace: true });
@@ -124,8 +125,6 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
     isLoading,
     navigate,
     hasRedirected,
-    walletReady,
-    connected,
     user,
   ]);
 
@@ -166,14 +165,16 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
           wallet_address: publicKey.toBase58(),
           email,
           referralCode: response.user?.referralCode,
-          totalBlipPoints: response.user?.totalBlipPoints || 500,
+          totalBlipPoints: response.user?.totalBlipPoints || 200,
           status: response.user?.status,
           twoFactorEnabled: response.user?.twoFactorEnabled || false,
+          emailVerified: response.user?.emailVerified ?? true,
+          walletLinked: response.user?.walletLinked ?? true,
         });
 
         toast({
-          title: "Success! +2000 Points",
-          description: "Your account has been created with 2000 bonus points!",
+          title: "Success! +200 Points",
+          description: "Your account has been created with 200 bonus points!",
         });
 
         setTimeout(() => {
@@ -322,6 +323,9 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
         referralCode: res.user.referralCode,
         totalBlipPoints: res.user.totalBlipPoints,
         status: res.user.status,
+        twoFactorEnabled: res.user.twoFactorEnabled || false,
+        emailVerified: res.user.emailVerified ?? true,
+        walletLinked: res.user.walletLinked ?? false,
       });
 
       setShow2FAModal(false);
@@ -675,7 +679,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                   </span>
                 </motion.div>
                 <h2 className="text-3xl md:text-4xl font-bold text-black dark:text-white mb-3">
-                  Connect Walletghgh
+                  Connect Wallet
                 </h2>
                 <p className="text-black/50 dark:text-white/50">
                   Link your Solana wallet to complete registration
