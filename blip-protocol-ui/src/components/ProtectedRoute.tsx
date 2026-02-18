@@ -4,10 +4,14 @@ import { Loader2 } from "lucide-react";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
+  requiredRole?: "user" | "merchant";
 }
 
-export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredRole }) => {
   const { isAuthenticated, isLoading, user } = useAuth();
+
+  const isMerchant = user?.role === "MERCHANT";
+  const loginRedirect = requiredRole === "merchant" ? "/merchant-waitlist" : "/waitlist";
 
   // Show loading while checking authentication
   if (isLoading) {
@@ -25,18 +29,21 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 
   // Check if user is logged in
   if (!isAuthenticated || !user) {
-    console.log("🚫 Not authenticated, redirecting to /waitlist");
-    return <Navigate to="/waitlist" replace />;
+    return <Navigate to={loginRedirect} replace />;
   }
 
   // Check if email is verified
   if (!user.emailVerified) {
-    console.log("🚫 Email not verified, redirecting to /waitlist");
-    return <Navigate to="/waitlist" replace state={{ email: user.email }} />;
+    return <Navigate to={loginRedirect} replace state={{ email: user.email }} />;
   }
 
-  // User is authenticated and email is verified
-  // They can access the dashboard even without wallet linked
-  // The dashboard will prompt them to link wallet if needed
+  // If a specific role is required, check it
+  if (requiredRole === "merchant" && !isMerchant) {
+    return <Navigate to="/dashboard" replace />;
+  }
+  if (requiredRole === "user" && isMerchant) {
+    return <Navigate to="/merchant-dashboard" replace />;
+  }
+
   return <>{children}</>;
 };

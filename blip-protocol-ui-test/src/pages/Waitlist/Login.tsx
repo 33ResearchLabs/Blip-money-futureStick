@@ -16,20 +16,20 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
   const isMerchant = role === "merchant";
   const registerPath = isMerchant ? "/merchant-register" : "/register";
 
-  // Determine dashboard based on user's actual role (from server) or component prop
-  const getDashboardPath = () => {
+  // Determine dashboard from the server response user role, or fall back to prop/context
+  const getDashboardForUser = (u?: any) => {
+    if (u?.role === "MERCHANT" || u?.role === "merchant") return "/merchant-dashboard";
     if (user?.role === "MERCHANT") return "/merchant-dashboard";
     if (isMerchant) return "/merchant-dashboard";
     return "/dashboard";
   };
-  const dashboardPath = getDashboardPath();
 
   // Redirect already-authenticated users to dashboard
   useEffect(() => {
     if (isAuthenticated) {
-      navigate(dashboardPath, { replace: true });
+      navigate(getDashboardForUser(user), { replace: true });
     }
-  }, [isAuthenticated, navigate, dashboardPath]);
+  }, [isAuthenticated, navigate, user]);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -83,10 +83,10 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
         return;
       }
 
-      // Regular login success
+      // Regular login success - redirect based on server response role
       login(response.user);
       toast.success("Login successful!");
-      navigate(dashboardPath);
+      navigate(getDashboardForUser(response.user));
     } catch (error: any) {
       console.error("Login error:", error);
       const message =
@@ -117,7 +117,7 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
             }
             login(retryResponse.user);
             toast.success("Login successful!");
-            navigate(dashboardPath);
+            navigate(getDashboardForUser(retryResponse.user));
             return;
           }
         } catch {
@@ -153,7 +153,7 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
 
       login(response.user);
       toast.success("Login successful!");
-      navigate(dashboardPath);
+      navigate(getDashboardForUser(response.user));
     } catch (error: any) {
       console.error("2FA verification error:", error);
       const message =

@@ -151,7 +151,7 @@ export default function Register({
               "Verification email resent! Please check your inbox.",
             );
             navigate("/email-verification-pending", {
-              state: { email: formData.email },
+              state: { email: formData.email, role },
             });
             return;
           }
@@ -192,7 +192,10 @@ export default function Register({
       login(response.user);
 
       toast.success("Email verified successfully! You are now logged in.");
-      navigate("/dashboard");
+      const dest = response.user?.role === "MERCHANT" || response.user?.role === "merchant" || isMerchant
+        ? "/merchant-dashboard"
+        : "/dashboard";
+      navigate(dest);
     } catch (error: any) {
       console.error("OTP verification error:", error);
       const message =
