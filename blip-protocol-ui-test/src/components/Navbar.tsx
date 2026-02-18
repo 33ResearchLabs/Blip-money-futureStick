@@ -1,11 +1,116 @@
 import { useEffect, useState, useRef } from "react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
-import { ChevronRight, ArrowRight, Sun, Moon, Zap, Menu, X } from "lucide-react";
+import {
+  ChevronRight,
+  ArrowRight,
+  Sun,
+  Moon,
+  Zap,
+  Menu,
+  X,
+} from "lucide-react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
 import { sounds } from "@/lib/sounds";
 import { useTheme } from "next-themes";
+
+/* ---------------- Main Navbar ---------------- */
+
+export const Navbar = () => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
+
+  const { t } = useTranslation();
+  const { isAuthenticated } = useAuth();
+  const location = useLocation();
+
+  const { scrollY } = useScroll();
+  const lastScrollY = useRef(0);
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const direction = latest > lastScrollY.current ? "down" : "up";
+
+    if (direction === "down" && latest > 100 && !mobileMenuOpen) {
+      setIsHidden(true);
+    } else {
+      setIsHidden(false);
+    }
+
+    setIsScrolled(latest > 20);
+    lastScrollY.current = latest;
+  });
+
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location]);
+
+  useEffect(() => {
+    document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileMenuOpen]);
+
+  return (
+    <>
+      <motion.nav
+        initial={{ y: -100 }}
+        animate={{
+          y: isHidden && !mobileMenuOpen ? -100 : 0,
+        }}
+        transition={{ duration: 0.25 }}
+        className={`fixed top-0 w-full z-50 ${
+          isScrolled
+            ? "bg-[#FAF8F5] dark:bg-[rgba(10,10,11,0.8)] dark:backdrop-blur-xl border-b border-black/[0.06] dark:border-white/[0.06]"
+            : "bg-transparent border-b border-transparent"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="h-[72px] flex items-center justify-between">
+            <Logo />
+
+            <div className="hidden lg:flex items-center gap-1">
+              <NavItem to="/how-it-works">{t("howItWorks")}</NavItem>
+              <NavItem to="/merchant">Merchant</NavItem>
+              <NavItem to="/research">Research</NavItem>
+              <NavItem to="/blog">Blog</NavItem>
+            </div>
+
+            <div className="hidden lg:flex items-center gap-3">
+              <ThemeSwitcher />
+              {isAuthenticated ? (
+                <CTAButton to="/dashboard">Dashboard</CTAButton>
+              ) : (
+                <CTAButton to="/waitlist">Join Waitlist</CTAButton>
+              )}
+            </div>
+
+            <div className="flex gap-2 lg:hidden">
+              <ThemeSwitcher />
+              <button
+                onClick={() => setMobileMenuOpen((prev) => !prev)}
+                className="w-9 h-9 rounded-lg bg-black/5 dark:bg-[#18181B] border border-black/10 dark:border-white/[0.06] flex items-center justify-center"
+              >
+                {mobileMenuOpen ? (
+                  <X className="w-4 h-4 text-black dark:text-white" />
+                ) : (
+                  <Menu className="w-4 h-4 text-black dark:text-white" />
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      </motion.nav>
+
+      <MobileMenu
+        isOpen={mobileMenuOpen}
+        onClose={() => setMobileMenuOpen(false)}
+      />
+    </>
+  );
+};
 
 /* ---------------- Logo ---------------- */
 
@@ -203,103 +308,6 @@ const MobileMenu = ({
           )}
         </div>
       </div>
-    </>
-  );
-};
-
-/* ---------------- Main Navbar ---------------- */
-
-export const Navbar = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isHidden, setIsHidden] = useState(false);
-
-  const { t } = useTranslation();
-  const { isAuthenticated } = useAuth();
-  const location = useLocation();
-
-  const { scrollY } = useScroll();
-  const lastScrollY = useRef(0);
-
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    const direction = latest > lastScrollY.current ? "down" : "up";
-
-    if (direction === "down" && latest > 100 && !mobileMenuOpen) {
-      setIsHidden(true);
-    } else {
-      setIsHidden(false);
-    }
-
-    setIsScrolled(latest > 20);
-    lastScrollY.current = latest;
-  });
-
-  useEffect(() => {
-    setMobileMenuOpen(false);
-  }, [location]);
-
-  useEffect(() => {
-    document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [mobileMenuOpen]);
-
-  return (
-    <>
-      <motion.nav
-        initial={{ y: -100 }}
-        animate={{
-          y: isHidden && !mobileMenuOpen ? -100 : 0,
-        }}
-        transition={{ duration: 0.25 }}
-        className={`fixed top-0 w-full z-50 ${
-          isScrolled
-            ? "bg-[#FAF8F5] dark:bg-[rgba(10,10,11,0.8)] dark:backdrop-blur-xl border-b border-black/[0.06] dark:border-white/[0.06]"
-            : "bg-transparent border-b border-transparent"
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="h-[72px] flex items-center justify-between">
-            <Logo />
-
-            <div className="hidden lg:flex items-center gap-1">
-              <NavItem to="/how-it-works">{t("howItWorks")}</NavItem>
-              <NavItem to="/merchant">Merchant</NavItem>
-              <NavItem to="/research">Research</NavItem>
-              <NavItem to="/blog">Blog</NavItem>
-            </div>
-
-            <div className="hidden lg:flex items-center gap-3">
-              <ThemeSwitcher />
-              {isAuthenticated ? (
-                <CTAButton to="/dashboard">Dashboard</CTAButton>
-              ) : (
-                <CTAButton to="/waitlist">Join Waitlist</CTAButton>
-              )}
-            </div>
-
-            <div className="flex gap-2 lg:hidden">
-              <ThemeSwitcher />
-              <button
-                onClick={() => setMobileMenuOpen((prev) => !prev)}
-                className="w-9 h-9 rounded-lg bg-black/5 dark:bg-[#18181B] border border-black/10 dark:border-white/[0.06] flex items-center justify-center"
-              >
-                {mobileMenuOpen ? (
-                  <X className="w-4 h-4 text-black dark:text-white" />
-                ) : (
-                  <Menu className="w-4 h-4 text-black dark:text-white" />
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
-      </motion.nav>
-
-      <MobileMenu
-        isOpen={mobileMenuOpen}
-        onClose={() => setMobileMenuOpen(false)}
-      />
     </>
   );
 };

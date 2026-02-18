@@ -365,6 +365,14 @@ export const Footer = ({
           <div className="text-sm text-black/50 dark:text-white/30 uppercase tracking-widest">
             © {new Date().getFullYear()} blip.money
           </div>
+          <div className="flex items-center gap-8">
+            <Link
+              to="/legal/:tab"
+              className="text-sm text-black/50 dark:text-white/30 uppercase tracking-widest"
+            >
+              Legal
+            </Link>
+          </div>
 
           <div className="flex items-center gap-6">
             {SOCIAL_PLATFORMS.map((platform, i) => {
