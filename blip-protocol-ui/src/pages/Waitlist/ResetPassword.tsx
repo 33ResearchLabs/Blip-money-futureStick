@@ -33,6 +33,7 @@ export default function ResetPassword() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isInvalidLink, setIsInvalidLink] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [loginPath, setLoginPath] = useState("/waitlist");
 
   // Password strength checker
   const checkPasswordStrength = (pw: string) => {
@@ -104,9 +105,12 @@ export default function ResetPassword() {
       // Reset password in Firebase
       await confirmPasswordReset(firebaseAuth, oobCode, password);
 
-      // Sync new password to backend MongoDB
+      // Sync new password to backend MongoDB and get user role
       try {
-        await authApi.syncPassword(email, password);
+        const syncRes: any = await authApi.syncPassword(email, password);
+        if (syncRes?.role === "MERCHANT" || syncRes?.data?.role === "MERCHANT") {
+          setLoginPath("/merchant-waitlist");
+        }
       } catch {
         // Backend sync failure is non-critical - Firebase password is already updated
         console.error("Backend password sync failed");
@@ -172,7 +176,7 @@ export default function ResetPassword() {
               Request New Link
             </button>
             <Link
-              to="/waitlist"
+              to={loginPath}
               className="w-full py-3 flex items-center justify-center gap-2 text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white text-sm transition-colors"
             >
               <ArrowLeft className="w-4 h-4" /> Back to Login
@@ -204,7 +208,7 @@ export default function ResetPassword() {
           </p>
 
           <button
-            onClick={() => navigate("/waitlist")}
+            onClick={() => navigate(loginPath)}
             className="w-full py-3 bg-black dark:bg-white text-white dark:text-black font-medium rounded-sm hover:bg-black/90 dark:hover:bg-white/90 transition-all"
           >
             Go to Login
@@ -448,7 +452,7 @@ export default function ResetPassword() {
 
         <div className="mt-6 text-center">
           <Link
-            to="/waitlist"
+            to={loginPath}
             className="inline-flex items-center gap-2 text-sm text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white transition-colors"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Login

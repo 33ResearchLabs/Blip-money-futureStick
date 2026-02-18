@@ -1158,6 +1158,7 @@ export const syncPassword = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Password synced successfully",
+      role: user.role,
     });
   } catch (error) {
     console.error("Password sync error:", error);

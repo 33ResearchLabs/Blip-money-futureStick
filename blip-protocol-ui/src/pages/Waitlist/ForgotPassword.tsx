@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { Mail, Loader2, ArrowLeft, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
 import { sendPasswordResetEmail } from "firebase/auth";
@@ -7,6 +7,10 @@ import { firebaseAuth } from "@/config/firebase";
 import { motion } from "framer-motion";
 
 export default function ForgotPassword() {
+  const [searchParams] = useSearchParams();
+  const isMerchant = searchParams.get("role") === "merchant";
+  const loginPath = isMerchant ? "/merchant-waitlist" : "/waitlist";
+
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSent, setIsSent] = useState(false);
@@ -74,7 +78,7 @@ export default function ForgotPassword() {
               Try a different email
             </button>
             <Link
-              to="/waitlist"
+              to={loginPath}
               className="w-full py-3 flex items-center justify-center gap-2 text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white text-sm transition-colors"
             >
               <ArrowLeft className="w-4 h-4" /> Back to Login
@@ -164,7 +168,7 @@ export default function ForgotPassword() {
 
         <div className="mt-6 text-center">
           <Link
-            to="/waitlist"
+            to={loginPath}
             className="inline-flex items-center gap-2 text-sm text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white transition-colors"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Login

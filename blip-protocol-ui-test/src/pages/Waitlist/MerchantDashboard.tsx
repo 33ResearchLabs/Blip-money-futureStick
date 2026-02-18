@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Search,
@@ -29,6 +29,9 @@ import {
   BarChart3,
   LogOut,
   Loader2,
+  ShieldCheck,
+  User,
+  X,
 } from "lucide-react";
 import { ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import { useTheme } from "next-themes";
@@ -38,6 +41,8 @@ import { Logo } from "@/components/Navbar";
 import TwitterVerificationModal from "@/components/TwitterVerificationModal";
 import TelegramVerificationModal from "@/components/TelegramVerificationModal";
 import ReferralModal from "@/components/ReferralModal";
+import { twoFactorApi } from "@/services/twoFatctor";
+import { toast } from "sonner";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 interface ActivityEntry {
@@ -124,7 +129,7 @@ const TypeIcon = ({ type }: { type: string }) => {
 // ══════════════════════════════════════════════════════════════════════════════
 export default function MerchantDashboard() {
   const navigate = useNavigate();
-  const { user, logout, isAuthenticated, isLoading, updatePoints } = useAuth();
+  const { user, logout, isAuthenticated, isLoading, updatePoints, refreshSession } = useAuth();
 
   const { theme, setTheme } = useTheme();
   const [activeTab, setActiveTab] = useState("All");
@@ -138,6 +143,18 @@ export default function MerchantDashboard() {
   const [showTwitterModal, setShowTwitterModal] = useState(false);
   const [showTelegramModal, setShowTelegramModal] = useState(false);
   const [showReferralModal, setShowReferralModal] = useState(false);
+
+  // Settings dropdown & 2FA modal
+  const [showSettingsMenu, setShowSettingsMenu] = useState(false);
+  const [show2FAModal, setShow2FAModal] = useState(false);
+  const settingsRef = useRef<HTMLDivElement>(null);
+
+  // 2FA state
+  const [twoFaQrCode, setTwoFaQrCode] = useState<string | null>(null);
+  const [twoFaOtp, setTwoFaOtp] = useState("");
+  const [twoFaDisableOtp, setTwoFaDisableOtp] = useState("");
+  const [twoFaShowDisable, setTwoFaShowDisable] = useState(false);
+  const [twoFaLoading, setTwoFaLoading] = useState(false);
 
   // Quest completion tracking
   const [completedQuests, setCompletedQuests] = useState<Set<string>>(
@@ -232,6 +249,68 @@ export default function MerchantDashboard() {
     };
     if (isAuthenticated) fetchActivity();
   }, [isAuthenticated, activityTab]);
+
+  // Close settings menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (settingsRef.current && !settingsRef.current.contains(e.target as Node)) {
+        setShowSettingsMenu(false);
+      }
+    };
+    if (showSettingsMenu) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [showSettingsMenu]);
+
+  // 2FA handlers
+  const handleEnable2FA = async () => {
+    try {
+      const res = await twoFactorApi.enableGoogleAuth();
+      setTwoFaQrCode((res as any).data?.qrCode || (res as any).qrCode);
+      toast.success("Google Authenticator setup started");
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || "Failed to enable 2FA");
+    }
+  };
+
+  const handleVerify2FAOtp = async () => {
+    if (twoFaOtp.length !== 6) {
+      toast.error("Enter a valid 6-digit OTP");
+      return;
+    }
+    try {
+      setTwoFaLoading(true);
+      await twoFactorApi.verifyGoogleAuth(twoFaOtp);
+      toast.success("2FA Enabled Successfully");
+      setTwoFaQrCode(null);
+      setTwoFaOtp("");
+      await refreshSession();
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || "Failed to verify OTP");
+    } finally {
+      setTwoFaLoading(false);
+    }
+  };
+
+  const handleDisable2FA = async () => {
+    if (twoFaDisableOtp.length !== 6) {
+      toast.error("Enter a valid 6-digit OTP");
+      return;
+    }
+    try {
+      setTwoFaLoading(true);
+      await twoFactorApi.disableGoogleAuth(twoFaDisableOtp);
+      toast.success("2FA Disabled Successfully");
+      setTwoFaDisableOtp("");
+      setTwoFaShowDisable(false);
+      await refreshSession();
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || "Failed to disable 2FA");
+    } finally {
+      setTwoFaLoading(false);
+    }
+  };
 
   const referralCode = user?.referralCode || "";
   const referralLink = `${window.location.origin}/merchant-register?ref=${referralCode}`;
@@ -364,24 +443,54 @@ export default function MerchantDashboard() {
         <div className="flex items-center gap-8">
           <Logo />
           <nav className="hidden md:flex items-center gap-1 text-[13px] font-semibold">
-            {[
-              { label: "Dashboard", path: "/merchant-dashboard" },
-              { label: "Settings", path: "/twoFactorAuth" },
-            ].map((n) => (
+            <button
+              onClick={() => navigate("/merchant-dashboard")}
+              className={`px-3 py-1.5 rounded-lg transition-colors ${
+                d
+                  ? "bg-white/10 text-white"
+                  : "bg-black/5 text-black font-bold"
+              }`}
+            >
+              Dashboard
+            </button>
+
+            {/* Settings dropdown */}
+            <div ref={settingsRef} className="relative">
               <button
-                key={n.label}
-                onClick={() => navigate(n.path)}
-                className={`px-3 py-1.5 rounded-lg transition-colors ${
-                  n.label === "Dashboard"
-                    ? d
-                      ? "bg-white/10 text-white"
-                      : "bg-black/5 text-black font-bold"
-                    : `${muted} ${hov}`
-                }`}
+                onClick={() => setShowSettingsMenu((prev) => !prev)}
+                className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1 ${muted} ${hov}`}
               >
-                {n.label}
+                Settings
+                <ChevronDown className={`w-3 h-3 transition-transform ${showSettingsMenu ? "rotate-180" : ""}`} />
               </button>
-            ))}
+
+              {showSettingsMenu && (
+                <div
+                  className={`absolute top-full left-0 mt-1 w-48 ${surface} border ${border} rounded-xl shadow-xl overflow-hidden z-50`}
+                >
+                  <button
+                    onClick={() => {
+                      setShowSettingsMenu(false);
+                      setShow2FAModal(true);
+                    }}
+                    className={`w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold ${txt} ${hov} transition-colors`}
+                  >
+                    <ShieldCheck className="w-4 h-4" />
+                    Two-Factor Auth
+                  </button>
+                  <div className={`h-px ${divider}`} />
+                  <button
+                    onClick={() => {
+                      setShowSettingsMenu(false);
+                    }}
+                    className={`w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold ${muted} ${hov} transition-colors`}
+                  >
+                    <User className="w-4 h-4" />
+                    Account
+                  </button>
+                </div>
+              )}
+            </div>
           </nav>
         </div>
 
@@ -493,17 +602,17 @@ export default function MerchantDashboard() {
                       </span>
                     </div>
                   </div>
-                  <div className="relative w-24 h-14 overflow-hidden my-4">
-                    <ResponsiveContainer width="100%" height="210%">
+                  <div className="relative w-24 h-20 my-4">
+                    <ResponsiveContainer width="100%" height={50}>
                       <PieChart>
                         <Pie
                           data={gaugeFilled}
                           cx="50%"
-                          cy="30%"
+                          cy="100%"
                           startAngle={180}
                           endAngle={0}
                           innerRadius={30}
-                          outerRadius={40}
+                          outerRadius={42}
                           dataKey="value"
                           stroke="none"
                         >
@@ -513,7 +622,7 @@ export default function MerchantDashboard() {
                         </Pie>
                       </PieChart>
                     </ResponsiveContainer>
-                    <div className="absolute bottom-0 left-0 right-0 text-center">
+                    <div className="text-center mt-1">
                       <p className="text-[11px] font-black text-black dark:text-white leading-none">
                         59.3%
                       </p>
@@ -1302,6 +1411,155 @@ export default function MerchantDashboard() {
         referralCode={referralCode}
         referralLink={referralLink}
       />
+
+      {/* ── 2FA Settings Modal ─────────────────────────────────────────────── */}
+      {show2FAModal && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            onClick={() => {
+              setShow2FAModal(false);
+              setTwoFaQrCode(null);
+              setTwoFaOtp("");
+              setTwoFaDisableOtp("");
+              setTwoFaShowDisable(false);
+            }}
+          />
+
+          {/* Modal card */}
+          <div
+            className={`relative w-full max-w-md mx-4 ${surface} border ${border} rounded-2xl shadow-2xl overflow-hidden`}
+          >
+            {/* Header */}
+            <div className={`px-6 py-4 border-b ${divider} flex items-center justify-between`}>
+              <div className="flex items-center gap-3">
+                <div className={`p-2 rounded-lg ${accentLight}`}>
+                  <ShieldCheck className={`w-5 h-5 ${txt}`} />
+                </div>
+                <div>
+                  <h2 className={`text-sm font-bold ${txt}`}>Two-Factor Authentication</h2>
+                  <p className={`text-[11px] ${sub}`}>Secure your account with Google Authenticator</p>
+                </div>
+              </div>
+              <button
+                onClick={() => {
+                  setShow2FAModal(false);
+                  setTwoFaQrCode(null);
+                  setTwoFaOtp("");
+                  setTwoFaDisableOtp("");
+                  setTwoFaShowDisable(false);
+                }}
+                className={`p-1.5 rounded-lg ${hov} transition-colors`}
+              >
+                <X className={`w-4 h-4 ${muted}`} />
+              </button>
+            </div>
+
+            {/* Body */}
+            <div className="px-6 py-5 space-y-4">
+              {/* Status badge */}
+              <div className={`flex items-center gap-2 px-3 py-2.5 rounded-xl ${inputBg} border ${border}`}>
+                <div className={`w-2 h-2 rounded-full ${user?.twoFactorEnabled ? "bg-emerald-500" : "bg-amber-500"}`} />
+                <span className={`text-xs font-semibold ${txt}`}>
+                  2FA is {user?.twoFactorEnabled ? "Enabled" : "Disabled"}
+                </span>
+              </div>
+
+              {/* Enable section */}
+              {!user?.twoFactorEnabled && (
+                <>
+                  {!twoFaQrCode ? (
+                    <button
+                      onClick={handleEnable2FA}
+                      className={`w-full py-3 ${accentBg} ${d ? "text-black" : "text-white"} text-xs font-bold rounded-xl hover:opacity-90 transition-all`}
+                    >
+                      Enable 2FA
+                    </button>
+                  ) : (
+                    <div className="space-y-4">
+                      <p className={`text-xs ${muted} text-center`}>
+                        Scan this QR code with Google Authenticator
+                      </p>
+                      <img
+                        src={twoFaQrCode}
+                        alt="QR Code"
+                        className="mx-auto w-40 h-40 rounded-xl"
+                      />
+                      <input
+                        value={twoFaOtp}
+                        onChange={(e) => setTwoFaOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                        maxLength={6}
+                        placeholder="Enter 6-digit OTP"
+                        className={`w-full px-4 py-3 text-center text-lg tracking-[0.3em] font-mono ${inputBg} border ${border} rounded-xl ${txt} focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 transition-all`}
+                        autoFocus
+                      />
+                      <div className="flex gap-2">
+                        <button
+                          onClick={handleVerify2FAOtp}
+                          disabled={twoFaLoading || twoFaOtp.length !== 6}
+                          className={`flex-1 py-3 ${accentBg} ${d ? "text-black" : "text-white"} text-xs font-bold rounded-xl hover:opacity-90 disabled:opacity-40 transition-all`}
+                        >
+                          {twoFaLoading ? "Verifying..." : "Verify OTP"}
+                        </button>
+                        <button
+                          onClick={() => { setTwoFaQrCode(null); setTwoFaOtp(""); }}
+                          className={`flex-1 py-3 border ${border} ${muted} text-xs font-bold rounded-xl ${hov} transition-all`}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
+
+              {/* Disable section */}
+              {user?.twoFactorEnabled && (
+                <div className="space-y-3">
+                  {!twoFaShowDisable ? (
+                    <button
+                      onClick={() => setTwoFaShowDisable(true)}
+                      className="w-full py-3 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-xl transition-all"
+                    >
+                      Disable 2FA
+                    </button>
+                  ) : (
+                    <>
+                      <p className={`text-xs ${muted}`}>
+                        Enter the OTP from your authenticator app to disable 2FA
+                      </p>
+                      <input
+                        value={twoFaDisableOtp}
+                        onChange={(e) => setTwoFaDisableOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                        maxLength={6}
+                        placeholder="Enter 6-digit OTP"
+                        className={`w-full px-4 py-3 text-center text-lg tracking-[0.3em] font-mono ${inputBg} border ${border} rounded-xl ${txt} focus:outline-none focus:ring-2 focus:ring-red-500/30 transition-all`}
+                        autoFocus
+                      />
+                      <div className="flex gap-2">
+                        <button
+                          onClick={handleDisable2FA}
+                          disabled={twoFaLoading || twoFaDisableOtp.length !== 6}
+                          className="flex-1 py-3 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-xl disabled:opacity-40 transition-all"
+                        >
+                          {twoFaLoading ? "Disabling..." : "Confirm Disable"}
+                        </button>
+                        <button
+                          onClick={() => { setTwoFaShowDisable(false); setTwoFaDisableOtp(""); }}
+                          className={`flex-1 py-3 border ${border} ${muted} text-xs font-bold rounded-xl ${hov} transition-all`}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

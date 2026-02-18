@@ -304,7 +304,7 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
                 Password
               </label>
               <Link
-                to="/forgot-password"
+                to={isMerchant ? "/forgot-password?role=merchant" : "/forgot-password"}
                 className="text-xs text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white transition-colors duration-200"
               >
                 Forgot password?
