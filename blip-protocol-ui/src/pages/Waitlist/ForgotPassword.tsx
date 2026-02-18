@@ -23,7 +23,7 @@ export default function ForgotPassword() {
 
     try {
       await sendPasswordResetEmail(firebaseAuth, email, {
-        url: `${window.location.origin}/waitlist`,
+        url: `${window.location.origin}/reset-password`,
       });
       setIsSent(true);
       toast.success("Reset link sent! Check your email.");
