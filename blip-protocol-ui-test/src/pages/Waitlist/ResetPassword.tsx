@@ -6,7 +6,9 @@ import {
   EyeOff,
   Loader2,
   ArrowLeft,
+  CheckCircle,
   CheckCircle2,
+  XCircle,
   AlertCircle,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -30,6 +32,21 @@ export default function ResetPassword() {
   const [isVerifying, setIsVerifying] = useState(true);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isInvalidLink, setIsInvalidLink] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  // Password strength checker
+  const checkPasswordStrength = (pw: string) => {
+    const checks = {
+      length: pw.length >= 8,
+      uppercase: /[A-Z]/.test(pw),
+      lowercase: /[a-z]/.test(pw),
+      number: /[0-9]/.test(pw),
+    };
+    const score = Object.values(checks).filter(Boolean).length;
+    return { checks, score };
+  };
+
+  const passwordStrength = checkPasswordStrength(password);
 
   // Verify the oobCode on mount
   useEffect(() => {
@@ -56,27 +73,30 @@ export default function ResetPassword() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!password || password.length < 8) {
-      toast.error("Password must be at least 8 characters long");
-      return;
+    const newErrors: Record<string, string> = {};
+
+    if (!password) {
+      newErrors.password = "Password is required";
+    } else if (!passwordStrength.checks.length) {
+      newErrors.password = "Password must be at least 8 characters";
+    } else if (!passwordStrength.checks.uppercase) {
+      newErrors.password = "Password must contain at least one uppercase letter";
+    } else if (!passwordStrength.checks.number) {
+      newErrors.password = "Password must contain at least one number";
     }
 
-    if (!/[A-Z]/.test(password) || !/[0-9]/.test(password)) {
-      toast.error(
-        "Password must contain at least 1 uppercase letter and 1 number",
-      );
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      toast.error("Passwords don't match");
-      return;
+    if (!confirmPassword) {
+      newErrors.confirmPassword = "Please confirm your password";
+    } else if (password !== confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match";
     }
 
     if (!oobCode) {
-      toast.error("Invalid reset link");
-      return;
+      newErrors.password = "Invalid reset link";
     }
+
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length > 0) return;
 
     setIsLoading(true);
 
@@ -224,6 +244,7 @@ export default function ResetPassword() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
+          {/* New Password */}
           <div>
             <label
               htmlFor="password"
@@ -237,8 +258,15 @@ export default function ResetPassword() {
                 type={showPassword ? "text" : "password"}
                 id="password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-11 pr-11 py-3 bg-white dark:bg-black border border-black/20 dark:border-white/20 rounded-sm text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  if (errors.password) setErrors((prev) => ({ ...prev, password: "" }));
+                }}
+                className={`w-full pl-11 pr-11 py-3 bg-white dark:bg-black border ${
+                  errors.password
+                    ? "border-red-500 dark:border-red-400"
+                    : "border-black/20 dark:border-white/20"
+                } rounded-sm text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 focus:outline-none focus:border-black dark:focus:border-white transition-colors`}
                 placeholder="Min 8 characters"
                 disabled={isLoading}
                 autoFocus
@@ -255,11 +283,107 @@ export default function ResetPassword() {
                 )}
               </button>
             </div>
-            <p className="mt-1.5 text-xs text-black/40 dark:text-white/40">
-              Must contain at least 1 uppercase letter and 1 number
-            </p>
+            {errors.password && (
+              <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                {errors.password}
+              </p>
+            )}
+
+            {/* Password Strength Indicator */}
+            {password && (
+              <div className="mt-3 space-y-2">
+                <div className="flex items-center gap-2">
+                  <div className="flex-1 h-1 bg-black/10 dark:bg-white/10 rounded-full overflow-hidden">
+                    <div
+                      className={`h-full transition-all duration-300 ${
+                        passwordStrength.score <= 2
+                          ? "bg-red-500 w-1/3"
+                          : passwordStrength.score === 3
+                            ? "bg-yellow-500 w-2/3"
+                            : "bg-green-500 w-full"
+                      }`}
+                    />
+                  </div>
+                  <span className="text-xs text-black/60 dark:text-white/60">
+                    {passwordStrength.score <= 2
+                      ? "Weak"
+                      : passwordStrength.score === 3
+                        ? "Medium"
+                        : "Strong"}
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  <div className="flex items-center gap-1">
+                    {passwordStrength.checks.length ? (
+                      <CheckCircle className="w-3 h-3 text-green-500" />
+                    ) : (
+                      <XCircle className="w-3 h-3 text-black/30 dark:text-white/30" />
+                    )}
+                    <span
+                      className={
+                        passwordStrength.checks.length
+                          ? "text-green-600 dark:text-green-400"
+                          : "text-black/40 dark:text-white/40"
+                      }
+                    >
+                      8+ characters
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    {passwordStrength.checks.uppercase ? (
+                      <CheckCircle className="w-3 h-3 text-green-500" />
+                    ) : (
+                      <XCircle className="w-3 h-3 text-black/30 dark:text-white/30" />
+                    )}
+                    <span
+                      className={
+                        passwordStrength.checks.uppercase
+                          ? "text-green-600 dark:text-green-400"
+                          : "text-black/40 dark:text-white/40"
+                      }
+                    >
+                      Uppercase
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    {passwordStrength.checks.number ? (
+                      <CheckCircle className="w-3 h-3 text-green-500" />
+                    ) : (
+                      <XCircle className="w-3 h-3 text-black/30 dark:text-white/30" />
+                    )}
+                    <span
+                      className={
+                        passwordStrength.checks.number
+                          ? "text-green-600 dark:text-green-400"
+                          : "text-black/40 dark:text-white/40"
+                      }
+                    >
+                      Number
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    {passwordStrength.checks.lowercase ? (
+                      <CheckCircle className="w-3 h-3 text-green-500" />
+                    ) : (
+                      <XCircle className="w-3 h-3 text-black/30 dark:text-white/30" />
+                    )}
+                    <span
+                      className={
+                        passwordStrength.checks.lowercase
+                          ? "text-green-600 dark:text-green-400"
+                          : "text-black/40 dark:text-white/40"
+                      }
+                    >
+                      Lowercase
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
+          {/* Confirm Password */}
           <div>
             <label
               htmlFor="confirmPassword"
@@ -273,8 +397,15 @@ export default function ResetPassword() {
                 type={showConfirmPassword ? "text" : "password"}
                 id="confirmPassword"
                 value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full pl-11 pr-11 py-3 bg-white dark:bg-black border border-black/20 dark:border-white/20 rounded-sm text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
+                onChange={(e) => {
+                  setConfirmPassword(e.target.value);
+                  if (errors.confirmPassword) setErrors((prev) => ({ ...prev, confirmPassword: "" }));
+                }}
+                className={`w-full pl-11 pr-11 py-3 bg-white dark:bg-black border ${
+                  errors.confirmPassword
+                    ? "border-red-500 dark:border-red-400"
+                    : "border-black/20 dark:border-white/20"
+                } rounded-sm text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 focus:outline-none focus:border-black dark:focus:border-white transition-colors`}
                 placeholder="Confirm your password"
                 disabled={isLoading}
               />
@@ -290,6 +421,11 @@ export default function ResetPassword() {
                 )}
               </button>
             </div>
+            {errors.confirmPassword && (
+              <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                {errors.confirmPassword}
+              </p>
+            )}
           </div>
 
           <button
