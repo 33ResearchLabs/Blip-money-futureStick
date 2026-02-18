@@ -31,6 +31,7 @@ import Register from "./pages/Waitlist/Register";
 import ForgotPassword from "./pages/Waitlist/ForgotPassword";
 import ResetPassword from "./pages/Waitlist/ResetPassword";
 import EmailVerificationPending from "./pages/Waitlist/EmailVerificationPending";
+import VerifyEmail from "./pages/Waitlist/VerifyEmail";
 
 // Lazy load page components
 const Index = lazy(() => import("./pages/Index"));
@@ -109,6 +110,10 @@ const FirebaseActionHandler = ({ children }: { children: React.ReactNode }) => {
     return <Navigate to={`/reset-password?oobCode=${oobCode}`} replace />;
   }
 
+  if (mode === "verifyEmail" && oobCode) {
+    return <Navigate to={`/verify-email?oobCode=${oobCode}`} replace />;
+  }
+
   return <>{children}</>;
 };
 
@@ -161,6 +166,7 @@ const App = () => (
                       element={<ForgotPassword />}
                     />
                     <Route path="/reset-password" element={<ResetPassword />} />
+                    <Route path="/verify-email" element={<VerifyEmail />} />
                     <Route path="/tokenomics" element={<BlipTokenomics />} />
                     <Route path="/rewards" element={<RewardsLanding />} />
                     <Route path="/merchant" element={<Merchant />} />
