@@ -171,7 +171,7 @@ const CashbackBanner = () => {
               <div className="relative w-28 h-28">
                 {/* ROTATING OUTER RING */}
                 <motion.svg
-                  className="w-full h-full -rotate-90"
+                  className="w-full h-full -rotate-90 text-black dark:text-white"
                   initial={{ rotate: 0 }}
                   animate={{ rotate: 360 }}
                   transition={{
@@ -190,7 +190,7 @@ const CashbackBanner = () => {
                     cy="56"
                     r="50"
                     fill="none"
-                    className="stroke-black/10 dark:stroke-white/10"
+                    className="stroke-black/10 dark:stroke-white/25"
                     strokeWidth="4"
                   />
 
@@ -210,16 +210,11 @@ const CashbackBanner = () => {
                   />
 
                   <defs>
-                    <linearGradient
-                      id="gradient"
-                      x1="0%"
-                      y1="0%"
-                      x2="100%"
-                      y2="0%"
-                    >
-                      <stop offset="0%" stopColor="#000000" className="dark:stop-color-white" />
-                      <stop offset="100%" stopColor="#333333" className="dark:stop-color-gray" />
-                    </linearGradient>
+                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+  <stop offset="0%" stopColor="currentColor" />
+  <stop offset="100%" stopColor="currentColor" stopOpacity="0.4" />
+</linearGradient>
+
                   </defs>
                 </motion.svg>
 

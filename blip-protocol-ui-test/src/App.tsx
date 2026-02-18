@@ -178,7 +178,7 @@ const App = () => (
                     <Route path="/terms" element={<TermsService />} />
                     <Route path="/cookies" element={<Cookies />} />
                     <Route path="/gdpr" element={<Gdpr />} />
-                    <Route path="/legal/:tab" element={<LegalPage />} />
+                    <Route path="/legal" element={<LegalPage />} />
 
                     <Route path="/whitepaper" element={<Whitepaper />} />
                     <Route path="/twoFactorAuth" element={<TwoFactorAuth />} />
@@ -274,9 +274,9 @@ const App = () => (
                   <Route
                     path="/dashboard"
                     element={
-                      <ProtectedRoute>
+                      // <ProtectedRoute>
                         <Dashboard />
-                      </ProtectedRoute>
+                      // </ProtectedRoute>
                     }
                   />
 

@@ -358,7 +358,7 @@ export default function Login() {
 
         {/* Footer Links */}
         <div className="mt-6 text-center">
-          <p className="text-sm text-black/60 dark:text-white/60">
+          <p className="text-sm text-black/80 dark:text-white/60">
             Don't have an account?{" "}
             <Link
               to="/register"

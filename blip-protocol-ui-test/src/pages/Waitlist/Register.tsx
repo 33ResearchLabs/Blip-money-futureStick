@@ -522,7 +522,7 @@ export default function Register() {
 
         {/* Footer Links */}
         <div className="mt-6 text-center space-y-3">
-          <p className="text-sm text-black/60 dark:text-white/60">
+          <p className="text-sm text-black/70 dark:text-white/60">
             Already have an account?{" "}
             <Link
               to="/waitlist"
@@ -531,7 +531,7 @@ export default function Register() {
               Sign in
             </Link>
           </p>
-          <p className="text-xs text-black/40 dark:text-white/40">
+          <p className="text-sm text-black/70 dark:text-white/40">
             By creating an account, you agree to our{" "}
             <Link
               to="/terms"

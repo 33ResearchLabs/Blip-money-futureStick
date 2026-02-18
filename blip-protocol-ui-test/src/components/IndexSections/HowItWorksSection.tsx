@@ -355,10 +355,10 @@ const App = () => {
               </div>
             </div>
           </div>
-
-          <CTAButton to="" className="w-full h-12 uppercase text-sm">
+         <div className="flex md:justify-start justify-center">
+          <CTAButton to="/waitlist" className="w-[220px] h-12 uppercase text-sm ">
             Initiate Trade
-          </CTAButton>
+          </CTAButton> </div>
         </motion.div>
       </div>
 
@@ -538,7 +538,7 @@ const App = () => {
                 </div>
               </div>
 
-              <CTAButton to="" className="w-[200px] h-[44px] uppercase text-sm">
+              <CTAButton to="/waitlist" className="w-[220px] h-12 uppercase text-sm">
                 Initiate Trade
               </CTAButton>
             </section>

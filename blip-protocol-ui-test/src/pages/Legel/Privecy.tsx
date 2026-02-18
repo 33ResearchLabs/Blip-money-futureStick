@@ -72,9 +72,9 @@ const Privacy = () => {
         canonical="https://blip.money/privacy"
       />
 
-      <div className="min-h-screen bg-[#FAF8F5] dark:bg-[#0a0a0b] text-black dark:text-white mt-12">
+      <div className="min-h-screen  text-black dark:text-white mt-12">
         {/* Hero Header */}
-        <div className="pt-32 pb-16 px-6">
+        <div className="py-8 px-6 ">
           <div className="max-w-6xl mx-auto">
             <h1 className="text-5xl sm:text-6xl font-bold tracking-tight ">
               Privacy Policy
@@ -83,7 +83,8 @@ const Privacy = () => {
         </div>
 
         {/* Content Area with Sidebar */}
-        <div className="bg-gray-50 dark:bg-[#111111]">
+        {/* <div className="bg-gray-50 dark:bg-[#111111]"> */}
+        <div className="">
           <div className="max-w-6xl mx-auto px-6 py-16">
             <div className="flex gap-16">
               {/* Left Sidebar */}
@@ -303,10 +304,12 @@ const Privacy = () => {
                   <p className="text-gray-600 dark:text-gray-300 mt-2">
                     Email:{" "}
                     <a
-                      href="mailto:privacy@blip.money"
+                      href="https://mail.google.com/mail/?view=cm&fs=1&to=support@blip.money"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="text-black dark:text-white underline"
                     >
-                      privacy@blip.money
+                      support@blip.money
                     </a>
                   </p>
                 </section>

@@ -624,7 +624,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
 
               {/* Benefits */}
               <div className=" border-t border-black/[0.06] dark:border-white/[0.06]">
-                <p className="text-[10px] text-black/40 dark:text-white/40 uppercase tracking-wider mb-4 text-center">
+                <p className="text-[10px] text-black/80 dark:text-white/40 uppercase tracking-wider mb-4 text-center mt-2 font-medium">
                   What you get
                 </p>
                 <div className="grid grid-cols-2 gap-4">
@@ -636,10 +636,10 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
                   ].map((item, i) => (
                     <div
                       key={i}
-                      className="flex items-center gap-3 p-3 rounded-xl bg-white/80 dark:bg-white/[0.02] border border-black/[0.05] dark:border-white/[0.05]"
+                      className="flex items-center gap-3 p-3 rounded-xl bg-white/80 dark:bg-white/[0.02] border border-black/70 dark:border-white/[0.05]"
                     >
-                      <item.icon className="w-4 h-4 text-[#ffffff]" />
-                      <span className="text-xs text-black/60 dark:text-white/60">
+                      <item.icon className="w-4 h-4 text-black/80 dark:text-white/60" />
+                      <span className="text-xs text-black/80 font-medium dark:text-white/60">
                         {item.text}
                       </span>
                     </div>

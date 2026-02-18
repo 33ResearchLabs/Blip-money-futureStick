@@ -75,9 +75,9 @@ const TermsService = () => {
         canonical="https://blip.money/terms"
       />
 
-      <div className="min-h-screen bg-[#FAF8F5] dark:bg-[#0a0a0b] text-black dark:text-white mt-12">
+      <div className="min-h-screen  text-black dark:text-white mt-12">
         {/* Hero Header */}
-        <div className="pt-32 pb-16 px-6">
+        <div className="py-8 px-6">
           <div className="max-w-6xl mx-auto">
             <h1 className="text-5xl sm:text-6xl font-bold tracking-tight">
               Terms of Service
@@ -86,7 +86,7 @@ const TermsService = () => {
         </div>
 
         {/* Content Area with Sidebar */}
-        <div className="bg-gray-50 dark:bg-[#111111]">
+        <div className="">
           <div className="max-w-6xl mx-auto px-6 py-16">
             <div className="flex gap-16">
               {/* Left Sidebar */}
