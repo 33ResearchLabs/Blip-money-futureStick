@@ -117,7 +117,7 @@ export default function WalletLinkingModal({
 
           {/* Wallet Connection Status */}
           <div className="space-y-3">
-            <div className={`p-4 border rounded-sm flex items-center justify-between ${
+            {/* <div className={`p-4 border rounded-sm flex  items-center justify-between ${
               connected
                 ? "bg-green-500/10 border-green-500/20"
                 : "bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10"
@@ -160,7 +160,59 @@ export default function WalletLinkingModal({
                   </div>
                 )
               )}
-            </div>
+            </div> */}
+            <div
+  className={`
+    p-4 sm:p-5
+    border rounded-lg
+    flex
+    gap-4 md:gap-3
+    md:items-center
+    md:justify-between
+    ${connected
+      ? "bg-green-500/10 border-green-500/20"
+      : "bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10"}
+  `}
+>
+  {/* Left Section */}
+  <div className="flex items-center gap-3 w-full">
+    <div
+      className={`
+        w-10 h-10 rounded-full flex items-center justify-center shrink-0
+        ${connected
+          ? "bg-green-500/20"
+          : "bg-black/10 dark:bg-white/10"}
+      `}
+    >
+      {connected ? (
+        <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400" />
+      ) : (
+        <Wallet className="w-5 h-5 text-black/40 dark:text-white/40" />
+      )}
+    </div>
+
+    <div className="min-w-0">
+      <p className="text-sm font-medium text-black dark:text-white">
+        {connected ? "Wallet Connected" : "Connect Wallet"}
+      </p>
+
+      {connected && publicKey && (
+        <p className="text-xs text-black/60 dark:text-white/60 font-mono truncate">
+          {publicKey.toBase58().slice(0, 8)}...
+          {publicKey.toBase58().slice(-8)}
+        </p>
+      )}
+    </div>
+  </div>
+
+  {/* Right Section */}
+  {!connected && (
+    <div className="wallet-adapter-button-trigger w-full md:w-auto">
+      <WalletMultiButton className="w-full md:w-auto" />
+    </div>
+  )}
+</div>
+
 
             {/* Link Button */}
             {connected && !linked && (
@@ -224,28 +276,53 @@ export default function WalletLinkingModal({
 
       {/* Wallet Adapter Styles Override */}
       <style>{`
-        .wallet-adapter-button-trigger .wallet-adapter-button {
-          background: transparent !important;
-          border: 1px solid rgba(0, 0, 0, 0.1) !important;
-          color: #000 !important;
-          font-size: 0.875rem !important;
-          padding: 0.5rem 1rem !important;
-          height: auto !important;
-          border-radius: 0.125rem !important;
-        }
+/* LIGHT MODE (Default) */
+.wallet-adapter-button-trigger .wallet-adapter-button {
+  background: #000 !important;
+  color: #fff !important;
+  border: 1px solid #000 !important;
+  background-image: none !important;
+}
 
-        .dark .wallet-adapter-button-trigger .wallet-adapter-button {
-          border-color: rgba(255, 255, 255, 0.1) !important;
-          color: #fff !important;
-        }
+/* DARK MODE */
+.dark .wallet-adapter-button-trigger .wallet-adapter-button {
+  background: #fff !important;
+  color: #000 !important;
+  border: 1px solid #fff !important;
+  background-image: none !important;
+}
 
-        .wallet-adapter-button-trigger .wallet-adapter-button:hover {
-          background: rgba(0, 0, 0, 0.05) !important;
-        }
+/* HOVER LIGHT */
+.wallet-adapter-button-trigger .wallet-adapter-button:hover {
+  background: #111 !important;
+  border-color: #111 !important;
+}
 
-        .dark .wallet-adapter-button-trigger .wallet-adapter-button:hover {
-          background: rgba(255, 255, 255, 0.05) !important;
-        }
+/* HOVER DARK */
+.dark .wallet-adapter-button-trigger .wallet-adapter-button:hover {
+  background: #eee !important;
+  border-color: #eee !important;
+}
+
+/* Shared Layout */
+.wallet-adapter-button-trigger .wallet-adapter-button {
+  width: 100% !important;
+  min-height: 44px !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  padding: 12px 16px !important;
+  border-radius: 0 !important;
+
+  white-space: nowrap !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+
+
       `}</style>
     </div>
   );

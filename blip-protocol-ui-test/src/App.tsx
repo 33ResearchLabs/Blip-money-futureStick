@@ -285,17 +285,8 @@ const App = () => (
                   <Route
                     path="/dashboard"
                     element={
-                      <ProtectedRoute requiredRole="user">
+                      <ProtectedRoute>
                         <Dashboard />
-                      </ProtectedRoute>
-                    }
-                  />
-
-                  <Route
-                    path="/merchant-dashboard"
-                    element={
-                      <ProtectedRoute requiredRole="merchant">
-                        <MerchantDashboard />
                       </ProtectedRoute>
                     }
                   />

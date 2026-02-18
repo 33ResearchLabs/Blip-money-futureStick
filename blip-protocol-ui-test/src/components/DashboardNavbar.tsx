@@ -112,8 +112,6 @@ export default function DashboardNavbar({
             </div>
           </div>
 
-          
-
           {/* Wallet Info & Logout */}
           <div className="flex items-center gap-4">
             <div className="flex flex-col items-end">
@@ -128,21 +126,18 @@ export default function DashboardNavbar({
               </span>
             </div>
 
-
             {/* Theme Toggle */}
-          <button
-            onClick={toggleTheme}
-            className="p-2 rounded-sm bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 border border-black/10 dark:border-white/10 transition-colors"
-            title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-          >
-            {theme === "dark" ? (
-              <Sun className="w-4 h-4 text-white" />
-            ) : (
-              <Moon className="w-4 h-4 text-black" />
-            )}
-          </button>
-
-          
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-sm bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 border border-black/10 dark:border-white/10 transition-colors"
+              title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+            >
+              {theme === "dark" ? (
+                <Sun className="w-4 h-4 text-white" />
+              ) : (
+                <Moon className="w-4 h-4 text-black" />
+              )}
+            </button>
 
             <div ref={dropdownRef} className="relative">
               <button
@@ -249,24 +244,51 @@ export default function DashboardNavbar({
           </div>
         </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="md:hidden p-2 rounded-sm bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10"
-        >
-          {isMobileMenuOpen ? (
-            <X size={20} className="text-black dark:text-white" />
-          ) : (
-            <Menu size={20} className="text-black dark:text-white" />
-          )}
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          {/* Theme Button */}
+          <button
+            onClick={toggleTheme}
+            className="
+      w-9 h-9
+      flex items-center justify-center
+      rounded-lg
+      bg-black/5 dark:bg-white/5
+      hover:bg-black/10 dark:hover:bg-white/10
+      border border-black/10 dark:border-white/10
+      transition-colors
+    "
+            title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+          >
+            {theme === "dark" ? (
+              <Sun className="w-4 h-4 text-white" />
+            ) : (
+              <Moon className="w-4 h-4 text-black" />
+            )}
+          </button>
+
+          {/* Menu Button */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="
+      w-9 h-9
+      flex items-center justify-center
+      rounded-lg
+      bg-black/5 dark:bg-white/5
+      border border-black/10 dark:border-white/10
+    "
+          >
+            {isMobileMenuOpen ? (
+              <X className="w-4 h-4 text-black dark:text-white" />
+            ) : (
+              <Menu className="w-4 h-4 text-black dark:text-white" />
+            )}
+          </button>
+        </div>
       </div>
 
-      
-
       {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden border-t border-black/10 dark:border-white/10 bg-white/95 dark:bg-black/95 backdrop-blur-md animate-in slide-in-from-top-2 duration-200">
+      {/* {isMobileMenuOpen && (
+        <div className="md:hidden border-t border-black/10  dark:border-white/10 bg-white/95 dark:bg-black/95 backdrop-blur-md animate-in slide-in-from-top-2 duration-200">
           <div className="px-4 py-4 space-y-4">
             
             <div
@@ -324,7 +346,109 @@ export default function DashboardNavbar({
             </button>
           </div>
         </div>
-      )}
+      )} */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <>
+            {/* Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 h-screen"
+            />
+
+            {/* Floating Menu Card */}
+            <motion.div
+              initial={{ opacity: 0, y: -20, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -20, scale: 0.98 }}
+              transition={{ duration: 0.2 }}
+              className="
+          fixed top-[72px] left-4 right-4 z-50
+          rounded-xl overflow-hidden
+          bg-[#FAF8F5] dark:bg-[#111113]
+          border border-black/10 dark:border-white/[0.08]
+        "
+            >
+              <div className="p-4 space-y-3">
+                {/* Points */}
+                <button
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    onPointsClick?.();
+                  }}
+                  className="
+              w-full flex items-center justify-between
+              py-3 px-3 rounded-lg
+              text-sm
+              text-gray-500 dark:text-[#A1A1AA]
+              hover:text-black dark:hover:text-white
+              hover:bg-black/5 dark:hover:bg-[#18181B]
+              transition-colors
+            "
+                >
+                  <span>Protocol Balance</span>
+                  <span className="font-mono font-semibold">
+                    {blipPoints} pts
+                  </span>
+                </button>
+
+                {/* Wallet */}
+                <div
+                  className="
+              flex items-center justify-between
+              py-3 px-3 rounded-lg
+              text-sm
+              text-gray-500 dark:text-[#A1A1AA]
+              bg-black/5 dark:bg-[#18181B]
+            "
+                >
+                  <span>Wallet</span>
+                  <span className="font-mono text-xs">{walletAddress}</span>
+                </div>
+
+                {/* Settings */}
+                <button
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    navigate("/twoFactorAuth");
+                  }}
+                  className="
+              w-full flex items-center justify-between
+              py-3 px-3 rounded-lg text-sm
+              text-gray-500 dark:text-[#A1A1AA]
+              hover:text-black dark:hover:text-white
+              hover:bg-black/5 dark:hover:bg-[#18181B]
+              transition-colors
+            "
+                >
+                  Settings
+                </button>
+              </div>
+
+              {/* Bottom CTA */}
+              <div className="p-4 border-t border-black/5 dark:border-white/5">
+                <button
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    onLogout();
+                  }}
+                  className="
+              w-full text-center py-2.5 rounded-full
+              bg-black dark:bg-white
+              text-white dark:text-black
+              text-sm font-medium
+            "
+                >
+                  Logout
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </motion.nav>
   );
 }
