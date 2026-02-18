@@ -268,6 +268,7 @@ export default function ResetPassword() {
                     : "border-black/20 dark:border-white/20"
                 } rounded-sm text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 focus:outline-none focus:border-black dark:focus:border-white transition-colors`}
                 placeholder="Min 8 characters"
+                maxLength={50}
                 disabled={isLoading}
                 autoFocus
               />
@@ -407,6 +408,7 @@ export default function ResetPassword() {
                     : "border-black/20 dark:border-white/20"
                 } rounded-sm text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 focus:outline-none focus:border-black dark:focus:border-white transition-colors`}
                 placeholder="Confirm your password"
+                maxLength={50}
                 disabled={isLoading}
               />
               <button

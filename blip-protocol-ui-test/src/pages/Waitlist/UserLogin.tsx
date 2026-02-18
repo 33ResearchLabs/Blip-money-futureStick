@@ -46,7 +46,7 @@ interface AirdropLoginProps {
   initialView?: "landing" | "waitlist" | "connect";
 }
 
-const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
+const UserLogin = ({ initialView }: AirdropLoginProps) => {
   const { publicKey, connected, disconnect, connecting } = useWallet();
   const { toast } = useToast();
   const { login, isAuthenticated, logout, isLoading, user } = useAuth();
@@ -116,9 +116,10 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
   useEffect(() => {
     if (isLoading) return;
     if (isAuthenticated && user?.emailVerified && !hasRedirected) {
-      console.log("✅ User already authenticated, redirecting to dashboard");
+      const dest = user?.role === "MERCHANT" ? "/merchant-dashboard" : "/dashboard";
+      console.log("✅ User already authenticated, redirecting to", dest);
       setHasRedirected(true);
-      navigate("/dashboard", { replace: true });
+      navigate(dest, { replace: true });
     }
   }, [isAuthenticated, isLoading, navigate, hasRedirected, user]);
 
@@ -172,7 +173,8 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
         });
 
         setTimeout(() => {
-          navigate("/dashboard", { replace: true });
+          const dest = response.user?.role === "MERCHANT" ? "/merchant-dashboard" : "/dashboard";
+          navigate(dest, { replace: true });
           setIsConnecting(false);
         }, 1000);
       } catch (error: any) {
@@ -301,7 +303,7 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
 
     try {
       setIsVerifyingOtp(true);
-      const res = await twoFactorApi.verifyOtpLogin({
+      const res: any = await twoFactorApi.verifyOtpLogin({
         email: pendingEmail,
         otp,
       });
@@ -330,7 +332,8 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
         description: "OTP verified successfully",
       });
 
-      navigate("/dashboard");
+      const dest2fa = res.user?.role === "MERCHANT" ? "/merchant-dashboard" : "/dashboard";
+      navigate(dest2fa);
     } catch (error) {
       toast({
         variant: "destructive",
@@ -620,7 +623,29 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
               transition={{ duration: 0.6 }}
               className="max-w-md mx-auto py-24"
             >
-              <Login />
+              <div className="mb-10 ">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
+                  style={{
+                    background: "rgba(255, 107, 53, 0.05)",
+                    border: "1px solid rgba(255, 107, 53, 0.15)",
+                  }}
+                >
+                  <span className="text-[11px] font-semibold text-gray-600 dark:text-white uppercase tracking-wider">
+                    Welcome Back
+                  </span>
+                </motion.div>
+                <h2 className="text-3xl md:text-4xl font-bold text-black dark:text-white mb-3">
+                  Sign In to Blip
+                </h2>
+                <p className="text-black/50 dark:text-white/50">
+                  Access your dashboard and start earning rewards
+                </p>
+              </div>
+              <Login role="user" />
 
               {/* Benefits */}
               <div className=" border-t border-black/[0.06] dark:border-white/[0.06]">
@@ -790,4 +815,4 @@ const AirdropLogin = ({ initialView }: AirdropLoginProps) => {
   );
 };
 
-export default AirdropLogin;
+export default UserLogin;

@@ -8,16 +8,28 @@ import { twoFactorApi } from "@/services/twoFatctor";
 import { motion } from "framer-motion";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { firebaseAuth } from "@/config/firebase";
-export default function Login() {
+
+export default function Login({ role }: { role?: "user" | "merchant" }) {
   const navigate = useNavigate();
-  const { login, isAuthenticated } = useAuth();
+  const { login, isAuthenticated, user } = useAuth();
+
+  const isMerchant = role === "merchant";
+  const registerPath = isMerchant ? "/merchant-register" : "/register";
+
+  // Determine dashboard based on user's actual role (from server) or component prop
+  const getDashboardPath = () => {
+    if (user?.role === "MERCHANT") return "/merchant-dashboard";
+    if (isMerchant) return "/merchant-dashboard";
+    return "/dashboard";
+  };
+  const dashboardPath = getDashboardPath();
 
   // Redirect already-authenticated users to dashboard
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/dashboard", { replace: true });
+      navigate(dashboardPath, { replace: true });
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, dashboardPath]);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -74,7 +86,7 @@ export default function Login() {
       // Regular login success
       login(response.user);
       toast.success("Login successful!");
-      navigate("/dashboard");
+      navigate(dashboardPath);
     } catch (error: any) {
       console.error("Login error:", error);
       const message =
@@ -105,7 +117,7 @@ export default function Login() {
             }
             login(retryResponse.user);
             toast.success("Login successful!");
-            navigate("/dashboard");
+            navigate(dashboardPath);
             return;
           }
         } catch {
@@ -113,7 +125,7 @@ export default function Login() {
         }
         toast.error("Please verify your email before logging in");
         navigate("/email-verification-pending", {
-          state: { email: formData.email },
+          state: { email: formData.email, role },
         });
       } else {
         toast.error(message);
@@ -141,7 +153,7 @@ export default function Login() {
 
       login(response.user);
       toast.success("Login successful!");
-      navigate("/dashboard");
+      navigate(dashboardPath);
     } catch (error: any) {
       console.error("2FA verification error:", error);
       const message =
@@ -164,16 +176,21 @@ export default function Login() {
   // 2FA Modal
   if (show2FA) {
     return (
-      <div className="  flex items-center justify-center p-4">
-        <div className="w-full max-w-md">
+      <div className="flex items-center justify-center p-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="w-full max-w-lg"
+        >
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-black/10 dark:bg-white/10 mb-4">
-              <Shield className="w-8 h-8 text-black dark:text-white" />
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-black/5 dark:bg-white/5 mb-5">
+              <Shield className="w-7 h-7 text-black dark:text-white" />
             </div>
-            <h1 className="text-3xl font-bold text-black dark:text-white mb-2">
+            <h1 className="text-2xl font-bold text-black dark:text-white mb-2">
               Two-Factor Authentication
             </h1>
-            <p className="text-black/60 dark:text-white/60">
+            <p className="text-sm text-black/50 dark:text-white/50">
               Enter the 6-digit code from your authenticator app
             </p>
           </div>
@@ -188,7 +205,7 @@ export default function Login() {
                     e.target.value.replace(/\D/g, "").slice(0, 6),
                   )
                 }
-                className="w-full px-4 py-4 text-center text-2xl tracking-widest font-mono bg-white dark:bg-black border border-black/20 dark:border-white/20 rounded-sm text-black dark:text-white focus:outline-none focus:border-black dark:focus:border-white transition-colors"
+                className="w-full px-4 py-4 text-center text-2xl tracking-[0.3em] font-mono bg-black/[0.02] dark:bg-white/[0.03] border border-black/10 dark:border-white/10 rounded-xl text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-transparent transition-all"
                 placeholder="000000"
                 maxLength={6}
                 autoFocus
@@ -199,7 +216,7 @@ export default function Login() {
             <button
               type="submit"
               disabled={isLoading || twoFactorCode.length !== 6}
-              className="w-full py-3 bg-black dark:bg-white text-white dark:text-black font-medium rounded-sm hover:bg-black/90 dark:hover:bg-white/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+              className="w-full py-3.5 bg-black dark:bg-white text-white dark:text-black font-semibold rounded-xl hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2 shadow-sm"
             >
               {isLoading ? (
                 <>
@@ -217,72 +234,61 @@ export default function Login() {
                 setShow2FA(false);
                 setTwoFactorCode("");
               }}
-              className="w-full py-3 border border-black/20 dark:border-white/20 text-black dark:text-white font-medium rounded-sm hover:bg-black/5 dark:hover:bg-white/5 transition-all"
+              className="w-full py-3.5 border border-black/10 dark:border-white/10 text-black/70 dark:text-white/70 font-medium rounded-xl hover:bg-black/[0.03] dark:hover:bg-white/[0.03] transition-all duration-200"
             >
               Back to Login
             </button>
           </form>
-        </div>
+        </motion.div>
       </div>
     );
   }
 
   return (
-    <div className="flex  p-4">
-      <div className="w-full max-w-md">
-        {/* Header */}
-        <div className="mb-10 ">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
-            style={{
-              background: "rgba(255, 107, 53, 0.05)",
-              border: "1px solid rgba(255, 107, 53, 0.15)",
-            }}
-          >
-            <span className="text-[11px] font-semibold text-gray-600 dark:text-whiteuppercase tracking-wider">
-              Step 1 of 2
-            </span>
-          </motion.div>
-          <h2 className="text-3xl md:text-4xl font-bold text-black dark:text-white mb-3">
-            Reserve Your Spot
-          </h2>
-          <p className="text-black/50 dark:text-white/50">
-            Enter your email to begin verification
-          </p>
-        </div>
+    <div className="flex ">
+      <div className="w-full max-w-lg">
+        {/* Header - hidden when inside merchant wrapper which provides its own */}
+        {!isMerchant && (
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-black dark:text-white mb-2">
+              Sign In
+            </h1>
+            <p className="text-black/50 dark:text-white/50">
+              Welcome back to Blip Money
+            </p>
+          </div>
+        )}
+
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Email */}
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-black dark:text-white mb-2"
+              className="block text-[13px] font-medium text-black/70 dark:text-white/70 mb-2"
             >
               Email Address
             </label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-black/40 dark:text-white/40" />
+              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-black/30 dark:text-white/30" />
               <input
                 type="email"
                 id="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className={`w-full pl-11 pr-4 py-3 bg-white dark:bg-black border ${
+                className={`w-full pl-12 pr-4 py-3.5 bg-black/[0.02] dark:bg-white/[0.03] border ${
                   errors.email
-                    ? "border-red-500 dark:border-red-400"
-                    : "border-black/20 dark:border-white/20"
-                } rounded-sm text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 focus:outline-none focus:border-black dark:focus:border-white transition-colors`}
+                    ? "border-red-500/50 ring-2 ring-red-500/10"
+                    : "border-black/10 dark:border-white/10"
+                } rounded-xl text-black dark:text-white placeholder:text-black/30 dark:placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-transparent transition-all duration-200`}
                 placeholder="you@example.com"
                 disabled={isLoading}
                 autoFocus
               />
             </div>
             {errors.email && (
-              <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+              <p className="mt-1.5 text-xs text-red-500 dark:text-red-400">
                 {errors.email}
               </p>
             )}
@@ -293,78 +299,83 @@ export default function Login() {
             <div className="flex items-center justify-between mb-2">
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-black dark:text-white"
+                className="block text-[13px] font-medium text-black/70 dark:text-white/70"
               >
                 Password
               </label>
               <Link
                 to="/forgot-password"
-                className="text-sm text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white transition-colors"
+                className="text-xs text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white transition-colors duration-200"
               >
                 Forgot password?
               </Link>
             </div>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-black/40 dark:text-white/40" />
+              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-black/30 dark:text-white/30" />
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className={`w-full pl-11 pr-11 py-3 bg-white dark:bg-black border ${
+                className={`w-full pl-12 pr-12 py-3.5 bg-black/[0.02] dark:bg-white/[0.03] border ${
                   errors.password
-                    ? "border-red-500 dark:border-red-400"
-                    : "border-black/20 dark:border-white/20"
-                } rounded-sm text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 focus:outline-none focus:border-black dark:focus:border-white transition-colors`}
-                placeholder="••••••••"
+                    ? "border-red-500/50 ring-2 ring-red-500/10"
+                    : "border-black/10 dark:border-white/10"
+                } rounded-xl text-black dark:text-white placeholder:text-black/30 dark:placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-transparent transition-all duration-200`}
+                placeholder="Enter your password"
+                maxLength={50}
                 disabled={isLoading}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white transition-colors"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-black/30 dark:text-white/30 hover:text-black/60 dark:hover:text-white/60 transition-colors duration-200"
               >
                 {showPassword ? (
-                  <EyeOff className="w-5 h-5" />
+                  <EyeOff className="w-[18px] h-[18px]" />
                 ) : (
-                  <Eye className="w-5 h-5" />
+                  <Eye className="w-[18px] h-[18px]" />
                 )}
               </button>
             </div>
             {errors.password && (
-              <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+              <p className="mt-1.5 text-xs text-red-500 dark:text-red-400">
                 {errors.password}
               </p>
             )}
           </div>
 
           {/* Submit Button */}
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="w-full py-3 bg-black dark:bg-white text-white dark:text-black font-medium rounded-sm hover:bg-black/90 dark:hover:bg-white/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
-          >
-            {isLoading ? (
-              <>
-                <Loader2 className="w-5 h-5 animate-spin" />
-                Signing In...
-              </>
-            ) : (
-              "Sign In"
-            )}
-          </button>
+          <div className="pt-1">
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-3.5 bg-black dark:bg-white text-white dark:text-black font-semibold rounded-xl hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2 shadow-sm"
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  Signing In...
+                </>
+              ) : isMerchant ? (
+                "Sign In as Merchant"
+              ) : (
+                "Sign In"
+              )}
+            </button>
+          </div>
         </form>
 
         {/* Footer Links */}
-        <div className="mt-6 text-center">
-          <p className="text-sm text-black/80 dark:text-white/60">
+        <div className="mt-8 text-center">
+          <p className="text-sm text-black/50 dark:text-white/40">
             Don't have an account?{" "}
             <Link
-              to="/register"
-              className="text-black dark:text-white font-medium hover:underline"
+              to={registerPath}
+              className="text-black dark:text-white font-semibold hover:underline underline-offset-4 transition-colors duration-200"
             >
-              Create one
+              {isMerchant ? "Register as Merchant" : "Create one"}
             </Link>
           </p>
         </div>

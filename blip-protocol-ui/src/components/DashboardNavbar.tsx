@@ -112,18 +112,7 @@ export default function DashboardNavbar({
             </div>
           </div>
 
-          {/* Theme Toggle */}
-          <button
-            onClick={toggleTheme}
-            className="p-2 rounded-sm bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 border border-black/10 dark:border-white/10 transition-colors"
-            title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-          >
-            {theme === "dark" ? (
-              <Sun className="w-4 h-4 text-white" />
-            ) : (
-              <Moon className="w-4 h-4 text-black" />
-            )}
-          </button>
+          
 
           {/* Wallet Info & Logout */}
           <div className="flex items-center gap-4">
@@ -138,6 +127,22 @@ export default function DashboardNavbar({
                 {walletAddress}
               </span>
             </div>
+
+
+            {/* Theme Toggle */}
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-sm bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 border border-black/10 dark:border-white/10 transition-colors"
+            title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+          >
+            {theme === "dark" ? (
+              <Sun className="w-4 h-4 text-white" />
+            ) : (
+              <Moon className="w-4 h-4 text-black" />
+            )}
+          </button>
+
+          
 
             <div ref={dropdownRef} className="relative">
               <button
@@ -257,11 +262,13 @@ export default function DashboardNavbar({
         </button>
       </div>
 
+      
+
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div className="md:hidden border-t border-black/10 dark:border-white/10 bg-white/95 dark:bg-black/95 backdrop-blur-md animate-in slide-in-from-top-2 duration-200">
           <div className="px-4 py-4 space-y-4">
-            {/* Points Display - Mobile */}
+            
             <div
               onClick={onPointsClick}
               className="flex items-center justify-between p-3 bg-black/5 dark:bg-white/5 rounded-sm border border-black/10 dark:border-white/10 cursor-pointer hover:bg-black/10 dark:hover:bg-white/10 transition-colors"
@@ -277,7 +284,7 @@ export default function DashboardNavbar({
               </span>
             </div>
 
-            {/* Wallet Info - Mobile */}
+          
             <div className="flex items-center justify-between p-3 bg-black/5 dark:bg-white/5 rounded-sm border border-black/10 dark:border-white/10">
               <div className="flex items-center gap-2">
                 <div className="w-6 h-6 rounded-full bg-black/10 dark:bg-white/10 border border-black/20 dark:border-white/30 flex items-center justify-center">
@@ -295,7 +302,7 @@ export default function DashboardNavbar({
               </span>
             </div>
 
-            {/* Settings Button - Mobile */}
+           
             <button
               onClick={() => navigate("/twoFactorAuth")}
               className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-sm bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 border border-black/10 dark:border-white/10 transition-all text-sm font-bold uppercase tracking-wider text-black/70 dark:text-white/70"
@@ -304,7 +311,7 @@ export default function DashboardNavbar({
               Settings
             </button>
 
-            {/* Logout Button - Mobile */}
+            
             <button
               onClick={() => {
                 setIsMobileMenuOpen(false);

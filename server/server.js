@@ -18,6 +18,7 @@ import adminRoutes from "./routes/admin.route.js";
 import twoFactorRoutes from "./routes/twoFactor.routes.js";
 import twitterRoutes from "./routes/twitter.route.js";
 import telegramRoutes from "./routes/telegram.route.js";
+import leaderboardRoutes from "./routes/leaderboard.route.js";
 
 // 🚀 Cluster Mode for Multi-Core CPU Utilization
 const numCPUs = os.cpus().length;
@@ -126,6 +127,7 @@ if (isProduction && cluster.isPrimary) {
   app.use("/api/twofa", twoFactorRoutes);
   app.use("/api/twitter", twitterRoutes);
   app.use("/api/telegram", telegramRoutes);
+  app.use("/api/leaderboard", leaderboardRoutes);
 
   // 🏥 Health Check Endpoint (for load testing)
   app.get("/api/health", (req, res) => {

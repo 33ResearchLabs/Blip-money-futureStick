@@ -2,6 +2,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { Wallet } from "lucide-react";
 import { useEffect, useState } from "react";
+import { isMobile, isPhantomInstalled, getPhantomDeepLink } from "@/utils/mobile";
 
 export const WalletConnectButton = () => {
   const { publicKey, disconnect, connected, connecting, wallet } = useWallet();
@@ -34,6 +35,9 @@ export const WalletConnectButton = () => {
     if (connected) {
       console.log("Disconnecting wallet...");
       await disconnect();
+    } else if (isMobile() && !isPhantomInstalled()) {
+      // On mobile without Phantom's in-app browser, deep link to Phantom app
+      window.location.href = getPhantomDeepLink();
     } else {
       console.log("Opening wallet modal...");
       setVisible(true);

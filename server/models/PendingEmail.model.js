@@ -20,6 +20,12 @@ const pendingEmailSchema = new mongoose.Schema(
       default: null,
     },
 
+    role: {
+      type: String,
+      enum: ["USER", "MERCHANT"],
+      default: "USER",
+    },
+
     otp: {
       type: String,
       required: true, // store hashed OTP

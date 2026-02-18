@@ -5,11 +5,18 @@ export interface RegisterData {
   password: string;
   referral_code?: string;
   captchaToken?: string;
+  role?: string;
 }
 
 export interface LoginData {
   email: string;
   password: string;
+}
+
+export interface LoginResponse {
+  twoFactorRequired?: boolean;
+  user?: any;
+  message?: string;
 }
 
 export interface LinkWalletData {
@@ -25,7 +32,7 @@ export const authApi = {
   /**
    * Login with email and password
    */
-  login: (data: LoginData) => api.post("/auth/login", data),
+  login: (data: LoginData) => api.post("/auth/login", data) as Promise<LoginResponse>,
 
   /**
    * Verify email with token from URL (old method)

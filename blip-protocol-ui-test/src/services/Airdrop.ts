@@ -130,6 +130,21 @@ export const airdropApi = {
     return response;
   },
 
-  
+  // =====================
+  // LEADERBOARD ENDPOINTS
+  // =====================
 
+  // Get merchant leaderboard
+  getMerchantLeaderboard: async (sort?: "points" | "referrals") => {
+    const params = sort ? `?sort=${sort}` : "";
+    const response = await api.get(`/leaderboard/merchants${params}`);
+    return response;
+  },
+
+  // Get merchant activity feed
+  getMerchantActivity: async (scope?: "all" | "mine") => {
+    const params = scope ? `?scope=${scope}` : "";
+    const response = await api.get(`/leaderboard/merchant-activity${params}`);
+    return response;
+  },
 };

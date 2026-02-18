@@ -21,11 +21,16 @@ import {
 } from "firebase/auth";
 import { firebaseAuth } from "@/config/firebase";
 
-export default function Register() {
+export default function Register({
+  role,
+}: { role?: "user" | "merchant" } = {}) {
   const navigate = useNavigate();
   const { login } = useAuth();
   const [searchParams] = useSearchParams();
   const referralCode = searchParams.get("ref") || "";
+
+  const isMerchant = role === "merchant";
+  const loginPath = isMerchant ? "/merchant-waitlist" : "/waitlist";
 
   const [formData, setFormData] = useState({
     email: "",
@@ -121,12 +126,13 @@ export default function Register() {
         password: formData.password,
         referral_code: formData.referral_code || undefined,
         captchaToken: captchaToken || undefined,
+        ...(isMerchant && { role: "merchant" }),
       });
 
       // 3. Navigate to verification pending page
       toast.success("Verification email sent! Please check your inbox.");
       navigate("/email-verification-pending", {
-        state: { email: formData.email },
+        state: { email: formData.email, role },
       });
     } catch (error: any) {
       console.error("Registration error:", error);
@@ -235,17 +241,32 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center p-4 mt-20">
-      <div className="w-full max-w-md">
+    <div
+      className={`${isMerchant ? "" : "min-h-screen bg-[#FAF8F5] dark:bg-black mt-20"} flex items-center justify-center `}
+    >
+      <div className="w-full max-w-lg">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-black dark:text-white mb-2">
-            Create Account
-          </h1>
-          <p className="text-black/60 dark:text-white/60">
-            Join Blip Money and start earning rewards
-          </p>
-        </div>
+        {!isMerchant && (
+          <div className="text-center mb-10">
+            <div
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
+              style={{
+                background: "rgba(255, 107, 53, 0.05)",
+                border: "1px solid rgba(255, 107, 53, 0.15)",
+              }}
+            >
+              <span className="text-[11px] font-semibold text-gray-600 dark:text-white uppercase tracking-wider">
+                Get Started
+              </span>
+            </div>
+            <h1 className="text-3xl md:text-4xl font-bold text-black dark:text-white mb-3">
+              Create Account
+            </h1>
+            <p className="text-black/50 dark:text-white/50">
+              Join Blip Money and start earning rewards
+            </p>
+          </div>
+        )}
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-5">
@@ -253,29 +274,29 @@ export default function Register() {
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-black dark:text-white mb-2"
+              className="block text-[13px] font-medium text-black/70 dark:text-white/70 mb-2"
             >
               Email Address
             </label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-black/40 dark:text-white/40" />
+              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-black/30 dark:text-white/30" />
               <input
                 type="email"
                 id="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className={`w-full pl-11 pr-4 py-3 bg-white dark:bg-black border ${
+                className={`w-full pl-12 pr-4 py-3.5 bg-black/[0.02] dark:bg-white/[0.03] border ${
                   errors.email
-                    ? "border-red-500 dark:border-red-400"
-                    : "border-black/20 dark:border-white/20"
-                } rounded-sm text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 focus:outline-none focus:border-black dark:focus:border-white transition-colors`}
+                    ? "border-red-500/50 ring-2 ring-red-500/10"
+                    : "border-black/10 dark:border-white/10"
+                } rounded-xl text-black dark:text-white placeholder:text-black/30 dark:placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-transparent transition-all duration-200`}
                 placeholder="you@example.com"
                 disabled={isLoading}
               />
             </div>
             {errors.email && (
-              <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+              <p className="mt-1.5 text-xs text-red-500 dark:text-red-400">
                 {errors.email}
               </p>
             )}
@@ -285,60 +306,69 @@ export default function Register() {
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-black dark:text-white mb-2"
+              className="block text-[13px] font-medium text-black/70 dark:text-white/70 mb-2"
             >
               Password
             </label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-black/40 dark:text-white/40" />
+              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-black/30 dark:text-white/30" />
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className={`w-full pl-11 pr-11 py-3 bg-white dark:bg-black border ${
+                className={`w-full pl-12 pr-12 py-3.5 bg-black/[0.02] dark:bg-white/[0.03] border ${
                   errors.password
-                    ? "border-red-500 dark:border-red-400"
-                    : "border-black/20 dark:border-white/20"
-                } rounded-sm text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 focus:outline-none focus:border-black dark:focus:border-white transition-colors`}
-                placeholder="••••••••"
+                    ? "border-red-500/50 ring-2 ring-red-500/10"
+                    : "border-black/10 dark:border-white/10"
+                } rounded-xl text-black dark:text-white placeholder:text-black/30 dark:placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-transparent transition-all duration-200`}
+                placeholder="Min 8 characters"
+                maxLength={50}
                 disabled={isLoading}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white transition-colors"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-black/30 dark:text-white/30 hover:text-black/60 dark:hover:text-white/60 transition-colors duration-200"
               >
                 {showPassword ? (
-                  <EyeOff className="w-5 h-5" />
+                  <EyeOff className="w-[18px] h-[18px]" />
                 ) : (
-                  <Eye className="w-5 h-5" />
+                  <Eye className="w-[18px] h-[18px]" />
                 )}
               </button>
             </div>
             {errors.password && (
-              <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+              <p className="mt-1.5 text-xs text-red-500 dark:text-red-400">
                 {errors.password}
               </p>
             )}
 
             {/* Password Strength Indicator */}
             {formData.password && (
-              <div className="mt-3 space-y-2">
-                <div className="flex items-center gap-2">
-                  <div className="flex-1 h-1 bg-black/10 dark:bg-white/10 rounded-full overflow-hidden">
+              <div className="mt-3 space-y-2.5">
+                <div className="flex items-center gap-3">
+                  <div className="flex-1 h-1.5 bg-black/5 dark:bg-white/5 rounded-full overflow-hidden">
                     <div
-                      className={`h-full transition-all duration-300 ${
+                      className={`h-full rounded-full transition-all duration-500 ease-out ${
                         passwordStrength.score <= 2
-                          ? "bg-red-500 w-1/3"
+                          ? "bg-red-400 w-1/3"
                           : passwordStrength.score === 3
-                            ? "bg-yellow-500 w-2/3"
-                            : "bg-green-500 w-full"
+                            ? "bg-amber-400 w-2/3"
+                            : "bg-emerald-400 w-full"
                       }`}
                     />
                   </div>
-                  <span className="text-xs text-black/60 dark:text-white/60">
+                  <span
+                    className={`text-[11px] font-medium ${
+                      passwordStrength.score <= 2
+                        ? "text-red-400"
+                        : passwordStrength.score === 3
+                          ? "text-amber-400"
+                          : "text-emerald-400"
+                    }`}
+                  >
                     {passwordStrength.score <= 2
                       ? "Weak"
                       : passwordStrength.score === 3
@@ -347,71 +377,39 @@ export default function Register() {
                   </span>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2 text-xs">
-                  <div className="flex items-center gap-1">
-                    {passwordStrength.checks.length ? (
-                      <CheckCircle className="w-3 h-3 text-green-500" />
-                    ) : (
-                      <XCircle className="w-3 h-3 text-black/30 dark:text-white/30" />
-                    )}
-                    <span
-                      className={
-                        passwordStrength.checks.length
-                          ? "text-green-600 dark:text-green-400"
-                          : "text-black/40 dark:text-white/40"
-                      }
-                    >
-                      8+ characters
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    {passwordStrength.checks.uppercase ? (
-                      <CheckCircle className="w-3 h-3 text-green-500" />
-                    ) : (
-                      <XCircle className="w-3 h-3 text-black/30 dark:text-white/30" />
-                    )}
-                    <span
-                      className={
-                        passwordStrength.checks.uppercase
-                          ? "text-green-600 dark:text-green-400"
-                          : "text-black/40 dark:text-white/40"
-                      }
-                    >
-                      Uppercase
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    {passwordStrength.checks.number ? (
-                      <CheckCircle className="w-3 h-3 text-green-500" />
-                    ) : (
-                      <XCircle className="w-3 h-3 text-black/30 dark:text-white/30" />
-                    )}
-                    <span
-                      className={
-                        passwordStrength.checks.number
-                          ? "text-green-600 dark:text-green-400"
-                          : "text-black/40 dark:text-white/40"
-                      }
-                    >
-                      Number
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    {passwordStrength.checks.lowercase ? (
-                      <CheckCircle className="w-3 h-3 text-green-500" />
-                    ) : (
-                      <XCircle className="w-3 h-3 text-black/30 dark:text-white/30" />
-                    )}
-                    <span
-                      className={
-                        passwordStrength.checks.lowercase
-                          ? "text-green-600 dark:text-green-400"
-                          : "text-black/40 dark:text-white/40"
-                      }
-                    >
-                      Lowercase
-                    </span>
-                  </div>
+                <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
+                  {[
+                    {
+                      check: passwordStrength.checks.length,
+                      label: "8+ characters",
+                    },
+                    {
+                      check: passwordStrength.checks.uppercase,
+                      label: "Uppercase",
+                    },
+                    { check: passwordStrength.checks.number, label: "Number" },
+                    {
+                      check: passwordStrength.checks.lowercase,
+                      label: "Lowercase",
+                    },
+                  ].map((item) => (
+                    <div key={item.label} className="flex items-center gap-1.5">
+                      {item.check ? (
+                        <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
+                      ) : (
+                        <XCircle className="w-3.5 h-3.5 text-black/15 dark:text-white/15" />
+                      )}
+                      <span
+                        className={`text-[11px] ${
+                          item.check
+                            ? "text-emerald-500 dark:text-emerald-400"
+                            : "text-black/30 dark:text-white/30"
+                        }`}
+                      >
+                        {item.label}
+                      </span>
+                    </div>
+                  ))}
                 </div>
               </div>
             )}
@@ -421,40 +419,41 @@ export default function Register() {
           <div>
             <label
               htmlFor="confirmPassword"
-              className="block text-sm font-medium text-black dark:text-white mb-2"
+              className="block text-[13px] font-medium text-black/70 dark:text-white/70 mb-2"
             >
               Confirm Password
             </label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-black/40 dark:text-white/40" />
+              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-black/30 dark:text-white/30" />
               <input
                 type={showConfirmPassword ? "text" : "password"}
                 id="confirmPassword"
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                className={`w-full pl-11 pr-11 py-3 bg-white dark:bg-black border ${
+                className={`w-full pl-12 pr-12 py-3.5 bg-black/[0.02] dark:bg-white/[0.03] border ${
                   errors.confirmPassword
-                    ? "border-red-500 dark:border-red-400"
-                    : "border-black/20 dark:border-white/20"
-                } rounded-sm text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 focus:outline-none focus:border-black dark:focus:border-white transition-colors`}
-                placeholder="••••••••"
+                    ? "border-red-500/50 ring-2 ring-red-500/10"
+                    : "border-black/10 dark:border-white/10"
+                } rounded-xl text-black dark:text-white placeholder:text-black/30 dark:placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-transparent transition-all duration-200`}
+                placeholder="Confirm your password"
+                maxLength={50}
                 disabled={isLoading}
               />
               <button
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white transition-colors"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-black/30 dark:text-white/30 hover:text-black/60 dark:hover:text-white/60 transition-colors duration-200"
               >
                 {showConfirmPassword ? (
-                  <EyeOff className="w-5 h-5" />
+                  <EyeOff className="w-[18px] h-[18px]" />
                 ) : (
-                  <Eye className="w-5 h-5" />
+                  <Eye className="w-[18px] h-[18px]" />
                 )}
               </button>
             </div>
             {errors.confirmPassword && (
-              <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+              <p className="mt-1.5 text-xs text-red-500 dark:text-red-400">
                 {errors.confirmPassword}
               </p>
             )}
@@ -464,10 +463,10 @@ export default function Register() {
           <div>
             <label
               htmlFor="referral_code"
-              className="block text-sm font-medium text-black dark:text-white mb-2"
+              className="block text-[13px] font-medium text-black/70 dark:text-white/70 mb-2"
             >
               Referral Code{" "}
-              <span className="text-black/40 dark:text-white/40">
+              <span className="text-black/30 dark:text-white/30 font-normal">
                 (Optional)
               </span>
             </label>
@@ -477,7 +476,7 @@ export default function Register() {
               name="referral_code"
               value={formData.referral_code}
               onChange={handleChange}
-              className="w-full px-4 py-3 bg-white dark:bg-black border border-black/20 dark:border-white/20 rounded-sm text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 focus:outline-none focus:border-black dark:focus:border-white transition-colors uppercase"
+              className="w-full px-4 py-3.5 bg-black/[0.02] dark:bg-white/[0.03] border border-black/10 dark:border-white/10 rounded-xl text-black dark:text-white placeholder:text-black/30 dark:placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-transparent transition-all duration-200 uppercase"
               placeholder="BLIPXXXXXX"
               disabled={isLoading}
             />
@@ -501,48 +500,54 @@ export default function Register() {
           )}
 
           {/* Submit Button */}
-          <button
-            type="submit"
-            disabled={
-              isLoading ||
-              (!!import.meta.env.VITE_RECAPTCHA_SITE_KEY && !captchaToken)
-            }
-            className="w-full py-3 bg-black dark:bg-white text-white dark:text-black font-medium rounded-sm hover:bg-black/90 dark:hover:bg-white/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
-          >
-            {isLoading ? (
-              <>
-                <Loader2 className="w-5 h-5 animate-spin" />
-                Creating Account...
-              </>
-            ) : (
-              "Create Account"
-            )}
-          </button>
+          <div className="pt-1">
+            <button
+              type="submit"
+              disabled={
+                isLoading ||
+                (!!import.meta.env.VITE_RECAPTCHA_SITE_KEY && !captchaToken)
+              }
+              className="w-full py-3.5 bg-black dark:bg-white text-white dark:text-black font-semibold rounded-xl hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2 shadow-sm"
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  {isMerchant
+                    ? "Creating Merchant Account..."
+                    : "Creating Account..."}
+                </>
+              ) : isMerchant ? (
+                "Create Merchant Account"
+              ) : (
+                "Create Account"
+              )}
+            </button>
+          </div>
         </form>
 
         {/* Footer Links */}
-        <div className="mt-6 text-center space-y-3">
-          <p className="text-sm text-black/60 dark:text-white/60">
+        <div className="mt-8 text-center space-y-3">
+          <p className="text-sm text-black/50 dark:text-white/40">
             Already have an account?{" "}
             <Link
-              to="/waitlist"
-              className="text-black dark:text-white font-medium hover:underline"
+              to={loginPath}
+              className="text-black dark:text-white font-semibold hover:underline underline-offset-4 transition-colors duration-200"
             >
-              Sign in
+              {isMerchant ? "Merchant Sign In" : "Sign in"}
             </Link>
           </p>
-          <p className="text-xs text-black/40 dark:text-white/40">
+          <p className="text-xs text-black/30 dark:text-white/30 leading-relaxed">
             By creating an account, you agree to our{" "}
             <Link
               to="/terms"
-              className="underline hover:text-black dark:hover:text-white"
+              className="underline underline-offset-2 hover:text-black/60 dark:hover:text-white/60 transition-colors duration-200"
             >
               Terms of Service
             </Link>{" "}
             and{" "}
             <Link
               to="/privacy"
-              className="underline hover:text-black dark:hover:text-white"
+              className="underline underline-offset-2 hover:text-black/60 dark:hover:text-white/60 transition-colors duration-200"
             >
               Privacy Policy
             </Link>
@@ -552,19 +557,19 @@ export default function Register() {
 
       {/* OTP Verification Modal */}
       {showOTPModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 dark:bg-black/80 backdrop-blur-sm">
-          <div className="w-full max-w-md bg-white dark:bg-black border border-black/10 dark:border-white/10 rounded-sm shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 dark:bg-black/70 backdrop-blur-md">
+          <div className="w-full max-w-md bg-white dark:bg-[#111] border border-black/5 dark:border-white/10 rounded-2xl shadow-2xl overflow-hidden">
             {/* Header */}
-            <div className="p-6 border-b border-black/10 dark:border-white/10">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-12 h-12 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center">
-                  <Shield className="w-6 h-6 text-black dark:text-white" />
+            <div className="p-6 pb-5 border-b border-black/5 dark:border-white/[0.06]">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-black/5 dark:bg-white/5 flex items-center justify-center">
+                  <Shield className="w-5 h-5 text-black dark:text-white" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-black dark:text-white">
+                  <h2 className="text-lg font-bold text-black dark:text-white">
                     Verify Your Email
                   </h2>
-                  <p className="text-sm text-black/60 dark:text-white/60">
+                  <p className="text-xs text-black/50 dark:text-white/50 mt-0.5">
                     We sent a code to {formData.email}
                   </p>
                 </div>
@@ -574,7 +579,7 @@ export default function Register() {
             {/* Content */}
             <form onSubmit={handleVerifyOTP} className="p-6 space-y-5">
               <div>
-                <label className="block text-sm font-medium text-black dark:text-white mb-2">
+                <label className="block text-[13px] font-medium text-black/70 dark:text-white/70 mb-2">
                   Enter 6-Digit Code
                 </label>
                 <input
@@ -583,13 +588,13 @@ export default function Register() {
                   onChange={(e) =>
                     setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))
                   }
-                  className="w-full px-4 py-4 text-center text-2xl tracking-widest font-mono bg-white dark:bg-black border border-black/20 dark:border-white/20 rounded-sm text-black dark:text-white focus:outline-none focus:border-black dark:focus:border-white transition-colors"
+                  className="w-full px-4 py-4 text-center text-2xl tracking-[0.3em] font-mono bg-black/[0.02] dark:bg-white/[0.03] border border-black/10 dark:border-white/10 rounded-xl text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-transparent transition-all duration-200"
                   placeholder="000000"
                   maxLength={6}
                   autoFocus
                   disabled={isVerifying}
                 />
-                <p className="mt-2 text-xs text-black/40 dark:text-white/40 text-center">
+                <p className="mt-2 text-[11px] text-black/30 dark:text-white/30 text-center">
                   Code expires in 10 minutes
                 </p>
               </div>
@@ -597,7 +602,7 @@ export default function Register() {
               <button
                 type="submit"
                 disabled={isVerifying || otp.length !== 6}
-                className="w-full py-3 bg-black dark:bg-white text-white dark:text-black font-medium rounded-sm hover:bg-black/90 dark:hover:bg-white/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+                className="w-full py-3.5 bg-black dark:bg-white text-white dark:text-black font-semibold rounded-xl hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2 shadow-sm"
               >
                 {isVerifying ? (
                   <>
@@ -610,14 +615,14 @@ export default function Register() {
               </button>
 
               <div className="text-center">
-                <p className="text-sm text-black/50 dark:text-white/50 mb-2">
+                <p className="text-xs text-black/40 dark:text-white/40 mb-2">
                   Didn't receive the code?
                 </p>
                 <button
                   type="button"
                   onClick={handleResendOTP}
                   disabled={isResending || resendCooldown > 0}
-                  className="text-sm font-medium text-black dark:text-white hover:underline disabled:opacity-40 disabled:no-underline disabled:cursor-not-allowed transition-all"
+                  className="text-xs font-semibold text-black dark:text-white hover:underline underline-offset-4 disabled:opacity-30 disabled:no-underline disabled:cursor-not-allowed transition-all duration-200"
                 >
                   {isResending
                     ? "Sending..."
@@ -630,7 +635,7 @@ export default function Register() {
               <button
                 type="button"
                 onClick={() => setShowOTPModal(false)}
-                className="w-full py-3 border border-black/20 dark:border-white/20 text-black dark:text-white font-medium rounded-sm hover:bg-black/5 dark:hover:bg-white/5 transition-all"
+                className="w-full py-3.5 border border-black/10 dark:border-white/10 text-black/70 dark:text-white/70 font-medium rounded-xl hover:bg-black/[0.03] dark:hover:bg-white/[0.03] transition-all duration-200"
               >
                 Go Back
               </button>

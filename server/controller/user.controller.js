@@ -466,15 +466,18 @@ export const getMyPointsHistory = async (req, res) => {
   try {
     const userId = req.user._id;
 
-    // Points mapping for events (in case bonusPoints is 0 or missing)
+    const isMerchant = req.user.role === "MERCHANT";
+
+    // Points mapping for events (merchant vs user values)
     const pointsMap = {
-      REGISTER: 200,
-      TWITTER_FOLLOW: 100,
-      TELEGRAM_JOIN: 100,
+      REGISTER: isMerchant ? 2000 : 200,
+      MERCHANT_REGISTER: 2000,
+      TWITTER_FOLLOW: isMerchant ? 500 : 100,
+      TELEGRAM_JOIN: isMerchant ? 500 : 100,
       WHITEPAPER_READ: 50,
       CROSS_BORDER_SWAP: 100,
-      REFERRAL_BONUS_EARNED: 100,
-      REFERRAL_BONUS_RECEIVED: 100,
+      REFERRAL_BONUS_EARNED: isMerchant ? 1000 : 100,
+      REFERRAL_BONUS_RECEIVED: isMerchant ? 1000 : 100,
     };
 
     // Find all point logs for this user
@@ -484,9 +487,10 @@ export const getMyPointsHistory = async (req, res) => {
 
     // Format the response with readable event names
     const eventLabels = {
-      REGISTER: "Registration Bonus",
-      TWITTER_FOLLOW: "Twitter Follow",
-      TELEGRAM_JOIN: "Telegram Join",
+      REGISTER: isMerchant ? "Merchant Registration Bonus" : "Registration Bonus",
+      MERCHANT_REGISTER: "Merchant Registration Bonus",
+      TWITTER_FOLLOW: "Twitter Verification",
+      TELEGRAM_JOIN: "Telegram Verification",
       WHITEPAPER_READ: "Whitepaper Quiz",
       CROSS_BORDER_SWAP: "Cross Border Swap",
       REFERRAL_BONUS_EARNED: "Referral Bonus (You referred someone)",
@@ -495,7 +499,6 @@ export const getMyPointsHistory = async (req, res) => {
 
     const history = pointsHistory.map((log) => ({
       id: log._id,
-      // Always use current pointsMap for known events
       points: pointsMap[log.event] || log.bonusPoints || log.totalPoints || 0,
       event: log.event,
       eventLabel: eventLabels[log.event] || log.event,

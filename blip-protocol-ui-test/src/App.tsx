@@ -32,6 +32,9 @@ import ForgotPassword from "./pages/Waitlist/ForgotPassword";
 import ResetPassword from "./pages/Waitlist/ResetPassword";
 import EmailVerificationPending from "./pages/Waitlist/EmailVerificationPending";
 import VerifyEmail from "./pages/Waitlist/VerifyEmail";
+import MerchantDashboard from "./pages/Waitlist/MerchantDashboard";
+import { MerchantLogin } from "./pages/Waitlist/MerchantLogin";
+import MerchantRegister from "./pages/Waitlist/MerchantRegister";
 
 // Lazy load page components
 const Index = lazy(() => import("./pages/Index"));
@@ -46,7 +49,7 @@ const HowItWorksPage = lazy(() =>
   })),
 );
 const ContactUs = lazy(() => import("./pages/Company/ContactUs"));
-const AirdropLogin = lazy(() => import("./pages/Waitlist/AirdropLogin"));
+const UserLogin = lazy(() => import("./pages/Waitlist/UserLogin"));
 const Dashboard = lazy(() => import("./pages/Waitlist/Dashboard"));
 const AdminDashboard = lazy(() => import("./pages/Unused/AdminDashboard"));
 const Privacy = lazy(() => import("./pages/Legel/Privecy"));
@@ -262,11 +265,19 @@ const App = () => (
 
                     <Route
                       path="/waitlist"
-                      element={<AirdropLogin initialView="waitlist" />}
+                      element={<UserLogin initialView="waitlist" />}
                     />
                     <Route
                       path="/join-waitlist"
-                      element={<AirdropLogin initialView="waitlist" />}
+                      element={<UserLogin initialView="waitlist" />}
+                    />
+                    <Route
+                      path="/merchant-waitlist"
+                      element={<MerchantLogin initialView="waitlist" />}
+                    />
+                    <Route
+                      path="/merchant-register"
+                      element={<MerchantRegister />}
                     />
                   </Route>
 
@@ -275,9 +286,14 @@ const App = () => (
                     path="/dashboard"
                     element={
                       // <ProtectedRoute>
-                        <Dashboard />
+                      <Dashboard />
                       // </ProtectedRoute>
                     }
+                  />
+
+                  <Route
+                    path="/merchant-dashboard"
+                    element={<MerchantDashboard />}
                   />
 
                   {/* 404 */}

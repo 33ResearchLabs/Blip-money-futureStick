@@ -448,11 +448,7 @@ const TaskCard = ({ task, onClick, redeemed = false }) => {
     >
       <div className="flex justify-between items-start mb-4">
         <div
-          className={`p-2 border rounded-sm ${
-            redeemed
-              ? "bg-green-500/10 border-green-500/20 text-green-600 dark:text-green-400"
-              : "bg-black/5 dark:bg-neutral-900 border-black/10 dark:border-neutral-800 text-black dark:text-neutral-400"
-          }`}
+          className={`p-2 border rounded-sm bg-black/5 dark:bg-neutral-900 border-black/10 dark:border-neutral-800 text-black dark:text-neutral-400 `}
         >
           <Icon className="w-5 h-5" />
         </div>

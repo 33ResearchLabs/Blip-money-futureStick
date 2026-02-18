@@ -16,7 +16,7 @@ import { getFirebaseAdminAuth } from "../config/firebase-admin.js";
 import PendingEmailModel from "../models/PendingEmail.model.js";
 import { sendVerificationEmailNew } from "../utils/VerificationEmail.js";
 import Referral from "../models/referral.model.js";
-import { REGISTER_BONUS_POINTS, REFERRAL_BONUS_POINTS } from "../utils/blipPoints.js";
+import { REGISTER_BONUS_POINTS, REFERRAL_BONUS_POINTS, merchantBlipPoints } from "../utils/blipPoints.js";
 
 const production = process.env.NODE_ENV === "production";
 
@@ -27,7 +27,10 @@ const production = process.env.NODE_ENV === "production";
 
 export const registerWithEmail = async (req, res) => {
   try {
-    const { email, password, referral_code, captchaToken } = req.body;
+    const { email, password, referral_code, captchaToken, role } = req.body;
+    const isMerchant = role === "merchant";
+    const registerPoints = isMerchant ? merchantBlipPoints.register : REGISTER_BONUS_POINTS;
+    const referralPoints = isMerchant ? merchantBlipPoints.referral : REFERRAL_BONUS_POINTS;
 
     if (!email || !password) {
       return res.status(400).json({
@@ -107,41 +110,41 @@ export const registerWithEmail = async (req, res) => {
       password: hashedPassword,
       emailVerified: false,
       referralCode,
-      totalBlipPoints: REGISTER_BONUS_POINTS,
+      totalBlipPoints: registerPoints,
       status: "WAITLISTED",
-      role: "USER",
+      role: isMerchant ? "MERCHANT" : "USER",
     });
 
     // Create UserBlipPoints entry
     await UserBlipPoints.create({
       userId: newUser._id,
-      points: REGISTER_BONUS_POINTS,
+      points: registerPoints,
       isActive: true,
     });
 
     // Log registration bonus points
     await BlipPointLog.create({
       userId: newUser._id,
-      bonusPoints: REGISTER_BONUS_POINTS,
-      event: "REGISTER",
+      bonusPoints: registerPoints,
+      event: isMerchant ? "MERCHANT_REGISTER" : "REGISTER",
     });
 
     // Handle referral if provided
     if (referral_code) {
       const referrer = await User.findOne({ referralCode: referral_code });
       if (referrer && referrer._id.toString() !== newUser._id.toString()) {
-        referrer.totalBlipPoints = (referrer.totalBlipPoints || 0) + REFERRAL_BONUS_POINTS;
+        referrer.totalBlipPoints = (referrer.totalBlipPoints || 0) + referralPoints;
         await referrer.save();
 
         await UserBlipPoints.findOneAndUpdate(
           { userId: referrer._id },
-          { $inc: { points: REFERRAL_BONUS_POINTS } },
+          { $inc: { points: referralPoints } },
           { upsert: true }
         );
 
         await BlipPointLog.create({
           userId: referrer._id,
-          bonusPoints: REFERRAL_BONUS_POINTS,
+          bonusPoints: referralPoints,
           event: "REFERRAL_BONUS_EARNED",
         });
 
@@ -151,22 +154,22 @@ export const registerWithEmail = async (req, res) => {
           referred_user_id: newUser._id,
           referral_code: referral_code,
           reward_status: "credited",
-          reward_amount: REFERRAL_BONUS_POINTS,
+          reward_amount: referralPoints,
         });
 
-        newUser.totalBlipPoints = (newUser.totalBlipPoints || 0) + REFERRAL_BONUS_POINTS;
+        newUser.totalBlipPoints = (newUser.totalBlipPoints || 0) + referralPoints;
         newUser.referredBy = referrer._id;
         await newUser.save();
 
         await UserBlipPoints.findOneAndUpdate(
           { userId: newUser._id },
-          { $inc: { points: REFERRAL_BONUS_POINTS } },
+          { $inc: { points: referralPoints } },
           { upsert: true }
         );
 
         await BlipPointLog.create({
           userId: newUser._id,
-          bonusPoints: REFERRAL_BONUS_POINTS,
+          bonusPoints: referralPoints,
           event: "REFERRAL_BONUS_RECEIVED",
         });
       }
@@ -447,29 +450,34 @@ export const verifyEmailOTP = async (req, res) => {
       codeExists = await User.findOne({ referralCode });
     }
 
+    // Determine points based on role
+    const pendingIsMerchant = pending.role === "MERCHANT";
+    const otpRegisterPoints = pendingIsMerchant ? merchantBlipPoints.register : REGISTER_BONUS_POINTS;
+    const otpReferralPoints = pendingIsMerchant ? merchantBlipPoints.referral : REFERRAL_BONUS_POINTS;
+
     // Create real user
     const newUser = await User.create({
       email: pending.email,
       password: pending.password,
       emailVerified: true,
       referralCode,
-      totalBlipPoints: REGISTER_BONUS_POINTS,
+      totalBlipPoints: otpRegisterPoints,
       status: "WAITLISTED",
-      role: "USER",
+      role: pendingIsMerchant ? "MERCHANT" : "USER",
     });
 
     // Create UserBlipPoints entry
     await UserBlipPoints.create({
       userId: newUser._id,
-      points: REGISTER_BONUS_POINTS,
+      points: otpRegisterPoints,
       isActive: true,
     });
 
     // Log registration bonus points
     await BlipPointLog.create({
       userId: newUser._id,
-      bonusPoints: REGISTER_BONUS_POINTS,
-      event: "REGISTER",
+      bonusPoints: otpRegisterPoints,
+      event: pendingIsMerchant ? "MERCHANT_REGISTER" : "REGISTER",
     });
 
     // Handle referral if provided
@@ -477,35 +485,35 @@ export const verifyEmailOTP = async (req, res) => {
       const referrer = await User.findOne({ referralCode: pending.referral_code });
       if (referrer && referrer._id.toString() !== newUser._id.toString()) {
         // Referrer bonus
-        referrer.totalBlipPoints = (referrer.totalBlipPoints || 0) + REFERRAL_BONUS_POINTS;
+        referrer.totalBlipPoints = (referrer.totalBlipPoints || 0) + otpReferralPoints;
         await referrer.save();
 
         await UserBlipPoints.findOneAndUpdate(
           { userId: referrer._id },
-          { $inc: { points: REFERRAL_BONUS_POINTS } },
+          { $inc: { points: otpReferralPoints } },
           { upsert: true }
         );
 
         await BlipPointLog.create({
           userId: referrer._id,
-          bonusPoints: REFERRAL_BONUS_POINTS,
+          bonusPoints: otpReferralPoints,
           event: "REFERRAL_BONUS_EARNED",
         });
 
         // New user referral bonus
-        newUser.totalBlipPoints = (newUser.totalBlipPoints || 0) + REFERRAL_BONUS_POINTS;
+        newUser.totalBlipPoints = (newUser.totalBlipPoints || 0) + otpReferralPoints;
         newUser.referredBy = referrer._id;
         await newUser.save();
 
         await UserBlipPoints.findOneAndUpdate(
           { userId: newUser._id },
-          { $inc: { points: REFERRAL_BONUS_POINTS } },
+          { $inc: { points: otpReferralPoints } },
           { upsert: true }
         );
 
         await BlipPointLog.create({
           userId: newUser._id,
-          bonusPoints: REFERRAL_BONUS_POINTS,
+          bonusPoints: otpReferralPoints,
           event: "REFERRAL_BONUS_RECEIVED",
         });
       }

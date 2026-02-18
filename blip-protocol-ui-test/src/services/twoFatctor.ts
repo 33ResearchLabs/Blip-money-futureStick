@@ -7,7 +7,7 @@ export const twoFactorApi = {
   },
 
     // Verify Otp  
-   verifyGoogleAuth: async (otp) => {
+   verifyGoogleAuth: async (otp: string) => {
     try {
       const res = await api.post("/twofa/verify-enable", { otp });
       return res.data;
@@ -16,11 +16,11 @@ export const twoFactorApi = {
     }
   },
 
-   verifyOtpLogin: async ({ email, otp }) => {
+   verifyOtpLogin: async ({ email, otp }: { email: string; otp: string }): Promise<{ user: any }> => {
   try {
     const res = await api.post("/twofa/verify-login", { email, otp });
-    return res; // ✅ already unwrapped
-  } catch (error) {
+    return res as any; // already unwrapped by interceptor
+  } catch (error: any) {
     throw new Error(
       error?.response?.data?.message || "OTP verification failed"
     );

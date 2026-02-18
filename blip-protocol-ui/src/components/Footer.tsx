@@ -80,9 +80,9 @@ const FooterLink = ({
 }) => (
   <Link
     to={to}
-    className="text-[13px] text-black/60 dark:text-white/40
+    className="text-[13px] text-black/70 dark:text-white/40 font-medium
     hover:text-black dark:hover:text-white
-    transition-all duration-300 font-light
+    transition-all duration-300 
     flex items-center gap-0 hover:gap-2 group"
   >
     <span
@@ -337,7 +337,7 @@ export const Footer = ({
           isVisible ? "opacity-100" : "opacity-0 translate-y-5"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+        <div className="max-w-7xl mx-auto px-8 sm:px-6 py-12">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8">
             {FOOTER_SECTIONS.map((section, i) => (
               <div key={i} className="space-y-3">
@@ -362,17 +362,19 @@ export const Footer = ({
 
       <div className="border-t border-black/5 dark:border-white/5 bg-[#F5F3F0] dark:bg-[#050505] px-6 py-10">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-10">
-          <div className="text-sm text-black/50 dark:text-white/30 uppercase tracking-widest">
+         <div className="flex  gap-4">
+           <div className="text-sm text-black/80 dark:text-white/30 uppercase tracking-widest">
             © {new Date().getFullYear()} blip.money
           </div>
           <div className="flex items-center gap-8">
             <Link
-              to="/legal/:tab"
-              className="text-sm text-black/50 dark:text-white/30 uppercase tracking-widest"
+              to="/legal"
+              className="text-sm text-black/80 dark:text-white/30 uppercase tracking-widest font-bold"
             >
               Legal
             </Link>
           </div>
+         </div>
 
           <div className="flex items-center gap-6">
             {SOCIAL_PLATFORMS.map((platform, i) => {

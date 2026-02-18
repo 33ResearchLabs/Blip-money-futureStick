@@ -21,6 +21,7 @@ const blipPointLogSchema = new mongoose.Schema(
             type: String,
             enum: [
                 "REGISTER",
+                "MERCHANT_REGISTER",
                 "TWITTER_FOLLOW",
                 "TELEGRAM_JOIN",
                 "WHITEPAPER_READ",

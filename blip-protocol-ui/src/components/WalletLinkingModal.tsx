@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-import { X, Wallet, AlertCircle, CheckCircle, Loader2 } from "lucide-react";
+import { X, Wallet, AlertCircle, CheckCircle, Loader2, ExternalLink } from "lucide-react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { toast } from "sonner";
 import { useAuth } from "@/contexts/AuthContext";
+import { isMobile, isPhantomInstalled, getPhantomDeepLink } from "@/utils/mobile";
 
 interface WalletLinkingModalProps {
   isOpen: boolean;
@@ -143,9 +144,21 @@ export default function WalletLinkingModal({
                 </div>
               </div>
               {!connected && (
-                <div className="wallet-adapter-button-trigger">
-                  <WalletMultiButton />
-                </div>
+                isMobile() && !isPhantomInstalled() ? (
+                  <a
+                    href={getPhantomDeepLink()}
+                    className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium border rounded-sm transition-all
+                      border-black/10 text-black hover:bg-black/5
+                      dark:border-white/10 dark:text-white dark:hover:bg-white/5"
+                  >
+                    Open in Phantom
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                ) : (
+                  <div className="wallet-adapter-button-trigger">
+                    <WalletMultiButton />
+                  </div>
+                )
               )}
             </div>
 
