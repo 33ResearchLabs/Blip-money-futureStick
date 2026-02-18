@@ -18,7 +18,7 @@ import { twoFactorApi } from "@/services/twoFatctor";
 import { toast } from "sonner";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { useTheme } from "next-themes";
-import { HamburgerButton, Logo } from "./Navbar";
+import { Logo } from "./Navbar";
 import { AnimatePresence } from "framer-motion";
 
 interface DashboardNavbarProps {
@@ -140,7 +140,16 @@ export default function DashboardNavbar({
             </div>
 
             <div ref={dropdownRef} className="relative">
-              <HamburgerButton isOpen={open} onClick={() => setOpen(!open)} />
+              <button
+                onClick={() => setOpen(!open)}
+                className="p-2 rounded-sm bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 border border-black/10 dark:border-white/10 transition-colors"
+              >
+                {open ? (
+                  <X className="w-4 h-4 text-black dark:text-white" />
+                ) : (
+                  <MenuIcon className="w-4 h-4 text-black dark:text-white" />
+                )}
+              </button>
 
               <AnimatePresence>
                 {open && (

@@ -128,7 +128,7 @@ export default function DashboardShowcaseSection() {
   const headingScale = useTransform(
     smoothScrollProgress,
     [0, 0.2, 0.7, 1],
-    isMobile ? [1.2, 1, 0.9, 0.8] : [1.5, 1.2, 0.85, 0.85],
+    isMobile ? [1.2, 1, 0.9, 0.8] : [2.5, 1.8, 1.2, 0.9],
   );
   // Opacity: Lighter fade for better visibility
   const headingOpacity = useTransform(
@@ -315,7 +315,7 @@ export default function DashboardShowcaseSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative h-[350vh] bg-white dark:bg-black"
+      className="relative h-[220vh] bg-white dark:bg-black"
       style={{ contain: "paint", touchAction: "pan-y" }}
     >
       {/*
