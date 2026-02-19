@@ -502,12 +502,12 @@ export default function MerchantDashboard() {
       reward: "+500 BLIP",
       icon: MessageCircle,
     },
-    {
-      id: "discord",
-      title: "Join Discord Server",
-      reward: "+500 BLIP",
-      icon: Hash,
-    },
+    // {
+    //   id: "discord",
+    //   title: "Join Discord Server",
+    //   reward: "+500 BLIP",
+    //   icon: Hash,
+    // },
     {
       id: "retweet",
       title: "Retweet a Post",
@@ -570,7 +570,7 @@ export default function MerchantDashboard() {
   const accentLight = d ? "bg-white/10" : "bg-black/5";
 
   // Dynamic allocation: total merchant pool = 2000 (register) + 3000 (quests) = 5000
-  const totalAllocation = 5000;
+  const totalAllocation = 5100;
   const unlocked = Math.min(blipPoints, totalAllocation);
   const locked = Math.max(0, totalAllocation - blipPoints);
   const unlockedPercent =
@@ -1258,7 +1258,7 @@ export default function MerchantDashboard() {
                   </button>
                 ))}
               </div>
-              <div className="flex items-center gap-2">
+              {/* <div className="flex items-center gap-2">
                 <button
                   className={`${chip} border p-1.5 rounded-lg ${hov} transition-all`}
                 >
@@ -1269,7 +1269,7 @@ export default function MerchantDashboard() {
                 >
                   <QrCode className={`w-3.5 h-3.5 ${sub}`} />
                 </button>
-              </div>
+              </div> */}
             </div>
 
             {/* Activity Feed */}
@@ -1362,11 +1362,11 @@ export default function MerchantDashboard() {
                       </div>
                     )}
                   </div>
-                  <button
+                  {/* <button
                     className={`${chip} border p-2 rounded-lg ${hov} transition-all`}
                   >
                     <Plus className={`w-3.5 h-3.5 ${sub}`} />
-                  </button>
+                  </button> */}
                 </div>
 
                 {/* Activity items */}
@@ -1625,8 +1625,8 @@ export default function MerchantDashboard() {
                       className={`w-3.5 h-3.5 ${leaderboardLoading ? "animate-spin" : ""}`}
                     />
                   </button>
-                  <ArrowUpRight className={`w-3.5 h-3.5 ${sub}`} />
-                  <Copy className={`w-3.5 h-3.5 ${sub}`} />
+                  {/* <ArrowUpRight className={`w-3.5 h-3.5 ${sub}`} />
+                  <Copy className={`w-3.5 h-3.5 ${sub}`} /> */}
                 </div>
               </div>
             </div>
@@ -1702,7 +1702,7 @@ export default function MerchantDashboard() {
                     ({userEmail})
                   </span>
                 </div>
-                <span className="bg-black dark:bg-white/10 text-black dark:text-white text-[9px] font-black px-2 py-1 rounded border border-black/20 dark:border-white/20">
+                <span className="bg-black dark:bg-white/10 text-white dark:text-white text-[9px] font-black px-2 py-1 rounded border border-black/20 dark:border-white/20">
                   {blipPoints.toLocaleString()} BLIP
                 </span>
               </div>
