@@ -138,9 +138,9 @@ const HowItWorksSection = () => {
               ? "bg-black/20 dark:bg-white/15 text-black dark:text-white shadow-md"
               : "bg-black/10 dark:bg-white/10 text-black/80 dark:text-white/70"
           }`}
-          style={{
-            transform: hovered ? `translateX(${i * 4}px)` : "translateX(0)",
-          }}
+          // style={{
+          //   transform: hovered ? `translateX(${i * 4}px)` : "translateX(0)",
+          // }}
         >
           {p}
         </div>

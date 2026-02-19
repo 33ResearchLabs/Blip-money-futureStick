@@ -52,7 +52,7 @@ const FeaturedArticle = ({ article }: { article: BlogArticle }) => {
               Featured
             </span>
 
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-5 group-hover:text-black/70 dark:group-hover:text-white/90 transition-colors">
+            <h2 className=" text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-5 group-hover:text-black/70 dark:group-hover:text-white/90 transition-colors">
               {article.title}
             </h2>
 
@@ -71,7 +71,7 @@ const FeaturedArticle = ({ article }: { article: BlogArticle }) => {
                 <p className="text-sm font-medium text-black dark:text-white">
                   {article.author.name}
                 </p>
-                <div className="flex items-center gap-3 text-xs text-gray-400 dark:text-white/40">
+                <div className="flex items-center gap-3 text-xs text-black/70 dark:text-white/40">
                   <span>{formatDate(article.date)}</span>
                   <span className="w-1 h-1 rounded-full bg-gray-300 dark:bg-white/20" />
                   <span>{article.readTime}</span>
@@ -129,7 +129,7 @@ const ArticleRow = ({
                 {article.category}
               </span>
               <span className="w-1 h-1 rounded-full bg-gray-200 dark:bg-white/15" />
-              <span className="text-[12px] text-gray-400 dark:text-white/30">
+              <span className="text-[12px] text-black/80 dark:text-white/30">
                 {formatDate(article.date)}
               </span>
             </div>
@@ -149,18 +149,18 @@ const ArticleRow = ({
               {/* Author */}
               <div className="flex items-center gap-2">
                 <div className="w-6 h-6 rounded-full bg-gradient-to-br from-gray-200 dark:from-white/10 to-gray-300 dark:to-white/5 flex items-center justify-center">
-                  <span className="text-[9px] font-bold text-gray-500 dark:text-white/50">
+                  <span className="text-[9px] font-bold text-black/80 dark:text-white/50">
                     {article.author.name.charAt(0)}
                   </span>
                 </div>
-                <span className="text-[13px] text-gray-500 dark:text-white/50">
+                <span className="text-[13px] text-black/80 dark:text-white/50">
                   {article.author.name}
                 </span>
               </div>
 
               <span className="w-1 h-1 rounded-full bg-gray-200 dark:bg-white/15" />
 
-              <span className="flex items-center gap-1 text-[13px] text-gray-400 dark:text-white/30">
+              <span className="flex items-center gap-1 text-[13px] text-black/80 dark:text-white/30">
                 <Clock className="w-3 h-3" />
                 {article.readTime}
               </span>
@@ -250,7 +250,7 @@ export default function Blog() {
                 className={`relative px-4 py-3 text-[13px] font-medium whitespace-nowrap transition-colors ${
                   activeCategory === cat
                     ? "text-black dark:text-white"
-                    : "text-gray-700 dark:text-white/35 hover:text-gray-600 dark:hover:text-white/60"
+                    : "text-gray-800 dark:text-white/35 hover:text-gray-600 dark:hover:text-white/60"
                 }`}
               >
                 {cat}

@@ -115,22 +115,22 @@ const RelatedRow = ({
       >
         <div className="flex items-start gap-4">
           <div className="flex-1 min-w-0">
-            <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-gray-400 dark:text-white/30 mb-1 block">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-black/70 dark:text-white/30 mb-1 block">
               {article.category}
             </span>
             <h4 className="text-lg font-bold text-black dark:text-white leading-snug group-hover:text-gray-600 dark:group-hover:text-white/80 transition-colors">
               {article.title}
             </h4>
-            <p className="text-sm text-gray-400 dark:text-white/35 mt-1 line-clamp-1">
+            <p className="text-sm text-gray-700 dark:text-white/35 mt-1 line-clamp-1">
               {article.excerpt}
             </p>
-            <div className="flex items-center gap-3 mt-2 text-xs text-gray-400 dark:text-white/30">
+            <div className="flex items-center gap-3 mt-2 text-xs text-black/70 dark:text-white/30">
               <span>{formatDate(article.date)}</span>
               <span className="w-1 h-1 rounded-full bg-gray-200 dark:bg-white/15" />
               <span>{article.readTime}</span>
             </div>
           </div>
-          <ArrowRight className="w-5 h-5 text-gray-300 dark:text-white/15 group-hover:text-gray-500 dark:group-hover:text-white/40 group-hover:translate-x-1 transition-all mt-2 flex-shrink-0" />
+          <ArrowRight className="w-5 h-5 text-gray-500 dark:text-white/15 group-hover:text-gray-500 dark:group-hover:text-white/40 group-hover:translate-x-1 transition-all mt-2 flex-shrink-0" />
         </div>
       </Link>
     </motion.div>
@@ -244,7 +244,7 @@ export default function BlogArticle() {
                   <p className="text-[15px] font-semibold text-black dark:text-white">
                     {article.author.name}
                   </p>
-                  <div className="flex items-center gap-3 text-[13px] text-gray-400 dark:text-white/40">
+                  <div className="flex items-center gap-3 text-[13px] text-gray-700 dark:text-white/40">
                     <span>{formatDate(article.date)}</span>
                     <span className="w-1 h-1 rounded-full bg-gray-300 dark:bg-white/20" />
                     <span className="flex items-center gap-1">
@@ -275,7 +275,7 @@ export default function BlogArticle() {
         {/* Related Articles */}
         <section className="border-t border-gray-100 dark:border-white/[0.06]">
           <div className="max-w-[720px] mx-auto px-4 sm:px-6 py-16">
-            <h3 className="text-[11px] font-semibold uppercase tracking-[0.15em] text-gray-400 dark:text-white/30 mb-2">
+            <h3 className="text-[11px] font-semibold uppercase tracking-[0.15em] text-black/80 dark:text-white/30 mb-2">
               More from Blip Money
             </h3>
             <div className="divide-y divide-gray-100 dark:divide-white/[0.06]">
@@ -289,7 +289,7 @@ export default function BlogArticle() {
                 to="/blog"
                 onClick={() => sounds.click()}
                 onMouseEnter={() => sounds.hover()}
-                className="inline-flex items-center gap-2 text-sm font-medium text-gray-400 dark:text-white/40 hover:text-black dark:hover:text-white transition-colors"
+                className="inline-flex items-center gap-2 text-sm font-medium text-black/80 dark:text-white/40 hover:text-black dark:hover:text-white transition-colors"
               >
                 View all articles
                 <ArrowRight className="w-4 h-4" />
@@ -301,7 +301,7 @@ export default function BlogArticle() {
         {/* Cross-links to other content */}
         <section className="border-t border-gray-100 dark:border-white/[0.06] bg-[#FAF8F5]/50 dark:bg-white/[0.01]">
           <div className="max-w-[720px] mx-auto px-4 sm:px-6 py-12">
-            <h3 className="text-[11px] font-semibold uppercase tracking-[0.15em] text-gray-400 dark:text-white/30 mb-6">
+            <h3 className="text-[11px] font-semibold uppercase tracking-[0.15em] text-black/80 dark:text-white/30 mb-6">
               Explore More
             </h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -318,12 +318,12 @@ export default function BlogArticle() {
                 <Link
                   key={link.href}
                   to={link.href}
-                  className="group p-4 rounded-xl bg-white/60 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] hover:border-black/[0.12] dark:hover:border-white/[0.12] transition-colors"
+                  className="group p-4 rounded-xl bg-white/60 dark:bg-white/[0.03] border border-black/40 dark:border-white/[0.06] hover:border-black/[0.12] dark:hover:border-white/[0.12] transition-colors"
                 >
                   <span className="block text-sm font-semibold text-black dark:text-white group-hover:text-gray-600 dark:group-hover:text-white/80 transition-colors">
                     {link.label}
                   </span>
-                  <span className="block text-xs text-gray-400 dark:text-white/30 mt-1">
+                  <span className="block text-xs text-gray-700 dark:text-white/30 mt-1">
                     {link.desc}
                   </span>
                 </Link>

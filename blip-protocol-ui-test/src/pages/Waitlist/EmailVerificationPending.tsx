@@ -120,7 +120,7 @@ export default function EmailVerificationPending() {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center p-4 mt-16 md:mt-0 ">
+    <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center p-4 mt-16  ">
       <div className="w-full max-w-md text-center">
         {/* Icon */}
         <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-black/10 dark:bg-white/10 mb-6">
@@ -200,21 +200,21 @@ export default function EmailVerificationPending() {
         </button>
 
         {/* Auto-check notice */}
-        <p className="text-xs text-black/40 dark:text-white/40 mb-4">
+        <p className="text-sm text-black/80 dark:text-white/40 mb-4">
           This page automatically checks every 5 seconds
         </p>
 
         {/* Back to Login */}
         <Link
           to="/waitlist"
-          className="inline-block text-sm text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white transition-colors"
+          className="inline-block text-sm text-black/80 dark:text-white/60 hover:text-black dark:hover:text-white transition-colors"
         >
           Back to Login
         </Link>
 
         {/* Help Text */}
         <div className="mt-8 pt-8 border-t border-black/10 dark:border-white/10">
-          <p className="text-xs text-black/40 dark:text-white/40">
+          <p className="text-sm text-black/80 dark:text-white/40">
             Didn't receive the email? Check your spam folder or{" "}
             <Link
               to="/contact"
