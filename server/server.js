@@ -112,12 +112,12 @@ if (isProduction && cluster.isPrimary) {
   app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 
   // Apply global rate limiting to all API routes
-  app.use("/api", globalLimiter);
+  // app.use("/api", globalLimiter);
 
   // Apply stricter rate limiting to auth endpoints
-  app.use("/api/user/login", authLimiter);
-  app.use("/api/auth/login", authLimiter);
-  app.use("/api/auth/register", authLimiter);
+  // app.use("/api/user/login", authLimiter);
+  // app.use("/api/auth/login", authLimiter);
+  // app.use("/api/auth/register", authLimiter);
 
   // 🔗 ROUTER MOUNT
   app.use("/api/auth", authRoutes);

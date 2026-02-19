@@ -19,9 +19,10 @@ interface RetweetVerificationModalProps {
   userRole?: string;
 }
 
-type Step = "retweet" | "submit" | "verifying" | "success" | "error";
+type Step = "compose" | "submit" | "verifying" | "success" | "error";
 
-const TARGET_TWEET_URL = "https://x.com/BlipMoney";
+const PRE_FILLED_TWEET =
+  "I just joined @BlipMoney — the non-custodial settlement protocol for crypto payments. Join the waitlist and earn BLIP rewards! 🚀\n\nhttps://blip.money";
 
 export default function RetweetVerificationModal({
   isOpen,
@@ -31,21 +32,22 @@ export default function RetweetVerificationModal({
   userRole,
 }: RetweetVerificationModalProps) {
   const REWARD_POINTS = userRole === "MERCHANT" ? 100 : 50;
-  const [step, setStep] = useState<Step>("retweet");
+  const [step, setStep] = useState<Step>("compose");
   const [tweetUrl, setTweetUrl] = useState("");
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
 
   if (!isOpen) return null;
 
-  const handleCopyUrl = async () => {
-    await navigator.clipboard.writeText(TARGET_TWEET_URL);
+  const handleCopyTweet = async () => {
+    await navigator.clipboard.writeText(PRE_FILLED_TWEET);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleOpenTwitter = () => {
-    window.open(TARGET_TWEET_URL, "_blank");
+  const handlePostTweet = () => {
+    const tweetText = encodeURIComponent(PRE_FILLED_TWEET);
+    window.open(`https://twitter.com/intent/tweet?text=${tweetText}`, "_blank");
     setStep("submit");
   };
 
@@ -66,7 +68,9 @@ export default function RetweetVerificationModal({
 
     const tweetId = extractTweetId(tweetUrl);
     if (!tweetId) {
-      setError("Invalid tweet URL. Please paste the full URL of your retweet/quote tweet.");
+      setError(
+        "Invalid tweet URL. Please paste the full URL of your tweet."
+      );
       return;
     }
 
@@ -87,7 +91,7 @@ export default function RetweetVerificationModal({
         }, 2000);
       } else {
         setStep("error");
-        setError(data.message || "Retweet verification failed.");
+        setError(data.message || "Tweet verification failed.");
       }
     } catch (err: any) {
       setStep("error");
@@ -99,7 +103,7 @@ export default function RetweetVerificationModal({
   };
 
   const handleClose = () => {
-    setStep("retweet");
+    setStep("compose");
     setTweetUrl("");
     setError("");
     onClose();
@@ -133,7 +137,7 @@ export default function RetweetVerificationModal({
             </div>
             <div>
               <h3 className="text-xl font-bold text-black dark:text-white uppercase">
-                Retweet a Post
+                Tweet About Us
               </h3>
               <span className="text-xs text-black/60 dark:text-neutral-500">
                 REWARD: {REWARD_POINTS} PTS
@@ -141,16 +145,16 @@ export default function RetweetVerificationModal({
             </div>
           </div>
 
-          {/* Step 1: Retweet */}
-          {step === "retweet" && (
+          {/* Step 1: Compose */}
+          {step === "compose" && (
             <>
               <div className="p-5 bg-black/5 dark:bg-neutral-900/30 border border-black/10 dark:border-neutral-800 rounded-sm mb-6">
                 <div className="flex items-center justify-between mb-3">
                   <h4 className="text-[10px] uppercase tracking-widest text-black/50 dark:text-neutral-500">
-                    Retweet or Quote Tweet
+                    Pre-filled Tweet
                   </h4>
                   <button
-                    onClick={handleCopyUrl}
+                    onClick={handleCopyTweet}
                     className="text-xs flex items-center gap-1 text-black/60 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors"
                   >
                     {copied ? (
@@ -161,15 +165,13 @@ export default function RetweetVerificationModal({
                     ) : (
                       <>
                         <Copy className="w-3 h-3" />
-                        Copy Link
+                        Copy Text
                       </>
                     )}
                   </button>
                 </div>
-                <p className="text-sm text-black/80 dark:text-neutral-300 leading-relaxed">
-                  Visit our Twitter/X page and retweet or quote tweet any of our
-                  posts. Your tweet must mention{" "}
-                  <strong>@BlipMoney</strong>.
+                <p className="text-sm text-black/80 dark:text-neutral-300 leading-relaxed whitespace-pre-line">
+                  {PRE_FILLED_TWEET}
                 </p>
               </div>
 
@@ -179,21 +181,21 @@ export default function RetweetVerificationModal({
                   <div className="text-xs text-blue-900 dark:text-blue-300">
                     <p className="font-semibold mb-1">How to complete:</p>
                     <ul className="space-y-1 text-blue-800 dark:text-blue-400">
-                      <li>1. Visit @BlipMoney on Twitter/X</li>
-                      <li>2. Retweet or quote tweet any post</li>
+                      <li>1. Click the button below to open Twitter</li>
+                      <li>2. Post the pre-filled tweet (you can edit it)</li>
                       <li>3. Make sure your tweet mentions @BlipMoney</li>
-                      <li>4. Paste your retweet URL below to verify</li>
+                      <li>4. Paste your tweet URL to verify</li>
                     </ul>
                   </div>
                 </div>
               </div>
 
               <button
-                onClick={handleOpenTwitter}
+                onClick={handlePostTweet}
                 className="w-full py-3 px-4 bg-black text-white dark:bg-white dark:text-black text-xs font-bold uppercase tracking-wider hover:opacity-90 transition-all flex items-center justify-center gap-2"
               >
                 <Repeat2 className="w-4 h-4" />
-                Visit @BlipMoney
+                Post on Twitter
                 <ExternalLink className="w-3 h-3" />
               </button>
             </>
@@ -204,16 +206,16 @@ export default function RetweetVerificationModal({
             <>
               <div className="p-5 bg-black/5 dark:bg-neutral-900/30 border border-black/10 dark:border-neutral-800 rounded-sm mb-6">
                 <h4 className="text-[10px] uppercase tracking-widest text-black/50 dark:text-neutral-500 mb-3">
-                  Submit Your Retweet
+                  Paste Your Tweet URL
                 </h4>
                 <p className="text-sm text-black/80 dark:text-neutral-300 mb-4">
-                  After retweeting, paste the URL of your retweet or quote tweet
-                  below to verify and claim your reward.
+                  After posting, copy the URL of your tweet and paste it below
+                  to verify and claim your reward.
                 </p>
 
                 <div className="mb-4">
                   <label className="text-xs text-black/60 dark:text-neutral-400 mb-2 block">
-                    Retweet URL
+                    Tweet URL
                   </label>
                   <input
                     type="text"
@@ -234,7 +236,7 @@ export default function RetweetVerificationModal({
 
               <div className="flex gap-3">
                 <button
-                  onClick={() => setStep("retweet")}
+                  onClick={() => setStep("compose")}
                   className="flex-1 py-3 text-xs uppercase tracking-wider border border-black/10 dark:border-neutral-800 text-black/60 dark:text-neutral-400 hover:bg-black/5 dark:hover:bg-neutral-900 transition-colors"
                 >
                   Back
@@ -244,7 +246,7 @@ export default function RetweetVerificationModal({
                   disabled={!tweetUrl}
                   className="flex-1 py-3 text-xs font-bold uppercase tracking-wider bg-black text-white dark:bg-white dark:text-black hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Verify Retweet
+                  Verify Tweet
                 </button>
               </div>
             </>
@@ -255,7 +257,7 @@ export default function RetweetVerificationModal({
             <div className="py-12 flex flex-col items-center justify-center">
               <Loader2 className="w-12 h-12 text-black dark:text-white animate-spin mb-4" />
               <p className="text-sm text-black dark:text-white font-semibold mb-2">
-                Verifying your retweet...
+                Verifying your tweet...
               </p>
               <p className="text-xs text-black/60 dark:text-neutral-500">
                 This may take a few seconds
@@ -270,7 +272,7 @@ export default function RetweetVerificationModal({
                 <CheckCircle className="w-8 h-8 text-green-600 dark:text-green-400" />
               </div>
               <p className="text-lg font-bold text-black dark:text-white mb-2">
-                Retweet Verified!
+                Tweet Verified!
               </p>
               <p className="text-sm text-black/60 dark:text-neutral-400 mb-4">
                 You earned {REWARD_POINTS} points

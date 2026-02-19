@@ -1,5 +1,9 @@
 import Task from "../models/task.model.js";
 import User from "../models/user.model.js";
+import Referral from "../models/referral.model.js";
+import VolumeCommitment from "../models/volumeCommitment.model.js";
+import BlipPointLog from "../models/BlipPointLog.model.js";
+import TweetVerification from "../models/TweetVerification.model.js";
 
 /**
  * ============================
@@ -77,6 +81,300 @@ export const getDashboardStats = async (req, res) => {
         verifiedTasks,
       },
     });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+/**
+ * ============================
+ * SUPERADMIN STATS (AGGREGATED)
+ * GET /api/admin/superadmin-stats
+ * ============================
+ */
+export const getSuperadminStats = async (req, res) => {
+  try {
+    const [
+      totalUsers,
+      totalMerchants,
+      totalAdmins,
+      totalReferrals,
+      totalVolumeCommitments,
+      blipPointsAgg,
+      twitterVerified,
+      telegramVerified,
+      whitepaperVerified,
+      twitterTotal,
+      telegramTotal,
+      whitepaperTotal,
+      tweetVerifications,
+    ] = await Promise.all([
+      User.countDocuments({ role: "USER" }),
+      User.countDocuments({ role: "MERCHANT" }),
+      User.countDocuments({ role: "ADMIN" }),
+      Referral.countDocuments(),
+      VolumeCommitment.countDocuments(),
+      User.aggregate([{ $group: { _id: null, total: { $sum: "$totalBlipPoints" } } }]),
+      Task.countDocuments({ task_type: "TWITTER", status: "VERIFIED" }),
+      Task.countDocuments({ task_type: "TELEGRAM", status: "VERIFIED" }),
+      Task.countDocuments({ task_type: "WHITEPAPER", status: "VERIFIED" }),
+      Task.countDocuments({ task_type: "TWITTER" }),
+      Task.countDocuments({ task_type: "TELEGRAM" }),
+      Task.countDocuments({ task_type: "WHITEPAPER" }),
+      TweetVerification.countDocuments({ verificationStatus: "verified" }),
+    ]);
+
+    const totalBlipPoints = blipPointsAgg[0]?.total || 0;
+
+    return res.json({
+      success: true,
+      stats: {
+        totalUsers,
+        totalMerchants,
+        totalAdmins,
+        totalAllUsers: totalUsers + totalMerchants + totalAdmins,
+        totalBlipPoints,
+        totalReferrals,
+        totalVolumeCommitments,
+        tweetVerifications,
+        socialQuests: {
+          twitter: { verified: twitterVerified, total: twitterTotal },
+          telegram: { verified: telegramVerified, total: telegramTotal },
+          whitepaper: { verified: whitepaperVerified, total: whitepaperTotal },
+        },
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+/**
+ * ============================
+ * GET ALL USERS DETAILED (PAGINATED)
+ * GET /api/admin/users-detailed?page=1&limit=20&role=USER&search=email
+ * ============================
+ */
+export const getAllUsersDetailed = async (req, res) => {
+  try {
+    const { page = 1, limit = 20, role, search } = req.query;
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+
+    const filter = {};
+    if (role) filter.role = role;
+    if (search) filter.email = { $regex: search, $options: "i" };
+
+    const [users, total] = await Promise.all([
+      User.find(filter)
+        .select("-__v")
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(parseInt(limit))
+        .lean(),
+      User.countDocuments(filter),
+    ]);
+
+    // Get task completion status for all users in this page
+    const userIds = users.map((u) => u._id);
+    const tasks = await Task.find({ user_id: { $in: userIds } })
+      .select("user_id task_type status")
+      .lean();
+
+    // Map tasks by user
+    const tasksByUser = {};
+    tasks.forEach((task) => {
+      const uid = task.user_id.toString();
+      if (!tasksByUser[uid]) tasksByUser[uid] = [];
+      tasksByUser[uid].push({ task_type: task.task_type, status: task.status });
+    });
+
+    // Attach social quest status to each user
+    const usersWithQuests = users.map((user) => {
+      const userTasks = tasksByUser[user._id.toString()] || [];
+      return {
+        ...user,
+        socialQuests: {
+          twitter: userTasks.find((t) => t.task_type === "TWITTER")?.status || null,
+          telegram: userTasks.find((t) => t.task_type === "TELEGRAM")?.status || null,
+          whitepaper: userTasks.find((t) => t.task_type === "WHITEPAPER")?.status || null,
+        },
+      };
+    });
+
+    return res.json({
+      success: true,
+      users: usersWithQuests,
+      pagination: {
+        total,
+        page: parseInt(page),
+        limit: parseInt(limit),
+        totalPages: Math.ceil(total / parseInt(limit)),
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+/**
+ * ============================
+ * GET REFERRAL STATS
+ * GET /api/admin/referral-stats
+ * ============================
+ */
+export const getReferralStats = async (req, res) => {
+  try {
+    const { page = 1, limit = 20 } = req.query;
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+
+    const [referrals, total, topReferrers] = await Promise.all([
+      Referral.find()
+        .populate("referrer_id", "email totalBlipPoints role")
+        .populate("referred_user_id", "email totalBlipPoints role")
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(parseInt(limit))
+        .lean(),
+      Referral.countDocuments(),
+      Referral.aggregate([
+        { $group: { _id: "$referrer_id", count: { $sum: 1 }, totalReward: { $sum: "$reward_amount" } } },
+        { $sort: { count: -1 } },
+        { $limit: 10 },
+        {
+          $lookup: {
+            from: "users",
+            localField: "_id",
+            foreignField: "_id",
+            as: "user",
+          },
+        },
+        { $unwind: "$user" },
+        {
+          $project: {
+            email: "$user.email",
+            role: "$user.role",
+            count: 1,
+            totalReward: 1,
+          },
+        },
+      ]),
+    ]);
+
+    return res.json({
+      success: true,
+      referrals,
+      topReferrers,
+      pagination: {
+        total,
+        page: parseInt(page),
+        limit: parseInt(limit),
+        totalPages: Math.ceil(total / parseInt(limit)),
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+/**
+ * ============================
+ * GET VOLUME COMMITMENTS
+ * GET /api/admin/volume-commitments
+ * ============================
+ */
+export const getVolumeCommitments = async (req, res) => {
+  try {
+    const commitments = await VolumeCommitment.find()
+      .populate("userId", "email totalBlipPoints role")
+      .sort({ createdAt: -1 })
+      .lean();
+
+    return res.json({
+      success: true,
+      count: commitments.length,
+      commitments,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+/**
+ * ============================
+ * GET REGISTRATION CHART DATA (LAST 30 DAYS)
+ * GET /api/admin/registration-chart
+ * ============================
+ */
+export const getRegistrationChart = async (req, res) => {
+  try {
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+    const data = await User.aggregate([
+      { $match: { createdAt: { $gte: thirtyDaysAgo } } },
+      {
+        $group: {
+          _id: {
+            date: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+            role: "$role",
+          },
+          count: { $sum: 1 },
+        },
+      },
+      { $sort: { "_id.date": 1 } },
+    ]);
+
+    // Transform into { date, users, merchants } format
+    const chartMap = {};
+    data.forEach((item) => {
+      const date = item._id.date;
+      if (!chartMap[date]) chartMap[date] = { date, users: 0, merchants: 0 };
+      if (item._id.role === "USER") chartMap[date].users = item.count;
+      if (item._id.role === "MERCHANT") chartMap[date].merchants = item.count;
+    });
+
+    // Fill in missing days with 0
+    const chart = [];
+    const now = new Date();
+    for (let i = 29; i >= 0; i--) {
+      const d = new Date(now);
+      d.setDate(d.getDate() - i);
+      const dateStr = d.toISOString().split("T")[0];
+      chart.push(chartMap[dateStr] || { date: dateStr, users: 0, merchants: 0 });
+    }
+
+    return res.json({ success: true, chart });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+/**
+ * ============================
+ * GET POINTS DISTRIBUTION CHART
+ * GET /api/admin/points-chart
+ * ============================
+ */
+export const getPointsDistributionChart = async (req, res) => {
+  try {
+    const data = await BlipPointLog.aggregate([
+      {
+        $group: {
+          _id: "$event",
+          totalPoints: { $sum: "$bonusPoints" },
+          count: { $sum: 1 },
+        },
+      },
+      { $sort: { totalPoints: -1 } },
+    ]);
+
+    const chart = data.map((item) => ({
+      event: item._id,
+      totalPoints: item.totalPoints,
+      count: item.count,
+    }));
+
+    return res.json({ success: true, chart });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

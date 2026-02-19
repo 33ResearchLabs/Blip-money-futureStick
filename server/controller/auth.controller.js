@@ -17,6 +17,7 @@ import PendingEmailModel from "../models/PendingEmail.model.js";
 import { sendVerificationEmailNew } from "../utils/VerificationEmail.js";
 import Referral from "../models/referral.model.js";
 import { REGISTER_BONUS_POINTS, REFERRAL_BONUS_POINTS, merchantBlipPoints } from "../utils/blipPoints.js";
+import VolumeCommitment from "../models/volumeCommitment.model.js";
 
 const production = process.env.NODE_ENV === "production";
 
@@ -1191,6 +1192,123 @@ export const logout = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Logout failed",
+      error: error.message,
+    });
+  }
+};
+
+/**
+ * Change password (authenticated)
+ * POST /api/auth/change-password
+ */
+export const changePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    const userId = req.user.id;
+
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "Current password and new password are required",
+      });
+    }
+
+    if (newPassword.length < 8) {
+      return res.status(400).json({
+        success: false,
+        message: "New password must be at least 8 characters",
+      });
+    }
+
+    const user = await User.findById(userId).select("+password");
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!isMatch) {
+      return res.status(401).json({
+        success: false,
+        message: "Current password is incorrect",
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Password changed successfully",
+    });
+  } catch (error) {
+    console.error("Change password error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to change password",
+      error: error.message,
+    });
+  }
+};
+
+/**
+ * Commit volume for a corridor (create or update)
+ * POST /api/auth/commit-volume
+ */
+export const commitVolume = async (req, res) => {
+  try {
+    const { corridor, volumeRange } = req.body;
+    const userId = req.user.id;
+
+    if (!corridor || !volumeRange) {
+      return res.status(400).json({
+        success: false,
+        message: "Corridor and volume range are required",
+      });
+    }
+
+    const commitment = await VolumeCommitment.findOneAndUpdate(
+      { userId },
+      { corridor, volumeRange },
+      { upsert: true, new: true, setDefaultsOnInsert: true },
+    );
+
+    res.status(201).json({
+      success: true,
+      message: "Volume commitment saved successfully",
+      commitment,
+    });
+  } catch (error) {
+    console.error("Commit volume error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to save volume commitment",
+      error: error.message,
+    });
+  }
+};
+
+/**
+ * Get user's volume commitment
+ * GET /api/auth/commit-volume
+ */
+export const getCommitVolume = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const commitment = await VolumeCommitment.findOne({ userId });
+
+    res.status(200).json({
+      success: true,
+      commitment: commitment || null,
+    });
+  } catch (error) {
+    console.error("Get commit volume error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to get volume commitment",
       error: error.message,
     });
   }

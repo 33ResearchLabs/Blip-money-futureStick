@@ -131,6 +131,45 @@ export const airdropApi = {
   },
 
   // =====================
+  // SUPERADMIN ENDPOINTS
+  // =====================
+
+  getSuperadminStats: async () => {
+    const response = await api.get("/admin/superadmin-stats");
+    return response;
+  },
+
+  getUsersDetailed: async (page = 1, limit = 20, role?: string, search?: string) => {
+    const params = new URLSearchParams();
+    params.append("page", String(page));
+    params.append("limit", String(limit));
+    if (role) params.append("role", role);
+    if (search) params.append("search", search);
+    const response = await api.get(`/admin/users-detailed?${params.toString()}`);
+    return response;
+  },
+
+  getReferralStats: async (page = 1, limit = 20) => {
+    const response = await api.get(`/admin/referral-stats?page=${page}&limit=${limit}`);
+    return response;
+  },
+
+  getVolumeCommitments: async () => {
+    const response = await api.get("/admin/volume-commitments");
+    return response;
+  },
+
+  getRegistrationChart: async () => {
+    const response = await api.get("/admin/registration-chart");
+    return response;
+  },
+
+  getPointsChart: async () => {
+    const response = await api.get("/admin/points-chart");
+    return response;
+  },
+
+  // =====================
   // LEADERBOARD ENDPOINTS
   // =====================
 

@@ -18,7 +18,8 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
 
   // Determine dashboard from the server response user role, or fall back to prop/context
   const getDashboardForUser = (u?: any) => {
-    if (u?.role === "MERCHANT" || u?.role === "merchant") return "/merchant-dashboard";
+    if (u?.role === "MERCHANT" || u?.role === "merchant")
+      return "/merchant-dashboard";
     if (user?.role === "MERCHANT") return "/merchant-dashboard";
     if (isMerchant) return "/merchant-dashboard";
     return "/dashboard";
@@ -248,16 +249,6 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
     <div className="flex ">
       <div className="w-full max-w-lg">
         {/* Header - hidden when inside merchant wrapper which provides its own */}
-        {!isMerchant && (
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-black dark:text-white mb-2">
-              Sign In
-            </h1>
-            <p className="text-black/50 dark:text-white/50">
-              Welcome back to Blip Money
-            </p>
-          </div>
-        )}
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-5">
@@ -304,7 +295,11 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
                 Password
               </label>
               <Link
-                to={isMerchant ? "/forgot-password?role=merchant" : "/forgot-password"}
+                to={
+                  isMerchant
+                    ? "/forgot-password?role=merchant"
+                    : "/forgot-password"
+                }
                 className="text-xs text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white transition-colors duration-200"
               >
                 Forgot password?

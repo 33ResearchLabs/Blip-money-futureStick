@@ -1,7 +1,17 @@
 import express from "express";
 
 import { protect, adminOnly } from "../middlewares/auth.middleware.js";
-import { getAllSubmittedTasks, getAllUsers, getDashboardStats } from "../controller/admin.controller.js";
+import {
+  getAllSubmittedTasks,
+  getAllUsers,
+  getDashboardStats,
+  getSuperadminStats,
+  getAllUsersDetailed,
+  getReferralStats,
+  getVolumeCommitments,
+  getRegistrationChart,
+  getPointsDistributionChart,
+} from "../controller/admin.controller.js";
 import { verifyTask, rejectTask } from "../controller/task.controller.js";
 
 const router = express.Router();
@@ -34,5 +44,29 @@ router.post("/tasks/:taskId/verify", verifyTask);
 // Reject a task
 // POST /api/admin/tasks/:taskId/reject
 router.post("/tasks/:taskId/reject", rejectTask);
+
+/**
+ * ============================
+ * SUPERADMIN ROUTES
+ * ============================
+ */
+
+// Superadmin aggregated stats
+router.get("/superadmin-stats", getSuperadminStats);
+
+// All users with social quest status (paginated)
+router.get("/users-detailed", getAllUsersDetailed);
+
+// Referral stats with top referrers
+router.get("/referral-stats", getReferralStats);
+
+// All merchant volume commitments
+router.get("/volume-commitments", getVolumeCommitments);
+
+// Registration chart data (last 30 days)
+router.get("/registration-chart", getRegistrationChart);
+
+// Points distribution chart
+router.get("/points-chart", getPointsDistributionChart);
 
 export default router;

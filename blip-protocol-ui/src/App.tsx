@@ -35,6 +35,7 @@ import VerifyEmail from "./pages/Waitlist/VerifyEmail";
 import MerchantDashboard from "./pages/Waitlist/MerchantDashboard";
 import { MerchantLogin } from "./pages/Waitlist/MerchantLogin";
 import MerchantRegister from "./pages/Waitlist/MerchantRegister";
+import SuperAdminDashboard from "./pages/Waitlist/SuperAdminDashboard";
 
 // Lazy load page components
 const Index = lazy(() => import("./pages/Index"));
@@ -297,6 +298,15 @@ const App = () => (
                     element={
                       <ProtectedRoute requiredRole="merchant">
                         <MerchantDashboard />
+                      </ProtectedRoute>
+                    }
+                  />
+
+                  <Route
+                    path="/superadmin"
+                    element={
+                      <ProtectedRoute requiredRole="admin">
+                        <SuperAdminDashboard />
                       </ProtectedRoute>
                     }
                   />

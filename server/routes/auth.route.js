@@ -12,6 +12,9 @@ import {
   resetPassword,
   syncPassword,
   logout,
+  changePassword,
+  commitVolume,
+  getCommitVolume,
 } from "../controller/auth.controller.js";
 import { protect } from "../middlewares/auth.middleware.js";
 
@@ -32,5 +35,8 @@ router.post("/logout", logout);
 // Protected routes (require authentication)
 router.post("/link-wallet", protect, linkWallet);
 router.post("/unlink-wallet", protect, unlinkWallet);
+router.post("/change-password", protect, changePassword);
+router.post("/commit-volume", protect, commitVolume);
+router.get("/commit-volume", protect, getCommitVolume);
 
 export default router;

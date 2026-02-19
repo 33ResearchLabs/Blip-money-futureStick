@@ -192,9 +192,12 @@ export default function Register({
       login(response.user);
 
       toast.success("Email verified successfully! You are now logged in.");
-      const dest = response.user?.role === "MERCHANT" || response.user?.role === "merchant" || isMerchant
-        ? "/merchant-dashboard"
-        : "/dashboard";
+      const dest =
+        response.user?.role === "MERCHANT" ||
+        response.user?.role === "merchant" ||
+        isMerchant
+          ? "/merchant-dashboard"
+          : "/dashboard";
       navigate(dest);
     } catch (error: any) {
       console.error("OTP verification error:", error);
@@ -250,7 +253,7 @@ export default function Register({
       <div className="w-full max-w-lg">
         {/* Header */}
         {!isMerchant && (
-          <div className="text-center mb-10">
+          <div className=" mb-10">
             <div
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
               style={{
