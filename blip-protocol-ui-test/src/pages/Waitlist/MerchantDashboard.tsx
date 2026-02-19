@@ -128,7 +128,7 @@ export default function MerchantDashboard() {
   const navigate = useNavigate();
   const { user, logout, isAuthenticated, isLoading, updatePoints, refreshSession } = useAuth();
 
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
   const [activeTab, setActiveTab] = useState("All");
   const [activityTab, setActivityTab] = useState("All");
   const [lbFilter, setLbFilter] = useState("Points");
@@ -196,7 +196,7 @@ export default function MerchantDashboard() {
     }[]
   >([]);
 
-  const d = theme === "dark";
+  const d = resolvedTheme === "dark" || resolvedTheme === undefined;
 
   // Redirect to login if not authenticated
   useEffect(() => {

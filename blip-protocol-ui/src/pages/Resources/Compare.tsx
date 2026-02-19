@@ -253,7 +253,7 @@ const CompareDetail = ({ comparison }: { comparison: ComparisonPage }) => {
                 {comparison.title}
               </h1>
               <p className="text-lg sm:text-xl text-black dark:text-white/40 max-w-xl mx-auto leading-relaxed">
-                {comparison.headline}dgfg
+                {comparison.headline}
               </p>
             </motion.div>
           </div>

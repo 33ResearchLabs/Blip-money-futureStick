@@ -120,7 +120,7 @@ export default function EmailVerificationPending() {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center p-4">
+    <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center p-4 mt-16 md:mt-0 ">
       <div className="w-full max-w-md text-center">
         {/* Icon */}
         <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-black/10 dark:bg-white/10 mb-6">

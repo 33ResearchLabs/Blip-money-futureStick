@@ -137,6 +137,7 @@ const App = () => (
           attribute="class"
           defaultTheme="dark"
           enableSystem={false}
+          disableTransitionOnChange
         >
           <TooltipProvider>
             <Toaster />
@@ -285,17 +286,8 @@ const App = () => (
                   <Route
                     path="/dashboard"
                     element={
-                      <ProtectedRoute requiredRole="user">
+                      <ProtectedRoute>
                         <Dashboard />
-                      </ProtectedRoute>
-                    }
-                  />
-
-                  <Route
-                    path="/merchant-dashboard"
-                    element={
-                      <ProtectedRoute requiredRole="merchant">
-                        <MerchantDashboard />
                       </ProtectedRoute>
                     }
                   />
