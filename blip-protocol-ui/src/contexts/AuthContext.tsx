@@ -18,7 +18,7 @@ interface User {
   referralCode?: string;
   totalBlipPoints: number;
   status?: string;
-  role?: "USER" | "ADMIN" | "MERCHANT";
+  role?: "USER" | "ADMIN" | "MERCHANT" | "SUPERADMIN";
   twoFactorEnabled?: boolean;
   emailVerified: boolean;
   walletLinked: boolean;

@@ -63,7 +63,7 @@ export const CinematicHeroOfMerchant = () => {
       className="relative min-h-screen overflow-hidden bg-[#FAF8F5] dark:bg-transparent"
     >
       {/* Main Hero Content - 2-column Layout on Desktop */}
-      <main className="relative z-10 pt-20 md:pt-24 lg:pt-20 pb-16 md:pb-20 lg:pb-36 px-4 md:px-8 lg:px-10 max-w-7xl mx-auto flex flex-col md:flex-row md:flex-wrap lg:flex-nowrap items-center md:items-start lg:items-center justify-center md:justify-center lg:justify-start gap-6 md:gap-8 lg:gap-12">
+      <main className="relative z-10 pt-20 md:pt-24 lg:pt-20 pb-20  lg:pb-36 px-4 md:px-8 lg:px-10 max-w-7xl mx-auto flex flex-col md:flex-row md:flex-wrap lg:flex-nowrap items-center md:items-start lg:items-center justify-center md:justify-center lg:justify-start gap-6 md:gap-8 lg:gap-12">
         {/* ==================== Phone Mockup (1st on mobile, 1st on desktop) ==================== */}
 
         {/* ==================== Text Content (2nd on mobile, 2nd on desktop) ==================== */}
@@ -83,19 +83,7 @@ export const CinematicHeroOfMerchant = () => {
             </span>
           </motion.div>
           <motion.h1
-            className="
-    font-display
-    font-bold
-    text-black dark:text-white
-    leading-[0.95]
-    tracking-[-0.04em]
-    text-[clamp(38px,8vw,96px)]
-  
-    mx-auto
-    text-center
-    py-12
-    mb-8
-  "
+            className=" font-display font-bold text-black dark:text-white leading-[0.95] tracking-[-0.04em] text-[clamp(38px,8vw,96px)] mx-auto text-center py-12 mb-8 "
           >
             The settlement layer
             <br /> for{" "}

@@ -116,7 +116,7 @@ const UserLogin = ({ initialView }: AirdropLoginProps) => {
   useEffect(() => {
     if (isLoading) return;
     if (isAuthenticated && user?.emailVerified && !hasRedirected) {
-      const dest = user?.role === "MERCHANT" ? "/merchant-dashboard" : "/dashboard";
+      const dest = user?.role === "SUPERADMIN" ? "/admin-dashboard" : user?.role === "MERCHANT" ? "/merchant-dashboard" : "/dashboard";
       console.log("✅ User already authenticated, redirecting to", dest);
       setHasRedirected(true);
       navigate(dest, { replace: true });

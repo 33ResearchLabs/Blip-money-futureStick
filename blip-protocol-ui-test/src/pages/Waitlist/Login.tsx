@@ -18,6 +18,8 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
 
   // Determine dashboard from the server response user role, or fall back to prop/context
   const getDashboardForUser = (u?: any) => {
+    if (u?.role === "SUPERADMIN" || user?.role === "SUPERADMIN")
+      return "/admin-dashboard";
     if (u?.role === "MERCHANT" || u?.role === "merchant")
       return "/merchant-dashboard";
     if (user?.role === "MERCHANT") return "/merchant-dashboard";

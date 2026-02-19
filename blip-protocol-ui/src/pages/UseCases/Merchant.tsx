@@ -151,7 +151,8 @@ const WhyBlipSection = () => {
               <div className="p-6">
                 {features.map((f, index) => {
                   const isActive = activeIndex === index;
-                  const isPrimary = index === 0;
+                  const isPrimary = activeIndex === null && index === 0;
+
 
                   return (
                     <motion.div
@@ -232,6 +233,7 @@ const WhyBlipSection = () => {
               </div>
             </motion.div>
           </div>
+
         </div>
       </div>
     </section>

@@ -11,6 +11,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requir
   const { isAuthenticated, isLoading, user } = useAuth();
 
   const isMerchant = user?.role === "MERCHANT";
+  const isSuperAdmin = user?.role === "SUPERADMIN";
   const loginRedirect = requiredRole === "merchant" ? "/merchant-waitlist" : "/waitlist";
 
   // Show loading while checking authentication
@@ -37,9 +38,9 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requir
     return <Navigate to={loginRedirect} replace state={{ email: user.email }} />;
   }
 
-  // If a specific role is required, check it
-  if (requiredRole === "admin" && user.role !== "ADMIN") {
-    return <Navigate to="/dashboard" replace />;
+  // SUPERADMIN and ADMIN can access any dashboard
+  if (isSuperAdmin || user.role === "ADMIN") {
+    return <>{children}</>;
   }
   if (requiredRole === "merchant" && !isMerchant) {
     return <Navigate to="/dashboard" replace />;
