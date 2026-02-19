@@ -502,12 +502,12 @@ export default function MerchantDashboard() {
       reward: "+500 BLIP",
       icon: MessageCircle,
     },
-    // {
-    //   id: "discord",
-    //   title: "Join Discord Server",
-    //   reward: "+500 BLIP",
-    //   icon: Hash,
-    // },
+    {
+      id: "discord",
+      title: "Join Discord Server",
+      reward: "+500 BLIP",
+      icon: Hash,
+    },
     {
       id: "retweet",
       title: "Retweet a Post",
@@ -570,7 +570,7 @@ export default function MerchantDashboard() {
   const accentLight = d ? "bg-white/10" : "bg-black/5";
 
   // Dynamic allocation: total merchant pool = 2000 (register) + 3000 (quests) = 5000
-  const totalAllocation = 5100;
+  const totalAllocation = 5000;
   const unlocked = Math.min(blipPoints, totalAllocation);
   const locked = Math.max(0, totalAllocation - blipPoints);
   const unlockedPercent =
@@ -1847,7 +1847,7 @@ export default function MerchantDashboard() {
                 <div className={`h-px ${d ? "bg-white/5" : "bg-black/5"}`} />
 
                 {/* Priority Fee Reduction / Network Priority tabs */}
-                <div>
+                {/* <div>
                   <div
                     className={`flex ${d ? "bg-white/5" : "bg-[#F5F3F0]"} p-0.5 rounded-lg gap-0.5 mb-4`}
                   >
@@ -1881,7 +1881,8 @@ export default function MerchantDashboard() {
                       </li>
                     ))}
                   </ul>
-                </div>
+                </div> */}
+
               </div>
             </div>
           </aside>
@@ -2698,10 +2699,10 @@ export default function MerchantDashboard() {
       )}
 
       {/* ── P2P App Test Banner (bottom-right) ────────────────────────────────── */}
-      <div className="fixed bottom-4 right-4 z-50">
+      <div className="fixed bottom-4 right-4 z-50 ">
         {showP2PBanner ? (
           <div
-            className={`w-[480px] ${surface} border ${border} rounded-2xl shadow-2xl overflow-hidden`}
+            className={`w-full max-w-[480px] ${surface} border ${border} rounded-2xl shadow-2xl overflow-hidden`}
           >
             {/* Header row */}
             <div
@@ -2727,7 +2728,7 @@ export default function MerchantDashboard() {
             </div>
 
             {/* Content */}
-            <div className="px-4 py-3 flex items-center gap-4">
+            <div className="px-4 py-3 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
               <div className="flex-1 min-w-0">
                 <h4
                   className={`text-xs font-bold font-display ${txt} leading-tight`}
