@@ -28,6 +28,7 @@ interface ReferralModalProps {
   onClose: () => void;
   referralCode: string;
   referralLink: string;
+  userRole?: string;
 }
 
 export default function ReferralModal({
@@ -35,7 +36,9 @@ export default function ReferralModal({
   onClose,
   referralCode,
   referralLink,
+  userRole,
 }: ReferralModalProps) {
+  const referralRewardPoints = userRole === "MERCHANT" ? 1000 : 100;
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(true);
   const [referrals, setReferrals] = useState<ReferredUser[]>([]);
@@ -126,7 +129,7 @@ export default function ReferralModal({
                 Your Referrals
               </h2>
               <p className="text-xs text-black/50 dark:text-neutral-500">
-                Earn +100 pts for each referral
+                Earn +{referralRewardPoints.toLocaleString()} pts for each referral
               </p>
             </div>
           </div>

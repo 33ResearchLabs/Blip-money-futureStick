@@ -16,6 +16,7 @@ interface TwitterVerificationModalProps {
   onClose: () => void;
   onSuccess: (points: number) => void;
   userWallet: string;
+  userRole?: string;
 }
 
 type VerificationStep = "tweet" | "submit" | "verifying" | "success" | "error";
@@ -28,14 +29,14 @@ Join the revolution: ${typeof window !== 'undefined' ? window.location.origin : 
 
 #BlipMoney #DeFi #Web3`;
 
-const REWARD_POINTS = 100;
-
 export default function TwitterVerificationModal({
   isOpen,
   onClose,
   userWallet,
   onSuccess,
+  userRole,
 }: TwitterVerificationModalProps) {
+  const REWARD_POINTS = userRole === "MERCHANT" ? 500 : 100;
   const [step, setStep] = useState<VerificationStep>("tweet");
   const [tweetUrl, setTweetUrl] = useState("");
   const [error, setError] = useState("");

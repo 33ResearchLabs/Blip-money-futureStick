@@ -1,6 +1,7 @@
 import User from "../models/user.model.js";
 import BlipPointLog from "../models/BlipPointLog.model.js";
 import { verifyTelegramMembership, getBotInfo } from "../utils/telegram.js";
+import { merchantBlipPoints } from "../utils/blipPoints.js";
 
 const TELEGRAM_REWARD_POINTS = 100;
 
@@ -79,17 +80,18 @@ export const verifyMembership = async (req, res) => {
       });
     }
 
-    // Mark as verified, save Telegram ID, and award points
+    // Mark as verified, save Telegram ID, and award points (merchants get higher rewards)
+    const rewardPoints = user.role === "MERCHANT" ? merchantBlipPoints.telegram : TELEGRAM_REWARD_POINTS;
     user.telegramUserId = telegramUserId;
     user.telegramVerified = true;
-    user.totalBlipPoints = (user.totalBlipPoints || 0) + TELEGRAM_REWARD_POINTS;
+    user.totalBlipPoints = (user.totalBlipPoints || 0) + rewardPoints;
 
     if (!user.pointsHistory) {
       user.pointsHistory = [];
     }
     user.pointsHistory.push({
       action: "Telegram Channel - Join & Verify",
-      points: TELEGRAM_REWARD_POINTS,
+      points: rewardPoints,
       date: new Date(),
       details: `Telegram ID: ${telegramUserId}`,
     });
@@ -100,7 +102,7 @@ export const verifyMembership = async (req, res) => {
     await BlipPointLog.create({
       userId: user._id,
       event: "TELEGRAM_JOIN",
-      bonusPoints: TELEGRAM_REWARD_POINTS,
+      bonusPoints: rewardPoints,
       totalPoints: user.totalBlipPoints,
     });
 
@@ -108,7 +110,7 @@ export const verifyMembership = async (req, res) => {
       success: true,
       message: "Telegram membership verified! Points awarded.",
       data: {
-        pointsAwarded: TELEGRAM_REWARD_POINTS,
+        pointsAwarded: rewardPoints,
         totalPoints: user.totalBlipPoints,
       },
     });

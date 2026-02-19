@@ -6,7 +6,7 @@ import { signToken } from "../utils/jwt.js";
 import UserBlipPoint from "../models/userBlipPoints.model.js";
 import BlipPointLog from "../models/BlipPointLog.model.js";
 import TweetVerification from "../models/TweetVerification.model.js";
-import { REGISTER_BONUS_POINTS, REFERRAL_BONUS_POINTS } from "../utils/blipPoints.js";
+import { REGISTER_BONUS_POINTS, REFERRAL_BONUS_POINTS, merchantBlipPoints } from "../utils/blipPoints.js";
 import { generateReferralCode } from "../utils/generateReferralId.js";
 import jwt from 'jsonwebtoken'
 import Referral from "../models/referral.model.js"
@@ -317,46 +317,72 @@ export const getMe = async (req, res) => {
       return res.status(401).json({ message: "Not authenticated" });
     }
 
-    // Points mapping for events (in case bonusPoints is 0 or missing)
-    const pointsMap = {
-      REGISTER: 200,
-      TWITTER_FOLLOW: 100,
-      TELEGRAM_JOIN: 100,
-      WHITEPAPER_READ: 50,
-      CROSS_BORDER_SWAP: 100,
-      REFERRAL_BONUS_EARNED: 100,
-      REFERRAL_BONUS_RECEIVED: 100,
-    };
+    // Points mapping for events - role-aware (merchants get higher rewards)
+    const isMerchant = user.role === "MERCHANT";
+    const pointsMap = isMerchant
+      ? {
+          MERCHANT_REGISTER: merchantBlipPoints.register,
+          REGISTER: merchantBlipPoints.register,
+          TWITTER_FOLLOW: merchantBlipPoints.twitter,
+          TELEGRAM_JOIN: merchantBlipPoints.telegram,
+          RETWEET: merchantBlipPoints.retweet,
+          WHITEPAPER_READ: 50,
+          CROSS_BORDER_SWAP: 100,
+          REFERRAL_BONUS_EARNED: merchantBlipPoints.referral,
+          REFERRAL_BONUS_RECEIVED: merchantBlipPoints.referral,
+        }
+      : {
+          REGISTER: 200,
+          TWITTER_FOLLOW: 100,
+          TELEGRAM_JOIN: 100,
+          RETWEET: 50,
+          WHITEPAPER_READ: 50,
+          CROSS_BORDER_SWAP: 100,
+          REFERRAL_BONUS_EARNED: 100,
+          REFERRAL_BONUS_RECEIVED: 100,
+        };
 
-    // Backfill missing BlipPointLog entries for Twitter/Telegram verifications
+    // Backfill missing BlipPointLog entries
     const existingEvents = await BlipPointLog.find({ userId: user._id }).distinct("event");
+
+    // Backfill missing MERCHANT_REGISTER log for merchants
+    if (isMerchant && !existingEvents.includes("MERCHANT_REGISTER") && !existingEvents.includes("REGISTER")) {
+      await BlipPointLog.create({
+        userId: user._id,
+        event: "MERCHANT_REGISTER",
+        bonusPoints: merchantBlipPoints.register,
+        totalPoints: (user.totalBlipPoints || 0),
+      });
+    }
 
     if (!existingEvents.includes("TWITTER_FOLLOW")) {
       const twitterVerified = await TweetVerification.findOne({ userId: user._id, verificationStatus: "verified" });
       if (twitterVerified) {
+        const twitterPoints = isMerchant ? merchantBlipPoints.twitter : 100;
         await BlipPointLog.create({
           userId: user._id,
           event: "TWITTER_FOLLOW",
-          bonusPoints: 100,
+          bonusPoints: twitterPoints,
           totalPoints: (user.totalBlipPoints || 0),
         });
       }
     }
 
     if (!existingEvents.includes("TELEGRAM_JOIN") && user.telegramVerified) {
+      const telegramPoints = isMerchant ? merchantBlipPoints.telegram : 100;
       await BlipPointLog.create({
         userId: user._id,
         event: "TELEGRAM_JOIN",
-        bonusPoints: 100,
+        bonusPoints: telegramPoints,
         totalPoints: (user.totalBlipPoints || 0),
       });
     }
 
-    // Calculate actual points from BlipPointLog using current pointsMap values
+    // Calculate actual points from BlipPointLog
     const pointLogs = await BlipPointLog.find({ userId: user._id });
     const calculatedPoints = pointLogs.reduce((sum, log) => {
-      // Always use pointsMap for known events, fallback to stored value for unknown
-      const points = pointsMap[log.event] || log.bonusPoints || log.totalPoints || 0;
+      // Use stored bonusPoints first (most reliable), then pointsMap as fallback
+      const points = log.bonusPoints || pointsMap[log.event] || log.totalPoints || 0;
       return sum + points;
     }, 0);
 
@@ -367,25 +393,12 @@ export const getMe = async (req, res) => {
       actualPoints = userPoints?.points || user.totalBlipPoints || 0;
     }
 
-    // 🔄 Auto-fix: Update BlipPointLog and User model to match current point values
-    if (pointLogs.length > 0) {
-      for (const log of pointLogs) {
-        const correctPoints = pointsMap[log.event] || 0;
-        if (correctPoints > 0 && log.bonusPoints !== correctPoints) {
-          await BlipPointLog.updateOne(
-            { _id: log._id },
-            { $set: { bonusPoints: correctPoints } }
-          );
-        }
-      }
-
-      // Update User.totalBlipPoints if it doesn't match calculated
-      if (user.totalBlipPoints !== actualPoints) {
-        await User.updateOne(
-          { _id: user._id },
-          { $set: { totalBlipPoints: actualPoints } }
-        );
-      }
+    // Update User.totalBlipPoints if it doesn't match calculated
+    if (pointLogs.length > 0 && user.totalBlipPoints !== actualPoints) {
+      await User.updateOne(
+        { _id: user._id },
+        { $set: { totalBlipPoints: actualPoints } }
+      );
     }
 
     return res.status(200).json({
@@ -474,6 +487,7 @@ export const getMyPointsHistory = async (req, res) => {
       MERCHANT_REGISTER: 2000,
       TWITTER_FOLLOW: isMerchant ? 500 : 100,
       TELEGRAM_JOIN: isMerchant ? 500 : 100,
+      RETWEET: isMerchant ? 100 : 50,
       WHITEPAPER_READ: 50,
       CROSS_BORDER_SWAP: 100,
       REFERRAL_BONUS_EARNED: isMerchant ? 1000 : 100,
@@ -491,6 +505,7 @@ export const getMyPointsHistory = async (req, res) => {
       MERCHANT_REGISTER: "Merchant Registration Bonus",
       TWITTER_FOLLOW: "Twitter Verification",
       TELEGRAM_JOIN: "Telegram Verification",
+      RETWEET: "Retweet Campaign",
       WHITEPAPER_READ: "Whitepaper Quiz",
       CROSS_BORDER_SWAP: "Cross Border Swap",
       REFERRAL_BONUS_EARNED: "Referral Bonus (You referred someone)",
@@ -529,14 +544,27 @@ export const getMyPointsHistory = async (req, res) => {
  */
 export const fixPointsData = async (req, res) => {
   try {
-    const pointsMap = {
+    const userPointsMap = {
       REGISTER: 200,
       TWITTER_FOLLOW: 100,
       TELEGRAM_JOIN: 100,
+      RETWEET: 50,
       WHITEPAPER_READ: 50,
       CROSS_BORDER_SWAP: 100,
       REFERRAL_BONUS_EARNED: 100,
       REFERRAL_BONUS_RECEIVED: 100,
+    };
+
+    const merchantPointsMap = {
+      MERCHANT_REGISTER: merchantBlipPoints.register,
+      REGISTER: merchantBlipPoints.register,
+      TWITTER_FOLLOW: merchantBlipPoints.twitter,
+      TELEGRAM_JOIN: merchantBlipPoints.telegram,
+      RETWEET: merchantBlipPoints.retweet,
+      WHITEPAPER_READ: 50,
+      CROSS_BORDER_SWAP: 100,
+      REFERRAL_BONUS_EARNED: merchantBlipPoints.referral,
+      REFERRAL_BONUS_RECEIVED: merchantBlipPoints.referral,
     };
 
     // Step 1: Fix all BlipPointLog entries with missing or zero bonusPoints
@@ -551,7 +579,10 @@ export const fixPointsData = async (req, res) => {
     let fixedLogsCount = 0;
 
     for (const log of logsToFix) {
-      const correctPoints = pointsMap[log.event] || 0;
+      // Determine if this log belongs to a merchant
+      const logUser = await User.findById(log.userId).select("role");
+      const pMap = logUser?.role === "MERCHANT" ? merchantPointsMap : userPointsMap;
+      const correctPoints = pMap[log.event] || 0;
       if (correctPoints > 0) {
         await BlipPointLog.updateOne(
           { _id: log._id },
@@ -566,10 +597,12 @@ export const fixPointsData = async (req, res) => {
     let fixedUsersCount = 0;
 
     for (const user of allUsers) {
+      const pMap = user.role === "MERCHANT" ? merchantPointsMap : userPointsMap;
+
       // Calculate total from BlipPointLog
       const userLogs = await BlipPointLog.find({ userId: user._id });
       const calculatedTotal = userLogs.reduce((sum, log) => {
-        return sum + (log.bonusPoints || pointsMap[log.event] || 0);
+        return sum + (log.bonusPoints || pMap[log.event] || 0);
       }, 0);
 
       // Update user's totalBlipPoints if different

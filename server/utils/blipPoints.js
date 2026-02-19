@@ -7,4 +7,5 @@ export const merchantBlipPoints = {
   twitter: 500,
   telegram: 500,
   discord: 500,
+  retweet: 100,
 };

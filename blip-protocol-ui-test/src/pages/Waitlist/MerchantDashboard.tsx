@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Search,
@@ -32,6 +32,7 @@ import {
   ShieldCheck,
   User,
   X,
+  RefreshCw,
 } from "lucide-react";
 import { ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import { useTheme } from "next-themes";
@@ -41,8 +42,12 @@ import { Logo } from "@/components/Navbar";
 import TwitterVerificationModal from "@/components/TwitterVerificationModal";
 import TelegramVerificationModal from "@/components/TelegramVerificationModal";
 import ReferralModal from "@/components/ReferralModal";
+import RetweetVerificationModal from "@/components/RetweetVerificationModal";
+import WalletLinkingModal from "@/components/WalletLinkingModal";
+import { MerchantWalletButton } from "@/components/wallet/MerchantWalletButton";
 import { twoFactorApi } from "@/services/twoFatctor";
 import { toast } from "sonner";
+import { useAutoRefreshLeaderboard } from "@/hooks/useAutoRefreshLeaderboard";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 interface ActivityEntry {
@@ -54,14 +59,6 @@ interface ActivityEntry {
   merchant: string;
   wallet: string;
   time: string;
-}
-
-interface LeaderboardEntry {
-  rank: number;
-  name: string;
-  verified: boolean;
-  allocation: number;
-  followers: number;
 }
 
 const typeColors: Record<string, { bg: string; text: string; border: string }> =
@@ -139,10 +136,14 @@ export default function MerchantDashboard() {
   const [copied, setCopied] = useState(false);
   const [feePercent] = useState(72);
 
+  // Wallet
+  const [showWalletLinkingModal, setShowWalletLinkingModal] = useState(false);
+
   // Modal states
   const [showTwitterModal, setShowTwitterModal] = useState(false);
   const [showTelegramModal, setShowTelegramModal] = useState(false);
   const [showReferralModal, setShowReferralModal] = useState(false);
+  const [showRetweetModal, setShowRetweetModal] = useState(false);
 
   // Settings dropdown & 2FA modal
   const [showSettingsMenu, setShowSettingsMenu] = useState(false);
@@ -161,10 +162,28 @@ export default function MerchantDashboard() {
     new Set(),
   );
   const [referralCount, setReferralCount] = useState(0);
-  const [leaderboardData, setLeaderboardData] = useState<LeaderboardEntry[]>(
-    [],
-  );
-  const [leaderboardLoading, setLeaderboardLoading] = useState(true);
+
+  // Leaderboard with auto-refresh
+  const {
+    data: leaderboardRawData,
+    isRefreshing: leaderboardLoading,
+    lastRefreshed: leaderboardLastRefreshed,
+    refresh: refreshLeaderboard,
+  } = useAutoRefreshLeaderboard(isAuthenticated);
+
+  const leaderboardData = useMemo(() => {
+    const sorted = [...leaderboardRawData];
+    if (lbFilter === "Followers") {
+      sorted.sort((a, b) => b.followers - a.followers);
+    } else {
+      sorted.sort((a, b) => b.allocation - a.allocation);
+    }
+    sorted.forEach((e, i) => {
+      e.rank = i + 1;
+    });
+    return sorted;
+  }, [leaderboardRawData, lbFilter]);
+
   const [activityData, setActivityData] = useState<ActivityEntry[]>([]);
   const [activityLoading, setActivityLoading] = useState(true);
   const [pointsHistory, setPointsHistory] = useState<
@@ -199,12 +218,32 @@ export default function MerchantDashboard() {
     if (isAuthenticated) fetchReferrals();
   }, [isAuthenticated]);
 
-  // Fetch points history
+  // Fetch points history and mark completed quests
   useEffect(() => {
     const fetchPointsHistory = async () => {
       try {
         const res: any = await airdropApi.getMyPointsHistory();
-        setPointsHistory(res.history || []);
+        const history = res.history || [];
+        setPointsHistory(history);
+
+        // Mark quests as completed based on points history events
+        const eventToQuest: Record<string, string> = {
+          TWITTER_FOLLOW: "twitter",
+          TELEGRAM_JOIN: "telegram",
+          RETWEET: "retweet",
+        };
+        const completed = new Set<string>();
+        for (const entry of history) {
+          const questId = eventToQuest[entry.event];
+          if (questId) completed.add(questId);
+        }
+        if (completed.size > 0) {
+          setCompletedQuests((prev) => {
+            const merged = new Set(prev);
+            completed.forEach((q) => merged.add(q));
+            return merged;
+          });
+        }
       } catch {
         // ignore
       }
@@ -212,24 +251,12 @@ export default function MerchantDashboard() {
     if (isAuthenticated) fetchPointsHistory();
   }, [isAuthenticated]);
 
-  // Fetch leaderboard
+  // Auto-open wallet linking modal when wallet isn't linked
   useEffect(() => {
-    const fetchLeaderboard = async () => {
-      try {
-        setLeaderboardLoading(true);
-        const sortParam = lbFilter === "Followers" ? "referrals" : "points";
-        const res: any = await airdropApi.getMerchantLeaderboard(
-          sortParam as "points" | "referrals",
-        );
-        setLeaderboardData(res.leaderboard || []);
-      } catch {
-        // ignore
-      } finally {
-        setLeaderboardLoading(false);
-      }
-    };
-    if (isAuthenticated) fetchLeaderboard();
-  }, [isAuthenticated, lbFilter]);
+    if (isAuthenticated && user && !user.walletLinked) {
+      setShowWalletLinkingModal(true);
+    }
+  }, [isAuthenticated, user]);
 
   // Fetch activity feed
   useEffect(() => {
@@ -340,10 +367,17 @@ export default function MerchantDashboard() {
     setShowTelegramModal(false);
   };
 
+  const handleRetweetSuccess = (points: number) => {
+    updatePoints(points);
+    setCompletedQuests((prev) => new Set(prev).add("retweet"));
+    setShowRetweetModal(false);
+  };
+
   const handleQuestClick = (questId: string) => {
     if (completedQuests.has(questId)) return;
     if (questId === "twitter") setShowTwitterModal(true);
     else if (questId === "telegram") setShowTelegramModal(true);
+    else if (questId === "retweet") setShowRetweetModal(true);
     else if (questId === "referral") setShowReferralModal(true);
   };
 
@@ -369,7 +403,7 @@ export default function MerchantDashboard() {
     {
       id: "retweet",
       title: "Retweet a Post",
-      reward: "+500 BLIP",
+      reward: "+100 BLIP",
       icon: Repeat2,
     },
     {
@@ -427,9 +461,15 @@ export default function MerchantDashboard() {
   const accentBorder = d ? "border-white/20" : "border-black/20";
   const accentLight = d ? "bg-white/10" : "bg-black/5";
 
+  // Dynamic allocation: total merchant pool = 2000 (register) + 3000 (quests) = 5000
+  const totalAllocation = 5000;
+  const unlocked = Math.min(blipPoints, totalAllocation);
+  const locked = Math.max(0, totalAllocation - blipPoints);
+  const unlockedPercent = totalAllocation > 0 ? Math.round((unlocked / totalAllocation) * 1000) / 10 : 0;
+
   const gaugeFilled = [
-    { value: 59.3, color: d ? "#ffffff" : "#000000" },
-    { value: 40.7, color: gaugeEmpty },
+    { value: unlockedPercent, color: d ? "#ffffff" : "#000000" },
+    { value: 100 - unlockedPercent, color: gaugeEmpty },
   ];
 
   return (
@@ -512,6 +552,9 @@ export default function MerchantDashboard() {
             <Zap className="w-3 h-3 text-black dark:text-white" />
             {blipPoints.toLocaleString()} BLIP
           </div>
+
+          {/* Wallet Connection */}
+          <MerchantWalletButton isDark={d} />
 
           {/* User info */}
           <div
@@ -624,7 +667,7 @@ export default function MerchantDashboard() {
                     </ResponsiveContainer>
                     <div className="text-center mt-1">
                       <p className="text-[11px] font-black text-black dark:text-white leading-none">
-                        59.3%
+                        {unlockedPercent}%
                       </p>
                       <p className={`text-[7px] font-bold ${sub} uppercase`}>
                         unlocked
@@ -638,8 +681,8 @@ export default function MerchantDashboard() {
                 {/* Locked / Unlocked */}
                 <div className="grid grid-cols-2 gap-4">
                   {[
-                    ["Locked Allocation", "8,000"],
-                    ["Unlocked", "4,500"],
+                    ["Locked Allocation", locked.toLocaleString()],
+                    ["Unlocked", unlocked.toLocaleString()],
                   ].map(([label, val]) => (
                     <div key={label}>
                       <p
@@ -760,7 +803,7 @@ export default function MerchantDashboard() {
                         </span>
                         {isDone ? (
                           <span className="text-black dark:text-white text-[10px] font-bold flex items-center gap-1">
-                            <CheckCircle2 className="w-3 h-3" /> Done
+                            <CheckCircle2 className="w-3 h-3" /> Redeemed
                           </span>
                         ) : (
                           <button
@@ -1071,7 +1114,12 @@ export default function MerchantDashboard() {
                   leaderboardData.map((item) => (
                     <div
                       key={`${item.rank}-${item.name}`}
-                      className={`grid grid-cols-12 items-center px-2 py-2.5 rounded-lg transition-all ${hov} cursor-pointer group`}
+                      className={`grid grid-cols-12 items-center px-2 py-2.5 rounded-lg transition-all duration-500 ease-in-out ${hov} cursor-pointer group ${
+                        leaderboardLoading
+                          ? "opacity-0 translate-y-2"
+                          : "opacity-100 translate-y-0"
+                      }`}
+                      style={{ transitionDelay: `${item.rank * 30}ms` }}
                     >
                       <span
                         className={`col-span-1 text-[11px] font-bold ${sub}`}
@@ -1110,9 +1158,20 @@ export default function MerchantDashboard() {
                 className={`px-4 py-2.5 border-t ${divider} flex items-center justify-between`}
               >
                 <span className={`text-[10px] font-bold ${sub}`}>
-                  {blipPoints.toLocaleString()} BLIP Total
+                  {leaderboardLastRefreshed
+                    ? `Updated ${formatTimeAgo(leaderboardLastRefreshed.toISOString())}`
+                    : "Loading..."}
                 </span>
                 <div className="flex items-center gap-2">
+                  <button
+                    onClick={refreshLeaderboard}
+                    className={`${sub} hover:${txt} p-1 rounded transition-all`}
+                    title="Refresh leaderboard"
+                  >
+                    <RefreshCw
+                      className={`w-3.5 h-3.5 ${leaderboardLoading ? "animate-spin" : ""}`}
+                    />
+                  </button>
                   <ArrowUpRight className={`w-3.5 h-3.5 ${sub}`} />
                   <Copy className={`w-3.5 h-3.5 ${sub}`} />
                 </div>
@@ -1392,17 +1451,25 @@ export default function MerchantDashboard() {
       </div>
 
       {/* ── Modals ─────────────────────────────────────────────────────────── */}
+      <WalletLinkingModal
+        isOpen={showWalletLinkingModal}
+        onClose={() => setShowWalletLinkingModal(false)}
+        required
+      />
+
       <TwitterVerificationModal
         isOpen={showTwitterModal}
         onClose={() => setShowTwitterModal(false)}
         onSuccess={handleTwitterSuccess}
         userWallet={user?.wallet_address || ""}
+        userRole={user?.role}
       />
 
       <TelegramVerificationModal
         isOpen={showTelegramModal}
         onClose={() => setShowTelegramModal(false)}
         onSuccess={handleTelegramSuccess}
+        userRole={user?.role}
       />
 
       <ReferralModal
@@ -1410,6 +1477,15 @@ export default function MerchantDashboard() {
         onClose={() => setShowReferralModal(false)}
         referralCode={referralCode}
         referralLink={referralLink}
+        userRole={user?.role}
+      />
+
+      <RetweetVerificationModal
+        isOpen={showRetweetModal}
+        onClose={() => setShowRetweetModal(false)}
+        onSuccess={handleRetweetSuccess}
+        userWallet={user?.wallet_address || ""}
+        userRole={user?.role}
       />
 
       {/* ── 2FA Settings Modal ─────────────────────────────────────────────── */}

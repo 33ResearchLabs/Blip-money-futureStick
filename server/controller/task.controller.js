@@ -3,9 +3,23 @@ import Task from "../models/task.model.js";
 import User from "../models/user.model.js";
 import BlipPointLog from "../models/BlipPointLog.model.js";
 import { verifyTelegramMembership } from "../utils/telegram.js";
+import { merchantBlipPoints } from "../utils/blipPoints.js";
 
 // 🔧 CONFIG (can move to env / DB later)
 const TASK_REWARD_POINTS = 50;
+
+// Get reward points based on user role and task type
+const getTaskRewardPoints = (userRole, taskType) => {
+  if (userRole === "MERCHANT") {
+    const merchantTaskMap = {
+      TWITTER: merchantBlipPoints.twitter,
+      TELEGRAM: merchantBlipPoints.telegram,
+      DISCORD: merchantBlipPoints.discord,
+    };
+    return merchantTaskMap[taskType] || merchantBlipPoints.twitter;
+  }
+  return TASK_REWARD_POINTS;
+};
 const QUIZ_MIN_SCORE = 4; // Minimum correct answers to pass (out of 5)
 
 // Quiz answers (index of correct option for each question)
@@ -163,6 +177,10 @@ export const verifyTask = async (req, res) => {
       CROSS_BORDER_SWAP: "CROSS_BORDER_SWAP",
     };
 
+    // Get user to check role
+    const taskUser = await User.findById(task.user_id).session(session);
+    const rewardPoints = getTaskRewardPoints(taskUser?.role, task.task_type);
+
     // ✅ Mark verified
     task.status = "VERIFIED";
     task.completedAt = new Date();
@@ -171,7 +189,7 @@ export const verifyTask = async (req, res) => {
     // 🎁 Credit BlipPoints to User
     await User.findByIdAndUpdate(
       task.user_id,
-      { $inc: { totalBlipPoints: TASK_REWARD_POINTS } },
+      { $inc: { totalBlipPoints: rewardPoints } },
       { session }
     );
 
@@ -180,8 +198,8 @@ export const verifyTask = async (req, res) => {
       [
         {
           userId: task.user_id,
-          bonusPoints: TASK_REWARD_POINTS,
-          totalPoints: TASK_REWARD_POINTS,
+          bonusPoints: rewardPoints,
+          totalPoints: rewardPoints,
           event: eventMap[task.task_type] || "TWITTER_FOLLOW",
         },
       ],
@@ -297,6 +315,10 @@ export const submitQuiz = async (req, res) => {
       });
     }
 
+    // Get user to check role for reward calculation
+    const quizUser = await User.findById(task.user_id).session(session);
+    const quizReward = getTaskRewardPoints(quizUser?.role, task.task_type);
+
     // Quiz passed - mark task as VERIFIED and award points
     task.status = "VERIFIED";
     task.completedAt = new Date();
@@ -306,7 +328,7 @@ export const submitQuiz = async (req, res) => {
     // Credit BlipPoints to User
     await User.findByIdAndUpdate(
       task.user_id,
-      { $inc: { totalBlipPoints: TASK_REWARD_POINTS } },
+      { $inc: { totalBlipPoints: quizReward } },
       { session }
     );
 
@@ -315,8 +337,8 @@ export const submitQuiz = async (req, res) => {
       [
         {
           userId: task.user_id,
-          bonusPoints: TASK_REWARD_POINTS,
-          totalPoints: TASK_REWARD_POINTS,
+          bonusPoints: quizReward,
+          totalPoints: quizReward,
           event: "WHITEPAPER_READ",
         },
       ],
@@ -330,7 +352,7 @@ export const submitQuiz = async (req, res) => {
       success: true,
       message: "Quiz passed! Points credited.",
       score: correctCount,
-      pointsAwarded: TASK_REWARD_POINTS,
+      pointsAwarded: quizReward,
     });
   } catch (error) {
     await session.abortTransaction();
@@ -397,6 +419,10 @@ export const verifyTelegram = async (req, res) => {
       });
     }
 
+    // Get user to check role for reward calculation
+    const tgUser = await User.findById(task.user_id).session(session);
+    const tgReward = getTaskRewardPoints(tgUser?.role, task.task_type);
+
     // User is a member - mark task as VERIFIED and award points
     task.status = "VERIFIED";
     task.completedAt = new Date();
@@ -410,7 +436,7 @@ export const verifyTelegram = async (req, res) => {
     // Credit BlipPoints to User
     await User.findByIdAndUpdate(
       task.user_id,
-      { $inc: { totalBlipPoints: TASK_REWARD_POINTS } },
+      { $inc: { totalBlipPoints: tgReward } },
       { session }
     );
 
@@ -419,8 +445,8 @@ export const verifyTelegram = async (req, res) => {
       [
         {
           userId: task.user_id,
-          bonusPoints: TASK_REWARD_POINTS,
-          totalPoints: TASK_REWARD_POINTS,
+          bonusPoints: tgReward,
+          totalPoints: tgReward,
           event: "TELEGRAM_JOIN",
         },
       ],
@@ -433,7 +459,7 @@ export const verifyTelegram = async (req, res) => {
     return res.json({
       success: true,
       message: "Telegram membership verified! Points credited.",
-      pointsAwarded: TASK_REWARD_POINTS,
+      pointsAwarded: tgReward,
     });
   } catch (error) {
     await session.abortTransaction();
