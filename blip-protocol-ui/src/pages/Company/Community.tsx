@@ -43,7 +43,7 @@ const socialPlatforms = [
     description:
       "Join our main community chat for real-time discussions, announcements, and support from the core team.",
     members: "12K+ members",
-    href: "https://t.me/+3DpHLzc2BfJhOWEx",
+    href: "https://t.me/+_Whot_m12JE4YWVl",
   },
   {
     icon: FaXTwitter,
@@ -67,7 +67,7 @@ const socialPlatforms = [
   description:
     "Connect with us for company updates, hiring announcements, partnerships, and professional ecosystem news.",
   members: "Professional network",
-  href: "https://www.linkedin.com/in/blip-money-849946386/",
+  href: "https://www.linkedin.com/company/blipmoneyofficial/",
 },
 
 ];
@@ -602,7 +602,7 @@ export default function Community() {
                   infrastructure for the world.
                 </p>
                 <a
-                  href="https://t.me/+3DpHLzc2BfJhOWEx"
+                  href="https://t.me/+_Whot_m12JE4YWVl"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => sounds.click()}

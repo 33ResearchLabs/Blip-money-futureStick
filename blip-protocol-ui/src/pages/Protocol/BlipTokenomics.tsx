@@ -123,7 +123,7 @@ const HeroSection = () => {
             border: "1px solid rgba(255, 255, 255, 0.08)",
           }}
         >
-          <span className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
+          <span className="w-2 h-2 rounded-full bg-black dark:bg-white animate-pulse" />
           <span className="text-[14px] text-black/70 dark:text-white/70 font-medium tracking-wide">
             Fixed Supply
           </span>
@@ -171,7 +171,7 @@ const HeroSection = () => {
             animate={{ y: [0, 8, 0] }}
             transition={{ duration: 1.5, repeat: Infinity }}
           >
-            <ChevronDown className="w-5 h-5 text-[#ff6b35]" />
+            <ChevronDown className="w-5 h-5 text-black dark:text-white" />
           </motion.div>
         </motion.div>
       </div>

@@ -39,13 +39,13 @@ const DesktopPhoneMockup = ({ activeSection, steps }) => (
     <div className="relative z-10 w-full h-full bg-black/5 dark:bg-[#0a0a0a] rounded-[4rem] p-3 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.2)] dark:shadow-[0_50px_100px_-20px_rgba(0,0,0,1)] border-[1.5px] border-black/10 dark:border-white/10 ring-1 ring-black/5 dark:ring-white/5">
       <div className="w-full h-full bg-white dark:bg-black rounded-[3.4rem] p-2 relative overflow-hidden border border-black/5 dark:border-white/5">
         {/* Dynamic Island */}
-        <div className="absolute top-6 left-1/2 -translate-x-1/2 w-32 h-8 bg-black dark:bg-black rounded-full z-[60] flex items-center justify-between px-5 border border-black/10 dark:border-white/10">
+        <div className="absolute top-6 left-1/2 -translate-x-1/2 w-28 h-8 bg-black/70 dark:bg-black rounded-full z-[60] flex items-center justify-between px-5 border border-black/10 dark:border-white/10">
           <div className="w-1.5 h-1.5 rounded-full bg-black/20 dark:bg-white/20" />
-          <div className="w-1 h-1 rounded-full bg-[#ff6b35]/40" />
+          <div className="w-1 h-1 rounded-full dark:bg-black bg-white/70" />
         </div>
 
         <div className="w-full h-full bg-[#FAF8F5] dark:bg-black rounded-[2.8rem] overflow-hidden relative shadow-[inset_0_0_40px_rgba(0,0,0,0.05)] dark:shadow-[inset_0_0_40px_rgba(0,0,0,1)]">
-          <div className="absolute top-0 left-0 right-0 h-14 flex items-center justify-between px-10 z-[55] text-[10px] font-bold text-black/60 dark:text-white/50">
+          <div className="absolute top-0 left-0 right-0 h-14 flex items-center justify-between px-8 z-[55] text-[10px] font-bold text-black/80 dark:text-white/70 ml-4">
             <span>9:41</span>
             <div className="flex gap-1.5 items-center">
               <Signal size={10} />
@@ -175,7 +175,7 @@ const App = () => {
           transition={{ duration: 0.8 }}
           className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] mb-4"
         >
-          <div className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]" />
+          <div className="w-1.5 h-1.5 rounded-full bg-black dark:bg-white" />
           <span className="text-[10px] text-black dark:text-white/50 uppercase tracking-wider">
             How it works
           </span>
@@ -348,7 +348,7 @@ const App = () => {
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Zap size={14} className="text-[#ff6b35]/70" />
+                  <Zap size={14} className="text-black dark:text-white" />
                   <span className="text-xs font-medium text-black/60 dark:text-white/40">Settlement</span>
                 </div>
                 <span className="text-xs font-semibold text-black dark:text-white/70">Instant</span>
@@ -635,8 +635,8 @@ const RequestScreen = () => (
       </div>
     </div>
 
-    <div className="mt-auto mb-2.5 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-black/60 dark:text-white/50 py-2 rounded-3xl text-center font-semibold text-[0.65em] uppercase tracking-[0.2em] flex items-center justify-center gap-2">
-      <Lock size={9} className="text-[#ff6b35]/70" />
+    <div className="mt-1 mb-2.5 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-black/60 dark:text-white/50 py-2 rounded-3xl text-center font-semibold text-[0.65em] uppercase tracking-[0.2em] flex items-center justify-center gap-2">
+      <Lock size={9} className="text-black dark:text-white" />
       Secure Authorization
     </div>
   </div>
@@ -670,7 +670,7 @@ const MatchScreen = () => (
         <h3 className="text-[1.3em] font-semibold text-black dark:text-white/90 tracking-tight">
           Liquidity
         </h3>
-        <span className="text-[0.6em] text-[#ff6b35]/70 font-semibold tracking-[0.2em] uppercase animate-pulse">
+        <span className="text-[0.6em] text-black dark:text-white font-semibold tracking-[0.2em] uppercase animate-pulse">
           Syncing AED
         </span>
       </div>
@@ -688,7 +688,7 @@ const MatchScreen = () => (
         >
           <div className="flex items-center gap-2.5">
             <div
-              className={`w-1.5 h-1.5 rounded-full ${node.active ? "bg-[#ff6b35]/70 shadow-[0_0_8px_#ff6b35]" : "bg-black/20 dark:bg-white/10"}`}
+              className={`w-1.5 h-1.5 rounded-full bg-black/20 dark:bg-white/10 `}
             />
             <div>
               <p className="text-[0.7em] font-semibold text-black dark:text-white/70 uppercase tracking-tight">
@@ -755,7 +755,7 @@ const VerifyScreen = () => (
       </div>
       <div className="bg-white/80 dark:bg-white/5 p-2.5 rounded-2xl border border-black/[0.06] dark:border-white/5 flex justify-between items-center">
         <div className="flex items-center gap-2">
-          <Zap size={12} className="text-[#ff6b35]/70" />
+          <Zap size={12} className="text-black dark:text-white" />
           <span className="text-[0.6em] font-semibold text-black/60 dark:text-white/40 uppercase tracking-widest">
             Settlement
           </span>

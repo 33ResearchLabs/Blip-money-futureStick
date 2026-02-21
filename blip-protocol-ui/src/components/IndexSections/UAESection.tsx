@@ -317,7 +317,7 @@ const UAESection = () => {
             transition={{ duration: 1 }}
             className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-10 bg-black/[0.04] dark:bg-white/[0.04] border border-black/10 dark:border-white/10"
           >
-            <span className="w-2 h-2 rounded-full bg-[#ff6b35]" />
+            <span className="w-2 h-2 rounded-full bg-black dark:bg-white" />
             <span className="text-xs text-black/70 dark:text-white/70 tracking-wide">
               Launching 2026
             </span>

@@ -87,13 +87,12 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
-            className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-10 backdrop-blur-sm"
-            style={{
-              background: "rgba(255, 255, 255, 0.03)",
-              border: "1px solid rgba(255, 255, 255, 0.08)",
-            }}
+            className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-10 
+backdrop-blur-sm 
+bg-black/5 dark:bg-white/10 
+border border-black/10 dark:border-white/20"
           >
-            <span className="w-2 h-2 rounded-full bg-[#ff6b35] " />
+            <span className="w-2 h-2 rounded-full bg-black dark:bg-white " />
             <span className="text-[11px] uppercase tracking-[0.3em] text-black/70 dark:text-white/70 font-semibold">
               How Blip Works
             </span>
@@ -143,7 +142,7 @@ const HeroSection = () => {
               animate={{ y: [0, 8, 0] }}
               transition={{ duration: 1.5, repeat: Infinity }}
             >
-              <ChevronDown className="w-5 h-5 text-[#ff6b35]" />
+              <ChevronDown className="w-5 h-5 bg-black dark:bg-white" />
             </motion.div>
           </motion.div>
         </div>
@@ -215,7 +214,9 @@ const KeyConceptsSection = () => {
                 <h3 className="text-lg font-semibold text-black/70 dark:text-white/70 mb-3">
                   {concept.title}
                 </h3>
-                <p className="text-sm font-medium text-black/50 dark:text-white/50">{concept.desc}</p>
+                <p className="text-sm font-medium text-black/50 dark:text-white/50">
+                  {concept.desc}
+                </p>
               </div>
 
               {/* Bottom accent line */}
@@ -612,7 +613,9 @@ const SecuritySection = () => {
                   <h3 className="text-lg font-semibold text-black/70 dark:text-white/70 mb-2 group-hover:text-black dark:group-hover:text-white transition-colors">
                     {pillar.title}
                   </h3>
-                  <p className="text-sm font-medium text-black/50 dark:text-white/50">{pillar.desc}</p>
+                  <p className="text-sm font-medium text-black/50 dark:text-white/50">
+                    {pillar.desc}
+                  </p>
                 </motion.div>
               ))}
             </div>
@@ -820,7 +823,10 @@ const CTASection = () => {
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
               </span>
             </a> */}
-            <CTAButton  to="/whitepaper" className="w-[220px] h-[48px]"> Read Whitepaper </CTAButton>
+            <CTAButton to="/whitepaper" className="w-[220px] h-[48px]">
+              {" "}
+              Read Whitepaper{" "}
+            </CTAButton>
           </div>
         </motion.div>
       </div>

@@ -87,7 +87,8 @@ const FooterLink = ({
   >
     <span
       className="w-0 group-hover:w-2 h-[1px]
-      bg-orange-500 rounded-full
+      bg-black dark:bg-white
+      rounded-full
       transition-all duration-300
       opacity-0 group-hover:opacity-100"
     />
@@ -362,19 +363,19 @@ export const Footer = ({
 
       <div className="border-t border-black/5 dark:border-white/5 bg-[#F5F3F0] dark:bg-[#050505] px-6 py-10">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-10">
-         <div className="flex  gap-4">
-           <div className="text-sm text-black/80 dark:text-white/30 uppercase tracking-widest">
-            © {new Date().getFullYear()} blip.money
+          <div className="flex  gap-4">
+            <div className="text-sm text-black/80 dark:text-white/30 uppercase tracking-widest">
+              © {new Date().getFullYear()} blip.money
+            </div>
+            <div className="flex items-center gap-8">
+              <Link
+                to="/legal"
+                className="text-sm text-black/80 dark:text-white/30 uppercase tracking-widest font-bold"
+              >
+                Legal
+              </Link>
+            </div>
           </div>
-          <div className="flex items-center gap-8">
-            <Link
-              to="/legal"
-              className="text-sm text-black/80 dark:text-white/30 uppercase tracking-widest font-bold"
-            >
-              Legal
-            </Link>
-          </div>
-         </div>
 
           <div className="flex items-center gap-6">
             {SOCIAL_PLATFORMS.map((platform, i) => {
@@ -393,8 +394,11 @@ export const Footer = ({
           </div>
 
           <div className="flex items-center gap-3 text-sm uppercase tracking-widest font-bold text-black/70 dark:text-white/50">
-            <div className="w-5 h-5 bg-[#ff6b35]/10 dark:bg-[#ff6b35]/15 rounded-sm flex items-center justify-center">
-              <Zap size={11} className="text-[#ff6b35]" />
+            <div className="w-5 h-5 rounded-sm flex items-center justify-center">
+              <Zap
+                size={11}
+                className="text-black dark:text-white fill-current"
+              />
             </div>
             Fast. Simple. Blip.
           </div>
