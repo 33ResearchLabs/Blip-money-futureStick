@@ -25,17 +25,29 @@ export default function AuthPageLayout({
       transition={{ duration: 0.6 }}
       className="max-w-7xl mx-auto"
     >
-      <div className="flex flex-col-reverse lg:flex-row lg:items-stretch gap-12 lg:gap-0 py-16 lg:py-20">
-        {/* LEFT: Card visual (hidden on small screens) */}
-        <div className="hidden lg:flex flex-1 items-center justify-center">
-          <AuthCardStack variant={variant} />
+      <div className="flex flex-col lg:flex-row lg:items-stretch gap-8 lg:gap-0 py-10 lg:py-20">
+        {/* LEFT: Card visual + tagline (hidden below lg) */}
+        <div className="hidden lg:flex flex-1 flex-col items-start justify-center overflow-hidden pl-4">
+          <AuthCardStack variant={variant} className="self-center" />
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="text-5xl lg:text-6xl xl:text-7xl font-bold text-black dark:text-white leading-[1.05] tracking-tight"
+          >
+            Send
+            <br />
+            money
+            <br />
+            <span className="text-[#ff6b35]">in a blip.</span>
+          </motion.h2>
         </div>
 
-        {/* Divider line between card and form */}
+        {/* Divider line between card and form (hidden below lg) */}
         <div className="hidden lg:block w-px bg-black/[0.08] dark:bg-white/[0.08]" />
 
         {/* RIGHT: Form side */}
-        <div className="flex-1 w-full max-w-md lg:pl-12 flex flex-col justify-center">
+        <div className="flex-1 w-full max-w-md mx-auto lg:mx-0 lg:pl-12 flex flex-col justify-center">
           {badge && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
