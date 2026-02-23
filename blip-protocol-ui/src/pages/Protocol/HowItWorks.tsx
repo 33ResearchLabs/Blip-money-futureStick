@@ -142,7 +142,7 @@ border border-black/10 dark:border-white/20"
               animate={{ y: [0, 8, 0] }}
               transition={{ duration: 1.5, repeat: Infinity }}
             >
-              <ChevronDown className="w-5 h-5 text-black dark:text-white" />
+              <ChevronDown className="w-5 h-5 text-black/60 dark:text-white/50 " />
             </motion.div>
           </motion.div>
         </div>

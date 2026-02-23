@@ -24,7 +24,7 @@ export const MerchantDashboardSection = () => {
   const opacity = useTransform(
     scrollYProgress,
     [0, 0.15, 0.85, 1],
-    [0, 1, 1, 0]
+    [0, 1, 1, 0],
   );
   const scale = useTransform(scrollYProgress, [0, 0.2], [0.95, 1]);
 
@@ -181,7 +181,7 @@ export const MerchantDashboardSection = () => {
 
         showNotification(
           "Order auto-matched",
-          `${order.amount} moved to escrow`
+          `${order.amount} moved to escrow`,
         );
 
         return rest;
@@ -200,7 +200,7 @@ export const MerchantDashboardSection = () => {
         const updated = prev.map((order) =>
           order.progress < 100
             ? { ...order, progress: order.progress + 20 }
-            : order
+            : order,
         );
 
         const completedOrders = updated.filter((o) => o.progress >= 100);
@@ -217,7 +217,7 @@ export const MerchantDashboardSection = () => {
 
           showNotification(
             "Auto settlement completed",
-            `${completedOrders[0].amount} released`
+            `${completedOrders[0].amount} released`,
           );
         }
 
@@ -279,7 +279,9 @@ export const MerchantDashboardSection = () => {
           >
             Live matching.
             <br />
-            <span className="text-black dark:text-white/20">Instant profits.</span>
+            <span className="text-black dark:text-white/20">
+              Instant profits.
+            </span>
           </motion.h2>
 
           <motion.p
@@ -289,8 +291,9 @@ export const MerchantDashboardSection = () => {
             transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="md:text-lg text-base text-black/80 dark:text-white/40 max-w-2xl md:mx-auto mx-4"
           >
-            Real-time order matching. Set your rates. Accept orders. Get paid
-            instantly. No custody, no risk.
+            Real-time order matching. Set your rates. Accept orders.
+            <br />
+            Get paid instantly. No custody, no risk.
           </motion.p>
         </div>
 
@@ -326,7 +329,9 @@ export const MerchantDashboardSection = () => {
               <h3 className="text-base font-medium text-black dark:text-white mb-2">
                 {feature.title}
               </h3>
-              <p className="text-sm text-black dark:text-white/40">{feature.desc}</p>
+              <p className="text-sm text-black dark:text-white/40">
+                {feature.desc}
+              </p>
             </div>
           ))}
         </motion.div>

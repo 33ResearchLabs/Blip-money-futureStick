@@ -1,38 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
-  ChevronRight,
-  Globe,
-  Mail,
-  ArrowLeft,
   Loader2,
   HandCoins,
   Activity,
-  Shield,
-  Layers,
   Zap,
-  ShieldCheck,
-  ArrowRight,
   Wallet,
   Gift,
   Users,
-  CheckCircle2,
-  Lock,
-  Eye,
-  EyeOff,
 } from "lucide-react";
-import { WalletConnectButton } from "@/components/wallet/WalletConnectButton";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { airdropApi } from "@/services/Airdrop";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { twoFactorApi } from "@/services/twoFatctor";
 import { SEO } from "@/components";
 import { HreflangTags } from "@/components/HreflangTags";
-import { CTAButton } from "@/components/Navbar";
-import sounds from "@/lib/sounds";
 import Login from "./Login";
+import AuthPageLayout from "@/components/auth/AuthPageLayout";
 
 /* ============================================
    2025/2026 WAITLIST PAGE
@@ -192,6 +178,10 @@ export const MerchantLogin = ({ initialView }: AirdropLoginProps) => {
               errorMessage ||
               "This wallet is already registered with a different email. Please use the correct email or disconnect wallet.",
           });
+          setTimeout(() => {
+            navigate("/merchant-waitlist", { replace: true });
+            setIsConnecting(false);
+          }, 1000);
           await disconnect();
           setEmail("");
           setView("waitlist");
@@ -375,91 +365,68 @@ export const MerchantLogin = ({ initialView }: AirdropLoginProps) => {
         <main className="relative z-10 max-w-7xl mx-auto px-6 pt-20 pb-24">
           {/* WAITLIST VIEW (Email) */}
           {view === "waitlist" && !isAuthenticated && (
-            <div className="max-w-7xl flex flex-col justify-center items-center mx-auto py-16">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="max-w-md mx-auto pt-24  "
-              >
-                <div className="mb-10">
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.1 }}
-                    className="inline-flex items-center gap-2 px-4  py-2  rounded-full mb-6"
-                    style={{
-                      background: "rgba(255, 107, 53, 0.05)",
-                      border: "1px solid rgba(255, 107, 53, 0.15)",
-                    }}
-                  >
-                    <span className="text-[11px] font-semibold text-gray-600 dark:text-white uppercase tracking-wider">
-                      Merchant Portal
-                    </span>
-                  </motion.div>
-                  <h2 className="text-3xl md:text-4xl font-bold text-black dark:text-white mb-3">
-                    Merchant Sign In
-                  </h2>
-                  <p className="text-black/50 dark:text-white/50">
-                    Access your merchant dashboard and manage your business
+            <AuthPageLayout
+              badge="Merchant Portal"
+              heading="Merchant Sign In"
+              description="Access your merchant dashboard and manage your business"
+              variant="merchant"
+              bottomContent={
+                <div className="mt-16 w-full max-w-5xl mx-auto">
+                  <p className="text-center text-xs tracking-widest text-black/40 dark:text-white/50 mb-8">
+                    WHAT MERCHANTS GET
                   </p>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {[
+                      {
+                        icon: Gift,
+                        title: "Genesis Token Allocation",
+                        desc: "Earn BLIP allocation for onboarding early and providing volume.",
+                      },
+                      {
+                        icon: HandCoins,
+                        title: "Zero Settlement Fees",
+                        desc: "Early merchants receive reduced or zero fees during test phase.",
+                      },
+                      {
+                        icon: Zap,
+                        title: "Priority Routing",
+                        desc: "Merchant nodes get faster matching + network priority.",
+                      },
+                      {
+                        icon: Activity,
+                        title: "Early App Access",
+                        desc: "Test merchant dashboard before public launch.",
+                      },
+                      {
+                        icon: Users,
+                        title: "Governance Rights",
+                        desc: "Vote on fees, routes, and network policies.",
+                      },
+                      {
+                        icon: Wallet,
+                        title: "Liquidity Rewards",
+                        desc: "Earn rewards for committing settlement volume.",
+                      },
+                    ].map((item, i) => (
+                      <div
+                        key={i}
+                        className="p-6 border border-black/10 dark:border-white/10 rounded-xl hover:border-black/20 dark:hover:border-white/20 transition"
+                      >
+                        <item.icon className="w-5 h-5 text-black/60 dark:text-white/50 mb-4" />
+                        <h3 className="text-sm font-semibold text-black dark:text-white mb-2">
+                          {item.title}
+                        </h3>
+                        <p className="text-xs text-black/50 dark:text-white/50 leading-relaxed">
+                          {item.desc}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <Login role="merchant" />
-              </motion.div>
-              <div className="mt-16 w-full max-w-5xl">
-                <p className="text-center text-xs tracking-widest text-black/40 dark:text-white/50 mb-8">
-                  WHAT MERCHANTS GET
-                </p>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {[
-                    {
-                      icon: Gift,
-                      title: "Genesis Token Allocation",
-                      desc: "Earn BLIP allocation for onboarding early and providing volume.",
-                    },
-                    {
-                      icon: HandCoins,
-                      title: "Zero Settlement Fees",
-                      desc: "Early merchants receive reduced or zero fees during test phase.",
-                    },
-                    {
-                      icon: Zap,
-                      title: "Priority Routing",
-                      desc: "Merchant nodes get faster matching + network priority.",
-                    },
-                    {
-                      icon: Activity,
-                      title: "Early App Access",
-                      desc: "Test merchant dashboard before public launch.",
-                    },
-                    {
-                      icon: Users,
-                      title: "Governance Rights",
-                      desc: "Vote on fees, routes, and network policies.",
-                    },
-                    {
-                      icon: Wallet,
-                      title: "Liquidity Rewards",
-                      desc: "Earn rewards for committing settlement volume.",
-                    },
-                  ].map((item, i) => (
-                    <div
-                      key={i}
-                      className="p-6 border border-black/10 dark:border-white/10 rounded-xl hover:border-black/20 dark:hover:border-white/20 transition"
-                    >
-                      <item.icon className="w-5 h-5 text-black/60 dark:text-white/50 mb-4" />
-                      <h3 className="text-sm font-semibold text-black dark:text-white mb-2">
-                        {item.title}
-                      </h3>
-                      <p className="text-xs text-black/50 dark:text-white/50 leading-relaxed">
-                        {item.desc}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+              }
+            >
+              <Login role="merchant" />
+            </AuthPageLayout>
           )}
         </main>
       </div>

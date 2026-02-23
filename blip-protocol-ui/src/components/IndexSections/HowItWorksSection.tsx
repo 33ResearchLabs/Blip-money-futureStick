@@ -200,8 +200,8 @@ const App = () => {
           transition={{ duration: 1, delay: 0.1 }}
           className="text-sm md:text-base text-black/80 dark:text-white/50 font-medium max-w-2xl mx-auto px-2"
         >
-          From crypto to cash in under 2 seconds. No banks, no delays, no
-          complexity.
+          From crypto to cash in under 2 seconds.
+          <br /> No banks, no delays, no complexity.
         </motion.p>
       </div>
 
@@ -235,8 +235,9 @@ const App = () => {
           </h3>
 
           <p className="text-base text-black/80 dark:text-white/60 leading-relaxed">
-            Connect institutional treasuries. Blip enables instant payment
-            requests across 40+ fiat rails with sub-second finality.
+            Enter your USDT amount and choose your destination — Dubai, Abu
+            Dhabi, or beyond. Blip handles the rest with sub-second finality
+            across UAE fiat rails.
           </p>
 
           <div className="bg-white/80 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/10 p-5 rounded-2xl">
@@ -245,12 +246,16 @@ const App = () => {
                 <Send size={18} className="text-black/60 dark:text-white/50" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-black dark:text-white">Quick Request</p>
-                <p className="text-xs text-black/50 dark:text-white/30">Instant setup</p>
+                <p className="text-sm font-semibold text-black dark:text-white">
+                  Quick Request
+                </p>
+                <p className="text-xs text-black/50 dark:text-white/30">
+                  DXB • AUH destinations
+                </p>
               </div>
             </div>
             <div className="flex flex-wrap gap-2">
-              {["STABLECOINS", "LOCAL FIAT", "API HOOKS"].map((tag) => (
+              {["USDT → AED", "DXB • AUH", "SECURE AUTH"].map((tag) => (
                 <span
                   key={tag}
                   className="px-3 py-1 bg-black/5 dark:bg-white/5 rounded-full text-xs font-semibold text-black/60 dark:text-white/40"
@@ -284,20 +289,34 @@ const App = () => {
           </h3>
 
           <p className="text-base text-black/80 dark:text-white/60 leading-relaxed">
-            Our engine scans local liquidity to find the exact mid-market
-            exchange rate without hidden bank fees.
+            Our engine simultaneously scans global LPs — London, Singapore,
+            local OTC — locking in the best real-time AED rate for your trade.
           </p>
 
           <div className="grid grid-cols-2 gap-3">
             <div className="bg-white/80 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/10 p-4 rounded-2xl">
-              <Layers size={18} className="text-black/40 dark:text-white/40 mb-2" />
-              <p className="text-sm font-semibold text-black dark:text-white mb-0.5">Best Rate</p>
-              <p className="text-xs text-black/40 dark:text-white/30 font-medium">1 USDT = 3.67 AED</p>
+              <Layers
+                size={18}
+                className="text-black/40 dark:text-white/40 mb-2"
+              />
+              <p className="text-sm font-semibold text-black dark:text-white mb-0.5">
+                Best Rate
+              </p>
+              <p className="text-xs text-black/40 dark:text-white/30 font-medium">
+                1 USDT = 3.6732 AED
+              </p>
             </div>
             <div className="bg-white/80 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/10 p-4 rounded-2xl">
-              <Activity size={18} className="text-black/40 dark:text-white/40 mb-2" />
-              <p className="text-sm font-semibold text-black dark:text-white mb-0.5">Live Search</p>
-              <p className="text-xs text-black/40 dark:text-white/30 font-medium">Liquidity Scan</p>
+              <Activity
+                size={18}
+                className="text-black/40 dark:text-white/40 mb-2"
+              />
+              <p className="text-sm font-semibold text-black dark:text-white mb-0.5">
+                99.98% Efficient
+              </p>
+              <p className="text-xs text-black/40 dark:text-white/30 font-medium">
+                Global LP Scan
+              </p>
             </div>
           </div>
         </motion.div>
@@ -318,47 +337,66 @@ const App = () => {
 
           <h3 className="text-2xl font-semibold leading-snug text-black dark:text-white">
             Secure <br />
-            <span className="text-black/70 dark:text-white/50">
-              Execution.
-            </span>
+            <span className="text-black/70 dark:text-white/50">Execution.</span>
           </h3>
 
           <p className="text-base text-black/80 dark:text-white/60 leading-relaxed">
-            Multi-sig verification ensures funds are validated before instant
-            release to your destination.
+            Authorization confirmed. Settlement executes in 420ms — your AED
+            is released to your destination with a permanent on-chain ledger
+            ID.
           </p>
 
           <div className="bg-white/80 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/10 rounded-2xl overflow-hidden">
             <div className="px-4 py-3 bg-black/[0.03] dark:bg-white/5 border-b border-black/[0.06] dark:border-white/5 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <CheckCircle2 size={16} className="text-black/60 dark:text-white/50" />
+                <CheckCircle2
+                  size={16}
+                  className="text-black/60 dark:text-white/50"
+                />
                 <span className="text-xs font-semibold text-black/60 dark:text-white/40 uppercase tracking-wider">
                   Verified
                 </span>
               </div>
-              <span className="text-xs font-semibold text-black dark:text-white">420ms</span>
+              <span className="text-xs font-semibold text-black dark:text-white">
+                420ms
+              </span>
             </div>
             <div className="p-4 space-y-2">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Fingerprint size={14} className="text-black/60 dark:text-white/40" />
-                  <span className="text-xs font-medium text-black/60 dark:text-white/40">Authorization</span>
+                  <Fingerprint
+                    size={14}
+                    className="text-black/60 dark:text-white/40"
+                  />
+                  <span className="text-xs font-medium text-black/60 dark:text-white/40">
+                    Authorization
+                  </span>
                 </div>
-                <span className="text-xs font-semibold text-black dark:text-white/70">Success</span>
+                <span className="text-xs font-semibold text-black dark:text-white/70">
+                  Success
+                </span>
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Zap size={14} className="text-black dark:text-white" />
-                  <span className="text-xs font-medium text-black/60 dark:text-white/40">Settlement</span>
+                  <span className="text-xs font-medium text-black/60 dark:text-white/40">
+                    Settlement
+                  </span>
                 </div>
-                <span className="text-xs font-semibold text-black dark:text-white/70">Instant</span>
+                <span className="text-xs font-semibold text-black dark:text-white/70">
+                  Instant
+                </span>
               </div>
             </div>
           </div>
-         <div className="flex md:justify-start justify-center">
-          <CTAButton to="/waitlist" className="w-[220px] h-12 uppercase text-sm ">
-            Initiate Trade
-          </CTAButton> </div>
+          <div className="flex md:justify-start justify-center">
+            <CTAButton
+              to="/waitlist"
+              className="w-[220px] h-12 uppercase text-sm "
+            >
+              Initiate Trade
+            </CTAButton>{" "}
+          </div>
         </motion.div>
       </div>
 
@@ -402,28 +440,30 @@ const App = () => {
                 >
                   Request Your <br />
                   <span className="text-black/70 dark:text-white/50  decoration-black/10 dark:decoration-white/10">
-                   Capital Flow.
+                    Capital Flow.
                   </span>
                 </motion.h2>
               </div>
 
               <p className="text-lg text-black/80 dark:text-white/60 leading-relaxed max-w-xl">
-                Connect institutional treasuries. Blip enables instant payment
-                requests across 40+ fiat rails with sub-second finality.
+                Enter your USDT amount and choose your destination — Dubai, Abu
+                Dhabi, or beyond. Blip handles the rest with sub-second
+                finality across UAE fiat rails.
               </p>
 
               <div className="bg-white/80 dark:bg-white/[0.03] border-l border-black/10 dark:border-white/10 p-6 rounded-r-2xl backdrop-blur-md">
                 <p className="text-base leading-relaxed text-black/70 dark:text-white/60">
                   <span className="font-semibold text-black dark:text-white">
-                    Autonomous Rails:
+                    Smart Routing:
                   </span>{" "}
-                  Blip bypasses legacy systems, providing instant liquidity
-                  matching without the overhead.
+                  Blip instantly routes your funds to your chosen destination
+                  (DXB or AUH) with zero intermediaries and full on-chain
+                  transparency.
                 </p>
               </div>
 
               <div className="flex flex-wrap gap-3">
-                {["STABLECOINS", "LOCAL FIAT", "API HOOKS"].map((tag) => (
+                {["USDT → AED", "DXB • AUH", "SECURE AUTH"].map((tag) => (
                   <span
                     key={tag}
                     className="px-4 py-2 bg-white/80 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/10 rounded-full text-xs font-semibold tracking-widest text-black/80 dark:text-white/50"
@@ -454,9 +494,9 @@ const App = () => {
               </div>
 
               <p className="text-lg text-black/80 dark:text-white/60 leading-relaxed max-w-xl">
-                Behind the scenes, our engine scans local liquidity in Dubai to
-                find the exact mid-market exchange rate, avoiding hidden bank
-                fees.
+                Our engine simultaneously scans global liquidity providers —
+                from London to Singapore to local OTC desks — locking in the
+                best real-time AED rate for your trade.
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -469,7 +509,7 @@ const App = () => {
                     Best Rate
                   </h4>
                   <p className="text-xs text-black/40 dark:text-white/30 font-medium tracking-widest uppercase">
-                    1 USDT = 3.67 AED
+                    1 USDT = 3.6732 AED
                   </p>
                 </div>
 
@@ -479,10 +519,10 @@ const App = () => {
                     size={20}
                   />
                   <h4 className="font-semibold text-base mb-1 text-black dark:text-white">
-                    Live Search
+                    99.98% Efficient
                   </h4>
                   <p className="text-xs text-black/40 dark:text-white/30 font-medium tracking-widest uppercase">
-                    Liquidity Scan
+                    Global LP Scan
                   </p>
                 </div>
               </div>
@@ -490,10 +530,11 @@ const App = () => {
               <div className="bg-white/80 dark:bg-white/5  border-black/20 dark:border-white/20 p-6 rounded-2xl backdrop-blur-md">
                 <p className="text-base leading-relaxed text-black/70 dark:text-white/70">
                   <span className="font-semibold text-black dark:text-white">
-                    The Match Stage:
+                    Global Scan, Local Settlement:
                   </span>{" "}
-                  This module finds the match between your USDT and real-time
-                  liquidity providers in Dubai at the fairest price globally.
+                  We source the best price across London, Singapore, and local
+                  OTC desks — then settle directly into your UAE destination at
+                  99.98% efficiency.
                 </p>
               </div>
             </section>
@@ -518,9 +559,9 @@ const App = () => {
               </div>
 
               <p className="text-lg text-black/80 dark:text-white/60 leading-relaxed max-w-xl">
-                The final check. We verify the legality of the funds through
-                multi-sig protocols. Once cleared, the AED is released
-                instantly.
+                Authorization confirmed. Settlement executes in 420ms — your
+                AED is released to your destination with a permanent on-chain
+                ledger ID.
               </p>
 
               <div className="bg-white/90 dark:bg-[#080808] rounded-2xl overflow-hidden shadow-xl border border-black/[0.06] dark:border-white/10">
@@ -538,7 +579,10 @@ const App = () => {
                 </div>
               </div>
 
-              <CTAButton to="/waitlist" className="w-[220px] h-12 uppercase text-sm">
+              <CTAButton
+                to="/waitlist"
+                className="w-[220px] h-12 uppercase text-sm"
+              >
                 Initiate Trade
               </CTAButton>
             </section>

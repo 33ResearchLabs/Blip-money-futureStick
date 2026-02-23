@@ -131,7 +131,6 @@ const CinematicHero = () => {
           {[
             { value: "~2s", label: "Settlement", icon: Clock },
             { value: "0.1%", label: "Fees", icon: Percent },
-            { value: "150+", label: "Countries", icon: Globe2 },
           ].map((stat, i) => (
             <div key={stat.label} className="text-center ">
               <div className="flex items-center justify-center gap-2 mb-1">
@@ -170,7 +169,7 @@ const CinematicHero = () => {
 
           <Link
             to="/merchant"
-            className="inline-flex items-center justify-center w-[240px] h-[56px] rounded-full border border-[#ff6b35]/50 text-black/80 dark:text-white/50 text-base font-medium hover:border-[#ff6b35]/80 hover:text-black dark:hover:text-white/70 transition-all duration-300"
+            className="inline-flex items-center justify-center w-[240px] h-[56px] rounded-full border  text-black/80 dark:text-white/50 text-base font-medium  hover:text-black dark:hover:text-white/70 transition-all duration-300"
           >
             Become a Liquidity Partner
           </Link>

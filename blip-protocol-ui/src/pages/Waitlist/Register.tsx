@@ -23,13 +23,15 @@ import { firebaseAuth } from "@/config/firebase";
 
 export default function Register({
   role,
-}: { role?: "user" | "merchant" } = {}) {
+  embedded,
+}: { role?: "user" | "merchant"; embedded?: boolean } = {}) {
   const navigate = useNavigate();
   const { login } = useAuth();
   const [searchParams] = useSearchParams();
   const referralCode = searchParams.get("ref") || "";
 
   const isMerchant = role === "merchant";
+  const showStandalone = !isMerchant && !embedded;
   const loginPath = isMerchant ? "/merchant-waitlist" : "/waitlist";
 
   const [formData, setFormData] = useState({
@@ -248,11 +250,11 @@ export default function Register({
 
   return (
     <div
-      className={`${isMerchant ? "" : "min-h-screen bg-[#FAF8F5] dark:bg-black mt-20"} flex items-center justify-center `}
+      className={`${showStandalone ? "min-h-screen bg-[#FAF8F5] dark:bg-black mt-20" : ""} flex items-center justify-center `}
     >
       <div className="w-full max-w-lg">
         {/* Header */}
-        {!isMerchant && (
+        {showStandalone && (
           <div className=" mb-10">
             <div
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
