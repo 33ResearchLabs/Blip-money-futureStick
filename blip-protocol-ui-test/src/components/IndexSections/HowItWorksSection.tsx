@@ -33,7 +33,7 @@ const DesktopPhoneMockup = ({ activeSection, steps }) => (
     <motion.div
       animate={{ opacity: [0.02, 0.04, 0.02], scale: [1, 1.1, 1] }}
       transition={{ duration: 8, repeat: Infinity }}
-      className="absolute inset-0 bg-[#ff6b35] dark:bg-white blur-[140px] rounded-full pointer-events-none"
+      className="absolute inset-0 bg-black dark:bg-white dark:bg-white blur-[140px] rounded-full pointer-events-none"
     />
 
     <div className="relative z-10 w-full h-full bg-black/5 dark:bg-[#0a0a0a] rounded-[4rem] p-3 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.2)] dark:shadow-[0_50px_100px_-20px_rgba(0,0,0,1)] border-[1.5px] border-black/10 dark:border-white/10 ring-1 ring-black/5 dark:ring-white/5">
@@ -165,7 +165,7 @@ const App = () => {
   return (
     <div
       ref={containerRef}
-      className="relative min-h-screen bg-[#FAF8F5] dark:bg-black text-black dark:text-white selection:bg-[#ff6b35]/20 isolate py-12 md:py-20"
+      className="relative min-h-screen bg-[#FAF8F5] dark:bg-black text-black dark:text-white selection:bg-black/[0.10] isolate py-12 md:py-20"
     >
       <div className="text-center mb-12 lg:mb-16">
         <motion.div

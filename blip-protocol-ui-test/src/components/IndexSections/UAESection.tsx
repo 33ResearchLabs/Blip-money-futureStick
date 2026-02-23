@@ -114,7 +114,7 @@
 //           }}
 //         >
 //           <motion.span
-//             className="w-2 h-2 rounded-full bg-[#ff6b35]"
+//             className="w-2 h-2 rounded-full bg-black dark:bg-white"
 
 //           />
 //           <span className="text-[13px] text-black dark:text-white/70 font-medium tracking-wide">

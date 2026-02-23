@@ -166,7 +166,7 @@ const ProtocolSection = () => {
       "
             >
               {/* Hover glow */}
-              <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-60 h-60 bg-[#ff6b35] opacity-0 group-hover:opacity-[0.1] blur-[80px] rounded-full transition-opacity duration-700" />
+              <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-60 h-60 bg-black dark:bg-white opacity-0 group-hover:opacity-[0.1] blur-[80px] rounded-full transition-opacity duration-700" />
 
               {/* Icon + Title */}
               <div className="flex flex-col items-center justify-center gap-2">

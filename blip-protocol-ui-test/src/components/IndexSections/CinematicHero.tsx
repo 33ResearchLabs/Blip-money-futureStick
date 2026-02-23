@@ -98,7 +98,7 @@ const CinematicHero = () => {
             <span className="relative inline-block">
               <span className="relative z-10">global crypto.</span>
               {/* <motion.span
-                className="absolute -bottom-1 left-0 right-0 h-[1px] rounded-full bg-[#ff6b35]/40 -rotate-[1.5deg] origin-left"
+                className="absolute -bottom-1 left-0 right-0 h-[1px] rounded-full bg-black dark:bg-white/40 -rotate-[1.5deg] origin-left"
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
                 transition={{

@@ -431,7 +431,7 @@ const UtilitySection = () => {
               onMouseEnter={() => sounds.hover()}
             >
               {/* Hover glow */}
-              <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#ff6b35]/20 opacity-0 group-hover:opacity-[0.08] blur-[40px] rounded-full transition-opacity duration-500" />
+              <div className="absolute -top-10 -right-10 w-32 h-32 bg-black/[0.10] opacity-0 group-hover:opacity-[0.08] blur-[40px] rounded-full transition-opacity duration-500" />
 
               <div className="relative z-10">
                 <div className="mb-8 text-black/40 dark:text-white/40 group-hover:text-black dark:group-hover:text-white transition-colors duration-500">

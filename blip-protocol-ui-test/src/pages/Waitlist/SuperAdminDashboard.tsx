@@ -274,7 +274,7 @@ export default function SuperAdminDashboard() {
       <header className="border-b border-white/10 px-6 py-4 sticky top-0 bg-black/90 backdrop-blur-sm z-50">
         <div className="flex items-center justify-between max-w-[1400px] mx-auto">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-[#ff6b35] flex items-center justify-center text-sm font-bold">
+            <div className="w-8 h-8 rounded-lg bg-black dark:bg-white flex items-center justify-center text-sm font-bold">
               B
             </div>
             <h1 className="text-xl font-display font-bold">Superadmin</h1>
@@ -516,7 +516,7 @@ export default function SuperAdminDashboard() {
                             <span
                               className={`text-xs px-2 py-0.5 rounded-full ${
                                 u.role === "MERCHANT"
-                                  ? "bg-[#ff6b35]/20 text-[#ff6b35]"
+                                  ? "bg-black/[0.10] text-black dark:text-white"
                                   : u.role === "ADMIN"
                                   ? "bg-purple-500/20 text-purple-400"
                                   : "bg-blue-500/20 text-blue-400"
@@ -603,7 +603,7 @@ export default function SuperAdminDashboard() {
                         <span
                           className={`text-xs px-1.5 py-0.5 rounded-full ${
                             r.role === "MERCHANT"
-                              ? "bg-[#ff6b35]/20 text-[#ff6b35]"
+                              ? "bg-black/[0.10] text-black dark:text-white"
                               : "bg-blue-500/20 text-blue-400"
                           }`}
                         >
@@ -738,7 +738,7 @@ export default function SuperAdminDashboard() {
                           <span
                             className={`text-xs px-2 py-0.5 rounded-full ${
                               v.userId?.role === "MERCHANT"
-                                ? "bg-[#ff6b35]/20 text-[#ff6b35]"
+                                ? "bg-black/[0.10] text-black dark:text-white"
                                 : "bg-blue-500/20 text-blue-400"
                             }`}
                           >

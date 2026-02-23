@@ -258,7 +258,7 @@ const BlipscanExplorerSection = () => {
               {/* Footer */}
               <div className="hidden sm:flex items-center justify-between mt-6 pt-4 border-t border-black/[0.04] dark:border-white/[0.04]">
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-[#ff6b35]" />
+                  <div className="w-2 h-2 rounded-full bg-black dark:bg-white" />
                   <span className="text-xs text-black dark:text-white/30">
                     Powered by Blip Protocol
                   </span>

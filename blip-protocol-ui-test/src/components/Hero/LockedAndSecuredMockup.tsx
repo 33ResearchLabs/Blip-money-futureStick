@@ -301,11 +301,11 @@ export default function LockedAndSecuredMockup() {
                           </span>
                           <div className="flex items-center gap-1.5 sm:gap-2">
                             <motion.div
-                              className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]"
+                              className="w-1.5 h-1.5 rounded-full bg-black dark:bg-white"
                               animate={{ opacity: [1, 0.5, 1] }}
                               transition={{ duration: 2, repeat: Infinity }}
                             />
-                            <span className="text-[10px] sm:text-xs text-[#ff6b35] font-medium">
+                            <span className="text-[10px] sm:text-xs text-black dark:text-white font-medium">
                               In Escrow
                             </span>
                           </div>
@@ -428,17 +428,17 @@ export default function LockedAndSecuredMockup() {
                       <div className="flex items-center gap-1.5 sm:gap-2 mb-4 sm:mb-6">
                         <div
                           className={`flex-1 h-0.5 sm:h-1 rounded-full transition-all ${
-                            progressStep >= 1 ? "bg-[#ff6b35]" : "bg-white/10"
+                            progressStep >= 1 ? "bg-black dark:bg-white" : "bg-white/10"
                           }`}
                         />
                         <div
                           className={`flex-1 h-0.5 sm:h-1 rounded-full transition-all ${
-                            progressStep >= 2 ? "bg-[#ff6b35]" : "bg-white/10"
+                            progressStep >= 2 ? "bg-black dark:bg-white" : "bg-white/10"
                           }`}
                         />
                         <div
                           className={`flex-1 h-0.5 sm:h-1 rounded-full transition-all ${
-                            progressStep >= 3 ? "bg-[#ff6b35]" : "bg-white/10"
+                            progressStep >= 3 ? "bg-black dark:bg-white" : "bg-white/10"
                           }`}
                         />
                       </div>
@@ -512,8 +512,8 @@ export default function LockedAndSecuredMockup() {
                         <h3 className="text-white text-base sm:text-lg font-bold">
                           Trade Complete
                         </h3>
-                        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#ff6b35]/10 flex items-center justify-center">
-                          <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-[#ff6b35]" />
+                        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-black/[0.06] flex items-center justify-center">
+                          <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-black dark:text-white" />
                         </div>
                       </div>
 
@@ -561,8 +561,8 @@ export default function LockedAndSecuredMockup() {
                           <div className="flex items-center justify-between">
                             <span className="text-white/40">Status</span>
                             <div className="flex items-center gap-1.5">
-                              <CheckCircle className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#ff6b35]" />
-                              <span className="text-[#ff6b35] font-medium">
+                              <CheckCircle className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-black dark:text-white" />
+                              <span className="text-black dark:text-white font-medium">
                                 Completed
                               </span>
                             </div>

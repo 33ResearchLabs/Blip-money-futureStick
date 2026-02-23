@@ -38,7 +38,7 @@ export default function AuthCardStack({
             </div>
             <div className="relative">
               <div className="w-6 h-6 rounded-full bg-black/[0.06] dark:bg-white/[0.08]" />
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-[#ff6b35] rounded-full text-[6px] text-white flex items-center justify-center">
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-black dark:bg-white rounded-full text-[6px] text-white flex items-center justify-center">
                 2
               </div>
             </div>
@@ -67,7 +67,7 @@ export default function AuthCardStack({
                 key={i}
                 className="flex flex-col items-center justify-center py-2 rounded-lg bg-black/[0.04] dark:bg-white/[0.06]"
               >
-                <div className="w-4 h-4 rounded-full bg-[#ff6b35]/30 mb-1" />
+                <div className="w-4 h-4 rounded-full bg-black/[0.15] mb-1" />
                 <div className="text-[7px] text-black/60 dark:text-white/60">
                   {action}
                 </div>
@@ -150,7 +150,7 @@ export default function AuthCardStack({
         {/* Bottom nav */}
         <div className="absolute bottom-0 inset-x-0 flex justify-center pb-2 pt-1.5 border-t border-black/[0.04] dark:border-white/[0.04] bg-white dark:bg-[#111]">
           <div className="flex gap-8 text-[7px] text-black/40 dark:text-white/40">
-            <div className="text-[#ff6b35]">Home</div>
+            <div className="text-black dark:text-white">Home</div>
             <div>Markets</div>
             <div>Rewards</div>
             <div>Profile</div>

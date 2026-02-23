@@ -61,9 +61,9 @@ export const InfiniteMarquee = () => {
           return (
             <div
               key={index}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-white/10 bg-white/[0.02] backdrop-blur-sm whitespace-nowrap hover:border-[#ff6b35]/30 hover:bg-[#ff6b35]/5 transition-all duration-300 cursor-default"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-white/10 bg-white/[0.02] backdrop-blur-sm whitespace-nowrap hover:border-black/[0.15] hover:bg-black dark:bg-white/5 transition-all duration-300 cursor-default"
             >
-              <Icon className="w-4 h-4 text-[#ff6b35]" />
+              <Icon className="w-4 h-4 text-black dark:text-white" />
               <span className="text-sm text-white/70">{tag.text}</span>
             </div>
           );
@@ -151,7 +151,7 @@ export const GradientHeroSection = () => {
           transition={{ duration: 0.6 }}
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/[0.02] backdrop-blur-sm mb-8"
         >
-          <Sparkles className="w-4 h-4 text-[#ff6b35]" />
+          <Sparkles className="w-4 h-4 text-black dark:text-white" />
           <span className="text-sm text-white/60">
             The Everything Protocol for Payments
           </span>
@@ -299,7 +299,7 @@ export const HulyFeatureCards = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="text-sm uppercase tracking-[0.2em] text-[#ff6b35] mb-4"
+            className="text-sm uppercase tracking-[0.2em] text-black dark:text-white mb-4"
           >
             Core Features
           </motion.p>
@@ -551,7 +551,7 @@ export const InteractiveGlowSection = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="relative p-8 rounded-2xl bg-white/[0.02] border border-white/[0.06] text-center group hover:border-[#ff6b35]/30 transition-all duration-500"
+              className="relative p-8 rounded-2xl bg-white/[0.02] border border-white/[0.06] text-center group hover:border-black/[0.15] transition-all duration-500"
             >
               {/* Hover glow */}
               <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-[#ff6b35]/5 to-transparent" />

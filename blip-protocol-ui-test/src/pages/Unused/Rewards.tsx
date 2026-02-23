@@ -329,7 +329,7 @@ const HeroSection = () => {
               background: "rgba(255, 107, 53, 0.05)",
             }}
           >
-            <motion.span className="w-2 h-2 rounded-full bg-[#ff6b35] " />
+            <motion.span className="w-2 h-2 rounded-full bg-black dark:bg-white " />
             <span className="text-[13px] text-black/70 dark:text-white/70 font-medium tracking-wide">
               20M BLIP Rewards Pool
             </span>
@@ -641,7 +641,7 @@ const RewardTiersSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-20"
         >
-          <span className="text-[10px] uppercase tracking-[0.3em] text-[#ff6b35] mb-4 block">
+          <span className="text-[10px] uppercase tracking-[0.3em] text-black dark:text-white mb-4 block">
             Reward Tiers
           </span>
           <h2 className="text-4xl md:text-6xl font-bold text-black dark:text-white tracking-tight mb-6">
@@ -671,7 +671,7 @@ dark:hover:border-white/15 transition-colors duration-500 bg-white/80 dark:bg-tr
               <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#ffffff] opacity-0 group-hover:opacity-[0.08] blur-[60px] rounded-full transition-opacity duration-500" />
 
               {tier.highlight && (
-                <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-[#ffffff]/20 text-[#ff6b35] text-[10px] font-medium uppercase tracking-wider">
+                <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-[#ffffff]/20 text-black dark:text-white text-[10px] font-medium uppercase tracking-wider">
                   Best Value
                 </div>
               )}
@@ -765,7 +765,7 @@ const HowItWorksSection = () => {
           transition={{ duration: 1 }}
           className="text-center mb-20"
         >
-          <span className="text-[10px] uppercase tracking-[0.3em] text-[#ff6b35] mb-4 block">
+          <span className="text-[10px] uppercase tracking-[0.3em] text-black dark:text-white mb-4 block">
             Process
           </span>
           <h2 className="text-4xl md:text-6xl font-bold text-black dark:text-white tracking-tight">
@@ -871,7 +871,7 @@ const FeaturesSection = () => {
           className="mb-10 flex justify-center"
         >
           <div className="flex flex-col justify-center">
-            <span className="text-[10px] text-center uppercase tracking-[0.3em] text-[#ff6b35] mb-4 block">
+            <span className="text-[10px] text-center uppercase tracking-[0.3em] text-black dark:text-white mb-4 block">
               Features
             </span>
             <h2 className="text-4xl md:text-6xl font-bold text-center text-black dark:text-white tracking-tight mb-4">
