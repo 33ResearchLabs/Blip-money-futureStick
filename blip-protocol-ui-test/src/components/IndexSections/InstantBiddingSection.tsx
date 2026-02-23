@@ -78,7 +78,7 @@ const InstantBiddingSection = () => {
             Instant{" "}
             <span className="text-black/70 dark:text-white/50 relative inline-block">
               <span className="relative z-10">bidding.</span>
-              <motion.span
+              {/* <motion.span
                 className="absolute -bottom-1 left-0 right-0 h-[1.5px] rounded-full bg-gradient-to-r from-[#ff6b35]/60 via-[#ff8f5e]/50 to-[#ff6b35]/20"
                 initial={{ scaleX: 0, originX: 0 }}
                 whileInView={{ scaleX: 1 }}
@@ -88,12 +88,13 @@ const InstantBiddingSection = () => {
                   delay: 0.8,
                   ease: [0.16, 1, 0.3, 1],   
                 }}
-              />
+              /> */}
             </span>
           </h2>
           <p className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 font-medium max-w-2xl mx-auto hidden sm:block leading-relaxed">
-            Merchants compete in real-time for your order. You automatically get
-            the best rate.
+            Merchants compete in real-time for your order.
+            <br />
+            You automatically get the best rate.
           </p>
         </motion.div>
 

@@ -33,6 +33,7 @@ import { HreflangTags } from "@/components/HreflangTags";
 import { CTAButton } from "@/components/Navbar";
 import sounds from "@/lib/sounds";
 import Login from "./Login";
+import AuthPageLayout from "@/components/auth/AuthPageLayout";
 
 /* ============================================
    2025/2026 WAITLIST PAGE
@@ -617,38 +618,16 @@ const UserLogin = ({ initialView }: AirdropLoginProps) => {
 
           {/* WAITLIST VIEW (Email) */}
           {view === "waitlist" && !isAuthenticated && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="max-w-md mx-auto py-24"
+            <AuthPageLayout
+              badge="Welcome Back"
+              heading="Sign In to Blip"
+              description="Access your dashboard and start earning rewards"
+              variant="user"
             >
-              <div className="mb-10 ">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.1 }}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
-                  style={{
-                    background: "rgba(255, 107, 53, 0.05)",
-                    border: "1px solid rgba(255, 107, 53, 0.15)",
-                  }}
-                >
-                  <span className="text-[11px] font-semibold text-gray-600 dark:text-white uppercase tracking-wider">
-                    Welcome Back
-                  </span>
-                </motion.div>
-                <h2 className="text-3xl md:text-4xl font-bold text-black dark:text-white mb-3">
-                  Sign In to Blip
-                </h2>
-                <p className="text-black/50 dark:text-white/50">
-                  Access your dashboard and start earning rewards
-                </p>
-              </div>
               <Login role="user" />
 
               {/* Benefits */}
-              <div className=" border-t border-black/[0.06] dark:border-white/[0.06]">
+              <div className="border-t border-black/[0.06] dark:border-white/[0.06] mt-8">
                 <p className="text-[10px] text-black/80 dark:text-white/40 uppercase tracking-wider mb-4 text-center mt-2 font-medium">
                   What you get
                 </p>
@@ -671,7 +650,7 @@ const UserLogin = ({ initialView }: AirdropLoginProps) => {
                   ))}
                 </div>
               </div>
-            </motion.div>
+            </AuthPageLayout>
           )}
 
           {/* CONNECT WALLET VIEW */}

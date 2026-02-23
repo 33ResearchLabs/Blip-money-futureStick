@@ -70,7 +70,7 @@ const ProtocolSection = () => {
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
             className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-8 backdrop-blur-sm bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-white/10"
           >
-            <motion.span className="w-2 h-2 rounded-full bg-[#ff6b35]" />
+            <motion.span className="w-2 h-2 rounded-full bg-black dark:bg-white" />
             <span className="text-[11px] uppercase tracking-[0.3em] text-black dark:text-white/60">
               The Protocol
             </span>
@@ -93,67 +93,68 @@ const ProtocolSection = () => {
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-2xl mx-auto leading-relaxed font-medium"
           >
-            A decentralized settlement layer for instant, private, global value
-            transfer.
+            A decentralized settlement layer for instant,
+            <br />
+            private, global value transfer.
           </motion.p>
         </div>
 
         {/* Features - with flat transparent icons */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-16">
-  {[
-    {
-      label: "Zero-Knowledge",
-      desc: "Privacy by default",
-      icon: (
-        <Shield
-          className="
+          {[
+            {
+              label: "Zero-Knowledge",
+              desc: "Privacy by default",
+              icon: (
+                <Shield
+                  className="
           w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 lg:w-11 lg:h-11
           text-black/50 dark:text-white/25
           group-hover:text-black dark:group-hover:text-white
           transition-colors duration-300
         "
-          strokeWidth={1.5}
-        />
-      ),
-    },
-    {
-      label: "Solana-Powered",
-      desc: "Sub-second finality",
-      icon: (
-        <Zap
-          className="
+                  strokeWidth={1.5}
+                />
+              ),
+            },
+            {
+              label: "Solana-Powered",
+              desc: "Sub-second finality",
+              icon: (
+                <Zap
+                  className="
           w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 lg:w-11 lg:h-11
           text-black/50 dark:text-white/25
           group-hover:text-black dark:group-hover:text-white
           transition-colors duration-300
         "
-          strokeWidth={1.5}
-        />
-      ),
-    },
-    {
-      label: "Non-Custodial",
-      desc: "Your keys, your funds",
-      icon: (
-        <Globe
-          className="
+                  strokeWidth={1.5}
+                />
+              ),
+            },
+            {
+              label: "Non-Custodial",
+              desc: "Your keys, your funds",
+              icon: (
+                <Globe
+                  className="
           w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 lg:w-11 lg:h-11
           text-black/50 dark:text-white/25
           group-hover:text-black dark:group-hover:text-white
           transition-colors duration-300
         "
-          strokeWidth={1.5}
-        />
-      ),
-    },
-  ].map((item, i) => (
-    <motion.div
-      key={item.label}
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6, delay: 0.4 + i * 0.1 }}
-      className="
+                  strokeWidth={1.5}
+                />
+              ),
+            },
+          ].map((item, i) => (
+            <motion.div
+              key={item.label}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.4 + i * 0.1 }}
+              className="
         group relative rounded-2xl
         p-5 sm:p-8
         text-center cursor-default overflow-hidden
@@ -163,41 +164,40 @@ const ProtocolSection = () => {
         shadow-[0_4px_30px_-8px_rgba(0,0,0,0.08)] dark:shadow-none
         md:hover:scale-[1.02] transition-transform duration-300
       "
-    >
-      {/* Hover glow */}
-      <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-60 h-60 bg-[#ff6b35] opacity-0 group-hover:opacity-[0.1] blur-[80px] rounded-full transition-opacity duration-700" />
+            >
+              {/* Hover glow */}
+              <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-60 h-60 bg-[#ff6b35] opacity-0 group-hover:opacity-[0.1] blur-[80px] rounded-full transition-opacity duration-700" />
 
-      {/* Icon + Title */}
-      <div className="flex flex-col items-center justify-center gap-2">
-        <div className="mb-2 sm:mb-4">{item.icon}</div>
+              {/* Icon + Title */}
+              <div className="flex flex-col items-center justify-center gap-2">
+                <div className="mb-2 sm:mb-4">{item.icon}</div>
 
-        <h3
-          className="
+                <h3
+                  className="
             text-base sm:text-lg font-semibold
             text-black/70 dark:text-white/70
             group-hover:text-black dark:group-hover:text-white
             transition-colors duration-300
           "
-        >
-          {item.label}
-        </h3>
-      </div>
+                >
+                  {item.label}
+                </h3>
+              </div>
 
-      {/* Description */}
-      <p
-        className="
+              {/* Description */}
+              <p
+                className="
           text-xs sm:text-sm font-medium
           text-black/50 dark:text-white/50
           group-hover:text-black/70 dark:group-hover:text-white/70
           transition-colors duration-300
         "
-      >
-        {item.desc}
-      </p>
-    </motion.div>
-  ))}
-</div>
-
+              >
+                {item.desc}
+              </p>
+            </motion.div>
+          ))}
+        </div>
 
         {/* CTA */}
 

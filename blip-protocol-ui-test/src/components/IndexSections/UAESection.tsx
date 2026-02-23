@@ -25,21 +25,19 @@
 //   const float1Y = useTransform(scrollYProgress, [0, 1], [100, -150]);
 //   const float2Y = useTransform(scrollYProgress, [0, 1], [50, -200]);
 //   const float3Y = useTransform(scrollYProgress, [0, 1], [150, -100]);
-//   const rotateOrb = useTransform(scrollYProgress, [0, 1], [0, 180]); 
+//   const rotateOrb = useTransform(scrollYProgress, [0, 1], [0, 180]);
 
 //   const y = useSpring(
 //     useTransform(scrollYProgress, [0, 1], [0, 150]),
 //     smoothConfig,
 //   );
- 
-
 
 //   return (
 //     <>
 //     <section
 //       ref={containerRef}
 //       className="relative md:min-h-screen flex items-center justify-center overflow-hidden bg-[#FAF8F5] dark:bg-black"
-      
+
 //     >
 //       {/* Immersive background with glow */}
 //       <div className="absolute inset-0">
@@ -84,7 +82,6 @@
 //         />
 //         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-white dark:to-black" />
 //       </motion.div>
-       
 
 //         {/* Grid overlay */}
 //         <div
@@ -118,7 +115,7 @@
 //         >
 //           <motion.span
 //             className="w-2 h-2 rounded-full bg-[#ff6b35]"
-           
+
 //           />
 //           <span className="text-[13px] text-black dark:text-white/70 font-medium tracking-wide">
 //             Launching 2026{" "}
@@ -205,11 +202,9 @@
 
 // export default UAESection;
 
-
 import { useRef } from "react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
-import dubai
- from '../../../public/Dubai.jpeg'
+import dubai from "../../../public/Dubai.jpeg";
 
 /* ============================================
    SECTION 2: UAE ANNOUNCEMENT - Apple-style cinematic
@@ -224,7 +219,11 @@ const UAESection = () => {
   });
 
   const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.9, 1, 1, 0.9]);
+  const scale = useTransform(
+    scrollYProgress,
+    [0, 0.3, 0.7, 1],
+    [0.9, 1, 1, 0.9],
+  );
 
   const smoothConfig = {
     stiffness: 100,
@@ -237,8 +236,6 @@ const UAESection = () => {
   const float2Y = useTransform(scrollYProgress, [0, 1], [50, -200]);
   const float3Y = useTransform(scrollYProgress, [0, 1], [150, -100]);
   const rotateOrb = useTransform(scrollYProgress, [0, 1], [0, 180]);
-
-  
 
   return (
     <section
@@ -279,9 +276,7 @@ const UAESection = () => {
         />
 
         {/* Image parallax */}
-        <motion.div
-          className="absolute inset-0 z-0 max-w-7xl mx-auto rounded-3xl px-4 sm:px-6"
-        >
+        <motion.div className="absolute inset-0 z-0 max-w-7xl mx-auto rounded-3xl px-4 sm:px-6">
           <img
             src={dubai}
             alt="Dubai skyline"
@@ -317,7 +312,7 @@ const UAESection = () => {
             transition={{ duration: 1 }}
             className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-10 bg-black/[0.04] dark:bg-white/[0.04] border border-black/10 dark:border-white/10"
           >
-            <span className="w-2 h-2 rounded-full bg-[#ff6b35]" />
+            <span className="w-2 h-2 rounded-full bg-black dark:bg-white" />
             <span className="text-xs text-black/70 dark:text-white/70 tracking-wide">
               Launching 2026
             </span>
@@ -334,13 +329,18 @@ const UAESection = () => {
               initial={{ scaleX: 0, originX: 0 }}
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 1.2, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              transition={{
+                duration: 1.2,
+                delay: 0.8,
+                ease: [0.16, 1, 0.3, 1],
+              }}
             />
           </span>
 
           {/* Subtext */}
           <p className="mt-8 text-lg md:text-xl text-black/60 dark:text-white/40 font-medium max-w-2xl mx-auto">
-            The world's fastest-growing financial hub meets the future of payments.
+            The world's fastest-growing financial hub meets the future of
+            payments.
             <br className="hidden md:block" />
             Private. Instant. Non-custodial.
           </p>
@@ -349,7 +349,6 @@ const UAESection = () => {
           <div className="mt-12 flex justify-center gap-10">
             {[
               { value: "40+", label: "Banks" },
-              { value: "180+", label: "Nationalities" },
               { value: "$2T+", label: "Annual Trade" },
             ].map((stat) => (
               <div key={stat.label} className="text-center">

@@ -1,10 +1,22 @@
 import { useState, useEffect, useRef } from "react";
-import { X, Wallet, AlertCircle, CheckCircle, Loader2, ExternalLink } from "lucide-react";
+import {
+  X,
+  Wallet,
+  AlertCircle,
+  CheckCircle,
+  Loader2,
+  ExternalLink,
+} from "lucide-react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { toast } from "sonner";
 import { useAuth } from "@/contexts/AuthContext";
-import { isMobile, isPhantomInstalled, getPhantomDeepLink } from "@/utils/mobile";
+import { useNavigate } from "react-router-dom";
+import {
+  isMobile,
+  isPhantomInstalled,
+  getPhantomDeepLink,
+} from "@/utils/mobile";
 
 interface WalletLinkingModalProps {
   isOpen: boolean;
@@ -17,15 +29,24 @@ export default function WalletLinkingModal({
   onClose,
   required = true,
 }: WalletLinkingModalProps) {
-  const { publicKey, connected } = useWallet();
-  const { linkWallet, user } = useAuth();
+  const { publicKey, connected, disconnect } = useWallet();
+  const { linkWallet, user, logout } = useAuth();
+  const navigate = useNavigate();
   const [isLinking, setIsLinking] = useState(false);
   const [linked, setLinked] = useState(false);
   const hasAutoLinked = useRef(false);
 
   // Auto-link and close when wallet connects
   useEffect(() => {
-    if (isOpen && connected && publicKey && !linked && !isLinking && !user?.walletLinked && !hasAutoLinked.current) {
+    if (
+      isOpen &&
+      connected &&
+      publicKey &&
+      !linked &&
+      !isLinking &&
+      !user?.walletLinked &&
+      !hasAutoLinked.current
+    ) {
       hasAutoLinked.current = true;
       handleLinkWallet();
     }
@@ -63,6 +84,17 @@ export default function WalletLinkingModal({
       const message = error.response?.data?.message || "Failed to link wallet";
       toast.error(message);
       hasAutoLinked.current = false;
+
+      // If wallet already linked to another account, disconnect wallet, logout and redirect
+      if (error.response?.status === 409) {
+        setTimeout(async () => {
+          try {
+            await disconnect();
+          } catch {}
+          await logout();
+          navigate("/waitlist", { replace: true });
+        }, 1500);
+      }
     } finally {
       setIsLinking(false);
     }
@@ -162,57 +194,56 @@ export default function WalletLinkingModal({
               )}
             </div> */}
             <div
-  className={`
+              className={`
     p-4 sm:p-5
     border rounded-lg
     flex
     gap-4 md:gap-3
     md:items-center
     md:justify-between
-    ${connected
-      ? "bg-green-500/10 border-green-500/20"
-      : "bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10"}
+    ${
+      connected
+        ? "bg-green-500/10 border-green-500/20"
+        : "bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10"
+    }
   `}
->
-  {/* Left Section */}
-  <div className="flex items-center gap-3 w-full">
-    <div
-      className={`
+            >
+              {/* Left Section */}
+              <div className="flex items-center gap-3 w-full">
+                <div
+                  className={`
         w-10 h-10 rounded-full flex items-center justify-center shrink-0
-        ${connected
-          ? "bg-green-500/20"
-          : "bg-black/10 dark:bg-white/10"}
+        ${connected ? "bg-green-500/20" : "bg-black/10 dark:bg-white/10"}
       `}
-    >
-      {connected ? (
-        <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400" />
-      ) : (
-        <Wallet className="w-5 h-5 text-black/40 dark:text-white/40" />
-      )}
-    </div>
+                >
+                  {connected ? (
+                    <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400" />
+                  ) : (
+                    <Wallet className="w-5 h-5 text-black/40 dark:text-white/40" />
+                  )}
+                </div>
 
-    <div className="min-w-0">
-      <p className="text-sm font-medium text-black dark:text-white">
-        {connected ? "Wallet Connected" : "Connect Wallet"}
-      </p>
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-black dark:text-white">
+                    {connected ? "Wallet Connected" : "Connect Wallet"}
+                  </p>
 
-      {connected && publicKey && (
-        <p className="text-xs text-black/60 dark:text-white/60 font-mono truncate">
-          {publicKey.toBase58().slice(0, 8)}...
-          {publicKey.toBase58().slice(-8)}
-        </p>
-      )}
-    </div>
-  </div>
+                  {connected && publicKey && (
+                    <p className="text-xs text-black/60 dark:text-white/60 font-mono truncate">
+                      {publicKey.toBase58().slice(0, 8)}...
+                      {publicKey.toBase58().slice(-8)}
+                    </p>
+                  )}
+                </div>
+              </div>
 
-  {/* Right Section */}
-  {!connected && (
-    <div className="wallet-adapter-button-trigger w-full md:w-auto">
-      <WalletMultiButton className="w-full md:w-auto" />
-    </div>
-  )}
-</div>
-
+              {/* Right Section */}
+              {!connected && (
+                <div className="wallet-adapter-button-trigger w-full md:w-auto">
+                  <WalletMultiButton className="w-full md:w-auto" />
+                </div>
+              )}
+            </div>
 
             {/* Link Button */}
             {connected && !linked && (

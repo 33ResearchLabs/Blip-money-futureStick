@@ -27,7 +27,7 @@ import CryptoToUae from "./pages/Markets/CryptoToUae";
 import { Toaster } from "./components/ui/toaster";
 import LegalPage from "./pages/Legel/LeagalPage";
 import Login from "./pages/Waitlist/Login";
-import Register from "./pages/Waitlist/Register";
+import UserRegister from "./pages/Waitlist/UserRegister";
 import ForgotPassword from "./pages/Waitlist/ForgotPassword";
 import ResetPassword from "./pages/Waitlist/ResetPassword";
 import EmailVerificationPending from "./pages/Waitlist/EmailVerificationPending";
@@ -161,7 +161,7 @@ const App = () => (
                         </FirebaseActionHandler>
                       }
                     />
-                    <Route path="/register" element={<Register />} />
+                    <Route path="/register" element={<UserRegister />} />
                     <Route
                       path="/email-verification-pending"
                       element={<EmailVerificationPending />}

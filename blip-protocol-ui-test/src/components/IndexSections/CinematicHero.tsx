@@ -97,7 +97,7 @@ const CinematicHero = () => {
           <span className="text-black/80 dark:text-white/50">
             <span className="relative inline-block">
               <span className="relative z-10">global crypto.</span>
-              <motion.span
+              {/* <motion.span
                 className="absolute -bottom-1 left-0 right-0 h-[1px] rounded-full bg-[#ff6b35]/40 -rotate-[1.5deg] origin-left"
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
@@ -106,7 +106,7 @@ const CinematicHero = () => {
                   delay: 1,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-              />
+              /> */}
             </span>
           </span>
         </motion.h1>
@@ -131,7 +131,6 @@ const CinematicHero = () => {
           {[
             { value: "~2s", label: "Settlement", icon: Clock },
             { value: "0.1%", label: "Fees", icon: Percent },
-            { value: "150+", label: "Countries", icon: Globe2 },
           ].map((stat, i) => (
             <div key={stat.label} className="text-center ">
               <div className="flex items-center justify-center gap-2 mb-1">
@@ -165,12 +164,12 @@ const CinematicHero = () => {
           >
             <span className="absolute inset-0 bg-white/20 dark:bg-black/10 rounded-full scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-out" />
             <span className="relative z-10">Enter the Network</span>
-            <ArrowRight className="relative z-10 w-5 h-5 text-[#ff6b35] group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="relative z-10 w-5 h-5  group-hover:translate-x-1 transition-transform" />
           </Link>
 
           <Link
             to="/merchant"
-            className="inline-flex items-center justify-center w-[240px] h-[56px] rounded-full border border-[#ff6b35]/50 text-black/80 dark:text-white/50 text-base font-medium hover:border-[#ff6b35]/80 hover:text-black dark:hover:text-white/70 transition-all duration-300"
+            className="inline-flex items-center justify-center w-[240px] h-[56px] rounded-full border  text-black/80 dark:text-white/50 text-base font-medium  hover:text-black dark:hover:text-white/70 transition-all duration-300"
           >
             Become a Liquidity Partner
           </Link>

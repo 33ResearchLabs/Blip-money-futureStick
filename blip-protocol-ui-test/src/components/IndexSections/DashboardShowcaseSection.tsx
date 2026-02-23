@@ -68,29 +68,29 @@ const floatingCards = [
     textColor: "#ffffff",
     icon: "🇮🇳",
     iconBg: "rgba(255,255,255,0.2)",
-    subtitle: "USDC → INR",
+    subtitle: "USDT → AED",
     mainText: "$1,200",
     secondaryText: "Escrow Locked",
     footer: "Released",
     footerBg: "rgba(255,255,255,0.2)",
     footerColor: "#ffffff",
   },
-  {
-    label: "MERCHANT",
-    type: "default",
-    size: "w-52 h-60 sm:w-60 sm:h-72 lg:w-64 lg:h-80",
-    glow: "rgba(99,102,241,0.15)",
-    bgColor: "rgba(255, 255, 255, 0.98)",
-    textColor: "#1e293b",
-    icon: "⚡",
-    iconBg: "rgba(99,102,241,0.1)",
-    subtitle: "LIQUIDITY MATCHED",
-    mainText: "0.1%",
-    secondaryText: "Settlement fee",
-    footer: "Settled",
-    footerBg: "#6366f1",
-    footerColor: "#ffffff",
-  },
+  // {
+  //   label: "MERCHANT",
+  //   type: "default",
+  //   size: "w-52 h-60 sm:w-60 sm:h-72 lg:w-64 lg:h-80",
+  //   glow: "rgba(99,102,241,0.15)",
+  //   bgColor: "rgba(255, 255, 255, 0.98)",
+  //   textColor: "#1e293b",
+  //   icon: "⚡",
+  //   iconBg: "rgba(99,102,241,0.1)",
+  //   subtitle: "LIQUIDITY MATCHED",
+  //   mainText: "0.1%",
+  //   secondaryText: "Settlement fee",
+  //   footer: "Settled",
+  //   footerBg: "#6366f1",
+  //   footerColor: "#ffffff",
+  // },
 ];
 
 export default function DashboardShowcaseSection() {
@@ -529,14 +529,16 @@ export default function DashboardShowcaseSection() {
               willChange: "transform, opacity",
             }}
           >
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold tracking-tight leading-[1.1] text-black dark:text-white px-2">
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl  font-semibold tracking-tight leading-[1.1] text-black dark:text-white px-2">
               Money moves
               <br />
               freely now.
             </h2>
 
             <p className="mt-4 sm:mt-6 p-2 text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 font-medium leading-relaxed">
-              Across borders. Between people. At internet speed.
+              Across borders. Between people.
+              <br />
+              At internet speed.
             </p>
           </motion.div>
         </div>

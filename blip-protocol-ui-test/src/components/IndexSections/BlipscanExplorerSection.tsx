@@ -89,7 +89,7 @@ const BlipscanExplorerSection = () => {
             transition={{ duration: 0.6 }}
             className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.05] dark:border-white/[0.05] mb-6"
           >
-            <div className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
+            <div className="w-2 h-2 rounded-full bg-black dark:bg-white animate-pulse" />
             <span className="text-xs text-black dark:text-white/50 font-medium uppercase tracking-wider">
               Live on Solana
             </span>
