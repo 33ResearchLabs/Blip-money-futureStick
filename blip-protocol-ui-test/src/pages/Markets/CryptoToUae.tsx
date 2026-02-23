@@ -59,7 +59,7 @@ const HeroSection: React.FC<{
             transition={{ duration: 0.8, delay: 0.2 }}
             className="inline-flex items-center gap-2 px-3 py-1 rounded border border-black/[0.06] dark:border-white/10 bg-white/80 dark:bg-[#0A0A0A]/30 text-[#666666] dark:text-[#A0A0A0] text-[10px]  tracking-wider"
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35] animate-pulse"></span>
+            <span className="w-1.5 h-1.5 rounded-full bg-black dark:bg-white animate-pulse"></span>
             ACTIVE ROUTING ENGINE
           </motion.div>
 
@@ -525,7 +525,7 @@ const MarketSimulationSection: React.FC<{
             className="glass-panel p-6 rounded"
           >
             <div className="flex items-center gap-2 mb-6 border-b border-black/[0.06] dark:border-white/5 pb-4">
-              <div className="w-1.5 h-1.5 bg-[#ff6b35] rounded-full animate-pulse"></div>
+              <div className="w-1.5 h-1.5 bg-black dark:bg-white rounded-full animate-pulse"></div>
               <h3 className=" text-xs text-black dark:text-white uppercase tracking-widest">
                 Active Corridors
               </h3>
@@ -533,7 +533,7 @@ const MarketSimulationSection: React.FC<{
             <div className="space-y-6">
               <div className="flex justify-between items-center border-b border-black/[0.06] dark:border-white/5 pb-3">
                 <span className="text-xs text-[#A0A0A0]">Dubai (DXB)</span>
-                <span className="text-[10px]  text-[#ff6b35] border border-[#ff6b35]/20 bg-[#ff6b35]/10 px-1.5 py-0.5 rounded">
+                <span className="text-[10px]  text-black dark:text-white border border-black/[0.12] bg-black/[0.06] px-1.5 py-0.5 rounded">
                   HIGH_LIQUIDITY
                 </span>
               </div>
@@ -730,7 +730,7 @@ const MarketSimulationSection: React.FC<{
                         {node.type}
                       </span>
                       <span className="text-[9px]  text-[#A0A0A0] border border-black/[0.06] dark:border-white/10 px-1.5 py-0.5 rounded flex items-center gap-1">
-                        <div className="w-1.5 h-1.5 bg-[#ff6b35] rounded-full"></div>{" "}
+                        <div className="w-1.5 h-1.5 bg-black dark:bg-white rounded-full"></div>{" "}
                         BOND: {node.bond}
                       </span>
                     </div>
@@ -748,7 +748,7 @@ const MarketSimulationSection: React.FC<{
                         onClick={() =>
                           openTerminal(`Connecting to ${node.name}...`)
                         }
-                        className="text-[9px] font-medium text-[#ff6b35] hover:text-[#ff6b35]/20"
+                        className="text-[9px] font-medium text-black dark:text-white hover:text-black/20 dark:hover:text-white/20"
                       >
                         REQUEST -&gt;
                       </button>
@@ -835,12 +835,12 @@ const MerchantAssuranceSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="glass-panel p-6 rounded border border-[#ff6b35]/30 relative overflow-hidden"
+            className="glass-panel p-6 rounded border border-black/[0.15] relative overflow-hidden"
           >
             <div className="flex justify-between items-center mb-4">
-              <span className="text-xs  text-[#ff6b35] uppercase">Tier 2</span>
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-[#ff6b35]/30 transition-transform group-hover:scale-110">
-                <ShieldCheck className="w-4 h-4 text-[#ff6b35]" />
+              <span className="text-xs  text-black dark:text-white uppercase">Tier 2</span>
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-black/[0.15] transition-transform group-hover:scale-110">
+                <ShieldCheck className="w-4 h-4 text-black dark:text-white" />
               </div>
             </div>
             <h3 className="text-lg font-bold text-black dark:text-white mb-2">
@@ -867,13 +867,13 @@ const MerchantAssuranceSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="glass-panel p-6 rounded border border-[#ff6b35]/50 bg-gradient-to-br from-zinc-100 dark:from-zinc-900 to-white dark:to-black relative overflow-hidden"
+            className="glass-panel p-6 rounded border border-black/[0.25] bg-gradient-to-br from-zinc-100 dark:from-zinc-900 to-white dark:to-black relative overflow-hidden"
           >
             <div className="flex justify-between items-center mb-4">
-              <span className="text-xs  text-[#ff6b35] uppercase font-bold">
+              <span className="text-xs  text-black dark:text-white uppercase font-bold">
                 Tier 1 • Institutional
               </span>
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-[#ff6b35]/20 border border-[#ff6b35]/30">
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-black/[0.10] border border-black/[0.15]">
                 <Building className="w-4 h-4 text-black dark:text-white" strokeWidth={2} />
               </div>
             </div>
@@ -1252,7 +1252,7 @@ const EcosystemSection: React.FC = () => {
               >
                 <div className="mt-1">
                   <svg
-                    className="w-5 h-5 text-[#ff6b35]"
+                    className="w-5 h-5 text-black dark:text-white"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -1330,7 +1330,7 @@ const ComparisonTableSection: React.FC = () => {
                   <th className="px-4 sm:px-8 py-4 font-medium">
                     Standard P2P Listing
                   </th>
-                  <th className="px-4 sm:px-8 py-4 font-medium text-[#ff6b35]">
+                  <th className="px-4 sm:px-8 py-4 font-medium text-black dark:text-white">
                     Blip On-Demand Protocol
                   </th>
                 </tr>
@@ -1580,7 +1580,7 @@ const DetailModal: React.FC<{
           </svg> */}
         </button>
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-1 h-6 bg-[#ff6b35] rounded-full"></div>
+          <div className="w-1 h-6 bg-black dark:bg-white rounded-full"></div>
           <h3 className="text-lg font-bold text-black dark:text-white">{title}</h3>
         </div>
         <div
@@ -1613,7 +1613,7 @@ const TerminalModal: React.FC<{
     <div className="fixed inset-0 z-[60] bg-black/50 dark:bg-black/90 backdrop-blur-sm flex items-center justify-center">
       <div className="bg-white dark:bg-[#0a0a0a] border border-black/[0.06] dark:border-white/10 p-8 rounded w-full max-w-md shadow-2xl modal-animate ">
         <div className="flex items-center gap-3 mb-6 border-b border-black/[0.06] dark:border-white/5 pb-4">
-          <div className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse"></div>
+          <div className="w-2 h-2 rounded-full bg-black dark:bg-white animate-pulse"></div>
           <span className="text-xs text-black dark:text-white tracking-widest uppercase">
             Protocol Handshake
           </span>
@@ -1626,7 +1626,7 @@ const TerminalModal: React.FC<{
           <p>&gt; Fetching active merchant bonds...</p>
         </div>
         <div className="h-0.5 w-full bg-gray-200 dark:bg-[#0A0A0A] rounded-full overflow-hidden mb-4">
-          <div className="h-full bg-[#ff6b35]w-full transition-all duration-[2000ms] ease-out"></div>
+          <div className="h-full bg-black dark:bg-white w-full transition-all duration-[2000ms] ease-out"></div>
         </div>
         <div className="text-[10px] text-black dark:text-white text-right">ESTABLISHED</div>
       </div>

@@ -1001,12 +1001,12 @@ export default function MerchantDashboard() {
       )}
 
       {/* ── Main grid ──────────────────────────────────────────────────────── */}
-      <main className="p-2 max-w-[1800px] mx-auto">
-        <div className="grid grid-cols-12 gap-2 ">
+      <main className="p-2 max-w-[1800px] mx-auto min-h-screen ">
+        <div className="grid grid-cols-12 gap-2 items-stretch h-full">
           {/* ══════════════════════════════════════════════════════════════════ */}
           {/* ── LEFT SIDEBAR ─────────────────────────────────────────────── */}
           {/* ══════════════════════════════════════════════════════════════════ */}
-          <aside className="col-span-12 lg:col-span-3 space-y-2">
+          <aside className="col-span-12 lg:col-span-3 space-y-2 flex flex-col gap-2 ">
             {/* blip.merchant header */}
             <div
               className={`${surface} border ${border} rounded-xl px-4 py-3 flex items-center justify-between`}
@@ -1294,8 +1294,9 @@ export default function MerchantDashboard() {
             </div>
 
             {/* ── COMPLETE SOCIAL QUESTS ─────────────────────────────────────── */}
+
             <div
-              className={`${surface} border ${border} rounded-xl overflow-hidden`}
+              className={`${surface} border ${border} rounded-xl overflow-hidden flex-1 flex flex-col relative`}
             >
               <div
                 className={`px-4 py-3 border-b ${divider} flex items-center gap-2`}
@@ -1362,7 +1363,7 @@ export default function MerchantDashboard() {
                 })}
               </div>
 
-              <div className={`px-4 py-3 border-t ${divider} space-y-3`}>
+              <div className={`px-4 py-3 border-t  ${divider} space-y-3`}>
                 <div className="flex items-center gap-2">
                   <span className={`text-[10px] font-bold ${sub}`}>
                     {questsCompleted} / {socialQuests.length} Quests Completed
@@ -1405,13 +1406,14 @@ export default function MerchantDashboard() {
                   />
                 </div>
               </div>
+              <hr className="absolute bottom-[43px] left-0 right-0 h-px bg-black/10 dark:bg-white/10" />
             </div>
           </aside>
 
           {/* ══════════════════════════════════════════════════════════════════ */}
           {/* ── CENTER ───────────────────────────────────────────────────── */}
           {/* ══════════════════════════════════════════════════════════════════ */}
-          <div className="col-span-12 lg:col-span-6 space-y-2">
+          <div className="col-span-12 lg:col-span-6 space-y-2 h-full flex flex-col gap-2">
             {/* Top tabs bar */}
             <div
               className={`${surface} border ${border} rounded-xl px-4 py-2.5 flex items-center justify-between`}
@@ -1685,7 +1687,7 @@ export default function MerchantDashboard() {
 
             {/* ── LEADERBOARD ──────────────────────────────────────────────── */}
             <div
-              className={`${surface} border ${border} rounded-xl overflow-hidden`}
+              className={`${surface} border ${border} rounded-xl overflow-hidden  flex-1 flex flex-col `}
             >
               <div
                 className={`px-4 py-3 border-b ${divider} flex items-center justify-between`}
@@ -1725,7 +1727,7 @@ export default function MerchantDashboard() {
                 <span className="col-span-3 text-right">BLIP Allocation</span>
               </div>
 
-              <div className="px-2 py-1 max-h-[480px] overflow-y-auto">
+              <div className="px-2 py-1 max-h-[356px] overflow-y-auto">
                 {leaderboardLoading ? (
                   <div className="flex items-center justify-center py-8">
                     <Loader2 className={`w-5 h-5 animate-spin ${sub}`} />
@@ -1806,7 +1808,7 @@ export default function MerchantDashboard() {
           {/* ══════════════════════════════════════════════════════════════════ */}
           {/* ── RIGHT SIDEBAR ─────────────────────────────────────────────── */}
           {/* ══════════════════════════════════════════════════════════════════ */}
-          <aside className="col-span-12 lg:col-span-3 space-y-2">
+          <aside className="col-span-12 lg:col-span-3 flex flex-col gap-2">
             {/* Notifications */}
             <div className={`${surface} border ${border} rounded-xl p-4`}>
               <div className="flex items-center justify-between mb-4">
@@ -1839,7 +1841,7 @@ export default function MerchantDashboard() {
                       {[...Array(3)].map((_, i) => (
                         <div
                           key={i}
-                          className={`h-1 w-6 rounded-sm ${ referralCount >0 ? "bg-black dark:bg-white" : d ? "bg-white/10" : "bg-black/10"}`}
+                          className={`h-1 w-6 rounded-sm ${referralCount > 0 ? "bg-black dark:bg-white" : d ? "bg-white/10" : "bg-black/10"}`}
                         />
                       ))}
                     </div>
@@ -1987,7 +1989,7 @@ export default function MerchantDashboard() {
 
             {/* Network Pool Analytics */}
             <div
-              className={`${surface} border ${border} rounded-xl overflow-hidden`}
+              className={`${surface} border ${border} rounded-xl overflow-hidden flex-1 flex flex-col`}
             >
               <div
                 className={`px-4 py-3 border-b ${divider} flex items-center gap-2`}
@@ -2078,6 +2080,18 @@ export default function MerchantDashboard() {
           </span>
           <ArrowUpRight className="w-3.5 h-3.5" />
         </div> */}
+        {!showP2PBanner && (
+          <div className=" ">
+            <button
+              onClick={() => setShowP2PBanner(true)}
+              className={`${surface} border ${border} rounded-xl shadow-xl p-2 flex items-center gap-2 ${hov} transition-all`}
+            >
+              <Rocket className={`w-4 h-4 ${txt}`} />
+              <span className={`text-[10px] font-bold ${txt}`}>P2P Beta</span>
+              <ChevronUp className={`w-3 h-3 ${muted}`} />
+            </button>
+          </div>
+        )}
       </div>
 
       {/* ── Logout Confirmation ─────────────────────────────────────────── */}
@@ -2897,7 +2911,7 @@ export default function MerchantDashboard() {
 
       {/* ── P2P App Test Banner (bottom-right) ────────────────────────────────── */}
       <div className="fixed bottom-4 right-4 z-50 ">
-        {showP2PBanner ? (
+        {showP2PBanner && (
           <div
             className={`w-full max-w-[480px] ${surface} border ${border} rounded-2xl shadow-2xl overflow-hidden`}
           >
@@ -2964,7 +2978,11 @@ export default function MerchantDashboard() {
               </button>
             </div>
           </div>
-        ) : (
+        )}
+      </div>
+
+      {/* {!showP2PBanner && (
+        <div className="fixed bottom-4 left-4 z-50">
           <button
             onClick={() => setShowP2PBanner(true)}
             className={`${surface} border ${border} rounded-xl shadow-xl p-3 flex items-center gap-2 ${hov} transition-all`}
@@ -2973,8 +2991,8 @@ export default function MerchantDashboard() {
             <span className={`text-[10px] font-bold ${txt}`}>P2P Beta</span>
             <ChevronUp className={`w-3 h-3 ${muted}`} />
           </button>
-        )}
-      </div>
+        </div>
+      )} */}
     </div>
   );
 }

@@ -111,7 +111,7 @@ function SafetyRating({ rating }: { rating: number }) {
           key={dot}
           className={`w-2 h-2 rounded-full ${
             dot <= rating
-              ? "bg-[#ff6b35]"
+              ? "bg-black dark:bg-white"
               : "bg-black/10 dark:bg-white/10"
           }`}
         />
@@ -519,7 +519,7 @@ export default function CryptoToBankUae() {
                     className={`relative text-left p-5 sm:p-6 rounded-2xl border transition-all duration-300 ${
                       isActive
                         ? method.recommended
-                          ? "bg-white/80 dark:bg-white/[0.04] border-[#ff6b35]/30 dark:border-[#ff6b35]/20 shadow-[0_4px_24px_-8px_rgba(255,107,53,0.12)]"
+                          ? "bg-white/80 dark:bg-white/[0.04] border-black/[0.15] dark:border-white/[0.12] shadow-[0_4px_24px_-8px_rgba(0,0,0,0.12)]"
                           : "bg-white/90 dark:bg-white/[0.06] border-black/[0.15] dark:border-white/[0.12] shadow-[0_4px_24px_-8px_rgba(0,0,0,0.08)]"
                         : "bg-white/60 dark:bg-white/[0.03] border-black/[0.06] dark:border-white/[0.06] hover:border-black/[0.12] dark:hover:border-white/[0.1]"
                     }`}
@@ -535,12 +535,12 @@ export default function CryptoToBankUae() {
                     <div className="flex items-center gap-3 mb-4">
                       <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
                         method.recommended
-                          ? "bg-[#ff6b35]/10 dark:bg-[#ff6b35]/10"
+                          ? "bg-black/[0.06] dark:bg-white/[0.06]"
                           : "bg-black/5 dark:bg-white/5"
                       }`}>
                         <Icon className={`w-5 h-5 ${
                           method.recommended
-                            ? "text-[#ff6b35] dark:text-[#ff6b35]"
+                            ? "text-black dark:text-white dark:text-white"
                             : "text-black/40 dark:text-white/40"
                         }`} />
                       </div>
@@ -601,7 +601,7 @@ export default function CryptoToBankUae() {
                   >
                     <div className={`p-6 sm:p-8 rounded-2xl border ${
                       method.recommended
-                        ? "bg-black/[0.02] dark:bg-white/[0.02] border-[#ff6b35]/20 dark:border-[#ff6b35]/10"
+                        ? "bg-black/[0.02] dark:bg-white/[0.02] border-black/[0.12] dark:border-white/[0.08]"
                         : "bg-white/80 dark:bg-white/[0.04] border-black/[0.08] dark:border-white/[0.06]"
                     } backdrop-blur-xl`}>
                       <div className="flex items-start justify-between mb-5">
@@ -658,7 +658,7 @@ export default function CryptoToBankUae() {
                           >
                             <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold ${
                               method.recommended
-                                ? "bg-[#ff6b35]/10 text-[#ff6b35]"
+                                ? "bg-black/[0.06] text-black dark:text-white"
                                 : "bg-black/5 dark:bg-white/5 text-black/40 dark:text-white/40"
                             }`}>
                               {i + 1}
@@ -827,7 +827,7 @@ export default function CryptoToBankUae() {
                         <td className="px-5 py-3.5">
                           <div className="flex items-center gap-2">
                             {row.highlight && (
-                              <BadgeCheck className="w-4 h-4 text-[#ff6b35] flex-shrink-0" />
+                              <BadgeCheck className="w-4 h-4 text-black dark:text-white flex-shrink-0" />
                             )}
                             <span className={`font-medium ${
                               row.highlight
@@ -849,7 +849,7 @@ export default function CryptoToBankUae() {
                         </td>
                         <td className={`px-3 py-3.5 text-center font-semibold ${
                           row.highlight
-                            ? "text-[#ff6b35]"
+                            ? "text-black dark:text-white"
                             : "text-black dark:text-white"
                         }`}>
                           {row.totalCost}

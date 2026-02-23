@@ -277,7 +277,7 @@ const BitcoinPriceUae = () => {
               {/* Badge */}
               <div className="flex items-center gap-2 mb-6">
                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/5 dark:bg-white/5 border border-black/[0.08] dark:border-white/[0.08]">
-                  <div className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
+                  <div className="w-2 h-2 rounded-full bg-black dark:bg-white animate-pulse" />
                   <span className="text-xs font-semibold text-black/60 dark:text-white/40">
                     Live Rates
                   </span>
@@ -364,7 +364,7 @@ const BitcoinPriceUae = () => {
 
               {/* Last updated */}
               <div className="flex items-center gap-2 pt-4 border-t border-black/[0.06] dark:border-white/[0.06]">
-                <div className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
+                <div className="w-2 h-2 rounded-full bg-black dark:bg-white animate-pulse" />
                 <span className="text-xs text-black/80 dark:text-white/40">
                   {lastUpdated
                     ? `Last updated: ${lastUpdated}`
@@ -619,7 +619,7 @@ const BitcoinPriceUae = () => {
             ═══════════════════════════════════════════════ */}
         <Section className="py-16 sm:py-20 border-t border-black/[0.04] dark:border-white/[0.04]">
           <div className="max-w-[900px] mx-auto px-4 sm:px-6 text-center">
-            {/* <div className="w-3 h-3 rounded-full bg-[#ff6b35] mx-auto mb-6" /> */}
+            {/* <div className="w-3 h-3 rounded-full bg-black dark:bg-white mx-auto mb-6" /> */}
             <h2 className="text-3xl sm:text-4xl font-bold text-black dark:text-white mb-4">
               Ready to Convert Bitcoin?
             </h2>

@@ -535,7 +535,7 @@ export default function BtcToAed() {
               {/* Live status badge */}
               <div className="flex items-center gap-3 mb-8">
                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/5 dark:bg-white/5 border border-black/[0.08] dark:border-white/[0.08]">
-                  <div className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
+                  <div className="w-2 h-2 rounded-full bg-black dark:bg-white animate-pulse" />
                   <span className="text-xs font-semibold text-black/60 dark:text-white/40">
                     Live Rate
                   </span>
