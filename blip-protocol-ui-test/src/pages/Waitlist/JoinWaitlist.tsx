@@ -38,34 +38,11 @@ const BlipAirdropHub = () => {
   const [email, setEmail] = useState("");
   const [referral_code, setReferralCode] = useState("");
   const [isConnecting, setIsConnecting] = useState(false);
-  console.log("connection", connected);
-  console.log("connecting", connecting);
-  console.log("wallet", wallet);
-  console.log("public key", publicKey);
   // Derived state from wallet
   const isWalletConnected = connected;
   const walletAddress = publicKey
     ? `${publicKey.toBase58().slice(0, 4)}...${publicKey.toBase58().slice(-4)}`
     : "";
-
-  // Debug wallet connection state
-  useEffect(() => {
-    console.log("📊 JoinWaitlist - Wallet State:", {
-      connected,
-      connecting,
-      publicKey: publicKey?.toBase58(),
-      walletName: wallet?.adapter.name,
-      currentView: view,
-    });
-
-    // If wallet connects, log it
-    if (connected && publicKey) {
-      console.log("🎉 Wallet connected in JoinWaitlist!", {
-        address: publicKey.toBase58(),
-        view: view,
-      });
-    }
-  }, [connected, connecting, publicKey, wallet, view]);
 
   // Dynamic Points & Tasks State
   const [points, setPoints] = useState(0);

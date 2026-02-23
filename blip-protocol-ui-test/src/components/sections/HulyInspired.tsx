@@ -105,7 +105,7 @@ export const GradientHeroSection = () => {
           className="absolute top-1/4 left-1/4 w-[600px] h-[600px] rounded-full opacity-20"
           style={{
             background:
-              "radial-gradient(circle, rgba(147, 112, 219, 0.4) 0%, rgba(255, 107, 53, 0.2) 50%, transparent 70%)",
+              "radial-gradient(circle, rgba(147, 112, 219, 0.4) 0%, rgba(0,0,0,0.2) 50%, transparent 70%)",
             filter: "blur(80px)",
             x: mousePos.x * 30,
             y: mousePos.y * 30,
@@ -127,7 +127,7 @@ export const GradientHeroSection = () => {
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full opacity-10"
           style={{
             background:
-              "radial-gradient(ellipse, rgba(255, 107, 53, 0.5) 0%, transparent 60%)",
+              "radial-gradient(ellipse, rgba(0,0,0,0.5) 0%, transparent 60%)",
             filter: "blur(100px)",
           }}
         />
@@ -168,7 +168,7 @@ export const GradientHeroSection = () => {
             className="block"
             style={{
               background:
-                "linear-gradient(135deg, #ffffff 0%, #c4b5fd 40%, #f0abfc 70%, #ff6b35 100%)",
+                "linear-gradient(135deg, #ffffff 0%, #c4b5fd 40%, #f0abfc 70%, #000000 100%)",
               backgroundClip: "text",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
@@ -210,10 +210,10 @@ export const GradientHeroSection = () => {
         >
           <Link
             to="/waitlist"
-            className="group inline-flex items-center gap-3 px-8 py-4 rounded-full text-black text-[15px] font-medium transition-all duration-500 hover:shadow-[0_0_60px_rgba(255,107,53,0.4)]"
+            className="group inline-flex items-center gap-3 px-8 py-4 rounded-full text-black text-[15px] font-medium transition-all duration-500 hover:shadow-[0_0_60px_rgba(0,0,0,0.25)]"
             style={{
               background:
-                "linear-gradient(135deg, #ff6b35 0%, #ff8c50 50%, #ffb366 100%)",
+                "linear-gradient(135deg, #111 0%, #333 50%, #555 100%)",
             }}
           >
             Get Started
@@ -287,7 +287,7 @@ export const HulyFeatureCards = () => {
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[800px] opacity-20"
         style={{
           background:
-            "radial-gradient(ellipse, rgba(147, 112, 219, 0.3) 0%, rgba(255, 107, 53, 0.1) 40%, transparent 70%)",
+            "radial-gradient(ellipse, rgba(147, 112, 219, 0.3) 0%, rgba(0,0,0,0.1) 40%, transparent 70%)",
           filter: "blur(100px)",
         }}
       />
@@ -492,7 +492,7 @@ export const InteractiveGlowSection = () => {
           left: mousePos.x - 300,
           top: mousePos.y - 300,
           background:
-            "radial-gradient(circle, rgba(255, 107, 53, 0.15) 0%, rgba(147, 112, 219, 0.08) 40%, transparent 70%)",
+            "radial-gradient(circle, rgba(0,0,0,0.15) 0%, rgba(147, 112, 219, 0.08) 40%, transparent 70%)",
           filter: "blur(40px)",
         }}
         animate={{
@@ -532,7 +532,7 @@ export const InteractiveGlowSection = () => {
             <span
               style={{
                 background:
-                  "linear-gradient(135deg, #ffffff 0%, #ff6b35 100%)",
+                  "linear-gradient(135deg, #ffffff 0%, #000000 100%)",
                 backgroundClip: "text",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
@@ -554,14 +554,14 @@ export const InteractiveGlowSection = () => {
               className="relative p-8 rounded-2xl bg-white/[0.02] border border-white/[0.06] text-center group hover:border-black/[0.15] transition-all duration-500"
             >
               {/* Hover glow */}
-              <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-[#ff6b35]/5 to-transparent" />
+              <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-black/[0.03] to-transparent dark:from-white/[0.03]" />
 
               <div className="relative z-10">
                 <div
                   className="text-4xl sm:text-5xl font-bold mb-2"
                   style={{
                     background:
-                      "linear-gradient(135deg, #ffffff 0%, #ff6b35 100%)",
+                      "linear-gradient(135deg, #ffffff 0%, #000000 100%)",
                     backgroundClip: "text",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",

@@ -105,8 +105,8 @@ export const CustomCursor = () => {
     hover: {
       width: 60,
       height: 60,
-      backgroundColor: "rgba(255, 107, 53, 0.05)",
-      border: "1px solid rgba(255, 107, 53, 0.4)",
+      backgroundColor: "rgba(0,0,0,0.05)",
+      border: "1px solid rgba(0,0,0,0.4)",
       mixBlendMode: "normal" as const,
     },
     click: {

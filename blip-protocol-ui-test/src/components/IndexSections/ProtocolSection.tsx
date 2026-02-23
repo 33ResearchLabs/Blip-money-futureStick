@@ -38,7 +38,7 @@ const ProtocolSection = () => {
           className="absolute top-[10%] -left-[15%] w-[700px] h-[700px] rounded-full opacity-[0.12] dark:opacity-[0.04]"
           style={{
             background:
-              "radial-gradient(circle, rgba(255,107,53,0.7) 0%, rgba(255,107,53,0) 70%)",
+              "radial-gradient(circle, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 70%)",
             y: useTransform(scrollYProgress, [0, 1], [-40, 40]),
           }}
         />

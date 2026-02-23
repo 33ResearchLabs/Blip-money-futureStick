@@ -84,7 +84,7 @@ export default function AuthCardStack({
                 style={{
                   height: `${h}%`,
                   background:
-                    i >= 9 ? "rgba(255, 107, 53, 0.6)" : "rgba(0,0,0,0.06)",
+                    i >= 9 ? "rgba(0,0,0,0.6)" : "rgba(0,0,0,0.06)",
                 }}
               />
             ))}
@@ -230,7 +230,7 @@ export default function AuthCardStack({
         transition={{ delay: 0.5, duration: 0.8, ease }}
         className="absolute -left-[30px] top-[220px] z-30 w-[185px] rounded-xl overflow-hidden border border-white/15 shadow-[0_12px_40px_-8px_rgba(0,0,0,0.3)]"
         style={{
-          background: "linear-gradient(135deg, #ff6b35 0%, #f97316 100%)",
+          background: "linear-gradient(135deg, #111 0%, #444 100%)",
         }}
       >
         <div className="p-3 relative">
@@ -322,7 +322,7 @@ export default function AuthCardStack({
         transition={{ delay: 0.65, duration: 0.6, type: "spring", bounce: 0.4 }}
         className="absolute right-[15px] top-[240px] z-30"
       >
-        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#f97316] border-[3px] border-white dark:border-[#111] shadow-[0_8px_24px_-4px_rgba(255,107,53,0.4)] flex items-center justify-center">
+        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-black to-black/70 dark:from-white dark:to-white/70 border-[3px] border-white dark:border-[#111] shadow-[0_8px_24px_-4px_rgba(0,0,0,0.25)] flex items-center justify-center">
           <span className="text-white font-bold text-xs">B</span>
         </div>
       </motion.div>

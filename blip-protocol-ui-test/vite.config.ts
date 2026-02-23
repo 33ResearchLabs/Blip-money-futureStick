@@ -15,10 +15,6 @@ export default defineConfig(({ mode }) => ({
       ".ngrok-free.app",
       ".ngrok.io",
     ],
-    hmr: {
-      clientPort: 8082,
-      host: "9f91-157-49-186-209.ngrok-free.app",
-    },
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(
     Boolean,

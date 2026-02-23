@@ -338,10 +338,10 @@ export default function LockedAndSecuredMockup() {
                         className="w-full py-2 sm:py-3 rounded-full bg-[#ffffff] text-black font-bold text-sm sm:text-base"
                         whileTap={{
                           scale: 0.93,
-                          boxShadow: "0 0 30px rgba(255, 107, 53, 0.6)",
+                          boxShadow: "0 0 30px rgba(0,0,0,0.6)",
                         }}
                         whileHover={{
-                          boxShadow: "0 0 20px rgba(255, 107, 53, 0.4)",
+                          boxShadow: "0 0 20px rgba(0,0,0,0.4)",
                         }}
                       >
                         Next
@@ -389,10 +389,10 @@ export default function LockedAndSecuredMockup() {
                         className="w-full py-2 sm:py-3 rounded-full bg-[#ffffff] text-black font-bold text-sm sm:text-base mb-2 sm:mb-3"
                         whileTap={{
                           scale: 0.93,
-                          boxShadow: "0 0 30px rgba(255, 107, 53, 0.6)",
+                          boxShadow: "0 0 30px rgba(0,0,0,0.6)",
                         }}
                         whileHover={{
-                          boxShadow: "0 0 20px rgba(255, 107, 53, 0.4)",
+                          boxShadow: "0 0 20px rgba(0,0,0,0.4)",
                         }}
                       >
                         Start Transaction
@@ -487,10 +487,10 @@ export default function LockedAndSecuredMockup() {
                         className="w-full py-2 sm:py-3 rounded-full bg-[#ffffff] text-black font-bold text-sm sm:text-base"
                         whileTap={{
                           scale: 0.93,
-                          boxShadow: "0 0 30px rgba(255, 107, 53, 0.6)",
+                          boxShadow: "0 0 30px rgba(0,0,0,0.6)",
                         }}
                         whileHover={{
-                          boxShadow: "0 0 20px rgba(255, 107, 53, 0.4)",
+                          boxShadow: "0 0 20px rgba(0,0,0,0.4)",
                         }}
                       >
                         View Details
@@ -596,10 +596,10 @@ export default function LockedAndSecuredMockup() {
                         className="w-full py-2 sm:py-3 rounded-full bg-[#ffffff] text-black font-bold text-sm sm:text-base mb-2 sm:mb-3"
                         whileTap={{
                           scale: 0.93,
-                          boxShadow: "0 0 30px rgba(255, 107, 53, 0.6)",
+                          boxShadow: "0 0 30px rgba(0,0,0,0.6)",
                         }}
                         whileHover={{
-                          boxShadow: "0 0 20px rgba(255, 107, 53, 0.4)",
+                          boxShadow: "0 0 20px rgba(0,0,0,0.4)",
                         }}
                       >
                         View Settlements
@@ -694,10 +694,10 @@ export default function LockedAndSecuredMockup() {
                         className="w-full py-2 sm:py-3 rounded-full bg-[#ffffff] text-black font-bold text-sm sm:text-base mb-2 sm:mb-3 mt-3 sm:mt-4"
                         whileTap={{
                           scale: 0.93,
-                          boxShadow: "0 0 30px rgba(255, 107, 53, 0.6)",
+                          boxShadow: "0 0 30px rgba(0,0,0,0.6)",
                         }}
                         whileHover={{
-                          boxShadow: "0 0 20px rgba(255, 107, 53, 0.4)",
+                          boxShadow: "0 0 20px rgba(0,0,0,0.4)",
                         }}
                       >
                         New Transaction

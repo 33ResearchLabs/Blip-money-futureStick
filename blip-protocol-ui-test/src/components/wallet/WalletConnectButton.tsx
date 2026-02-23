@@ -13,33 +13,15 @@ export const WalletConnectButton = () => {
     setMounted(true);
   }, []);
 
-  useEffect(() => {
-    console.log("Wallet Button State:", {
-      connected,
-      connecting,
-      hasPublicKey: !!publicKey,
-      publicKey: publicKey?.toBase58(),
-      walletName: wallet?.adapter.name,
-    });
-
-    if (connected && publicKey) {
-      console.log("✅ Wallet connected successfully:", publicKey.toBase58());
-    } else if (connected && !publicKey) {
-      console.error("⚠️ Wallet connected but no public key available!");
-    }
-  }, [connected, publicKey, connecting, wallet]);
 
   if (!mounted) return null;
 
   const handleClick = async () => {
     if (connected) {
-      console.log("Disconnecting wallet...");
       await disconnect();
     } else if (isMobile() && !isPhantomInstalled()) {
-      // On mobile without Phantom's in-app browser, deep link to Phantom app
       window.location.href = getPhantomDeepLink();
     } else {
-      console.log("Opening wallet modal...");
       setVisible(true);
     }
   };

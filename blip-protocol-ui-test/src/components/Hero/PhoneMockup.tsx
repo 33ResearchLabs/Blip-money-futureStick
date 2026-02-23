@@ -117,7 +117,7 @@ export default function PhoneMockupInteractive() {
           <motion.div className="absolute inset-0 rounded-[28px] sm:rounded-[36px] md:rounded-[40px] lg:rounded-[44px] pointer-events-none z-10" />
           <div className=" mt-8 w-[200px] md:mt-0 sm:w-[250px] lg:w-[320px]  ">
             {/* Phone outer frame */}
-            <div className="rounded-[36px] sm:rounded-[40px] md:rounded-[44px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[2px] sm:p-[2.5px] shadow-[0_25px_50px_rgba(0,0,0,0.5),0_0_40px_rgba(255,107,53,0.08)] md:shadow-[0_40px_80px_rgba(0,0,0,0.6),0_0_60px_rgba(255,107,53,0.1)]">
+            <div className="rounded-[36px] sm:rounded-[40px] md:rounded-[44px] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] p-[2px] sm:p-[2.5px] shadow-[0_25px_50px_rgba(0,0,0,0.5),0_0_40px_rgba(0,0,0,0.08)] md:shadow-[0_40px_80px_rgba(0,0,0,0.6),0_0_60px_rgba(0,0,0,0.1)]">
               <div className="rounded-[34px] sm:rounded-[38px] md:rounded-[42px] bg-[#0a0a0a] p-[1px] sm:p-[8px] md:p-[10px]">
                 {/* Phone screen */}
                 <div className="rounded-[28px] sm:rounded-[30px] md:rounded-[34px] bg-black overflow-y-auto overflow-x-hidden relative max-h-[500px] sm:max-h-[600px] md:max-h-[650px] scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
@@ -184,11 +184,11 @@ export default function PhoneMockupInteractive() {
                           className="w-full py-2 sm:py-3 rounded-full bg-black dark:bg-white text-black font-bold text-sm sm:text-base"
                           whileHover={{
                             scale: 1.03,
-                            boxShadow: "0 0 20px rgba(255, 107, 53, 0.4)",
+                            boxShadow: "0 0 20px rgba(0,0,0,0.4)",
                           }}
                           whileTap={{
                             scale: 0.93,
-                            boxShadow: "0 0 30px rgba(255, 107, 53, 0.6)",
+                            boxShadow: "0 0 30px rgba(0,0,0,0.6)",
                           }}
                           transition={{
                             type: "spring",
@@ -230,10 +230,10 @@ export default function PhoneMockupInteractive() {
                           className="w-full py-2 sm:py-3 rounded-full bg-black dark:bg-white text-black font-bold text-sm sm:text-base mb-2 sm:mb-3"
                           whileTap={{
                             scale: 0.93,
-                            boxShadow: "0 0 30px rgba(255, 107, 53, 0.6)",
+                            boxShadow: "0 0 30px rgba(0,0,0,0.6)",
                           }}
                           whileHover={{
-                            boxShadow: "0 0 20px rgba(255, 107, 53, 0.4)",
+                            boxShadow: "0 0 20px rgba(0,0,0,0.4)",
                           }}
                         >
                           Send Now

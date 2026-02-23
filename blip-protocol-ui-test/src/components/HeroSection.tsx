@@ -33,7 +33,7 @@ const SubtleBackground = () => {
       <div
         className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] opacity-[0.03]"
         style={{
-          background: 'radial-gradient(ellipse, rgba(255, 107, 53, 1) 0%, transparent 70%)',
+          background: 'radial-gradient(ellipse, rgba(0,0,0,1) 0%, transparent 70%)',
         }}
       />
 

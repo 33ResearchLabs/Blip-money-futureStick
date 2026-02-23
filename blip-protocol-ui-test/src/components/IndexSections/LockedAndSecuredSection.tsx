@@ -17,7 +17,7 @@ const LockedAndSecuredSection = () => {
           className="absolute top-[20%] right-[10%] w-[400px] h-[400px] rounded-full opacity-20"
           style={{
             background:
-              "radial-gradient(circle, rgba(255,107,53,0.1) 0%, transparent 70%)",
+              "radial-gradient(circle, rgba(0,0,0,0.1) 0%, transparent 70%)",
           }}
           animate={{ scale: [1, 1.1, 1] }}
           transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
@@ -86,7 +86,7 @@ const LockedAndSecuredSection = () => {
             <span className="text-black/70 dark:text-white/50 relative inline-block">
               <span className="relative z-10">secured.</span>
               {/* <motion.span
-                className="absolute -bottom-1 left-0 right-0 h-[1.5px] rounded-full bg-gradient-to-r from-[#ff6b35]/60 via-[#ff8f5e]/50 to-[#ff6b35]/20"
+                className="absolute -bottom-1 left-0 right-0 h-[1.5px] rounded-full bg-gradient-to-r from-black/40 via-black/25 to-transparent dark:from-white/40 dark:via-white/25 dark:to-transparent"
                 initial={{ scaleX: 0, originX: 0 }}
                 whileInView={{ scaleX: 1 }}
                 viewport={{ once: true }}

@@ -201,7 +201,7 @@ export const AppleStylePhoneSection = () => {
           className="absolute inset-0 opacity-[0.03]"
           style={{
             background:
-              "radial-gradient(ellipse at center, rgba(255, 107, 53, 0.15) 0%, transparent 60%)",
+              "radial-gradient(ellipse at center, rgba(0,0,0,0.15) 0%, transparent 60%)",
           }}
         />
 
@@ -258,7 +258,7 @@ export const AppleStylePhoneSection = () => {
               className="w-[500px] h-[700px] rounded-full blur-[100px] opacity-[0.08]"
               style={{
                 background:
-                  "radial-gradient(ellipse, rgba(255, 107, 53, 0.3) 0%, transparent 70%)",
+                  "radial-gradient(ellipse, rgba(0,0,0,0.3) 0%, transparent 70%)",
               }}
             />
           </div>

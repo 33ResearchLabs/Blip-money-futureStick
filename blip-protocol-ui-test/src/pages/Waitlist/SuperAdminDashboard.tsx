@@ -384,8 +384,8 @@ export default function SuperAdminDashboard() {
                         type="monotone"
                         dataKey="merchants"
                         name="Merchants"
-                        stroke="#ff6b35"
-                        fill="#ff6b35"
+                        stroke="currentColor"
+                        fill="currentColor"
                         fillOpacity={0.15}
                         strokeWidth={2}
                       />
@@ -427,7 +427,7 @@ export default function SuperAdminDashboard() {
                           name === "totalPoints" ? "Total Points" : "Count",
                         ]}
                       />
-                      <Bar dataKey="totalPoints" name="Total Points" fill="#ff6b35" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="totalPoints" name="Total Points" fill="currentColor" radius={[4, 4, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>

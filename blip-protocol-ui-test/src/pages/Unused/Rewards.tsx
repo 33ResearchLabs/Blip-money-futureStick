@@ -136,7 +136,7 @@ const InteractiveGrid = () => {
                 transition={{ duration: 0.2, ease: "easeOut" }}
                 style={{
                   filter: isActive
-                    ? "drop-shadow(0 0 4px rgba(255, 107, 53, 0.5))"
+                    ? "drop-shadow(0 0 4px rgba(0,0,0,0.5))"
                     : "none",
                 }}
               />
@@ -326,7 +326,7 @@ const HeroSection = () => {
             transition={{ duration: 1, delay: 0.2 }}
             className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-10 backdrop-blur-sm border border-black/10 dark:border-white/10"
             style={{
-              background: "rgba(255, 107, 53, 0.05)",
+              background: "rgba(0,0,0,0.05)",
             }}
           >
             <motion.span className="w-2 h-2 rounded-full bg-black dark:bg-white " />
@@ -440,7 +440,7 @@ const HeroSection = () => {
               className="absolute w-[500px] h-[500px] rounded-full opacity-40"
               style={{
                 background:
-                  "radial-gradient(circle, rgba(255,107,53,0.2) 0%, transparent 50%)",
+                  "radial-gradient(circle, rgba(0,0,0,0.2) 0%, transparent 50%)",
               }}
             />
           </div>
@@ -1002,8 +1002,8 @@ const CTASection = () => {
         className="absolute inset-0 opacity-[0.02]"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(255,107,53,0.3) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,107,53,0.3) 1px, transparent 1px)
+            linear-gradient(rgba(0,0,0,0.3) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,0,0,0.3) 1px, transparent 1px)
           `,
           backgroundSize: "80px 80px",
         }}

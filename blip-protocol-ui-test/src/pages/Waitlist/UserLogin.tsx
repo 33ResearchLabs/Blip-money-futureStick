@@ -668,8 +668,8 @@ const UserLogin = ({ initialView }: AirdropLoginProps) => {
                   transition={{ duration: 0.6, delay: 0.1 }}
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
                   style={{
-                    background: "rgba(255, 107, 53, 0.05)",
-                    border: "1px solid rgba(255, 107, 53, 0.15)",
+                    background: "rgba(0,0,0,0.05)",
+                    border: "1px solid rgba(0,0,0,0.15)",
                   }}
                 >
                   <span className="text-[11px] font-semibold text-[#ffffff] uppercase tracking-wider">

@@ -40,7 +40,7 @@ const ScrollFAQ = () => {
           </h2>
 
           <p className="mt-4 text-black/60 dark:text-white/60 text-sm md:text-base max-w-xl mx-auto">
-            Everything you need to know about how Blip works, onboarding, and trading flow.
+            Everything you need to know about how Blip works, onboarding, <br /> and trading flow.
           </p>
         </div>
 

@@ -623,12 +623,12 @@
 
   /* Radial glow - subtle */
   .bg-glow {
-    background: radial-gradient(ellipse at center, rgba(255, 107, 53, 0.03) 0%, transparent 60%);
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.03) 0%, transparent 60%);
   }
 
   /* Radial glow - top */
   .bg-glow-top {
-    background: radial-gradient(ellipse at top, rgba(255, 107, 53, 0.05) 0%, transparent 50%);
+    background: radial-gradient(ellipse at top, rgba(0,0,0,0.05) 0%, transparent 50%);
   }
 
   /* Spotlight effect */
@@ -722,10 +722,10 @@
 
 @keyframes glow-pulse {
   0%, 100% {
-    box-shadow: 0 0 20px rgba(255, 107, 53, 0.1);
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
   }
   50% {
-    box-shadow: 0 0 60px rgba(255, 107, 53, 0.2);
+    box-shadow: 0 0 60px rgba(0,0,0,0.2);
   }
 }
 
@@ -1011,11 +1011,11 @@
 .bg-mint-gradient-bg { background: var(--accent-primary); }
 
 .neon-glow-md {
-  box-shadow: 0 0 30px rgba(255, 107, 53, 0.2);
+  box-shadow: 0 0 30px rgba(0,0,0,0.2);
 }
 
 .shadow-neon-lg {
-  box-shadow: 0 0 50px rgba(255, 107, 53, 0.25);
+  box-shadow: 0 0 50px rgba(0,0,0,0.25);
 }
 
 .timeline-line {
@@ -1109,9 +1109,9 @@
   background: linear-gradient(
     -45deg,
     rgba(255, 255, 255, 0.03),
-    rgba(255, 107, 53, 0.08),
+    rgba(0,0,0,0.08),
     rgba(255, 255, 255, 0.02),
-    rgba(255, 107, 53, 0.05),
+    rgba(0,0,0,0.05),
     rgba(255, 255, 255, 0.03)
   );
   background-size: 400% 400%;
@@ -1122,9 +1122,9 @@
   background: linear-gradient(
     -45deg,
     rgba(255, 255, 255, 0.02),
-    rgba(255, 107, 53, 0.03),
+    rgba(0,0,0,0.03),
     rgba(255, 255, 255, 0.01),
-    rgba(255, 107, 53, 0.02)
+    rgba(0,0,0,0.02)
   );
   background-size: 400% 400%;
   animation: mesh-gradient 20s ease infinite;
@@ -1172,10 +1172,10 @@
   background: conic-gradient(
     from 180deg at 50% 50%,
     rgba(255, 255, 255, 0.08) 0deg,
-    rgba(255, 107, 53, 0.15) 60deg,
+    rgba(0,0,0,0.15) 60deg,
     rgba(255, 255, 255, 0.05) 120deg,
     transparent 180deg,
-    rgba(255, 107, 53, 0.08) 240deg,
+    rgba(0,0,0,0.08) 240deg,
     rgba(255, 255, 255, 0.05) 300deg,
     rgba(255, 255, 255, 0.08) 360deg
   );
@@ -1270,8 +1270,8 @@
 .blob-green {
   background: radial-gradient(
     ellipse at center,
-    rgba(255, 107, 53, 0.15) 0%,
-    rgba(255, 107, 53, 0.05) 50%,
+    rgba(0,0,0,0.15) 0%,
+    rgba(0,0,0,0.05) 50%,
     transparent 70%
   );
   filter: blur(80px);
@@ -1341,10 +1341,10 @@
 
 .card-liquid-glass:hover {
   transform: translateY(-4px);
-  border-color: rgba(255, 107, 53, 0.2);
+  border-color: rgba(0,0,0,0.2);
   box-shadow:
     0 20px 60px rgba(0, 0, 0, 0.4),
-    0 0 40px rgba(255, 107, 53, 0.1),
+    0 0 40px rgba(0,0,0,0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
@@ -1389,14 +1389,14 @@
 .orb-md {
   width: 8px;
   height: 8px;
-  background: rgba(255, 107, 53, 0.8);
+  background: rgba(0,0,0,0.8);
   box-shadow: 0 0 20px var(--accent-primary), 0 0 40px var(--accent-primary);
 }
 
 .orb-lg {
   width: 12px;
   height: 12px;
-  background: rgba(255, 107, 53, 0.6);
+  background: rgba(0,0,0,0.6);
   box-shadow: 0 0 30px var(--accent-primary), 0 0 60px var(--accent-primary);
 }
 
@@ -1414,10 +1414,10 @@
 
 @keyframes btn-glow-pulse {
   0%, 100% {
-    box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
   }
   50% {
-    box-shadow: 0 0 40px rgba(255, 107, 53, 0.5), 0 0 60px rgba(255, 107, 53, 0.3);
+    box-shadow: 0 0 40px rgba(0,0,0,0.5), 0 0 60px rgba(0,0,0,0.3);
   }
 }
 
@@ -1432,15 +1432,15 @@
   font-weight: 600;
   letter-spacing: 0.02em;
   color: black;
-  background: linear-gradient(135deg, var(--accent-primary) 0%, #ff8c50 100%);
+  background: linear-gradient(135deg, var(--accent-primary) 0%, #333333 100%);
   border: none;
   border-radius: 100px;
   cursor: pointer;
   overflow: hidden;
   transition: all 0.4s var(--ease-out-expo);
   box-shadow:
-    0 4px 15px rgba(255, 107, 53, 0.3),
-    0 0 0 1px rgba(255, 107, 53, 0.1);
+    0 4px 15px rgba(0,0,0,0.3),
+    0 0 0 1px rgba(0,0,0,0.1);
 }
 
 .btn-premium::before {
@@ -1472,9 +1472,9 @@
 .btn-premium:hover {
   transform: translateY(-3px) scale(1.02);
   box-shadow:
-    0 10px 30px rgba(255, 107, 53, 0.4),
-    0 0 0 1px rgba(255, 107, 53, 0.2),
-    0 0 60px rgba(255, 107, 53, 0.2);
+    0 10px 30px rgba(0,0,0,0.4),
+    0 0 0 1px rgba(0,0,0,0.2),
+    0 0 60px rgba(0,0,0,0.2);
 }
 
 .btn-premium:hover::before {
@@ -1514,7 +1514,7 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 107, 53, 0.1),
+    rgba(0,0,0,0.1),
     transparent
   );
   transform: translateX(-100%);
@@ -1523,7 +1523,7 @@
 
 .btn-premium-outline:hover {
   border-color: var(--accent-primary);
-  box-shadow: 0 0 30px rgba(255, 107, 53, 0.15);
+  box-shadow: 0 0 30px rgba(0,0,0,0.15);
 }
 
 .btn-premium-outline:hover::before {
@@ -1540,8 +1540,8 @@
 
 .text-glow-subtle {
   text-shadow:
-    0 0 10px rgba(255, 107, 53, 0.5),
-    0 0 20px rgba(255, 107, 53, 0.3);
+    0 0 10px rgba(0,0,0,0.5),
+    0 0 20px rgba(0,0,0,0.3);
 }
 
 .text-glow-white {
@@ -1594,7 +1594,7 @@
   height: 200px;
   background: radial-gradient(
     circle,
-    rgba(255, 107, 53, 0.15) 0%,
+    rgba(0,0,0,0.15) 0%,
     transparent 70%
   );
   opacity: 0;
@@ -1830,8 +1830,8 @@
   height: 600px;
   background: radial-gradient(
     circle,
-    rgba(255, 107, 53, 0.08) 0%,
-    rgba(255, 107, 53, 0.02) 30%,
+    rgba(0,0,0,0.08) 0%,
+    rgba(0,0,0,0.02) 30%,
     transparent 60%
   );
   border-radius: 50%;
@@ -1928,7 +1928,7 @@
 
 .level-badge:hover {
   border-color: var(--accent-primary);
-  box-shadow: 0 0 20px rgba(255, 107, 53, 0.2);
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
 }
 
 .level-badge.gold {
@@ -1960,12 +1960,12 @@
 .achievement-badge:hover {
   transform: translateY(-4px) scale(1.05);
   border-color: var(--accent-primary);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 107, 53, 0.15);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0,0,0,0.15);
 }
 
 .achievement-badge.unlocked {
-  background: rgba(255, 107, 53, 0.05);
-  border-color: rgba(255, 107, 53, 0.2);
+  background: rgba(0,0,0,0.05);
+  border-color: rgba(0,0,0,0.2);
 }
 
 .achievement-badge.locked {
@@ -2073,8 +2073,8 @@
 }
 
 .quest-card.completed {
-  border-color: rgba(255, 107, 53, 0.2);
-  background: rgba(255, 107, 53, 0.02);
+  border-color: rgba(0,0,0,0.2);
+  background: rgba(0,0,0,0.02);
 }
 
 .quest-card .quest-progress {
@@ -2108,7 +2108,7 @@
 
 .btn-claim:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 30px rgba(255, 107, 53, 0.4);
+  box-shadow: 0 0 30px rgba(0,0,0,0.4);
 }
 
 .btn-claim:disabled {
@@ -2134,7 +2134,7 @@
   justify-content: center;
   width: 24px;
   height: 24px;
-  background: linear-gradient(135deg, var(--accent-primary) 0%, #ff8c50 100%);
+  background: linear-gradient(135deg, var(--accent-primary) 0%, #333333 100%);
   border-radius: 50%;
   font-size: 12px;
   font-weight: 700;
@@ -2150,8 +2150,8 @@
   align-items: center;
   gap: 8px;
   padding: 8px 14px;
-  background: rgba(255, 107, 53, 0.05);
-  border: 1px solid rgba(255, 107, 53, 0.15);
+  background: rgba(0,0,0,0.05);
+  border: 1px solid rgba(0,0,0,0.15);
   border-radius: 100px;
   font-size: 12px;
   font-weight: 500;
@@ -2182,8 +2182,8 @@
 }
 
 .multiplier-badge.active {
-  background: rgba(255, 107, 53, 0.1);
-  border-color: rgba(255, 107, 53, 0.3);
+  background: rgba(0,0,0,0.1);
+  border-color: rgba(0,0,0,0.3);
   color: var(--accent-primary);
 }
 
