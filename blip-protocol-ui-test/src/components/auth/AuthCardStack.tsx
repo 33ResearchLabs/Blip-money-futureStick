@@ -18,30 +18,61 @@ export default function AuthCardStack({
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.15, duration: 0.9, ease }}
-        className="absolute left-[95px] top-[30px] z-20 w-[250px] h-[340px] rounded-[28px] overflow-hidden border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#111] shadow-[0_24px_80px_-16px_rgba(0,0,0,0.25)] dark:shadow-[0_24px_80px_-16px_rgba(0,0,0,0.6)]"
+        className="absolute left-[95px] top-[0px] z-20 w-[250px] h-[420px] rounded-[28px] overflow-hidden border border-black/[0.08] dark:border-white/[0.08] bg-white dark:bg-[#111] shadow-[0_24px_80px_-16px_rgba(0,0,0,0.25)] dark:shadow-[0_24px_80px_-16px_rgba(0,0,0,0.6)]"
       >
         {/* Phone notch */}
         <div className="flex justify-center pt-3 pb-2">
           <div className="w-20 h-1.5 bg-black/10 dark:bg-white/10 rounded-full" />
         </div>
 
-        {/* Dashboard screen content */}
-        <div className="px-4 pt-1">
-          <div className="text-[9px] font-bold uppercase tracking-[0.2em] text-black/40 dark:text-white/40 mb-2">
-            Blip Dashboard
+        <div className="px-4 pt-1 pb-14">
+          {/* Greeting + Notification */}
+          <div className="flex items-center justify-between mb-2">
+            <div>
+              <div className="text-[8px] text-black/40 dark:text-white/40">
+                Welcome back
+              </div>
+              <div className="text-[11px] font-semibold text-black dark:text-white">
+                Gaurav 👋
+              </div>
+            </div>
+            <div className="relative">
+              <div className="w-6 h-6 rounded-full bg-black/[0.06] dark:bg-white/[0.08]" />
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-[#ff6b35] rounded-full text-[6px] text-white flex items-center justify-center">
+                2
+              </div>
+            </div>
           </div>
 
           {/* Balance */}
           <div className="mb-3">
-            <div className="text-[10px] text-black/40 dark:text-white/40 mb-1">
+            <div className="text-[9px] text-black/40 dark:text-white/40 mb-1">
               Total Balance
             </div>
-            <div className="text-[24px] font-bold text-black dark:text-white tracking-tight leading-none">
+            <div className="text-[24px] font-bold text-black dark:text-white leading-none">
               $12,847
               <span className="text-[12px] text-black/30 dark:text-white/30">
                 .00
               </span>
             </div>
+            <div className="text-[8px] text-green-500 mt-1">
+              ▲ +4.2% this week
+            </div>
+          </div>
+
+          {/* Quick Actions */}
+          <div className="grid grid-cols-4 gap-2 mb-3">
+            {["Send", "Receive", "Swap", "Earn"].map((action, i) => (
+              <div
+                key={i}
+                className="flex flex-col items-center justify-center py-2 rounded-lg bg-black/[0.04] dark:bg-white/[0.06]"
+              >
+                <div className="w-4 h-4 rounded-full bg-[#ff6b35]/30 mb-1" />
+                <div className="text-[7px] text-black/60 dark:text-white/60">
+                  {action}
+                </div>
+              </div>
+            ))}
           </div>
 
           {/* Mini chart */}
@@ -59,7 +90,19 @@ export default function AuthCardStack({
             ))}
           </div>
 
-          {/* Transaction list */}
+          {/* Portfolio Split */}
+          <div className="mb-3">
+            <div className="text-[8px] text-black/40 dark:text-white/40 mb-1">
+              Portfolio
+            </div>
+            <div className="flex justify-between text-[9px] font-medium text-black dark:text-white">
+              <span>USDT 45%</span>
+              <span>BTC 30%</span>
+              <span>USDC 25%</span>
+            </div>
+          </div>
+
+          {/* Transactions */}
           <div className="space-y-2">
             {[
               {
@@ -88,15 +131,15 @@ export default function AuthCardStack({
                 <div className="flex items-center gap-2">
                   <span className="text-xs">{tx.flag}</span>
                   <div>
-                    <div className="text-[10px] font-medium text-black dark:text-white">
+                    <div className="text-[9px] font-medium text-black dark:text-white">
                       {tx.pair}
                     </div>
-                    <div className="text-[8px] text-black/30 dark:text-white/30">
+                    <div className="text-[7px] text-black/30 dark:text-white/30">
                       {tx.status}
                     </div>
                   </div>
                 </div>
-                <div className="text-[10px] font-semibold text-black dark:text-white">
+                <div className="text-[9px] font-semibold text-black dark:text-white">
                   {tx.amount}
                 </div>
               </div>
@@ -104,35 +147,34 @@ export default function AuthCardStack({
           </div>
         </div>
 
-        {/* Bottom nav bar */}
-        <div className="absolute bottom-0 inset-x-0 flex justify-center pb-2 pt-1.5 border-t border-black/[0.04] dark:border-white/[0.04]">
-          <div className="flex gap-6">
-            {[0, 1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className={`w-4 h-4 rounded-full ${i === 0 ? "bg-[#ff6b35]/20" : "bg-black/[0.04] dark:bg-white/[0.06]"}`}
-              />
-            ))}
+        {/* Bottom nav */}
+        <div className="absolute bottom-0 inset-x-0 flex justify-center pb-2 pt-1.5 border-t border-black/[0.04] dark:border-white/[0.04] bg-white dark:bg-[#111]">
+          <div className="flex gap-8 text-[7px] text-black/40 dark:text-white/40">
+            <div className="text-[#ff6b35]">Home</div>
+            <div>Markets</div>
+            <div>Rewards</div>
+            <div>Profile</div>
           </div>
         </div>
       </motion.div>
 
       {/* ── Small card: Transaction confirmed (top-left, behind phone) ── */}
       <motion.div
-        initial={{ opacity: 0, y: 30, rotate: 0 }}
-        animate={{ opacity: 1, y: 0, rotate: -8 }}
+        initial={{ opacity: 0, y: 20, rotate: 0 }}
+        animate={{ opacity: 1, y: 0, rotate: 0 }}
         transition={{ delay: 0.35, duration: 0.8, ease }}
-        className="absolute left-0 top-0 z-10 w-[155px] rounded-2xl overflow-hidden border border-white/15 shadow-[0_12px_40px_-8px_rgba(0,0,0,0.3)]"
+        className="absolute -left-20 top-10 z-10 w-[190px] rounded-2xl overflow-hidden border border-white/15 shadow-[0_12px_40px_-8px_rgba(0,0,0,0.3)]"
         style={{
           background: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
         }}
       >
-        <div className="p-3.5">
-          <div className="flex items-center gap-2 mb-1.5">
-            <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center">
+        <div className="p-4">
+          {/* Header */}
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">
               <svg
-                width="10"
-                height="10"
+                width="12"
+                height="12"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="white"
@@ -143,12 +185,41 @@ export default function AuthCardStack({
                 <polyline points="20 6 9 17 4 12" />
               </svg>
             </div>
-            <span className="text-[9px] font-semibold text-white/90">
-              Confirmed
+            <span className="text-[10px] font-semibold text-white/90">
+              Payment Confirmed
             </span>
           </div>
-          <div className="text-base font-bold text-white">$2,500</div>
-          <div className="text-[8px] text-white/50 mt-0.5">0.8s settlement</div>
+
+          {/* Amount */}
+          <div className="text-xl font-bold text-white">$2,500.00</div>
+          <div className="text-[9px] text-white/60 mt-1">USDT → AED</div>
+
+          {/* Meta Info */}
+          <div className="mt-3 space-y-1 text-[8px] text-white/70">
+            <div className="flex justify-between">
+              <span>Network</span>
+              <span className="font-medium text-white/90">TRC20</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Wallet</span>
+              <span className="font-medium text-white/90">0x4f...9a21</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Txn ID</span>
+              <span className="font-medium text-white/90">#BLP9821</span>
+            </div>
+          </div>
+
+          {/* Settlement Speed */}
+          <div className="flex items-center gap-1.5 mt-3">
+            <div className="w-1.5 h-1.5 rounded-full bg-white/40 animate-pulse" />
+            <span className="text-[8px] text-white/50">Settled in 0.8s</span>
+          </div>
+
+          {/* Footer Timestamp */}
+          <div className="text-[7px] text-white/40 mt-2 text-right">
+            2 mins ago
+          </div>
         </div>
       </motion.div>
 
@@ -157,20 +228,63 @@ export default function AuthCardStack({
         initial={{ opacity: 0, y: 30, rotate: 0 }}
         animate={{ opacity: 1, y: 0, rotate: 0 }}
         transition={{ delay: 0.5, duration: 0.8, ease }}
-        className="absolute -left-[30px] top-[260px] z-30 w-[140px] rounded-xl overflow-hidden border border-white/15 shadow-[0_12px_40px_-8px_rgba(0,0,0,0.3)]"
+        className="absolute -left-[30px] top-[220px] z-30 w-[185px] rounded-xl overflow-hidden border border-white/15 shadow-[0_12px_40px_-8px_rgba(0,0,0,0.3)]"
         style={{
           background: "linear-gradient(135deg, #ff6b35 0%, #f97316 100%)",
         }}
       >
-        <div className="p-3">
-          <div className="text-[8px] font-bold uppercase tracking-[0.15em] text-white/50 mb-1">
-            Rewards
+        <div className="p-3 relative">
+          {/* Header */}
+          <div className="flex items-center justify-between mb-1">
+            <div className="text-[8px] font-bold uppercase tracking-[0.15em] text-white/60">
+              Blip Rewards
+            </div>
+            <div className="text-[7px] px-2 py-[2px] rounded-full bg-white/20 text-white/90">
+              🏆 Gold
+            </div>
           </div>
-          <div className="text-xl font-bold text-white leading-none">+200</div>
-          <div className="text-[8px] text-white/60 mt-1">Welcome Bonus</div>
-          <div className="mt-1.5 w-full h-1 bg-white/15 rounded-full overflow-hidden">
-            <div className="w-[35%] h-full bg-white/60 rounded-full" />
+
+          {/* Main Points */}
+          <div className="text-2xl font-bold text-white leading-none">+200</div>
+
+          <div className="text-[8px] text-white/80 mt-1">Welcome Bonus</div>
+
+          {/* XP + Multiplier */}
+          <div className="flex items-center justify-between mt-2 text-[8px] text-white/70">
+            <span>⚡ +120 XP</span>
+            <span>1.5x Boost</span>
           </div>
+
+          {/* Streak Info */}
+          <div className="flex items-center justify-between mt-1 text-[8px] text-white/70">
+            <span>🔥 3 Day Streak</span>
+            <span>Rank #124</span>
+          </div>
+
+          {/* Progress Label */}
+          <div className="flex justify-between mt-2 text-[7px] text-white/60">
+            <span>Level Progress</span>
+            <span>35%</span>
+          </div>
+
+          {/* Progress Bar */}
+          <div className="mt-1 w-full h-1.5 bg-white/15 rounded-full overflow-hidden">
+            <div className="w-[35%] h-full bg-white/80 rounded-full transition-all duration-700" />
+          </div>
+
+          {/* Divider */}
+          <div className="mt-3 h-[1px] bg-white/15" />
+
+          {/* Footer Info */}
+          <div className="flex items-center justify-between mt-2 text-[7px] text-white/60">
+            <span>Total: 3,420 pts</span>
+            <span>2 mins ago</span>
+          </div>
+
+          {/* CTA */}
+          <button className="mt-2 w-full text-[8px] py-1 rounded-md bg-white/20 text-white font-semibold hover:bg-white/30 transition">
+            View Rewards →
+          </button>
         </div>
       </motion.div>
 

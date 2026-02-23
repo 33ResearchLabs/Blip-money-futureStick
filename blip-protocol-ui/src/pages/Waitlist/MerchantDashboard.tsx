@@ -210,6 +210,8 @@ export default function MerchantDashboard() {
     new Set(["register"]),
   );
   const [referralCount, setReferralCount] = useState(0);
+  const [retweetCount, setRetweetCount] = useState(0);
+  const [retweetCooldownUntil, setRetweetCooldownUntil] = useState<Date | null>(null);
 
   // Leaderboard with auto-refresh
   const {
@@ -300,13 +302,33 @@ export default function MerchantDashboard() {
         const eventToQuest: Record<string, string> = {
           TWITTER_FOLLOW: "twitter",
           TELEGRAM_JOIN: "telegram",
-          RETWEET: "retweet",
         };
         const completed = new Set<string>();
+        let retweetEntries: any[] = [];
         for (const entry of history) {
-          const questId = eventToQuest[entry.event];
-          if (questId) completed.add(questId);
+          if (entry.event === "RETWEET") {
+            retweetEntries.push(entry);
+          } else {
+            const questId = eventToQuest[entry.event];
+            if (questId) completed.add(questId);
+          }
         }
+
+        // Handle retweet: max 2 with 2-day cooldown
+        const MAX_RETWEETS = 2;
+        const COOLDOWN_MS = 2 * 24 * 60 * 60 * 1000;
+        setRetweetCount(retweetEntries.length);
+        if (retweetEntries.length >= MAX_RETWEETS) {
+          completed.add("retweet");
+        } else if (retweetEntries.length > 0) {
+          // Check if cooldown is still active
+          const lastRetweet = new Date(retweetEntries[0].createdAt || retweetEntries[0].date);
+          const cooldownEnd = new Date(lastRetweet.getTime() + COOLDOWN_MS);
+          if (cooldownEnd > new Date()) {
+            setRetweetCooldownUntil(cooldownEnd);
+          }
+        }
+
         if (completed.size > 0) {
           setCompletedQuests((prev) => {
             const merged = new Set(prev);
@@ -471,12 +493,19 @@ export default function MerchantDashboard() {
 
   const handleRetweetSuccess = (points: number) => {
     updatePoints(points);
-    setCompletedQuests((prev) => new Set(prev).add("retweet"));
+    const newCount = retweetCount + 1;
+    setRetweetCount(newCount);
+    // Set 2-day cooldown from now
+    setRetweetCooldownUntil(new Date(Date.now() + 2 * 24 * 60 * 60 * 1000));
+    if (newCount >= 2) {
+      setCompletedQuests((prev) => new Set(prev).add("retweet"));
+    }
     setShowRetweetModal(false);
   };
 
   const handleQuestClick = (questId: string) => {
     if (completedQuests.has(questId)) return;
+    if (questId === "retweet" && retweetCooldownUntil && retweetCooldownUntil > new Date()) return;
     if (questId === "twitter") setShowTwitterModal(true);
     else if (questId === "telegram") setShowTelegramModal(true);
     else if (questId === "retweet") setShowRetweetModal(true);
@@ -501,12 +530,6 @@ export default function MerchantDashboard() {
       title: "Follow Us on Telegram",
       reward: "+500 BLIP",
       icon: MessageCircle,
-    },
-    {
-      id: "discord",
-      title: "Join Discord Server",
-      reward: "+500 BLIP",
-      icon: Hash,
     },
     {
       id: "retweet",
@@ -1288,6 +1311,15 @@ export default function MerchantDashboard() {
               <div className="p-3 space-y-1">
                 {socialQuests.map((quest) => {
                   const isDone = completedQuests.has(quest.id);
+                  const isRetweetOnCooldown =
+                    quest.id === "retweet" &&
+                    !isDone &&
+                    retweetCooldownUntil &&
+                    retweetCooldownUntil > new Date();
+                  const retweetLabel =
+                    quest.id === "retweet" && retweetCount > 0 && !isDone
+                      ? `${quest.title} (${retweetCount}/2)`
+                      : quest.title;
                   return (
                     <div
                       key={quest.id}
@@ -1297,7 +1329,7 @@ export default function MerchantDashboard() {
                         <span
                           className={`text-xs ${isDone ? "line-through opacity-50" : ""} ${muted} truncate`}
                         >
-                          {quest.title}
+                          {retweetLabel}
                         </span>
                       </div>
                       <div className="flex items-center gap-2 shrink-0">
@@ -1307,6 +1339,14 @@ export default function MerchantDashboard() {
                         {isDone ? (
                           <span className="text-black dark:text-white text-[10px] font-bold flex items-center gap-1">
                             <CheckCircle2 className="w-3 h-3" /> Redeemed
+                          </span>
+                        ) : isRetweetOnCooldown ? (
+                          <span className={`text-[10px] font-medium ${sub}`}>
+                            {Math.ceil(
+                              (retweetCooldownUntil!.getTime() - Date.now()) /
+                                (60 * 60 * 1000)
+                            )}
+                            h cooldown
                           </span>
                         ) : (
                           <button
@@ -2121,6 +2161,7 @@ export default function MerchantDashboard() {
         onSuccess={handleRetweetSuccess}
         userWallet={user?.wallet_address || ""}
         userRole={user?.role}
+        retweetNumber={retweetCount}
       />
 
       {/* ── 2FA Settings Modal ─────────────────────────────────────────────── */}

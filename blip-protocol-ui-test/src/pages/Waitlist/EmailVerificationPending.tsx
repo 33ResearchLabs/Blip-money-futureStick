@@ -12,6 +12,7 @@ export default function EmailVerificationPending() {
 
   // Use location state first, then sessionStorage as fallback
   const stateEmail = location.state?.email || "";
+  const stateRole = location.state?.role || "";
   const [email, setEmail] = useState(() => {
     if (stateEmail) {
       sessionStorage.setItem("verification_email", stateEmail);
@@ -19,6 +20,16 @@ export default function EmailVerificationPending() {
     }
     return sessionStorage.getItem("verification_email") || "";
   });
+  const [role] = useState(() => {
+    if (stateRole) {
+      sessionStorage.setItem("verification_role", stateRole);
+      return stateRole;
+    }
+    return sessionStorage.getItem("verification_role") || "USER";
+  });
+
+  const isMerchant = role === "MERCHANT" || role === "merchant";
+  const loginPath = isMerchant ? "/merchant-waitlist" : "/waitlist";
 
   const [isResending, setIsResending] = useState(false);
   const [resent, setResent] = useState(false);
@@ -60,12 +71,13 @@ export default function EmailVerificationPending() {
       const verifyEmail = email || firebaseAuth.currentUser?.email || "";
       await authApi.confirmEmailVerified(verifyEmail);
       sessionStorage.removeItem("verification_email");
+      sessionStorage.removeItem("verification_role");
       toast.success("Email verified! You can now login.");
-      navigate("/waitlist", { state: { email: verifyEmail } });
+      navigate(loginPath, { state: { email: verifyEmail } });
     } catch (error: any) {
       console.error("Confirm verification error:", error);
       toast.error("Something went wrong. Please try logging in.");
-      navigate("/waitlist");
+      navigate(loginPath);
     } finally {
       setIsChecking(false);
     }
@@ -206,7 +218,7 @@ export default function EmailVerificationPending() {
 
         {/* Back to Login */}
         <Link
-          to="/waitlist"
+          to={loginPath}
           className="inline-block text-sm text-black/80 dark:text-white/60 hover:text-black dark:hover:text-white transition-colors"
         >
           Back to Login

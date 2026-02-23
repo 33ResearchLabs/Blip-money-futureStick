@@ -82,7 +82,7 @@ export const CinematicHeroOfMerchant = () => {
               The merchant protocol
             </span>
           </motion.div>
-          <motion.h1 className=" font-display font-bold text-black dark:text-white leading-[0.95] tracking-[-0.04em] text-[clamp(38px,8vw,96px)] mx-auto text-center py-12 mb-8 ">
+          <motion.h1 className="font-display font-bold text-black dark:text-white leading-[1.1] tracking-tight text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl mb-8">
             The settlement layer
             <br /> for{" "}
             <span className="text-black/80 dark:text-white/50">

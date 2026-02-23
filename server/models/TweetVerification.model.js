@@ -10,7 +10,8 @@ const tweetVerificationSchema = new mongoose.Schema(
     },
     walletAddress: {
       type: String,
-      required: true,
+      required: false,
+      default: "",
       index: true,
     },
     tweetId: {
@@ -66,8 +67,8 @@ const tweetVerificationSchema = new mongoose.Schema(
   }
 );
 
-// Compound index to prevent same user from claiming multiple times for same campaign
-tweetVerificationSchema.index({ userId: 1, campaignId: 1 });
+// Compound index for querying user campaign history
+tweetVerificationSchema.index({ userId: 1, campaignId: 1, createdAt: -1 });
 
 // Index for querying by wallet
 tweetVerificationSchema.index({ walletAddress: 1, campaignId: 1 });
@@ -83,6 +84,23 @@ tweetVerificationSchema.statics.hasUserVerifiedCampaign = async function (
     verificationStatus: "verified",
   });
   return !!verification;
+};
+
+// Static method to get retweet campaign status (count + last completion date)
+tweetVerificationSchema.statics.getRetweetCampaignStatus = async function (
+  userId,
+  campaignId = "retweet_campaign"
+) {
+  const verifications = await this.find({
+    userId,
+    campaignId,
+    verificationStatus: "verified",
+  }).sort({ createdAt: -1 });
+
+  return {
+    count: verifications.length,
+    lastCompletedAt: verifications.length > 0 ? verifications[0].createdAt : null,
+  };
 };
 
 // Static method to check if tweet has already been successfully claimed

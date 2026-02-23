@@ -24,6 +24,7 @@ const blipPointLogSchema = new mongoose.Schema(
                 "MERCHANT_REGISTER",
                 "TWITTER_FOLLOW",
                 "TELEGRAM_JOIN",
+                "RETWEET",
                 "WHITEPAPER_READ",
                 "CROSS_BORDER_SWAP",
                 "REFERRAL_BONUS_EARNED",

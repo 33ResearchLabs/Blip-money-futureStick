@@ -106,30 +106,17 @@ export const verifyTweet = async (req, res) => {
       userAgent: req.headers["user-agent"],
     });
 
-    // Award points to user
-    user.totalBlipPoints = (user.totalBlipPoints || 0) + pointsAwarded;
-
-    // Add to points history
-    if (!user.pointsHistory) {
-      user.pointsHistory = [];
-    }
-
-    user.pointsHistory.push({
-      action: "Twitter Campaign - Share",
-      points: pointsAwarded,
-      date: new Date(),
-      details: `Tweet verified: ${tweetId}`,
-    });
-
-    await user.save();
-
     // Create BlipPointLog entry so getMe recalculation includes these points
     await BlipPointLog.create({
       userId,
       event: "TWITTER_FOLLOW",
       bonusPoints: pointsAwarded,
-      totalPoints: user.totalBlipPoints,
+      totalPoints: (user.totalBlipPoints || 0) + pointsAwarded,
     });
+
+    // Update user's cached total
+    user.totalBlipPoints = (user.totalBlipPoints || 0) + pointsAwarded;
+    await user.save();
 
     return res.status(200).json({
       success: true,
@@ -239,10 +226,10 @@ export const verifyRetweet = async (req, res) => {
     const { tweetId, tweetUrl, wallet_address } = req.body;
     const userId = req.user?._id;
 
-    if (!tweetId || !tweetUrl || !wallet_address) {
+    if (!tweetId || !tweetUrl) {
       return res.status(400).json({
         success: false,
-        message: "Missing required fields: tweetId, tweetUrl, wallet_address",
+        message: "Missing required fields: tweetId, tweetUrl",
       });
     }
 
@@ -261,24 +248,34 @@ export const verifyRetweet = async (req, res) => {
       });
     }
 
-    if (!user.walletLinked || user.wallet_address !== wallet_address) {
-      return res.status(403).json({
-        success: false,
-        message: "Wallet not linked to your account. Please link your wallet first.",
-      });
-    }
+    // Use linked wallet if available, otherwise fall back to provided or empty
+    const walletAddr = user.wallet_address || wallet_address || "";
 
-    // Check if user has already completed the retweet campaign
-    const hasVerified = await TweetVerification.hasUserVerifiedCampaign(
+    // Check retweet limits: max 2 retweets, 2-day gap between each
+    const retweetStatus = await TweetVerification.getRetweetCampaignStatus(
       userId,
       "retweet_campaign"
     );
 
-    if (hasVerified) {
+    const MAX_RETWEETS = 2;
+    const COOLDOWN_MS = 2 * 24 * 60 * 60 * 1000; // 2 days in ms
+
+    if (retweetStatus.count >= MAX_RETWEETS) {
       return res.status(400).json({
         success: false,
-        message: "You have already completed the retweet campaign.",
+        message: "You have reached the maximum of 2 retweet rewards.",
       });
+    }
+
+    if (retweetStatus.lastCompletedAt) {
+      const timeSinceLast = Date.now() - new Date(retweetStatus.lastCompletedAt).getTime();
+      if (timeSinceLast < COOLDOWN_MS) {
+        const hoursLeft = Math.ceil((COOLDOWN_MS - timeSinceLast) / (60 * 60 * 1000));
+        return res.status(400).json({
+          success: false,
+          message: `Please wait ${hoursLeft} hours before your next retweet. (2-day cooldown)`,
+        });
+      }
     }
 
     // Check if this tweet was already claimed
@@ -306,12 +303,12 @@ export const verifyRetweet = async (req, res) => {
 
     const { tweetData } = verificationResult;
 
-    // Points to award (merchants get retweet-specific rewards)
-    const pointsAwarded = user.role === "MERCHANT" ? merchantBlipPoints.retweet : 50;
+    // Points to award for retweet
+    const pointsAwarded = 100;
 
     const verification = await TweetVerification.create({
       userId,
-      walletAddress: wallet_address,
+      walletAddress: walletAddr,
       tweetId: tweetData.id,
       tweetUrl,
       tweetText: tweetData.text,
@@ -324,26 +321,17 @@ export const verifyRetweet = async (req, res) => {
       userAgent: req.headers["user-agent"],
     });
 
-    user.totalBlipPoints = (user.totalBlipPoints || 0) + pointsAwarded;
-
-    if (!user.pointsHistory) {
-      user.pointsHistory = [];
-    }
-    user.pointsHistory.push({
-      action: "Retweet Campaign",
-      points: pointsAwarded,
-      date: new Date(),
-      details: `Retweet verified: ${tweetId}`,
-    });
-
-    await user.save();
-
+    // Award points — create BlipPointLog first (this was failing before)
     await BlipPointLog.create({
       userId,
       event: "RETWEET",
       bonusPoints: pointsAwarded,
-      totalPoints: user.totalBlipPoints,
+      totalPoints: (user.totalBlipPoints || 0) + pointsAwarded,
     });
+
+    // Update user's cached total
+    user.totalBlipPoints = (user.totalBlipPoints || 0) + pointsAwarded;
+    await user.save();
 
     return res.status(200).json({
       success: true,
@@ -355,7 +343,7 @@ export const verifyRetweet = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Retweet verification error:", error);
+    console.error("Retweet verification error:", error.message, error.stack);
 
     if (error.code === 11000) {
       return res.status(400).json({

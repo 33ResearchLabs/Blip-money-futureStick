@@ -17,12 +17,15 @@ interface RetweetVerificationModalProps {
   onSuccess: (points: number) => void;
   userWallet: string;
   userRole?: string;
+  retweetNumber?: number;
 }
 
 type Step = "compose" | "submit" | "verifying" | "success" | "error";
 
-const PRE_FILLED_TWEET =
-  "I just joined @BlipMoney — the non-custodial settlement protocol for crypto payments. Join the waitlist and earn BLIP rewards! 🚀\n\nhttps://blip.money";
+const TWEET_TEMPLATES = [
+  "I just joined @BlipMoney — the non-custodial settlement protocol for crypto payments. Join the waitlist and earn BLIP rewards! 🚀\n\nhttps://blip.money",
+  "Loving the @BlipMoney experience — instant cross-border settlements with zero hassle. The future of crypto payments is here! 💸🌍\n\nhttps://blip.money",
+];
 
 export default function RetweetVerificationModal({
   isOpen,
@@ -30,8 +33,10 @@ export default function RetweetVerificationModal({
   userWallet,
   onSuccess,
   userRole,
+  retweetNumber = 0,
 }: RetweetVerificationModalProps) {
-  const REWARD_POINTS = userRole === "MERCHANT" ? 100 : 50;
+  const REWARD_POINTS = 100;
+  const PRE_FILLED_TWEET = TWEET_TEMPLATES[Math.min(retweetNumber, TWEET_TEMPLATES.length - 1)];
   const [step, setStep] = useState<Step>("compose");
   const [tweetUrl, setTweetUrl] = useState("");
   const [error, setError] = useState("");

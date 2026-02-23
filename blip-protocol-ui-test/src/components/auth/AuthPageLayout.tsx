@@ -39,7 +39,7 @@ export default function AuthPageLayout({
             <br />
             money
             <br />
-            <span className="text-[#ff6b35]">in a blip.</span>
+            <span className="text-black/85 dark:text-white/50">in a blip.</span>
           </motion.h2>
         </div>
 
@@ -53,11 +53,7 @@ export default function AuthPageLayout({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
-              style={{
-                background: "rgba(255, 107, 53, 0.05)",
-                border: "1px solid rgba(255, 107, 53, 0.15)",
-              }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 border border-black/10 dark:border-white/10"
             >
               <span className="text-[11px] font-semibold text-gray-600 dark:text-white uppercase tracking-wider">
                 {badge}
