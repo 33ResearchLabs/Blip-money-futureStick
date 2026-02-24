@@ -9,7 +9,6 @@ import {
   Gift,
   Wallet,
   Calendar,
-  ArrowRight,
 } from "lucide-react";
 import { airdropApi } from "@/services/Airdrop";
 
@@ -143,21 +142,13 @@ export default function ReferralModal({
 
         {/* Referral Link Section */}
         <div className="p-6 border-b border-black/10 dark:border-neutral-800 bg-black/[0.02] dark:bg-neutral-900/50">
-          <div className="mb-3 flex items-center justify-between">
-            {/* Left Section */}
-            <div>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-black/50 dark:text-neutral-500">
-                Your Referral Code
-              </span>
+          <div className="mb-3">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-black/50 dark:text-neutral-500">
+              Your Referral Code
+            </span>
 
-              <div className="text-2xl font-mono font-bold text-black dark:text-white mt-1">
-                {referralCode}
-              </div>
-            </div>
-
-            {/* Right Arrow */}
-            <div className="flex items-center justify-center w-7 h-7 rounded-full bg-black/5 dark:bg-white/10 hover:scale-110 transition">
-              <ArrowRight className="w-3 h-3 text-black dark:text-white" />
+            <div className="text-2xl font-mono font-bold text-black dark:text-white mt-1">
+              {referralCode}
             </div>
           </div>
 

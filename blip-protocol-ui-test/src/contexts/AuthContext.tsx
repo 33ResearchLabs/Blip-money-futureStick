@@ -12,6 +12,7 @@ import { api } from "@/services/api"; // axios instance withCredentials:true
 
 interface User {
   id: string;
+  userName?: string;
   email: string;
   wallet_address?: string;
   phone?: string;

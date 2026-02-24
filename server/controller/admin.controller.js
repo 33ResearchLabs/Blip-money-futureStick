@@ -351,6 +351,63 @@ export const getRegistrationChart = async (req, res) => {
 
 /**
  * ============================
+ * GET VOLUME CHART DATA (LAST 30 DAYS)
+ * GET /api/admin/volume-chart
+ * ============================
+ */
+export const getVolumeChart = async (req, res) => {
+  try {
+    // Helper to parse volumeRange like "$50K - $100K" → upper bound in dollars
+    const parseVolume = (range) => {
+      const match = range?.match(/\$(\d+)K\s*(?:-\s*\$(\d+)K)?/);
+      if (!match) return 0;
+      return (match[2] ? parseInt(match[2]) : parseInt(match[1])) * 1000;
+    };
+
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+    // Get all commitments in last 30 days with date + volumeRange
+    const recentCommitments = await VolumeCommitment.find({
+      createdAt: { $gte: thirtyDaysAgo },
+    }).select("volumeRange createdAt").lean();
+
+    // Group by day, sum volume amounts
+    const chartMap = {};
+    for (const c of recentCommitments) {
+      const dateStr = c.createdAt.toISOString().split("T")[0];
+      if (!chartMap[dateStr]) chartMap[dateStr] = 0;
+      chartMap[dateStr] += parseVolume(c.volumeRange);
+    }
+
+    // Fill in missing days with cumulative total
+    const chart = [];
+    const now = new Date();
+    let cumulative = 0;
+    for (let i = 29; i >= 0; i--) {
+      const d = new Date(now);
+      d.setDate(d.getDate() - i);
+      const dateStr = d.toISOString().split("T")[0];
+      const daily = chartMap[dateStr] || 0;
+      cumulative += daily;
+      chart.push({ date: dateStr, daily, cumulative });
+    }
+
+    // Calculate total committed volume (all time)
+    const allCommitments = await VolumeCommitment.find().select("volumeRange").lean();
+    let totalVolume = 0;
+    for (const c of allCommitments) {
+      totalVolume += parseVolume(c.volumeRange);
+    }
+
+    return res.json({ success: true, chart, totalVolume });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+/**
+ * ============================
  * GET POINTS DISTRIBUTION CHART
  * GET /api/admin/points-chart
  * ============================

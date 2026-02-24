@@ -9,6 +9,7 @@ import {
   getAllUsersDetailed,
   getReferralStats,
   getVolumeCommitments,
+  getVolumeChart,
   getRegistrationChart,
   getPointsDistributionChart,
 } from "../controller/admin.controller.js";
@@ -62,6 +63,9 @@ router.get("/referral-stats", getReferralStats);
 
 // All merchant volume commitments
 router.get("/volume-commitments", getVolumeCommitments);
+
+// Volume commitment chart data (last 30 days)
+router.get("/volume-chart", getVolumeChart);
 
 // Registration chart data (last 30 days)
 router.get("/registration-chart", getRegistrationChart);

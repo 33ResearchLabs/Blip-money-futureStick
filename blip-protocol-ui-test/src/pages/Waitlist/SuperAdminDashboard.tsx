@@ -15,6 +15,7 @@ import {
   ChevronRight,
   LogOut,
   Trophy,
+  TrendingUp,
 } from "lucide-react";
 import {
   AreaChart,
@@ -100,6 +101,12 @@ interface PointsChartPoint {
   count: number;
 }
 
+interface VolumeChartPoint {
+  date: string;
+  daily: number;
+  cumulative: number;
+}
+
 interface Pagination {
   total: number;
   page: number;
@@ -118,6 +125,12 @@ const formatDate = (dateStr: string) =>
 
 const formatNumber = (n: number) => n.toLocaleString();
 
+const formatVolume = (n: number) => {
+  if (n >= 1_000_000) return `$${(n / 1_000_000).toFixed(1)}M`;
+  if (n >= 1_000) return `$${(n / 1_000).toFixed(0)}K`;
+  return `$${n}`;
+};
+
 const eventLabels: Record<string, string> = {
   REGISTER: "User Register",
   MERCHANT_REGISTER: "Merchant Register",
@@ -125,6 +138,7 @@ const eventLabels: Record<string, string> = {
   TELEGRAM_JOIN: "Telegram Join",
   WHITEPAPER_READ: "Whitepaper Read",
   CROSS_BORDER_SWAP: "Cross Border Swap",
+  RETWEET: "Retweet",
   REFERRAL_BONUS_EARNED: "Referral Earned",
   REFERRAL_BONUS_RECEIVED: "Referral Received",
 };
@@ -157,6 +171,8 @@ export default function SuperAdminDashboard() {
   // Charts
   const [regChart, setRegChart] = useState<ChartDataPoint[]>([]);
   const [pointsChart, setPointsChart] = useState<PointsChartPoint[]>([]);
+  const [volumeChart, setVolumeChart] = useState<VolumeChartPoint[]>([]);
+  const [totalVolume, setTotalVolume] = useState(0);
 
   // Users table
   const [users, setUsers] = useState<UserDetailed[]>([]);
@@ -188,12 +204,15 @@ export default function SuperAdminDashboard() {
 
   const fetchCharts = useCallback(async () => {
     try {
-      const [regRes, pointsRes]: any = await Promise.all([
+      const [regRes, pointsRes, volumeRes]: any = await Promise.all([
         airdropApi.getRegistrationChart(),
         airdropApi.getPointsChart(),
+        airdropApi.getVolumeChart(),
       ]);
       setRegChart(regRes.chart || []);
       setPointsChart(pointsRes.chart || []);
+      setVolumeChart(volumeRes.chart || []);
+      setTotalVolume(volumeRes.totalVolume || 0);
     } catch (e) {
       console.error("Failed to fetch chart data:", e);
     }
@@ -314,13 +333,14 @@ export default function SuperAdminDashboard() {
         {activeTab === "overview" && (
           <>
             {/* Stats Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 mb-8">
               <StatCard icon={<Users className="w-5 h-5" />} label="Total Users" value={stats?.totalUsers || 0} />
               <StatCard icon={<Store className="w-5 h-5" />} label="Total Merchants" value={stats?.totalMerchants || 0} />
               <StatCard icon={<Users className="w-5 h-5" />} label="All Accounts" value={stats?.totalAllUsers || 0} />
               <StatCard icon={<Coins className="w-5 h-5" />} label="Total Blip Points" value={stats?.totalBlipPoints || 0} />
               <StatCard icon={<Share2 className="w-5 h-5" />} label="Total Referrals" value={stats?.totalReferrals || 0} />
               <StatCard icon={<BarChart3 className="w-5 h-5" />} label="Volume Commits" value={stats?.totalVolumeCommitments || 0} />
+              <StatCard icon={<TrendingUp className="w-5 h-5" />} label="Total Volume" value={totalVolume} displayValue={formatVolume(totalVolume)} />
             </div>
 
             {/* Social Quest Stats */}
@@ -431,6 +451,64 @@ export default function SuperAdminDashboard() {
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
+              </div>
+            </div>
+
+            {/* Volume Chart - Full Width */}
+            <div className="bg-white/5 border border-white/10 rounded-xl p-6 mt-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold">Volume Committed (Last 30 Days)</h3>
+                <span className="text-sm text-white/40 font-mono">{formatVolume(totalVolume)} total</span>
+              </div>
+              <div className="h-[300px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={volumeChart}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                    <XAxis
+                      dataKey="date"
+                      stroke="rgba(255,255,255,0.3)"
+                      tick={{ fontSize: 11, fill: "rgba(255,255,255,0.5)" }}
+                      tickFormatter={(v) => v.slice(5)}
+                    />
+                    <YAxis
+                      stroke="rgba(255,255,255,0.3)"
+                      tick={{ fontSize: 11, fill: "rgba(255,255,255,0.5)" }}
+                      tickFormatter={(v) => formatVolume(v)}
+                      allowDecimals={false}
+                    />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: "#111",
+                        border: "1px solid rgba(255,255,255,0.1)",
+                        borderRadius: 8,
+                        color: "#fff",
+                      }}
+                      formatter={(value: number, name: string) => [
+                        formatVolume(value),
+                        name === "daily" ? "Daily" : "Cumulative",
+                      ]}
+                    />
+                    <Legend />
+                    <Area
+                      type="monotone"
+                      dataKey="cumulative"
+                      name="Cumulative"
+                      stroke="#10b981"
+                      fill="#10b981"
+                      fillOpacity={0.1}
+                      strokeWidth={2}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="daily"
+                      name="Daily"
+                      stroke="#8b5cf6"
+                      fill="#8b5cf6"
+                      fillOpacity={0.15}
+                      strokeWidth={2}
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
               </div>
             </div>
           </>
@@ -780,10 +858,12 @@ function StatCard({
   icon,
   label,
   value,
+  displayValue,
 }: {
   icon: React.ReactNode;
   label: string;
   value: number;
+  displayValue?: string;
 }) {
   return (
     <div className="bg-white/5 border border-white/10 rounded-xl p-4">
@@ -791,7 +871,7 @@ function StatCard({
         {icon}
         <span className="text-xs uppercase tracking-wider">{label}</span>
       </div>
-      <p className="text-2xl font-bold font-mono">{formatNumber(value)}</p>
+      <p className="text-2xl font-bold font-mono">{displayValue || formatNumber(value)}</p>
     </div>
   );
 }

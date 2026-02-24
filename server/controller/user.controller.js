@@ -405,6 +405,7 @@ export const getMe = async (req, res) => {
       success: true,
       user: {
         id: user._id,
+        userName: user.userName || null,
         email: user.email,
         phone: user.phone,
         wallet_address: user.wallet_address,
@@ -625,6 +626,87 @@ export const fixPointsData = async (req, res) => {
     });
   } catch (error) {
     console.error("FixPointsData error:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+/**
+ * ============================
+ * CHECK USERNAME AVAILABILITY
+ * ============================
+ */
+export const checkUserName = async (req, res) => {
+  try {
+    const { userName } = req.params;
+
+    if (!userName || typeof userName !== "string") {
+      return res.status(400).json({ success: false, message: "Username is required" });
+    }
+
+    const trimmed = userName.trim();
+
+    if (trimmed.length < 3 || trimmed.length > 20) {
+      return res.status(400).json({ success: false, available: false, message: "Username must be 3-20 characters" });
+    }
+
+    if (!/^[a-zA-Z0-9_-]+$/.test(trimmed)) {
+      return res.status(400).json({ success: false, available: false, message: "Only letters, numbers, underscores and hyphens" });
+    }
+
+    const existing = await User.findOne({
+      userName: { $regex: new RegExp(`^${trimmed}$`, "i") },
+    });
+
+    return res.status(200).json({
+      success: true,
+      available: !existing,
+      message: existing ? "Username is already taken" : "Username is available",
+    });
+  } catch (error) {
+    console.error("CheckUserName error:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+/**
+ * ============================
+ * UPDATE USERNAME
+ * ============================
+ */
+export const updateUserName = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { userName } = req.body;
+
+    if (!userName || typeof userName !== "string") {
+      return res.status(400).json({ success: false, message: "Username is required" });
+    }
+
+    const trimmed = userName.trim();
+
+    if (trimmed.length < 3 || trimmed.length > 20) {
+      return res.status(400).json({ success: false, message: "Username must be 3-20 characters" });
+    }
+
+    if (!/^[a-zA-Z0-9_-]+$/.test(trimmed)) {
+      return res.status(400).json({ success: false, message: "Username can only contain letters, numbers, underscores and hyphens" });
+    }
+
+    // Check uniqueness (case-insensitive)
+    const existing = await User.findOne({
+      userName: { $regex: new RegExp(`^${trimmed}$`, "i") },
+      _id: { $ne: userId },
+    });
+
+    if (existing) {
+      return res.status(409).json({ success: false, message: "Username is already taken" });
+    }
+
+    await User.updateOne({ _id: userId }, { $set: { userName: trimmed } });
+
+    return res.status(200).json({ success: true, userName: trimmed });
+  } catch (error) {
+    console.error("UpdateUserName error:", error);
     return res.status(500).json({ message: "Server error" });
   }
 };

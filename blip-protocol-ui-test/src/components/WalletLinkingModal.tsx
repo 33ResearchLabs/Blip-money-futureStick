@@ -52,6 +52,16 @@ export default function WalletLinkingModal({
     }
   }, [connected, publicKey, isOpen]);
 
+  // Auto-close when wallet is already linked (e.g. user context updated)
+  useEffect(() => {
+    if (isOpen && user?.walletLinked) {
+      setLinked(true);
+      setTimeout(() => {
+        if (onClose) onClose();
+      }, 1500);
+    }
+  }, [isOpen, user?.walletLinked]);
+
   // Reset ref when modal closes
   useEffect(() => {
     if (!isOpen) {
