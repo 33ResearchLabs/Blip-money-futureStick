@@ -567,7 +567,7 @@ const SecuritySection = () => {
                     border: "1px solid rgba(255, 255, 255, 0.1)",
                   }}
                 >
-                  <div className="text-md sm:text-2xl font-semibold text-white">
+                  <div className="text-xs sm:text-2xl font-semibold text-white">
                     {metric.value}
                   </div>
                   <div className="text-[9px] sm:text-xs text-white/60 uppercase tracking-tight">

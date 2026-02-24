@@ -94,7 +94,7 @@ const ProtocolSection = () => {
             className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-2xl mx-auto leading-relaxed font-medium"
           >
             A decentralized settlement layer for instant,
-            <br />
+            <br className="hidden md:block" />
             private, global value transfer.
           </motion.p>
         </div>

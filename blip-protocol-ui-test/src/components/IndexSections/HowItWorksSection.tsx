@@ -401,7 +401,7 @@ const App = () => {
       </div>
 
       {/* DESKTOP LAYOUT - Sticky phone with scrolling content sections */}
-      <div className="hidden lg:block max-w-7xl mx-auto px-8 lg:px-12 flex-col lg:flex-row gap-16 relative min-h-screen">
+      <div className="hidden lg:block max-w-7xl mx-auto px-8 lg:px-12 relative min-h-screen">
         <div className="flex gap-16">
           {/* LEFT SIDE: Sticky Phone UI */}
           <div className="w-full lg:w-[45%] lg:sticky lg:top-0 h-screen flex items-center justify-center py-12">

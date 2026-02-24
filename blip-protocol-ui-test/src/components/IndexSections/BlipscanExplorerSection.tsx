@@ -128,7 +128,7 @@ const BlipscanExplorerSection = () => {
           <div className="absolute -inset-4 bg-gradient-to-b from-white/[0.03] via-transparent to-transparent blur-3xl" />
 
           {/* Main container */}
-          <div className="relative h-[450px] sm:[600px] rounded-2xl border border-black/[0.08] dark:border-white/[0.06] bg-[#FAF8F5] dark:bg-black/40 backdrop-blur-xl overflow-hidden shadow-[0_8px_60px_-12px_rgba(0,0,0,0.15)] dark:shadow-none">
+          <div className="relative h-[450px] sm:h-[600px] rounded-2xl border border-black/[0.08] dark:border-white/[0.06] bg-[#FAF8F5] dark:bg-black/40 backdrop-blur-xl overflow-hidden shadow-[0_8px_60px_-12px_rgba(0,0,0,0.15)] dark:shadow-none">
             {/* Header bar */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-black/[0.06] dark:border-white/[0.06]">
               <div className="flex items-center gap-3">

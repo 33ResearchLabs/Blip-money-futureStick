@@ -223,7 +223,7 @@ const DistributionSection = () => {
             transition={{ duration: 1 }}
             className="relative"
           >
-            <div className="relative w-[290px] sm:w-[320px] md:w-[420px] aspect-square mx-auto">
+            <div className="relative w-[260px] sm:w-[320px] md:w-[420px] aspect-square mx-auto">
               {/* Outer ring */}
               <div className="absolute -inset-9 md:-inset-10 border border-black/5 dark:border-white/5 rounded-full" />
 

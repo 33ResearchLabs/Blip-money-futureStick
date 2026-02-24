@@ -83,12 +83,12 @@ const RewardsSection = () => {
           {rewards.map((reward) => (
             <div
               key={reward.label}
-              className="bg-[#FAF8F5] dark:bg-black p-6 sm:p-8 md:p-10 text-center"
+              className="bg-[#FAF8F5] dark:bg-black p-4 sm:p-8 md:p-10 text-center"
             >
-              <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-black dark:text-white mb-2 tracking-tight">
+              <div className="text-xl sm:text-3xl md:text-4xl font-bold text-black dark:text-white mb-2 tracking-tight">
                 {reward.value}
               </div>
-              <div className="text-sm font-semibold text-black dark:text-white/70 mb-1">
+              <div className="text-xs sm:text-sm font-semibold text-black dark:text-white/70 mb-1">
                 {reward.label}
               </div>
               <div className="text-xs text-black/70 dark:text-white/30 hidden sm:block font-medium">

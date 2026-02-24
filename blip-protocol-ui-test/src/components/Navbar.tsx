@@ -303,11 +303,9 @@ const MobileMenu = ({
             <a
               href="/waitlist"
               onClick={(e) => handleNavClick(e, "/waitlist")}
-              className="block w-full"
+              className="block w-full text-center py-2.5 rounded-full bg-black dark:bg-white text-white dark:text-black text-sm font-semibold"
             >
-              <CTAButton to="/waitlist" className="w-full">
-                Join Waitlist
-              </CTAButton>
+              Join Waitlist
             </a>
           )}
         </div>

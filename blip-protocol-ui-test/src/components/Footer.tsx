@@ -132,7 +132,7 @@ export const Footer = ({
           isVisible ? "opacity-100" : "opacity-0 translate-y-5"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-8 sm:px-6 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8">
             {FOOTER_SECTIONS.map((section, i) => (
               <div key={i} className="space-y-3">
