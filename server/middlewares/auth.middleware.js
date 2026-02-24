@@ -7,33 +7,52 @@ export const protect = async (req, res, next) => {
 
     if (!token) {
       return res.status(401).json({
+        success: false,
         message: "Not authenticated",
       });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET);
+    } catch {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid or expired token",
+      });
+    }
 
-    const user = await User.findById(decoded.id);
+    if (!decoded?.id) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid token payload",
+      });
+    }
+
+    const user = await User.findById(decoded.id).select("-password -twoFactorSecret");
 
     if (!user) {
       return res.status(401).json({
+        success: false,
         message: "User no longer exists",
       });
     }
 
-    // attach user to request
     req.user = user;
     next();
-  } catch (error) {
+  } catch {
     return res.status(401).json({
-      message: "Invalid or expired token",
+      success: false,
+      message: "Authentication failed",
     });
   }
 };
 
 export const adminOnly = (req, res, next) => {
-  if (req.user?.role !== "ADMIN") {
+  const role = req.user?.role;
+  if (role !== "ADMIN" && role !== "SUPERADMIN") {
     return res.status(403).json({
+      success: false,
       message: "Admin access required",
     });
   }

@@ -358,7 +358,6 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
         });
       }, 1000);
     } catch (err) {
-      console.error("Form submission error:", err);
       setError("Failed to send message. Please try again.");
       setIsSubmitting(false);
     }

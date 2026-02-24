@@ -104,20 +104,16 @@ export default function WhitepaperQuiz({
       const correctAnswer = q.correctAnswer;
       const isCorrect = userAnswer !== undefined && userAnswer === correctAnswer;
 
-      console.log(`Q${index + 1}: User answered ${userAnswer}, Correct is ${correctAnswer}, Match: ${isCorrect}`);
-
       if (isCorrect) {
         correct++;
       }
     });
-    console.log(`Total correct: ${correct}/5`);
     return correct;
   };
 
   const handleSubmit = async () => {
     setSubmitting(true);
     const score = calculateScore();
-    console.log("Submitting quiz with score:", score, "answers:", selectedAnswers);
     // Send to parent which will call backend
     await onComplete(score, selectedAnswers);
     setSubmitting(false);

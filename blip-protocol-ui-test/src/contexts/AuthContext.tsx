@@ -123,7 +123,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         setUser((prev) => (prev ? { ...prev, ...response.user } : response.user));
       }
     } catch (error) {
-      console.error("❌ Wallet linking failed:", error);
       throw error;
     }
   };
@@ -145,8 +144,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const logout = async () => {
     try {
       await api.post("/auth/logout");
-    } catch (error) {
-      console.error("Logout failed:", error);
+    } catch {
+      // logout error handled silently
     } finally {
       setUser(null);
     }

@@ -137,7 +137,6 @@ export default function Register({
         state: { email: formData.email, role },
       });
     } catch (error: any) {
-      console.error("Registration error:", error);
       // Handle Firebase-specific errors
       if (error.code === "auth/email-already-in-use") {
         // Try to sign in - if user exists but isn't verified, resend verification
@@ -202,7 +201,6 @@ export default function Register({
           : "/dashboard";
       navigate(dest);
     } catch (error: any) {
-      console.error("OTP verification error:", error);
       const message =
         error.response?.data?.message ||
         "Invalid verification code. Please try again.";

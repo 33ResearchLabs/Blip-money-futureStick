@@ -17,10 +17,12 @@ import {
   getCommitVolume,
 } from "../controller/auth.controller.js";
 import { protect } from "../middlewares/auth.middleware.js";
+import { submitContactForm } from "../controller/contact.controller.js";
 
 const router = express.Router();
 
 // Public routes
+router.post("/contact-form", submitContactForm);
 router.post("/register", registerWithEmail);
 router.get("/verify-email/:token", verifyEmail); // Old method (URL token)
 router.post("/verify-otp", verifyEmailOTP); // New method (OTP)
@@ -29,7 +31,7 @@ router.post("/login", loginWithEmail);
 router.post("/resend-verification", resendVerificationEmail);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password/:token", resetPassword);
-router.post("/sync-password", syncPassword);
+router.post("/sync-password", protect, syncPassword);
 router.post("/logout", logout);
 
 // Protected routes (require authentication)

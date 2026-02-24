@@ -198,7 +198,7 @@ export default function SuperAdminDashboard() {
       const res: any = await airdropApi.getSuperadminStats();
       setStats(res.stats);
     } catch (e) {
-      console.error("Failed to fetch superadmin stats:", e);
+      // Failed to fetch superadmin stats
     }
   }, []);
 
@@ -214,7 +214,7 @@ export default function SuperAdminDashboard() {
       setVolumeChart(volumeRes.chart || []);
       setTotalVolume(volumeRes.totalVolume || 0);
     } catch (e) {
-      console.error("Failed to fetch chart data:", e);
+      // Failed to fetch chart data
     }
   }, []);
 
@@ -229,7 +229,7 @@ export default function SuperAdminDashboard() {
       setUsers(res.users || []);
       setUsersPagination(res.pagination || null);
     } catch (e) {
-      console.error("Failed to fetch users:", e);
+      // Failed to fetch users
     }
   }, [usersPage, usersRoleFilter, usersSearch]);
 
@@ -240,7 +240,7 @@ export default function SuperAdminDashboard() {
       setTopReferrers(res.topReferrers || []);
       setReferralsPagination(res.pagination || null);
     } catch (e) {
-      console.error("Failed to fetch referrals:", e);
+      // Failed to fetch referrals
     }
   }, [referralsPage]);
 
@@ -249,7 +249,7 @@ export default function SuperAdminDashboard() {
       const res: any = await airdropApi.getVolumeCommitments();
       setVolumes(res.commitments || []);
     } catch (e) {
-      console.error("Failed to fetch volumes:", e);
+      // Failed to fetch volumes
     }
   }, []);
 

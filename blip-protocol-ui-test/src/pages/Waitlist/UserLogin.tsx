@@ -118,7 +118,6 @@ const UserLogin = ({ initialView }: AirdropLoginProps) => {
     if (isLoading) return;
     if (isAuthenticated && user?.emailVerified && !hasRedirected) {
       const dest = user?.role === "SUPERADMIN" ? "/admin-dashboard" : user?.role === "MERCHANT" ? "/merchant-dashboard" : "/dashboard";
-      console.log("✅ User already authenticated, redirecting to", dest);
       setHasRedirected(true);
       navigate(dest, { replace: true });
     }
@@ -130,13 +129,6 @@ const UserLogin = ({ initialView }: AirdropLoginProps) => {
       if (!connected || !publicKey || view !== "connect" || show2FAModal)
         return;
 
-      console.log("💾 Attempting to save user data:", {
-        wallet_address: publicKey.toBase58(),
-        email,
-        referral_code,
-        view,
-      });
-
       setIsConnecting(true);
 
       try {
@@ -146,8 +138,6 @@ const UserLogin = ({ initialView }: AirdropLoginProps) => {
           referral_code: referral_code,
           wallet_address: publicKey.toBase58(),
         });
-
-        console.log("✅ User data saved successfully:", response);
 
         if (response.twoFactorRequired) {
           setPendingEmail(email);
@@ -179,8 +169,6 @@ const UserLogin = ({ initialView }: AirdropLoginProps) => {
           setIsConnecting(false);
         }, 1000);
       } catch (error: any) {
-        console.error("❌ Error saving user data:", error);
-
         const errorCode = error.response?.data?.code;
         const errorMessage = error.response?.data?.message;
 

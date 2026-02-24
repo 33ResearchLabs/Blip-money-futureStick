@@ -3,7 +3,6 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 
-// https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
     host: "0.0.0.0",
@@ -25,6 +24,8 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
+    target: "es2020",
+    sourcemap: false,
     rollupOptions: {
       output: {
         manualChunks: {
@@ -32,6 +33,8 @@ export default defineConfig(({ mode }) => ({
           'vendor-ui': ['framer-motion', 'lucide-react', '@radix-ui/react-tooltip', '@radix-ui/react-dialog'],
           'vendor-solana': ['@solana/web3.js', '@solana/wallet-adapter-base', '@solana/wallet-adapter-react', '@solana/wallet-adapter-react-ui'],
           'vendor-query': ['@tanstack/react-query'],
+          'vendor-firebase': ['firebase/app', 'firebase/auth'],
+          'vendor-charts': ['recharts'],
         },
       },
     },

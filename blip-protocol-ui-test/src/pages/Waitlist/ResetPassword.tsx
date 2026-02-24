@@ -113,7 +113,6 @@ export default function ResetPassword() {
         }
       } catch {
         // Backend sync failure is non-critical - Firebase password is already updated
-        console.error("Backend password sync failed");
       }
 
       setIsSuccess(true);

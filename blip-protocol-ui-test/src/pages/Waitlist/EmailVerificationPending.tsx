@@ -75,7 +75,6 @@ export default function EmailVerificationPending() {
       toast.success("Email verified! You can now login.");
       navigate(loginPath, { state: { email: verifyEmail } });
     } catch (error: any) {
-      console.error("Confirm verification error:", error);
       toast.error("Something went wrong. Please try logging in.");
       navigate(loginPath);
     } finally {
@@ -99,7 +98,6 @@ export default function EmailVerificationPending() {
         navigate("/register");
       }
     } catch (error) {
-      console.error("Check verification error:", error);
       toast.error("Could not check verification status.");
     } finally {
       setIsChecking(false);
@@ -120,7 +118,6 @@ export default function EmailVerificationPending() {
         navigate("/register");
       }
     } catch (error: any) {
-      console.error("Resend error:", error);
       if (error.code === "auth/too-many-requests") {
         toast.error("Too many requests. Please wait before trying again.");
       } else {

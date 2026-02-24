@@ -40,7 +40,6 @@ export default function EmailVerified() {
 
         return () => clearInterval(interval);
       } catch (error: any) {
-        console.error("Verification error:", error);
         setStatus("error");
         setMessage(
           error.response?.data?.message ||

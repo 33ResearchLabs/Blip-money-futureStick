@@ -115,7 +115,6 @@ export const verifyMembership = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Telegram verify error:", error);
     return res.status(500).json({
       success: false,
       message: "Verification failed. Please try again.",
@@ -159,7 +158,6 @@ export const testBotConfig = async (req, res) => {
       return res.status(500).json({
         success: false,
         message: "Bot configuration error",
-        error: botInfo.error,
       });
     }
 
@@ -176,7 +174,6 @@ export const testBotConfig = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Failed to test bot configuration",
-      error: error.message,
     });
   }
 };

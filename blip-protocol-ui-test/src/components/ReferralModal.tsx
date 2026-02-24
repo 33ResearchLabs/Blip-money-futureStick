@@ -56,7 +56,7 @@ export default function ReferralModal({
       setReferrals(res.referrals || []);
       setTotalRewards(res.totalRewardsEarned || 0);
     } catch (err) {
-      console.error("Failed to fetch referrals", err);
+      // Failed to fetch referrals
     } finally {
       setLoading(false);
     }
@@ -68,7 +68,7 @@ export default function ReferralModal({
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error("Failed to copy");
+      // Failed to copy
     }
   };
 
@@ -86,7 +86,7 @@ export default function ReferralModal({
         await handleCopy();
       }
     } catch (err) {
-      console.log("Share cancelled or failed");
+      // Share cancelled or failed
     }
   };
 

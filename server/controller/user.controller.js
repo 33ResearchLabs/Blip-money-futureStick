@@ -8,20 +8,7 @@ import BlipPointLog from "../models/BlipPointLog.model.js";
 import TweetVerification from "../models/TweetVerification.model.js";
 import { REGISTER_BONUS_POINTS, REFERRAL_BONUS_POINTS, merchantBlipPoints } from "../utils/blipPoints.js";
 import { generateReferralCode } from "../utils/generateReferralId.js";
-import jwt from 'jsonwebtoken'
 import Referral from "../models/referral.model.js"
-/**
- * ============================
- * REGISTER USER
- * ============================
- */
-const generateToken = (userId) => {
-  return jwt.sign({ id: userId }, process.env.JWT_SECRET, {
-    expiresIn: "7d",
-  });
-};
-
-
 
 export const registerAndLoginUser = async (req, res) => {
   const session = await mongoose.startSession();
@@ -283,7 +270,6 @@ export const registerAndLoginUser = async (req, res) => {
   } catch (error) {
     await session.abortTransaction();
     session.endSession();
-    console.error("Register/Login error:", error);
     return res.status(500).json({ message: "Server error" });
   }
 };
@@ -419,7 +405,6 @@ export const getMe = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("GetMe error:", error);
     return res.status(500).json({ message: "Server error" });
   }
 };
@@ -465,7 +450,6 @@ export const getMyReferrals = async (req, res) => {
       totalRewardsEarned,
     });
   } catch (error) {
-    console.error("GetMyReferrals error:", error);
     return res.status(500).json({ message: "Server error" });
   }
 };
@@ -531,7 +515,6 @@ export const getMyPointsHistory = async (req, res) => {
       totalTransactions: history.length,
     });
   } catch (error) {
-    console.error("GetMyPointsHistory error:", error);
     return res.status(500).json({ message: "Server error" });
   }
 };
@@ -625,7 +608,6 @@ export const fixPointsData = async (req, res) => {
       totalUsersChecked: allUsers.length,
     });
   } catch (error) {
-    console.error("FixPointsData error:", error);
     return res.status(500).json({ message: "Server error" });
   }
 };
@@ -654,7 +636,7 @@ export const checkUserName = async (req, res) => {
     }
 
     const existing = await User.findOne({
-      userName: { $regex: new RegExp(`^${trimmed}$`, "i") },
+      userName: { $regex: new RegExp(`^${trimmed.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, "i") },
     });
 
     return res.status(200).json({
@@ -663,8 +645,7 @@ export const checkUserName = async (req, res) => {
       message: existing ? "Username is already taken" : "Username is available",
     });
   } catch (error) {
-    console.error("CheckUserName error:", error);
-    return res.status(500).json({ message: "Server error" });
+    return res.status(500).json({ success: false, message: "Server error" });
   }
 };
 
@@ -692,9 +673,9 @@ export const updateUserName = async (req, res) => {
       return res.status(400).json({ success: false, message: "Username can only contain letters, numbers, underscores and hyphens" });
     }
 
-    // Check uniqueness (case-insensitive)
+    // Check uniqueness (case-insensitive, escape regex)
     const existing = await User.findOne({
-      userName: { $regex: new RegExp(`^${trimmed}$`, "i") },
+      userName: { $regex: new RegExp(`^${trimmed.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, "i") },
       _id: { $ne: userId },
     });
 
@@ -706,7 +687,6 @@ export const updateUserName = async (req, res) => {
 
     return res.status(200).json({ success: true, userName: trimmed });
   } catch (error) {
-    console.error("UpdateUserName error:", error);
-    return res.status(500).json({ message: "Server error" });
+    return res.status(500).json({ success: false, message: "Server error" });
   }
 };

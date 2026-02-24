@@ -60,7 +60,6 @@ export const getMerchantLeaderboard = async (req, res) => {
       total: leaderboard.length,
     });
   } catch (error) {
-    console.error("GetMerchantLeaderboard error:", error);
     return res.status(500).json({ message: "Server error" });
   }
 };
@@ -144,7 +143,6 @@ export const getMerchantActivity = async (req, res) => {
       total: activity.length,
     });
   } catch (error) {
-    console.error("GetMerchantActivity error:", error);
     return res.status(500).json({ message: "Server error" });
   }
 };

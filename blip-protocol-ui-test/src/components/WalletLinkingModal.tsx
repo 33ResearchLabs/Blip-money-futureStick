@@ -90,7 +90,6 @@ export default function WalletLinkingModal({
         if (onClose) onClose();
       }, 1000);
     } catch (error: any) {
-      console.error("Wallet linking error:", error);
       const message = error.response?.data?.message || "Failed to link wallet";
       toast.error(message);
       hasAutoLinked.current = false;

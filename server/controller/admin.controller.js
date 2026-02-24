@@ -28,7 +28,7 @@ export const getAllSubmittedTasks = async (req, res) => {
       tasks,
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -49,7 +49,7 @@ export const getAllUsers = async (req, res) => {
       users,
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -82,7 +82,7 @@ export const getDashboardStats = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -145,7 +145,7 @@ export const getSuperadminStats = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -162,7 +162,7 @@ export const getAllUsersDetailed = async (req, res) => {
 
     const filter = {};
     if (role) filter.role = role;
-    if (search) filter.email = { $regex: search, $options: "i" };
+    if (search) filter.email = { $regex: search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: "i" };
 
     const [users, total] = await Promise.all([
       User.find(filter)
@@ -212,7 +212,7 @@ export const getAllUsersDetailed = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -272,7 +272,7 @@ export const getReferralStats = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -295,7 +295,7 @@ export const getVolumeCommitments = async (req, res) => {
       commitments,
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -345,7 +345,7 @@ export const getRegistrationChart = async (req, res) => {
 
     return res.json({ success: true, chart });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -402,7 +402,7 @@ export const getVolumeChart = async (req, res) => {
 
     return res.json({ success: true, chart, totalVolume });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -433,6 +433,6 @@ export const getPointsDistributionChart = async (req, res) => {
 
     return res.json({ success: true, chart });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Server error" });
   }
 };

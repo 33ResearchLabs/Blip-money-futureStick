@@ -138,7 +138,6 @@ export const verifyLoginTotp = async (req, res) => {
     });
 
   } catch (error) {
-    console.error("verifyLoginTotp error:", error);
     return res.status(500).json({
       success: false,
       message: "Server error",
@@ -180,7 +179,6 @@ export const disableGoogleAuth = async (req, res) => {
             message: "2FA disabled successfully",
         });
     } catch (error) {
-        console.error("disableGoogleAuth error:", error);
         return res.status(500).json({
             success: false,
             message: "Server error",

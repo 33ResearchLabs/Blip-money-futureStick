@@ -8,7 +8,6 @@ import { signToken } from "../utils/jwt.js";
 import jwt from "jsonwebtoken";
 import {
   sendVerificationEmail,
-  sendPasswordResetEmail,
   sendCustomPasswordResetEmail,
   sendWelcomeEmail,
 } from "../services/email.service.js";
@@ -62,7 +61,7 @@ export const registerWithEmail = async (req, res) => {
           });
         }
       } catch (captchaError) {
-        console.error("Captcha verification error:", captchaError);
+        // captcha error
         return res.status(500).json({
           success: false,
           message: "Captcha verification failed",
@@ -183,11 +182,9 @@ export const registerWithEmail = async (req, res) => {
       emailVerified: false,
     });
   } catch (error) {
-    console.error("Registration error:", error);
     res.status(500).json({
       success: false,
       message: "Registration failed",
-      Error: error.message,
     });
   }
 };
@@ -232,161 +229,12 @@ export const confirmEmailVerified = async (req, res) => {
       message: "Email verified successfully. You can now login.",
     });
   } catch (error) {
-    console.error("Confirm email verified error:", error);
     res.status(500).json({
       success: false,
       message: "Verification failed",
-      error: error.message,
     });
   }
 };
-
-// export const registerWithEmail = async (req, res) => {
-//   try {
-//     const { email, password, referral_code } = req.body;
-
-//     // Validation
-//     if (!email || !password) {
-//       return res.status(400).json({
-//         success: false,
-//         message: "Email and password are required",
-//       });
-//     }
-
-//     // Validate password strength
-//     if (password.length < 8) {
-//       return res.status(400).json({
-//         success: false,
-//         message: "Password must be at least 8 characters long",
-//       });
-//     }
-
-//     // Check for uppercase and number
-//     if (!/[A-Z]/.test(password) || !/[0-9]/.test(password)) {
-//       return res.status(400).json({
-//         success: false,
-//         message: "Password must contain at least one uppercase letter and one number",
-//       });
-//     }
-
-//     // Check if email already exists
-//     const existingUser = await User.findOne({ email: email.toLowerCase() });
-//     if (existingUser) {
-//       return res.status(409).json({
-//         success: false,
-//         message: "Email already registered. Please login instead.",
-//       });
-//     }
-
-//     // Hash password
-//     const hashedPassword = await bcrypt.hash(password, 10);
-
-//     // Generate 6-digit OTP for email verification
-//     const verificationOTP = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit OTP
-//     const verificationExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
-
-//     // Generate unique referral code
-//     const generateReferralCode = () => {
-//       const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-//       let code = "BLIP";
-//       for (let i = 0; i < 6; i++) {
-//         code += chars.charAt(Math.floor(Math.random() * chars.length));
-//       }
-//       return code;
-//     };
-
-//     let referralCode = generateReferralCode();
-//     let codeExists = await User.findOne({ referralCode });
-//     while (codeExists) {
-//       referralCode = generateReferralCode();
-//       codeExists = await User.findOne({ referralCode });
-//     }
-
-//     // Create user
-//     const newUser = await User.create({
-//       email: email.toLowerCase(),
-//       password: hashedPassword,
-//       emailVerified: false,
-//       emailVerificationToken: verificationOTP, // Store OTP in verification token field
-//       emailVerificationExpires: verificationExpires,
-//       walletLinked: false,
-//       referralCode,
-//       totalBlipPoints: 500, // Initial points
-//       status: "WAITLISTED",
-//       role: "USER",
-//     });
-
-//     // Create UserBlipPoints entry
-//     await UserBlipPoints.create({
-//       userId: newUser._id,
-//       points: 500,
-//       isActive: true,
-//     });
-
-//     // Log initial points
-//     await BlipPointLog.create({
-//       userId: newUser._id,
-//       bonusPoints: 500,
-//       totalPoints: 500,
-//       event: "REGISTER",
-//     });
-
-//     // Handle referral if provided
-//     if (referral_code) {
-//       const referrer = await User.findOne({ referralCode: referral_code });
-//       if (referrer) {
-//         newUser.referredBy = referrer._id;
-//         await newUser.save();
-
-//         // Award referral bonus (100 points to both)
-//         referrer.totalBlipPoints += 100;
-//         await referrer.save();
-
-//         await BlipPointLog.create({
-//           userId: referrer._id,
-//           bonusPoints: 100,
-//           totalPoints: referrer.totalBlipPoints,
-//           event: "REFERRAL_BONUS_EARNED",
-//         });
-
-//         newUser.totalBlipPoints += 100;
-//         await newUser.save();
-
-//         await BlipPointLog.create({
-//           userId: newUser._id,
-//           bonusPoints: 100,
-//           totalPoints: newUser.totalBlipPoints,
-//           event: "REFERRAL_BONUS_RECEIVED",
-//         });
-//       }
-//     }
-
-//     // Send OTP verification email
-//     try {
-//       await sendVerificationEmail(email, verificationOTP); // Send OTP instead of token
-//     } catch (emailError) {
-//       console.error("Email sending failed:", emailError);
-//       // Continue even if email fails - user can request resend
-//     }
-
-//     res.status(201).json({
-//       success: true,
-//       message: "Registration successful! Please check your email to verify your account.",
-//       user: {
-//         id: newUser._id,
-//         email: newUser.email,
-//         emailVerified: false,
-//       },
-//     });
-//   } catch (error) {
-//     console.error("Registration error:", error);
-//     res.status(500).json({
-//       success: false,
-//       message: "Registration failed. Please try again.",
-//       error: error.message,
-//     });
-//   }
-// };
 
 /**
  * Verify email with OTP
@@ -482,8 +330,8 @@ export const verifyEmailOTP = async (req, res) => {
     });
 
     // Handle referral if provided
-    if (pending.referral_code) {
-      const referrer = await User.findOne({ referralCode: pending.referral_code });
+    if (pending.referralCode) {
+      const referrer = await User.findOne({ referralCode: pending.referralCode });
       if (referrer && referrer._id.toString() !== newUser._id.toString()) {
         // Referrer bonus
         referrer.totalBlipPoints = (referrer.totalBlipPoints || 0) + otpReferralPoints;
@@ -539,7 +387,6 @@ export const verifyEmailOTP = async (req, res) => {
     res.status(201).json({
       success: true,
       message: "Email verified successfully",
-      token,
       user: {
         id: newUser._id,
         email: newUser.email,
@@ -558,13 +405,12 @@ export const verifyEmailOTP = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Verification failed",
-      error: error.message,
     });
   }
 };
 
 /* =========================================
-   3️⃣ RESEND OTP
+   RESEND OTP
 ========================================= */
 export const resendOTP = async (req, res) => {
   try {
@@ -600,7 +446,6 @@ export const resendOTP = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Resend failed",
-      error: error.message,
     });
   }
 };
@@ -635,8 +480,8 @@ export const verifyEmail = async (req, res) => {
     // Send welcome email
     try {
       await sendWelcomeEmail(user.email);
-    } catch (emailError) {
-      console.error("Welcome email failed:", emailError);
+    } catch (_emailError) {
+      // welcome email failed silently
     }
 
     res.status(200).json({
@@ -644,11 +489,9 @@ export const verifyEmail = async (req, res) => {
       message: "Email verified successfully! You can now log in.",
     });
   } catch (error) {
-    console.error("Email verification error:", error);
     res.status(500).json({
       success: false,
       message: "Email verification failed",
-      error: error.message,
     });
   }
 };
@@ -745,11 +588,9 @@ export const loginWithEmail = async (req, res) => {
       user: userData,
     });
   } catch (error) {
-    console.error("Login error:", error);
     res.status(500).json({
       success: false,
       message: "Login failed. Please try again.",
-      error: error.message,
     });
   }
 };
@@ -785,8 +626,7 @@ export const resendVerificationEmail = async (req, res) => {
       try {
         await sendVerificationEmailNew(email, rawOTP);
       } catch (emailError) {
-        console.error("Email sending failed:", emailError);
-        return res.status(500).json({
+          return res.status(500).json({
           success: false,
           message: "Failed to send verification email",
         });
@@ -826,7 +666,6 @@ export const resendVerificationEmail = async (req, res) => {
     try {
       await sendVerificationEmail(email, verificationToken);
     } catch (emailError) {
-      console.error("Email sending failed:", emailError);
       return res.status(500).json({
         success: false,
         message: "Failed to send verification email",
@@ -838,11 +677,9 @@ export const resendVerificationEmail = async (req, res) => {
       message: "Verification email sent successfully",
     });
   } catch (error) {
-    console.error("Resend verification error:", error);
     res.status(500).json({
       success: false,
       message: "Failed to resend verification email",
-      error: error.message,
     });
   }
 };
@@ -928,11 +765,9 @@ export const linkWallet = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Wallet linking error:", error);
     res.status(500).json({
       success: false,
       message: "Failed to link wallet",
-      error: error.message,
     });
   }
 };
@@ -984,11 +819,9 @@ export const unlinkWallet = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Wallet unlinking error:", error);
     res.status(500).json({
       success: false,
       message: "Failed to unlink wallet",
-      error: error.message,
     });
   }
 };
@@ -1035,8 +868,7 @@ export const forgotPassword = async (req, res) => {
       // Send via Resend with our custom branded template
       await sendCustomPasswordResetEmail(email, resetUrl);
     } catch (emailError) {
-      console.error("Password reset email failed:", emailError);
-      return res.status(500).json({
+        return res.status(500).json({
         success: false,
         message: "Failed to send password reset email",
       });
@@ -1047,11 +879,9 @@ export const forgotPassword = async (req, res) => {
       message: "Password reset email sent successfully",
     });
   } catch (error) {
-    console.error("Forgot password error:", error);
     res.status(500).json({
       success: false,
       message: "Failed to process password reset request",
-      error: error.message,
     });
   }
 };
@@ -1116,11 +946,9 @@ export const resetPassword = async (req, res) => {
         "Password reset successfully! You can now log in with your new password.",
     });
   } catch (error) {
-    console.error("Password reset error:", error);
     res.status(500).json({
       success: false,
       message: "Failed to reset password",
-      error: error.message,
     });
   }
 };
@@ -1162,11 +990,9 @@ export const syncPassword = async (req, res) => {
       role: user.role,
     });
   } catch (error) {
-    console.error("Password sync error:", error);
     res.status(500).json({
       success: false,
       message: "Failed to sync password",
-      error: error.message,
     });
   }
 };
@@ -1188,11 +1014,9 @@ export const logout = async (req, res) => {
       message: "Logged out successfully",
     });
   } catch (error) {
-    console.error("Logout error:", error);
     res.status(500).json({
       success: false,
       message: "Logout failed",
-      error: error.message,
     });
   }
 };
@@ -1245,11 +1069,9 @@ export const changePassword = async (req, res) => {
       message: "Password changed successfully",
     });
   } catch (error) {
-    console.error("Change password error:", error);
     res.status(500).json({
       success: false,
       message: "Failed to change password",
-      error: error.message,
     });
   }
 };
@@ -1282,11 +1104,9 @@ export const commitVolume = async (req, res) => {
       commitment,
     });
   } catch (error) {
-    console.error("Commit volume error:", error);
     res.status(500).json({
       success: false,
       message: "Failed to save volume commitment",
-      error: error.message,
     });
   }
 };
@@ -1305,11 +1125,9 @@ export const getCommitVolume = async (req, res) => {
       commitment: commitment || null,
     });
   } catch (error) {
-    console.error("Get commit volume error:", error);
     res.status(500).json({
       success: false,
       message: "Failed to get volume commitment",
-      error: error.message,
     });
   }
 };

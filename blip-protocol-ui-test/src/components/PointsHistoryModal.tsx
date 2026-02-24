@@ -50,7 +50,7 @@ export default function PointsHistoryModal({
       const res: any = await airdropApi.getMyPointsHistory();
       setHistory(res.history || []);
     } catch (err) {
-      console.error("Failed to fetch points history", err);
+      // Failed to fetch points history
     } finally {
       setLoading(false);
     }

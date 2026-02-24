@@ -60,7 +60,7 @@ export const createTask = async (req, res) => {
       });
     }
 
-    return res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -77,7 +77,7 @@ export const getMyTasks = async (req, res) => {
 
     return res.json({ tasks });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -101,7 +101,7 @@ export const getMyTaskByType = async (req, res) => {
 
     return res.json({ task });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -142,7 +142,7 @@ export const submitTask = async (req, res) => {
       task,
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -216,7 +216,7 @@ export const verifyTask = async (req, res) => {
   } catch (error) {
     await session.abortTransaction();
     session.endSession();
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -246,7 +246,7 @@ export const rejectTask = async (req, res) => {
       message: "Task rejected",
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -357,7 +357,7 @@ export const submitQuiz = async (req, res) => {
   } catch (error) {
     await session.abortTransaction();
     session.endSession();
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -464,7 +464,6 @@ export const verifyTelegram = async (req, res) => {
   } catch (error) {
     await session.abortTransaction();
     session.endSession();
-    console.error("Telegram verification error:", error);
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Server error" });
   }
 };

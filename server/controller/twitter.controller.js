@@ -129,9 +129,6 @@ export const verifyTweet = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Tweet verification error:", error);
-
-    // Handle duplicate key error (race condition)
     if (error.code === 11000) {
       return res.status(400).json({
         success: false,
@@ -172,7 +169,6 @@ export const getUserVerifications = async (req, res) => {
       data: verifications,
     });
   } catch (error) {
-    console.error("Get verifications error:", error);
     return res.status(500).json({
       success: false,
       message: "Failed to fetch verification history",
@@ -209,7 +205,6 @@ export const getCampaignStatus = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Campaign status error:", error);
     return res.status(500).json({
       success: false,
       message: "Failed to check campaign status",
@@ -343,8 +338,6 @@ export const verifyRetweet = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Retweet verification error:", error.message, error.stack);
-
     if (error.code === 11000) {
       return res.status(400).json({
         success: false,

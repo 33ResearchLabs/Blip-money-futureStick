@@ -1,4 +1,4 @@
-import "dotenv/config"; // Side-effect import - loads .env before other modules
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -20,54 +20,57 @@ import twitterRoutes from "./routes/twitter.route.js";
 import telegramRoutes from "./routes/telegram.route.js";
 import leaderboardRoutes from "./routes/leaderboard.route.js";
 
-// 🚀 Cluster Mode for Multi-Core CPU Utilization
 const numCPUs = os.cpus().length;
 const isProduction = process.env.NODE_ENV === "production";
 
 if (isProduction && cluster.isPrimary) {
-  console.log(`🔧 Primary ${process.pid} is running`);
-  console.log(`🚀 Forking ${numCPUs} workers...`);
-
-  // Fork workers for each CPU core
-  for (let i = 0; i < numCPUs; i++) {
+  const workerCount = Math.min(numCPUs, 4);
+  for (let i = 0; i < workerCount; i++) {
     cluster.fork();
   }
 
-  cluster.on("exit", (worker, code, signal) => {
-    console.log(`💀 Worker ${worker.process.pid} died. Restarting...`);
+  cluster.on("exit", (worker) => {
     cluster.fork();
   });
 } else {
-  // Worker process or development mode
-
-  // 🔌 DB Connect
   connectDB();
 
   const app = express();
   const server = http.createServer(app);
 
-  // 🔒 Trust proxy - Required for Render/Heroku/etc (reverse proxy)
-  // This allows express-rate-limit to correctly identify users by IP
   app.set("trust proxy", 1);
 
-  // ⚡ Performance: Increase server connection limits
   server.maxConnections = 10000;
   server.keepAliveTimeout = 65000;
   server.headersTimeout = 66000;
 
-  // 🛡️ Security Middlewares
+  // Security headers
   app.use(
     helmet({
       crossOriginResourcePolicy: { policy: "cross-origin" },
       crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
+      contentSecurityPolicy: isProduction ? {
+        directives: {
+          defaultSrc: ["'self'"],
+          scriptSrc: ["'self'"],
+          styleSrc: ["'self'", "'unsafe-inline'"],
+          imgSrc: ["'self'", "data:", "https:"],
+          connectSrc: ["'self'", process.env.CLIENT_URL],
+          fontSrc: ["'self'", "https://fonts.gstatic.com"],
+          objectSrc: ["'none'"],
+          frameAncestors: ["'none'"],
+        },
+      } : false,
+      hsts: isProduction ? { maxAge: 31536000, includeSubDomains: true, preload: true } : false,
+      referrerPolicy: { policy: "strict-origin-when-cross-origin" },
     }),
   );
 
-  // 📦 Compression - Reduce response size by ~70%
+  // Compression
   app.use(
     compression({
-      level: 6, // Balanced compression level
-      threshold: 1024, // Only compress responses > 1KB
+      level: 6,
+      threshold: 1024,
       filter: (req, res) => {
         if (req.headers["x-no-compression"]) return false;
         return compression.filter(req, res);
@@ -75,51 +78,61 @@ if (isProduction && cluster.isPrimary) {
     }),
   );
 
-  // 🚦 Rate Limiting (increased for production)
+  // Rate limiting - ENABLED
   const globalLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: isProduction ? 1000 : 100, // 1000 requests in production, 100 in dev
+    windowMs: 15 * 60 * 1000,
+    max: isProduction ? 1000 : 500,
     message: {
+      success: false,
       error: "Too many requests, please try again later.",
-      retryAfter: "15 minutes",
     },
     standardHeaders: true,
     legacyHeaders: false,
-    skip: (req) => req.path === "/api/health", // Skip rate limit for health checks
+    skip: (req) => req.path === "/api/health",
   });
 
-  // Stricter rate limit for auth endpoints
   const authLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: isProduction ? 50 : 10, // 50 login attempts in production
+    windowMs: 15 * 60 * 1000,
+    max: isProduction ? 30 : 50,
     message: {
-      error: "Too many login attempts, please try again later.",
-      retryAfter: "15 minutes",
+      success: false,
+      error: "Too many attempts, please try again later.",
     },
     standardHeaders: true,
     legacyHeaders: false,
   });
 
-  // 🔧 Middlewares
+  // CORS
+  const allowedOrigins = process.env.CLIENT_URL
+    ? process.env.CLIENT_URL.split(",").map(o => o.trim())
+    : [];
+
   app.use(
     cors({
-      origin: process.env.CLIENT_URL,
+      origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error("Not allowed by CORS"));
+        }
+      },
       credentials: true,
     }),
   );
+
   app.use(cookieParser());
-  app.use(express.json({ limit: "10kb" })); // Limit body size
+  app.use(express.json({ limit: "10kb" }));
   app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 
-  // Apply global rate limiting to all API routes
-  // app.use("/api", globalLimiter);
+  // Apply rate limiting
+  app.use("/api", globalLimiter);
+  app.use("/api/auth/login", authLimiter);
+  app.use("/api/auth/register", authLimiter);
+  app.use("/api/user/login", authLimiter);
+  app.use("/api/auth/forgot-password", authLimiter);
+  app.use("/api/auth/verify-otp", authLimiter);
 
-  // Apply stricter rate limiting to auth endpoints
-  // app.use("/api/user/login", authLimiter);
-  // app.use("/api/auth/login", authLimiter);
-  // app.use("/api/auth/register", authLimiter);
-
-  // 🔗 ROUTER MOUNT
+  // Routes
   app.use("/api/auth", authRoutes);
   app.use("/api/user", userRoutes);
   app.use("/api/tasks", taskRoutes);
@@ -129,20 +142,55 @@ if (isProduction && cluster.isPrimary) {
   app.use("/api/telegram", telegramRoutes);
   app.use("/api/leaderboard", leaderboardRoutes);
 
-  // 🏥 Health Check Endpoint (for load testing)
+  // Health check
   app.get("/api/health", (req, res) => {
     res.status(200).json({
       status: "ok",
       timestamp: new Date().toISOString(),
       uptime: process.uptime(),
-      memory: process.memoryUsage(),
-      worker: cluster.isWorker ? cluster.worker.id : "primary",
+    });
+  });
+
+  // 404 handler
+  app.use((req, res) => {
+    res.status(404).json({ success: false, error: "Not found" });
+  });
+
+  // Global error handler - sanitize errors in production
+  app.use((err, req, res, _next) => {
+    if (err.message === "Not allowed by CORS") {
+      return res.status(403).json({ success: false, error: "Forbidden" });
+    }
+    const statusCode = err.statusCode || 500;
+    res.status(statusCode).json({
+      success: false,
+      error: isProduction ? "Internal server error" : err.message,
     });
   });
 
   const PORT = process.env.PORT || 3300;
 
   server.listen(PORT, () => {
-    console.log(`🚀 Worker ${process.pid} running on http://localhost:${PORT}`);
+    if (!isProduction) {
+      console.log(`Server running on http://localhost:${PORT}`);
+    }
+  });
+
+  // Graceful shutdown
+  const shutdown = (signal) => {
+    server.close(() => {
+      process.exit(0);
+    });
+    setTimeout(() => process.exit(1), 10000);
+  };
+
+  process.on("SIGTERM", () => shutdown("SIGTERM"));
+  process.on("SIGINT", () => shutdown("SIGINT"));
+  process.on("unhandledRejection", (reason) => {
+    if (!isProduction) console.error("Unhandled Rejection:", reason);
+  });
+  process.on("uncaughtException", (error) => {
+    if (!isProduction) console.error("Uncaught Exception:", error);
+    process.exit(1);
   });
 }
