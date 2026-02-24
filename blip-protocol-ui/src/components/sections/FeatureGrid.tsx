@@ -74,7 +74,7 @@ const FeatureCard = ({
         onMouseEnter={() => sounds.hover()}
       >
         {Icon && (
-          <div className="w-10 h-10 rounded-lg bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center mb-4 group-hover:border-[#ff6b35]/30 transition-colors">
+          <div className="w-10 h-10 rounded-lg bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center mb-4 group-hover:border-black/[0.15] transition-colors">
             <Icon className="w-5 h-5 text-black/70 dark:text-white/70 group-hover:text-black dark:group-hover:text-white transition-colors" />
           </div>
         )}

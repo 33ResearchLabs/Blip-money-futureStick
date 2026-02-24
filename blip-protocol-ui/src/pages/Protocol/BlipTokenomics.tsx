@@ -223,7 +223,7 @@ const DistributionSection = () => {
             transition={{ duration: 1 }}
             className="relative"
           >
-            <div className="relative w-[290px] sm:w-[320px] md:w-[420px] aspect-square mx-auto">
+            <div className="relative w-[260px] sm:w-[320px] md:w-[420px] aspect-square mx-auto">
               {/* Outer ring */}
               <div className="absolute -inset-9 md:-inset-10 border border-black/5 dark:border-white/5 rounded-full" />
 
@@ -431,7 +431,7 @@ const UtilitySection = () => {
               onMouseEnter={() => sounds.hover()}
             >
               {/* Hover glow */}
-              <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#ff6b35]/20 opacity-0 group-hover:opacity-[0.08] blur-[40px] rounded-full transition-opacity duration-500" />
+              <div className="absolute -top-10 -right-10 w-32 h-32 bg-black/[0.10] opacity-0 group-hover:opacity-[0.08] blur-[40px] rounded-full transition-opacity duration-500" />
 
               <div className="relative z-10">
                 <div className="mb-8 text-black/40 dark:text-white/40 group-hover:text-black dark:group-hover:text-white transition-colors duration-500">

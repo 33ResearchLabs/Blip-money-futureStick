@@ -15,6 +15,7 @@ import {
   ChevronRight,
   LogOut,
   Trophy,
+  TrendingUp,
 } from "lucide-react";
 import {
   AreaChart,
@@ -100,6 +101,12 @@ interface PointsChartPoint {
   count: number;
 }
 
+interface VolumeChartPoint {
+  date: string;
+  daily: number;
+  cumulative: number;
+}
+
 interface Pagination {
   total: number;
   page: number;
@@ -118,6 +125,12 @@ const formatDate = (dateStr: string) =>
 
 const formatNumber = (n: number) => n.toLocaleString();
 
+const formatVolume = (n: number) => {
+  if (n >= 1_000_000) return `$${(n / 1_000_000).toFixed(1)}M`;
+  if (n >= 1_000) return `$${(n / 1_000).toFixed(0)}K`;
+  return `$${n}`;
+};
+
 const eventLabels: Record<string, string> = {
   REGISTER: "User Register",
   MERCHANT_REGISTER: "Merchant Register",
@@ -125,6 +138,7 @@ const eventLabels: Record<string, string> = {
   TELEGRAM_JOIN: "Telegram Join",
   WHITEPAPER_READ: "Whitepaper Read",
   CROSS_BORDER_SWAP: "Cross Border Swap",
+  RETWEET: "Retweet",
   REFERRAL_BONUS_EARNED: "Referral Earned",
   REFERRAL_BONUS_RECEIVED: "Referral Received",
 };
@@ -157,6 +171,8 @@ export default function SuperAdminDashboard() {
   // Charts
   const [regChart, setRegChart] = useState<ChartDataPoint[]>([]);
   const [pointsChart, setPointsChart] = useState<PointsChartPoint[]>([]);
+  const [volumeChart, setVolumeChart] = useState<VolumeChartPoint[]>([]);
+  const [totalVolume, setTotalVolume] = useState(0);
 
   // Users table
   const [users, setUsers] = useState<UserDetailed[]>([]);
@@ -182,20 +198,23 @@ export default function SuperAdminDashboard() {
       const res: any = await airdropApi.getSuperadminStats();
       setStats(res.stats);
     } catch (e) {
-      console.error("Failed to fetch superadmin stats:", e);
+      // Failed to fetch superadmin stats
     }
   }, []);
 
   const fetchCharts = useCallback(async () => {
     try {
-      const [regRes, pointsRes]: any = await Promise.all([
+      const [regRes, pointsRes, volumeRes]: any = await Promise.all([
         airdropApi.getRegistrationChart(),
         airdropApi.getPointsChart(),
+        airdropApi.getVolumeChart(),
       ]);
       setRegChart(regRes.chart || []);
       setPointsChart(pointsRes.chart || []);
+      setVolumeChart(volumeRes.chart || []);
+      setTotalVolume(volumeRes.totalVolume || 0);
     } catch (e) {
-      console.error("Failed to fetch chart data:", e);
+      // Failed to fetch chart data
     }
   }, []);
 
@@ -210,7 +229,7 @@ export default function SuperAdminDashboard() {
       setUsers(res.users || []);
       setUsersPagination(res.pagination || null);
     } catch (e) {
-      console.error("Failed to fetch users:", e);
+      // Failed to fetch users
     }
   }, [usersPage, usersRoleFilter, usersSearch]);
 
@@ -221,7 +240,7 @@ export default function SuperAdminDashboard() {
       setTopReferrers(res.topReferrers || []);
       setReferralsPagination(res.pagination || null);
     } catch (e) {
-      console.error("Failed to fetch referrals:", e);
+      // Failed to fetch referrals
     }
   }, [referralsPage]);
 
@@ -230,7 +249,7 @@ export default function SuperAdminDashboard() {
       const res: any = await airdropApi.getVolumeCommitments();
       setVolumes(res.commitments || []);
     } catch (e) {
-      console.error("Failed to fetch volumes:", e);
+      // Failed to fetch volumes
     }
   }, []);
 
@@ -274,7 +293,7 @@ export default function SuperAdminDashboard() {
       <header className="border-b border-white/10 px-6 py-4 sticky top-0 bg-black/90 backdrop-blur-sm z-50">
         <div className="flex items-center justify-between max-w-[1400px] mx-auto">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-[#ff6b35] flex items-center justify-center text-sm font-bold">
+            <div className="w-8 h-8 rounded-lg bg-black dark:bg-white flex items-center justify-center text-sm font-bold">
               B
             </div>
             <h1 className="text-xl font-display font-bold">Superadmin</h1>
@@ -314,13 +333,14 @@ export default function SuperAdminDashboard() {
         {activeTab === "overview" && (
           <>
             {/* Stats Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 mb-8">
               <StatCard icon={<Users className="w-5 h-5" />} label="Total Users" value={stats?.totalUsers || 0} />
               <StatCard icon={<Store className="w-5 h-5" />} label="Total Merchants" value={stats?.totalMerchants || 0} />
               <StatCard icon={<Users className="w-5 h-5" />} label="All Accounts" value={stats?.totalAllUsers || 0} />
               <StatCard icon={<Coins className="w-5 h-5" />} label="Total Blip Points" value={stats?.totalBlipPoints || 0} />
               <StatCard icon={<Share2 className="w-5 h-5" />} label="Total Referrals" value={stats?.totalReferrals || 0} />
               <StatCard icon={<BarChart3 className="w-5 h-5" />} label="Volume Commits" value={stats?.totalVolumeCommitments || 0} />
+              <StatCard icon={<TrendingUp className="w-5 h-5" />} label="Total Volume" value={totalVolume} displayValue={formatVolume(totalVolume)} />
             </div>
 
             {/* Social Quest Stats */}
@@ -384,8 +404,8 @@ export default function SuperAdminDashboard() {
                         type="monotone"
                         dataKey="merchants"
                         name="Merchants"
-                        stroke="#ff6b35"
-                        fill="#ff6b35"
+                        stroke="currentColor"
+                        fill="currentColor"
                         fillOpacity={0.15}
                         strokeWidth={2}
                       />
@@ -427,10 +447,68 @@ export default function SuperAdminDashboard() {
                           name === "totalPoints" ? "Total Points" : "Count",
                         ]}
                       />
-                      <Bar dataKey="totalPoints" name="Total Points" fill="#ff6b35" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="totalPoints" name="Total Points" fill="currentColor" radius={[4, 4, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
+              </div>
+            </div>
+
+            {/* Volume Chart - Full Width */}
+            <div className="bg-white/5 border border-white/10 rounded-xl p-6 mt-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold">Volume Committed (Last 30 Days)</h3>
+                <span className="text-sm text-white/40 font-mono">{formatVolume(totalVolume)} total</span>
+              </div>
+              <div className="h-[300px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={volumeChart}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                    <XAxis
+                      dataKey="date"
+                      stroke="rgba(255,255,255,0.3)"
+                      tick={{ fontSize: 11, fill: "rgba(255,255,255,0.5)" }}
+                      tickFormatter={(v) => v.slice(5)}
+                    />
+                    <YAxis
+                      stroke="rgba(255,255,255,0.3)"
+                      tick={{ fontSize: 11, fill: "rgba(255,255,255,0.5)" }}
+                      tickFormatter={(v) => formatVolume(v)}
+                      allowDecimals={false}
+                    />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: "#111",
+                        border: "1px solid rgba(255,255,255,0.1)",
+                        borderRadius: 8,
+                        color: "#fff",
+                      }}
+                      formatter={(value: number, name: string) => [
+                        formatVolume(value),
+                        name === "daily" ? "Daily" : "Cumulative",
+                      ]}
+                    />
+                    <Legend />
+                    <Area
+                      type="monotone"
+                      dataKey="cumulative"
+                      name="Cumulative"
+                      stroke="#10b981"
+                      fill="#10b981"
+                      fillOpacity={0.1}
+                      strokeWidth={2}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="daily"
+                      name="Daily"
+                      stroke="#8b5cf6"
+                      fill="#8b5cf6"
+                      fillOpacity={0.15}
+                      strokeWidth={2}
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
               </div>
             </div>
           </>
@@ -516,7 +594,7 @@ export default function SuperAdminDashboard() {
                             <span
                               className={`text-xs px-2 py-0.5 rounded-full ${
                                 u.role === "MERCHANT"
-                                  ? "bg-[#ff6b35]/20 text-[#ff6b35]"
+                                  ? "bg-black/[0.10] text-black dark:text-white"
                                   : u.role === "ADMIN"
                                   ? "bg-purple-500/20 text-purple-400"
                                   : "bg-blue-500/20 text-blue-400"
@@ -603,7 +681,7 @@ export default function SuperAdminDashboard() {
                         <span
                           className={`text-xs px-1.5 py-0.5 rounded-full ${
                             r.role === "MERCHANT"
-                              ? "bg-[#ff6b35]/20 text-[#ff6b35]"
+                              ? "bg-black/[0.10] text-black dark:text-white"
                               : "bg-blue-500/20 text-blue-400"
                           }`}
                         >
@@ -738,7 +816,7 @@ export default function SuperAdminDashboard() {
                           <span
                             className={`text-xs px-2 py-0.5 rounded-full ${
                               v.userId?.role === "MERCHANT"
-                                ? "bg-[#ff6b35]/20 text-[#ff6b35]"
+                                ? "bg-black/[0.10] text-black dark:text-white"
                                 : "bg-blue-500/20 text-blue-400"
                             }`}
                           >
@@ -780,10 +858,12 @@ function StatCard({
   icon,
   label,
   value,
+  displayValue,
 }: {
   icon: React.ReactNode;
   label: string;
   value: number;
+  displayValue?: string;
 }) {
   return (
     <div className="bg-white/5 border border-white/10 rounded-xl p-4">
@@ -791,7 +871,7 @@ function StatCard({
         {icon}
         <span className="text-xs uppercase tracking-wider">{label}</span>
       </div>
-      <p className="text-2xl font-bold font-mono">{formatNumber(value)}</p>
+      <p className="text-2xl font-bold font-mono">{displayValue || formatNumber(value)}</p>
     </div>
   );
 }

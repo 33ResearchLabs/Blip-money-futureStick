@@ -118,7 +118,6 @@ const UserLogin = ({ initialView }: AirdropLoginProps) => {
     if (isLoading) return;
     if (isAuthenticated && user?.emailVerified && !hasRedirected) {
       const dest = user?.role === "SUPERADMIN" ? "/admin-dashboard" : user?.role === "MERCHANT" ? "/merchant-dashboard" : "/dashboard";
-      console.log("✅ User already authenticated, redirecting to", dest);
       setHasRedirected(true);
       navigate(dest, { replace: true });
     }
@@ -130,13 +129,6 @@ const UserLogin = ({ initialView }: AirdropLoginProps) => {
       if (!connected || !publicKey || view !== "connect" || show2FAModal)
         return;
 
-      console.log("💾 Attempting to save user data:", {
-        wallet_address: publicKey.toBase58(),
-        email,
-        referral_code,
-        view,
-      });
-
       setIsConnecting(true);
 
       try {
@@ -146,8 +138,6 @@ const UserLogin = ({ initialView }: AirdropLoginProps) => {
           referral_code: referral_code,
           wallet_address: publicKey.toBase58(),
         });
-
-        console.log("✅ User data saved successfully:", response);
 
         if (response.twoFactorRequired) {
           setPendingEmail(email);
@@ -179,8 +169,6 @@ const UserLogin = ({ initialView }: AirdropLoginProps) => {
           setIsConnecting(false);
         }, 1000);
       } catch (error: any) {
-        console.error("❌ Error saving user data:", error);
-
         const errorCode = error.response?.data?.code;
         const errorMessage = error.response?.data?.message;
 
@@ -392,10 +380,10 @@ const UserLogin = ({ initialView }: AirdropLoginProps) => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
-                    className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-10 border text-[#ff6b35] "
+                    className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-10 border text-black dark:text-white "
                   >
                     <motion.div
-                      className="w-2 h-2 rounded-full bg-[#ff6b35]"
+                      className="w-2 h-2 rounded-full bg-black dark:bg-white"
                       animate={{ scale: [1, 1.3, 1], opacity: [1, 0.5, 1] }}
                       transition={{ duration: 2, repeat: Infinity }}
                     />
@@ -514,7 +502,7 @@ const UserLogin = ({ initialView }: AirdropLoginProps) => {
                     {/* Header */}
                     <div className="flex justify-between items-center px-6 py-4 border-b border-black/[0.06] dark:border-white/[0.06]">
                       <div className="flex items-center gap-2">
-                        <motion.div className="w-2 h-2 bg-[#ff6b35] rounded-full" />
+                        <motion.div className="w-2 h-2 bg-black dark:bg-white rounded-full" />
                         <span className="text-[11px] font-medium text-black/50 dark:text-white/50 uppercase tracking-wider">
                           Protocol Status
                         </span>
@@ -668,8 +656,8 @@ const UserLogin = ({ initialView }: AirdropLoginProps) => {
                   transition={{ duration: 0.6, delay: 0.1 }}
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
                   style={{
-                    background: "rgba(255, 107, 53, 0.05)",
-                    border: "1px solid rgba(255, 107, 53, 0.15)",
+                    background: "rgba(0,0,0,0.05)",
+                    border: "1px solid rgba(0,0,0,0.15)",
                   }}
                 >
                   <span className="text-[11px] font-semibold text-[#ffffff] uppercase tracking-wider">

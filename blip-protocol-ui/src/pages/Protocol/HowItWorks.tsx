@@ -456,7 +456,7 @@ const TransactionFlowSection = () => {
                 className="relative pl-16"
               >
                 {/* Number circle */}
-                <div className="absolute left-0 top-0 w-12 h-12 rounded-full bg-[#FAF8F5] dark:bg-black border-2 border-[#ff6b35]/20 flex items-center justify-center">
+                <div className="absolute left-0 top-0 w-12 h-12 rounded-full bg-[#FAF8F5] dark:bg-black border-2 border-black/50 dark:border-white/70 flex items-center justify-center">
                   <span className="text-sm font-mono text-black/60 dark:text-white/60">
                     {step.num}
                   </span>
@@ -567,7 +567,7 @@ const SecuritySection = () => {
                     border: "1px solid rgba(255, 255, 255, 0.1)",
                   }}
                 >
-                  <div className="text-md sm:text-2xl font-semibold text-white">
+                  <div className="text-xs sm:text-2xl font-semibold text-white">
                     {metric.value}
                   </div>
                   <div className="text-[9px] sm:text-xs text-white/60 uppercase tracking-tight">

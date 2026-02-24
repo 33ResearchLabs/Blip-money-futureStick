@@ -336,7 +336,7 @@ export const MerchantDashboardIndex = () => {
                           filter: { duration: 0.4, ease: "easeOut" },
                         }}
                         whileHover={{
-                          backgroundColor: "rgba(255, 107, 53, 0.05)",
+                          backgroundColor: "rgba(0,0,0,0.05)",
                           transition: { duration: 0.2 },
                         }}
                         className="relative p-3 rounded-lg bg-gradient-to-r from-[#111111] to-[#0d0d0d] border border-[#ffffff]/20 hover:border-[#ffffff]/40 transition-all group cursor-pointer"
@@ -1035,7 +1035,7 @@ export const MerchantDashboardVisual = () => {
             className="absolute -bottom-20 left-1/2 -translate-x-1/2 w-[80%] h-20 blur-2xl opacity-20"
             style={{
               background:
-                "linear-gradient(to bottom, rgba(255,107,53,0.3), transparent)",
+                "linear-gradient(to bottom, rgba(0,0,0,0.3), transparent)",
             }}
           />
         </motion.div>

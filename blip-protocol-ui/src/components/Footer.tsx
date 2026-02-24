@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Zap } from "lucide-react";
-import { CTAButton } from "./Navbar";
 import { FaLinkedin, FaTelegramPlane, FaYoutube } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
@@ -60,13 +59,10 @@ const FOOTER_SECTIONS = [
 ];
 
 const SOCIAL_PLATFORMS = [
-  { icon: FaTelegramPlane, href: "https://t.me/+3DpHLzc2BfJhOWEx" },
-  { icon: FaXTwitter, href: "https://x.com/blipmoney_" },
-  { icon: FaYoutube, href: "https://www.youtube.com/@BlipMoney" },
-  {
-    icon: FaLinkedin,
-    href: "https://www.linkedin.com/company/blipmoneyofficial/",
-  },
+  { icon: FaTelegramPlane, href: "https://t.me/+3DpHLzc2BfJhOWEx", label: "Telegram" },
+  { icon: FaXTwitter, href: "https://x.com/blipmoney_", label: "X (Twitter)" },
+  { icon: FaYoutube, href: "https://www.youtube.com/@BlipMoney", label: "YouTube" },
+  { icon: FaLinkedin, href: "https://www.linkedin.com/company/blipmoneyofficial/", label: "LinkedIn" },
 ];
 
 /* ================= SMALL COMPONENTS ================= */
@@ -104,7 +100,6 @@ export const Footer = ({
   skipAnimation?: boolean;
 }) => {
   const [isVisible, setIsVisible] = useState(skipAnimation);
-  const [isActive, setIsActive] = useState(false);
   const footerRef = useRef<HTMLDivElement | null>(null);
 
   /* Scroll Animation */
@@ -125,16 +120,6 @@ export const Footer = ({
     return () => observer.disconnect();
   }, [skipAnimation]);
 
-  /* Glow Pulse Animation */
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIsActive(true);
-      setTimeout(() => setIsActive(false), 2000);
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <footer
       ref={footerRef}
@@ -147,7 +132,7 @@ export const Footer = ({
           isVisible ? "opacity-100" : "opacity-0 translate-y-5"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-8 sm:px-6 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8">
             {FOOTER_SECTIONS.map((section, i) => (
               <div key={i} className="space-y-3">
@@ -195,6 +180,7 @@ export const Footer = ({
                   href={platform.href}
                   target="_blank"
                   rel="noopener noreferrer"
+                  aria-label={platform.label}
                 >
                   <Icon className="w-5 h-5 text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white hover:scale-110 transition-all duration-300" />
                 </a>

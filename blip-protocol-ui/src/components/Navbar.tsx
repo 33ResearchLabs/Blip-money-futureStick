@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import {
   ChevronRight,
@@ -91,6 +91,9 @@ export const Navbar = () => {
               <ThemeSwitcher />
               <button
                 onClick={() => setMobileMenuOpen((prev) => !prev)}
+                aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+                aria-expanded={mobileMenuOpen}
+                aria-controls="mobile-menu"
                 className="w-9 h-9 rounded-lg bg-black/5 dark:bg-[#18181B] border border-black/10 dark:border-white/[0.06] flex items-center justify-center"
               >
                 {mobileMenuOpen ? (
@@ -118,7 +121,7 @@ export const Logo = ({ className = "" }) => {
   return (
     <Link
       to="/"
-      className="flex items-center gap-1.5 group"
+      className="flex items-center gap-1.5 group no-underline hover:no-underline"
       onClick={() => sounds.click()}
     >
       <Zap
@@ -134,10 +137,10 @@ export const Logo = ({ className = "" }) => {
         <span className="text-black dark:text-white">Blip</span>
         <span className="relative text-black dark:text-white ml-1 italic">
           money
-          <motion.span
+          {/* <motion.span
             className="absolute -bottom-1 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-black/50 dark:from-white/50 to-transparent opacity-0 group-hover:opacity-100"
             transition={{ duration: 0.3 }}
-          />
+          /> */}
         </span>
       </motion.span>
     </Link>
@@ -146,7 +149,7 @@ export const Logo = ({ className = "" }) => {
 
 /* ---------------- Nav Item ---------------- */
 
-const NavItem = ({ to, children }: any) => {
+const NavItem = ({ to, children }: { to: string; children: React.ReactNode }) => {
   const location = useLocation();
   const isActive = location.pathname === to;
 
@@ -180,7 +183,7 @@ const NavItem = ({ to, children }: any) => {
 
 /* ---------------- CTA Button ---------------- */
 
-export const CTAButton = ({ to, children, className }: any) => {
+export const CTAButton = ({ to, children, className }: { to: string; children: React.ReactNode; className?: string }) => {
   return (
     <motion.div whileTap={{ scale: 0.97 }} className="relative">
       <Link
@@ -219,6 +222,7 @@ const ThemeSwitcher = () => {
   return (
     <motion.button
       onClick={toggleTheme}
+      aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
       className="relative w-9 h-9 rounded-lg flex items-center justify-center bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 hover:bg-black/10 dark:hover:bg-white/10 transition-colors"
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
@@ -271,7 +275,7 @@ const MobileMenu = ({
         onClick={onClose}
       />
 
-      <div className="fixed top-[72px] left-4 right-4 z-50 rounded-xl overflow-hidden bg-[#FAF8F5] dark:bg-[#111113] border border-black/10 dark:border-white/[0.08]">
+      <div id="mobile-menu" className="fixed top-[72px] left-4 right-4 z-50 rounded-xl overflow-hidden bg-[#FAF8F5] dark:bg-[#111113] border border-black/10 dark:border-white/[0.08]">
         <div className="p-4 space-y-1">
           {menuItems.map((item) => (
             <a
@@ -299,11 +303,9 @@ const MobileMenu = ({
             <a
               href="/waitlist"
               onClick={(e) => handleNavClick(e, "/waitlist")}
-              className="block w-full"
+              className="block w-full text-center py-2.5 rounded-full bg-black dark:bg-white text-white dark:text-black text-sm font-semibold"
             >
-              <CTAButton to="/waitlist" className="w-full">
-                Join Waitlist
-              </CTAButton>
+              Join Waitlist
             </a>
           )}
         </div>

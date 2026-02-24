@@ -56,7 +56,7 @@ export const CTASection = ({
             className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] opacity-[0.07]"
             style={{
               background:
-                "radial-gradient(ellipse, rgba(255, 107, 53, 1) 0%, transparent 70%)",
+                "radial-gradient(ellipse, rgba(0,0,0,1) 0%, transparent 70%)",
             }}
           />
         </>

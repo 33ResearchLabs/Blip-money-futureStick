@@ -5,10 +5,12 @@ import {
   useTransform,
   AnimatePresence,
 } from "framer-motion";
-import {
-  MerchantDashboardVisual,
-  MerchantDashboardVisualHomepage,
-} from "../MerchantDashboard";
+// Old import — replaced by AdvancedDashboard preview
+// import {
+//   MerchantDashboardVisual,
+//   MerchantDashboardVisualHomepage,
+// } from "../MerchantDashboard";
+import DashboardPreview from "../AdvancedDashboard/DashboardPreview";
 
 /* ============================================
    SECTION 6.5: MERCHANT DASHBOARD - Linear.app style
@@ -242,7 +244,7 @@ export const MerchantDashboardSection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative py-12 md:py-48 bg-[#FAF8F5] dark:bg-black overflow-hidden"
+      className="relative py-12 md:py-48 bg-[#FAF8F5] dark:bg-black overflow-x-clip"
     >
       {/* Background elements */}
       <div className="absolute inset-0">
@@ -251,7 +253,7 @@ export const MerchantDashboardSection = () => {
       </div>
 
       <motion.div
-        className="relative z-10 max-w-7xl mx-auto px-2 md:px-6"
+        className="relative z-10 max-w-7xl mx-auto px-4 md:px-6"
         style={{ opacity }}
       >
         {/* Header */}
@@ -297,8 +299,8 @@ export const MerchantDashboardSection = () => {
           </motion.p>
         </div>
 
-        {/* Merchant Dashboard Browser Mockup */}
-        <MerchantDashboardVisualHomepage />
+        {/* Advanced Trading Dashboard Preview */}
+        <DashboardPreview />
 
         {/* Bottom feature highlights */}
         <motion.div

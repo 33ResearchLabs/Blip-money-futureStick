@@ -17,7 +17,7 @@ export const CinematicMockup = ({
           className="relative"
         >
           {/* Glow */}
-          <div className="absolute inset-0 -z-10 blur-3xl opacity-40 bg-gradient-to-t from-[#ff6b35]/30 to-transparent" />
+          <div className="absolute inset-0 -z-10 blur-3xl opacity-40 bg-gradient-to-t from-black/20 to-transparent dark:from-white/20" />
 
           {/* Frame */}
           <div className="relative rounded-2xl border border-white/10 bg-[#0a0a0a] shadow-[0_40px_120px_rgba(0,0,0,0.85)] overflow-hidden">

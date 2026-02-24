@@ -81,6 +81,16 @@ export const authApi = {
   linkWallet: (data: LinkWalletData) => api.post("/auth/link-wallet", data),
 
   /**
+   * Check username availability
+   */
+  checkUserName: (userName: string) => api.get(`/user/check-username/${encodeURIComponent(userName)}`),
+
+  /**
+   * Update username
+   */
+  updateUserName: (userName: string) => api.put("/user/username", { userName }),
+
+  /**
    * Unlink wallet from authenticated user
    */
   unlinkWallet: () => api.post("/auth/unlink-wallet"),

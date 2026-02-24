@@ -91,7 +91,6 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
       toast.success("Login successful!");
       navigate(getDashboardForUser(response.user));
     } catch (error: any) {
-      console.error("Login error:", error);
       const message =
         error.response?.data?.message || "Login failed. Please try again.";
 
@@ -158,7 +157,6 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
       toast.success("Login successful!");
       navigate(getDashboardForUser(response.user));
     } catch (error: any) {
-      console.error("2FA verification error:", error);
       const message =
         error.response?.data?.message || "Invalid verification code";
       toast.error(message);

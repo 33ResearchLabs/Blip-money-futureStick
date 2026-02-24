@@ -169,6 +169,11 @@ export const airdropApi = {
     return response;
   },
 
+  getVolumeChart: async () => {
+    const response = await api.get("/admin/volume-chart");
+    return response;
+  },
+
   // =====================
   // LEADERBOARD ENDPOINTS
   // =====================

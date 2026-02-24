@@ -16,32 +16,12 @@ export const api = axios.create({
 });
 
 api.interceptors.request.use(
-  (config) => {
-    // ⚠️ NO Authorization header
-    // Cookies are automatically attached by the browser
-    return config;
-  },
+  (config) => config,
   (error) => Promise.reject(error),
 );
 api.interceptors.response.use(
   (response) => response.data,
   (error) => {
-    if (error.response) {
-      const { status } = error.response;
-
-      if (status === 401) {
-        console.warn("Session expired");
-        // Optional redirect to login
-        // window.location.href = "/";
-      }
-
-      if (status === 403) {
-        console.warn("Access denied");
-      }
-    } else {
-      console.error("Network / CORS error");
-    }
-
     return Promise.reject(error);
   },
 );

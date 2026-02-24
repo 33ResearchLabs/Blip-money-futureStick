@@ -37,7 +37,7 @@ const TermCard = ({
         ease: [0.19, 1, 0.22, 1],
       }}
       onMouseEnter={() => sounds.hover()}
-      className="p-5 sm:p-6 rounded-xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] hover:border-black/15 dark:hover:border-white/[0.12] transition-colors duration-300"
+      className="p-5 sm:p-6 rounded-xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] hover:border-black/[0.15] dark:hover:border-white/[0.12] transition-colors duration-300"
     >
       <div className="flex items-start justify-between gap-3 mb-3">
         <h3 className="text-lg font-bold text-black dark:text-white">

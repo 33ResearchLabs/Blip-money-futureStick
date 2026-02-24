@@ -38,7 +38,7 @@ const ProtocolSection = () => {
           className="absolute top-[10%] -left-[15%] w-[700px] h-[700px] rounded-full opacity-[0.12] dark:opacity-[0.04]"
           style={{
             background:
-              "radial-gradient(circle, rgba(255,107,53,0.7) 0%, rgba(255,107,53,0) 70%)",
+              "radial-gradient(circle, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 70%)",
             y: useTransform(scrollYProgress, [0, 1], [-40, 40]),
           }}
         />
@@ -94,7 +94,7 @@ const ProtocolSection = () => {
             className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-2xl mx-auto leading-relaxed font-medium"
           >
             A decentralized settlement layer for instant,
-            <br />
+            <br className="hidden md:block" />
             private, global value transfer.
           </motion.p>
         </div>
@@ -166,7 +166,7 @@ const ProtocolSection = () => {
       "
             >
               {/* Hover glow */}
-              <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-60 h-60 bg-[#ff6b35] opacity-0 group-hover:opacity-[0.1] blur-[80px] rounded-full transition-opacity duration-700" />
+              <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-60 h-60 bg-black dark:bg-white opacity-0 group-hover:opacity-[0.1] blur-[80px] rounded-full transition-opacity duration-700" />
 
               {/* Icon + Title */}
               <div className="flex flex-col items-center justify-center gap-2">

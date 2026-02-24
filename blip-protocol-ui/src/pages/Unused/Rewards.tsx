@@ -136,7 +136,7 @@ const InteractiveGrid = () => {
                 transition={{ duration: 0.2, ease: "easeOut" }}
                 style={{
                   filter: isActive
-                    ? "drop-shadow(0 0 4px rgba(255, 107, 53, 0.5))"
+                    ? "drop-shadow(0 0 4px rgba(0,0,0,0.5))"
                     : "none",
                 }}
               />
@@ -326,10 +326,10 @@ const HeroSection = () => {
             transition={{ duration: 1, delay: 0.2 }}
             className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-10 backdrop-blur-sm border border-black/10 dark:border-white/10"
             style={{
-              background: "rgba(255, 107, 53, 0.05)",
+              background: "rgba(0,0,0,0.05)",
             }}
           >
-            <motion.span className="w-2 h-2 rounded-full bg-[#ff6b35] " />
+            <motion.span className="w-2 h-2 rounded-full bg-black dark:bg-white " />
             <span className="text-[13px] text-black/70 dark:text-white/70 font-medium tracking-wide">
               20M BLIP Rewards Pool
             </span>
@@ -440,7 +440,7 @@ const HeroSection = () => {
               className="absolute w-[500px] h-[500px] rounded-full opacity-40"
               style={{
                 background:
-                  "radial-gradient(circle, rgba(255,107,53,0.2) 0%, transparent 50%)",
+                  "radial-gradient(circle, rgba(0,0,0,0.2) 0%, transparent 50%)",
               }}
             />
           </div>
@@ -641,7 +641,7 @@ const RewardTiersSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-20"
         >
-          <span className="text-[10px] uppercase tracking-[0.3em] text-[#ff6b35] mb-4 block">
+          <span className="text-[10px] uppercase tracking-[0.3em] text-black dark:text-white mb-4 block">
             Reward Tiers
           </span>
           <h2 className="text-4xl md:text-6xl font-bold text-black dark:text-white tracking-tight mb-6">
@@ -671,7 +671,7 @@ dark:hover:border-white/15 transition-colors duration-500 bg-white/80 dark:bg-tr
               <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#ffffff] opacity-0 group-hover:opacity-[0.08] blur-[60px] rounded-full transition-opacity duration-500" />
 
               {tier.highlight && (
-                <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-[#ffffff]/20 text-[#ff6b35] text-[10px] font-medium uppercase tracking-wider">
+                <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-[#ffffff]/20 text-black dark:text-white text-[10px] font-medium uppercase tracking-wider">
                   Best Value
                 </div>
               )}
@@ -765,7 +765,7 @@ const HowItWorksSection = () => {
           transition={{ duration: 1 }}
           className="text-center mb-20"
         >
-          <span className="text-[10px] uppercase tracking-[0.3em] text-[#ff6b35] mb-4 block">
+          <span className="text-[10px] uppercase tracking-[0.3em] text-black dark:text-white mb-4 block">
             Process
           </span>
           <h2 className="text-4xl md:text-6xl font-bold text-black dark:text-white tracking-tight">
@@ -871,7 +871,7 @@ const FeaturesSection = () => {
           className="mb-10 flex justify-center"
         >
           <div className="flex flex-col justify-center">
-            <span className="text-[10px] text-center uppercase tracking-[0.3em] text-[#ff6b35] mb-4 block">
+            <span className="text-[10px] text-center uppercase tracking-[0.3em] text-black dark:text-white mb-4 block">
               Features
             </span>
             <h2 className="text-4xl md:text-6xl font-bold text-center text-black dark:text-white tracking-tight mb-4">
@@ -1002,8 +1002,8 @@ const CTASection = () => {
         className="absolute inset-0 opacity-[0.02]"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(255,107,53,0.3) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,107,53,0.3) 1px, transparent 1px)
+            linear-gradient(rgba(0,0,0,0.3) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,0,0,0.3) 1px, transparent 1px)
           `,
           backgroundSize: "80px 80px",
         }}

@@ -1,7 +1,7 @@
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { useAuth } from "@/contexts/AuthContext";
-import { Wallet, Loader2 } from "lucide-react";
+import { Wallet, Loader2, Copy } from "lucide-react";
 import { useState, useEffect } from "react";
 import {
   isMobile,
@@ -56,6 +56,19 @@ export function MerchantWalletButton({ isDark }: MerchantWalletButtonProps) {
     }
   };
 
+  const handleCopy = async (e: React.MouseEvent) => {
+  e.stopPropagation(); // Prevent triggering disconnect
+
+  if (!publicKey) return;
+
+  try {
+    await navigator.clipboard.writeText(publicKey.toBase58());
+    toast.success("Wallet address copied");
+  } catch {
+    toast.error("Failed to copy address");
+  }
+};
+
   return (
     <button
       onClick={handleClick}
@@ -78,8 +91,16 @@ export function MerchantWalletButton({ isDark }: MerchantWalletButtonProps) {
           />
           <Wallet className={`w-3.5 h-3.5 ${muted}`} />
           <span className={muted}>
-            {shortenAddress(publicKey.toBase58())}
-          </span>
+  {shortenAddress(publicKey.toBase58())}
+</span>
+
+<button
+  onClick={handleCopy}
+  className="p-1 rounded-md hover:bg-black/10 dark:hover:bg-white/10 transition"
+  title="Copy wallet address"
+>
+  <Copy className="w-3.5 h-3.5" />
+</button>
         </>
       ) : (
         <>

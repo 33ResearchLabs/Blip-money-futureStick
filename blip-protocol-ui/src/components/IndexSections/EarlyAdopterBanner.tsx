@@ -91,7 +91,7 @@ const EarlyAdopterBanner = () => {
             <div className="text-center mb-12">
               {/* Badge */}
               <motion.div
-                className="inline-flex items-center gap-3 px-4 py-2 rounded-full mb-8 bg-black/8 dark:bg-white/8 border border-black/15 dark:border-white/15"
+                className="inline-flex items-center gap-3 px-4 py-2 rounded-full mb-8 bg-black/[0.08] dark:bg-white/[0.08] border border-black/[0.15] dark:border-white/[0.15]"
               >
                 <motion.div className="w-2 h-2 rounded-full bg-black dark:bg-white" />
                 <span className="text-xs uppercase tracking-[0.2em] text-black dark:text-white/60 font-medium">

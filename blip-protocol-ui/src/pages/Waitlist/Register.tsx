@@ -137,7 +137,6 @@ export default function Register({
         state: { email: formData.email, role },
       });
     } catch (error: any) {
-      console.error("Registration error:", error);
       // Handle Firebase-specific errors
       if (error.code === "auth/email-already-in-use") {
         // Try to sign in - if user exists but isn't verified, resend verification
@@ -202,7 +201,6 @@ export default function Register({
           : "/dashboard";
       navigate(dest);
     } catch (error: any) {
-      console.error("OTP verification error:", error);
       const message =
         error.response?.data?.message ||
         "Invalid verification code. Please try again.";
@@ -259,8 +257,8 @@ export default function Register({
             <div
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
               style={{
-                background: "rgba(255, 107, 53, 0.05)",
-                border: "1px solid rgba(255, 107, 53, 0.15)",
+                background: "rgba(0,0,0,0.05)",
+                border: "1px solid rgba(0,0,0,0.15)",
               }}
             >
               <span className="text-[11px] font-semibold text-gray-600 dark:text-white uppercase tracking-wider">

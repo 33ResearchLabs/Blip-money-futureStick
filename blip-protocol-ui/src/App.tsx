@@ -23,19 +23,19 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 
 // Import wallet adapter CSS
 import "@solana/wallet-adapter-react-ui/styles.css";
-import CryptoToUae from "./pages/Markets/CryptoToUae";
 import { Toaster } from "./components/ui/toaster";
-import LegalPage from "./pages/Legel/LeagalPage";
-import Login from "./pages/Waitlist/Login";
-import UserRegister from "./pages/Waitlist/UserRegister";
-import ForgotPassword from "./pages/Waitlist/ForgotPassword";
-import ResetPassword from "./pages/Waitlist/ResetPassword";
-import EmailVerificationPending from "./pages/Waitlist/EmailVerificationPending";
-import VerifyEmail from "./pages/Waitlist/VerifyEmail";
-import MerchantDashboard from "./pages/Waitlist/MerchantDashboard";
-import { MerchantLogin } from "./pages/Waitlist/MerchantLogin";
-import MerchantRegister from "./pages/Waitlist/MerchantRegister";
-import SuperAdminDashboard from "./pages/Waitlist/SuperAdminDashboard";
+
+const CryptoToUae = lazy(() => import("./pages/Markets/CryptoToUae"));
+const LegalPage = lazy(() => import("./pages/Legel/LeagalPage"));
+const UserRegister = lazy(() => import("./pages/Waitlist/UserRegister"));
+const ForgotPassword = lazy(() => import("./pages/Waitlist/ForgotPassword"));
+const ResetPassword = lazy(() => import("./pages/Waitlist/ResetPassword"));
+const EmailVerificationPending = lazy(() => import("./pages/Waitlist/EmailVerificationPending"));
+const VerifyEmail = lazy(() => import("./pages/Waitlist/VerifyEmail"));
+const MerchantDashboard = lazy(() => import("./pages/Waitlist/MerchantDashboard"));
+const MerchantLogin = lazy(() => import("./pages/Waitlist/MerchantLogin").then((m) => ({ default: m.MerchantLogin })));
+const MerchantRegister = lazy(() => import("./pages/Waitlist/MerchantRegister"));
+const SuperAdminDashboard = lazy(() => import("./pages/Waitlist/SuperAdminDashboard"));
 
 // Lazy load page components
 const Index = lazy(() => import("./pages/Index"));

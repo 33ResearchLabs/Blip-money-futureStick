@@ -201,7 +201,7 @@ export const AppleStylePhoneSection = () => {
           className="absolute inset-0 opacity-[0.03]"
           style={{
             background:
-              "radial-gradient(ellipse at center, rgba(255, 107, 53, 0.15) 0%, transparent 60%)",
+              "radial-gradient(ellipse at center, rgba(0,0,0,0.15) 0%, transparent 60%)",
           }}
         />
 
@@ -230,7 +230,7 @@ export const AppleStylePhoneSection = () => {
             transition={{ duration: 0.6 }}
             className="inline-flex items-center gap-2 text-sm text-gray-500 font-medium tracking-[0.2em] uppercase"
           >
-            <span className="w-1 h-1 rounded-full bg-[#ff6b35]" />
+            <span className="w-1 h-1 rounded-full bg-black dark:bg-white" />
             Mobile First
           </motion.div>
 
@@ -258,7 +258,7 @@ export const AppleStylePhoneSection = () => {
               className="w-[500px] h-[700px] rounded-full blur-[100px] opacity-[0.08]"
               style={{
                 background:
-                  "radial-gradient(ellipse, rgba(255, 107, 53, 0.3) 0%, transparent 70%)",
+                  "radial-gradient(ellipse, rgba(0,0,0,0.3) 0%, transparent 70%)",
               }}
             />
           </div>

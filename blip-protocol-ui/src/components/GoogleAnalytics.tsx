@@ -3,11 +3,8 @@ import { useLocation } from 'react-router-dom';
 
 declare global {
   interface Window {
-    gtag?: (
-      command: string,
-      targetId: string,
-      config?: Record<string, unknown>
-    ) => void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    gtag?: (...args: any[]) => void;
     dataLayer?: unknown[];
   }
 }
@@ -19,7 +16,6 @@ const GoogleAnalytics = () => {
   useEffect(() => {
     // Only initialize if measurement ID is provided and not a placeholder
     if (!GA_MEASUREMENT_ID || GA_MEASUREMENT_ID === 'G-XXXXXXXXXX') {
-      console.warn('Google Analytics: No valid measurement ID provided');
       return;
     }
 

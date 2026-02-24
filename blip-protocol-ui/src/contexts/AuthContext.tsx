@@ -12,6 +12,7 @@ import { api } from "@/services/api"; // axios instance withCredentials:true
 
 interface User {
   id: string;
+  userName?: string;
   email: string;
   wallet_address?: string;
   phone?: string;
@@ -68,14 +69,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       }); // cookie auto-sent
 
       if (response?.user) {
-        console.log("✅ Session restored from cookie:", response.user);
         setUser(response.user);
       } else {
-        console.log("❌ No session found");
         setUser(null);
       }
     } catch (error) {
-      console.log("❌ Session refresh failed:", error);
       setUser(null);
     } finally {
       setIsLoading(false);
@@ -98,9 +96,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     // If wallet is connected and user has a linked wallet, verify addresses match
     if (connected && publicKey && user?.wallet_address && user.walletLinked) {
       if (user.wallet_address !== publicKey.toBase58()) {
-        console.warn("⚠️ Wallet mismatch detected");
-        // Don't auto-logout - user might have switched wallets
-        // They can manually unlink/relink in settings
+        // Wallet switched — user can manually relink in settings
       }
     }
   }, [connected, publicKey, user]);
@@ -127,7 +123,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         setUser((prev) => (prev ? { ...prev, ...response.user } : response.user));
       }
     } catch (error) {
-      console.error("❌ Wallet linking failed:", error);
       throw error;
     }
   };
@@ -148,11 +143,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
    */
   const logout = async () => {
     try {
-      console.log("🚪 Calling backend logout to clear HTTP-only cookie");
       await api.post("/auth/logout");
-      console.log("✅ Backend logout successful");
-    } catch (error) {
-      console.error("❌ Logout failed:", error);
+    } catch {
+      // logout error handled silently
     } finally {
       setUser(null);
     }

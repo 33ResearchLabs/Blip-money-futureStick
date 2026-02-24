@@ -746,7 +746,7 @@ export default function BlipDashboard() {
           twitter: !!twitterRes?.data?.completed,
         }));
       } catch (err) {
-        console.error("Failed to check reward status:", err);
+        // Failed to check reward status
       }
     };
 

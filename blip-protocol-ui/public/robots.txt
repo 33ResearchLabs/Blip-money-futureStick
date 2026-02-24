@@ -4,6 +4,11 @@ Allow: /
 Disallow: /admin/
 Disallow: /dashboard/
 Disallow: /api/
+Disallow: /login
+Disallow: /register
+Disallow: /reset-password
+Disallow: /verify-email
+Disallow: /superadmin
 
 # Allow PDF documents
 Allow: /whitepaper.pdf

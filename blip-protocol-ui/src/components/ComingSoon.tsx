@@ -283,7 +283,7 @@ const ComingSoon = () => {
             className="absolute top-[20%] right-[10%] w-[500px] h-[500px] rounded-full"
             style={{
               background:
-                "radial-gradient(circle, rgba(255,107,53,0.15) 0%, transparent 70%)",
+                "radial-gradient(circle, rgba(0,0,0,0.15) 0%, transparent 70%)",
               x: mousePosition.x * -40,
               y: mousePosition.y * -30,
             }}
@@ -295,7 +295,7 @@ const ComingSoon = () => {
             className="absolute bottom-[10%] left-[5%] w-[400px] h-[400px] rounded-full"
             style={{
               background:
-                "radial-gradient(circle, rgba(255,107,53,0.08) 0%, transparent 70%)",
+                "radial-gradient(circle, rgba(0,0,0,0.08) 0%, transparent 70%)",
               x: mousePosition.x * 30,
               y: mousePosition.y * 20,
             }}
@@ -313,8 +313,8 @@ const ComingSoon = () => {
             className="absolute inset-0 opacity-[0.02]"
             style={{
               backgroundImage: `
-                linear-gradient(rgba(255,107,53,0.5) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,107,53,0.5) 1px, transparent 1px)
+                linear-gradient(rgba(0,0,0,0.5) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.5) 1px, transparent 1px)
               `,
               backgroundSize: "80px 80px",
             }}
@@ -349,8 +349,8 @@ const ComingSoon = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-10"
               style={{
-                background: "rgba(255, 107, 53, 0.05)",
-                border: "1px solid rgba(255, 107, 53, 0.2)",
+                background: "rgba(0,0,0,0.05)",
+                border: "1px solid rgba(0,0,0,0.2)",
               }}
             >
               <motion.div

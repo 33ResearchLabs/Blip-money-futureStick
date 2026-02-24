@@ -77,7 +77,7 @@ const HeroSection = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 backdrop-blur-sm border border-black/[0.06] dark:border-white/10 bg-white/80 dark:bg-white/[0.03]"
         >
-          <span className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
+          <span className="w-2 h-2 rounded-full bg-black dark:bg-white animate-pulse" />
           <span className="text-xs text-black/60 dark:text-white/60 tracking-wide font-medium">
             Institutional Grade
           </span>
@@ -385,7 +385,7 @@ const OtcAdvantagesSection = () => {
                   </div>
                   <div className="p-4 rounded-xl border border-black/[0.08] dark:border-white/[0.06] bg-white/80 dark:bg-white/[0.02]">
                     <span className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-wider px-2 py-1 rounded-full bg-black/5 dark:bg-white/5 text-black/80 dark:text-white/40 mb-3">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-black dark:bg-white" />
                       Blip OTC
                     </span>
                     <p className="text-sm text-black dark:text-white/40 leading-relaxed">

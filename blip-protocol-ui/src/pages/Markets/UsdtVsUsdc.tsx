@@ -213,7 +213,7 @@ const HeroSection = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 backdrop-blur-sm border border-black/[0.06] dark:border-white/10 bg-white/80 dark:bg-white/[0.03]"
         >
-          <span className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
+          <span className="w-2 h-2 rounded-full bg-black dark:bg-white animate-pulse" />
           <span className="text-xs text-black/60 dark:text-white/60 tracking-wide font-medium">
             Updated for 2026
           </span>
@@ -405,25 +405,25 @@ const SideBySideSection = () => {
               <div
                 className={`text-center p-3 rounded-xl text-sm ${
                   row.winner === "usdt"
-                    ? "bg-white/80 dark:bg-white/[0.04] border border-[#ff6b35]/20 dark:border-[#ff6b35]/15 text-black dark:text-white"
+                    ? "bg-white/80 dark:bg-white/[0.04] border border-black/[0.12] dark:border-white/[0.12] text-black dark:text-white"
                     : "bg-white/60 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] text-black/70 dark:text-white/60"
                 }`}
               >
                 <span>{row.usdt}</span>
                 {row.winner === "usdt" && (
-                  <Check className="w-3.5 h-3.5 inline ml-1.5 text-[#ff6b35]" />
+                  <Check className="w-3.5 h-3.5 inline ml-1.5 text-black/60 dark:text-white/60" />
                 )}
               </div>
               <div
                 className={`text-center p-3 rounded-xl text-sm ${
                   row.winner === "usdc"
-                    ? "bg-white/80 dark:bg-white/[0.04] border border-[#ff6b35]/20 dark:border-[#ff6b35]/15 text-black dark:text-white"
+                    ? "bg-white/80 dark:bg-white/[0.04] border border-black/[0.12] dark:border-white/[0.12] text-black dark:text-white"
                     : "bg-white/60 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] text-black/70 dark:text-white/60"
                 }`}
               >
                 <span>{row.usdc}</span>
                 {row.winner === "usdc" && (
-                  <Check className="w-3.5 h-3.5 inline ml-1.5 text-[#ff6b35]" />
+                  <Check className="w-3.5 h-3.5 inline ml-1.5 text-black/60 dark:text-white/60" />
                 )}
               </div>
             </motion.div>
@@ -543,7 +543,7 @@ const ComparisonTableSection = () => {
                           <Minus className="w-3 h-3" /> Tie
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/80 dark:bg-white/[0.04] border border-[#ff6b35]/20 dark:border-[#ff6b35]/15 text-xs text-black dark:text-white font-medium">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/80 dark:bg-white/[0.04] border border-black/[0.12] dark:border-white/[0.12] text-xs text-black dark:text-white font-medium">
                           <Check className="w-3 h-3" />
                           {row.winner === "usdt" ? "USDT" : "USDC"}
                         </span>
