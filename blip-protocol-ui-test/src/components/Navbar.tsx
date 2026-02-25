@@ -124,10 +124,20 @@ export const Logo = ({ className = "" }) => {
       className="flex items-center gap-1.5 group no-underline hover:no-underline"
       onClick={() => sounds.click()}
     >
-      <Zap
-        className="w-5 h-5 text-black dark:text-white fill-black dark:fill-white"
-        strokeWidth={2}
-      />
+      <svg
+        viewBox="0 0 70 60"
+        className="h-5 w-auto"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M4 36 L16 36 L25 8 L38 52 L47 28 L66 28"
+          className="stroke-black dark:stroke-white"
+          strokeWidth="9"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
 
       <motion.span
         className={`${className} text-[23px] font-semibold tracking-tight leading-none flex items-center`}
@@ -137,10 +147,6 @@ export const Logo = ({ className = "" }) => {
         <span className="text-black dark:text-white">Blip</span>
         <span className="relative text-black dark:text-white ml-1 italic">
           money
-          {/* <motion.span
-            className="absolute -bottom-1 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-black/50 dark:from-white/50 to-transparent opacity-0 group-hover:opacity-100"
-            transition={{ duration: 0.3 }}
-          /> */}
         </span>
       </motion.span>
     </Link>

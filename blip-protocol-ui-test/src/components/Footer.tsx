@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { Zap } from "lucide-react";
+import { PulseIcon } from "./PulseIcon";
 import { FaLinkedin, FaTelegramPlane, FaYoutube } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
@@ -190,9 +190,9 @@ export const Footer = ({
 
           <div className="flex items-center gap-3 text-sm uppercase tracking-widest font-bold text-black/70 dark:text-white/50">
             <div className="w-5 h-5 rounded-sm flex items-center justify-center">
-              <Zap
-                size={11}
-                className="text-black dark:text-white fill-current"
+              <PulseIcon
+                size={14}
+                className="text-black dark:text-white"
               />
             </div>
             Fast. Simple. Blip.
