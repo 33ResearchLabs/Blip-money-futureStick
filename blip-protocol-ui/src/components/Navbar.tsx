@@ -5,7 +5,6 @@ import {
   ArrowRight,
   Sun,
   Moon,
-  Zap,
   Menu,
   X,
 } from "lucide-react";
@@ -124,10 +123,20 @@ export const Logo = ({ className = "" }) => {
       className="flex items-center gap-1.5 group no-underline hover:no-underline"
       onClick={() => sounds.click()}
     >
-      <Zap
-        className="w-5 h-5 text-black dark:text-white fill-black dark:fill-white"
-        strokeWidth={2}
-      />
+      <svg
+        viewBox="0 0 70 60"
+        className="h-5 w-auto"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M4 36 L16 36 L25 8 L38 52 L47 28 L66 28"
+          className="stroke-black dark:stroke-white"
+          strokeWidth="9"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
 
       <motion.span
         className={`${className} text-[23px] font-semibold tracking-tight leading-none flex items-center`}
