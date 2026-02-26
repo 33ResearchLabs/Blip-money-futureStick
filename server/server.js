@@ -19,6 +19,8 @@ import twoFactorRoutes from "./routes/twoFactor.routes.js";
 import twitterRoutes from "./routes/twitter.route.js";
 import telegramRoutes from "./routes/telegram.route.js";
 import leaderboardRoutes from "./routes/leaderboard.route.js";
+import { startMerchantBot } from "./Merchant_bot/index.js";
+import { startUserBot } from "./User_bot/index.js";
 
 const numCPUs = os.cpus().length;
 const isProduction = process.env.NODE_ENV === "production";
@@ -34,6 +36,8 @@ if (isProduction && cluster.isPrimary) {
   });
 } else {
   connectDB();
+  startMerchantBot();
+  startUserBot();
 
   const app = express();
   const server = http.createServer(app);

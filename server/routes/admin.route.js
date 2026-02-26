@@ -12,6 +12,8 @@ import {
   getVolumeChart,
   getRegistrationChart,
   getPointsDistributionChart,
+  getBotMerchants,
+  getBotUsers,
 } from "../controller/admin.controller.js";
 import { verifyTask, rejectTask } from "../controller/task.controller.js";
 
@@ -72,5 +74,11 @@ router.get("/registration-chart", getRegistrationChart);
 
 // Points distribution chart
 router.get("/points-chart", getPointsDistributionChart);
+
+// Bot merchants (from Telegram bot)
+router.get("/bot-merchants", getBotMerchants);
+
+// Bot users (from Telegram airdrop bot)
+router.get("/bot-users", getBotUsers);
 
 export default router;

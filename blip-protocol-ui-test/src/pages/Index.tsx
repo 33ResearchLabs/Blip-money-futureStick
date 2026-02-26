@@ -20,6 +20,7 @@ import {
 } from "@/components/IndexSections";
 import AbstractVisual from "@/components/IndexSections/AbstractVisual";
 import { InteractiveBackground } from "@/components/InteractiveBackground";
+import PremiumFintechSection from "@/components/IndexSections/DarkFintechSection";
 
 /* ============================================
    MAIN INDEX PAGE
@@ -51,6 +52,7 @@ const Index = () => {
             <div className="grain-overlay" />
 
             <CinematicHero />
+            <PremiumFintechSection />
             <DashboardShowcaseSection />
             <LockedAndSecuredSection />
             <InstantBiddingSection />

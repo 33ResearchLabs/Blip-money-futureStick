@@ -4,6 +4,8 @@ import Referral from "../models/referral.model.js";
 import VolumeCommitment from "../models/volumeCommitment.model.js";
 import BlipPointLog from "../models/BlipPointLog.model.js";
 import TweetVerification from "../models/TweetVerification.model.js";
+import BotMerchant from "../models/botMerchant.model.js";
+import BotUser from "../models/botUser.model.js";
 
 /**
  * ============================
@@ -412,6 +414,126 @@ export const getVolumeChart = async (req, res) => {
  * GET /api/admin/points-chart
  * ============================
  */
+/**
+ * ============================
+ * GET BOT MERCHANTS (from Telegram bot)
+ * GET /api/admin/bot-merchants?page=1&limit=20&status=pending&search=username
+ * ============================
+ */
+export const getBotMerchants = async (req, res) => {
+  try {
+    const { page = 1, limit = 20, status, search } = req.query;
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+
+    const filter = {};
+    if (status) filter.status = status;
+    if (search) {
+      filter.$or = [
+        { username: { $regex: search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: "i" } },
+        { first_name: { $regex: search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: "i" } },
+        { telegram_id: { $regex: search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: "i" } },
+      ];
+    }
+
+    const [merchants, total] = await Promise.all([
+      BotMerchant.find(filter)
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(parseInt(limit))
+        .lean(),
+      BotMerchant.countDocuments(filter),
+    ]);
+
+    // Stats summary
+    const [totalBotMerchants, pendingCount, approvedCount, rejectedCount] = await Promise.all([
+      BotMerchant.countDocuments(),
+      BotMerchant.countDocuments({ status: "pending" }),
+      BotMerchant.countDocuments({ status: "approved" }),
+      BotMerchant.countDocuments({ status: "rejected" }),
+    ]);
+
+    return res.json({
+      success: true,
+      merchants,
+      stats: {
+        total: totalBotMerchants,
+        pending: pendingCount,
+        approved: approvedCount,
+        rejected: rejectedCount,
+      },
+      pagination: {
+        total,
+        page: parseInt(page),
+        limit: parseInt(limit),
+        totalPages: Math.ceil(total / parseInt(limit)),
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+/**
+ * ============================
+ * GET BOT USERS (from Telegram airdrop bot)
+ * GET /api/admin/bot-users?page=1&limit=20&country=India&onboarded=true&search=username
+ * ============================
+ */
+export const getBotUsers = async (req, res) => {
+  try {
+    const { page = 1, limit = 20, country, onboarded, search } = req.query;
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+
+    const filter = {};
+    if (country) filter.country = country;
+    if (onboarded === "true") filter.onboarded = true;
+    if (onboarded === "false") filter.onboarded = false;
+    if (search) {
+      filter.$or = [
+        { name: { $regex: search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: "i" } },
+        { username: { $regex: search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: "i" } },
+        { telegram_id: { $regex: search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: "i" } },
+      ];
+    }
+
+    const [botUsers, total] = await Promise.all([
+      BotUser.find(filter)
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(parseInt(limit))
+        .lean(),
+      BotUser.countDocuments(filter),
+    ]);
+
+    // Stats summary
+    const [totalBotUsers, onboardedCount, pointsAgg, referralsAgg] = await Promise.all([
+      BotUser.countDocuments(),
+      BotUser.countDocuments({ onboarded: true }),
+      BotUser.aggregate([{ $group: { _id: null, total: { $sum: "$points" } } }]),
+      BotUser.aggregate([{ $group: { _id: null, total: { $sum: "$referrals" } } }]),
+    ]);
+
+    return res.json({
+      success: true,
+      botUsers,
+      stats: {
+        total: totalBotUsers,
+        onboarded: onboardedCount,
+        totalPoints: pointsAgg[0]?.total || 0,
+        totalReferrals: referralsAgg[0]?.total || 0,
+      },
+      pagination: {
+        total,
+        page: parseInt(page),
+        limit: parseInt(limit),
+        totalPages: Math.ceil(total / parseInt(limit)),
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 export const getPointsDistributionChart = async (req, res) => {
   try {
     const data = await BlipPointLog.aggregate([

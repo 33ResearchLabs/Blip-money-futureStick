@@ -174,6 +174,29 @@ export const airdropApi = {
     return response;
   },
 
+  // Bot merchants (from Telegram bot)
+  getBotMerchants: async (page = 1, limit = 20, status?: string, search?: string) => {
+    const params = new URLSearchParams();
+    params.append("page", String(page));
+    params.append("limit", String(limit));
+    if (status) params.append("status", status);
+    if (search) params.append("search", search);
+    const response = await api.get(`/admin/bot-merchants?${params.toString()}`);
+    return response;
+  },
+
+  // Bot users (from Telegram airdrop bot)
+  getBotUsers: async (page = 1, limit = 20, country?: string, onboarded?: string, search?: string) => {
+    const params = new URLSearchParams();
+    params.append("page", String(page));
+    params.append("limit", String(limit));
+    if (country) params.append("country", country);
+    if (onboarded) params.append("onboarded", onboarded);
+    if (search) params.append("search", search);
+    const response = await api.get(`/admin/bot-users?${params.toString()}`);
+    return response;
+  },
+
   // =====================
   // LEADERBOARD ENDPOINTS
   // =====================
