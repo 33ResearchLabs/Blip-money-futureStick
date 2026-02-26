@@ -390,7 +390,7 @@ const LockedAndSecuredSection = () => {
                     {feature.label}
                   </div>
                   <div className="text-black dark:text-white/30 text-xs">
-                    {feature.desc}   
+                    {feature.desc}
                   </div>
                 </div>
               </motion.div>

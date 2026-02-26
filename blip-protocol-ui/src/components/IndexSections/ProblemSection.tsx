@@ -1,9 +1,50 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { DollarSign, Clock, EyeOff, Zap, ArrowRight } from "lucide-react";
 
 /* ============================================
-   SECTION 4: THE PROBLEM - Interactive Timeline
+   SECTION 2: THE PROBLEM — Why Now
+   Bold stat grid layout — 3 problem cards + solution strip
    ============================================ */
+
+const problems = [
+  {
+    icon: DollarSign,
+    tag: "The cost",
+    stat: "$48B",
+    statSub: "lost annually",
+    title: "Fees drain value.",
+    desc: "Banks charge 3–7% on every international transfer. Remittance corridors are taxed before money moves.",
+    color: "rgba(255,107,53,0.08)",
+    borderColor: "rgba(255,107,53,0.15)",
+    glowColor: "rgba(255,107,53,0.12)",
+    iconColor: "#ff6b35",
+  },
+  {
+    icon: Clock,
+    tag: "The wait",
+    stat: "3–5 days",
+    statSub: "avg settlement",
+    title: "Payments crawl.",
+    desc: "SWIFT takes days. Merchants can't scale globally when money moves at 1970s speed.",
+    color: "rgba(120,119,255,0.06)",
+    borderColor: "rgba(120,119,255,0.12)",
+    glowColor: "rgba(120,119,255,0.1)",
+    iconColor: "#7877ff",
+  },
+  {
+    icon: EyeOff,
+    tag: "The exposure",
+    stat: "100%",
+    statSub: "transactions monitored",
+    title: "Zero privacy.",
+    desc: "Every transaction tracked, reported, and stored. Your business is an open book.",
+    color: "rgba(239,68,68,0.05)",
+    borderColor: "rgba(239,68,68,0.1)",
+    glowColor: "rgba(239,68,68,0.08)",
+    iconColor: "#ef4444",
+  },
+];
 
 const ProblemSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -12,168 +53,193 @@ const ProblemSection = () => {
     offset: ["start end", "end start"],
   });
 
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-
-  const problems = [
-    {
-      year: "2024",
-      title: "High Fees",
-      desc: "Banks charge 3-7% on international transfers.",
-      stat: "~$48B",
-      statLabel: "Lost to fees annually",
-    },
-    {
-      year: "2025",
-      title: "Slow Settlement",
-      desc: "SWIFT takes 2-5 business days.",
-      stat: "3-5 days",
-      statLabel: "Average settlement",
-    },
-    {
-      year: "2026",
-      title: "No Privacy",
-      desc: "Every transaction tracked, reported, and stored.",
-      stat: "100%",
-      statLabel: "Transactions monitored",
-    },
-    {
-      year: "Now",
-      title: "Enter Blip",
-      desc: "Sub-second settlement. 0.1% fees. Full privacy.",
-      stat: "~2s",
-      statLabel: "Settlement time",
-      highlight: true,
-    },
-  ];
+  const opacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0, 1, 1, 0]);
 
   return (
     <section
       ref={containerRef}
-      className="relative py-12 md:py-40 bg-[#FAF8F5] dark:bg-black overflow-hidden"
+      className="relative py-24 md:py-40 bg-[#FAF8F5] dark:bg-black overflow-hidden"
     >
-      {/* Subtle background gradient */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-black/[0.02] dark:bg-white/[0.02] blur-[120px]" />
+      {/* Background glows */}
+      <div className="absolute inset-0 pointer-events-none">
+        <motion.div
+          className="absolute top-[20%] left-[15%] w-[500px] h-[500px] rounded-full opacity-[0.04] dark:opacity-[0.06]"
+          style={{ background: "radial-gradient(circle, rgba(255,107,53,0.8) 0%, transparent 70%)" }}
+          animate={{ scale: [1, 1.08, 1] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute bottom-[20%] right-[15%] w-[400px] h-[400px] rounded-full opacity-[0.04] dark:opacity-[0.05]"
+          style={{ background: "radial-gradient(circle, rgba(120,119,255,0.8) 0%, transparent 70%)" }}
+          animate={{ scale: [1, 1.1, 1] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        />
       </div>
 
       <motion.div
         className="relative z-10 max-w-6xl mx-auto px-6"
         style={{ opacity }}
       >
-        {/* Header - Centered focus headline */}
-        <div className="text-center mb-20">
+        {/* Header */}
+        <div className="text-center mb-16 md:mb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="inline-flex items-center gap-2 mb-6 px-3 py-1.5 rounded-full border border-black/[0.08] dark:border-white/[0.08] bg-white/60 dark:bg-white/[0.03]"
+          >
+            <span className="text-[10px] uppercase tracking-[0.25em] text-black/50 dark:text-white/40 font-semibold">
+              Why now
+            </span>
+          </motion.div>
+
           <motion.h2
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-black dark:text-white tracking-tight leading-[1.05] mb-6"
+            className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-black dark:text-white tracking-tight leading-[1.05] mb-5"
           >
             Global payments
             <br />
-            <span className="text-black dark:text-white/20">are broken.</span>
+            <span className="text-black/20 dark:text-white/20">are broken.</span>
           </motion.h2>
+
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-xl md:text-2xl text-black dark:text-white/40 font-medium max-w-xl mx-auto"
+            className="text-base md:text-lg text-black/50 dark:text-white/40 font-medium max-w-lg mx-auto leading-relaxed"
           >
-            The traditional financial system was built for a different era. It's
-            time for something better.
+            The traditional financial system was built for a different era.
+            Stablecoin adoption is rising. Merchants are stuck. The timing is now.
           </motion.p>
         </div>
 
-        {/* Interactive Timeline */}
-        <div className="relative">
-          {/* Central timeline line - static background */}
-          <div className="absolute left-8 md:left-[46.5%] md:-translate-x-px top-0 bottom-0 w-[2px] bg-gradient-to-b from-black/[0.06] via-black/20 to-black/[0.06] dark:from-white/[0.06] dark:via-white/20 dark:to-white/[0.06]" />
-
-          {/* Moving line following from top to bottom */}
-          <motion.div
-            className="absolute left-8 md:left-[46.5%]  md:-translate-x-px w-1 h-12 rounded-full bg-gradient-to-b from-transparent via-black/40 to-transparent dark:via-white/60 shadow-[0_0_20px_rgba(0,0,0,0.2)] dark:shadow-[0_0_20px_rgba(255,255,255,0.4)]"
-            initial={{ top: "-50px" }}
-            animate={{ top: "100%" }}
-            transition={{
-              duration: 6, // ✅ very slow & smooth
-              repeat: Infinity,
-              ease: "linear",
-            }}
-          />
-
-          {/* Timeline items */}
-          <div className="space-y-12 md:space-y-0">
-            {problems.map((problem, i) => (
+        {/* Problem cards grid — 3 columns */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          {problems.map((problem, i) => {
+            const Icon = problem.icon;
+            return (
               <motion.div
                 key={problem.title}
-                initial={{ opacity: 0, x: i % 2 === 0 ? -50 : 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 32 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{
-                  duration: 0.8,
-                  delay: 0.2 + i * 0.15,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-                className={`relative md:grid md:grid-cols-2 md:gap-12 ${i % 2 === 0 ? "" : "md:direction-rtl"}`}
+                transition={{ duration: 0.7, delay: 0.1 + i * 0.12, ease: [0.16, 1, 0.3, 1] }}
+                className="group relative rounded-2xl border border-black/[0.08] dark:border-white/[0.06] bg-white/70 dark:bg-white/[0.03] p-7 overflow-hidden hover:border-black/[0.14] dark:hover:border-white/[0.1] transition-all duration-300"
+                style={{ boxShadow: "0 4px 30px -8px rgba(0,0,0,0.06)" }}
               >
-                {/* Timeline dot */}
-                <div
-                  className={`absolute left-8 md:left-[46.5%]  -translate-x-1/2 top-6 z-10`}
-                >
-                  <motion.div
-                    className={`w-4 h-4 rounded-full border-2 ${problem.highlight ? "bg-black dark:bg-white border-black dark:border-white" : "bg-[#FAF8F5] dark:bg-black border-black/20 dark:border-white/20"}`}
-                    whileInView={
-                      problem.highlight
-                        ? {
-                            boxShadow: [
-                              "0 0 0 0 rgba(0,0,0,0)",
-                              "0 0 20px 4px rgba(0,0,0,0.15)",
-                              "0 0 0 0 rgba(0,0,0,0)",
-                            ],
-                          }
-                        : {}
-                    }
-                    transition={{ duration: 2, repeat: Infinity }}
-                  />
-                </div>
+                {/* Hover glow */}
+                <motion.div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl"
+                  style={{ background: `radial-gradient(circle at 20% 20%, ${problem.glowColor}, transparent 60%)` }}
+                />
 
-                {/* Content card */}
-                <div
-                  className={`ml-20 md:ml-0 ${i % 2 === 0 ? "md:text-right md:pr-16" : "md:col-start-2 md:pl-16 md:text-left"}`}
-                >
+                {/* Tag + Icon row */}
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-[9px] uppercase tracking-[0.25em] text-black/30 dark:text-white/25 font-semibold">
+                    {problem.tag}
+                  </span>
                   <div
-                    className={`w-full max-w-[380px] p-6 rounded-2xl border backdrop-blur-xl ${problem.highlight ? "bg-white/70 dark:bg-white/[0.06] border-black dark:border-white shadow-[0_8px_40px_-8px_rgba(0,0,0,0.12)] dark:shadow-none" : "bg-white/60 dark:bg-white/[0.03] border-black/[0.08] dark:border-white/[0.06] shadow-[0_4px_30px_-8px_rgba(0,0,0,0.08)] dark:shadow-none"}`}
+                    className="w-9 h-9 rounded-xl flex items-center justify-center"
+                    style={{ background: problem.color, border: `1px solid ${problem.borderColor}` }}
                   >
-                    <div
-                      className={`text-[10px] uppercase tracking-[0.3em] ${problem.highlight ? "text-black dark:text-white/60" : "text-black dark:text-white/40"} font-semibold mb-2`}
-                    >
-                      {problem.year}
-                    </div>
-                    <h3
-                      className={`text-xl md:text-2xl font-semibold ${problem.highlight ? "text-black dark:text-white" : "text-black dark:text-white"} mb-2`}
-                    >
-                      {problem.title}
-                    </h3>
-                    <p className="text-base md:text-lg text-black dark:text-white/50 font-medium mb-4 leading-relaxed max-w-sm">
-                      {problem.desc}
-                    </p>
-                    <div className="flex items-baseline gap-2">
-                      <span
-                        className={`text-2xl font-bold ${problem.highlight ? "text-black dark:text-white" : "text-black dark:text-white"}`}
-                      >
-                        {problem.stat}
-                      </span>
-                      <span className="text-xs text-black dark:text-white/30 font-medium">
-                        {problem.statLabel}
-                      </span>
-                    </div>
+                    <Icon className="w-4.5 h-4.5" style={{ color: problem.iconColor }} strokeWidth={1.5} />
                   </div>
                 </div>
+
+                {/* Big stat */}
+                <div className="mb-1">
+                  <span className="font-display text-4xl md:text-5xl font-bold text-black dark:text-white tracking-tight">
+                    {problem.stat}
+                  </span>
+                </div>
+                <div className="text-[10px] uppercase tracking-wider text-black/30 dark:text-white/25 font-semibold mb-4">
+                  {problem.statSub}
+                </div>
+
+                {/* Divider */}
+                <div className="h-px bg-black/[0.06] dark:bg-white/[0.06] mb-4" />
+
+                {/* Title + desc */}
+                <h3 className="text-base font-semibold text-black dark:text-white mb-2">
+                  {problem.title}
+                </h3>
+                <p className="text-sm text-black/45 dark:text-white/35 leading-relaxed">
+                  {problem.desc}
+                </p>
               </motion.div>
-            ))}
-          </div>
+            );
+          })}
         </div>
+
+        {/* Solution strip — full width */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          className="relative rounded-2xl bg-black dark:bg-white overflow-hidden p-7 md:p-9"
+          style={{ boxShadow: "0 20px 60px -15px rgba(0,0,0,0.25)" }}
+        >
+          {/* Shimmer */}
+          <motion.div
+            className="absolute inset-0 opacity-[0.03]"
+            style={{ background: "linear-gradient(135deg, transparent 30%, white 50%, transparent 70%)", backgroundSize: "200% 200%" }}
+            animate={{ backgroundPosition: ["200% 200%", "-200% -200%"] }}
+            transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+          />
+
+          {/* Orange glow */}
+          <div
+            className="absolute top-0 right-0 w-[400px] h-[200px] pointer-events-none"
+            style={{ background: "radial-gradient(ellipse at top right, rgba(255,107,53,0.15) 0%, transparent 60%)" }}
+          />
+
+          <div className="relative flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-10">
+            {/* Left: icon + text */}
+            <div className="flex items-center gap-4 flex-shrink-0">
+              <div className="w-11 h-11 rounded-xl bg-[#ff6b35] flex items-center justify-center">
+                <Zap className="w-5 h-5 text-white" strokeWidth={2} />
+              </div>
+              <div>
+                <div className="text-[9px] uppercase tracking-[0.25em] text-white/40 dark:text-black/40 font-semibold mb-0.5">
+                  The answer
+                </div>
+                <div className="text-xl font-bold text-white dark:text-black">
+                  Enter Blip.
+                </div>
+              </div>
+            </div>
+
+            {/* Center: stats row */}
+            <div className="flex flex-wrap gap-x-10 gap-y-3 flex-1">
+              {[
+                { value: "~2s", label: "Settlement" },
+                { value: "0.1%", label: "Protocol fee" },
+                { value: "Non-custodial", label: "Architecture" },
+                { value: "On-chain", label: "Settlement proof" },
+              ].map((s) => (
+                <div key={s.label}>
+                  <div className="text-lg font-bold text-white dark:text-black tracking-tight">{s.value}</div>
+                  <div className="text-[9px] uppercase tracking-wider text-white/35 dark:text-black/35 font-semibold">{s.label}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Right: CTA */}
+            <motion.div
+              className="flex items-center gap-1.5 text-sm text-white/50 dark:text-black/50 font-medium group cursor-pointer flex-shrink-0 hover:text-white dark:hover:text-black transition-colors"
+              whileHover={{ x: 4 }}
+            >
+              Learn how
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </motion.div>
+          </div>
+        </motion.div>
       </motion.div>
     </section>
   );

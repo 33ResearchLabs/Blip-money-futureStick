@@ -1,10 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Clock, Percent, Globe2 } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import { GlobeVisualization } from "../visuals/GlobeVisualization";
-import { MicroIcon } from "../visuals/MicroIcon";
-import { CTAButton } from "../Navbar";
 
 const CinematicHero = () => {
   const ref = useRef(null);
@@ -39,22 +36,20 @@ const CinematicHero = () => {
           className="absolute inset-0 transition-all duration-150 ease-out hidden dark:block"
           style={{
             opacity: 0.65,
-            // maskImage: `radial-gradient(circle 1000px at ${mousePosition.x}% ${mousePosition.y}%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 20%, rgba(0,0,0,0.5) 45%, rgba(0,0,0,0.15) 70%, rgba(0,0,0,0) 100%)`,
-            // WebkitMaskImage: `radial-gradient(circle 1000px at ${mousePosition.x}% ${mousePosition.y}%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 20%, rgba(0,0,0,0.5) 45%, rgba(0,0,0,0.15) 70%, rgba(0,0,0,0) 100%)`,
-            maskImage: `radial-gradient(ellipse 380px 300px at ${mousePosition.x}% ${mousePosition.y}%, 
-  rgba(0,0,0,0.75) 0%, 
-  rgba(0,0,0,0.65) 25%, 
-  rgba(0,0,0,0.45) 50%, 
-  rgba(0,0,0,0.25) 70%, 
-  rgba(0,0,0,0.05) 90%, 
+            maskImage: `radial-gradient(ellipse 380px 300px at ${mousePosition.x}% ${mousePosition.y}%,
+  rgba(0,0,0,0.75) 0%,
+  rgba(0,0,0,0.65) 25%,
+  rgba(0,0,0,0.45) 50%,
+  rgba(0,0,0,0.25) 70%,
+  rgba(0,0,0,0.05) 90%,
   rgba(0,0,0,0) 100%)`,
 
-            WebkitMaskImage: `radial-gradient(ellipse 380px 300px at ${mousePosition.x}% ${mousePosition.y}%, 
-  rgba(0,0,0,0.75) 0%, 
-  rgba(0,0,0,0.65) 25%, 
-  rgba(0,0,0,0.45) 50%, 
-  rgba(0,0,0,0.25) 70%, 
-  rgba(0,0,0,0.05) 90%, 
+            WebkitMaskImage: `radial-gradient(ellipse 380px 300px at ${mousePosition.x}% ${mousePosition.y}%,
+  rgba(0,0,0,0.75) 0%,
+  rgba(0,0,0,0.65) 25%,
+  rgba(0,0,0,0.45) 50%,
+  rgba(0,0,0,0.25) 70%,
+  rgba(0,0,0,0.05) 90%,
   rgba(0,0,0,0) 100%)`,
           }}
         >
@@ -67,46 +62,34 @@ const CinematicHero = () => {
 
         {/* Dark gradient edges */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#FAF8F5]/60 dark:from-black/60 via-transparent to-[#FAF8F5]/60 dark:to-black/60" />
-
-        {/* Globe network visualization */}
-        {/* <GlobeVisualization /> */}
       </div>
 
-      <main className="relative z-10 w-full max-w-[1200px] mx-auto px-6 md:px-10 text-center pt-12 sm:pt-0">
+      <main className="relative z-10 w-full max-w-[900px] mx-auto px-6 md:px-10 text-center pt-12 sm:pt-0">
         {/* Small label */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1 }}
-          className="mb-8"
+          className="mb-10 sm:mb-14"
         >
           <span className="text-[11px] uppercase tracking-[0.3em] text-black dark:text-white/30 font-semibold">
-            The settlement protocol
+            The settlement protocol · Powered by Blip
           </span>
         </motion.div>
 
-        {/* Main heading - massive, clean */}
+        {/* Main heading */}
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display font-bold text-black dark:text-white leading-[1.1] tracking-tight text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl mb-8"
+          className="font-display font-bold text-black dark:text-white leading-[1.1] tracking-tight text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl mb-10 sm:mb-14"
         >
-          The liquidity layer for
+          Instant merchant-to-merchant
           <br />
           <span className="text-black/80 dark:text-white/50">
-            <span className="relative inline-block">
-              <span className="relative z-10">global crypto.</span>
-              {/* <motion.span
-                className="absolute -bottom-1 left-0 right-0 h-[1px] rounded-full bg-black dark:bg-white/40 -rotate-[1.5deg] origin-left"
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{
-                  duration: 1.4,
-                  delay: 1,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-              /> */}
+            crypto{" "}
+            <span className="text-black dark:text-white font-extrabold">
+              settlement.
             </span>
           </span>
         </motion.h1>
@@ -116,40 +99,10 @@ const CinematicHero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 font-medium max-w-xl mx-auto mb-12 leading-relaxed"
+          className="text-black/60 dark:text-white/35 text-base sm:text-lg font-medium max-w-xl mx-auto mb-12 leading-relaxed tracking-wide"
         >
-          Liquidity is matched. Funds are locked. Settlement is enforced.
+          No banks. No delays. Global liquidity.
         </motion.p>
-
-        {/* Stats row */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="flex justify-center gap-8 sm:gap-20 mb-14 mx-4"
-        >
-          {[
-            { value: "~2s", label: "Settlement", icon: Clock },
-            { value: "0.1%", label: "Fees", icon: Percent },
-          ].map((stat, i) => (
-            <div key={stat.label} className="text-center ">
-              <div className="flex items-center justify-center gap-2 mb-1">
-                <MicroIcon
-                  icon={stat.icon}
-                  variant="pulse"
-                  size={14}
-                  delay={i * 0.2}
-                />
-                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-black dark:text-white tracking-tight">
-                  {stat.value}
-                </div>
-              </div>
-              <div className="text-[11px] text-black dark:text-white/30 uppercase tracking-[0.3em] font-semibold mt-1">
-                {stat.label}
-              </div>
-            </div>
-          ))}
-        </motion.div>
 
         {/* CTAs */}
         <motion.div
@@ -163,15 +116,23 @@ const CinematicHero = () => {
             className="group relative overflow-hidden inline-flex items-center justify-center gap-3 w-[240px] h-[56px] rounded-full bg-black dark:bg-white text-white dark:text-black text-base font-semibold transition-all duration-300 ring-1 ring-black/[0.10] hover:ring-black/[0.20] dark:ring-white/[0.10] dark:hover:ring-white/[0.20]"
           >
             <span className="absolute inset-0 bg-white/20 dark:bg-black/10 rounded-full scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-out" />
-            <span className="relative z-10">Enter the Network</span>
-            <ArrowRight className="relative z-10 w-5 h-5  group-hover:translate-x-1 transition-transform" />
+            <span className="relative z-10">Join Waitlist</span>
+            <ArrowRight className="relative z-10 w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
 
           <Link
             to="/merchant"
-            className="inline-flex items-center justify-center w-[240px] h-[56px] rounded-full border  text-black/80 dark:text-white/50 text-base font-medium  hover:text-black dark:hover:text-white/70 transition-all duration-300"
+            className="inline-flex items-center justify-center w-[240px] h-[56px] rounded-full border border-black/20 dark:border-white/20 text-black/80 dark:text-white/50 text-base font-medium hover:border-black/40 dark:hover:border-white/40 hover:text-black dark:hover:text-white/70 transition-all duration-300"
           >
-            Become a Liquidity Partner
+            Become a Merchant
+          </Link>
+
+          <Link
+            to="/protocol"
+            className="inline-flex items-center gap-1.5 text-sm text-black/40 dark:text-white/30 font-medium hover:text-black/70 dark:hover:text-white/50 transition-colors duration-300"
+          >
+            View Protocol
+            <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </motion.div>
 
