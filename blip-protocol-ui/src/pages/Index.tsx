@@ -16,6 +16,7 @@ import {
   TrustSection,
   CTASection,
   HowItWorksSection,
+  AppShowcaseSection,
 } from "@/components/IndexSections";
 
 /* ============================================
@@ -68,8 +69,11 @@ const Index = () => {
         {/* 4. How It Works — isolated (no overflow-x-hidden parent) */}
         <HowItWorksSection />
 
+        {/* 5. App Showcase — Apple bento grid with device mockups */}
+        <AppShowcaseSection />
+
         <div className="overflow-x-clip">
-          {/* 5. Core Features */}
+          {/* 6. Core Features */}
           <FeatureStrip />
           <LockedAndSecuredSection />
 

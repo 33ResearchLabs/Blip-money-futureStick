@@ -13,3 +13,4 @@ export { default as BlipscanExplorerSection } from './BlipscanExplorerSection';
 export { default as SolutionSection } from './SolutionSection';
 export { default as UseCasesSection } from './UseCasesSection';
 export { default as TrustSection } from './TrustSection';
+export { default as AppShowcaseSection } from './AppShowcaseSection';
