@@ -1,227 +1,371 @@
-import { motion, useScroll, useTransform } from "framer-motion";
+// import { useRef } from "react";
+// import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+
+// /* ============================================
+//    SECTION 2: UAE ANNOUNCEMENT - Apple-style cinematic
+//    ============================================ */
+
+// const UAESection = () => {
+//   const containerRef = useRef<HTMLDivElement>(null);
+//   const { scrollYProgress } = useScroll({
+//     target: containerRef,
+//     offset: ["start end", "end start"],
+//   });
+
+//   const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
+//   const scale = useTransform(
+//     scrollYProgress,
+//     [0, 0.3, 0.7, 1],
+//     [0.9, 1, 1, 0.9],
+//   );
+
+//   const smoothConfig = { stiffness: 100, damping: 30, restDelta: 0.001 };
+
+//   // Floating elements for depth - more dynamic
+//   const float1Y = useTransform(scrollYProgress, [0, 1], [100, -150]);
+//   const float2Y = useTransform(scrollYProgress, [0, 1], [50, -200]);
+//   const float3Y = useTransform(scrollYProgress, [0, 1], [150, -100]);
+//   const rotateOrb = useTransform(scrollYProgress, [0, 1], [0, 180]);
+
+//   const y = useSpring(
+//     useTransform(scrollYProgress, [0, 1], [0, 150]),
+//     smoothConfig,
+//   );
+
+//   return (
+//     <>
+//     <section
+//       ref={containerRef}
+//       className="relative md:min-h-screen flex items-center justify-center overflow-hidden bg-[#FAF8F5] dark:bg-black"
+
+//     >
+//       {/* Immersive background with glow */}
+//       <div className="absolute inset-0">
+
+//         {/* Ambient glow - top */}
+//         <motion.div
+//           className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] rounded-full"
+//           style={{
+//             background:
+//               "radial-gradient(ellipse, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 40%, transparent 70%)",
+//             y: float1Y,
+//           }}
+//         />
+
+//         {/* Secondary glow - floating */}
+//         <motion.div
+//           className="absolute top-1/3 right-1/4 w-[500px] h-[500px] rounded-full"
+//           style={{
+//             background:
+//               "radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 60%)",
+//             y: float2Y,
+//             rotate: rotateOrb,
+//           }}
+//         />
+
+//         {/* White ambient for contrast */}
+//         <motion.div
+//           className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] rounded-full"
+//           style={{
+//             background:
+//               "radial-gradient(circle, rgba(255,255,255,0.02) 0%, transparent 70%)",
+//             y: float3Y,
+//           }}
+//         />
+
+//        {/* Background with parallax */}
+//       <motion.div className="absolute aspect-[21/9] inset-0 z-0 max-w-screen-2xl mx-auto rounded-3xl" style={{ y }}>
+//         <img
+//            src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=2940&auto=format&fit=crop"
+//           alt="Modern office"
+//           className="w-full h-full object-cover rounded-3xl"
+//         />
+//         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-white dark:to-black" />
+//       </motion.div>
+
+//         {/* Grid overlay */}
+//         <div
+//           className="absolute inset-0 opacity-[0.02]"
+//           style={{
+//             backgroundImage: `
+//               linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px),
+//               linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)
+//             `,
+//             backgroundSize: "80px 80px",
+//           }}
+//         />
+//       </div>
+
+//       {/* Main content */}
+//       <motion.div
+//         className="relative z-10 max-w-5xl mx-auto px-6 text-center"
+//         style={{ opacity, scale }}
+//       >
+//         {/* Animated badge */}
+//         <motion.div
+//           initial={{ opacity: 0, y: 30 }}
+//           whileInView={{ opacity: 1, y: 0 }}
+//           viewport={{ once: true }}
+//           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+//           className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-12 backdrop-blur-sm"
+//           style={{
+//             background: "rgba(255, 255, 255, 0.03)",
+//             border: "1px solid rgba(255, 255, 255, 0.1)",
+//           }}
+//         >
+//           <motion.span
+//             className="w-2 h-2 rounded-full bg-black dark:bg-white"
+
+//           />
+//           <span className="text-[13px] text-black dark:text-white/70 font-medium tracking-wide">
+//             Launching 2026{" "}
+//           </span>
+//         </motion.div>
+
+//         {/* Main headline */}
+//         <motion.div
+//           initial={{ opacity: 0, y: 50 }}
+//           whileInView={{ opacity: 1, y: 0 }}
+//           viewport={{ once: true }}
+//           transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+//           className="mb-8"
+//         >
+//           <h2
+//             className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-semibold tracking-tight leading-[0.9] text-black dark:text-white"
+//           >
+//             Dubai
+//           </h2>
+//           <motion.div
+//             initial={{ opacity: 0, y: 30 }}
+//             whileInView={{ opacity: 1, y: 0 }}
+//             viewport={{ once: true }}
+//             transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+//           >
+//             <span className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-semibold text-black dark:text-white/15 tracking-tight">
+//               is next.
+//             </span>
+//           </motion.div>
+//         </motion.div>
+
+//         {/* Subtext */}
+//         <motion.p
+//           initial={{ opacity: 0, y: 30 }}
+//           whileInView={{ opacity: 1, y: 0 }}
+//           viewport={{ once: true }}
+//           transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+//           className="text-lg md:text-xl text-black dark:text-white/40 max-w-2xl mx-auto leading-relaxed font-light mb-12"
+//         >
+//           The world's fastest-growing financial hub meets the future of
+//           payments.
+//           <br className="hidden md:block" />
+//           Private. Instant. Non-custodial.
+//         </motion.p>
+
+//         {/* Stats row */}
+//         <motion.div
+//           initial={{ opacity: 0, y: 30 }}
+//           whileInView={{ opacity: 1, y: 0 }}
+//           viewport={{ once: true }}
+//           transition={{ duration: 1, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+//           className="flex items-center justify-center gap-6 sm:gap-12 md:gap-20"
+//         >
+//           {[
+//             { value: "40+", label: "Banks" },
+//             { value: "180+", label: "Nationalities" },
+//             { value: "$2T+", label: "Annual Trade" },
+//           ].map((stat, i) => (
+//             <motion.div
+//               key={stat.label}
+//               className="text-center"
+//               initial={{ opacity: 0, y: 20 }}
+//               whileInView={{ opacity: 1, y: 0 }}
+//               viewport={{ once: true }}
+//               transition={{ duration: 0.8, delay: 0.8 + i * 0.1 }}
+//             >
+//               <div className="text-xl sm:text-2xl md:text-3xl font-semibold text-black dark:text-white mb-1">
+//                 {stat.value}
+//               </div>
+//               <div className="text-[9px] sm:text-[11px] uppercase tracking-[0.15em] sm:tracking-[0.2em] text-black dark:text-white/30">
+//                 {stat.label}
+//               </div>
+//             </motion.div>
+//           ))}
+//         </motion.div>
+//       </motion.div>
+
+//       {/* Bottom fade */}
+//       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white dark:from-black to-transparent" />
+//     </section>
+//     </>
+//   );
+// };
+
+// export default UAESection;
+
 import { useRef } from "react";
-import { ArrowRight, MapPin, Zap } from "lucide-react";
-import { Link } from "react-router-dom";
+import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import dubai from "../../../public/Dubai.jpeg";
 
 /* ============================================
-   SECTION 8: DUBAI LAUNCH
-   UAE / Dubai pilot — futuristic with real Dubai photo
+   SECTION 2: UAE ANNOUNCEMENT - Apple-style cinematic
    ============================================ */
 
-const corridors = [
-  { from: "🇦🇪", fromLabel: "UAE", fromCcy: "AED", to: "🇮🇳", toLabel: "India", toCcy: "INR", volume: "$4.2B/yr", delay: 0 },
-  { from: "🇦🇪", fromLabel: "UAE", fromCcy: "USDT", to: "💵", toLabel: "USD", toCcy: "USD", volume: "$6.1B/yr", delay: 0.1 },
-  { from: "🇦🇪", fromLabel: "UAE", fromCcy: "AED", to: "🇵🇭", toLabel: "Philippines", toCcy: "PHP", volume: "$1.6B/yr", delay: 0.2 },
-];
-
-const stats = [
-  { value: "30%", label: "UAE crypto adoption" },
-  { value: "Q2 2025", label: "Dubai beta launch" },
-  { value: "3", label: "Live corridors" },
-];
-
 const UAESection = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef(null);
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],
   });
 
-  const imgY = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
-  const overlayOpacity = useTransform(scrollYProgress, [0, 0.4, 1], [0.75, 0.65, 0.8]);
+  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
+  const scale = useTransform(
+    scrollYProgress,
+    [0, 0.3, 0.7, 1],
+    [0.9, 1, 1, 0.9],
+  );
+
+  const smoothConfig = {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
+  };
+
+  // Floating elements
+  const float1Y = useTransform(scrollYProgress, [0, 1], [100, -150]);
+  const float2Y = useTransform(scrollYProgress, [0, 1], [50, -200]);
+  const float3Y = useTransform(scrollYProgress, [0, 1], [150, -100]);
+  const rotateOrb = useTransform(scrollYProgress, [0, 1], [0, 180]);
 
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#FAF8F5] dark:bg-black"
     >
-      {/* Dubai photo — parallax */}
-      <motion.div
-        className="absolute inset-0 w-full h-full"
-        style={{ y: imgY }}
-      >
-        <img
-          src="/Dubai.jpeg"
-          alt="Dubai skyline"
-          className="w-full h-full object-cover object-center scale-110"
-        />
-      </motion.div>
-
-      {/* Dark overlay — layered for depth */}
-      <motion.div
-        className="absolute inset-0"
-        style={{ opacity: overlayOpacity }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/90" />
-      </motion.div>
-
-      {/* Orange accent glow — brand color */}
-      <div className="absolute inset-0 pointer-events-none">
+      {/* Background */}
+      <div className="absolute inset-0">
+        {/* Top glow - dark mode only */}
         <motion.div
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[900px] h-[400px] rounded-full"
-          style={{ background: "radial-gradient(ellipse, rgba(255,107,53,0.12) 0%, transparent 70%)" }}
-          animate={{ opacity: [0.6, 1, 0.6] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] rounded-full hidden dark:block"
+          style={{
+            background:
+              "radial-gradient(ellipse, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 40%, transparent 70%)",
+            y: float1Y,
+          }}
         />
+
+        {/* Floating glow - dark mode only */}
         <motion.div
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full"
-          style={{ background: "radial-gradient(ellipse, rgba(0,229,153,0.06) 0%, transparent 70%)" }}
-          animate={{ opacity: [0.4, 0.8, 0.4] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          className="absolute top-1/3 right-1/4 w-[500px] h-[500px] rounded-full hidden dark:block"
+          style={{
+            background:
+              "radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 60%)",
+            y: float2Y,
+            rotate: rotateOrb,
+          }}
+        />
+
+        {/* Bottom glow - dark mode only */}
+        <motion.div
+          className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] rounded-full hidden dark:block"
+          style={{
+            background:
+              "radial-gradient(circle, rgba(255,255,255,0.02) 0%, transparent 70%)",
+            y: float3Y,
+          }}
+        />
+
+        {/* Image parallax */}
+        <motion.div className="absolute inset-0 z-0 max-w-7xl mx-auto rounded-3xl px-4 sm:px-6">
+          <img
+            src={dubai}
+            alt="Dubai skyline"
+            className="w-full h-full object-cover rounded-3xl dark:opacity-100"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-transparent dark:from-black/80 dark:via-black/60 dark:to-black lg:mr-6" />
+        </motion.div>
+
+        {/* Grid overlay */}
+        <div
+          className="absolute inset-0 opacity-[0.02]"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)
+            `,
+            backgroundSize: "80px 80px",
+          }}
         />
       </div>
 
-      {/* Animated scan line */}
+      {/* Content */}
       <motion.div
-        className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent pointer-events-none"
-        animate={{ top: ["0%", "100%"] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-      />
-
-      <div className="relative z-10 w-full max-w-6xl mx-auto px-6 py-24 md:py-40">
-        {/* Label */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="flex justify-center mb-6"
-        >
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/[0.15] bg-white/[0.06] backdrop-blur-sm">
-            <MapPin className="w-3 h-3 text-[#ff6b35]" strokeWidth={1.5} />
-            <span className="text-[10px] uppercase tracking-[0.25em] text-white/60 font-semibold">
-              Dubai, UAE · First market
+        className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 text-center"
+        style={{ opacity, scale }}
+      >
+        <div className="bg-white/30 dark:bg-black/40 backdrop-blur-md border border-white/40 dark:border-white/[0.06] rounded-3xl px-8 sm:px-14 py-12 sm:py-16 shadow-[0_8px_60px_-12px_rgba(0,0,0,0.12)] dark:shadow-none">
+          {/* Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1 }}
+            className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-10 bg-black/[0.04] dark:bg-white/[0.04] border border-black/10 dark:border-white/10"
+          >
+            <span className="w-2 h-2 rounded-full bg-black dark:bg-white" />
+            <span className="text-xs text-black/70 dark:text-white/70 tracking-wide">
+              Launching 2026
             </span>
-            <motion.div
-              className="w-1.5 h-1.5 rounded-full bg-[#00e599]"
-              animate={{ opacity: [1, 0.3, 1] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-            />
+          </motion.div>
+
+          {/* Headline */}
+          <h2 className="font-display text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-semibold tracking-tight text-black dark:text-white leading-[0.9]">
+            Dubai
+          </h2>
+          <span className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-semibold text-black/80 dark:text-white/15 relative inline-block">
+            <span className="relative z-10">is next.</span>
+            {/* <motion.span
+              className="absolute -bottom-1 left-0 right-0 h-[1.5px] rounded-full bg-gradient-to-r from-black/40 via-black/25 to-transparent dark:from-white/40 dark:via-white/25 dark:to-transparent"
+              initial={{ scaleX: 0, originX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{
+                duration: 1.2,
+                delay: 0.8,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+            /> */}
+          </span>
+
+          {/* Subtext */}
+          <p className="mt-8 text-lg md:text-xl text-black/60 dark:text-white/40 font-medium max-w-2xl mx-auto">
+            The world's fastest-growing financial hub meets the future of
+            payments.
+            <br className="hidden md:block" />
+            Private. Instant. Non-custodial.
+          </p>
+
+          {/* Stats */}
+          <div className="mt-12 flex justify-center gap-10">
+            {[
+              { value: "40+", label: "Banks" },
+              { value: "$2T+", label: "Annual Trade" },
+            ].map((stat) => (
+              <div key={stat.label} className="text-center">
+                <div className="text-2xl md:text-3xl font-semibold text-black dark:text-white">
+                  {stat.value}
+                </div>
+                <div className="text-[10px] tracking-widest text-black/40 dark:text-white/30 font-medium uppercase">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
           </div>
-        </motion.div>
-
-        {/* Heading */}
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[1.05] text-center mb-6"
-        >
-          Launching in
-          <br />
-          <span className="text-white/50">Dubai.</span>
-        </motion.h2>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.15 }}
-          className="text-base md:text-lg text-white/50 font-medium max-w-lg mx-auto text-center leading-relaxed mb-14"
-        >
-          The UAE is the world's fastest-growing crypto hub. Blip's pilot starts here — live corridors, merchant onboarding, and on-chain settlement from day one.
-        </motion.p>
-
-        {/* Stats row */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="flex justify-center gap-10 md:gap-20 mb-14"
-        >
-          {stats.map((stat, i) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.3 + i * 0.1 }}
-              className="text-center"
-            >
-              <div className="font-display text-2xl md:text-3xl font-bold text-white tracking-tight">
-                {stat.value}
-              </div>
-              <div className="text-[10px] uppercase tracking-[0.15em] text-white/30 font-semibold mt-1 max-w-[90px] mx-auto leading-tight">
-                {stat.label}
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Corridor cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-14">
-          {corridors.map((corridor, i) => (
-            <motion.div
-              key={corridor.toLabel}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: corridor.delay }}
-              whileHover={{ y: -4, borderColor: "rgba(255,107,53,0.35)" }}
-              className="relative p-5 rounded-2xl border border-white/[0.1] bg-white/[0.05] backdrop-blur-md overflow-hidden group transition-all duration-300"
-            >
-              {/* Hover glow */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#ff6b35]/0 to-[#ff6b35]/0 group-hover:from-[#ff6b35]/[0.05] group-hover:to-transparent transition-all duration-500 rounded-2xl" />
-
-              <div className="relative">
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="text-xl">{corridor.from}</span>
-                  <div className="flex-1 flex items-center gap-1">
-                    <div className="h-px flex-1 bg-white/20" />
-                    <motion.div
-                      className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]"
-                      animate={{ x: [-8, 8, -8] }}
-                      transition={{ duration: 2 + i * 0.5, repeat: Infinity, ease: "easeInOut" }}
-                    />
-                    <div className="h-px flex-1 bg-white/20" />
-                  </div>
-                  <span className="text-xl">{corridor.to}</span>
-                </div>
-
-                <div className="text-sm font-semibold text-white mb-1.5">
-                  {corridor.fromCcy} → {corridor.toCcy}
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] uppercase tracking-wider text-white/30 font-semibold">
-                    {corridor.fromLabel} → {corridor.toLabel}
-                  </span>
-                  <span className="text-xs text-[#00e599] font-mono font-semibold">
-                    {corridor.volume}
-                  </span>
-                </div>
-              </div>
-            </motion.div>
-          ))}
         </div>
+      </motion.div>
 
-        {/* CTA buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.35 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
-        >
-          <Link
-            to="/waitlist"
-            className="group relative overflow-hidden inline-flex items-center justify-center gap-3 px-8 h-[52px] rounded-full bg-[#ff6b35] text-white text-sm font-semibold transition-all duration-300 hover:bg-[#ff8050]"
-          >
-            <Zap className="w-4 h-4" strokeWidth={2} />
-            <span>Join Dubai Beta</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Link>
-
-          <Link
-            to="/merchant"
-            className="inline-flex items-center gap-2 text-sm text-white/50 font-medium hover:text-white/80 transition-colors border border-white/[0.12] px-6 h-[52px] rounded-full hover:border-white/25 backdrop-blur-sm"
-          >
-            Merchant onboarding
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-        </motion.div>
-      </div>
+      {/* Bottom fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-transparent dark:from-black to-transparent" />
     </section>
   );
 };

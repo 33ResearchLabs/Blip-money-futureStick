@@ -36,6 +36,7 @@ const MerchantDashboard = lazy(() => import("./pages/Waitlist/MerchantDashboard"
 const MerchantLogin = lazy(() => import("./pages/Waitlist/MerchantLogin").then((m) => ({ default: m.MerchantLogin })));
 const MerchantRegister = lazy(() => import("./pages/Waitlist/MerchantRegister"));
 const SuperAdminDashboard = lazy(() => import("./pages/Waitlist/SuperAdminDashboard"));
+const RedeemTelegram = lazy(() => import("./pages/Waitlist/RedeemTelegram"));
 
 // Lazy load page components
 const Index = lazy(() => import("./pages/Index"));
@@ -310,6 +311,9 @@ const App = () => (
                       </ProtectedRoute>
                     }
                   />
+
+                  {/* REDEEM TELEGRAM (public — handles auth internally) */}
+                  <Route path="/redeem" element={<RedeemTelegram />} />
 
                   {/* 404 */}
                   <Route path="*" element={<NotFound />} />

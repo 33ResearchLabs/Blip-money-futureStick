@@ -16,6 +16,7 @@ import {
   LogOut,
   Trophy,
   TrendingUp,
+  Bot,
 } from "lucide-react";
 import {
   AreaChart,
@@ -107,6 +108,58 @@ interface VolumeChartPoint {
   cumulative: number;
 }
 
+interface BotMerchantEntry {
+  _id: string;
+  telegram_id: string;
+  username: string | null;
+  first_name: string | null;
+  role: string;
+  use_case: string;
+  volume: string;
+  corridor: string;
+  integration_speed: string;
+  liquidity_role: string;
+  contact_method: string;
+  wallet: string | null;
+  status: string;
+  tier: string;
+  priority: boolean;
+  createdAt: string;
+}
+
+interface BotMerchantStats {
+  total: number;
+  pending: number;
+  approved: number;
+  rejected: number;
+}
+
+interface BotUserEntry {
+  _id: string;
+  telegram_id: string;
+  username: string | null;
+  name: string | null;
+  country: string | null;
+  role: string | null;
+  points: number;
+  referrals: number;
+  onboarded: boolean;
+  tasks_completed: {
+    telegram_group: boolean;
+    twitter_follow: boolean;
+    retweet: boolean;
+  };
+  join_date: string;
+  createdAt: string;
+}
+
+interface BotUserStats {
+  total: number;
+  onboarded: number;
+  totalPoints: number;
+  totalReferrals: number;
+}
+
 interface Pagination {
   total: number;
   page: number;
@@ -163,7 +216,7 @@ export default function SuperAdminDashboard() {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<"overview" | "users" | "referrals" | "volume">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "users" | "referrals" | "volume" | "bot-merchants" | "bot-users">("overview");
 
   // Stats
   const [stats, setStats] = useState<SuperadminStats | null>(null);
@@ -190,6 +243,25 @@ export default function SuperAdminDashboard() {
 
   // Volume
   const [volumes, setVolumes] = useState<VolumeCommitmentEntry[]>([]);
+
+  // Bot Merchants
+  const [botMerchants, setBotMerchants] = useState<BotMerchantEntry[]>([]);
+  const [botMerchantStats, setBotMerchantStats] = useState<BotMerchantStats | null>(null);
+  const [botMerchantsPagination, setBotMerchantsPagination] = useState<Pagination | null>(null);
+  const [botMerchantsPage, setBotMerchantsPage] = useState(1);
+  const [botMerchantsStatusFilter, setBotMerchantsStatusFilter] = useState<string>("");
+  const [botMerchantsSearch, setBotMerchantsSearch] = useState("");
+  const [botMerchantsSearchInput, setBotMerchantsSearchInput] = useState("");
+
+  // Bot Users
+  const [botUsers, setBotUsers] = useState<BotUserEntry[]>([]);
+  const [botUserStats, setBotUserStats] = useState<BotUserStats | null>(null);
+  const [botUsersPagination, setBotUsersPagination] = useState<Pagination | null>(null);
+  const [botUsersPage, setBotUsersPage] = useState(1);
+  const [botUsersCountryFilter, setBotUsersCountryFilter] = useState<string>("");
+  const [botUsersOnboardedFilter, setBotUsersOnboardedFilter] = useState<string>("");
+  const [botUsersSearch, setBotUsersSearch] = useState("");
+  const [botUsersSearchInput, setBotUsersSearchInput] = useState("");
 
   // ── Data Fetching ──
 
@@ -253,6 +325,39 @@ export default function SuperAdminDashboard() {
     }
   }, []);
 
+  const fetchBotMerchants = useCallback(async () => {
+    try {
+      const res: any = await airdropApi.getBotMerchants(
+        botMerchantsPage,
+        20,
+        botMerchantsStatusFilter || undefined,
+        botMerchantsSearch || undefined
+      );
+      setBotMerchants(res.merchants || []);
+      setBotMerchantStats(res.stats || null);
+      setBotMerchantsPagination(res.pagination || null);
+    } catch (e) {
+      // Failed to fetch bot merchants
+    }
+  }, [botMerchantsPage, botMerchantsStatusFilter, botMerchantsSearch]);
+
+  const fetchBotUsers = useCallback(async () => {
+    try {
+      const res: any = await airdropApi.getBotUsers(
+        botUsersPage,
+        20,
+        botUsersCountryFilter || undefined,
+        botUsersOnboardedFilter || undefined,
+        botUsersSearch || undefined
+      );
+      setBotUsers(res.botUsers || []);
+      setBotUserStats(res.stats || null);
+      setBotUsersPagination(res.pagination || null);
+    } catch (e) {
+      // Failed to fetch bot users
+    }
+  }, [botUsersPage, botUsersCountryFilter, botUsersOnboardedFilter, botUsersSearch]);
+
   // Initial load
   useEffect(() => {
     if (user?.role !== "ADMIN") {
@@ -267,7 +372,9 @@ export default function SuperAdminDashboard() {
     if (activeTab === "users") fetchUsers();
     if (activeTab === "referrals") fetchReferrals();
     if (activeTab === "volume") fetchVolumes();
-  }, [activeTab, fetchUsers, fetchReferrals, fetchVolumes]);
+    if (activeTab === "bot-merchants") fetchBotMerchants();
+    if (activeTab === "bot-users") fetchBotUsers();
+  }, [activeTab, fetchUsers, fetchReferrals, fetchVolumes, fetchBotMerchants, fetchBotUsers]);
 
   const handleLogout = async () => {
     await logout();
@@ -277,6 +384,16 @@ export default function SuperAdminDashboard() {
   const handleSearch = () => {
     setUsersPage(1);
     setUsersSearch(searchInput);
+  };
+
+  const handleBotMerchantsSearch = () => {
+    setBotMerchantsPage(1);
+    setBotMerchantsSearch(botMerchantsSearchInput);
+  };
+
+  const handleBotUsersSearch = () => {
+    setBotUsersPage(1);
+    setBotUsersSearch(botUsersSearchInput);
   };
 
   if (loading) {
@@ -314,7 +431,7 @@ export default function SuperAdminDashboard() {
       <main className="max-w-[1400px] mx-auto px-6 py-8">
         {/* Nav Tabs */}
         <div className="flex gap-1 mb-8 bg-white/5 rounded-lg p-1 w-fit">
-          {(["overview", "users", "referrals", "volume"] as const).map((tab) => (
+          {(["overview", "users", "referrals", "volume", "bot-merchants", "bot-users"] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -324,7 +441,7 @@ export default function SuperAdminDashboard() {
                   : "text-white/60 hover:text-white"
               }`}
             >
-              {tab}
+              {tab === "bot-merchants" ? "Bot Merchants" : tab === "bot-users" ? "Bot Users" : tab}
             </button>
           ))}
         </div>
@@ -846,6 +963,432 @@ export default function SuperAdminDashboard() {
               </table>
             </div>
           </div>
+        )}
+
+        {/* ════════════════════ BOT MERCHANTS TAB ════════════════════ */}
+        {activeTab === "bot-merchants" && (
+          <>
+            {/* Stats Cards */}
+            {botMerchantStats && (
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                  <div className="flex items-center gap-2 text-white/40 mb-2">
+                    <Bot className="w-5 h-5" />
+                    <span className="text-xs uppercase tracking-wider">Total</span>
+                  </div>
+                  <p className="text-2xl font-bold font-mono">{formatNumber(botMerchantStats.total)}</p>
+                </div>
+                <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                  <div className="flex items-center gap-2 text-yellow-400/60 mb-2">
+                    <span className="w-2 h-2 rounded-full bg-yellow-400" />
+                    <span className="text-xs uppercase tracking-wider">Pending</span>
+                  </div>
+                  <p className="text-2xl font-bold font-mono">{formatNumber(botMerchantStats.pending)}</p>
+                </div>
+                <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                  <div className="flex items-center gap-2 text-green-400/60 mb-2">
+                    <span className="w-2 h-2 rounded-full bg-green-400" />
+                    <span className="text-xs uppercase tracking-wider">Approved</span>
+                  </div>
+                  <p className="text-2xl font-bold font-mono">{formatNumber(botMerchantStats.approved)}</p>
+                </div>
+                <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                  <div className="flex items-center gap-2 text-red-400/60 mb-2">
+                    <span className="w-2 h-2 rounded-full bg-red-400" />
+                    <span className="text-xs uppercase tracking-wider">Rejected</span>
+                  </div>
+                  <p className="text-2xl font-bold font-mono">{formatNumber(botMerchantStats.rejected)}</p>
+                </div>
+              </div>
+            )}
+
+            {/* Filters */}
+            <div className="flex flex-wrap items-center gap-3 mb-6">
+              <div className="flex gap-1 bg-white/5 rounded-lg p-1">
+                {[
+                  { label: "All", value: "" },
+                  { label: "Pending", value: "pending" },
+                  { label: "Approved", value: "approved" },
+                  { label: "Rejected", value: "rejected" },
+                ].map((opt) => (
+                  <button
+                    key={opt.value}
+                    onClick={() => {
+                      setBotMerchantsStatusFilter(opt.value);
+                      setBotMerchantsPage(1);
+                    }}
+                    className={`px-3 py-1.5 rounded-md text-sm transition ${
+                      botMerchantsStatusFilter === opt.value
+                        ? "bg-white text-black font-medium"
+                        : "text-white/60 hover:text-white"
+                    }`}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex items-center gap-2 ml-auto">
+                <div className="relative">
+                  <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-white/30" />
+                  <input
+                    type="text"
+                    placeholder="Search by username..."
+                    value={botMerchantsSearchInput}
+                    onChange={(e) => setBotMerchantsSearchInput(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && handleBotMerchantsSearch()}
+                    className="bg-white/5 border border-white/10 rounded-lg pl-9 pr-4 py-2 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-white/30 w-64"
+                  />
+                </div>
+                <button
+                  onClick={handleBotMerchantsSearch}
+                  className="px-4 py-2 bg-white/10 rounded-lg text-sm hover:bg-white/20 transition"
+                >
+                  Search
+                </button>
+              </div>
+            </div>
+
+            {/* Bot Merchants Table */}
+            <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-white/10 text-white/50 text-left">
+                      <th className="px-4 py-3 font-medium">Username</th>
+                      <th className="px-4 py-3 font-medium">Name</th>
+                      <th className="px-4 py-3 font-medium">Telegram ID</th>
+                      <th className="px-4 py-3 font-medium">Use Case</th>
+                      <th className="px-4 py-3 font-medium">Volume</th>
+                      <th className="px-4 py-3 font-medium">Corridor</th>
+                      <th className="px-4 py-3 font-medium">Tier</th>
+                      <th className="px-4 py-3 font-medium">Status</th>
+                      <th className="px-4 py-3 font-medium">Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {botMerchants.length === 0 ? (
+                      <tr>
+                        <td colSpan={9} className="px-4 py-12 text-center text-white/30">
+                          No bot merchants found
+                        </td>
+                      </tr>
+                    ) : (
+                      botMerchants.map((m) => (
+                        <tr key={m._id} className="border-b border-white/5 hover:bg-white/[0.02]">
+                          <td className="px-4 py-3 text-white/90">
+                            {m.username ? `@${m.username}` : "—"}
+                          </td>
+                          <td className="px-4 py-3 text-white/70">{m.first_name || "—"}</td>
+                          <td className="px-4 py-3 font-mono text-white/50 text-xs">{m.telegram_id}</td>
+                          <td className="px-4 py-3">
+                            <span className="text-xs px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 capitalize">
+                              {m.use_case}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3 text-white/70 capitalize">{m.volume?.replace(/_/g, "-")}</td>
+                          <td className="px-4 py-3 text-white/70 capitalize">{m.corridor}</td>
+                          <td className="px-4 py-3">
+                            <span
+                              className={`text-xs px-2 py-0.5 rounded-full ${
+                                m.tier === "Platinum"
+                                  ? "bg-purple-500/20 text-purple-400"
+                                  : m.tier === "Gold"
+                                  ? "bg-yellow-500/20 text-yellow-400"
+                                  : m.tier === "Silver"
+                                  ? "bg-gray-400/20 text-gray-300"
+                                  : "bg-orange-500/20 text-orange-400"
+                              }`}
+                            >
+                              {m.tier}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3">
+                            <span
+                              className={`text-xs px-2 py-0.5 rounded-full ${
+                                m.status === "approved"
+                                  ? "bg-green-500/20 text-green-400"
+                                  : m.status === "rejected"
+                                  ? "bg-red-500/20 text-red-400"
+                                  : "bg-yellow-500/20 text-yellow-400"
+                              }`}
+                            >
+                              {m.status}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3 text-white/50">{formatDate(m.createdAt)}</td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Pagination */}
+              {botMerchantsPagination && botMerchantsPagination.totalPages > 1 && (
+                <div className="flex items-center justify-between px-4 py-3 border-t border-white/10">
+                  <span className="text-sm text-white/40">
+                    Showing {(botMerchantsPagination.page - 1) * botMerchantsPagination.limit + 1}–
+                    {Math.min(botMerchantsPagination.page * botMerchantsPagination.limit, botMerchantsPagination.total)} of{" "}
+                    {botMerchantsPagination.total}
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setBotMerchantsPage((p) => Math.max(1, p - 1))}
+                      disabled={botMerchantsPage === 1}
+                      className="p-1.5 rounded-lg border border-white/10 text-white/60 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed"
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                    </button>
+                    <span className="text-sm text-white/60 min-w-[80px] text-center">
+                      Page {botMerchantsPagination.page} of {botMerchantsPagination.totalPages}
+                    </span>
+                    <button
+                      onClick={() => setBotMerchantsPage((p) => Math.min(botMerchantsPagination.totalPages, p + 1))}
+                      disabled={botMerchantsPage === botMerchantsPagination.totalPages}
+                      className="p-1.5 rounded-lg border border-white/10 text-white/60 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed"
+                    >
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </>
+        )}
+
+        {/* ════════════════════ BOT USERS TAB ════════════════════ */}
+        {activeTab === "bot-users" && (
+          <>
+            {/* Stats Cards */}
+            {botUserStats && (
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                  <div className="flex items-center gap-2 text-white/40 mb-2">
+                    <Users className="w-5 h-5" />
+                    <span className="text-xs uppercase tracking-wider">Total Bot Users</span>
+                  </div>
+                  <p className="text-2xl font-bold font-mono">{formatNumber(botUserStats.total)}</p>
+                </div>
+                <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                  <div className="flex items-center gap-2 text-green-400/60 mb-2">
+                    <CheckCircle className="w-5 h-5" />
+                    <span className="text-xs uppercase tracking-wider">Onboarded</span>
+                  </div>
+                  <p className="text-2xl font-bold font-mono">{formatNumber(botUserStats.onboarded)}</p>
+                </div>
+                <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                  <div className="flex items-center gap-2 text-yellow-400/60 mb-2">
+                    <Coins className="w-5 h-5" />
+                    <span className="text-xs uppercase tracking-wider">Total Points</span>
+                  </div>
+                  <p className="text-2xl font-bold font-mono">{formatNumber(botUserStats.totalPoints)}</p>
+                </div>
+                <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                  <div className="flex items-center gap-2 text-blue-400/60 mb-2">
+                    <Share2 className="w-5 h-5" />
+                    <span className="text-xs uppercase tracking-wider">Total Referrals</span>
+                  </div>
+                  <p className="text-2xl font-bold font-mono">{formatNumber(botUserStats.totalReferrals)}</p>
+                </div>
+              </div>
+            )}
+
+            {/* Filters */}
+            <div className="flex flex-wrap items-center gap-3 mb-6">
+              <div className="flex gap-1 bg-white/5 rounded-lg p-1">
+                {[
+                  { label: "All", value: "" },
+                  { label: "India", value: "India" },
+                  { label: "UAE", value: "UAE" },
+                  { label: "UK", value: "UK" },
+                  { label: "USA", value: "USA" },
+                  { label: "Other", value: "Other" },
+                ].map((opt) => (
+                  <button
+                    key={opt.value}
+                    onClick={() => {
+                      setBotUsersCountryFilter(opt.value);
+                      setBotUsersPage(1);
+                    }}
+                    className={`px-3 py-1.5 rounded-md text-sm transition ${
+                      botUsersCountryFilter === opt.value
+                        ? "bg-white text-black font-medium"
+                        : "text-white/60 hover:text-white"
+                    }`}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex gap-1 bg-white/5 rounded-lg p-1">
+                {[
+                  { label: "All", value: "" },
+                  { label: "Onboarded", value: "true" },
+                  { label: "Not Onboarded", value: "false" },
+                ].map((opt) => (
+                  <button
+                    key={opt.value}
+                    onClick={() => {
+                      setBotUsersOnboardedFilter(opt.value);
+                      setBotUsersPage(1);
+                    }}
+                    className={`px-3 py-1.5 rounded-md text-sm transition ${
+                      botUsersOnboardedFilter === opt.value
+                        ? "bg-white text-black font-medium"
+                        : "text-white/60 hover:text-white"
+                    }`}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex items-center gap-2 ml-auto">
+                <div className="relative">
+                  <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-white/30" />
+                  <input
+                    type="text"
+                    placeholder="Search by name or username..."
+                    value={botUsersSearchInput}
+                    onChange={(e) => setBotUsersSearchInput(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && handleBotUsersSearch()}
+                    className="bg-white/5 border border-white/10 rounded-lg pl-9 pr-4 py-2 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-white/30 w-64"
+                  />
+                </div>
+                <button
+                  onClick={handleBotUsersSearch}
+                  className="px-4 py-2 bg-white/10 rounded-lg text-sm hover:bg-white/20 transition"
+                >
+                  Search
+                </button>
+              </div>
+            </div>
+
+            {/* Bot Users Table */}
+            <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-white/10 text-white/50 text-left">
+                      <th className="px-4 py-3 font-medium">Name</th>
+                      <th className="px-4 py-3 font-medium">Username</th>
+                      <th className="px-4 py-3 font-medium">Country</th>
+                      <th className="px-4 py-3 font-medium">Role</th>
+                      <th className="px-4 py-3 font-medium text-right">Points</th>
+                      <th className="px-4 py-3 font-medium text-right">Referrals</th>
+                      <th className="px-4 py-3 font-medium text-center">Tasks</th>
+                      <th className="px-4 py-3 font-medium text-center">Onboarded</th>
+                      <th className="px-4 py-3 font-medium">Joined</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {botUsers.length === 0 ? (
+                      <tr>
+                        <td colSpan={9} className="px-4 py-12 text-center text-white/30">
+                          No bot users found
+                        </td>
+                      </tr>
+                    ) : (
+                      botUsers.map((u) => {
+                        const tasksCount = [
+                          u.tasks_completed?.telegram_group,
+                          u.tasks_completed?.twitter_follow,
+                          u.tasks_completed?.retweet,
+                        ].filter(Boolean).length;
+                        return (
+                          <tr key={u._id} className="border-b border-white/5 hover:bg-white/[0.02]">
+                            <td className="px-4 py-3 text-white/90">{u.name || "—"}</td>
+                            <td className="px-4 py-3 text-white/70">
+                              {u.username ? `@${u.username}` : "—"}
+                            </td>
+                            <td className="px-4 py-3">
+                              {u.country ? (
+                                <span className="text-xs px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400">
+                                  {u.country}
+                                </span>
+                              ) : (
+                                <span className="text-white/30">—</span>
+                              )}
+                            </td>
+                            <td className="px-4 py-3">
+                              {u.role ? (
+                                <span className="text-xs px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-400 capitalize">
+                                  {u.role}
+                                </span>
+                              ) : (
+                                <span className="text-white/30">—</span>
+                              )}
+                            </td>
+                            <td className="px-4 py-3 text-right font-mono text-white/80">
+                              {formatNumber(u.points)}
+                            </td>
+                            <td className="px-4 py-3 text-right font-mono text-white/80">
+                              {u.referrals}
+                            </td>
+                            <td className="px-4 py-3 text-center">
+                              <span
+                                className={`text-xs px-2 py-0.5 rounded-full ${
+                                  tasksCount === 3
+                                    ? "bg-green-500/20 text-green-400"
+                                    : tasksCount > 0
+                                    ? "bg-yellow-500/20 text-yellow-400"
+                                    : "bg-white/5 text-white/30"
+                                }`}
+                              >
+                                {tasksCount}/3
+                              </span>
+                            </td>
+                            <td className="px-4 py-3 text-center">
+                              {u.onboarded ? (
+                                <CheckCircle className="w-4 h-4 text-green-400 mx-auto" />
+                              ) : (
+                                <XCircle className="w-4 h-4 text-white/20 mx-auto" />
+                              )}
+                            </td>
+                            <td className="px-4 py-3 text-white/50">
+                              {formatDate(u.join_date || u.createdAt)}
+                            </td>
+                          </tr>
+                        );
+                      })
+                    )}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Pagination */}
+              {botUsersPagination && botUsersPagination.totalPages > 1 && (
+                <div className="flex items-center justify-between px-4 py-3 border-t border-white/10">
+                  <span className="text-sm text-white/40">
+                    Showing {(botUsersPagination.page - 1) * botUsersPagination.limit + 1}–
+                    {Math.min(botUsersPagination.page * botUsersPagination.limit, botUsersPagination.total)} of{" "}
+                    {botUsersPagination.total}
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setBotUsersPage((p) => Math.max(1, p - 1))}
+                      disabled={botUsersPage === 1}
+                      className="p-1.5 rounded-lg border border-white/10 text-white/60 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed"
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                    </button>
+                    <span className="text-sm text-white/60 min-w-[80px] text-center">
+                      Page {botUsersPagination.page} of {botUsersPagination.totalPages}
+                    </span>
+                    <button
+                      onClick={() => setBotUsersPage((p) => Math.min(botUsersPagination.totalPages, p + 1))}
+                      disabled={botUsersPage === botUsersPagination.totalPages}
+                      className="p-1.5 rounded-lg border border-white/10 text-white/60 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed"
+                    >
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </>
         )}
       </main>
     </div>

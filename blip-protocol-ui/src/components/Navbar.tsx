@@ -5,6 +5,7 @@ import {
   ArrowRight,
   Sun,
   Moon,
+  Zap,
   Menu,
   X,
 } from "lucide-react";
@@ -146,10 +147,6 @@ export const Logo = ({ className = "" }) => {
         <span className="text-black dark:text-white">Blip</span>
         <span className="relative text-black dark:text-white ml-1 italic">
           money
-          {/* <motion.span
-            className="absolute -bottom-1 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-black/50 dark:from-white/50 to-transparent opacity-0 group-hover:opacity-100"
-            transition={{ duration: 0.3 }}
-          /> */}
         </span>
       </motion.span>
     </Link>

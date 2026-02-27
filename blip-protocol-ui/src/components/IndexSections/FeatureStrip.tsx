@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Zap, Lock, Eye, CheckCircle2, Star, LayoutDashboard } from "lucide-react";
+import { Zap, Lock, Eye, CheckCircle2 } from "lucide-react";
 import { MicroIcon } from "../visuals/MicroIcon";
 
 /* ============================================
@@ -24,12 +24,10 @@ const FeatureStrip = () => {
           {/* Centered block (like button) */}
           <div className="w-fit md:flex gap-12">
             {[
-              { text: "Instant settlement", icon: Zap },
-              { text: "Reputation layer", icon: Star },
-              { text: "Escrow protection", icon: Lock },
-              { text: "On-demand liquidity", icon: CheckCircle2 },
-              { text: "Chain-agnostic", icon: Eye },
-              { text: "Merchant dashboard", icon: LayoutDashboard },
+              { text: "Sub-second settlement", icon: Zap },
+              { text: "Zero custody", icon: Lock },
+              { text: "Privacy by default", icon: Eye },
+              { text: "On-chain proofs", icon: CheckCircle2 },
             ].map((feature, i) => (
               <motion.div
   key={feature.text}

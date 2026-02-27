@@ -54,19 +54,23 @@ if (isProduction && cluster.isPrimary) {
     helmet({
       crossOriginResourcePolicy: { policy: "cross-origin" },
       crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
-      contentSecurityPolicy: isProduction ? {
-        directives: {
-          defaultSrc: ["'self'"],
-          scriptSrc: ["'self'"],
-          styleSrc: ["'self'", "'unsafe-inline'"],
-          imgSrc: ["'self'", "data:", "https:"],
-          connectSrc: ["'self'", process.env.CLIENT_URL],
-          fontSrc: ["'self'", "https://fonts.gstatic.com"],
-          objectSrc: ["'none'"],
-          frameAncestors: ["'none'"],
-        },
-      } : false,
-      hsts: isProduction ? { maxAge: 31536000, includeSubDomains: true, preload: true } : false,
+      contentSecurityPolicy: isProduction
+        ? {
+            directives: {
+              defaultSrc: ["'self'"],
+              scriptSrc: ["'self'"],
+              styleSrc: ["'self'", "'unsafe-inline'"],
+              imgSrc: ["'self'", "data:", "https:"],
+              connectSrc: ["'self'", process.env.CLIENT_URL],
+              fontSrc: ["'self'", "https://fonts.gstatic.com"],
+              objectSrc: ["'none'"],
+              frameAncestors: ["'none'"],
+            },
+          }
+        : false,
+      hsts: isProduction
+        ? { maxAge: 31536000, includeSubDomains: true, preload: true }
+        : false,
       referrerPolicy: { policy: "strict-origin-when-cross-origin" },
     }),
   );
@@ -109,7 +113,7 @@ if (isProduction && cluster.isPrimary) {
 
   // CORS
   const allowedOrigins = process.env.CLIENT_URL
-    ? process.env.CLIENT_URL.split(",").map(o => o.trim())
+    ? process.env.CLIENT_URL.split(",").map((o) => o.trim())
     : [];
 
   app.use(

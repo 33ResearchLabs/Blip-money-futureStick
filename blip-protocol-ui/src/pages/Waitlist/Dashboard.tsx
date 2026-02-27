@@ -37,6 +37,7 @@ import WalletLinkingModal from "@/components/WalletLinkingModal";
 import TwitterVerificationModal from "@/components/TwitterVerificationModal";
 import TelegramVerificationModal from "@/components/TelegramVerificationModal";
 import { Footer } from "@/components/Footer";
+import { airdropApi } from "@/services/Airdrop";
 
 // --- Global Styles & Keyframes ---
 const GlobalStyles = () => (
@@ -753,6 +754,26 @@ export default function BlipDashboard() {
     if (user && booted) checkRewardStatus();
   }, [user, booted]);
 
+  // Telegram link status
+  const [telegramLink, setTelegramLink] = useState<{
+    linked: boolean;
+    telegram_username?: string;
+    telegramPoints: number;
+    totalPoints: number;
+  } | null>(null);
+
+  useEffect(() => {
+    const fetchTelegramLink = async () => {
+      try {
+        const res = await airdropApi.getRedeemStatus() as any;
+        if (res.success) setTelegramLink(res.data);
+      } catch {
+        // ignore
+      }
+    };
+    if (user && booted) fetchTelegramLink();
+  }, [user, booted]);
+
   if (!booted) {
     return (
       <>
@@ -1103,6 +1124,68 @@ export default function BlipDashboard() {
                 <Wallet className="w-4 h-4" />
                 Connect Wallet
               </button>
+            </div>
+          </div>
+        )}
+
+        {/* ===== TELEGRAM LINK BANNER ===== */}
+        {telegramLink && !telegramLink.linked && (
+          <div className="mb-6 bg-gradient-to-r from-blue-500/10 via-indigo-500/10 to-blue-500/10 border border-blue-500/30 dark:border-blue-400/30 rounded-sm p-6 animate-in fade-in slide-in-from-top-4 duration-500">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-blue-500/20 dark:bg-blue-400/20 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Globe className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-black dark:text-white mb-1">
+                    Link Telegram Bot
+                  </h3>
+                  <p className="text-sm text-black/70 dark:text-white/70">
+                    Link your Telegram bot account to merge your Blip Points. Use /redeem in the bot to get an OTP code.
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => navigate("/redeem")}
+                className="whitespace-nowrap px-6 py-3 bg-black dark:bg-white text-white dark:text-black font-bold text-sm uppercase tracking-wider hover:opacity-90 transition-all flex items-center gap-2 shadow-lg"
+              >
+                <Globe className="w-4 h-4" />
+                Link Telegram
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Telegram linked — show aggregated points */}
+        {telegramLink && telegramLink.linked && telegramLink.telegramPoints > 0 && (
+          <div className="mb-6 bg-white dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-sm p-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-green-500/20 rounded-full flex items-center justify-center">
+                  <CheckCircle className="w-5 h-5 text-green-500" />
+                </div>
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-widest text-black/60 dark:text-white/50">
+                    Telegram Linked
+                    {telegramLink.telegram_username && (
+                      <span className="normal-case tracking-normal font-normal ml-2 text-black/40 dark:text-white/30">
+                        @{telegramLink.telegram_username}
+                      </span>
+                    )}
+                  </p>
+                  <div className="flex items-center gap-4 mt-1">
+                    <span className="text-sm text-black/60 dark:text-white/50">
+                      Website: <span className="font-bold text-black dark:text-white">{blipPoints}</span>
+                    </span>
+                    <span className="text-sm text-black/60 dark:text-white/50">
+                      Telegram: <span className="font-bold text-black dark:text-white">{telegramLink.telegramPoints}</span>
+                    </span>
+                    <span className="text-sm text-orange-500 font-bold">
+                      Total: {telegramLink.totalPoints}
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         )}

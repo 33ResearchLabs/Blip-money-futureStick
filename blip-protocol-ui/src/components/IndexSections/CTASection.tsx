@@ -80,10 +80,10 @@ const CTASection = () => {
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           className="font-display text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tight leading-[0.95] mb-6 sm:mb-8"
         >
-          <span className="text-black dark:text-white">Join the merchant</span>
+          <span className="text-black dark:text-white">The future</span>
           <br />
           <span className="text-black/80 dark:text-white/40">
-            network.
+            is borderless.
           </span>
         </motion.h2>
 
@@ -94,7 +94,7 @@ const CTASection = () => {
           transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           className="text-base sm:text-lg text-black dark:text-white/40 font-medium max-w-md mx-auto mb-8 sm:mb-12 px-4"
         >
-          Access global liquidity. Start trading instantly.
+          Join waitlist and be among the first.
         </motion.p>
 
         <motion.div
@@ -102,22 +102,15 @@ const CTASection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
-          <CTAButton to="/waitlist" className="w-[180px] h-[48px]">Join Waitlist</CTAButton>
-          <Link
-            to="/merchant"
-            className="inline-flex items-center justify-center w-[180px] h-[48px] rounded-full border border-black/20 dark:border-white/20 text-black/60 dark:text-white/40 text-sm font-medium hover:border-black/40 dark:hover:border-white/40 hover:text-black dark:hover:text-white/70 transition-all duration-300"
+          {/* <Link
+            to="/waitlist"
+            className="group inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-full bg-white text-black text-sm sm:text-base font-semibold hover:bg-white/90 transition-all duration-300"
           >
-            Become a Merchant
-          </Link>
-          <Link
-            to="/whitepaper"
-            className="inline-flex items-center gap-1.5 text-sm text-black/40 dark:text-white/30 font-medium hover:text-black/70 dark:hover:text-white/50 transition-colors"
-          >
-            Read Whitepaper
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
+            <span>Join Waitlist</span>
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          </Link> */}
+          <CTAButton to="/waitlist" className="w-[220px] h-[48px]">Waitlist</CTAButton>
         </motion.div>
       </motion.div>
     </section>
