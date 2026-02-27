@@ -62,10 +62,10 @@ const CARDS = [
 
 /* ── Bento stats ── */
 const BENTO = [
-  { val: "<2s",           lbl: "Settlement" },
-  { val: "0.1%",          lbl: "Fee" },
+  { val: "<2s", lbl: "Settlement" },
+  { val: "0.1%", lbl: "Fee" },
   { val: "Non-custodial", lbl: "You keep control" },
-  { val: "On-chain",      lbl: "Full transparency" },
+  { val: "On-chain", lbl: "Full transparency" },
 ];
 
 const ProblemSection = () => (
@@ -105,8 +105,14 @@ const ProblemSection = () => (
       }}
     />
 
-    <div style={{ maxWidth: 1120, margin: "0 auto", position: "relative", zIndex: 1 }}>
-
+    <div
+      style={{
+        maxWidth: 1120,
+        margin: "0 auto",
+        position: "relative",
+        zIndex: 1,
+      }}
+    >
       {/* ── Header ── */}
       <motion.p
         initial={{ opacity: 0, y: 8 }}
@@ -140,8 +146,15 @@ const ProblemSection = () => (
           marginBottom: 20,
         }}
       >
-        <span style={{ color: "#ffffff", display: "block" }}>Global payments</span>
-        <span style={{ color: "#333333", display: "block" }}>are broken.</span>
+        <span style={{ color: "#ffffff", display: "block" }}>
+          Global payments
+        </span>
+        <span
+          style={{ display: "block" }}
+          className="text-black/50 dark:text-white/40"
+        >
+          are broken.
+        </span>
       </motion.h2>
 
       <motion.p
@@ -193,7 +206,8 @@ const ProblemSection = () => (
                 0 2px 4px rgba(0,0,0,0.55),
                 0 16px 48px rgba(0,0,0,0.65)
               `,
-              transition: "box-shadow 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+              transition:
+                "box-shadow 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
             }}
           >
             {/* Top-edge highlight */}
@@ -201,9 +215,12 @@ const ProblemSection = () => (
               aria-hidden
               style={{
                 position: "absolute",
-                top: 0, left: 0, right: 0,
+                top: 0,
+                left: 0,
+                right: 0,
                 height: 1,
-                background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.11) 50%, transparent 100%)",
+                background:
+                  "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.11) 50%, transparent 100%)",
                 pointerEvents: "none",
                 zIndex: 10,
               }}
@@ -326,7 +343,9 @@ const ProblemSection = () => (
               <div
                 style={{
                   position: "absolute",
-                  bottom: 0, left: 0, right: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
                   height: 3,
                   background: "rgba(255,255,255,0.04)",
                   zIndex: 3,
@@ -387,9 +406,12 @@ const ProblemSection = () => (
           aria-hidden
           style={{
             position: "absolute",
-            top: -60, left: -60,
-            width: 280, height: 280,
-            background: "radial-gradient(circle, rgba(255,107,53,0.08) 0%, transparent 70%)",
+            top: -60,
+            left: -60,
+            width: 280,
+            height: 280,
+            background:
+              "radial-gradient(circle, rgba(255,107,53,0.08) 0%, transparent 70%)",
             pointerEvents: "none",
           }}
         />
@@ -398,9 +420,12 @@ const ProblemSection = () => (
           aria-hidden
           style={{
             position: "absolute",
-            top: 0, left: 0, right: 0,
+            top: 0,
+            left: 0,
+            right: 0,
             height: 1,
-            background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%)",
+            background:
+              "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%)",
             pointerEvents: "none",
             zIndex: 2,
           }}
@@ -428,8 +453,18 @@ const ProblemSection = () => (
           >
             <motion.div
               animate={{ opacity: [1, 0.4, 1] }}
-              transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-              style={{ width: 5, height: 5, borderRadius: "50%", background: "#ff6b35", flexShrink: 0 }}
+              transition={{
+                duration: 1.6,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              style={{
+                width: 5,
+                height: 5,
+                borderRadius: "50%",
+                background: "#ff6b35",
+                flexShrink: 0,
+              }}
             />
             The Fix
           </div>
@@ -461,7 +496,9 @@ const ProblemSection = () => (
               maxWidth: 340,
             }}
           >
-            Instant settlement. Minimal fees.<br />Complete privacy.
+            Instant settlement. Minimal fees.
+            <br />
+            Complete privacy.
           </p>
 
           <Link
@@ -481,10 +518,12 @@ const ProblemSection = () => (
               transition: "background 0.22s",
             }}
             onMouseEnter={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.background = "#ff7e4a";
+              (e.currentTarget as HTMLAnchorElement).style.background =
+                "#ff7e4a";
             }}
             onMouseLeave={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,107,53,0.9)";
+              (e.currentTarget as HTMLAnchorElement).style.background =
+                "rgba(255,107,53,0.9)";
             }}
           >
             Join Waitlist <ArrowRight style={{ width: 13, height: 13 }} />
@@ -508,9 +547,12 @@ const ProblemSection = () => (
               key={stat.lbl}
               style={{
                 padding: "26px 28px 22px",
-                background: i === 0 ? "rgba(255,107,53,0.05)" : "rgba(255,255,255,0.012)",
-                borderRight: i % 2 === 0 ? "1px solid rgba(255,255,255,0.075)" : undefined,
-                borderBottom: i < 2 ? "1px solid rgba(255,255,255,0.075)" : undefined,
+                background:
+                  i === 0 ? "rgba(255,107,53,0.05)" : "rgba(255,255,255,0.012)",
+                borderRight:
+                  i % 2 === 0 ? "1px solid rgba(255,255,255,0.075)" : undefined,
+                borderBottom:
+                  i < 2 ? "1px solid rgba(255,255,255,0.075)" : undefined,
                 transition: "background 0.22s",
               }}
               onMouseEnter={(e) => {
@@ -531,7 +573,8 @@ const ProblemSection = () => (
                   marginBottom: 5,
                   ...(i === 0
                     ? {
-                        background: "linear-gradient(135deg, #ffffff 20%, #ff8c50 100%)",
+                        background:
+                          "linear-gradient(135deg, #ffffff 20%, #ff8c50 100%)",
                         WebkitBackgroundClip: "text",
                         WebkitTextFillColor: "transparent",
                         backgroundClip: "text",
@@ -556,7 +599,6 @@ const ProblemSection = () => (
           ))}
         </div>
       </motion.div>
-
     </div>
   </section>
 );

@@ -60,7 +60,6 @@ const CinematicHero = () => (
 
     {/* Content */}
     <main className="relative z-10 w-full max-w-[860px] mx-auto px-6 md:px-10 pt-28 pb-44 text-center">
-
       {/* Eyebrow */}
       <motion.p
         initial={{ opacity: 0, y: 8 }}
@@ -172,10 +171,12 @@ const CinematicHero = () => (
               transition: "background 0.2s",
             }}
             onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLAnchorElement).style.background = "#e8e8e8")
+              ((e.currentTarget as HTMLAnchorElement).style.background =
+                "#e8e8e8")
             }
             onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLAnchorElement).style.background = "#ffffff")
+              ((e.currentTarget as HTMLAnchorElement).style.background =
+                "#ffffff")
             }
           >
             Join Waitlist
@@ -220,27 +221,6 @@ const CinematicHero = () => (
         </motion.div>
       </motion.div>
     </main>
-
-    {/* Status bar — fixed to viewport bottom */}
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.8, delay: 0.7 }}
-      className="fixed bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-5 z-20"
-    >
-      <StatusDot
-        label="Base"
-        color="#3ddc84"
-        glow="rgba(61,220,132,0.7)"
-        delay={0}
-      />
-      <StatusDot
-        label="Solana"
-        color="#4b94f5"
-        glow="rgba(75,148,245,0.7)"
-        delay={0.8}
-      />
-    </motion.div>
   </section>
 );
 

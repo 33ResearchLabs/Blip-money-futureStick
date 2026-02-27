@@ -17,6 +17,8 @@ import {
   CTASection,
   HowItWorksSection,
   AppShowcaseSection,
+  DarkFintechSection,
+  DashboardShowcaseSection,
 } from "@/components/IndexSections";
 
 /* ============================================
@@ -61,11 +63,14 @@ const Index = () => {
             {/* 2. Problem → Why Now */}
             <ProblemSection />
 
+            {/* <DashboardShowcaseSection /> */}
+
             {/* 3. Solution — Blip Protocol flow diagram */}
             <SolutionSection />
           </div>
         </div>
-
+        {/* Dark Fintech — Trading & Currency Section */}
+        <DarkFintechSection />
         {/* 4. How It Works — isolated (no overflow-x-hidden parent) */}
         <HowItWorksSection />
 
@@ -75,6 +80,7 @@ const Index = () => {
         <div className="overflow-x-clip">
           {/* 6. Core Features */}
           <FeatureStrip />
+
           <LockedAndSecuredSection />
 
           {/* 6. Instant Bidding */}

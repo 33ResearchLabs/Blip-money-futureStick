@@ -886,6 +886,29 @@ export default function DashboardPreview() {
         <div className="absolute -inset-4 bg-gradient-to-b from-orange-500/5 via-transparent to-transparent rounded-3xl blur-2xl pointer-events-none" />
         <div className="absolute -inset-1 bg-gradient-to-b from-white/[0.08] to-transparent rounded-2xl pointer-events-none" />
 
+        {/* Animated border keyframes */}
+        <style>{`
+          @keyframes borderRotate {
+            0% { --border-angle: 0deg; }
+            100% { --border-angle: 360deg; }
+          }
+          @property --border-angle {
+            syntax: "<angle>";
+            initial-value: 0deg;
+            inherits: false;
+          }
+          .animated-border {
+            animation: borderRotate 4s linear infinite;
+            background: conic-gradient(
+              from var(--border-angle),
+              transparent 40%,
+              #ff6b35 50%,
+              #ff6b35 55%,
+              transparent 65%
+            );
+          }
+        `}</style>
+
         {/* Scaled wrapper — height collapses to match scaled content */}
         <div style={{ height: scale < 1 ? `${830 * scale}px` : "auto" }}>
           <div
@@ -895,8 +918,10 @@ export default function DashboardPreview() {
               transformOrigin: "top left",
             }}
           >
+            {/* Animated gradient border wrapper */}
+            <div className="animated-border rounded-[18px] p-[3px]">
             {/* Browser window */}
-            <div className="relative bg-[#0a0a0a] rounded-2xl border border-white/[0.08] shadow-[0_30px_100px_-20px_rgba(0,0,0,0.8)] overflow-hidden">
+            <div className="relative bg-[#0a0a0a] rounded-2xl shadow-[0_30px_100px_-20px_rgba(0,0,0,0.8)] overflow-hidden">
               {/* ── Title bar / Header ──────────────────────────────────────── */}
               <div className="flex items-center justify-between px-5 py-3 border-b border-white/[0.06] bg-[#080808]">
                 {/* Left — Logo */}
@@ -1023,6 +1048,7 @@ export default function DashboardPreview() {
                   <NotificationsPanel />
                 </div>
               </div>
+            </div>
             </div>
           </div>
         </div>

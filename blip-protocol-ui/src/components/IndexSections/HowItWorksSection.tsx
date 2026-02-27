@@ -267,9 +267,10 @@ const App = () => {
           </div>
           <h3
             className="font-sans font-semibold leading-[1.05] tracking-[-0.032em] select-none text-black dark:text-white [filter:drop-shadow(0_2px_14px_rgba(0,0,0,0.06))] dark:[filter:drop-shadow(0_2px_14px_rgba(255,255,255,0.055))]"
-            style={{ fontSize: "clamp(2.75rem, 7.5vw, 5.75rem)" }}
+            style={{ fontSize: "clamp(2rem, 5.5vw, 4rem)" }}
           >
-            Request Your{" "}
+            Request Your
+            <br />
             <span className="text-black/60 dark:text-white/50">Capital Flow.</span>
           </h3>
           <p className="text-sm text-black/60 dark:text-white/40 leading-relaxed">
@@ -292,9 +293,10 @@ const App = () => {
           </div>
           <h3
             className="font-sans font-semibold leading-[1.05] tracking-[-0.032em] select-none text-black dark:text-white [filter:drop-shadow(0_2px_14px_rgba(0,0,0,0.06))] dark:[filter:drop-shadow(0_2px_14px_rgba(255,255,255,0.055))]"
-            style={{ fontSize: "clamp(2.75rem, 7.5vw, 5.75rem)" }}
+            style={{ fontSize: "clamp(2rem, 5.5vw, 4rem)" }}
           >
-            Price{" "}
+            Price
+            <br />
             <span className="text-black/60 dark:text-white/50">Optimization.</span>
           </h3>
           <p className="text-sm text-black/60 dark:text-white/40 leading-relaxed">
@@ -317,9 +319,10 @@ const App = () => {
           </div>
           <h3
             className="font-sans font-semibold leading-[1.05] tracking-[-0.032em] select-none text-black dark:text-white [filter:drop-shadow(0_2px_14px_rgba(0,0,0,0.06))] dark:[filter:drop-shadow(0_2px_14px_rgba(255,255,255,0.055))]"
-            style={{ fontSize: "clamp(2.75rem, 7.5vw, 5.75rem)" }}
+            style={{ fontSize: "clamp(2rem, 5.5vw, 4rem)" }}
           >
-            Secure{" "}
+            Secure
+            <br />
             <span className="text-black/60 dark:text-white/50">Execution.</span>
           </h3>
           <p className="text-sm text-black/60 dark:text-white/40 leading-relaxed">
@@ -342,9 +345,9 @@ const App = () => {
           </div>
 
           {/* RIGHT SIDE: Content Narrative */}
-          <div className="w-full lg:w-[55%] flex flex-col space-y-[80vh] pt-[30vh] pb-[40vh]">
+          <div className="w-full lg:w-[55%] flex flex-col pb-[40vh]">
             {/* Section 01: Initiation */}
-            <section className="content-section space-y-4">
+            <section className="content-section space-y-4 min-h-screen flex flex-col justify-start pt-[20vh]">
               <span className="text-black/80 dark:text-white/50 font-bold tracking-[0.3em] uppercase text-xs">
                 Initiation
               </span>
@@ -354,9 +357,10 @@ const App = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 1.2, ease: "easeOut" }}
                 className="font-sans font-semibold leading-[1.05] tracking-[-0.032em] select-none text-black dark:text-white [filter:drop-shadow(0_2px_14px_rgba(0,0,0,0.06))] dark:[filter:drop-shadow(0_2px_14px_rgba(255,255,255,0.055))]"
-                style={{ fontSize: "clamp(2.75rem, 7.5vw, 5.75rem)" }}
+                style={{ fontSize: "clamp(2rem, 5.5vw, 4rem)" }}
               >
-                Request Your{" "}
+                Request Your
+                <br />
                 <span className="text-black/60 dark:text-white/50">Capital Flow.</span>
               </motion.h2>
               <p className="text-sm text-black/60 dark:text-white/40 leading-relaxed max-w-md">
@@ -365,7 +369,7 @@ const App = () => {
             </section>
 
             {/* Section 02: Match */}
-            <section className="content-section space-y-4">
+            <section className="content-section space-y-4 min-h-screen flex flex-col justify-start pt-[20vh]">
               <span className="text-black/80 dark:text-white/50 font-bold tracking-[0.3em] uppercase text-xs">
                 Match
               </span>
@@ -375,9 +379,10 @@ const App = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 1.2, ease: "easeOut" }}
                 className="font-sans font-semibold leading-[1.05] tracking-[-0.032em] select-none text-black dark:text-white [filter:drop-shadow(0_2px_14px_rgba(0,0,0,0.06))] dark:[filter:drop-shadow(0_2px_14px_rgba(255,255,255,0.055))]"
-                style={{ fontSize: "clamp(2.75rem, 7.5vw, 5.75rem)" }}
+                style={{ fontSize: "clamp(2rem, 5.5vw, 4rem)" }}
               >
-                Price{" "}
+                Price
+                <br />
                 <span className="text-black/60 dark:text-white/50">Optimization.</span>
               </motion.h2>
               <p className="text-sm text-black/60 dark:text-white/40 leading-relaxed max-w-md">
@@ -386,7 +391,7 @@ const App = () => {
             </section>
 
             {/* Section 03: Verify */}
-            <section className="content-section space-y-4">
+            <section className="content-section space-y-4 min-h-screen flex flex-col justify-start pt-[20vh]">
               <span className="text-black/80 dark:text-white/50 font-bold tracking-[0.3em] uppercase text-xs">
                 Verify
               </span>
@@ -396,9 +401,10 @@ const App = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 1.2, ease: "easeOut" }}
                 className="font-sans font-semibold leading-[1.05] tracking-[-0.032em] select-none text-black dark:text-white [filter:drop-shadow(0_2px_14px_rgba(0,0,0,0.06))] dark:[filter:drop-shadow(0_2px_14px_rgba(255,255,255,0.055))]"
-                style={{ fontSize: "clamp(2.75rem, 7.5vw, 5.75rem)" }}
+                style={{ fontSize: "clamp(2rem, 5.5vw, 4rem)" }}
               >
-                Secure{" "}
+                Secure
+                <br />
                 <span className="text-black/60 dark:text-white/50">Execution.</span>
               </motion.h2>
               <p className="text-sm text-black/60 dark:text-white/40 leading-relaxed max-w-md">

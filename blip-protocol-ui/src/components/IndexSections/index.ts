@@ -14,3 +14,5 @@ export { default as SolutionSection } from './SolutionSection';
 export { default as UseCasesSection } from './UseCasesSection';
 export { default as TrustSection } from './TrustSection';
 export { default as AppShowcaseSection } from './AppShowcaseSection';
+export { default as DarkFintechSection } from './DarkFintechSection';
+export { default as DashboardShowcaseSection } from './DashboardShowcaseSection';

@@ -82,9 +82,7 @@ const CTASection = () => {
         >
           <span className="text-black dark:text-white">Join the merchant</span>
           <br />
-          <span className="text-black/80 dark:text-white/40">
-            network.
-          </span>
+          <span className="text-black/80 dark:text-white/40">network.</span>
         </motion.h2>
 
         <motion.p
@@ -104,19 +102,14 @@ const CTASection = () => {
           transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
-          <CTAButton to="/waitlist" className="w-[180px] h-[48px]">Join Waitlist</CTAButton>
+          <CTAButton to="/waitlist" className="w-[180px] h-[48px]">
+            Join Waitlist
+          </CTAButton>
           <Link
             to="/merchant"
             className="inline-flex items-center justify-center w-[180px] h-[48px] rounded-full border border-black/20 dark:border-white/20 text-black/60 dark:text-white/40 text-sm font-medium hover:border-black/40 dark:hover:border-white/40 hover:text-black dark:hover:text-white/70 transition-all duration-300"
           >
-            Become a Merchant
-          </Link>
-          <Link
-            to="/whitepaper"
-            className="inline-flex items-center gap-1.5 text-sm text-black/40 dark:text-white/30 font-medium hover:text-black/70 dark:hover:text-white/50 transition-colors"
-          >
-            Read Whitepaper
-            <ArrowRight className="w-3.5 h-3.5" />
+            Whitepaper
           </Link>
         </motion.div>
       </motion.div>

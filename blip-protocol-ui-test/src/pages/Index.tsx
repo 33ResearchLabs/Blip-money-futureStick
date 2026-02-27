@@ -2,28 +2,40 @@ import { useEffect } from "react";
 import { SEO } from "@/components";
 import CinematicHero from "@/components/IndexSections/CinematicHero";
 import {
-  BlipscanExplorerSection,
-  UAESection,
-  CashbackBanner,
   ProblemSection,
-  ProtocolSection,
+  SolutionSection,
   FeatureStrip,
-  MerchantDashboardSection,
-  HowItWorksSection,
-  PrivacySection,
-  EarlyAdopterBanner,
-  RewardsSection,
-  CTASection,
   LockedAndSecuredSection,
   InstantBiddingSection,
+  BlipscanExplorerSection,
+  UseCasesSection,
+  RewardsSection,
+  CashbackBanner,
+  UAESection,
+  ProtocolSection,
+  TrustSection,
+  CTASection,
+  HowItWorksSection,
+  AppShowcaseSection,
+  DarkFintechSection,
   DashboardShowcaseSection,
 } from "@/components/IndexSections";
-import AbstractVisual from "@/components/IndexSections/AbstractVisual";
-import { InteractiveBackground } from "@/components/InteractiveBackground";
-import PremiumFintechSection from "@/components/IndexSections/DarkFintechSection";
 
 /* ============================================
    MAIN INDEX PAGE
+   1  Hero
+   2  Problem → Why Now
+   3  Solution (Blip Protocol diagram)
+   4  How It Works (3 screens)
+   5  Core Features (strip + escrow)
+   6  Instant Bidding
+   7  Verified on Blockchain (Blipscan)
+   8  Use Cases (users & merchants)
+   9  Earn & Incentives
+   10 Dubai Launch
+   11 Protocol Benefits
+   12 Trust / Architecture
+   13 Final CTA
    ============================================ */
 
 const Index = () => {
@@ -34,47 +46,65 @@ const Index = () => {
   return (
     <>
       <SEO
-        title="Blip Money - Fast, Secure, and Simple Payment Solutions"
-        description="Pay with Crypto — Anyone, Anywhere. Blip money is the non-custodial settlement protocol for cash, wire, and crypto transfers without KYC, secured by DAO escrow."
+        title="Blip Money - Instant Merchant-to-Merchant Crypto Settlement"
+        description="No banks. No delays. Global liquidity. Blip is the non-custodial settlement protocol for instant crypto-to-cash transfers, secured by escrow and reputation."
         canonical="https://blip.money/"
       />
 
       <div className="bg-white dark:bg-transparent text-black dark:text-white relative overflow-x-clip">
-        {/* Interactive merchant dashboard background */}
-        {/* <InteractiveBackground /> */}
         <div className="bg-white dark:bg-transparent text-black dark:text-white relative">
-          {/* Sections with overflow-x-hidden */}
           <div className="overflow-x-clip">
-            {/* Interactive merchant dashboard background */}
-            {/* <InteractiveBackground /> */}
-
             {/* Grain overlay for premium film texture */}
             <div className="grain-overlay" />
 
+            {/* 1. Hero */}
             <CinematicHero />
-            <PremiumFintechSection />
-            <DashboardShowcaseSection />
-            <LockedAndSecuredSection />
-            <InstantBiddingSection />
-            <BlipscanExplorerSection />
-            <AbstractVisual />
-            <UAESection />
-            <CashbackBanner />
-            {/* <ProblemSection /> */}
-            <ProtocolSection />
-            <FeatureStrip />
-            <MerchantDashboardSection />
+
+            {/* 2. Problem → Why Now */}
+            <ProblemSection />
+
+            {/* Dark Fintech — Trading & Currency Section */}
+            <DarkFintechSection />
+
+            {/* 3. Solution — Blip Protocol flow diagram */}
+            <SolutionSection />
           </div>
         </div>
 
-        {/* HowItWorksSection isolated - no overflow-x-hidden parent */}
+        {/* 4. How It Works — isolated (no overflow-x-hidden parent) */}
         <HowItWorksSection />
 
-        {/* Remaining sections with overflow-x-hidden */}
-        <div className="overflow-x-hidden">
-          <PrivacySection />
-          <EarlyAdopterBanner />
+        {/* 5. App Showcase — Apple bento grid with device mockups */}
+        <AppShowcaseSection />
+
+        <div className="overflow-x-clip">
+          {/* 6. Core Features */}
+          <FeatureStrip />
+          <LockedAndSecuredSection />
+
+          {/* 6. Instant Bidding */}
+          <InstantBiddingSection />
+
+          {/* 7. Verified on Blockchain (Blipscan explorer) */}
+          <BlipscanExplorerSection />
+
+          {/* 8. Use Cases */}
+          <UseCasesSection />
+
+          {/* 9. Earn & Incentives */}
           <RewardsSection />
+          <CashbackBanner />
+
+          {/* 10. Dubai Launch */}
+          <UAESection />
+
+          {/* 11. Protocol Benefits */}
+          <ProtocolSection />
+
+          {/* 12. Trust / Architecture */}
+          <TrustSection />
+
+          {/* 13. Final CTA */}
           <CTASection />
         </div>
       </div>
