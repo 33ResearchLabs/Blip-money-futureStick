@@ -64,18 +64,18 @@ export const Navbar = () => {
         className={`fixed top-0 w-full z-50 ${
           isScrolled
             ? "bg-[#FAF8F5] dark:bg-[rgba(10,10,11,0.8)] dark:backdrop-blur-xl border-b border-black/[0.06] dark:border-white/[0.06]"
-            : "bg-transparent border-b border-transparent"
+            : "bg-[rgba(9,9,9,0.0)] border-b border-white/[0.06]"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="h-[72px] flex items-center justify-between">
-            <Logo />
+            <Logo onDark={!isScrolled} />
 
             <div className="hidden lg:flex items-center gap-1">
-              <NavItem to="/how-it-works">{t("howItWorks")}</NavItem>
-              <NavItem to="/merchant">Merchant</NavItem>
-              <NavItem to="/research">Research</NavItem>
-              <NavItem to="/blog">Blog</NavItem>
+              <NavItem to="/how-it-works" onDark={!isScrolled}>{t("howItWorks")}</NavItem>
+              <NavItem to="/merchant" onDark={!isScrolled}>Merchant</NavItem>
+              <NavItem to="/research" onDark={!isScrolled}>Research</NavItem>
+              <NavItem to="/blog" onDark={!isScrolled}>Blog</NavItem>
             </div>
 
             <div className="hidden lg:flex items-center gap-3">
@@ -117,7 +117,7 @@ export const Navbar = () => {
 
 /* ---------------- Logo ---------------- */
 
-export const Logo = ({ className = "" }) => {
+export const Logo = ({ className = "", onDark = false }) => {
   return (
     <Link
       to="/"
@@ -132,7 +132,7 @@ export const Logo = ({ className = "" }) => {
       >
         <path
           d="M4 36 L16 36 L25 8 L38 52 L47 28 L66 28"
-          className="stroke-black dark:stroke-white"
+          className={onDark ? "stroke-white" : "stroke-black dark:stroke-white"}
           strokeWidth="9"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -144,8 +144,8 @@ export const Logo = ({ className = "" }) => {
         whileHover={{ scale: 1.02 }}
         transition={{ duration: 0.2 }}
       >
-        <span className="text-black dark:text-white">Blip</span>
-        <span className="relative text-black dark:text-white ml-1 italic">
+        <span className={onDark ? "text-white" : "text-black dark:text-white"}>Blip</span>
+        <span className={`relative ml-1 italic ${onDark ? "text-white" : "text-black dark:text-white"}`}>
           money
         </span>
       </motion.span>
@@ -155,7 +155,7 @@ export const Logo = ({ className = "" }) => {
 
 /* ---------------- Nav Item ---------------- */
 
-const NavItem = ({ to, children }: { to: string; children: React.ReactNode }) => {
+const NavItem = ({ to, children, onDark = false }: { to: string; children: React.ReactNode; onDark?: boolean }) => {
   const location = useLocation();
   const isActive = location.pathname === to;
 
@@ -168,9 +168,11 @@ const NavItem = ({ to, children }: { to: string; children: React.ReactNode }) =>
     >
       <span
         className={
-          isActive
-            ? "text-black dark:text-white"
-            : "text-black/70 dark:text-[#A1A1AA] hover:text-black dark:hover:text-white"
+          onDark
+            ? isActive ? "text-white" : "text-white/60 hover:text-white"
+            : isActive
+              ? "text-black dark:text-white"
+              : "text-black/70 dark:text-[#A1A1AA] hover:text-black dark:hover:text-white"
         }
       >
         {children}
@@ -179,7 +181,7 @@ const NavItem = ({ to, children }: { to: string; children: React.ReactNode }) =>
       {isActive && (
         <motion.div
           layoutId="navIndicator"
-          className="absolute -bottom-[1px] left-3 right-3 h-[2px] rounded-full bg-black dark:bg-white"
+          className={`absolute -bottom-[1px] left-3 right-3 h-[2px] rounded-full ${onDark ? "bg-white" : "bg-black dark:bg-white"}`}
           transition={{ type: "spring", stiffness: 500, damping: 35 }}
         />
       )}

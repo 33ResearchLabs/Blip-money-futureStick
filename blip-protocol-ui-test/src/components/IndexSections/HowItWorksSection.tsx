@@ -185,11 +185,19 @@ const App = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1 }}
-          className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black dark:text-white tracking-tight leading-[1.1] mb-3"
+          className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-black dark:text-white tracking-[-0.025em] leading-[0.96] mb-3"
         >
           Three steps.
           <br />
-          <span className="text-black/80 dark:text-white/50">
+          <span
+            style={{
+              background:
+                "linear-gradient(90deg, #FF6B35 0%, #FFB347 40%, #FF8C42 70%, #FF6B35 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
             Zero friction.
           </span>
         </motion.h2>

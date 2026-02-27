@@ -87,7 +87,7 @@ const config: Config = {
           "system-ui",
           "sans-serif",
         ],
-        display: ['"Space Grotesk"', "system-ui", "sans-serif"],
+        display: ["Inter", "-apple-system", "BlinkMacSystemFont", '"Segoe UI"', "system-ui", "sans-serif"],
         mono: ['"SF Mono"', "Monaco", "Consolas", '"Courier New"', "monospace"],
       },
       fontSize: {

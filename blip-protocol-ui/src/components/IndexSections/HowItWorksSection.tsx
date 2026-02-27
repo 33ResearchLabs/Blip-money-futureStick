@@ -27,69 +27,108 @@ import {
 } from "lucide-react";
 import { CTAButton } from "../Navbar";
 
-// Desktop Phone Mockup Component
-const DesktopPhoneMockup = ({ activeSection, steps }) => (
-  <div className="relative w-full max-w-[320px] h-[580px]">
-    <motion.div
-      animate={{ opacity: [0.02, 0.04, 0.02], scale: [1, 1.1, 1] }}
-      transition={{ duration: 8, repeat: Infinity }}
-      className="absolute inset-0 bg-black dark:bg-white dark:bg-white blur-[140px] rounded-full pointer-events-none"
-    />
+// Desktop Phone Mockup Component — iPhone 17 Pro / Black Titanium
+const DesktopPhoneMockup = ({ activeSection, steps }) => {
+  const FRAME = 11;
+  const OUTER_R = 48;
+  const INNER_R = 38;
 
-    <div className="relative z-10 w-full h-full bg-black/5 dark:bg-[#0a0a0a] rounded-[4rem] p-3 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.2)] dark:shadow-[0_50px_100px_-20px_rgba(0,0,0,1)] border-[1.5px] border-black/10 dark:border-white/10 ring-1 ring-black/5 dark:ring-white/5">
-      <div className="w-full h-full bg-white dark:bg-black rounded-[3.4rem] p-2 relative overflow-hidden border border-black/5 dark:border-white/5">
-        {/* Dynamic Island */}
-        <div className="absolute top-6 left-1/2 -translate-x-1/2 w-28 h-8 bg-black/70 dark:bg-black rounded-full z-[60] flex items-center justify-between px-5 border border-black/10 dark:border-white/10">
-          <div className="w-1.5 h-1.5 rounded-full bg-black/20 dark:bg-white/20" />
-          <div className="w-1 h-1 rounded-full dark:bg-black bg-white/70" />
-        </div>
+  return (
+    <div className="relative w-full max-w-[300px] h-[600px] mx-auto">
+      <motion.div
+        animate={{ y: [0, -9, 0] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+        style={{ position: "relative", width: "100%", height: "100%" }}
+      >
+        {/* ── Black Titanium outer frame ── */}
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            borderRadius: OUTER_R,
+            padding: FRAME,
+            position: "relative",
+            background: `linear-gradient(
+              158deg,
+              #a0a0a5 0%,
+              #6c6c70 4%,
+              #3a3a3c 12%,
+              #2c2c2e 28%,
+              #1c1c1e 46%,
+              #2c2c2e 64%,
+              #3d3d3f 78%,
+              #5a5a5e 90%,
+              #8a8a8f 100%
+            )`,
+            boxShadow: [
+              "0 100px 180px -20px rgba(0,0,0,0.95)",
+              "0 50px 80px rgba(0,0,0,0.7)",
+              "0 20px 40px rgba(0,0,0,0.5)",
+              "inset 0 1px 0 rgba(255,255,255,0.22)",
+              "inset 0 0 0 1px rgba(255,255,255,0.07)",
+              "0 0 80px rgba(255,107,53,0.09)",
+            ].join(", "),
+          }}
+        >
+          {/* Top edge catch-light */}
+          <div style={{ position:"absolute", top:0, left:"18%", right:"18%", height:1, borderRadius:"50%", background:"linear-gradient(90deg, transparent, rgba(255,255,255,0.52), transparent)", zIndex:30 }} />
+          {/* Bottom secondary catch-light */}
+          <div style={{ position:"absolute", bottom:0, left:"30%", right:"30%", height:1, borderRadius:"50%", background:"linear-gradient(90deg, transparent, rgba(255,255,255,0.16), transparent)", zIndex:30 }} />
 
-        <div className="w-full h-full bg-[#FAF8F5] dark:bg-black rounded-[2.8rem] overflow-hidden relative shadow-[inset_0_0_40px_rgba(0,0,0,0.05)] dark:shadow-[inset_0_0_40px_rgba(0,0,0,1)]">
-          <div className="absolute top-0 left-0 right-0 h-14 flex items-center justify-between px-8 z-[55] text-[10px] font-bold text-black/80 dark:text-white/70 ml-4">
-            <span>9:41</span>
-            <div className="flex gap-1.5 items-center">
-              <Signal size={10} />
-              <Wifi size={10} />
-              <Battery size={10} />
+          {/* Dynamic Island */}
+          <div style={{ position:"absolute", top:FRAME+13, left:"50%", transform:"translateX(-50%)", width:112, height:32, background:"#000", borderRadius:999, zIndex:20, boxShadow:"inset 0 1px 2px rgba(0,0,0,0.8), 0 0 0 0.5px rgba(255,255,255,0.04)" }} />
+
+          {/* Left buttons */}
+          <div style={{ position:"absolute", left:-FRAME-0.5, top:72, width:FRAME+1, height:28, borderRadius:"3px 0 0 3px", background:"linear-gradient(to right, #111, #2e2e30)", zIndex:10 }} />
+          <div style={{ position:"absolute", left:-FRAME-0.5, top:118, width:FRAME+1, height:54, borderRadius:"3px 0 0 3px", background:"linear-gradient(to right, #111, #2e2e30)", zIndex:10 }} />
+          <div style={{ position:"absolute", left:-FRAME-0.5, top:184, width:FRAME+1, height:54, borderRadius:"3px 0 0 3px", background:"linear-gradient(to right, #111, #2e2e30)", zIndex:10 }} />
+
+          {/* Power button */}
+          <div style={{ position:"absolute", right:-FRAME-0.5, top:148, width:FRAME+1, height:72, borderRadius:"0 3px 3px 0", background:"linear-gradient(to left, #111, #2e2e30)", zIndex:10 }} />
+
+          {/* ── Screen ── */}
+          <div style={{ position:"relative", width:"100%", height:"100%", borderRadius:INNER_R, overflow:"hidden", background:"#000" }}>
+            {/* Status bar */}
+            <div style={{ position:"absolute", top:0, left:0, right:0, height:52, display:"flex", alignItems:"center", justifyContent:"space-between", padding:"0 22px 0 26px", zIndex:55, color:"rgba(255,255,255,0.7)", fontSize:10, fontWeight:700 }}>
+              <span>9:41</span>
+              <div style={{ display:"flex", gap:6, alignItems:"center" }}>
+                <Signal size={10} />
+                <Wifi size={10} />
+                <Battery size={10} />
+              </div>
             </div>
+
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeSection}
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.02 }}
+                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                style={{ width:"100%", height:"100%" }}
+              >
+                {steps[activeSection % 3].screen}
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Glass glare overlay */}
+            <div style={{ position:"absolute", inset:0, background:"linear-gradient(138deg, rgba(255,255,255,0.055) 0%, rgba(255,255,255,0.02) 25%, transparent 50%, transparent 75%, rgba(255,255,255,0.018) 100%)", pointerEvents:"none", zIndex:60, borderRadius:"inherit" }} />
           </div>
-
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeSection}
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.02 }}
-              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full h-full"
-            >
-              {steps[activeSection % 3].screen}
-            </motion.div>
-          </AnimatePresence>
         </div>
-      </div>
-    </div>
 
-    <Cursor
-      name="Gateway"
-      color="bg-black dark:bg-white"
-      textColor="text-white dark:text-black"
-      initialPos={{ top: "15%", left: "-25%" }}
-      delay={0}
-    />
-    <Cursor
-      name="Blip_Bot"
-      color="bg-black/10 dark:bg-white/10"
-      textColor="text-black dark:text-white"
-      initialPos={{ bottom: "25%", right: "-25%" }}
-      delay={2}
-    />
-  </div>
-);
+        {/* Ambient glow beneath */}
+        <div style={{ position:"absolute", bottom:-55, left:"50%", transform:"translateX(-50%)", width:240, height:55, background:"radial-gradient(ellipse, rgba(255,107,53,0.2) 0%, transparent 70%)", filter:"blur(20px)", pointerEvents:"none" }} />
+      </motion.div>
+
+      <Cursor name="Gateway" color="bg-black dark:bg-white" textColor="text-white dark:text-black" initialPos={{ top: "15%", left: "-25%" }} delay={0} />
+      <Cursor name="Blip_Bot" color="bg-black/10 dark:bg-white/10" textColor="text-black dark:text-white" initialPos={{ bottom: "25%", right: "-25%" }} delay={2} />
+    </div>
+  );
+};
 
 const App = () => {
   const [activeSection, setActiveSection] = useState(0);
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -165,7 +204,7 @@ const App = () => {
   return (
     <div
       ref={containerRef}
-      className="relative min-h-screen bg-[#FAF8F5] dark:bg-black text-black dark:text-white selection:bg-black/[0.10] isolate py-12 md:py-20"
+      className="relative min-h-screen bg-white dark:bg-black text-black dark:text-white selection:bg-black/[0.10] isolate py-12 md:py-20"
     >
       <div className="text-center mb-12 lg:mb-16">
         <motion.div
@@ -185,11 +224,11 @@ const App = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1 }}
-          className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black dark:text-white tracking-tight leading-[1.1] mb-3"
+          className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-semibold text-black dark:text-white tracking-[-0.025em] leading-[0.96] mb-3"
         >
           Three steps.
           <br />
-          <span className="text-black/80 dark:text-white/50">
+          <span className="text-black/70 dark:text-white/50">
             Zero friction.
           </span>
         </motion.h2>
@@ -219,52 +258,23 @@ const App = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.5 }}
-          className="space-y-4"
+          className="space-y-3"
         >
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]">
             <span className="text-xs text-black/60 dark:text-white/40 font-bold tracking-widest uppercase">
               01 • Initiation
             </span>
           </div>
-
-          <h3 className="text-2xl font-semibold leading-snug text-black dark:text-white">
-            Request Your <br />
-            <span className="text-black/70 dark:text-white/50">
-              Capital Flow.
-            </span>
+          <h3
+            className="font-sans font-semibold leading-[1.05] tracking-[-0.032em] select-none text-black dark:text-white [filter:drop-shadow(0_2px_14px_rgba(0,0,0,0.06))] dark:[filter:drop-shadow(0_2px_14px_rgba(255,255,255,0.055))]"
+            style={{ fontSize: "clamp(2.75rem, 7.5vw, 5.75rem)" }}
+          >
+            Request Your{" "}
+            <span className="text-black/60 dark:text-white/50">Capital Flow.</span>
           </h3>
-
-          <p className="text-base text-black/80 dark:text-white/60 leading-relaxed">
-            Enter your USDT amount and choose your destination — Dubai, Abu
-            Dhabi, or beyond. Blip handles the rest with sub-second finality
-            across UAE fiat rails.
+          <p className="text-sm text-black/60 dark:text-white/40 leading-relaxed">
+            Enter your USDT amount and choose your destination — Dubai, Abu Dhabi, or beyond.
           </p>
-
-          <div className="bg-white/80 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/10 p-5 rounded-2xl">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center">
-                <Send size={18} className="text-black/60 dark:text-white/50" />
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-black dark:text-white">
-                  Quick Request
-                </p>
-                <p className="text-xs text-black/50 dark:text-white/30">
-                  DXB • AUH destinations
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {["USDT → AED", "DXB • AUH", "SECURE AUTH"].map((tag) => (
-                <span
-                  key={tag}
-                  className="px-3 py-1 bg-black/5 dark:bg-white/5 rounded-full text-xs font-semibold text-black/60 dark:text-white/40"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
         </motion.div>
 
         {/* Step 2: Match */}
@@ -273,52 +283,23 @@ const App = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.5 }}
-          className="space-y-4"
+          className="space-y-3"
         >
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]">
             <span className="text-xs text-black/60 dark:text-white/40 font-bold tracking-widest uppercase">
               02 • Match
             </span>
           </div>
-
-          <h3 className="text-2xl font-semibold leading-snug text-black dark:text-white">
-            Price <br />
-            <span className="text-black/70 dark:text-white/50">
-              Optimization.
-            </span>
+          <h3
+            className="font-sans font-semibold leading-[1.05] tracking-[-0.032em] select-none text-black dark:text-white [filter:drop-shadow(0_2px_14px_rgba(0,0,0,0.06))] dark:[filter:drop-shadow(0_2px_14px_rgba(255,255,255,0.055))]"
+            style={{ fontSize: "clamp(2.75rem, 7.5vw, 5.75rem)" }}
+          >
+            Price{" "}
+            <span className="text-black/60 dark:text-white/50">Optimization.</span>
           </h3>
-
-          <p className="text-base text-black/80 dark:text-white/60 leading-relaxed">
-            Our engine simultaneously scans global LPs — London, Singapore,
-            local OTC — locking in the best real-time AED rate for your trade.
+          <p className="text-sm text-black/60 dark:text-white/40 leading-relaxed">
+            Our engine scans global LPs — London, Singapore, local OTC — locking in the best real-time AED rate.
           </p>
-
-          <div className="grid grid-cols-2 gap-3">
-            <div className="bg-white/80 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/10 p-4 rounded-2xl">
-              <Layers
-                size={18}
-                className="text-black/40 dark:text-white/40 mb-2"
-              />
-              <p className="text-sm font-semibold text-black dark:text-white mb-0.5">
-                Best Rate
-              </p>
-              <p className="text-xs text-black/40 dark:text-white/30 font-medium">
-                1 USDT = 3.6732 AED
-              </p>
-            </div>
-            <div className="bg-white/80 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/10 p-4 rounded-2xl">
-              <Activity
-                size={18}
-                className="text-black/40 dark:text-white/40 mb-2"
-              />
-              <p className="text-sm font-semibold text-black dark:text-white mb-0.5">
-                99.98% Efficient
-              </p>
-              <p className="text-xs text-black/40 dark:text-white/30 font-medium">
-                Global LP Scan
-              </p>
-            </div>
-          </div>
         </motion.div>
 
         {/* Step 3: Verify */}
@@ -327,81 +308,33 @@ const App = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.5 }}
-          className="space-y-4"
+          className="space-y-3"
         >
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]">
             <span className="text-xs text-black/60 dark:text-white/40 font-bold tracking-widest uppercase">
               03 • Verify
             </span>
           </div>
-
-          <h3 className="text-2xl font-semibold leading-snug text-black dark:text-white">
-            Secure <br />
-            <span className="text-black/70 dark:text-white/50">Execution.</span>
+          <h3
+            className="font-sans font-semibold leading-[1.05] tracking-[-0.032em] select-none text-black dark:text-white [filter:drop-shadow(0_2px_14px_rgba(0,0,0,0.06))] dark:[filter:drop-shadow(0_2px_14px_rgba(255,255,255,0.055))]"
+            style={{ fontSize: "clamp(2.75rem, 7.5vw, 5.75rem)" }}
+          >
+            Secure{" "}
+            <span className="text-black/60 dark:text-white/50">Execution.</span>
           </h3>
-
-          <p className="text-base text-black/80 dark:text-white/60 leading-relaxed">
-            Authorization confirmed. Settlement executes in 420ms — your AED
-            is released to your destination with a permanent on-chain ledger
-            ID.
+          <p className="text-sm text-black/60 dark:text-white/40 leading-relaxed">
+            Settlement executes in 420ms — AED released to your destination with a permanent on-chain ledger ID.
           </p>
-
-          <div className="bg-white/80 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/10 rounded-2xl overflow-hidden">
-            <div className="px-4 py-3 bg-black/[0.03] dark:bg-white/5 border-b border-black/[0.06] dark:border-white/5 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <CheckCircle2
-                  size={16}
-                  className="text-black/60 dark:text-white/50"
-                />
-                <span className="text-xs font-semibold text-black/60 dark:text-white/40 uppercase tracking-wider">
-                  Verified
-                </span>
-              </div>
-              <span className="text-xs font-semibold text-black dark:text-white">
-                420ms
-              </span>
-            </div>
-            <div className="p-4 space-y-2">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Fingerprint
-                    size={14}
-                    className="text-black/60 dark:text-white/40"
-                  />
-                  <span className="text-xs font-medium text-black/60 dark:text-white/40">
-                    Authorization
-                  </span>
-                </div>
-                <span className="text-xs font-semibold text-black dark:text-white/70">
-                  Success
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Zap size={14} className="text-black dark:text-white" />
-                  <span className="text-xs font-medium text-black/60 dark:text-white/40">
-                    Settlement
-                  </span>
-                </div>
-                <span className="text-xs font-semibold text-black dark:text-white/70">
-                  Instant
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="flex md:justify-start justify-center">
-            <CTAButton
-              to="/waitlist"
-              className="w-[220px] h-12 uppercase text-sm "
-            >
+          <div className="flex md:justify-start justify-center pt-1">
+            <CTAButton to="/waitlist" className="w-[220px] h-12 uppercase text-sm">
               Initiate Trade
-            </CTAButton>{" "}
+            </CTAButton>
           </div>
         </motion.div>
       </div>
 
       {/* DESKTOP LAYOUT - Sticky phone with scrolling content sections */}
-      <div className="hidden lg:block max-w-7xl mx-auto px-8 lg:px-12 relative min-h-screen">
+      <div className="hidden lg:block max-w-7xl mx-auto px-8 lg:px-12 relative">
         <div className="flex gap-16">
           {/* LEFT SIDE: Sticky Phone UI */}
           <div className="w-full lg:w-[45%] lg:sticky lg:top-0 h-screen flex items-center justify-center py-12">
@@ -409,180 +342,69 @@ const App = () => {
           </div>
 
           {/* RIGHT SIDE: Content Narrative */}
-          <div className="w-full lg:w-[55%] min-h-[150vh] flex flex-col lg:mt-32 justify-end space-y-40 pb-[calc(50vh-290px)]">
+          <div className="w-full lg:w-[55%] flex flex-col space-y-[80vh] pt-[30vh] pb-[40vh]">
             {/* Section 01: Initiation */}
-            <section className="content-section space-y-8">
-              {/* <div className="space-y-3 ">
-                <span className="text-black/80 dark:text-white/50 font-bold tracking-[0.3em] uppercase text-xs">
-                  Initiation
-                </span>
-
-                <motion.span
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  className="text-3xl font-semibold tracking-tight leading-tight text-black dark:text-white"
-                >
-                  Request Your <br />
-                  <span className="text-black/70 dark:text-white/50">
-                    Capital Flow.
-                  </span>
-                </motion.span>
-              </div> */}
-              <div className="space-y-3">
-                <span className="text-black/80 dark:text-white/50 font-bold tracking-[0.3em] uppercase text-xs">
-                  Initiation
-                </span>
-
-                <motion.h2
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  className="text-3xl font-semibold tracking-tight leading-tight text-black dark:text-white"
-                >
-                  Request Your <br />
-                  <span className="text-black/70 dark:text-white/50  decoration-black/10 dark:decoration-white/10">
-                    Capital Flow.
-                  </span>
-                </motion.h2>
-              </div>
-
-              <p className="text-lg text-black/80 dark:text-white/60 leading-relaxed max-w-xl">
-                Enter your USDT amount and choose your destination — Dubai, Abu
-                Dhabi, or beyond. Blip handles the rest with sub-second
-                finality across UAE fiat rails.
+            <section className="content-section space-y-4">
+              <span className="text-black/80 dark:text-white/50 font-bold tracking-[0.3em] uppercase text-xs">
+                Initiation
+              </span>
+              <motion.h2
+                initial={{ opacity: 0, scale: 0.99 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.2, ease: "easeOut" }}
+                className="font-sans font-semibold leading-[1.05] tracking-[-0.032em] select-none text-black dark:text-white [filter:drop-shadow(0_2px_14px_rgba(0,0,0,0.06))] dark:[filter:drop-shadow(0_2px_14px_rgba(255,255,255,0.055))]"
+                style={{ fontSize: "clamp(2.75rem, 7.5vw, 5.75rem)" }}
+              >
+                Request Your{" "}
+                <span className="text-black/60 dark:text-white/50">Capital Flow.</span>
+              </motion.h2>
+              <p className="text-sm text-black/60 dark:text-white/40 leading-relaxed max-w-md">
+                Enter your USDT amount and choose your destination — Dubai, Abu Dhabi, or beyond.
               </p>
-
-              <div className="bg-white/80 dark:bg-white/[0.03] border-l border-black/10 dark:border-white/10 p-6 rounded-r-2xl backdrop-blur-md">
-                <p className="text-base leading-relaxed text-black/70 dark:text-white/60">
-                  <span className="font-semibold text-black dark:text-white">
-                    Smart Routing:
-                  </span>{" "}
-                  Blip instantly routes your funds to your chosen destination
-                  (DXB or AUH) with zero intermediaries and full on-chain
-                  transparency.
-                </p>
-              </div>
-
-              <div className="flex flex-wrap gap-3">
-                {["USDT → AED", "DXB • AUH", "SECURE AUTH"].map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-4 py-2 bg-white/80 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/10 rounded-full text-xs font-semibold tracking-widest text-black/80 dark:text-white/50"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
             </section>
 
             {/* Section 02: Match */}
-            <section className="content-section space-y-8">
-              <div className="space-y-3">
-                <span className="text-black/80 dark:text-white/50 font-bold tracking-[0.3em] uppercase text-xs">
-                  Match
-                </span>
-
-                <motion.h2
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  className="text-3xl font-semibold tracking-tight leading-tight text-black dark:text-white"
-                >
-                  Price <br />
-                  <span className="text-black/70 dark:text-white/50  decoration-black/10 dark:decoration-white/10">
-                    Optimization.
-                  </span>
-                </motion.h2>
-              </div>
-
-              <p className="text-lg text-black/80 dark:text-white/60 leading-relaxed max-w-xl">
-                Our engine simultaneously scans global liquidity providers —
-                from London to Singapore to local OTC desks — locking in the
-                best real-time AED rate for your trade.
+            <section className="content-section space-y-4">
+              <span className="text-black/80 dark:text-white/50 font-bold tracking-[0.3em] uppercase text-xs">
+                Match
+              </span>
+              <motion.h2
+                initial={{ opacity: 0, scale: 0.99 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.2, ease: "easeOut" }}
+                className="font-sans font-semibold leading-[1.05] tracking-[-0.032em] select-none text-black dark:text-white [filter:drop-shadow(0_2px_14px_rgba(0,0,0,0.06))] dark:[filter:drop-shadow(0_2px_14px_rgba(255,255,255,0.055))]"
+                style={{ fontSize: "clamp(2.75rem, 7.5vw, 5.75rem)" }}
+              >
+                Price{" "}
+                <span className="text-black/60 dark:text-white/50">Optimization.</span>
+              </motion.h2>
+              <p className="text-sm text-black/60 dark:text-white/40 leading-relaxed max-w-md">
+                Our engine scans global LPs — London, Singapore, local OTC — locking in the best real-time AED rate.
               </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="p-6 bg-white/80 dark:bg-white/[0.03] rounded-2xl border border-black/[0.06] dark:border-white/5 transition-all">
-                  <Layers
-                    className="text-black/40 dark:text-white/40 mb-4"
-                    size={20}
-                  />
-                  <h4 className="font-semibold text-base mb-1 text-black dark:text-white">
-                    Best Rate
-                  </h4>
-                  <p className="text-xs text-black/40 dark:text-white/30 font-medium tracking-widest uppercase">
-                    1 USDT = 3.6732 AED
-                  </p>
-                </div>
-
-                <div className="p-6 bg-white/80 dark:bg-white/[0.03] rounded-2xl border border-black/[0.06] dark:border-white/5 transition-all">
-                  <Activity
-                    className="text-black/40 dark:text-white/40 mb-4"
-                    size={20}
-                  />
-                  <h4 className="font-semibold text-base mb-1 text-black dark:text-white">
-                    99.98% Efficient
-                  </h4>
-                  <p className="text-xs text-black/40 dark:text-white/30 font-medium tracking-widest uppercase">
-                    Global LP Scan
-                  </p>
-                </div>
-              </div>
-
-              <div className="bg-white/80 dark:bg-white/5  border-black/20 dark:border-white/20 p-6 rounded-2xl backdrop-blur-md">
-                <p className="text-base leading-relaxed text-black/70 dark:text-white/70">
-                  <span className="font-semibold text-black dark:text-white">
-                    Global Scan, Local Settlement:
-                  </span>{" "}
-                  We source the best price across London, Singapore, and local
-                  OTC desks — then settle directly into your UAE destination at
-                  99.98% efficiency.
-                </p>
-              </div>
             </section>
 
             {/* Section 03: Verify */}
-            <section className="content-section space-y-8">
-              <div className="space-y-3">
-                <span className="text-black/80 dark:text-white/50 font-bold tracking-[0.3em] uppercase text-xs">
-                  Verify
-                </span>
-
-                <motion.h2
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  className="text-3xl font-semibold tracking-tight leading-tight text-black dark:text-white"
-                >
-                  Secure <br />
-                  <span className="text-black/70 dark:text-white/50">
-                    Execution.
-                  </span>
-                </motion.h2>
-              </div>
-
-              <p className="text-lg text-black/80 dark:text-white/60 leading-relaxed max-w-xl">
-                Authorization confirmed. Settlement executes in 420ms — your
-                AED is released to your destination with a permanent on-chain
-                ledger ID.
-              </p>
-
-              <div className="bg-white/90 dark:bg-[#080808] rounded-2xl overflow-hidden shadow-xl border border-black/[0.06] dark:border-white/10">
-                <div className="flex items-center justify-between px-6 py-3 bg-black/[0.03] dark:bg-white/5 border-b border-black/[0.06] dark:border-white/5">
-                  <div className="text-xs text-black/40 dark:text-white/20 font-mono tracking-widest uppercase">
-                    trade_finalize.v1
-                  </div>
-                </div>
-
-                <div className="p-6 font-mono text-sm leading-relaxed text-black/80 dark:text-white/50 space-y-2">
-                  <div>01 await ledger.confirm(trade_USDT_AED);</div>
-                  <div>02 // Status: Compliance Verified</div>
-                  <div>03 const receipt = "AED_TX_DUBAI_SAFE";</div>
-                  <div>04 blip.release(receipt);</div>
-                </div>
-              </div>
-
-              <CTAButton
-                to="/waitlist"
-                className="w-[220px] h-12 uppercase text-sm"
+            <section className="content-section space-y-4">
+              <span className="text-black/80 dark:text-white/50 font-bold tracking-[0.3em] uppercase text-xs">
+                Verify
+              </span>
+              <motion.h2
+                initial={{ opacity: 0, scale: 0.99 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.2, ease: "easeOut" }}
+                className="font-sans font-semibold leading-[1.05] tracking-[-0.032em] select-none text-black dark:text-white [filter:drop-shadow(0_2px_14px_rgba(0,0,0,0.06))] dark:[filter:drop-shadow(0_2px_14px_rgba(255,255,255,0.055))]"
+                style={{ fontSize: "clamp(2.75rem, 7.5vw, 5.75rem)" }}
               >
+                Secure{" "}
+                <span className="text-black/60 dark:text-white/50">Execution.</span>
+              </motion.h2>
+              <p className="text-sm text-black/60 dark:text-white/40 leading-relaxed max-w-md">
+                Settlement executes in 420ms — AED released to your destination with a permanent on-chain ledger ID.
+              </p>
+              <CTAButton to="/waitlist" className="w-[220px] h-12 uppercase text-sm">
                 Initiate Trade
               </CTAButton>
             </section>
@@ -596,217 +418,185 @@ const App = () => {
 // --- APP SCREENS ---
 
 const RequestScreen = () => (
-  <div className="p-4 pt-[8vh] flex flex-col h-full bg-[#FAF8F5] dark:bg-black text-black dark:text-white font-sans">
-    <div className="flex justify-between items-start mb-3">
+  <div className="flex flex-col h-full bg-black text-white font-sans relative overflow-hidden" style={{ paddingTop: 52 }}>
+    {/* Subtle orange ambient at bottom */}
+    <div style={{ position:"absolute", bottom:0, left:0, right:0, height:"40%", background:"radial-gradient(ellipse at 50% 100%, rgba(255,107,53,0.07) 0%, transparent 70%)", pointerEvents:"none" }} />
+
+    <div className="flex-1 flex flex-col gap-2.5 px-4 pb-3">
+      {/* Portfolio header */}
+      <div className="flex justify-between items-start pt-1">
+        <div>
+          <p style={{ fontSize:9, fontWeight:600, color:"rgba(255,255,255,0.3)", letterSpacing:"0.18em", textTransform:"uppercase", marginBottom:2 }}>Portfolio</p>
+          <p style={{ fontSize:28, fontWeight:600, letterSpacing:"-0.02em", color:"#fff", lineHeight:1 }}>24,500.00</p>
+          <p style={{ fontSize:9, color:"rgba(255,255,255,0.35)", fontWeight:500, marginTop:3 }}>USDT (ERC-20)</p>
+        </div>
+        <div style={{ width:32, height:32, borderRadius:10, background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.08)", display:"flex", alignItems:"center", justifyContent:"center" }}>
+          <Bell size={13} style={{ color:"rgba(255,255,255,0.35)" }} />
+        </div>
+      </div>
+
+      {/* Swap from card */}
+      <div style={{ background:"rgba(255,255,255,0.04)", borderRadius:22, padding:"10px 14px", border:"1px solid rgba(255,255,255,0.06)" }}>
+        <div style={{ display:"flex", justifyContent:"space-between", marginBottom:4 }}>
+          <span style={{ fontSize:9, fontWeight:600, color:"rgba(255,255,255,0.3)", letterSpacing:"0.16em", textTransform:"uppercase" }}>Swap</span>
+          <span style={{ fontSize:9, color:"rgba(255,255,255,0.35)", fontWeight:500, textTransform:"uppercase", letterSpacing:"0.1em" }}>Sell</span>
+        </div>
+        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"baseline" }}>
+          <span style={{ fontSize:26, fontWeight:600, letterSpacing:"-0.02em", color:"#fff" }}>10,000</span>
+          <span style={{ fontSize:9, fontWeight:600, color:"rgba(255,255,255,0.4)", letterSpacing:"0.16em", textTransform:"uppercase" }}>USDT</span>
+        </div>
+      </div>
+
+      {/* Arrow */}
+      <div style={{ display:"flex", justifyContent:"center", margin:"-4px 0", position:"relative", zIndex:10 }}>
+        <div style={{ width:28, height:28, borderRadius:"50%", background:"#000", border:"1px solid rgba(255,255,255,0.1)", display:"flex", alignItems:"center", justifyContent:"center" }}>
+          <ArrowRight size={13} style={{ transform:"rotate(90deg)", color:"rgba(255,255,255,0.45)" }} />
+        </div>
+      </div>
+
+      {/* Receive card — orange accent */}
+      <div style={{ borderRadius:22, padding:"10px 14px", background:"linear-gradient(135deg, rgba(255,107,53,0.12) 0%, rgba(255,107,53,0.05) 100%)", border:"1px solid rgba(255,107,53,0.22)", boxShadow:"0 0 30px rgba(255,107,53,0.07)" }}>
+        <div style={{ display:"flex", justifyContent:"space-between", marginBottom:4 }}>
+          <span style={{ fontSize:9, fontWeight:600, color:"rgba(255,107,53,0.7)", letterSpacing:"0.16em", textTransform:"uppercase" }}>Receive</span>
+          <span style={{ fontSize:9, color:"rgba(255,107,53,0.55)", fontWeight:500, letterSpacing:"0.1em" }}>Spot_AED</span>
+        </div>
+        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"baseline" }}>
+          <span style={{ fontSize:26, fontWeight:600, letterSpacing:"-0.02em", color:"#fff" }}>36,730</span>
+          <span style={{ fontSize:9, fontWeight:600, color:"rgba(255,107,53,0.55)", letterSpacing:"0.16em", textTransform:"uppercase" }}>AED</span>
+        </div>
+      </div>
+
+      {/* Destination */}
       <div>
-        <p className="text-[0.65em] font-semibold text-black/40 dark:text-white/30 uppercase tracking-[0.2em] mb-0.5">
-          Portfolio
-        </p>
-        <h3 className="text-[2em] font-semibold tracking-tight text-black dark:text-white/90">
-          24,500.00
-        </h3>
-        <p className="text-[0.65em] text-black/60 dark:text-white/50 font-medium mt-0.5 tracking-tight italic">
-          USDT (ERC-20)
-        </p>
-      </div>
-      <div className="w-8 h-8 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center">
-        <Bell size={14} className="text-black/50 dark:text-white/40" />
-      </div>
-    </div>
-
-    <div className="space-y-1">
-      <div className="bg-white/80 dark:bg-white/[0.03] p-2.5 rounded-[2rem] border border-black/[0.06] dark:border-white/5">
-        <div className="flex justify-between items-center mb-1.5">
-          <span className="text-[0.65em] font-semibold text-black/50 dark:text-white/30 uppercase tracking-widest">
-            Swap
-          </span>
-          <span className="text-[0.65em] text-black/60 dark:text-white/40 font-medium uppercase tracking-wider">
-            Sell
-          </span>
-        </div>
-        <div className="flex justify-between items-baseline">
-          <span className="text-[2em] font-semibold tracking-tight text-black dark:text-white/90">
-            10,000
-          </span>
-          <span className="text-[0.7em] font-semibold text-black/60 dark:text-white/50 tracking-widest uppercase">
-            USDT
-          </span>
-        </div>
-      </div>
-
-      <div className="flex justify-center -my-5 relative z-10">
-        <div className="bg-[#FAF8F5] dark:bg-black p-1">
-          <div className="bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 w-8 h-8 rounded-full flex items-center justify-center text-black/60 dark:text-white/50 shadow-xl">
-            <ArrowRight size={16} className="rotate-90" />
+        <p style={{ fontSize:9, fontWeight:600, color:"rgba(255,255,255,0.28)", letterSpacing:"0.18em", textTransform:"uppercase", marginBottom:8 }}>Destination</p>
+        <div style={{ display:"flex", gap:8 }}>
+          <div style={{ height:32, padding:"0 12px", borderRadius:999, background:"rgba(255,255,255,0.1)", border:"1px solid rgba(255,255,255,0.14)", display:"flex", alignItems:"center", fontSize:9, fontWeight:700, color:"#fff", letterSpacing:"0.06em" }}>DXB</div>
+          <div style={{ height:32, padding:"0 12px", borderRadius:999, background:"rgba(255,255,255,0.04)", border:"1px solid rgba(255,255,255,0.08)", display:"flex", alignItems:"center", fontSize:9, fontWeight:600, color:"rgba(255,255,255,0.4)", letterSpacing:"0.06em" }}>AUH</div>
+          <div style={{ width:32, height:32, borderRadius:999, border:"1px dashed rgba(255,255,255,0.1)", display:"flex", alignItems:"center", justifyContent:"center" }}>
+            <Plus size={10} style={{ color:"rgba(255,255,255,0.28)" }} />
           </div>
         </div>
       </div>
 
-      <div className="bg-black dark:bg-white p-3.5 rounded-[2rem] shadow-2xl">
-        <div className="flex justify-between items-center mb-1.5 text-white/60 dark:text-black/70">
-          <span className="text-[0.65em] font-semibold uppercase tracking-widest">
-            Receive
-          </span>
-          <span className="text-[0.65em] font-medium tracking-wider">
-            Spot_AED
-          </span>
-        </div>
-        <div className="flex justify-between items-baseline text-white dark:text-black">
-          <span className="text-[2em] font-semibold tracking-tight">
-            36,730
-          </span>
-          <span className="text-[0.7em] font-semibold opacity-60 uppercase tracking-widest font-mono italic">
-            AED
-          </span>
-        </div>
+      {/* Auth button */}
+      <div style={{ marginTop:"auto", background:"rgba(255,255,255,0.04)", border:"1px solid rgba(255,255,255,0.08)", borderRadius:999, padding:"9px 0", textAlign:"center", display:"flex", alignItems:"center", justifyContent:"center", gap:7, fontSize:9, fontWeight:700, color:"rgba(255,255,255,0.45)", letterSpacing:"0.18em", textTransform:"uppercase" }}>
+        <Lock size={9} style={{ color:"rgba(255,255,255,0.55)" }} />
+        Secure Authorization
       </div>
-    </div>
-
-    <div className="mt-3">
-      <p className="text-[0.65em] font-semibold text-black/50 dark:text-white/30 uppercase tracking-widest mb-1.5">
-        Destination
-      </p>
-      <div className="flex gap-2">
-        <div className="w-9 h-9 rounded-full bg-black/10 dark:bg-white/10 border border-black/10 dark:border-white/10 flex items-center justify-center text-[0.7em] font-semibold text-black dark:text-white/70">
-          DXB
-        </div>
-        <div className="w-9 h-9 rounded-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center text-[0.7em] font-semibold text-black/60 dark:text-white/40">
-          AUH
-        </div>
-        <div className="w-9 h-9 rounded-full border border-dashed border-black/10 dark:border-white/10 flex items-center justify-center text-black/50 dark:text-white/30">
-          <Plus size={11} />
-        </div>
-      </div>
-    </div>
-
-    <div className="mt-1 mb-2.5 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-black/60 dark:text-white/50 py-2 rounded-3xl text-center font-semibold text-[0.65em] uppercase tracking-[0.2em] flex items-center justify-center gap-2">
-      <Lock size={9} className="text-black dark:text-white" />
-      Secure Authorization
     </div>
   </div>
 );
 
 const MatchScreen = () => (
-  <div className="p-4 pt-[12vh] flex flex-col h-full bg-[#FAF8F5] dark:bg-black items-center font-sans">
-    <div className="relative w-24 h-24 mb-4">
-      <motion.div
-        animate={{ rotate: 360, opacity: [0.05, 0.1, 0.05] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-        className="absolute inset-0 border border-black/10 dark:border-white/10 rounded-full"
-      />
-      <motion.div
-        animate={{ rotate: -360 }}
-        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-        className="absolute inset-6 border border-black/5 dark:border-white/5 border-dashed rounded-full"
-      />
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-16 h-16 bg-white/80 dark:bg-white/5 backdrop-blur-xl rounded-full border border-black/10 dark:border-white/10 flex flex-col items-center justify-center shadow-2xl text-black/60 dark:text-white/50">
-          <RefreshCcw size={22} className="mb-0.5" />
-          <span className="text-[0.5em] font-semibold tracking-[0.2em] uppercase text-black/50 dark:text-white/30">
-            Routing
-          </span>
+  <div className="flex flex-col h-full bg-black text-white font-sans items-center relative overflow-hidden" style={{ paddingTop: 52 }}>
+    {/* Background pulse glow */}
+    <div style={{ position:"absolute", top:"28%", left:"50%", transform:"translateX(-50%)", width:160, height:160, borderRadius:"50%", background:"radial-gradient(circle, rgba(255,107,53,0.08) 0%, transparent 70%)", pointerEvents:"none" }} />
+
+    <div className="w-full px-4 flex flex-col items-center flex-1 pb-3" style={{ paddingTop: 16 }}>
+      {/* Radar animation */}
+      <div style={{ position:"relative", width:96, height:96, marginBottom:16, flexShrink:0 }}>
+        <motion.div animate={{ rotate:360 }} transition={{ duration:10, repeat:Infinity, ease:"linear" }}
+          style={{ position:"absolute", inset:0, borderRadius:"50%", border:"1px solid rgba(255,107,53,0.15)" }} />
+        <motion.div animate={{ rotate:-360 }} transition={{ duration:15, repeat:Infinity, ease:"linear" }}
+          style={{ position:"absolute", inset:10, borderRadius:"50%", border:"1px dashed rgba(255,255,255,0.08)" }} />
+        <motion.div animate={{ scale:[1, 1.6, 1], opacity:[0.15, 0, 0.15] }} transition={{ duration:2.5, repeat:Infinity, ease:"easeOut" }}
+          style={{ position:"absolute", inset:16, borderRadius:"50%", border:"1px solid rgba(255,107,53,0.3)" }} />
+        <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center" }}>
+          <div style={{ width:58, height:58, borderRadius:"50%", background:"rgba(255,107,53,0.08)", border:"1px solid rgba(255,107,53,0.2)", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:2 }}>
+            <RefreshCcw size={18} style={{ color:"rgba(255,107,53,0.8)" }} />
+            <span style={{ fontSize:7, fontWeight:700, letterSpacing:"0.16em", textTransform:"uppercase", color:"rgba(255,255,255,0.3)" }}>Routing</span>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div className="w-full space-y-1">
-      <div className="flex justify-between items-baseline px-2 mb-1">
-        <h3 className="text-[1.3em] font-semibold text-black dark:text-white/90 tracking-tight">
-          Liquidity
-        </h3>
-        <span className="text-[0.6em] text-black dark:text-white font-semibold tracking-[0.2em] uppercase animate-pulse">
+      {/* Header */}
+      <div style={{ width:"100%", display:"flex", justifyContent:"space-between", alignItems:"baseline", marginBottom:10 }}>
+        <span style={{ fontSize:18, fontWeight:600, letterSpacing:"-0.02em" }}>Liquidity</span>
+        <motion.span animate={{ opacity:[1, 0.4, 1] }} transition={{ duration:1.4, repeat:Infinity }}
+          style={{ fontSize:8, fontWeight:700, color:"rgba(255,107,53,0.8)", letterSpacing:"0.18em", textTransform:"uppercase" }}>
           Syncing AED
-        </span>
+        </motion.span>
       </div>
 
-      {[
-        { city: "London LP", value: "3.6732", active: true },
-        { city: "Singapore LP", value: "3.6719", active: false },
-        { city: "Local OTC", value: "3.6730", active: false },
-      ].map((node, i) => (
-        <motion.div
-          key={i}
-          initial={{ opacity: 0, y: 5 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-white/80 dark:bg-white/[0.02] p-2.5 rounded-2xl border border-black/[0.06] dark:border-white/5 flex items-center justify-between"
-        >
-          <div className="flex items-center gap-2.5">
-            <div
-              className={`w-1.5 h-1.5 rounded-full bg-black/20 dark:bg-white/10 `}
-            />
-            <div>
-              <p className="text-[0.7em] font-semibold text-black dark:text-white/70 uppercase tracking-tight">
-                {node.city}
-              </p>
-              <p className="text-[0.6em] text-black/60 dark:text-white/40 tracking-widest font-mono">
-                RATE: {node.value}
-              </p>
+      {/* LP nodes */}
+      <div style={{ width:"100%", display:"flex", flexDirection:"column", gap:6 }}>
+        {[
+          { city: "London LP", value: "3.6732", active: true },
+          { city: "Singapore LP", value: "3.6719", active: false },
+          { city: "Local OTC", value: "3.6730", active: false },
+        ].map((node, i) => (
+          <motion.div key={i} initial={{ opacity:0, y:6 }} animate={{ opacity:1, y:0 }} transition={{ delay: i * 0.1 }}
+            style={{ display:"flex", alignItems:"center", justifyContent:"space-between", padding:"9px 12px", borderRadius:16,
+              background: node.active ? "rgba(255,107,53,0.08)" : "rgba(255,255,255,0.03)",
+              border: node.active ? "1px solid rgba(255,107,53,0.2)" : "1px solid rgba(255,255,255,0.05)" }}>
+            <div style={{ display:"flex", alignItems:"center", gap:10 }}>
+              <div style={{ width:6, height:6, borderRadius:"50%", background: node.active ? "#FF6B35" : "rgba(255,255,255,0.15)",
+                boxShadow: node.active ? "0 0 8px rgba(255,107,53,0.6)" : "none" }} />
+              <div>
+                <p style={{ fontSize:9, fontWeight:700, color: node.active ? "#fff" : "rgba(255,255,255,0.55)", letterSpacing:"0.04em", textTransform:"uppercase" }}>{node.city}</p>
+                <p style={{ fontSize:8, color: node.active ? "rgba(255,107,53,0.6)" : "rgba(255,255,255,0.25)", fontFamily:"monospace", letterSpacing:"0.06em" }}>RATE: {node.value}</p>
+              </div>
             </div>
-          </div>
-          <span
-            className={`text-[0.6em] font-semibold tracking-widest uppercase ${node.active ? "text-black dark:text-white/70" : "text-black/50 dark:text-white/30"}`}
-          >
-            {node.active ? "Match" : "Wait"}
-          </span>
-        </motion.div>
-      ))}
-    </div>
+            <span style={{ fontSize:8, fontWeight:700, letterSpacing:"0.14em", textTransform:"uppercase", color: node.active ? "#FF6B35" : "rgba(255,255,255,0.25)" }}>
+              {node.active ? "Match" : "Wait"}
+            </span>
+          </motion.div>
+        ))}
+      </div>
 
-    <div className="mt-auto w-full p-2.5 bg-white/80 dark:bg-white/5 rounded-2xl border border-black/[0.06] dark:border-white/5 flex justify-between items-center mb-2.5">
-      <span className="text-[0.6em] font-semibold text-black/60 dark:text-white/40 uppercase tracking-[0.2em]">
-        Efficiency
-      </span>
-      <span className="text-[0.9em] font-semibold text-black dark:text-white/90 tracking-tight">
-        99.98%
-      </span>
+      {/* Efficiency */}
+      <div style={{ marginTop:"auto", width:"100%", padding:"10px 14px", background:"rgba(255,255,255,0.04)", borderRadius:14, border:"1px solid rgba(255,255,255,0.06)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+        <span style={{ fontSize:8, fontWeight:600, color:"rgba(255,255,255,0.35)", letterSpacing:"0.18em", textTransform:"uppercase" }}>Efficiency</span>
+        <span style={{ fontSize:16, fontWeight:600, letterSpacing:"-0.02em" }}>99.98%</span>
+      </div>
     </div>
   </div>
 );
 
 const VerifyScreen = () => (
-  <div className="p-4 pt-[15vh] flex flex-col h-full bg-[#FAF8F5] dark:bg-black items-center font-sans text-center">
-    <div className="flex flex-col items-center justify-center flex-1 w-full">
-      <div className="relative mb-3">
+  <div className="flex flex-col h-full bg-black text-white font-sans items-center text-center relative overflow-hidden" style={{ paddingTop: 52 }}>
+    {/* Success glow */}
+    <div style={{ position:"absolute", top:"30%", left:"50%", transform:"translateX(-50%)", width:180, height:180, borderRadius:"50%", background:"radial-gradient(circle, rgba(255,107,53,0.12) 0%, transparent 70%)", pointerEvents:"none" }} />
+
+    <div className="flex flex-col items-center justify-center flex-1 w-full px-4 pb-3">
+      {/* Success ring + icon */}
+      <div style={{ position:"relative", marginBottom:16 }}>
+        <motion.div animate={{ scale:[1, 1.18, 1], opacity:[0.2, 0, 0.2] }} transition={{ duration:2.2, repeat:Infinity, ease:"easeOut" }}
+          style={{ position:"absolute", inset:-14, borderRadius:"50%", border:"1px solid rgba(255,107,53,0.35)" }} />
+        <motion.div animate={{ scale:[1, 1.08, 1], opacity:[0.3, 0, 0.3] }} transition={{ duration:2.2, repeat:Infinity, ease:"easeOut", delay:0.4 }}
+          style={{ position:"absolute", inset:-6, borderRadius:"50%", border:"1px solid rgba(255,107,53,0.25)" }} />
         <motion.div
-          initial={{ scale: 0, rotate: -45 }}
-          animate={{ scale: 1, rotate: 0 }}
-          transition={{ type: "spring", damping: 15 }}
-          className="relative w-14 h-14 bg-black dark:bg-white rounded-full flex items-center justify-center shadow-2xl"
+          initial={{ scale:0, rotate:-45 }}
+          animate={{ scale:1, rotate:0 }}
+          transition={{ type:"spring", damping:14, delay:0.1 }}
+          style={{ width:56, height:56, borderRadius:"50%", background:"linear-gradient(135deg, #FF6B35, #FF8C42)", display:"flex", alignItems:"center", justifyContent:"center", boxShadow:"0 0 32px rgba(255,107,53,0.35)" }}
         >
-          <CheckCircle2 size={24} className="text-white dark:text-black" />
+          <CheckCircle2 size={24} style={{ color:"#fff" }} />
         </motion.div>
       </div>
 
-      <h3 className="text-[1.6em] font-semibold text-black dark:text-white/90 uppercase tracking-[0.1em]">
-        Settled
-      </h3>
-      <p className="text-[0.65em] text-black/50 dark:text-white/30 font-semibold tracking-[0.3em] uppercase mt-2">
-        LEDGER_ID: 0x9A...F21
-      </p>
+      <h3 style={{ fontSize:22, fontWeight:600, letterSpacing:"0.08em", textTransform:"uppercase", color:"#fff", marginBottom:6 }}>Settled</h3>
+      <p style={{ fontSize:8, color:"rgba(255,255,255,0.25)", fontWeight:600, letterSpacing:"0.26em", textTransform:"uppercase", fontFamily:"monospace" }}>LEDGER_ID: 0x9A...F21</p>
     </div>
 
-    <div className="w-full space-y-1 mb-2.5">
-      <div className="bg-white/80 dark:bg-white/5 p-2.5 rounded-2xl border border-black/[0.06] dark:border-white/5 flex justify-between items-center">
-        <div className="flex items-center gap-2">
-          <Fingerprint size={12} className="text-black/60 dark:text-white/40" />
-          <span className="text-[0.6em] font-semibold text-black/60 dark:text-white/40 uppercase tracking-widest">
-            Authorization
-          </span>
-        </div>
-        <span className="text-[0.6em] font-semibold text-black dark:text-white/70 tracking-widest uppercase">
-          Success
-        </span>
-      </div>
-      <div className="bg-white/80 dark:bg-white/5 p-2.5 rounded-2xl border border-black/[0.06] dark:border-white/5 flex justify-between items-center">
-        <div className="flex items-center gap-2">
-          <Zap size={12} className="text-black dark:text-white" />
-          <span className="text-[0.6em] font-semibold text-black/60 dark:text-white/40 uppercase tracking-widest">
-            Settlement
-          </span>
-        </div>
-        <span className="text-[0.6em] font-semibold text-black dark:text-white/70 tracking-widest uppercase">
-          420MS
-        </span>
+    {/* Receipt rows */}
+    <div style={{ width:"100%", padding:"0 16px 14px" }}>
+      <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
+        {[
+          { icon: <Fingerprint size={11} style={{ color:"rgba(255,255,255,0.35)" }} />, label:"Authorization", value:"Success" },
+          { icon: <Zap size={11} style={{ color:"#FF6B35" }} />, label:"Settlement", value:"420ms" },
+          { icon: <TrendingUp size={11} style={{ color:"rgba(255,255,255,0.35)" }} />, label:"Rate", value:"3.6732 AED" },
+        ].map((row, i) => (
+          <motion.div key={i} initial={{ opacity:0, y:8 }} animate={{ opacity:1, y:0 }} transition={{ delay:0.2 + i * 0.08 }}
+            style={{ display:"flex", justifyContent:"space-between", alignItems:"center", padding:"9px 12px",
+              background:"rgba(255,255,255,0.04)", borderRadius:14, border:"1px solid rgba(255,255,255,0.06)" }}>
+            <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+              {row.icon}
+              <span style={{ fontSize:8, fontWeight:600, color:"rgba(255,255,255,0.4)", letterSpacing:"0.14em", textTransform:"uppercase" }}>{row.label}</span>
+            </div>
+            <span style={{ fontSize:9, fontWeight:700, color: i === 1 ? "#FF6B35" : "rgba(255,255,255,0.7)", letterSpacing:"0.06em", textTransform:"uppercase" }}>{row.value}</span>
+          </motion.div>
+        ))}
       </div>
     </div>
   </div>
