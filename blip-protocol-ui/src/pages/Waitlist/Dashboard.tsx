@@ -852,25 +852,15 @@ export default function BlipDashboard() {
   };
 
   const handleTaskClick = (task) => {
-    // Special handling for Twitter task
+    // Special handling for Twitter task — open X profile directly
     if (task.id === "s2") {
-      if (!user?.walletLinked || !publicKey) {
-        showToast("Please link your wallet first", "error");
-        setShowWalletLinkingModal(true);
-        return;
-      }
-      setShowTwitterModal(true);
+      window.open("https://x.com/blipmoney_", "_blank");
       return;
     }
 
-    // Special handling for Telegram task
+    // Special handling for Telegram task — open channel link directly
     if (task.id === "s3") {
-      if (!user?.walletLinked || !publicKey) {
-        showToast("Please link your wallet first", "error");
-        setShowWalletLinkingModal(true);
-        return;
-      }
-      setShowTelegramModal(true);
+      window.open("https://t.me/blipmoney", "_blank");
       return;
     }
 

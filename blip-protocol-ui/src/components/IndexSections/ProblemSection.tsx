@@ -37,7 +37,7 @@ const CARDS = [
   {
     eyebrow: "The Wait",
     headlinePre: null as string | null,
-    headline: "3–5 Days",
+    headline: "3 – 5 Days",
     sub: "To settle." as string | null,
     micro: "Global payments shouldn't crawl.",
     glowColor: "rgba(106,168,255,0.08)",
