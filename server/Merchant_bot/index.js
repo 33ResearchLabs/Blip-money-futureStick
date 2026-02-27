@@ -3,6 +3,7 @@ import { handleStart, handleFlowCallback } from './handlers/merchantFlow.js';
 import { handleAdminCallback } from './handlers/adminHandler.js';
 import { handleRewards } from './handlers/rewardsHandler.js';
 import { handleBroadcast, handleAnnounce } from './handlers/broadcastHandler.js';
+import { handleRedeem } from './handlers/redeemHandler.js';
 
 /**
  * Start the Merchant Network Telegram bot.
@@ -31,6 +32,8 @@ export function startMerchantBot() {
   bot.onText(/^\/announce (.+)/, (msg, match) =>
     handleAnnounce(bot, msg, match[1])
   );
+
+  bot.onText(/^\/redeem$/, (msg) => handleRedeem(bot, msg));
 
   // ── Callback query router ─────────────────────────────────────────────────
 

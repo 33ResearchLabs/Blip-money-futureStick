@@ -8,13 +8,15 @@ export const MESSAGES = {
     `Tap below to begin onboarding.`,
 
   alreadyRegistered: (points) =>
-    `*Welcome back to Blip.money*\n\n` +
+    `*Welcome back to [Blip.money](https://blip.money)*\n\n` +
     `You are already registered.\n` +
     `Balance: *${points} Blip Points*\n\n` +
     `/tasks — Earn points\n` +
     `/ref — Invite friends\n` +
     `/daily — Daily reward\n` +
-    `/leaderboard — Top users`,
+    `/redeem — Link to website\n` +
+    `/leaderboard — Top users\n\n` +
+    `🌐 [Visit Blip.money](https://blip.money)`,
 
   resumeOnboarding:
     `*Welcome back*\n\n` +
@@ -40,7 +42,9 @@ export const MESSAGES = {
     `/tasks — Complete tasks for more points\n` +
     `/ref — Invite friends (+50 each)\n` +
     `/daily — Daily check-in (+20)\n` +
-    `/leaderboard — View top users`,
+    `/redeem — Link points to website\n` +
+    `/leaderboard — View top users\n\n` +
+    `🌐 [Visit Blip.money](https://blip.money)`,
 
   points: (points) =>
     `*Blip Points*\n\n` +

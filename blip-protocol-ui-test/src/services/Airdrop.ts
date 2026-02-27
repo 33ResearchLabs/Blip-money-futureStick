@@ -198,6 +198,30 @@ export const airdropApi = {
   },
 
   // =====================
+  // REDEEM / LINK TELEGRAM
+  // =====================
+
+  getTokenInfo: async (token: string) => {
+    const response = await api.get(`/redeem/token-info?token=${token}`);
+    return response;
+  },
+
+  verifyRedeemOTP: async (otp: string) => {
+    const response = await api.post("/redeem/verify", { otp });
+    return response;
+  },
+
+  verifyLinkToken: async (token: string) => {
+    const response = await api.post("/redeem/verify-token", { token });
+    return response;
+  },
+
+  getRedeemStatus: async () => {
+    const response = await api.get("/redeem/status");
+    return response;
+  },
+
+  // =====================
   // LEADERBOARD ENDPOINTS
   // =====================
 

@@ -19,6 +19,7 @@ import twoFactorRoutes from "./routes/twoFactor.routes.js";
 import twitterRoutes from "./routes/twitter.route.js";
 import telegramRoutes from "./routes/telegram.route.js";
 import leaderboardRoutes from "./routes/leaderboard.route.js";
+import redeemRoutes from "./routes/redeem.route.js";
 import { startMerchantBot } from "./Merchant_bot/index.js";
 import { startUserBot } from "./User_bot/index.js";
 
@@ -145,6 +146,7 @@ if (isProduction && cluster.isPrimary) {
   app.use("/api/twitter", twitterRoutes);
   app.use("/api/telegram", telegramRoutes);
   app.use("/api/leaderboard", leaderboardRoutes);
+  app.use("/api/redeem", redeemRoutes);
 
   // Health check
   app.get("/api/health", (req, res) => {

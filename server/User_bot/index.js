@@ -12,6 +12,7 @@ import { handleDaily } from './handlers/daily.js';
 import { handleRef } from './handlers/referral.js';
 import { handleLeaderboard } from './handlers/leaderboard.js';
 import { handleAdminStats, handleExport } from './handlers/admin.js';
+import { handleRedeem } from './handlers/redeem.js';
 
 /**
  * Start the Blip Airdrop Telegram bot.
@@ -40,6 +41,7 @@ export function startUserBot() {
   bot.command('daily', handleDaily);
   bot.command('ref', handleRef);
   bot.command('leaderboard', handleLeaderboard);
+  bot.command('redeem', handleRedeem);
   bot.command('adminstats', handleAdminStats);
   bot.command('export', handleExport);
 
