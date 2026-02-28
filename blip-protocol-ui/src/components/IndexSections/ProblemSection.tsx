@@ -223,14 +223,7 @@ const ProblemSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.15, ease: EASE }}
-          style={{
-            textAlign: "center",
-            fontSize: 14,
-            color: isDark ? "#555555" : "#555555",
-            lineHeight: 1.7,
-            maxWidth: 420,
-            margin: "0 auto 64px",
-          }}
+          className="text-base mx-auto text-center md:text-lg text-black/50 dark:text-white/40 font-medium leading-relaxed mb-10 max-w-md"
         >
           The traditional financial system was built for a different era.
           Stablecoin adoption is rising. Merchants are stuck. The timing is now.
@@ -498,8 +491,7 @@ const ProblemSection = () => {
               0 4px 16px rgba(0,0,0,0.05),
               0 12px 40px rgba(0,0,0,0.04)
             `,
-            transition:
-              "box-shadow 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+            transition: "box-shadow 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
           }}
         >
           {/* Orange glow top-left */}

@@ -3,8 +3,7 @@ import { motion, AnimatePresence, useInView } from "framer-motion";
 import { Globe, ChevronDown, Check } from "lucide-react";
 import { useTheme } from "next-themes";
 
-import DashboardPreview from "../AdvancedDashboard/DashboardPreview";
-import { MerchantHeroDashbaord } from "../MerchantDashboard";
+import { FingerCursor } from "../AdvancedDashboard/MerchantDashbaordTradeLive";
 
 /* ─── Floating Particles ─── */
 function FloatingParticles({
@@ -77,52 +76,52 @@ function FloatingParticles({
 const currencies = [
   {
     id: 1,
-    title: "All accounts",
-    amount: 4224.47,
-    symbol: "€",
+    title: "All Assets",
+    amount: 12847.5,
+    symbol: "$",
     icon: Globe,
   },
   {
     id: 2,
-    title: "Euro",
-    amount: 3414.32,
-    symbol: "€",
-    flag: "🇪🇺",
+    title: "USDT",
+    amount: 8420.0,
+    symbol: "$",
+    flag: "🪙",
   },
   {
     id: 3,
-    title: "British Pound",
-    amount: 532.67,
-    symbol: "£",
-    flag: "🇬🇧",
+    title: "AED",
+    amount: 15632.4,
+    symbol: "د.إ",
+    flag: "🇦🇪",
   },
   {
     id: 4,
-    title: "Polish Zloty",
-    amount: 326.98,
-    symbol: "zł",
-    flag: "🇵🇱",
+    title: "BTC",
+    amount: 0.0847,
+    symbol: "₿",
+    flag: "⚡",
   },
 ];
 
 const transactions = [
   {
-    name: "Sent to Peter Smith",
+    name: "P2P Trade · Ahmed",
     time: "20:14",
-    amount: "-500",
-    currency: "EUR",
+    amount: "+5,000",
+    currency: "AED",
   },
   {
-    name: "Bought EUR with PLN",
+    name: "Sold USDT",
     time: "18:01",
-    amount: "-730.25",
-    currency: "PLN",
+    amount: "-2,500",
+    currency: "USDT",
   },
   {
-    name: "Sent to George...",
+    name: "Escrow Release",
     time: "09:01",
-    amount: "-10,345",
-    currency: "PLN",
+    amount: "+1,200",
+    currency: "USDT",
   },
 ];
 
@@ -175,50 +174,6 @@ function AnimatedAmount({
         maximumFractionDigits: 2,
       })}
     </span>
-  );
-}
-
-function AnimatedTypingAmount() {
-  const digits = ["€", "2", ",", "5", "0", "0", ".", "0", "0"];
-  const [shown, setShown] = useState(0);
-  const [done, setDone] = useState(false);
-
-  useEffect(() => {
-    let i = 0;
-    const interval = setInterval(() => {
-      i++;
-      setShown(i);
-      if (i >= digits.length) {
-        clearInterval(interval);
-        setTimeout(() => setDone(true), 250);
-      }
-    }, 90);
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <div className="relative">
-      <motion.p
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.15, duration: 0.3 }}
-        className="text-[28px] font-bold text-gray-900 dark:text-white tabular-nums"
-      >
-        {digits.slice(0, shown).join("")}
-        {!done && (
-          <motion.span
-            animate={{ opacity: [1, 0] }}
-            transition={{ duration: 0.5, repeat: Infinity }}
-            className="text-[#ff6b35]"
-          >
-            |
-          </motion.span>
-        )}
-        {shown === 0 && (
-          <span className="text-gray-300 dark:text-gray-600">€0.00</span>
-        )}
-      </motion.p>
-    </div>
   );
 }
 
@@ -282,231 +237,6 @@ function TradingAmountTyping() {
   );
 }
 
-function AddMoneyScreen() {
-  const [phase, setPhase] = useState<"input" | "receipt">("input");
-
-  useEffect(() => {
-    const timer = setTimeout(() => setPhase("receipt"), 2000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className="absolute top-[44px] left-[3px] right-[3px] bottom-[3px] rounded-t-2xl rounded-b-[2.7rem] z-40 overflow-hidden bg-white dark:bg-[#1a1a1a]"
-    >
-      <AnimatePresence mode="wait">
-        {phase === "input" ? (
-          <motion.div
-            key="input-phase"
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.4 }}
-            className="h-full"
-          >
-            <div className="pt-4 pb-4 px-5">
-              <div className="flex items-center justify-between mb-6">
-                <span className="text-[10px] text-gray-400 dark:text-gray-500">
-                  Cancel
-                </span>
-                <span className="text-[12px] font-semibold text-gray-900 dark:text-white">
-                  Add money
-                </span>
-                <div className="w-8" />
-              </div>
-              <div className="text-center mb-6">
-                <AnimatedTypingAmount />
-                <p className="text-[9px] text-gray-400 dark:text-gray-500 mt-1">
-                  EUR · Euro
-                </p>
-              </div>
-            </div>
-
-            <div className="px-4">
-              <p className="text-[9px] text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 px-1">
-                Choose method
-              </p>
-              {[
-                {
-                  icon: "💳",
-                  label: "Debit / Credit Card",
-                  sub: "Visa, Mastercard",
-                },
-                { icon: "🏦", label: "Bank Transfer", sub: "SEPA, SWIFT" },
-                { icon: "📱", label: "Apple Pay", sub: "Instant" },
-                {
-                  icon: "🔗",
-                  label: "From another account",
-                  sub: "Internal transfer",
-                },
-              ].map((method, i) => (
-                <motion.div
-                  key={method.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    delay: 0.3 + i * 0.07,
-                    duration: 0.4,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                  className={`flex items-center gap-3 py-2.5 px-2 rounded-xl ${i < 3 ? "border-b border-gray-100 dark:border-white/[0.06]" : ""}`}
-                >
-                  <div className="w-8 h-8 rounded-xl bg-gray-100 dark:bg-white/10 flex items-center justify-center text-sm">
-                    {method.icon}
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-[11px] font-medium text-gray-900 dark:text-white">
-                      {method.label}
-                    </p>
-                    <p className="text-[9px] text-gray-400 dark:text-gray-500">
-                      {method.sub}
-                    </p>
-                  </div>
-                  <ChevronDown
-                    size={12}
-                    className="text-gray-300 dark:text-gray-600 -rotate-90"
-                  />
-                </motion.div>
-              ))}
-            </div>
-
-            <motion.div
-              initial={{ opacity: 0.4, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.2, duration: 0.4 }}
-              className="absolute bottom-6 left-4 right-4"
-            >
-              <motion.div
-                initial={{ backgroundColor: "#d1d5db" }}
-                animate={{
-                  backgroundColor: ["#d1d5db", "#ff6b35", "#ff6b35", "#e55a2b"],
-                  scale: [1, 1, 1, 0.96],
-                }}
-                transition={{
-                  delay: 1.2,
-                  duration: 0.6,
-                  times: [0, 0.4, 0.85, 1],
-                }}
-                className="w-full py-3 rounded-2xl text-center"
-              >
-                <span className="text-white text-[11px] font-semibold">
-                  Continue
-                </span>
-              </motion.div>
-            </motion.div>
-          </motion.div>
-        ) : (
-          <motion.div
-            key="receipt-phase"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="h-full flex flex-col pt-4 px-5"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-[10px] text-gray-400 dark:text-gray-500">
-                Close
-              </span>
-              <span className="text-[12px] font-semibold text-gray-900 dark:text-white">
-                Payment Receipt
-              </span>
-              <div className="w-8" />
-            </div>
-
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{
-                delay: 0.2,
-                duration: 0.5,
-                type: "spring",
-                stiffness: 200,
-              }}
-              className="flex justify-center mb-3"
-            >
-              <div className="w-14 h-14 rounded-full bg-emerald-50 dark:bg-emerald-500/10 border-2 border-emerald-200 dark:border-emerald-500/30 flex items-center justify-center">
-                <Check size={24} className="text-emerald-500" />
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.4 }}
-              className="text-center mb-4"
-            >
-              <p className="text-[14px] font-bold text-gray-900 dark:text-white">
-                Payment Successful
-              </p>
-              <p className="text-[9px] text-gray-400 dark:text-gray-500 mt-0.5">
-                Money added to your EUR account
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.4 }}
-              className="text-center mb-4"
-            >
-              <p className="text-[26px] font-bold text-gray-900 dark:text-white">
-                €2,500.00
-              </p>
-              <p className="text-[9px] text-emerald-500 font-medium mt-1">
-                + Added to balance
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8, duration: 0.4 }}
-              className="bg-gray-50 dark:bg-white/[0.06] rounded-xl p-3 mb-3"
-            >
-              {[
-                { label: "Method", value: "💳 Visa •••• 4821" },
-                { label: "Reference", value: "#BLP-90124" },
-                { label: "Date", value: "27 Feb 2026, 20:22" },
-                { label: "Fee", value: "€0.00" },
-                { label: "Status", value: "Completed", isStatus: true },
-              ].map((item, i) => (
-                <div
-                  key={item.label}
-                  className={`flex items-center justify-between py-1.5 ${i < 4 ? "border-b border-gray-200/60 dark:border-white/[0.06]" : ""}`}
-                >
-                  <span className="text-[9px] text-gray-800 dark:text-gray-500">
-                    {item.label}
-                  </span>
-                  <span
-                    className={`text-[9px] font-medium ${(item as { isStatus?: boolean }).isStatus ? "text-emerald-500" : "text-gray-700 dark:text-gray-300"}`}
-                  >
-                    {item.value}
-                  </span>
-                </div>
-              ))}
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1, duration: 0.4 }}
-              className="mt-auto pb-8"
-            >
-              <div className="w-full py-3 rounded-2xl bg-[#ff6b35] text-center">
-                <span className="text-white text-[11px] font-semibold">
-                  Done
-                </span>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
-  );
-}
-
 const orderTimelineSteps = [
   { label: "Order Created", time: "20:23:01" },
   { label: "Merchant Matched", time: "20:23:03" },
@@ -536,7 +266,9 @@ function OrderReceiptScreen() {
     >
       <div className="pt-[46px] px-4 pb-3">
         <div className="flex items-center justify-between mb-4">
-          <span className="text-[9px] text-gray-400 dark:text-white/40 font-medium">← Back</span>
+          <span className="text-[9px] text-gray-400 dark:text-white/40 font-medium">
+            ← Back
+          </span>
           <span className="text-[11px] font-semibold text-gray-900 dark:text-white">
             Order Receipt
           </span>
@@ -555,7 +287,10 @@ function OrderReceiptScreen() {
           className="flex justify-center mb-3"
         >
           <div className="w-12 h-12 rounded-full bg-emerald-50 dark:bg-emerald-500/20 border border-emerald-200 dark:border-emerald-500/30 flex items-center justify-center">
-            <Check size={20} className="text-emerald-500 dark:text-emerald-400" />
+            <Check
+              size={20}
+              className="text-emerald-500 dark:text-emerald-400"
+            />
           </div>
         </motion.div>
 
@@ -565,9 +300,13 @@ function OrderReceiptScreen() {
           transition={{ delay: 0.5, duration: 0.5 }}
           className="text-center mb-4"
         >
-          <p className="text-[20px] font-bold text-gray-900 dark:text-white">5,000.00 USDT</p>
+          <p className="text-[20px] font-bold text-gray-900 dark:text-white">
+            5,000.00 USDT
+          </p>
           <div className="flex items-center justify-center gap-1.5 mt-1">
-            <span className="text-[9px] text-gray-400 dark:text-white/40">→</span>
+            <span className="text-[9px] text-gray-400 dark:text-white/40">
+              →
+            </span>
             <span className="text-[13px] font-semibold text-emerald-500 dark:text-emerald-400">
               18,350.00 AED
             </span>
@@ -594,7 +333,9 @@ function OrderReceiptScreen() {
               key={item.label}
               className={`flex items-center justify-between py-1.5 ${i < 4 ? "border-b border-gray-200/60 dark:border-white/[0.04]" : ""}`}
             >
-              <span className="text-[9px] text-black/70 dark:text-white/40">{item.label}</span>
+              <span className="text-[8px] text-gray-400 dark:text-white/40">
+                {item.label}
+              </span>
               <span className="text-[8px] font-medium text-gray-700 dark:text-white/80">
                 {item.value}
               </span>
@@ -647,7 +388,9 @@ function OrderReceiptScreen() {
                   {!isLast && (
                     <div
                       className={`w-[1.5px] h-5 transition-colors duration-400 ${
-                        i < activeStep ? "bg-emerald-500" : "bg-gray-300 dark:bg-white/[0.06]"
+                        i < activeStep
+                          ? "bg-emerald-500"
+                          : "bg-gray-300 dark:bg-white/[0.06]"
                       }`}
                     />
                   )}
@@ -655,14 +398,18 @@ function OrderReceiptScreen() {
                 <div className="pb-2">
                   <p
                     className={`text-[9px] font-medium leading-none ${
-                      isActive ? "text-gray-900 dark:text-white" : "text-gray-300 dark:text-white/30"
+                      isActive
+                        ? "text-gray-900 dark:text-white"
+                        : "text-gray-300 dark:text-white/30"
                     }`}
                   >
                     {step.label}
                   </p>
                   <p
                     className={`text-[7px] mt-0.5 font-mono ${
-                      isActive ? "text-gray-400 dark:text-white/40" : "text-gray-200 dark:text-white/15"
+                      isActive
+                        ? "text-gray-400 dark:text-white/40"
+                        : "text-gray-200 dark:text-white/15"
                     }`}
                   >
                     {step.time}
@@ -688,9 +435,322 @@ function OrderReceiptScreen() {
   );
 }
 
+/* ─── Instant Bidding Unwrap ─── */
+function InstantBiddingUnwrap() {
+  const bids = [
+    {
+      name: "QuickSwap Pro",
+      rate: "3.672",
+      profit: "+$185",
+      trades: "2,847",
+      time: "~30s",
+      best: true,
+      avatar: "QS",
+    },
+    {
+      name: "FastSettle UAE",
+      rate: "3.668",
+      profit: "+$165",
+      trades: "1,923",
+      time: "~45s",
+      best: false,
+      avatar: "FS",
+    },
+    {
+      name: "DubaiExchange",
+      rate: "3.665",
+      profit: "+$150",
+      trades: "3,102",
+      time: "~60s",
+      best: false,
+      avatar: "DE",
+    },
+  ];
+
+  return (
+    <div className="w-full max-w-3xl mx-auto px-4">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.6 }}
+        className="text-center mb-6"
+      >
+        <p className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-2 font-medium">
+          Live Matching
+        </p>
+        <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-black dark:text-white tracking-tight font-display">
+          Instant Bidding
+        </h3>
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 0.6, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="h-[1.5px] mt-2 mx-auto w-24 bg-gradient-to-r from-transparent via-[#ff6b35] to-transparent"
+        />
+      </motion.div>
+
+      {/* Unwrap panels — 3D fold open */}
+      <div className="space-y-3" style={{ perspective: 1200 }}>
+        {bids.map((bid, i) => (
+          <motion.div
+            key={bid.name}
+            initial={{ rotateX: -90, opacity: 0 }}
+            animate={{ rotateX: 0, opacity: 1 }}
+            transition={{
+              delay: 0.4 + i * 0.25,
+              duration: 0.8,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            style={{ transformOrigin: "top center" }}
+            className={`p-4 rounded-xl border backdrop-blur-xl ${
+              bid.best
+                ? "bg-white/90 dark:bg-white/[0.08] border-[#ff6b35]/30 shadow-[0_4px_24px_-6px_rgba(255,107,53,0.15)] dark:shadow-[0_4px_24px_-6px_rgba(255,107,53,0.1)]"
+                : "bg-white/70 dark:bg-white/[0.03] border-black/[0.06] dark:border-white/[0.06]"
+            }`}
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div
+                  className={`w-10 h-10 rounded-xl flex items-center justify-center text-xs font-bold ${
+                    bid.best
+                      ? "bg-[#ff6b35]/10 dark:bg-[#ff6b35]/20 text-[#ff6b35]"
+                      : "bg-black/[0.05] dark:bg-white/[0.05] text-black/60 dark:text-white/50"
+                  }`}
+                >
+                  {bid.avatar}
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-semibold text-black dark:text-white">
+                      {bid.name}
+                    </span>
+                    {bid.best && (
+                      <span className="px-2 py-0.5 rounded-full bg-[#ff6b35]/10 dark:bg-[#ff6b35]/20 text-[9px] text-[#ff6b35] font-bold uppercase">
+                        Best Rate
+                      </span>
+                    )}
+                  </div>
+                  <span className="text-xs text-black/50 dark:text-white/40">
+                    {bid.trades} trades · ETA {bid.time}
+                  </span>
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="text-lg font-bold text-black dark:text-white">
+                  {bid.rate}{" "}
+                  <span className="text-xs text-black/40 dark:text-white/40">
+                    AED
+                  </span>
+                </div>
+                <div className="text-xs text-black/50 dark:text-white/50">
+                  {bid.profit}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        ))}
+
+        {/* Auto-select notice — last panel to unfold */}
+        <motion.div
+          initial={{ rotateX: -90, opacity: 0 }}
+          animate={{ rotateX: 0, opacity: 1 }}
+          transition={{
+            delay: 1.2,
+            duration: 0.8,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          style={{ transformOrigin: "top center" }}
+          className="p-3 rounded-xl bg-[#ff6b35]/5 dark:bg-[#ff6b35]/10 border border-[#ff6b35]/20 text-center"
+        >
+          <div className="flex items-center justify-center gap-2">
+            <motion.div
+              className="w-2 h-2 rounded-full bg-[#ff6b35]"
+              animate={{ scale: [1, 1.3, 1], opacity: [1, 0.6, 1] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            />
+            <span className="text-sm text-[#ff6b35] font-medium">
+              Auto-selecting best offer in 8s...
+            </span>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Every Transaction Verified Unwrap ─── */
+function EveryTransactionVerifiedUnwrap() {
+  const [confirmations, setConfirmations] = useState(0);
+
+  useEffect(() => {
+    const timers = [
+      setTimeout(() => setConfirmations(1), 800),
+      setTimeout(() => setConfirmations(2), 1400),
+      setTimeout(() => setConfirmations(3), 2000),
+    ];
+    return () => timers.forEach(clearTimeout);
+  }, []);
+
+  return (
+    <div className="w-full max-w-3xl mx-auto px-4">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.6 }}
+        className="text-center mb-6"
+      >
+        <p className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-2 font-medium">
+          On-Chain
+        </p>
+        <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-black dark:text-white tracking-tight font-display">
+          Every Transaction Verified
+        </h3>
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 0.6, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="h-[1.5px] mt-2 mx-auto w-24 bg-gradient-to-r from-transparent via-emerald-500 to-transparent"
+        />
+      </motion.div>
+
+      {/* Unwrap verification panel — 3D fold open */}
+      <div style={{ perspective: 1200 }}>
+        <motion.div
+          initial={{ rotateX: -90, opacity: 0 }}
+          animate={{ rotateX: 0, opacity: 1 }}
+          transition={{
+            delay: 0.4,
+            duration: 1,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          style={{ transformOrigin: "top center" }}
+          className="rounded-2xl bg-white/80 dark:bg-white/[0.04] backdrop-blur-xl border border-black/[0.06] dark:border-white/[0.06] overflow-hidden"
+        >
+          {/* Header */}
+          <div className="p-4 border-b border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <motion.div
+                className="w-2 h-2 rounded-full bg-emerald-500"
+                animate={{ scale: [1, 1.4, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+              <span className="text-xs font-semibold text-black dark:text-white">
+                Verified on Solana
+              </span>
+            </div>
+            <span className="text-[10px] text-black/40 dark:text-white/40 font-mono">
+              Block #248,192,847
+            </span>
+          </div>
+
+          {/* TX Details — each row fades in */}
+          <div className="p-4 space-y-1">
+            {[
+              { label: "Transaction Hash", value: "5Kd8nR...v9Qm" },
+              { label: "From", value: "MQu6b5...TQeK" },
+              { label: "To", value: "7xKp2R...nW4J" },
+              { label: "Amount", value: "5,000.00 USDT" },
+              { label: "Fee", value: "0.00025 SOL" },
+            ].map((item, i) => (
+              <motion.div
+                key={item.label}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.8 + i * 0.12, duration: 0.4 }}
+                className="flex items-center justify-between py-2 border-b border-black/[0.04] dark:border-white/[0.04] last:border-0"
+              >
+                <span className="text-xs text-black/50 dark:text-white/40">
+                  {item.label}
+                </span>
+                <span className="text-xs font-medium font-mono text-black/80 dark:text-white/80">
+                  {item.value}
+                </span>
+              </motion.div>
+            ))}
+
+            {/* Confirmations row */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 1.4, duration: 0.4 }}
+              className="flex items-center justify-between py-2"
+            >
+              <span className="text-xs text-black/50 dark:text-white/40">
+                Status
+              </span>
+              <div className="flex items-center gap-2">
+                <div className="flex gap-1">
+                  {[1, 2, 3].map((n) => (
+                    <motion.div
+                      key={n}
+                      initial={{ scale: 0 }}
+                      animate={{
+                        scale: confirmations >= n ? 1 : 0.5,
+                        backgroundColor:
+                          confirmations >= n ? "#10b981" : "#d1d5db",
+                      }}
+                      transition={{
+                        delay: 0.6 + n * 0.6,
+                        duration: 0.3,
+                        type: "spring",
+                      }}
+                      className="w-2 h-2 rounded-full"
+                    />
+                  ))}
+                </div>
+                <span
+                  className={`text-xs font-medium font-mono ${
+                    confirmations >= 3 ? "text-emerald-500" : "text-amber-500"
+                  }`}
+                >
+                  {confirmations}/3 Confirmed
+                </span>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Verified badge — unfolds last */}
+          <motion.div
+            initial={{ rotateX: -90, opacity: 0 }}
+            animate={{
+              rotateX: confirmations >= 3 ? 0 : -90,
+              opacity: confirmations >= 3 ? 1 : 0,
+            }}
+            transition={{ delay: 2.2, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            style={{ transformOrigin: "top center" }}
+            className="p-4 bg-emerald-50 dark:bg-emerald-500/10 border-t border-emerald-200 dark:border-emerald-500/20 flex items-center justify-center gap-2"
+          >
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: confirmations >= 3 ? 1 : 0 }}
+              transition={{
+                delay: 2.5,
+                duration: 0.4,
+                type: "spring",
+                stiffness: 200,
+              }}
+            >
+              <Check size={16} className="text-emerald-500" />
+            </motion.div>
+            <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">
+              Transaction Verified
+            </span>
+          </motion.div>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
 export default function PremiumFintechSection() {
   const [stage, setStage] = useState<
-    "list" | "stacked" | "phone" | "addMoney" | "trading" | "receipt"
+    | "list"
+    | "stacked"
+    | "phone"
+    | "instantBidding"
+    | "everyTranjactionVerified"
+    | "trading"
+    | "receipt"
   >("list");
   const [animKey, setAnimKey] = useState(0);
   const [animDone, setAnimDone] = useState(false);
@@ -755,16 +815,18 @@ export default function PremiumFintechSection() {
     setAnimDone(false);
     const t1 = setTimeout(() => setStage("stacked"), 1800);
     const t2 = setTimeout(() => setStage("phone"), 3200);
-    const t3 = setTimeout(() => setStage("addMoney"), 5000);
-    const t4 = setTimeout(() => setStage("trading"), 9000);
-    const t5 = setTimeout(() => setStage("receipt"), 12500);
-    const tDone = setTimeout(() => setAnimDone(true), 17000);
+    const t3 = setTimeout(() => setStage("trading"), 5000);
+    const t4 = setTimeout(() => setStage("instantBidding"), 8500);
+    const t5 = setTimeout(() => setStage("receipt"), 13000);
+    const t6 = setTimeout(() => setStage("everyTranjactionVerified"), 17500);
+    const tDone = setTimeout(() => setAnimDone(true), 22000);
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
       clearTimeout(t3);
       clearTimeout(t4);
       clearTimeout(t5);
+      clearTimeout(t6);
       clearTimeout(tDone);
     };
   }, [isInView, animKey]);
@@ -783,7 +845,8 @@ export default function PremiumFintechSection() {
     if (
       stage === "stacked" ||
       stage === "phone" ||
-      stage === "addMoney" ||
+      stage === "instantBidding" ||
+      stage === "everyTranjactionVerified" ||
       stage === "trading" ||
       stage === "receipt"
     )
@@ -795,15 +858,17 @@ export default function PremiumFintechSection() {
     currencies.length * CARD_HEIGHT + (currencies.length - 1) * LIST_GAP;
   const totalStackHeight = CARD_HEIGHT + (currencies.length - 1) * STACK_OFFSET;
 
+  const isInstantBidding = stage === "instantBidding";
+  const isEveryVerified = stage === "everyTranjactionVerified";
+  const isUnwrapStage = isInstantBidding || isEveryVerified;
   const isTrading = stage === "trading";
   const isReceipt = stage === "receipt";
   const isTradingOrReceipt = isTrading || isReceipt;
-  const isPhone =
-    stage === "phone" || stage === "addMoney" || isTradingOrReceipt;
+  const isPhone = stage === "phone" || isTradingOrReceipt;
   const isStacked =
     stage === "stacked" ||
     stage === "phone" ||
-    stage === "addMoney" ||
+    isUnwrapStage ||
     isTradingOrReceipt;
 
   return (
@@ -887,7 +952,7 @@ export default function PremiumFintechSection() {
         className={`h-full flex justify-center px-4 sm:px-6 md:px-20 overflow-hidden ${isPhone ? "items-center py-10 sm:py-20" : "items-start pt-16 sm:pt-28 mt-8 sm:mt-16 md:pt-32"}`}
       >
         <div className="relative w-full max-w-6xl flex items-center justify-center">
-          {/* Left Text — phone/addMoney stages */}
+          {/* Left Text — phone stages */}
           <AnimatePresence>
             {isPhone && !isTradingOrReceipt && (
               <motion.div
@@ -898,65 +963,128 @@ export default function PremiumFintechSection() {
                 transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
                 className="hidden md:block absolute left-0 max-w-sm z-10"
               >
-                <div className="w-16 h-[1px] bg-gradient-to-r from-[#ff6b35]/60 to-transparent mb-8" />
-                <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight font-display bg-gradient-to-br from-black via-black/80 to-black/50 dark:from-white dark:via-white/80 dark:to-white/40 bg-clip-text text-transparent">
-                  Move your money
+                <motion.div
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{
+                    duration: 0.8,
+                    delay: 0.3,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  className="w-16 h-[1px] bg-gradient-to-r from-[#ff6b35]/60 to-transparent mb-8 origin-left"
+                />
+                <motion.h3
+                  initial={{ opacity: 0, x: -40 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{
+                    duration: 0.8,
+                    delay: 0.1,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight font-display bg-gradient-to-br from-black via-black/80 to-black/50 dark:from-white dark:via-white/80 dark:to-white/40 bg-clip-text text-transparent"
+                >
+                  Trade crypto
                   <br />
-                  across Europe
-                </h3>
-                <p className="text-black/50 dark:text-white/50 text-base md:text-lg mt-4 max-w-xs">
-                  Send money anywhere in the EU, effortlessly.
-                </p>
+                  to fiat, instantly
+                </motion.h3>
+                <motion.div
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{
+                    duration: 0.6,
+                    delay: 0.6,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  className="h-[1.5px] mt-3 w-32 bg-gradient-to-r from-[#ff6b35] to-transparent origin-left"
+                />
+                <motion.p
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.6,
+                    delay: 0.4,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  className="text-black/50 dark:text-white/50 text-base md:text-lg mt-4 max-w-xs"
+                >
+                  P2P trading with zero fees, secured by smart escrow.
+                </motion.p>
               </motion.div>
             )}
           </AnimatePresence>
 
-          {/* Merchant Dashboard — trading & receipt stages */}
+          {/* Instant Bidding — 3D unfold unwrap */}
           <AnimatePresence>
-            {isTradingOrReceipt && (
+            {isInstantBidding && (
               <motion.div
-                key="merchant-dashboard"
+                key="instant-bidding-unwrap"
                 initial={{
                   opacity: 0,
-                  x: -100,
-                  scale: 0.9,
+                  scale: 0.92,
                   filter: "blur(10px)",
                 }}
                 animate={{
-                  opacity: isReceipt ? 0 : 1,
-                  x: isReceipt ? -200 : 0,
-                  scale: isReceipt ? 0.85 : 1,
-                  filter: isReceipt ? "blur(12px)" : "blur(0px)",
+                  opacity: 1,
+                  scale: 1,
+                  filter: "blur(0px)",
                 }}
                 exit={{
                   opacity: 0,
-                  x: -200,
-                  scale: 0.85,
+                  scale: 0.9,
                   filter: "blur(12px)",
                 }}
                 transition={{
                   duration: 1.4,
                   ease: [0.22, 1, 0.36, 1],
                 }}
-                className="hidden lg:flex flex-col absolute left-0 top-1/2 -translate-y-1/2 w-[42%] z-10"
+                className="absolute inset-0 flex flex-col items-center justify-center z-10"
               >
-                <div className="mb-4">
-                  <p className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-1 font-medium">
-                    Merchant
-                  </p>
-                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-black dark:text-white tracking-tight font-display">
-                    Merchant Dashboard
-                  </h3>
-                </div>
-                <MerchantHeroDashbaord />
+                <InstantBiddingUnwrap />
               </motion.div>
             )}
           </AnimatePresence>
 
-          {/* Center Content — slides right for trading, back to center for receipt */}
+          {/* Every Transaction Verified — 3D unfold unwrap */}
+          <AnimatePresence>
+            {isEveryVerified && (
+              <motion.div
+                key="every-verified-unwrap"
+                initial={{
+                  opacity: 0,
+                  scale: 0.92,
+                  filter: "blur(10px)",
+                }}
+                animate={{
+                  opacity: 1,
+                  scale: 1,
+                  filter: "blur(0px)",
+                }}
+                exit={{
+                  opacity: 0,
+                  scale: 0.9,
+                  filter: "blur(12px)",
+                }}
+                transition={{
+                  duration: 1.4,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                className="absolute inset-0 flex flex-col items-center justify-center z-10"
+              >
+                <EveryTransactionVerifiedUnwrap />
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Center Content */}
           <motion.div
             animate={{
               x: isTrading ? 140 : 0,
+              opacity: isUnwrapStage ? 0 : 1,
+              scale: isUnwrapStage ? 0.9 : 1,
+              pointerEvents:
+                isUnwrapStage
+                  ? ("none" as const)
+                  : ("auto" as const),
             }}
             transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
             className="flex flex-col items-center"
@@ -977,36 +1105,65 @@ export default function PremiumFintechSection() {
               className="overflow-hidden"
             >
               <AnimatePresence mode="wait">
+                {/* List stage — slide from LEFT */}
                 {stage === "list" && (
-                  <motion.h2
+                  <motion.div
                     key="list-title"
-                    initial={{ opacity: 0, y: 60 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                    className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight font-display text-center bg-gradient-to-br from-black via-black/80 to-black/50 dark:from-white dark:via-white/80 dark:to-white/40 bg-clip-text text-transparent"
+                    initial={{ opacity: 0, x: -80, filter: "blur(8px)" }}
+                    animate={
+                      isInView ? { opacity: 1, x: 0, filter: "blur(0px)" } : {}
+                    }
+                    exit={{ opacity: 0, x: 60, filter: "blur(6px)" }}
+                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                    className="text-center"
                   >
-                    All currencies
-                  </motion.h2>
+                    <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight font-display bg-gradient-to-br from-black via-black/80 to-black/50 dark:from-white dark:via-white/80 dark:to-white/40 bg-clip-text text-transparent inline-block">
+                      Your Assets
+                    </h2>
+                    <motion.div
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      transition={{
+                        duration: 0.6,
+                        delay: 0.4,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
+                      className="h-[2px] mt-2 mx-auto bg-gradient-to-r from-transparent via-[#ff6b35] to-transparent origin-left"
+                    />
+                  </motion.div>
                 )}
+                {/* Stacked stage — slide from RIGHT */}
                 {stage === "stacked" && (
-                  <motion.h2
+                  <motion.div
                     key="stacked-title"
-                    initial={{ opacity: 0, y: 40 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                    className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight font-display text-center bg-gradient-to-br from-black via-black/80 to-[#ff6b35]/70 dark:from-white dark:via-white/80 dark:to-[#ff6b35]/70 bg-clip-text text-transparent"
+                    initial={{ opacity: 0, x: 80, filter: "blur(8px)" }}
+                    animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+                    exit={{ opacity: 0, x: -60, filter: "blur(6px)" }}
+                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                    className="text-center"
                   >
-                    One App
-                  </motion.h2>
+                    <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight font-display bg-gradient-to-br from-black via-black/80 to-[#ff6b35]/70 dark:from-white dark:via-white/80 dark:to-[#ff6b35]/70 bg-clip-text text-transparent inline-block">
+                      One Protocol
+                    </h2>
+                    <motion.div
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      transition={{
+                        duration: 0.6,
+                        delay: 0.3,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
+                      className="h-[2px] mt-2 mx-auto bg-gradient-to-r from-transparent via-[#ff6b35] to-transparent origin-right"
+                    />
+                  </motion.div>
                 )}
+                {/* Trading/Receipt — slide from LEFT */}
                 {isTradingOrReceipt && (
                   <motion.div
                     key="user-title"
-                    initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-                    animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                    exit={{ opacity: 0, y: -10 }}
+                    initial={{ opacity: 0, x: -60, filter: "blur(8px)" }}
+                    animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+                    exit={{ opacity: 0, x: 40, filter: "blur(6px)" }}
                     transition={{
                       duration: 0.8,
                       delay: 0.2,
@@ -1017,9 +1174,19 @@ export default function PremiumFintechSection() {
                     <p className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-1 font-medium">
                       User
                     </p>
-                    <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-black dark:text-white tracking-tight font-display">
-                      {stage === "trading" ? "Placing Order" : "Order Complete"}
+                    <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-black dark:text-white tracking-tight font-display inline-block">
+                      {stage === "trading" ? "Placing Order" : "Trade Complete"}
                     </h3>
+                    <motion.div
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      transition={{
+                        duration: 0.5,
+                        delay: 0.5,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
+                      className="h-[1.5px] mt-1 mx-auto bg-gradient-to-r from-transparent via-[#ff6b35] to-transparent origin-left"
+                    />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -1293,10 +1460,10 @@ export default function PremiumFintechSection() {
                         {idx === 0 && isPhone && !isTradingOrReceipt && (
                           <div className="flex items-center gap-2 mt-4">
                             <button className="bg-[#ff6b35] text-white font-semibold py-2 px-5 rounded-full flex items-center gap-1.5 text-xs shadow-md">
-                              + Add money
+                              + Buy Crypto
                             </button>
                             <button className="bg-black/5 dark:bg-white/20 text-black/70 dark:text-white font-medium py-2 px-5 rounded-full flex items-center gap-1.5 text-xs border border-black/[0.06] dark:border-white/10">
-                              → Send
+                              → Trade P2P
                             </button>
                           </div>
                         )}
@@ -1404,11 +1571,6 @@ export default function PremiumFintechSection() {
                     </motion.div>
                   </>
                 )}
-              </AnimatePresence>
-
-              {/* Add Money Screen */}
-              <AnimatePresence>
-                {stage === "addMoney" && <AddMoneyScreen />}
               </AnimatePresence>
 
               {/* Trading Screen */}
@@ -1525,7 +1687,9 @@ export default function PremiumFintechSection() {
                         </div>
                         <div className="flex items-center gap-1.5">
                           <div className="w-6 h-6 rounded-lg bg-gray-100 dark:bg-neutral-800 flex items-center justify-center">
-                            <span className="text-[8px] text-gray-500 dark:text-white/50">💬</span>
+                            <span className="text-[8px] text-gray-500 dark:text-white/50">
+                              💬
+                            </span>
                           </div>
                           <div className="flex items-center gap-1 bg-gray-100 dark:bg-neutral-800 rounded-full px-2 py-1">
                             <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
@@ -1575,7 +1739,9 @@ export default function PremiumFintechSection() {
 
                         <div className="flex justify-center -my-1 relative z-10">
                           <div className="w-6 h-6 rounded-lg bg-gray-200 dark:bg-neutral-700 border border-gray-300 dark:border-neutral-600 flex items-center justify-center">
-                            <span className="text-[10px] text-gray-500 dark:text-white/60">⇅</span>
+                            <span className="text-[10px] text-gray-500 dark:text-white/60">
+                              ⇅
+                            </span>
                           </div>
                         </div>
 
@@ -1642,49 +1808,82 @@ export default function PremiumFintechSection() {
                           </div>
                         </div>
 
-                        <motion.div
-                          initial={{ opacity: 0.4 }}
-                          animate={{ opacity: 1 }}
-                          transition={{ delay: 1.5, duration: 0.4 }}
-                          className="w-full py-2.5 rounded-xl text-center relative overflow-hidden"
-                        >
+                        <div className="relative">
                           <motion.div
-                            className="absolute inset-0 rounded-xl"
-                            initial={{ backgroundColor: "rgb(64,64,64)" }}
-                            animate={{
-                              backgroundColor: [
-                                "rgb(64,64,64)",
-                                "rgb(16,185,129)",
-                                "rgb(16,185,129)",
-                                "rgb(255,255,255)",
-                              ],
-                              scale: [1, 1, 1, 0.95],
-                            }}
-                            transition={{
-                              delay: 1.5,
-                              duration: 1,
-                              times: [0, 0.3, 0.85, 1],
-                            }}
-                          />
-                          <motion.span
-                            className="relative z-10 text-[10px] font-semibold"
-                            initial={{ color: "rgba(255,255,255,0.4)" }}
-                            animate={{
-                              color: [
-                                "rgba(255,255,255,0.4)",
-                                "rgba(255,255,255,1)",
-                                "rgba(255,255,255,1)",
-                              ],
-                            }}
-                            transition={{
-                              delay: 1.5,
-                              duration: 0.7,
-                              times: [0, 0.3, 1],
-                            }}
+                            initial={{ opacity: 0.4 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 1.5, duration: 0.4 }}
+                            className="w-full py-2.5 rounded-xl text-center relative overflow-hidden"
                           >
-                            Continue
-                          </motion.span>
-                        </motion.div>
+                            <motion.div
+                              className="absolute inset-0 rounded-xl"
+                              initial={{ backgroundColor: "rgb(64,64,64)" }}
+                              animate={{
+                                backgroundColor: [
+                                  "rgb(64,64,64)",
+                                  "rgb(16,185,129)",
+                                  "rgb(16,185,129)",
+                                  "rgb(16,185,129)",
+                                ],
+                                scale: [1, 1, 1, 0.93],
+                              }}
+                              transition={{
+                                delay: 1.5,
+                                duration: 1.2,
+                                times: [0, 0.25, 0.7, 1],
+                              }}
+                            />
+                            {/* Ripple on finger press */}
+                            <motion.div
+                              className="absolute inset-0 m-auto w-6 h-6 rounded-full bg-white/40"
+                              initial={{ scale: 0, opacity: 0 }}
+                              animate={{ scale: [0, 3], opacity: [0.6, 0] }}
+                              transition={{
+                                delay: 2.5,
+                                duration: 0.5,
+                                ease: "easeOut",
+                              }}
+                            />
+                            <motion.span
+                              className="relative z-10 text-[10px] font-semibold"
+                              initial={{ color: "rgba(255,255,255,0.4)" }}
+                              animate={{
+                                color: [
+                                  "rgba(255,255,255,0.4)",
+                                  "rgba(255,255,255,1)",
+                                  "rgba(255,255,255,1)",
+                                ],
+                              }}
+                              transition={{
+                                delay: 1.5,
+                                duration: 0.7,
+                                times: [0, 0.3, 1],
+                              }}
+                            >
+                              Continue
+                            </motion.span>
+                          </motion.div>
+
+                          {/* Finger cursor — appears, moves to button, presses */}
+                          <motion.div
+                            initial={{ opacity: 0, scale: 0.4, y: 15, x: 5 }}
+                            animate={{
+                              opacity: [0, 0, 1, 1, 1, 0.8, 0],
+                              scale: [0.4, 0.4, 1, 1, 0.8, 0.8, 0.4],
+                              y: [15, 15, 0, 0, 3, 3, -5],
+                              x: [5, 5, 0, 0, 0, 0, 0],
+                            }}
+                            transition={{
+                              delay: 1.8,
+                              duration: 1.6,
+                              times: [0, 0.05, 0.25, 0.55, 0.65, 0.85, 1],
+                              ease: [0.22, 1, 0.36, 1],
+                            }}
+                            className="absolute -bottom-10 left-1/2 -translate-x-1/2 z-50 pointer-events-none"
+                          >
+                            <FingerCursor size={42} />
+                          </motion.div>
+                        </div>
 
                         <p className="text-center mt-2">
                           <span className="text-[7px] text-gray-400 dark:text-white/30">
@@ -1868,19 +2067,21 @@ export default function PremiumFintechSection() {
       <div className="absolute bottom-8 left-6 md:left-10 z-40">
         <div className="flex items-center gap-0 bg-white/60 dark:bg-white/[0.04] backdrop-blur-xl rounded-full px-3 py-2 border border-black/[0.04] dark:border-white/[0.06] shadow-lg dark:shadow-none">
           {[
-            { key: "list", label: "Currencies" },
-            { key: "stacked", label: "Stack" },
+            { key: "list", label: "Assets" },
+            { key: "stacked", label: "Protocol" },
             { key: "phone", label: "Wallet" },
-            { key: "addMoney", label: "Add Money" },
-            { key: "trading", label: "Trading" },
-            { key: "receipt", label: "Receipt" },
+            { key: "trading", label: "Trade" },
+            { key: "instantBidding", label: "Bidding" },
+            { key: "everyTranjactionVerified", label: "Verified" },
+            { key: "receipt", label: "Complete" },
           ].map((step, i, arr) => {
             const stageOrder = [
               "list",
               "stacked",
               "phone",
-              "addMoney",
               "trading",
+              "instantBidding",
+              "everyTranjactionVerified",
               "receipt",
             ];
             const currentIdx = stageOrder.indexOf(stage);

@@ -20,6 +20,7 @@ import {
   DarkFintechSection,
   DashboardShowcaseSection,
 } from "@/components/IndexSections";
+import NewSection from "@/components/IndexSections/NewSection";
 
 /* ============================================
    MAIN INDEX PAGE
@@ -69,6 +70,7 @@ const Index = () => {
             <SolutionSection />
           </div>
         </div>
+        {/* <NewSection /> */}
         {/* Dark Fintech — Trading & Currency Section */}
         <DarkFintechSection />
         {/* 4. How It Works — isolated (no overflow-x-hidden parent) */}
