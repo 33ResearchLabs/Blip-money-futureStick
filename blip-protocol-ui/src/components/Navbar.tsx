@@ -25,6 +25,8 @@ export const Navbar = () => {
   const { t } = useTranslation();
   const { isAuthenticated } = useAuth();
   const location = useLocation();
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   const { scrollY } = useScroll();
   const lastScrollY = useRef(0);
@@ -64,18 +66,18 @@ export const Navbar = () => {
         className={`fixed top-0 w-full z-50 ${
           isScrolled
             ? "bg-[#FAF8F5] dark:bg-[rgba(10,10,11,0.8)] dark:backdrop-blur-xl border-b border-black/[0.06] dark:border-white/[0.06]"
-            : "bg-[rgba(9,9,9,0.0)] border-b border-white/[0.06]"
+            : "bg-transparent border-b border-black/[0.04] dark:border-white/[0.06]"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="h-[72px] flex items-center justify-between">
-            <Logo onDark={!isScrolled} />
+            <Logo onDark={!isScrolled && isDark} />
 
             <div className="hidden lg:flex items-center gap-1">
-              <NavItem to="/how-it-works" onDark={!isScrolled}>{t("howItWorks")}</NavItem>
-              <NavItem to="/merchant" onDark={!isScrolled}>Merchant</NavItem>
-              <NavItem to="/research" onDark={!isScrolled}>Research</NavItem>
-              <NavItem to="/blog" onDark={!isScrolled}>Blog</NavItem>
+              <NavItem to="/how-it-works" onDark={!isScrolled && isDark}>{t("howItWorks")}</NavItem>
+              <NavItem to="/merchant" onDark={!isScrolled && isDark}>Merchant</NavItem>
+              <NavItem to="/research" onDark={!isScrolled && isDark}>Research</NavItem>
+              <NavItem to="/blog" onDark={!isScrolled && isDark}>Blog</NavItem>
             </div>
 
             <div className="hidden lg:flex items-center gap-3">

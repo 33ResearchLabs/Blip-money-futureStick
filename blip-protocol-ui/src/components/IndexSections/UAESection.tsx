@@ -9,9 +9,36 @@ import { Link } from "react-router-dom";
    ============================================ */
 
 const corridors = [
-  { from: "🇦🇪", fromLabel: "UAE", fromCcy: "AED", to: "🇮🇳", toLabel: "India", toCcy: "INR", volume: "$4.2B/yr", delay: 0 },
-  { from: "🇦🇪", fromLabel: "UAE", fromCcy: "USDT", to: "💵", toLabel: "USD", toCcy: "USD", volume: "$6.1B/yr", delay: 0.1 },
-  { from: "🇦🇪", fromLabel: "UAE", fromCcy: "AED", to: "🇵🇭", toLabel: "Philippines", toCcy: "PHP", volume: "$1.6B/yr", delay: 0.2 },
+  {
+    from: "🇦🇪",
+    fromLabel: "UAE",
+    fromCcy: "AED",
+    to: "🇮🇳",
+    toLabel: "India",
+    toCcy: "INR",
+    volume: "$4.2B/yr",
+    delay: 0,
+  },
+  {
+    from: "🇦🇪",
+    fromLabel: "UAE",
+    fromCcy: "USDT",
+    to: "💵",
+    toLabel: "USD",
+    toCcy: "USD",
+    volume: "$6.1B/yr",
+    delay: 0.1,
+  },
+  {
+    from: "🇦🇪",
+    fromLabel: "UAE",
+    fromCcy: "AED",
+    to: "🇵🇭",
+    toLabel: "Philippines",
+    toCcy: "PHP",
+    volume: "$1.6B/yr",
+    delay: 0.2,
+  },
 ];
 
 const stats = [
@@ -28,7 +55,11 @@ const UAESection = () => {
   });
 
   const imgY = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
-  const overlayOpacity = useTransform(scrollYProgress, [0, 0.4, 1], [0.75, 0.65, 0.8]);
+  const overlayOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.4, 1],
+    [0.75, 0.65, 0.8],
+  );
 
   return (
     <section
@@ -59,15 +90,26 @@ const UAESection = () => {
       <div className="absolute inset-0 pointer-events-none">
         <motion.div
           className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[900px] h-[400px] rounded-full"
-          style={{ background: "radial-gradient(ellipse, rgba(255,107,53,0.12) 0%, transparent 70%)" }}
+          style={{
+            background:
+              "radial-gradient(ellipse, rgba(255,107,53,0.12) 0%, transparent 70%)",
+          }}
           animate={{ opacity: [0.6, 1, 0.6] }}
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div
           className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full"
-          style={{ background: "radial-gradient(ellipse, rgba(0,229,153,0.06) 0%, transparent 70%)" }}
+          style={{
+            background:
+              "radial-gradient(ellipse, rgba(0,229,153,0.06) 0%, transparent 70%)",
+          }}
           animate={{ opacity: [0.4, 0.8, 0.4] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2,
+          }}
         />
       </div>
 
@@ -110,7 +152,7 @@ const UAESection = () => {
         >
           Launching in
           <br />
-          <span className="text-white/50">Dubai.</span>
+          <span className="text-white/80">Dubai.</span>
         </motion.h2>
 
         <motion.p
@@ -118,9 +160,11 @@ const UAESection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.15 }}
-          className="text-base md:text-lg text-white/50 font-medium max-w-lg mx-auto text-center leading-relaxed mb-14"
+          className="text-base md:text-lg text-white font-medium max-w-lg mx-auto text-center leading-relaxed mb-14"
         >
-          The UAE is the world's fastest-growing crypto hub. Blip's pilot starts here — live corridors, merchant onboarding, and on-chain settlement from day one.
+          The UAE is the world's fastest-growing crypto hub. Blip's pilot starts
+          here — live corridors, merchant onboarding, and on-chain settlement
+          from day one.
         </motion.p>
 
         {/* Stats row */}
@@ -143,7 +187,7 @@ const UAESection = () => {
               <div className="font-display text-2xl md:text-3xl font-bold text-white tracking-tight">
                 {stat.value}
               </div>
-              <div className="text-[10px] uppercase tracking-[0.15em] text-white/30 font-semibold mt-1 max-w-[90px] mx-auto leading-tight">
+              <div className="text-[10px] uppercase tracking-[0.15em] text-white/70 font-semibold mt-1 max-w-[90px] mx-auto leading-tight">
                 {stat.label}
               </div>
             </motion.div>
@@ -173,7 +217,11 @@ const UAESection = () => {
                     <motion.div
                       className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]"
                       animate={{ x: [-8, 8, -8] }}
-                      transition={{ duration: 2 + i * 0.5, repeat: Infinity, ease: "easeInOut" }}
+                      transition={{
+                        duration: 2 + i * 0.5,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
                     />
                     <div className="h-px flex-1 bg-white/20" />
                   </div>
@@ -184,7 +232,7 @@ const UAESection = () => {
                   {corridor.fromCcy} → {corridor.toCcy}
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] uppercase tracking-wider text-white/30 font-semibold">
+                  <span className="text-[10px] uppercase tracking-wider text-white/70 font-semibold">
                     {corridor.fromLabel} → {corridor.toLabel}
                   </span>
                   <span className="text-xs text-[#00e599] font-mono font-semibold">

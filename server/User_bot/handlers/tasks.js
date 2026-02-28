@@ -1,4 +1,5 @@
 import BotUser from '../../models/botUser.model.js';
+import twitterService from '../../services/twitter.service.js';
 import { MESSAGES } from '../utils/messages.js';
 import { KEYBOARDS } from '../utils/keyboards.js';
 
@@ -27,11 +28,27 @@ const TWEET_INTENT_URL = `https://x.com/intent/tweet?text=${encodeURIComponent(T
 
 /**
  * Check if a user is a member of the Telegram channel.
+ * Uses TELEGRAM_BOT_TOKEN (the bot that's admin in the channel)
+ * instead of the User Bot's own token.
  */
 async function isChannelMember(ctx, telegramUserId) {
+  const botToken = process.env.TELEGRAM_BOT_TOKEN;
+  if (!botToken) {
+    console.error('[user-bot] TELEGRAM_BOT_TOKEN not configured');
+    return false;
+  }
   try {
-    const member = await ctx.telegram.getChatMember(CHANNEL_ID, Number(telegramUserId));
-    return ['member', 'administrator', 'creator'].includes(member.status);
+    const res = await fetch(`https://api.telegram.org/bot${botToken}/getChatMember`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: CHANNEL_ID, user_id: Number(telegramUserId) }),
+    });
+    const data = await res.json();
+    if (!data.ok) {
+      console.error('[user-bot] getChatMember error:', data.description);
+      return false;
+    }
+    return ['member', 'administrator', 'creator'].includes(data.result.status);
   } catch (err) {
     console.error('[user-bot] getChatMember error:', err.message);
     return false;
@@ -39,48 +56,19 @@ async function isChannelMember(ctx, telegramUserId) {
 }
 
 /**
- * Verify a Twitter username exists via Twitter API v2.
- */
-async function verifyTwitterUser(username) {
-  const token = process.env.TWITTER_BEARER_TOKEN;
-  if (!token) return { valid: false, reason: 'no_token' };
-
-  try {
-    const decoded = decodeURIComponent(token);
-    const res = await fetch(
-      `https://api.twitter.com/2/users/by/username/${encodeURIComponent(username)}`,
-      { headers: { Authorization: `Bearer ${decoded}` } }
-    );
-    const data = await res.json();
-    if (data.data?.id) return { valid: true, id: data.data.id };
-    return { valid: false, reason: 'not_found' };
-  } catch (err) {
-    console.error('[user-bot] Twitter API error:', err.message);
-    return { valid: false, reason: 'api_error' };
-  }
-}
-
-/**
- * Verify a tweet URL points to a real tweet via Twitter API v2.
+ * Verify a tweet URL via the free oEmbed API (no auth required).
+ * Uses the existing twitterService from server/services/twitter.service.js
  */
 async function verifyTweet(url) {
-  const token = process.env.TWITTER_BEARER_TOKEN;
-  if (!token) return { valid: false, reason: 'no_token' };
-
   const match = url.match(/(?:twitter\.com|x\.com)\/\w+\/status\/(\d+)/);
   if (!match) return { valid: false, reason: 'bad_url' };
 
   try {
-    const decoded = decodeURIComponent(token);
-    const res = await fetch(
-      `https://api.twitter.com/2/tweets/${match[1]}?tweet.fields=text,author_id`,
-      { headers: { Authorization: `Bearer ${decoded}` } }
-    );
-    const data = await res.json();
-    if (data.data?.id) return { valid: true };
-    return { valid: false, reason: 'not_found' };
+    const result = await twitterService.getTweetByUrl(url);
+    if (result.success) return { valid: true, data: result.data };
+    return { valid: false, reason: result.code || 'not_found' };
   } catch (err) {
-    console.error('[user-bot] Twitter API error:', err.message);
+    console.error('[user-bot] oEmbed verify error:', err.message);
     return { valid: false, reason: 'api_error' };
   }
 }
@@ -180,16 +168,24 @@ export async function handleTaskComplete(ctx, sessions) {
       return awardTaskPoints(ctx, userId, 'telegram');
     }
 
-    // ── Twitter Follow: ask for username ──
+    // ── Twitter Follow: open X profile link + ask for username ──
     if (taskKey === 'twitter') {
       sessions.set(userId, { step: 'waiting_twitter_username' });
       try { await ctx.answerCbQuery(); } catch (_) {}
       return ctx.reply(
         `*Follow @${TWITTER_HANDLE} on X*\n\n` +
-        `1. Tap the link below to follow:\n${FOLLOW_URL}\n\n` +
+        `1. Tap the button below to follow us on X.\n\n` +
         `2. Then reply here with your X username to verify.\n\n` +
         `_Example: blipmoney_`,
-        { parse_mode: 'Markdown', disable_web_page_preview: true }
+        {
+          parse_mode: 'Markdown',
+          disable_web_page_preview: true,
+          reply_markup: {
+            inline_keyboard: [
+              [{ text: 'Follow @blipmoney_ on X', url: FOLLOW_URL }],
+            ],
+          },
+        }
       );
     }
 
@@ -219,7 +215,7 @@ export async function handleTwitterProof(ctx, sessions) {
 
   if (!session) return false;
 
-  // ── Verify Twitter username ──
+  // ── Verify Twitter username (accept on trust — no reliable free API to check follows) ──
   if (session.step === 'waiting_twitter_username') {
     const username = ctx.message.text.trim().replace(/^@/, '').replace(/\s.*/g, '');
 
@@ -228,23 +224,6 @@ export async function handleTwitterProof(ctx, sessions) {
       return true;
     }
 
-    const result = await verifyTwitterUser(username);
-
-    if (!result.valid) {
-      if (result.reason === 'no_token') {
-        // No API key — accept on trust, store username
-        await awardTaskPoints(ctx, userId, 'twitter', { twitter_username: username });
-        sessions.delete(userId);
-        return true;
-      }
-      await ctx.reply(
-        `Could not find *@${username}* on X. Please check the username and try again.`,
-        { parse_mode: 'Markdown' }
-      );
-      return true;
-    }
-
-    // Username verified
     await awardTaskPoints(ctx, userId, 'twitter', { twitter_username: username });
     sessions.delete(userId);
     return true;
@@ -265,13 +244,7 @@ export async function handleTwitterProof(ctx, sessions) {
     const result = await verifyTweet(url);
 
     if (!result.valid) {
-      if (result.reason === 'no_token') {
-        // No API key — accept on trust
-        await awardTaskPoints(ctx, userId, 'retweet');
-        sessions.delete(userId);
-        return true;
-      }
-      await ctx.reply('Could not verify that post. Make sure you posted it and paste the full URL.');
+      await ctx.reply('Could not verify that post. Make sure you posted it and the tweet is public.');
       return true;
     }
 

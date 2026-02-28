@@ -32,7 +32,7 @@ const DesktopPhoneMockup = ({ activeSection, steps }) => {
   const FRAME = 11;
   const OUTER_R = 48;
   const INNER_R = 38;
-
+  const SIDEBUTTON = 3;
   return (
     <div className="relative w-full max-w-[300px] h-[600px] mx-auto">
       <motion.div
@@ -120,11 +120,11 @@ const DesktopPhoneMockup = ({ activeSection, steps }) => {
           <div
             style={{
               position: "absolute",
-              left: -FRAME - 0.5,
+              left: -SIDEBUTTON - 1,
               top: 72,
-              width: FRAME + 1,
+              width: SIDEBUTTON,
               height: 28,
-              borderRadius: "3px 0 0 3px",
+              borderRadius: "1px 0 0 3px",
               background: "linear-gradient(to right, #111, #2e2e30)",
               zIndex: 10,
             }}
@@ -132,9 +132,9 @@ const DesktopPhoneMockup = ({ activeSection, steps }) => {
           <div
             style={{
               position: "absolute",
-              left: -FRAME - 0.5,
+              left: -SIDEBUTTON - 1,
               top: 118,
-              width: FRAME + 1,
+              width: SIDEBUTTON + 1,
               height: 54,
               borderRadius: "3px 0 0 3px",
               background: "linear-gradient(to right, #111, #2e2e30)",
@@ -144,9 +144,9 @@ const DesktopPhoneMockup = ({ activeSection, steps }) => {
           <div
             style={{
               position: "absolute",
-              left: -FRAME - 0.5,
+              left: -SIDEBUTTON - 1,
               top: 184,
-              width: FRAME + 1,
+              width: SIDEBUTTON + 1,
               height: 54,
               borderRadius: "3px 0 0 3px",
               background: "linear-gradient(to right, #111, #2e2e30)",
@@ -158,9 +158,9 @@ const DesktopPhoneMockup = ({ activeSection, steps }) => {
           <div
             style={{
               position: "absolute",
-              right: -FRAME - 0.5,
+              right: -SIDEBUTTON - 1,
               top: 148,
-              width: FRAME + 1,
+              width: SIDEBUTTON + 1,
               height: 72,
               borderRadius: "0 3px 3px 0",
               background: "linear-gradient(to left, #111, #2e2e30)",
@@ -346,7 +346,7 @@ const App = () => {
   return (
     <div
       ref={containerRef}
-      className="relative min-h-screen bg-white dark:bg-black text-black dark:text-white selection:bg-black/[0.10] isolate py-12 md:py-20"
+      className="relative min-h-screen bg-[#FAF8F5] dark:bg-black text-black dark:text-white selection:bg-black/[0.10] isolate py-12 md:py-20"
     >
       <div className="text-center mb-12 lg:mb-16">
         <motion.div

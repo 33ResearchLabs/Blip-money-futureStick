@@ -755,6 +755,9 @@ export default function BlipDashboard() {
   }, [user, booted]);
 
   // Telegram link status
+  const [dismissedTelegramBanner, setDismissedTelegramBanner] = useState(
+    () => localStorage.getItem("blip_dismiss_telegram_banner") === "true"
+  );
   const [telegramLink, setTelegramLink] = useState<{
     linked: boolean;
     telegram_username?: string;
@@ -1119,8 +1122,17 @@ export default function BlipDashboard() {
         )}
 
         {/* ===== TELEGRAM LINK BANNER ===== */}
-        {telegramLink && !telegramLink.linked && (
-          <div className="mb-6 bg-gradient-to-r from-blue-500/10 via-indigo-500/10 to-blue-500/10 border border-blue-500/30 dark:border-blue-400/30 rounded-sm p-6 animate-in fade-in slide-in-from-top-4 duration-500">
+        {telegramLink && !telegramLink.linked && !dismissedTelegramBanner && (
+          <div className="relative mb-6 bg-gradient-to-r from-blue-500/10 via-indigo-500/10 to-blue-500/10 border border-blue-500/30 dark:border-blue-400/30 rounded-sm p-6 animate-in fade-in slide-in-from-top-4 duration-500">
+            <button
+              onClick={() => {
+                setDismissedTelegramBanner(true);
+                localStorage.setItem("blip_dismiss_telegram_banner", "true");
+              }}
+              className="absolute top-3 right-3 text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white transition-colors"
+            >
+              <X className="w-4 h-4" />
+            </button>
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 bg-blue-500/20 dark:bg-blue-400/20 rounded-full flex items-center justify-center flex-shrink-0">

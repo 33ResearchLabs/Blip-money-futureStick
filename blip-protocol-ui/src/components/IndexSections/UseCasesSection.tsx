@@ -161,20 +161,32 @@ const UseCasesSection = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="rounded-2xl sm:rounded-3xl border border-black dark:border-white bg-black dark:bg-[#DBDBDB] backdrop-blur-2xl p-8 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.2)] dark:shadow-[0_20px_60px_-15px_rgba(255,255,255,0.08)]"
+            className="
+    rounded-2xl sm:rounded-3xl
+    border border-white/10
+    bg-white/5
+    backdrop-blur-2xl
+    text-white
+    p-6 sm:p-8
+    shadow-[0_20px_60px_-15px_rgba(0,0,0,0.6)]
+  "
           >
+            {/* Header */}
             <div className="mb-6">
-              <div className="text-[10px] uppercase tracking-[0.3em] text-white/30 dark:text-black/30 font-semibold mb-2">
+              <div className="text-[10px] uppercase tracking-[0.3em] text-white/70 font-semibold mb-2">
                 For Merchants
               </div>
-              <h3 className="font-display text-2xl md:text-3xl font-semibold text-white dark:text-black">
+
+              <h3 className="font-display text-2xl md:text-3xl font-semibold text-white">
                 Scale without limits.
               </h3>
             </div>
 
+            {/* Items */}
             <div className="space-y-3">
               {merchantCases.map((item, i) => {
                 const Icon = item.icon;
+
                 return (
                   <motion.div
                     key={item.label}
@@ -182,19 +194,39 @@ const UseCasesSection = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: 0.1 + i * 0.08 }}
-                    className="flex items-start gap-3.5 p-4 rounded-xl border border-white/[0.1] dark:border-black/[0.08] bg-white/[0.04] dark:bg-black/[0.03] hover:border-white/20 dark:hover:border-black/[0.15] transition-colors group"
+                    className="
+            flex items-start gap-3.5
+            p-4
+            rounded-xl
+            border border-white/10
+            bg-white/10
+            hover:bg-white/15
+            transition-all duration-300
+            group
+          "
                   >
-                    <div className="w-9 h-9 rounded-lg bg-white/[0.08] dark:bg-black/[0.06] flex items-center justify-center flex-shrink-0 group-hover:bg-white/[0.14] dark:group-hover:bg-black/[0.1] transition-colors">
-                      <Icon
-                        className="w-4 h-4 text-white/60 dark:text-black/50"
-                        strokeWidth={1.5}
-                      />
+                    {/* Icon */}
+                    <div
+                      className="
+              w-9 h-9
+              rounded-lg
+              bg-white/15
+              flex items-center justify-center
+              flex-shrink-0
+              group-hover:bg-white/25
+              transition-colors
+            "
+                    >
+                      <Icon className="w-4 h-4 text-white" strokeWidth={1.5} />
                     </div>
+
+                    {/* Text */}
                     <div>
-                      <div className="text-sm font-semibold text-white dark:text-black mb-0.5">
+                      <div className="text-sm font-semibold text-white mb-0.5">
                         {item.label}
                       </div>
-                      <div className="text-xs text-white/40 dark:text-black/40 leading-relaxed">
+
+                      <div className="text-xs text-white/80 leading-relaxed">
                         {item.desc}
                       </div>
                     </div>

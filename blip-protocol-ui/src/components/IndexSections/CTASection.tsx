@@ -106,7 +106,7 @@ const CTASection = () => {
             Join Waitlist
           </CTAButton>
           <Link
-            to="/merchant"
+            to="/whitepaper"
             className="inline-flex items-center justify-center w-[180px] h-[48px] rounded-full border border-black/20 dark:border-white/20 text-black/60 dark:text-white/40 text-sm font-medium hover:border-black/40 dark:hover:border-white/40 hover:text-black dark:hover:text-white/70 transition-all duration-300"
           >
             Whitepaper

@@ -383,8 +383,6 @@ const AppShowcaseSection = () => {
                       <div
                         className="w-full py-2.5 rounded-2xl flex items-center justify-center relative"
                         style={{
-                          background:
-                            "linear-gradient(135deg, #ff6b35 0%, #ff8f5a 100%)",
                           boxShadow: "0 4px 20px rgba(255,107,53,0.4)",
                         }}
                       >
@@ -406,7 +404,7 @@ const AppShowcaseSection = () => {
 
                   {/* Home indicator */}
                   <div
-                    className="absolute bottom-[6px] left-1/2 -translate-x-1/2 z-30 w-[72px] h-[4px] rounded-full"
+                    className="absolute bottom-[3px] left-1/2 -translate-x-1/2 z-30 w-[72px] h-[4px] rounded-full"
                     style={{ background: "rgba(255,255,255,0.25)" }}
                   />
                 </div>
@@ -425,6 +423,9 @@ const AppShowcaseSection = () => {
 
             {/* Caption */}
             <div className="absolute bottom-9 left-7 z-20">
+              <div className="text-[10px] text-white/25 uppercase tracking-[0.2em] font-semibold mb-1">
+                Step 01
+              </div>
               <h3 className="text-white font-display text-xl font-bold leading-tight mb-1">
                 Initiate a transfer
               </h3>
@@ -516,7 +517,10 @@ const AppShowcaseSection = () => {
                       <div className="flex-1 flex items-center justify-center relative">
                         <motion.div
                           className="absolute w-12 h-12 rounded-full"
-                          style={{ border: "1px solid rgba(105,65,255,0.3)", willChange: "transform, opacity" }}
+                          style={{
+                            border: "1px solid rgba(105,65,255,0.3)",
+                            willChange: "transform, opacity",
+                          }}
                           animate={{
                             scale: [1, 1.5, 1],
                             opacity: [0.5, 0, 0.5],
