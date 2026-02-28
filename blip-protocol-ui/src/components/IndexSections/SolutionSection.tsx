@@ -81,7 +81,7 @@ const SolutionSection = () => {
             <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-black dark:text-white tracking-tight leading-[1.05] mb-5">
               The Blip
               <br />
-              <span className="text-black/50 dark:text-white/40">
+              <span className="text-black/80 dark:text-white/40">
                 Protocol.
               </span>
             </h2>
@@ -116,7 +116,7 @@ const SolutionSection = () => {
                       <div className="text-sm font-semibold text-black dark:text-white">
                         {trait.label}
                       </div>
-                      <div className="text-xs text-black/40 dark:text-white/30">
+                      <div className="text-xs text-black/55 dark:text-white/30">
                         {trait.desc}
                       </div>
                     </div>
@@ -166,7 +166,7 @@ const SolutionSection = () => {
                     🇦🇪
                   </div>
                   <div>
-                    <div className="text-[9px] uppercase tracking-[0.2em] text-black/30 dark:text-white/25 font-semibold">
+                    <div className="text-[9px] uppercase tracking-[0.2em] text-black/50 dark:text-white/25 font-semibold">
                       Merchant · Dubai
                     </div>
                     <div className="text-sm font-semibold text-black dark:text-white">
@@ -178,7 +178,7 @@ const SolutionSection = () => {
                   <div className="text-lg font-bold text-black dark:text-white font-mono">
                     $5,000
                   </div>
-                  <div className="text-[9px] text-black/30 dark:text-white/25 font-mono">
+                  <div className="text-[9px] text-black/50 dark:text-white/25 font-mono">
                     USDT
                   </div>
                 </div>
@@ -246,7 +246,7 @@ const SolutionSection = () => {
                     <Zap className="w-5 h-5 text-white" strokeWidth={2} />
                   </div>
                   <div>
-                    <div className="text-[9px] uppercase tracking-[0.2em] text-white/40 dark:text-black/40 font-semibold">
+                    <div className="text-[9px] uppercase tracking-[0.2em] text-white/60 dark:text-black/40 font-semibold">
                       Protocol
                     </div>
                     <div className="text-sm font-bold text-white dark:text-black">
@@ -261,11 +261,11 @@ const SolutionSection = () => {
                       animate={{ opacity: [1, 0.3, 1] }}
                       transition={{ duration: 1, repeat: Infinity }}
                     />
-                    <span className="text-[9px] text-white/40 dark:text-black/40 font-medium">
+                    <span className="text-[9px] text-white/60 dark:text-black/40 font-medium">
                       Live
                     </span>
                   </div>
-                  <div className="text-xs font-mono text-white/50 dark:text-black/40">
+                  <div className="text-xs font-mono text-white/65 dark:text-black/40">
                     Locked · On-chain
                   </div>
                 </div>
@@ -285,7 +285,7 @@ const SolutionSection = () => {
                   }}
                 />
               </div>
-              <div className="mt-1.5 flex justify-between text-[9px] font-mono text-white/25 dark:text-black/25">
+              <div className="mt-1.5 flex justify-between text-[9px] font-mono text-white/55 dark:text-black/25">
                 <span>Initiated</span>
                 <span>Matched</span>
                 <span>Settled ✓</span>
@@ -323,7 +323,7 @@ const SolutionSection = () => {
                     🇦🇪
                   </div>
                   <div>
-                    <div className="text-[9px] uppercase tracking-[0.2em] text-black/30 dark:text-white/25 font-semibold">
+                    <div className="text-[9px] uppercase tracking-[0.2em] text-black/50 dark:text-white/25 font-semibold">
                       Merchant · Dubai
                     </div>
                     <div className="text-sm font-semibold text-black dark:text-white">
@@ -335,7 +335,7 @@ const SolutionSection = () => {
                   <div className="text-lg font-bold text-black dark:text-white font-mono">
                     1361.47
                   </div>
-                  <div className="text-[9px] text-black/30 dark:text-white/25 font-mono">
+                  <div className="text-[9px] text-black/50 dark:text-white/25 font-mono">
                     AED
                   </div>
                 </div>

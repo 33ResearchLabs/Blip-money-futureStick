@@ -71,7 +71,7 @@ const ProtocolSection = () => {
             className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-8 backdrop-blur-sm bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-white/10"
           >
             <motion.span className="w-2 h-2 rounded-full bg-black dark:bg-white" />
-            <span className="text-[11px] uppercase tracking-[0.3em] text-black dark:text-white/60">
+            <span className="text-[10px] uppercase tracking-[0.25em] text-black/80 dark:text-white/40 font-semibold">
               The Protocol
             </span>
           </motion.div>

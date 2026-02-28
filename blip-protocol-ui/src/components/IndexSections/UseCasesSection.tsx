@@ -115,7 +115,7 @@ const UseCasesSection = () => {
             className="rounded-2xl sm:rounded-3xl border border-black/[0.08] dark:border-white/[0.08] bg-white/60 dark:bg-white/[0.03] p-8 shadow-[0_4px_40px_-12px_rgba(0,0,0,0.08)] dark:shadow-none"
           >
             <div className="mb-6">
-              <div className="text-[10px] uppercase tracking-[0.3em] text-black/30 dark:text-white/30 font-semibold mb-2">
+              <div className="text-[10px] uppercase tracking-[0.3em] text-black/60 dark:text-white/30 font-semibold mb-2">
                 For Users
               </div>
               <h3 className="font-display text-2xl md:text-3xl font-semibold text-black dark:text-white">
@@ -137,7 +137,7 @@ const UseCasesSection = () => {
                   >
                     <div className="w-9 h-9 rounded-lg bg-black/[0.04] dark:bg-white/[0.04] flex items-center justify-center flex-shrink-0 group-hover:bg-black/[0.07] dark:group-hover:bg-white/[0.07] transition-colors">
                       <Icon
-                        className="w-4 h-4 text-black/50 dark:text-white/50"
+                        className="w-4 h-4 text-black/70 dark:text-white/50"
                         strokeWidth={1.5}
                       />
                     </div>
@@ -145,7 +145,7 @@ const UseCasesSection = () => {
                       <div className="text-sm font-semibold text-black dark:text-white mb-0.5">
                         {item.label}
                       </div>
-                      <div className="text-xs text-black/40 dark:text-white/30 leading-relaxed">
+                      <div className="text-xs text-black dark:text-white/30 leading-relaxed">
                         {item.desc}
                       </div>
                     </div>
@@ -163,21 +163,20 @@ const UseCasesSection = () => {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="
     rounded-2xl sm:rounded-3xl
-    border border-white/10
-    bg-white/5
+    border border-black/[0.08] dark:border-white/10
+    bg-white/60 dark:bg-white/5
     backdrop-blur-2xl
-    text-white
     p-6 sm:p-8
-    shadow-[0_20px_60px_-15px_rgba(0,0,0,0.6)]
+    shadow-[0_4px_40px_-12px_rgba(0,0,0,0.08)] dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.6)]
   "
           >
             {/* Header */}
             <div className="mb-6">
-              <div className="text-[10px] uppercase tracking-[0.3em] text-white/70 font-semibold mb-2">
+              <div className="text-[10px] uppercase tracking-[0.3em] text-black/60 dark:text-white/70 font-semibold mb-2">
                 For Merchants
               </div>
 
-              <h3 className="font-display text-2xl md:text-3xl font-semibold text-white">
+              <h3 className="font-display text-2xl md:text-3xl font-semibold text-black dark:text-white">
                 Scale without limits.
               </h3>
             </div>
@@ -198,9 +197,9 @@ const UseCasesSection = () => {
             flex items-start gap-3.5
             p-4
             rounded-xl
-            border border-white/10
-            bg-white/10
-            hover:bg-white/15
+            border border-black/[0.06] dark:border-white/10
+            bg-black/[0.03] dark:bg-white/10
+            hover:bg-black/[0.06] dark:hover:bg-white/15
             transition-all duration-300
             group
           "
@@ -210,23 +209,26 @@ const UseCasesSection = () => {
                       className="
               w-9 h-9
               rounded-lg
-              bg-white/15
+              bg-black/[0.06] dark:bg-white/15
               flex items-center justify-center
               flex-shrink-0
-              group-hover:bg-white/25
+              group-hover:bg-black/[0.1] dark:group-hover:bg-white/25
               transition-colors
             "
                     >
-                      <Icon className="w-4 h-4 text-white" strokeWidth={1.5} />
+                      <Icon
+                        className="w-4 h-4 text-black/80 dark:text-white"
+                        strokeWidth={1.5}
+                      />
                     </div>
 
                     {/* Text */}
                     <div>
-                      <div className="text-sm font-semibold text-white mb-0.5">
+                      <div className="text-sm font-semibold text-black dark:text-white mb-0.5">
                         {item.label}
                       </div>
 
-                      <div className="text-xs text-white/80 leading-relaxed">
+                      <div className="text-xs text-black dark:text-white/80 leading-relaxed">
                         {item.desc}
                       </div>
                     </div>

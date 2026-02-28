@@ -39,13 +39,12 @@ const RewardsSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="flex items-center justify-center gap-2 sm:gap-3 mb-6 sm:mb-8"
+            className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-8 backdrop-blur-sm bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-white/10"
           >
-            <div className="h-px w-8 sm:w-12 bg-gradient-to-r from-transparent to-black/20 dark:to-white/20" />
-            <span className="text-[11px] uppercase tracking-[0.3em] text-black dark:text-white/30 font-semibold">
+            <motion.span className="w-2 h-2 rounded-full bg-black dark:bg-white" />
+            <span className="text-[10px] uppercase tracking-[0.25em] text-black/80 dark:text-white/40 font-semibold">
               Rewards
             </span>
-            <div className="h-px w-8 sm:w-12 bg-gradient-to-l from-transparent to-black/20 dark:to-white/20" />
           </motion.div>
 
           <motion.h2
@@ -57,7 +56,9 @@ const RewardsSection = () => {
           >
             Earn while you spend.
             <br />
-            <span className="text-black/70 dark:text-white/50">Every transaction.</span>
+            <span className="text-black/70 dark:text-white/50">
+              Every transaction.
+            </span>
           </motion.h2>
 
           <motion.p
@@ -113,10 +114,10 @@ const RewardsSection = () => {
             <span>View Rewards</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link> */}
-          <CTAButton to="rewards" className="w-[220px] h-[48px]">View Rewards</CTAButton>
+          <CTAButton to="rewards" className="w-[220px] h-[48px]">
+            View Rewards
+          </CTAButton>
         </motion.div>
-       
-
       </motion.div>
     </section>
   );

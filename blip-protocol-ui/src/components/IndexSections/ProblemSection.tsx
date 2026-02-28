@@ -179,7 +179,7 @@ const ProblemSection = () => {
             fontWeight: 600,
             letterSpacing: "3px",
             textTransform: "uppercase",
-            color: isDark ? "#ADADAD" : "#888",
+            color: isDark ? "#808080" : "#555555",
             marginBottom: 28,
           }}
         >
@@ -211,7 +211,7 @@ const ProblemSection = () => {
           <span
             style={{
               display: "block",
-              color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.45)",
+              color: isDark ? "rgba(255,255,255,0.4)" : "#555555",
             }}
           >
             are broken.
@@ -226,7 +226,7 @@ const ProblemSection = () => {
           style={{
             textAlign: "center",
             fontSize: 14,
-            color: isDark ? "#555555" : "#888",
+            color: isDark ? "#555555" : "#555555",
             lineHeight: 1.7,
             maxWidth: 420,
             margin: "0 auto 64px",
@@ -350,7 +350,7 @@ const ProblemSection = () => {
                     textTransform: "uppercase",
                     color: isDark
                       ? "rgba(255,255,255,0.22)"
-                      : "rgba(0,0,0,0.35)",
+                      : "rgba(0,0,0,0.70)",
                     marginBottom: 22,
                   }}
                 >
@@ -416,7 +416,7 @@ const ProblemSection = () => {
                     fontWeight: 400,
                     color: isDark
                       ? "rgba(255,255,255,0.16)"
-                      : "rgba(0,0,0,0.3)",
+                      : "rgba(0,0,0,0.70)",
                     letterSpacing: "-0.01em",
                   }}
                 >
@@ -597,7 +597,7 @@ const ProblemSection = () => {
               style={{
                 fontSize: 14,
                 lineHeight: 1.65,
-                color: isDark ? "rgba(255,255,255,0.32)" : "rgba(0,0,0,0.45)",
+                color: isDark ? "rgba(255,255,255,0.32)" : "rgba(0,0,0,0.70)",
                 marginBottom: 28,
                 letterSpacing: "-0.01em",
                 maxWidth: 340,
@@ -710,7 +710,7 @@ const ProblemSection = () => {
                       textTransform: "uppercase",
                       color: isDark
                         ? "rgba(255,255,255,0.25)"
-                        : "rgba(0,0,0,0.35)",
+                        : "rgba(0,0,0,0.70)",
                     }}
                   >
                     {stat.lbl}

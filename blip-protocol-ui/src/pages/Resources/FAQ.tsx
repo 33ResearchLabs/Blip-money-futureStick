@@ -264,7 +264,7 @@ export default function FAQ() {
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.35 }}
-                      className="overflow-hidden"
+                      className="overflow-hidden bg-gray-200 dark:bg-black"
                     >
                       <div className="px-5 pb-5 text-sm text-black dark:text-white/40 leading-relaxed border-t border-black/[0.06] dark:border-white/[0.06] pt-4">
                         {faq.answer}

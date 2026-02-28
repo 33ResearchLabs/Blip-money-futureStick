@@ -76,7 +76,7 @@ const TrustSection = () => {
           className="flex justify-center mb-6"
         >
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-black/[0.08] dark:border-white/[0.08] bg-white/60 dark:bg-white/[0.03]">
-            <span className="text-[10px] uppercase tracking-[0.25em] text-black/50 dark:text-white/40 font-semibold">
+            <span className="text-[10px] uppercase tracking-[0.25em] text-black/80 dark:text-white/40 font-semibold">
               Architecture
             </span>
           </div>
@@ -130,7 +130,7 @@ const TrustSection = () => {
                     >
                       <Icon className="w-5 h-5 text-black/50 dark:text-white/50" strokeWidth={1.5} />
                     </div>
-                    <span className="text-[9px] uppercase tracking-[0.2em] text-black/30 dark:text-white/25 font-semibold border border-black/[0.08] dark:border-white/[0.08] px-2 py-0.5 rounded-full">
+                    <span className="text-[9px] uppercase tracking-[0.2em] text-black/60 dark:text-white/25 font-semibold border border-black/[0.08] dark:border-white/[0.08] px-2 py-0.5 rounded-full">
                       {card.tag}
                     </span>
                   </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { Globe, ChevronDown, Check } from "lucide-react";
+import { useTheme } from "next-themes";
 
 import DashboardPreview from "../AdvancedDashboard/DashboardPreview";
 import { MerchantHeroDashbaord } from "../MerchantDashboard";
@@ -475,7 +476,7 @@ function AddMoneyScreen() {
                   key={item.label}
                   className={`flex items-center justify-between py-1.5 ${i < 4 ? "border-b border-gray-200/60 dark:border-white/[0.06]" : ""}`}
                 >
-                  <span className="text-[9px] text-gray-400 dark:text-gray-500">
+                  <span className="text-[9px] text-gray-800 dark:text-gray-500">
                     {item.label}
                   </span>
                   <span
@@ -593,7 +594,7 @@ function OrderReceiptScreen() {
               key={item.label}
               className={`flex items-center justify-between py-1.5 ${i < 4 ? "border-b border-gray-200/60 dark:border-white/[0.04]" : ""}`}
             >
-              <span className="text-[8px] text-gray-400 dark:text-white/40">{item.label}</span>
+              <span className="text-[9px] text-black/70 dark:text-white/40">{item.label}</span>
               <span className="text-[8px] font-medium text-gray-700 dark:text-white/80">
                 {item.value}
               </span>
