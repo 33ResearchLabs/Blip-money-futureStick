@@ -26,9 +26,10 @@ import {
   Coins,
 } from "lucide-react";
 import { CTAButton } from "../Navbar";
+import { useTheme } from "next-themes";
 
 // Desktop Phone Mockup Component — iPhone 17 Pro / Black Titanium
-const DesktopPhoneMockup = ({ activeSection, steps }) => {
+const DesktopPhoneMockup = ({ activeSection, steps, isDark }) => {
   const FRAME = 11;
   const OUTER_R = 48;
   const INNER_R = 38;
@@ -176,7 +177,7 @@ const DesktopPhoneMockup = ({ activeSection, steps }) => {
               height: "100%",
               borderRadius: INNER_R,
               overflow: "hidden",
-              background: "#000",
+              background: isDark ? "#000" : "#FFFFFF",
             }}
           >
             {/* Status bar */}
@@ -192,7 +193,7 @@ const DesktopPhoneMockup = ({ activeSection, steps }) => {
                 justifyContent: "space-between",
                 padding: "0 22px 0 26px",
                 zIndex: 55,
-                color: "rgba(255,255,255,0.7)",
+                color: isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.5)",
                 fontSize: 10,
                 fontWeight: 700,
               }}
@@ -269,6 +270,8 @@ const DesktopPhoneMockup = ({ activeSection, steps }) => {
 };
 
 const App = () => {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
   const [activeSection, setActiveSection] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -338,9 +341,9 @@ const App = () => {
   }, []);
 
   const steps = [
-    { title: "Initiation", screen: <RequestScreen /> },
-    { title: "Match", screen: <MatchScreen /> },
-    { title: "Verify", screen: <VerifyScreen /> },
+    { title: "Initiation", screen: <RequestScreen isDark={isDark} /> },
+    { title: "Match", screen: <MatchScreen isDark={isDark} /> },
+    { title: "Verify", screen: <VerifyScreen isDark={isDark} /> },
   ];
 
   return (
@@ -493,7 +496,7 @@ const App = () => {
         <div className="flex gap-16">
           {/* LEFT SIDE: Sticky Phone UI */}
           <div className="w-full lg:w-[45%] lg:sticky lg:top-0 h-screen flex items-center justify-center py-12">
-            <DesktopPhoneMockup activeSection={activeSection} steps={steps} />
+            <DesktopPhoneMockup activeSection={activeSection} steps={steps} isDark={isDark} />
           </div>
 
           {/* RIGHT SIDE: Content Narrative */}
@@ -589,9 +592,9 @@ const App = () => {
 
 // --- APP SCREENS ---
 
-const RequestScreen = () => (
+const RequestScreen = ({ isDark }) => (
   <div
-    className="flex flex-col h-full bg-black text-white font-sans relative overflow-hidden"
+    className={`flex flex-col h-full font-sans relative overflow-hidden ${isDark ? "bg-black text-white" : "bg-white text-black"}`}
     style={{ paddingTop: 52 }}
   >
     {/* Subtle orange ambient at bottom */}
@@ -616,7 +619,7 @@ const RequestScreen = () => (
             style={{
               fontSize: 9,
               fontWeight: 600,
-              color: "rgba(255,255,255,0.3)",
+              color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.35)",
               letterSpacing: "0.18em",
               textTransform: "uppercase",
               marginBottom: 2,
@@ -629,7 +632,7 @@ const RequestScreen = () => (
               fontSize: 28,
               fontWeight: 600,
               letterSpacing: "-0.02em",
-              color: "#fff",
+              color: isDark ? "#fff" : "#000",
               lineHeight: 1,
             }}
           >
@@ -638,7 +641,7 @@ const RequestScreen = () => (
           <p
             style={{
               fontSize: 9,
-              color: "rgba(255,255,255,0.35)",
+              color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.4)",
               fontWeight: 500,
               marginTop: 3,
             }}
@@ -651,24 +654,24 @@ const RequestScreen = () => (
             width: 32,
             height: 32,
             borderRadius: 10,
-            background: "rgba(255,255,255,0.05)",
-            border: "1px solid rgba(255,255,255,0.08)",
+            background: isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)",
+            border: isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.08)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
           }}
         >
-          <Bell size={13} style={{ color: "rgba(255,255,255,0.35)" }} />
+          <Bell size={13} style={{ color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)" }} />
         </div>
       </div>
 
       {/* Swap from card */}
       <div
         style={{
-          background: "rgba(255,255,255,0.04)",
+          background: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)",
           borderRadius: 22,
           padding: "10px 14px",
-          border: "1px solid rgba(255,255,255,0.06)",
+          border: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.06)",
         }}
       >
         <div
@@ -682,7 +685,7 @@ const RequestScreen = () => (
             style={{
               fontSize: 9,
               fontWeight: 600,
-              color: "rgba(255,255,255,0.3)",
+              color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.35)",
               letterSpacing: "0.16em",
               textTransform: "uppercase",
             }}
@@ -692,7 +695,7 @@ const RequestScreen = () => (
           <span
             style={{
               fontSize: 9,
-              color: "rgba(255,255,255,0.35)",
+              color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.4)",
               fontWeight: 500,
               textTransform: "uppercase",
               letterSpacing: "0.1em",
@@ -713,7 +716,7 @@ const RequestScreen = () => (
               fontSize: 26,
               fontWeight: 600,
               letterSpacing: "-0.02em",
-              color: "#fff",
+              color: isDark ? "#fff" : "#000",
             }}
           >
             10,000
@@ -722,7 +725,7 @@ const RequestScreen = () => (
             style={{
               fontSize: 9,
               fontWeight: 600,
-              color: "rgba(255,255,255,0.4)",
+              color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)",
               letterSpacing: "0.16em",
               textTransform: "uppercase",
             }}
@@ -747,8 +750,8 @@ const RequestScreen = () => (
             width: 28,
             height: 28,
             borderRadius: "50%",
-            background: "#000",
-            border: "1px solid rgba(255,255,255,0.1)",
+            background: isDark ? "#000" : "#fff",
+            border: isDark ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(0,0,0,0.1)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -758,7 +761,7 @@ const RequestScreen = () => (
             size={13}
             style={{
               transform: "rotate(90deg)",
-              color: "rgba(255,255,255,0.45)",
+              color: isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.4)",
             }}
           />
         </div>
@@ -816,7 +819,7 @@ const RequestScreen = () => (
               fontSize: 26,
               fontWeight: 600,
               letterSpacing: "-0.02em",
-              color: "#fff",
+              color: isDark ? "#fff" : "#000",
             }}
           >
             36,730
@@ -841,7 +844,7 @@ const RequestScreen = () => (
           style={{
             fontSize: 9,
             fontWeight: 600,
-            color: "rgba(255,255,255,0.28)",
+            color: isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.3)",
             letterSpacing: "0.18em",
             textTransform: "uppercase",
             marginBottom: 8,
@@ -855,13 +858,13 @@ const RequestScreen = () => (
               height: 32,
               padding: "0 12px",
               borderRadius: 999,
-              background: "rgba(255,255,255,0.1)",
-              border: "1px solid rgba(255,255,255,0.14)",
+              background: isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.08)",
+              border: isDark ? "1px solid rgba(255,255,255,0.14)" : "1px solid rgba(0,0,0,0.1)",
               display: "flex",
               alignItems: "center",
               fontSize: 9,
               fontWeight: 700,
-              color: "#fff",
+              color: isDark ? "#fff" : "#000",
               letterSpacing: "0.06em",
             }}
           >
@@ -872,13 +875,13 @@ const RequestScreen = () => (
               height: 32,
               padding: "0 12px",
               borderRadius: 999,
-              background: "rgba(255,255,255,0.04)",
-              border: "1px solid rgba(255,255,255,0.08)",
+              background: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)",
+              border: isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.06)",
               display: "flex",
               alignItems: "center",
               fontSize: 9,
               fontWeight: 600,
-              color: "rgba(255,255,255,0.4)",
+              color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)",
               letterSpacing: "0.06em",
             }}
           >
@@ -889,13 +892,13 @@ const RequestScreen = () => (
               width: 32,
               height: 32,
               borderRadius: 999,
-              border: "1px dashed rgba(255,255,255,0.1)",
+              border: isDark ? "1px dashed rgba(255,255,255,0.1)" : "1px dashed rgba(0,0,0,0.12)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
             }}
           >
-            <Plus size={10} style={{ color: "rgba(255,255,255,0.28)" }} />
+            <Plus size={10} style={{ color: isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.3)" }} />
           </div>
         </div>
       </div>
@@ -904,8 +907,8 @@ const RequestScreen = () => (
       <div
         style={{
           marginTop: "auto",
-          background: "rgba(255,255,255,0.04)",
-          border: "1px solid rgba(255,255,255,0.08)",
+          background: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)",
+          border: isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.08)",
           borderRadius: 999,
           padding: "9px 0",
           textAlign: "center",
@@ -915,21 +918,21 @@ const RequestScreen = () => (
           gap: 7,
           fontSize: 9,
           fontWeight: 700,
-          color: "rgba(255,255,255,0.45)",
+          color: isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.45)",
           letterSpacing: "0.18em",
           textTransform: "uppercase",
         }}
       >
-        <Lock size={9} style={{ color: "rgba(255,255,255,0.55)" }} />
+        <Lock size={9} style={{ color: isDark ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.5)" }} />
         Secure Authorization
       </div>
     </div>
   </div>
 );
 
-const MatchScreen = () => (
+const MatchScreen = ({ isDark }) => (
   <div
-    className="flex flex-col h-full bg-black text-white font-sans items-center relative overflow-hidden"
+    className={`flex flex-col h-full font-sans items-center relative overflow-hidden ${isDark ? "bg-black text-white" : "bg-white text-black"}`}
     style={{ paddingTop: 52 }}
   >
     {/* Background pulse glow */}
@@ -979,7 +982,7 @@ const MatchScreen = () => (
             position: "absolute",
             inset: 10,
             borderRadius: "50%",
-            border: "1px dashed rgba(255,255,255,0.08)",
+            border: isDark ? "1px dashed rgba(255,255,255,0.08)" : "1px dashed rgba(0,0,0,0.08)",
           }}
         />
         <motion.div
@@ -1022,7 +1025,7 @@ const MatchScreen = () => (
                 fontWeight: 700,
                 letterSpacing: "0.16em",
                 textTransform: "uppercase",
-                color: "rgba(255,255,255,0.3)",
+                color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.35)",
               }}
             >
               Routing
@@ -1088,10 +1091,10 @@ const MatchScreen = () => (
               borderRadius: 16,
               background: node.active
                 ? "rgba(255,107,53,0.08)"
-                : "rgba(255,255,255,0.03)",
+                : isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)",
               border: node.active
                 ? "1px solid rgba(255,107,53,0.2)"
-                : "1px solid rgba(255,255,255,0.05)",
+                : isDark ? "1px solid rgba(255,255,255,0.05)" : "1px solid rgba(0,0,0,0.06)",
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -1102,7 +1105,7 @@ const MatchScreen = () => (
                   borderRadius: "50%",
                   background: node.active
                     ? "#FF6B35"
-                    : "rgba(255,255,255,0.15)",
+                    : isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.15)",
                   boxShadow: node.active
                     ? "0 0 8px rgba(255,107,53,0.6)"
                     : "none",
@@ -1113,7 +1116,9 @@ const MatchScreen = () => (
                   style={{
                     fontSize: 9,
                     fontWeight: 700,
-                    color: node.active ? "#fff" : "rgba(255,255,255,0.55)",
+                    color: node.active
+                      ? (isDark ? "#fff" : "#000")
+                      : isDark ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.55)",
                     letterSpacing: "0.04em",
                     textTransform: "uppercase",
                   }}
@@ -1125,7 +1130,7 @@ const MatchScreen = () => (
                     fontSize: 8,
                     color: node.active
                       ? "rgba(255,107,53,0.6)"
-                      : "rgba(255,255,255,0.25)",
+                      : isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.3)",
                     fontFamily: "monospace",
                     letterSpacing: "0.06em",
                   }}
@@ -1140,7 +1145,7 @@ const MatchScreen = () => (
                 fontWeight: 700,
                 letterSpacing: "0.14em",
                 textTransform: "uppercase",
-                color: node.active ? "#FF6B35" : "rgba(255,255,255,0.25)",
+                color: node.active ? "#FF6B35" : isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.3)",
               }}
             >
               {node.active ? "Match" : "Wait"}
@@ -1155,9 +1160,9 @@ const MatchScreen = () => (
           marginTop: "auto",
           width: "100%",
           padding: "10px 14px",
-          background: "rgba(255,255,255,0.04)",
+          background: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)",
           borderRadius: 14,
-          border: "1px solid rgba(255,255,255,0.06)",
+          border: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.06)",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
@@ -1167,7 +1172,7 @@ const MatchScreen = () => (
           style={{
             fontSize: 8,
             fontWeight: 600,
-            color: "rgba(255,255,255,0.35)",
+            color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.4)",
             letterSpacing: "0.18em",
             textTransform: "uppercase",
           }}
@@ -1184,9 +1189,9 @@ const MatchScreen = () => (
   </div>
 );
 
-const VerifyScreen = () => (
+const VerifyScreen = ({ isDark }) => (
   <div
-    className="flex flex-col h-full bg-black text-white font-sans items-center text-center relative overflow-hidden"
+    className={`flex flex-col h-full font-sans items-center text-center relative overflow-hidden ${isDark ? "bg-black text-white" : "bg-white text-black"}`}
     style={{ paddingTop: 52 }}
   >
     {/* Success glow */}
@@ -1258,7 +1263,7 @@ const VerifyScreen = () => (
           fontWeight: 600,
           letterSpacing: "0.08em",
           textTransform: "uppercase",
-          color: "#fff",
+          color: isDark ? "#fff" : "#000",
           marginBottom: 6,
         }}
       >
@@ -1267,7 +1272,7 @@ const VerifyScreen = () => (
       <p
         style={{
           fontSize: 8,
-          color: "rgba(255,255,255,0.25)",
+          color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.3)",
           fontWeight: 600,
           letterSpacing: "0.26em",
           textTransform: "uppercase",
@@ -1286,7 +1291,7 @@ const VerifyScreen = () => (
             icon: (
               <Fingerprint
                 size={11}
-                style={{ color: "rgba(255,255,255,0.35)" }}
+                style={{ color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)" }}
               />
             ),
             label: "Authorization",
@@ -1301,7 +1306,7 @@ const VerifyScreen = () => (
             icon: (
               <TrendingUp
                 size={11}
-                style={{ color: "rgba(255,255,255,0.35)" }}
+                style={{ color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)" }}
               />
             ),
             label: "Rate",
@@ -1318,9 +1323,9 @@ const VerifyScreen = () => (
               justifyContent: "space-between",
               alignItems: "center",
               padding: "9px 12px",
-              background: "rgba(255,255,255,0.04)",
+              background: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)",
               borderRadius: 14,
-              border: "1px solid rgba(255,255,255,0.06)",
+              border: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.06)",
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -1329,7 +1334,7 @@ const VerifyScreen = () => (
                 style={{
                   fontSize: 8,
                   fontWeight: 600,
-                  color: "rgba(255,255,255,0.4)",
+                  color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)",
                   letterSpacing: "0.14em",
                   textTransform: "uppercase",
                 }}
@@ -1341,7 +1346,7 @@ const VerifyScreen = () => (
               style={{
                 fontSize: 9,
                 fontWeight: 700,
-                color: i === 1 ? "#FF6B35" : "rgba(255,255,255,0.7)",
+                color: i === 1 ? "#FF6B35" : isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.7)",
                 letterSpacing: "0.06em",
                 textTransform: "uppercase",
               }}
