@@ -1348,16 +1348,15 @@ export default function PremiumFintechSection() {
                         opacity: isInView ? 1 : 0,
                       }}
                       transition={{
-                        type: "spring",
-                        stiffness: 100,
-                        damping: 25,
-                        delay: stage === "list" ? idx * 0.15 : 0,
+                        duration: isStacked ? 1.2 : 0.9,
+                        delay:
+                          isInView && stage === "list"
+                            ? idx * 0.15
+                            : idx * 0.05,
+                        ease: [0.22, 1, 0.36, 1],
                       }}
                       className="absolute top-0 left-0 w-full"
-                      style={{
-                        zIndex: currencies.length - idx,
-                        willChange: "transform, opacity",
-                      }}
+                      style={{ zIndex: currencies.length - idx }}
                     >
                       <div
                         className={`
