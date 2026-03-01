@@ -102,7 +102,8 @@ const BlipscanExplorerSection = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black dark:text-white mb-4 tracking-tight"
           >
-            Every transaction, <span className="text-black dark:text-white/20">verified.</span>
+            Every transaction,{" "}
+            <span className="text-black dark:text-white/20">verified.</span>
           </motion.h2>
 
           <motion.p
@@ -110,7 +111,7 @@ const BlipscanExplorerSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-black/80 dark:text-white/50 font-medium text-base sm:text-lg max-w-2xl mx-auto"
+            className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 font-medium max-w-2xl mx-auto hidden sm:block leading-relaxed"
           >
             Every settlement is public and verifiable on Blipscan.
           </motion.p>
@@ -226,7 +227,9 @@ const BlipscanExplorerSection = () => {
                             <span className="text-sm font-mono text-black dark:text-white/60 truncate">
                               {tx.id}
                             </span>
-                            <span className="text-xs text-black dark:text-white/20">→</span>
+                            <span className="text-xs text-black dark:text-white/20">
+                              →
+                            </span>
                             <span className="text-sm text-black dark:text-white font-medium truncate">
                               {tx.to}
                             </span>
@@ -242,7 +245,9 @@ const BlipscanExplorerSection = () => {
                           <div className="text-base font-semibold text-black dark:text-white">
                             {tx.amount}
                           </div>
-                          <div className="text-xs text-black dark:text-white/30">USDT</div>
+                          <div className="text-xs text-black dark:text-white/30">
+                            USDT
+                          </div>
                         </div>
                         <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-md bg-emerald-500/10 border border-emerald-500/20">
                           <span className="text-xs text-black dark:text-white font-medium whitespace-nowrap">
