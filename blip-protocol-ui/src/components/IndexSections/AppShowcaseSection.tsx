@@ -88,7 +88,7 @@ const AppShowcaseSection = () => {
             className="md:col-span-5 relative rounded-3xl overflow-hidden max-h-[540px]"
           >
             <img
-              src="/public/card1.jpg"
+              src="/card1.jpg"
               alt="Initiate Order"
               className="w-full h-full object-cover"
             />
