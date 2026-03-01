@@ -568,7 +568,7 @@ export default function Community() {
           </div>
         </section>
 
-        {/* ── Community Stats ── */}
+        {/* ── Community Stats (Hidden) ──
         <section className="py-16 sm:py-24">
           <div className="max-w-[1100px] mx-auto px-4 sm:px-6">
             <AnimatedSection className="text-center mb-14">
@@ -587,6 +587,7 @@ export default function Community() {
             </div>
           </div>
         </section>
+        */}
 
         {/* ── CTA ── */}
         <section className="py-16 sm:py-24 pb-24 sm:pb-32">

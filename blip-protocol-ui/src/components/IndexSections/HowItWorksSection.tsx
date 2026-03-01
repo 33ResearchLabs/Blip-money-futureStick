@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion";
 import {
   Send,
-  RefreshCcw,
   ShieldCheck,
   Globe,
   Lock,
@@ -10,8 +9,6 @@ import {
   ArrowRight,
   Wallet,
   CheckCircle2,
-  TrendingUp,
-  Fingerprint,
   Activity,
   ChevronRight,
   MousePointer2,
@@ -199,7 +196,14 @@ const DesktopPhoneMockup = ({ activeSection, steps, isDark }) => {
               }}
             >
               <span>9:41</span>
-              <div style={{ display: "flex", gap: 6, alignItems: "center" ,color: isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.70)",}} >
+              <div
+                style={{
+                  display: "flex",
+                  gap: 6,
+                  alignItems: "center",
+                  color: isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.70)",
+                }}
+              >
                 <Signal size={10} />
                 <Wifi size={10} />
                 <Battery size={10} />
@@ -341,9 +345,9 @@ const App = () => {
   }, []);
 
   const steps = [
-    { title: "Initiation", screen: <RequestScreen isDark={isDark} /> },
-    { title: "Match", screen: <MatchScreen isDark={isDark} /> },
-    { title: "Verify", screen: <VerifyScreen isDark={isDark} /> },
+    { title: "Send Money", screen: <RequestScreen isDark={isDark} /> },
+    { title: "Pay Bills", screen: <MatchScreen isDark={isDark} /> },
+    { title: "Cash Out", screen: <VerifyScreen isDark={isDark} /> },
   ];
 
   return (
@@ -382,9 +386,9 @@ const App = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.1 }}
-          className="text-sm md:text-base text-black/80 dark:text-white/50 font-medium max-w-2xl mx-auto px-2"
+          className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-lg text-center mx-auto leading-relaxed mb-10 font-medium"
         >
-          From crypto to cash in under 2 seconds.
+          Send, pay, or cash out — all from your crypto balance.
           <br /> No banks, no delays, no complexity.
         </motion.p>
       </div>
@@ -407,22 +411,22 @@ const App = () => {
         >
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]">
             <span className="text-xs text-black/60 dark:text-white/40 font-bold tracking-widest uppercase">
-              01 • Initiation
+              01 • Send Money
             </span>
           </div>
           <h3
             className="font-sans font-semibold leading-[1.05] tracking-[-0.032em] select-none text-black dark:text-white [filter:drop-shadow(0_2px_14px_rgba(0,0,0,0.06))] dark:[filter:drop-shadow(0_2px_14px_rgba(255,255,255,0.055))]"
             style={{ fontSize: "clamp(2rem, 5.5vw, 4rem)" }}
           >
-            Request Your
+            Transfer to
             <br />
             <span className="text-black/60 dark:text-white/50">
-              Capital Flow.
+              Anyone, <br /> Anywhere.
             </span>
           </h3>
-          <p className="text-sm text-black/60 dark:text-white/40 leading-relaxed">
-            Enter your USDT amount and choose your destination — Dubai, Abu
-            Dhabi, or beyond.
+          <p className="text-sm text-black/80 dark:text-white/50 leading-relaxed">
+            Send stablecoins to anyone, anywhere. They receive cash in local
+            currency — no bank needed.
           </p>
         </motion.div>
 
@@ -436,22 +440,20 @@ const App = () => {
         >
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]">
             <span className="text-xs text-black/60 dark:text-white/40 font-bold tracking-widest uppercase">
-              02 • Match
+              02 • Pay Bills
             </span>
           </div>
           <h3
             className="font-sans font-semibold leading-[1.05] tracking-[-0.032em] select-none text-black dark:text-white [filter:drop-shadow(0_2px_14px_rgba(0,0,0,0.06))] dark:[filter:drop-shadow(0_2px_14px_rgba(255,255,255,0.055))]"
             style={{ fontSize: "clamp(2rem, 5.5vw, 4rem)" }}
           >
-            Price
+            Bills & Rent,
             <br />
-            <span className="text-black/60 dark:text-white/50">
-              Optimization.
-            </span>
+            <span className="text-black/60 dark:text-white/50">Handled.</span>
           </h3>
-          <p className="text-sm text-black/60 dark:text-white/40 leading-relaxed">
-            Our engine scans global LPs — London, Singapore, local OTC — locking
-            in the best real-time AED rate.
+          <p className="text-sm text-black/80 dark:text-white/50 leading-relaxed">
+            Use your crypto to pay rent, utilities, or tuition — settled in
+            local currency, instantly.
           </p>
         </motion.div>
 
@@ -465,27 +467,27 @@ const App = () => {
         >
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]">
             <span className="text-xs text-black/60 dark:text-white/40 font-bold tracking-widest uppercase">
-              03 • Verify
+              03 • Cash Out
             </span>
           </div>
           <h3
             className="font-sans font-semibold leading-[1.05] tracking-[-0.032em] select-none text-black dark:text-white [filter:drop-shadow(0_2px_14px_rgba(0,0,0,0.06))] dark:[filter:drop-shadow(0_2px_14px_rgba(255,255,255,0.055))]"
             style={{ fontSize: "clamp(2rem, 5.5vw, 4rem)" }}
           >
-            Secure
+            Withdraw
             <br />
-            <span className="text-black/60 dark:text-white/50">Execution.</span>
+            <span className="text-black/60 dark:text-white/50">Anytime.</span>
           </h3>
-          <p className="text-sm text-black/60 dark:text-white/40 leading-relaxed">
-            Settlement executes in 420ms — AED released to your destination with
-            a permanent on-chain ledger ID.
+          <p className="text-sm text-black/80 dark:text-white/50 leading-relaxed">
+            Convert USDT to AED and withdraw — directly to your bank or in
+            person. Under 2 seconds.
           </p>
           <div className="flex md:justify-start justify-center pt-1">
             <CTAButton
               to="/waitlist"
               className="w-[220px] h-12 uppercase text-sm"
             >
-              Initiate Trade
+              Get Started
             </CTAButton>
           </div>
         </motion.div>
@@ -496,15 +498,19 @@ const App = () => {
         <div className="flex gap-16">
           {/* LEFT SIDE: Sticky Phone UI */}
           <div className="w-full lg:w-[45%] lg:sticky lg:top-0 h-screen flex items-center justify-center py-12">
-            <DesktopPhoneMockup activeSection={activeSection} steps={steps} isDark={isDark} />
+            <DesktopPhoneMockup
+              activeSection={activeSection}
+              steps={steps}
+              isDark={isDark}
+            />
           </div>
 
           {/* RIGHT SIDE: Content Narrative */}
           <div className="w-full lg:w-[55%] flex flex-col">
-            {/* Section 01: Initiation */}
+            {/* Section 01: Send Money */}
             <section className="content-section space-y-4 min-h-screen flex flex-col justify-start pt-[20vh]">
               <span className="text-black/80 dark:text-white/50 font-bold tracking-[0.3em] uppercase text-xs">
-                Initiation
+                Send Money
               </span>
               <motion.h2
                 initial={{ opacity: 0, scale: 0.99 }}
@@ -514,22 +520,22 @@ const App = () => {
                 className="font-sans font-semibold leading-[1.05] tracking-[-0.032em] select-none text-black dark:text-white [filter:drop-shadow(0_2px_14px_rgba(0,0,0,0.06))] dark:[filter:drop-shadow(0_2px_14px_rgba(255,255,255,0.055))]"
                 style={{ fontSize: "clamp(2rem, 5.5vw, 4rem)" }}
               >
-                Request Your
+                Transfer to
                 <br />
                 <span className="text-black/60 dark:text-white/50">
-                  Capital Flow.
+                  Anyone,{" "}<br />Anywhere.
                 </span>
               </motion.h2>
-              <p className="text-sm text-black/60 dark:text-white/40 leading-relaxed max-w-md">
-                Enter your USDT amount and choose your destination — Dubai, Abu
-                Dhabi, or beyond.
+              <p className="text-sm text-black/80 dark:text-white/50 leading-relaxed max-w-md">
+                Send stablecoins to anyone, anywhere. They receive cash in local
+                currency — no bank needed.
               </p>
             </section>
 
-            {/* Section 02: Match */}
+            {/* Section 02: Pay Bills */}
             <section className="content-section space-y-4 min-h-screen flex flex-col justify-start pt-[20vh]">
               <span className="text-black/80 dark:text-white/50 font-bold tracking-[0.3em] uppercase text-xs">
-                Match
+                Pay Bills
               </span>
               <motion.h2
                 initial={{ opacity: 0, scale: 0.99 }}
@@ -539,22 +545,22 @@ const App = () => {
                 className="font-sans font-semibold leading-[1.05] tracking-[-0.032em] select-none text-black dark:text-white [filter:drop-shadow(0_2px_14px_rgba(0,0,0,0.06))] dark:[filter:drop-shadow(0_2px_14px_rgba(255,255,255,0.055))]"
                 style={{ fontSize: "clamp(2rem, 5.5vw, 4rem)" }}
               >
-                Price
+                Bills & Rent,
                 <br />
                 <span className="text-black/60 dark:text-white/50">
-                  Optimization.
+                  Handled.
                 </span>
               </motion.h2>
-              <p className="text-sm text-black/60 dark:text-white/40 leading-relaxed max-w-md">
-                Our engine scans global LPs — London, Singapore, local OTC —
-                locking in the best real-time AED rate.
+              <p className="text-sm text-black/80 dark:text-white/50 leading-relaxed max-w-md">
+                Use your crypto to pay rent, utilities, or tuition — settled in
+                local currency, instantly.
               </p>
             </section>
 
-            {/* Section 03: Verify */}
+            {/* Section 03: Cash Out */}
             <section className="content-section space-y-4 min-h-screen flex flex-col justify-start pt-[20vh] pb-[30vh]">
               <span className="text-black/80 dark:text-white/50 font-bold tracking-[0.3em] uppercase text-xs">
-                Verify
+                Cash Out
               </span>
               <motion.h2
                 initial={{ opacity: 0, scale: 0.99 }}
@@ -564,22 +570,22 @@ const App = () => {
                 className="font-sans font-semibold leading-[1.05] tracking-[-0.032em] select-none text-black dark:text-white [filter:drop-shadow(0_2px_14px_rgba(0,0,0,0.06))] dark:[filter:drop-shadow(0_2px_14px_rgba(255,255,255,0.055))]"
                 style={{ fontSize: "clamp(2rem, 5.5vw, 4rem)" }}
               >
-                Secure
+                Withdraw
                 <br />
                 <span className="text-black/60 dark:text-white/50">
-                  Execution.
+                  Anytime.
                 </span>
               </motion.h2>
-              <p className="text-sm text-black/60 dark:text-white/40 leading-relaxed max-w-md">
-                Settlement executes in 420ms — AED released to your destination
-                with a permanent on-chain ledger ID.
+              <p className="text-sm text-black/80 dark:text-white/50 leading-relaxed max-w-md">
+                Convert USDT to AED and withdraw — directly to your bank or in
+                person. Under 2 seconds.
               </p>
               <div className="mt-auto">
                 <CTAButton
                   to="/waitlist"
                   className="w-[220px] h-12 uppercase text-sm"
                 >
-                  Initiate Trade
+                  Get Started
                 </CTAButton>
               </div>
             </section>
@@ -655,13 +661,20 @@ const RequestScreen = ({ isDark }) => (
             height: 32,
             borderRadius: 10,
             background: isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)",
-            border: isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.08)",
+            border: isDark
+              ? "1px solid rgba(255,255,255,0.08)"
+              : "1px solid rgba(0,0,0,0.08)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
           }}
         >
-          <Bell size={13} style={{ color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.70)" }} />
+          <Bell
+            size={13}
+            style={{
+              color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.70)",
+            }}
+          />
         </div>
       </div>
 
@@ -671,7 +684,9 @@ const RequestScreen = ({ isDark }) => (
           background: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)",
           borderRadius: 22,
           padding: "10px 14px",
-          border: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.06)",
+          border: isDark
+            ? "1px solid rgba(255,255,255,0.06)"
+            : "1px solid rgba(0,0,0,0.06)",
         }}
       >
         <div
@@ -751,7 +766,9 @@ const RequestScreen = ({ isDark }) => (
             height: 28,
             borderRadius: "50%",
             background: isDark ? "#000" : "#fff",
-            border: isDark ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(0,0,0,0.1)",
+            border: isDark
+              ? "1px solid rgba(255,255,255,0.1)"
+              : "1px solid rgba(0,0,0,0.1)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -859,7 +876,9 @@ const RequestScreen = ({ isDark }) => (
               padding: "0 12px",
               borderRadius: 999,
               background: isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.08)",
-              border: isDark ? "1px solid rgba(255,255,255,0.14)" : "1px solid rgba(0,0,0,0.1)",
+              border: isDark
+                ? "1px solid rgba(255,255,255,0.14)"
+                : "1px solid rgba(0,0,0,0.1)",
               display: "flex",
               alignItems: "center",
               fontSize: 9,
@@ -875,8 +894,12 @@ const RequestScreen = ({ isDark }) => (
               height: 32,
               padding: "0 12px",
               borderRadius: 999,
-              background: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)",
-              border: isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.06)",
+              background: isDark
+                ? "rgba(255,255,255,0.04)"
+                : "rgba(0,0,0,0.03)",
+              border: isDark
+                ? "1px solid rgba(255,255,255,0.08)"
+                : "1px solid rgba(0,0,0,0.06)",
               display: "flex",
               alignItems: "center",
               fontSize: 9,
@@ -892,13 +915,20 @@ const RequestScreen = ({ isDark }) => (
               width: 32,
               height: 32,
               borderRadius: 999,
-              border: isDark ? "1px dashed rgba(255,255,255,0.1)" : "1px dashed rgba(0,0,0,0.12)",
+              border: isDark
+                ? "1px dashed rgba(255,255,255,0.1)"
+                : "1px dashed rgba(0,0,0,0.12)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
             }}
           >
-            <Plus size={10} style={{ color: isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.60)" }} />
+            <Plus
+              size={10}
+              style={{
+                color: isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.60)",
+              }}
+            />
           </div>
         </div>
       </div>
@@ -908,7 +938,9 @@ const RequestScreen = ({ isDark }) => (
         style={{
           marginTop: "auto",
           background: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)",
-          border: isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.08)",
+          border: isDark
+            ? "1px solid rgba(255,255,255,0.08)"
+            : "1px solid rgba(0,0,0,0.08)",
           borderRadius: 999,
           padding: "9px 0",
           textAlign: "center",
@@ -923,7 +955,12 @@ const RequestScreen = ({ isDark }) => (
           textTransform: "uppercase",
         }}
       >
-        <Lock size={9} style={{ color: isDark ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.5)" }} />
+        <Lock
+          size={9}
+          style={{
+            color: isDark ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.5)",
+          }}
+        />
         Secure Authorization
       </div>
     </div>
@@ -982,7 +1019,9 @@ const MatchScreen = ({ isDark }) => (
             position: "absolute",
             inset: 10,
             borderRadius: "50%",
-            border: isDark ? "1px dashed rgba(255,255,255,0.08)" : "1px dashed rgba(0,0,0,0.08)",
+            border: isDark
+              ? "1px dashed rgba(255,255,255,0.08)"
+              : "1px dashed rgba(0,0,0,0.08)",
           }}
         />
         <motion.div
@@ -1018,7 +1057,7 @@ const MatchScreen = ({ isDark }) => (
               gap: 2,
             }}
           >
-            <RefreshCcw size={18} style={{ color: "rgba(255,107,53,0.8)" }} />
+            <CreditCard size={18} style={{ color: "rgba(255,107,53,0.8)" }} />
             <span
               style={{
                 fontSize: 7,
@@ -1028,7 +1067,7 @@ const MatchScreen = ({ isDark }) => (
                 color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.70)",
               }}
             >
-              Routing
+              Bills
             </span>
           </div>
         </div>
@@ -1047,7 +1086,7 @@ const MatchScreen = ({ isDark }) => (
         <span
           style={{ fontSize: 18, fontWeight: 600, letterSpacing: "-0.02em" }}
         >
-          Liquidity
+          Bills
         </span>
         <motion.span
           animate={{ opacity: [1, 0.4, 1] }}
@@ -1060,7 +1099,7 @@ const MatchScreen = ({ isDark }) => (
             textTransform: "uppercase",
           }}
         >
-          Syncing AED
+          Due this month
         </motion.span>
       </div>
 
@@ -1074,9 +1113,9 @@ const MatchScreen = ({ isDark }) => (
         }}
       >
         {[
-          { city: "London LP", value: "3.6732", active: true },
-          { city: "Singapore LP", value: "3.6719", active: false },
-          { city: "Local OTC", value: "3.6730", active: false },
+          { city: "Rent", value: "4,200 AED", active: true },
+          { city: "DEWA", value: "380 AED", active: false },
+          { city: "Du Mobile", value: "199 AED", active: false },
         ].map((node, i) => (
           <motion.div
             key={i}
@@ -1091,10 +1130,14 @@ const MatchScreen = ({ isDark }) => (
               borderRadius: 16,
               background: node.active
                 ? "rgba(255,107,53,0.08)"
-                : isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)",
+                : isDark
+                  ? "rgba(255,255,255,0.03)"
+                  : "rgba(0,0,0,0.02)",
               border: node.active
                 ? "1px solid rgba(255,107,53,0.2)"
-                : isDark ? "1px solid rgba(255,255,255,0.05)" : "1px solid rgba(0,0,0,0.06)",
+                : isDark
+                  ? "1px solid rgba(255,255,255,0.05)"
+                  : "1px solid rgba(0,0,0,0.06)",
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -1105,7 +1148,9 @@ const MatchScreen = ({ isDark }) => (
                   borderRadius: "50%",
                   background: node.active
                     ? "#FF6B35"
-                    : isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.15)",
+                    : isDark
+                      ? "rgba(255,255,255,0.15)"
+                      : "rgba(0,0,0,0.15)",
                   boxShadow: node.active
                     ? "0 0 8px rgba(255,107,53,0.6)"
                     : "none",
@@ -1117,8 +1162,12 @@ const MatchScreen = ({ isDark }) => (
                     fontSize: 9,
                     fontWeight: 700,
                     color: node.active
-                      ? (isDark ? "#fff" : "#000")
-                      : isDark ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.70)",
+                      ? isDark
+                        ? "#fff"
+                        : "#000"
+                      : isDark
+                        ? "rgba(255,255,255,0.55)"
+                        : "rgba(0,0,0,0.70)",
                     letterSpacing: "0.04em",
                     textTransform: "uppercase",
                   }}
@@ -1130,12 +1179,14 @@ const MatchScreen = ({ isDark }) => (
                     fontSize: 8,
                     color: node.active
                       ? "rgba(255,107,53,0.6)"
-                      : isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.60)",
+                      : isDark
+                        ? "rgba(255,255,255,0.25)"
+                        : "rgba(0,0,0,0.60)",
                     fontFamily: "monospace",
                     letterSpacing: "0.06em",
                   }}
                 >
-                  RATE: {node.value}
+                  {node.value}
                 </p>
               </div>
             </div>
@@ -1145,10 +1196,14 @@ const MatchScreen = ({ isDark }) => (
                 fontWeight: 700,
                 letterSpacing: "0.14em",
                 textTransform: "uppercase",
-                color: node.active ? "#FF6B35" : isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.60)",
+                color: node.active
+                  ? "#FF6B35"
+                  : isDark
+                    ? "rgba(255,255,255,0.25)"
+                    : "rgba(0,0,0,0.60)",
               }}
             >
-              {node.active ? "Match" : "Wait"}
+              {node.active ? "Pay" : "Pending"}
             </span>
           </motion.div>
         ))}
@@ -1162,7 +1217,9 @@ const MatchScreen = ({ isDark }) => (
           padding: "10px 14px",
           background: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)",
           borderRadius: 14,
-          border: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.06)",
+          border: isDark
+            ? "1px solid rgba(255,255,255,0.06)"
+            : "1px solid rgba(0,0,0,0.06)",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
@@ -1177,12 +1234,12 @@ const MatchScreen = ({ isDark }) => (
             textTransform: "uppercase",
           }}
         >
-          Efficiency
+          Total Due
         </span>
         <span
           style={{ fontSize: 16, fontWeight: 600, letterSpacing: "-0.02em" }}
         >
-          99.98%
+          4,779 AED
         </span>
       </div>
     </div>
@@ -1267,7 +1324,7 @@ const VerifyScreen = ({ isDark }) => (
           marginBottom: 6,
         }}
       >
-        Settled
+        Withdrawn
       </h3>
       <p
         style={{
@@ -1279,7 +1336,7 @@ const VerifyScreen = ({ isDark }) => (
           fontFamily: "monospace",
         }}
       >
-        LEDGER_ID: 0x9A...F21
+        TXN_ID: 0x9A...F21
       </p>
     </div>
 
@@ -1289,28 +1346,32 @@ const VerifyScreen = ({ isDark }) => (
         {[
           {
             icon: (
-              <Fingerprint
+              <Wallet
                 size={11}
-                style={{ color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.70)" }}
+                style={{
+                  color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.70)",
+                }}
               />
             ),
-            label: "Authorization",
-            value: "Success",
+            label: "Method",
+            value: "Bank Transfer",
           },
           {
             icon: <Zap size={11} style={{ color: "#FF6B35" }} />,
-            label: "Settlement",
-            value: "420ms",
+            label: "Speed",
+            value: "1.8s",
           },
           {
             icon: (
-              <TrendingUp
+              <Coins
                 size={11}
-                style={{ color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.70)" }}
+                style={{
+                  color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.70)",
+                }}
               />
             ),
-            label: "Rate",
-            value: "3.6732 AED",
+            label: "Amount",
+            value: "36,730 AED",
           },
         ].map((row, i) => (
           <motion.div
@@ -1323,9 +1384,13 @@ const VerifyScreen = ({ isDark }) => (
               justifyContent: "space-between",
               alignItems: "center",
               padding: "9px 12px",
-              background: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)",
+              background: isDark
+                ? "rgba(255,255,255,0.04)"
+                : "rgba(0,0,0,0.03)",
               borderRadius: 14,
-              border: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.06)",
+              border: isDark
+                ? "1px solid rgba(255,255,255,0.06)"
+                : "1px solid rgba(0,0,0,0.06)",
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -1346,7 +1411,12 @@ const VerifyScreen = ({ isDark }) => (
               style={{
                 fontSize: 9,
                 fontWeight: 700,
-                color: i === 1 ? "#FF6B35" : isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.7)",
+                color:
+                  i === 1
+                    ? "#FF6B35"
+                    : isDark
+                      ? "rgba(255,255,255,0.7)"
+                      : "rgba(0,0,0,0.7)",
                 letterSpacing: "0.06em",
                 textTransform: "uppercase",
               }}

@@ -594,6 +594,12 @@
   </url>
 
   <!-- RESEARCH ARTICLES SITEMAP -->
+  <url>
+    <loc>https://blip.money/research</loc>
+    <lastmod>2026-03-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
 
 <url>
   <loc>https://blip.money/research/ai-bots-p2p-crypto-transactions</loc>

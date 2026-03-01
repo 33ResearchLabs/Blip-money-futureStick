@@ -755,60 +755,7 @@ export default function PremiumFintechSection() {
   const [animKey, setAnimKey] = useState(0);
   const [animDone, setAnimDone] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
-  const hasAutoScrolled = useRef(false);
-  const isInView = useInView(sectionRef, { once: true, margin: "-20%" });
-
-  // Auto-scroll section to center when user scrolls 80% past the hero section above
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
-
-    // Find the hero section (the previous sibling / CinematicHero)
-    const heroEl = el.previousElementSibling as HTMLElement | null;
-    if (!heroEl) return;
-
-    const smoothScrollTo = (targetY: number, duration: number) => {
-      const startY = window.scrollY;
-      const diff = targetY - startY;
-      const startTime = performance.now();
-
-      const easeInOutCubic = (t: number) =>
-        t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-
-      const step = (now: number) => {
-        const elapsed = now - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        window.scrollTo(0, startY + diff * easeInOutCubic(progress));
-        if (progress < 1) requestAnimationFrame(step);
-      };
-      requestAnimationFrame(step);
-    };
-
-    const handleScroll = () => {
-      if (hasAutoScrolled.current) return;
-
-      const heroRect = heroEl.getBoundingClientRect();
-      const heroScrolled = -heroRect.top / heroRect.height;
-
-      // Trigger when 80% of hero section has been scrolled past
-      if (heroScrolled >= 0.8) {
-        hasAutoScrolled.current = true;
-        window.removeEventListener("scroll", handleScroll);
-
-        // Calculate target: section centered in viewport
-        const elRect = el.getBoundingClientRect();
-        const targetY =
-          window.scrollY +
-          elRect.top -
-          (window.innerHeight - elRect.height) / 2;
-
-        smoothScrollTo(targetY, 1200);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const isInView = useInView(sectionRef, { once: true, margin: "-10%" });
 
   useEffect(() => {
     if (!isInView) return;
@@ -949,7 +896,7 @@ export default function PremiumFintechSection() {
 
       {/* Content wrapper */}
       <div
-        className={`h-full flex justify-center px-4 sm:px-6 md:px-20 overflow-hidden ${isPhone ? "items-center py-10 sm:py-20" : "items-start pt-16 sm:pt-28 mt-8 sm:mt-16 md:pt-32"}`}
+        className={`h-full flex justify-center px-4 sm:px-6 md:px-20 overflow-hidden ${isPhone || isUnwrapStage ? "items-center py-10 sm:py-20" : "items-start pt-16 sm:pt-28 mt-8 sm:mt-16 md:pt-32"}`}
       >
         <div className="relative w-full max-w-6xl flex items-center justify-center">
           {/* Left Text — phone stages */}
@@ -1037,7 +984,7 @@ export default function PremiumFintechSection() {
                   duration: 1.4,
                   ease: [0.22, 1, 0.36, 1],
                 }}
-                className="absolute inset-0 flex flex-col items-center justify-center z-10"
+                className="absolute inset-0 flex flex-col items-center justify-center pb-[100px] sm:pb-[120px] md:pb-[150px] z-10"
               >
                 <InstantBiddingUnwrap />
               </motion.div>
@@ -1068,7 +1015,7 @@ export default function PremiumFintechSection() {
                   duration: 1.4,
                   ease: [0.22, 1, 0.36, 1],
                 }}
-                className="absolute inset-0 flex flex-col items-center justify-center z-10"
+                className="absolute inset-0 flex flex-col items-center justify-center pb-[100px] sm:pb-[120px] md:pb-[100px] z-10"
               >
                 <EveryTransactionVerifiedUnwrap />
               </motion.div>
@@ -1078,13 +1025,12 @@ export default function PremiumFintechSection() {
           {/* Center Content */}
           <motion.div
             animate={{
-              x: isTrading ? 140 : 0,
+              x: 0,
               opacity: isUnwrapStage ? 0 : 1,
               scale: isUnwrapStage ? 0.9 : 1,
-              pointerEvents:
-                isUnwrapStage
-                  ? ("none" as const)
-                  : ("auto" as const),
+              pointerEvents: isUnwrapStage
+                ? ("none" as const)
+                : ("auto" as const),
             }}
             transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
             className="flex flex-col items-center"
@@ -1365,7 +1311,7 @@ export default function PremiumFintechSection() {
                   scale: isPhone ? 0.6 : 1,
                   y: isPhone ? 50 : 0,
                 }}
-                transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ type: "spring", stiffness: 80, damping: 22 }}
                 className="relative z-10"
                 style={{
                   width: Math.min(
@@ -1402,15 +1348,16 @@ export default function PremiumFintechSection() {
                         opacity: isInView ? 1 : 0,
                       }}
                       transition={{
-                        duration: isStacked ? 1.2 : 0.9,
-                        delay:
-                          isInView && stage === "list"
-                            ? idx * 0.15
-                            : idx * 0.05,
-                        ease: [0.22, 1, 0.36, 1],
+                        type: "spring",
+                        stiffness: 100,
+                        damping: 25,
+                        delay: stage === "list" ? idx * 0.15 : 0,
                       }}
                       className="absolute top-0 left-0 w-full"
-                      style={{ zIndex: currencies.length - idx }}
+                      style={{
+                        zIndex: currencies.length - idx,
+                        willChange: "transform, opacity",
+                      }}
                     >
                       <div
                         className={`

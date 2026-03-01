@@ -86,7 +86,7 @@ const SolutionSection = () => {
               </span>
             </h2>
 
-            <p className="text-base md:text-lg text-black/50 dark:text-white/40 font-medium leading-relaxed mb-10 max-w-md">
+            <p className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-lg text-start  leading-relaxed mb-10 font-medium">
               A merchant-to-merchant settlement network. Liquidity is matched,
               funds are locked in escrow, and settlement is enforced on-chain —
               no intermediaries, no trust required.

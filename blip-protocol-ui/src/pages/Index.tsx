@@ -65,14 +65,14 @@ const Index = () => {
             <ProblemSection />
 
             {/* <DashboardShowcaseSection /> */}
-
-            {/* 3. Solution — Blip Protocol flow diagram */}
-            <SolutionSection />
           </div>
         </div>
         {/* <NewSection /> */}
         {/* Dark Fintech — Trading & Currency Section */}
         <DarkFintechSection />
+
+        {/* 3. Solution — Blip Protocol flow diagram */}
+        <SolutionSection />
         {/* 4. How It Works — isolated (no overflow-x-hidden parent) */}
         <HowItWorksSection />
 

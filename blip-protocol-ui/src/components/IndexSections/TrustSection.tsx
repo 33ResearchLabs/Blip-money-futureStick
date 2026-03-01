@@ -54,15 +54,26 @@ const TrustSection = () => {
       <div className="absolute inset-0 pointer-events-none">
         <motion.div
           className="absolute top-[30%] left-[10%] w-[400px] h-[400px] rounded-full opacity-[0.04] dark:opacity-[0.06]"
-          style={{ background: "radial-gradient(circle, rgba(255,107,53,0.8) 0%, transparent 70%)" }}
+          style={{
+            background:
+              "radial-gradient(circle, rgba(255,107,53,0.8) 0%, transparent 70%)",
+          }}
           animate={{ scale: [1, 1.1, 1] }}
           transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div
           className="absolute bottom-[20%] right-[10%] w-[350px] h-[350px] rounded-full opacity-[0.04] dark:opacity-[0.06]"
-          style={{ background: "radial-gradient(circle, rgba(0,229,153,0.6) 0%, transparent 70%)" }}
+          style={{
+            background:
+              "radial-gradient(circle, rgba(0,229,153,0.6) 0%, transparent 70%)",
+          }}
           animate={{ scale: [1, 1.12, 1] }}
-          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          transition={{
+            duration: 9,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2,
+          }}
         />
       </div>
 
@@ -98,9 +109,10 @@ const TrustSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.15 }}
-          className="text-base md:text-lg text-black/50 dark:text-white/40 font-medium max-w-lg mx-auto text-center leading-relaxed mb-16"
+          className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-lg text-center mx-auto leading-relaxed mb-10 font-medium"
         >
-          Blip is infrastructure, not a product. Designed to operate without trust — verified by code, secured by escrow, governed by reputation.
+          Blip is infrastructure, not a product. Designed to operate without
+          trust — verified by code, secured by escrow, governed by reputation.
         </motion.p>
 
         {/* 2×2 grid */}
@@ -113,13 +125,19 @@ const TrustSection = () => {
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.1 + i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                transition={{
+                  duration: 0.6,
+                  delay: 0.1 + i * 0.1,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
                 className="relative p-7 rounded-2xl border border-black/[0.08] dark:border-white/[0.08] bg-white/60 dark:bg-white/[0.03] shadow-[0_4px_30px_-8px_rgba(0,0,0,0.06)] dark:shadow-none overflow-hidden group hover:border-black/[0.14] dark:hover:border-white/[0.1] transition-all duration-300"
               >
                 {/* Hover accent glow */}
                 <motion.div
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"
-                  style={{ background: `radial-gradient(circle at 30% 30%, ${card.accent}, transparent 60%)` }}
+                  style={{
+                    background: `radial-gradient(circle at 30% 30%, ${card.accent}, transparent 60%)`,
+                  }}
                 />
 
                 <div className="relative">
@@ -128,7 +146,10 @@ const TrustSection = () => {
                       className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300"
                       style={{ background: "rgba(0,0,0,0.04)" }}
                     >
-                      <Icon className="w-5 h-5 text-black/50 dark:text-white/50" strokeWidth={1.5} />
+                      <Icon
+                        className="w-5 h-5 text-black/50 dark:text-white/50"
+                        strokeWidth={1.5}
+                      />
                     </div>
                     <span className="text-[9px] uppercase tracking-[0.2em] text-black/60 dark:text-white/25 font-semibold border border-black/[0.08] dark:border-white/[0.08] px-2 py-0.5 rounded-full">
                       {card.tag}

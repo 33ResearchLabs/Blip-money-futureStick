@@ -30,26 +30,23 @@ const FeatureStrip = () => {
               { text: "On-chain proofs", icon: CheckCircle2 },
             ].map((feature, i) => (
               <motion.div
-  key={feature.text}
-  initial={{ opacity: 0, y: 20 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true }}
-  
-  className="group flex items-center gap-3 mb-4 cursor-pointer"
->
-  <MicroIcon
-    icon={feature.icon}
-    variant="glow"
-    size={16}
-    
-    className="transition-all duration-300 group-hover:scale-110"
-  />
+                key={feature.text}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="group flex items-center gap-3 mb-4 cursor-pointer"
+              >
+                <MicroIcon
+                  icon={feature.icon}
+                  variant="glow"
+                  size={16}
+                  className="transition-all duration-300 group-hover:scale-110"
+                />
 
-  <span className="text-sm text-black dark:text-white/50 font-medium tracking-wide text-left transition-colors group-hover:text-black dark:group-hover:text-white">
-    {feature.text}
-  </span>
-</motion.div>
-
+                <span className="text-sm text-black dark:text-white/50 font-medium tracking-wide text-left transition-colors group-hover:text-black dark:group-hover:text-white">
+                  {feature.text}
+                </span>
+              </motion.div>
             ))}
           </div>
         </motion.div>

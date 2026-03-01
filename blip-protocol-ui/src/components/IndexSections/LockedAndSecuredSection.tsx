@@ -52,8 +52,10 @@ const LockedAndSecuredSection = () => {
         aria-hidden
         style={{
           position: "absolute",
-          top: -80, right: -60,
-          width: 560, height: 400,
+          top: -80,
+          right: -60,
+          width: 560,
+          height: 400,
           background: isDark
             ? "radial-gradient(ellipse at top right, rgba(61,220,132,0.06) 0%, transparent 65%)"
             : "radial-gradient(ellipse at top right, rgba(61,220,132,0.08) 0%, transparent 65%)",
@@ -65,8 +67,10 @@ const LockedAndSecuredSection = () => {
         aria-hidden
         style={{
           position: "absolute",
-          bottom: -60, left: -40,
-          width: 420, height: 320,
+          bottom: -60,
+          left: -40,
+          width: 420,
+          height: 320,
           background: isDark
             ? "radial-gradient(ellipse at bottom left, rgba(255,107,53,0.05) 0%, transparent 65%)"
             : "radial-gradient(ellipse at bottom left, rgba(255,107,53,0.06) 0%, transparent 65%)",
@@ -74,8 +78,14 @@ const LockedAndSecuredSection = () => {
         }}
       />
 
-      <div style={{ maxWidth: 1120, margin: "0 auto", position: "relative", zIndex: 1 }}>
-
+      <div
+        style={{
+          maxWidth: 1120,
+          margin: "0 auto",
+          position: "relative",
+          zIndex: 1,
+        }}
+      >
         {/* ── Header ── */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -106,13 +116,12 @@ const LockedAndSecuredSection = () => {
             }}
           >
             Locked &{" "}
-            <span style={{ color: isDark ? "#333333" : "rgba(0,0,0,0.2)" }}>secured.</span>
+            <span className="text-black/70 dark:text-white/50">secured.</span>
           </h2>
         </motion.div>
 
         {/* ── Two-column layout ── */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-
           {/* Left — Escrow card */}
           <motion.div
             initial={{ opacity: 0, y: 28 }}
@@ -122,7 +131,6 @@ const LockedAndSecuredSection = () => {
             className="flex justify-center"
           >
             <div style={{ position: "relative", width: "100%", maxWidth: 380 }}>
-
               {/* Green glow behind card */}
               <div
                 aria-hidden
@@ -169,7 +177,9 @@ const LockedAndSecuredSection = () => {
                   aria-hidden
                   style={{
                     position: "absolute",
-                    top: 0, left: 0, right: 0,
+                    top: 0,
+                    left: 0,
+                    right: 0,
                     height: 1,
                     background:
                       "linear-gradient(90deg, transparent 0%, rgba(61,220,132,0.25) 50%, transparent 100%)",
@@ -187,33 +197,52 @@ const LockedAndSecuredSection = () => {
                     justifyContent: "space-between",
                   }}
                 >
-                  <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  <div
+                    style={{ display: "flex", alignItems: "center", gap: 12 }}
+                  >
                     <div
                       style={{
                         position: "relative",
-                        width: 40, height: 40,
+                        width: 40,
+                        height: 40,
                         borderRadius: 12,
                         background: "rgba(61,220,132,0.08)",
                         border: "1px solid rgba(61,220,132,0.18)",
-                        display: "flex", alignItems: "center", justifyContent: "center",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
                       }}
                     >
-                      <Shield style={{ width: 18, height: 18, color: "#3ddc84" }} strokeWidth={1.5} />
+                      <Shield
+                        style={{ width: 18, height: 18, color: "#3ddc84" }}
+                        strokeWidth={1.5}
+                      />
                       <motion.div
                         initial={{ scale: 0 }}
                         whileInView={{ scale: 1 }}
                         viewport={{ once: true }}
-                        transition={{ delay: 0.8, type: "spring", stiffness: 300 }}
+                        transition={{
+                          delay: 0.8,
+                          type: "spring",
+                          stiffness: 300,
+                        }}
                         style={{
                           position: "absolute",
-                          bottom: -3, right: -3,
-                          width: 16, height: 16,
+                          bottom: -3,
+                          right: -3,
+                          width: 16,
+                          height: 16,
                           borderRadius: "50%",
                           background: "#3ddc84",
-                          display: "flex", alignItems: "center", justifyContent: "center",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
                         }}
                       >
-                        <Check style={{ width: 9, height: 9, color: "#000" }} strokeWidth={3} />
+                        <Check
+                          style={{ width: 9, height: 9, color: "#000" }}
+                          strokeWidth={3}
+                        />
                       </motion.div>
                     </div>
                     <div>
@@ -223,7 +252,9 @@ const LockedAndSecuredSection = () => {
                           fontWeight: 700,
                           letterSpacing: "2px",
                           textTransform: "uppercase",
-                          color: isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.3)",
+                          color: isDark
+                            ? "rgba(255,255,255,0.28)"
+                            : "rgba(0,0,0,0.3)",
                           marginBottom: 2,
                         }}
                       >
@@ -240,25 +271,42 @@ const LockedAndSecuredSection = () => {
                       </div>
                     </div>
                   </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  <div
+                    style={{ display: "flex", alignItems: "center", gap: 6 }}
+                  >
                     <motion.div
                       animate={{ opacity: [1, 0.4, 1] }}
                       transition={{ duration: 2, repeat: Infinity }}
                       style={{
-                        width: 7, height: 7,
+                        width: 7,
+                        height: 7,
                         borderRadius: "50%",
                         background: "#3ddc84",
                         boxShadow: "0 0 6px rgba(61,220,132,0.7)",
                       }}
                     />
-                    <span style={{ fontSize: 10, color: "#3ddc84", fontWeight: 500 }}>
+                    <span
+                      style={{
+                        fontSize: 10,
+                        color: "#3ddc84",
+                        fontWeight: 500,
+                      }}
+                    >
                       Live
                     </span>
                   </div>
                 </div>
 
                 {/* Divider */}
-                <div style={{ margin: "0 24px", height: 1, background: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)" }} />
+                <div
+                  style={{
+                    margin: "0 24px",
+                    height: 1,
+                    background: isDark
+                      ? "rgba(255,255,255,0.06)"
+                      : "rgba(0,0,0,0.06)",
+                  }}
+                />
 
                 {/* Amount */}
                 <div style={{ padding: "24px", textAlign: "center" }}>
@@ -273,7 +321,14 @@ const LockedAndSecuredSection = () => {
                   >
                     5,000 USDT
                   </div>
-                  <div style={{ fontSize: 11, color: isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.35)" }}>
+                  <div
+                    style={{
+                      fontSize: 11,
+                      color: isDark
+                        ? "rgba(255,255,255,0.28)"
+                        : "rgba(0,0,0,0.35)",
+                    }}
+                  >
                     ≈ $5,000.00
                   </div>
                 </div>
@@ -293,12 +348,22 @@ const LockedAndSecuredSection = () => {
                         fontWeight: 600,
                         letterSpacing: "1.5px",
                         textTransform: "uppercase",
-                        color: isDark ? "rgba(255,255,255,0.22)" : "rgba(0,0,0,0.3)",
+                        color: isDark
+                          ? "rgba(255,255,255,0.22)"
+                          : "rgba(0,0,0,0.3)",
                       }}
                     >
                       Escrow Progress
                     </span>
-                    <span style={{ fontSize: 11, color: isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.5)", fontWeight: 600 }}>
+                    <span
+                      style={{
+                        fontSize: 11,
+                        color: isDark
+                          ? "rgba(255,255,255,0.45)"
+                          : "rgba(0,0,0,0.5)",
+                        fontWeight: 600,
+                      }}
+                    >
                       75%
                     </span>
                   </div>
@@ -306,7 +371,9 @@ const LockedAndSecuredSection = () => {
                     style={{
                       height: 4,
                       borderRadius: 999,
-                      background: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)",
+                      background: isDark
+                        ? "rgba(255,255,255,0.06)"
+                        : "rgba(0,0,0,0.06)",
                       overflow: "hidden",
                     }}
                   >
@@ -325,10 +392,25 @@ const LockedAndSecuredSection = () => {
                 </div>
 
                 {/* Divider */}
-                <div style={{ margin: "0 24px", height: 1, background: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)" }} />
+                <div
+                  style={{
+                    margin: "0 24px",
+                    height: 1,
+                    background: isDark
+                      ? "rgba(255,255,255,0.06)"
+                      : "rgba(0,0,0,0.06)",
+                  }}
+                />
 
                 {/* Details */}
-                <div style={{ padding: "16px 24px", display: "flex", flexDirection: "column", gap: 10 }}>
+                <div
+                  style={{
+                    padding: "16px 24px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 10,
+                  }}
+                >
                   {[
                     {
                       label: "Status",
@@ -339,13 +421,22 @@ const LockedAndSecuredSection = () => {
                     {
                       label: "Contract",
                       value: "0x7a2...f91",
-                      valueStyle: { fontFamily: "monospace", color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.45)" },
+                      valueStyle: {
+                        fontFamily: "monospace",
+                        color: isDark
+                          ? "rgba(255,255,255,0.65)"
+                          : "rgba(0,0,0,0.6)",
+                      },
                       dot: false,
                     },
                     {
                       label: "Network",
                       value: "Solana",
-                      valueStyle: { color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.45)" },
+                      valueStyle: {
+                        color: isDark
+                          ? "rgba(255,255,255,0.65)"
+                          : "rgba(0,0,0,0.6)",
+                      },
                       dot: false,
                       network: true,
                     },
@@ -358,27 +449,53 @@ const LockedAndSecuredSection = () => {
                         justifyContent: "space-between",
                       }}
                     >
-                      <span style={{ fontSize: 11.5, color: isDark ? "rgba(255,255,255,0.22)" : "rgba(0,0,0,0.35)" }}>
+                      <span
+                        style={{
+                          fontSize: 11.5,
+                          color: isDark
+                            ? "rgba(255,255,255,0.45)"
+                            : "rgba(0,0,0,0.5)",
+                        }}
+                      >
                         {row.label}
                       </span>
-                      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 6,
+                        }}
+                      >
                         {row.dot && (
                           <motion.div
                             animate={{ opacity: [1, 0.3, 1] }}
                             transition={{ duration: 2, repeat: Infinity }}
-                            style={{ width: 5, height: 5, borderRadius: "50%", background: "#3ddc84" }}
+                            style={{
+                              width: 5,
+                              height: 5,
+                              borderRadius: "50%",
+                              background: "#3ddc84",
+                            }}
                           />
                         )}
                         {row.network && (
                           <div
                             style={{
-                              width: 12, height: 12,
+                              width: 12,
+                              height: 12,
                               borderRadius: "50%",
-                              background: "linear-gradient(135deg, #9945FF, #14F195)",
+                              background:
+                                "linear-gradient(135deg, #9945FF, #14F195)",
                             }}
                           />
                         )}
-                        <span style={{ fontSize: 11.5, fontWeight: 500, ...row.valueStyle }}>
+                        <span
+                          style={{
+                            fontSize: 11.5,
+                            fontWeight: 500,
+                            ...row.valueStyle,
+                          }}
+                        >
                           {row.value}
                         </span>
                       </div>
@@ -414,14 +531,17 @@ const LockedAndSecuredSection = () => {
                 transition={{ delay: 0.6, duration: 0.5, ease: EASE }}
                 style={{
                   position: "absolute",
-                  top: -20, right: -20,
+                  top: -20,
+                  right: -20,
                   background: isDark ? "#0f0f0f" : "#ffffff",
                   border: isDark
                     ? "1px solid rgba(255,255,255,0.085)"
                     : "1px solid rgba(0,0,0,0.08)",
                   borderRadius: 14,
                   padding: "10px 14px",
-                  display: "flex", alignItems: "center", gap: 8,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
                   boxShadow: isDark
                     ? "0 8px 30px rgba(0,0,0,0.5)"
                     : "0 8px 30px rgba(0,0,0,0.08)",
@@ -429,19 +549,39 @@ const LockedAndSecuredSection = () => {
               >
                 <div
                   style={{
-                    width: 24, height: 24,
+                    width: 24,
+                    height: 24,
                     borderRadius: "50%",
                     background: "rgba(61,220,132,0.12)",
-                    display: "flex", alignItems: "center", justifyContent: "center",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
                 >
-                  <Check style={{ width: 11, height: 11, color: "#3ddc84" }} strokeWidth={2.5} />
+                  <Check
+                    style={{ width: 11, height: 11, color: "#3ddc84" }}
+                    strokeWidth={2.5}
+                  />
                 </div>
                 <div>
-                  <div style={{ fontSize: 9, color: isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.35)", letterSpacing: "1px" }}>
+                  <div
+                    style={{
+                      fontSize: 9,
+                      color: isDark
+                        ? "rgba(255,255,255,0.28)"
+                        : "rgba(0,0,0,0.35)",
+                      letterSpacing: "1px",
+                    }}
+                  >
                     Verified
                   </div>
-                  <div style={{ fontSize: 11, fontWeight: 600, color: isDark ? "#ffffff" : "#1a1a1a" }}>
+                  <div
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 600,
+                      color: isDark ? "#ffffff" : "#1a1a1a",
+                    }}
+                  >
                     On-chain
                   </div>
                 </div>
@@ -455,14 +595,17 @@ const LockedAndSecuredSection = () => {
                 transition={{ delay: 0.8, duration: 0.5, ease: EASE }}
                 style={{
                   position: "absolute",
-                  bottom: -18, left: -20,
+                  bottom: -18,
+                  left: -20,
                   background: isDark ? "#0f0f0f" : "#ffffff",
                   border: isDark
                     ? "1px solid rgba(255,255,255,0.085)"
                     : "1px solid rgba(0,0,0,0.08)",
                   borderRadius: 14,
                   padding: "10px 14px",
-                  display: "flex", alignItems: "center", gap: 8,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
                   boxShadow: isDark
                     ? "0 8px 30px rgba(0,0,0,0.5)"
                     : "0 8px 30px rgba(0,0,0,0.08)",
@@ -470,24 +613,51 @@ const LockedAndSecuredSection = () => {
               >
                 <div
                   style={{
-                    width: 24, height: 24,
+                    width: 24,
+                    height: 24,
                     borderRadius: "50%",
-                    background: isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)",
-                    display: "flex", alignItems: "center", justifyContent: "center",
+                    background: isDark
+                      ? "rgba(255,255,255,0.05)"
+                      : "rgba(0,0,0,0.04)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
                 >
-                  <Lock style={{ width: 11, height: 11, color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.4)" }} strokeWidth={2} />
+                  <Lock
+                    style={{
+                      width: 11,
+                      height: 11,
+                      color: isDark
+                        ? "rgba(255,255,255,0.5)"
+                        : "rgba(0,0,0,0.4)",
+                    }}
+                    strokeWidth={2}
+                  />
                 </div>
                 <div>
-                  <div style={{ fontSize: 9, color: isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.35)", letterSpacing: "1px" }}>
+                  <div
+                    style={{
+                      fontSize: 9,
+                      color: isDark
+                        ? "rgba(255,255,255,0.28)"
+                        : "rgba(0,0,0,0.35)",
+                      letterSpacing: "1px",
+                    }}
+                  >
                     Smart Contract
                   </div>
-                  <div style={{ fontSize: 11, fontWeight: 600, color: isDark ? "#ffffff" : "#1a1a1a" }}>
+                  <div
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 600,
+                      color: isDark ? "#ffffff" : "#1a1a1a",
+                    }}
+                  >
                     Protected
                   </div>
                 </div>
               </motion.div>
-
             </div>
           </motion.div>
 
@@ -497,17 +667,9 @@ const LockedAndSecuredSection = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
+            className="text-base mx-auto text-center md:text-lg text-black/50 dark:text-white/40 font-medium leading-relaxed mb-10 max-w-md"
           >
-            <p
-              style={{
-                fontSize: 15,
-                fontWeight: 500,
-                color: isDark ? "rgba(255,255,255,0.32)" : "rgba(0,0,0,0.45)",
-                lineHeight: 1.7,
-                marginBottom: 36,
-                maxWidth: 400,
-              }}
-            >
+            <p className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-lg text-center mx-auto leading-relaxed mb-10 font-medium">
               Your funds are held in a secure on-chain escrow. Neither party can
               touch them until the trade is complete.
             </p>
@@ -519,14 +681,20 @@ const LockedAndSecuredSection = () => {
                   initial={{ opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.2 + i * 0.1, ease: EASE }}
+                  transition={{
+                    duration: 0.5,
+                    delay: 0.2 + i * 0.1,
+                    ease: EASE,
+                  }}
                   whileHover={{ x: 4 }}
                   style={{
                     display: "flex",
                     alignItems: "center",
                     gap: 14,
                     padding: "16px 20px",
-                    background: isDark ? "rgba(255,255,255,0.02)" : "rgba(0,0,0,0.02)",
+                    background: isDark
+                      ? "rgba(255,255,255,0.02)"
+                      : "rgba(0,0,0,0.02)",
                     border: isDark
                       ? "1px solid rgba(255,255,255,0.07)"
                       : "1px solid rgba(0,0,0,0.06)",
@@ -535,46 +703,41 @@ const LockedAndSecuredSection = () => {
                     transition: "border-color 0.2s, background 0.2s",
                   }}
                   onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLDivElement).style.borderColor = isDark
-                      ? "rgba(255,255,255,0.12)"
-                      : "rgba(0,0,0,0.1)";
-                    (e.currentTarget as HTMLDivElement).style.background = isDark
-                      ? "rgba(255,255,255,0.04)"
-                      : "rgba(0,0,0,0.03)";
+                    (e.currentTarget as HTMLDivElement).style.borderColor =
+                      isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.1)";
+                    (e.currentTarget as HTMLDivElement).style.background =
+                      isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)";
                   }}
                   onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLDivElement).style.borderColor = isDark
-                      ? "rgba(255,255,255,0.07)"
-                      : "rgba(0,0,0,0.06)";
-                    (e.currentTarget as HTMLDivElement).style.background = isDark
-                      ? "rgba(255,255,255,0.02)"
-                      : "rgba(0,0,0,0.02)";
+                    (e.currentTarget as HTMLDivElement).style.borderColor =
+                      isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.06)";
+                    (e.currentTarget as HTMLDivElement).style.background =
+                      isDark ? "rgba(255,255,255,0.02)" : "rgba(0,0,0,0.02)";
                   }}
                 >
                   <div
                     style={{
-                      width: 38, height: 38,
+                      width: 38,
+                      height: 38,
                       borderRadius: 10,
                       background: f.glow,
                       border: `1px solid ${f.border}`,
-                      display: "flex", alignItems: "center", justifyContent: "center",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
                       flexShrink: 0,
                     }}
                   >
-                    <f.Icon style={{ width: 16, height: 16, color: f.color }} strokeWidth={1.6} />
+                    <f.Icon
+                      style={{ width: 16, height: 16, color: f.color }}
+                      strokeWidth={1.6}
+                    />
                   </div>
                   <div>
-                    <div
-                      style={{
-                        fontSize: 13.5,
-                        fontWeight: 600,
-                        color: isDark ? "#ffffff" : "#1a1a1a",
-                        marginBottom: 2,
-                      }}
-                    >
+                    <div className="text-start text-base text-black/70 dark:text-white/50">
                       {f.label}
                     </div>
-                    <div style={{ fontSize: 11.5, color: isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.4)" }}>
+                    <div className="text-start text-sm text-black/70 dark:text-white/50">
                       {f.desc}
                     </div>
                   </div>
@@ -582,7 +745,6 @@ const LockedAndSecuredSection = () => {
               ))}
             </div>
           </motion.div>
-
         </div>
       </div>
     </section>

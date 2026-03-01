@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import {useRef} from 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Check, Globe, User, Building2, CheckCircle2 } from "lucide-react";
 import { Header } from "@/components/Hero/PhoneMockup";

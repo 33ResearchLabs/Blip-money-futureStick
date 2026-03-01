@@ -223,7 +223,7 @@ const ProblemSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.15, ease: EASE }}
-          className="text-base mx-auto text-center md:text-lg text-black/50 dark:text-white/40 font-medium leading-relaxed mb-10 max-w-md"
+          className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-lg text-center mx-auto leading-relaxed mb-10 font-medium"
         >
           The traditional financial system was built for a different era.
           Stablecoin adoption is rising. Merchants are stuck. The timing is now.
