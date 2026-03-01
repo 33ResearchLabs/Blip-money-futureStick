@@ -9,7 +9,7 @@ export const SocialSidebar = () => {
     {
       label: "Telegram",
       icon: RiTelegram2Fill,
-      link: "https://t.me/+3DpHLzc2BfJhOWEx",
+      link: "https://t.me/blipmoney",
     },
     {
       label: "Twitter",

@@ -425,7 +425,7 @@ export default function Press() {
                     { label: "Twitter / X", href: "https://x.com/blipmoney_" },
                     {
                       label: "Telegram",
-                      href: "https://t.me/+3DpHLzc2BfJhOWEx",
+                      href: "https://t.me/blipmoney",
                     },
                     {
                       label: "Youtube",
@@ -433,7 +433,7 @@ export default function Press() {
                     },
                     {
                       label: "LinkedIn",
-                      href: "https://www.linkedin.com/in/blip-money-849946386/",
+                      href: "https://www.linkedin.com/company/blipmoneyofficial/about/?viewAsMember=true",
                     },
                   ].map((social) => (
                     <a

@@ -495,7 +495,7 @@ const ComingSoon = () => {
                 </a>
 
                 <a
-                  href="https://t.me/+3DpHLzc2BfJhOWEx"
+                  href="https://t.me/blipmoney"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex items-center gap-3 px-5 py-3 rounded-full bg-white/[0.02] border border-white/[0.08] hover:border-[#ffffff]/30 hover:bg-white/[0.04] transition-all duration-300"
@@ -556,7 +556,7 @@ const ComingSoon = () => {
 
   {/* Telegram Button */}
   <a
-    href="https://t.me/+3DpHLzc2BfJhOWEx"
+    href="https://t.me/blipmoney"
     target="_blank"
     rel="noopener noreferrer"
     className="
