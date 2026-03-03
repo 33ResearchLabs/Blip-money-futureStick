@@ -5,9 +5,6 @@ import {
   ProblemSection,
   SolutionSection,
   FeatureStrip,
-  LockedAndSecuredSection,
-  InstantBiddingSection,
-  BlipscanExplorerSection,
   UseCasesSection,
   RewardsSection,
   CashbackBanner,
@@ -20,6 +17,7 @@ import {
   DarkFintechSection,
   DashboardShowcaseSection,
   ProtocolInterstitial,
+  FeatureCinemaSection,
 } from "@/components/IndexSections";
 import NewSection from "@/components/IndexSections/NewSection";
 
@@ -87,13 +85,8 @@ const Index = () => {
           {/* Brand interstitial — "The Blip Protocol." */}
           <ProtocolInterstitial />
 
-          <LockedAndSecuredSection />
-
-          {/* 6. Instant Bidding */}
-          <InstantBiddingSection />
-
-          {/* 7. Verified on Blockchain (Blipscan explorer) */}
-          <BlipscanExplorerSection />
+          {/* 6-7-8. Locked & Secured · Instant Bidding · Verified — cinematic scroll */}
+          <FeatureCinemaSection />
 
           {/* 8. Use Cases */}
           <UseCasesSection />
