@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { useTheme } from "next-themes";
+import createGlobe from "cobe";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -109,6 +110,89 @@ const BENTO = [
   { val: "On-chain", lbl: "Full transparency" },
 ];
 
+/* ─── Night Globe — scroll-driven rotation ──────────────────────── */
+function NightGlobe() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const phiRef = useRef(0.5);
+  const widthRef = useRef(0);
+
+  useEffect(() => {
+    const onResize = () => {
+      if (canvasRef.current) widthRef.current = canvasRef.current.offsetWidth;
+    };
+    window.addEventListener("resize", onResize);
+    onResize();
+
+    const globe = createGlobe(canvasRef.current!, {
+      devicePixelRatio: 2,
+      width: widthRef.current * 2,
+      height: widthRef.current * 2,
+      phi: 0.5,
+      theta: 0.28,
+      dark: 1,
+      diffuse: 1.4,
+      mapSamples: 20000,
+      mapBrightness: 7,
+      baseColor: [0.06, 0.07, 0.12],
+      markerColor: [1, 0.82, 0.28],
+      glowColor: [0.18, 0.32, 0.72],
+      markers: [
+        { location: [25.2048, 55.2708], size: 0.06 }, // Dubai
+        { location: [40.7128, -74.006], size: 0.05 },  // New York
+        { location: [51.5074, -0.1278], size: 0.05 },  // London
+        { location: [1.3521, 103.8198], size: 0.045 }, // Singapore
+        { location: [35.6762, 139.6503], size: 0.04 }, // Tokyo
+        { location: [19.076, 72.8777], size: 0.04 },   // Mumbai
+        { location: [48.8566, 2.3522], size: 0.04 },   // Paris
+        { location: [-23.5505, -46.6333], size: 0.04 },// São Paulo
+      ],
+      onRender: (state) => {
+        // Slow auto-rotate + scroll-driven phi
+        phiRef.current += 0.003;
+        state.phi = phiRef.current + window.scrollY * 0.0006;
+        state.width = widthRef.current * 2;
+        state.height = widthRef.current * 2;
+      },
+    });
+
+    return () => {
+      globe.destroy();
+      window.removeEventListener("resize", onResize);
+    };
+  }, []);
+
+  return (
+    <div className="relative w-full flex justify-center mb-6" style={{ height: 480 }}>
+      {/* Outer atmospheric glow */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 55% 60% at 50% 45%, rgba(40,80,200,0.12) 0%, transparent 70%)",
+        }}
+      />
+      {/* Canvas — square, centered, fills height */}
+      <canvas
+        ref={canvasRef}
+        style={{
+          width: 480,
+          height: 480,
+          maxWidth: "100%",
+          aspectRatio: "1",
+        }}
+      />
+      {/* Fade to section bg at bottom */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to bottom, transparent 0%, #080808 85%)",
+        }}
+      />
+    </div>
+  );
+}
+
 const ProblemSection = () => {
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -167,6 +251,9 @@ const ProblemSection = () => {
           zIndex: 1,
         }}
       >
+        {/* ── Night Globe ── */}
+        {isDark && <NightGlobe />}
+
         {/* ── Header ── */}
         <motion.p
           initial={{ opacity: 0, y: 8 }}
