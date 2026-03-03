@@ -85,17 +85,6 @@ const CashbackBanner = () => {
               className="flex-1"
             >
               <div className="flex items-center gap-3 mb-6">
-                <motion.div
-                  className="w-12 h-12 rounded-2xl bg-gradient-to-br from-black/5 to-black/[0.02] dark:from-white/10 dark:to-white/5 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-[0_4px_20px_-6px_rgba(0,0,0,0.08)] flex items-center justify-center"
-                  animate={{ rotate: [0, 5, -5, 0] }}
-                  transition={{
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                >
-                  <span className="text-lg font-bold text-black dark:text-white">%</span>
-                </motion.div>
                 <div>
                   <span className="text-[10px] uppercase tracking-[0.3em] text-black dark:text-white/60 block">
                     Early Access
@@ -128,30 +117,6 @@ const CashbackBanner = () => {
                 in BLIP tokens on every payment. No tiers. No complexity.
               </p>
 
-              {/* Mini stats */}
-              <div className="flex items-center gap-6">
-                {[
-                  { value: "5%", label: "Max Cashback" },
-                  { value: "0", label: "Min Spend" },
-                  { value: "∞", label: "Rewards Cap" },
-                ].map((stat, i) => (
-                  <motion.div
-                    key={stat.label}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.3 + i * 0.1 }}
-                    className="text-center"
-                  >
-                    <div className="text-xl font-bold text-black dark:text-white">
-                      {stat.value}
-                    </div>
-                    <div className="text-[10px] text-black dark:text-white/30 uppercase tracking-wider">
-                      {stat.label}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
             </motion.div>
 
             {/* Right CTA */}
@@ -166,71 +131,6 @@ const CashbackBanner = () => {
               }}
               className="flex flex-col items-center gap-4"
             >
-              {/* Animated percentage circle */}
-              {/* Percentage circle */}
-              <div className="relative w-28 h-28">
-                {/* ROTATING OUTER RING */}
-                <motion.svg
-                  className="w-full h-full -rotate-90 text-black dark:text-white"
-                  initial={{ rotate: 0 }}
-                  animate={{ rotate: 360 }}
-                  transition={{
-                    duration: 3, // ⬅ slower & calm
-                    repeat: Infinity,
-                    repeatType: "loop",
-                    ease: "linear",
-                  }}
-                  style={{
-                    transformOrigin: "50% 50%",
-                    willChange: "transform",
-                  }}
-                >
-                  <circle
-                    cx="56"
-                    cy="56"
-                    r="50"
-                    fill="none"
-                    className="stroke-black/10 dark:stroke-white/25"
-                    strokeWidth="4"
-                  />
-
-                  <motion.circle
-                    cx="56"
-                    cy="56"
-                    r="50"
-                    fill="none"
-                    stroke="url(#gradient)"
-                    strokeWidth="4"
-                    strokeLinecap="round"
-                    strokeDasharray="314"
-                    initial={{ strokeDashoffset: 314 }}
-                    whileInView={{ strokeDashoffset: 157 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.5, delay: 0.5 }}
-                  />
-
-                  <defs>
-                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-  <stop offset="0%" stopColor="currentColor" />
-  <stop offset="100%" stopColor="currentColor" stopOpacity="0.4" />
-</linearGradient>
-
-                  </defs>
-                </motion.svg>
-
-                {/* STATIC CENTER TEXT */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-2xl font-bold text-black dark:text-white">5%</span>
-                </div>
-              </div>
-
-              {/* <Link
-                to="/rewards"
-                className="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white text-black text-sm font-semibold hover:bg-white/90 hover:shadow-[0_0_40px_rgba(255,255,255,0.2)] transition-all duration-300"
-              >
-                <span>View Rewards</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link> */}
               <CTAButton to="rewards">View Rewards </CTAButton>
             </motion.div>
           </div>
