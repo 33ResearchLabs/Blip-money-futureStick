@@ -19,6 +19,7 @@ import {
   AppShowcaseSection,
   DarkFintechSection,
   DashboardShowcaseSection,
+  ProtocolInterstitial,
 } from "@/components/IndexSections";
 import NewSection from "@/components/IndexSections/NewSection";
 
@@ -82,6 +83,9 @@ const Index = () => {
         <div className="overflow-x-clip">
           {/* 6. Core Features */}
           <FeatureStrip />
+
+          {/* Brand interstitial — "The Blip Protocol." */}
+          <ProtocolInterstitial />
 
           <LockedAndSecuredSection />
 

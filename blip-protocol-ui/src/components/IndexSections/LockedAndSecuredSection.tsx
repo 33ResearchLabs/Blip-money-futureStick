@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Shield, Zap, Globe, Check, Lock } from "lucide-react";
 import { useTheme } from "next-themes";
 
@@ -38,8 +38,28 @@ const LockedAndSecuredSection = () => {
   useEffect(() => setMounted(true), []);
   const isDark = mounted ? theme === "dark" : true;
 
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+
+  // Parallax layers — different speeds for depth
+  const headerY = useTransform(scrollYProgress, [0, 1], [60, -60]);
+  const cardY = useTransform(scrollYProgress, [0, 1], [80, -40]);
+  const badgeTopY = useTransform(scrollYProgress, [0, 1], [100, -80]);
+  const badgeBotY = useTransform(scrollYProgress, [0, 1], [120, -60]);
+  const featuresY = useTransform(scrollYProgress, [0, 1], [50, -30]);
+  const glowTopY = useTransform(scrollYProgress, [0, 1], [40, -100]);
+  const glowBotY = useTransform(scrollYProgress, [0, 1], [-40, 80]);
+
+  // Zoom-in & fade-out as section scrolls away
+  const sectionScale = useTransform(scrollYProgress, [0, 0.3, 0.65, 1], [0.92, 1, 1, 1.08]);
+  const sectionOpacity = useTransform(scrollYProgress, [0, 0.25, 0.7, 1], [0, 1, 1, 0]);
+
   return (
     <section
+      ref={sectionRef}
       style={{
         background: isDark ? "#090909" : "#FAF8F5",
         padding: "100px 48px 100px",
@@ -47,8 +67,8 @@ const LockedAndSecuredSection = () => {
         overflow: "hidden",
       }}
     >
-      {/* Ambient green glow — top right */}
-      <div
+      {/* Ambient green glow — top right (parallax) */}
+      <motion.div
         aria-hidden
         style={{
           position: "absolute",
@@ -60,10 +80,11 @@ const LockedAndSecuredSection = () => {
             ? "radial-gradient(ellipse at top right, rgba(61,220,132,0.06) 0%, transparent 65%)"
             : "radial-gradient(ellipse at top right, rgba(61,220,132,0.08) 0%, transparent 65%)",
           pointerEvents: "none",
+          y: glowTopY,
         }}
       />
-      {/* Ambient warm glow — bottom left */}
-      <div
+      {/* Ambient warm glow — bottom left (parallax) */}
+      <motion.div
         aria-hidden
         style={{
           position: "absolute",
@@ -75,24 +96,27 @@ const LockedAndSecuredSection = () => {
             ? "radial-gradient(ellipse at bottom left, rgba(255,107,53,0.05) 0%, transparent 65%)"
             : "radial-gradient(ellipse at bottom left, rgba(255,107,53,0.06) 0%, transparent 65%)",
           pointerEvents: "none",
+          y: glowBotY,
         }}
       />
 
-      <div
+      <motion.div
         style={{
           maxWidth: 1120,
           margin: "0 auto",
           position: "relative",
           zIndex: 1,
+          scale: sectionScale,
+          opacity: sectionOpacity,
         }}
       >
-        {/* ── Header ── */}
+        {/* ── Header (parallax) ── */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: EASE }}
-          style={{ textAlign: "center", marginBottom: 72 }}
+          style={{ textAlign: "center", marginBottom: 72, y: headerY }}
         >
           <p
             style={{
@@ -122,13 +146,14 @@ const LockedAndSecuredSection = () => {
 
         {/* ── Two-column layout ── */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left — Escrow card */}
+          {/* Left — Escrow card (parallax) */}
           <motion.div
             initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: EASE }}
             className="flex justify-center"
+            style={{ y: cardY }}
           >
             <div style={{ position: "relative", width: "100%", maxWidth: 380 }}>
               {/* Green glow behind card */}
@@ -523,7 +548,7 @@ const LockedAndSecuredSection = () => {
                 </div>
               </motion.div>
 
-              {/* Floating badge — top right */}
+              {/* Floating badge — top right (parallax) */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -533,6 +558,7 @@ const LockedAndSecuredSection = () => {
                   position: "absolute",
                   top: -20,
                   right: -20,
+                  y: badgeTopY,
                   background: isDark ? "#0f0f0f" : "#ffffff",
                   border: isDark
                     ? "1px solid rgba(255,255,255,0.085)"
@@ -587,7 +613,7 @@ const LockedAndSecuredSection = () => {
                 </div>
               </motion.div>
 
-              {/* Floating badge — bottom left */}
+              {/* Floating badge — bottom left (parallax) */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -597,6 +623,7 @@ const LockedAndSecuredSection = () => {
                   position: "absolute",
                   bottom: -18,
                   left: -20,
+                  y: badgeBotY,
                   background: isDark ? "#0f0f0f" : "#ffffff",
                   border: isDark
                     ? "1px solid rgba(255,255,255,0.085)"
@@ -661,13 +688,14 @@ const LockedAndSecuredSection = () => {
             </div>
           </motion.div>
 
-          {/* Right — Text + features */}
+          {/* Right — Text + features (parallax) */}
           <motion.div
             initial={{ opacity: 0, x: 24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
             className="text-base mx-auto text-center md:text-lg text-black/50 dark:text-white/40 font-medium leading-relaxed mb-10 max-w-md"
+            style={{ y: featuresY }}
           >
             <p className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-lg text-center mx-auto leading-relaxed mb-10 font-medium">
               Your funds are held in a secure on-chain escrow. Neither party can
@@ -746,7 +774,7 @@ const LockedAndSecuredSection = () => {
             </div>
           </motion.div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };

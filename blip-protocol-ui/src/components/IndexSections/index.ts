@@ -16,3 +16,4 @@ export { default as TrustSection } from './TrustSection';
 export { default as AppShowcaseSection } from './AppShowcaseSection';
 export { default as DarkFintechSection } from './DarkFintechSection';
 export { default as DashboardShowcaseSection } from './DashboardShowcaseSection';
+export { default as ProtocolInterstitial } from './ProtocolInterstitial';
