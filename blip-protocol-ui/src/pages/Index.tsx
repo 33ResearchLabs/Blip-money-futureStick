@@ -16,7 +16,6 @@ import {
   AppShowcaseSection,
   DarkFintechSection,
   DashboardShowcaseSection,
-  ProtocolInterstitial,
   FeatureCinemaSection,
 } from "@/components/IndexSections";
 import NewSection from "@/components/IndexSections/NewSection";
@@ -82,8 +81,8 @@ const Index = () => {
           {/* 6. Core Features */}
           <FeatureStrip />
 
-          {/* Brand interstitial — "The Blip Protocol." */}
-          <ProtocolInterstitial />
+          {/* Protocol Benefits — moved up, replaces interstitial */}
+          <ProtocolSection />
 
           {/* 6-7-8. Locked & Secured · Instant Bidding · Verified — cinematic scroll */}
           <FeatureCinemaSection />
@@ -97,9 +96,6 @@ const Index = () => {
 
           {/* 10. Dubai Launch */}
           <UAESection />
-
-          {/* 11. Protocol Benefits */}
-          <ProtocolSection />
 
           {/* 12. Trust / Architecture */}
           <TrustSection />
