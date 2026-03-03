@@ -458,359 +458,154 @@ function BiddingUI() {
   const bestBid = bids[0];
 
   return (
-    <div
-      style={{
-        width: 480,
-        background: "#0d0d0d",
-        border: "1px solid rgba(255,255,255,0.08)",
-        borderRadius: 20,
-        overflow: "hidden",
-        boxShadow:
-          "0 0 80px rgba(255,107,53,0.08), 0 30px 60px rgba(0,0,0,0.6)",
-      }}
-    >
-      {/* Browser chrome */}
-      <div
-        style={{
-          padding: "12px 16px",
-          background: "#090909",
-          borderBottom: "1px solid rgba(255,255,255,0.06)",
-          display: "flex",
-          alignItems: "center",
-          gap: 12,
-        }}
-      >
-        <div style={{ display: "flex", gap: 6 }}>
-          {["#ff5f57", "#ffbd2e", "#28ca42"].map((c) => (
-            <div
-              key={c}
-              style={{
-                width: 12,
-                height: 12,
-                borderRadius: "50%",
-                background: c,
-              }}
-            />
-          ))}
+    <div className="w-[560px] rounded-2xl overflow-hidden border border-white/[0.08] bg-[#0a0a0a] shadow-[0_30px_60px_rgba(0,0,0,0.5),0_0_80px_rgba(255,107,53,0.06)]">
+      {/* Browser chrome — matches InstantBiddingSection exactly */}
+      <div className="flex items-center gap-3 px-5 py-3.5 bg-[#111] border-b border-white/[0.06]">
+        <div className="flex items-center gap-1.5">
+          <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
+          <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
+          <div className="w-3 h-3 rounded-full bg-[#28ca42]" />
         </div>
-        <div
-          style={{ flex: 1, display: "flex", justifyContent: "center" }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              padding: "6px 12px",
-              borderRadius: 8,
-              background: "rgba(255,255,255,0.04)",
-              border: "1px solid rgba(255,255,255,0.06)",
-              maxWidth: 280,
-              width: "100%",
-            }}
-          >
-            <Lock
-              style={{
-                width: 11,
-                height: 11,
-                color: "rgba(255,255,255,0.25)",
-              }}
-            />
-            <span
-              style={{
-                fontSize: 11,
-                color: "rgba(255,255,255,0.25)",
-                fontFamily: "monospace",
-                flex: 1,
-              }}
-            >
+        <div className="flex-1 flex justify-center">
+          <div className="flex items-center gap-2 px-4 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.06] w-full max-w-[300px]">
+            <div className="w-4 h-4 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+              <Lock className="w-2.5 h-2.5 text-white/40" />
+            </div>
+            <span className="text-xs text-white/30 font-mono truncate flex-1">
               settle.blipprotocol.com/merchant
             </span>
-            <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+            <div className="flex items-center gap-1.5 ml-auto shrink-0">
               <motion.div
-                style={{
-                  width: 6,
-                  height: 6,
-                  borderRadius: "50%",
-                  background: "#ff6b35",
-                }}
+                className="w-2 h-2 rounded-full bg-[#ff6b35]"
                 animate={{ opacity: [1, 0.4, 1] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
               />
-              <span
-                style={{
-                  fontSize: 9,
-                  color: "#ff6b35",
-                  fontWeight: 700,
-                  letterSpacing: "1px",
-                }}
-              >
-                LIVE
-              </span>
+              <span className="text-[10px] text-[#ff6b35] font-bold tracking-wide">LIVE</span>
             </div>
           </div>
         </div>
+        <div className="w-8 h-8 rounded-full bg-white/[0.08] flex items-center justify-center text-xs font-bold text-white/60">M</div>
       </div>
 
-      {/* Order header */}
-      <div
-        style={{
-          padding: "16px 20px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          borderBottom: "1px solid rgba(255,255,255,0.05)",
-        }}
-      >
-        <div>
-          <div
-            style={{
-              fontSize: 9,
-              letterSpacing: "2px",
-              textTransform: "uppercase",
-              color: "rgba(255,255,255,0.2)",
-              marginBottom: 4,
-            }}
-          >
-            Active Order · #BLP-8472
+      {/* Dashboard content */}
+      <div className="p-5 text-white">
+        {/* Order header + timer */}
+        <div className="flex items-center justify-between mb-5 pb-4 border-b border-white/[0.06]">
+          <div>
+            <div className="text-[10px] uppercase tracking-widest text-white/30 mb-1">Active Order · #BLP-8472</div>
+            <div className="text-2xl font-bold tracking-tight">5,000 USDT → AED</div>
           </div>
-          <div
-            style={{
-              fontSize: 22,
-              fontWeight: 700,
-              color: "#fff",
-              letterSpacing: "-0.03em",
-            }}
-          >
-            5,000 USDT → AED
+          <div className="text-center">
+            <div className="text-[10px] uppercase tracking-widest text-white/30 mb-1">Match in</div>
+            <AnimatePresence mode="wait">
+              {matched ? (
+                <motion.div key="m" initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ opacity: 0 }}>
+                  <Check className="w-6 h-6 text-emerald-400" />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key={countdown}
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 5 }}
+                  className={`text-xl font-bold font-mono tracking-tight ${countdown <= 5 ? "text-[#ff6b35]" : "text-white"}`}
+                >
+                  {`00:${countdown.toString().padStart(2, "0")}`}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
-        <div style={{ textAlign: "center" }}>
-          <div
-            style={{
-              fontSize: 9,
-              letterSpacing: "2px",
-              textTransform: "uppercase",
-              color: "rgba(255,255,255,0.2)",
-              marginBottom: 4,
-            }}
-          >
-            Match in
-          </div>
-          <AnimatePresence mode="wait">
-            {matched ? (
-              <motion.div
-                key="matched"
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ opacity: 0 }}
-              >
-                <Check
-                  style={{ width: 24, height: 24, color: "#3ddc84" }}
-                />
-              </motion.div>
-            ) : (
-              <motion.div
-                key={countdown}
-                initial={{ opacity: 0, y: -6 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 6 }}
-                style={{
-                  fontSize: 22,
-                  fontWeight: 700,
-                  color: countdown <= 5 ? "#ff6b35" : "#fff",
-                  fontFamily: "monospace",
-                  letterSpacing: "-0.02em",
-                }}
-              >
-                {`00:${countdown.toString().padStart(2, "0")}`}
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </div>
 
-      {/* Bids panel */}
-      <div style={{ padding: "16px 20px" }}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginBottom: 12,
-          }}
-        >
-          <span
-            style={{
-              fontSize: 9,
-              letterSpacing: "2px",
-              textTransform: "uppercase",
-              color: "rgba(255,255,255,0.2)",
-            }}
-          >
-            Live Merchant Bids
-          </span>
-          <div style={{ display: "flex", gap: 4 }}>
+        {/* Bids header */}
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-bold text-white">Live Merchant Bids</h3>
+          <div className="flex items-center gap-1.5">
             {[0, 1, 2].map((i) => (
               <motion.div
                 key={i}
-                style={{
-                  width: 5,
-                  height: 5,
-                  borderRadius: "50%",
-                  background: "rgba(255,255,255,0.3)",
-                }}
+                className="w-1.5 h-1.5 rounded-full bg-white/40"
                 animate={{ opacity: [0.3, 1, 0.3] }}
-                transition={{ duration: 0.9, repeat: Infinity, delay: i * 0.2 }}
+                transition={{ duration: 0.8, repeat: Infinity, delay: i * 0.15 }}
               />
             ))}
           </div>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        {/* Bid cards — same structure as InstantBiddingSection */}
+        <div className="space-y-2.5">
           {bids.map((bid) => (
             <motion.div
               key={bid.id}
               layout
               animate={{
-                background: bid.best
-                  ? "rgba(255,255,255,0.055)"
-                  : "rgba(255,255,255,0.02)",
-                borderColor: bid.best
-                  ? "rgba(255,255,255,0.14)"
-                  : "rgba(255,255,255,0.06)",
+                background: bid.best ? "rgba(255,255,255,0.07)" : "rgba(255,255,255,0.025)",
+                borderColor: bid.best ? "rgba(255,255,255,0.18)" : "rgba(255,255,255,0.06)",
               }}
-              transition={{ duration: 0.35, ease: "easeOut" }}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                padding: "11px 14px",
-                borderRadius: 14,
-                border: "1px solid",
-              }}
+              transition={{ duration: 0.35 }}
+              className="p-3.5 rounded-xl border"
             >
-              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                <div
-                  style={{
-                    width: 34,
-                    height: 34,
-                    borderRadius: 10,
-                    background: bid.best
-                      ? "rgba(255,107,53,0.12)"
-                      : "rgba(255,255,255,0.05)",
-                    border: bid.best
-                      ? "1px solid rgba(255,107,53,0.22)"
-                      : "1px solid rgba(255,255,255,0.07)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: 9,
-                    fontWeight: 700,
-                    color: bid.best ? "#ff6b35" : "rgba(255,255,255,0.4)",
-                  }}
-                >
-                  {bid.avatar}
-                </div>
-                <div>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
                   <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 6,
-                      marginBottom: 2,
-                    }}
+                    className={`w-10 h-10 rounded-xl flex items-center justify-center text-xs font-bold ${
+                      bid.best ? "bg-white/10 text-white/80" : "bg-white/[0.05] text-white/40"
+                    }`}
                   >
-                    <span
-                      style={{
-                        fontSize: 13,
-                        fontWeight: 600,
-                        color: bid.best
-                          ? "#fff"
-                          : "rgba(255,255,255,0.55)",
-                      }}
-                    >
-                      {bid.name}
-                    </span>
-                    {bid.best && (
-                      <motion.span
-                        layout
-                        initial={{ scale: 0, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        style={{
-                          padding: "1px 7px",
-                          borderRadius: 999,
-                          background: "rgba(255,107,53,0.15)",
-                          border: "1px solid rgba(255,107,53,0.25)",
-                          fontSize: 8,
-                          color: "#ff6b35",
-                          fontWeight: 700,
-                          textTransform: "uppercase",
-                        }}
-                      >
-                        Best
-                      </motion.span>
-                    )}
+                    {bid.avatar}
                   </div>
-                  <div style={{ fontSize: 10, color: "rgba(255,255,255,0.25)" }}>
-                    {bid.trades.toLocaleString()} trades · ETA {bid.time}
+                  <div>
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <span className={`text-sm font-semibold ${bid.best ? "text-white" : "text-white/55"}`}>{bid.name}</span>
+                      {bid.best && (
+                        <motion.span
+                          layout
+                          initial={{ scale: 0, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          className="px-2 py-0.5 rounded-full bg-white/10 text-[9px] text-white/70 font-bold uppercase"
+                        >
+                          Best Rate
+                        </motion.span>
+                      )}
+                    </div>
+                    <div className="text-xs text-white/30">{bid.trades.toLocaleString()} trades · ETA {bid.time}</div>
                   </div>
                 </div>
-              </div>
-              <div style={{ textAlign: "right" }}>
-                <motion.div
-                  animate={{
-                    color: bid.best ? "#ffffff" : "rgba(255,255,255,0.4)",
-                  }}
-                  style={{
-                    fontSize: 16,
-                    fontWeight: 700,
-                    letterSpacing: "-0.02em",
-                  }}
-                >
-                  {bid.rate.toFixed(3)}{" "}
-                  <span
-                    style={{
-                      fontSize: 11,
-                      color: "rgba(255,255,255,0.25)",
-                      fontWeight: 400,
-                    }}
-                  >
-                    AED
-                  </span>
-                </motion.div>
-                <div style={{ fontSize: 10, color: "rgba(255,255,255,0.25)" }}>
-                  ≈{" "}
-                  {(bid.rate * 5000).toLocaleString(undefined, {
-                    maximumFractionDigits: 0,
-                  })}{" "}
-                  AED
+                <div className="flex items-center gap-3">
+                  <div className="text-right">
+                    <motion.div
+                      className="text-lg font-bold"
+                      animate={{ color: bid.best ? "#ffffff" : "rgba(255,255,255,0.4)" }}
+                    >
+                      {bid.rate.toFixed(3)}{" "}
+                      <span className="text-xs text-white/30 font-normal">AED</span>
+                    </motion.div>
+                    <div className="text-xs text-white/30">
+                      ≈ {(bid.rate * 5000).toLocaleString(undefined, { maximumFractionDigits: 0 })} AED
+                    </div>
+                  </div>
+                  <motion.div
+                    className={`w-3 h-3 rounded-full ${bid.best ? "bg-white/60" : "bg-white/20"}`}
+                    animate={bid.best ? { scale: [1, 1.3, 1] } : {}}
+                    transition={{ duration: 1, repeat: Infinity }}
+                  />
                 </div>
               </div>
             </motion.div>
           ))}
         </div>
 
-        {/* Auto-select notice */}
-        <div
-          style={{
-            marginTop: 12,
-            padding: "10px 14px",
-            borderRadius: 12,
-            background: "rgba(255,107,53,0.05)",
-            border: "1px solid rgba(255,107,53,0.12)",
-            display: "flex",
-            alignItems: "center",
-            gap: 10,
-          }}
-        >
-          <Zap
-            style={{ width: 14, height: 14, color: "#ff6b35", flexShrink: 0 }}
-          />
-          <span style={{ fontSize: 11.5, color: "rgba(255,255,255,0.38)" }}>
-            Auto-selecting best offer · You'll receive ~
-            {(bestBid?.rate * 5000).toFixed(0)} AED
-          </span>
+        {/* Auto-select footer */}
+        <div className="mt-3 p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
+            <Zap className="w-4 h-4 text-white/60" />
+          </div>
+          <div>
+            <span className="text-sm text-white/70 font-medium">Auto-selecting best offer</span>
+            <span className="text-xs text-white/35 block">
+              You'll receive ~{(bestBid?.rate * 5000).toFixed(0)} AED in ~30 seconds
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -863,96 +658,32 @@ function ExplorerUI() {
   }, []);
 
   return (
-    <div
-      style={{
-        width: 500,
-        background: "#0d0d0d",
-        border: "1px solid rgba(255,255,255,0.08)",
-        borderRadius: 20,
-        overflow: "hidden",
-        boxShadow:
-          "0 0 80px rgba(20,241,149,0.06), 0 30px 60px rgba(0,0,0,0.6)",
-      }}
-    >
-      {/* Header */}
-      <div
-        style={{
-          padding: "12px 16px",
-          background: "#090909",
-          borderBottom: "1px solid rgba(255,255,255,0.06)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{ display: "flex", gap: 6 }}>
-            {["#ff5f57", "#ffbd2e", "#28ca42"].map((c) => (
-              <div
-                key={c}
-                style={{
-                  width: 12,
-                  height: 12,
-                  borderRadius: "50%",
-                  background: c,
-                }}
-              />
-            ))}
+    <div className="w-[540px] rounded-2xl border border-white/[0.06] bg-black/40 backdrop-blur-xl overflow-hidden shadow-[0_8px_60px_-12px_rgba(0,0,0,0.8),0_0_80px_rgba(20,241,149,0.05)]">
+      {/* Browser chrome — matches BlipscanExplorerSection exactly */}
+      <div className="flex items-center justify-between px-5 py-3.5 bg-black/60 border-b border-white/[0.06]">
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5">
+            <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
+            <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
+            <div className="w-3 h-3 rounded-full bg-[#28ca42]" />
           </div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 6,
-              padding: "5px 10px",
-              borderRadius: 8,
-              background: "rgba(255,255,255,0.04)",
-              border: "1px solid rgba(255,255,255,0.06)",
-            }}
-          >
-            <Globe
-              style={{
-                width: 11,
-                height: 11,
-                color: "rgba(255,255,255,0.25)",
-              }}
-            />
-            <span
-              style={{
-                fontSize: 11,
-                color: "rgba(255,255,255,0.25)",
-                fontFamily: "monospace",
-              }}
-            >
-              blipscan.io/explorer
-            </span>
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.04]">
+            <Globe className="w-3.5 h-3.5 text-white/30" />
+            <span className="text-xs text-white/40 font-mono">blipscan.io/explorer</span>
           </div>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+        <div className="flex items-center gap-2">
           <motion.div
-            style={{
-              width: 7,
-              height: 7,
-              borderRadius: "50%",
-              background: "#14F195",
-            }}
-            animate={{ opacity: [1, 0.3, 1] }}
+            className="w-2 h-2 rounded-full bg-emerald-400"
+            animate={{ opacity: [1, 0.5, 1] }}
             transition={{ duration: 2, repeat: Infinity }}
           />
-          <span style={{ fontSize: 11, color: "#14F195", fontWeight: 600 }}>
-            Live · Solana
-          </span>
+          <span className="text-xs text-emerald-400 font-medium">Live · Solana</span>
         </div>
       </div>
 
-      {/* Stats bar */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr 1fr 1fr",
-          borderBottom: "1px solid rgba(255,255,255,0.05)",
-        }}
-      >
+      {/* Stats row */}
+      <div className="grid grid-cols-4 border-b border-white/[0.05]">
         {[
           { label: "Block", value: block.toLocaleString() },
           { label: "24h Volume", value: "$2.4M" },
@@ -961,34 +692,17 @@ function ExplorerUI() {
         ].map((s, i) => (
           <div
             key={s.label}
-            style={{
-              padding: "12px 8px",
-              textAlign: "center",
-              borderRight:
-                i < 3 ? "1px solid rgba(255,255,255,0.05)" : undefined,
-            }}
+            className={`text-center p-3 ${i < 3 ? "border-r border-white/[0.05]" : ""}`}
           >
             <motion.div
               key={s.value}
               initial={{ opacity: 0.5 }}
               animate={{ opacity: 1 }}
-              style={{
-                fontSize: 15,
-                fontWeight: 700,
-                color: "#fff",
-                marginBottom: 2,
-              }}
+              className="text-[15px] font-bold text-white mb-0.5"
             >
               {s.value}
             </motion.div>
-            <div
-              style={{
-                fontSize: 9,
-                color: "rgba(255,255,255,0.2)",
-                textTransform: "uppercase",
-                letterSpacing: "1.5px",
-              }}
-            >
+            <div className="text-[9px] text-white/20 uppercase tracking-[1.5px]">
               {s.label}
             </div>
           </div>
@@ -996,38 +710,18 @@ function ExplorerUI() {
       </div>
 
       {/* Transaction list */}
-      <div style={{ padding: "14px 16px" }}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginBottom: 10,
-            padding: "0 4px",
-          }}
-        >
-          <span
-            style={{
-              fontSize: 9,
-              letterSpacing: "2px",
-              textTransform: "uppercase",
-              color: "rgba(255,255,255,0.2)",
-            }}
-          >
+      <div className="p-4">
+        <div className="flex items-center justify-between px-1 mb-2.5">
+          <span className="text-[9px] uppercase tracking-[2px] text-white/20 font-medium">
             Recent Settlements
           </span>
-          <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+          <div className="flex items-center gap-1.5">
             <motion.div
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: "50%",
-                background: "#14F195",
-              }}
+              className="w-1.5 h-1.5 rounded-full bg-[#14F195]"
               animate={{ opacity: [1, 0.4, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
             />
-            <span style={{ fontSize: 10, color: "#14F195" }}>Live</span>
+            <span className="text-[10px] text-[#14F195]">Live</span>
           </div>
         </div>
 
@@ -1036,198 +730,58 @@ function ExplorerUI() {
             <motion.div
               key={tx.id}
               layout="position"
-              initial={{
-                opacity: 0,
-                x: -12,
-                backgroundColor: "rgba(20,241,149,0.06)",
-              }}
-              animate={{
-                opacity: 1,
-                x: 0,
-                backgroundColor: "rgba(255,255,255,0)",
-              }}
-              exit={{ opacity: 0, x: 12 }}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 10 }}
               transition={{
                 duration: 0.5,
                 ease: "easeOut",
                 layout: { duration: 0.6, ease: EASE },
               }}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                padding: "10px 12px",
-                borderRadius: 12,
-                border: "1px solid rgba(255,255,255,0.04)",
-                marginBottom: 6,
-              }}
+              className="flex items-center justify-between px-3 py-2.5 rounded-xl border border-white/[0.04] mb-1.5"
             >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 10,
-                  flex: 1,
-                  minWidth: 0,
-                }}
-              >
-                <div
-                  style={{
-                    width: 32,
-                    height: 32,
-                    borderRadius: 10,
-                    background: "rgba(20,241,149,0.08)",
-                    border: "1px solid rgba(20,241,149,0.15)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexShrink: 0,
-                  }}
-                >
-                  <Check
-                    style={{ width: 14, height: 14, color: "#14F195" }}
-                    strokeWidth={2.5}
-                  />
+              <div className="flex items-center gap-3 flex-1 min-w-0">
+                <div className="w-8 h-8 rounded-lg bg-[#14F195]/[0.08] border border-[#14F195]/20 flex items-center justify-center shrink-0">
+                  <Check className="w-3.5 h-3.5 text-[#14F195]" strokeWidth={2.5} />
                 </div>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 6,
-                      marginBottom: 3,
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontSize: 11,
-                        fontFamily: "monospace",
-                        color: "rgba(255,255,255,0.4)",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      {tx.id}
-                    </span>
-                    <span
-                      style={{
-                        color: "rgba(255,255,255,0.2)",
-                        fontSize: 11,
-                      }}
-                    >
-                      →
-                    </span>
-                    <span
-                      style={{
-                        fontSize: 13,
-                        color: "#fff",
-                        fontWeight: 600,
-                      }}
-                    >
-                      {tx.to}
-                    </span>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-1.5 mb-0.5">
+                    <span className="text-[11px] font-mono text-white/40 truncate">{tx.id}</span>
+                    <span className="text-white/20 text-[11px]">→</span>
+                    <span className="text-[13px] text-white font-semibold truncate">{tx.to}</span>
                     {tx.isNew && (
                       <motion.span
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        style={{
-                          padding: "1px 6px",
-                          borderRadius: 999,
-                          background: "rgba(20,241,149,0.12)",
-                          border: "1px solid rgba(20,241,149,0.2)",
-                          fontSize: 8,
-                          color: "#14F195",
-                          fontWeight: 700,
-                          whiteSpace: "nowrap",
-                        }}
+                        className="px-1.5 py-px rounded-full bg-[#14F195]/[0.12] border border-[#14F195]/20 text-[8px] text-[#14F195] font-bold whitespace-nowrap"
                       >
                         NEW
                       </motion.span>
                     )}
                   </div>
-                  <div
-                    style={{
-                      fontSize: 10,
-                      color: "rgba(255,255,255,0.2)",
-                      fontFamily: "monospace",
-                    }}
-                  >
-                    {tx.from}
-                  </div>
+                  <div className="text-[10px] text-white/20 font-mono truncate">{tx.from}</div>
                 </div>
               </div>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 10,
-                  flexShrink: 0,
-                }}
-              >
-                <div style={{ textAlign: "right" }}>
-                  <div
-                    style={{
-                      fontSize: 13,
-                      fontWeight: 600,
-                      color: "#fff",
-                    }}
-                  >
-                    {tx.amount}
-                  </div>
-                  <div style={{ fontSize: 9, color: "rgba(255,255,255,0.25)" }}>
-                    USDT
-                  </div>
+              <div className="flex items-center gap-2.5 shrink-0">
+                <div className="text-right">
+                  <div className="text-[13px] font-semibold text-white">{tx.amount}</div>
+                  <div className="text-[9px] text-white/25">USDT</div>
                 </div>
-                <div
-                  style={{
-                    padding: "5px 8px",
-                    borderRadius: 8,
-                    background: "rgba(20,241,149,0.08)",
-                    border: "1px solid rgba(20,241,149,0.15)",
-                  }}
-                >
-                  <span style={{ fontSize: 10, color: "#14F195" }}>
-                    {tx.age}
-                  </span>
+                <div className="px-2 py-1 rounded-lg bg-[#14F195]/[0.08] border border-[#14F195]/20">
+                  <span className="text-[10px] text-[#14F195]">{tx.age}</span>
                 </div>
               </div>
             </motion.div>
           ))}
         </AnimatePresence>
 
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginTop: 10,
-            paddingTop: 10,
-            borderTop: "1px solid rgba(255,255,255,0.04)",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <div
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: "50%",
-                background: "rgba(255,255,255,0.15)",
-              }}
-            />
-            <span style={{ fontSize: 10, color: "rgba(255,255,255,0.2)" }}>
-              Powered by Blip Protocol
-            </span>
+        <div className="flex items-center justify-between mt-2 pt-2.5 border-t border-white/[0.04]">
+          <div className="flex items-center gap-1.5">
+            <div className="w-1.5 h-1.5 rounded-full bg-white/15" />
+            <span className="text-[10px] text-white/20">Powered by Blip Protocol</span>
           </div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 4,
-              fontSize: 10,
-              color: "rgba(255,255,255,0.4)",
-              cursor: "pointer",
-            }}
-          >
-            View Explorer <ArrowRight style={{ width: 11, height: 11 }} />
+          <div className="flex items-center gap-1 text-[10px] text-white/40 cursor-pointer hover:text-white/70 transition-colors">
+            View Explorer <ArrowRight className="w-2.5 h-2.5" />
           </div>
         </div>
       </div>
@@ -1309,82 +863,56 @@ function Scene({
       />
 
       <div className="absolute inset-0 flex items-center">
-        {/* Left text column */}
-        <motion.div
-          style={{ y: textY, opacity: textOp, width: 340, flexShrink: 0 }}
-          className="pl-14 pr-6"
-        >
-          <div
-            style={{
-              fontSize: 9,
-              letterSpacing: "3px",
-              textTransform: "uppercase",
-              color: accent,
-              marginBottom: 16,
-            }}
+        <div className="w-full max-w-7xl mx-auto px-6 flex items-center gap-12 h-full">
+          {/* Left text column */}
+          <motion.div
+            style={{ y: textY, opacity: textOp }}
+            className="flex-shrink-0 w-[360px] xl:w-[420px]"
           >
-            {eyebrow}
-          </div>
-          <h2
-            className="text-white font-bold tracking-tight"
-            style={{
-              fontSize: "clamp(2rem, 3vw, 3rem)",
-              lineHeight: 1.06,
-              marginBottom: 20,
-            }}
-          >
-            {headline[0]}
-            <br />
-            <span style={{ color: "rgba(255,255,255,0.32)" }}>
-              {headline[1]}
-            </span>
-          </h2>
-          <p
-            style={{
-              fontSize: 15,
-              color: "rgba(255,255,255,0.38)",
-              lineHeight: 1.65,
-              marginBottom: 28,
-              maxWidth: 280,
-            }}
-          >
-            {subline}
-          </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {bullets.map((b) => (
-              <div
-                key={b}
-                style={{ display: "flex", alignItems: "center", gap: 10 }}
-              >
-                <div
-                  style={{
-                    width: 18,
-                    height: 18,
-                    borderRadius: "50%",
-                    flexShrink: 0,
-                    background: `${accent}18`,
-                    border: `1px solid ${accent}35`,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Check
-                    style={{ width: 9, height: 9, color: accent }}
-                    strokeWidth={3}
-                  />
+            <div
+              className="text-[10px] uppercase tracking-[3px] mb-5 font-semibold"
+              style={{ color: accent }}
+            >
+              {eyebrow}
+            </div>
+            <h2
+              className="font-display font-semibold text-white tracking-[-0.04em] leading-[0.95] mb-5"
+              style={{ fontSize: "clamp(3rem, 5vw, 5.5rem)" }}
+            >
+              {headline[0]}
+              <br />
+              <span style={{ color: "rgba(255,255,255,0.28)" }}>
+                {headline[1]}
+              </span>
+            </h2>
+            <p className="text-base text-white/40 leading-relaxed mb-8 max-w-[300px]">
+              {subline}
+            </p>
+            <div className="flex flex-col gap-3">
+              {bullets.map((b) => (
+                <div key={b} className="flex items-center gap-3">
+                  <div
+                    className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
+                    style={{
+                      background: `${accent}18`,
+                      border: `1px solid ${accent}35`,
+                    }}
+                  >
+                    <Check
+                      style={{ width: 9, height: 9, color: accent }}
+                      strokeWidth={3}
+                    />
+                  </div>
+                  <span className="text-sm text-white/45">{b}</span>
                 </div>
-                <span style={{ fontSize: 13, color: "rgba(255,255,255,0.42)" }}>
-                  {b}
-                </span>
-              </div>
-            ))}
-          </div>
-        </motion.div>
+              ))}
+            </div>
+          </motion.div>
 
-        {/* Right: zoom-in UI */}
-        <div className="flex-1 flex items-center justify-center pr-10">
-          <motion.div style={{ scale, filter }}>{children}</motion.div>
+          {/* Right: zoom-in UI */}
+          <div className="flex-1 flex items-center justify-center">
+            <motion.div style={{ scale, filter }}>{children}</motion.div>
+          </div>
         </div>
       </div>
     </motion.div>
