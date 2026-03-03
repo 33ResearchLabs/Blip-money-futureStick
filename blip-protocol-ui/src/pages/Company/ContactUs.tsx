@@ -23,7 +23,7 @@ import { sendFormNotification } from "@/api/telegram";
 import { SEO } from "@/components";
 import { HreflangTags } from "@/components/HreflangTags";
 import { sounds } from "@/lib/sounds";
-import dubai from "../../../public/Dubai.jpeg";
+import dubai from "../../../public/Dubai.webp";
 
 /* ============================================
    AWARD-WINNING CONTACT PAGE

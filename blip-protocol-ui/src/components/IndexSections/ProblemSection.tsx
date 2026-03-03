@@ -115,6 +115,7 @@ function NightGlobe() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const phiRef = useRef(0.5);
   const widthRef = useRef(0);
+  const lastScrollY = useRef(typeof window !== "undefined" ? window.scrollY : 0);
 
   useEffect(() => {
     const onResize = () => {
@@ -123,12 +124,21 @@ function NightGlobe() {
     window.addEventListener("resize", onResize);
     onResize();
 
+    // Scroll-delta driven rotation: up = right (phi +), down = left (phi -)
+    const onScroll = () => {
+      const currentY = window.scrollY;
+      const delta = currentY - lastScrollY.current;
+      phiRef.current -= delta * 0.004;
+      lastScrollY.current = currentY;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+
     const globe = createGlobe(canvasRef.current!, {
       devicePixelRatio: 2,
       width: widthRef.current * 2,
       height: widthRef.current * 2,
       phi: 0.5,
-      theta: 0.28,
+      theta: 0.42,
       dark: 1,
       diffuse: 1.4,
       mapSamples: 20000,
@@ -147,9 +157,7 @@ function NightGlobe() {
         { location: [-23.5505, -46.6333], size: 0.04 },// São Paulo
       ],
       onRender: (state) => {
-        // Slow auto-rotate + scroll-driven phi
-        phiRef.current += 0.003;
-        state.phi = phiRef.current + window.scrollY * 0.0006;
+        state.phi = phiRef.current;
         state.width = widthRef.current * 2;
         state.height = widthRef.current * 2;
       },
@@ -158,38 +166,20 @@ function NightGlobe() {
     return () => {
       globe.destroy();
       window.removeEventListener("resize", onResize);
+      window.removeEventListener("scroll", onScroll);
     };
   }, []);
 
   return (
-    <div className="relative w-full flex justify-center mb-6" style={{ height: 480 }}>
-      {/* Outer atmospheric glow */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 55% 60% at 50% 45%, rgba(40,80,200,0.12) 0%, transparent 70%)",
-        }}
-      />
-      {/* Canvas — square, centered, fills height */}
-      <canvas
-        ref={canvasRef}
-        style={{
-          width: 480,
-          height: 480,
-          maxWidth: "100%",
-          aspectRatio: "1",
-        }}
-      />
-      {/* Fade to section bg at bottom */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(to bottom, transparent 0%, #080808 85%)",
-        }}
-      />
-    </div>
+    <canvas
+      ref={canvasRef}
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "block",
+        mixBlendMode: "screen",
+      }}
+    />
   );
 }
 
@@ -243,17 +233,33 @@ const ProblemSection = () => {
         }}
       />
 
+      {/* Globe — right edge, half-visible */}
+      {isDark && (
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            right: -300,
+            top: "50%",
+            transform: "translateY(-50%)",
+            width: 600,
+            height: 600,
+            zIndex: 1,
+            pointerEvents: "none",
+          }}
+        >
+          <NightGlobe />
+        </div>
+      )}
+
       <div
         style={{
           maxWidth: 1120,
           margin: "0 auto",
           position: "relative",
-          zIndex: 1,
+          zIndex: 2,
         }}
       >
-        {/* ── Night Globe ── */}
-        {isDark && <NightGlobe />}
-
         {/* ── Header ── */}
         <motion.p
           initial={{ opacity: 0, y: 8 }}

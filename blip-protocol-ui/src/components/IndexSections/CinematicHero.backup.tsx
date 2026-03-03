@@ -19,7 +19,7 @@ const CinematicHero = () => (
       style={{ opacity: 0.06 }}
     >
       <img
-        src="/images/merchant-dashboard.png"
+        src="/images/merchant-dashboard.webp"
         alt=""
         className="w-full h-full object-contain object-center"
         style={{ filter: "blur(4px) saturate(0)" }}

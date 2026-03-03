@@ -88,7 +88,7 @@ const AppShowcaseSection = () => {
             className="md:col-span-5 relative rounded-3xl overflow-hidden max-h-[540px]"
           >
             <img
-              src="/card1.jpg"
+              src="/card1.webp"
               alt="Initiate Order"
               className="w-full h-full object-cover"
             />
@@ -487,7 +487,7 @@ const AppShowcaseSection = () => {
                   style={{ height: "calc(100% - 38px)" }}
                 >
                   <motion.img
-                    src="/images/merchant-dashboard.png"
+                    src="/images/merchant-dashboard.webp"
                     alt="Blip merchant dashboard"
                     className="w-full h-full object-cover object-top"
                     style={{ willChange: "transform" }}
@@ -720,7 +720,7 @@ const AppShowcaseSection = () => {
             className="relative rounded-3xl overflow-hidden h-[210px]"
           >
             <motion.img
-              src="/images/showcase-2.jpg"
+              src="/images/showcase-2.webp"
               alt="Blip app showcase"
               className="absolute inset-0 w-full h-full object-cover"
               style={{ willChange: "transform" }}

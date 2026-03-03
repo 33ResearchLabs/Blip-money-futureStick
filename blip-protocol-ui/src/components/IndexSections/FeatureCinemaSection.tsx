@@ -6,7 +6,7 @@ import {
   AnimatePresence,
   MotionValue,
 } from "framer-motion";
-import { Shield, Zap, Check, Lock, Globe, ArrowRight } from "lucide-react";
+import { Shield, Zap, Check, Lock, Globe, ArrowRight, Activity, TrendingUp, Star, CheckCircle2 } from "lucide-react";
 
 const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -398,6 +398,310 @@ function EscrowUI() {
             </motion.div>
           )}
         </AnimatePresence>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SCENE 2 UI — MERCHANT DASHBOARD
+   Live balance, locked escrow, active orders cycling through states
+   ═══════════════════════════════════════════════════════════ */
+type DashPhase = "escrowed" | "payment_sent" | "confirmed";
+
+const DASH_PHASE_CFG = {
+  escrowed:     { label: "ESCROWED",  color: "#c084fc", bg: "rgba(168,85,247,0.08)", border: "rgba(168,85,247,0.22)" },
+  payment_sent: { label: "PAID",      color: "#93c5fd", bg: "rgba(59,130,246,0.08)",  border: "rgba(59,130,246,0.22)"  },
+  confirmed:    { label: "CONFIRMED", color: "#34d399", bg: "rgba(52,211,153,0.08)",  border: "rgba(52,211,153,0.22)"  },
+};
+
+const COMPLETED_TX = [
+  { usdc: "5,000", aed: "18,350", profit: "+50.00", time: "2m ago" },
+  { usdc: "8,000", aed: "29,360", profit: "+80.00", time: "18m ago" },
+  { usdc: "3,000", aed: "11,010", profit: "+30.00", time: "1h ago" },
+];
+
+const LEADERBOARD_MINI = [
+  { rank: 1, name: "TrustMerchant22", vol: "420K", online: true },
+  { rank: 2, name: "AliH_Dubai",      vol: "280K", online: true },
+  { rank: 3, name: "QuickSettle",     vol: "195K", online: false },
+  { rank: 4, name: "GlobalFX",        vol: "140K", online: false },
+];
+
+function MerchantDashboardUI() {
+  const [earnings, setEarnings] = useState(124.50);
+  const [balance, setBalance]   = useState(12450.00);
+  const [phase, setPhase]       = useState<DashPhase>("escrowed");
+
+  useEffect(() => {
+    const phases: DashPhase[] = ["escrowed", "payment_sent", "confirmed"];
+    let idx = 0;
+    const cycleId = setInterval(() => {
+      idx = (idx + 1) % phases.length;
+      setPhase(phases[idx]);
+      if (phases[idx] === "confirmed") {
+        setTimeout(() => {
+          setEarnings((e) => parseFloat((e + 50).toFixed(2)));
+          setBalance((b) => b + 50);
+        }, 400);
+      }
+    }, 2600);
+    return () => clearInterval(cycleId);
+  }, []);
+
+  const cfg = DASH_PHASE_CFG[phase];
+
+  return (
+    <div
+      style={{
+        width: 660,
+        background: "#08080e",
+        border: "1px solid rgba(255,255,255,0.08)",
+        borderRadius: 20,
+        overflow: "hidden",
+        boxShadow: "0 0 80px rgba(251,146,60,0.07), 0 30px 60px rgba(0,0,0,0.65)",
+      }}
+    >
+      {/* ── App chrome ── */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+          padding: "10px 16px",
+          background: "#0f0f14",
+          borderBottom: "1px solid rgba(255,255,255,0.06)",
+        }}
+      >
+        <div className="flex gap-1.5">
+          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#ff5f56" }} />
+          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#ffbd2e" }} />
+          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#27c93f" }} />
+        </div>
+        <div
+          style={{
+            flex: 1,
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+            padding: "3px 10px",
+            background: "rgba(255,255,255,0.04)",
+            border: "1px solid rgba(255,255,255,0.07)",
+            borderRadius: 6,
+            fontSize: 10,
+            color: "rgba(255,255,255,0.28)",
+            fontFamily: "monospace",
+            maxWidth: 280,
+            margin: "0 auto",
+          }}
+        >
+          <span style={{ color: "#3ddc84" }}>⚡</span> merchant.blip.money
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+          <motion.div
+            animate={{ opacity: [1, 0.3, 1] }}
+            transition={{ duration: 1.8, repeat: Infinity }}
+            style={{ width: 5, height: 5, borderRadius: "50%", background: "#3ddc84", boxShadow: "0 0 4px #3ddc84" }}
+          />
+          <span style={{ fontSize: 9, color: "#3ddc84", fontFamily: "monospace", fontWeight: 700 }}>ONLINE</span>
+        </div>
+      </div>
+
+      {/* ── 3-panel body ── */}
+      <div style={{ display: "flex", minHeight: 380 }}>
+
+        {/* Panel 1 — Balance */}
+        <div
+          style={{
+            width: 190,
+            flexShrink: 0,
+            borderRight: "1px solid rgba(255,255,255,0.05)",
+            display: "flex",
+            flexDirection: "column",
+            gap: 0,
+          }}
+        >
+          {/* Balance */}
+          <div style={{ padding: "16px 14px 14px", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+            <div style={{ fontSize: 8, color: "rgba(255,255,255,0.25)", fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "2px", marginBottom: 6 }}>Available</div>
+            <motion.div
+              key={Math.floor(balance)}
+              initial={{ opacity: 0.6 }}
+              animate={{ opacity: 1 }}
+              style={{ fontSize: 22, fontWeight: 700, fontFamily: "monospace", color: "#fff", letterSpacing: "-0.04em", lineHeight: 1 }}
+            >
+              {balance.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </motion.div>
+            <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)", fontFamily: "monospace", marginTop: 3 }}>USDC</div>
+          </div>
+
+          {/* Locked */}
+          <div style={{ padding: "12px 14px", borderBottom: "1px solid rgba(255,255,255,0.05)", background: "rgba(168,85,247,0.03)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 5, marginBottom: 5 }}>
+              <Lock style={{ width: 9, height: 9, color: "rgba(192,132,252,0.6)" }} />
+              <span style={{ fontSize: 8, color: "rgba(192,132,252,0.5)", fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "1.5px" }}>Locked</span>
+            </div>
+            <div style={{ fontSize: 16, fontWeight: 700, fontFamily: "monospace", color: "#c084fc", letterSpacing: "-0.03em" }}>3,200 <span style={{ fontSize: 9, color: "rgba(192,132,252,0.45)" }}>USDC</span></div>
+          </div>
+
+          {/* Today */}
+          <div style={{ padding: "12px 14px", borderBottom: "1px solid rgba(255,255,255,0.05)", background: "rgba(52,211,153,0.025)" }}>
+            <div style={{ fontSize: 8, color: "rgba(52,211,153,0.5)", fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "1.5px", marginBottom: 5 }}>Today</div>
+            <motion.div
+              key={Math.floor(earnings)}
+              initial={{ y: -4, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.3 }}
+              style={{ fontSize: 16, fontWeight: 700, fontFamily: "monospace", color: "#34d399", letterSpacing: "-0.03em" }}
+            >
+              +${earnings.toFixed(2)}
+            </motion.div>
+          </div>
+
+          {/* Rate */}
+          <div style={{ padding: "12px 14px", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+            <div style={{ fontSize: 8, color: "rgba(255,255,255,0.22)", fontFamily: "monospace", marginBottom: 5 }}>AED / USDC</div>
+            <div style={{ fontSize: 17, fontWeight: 700, fontFamily: "monospace", color: "#fb923c" }}>3.6700</div>
+            <div style={{ fontSize: 8, color: "rgba(255,255,255,0.18)", fontFamily: "monospace", marginTop: 3 }}>5m: $42.5K · 12 live</div>
+          </div>
+
+          {/* Stats */}
+          <div style={{ marginTop: "auto", display: "grid", gridTemplateColumns: "1fr 1fr", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+            {[{ val: "47", lbl: "Done" }, { val: "#7", lbl: "Rank" }].map((s, i) => (
+              <div key={s.lbl} style={{ padding: "10px 0", textAlign: "center", borderRight: i === 0 ? "1px solid rgba(255,255,255,0.05)" : undefined }}>
+                <div style={{ fontSize: 15, fontWeight: 700, fontFamily: "monospace", color: "#fff" }}>{s.val}</div>
+                <div style={{ fontSize: 7, color: "rgba(255,255,255,0.2)", textTransform: "uppercase", letterSpacing: "1px", marginTop: 2 }}>{s.lbl}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Panel 2 — Active Orders */}
+        <div
+          style={{
+            flex: 1,
+            borderRight: "1px solid rgba(255,255,255,0.05)",
+            display: "flex",
+            flexDirection: "column",
+            padding: "12px",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10 }}>
+            <Activity style={{ width: 10, height: 10, color: "rgba(255,255,255,0.28)" }} />
+            <span style={{ fontSize: 9, fontWeight: 600, color: "rgba(255,255,255,0.3)", fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "2px" }}>In Progress</span>
+            <span style={{ marginLeft: "auto", fontSize: 8, padding: "1px 7px", borderRadius: 999, background: "rgba(255,107,53,0.12)", border: "1px solid rgba(255,107,53,0.22)", color: "#fb923c", fontFamily: "monospace" }}>2 ACTIVE</span>
+          </div>
+
+          {/* Order 1 — animated */}
+          <motion.div
+            animate={{ background: cfg.bg, borderColor: cfg.border }}
+            transition={{ duration: 0.45 }}
+            style={{ padding: "10px 11px", borderRadius: 10, border: "1px solid", marginBottom: 7 }}
+          >
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 7 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
+                <div style={{ width: 22, height: 22, borderRadius: "50%", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 8, fontWeight: 700, color: "rgba(255,255,255,0.6)" }}>AH</div>
+                <div>
+                  <div style={{ fontSize: 10, fontWeight: 600, color: "rgba(255,255,255,0.65)" }}>Ali Hassan</div>
+                  <span style={{ fontSize: 7, fontWeight: 700, fontFamily: "monospace", padding: "1px 4px", borderRadius: 3, background: "rgba(255,107,53,0.1)", border: "1px solid rgba(255,107,53,0.2)", color: "#fb923c" }}>SELL</span>
+                </div>
+              </div>
+              <motion.span
+                key={phase}
+                initial={{ scale: 0.85, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                style={{ fontSize: 8, fontWeight: 700, fontFamily: "monospace", padding: "2px 7px", borderRadius: 4, border: `1px solid ${cfg.border}`, color: cfg.color, background: cfg.bg }}
+              >
+                {cfg.label}
+              </motion.span>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "7px 0", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+              <span style={{ fontSize: 14, fontWeight: 700, fontFamily: "monospace", color: "#fff", letterSpacing: "-0.03em" }}>5,000 <span style={{ fontSize: 9, color: "rgba(255,255,255,0.3)" }}>USDC</span></span>
+              <ArrowRight style={{ width: 10, height: 10, color: "rgba(255,255,255,0.18)" }} />
+              <span style={{ fontSize: 12, fontFamily: "monospace", color: "rgba(255,255,255,0.4)" }}>18,350 AED</span>
+            </div>
+          </motion.div>
+
+          {/* Order 2 — static */}
+          <div style={{ padding: "9px 11px", borderRadius: 10, border: "1px solid rgba(59,130,246,0.2)", background: "rgba(59,130,246,0.04)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 6 }}>
+              <div style={{ width: 22, height: 22, borderRadius: "50%", background: "rgba(255,255,255,0.06)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 8, fontWeight: 700, color: "rgba(255,255,255,0.5)" }}>TM</div>
+              <span style={{ fontSize: 10, color: "rgba(255,255,255,0.55)" }}>TrustMerchant22</span>
+              <span style={{ fontSize: 7, fontWeight: 700, fontFamily: "monospace", padding: "1px 4px", borderRadius: 3, background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.4)" }}>BUY</span>
+              <span style={{ marginLeft: "auto", fontSize: 8, fontWeight: 700, fontFamily: "monospace", padding: "2px 7px", borderRadius: 4, border: "1px solid rgba(59,130,246,0.2)", color: "#93c5fd", background: "rgba(59,130,246,0.07)" }}>PAID</span>
+            </div>
+            <div style={{ fontSize: 13, fontWeight: 700, fontFamily: "monospace", color: "rgba(255,255,255,0.7)", letterSpacing: "-0.03em" }}>2,000 <span style={{ fontSize: 9, color: "rgba(255,255,255,0.28)" }}>USDC</span> <span style={{ fontSize: 10, color: "rgba(255,255,255,0.2)" }}>→</span> <span style={{ fontSize: 11, color: "rgba(255,255,255,0.35)" }}>7,340 AED</span></div>
+          </div>
+
+          {/* Completed mini */}
+          <div style={{ marginTop: 10, flex: 1 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 5, marginBottom: 6 }}>
+              <CheckCircle2 style={{ width: 9, height: 9, color: "rgba(255,255,255,0.22)" }} />
+              <span style={{ fontSize: 8, color: "rgba(255,255,255,0.22)", fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "2px" }}>Completed today</span>
+            </div>
+            {COMPLETED_TX.map((tx, i) => (
+              <div key={i} style={{ display: "flex", alignItems: "center", gap: 7, padding: "5px 8px", borderRadius: 7, background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)", marginBottom: 4 }}>
+                <div style={{ width: 16, height: 16, borderRadius: "50%", background: "rgba(52,211,153,0.1)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <CheckCircle2 style={{ width: 8, height: 8, color: "#34d399" }} />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <span style={{ fontSize: 9, fontFamily: "monospace", color: "rgba(255,255,255,0.5)" }}>{tx.usdc} USDC</span>
+                  <span style={{ fontSize: 8, color: "rgba(255,255,255,0.18)", fontFamily: "monospace", marginLeft: 4 }}>{tx.time}</span>
+                </div>
+                <span style={{ fontSize: 9, fontWeight: 700, fontFamily: "monospace", color: "#34d399" }}>{tx.profit}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Panel 3 — Leaderboard */}
+        <div style={{ width: 180, flexShrink: 0, padding: "12px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 5, marginBottom: 10 }}>
+            <Star style={{ width: 9, height: 9, color: "rgba(255,255,255,0.25)" }} />
+            <span style={{ fontSize: 9, fontWeight: 600, color: "rgba(255,255,255,0.28)", fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "2px" }}>Leaderboard</span>
+          </div>
+          {LEADERBOARD_MINI.map((m, i) => (
+            <div
+              key={m.name}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 7,
+                padding: "6px 8px",
+                borderRadius: 7,
+                marginBottom: 4,
+                ...(i === 0 ? { background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" } : {}),
+              }}
+            >
+              <span style={{ fontSize: 8, fontFamily: "monospace", color: "rgba(255,255,255,0.2)", width: 14 }}>#{m.rank}</span>
+              <div style={{ width: 5, height: 5, borderRadius: "50%", background: m.online ? "#3ddc84" : "rgba(255,255,255,0.2)", flexShrink: 0, ...(m.online ? { boxShadow: "0 0 4px #3ddc84" } : {}) }} />
+              <span style={{ fontSize: 9, fontFamily: "monospace", color: "rgba(255,255,255,0.42)", flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{m.name}</span>
+              <span style={{ fontSize: 8, fontFamily: "monospace", color: "rgba(255,255,255,0.22)", flexShrink: 0 }}>${m.vol}</span>
+            </div>
+          ))}
+
+          {/* Reputation mini */}
+          <div style={{ marginTop: 12, padding: "10px 10px", borderRadius: 10, background: "rgba(255,107,53,0.05)", border: "1px solid rgba(255,107,53,0.15)" }}>
+            <div style={{ fontSize: 7, color: "rgba(255,107,53,0.6)", fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "1.5px", marginBottom: 6 }}>Your Score</div>
+            <div style={{ fontSize: 18, fontWeight: 700, fontFamily: "monospace", color: "#fb923c", marginBottom: 2 }}>847</div>
+            <div style={{ fontSize: 8, color: "rgba(255,107,53,0.5)" }}>Gold tier · Top 5%</div>
+            <div style={{ marginTop: 8, height: 3, borderRadius: 999, background: "rgba(255,255,255,0.06)" }}>
+              <motion.div
+                style={{ height: "100%", borderRadius: 999, background: "linear-gradient(90deg, #fb923c, #fbbf24)" }}
+                initial={{ width: "0%" }}
+                animate={{ width: "72%" }}
+                transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
+              />
+            </div>
+          </div>
+
+          {/* Notification */}
+          <div style={{ marginTop: 8, padding: "8px 10px", borderRadius: 8, background: "rgba(52,211,153,0.04)", border: "1px solid rgba(52,211,153,0.14)" }}>
+            <div style={{ fontSize: 8, color: "rgba(52,211,153,0.7)", fontFamily: "monospace", fontWeight: 700, marginBottom: 3 }}>✓ Settlement complete</div>
+            <div style={{ fontSize: 7, color: "rgba(255,255,255,0.25)" }}>5,000 USDC → 18,350 AED</div>
+            <div style={{ fontSize: 7, color: "rgba(255,255,255,0.18)" }}>2m ago · #BM7F2X</div>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -925,7 +1229,7 @@ function Scene({
 const SCENES_DATA = [
   {
     start: 0,
-    end: 0.38,
+    end: 0.28,
     eyebrow: "01 · Escrow",
     headline: ["Funds locked.", "Always."] as [string, string],
     subline:
@@ -938,9 +1242,23 @@ const SCENES_DATA = [
     accent: "#3ddc84",
   },
   {
-    start: 0.32,
-    end: 0.70,
-    eyebrow: "02 · Matching",
+    start: 0.22,
+    end: 0.52,
+    eyebrow: "02 · Merchant Console",
+    headline: ["Your dashboard.", "Always on."] as [string, string],
+    subline:
+      "Real-time balance, escrow visibility, and order lifecycle — all in one merchant view.",
+    bullets: [
+      "Live balance & escrow tracking",
+      "Order status in real-time",
+      "Reputation & leaderboard",
+    ],
+    accent: "#fb923c",
+  },
+  {
+    start: 0.46,
+    end: 0.74,
+    eyebrow: "03 · Matching",
     headline: ["Best rate.", "Every time."] as [string, string],
     subline:
       "150+ merchants compete in real-time. You automatically get the winner.",
@@ -949,12 +1267,12 @@ const SCENES_DATA = [
       "Real-time competitive pricing",
       "Auto-select best offer",
     ],
-    accent: "#ff6b35",
+    accent: "#a855f7",
   },
   {
-    start: 0.64,
+    start: 0.68,
     end: 1.0,
-    eyebrow: "03 · Verification",
+    eyebrow: "04 · Verification",
     headline: ["On-chain.", "Forever."] as [string, string],
     subline:
       "Every settlement is public and immutable on BlipScan. Verifiable by anyone.",
@@ -979,15 +1297,16 @@ export default function FeatureCinemaSection() {
 
   useEffect(() => {
     const unsub = scrollYProgress.on("change", (v) => {
-      if (v < 0.40) setActiveScene(0);
-      else if (v < 0.73) setActiveScene(1);
-      else setActiveScene(2);
+      if (v < 0.35) setActiveScene(0);
+      else if (v < 0.60) setActiveScene(1);
+      else if (v < 0.82) setActiveScene(2);
+      else setActiveScene(3);
     });
     return unsub;
   }, [scrollYProgress]);
 
   return (
-    <div ref={containerRef} style={{ height: "350vh" }}>
+    <div ref={containerRef} style={{ height: "450vh" }}>
       <div
         className="sticky top-0 overflow-hidden"
         style={{ height: "100vh", background: "#060606" }}
@@ -1034,7 +1353,7 @@ export default function FeatureCinemaSection() {
         {/* Scenes */}
         {SCENES_DATA.map((s, i) => (
           <Scene key={i} progress={scrollYProgress} {...s}>
-            {i === 0 ? <EscrowUI /> : i === 1 ? <BiddingUI /> : <ExplorerUI />}
+            {i === 0 ? <EscrowUI /> : i === 1 ? <MerchantDashboardUI /> : i === 2 ? <BiddingUI /> : <ExplorerUI />}
           </Scene>
         ))}
 

@@ -3,13 +3,12 @@ import { SEO } from "@/components";
 import CinematicHero from "@/components/IndexSections/CinematicHero";
 import {
   ProblemSection,
-  SolutionSection,
   FeatureStrip,
   UseCasesSection,
   RewardsSection,
   CashbackBanner,
   UAESection,
-  ProtocolSection,
+  ProtocolInterstitial,
   TrustSection,
   CTASection,
   HowItWorksSection,
@@ -17,6 +16,8 @@ import {
   DarkFintechSection,
   DashboardShowcaseSection,
   FeatureCinemaSection,
+  MerchantShowcaseSection,
+  ComparisonSection,
 } from "@/components/IndexSections";
 import NewSection from "@/components/IndexSections/NewSection";
 
@@ -69,20 +70,21 @@ const Index = () => {
         {/* Dark Fintech — Trading & Currency Section */}
         <DarkFintechSection />
 
-        {/* 3. Solution — Blip Protocol flow diagram */}
-        <SolutionSection />
-        {/* 4. How It Works — isolated (no overflow-x-hidden parent) */}
+        {/* 4. The Blip Protocol */}
+        <ProtocolInterstitial />
+
+        {/* 5. Why Blip — competitive comparison */}
+        <ComparisonSection />
+
+        {/* How It Works — isolated (no overflow-x-hidden parent) */}
         <HowItWorksSection />
 
-        {/* 5. App Showcase — Apple bento grid with device mockups */}
+        {/* App Showcase — Apple bento grid with device mockups */}
         <AppShowcaseSection />
 
         <div className="overflow-x-clip">
           {/* 6. Core Features */}
           <FeatureStrip />
-
-          {/* Protocol Benefits — moved up, replaces interstitial */}
-          <ProtocolSection />
 
           {/* 6-7-8. Locked & Secured · Instant Bidding · Verified — cinematic scroll */}
           <FeatureCinemaSection />

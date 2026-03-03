@@ -72,7 +72,7 @@ const UAESection = () => {
         style={{ y: imgY }}
       >
         <img
-          src="/Dubai.jpeg"
+          src="/Dubai.webp"
           alt="Dubai skyline"
           className="w-full h-full object-cover object-center scale-110"
         />

@@ -1517,7 +1517,7 @@ export const blogArticles: BlogArticle[] = [
     date: "2025-12-28",
     category: "Escrow",
     readTime: "6 min read",
-    coverImage: "/peer2peer.jpg",
+    coverImage: "/peer2peer.webp",
     coverGradient: "from-neon-mint/20 via-neon-cyan/10 to-transparent",
     seo: {
       title: "P2P Crypto Trading: How Escrow Makes It Safe | Blip Money",

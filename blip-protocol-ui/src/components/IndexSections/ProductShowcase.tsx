@@ -51,7 +51,7 @@ const ProductShowcase = () => {
               className="absolute top-0 right-20 w-64 rounded-2xl overflow-hidden shadow-2xl"
             >
               <img
-                src="/images/app-flow-1.jpg"
+                src="/images/app-flow-1.webp"
                 alt="App interface"
                 className="w-full h-auto"
                 style={{
@@ -66,7 +66,7 @@ const ProductShowcase = () => {
               className="absolute bottom-20 left-0 w-48 rounded-xl overflow-hidden shadow-2xl"
             >
               <img
-                src="/images/app-flow-2.jpg"
+                src="/images/app-flow-2.webp"
                 alt="Transaction details"
                 className="w-full h-auto opacity-90"
                 style={{
@@ -81,7 +81,7 @@ const ProductShowcase = () => {
               className="absolute top-40 left-12 w-56 rounded-xl overflow-hidden shadow-2xl"
             >
               <img
-                src="/images/app-flow-3.jpg"
+                src="/images/app-flow-3.webp"
                 alt="Payment confirmation"
                 className="w-full h-auto opacity-80"
                 style={{
