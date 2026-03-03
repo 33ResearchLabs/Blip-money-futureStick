@@ -32,7 +32,7 @@ const ProductShowcase = () => {
             <span className="text-[11px] uppercase tracking-[0.3em] text-white/30 font-light block mb-4">
               Experience
             </span>
-            <h2 className="text-4xl md:text-6xl font-semibold text-white tracking-tight leading-[1.1] mb-6">
+            <h2 className="text-white" style={{ fontSize: "clamp(2.8rem, 5.5vw, 5rem)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 1.08, marginBottom: 24 }}>
               Built for speed.
               <br />
               <span className="text-white/40">Designed for you.</span>

@@ -1180,8 +1180,8 @@ function Scene({
               {eyebrow}
             </div>
             <h2
-              className="font-display font-semibold text-white tracking-[-0.04em] leading-[0.95] mb-5"
-              style={{ fontSize: "clamp(3rem, 5vw, 5.5rem)" }}
+              className="text-white"
+              style={{ fontSize: "clamp(2.8rem, 5.5vw, 5rem)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 1.08, marginBottom: 20 }}
             >
               {headline[0]}
               <br />

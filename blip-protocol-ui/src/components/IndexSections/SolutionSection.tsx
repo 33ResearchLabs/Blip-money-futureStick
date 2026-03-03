@@ -174,11 +174,17 @@ const SolutionSection = () => {
 
           {/* Main heading */}
           <motion.h2
-            className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[1.05] mb-6"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.9, delay: 0.1, ease: EASE }}
+            style={{
+              fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
+              fontWeight: 700,
+              letterSpacing: "-0.04em",
+              lineHeight: 1.08,
+              marginBottom: 24,
+            }}
           >
             <span className="bg-gradient-to-br from-black via-black/80 to-black/50 dark:from-white dark:via-white/80 dark:to-white/40 bg-clip-text text-transparent">
               The Blip

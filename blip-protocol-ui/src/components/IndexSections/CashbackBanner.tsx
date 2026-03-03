@@ -106,7 +106,7 @@ const CashbackBanner = () => {
                 </div>
               </div>
 
-              <h3 className="font-display text-3xl md:text-4xl font-bold text-black dark:text-white mb-4 tracking-tight">
+              <h3 className="text-black dark:text-white" style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 1.08, marginBottom: 16 }}>
                 Earn while you{" "}
                 <span className="relative">
                   <span className="relative z-10 text-black dark:text-white">spend.</span>

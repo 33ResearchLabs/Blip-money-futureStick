@@ -116,7 +116,13 @@ const PeopleBankSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-4xl md:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.1] mb-6"
+            style={{
+              fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
+              fontWeight: 700,
+              letterSpacing: "-0.04em",
+              lineHeight: 1.08,
+              marginBottom: 24,
+            }}
           >
             <span className="text-white">People</span>
             <span className="text-white/20"> Bank</span>

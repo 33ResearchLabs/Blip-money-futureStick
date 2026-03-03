@@ -114,7 +114,14 @@ const BlipscanExplorerSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black dark:text-white mb-4 tracking-tight"
+            className="text-black dark:text-white"
+            style={{
+              fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
+              fontWeight: 700,
+              letterSpacing: "-0.04em",
+              lineHeight: 1.08,
+              marginBottom: 16,
+            }}
           >
             Every transaction,{" "}
             <span className="text-black dark:text-white/20">verified.</span>

@@ -94,7 +94,7 @@ const InstantBiddingSection = () => {
               Match
             </span>
           </div>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white mb-2 sm:mb-4 tracking-tight leading-[1.1]">
+          <h2 className="text-black dark:text-white" style={{ fontSize: "clamp(2.8rem, 5.5vw, 5rem)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 1.08, marginBottom: 16 }}>
             Instant{" "}
             <span className="text-black/70 dark:text-white/50 relative inline-block">
               <span className="relative z-10">bidding.</span>

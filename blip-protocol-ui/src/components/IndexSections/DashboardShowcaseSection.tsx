@@ -339,7 +339,7 @@ export default function DashboardShowcaseSection() {
               willChange: "transform, opacity",
             }}
           >
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight leading-[1.1] text-black dark:text-white px-2">
+            <h2 className="text-black dark:text-white px-2" style={{ fontSize: "clamp(2.8rem, 5.5vw, 5rem)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 1.08 }}>
               Crafted with
               <br />
               care.

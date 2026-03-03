@@ -148,7 +148,14 @@ const UAESection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[1.05] text-center mb-6"
+          className="text-white text-center"
+          style={{
+            fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
+            fontWeight: 700,
+            letterSpacing: "-0.04em",
+            lineHeight: 1.08,
+            marginBottom: 24,
+          }}
         >
           Launching in
           <br />

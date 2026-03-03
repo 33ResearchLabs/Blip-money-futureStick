@@ -1,122 +1,212 @@
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { useRef, useState, useEffect } from "react";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { Sparkles, ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { CTAButton } from "../Navbar";
 
-/* ============================================
-   SECTION 11: REWARDS - Minimal black/white
-   ============================================ */
+const EARN_TXNS = [
+  { emoji: "☕", label: "The Coffee Co.",  amount: 0.50,  pct: "2%" },
+  { emoji: "🛒", label: "Dubai Mall",      amount: 2.40,  pct: "2%" },
+  { emoji: "✈️", label: "Emirates Air",    amount: 12.80, pct: "2%" },
+  { emoji: "🏨", label: "Armani Hotel",    amount: 28.60, pct: "2%" },
+  { emoji: "🍽️", label: "Zuma Dubai",     amount: 5.20,  pct: "2%" },
+];
+
+type TxRow = typeof EARN_TXNS[number];
+
+function EarnUI() {
+  const [total, setTotal]   = useState(847.20);
+  const [cursor, setCursor] = useState(0);
+  const [rows, setRows]     = useState<TxRow[]>(EARN_TXNS.slice(0, 3));
+  const [flash, setFlash]   = useState(false);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      const next = EARN_TXNS[cursor % EARN_TXNS.length];
+      setTotal(prev => parseFloat((prev + next.amount).toFixed(2)));
+      setRows(prev => [next, ...prev].slice(0, 3));
+      setCursor(c => c + 1);
+      setFlash(true);
+      setTimeout(() => setFlash(false), 700);
+    }, 2600);
+    return () => clearInterval(id);
+  }, [cursor]);
+
+  return (
+    <div style={{ background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 18, padding: "18px 18px 14px" }}>
+      {/* Total row */}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 14 }}>
+        <div>
+          <div style={{ fontSize: 9, letterSpacing: "0.18em", color: "rgba(255,255,255,0.28)", marginBottom: 5, textTransform: "uppercase", fontFamily: "monospace" }}>
+            Total earned
+          </div>
+          <motion.div
+            key={total}
+            initial={{ y: -6, opacity: 0.5 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.35 }}
+            style={{ fontSize: 28, fontWeight: 700, color: "#ffffff", letterSpacing: "-0.045em", lineHeight: 1, fontFamily: "monospace" }}
+          >
+            ${total.toFixed(2)}
+            <span style={{ fontSize: 12, fontWeight: 500, color: "rgba(255,255,255,0.25)", marginLeft: 6, letterSpacing: 0 }}>BLIP</span>
+          </motion.div>
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 5, alignItems: "flex-end" }}>
+          <div style={{ padding: "3px 9px", borderRadius: 999, background: "rgba(255,107,53,0.12)", border: "1px solid rgba(255,107,53,0.22)", fontSize: 9, fontWeight: 700, color: "#ff6b35", fontFamily: "monospace", letterSpacing: "0.05em" }}>
+            2% BACK
+          </div>
+          <div style={{ padding: "3px 9px", borderRadius: 999, background: "rgba(61,220,132,0.08)", border: "1px solid rgba(61,220,132,0.18)", fontSize: 9, fontWeight: 700, color: "#3ddc84", fontFamily: "monospace", letterSpacing: "0.05em" }}>
+            ×5 STREAK
+          </div>
+        </div>
+      </div>
+
+      <div style={{ height: 1, background: "rgba(255,255,255,0.05)", marginBottom: 10 }} />
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+        <AnimatePresence mode="popLayout">
+          {rows.map((tx, i) => (
+            <motion.div
+              key={`${tx.label}-${cursor - i}`}
+              initial={i === 0 ? { opacity: 0, y: -10 } : false}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.97 }}
+              transition={{ duration: 0.28 }}
+              style={{
+                display: "flex", alignItems: "center", gap: 8, padding: "7px 9px", borderRadius: 9,
+                background: i === 0 && flash ? "rgba(255,107,53,0.07)" : "rgba(255,255,255,0.015)",
+                border: i === 0 && flash ? "1px solid rgba(255,107,53,0.14)" : "1px solid transparent",
+                transition: "background 0.3s, border 0.3s",
+              }}
+            >
+              <span style={{ fontSize: 14 }}>{tx.emoji}</span>
+              <span style={{ flex: 1, fontSize: 11, color: "rgba(255,255,255,0.5)", fontFamily: "monospace" }}>{tx.label}</span>
+              <span style={{ fontSize: 11, fontWeight: 700, color: "#3ddc84", fontFamily: "monospace", marginRight: 4 }}>+{tx.amount.toFixed(2)}</span>
+              <span style={{ fontSize: 8, padding: "1px 5px", borderRadius: 999, background: "rgba(255,107,53,0.09)", color: "#ff6b35", fontWeight: 700, fontFamily: "monospace" }}>{tx.pct}</span>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+}
+
+const stats = [
+  { value: "2.5%", label: "Cashback", desc: "On every payment" },
+  { value: "10x",  label: "Early Bonus", desc: "First 1000 users" },
+  { value: "20M",  label: "BLIP Pool",   desc: "Total rewards" },
+];
 
 const RewardsSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  });
-
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-
-  const rewards = [
-    { value: "2.5%", label: "Cashback", desc: "On every payment" },
-    { value: "10x", label: "Early Bonus", desc: "For first 1000 users" },
-    { value: "20M", label: "Pool", desc: "Total BLIP rewards" },
-  ];
+  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start end", "end start"] });
+  const opacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0, 1, 1, 0]);
 
   return (
-    <section
-      ref={containerRef}
-      className="relative py-20 sm:py-28 md:py-32 lg:py-40 bg-[#FAF8F5] dark:bg-black overflow-hidden"
-    >
-      <motion.div
-        className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6"
-        style={{ opacity }}
-      >
-        {/* Header */}
-        <div className="text-center mb-12 sm:mb-16 md:mb-20">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-8 backdrop-blur-sm bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-white/10"
-          >
-            <motion.span className="w-2 h-2 rounded-full bg-black dark:bg-white" />
-            <span className="text-[10px] uppercase tracking-[0.25em] text-black/80 dark:text-white/40 font-semibold">
-              Rewards
-            </span>
-          </motion.div>
-
-          <motion.h2
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-4 sm:mb-6"
-          >
-            Earn while you spend.
-            <br />
-            <span className="text-black/70 dark:text-white/50">
-              Every transaction.
-            </span>
-          </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-xl mx-auto leading-relaxed font-medium"
-          >
-            Up to 2.5% back in BLIP tokens on every payment. Early supporters
-            unlock multipliers and exclusive airdrops.
-          </motion.p>
-        </div>
-
-        {/* Stats grid */}
+    <section ref={containerRef} className="relative py-20 sm:py-28 md:py-32 overflow-hidden bg-[#FAF8F5] dark:bg-black">
+      <motion.div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6" style={{ opacity }}>
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 32 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          className="grid grid-cols-3 gap-px bg-black/[0.03] dark:bg-white/[0.03] rounded-xl sm:rounded-2xl overflow-hidden mb-12 sm:mb-16"
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          className="rounded-3xl overflow-hidden"
+          style={{ background: "#0a0a0f", border: "1px solid rgba(255,255,255,0.07)" }}
         >
-          {rewards.map((reward) => (
-            <div
-              key={reward.label}
-              className="bg-[#FAF8F5] dark:bg-black p-4 sm:p-8 md:p-10 text-center"
-            >
-              <div className="text-xl sm:text-3xl md:text-4xl font-bold text-black dark:text-white mb-2 tracking-tight">
-                {reward.value}
+          <div className="grid grid-cols-1 lg:grid-cols-2">
+            {/* Left — copy */}
+            <div className="p-10 lg:p-14 flex flex-col justify-center">
+              {/* Badge */}
+              <div style={{ fontSize: 10, letterSpacing: "0.22em", textTransform: "uppercase", color: "rgba(255,107,53,0.6)", fontWeight: 600, marginBottom: 18 }}>
+                Rewards
               </div>
-              <div className="text-xs sm:text-sm font-semibold text-black dark:text-white/70 mb-1">
-                {reward.label}
+
+              {/* Heading */}
+              <h2 style={{ fontSize: "clamp(2.8rem, 5.5vw, 5rem)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 1.08, color: "#ffffff", marginBottom: 12 }}>
+                Earn while you spend.{" "}
+                <span style={{ color: "rgba(255,255,255,0.28)" }}>Every transaction.</span>
+              </h2>
+
+              {/* Subtext */}
+              <p style={{ fontSize: 15, color: "rgba(255,255,255,0.38)", lineHeight: 1.7, maxWidth: 380, marginBottom: 24 }}>
+                Every payment earns you BLIP rewards automatically — no sign-ups, no points programs. Just instant cashback, on-chain and non-custodial.
+              </p>
+
+              {/* Stats row */}
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(3, 1fr)",
+                  gap: 1,
+                  background: "rgba(255,255,255,0.05)",
+                  borderRadius: 14,
+                  overflow: "hidden",
+                  marginBottom: 24,
+                }}
+              >
+                {stats.map((s) => (
+                  <div key={s.label} style={{ background: "#0a0a0f", padding: "14px 10px", textAlign: "center" }}>
+                    <div style={{ fontSize: 22, fontWeight: 700, color: "#ffffff", letterSpacing: "-0.04em", lineHeight: 1 }}>{s.value}</div>
+                    <div style={{ fontSize: 10, fontWeight: 600, color: "rgba(255,255,255,0.5)", marginTop: 4 }}>{s.label}</div>
+                    <div style={{ fontSize: 9, color: "rgba(255,255,255,0.2)", marginTop: 2 }}>{s.desc}</div>
+                  </div>
+                ))}
               </div>
-              <div className="text-xs text-black/70 dark:text-white/30 hidden sm:block font-medium">
-                {reward.desc}
+
+              {/* Pills */}
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 28 }}>
+                {[
+                  { label: "Up to 5% cashback", accent: true },
+                  { label: "Instant rewards",   accent: false },
+                  { label: "Non-custodial",      accent: false },
+                ].map((pill) => (
+                  <div
+                    key={pill.label}
+                    style={{
+                      padding: "5px 13px", borderRadius: 999,
+                      background: pill.accent ? "rgba(255,107,53,0.12)" : "rgba(255,255,255,0.05)",
+                      border: pill.accent ? "1px solid rgba(255,107,53,0.25)" : "1px solid rgba(255,255,255,0.08)",
+                      fontSize: 11, fontWeight: 600,
+                      color: pill.accent ? "#ff6b35" : "rgba(255,255,255,0.45)",
+                      letterSpacing: "0.02em",
+                    }}
+                  >
+                    {pill.label}
+                  </div>
+                ))}
+              </div>
+
+              {/* CTA */}
+              <div>
+                <CTAButton to="rewards" className="w-[200px] h-[44px]">
+                  View Rewards
+                </CTAButton>
               </div>
             </div>
-          ))}
-        </motion.div>
 
-        {/* Single CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-center"
-        >
-          {/* <Link
-            to="/rewards"
-            className="group inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 rounded-full bg-white text-black text-sm sm:text-base font-semibold hover:shadow-[0_0_40px_rgba(255,255,255,0.2)] transition-all duration-300"
-          >
-            <span>View Rewards</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Link> */}
-          <CTAButton to="rewards" className="w-[220px] h-[48px]">
-            View Rewards
-          </CTAButton>
+            {/* Right — live ticker */}
+            <div
+              className="flex items-center justify-center p-8 lg:p-10"
+              style={{ background: "rgba(255,255,255,0.015)", borderLeft: "1px solid rgba(255,255,255,0.05)" }}
+            >
+              <div style={{ width: "100%", maxWidth: 360 }}>
+                {/* Mini header */}
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
+                  <div style={{ width: 28, height: 28, borderRadius: 8, background: "rgba(255,107,53,0.15)", border: "1px solid rgba(255,107,53,0.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <Sparkles style={{ width: 13, height: 13, color: "#ff6b35" }} />
+                  </div>
+                  <div style={{ fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.6)" }}>My Rewards</div>
+                  <div style={{ marginLeft: "auto", width: 7, height: 7, borderRadius: "50%", background: "#3ddc84", boxShadow: "0 0 6px rgba(61,220,132,0.7)" }} />
+                </div>
+
+                <EarnUI />
+
+                <div style={{ textAlign: "center", marginTop: 10, fontSize: 9, color: "rgba(255,255,255,0.18)", letterSpacing: "0.05em", fontFamily: "monospace" }}>
+                  LIVE · REWARDS ACCUMULATING
+                </div>
+              </div>
+            </div>
+          </div>
         </motion.div>
       </motion.div>
     </section>

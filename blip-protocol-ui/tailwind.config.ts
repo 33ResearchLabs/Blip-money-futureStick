@@ -21,6 +21,19 @@ const config: Config = {
     },
     extend: {
       colors: {
+        // Blip brand
+        brand: {
+          DEFAULT: "#ff6b35",
+          light: "#ff8c50",
+          muted: "rgba(255,107,53,0.12)",
+          glow: "rgba(255,107,53,0.06)",
+        },
+
+        // Cinematic dark backgrounds
+        "blip-black":   "#050505",
+        "blip-dark":    "#0a0a0f",
+        "blip-surface": "rgba(255,255,255,0.03)",
+
         // Premium neon palette
         "neon-mint": "#00FF94",
         "neon-cyan": "#00D4FF",

@@ -78,7 +78,13 @@ const CTASection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tight leading-[0.95] mb-6 sm:mb-8"
+          style={{
+            fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
+            fontWeight: 700,
+            letterSpacing: "-0.04em",
+            lineHeight: 1.08,
+            marginBottom: 24,
+          }}
         >
           <span className="text-black dark:text-white">Join the merchant</span>
           <br />

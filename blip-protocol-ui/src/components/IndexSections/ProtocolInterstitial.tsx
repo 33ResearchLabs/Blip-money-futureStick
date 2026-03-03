@@ -239,10 +239,10 @@ const ProtocolInterstitial = () => {
           >
             <h2
               style={{
-                fontSize: "clamp(5rem, 14vw, 13rem)",
-                fontWeight: 800,
-                letterSpacing: "-0.06em",
-                lineHeight: 0.9,
+                fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
+                fontWeight: 700,
+                letterSpacing: "-0.04em",
+                lineHeight: 1.08,
                 margin: 0,
                 position: "relative",
                 zIndex: 2,
@@ -250,12 +250,14 @@ const ProtocolInterstitial = () => {
             >
               <span
                 style={{
+                  display: "inline-block",
                   background: isDark
                     ? "linear-gradient(180deg, #ffffff 0%, rgba(255,255,255,0.55) 100%)"
                     : "linear-gradient(180deg, #000000 0%, rgba(0,0,0,0.45) 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
+                  color: "transparent",
                 }}
               >
                 Blip

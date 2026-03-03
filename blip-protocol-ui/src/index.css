@@ -3,11 +3,18 @@
 @tailwind utilities;
 
 /* ============================================
-   MINIMAL BLACK & WHITE DESIGN SYSTEM
-   With subtle neon accents
+   BLIP DESIGN SYSTEM
+   Cinematic dark · Orange brand accent
    ============================================ */
 
 :root {
+  /* Brand */
+  --brand: #ff6b35;
+  --brand-light: #ff8c50;
+  --brand-muted: rgba(255, 107, 53, 0.12);
+  --brand-border: rgba(255, 107, 53, 0.22);
+  --brand-glow: rgba(255, 107, 53, 0.06);
+
   /* Light Mode - Core Palette */
   --bg-primary: #FAF8F5;
   --bg-secondary: #fafafa;
@@ -189,33 +196,43 @@
  
 
   /* ── Heading type scale ─────────────────────────────────────────────
-     Sets a consistent baseline for h1–h4 across every page/component.
-     Components may still override size via Tailwind utilities;
-     weight, tracking, and line-height default from here.              */
+     Blip cinematic style — tight tracking, high weight, balanced scale.
+     Components may override size; tracking/weight/lh default here.    */
   h1, h2, h3, h4 {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-    font-weight: 600;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
+  /* H1 — Hero / display — "Blip Protocol." scale */
   h1 {
-    letter-spacing: -0.032em;
+    font-size: clamp(3.5rem, 9vw, 8rem);
+    font-weight: 800;
+    letter-spacing: -0.045em;
+    line-height: 0.95;
+  }
+
+  /* H2 — Section title — "The infrastructure gap." */
+  h2 {
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
     line-height: 1.05;
   }
 
-  h2 {
-    letter-spacing: -0.025em;
-    line-height: 1.1;
-  }
-
+  /* H3 — Card / subsection title — "Scale without limits." */
   h3 {
-    letter-spacing: -0.018em;
-    line-height: 1.2;
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
   }
 
+  /* H4 — Minor heading */
   h4 {
-    letter-spacing: -0.012em;
+    font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
     line-height: 1.3;
   }
 
@@ -232,8 +249,8 @@
   }
 
   ::selection {
-    background: var(--accent-muted);
-    color: var(--text-primary);
+    background: var(--brand-muted);
+    color: var(--brand);
   }
 
   :focus-visible {
@@ -287,37 +304,79 @@
     text-wrap: balance;
   }
 
-  /* Headings - matching main page font (Space Grotesk) */
+  /* ── Blip type utilities ─────────────────────────────────────────── */
+
+  /* Eyebrow / label — "REWARDS" / "USE CASES" / "Introducing" */
+  .blip-label {
+    font-size: 0.625rem;          /* 10px */
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--brand);
+  }
+
+  .blip-label-dim {
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.28);
+  }
+
+  /* Gradient text — white fade for dark-bg headings */
+  .blip-gradient-heading {
+    display: inline-block;
+    background: linear-gradient(180deg, #ffffff 0%, rgba(255,255,255,0.55) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Orange gradient text */
+  .blip-gradient-brand {
+    display: inline-block;
+    background: linear-gradient(135deg, #ff6b35 0%, #ff8c50 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Headings — symmetrical scale matching h1–h4 base */
   .heading-xl {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-    font-size: clamp(3rem, 8vw, 7rem);
-    font-weight: 600;
-    letter-spacing: -0.025em;
+    font-size: clamp(3.5rem, 9vw, 8rem);
+    font-weight: 800;
+    letter-spacing: -0.045em;
     line-height: 0.95;
   }
 
+  /* H2 scale — section titles */
   .heading-lg {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-    font-size: clamp(2.5rem, 6vw, 5rem);
-    font-weight: 600;
-    letter-spacing: -0.022em;
-    line-height: 1;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
   }
 
+  /* H3 scale — card/subsection titles */
   .heading-md {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-    font-size: clamp(2rem, 4vw, 3.5rem);
-    font-weight: 600;
-    letter-spacing: -0.019em;
-    line-height: 1.1;
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
   }
 
+  /* H4 scale — minor headings */
   .heading-sm {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-    font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+    font-size: clamp(1.1rem, 1.6vw, 1.35rem);
     font-weight: 600;
-    letter-spacing: -0.015em;
-    line-height: 1.15;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
   }
 
   .body-lg {

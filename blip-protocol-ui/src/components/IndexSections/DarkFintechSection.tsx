@@ -1163,7 +1163,8 @@ export default function PremiumFintechSection() {
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 2, delay: 0.3, ease: EASE }}
-                    className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight font-display bg-gradient-to-br from-black via-black/80 to-black/50 dark:from-white dark:via-white/80 dark:to-white/40 bg-clip-text text-transparent"
+                    className="bg-gradient-to-br from-black via-black/80 to-black/50 dark:from-white dark:via-white/80 dark:to-white/40 bg-clip-text text-transparent"
+                    style={{ fontSize: "clamp(2.8rem, 5.5vw, 5rem)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 1.08 }}
                   >
                     {stageCopy.finale.headline}
                   </motion.h2>
@@ -1215,7 +1216,7 @@ export default function PremiumFintechSection() {
                       transition={{ duration: 1, ease: EASE }}
                       className="text-center"
                     >
-                      <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight font-display bg-gradient-to-br from-black via-black/80 to-black/50 dark:from-white dark:via-white/80 dark:to-white/40 bg-clip-text text-transparent inline-block">
+                      <h2 className="bg-gradient-to-br from-black via-black/80 to-black/50 dark:from-white dark:via-white/80 dark:to-white/40 bg-clip-text text-transparent inline-block" style={{ fontSize: "clamp(2.8rem, 5.5vw, 5rem)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 1.08 }}>
                         {stageCopy.list.headline}
                       </h2>
                       <motion.p
@@ -1244,7 +1245,7 @@ export default function PremiumFintechSection() {
                       transition={{ duration: 1, ease: EASE }}
                       className="text-center"
                     >
-                      <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight font-display bg-gradient-to-br from-black via-black/80 to-[#ff6b35]/70 dark:from-white dark:via-white/80 dark:to-[#ff6b35]/70 bg-clip-text text-transparent inline-block">
+                      <h2 className="bg-gradient-to-br from-black via-black/80 to-[#ff6b35]/70 dark:from-white dark:via-white/80 dark:to-[#ff6b35]/70 bg-clip-text text-transparent inline-block" style={{ fontSize: "clamp(2.8rem, 5.5vw, 5rem)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 1.08 }}>
                         {stageCopy.stacked.headline}
                       </h2>
                       <motion.p

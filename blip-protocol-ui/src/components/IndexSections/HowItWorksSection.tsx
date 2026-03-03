@@ -381,7 +381,14 @@ const App = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1 }}
-          className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-semibold text-black dark:text-white tracking-[-0.025em] leading-[0.96] mb-3"
+          className="text-black dark:text-white"
+          style={{
+            fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
+            fontWeight: 700,
+            letterSpacing: "-0.04em",
+            lineHeight: 1.08,
+            marginBottom: 12,
+          }}
         >
           One app.
           <br />
@@ -429,14 +436,19 @@ const App = () => {
               </span>
             </div>
             <h3
-              className="font-sans font-semibold leading-[1.05] tracking-[-0.032em] select-none text-black dark:text-white [filter:drop-shadow(0_2px_14px_rgba(0,0,0,0.06))] dark:[filter:drop-shadow(0_2px_14px_rgba(255,255,255,0.055))]"
-              style={{ fontSize: "clamp(2rem, 5.5vw, 4rem)" }}
+              className="select-none text-black dark:text-white"
+              style={{
+                fontSize: "clamp(2.2rem, 7vw, 3.5rem)",
+                fontWeight: 700,
+                letterSpacing: "-0.04em",
+                lineHeight: 1.05,
+              }}
             >
               {step.h1}
               <br />
-              <span className="text-black/60 dark:text-white/50">{step.h2}</span>
+              <span className="text-black/50 dark:text-white/40">{step.h2}</span>
             </h3>
-            <p className="text-sm text-black/80 dark:text-white/50 leading-relaxed">{step.desc}</p>
+            <p className="text-sm md:text-base text-black/70 dark:text-white/45 leading-relaxed font-medium">{step.desc}</p>
             {step.cta && (
               <div className="flex md:justify-start justify-center pt-1">
                 <CTAButton to="/waitlist" className="w-[220px] h-12 uppercase text-sm">Get Started</CTAButton>
@@ -467,7 +479,7 @@ const App = () => {
               { label: "Pay Bills", h1: "Bills & Rent,", h2: "Handled.", desc: "Use your crypto to pay rent, utilities, or tuition — settled in local currency, instantly." },
               { label: "Cash Out", h1: "Withdraw", h2: "Anytime.", desc: "Convert USDT to AED and withdraw — directly to your bank or in person. Under 2 seconds.", last: true },
             ].map((s, i, arr) => (
-              <section key={s.label} className={`content-section space-y-4 min-h-screen flex flex-col justify-start pt-[20vh] ${i === arr.length - 1 ? "pb-[30vh]" : ""}`}>
+              <section key={s.label} className={`content-section space-y-5 min-h-screen flex flex-col justify-start pt-[20vh] ${i === arr.length - 1 ? "pb-[30vh]" : ""}`}>
                 <span className="text-black/80 dark:text-white/50 font-bold tracking-[0.3em] uppercase text-xs">
                   {s.label}
                 </span>
@@ -476,14 +488,19 @@ const App = () => {
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 1.2, ease: "easeOut" }}
-                  className="font-sans font-semibold leading-[1.05] tracking-[-0.032em] select-none text-black dark:text-white [filter:drop-shadow(0_2px_14px_rgba(0,0,0,0.06))] dark:[filter:drop-shadow(0_2px_14px_rgba(255,255,255,0.055))]"
-                  style={{ fontSize: "clamp(2rem, 5.5vw, 4rem)" }}
+                  className="select-none text-black dark:text-white"
+                  style={{
+                    fontSize: "clamp(2.4rem, 4.5vw, 3.5rem)",
+                    fontWeight: 700,
+                    letterSpacing: "-0.04em",
+                    lineHeight: 1.05,
+                  }}
                 >
                   {s.h1}
                   <br />
-                  <span className="text-black/60 dark:text-white/50">{s.h2}</span>
+                  <span className="text-black/50 dark:text-white/40">{s.h2}</span>
                 </motion.h2>
-                <p className="text-sm text-black/80 dark:text-white/50 leading-relaxed max-w-md">{s.desc}</p>
+                <p className="text-base md:text-lg text-black/70 dark:text-white/45 leading-relaxed max-w-md font-medium">{s.desc}</p>
                 {s.last && (
                   <div className="mt-auto">
                     <CTAButton to="/waitlist" className="w-[220px] h-12 uppercase text-sm">Get Started</CTAButton>
