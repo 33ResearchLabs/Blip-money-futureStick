@@ -7,6 +7,7 @@ import {
 } from "framer-motion";
 import { Sparkles, ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTheme } from "next-themes";
 import { CTAButton } from "../Navbar";
 
 const EARN_TXNS = [
@@ -19,7 +20,7 @@ const EARN_TXNS = [
 
 type TxRow = (typeof EARN_TXNS)[number];
 
-function EarnUI() {
+function EarnUI({ isDark }: { isDark: boolean }) {
   const [total, setTotal] = useState(847.2);
   const [cursor, setCursor] = useState(0);
   const [rows, setRows] = useState<TxRow[]>(EARN_TXNS.slice(0, 3));
@@ -40,8 +41,8 @@ function EarnUI() {
   return (
     <div
       style={{
-        background: "rgba(0,0,0,0.03)",
-        border: "1px solid rgba(0,0,0,0.08)",
+        background: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)",
+        border: isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.08)",
         borderRadius: 18,
         padding: "18px 18px 14px",
       }}
@@ -60,7 +61,7 @@ function EarnUI() {
             style={{
               fontSize: 9,
               letterSpacing: "0.18em",
-              color: "rgba(0,0,0,0.35)",
+              color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)",
               marginBottom: 5,
               textTransform: "uppercase",
               fontFamily: "monospace",
@@ -76,7 +77,7 @@ function EarnUI() {
             style={{
               fontSize: 28,
               fontWeight: 700,
-              color: "#1a1a1a",
+              color: isDark ? "#ffffff" : "#1a1a1a",
               letterSpacing: "-0.045em",
               lineHeight: 1,
               fontFamily: "monospace",
@@ -91,7 +92,7 @@ function EarnUI() {
               style={{
                 fontSize: 12,
                 fontWeight: 500,
-                color: "rgba(0,0,0,0.3)",
+                color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)",
                 marginLeft: 6,
                 letterSpacing: 0,
               }}
@@ -142,7 +143,7 @@ function EarnUI() {
       </div>
 
       <div
-        style={{ height: 1, background: "rgba(0,0,0,0.06)", marginBottom: 10 }}
+        style={{ height: 1, background: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)", marginBottom: 10 }}
       />
 
       <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
@@ -163,7 +164,7 @@ function EarnUI() {
                 background:
                   i === 0 && flash
                     ? "rgba(255,107,53,0.06)"
-                    : "rgba(0,0,0,0.015)",
+                    : isDark ? "rgba(255,255,255,0.02)" : "rgba(0,0,0,0.015)",
                 border:
                   i === 0 && flash
                     ? "1px solid rgba(255,107,53,0.14)"
@@ -176,7 +177,7 @@ function EarnUI() {
                 style={{
                   flex: 1,
                   fontSize: 11,
-                  color: "rgba(0,0,0,0.55)",
+                  color: isDark ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.55)",
                   fontFamily: "monospace",
                 }}
               >
@@ -221,6 +222,8 @@ const stats = [
 ];
 
 const RewardsSection = () => {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -235,7 +238,8 @@ const RewardsSection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative py-20 sm:py-28 md:py-32 overflow-hidden bg-[#FAF8F5]"
+      className="relative py-20 sm:py-28 md:py-32 overflow-hidden"
+      style={{ background: isDark ? "#0a0a0f" : "#FAF8F5" }}
     >
       <motion.div
         className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6"
@@ -248,10 +252,11 @@ const RewardsSection = () => {
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           className="rounded-3xl overflow-hidden"
           style={{
-            background: "#ffffff",
-            border: "1px solid rgba(0,0,0,0.08)",
-            boxShadow:
-              "0 1px 3px rgba(0,0,0,0.04), 0 8px 32px rgba(0,0,0,0.06)",
+            background: isDark ? "rgba(255,255,255,0.03)" : "#ffffff",
+            border: isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.08)",
+            boxShadow: isDark
+              ? "0 1px 3px rgba(0,0,0,0.2), 0 8px 32px rgba(0,0,0,0.3)"
+              : "0 1px 3px rgba(0,0,0,0.04), 0 8px 32px rgba(0,0,0,0.06)",
           }}
         >
           <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -278,12 +283,12 @@ const RewardsSection = () => {
                   fontWeight: 700,
                   letterSpacing: "-0.04em",
                   lineHeight: 1.08,
-                  color: "#1a1a1a",
+                  color: isDark ? "#ffffff" : "#1a1a1a",
                   marginBottom: 12,
                 }}
               >
                 Earn while you spend.{" "}
-                <span style={{ color: "#555555" }}>
+                <span style={{ color: isDark ? "rgba(255,255,255,0.28)" : "#555555" }}>
                   Every transaction.
                 </span>
               </h2>
@@ -292,7 +297,7 @@ const RewardsSection = () => {
               <p
                 style={{
                   fontSize: 15,
-                  color: "rgba(0,0,0,0.45)",
+                  color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.45)",
                   lineHeight: 1.7,
                   maxWidth: 380,
                   marginBottom: 24,
@@ -309,7 +314,7 @@ const RewardsSection = () => {
                   display: "grid",
                   gridTemplateColumns: "repeat(3, 1fr)",
                   gap: 1,
-                  background: "rgba(0,0,0,0.06)",
+                  background: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)",
                   borderRadius: 14,
                   overflow: "hidden",
                   marginBottom: 24,
@@ -319,7 +324,7 @@ const RewardsSection = () => {
                   <div
                     key={s.label}
                     style={{
-                      background: "#ffffff",
+                      background: isDark ? "rgba(255,255,255,0.03)" : "#ffffff",
                       padding: "14px 10px",
                       textAlign: "center",
                     }}
@@ -328,7 +333,7 @@ const RewardsSection = () => {
                       style={{
                         fontSize: 22,
                         fontWeight: 700,
-                        color: "#1a1a1a",
+                        color: isDark ? "#ffffff" : "#1a1a1a",
                         letterSpacing: "-0.04em",
                         lineHeight: 1,
                       }}
@@ -339,7 +344,7 @@ const RewardsSection = () => {
                       style={{
                         fontSize: 10,
                         fontWeight: 600,
-                        color: "rgba(0,0,0,0.5)",
+                        color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)",
                         marginTop: 4,
                       }}
                     >
@@ -348,7 +353,7 @@ const RewardsSection = () => {
                     <div
                       style={{
                         fontSize: 9,
-                        color: "rgba(0,0,0,0.3)",
+                        color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)",
                         marginTop: 2,
                       }}
                     >
@@ -379,13 +384,13 @@ const RewardsSection = () => {
                       borderRadius: 999,
                       background: pill.accent
                         ? "rgba(255,107,53,0.1)"
-                        : "rgba(0,0,0,0.03)",
+                        : isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)",
                       border: pill.accent
                         ? "1px solid rgba(255,107,53,0.2)"
-                        : "1px solid rgba(0,0,0,0.08)",
+                        : isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.08)",
                       fontSize: 11,
                       fontWeight: 600,
-                      color: pill.accent ? "#ff6b35" : "rgba(0,0,0,0.5)",
+                      color: pill.accent ? "#ff6b35" : isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)",
                       letterSpacing: "0.02em",
                     }}
                   >
@@ -406,8 +411,8 @@ const RewardsSection = () => {
             <div
               className="flex items-center justify-center p-8 lg:p-10"
               style={{
-                background: "rgba(0,0,0,0.015)",
-                borderLeft: "1px solid rgba(0,0,0,0.06)",
+                background: isDark ? "rgba(255,255,255,0.02)" : "rgba(0,0,0,0.015)",
+                borderLeft: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.06)",
               }}
             >
               <div style={{ width: "100%", maxWidth: 360 }}>
@@ -440,7 +445,7 @@ const RewardsSection = () => {
                     style={{
                       fontSize: 12,
                       fontWeight: 600,
-                      color: "rgba(0,0,0,0.6)",
+                      color: isDark ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.6)",
                     }}
                   >
                     My Rewards
@@ -457,14 +462,14 @@ const RewardsSection = () => {
                   />
                 </div>
 
-                <EarnUI />
+                <EarnUI isDark={isDark} />
 
                 <div
                   style={{
                     textAlign: "center",
                     marginTop: 10,
                     fontSize: 9,
-                    color: "rgba(0,0,0,0.25)",
+                    color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.25)",
                     letterSpacing: "0.05em",
                     fontFamily: "monospace",
                   }}

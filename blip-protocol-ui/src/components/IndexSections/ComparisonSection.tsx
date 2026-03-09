@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Check, X } from "lucide-react";
+import { useTheme } from "next-themes";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -162,7 +163,8 @@ function Cell({
    SECTION: COMPARISON TABLE
    ============================================ */
 const ComparisonSection = () => {
-  const isDark = false;
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   return (
     <section
