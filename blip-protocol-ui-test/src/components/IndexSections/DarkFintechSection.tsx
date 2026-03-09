@@ -5,7 +5,13 @@ import { Globe, ChevronDown, Check } from "lucide-react";
 import DashboardPreview from "../AdvancedDashboard/DashboardPreview";
 
 /* ─── Floating Particles ─── */
-function FloatingParticles({ count = 20, isActive }: { count?: number; isActive: boolean }) {
+function FloatingParticles({
+  count = 20,
+  isActive,
+}: {
+  count?: number;
+  isActive: boolean;
+}) {
   const particles = useMemo(
     () =>
       Array.from({ length: count }, (_, i) => ({
@@ -31,7 +37,12 @@ function FloatingParticles({ count = 20, isActive }: { count?: number; isActive:
               ? {
                   opacity: [0, p.opacity, p.opacity, 0],
                   y: [0, -40, -80, -120],
-                  x: [0, Math.sin(p.id) * 20, Math.cos(p.id) * 15, Math.sin(p.id) * 25],
+                  x: [
+                    0,
+                    Math.sin(p.id) * 20,
+                    Math.cos(p.id) * 15,
+                    Math.sin(p.id) * 25,
+                  ],
                 }
               : { opacity: 0 }
           }
@@ -47,7 +58,12 @@ function FloatingParticles({ count = 20, isActive }: { count?: number; isActive:
             top: `${p.y}%`,
             width: p.size,
             height: p.size,
-            background: p.id % 3 === 0 ? "#ff6b35" : p.id % 3 === 1 ? "rgba(255,255,255,0.6)" : "#ff6b35",
+            background:
+              p.id % 3 === 0
+                ? "#ff6b35"
+                : p.id % 3 === 1
+                  ? "rgba(255,255,255,0.6)"
+                  : "#ff6b35",
             filter: `blur(${p.size > 2.5 ? 1 : 0}px)`,
           }}
         />
@@ -873,9 +889,7 @@ export default function PremiumFintechSection() {
       <div
         className={`h-full flex justify-center px-4 sm:px-6 md:px-20 overflow-hidden ${isPhone ? "items-center py-10 sm:py-20" : "items-start pt-16 sm:pt-28 mt-8 sm:mt-16 md:pt-32"}`}
       >
-        <div
-          className="relative w-full max-w-6xl flex items-center justify-center"
-        >
+        <div className="relative w-full max-w-6xl flex items-center justify-center">
           {/* Left Text — phone/addMoney stages */}
           <AnimatePresence>
             {isPhone && !isTradingOrReceipt && (
@@ -917,7 +931,12 @@ export default function PremiumFintechSection() {
                   scale: isReceipt ? 0.85 : 1,
                   filter: isReceipt ? "blur(12px)" : "blur(0px)",
                 }}
-                exit={{ opacity: 0, x: -200, scale: 0.85, filter: "blur(12px)" }}
+                exit={{
+                  opacity: 0,
+                  x: -200,
+                  scale: 0.85,
+                  filter: "blur(12px)",
+                }}
                 transition={{
                   duration: 1.4,
                   ease: [0.22, 1, 0.36, 1],
@@ -925,7 +944,9 @@ export default function PremiumFintechSection() {
                 className="hidden lg:flex flex-col absolute left-0 top-1/2 -translate-y-1/2 w-[42%] z-10"
               >
                 <div className="mb-4">
-                  <p className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-1 font-medium">Merchant</p>
+                  <p className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-1 font-medium">
+                    Merchant
+                  </p>
                   <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-black dark:text-white tracking-tight font-display">
                     Merchant Dashboard
                   </h3>
@@ -948,7 +969,12 @@ export default function PremiumFintechSection() {
               animate={{
                 height: isPhone && !isTradingOrReceipt ? 0 : "auto",
                 opacity: isPhone && !isTradingOrReceipt ? 0 : 1,
-                marginBottom: isPhone && !isTradingOrReceipt ? 0 : isTradingOrReceipt ? 16 : 40,
+                marginBottom:
+                  isPhone && !isTradingOrReceipt
+                    ? 0
+                    : isTradingOrReceipt
+                      ? 16
+                      : 40,
               }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               className="overflow-hidden"
@@ -984,10 +1010,16 @@ export default function PremiumFintechSection() {
                     initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
                     animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                     exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{
+                      duration: 0.8,
+                      delay: 0.2,
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
                     className="text-center"
                   >
-                    <p className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-1 font-medium">User</p>
+                    <p className="text-[11px] uppercase tracking-[0.3em] text-black/40 dark:text-white/40 mb-1 font-medium">
+                      User
+                    </p>
                     <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-black dark:text-white tracking-tight font-display">
                       {stage === "trading" ? "Placing Order" : "Order Complete"}
                     </h3>
@@ -1000,10 +1032,25 @@ export default function PremiumFintechSection() {
             <motion.div
               animate={{
                 width: isPhone
-                  ? Math.min(290, typeof window !== "undefined" ? window.innerWidth - 60 : 290)
-                  : Math.min(420, typeof window !== "undefined" ? window.innerWidth - 48 : 420),
+                  ? Math.min(
+                      290,
+                      typeof window !== "undefined"
+                        ? window.innerWidth - 60
+                        : 290,
+                    )
+                  : Math.min(
+                      420,
+                      typeof window !== "undefined"
+                        ? window.innerWidth - 48
+                        : 420,
+                    ),
                 height: isPhone
-                  ? Math.min(600, typeof window !== "undefined" ? window.innerHeight * 0.7 : 600)
+                  ? Math.min(
+                      600,
+                      typeof window !== "undefined"
+                        ? window.innerHeight * 0.7
+                        : 600,
+                    )
                   : isStacked
                     ? totalStackHeight
                     : totalListHeight,
@@ -1030,7 +1077,11 @@ export default function PremiumFintechSection() {
                 <div className="absolute inset-0 bg-gradient-to-b from-[#ff6b35]/20 via-[#ff6b35]/5 to-transparent dark:from-[#ff6b35]/15 dark:via-[#ff6b35]/5 dark:to-transparent rounded-[4rem] blur-[40px]" />
                 <motion.div
                   animate={{ opacity: [0.3, 0.6, 0.3] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
                   className="absolute inset-[10px] bg-gradient-to-br from-[#ff6b35]/10 via-transparent to-violet-500/10 dark:from-[#ff6b35]/8 dark:to-violet-500/8 rounded-[3.5rem] blur-[30px]"
                 />
               </motion.div>
@@ -1153,9 +1204,21 @@ export default function PremiumFintechSection() {
                 transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
                 className="relative z-10"
                 style={{
-                  width: Math.min(420, typeof window !== "undefined" ? window.innerWidth - 48 : 420),
+                  width: Math.min(
+                    420,
+                    typeof window !== "undefined"
+                      ? window.innerWidth - 48
+                      : 420,
+                  ),
                   left: "50%",
-                  marginLeft: -(Math.min(420, typeof window !== "undefined" ? window.innerWidth - 48 : 420) / 2),
+                  marginLeft: -(
+                    Math.min(
+                      420,
+                      typeof window !== "undefined"
+                        ? window.innerWidth - 48
+                        : 420,
+                    ) / 2
+                  ),
                   transformOrigin: "top center",
                 }}
               >
@@ -1324,9 +1387,18 @@ export default function PremiumFintechSection() {
                           { icon: "💰", label: "Wallet", active: false },
                           { icon: "👤", label: "Profile", active: false },
                         ].map((tab) => (
-                          <div key={tab.label} className="flex flex-col items-center gap-0.5">
-                            <span className={`text-[12px] ${tab.active ? "" : "opacity-40"}`}>{tab.icon}</span>
-                            <span className={`text-[7px] font-medium ${tab.active ? "text-[#ff6b35]" : "text-black/40 dark:text-white/30"}`}>
+                          <div
+                            key={tab.label}
+                            className="flex flex-col items-center gap-0.5"
+                          >
+                            <span
+                              className={`text-[12px] ${tab.active ? "" : "opacity-40"}`}
+                            >
+                              {tab.icon}
+                            </span>
+                            <span
+                              className={`text-[7px] font-medium ${tab.active ? "text-[#ff6b35]" : "text-black/40 dark:text-white/30"}`}
+                            >
                               {tab.label}
                             </span>
                           </div>
@@ -1641,9 +1713,18 @@ export default function PremiumFintechSection() {
                           { icon: "💰", label: "Wallet", active: false },
                           { icon: "👤", label: "Profile", active: false },
                         ].map((tab) => (
-                          <div key={tab.label} className="flex flex-col items-center gap-0.5">
-                            <span className={`text-[12px] ${tab.active ? "" : "opacity-40"}`}>{tab.icon}</span>
-                            <span className={`text-[7px] font-medium ${tab.active ? "text-[#ff6b35]" : "text-white/30"}`}>
+                          <div
+                            key={tab.label}
+                            className="flex flex-col items-center gap-0.5"
+                          >
+                            <span
+                              className={`text-[12px] ${tab.active ? "" : "opacity-40"}`}
+                            >
+                              {tab.icon}
+                            </span>
+                            <span
+                              className={`text-[7px] font-medium ${tab.active ? "text-[#ff6b35]" : "text-white/30"}`}
+                            >
                               {tab.label}
                             </span>
                           </div>
@@ -1760,9 +1841,18 @@ export default function PremiumFintechSection() {
                           { icon: "💰", label: "Wallet", active: false },
                           { icon: "👤", label: "Profile", active: false },
                         ].map((tab) => (
-                          <div key={tab.label} className="flex flex-col items-center gap-0.5">
-                            <span className={`text-[12px] ${tab.active ? "" : "opacity-40"}`}>{tab.icon}</span>
-                            <span className={`text-[7px] font-medium ${tab.active ? "text-[#ff6b35]" : "text-white/30"}`}>
+                          <div
+                            key={tab.label}
+                            className="flex flex-col items-center gap-0.5"
+                          >
+                            <span
+                              className={`text-[12px] ${tab.active ? "" : "opacity-40"}`}
+                            >
+                              {tab.icon}
+                            </span>
+                            <span
+                              className={`text-[7px] font-medium ${tab.active ? "text-[#ff6b35]" : "text-white/30"}`}
+                            >
                               {tab.label}
                             </span>
                           </div>
@@ -1788,7 +1878,14 @@ export default function PremiumFintechSection() {
             { key: "trading", label: "Trading" },
             { key: "receipt", label: "Receipt" },
           ].map((step, i, arr) => {
-            const stageOrder = ["list", "stacked", "phone", "addMoney", "trading", "receipt"];
+            const stageOrder = [
+              "list",
+              "stacked",
+              "phone",
+              "addMoney",
+              "trading",
+              "receipt",
+            ];
             const currentIdx = stageOrder.indexOf(stage);
             const isActive = step.key === stage;
             const isPast = stageOrder.indexOf(step.key) < currentIdx;
@@ -1798,7 +1895,11 @@ export default function PremiumFintechSection() {
                   <div className="relative">
                     <motion.div
                       animate={{
-                        backgroundColor: isActive ? "#ff6b35" : isPast ? "#ff6b35" : "rgba(128,128,128,0.15)",
+                        backgroundColor: isActive
+                          ? "#ff6b35"
+                          : isPast
+                            ? "#ff6b35"
+                            : "rgba(128,128,128,0.15)",
                         scale: isActive ? 1.4 : 1,
                       }}
                       transition={{ duration: 0.4 }}
@@ -1828,7 +1929,9 @@ export default function PremiumFintechSection() {
                 {i < arr.length - 1 && (
                   <motion.div
                     animate={{
-                      backgroundColor: isPast ? "#ff6b35" : "rgba(128,128,128,0.12)",
+                      backgroundColor: isPast
+                        ? "#ff6b35"
+                        : "rgba(128,128,128,0.12)",
                     }}
                     transition={{ duration: 0.4 }}
                     className="h-[1.5px] w-4 sm:w-6 md:w-10 mx-0.5 -mt-3.5 rounded-full"
@@ -1850,9 +1953,18 @@ export default function PremiumFintechSection() {
             exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             onClick={handleReplay}
-            className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 bg-gradient-to-r from-[#ff6b35] to-[#ff8f5e] text-white text-xs font-semibold px-6 py-3 rounded-full shadow-[0_4px_24px_rgba(255,107,53,0.4),0_0_0_1px_rgba(255,107,53,0.2)] hover:shadow-[0_8px_40px_rgba(255,107,53,0.5),0_0_0_1px_rgba(255,107,53,0.3)] hover:scale-105 transition-all duration-300 backdrop-blur-sm"
+            className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 bg-white/[0.06] backdrop-blur-xl border border-white/[0.08] text-white/50 hover:text-white/80 hover:bg-white/[0.1] text-xs font-semibold px-6 py-3 rounded-full hover:scale-105 transition-all duration-300"
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <path d="M1 4v6h6" />
               <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
             </svg>

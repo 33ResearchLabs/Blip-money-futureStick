@@ -43,7 +43,7 @@ const corridors = [
 
 const stats = [
   { value: "30%", label: "UAE crypto adoption" },
-  { value: "Q2 2025", label: "Dubai beta launch" },
+  { value: "Live", label: "Dubai beta" },
   { value: "3", label: "Live corridors" },
 ];
 

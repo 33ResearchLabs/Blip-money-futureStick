@@ -55,8 +55,8 @@ for (let i = 0; i < 28; i++) {
   // Deterministic pseudo-random using simple seed
   const seed = (i * 7919 + 104729) % 100;
   NODES.push({
-    x: ((i * 3571 + 1234) % 100),
-    y: ((i * 2459 + 5678) % 100),
+    x: (i * 3571 + 1234) % 100,
+    y: (i * 2459 + 5678) % 100,
     r: 1.5 + (seed % 3),
   });
 }
@@ -86,9 +86,21 @@ const ProtocolInterstitial = () => {
   });
 
   // Parallax
-  const textScale = useTransform(scrollYProgress, [0, 0.3, 0.65, 1], [0.88, 1, 1, 1.1]);
-  const textOpacity = useTransform(scrollYProgress, [0, 0.2, 0.72, 1], [0, 1, 1, 0]);
-  const meshOpacity = useTransform(scrollYProgress, [0, 0.25, 0.7, 1], [0, 0.6, 0.6, 0]);
+  const textScale = useTransform(
+    scrollYProgress,
+    [0, 0.3, 0.65, 1],
+    [0.88, 1, 1, 1.1],
+  );
+  const textOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.2, 0.72, 1],
+    [0, 1, 1, 0],
+  );
+  const meshOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.25, 0.7, 1],
+    [0, 0.6, 0.6, 0],
+  );
   const meshScale = useTransform(scrollYProgress, [0, 0.4, 1], [0.9, 1, 1.15]);
   const pillarsY = useTransform(scrollYProgress, [0, 1], [60, -40]);
 
@@ -102,66 +114,9 @@ const ProtocolInterstitial = () => {
       }}
     >
       {/* ── Network mesh background ── */}
-      <motion.div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none"
-        style={{ opacity: meshOpacity, scale: meshScale }}
-      >
-        <svg
-          viewBox="0 0 100 100"
-          preserveAspectRatio="xMidYMid slice"
-          className="absolute inset-0 w-full h-full"
-          style={{ opacity: 0.5 }}
-        >
-          {/* Edges */}
-          {EDGES.map((e, i) => (
-            <motion.line
-              key={`e-${i}`}
-              x1={NODES[e.from].x}
-              y1={NODES[e.from].y}
-              x2={NODES[e.to].x}
-              y2={NODES[e.to].y}
-              stroke={isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.05)"}
-              strokeWidth={0.15}
-              initial={{ pathLength: 0 }}
-              whileInView={{ pathLength: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1.5, delay: 0.3 + i * 0.03, ease: EASE }}
-            />
-          ))}
-          {/* Nodes */}
-          {NODES.map((n, i) => (
-            <motion.circle
-              key={`n-${i}`}
-              cx={n.x}
-              cy={n.y}
-              r={n.r * 0.3}
-              fill={isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.08)"}
-              initial={{ scale: 0, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.2 + i * 0.02 }}
-            />
-          ))}
-          {/* Pulse on a few nodes */}
-          {[3, 9, 16, 22].map((idx) => (
-            <motion.circle
-              key={`p-${idx}`}
-              cx={NODES[idx].x}
-              cy={NODES[idx].y}
-              r={0.5}
-              fill="none"
-              stroke={isDark ? "rgba(99,102,241,0.3)" : "rgba(99,102,241,0.2)"}
-              strokeWidth={0.1}
-              animate={{ r: [0.5, 2.5], opacity: [0.5, 0] }}
-              transition={{ duration: 3, repeat: Infinity, delay: idx * 0.4 }}
-            />
-          ))}
-        </svg>
-      </motion.div>
 
       {/* ── Ambient orbs ── */}
-      <div aria-hidden className="absolute inset-0 pointer-events-none">
+      {/* <div aria-hidden className="absolute inset-0 pointer-events-none">
         <div
           className="absolute top-[20%] left-[10%] w-[500px] h-[500px] rounded-full"
           style={{
@@ -180,7 +135,7 @@ const ProtocolInterstitial = () => {
             filter: "blur(80px)",
           }}
         />
-      </div>
+      </div> */}
 
       {/* ── Content ── */}
       <motion.div
@@ -363,7 +318,9 @@ const ProtocolInterstitial = () => {
               whileHover={{ y: -6 }}
               style={{
                 position: "relative",
-                background: isDark ? "rgba(255,255,255,0.025)" : "rgba(0,0,0,0.018)",
+                background: isDark
+                  ? "rgba(255,255,255,0.025)"
+                  : "rgba(0,0,0,0.018)",
                 border: isDark
                   ? "1px solid rgba(255,255,255,0.06)"
                   : "1px solid rgba(0,0,0,0.05)",
@@ -506,7 +463,11 @@ const ProtocolInterstitial = () => {
               initial={{ scale: 0 }}
               whileInView={{ scale: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.8 + i * 0.1, type: "spring", stiffness: 300 }}
+              transition={{
+                delay: 0.8 + i * 0.1,
+                type: "spring",
+                stiffness: 300,
+              }}
               style={{
                 position: "absolute",
                 top: "50%",

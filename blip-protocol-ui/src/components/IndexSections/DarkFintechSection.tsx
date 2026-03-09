@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
-import { motion, AnimatePresence, useInView } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { Globe, ChevronDown, Check } from "lucide-react";
 
 import { FingerCursor } from "../AdvancedDashboard/MerchantDashbaordTradeLive";
@@ -884,44 +884,47 @@ function ProtocolLockShot({ show }: { show: boolean }) {
 
 export default function PremiumFintechSection() {
   const [stage, setStage] = useState<Stage>("list");
-  const [animKey, setAnimKey] = useState(0);
-  const [animDone, setAnimDone] = useState(false);
   const [showProtocolLock, setShowProtocolLock] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-10%" });
+  const sectionRef = useRef<HTMLDivElement>(null);
   const { cardW, phoneW, phoneH } = useDimensions();
 
-  useEffect(() => {
-    if (!isInView) return;
-    setAnimDone(false);
-    const timers = [
-      setTimeout(() => setStage("stacked"), 2000),
-      setTimeout(() => setStage("phone"), 4200),
-      setTimeout(() => setStage("trading"), 7000),
-      setTimeout(() => setStage("instantBidding"), 11000),
-      setTimeout(() => setStage("verified"), 15500),
-      setTimeout(() => setStage("receipt"), 20000),
-      setTimeout(() => setStage("finale"), 25000),
-      setTimeout(() => setAnimDone(true), 29000),
-    ];
-    return () => timers.forEach(clearTimeout);
-  }, [isInView, animKey]);
+  /* ─── Scroll-driven stage progression ─── */
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
+
+  const prevStageRef = useRef<Stage>("list");
+
+  useMotionValueEvent(scrollYProgress, "change", (v) => {
+    let next: Stage;
+    if (v < 0.08)      next = "list";
+    else if (v < 0.18) next = "stacked";
+    else if (v < 0.30) next = "phone";
+    else if (v < 0.42) next = "trading";
+    else if (v < 0.56) next = "instantBidding";
+    else if (v < 0.70) next = "verified";
+    else if (v < 0.84) next = "receipt";
+    else                next = "finale";
+
+    if (next !== prevStageRef.current) {
+      prevStageRef.current = next;
+      setStage(next);
+    }
+  });
+
+  const animDone = stage === "finale";
+
+  const handleReplay = useCallback(() => {
+    sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, []);
 
   /* Protocol lock shot — brief overlay during "stacked" stage */
   useEffect(() => {
     if (stage !== "stacked") { setShowProtocolLock(false); return; }
-    const show = setTimeout(() => setShowProtocolLock(true), 800);
-    const hide = setTimeout(() => setShowProtocolLock(false), 2000);
-    return () => { clearTimeout(show); clearTimeout(hide); };
+    const show = setTimeout(() => setShowProtocolLock(true), 400);
+    return () => { clearTimeout(show); setShowProtocolLock(false); };
   }, [stage]);
-
-  const handleReplay = useCallback(() => {
-    sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    setAnimDone(false);
-    setShowProtocolLock(false);
-    setStage("list");
-    setTimeout(() => setAnimKey((k) => k + 1), 800);
-  }, []);
 
   /* ─── Derived state ─── */
   const isFinale = stage === "finale";
@@ -945,9 +948,9 @@ export default function PremiumFintechSection() {
   const totalStackHeight = CARD_HEIGHT + (currencies.length - 1) * STACK_OFFSET;
 
   return (
+    <div ref={sectionRef} style={{ height: "500vh" }} className="relative">
     <section
-      ref={sectionRef}
-      className="relative bg-[#FAF8F5] dark:bg-black overflow-hidden"
+      className="sticky top-0 bg-[#FAF8F5] dark:bg-black overflow-hidden"
       style={{ height: "100vh" }}
     >
       {/* ── Background Layer ── */}
@@ -1043,7 +1046,7 @@ export default function PremiumFintechSection() {
         animate={{ opacity: isFinale ? 0 : isCalm ? 0.3 : 1 }}
         transition={{ duration: 2.5 }}
       >
-        <FloatingParticles count={24} isActive={isInView} />
+        <FloatingParticles count={24} isActive={true} />
       </motion.div>
 
       {/* ── Bottom Fade Gradient ── */}
@@ -1211,7 +1214,7 @@ export default function PremiumFintechSection() {
                     <motion.div
                       key="list-title"
                       initial={{ opacity: 0, x: -80, filter: "blur(8px)" }}
-                      animate={isInView ? { opacity: 1, x: 0, filter: "blur(0px)" } : {}}
+                      animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
                       exit={{ opacity: 0, x: 60, filter: "blur(6px)" }}
                       transition={{ duration: 1, ease: EASE }}
                       className="text-center"
@@ -1388,11 +1391,11 @@ export default function PremiumFintechSection() {
                         animate={{
                           y: getCardY(idx),
                           scale: isStacked ? 1 - idx * 0.025 : 1,
-                          opacity: isInView ? 1 : 0,
+                          opacity: 1,
                         }}
                         transition={{
                           duration: isStacked ? 1.2 : 0.9,
-                          delay: isInView && stage === "list" ? idx * 0.15 : idx * 0.05,
+                          delay: stage === "list" ? idx * 0.15 : idx * 0.05,
                           ease: EASE,
                         }}
                         className="absolute top-0 left-0 w-full"
@@ -1435,7 +1438,7 @@ export default function PremiumFintechSection() {
                               symbol={curr.symbol}
                               amount={curr.amount}
                               delay={0.3 + idx * 0.25}
-                              start={isInView}
+                              start={true}
                             />
                           </div>
                           {idx === 0 && isPhone && !isTradingOrReceipt && (
@@ -1818,7 +1821,7 @@ export default function PremiumFintechSection() {
       {/* ── Cinematic Timeline ── */}
       <motion.div
         animate={{
-          opacity: isFinale || animDone ? 0 : 0.6,
+          opacity: isFinale ? 0 : 0.6,
           y: isFinale ? 10 : 0,
         }}
         transition={{ duration: 1.2 }}
@@ -1877,13 +1880,12 @@ export default function PremiumFintechSection() {
         {animDone && (
           <motion.button
             key="replay-btn"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 0.6, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            whileHover={{ opacity: 1, scale: 1.05 }}
-            transition={{ duration: 0.5, ease: EASE }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             onClick={handleReplay}
-            className="absolute bottom-8 right-8 z-50 w-10 h-10 rounded-full bg-white/60 dark:bg-white/[0.06] backdrop-blur-xl border border-black/[0.04] dark:border-white/[0.06] flex items-center justify-center text-black/40 dark:text-white/40 hover:text-[#ff6b35] transition-colors duration-300"
+            className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 bg-white/[0.06] backdrop-blur-xl border border-white/[0.08] text-white/50 hover:text-white/80 hover:bg-white/[0.1] text-xs font-semibold px-6 py-3 rounded-full hover:scale-105 transition-all duration-300"
           >
             <svg
               width="14"
@@ -1898,9 +1900,11 @@ export default function PremiumFintechSection() {
               <path d="M1 4v6h6" />
               <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
             </svg>
+            Replay
           </motion.button>
         )}
       </AnimatePresence>
     </section>
+    </div>
   );
 }

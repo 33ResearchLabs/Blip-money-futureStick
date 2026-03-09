@@ -6,7 +6,18 @@ import {
   AnimatePresence,
   MotionValue,
 } from "framer-motion";
-import { Shield, Zap, Check, Lock, Globe, ArrowRight, Activity, TrendingUp, Star, CheckCircle2 } from "lucide-react";
+import {
+  Shield,
+  Zap,
+  Check,
+  Lock,
+  Globe,
+  ArrowRight,
+  Activity,
+  TrendingUp,
+  Star,
+  CheckCircle2,
+} from "lucide-react";
 
 const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -16,10 +27,11 @@ const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
    ═══════════════════════════════════════════════════════════ */
 type EscrowPhase = "sending" | "locking" | "locked" | "verified";
 
-function EscrowUI() {
+function EscrowUI({ active = true }: { active?: boolean }) {
   const [phase, setPhase] = useState<EscrowPhase>("sending");
 
   useEffect(() => {
+    if (!active) return;
     const run = () => {
       setPhase("sending");
       setTimeout(() => setPhase("locking"), 2000);
@@ -29,7 +41,7 @@ function EscrowUI() {
     run();
     const id = setInterval(run, 7500);
     return () => clearInterval(id);
-  }, []);
+  }, [active]);
 
   const progressWidth =
     phase === "sending" ? "42%" : phase === "locking" ? "74%" : "100%";
@@ -38,10 +50,10 @@ function EscrowUI() {
     phase === "sending"
       ? "Transferring..."
       : phase === "locking"
-      ? "Locking in escrow..."
-      : phase === "locked"
-      ? "In Escrow"
-      : "Verified & Secured";
+        ? "Locking in escrow..."
+        : phase === "locked"
+          ? "In Escrow"
+          : "Verified & Secured";
 
   const statusColor =
     phase === "verified" || phase === "locked"
@@ -125,15 +137,15 @@ function EscrowUI() {
               {phase === "sending"
                 ? "Escrow Service"
                 : phase === "locking"
-                ? "Locking Funds"
-                : "Escrow Active"}
+                  ? "Locking Funds"
+                  : "Escrow Active"}
             </div>
             <div style={{ fontSize: 13, fontWeight: 600, color: "#fff" }}>
               {phase === "sending"
                 ? "Processing..."
                 : phase === "locking"
-                ? "Securing..."
-                : "Funds Secured"}
+                  ? "Securing..."
+                  : "Funds Secured"}
             </div>
           </div>
         </div>
@@ -142,8 +154,7 @@ function EscrowUI() {
             width: 8,
             height: 8,
             borderRadius: "50%",
-            background:
-              phase === "locking" ? "#ffbd2e" : "#3ddc84",
+            background: phase === "locking" ? "#ffbd2e" : "#3ddc84",
             boxShadow: `0 0 6px ${
               phase === "locking"
                 ? "rgba(255,189,46,0.7)"
@@ -225,11 +236,7 @@ function EscrowUI() {
               fontWeight: 600,
             }}
           >
-            {phase === "sending"
-              ? "42%"
-              : phase === "locking"
-              ? "74%"
-              : "100%"}
+            {phase === "sending" ? "42%" : phase === "locking" ? "74%" : "100%"}
           </span>
         </div>
         <div
@@ -255,7 +262,13 @@ function EscrowUI() {
       </div>
 
       {/* Divider */}
-      <div style={{ margin: "0 20px", height: 1, background: "rgba(255,255,255,0.05)" }} />
+      <div
+        style={{
+          margin: "0 20px",
+          height: 1,
+          background: "rgba(255,255,255,0.05)",
+        }}
+      />
 
       {/* Detail rows */}
       <div
@@ -299,9 +312,7 @@ function EscrowUI() {
               justifyContent: "space-between",
             }}
           >
-            <span
-              style={{ fontSize: 11.5, color: "rgba(255,255,255,0.25)" }}
-            >
+            <span style={{ fontSize: 11.5, color: "rgba(255,255,255,0.25)" }}>
               {row.label}
             </span>
             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
@@ -368,9 +379,7 @@ function EscrowUI() {
                 style={{ width: 14, height: 14, color: "#3ddc84" }}
                 strokeWidth={3}
               />
-              <span
-                style={{ fontSize: 13, fontWeight: 600, color: "#3ddc84" }}
-              >
+              <span style={{ fontSize: 13, fontWeight: 600, color: "#3ddc84" }}>
                 Verified &amp; Secured
               </span>
             </motion.div>
@@ -392,8 +401,8 @@ function EscrowUI() {
                 {phase === "sending"
                   ? "Awaiting escrow lock..."
                   : phase === "locking"
-                  ? "Deploying smart contract..."
-                  : "Contract active · Awaiting confirmation"}
+                    ? "Deploying smart contract..."
+                    : "Contract active · Awaiting confirmation"}
               </span>
             </motion.div>
           )}
@@ -410,9 +419,24 @@ function EscrowUI() {
 type DashPhase = "escrowed" | "payment_sent" | "confirmed";
 
 const DASH_PHASE_CFG = {
-  escrowed:     { label: "ESCROWED",  color: "#c084fc", bg: "rgba(168,85,247,0.08)", border: "rgba(168,85,247,0.22)" },
-  payment_sent: { label: "PAID",      color: "#93c5fd", bg: "rgba(59,130,246,0.08)",  border: "rgba(59,130,246,0.22)"  },
-  confirmed:    { label: "CONFIRMED", color: "#34d399", bg: "rgba(52,211,153,0.08)",  border: "rgba(52,211,153,0.22)"  },
+  escrowed: {
+    label: "ESCROWED",
+    color: "#c084fc",
+    bg: "rgba(168,85,247,0.08)",
+    border: "rgba(168,85,247,0.22)",
+  },
+  payment_sent: {
+    label: "PAID",
+    color: "#93c5fd",
+    bg: "rgba(59,130,246,0.08)",
+    border: "rgba(59,130,246,0.22)",
+  },
+  confirmed: {
+    label: "CONFIRMED",
+    color: "#34d399",
+    bg: "rgba(52,211,153,0.08)",
+    border: "rgba(52,211,153,0.22)",
+  },
 };
 
 const COMPLETED_TX = [
@@ -423,17 +447,18 @@ const COMPLETED_TX = [
 
 const LEADERBOARD_MINI = [
   { rank: 1, name: "TrustMerchant22", vol: "420K", online: true },
-  { rank: 2, name: "AliH_Dubai",      vol: "280K", online: true },
-  { rank: 3, name: "QuickSettle",     vol: "195K", online: false },
-  { rank: 4, name: "GlobalFX",        vol: "140K", online: false },
+  { rank: 2, name: "AliH_Dubai", vol: "280K", online: true },
+  { rank: 3, name: "QuickSettle", vol: "195K", online: false },
+  { rank: 4, name: "GlobalFX", vol: "140K", online: false },
 ];
 
-function MerchantDashboardUI() {
-  const [earnings, setEarnings] = useState(124.50);
-  const [balance, setBalance]   = useState(12450.00);
-  const [phase, setPhase]       = useState<DashPhase>("escrowed");
+function MerchantDashboardUI({ active = true }: { active?: boolean }) {
+  const [earnings, setEarnings] = useState(124.5);
+  const [balance, setBalance] = useState(12450.0);
+  const [phase, setPhase] = useState<DashPhase>("escrowed");
 
   useEffect(() => {
+    if (!active) return;
     const phases: DashPhase[] = ["escrowed", "payment_sent", "confirmed"];
     let idx = 0;
     const cycleId = setInterval(() => {
@@ -447,7 +472,7 @@ function MerchantDashboardUI() {
       }
     }, 2600);
     return () => clearInterval(cycleId);
-  }, []);
+  }, [active]);
 
   const cfg = DASH_PHASE_CFG[phase];
 
@@ -459,7 +484,8 @@ function MerchantDashboardUI() {
         border: "1px solid rgba(255,255,255,0.08)",
         borderRadius: 20,
         overflow: "hidden",
-        boxShadow: "0 0 80px rgba(251,146,60,0.07), 0 30px 60px rgba(0,0,0,0.65)",
+        boxShadow:
+          "0 0 80px rgba(251,146,60,0.07), 0 30px 60px rgba(0,0,0,0.65)",
       }}
     >
       {/* ── App chrome ── */}
@@ -474,9 +500,30 @@ function MerchantDashboardUI() {
         }}
       >
         <div className="flex gap-1.5">
-          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#ff5f56" }} />
-          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#ffbd2e" }} />
-          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#27c93f" }} />
+          <div
+            style={{
+              width: 10,
+              height: 10,
+              borderRadius: "50%",
+              background: "#ff5f56",
+            }}
+          />
+          <div
+            style={{
+              width: 10,
+              height: 10,
+              borderRadius: "50%",
+              background: "#ffbd2e",
+            }}
+          />
+          <div
+            style={{
+              width: 10,
+              height: 10,
+              borderRadius: "50%",
+              background: "#27c93f",
+            }}
+          />
         </div>
         <div
           style={{
@@ -501,15 +548,29 @@ function MerchantDashboardUI() {
           <motion.div
             animate={{ opacity: [1, 0.3, 1] }}
             transition={{ duration: 1.8, repeat: Infinity }}
-            style={{ width: 5, height: 5, borderRadius: "50%", background: "#3ddc84", boxShadow: "0 0 4px #3ddc84" }}
+            style={{
+              width: 5,
+              height: 5,
+              borderRadius: "50%",
+              background: "#3ddc84",
+              boxShadow: "0 0 4px #3ddc84",
+            }}
           />
-          <span style={{ fontSize: 9, color: "#3ddc84", fontFamily: "monospace", fontWeight: 700 }}>ONLINE</span>
+          <span
+            style={{
+              fontSize: 9,
+              color: "#3ddc84",
+              fontFamily: "monospace",
+              fontWeight: 700,
+            }}
+          >
+            ONLINE
+          </span>
         </div>
       </div>
 
       {/* ── 3-panel body ── */}
       <div style={{ display: "flex", minHeight: 380 }}>
-
         {/* Panel 1 — Balance */}
         <div
           style={{
@@ -522,55 +583,220 @@ function MerchantDashboardUI() {
           }}
         >
           {/* Balance */}
-          <div style={{ padding: "16px 14px 14px", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
-            <div style={{ fontSize: 8, color: "rgba(255,255,255,0.25)", fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "2px", marginBottom: 6 }}>Available</div>
+          <div
+            style={{
+              padding: "16px 14px 14px",
+              borderBottom: "1px solid rgba(255,255,255,0.05)",
+            }}
+          >
+            <div
+              style={{
+                fontSize: 8,
+                color: "rgba(255,255,255,0.25)",
+                fontFamily: "monospace",
+                textTransform: "uppercase",
+                letterSpacing: "2px",
+                marginBottom: 6,
+              }}
+            >
+              Available
+            </div>
             <motion.div
               key={Math.floor(balance)}
               initial={{ opacity: 0.6 }}
               animate={{ opacity: 1 }}
-              style={{ fontSize: 22, fontWeight: 700, fontFamily: "monospace", color: "#fff", letterSpacing: "-0.04em", lineHeight: 1 }}
+              style={{
+                fontSize: 22,
+                fontWeight: 700,
+                fontFamily: "monospace",
+                color: "#fff",
+                letterSpacing: "-0.04em",
+                lineHeight: 1,
+              }}
             >
-              {balance.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              {balance.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
             </motion.div>
-            <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)", fontFamily: "monospace", marginTop: 3 }}>USDC</div>
+            <div
+              style={{
+                fontSize: 9,
+                color: "rgba(255,255,255,0.3)",
+                fontFamily: "monospace",
+                marginTop: 3,
+              }}
+            >
+              USDC
+            </div>
           </div>
 
           {/* Locked */}
-          <div style={{ padding: "12px 14px", borderBottom: "1px solid rgba(255,255,255,0.05)", background: "rgba(168,85,247,0.03)" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 5, marginBottom: 5 }}>
-              <Lock style={{ width: 9, height: 9, color: "rgba(192,132,252,0.6)" }} />
-              <span style={{ fontSize: 8, color: "rgba(192,132,252,0.5)", fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "1.5px" }}>Locked</span>
+          <div
+            style={{
+              padding: "12px 14px",
+              borderBottom: "1px solid rgba(255,255,255,0.05)",
+              background: "rgba(168,85,247,0.03)",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 5,
+                marginBottom: 5,
+              }}
+            >
+              <Lock
+                style={{ width: 9, height: 9, color: "rgba(192,132,252,0.6)" }}
+              />
+              <span
+                style={{
+                  fontSize: 8,
+                  color: "rgba(192,132,252,0.5)",
+                  fontFamily: "monospace",
+                  textTransform: "uppercase",
+                  letterSpacing: "1.5px",
+                }}
+              >
+                Locked
+              </span>
             </div>
-            <div style={{ fontSize: 16, fontWeight: 700, fontFamily: "monospace", color: "#c084fc", letterSpacing: "-0.03em" }}>3,200 <span style={{ fontSize: 9, color: "rgba(192,132,252,0.45)" }}>USDC</span></div>
+            <div
+              style={{
+                fontSize: 16,
+                fontWeight: 700,
+                fontFamily: "monospace",
+                color: "#c084fc",
+                letterSpacing: "-0.03em",
+              }}
+            >
+              3,200{" "}
+              <span style={{ fontSize: 9, color: "rgba(192,132,252,0.45)" }}>
+                USDC
+              </span>
+            </div>
           </div>
 
           {/* Today */}
-          <div style={{ padding: "12px 14px", borderBottom: "1px solid rgba(255,255,255,0.05)", background: "rgba(52,211,153,0.025)" }}>
-            <div style={{ fontSize: 8, color: "rgba(52,211,153,0.5)", fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "1.5px", marginBottom: 5 }}>Today</div>
+          <div
+            style={{
+              padding: "12px 14px",
+              borderBottom: "1px solid rgba(255,255,255,0.05)",
+              background: "rgba(52,211,153,0.025)",
+            }}
+          >
+            <div
+              style={{
+                fontSize: 8,
+                color: "rgba(52,211,153,0.5)",
+                fontFamily: "monospace",
+                textTransform: "uppercase",
+                letterSpacing: "1.5px",
+                marginBottom: 5,
+              }}
+            >
+              Today
+            </div>
             <motion.div
               key={Math.floor(earnings)}
               initial={{ y: -4, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.3 }}
-              style={{ fontSize: 16, fontWeight: 700, fontFamily: "monospace", color: "#34d399", letterSpacing: "-0.03em" }}
+              style={{
+                fontSize: 16,
+                fontWeight: 700,
+                fontFamily: "monospace",
+                color: "#34d399",
+                letterSpacing: "-0.03em",
+              }}
             >
               +${earnings.toFixed(2)}
             </motion.div>
           </div>
 
           {/* Rate */}
-          <div style={{ padding: "12px 14px", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
-            <div style={{ fontSize: 8, color: "rgba(255,255,255,0.22)", fontFamily: "monospace", marginBottom: 5 }}>AED / USDC</div>
-            <div style={{ fontSize: 17, fontWeight: 700, fontFamily: "monospace", color: "#fb923c" }}>3.6700</div>
-            <div style={{ fontSize: 8, color: "rgba(255,255,255,0.18)", fontFamily: "monospace", marginTop: 3 }}>5m: $42.5K · 12 live</div>
+          <div
+            style={{
+              padding: "12px 14px",
+              borderBottom: "1px solid rgba(255,255,255,0.05)",
+            }}
+          >
+            <div
+              style={{
+                fontSize: 8,
+                color: "rgba(255,255,255,0.22)",
+                fontFamily: "monospace",
+                marginBottom: 5,
+              }}
+            >
+              AED / USDC
+            </div>
+            <div
+              style={{
+                fontSize: 17,
+                fontWeight: 700,
+                fontFamily: "monospace",
+                color: "#fb923c",
+              }}
+            >
+              3.6700
+            </div>
+            <div
+              style={{
+                fontSize: 8,
+                color: "rgba(255,255,255,0.18)",
+                fontFamily: "monospace",
+                marginTop: 3,
+              }}
+            >
+              5m: $42.5K · 12 live
+            </div>
           </div>
 
           {/* Stats */}
-          <div style={{ marginTop: "auto", display: "grid", gridTemplateColumns: "1fr 1fr", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-            {[{ val: "47", lbl: "Done" }, { val: "#7", lbl: "Rank" }].map((s, i) => (
-              <div key={s.lbl} style={{ padding: "10px 0", textAlign: "center", borderRight: i === 0 ? "1px solid rgba(255,255,255,0.05)" : undefined }}>
-                <div style={{ fontSize: 15, fontWeight: 700, fontFamily: "monospace", color: "#fff" }}>{s.val}</div>
-                <div style={{ fontSize: 7, color: "rgba(255,255,255,0.2)", textTransform: "uppercase", letterSpacing: "1px", marginTop: 2 }}>{s.lbl}</div>
+          <div
+            style={{
+              marginTop: "auto",
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              borderTop: "1px solid rgba(255,255,255,0.05)",
+            }}
+          >
+            {[
+              { val: "47", lbl: "Done" },
+              { val: "#7", lbl: "Rank" },
+            ].map((s, i) => (
+              <div
+                key={s.lbl}
+                style={{
+                  padding: "10px 0",
+                  textAlign: "center",
+                  borderRight:
+                    i === 0 ? "1px solid rgba(255,255,255,0.05)" : undefined,
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: 15,
+                    fontWeight: 700,
+                    fontFamily: "monospace",
+                    color: "#fff",
+                  }}
+                >
+                  {s.val}
+                </div>
+                <div
+                  style={{
+                    fontSize: 7,
+                    color: "rgba(255,255,255,0.2)",
+                    textTransform: "uppercase",
+                    letterSpacing: "1px",
+                    marginTop: 2,
+                  }}
+                >
+                  {s.lbl}
+                </div>
               </div>
             ))}
           </div>
@@ -586,69 +812,342 @@ function MerchantDashboardUI() {
             padding: "12px",
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10 }}>
-            <Activity style={{ width: 10, height: 10, color: "rgba(255,255,255,0.28)" }} />
-            <span style={{ fontSize: 9, fontWeight: 600, color: "rgba(255,255,255,0.3)", fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "2px" }}>In Progress</span>
-            <span style={{ marginLeft: "auto", fontSize: 8, padding: "1px 7px", borderRadius: 999, background: "rgba(255,107,53,0.12)", border: "1px solid rgba(255,107,53,0.22)", color: "#fb923c", fontFamily: "monospace" }}>2 ACTIVE</span>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+              marginBottom: 10,
+            }}
+          >
+            <Activity
+              style={{ width: 10, height: 10, color: "rgba(255,255,255,0.28)" }}
+            />
+            <span
+              style={{
+                fontSize: 9,
+                fontWeight: 600,
+                color: "rgba(255,255,255,0.3)",
+                fontFamily: "monospace",
+                textTransform: "uppercase",
+                letterSpacing: "2px",
+              }}
+            >
+              In Progress
+            </span>
+            <span
+              style={{
+                marginLeft: "auto",
+                fontSize: 8,
+                padding: "1px 7px",
+                borderRadius: 999,
+                background: "rgba(255,107,53,0.12)",
+                border: "1px solid rgba(255,107,53,0.22)",
+                color: "#fb923c",
+                fontFamily: "monospace",
+              }}
+            >
+              2 ACTIVE
+            </span>
           </div>
 
           {/* Order 1 — animated */}
           <motion.div
             animate={{ background: cfg.bg, borderColor: cfg.border }}
             transition={{ duration: 0.45 }}
-            style={{ padding: "10px 11px", borderRadius: 10, border: "1px solid", marginBottom: 7 }}
+            style={{
+              padding: "10px 11px",
+              borderRadius: 10,
+              border: "1px solid",
+              marginBottom: 7,
+            }}
           >
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 7 }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginBottom: 7,
+              }}
+            >
               <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
-                <div style={{ width: 22, height: 22, borderRadius: "50%", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 8, fontWeight: 700, color: "rgba(255,255,255,0.6)" }}>AH</div>
+                <div
+                  style={{
+                    width: 22,
+                    height: 22,
+                    borderRadius: "50%",
+                    background: "rgba(255,255,255,0.08)",
+                    border: "1px solid rgba(255,255,255,0.12)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 8,
+                    fontWeight: 700,
+                    color: "rgba(255,255,255,0.6)",
+                  }}
+                >
+                  AH
+                </div>
                 <div>
-                  <div style={{ fontSize: 10, fontWeight: 600, color: "rgba(255,255,255,0.65)" }}>Ali Hassan</div>
-                  <span style={{ fontSize: 7, fontWeight: 700, fontFamily: "monospace", padding: "1px 4px", borderRadius: 3, background: "rgba(255,107,53,0.1)", border: "1px solid rgba(255,107,53,0.2)", color: "#fb923c" }}>SELL</span>
+                  <div
+                    style={{
+                      fontSize: 10,
+                      fontWeight: 600,
+                      color: "rgba(255,255,255,0.65)",
+                    }}
+                  >
+                    Ali Hassan
+                  </div>
+                  <span
+                    style={{
+                      fontSize: 7,
+                      fontWeight: 700,
+                      fontFamily: "monospace",
+                      padding: "1px 4px",
+                      borderRadius: 3,
+                      background: "rgba(255,107,53,0.1)",
+                      border: "1px solid rgba(255,107,53,0.2)",
+                      color: "#fb923c",
+                    }}
+                  >
+                    SELL
+                  </span>
                 </div>
               </div>
               <motion.span
                 key={phase}
                 initial={{ scale: 0.85, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                style={{ fontSize: 8, fontWeight: 700, fontFamily: "monospace", padding: "2px 7px", borderRadius: 4, border: `1px solid ${cfg.border}`, color: cfg.color, background: cfg.bg }}
+                style={{
+                  fontSize: 8,
+                  fontWeight: 700,
+                  fontFamily: "monospace",
+                  padding: "2px 7px",
+                  borderRadius: 4,
+                  border: `1px solid ${cfg.border}`,
+                  color: cfg.color,
+                  background: cfg.bg,
+                }}
               >
                 {cfg.label}
               </motion.span>
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "7px 0", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-              <span style={{ fontSize: 14, fontWeight: 700, fontFamily: "monospace", color: "#fff", letterSpacing: "-0.03em" }}>5,000 <span style={{ fontSize: 9, color: "rgba(255,255,255,0.3)" }}>USDC</span></span>
-              <ArrowRight style={{ width: 10, height: 10, color: "rgba(255,255,255,0.18)" }} />
-              <span style={{ fontSize: 12, fontFamily: "monospace", color: "rgba(255,255,255,0.4)" }}>18,350 AED</span>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                padding: "7px 0",
+                borderTop: "1px solid rgba(255,255,255,0.05)",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: 14,
+                  fontWeight: 700,
+                  fontFamily: "monospace",
+                  color: "#fff",
+                  letterSpacing: "-0.03em",
+                }}
+              >
+                5,000{" "}
+                <span style={{ fontSize: 9, color: "rgba(255,255,255,0.3)" }}>
+                  USDC
+                </span>
+              </span>
+              <ArrowRight
+                style={{
+                  width: 10,
+                  height: 10,
+                  color: "rgba(255,255,255,0.18)",
+                }}
+              />
+              <span
+                style={{
+                  fontSize: 12,
+                  fontFamily: "monospace",
+                  color: "rgba(255,255,255,0.4)",
+                }}
+              >
+                18,350 AED
+              </span>
             </div>
           </motion.div>
 
           {/* Order 2 — static */}
-          <div style={{ padding: "9px 11px", borderRadius: 10, border: "1px solid rgba(59,130,246,0.2)", background: "rgba(59,130,246,0.04)" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 6 }}>
-              <div style={{ width: 22, height: 22, borderRadius: "50%", background: "rgba(255,255,255,0.06)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 8, fontWeight: 700, color: "rgba(255,255,255,0.5)" }}>TM</div>
-              <span style={{ fontSize: 10, color: "rgba(255,255,255,0.55)" }}>TrustMerchant22</span>
-              <span style={{ fontSize: 7, fontWeight: 700, fontFamily: "monospace", padding: "1px 4px", borderRadius: 3, background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.4)" }}>BUY</span>
-              <span style={{ marginLeft: "auto", fontSize: 8, fontWeight: 700, fontFamily: "monospace", padding: "2px 7px", borderRadius: 4, border: "1px solid rgba(59,130,246,0.2)", color: "#93c5fd", background: "rgba(59,130,246,0.07)" }}>PAID</span>
+          <div
+            style={{
+              padding: "9px 11px",
+              borderRadius: 10,
+              border: "1px solid rgba(59,130,246,0.2)",
+              background: "rgba(59,130,246,0.04)",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 7,
+                marginBottom: 6,
+              }}
+            >
+              <div
+                style={{
+                  width: 22,
+                  height: 22,
+                  borderRadius: "50%",
+                  background: "rgba(255,255,255,0.06)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: 8,
+                  fontWeight: 700,
+                  color: "rgba(255,255,255,0.5)",
+                }}
+              >
+                TM
+              </div>
+              <span style={{ fontSize: 10, color: "rgba(255,255,255,0.55)" }}>
+                TrustMerchant22
+              </span>
+              <span
+                style={{
+                  fontSize: 7,
+                  fontWeight: 700,
+                  fontFamily: "monospace",
+                  padding: "1px 4px",
+                  borderRadius: 3,
+                  background: "rgba(255,255,255,0.06)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  color: "rgba(255,255,255,0.4)",
+                }}
+              >
+                BUY
+              </span>
+              <span
+                style={{
+                  marginLeft: "auto",
+                  fontSize: 8,
+                  fontWeight: 700,
+                  fontFamily: "monospace",
+                  padding: "2px 7px",
+                  borderRadius: 4,
+                  border: "1px solid rgba(59,130,246,0.2)",
+                  color: "#93c5fd",
+                  background: "rgba(59,130,246,0.07)",
+                }}
+              >
+                PAID
+              </span>
             </div>
-            <div style={{ fontSize: 13, fontWeight: 700, fontFamily: "monospace", color: "rgba(255,255,255,0.7)", letterSpacing: "-0.03em" }}>2,000 <span style={{ fontSize: 9, color: "rgba(255,255,255,0.28)" }}>USDC</span> <span style={{ fontSize: 10, color: "rgba(255,255,255,0.2)" }}>→</span> <span style={{ fontSize: 11, color: "rgba(255,255,255,0.35)" }}>7,340 AED</span></div>
+            <div
+              style={{
+                fontSize: 13,
+                fontWeight: 700,
+                fontFamily: "monospace",
+                color: "rgba(255,255,255,0.7)",
+                letterSpacing: "-0.03em",
+              }}
+            >
+              2,000{" "}
+              <span style={{ fontSize: 9, color: "rgba(255,255,255,0.28)" }}>
+                USDC
+              </span>{" "}
+              <span style={{ fontSize: 10, color: "rgba(255,255,255,0.2)" }}>
+                →
+              </span>{" "}
+              <span style={{ fontSize: 11, color: "rgba(255,255,255,0.35)" }}>
+                7,340 AED
+              </span>
+            </div>
           </div>
 
           {/* Completed mini */}
           <div style={{ marginTop: 10, flex: 1 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 5, marginBottom: 6 }}>
-              <CheckCircle2 style={{ width: 9, height: 9, color: "rgba(255,255,255,0.22)" }} />
-              <span style={{ fontSize: 8, color: "rgba(255,255,255,0.22)", fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "2px" }}>Completed today</span>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 5,
+                marginBottom: 6,
+              }}
+            >
+              <CheckCircle2
+                style={{ width: 9, height: 9, color: "rgba(255,255,255,0.22)" }}
+              />
+              <span
+                style={{
+                  fontSize: 8,
+                  color: "rgba(255,255,255,0.22)",
+                  fontFamily: "monospace",
+                  textTransform: "uppercase",
+                  letterSpacing: "2px",
+                }}
+              >
+                Completed today
+              </span>
             </div>
             {COMPLETED_TX.map((tx, i) => (
-              <div key={i} style={{ display: "flex", alignItems: "center", gap: 7, padding: "5px 8px", borderRadius: 7, background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)", marginBottom: 4 }}>
-                <div style={{ width: 16, height: 16, borderRadius: "50%", background: "rgba(52,211,153,0.1)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <CheckCircle2 style={{ width: 8, height: 8, color: "#34d399" }} />
+              <div
+                key={i}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 7,
+                  padding: "5px 8px",
+                  borderRadius: 7,
+                  background: "rgba(255,255,255,0.02)",
+                  border: "1px solid rgba(255,255,255,0.04)",
+                  marginBottom: 4,
+                }}
+              >
+                <div
+                  style={{
+                    width: 16,
+                    height: 16,
+                    borderRadius: "50%",
+                    background: "rgba(52,211,153,0.1)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexShrink: 0,
+                  }}
+                >
+                  <CheckCircle2
+                    style={{ width: 8, height: 8, color: "#34d399" }}
+                  />
                 </div>
                 <div style={{ flex: 1 }}>
-                  <span style={{ fontSize: 9, fontFamily: "monospace", color: "rgba(255,255,255,0.5)" }}>{tx.usdc} USDC</span>
-                  <span style={{ fontSize: 8, color: "rgba(255,255,255,0.18)", fontFamily: "monospace", marginLeft: 4 }}>{tx.time}</span>
+                  <span
+                    style={{
+                      fontSize: 9,
+                      fontFamily: "monospace",
+                      color: "rgba(255,255,255,0.5)",
+                    }}
+                  >
+                    {tx.usdc} USDC
+                  </span>
+                  <span
+                    style={{
+                      fontSize: 8,
+                      color: "rgba(255,255,255,0.18)",
+                      fontFamily: "monospace",
+                      marginLeft: 4,
+                    }}
+                  >
+                    {tx.time}
+                  </span>
                 </div>
-                <span style={{ fontSize: 9, fontWeight: 700, fontFamily: "monospace", color: "#34d399" }}>{tx.profit}</span>
+                <span
+                  style={{
+                    fontSize: 9,
+                    fontWeight: 700,
+                    fontFamily: "monospace",
+                    color: "#34d399",
+                  }}
+                >
+                  {tx.profit}
+                </span>
               </div>
             ))}
           </div>
@@ -656,9 +1155,29 @@ function MerchantDashboardUI() {
 
         {/* Panel 3 — Leaderboard */}
         <div style={{ width: 180, flexShrink: 0, padding: "12px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 5, marginBottom: 10 }}>
-            <Star style={{ width: 9, height: 9, color: "rgba(255,255,255,0.25)" }} />
-            <span style={{ fontSize: 9, fontWeight: 600, color: "rgba(255,255,255,0.28)", fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "2px" }}>Leaderboard</span>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 5,
+              marginBottom: 10,
+            }}
+          >
+            <Star
+              style={{ width: 9, height: 9, color: "rgba(255,255,255,0.25)" }}
+            />
+            <span
+              style={{
+                fontSize: 9,
+                fontWeight: 600,
+                color: "rgba(255,255,255,0.28)",
+                fontFamily: "monospace",
+                textTransform: "uppercase",
+                letterSpacing: "2px",
+              }}
+            >
+              Leaderboard
+            </span>
           </div>
           {LEADERBOARD_MINI.map((m, i) => (
             <div
@@ -670,36 +1189,148 @@ function MerchantDashboardUI() {
                 padding: "6px 8px",
                 borderRadius: 7,
                 marginBottom: 4,
-                ...(i === 0 ? { background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" } : {}),
+                ...(i === 0
+                  ? {
+                      background: "rgba(255,255,255,0.04)",
+                      border: "1px solid rgba(255,255,255,0.07)",
+                    }
+                  : {}),
               }}
             >
-              <span style={{ fontSize: 8, fontFamily: "monospace", color: "rgba(255,255,255,0.2)", width: 14 }}>#{m.rank}</span>
-              <div style={{ width: 5, height: 5, borderRadius: "50%", background: m.online ? "#3ddc84" : "rgba(255,255,255,0.2)", flexShrink: 0, ...(m.online ? { boxShadow: "0 0 4px #3ddc84" } : {}) }} />
-              <span style={{ fontSize: 9, fontFamily: "monospace", color: "rgba(255,255,255,0.42)", flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{m.name}</span>
-              <span style={{ fontSize: 8, fontFamily: "monospace", color: "rgba(255,255,255,0.22)", flexShrink: 0 }}>${m.vol}</span>
+              <span
+                style={{
+                  fontSize: 8,
+                  fontFamily: "monospace",
+                  color: "rgba(255,255,255,0.2)",
+                  width: 14,
+                }}
+              >
+                #{m.rank}
+              </span>
+              <div
+                style={{
+                  width: 5,
+                  height: 5,
+                  borderRadius: "50%",
+                  background: m.online ? "#3ddc84" : "rgba(255,255,255,0.2)",
+                  flexShrink: 0,
+                  ...(m.online ? { boxShadow: "0 0 4px #3ddc84" } : {}),
+                }}
+              />
+              <span
+                style={{
+                  fontSize: 9,
+                  fontFamily: "monospace",
+                  color: "rgba(255,255,255,0.42)",
+                  flex: 1,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {m.name}
+              </span>
+              <span
+                style={{
+                  fontSize: 8,
+                  fontFamily: "monospace",
+                  color: "rgba(255,255,255,0.22)",
+                  flexShrink: 0,
+                }}
+              >
+                ${m.vol}
+              </span>
             </div>
           ))}
 
           {/* Reputation mini */}
-          <div style={{ marginTop: 12, padding: "10px 10px", borderRadius: 10, background: "rgba(255,107,53,0.05)", border: "1px solid rgba(255,107,53,0.15)" }}>
-            <div style={{ fontSize: 7, color: "rgba(255,107,53,0.6)", fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "1.5px", marginBottom: 6 }}>Your Score</div>
-            <div style={{ fontSize: 18, fontWeight: 700, fontFamily: "monospace", color: "#fb923c", marginBottom: 2 }}>847</div>
-            <div style={{ fontSize: 8, color: "rgba(255,107,53,0.5)" }}>Gold tier · Top 5%</div>
-            <div style={{ marginTop: 8, height: 3, borderRadius: 999, background: "rgba(255,255,255,0.06)" }}>
+          <div
+            style={{
+              marginTop: 12,
+              padding: "10px 10px",
+              borderRadius: 10,
+              background: "rgba(255,107,53,0.05)",
+              border: "1px solid rgba(255,107,53,0.15)",
+            }}
+          >
+            <div
+              style={{
+                fontSize: 7,
+                color: "rgba(255,107,53,0.6)",
+                fontFamily: "monospace",
+                textTransform: "uppercase",
+                letterSpacing: "1.5px",
+                marginBottom: 6,
+              }}
+            >
+              Your Score
+            </div>
+            <div
+              style={{
+                fontSize: 18,
+                fontWeight: 700,
+                fontFamily: "monospace",
+                color: "#fb923c",
+                marginBottom: 2,
+              }}
+            >
+              847
+            </div>
+            <div style={{ fontSize: 8, color: "rgba(255,107,53,0.5)" }}>
+              Gold tier · Top 5%
+            </div>
+            <div
+              style={{
+                marginTop: 8,
+                height: 3,
+                borderRadius: 999,
+                background: "rgba(255,255,255,0.06)",
+              }}
+            >
               <motion.div
-                style={{ height: "100%", borderRadius: 999, background: "linear-gradient(90deg, #fb923c, #fbbf24)" }}
+                style={{
+                  height: "100%",
+                  borderRadius: 999,
+                  background: "linear-gradient(90deg, #fb923c, #fbbf24)",
+                }}
                 initial={{ width: "0%" }}
                 animate={{ width: "72%" }}
-                transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
+                transition={{
+                  duration: 1.5,
+                  ease: [0.16, 1, 0.3, 1],
+                  delay: 0.5,
+                }}
               />
             </div>
           </div>
 
           {/* Notification */}
-          <div style={{ marginTop: 8, padding: "8px 10px", borderRadius: 8, background: "rgba(52,211,153,0.04)", border: "1px solid rgba(52,211,153,0.14)" }}>
-            <div style={{ fontSize: 8, color: "rgba(52,211,153,0.7)", fontFamily: "monospace", fontWeight: 700, marginBottom: 3 }}>✓ Settlement complete</div>
-            <div style={{ fontSize: 7, color: "rgba(255,255,255,0.25)" }}>5,000 USDC → 18,350 AED</div>
-            <div style={{ fontSize: 7, color: "rgba(255,255,255,0.18)" }}>2m ago · #BM7F2X</div>
+          <div
+            style={{
+              marginTop: 8,
+              padding: "8px 10px",
+              borderRadius: 8,
+              background: "rgba(52,211,153,0.04)",
+              border: "1px solid rgba(52,211,153,0.14)",
+            }}
+          >
+            <div
+              style={{
+                fontSize: 8,
+                color: "rgba(52,211,153,0.7)",
+                fontFamily: "monospace",
+                fontWeight: 700,
+                marginBottom: 3,
+              }}
+            >
+              ✓ Settlement complete
+            </div>
+            <div style={{ fontSize: 7, color: "rgba(255,255,255,0.25)" }}>
+              5,000 USDC → 18,350 AED
+            </div>
+            <div style={{ fontSize: 7, color: "rgba(255,255,255,0.18)" }}>
+              2m ago · #BM7F2X
+            </div>
           </div>
         </div>
       </div>
@@ -712,25 +1343,58 @@ function MerchantDashboardUI() {
    Live bid rates fluctuating, countdown timer
    ═══════════════════════════════════════════════════════════ */
 const INITIAL_BIDS = [
-  { id: 1, name: "QuickSwap Pro", avatar: "QS", rate: 3.672, trades: 2847, time: "~30s", best: true },
-  { id: 2, name: "FastSettle UAE", avatar: "FS", rate: 3.668, trades: 1923, time: "~45s", best: false },
-  { id: 3, name: "DubaiExchange", avatar: "DE", rate: 3.665, trades: 3102, time: "~60s", best: false },
-  { id: 4, name: "GulfTrade", avatar: "GT", rate: 3.660, trades: 892, time: "~90s", best: false },
+  {
+    id: 1,
+    name: "QuickSwap Pro",
+    avatar: "QS",
+    rate: 3.672,
+    trades: 2847,
+    time: "~30s",
+    best: true,
+  },
+  {
+    id: 2,
+    name: "FastSettle UAE",
+    avatar: "FS",
+    rate: 3.668,
+    trades: 1923,
+    time: "~45s",
+    best: false,
+  },
+  {
+    id: 3,
+    name: "DubaiExchange",
+    avatar: "DE",
+    rate: 3.665,
+    trades: 3102,
+    time: "~60s",
+    best: false,
+  },
+  {
+    id: 4,
+    name: "GulfTrade",
+    avatar: "GT",
+    rate: 3.66,
+    trades: 892,
+    time: "~90s",
+    best: false,
+  },
 ];
 
-function BiddingUI() {
+function BiddingUI({ active = true }: { active?: boolean }) {
   const [bids, setBids] = useState(INITIAL_BIDS);
   const [countdown, setCountdown] = useState(15);
   const [matched, setMatched] = useState(false);
 
   useEffect(() => {
+    if (!active) return;
     const rateId = setInterval(() => {
       setBids((prev) => {
         const updated = prev
           .map((b) => ({
             ...b,
             rate: parseFloat(
-              (b.rate + (Math.random() - 0.48) * 0.004).toFixed(3)
+              (b.rate + (Math.random() - 0.48) * 0.004).toFixed(3),
             ),
           }))
           .sort((a, b) => b.rate - a.rate)
@@ -757,7 +1421,7 @@ function BiddingUI() {
       clearInterval(rateId);
       clearInterval(cdId);
     };
-  }, []);
+  }, [active]);
 
   const bestBid = bids[0];
 
@@ -784,11 +1448,15 @@ function BiddingUI() {
                 animate={{ opacity: [1, 0.4, 1] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
               />
-              <span className="text-[10px] text-[#ff6b35] font-bold tracking-wide">LIVE</span>
+              <span className="text-[10px] text-[#ff6b35] font-bold tracking-wide">
+                LIVE
+              </span>
             </div>
           </div>
         </div>
-        <div className="w-8 h-8 rounded-full bg-white/[0.08] flex items-center justify-center text-xs font-bold text-white/60">M</div>
+        <div className="w-8 h-8 rounded-full bg-white/[0.08] flex items-center justify-center text-xs font-bold text-white/60">
+          M
+        </div>
       </div>
 
       {/* Dashboard content */}
@@ -796,14 +1464,25 @@ function BiddingUI() {
         {/* Order header + timer */}
         <div className="flex items-center justify-between mb-5 pb-4 border-b border-white/[0.06]">
           <div>
-            <div className="text-[10px] uppercase tracking-widest text-white/30 mb-1">Active Order · #BLP-8472</div>
-            <div className="text-2xl font-bold tracking-tight">5,000 USDT → AED</div>
+            <div className="text-[10px] uppercase tracking-widest text-white/30 mb-1">
+              Active Order · #BLP-8472
+            </div>
+            <div className="text-2xl font-bold tracking-tight">
+              5,000 USDT → AED
+            </div>
           </div>
           <div className="text-center">
-            <div className="text-[10px] uppercase tracking-widest text-white/30 mb-1">Match in</div>
+            <div className="text-[10px] uppercase tracking-widest text-white/30 mb-1">
+              Match in
+            </div>
             <AnimatePresence mode="wait">
               {matched ? (
-                <motion.div key="m" initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ opacity: 0 }}>
+                <motion.div
+                  key="m"
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
                   <Check className="w-6 h-6 text-emerald-400" />
                 </motion.div>
               ) : (
@@ -830,7 +1509,11 @@ function BiddingUI() {
                 key={i}
                 className="w-1.5 h-1.5 rounded-full bg-white/40"
                 animate={{ opacity: [0.3, 1, 0.3] }}
-                transition={{ duration: 0.8, repeat: Infinity, delay: i * 0.15 }}
+                transition={{
+                  duration: 0.8,
+                  repeat: Infinity,
+                  delay: i * 0.15,
+                }}
               />
             ))}
           </div>
@@ -843,8 +1526,12 @@ function BiddingUI() {
               key={bid.id}
               layout
               animate={{
-                background: bid.best ? "rgba(255,255,255,0.07)" : "rgba(255,255,255,0.025)",
-                borderColor: bid.best ? "rgba(255,255,255,0.18)" : "rgba(255,255,255,0.06)",
+                background: bid.best
+                  ? "rgba(255,255,255,0.07)"
+                  : "rgba(255,255,255,0.025)",
+                borderColor: bid.best
+                  ? "rgba(255,255,255,0.18)"
+                  : "rgba(255,255,255,0.06)",
               }}
               transition={{ duration: 0.35 }}
               className="p-3.5 rounded-xl border"
@@ -853,14 +1540,20 @@ function BiddingUI() {
                 <div className="flex items-center gap-3">
                   <div
                     className={`w-10 h-10 rounded-xl flex items-center justify-center text-xs font-bold ${
-                      bid.best ? "bg-white/10 text-white/80" : "bg-white/[0.05] text-white/40"
+                      bid.best
+                        ? "bg-white/10 text-white/80"
+                        : "bg-white/[0.05] text-white/40"
                     }`}
                   >
                     {bid.avatar}
                   </div>
                   <div>
                     <div className="flex items-center gap-2 mb-0.5">
-                      <span className={`text-sm font-semibold ${bid.best ? "text-white" : "text-white/55"}`}>{bid.name}</span>
+                      <span
+                        className={`text-sm font-semibold ${bid.best ? "text-white" : "text-white/55"}`}
+                      >
+                        {bid.name}
+                      </span>
                       {bid.best && (
                         <motion.span
                           layout
@@ -872,20 +1565,30 @@ function BiddingUI() {
                         </motion.span>
                       )}
                     </div>
-                    <div className="text-xs text-white/30">{bid.trades.toLocaleString()} trades · ETA {bid.time}</div>
+                    <div className="text-xs text-white/30">
+                      {bid.trades.toLocaleString("en-US")} trades · ETA {bid.time}
+                    </div>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="text-right">
                     <motion.div
                       className="text-lg font-bold"
-                      animate={{ color: bid.best ? "#ffffff" : "rgba(255,255,255,0.4)" }}
+                      animate={{
+                        color: bid.best ? "#ffffff" : "rgba(255,255,255,0.4)",
+                      }}
                     >
                       {bid.rate.toFixed(3)}{" "}
-                      <span className="text-xs text-white/30 font-normal">AED</span>
+                      <span className="text-xs text-white/30 font-normal">
+                        AED
+                      </span>
                     </motion.div>
                     <div className="text-xs text-white/30">
-                      ≈ {(bid.rate * 5000).toLocaleString(undefined, { maximumFractionDigits: 0 })} AED
+                      ≈{" "}
+                      {(bid.rate * 5000).toLocaleString("en-US", {
+                        maximumFractionDigits: 0,
+                      })}{" "}
+                      AED
                     </div>
                   </div>
                   <motion.div
@@ -905,9 +1608,12 @@ function BiddingUI() {
             <Zap className="w-4 h-4 text-white/60" />
           </div>
           <div>
-            <span className="text-sm text-white/70 font-medium">Auto-selecting best offer</span>
+            <span className="text-sm text-white/70 font-medium">
+              Auto-selecting best offer
+            </span>
             <span className="text-xs text-white/35 block">
-              You'll receive ~{(bestBid?.rate * 5000).toFixed(0)} AED in ~30 seconds
+              You'll receive ~{(bestBid?.rate * 5000).toLocaleString("en-US", { maximumFractionDigits: 0 })} AED in ~30
+              seconds
             </span>
           </div>
         </div>
@@ -921,23 +1627,55 @@ function BiddingUI() {
    Live transactions appearing every 2.2s
    ═══════════════════════════════════════════════════════════ */
 const TX_NAMES = [
-  "Ahmed M.", "Sarah K.", "James O.", "Maria G.", "Alex T.", "Emma S.",
+  "Ahmed M.",
+  "Sarah K.",
+  "James O.",
+  "Maria G.",
+  "Alex T.",
+  "Emma S.",
 ];
-const TX_ADDRS = [
-  "0x8a9...3f2", "0x3b7...9k1", "0x7c4...2m8", "0x1a2...4b5",
-];
+const TX_ADDRS = ["0x8a9...3f2", "0x3b7...9k1", "0x7c4...2m8", "0x1a2...4b5"];
 const TX_INITIAL = [
-  { id: "BLP-7X2K", from: "0x8a9...3f2", to: "Ahmed M.", amount: "$5,750", age: "2s", isNew: false },
-  { id: "BLP-4MR8", from: "0x3b7...9k1", to: "Sarah K.", amount: "$12,867", age: "5s", isNew: false },
-  { id: "BLP-9PT4", from: "0x7c4...2m8", to: "James O.", amount: "$7,589", age: "9s", isNew: false },
-  { id: "BLP-2NQ7", from: "0x1a2...4b5", to: "Maria G.", amount: "$3,220", age: "12s", isNew: false },
+  {
+    id: "BLP-7X2K",
+    from: "0x8a9...3f2",
+    to: "Ahmed M.",
+    amount: "$5,750",
+    age: "2s",
+    isNew: false,
+  },
+  {
+    id: "BLP-4MR8",
+    from: "0x3b7...9k1",
+    to: "Sarah K.",
+    amount: "$12,867",
+    age: "5s",
+    isNew: false,
+  },
+  {
+    id: "BLP-9PT4",
+    from: "0x7c4...2m8",
+    to: "James O.",
+    amount: "$7,589",
+    age: "9s",
+    isNew: false,
+  },
+  {
+    id: "BLP-2NQ7",
+    from: "0x1a2...4b5",
+    to: "Maria G.",
+    amount: "$3,220",
+    age: "12s",
+    isNew: false,
+  },
 ];
 
-function ExplorerUI() {
+function ExplorerUI({ active = true }: { active?: boolean }) {
   const [txs, setTxs] = useState(TX_INITIAL);
   const [block, setBlock] = useState(241_847_293);
 
   useEffect(() => {
+    if (!active) return;
     const id = setInterval(() => {
       const newTx = {
         id: `BLP-${Math.random().toString(36).substr(2, 4).toUpperCase()}`,
@@ -954,12 +1692,12 @@ function ExplorerUI() {
         [newTx, ...prev.slice(0, 4)].map((t, i) => ({
           ...t,
           isNew: i === 0,
-        }))
+        })),
       );
       setBlock((b) => b + Math.floor(Math.random() * 3) + 1);
     }, 2200);
     return () => clearInterval(id);
-  }, []);
+  }, [active]);
 
   return (
     <div className="w-[540px] rounded-2xl border border-white/[0.06] bg-black/40 backdrop-blur-xl overflow-hidden shadow-[0_8px_60px_-12px_rgba(0,0,0,0.8),0_0_80px_rgba(20,241,149,0.05)]">
@@ -973,7 +1711,9 @@ function ExplorerUI() {
           </div>
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.04]">
             <Globe className="w-3.5 h-3.5 text-white/30" />
-            <span className="text-xs text-white/40 font-mono">blipscan.io/explorer</span>
+            <span className="text-xs text-white/40 font-mono">
+              blipscan.io/explorer
+            </span>
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -982,14 +1722,16 @@ function ExplorerUI() {
             animate={{ opacity: [1, 0.5, 1] }}
             transition={{ duration: 2, repeat: Infinity }}
           />
-          <span className="text-xs text-emerald-400 font-medium">Live · Solana</span>
+          <span className="text-xs text-emerald-400 font-medium">
+            Live · Solana
+          </span>
         </div>
       </div>
 
       {/* Stats row */}
       <div className="grid grid-cols-4 border-b border-white/[0.05]">
         {[
-          { label: "Block", value: block.toLocaleString() },
+          { label: "Block", value: block.toLocaleString("en-US") },
           { label: "24h Volume", value: "$2.4M" },
           { label: "Settled", value: "12,847" },
           { label: "Avg Speed", value: "1.8s" },
@@ -1046,13 +1788,20 @@ function ExplorerUI() {
             >
               <div className="flex items-center gap-3 flex-1 min-w-0">
                 <div className="w-8 h-8 rounded-lg bg-[#14F195]/[0.08] border border-[#14F195]/20 flex items-center justify-center shrink-0">
-                  <Check className="w-3.5 h-3.5 text-[#14F195]" strokeWidth={2.5} />
+                  <Check
+                    className="w-3.5 h-3.5 text-[#14F195]"
+                    strokeWidth={2.5}
+                  />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1.5 mb-0.5">
-                    <span className="text-[11px] font-mono text-white/40 truncate">{tx.id}</span>
+                    <span className="text-[11px] font-mono text-white/40 truncate">
+                      {tx.id}
+                    </span>
                     <span className="text-white/20 text-[11px]">→</span>
-                    <span className="text-[13px] text-white font-semibold truncate">{tx.to}</span>
+                    <span className="text-[13px] text-white font-semibold truncate">
+                      {tx.to}
+                    </span>
                     {tx.isNew && (
                       <motion.span
                         initial={{ opacity: 0, scale: 0.8 }}
@@ -1063,12 +1812,16 @@ function ExplorerUI() {
                       </motion.span>
                     )}
                   </div>
-                  <div className="text-[10px] text-white/20 font-mono truncate">{tx.from}</div>
+                  <div className="text-[10px] text-white/20 font-mono truncate">
+                    {tx.from}
+                  </div>
                 </div>
               </div>
               <div className="flex items-center gap-2.5 shrink-0">
                 <div className="text-right">
-                  <div className="text-[13px] font-semibold text-white">{tx.amount}</div>
+                  <div className="text-[13px] font-semibold text-white">
+                    {tx.amount}
+                  </div>
                   <div className="text-[9px] text-white/25">USDT</div>
                 </div>
                 <div className="px-2 py-1 rounded-lg bg-[#14F195]/[0.08] border border-[#14F195]/20">
@@ -1082,7 +1835,9 @@ function ExplorerUI() {
         <div className="flex items-center justify-between mt-2 pt-2.5 border-t border-white/[0.04]">
           <div className="flex items-center gap-1.5">
             <div className="w-1.5 h-1.5 rounded-full bg-white/15" />
-            <span className="text-[10px] text-white/20">Powered by Blip Protocol</span>
+            <span className="text-[10px] text-white/20">
+              Powered by Blip Protocol
+            </span>
           </div>
           <div className="flex items-center gap-1 text-[10px] text-white/40 cursor-pointer hover:text-white/70 transition-colors">
             View Explorer <ArrowRight className="w-2.5 h-2.5" />
@@ -1106,6 +1861,7 @@ interface SceneProps {
   subline: string;
   bullets: string[];
   accent: string;
+  isLast?: boolean;
   children: React.ReactNode;
 }
 
@@ -1118,6 +1874,7 @@ function Scene({
   subline,
   bullets,
   accent,
+  isLast,
   children,
 }: SceneProps) {
   const range = end - start;
@@ -1126,29 +1883,31 @@ function Scene({
 
   const opacity = useTransform(
     progress,
-    [start, enterEnd, exitStart, end],
-    [0, 1, 1, 0]
+    isLast ? [start, enterEnd] : [start, enterEnd, exitStart, end],
+    isLast ? [0, 1] : [0, 1, 1, 0],
   );
   const scale = useTransform(
     progress,
-    [start, enterEnd, exitStart, end],
-    [0.22, 1, 1, 1.75]
+    isLast ? [start, enterEnd] : [start, enterEnd, exitStart, end],
+    isLast ? [0.22, 1] : [0.22, 1, 1, 1.75],
   );
   const blurN = useTransform(
     progress,
-    [start, enterEnd, exitStart, end],
-    [30, 0, 0, 26]
+    isLast ? [start, enterEnd] : [start, enterEnd, exitStart, end],
+    isLast ? [30, 0] : [30, 0, 0, 26],
   );
   const filter = useTransform(blurN, (v) => `blur(${v}px)`);
   const glowOp = useTransform(
     progress,
-    [start, enterEnd, exitStart, end],
-    [0, 0.8, 0.8, 0]
+    isLast ? [start, enterEnd] : [start, enterEnd, exitStart, end],
+    isLast ? [0, 0.8] : [0, 0.8, 0.8, 0],
   );
   const textOp = useTransform(
     progress,
-    [start, start + range * 0.12, exitStart, end],
-    [0, 1, 1, 0]
+    isLast
+      ? [start, start + range * 0.12]
+      : [start, start + range * 0.12, exitStart, end],
+    isLast ? [0, 1] : [0, 1, 1, 0],
   );
   const textY = useTransform(progress, [start, enterEnd], [24, 0]);
 
@@ -1181,7 +1940,13 @@ function Scene({
             </div>
             <h2
               className="text-white"
-              style={{ fontSize: "clamp(2.8rem, 5.5vw, 5rem)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 1.08, marginBottom: 20 }}
+              style={{
+                fontSize: "clamp(1.8rem, 3.5vw, 3rem)",
+                fontWeight: 700,
+                letterSpacing: "-0.04em",
+                lineHeight: 1.08,
+                marginBottom: 20,
+              }}
             >
               {headline[0]}
               <br />
@@ -1289,7 +2054,7 @@ export default function FeatureCinemaSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end end"],
+    offset: ["start 0.9", "end end"],
   });
 
   const [activeScene, setActiveScene] = useState(0);
@@ -1298,7 +2063,7 @@ export default function FeatureCinemaSection() {
   useEffect(() => {
     const unsub = scrollYProgress.on("change", (v) => {
       if (v < 0.35) setActiveScene(0);
-      else if (v < 0.60) setActiveScene(1);
+      else if (v < 0.6) setActiveScene(1);
       else if (v < 0.82) setActiveScene(2);
       else setActiveScene(3);
     });
@@ -1312,14 +2077,6 @@ export default function FeatureCinemaSection() {
         style={{ height: "100vh", background: "#060606" }}
       >
         {/* Subtle grid */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)",
-            backgroundSize: "80px 80px",
-          }}
-        />
 
         {/* Top pill label */}
         <div className="absolute top-8 left-1/2 -translate-x-1/2 z-20">
@@ -1352,8 +2109,21 @@ export default function FeatureCinemaSection() {
 
         {/* Scenes */}
         {SCENES_DATA.map((s, i) => (
-          <Scene key={i} progress={scrollYProgress} {...s}>
-            {i === 0 ? <EscrowUI /> : i === 1 ? <MerchantDashboardUI /> : i === 2 ? <BiddingUI /> : <ExplorerUI />}
+          <Scene
+            key={i}
+            progress={scrollYProgress}
+            {...s}
+            isLast={i === SCENES_DATA.length - 1}
+          >
+            {i === 0 ? (
+              <EscrowUI active={activeScene === 0} />
+            ) : i === 1 ? (
+              <MerchantDashboardUI active={activeScene === 1} />
+            ) : i === 2 ? (
+              <BiddingUI active={activeScene === 2} />
+            ) : (
+              <ExplorerUI active={activeScene === 3} />
+            )}
           </Scene>
         ))}
 

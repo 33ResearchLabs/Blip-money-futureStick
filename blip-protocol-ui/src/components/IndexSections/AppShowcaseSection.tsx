@@ -727,28 +727,8 @@ const AppShowcaseSection = () => {
             className="relative rounded-3xl overflow-hidden h-[210px]"
           >
             <motion.img
-              src="/images/showcase-2.webp"
-              alt="Blip app showcase"
-              className="absolute inset-0 w-full h-full object-cover"
-              style={{ willChange: "transform" }}
-              animate={{ scale: [1.03, 1, 1.03] }}
-              transition={{
-                duration: 18,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 3,
-              }}
-            />
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background:
-                  "linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.12) 55%, transparent 100%)",
-              }}
-            />
-            <motion.img
               src="/global.avif"
-              alt="global"
+              alt="Global reach"
               className="absolute inset-0 w-full h-full object-cover"
               style={{ willChange: "transform" }}
               animate={{ scale: [1, 1.05, 1] }}

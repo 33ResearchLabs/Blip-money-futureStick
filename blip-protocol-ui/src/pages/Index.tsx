@@ -6,7 +6,6 @@ import {
   FeatureStrip,
   UseCasesSection,
   RewardsSection,
-  CashbackBanner,
   UAESection,
   ProtocolInterstitial,
   TrustSection,
@@ -14,12 +13,9 @@ import {
   HowItWorksSection,
   AppShowcaseSection,
   DarkFintechSection,
-  DashboardShowcaseSection,
   FeatureCinemaSection,
-  MerchantShowcaseSection,
   ComparisonSection,
 } from "@/components/IndexSections";
-import NewSection from "@/components/IndexSections/NewSection";
 
 /* ============================================
    MAIN INDEX PAGE
@@ -63,10 +59,8 @@ const Index = () => {
             {/* 2. Problem → Why Now */}
             <ProblemSection />
 
-            {/* <DashboardShowcaseSection /> */}
           </div>
         </div>
-        {/* <NewSection /> */}
         {/* Dark Fintech — Trading & Currency Section */}
         <DarkFintechSection />
 
@@ -94,8 +88,6 @@ const Index = () => {
 
           {/* 9. Earn & Incentives */}
           <RewardsSection />
-          <CashbackBanner />
-
           {/* 10. Dubai Launch */}
           <UAESection />
 

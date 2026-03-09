@@ -47,7 +47,7 @@ function EarnUI() {
             transition={{ duration: 0.35 }}
             style={{ fontSize: 28, fontWeight: 700, color: "#ffffff", letterSpacing: "-0.045em", lineHeight: 1, fontFamily: "monospace" }}
           >
-            ${total.toFixed(2)}
+            ${total.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             <span style={{ fontSize: 12, fontWeight: 500, color: "rgba(255,255,255,0.25)", marginLeft: 6, letterSpacing: 0 }}>BLIP</span>
           </motion.div>
         </div>

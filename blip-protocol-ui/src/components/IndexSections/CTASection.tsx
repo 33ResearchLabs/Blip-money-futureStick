@@ -1,6 +1,5 @@
-import { useRef } from "react";
+import { useRef, useMemo } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { CTAButton } from "../Navbar";
 
@@ -22,6 +21,18 @@ const CTASection = () => {
   );
   const scale = useTransform(scrollYProgress, [0, 0.3], [0.95, 1]);
   const glowY = useTransform(scrollYProgress, [0, 1], [100, -100]);
+
+  const particles = useMemo(
+    () =>
+      Array.from({ length: 20 }, (_, i) => ({
+        id: i,
+        left: `${10 + ((i * 37 + 13) % 80)}%`,
+        top: `${10 + ((i * 53 + 7) % 80)}%`,
+        duration: 4 + (i % 5) * 0.6,
+        delay: (i % 7) * 0.4,
+      })),
+    [],
+  );
 
   return (
     <section
@@ -48,23 +59,20 @@ const CTASection = () => {
       </div>
 
       {/* Animated particles */}
-      {[...Array(20)].map((_, i) => (
+      {particles.map((p) => (
         <motion.div
-          key={i}
+          key={p.id}
           className="absolute w-1 h-1 rounded-full bg-black/60 dark:bg-white/60"
-          style={{
-            left: `${10 + Math.random() * 80}%`,
-            top: `${10 + Math.random() * 80}%`,
-          }}
+          style={{ left: p.left, top: p.top }}
           animate={{
             y: [0, -40, 0],
             opacity: [0.1, 0.5, 0.1],
             scale: [1, 1.5, 1],
           }}
           transition={{
-            duration: 4 + Math.random() * 3,
+            duration: p.duration,
             repeat: Infinity,
-            delay: Math.random() * 3,
+            delay: p.delay,
           }}
         />
       ))}

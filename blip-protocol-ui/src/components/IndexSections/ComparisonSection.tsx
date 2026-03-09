@@ -1,5 +1,7 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Check, X, Minus } from "lucide-react";
+import { Check, X } from "lucide-react";
+import { useTheme } from "next-themes";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -88,27 +90,27 @@ const COLS = [
 
 type ColKey = typeof COLS[number]["key"];
 
-function Cell({ val, isBlip }: { val: string | boolean; isBlip: boolean }) {
+function Cell({ val, isBlip, isDark }: { val: string | boolean; isBlip: boolean; isDark: boolean }) {
   if (typeof val === "boolean") {
     return val ? (
       <span
         className="inline-flex items-center justify-center w-6 h-6 rounded-full"
         style={{
-          background: isBlip ? "rgba(255,107,53,0.15)" : "rgba(255,255,255,0.04)",
-          border: isBlip ? "1px solid rgba(255,107,53,0.3)" : "1px solid rgba(255,255,255,0.08)",
+          background: isBlip ? "rgba(255,107,53,0.15)" : isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)",
+          border: isBlip ? "1px solid rgba(255,107,53,0.3)" : isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.08)",
         }}
       >
         <Check
           style={{
             width: 11,
             height: 11,
-            color: isBlip ? "#ff6b35" : "rgba(255,255,255,0.45)",
+            color: isBlip ? "#ff6b35" : isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.35)",
           }}
         />
       </span>
     ) : (
       <span className="inline-flex items-center justify-center w-6 h-6">
-        <X style={{ width: 11, height: 11, color: "rgba(255,255,255,0.18)" }} />
+        <X style={{ width: 11, height: 11, color: isDark ? "rgba(255,255,255,0.18)" : "rgba(0,0,0,0.18)" }} />
       </span>
     );
   }
@@ -119,7 +121,7 @@ function Cell({ val, isBlip }: { val: string | boolean; isBlip: boolean }) {
         fontSize: 12,
         fontFamily: "monospace",
         fontWeight: isBlip ? 700 : 400,
-        color: isBlip ? "#ff6b35" : "rgba(255,255,255,0.4)",
+        color: isBlip ? "#ff6b35" : isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)",
         letterSpacing: "-0.02em",
       }}
     >
@@ -132,10 +134,15 @@ function Cell({ val, isBlip }: { val: string | boolean; isBlip: boolean }) {
    SECTION: COMPARISON TABLE
    ============================================ */
 const ComparisonSection = () => {
+  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const isDark = mounted ? theme === "dark" : true;
+
   return (
     <section
       className="relative py-28 overflow-hidden"
-      style={{ background: "#0a0a0f" }}
+      style={{ background: isDark ? "#0a0a0f" : "#FAF8F5" }}
     >
       {/* Ambient top glow */}
       <div

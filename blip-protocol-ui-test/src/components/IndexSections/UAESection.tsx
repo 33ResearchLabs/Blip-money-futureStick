@@ -55,28 +55,17 @@ const UAESection = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/90" />
       </motion.div>
 
-      {/* Orange accent glow — brand color */}
+      {/* Orange accent glow — brand color (static, no animation) */}
       <div className="absolute inset-0 pointer-events-none">
-        <motion.div
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[900px] h-[400px] rounded-full"
+        <div
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[900px] h-[400px] rounded-full opacity-80"
           style={{ background: "radial-gradient(ellipse, rgba(255,107,53,0.12) 0%, transparent 70%)" }}
-          animate={{ opacity: [0.6, 1, 0.6] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
         />
-        <motion.div
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full"
+        <div
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full opacity-60"
           style={{ background: "radial-gradient(ellipse, rgba(0,229,153,0.06) 0%, transparent 70%)" }}
-          animate={{ opacity: [0.4, 0.8, 0.4] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
         />
       </div>
-
-      {/* Animated scan line */}
-      <motion.div
-        className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent pointer-events-none"
-        animate={{ top: ["0%", "100%"] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-      />
 
       <div className="relative z-10 w-full max-w-6xl mx-auto px-6 py-24 md:py-40">
         {/* Label */}
@@ -87,16 +76,12 @@ const UAESection = () => {
           transition={{ duration: 0.6 }}
           className="flex justify-center mb-6"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/[0.15] bg-white/[0.06] backdrop-blur-sm">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/[0.15] bg-white/[0.06] ">
             <MapPin className="w-3 h-3 text-[#ff6b35]" strokeWidth={1.5} />
             <span className="text-[10px] uppercase tracking-[0.25em] text-white/60 font-semibold">
               Dubai, UAE · First market
             </span>
-            <motion.div
-              className="w-1.5 h-1.5 rounded-full bg-[#00e599]"
-              animate={{ opacity: [1, 0.3, 1] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-            />
+            <div className="w-1.5 h-1.5 rounded-full bg-[#00e599]" />
           </div>
         </motion.div>
 
@@ -152,7 +137,7 @@ const UAESection = () => {
 
         {/* Corridor cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-14">
-          {corridors.map((corridor, i) => (
+          {corridors.map((corridor) => (
             <motion.div
               key={corridor.toLabel}
               initial={{ opacity: 0, y: 24 }}
@@ -160,7 +145,7 @@ const UAESection = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: corridor.delay }}
               whileHover={{ y: -4, borderColor: "rgba(255,107,53,0.35)" }}
-              className="relative p-5 rounded-2xl border border-white/[0.1] bg-white/[0.05] backdrop-blur-md overflow-hidden group transition-all duration-300"
+              className="relative p-5 rounded-2xl border border-white/[0.1] bg-white/[0.05] overflow-hidden group transition-all duration-300"
             >
               {/* Hover glow */}
               <div className="absolute inset-0 bg-gradient-to-br from-[#ff6b35]/0 to-[#ff6b35]/0 group-hover:from-[#ff6b35]/[0.05] group-hover:to-transparent transition-all duration-500 rounded-2xl" />
@@ -170,11 +155,7 @@ const UAESection = () => {
                   <span className="text-xl">{corridor.from}</span>
                   <div className="flex-1 flex items-center gap-1">
                     <div className="h-px flex-1 bg-white/20" />
-                    <motion.div
-                      className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]"
-                      animate={{ x: [-8, 8, -8] }}
-                      transition={{ duration: 2 + i * 0.5, repeat: Infinity, ease: "easeInOut" }}
-                    />
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]" />
                     <div className="h-px flex-1 bg-white/20" />
                   </div>
                   <span className="text-xl">{corridor.to}</span>
@@ -215,7 +196,7 @@ const UAESection = () => {
 
           <Link
             to="/merchant"
-            className="inline-flex items-center gap-2 text-sm text-white/50 font-medium hover:text-white/80 transition-colors border border-white/[0.12] px-6 h-[52px] rounded-full hover:border-white/25 backdrop-blur-sm"
+            className="inline-flex items-center gap-2 text-sm text-white/50 font-medium hover:text-white/80 transition-colors border border-white/[0.12] px-6 h-[52px] rounded-full hover:border-white/25 "
           >
             Merchant onboarding
             <ArrowRight className="w-3.5 h-3.5" />

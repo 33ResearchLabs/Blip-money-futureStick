@@ -82,8 +82,8 @@ const AppShowcaseSection = () => {
               y: p1,
               background: "linear-gradient(145deg, #1c0900 0%, #0f0f0f 55%, #000 100%)",
             }}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
             className="md:col-span-5 relative rounded-3xl overflow-hidden h-[520px] md:h-[610px]"
@@ -314,8 +314,8 @@ const AppShowcaseSection = () => {
                 y: p2,
                 background: "linear-gradient(145deg, #060014 0%, #090011 100%)",
               }}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.1 }}
               className="relative rounded-3xl overflow-hidden h-[280px] md:h-[293px]"
@@ -427,8 +427,8 @@ const AppShowcaseSection = () => {
                 y: p3,
                 background: "linear-gradient(145deg, #001108 0%, #000d06 100%)",
               }}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.15 }}
               className="relative rounded-3xl overflow-hidden h-[280px] md:h-[293px]"
@@ -518,8 +518,8 @@ const AppShowcaseSection = () => {
             {/* CARD 4 — Browser / merchant dashboard (spans 2 cols) */}
             <motion.div
               style={{ y: p2, background: "#080808" }}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2 }}
               className="col-span-2 relative rounded-3xl overflow-hidden h-[246px] md:h-[258px]"
@@ -603,8 +603,8 @@ const AppShowcaseSection = () => {
               y: p1,
               background: "linear-gradient(145deg, #120600 0%, #0a0a0a 100%)",
             }}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.25 }}
             className="relative rounded-3xl overflow-hidden h-[210px]"
@@ -689,8 +689,8 @@ const AppShowcaseSection = () => {
           {/* Card 6 — showcase-1, full-bleed with Ken Burns */}
           <motion.div
             style={{ y: p3 }}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3 }}
             className="relative rounded-3xl overflow-hidden h-[210px]"
@@ -715,8 +715,8 @@ const AppShowcaseSection = () => {
           {/* Card 7 — showcase-2, pan effect */}
           <motion.div
             style={{ y: p2 }}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.35 }}
             className="relative rounded-3xl overflow-hidden h-[210px]"

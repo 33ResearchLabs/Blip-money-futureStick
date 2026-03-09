@@ -1,62 +1,25 @@
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, Globe, Shield, Zap } from "lucide-react";
+import { motion } from "framer-motion";
+import { Globe, Shield, Zap } from "lucide-react";
 import { CTAButton } from "../Navbar";
-import sounds from "@/lib/sounds";
 
 /* ============================================
    SECTION 5: BLIP PROTOCOL
    ============================================ */
 
 const ProtocolSection = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], [80, -80]);
-  const rotateGlow = useTransform(scrollYProgress, [0, 1], [0, 90]);
-
   return (
     <section
-      ref={containerRef}
       className="relative md:py-40 py-12 bg-[#FAF8F5] dark:bg-black overflow-hidden"
     >
-      {/* Apple-style mesh gradient background */}
+      {/* Soft static gradient background */}
       <div className="absolute inset-0 pointer-events-none">
-        {/* Large soft color blobs - visible in light, muted in dark */}
-        <motion.div
+        <div
           className="absolute -top-[20%] -right-[10%] w-[800px] h-[800px] rounded-full opacity-[0.15] dark:opacity-[0.05]"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(120,119,255,0.8) 0%, rgba(120,119,255,0) 70%)",
-            y,
-          }}
+          style={{ background: "radial-gradient(circle, rgba(120,119,255,0.8) 0%, rgba(120,119,255,0) 70%)" }}
         />
-        <motion.div
-          className="absolute top-[10%] -left-[15%] w-[700px] h-[700px] rounded-full opacity-[0.12] dark:opacity-[0.04]"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 70%)",
-            y: useTransform(scrollYProgress, [0, 1], [-40, 40]),
-          }}
-        />
-        <motion.div
+        <div
           className="absolute -bottom-[15%] left-[20%] w-[900px] h-[600px] rounded-full opacity-[0.1] dark:opacity-[0.04]"
-          style={{
-            background:
-              "radial-gradient(ellipse, rgba(52,199,165,0.7) 0%, rgba(52,199,165,0) 70%)",
-            rotate: rotateGlow,
-          }}
-        />
-        <motion.div
-          className="absolute top-[40%] right-[10%] w-[500px] h-[500px] rounded-full opacity-[0.08] dark:opacity-[0.03]"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(168,85,247,0.6) 0%, rgba(168,85,247,0) 70%)",
-            y: useTransform(scrollYProgress, [0, 1], [30, -30]),
-          }}
+          style={{ background: "radial-gradient(ellipse, rgba(52,199,165,0.7) 0%, rgba(52,199,165,0) 70%)" }}
         />
       </div>
 
@@ -159,7 +122,6 @@ const ProtocolSection = () => {
         p-5 sm:p-8
         text-center cursor-default overflow-hidden
         bg-white/60 dark:bg-white/[0.03]
-        backdrop-blur-xl
         border border-black/[0.08] dark:border-white/[0.06]
         shadow-[0_4px_30px_-8px_rgba(0,0,0,0.08)] dark:shadow-none
         md:hover:scale-[1.02] transition-transform duration-300

@@ -298,14 +298,36 @@ const App = () => {
   });
 
   useEffect(() => {
+    let hasEnteredView = false;
+
     const handleScroll = () => {
+      if (!containerRef.current) return;
+
+      const container = containerRef.current;
+      const containerRect = container.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+
+      // Only activate when the container is actually in view
+      const containerInView =
+        containerRect.top < viewportHeight * 0.8 &&
+        containerRect.bottom > viewportHeight * 0.2;
+
+      if (!containerInView) return;
+
+      // Prevent the first-frame flicker: lock to section 0 until
+      // the user has scrolled far enough into the container
+      if (!hasEnteredView) {
+        // Wait until the container top has scrolled above the viewport midpoint
+        if (containerRect.top > viewportHeight * 0.5) return;
+        hasEnteredView = true;
+      }
+
       const isDesktop = window.innerWidth >= 1024; // lg breakpoint
 
       if (isDesktop) {
         // Desktop: scroll-based detection for content sections
-        const sections = document.querySelectorAll(".content-section");
-        const viewportHeight = window.innerHeight;
-        const triggerPoint = viewportHeight * 0.45; // More responsive trigger
+        const sections = container.querySelectorAll(".content-section");
+        const triggerPoint = viewportHeight * 0.45;
 
         let newActiveSection = 0;
         let closestDistance = Infinity;
@@ -328,10 +350,8 @@ const App = () => {
         setActiveSection(newActiveSection);
       } else {
         // Mobile: container-based scroll progress
-        if (!containerRef.current) return;
-        const container = containerRef.current;
-        const rect = container.getBoundingClientRect();
-        const scrollProgress = -rect.top / (rect.height - window.innerHeight);
+        const scrollProgress =
+          -containerRect.top / (containerRect.height - viewportHeight);
 
         let newSection = 0;
         if (scrollProgress > 0.8) newSection = 4;
@@ -342,9 +362,6 @@ const App = () => {
         setActiveSection(newSection);
       }
     };
-
-    // Initial check
-    handleScroll();
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
@@ -548,7 +565,7 @@ const Sparkline = ({ width = 220, height = 40, isDark }: { width?: number; heigh
 
 /* Friends data for Circle section */
 const CIRCLE_FRIENDS = [
-  { name: "Alex",   color: "#7c3aed", emoji: "🧑", status: "active" },
+  { name: "Alex",   color: "#ff6b35", emoji: "🧑", status: "active" },
   { name: "Sasha",  color: "#3b82f6", emoji: "👩", status: "online" },
   { name: "Jordan", color: "#10b981", emoji: "🧔", status: "online" },
   { name: "Taylor", color: "#f59e0b", emoji: "👱", status: "offline" },
@@ -594,7 +611,7 @@ const Orbs = ({ isDark }: { isDark: boolean }) => (
     <motion.div animate={{ x: [0, 18, -12, 0], y: [0, -18, 22, 0], scale: [1, 1.08, 0.94, 1] }}
       transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
       className="absolute rounded-full" style={{ top: "-18%", left: "-12%", width: "60%", height: "55%",
-        background: `radial-gradient(ellipse, ${isDark ? "rgba(124,58,237,0.13)" : "rgba(124,58,237,0.06)"} 0%, transparent 70%)`, filter: "blur(50px)" }} />
+        background: `radial-gradient(ellipse, ${isDark ? "rgba(255,107,53,0.13)" : "rgba(255,107,53,0.06)"} 0%, transparent 70%)`, filter: "blur(50px)" }} />
     <motion.div animate={{ x: [0, -16, 14, 0], y: [0, 18, -22, 0], scale: [1, 0.94, 1.08, 1] }}
       transition={{ duration: 24, repeat: Infinity, ease: "linear" }}
       className="absolute rounded-full" style={{ bottom: "-18%", right: "-12%", width: "55%", height: "50%",
@@ -627,7 +644,7 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
           <div className="w-7 h-7 rounded-[10px] flex items-center justify-center" style={{ background: c.card, border: `1px solid ${c.border}` }}>
             <Bell size={12} style={{ color: c.sub }} />
           </div>
-          <div className="w-7 h-7 rounded-[10px] overflow-hidden" style={{ border: "2px solid rgba(124,58,237,0.5)", background: "linear-gradient(135deg, #7c3aed, #3b82f6)" }}>
+          <div className="w-7 h-7 rounded-[10px] overflow-hidden" style={{ border: "2px solid rgba(255,107,53,0.5)", background: "linear-gradient(135deg, #ff6b35, #ff8f5e)" }}>
             <div className="w-full h-full flex items-center justify-center"><span style={{ fontSize: 11 }}>🧑</span></div>
           </div>
         </div>
@@ -640,13 +657,13 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
         <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }} className="relative mb-4">
           {/* Outer halo */}
           <div className="absolute inset-0 rounded-[26px]" style={{
-            background: "radial-gradient(ellipse at 20% 30%, rgba(16,185,129,0.22) 0%, transparent 50%), radial-gradient(ellipse at 85% 80%, rgba(124,58,237,0.22) 0%, transparent 50%)",
+            background: "radial-gradient(ellipse at 20% 30%, rgba(16,185,129,0.22) 0%, transparent 50%), radial-gradient(ellipse at 85% 80%, rgba(255,107,53,0.22) 0%, transparent 50%)",
             filter: "blur(20px)", transform: "scale(1.06)", opacity: 0.7,
           }} />
           <div className="relative overflow-hidden rounded-[26px]" style={{
             background: isDark
-              ? "linear-gradient(152deg, #0c0f1d 0%, #140f30 38%, #0e1a30 72%, #0a0e1a 100%)"
-              : "linear-gradient(152deg, #faf9ff 0%, #f0eaff 38%, #eaf0ff 72%, #f8f8fc 100%)",
+              ? "linear-gradient(152deg, #0f0c08 0%, #1a1008 38%, #120e08 72%, #0a0906 100%)"
+              : "linear-gradient(152deg, #fffaf7 0%, #fff0ea 38%, #fff5ee 72%, #fdf8f5 100%)",
             border: `1px solid ${isDark ? "rgba(255,255,255,0.09)" : "rgba(0,0,0,0.07)"}`,
             boxShadow: isDark
               ? "0 24px 60px rgba(0,0,0,0.65), 0 8px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06)"
@@ -654,7 +671,7 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
           }}>
             {/* Corner glows */}
             <div className="absolute" style={{ top: -30, left: -30, width: 140, height: 140, background: `radial-gradient(circle, ${isDark ? "rgba(16,185,129,0.16)" : "rgba(16,185,129,0.08)"} 0%, transparent 70%)` }} />
-            <div className="absolute" style={{ bottom: -30, right: -30, width: 140, height: 140, background: `radial-gradient(circle, ${isDark ? "rgba(124,58,237,0.18)" : "rgba(124,58,237,0.09)"} 0%, transparent 70%)` }} />
+            <div className="absolute" style={{ bottom: -30, right: -30, width: 140, height: 140, background: `radial-gradient(circle, ${isDark ? "rgba(255,107,53,0.18)" : "rgba(255,107,53,0.09)"} 0%, transparent 70%)` }} />
             {/* Dot grid */}
             <div className="absolute inset-0" style={{ backgroundImage: `radial-gradient(circle, ${isDark ? "rgba(255,255,255,0.055)" : "rgba(0,0,0,0.035)"} 1px, transparent 1px)`, backgroundSize: "14px 14px", opacity: 0.5 }} />
             {/* Shimmer */}
@@ -666,8 +683,8 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
               <div className="flex justify-between items-start mb-3.5">
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-[11px] flex items-center justify-center" style={{
-                    background: "linear-gradient(135deg, #059669, #7c3aed)",
-                    boxShadow: "0 0 16px rgba(16,185,129,0.35), 0 4px 12px rgba(124,58,237,0.2)",
+                    background: "linear-gradient(135deg, #059669, #ff6b35)",
+                    boxShadow: "0 0 16px rgba(16,185,129,0.35), 0 4px 12px rgba(255,107,53,0.2)",
                   }}>
                     <Zap size={13} className="fill-white text-white" />
                   </div>
@@ -720,7 +737,7 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
                   <p style={{ fontSize: 8.5, fontFamily: "monospace", fontWeight: 600, color: c.sub }}>0x71C...3a21</p>
                 </div>
                 <div className="flex">
-                  {["#1a56db", "#7c3aed"].map((clr, i) => (
+                  {["#1a56db", "#ff6b35"].map((clr, i) => (
                     <div key={i} className="w-5.5 h-5.5 rounded-full flex items-center justify-center" style={{ width: 22, height: 22, background: clr, border: `2px solid ${isDark ? "rgba(10,10,20,0.7)" : "rgba(255,255,255,0.9)"}`, marginLeft: i > 0 ? -7 : 0, opacity: 0.75 }}>
                       {i === 0 && <Globe size={9} style={{ color: "rgba(255,255,255,0.75)" }} />}
                     </div>
@@ -765,14 +782,14 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
               <motion.div key={f.name} initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.25 + i * 0.05, type: "spring", stiffness: 300, damping: 20 }}
                 className="flex flex-col items-center gap-1.5 shrink-0">
                 <div className="relative">
-                  <div style={f.status === "active" ? { padding: 2, borderRadius: 18, background: "linear-gradient(135deg, #10b981, #7c3aed)" } : { padding: 2, borderRadius: 18, border: `1.5px solid ${c.border}` }}>
+                  <div style={f.status === "active" ? { padding: 2, borderRadius: 18, background: "linear-gradient(135deg, #10b981, #ff6b35)" } : { padding: 2, borderRadius: 18, border: `1.5px solid ${c.border}` }}>
                     <div className="flex items-center justify-center" style={{ width: 40, height: 40, borderRadius: 15, background: f.color + "1a" }}>
                       <span style={{ fontSize: 18 }}>{f.emoji}</span>
                     </div>
                   </div>
                   {f.status === "active" && (
                     <motion.div animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 2.5, repeat: Infinity }}
-                      className="absolute flex items-center justify-center" style={{ bottom: -3, right: -3, width: 14, height: 14, borderRadius: "50%", background: "#7c3aed", border: `2px solid ${c.bg}`, boxShadow: "0 0 8px rgba(124,58,237,0.6)" }}>
+                      className="absolute flex items-center justify-center" style={{ bottom: -3, right: -3, width: 14, height: 14, borderRadius: "50%", background: "#ff6b35", border: `2px solid ${c.bg}`, boxShadow: "0 0 8px rgba(255,107,53,0.6)" }}>
                       <Zap size={6} className="fill-white text-white" />
                     </motion.div>
                   )}
@@ -787,7 +804,7 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
         <div>
           <div className="flex justify-between items-center mb-2.5">
             <Label c={c}>Recent Pulse</Label>
-            <span style={{ fontSize: 7, fontWeight: 900, letterSpacing: "0.1em", color: "#a78bfa", textTransform: "uppercase" as const }}>See all</span>
+            <span style={{ fontSize: 7, fontWeight: 900, letterSpacing: "0.1em", color: "#ff8f5e", textTransform: "uppercase" as const }}>See all</span>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
             {ACTIVITY_FEED.map((item, i) => (
@@ -841,12 +858,12 @@ const SendScreen = ({ isDark }: { isDark: boolean }) => {
         <div className="w-full flex gap-2.5 overflow-x-auto mb-6" style={{ scrollbarWidth: "none" }}>
           {CIRCLE_FRIENDS.slice(0, 3).map((f, i) => (
             <motion.div key={f.name} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 + i * 0.06 }}
-              className="shrink-0 flex items-center gap-2 rounded-[14px]" style={{ padding: "6px 10px", background: i === 0 ? (isDark ? "rgba(124,58,237,0.12)" : "rgba(124,58,237,0.06)") : c.card, border: `1px solid ${i === 0 ? "rgba(124,58,237,0.25)" : c.border}` }}>
+              className="shrink-0 flex items-center gap-2 rounded-[14px]" style={{ padding: "6px 10px", background: i === 0 ? (isDark ? "rgba(255,107,53,0.12)" : "rgba(255,107,53,0.06)") : c.card, border: `1px solid ${i === 0 ? "rgba(255,107,53,0.25)" : c.border}` }}>
               <div className="flex items-center justify-center" style={{ width: 22, height: 22, borderRadius: 8, background: f.color + "20" }}>
                 <span style={{ fontSize: 11 }}>{f.emoji}</span>
               </div>
-              <span style={{ fontSize: 9, fontWeight: 900, color: i === 0 ? (isDark ? "#a78bfa" : "#7c3aed") : c.sub }}>{f.name}</span>
-              {i === 0 && <CheckCircle2 size={10} style={{ color: "#a78bfa" }} />}
+              <span style={{ fontSize: 9, fontWeight: 900, color: i === 0 ? (isDark ? "#ff8f5e" : "#ff6b35") : c.sub }}>{f.name}</span>
+              {i === 0 && <CheckCircle2 size={10} style={{ color: "#ff8f5e" }} />}
             </motion.div>
           ))}
         </div>
@@ -989,7 +1006,7 @@ const TradeScreen = ({ isDark }: { isDark: boolean }) => {
 // ─── SCREEN 4: PAY BILLS ─────────────────────────────────────────────────────
 
 const BILLS = [
-  { name: "Rent",      amt: "4,200",  due: "Due 5 Mar",  emoji: "🏠", color: "#7c3aed", active: true },
+  { name: "Rent",      amt: "4,200",  due: "Due 5 Mar",  emoji: "🏠", color: "#ff6b35", active: true },
   { name: "DEWA",      amt: "380",    due: "Due 12 Mar", emoji: "⚡", color: "#f59e0b", active: false },
   { name: "Du Mobile", amt: "199",    due: "Due 15 Mar", emoji: "📱", color: "#3b82f6", active: false },
   { name: "Salik",     amt: "50",     due: "Due 20 Mar", emoji: "🚗", color: "#10b981", active: false },
@@ -1020,13 +1037,13 @@ const PayScreen = ({ isDark }: { isDark: boolean }) => {
         {/* Total due */}
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
           className="rounded-[22px] p-4 mb-4 relative overflow-hidden" style={{
-            background: isDark ? "linear-gradient(140deg, rgba(124,58,237,0.14), rgba(59,130,246,0.08))" : "linear-gradient(140deg, rgba(124,58,237,0.07), rgba(59,130,246,0.04))",
-            border: `1px solid ${isDark ? "rgba(124,58,237,0.22)" : "rgba(124,58,237,0.12)"}`,
-            boxShadow: "0 8px 32px rgba(124,58,237,0.08)",
+            background: isDark ? "linear-gradient(140deg, rgba(255,107,53,0.14), rgba(59,130,246,0.08))" : "linear-gradient(140deg, rgba(255,107,53,0.07), rgba(59,130,246,0.04))",
+            border: `1px solid ${isDark ? "rgba(255,107,53,0.22)" : "rgba(255,107,53,0.12)"}`,
+            boxShadow: "0 8px 32px rgba(255,107,53,0.08)",
           }}>
           <motion.div animate={{ x: ["-200%", "200%"] }} transition={{ duration: 5, repeat: Infinity, repeatDelay: 8, ease: "easeInOut" }}
-            className="absolute inset-0 skew-x-12" style={{ background: "linear-gradient(90deg, transparent 30%, rgba(124,58,237,0.04) 50%, transparent 70%)" }} />
-          <p style={{ fontSize: 7, fontWeight: 900, letterSpacing: "0.28em", color: "#a78bfa", textTransform: "uppercase" as const, marginBottom: 5 }}>Total Due This Month</p>
+            className="absolute inset-0 skew-x-12" style={{ background: "linear-gradient(90deg, transparent 30%, rgba(255,107,53,0.04) 50%, transparent 70%)" }} />
+          <p style={{ fontSize: 7, fontWeight: 900, letterSpacing: "0.28em", color: "#ff8f5e", textTransform: "uppercase" as const, marginBottom: 5 }}>Total Due This Month</p>
           <div className="flex items-baseline gap-1.5">
             <span style={{ fontSize: 32, fontWeight: 900, letterSpacing: "-0.04em" }}>4,829</span>
             <span style={{ fontSize: 15, fontWeight: 900, color: c.muted }}>AED</span>
@@ -1090,13 +1107,13 @@ const CashOutScreen = ({ isDark }: { isDark: boolean }) => {
       style={{ background: isDark ? "#06060e" : c.bg, padding: 28, textAlign: "center" as const, color: c.text }}>
       {/* Radial glow */}
       <div className="absolute inset-0 pointer-events-none" style={{
-        background: `radial-gradient(ellipse at 50% 35%, ${isDark ? "rgba(16,185,129,0.12)" : "rgba(16,185,129,0.06)"} 0%, ${isDark ? "rgba(124,58,237,0.08)" : "rgba(124,58,237,0.04)"} 40%, transparent 70%)`,
+        background: `radial-gradient(ellipse at 50% 35%, ${isDark ? "rgba(16,185,129,0.12)" : "rgba(16,185,129,0.06)"} 0%, ${isDark ? "rgba(255,107,53,0.08)" : "rgba(255,107,53,0.04)"} 40%, transparent 70%)`,
       }} />
       {/* Pulse rings */}
       <motion.div animate={{ scale: [1, 1.6, 1], opacity: [0.15, 0, 0.15] }} transition={{ duration: 2.5, repeat: Infinity }}
         className="absolute z-0" style={{ width: 160, height: 160, borderRadius: "50%", border: `1px solid ${isDark ? "rgba(16,185,129,0.15)" : "rgba(16,185,129,0.1)"}`, top: "50%", left: "50%", transform: "translate(-50%, -65%)" }} />
       <motion.div animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0, 0.2] }} transition={{ duration: 2.5, repeat: Infinity, delay: 0.4 }}
-        className="absolute z-0" style={{ width: 120, height: 120, borderRadius: "50%", border: `1px solid ${isDark ? "rgba(124,58,237,0.15)" : "rgba(124,58,237,0.1)"}`, top: "50%", left: "50%", transform: "translate(-50%, -65%)" }} />
+        className="absolute z-0" style={{ width: 120, height: 120, borderRadius: "50%", border: `1px solid ${isDark ? "rgba(255,107,53,0.15)" : "rgba(255,107,53,0.1)"}`, top: "50%", left: "50%", transform: "translate(-50%, -65%)" }} />
 
       {/* Success icon */}
       <motion.div
@@ -1106,8 +1123,8 @@ const CashOutScreen = ({ isDark }: { isDark: boolean }) => {
         className="flex items-center justify-center z-10"
         style={{
           width: 96, height: 96, borderRadius: 34, marginBottom: 22,
-          background: "linear-gradient(135deg, #059669 0%, #7c3aed 100%)",
-          boxShadow: "0 0 50px rgba(16,185,129,0.3), 0 0 80px rgba(124,58,237,0.15), 0 16px 40px rgba(0,0,0,0.3)",
+          background: "linear-gradient(135deg, #059669 0%, #ff6b35 100%)",
+          boxShadow: "0 0 50px rgba(16,185,129,0.3), 0 0 80px rgba(255,107,53,0.15), 0 16px 40px rgba(0,0,0,0.3)",
         }}>
         <CheckCircle2 size={46} strokeWidth={2.2} style={{ color: "#fff" }} />
       </motion.div>
