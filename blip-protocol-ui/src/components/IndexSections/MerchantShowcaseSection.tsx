@@ -57,7 +57,7 @@ const LEADERBOARD = [
 ];
 
 const STATUS_CFG = {
-  escrowed:     { label: "ESCROWED",    cls: "text-purple-400 bg-purple-500/10 border-purple-500/20"  },
+  escrowed:     { label: "ESCROWED",    cls: "text-[#a4d7e1] bg-[#a4d7e1]/10 border-[#a4d7e1]/20"  },
   payment_sent: { label: "PAID",        cls: "text-blue-400   bg-blue-500/10   border-blue-500/20"    },
   accepted:     { label: "ACCEPTED",    cls: "text-orange-400 bg-orange-500/10 border-orange-500/20"  },
 };
@@ -329,16 +329,16 @@ const MerchantShowcaseSection = () => {
               <div
                 className="p-3 rounded-lg"
                 style={{
-                  background: "rgba(168,85,247,0.05)",
-                  border: "1px solid rgba(168,85,247,0.15)",
+                  background: "rgba(164,215,225,0.05)",
+                  border: "1px solid rgba(164,215,225,0.15)",
                 }}
               >
                 <div className="flex items-center gap-1.5" style={{ marginBottom: 4 }}>
-                  <Lock style={{ width: 10, height: 10, color: "rgba(192,132,252,0.6)" }} />
+                  <Lock style={{ width: 10, height: 10, color: "rgba(164,215,225,0.6)" }} />
                   <span
                     style={{
                       fontSize: 9,
-                      color: "rgba(192,132,252,0.6)",
+                      color: "rgba(164,215,225,0.6)",
                       fontFamily: "monospace",
                       textTransform: "uppercase",
                       letterSpacing: "1.5px",
@@ -352,7 +352,7 @@ const MerchantShowcaseSection = () => {
                     fontSize: 18,
                     fontWeight: 700,
                     fontFamily: "monospace",
-                    color: "#c084fc",
+                    color: "#a4d7e1",
                     letterSpacing: "-0.03em",
                   }}
                 >
@@ -546,10 +546,10 @@ const MerchantShowcaseSection = () => {
                         padding: "10px 12px",
                         borderRadius: 10,
                         background: isEscrowed
-                          ? "rgba(168,85,247,0.04)"
+                          ? "rgba(164,215,225,0.04)"
                           : "rgba(59,130,246,0.04)",
                         border: isEscrowed
-                          ? "1px solid rgba(168,85,247,0.22)"
+                          ? "1px solid rgba(164,215,225,0.22)"
                           : "1px solid rgba(59,130,246,0.22)",
                         cursor: "pointer",
                       }}
@@ -616,7 +616,7 @@ const MerchantShowcaseSection = () => {
                             padding: "2px 8px",
                             borderRadius: 5,
                             ...(isEscrowed
-                              ? { color: "#c084fc", background: "rgba(168,85,247,0.1)" }
+                              ? { color: "#a4d7e1", background: "rgba(164,215,225,0.1)" }
                               : { color: "#93c5fd", background: "rgba(59,130,246,0.1)" }),
                           }}
                         >
@@ -933,7 +933,7 @@ const MerchantShowcaseSection = () => {
               icon: Lock,
               title: "Escrow-secured",
               desc: "Every trade backed by smart contract escrow. Funds release only when both parties confirm.",
-              accent: "#c084fc",
+              accent: "#a4d7e1",
             },
             {
               icon: Zap,

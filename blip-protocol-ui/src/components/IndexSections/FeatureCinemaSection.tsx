@@ -57,7 +57,7 @@ function EscrowUI({ active = true }: { active?: boolean }) {
 
   const statusColor =
     phase === "verified" || phase === "locked"
-      ? "#3ddc84"
+      ? "rgba(255,255,255,0.6)"
       : "rgba(255,255,255,0.4)";
 
   return (
@@ -334,7 +334,7 @@ function EscrowUI({ active = true }: { active?: boolean }) {
                     width: 10,
                     height: 10,
                     borderRadius: "50%",
-                    background: "linear-gradient(135deg, #9945FF, #14F195)",
+                    background: "linear-gradient(135deg, #a4d7e1, #14F195)",
                   }}
                 />
               )}
@@ -421,9 +421,9 @@ type DashPhase = "escrowed" | "payment_sent" | "confirmed";
 const DASH_PHASE_CFG = {
   escrowed: {
     label: "ESCROWED",
-    color: "#c084fc",
-    bg: "rgba(168,85,247,0.08)",
-    border: "rgba(168,85,247,0.22)",
+    color: "#a4d7e1",
+    bg: "rgba(164,215,225,0.08)",
+    border: "rgba(164,215,225,0.22)",
   },
   payment_sent: {
     label: "PAID",
@@ -636,7 +636,7 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
             style={{
               padding: "12px 14px",
               borderBottom: "1px solid rgba(255,255,255,0.05)",
-              background: "rgba(168,85,247,0.03)",
+              background: "rgba(164,215,225,0.03)",
             }}
           >
             <div
@@ -648,12 +648,12 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
               }}
             >
               <Lock
-                style={{ width: 9, height: 9, color: "rgba(192,132,252,0.6)" }}
+                style={{ width: 9, height: 9, color: "rgba(164,215,225,0.6)" }}
               />
               <span
                 style={{
                   fontSize: 8,
-                  color: "rgba(192,132,252,0.5)",
+                  color: "rgba(164,215,225,0.5)",
                   fontFamily: "monospace",
                   textTransform: "uppercase",
                   letterSpacing: "1.5px",
@@ -667,12 +667,12 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
                 fontSize: 16,
                 fontWeight: 700,
                 fontFamily: "monospace",
-                color: "#c084fc",
+                color: "#a4d7e1",
                 letterSpacing: "-0.03em",
               }}
             >
               3,200{" "}
-              <span style={{ fontSize: 9, color: "rgba(192,132,252,0.45)" }}>
+              <span style={{ fontSize: 9, color: "rgba(164,215,225,0.45)" }}>
                 USDC
               </span>
             </div>
@@ -2032,7 +2032,7 @@ const SCENES_DATA = [
       "Real-time competitive pricing",
       "Auto-select best offer",
     ],
-    accent: "#a855f7",
+    accent: "#a4d7e1",
   },
   {
     start: 0.68,
