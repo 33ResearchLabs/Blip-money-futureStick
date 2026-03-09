@@ -1,6 +1,7 @@
 /* eslint-disable */
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTheme } from "next-themes";
 import {
   Globe,
   ShoppingBag,
@@ -39,7 +40,7 @@ const ALL_TXNS = [
   { emoji: "🍽️", label: "Zuma Dubai",    amount: 5.20  },
 ];
 
-function EarnUI() {
+function EarnUI({ isDark }: { isDark: boolean }) {
   const [total, setTotal]   = useState<number>(847.20);
   const [cursor, setCursor] = useState<number>(0);
   const [rows, setRows]     = useState(ALL_TXNS.slice(0, 3));
@@ -60,8 +61,8 @@ function EarnUI() {
   return (
     <div
       style={{
-        background: "rgba(255,255,255,0.025)",
-        border: "1px solid rgba(255,255,255,0.07)",
+        background: isDark ? "rgba(255,255,255,0.025)" : "rgba(0,0,0,0.03)",
+        border: isDark ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(0,0,0,0.08)",
         borderRadius: 16,
         padding: "16px 16px 12px",
       }}
@@ -69,7 +70,7 @@ function EarnUI() {
       {/* Totals row */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
         <div>
-          <div style={{ fontSize: 9, letterSpacing: "0.18em", color: "rgba(255,255,255,0.28)", marginBottom: 4, textTransform: "uppercase", fontFamily: "monospace" }}>
+          <div style={{ fontSize: 9, letterSpacing: "0.18em", color: isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.35)", marginBottom: 4, textTransform: "uppercase", fontFamily: "monospace" }}>
             Total earned
           </div>
           <motion.div
@@ -77,23 +78,23 @@ function EarnUI() {
             initial={{ y: -5, opacity: 0.5 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.3 }}
-            style={{ fontSize: 26, fontWeight: 700, color: "#ffffff", letterSpacing: "-0.045em", lineHeight: 1, fontFamily: "monospace" }}
+            style={{ fontSize: 26, fontWeight: 700, color: isDark ? "#ffffff" : "#1a1a1a", letterSpacing: "-0.045em", lineHeight: 1, fontFamily: "monospace" }}
           >
             ${total.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-            <span style={{ fontSize: 11, fontWeight: 500, color: "rgba(255,255,255,0.25)", marginLeft: 5, letterSpacing: 0 }}>BLIP</span>
+            <span style={{ fontSize: 11, fontWeight: 500, color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.3)", marginLeft: 5, letterSpacing: 0 }}>BLIP</span>
           </motion.div>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 4, alignItems: "flex-end" }}>
           <div style={{ padding: "2px 8px", borderRadius: 999, background: "rgba(255,107,53,0.12)", border: "1px solid rgba(255,107,53,0.22)", fontSize: 8, fontWeight: 700, color: "#ff6b35", fontFamily: "monospace", letterSpacing: "0.05em" }}>
             2% BACK
           </div>
-          <div style={{ padding: "2px 8px", borderRadius: 999, background: "rgba(61,220,132,0.08)", border: "1px solid rgba(61,220,132,0.18)", fontSize: 8, fontWeight: 700, color: "#3ddc84", fontFamily: "monospace", letterSpacing: "0.05em" }}>
+          <div style={{ padding: "2px 8px", borderRadius: 999, background: "rgba(61,220,132,0.08)", border: "1px solid rgba(61,220,132,0.18)", fontSize: 8, fontWeight: 700, color: isDark ? "#3ddc84" : "#1a9d52", fontFamily: "monospace", letterSpacing: "0.05em" }}>
             ×5 STREAK
           </div>
         </div>
       </div>
 
-      <div style={{ height: 1, background: "rgba(255,255,255,0.05)", marginBottom: 8 }} />
+      <div style={{ height: 1, background: isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.06)", marginBottom: 8 }} />
 
       <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
         <AnimatePresence mode="popLayout">
@@ -106,14 +107,14 @@ function EarnUI() {
               transition={{ duration: 0.28 }}
               style={{
                 display: "flex", alignItems: "center", gap: 7, padding: "6px 8px", borderRadius: 8,
-                background: i === 0 && flash ? "rgba(255,107,53,0.07)" : "rgba(255,255,255,0.015)",
+                background: i === 0 && flash ? "rgba(255,107,53,0.07)" : isDark ? "rgba(255,255,255,0.015)" : "rgba(0,0,0,0.02)",
                 border: i === 0 && flash ? "1px solid rgba(255,107,53,0.14)" : "1px solid transparent",
                 transition: "background 0.3s, border 0.3s",
               }}
             >
               <span style={{ fontSize: 13 }}>{tx.emoji}</span>
-              <span style={{ flex: 1, fontSize: 10, color: "rgba(255,255,255,0.45)", fontFamily: "monospace" }}>{tx.label}</span>
-              <span style={{ fontSize: 10, fontWeight: 700, color: "#3ddc84", fontFamily: "monospace", marginRight: 3 }}>+{tx.amount.toFixed(2)}</span>
+              <span style={{ flex: 1, fontSize: 10, color: isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.5)", fontFamily: "monospace" }}>{tx.label}</span>
+              <span style={{ fontSize: 10, fontWeight: 700, color: isDark ? "#3ddc84" : "#1a9d52", fontFamily: "monospace", marginRight: 3 }}>+{tx.amount.toFixed(2)}</span>
               <span style={{ fontSize: 7, padding: "1px 4px", borderRadius: 999, background: "rgba(255,107,53,0.09)", color: "#ff6b35", fontWeight: 700, fontFamily: "monospace" }}>2%</span>
             </motion.div>
           ))}
@@ -127,6 +128,31 @@ function EarnUI() {
    SECTION: USE CASES
    ============================================ */
 const UseCasesSection = () => {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
+
+  const t = {
+    cardBg: isDark ? "#0a0a0f" : "#ffffff",
+    cardBorder: isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.08)",
+    colBorder: isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.06)",
+    labelColor: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.35)",
+    headingColor: isDark ? "#fff" : "#000",
+    itemBg: isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.025)",
+    itemBorder: isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.06)",
+    iconBg: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.05)",
+    iconColor: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.45)",
+    itemLabel: isDark ? "rgba(255,255,255,0.75)" : "rgba(0,0,0,0.7)",
+    itemDesc: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.4)",
+    rewardSpan: isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.25)",
+    rewardDesc: isDark ? "rgba(255,255,255,0.33)" : "rgba(0,0,0,0.4)",
+    rewardLabel: isDark ? "rgba(255,107,53,0.55)" : "rgba(255,107,53,0.7)",
+    pillBg: isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)",
+    pillBorder: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+    pillColor: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.45)",
+    myRewardsColor: isDark ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.55)",
+    liveColor: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.3)",
+  };
+
   return (
     <section
       className="relative py-24 md:py-32 overflow-hidden bg-[#FAF8F5] dark:bg-[#060609]"
@@ -193,7 +219,7 @@ const UseCasesSection = () => {
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.9, ease: EASE }}
           className="rounded-3xl overflow-hidden"
-          style={{ background: "#0a0a0f", border: "1px solid rgba(255,255,255,0.07)" }}
+          style={{ background: t.cardBg, border: `1px solid ${t.cardBorder}` }}
         >
           {/* Inner 3-col grid */}
           <div className="grid grid-cols-1 lg:grid-cols-3">
@@ -201,12 +227,12 @@ const UseCasesSection = () => {
             {/* Col 1 — For Users */}
             <div
               className="p-8"
-              style={{ borderRight: "1px solid rgba(255,255,255,0.05)" }}
+              style={{ borderRight: `1px solid ${t.colBorder}` }}
             >
-              <div style={{ fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(255,255,255,0.25)", fontWeight: 600, marginBottom: 6 }}>
+              <div style={{ fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: t.labelColor, fontWeight: 600, marginBottom: 6 }}>
                 For Users
               </div>
-              <h3 style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.03em", color: "#fff", marginBottom: 20, lineHeight: 1.2 }}>
+              <h3 style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.03em", color: t.headingColor, marginBottom: 20, lineHeight: 1.2 }}>
                 Pay freely.<br />Globally.
               </h3>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -217,16 +243,16 @@ const UseCasesSection = () => {
                       key={item.label}
                       style={{
                         display: "flex", alignItems: "flex-start", gap: 10, padding: "10px 10px",
-                        borderRadius: 10, background: "rgba(255,255,255,0.03)",
-                        border: "1px solid rgba(255,255,255,0.05)",
+                        borderRadius: 10, background: t.itemBg,
+                        border: `1px solid ${t.itemBorder}`,
                       }}
                     >
-                      <div style={{ width: 28, height: 28, borderRadius: 7, background: "rgba(255,255,255,0.06)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                        <Icon style={{ width: 13, height: 13, color: "rgba(255,255,255,0.5)" }} strokeWidth={1.5} />
+                      <div style={{ width: 28, height: 28, borderRadius: 7, background: t.iconBg, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                        <Icon style={{ width: 13, height: 13, color: t.iconColor }} strokeWidth={1.5} />
                       </div>
                       <div>
-                        <div style={{ fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.75)", marginBottom: 2 }}>{item.label}</div>
-                        <div style={{ fontSize: 10, color: "rgba(255,255,255,0.3)", lineHeight: 1.5 }}>{item.desc}</div>
+                        <div style={{ fontSize: 12, fontWeight: 600, color: t.itemLabel, marginBottom: 2 }}>{item.label}</div>
+                        <div style={{ fontSize: 10, color: t.itemDesc, lineHeight: 1.5 }}>{item.desc}</div>
                       </div>
                     </div>
                   );
@@ -237,12 +263,12 @@ const UseCasesSection = () => {
             {/* Col 2 — For Merchants */}
             <div
               className="p-8"
-              style={{ borderRight: "1px solid rgba(255,255,255,0.05)" }}
+              style={{ borderRight: `1px solid ${t.colBorder}` }}
             >
-              <div style={{ fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(255,255,255,0.25)", fontWeight: 600, marginBottom: 6 }}>
+              <div style={{ fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: t.labelColor, fontWeight: 600, marginBottom: 6 }}>
                 For Merchants
               </div>
-              <h3 style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.03em", color: "#fff", marginBottom: 20, lineHeight: 1.2 }}>
+              <h3 style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.03em", color: t.headingColor, marginBottom: 20, lineHeight: 1.2 }}>
                 Scale without<br />limits.
               </h3>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -253,16 +279,16 @@ const UseCasesSection = () => {
                       key={item.label}
                       style={{
                         display: "flex", alignItems: "flex-start", gap: 10, padding: "10px 10px",
-                        borderRadius: 10, background: "rgba(255,255,255,0.03)",
-                        border: "1px solid rgba(255,255,255,0.05)",
+                        borderRadius: 10, background: t.itemBg,
+                        border: `1px solid ${t.itemBorder}`,
                       }}
                     >
-                      <div style={{ width: 28, height: 28, borderRadius: 7, background: "rgba(255,255,255,0.06)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                        <Icon style={{ width: 13, height: 13, color: "rgba(255,255,255,0.5)" }} strokeWidth={1.5} />
+                      <div style={{ width: 28, height: 28, borderRadius: 7, background: t.iconBg, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                        <Icon style={{ width: 13, height: 13, color: t.iconColor }} strokeWidth={1.5} />
                       </div>
                       <div>
-                        <div style={{ fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.75)", marginBottom: 2 }}>{item.label}</div>
-                        <div style={{ fontSize: 10, color: "rgba(255,255,255,0.3)", lineHeight: 1.5 }}>{item.desc}</div>
+                        <div style={{ fontSize: 12, fontWeight: 600, color: t.itemLabel, marginBottom: 2 }}>{item.label}</div>
+                        <div style={{ fontSize: 10, color: t.itemDesc, lineHeight: 1.5 }}>{item.desc}</div>
                       </div>
                     </div>
                   );
@@ -277,14 +303,14 @@ const UseCasesSection = () => {
             >
               {/* Copy */}
               <div>
-                <div style={{ fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(255,107,53,0.55)", fontWeight: 600, marginBottom: 6 }}>
+                <div style={{ fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: t.rewardLabel, fontWeight: 600, marginBottom: 6 }}>
                   Rewards
                 </div>
-                <h3 style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.03em", color: "#fff", lineHeight: 1.2, marginBottom: 8 }}>
+                <h3 style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.03em", color: t.headingColor, lineHeight: 1.2, marginBottom: 8 }}>
                   Earn while you spend.{" "}
-                  <span style={{ color: "rgba(255,255,255,0.28)" }}>Every transaction.</span>
+                  <span style={{ color: t.rewardSpan }}>Every transaction.</span>
                 </h3>
-                <p style={{ fontSize: 11, color: "rgba(255,255,255,0.33)", lineHeight: 1.65, marginBottom: 16 }}>
+                <p style={{ fontSize: 11, color: t.rewardDesc, lineHeight: 1.65, marginBottom: 16 }}>
                   Every payment earns BLIP rewards automatically. No sign-ups, no programs. Instant, on-chain, non-custodial.
                 </p>
 
@@ -295,10 +321,10 @@ const UseCasesSection = () => {
                       key={pill}
                       style={{
                         padding: "3px 10px", borderRadius: 999,
-                        background: i === 0 ? "rgba(255,107,53,0.12)" : "rgba(255,255,255,0.05)",
-                        border: i === 0 ? "1px solid rgba(255,107,53,0.25)" : "1px solid rgba(255,255,255,0.08)",
+                        background: i === 0 ? "rgba(255,107,53,0.12)" : t.pillBg,
+                        border: i === 0 ? "1px solid rgba(255,107,53,0.25)" : `1px solid ${t.pillBorder}`,
                         fontSize: 9, fontWeight: 600,
-                        color: i === 0 ? "#ff6b35" : "rgba(255,255,255,0.4)",
+                        color: i === 0 ? "#ff6b35" : t.pillColor,
                       }}
                     >
                       {pill}
@@ -313,14 +339,14 @@ const UseCasesSection = () => {
                   <div style={{ width: 24, height: 24, borderRadius: 7, background: "rgba(255,107,53,0.15)", border: "1px solid rgba(255,107,53,0.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <Sparkles style={{ width: 11, height: 11, color: "#ff6b35" }} />
                   </div>
-                  <span style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.55)" }}>My Rewards</span>
+                  <span style={{ fontSize: 11, fontWeight: 600, color: t.myRewardsColor }}>My Rewards</span>
                   <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 4 }}>
                     <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#3ddc84", boxShadow: "0 0 5px rgba(61,220,132,0.7)" }} />
-                    <span style={{ fontSize: 8, color: "rgba(255,255,255,0.25)", fontFamily: "monospace" }}>LIVE</span>
+                    <span style={{ fontSize: 8, color: t.liveColor, fontFamily: "monospace" }}>LIVE</span>
                   </div>
                 </div>
 
-                <EarnUI />
+                <EarnUI isDark={isDark} />
 
                 <div style={{ display: "flex", alignItems: "center", gap: 4, marginTop: 14, cursor: "pointer" }}>
                   <span style={{ fontSize: 11, fontWeight: 600, color: "#ff6b35" }}>Learn about Blip Rewards</span>

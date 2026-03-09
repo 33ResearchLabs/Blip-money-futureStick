@@ -2179,7 +2179,7 @@ export default function PremiumFintechSection() {
             exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             onClick={handleReplay}
-            className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 bg-white/[0.06] backdrop-blur-xl border border-white/[0.08] text-white/50 hover:text-white/80 hover:bg-white/[0.1] text-xs font-semibold px-6 py-3 rounded-full hover:scale-105 transition-all duration-300"
+            className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 bg-black/[0.06] dark:bg-white/[0.06] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.08] text-black/50 dark:text-white/50 hover:text-black/80 dark:hover:text-white/80 hover:bg-black/[0.1] dark:hover:bg-white/[0.1] text-xs font-semibold px-6 py-3 rounded-full hover:scale-105 transition-all duration-300"
           >
             <svg
               width="14"
@@ -4089,7 +4089,7 @@ export default function PremiumFintechSection() {
 //             exit={{ opacity: 0, y: 10 }}
 //             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
 //             onClick={handleReplay}
-//             className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 bg-white/[0.06] backdrop-blur-xl border border-white/[0.08] text-white/50 hover:text-white/80 hover:bg-white/[0.1] text-xs font-semibold px-6 py-3 rounded-full hover:scale-105 transition-all duration-300"
+//             className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 bg-black/[0.06] dark:bg-white/[0.06] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.08] text-black/50 dark:text-white/50 hover:text-black/80 dark:hover:text-white/80 hover:bg-black/[0.1] dark:hover:bg-white/[0.1] text-xs font-semibold px-6 py-3 rounded-full hover:scale-105 transition-all duration-300"
 //           >
 //             <svg
 //               width="14"

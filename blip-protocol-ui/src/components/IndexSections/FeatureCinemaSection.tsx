@@ -18,6 +18,7 @@ import {
   Star,
   CheckCircle2,
 } from "lucide-react";
+import { useTheme } from "next-themes";
 
 const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -27,7 +28,13 @@ const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
    ═══════════════════════════════════════════════════════════ */
 type EscrowPhase = "sending" | "locking" | "locked" | "verified";
 
-function EscrowUI({ active = true }: { active?: boolean }) {
+function EscrowUI({
+  active = true,
+  isDark = true,
+}: {
+  active?: boolean;
+  isDark?: boolean;
+}) {
   const [phase, setPhase] = useState<EscrowPhase>("sending");
 
   useEffect(() => {
@@ -57,26 +64,31 @@ function EscrowUI({ active = true }: { active?: boolean }) {
 
   const statusColor =
     phase === "verified" || phase === "locked"
-      ? "rgba(255,255,255,0.6)"
-      : "rgba(255,255,255,0.4)";
+      ? isDark
+        ? "rgba(255,255,255,0.6)"
+        : "rgba(0,0,0,0.6)"
+      : isDark
+        ? "rgba(255,255,255,0.4)"
+        : "rgba(0,0,0,0.4)";
 
   return (
     <div
       style={{
         width: 340,
-        background: "#0d0d0d",
-        border: "1px solid rgba(255,255,255,0.08)",
+        background: isDark ? "#0d0d0d" : "#ffffff",
+        border: `1px solid ${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"}`,
         borderRadius: 20,
         overflow: "hidden",
-        boxShadow:
-          "0 0 80px rgba(61,220,132,0.08), 0 30px 60px rgba(0,0,0,0.6)",
+        boxShadow: isDark
+          ? "0 0 80px rgba(61,220,132,0.08), 0 30px 60px rgba(0,0,0,0.6)"
+          : "0 0 80px rgba(61,220,132,0.06), 0 30px 60px rgba(0,0,0,0.08)",
       }}
     >
       {/* Card header */}
       <div
         style={{
           padding: "18px 20px 16px",
-          borderBottom: "1px solid rgba(255,255,255,0.06)",
+          borderBottom: `1px solid ${isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)"}`,
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
@@ -88,11 +100,15 @@ function EscrowUI({ active = true }: { active?: boolean }) {
               background:
                 phase === "verified"
                   ? "rgba(61,220,132,0.12)"
-                  : "rgba(255,255,255,0.04)",
+                  : isDark
+                    ? "rgba(255,255,255,0.04)"
+                    : "rgba(0,0,0,0.04)",
               borderColor:
                 phase === "verified"
                   ? "rgba(61,220,132,0.25)"
-                  : "rgba(255,255,255,0.07)",
+                  : isDark
+                    ? "rgba(255,255,255,0.07)"
+                    : "rgba(0,0,0,0.07)",
             }}
             transition={{ duration: 0.5 }}
             style={{
@@ -111,7 +127,11 @@ function EscrowUI({ active = true }: { active?: boolean }) {
                   width: 16,
                   height: 16,
                   color:
-                    phase === "verified" ? "#3ddc84" : "rgba(255,255,255,0.45)",
+                    phase === "verified"
+                      ? "#3ddc84"
+                      : isDark
+                        ? "rgba(255,255,255,0.45)"
+                        : "rgba(0,0,0,0.45)",
                 }}
               />
             ) : (
@@ -119,7 +139,7 @@ function EscrowUI({ active = true }: { active?: boolean }) {
                 style={{
                   width: 16,
                   height: 16,
-                  color: "rgba(255,255,255,0.35)",
+                  color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)",
                 }}
               />
             )}
@@ -130,7 +150,7 @@ function EscrowUI({ active = true }: { active?: boolean }) {
                 fontSize: 9,
                 letterSpacing: "2px",
                 textTransform: "uppercase",
-                color: "rgba(255,255,255,0.25)",
+                color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.25)",
                 marginBottom: 2,
               }}
             >
@@ -140,7 +160,13 @@ function EscrowUI({ active = true }: { active?: boolean }) {
                   ? "Locking Funds"
                   : "Escrow Active"}
             </div>
-            <div style={{ fontSize: 13, fontWeight: 600, color: "#fff" }}>
+            <div
+              style={{
+                fontSize: 13,
+                fontWeight: 600,
+                color: isDark ? "#fff" : "#000",
+              }}
+            >
               {phase === "sending"
                 ? "Processing..."
                 : phase === "locking"
@@ -171,7 +197,7 @@ function EscrowUI({ active = true }: { active?: boolean }) {
         style={{
           padding: "24px 20px 20px",
           textAlign: "center",
-          borderBottom: "1px solid rgba(255,255,255,0.05)",
+          borderBottom: `1px solid ${isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)"}`,
         }}
       >
         <div
@@ -179,7 +205,7 @@ function EscrowUI({ active = true }: { active?: boolean }) {
             fontSize: 10,
             letterSpacing: "2px",
             textTransform: "uppercase",
-            color: "rgba(255,255,255,0.2)",
+            color: isDark ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.2)",
             marginBottom: 8,
           }}
         >
@@ -190,7 +216,7 @@ function EscrowUI({ active = true }: { active?: boolean }) {
             fontSize: 36,
             fontWeight: 700,
             letterSpacing: "-0.04em",
-            color: "#fff",
+            color: isDark ? "#fff" : "#000",
             marginBottom: 4,
           }}
         >
@@ -198,14 +224,19 @@ function EscrowUI({ active = true }: { active?: boolean }) {
           <span
             style={{
               fontSize: 18,
-              color: "rgba(255,255,255,0.35)",
+              color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)",
               fontWeight: 500,
             }}
           >
             USDT
           </span>
         </div>
-        <div style={{ fontSize: 11, color: "rgba(255,255,255,0.2)" }}>
+        <div
+          style={{
+            fontSize: 11,
+            color: isDark ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.2)",
+          }}
+        >
           ≈ $5,000.00 · Solana Network
         </div>
       </div>
@@ -224,7 +255,7 @@ function EscrowUI({ active = true }: { active?: boolean }) {
               fontSize: 9,
               letterSpacing: "1.5px",
               textTransform: "uppercase",
-              color: "rgba(255,255,255,0.2)",
+              color: isDark ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.2)",
             }}
           >
             {phase === "sending" ? "Transfer Progress" : "Escrow Progress"}
@@ -232,7 +263,7 @@ function EscrowUI({ active = true }: { active?: boolean }) {
           <span
             style={{
               fontSize: 11,
-              color: "rgba(255,255,255,0.35)",
+              color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)",
               fontWeight: 600,
             }}
           >
@@ -243,7 +274,7 @@ function EscrowUI({ active = true }: { active?: boolean }) {
           style={{
             height: 3,
             borderRadius: 999,
-            background: "rgba(255,255,255,0.05)",
+            background: isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)",
             overflow: "hidden",
           }}
         >
@@ -254,7 +285,9 @@ function EscrowUI({ active = true }: { active?: boolean }) {
               background:
                 phase === "verified" || phase === "locked"
                   ? "linear-gradient(90deg, #3ddc84, #2ab870)"
-                  : "linear-gradient(90deg, rgba(255,255,255,0.25), rgba(255,255,255,0.1))",
+                  : isDark
+                    ? "linear-gradient(90deg, rgba(255,255,255,0.25), rgba(255,255,255,0.1))"
+                    : "linear-gradient(90deg, rgba(0,0,0,0.25), rgba(0,0,0,0.1))",
             }}
             transition={{ duration: 0.9, ease: EASE }}
           />
@@ -266,7 +299,7 @@ function EscrowUI({ active = true }: { active?: boolean }) {
         style={{
           margin: "0 20px",
           height: 1,
-          background: "rgba(255,255,255,0.05)",
+          background: isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)",
         }}
       />
 
@@ -289,19 +322,19 @@ function EscrowUI({ active = true }: { active?: boolean }) {
           {
             label: "Contract",
             value: "0x7a2f...3e91",
-            color: "rgba(255,255,255,0.38)",
+            color: isDark ? "rgba(255,255,255,0.38)" : "rgba(0,0,0,0.38)",
             mono: true,
           },
           {
             label: "Network",
             value: "Solana",
-            color: "rgba(255,255,255,0.38)",
+            color: isDark ? "rgba(255,255,255,0.38)" : "rgba(0,0,0,0.38)",
             solana: true,
           },
           {
             label: "Release",
             value: "On confirmation",
-            color: "rgba(255,255,255,0.32)",
+            color: isDark ? "rgba(255,255,255,0.32)" : "rgba(0,0,0,0.32)",
           },
         ].map((row) => (
           <div
@@ -312,7 +345,12 @@ function EscrowUI({ active = true }: { active?: boolean }) {
               justifyContent: "space-between",
             }}
           >
-            <span style={{ fontSize: 11.5, color: "rgba(255,255,255,0.25)" }}>
+            <span
+              style={{
+                fontSize: 11.5,
+                color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.25)",
+              }}
+            >
               {row.label}
             </span>
             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
@@ -392,12 +430,19 @@ function EscrowUI({ active = true }: { active?: boolean }) {
               style={{
                 padding: "12px",
                 borderRadius: 12,
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(255,255,255,0.06)",
+                background: isDark
+                  ? "rgba(255,255,255,0.03)"
+                  : "rgba(0,0,0,0.03)",
+                border: `1px solid ${isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)"}`,
                 textAlign: "center",
               }}
             >
-              <span style={{ fontSize: 11.5, color: "rgba(255,255,255,0.25)" }}>
+              <span
+                style={{
+                  fontSize: 11.5,
+                  color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.25)",
+                }}
+              >
                 {phase === "sending"
                   ? "Awaiting escrow lock..."
                   : phase === "locking"
@@ -452,7 +497,13 @@ const LEADERBOARD_MINI = [
   { rank: 4, name: "GlobalFX", vol: "140K", online: false },
 ];
 
-function MerchantDashboardUI({ active = true }: { active?: boolean }) {
+function MerchantDashboardUI({
+  active = true,
+  isDark = true,
+}: {
+  active?: boolean;
+  isDark?: boolean;
+}) {
   const [earnings, setEarnings] = useState(124.5);
   const [balance, setBalance] = useState(12450.0);
   const [phase, setPhase] = useState<DashPhase>("escrowed");
@@ -480,12 +531,13 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
     <div
       style={{
         width: 660,
-        background: "#08080e",
-        border: "1px solid rgba(255,255,255,0.08)",
+        background: isDark ? "#08080e" : "#ffffff",
+        border: `1px solid ${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"}`,
         borderRadius: 20,
         overflow: "hidden",
-        boxShadow:
-          "0 0 80px rgba(251,146,60,0.07), 0 30px 60px rgba(0,0,0,0.65)",
+        boxShadow: isDark
+          ? "0 0 80px rgba(251,146,60,0.07), 0 30px 60px rgba(0,0,0,0.65)"
+          : "0 0 80px rgba(251,146,60,0.05), 0 30px 60px rgba(0,0,0,0.08)",
       }}
     >
       {/* ── App chrome ── */}
@@ -495,8 +547,8 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
           alignItems: "center",
           gap: 8,
           padding: "10px 16px",
-          background: "#0f0f14",
-          borderBottom: "1px solid rgba(255,255,255,0.06)",
+          background: isDark ? "#0f0f14" : "#f5f5f5",
+          borderBottom: `1px solid ${isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)"}`,
         }}
       >
         <div className="flex gap-1.5">
@@ -532,11 +584,11 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
             alignItems: "center",
             gap: 6,
             padding: "3px 10px",
-            background: "rgba(255,255,255,0.04)",
-            border: "1px solid rgba(255,255,255,0.07)",
+            background: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)",
+            border: `1px solid ${isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)"}`,
             borderRadius: 6,
             fontSize: 10,
-            color: "rgba(255,255,255,0.28)",
+            color: isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.28)",
             fontFamily: "monospace",
             maxWidth: 280,
             margin: "0 auto",
@@ -576,7 +628,7 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
           style={{
             width: 190,
             flexShrink: 0,
-            borderRight: "1px solid rgba(255,255,255,0.05)",
+            borderRight: `1px solid ${isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)"}`,
             display: "flex",
             flexDirection: "column",
             gap: 0,
@@ -586,13 +638,13 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
           <div
             style={{
               padding: "16px 14px 14px",
-              borderBottom: "1px solid rgba(255,255,255,0.05)",
+              borderBottom: `1px solid ${isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)"}`,
             }}
           >
             <div
               style={{
                 fontSize: 8,
-                color: "rgba(255,255,255,0.25)",
+                color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.25)",
                 fontFamily: "monospace",
                 textTransform: "uppercase",
                 letterSpacing: "2px",
@@ -609,7 +661,7 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
                 fontSize: 22,
                 fontWeight: 700,
                 fontFamily: "monospace",
-                color: "#fff",
+                color: isDark ? "#fff" : "#000",
                 letterSpacing: "-0.04em",
                 lineHeight: 1,
               }}
@@ -622,7 +674,7 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
             <div
               style={{
                 fontSize: 9,
-                color: "rgba(255,255,255,0.3)",
+                color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)",
                 fontFamily: "monospace",
                 marginTop: 3,
               }}
@@ -635,7 +687,7 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
           <div
             style={{
               padding: "12px 14px",
-              borderBottom: "1px solid rgba(255,255,255,0.05)",
+              borderBottom: `1px solid ${isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)"}`,
               background: "rgba(164,215,225,0.03)",
             }}
           >
@@ -682,7 +734,7 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
           <div
             style={{
               padding: "12px 14px",
-              borderBottom: "1px solid rgba(255,255,255,0.05)",
+              borderBottom: `1px solid ${isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)"}`,
               background: "rgba(52,211,153,0.025)",
             }}
           >
@@ -719,13 +771,13 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
           <div
             style={{
               padding: "12px 14px",
-              borderBottom: "1px solid rgba(255,255,255,0.05)",
+              borderBottom: `1px solid ${isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)"}`,
             }}
           >
             <div
               style={{
                 fontSize: 8,
-                color: "rgba(255,255,255,0.22)",
+                color: isDark ? "rgba(255,255,255,0.22)" : "rgba(0,0,0,0.22)",
                 fontFamily: "monospace",
                 marginBottom: 5,
               }}
@@ -745,7 +797,7 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
             <div
               style={{
                 fontSize: 8,
-                color: "rgba(255,255,255,0.18)",
+                color: isDark ? "rgba(255,255,255,0.18)" : "rgba(0,0,0,0.18)",
                 fontFamily: "monospace",
                 marginTop: 3,
               }}
@@ -760,7 +812,7 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
               marginTop: "auto",
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
-              borderTop: "1px solid rgba(255,255,255,0.05)",
+              borderTop: `1px solid ${isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)"}`,
             }}
           >
             {[
@@ -773,7 +825,9 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
                   padding: "10px 0",
                   textAlign: "center",
                   borderRight:
-                    i === 0 ? "1px solid rgba(255,255,255,0.05)" : undefined,
+                    i === 0
+                      ? `1px solid ${isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)"}`
+                      : undefined,
                 }}
               >
                 <div
@@ -781,7 +835,7 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
                     fontSize: 15,
                     fontWeight: 700,
                     fontFamily: "monospace",
-                    color: "#fff",
+                    color: isDark ? "#fff" : "#000",
                   }}
                 >
                   {s.val}
@@ -789,7 +843,7 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
                 <div
                   style={{
                     fontSize: 7,
-                    color: "rgba(255,255,255,0.2)",
+                    color: isDark ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.2)",
                     textTransform: "uppercase",
                     letterSpacing: "1px",
                     marginTop: 2,
@@ -806,7 +860,7 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
         <div
           style={{
             flex: 1,
-            borderRight: "1px solid rgba(255,255,255,0.05)",
+            borderRight: `1px solid ${isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)"}`,
             display: "flex",
             flexDirection: "column",
             padding: "12px",
@@ -821,13 +875,17 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
             }}
           >
             <Activity
-              style={{ width: 10, height: 10, color: "rgba(255,255,255,0.28)" }}
+              style={{
+                width: 10,
+                height: 10,
+                color: isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.28)",
+              }}
             />
             <span
               style={{
                 fontSize: 9,
                 fontWeight: 600,
-                color: "rgba(255,255,255,0.3)",
+                color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)",
                 fontFamily: "monospace",
                 textTransform: "uppercase",
                 letterSpacing: "2px",
@@ -876,14 +934,16 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
                     width: 22,
                     height: 22,
                     borderRadius: "50%",
-                    background: "rgba(255,255,255,0.08)",
-                    border: "1px solid rgba(255,255,255,0.12)",
+                    background: isDark
+                      ? "rgba(255,255,255,0.08)"
+                      : "rgba(0,0,0,0.08)",
+                    border: `1px solid ${isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.12)"}`,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                     fontSize: 8,
                     fontWeight: 700,
-                    color: "rgba(255,255,255,0.6)",
+                    color: isDark ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.6)",
                   }}
                 >
                   AH
@@ -893,7 +953,9 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
                     style={{
                       fontSize: 10,
                       fontWeight: 600,
-                      color: "rgba(255,255,255,0.65)",
+                      color: isDark
+                        ? "rgba(255,255,255,0.65)"
+                        : "rgba(0,0,0,0.65)",
                     }}
                   >
                     Ali Hassan
@@ -938,7 +1000,7 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
                 alignItems: "center",
                 gap: 6,
                 padding: "7px 0",
-                borderTop: "1px solid rgba(255,255,255,0.05)",
+                borderTop: `1px solid ${isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)"}`,
               }}
             >
               <span
@@ -946,12 +1008,17 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
                   fontSize: 14,
                   fontWeight: 700,
                   fontFamily: "monospace",
-                  color: "#fff",
+                  color: isDark ? "#fff" : "#000",
                   letterSpacing: "-0.03em",
                 }}
               >
                 5,000{" "}
-                <span style={{ fontSize: 9, color: "rgba(255,255,255,0.3)" }}>
+                <span
+                  style={{
+                    fontSize: 9,
+                    color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)",
+                  }}
+                >
                   USDC
                 </span>
               </span>
@@ -959,14 +1026,14 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
                 style={{
                   width: 10,
                   height: 10,
-                  color: "rgba(255,255,255,0.18)",
+                  color: isDark ? "rgba(255,255,255,0.18)" : "rgba(0,0,0,0.18)",
                 }}
               />
               <span
                 style={{
                   fontSize: 12,
                   fontFamily: "monospace",
-                  color: "rgba(255,255,255,0.4)",
+                  color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)",
                 }}
               >
                 18,350 AED
@@ -996,18 +1063,25 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
                   width: 22,
                   height: 22,
                   borderRadius: "50%",
-                  background: "rgba(255,255,255,0.06)",
+                  background: isDark
+                    ? "rgba(255,255,255,0.06)"
+                    : "rgba(0,0,0,0.06)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   fontSize: 8,
                   fontWeight: 700,
-                  color: "rgba(255,255,255,0.5)",
+                  color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)",
                 }}
               >
                 TM
               </div>
-              <span style={{ fontSize: 10, color: "rgba(255,255,255,0.55)" }}>
+              <span
+                style={{
+                  fontSize: 10,
+                  color: isDark ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.55)",
+                }}
+              >
                 TrustMerchant22
               </span>
               <span
@@ -1017,9 +1091,11 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
                   fontFamily: "monospace",
                   padding: "1px 4px",
                   borderRadius: 3,
-                  background: "rgba(255,255,255,0.06)",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  color: "rgba(255,255,255,0.4)",
+                  background: isDark
+                    ? "rgba(255,255,255,0.06)"
+                    : "rgba(0,0,0,0.06)",
+                  border: `1px solid ${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"}`,
+                  color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)",
                 }}
               >
                 BUY
@@ -1045,18 +1121,33 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
                 fontSize: 13,
                 fontWeight: 700,
                 fontFamily: "monospace",
-                color: "rgba(255,255,255,0.7)",
+                color: isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.7)",
                 letterSpacing: "-0.03em",
               }}
             >
               2,000{" "}
-              <span style={{ fontSize: 9, color: "rgba(255,255,255,0.28)" }}>
+              <span
+                style={{
+                  fontSize: 9,
+                  color: isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.28)",
+                }}
+              >
                 USDC
               </span>{" "}
-              <span style={{ fontSize: 10, color: "rgba(255,255,255,0.2)" }}>
+              <span
+                style={{
+                  fontSize: 10,
+                  color: isDark ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.2)",
+                }}
+              >
                 →
               </span>{" "}
-              <span style={{ fontSize: 11, color: "rgba(255,255,255,0.35)" }}>
+              <span
+                style={{
+                  fontSize: 11,
+                  color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)",
+                }}
+              >
                 7,340 AED
               </span>
             </div>
@@ -1073,12 +1164,16 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
               }}
             >
               <CheckCircle2
-                style={{ width: 9, height: 9, color: "rgba(255,255,255,0.22)" }}
+                style={{
+                  width: 9,
+                  height: 9,
+                  color: isDark ? "rgba(255,255,255,0.22)" : "rgba(0,0,0,0.22)",
+                }}
               />
               <span
                 style={{
                   fontSize: 8,
-                  color: "rgba(255,255,255,0.22)",
+                  color: isDark ? "rgba(255,255,255,0.22)" : "rgba(0,0,0,0.22)",
                   fontFamily: "monospace",
                   textTransform: "uppercase",
                   letterSpacing: "2px",
@@ -1096,8 +1191,10 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
                   gap: 7,
                   padding: "5px 8px",
                   borderRadius: 7,
-                  background: "rgba(255,255,255,0.02)",
-                  border: "1px solid rgba(255,255,255,0.04)",
+                  background: isDark
+                    ? "rgba(255,255,255,0.02)"
+                    : "rgba(0,0,0,0.02)",
+                  border: `1px solid ${isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)"}`,
                   marginBottom: 4,
                 }}
               >
@@ -1122,7 +1219,9 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
                     style={{
                       fontSize: 9,
                       fontFamily: "monospace",
-                      color: "rgba(255,255,255,0.5)",
+                      color: isDark
+                        ? "rgba(255,255,255,0.5)"
+                        : "rgba(0,0,0,0.5)",
                     }}
                   >
                     {tx.usdc} USDC
@@ -1130,7 +1229,9 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
                   <span
                     style={{
                       fontSize: 8,
-                      color: "rgba(255,255,255,0.18)",
+                      color: isDark
+                        ? "rgba(255,255,255,0.18)"
+                        : "rgba(0,0,0,0.18)",
                       fontFamily: "monospace",
                       marginLeft: 4,
                     }}
@@ -1164,13 +1265,17 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
             }}
           >
             <Star
-              style={{ width: 9, height: 9, color: "rgba(255,255,255,0.25)" }}
+              style={{
+                width: 9,
+                height: 9,
+                color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.25)",
+              }}
             />
             <span
               style={{
                 fontSize: 9,
                 fontWeight: 600,
-                color: "rgba(255,255,255,0.28)",
+                color: isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.28)",
                 fontFamily: "monospace",
                 textTransform: "uppercase",
                 letterSpacing: "2px",
@@ -1191,8 +1296,10 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
                 marginBottom: 4,
                 ...(i === 0
                   ? {
-                      background: "rgba(255,255,255,0.04)",
-                      border: "1px solid rgba(255,255,255,0.07)",
+                      background: isDark
+                        ? "rgba(255,255,255,0.04)"
+                        : "rgba(0,0,0,0.04)",
+                      border: `1px solid ${isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)"}`,
                     }
                   : {}),
               }}
@@ -1201,7 +1308,7 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
                 style={{
                   fontSize: 8,
                   fontFamily: "monospace",
-                  color: "rgba(255,255,255,0.2)",
+                  color: isDark ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.2)",
                   width: 14,
                 }}
               >
@@ -1212,7 +1319,11 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
                   width: 5,
                   height: 5,
                   borderRadius: "50%",
-                  background: m.online ? "#3ddc84" : "rgba(255,255,255,0.2)",
+                  background: m.online
+                    ? "#3ddc84"
+                    : isDark
+                      ? "rgba(255,255,255,0.2)"
+                      : "rgba(0,0,0,0.2)",
                   flexShrink: 0,
                   ...(m.online ? { boxShadow: "0 0 4px #3ddc84" } : {}),
                 }}
@@ -1221,7 +1332,7 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
                 style={{
                   fontSize: 9,
                   fontFamily: "monospace",
-                  color: "rgba(255,255,255,0.42)",
+                  color: isDark ? "rgba(255,255,255,0.42)" : "rgba(0,0,0,0.42)",
                   flex: 1,
                   overflow: "hidden",
                   textOverflow: "ellipsis",
@@ -1234,7 +1345,7 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
                 style={{
                   fontSize: 8,
                   fontFamily: "monospace",
-                  color: "rgba(255,255,255,0.22)",
+                  color: isDark ? "rgba(255,255,255,0.22)" : "rgba(0,0,0,0.22)",
                   flexShrink: 0,
                 }}
               >
@@ -1284,7 +1395,9 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
                 marginTop: 8,
                 height: 3,
                 borderRadius: 999,
-                background: "rgba(255,255,255,0.06)",
+                background: isDark
+                  ? "rgba(255,255,255,0.06)"
+                  : "rgba(0,0,0,0.06)",
               }}
             >
               <motion.div
@@ -1325,10 +1438,20 @@ function MerchantDashboardUI({ active = true }: { active?: boolean }) {
             >
               ✓ Settlement complete
             </div>
-            <div style={{ fontSize: 7, color: "rgba(255,255,255,0.25)" }}>
+            <div
+              style={{
+                fontSize: 7,
+                color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.25)",
+              }}
+            >
               5,000 USDC → 18,350 AED
             </div>
-            <div style={{ fontSize: 7, color: "rgba(255,255,255,0.18)" }}>
+            <div
+              style={{
+                fontSize: 7,
+                color: isDark ? "rgba(255,255,255,0.18)" : "rgba(0,0,0,0.18)",
+              }}
+            >
               2m ago · #BM7F2X
             </div>
           </div>
@@ -1381,7 +1504,13 @@ const INITIAL_BIDS = [
   },
 ];
 
-function BiddingUI({ active = true }: { active?: boolean }) {
+function BiddingUI({
+  active = true,
+  isDark = true,
+}: {
+  active?: boolean;
+  isDark?: boolean;
+}) {
   const [bids, setBids] = useState(INITIAL_BIDS);
   const [countdown, setCountdown] = useState(15);
   const [matched, setMatched] = useState(false);
@@ -1426,20 +1555,32 @@ function BiddingUI({ active = true }: { active?: boolean }) {
   const bestBid = bids[0];
 
   return (
-    <div className="w-[560px] rounded-2xl overflow-hidden border border-white/[0.08] bg-[#0a0a0a] shadow-[0_30px_60px_rgba(0,0,0,0.5),0_0_80px_rgba(255,107,53,0.06)]">
+    <div
+      className={`w-[560px] rounded-2xl overflow-hidden border ${isDark ? "border-white/[0.08] bg-[#0a0a0a] shadow-[0_30px_60px_rgba(0,0,0,0.5),0_0_80px_rgba(255,107,53,0.06)]" : "border-black/[0.08] bg-white shadow-[0_30px_60px_rgba(0,0,0,0.08),0_0_80px_rgba(255,107,53,0.04)]"}`}
+    >
       {/* Browser chrome — matches InstantBiddingSection exactly */}
-      <div className="flex items-center gap-3 px-5 py-3.5 bg-[#111] border-b border-white/[0.06]">
+      <div
+        className={`flex items-center gap-3 px-5 py-3.5 ${isDark ? "bg-[#111] border-b border-white/[0.06]" : "bg-[#f5f5f5] border-b border-black/[0.06]"}`}
+      >
         <div className="flex items-center gap-1.5">
           <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
           <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
           <div className="w-3 h-3 rounded-full bg-[#28ca42]" />
         </div>
         <div className="flex-1 flex justify-center">
-          <div className="flex items-center gap-2 px-4 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.06] w-full max-w-[300px]">
-            <div className="w-4 h-4 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-              <Lock className="w-2.5 h-2.5 text-white/40" />
+          <div
+            className={`flex items-center gap-2 px-4 py-1.5 rounded-lg w-full max-w-[300px] ${isDark ? "bg-white/[0.03] border border-white/[0.06]" : "bg-black/[0.03] border border-black/[0.06]"}`}
+          >
+            <div
+              className={`w-4 h-4 rounded-full flex items-center justify-center shrink-0 ${isDark ? "bg-white/10" : "bg-black/10"}`}
+            >
+              <Lock
+                className={`w-2.5 h-2.5 ${isDark ? "text-white/40" : "text-black/40"}`}
+              />
             </div>
-            <span className="text-xs text-white/30 font-mono truncate flex-1">
+            <span
+              className={`text-xs font-mono truncate flex-1 ${isDark ? "text-white/30" : "text-black/30"}`}
+            >
               settle.blipprotocol.com/merchant
             </span>
             <div className="flex items-center gap-1.5 ml-auto shrink-0">
@@ -1454,17 +1595,23 @@ function BiddingUI({ active = true }: { active?: boolean }) {
             </div>
           </div>
         </div>
-        <div className="w-8 h-8 rounded-full bg-white/[0.08] flex items-center justify-center text-xs font-bold text-white/60">
+        <div
+          className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${isDark ? "bg-white/[0.08] text-white/60" : "bg-black/[0.08] text-black/60"}`}
+        >
           M
         </div>
       </div>
 
       {/* Dashboard content */}
-      <div className="p-5 text-white">
+      <div className={`p-5 ${isDark ? "text-white" : "text-black"}`}>
         {/* Order header + timer */}
-        <div className="flex items-center justify-between mb-5 pb-4 border-b border-white/[0.06]">
+        <div
+          className={`flex items-center justify-between mb-5 pb-4 border-b ${isDark ? "border-white/[0.06]" : "border-black/[0.06]"}`}
+        >
           <div>
-            <div className="text-[10px] uppercase tracking-widest text-white/30 mb-1">
+            <div
+              className={`text-[10px] uppercase tracking-widest mb-1 ${isDark ? "text-white/30" : "text-black/30"}`}
+            >
               Active Order · #BLP-8472
             </div>
             <div className="text-2xl font-bold tracking-tight">
@@ -1472,7 +1619,9 @@ function BiddingUI({ active = true }: { active?: boolean }) {
             </div>
           </div>
           <div className="text-center">
-            <div className="text-[10px] uppercase tracking-widest text-white/30 mb-1">
+            <div
+              className={`text-[10px] uppercase tracking-widest mb-1 ${isDark ? "text-white/30" : "text-black/30"}`}
+            >
               Match in
             </div>
             <AnimatePresence mode="wait">
@@ -1491,7 +1640,7 @@ function BiddingUI({ active = true }: { active?: boolean }) {
                   initial={{ opacity: 0, y: -5 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 5 }}
-                  className={`text-xl font-bold font-mono tracking-tight ${countdown <= 5 ? "text-[#ff6b35]" : "text-white"}`}
+                  className={`text-xl font-bold font-mono tracking-tight ${countdown <= 5 ? "text-[#ff6b35]" : isDark ? "text-white" : "text-black"}`}
                 >
                   {`00:${countdown.toString().padStart(2, "0")}`}
                 </motion.div>
@@ -1502,12 +1651,16 @@ function BiddingUI({ active = true }: { active?: boolean }) {
 
         {/* Bids header */}
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-sm font-bold text-white">Live Merchant Bids</h3>
+          <h3
+            className={`text-sm font-bold ${isDark ? "text-white" : "text-black"}`}
+          >
+            Live Merchant Bids
+          </h3>
           <div className="flex items-center gap-1.5">
             {[0, 1, 2].map((i) => (
               <motion.div
                 key={i}
-                className="w-1.5 h-1.5 rounded-full bg-white/40"
+                className={`w-1.5 h-1.5 rounded-full ${isDark ? "bg-white/40" : "bg-black/40"}`}
                 animate={{ opacity: [0.3, 1, 0.3] }}
                 transition={{
                   duration: 0.8,
@@ -1527,11 +1680,19 @@ function BiddingUI({ active = true }: { active?: boolean }) {
               layout
               animate={{
                 background: bid.best
-                  ? "rgba(255,255,255,0.07)"
-                  : "rgba(255,255,255,0.025)",
+                  ? isDark
+                    ? "rgba(255,255,255,0.07)"
+                    : "rgba(0,0,0,0.07)"
+                  : isDark
+                    ? "rgba(255,255,255,0.025)"
+                    : "rgba(0,0,0,0.025)",
                 borderColor: bid.best
-                  ? "rgba(255,255,255,0.18)"
-                  : "rgba(255,255,255,0.06)",
+                  ? isDark
+                    ? "rgba(255,255,255,0.18)"
+                    : "rgba(0,0,0,0.18)"
+                  : isDark
+                    ? "rgba(255,255,255,0.06)"
+                    : "rgba(0,0,0,0.06)",
               }}
               transition={{ duration: 0.35 }}
               className="p-3.5 rounded-xl border"
@@ -1541,8 +1702,12 @@ function BiddingUI({ active = true }: { active?: boolean }) {
                   <div
                     className={`w-10 h-10 rounded-xl flex items-center justify-center text-xs font-bold ${
                       bid.best
-                        ? "bg-white/10 text-white/80"
-                        : "bg-white/[0.05] text-white/40"
+                        ? isDark
+                          ? "bg-white/10 text-white/80"
+                          : "bg-black/10 text-black/80"
+                        : isDark
+                          ? "bg-white/[0.05] text-white/40"
+                          : "bg-black/[0.05] text-black/40"
                     }`}
                   >
                     {bid.avatar}
@@ -1550,7 +1715,7 @@ function BiddingUI({ active = true }: { active?: boolean }) {
                   <div>
                     <div className="flex items-center gap-2 mb-0.5">
                       <span
-                        className={`text-sm font-semibold ${bid.best ? "text-white" : "text-white/55"}`}
+                        className={`text-sm font-semibold ${bid.best ? (isDark ? "text-white" : "text-black") : isDark ? "text-white/55" : "text-black/55"}`}
                       >
                         {bid.name}
                       </span>
@@ -1559,14 +1724,17 @@ function BiddingUI({ active = true }: { active?: boolean }) {
                           layout
                           initial={{ scale: 0, opacity: 0 }}
                           animate={{ scale: 1, opacity: 1 }}
-                          className="px-2 py-0.5 rounded-full bg-white/10 text-[9px] text-white/70 font-bold uppercase"
+                          className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase ${isDark ? "bg-white/10 text-white/70" : "bg-black/10 text-black/70"}`}
                         >
                           Best Rate
                         </motion.span>
                       )}
                     </div>
-                    <div className="text-xs text-white/30">
-                      {bid.trades.toLocaleString("en-US")} trades · ETA {bid.time}
+                    <div
+                      className={`text-xs ${isDark ? "text-white/30" : "text-black/30"}`}
+                    >
+                      {bid.trades.toLocaleString("en-US")} trades · ETA{" "}
+                      {bid.time}
                     </div>
                   </div>
                 </div>
@@ -1575,15 +1743,25 @@ function BiddingUI({ active = true }: { active?: boolean }) {
                     <motion.div
                       className="text-lg font-bold"
                       animate={{
-                        color: bid.best ? "#ffffff" : "rgba(255,255,255,0.4)",
+                        color: bid.best
+                          ? isDark
+                            ? "#ffffff"
+                            : "#000000"
+                          : isDark
+                            ? "rgba(255,255,255,0.4)"
+                            : "rgba(0,0,0,0.4)",
                       }}
                     >
                       {bid.rate.toFixed(3)}{" "}
-                      <span className="text-xs text-white/30 font-normal">
+                      <span
+                        className={`text-xs font-normal ${isDark ? "text-white/30" : "text-black/30"}`}
+                      >
                         AED
                       </span>
                     </motion.div>
-                    <div className="text-xs text-white/30">
+                    <div
+                      className={`text-xs ${isDark ? "text-white/30" : "text-black/30"}`}
+                    >
                       ≈{" "}
                       {(bid.rate * 5000).toLocaleString("en-US", {
                         maximumFractionDigits: 0,
@@ -1592,7 +1770,7 @@ function BiddingUI({ active = true }: { active?: boolean }) {
                     </div>
                   </div>
                   <motion.div
-                    className={`w-3 h-3 rounded-full ${bid.best ? "bg-white/60" : "bg-white/20"}`}
+                    className={`w-3 h-3 rounded-full ${bid.best ? (isDark ? "bg-white/60" : "bg-black/60") : isDark ? "bg-white/20" : "bg-black/20"}`}
                     animate={bid.best ? { scale: [1, 1.3, 1] } : {}}
                     transition={{ duration: 1, repeat: Infinity }}
                   />
@@ -1603,17 +1781,30 @@ function BiddingUI({ active = true }: { active?: boolean }) {
         </div>
 
         {/* Auto-select footer */}
-        <div className="mt-3 p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
-            <Zap className="w-4 h-4 text-white/60" />
+        <div
+          className={`mt-3 p-3.5 rounded-xl flex items-center gap-3 ${isDark ? "bg-white/[0.03] border border-white/[0.06]" : "bg-black/[0.03] border border-black/[0.06]"}`}
+        >
+          <div
+            className={`w-8 h-8 rounded-lg flex items-center justify-center ${isDark ? "bg-white/10" : "bg-black/10"}`}
+          >
+            <Zap
+              className={`w-4 h-4 ${isDark ? "text-white/60" : "text-black/60"}`}
+            />
           </div>
           <div>
-            <span className="text-sm text-white/70 font-medium">
+            <span
+              className={`text-sm font-medium ${isDark ? "text-white/70" : "text-black/70"}`}
+            >
               Auto-selecting best offer
             </span>
-            <span className="text-xs text-white/35 block">
-              You'll receive ~{(bestBid?.rate * 5000).toLocaleString("en-US", { maximumFractionDigits: 0 })} AED in ~30
-              seconds
+            <span
+              className={`text-xs block ${isDark ? "text-white/35" : "text-black/35"}`}
+            >
+              You'll receive ~
+              {(bestBid?.rate * 5000).toLocaleString("en-US", {
+                maximumFractionDigits: 0,
+              })}{" "}
+              AED in ~30 seconds
             </span>
           </div>
         </div>
@@ -1670,7 +1861,13 @@ const TX_INITIAL = [
   },
 ];
 
-function ExplorerUI({ active = true }: { active?: boolean }) {
+function ExplorerUI({
+  active = true,
+  isDark = true,
+}: {
+  active?: boolean;
+  isDark?: boolean;
+}) {
   const [txs, setTxs] = useState(TX_INITIAL);
   const [block, setBlock] = useState(241_847_293);
 
@@ -1700,18 +1897,28 @@ function ExplorerUI({ active = true }: { active?: boolean }) {
   }, [active]);
 
   return (
-    <div className="w-[540px] rounded-2xl border border-white/[0.06] bg-black/40 backdrop-blur-xl overflow-hidden shadow-[0_8px_60px_-12px_rgba(0,0,0,0.8),0_0_80px_rgba(20,241,149,0.05)]">
+    <div
+      className={`w-[540px] rounded-2xl border backdrop-blur-xl overflow-hidden ${isDark ? "border-white/[0.06] bg-black/40 shadow-[0_8px_60px_-12px_rgba(0,0,0,0.8),0_0_80px_rgba(20,241,149,0.05)]" : "border-black/[0.06] bg-white/80 shadow-[0_8px_60px_-12px_rgba(0,0,0,0.1),0_0_80px_rgba(20,241,149,0.04)]"}`}
+    >
       {/* Browser chrome — matches BlipscanExplorerSection exactly */}
-      <div className="flex items-center justify-between px-5 py-3.5 bg-black/60 border-b border-white/[0.06]">
+      <div
+        className={`flex items-center justify-between px-5 py-3.5 border-b ${isDark ? "bg-black/60 border-white/[0.06]" : "bg-black/[0.03] border-black/[0.06]"}`}
+      >
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5">
             <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
             <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
             <div className="w-3 h-3 rounded-full bg-[#28ca42]" />
           </div>
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.04]">
-            <Globe className="w-3.5 h-3.5 text-white/30" />
-            <span className="text-xs text-white/40 font-mono">
+          <div
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg ${isDark ? "bg-white/[0.03] border border-white/[0.04]" : "bg-black/[0.03] border border-black/[0.04]"}`}
+          >
+            <Globe
+              className={`w-3.5 h-3.5 ${isDark ? "text-white/30" : "text-black/30"}`}
+            />
+            <span
+              className={`text-xs font-mono ${isDark ? "text-white/40" : "text-black/40"}`}
+            >
               blipscan.io/explorer
             </span>
           </div>
@@ -1729,7 +1936,9 @@ function ExplorerUI({ active = true }: { active?: boolean }) {
       </div>
 
       {/* Stats row */}
-      <div className="grid grid-cols-4 border-b border-white/[0.05]">
+      <div
+        className={`grid grid-cols-4 border-b ${isDark ? "border-white/[0.05]" : "border-black/[0.05]"}`}
+      >
         {[
           { label: "Block", value: block.toLocaleString("en-US") },
           { label: "24h Volume", value: "$2.4M" },
@@ -1738,17 +1947,19 @@ function ExplorerUI({ active = true }: { active?: boolean }) {
         ].map((s, i) => (
           <div
             key={s.label}
-            className={`text-center p-3 ${i < 3 ? "border-r border-white/[0.05]" : ""}`}
+            className={`text-center p-3 ${i < 3 ? (isDark ? "border-r border-white/[0.05]" : "border-r border-black/[0.05]") : ""}`}
           >
             <motion.div
               key={s.value}
               initial={{ opacity: 0.5 }}
               animate={{ opacity: 1 }}
-              className="text-[15px] font-bold text-white mb-0.5"
+              className={`text-[15px] font-bold mb-0.5 ${isDark ? "text-white" : "text-black"}`}
             >
               {s.value}
             </motion.div>
-            <div className="text-[9px] text-white/20 uppercase tracking-[1.5px]">
+            <div
+              className={`text-[9px] uppercase tracking-[1.5px] ${isDark ? "text-white/20" : "text-black/20"}`}
+            >
               {s.label}
             </div>
           </div>
@@ -1758,7 +1969,9 @@ function ExplorerUI({ active = true }: { active?: boolean }) {
       {/* Transaction list */}
       <div className="p-4">
         <div className="flex items-center justify-between px-1 mb-2.5">
-          <span className="text-[9px] uppercase tracking-[2px] text-white/20 font-medium">
+          <span
+            className={`text-[9px] uppercase tracking-[2px] font-medium ${isDark ? "text-white/20" : "text-black/20"}`}
+          >
             Recent Settlements
           </span>
           <div className="flex items-center gap-1.5">
@@ -1784,7 +1997,7 @@ function ExplorerUI({ active = true }: { active?: boolean }) {
                 ease: "easeOut",
                 layout: { duration: 0.6, ease: EASE },
               }}
-              className="flex items-center justify-between px-3 py-2.5 rounded-xl border border-white/[0.04] mb-1.5"
+              className={`flex items-center justify-between px-3 py-2.5 rounded-xl border mb-1.5 ${isDark ? "border-white/[0.04]" : "border-black/[0.04]"}`}
             >
               <div className="flex items-center gap-3 flex-1 min-w-0">
                 <div className="w-8 h-8 rounded-lg bg-[#14F195]/[0.08] border border-[#14F195]/20 flex items-center justify-center shrink-0">
@@ -1795,11 +2008,19 @@ function ExplorerUI({ active = true }: { active?: boolean }) {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1.5 mb-0.5">
-                    <span className="text-[11px] font-mono text-white/40 truncate">
+                    <span
+                      className={`text-[11px] font-mono truncate ${isDark ? "text-white/40" : "text-black/40"}`}
+                    >
                       {tx.id}
                     </span>
-                    <span className="text-white/20 text-[11px]">→</span>
-                    <span className="text-[13px] text-white font-semibold truncate">
+                    <span
+                      className={`text-[11px] ${isDark ? "text-white/20" : "text-black/20"}`}
+                    >
+                      →
+                    </span>
+                    <span
+                      className={`text-[13px] font-semibold truncate ${isDark ? "text-white" : "text-black"}`}
+                    >
                       {tx.to}
                     </span>
                     {tx.isNew && (
@@ -1812,17 +2033,25 @@ function ExplorerUI({ active = true }: { active?: boolean }) {
                       </motion.span>
                     )}
                   </div>
-                  <div className="text-[10px] text-white/20 font-mono truncate">
+                  <div
+                    className={`text-[10px] font-mono truncate ${isDark ? "text-white/20" : "text-black/20"}`}
+                  >
                     {tx.from}
                   </div>
                 </div>
               </div>
               <div className="flex items-center gap-2.5 shrink-0">
                 <div className="text-right">
-                  <div className="text-[13px] font-semibold text-white">
+                  <div
+                    className={`text-[13px] font-semibold ${isDark ? "text-white" : "text-black"}`}
+                  >
                     {tx.amount}
                   </div>
-                  <div className="text-[9px] text-white/25">USDT</div>
+                  <div
+                    className={`text-[9px] ${isDark ? "text-white/25" : "text-black/25"}`}
+                  >
+                    USDT
+                  </div>
                 </div>
                 <div className="px-2 py-1 rounded-lg bg-[#14F195]/[0.08] border border-[#14F195]/20">
                   <span className="text-[10px] text-[#14F195]">{tx.age}</span>
@@ -1832,14 +2061,22 @@ function ExplorerUI({ active = true }: { active?: boolean }) {
           ))}
         </AnimatePresence>
 
-        <div className="flex items-center justify-between mt-2 pt-2.5 border-t border-white/[0.04]">
+        <div
+          className={`flex items-center justify-between mt-2 pt-2.5 border-t ${isDark ? "border-white/[0.04]" : "border-black/[0.04]"}`}
+        >
           <div className="flex items-center gap-1.5">
-            <div className="w-1.5 h-1.5 rounded-full bg-white/15" />
-            <span className="text-[10px] text-white/20">
+            <div
+              className={`w-1.5 h-1.5 rounded-full ${isDark ? "bg-white/15" : "bg-black/15"}`}
+            />
+            <span
+              className={`text-[10px] ${isDark ? "text-white/20" : "text-black/20"}`}
+            >
               Powered by Blip Protocol
             </span>
           </div>
-          <div className="flex items-center gap-1 text-[10px] text-white/40 cursor-pointer hover:text-white/70 transition-colors">
+          <div
+            className={`flex items-center gap-1 text-[10px] cursor-pointer transition-colors ${isDark ? "text-white/40 hover:text-white/70" : "text-black/40 hover:text-black/70"}`}
+          >
             View Explorer <ArrowRight className="w-2.5 h-2.5" />
           </div>
         </div>
@@ -1862,6 +2099,7 @@ interface SceneProps {
   bullets: string[];
   accent: string;
   isLast?: boolean;
+  isDark?: boolean;
   children: React.ReactNode;
 }
 
@@ -1875,6 +2113,7 @@ function Scene({
   bullets,
   accent,
   isLast,
+  isDark = true,
   children,
 }: SceneProps) {
   const range = end - start;
@@ -1939,7 +2178,7 @@ function Scene({
               {eyebrow}
             </div>
             <h2
-              className="text-white"
+              className={isDark ? "text-white" : "text-black"}
               style={{
                 fontSize: "clamp(1.8rem, 3.5vw, 3rem)",
                 fontWeight: 700,
@@ -1950,11 +2189,15 @@ function Scene({
             >
               {headline[0]}
               <br />
-              <span style={{ color: "rgba(255,255,255,0.28)" }}>
+              <span
+                style={{ color: isDark ? "rgba(255,255,255,0.28)" : "#555555" }}
+              >
                 {headline[1]}
               </span>
             </h2>
-            <p className="text-base text-white/40 leading-relaxed mb-8 max-w-[300px]">
+            <p
+              className={`text-base leading-relaxed mb-8 max-w-[300px] ${isDark ? "text-white/40" : "text-black/70"}`}
+            >
               {subline}
             </p>
             <div className="flex flex-col gap-3">
@@ -1972,7 +2215,11 @@ function Scene({
                       strokeWidth={3}
                     />
                   </div>
-                  <span className="text-sm text-white/45">{b}</span>
+                  <span
+                    className={`text-sm ${isDark ? "text-white/45" : "text-black/75"}`}
+                  >
+                    {b}
+                  </span>
                 </div>
               ))}
             </div>
@@ -2051,6 +2298,8 @@ const SCENES_DATA = [
 ];
 
 export default function FeatureCinemaSection() {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -2074,7 +2323,7 @@ export default function FeatureCinemaSection() {
     <div ref={containerRef} style={{ height: "450vh" }}>
       <div
         className="sticky top-0 overflow-hidden"
-        style={{ height: "100vh", background: "#060606" }}
+        style={{ height: "100vh", background: isDark ? "#060606" : "#FAF8F5" }}
       >
         {/* Subtle grid */}
 
@@ -2083,15 +2332,17 @@ export default function FeatureCinemaSection() {
           <div
             className="flex items-center gap-2 px-4 py-2 rounded-full"
             style={{
-              background: "rgba(255,255,255,0.04)",
-              border: "1px solid rgba(255,255,255,0.07)",
+              background: isDark
+                ? "rgba(255,255,255,0.04)"
+                : "rgba(0,0,0,0.04)",
+              border: `1px solid ${isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)"}`,
             }}
           >
             <Shield
               style={{
                 width: 12,
                 height: 12,
-                color: "rgba(255,255,255,0.28)",
+                color: isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.28)",
               }}
             />
             <span
@@ -2099,7 +2350,7 @@ export default function FeatureCinemaSection() {
                 fontSize: 10,
                 letterSpacing: "3px",
                 textTransform: "uppercase",
-                color: "rgba(255,255,255,0.28)",
+                color: isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.28)",
               }}
             >
               Core Features
@@ -2114,15 +2365,16 @@ export default function FeatureCinemaSection() {
             progress={scrollYProgress}
             {...s}
             isLast={i === SCENES_DATA.length - 1}
+            isDark={isDark}
           >
             {i === 0 ? (
-              <EscrowUI active={activeScene === 0} />
+              <EscrowUI active={activeScene === 0} isDark={isDark} />
             ) : i === 1 ? (
-              <MerchantDashboardUI active={activeScene === 1} />
+              <MerchantDashboardUI active={activeScene === 1} isDark={isDark} />
             ) : i === 2 ? (
-              <BiddingUI active={activeScene === 2} />
+              <BiddingUI active={activeScene === 2} isDark={isDark} />
             ) : (
-              <ExplorerUI active={activeScene === 3} />
+              <ExplorerUI active={activeScene === 3} isDark={isDark} />
             )}
           </Scene>
         ))}
@@ -2154,8 +2406,9 @@ export default function FeatureCinemaSection() {
           <div
             className="h-8 w-px"
             style={{
-              background:
-                "linear-gradient(to bottom, transparent, rgba(255,255,255,0.15))",
+              background: isDark
+                ? "linear-gradient(to bottom, transparent, rgba(255,255,255,0.15))"
+                : "linear-gradient(to bottom, transparent, rgba(0,0,0,0.15))",
             }}
           />
           <span
@@ -2163,7 +2416,7 @@ export default function FeatureCinemaSection() {
               fontSize: 8,
               letterSpacing: "3px",
               textTransform: "uppercase",
-              color: "rgba(255,255,255,0.18)",
+              color: isDark ? "rgba(255,255,255,0.18)" : "rgba(0,0,0,0.18)",
             }}
           >
             Scroll

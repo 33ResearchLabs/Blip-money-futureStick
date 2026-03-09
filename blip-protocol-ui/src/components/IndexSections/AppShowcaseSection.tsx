@@ -95,7 +95,7 @@ const AppShowcaseSection = () => {
             className="md:col-span-5 relative rounded-3xl overflow-hidden max-h-[540px]"
           >
             <img
-              src="/card1.webp"
+              src="/Showcase1.png"
               alt="Initiate Order"
               className="w-full h-full object-cover"
             />
@@ -727,7 +727,7 @@ const AppShowcaseSection = () => {
             className="relative rounded-3xl overflow-hidden h-[210px]"
           >
             <motion.img
-              src="/global.avif"
+              src="/globe.png"
               alt="Global reach"
               className="absolute inset-0 w-full h-full object-cover"
               style={{ willChange: "transform" }}

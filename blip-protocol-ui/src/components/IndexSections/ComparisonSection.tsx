@@ -1,7 +1,5 @@
-import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Check, X } from "lucide-react";
-import { useTheme } from "next-themes";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -82,35 +80,61 @@ const ROWS: Array<{
 ];
 
 const COLS = [
-  { key: "blip",   label: "Blip",   accent: true  },
-  { key: "swift",  label: "SWIFT",  accent: false },
+  { key: "blip", label: "Blip", accent: true },
+  { key: "swift", label: "SWIFT", accent: false },
   { key: "stripe", label: "Stripe", accent: false },
   { key: "ripple", label: "Ripple", accent: false },
 ] as const;
 
-type ColKey = typeof COLS[number]["key"];
+type ColKey = (typeof COLS)[number]["key"];
 
-function Cell({ val, isBlip, isDark }: { val: string | boolean; isBlip: boolean; isDark: boolean }) {
+function Cell({
+  val,
+  isBlip,
+  isDark,
+}: {
+  val: string | boolean;
+  isBlip: boolean;
+  isDark: boolean;
+}) {
   if (typeof val === "boolean") {
     return val ? (
       <span
         className="inline-flex items-center justify-center w-6 h-6 rounded-full"
         style={{
-          background: isBlip ? "rgba(255,107,53,0.15)" : isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)",
-          border: isBlip ? "1px solid rgba(255,107,53,0.3)" : isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.08)",
+          background: isBlip
+            ? "rgba(255,107,53,0.15)"
+            : isDark
+              ? "rgba(255,255,255,0.04)"
+              : "rgba(0,0,0,0.04)",
+          border: isBlip
+            ? "1px solid rgba(255,107,53,0.3)"
+            : isDark
+              ? "1px solid rgba(255,255,255,0.08)"
+              : "1px solid rgba(0,0,0,0.08)",
         }}
       >
         <Check
           style={{
             width: 11,
             height: 11,
-            color: isBlip ? "#ff6b35" : isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.35)",
+            color: isBlip
+              ? "#ff6b35"
+              : isDark
+                ? "rgba(255,255,255,0.45)"
+                : "rgba(0,0,0,0.35)",
           }}
         />
       </span>
     ) : (
       <span className="inline-flex items-center justify-center w-6 h-6">
-        <X style={{ width: 11, height: 11, color: isDark ? "rgba(255,255,255,0.18)" : "rgba(0,0,0,0.18)" }} />
+        <X
+          style={{
+            width: 11,
+            height: 11,
+            color: isDark ? "rgba(255,255,255,0.18)" : "rgba(0,0,0,0.18)",
+          }}
+        />
       </span>
     );
   }
@@ -118,10 +142,14 @@ function Cell({ val, isBlip, isDark }: { val: string | boolean; isBlip: boolean;
   return (
     <span
       style={{
-        fontSize: 12,
+        fontSize: 13,
         fontFamily: "monospace",
         fontWeight: isBlip ? 700 : 400,
-        color: isBlip ? "#ff6b35" : isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)",
+        color: isBlip
+          ? "#ff6b35"
+          : isDark
+            ? "rgba(255,255,255,0.4)"
+            : "rgba(0,0,0,0.4)",
         letterSpacing: "-0.02em",
       }}
     >
@@ -134,10 +162,7 @@ function Cell({ val, isBlip, isDark }: { val: string | boolean; isBlip: boolean;
    SECTION: COMPARISON TABLE
    ============================================ */
 const ComparisonSection = () => {
-  const { theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-  const isDark = mounted ? theme === "dark" : true;
+  const isDark = false;
 
   return (
     <section
@@ -201,14 +226,16 @@ const ComparisonSection = () => {
             }}
           >
             The infrastructure gap{" "}
-            <span style={{ color: isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.3)" }}>
+            <span
+              style={{ color: isDark ? "rgba(255,255,255,0.28)" : "#555555" }}
+            >
               nobody else closes.
             </span>
           </h2>
           <p
             style={{
-              fontSize: 16,
-              color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.45)",
+              fontSize: 20,
+              color: isDark ? "rgba(255,255,255,0.35)" : "#555555",
               maxWidth: 440,
               margin: "0 auto",
               lineHeight: 1.65,
@@ -226,7 +253,13 @@ const ComparisonSection = () => {
           transition={{ duration: 1, ease: EASE }}
           className="overflow-x-auto"
         >
-          <table style={{ width: "100%", borderCollapse: "separate", borderSpacing: 0 }}>
+          <table
+            style={{
+              width: "100%",
+              borderCollapse: "separate",
+              borderSpacing: 0,
+            }}
+          >
             {/* Column headers */}
             <thead>
               <tr>
@@ -276,7 +309,13 @@ const ComparisonSection = () => {
                         style={{
                           fontSize: col.accent ? 16 : 13,
                           fontWeight: 700,
-                          color: col.accent ? (isDark ? "#ffffff" : "#1a1a1a") : (isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)"),
+                          color: col.accent
+                            ? isDark
+                              ? "#ffffff"
+                              : "#1a1a1a"
+                            : isDark
+                              ? "rgba(255,255,255,0.35)"
+                              : "rgba(0,0,0,0.35)",
                           letterSpacing: "-0.02em",
                         }}
                       >
@@ -319,14 +358,18 @@ const ComparisonSection = () => {
                   <td
                     style={{
                       padding: "14px 20px 14px 0",
-                      borderTop: isDark ? "1px solid rgba(255,255,255,0.05)" : "1px solid rgba(0,0,0,0.06)",
+                      borderTop: isDark
+                        ? "1px solid rgba(255,255,255,0.05)"
+                        : "1px solid rgba(0,0,0,0.06)",
                     }}
                   >
                     <div
                       style={{
-                        fontSize: 13,
+                        fontSize: 16,
                         fontWeight: 500,
-                        color: isDark ? "rgba(255,255,255,0.65)" : "rgba(0,0,0,0.65)",
+                        color: isDark
+                          ? "rgba(255,255,255,0.65)"
+                          : "rgba(0,0,0,0.65)",
                       }}
                     >
                       {row.label}
@@ -335,7 +378,9 @@ const ComparisonSection = () => {
                       <div
                         style={{
                           fontSize: 10,
-                          color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.35)",
+                          color: isDark
+                            ? "rgba(255,255,255,0.25)"
+                            : "rgba(0,0,0,0.35)",
                           marginTop: 2,
                         }}
                       >
@@ -350,7 +395,9 @@ const ComparisonSection = () => {
                       style={{
                         padding: "14px 16px",
                         textAlign: "center",
-                        borderTop: isDark ? "1px solid rgba(255,255,255,0.05)" : "1px solid rgba(0,0,0,0.06)",
+                        borderTop: isDark
+                          ? "1px solid rgba(255,255,255,0.05)"
+                          : "1px solid rgba(0,0,0,0.06)",
                         position: "relative",
                         ...(col.accent
                           ? {
@@ -404,17 +451,33 @@ const ComparisonSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.2, ease: EASE }}
           className="grid grid-cols-1 md:grid-cols-3 gap-px mt-16 rounded-2xl overflow-hidden"
-          style={{ border: isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.08)" }}
+          style={{
+            border: isDark
+              ? "1px solid rgba(255,255,255,0.08)"
+              : "1px solid rgba(0,0,0,0.08)",
+          }}
         >
           {[
-            { val: "70×",   label: "Cheaper than SWIFT",    sub: "0.1% vs 5–7% average" },
-            { val: "∞",     label: "Faster than traditional", sub: "Seconds, not days"   },
-            { val: "100%",  label: "Non-custodial",           sub: "You hold the keys"   },
+            {
+              val: "70×",
+              label: "Cheaper than SWIFT",
+              sub: "0.1% vs 5–7% average",
+            },
+            {
+              val: "∞",
+              label: "Faster than traditional",
+              sub: "Seconds, not days",
+            },
+            { val: "100%", label: "Non-custodial", sub: "You hold the keys" },
           ].map((stat) => (
             <div
               key={stat.label}
               className="flex flex-col items-center text-center p-8"
-              style={{ background: isDark ? "rgba(255,255,255,0.02)" : "rgba(0,0,0,0.02)" }}
+              style={{
+                background: isDark
+                  ? "rgba(255,255,255,0.02)"
+                  : "rgba(0,0,0,0.02)",
+              }}
             >
               <div
                 style={{
@@ -422,14 +485,19 @@ const ComparisonSection = () => {
                   fontWeight: 700,
                   letterSpacing: "-0.05em",
                   lineHeight: 1,
-                  background: isDark
-                    ? "linear-gradient(135deg, #ffffff 25%, #ff8c50 100%)"
-                    : "linear-gradient(135deg, #1a1a1a 25%, #ff6b35 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                  color: "transparent",
                   marginBottom: 8,
+                  ...(isDark
+                    ? {
+                        background:
+                          "linear-gradient(135deg, #ffffff 25%, #ff8c50 100%)",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                        backgroundClip: "text",
+                        color: "transparent",
+                      }
+                    : {
+                        color: "#ff6b35",
+                      }),
                 }}
               >
                 {stat.val}
@@ -444,7 +512,12 @@ const ComparisonSection = () => {
               >
                 {stat.label}
               </div>
-              <div style={{ fontSize: 11, color: isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.35)" }}>
+              <div
+                style={{
+                  fontSize: 11,
+                  color: isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.35)",
+                }}
+              >
                 {stat.sub}
               </div>
             </div>

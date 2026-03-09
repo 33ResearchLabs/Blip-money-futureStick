@@ -206,13 +206,18 @@ const ProtocolInterstitial = () => {
               <span
                 style={{
                   display: "inline-block",
-                  background: isDark
-                    ? "linear-gradient(180deg, #ffffff 0%, rgba(255,255,255,0.55) 100%)"
-                    : "linear-gradient(180deg, #000000 0%, rgba(0,0,0,0.45) 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                  color: "transparent",
+                  ...(isDark
+                    ? {
+                        background:
+                          "linear-gradient(180deg, #ffffff 0%, rgba(255,255,255,0.55) 100%)",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                        backgroundClip: "text",
+                        color: "transparent",
+                      }
+                    : {
+                        color: "#1a1a1a",
+                      }),
                 }}
               >
                 Blip
@@ -273,7 +278,7 @@ const ProtocolInterstitial = () => {
                 fontWeight: 700,
                 letterSpacing: "-0.05em",
                 lineHeight: 1,
-                color: isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.12)",
+                color: isDark ? "rgba(255,255,255,0.15)" : "#555555",
               }}
             >
               Protocol.
