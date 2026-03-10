@@ -17,7 +17,6 @@ import {
   MousePointer2,
   CreditCard,
   Layers,
-  Bell,
   Wifi,
   Battery,
   Signal,
@@ -42,7 +41,6 @@ const DesktopPhoneMockup = ({ activeSection, steps, isDark }) => {
     <div className="relative w-full max-w-[300px] h-[600px] mx-auto">
       <motion.div
         animate={{ y: [0, -9, 0] }}
-        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
         style={{ position: "relative", width: "100%", height: "100%" }}
       >
         {/* ── Black Titanium outer frame ── */}
@@ -677,10 +675,38 @@ const Sparkline = ({
 
 /* Friends data for Circle section */
 const CIRCLE_FRIENDS = [
-  { name: "Alex", color: "#ff6b35", emoji: "🧑", status: "active" },
-  { name: "Sasha", color: "#3b82f6", emoji: "👩", status: "online" },
-  { name: "Jordan", color: "#10b981", emoji: "🧔", status: "online" },
-  { name: "Taylor", color: "#f59e0b", emoji: "👱", status: "offline" },
+  {
+    name: "Alex",
+    color: "#ff6b35",
+    emoji: "🧑",
+    status: "active",
+    action: "Sent",
+    amount: "$50",
+  },
+  {
+    name: "Sasha",
+    color: "#3b82f6",
+    emoji: "👩",
+    status: "online",
+    action: "Received",
+    amount: "$20",
+  },
+  {
+    name: "Jordan",
+    color: "#10b981",
+    emoji: "🧔",
+    status: "online",
+    action: "Received",
+    amount: "$10",
+  },
+  {
+    name: "Taylor",
+    color: "#f59e0b",
+    emoji: "👱",
+    status: "offline",
+    action: "Remived",
+    amount: "$10",
+  },
 ];
 
 /* Activity feed data */
@@ -833,44 +859,36 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
   return (
     <div
       className="flex flex-col h-full w-full relative overflow-hidden"
-      style={{ background: c.bg, paddingTop: 52, color: c.text }}
+      style={{
+        background: isDark
+          ? "linear-gradient(165deg, #0a0a1a 0%, #0f1628 25%, #141e30 50%, #0d1520 75%, #080810 100%)"
+          : "linear-gradient(165deg, #fff8f5 0%, #fef0e8 25%, #f0e6ff 50%, #e8f4fd 75%, #faf8f5 100%)",
+        paddingTop: 52,
+        color: c.text,
+      }}
     >
-      <Orbs isDark={isDark} />
-
       {/* Header */}
-      <div className="px-4 pb-2.5 flex items-center justify-between z-10">
+      <div className="px-4 pb-3 flex items-center justify-between z-10">
         <div>
           <Label c={c}>Portfolio</Label>
-          <div className="flex items-center gap-1">
-            <span
-              style={{
-                fontSize: 15,
-                fontWeight: 900,
-                letterSpacing: "-0.035em",
-              }}
-            >
-              Blip Network
-            </span>
-            <ChevronDown size={10} style={{ color: c.muted, marginTop: 1 }} />
-          </div>
-        </div>
-        <div className="flex gap-2">
-          <div
-            className="w-7 h-7 rounded-[10px] flex items-center justify-center"
-            style={{ background: c.card, border: `1px solid ${c.border}` }}
-          >
-            <Bell size={12} style={{ color: c.sub }} />
-          </div>
-          <div
-            className="w-7 h-7 rounded-[10px] overflow-hidden"
+          <span
             style={{
-              border: "2px solid rgba(255,107,53,0.5)",
-              background: "linear-gradient(135deg, #ff6b35, #ff8f5e)",
+              fontSize: 15,
+              fontWeight: 900,
+              letterSpacing: "-0.035em",
             }}
           >
-            <div className="w-full h-full flex items-center justify-center">
-              <span style={{ fontSize: 11 }}>🧑</span>
-            </div>
+            Blip Network
+          </span>
+        </div>
+        <div
+          className="w-7 h-7 rounded-full overflow-hidden"
+          style={{
+            background: "linear-gradient(135deg, #ff6b35, #ff8f5e)",
+          }}
+        >
+          <div className="w-full h-full flex items-center justify-center">
+            <User size={13} className="text-white" />
           </div>
         </div>
       </div>
@@ -880,330 +898,85 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
         className="flex-1 overflow-y-auto z-10 px-4 pb-8"
         style={{ scrollbarWidth: "none" }}
       >
-        {/* ── WALLET CARD ── */}
+        {/* ── BALANCE CARD ── */}
         <motion.div
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="relative mb-4"
+          className="relative mb-4 overflow-hidden rounded-[22px]"
+          style={{
+            background: isDark
+              ? "linear-gradient(135deg, rgba(255,107,53,0.15) 0%, rgba(99,102,241,0.12) 50%, rgba(16,185,129,0.1) 100%)"
+              : "linear-gradient(135deg, rgba(255,107,53,0.12) 0%, rgba(99,102,241,0.08) 50%, rgba(16,185,129,0.06) 100%)",
+            border: `1px solid ${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)"}`,
+            backdropFilter: "blur(20px)",
+          }}
         >
-          {/* Outer halo */}
-          <div
-            className="absolute inset-0 rounded-[26px]"
-            style={{
-              background:
-                "radial-gradient(ellipse at 20% 30%, rgba(16,185,129,0.22) 0%, transparent 50%), radial-gradient(ellipse at 85% 80%, rgba(255,107,53,0.22) 0%, transparent 50%)",
-              filter: "blur(20px)",
-              transform: "scale(1.06)",
-              opacity: 0.7,
-            }}
-          />
-          <div
-            className="relative overflow-hidden rounded-[26px]"
-            style={{
-              background: isDark
-                ? "linear-gradient(152deg, #0f0c08 0%, #1a1008 38%, #120e08 72%, #0a0906 100%)"
-                : "linear-gradient(152deg, #fffaf7 0%, #fff0ea 38%, #fff5ee 72%, #fdf8f5 100%)",
-              border: `1px solid ${isDark ? "rgba(255,255,255,0.09)" : "rgba(0,0,0,0.07)"}`,
-              boxShadow: isDark
-                ? "0 24px 60px rgba(0,0,0,0.65), 0 8px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06)"
-                : "0 24px 60px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.03), inset 0 1px 0 rgba(255,255,255,0.9)",
-            }}
-          >
-            {/* Corner glows */}
-            <div
-              className="absolute"
+          <div className="relative z-10 p-4">
+            <p
               style={{
-                top: -30,
-                left: -30,
-                width: 140,
-                height: 140,
-                background: `radial-gradient(circle, ${isDark ? "rgba(16,185,129,0.16)" : "rgba(16,185,129,0.08)"} 0%, transparent 70%)`,
+                fontSize: 7,
+                fontWeight: 900,
+                letterSpacing: "0.28em",
+                color: c.muted,
+                textTransform: "uppercase" as const,
+                marginBottom: 6,
               }}
-            />
-            <div
-              className="absolute"
-              style={{
-                bottom: -30,
-                right: -30,
-                width: 140,
-                height: 140,
-                background: `radial-gradient(circle, ${isDark ? "rgba(255,107,53,0.18)" : "rgba(255,107,53,0.09)"} 0%, transparent 70%)`,
-              }}
-            />
-            {/* Dot grid */}
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage: `radial-gradient(circle, ${isDark ? "rgba(255,255,255,0.055)" : "rgba(0,0,0,0.035)"} 1px, transparent 1px)`,
-                backgroundSize: "14px 14px",
-                opacity: 0.5,
-              }}
-            />
-            {/* Shimmer */}
-            <motion.div
-              animate={{ x: ["-250%", "250%"] }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                repeatDelay: 6,
-                ease: "easeInOut",
-              }}
-              className="absolute inset-0 skew-x-12"
-              style={{
-                background: `linear-gradient(90deg, transparent 30%, ${isDark ? "rgba(255,255,255,0.025)" : "rgba(255,255,255,0.6)"} 50%, transparent 70%)`,
-              }}
-            />
-
-            <div className="relative z-10 p-4">
-              {/* Top row */}
-              <div className="flex justify-between items-start mb-3.5">
-                <div className="flex items-center gap-2">
-                  <div
-                    className="w-8 h-8 rounded-[11px] flex items-center justify-center"
-                    style={{
-                      background: "linear-gradient(135deg, #059669, #ff6b35)",
-                      boxShadow:
-                        "0 0 16px rgba(16,185,129,0.35), 0 4px 12px rgba(255,107,53,0.2)",
-                    }}
-                  >
-                    <Zap size={13} className="fill-white text-white" />
-                  </div>
-                  <div>
-                    <p
-                      style={{
-                        fontSize: 9,
-                        fontWeight: 900,
-                        letterSpacing: "0.22em",
-                        color: c.sub,
-                        textTransform: "uppercase" as const,
-                      }}
-                    >
-                      BLIP
-                    </p>
-                    <div className="flex items-center gap-1 mt-0.5">
-                      <motion.div
-                        animate={{ opacity: [1, 0.4, 1] }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                        style={{
-                          width: 4,
-                          height: 4,
-                          borderRadius: "50%",
-                          background: "#10b981",
-                          boxShadow: "0 0 6px #10b981",
-                        }}
-                      />
-                      <span
-                        style={{
-                          fontSize: 6.5,
-                          fontWeight: 900,
-                          color: "#10b981",
-                          textTransform: "uppercase" as const,
-                          letterSpacing: "0.18em",
-                        }}
-                      >
-                        Live
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <p
-                    style={{
-                      fontSize: 6.5,
-                      fontWeight: 900,
-                      letterSpacing: "0.22em",
-                      color: c.muted,
-                      textTransform: "uppercase" as const,
-                    }}
-                  >
-                    Signature
-                  </p>
-                  <p
-                    style={{
-                      fontSize: 6.5,
-                      fontWeight: 900,
-                      letterSpacing: "0.22em",
-                      color: c.muted,
-                      textTransform: "uppercase" as const,
-                    }}
-                  >
-                    v 2.0
-                  </p>
-                </div>
-              </div>
-
-              {/* Balance */}
-              <div className="mb-1.5">
-                <p
-                  style={{
-                    fontSize: 7,
-                    fontWeight: 900,
-                    letterSpacing: "0.28em",
-                    color: c.muted,
-                    textTransform: "uppercase" as const,
-                    marginBottom: 3,
-                  }}
-                >
-                  Total Balance
-                </p>
-                <div className="flex items-baseline">
-                  <motion.span
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2, duration: 0.5 }}
-                    style={{
-                      fontSize: 38,
-                      fontWeight: 900,
-                      letterSpacing: "-0.045em",
-                      lineHeight: 1,
-                    }}
-                  >
-                    $242
-                  </motion.span>
-                  <motion.span
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.35 }}
-                    style={{
-                      fontSize: 22,
-                      fontWeight: 900,
-                      letterSpacing: "-0.02em",
-                      color: isDark
-                        ? "rgba(255,255,255,0.2)"
-                        : "rgba(0,0,0,0.18)",
-                      lineHeight: 1,
-                    }}
-                  >
-                    .8k
-                  </motion.span>
-                </div>
-              </div>
-
-              {/* Trend badge */}
-              <motion.div
-                initial={{ opacity: 0, x: -8 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.3 }}
-                className="flex items-center gap-1.5 mb-3"
+            >
+              Total Balance
+            </p>
+            <div className="flex items-baseline mb-2">
+              <motion.span
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+                style={{
+                  fontSize: 36,
+                  fontWeight: 900,
+                  letterSpacing: "-0.045em",
+                  lineHeight: 1,
+                }}
               >
-                <div
-                  className="flex items-center gap-0.5 px-2 py-0.5 rounded-full"
-                  style={{
-                    background: "rgba(16,185,129,0.12)",
-                    border: "1px solid rgba(16,185,129,0.28)",
-                  }}
-                >
-                  <TrendingUp size={8} style={{ color: "#10b981" }} />
-                  <span
-                    style={{ fontSize: 8.5, fontWeight: 900, color: "#10b981" }}
-                  >
-                    +12.4%
-                  </span>
-                </div>
-                <span
-                  style={{
-                    fontSize: 7,
-                    fontWeight: 700,
-                    color: c.muted,
-                    textTransform: "uppercase" as const,
-                    letterSpacing: "0.12em",
-                  }}
-                >
-                  this week
-                </span>
-              </motion.div>
-
-              {/* Sparkline */}
-              <motion.div
+                $242
+              </motion.span>
+              <motion.span
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
-                className="mb-3"
-                style={{ marginLeft: -2, marginRight: -2 }}
+                transition={{ delay: 0.35 }}
+                style={{
+                  fontSize: 20,
+                  fontWeight: 900,
+                  color: isDark ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.18)",
+                  lineHeight: 1,
+                }}
               >
-                <Sparkline isDark={isDark} />
-              </motion.div>
-
-              {/* Bottom row */}
-              <div className="flex justify-between items-center">
-                <div>
-                  <p
-                    style={{
-                      fontSize: 6,
-                      fontWeight: 900,
-                      letterSpacing: "0.22em",
-                      color: c.muted,
-                      textTransform: "uppercase" as const,
-                      marginBottom: 1,
-                    }}
-                  >
-                    ID Hash
-                  </p>
-                  <p
-                    style={{
-                      fontSize: 8.5,
-                      fontFamily: "monospace",
-                      fontWeight: 600,
-                      color: c.sub,
-                    }}
-                  >
-                    0x71C...3a21
-                  </p>
-                </div>
-                <div className="flex">
-                  {["#1a56db", "#ff6b35"].map((clr, i) => (
-                    <div
-                      key={i}
-                      className="w-5.5 h-5.5 rounded-full flex items-center justify-center"
-                      style={{
-                        width: 22,
-                        height: 22,
-                        background: clr,
-                        border: `2px solid ${isDark ? "rgba(10,10,20,0.7)" : "rgba(255,255,255,0.9)"}`,
-                        marginLeft: i > 0 ? -7 : 0,
-                        opacity: 0.75,
-                      }}
-                    >
-                      {i === 0 && (
-                        <Globe
-                          size={9}
-                          style={{ color: "rgba(255,255,255,0.75)" }}
-                        />
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
+                .8k
+              </motion.span>
             </div>
-          </div>
-        </motion.div>
+            <div
+              className="flex items-center gap-0.5 px-2 py-0.5 rounded-full w-fit"
+              style={{
+                background: "rgba(16,185,129,0.12)",
+              }}
+            >
+              <TrendingUp size={8} style={{ color: "#10b981" }} />
+              <span
+                style={{ fontSize: 8.5, fontWeight: 900, color: "#10b981" }}
+              >
+                +12.4%
+              </span>
+            </div>
 
-        {/* ── QUICK STATS ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15 }}
-          className="flex gap-2 mb-4"
-        >
-          <StatChip
-            label="Total In"
-            value="+$5.8k"
-            color="#10b981"
-            isDark={isDark}
-          />
-          <StatChip
-            label="Total Out"
-            value="-$1.3k"
-            color="#f87171"
-            isDark={isDark}
-          />
-          <StatChip
-            label="Pending"
-            value="2 txns"
-            color="#fbbf24"
-            isDark={isDark}
-          />
+            {/* Sparkline */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="mt-3"
+            >
+              <Sparkline isDark={isDark} />
+            </motion.div>
+          </div>
         </motion.div>
 
         {/* ── ACTIONS ── */}
@@ -1211,132 +984,54 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="grid grid-cols-4 gap-1.5 mb-5"
+          className="grid grid-cols-4 gap-2 mb-5"
         >
           {[
-            { label: "Send", Icon: ArrowUpRight, primary: true },
-            { label: "Receive", Icon: ArrowDownLeft, primary: false },
-            { label: "Add", Icon: Plus, primary: false },
-            { label: "Scan", Icon: QrCode, primary: false },
-          ].map(({ label, Icon, primary }) => (
+            {
+              label: "Send",
+              Icon: ArrowUpRight,
+              gradient: "linear-gradient(135deg, #ff6b35, #ff8f5e)",
+            },
+            {
+              label: "Receive",
+              Icon: ArrowDownLeft,
+              gradient: "linear-gradient(135deg, #10b981, #34d399)",
+            },
+            {
+              label: "Add",
+              Icon: Plus,
+              gradient: "linear-gradient(135deg, #6366f1, #818cf8)",
+            },
+            {
+              label: "Scan",
+              Icon: QrCode,
+              gradient: "linear-gradient(135deg, #f59e0b, #fbbf24)",
+            },
+          ].map(({ label, Icon, gradient }) => (
             <div key={label} className="flex flex-col items-center gap-1.5">
               <div
-                className="w-11 h-11 rounded-[13px] flex items-center justify-center"
-                style={
-                  primary
-                    ? {
-                        background: isDark ? "#fff" : "#111",
-                        boxShadow: isDark
-                          ? "0 8px 24px rgba(255,255,255,0.12)"
-                          : "0 8px 24px rgba(0,0,0,0.12)",
-                      }
-                    : { background: c.card, border: `1px solid ${c.border}` }
-                }
-              >
-                <Icon
-                  size={16}
-                  strokeWidth={2.5}
-                  style={{
-                    color: primary ? (isDark ? "#000" : "#fff") : c.sub,
-                  }}
-                />
-              </div>
-              <span
+                className="flex items-center justify-center"
                 style={{
-                  fontSize: 7,
-                  fontWeight: 900,
-                  textTransform: "uppercase" as const,
-                  letterSpacing: "0.1em",
-                  color: primary ? c.text : c.muted,
+                  width: 44,
+                  height: 44,
+                  borderRadius: 14,
+                  background: gradient,
+                  boxShadow: `0 4px 12px ${isDark ? "rgba(0,0,0,0.4)" : "rgba(0,0,0,0.1)"}`,
                 }}
               >
+                <Icon size={18} strokeWidth={2} style={{ color: "#fff" }} />
+              </div>
+              <span style={{ fontSize: 8, fontWeight: 700, color: c.sub }}>
                 {label}
               </span>
             </div>
           ))}
         </motion.div>
 
-        {/* ── CIRCLE ── */}
-        <div className="mb-5">
-          <Label c={c}>Circle</Label>
-          <div
-            className="flex gap-3 mt-2 overflow-x-auto"
-            style={{ scrollbarWidth: "none" }}
-          >
-            {CIRCLE_FRIENDS.map((f, i) => (
-              <motion.div
-                key={f.name}
-                initial={{ opacity: 0, scale: 0.85 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{
-                  delay: 0.25 + i * 0.05,
-                  type: "spring",
-                  stiffness: 300,
-                  damping: 20,
-                }}
-                className="flex flex-col items-center gap-1.5 shrink-0"
-              >
-                <div className="relative">
-                  <div
-                    style={
-                      f.status === "active"
-                        ? {
-                            padding: 2,
-                            borderRadius: 18,
-                            background:
-                              "linear-gradient(135deg, #10b981, #ff6b35)",
-                          }
-                        : {
-                            padding: 2,
-                            borderRadius: 18,
-                            border: `1.5px solid ${c.border}`,
-                          }
-                    }
-                  >
-                    <div
-                      className="flex items-center justify-center"
-                      style={{
-                        width: 40,
-                        height: 40,
-                        borderRadius: 15,
-                        background: f.color + "1a",
-                      }}
-                    >
-                      <span style={{ fontSize: 18 }}>{f.emoji}</span>
-                    </div>
-                  </div>
-                  {f.status === "active" && (
-                    <motion.div
-                      animate={{ scale: [1, 1.3, 1] }}
-                      transition={{ duration: 2.5, repeat: Infinity }}
-                      className="absolute flex items-center justify-center"
-                      style={{
-                        bottom: -3,
-                        right: -3,
-                        width: 14,
-                        height: 14,
-                        borderRadius: "50%",
-                        background: "#ff6b35",
-                        border: `2px solid ${c.bg}`,
-                        boxShadow: "0 0 8px rgba(255,107,53,0.6)",
-                      }}
-                    >
-                      <Zap size={6} className="fill-white text-white" />
-                    </motion.div>
-                  )}
-                </div>
-                <span style={{ fontSize: 8, fontWeight: 700, color: c.muted }}>
-                  {f.name}
-                </span>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
         {/* ── RECENT PULSE ── */}
         <div>
           <div className="flex justify-between items-center mb-2.5">
-            <Label c={c}>Recent Pulse</Label>
+            <Label c={c}>Recent</Label>
             <span
               style={{
                 fontSize: 7,
@@ -1359,41 +1054,18 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
                 className="flex items-center gap-2.5 rounded-[16px]"
                 style={{
                   padding: "8px 10px",
-                  background: c.card,
+                  background: isDark
+                    ? "rgba(255,255,255,0.03)"
+                    : "rgba(255,255,255,0.6)",
                   border: `1px solid ${c.border}`,
+                  backdropFilter: "blur(10px)",
                 }}
               >
                 <div
-                  className="relative shrink-0 rounded-[12px] flex items-center justify-center"
+                  className="shrink-0 rounded-[12px] flex items-center justify-center"
                   style={{ width: 36, height: 36, background: c.hover }}
                 >
                   <span style={{ fontSize: 17 }}>{item.emoji}</span>
-                  <div
-                    className="absolute flex items-center justify-center"
-                    style={{
-                      bottom: -1,
-                      right: -1,
-                      width: 12,
-                      height: 12,
-                      borderRadius: "50%",
-                      background:
-                        item.type === "in"
-                          ? "#10b981"
-                          : isDark
-                            ? "rgba(255,255,255,0.12)"
-                            : "rgba(0,0,0,0.12)",
-                      border: `1.5px solid ${c.bg}`,
-                    }}
-                  >
-                    {item.type === "out" ? (
-                      <ArrowUpRight
-                        size={6}
-                        style={{ color: isDark ? "#fff" : "#666" }}
-                      />
-                    ) : (
-                      <ArrowDownLeft size={6} style={{ color: "#fff" }} />
-                    )}
-                  </div>
                 </div>
                 <div className="flex-1 min-w-0">
                   <div
@@ -1422,28 +1094,11 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
                       {item.type === "in" ? "+" : "-"}${item.amount}
                     </p>
                   </div>
-                  <div className="flex items-center gap-1.5">
-                    <span
-                      style={{
-                        fontSize: 6.5,
-                        fontWeight: 900,
-                        textTransform: "uppercase" as const,
-                        letterSpacing: "0.06em",
-                        padding: "1.5px 6px",
-                        borderRadius: 99,
-                        background: `${item.catColor}18`,
-                        color: item.catColor,
-                        border: `1px solid ${item.catColor}35`,
-                      }}
-                    >
-                      {item.cat}
-                    </span>
-                    <span
-                      style={{ fontSize: 7.5, fontWeight: 600, color: c.muted }}
-                    >
-                      {item.location} · {item.time}
-                    </span>
-                  </div>
+                  <span
+                    style={{ fontSize: 7.5, fontWeight: 600, color: c.muted }}
+                  >
+                    {item.location} · {item.time}
+                  </span>
                 </div>
               </motion.div>
             ))}

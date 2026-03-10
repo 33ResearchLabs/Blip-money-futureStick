@@ -5,7 +5,7 @@ import {
   useScroll,
   useTransform,
 } from "framer-motion";
-import { Sparkles, ArrowUpRight } from "lucide-react";
+import { Sparkles, ArrowUpRight, TrendingUp, Star, Shield } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTheme } from "next-themes";
 import { CTAButton } from "../Navbar";
@@ -210,6 +210,145 @@ function EarnUI({ isDark }: { isDark: boolean }) {
             </motion.div>
           ))}
         </AnimatePresence>
+      </div>
+    </div>
+  );
+}
+
+const REWARD_TIERS = [
+  { name: "Pioneer", reward: "100%", desc: "First transfer", icon: Sparkles, highlight: true },
+  { name: "Explorer", reward: "5%", desc: "Standard cashback", icon: TrendingUp, highlight: false },
+  { name: "Achiever", reward: "7.5%", desc: "$5K+ volume", icon: Star, highlight: false },
+  { name: "Elite", reward: "10%", desc: "$25K+ volume", icon: Shield, highlight: false },
+];
+
+function RewardTiersUI({ isDark }: { isDark: boolean }) {
+  return (
+    <div
+      style={{
+        background: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)",
+        border: isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.08)",
+        borderRadius: 18,
+        padding: "18px 18px 14px",
+      }}
+    >
+      {/* Header */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: 14,
+        }}
+      >
+        <div
+          style={{
+            fontSize: 9,
+            letterSpacing: "0.18em",
+            color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)",
+            textTransform: "uppercase",
+            fontFamily: "monospace",
+          }}
+        >
+          Reward Tiers
+        </div>
+        <div
+          style={{
+            padding: "3px 9px",
+            borderRadius: 999,
+            background: "rgba(255,107,53,0.1)",
+            border: "1px solid rgba(255,107,53,0.2)",
+            fontSize: 9,
+            fontWeight: 700,
+            color: "#ff6b35",
+            fontFamily: "monospace",
+            letterSpacing: "0.05em",
+          }}
+        >
+          4 TIERS
+        </div>
+      </div>
+
+      <div
+        style={{ height: 1, background: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)", marginBottom: 10 }}
+      />
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+        {REWARD_TIERS.map((tier) => {
+          const Icon = tier.icon;
+          return (
+            <motion.div
+              key={tier.name}
+              initial={{ opacity: 0, x: 10 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3 }}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                padding: "7px 9px",
+                borderRadius: 9,
+                background: tier.highlight
+                  ? "rgba(255,107,53,0.06)"
+                  : isDark ? "rgba(255,255,255,0.02)" : "rgba(0,0,0,0.015)",
+                border: tier.highlight
+                  ? "1px solid rgba(255,107,53,0.14)"
+                  : "1px solid transparent",
+              }}
+            >
+              <div
+                style={{
+                  width: 24,
+                  height: 24,
+                  borderRadius: 6,
+                  background: tier.highlight ? "rgba(255,107,53,0.1)" : isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Icon
+                  style={{
+                    width: 12,
+                    height: 12,
+                    color: tier.highlight ? "#ff6b35" : isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)",
+                  }}
+                />
+              </div>
+              <span
+                style={{
+                  flex: 1,
+                  fontSize: 11,
+                  color: isDark ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.55)",
+                  fontFamily: "monospace",
+                }}
+              >
+                {tier.name}
+              </span>
+              <span
+                style={{
+                  fontSize: 8,
+                  color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)",
+                  fontFamily: "monospace",
+                  marginRight: 4,
+                }}
+              >
+                {tier.desc}
+              </span>
+              <span
+                style={{
+                  fontSize: 11,
+                  fontWeight: 700,
+                  color: tier.highlight ? "#ff6b35" : "#16a34a",
+                  fontFamily: "monospace",
+                }}
+              >
+                {tier.reward}
+              </span>
+            </motion.div>
+          );
+        })}
       </div>
     </div>
   );
@@ -463,6 +602,11 @@ const RewardsSection = () => {
                 </div>
 
                 <EarnUI isDark={isDark} />
+
+                {/* Reward Tiers Card */}
+                <div style={{ marginTop: 12 }}>
+                  <RewardTiersUI isDark={isDark} />
+                </div>
 
                 <div
                   style={{
