@@ -696,7 +696,7 @@ const AppShowcaseSection = () => {
             className="relative rounded-3xl overflow-hidden h-[210px]"
           >
             <motion.img
-              src="/nonCustodial.webp"
+              src="/non.png"
               alt="Non-custodial wallet"
               className="absolute inset-0 w-full h-full object-cover"
               style={{ willChange: "transform" }}
@@ -708,13 +708,16 @@ const AppShowcaseSection = () => {
                 delay: 2,
               }}
             />
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background:
-                  "linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.15) 55%, transparent 100%)",
-              }}
-            />
+            <div className="absolute bottom-8 left-3 z-10">
+              <div className="text-white text-sm font-semibold">
+                Non custodial
+                <br />
+                wallet
+              </div>
+              <div className="text-white/40 text-xs mt-0.5">
+                {/* 150+ countries · Any currency */}
+              </div>
+            </div>
           </motion.div>
 
           {/* Card 7 — showcase-2, pan effect */}

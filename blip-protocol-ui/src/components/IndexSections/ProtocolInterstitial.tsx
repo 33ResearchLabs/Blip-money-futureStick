@@ -28,24 +28,24 @@ const PILLARS = [
     label: "Matching Engine",
     value: "< 8s",
     desc: "150+ merchants compete in real-time to offer the best rate.",
-    color: "#818cf8",
-    glow: "rgba(129,140,248,0.15)",
+    color: "#ff6b35",
+    glow: "rgba(255,107,53,0.15)",
   },
   {
     Icon: Users,
     label: "Reputation Graph",
     value: "On-chain",
     desc: "Every merchant carries a verifiable trust score built over time.",
-    color: "#f59e0b",
-    glow: "rgba(245,158,11,0.15)",
+    color: "#3ddc84",
+    glow: "rgba(61,220,132,0.15)",
   },
   {
     Icon: Globe,
     label: "Settlement Network",
     value: "12 corridors",
     desc: "Crypto-to-cash rails spanning UAE, SEA, Africa & beyond.",
-    color: "#3b82f6",
-    glow: "rgba(59,130,246,0.15)",
+    color: "#ff6b35",
+    glow: "rgba(255,107,53,0.15)",
   },
 ];
 
@@ -146,144 +146,53 @@ const ProtocolInterstitial = () => {
         <div className="text-center mb-20 sm:mb-28">
           {/* Label */}
           <motion.p
-            initial={{ opacity: 0, y: 14 }}
+            initial={{ opacity: 0, y: 8 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: EASE }}
+            transition={{ duration: 0.6, ease: EASE }}
             style={{
-              fontSize: 11,
+              fontSize: 10,
               fontWeight: 600,
-              letterSpacing: "4px",
+              letterSpacing: "3px",
               textTransform: "uppercase",
-              color: isDark ? "rgba(255,255,255,0.18)" : "rgba(0,0,0,0.22)",
+              color: isDark ? "#808080" : "#555555",
               marginBottom: 28,
             }}
           >
             Introducing
           </motion.p>
 
-          {/* "The" */}
-          <motion.div
+          <motion.h2
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.1, ease: EASE }}
+            transition={{ duration: 1, ease: EASE }}
+            style={{
+              textAlign: "center",
+              fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
+              fontWeight: 700,
+              letterSpacing: "-0.04em",
+              lineHeight: 1.08,
+              marginBottom: 20,
+            }}
           >
             <span
               style={{
+                color: isDark ? "#ffffff" : "#1a1a1a",
                 display: "block",
-                fontSize: "clamp(1.6rem, 3vw, 2.8rem)",
-                fontWeight: 400,
-                letterSpacing: "-0.02em",
-                lineHeight: 1.2,
-                color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.25)",
-                fontStyle: "italic",
               }}
             >
-              The
+              The Blip
             </span>
-          </motion.div>
-
-          {/* "Blip" */}
-          <motion.div
-            initial={{ opacity: 0, y: 36 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.2, ease: EASE }}
-            className="relative inline-block"
-          >
-            <h2
-              style={{
-                fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
-                fontWeight: 700,
-                letterSpacing: "-0.04em",
-                lineHeight: 1.08,
-                margin: 0,
-                position: "relative",
-                zIndex: 2,
-              }}
-            >
-              <span
-                style={{
-                  display: "inline-block",
-                  ...(isDark
-                    ? {
-                        background:
-                          "linear-gradient(180deg, #ffffff 0%, rgba(255,255,255,0.55) 100%)",
-                        WebkitBackgroundClip: "text",
-                        WebkitTextFillColor: "transparent",
-                        backgroundClip: "text",
-                        color: "transparent",
-                      }
-                    : {
-                        color: "#1a1a1a",
-                      }),
-                }}
-              >
-                Blip
-              </span>
-            </h2>
-
-            {/* Glow */}
-            <div
-              aria-hidden
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                width: "130%",
-                height: "130%",
-                background: isDark
-                  ? "radial-gradient(ellipse, rgba(99,102,241,0.1) 0%, transparent 55%)"
-                  : "radial-gradient(ellipse, rgba(99,102,241,0.05) 0%, transparent 55%)",
-                pointerEvents: "none",
-                filter: "blur(50px)",
-              }}
-            />
-
-            {/* Shimmer */}
-            <motion.div
-              aria-hidden
-              initial={{ x: "-130%" }}
-              whileInView={{ x: "130%" }}
-              viewport={{ once: true }}
-              transition={{ duration: 2, delay: 0.7, ease: EASE }}
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: "45%",
-                height: "100%",
-                background: isDark
-                  ? "linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent)"
-                  : "linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent)",
-                pointerEvents: "none",
-                zIndex: 3,
-              }}
-            />
-          </motion.div>
-
-          {/* "Protocol." */}
-          <motion.div
-            initial={{ opacity: 0, y: 36 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.3, ease: EASE }}
-          >
             <span
               style={{
                 display: "block",
-                fontSize: "clamp(2.8rem, 7.5vw, 7.5rem)",
-                fontWeight: 700,
-                letterSpacing: "-0.05em",
-                lineHeight: 1,
-                color: isDark ? "rgba(255,255,255,0.15)" : "#555555",
+                color: isDark ? "rgba(255,255,255,0.4)" : "#555555",
               }}
             >
               Protocol.
             </span>
-          </motion.div>
+          </motion.h2>
 
           {/* Tagline */}
           <motion.p

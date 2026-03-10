@@ -361,8 +361,18 @@ const App = () => {
       }
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    let ticking = false;
+    const throttledScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+      }
+    };
+    window.addEventListener("scroll", throttledScroll, { passive: true });
+    return () => window.removeEventListener("scroll", throttledScroll);
   }, []);
 
   const steps = [
@@ -800,7 +810,7 @@ const Orbs = ({ isDark }: { isDark: boolean }) => (
         y: [0, -18, 22, 0],
         scale: [1, 1.08, 0.94, 1],
       }}
-      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+      transition={{ duration: 20, ease: "linear" }}
       className="absolute rounded-full"
       style={{
         top: "-18%",
@@ -811,13 +821,7 @@ const Orbs = ({ isDark }: { isDark: boolean }) => (
         filter: "blur(50px)",
       }}
     />
-    <motion.div
-      animate={{
-        x: [0, -16, 14, 0],
-        y: [0, 18, -22, 0],
-        scale: [1, 0.94, 1.08, 1],
-      }}
-      transition={{ duration: 24, repeat: Infinity, ease: "linear" }}
+    <div
       className="absolute rounded-full"
       style={{
         bottom: "-18%",
@@ -860,9 +864,7 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
     <div
       className="flex flex-col h-full w-full relative overflow-hidden"
       style={{
-        background: isDark
-          ? "linear-gradient(165deg, #0a0a1a 0%, #0f1628 25%, #141e30 50%, #0d1520 75%, #080810 100%)"
-          : "linear-gradient(165deg, #fff8f5 0%, #fef0e8 25%, #f0e6ff 50%, #e8f4fd 75%, #faf8f5 100%)",
+        background: c.bg,
         paddingTop: 52,
         color: c.text,
       }}
@@ -1497,7 +1499,7 @@ const TradeScreen = ({ isDark }: { isDark: boolean }) => {
             </span>
             <motion.div
               animate={{ opacity: [1, 0.3, 1] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
+              transition={{ duration: 1.5, repeat: 3 }}
               className="flex items-center gap-0.5 px-1.5 py-0.5 rounded-full"
               style={{
                 background: "rgba(16,185,129,0.12)",
@@ -1701,7 +1703,7 @@ const PayScreen = ({ isDark }: { isDark: boolean }) => {
             animate={{ x: ["-200%", "200%"] }}
             transition={{
               duration: 5,
-              repeat: Infinity,
+              repeat: 2,
               repeatDelay: 8,
               ease: "easeInOut",
             }}
@@ -1882,7 +1884,7 @@ const CashOutScreen = ({ isDark }: { isDark: boolean }) => {
       {/* Pulse rings */}
       <motion.div
         animate={{ scale: [1, 1.6, 1], opacity: [0.15, 0, 0.15] }}
-        transition={{ duration: 2.5, repeat: Infinity }}
+        transition={{ duration: 2.5, repeat: 3 }}
         className="absolute z-0"
         style={{
           width: 160,
@@ -1896,7 +1898,7 @@ const CashOutScreen = ({ isDark }: { isDark: boolean }) => {
       />
       <motion.div
         animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0, 0.2] }}
-        transition={{ duration: 2.5, repeat: Infinity, delay: 0.4 }}
+        transition={{ duration: 2.5, repeat: 3, delay: 0.4 }}
         className="absolute z-0"
         style={{
           width: 120,
@@ -2055,7 +2057,7 @@ const Cursor = ({ name, color, textColor, initialPos, delay }) => (
     }}
     transition={{
       duration: 6,
-      repeat: Infinity,
+      repeat: 3,
       ease: "easeInOut",
       delay,
     }}

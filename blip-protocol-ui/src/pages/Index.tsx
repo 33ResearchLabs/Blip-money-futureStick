@@ -1,21 +1,20 @@
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense } from "react";
 import { SEO } from "@/components";
 import CinematicHero from "@/components/IndexSections/CinematicHero";
-import {
-  ProblemSection,
-  FeatureStrip,
-  UseCasesSection,
-  RewardsSection,
-  UAESection,
-  ProtocolInterstitial,
-  TrustSection,
-  CTASection,
-  HowItWorksSection,
-  AppShowcaseSection,
-  DarkFintechSection,
-  FeatureCinemaSection,
-  ComparisonSection,
-} from "@/components/IndexSections";
+import ProblemSection from "@/components/IndexSections/ProblemSection";
+import DarkFintechSection from "@/components/IndexSections/DarkFintechSection";
+import ProtocolInterstitial from "@/components/IndexSections/ProtocolInterstitial";
+
+const ComparisonSection = lazy(() => import("@/components/IndexSections/ComparisonSection"));
+const HowItWorksSection = lazy(() => import("@/components/IndexSections/HowItWorksSection"));
+const AppShowcaseSection = lazy(() => import("@/components/IndexSections/AppShowcaseSection"));
+const FeatureStrip = lazy(() => import("@/components/IndexSections/FeatureStrip"));
+const FeatureCinemaSection = lazy(() => import("@/components/IndexSections/FeatureCinemaSection"));
+const UseCasesSection = lazy(() => import("@/components/IndexSections/UseCasesSection"));
+const RewardsSection = lazy(() => import("@/components/IndexSections/RewardsSection"));
+const UAESection = lazy(() => import("@/components/IndexSections/UAESection"));
+const TrustSection = lazy(() => import("@/components/IndexSections/TrustSection"));
+const CTASection = lazy(() => import("@/components/IndexSections/CTASection"));
 
 /* ============================================
    MAIN INDEX PAGE
@@ -67,36 +66,38 @@ const Index = () => {
         {/* 4. The Blip Protocol */}
         <ProtocolInterstitial />
 
-        {/* 5. Why Blip — competitive comparison */}
-        <ComparisonSection />
+        <Suspense fallback={null}>
+          {/* 5. Why Blip — competitive comparison */}
+          <ComparisonSection />
 
-        {/* How It Works — isolated (no overflow-x-hidden parent) */}
-        <HowItWorksSection />
+          {/* How It Works — isolated (no overflow-x-hidden parent) */}
+          <HowItWorksSection />
 
-        {/* App Showcase — Apple bento grid with device mockups */}
-        <AppShowcaseSection />
+          {/* App Showcase — Apple bento grid with device mockups */}
+          <AppShowcaseSection />
 
-        <div className="overflow-x-clip">
-          {/* 6. Core Features */}
-          <FeatureStrip />
+          <div className="overflow-x-clip">
+            {/* 6. Core Features */}
+            <FeatureStrip />
 
-          {/* 6-7-8. Locked & Secured · Instant Bidding · Verified — cinematic scroll */}
-          <FeatureCinemaSection />
+            {/* 6-7-8. Locked & Secured · Instant Bidding · Verified — cinematic scroll */}
+            <FeatureCinemaSection />
 
-          {/* 8. Use Cases */}
-          <UseCasesSection />
+            {/* 8. Use Cases */}
+            <UseCasesSection />
 
-          {/* 9. Earn & Incentives */}
-          <RewardsSection />
-          {/* 10. Dubai Launch */}
-          <UAESection />
+            {/* 9. Earn & Incentives */}
+            <RewardsSection />
+            {/* 10. Dubai Launch */}
+            <UAESection />
 
-          {/* 12. Trust / Architecture */}
-          <TrustSection />
+            {/* 12. Trust / Architecture */}
+            <TrustSection />
 
-          {/* 13. Final CTA */}
-          <CTASection />
-        </div>
+            {/* 13. Final CTA */}
+            <CTASection />
+          </div>
+        </Suspense>
       </div>
     </>
   );

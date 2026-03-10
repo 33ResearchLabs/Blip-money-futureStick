@@ -78,7 +78,7 @@ const transactions = [
 
 const CARD_HEIGHT = 130;
 const LIST_GAP = 35;
-const STACK_OFFSET = 6;
+const STACK_OFFSET = 10;
 
 const orderTimelineSteps = [
   { label: "Order Created", time: "20:23:01" },

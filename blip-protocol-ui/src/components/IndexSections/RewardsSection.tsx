@@ -28,15 +28,17 @@ function EarnUI({ isDark }: { isDark: boolean }) {
 
   useEffect(() => {
     const id = setInterval(() => {
-      const next = EARN_TXNS[cursor % EARN_TXNS.length];
-      setTotal((prev) => parseFloat((prev + next.amount).toFixed(2)));
-      setRows((prev) => [next, ...prev].slice(0, 3));
-      setCursor((c) => c + 1);
-      setFlash(true);
-      setTimeout(() => setFlash(false), 700);
+      setCursor((c) => {
+        const next = EARN_TXNS[c % EARN_TXNS.length];
+        setTotal((prev) => parseFloat((prev + next.amount).toFixed(2)));
+        setRows((prev) => [next, ...prev].slice(0, 3));
+        setFlash(true);
+        setTimeout(() => setFlash(false), 700);
+        return c + 1;
+      });
     }, 2600);
     return () => clearInterval(id);
-  }, [cursor]);
+  }, []);
 
   return (
     <div
