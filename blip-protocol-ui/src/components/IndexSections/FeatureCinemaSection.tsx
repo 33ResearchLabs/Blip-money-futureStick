@@ -1902,7 +1902,7 @@ function ExplorerUI({
 
   return (
     <div
-      className={`w-[540px] rounded-2xl border backdrop-blur-xl overflow-hidden ${isDark ? "border-white/[0.06] bg-black/40 shadow-[0_8px_60px_-12px_rgba(0,0,0,0.8),0_0_80px_rgba(20,241,149,0.05)]" : "border-black/[0.06] bg-white/80 shadow-[0_8px_60px_-12px_rgba(0,0,0,0.1),0_0_80px_rgba(20,241,149,0.04)]"}`}
+      className={`w-[540px] rounded-2xl border backdrop-blur-xl overflow-hidden ${isDark ? "border-white/[0.06] bg-black/40 shadow-[0_8px_60px_-12px_rgba(0,0,0,0.8)]" : "border-black/[0.06] bg-white/80 shadow-[0_8px_60px_-12px_rgba(0,0,0,0.1)]"}`}
     >
       {/* Browser chrome — matches BlipscanExplorerSection exactly */}
       <div
@@ -2004,9 +2004,9 @@ function ExplorerUI({
               className={`flex items-center justify-between px-3 py-2.5 rounded-xl border mb-1.5 ${isDark ? "border-white/[0.04]" : "border-black/[0.04]"}`}
             >
               <div className="flex items-center gap-3 flex-1 min-w-0">
-                <div className="w-8 h-8 rounded-lg bg-[#14F195]/[0.08] border border-[#14F195]/20 flex items-center justify-center shrink-0">
+                <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${isDark ? "bg-white/[0.06] border border-white/[0.08]" : "bg-black/[0.04] border border-black/[0.06]"}`}>
                   <Check
-                    className="w-3.5 h-3.5 text-[#14F195]"
+                    className={`w-3.5 h-3.5 ${isDark ? "text-white/50" : "text-black/40"}`}
                     strokeWidth={2.5}
                   />
                 </div>
@@ -2031,7 +2031,7 @@ function ExplorerUI({
                       <motion.span
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="px-1.5 py-px rounded-full bg-[#14F195]/[0.12] border border-[#14F195]/20 text-[8px] text-[#14F195] font-bold whitespace-nowrap"
+                        className={`px-1.5 py-px rounded-full text-[8px] font-bold whitespace-nowrap ${isDark ? "bg-white/[0.08] border border-white/[0.12] text-white/60" : "bg-black/[0.06] border border-black/[0.08] text-black/50"}`}
                       >
                         NEW
                       </motion.span>
@@ -2057,8 +2057,8 @@ function ExplorerUI({
                     USDT
                   </div>
                 </div>
-                <div className="px-2 py-1 rounded-lg bg-[#14F195]/[0.08] border border-[#14F195]/20">
-                  <span className="text-[10px] text-[#14F195]">{tx.age}</span>
+                <div className={`px-2 py-1 rounded-lg ${isDark ? "bg-white/[0.04] border border-white/[0.06]" : "bg-black/[0.03] border border-black/[0.05]"}`}>
+                  <span className={`text-[10px] ${isDark ? "text-white/35" : "text-black/35"}`}>{tx.age}</span>
                 </div>
               </div>
             </motion.div>
