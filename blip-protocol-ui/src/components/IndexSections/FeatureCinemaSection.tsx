@@ -19,6 +19,10 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { useTheme } from "next-themes";
+import {
+  MerchantDashboardVisual,
+  MerchantHeroDashbaord,
+} from "../MerchantDashboard";
 
 const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -2370,7 +2374,13 @@ export default function FeatureCinemaSection() {
             {i === 0 ? (
               <EscrowUI active={activeScene === 0} isDark={isDark} />
             ) : i === 1 ? (
-              <MerchantDashboardUI active={activeScene === 1} isDark={isDark} />
+              // <MerchantDashboardUI active={activeScene === 1} isDark={isDark} />
+
+              <div style={{ width: 560, height: 420, position: "relative", overflow: "hidden", borderRadius: 16 }}>
+                <div style={{ transform: "scale(0.46)", transformOrigin: "top left", width: 1220, position: "absolute", top: 0, left: 0 }}>
+                  <MerchantDashboardVisual />
+                </div>
+              </div>
             ) : i === 2 ? (
               <BiddingUI active={activeScene === 2} isDark={isDark} />
             ) : (
