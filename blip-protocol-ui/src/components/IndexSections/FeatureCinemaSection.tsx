@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import {
   motion,
   useScroll,
@@ -43,15 +43,19 @@ function EscrowUI({
 
   useEffect(() => {
     if (!active) return;
+    const timers: ReturnType<typeof setTimeout>[] = [];
     const run = () => {
       setPhase("sending");
-      setTimeout(() => setPhase("locking"), 2000);
-      setTimeout(() => setPhase("locked"), 3600);
-      setTimeout(() => setPhase("verified"), 5000);
+      timers.push(setTimeout(() => setPhase("locking"), 2000));
+      timers.push(setTimeout(() => setPhase("locked"), 3600));
+      timers.push(setTimeout(() => setPhase("verified"), 5000));
     };
     run();
     const id = setInterval(run, 7500);
-    return () => clearInterval(id);
+    return () => {
+      clearInterval(id);
+      timers.forEach(clearTimeout);
+    };
   }, [active]);
 
   const progressWidth =
@@ -1521,6 +1525,7 @@ function BiddingUI({
 
   useEffect(() => {
     if (!active) return;
+    let resetTimer: ReturnType<typeof setTimeout>;
     const rateId = setInterval(() => {
       setBids((prev) => {
         const updated = prev
@@ -1540,7 +1545,7 @@ function BiddingUI({
       setCountdown((c) => {
         if (c <= 1) {
           setMatched(true);
-          setTimeout(() => {
+          resetTimer = setTimeout(() => {
             setMatched(false);
             setCountdown(15);
           }, 2200);
@@ -1553,6 +1558,7 @@ function BiddingUI({
     return () => {
       clearInterval(rateId);
       clearInterval(cdId);
+      clearTimeout(resetTimer);
     };
   }, [active]);
 
@@ -2312,16 +2318,26 @@ export default function FeatureCinemaSection() {
 
   const [activeScene, setActiveScene] = useState(0);
   const scrollHintOpacity = useTransform(scrollYProgress, [0, 0.07], [1, 0]);
+  const lastSceneRef = useRef(0);
+
+  // Throttled scroll listener — only update state when scene actually changes
+  const getScene = useCallback((v: number) => {
+    if (v < 0.35) return 0;
+    if (v < 0.6) return 1;
+    if (v < 0.82) return 2;
+    return 3;
+  }, []);
 
   useEffect(() => {
     const unsub = scrollYProgress.on("change", (v) => {
-      if (v < 0.35) setActiveScene(0);
-      else if (v < 0.6) setActiveScene(1);
-      else if (v < 0.82) setActiveScene(2);
-      else setActiveScene(3);
+      const newScene = getScene(v);
+      if (newScene !== lastSceneRef.current) {
+        lastSceneRef.current = newScene;
+        setActiveScene(newScene);
+      }
     });
     return unsub;
-  }, [scrollYProgress]);
+  }, [scrollYProgress, getScene]);
 
   return (
     <div ref={containerRef} style={{ height: "450vh" }}>

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, memo } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
@@ -810,4 +810,4 @@ const ProblemSection = () => {
   );
 };
 
-export default ProblemSection;
+export default memo(ProblemSection);

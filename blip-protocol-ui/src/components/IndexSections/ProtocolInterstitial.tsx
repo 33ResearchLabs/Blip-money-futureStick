@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, memo } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
@@ -433,4 +433,4 @@ const ProtocolInterstitial = () => {
   );
 };
 
-export default ProtocolInterstitial;
+export default memo(ProtocolInterstitial);
