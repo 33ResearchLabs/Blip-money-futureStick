@@ -13,6 +13,10 @@ import {
   TrendingDown,
   Sparkles,
   ArrowUpRight,
+  Trophy,
+  Star,
+  Crown,
+  ChevronRight,
 } from "lucide-react";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -85,7 +89,7 @@ function EarnUI({ isDark }: { isDark: boolean }) {
           </motion.div>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 4, alignItems: "flex-end" }}>
-          <div style={{ padding: "2px 8px", borderRadius: 999, background: "rgba(255,107,53,0.12)", border: "1px solid rgba(255,107,53,0.22)", fontSize: 8, fontWeight: 700, color: "#ff6b35", fontFamily: "monospace", letterSpacing: "0.05em" }}>
+          <div style={{ padding: "2px 8px", borderRadius: 999, background: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.05)", border: isDark ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(0,0,0,0.08)", fontSize: 8, fontWeight: 700, color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)", fontFamily: "monospace", letterSpacing: "0.05em" }}>
             2% BACK
           </div>
           <div style={{ padding: "2px 8px", borderRadius: 999, background: "rgba(61,220,132,0.08)", border: "1px solid rgba(61,220,132,0.18)", fontSize: 8, fontWeight: 700, color: isDark ? "#3ddc84" : "#1a9d52", fontFamily: "monospace", letterSpacing: "0.05em" }}>
@@ -107,15 +111,15 @@ function EarnUI({ isDark }: { isDark: boolean }) {
               transition={{ duration: 0.28 }}
               style={{
                 display: "flex", alignItems: "center", gap: 7, padding: "6px 8px", borderRadius: 8,
-                background: i === 0 && flash ? "rgba(255,107,53,0.07)" : isDark ? "rgba(255,255,255,0.015)" : "rgba(0,0,0,0.02)",
-                border: i === 0 && flash ? "1px solid rgba(255,107,53,0.14)" : "1px solid transparent",
+                background: i === 0 && flash ? (isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)") : (isDark ? "rgba(255,255,255,0.015)" : "rgba(0,0,0,0.02)"),
+                border: i === 0 && flash ? (isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.08)") : "1px solid transparent",
                 transition: "background 0.3s, border 0.3s",
               }}
             >
               <span style={{ fontSize: 13 }}>{tx.emoji}</span>
               <span style={{ flex: 1, fontSize: 10, color: isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.5)", fontFamily: "monospace" }}>{tx.label}</span>
               <span style={{ fontSize: 10, fontWeight: 700, color: isDark ? "#3ddc84" : "#1a9d52", fontFamily: "monospace", marginRight: 3 }}>+{tx.amount.toFixed(2)}</span>
-              <span style={{ fontSize: 7, padding: "1px 4px", borderRadius: 999, background: "rgba(255,107,53,0.09)", color: "#ff6b35", fontWeight: 700, fontFamily: "monospace" }}>2%</span>
+              <span style={{ fontSize: 7, padding: "1px 4px", borderRadius: 999, background: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.05)", color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.45)", fontWeight: 700, fontFamily: "monospace" }}>2%</span>
             </motion.div>
           ))}
         </AnimatePresence>
@@ -145,7 +149,7 @@ const UseCasesSection = () => {
     itemDesc: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.4)",
     rewardSpan: isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.25)",
     rewardDesc: isDark ? "rgba(255,255,255,0.33)" : "rgba(0,0,0,0.4)",
-    rewardLabel: isDark ? "rgba(255,107,53,0.55)" : "rgba(255,107,53,0.7)",
+    rewardLabel: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.35)",
     pillBg: isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)",
     pillBorder: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
     pillColor: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.45)",
@@ -159,13 +163,6 @@ const UseCasesSection = () => {
     >
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-black/10 dark:via-white/[0.06] to-transparent" />
 
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 20% 50%, rgba(255,107,53,0.04) 0%, transparent 50%)",
-        }}
-      />
 
       <div className="relative z-10 max-w-6xl mx-auto px-6">
         {/* Label */}
@@ -218,16 +215,12 @@ const UseCasesSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.9, ease: EASE }}
-          className="rounded-3xl overflow-hidden"
-          style={{ background: t.cardBg, border: `1px solid ${t.cardBorder}` }}
+          className="grid grid-cols-1 lg:grid-cols-3 gap-4"
         >
-          {/* Inner 3-col grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-3">
-
             {/* Col 1 — For Users */}
             <div
-              className="p-8"
-              style={{ borderRight: `1px solid ${t.colBorder}` }}
+              className="p-8 rounded-2xl"
+              style={{ background: t.cardBg, border: `1px solid ${t.cardBorder}` }}
             >
               <div style={{ fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: t.labelColor, fontWeight: 600, marginBottom: 6 }}>
                 For Users
@@ -235,7 +228,7 @@ const UseCasesSection = () => {
               <h3 style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.03em", color: t.headingColor, marginBottom: 20, lineHeight: 1.2 }}>
                 Pay freely.<br />Globally.
               </h3>
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {userCases.map((item) => {
                   const Icon = item.icon;
                   return (
@@ -262,8 +255,8 @@ const UseCasesSection = () => {
 
             {/* Col 2 — For Merchants */}
             <div
-              className="p-8"
-              style={{ borderRight: `1px solid ${t.colBorder}` }}
+              className="p-8 rounded-2xl"
+              style={{ background: t.cardBg, border: `1px solid ${t.cardBorder}` }}
             >
               <div style={{ fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: t.labelColor, fontWeight: 600, marginBottom: 6 }}>
                 For Merchants
@@ -271,7 +264,7 @@ const UseCasesSection = () => {
               <h3 style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.03em", color: t.headingColor, marginBottom: 20, lineHeight: 1.2 }}>
                 Scale without<br />limits.
               </h3>
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {merchantCases.map((item) => {
                   const Icon = item.icon;
                   return (
@@ -298,8 +291,8 @@ const UseCasesSection = () => {
 
             {/* Col 3 — Earn while you spend */}
             <div
-              className="p-8 flex flex-col justify-between"
-              style={{ background: "rgba(255,107,53,0.03)" }}
+              className="p-8 flex flex-col justify-between rounded-2xl"
+              style={{ background: t.cardBg, border: `1px solid ${t.cardBorder}` }}
             >
               {/* Copy */}
               <div>
@@ -316,15 +309,15 @@ const UseCasesSection = () => {
 
                 {/* Pills */}
                 <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 20 }}>
-                  {["2% cashback", "Instant", "Non-custodial"].map((pill, i) => (
+                  {["2% cashback", "Instant", "Non-custodial"].map((pill) => (
                     <div
                       key={pill}
                       style={{
                         padding: "3px 10px", borderRadius: 999,
-                        background: i === 0 ? "rgba(255,107,53,0.12)" : t.pillBg,
-                        border: i === 0 ? "1px solid rgba(255,107,53,0.25)" : `1px solid ${t.pillBorder}`,
+                        background: t.pillBg,
+                        border: `1px solid ${t.pillBorder}`,
                         fontSize: 9, fontWeight: 600,
-                        color: i === 0 ? "#ff6b35" : t.pillColor,
+                        color: t.pillColor,
                       }}
                     >
                       {pill}
@@ -336,8 +329,8 @@ const UseCasesSection = () => {
               {/* Live panel header */}
               <div>
                 <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 10 }}>
-                  <div style={{ width: 24, height: 24, borderRadius: 7, background: "rgba(255,107,53,0.15)", border: "1px solid rgba(255,107,53,0.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <Sparkles style={{ width: 11, height: 11, color: "#ff6b35" }} />
+                  <div style={{ width: 24, height: 24, borderRadius: 7, background: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.05)", border: isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.07)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <Sparkles style={{ width: 11, height: 11, color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)" }} />
                   </div>
                   <span style={{ fontSize: 11, fontWeight: 600, color: t.myRewardsColor }}>My Rewards</span>
                   <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 4 }}>
@@ -349,12 +342,11 @@ const UseCasesSection = () => {
                 <EarnUI isDark={isDark} />
 
                 <div style={{ display: "flex", alignItems: "center", gap: 4, marginTop: 14, cursor: "pointer" }}>
-                  <span style={{ fontSize: 11, fontWeight: 600, color: "#ff6b35" }}>Learn about Blip Rewards</span>
-                  <ArrowUpRight style={{ width: 12, height: 12, color: "#ff6b35" }} />
+                  <span style={{ fontSize: 11, fontWeight: 600, color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)" }}>Learn about Blip Rewards</span>
+                  <ArrowUpRight style={{ width: 12, height: 12, color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)" }} />
                 </div>
               </div>
             </div>
-          </div>
         </motion.div>
       </div>
 
