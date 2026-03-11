@@ -2146,14 +2146,171 @@ const FEATURES_DATA = [
   },
 ];
 
+function FeatureRow({
+  feature,
+  visual,
+  index,
+  isDark,
+}: {
+  feature: (typeof FEATURES_DATA)[0];
+  visual: React.ReactNode;
+  index: number;
+  isDark: boolean;
+}) {
+  const isEven = index % 2 === 0;
+
+  return (
+    <div className="relative">
+      {/* Subtle accent glow behind visual */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.03]"
+        style={{
+          background: `radial-gradient(ellipse 60% 50% at ${isEven ? "70%" : "30%"} 50%, ${feature.accent}, transparent)`,
+        }}
+      />
+
+      <div
+        className={`w-full max-w-7xl mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center ${
+          isEven ? "" : "direction-rtl"
+        }`}
+        style={{ direction: isEven ? "ltr" : "rtl" }}
+      >
+        {/* Text side */}
+        <motion.div
+          initial={{ opacity: 0, x: isEven ? -40 : 40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.7, ease: EASE }}
+          style={{ direction: "ltr" }}
+        >
+          {/* Number + accent line */}
+          <div className="flex items-center gap-4 mb-8">
+            <span
+              className="text-[11px] uppercase tracking-[0.3em] font-semibold"
+              style={{ color: feature.accent }}
+            >
+              {feature.eyebrow}
+            </span>
+            <div
+              className="flex-1 h-px"
+              style={{
+                background: `linear-gradient(90deg, ${feature.accent}40, transparent)`,
+              }}
+            />
+          </div>
+
+          {/* Headline */}
+          <h2
+            className={`font-display ${isDark ? "text-white" : "text-black"}`}
+            style={{
+              fontSize: "clamp(2rem, 4vw, 3.5rem)",
+              fontWeight: 700,
+              letterSpacing: "-0.04em",
+              lineHeight: 1.05,
+              marginBottom: 24,
+            }}
+          >
+            {feature.headline[0]}
+            <br />
+            <span
+              style={{
+                color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.35)",
+              }}
+            >
+              {feature.headline[1]}
+            </span>
+          </h2>
+
+          {/* Subline */}
+          <p
+            className={`text-base md:text-lg leading-relaxed mb-8 max-w-[440px] ${
+              isDark ? "text-white/40" : "text-black/60"
+            }`}
+          >
+            {feature.subline}
+          </p>
+
+          {/* Bullets — vertical list */}
+          <div className="flex flex-col gap-3">
+            {feature.bullets.map((b, bi) => (
+              <motion.div
+                key={b}
+                initial={{ opacity: 0, x: -16 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{
+                  duration: 0.5,
+                  ease: EASE,
+                  delay: 0.15 + bi * 0.08,
+                }}
+                className="flex items-center gap-3"
+              >
+                <div
+                  className="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0"
+                  style={{
+                    background: `${feature.accent}12`,
+                    border: `1px solid ${feature.accent}25`,
+                  }}
+                >
+                  <Check
+                    style={{ width: 11, height: 11, color: feature.accent }}
+                    strokeWidth={2.5}
+                  />
+                </div>
+                <span
+                  className={`text-sm md:text-[15px] ${
+                    isDark ? "text-white/50" : "text-black/65"
+                  }`}
+                >
+                  {b}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Visual side */}
+        <motion.div
+          initial={{ opacity: 0, y: 30, scale: 0.97 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.8, ease: EASE, delay: 0.15 }}
+          className="flex items-center justify-center"
+          style={{ direction: "ltr" }}
+        >
+          {visual}
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
 export default function FeatureCinemaSection() {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
 
   const visuals = [
     <EscrowUI key={0} isDark={isDark} />,
-    <div key={1} style={{ width: 560, height: 420, position: "relative", overflow: "hidden", borderRadius: 16 }}>
-      <div style={{ transform: "scale(0.46)", transformOrigin: "top left", width: 1220, position: "absolute", top: 0, left: 0 }}>
+    <div
+      key={1}
+      style={{
+        width: 560,
+        height: 420,
+        position: "relative",
+        overflow: "hidden",
+        borderRadius: 16,
+      }}
+    >
+      <div
+        style={{
+          transform: "scale(0.46)",
+          transformOrigin: "top left",
+          width: 1220,
+          position: "absolute",
+          top: 0,
+          left: 0,
+        }}
+      >
         <MerchantDashboardVisual />
       </div>
     </div>,
@@ -2162,11 +2319,18 @@ export default function FeatureCinemaSection() {
   ];
 
   return (
-    <div style={{ background: "#000000" }}>
-      {/* Top pill label */}
-      <div className="flex justify-center pt-16 pb-10">
-        <div
-          className="flex items-center gap-2 px-4 py-2 rounded-full"
+    <div
+      className={isDark ? "bg-black" : "bg-[#FAF8F5]"}
+      style={{ position: "relative", overflow: "hidden" }}
+    >
+      {/* Section header */}
+      <div className="flex flex-col items-center pt-24 md:pt-32 pb-20 md:pb-28 px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: EASE }}
+          className="flex items-center gap-2.5 px-5 py-2.5 rounded-full mb-8"
           style={{
             background: isDark
               ? "rgba(255,255,255,0.04)"
@@ -2176,89 +2340,63 @@ export default function FeatureCinemaSection() {
         >
           <Shield
             style={{
-              width: 12,
-              height: 12,
-              color: isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.28)",
+              width: 13,
+              height: 13,
+              color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)",
             }}
           />
           <span
-            style={{
-              fontSize: 10,
-              letterSpacing: "3px",
-              textTransform: "uppercase",
-              color: isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.28)",
-            }}
+            className={`text-[11px] uppercase tracking-[0.3em] font-medium ${
+              isDark ? "text-white/30" : "text-black/30"
+            }`}
           >
             Core Features
           </span>
-        </div>
+        </motion.div>
+
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, ease: EASE, delay: 0.1 }}
+          className={`text-center font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight ${
+            isDark ? "text-white" : "text-black"
+          }`}
+          style={{ letterSpacing: "-0.04em", lineHeight: 1.08 }}
+        >
+          Built for trust.
+          <br />
+          <span
+            className={isDark ? "text-white/25" : "text-black/30"}
+          >
+            Designed for speed.
+          </span>
+        </motion.h2>
+
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: EASE, delay: 0.2 }}
+          className={`text-center text-base md:text-lg mt-6 max-w-lg ${
+            isDark ? "text-white/35" : "text-black/50"
+          }`}
+        >
+          Every layer of Blip Protocol is engineered for secure, instant
+          settlements — from escrow to verification.
+        </motion.p>
       </div>
 
-      {/* Features stacked vertically */}
-      <div className="flex flex-col gap-32 pb-20">
+      {/* Feature rows */}
+      <div className="flex flex-col gap-28 md:gap-40 pb-28 md:pb-40">
         {FEATURES_DATA.map((f, i) => (
-          <div key={i} className="w-full max-w-7xl mx-auto px-6 flex flex-col items-center gap-14">
-            {/* Text — centered */}
-            <div className="text-center max-w-2xl">
-              <div
-                className="text-[10px] uppercase tracking-[3px] mb-5 font-semibold"
-                style={{ color: f.accent }}
-              >
-                {f.eyebrow}
-              </div>
-              <h2
-                className={isDark ? "text-white" : "text-black"}
-                style={{
-                  fontSize: "clamp(1.8rem, 3.5vw, 3rem)",
-                  fontWeight: 700,
-                  letterSpacing: "-0.04em",
-                  lineHeight: 1.08,
-                  marginBottom: 20,
-                }}
-              >
-                {f.headline[0]}
-                <br />
-                <span
-                  style={{ color: isDark ? "rgba(255,255,255,0.28)" : "#555555" }}
-                >
-                  {f.headline[1]}
-                </span>
-              </h2>
-              <p
-                className={`text-base leading-relaxed mb-6 mx-auto max-w-[400px] ${isDark ? "text-white/40" : "text-black/70"}`}
-              >
-                {f.subline}
-              </p>
-              <div className="flex flex-wrap justify-center gap-3">
-                {f.bullets.map((b) => (
-                  <div key={b} className="flex items-center gap-2">
-                    <div
-                      className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
-                      style={{
-                        background: `${f.accent}18`,
-                        border: `1px solid ${f.accent}35`,
-                      }}
-                    >
-                      <Check
-                        style={{ width: 9, height: 9, color: f.accent }}
-                        strokeWidth={3}
-                      />
-                    </div>
-                    <span
-                      className={`text-sm ${isDark ? "text-white/45" : "text-black/75"}`}
-                    >
-                      {b}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Visual — below text */}
-            <div className="flex items-center justify-center">
-              {visuals[i]}
-            </div>
-          </div>
+          <FeatureRow
+            key={i}
+            feature={f}
+            visual={visuals[i]}
+            index={i}
+            isDark={isDark}
+          />
         ))}
       </div>
     </div>

@@ -14,27 +14,29 @@ import {
   Cpu,
   Lock,
   Activity,
-  Plane,
-  ShoppingBag,
-  Coffee,
-  Database,
-  Smartphone,
-  Layers,
-  BarChart3,
 } from "lucide-react";
 
+/**
+ * HIGH-DEFINITION CINEMATIC ASSETS
+ */
 const IMAGES = {
   heroGlobe:
     "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000&auto=format",
   fiberOptics:
-    "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1200&auto=format",
-  whitePattern:
-    "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2000&auto=format",
-  infrastructure:
+    "https://media.gettyimages.com/id/451179701/vector/stock-market-chart.jpg?s=612x612&w=0&k=20&c=jbfWI9CjYplyoXWgCGbkVBdlv5AXQ1rlF9dFEmrxrIk=",
+  dataStream:
     "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format",
-  networkNodes:
+  blockchainNodes:
     "https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=1200&auto=format",
+  vault:
+    "https://images.unsplash.com/photo-1558494949-ef010cbdcc48?q=80&w=1200&auto=format",
+  deepNetwork:
+    "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2000&auto=format",
 };
+
+/**
+ * REUSABLE PREMIUM COMPONENTS
+ */
 
 const SectionLabel = ({
   children,
@@ -44,13 +46,13 @@ const SectionLabel = ({
   color?: string;
 }) => (
   <span
-    className={`text-[11px] font-bold uppercase tracking-[0.3em] ${color} block mb-6`}
+    className={`text-[11px] font-bold uppercase tracking-[0.3em] ${color} block mb-4`}
   >
     {children}
   </span>
 );
 
-const BrandButton = ({
+const AppleButton = ({
   children,
   variant = "primary",
   onClick,
@@ -98,31 +100,31 @@ const BentoCard = ({
   overlayOpacity?: string;
 }) => (
   <div
-    className={`relative overflow-hidden rounded-[3rem] group border border-white/5 shadow-2xl ${dark ? "bg-[#0a0a0b]" : "bg-white text-black"} ${className}`}
+    className={`relative overflow-hidden rounded-[3rem] group border border-white/5 shadow-2xl ${dark ? "bg-[#0a0a0b]" : "bg-gray-200 text-black"} ${className}`}
   >
     {image && (
       <>
         <img
           src={image}
           alt={title || "Tech Visual"}
-          className={`absolute inset-0 w-full h-full object-cover ${overlayOpacity} group-hover:scale-105 transition-transform duration-1000 ease-out`}
+          className={`absolute inset-0 w-full h-full object-fill ${overlayOpacity} group-hover:scale-105 transition-transform duration-1000 ease-out`}
         />
         <div
           className={`absolute inset-0 bg-gradient-to-t ${dark ? "from-black via-black/80" : "from-white via-white/40"} to-transparent opacity-100 transition-opacity`}
         />
       </>
     )}
-    <div className="relative z-10 p-12 h-full flex flex-col">
+    <div className="relative z-10 p-10 h-full flex flex-col">
       {title && (
         <h3
-          className={`text-4xl font-bold tracking-tight mb-4 ${dark ? "text-white" : "text-black"}`}
+          className={`text-3xl font-bold tracking-tight mb-2 ${dark ? "text-white" : "text-black"}`}
         >
           {title}
         </h3>
       )}
       {subtitle && (
         <p
-          className={`text-base max-w-[320px] leading-relaxed mb-8 ${dark ? "text-gray-400" : "text-gray-600"}`}
+          className={`text-base max-w-[280px] leading-relaxed ${dark ? "text-black" : "text-gray-600"}`}
         >
           {subtitle}
         </p>
@@ -132,41 +134,14 @@ const BentoCard = ({
   </div>
 );
 
-const RewardTransaction = ({
-  icon: Icon,
-  name,
-  amount,
-}: {
-  icon: React.ElementType;
-  name: string;
-  amount: string;
-}) => (
-  <div className="flex items-center justify-between py-4 border-b border-white/[0.03] last:border-0 group cursor-pointer">
-    <div className="flex items-center gap-4">
-      <div className="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center text-blue-400 group-hover:bg-white/10 transition duration-500">
-        <Icon size={20} />
-      </div>
-      <div>
-        <div className="text-sm font-semibold text-white tracking-tight">
-          {name}
-        </div>
-        <div className="text-[10px] text-gray-600 font-bold uppercase tracking-widest">
-          2% Rewards
-        </div>
-      </div>
-    </div>
-    <div className="text-right">
-      <div className="text-sm font-black text-[#b4f3a3]">
-        +{amount} <span className="text-[10px]">BLIP</span>
-      </div>
-      <div className="text-[9px] text-gray-700 font-black uppercase tracking-widest">
-        Confirmed
-      </div>
-    </div>
-  </div>
-);
+/**
+ * REWARDS HUB PAGE
+ */
 
 export default function RewardPage() {
+  const [isConnected, setIsConnected] = useState(false);
+  const [walletAddr, setWalletAddr] = useState("");
+  const [copying, setCopying] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -175,323 +150,361 @@ export default function RewardPage() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const connectWallet = () => {
+    if (isConnected) {
+      setIsConnected(false);
+      setWalletAddr("");
+    } else {
+      setIsConnected(true);
+      setWalletAddr("8xM...p29z");
+    }
+  };
+
+  const handleCopy = () => {
+    setCopying(true);
+    setTimeout(() => setCopying(false), 2000);
+  };
+
   return (
-    <div className="min-h-screen bg-[#000] text-white font-sans antialiased selection:bg-[#ffb088]/30">
-      <main>
-        {/* HERO */}
+    <div className="min-h-screen bg-[#000] text-white font-sans antialiased selection:bg-blue-500/30">
+      {/* IMMERSIVE NAV */}
+
+      <main className="pb-32">
+        {/* CINEMATIC HERO */}
         <section className="relative h-screen flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img
               src={IMAGES.heroGlobe}
               alt="Global Network"
-              className="w-full h-full object-cover opacity-50 scale-110"
+              className="w-full h-full object-cover opacity-50 scale-110 animate-subtle-zoom"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
           </div>
 
-          <div className="relative z-10 max-w-[1300px] mx-auto px-10 text-center space-y-12">
+          <div className="relative z-10 max-w-[1200px] mx-auto px-10 text-center space-y-10">
             <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-xl mb-4">
               <Activity size={14} className="text-[#ffb088]" />
               <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#ffb088]">
-                Solana Mainnet: Optimized
+                Network Status: Optimized
               </span>
             </div>
-            <h1 className="text-[64px] md:text-[118px] font-black tracking-[-0.05em] leading-[0.9] drop-shadow-2xl">
+            <h1 className="text-[60px] md:text-[110px] font-black tracking-[-0.05em] leading-[0.95] drop-shadow-2xl">
               Borderless finance. <br />
-              <span className="bg-gradient-to-r from-[#ffb088] to-[#ff8c5a] bg-clip-text text-transparent italic">
-                Settled on-chain.
-              </span>
+              <span className="text-gray-500">Settled on-chain.</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto leading-relaxed font-medium">
-              Send value to anyone, anywhere. Powered by open infrastructure and
-              high-performance non-custodial liquidity.
+              A high-performance P2P payment network built on Solana. Earn
+              native rewards for every contribution to the ecosystem.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-6 pt-10">
-              <BrandButton className="h-18 px-14 text-xl shadow-[0_20px_60px_rgba(255,176,136,0.15)]">
-                Join Waitlist
-              </BrandButton>
-              <BrandButton variant="secondary" className="h-18 px-14 text-xl">
-                Become a Merchant <ChevronRight size={24} />
-              </BrandButton>
+              <AppleButton className="h-16 px-12 text-xl shadow-[0_0_50px_rgba(255,255,255,0.15)]">
+                Explore Rewards
+              </AppleButton>
+              <AppleButton variant="secondary" className="h-16 px-12 text-xl">
+                Read Manifesto <ChevronRight size={24} />
+              </AppleButton>
             </div>
-          </div>
-
-          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gray-600 animate-bounce">
-            <span className="text-[9px] font-bold uppercase tracking-widest">
-              Scroll to explore
-            </span>
-            <ChevronDown size={16} />
           </div>
         </section>
 
-        {/* BENTO GRID */}
-        <section
-          id="how"
-          className="max-w-[1400px] mx-auto px-10 pt-20 pb-40 space-y-32"
-        >
-          <div className="text-center space-y-6">
-            <SectionLabel color="text-[#ffb088]">Protocol Pillars</SectionLabel>
-            <h2 className="text-7xl font-black tracking-tighter">
-              Built for everyone.
-            </h2>
-            <p className="text-xl text-gray-500 max-w-lg mx-auto leading-relaxed">
-              Whether you're sending value globally or scaling a merchant
-              business, blip.money is the rails for your value.
-            </p>
+        {/* WELCOME HUB */}
+        <section className="max-w-[1400px] mx-auto px-10 -mt-20 relative z-20">
+          <BentoCard
+            className="min-h-[380px] border-white/10 shadow-[0_40px_100px_rgba(0,0,0,1)]"
+            title="$25 Welcome Incentive"
+            subtitle="Initiate your first settlement and unlock immediate protocol rewards."
+            image={IMAGES.deepNetwork}
+            overlayOpacity="opacity-100"
+          >
+            <div className="flex flex-col md:flex-row items-end justify-between w-full mt-4 gap-6">
+              <div className="grid grid-cols-2 gap-4 w-full md:max-w-md">
+                <div className="p-5 rounded-[2rem] bg-black/40 border border-white/10 backdrop-blur-3xl group/item hover:border-white/20 transition-all">
+                  <SectionLabel color="text-gray-400">Your Status</SectionLabel>
+                  <div className="text-xl font-bold flex items-center gap-2">
+                    {isConnected ? (
+                      <>
+                        <CheckCircle2 size={20} className="text-green-500" />{" "}
+                        Connected
+                      </>
+                    ) : (
+                      "Inactive"
+                    )}
+                  </div>
+                </div>
+                <div className="p-5 rounded-[2rem] bg-black/40 border border-white/10 backdrop-blur-3xl group/item hover:border-white/20 transition-all">
+                  <SectionLabel color="text-gray-400">Available</SectionLabel>
+                  <div className="text-xl font-bold">25.00 BLIP</div>
+                </div>
+              </div>
+              <AppleButton
+                variant="primary"
+                onClick={connectWallet}
+                className="h-16 px-14 text-xl rounded-[1.5rem] w-full md:w-auto shadow-2xl"
+              >
+                {isConnected ? "Start Settlement" : "Connect To Claim"}
+              </AppleButton>
+            </div>
+          </BentoCard>
+        </section>
+
+        {/* CAMPAIGNS BENTO GRID */}
+        <section className="max-w-[1400px] mx-auto px-10 pt-32 space-y-12">
+          <div className="flex justify-between items-end mb-16 px-4">
+            <div className="space-y-2">
+              <SectionLabel color="text-[#ffb088]">
+                Current Opportunities
+              </SectionLabel>
+              <h2 className="text-6xl font-black tracking-tighter">
+                Active Hubs
+              </h2>
+            </div>
+            <AppleButton variant="link" className="text-lg">
+              Protocol Archive <ChevronRight size={20} />
+            </AppleButton>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            {/* FOR USERS */}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 h-auto">
+            {/* LIQUIDITY HUB */}
             <BentoCard
-              className="lg:col-span-4 min-h-[700px]"
-              title="For Users."
-              subtitle="Pay freely. Globally. Tap to pay at stores and across borders with instant settlement."
-              image={IMAGES.networkNodes}
+              className="md:col-span-8 h-[600px]"
+              title="Global Liquidity Provider"
+              subtitle="Power the PeopleBank network by providing deep liquidity to settlement pairs."
+              image={IMAGES.fiberOptics}
+              overlayOpacity="opacity-70"
+            >
+              <div className="flex flex-col md:flex-row items-center justify-between w-full gap-8 p-6 bg-black/40 backdrop-blur-xl rounded-[2rem] border border-white/5">
+                <div className="flex items-center gap-6">
+                  <div className="w-16 h-16 rounded-full bg-[#ffb088]/20 border border-[#ffb088]/30 flex items-center justify-center">
+                    <Cpu className="text-[#ffb088]" size={32} />
+                  </div>
+                  <div>
+                    <div className="text-sm text-gray-500 font-bold uppercase tracking-widest">
+                      Base Reward
+                    </div>
+                    <div className="text-4xl font-black">50.00 BLIP</div>
+                  </div>
+                </div>
+                <AppleButton variant="secondary" className="h-14 px-10">
+                  Add Liquidity
+                </AppleButton>
+              </div>
+            </BentoCard>
+
+            {/* P2P CARD */}
+            <BentoCard
+              className="md:col-span-4 h-[600px]"
+              title="Peer Settlement"
+              subtitle="The core heartbeat of blip.money. Simple. Instant. Private."
+              image={IMAGES.blockchainNodes}
               overlayOpacity="opacity-50"
             >
-              <div className="space-y-4">
-                {[
-                  {
-                    t: "Pay globally",
-                    d: "Send value instantly to any wallet.",
-                    i: <Globe size={18} />,
-                  },
-                  {
-                    t: "Pay anywhere",
-                    d: "Tap-to-pay functionality coming soon.",
-                    i: <Smartphone size={18} />,
-                  },
-                  {
-                    t: "Private by default",
-                    d: "On-chain privacy for every transaction.",
-                    i: <Lock size={18} />,
-                  },
-                ].map((item, i) => (
-                  <div
-                    key={i}
-                    className="p-6 rounded-[2rem] bg-black/40 border border-white/5 backdrop-blur-3xl group/item cursor-pointer hover:border-white/15 transition-all duration-500"
-                  >
-                    <div className="flex items-center gap-5">
-                      <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-gray-400 group-hover/item:text-white transition">
-                        {item.i}
-                      </div>
-                      <div>
-                        <div className="text-sm font-bold tracking-tight">
-                          {item.t}
-                        </div>
-                        <div className="text-[11px] text-gray-600 font-medium">
-                          {item.d}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+              <div className="flex items-center justify-between w-full pt-10 border-t border-white/10 group/btn cursor-pointer">
+                <span className="text-3xl font-black">
+                  10.00{" "}
+                  <span className="text-xs text-gray-500 tracking-widest">
+                    BLIP
+                  </span>
+                </span>
+                <div className="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center group-hover/btn:bg-white group-hover/btn:text-black transition-all duration-500">
+                  <ArrowRight size={28} />
+                </div>
               </div>
             </BentoCard>
 
-            {/* FOR MERCHANTS */}
+            {/* MERCHANT CARD */}
             <BentoCard
-              className="lg:col-span-4 min-h-[700px]"
-              title="For Merchants."
-              subtitle="Scale without limits. Lower fees, zero chargebacks, and instant liquidity."
-              image={IMAGES.fiberOptics}
+              className="md:col-span-4 h-[500px]"
+              title="Merchant Gateway"
+              subtitle="Pay verified partners on-chain. Zero fees. Zero friction."
+              image={IMAGES.vault}
               overlayOpacity="opacity-60"
             >
-              <div className="space-y-4">
+              <div className="flex items-center justify-between w-full pt-6">
+                <div className="text-3xl font-black flex items-center gap-2">
+                  <Zap className="text-yellow-400" size={24} /> 20.00
+                </div>
+                <AppleButton variant="secondary" className="rounded-2xl">
+                  Use Pay
+                </AppleButton>
+              </div>
+            </BentoCard>
+
+            {/* WHITE PERFORMANCE CARD */}
+            <BentoCard
+              dark={false}
+              className="md:col-span-8 h-[500px]"
+              title="Recurring Velocity"
+              subtitle="Maintain high protocol engagement to unlock tiered performance multipliers."
+            >
+              <div className="space-y-10 mt-12">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {[1, 2, 3, 4].map((i) => (
+                    <div
+                      key={i}
+                      className={`h-20 rounded-2xl border flex items-center justify-center text-xl font-black ${i === 1 ? "bg-black text-white border-black" : "border-black/5 text-black/20"}`}
+                    >
+                      {i}x
+                    </div>
+                  ))}
+                </div>
+                <div className="flex justify-between items-center bg-black/5 p-8 rounded-[2rem]">
+                  <div>
+                    <SectionLabel color="text-black/40">
+                      Current Multiplier
+                    </SectionLabel>
+                    <span className="text-5xl font-black text-black tracking-tighter">
+                      15.00 BLIP
+                    </span>
+                  </div>
+                  <AppleButton className="bg-black text-black hover:bg-black/90 h-16 px-10 text-lg">
+                    Increase Velocity
+                  </AppleButton>
+                </div>
+              </div>
+            </BentoCard>
+          </div>
+        </section>
+
+        {/* GLOBAL REFERRAL */}
+        <section className="relative py-40 overflow-hidden mt-32">
+          <div className="absolute inset-0 z-0">
+            <img
+              src={IMAGES.dataStream}
+              alt="Global Network"
+              className="w-full h-full object-cover opacity-20"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black" />
+          </div>
+
+          <div className="max-w-[1400px] mx-auto px-10 grid lg:grid-cols-2 gap-24 items-center relative z-10">
+            <div className="space-y-12">
+              <div className="space-y-6">
+                <SectionLabel color="text-[#ffb088]">
+                  Network Growth
+                </SectionLabel>
+                <h2 className="text-7xl font-black tracking-tighter leading-tight">
+                  Scale the <br />
+                  Future Hub.
+                </h2>
+                <p className="text-2xl text-gray-400 max-w-md leading-relaxed font-medium">
+                  Invite the next wave of participants and share in the
+                  protocol's expansion rewards.
+                </p>
+              </div>
+              <div className="grid gap-6">
                 {[
                   {
-                    t: "Lower fees",
-                    d: "0.1% vs traditional 3.5% rails.",
-                    i: <BarChart3 size={18} />,
+                    t: "Tier 1",
+                    d: "10 BLIP per Referral Transfer",
+                    icon: <Globe size={24} />,
                   },
                   {
-                    t: "Instant liquidity",
-                    d: "Non-custodial pool settlement.",
-                    i: <Database size={18} />,
+                    t: "Tier 2",
+                    d: "25 BLIP for Volume Milestones",
+                    icon: <Activity size={24} />,
                   },
                   {
-                    t: "No chargebacks",
-                    d: "Final settlement on every trade.",
-                    i: <Shield size={18} />,
+                    t: "Tier 3",
+                    d: "100 BLIP Elite Network Bonus",
+                    icon: <Lock size={24} />,
                   },
                 ].map((item, i) => (
                   <div
                     key={i}
-                    className="p-6 rounded-[2rem] bg-black/40 border border-white/5 backdrop-blur-3xl group/item cursor-pointer hover:border-white/15 transition-all duration-500"
+                    className="flex items-center gap-8 p-8 rounded-[2.5rem] bg-white/[0.03] border border-white/5 backdrop-blur-3xl group cursor-pointer hover:bg-white/[0.07] transition-all duration-500"
                   >
-                    <div className="flex items-center gap-5">
-                      <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-gray-400 group-hover/item:text-white transition">
-                        {item.i}
-                      </div>
-                      <div>
-                        <div className="text-sm font-bold tracking-tight">
-                          {item.t}
-                        </div>
-                        <div className="text-[11px] text-gray-600 font-medium">
-                          {item.d}
-                        </div>
-                      </div>
+                    <div className="w-16 h-16 rounded-[1.2rem] bg-white text-black flex items-center justify-center group-hover:scale-110 transition-transform">
+                      {item.icon}
                     </div>
+                    <div>
+                      <h4 className="font-bold text-xl uppercase tracking-tighter">
+                        {item.t}
+                      </h4>
+                      <p className="text-gray-500 font-medium">{item.d}</p>
+                    </div>
+                    <ChevronRight className="ml-auto text-gray-700 group-hover:text-white transition-colors" />
                   </div>
                 ))}
               </div>
-            </BentoCard>
+            </div>
 
-            {/* REWARDS HUB */}
-            <BentoCard
-              className="lg:col-span-4 min-h-[700px] bg-gradient-to-br from-[#111] to-black border-white/10"
-              title="Rewards."
-              subtitle="Every payment earns BLIP rewards automatically. Experience the protocol that pays you back."
-            >
-              <div className="bg-black border border-white/5 rounded-[2.5rem] p-8 space-y-8 shadow-3xl mt-10">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Plus size={14} className="text-gray-700" />
-                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500">
-                      My Vault
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-[#b4f3a3]/10 border border-[#b4f3a3]/20">
-                    <div className="w-1 h-1 rounded-full bg-[#b4f3a3]" />
-                    <span className="text-[9px] font-black uppercase tracking-widest text-[#b4f3a3]">
-                      On-Chain
-                    </span>
+            <div className="relative group">
+              <div className="absolute inset-0 bg-blue-500/20 blur-[120px] rounded-full group-hover:bg-blue-500/40 transition-all duration-1000" />
+              <div className="relative bg-black/40 backdrop-blur-3xl border border-white/10 p-16 rounded-[4rem] shadow-2xl space-y-12 text-center lg:text-left">
+                <div className="space-y-4">
+                  <SectionLabel color="text-white">
+                    Your Protocol Identity
+                  </SectionLabel>
+                  <div className="text-5xl font-black tracking-tighter break-all bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-600">
+                    blip.money/r/82k...
                   </div>
                 </div>
-
-                <div className="space-y-2 border-b border-white/5 pb-8">
-                  <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-600">
-                    Total Earned
-                  </div>
-                  <div className="text-5xl font-black tracking-tighter text-white">
-                    $862.90{" "}
-                    <span className="text-xs font-bold text-gray-600">
-                      BLIP
-                    </span>
-                  </div>
-                  <div className="flex gap-2 pt-2">
-                    <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-[9px] font-black text-white">
-                      2% BACK
-                    </span>
-                    <span className="px-2 py-0.5 rounded bg-[#ffb088]/10 border border-[#ffb088]/20 text-[9px] font-black text-[#ffb088]">
-                      x5 STREAK
-                    </span>
-                  </div>
-                </div>
-
-                <div className="space-y-1">
-                  <RewardTransaction
-                    icon={Plane}
-                    name="Emirates Air"
-                    amount="12.80"
-                  />
-                  <RewardTransaction
-                    icon={ShoppingBag}
-                    name="Dubai Mall"
-                    amount="4.20"
-                  />
-                  <RewardTransaction
-                    icon={Coffee}
-                    name="Arabica Coffee"
-                    amount="0.50"
-                  />
-                </div>
+                <AppleButton
+                  variant="primary"
+                  onClick={handleCopy}
+                  className="h-20 w-full text-2xl font-black rounded-[2rem] shadow-[0_20px_40px_rgba(255,255,255,0.1)]"
+                >
+                  {copying ? "Identity Copied" : "Copy Link"}
+                </AppleButton>
               </div>
-            </BentoCard>
+            </div>
           </div>
         </section>
 
-        {/* INFRASTRUCTURE SECTION */}
-        <section className="bg-[#161617] py-40 overflow-hidden relative">
-          <img
-            src={IMAGES.whitePattern}
-            className="absolute inset-0 w-full h-full object-cover opacity-100 pointer-events-none"
-            style={{ mixBlendMode: "overlay" }}
-            alt="Pattern"
-          />
-          <div className="max-w-[1400px] mx-auto px-10 grid lg:grid-cols-2 gap-24 items-center relative z-10">
-            <div className="space-y-10">
-              <SectionLabel color="text-gray-400">Under the hood</SectionLabel>
-              <h2 className="text-7xl font-black tracking-tighter leading-[1] text-white">
-                Non-custodial. <br />
-                Decentralized.
-              </h2>
-              <p className="text-2xl text-gray-500 leading-relaxed font-medium">
-                The protocol uses high-yield liquidity pools to settle global
-                corridors without traditional intermediaries.
-              </p>
-              <div className="grid sm:grid-cols-2 gap-8">
-                <div className="space-y-3">
-                  <Layers size={32} className="text-[#ffb088]" />
-                  <h4 className="text-xl font-bold">Layer 1 Security</h4>
-                  <p className="text-sm text-gray-600">
-                    Built on Solana for 65k+ TPS and military-grade security.
-                  </p>
-                </div>
-                <div className="space-y-3">
-                  <Database size={32} className="text-[#ffb088]" />
-                  <h4 className="text-xl font-bold">Open Liquidity</h4>
-                  <p className="text-sm text-gray-600">
-                    Anyone can provide liquidity and earn protocol fees.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="relative">
-              <div className="absolute inset-0 bg-blue-500/20 blur-[150px] rounded-full" />
-              <BentoCard
-                className="h-[500px] border-white/10"
-                title="Verified Corridors"
-                subtitle="Check real-time settlement status across 50+ global currency pairs."
-                image={IMAGES.infrastructure}
-                overlayOpacity="opacity-60"
+        {/* FAQ */}
+        <section className="max-w-[1000px] mx-auto px-10 pt-40">
+          <div className="text-center mb-24">
+            <h2 className="text-6xl font-black tracking-tighter mb-6">
+              Common Knowledge.
+            </h2>
+            <p className="text-xl text-gray-500 font-medium">
+              Clear insights into protocol reward mechanics.
+            </p>
+          </div>
+          <div className="divide-y divide-white/5 border-t border-white/5">
+            {[
+              "How do I qualify for settlement rewards?",
+              "Are reward distributions automated on-chain?",
+              "What defines a 'Verified Merchant' payment?",
+              "Can I stake BLIP for governance weight?",
+            ].map((q, i) => (
+              <div
+                key={i}
+                className="group py-12 flex justify-between items-center cursor-pointer hover:bg-white/[0.01] px-8 transition-all duration-500"
               >
-                <div className="flex justify-between items-center p-6 bg-black/50 border border-white/5 rounded-3xl backdrop-blur-3xl">
-                  <div className="flex gap-4 items-center">
-                    <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center">
-                      <Cpu size={20} className="text-blue-400" />
-                    </div>
-                    <div>
-                      <div className="text-xs font-bold text-white tracking-widest uppercase">
-                        Active Corridors
-                      </div>
-                      <div className="text-2xl font-black text-white">
-                        1,242
-                      </div>
-                    </div>
-                  </div>
-                  <BrandButton variant="secondary" className="h-10 px-6">
-                    View Explorer
-                  </BrandButton>
-                </div>
-              </BentoCard>
-            </div>
+                <span className="text-2xl font-bold text-gray-400 group-hover:text-white transition-colors">
+                  {q}
+                </span>
+                <Plus
+                  size={32}
+                  className="text-gray-700 group-hover:rotate-45 group-hover:text-white transition-all duration-500"
+                />
+              </div>
+            ))}
           </div>
         </section>
 
-        {/* FINAL CTA */}
+        {/* FINAL MASTHEAD CTA */}
         <section className="max-w-[1400px] mx-auto px-10 py-40">
-          <div className="relative bg-white text-black rounded-[5rem] p-24 md:p-40 flex flex-col items-center text-center space-y-12 shadow-[0_50px_100px_rgba(255,255,255,0.05)] overflow-hidden group">
-            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-black/[0.03] rounded-full -mr-40 -mt-40 group-hover:scale-110 transition-transform duration-1000" />
-            <SectionLabel color="text-black/40">Launch Program</SectionLabel>
-            <h2 className="text-[60px] md:text-[110px] font-black tracking-[-0.07em] leading-none">
+          <div className="relative bg-gray-200 text-black rounded-[5rem] p-24 md:p-32 flex flex-col items-center text-center space-y-12 shadow-[0_50px_100px_rgba(255,255,255,0.05)] overflow-hidden">
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-black/[0.03] rounded-full -mr-40 -mt-40" />
+            <SectionLabel color="text-black/40">Open Protocol</SectionLabel>
+            <h2 className="text-[60px] md:text-[100px] font-black tracking-[-0.06em] leading-none">
               The Future <br />
               is Settled.
             </h2>
-            <p className="text-2xl text-gray-500 max-w-xl font-medium leading-relaxed">
-              Join thousands of users and merchants ready to settle privately on
-              the world's most performant network.
+            <p className="text-2xl text-gray-500 max-w-xl font-medium">
+              Start settling payments privately and earning rewards on the
+              world's most performant network.
             </p>
-            <BrandButton className="h-20 px-16 text-2xl font-black bg-black text-white hover:bg-black/90 shadow-2xl scale-110">
-              Get Early Access
-            </BrandButton>
+            <AppleButton className="h-20 px-16 text-2xl font-black bg-black text-black hover:bg-black/90 shadow-2xl">
+              Begin Journey
+            </AppleButton>
           </div>
         </section>
       </main>
 
       <style>{`
-        html { scroll-behavior: smooth; }
         @keyframes subtle-zoom {
           0% { transform: scale(1); }
           50% { transform: scale(1.08); }

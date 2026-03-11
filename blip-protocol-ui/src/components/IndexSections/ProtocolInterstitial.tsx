@@ -331,7 +331,7 @@ const ProtocolInterstitial = () => {
                   fontWeight: 600,
                   letterSpacing: "1.5px",
                   textTransform: "uppercase",
-                  color: p.color,
+                  color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.45)",
                   marginBottom: 10,
                 }}
               >
