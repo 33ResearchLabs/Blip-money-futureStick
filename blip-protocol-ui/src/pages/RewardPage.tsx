@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
 import {
   Wallet,
   ArrowUpRight,
@@ -22,6 +23,8 @@ import {
 const IMAGES = {
   heroGlobe:
     "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000&auto=format",
+  lightModeGlobe:
+    "https://lh3.googleusercontent.com/gg-dl/AOI_d_8EiIYRBtnO2zznoeqW-A9YI9Kyy4_cGwnqWGRARqKLO7GED7LMHwmt79MFG8M1vAzgq22oVXSJFppOphvsJ7MdjieWt8oatnzkZnL2yJMx8uI5neF4myA8uwIPM2vLncZlizL63RQzLKDshdWqQOg5Q0YG3dMoXFFnlzc-eEdmOzk-=s1600-rj",
   fiberOptics:
     "https://tradelink.pro/content/how-global-liquidity-affects-the-crypto-market/what-is-global-liquidity.jpg",
   dataStream:
@@ -67,9 +70,9 @@ const AppleButton = ({
     "px-8 py-3.5 rounded-full font-semibold transition-all duration-500 text-sm flex items-center justify-center gap-2 active:scale-95 whitespace-nowrap overflow-hidden relative group";
   const styles = {
     primary:
-      "bg-white text-black hover:bg-gray-100 shadow-[0_0_20px_rgba(255,255,255,0.1)]",
+      "bg-black dark:bg-white text-white dark:text-black hover:bg-black/90 dark:hover:bg-gray-100 shadow-[0_0_20px_rgba(0,0,0,0.1)] dark:shadow-[0_0_20px_rgba(255,255,255,0.1)]",
     secondary:
-      "bg-white/10 text-white backdrop-blur-md hover:bg-white/20 border border-white/10",
+      "bg-black/10 dark:bg-white/10 text-black dark:text-white backdrop-blur-md hover:bg-black/20 dark:hover:bg-white/20 border border-black/10 dark:border-white/10",
     link: "text-[#ffb088] hover:text-[#ff8c5a] px-0 py-0 font-medium",
   };
   return (
@@ -100,7 +103,7 @@ const BentoCard = ({
   overlayOpacity?: string;
 }) => (
   <div
-    className={`relative overflow-hidden rounded-[3rem] group border border-white/5 shadow-2xl ${dark ? "bg-[#0a0a0b]" : "bg-gray-200 text-black"} ${className}`}
+    className={`relative overflow-hidden rounded-[3rem] group border border-black/5 dark:border-white/5 shadow-2xl ${dark ? "bg-[#FAF8F5] dark:bg-[#0a0a0b]" : "bg-gray-200 text-black"} ${className}`}
   >
     {image && (
       <>
@@ -110,21 +113,21 @@ const BentoCard = ({
           className={`absolute inset-0 w-full h-full object-fill ${overlayOpacity} group-hover:scale-105 transition-transform duration-1000 ease-out`}
         />
         <div
-          className={`absolute inset-0 bg-gradient-to-t ${dark ? "from-black via-black/80" : "from-white via-white/40"} to-transparent opacity-100 transition-opacity`}
+          className={`absolute inset-0 bg-gradient-to-t ${dark ? "from-[#FAF8F5] dark:from-black via-[#FAF8F5]/80 dark:via-black/80" : "from-white via-white/40"} to-transparent opacity-100 transition-opacity`}
         />
       </>
     )}
     <div className="relative z-10 p-10 h-full flex flex-col">
       {title && (
         <h3
-          className={`text-3xl font-bold tracking-tight mb-2 ${dark ? "text-white" : "text-black"}`}
+          className={`text-3xl font-bold tracking-tight mb-2 ${dark ? "text-black dark:text-white" : "text-black"}`}
         >
           {title}
         </h3>
       )}
       {subtitle && (
         <p
-          className={`text-base max-w-[280px] leading-relaxed ${dark ? "text-gray-400" : "text-gray-600"}`}
+          className={`text-base max-w-[280px] leading-relaxed ${dark ? "text-black/60 dark:text-gray-400" : "text-gray-600"}`}
         >
           {subtitle}
         </p>
@@ -139,6 +142,8 @@ const BentoCard = ({
  */
 
 export default function RewardPage() {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const [isConnected, setIsConnected] = useState(false);
   const [walletAddr, setWalletAddr] = useState("");
   const [copying, setCopying] = useState(false);
@@ -166,7 +171,7 @@ export default function RewardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#000] text-white font-sans antialiased selection:bg-blue-500/30">
+    <div className="min-h-screen bg-[#FAF8F5] dark:bg-[#000] text-black dark:text-white font-sans antialiased selection:bg-blue-500/30">
       {/* IMMERSIVE NAV */}
 
       <main className="pb-32">
@@ -174,30 +179,34 @@ export default function RewardPage() {
         <section className="relative h-screen flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img
-              src={IMAGES.heroGlobe}
+              src={isDark ? IMAGES.heroGlobe : "/lightModeGlobe.png"}
               alt="Global Network"
               className="w-full h-full object-cover opacity-50 scale-110 animate-subtle-zoom"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
+            <div
+              className={`absolute inset-0 bg-gradient-to-b ${isDark ? "from-black via-transparent to-black" : "from-[#FAF8F5] via-transparent to-[#FAF8F5]"}`}
+            />
           </div>
 
           <div className="relative z-10 max-w-[1200px] mx-auto px-10 text-center space-y-10">
-            <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-xl mb-4">
+            <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 backdrop-blur-xl mb-4">
               <Activity size={14} className="text-[#ffb088]" />
               <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#ffb088]">
                 Network Status: Optimized
               </span>
             </div>
-            <h1 className="text-[60px] md:text-[110px] font-black tracking-[-0.05em] leading-[0.95] drop-shadow-2xl">
+            <h1 className="text-[60px] md:text-[110px] font-black tracking-[-0.05em] leading-[0.95] drop-shadow-2xl text-black dark:text-white">
               Borderless finance. <br />
-              <span className="text-gray-500">Settled on-chain.</span>
+              <span className="text-black/50 dark:text-gray-500">
+                Settled on-chain.
+              </span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto leading-relaxed font-medium">
+            <p className="text-xl md:text-2xl text-black/60 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed font-medium">
               A high-performance P2P payment network built on Solana. Earn
               native rewards for every contribution to the ecosystem.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-6 pt-10">
-              <AppleButton className="h-16 px-12 text-xl shadow-[0_0_50px_rgba(255,255,255,0.15)]">
+              <AppleButton className="h-16 px-12 text-xl shadow-[0_0_50px_rgba(0,0,0,0.15)] dark:shadow-[0_0_50px_rgba(255,255,255,0.15)]">
                 Explore Rewards
               </AppleButton>
               <AppleButton variant="secondary" className="h-16 px-12 text-xl">
@@ -210,7 +219,7 @@ export default function RewardPage() {
         {/* WELCOME HUB */}
         <section className="max-w-[1400px] mx-auto px-10 -mt-20 relative z-20">
           <BentoCard
-            className="min-h-[380px] border-white/10 shadow-[0_40px_100px_rgba(0,0,0,1)]"
+            className="min-h-[380px] border-black/10 dark:border-white/10 shadow-[0_40px_100px_rgba(0,0,0,0.3)] dark:shadow-[0_40px_100px_rgba(0,0,0,1)]"
             title="$25 Welcome Incentive"
             subtitle="Initiate your first settlement and unlock immediate protocol rewards."
             image={IMAGES.deepNetwork}
@@ -218,8 +227,10 @@ export default function RewardPage() {
           >
             <div className="flex flex-col md:flex-row items-end justify-between w-full mt-4 gap-6">
               <div className="grid grid-cols-2 gap-4 w-full md:max-w-md">
-                <div className="p-5 rounded-[2rem] bg-black/40 border border-white/10 backdrop-blur-3xl group/item hover:border-white/20 transition-all">
-                  <SectionLabel color="text-gray-400">Your Status</SectionLabel>
+                <div className="p-5 rounded-[2rem] bg-[#FAF8F5]/80 dark:bg-black/40 border border-black/10 dark:border-white/10 backdrop-blur-3xl group/item hover:border-black/20 dark:hover:border-white/20 transition-all">
+                  <SectionLabel color="text-black/50 dark:text-gray-400">
+                    Your Status
+                  </SectionLabel>
                   <div className="text-xl font-bold flex items-center gap-2">
                     {isConnected ? (
                       <>
@@ -231,8 +242,10 @@ export default function RewardPage() {
                     )}
                   </div>
                 </div>
-                <div className="p-5 rounded-[2rem] bg-black/40 border border-white/10 backdrop-blur-3xl group/item hover:border-white/20 transition-all">
-                  <SectionLabel color="text-gray-400">Available</SectionLabel>
+                <div className="p-5 rounded-[2rem] bg-[#FAF8F5]/80 dark:bg-black/40 border border-black/10 dark:border-white/10 backdrop-blur-3xl group/item hover:border-black/20 dark:hover:border-white/20 transition-all">
+                  <SectionLabel color="text-black/50 dark:text-gray-400">
+                    Available
+                  </SectionLabel>
                   <div className="text-xl font-bold">25.00 BLIP</div>
                 </div>
               </div>
@@ -272,13 +285,13 @@ export default function RewardPage() {
               image={IMAGES.fiberOptics}
               overlayOpacity="opacity-70"
             >
-              <div className="flex flex-col md:flex-row items-center justify-between w-full gap-8 p-6 bg-black/40 backdrop-blur-xl rounded-[2rem] border border-white/5">
+              <div className="flex flex-col md:flex-row items-center justify-between w-full gap-8 p-6 bg-[#FAF8F5]/80 dark:bg-black/40 backdrop-blur-xl rounded-[2rem] border border-black/5 dark:border-white/5">
                 <div className="flex items-center gap-6">
                   <div className="w-16 h-16 rounded-full bg-[#ffb088]/20 border border-[#ffb088]/30 flex items-center justify-center">
                     <Cpu className="text-[#ffb088]" size={32} />
                   </div>
                   <div>
-                    <div className="text-sm text-gray-500 font-bold uppercase tracking-widest">
+                    <div className="text-sm text-black/50 dark:text-gray-500 font-bold uppercase tracking-widest">
                       Base Reward
                     </div>
                     <div className="text-4xl font-black">50.00 BLIP</div>
@@ -298,14 +311,14 @@ export default function RewardPage() {
               image={IMAGES.blockchainNodes}
               overlayOpacity="opacity-50"
             >
-              <div className="flex items-center justify-between w-full pt-10 border-t border-white/10 group/btn cursor-pointer">
+              <div className="flex items-center justify-between w-full pt-10 border-t border-black/10 dark:border-white/10 group/btn cursor-pointer">
                 <span className="text-3xl font-black">
                   10.00{" "}
-                  <span className="text-xs text-gray-500 tracking-widest">
+                  <span className="text-xs text-black/50 dark:text-gray-500 tracking-widest">
                     BLIP
                   </span>
                 </span>
-                <div className="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center group-hover/btn:bg-white group-hover/btn:text-black transition-all duration-500">
+                <div className="w-16 h-16 rounded-full border border-black/20 dark:border-white/20 flex items-center justify-center group-hover/btn:bg-black dark:group-hover/btn:bg-white group-hover/btn:text-white dark:group-hover/btn:text-black transition-all duration-500">
                   <ArrowRight size={28} />
                 </div>
               </div>
@@ -373,7 +386,7 @@ export default function RewardPage() {
               alt="Global Network"
               className="w-full h-full object-cover opacity-20"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#FAF8F5] dark:from-black via-transparent to-[#FAF8F5] dark:to-black" />
           </div>
 
           <div className="max-w-[1400px] mx-auto px-10 grid lg:grid-cols-2 gap-24 items-center relative z-10">
@@ -386,7 +399,7 @@ export default function RewardPage() {
                   Scale the <br />
                   Future Hub.
                 </h2>
-                <p className="text-2xl text-gray-400 max-w-md leading-relaxed font-medium">
+                <p className="text-2xl text-black/60 dark:text-gray-400 max-w-md leading-relaxed font-medium">
                   Invite the next wave of participants and share in the
                   protocol's expansion rewards.
                 </p>
@@ -411,18 +424,20 @@ export default function RewardPage() {
                 ].map((item, i) => (
                   <div
                     key={i}
-                    className="flex items-center gap-8 p-8 rounded-[2.5rem] bg-white/[0.03] border border-white/5 backdrop-blur-3xl group cursor-pointer hover:bg-white/[0.07] transition-all duration-500"
+                    className="flex items-center gap-8 p-8 rounded-[2.5rem] bg-black/[0.03] dark:bg-white/[0.03] border border-black/5 dark:border-white/5 backdrop-blur-3xl group cursor-pointer hover:bg-black/[0.07] dark:hover:bg-white/[0.07] transition-all duration-500"
                   >
-                    <div className="w-16 h-16 rounded-[1.2rem] bg-white text-black flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <div className="w-16 h-16 rounded-[1.2rem] bg-black dark:bg-white text-white dark:text-black flex items-center justify-center group-hover:scale-110 transition-transform">
                       {item.icon}
                     </div>
                     <div>
                       <h4 className="font-bold text-xl uppercase tracking-tighter">
                         {item.t}
                       </h4>
-                      <p className="text-gray-500 font-medium">{item.d}</p>
+                      <p className="text-black/50 dark:text-gray-500 font-medium">
+                        {item.d}
+                      </p>
                     </div>
-                    <ChevronRight className="ml-auto text-gray-700 group-hover:text-white transition-colors" />
+                    <ChevronRight className="ml-auto text-black/30 dark:text-gray-700 group-hover:text-black dark:group-hover:text-white transition-colors" />
                   </div>
                 ))}
               </div>
@@ -430,19 +445,19 @@ export default function RewardPage() {
 
             <div className="relative group">
               <div className="absolute inset-0 bg-blue-500/20 blur-[120px] rounded-full group-hover:bg-blue-500/40 transition-all duration-1000" />
-              <div className="relative bg-black/40 backdrop-blur-3xl border border-white/10 p-16 rounded-[4rem] shadow-2xl space-y-12 text-center lg:text-left">
+              <div className="relative bg-[#FAF8F5]/80 dark:bg-black/40 backdrop-blur-3xl border border-black/10 dark:border-white/10 p-16 rounded-[4rem] shadow-2xl space-y-12 text-center lg:text-left">
                 <div className="space-y-4">
-                  <SectionLabel color="text-white">
+                  <SectionLabel color="text-black dark:text-white">
                     Your Protocol Identity
                   </SectionLabel>
-                  <div className="text-5xl font-black tracking-tighter break-all bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-600">
+                  <div className="text-5xl font-black tracking-tighter break-all bg-clip-text text-transparent bg-gradient-to-br from-black dark:from-white to-black/40 dark:to-gray-600">
                     blip.money/r/82k...
                   </div>
                 </div>
                 <AppleButton
                   variant="primary"
                   onClick={handleCopy}
-                  className="h-20 w-full text-2xl font-black rounded-[2rem] shadow-[0_20px_40px_rgba(255,255,255,0.1)]"
+                  className="h-20 w-full text-2xl font-black rounded-[2rem] shadow-[0_20px_40px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_40px_rgba(255,255,255,0.1)]"
                 >
                   {copying ? "Identity Copied" : "Copy Link"}
                 </AppleButton>
@@ -457,11 +472,11 @@ export default function RewardPage() {
             <h2 className="text-6xl font-black tracking-tighter mb-6">
               Common Knowledge.
             </h2>
-            <p className="text-xl text-gray-500 font-medium">
+            <p className="text-xl text-black/50 dark:text-gray-500 font-medium">
               Clear insights into protocol reward mechanics.
             </p>
           </div>
-          <div className="divide-y divide-white/5 border-t border-white/5">
+          <div className="divide-y divide-black/5 dark:divide-white/5 border-t border-black/5 dark:border-white/5">
             {[
               "How do I qualify for settlement rewards?",
               "Are reward distributions automated on-chain?",
@@ -470,14 +485,14 @@ export default function RewardPage() {
             ].map((q, i) => (
               <div
                 key={i}
-                className="group py-12 flex justify-between items-center cursor-pointer hover:bg-white/[0.01] px-8 transition-all duration-500"
+                className="group py-12 flex justify-between items-center cursor-pointer hover:bg-black/[0.01] dark:hover:bg-white/[0.01] px-8 transition-all duration-500"
               >
-                <span className="text-2xl font-bold text-gray-400 group-hover:text-white transition-colors">
+                <span className="text-2xl font-bold text-black/60 dark:text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors">
                   {q}
                 </span>
                 <Plus
                   size={32}
-                  className="text-gray-700 group-hover:rotate-45 group-hover:text-white transition-all duration-500"
+                  className="text-black/30 dark:text-gray-700 group-hover:rotate-45 group-hover:text-black dark:group-hover:text-white transition-all duration-500"
                 />
               </div>
             ))}
@@ -493,11 +508,11 @@ export default function RewardPage() {
               The Future <br />
               is Settled.
             </h2>
-            <p className="text-2xl text-gray-500 max-w-xl font-medium">
+            <p className="text-2xl text-black/50 max-w-xl font-medium">
               Start settling payments privately and earning rewards on the
               world's most performant network.
             </p>
-            <AppleButton className="h-20 px-16 text-2xl font-black bg-black text-black hover:bg-black/90 shadow-2xl">
+            <AppleButton className="h-20 px-16 text-2xl font-black bg-black !text-white hover:bg-black/90 shadow-2xl">
               Begin Journey
             </AppleButton>
           </div>

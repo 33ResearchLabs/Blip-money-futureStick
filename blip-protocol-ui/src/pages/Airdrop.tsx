@@ -202,8 +202,8 @@ const FAQS = [
 // --- Sub-components ---
 
 const TickerBar = ({ text }: { text: string }) => (
-  <div className="w-full bg-[#1c1c1c] py-6 border-y border-zinc-800 my-12 overflow-hidden">
-    <p className="text-center text-white text-xl font-bold tracking-tight uppercase italic px-4 animate-pulse">
+  <div className="w-full bg-black/[0.03] dark:bg-[#1c1c1c] py-6 border-y border-black/10 dark:border-zinc-800 my-12 overflow-hidden">
+    <p className="text-center text-black dark:text-white text-xl font-bold tracking-tight uppercase italic px-4 animate-pulse">
       {text}
     </p>
   </div>
@@ -219,7 +219,7 @@ const Badge = ({
   const styles = {
     orange: "bg-orange-500/10 text-orange-500 border-orange-500/20",
     green: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20",
-    zinc: "bg-zinc-800 text-zinc-400 border-zinc-700",
+    zinc: "bg-black/5 dark:bg-zinc-800 text-black/40 dark:text-zinc-400 border-black/10 dark:border-zinc-700",
   };
   return (
     <span
@@ -270,7 +270,7 @@ export default function Airdrop() {
 
   return (
     <div
-      className="min-h-screen bg-[#0b0b0b] text-zinc-200 font-normal selection:bg-orange-500/30 overflow-x-hidden"
+      className="min-h-screen bg-[#FAF8F5] dark:bg-[#0b0b0b] text-black dark:text-zinc-200 font-normal selection:bg-orange-500/30 overflow-x-hidden"
       style={{ fontFamily: "'Inter', sans-serif" }}
     >
       {/* Import Inter with specific weights */}
@@ -279,7 +279,7 @@ export default function Airdrop() {
       </style>
 
       {/* Background Decor */}
-      <div className="fixed inset-0 pointer-events-none opacity-20 z-0">
+      <div className="fixed inset-0 pointer-events-none opacity-20 z-0 hidden dark:block">
         <img
           src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&q=80&w=2832"
           className="w-full h-full object-cover grayscale"
@@ -320,11 +320,11 @@ export default function Airdrop() {
         <section className="mb-20 grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <Badge variant="orange">Ecosystem Rewards Hub</Badge>
-            <h1 className="text-6xl lg:text-7xl font-bold text-white mt-4 leading-none tracking-tighter">
+            <h1 className="text-6xl lg:text-7xl font-bold text-black dark:text-white mt-4 leading-none tracking-tighter">
               Earn Rewards <br />
               <span className="text-zinc-600 italic">With Blip</span>
             </h1>
-            <p className="text-zinc-400 text-xl mt-6 max-w-lg leading-relaxed font-normal">
+            <p className="text-black/50 dark:text-zinc-400 text-xl mt-6 max-w-lg leading-relaxed font-normal">
               Join 50k+ users earning tokens for every payment and trade. Built
               on the lightning-fast Solana network.
             </p>
@@ -336,7 +336,7 @@ export default function Airdrop() {
                   className="group-hover:translate-x-1 transition-transform"
                 />
               </button>
-              <button className="bg-[#161616] border border-zinc-800 text-white px-10 py-4 rounded-2xl font-medium text-lg hover:border-zinc-600 transition-all">
+              <button className="bg-black/[0.03] dark:bg-[#161616] border border-black/10 dark:border-zinc-800 text-black dark:text-white px-10 py-4 rounded-2xl font-medium text-lg hover:border-black/20 dark:hover:border-zinc-600 transition-all">
                 The Roadmap
               </button>
             </div>
@@ -344,13 +344,13 @@ export default function Airdrop() {
           <div className="hidden lg:flex justify-center">
             <div className="relative group">
               <div className="absolute -inset-10 bg-orange-500/10 blur-[100px] rounded-full"></div>
-              <div className="relative w-96 h-96 bg-[#0f0f0f] border border-zinc-800 rounded-[3.5rem] rotate-3 flex items-center justify-center overflow-hidden shadow-2xl">
+              <div className="relative w-96 h-96 bg-white dark:bg-[#0f0f0f] border border-black/10 dark:border-zinc-800 rounded-[3.5rem] rotate-3 flex items-center justify-center overflow-hidden shadow-2xl">
                 <Coins className="w-32 h-32 text-orange-500 opacity-60 group-hover:opacity-100 transition-opacity" />
                 <div className="absolute bottom-10 left-10 right-10 p-5 bg-black/60 backdrop-blur-xl rounded-2xl border border-white/5">
                   <div className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold mb-1">
                     Total Rewards Distributed
                   </div>
-                  <div className="text-2xl font-bold text-white">
+                  <div className="text-2xl font-bold text-black dark:text-white">
                     $14,204,551
                   </div>
                 </div>
@@ -364,7 +364,7 @@ export default function Airdrop() {
 
         {/* Welcome Airdrop */}
         <section className="mb-20">
-          <div className="bg-[#111111] border border-zinc-800 rounded-[2.5rem] p-8 lg:p-16 relative overflow-hidden">
+          <div className="bg-white/80 dark:bg-[#111111] border border-black/10 dark:border-zinc-800 rounded-[2.5rem] p-8 lg:p-16 relative overflow-hidden">
             <div className="absolute top-0 right-0 h-full w-1/3 opacity-10 grayscale group-hover:grayscale-0 transition-all">
               <img
                 src="https://images.unsplash.com/photo-1639322537228-f710d846310a?auto=format&fit=crop&q=80&w=800"
@@ -374,21 +374,21 @@ export default function Airdrop() {
             <div className="relative z-10 lg:flex items-center justify-between gap-12">
               <div className="flex-1">
                 <Badge variant="green">Live Campaign</Badge>
-                <h2 className="text-4xl font-bold text-white mb-4 mt-6 tracking-tight">
+                <h2 className="text-4xl font-bold text-black dark:text-white mb-4 mt-6 tracking-tight">
                   $25 BLIP Welcome Airdrop
                 </h2>
-                <p className="text-zinc-500 text-lg mb-8 max-w-md">
+                <p className="text-black/50 dark:text-zinc-500 text-lg mb-8 max-w-md">
                   The genesis event is here. Complete simple on-chain tasks to
                   claim your piece of the pool.
                 </p>
                 <div className="space-y-4 max-w-md mb-10">
                   <div className="flex justify-between font-bold text-sm">
-                    <span className="text-zinc-400">Your Progress</span>
+                    <span className="text-black/50 dark:text-zinc-400">Your Progress</span>
                     <span className="text-emerald-500">
                       {Math.round(airdropProgress)}%
                     </span>
                   </div>
-                  <div className="h-3 bg-zinc-900 rounded-full overflow-hidden">
+                  <div className="h-3 bg-black/10 dark:bg-zinc-900 rounded-full overflow-hidden">
                     <div
                       className="h-full bg-emerald-500 transition-all duration-1000"
                       style={{ width: `${airdropProgress}%` }}
@@ -403,12 +403,12 @@ export default function Airdrop() {
                   ].map((s, i) => (
                     <div key={i} className="flex items-center gap-3">
                       <div
-                        className={`w-8 h-8 rounded-full flex items-center justify-center border-2 transition-all ${s.d ? "bg-emerald-500 border-emerald-500 text-black" : "border-zinc-800 text-zinc-700 font-bold"}`}
+                        className={`w-8 h-8 rounded-full flex items-center justify-center border-2 transition-all ${s.d ? "bg-emerald-500 border-emerald-500 text-black" : "border-black/10 dark:border-zinc-800 text-black/30 dark:text-zinc-700 font-bold"}`}
                       >
                         {s.d ? <CheckCircle2 size={16} /> : i + 1}
                       </div>
                       <span
-                        className={`text-sm font-semibold ${s.d ? "text-zinc-200" : "text-zinc-600"}`}
+                        className={`text-sm font-semibold ${s.d ? "text-black dark:text-zinc-200" : "text-black/40 dark:text-zinc-600"}`}
                       >
                         {s.l}
                       </span>
@@ -433,11 +433,11 @@ export default function Airdrop() {
         {/* Screenshot Referral Section */}
         <section className="mb-20">
           <div className="flex flex-col mb-10">
-            <h2 className="text-5xl font-bold text-white mb-4 tracking-tighter">
+            <h2 className="text-5xl font-bold text-black dark:text-white mb-4 tracking-tighter">
               Invite friends, get rewards
             </h2>
             <div className="flex items-center gap-4">
-              <span className="text-zinc-400 font-bold uppercase tracking-widest text-xs">
+              <span className="text-black/50 dark:text-zinc-400 font-bold uppercase tracking-widest text-xs">
                 Protocol Referral Program
               </span>
               <a
@@ -455,27 +455,27 @@ export default function Airdrop() {
 
           <div className="grid md:grid-cols-3 gap-8">
             {/* Card 1: 5 USDC */}
-            <div className="bg-[#1a1c1f] border border-zinc-800 rounded-3xl p-10 flex flex-col hover:border-zinc-600 transition-all group">
+            <div className="bg-white/80 dark:bg-[#1a1c1f] border border-black/10 dark:border-zinc-800 rounded-3xl p-10 flex flex-col hover:border-black/20 dark:hover:border-zinc-600 transition-all group">
               <div className="flex items-baseline gap-2 mb-2">
                 <span className="text-5xl font-bold text-orange-500 group-hover:scale-110 transition-transform origin-left">
                   5
                 </span>
-                <span className="text-md font-bold text-zinc-500 uppercase">
+                <span className="text-md font-bold text-black/50 dark:text-zinc-500 uppercase">
                   USDC
                 </span>
               </div>
-              <div className="border-b-2 border-dotted border-zinc-700 w-fit text-[11px] font-bold text-zinc-600 mb-8 uppercase tracking-[0.2em]">
+              <div className="border-b-2 border-dotted border-black/20 dark:border-zinc-700 w-fit text-[11px] font-bold text-black/40 dark:text-zinc-600 mb-8 uppercase tracking-[0.2em]">
                 Airdrop &bull; Spot
               </div>
-              <p className="text-white font-bold text-2xl mb-8 leading-tight">
+              <p className="text-black dark:text-white font-bold text-2xl mb-8 leading-tight">
                 Top up &ge; $100
               </p>
               <div className="mt-auto">
                 <div className="flex justify-between items-center text-xs mb-3">
-                  <div className="h-2 bg-zinc-800 rounded-full flex-1 mr-4 overflow-hidden">
+                  <div className="h-2 bg-black/10 dark:bg-zinc-800 rounded-full flex-1 mr-4 overflow-hidden">
                     <div className="h-full bg-orange-500/50 w-0"></div>
                   </div>
-                  <span className="text-zinc-500 font-bold">0%</span>
+                  <span className="text-black/50 dark:text-zinc-500 font-bold">0%</span>
                 </div>
                 <button className="w-full bg-orange-500 hover:bg-orange-400 text-black font-medium py-4 rounded-full transition-all text-sm uppercase tracking-widest shadow-xl shadow-orange-500/10">
                   Top Up Now
@@ -484,34 +484,34 @@ export default function Airdrop() {
             </div>
 
             {/* Card 2: 10 USDC */}
-            <div className="bg-[#1a1c1f] border border-zinc-800 rounded-3xl p-10 flex flex-col hover:border-zinc-600 transition-all group">
+            <div className="bg-white/80 dark:bg-[#1a1c1f] border border-black/10 dark:border-zinc-800 rounded-3xl p-10 flex flex-col hover:border-black/20 dark:hover:border-zinc-600 transition-all group">
               <div className="flex items-baseline gap-2 mb-2">
                 <span className="text-5xl font-bold text-orange-500 group-hover:scale-110 transition-transform origin-left">
                   10
                 </span>
-                <span className="text-md font-bold text-zinc-500 uppercase">
+                <span className="text-md font-bold text-black/50 dark:text-zinc-500 uppercase">
                   USDC
                 </span>
               </div>
-              <div className="border-b-2 border-dotted border-zinc-700 w-fit text-[11px] font-bold text-zinc-600 mb-8 uppercase tracking-[0.2em]">
+              <div className="border-b-2 border-dotted border-black/20 dark:border-zinc-700 w-fit text-[11px] font-bold text-black/40 dark:text-zinc-600 mb-8 uppercase tracking-[0.2em]">
                 Airdrop &bull; Spot
               </div>
-              <p className="text-white font-bold text-2xl mb-8 leading-tight">
+              <p className="text-black dark:text-white font-bold text-2xl mb-8 leading-tight">
                 Top up &ge; $100{" "}
-                <span className="text-zinc-600 font-light italic text-xl">
+                <span className="text-black/40 dark:text-zinc-600 font-light italic text-xl">
                   &amp;
                 </span>{" "}
                 Trade &ge; $500
               </p>
               <div className="mt-auto">
                 <div className="flex justify-between items-center text-xs mb-3">
-                  <div className="h-2 bg-zinc-800 rounded-full flex-1 mr-4 overflow-hidden">
+                  <div className="h-2 bg-black/10 dark:bg-zinc-800 rounded-full flex-1 mr-4 overflow-hidden">
                     <div className="h-full bg-orange-500/50 w-0"></div>
                   </div>
-                  <span className="text-zinc-500 font-bold">0%</span>
+                  <span className="text-black/50 dark:text-zinc-500 font-bold">0%</span>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                  <button className="bg-zinc-800 hover:bg-zinc-700 text-white font-medium py-4 rounded-full text-[10px] transition-all uppercase tracking-widest">
+                  <button className="bg-black/10 dark:bg-zinc-800 hover:bg-black/15 dark:hover:bg-zinc-700 text-black dark:text-white font-medium py-4 rounded-full text-[10px] transition-all uppercase tracking-widest">
                     Top Up
                   </button>
                   <button className="bg-orange-500 hover:bg-orange-400 text-black font-medium py-4 rounded-full text-[10px] transition-all uppercase tracking-widest">
@@ -522,34 +522,34 @@ export default function Airdrop() {
             </div>
 
             {/* Card 3: 100 USDC */}
-            <div className="bg-[#1a1c1f] border border-zinc-800 rounded-3xl p-10 flex flex-col hover:border-zinc-600 transition-all group">
+            <div className="bg-white/80 dark:bg-[#1a1c1f] border border-black/10 dark:border-zinc-800 rounded-3xl p-10 flex flex-col hover:border-black/20 dark:hover:border-zinc-600 transition-all group">
               <div className="flex items-baseline gap-2 mb-2">
                 <span className="text-5xl font-bold text-orange-500 group-hover:scale-110 transition-transform origin-left">
                   100
                 </span>
-                <span className="text-md font-bold text-zinc-500 uppercase">
+                <span className="text-md font-bold text-black/50 dark:text-zinc-500 uppercase">
                   USDC
                 </span>
               </div>
-              <div className="border-b-2 border-dotted border-zinc-700 w-fit text-[11px] font-bold text-zinc-600 mb-8 uppercase tracking-[0.2em]">
+              <div className="border-b-2 border-dotted border-black/20 dark:border-zinc-700 w-fit text-[11px] font-bold text-black/40 dark:text-zinc-600 mb-8 uppercase tracking-[0.2em]">
                 Airdrop &bull; Spot
               </div>
-              <p className="text-white font-bold text-2xl mb-8 leading-tight">
+              <p className="text-black dark:text-white font-bold text-2xl mb-8 leading-tight">
                 Top up &ge; $100{" "}
-                <span className="text-zinc-600 font-light italic text-xl">
+                <span className="text-black/40 dark:text-zinc-600 font-light italic text-xl">
                   &amp;
                 </span>{" "}
                 Trade &ge; $250k
               </p>
               <div className="mt-auto">
                 <div className="flex justify-between items-center text-xs mb-3">
-                  <div className="h-2 bg-zinc-800 rounded-full flex-1 mr-4 overflow-hidden">
+                  <div className="h-2 bg-black/10 dark:bg-zinc-800 rounded-full flex-1 mr-4 overflow-hidden">
                     <div className="h-full bg-orange-500/50 w-0"></div>
                   </div>
-                  <span className="text-zinc-500 font-bold">0%</span>
+                  <span className="text-black/50 dark:text-zinc-500 font-bold">0%</span>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                  <button className="bg-zinc-800 hover:bg-zinc-700 text-white font-medium py-4 rounded-full text-[10px] transition-all uppercase tracking-widest">
+                  <button className="bg-black/10 dark:bg-zinc-800 hover:bg-black/15 dark:hover:bg-zinc-700 text-black dark:text-white font-medium py-4 rounded-full text-[10px] transition-all uppercase tracking-widest">
                     Top Up
                   </button>
                   <button className="bg-orange-500 hover:bg-orange-400 text-black font-medium py-4 rounded-full text-[10px] transition-all uppercase tracking-widest">
@@ -566,13 +566,13 @@ export default function Airdrop() {
 
         {/* Live Feed & Leaderboard */}
         <section className="mb-20 grid lg:grid-cols-3 gap-10">
-          <div className="lg:col-span-2 bg-[#111111] border border-zinc-800 rounded-[2.5rem] p-10">
+          <div className="lg:col-span-2 bg-white/80 dark:bg-[#111111] border border-black/10 dark:border-zinc-800 rounded-[2.5rem] p-10">
             <div className="flex items-center justify-between mb-10">
               <div>
-                <h2 className="text-3xl font-bold text-white flex items-center gap-3">
+                <h2 className="text-3xl font-bold text-black dark:text-white flex items-center gap-3">
                   <Trophy className="text-orange-500" size={32} /> Top Earners
                 </h2>
-                <p className="text-zinc-500 text-sm mt-1 uppercase tracking-widest font-bold">
+                <p className="text-black/50 dark:text-zinc-500 text-sm mt-1 uppercase tracking-widest font-bold">
                   Global Ranking Season 01
                 </p>
               </div>
@@ -583,28 +583,28 @@ export default function Airdrop() {
               {LEADERBOARD.map((item) => (
                 <div
                   key={item.rank}
-                  className="flex items-center justify-between p-5 bg-[#161616] hover:bg-[#1d1d1d] border border-zinc-800 rounded-2xl transition-all group"
+                  className="flex items-center justify-between p-5 bg-black/[0.03] dark:bg-[#161616] hover:bg-black/[0.05] dark:hover:bg-[#1d1d1d] border border-black/10 dark:border-zinc-800 rounded-2xl transition-all group"
                 >
                   <div className="flex items-center gap-6">
                     <span
-                      className={`w-8 font-bold text-xl ${item.rank <= 3 ? "text-orange-500" : "text-zinc-600"}`}
+                      className={`w-8 font-bold text-xl ${item.rank <= 3 ? "text-orange-500" : "text-black/40 dark:text-zinc-600"}`}
                     >
                       0{item.rank}
                     </span>
                     <img
                       src={item.avatar}
                       alt={item.user}
-                      className="w-12 h-12 rounded-full border-2 border-zinc-800"
+                      className="w-12 h-12 rounded-full border-2 border-black/10 dark:border-zinc-800"
                     />
-                    <span className="font-semibold text-zinc-200 uppercase tracking-widest text-sm">
+                    <span className="font-semibold text-black dark:text-zinc-200 uppercase tracking-widest text-sm">
                       {item.user}
                     </span>
                   </div>
                   <div className="text-right">
-                    <div className="text-white font-bold text-lg">
+                    <div className="text-black dark:text-white font-bold text-lg">
                       {item.earnings}
                     </div>
-                    <div className="text-[10px] text-zinc-600 font-bold uppercase tracking-widest">
+                    <div className="text-[10px] text-black/40 dark:text-zinc-600 font-bold uppercase tracking-widest">
                       Verified Payout
                     </div>
                   </div>
@@ -613,23 +613,23 @@ export default function Airdrop() {
             </div>
           </div>
 
-          <div className="bg-[#111111] border border-zinc-800 rounded-[2.5rem] p-10 flex flex-col">
-            <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+          <div className="bg-white/80 dark:bg-[#111111] border border-black/10 dark:border-zinc-800 rounded-[2.5rem] p-10 flex flex-col">
+            <h3 className="text-2xl font-bold text-black dark:text-white mb-8 flex items-center gap-3">
               <Activity className="text-orange-500" size={24} /> Live Feed
             </h3>
             <div className="space-y-8 flex-1">
               {RECENT_ACTIVITY.map((act) => (
                 <div
                   key={act.id}
-                  className="relative pl-8 before:absolute before:left-0 before:top-2 before:bottom-[-32px] before:w-[2px] before:bg-zinc-800 last:before:hidden"
+                  className="relative pl-8 before:absolute before:left-0 before:top-2 before:bottom-[-32px] before:w-[2px] before:bg-black/10 dark:before:bg-zinc-800 last:before:hidden"
                 >
-                  <div className="absolute left-[-5px] top-2 w-3 h-3 rounded-full bg-orange-500 border-4 border-[#111111]"></div>
-                  <div className="text-[10px] text-zinc-600 font-bold mb-1 uppercase tracking-widest">
+                  <div className="absolute left-[-5px] top-2 w-3 h-3 rounded-full bg-orange-500 border-4 border-white dark:border-[#111111]"></div>
+                  <div className="text-[10px] text-black/40 dark:text-zinc-600 font-bold mb-1 uppercase tracking-widest">
                     {act.time}
                   </div>
-                  <div className="text-sm font-semibold text-zinc-300 mb-1">
+                  <div className="text-sm font-semibold text-black/70 dark:text-zinc-300 mb-1">
                     {act.user}{" "}
-                    <span className="font-normal text-zinc-500">
+                    <span className="font-normal text-black/50 dark:text-zinc-500">
                       {act.action}
                     </span>
                   </div>
@@ -639,7 +639,7 @@ export default function Airdrop() {
                 </div>
               ))}
             </div>
-            <button className="mt-12 w-full border border-zinc-800 py-4 rounded-2xl text-[11px] font-medium text-zinc-500 hover:text-white hover:border-zinc-600 transition-all uppercase tracking-[0.2em]">
+            <button className="mt-12 w-full border border-black/10 dark:border-zinc-800 py-4 rounded-2xl text-[11px] font-medium text-black/50 dark:text-zinc-500 hover:text-black dark:hover:text-white hover:border-black/20 dark:hover:border-zinc-600 transition-all uppercase tracking-[0.2em]">
               View On Solana Explorer
             </button>
           </div>
@@ -649,10 +649,10 @@ export default function Airdrop() {
         <section className="mb-20">
           <div className="flex items-center justify-between mb-10">
             <div>
-              <h2 className="text-4xl font-bold text-white tracking-tight">
+              <h2 className="text-4xl font-bold text-black dark:text-white tracking-tight">
                 Active Missions
               </h2>
-              <p className="text-zinc-600 text-sm mt-1 uppercase tracking-widest font-bold italic">
+              <p className="text-black/40 dark:text-zinc-600 text-sm mt-1 uppercase tracking-widest font-bold italic">
                 Interactive tasks for the protocol ecosystem
               </p>
             </div>
@@ -662,7 +662,7 @@ export default function Airdrop() {
             {CAMPAIGNS.map((camp) => (
               <div
                 key={camp.id}
-                className="group bg-[#111111] border border-zinc-800 rounded-3xl overflow-hidden hover:border-orange-500/50 transition-all"
+                className="group bg-white/80 dark:bg-[#111111] border border-black/10 dark:border-zinc-800 rounded-3xl overflow-hidden hover:border-orange-500/50 transition-all"
               >
                 <div className="h-40 w-full relative overflow-hidden">
                   <img
@@ -670,29 +670,29 @@ export default function Airdrop() {
                     alt={camp.title}
                     className="w-full h-full object-cover opacity-50 group-hover:scale-110 transition-transform duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#111111] to-transparent"></div>
-                  <div className="absolute bottom-4 left-5 bg-black/60 backdrop-blur-md p-2 rounded-xl border border-white/5">
+                  <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-[#111111] to-transparent"></div>
+                  <div className="absolute bottom-4 left-5 bg-white/60 dark:bg-black/60 backdrop-blur-md p-2 rounded-xl border border-white/5">
                     {camp.icon}
                   </div>
                 </div>
                 <div className="p-8 pt-4 flex flex-col min-h-[220px]">
                   <div className="flex justify-between items-center mb-4">
-                    <h3 className="font-bold text-white text-md uppercase tracking-tight">
+                    <h3 className="font-bold text-black dark:text-white text-md uppercase tracking-tight">
                       {camp.title}
                     </h3>
                     <Badge variant="orange">{camp.reward}</Badge>
                   </div>
-                  <p className="text-zinc-500 text-xs leading-relaxed mb-8 flex-1 font-normal">
+                  <p className="text-black/50 dark:text-zinc-500 text-xs leading-relaxed mb-8 flex-1 font-normal">
                     {camp.condition}
                   </p>
                   <div className="mt-auto">
-                    <div className="h-1.5 bg-zinc-900 rounded-full mb-6">
+                    <div className="h-1.5 bg-black/10 dark:bg-zinc-900 rounded-full mb-6">
                       <div
                         className="h-full bg-orange-500 rounded-full"
                         style={{ width: `${camp.progress}%` }}
                       ></div>
                     </div>
-                    <button className="w-full bg-[#161616] group-hover:bg-orange-500 group-hover:text-white border border-zinc-800 group-hover:border-orange-500 text-zinc-500 py-3 rounded-xl text-xs font-medium transition-all uppercase tracking-widest">
+                    <button className="w-full bg-black/[0.03] dark:bg-[#161616] group-hover:bg-orange-500 group-hover:text-white border border-black/10 dark:border-zinc-800 group-hover:border-orange-500 text-black/50 dark:text-zinc-500 py-3 rounded-xl text-xs font-medium transition-all uppercase tracking-widest">
                       Launch Mission
                     </button>
                   </div>
@@ -705,10 +705,10 @@ export default function Airdrop() {
         {/* Token Utility */}
         <section className="mb-20">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-4xl font-bold text-white mb-4 tracking-tighter uppercase">
+            <h2 className="text-4xl font-bold text-black dark:text-white mb-4 tracking-tighter uppercase">
               Why Hold BLIP?
             </h2>
-            <p className="text-zinc-500 text-lg font-normal italic">
+            <p className="text-black/50 dark:text-zinc-500 text-lg font-normal italic">
               Fueling the world's most accessible P2P payment network.
             </p>
           </div>
@@ -716,15 +716,15 @@ export default function Airdrop() {
             {UTILITIES.map((util, i) => (
               <div
                 key={i}
-                className="p-10 bg-[#111111] border border-zinc-800 rounded-[2.5rem] hover:border-orange-500/30 transition-all text-center group"
+                className="p-10 bg-white/80 dark:bg-[#111111] border border-black/10 dark:border-zinc-800 rounded-[2.5rem] hover:border-orange-500/30 transition-all text-center group"
               >
-                <div className="w-20 h-20 bg-zinc-900 border border-zinc-800 rounded-3xl flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform">
+                <div className="w-20 h-20 bg-black/5 dark:bg-zinc-900 border border-black/10 dark:border-zinc-800 rounded-3xl flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform">
                   {util.icon}
                 </div>
-                <h4 className="text-xl font-bold text-white mb-4 uppercase tracking-tighter">
+                <h4 className="text-xl font-bold text-black dark:text-white mb-4 uppercase tracking-tighter">
                   {util.title}
                 </h4>
-                <p className="text-zinc-500 text-sm leading-relaxed font-normal">
+                <p className="text-black/50 dark:text-zinc-500 text-sm leading-relaxed font-normal">
                   {util.desc}
                 </p>
               </div>
@@ -772,20 +772,20 @@ export default function Airdrop() {
 
         {/* Rules & Terms */}
         <section className="mb-20">
-          <div className="bg-[#111111] border border-zinc-800 rounded-[3rem] p-12 relative overflow-hidden">
-            <div className="absolute -top-20 -right-20 opacity-[0.02] text-white">
+          <div className="bg-white/80 dark:bg-[#111111] border border-black/10 dark:border-zinc-800 rounded-[3rem] p-12 relative overflow-hidden">
+            <div className="absolute -top-20 -right-20 opacity-[0.02] text-black dark:text-white">
               <Scale size={400} />
             </div>
             <div className="relative z-10">
               <div className="flex items-center gap-4 mb-12">
-                <div className="p-4 bg-zinc-900 border border-zinc-800 rounded-2xl text-orange-500">
+                <div className="p-4 bg-black/5 dark:bg-zinc-900 border border-black/10 dark:border-zinc-800 rounded-2xl text-orange-500">
                   <AlertCircle size={32} />
                 </div>
                 <div>
-                  <h2 className="text-3xl font-bold text-white tracking-tight uppercase">
+                  <h2 className="text-3xl font-bold text-black dark:text-white tracking-tight uppercase">
                     Rewards Hub Policy
                   </h2>
-                  <p className="text-zinc-500 font-bold text-xs uppercase tracking-widest mt-1">
+                  <p className="text-black/50 dark:text-zinc-500 font-bold text-xs uppercase tracking-widest mt-1">
                     Version 2.4 &bull; Effective Immediately
                   </p>
                 </div>
@@ -795,14 +795,14 @@ export default function Airdrop() {
                 {RULES.map((rule) => (
                   <div key={rule.id} className="group">
                     <div className="flex items-center gap-4 mb-4">
-                      <div className="w-10 h-10 rounded-2xl bg-zinc-900 flex items-center justify-center border border-zinc-800 text-zinc-500 group-hover:border-orange-500 transition-colors">
+                      <div className="w-10 h-10 rounded-2xl bg-black/5 dark:bg-zinc-900 flex items-center justify-center border border-black/10 dark:border-zinc-800 text-black/50 dark:text-zinc-500 group-hover:border-orange-500 transition-colors">
                         {rule.icon}
                       </div>
-                      <h4 className="font-bold text-zinc-100 uppercase tracking-widest text-sm">
+                      <h4 className="font-bold text-black dark:text-zinc-100 uppercase tracking-widest text-sm">
                         {rule.id}. {rule.title}
                       </h4>
                     </div>
-                    <p className="text-zinc-500 text-sm leading-relaxed pl-14 font-normal">
+                    <p className="text-black/50 dark:text-zinc-500 text-sm leading-relaxed pl-14 font-normal">
                       {rule.desc}
                     </p>
                   </div>
@@ -814,20 +814,20 @@ export default function Airdrop() {
 
         {/* FAQ */}
         <section className="max-w-3xl mx-auto mb-20">
-          <h2 className="text-4xl font-bold text-white text-center mb-12 uppercase tracking-tighter">
+          <h2 className="text-4xl font-bold text-black dark:text-white text-center mb-12 uppercase tracking-tighter">
             F.A.Q
           </h2>
           <div className="space-y-4">
             {FAQS.map((faq, idx) => (
               <div
                 key={idx}
-                className="border border-zinc-800 rounded-2xl overflow-hidden group"
+                className="border border-black/10 dark:border-zinc-800 rounded-2xl overflow-hidden group"
               >
                 <button
                   onClick={() => setActiveFaq(activeFaq === idx ? null : idx)}
-                  className={`w-full flex items-center justify-between p-7 text-left transition-colors ${activeFaq === idx ? "bg-zinc-900" : "hover:bg-zinc-900/40"}`}
+                  className={`w-full flex items-center justify-between p-7 text-left transition-colors ${activeFaq === idx ? "bg-black/5 dark:bg-zinc-900" : "hover:bg-black/[0.03] dark:hover:bg-zinc-900/40"}`}
                 >
-                  <span className="font-bold text-zinc-200 tracking-tight">
+                  <span className="font-bold text-black dark:text-zinc-200 tracking-tight">
                     {faq.q}
                   </span>
                   {activeFaq === idx ? (
@@ -835,12 +835,12 @@ export default function Airdrop() {
                   ) : (
                     <Plus
                       size={20}
-                      className="text-zinc-600 group-hover:text-zinc-400"
+                      className="text-black/30 dark:text-zinc-600 group-hover:text-black/50 dark:group-hover:text-zinc-400"
                     />
                   )}
                 </button>
                 {activeFaq === idx && (
-                  <div className="p-7 text-zinc-400 text-sm leading-relaxed border-t border-zinc-800 bg-[#0a0a0a] animate-in slide-in-from-top-2">
+                  <div className="p-7 text-black/50 dark:text-zinc-400 text-sm leading-relaxed border-t border-black/10 dark:border-zinc-800 bg-black/[0.02] dark:bg-[#0a0a0a] animate-in slide-in-from-top-2">
                     {faq.a}
                   </div>
                 )}
@@ -851,13 +851,13 @@ export default function Airdrop() {
 
         {/* Final CTA */}
         <section className="text-center pb-20">
-          <div className="bg-[#111111] border border-zinc-800 rounded-[3rem] p-20 max-w-4xl mx-auto overflow-hidden relative">
+          <div className="bg-white/80 dark:bg-[#111111] border border-black/10 dark:border-zinc-800 rounded-[3rem] p-20 max-w-4xl mx-auto overflow-hidden relative">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-orange-500 to-transparent"></div>
-            <h2 className="text-5xl font-bold text-white mb-8 tracking-tighter">
+            <h2 className="text-5xl font-bold text-black dark:text-white mb-8 tracking-tighter">
               The future of P2P is{" "}
               <span className="text-orange-500 italic">Blip</span>.
             </h2>
-            <p className="text-zinc-500 text-xl mb-12 font-normal">
+            <p className="text-black/50 dark:text-zinc-500 text-xl mb-12 font-normal">
               Claim your spot in the ecosystem today.
             </p>
             <button className="bg-orange-500 hover:bg-orange-600 text-white px-14 py-5 rounded-2xl font-medium text-xl shadow-2xl shadow-orange-500/30 transition-all">
@@ -867,25 +867,25 @@ export default function Airdrop() {
           <div className="mt-24 flex flex-col items-center gap-10">
             <div className="flex items-center gap-3">
               <Zap className="text-orange-500" />
-              <span className="font-bold text-3xl text-white tracking-tighter">
+              <span className="font-bold text-3xl text-black dark:text-white tracking-tighter">
                 Blip.money
               </span>
             </div>
-            <div className="flex flex-wrap justify-center gap-12 text-zinc-600 text-[10px] font-bold uppercase tracking-[0.3em]">
-              <a href="#" className="hover:text-white transition-colors">
+            <div className="flex flex-wrap justify-center gap-12 text-black/40 dark:text-zinc-600 text-[10px] font-bold uppercase tracking-[0.3em]">
+              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">
                 Explorer
               </a>
-              <a href="#" className="hover:text-white transition-colors">
+              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">
                 Solana Status
               </a>
-              <a href="#" className="hover:text-white transition-colors">
+              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">
                 Audits
               </a>
-              <a href="#" className="hover:text-white transition-colors">
+              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">
                 Media Kit
               </a>
             </div>
-            <p className="text-zinc-700 text-xs font-semibold uppercase tracking-widest">
+            <p className="text-black/30 dark:text-zinc-700 text-xs font-semibold uppercase tracking-widest">
               &copy; 2024 Blip Protocol &bull; Decentralized Fintech
             </p>
           </div>

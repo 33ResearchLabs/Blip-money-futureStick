@@ -318,16 +318,19 @@ const App = () => {
 
       if (isDesktop) {
         // Desktop: scroll-based detection for content sections
+        // Use top-third of section as trigger anchor so the phone
+        // switches as soon as the section's text enters view
         const sections = container.querySelectorAll(".content-section");
-        const triggerPoint = viewportHeight * 0.45;
+        const triggerPoint = viewportHeight * 0.4;
 
         let newActiveSection = 0;
         let closestDistance = Infinity;
 
         sections.forEach((section, index) => {
           const rect = section.getBoundingClientRect();
-          const sectionCenter = rect.top + rect.height / 2;
-          const distance = Math.abs(sectionCenter - triggerPoint);
+          // Anchor near the top of each section where the text actually sits
+          const sectionAnchor = rect.top + rect.height * 0.25;
+          const distance = Math.abs(sectionAnchor - triggerPoint);
 
           if (
             distance < closestDistance &&
@@ -567,7 +570,7 @@ const App = () => {
             ].map((s, i, arr) => (
               <section
                 key={s.label}
-                className={`content-section space-y-5 min-h-screen flex flex-col justify-start pt-[20vh] ${i === arr.length - 1 ? "pb-[30vh]" : ""}`}
+                className={`content-section space-y-5 min-h-screen flex flex-col justify-center ${i === arr.length - 1 ? "pb-[30vh]" : ""}`}
               >
                 <span className="text-black/80 dark:text-white/50 font-bold tracking-[0.3em] uppercase text-xs">
                   {s.label}

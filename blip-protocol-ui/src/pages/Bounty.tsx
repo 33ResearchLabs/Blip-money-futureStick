@@ -49,7 +49,7 @@ const TRACKS = [
 ];
 
 const PillLabel = ({ children }: { children: React.ReactNode }) => (
-  <span className="inline-block px-3 py-1 rounded-full border border-[#222] text-[10px] font-bold text-[#888] uppercase tracking-[0.1em] mb-4 bg-white/[0.02]">
+  <span className="inline-block px-3 py-1 rounded-full border border-black/10 dark:border-[#222] text-[10px] font-bold text-black/50 dark:text-[#888] uppercase tracking-[0.1em] mb-4 bg-black/[0.02] dark:bg-white/[0.02]">
     {children}
   </span>
 );
@@ -61,7 +61,7 @@ const NeonPill = ({ children }: { children: React.ReactNode }) => (
 );
 
 const ListItem = ({ children }: { children: React.ReactNode }) => (
-  <div className="bg-[rgba(26,26,26,0.5)] border border-[#222] rounded-xl p-4 flex items-center justify-between hover:bg-[rgba(35,35,35,0.6)] transition-colors">
+  <div className="bg-black/[0.03] dark:bg-[rgba(26,26,26,0.5)] border border-black/10 dark:border-[#222] rounded-xl p-4 flex items-center justify-between hover:bg-black/[0.05] dark:hover:bg-[rgba(35,35,35,0.6)] transition-colors">
     {children}
   </div>
 );
@@ -74,7 +74,7 @@ const BountyCard = ({
   className?: string;
 }) => (
   <div
-    className={`bg-[rgba(17,17,17,0.7)] border border-[#222] rounded-3xl p-8 backdrop-blur-[12px] relative overflow-hidden hover:border-[#333] hover:-translate-y-0.5 transition-all group ${className}`}
+    className={`bg-white/70 dark:bg-[rgba(17,17,17,0.7)] border border-black/10 dark:border-[#222] rounded-3xl p-8 backdrop-blur-[12px] relative overflow-hidden hover:border-black/20 dark:hover:border-[#333] hover:-translate-y-0.5 transition-all group ${className}`}
   >
     {/* Shimmer sweep */}
     <div className="absolute -top-1/2 -left-1/2 w-[200%] h-[200%] bg-[linear-gradient(45deg,transparent_45%,rgba(255,255,255,0.03)_50%,transparent_55%)] animate-[sweep_8s_infinite_linear] pointer-events-none" />
@@ -93,7 +93,7 @@ export default function Bounty() {
 
   return (
     <div
-      className="min-h-screen bg-black text-white selection:bg-white/20 overflow-x-hidden"
+      className="min-h-screen bg-[#FAF8F5] dark:bg-black text-black dark:text-white selection:bg-black/20 dark:selection:bg-white/20 overflow-x-hidden"
       style={{ fontFamily: "'Inter', sans-serif" }}
     >
       <style>{`
@@ -105,7 +105,8 @@ export default function Bounty() {
       `}</style>
 
       {/* Ambient spotlight */}
-      <div className="fixed top-[-10%] left-1/2 -translate-x-1/2 w-screen h-screen bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.03)_0%,transparent_70%)] pointer-events-none z-0" />
+      <div className="fixed top-[-10%] left-1/2 -translate-x-1/2 w-screen h-screen bg-[radial-gradient(circle_at_50%_0%,rgba(0,0,0,0.02)_0%,transparent_70%)] pointer-events-none z-0 block dark:hidden" />
+      <div className="fixed top-[-10%] left-1/2 -translate-x-1/2 w-screen h-screen bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.03)_0%,transparent_70%)] pointer-events-none z-0 hidden dark:block" />
 
       {/* Navigation */}
       {/* <nav className="relative z-10 max-w-7xl mx-auto px-8 py-8 flex justify-between items-center">
@@ -125,21 +126,21 @@ export default function Bounty() {
       {/* Hero */}
       <header className="relative z-10 max-w-5xl mx-auto px-8 pt-24 pb-32 text-center">
         <PillLabel>Open Contribution</PillLabel>
-        <h1 className="text-6xl md:text-[100px] font-bold tracking-[-0.05em] leading-[1.05] bg-gradient-to-b from-white/100 via-white/100 to-[#888] bg-clip-text text-transparent mb-8">
+        <h1 className="text-6xl md:text-[100px] font-bold tracking-[-0.05em] leading-[1.05] bg-gradient-to-b from-black via-black to-black/50 dark:from-white/100 dark:via-white/100 dark:to-[#888] bg-clip-text text-transparent mb-8">
           Contribute. Create.
           <br />
           Earn BLIP.
         </h1>
-        <p className="text-lg md:text-xl text-[#777] mb-12 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-lg md:text-xl text-black/50 dark:text-[#777] mb-12 max-w-2xl mx-auto leading-relaxed">
           Support the growth of the decentralized payment infrastructure.
           Complete verified tasks, accumulate points, and redeem for BLIP at
           TGE.
         </p>
         <div className="flex flex-col sm:flex-row justify-center gap-4">
-          <button className="relative overflow-hidden bg-white text-black font-semibold py-3.5 px-7 rounded-xl before:absolute before:inset-0 before:bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.4),transparent)] before:-translate-x-full hover:before:translate-x-full before:transition-transform before:duration-600">
+          <button className="relative overflow-hidden bg-black dark:bg-white text-white dark:text-black font-semibold py-3.5 px-7 rounded-xl before:absolute before:inset-0 before:bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.4),transparent)] before:-translate-x-full hover:before:translate-x-full before:transition-transform before:duration-600">
             Join Bounty Program
           </button>
-          <button className="bg-white/[0.03] border border-[#222] text-white font-semibold py-3.5 px-7 rounded-xl hover:bg-white/[0.08] hover:border-[#444] transition-all">
+          <button className="bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-[#222] text-black dark:text-white font-semibold py-3.5 px-7 rounded-xl hover:bg-black/[0.08] dark:hover:bg-white/[0.08] hover:border-black/20 dark:hover:border-[#444] transition-all">
             Submit Contribution
           </button>
         </div>
@@ -159,7 +160,7 @@ export default function Bounty() {
                 </ListItem>
               ))}
             </div>
-            <p className="text-[10px] text-[#444] mt-6 font-bold uppercase tracking-widest">
+            <p className="text-[10px] text-black/30 dark:text-[#444] mt-6 font-bold uppercase tracking-widest">
               Global pool: 1-2% total supply
             </p>
           </BountyCard>
@@ -170,8 +171,8 @@ export default function Bounty() {
             <div className="space-y-5">
               {RULES.map((rule, i) => (
                 <div key={i} className="flex gap-4 items-start">
-                  <div className="w-1.5 h-1.5 rounded-full bg-white/20 mt-2 shrink-0" />
-                  <p className="text-sm text-[#777]">{rule}</p>
+                  <div className="w-1.5 h-1.5 rounded-full bg-black/20 dark:bg-white/20 mt-2 shrink-0" />
+                  <p className="text-sm text-black/50 dark:text-[#777]">{rule}</p>
                 </div>
               ))}
             </div>
@@ -192,7 +193,7 @@ export default function Bounty() {
               <BountyCard key={track.title}>
                 <PillLabel>{track.pill}</PillLabel>
                 <h3 className="text-2xl font-bold mb-2">{track.title}</h3>
-                <p className="text-sm text-[#666] mb-8">{track.desc}</p>
+                <p className="text-sm text-black/40 dark:text-[#666] mb-8">{track.desc}</p>
                 <div className="space-y-3">
                   {track.items.map((item) => (
                     <ListItem key={item.label}>
@@ -213,14 +214,14 @@ export default function Bounty() {
             <h2 className="text-5xl font-bold mb-6 tracking-tight">
               Earn while you scale.
             </h2>
-            <p className="text-[#777] text-lg leading-relaxed mb-10">
+            <p className="text-black/50 dark:text-[#777] text-lg leading-relaxed mb-10">
               Points are settled on-chain every 24 hours. Your dashboard
               provides real-time visibility into your contribution weight within
               the global bounty pool.
             </p>
             <a
               href="#"
-              className="text-xs font-bold uppercase tracking-widest text-white group"
+              className="text-xs font-bold uppercase tracking-widest text-black dark:text-white group"
             >
               Reward Documentation{" "}
               <span className="inline-block group-hover:translate-x-1 transition-transform">
@@ -239,37 +240,37 @@ export default function Bounty() {
               </div>
             </div>
 
-            <div className="bg-[#080808] border border-[#181818] rounded-2xl p-6">
+            <div className="bg-black/[0.03] dark:bg-[#080808] border border-black/10 dark:border-[#181818] rounded-2xl p-6">
               <div className="flex justify-between items-start mb-10">
                 <div>
-                  <span className="text-[10px] text-[#444] font-bold uppercase tracking-widest block mb-2">
+                  <span className="text-[10px] text-black/30 dark:text-[#444] font-bold uppercase tracking-widest block mb-2">
                     Estimated Balance
                   </span>
                   <div className="flex items-baseline gap-2">
                     <span className="text-4xl font-bold tracking-tighter">
                       4,820.00
                     </span>
-                    <span className="text-[#444] font-bold text-sm uppercase">
+                    <span className="text-black/30 dark:text-[#444] font-bold text-sm uppercase">
                       BLIP
                     </span>
                   </div>
                 </div>
-                <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center border border-white/10">
-                  <div className="w-4 h-4 bg-white/20 rounded-sm rotate-45" />
+                <div className="w-10 h-10 bg-black/5 dark:bg-white/5 rounded-full flex items-center justify-center border border-black/10 dark:border-white/10">
+                  <div className="w-4 h-4 bg-black/20 dark:bg-white/20 rounded-sm rotate-45" />
                 </div>
               </div>
 
               <div className="space-y-4">
-                <div className="flex justify-between items-center py-3 border-t border-white/5">
-                  <span className="text-xs text-[#666]">
+                <div className="flex justify-between items-center py-3 border-t border-black/5 dark:border-white/5">
+                  <span className="text-xs text-black/40 dark:text-[#666]">
                     Dev: Settlement SDK
                   </span>
                   <span className="text-[#00ff9c] text-xs font-bold font-mono">
                     +4,000.00
                   </span>
                 </div>
-                <div className="flex justify-between items-center py-3 border-t border-white/5">
-                  <span className="text-xs text-[#666]">
+                <div className="flex justify-between items-center py-3 border-t border-black/5 dark:border-white/5">
+                  <span className="text-xs text-black/40 dark:text-[#666]">
                     Social: Ecosystem Thread
                   </span>
                   <span className="text-[#00ff9c] text-xs font-bold font-mono">
@@ -284,14 +285,14 @@ export default function Bounty() {
         {/* Submission Form */}
         <section id="submit" className="max-w-3xl mx-auto text-center">
           <h2 className="text-4xl font-bold mb-4">Submit Contribution</h2>
-          <p className="text-[#666] mb-12">
+          <p className="text-black/40 dark:text-[#666] mb-12">
             Submit your work for verification by the Blip Foundation.
           </p>
           <BountyCard className="text-left">
             <form onSubmit={handleSubmit} className="grid gap-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="flex flex-col gap-2">
-                  <label className="text-[10px] font-bold uppercase text-[#444] tracking-widest ml-1">
+                  <label className="text-[10px] font-bold uppercase text-black/30 dark:text-[#444] tracking-widest ml-1">
                     Wallet Address
                   </label>
                   <input
@@ -299,11 +300,11 @@ export default function Bounty() {
                     placeholder="0x..."
                     value={wallet}
                     onChange={(e) => setWallet(e.target.value)}
-                    className="bg-[rgba(26,26,26,0.5)] border border-[#222] text-white rounded-xl px-4 py-3 focus:outline-none focus:border-[#555] focus:bg-[rgba(40,40,40,0.5)] transition-all"
+                    className="bg-black/[0.03] dark:bg-[rgba(26,26,26,0.5)] border border-black/10 dark:border-[#222] text-black dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:border-black/30 dark:focus:border-[#555] focus:bg-black/[0.05] dark:focus:bg-[rgba(40,40,40,0.5)] transition-all"
                   />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label className="text-[10px] font-bold uppercase text-[#444] tracking-widest ml-1">
+                  <label className="text-[10px] font-bold uppercase text-black/30 dark:text-[#444] tracking-widest ml-1">
                     Resource Link
                   </label>
                   <input
@@ -311,12 +312,12 @@ export default function Bounty() {
                     placeholder="https://..."
                     value={link}
                     onChange={(e) => setLink(e.target.value)}
-                    className="bg-[rgba(26,26,26,0.5)] border border-[#222] text-white rounded-xl px-4 py-3 focus:outline-none focus:border-[#555] focus:bg-[rgba(40,40,40,0.5)] transition-all"
+                    className="bg-black/[0.03] dark:bg-[rgba(26,26,26,0.5)] border border-black/10 dark:border-[#222] text-black dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:border-black/30 dark:focus:border-[#555] focus:bg-black/[0.05] dark:focus:bg-[rgba(40,40,40,0.5)] transition-all"
                   />
                 </div>
               </div>
               <div className="flex flex-col gap-2">
-                <label className="text-[10px] font-bold uppercase text-[#444] tracking-widest ml-1">
+                <label className="text-[10px] font-bold uppercase text-black/30 dark:text-[#444] tracking-widest ml-1">
                   Description
                 </label>
                 <textarea
@@ -324,12 +325,12 @@ export default function Bounty() {
                   placeholder="Summary of impact..."
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="bg-[rgba(26,26,26,0.5)] border border-[#222] text-white rounded-xl px-4 py-3 focus:outline-none focus:border-[#555] focus:bg-[rgba(40,40,40,0.5)] transition-all resize-none"
+                  className="bg-black/[0.03] dark:bg-[rgba(26,26,26,0.5)] border border-black/10 dark:border-[#222] text-black dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:border-black/30 dark:focus:border-[#555] focus:bg-black/[0.05] dark:focus:bg-[rgba(40,40,40,0.5)] transition-all resize-none"
                 />
               </div>
               <button
                 type="submit"
-                className="relative overflow-hidden bg-white text-black font-semibold py-3.5 px-7 rounded-xl mt-4 hover:opacity-90 transition-opacity before:absolute before:inset-0 before:bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.4),transparent)] before:-translate-x-full hover:before:translate-x-full before:transition-transform before:duration-600"
+                className="relative overflow-hidden bg-black dark:bg-white text-white dark:text-black font-semibold py-3.5 px-7 rounded-xl mt-4 hover:opacity-90 transition-opacity before:absolute before:inset-0 before:bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.4),transparent)] before:-translate-x-full hover:before:translate-x-full before:transition-transform before:duration-600"
               >
                 Submit Work
               </button>
