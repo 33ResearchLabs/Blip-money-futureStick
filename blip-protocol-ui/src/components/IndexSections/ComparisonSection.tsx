@@ -169,7 +169,7 @@ const ComparisonSection = () => {
   return (
     <section
       className="relative py-28 overflow-hidden"
-      style={{ background: "#000000" }}
+      style={{ background: isDark ? "#000000" : "#FAF8F5" }}
     >
       {/* Ambient top glow */}
       <div

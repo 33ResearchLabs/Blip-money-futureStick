@@ -1148,7 +1148,7 @@ function PremiumFintechSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative bg-black overflow-hidden"
+      className="relative bg-[#FAF8F5] dark:bg-black overflow-hidden"
       style={{ height: "100dvh" }}
     >
       {/* ── Background Layer ── */}
@@ -1165,7 +1165,7 @@ function PremiumFintechSection() {
             y: isPhone ? 40 : 0,
           }}
           transition={{ duration: 3, ease: "easeInOut" }}
-          className="absolute top-[-15%] left-[-15%] w-[65%] h-[65%] dark:bg-[#ff6b35]/12 rounded-full blur-[160px]"
+          className="absolute top-[-15%] left-[-15%] w-[65%] h-[65%] bg-[#ff6b35]/15 dark:bg-[#ff6b35]/12 rounded-full blur-[160px]"
         />
         <motion.div
           animate={{
@@ -1234,7 +1234,7 @@ function PremiumFintechSection() {
 
       {/* ── Subtle Background Darken ── */}
       <motion.div
-        className="absolute inset-0 bg-black pointer-events-none z-[2]"
+        className="absolute inset-0 bg-[#FAF8F5] dark:bg-black pointer-events-none z-[2]"
         animate={{ opacity: isPhone && !isFinale ? 0.03 : 0 }}
         transition={{ duration: 2 }}
       />

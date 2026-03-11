@@ -46,8 +46,8 @@ const Index = () => {
         canonical="https://blip.money/"
       />
 
-      <div className="bg-black text-white relative overflow-x-clip">
-        <div className="bg-black text-white relative">
+      <div className="bg-[#FAF8F5] dark:bg-black text-black dark:text-white relative overflow-x-clip">
+        <div className="bg-[#FAF8F5] dark:bg-black text-black dark:text-white relative">
           <div className="overflow-x-clip">
             {/* Grain overlay for premium film texture */}
             <div className="grain-overlay" />

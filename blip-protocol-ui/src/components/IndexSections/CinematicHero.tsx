@@ -47,7 +47,7 @@ const CinematicHero = () => {
   const isDark = mounted ? theme === "dark" : true; // default to dark until mounted
 
   return (
-    <section className="relative min-h-screen overflow-hidden flex items-center justify-center text-center bg-black">
+    <section className="relative min-h-screen overflow-hidden flex items-center justify-center text-center bg-[#FAF8F5] dark:bg-black">
       {/* Subtle orange radial glow centred slightly above the headline */}
       <div
         aria-hidden="true"

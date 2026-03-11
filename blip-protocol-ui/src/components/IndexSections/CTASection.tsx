@@ -37,10 +37,10 @@ const CTASection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative py-24 sm:py-32 md:py-48 bg-black/70 overflow-hidden"
+      className="relative py-24 sm:py-32 md:py-48 bg-[#FAF8F5] dark:bg-black/70 overflow-hidden"
     >
       {/* Immersive glow background */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 hidden dark:block">
         <motion.div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] rounded-full"
           style={{
@@ -54,6 +54,17 @@ const CTASection = () => {
           style={{
             background:
               "radial-gradient(ellipse, rgba(255,255,255,0.05) 0%, transparent 60%)",
+          }}
+        />
+      </div>
+      {/* Light mode subtle glow */}
+      <div className="absolute inset-0 dark:hidden">
+        <motion.div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] rounded-full"
+          style={{
+            background:
+              "radial-gradient(ellipse, rgba(255,107,53,0.06) 0%, rgba(255,107,53,0.02) 40%, transparent 70%)",
+            y: glowY,
           }}
         />
       </div>

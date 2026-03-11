@@ -196,7 +196,7 @@ const ProblemSection = () => {
   return (
     <section
       style={{
-        background: "rgba(0,0,0,0.7)",
+        background: isDark ? "rgba(0,0,0,0.7)" : "rgba(250,248,245,0.95)",
         padding: "80px 20px 70px",
         position: "relative",
         overflow: "hidden",

@@ -380,7 +380,7 @@ const App = () => {
   return (
     <div
       ref={containerRef}
-      className="relative min-h-screen bg-black/70 text-white selection:bg-white/[0.10] isolate py-12 md:py-20"
+      className="relative min-h-screen bg-[#FAF8F5] dark:bg-black/70 text-black dark:text-white selection:bg-black/[0.10] dark:selection:bg-white/[0.10] isolate py-12 md:py-20"
     >
       <div className="text-center mb-12 lg:mb-16">
         <motion.div

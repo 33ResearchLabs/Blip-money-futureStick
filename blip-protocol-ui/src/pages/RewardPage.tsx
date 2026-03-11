@@ -23,7 +23,7 @@ const IMAGES = {
   heroGlobe:
     "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000&auto=format",
   fiberOptics:
-    "https://media.gettyimages.com/id/451179701/vector/stock-market-chart.jpg?s=612x612&w=0&k=20&c=jbfWI9CjYplyoXWgCGbkVBdlv5AXQ1rlF9dFEmrxrIk=",
+    "https://tradelink.pro/content/how-global-liquidity-affects-the-crypto-market/what-is-global-liquidity.jpg",
   dataStream:
     "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format",
   blockchainNodes:
@@ -124,7 +124,7 @@ const BentoCard = ({
       )}
       {subtitle && (
         <p
-          className={`text-base max-w-[280px] leading-relaxed ${dark ? "text-black" : "text-gray-600"}`}
+          className={`text-base max-w-[280px] leading-relaxed ${dark ? "text-gray-400" : "text-gray-600"}`}
         >
           {subtitle}
         </p>
@@ -356,7 +356,7 @@ export default function RewardPage() {
                       15.00 BLIP
                     </span>
                   </div>
-                  <AppleButton className="bg-black text-black hover:bg-black/90 h-16 px-10 text-lg">
+                  <AppleButton className="bg-black text-white hover:bg-black/90 h-16 px-10 text-lg">
                     Increase Velocity
                   </AppleButton>
                 </div>
