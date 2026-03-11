@@ -30,12 +30,24 @@ const LegalPage = lazy(() => import("./pages/Legel/LeagalPage"));
 const UserRegister = lazy(() => import("./pages/Waitlist/UserRegister"));
 const ForgotPassword = lazy(() => import("./pages/Waitlist/ForgotPassword"));
 const ResetPassword = lazy(() => import("./pages/Waitlist/ResetPassword"));
-const EmailVerificationPending = lazy(() => import("./pages/Waitlist/EmailVerificationPending"));
+const EmailVerificationPending = lazy(
+  () => import("./pages/Waitlist/EmailVerificationPending"),
+);
 const VerifyEmail = lazy(() => import("./pages/Waitlist/VerifyEmail"));
-const MerchantDashboard = lazy(() => import("./pages/Waitlist/MerchantDashboard"));
-const MerchantLogin = lazy(() => import("./pages/Waitlist/MerchantLogin").then((m) => ({ default: m.MerchantLogin })));
-const MerchantRegister = lazy(() => import("./pages/Waitlist/MerchantRegister"));
-const SuperAdminDashboard = lazy(() => import("./pages/Waitlist/SuperAdminDashboard"));
+const MerchantDashboard = lazy(
+  () => import("./pages/Waitlist/MerchantDashboard"),
+);
+const MerchantLogin = lazy(() =>
+  import("./pages/Waitlist/MerchantLogin").then((m) => ({
+    default: m.MerchantLogin,
+  })),
+);
+const MerchantRegister = lazy(
+  () => import("./pages/Waitlist/MerchantRegister"),
+);
+const SuperAdminDashboard = lazy(
+  () => import("./pages/Waitlist/SuperAdminDashboard"),
+);
 const RedeemTelegram = lazy(() => import("./pages/Waitlist/RedeemTelegram"));
 
 // Lazy load page components
@@ -104,6 +116,9 @@ const BestCryptoExchangeUae = lazy(
   () => import("./pages/Markets/BestCryptoExchangeUae"),
 );
 const BitcoinPriceUae = lazy(() => import("./pages/Markets/BitcoinPriceUae"));
+const Airdrop = lazy(() => import("./pages/Airdrop"));
+const Bounty = lazy(() => import("./pages/Bounty"));
+const RewardPage = lazy(() => import("./pages/RewardPage"));
 
 // Handle Firebase auth action URLs (e.g. /?mode=resetPassword&oobCode=...)
 const FirebaseActionHandler = ({ children }: { children: React.ReactNode }) => {
@@ -174,11 +189,14 @@ const App = () => (
                     <Route path="/reset-password" element={<ResetPassword />} />
                     <Route path="/verify-email" element={<VerifyEmail />} />
                     <Route path="/tokenomics" element={<BlipTokenomics />} />
-                    <Route path="/rewards" element={<RewardsLanding />} />
+                    {/* <Route path="/rewards" element={<RewardsLanding />} /> */}
                     <Route path="/merchant" element={<Merchant />} />
                     <Route path="/uae" element={<UAELandingPage />} />
                     <Route path="/coming-soon" element={<ComingSoon />} />
                     <Route path="/how-it-works" element={<HowItWorksPage />} />
+                    <Route path="/airdrop" element={<Airdrop />} />
+                    <Route path="/bounty" element={<Bounty />} />
+                    <Route path="/reward" element={<RewardPage />} />
                     <Route path="/contact" element={<ContactUs />} />
                     <Route path="/privacy" element={<Privacy />} />
                     <Route path="/terms" element={<TermsService />} />

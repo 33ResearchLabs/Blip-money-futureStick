@@ -37,7 +37,7 @@ const CTASection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative py-24 sm:py-32 md:py-48 bg-[#FAF8F5] dark:bg-black overflow-hidden"
+      className="relative py-24 sm:py-32 md:py-48 bg-black/70 overflow-hidden"
     >
       {/* Immersive glow background */}
       <div className="absolute inset-0">

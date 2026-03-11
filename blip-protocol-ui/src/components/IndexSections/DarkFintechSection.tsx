@@ -1148,7 +1148,7 @@ function PremiumFintechSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative bg-[#FAF8F5] dark:bg-black overflow-hidden"
+      className="relative bg-black overflow-hidden"
       style={{ height: "100dvh" }}
     >
       {/* ── Background Layer ── */}

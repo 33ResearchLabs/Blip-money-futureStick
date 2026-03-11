@@ -108,7 +108,7 @@ border border-black/10 dark:border-white/20"
                 delay: 0.3,
                 ease: [0.16, 1, 0.3, 1], //text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl
               }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white leading-[1.1] tracking-tight"
+              className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-semibold text-black dark:text-white leading-[1.1] tracking-tight"
             >
               <span className="block">Value. Settled.</span>
 

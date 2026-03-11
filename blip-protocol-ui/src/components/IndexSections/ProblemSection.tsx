@@ -115,7 +115,9 @@ function NightGlobe() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const phiRef = useRef(0.5);
   const widthRef = useRef(0);
-  const lastScrollY = useRef(typeof window !== "undefined" ? window.scrollY : 0);
+  const lastScrollY = useRef(
+    typeof window !== "undefined" ? window.scrollY : 0,
+  );
 
   useEffect(() => {
     const onResize = () => {
@@ -148,13 +150,13 @@ function NightGlobe() {
       glowColor: [0.18, 0.32, 0.72],
       markers: [
         { location: [25.2048, 55.2708], size: 0.06 }, // Dubai
-        { location: [40.7128, -74.006], size: 0.05 },  // New York
-        { location: [51.5074, -0.1278], size: 0.05 },  // London
+        { location: [40.7128, -74.006], size: 0.05 }, // New York
+        { location: [51.5074, -0.1278], size: 0.05 }, // London
         { location: [1.3521, 103.8198], size: 0.045 }, // Singapore
         { location: [35.6762, 139.6503], size: 0.04 }, // Tokyo
-        { location: [19.076, 72.8777], size: 0.04 },   // Mumbai
-        { location: [48.8566, 2.3522], size: 0.04 },   // Paris
-        { location: [-23.5505, -46.6333], size: 0.04 },// São Paulo
+        { location: [19.076, 72.8777], size: 0.04 }, // Mumbai
+        { location: [48.8566, 2.3522], size: 0.04 }, // Paris
+        { location: [-23.5505, -46.6333], size: 0.04 }, // São Paulo
       ],
       onRender: (state) => {
         state.phi = phiRef.current;
@@ -194,7 +196,7 @@ const ProblemSection = () => {
   return (
     <section
       style={{
-        background: isDark ? "#080808" : "#FAF8F5",
+        background: "rgba(0,0,0,0.7)",
         padding: "80px 20px 70px",
         position: "relative",
         overflow: "hidden",

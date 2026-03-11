@@ -33,6 +33,7 @@ const FOOTER_SECTIONS = [
       { label: "FAQ", to: "/faq" },
       { label: "Glossary", to: "/glossary" },
       { label: "Compare", to: "/compare" },
+      { label: "Reward", to: "/reward" },
     ],
   },
   {
@@ -61,8 +62,16 @@ const FOOTER_SECTIONS = [
 const SOCIAL_PLATFORMS = [
   { icon: FaTelegramPlane, href: "https://t.me/blipmoney", label: "Telegram" },
   { icon: FaXTwitter, href: "https://x.com/blipmoney_", label: "X (Twitter)" },
-  { icon: FaYoutube, href: "https://www.youtube.com/@BlipMoney", label: "YouTube" },
-  { icon: FaLinkedin, href: "https://www.linkedin.com/company/blipmoneyofficial/about/?viewAsMember=true", label: "LinkedIn" },
+  {
+    icon: FaYoutube,
+    href: "https://www.youtube.com/@BlipMoney",
+    label: "YouTube",
+  },
+  {
+    icon: FaLinkedin,
+    href: "https://www.linkedin.com/company/blipmoneyofficial/about/?viewAsMember=true",
+    label: "LinkedIn",
+  },
 ];
 
 /* ================= SMALL COMPONENTS ================= */
@@ -190,10 +199,7 @@ export const Footer = ({
 
           <div className="flex items-center gap-3 text-sm uppercase tracking-widest font-bold text-black/70 dark:text-white/50">
             <div className="w-5 h-5 rounded-sm flex items-center justify-center">
-              <PulseIcon
-                size={14}
-                className="text-black dark:text-white"
-              />
+              <PulseIcon size={14} className="text-black dark:text-white" />
             </div>
             Fast. Simple. Blip.
           </div>

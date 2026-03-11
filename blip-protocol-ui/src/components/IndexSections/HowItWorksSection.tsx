@@ -21,7 +21,6 @@ import {
   Signal,
   ArrowDownCircle,
   Coins,
-  Fingerprint,
 } from "lucide-react";
 import { CTAButton } from "../Navbar";
 import { useTheme } from "next-themes";
@@ -381,7 +380,7 @@ const App = () => {
   return (
     <div
       ref={containerRef}
-      className="relative min-h-screen bg-[#FAF8F5] dark:bg-black text-black dark:text-white selection:bg-black/[0.10] isolate py-12 md:py-20"
+      className="relative min-h-screen bg-black/70 text-white selection:bg-white/[0.10] isolate py-12 md:py-20"
     >
       <div className="text-center mb-12 lg:mb-16">
         <motion.div
@@ -1571,7 +1570,7 @@ const SendScreen = ({ isDark }: { isDark: boolean }) => {
               : "0 16px 40px rgba(0,0,0,0.15)",
           }}
         >
-          Sign with BioID <Fingerprint size={18} />
+          Confirm & Send
         </motion.div>
       </div>
     </div>
@@ -2165,7 +2164,7 @@ const CashOutScreen = ({ isDark }: { isDark: boolean }) => {
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: `radial-gradient(ellipse at 50% 35%, ${isDark ? "rgba(16,185,129,0.12)" : "rgba(16,185,129,0.06)"} 0%, ${isDark ? "rgba(255,107,53,0.08)" : "rgba(255,107,53,0.04)"} 40%, transparent 70%)`,
+          background: `radial-gradient(ellipse at 50% 35%, ${isDark ? "rgba(255,107,53,0.15)" : "rgba(255,107,53,0.08)"} 0%, ${isDark ? "rgba(255,107,53,0.08)" : "rgba(255,107,53,0.04)"} 40%, transparent 70%)`,
         }}
       />
       {/* Pulse rings */}
@@ -2177,7 +2176,7 @@ const CashOutScreen = ({ isDark }: { isDark: boolean }) => {
           width: 160,
           height: 160,
           borderRadius: "50%",
-          border: `1px solid ${isDark ? "rgba(16,185,129,0.15)" : "rgba(16,185,129,0.1)"}`,
+          border: `1px solid ${isDark ? "rgba(255,107,53,0.2)" : "rgba(255,107,53,0.12)"}`,
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -65%)",
@@ -2209,12 +2208,12 @@ const CashOutScreen = ({ isDark }: { isDark: boolean }) => {
           height: 96,
           borderRadius: 34,
           marginBottom: 22,
-          background: "#009688",
+          background: "transparent",
           boxShadow:
-            "0 0 50px rgba(16,185,129,0.3), 0 0 80px rgba(255,107,53,0.15), 0 16px 40px rgba(0,0,0,0.3)",
+            "0 0 50px rgba(255,107,53,0.25), 0 0 80px rgba(255,107,53,0.15), 0 16px 40px rgba(0,0,0,0.3)",
         }}
       >
-        <CheckCircle2 size={46} strokeWidth={2.2} style={{ color: "#fff" }} />
+        <img src="/brand/blip-icon.svg" alt="Blip" style={{ width: 58, height: 58, borderRadius: 16 }} />
       </motion.div>
 
       <motion.p

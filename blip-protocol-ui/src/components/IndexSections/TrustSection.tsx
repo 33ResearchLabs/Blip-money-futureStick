@@ -46,7 +46,7 @@ const trustCards = [
 
 const TrustSection = () => {
   return (
-    <section className="relative py-24 md:py-40 bg-[#FAF8F5] dark:bg-black overflow-hidden">
+    <section className="relative py-24 md:py-40 bg-black overflow-hidden">
       {/* Top divider */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-black/10 dark:via-white/10 to-transparent" />
 

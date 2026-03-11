@@ -109,7 +109,7 @@ const ProtocolInterstitial = () => {
       ref={sectionRef}
       className="relative overflow-hidden"
       style={{
-        background: isDark ? "#050505" : "#FAF8F5",
+        background: "rgba(0,0,0,0.7)",
         padding: "140px 24px 120px",
       }}
     >

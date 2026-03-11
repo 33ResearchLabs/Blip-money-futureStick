@@ -159,7 +159,7 @@ const UseCasesSection = () => {
 
   return (
     <section
-      className="relative py-24 md:py-32 overflow-hidden bg-[#FAF8F5] dark:bg-[#060609]"
+      className="relative py-24 md:py-32 overflow-hidden bg-black/70"
     >
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-black/10 dark:via-white/[0.06] to-transparent" />
 

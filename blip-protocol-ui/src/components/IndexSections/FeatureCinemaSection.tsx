@@ -1,10 +1,7 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect } from "react";
 import {
   motion,
-  useScroll,
-  useTransform,
   AnimatePresence,
-  MotionValue,
 } from "framer-motion";
 import {
   Shield,
@@ -2096,162 +2093,10 @@ function ExplorerUI({
 }
 
 /* ═══════════════════════════════════════════════════════════
-   SCENE WRAPPER
-   Scroll-driven zoom-in / zoom-out + text overlay
+   FEATURES DATA
    ═══════════════════════════════════════════════════════════ */
-interface SceneProps {
-  progress: MotionValue<number>;
-  start: number;
-  end: number;
-  eyebrow: string;
-  headline: [string, string];
-  subline: string;
-  bullets: string[];
-  accent: string;
-  isLast?: boolean;
-  isDark?: boolean;
-  children: React.ReactNode;
-}
-
-function Scene({
-  progress,
-  start,
-  end,
-  eyebrow,
-  headline,
-  subline,
-  bullets,
-  accent,
-  isLast,
-  isDark = true,
-  children,
-}: SceneProps) {
-  const range = end - start;
-  const enterEnd = start + range * 0.18;
-  const exitStart = end - range * 0.22;
-
-  const opacity = useTransform(
-    progress,
-    isLast ? [start, enterEnd] : [start, enterEnd, exitStart, end],
-    isLast ? [0, 1] : [0, 1, 1, 0],
-  );
-  const scale = useTransform(
-    progress,
-    isLast ? [start, enterEnd] : [start, enterEnd, exitStart, end],
-    isLast ? [0.22, 1] : [0.22, 1, 1, 1.75],
-  );
-  const blurN = useTransform(
-    progress,
-    isLast ? [start, enterEnd] : [start, enterEnd, exitStart, end],
-    isLast ? [30, 0] : [30, 0, 0, 26],
-  );
-  const filter = useTransform(blurN, (v) => `blur(${v}px)`);
-  const glowOp = useTransform(
-    progress,
-    isLast ? [start, enterEnd] : [start, enterEnd, exitStart, end],
-    isLast ? [0, 0.8] : [0, 0.8, 0.8, 0],
-  );
-  const textOp = useTransform(
-    progress,
-    isLast
-      ? [start, start + range * 0.12]
-      : [start, start + range * 0.12, exitStart, end],
-    isLast ? [0, 1] : [0, 1, 1, 0],
-  );
-  const textY = useTransform(progress, [start, enterEnd], [24, 0]);
-
-  return (
-    <motion.div
-      className="absolute inset-0"
-      style={{ opacity, pointerEvents: "none" }}
-    >
-      {/* Scene ambient glow */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: `radial-gradient(ellipse at 62% 50%, ${accent}12 0%, transparent 55%)`,
-          opacity: glowOp,
-        }}
-      />
-
-      <div className="absolute inset-0 flex items-center">
-        <div className="w-full max-w-7xl mx-auto px-6 flex items-center gap-12 h-full">
-          {/* Left text column */}
-          <motion.div
-            style={{ y: textY, opacity: textOp }}
-            className="flex-shrink-0 w-[360px] xl:w-[420px]"
-          >
-            <div
-              className="text-[10px] uppercase tracking-[3px] mb-5 font-semibold"
-              style={{ color: accent }}
-            >
-              {eyebrow}
-            </div>
-            <h2
-              className={isDark ? "text-white" : "text-black"}
-              style={{
-                fontSize: "clamp(1.8rem, 3.5vw, 3rem)",
-                fontWeight: 700,
-                letterSpacing: "-0.04em",
-                lineHeight: 1.08,
-                marginBottom: 20,
-              }}
-            >
-              {headline[0]}
-              <br />
-              <span
-                style={{ color: isDark ? "rgba(255,255,255,0.28)" : "#555555" }}
-              >
-                {headline[1]}
-              </span>
-            </h2>
-            <p
-              className={`text-base leading-relaxed mb-8 max-w-[300px] ${isDark ? "text-white/40" : "text-black/70"}`}
-            >
-              {subline}
-            </p>
-            <div className="flex flex-col gap-3">
-              {bullets.map((b) => (
-                <div key={b} className="flex items-center gap-3">
-                  <div
-                    className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
-                    style={{
-                      background: `${accent}18`,
-                      border: `1px solid ${accent}35`,
-                    }}
-                  >
-                    <Check
-                      style={{ width: 9, height: 9, color: accent }}
-                      strokeWidth={3}
-                    />
-                  </div>
-                  <span
-                    className={`text-sm ${isDark ? "text-white/45" : "text-black/75"}`}
-                  >
-                    {b}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Right: zoom-in UI */}
-          <div className="flex-1 flex items-center justify-center">
-            <motion.div style={{ scale, filter }}>{children}</motion.div>
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════
-   MAIN EXPORT
-   ═══════════════════════════════════════════════════════════ */
-const SCENES_DATA = [
+const FEATURES_DATA = [
   {
-    start: 0,
-    end: 0.28,
     eyebrow: "01 · Escrow",
     headline: ["Funds locked.", "Always."] as [string, string],
     subline:
@@ -2264,8 +2109,6 @@ const SCENES_DATA = [
     accent: "#3ddc84",
   },
   {
-    start: 0.22,
-    end: 0.52,
     eyebrow: "02 · Merchant Console",
     headline: ["Your dashboard.", "Always on."] as [string, string],
     subline:
@@ -2278,8 +2121,6 @@ const SCENES_DATA = [
     accent: "#fb923c",
   },
   {
-    start: 0.46,
-    end: 0.74,
     eyebrow: "03 · Matching",
     headline: ["Best rate.", "Every time."] as [string, string],
     subline:
@@ -2292,8 +2133,6 @@ const SCENES_DATA = [
     accent: "#a4d7e1",
   },
   {
-    start: 0.68,
-    end: 1.0,
     eyebrow: "04 · Verification",
     headline: ["On-chain.", "Forever."] as [string, string],
     subline:
@@ -2310,144 +2149,117 @@ const SCENES_DATA = [
 export default function FeatureCinemaSection() {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start 0.9", "end end"],
-  });
 
-  const [activeScene, setActiveScene] = useState(0);
-  const scrollHintOpacity = useTransform(scrollYProgress, [0, 0.07], [1, 0]);
-  const lastSceneRef = useRef(0);
-
-  // Throttled scroll listener — only update state when scene actually changes
-  const getScene = useCallback((v: number) => {
-    if (v < 0.35) return 0;
-    if (v < 0.6) return 1;
-    if (v < 0.82) return 2;
-    return 3;
-  }, []);
-
-  useEffect(() => {
-    const unsub = scrollYProgress.on("change", (v) => {
-      const newScene = getScene(v);
-      if (newScene !== lastSceneRef.current) {
-        lastSceneRef.current = newScene;
-        setActiveScene(newScene);
-      }
-    });
-    return unsub;
-  }, [scrollYProgress, getScene]);
+  const visuals = [
+    <EscrowUI key={0} isDark={isDark} />,
+    <div key={1} style={{ width: 560, height: 420, position: "relative", overflow: "hidden", borderRadius: 16 }}>
+      <div style={{ transform: "scale(0.46)", transformOrigin: "top left", width: 1220, position: "absolute", top: 0, left: 0 }}>
+        <MerchantDashboardVisual />
+      </div>
+    </div>,
+    <BiddingUI key={2} isDark={isDark} />,
+    <ExplorerUI key={3} isDark={isDark} />,
+  ];
 
   return (
-    <div ref={containerRef} style={{ height: "450vh" }}>
-      <div
-        className="sticky top-0 overflow-hidden"
-        style={{ height: "100vh", background: isDark ? "#060606" : "#FAF8F5" }}
-      >
-        {/* Subtle grid */}
-
-        {/* Top pill label */}
-        <div className="absolute top-8 left-1/2 -translate-x-1/2 z-20">
-          <div
-            className="flex items-center gap-2 px-4 py-2 rounded-full"
-            style={{
-              background: isDark
-                ? "rgba(255,255,255,0.04)"
-                : "rgba(0,0,0,0.04)",
-              border: `1px solid ${isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)"}`,
-            }}
-          >
-            <Shield
-              style={{
-                width: 12,
-                height: 12,
-                color: isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.28)",
-              }}
-            />
-            <span
-              style={{
-                fontSize: 10,
-                letterSpacing: "3px",
-                textTransform: "uppercase",
-                color: isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.28)",
-              }}
-            >
-              Core Features
-            </span>
-          </div>
-        </div>
-
-        {/* Scenes */}
-        {SCENES_DATA.map((s, i) => (
-          <Scene
-            key={i}
-            progress={scrollYProgress}
-            {...s}
-            isLast={i === SCENES_DATA.length - 1}
-            isDark={isDark}
-          >
-            {i === 0 ? (
-              <EscrowUI active={activeScene === 0} isDark={isDark} />
-            ) : i === 1 ? (
-              // <MerchantDashboardUI active={activeScene === 1} isDark={isDark} />
-
-              <div style={{ width: 560, height: 420, position: "relative", overflow: "hidden", borderRadius: 16 }}>
-                <div style={{ transform: "scale(0.46)", transformOrigin: "top left", width: 1220, position: "absolute", top: 0, left: 0 }}>
-                  <MerchantDashboardVisual />
-                </div>
-              </div>
-            ) : i === 2 ? (
-              <BiddingUI active={activeScene === 2} isDark={isDark} />
-            ) : (
-              <ExplorerUI active={activeScene === 3} isDark={isDark} />
-            )}
-          </Scene>
-        ))}
-
-        {/* Progress dots */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-2.5 z-30">
-          {SCENES_DATA.map((s, i) => (
-            <motion.div
-              key={i}
-              style={{
-                height: 6,
-                borderRadius: 999,
-                background: s.accent,
-              }}
-              animate={{
-                width: activeScene === i ? 28 : 6,
-                opacity: activeScene === i ? 1 : 0.22,
-              }}
-              transition={{ duration: 0.4, ease: EASE }}
-            />
-          ))}
-        </div>
-
-        {/* Scroll cue (fades out early) */}
-        <motion.div
-          className="absolute right-10 bottom-12 flex flex-col items-center gap-2 z-20"
-          style={{ opacity: scrollHintOpacity }}
+    <div style={{ background: "#000000" }}>
+      {/* Top pill label */}
+      <div className="flex justify-center pt-16 pb-10">
+        <div
+          className="flex items-center gap-2 px-4 py-2 rounded-full"
+          style={{
+            background: isDark
+              ? "rgba(255,255,255,0.04)"
+              : "rgba(0,0,0,0.04)",
+            border: `1px solid ${isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)"}`,
+          }}
         >
-          <div
-            className="h-8 w-px"
+          <Shield
             style={{
-              background: isDark
-                ? "linear-gradient(to bottom, transparent, rgba(255,255,255,0.15))"
-                : "linear-gradient(to bottom, transparent, rgba(0,0,0,0.15))",
+              width: 12,
+              height: 12,
+              color: isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.28)",
             }}
           />
           <span
             style={{
-              fontSize: 8,
+              fontSize: 10,
               letterSpacing: "3px",
               textTransform: "uppercase",
-              color: isDark ? "rgba(255,255,255,0.18)" : "rgba(0,0,0,0.18)",
+              color: isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.28)",
             }}
           >
-            Scroll
+            Core Features
           </span>
-        </motion.div>
+        </div>
+      </div>
+
+      {/* Features stacked vertically */}
+      <div className="flex flex-col gap-32 pb-20">
+        {FEATURES_DATA.map((f, i) => (
+          <div key={i} className="w-full max-w-7xl mx-auto px-6 flex flex-col items-center gap-14">
+            {/* Text — centered */}
+            <div className="text-center max-w-2xl">
+              <div
+                className="text-[10px] uppercase tracking-[3px] mb-5 font-semibold"
+                style={{ color: f.accent }}
+              >
+                {f.eyebrow}
+              </div>
+              <h2
+                className={isDark ? "text-white" : "text-black"}
+                style={{
+                  fontSize: "clamp(1.8rem, 3.5vw, 3rem)",
+                  fontWeight: 700,
+                  letterSpacing: "-0.04em",
+                  lineHeight: 1.08,
+                  marginBottom: 20,
+                }}
+              >
+                {f.headline[0]}
+                <br />
+                <span
+                  style={{ color: isDark ? "rgba(255,255,255,0.28)" : "#555555" }}
+                >
+                  {f.headline[1]}
+                </span>
+              </h2>
+              <p
+                className={`text-base leading-relaxed mb-6 mx-auto max-w-[400px] ${isDark ? "text-white/40" : "text-black/70"}`}
+              >
+                {f.subline}
+              </p>
+              <div className="flex flex-wrap justify-center gap-3">
+                {f.bullets.map((b) => (
+                  <div key={b} className="flex items-center gap-2">
+                    <div
+                      className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
+                      style={{
+                        background: `${f.accent}18`,
+                        border: `1px solid ${f.accent}35`,
+                      }}
+                    >
+                      <Check
+                        style={{ width: 9, height: 9, color: f.accent }}
+                        strokeWidth={3}
+                      />
+                    </div>
+                    <span
+                      className={`text-sm ${isDark ? "text-white/45" : "text-black/75"}`}
+                    >
+                      {b}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Visual — below text */}
+            <div className="flex items-center justify-center">
+              {visuals[i]}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

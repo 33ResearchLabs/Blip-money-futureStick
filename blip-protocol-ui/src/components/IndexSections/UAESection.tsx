@@ -49,7 +49,7 @@ const stats = [
 const UAESection = () => {
   return (
     <section
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black/70"
     >
       {/* Dubai photo */}
       <div className="absolute inset-0 w-full h-full">
