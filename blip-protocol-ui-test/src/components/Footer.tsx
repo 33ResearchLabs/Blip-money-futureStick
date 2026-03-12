@@ -60,7 +60,7 @@ const FOOTER_SECTIONS = [
 
 const SOCIAL_PLATFORMS = [
   { icon: FaTelegramPlane, href: "https://t.me/+3DpHLzc2BfJhOWEx", label: "Telegram" },
-  { icon: FaXTwitter, href: "https://x.com/blipmoney_", label: "X (Twitter)" },
+  { icon: FaXTwitter, href: "https://x.com/blip_money", label: "X (Twitter)" },
   { icon: FaYoutube, href: "https://www.youtube.com/@BlipMoney", label: "YouTube" },
   { icon: FaLinkedin, href: "https://www.linkedin.com/company/blipmoneyofficial/", label: "LinkedIn" },
 ];

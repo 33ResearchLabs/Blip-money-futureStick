@@ -55,7 +55,7 @@ interface Task {
 const TASK_CONFIG: Record<TaskType, { actionLabel: string; link: string }> = {
   TWITTER: {
     actionLabel: "Follow",
-    link: "https://twitter.com/intent/follow?screen_name=blipmoney_",
+    link: "https://twitter.com/intent/follow?screen_name=blip_money",
   },
   TELEGRAM: {
     actionLabel: "Join",

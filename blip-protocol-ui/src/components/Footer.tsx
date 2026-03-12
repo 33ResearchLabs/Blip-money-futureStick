@@ -61,7 +61,7 @@ const FOOTER_SECTIONS = [
 
 const SOCIAL_PLATFORMS = [
   { icon: FaTelegramPlane, href: "https://t.me/blipmoney", label: "Telegram" },
-  { icon: FaXTwitter, href: "https://x.com/blipmoney_", label: "X (Twitter)" },
+  { icon: FaXTwitter, href: "https://x.com/blip_money", label: "X (Twitter)" },
   {
     icon: FaYoutube,
     href: "https://www.youtube.com/@BlipMoney",

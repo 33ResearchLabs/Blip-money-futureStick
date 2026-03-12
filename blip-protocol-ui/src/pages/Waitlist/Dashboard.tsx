@@ -857,7 +857,7 @@ export default function BlipDashboard() {
   const handleTaskClick = (task) => {
     // Special handling for Twitter task — open X profile directly
     if (task.id === "s2") {
-      window.open("https://x.com/blipmoney_", "_blank");
+      window.open("https://x.com/blip_money", "_blank");
       return;
     }
 

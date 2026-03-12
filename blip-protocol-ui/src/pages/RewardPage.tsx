@@ -450,7 +450,7 @@ export default function RewardPage() {
                 </div>
                 <AppleButton
                   variant="link"
-                  className="rounded-2xl border text-white/90 hover:text-white hover:border-white/40   border-white/20 hover:text-white"
+                  className="rounded-2xl border text-white/90  hover:border-white/40   border-white/20 hover:text-white"
                 >
                   Use Pay
                 </AppleButton>

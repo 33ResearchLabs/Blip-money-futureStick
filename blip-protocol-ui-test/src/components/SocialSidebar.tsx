@@ -14,7 +14,7 @@ export const SocialSidebar = () => {
     {
       label: "Twitter",
       icon: BsTwitterX,
-      link: "https://x.com/blipmoney_",
+      link: "https://x.com/blip_money",
     },
   ];
 

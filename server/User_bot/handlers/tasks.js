@@ -176,13 +176,13 @@ export async function handleTaskComplete(ctx, sessions) {
         `*Follow @${TWITTER_HANDLE} on X*\n\n` +
         `1. Tap the button below to follow us on X.\n\n` +
         `2. Then reply here with your X username to verify.\n\n` +
-        `_Example: blipmoney_`,
+        `_Example: blip_money`,
         {
           parse_mode: 'Markdown',
           disable_web_page_preview: true,
           reply_markup: {
             inline_keyboard: [
-              [{ text: 'Follow @blipmoney_ on X', url: FOLLOW_URL }],
+              [{ text: 'Follow @blip_money on X', url: FOLLOW_URL }],
             ],
           },
         }

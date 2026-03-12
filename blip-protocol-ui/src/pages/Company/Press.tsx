@@ -422,7 +422,7 @@ export default function Press() {
                 {/* Social links */}
                 <div className="flex flex-wrap items-center justify-center gap-6 pt-6 border-t border-gray-100 dark:border-white/[0.06]">
                   {[
-                    { label: "Twitter / X", href: "https://x.com/blipmoney_" },
+                    { label: "Twitter / X", href: "https://x.com/blip_money" },
                     {
                       label: "Telegram",
                       href: "https://t.me/blipmoney",

@@ -51,7 +51,7 @@ const socialPlatforms = [
     description:
       "Follow us for the latest protocol updates, partnerships, product launches, and ecosystem news.",
     members: "25K+ followers",
-    href: "https://x.com/blipmoney_",
+    href: "https://x.com/blip_money",
   },
   {
     icon: FaYoutube,

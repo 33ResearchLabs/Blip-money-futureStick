@@ -480,7 +480,7 @@ const ComingSoon = () => {
               </p>
               {/* <div className="flex items-center justify-center gap-4">
                 <a
-                  href="https://x.com/blipmoney_"
+                  href="https://x.com/blip_money"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex items-center gap-3 px-5 py-3 rounded-full bg-white/[0.02] border border-white/[0.08] hover:border-[#ffffff]/30 hover:bg-white/[0.04] transition-all duration-300"
@@ -512,7 +512,7 @@ const ComingSoon = () => {
 
   {/* X Button */}
   <a
-    href="https://x.com/blipmoney_"
+    href="https://x.com/blip_money"
     target="_blank"
     rel="noopener noreferrer"
     className="

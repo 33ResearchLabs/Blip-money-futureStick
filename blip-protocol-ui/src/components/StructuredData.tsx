@@ -40,7 +40,7 @@ const defaultOrganizationSchema: OrganizationSchema = {
     email: 'support@blip.money',
   },
   sameAs: [
-    'https://x.com/blipmoney_',
+    'https://x.com/blip_money',
     'https://t.me/+3DpHLzc2BfJhOWEx',
     'https://www.youtube.com/@BlipMoney',
   ],
