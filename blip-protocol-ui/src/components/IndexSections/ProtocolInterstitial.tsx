@@ -306,7 +306,7 @@ const ProtocolInterstitial = () => {
                 }}
               >
                 <p.Icon
-                  style={{ width: 18, height: 18, color: p.color }}
+                  style={{ width: 18, height: 18, color: isDark ? "#ffffff" : "#111111" }}
                   strokeWidth={1.6}
                 />
               </div>

@@ -730,9 +730,10 @@ const AppShowcaseSection = () => {
             className="relative rounded-3xl overflow-hidden h-[210px]"
           >
             <motion.img
-              src="/globe.png"
+              src="https://plus.unsplash.com/premium_photo-1679756098899-8bb057b6acf6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGVhcnRoJTIwYXQlMjBuaWdodHxlbnwwfHwwfHx8MA%3D%3D"
+              // src="https://plus.unsplash.com/premium_photo-1713163890188-6807aa2641de?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fGVhcnRoJTIwYXQlMjBuaWdodHxlbnwwfHwwfHx8MA%3D%3D"
               alt="Global reach"
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-contain"
               style={{ willChange: "transform" }}
               animate={{ scale: [1, 1.05, 1] }}
               transition={{
