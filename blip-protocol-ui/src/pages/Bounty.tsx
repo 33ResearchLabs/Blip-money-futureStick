@@ -137,10 +137,10 @@ export default function Bounty() {
           TGE.
         </p>
         <div className="flex flex-col sm:flex-row justify-center gap-4">
-          <button className="relative overflow-hidden bg-black dark:bg-white text-white dark:text-black font-semibold py-3.5 px-7 rounded-xl before:absolute before:inset-0 before:bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.4),transparent)] before:-translate-x-full hover:before:translate-x-full before:transition-transform before:duration-600">
+          <button className="relative overflow-hidden bg-black dark:bg-white text-white dark:text-black font-semibold py-3.5 px-7 rounded-full before:absolute before:inset-0 before:bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.4),transparent)] before:-translate-x-full hover:before:translate-x-full before:transition-transform before:duration-600">
             Join Bounty Program
           </button>
-          <button className="bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-[#222] text-black dark:text-white font-semibold py-3.5 px-7 rounded-xl hover:bg-black/[0.08] dark:hover:bg-white/[0.08] hover:border-black/20 dark:hover:border-[#444] transition-all">
+          <button className="bg-black dark:bg-black border border-black/10 dark:border-[#222] text-black dark:text-white font-semibold py-3.5 px-7 rounded-full hover:bg-black/[0.08] dark:hover:bg-white/[0.08] hover:border-black/20 dark:hover:border-[#444] transition-all">
             Submit Contribution
           </button>
         </div>
@@ -344,7 +344,7 @@ export default function Bounty() {
               </div>
               <button
                 type="submit"
-                className="relative overflow-hidden bg-black dark:bg-white text-white dark:text-black font-semibold py-3.5 px-7 rounded-xl mt-4 hover:opacity-90 transition-opacity before:absolute before:inset-0 before:bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.4),transparent)] before:-translate-x-full hover:before:translate-x-full before:transition-transform before:duration-600"
+                className="relative overflow-hidden bg-black dark:bg-white text-white dark:text-black font-semibold py-3.5 px-7 rounded-full mt-4 hover:opacity-90 transition-opacity before:absolute before:inset-0 before:bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.4),transparent)] before:-translate-x-full hover:before:translate-x-full before:transition-transform before:duration-600"
               >
                 Submit Work
               </button>

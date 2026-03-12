@@ -16,6 +16,7 @@ import {
   Lock,
   Activity,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 /**
  * HIGH-DEFINITION CINEMATIC ASSETS
@@ -26,13 +27,13 @@ const IMAGES = {
   lightModeGlobe:
     "https://lh3.googleusercontent.com/gg-dl/AOI_d_8EiIYRBtnO2zznoeqW-A9YI9Kyy4_cGwnqWGRARqKLO7GED7LMHwmt79MFG8M1vAzgq22oVXSJFppOphvsJ7MdjieWt8oatnzkZnL2yJMx8uI5neF4myA8uwIPM2vLncZlizL63RQzLKDshdWqQOg5Q0YG3dMoXFFnlzc-eEdmOzk-=s1600-rj",
   fiberOptics:
-    "https://tradelink.pro/content/how-global-liquidity-affects-the-crypto-market/what-is-global-liquidity.jpg",
+    "https://t3.ftcdn.net/jpg/02/74/91/02/360_F_274910292_Xm3dgmmfMJVFrcjUR1eqJmIC7giRrsTF.jpg",
   dataStream:
     "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format",
   blockchainNodes:
     "https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=1200&auto=format",
   vault:
-    "https://images.unsplash.com/photo-1558494949-ef010cbdcc48?q=80&w=1200&auto=format",
+    "https://www.gettrx.com/wp-content/uploads/2023/08/Merchant-Account-vs-Payment-Gateway-vs-PSP.jpg",
   deepNetwork:
     "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2000&auto=format",
 };
@@ -103,7 +104,7 @@ const BentoCard = ({
   overlayOpacity?: string;
 }) => (
   <div
-    className={`relative overflow-hidden rounded-[3rem] group border border-black/5 dark:border-white/5 shadow-2xl ${dark ? "bg-[#FAF8F5] dark:bg-[#0a0a0b]" : "bg-gray-200 text-black"} ${className}`}
+    className={`${className} relative overflow-hidden rounded-[3rem] group border border-black/5 dark:border-white/5 shadow-2xl ${dark ? "bg-[#FAF8F5] dark:bg-black" : "bg-white text-black"} `}
   >
     {image && (
       <>
@@ -118,19 +119,23 @@ const BentoCard = ({
       </>
     )}
     <div className="relative z-10 p-10 h-full flex flex-col">
-      {title && (
-        <h3
-          className={`text-3xl font-bold tracking-tight mb-2 ${dark ? "text-black dark:text-white" : "text-black"}`}
-        >
-          {title}
-        </h3>
-      )}
-      {subtitle && (
-        <p
-          className={`text-base max-w-[280px] leading-relaxed ${dark ? "text-black/60 dark:text-gray-400" : "text-gray-600"}`}
-        >
-          {subtitle}
-        </p>
+      {(title || subtitle) && (
+        <div>
+          {title && (
+            <h3
+              className={`text-3xl font-bold tracking-tight mb-2 ${dark ? "text-black dark:text-white" : "text-black"}`}
+            >
+              {title}
+            </h3>
+          )}
+          {subtitle && (
+            <p
+              className={`text-base max-w-[280px] leading-relaxed ${dark ? "text-black/60 dark:text-gray-400" : "text-gray-600"}`}
+            >
+              {subtitle}
+            </p>
+          )}
+        </div>
       )}
       <div className="mt-auto">{children}</div>
     </div>
@@ -148,6 +153,7 @@ export default function RewardPage() {
   const [walletAddr, setWalletAddr] = useState("");
   const [copying, setCopying] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeFaq, setActiveFaq] = useState<number | null>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -209,53 +215,67 @@ export default function RewardPage() {
               <AppleButton className="h-16 px-12 text-xl shadow-[0_0_50px_rgba(0,0,0,0.15)] dark:shadow-[0_0_50px_rgba(255,255,255,0.15)]">
                 Explore Rewards
               </AppleButton>
-              <AppleButton variant="secondary" className="h-16 px-12 text-xl">
-                Read Manifesto <ChevronRight size={24} />
-              </AppleButton>
+              <Link to="/whitepaper">
+                <AppleButton
+                  variant="link"
+                  className="h-16 px-12 text-xl bg-black border border-white/20 text-white hover:border border-gray"
+                >
+                  Read Manifesto <ChevronRight size={24} />
+                </AppleButton>
+              </Link>
             </div>
           </div>
         </section>
 
         {/* WELCOME HUB */}
-        <section className="max-w-[1400px] mx-auto px-10 -mt-20 relative z-20">
+        <section className="max-w-[1400px] mx-auto px-10 -mt-20 relative z-20 ">
           <BentoCard
-            className="min-h-[380px] border-black/10 dark:border-white/10 shadow-[0_40px_100px_rgba(0,0,0,0.3)] dark:shadow-[0_40px_100px_rgba(0,0,0,1)]"
-            title="$25 Welcome Incentive"
-            subtitle="Initiate your first settlement and unlock immediate protocol rewards."
-            image={IMAGES.deepNetwork}
+            className="min-h-[380px] bg-black "
+            // image={IMAGES.deepNetwork}
             overlayOpacity="opacity-100"
           >
-            <div className="flex flex-col md:flex-row items-end justify-between w-full mt-4 gap-6">
-              <div className="grid grid-cols-2 gap-4 w-full md:max-w-md">
-                <div className="p-5 rounded-[2rem] bg-[#FAF8F5]/80 dark:bg-black/40 border border-black/10 dark:border-white/10 backdrop-blur-3xl group/item hover:border-black/20 dark:hover:border-white/20 transition-all">
-                  <SectionLabel color="text-black/50 dark:text-gray-400">
-                    Your Status
-                  </SectionLabel>
-                  <div className="text-xl font-bold flex items-center gap-2">
-                    {isConnected ? (
-                      <>
-                        <CheckCircle2 size={20} className="text-green-500" />{" "}
-                        Connected
-                      </>
-                    ) : (
-                      "Inactive"
-                    )}
-                  </div>
-                </div>
-                <div className="p-5 rounded-[2rem] bg-[#FAF8F5]/80 dark:bg-black/40 border border-black/10 dark:border-white/10 backdrop-blur-3xl group/item hover:border-black/20 dark:hover:border-white/20 transition-all">
-                  <SectionLabel color="text-black/50 dark:text-gray-400">
-                    Available
-                  </SectionLabel>
-                  <div className="text-xl font-bold">25.00 BLIP</div>
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-8">
+              <div>
+                <h3 className="text-3xl font-bold tracking-tight mb-2 text-black dark:text-white">
+                  $25 Welcome Incentive
+                </h3>
+                <p className="text-base max-w-[280px] leading-relaxed text-black/60 dark:text-gray-400">
+                  Initiate your first settlement and unlock immediate protocol
+                  rewards.
+                </p>
+              </div>
+              <Link to="/waitlist">
+                <AppleButton
+                  variant="primary"
+                  onClick={connectWallet}
+                  className="h-16 px-14 text-xl rounded-[1.5rem] shrink-0 shadow-2xl md:mt-8"
+                >
+                  {isConnected ? "Start Settlement" : "Click To Claim"}
+                </AppleButton>
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 gap-4 w-full md:max-w-md">
+              <div className="p-5 rounded-[2rem] bg-[#FAF8F5]/80 dark:bg-black/40 border border-black/10 dark:border-white/10 backdrop-blur-3xl group/item hover:border-black/20 dark:hover:border-white/20 transition-all">
+                <SectionLabel color="text-black/50 dark:text-gray-400">
+                  Your Status
+                </SectionLabel>
+                <div className="text-xl font-bold flex items-center gap-2">
+                  {isConnected ? (
+                    <>
+                      <CheckCircle2 size={20} className="text-green-500" />{" "}
+                      Connected
+                    </>
+                  ) : (
+                    "Inactive"
+                  )}
                 </div>
               </div>
-              <AppleButton
-                variant="primary"
-                onClick={connectWallet}
-                className="h-16 px-14 text-xl rounded-[1.5rem] w-full md:w-auto shadow-2xl"
-              >
-                {isConnected ? "Start Settlement" : "Connect To Claim"}
-              </AppleButton>
+              <div className="p-5 rounded-[2rem] bg-[#FAF8F5]/80 dark:bg-black/40 border border-black/10 dark:border-white/10 backdrop-blur-3xl group/item hover:border-black/20 dark:hover:border-white/20 transition-all">
+                <SectionLabel color="text-black/50 dark:text-gray-400">
+                  Available
+                </SectionLabel>
+                <div className="text-xl font-bold">25.00 BLIP</div>
+              </div>
             </div>
           </BentoCard>
         </section>
@@ -329,8 +349,8 @@ export default function RewardPage() {
               className="md:col-span-4 h-[500px]"
               title="Merchant Gateway"
               subtitle="Pay verified partners on-chain. Zero fees. Zero friction."
-              image={IMAGES.vault}
-              overlayOpacity="opacity-60"
+              // image={"/merchantGateway.png"}
+              overlayOpacity="opacity-100"
             >
               <div className="flex items-center justify-between w-full pt-6">
                 <div className="text-3xl font-black flex items-center gap-2">
@@ -345,7 +365,7 @@ export default function RewardPage() {
             {/* WHITE PERFORMANCE CARD */}
             <BentoCard
               dark={false}
-              className="md:col-span-8 h-[500px]"
+              className="md:col-span-8 h-[500px] "
               title="Recurring Velocity"
               subtitle="Maintain high protocol engagement to unlock tiered performance multipliers."
             >
@@ -478,22 +498,44 @@ export default function RewardPage() {
           </div>
           <div className="divide-y divide-black/5 dark:divide-white/5 border-t border-black/5 dark:border-white/5">
             {[
-              "How do I qualify for settlement rewards?",
-              "Are reward distributions automated on-chain?",
-              "What defines a 'Verified Merchant' payment?",
-              "Can I stake BLIP for governance weight?",
-            ].map((q, i) => (
+              {
+                q: "How do I qualify for settlement rewards?",
+                a: "Complete successful settlements through the Blip protocol.",
+              },
+              {
+                q: "Are reward distributions automated on-chain?",
+                a: "Yes, rewards are automatically distributed via smart contracts on-chain.",
+              },
+              {
+                q: "What defines a 'Verified Merchant' payment?",
+                a: "A payment processed through a merchant verified and approved by the Blip protocol.",
+              },
+              {
+                q: "Can I stake BLIP for governance weight?",
+                a: "Yes, staking BLIP gives you governance voting power.",
+              },
+            ].map((faq, i) => (
               <div
                 key={i}
-                className="group py-12 flex justify-between items-center cursor-pointer hover:bg-black/[0.01] dark:hover:bg-white/[0.01] px-8 transition-all duration-500"
+                className="cursor-pointer hover:bg-black/[0.01] dark:hover:bg-white/[0.01] px-8 transition-all duration-500"
+                onClick={() => setActiveFaq(activeFaq === i ? null : i)}
               >
-                <span className="text-2xl font-bold text-black/60 dark:text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors">
-                  {q}
-                </span>
-                <Plus
-                  size={32}
-                  className="text-black/30 dark:text-gray-700 group-hover:rotate-45 group-hover:text-black dark:group-hover:text-white transition-all duration-500"
-                />
+                <div className="py-12 flex justify-between items-center">
+                  <span
+                    className={`text-2xl font-bold transition-colors ${activeFaq === i ? "text-black dark:text-white" : "text-black/60 dark:text-gray-400"}`}
+                  >
+                    {faq.q}
+                  </span>
+                  <Plus
+                    size={32}
+                    className={`shrink-0 ml-4 transition-all duration-500 ${activeFaq === i ? "rotate-45 text-black dark:text-white" : "text-black/30 dark:text-gray-700"}`}
+                  />
+                </div>
+                {activeFaq === i && (
+                  <p className="pb-12 text-lg text-black/50 dark:text-gray-400 leading-relaxed max-w-2xl">
+                    {faq.a}
+                  </p>
+                )}
               </div>
             ))}
           </div>
@@ -501,7 +543,7 @@ export default function RewardPage() {
 
         {/* FINAL MASTHEAD CTA */}
         <section className="max-w-[1400px] mx-auto px-10 py-40">
-          <div className="relative bg-gray-200 text-black rounded-[5rem] p-24 md:p-32 flex flex-col items-center text-center space-y-12 shadow-[0_50px_100px_rgba(255,255,255,0.05)] overflow-hidden">
+          <div className="relative bg-white text-black rounded-[5rem] p-24 md:p-32 flex flex-col items-center text-center space-y-12 shadow-[0_50px_100px_rgba(255,255,255,0.05)] overflow-hidden">
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-black/[0.03] rounded-full -mr-40 -mt-40" />
             <SectionLabel color="text-black/40">Open Protocol</SectionLabel>
             <h2 className="text-[60px] md:text-[100px] font-black tracking-[-0.06em] leading-none">
@@ -512,9 +554,9 @@ export default function RewardPage() {
               Start settling payments privately and earning rewards on the
               world's most performant network.
             </p>
-            <AppleButton className="h-20 px-16 text-4xl font-black bg-black !text-black hover:bg-black/90 shadow-2xl">
+            <button className="h-20 px-16 text-xl font-black bg-black text-white rounded-full shadow-2xl hover:bg-black/90 transition-all active:scale-95">
               Begin Journey
-            </AppleButton>
+            </button>
           </div>
         </section>
       </main>
