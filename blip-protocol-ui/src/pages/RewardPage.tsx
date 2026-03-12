@@ -512,7 +512,7 @@ export default function RewardPage() {
               Start settling payments privately and earning rewards on the
               world's most performant network.
             </p>
-            <AppleButton className="h-20 px-16 text-2xl font-black bg-black !text-white hover:bg-black/90 shadow-2xl">
+            <AppleButton className="h-20 px-16 text-4xl font-black bg-black !text-black hover:bg-black/90 shadow-2xl">
               Begin Journey
             </AppleButton>
           </div>

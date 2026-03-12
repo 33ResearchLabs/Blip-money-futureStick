@@ -172,7 +172,9 @@ export default function Bounty() {
               {RULES.map((rule, i) => (
                 <div key={i} className="flex gap-4 items-start">
                   <div className="w-1.5 h-1.5 rounded-full bg-black/20 dark:bg-white/20 mt-2 shrink-0" />
-                  <p className="text-sm text-black/50 dark:text-[#777]">{rule}</p>
+                  <p className="text-sm text-black/50 dark:text-[#777]">
+                    {rule}
+                  </p>
                 </div>
               ))}
             </div>
@@ -183,7 +185,17 @@ export default function Bounty() {
         <section>
           <div className="text-center mb-16">
             <PillLabel>Opportunities</PillLabel>
-            <h2 className="text-4xl font-bold tracking-tight">
+            <h2
+              style={{
+                textAlign: "center",
+                fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
+                fontWeight: 700,
+                letterSpacing: "-0.04em",
+                lineHeight: 1.08,
+                marginBottom: 20,
+              }}
+              className="text-4xl font-bold tracking-tight"
+            >
               Select your expertise.
             </h2>
           </div>
@@ -193,7 +205,9 @@ export default function Bounty() {
               <BountyCard key={track.title}>
                 <PillLabel>{track.pill}</PillLabel>
                 <h3 className="text-2xl font-bold mb-2">{track.title}</h3>
-                <p className="text-sm text-black/40 dark:text-[#666] mb-8">{track.desc}</p>
+                <p className="text-sm text-black/40 dark:text-[#666] mb-8">
+                  {track.desc}
+                </p>
                 <div className="space-y-3">
                   {track.items.map((item) => (
                     <ListItem key={item.label}>

@@ -383,7 +383,9 @@ export default function Airdrop() {
                 </p>
                 <div className="space-y-4 max-w-md mb-10">
                   <div className="flex justify-between font-bold text-sm">
-                    <span className="text-black/50 dark:text-zinc-400">Your Progress</span>
+                    <span className="text-black/50 dark:text-zinc-400">
+                      Your Progress
+                    </span>
                     <span className="text-emerald-500">
                       {Math.round(airdropProgress)}%
                     </span>
@@ -467,15 +469,22 @@ export default function Airdrop() {
               <div className="border-b-2 border-dotted border-black/20 dark:border-zinc-700 w-fit text-[11px] font-bold text-black/40 dark:text-zinc-600 mb-8 uppercase tracking-[0.2em]">
                 Airdrop &bull; Spot
               </div>
-              <p className="text-black dark:text-white font-bold text-2xl mb-8 leading-tight">
-                Top up &ge; $100
-              </p>
+              <div className="mb-8 space-y-2">
+                <p className="text-black dark:text-white font-bold text-xl leading-tight">
+                  Deposit at least <span className="text-orange-500">$100</span> to your account
+                </p>
+                <p className="text-black/40 dark:text-zinc-500 text-sm font-normal">
+                  One simple step — fund your wallet and earn instantly.
+                </p>
+              </div>
               <div className="mt-auto">
                 <div className="flex justify-between items-center text-xs mb-3">
                   <div className="h-2 bg-black/10 dark:bg-zinc-800 rounded-full flex-1 mr-4 overflow-hidden">
                     <div className="h-full bg-orange-500/50 w-0"></div>
                   </div>
-                  <span className="text-black/50 dark:text-zinc-500 font-bold">0%</span>
+                  <span className="text-black/50 dark:text-zinc-500 font-bold">
+                    0%
+                  </span>
                 </div>
                 <button className="w-full bg-orange-500 hover:bg-orange-400 text-black font-medium py-4 rounded-full transition-all text-sm uppercase tracking-widest shadow-xl shadow-orange-500/10">
                   Top Up Now
@@ -496,19 +505,31 @@ export default function Airdrop() {
               <div className="border-b-2 border-dotted border-black/20 dark:border-zinc-700 w-fit text-[11px] font-bold text-black/40 dark:text-zinc-600 mb-8 uppercase tracking-[0.2em]">
                 Airdrop &bull; Spot
               </div>
-              <p className="text-black dark:text-white font-bold text-2xl mb-8 leading-tight">
-                Top up &ge; $100{" "}
-                <span className="text-black/40 dark:text-zinc-600 font-light italic text-xl">
-                  &amp;
-                </span>{" "}
-                Trade &ge; $500
-              </p>
+              <div className="mb-8 space-y-3">
+                <div className="flex items-start gap-3">
+                  <span className="w-6 h-6 rounded-full bg-orange-500/10 text-orange-500 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
+                  <p className="text-black dark:text-white font-bold text-lg leading-tight">
+                    Deposit at least <span className="text-orange-500">$100</span>
+                  </p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="w-6 h-6 rounded-full bg-orange-500/10 text-orange-500 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
+                  <p className="text-black dark:text-white font-bold text-lg leading-tight">
+                    Trade a total of <span className="text-orange-500">$500</span> or more
+                  </p>
+                </div>
+                <p className="text-black/40 dark:text-zinc-500 text-sm font-normal pl-9">
+                  Complete both steps to unlock this reward.
+                </p>
+              </div>
               <div className="mt-auto">
                 <div className="flex justify-between items-center text-xs mb-3">
                   <div className="h-2 bg-black/10 dark:bg-zinc-800 rounded-full flex-1 mr-4 overflow-hidden">
                     <div className="h-full bg-orange-500/50 w-0"></div>
                   </div>
-                  <span className="text-black/50 dark:text-zinc-500 font-bold">0%</span>
+                  <span className="text-black/50 dark:text-zinc-500 font-bold">
+                    0%
+                  </span>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <button className="bg-black/10 dark:bg-zinc-800 hover:bg-black/15 dark:hover:bg-zinc-700 text-black dark:text-white font-medium py-4 rounded-full text-[10px] transition-all uppercase tracking-widest">
@@ -534,19 +555,31 @@ export default function Airdrop() {
               <div className="border-b-2 border-dotted border-black/20 dark:border-zinc-700 w-fit text-[11px] font-bold text-black/40 dark:text-zinc-600 mb-8 uppercase tracking-[0.2em]">
                 Airdrop &bull; Spot
               </div>
-              <p className="text-black dark:text-white font-bold text-2xl mb-8 leading-tight">
-                Top up &ge; $100{" "}
-                <span className="text-black/40 dark:text-zinc-600 font-light italic text-xl">
-                  &amp;
-                </span>{" "}
-                Trade &ge; $250k
-              </p>
+              <div className="mb-8 space-y-3">
+                <div className="flex items-start gap-3">
+                  <span className="w-6 h-6 rounded-full bg-orange-500/10 text-orange-500 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
+                  <p className="text-black dark:text-white font-bold text-lg leading-tight">
+                    Deposit at least <span className="text-orange-500">$100</span>
+                  </p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="w-6 h-6 rounded-full bg-orange-500/10 text-orange-500 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
+                  <p className="text-black dark:text-white font-bold text-lg leading-tight">
+                    Trade a total of <span className="text-orange-500">$250,000</span> or more
+                  </p>
+                </div>
+                <p className="text-black/40 dark:text-zinc-500 text-sm font-normal pl-9">
+                  Complete both steps to unlock this reward.
+                </p>
+              </div>
               <div className="mt-auto">
                 <div className="flex justify-between items-center text-xs mb-3">
                   <div className="h-2 bg-black/10 dark:bg-zinc-800 rounded-full flex-1 mr-4 overflow-hidden">
                     <div className="h-full bg-orange-500/50 w-0"></div>
                   </div>
-                  <span className="text-black/50 dark:text-zinc-500 font-bold">0%</span>
+                  <span className="text-black/50 dark:text-zinc-500 font-bold">
+                    0%
+                  </span>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <button className="bg-black/10 dark:bg-zinc-800 hover:bg-black/15 dark:hover:bg-zinc-700 text-black dark:text-white font-medium py-4 rounded-full text-[10px] transition-all uppercase tracking-widest">
@@ -872,16 +905,28 @@ export default function Airdrop() {
               </span>
             </div>
             <div className="flex flex-wrap justify-center gap-12 text-black/40 dark:text-zinc-600 text-[10px] font-bold uppercase tracking-[0.3em]">
-              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">
+              <a
+                href="#"
+                className="hover:text-black dark:hover:text-white transition-colors"
+              >
                 Explorer
               </a>
-              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">
+              <a
+                href="#"
+                className="hover:text-black dark:hover:text-white transition-colors"
+              >
                 Solana Status
               </a>
-              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">
+              <a
+                href="#"
+                className="hover:text-black dark:hover:text-white transition-colors"
+              >
                 Audits
               </a>
-              <a href="#" className="hover:text-black dark:hover:text-white transition-colors">
+              <a
+                href="#"
+                className="hover:text-black dark:hover:text-white transition-colors"
+              >
                 Media Kit
               </a>
             </div>
