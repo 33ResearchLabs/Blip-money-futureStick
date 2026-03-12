@@ -196,7 +196,7 @@ const App = () => (
                     <Route path="/how-it-works" element={<HowItWorksPage />} />
                     {/* <Route path="/airdrop" element={<Airdrop />} /> */}
                     <Route path="/bounty" element={<Bounty />} />
-                    <Route path="/reward" element={<RewardPage />} />
+                    <Route path="/rewards" element={<RewardPage />} />
                     <Route path="/contact" element={<ContactUs />} />
                     <Route path="/privacy" element={<Privacy />} />
                     <Route path="/terms" element={<TermsService />} />

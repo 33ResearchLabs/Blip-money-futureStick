@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useTheme } from "next-themes";
+import { motion, AnimatePresence, useInView } from "framer-motion";
 import {
   Wallet,
   ArrowUpRight,
@@ -74,7 +75,7 @@ const AppleButton = ({
       "bg-black dark:bg-white text-white dark:text-black hover:bg-black/90 dark:hover:bg-gray-100 shadow-[0_0_20px_rgba(0,0,0,0.1)] dark:shadow-[0_0_20px_rgba(255,255,255,0.1)]",
     secondary:
       "bg-black/10 dark:bg-white/10 text-black dark:text-white backdrop-blur-md hover:bg-black/20 dark:hover:bg-white/20 border border-black/10 dark:border-white/10",
-    link: "text-[#ffb088] hover:text-[#ff8c5a] px-0 py-0 font-medium",
+    link: "text-[#ffb088] hover:text-white px-0 py-0 font-medium",
   };
   return (
     <button
@@ -143,6 +144,94 @@ const BentoCard = ({
 );
 
 /**
+ * FAQ SECTION
+ */
+
+const REWARD_FAQS = [
+  {
+    q: "How do I qualify for settlement rewards?",
+    a: "Complete successful settlements through the Blip protocol.",
+  },
+  {
+    q: "Are reward distributions automated on-chain?",
+    a: "Yes, rewards are automatically distributed via smart contracts on-chain.",
+  },
+  {
+    q: "What defines a 'Verified Merchant' payment?",
+    a: "A payment processed through a merchant verified and approved by the Blip protocol.",
+  },
+  {
+    q: "Can I stake BLIP for governance weight?",
+    a: "Yes, staking BLIP gives you governance voting power.",
+  },
+];
+
+const FAQSection = ({
+  activeFaq,
+  setActiveFaq,
+}: {
+  activeFaq: number | null;
+  setActiveFaq: (v: number | null) => void;
+}) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  return (
+    <section ref={ref} className="max-w-[1000px] mx-auto px-10 pt-40">
+      <div className="text-center mb-24">
+        <h2 className="text-6xl font-black tracking-tighter mb-6">
+          Common Knowledge.
+        </h2>
+        <p className="text-xl text-black/50 dark:text-gray-500 font-medium">
+          Clear insights into protocol reward mechanics.
+        </p>
+      </div>
+      <div className="space-y-4">
+        {REWARD_FAQS.map((faq, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.1 * i }}
+            className="border border-black/[0.08] dark:border-white/[0.06] bg-white/60 dark:bg-white/[0.02] backdrop-blur-xl rounded-xl overflow-hidden"
+          >
+            <button
+              className="w-full flex justify-between items-center p-5 text-left hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors"
+              onClick={() => setActiveFaq(activeFaq === i ? null : i)}
+            >
+              <span className="font-medium text-black dark:text-white text-sm pr-4">
+                {faq.q}
+              </span>
+              <ChevronDown
+                className={`w-4 h-4 text-black/40 dark:text-white/40 flex-shrink-0 transition-transform duration-300 ${
+                  activeFaq === i ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+
+            <AnimatePresence initial={false}>
+              {activeFaq === i && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.35 }}
+                  className="overflow-hidden bg-gray-200 dark:bg-black"
+                >
+                  <div className="px-5 pb-5 text-sm text-black dark:text-white/40 leading-relaxed border-t border-black/[0.06] dark:border-white/[0.06] pt-4">
+                    {faq.a}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+/**
  * REWARDS HUB PAGE
  */
 
@@ -203,7 +292,7 @@ export default function RewardPage() {
             </div>
             <h1 className="text-[60px] md:text-[110px] font-black tracking-[-0.05em] leading-[0.95] drop-shadow-2xl text-black dark:text-white">
               Borderless finance. <br />
-              <span className="text-black/50 dark:text-gray-500">
+              <span className="text-black/50 dark:text-gray-300">
                 Settled on-chain.
               </span>
             </h1>
@@ -212,13 +301,13 @@ export default function RewardPage() {
               native rewards for every contribution to the ecosystem.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-6 pt-10">
-              <AppleButton className="h-16 px-12 text-xl shadow-[0_0_50px_rgba(0,0,0,0.15)] dark:shadow-[0_0_50px_rgba(255,255,255,0.15)]">
+              <AppleButton className="h-16 px-12 text-xl shadow-[0_0_50px_rgba(0,0,0,0.15)] dark:shadow-[0_0_50px_rgba(255,255,255,0.15)] hover:scale-105">
                 Explore Rewards
               </AppleButton>
               <Link to="/whitepaper">
                 <AppleButton
                   variant="link"
-                  className="h-16 px-12 text-xl bg-black border border-white/20 text-white hover:border border-gray"
+                  className="h-16 px-12 text-xl bg-black border border-white/20 text-white hover:border border-gray hover:scale-105"
                 >
                   Read Manifesto <ChevronRight size={24} />
                 </AppleButton>
@@ -228,13 +317,13 @@ export default function RewardPage() {
         </section>
 
         {/* WELCOME HUB */}
-        <section className="max-w-[1400px] mx-auto px-10 -mt-20 relative z-20 ">
+        <section className="max-w-[1400px] mx-auto px-10  relative z-20 ">
           <BentoCard
             className="min-h-[380px] bg-black "
             // image={IMAGES.deepNetwork}
             overlayOpacity="opacity-100"
           >
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-8">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8 mb-8">
               <div>
                 <h3 className="text-3xl font-bold tracking-tight mb-2 text-black dark:text-white">
                   $25 Welcome Incentive
@@ -248,7 +337,7 @@ export default function RewardPage() {
                 <AppleButton
                   variant="primary"
                   onClick={connectWallet}
-                  className="h-16 px-14 text-xl rounded-[1.5rem] shrink-0 shadow-2xl md:mt-8"
+                  className="h-16 px-14 text-xl rounded-[1.5rem] shrink-0 shadow-2xl md:mt-8 hover:scale-105"
                 >
                   {isConnected ? "Start Settlement" : "Click To Claim"}
                 </AppleButton>
@@ -317,7 +406,10 @@ export default function RewardPage() {
                     <div className="text-4xl font-black">50.00 BLIP</div>
                   </div>
                 </div>
-                <AppleButton variant="secondary" className="h-14 px-10">
+                <AppleButton
+                  variant="link"
+                  className="h-14 px-10 border border-white/40 text-white  hover:scale-105"
+                >
                   Add Liquidity
                 </AppleButton>
               </div>
@@ -356,7 +448,10 @@ export default function RewardPage() {
                 <div className="text-3xl font-black flex items-center gap-2">
                   <Zap className="text-yellow-400" size={24} /> 20.00
                 </div>
-                <AppleButton variant="secondary" className="rounded-2xl">
+                <AppleButton
+                  variant="link"
+                  className="rounded-2xl border text-white/90 hover:text-white hover:border-white/40   border-white/20 hover:text-white"
+                >
                   Use Pay
                 </AppleButton>
               </div>
@@ -374,7 +469,7 @@ export default function RewardPage() {
                   {[1, 2, 3, 4].map((i) => (
                     <div
                       key={i}
-                      className={`h-20 rounded-2xl border flex items-center justify-center text-xl font-black ${i === 1 ? "bg-black text-white border-black" : "border-black/5 text-black/20"}`}
+                      className={`h-20 rounded-2xl border flex items-center justify-center text-xl font-black ${i === 1 ? "bg-black text-white border-black" : "border-black/5 text-black/70"}`}
                     >
                       {i}x
                     </div>
@@ -389,7 +484,7 @@ export default function RewardPage() {
                       15.00 BLIP
                     </span>
                   </div>
-                  <AppleButton className="bg-black text-white hover:bg-black/90 h-16 px-10 text-lg">
+                  <AppleButton className="!bg-black !text-white hover:!bg-black/90 h-16 px-10 text-lg">
                     Increase Velocity
                   </AppleButton>
                 </div>
@@ -487,59 +582,7 @@ export default function RewardPage() {
         </section>
 
         {/* FAQ */}
-        <section className="max-w-[1000px] mx-auto px-10 pt-40">
-          <div className="text-center mb-24">
-            <h2 className="text-6xl font-black tracking-tighter mb-6">
-              Common Knowledge.
-            </h2>
-            <p className="text-xl text-black/50 dark:text-gray-500 font-medium">
-              Clear insights into protocol reward mechanics.
-            </p>
-          </div>
-          <div className="divide-y divide-black/5 dark:divide-white/5 border-t border-black/5 dark:border-white/5">
-            {[
-              {
-                q: "How do I qualify for settlement rewards?",
-                a: "Complete successful settlements through the Blip protocol.",
-              },
-              {
-                q: "Are reward distributions automated on-chain?",
-                a: "Yes, rewards are automatically distributed via smart contracts on-chain.",
-              },
-              {
-                q: "What defines a 'Verified Merchant' payment?",
-                a: "A payment processed through a merchant verified and approved by the Blip protocol.",
-              },
-              {
-                q: "Can I stake BLIP for governance weight?",
-                a: "Yes, staking BLIP gives you governance voting power.",
-              },
-            ].map((faq, i) => (
-              <div
-                key={i}
-                className="cursor-pointer hover:bg-black/[0.01] dark:hover:bg-white/[0.01] px-8 transition-all duration-500"
-                onClick={() => setActiveFaq(activeFaq === i ? null : i)}
-              >
-                <div className="py-12 flex justify-between items-center">
-                  <span
-                    className={`text-2xl font-bold transition-colors ${activeFaq === i ? "text-black dark:text-white" : "text-black/60 dark:text-gray-400"}`}
-                  >
-                    {faq.q}
-                  </span>
-                  <Plus
-                    size={32}
-                    className={`shrink-0 ml-4 transition-all duration-500 ${activeFaq === i ? "rotate-45 text-black dark:text-white" : "text-black/30 dark:text-gray-700"}`}
-                  />
-                </div>
-                {activeFaq === i && (
-                  <p className="pb-12 text-lg text-black/50 dark:text-gray-400 leading-relaxed max-w-2xl">
-                    {faq.a}
-                  </p>
-                )}
-              </div>
-            ))}
-          </div>
-        </section>
+        <FAQSection activeFaq={activeFaq} setActiveFaq={setActiveFaq} />
 
         {/* FINAL MASTHEAD CTA */}
         <section className="max-w-[1400px] mx-auto px-10 py-40">
