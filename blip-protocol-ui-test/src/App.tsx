@@ -20,7 +20,6 @@ import ScrollToTop from "./components/ScrollToTop";
 import { SolanaWalletProvider } from "./providers/SolanaWalletProvider";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
-
 // Import wallet adapter CSS
 import "@solana/wallet-adapter-react-ui/styles.css";
 import { Toaster } from "./components/ui/toaster";

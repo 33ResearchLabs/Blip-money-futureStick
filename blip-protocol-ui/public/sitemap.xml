@@ -685,6 +685,35 @@
   <priority>0.7</priority>
 </url>
 
+  <!-- Crypto to INR Converter Pages (India SEO) -->
+  <url>
+    <loc>https://blip.money/crypto-to-inr</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+
+  <url>
+    <loc>https://blip.money/btc-to-inr</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://blip.money/eth-to-inr</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://blip.money/sol-to-inr</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
   <!-- Additional Public Pages -->
   
 

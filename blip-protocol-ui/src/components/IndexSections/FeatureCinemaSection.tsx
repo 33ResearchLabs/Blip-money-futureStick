@@ -1498,15 +1498,6 @@ const INITIAL_BIDS = [
     time: "~60s",
     best: false,
   },
-  {
-    id: 4,
-    name: "GulfTrade",
-    avatar: "GT",
-    rate: 3.66,
-    trades: 892,
-    time: "~90s",
-    best: false,
-  },
 ];
 
 function BiddingUI({

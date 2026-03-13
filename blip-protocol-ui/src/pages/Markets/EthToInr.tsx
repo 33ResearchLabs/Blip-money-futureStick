@@ -32,7 +32,7 @@ const COIN_DECIMALS = 6;
 const COINGECKO_URL =
   "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=inr,usd&include_24hr_change=true";
 
-const REFRESH_INTERVAL = 30_000;
+const REFRESH_INTERVAL = 300_000; // 5 minutes (CoinGecko free tier rate limit)
 
 const STATIC_RATE = { inr: 222000, usd: 2670, inr_24h_change: 0.8 };
 

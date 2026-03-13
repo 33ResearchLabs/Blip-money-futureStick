@@ -227,7 +227,7 @@ const BitcoinPriceUae = () => {
       }
     };
     fetchPrice();
-    const interval = setInterval(fetchPrice, 60000);
+    const interval = setInterval(fetchPrice, 300_000); // 5 minutes (CoinGecko free tier rate limit)
     return () => clearInterval(interval);
   }, []);
 

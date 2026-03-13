@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { ArrowRight, MapPin, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -16,7 +15,6 @@ const corridors = [
     toLabel: "India",
     toCcy: "INR",
     volume: "$4.2B/yr",
-    delay: 0,
   },
   {
     from: "🇦🇪",
@@ -26,7 +24,6 @@ const corridors = [
     toLabel: "USD",
     toCcy: "USD",
     volume: "$6.1B/yr",
-    delay: 0.1,
   },
   {
     from: "🇦🇪",
@@ -36,7 +33,6 @@ const corridors = [
     toLabel: "Philippines",
     toCcy: "PHP",
     volume: "$1.6B/yr",
-    delay: 0.2,
   },
 ];
 
@@ -56,6 +52,7 @@ const UAESection = () => {
         <img
           src="/Dubai.webp"
           alt="Dubai skyline"
+          loading="lazy"
           className="w-full h-full object-cover object-center"
         />
       </div>
@@ -63,41 +60,20 @@ const UAESection = () => {
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/90" />
 
-      {/* Orange accent glow — static */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[900px] h-[400px] rounded-full opacity-80"
-          style={{
-            background:
-              "radial-gradient(ellipse, rgba(255,107,53,0.12) 0%, transparent 70%)",
-          }}
-        />
-      </div>
-
       <div className="relative z-10 w-full max-w-6xl mx-auto px-6 py-24 md:py-40">
         {/* Label */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4 }}
-          className="flex justify-center mb-6"
-        >
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/[0.15] bg-white/[0.06] backdrop-blur-sm">
+        <div className="flex justify-center mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/[0.15] bg-white/[0.06]">
             <MapPin className="w-3 h-3 text-[#ff6b35]" strokeWidth={1.5} />
             <span className="text-[10px] uppercase tracking-[0.25em] text-white/60 font-semibold">
               Dubai, UAE · First market
             </span>
             <div className="w-1.5 h-1.5 rounded-full bg-[#00e599]" />
           </div>
-        </motion.div>
+        </div>
 
         {/* Heading */}
-        <motion.h2
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4 }}
+        <h2
           className="text-white text-center"
           style={{
             fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
@@ -110,28 +86,16 @@ const UAESection = () => {
           Launching in
           <br />
           <span className="text-white/80">Dubai.</span>
-        </motion.h2>
+        </h2>
 
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.1 }}
-          className="text-base md:text-lg text-white font-medium max-w-lg mx-auto text-center leading-relaxed mb-14"
-        >
+        <p className="text-base md:text-lg text-white font-medium max-w-lg mx-auto text-center leading-relaxed mb-14">
           The UAE is the world's fastest-growing crypto hub. Blip's pilot starts
           here — live corridors, merchant onboarding, and on-chain settlement
           from day one.
-        </motion.p>
+        </p>
 
         {/* Stats row */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.15 }}
-          className="flex justify-center gap-10 md:gap-20 mb-14"
-        >
+        <div className="flex justify-center gap-10 md:gap-20 mb-14">
           {stats.map((stat) => (
             <div key={stat.label} className="text-center">
               <div className="font-display text-2xl md:text-3xl font-bold text-white tracking-tight">
@@ -142,20 +106,14 @@ const UAESection = () => {
               </div>
             </div>
           ))}
-        </motion.div>
+        </div>
 
         {/* Corridor cards */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.2 }}
-          className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-14"
-        >
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-14">
           {corridors.map((corridor) => (
             <div
               key={corridor.toLabel}
-              className="relative p-5 rounded-2xl border border-white/[0.1] bg-white/[0.05] backdrop-blur-md overflow-hidden group hover:-translate-y-1 hover:border-[#ff6b35]/30 transition-all duration-200"
+              className="relative p-5 rounded-2xl border border-white/[0.1] bg-white/[0.05] overflow-hidden group hover:-translate-y-1 hover:border-[#ff6b35]/30 transition-all duration-200"
             >
               <div className="relative">
                 <div className="flex items-center gap-2 mb-3">
@@ -182,16 +140,10 @@ const UAESection = () => {
               </div>
             </div>
           ))}
-        </motion.div>
+        </div>
 
         {/* CTA buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.25 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
-        >
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
             to="/waitlist"
             className="group relative overflow-hidden inline-flex items-center justify-center gap-3 px-8 h-[52px] rounded-full bg-[#ff6b35] text-white text-sm font-semibold transition-all duration-300 hover:bg-[#ff8050]"
@@ -203,12 +155,12 @@ const UAESection = () => {
 
           <Link
             to="/merchant"
-            className="inline-flex items-center gap-2 text-sm text-white/50 font-medium hover:text-white/80 transition-colors border border-white/[0.12] px-6 h-[52px] rounded-full hover:border-white/25 backdrop-blur-sm"
+            className="inline-flex items-center gap-2 text-sm text-white/50 font-medium hover:text-white/80 transition-colors border border-white/[0.12] px-6 h-[52px] rounded-full hover:border-white/25"
           >
             Merchant onboarding
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

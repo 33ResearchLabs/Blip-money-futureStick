@@ -60,7 +60,7 @@ const CRYPTO_ASSETS: CryptoAsset[] = [
 const COINGECKO_URL =
   "https://api.coingecko.com/api/v3/simple/price?ids=tether,usd-coin,bitcoin,ethereum,solana&vs_currencies=aed,usd&include_24hr_change=true";
 
-const REFRESH_INTERVAL = 30_000; // 30 seconds
+const REFRESH_INTERVAL = 300_000; // 5 minutes (CoinGecko free tier rate limit)
 
 // Pre-rendered static rates so Google crawler sees real content on first paint (no empty placeholders)
 const STATIC_RATES: Rates = {

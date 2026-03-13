@@ -60,10 +60,11 @@ const CRYPTO_ASSETS: CryptoAsset[] = [
 const COINGECKO_URL =
   "https://api.coingecko.com/api/v3/simple/price?ids=tether,usd-coin,bitcoin,ethereum,solana&vs_currencies=inr,usd&include_24hr_change=true";
 
-const REFRESH_INTERVAL = 30_000; // 30 seconds
+const REFRESH_INTERVAL = 300_000; // 5 minutes (CoinGecko free tier rate limit)
 
 // Pre-rendered static rates so Google crawler sees real content on first paint (no empty placeholders)
 const STATIC_RATES: Rates = {
+  usdt: { inr: 83.5, usd: 1.0, inr_24h_change: 0.01 }, // added
   tether: { inr: 83.5, usd: 1.0, inr_24h_change: 0.01 },
   "usd-coin": { inr: 83.5, usd: 1.0, inr_24h_change: 0.02 },
   bitcoin: { inr: 8100000, usd: 97200, inr_24h_change: 1.2 },
@@ -785,7 +786,9 @@ export default function CryptoToInr() {
                       />
                     ) : (
                       <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-black/5 dark:bg-white/5 border border-black/[0.08] dark:border-white/[0.08] text-sm font-semibold">
-                        <span className="text-lg leading-none">{"\u{1F1EE}\u{1F1F3}"}</span>
+                        <span className="text-lg leading-none">
+                          {"\u{1F1EE}\u{1F1F3}"}
+                        </span>
                         <span className="text-black dark:text-white">INR</span>
                       </div>
                     )}
@@ -832,7 +835,9 @@ export default function CryptoToInr() {
                     </div>
                     {direction === "sell" ? (
                       <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-black/5 dark:bg-white/5 border border-black/[0.08] dark:border-white/[0.08] text-sm font-semibold">
-                        <span className="text-lg leading-none">{"\u{1F1EE}\u{1F1F3}"}</span>
+                        <span className="text-lg leading-none">
+                          {"\u{1F1EE}\u{1F1F3}"}
+                        </span>
                         <span className="text-black dark:text-white">INR</span>
                       </div>
                     ) : (
@@ -1003,8 +1008,8 @@ export default function CryptoToInr() {
               Live Crypto to INR Rates
             </h2>
             <p className="text-black/40 dark:text-white/35 mb-8">
-              Real-time exchange rates for popular cryptocurrencies against Indian
-              Rupees.
+              Real-time exchange rates for popular cryptocurrencies against
+              Indian Rupees.
             </p>
 
             <div className="bg-white/80 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] rounded-2xl overflow-hidden">
@@ -1391,8 +1396,8 @@ export default function CryptoToInr() {
               Crypto to INR — Frequently Asked Questions
             </h2>
             <p className="text-black/40 dark:text-white/35 mb-8">
-              Everything you need to know about converting cryptocurrency to Indian
-              Rupees.
+              Everything you need to know about converting cryptocurrency to
+              Indian Rupees.
             </p>
 
             {/* <div className="bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] rounded-2xl px-6 sm:px-8">

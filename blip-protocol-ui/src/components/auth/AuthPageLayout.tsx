@@ -29,18 +29,18 @@ export default function AuthPageLayout({
         {/* LEFT: Card visual + tagline (hidden below lg) */}
         <div className="hidden lg:flex flex-1 flex-col items-start justify-center overflow-hidden pl-4">
           <AuthCardStack variant={variant} className="self-center" />
-          <motion.h1
+          {/* <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.9, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl lg:text-6xl xl:text-7xl font-bold text-black dark:text-white leading-[1.05] tracking-tight"
           >
-            Send
+            Pay anyone,
             <br />
-            money
+            anywhere
             <br />
             <span className="text-black/85 dark:text-white/50">in a blip.</span>
-          </motion.h1>
+          </motion.h1> */}
         </div>
 
         {/* Divider line between card and form (hidden below lg) */}

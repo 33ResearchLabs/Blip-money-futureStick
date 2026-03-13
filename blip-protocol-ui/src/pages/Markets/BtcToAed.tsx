@@ -33,7 +33,7 @@ const COIN_DECIMALS = 8;
 const COINGECKO_URL =
   "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=aed,usd&include_24hr_change=true";
 
-const REFRESH_INTERVAL = 30_000;
+const REFRESH_INTERVAL = 300_000; // 5 minutes (CoinGecko free tier rate limit)
 
 const STATIC_RATE = { aed: 357000, usd: 97200, aed_24h_change: 1.2 };
 

@@ -172,14 +172,6 @@ export const Footer = ({
             <div className="text-sm text-black/80 dark:text-white/30 uppercase tracking-widest">
               © {new Date().getFullYear()} blip.money
             </div>
-            <div className="flex items-center gap-8">
-              <Link
-                to="/legal"
-                className="text-sm text-black/80 dark:text-white/30 uppercase tracking-widest font-bold"
-              >
-                Legal
-              </Link>
-            </div>
           </div>
 
           <div className="flex items-center gap-6">

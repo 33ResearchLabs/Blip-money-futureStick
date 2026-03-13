@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
 import { sounds } from "@/lib/sounds";
 import { useTheme } from "next-themes";
+import { useBannerHeight } from "./NotificationPopup";
 
 /* ---------------- Main Navbar ---------------- */
 
@@ -26,6 +27,7 @@ export const Navbar = () => {
   const { isAuthenticated } = useAuth();
   const location = useLocation();
 
+  const bannerHeight = useBannerHeight();
   const { scrollY } = useScroll();
   const lastScrollY = useRef(0);
 
@@ -61,7 +63,8 @@ export const Navbar = () => {
           y: isHidden && !mobileMenuOpen ? -100 : 0,
         }}
         transition={{ duration: 0.25 }}
-        className={`fixed top-0 w-full z-50 ${
+        style={{ top: bannerHeight }}
+        className={`fixed w-full z-50 ${
           isScrolled
             ? "bg-[#FAF8F5] dark:bg-[rgba(10,10,11,0.8)] dark:backdrop-blur-xl border-b border-black/[0.06] dark:border-white/[0.06]"
             : "bg-transparent border-b border-transparent"
@@ -254,6 +257,7 @@ const MobileMenu = ({
   const { t } = useTranslation();
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const bannerH = useBannerHeight();
 
   if (!isOpen) return null;
 
@@ -281,7 +285,7 @@ const MobileMenu = ({
         onClick={onClose}
       />
 
-      <div id="mobile-menu" className="fixed top-[72px] left-4 right-4 z-50 rounded-xl overflow-hidden bg-[#FAF8F5] dark:bg-[#111113] border border-black/10 dark:border-white/[0.08]">
+      <div id="mobile-menu" style={{ top: 72 + bannerH }} className="fixed left-4 right-4 z-50 rounded-xl overflow-hidden bg-[#FAF8F5] dark:bg-[#111113] border border-black/10 dark:border-white/[0.08]">
         <div className="p-4 space-y-1">
           {menuItems.map((item) => (
             <a

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Blip Money — Website Structure & Pages Documentation</title>
+<style>
+  @media print {
+    body { font-size: 11pt; }
+    .page-break { page-break-before: always; }
+    table { page-break-inside: avoid; }
+  }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+    color: #1a1a1a;
+    line-height: 1.5;
+  }
+  h1 {
+    font-size: 28pt;
+    border-bottom: 3px solid #ff6b35;
+    padding-bottom: 10px;
+    margin-bottom: 5px;
+  }
+  .subtitle {
+    color: #666;
+    font-size: 12pt;
+    margin-bottom: 30px;
+  }
+  h2 {
+    font-size: 18pt;
+    color: #ff6b35;
+    margin-top: 35px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+  }
+  h3 {
+    font-size: 14pt;
+    color: #333;
+    margin-top: 20px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 20px 0;
+    font-size: 10pt;
+  }
+  th {
+    background: #f5f5f5;
+    text-align: left;
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    font-weight: 600;
+  }
+  td {
+    padding: 6px 10px;
+    border: 1px solid #ddd;
+    vertical-align: top;
+  }
+  tr:nth-child(even) { background: #fafafa; }
+  .badge {
+    display: inline-block;
+    background: #ff6b35;
+    color: white;
+    padding: 1px 8px;
+    border-radius: 3px;
+    font-size: 9pt;
+    font-weight: 600;
+  }
+  .badge-blue {
+    background: #2563eb;
+  }
+  .badge-green {
+    background: #16a34a;
+  }
+  .badge-gray {
+    background: #888;
+  }
+  .badge-red {
+    background: #dc2626;
+  }
+  ul { padding-left: 20px; }
+  li { margin-bottom: 4px; }
+  .toc { margin: 20px 0 30px 0; }
+  .toc li { margin-bottom: 6px; }
+  .note {
+    background: #fff7ed;
+    border-left: 4px solid #ff6b35;
+    padding: 10px 15px;
+    margin: 15px 0;
+    font-size: 10pt;
+  }
+  .footer-doc {
+    margin-top: 40px;
+    padding-top: 15px;
+    border-top: 1px solid #ddd;
+    color: #999;
+    font-size: 9pt;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<h1>Blip Money</h1>
+<p class="subtitle">Website Structure & Pages Documentation — Generated March 13, 2026</p>
+
+<h2>Table of Contents</h2>
+<ol class="toc">
+  <li>Marketing & Awareness Pages (9 pages)</li>
+  <li>User Authentication & Dashboard (9 pages)</li>
+  <li>Merchant Pages (5 pages)</li>
+  <li>Admin Pages (1 page)</li>
+  <li>Content & Resources (10+ pages)</li>
+  <li>Use Case Pages (5 pages)</li>
+  <li>Geo-Targeted SEO Pages — UAE/Dubai (15 pages)</li>
+  <li>Crypto Converter Pages (3 pages)</li>
+  <li>Legal & Compliance (5 pages)</li>
+  <li>Special Pages (2 pages)</li>
+  <li>Legacy / Unused Routes (3 pages)</li>
+  <li>Whitelisting & Airdrop Entry Points</li>
+  <li>External Links & Social Media</li>
+  <li>Navigation Structure (Navbar & Footer)</li>
+  <li>Homepage Sections Breakdown</li>
+</ol>
+
+<!-- ============================================================ -->
+<div class="page-break"></div>
+
+<h2>1. Marketing & Awareness Pages</h2>
+<table>
+  <tr><th>Route</th><th>Page Name</th><th>Description</th></tr>
+  <tr><td><code>/</code></td><td>Homepage</td><td>Main landing page with hero, problem/solution, features, use cases, rewards, Dubai launch sections</td></tr>
+  <tr><td><code>/how-it-works</code></td><td>How It Works</td><td>Protocol explainer — step-by-step flow of the Blip system</td></tr>
+  <tr><td><code>/tokenomics</code></td><td>Tokenomics</td><td>BLIP token distribution, supply, vesting, and economics</td></tr>
+  <tr><td><code>/whitepaper</code></td><td>Whitepaper</td><td>Full protocol whitepaper</td></tr>
+  <tr><td><code>/merchant</code></td><td>Merchant Landing</td><td>Merchant-focused marketing — accept crypto, settle in fiat</td></tr>
+  <tr><td><code>/about</code></td><td>About</td><td>Company info, team, mission</td></tr>
+  <tr><td><code>/press</code></td><td>Press</td><td>Media coverage, press releases</td></tr>
+  <tr><td><code>/community</code></td><td>Community</td><td>Community channels and engagement info</td></tr>
+  <tr><td><code>/changelog</code></td><td>Changelog</td><td>Product updates and version history</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2>2. User Authentication & Dashboard</h2>
+<table>
+  <tr><th>Route</th><th>Page Name</th><th>Notes</th></tr>
+  <tr><td><code>/waitlist</code></td><td>Join Waitlist</td><td><span class="badge">Airdrop / Whitelisting Entry</span></td></tr>
+  <tr><td><code>/join-waitlist</code></td><td>Join Waitlist (alias)</td><td>Same as /waitlist</td></tr>
+  <tr><td><code>/register</code></td><td>Registration</td><td>New user signup</td></tr>
+  <tr><td><code>/verify-email</code></td><td>Email Verification</td><td>Uses oobCode URL param</td></tr>
+  <tr><td><code>/email-verification-pending</code></td><td>Verification Pending</td><td>Status page after signup</td></tr>
+  <tr><td><code>/forgot-password</code></td><td>Forgot Password</td><td>Password recovery request</td></tr>
+  <tr><td><code>/reset-password</code></td><td>Reset Password</td><td>Uses oobCode URL param</td></tr>
+  <tr><td><code>/twoFactorAuth</code></td><td>Two-Factor Auth</td><td>2FA setup page</td></tr>
+  <tr><td><code>/dashboard</code></td><td>User Dashboard</td><td><span class="badge-blue badge">Protected — user role</span> Airdrop points, leaderboard, rewards</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2>3. Merchant Pages</h2>
+<table>
+  <tr><th>Route</th><th>Page Name</th><th>Notes</th></tr>
+  <tr><td><code>/merchant</code></td><td>Merchant Landing</td><td>Marketing page for merchants</td></tr>
+  <tr><td><code>/merchant-waitlist</code></td><td>Merchant Waitlist</td><td>Merchant early access signup</td></tr>
+  <tr><td><code>/merchant-register</code></td><td>Merchant Registration</td><td>Full merchant onboarding</td></tr>
+  <tr><td><code>/merchant-login</code></td><td>Merchant Login</td><td>Merchant auth</td></tr>
+  <tr><td><code>/merchant-dashboard</code></td><td>Merchant Dashboard</td><td><span class="badge-blue badge">Protected — merchant role</span> Activity feed, analytics, reputation</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2>4. Admin Pages</h2>
+<table>
+  <tr><th>Route</th><th>Page Name</th><th>Notes</th></tr>
+  <tr><td><code>/superadmin</code></td><td>SuperAdmin Dashboard</td><td><span class="badge-red badge">Protected — admin role</span> User/task management, charts</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<div class="page-break"></div>
+
+<h2>5. Content & Resources Pages</h2>
+<table>
+  <tr><th>Route</th><th>Page Name</th><th>Notes</th></tr>
+  <tr><td><code>/blog</code></td><td>Blog Listing</td><td>All published blog articles</td></tr>
+  <tr><td><code>/blog/:slug</code></td><td>Blog Article</td><td>Dynamic — individual articles (Escrow, Payments, Merchant, Blockchain, Tokenomics categories)</td></tr>
+  <tr><td><code>/research</code></td><td>Research Listing</td><td>All research articles</td></tr>
+  <tr><td><code>/research/:slug</code></td><td>Research Article</td><td>Dynamic — AI agents, MEV bots, DeFi, smart contracts topics</td></tr>
+  <tr><td><code>/faq</code></td><td>FAQ</td><td>Frequently asked questions</td></tr>
+  <tr><td><code>/glossary</code></td><td>Glossary</td><td>Crypto/finance terminology</td></tr>
+  <tr><td><code>/compare</code></td><td>Comparison Hub</td><td>Overview of all comparisons</td></tr>
+  <tr><td><code>/compare/blip-vs-wise</code></td><td>Blip vs Wise</td><td>Comparison page</td></tr>
+  <tr><td><code>/compare/blip-vs-binance-p2p</code></td><td>Blip vs Binance P2P</td><td>Comparison page</td></tr>
+  <tr><td><code>/compare/on-chain-vs-traditional-escrow</code></td><td>On-Chain vs Traditional Escrow</td><td>Comparison page</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2>6. Use Case Pages</h2>
+<table>
+  <tr><th>Route</th><th>Page Name</th><th>Description</th></tr>
+  <tr><td><code>/use-cases</code></td><td>All Use Cases</td><td>Gallery of all use cases</td></tr>
+  <tr><td><code>/use-cases/freelancers</code></td><td>Freelancers</td><td>Get paid globally, settle locally</td></tr>
+  <tr><td><code>/use-cases/otc-traders</code></td><td>OTC Traders</td><td>Trade large volumes with escrow protection</td></tr>
+  <tr><td><code>/use-cases/e-commerce</code></td><td>E-Commerce</td><td>Accept crypto, settle in cash</td></tr>
+  <tr><td><code>/use-cases/remittance</code></td><td>Remittances</td><td>Send money home faster &amp; cheaper</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<div class="page-break"></div>
+
+<h2>7. Geo-Targeted SEO Pages — UAE / Dubai</h2>
+<p>15 pages targeting UAE/Dubai search traffic with localized crypto content.</p>
+<table>
+  <tr><th>Route</th><th>Page Name</th></tr>
+  <tr><td><code>/uae</code></td><td>UAE Landing Page</td></tr>
+  <tr><td><code>/sell-usdt-dubai</code></td><td>Sell USDT in Dubai</td></tr>
+  <tr><td><code>/buy-usdt-dubai</code></td><td>Buy USDT in Dubai</td></tr>
+  <tr><td><code>/crypto-payments-uae</code></td><td>Crypto Payments UAE</td></tr>
+  <tr><td><code>/crypto-remittance-uae</code></td><td>Crypto Remittance UAE</td></tr>
+  <tr><td><code>/crypto-to-aed</code></td><td>Crypto to AED Converter</td></tr>
+  <tr><td><code>/accept-crypto-business</code></td><td>Accept Crypto for Business</td></tr>
+  <tr><td><code>/crypto-to-bank-uae</code></td><td>Crypto to Bank Account UAE</td></tr>
+  <tr><td><code>/crypto-escrow-uae</code></td><td>Crypto Escrow Services UAE</td></tr>
+  <tr><td><code>/crypto-salary-uae</code></td><td>Crypto Salary Payments UAE</td></tr>
+  <tr><td><code>/crypto-tax-uae</code></td><td>Crypto Tax Guide UAE</td></tr>
+  <tr><td><code>/usdt-vs-usdc</code></td><td>USDT vs USDC Comparison</td></tr>
+  <tr><td><code>/crypto-otc-dubai</code></td><td>OTC Crypto Trading Dubai</td></tr>
+  <tr><td><code>/best-crypto-exchange-uae</code></td><td>Best Crypto Exchange UAE</td></tr>
+  <tr><td><code>/bitcoin-price-uae</code></td><td>Bitcoin Price Tracker UAE</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2>8. Crypto Converter Pages</h2>
+<p>Live price conversion pages using CoinGecko API data.</p>
+<table>
+  <tr><th>Route</th><th>Page Name</th></tr>
+  <tr><td><code>/btc-to-aed</code></td><td>Bitcoin → AED Converter</td></tr>
+  <tr><td><code>/eth-to-aed</code></td><td>Ethereum → AED Converter</td></tr>
+  <tr><td><code>/sol-to-aed</code></td><td>Solana → AED Converter</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2>9. Legal & Compliance Pages</h2>
+<table>
+  <tr><th>Route</th><th>Page Name</th></tr>
+  <tr><td><code>/legal</code></td><td>Legal Hub</td></tr>
+  <tr><td><code>/privacy</code></td><td>Privacy Policy</td></tr>
+  <tr><td><code>/terms</code></td><td>Terms of Service</td></tr>
+  <tr><td><code>/cookies</code></td><td>Cookie Policy</td></tr>
+  <tr><td><code>/gdpr</code></td><td>GDPR Compliance</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2>10. Special Pages</h2>
+<table>
+  <tr><th>Route</th><th>Page Name</th><th>Notes</th></tr>
+  <tr><td><code>/redeem</code></td><td>Telegram Redeem</td><td>Public — handles auth internally, token redemption via Telegram</td></tr>
+  <tr><td><code>*</code></td><td>404 Not Found</td><td>Catch-all for invalid routes</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2>11. Legacy / Unused Routes</h2>
+<div class="note">These routes exist in the codebase but are currently unused or deprecated.</div>
+<table>
+  <tr><th>Route</th><th>Page Name</th><th>Status</th></tr>
+  <tr><td><code>/rewards</code></td><td>Rewards Landing</td><td><span class="badge-gray badge">Unused</span></td></tr>
+  <tr><td><code>/docs</code></td><td>Documentation</td><td><span class="badge-gray badge">Unused</span></td></tr>
+  <tr><td><code>/admin-dashboard</code></td><td>Old Admin Panel</td><td><span class="badge-gray badge">Unused</span></td></tr>
+</table>
+
+<!-- ============================================================ -->
+<div class="page-break"></div>
+
+<h2>12. Whitelisting & Airdrop Entry Points</h2>
+<div class="note">These are all the places where users can access whitelisting, airdrop signup, or the airdrop dashboard.</div>
+<table>
+  <tr><th>Entry Point</th><th>Destination</th><th>Description</th></tr>
+  <tr><td>Homepage CTA button</td><td><code>/waitlist</code></td><td>"Join Waitlist" button in hero section</td></tr>
+  <tr><td>Navbar CTA (logged out)</td><td><code>/waitlist</code></td><td>"Join Waitlist" button in top navigation</td></tr>
+  <tr><td>Navbar CTA (logged in)</td><td><code>/dashboard</code></td><td>"Dashboard" button — goes to airdrop dashboard</td></tr>
+  <tr><td><code>/waitlist</code></td><td>Waitlist signup</td><td>Main whitelisting / airdrop signup flow</td></tr>
+  <tr><td><code>/join-waitlist</code></td><td>Waitlist signup</td><td>Alias route — same destination</td></tr>
+  <tr><td><code>/dashboard</code></td><td>User Dashboard</td><td>Airdrop points tracker, leaderboard, rewards (requires login)</td></tr>
+  <tr><td><code>/redeem</code></td><td>Telegram Redeem</td><td>Token redemption via Telegram integration</td></tr>
+  <tr><td>Footer "Waitlist" link</td><td><code>/waitlist</code></td><td>In the Company section of footer</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2>13. External Links & Social Media</h2>
+<table>
+  <tr><th>Platform</th><th>URL</th></tr>
+  <tr><td>Telegram (Group)</td><td>https://t.me/+3DpHLzc2BfJhOWEx</td></tr>
+  <tr><td>Telegram (Channel)</td><td>https://t.me/blip_money</td></tr>
+  <tr><td>Telegram (Alt)</td><td>https://t.me/blipmoney</td></tr>
+  <tr><td>X / Twitter</td><td>https://x.com/blip_money</td></tr>
+  <tr><td>YouTube</td><td>https://www.youtube.com/@BlipMoney</td></tr>
+  <tr><td>LinkedIn (Company)</td><td>https://www.linkedin.com/company/blipmoneyofficial/</td></tr>
+  <tr><td>LinkedIn (Profile)</td><td>https://www.linkedin.com/in/blip-money-849946386/</td></tr>
+  <tr><td>Support Email</td><td>support@blip.money</td></tr>
+  <tr><td>API Base URL</td><td>https://api.blip.money/api/v1</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2>14. Navigation Structure</h2>
+
+<h3>Navbar (Desktop — 4 links + CTA)</h3>
+<table>
+  <tr><th>#</th><th>Label</th><th>Route</th></tr>
+  <tr><td>1</td><td>How It Works</td><td><code>/how-it-works</code></td></tr>
+  <tr><td>2</td><td>Merchant</td><td><code>/merchant</code></td></tr>
+  <tr><td>3</td><td>Research</td><td><code>/research</code></td></tr>
+  <tr><td>4</td><td>Blog</td><td><code>/blog</code></td></tr>
+  <tr><td>CTA</td><td>Join Waitlist / Dashboard</td><td><code>/waitlist</code> or <code>/dashboard</code></td></tr>
+</table>
+
+<h3>Footer (5-Column Grid)</h3>
+<table>
+  <tr><th>Protocol</th><th>Use Cases</th><th>Resources</th><th>Markets</th><th>Company</th></tr>
+  <tr>
+    <td>How It Works<br>Tokenomics<br>Whitepaper</td>
+    <td>Freelancers<br>OTC Traders<br>E-Commerce<br>Remittances<br>Merchants</td>
+    <td>Blog<br>Research<br>FAQ<br>Glossary<br>Compare</td>
+    <td>Crypto to AED<br>BTC to AED<br>USDT vs USDC<br>Buy USDT Dubai<br>Crypto OTC Dubai<br>Bitcoin Price UAE<br>Crypto Tax UAE</td>
+    <td>About<br>Press<br>Community<br>Waitlist</td>
+  </tr>
+</table>
+<p><strong>Footer Bottom Bar:</strong> Legal link + Copyright + Social icons</p>
+
+<!-- ============================================================ -->
+<div class="page-break"></div>
+
+<h2>15. Homepage Sections Breakdown</h2>
+<p>The homepage (<code>/</code>) is composed of the following sections in order:</p>
+<table>
+  <tr><th>#</th><th>Section</th><th>Description</th></tr>
+  <tr><td>1</td><td>Cinematic Hero</td><td>Full-screen hero with main tagline and "Join Waitlist" CTA</td></tr>
+  <tr><td>2</td><td>Problem → Solution</td><td>Identifies the pain point and introduces Blip as the solution</td></tr>
+  <tr><td>3</td><td>How It Works</td><td>Step-by-step visual flow of the protocol</td></tr>
+  <tr><td>4</td><td>App Showcase</td><td>Product screenshots / app preview</td></tr>
+  <tr><td>5</td><td>Features</td><td>Key platform features grid</td></tr>
+  <tr><td>6</td><td>Use Cases</td><td>Freelancers, OTC, E-Commerce, Remittance cards</td></tr>
+  <tr><td>7</td><td>Rewards</td><td>Airdrop / points / incentive program highlight</td></tr>
+  <tr><td>8</td><td>Dubai Launch</td><td>UAE-specific launch info and CTA</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2>Summary Statistics</h2>
+<table>
+  <tr><th>Category</th><th>Count</th></tr>
+  <tr><td>Total Routes</td><td><strong>40+</strong></td></tr>
+  <tr><td>Marketing & Awareness</td><td>9</td></tr>
+  <tr><td>User Auth & Dashboard</td><td>9</td></tr>
+  <tr><td>Merchant</td><td>5</td></tr>
+  <tr><td>Admin</td><td>1</td></tr>
+  <tr><td>Content & Resources</td><td>10+</td></tr>
+  <tr><td>Use Cases</td><td>5</td></tr>
+  <tr><td>Geo-Targeted SEO (UAE)</td><td>15</td></tr>
+  <tr><td>Crypto Converters</td><td>3</td></tr>
+  <tr><td>Legal & Compliance</td><td>5</td></tr>
+  <tr><td>Special</td><td>2</td></tr>
+  <tr><td>Legacy / Unused</td><td>3</td></tr>
+</table>
+
+<div class="footer-doc">
+  Blip Money — Website Structure Documentation — March 13, 2026<br>
+  Generated from codebase at /blip-protocol-ui-test
+</div>
+
+</body>
+</html>
