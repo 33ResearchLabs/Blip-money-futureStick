@@ -46,6 +46,8 @@ const FOOTER_SECTIONS = [
       { label: "Crypto OTC Dubai", to: "/crypto-otc-dubai" },
       { label: "Bitcoin Price UAE", to: "/bitcoin-price-uae" },
       { label: "Crypto Tax UAE", to: "/crypto-tax-uae" },
+      { label: "Crypto to INR", to: "/crypto-to-inr" },
+      { label: "BTC to INR", to: "/btc-to-inr" },
     ],
   },
   {

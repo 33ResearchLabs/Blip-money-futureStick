@@ -105,6 +105,10 @@ const CryptoRemittanceUae = lazy(
 const BtcToAed = lazy(() => import("./pages/Markets/BtcToAed"));
 const EthToAed = lazy(() => import("./pages/Markets/EthToAed"));
 const SolToAed = lazy(() => import("./pages/Markets/SolToAed"));
+const CryptoToInr = lazy(() => import("./pages/Markets/CryptoToInr"));
+const BtcToInr = lazy(() => import("./pages/Markets/BtcToInr"));
+const EthToInr = lazy(() => import("./pages/Markets/EthToInr"));
+const SolToInr = lazy(() => import("./pages/Markets/SolToInr"));
 const CryptoToBankUae = lazy(() => import("./pages/Markets/CryptoToBankUae"));
 const UsdtVsUsdc = lazy(() => import("./pages/Markets/UsdtVsUsdc"));
 const CryptoTaxUae = lazy(() => import("./pages/Markets/CryptoTaxUae"));
@@ -254,6 +258,12 @@ const App = () => (
                     <Route path="/btc-to-aed" element={<BtcToAed />} />
                     <Route path="/eth-to-aed" element={<EthToAed />} />
                     <Route path="/sol-to-aed" element={<SolToAed />} />
+
+                    {/* Per-Coin INR Converter Pages */}
+                    <Route path="/crypto-to-inr" element={<CryptoToInr />} />
+                    <Route path="/btc-to-inr" element={<BtcToInr />} />
+                    <Route path="/eth-to-inr" element={<EthToInr />} />
+                    <Route path="/sol-to-inr" element={<SolToInr />} />
 
                     {/* Keyword Landing Pages */}
                     <Route
