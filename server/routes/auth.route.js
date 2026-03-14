@@ -8,7 +8,6 @@ import {
   resendVerificationEmail,
   linkWallet,
   unlinkWallet,
-  checkEmailExists,
   forgotPassword,
   resetPassword,
   syncPassword,
@@ -30,7 +29,6 @@ router.post("/verify-otp", verifyEmailOTP); // New method (OTP)
 router.post("/confirm-email-verified", confirmEmailVerified); // Firebase verification
 router.post("/login", loginWithEmail);
 router.post("/resend-verification", resendVerificationEmail);
-router.post("/check-email", checkEmailExists);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password/:token", resetPassword);
 router.post("/sync-password", protect, syncPassword);

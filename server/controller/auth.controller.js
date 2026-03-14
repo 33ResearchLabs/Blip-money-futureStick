@@ -9,7 +9,6 @@ import jwt from "jsonwebtoken";
 import {
   sendVerificationEmail,
   sendCustomPasswordResetEmail,
-  sendPasswordResetEmailSMTP,
   sendWelcomeEmail,
 } from "../services/email.service.js";
 import { getFirebaseAdminAuth } from "../config/firebase-admin.js";
@@ -828,44 +827,6 @@ export const unlinkWallet = async (req, res) => {
 };
 
 /**
- * Check if email exists in database
- * POST /api/auth/check-email
- */
-export const checkEmailExists = async (req, res) => {
-  try {
-    const { email } = req.body;
-
-    if (!email) {
-      return res.status(400).json({
-        success: false,
-        message: "Email is required",
-      });
-    }
-
-    const user = await User.findOne({ email: email.toLowerCase() });
-
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        exists: false,
-        message: "No account found with this email",
-      });
-    }
-
-    return res.status(200).json({
-      success: true,
-      exists: true,
-      message: "Email exists",
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Failed to check email",
-    });
-  }
-};
-
-/**
  * Request password reset
  * POST /api/auth/forgot-password
  */
@@ -882,35 +843,32 @@ export const forgotPassword = async (req, res) => {
 
     const user = await User.findOne({ email: email.toLowerCase() });
 
+    // Don't reveal if email exists
     if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: "No account found with this email",
+      return res.status(200).json({
+        success: true,
+        message: "If the email exists, a password reset link has been sent.",
       });
     }
 
-    // Generate a secure reset token
-    const resetToken = crypto.randomBytes(32).toString("hex");
-    const hashedToken = crypto.createHash("sha256").update(resetToken).digest("hex");
-
-    // Save token and expiry to user (1 hour)
-    user.passwordResetToken = hashedToken;
-    user.passwordResetExpires = new Date(Date.now() + 60 * 60 * 1000);
-    await user.save();
-
-    // Build reset URL pointing to your website
-    const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
-
     try {
-      // Send via Nodemailer SMTP
-      await sendPasswordResetEmailSMTP(email, resetUrl);
-    } catch (emailError) {
-      // Clear token if email fails
-      user.passwordResetToken = undefined;
-      user.passwordResetExpires = undefined;
-      await user.save();
+      // Generate Firebase password reset link
+      const firebaseResetLink = await getFirebaseAdminAuth().generatePasswordResetLink(
+        email.toLowerCase(),
+        {
+          url: `${process.env.FRONTEND_URL}/waitlist`,
+        }
+      );
 
-      return res.status(500).json({
+      // Extract oobCode from Firebase link and build our own clean URL
+      const url = new URL(firebaseResetLink);
+      const oobCode = url.searchParams.get("oobCode");
+      const resetUrl = `${process.env.FRONTEND_URL}/reset-password?oobCode=${oobCode}`;
+
+      // Send via Resend with our custom branded template
+      await sendCustomPasswordResetEmail(email, resetUrl);
+    } catch (emailError) {
+        return res.status(500).json({
         success: false,
         message: "Failed to send password reset email",
       });
@@ -960,12 +918,9 @@ export const resetPassword = async (req, res) => {
       });
     }
 
-    // Hash the token to compare with stored hash
-    const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
-
     // Find user with valid token
     const user = await User.findOne({
-      passwordResetToken: hashedToken,
+      passwordResetToken: token,
       passwordResetExpires: { $gt: Date.now() },
     }).select("+password");
 

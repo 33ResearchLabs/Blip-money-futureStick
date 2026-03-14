@@ -58,12 +58,6 @@ export const authApi = {
     api.post("/auth/resend-verification", { email }),
 
   /**
-   * Check if email exists in database
-   */
-  checkEmail: (email: string) =>
-    api.post("/auth/check-email", { email }),
-
-  /**
    * Request password reset
    */
   forgotPassword: (email: string) =>
