@@ -309,7 +309,8 @@ export default function RewardPage() {
                   variant="link"
                   className="h-16 px-12 text-xl bg-black border border-white/20 text-white hover:border border-gray hover:scale-105"
                 >
-                  Read Manifesto <ChevronRight size={24} />
+                  Read Whitepaper
+                  <ChevronRight size={24} />
                 </AppleButton>
               </Link>
             </div>
