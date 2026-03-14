@@ -3,13 +3,14 @@ import nodemailer from "nodemailer";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const FROM_EMAIL = process.env.EMAIL_FROM || "Blip Money <onboarding@resend.dev>";
-
+const FROM_EMAIL =
+  process.env.EMAIL_FROM || "Blip Money <onboarding@resend.dev>";
+console.log(process.env.EMAIL_USER);
 // Nodemailer SMTP transporter
 const smtpTransporter = nodemailer.createTransport({
   host: process.env.EMAIL_HOST,
-  port: parseInt(process.env.EMAIL_PORT) || 587,
-  secure: false,
+  port: parseInt(process.env.EMAIL_PORT) || 465,
+  secure: true,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASSWORD || process.env.EMAIL_PASS,
@@ -99,7 +100,11 @@ export const sendVerificationEmail = async (email, token) => {
 export const sendPasswordResetEmail = async (email, token) => {
   const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${token}`;
 
-  console.log("📧 Sending password reset email:", { to: email, from: FROM_EMAIL, resetUrl });
+  console.log("📧 Sending password reset email:", {
+    to: email,
+    from: FROM_EMAIL,
+    resetUrl,
+  });
 
   try {
     const result = await resend.emails.send({
