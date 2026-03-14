@@ -48,11 +48,11 @@ const HowItWorksSection = () => {
           setRotate({ x: 0, y: 0 });
         }}
         className="group relative flex flex-col overflow-hidden rounded-[2.5rem] 
-        border border-black/10 dark:border-white/[0.06] 
+        border border-black/10 hover:dark:border-white/40
         bg-white/80 dark:bg-[#050505] 
         backdrop-blur-xl p-8 
         transition-all duration-500
-        hover:shadow-2xl hover:shadow-black/20 dark:hover:shadow-white/10
+        hover:shadow-2xl hover:shadow-black/20  dark:hover:shadow-white/10
         hover:-translate-y-2"
         style={{
           animation: `fadeInUp 1s cubic-bezier(0.2,0.8,0.2,1) ${delay}s both`,
@@ -193,7 +193,7 @@ const HowItWorksSection = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card
-          title="Dashboard Stream" 
+          title="Dashboard Stream"
           subtitle="Live routing engine."
           icon={LayoutDashboard}
           delay={0.2}

@@ -195,7 +195,7 @@ const KeyConceptsSection = () => {
           className="text-center mb-24"
         >
           <span className="text-[11px] uppercase tracking-[0.3em] text-black/70 dark:text-white/30 mb-6 block font-semibold">
-            Transaction Flow
+            BLIP CORE PRINCIPLES
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6">
             Built for Secure
