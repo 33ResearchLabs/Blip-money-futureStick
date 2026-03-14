@@ -1,8 +1,7 @@
 import { useState, useEffect, memo } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
 import { useTheme } from "next-themes";
+import { CTAButton } from "../Navbar";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -158,83 +157,15 @@ const CinematicHero = () => {
           transition={{ duration: 0.9, ease: EASE, delay: 0.38 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-3"
         >
-          {/* Primary — solid pill */}
-          <motion.div
-            whileHover={{ scale: 1.02, y: -1 }}
-            whileTap={{ scale: 0.98 }}
-            transition={{ duration: 0.15, ease: "easeOut" }}
-          >
-            <Link
-              to="/waitlist"
-              className="inline-flex items-center gap-2"
-              style={{
-                padding: "11px 24px",
-                background: isDark ? "#ffffff" : "#090909",
-                color: isDark ? "#090909" : "#ffffff",
-                fontSize: 14,
-                fontWeight: 600,
-                borderRadius: 999,
-                letterSpacing: "-0.2px",
-                textDecoration: "none",
-                transition: "background 0.2s",
-              }}
-              onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLAnchorElement).style.background =
-                  isDark ? "#e8e8e8" : "#222")
-              }
-              onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLAnchorElement).style.background =
-                  isDark ? "#ffffff" : "#090909")
-              }
-            >
-              Join Waitlist
-              <ArrowRight style={{ width: 14, height: 14 }} />
-            </Link>
-          </motion.div>
+          {/* Primary */}
+          <CTAButton to="/waitlist">
+            Join Waitlist
+          </CTAButton>
 
-          {/* Secondary — frosted outline pill */}
-          <motion.div
-            whileHover={{ scale: 1.02, y: -1 }}
-            whileTap={{ scale: 0.98 }}
-            transition={{ duration: 0.15, ease: "easeOut" }}
-          >
-            <Link
-              to="/merchant"
-              className="inline-flex items-center "
-              style={{
-                padding: "11px 24px",
-                background: "transparent",
-                color: isDark ? "#ffffff" : "#1a1a1a",
-                fontSize: 14,
-                fontWeight: 500,
-                borderRadius: 999,
-                border: isDark
-                  ? "1px solid rgba(255,255,255,0.2)"
-                  : "1px solid rgba(0,0,0,0.2)",
-                letterSpacing: "-0.2px",
-                textDecoration: "none",
-                transition: "border-color 0.2s, background 0.2s",
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLAnchorElement;
-                el.style.borderColor = isDark
-                  ? "rgba(255,255,255,0.45)"
-                  : "rgba(0,0,0,0.45)";
-                el.style.background = isDark
-                  ? "rgba(255,255,255,0.04)"
-                  : "rgba(0,0,0,0.04)";
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLAnchorElement;
-                el.style.borderColor = isDark
-                  ? "rgba(255,255,255,0.2)"
-                  : "rgba(0,0,0,0.2)";
-                el.style.background = "transparent";
-              }}
-            >
-              Become a Merchant
-            </Link>
-          </motion.div>
+          {/* Secondary */}
+          <CTAButton to="/merchant" variant="secondary">
+            Become a Merchant
+          </CTAButton>
         </motion.div>
       </main>
     </section>

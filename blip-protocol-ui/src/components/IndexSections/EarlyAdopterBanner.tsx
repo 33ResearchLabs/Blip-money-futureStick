@@ -171,7 +171,7 @@ const EarlyAdopterBanner = () => {
               </motion.div>
               <Link
                 to="/rewards"
-                className="text-sm text-black dark:text-white/50 hover:text-black/80 dark:hover:text-white/80 transition-colors underline underline-offset-4"
+                className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-black text-white border border-black text-sm font-semibold transition-all duration-200 ease-out hover:scale-[1.02] hover:bg-gray-900 hover:shadow-[0_4px_16px_rgba(0,0,0,0.18)] active:scale-[0.98] no-underline"
               >
                 View all rewards →
               </Link>

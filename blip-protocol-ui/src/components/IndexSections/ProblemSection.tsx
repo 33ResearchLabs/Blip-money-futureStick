@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef, memo } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
 import { useTheme } from "next-themes";
+import { CTAButton } from "../Navbar";
 import createGlobe from "cobe";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -695,33 +694,9 @@ const ProblemSection = () => {
               Complete privacy.
             </p>
 
-            <Link
-              to="/waitlist"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 6,
-                padding: "10px 22px",
-                background: "rgba(255,107,53,0.9)",
-                borderRadius: 999,
-                fontSize: 13,
-                fontWeight: 600,
-                color: "#fff",
-                textDecoration: "none",
-                letterSpacing: "-0.01em",
-                transition: "background 0.22s",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLAnchorElement).style.background =
-                  "#ff7e4a";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLAnchorElement).style.background =
-                  "rgba(255,107,53,0.9)";
-              }}
-            >
-              Join Waitlist <ArrowRight style={{ width: 13, height: 13 }} />
-            </Link>
+            <CTAButton to="/waitlist">
+              Join Waitlist
+            </CTAButton>
           </div>
 
           {/* Right — Bento 2×2 */}

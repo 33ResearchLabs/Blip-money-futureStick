@@ -343,7 +343,7 @@ const RedeemTelegram: React.FC = () => {
 
             <button
               onClick={() => navigate("/dashboard")}
-              className="w-full py-3 rounded-xl bg-black dark:bg-white text-white dark:text-black font-semibold hover:opacity-90 transition-opacity"
+              className="w-full py-3 rounded-xl bg-white text-black border border-black/10 font-semibold hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all"
             >
               Go to Dashboard
             </button>
@@ -393,7 +393,7 @@ const RedeemTelegram: React.FC = () => {
 
             <button
               onClick={() => navigate("/dashboard")}
-              className="w-full py-3 rounded-xl bg-black dark:bg-white text-white dark:text-black font-semibold hover:opacity-90 transition-opacity"
+              className="w-full py-3 rounded-xl bg-white text-black border border-black/10 font-semibold hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all"
             >
               Go to Dashboard
             </button>

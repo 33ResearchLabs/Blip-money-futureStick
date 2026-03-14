@@ -77,10 +77,18 @@ export const Navbar = () => {
             <Logo onDark={!isScrolled && isDark} />
 
             <div className="hidden lg:flex items-center gap-1">
-              <NavItem to="/how-it-works" onDark={!isScrolled && isDark}>{t("howItWorks")}</NavItem>
-              <NavItem to="/merchant" onDark={!isScrolled && isDark}>Merchant</NavItem>
-              <NavItem to="/research" onDark={!isScrolled && isDark}>Research</NavItem>
-              <NavItem to="/blog" onDark={!isScrolled && isDark}>Blog</NavItem>
+              <NavItem to="/how-it-works" onDark={!isScrolled && isDark}>
+                {t("howItWorks")}
+              </NavItem>
+              <NavItem to="/merchant" onDark={!isScrolled && isDark}>
+                Merchant
+              </NavItem>
+              <NavItem to="/research" onDark={!isScrolled && isDark}>
+                Research
+              </NavItem>
+              <NavItem to="/blog" onDark={!isScrolled && isDark}>
+                Blog
+              </NavItem>
             </div>
 
             <div className="hidden lg:flex items-center gap-3">
@@ -149,8 +157,12 @@ export const Logo = ({ className = "", onDark = false }) => {
         whileHover={{ scale: 1.02 }}
         transition={{ duration: 0.2 }}
       >
-        <span className={onDark ? "text-white" : "text-black dark:text-white"}>Blip</span>
-        <span className={`relative ml-1 italic ${onDark ? "text-white" : "text-black dark:text-white"}`}>
+        <span className={onDark ? "text-white" : "text-black dark:text-white"}>
+          Blip
+        </span>
+        <span
+          className={`relative ml-1 italic ${onDark ? "text-white" : "text-black dark:text-white"}`}
+        >
           money
         </span>
       </motion.span>
@@ -160,7 +172,15 @@ export const Logo = ({ className = "", onDark = false }) => {
 
 /* ---------------- Nav Item ---------------- */
 
-const NavItem = ({ to, children, onDark = false }: { to: string; children: React.ReactNode; onDark?: boolean }) => {
+const NavItem = ({
+  to,
+  children,
+  onDark = false,
+}: {
+  to: string;
+  children: React.ReactNode;
+  onDark?: boolean;
+}) => {
   const location = useLocation();
   const isActive = location.pathname === to;
 
@@ -174,7 +194,9 @@ const NavItem = ({ to, children, onDark = false }: { to: string; children: React
       <span
         className={
           onDark
-            ? isActive ? "text-white" : "text-white/60 hover:text-white"
+            ? isActive
+              ? "text-white"
+              : "text-white/60 hover:text-white"
             : isActive
               ? "text-black dark:text-white"
               : "text-black/70 dark:text-[#A1A1AA] hover:text-black dark:hover:text-white"
@@ -196,7 +218,18 @@ const NavItem = ({ to, children, onDark = false }: { to: string; children: React
 
 /* ---------------- CTA Button ---------------- */
 
-export const CTAButton = ({ to, children, className }: { to: string; children: React.ReactNode; className?: string }) => {
+export const CTAButton = ({
+  to,
+  children,
+  className,
+  variant = "primary",
+}: {
+  to: string;
+  children: React.ReactNode;
+  className?: string;
+  variant?: "primary" | "secondary";
+}) => {
+  const isPrimary = variant === "primary";
   return (
     <motion.div whileTap={{ scale: 0.97 }} className="relative">
       <Link
@@ -207,14 +240,22 @@ export const CTAButton = ({ to, children, className }: { to: string; children: R
           ${className}
           group relative overflow-hidden inline-flex
           items-center justify-center px-5 py-2.5 rounded-full
-          text-[16px] font-medium transition-all duration-300
-          bg-black text-white border border-black
-          dark:bg-white dark:text-black dark:border-white
+          text-[16px] font-semibold transition-all duration-200 ease-out
+          hover:scale-[1.02] active:scale-[0.98]
+          ${
+            isPrimary
+              ? "bg-white text-black border border-black/10 hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)]"
+              : "bg-transparent text-white border border-gray-500 hover:border-gray-300 hover:bg-white/5 hover:shadow-[0_4px_16px_rgba(255,255,255,0.06)]"
+          }
         `}
       >
         <span className="relative z-10 font-semibold flex items-center gap-2">
           {children}
-          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+          {isPrimary ? (
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
+          ) : (
+            ""
+          )}
         </span>
       </Link>
     </motion.div>
@@ -235,7 +276,9 @@ const ThemeSwitcher = () => {
   return (
     <motion.button
       onClick={toggleTheme}
-      aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+      aria-label={
+        theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
+      }
       className="relative w-9 h-9 rounded-lg flex items-center justify-center bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 hover:bg-black/10 dark:hover:bg-white/10 transition-colors"
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
@@ -289,7 +332,11 @@ const MobileMenu = ({
         onClick={onClose}
       />
 
-      <div id="mobile-menu" style={{ top: 72 + bannerH }} className="fixed left-4 right-4 z-50 rounded-xl overflow-hidden bg-[#FAF8F5] dark:bg-[#111113] border border-black/10 dark:border-white/[0.08]">
+      <div
+        id="mobile-menu"
+        style={{ top: 72 + bannerH }}
+        className="fixed left-4 right-4 z-50 rounded-xl overflow-hidden bg-[#FAF8F5] dark:bg-[#111113] border border-black/10 dark:border-white/[0.08]"
+      >
         <div className="p-4 space-y-1">
           {menuItems.map((item) => (
             <a
@@ -309,7 +356,7 @@ const MobileMenu = ({
             <a
               href="/dashboard"
               onClick={(e) => handleNavClick(e, "/dashboard")}
-              className="block w-full text-center py-2.5 rounded-full bg-black dark:bg-white text-white dark:text-black text-sm font-medium"
+              className="block w-full text-center py-1.5 rounded-full bg-white text-black border border-black/10 text-sm font-semibold transition-all duration-200 hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98]"
             >
               Dashboard
             </a>
@@ -317,7 +364,7 @@ const MobileMenu = ({
             <a
               href="/waitlist"
               onClick={(e) => handleNavClick(e, "/waitlist")}
-              className="block w-full text-center py-2.5 rounded-full bg-black dark:bg-white text-white dark:text-black text-sm font-semibold"
+              className="block w-full text-center py-1.5 rounded-full bg-white text-black border border-black/10 text-sm font-semibold transition-all duration-200 hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98]"
             >
               Join Waitlist
             </a>

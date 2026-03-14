@@ -422,7 +422,7 @@ const Modal = ({ task, onClose, onExecute }) => {
             <button
               onClick={handleExecute}
               disabled={loading}
-              className="flex-1 py-3 text-xs font-bold uppercase tracking-wider bg-black text-white dark:bg-white dark:text-black hover:opacity-90 transition"
+              className="flex-1 py-3 text-xs font-bold uppercase tracking-wider bg-white text-black border border-black/10 hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition"
             >
               {loading ? "Processing..." : "Start Task"}
             </button>
@@ -542,7 +542,7 @@ const EducationCard = ({ onStart }) => (
 
         <button
           onClick={onStart}
-          className="w-full py-3 px-4 bg-black text-white dark:bg-white dark:text-black text-[10px] font-bold uppercase tracking-[0.2em] hover:opacity-90 transition-all"
+          className="w-full py-3 px-4 bg-white text-black border border-black/10 text-[10px] font-bold uppercase tracking-[0.2em] hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all"
         >
           Continue
         </button>
@@ -1112,7 +1112,7 @@ export default function BlipDashboard() {
               </div>
               <button
                 onClick={() => setShowWalletLinkingModal(true)}
-                className="whitespace-nowrap px-6 py-3 bg-black dark:bg-white text-white dark:text-black font-bold text-sm uppercase tracking-wider hover:opacity-90 transition-all flex items-center gap-2 shadow-lg"
+                className="whitespace-nowrap px-6 py-3 bg-white text-black border border-black/10 font-bold text-sm uppercase tracking-wider transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] flex items-center gap-2"
               >
                 <Wallet className="w-4 h-4" />
                 Connect Wallet
@@ -1149,7 +1149,7 @@ export default function BlipDashboard() {
               </div>
               <button
                 onClick={() => navigate("/redeem")}
-                className="whitespace-nowrap px-6 py-3 bg-black dark:bg-white text-white dark:text-black font-bold text-sm uppercase tracking-wider hover:opacity-90 transition-all flex items-center gap-2 shadow-lg"
+                className="whitespace-nowrap px-6 py-3 bg-white text-black border border-black/10 font-bold text-sm uppercase tracking-wider transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] flex items-center gap-2"
               >
                 <Globe className="w-4 h-4" />
                 Link Telegram

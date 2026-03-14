@@ -8,7 +8,6 @@ import React, {
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { Globe, ChevronDown, Check } from "lucide-react";
 
-import { FingerCursor } from "../AdvancedDashboard/MerchantDashbaordTradeLive";
 
 /* ═══════════════════════════════════════════════════════════════
    TYPES & CONSTANTS
@@ -1094,8 +1093,10 @@ function PremiumFintechSection() {
       setTimeout(() => setStage("instantBidding"), 11000),
       setTimeout(() => setStage("verified"), 15500),
       setTimeout(() => setStage("receipt"), 20000),
-      setTimeout(() => setStage("finale"), 25000),
-      setTimeout(() => setAnimDone(true), 29000),
+      setTimeout(() => {
+        setStage("list");
+        setAnimDone(true);
+      }, 25000),
     ];
     return () => timers.forEach(clearTimeout);
   }, [isInView, animKey]);
@@ -1572,7 +1573,7 @@ function PremiumFintechSection() {
                   animate={{
                     opacity: isPhone ? 1 : 0,
                     scale: isPhone ? 1 : 0.95,
-                    rotateZ: isPhone && !isTradingOrReceipt ? 1 : 0,
+                    rotateZ: 0,
                   }}
                   transition={{ duration: 1.2, ease: EASE }}
                   className="absolute inset-[-4px] z-0 pointer-events-none"
@@ -1697,10 +1698,10 @@ function PremiumFintechSection() {
                           </div>
                           {idx === 0 && isPhone && !isTradingOrReceipt && (
                             <div className="flex items-center gap-2 mt-4">
-                              <button className="bg-[#ff6b35] text-white font-semibold py-2 px-5 rounded-full flex items-center gap-1.5 text-xs shadow-md">
+                              <button className="bg-white text-black border border-black/10 font-semibold py-2 px-5 rounded-full flex items-center gap-1.5 text-xs transition-all duration-200 hover:scale-[1.02] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98]">
                                 + Buy Crypto
                               </button>
-                              <button className="bg-black/5 dark:bg-white/20 text-black/70 dark:text-white font-medium py-2 px-5 rounded-full flex items-center gap-1.5 text-xs border border-black/[0.06] dark:border-white/10">
+                              <button className="bg-transparent text-white border border-gray-500 font-semibold py-2 px-5 rounded-full flex items-center gap-1.5 text-xs transition-all duration-200 hover:scale-[1.02] hover:border-gray-300 hover:bg-white/5 hover:shadow-[0_4px_16px_rgba(255,255,255,0.06)] active:scale-[0.98]">
                                 &rarr; Trade P2P
                               </button>
                             </div>
@@ -1997,23 +1998,38 @@ function PremiumFintechSection() {
                               </motion.span>
                             </motion.div>
 
+                            {/* Touch ripple indicator */}
                             <motion.div
-                              initial={{ opacity: 0, scale: 0.4, y: 15, x: 5 }}
-                              animate={{
-                                opacity: [0, 0, 1, 1, 1, 0.8, 0],
-                                scale: [0.4, 0.4, 1, 1, 0.8, 0.8, 0.4],
-                                y: [15, 15, 0, 0, 3, 3, -5],
-                                x: [5, 5, 0, 0, 0, 0, 0],
-                              }}
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: [0, 0, 1, 0] }}
                               transition={{
-                                delay: 1.8,
-                                duration: 1.6,
-                                times: [0, 0.05, 0.25, 0.55, 0.65, 0.85, 1],
-                                ease: EASE,
+                                delay: 2.2,
+                                duration: 0.8,
+                                times: [0, 0.05, 0.3, 1],
+                                ease: "easeOut",
                               }}
-                              className="absolute -bottom-10 left-1/2 -translate-x-1/2 z-50 pointer-events-none"
+                              className="absolute inset-0 z-50 pointer-events-none flex items-center justify-center"
                             >
-                              <FingerCursor size={42} />
+                              <div className="relative">
+                                <motion.div
+                                  initial={{ scale: 0.3, opacity: 0 }}
+                                  animate={{ scale: [0.3, 1, 2.5], opacity: [0, 0.5, 0] }}
+                                  transition={{ delay: 2.3, duration: 0.7, ease: "easeOut" }}
+                                  className="absolute inset-0 m-auto w-10 h-10 rounded-full border border-white/40"
+                                />
+                                <motion.div
+                                  initial={{ scale: 0.3, opacity: 0 }}
+                                  animate={{ scale: [0.3, 1, 2], opacity: [0, 0.4, 0] }}
+                                  transition={{ delay: 2.4, duration: 0.6, ease: "easeOut" }}
+                                  className="absolute inset-0 m-auto w-10 h-10 rounded-full border border-white/30"
+                                />
+                                <motion.div
+                                  initial={{ scale: 0, opacity: 0 }}
+                                  animate={{ scale: [0, 1, 0.8], opacity: [0, 0.7, 0] }}
+                                  transition={{ delay: 2.25, duration: 0.5, ease: "easeOut" }}
+                                  className="w-5 h-5 rounded-full bg-white/30 backdrop-blur-sm"
+                                />
+                              </div>
                             </motion.div>
                           </div>
 

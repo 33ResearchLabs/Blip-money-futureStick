@@ -328,7 +328,7 @@ export default function TelegramVerificationModal({
 
               <button
                 onClick={handleVerify}
-                className="w-full py-3 px-4 bg-black text-white dark:bg-white dark:text-black text-xs font-bold uppercase tracking-wider hover:opacity-90 transition-all flex items-center justify-center gap-2"
+                className="w-full py-3 px-4 bg-white text-black border border-black/10 text-xs font-bold uppercase tracking-wider hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
               >
                 <CheckCircle className="w-4 h-4" />
                 Verify Membership
@@ -401,7 +401,7 @@ export default function TelegramVerificationModal({
                     setError("");
                     setStep("verify");
                   }}
-                  className="flex-1 py-3 text-xs font-bold uppercase tracking-wider bg-black text-white dark:bg-white dark:text-black hover:opacity-90 transition"
+                  className="flex-1 py-3 text-xs font-bold uppercase tracking-wider bg-white text-black border border-black/10 hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition"
                 >
                   Try Again
                 </button>

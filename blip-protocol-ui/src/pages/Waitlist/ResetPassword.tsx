@@ -170,7 +170,7 @@ export default function ResetPassword() {
           <div className="space-y-3">
             <button
               onClick={() => navigate("/forgot-password")}
-              className="w-full py-3 bg-black dark:bg-white text-white dark:text-black font-medium rounded-sm hover:bg-black/90 dark:hover:bg-white/90 transition-all"
+              className="w-full py-3 bg-white text-black border border-black/10 font-semibold rounded-full transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98]"
             >
               Request New Link
             </button>
@@ -208,7 +208,7 @@ export default function ResetPassword() {
 
           <button
             onClick={() => navigate(loginPath)}
-            className="w-full py-3 bg-black dark:bg-white text-white dark:text-black font-medium rounded-sm hover:bg-black/90 dark:hover:bg-white/90 transition-all"
+            className="w-full py-3 bg-white text-black border border-black/10 font-semibold rounded-full transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98]"
           >
             Go to Login
           </button>
@@ -436,7 +436,7 @@ export default function ResetPassword() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-3 bg-black dark:bg-white text-white dark:text-black font-medium rounded-sm hover:bg-black/90 dark:hover:bg-white/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+            className="w-full py-3 bg-white text-black border border-black/10 font-semibold rounded-full transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
           >
             {isLoading ? (
               <>

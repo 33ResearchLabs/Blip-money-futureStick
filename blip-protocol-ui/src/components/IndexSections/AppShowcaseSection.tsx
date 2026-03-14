@@ -610,8 +610,8 @@ const AppShowcaseSection = () => {
                       <div
                         className="w-6 h-6 rounded-full flex items-center justify-center mb-1"
                         style={{
-                          background: "rgba(255,107,53,0.15)",
-                          border: "1px solid rgba(255,107,53,0.2)",
+                          background: "black",
+                          border: "white",
                         }}
                       >
                         <svg
@@ -619,7 +619,7 @@ const AppShowcaseSection = () => {
                           height="10"
                           viewBox="0 0 24 24"
                           fill="none"
-                          stroke="#ff6b35"
+                          stroke="white"
                           strokeWidth={2}
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -686,36 +686,171 @@ const AppShowcaseSection = () => {
             </div>
           </motion.div>
 
-          {/* Card 6 — showcase-1, full-bleed with Ken Burns */}
+          {/* Card 6 — Wallet with falling tokens animation */}
           <motion.div
-            style={{ y: p3 }}
+            style={{
+              y: p3,
+              background: "linear-gradient(145deg, #0a0014 0%, #050008 50%, #000 100%)",
+            }}
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3 }}
             className="relative rounded-3xl overflow-hidden h-[210px]"
           >
-            <motion.img
-              src="/non.png"
-              alt="Non-custodial wallet"
-              className="absolute inset-0 w-full h-full object-cover"
-              style={{ willChange: "transform" }}
-              animate={{ scale: [1, 1.05, 1] }}
-              transition={{
-                duration: 20,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 2,
+            {/* Subtle radial glow behind wallet */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background:
+                  "radial-gradient(ellipse at 50% 75%, rgba(255,107,53,0.12) 0%, transparent 60%)",
               }}
             />
-            <div className="absolute bottom-8 left-3 z-10">
+
+            {/* Falling tokens — all converge to wallet center */}
+            {[
+              { icon: "₿", color: "#f7931a", startX: -40, delay: 0, size: 28 },
+              { icon: "Ξ", color: "#627eea", startX: 10, delay: 0.9, size: 26 },
+              { icon: "◎", color: "#9945ff", startX: 50, delay: 1.8, size: 24 },
+              { icon: "₮", color: "#26a17b", startX: -20, delay: 2.7, size: 26 },
+              { icon: "◆", color: "#2775ca", startX: 35, delay: 3.6, size: 22 },
+            ].map((token, i) => (
+              <motion.div
+                key={i}
+                className="absolute z-30 flex items-center justify-center rounded-full"
+                style={{
+                  left: "50%",
+                  width: token.size + 10,
+                  height: token.size + 10,
+                  background: `${token.color}22`,
+                  border: `1px solid ${token.color}55`,
+                  boxShadow: `0 0 16px ${token.color}44`,
+                  willChange: "transform, opacity",
+                }}
+                animate={{
+                  x: [token.startX, token.startX * 0.3, 0],
+                  y: ["-30px", "55px", "105px"],
+                  opacity: [0, 1, 1, 0],
+                  scale: [0.8, 1, 0.9, 0.3],
+                }}
+                transition={{
+                  duration: 2,
+                  delay: token.delay,
+                  repeat: Infinity,
+                  repeatDelay: 3,
+                  ease: [0.25, 0.46, 0.45, 0.94],
+                  times: [0, 0.2, 0.7, 1],
+                }}
+              >
+                <span
+                  style={{
+                    color: token.color,
+                    fontSize: token.size * 0.55,
+                    fontWeight: 800,
+                    lineHeight: 1,
+                  }}
+                >
+                  {token.icon}
+                </span>
+              </motion.div>
+            ))}
+
+            {/* Wallet — large, centered in lower half */}
+            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20">
+              {/* Glow pulse behind wallet */}
+              <motion.div
+                className="absolute -inset-4 rounded-2xl pointer-events-none"
+                style={{
+                  background: "radial-gradient(ellipse, rgba(255,107,53,0.25) 0%, transparent 70%)",
+                  filter: "blur(10px)",
+                  willChange: "opacity",
+                }}
+                animate={{ opacity: [0.3, 0.7, 0.3] }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+              />
+
+              <motion.div
+                className="relative flex items-center justify-center"
+                animate={{ scale: [1, 1.03, 1] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <svg
+                  width="110"
+                  height="88"
+                  viewBox="0 0 110 88"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  {/* Wallet flap/top */}
+                  <path
+                    d="M14 20V14C14 8.48 18.48 4 24 4H86C91.52 4 96 8.48 96 14V20"
+                    fill="#1e1e1e"
+                    stroke="rgba(255,255,255,0.15)"
+                    strokeWidth="1.5"
+                  />
+                  {/* Wallet body */}
+                  <rect
+                    x="6"
+                    y="20"
+                    width="98"
+                    height="62"
+                    rx="10"
+                    fill="#1a1a1a"
+                    stroke="rgba(255,255,255,0.12)"
+                    strokeWidth="1.5"
+                  />
+                  {/* Inner shadow line */}
+                  <rect
+                    x="12"
+                    y="28"
+                    width="86"
+                    height="46"
+                    rx="6"
+                    fill="none"
+                    stroke="rgba(255,255,255,0.04)"
+                    strokeWidth="1"
+                  />
+                  {/* Card slot on right */}
+                  <rect
+                    x="70"
+                    y="36"
+                    width="28"
+                    height="22"
+                    rx="5"
+                    fill="#111"
+                    stroke="rgba(255,107,53,0.35)"
+                    strokeWidth="1"
+                  />
+                  {/* Clasp circle */}
+                  <circle
+                    cx="84"
+                    cy="47"
+                    r="5"
+                    fill="#ff6b35"
+                    opacity="0.8"
+                  />
+                  {/* Blip logo text */}
+                  <text
+                    x="30"
+                    y="55"
+                    fill="rgba(255,255,255,0.12)"
+                    fontSize="11"
+                    fontWeight="700"
+                    fontFamily="Inter, sans-serif"
+                    letterSpacing="0.08em"
+                  >
+                    BLIP
+                  </text>
+                </svg>
+              </motion.div>
+            </div>
+
+            {/* Top-left caption */}
+            <div className="relative z-20 p-6">
               <div className="text-white text-sm font-semibold">
                 Non custodial
                 <br />
                 wallet
-              </div>
-              <div className="text-white/40 text-xs mt-0.5">
-                {/* 150+ countries · Any currency */}
               </div>
             </div>
           </motion.div>
@@ -730,7 +865,7 @@ const AppShowcaseSection = () => {
             className="relative rounded-3xl overflow-hidden h-[210px]"
           >
             <motion.img
-              src="https://plus.unsplash.com/premium_photo-1679756098899-8bb057b6acf6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGVhcnRoJTIwYXQlMjBuaWdodHxlbnwwfHwwfHx8MA%3D%3D"
+              src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1172&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               // src="https://plus.unsplash.com/premium_photo-1713163890188-6807aa2641de?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fGVhcnRoJTIwYXQlMjBuaWdodHxlbnwwfHwwfHx8MA%3D%3D"
               alt="Global reach"
               className="absolute inset-0 w-full h-full object-contain"
@@ -743,11 +878,11 @@ const AppShowcaseSection = () => {
                 delay: 2,
               }}
             />
-            <div className="absolute bottom-6 left-6 z-10">
+            <div className="absolute top-6 left-6 z-10">
               <div className="text-white text-sm font-semibold">
                 Global reach
               </div>
-              <div className="text-white/40 text-xs mt-0.5">
+              <div className="text-white/80 text-xs mt-0.5">
                 150+ countries · Any currency
               </div>
             </div>

@@ -884,7 +884,7 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
           <span
             style={{ fontSize: 15, fontWeight: 900, letterSpacing: "-0.035em" }}
           >
-            Jhon <span style={{ color: "#ff6b35" }}>●</span>
+            Jhon <span style={{ color: "green" }}>●</span>
           </span>
         </div>
         <div className="flex items-center gap-2">
@@ -1367,9 +1367,9 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
                 width: active ? 32 : 24,
                 height: active ? 32 : 24,
                 borderRadius: active ? 10 : 8,
-                background: active ? "#ff6b35" : "transparent",
+                background: active ? "white" : "transparent",
                 color: active
-                  ? "#fff"
+                  ? "black"
                   : d
                     ? "rgba(255,255,255,0.2)"
                     : "rgba(0,0,0,0.25)",
@@ -1383,7 +1383,7 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
                 fontSize: 6,
                 fontWeight: 700,
                 color: active
-                  ? "#ff6b35"
+                  ? "white"
                   : d
                     ? "rgba(255,255,255,0.2)"
                     : "rgba(0,0,0,0.25)",
@@ -2216,7 +2216,11 @@ const CashOutScreen = ({ isDark }: { isDark: boolean }) => {
             "0 0 50px rgba(255,107,53,0.25), 0 0 80px rgba(255,107,53,0.15), 0 16px 40px rgba(0,0,0,0.3)",
         }}
       >
-        <img src="/brand/blip-icon.svg" alt="Blip" style={{ width: 58, height: 58, borderRadius: 16 }} />
+        <img
+          src="/brand/blip-icon.svg"
+          alt="Blip"
+          style={{ width: 58, height: 58, borderRadius: 16 }}
+        />
       </motion.div>
 
       <motion.p

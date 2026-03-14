@@ -72,7 +72,7 @@ const AppleButton = ({
     "px-8 py-3.5 rounded-full font-semibold transition-all duration-500 text-sm flex items-center justify-center gap-2 active:scale-95 whitespace-nowrap overflow-hidden relative group";
   const styles = {
     primary:
-      "bg-black dark:bg-white text-white dark:text-black hover:bg-black/90 dark:hover:bg-gray-100 shadow-[0_0_20px_rgba(0,0,0,0.1)] dark:shadow-[0_0_20px_rgba(255,255,255,0.1)]",
+      "bg-white text-black border border-black/10 hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98]",
     secondary:
       "bg-black/10 dark:bg-white/10 text-black dark:text-white backdrop-blur-md hover:bg-black/20 dark:hover:bg-white/20 border border-black/10 dark:border-white/10",
     link: "text-[#ffb088] hover:text-white px-0 py-0 font-medium",

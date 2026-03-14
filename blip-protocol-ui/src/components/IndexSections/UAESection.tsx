@@ -1,5 +1,5 @@
-import { ArrowRight, MapPin, Zap } from "lucide-react";
-import { Link } from "react-router-dom";
+import { MapPin } from "lucide-react";
+import { CTAButton } from "../Navbar";
 
 /* ============================================
    SECTION 8: DUBAI LAUNCH
@@ -144,22 +144,13 @@ const UAESection = () => {
 
         {/* CTA buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link
-            to="/waitlist"
-            className="group relative overflow-hidden inline-flex items-center justify-center gap-3 px-8 h-[52px] rounded-full bg-[#ff6b35] text-white text-sm font-semibold transition-all duration-300 hover:bg-[#ff8050]"
-          >
-            <Zap className="w-4 h-4" strokeWidth={2} />
-            <span>Join Dubai Beta</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Link>
+          <CTAButton to="/waitlist" className="h-[52px] px-8">
+            Join Dubai Beta
+          </CTAButton>
 
-          <Link
-            to="/merchant"
-            className="inline-flex items-center gap-2 text-sm text-white/50 font-medium hover:text-white/80 transition-colors border border-white/[0.12] px-6 h-[52px] rounded-full hover:border-white/25"
-          >
+          <CTAButton to="/merchant" variant="secondary" className="h-[52px] px-6">
             Merchant onboarding
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
+          </CTAButton>
         </div>
       </div>
     </section>

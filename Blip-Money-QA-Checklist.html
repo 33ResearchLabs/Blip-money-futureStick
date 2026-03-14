@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Blip Money — QA Testing Checklist (Printable)</title>
+<style>
+  @page { margin: 15mm 12mm; size: A4; }
+  @media print {
+    body { font-size: 9pt; }
+    .page-break { page-break-before: always; }
+    table { page-break-inside: avoid; }
+    .no-break { page-break-inside: avoid; }
+    h2 { page-break-after: avoid; }
+    h3 { page-break-after: avoid; }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+    max-width: 850px;
+    margin: 30px auto;
+    padding: 0 15px;
+    color: #111;
+    line-height: 1.4;
+    font-size: 10pt;
+  }
+  h1 { font-size: 22pt; border-bottom: 3px solid #ff6b35; padding-bottom: 8px; margin-bottom: 4px; }
+  .subtitle { color: #666; font-size: 10pt; margin-bottom: 20px; }
+  h2 { font-size: 15pt; color: #ff6b35; margin-top: 28px; border-bottom: 1px solid #ddd; padding-bottom: 4px; }
+  h3 { font-size: 11pt; color: #333; margin: 14px 0 6px 0; }
+  h4 { font-size: 10pt; color: #555; margin: 10px 0 4px 0; font-weight: 600; }
+  table { width: 100%; border-collapse: collapse; margin: 6px 0 14px 0; font-size: 9pt; }
+  th { background: #f0f0f0; text-align: left; padding: 5px 6px; border: 1px solid #ccc; font-weight: 600; font-size: 8pt; text-transform: uppercase; letter-spacing: 0.03em; }
+  td { padding: 4px 6px; border: 1px solid #ccc; vertical-align: top; }
+  tr:nth-child(even) { background: #fafafa; }
+  .chk { width: 22px; text-align: center; }
+  .chk-box { display: inline-block; width: 12px; height: 12px; border: 1.5px solid #333; border-radius: 2px; }
+  .route { font-family: 'SF Mono', 'Consolas', monospace; font-size: 8pt; background: #f5f5f5; padding: 1px 4px; border-radius: 2px; }
+  .badge { display: inline-block; padding: 1px 6px; border-radius: 2px; font-size: 7pt; font-weight: 700; color: white; vertical-align: middle; }
+  .b-orange { background: #ff6b35; }
+  .b-blue { background: #2563eb; }
+  .b-green { background: #16a34a; }
+  .b-red { background: #dc2626; }
+  .b-gray { background: #888; }
+  .b-purple { background: #7c3aed; }
+  .note { background: #fff7ed; border-left: 3px solid #ff6b35; padding: 6px 10px; margin: 8px 0; font-size: 8pt; }
+  .section-meta { font-size: 8pt; color: #888; margin: 2px 0 8px 0; }
+  .toc { column-count: 2; column-gap: 20px; font-size: 9pt; margin: 10px 0 20px 0; }
+  .toc li { margin-bottom: 3px; }
+  .footer-doc { margin-top: 30px; padding-top: 10px; border-top: 1px solid #ddd; color: #999; font-size: 8pt; text-align: center; }
+  .tester-info { border: 1px solid #ccc; padding: 10px; margin: 15px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .tester-info label { font-size: 8pt; color: #666; }
+  .tester-info .line { border-bottom: 1px solid #ccc; min-height: 20px; margin-top: 2px; }
+  .result-row td:last-child { min-width: 80px; }
+</style>
+</head>
+<body>
+
+<h1>Blip Money — QA Testing Checklist</h1>
+<p class="subtitle">Comprehensive page-by-page testing document &bull; Generated March 13, 2026</p>
+
+<div class="tester-info">
+  <div><label>Tester Name:</label><div class="line"></div></div>
+  <div><label>Date:</label><div class="line"></div></div>
+  <div><label>Browser / Device:</label><div class="line"></div></div>
+  <div><label>Environment:</label><div class="line"></div></div>
+</div>
+
+<div class="note"><strong>How to use:</strong> Check each box after verifying. Write PASS / FAIL / N/A in the Result column. Add notes for any issues found.</div>
+
+<h2>Table of Contents</h2>
+<ol class="toc">
+  <li>Global Elements (Navbar &amp; Footer)</li>
+  <li>Homepage — All 8 Sections</li>
+  <li>Waitlist &amp; Auth Pages (7 pages)</li>
+  <li>User Dashboard</li>
+  <li>Merchant Pages (5 pages)</li>
+  <li>Merchant Dashboard</li>
+  <li>SuperAdmin Dashboard</li>
+  <li>Protocol Pages (4 pages)</li>
+  <li>Blog &amp; Research (4 pages)</li>
+  <li>Resources (FAQ, Glossary, Compare)</li>
+  <li>Use Case Pages (5 pages)</li>
+  <li>UAE / Dubai SEO Pages (15 pages)</li>
+  <li>Crypto Converter Pages (7 pages)</li>
+  <li>Legal &amp; Compliance (5 pages)</li>
+  <li>Special Pages (Redeem, 404, Coming Soon)</li>
+  <li>Cross-Cutting Tests</li>
+</ol>
+
+<!-- ================================================================ -->
+<div class="page-break"></div>
+
+<h2>1. Global Elements</h2>
+
+<h3>1A. Navbar</h3>
+<p class="section-meta">Component: Navbar.tsx &bull; Present on every page</p>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Logo click</td><td>Navigates to <span class="route">/</span></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>"How It Works" link</td><td>Navigates to <span class="route">/how-it-works</span></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>"Merchant" link</td><td>Navigates to <span class="route">/merchant</span></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>"Research" link</td><td>Navigates to <span class="route">/research</span></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>"Blog" link</td><td>Navigates to <span class="route">/blog</span></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Theme toggle (Sun/Moon)</td><td>Switches between light and dark mode; persists on reload</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>"Join Waitlist" CTA (logged out)</td><td>Visible when not authenticated; navigates to <span class="route">/waitlist</span></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>"Dashboard" CTA (logged in)</td><td>Visible when authenticated; navigates to <span class="route">/dashboard</span></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Mobile hamburger menu</td><td>Opens/closes mobile menu on tap</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Mobile menu links</td><td>All 4 links + CTA present and functional</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Scroll hide/show</td><td>Hides on scroll down, reappears on scroll up</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Active link highlight</td><td>Current page link is visually active</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Responsive: desktop layout</td><td>All links inline, no hamburger (lg+)</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Responsive: mobile layout</td><td>Hamburger visible, links hidden (&lt;lg)</td><td></td></tr>
+</table>
+
+<h3>1B. Footer</h3>
+<p class="section-meta">Component: Footer.tsx &bull; Present on every page</p>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Protocol column links (3)</td><td>How It Works, Tokenomics, Whitepaper — all navigate correctly</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Use Cases column links (5)</td><td>Freelancers, OTC, E-Commerce, Remittances, Merchants — correct routes</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Resources column links (6)</td><td>Blog, Research, FAQ, Glossary, Compare, Rewards — correct routes</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Markets column links (9)</td><td>Crypto to AED, BTC to AED, USDT vs USDC, Buy USDT Dubai, Crypto OTC Dubai, Bitcoin Price UAE, Crypto Tax UAE, Crypto to INR, BTC to INR</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Company column links (4)</td><td>About, Press, Community, Waitlist — correct routes</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Telegram social icon</td><td>Opens t.me/blipmoney in new tab</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Twitter/X social icon</td><td>Opens x.com/blip_money in new tab</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>YouTube social icon</td><td>Opens youtube.com/@BlipMoney in new tab</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>LinkedIn social icon</td><td>Opens LinkedIn company page in new tab</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>"Legal" link in bottom bar</td><td>Navigates to <span class="route">/legal</span></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Copyright text</td><td>Shows current year + "blip.money"</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Link hover animation</td><td>Animated underline appears on hover</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Scroll-in animation</td><td>Footer fades in on scroll into view</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Responsive: 5-col → stacked</td><td>Columns stack on mobile</td><td></td></tr>
+</table>
+
+<!-- ================================================================ -->
+<div class="page-break"></div>
+
+<h2>2. Homepage</h2>
+<p class="section-meta">Route: <span class="route">/</span> &bull; File: Index.tsx &bull; 8 sections</p>
+
+<h3>2A. Cinematic Hero Section</h3>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Eyebrow text</td><td>"The Settlement Protocol" label visible</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Main headline</td><td>"Borderless finance. Settled on-chain." renders with gradient animation</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Gradient sweep on "Settled on-chain"</td><td>7-second looping gradient animation plays smoothly</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Subheading text</td><td>"Send value to anyone, anywhere." visible</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>"Join Waitlist" button</td><td>Navigates to <span class="route">/waitlist</span>; hover scale 1.02x; tap scale 0.98x</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>"Become a Merchant" button</td><td>Navigates to <span class="route">/merchant</span>; outline style</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Status dot animation</td><td>Pulsing green/orange dot animates</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Fade-in on load</td><td>Content fades in with 0.9s delay</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Orange radial glow (bg)</td><td>Subtle background glow visible behind hero</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Light/dark theme</td><td>All elements adapt correctly to both themes</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Responsive: mobile</td><td>Buttons stack, text sizes reduce, readable</td><td></td></tr>
+</table>
+
+<h3>2B. Problem Section</h3>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Card 1: "7% Lost"</td><td>Currency symbols floating animation plays</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Card 2: "3–5 Days"</td><td>Progress bar visualization renders</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Card 3: "Every transaction Tracked"</td><td>Dot grid visualization renders</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Card rotation/cycling</td><td>Cards cycle automatically, smooth transition</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Bento stat: "&lt;2s Settlement"</td><td>Stat displays correctly</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Bento stat: "0.1% Fee"</td><td>Stat displays correctly</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Bento stat: "Non-custodial"</td><td>Stat displays with "You keep control" subtext</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Bento stat: "On-chain"</td><td>Stat displays with "Full transparency" subtext</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Animated globe (COBE)</td><td>Globe renders, rotates on scroll</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Light/dark gradients</td><td>Correct gradient colors per theme</td><td></td></tr>
+</table>
+
+<h3>2C. Dark Fintech Section</h3>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Trading/currency visualization</td><td>Visual elements render correctly</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Color-coded elements</td><td>Correct colors for each data point</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>CTA buttons (if any)</td><td>Navigate to correct destinations</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Theme adaptation</td><td>Section adapts to light/dark</td><td></td></tr>
+</table>
+
+<h3>2D. How It Works Section</h3>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>3-screen flow visualization</td><td>All 3 steps render with correct content</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Lazy loading</td><td>Section loads on scroll into view</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Step animations</td><td>Steps animate in sequence on scroll</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Interactive elements</td><td>Any tabs or toggles work correctly</td><td></td></tr>
+</table>
+
+<h3>2E. App Showcase Section</h3>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Apple bento grid layout</td><td>Grid renders with correct proportions</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Device mockup images</td><td>All images load, correct alt text</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Responsive layout</td><td>Grid adjusts for mobile/tablet/desktop</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Lazy loading</td><td>Images lazy-load on scroll</td><td></td></tr>
+</table>
+
+<h3>2F. Feature Cinema Section</h3>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Scene 1: Escrow Lock UI</td><td>Phases cycle: sending → locking → locked → verified</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Scene 1: Shield/Lock/Check icons</td><td>Icons display and animate correctly per phase</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Scene 2: Instant Bidding</td><td>Bidding visualization renders</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Scene 3: Blipscan verification</td><td>Blockchain verification UI renders</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Pulsing dots animation</td><td>CSS dots pulse smoothly (no jank)</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Scanline effects</td><td>Scanline overlay renders</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Loading dots (3 staggered)</td><td>Dots animate with staggered timing</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Dashboard UI mockup</td><td>Mockup image loads correctly</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Glow effects</td><td>Orange/blue glow renders behind elements</td><td></td></tr>
+</table>
+
+<h3>2G. Use Cases Section</h3>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Freelancers card</td><td>Icon, title, description render; links to <span class="route">/use-cases/freelancers</span></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>OTC Traders card</td><td>Icon, title, description render; links to <span class="route">/use-cases/otc-traders</span></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>E-Commerce card</td><td>Icon, title, description render; links to <span class="route">/use-cases/e-commerce</span></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Remittance card</td><td>Icon, title, description render; links to <span class="route">/use-cases/remittance</span></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Card hover effects</td><td>Scale + color change on hover</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Scroll animation</td><td>Cards animate in on scroll</td><td></td></tr>
+</table>
+
+<h3>2H. Rewards Section</h3>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Airdrop/points info</td><td>Incentive program content renders</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>CTA button</td><td>Links to waitlist or dashboard</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Lazy loading</td><td>Section loads on scroll</td><td></td></tr>
+</table>
+
+<h3>2I. UAE / Dubai Launch Section</h3>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>UAE launch info</td><td>Dubai-specific content renders</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>CTA button</td><td>Links to correct destination</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Lazy loading</td><td>Section loads on scroll</td><td></td></tr>
+</table>
+
+<h3>2J. Final CTA Section</h3>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>CTA heading/text</td><td>Final call-to-action text renders</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Primary CTA button</td><td>Navigates to <span class="route">/waitlist</span></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Secondary CTA button (if any)</td><td>Navigates to correct page</td><td></td></tr>
+</table>
+
+<!-- ================================================================ -->
+<div class="page-break"></div>
+
+<h2>3. Waitlist &amp; Authentication Pages</h2>
+
+<h3>3A. Join Waitlist / Login</h3>
+<p class="section-meta">Routes: <span class="route">/waitlist</span> &amp; <span class="route">/join-waitlist</span> &bull; UserLogin.tsx</p>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Email input field</td><td>Accepts valid email, shows error for invalid</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Password input field</td><td>Accepts input, masked by default</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Password show/hide toggle (Eye icon)</td><td>Toggles password visibility</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Confirm Password field</td><td>Shows on register view; validates match</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>"Join Waitlist" submit button</td><td>Submits form; shows loading spinner</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>"Connect Wallet" button</td><td>Opens Solana wallet adapter modal</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Login / Register view toggle</td><td>Switches between login and register views</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Referral code from URL (?ref=)</td><td>Pre-fills referral code input</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>2FA modal (when required)</td><td>OTP input appears; submit verifies code</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Error messages</td><td>Invalid credentials show clear error</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Loading spinner</td><td>Shows during API calls</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Mouse parallax effect</td><td>Background subtly moves with mouse</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Redirect if authenticated</td><td>Logged-in users redirected to dashboard</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td><span class="route">/join-waitlist</span> alias</td><td>Same behavior as <span class="route">/waitlist</span></td><td></td></tr>
+</table>
+
+<h3>3B. Register</h3>
+<p class="section-meta">Route: <span class="route">/register</span></p>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Badge: "Get Started"</td><td>Displays above heading</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Heading: "Create Account"</td><td>Renders correctly</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Email input</td><td>Validates email format</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Password input + confirm</td><td>Validates match and strength</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Submit button</td><td>Creates account, redirects to verification pending</td><td></td></tr>
+</table>
+
+<h3>3C. Email Verification Pending</h3>
+<p class="section-meta">Route: <span class="route">/email-verification-pending</span></p>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Pending message</td><td>Displays "check your email" message</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Resend email button</td><td>Sends new verification email</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Back to login link</td><td>Navigates to <span class="route">/waitlist</span></td><td></td></tr>
+</table>
+
+<h3>3D. Verify Email</h3>
+<p class="section-meta">Route: <span class="route">/verify-email?oobCode=xxx</span></p>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Valid oobCode</td><td>Verifies email, shows success, redirects</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Invalid/expired oobCode</td><td>Shows error message</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Missing oobCode</td><td>Shows error or redirect</td><td></td></tr>
+</table>
+
+<h3>3E. Forgot Password</h3>
+<p class="section-meta">Route: <span class="route">/forgot-password</span></p>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Email input</td><td>Accepts email, validates format</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>"Send Reset Link" button</td><td>Sends email, shows confirmation</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Invalid email</td><td>Shows appropriate error</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Back to login link</td><td>Navigates to <span class="route">/waitlist</span></td><td></td></tr>
+</table>
+
+<h3>3F. Reset Password</h3>
+<p class="section-meta">Route: <span class="route">/reset-password?oobCode=xxx</span></p>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>New password input</td><td>Accepts input, validates strength</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Confirm password input</td><td>Validates match with new password</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Password visibility toggles</td><td>Both fields toggle correctly</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>"Reset Password" button</td><td>Resets password, shows success, redirects to login</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Invalid/expired oobCode</td><td>Shows error message</td><td></td></tr>
+</table>
+
+<h3>3G. Two-Factor Auth</h3>
+<p class="section-meta">Route: <span class="route">/twoFactorAuth</span></p>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>OTP input field</td><td>Accepts 6-digit code</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Submit button</td><td>Verifies OTP, redirects on success</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Invalid OTP</td><td>Shows error message</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Recovery code option</td><td>Provides fallback recovery method</td><td></td></tr>
+</table>
+
+<!-- ================================================================ -->
+<div class="page-break"></div>
+
+<h2>4. User Dashboard</h2>
+<p class="section-meta">Route: <span class="route">/dashboard</span> &bull; <span class="badge b-blue">Protected — user role</span></p>
+
+<h4>Access Control</h4>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Unauthenticated access</td><td>Redirects to <span class="route">/waitlist</span></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Merchant role access</td><td>Redirects to merchant dashboard or denies</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>User role access</td><td>Loads dashboard successfully</td><td></td></tr>
+</table>
+
+<h4>Header &amp; Navigation</h4>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Logout button</td><td>Logs out, redirects to home</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Settings button</td><td>Opens settings panel/page</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Theme toggle (Sun/Moon)</td><td>Switches theme</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Notifications bell icon</td><td>Shows notification badge/count; opens panel</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Search input (Cmd+K)</td><td>Opens search; keyboard shortcut works</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Refresh button (RefreshCw)</td><td>Reloads dashboard data</td><td></td></tr>
+</table>
+
+<h4>Points &amp; Stats</h4>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Total points display</td><td>Shows correct point count with count-up animation</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Points history table</td><td>Columns: Activity, Amount, Description, Merchant, Wallet, Time</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Points history modal trigger</td><td>Opens full points history modal</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Leaderboard table</td><td>Shows ranked users with pagination</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Leaderboard pagination</td><td>Next/prev page works correctly</td><td></td></tr>
+</table>
+
+<h4>Wallet &amp; Referrals</h4>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Wallet address display</td><td>Shows connected wallet address (truncated)</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Copy wallet address button</td><td>Copies full address to clipboard; shows confirmation</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Wallet linking button</td><td>Opens WalletLinkingModal</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Wallet linking modal</td><td>Solana wallet connect flow works</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Referral modal trigger</td><td>Opens ReferralModal</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Copy referral link</td><td>Copies referral URL to clipboard</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Share referral link</td><td>Opens share options (native share API or copy)</td><td></td></tr>
+</table>
+
+<h4>Verification Modals</h4>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Twitter verification modal</td><td>Opens; guides user through verification; API call succeeds</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Telegram verification modal</td><td>Opens; verification flow works</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Retweet verification modal</td><td>Opens; retweet verification works</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Modal close (X button)</td><td>All modals close properly</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Modal close (backdrop click)</td><td>Modals close on backdrop click</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Completed verification state</td><td>Checkmark shown; button disabled for completed tasks</td><td></td></tr>
+</table>
+
+<h4>Animations &amp; UI</h4>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Scanline animation</td><td>CSS scanline effect plays</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Number count-up</td><td>Points animate from 0 to actual value</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Cursor blink animation</td><td>Terminal-style cursor blinks</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Error shake animation</td><td>Fields shake on validation error</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Loading state</td><td>Spinner shows while data loads</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Error alert</td><td>Error box displays on API failure</td><td></td></tr>
+</table>
+
+<!-- ================================================================ -->
+<div class="page-break"></div>
+
+<h2>5. Merchant Pages</h2>
+
+<h3>5A. Merchant Landing</h3>
+<p class="section-meta">Route: <span class="route">/merchant</span></p>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Hero section</td><td>Merchant-specific hero renders</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>"Become a Merchant" CTA</td><td>Navigates to <span class="route">/merchant-waitlist</span></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Feature card: No waiting (Zap)</td><td>Icon + text render correctly</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Feature card: More control (Sliders)</td><td>Icon + text render correctly</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Feature card: Faster execution (Activity)</td><td>Icon + text render correctly</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Feature card: Lower risk (ShieldCheck)</td><td>Icon + text render correctly</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Feature card: Clear operations (LayoutList)</td><td>Icon + text render correctly</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Feature card: Transparent proof (Globe)</td><td>Icon + text render correctly</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>3D card hover effect</td><td>Cards tilt with mouse position</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Shine effect on cards</td><td>Shine follows mouse movement</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Magnetic button effects</td><td>Buttons subtly attract toward cursor</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Dashboard mockup preview</td><td>Image loads correctly</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Scroll/parallax animations</td><td>Elements animate on scroll</td><td></td></tr>
+</table>
+
+<h3>5B. Merchant Waitlist / Login / Register</h3>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td><span class="route">/merchant-waitlist</span> page loads</td><td>Merchant login form renders</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td><span class="route">/merchant-login</span> page loads</td><td>Merchant login form renders</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td><span class="route">/merchant-register</span> page loads</td><td>Full merchant registration form renders</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Business name input</td><td>Accepts business name</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Email input</td><td>Validates email format</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Password + confirm</td><td>Validates match and strength</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Country/region selector</td><td>Dropdown works, all options present</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Business type selector</td><td>Dropdown works, all types present</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Agreement checkbox</td><td>Must check to submit</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Submit button</td><td>Creates merchant account</td><td></td></tr>
+</table>
+
+<!-- ================================================================ -->
+
+<h2>6. Merchant Dashboard</h2>
+<p class="section-meta">Route: <span class="route">/merchant-dashboard</span> &bull; <span class="badge b-blue">Protected — merchant role</span></p>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Access control (merchant only)</td><td>Non-merchants redirected</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Create order button (Plus icon)</td><td>Opens order creation form/modal</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Orders/requests table</td><td>Displays merchant orders with correct columns</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Activity table (Hash, Status, Type, Amount, Time)</td><td>All columns render; data correct</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Filter buttons (status, amount, corridor)</td><td>Filter data correctly</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Search input</td><td>Searches orders/activity</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Status badges (pending/completed/failed)</td><td>Correct colors and text per status</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Copy order ID button</td><td>Copies to clipboard</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>QR code display</td><td>QR code renders and is scannable</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Settings panel</td><td>Corridors, rates, limits editable</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Pagination controls</td><td>Next/prev works correctly</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Logout button</td><td>Logs out merchant</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Dropdown menus (ChevronDown)</td><td>Open/close correctly</td><td></td></tr>
+</table>
+
+<!-- ================================================================ -->
+
+<h2>7. SuperAdmin Dashboard</h2>
+<p class="section-meta">Route: <span class="route">/superadmin</span> &bull; <span class="badge b-red">Protected — admin role</span></p>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Access control (admin only)</td><td>Non-admins redirected</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>User management</td><td>View/edit/manage users</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Task management</td><td>View/manage tasks</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>System charts</td><td>Charts render with data</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Statistics overview</td><td>Key metrics display correctly</td><td></td></tr>
+</table>
+
+<!-- ================================================================ -->
+<div class="page-break"></div>
+
+<h2>8. Protocol Pages</h2>
+
+<h3>8A. How It Works</h3>
+<p class="section-meta">Route: <span class="route">/how-it-works</span></p>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Page loads</td><td>Full protocol explainer renders</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Step-by-step visuals</td><td>All steps render in order</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Interactive elements</td><td>Tabs/toggles work (if present)</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>CTA button</td><td>Links to waitlist/dashboard</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Images/icons</td><td>All load with alt text</td><td></td></tr>
+</table>
+
+<h3>8B. Tokenomics</h3>
+<p class="section-meta">Route: <span class="route">/tokenomics</span></p>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Pie chart renders</td><td>All 7 segments visible with correct %</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Ecosystem Rewards: 30%</td><td>Correct label + percentage</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>LP, MM &amp; Early Inv.: 25%</td><td>Correct label + percentage</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Airdrop &amp; Adoption: 10%</td><td>Correct label + percentage</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Team (3y Vest): 10%</td><td>Correct label + percentage</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Partnerships: 10%</td><td>Correct label + percentage</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Treasury: 10%</td><td>Correct label + percentage</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Advisers: 5%</td><td>Correct label + percentage</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Chart hover tooltips</td><td>Tooltips show on segment hover</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Stats cards</td><td>Key token stats display</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Vesting timeline</td><td>Timeline visualization renders</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Tab navigation</td><td>Tabs switch between sections</td><td></td></tr>
+</table>
+
+<h3>8C. Whitepaper</h3>
+<p class="section-meta">Route: <span class="route">/whitepaper</span></p>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Download PDF button</td><td>Downloads /whitepaper.pdf</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Table of contents (11 sections)</td><td>All 11 section links visible and clickable</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>TOC click → scroll to section</td><td>Smooth scroll to correct section</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Active section highlighting</td><td>Current section highlighted in TOC on scroll</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Sections: Abstract through References</td><td>All 11 sections render with content</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>IntersectionObserver tracking</td><td>No console errors from observer</td><td></td></tr>
+</table>
+
+<h3>8D. Changelog</h3>
+<p class="section-meta">Route: <span class="route">/changelog</span></p>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Version history</td><td>Versions listed in reverse chronological order</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Release notes</td><td>Each version has descriptive notes</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Dates</td><td>All dates formatted correctly</td><td></td></tr>
+</table>
+
+<!-- ================================================================ -->
+<div class="page-break"></div>
+
+<h2>9. Blog &amp; Research</h2>
+
+<h3>9A. Blog Listing</h3>
+<p class="section-meta">Route: <span class="route">/blog</span></p>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Featured article (large card)</td><td>Renders with cover image, title, excerpt</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Article grid</td><td>All articles display in grid/list layout</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Cover images on all articles</td><td>All images load; no broken images</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Category filter buttons</td><td>Clicking filters shows correct articles</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Author name + avatar</td><td>Displayed on each article card</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Publish date</td><td>Formatted correctly on each card</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Read time estimate</td><td>Shows estimated reading time</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Article card click</td><td>Navigates to <span class="route">/blog/:slug</span></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Hover effects on cards</td><td>Scale/color change on hover</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Sound effects (hover/click)</td><td>Sound plays if enabled</td><td></td></tr>
+</table>
+
+<h3>9B. Blog Article</h3>
+<p class="section-meta">Route: <span class="route">/blog/:slug</span></p>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Article title</td><td>Renders correctly</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Cover image</td><td>Loads; correct alt text</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Author info</td><td>Name, avatar, date display</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Article content (HTML/MD)</td><td>Formatted correctly; no raw HTML visible</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Share buttons</td><td>Share to social platforms works</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Related articles</td><td>Show related articles with working links</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Breadcrumb navigation</td><td>Blog > Article Name — links work</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Invalid slug (404)</td><td>Shows not found or redirect</td><td></td></tr>
+</table>
+
+<h3>9C. Research Listing</h3>
+<p class="section-meta">Route: <span class="route">/research</span></p>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Research articles list</td><td>All articles display</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Category navigation</td><td>AI Agents, MEV, DeFi, Smart Contracts categories work</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Article cards</td><td>Title, excerpt, cover image, metadata</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Card click → article</td><td>Navigates to <span class="route">/research/:slug</span></td><td></td></tr>
+</table>
+
+<h3>9D. Research Article</h3>
+<p class="section-meta">Route: <span class="route">/research/:slug</span></p>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Article renders fully</td><td>Title, content, images all load</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Share buttons</td><td>Work correctly</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Invalid slug</td><td>Handled gracefully</td><td></td></tr>
+</table>
+
+<!-- ================================================================ -->
+<div class="page-break"></div>
+
+<h2>10. Resource Pages</h2>
+
+<h3>10A. FAQ</h3>
+<p class="section-meta">Route: <span class="route">/faq</span></p>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Category filter buttons</td><td>All, Getting Started, etc. — filter works</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Accordion items (collapsed)</td><td>All questions visible, answers hidden</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Accordion toggle (click)</td><td>Answer expands/collapses with animation</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Chevron rotation</td><td>ChevronDown rotates 180° when open</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Multiple open at once</td><td>Verify behavior (single or multi-open)</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>All Q&amp;A content</td><td>No empty answers; content displays correctly</td><td></td></tr>
+</table>
+
+<h3>10B. Glossary</h3>
+<p class="section-meta">Route: <span class="route">/glossary</span></p>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Alphabetical listing</td><td>Terms sorted A-Z</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Term definitions</td><td>Each term has a clear definition</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Search/filter (if present)</td><td>Filters terms by keyword</td><td></td></tr>
+</table>
+
+<h3>10C. Compare Hub</h3>
+<p class="section-meta">Route: <span class="route">/compare</span></p>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Comparison cards</td><td>All comparison options listed</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Blip vs Wise link</td><td>Navigates to <span class="route">/compare/blip-vs-wise</span></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Blip vs Binance P2P link</td><td>Navigates to <span class="route">/compare/blip-vs-binance-p2p</span></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>On-Chain vs Traditional link</td><td>Navigates to <span class="route">/compare/on-chain-vs-traditional-escrow</span></td><td></td></tr>
+</table>
+
+<h3>10D. Comparison Pages</h3>
+<p class="section-meta">Routes: <span class="route">/compare/:slug</span></p>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Comparison table/matrix</td><td>Feature-by-feature comparison renders</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Winner indicators</td><td>Blip advantages highlighted</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>CTA buttons</td><td>Link to waitlist/dashboard</td><td></td></tr>
+</table>
+
+<!-- ================================================================ -->
+
+<h2>11. Use Case Pages</h2>
+
+<h3>11A. Use Cases Hub</h3>
+<p class="section-meta">Route: <span class="route">/use-cases</span></p>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Freelancers card (Laptop icon)</td><td>Links to <span class="route">/use-cases/freelancers</span></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>OTC Traders card (TrendingUp icon)</td><td>Links to <span class="route">/use-cases/otc-traders</span></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>E-Commerce card (ShoppingCart icon)</td><td>Links to <span class="route">/use-cases/e-commerce</span></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Remittance card (Globe icon)</td><td>Links to <span class="route">/use-cases/remittance</span></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Gradient accent bars</td><td>Each card has colored accent at top</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Hover effects</td><td>Scale, translate, color change on hover</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Sound effects</td><td>Hover/click sound plays</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>InView scroll animation</td><td>Cards animate in on scroll</td><td></td></tr>
+</table>
+
+<h3>11B. Use Case Detail Pages</h3>
+<p class="section-meta">Routes: <span class="route">/use-cases/freelancers</span>, <span class="route">/use-cases/otc-traders</span>, <span class="route">/use-cases/e-commerce</span>, <span class="route">/use-cases/remittance</span></p>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Hero section</td><td>Use-case-specific hero renders</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Feature list</td><td>Specific benefits listed</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>CTA buttons</td><td>Link to waitlist/dashboard</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Related use cases</td><td>Links to other use case pages</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Invalid slug</td><td>Handled gracefully (404 or redirect)</td><td></td></tr>
+</table>
+
+<!-- ================================================================ -->
+<div class="page-break"></div>
+
+<h2>12. UAE / Dubai SEO Pages</h2>
+<p class="section-meta">15 geo-targeted pages &bull; Test each page for the items below</p>
+
+<table>
+  <tr><th>#</th><th>Route</th><th>Page</th></tr>
+  <tr><td>1</td><td><span class="route">/uae</span></td><td>UAE Landing</td></tr>
+  <tr><td>2</td><td><span class="route">/sell-usdt-dubai</span></td><td>Sell USDT Dubai</td></tr>
+  <tr><td>3</td><td><span class="route">/buy-usdt-dubai</span></td><td>Buy USDT Dubai</td></tr>
+  <tr><td>4</td><td><span class="route">/crypto-payments-uae</span></td><td>Crypto Payments UAE</td></tr>
+  <tr><td>5</td><td><span class="route">/crypto-remittance-uae</span></td><td>Crypto Remittance UAE</td></tr>
+  <tr><td>6</td><td><span class="route">/crypto-to-aed</span></td><td>Crypto to AED</td></tr>
+  <tr><td>7</td><td><span class="route">/accept-crypto-business</span></td><td>Accept Crypto Business</td></tr>
+  <tr><td>8</td><td><span class="route">/crypto-to-bank-uae</span></td><td>Crypto to Bank UAE</td></tr>
+  <tr><td>9</td><td><span class="route">/crypto-escrow-uae</span></td><td>Crypto Escrow UAE</td></tr>
+  <tr><td>10</td><td><span class="route">/crypto-salary-uae</span></td><td>Crypto Salary UAE</td></tr>
+  <tr><td>11</td><td><span class="route">/crypto-tax-uae</span></td><td>Crypto Tax UAE</td></tr>
+  <tr><td>12</td><td><span class="route">/usdt-vs-usdc</span></td><td>USDT vs USDC</td></tr>
+  <tr><td>13</td><td><span class="route">/crypto-otc-dubai</span></td><td>OTC Crypto Dubai</td></tr>
+  <tr><td>14</td><td><span class="route">/best-crypto-exchange-uae</span></td><td>Best Exchange UAE</td></tr>
+  <tr><td>15</td><td><span class="route">/bitcoin-price-uae</span></td><td>Bitcoin Price UAE</td></tr>
+</table>
+
+<h4>Checklist per UAE page (repeat for all 15):</h4>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Page loads without error</td><td>Content renders, no console errors</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Hero/title section</td><td>Page-specific heading displays</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>SEO content body</td><td>Unique, relevant content (not placeholder)</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>CTA buttons</td><td>Link to waitlist or dashboard</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Internal links</td><td>Related pages link correctly</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>FAQ section (if present)</td><td>Accordion works; content relevant</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Images (if any)</td><td>Load correctly; have alt text</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Breadcrumbs</td><td>Navigation breadcrumbs work</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Meta title tag</td><td>Unique, contains target keyword</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Meta description tag</td><td>Unique, under 160 chars</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Light/dark theme</td><td>Both themes render correctly</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Mobile responsive</td><td>Layout adapts; no overflow</td><td></td></tr>
+</table>
+
+<!-- ================================================================ -->
+
+<h2>13. Crypto Converter Pages</h2>
+<p class="section-meta">7 converter pages using CoinGecko API</p>
+
+<table>
+  <tr><th>#</th><th>Route</th><th>Conversion</th></tr>
+  <tr><td>1</td><td><span class="route">/btc-to-aed</span></td><td>Bitcoin → AED</td></tr>
+  <tr><td>2</td><td><span class="route">/eth-to-aed</span></td><td>Ethereum → AED</td></tr>
+  <tr><td>3</td><td><span class="route">/sol-to-aed</span></td><td>Solana → AED</td></tr>
+  <tr><td>4</td><td><span class="route">/crypto-to-inr</span></td><td>Crypto → INR Hub</td></tr>
+  <tr><td>5</td><td><span class="route">/btc-to-inr</span></td><td>Bitcoin → INR</td></tr>
+  <tr><td>6</td><td><span class="route">/eth-to-inr</span></td><td>Ethereum → INR</td></tr>
+  <tr><td>7</td><td><span class="route">/sol-to-inr</span></td><td>Solana → INR</td></tr>
+</table>
+
+<h4>Checklist per converter page (repeat for all 7):</h4>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Page loads</td><td>Converter UI renders</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Real-time price display</td><td>Current price fetched from API and shown</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Amount input field</td><td>Accepts numeric input; updates conversion</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Conversion result</td><td>Calculates and displays correct amount</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>API error handling</td><td>Shows error message if CoinGecko API fails</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Loading state</td><td>Spinner/skeleton while price loads</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Historical chart (if present)</td><td>Chart renders with data</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Related converter links</td><td>Links to other converters work</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>SEO FAQ section</td><td>FAQ accordion works; content relevant</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>CTA button</td><td>Links to waitlist/dashboard</td><td></td></tr>
+</table>
+
+<!-- ================================================================ -->
+<div class="page-break"></div>
+
+<h2>14. Legal &amp; Compliance Pages</h2>
+
+<table>
+  <tr><th class="chk"></th><th>Route</th><th>Page</th><th>Test Items</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td><span class="route">/legal</span></td><td>Legal Hub</td><td>Links to privacy, terms, cookies, GDPR all work</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td><span class="route">/privacy</span></td><td>Privacy Policy</td><td>Content loads; sections readable; no formatting errors</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td><span class="route">/terms</span></td><td>Terms of Service</td><td>Content loads; sections readable; no formatting errors</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td><span class="route">/cookies</span></td><td>Cookie Policy</td><td>Content loads; accept/reject buttons work (if present)</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td><span class="route">/gdpr</span></td><td>GDPR Compliance</td><td>Content loads; data rights info present</td><td></td></tr>
+</table>
+
+<!-- ================================================================ -->
+
+<h2>15. Special Pages</h2>
+
+<h3>15A. Telegram Redeem</h3>
+<p class="section-meta">Route: <span class="route">/redeem</span></p>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Page loads</td><td>Redeem UI renders</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Redeem code input</td><td>Accepts code; validates</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Redeem button</td><td>Submits; shows success/failure</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Telegram auth flow</td><td>Verifies Telegram identity</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Invalid code</td><td>Error message displayed</td><td></td></tr>
+</table>
+
+<h3>15B. 404 Not Found</h3>
+<p class="section-meta">Route: any invalid path</p>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Page renders</td><td>404 message shows</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Home link</td><td>Returns to homepage</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Test: /random-gibberish</td><td>Triggers 404 page</td><td></td></tr>
+</table>
+
+<h3>15C. Company Pages</h3>
+<table>
+  <tr><th class="chk"></th><th>Route</th><th>Test Items</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td><span class="route">/about</span></td><td>Vision pillars (4), core values (4), CTA button, scroll animations</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td><span class="route">/press</span></td><td>Press releases load; external links work</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td><span class="route">/community</span></td><td>Community links (Telegram, Discord, Twitter) open in new tabs</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td><span class="route">/contact</span></td><td>Name, email, message fields; submit works; office image loads</td><td></td></tr>
+</table>
+
+<!-- ================================================================ -->
+<div class="page-break"></div>
+
+<h2>16. Cross-Cutting Tests</h2>
+<p class="section-meta">Apply these tests across the entire site</p>
+
+<h3>16A. Theme Toggle (Light / Dark)</h3>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Toggle from light → dark</td><td>All elements switch; no white flashes</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Toggle from dark → light</td><td>All elements switch; no black remnants</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Theme persists on reload</td><td>Same theme after page refresh</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Theme persists across pages</td><td>Same theme when navigating</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Text contrast (dark mode)</td><td>All text readable against dark bg (#000)</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Text contrast (light mode)</td><td>All text readable against light bg (#FAF8F5)</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Images/charts in both themes</td><td>No invisible elements in either theme</td><td></td></tr>
+</table>
+
+<h3>16B. Responsive Breakpoints</h3>
+<table>
+  <tr><th class="chk"></th><th>Breakpoint</th><th>Viewport</th><th>Test: No overflow, readable text, usable UI</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Mobile S</td><td>320px</td><td></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Mobile M</td><td>375px</td><td></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Mobile L</td><td>425px</td><td></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Tablet</td><td>768px</td><td></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Laptop</td><td>1024px</td><td></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Desktop</td><td>1440px</td><td></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Large</td><td>1920px</td><td></td><td></td></tr>
+</table>
+
+<h3>16C. Browser Compatibility</h3>
+<table>
+  <tr><th class="chk"></th><th>Browser</th><th>Test: Pages load, animations play, forms work</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Chrome (latest)</td><td></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Firefox (latest)</td><td></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Safari (latest)</td><td></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Edge (latest)</td><td></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>iOS Safari</td><td></td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Android Chrome</td><td></td><td></td></tr>
+</table>
+
+<h3>16D. SEO &amp; Meta Tags (All Pages)</h3>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Page &lt;title&gt; tag</td><td>Unique per page; contains relevant keywords</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Meta description</td><td>Unique per page; under 160 characters</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Open Graph (og:title, og:image, og:description)</td><td>Present; correct for social sharing</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Canonical URL</td><td>Present and correct on all pages</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>H1 heading (one per page)</td><td>Exactly one H1; contains target keywords</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Image alt text</td><td>All images have descriptive alt text</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Structured data (JSON-LD)</td><td>Present where applicable</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Sitemap</td><td>Accessible at /sitemap.xml</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Robots.txt</td><td>Accessible; not blocking important pages</td><td></td></tr>
+</table>
+
+<h3>16E. Performance</h3>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Homepage load time</td><td>Under 3 seconds on broadband</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Lazy-loaded sections</td><td>Load on scroll; no premature load</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>No console errors</td><td>Zero errors in browser console</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>No console warnings</td><td>Minimal warnings</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Image optimization</td><td>Images use WebP/modern formats; reasonable sizes</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Code splitting</td><td>Route-based code splitting works</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Lighthouse score</td><td>Performance ≥ 80 / Accessibility ≥ 90 / SEO ≥ 90</td><td></td></tr>
+</table>
+
+<h3>16F. Accessibility</h3>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Keyboard navigation (Tab)</td><td>All interactive elements reachable via Tab</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Focus indicators visible</td><td>Focus ring visible on all focusable elements</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Screen reader compatibility</td><td>ARIA labels on buttons/icons; semantic HTML</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Color contrast ratio</td><td>Min 4.5:1 for text; 3:1 for large text</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Form label associations</td><td>All inputs have associated labels</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Skip to content link</td><td>Present for keyboard users</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>No keyboard traps</td><td>Focus not trapped in modals/menus</td><td></td></tr>
+</table>
+
+<h3>16G. Security</h3>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>HTTPS everywhere</td><td>All pages served over HTTPS</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>No sensitive data in URLs</td><td>Tokens/passwords not in query params (except oobCode)</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Password fields masked</td><td>Default state is hidden (••••)</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Protected route enforcement</td><td>Cannot access /dashboard, /merchant-dashboard, /superadmin without auth</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Role separation</td><td>Users cannot access merchant dashboard; merchants cannot access admin</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>No secrets in source</td><td>No API keys, tokens, passwords in client code</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>External links use noopener</td><td>target="_blank" links have rel="noopener noreferrer"</td><td></td></tr>
+</table>
+
+<h3>16H. Wallet Integration (Solana)</h3>
+<table>
+  <tr><th class="chk"></th><th>Test Item</th><th>Expected Behavior</th><th>Result</th></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Connect wallet (Phantom)</td><td>Wallet adapter modal shows; connects</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Connect wallet (Solflare)</td><td>Adapter detects and connects</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Disconnect wallet</td><td>Disconnects; UI updates</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>No wallet installed</td><td>Shows "install wallet" message or link</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Wallet address display</td><td>Shows truncated address after connect</td><td></td></tr>
+  <tr><td class="chk"><span class="chk-box"></span></td><td>Link wallet to account</td><td>API call succeeds; dashboard updates</td><td></td></tr>
+</table>
+
+<!-- ================================================================ -->
+
+<h2>Notes &amp; Issues Log</h2>
+<table>
+  <tr><th style="width:30px">#</th><th style="width:120px">Page / Route</th><th style="width:60px">Severity</th><th>Issue Description</th><th style="width:70px">Screenshot?</th></tr>
+  <tr><td>1</td><td></td><td></td><td style="min-height:30px"></td><td></td></tr>
+  <tr><td>2</td><td></td><td></td><td style="min-height:30px"></td><td></td></tr>
+  <tr><td>3</td><td></td><td></td><td style="min-height:30px"></td><td></td></tr>
+  <tr><td>4</td><td></td><td></td><td style="min-height:30px"></td><td></td></tr>
+  <tr><td>5</td><td></td><td></td><td style="min-height:30px"></td><td></td></tr>
+  <tr><td>6</td><td></td><td></td><td style="min-height:30px"></td><td></td></tr>
+  <tr><td>7</td><td></td><td></td><td style="min-height:30px"></td><td></td></tr>
+  <tr><td>8</td><td></td><td></td><td style="min-height:30px"></td><td></td></tr>
+  <tr><td>9</td><td></td><td></td><td style="min-height:30px"></td><td></td></tr>
+  <tr><td>10</td><td></td><td></td><td style="min-height:30px"></td><td></td></tr>
+  <tr><td>11</td><td></td><td></td><td style="min-height:30px"></td><td></td></tr>
+  <tr><td>12</td><td></td><td></td><td style="min-height:30px"></td><td></td></tr>
+  <tr><td>13</td><td></td><td></td><td style="min-height:30px"></td><td></td></tr>
+  <tr><td>14</td><td></td><td></td><td style="min-height:30px"></td><td></td></tr>
+  <tr><td>15</td><td></td><td></td><td style="min-height:30px"></td><td></td></tr>
+</table>
+
+<div class="footer-doc">
+  Blip Money — QA Testing Checklist &bull; March 13, 2026<br>
+  Total test items: ~250+ &bull; Generated from codebase analysis
+</div>
+
+</body>
+</html>

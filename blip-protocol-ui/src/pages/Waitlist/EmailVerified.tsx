@@ -98,7 +98,7 @@ export default function EmailVerified() {
             {/* Manual Link */}
             <Link
               to="/waitlist"
-              className="inline-block w-full py-3 bg-black dark:bg-white text-white dark:text-black font-medium rounded-sm hover:bg-black/90 dark:hover:bg-white/90 transition-all"
+              className="inline-block w-full py-3 bg-white text-black border border-black/10 font-medium rounded-sm hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all"
             >
               Continue to Login
             </Link>
@@ -134,7 +134,7 @@ export default function EmailVerified() {
             <div className="space-y-3">
               <Link
                 to="/waitlist"
-                className="block w-full py-3 bg-black dark:bg-white text-white dark:text-black font-medium rounded-sm hover:bg-black/90 dark:hover:bg-white/90 transition-all"
+                className="block w-full py-3 bg-white text-black border border-black/10 font-medium rounded-sm hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all"
               >
                 Go to Login
               </Link>

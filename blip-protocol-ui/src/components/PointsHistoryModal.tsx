@@ -217,7 +217,7 @@ export default function PointsHistoryModal({
         <div className="p-4 border-t border-black/10 dark:border-zinc-800">
           <button
             onClick={onClose}
-            className="w-full py-3 rounded-sm font-bold bg-black dark:bg-white text-white dark:text-black hover:bg-black/90 dark:hover:bg-white/90 transition-colors"
+            className="w-full py-3 rounded-full font-semibold bg-white text-black border border-black/10 transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98]"
           >
             Close
           </button>

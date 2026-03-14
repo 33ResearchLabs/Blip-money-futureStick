@@ -104,12 +104,16 @@ function Cell({
         className="inline-flex items-center justify-center w-6 h-6 rounded-full"
         style={{
           background: isBlip
-            ? "rgba(255,107,53,0.15)"
+            ? isDark
+              ? "rgba(255,255,255,0.15)"
+              : "rgba(0,0,0,0.1)"
             : isDark
               ? "rgba(255,255,255,0.04)"
               : "rgba(0,0,0,0.04)",
           border: isBlip
-            ? "1px solid rgba(255,107,53,0.3)"
+            ? isDark
+              ? "1px solid rgba(255,255,255,0.3)"
+              : "1px solid rgba(0,0,0,0.25)"
             : isDark
               ? "1px solid rgba(255,255,255,0.08)"
               : "1px solid rgba(0,0,0,0.08)",
@@ -120,7 +124,9 @@ function Cell({
             width: 11,
             height: 11,
             color: isBlip
-              ? "#ff6b35"
+              ? isDark
+                ? "#ffffff"
+                : "#000000"
               : isDark
                 ? "rgba(255,255,255,0.45)"
                 : "rgba(0,0,0,0.35)",
@@ -147,7 +153,9 @@ function Cell({
         fontFamily: "monospace",
         fontWeight: isBlip ? 700 : 400,
         color: isBlip
-          ? "#ff6b35"
+          ? isDark
+            ? "#ffffff"
+            : "#000000"
           : isDark
             ? "rgba(255,255,255,0.4)"
             : "rgba(0,0,0,0.4)",
@@ -176,8 +184,8 @@ const ComparisonSection = () => {
         className="absolute top-0 left-0 right-0 h-px"
         style={{
           background: isDark
-            ? "linear-gradient(90deg, transparent, rgba(255,107,53,0.3) 50%, transparent)"
-            : "linear-gradient(90deg, transparent, rgba(255,107,53,0.15) 50%, transparent)",
+            ? "linear-gradient(90deg, transparent, rgba(255,255,255,0.15) 50%, transparent)"
+            : "linear-gradient(90deg, transparent, rgba(0,0,0,0.08) 50%, transparent)",
         }}
       />
       <div
@@ -190,8 +198,8 @@ const ComparisonSection = () => {
           height: 400,
           borderRadius: "50%",
           background: isDark
-            ? "radial-gradient(ellipse, rgba(255,107,53,0.06) 0%, transparent 70%)"
-            : "radial-gradient(ellipse, rgba(255,107,53,0.04) 0%, transparent 70%)",
+            ? "radial-gradient(ellipse, rgba(255,255,255,0.04) 0%, transparent 70%)"
+            : "radial-gradient(ellipse, rgba(0,0,0,0.03) 0%, transparent 70%)",
           filter: "blur(40px)",
         }}
       />
@@ -211,7 +219,7 @@ const ComparisonSection = () => {
               fontWeight: 600,
               letterSpacing: "3px",
               textTransform: "uppercase",
-              color: "rgba(255,107,53,0.6)",
+              color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.45)",
               marginBottom: 20,
             }}
           >
@@ -296,11 +304,15 @@ const ComparisonSection = () => {
                             fontSize: 8,
                             fontWeight: 700,
                             letterSpacing: "2px",
-                            color: "#ff6b35",
+                            color: isDark ? "#000000" : "#000000",
                             textTransform: "uppercase",
                             padding: "2px 8px",
-                            background: "rgba(255,107,53,0.12)",
-                            border: "1px solid rgba(255,107,53,0.2)",
+                            background: isDark
+                              ? "rgba(255,255,255,0.9)"
+                              : "rgba(0,0,0,0.08)",
+                            border: isDark
+                              ? "1px solid rgba(255,255,255,0.95)"
+                              : "1px solid rgba(0,0,0,0.12)",
                             borderRadius: 999,
                           }}
                         >
@@ -333,11 +345,19 @@ const ComparisonSection = () => {
                           left: 0,
                           right: 0,
                           bottom: 0,
-                          borderLeft: "1px solid rgba(255,107,53,0.2)",
-                          borderRight: "1px solid rgba(255,107,53,0.2)",
-                          borderTop: "1px solid rgba(255,107,53,0.2)",
+                          borderLeft: isDark
+                            ? "1px solid rgba(255,255,255,0.15)"
+                            : "1px solid rgba(0,0,0,0.1)",
+                          borderRight: isDark
+                            ? "1px solid rgba(255,255,255,0.15)"
+                            : "1px solid rgba(0,0,0,0.1)",
+                          borderTop: isDark
+                            ? "1px solid rgba(255,255,255,0.15)"
+                            : "1px solid rgba(0,0,0,0.1)",
                           borderRadius: "12px 12px 0 0",
-                          background: "rgba(255,107,53,0.03)",
+                          background: isDark
+                            ? "rgba(255,255,255,0.08)"
+                            : "#ffffff",
                           pointerEvents: "none",
                         }}
                       />
@@ -403,9 +423,15 @@ const ComparisonSection = () => {
                         position: "relative",
                         ...(col.accent
                           ? {
-                              background: "rgba(255,107,53,0.025)",
-                              borderLeft: "1px solid rgba(255,107,53,0.15)",
-                              borderRight: "1px solid rgba(255,107,53,0.15)",
+                              background: isDark
+                                ? "rgba(255,255,255,0.08)"
+                                : "#ffffff",
+                              borderLeft: isDark
+                                ? "1px solid rgba(255,255,255,0.15)"
+                                : "1px solid rgba(0,0,0,0.08)",
+                              borderRight: isDark
+                                ? "1px solid rgba(255,255,255,0.15)"
+                                : "1px solid rgba(0,0,0,0.08)",
                             }
                           : {}),
                       }}
@@ -431,11 +457,19 @@ const ComparisonSection = () => {
                       height: 0,
                       ...(col.accent
                         ? {
-                            borderLeft: "1px solid rgba(255,107,53,0.2)",
-                            borderRight: "1px solid rgba(255,107,53,0.2)",
-                            borderBottom: "1px solid rgba(255,107,53,0.2)",
+                            borderLeft: isDark
+                              ? "1px solid rgba(255,255,255,0.15)"
+                              : "1px solid rgba(0,0,0,0.1)",
+                            borderRight: isDark
+                              ? "1px solid rgba(255,255,255,0.15)"
+                              : "1px solid rgba(0,0,0,0.1)",
+                            borderBottom: isDark
+                              ? "1px solid rgba(255,255,255,0.15)"
+                              : "1px solid rgba(0,0,0,0.1)",
                             borderRadius: "0 0 12px 12px",
-                            background: "rgba(255,107,53,0.03)",
+                            background: isDark
+                              ? "rgba(255,255,255,0.08)"
+                              : "#ffffff",
                           }
                         : {}),
                     }}
@@ -446,6 +480,7 @@ const ComparisonSection = () => {
           </table>
         </motion.div>
 
+        {/* ── Bottom summary stats ── */}
         {/* ── Bottom summary stats ── */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

@@ -5,15 +5,19 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-semibold ring-offset-background transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] dark:hover:shadow-[0_4px_16px_rgba(255,255,255,0.08)] active:scale-[0.98]",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
+        default:
+          "bg-white text-black border border-black/10 dark:bg-white dark:text-black dark:border-white/10 hover:scale-[1.02] hover:bg-gray-50 dark:hover:bg-gray-100",
+        secondary:
+          "bg-transparent text-black border border-gray-400 dark:text-white dark:border-gray-500 hover:scale-[1.02] hover:border-gray-600 dark:hover:border-gray-300 hover:bg-black/5 dark:hover:bg-white/5",
+        destructive:
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90 hover:scale-[1.02]",
+        outline:
+          "border border-black/20 dark:border-white/20 bg-transparent text-black dark:text-white hover:scale-[1.02] hover:border-black/40 dark:hover:border-white/40 hover:bg-black/[0.03] dark:hover:bg-white/[0.03]",
+        ghost: "hover:bg-accent hover:text-accent-foreground hover:scale-[1.02]",
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
