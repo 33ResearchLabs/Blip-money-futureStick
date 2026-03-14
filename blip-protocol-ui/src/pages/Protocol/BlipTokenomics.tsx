@@ -161,9 +161,9 @@ const HeroSection = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5 }}
-          className="  mt-4 
-             flex flex-col items-center gap-3"
+          className="mt-16 md:mt-24 lg:mt-32 xl:mt-48 flex flex-col items-center gap-3"
         >
+          {" "}
           <span className="text-xs text-gray-500 uppercase tracking-[0.2em]">
             Explore
           </span>

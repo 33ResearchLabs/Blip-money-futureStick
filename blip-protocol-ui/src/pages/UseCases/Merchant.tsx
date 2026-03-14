@@ -36,7 +36,10 @@ import { CinematicMockup } from "@/components/CinemeticMockup";
 import { sounds } from "@/lib/sounds";
 import { FeatureGrid } from "@/components/sections/FeatureGrid";
 import { CTASection } from "@/components/sections/CTASection";
-import { MerchantDashboard } from "@/components/MerchantDashboard";
+import {
+  MerchantDashboard,
+  MerchantDashboardVisual,
+} from "@/components/MerchantDashboard";
 
 /* ----------------------------------
       MAIN SECTION
@@ -153,7 +156,6 @@ const WhyBlipSection = () => {
                   const isActive = activeIndex === index;
                   const isPrimary = activeIndex === null && index === 0;
 
-
                   return (
                     <motion.div
                       key={f.title}
@@ -233,7 +235,6 @@ const WhyBlipSection = () => {
               </div>
             </motion.div>
           </div>
-
         </div>
       </div>
     </section>
@@ -321,64 +322,30 @@ const DashboardSection = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-stretch">
-          {/* Dashboard Preview Placeholder */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8 }}
-            className="
-  relative
-  w-full
-  min-h-[388px]
-  
-  md:min-h-[476px]
-  xl:min-h-[460px]
-  rounded-xl sm:rounded-2xl
-  order-2 lg:order-1 overflow-hidden lg:overflow-auto
-"
+          {/* Dashboard Preview */}
+          <div
+            key={1}
+            style={{
+              width: 560,
+              height: 520,
+              position: "relative",
+              overflow: "hidden",
+              borderRadius: 16,
+            }}
           >
-            {/* Placeholder frame */}
-            <div className="absolute inset-0 bg-white/80 dark:bg-[#0a0a0a] border border-black/10 dark:border-white/10 rounded-2xl">
-              {/* Mock dashboard header */}
-              <div className="p-4 border-b border-black/5 dark:border-white/5">
-                <div className="flex items-center gap-3">
-                  <div className="w-3 h-3 rounded-full bg-black/10 dark:bg-white/10" />
-                  <div className="w-3 h-3 rounded-full bg-black/10 dark:bg-white/10" />
-                  <div className="w-3 h-3 rounded-full bg-black/10 dark:bg-white/10" />
-                  <div className="flex-1 h-4 bg-black/5 dark:bg-white/5 rounded ml-4" />
-                </div>
-              </div>
-
-              {/* Mock content */}
-              <div className="p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-                  <div className="flex-1 h-24 bg-black/[0.02] dark:bg-white/[0.02] rounded-lg border border-black/5 dark:border-white/5" />
-                  <div className="flex-1 h-24 bg-black/[0.02] dark:bg-white/[0.02] rounded-lg border border-black/5 dark:border-white/5" />
-                  <div className="flex-1 h-24 bg-black/[0.02] dark:bg-white/[0.02] rounded-lg border border-black/5 dark:border-white/5" />
-                </div>
-                <div className="h-40 bg-black/[0.02] dark:bg-white/[0.02] rounded-lg border border-black/5 dark:border-white/5" />
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                  <div className="flex-1 h-20 bg-black/[0.02] dark:bg-white/[0.02] rounded-lg border border-black/5 dark:border-white/5" />
-                  <div className="flex-1 h-20 bg-black/[0.02] dark:bg-white/[0.02] rounded-lg border border-black/5 dark:border-white/5" />
-                </div>
-              </div>
-
-              {/* "Screenshot coming soon" overlay */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-16 h-16 rounded-2xl bg-black/5 dark:bg-white/5 flex items-center justify-center mx-auto mt-4">
-                    <BarChart3 className="w-8 h-8 text-black/20 dark:text-white/20" />
-                  </div>
-                  <p className="text-sm text-black/30 dark:text-white/30">
-                    Dashboard Preview
-                  </p>
-                </div>
-              </div>
+            <div
+              style={{
+                transform: "scale(0.46)",
+                transformOrigin: "top left",
+                width: 1220,
+                position: "absolute",
+                top: 0,
+                left: 0,
+              }}
+            >
+              <MerchantDashboardVisual />
             </div>
-
-            {/* Glow effect */}
-            <div className="absolute inset-0 rounded-2xl shadow-[0_0_80px_rgba(255,255,255,0.1)] pointer-events-none" />
-          </motion.div>
+          </div>
 
           {/* Callouts */}
           <motion.div
@@ -387,7 +354,7 @@ const DashboardSection = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="space-y-4 order-1 lg:order-2"
           >
-            {callouts.map((callout, index) => {
+            {callouts.map((callout) => {
               const Icon = callout.icon;
               return (
                 <div
@@ -398,6 +365,7 @@ const DashboardSection = () => {
                   <div className="w-10 h-10 rounded-lg bg-black/5 dark:bg-white/5 flex items-center justify-center flex-shrink-0">
                     <Icon className="w-5 h-5 text-black/60 dark:text-white/60" />
                   </div>
+
                   <div>
                     <h4 className="text-base font-medium text-black dark:text-white mb-1">
                       {callout.title}

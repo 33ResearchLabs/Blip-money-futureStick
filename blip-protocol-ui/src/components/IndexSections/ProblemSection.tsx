@@ -119,6 +119,8 @@ function NightGlobe() {
   );
 
   useEffect(() => {
+    if (!canvasRef.current) return;
+
     const onResize = () => {
       if (canvasRef.current) widthRef.current = canvasRef.current.offsetWidth;
     };
@@ -134,38 +136,43 @@ function NightGlobe() {
     };
     window.addEventListener("scroll", onScroll, { passive: true });
 
-    const globe = createGlobe(canvasRef.current!, {
-      devicePixelRatio: 2,
-      width: widthRef.current * 2,
-      height: widthRef.current * 2,
-      phi: 0.5,
-      theta: 0.42,
-      dark: 1,
-      diffuse: 1.4,
-      mapSamples: 20000,
-      mapBrightness: 7,
-      baseColor: [0.06, 0.07, 0.12],
-      markerColor: [1, 0.82, 0.28],
-      glowColor: [0.18, 0.32, 0.72],
-      markers: [
-        { location: [25.2048, 55.2708], size: 0.06 }, // Dubai
-        { location: [40.7128, -74.006], size: 0.05 }, // New York
-        { location: [51.5074, -0.1278], size: 0.05 }, // London
-        { location: [1.3521, 103.8198], size: 0.045 }, // Singapore
-        { location: [35.6762, 139.6503], size: 0.04 }, // Tokyo
-        { location: [19.076, 72.8777], size: 0.04 }, // Mumbai
-        { location: [48.8566, 2.3522], size: 0.04 }, // Paris
-        { location: [-23.5505, -46.6333], size: 0.04 }, // São Paulo
-      ],
-      onRender: (state) => {
-        state.phi = phiRef.current;
-        state.width = widthRef.current * 2;
-        state.height = widthRef.current * 2;
-      },
-    });
+    let globe: ReturnType<typeof createGlobe> | null = null;
+    try {
+      globe = createGlobe(canvasRef.current, {
+        devicePixelRatio: 2,
+        width: widthRef.current * 2,
+        height: widthRef.current * 2,
+        phi: 0.5,
+        theta: 0.42,
+        dark: 1,
+        diffuse: 1.4,
+        mapSamples: 20000,
+        mapBrightness: 7,
+        baseColor: [0.06, 0.07, 0.12],
+        markerColor: [1, 0.82, 0.28],
+        glowColor: [0.18, 0.32, 0.72],
+        markers: [
+          { location: [25.2048, 55.2708], size: 0.06 }, // Dubai
+          { location: [40.7128, -74.006], size: 0.05 }, // New York
+          { location: [51.5074, -0.1278], size: 0.05 }, // London
+          { location: [1.3521, 103.8198], size: 0.045 }, // Singapore
+          { location: [35.6762, 139.6503], size: 0.04 }, // Tokyo
+          { location: [19.076, 72.8777], size: 0.04 }, // Mumbai
+          { location: [48.8566, 2.3522], size: 0.04 }, // Paris
+          { location: [-23.5505, -46.6333], size: 0.04 }, // São Paulo
+        ],
+        onRender: (state) => {
+          state.phi = phiRef.current;
+          state.width = widthRef.current * 2;
+          state.height = widthRef.current * 2;
+        },
+      });
+    } catch (e) {
+      console.warn("Globe initialization failed:", e);
+    }
 
     return () => {
-      globe.destroy();
+      globe?.destroy();
       window.removeEventListener("resize", onResize);
       window.removeEventListener("scroll", onScroll);
     };

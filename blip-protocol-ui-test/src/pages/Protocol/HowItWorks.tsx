@@ -274,18 +274,18 @@ const CoreProtocolSection = () => {
       className="relative md:py-40 py-12 bg-[#FAF8F5] dark:bg-black overflow-hidden"
     >
       {/* Background text */}
-      <motion.div
+      {/* <motion.div
         className="absolute top-1/2 left-0 -translate-y-1/2 whitespace-nowrap text-[15vw] font-bold text-black/[0.015] dark:text-white/[0.015] select-none pointer-events-none"
         style={{
           x: useTransform(scrollYProgress, [0, 1], ["0%", "-30%"]),
         }}
       >
         TRUST REDEFINED • TRUST REDEFINED • TRUST REDEFINED •
-      </motion.div>
+      </motion.div> */}
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         {/* Header */}
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -300,7 +300,7 @@ const CoreProtocolSection = () => {
             <br />
             <span className="text-black/70 dark:text-white/50">Redefined.</span>
           </h2>
-        </motion.div>
+        </motion.div> */}
 
         {/* Pillars grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
