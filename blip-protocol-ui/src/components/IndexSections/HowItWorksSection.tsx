@@ -403,12 +403,8 @@ const App = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1 }}
-          className="text-black dark:text-white"
+          className="heading-h2 text-black dark:text-white"
           style={{
-            fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
-            fontWeight: 700,
-            letterSpacing: "-0.04em",
-            lineHeight: 1.08,
             marginBottom: 12,
           }}
         >
@@ -423,7 +419,7 @@ const App = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.1 }}
-          className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-lg text-center mx-auto leading-relaxed mb-10 font-medium"
+          className="p-large text-black/80 dark:text-white/50 max-w-lg text-center mx-auto mb-10"
         >
           Send, trade, pay, or cash out — all from your crypto balance.
           <br /> No banks, no delays, no complexity.
@@ -490,13 +486,7 @@ const App = () => {
               </span>
             </div>
             <h3
-              className="select-none text-black dark:text-white"
-              style={{
-                fontSize: "clamp(2.2rem, 7vw, 3.5rem)",
-                fontWeight: 700,
-                letterSpacing: "-0.04em",
-                lineHeight: 1.05,
-              }}
+              className="heading-h3 select-none text-black dark:text-white"
             >
               {step.h1}
               <br />
@@ -504,7 +494,7 @@ const App = () => {
                 {step.h2}
               </span>
             </h3>
-            <p className="text-sm md:text-base text-black/70 dark:text-white/45 leading-relaxed font-medium">
+            <p className="p-small text-black/70 dark:text-white/45">
               {step.desc}
             </p>
             {step.cta && (
@@ -575,26 +565,20 @@ const App = () => {
                 <span className="text-black/80 dark:text-white/50 font-bold tracking-[0.3em] uppercase text-xs">
                   {s.label}
                 </span>
-                <motion.h2
+                <motion.h3
                   initial={{ opacity: 0, scale: 0.99 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 1.2, ease: "easeOut" }}
-                  className="select-none text-black dark:text-white"
-                  style={{
-                    fontSize: "clamp(2.4rem, 4.5vw, 3.5rem)",
-                    fontWeight: 700,
-                    letterSpacing: "-0.04em",
-                    lineHeight: 1.05,
-                  }}
+                  className="heading-h3 select-none text-black dark:text-white"
                 >
                   {s.h1}
                   <br />
                   <span className="text-black/50 dark:text-white/40">
                     {s.h2}
                   </span>
-                </motion.h2>
-                <p className="text-base md:text-lg text-black/70 dark:text-white/45 leading-relaxed max-w-md font-medium">
+                </motion.h3>
+                <p className="p-medium text-black/70 dark:text-white/45 max-w-md">
                   {s.desc}
                 </p>
                 {s.last && (

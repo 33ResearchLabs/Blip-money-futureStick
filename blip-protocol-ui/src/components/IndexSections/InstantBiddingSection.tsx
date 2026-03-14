@@ -94,7 +94,7 @@ const InstantBiddingSection = () => {
               Match
             </span>
           </div>
-          <h2 className="text-black dark:text-white" style={{ fontSize: "clamp(2.8rem, 5.5vw, 5rem)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 1.08, marginBottom: 16 }}>
+          <h2 className="heading-h2 text-black dark:text-white" style={{ marginBottom: 16 }}>
             Instant{" "}
             <span className="text-black/70 dark:text-white/50 relative inline-block">
               <span className="relative z-10">bidding.</span>
@@ -111,7 +111,7 @@ const InstantBiddingSection = () => {
               /> */}
             </span>
           </h2>
-          <p className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 font-medium max-w-2xl mx-auto hidden sm:block leading-relaxed">
+          <p className="p-large text-black/80 dark:text-white/50 max-w-2xl mx-auto hidden sm:block">
             Merchants compete in real-time for your order.
             <br />
             You automatically get the best rate.

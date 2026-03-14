@@ -174,6 +174,33 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
     }
   };
 
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    const newErrors = { ...errors };
+
+    if (name === "email") {
+      if (!value) {
+        newErrors.email = "Email is required";
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+        newErrors.email = "Invalid email format";
+      } else {
+        delete newErrors.email;
+      }
+    }
+
+    if (name === "password") {
+      if (!value) {
+        newErrors.password = "Password is required";
+      } else if (value.length < 8) {
+        newErrors.password = "Password is too short";
+      } else {
+        delete newErrors.password;
+      }
+    }
+
+    setErrors(newErrors);
+  };
+
   // 2FA Modal
   if (show2FA) {
     return (
@@ -268,6 +295,7 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
+                onBlur={handleBlur}
                 className={`w-full pl-12 pr-4 py-3.5 bg-black/[0.02] dark:bg-white/[0.03] border ${
                   errors.email
                     ? "border-red-500/50 ring-2 ring-red-500/10"
@@ -313,6 +341,7 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
+                onBlur={handleBlur}
                 className={`w-full pl-12 pr-12 py-3.5 bg-black/[0.02] dark:bg-white/[0.03] border ${
                   errors.password
                     ? "border-red-500/50 ring-2 ring-red-500/10"

@@ -292,12 +292,9 @@ const ProblemSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, ease: EASE }}
+          className="heading-h2"
           style={{
             textAlign: "center",
-            fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
-            fontWeight: 700,
-            letterSpacing: "-0.04em",
-            lineHeight: 1.08,
             marginBottom: 20,
           }}
         >
@@ -324,7 +321,7 @@ const ProblemSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.15, ease: EASE }}
-          className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-lg text-center mx-auto leading-relaxed mb-10 font-medium"
+          className="p-large text-black/80 dark:text-white/50 max-w-lg text-center mx-auto mb-10"
         >
           The traditional financial system was built for a different era.
           Stablecoin adoption is rising. Merchants are stuck. The timing is now.

@@ -277,12 +277,8 @@ export const MerchantDashboardSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-black dark:text-white"
+            className="heading-h2 text-black dark:text-white"
             style={{
-              fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
-              fontWeight: 700,
-              letterSpacing: "-0.04em",
-              lineHeight: 1.08,
               marginBottom: 24,
             }}
           >
@@ -298,7 +294,7 @@ export const MerchantDashboardSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="md:text-lg text-base text-black/80 dark:text-white/40 max-w-2xl md:mx-auto mx-4"
+            className="p-large text-black/80 dark:text-white/40 max-w-2xl md:mx-auto mx-4"
           >
             Real-time order matching. Set your rates. Accept orders.
             <br />
@@ -338,7 +334,7 @@ export const MerchantDashboardSection = () => {
               <h3 className="text-base font-medium text-black dark:text-white mb-2">
                 {feature.title}
               </h3>
-              <p className="text-sm text-black dark:text-white/40">
+              <p className="p-small text-black dark:text-white/40">
                 {feature.desc}
               </p>
             </div>

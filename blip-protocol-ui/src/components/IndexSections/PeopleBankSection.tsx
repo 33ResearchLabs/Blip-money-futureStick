@@ -116,11 +116,8 @@ const PeopleBankSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="heading-h2"
             style={{
-              fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
-              fontWeight: 700,
-              letterSpacing: "-0.04em",
-              lineHeight: 1.08,
               marginBottom: 24,
             }}
           >
@@ -133,7 +130,7 @@ const PeopleBankSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="text-base md:text-lg text-white/30 max-w-xl mx-auto leading-relaxed"
+            className="p-medium text-white/30 max-w-xl mx-auto"
           >
             A decentralized, human-powered liquidity network
           </motion.p>

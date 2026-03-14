@@ -489,7 +489,7 @@ export default function NewSection() {
       <div className="max-w-[1400px] mx-auto px-6">
         {/* TITLE */}
         <div className="text-center mb-16">
-          <h2 className="text-black" style={{ fontSize: "clamp(2.8rem, 5.5vw, 5rem)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 1.08 }}>
+          <h2 className="heading-h2 text-black">
             Blip Money: The Real-Time Settlement Layer
           </h2>
         </div>

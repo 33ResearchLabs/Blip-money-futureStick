@@ -2,6 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Heading defaults */
+.heading-h2 {
+  font-size: clamp(2.8rem, 5.5vw, 5rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+}
+
+.heading-h3 {
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+/* ===== Paragraphs ===== */
+.p-large {
+  font-size: clamp(1rem, 1.2vw, 1.2rem);
+  line-height: 1.7;
+  letter-spacing: -0.01em;
+  font-weight: 500;
+}
+
+.p-medium {
+  font-size: clamp(0.9rem, 1vw, 1rem);
+  line-height: 1.6;
+  letter-spacing: -0.005em;
+  font-weight: 500;
+}
+
+.p-small {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  letter-spacing: -0.005em;
+}
+
 /* ============================================
    BLIP DESIGN SYSTEM
    Cinematic dark · Orange brand accent

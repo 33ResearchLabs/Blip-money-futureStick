@@ -32,12 +32,12 @@ const ProductShowcase = () => {
             <span className="text-[11px] uppercase tracking-[0.3em] text-white/30 font-light block mb-4">
               Experience
             </span>
-            <h2 className="text-white" style={{ fontSize: "clamp(2.8rem, 5.5vw, 5rem)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 1.08, marginBottom: 24 }}>
+            <h2 className="heading-h2 text-white" style={{ marginBottom: 24 }}>
               Built for speed.
               <br />
               <span className="text-white/40">Designed for you.</span>
             </h2>
-            <p className="text-lg text-white/50 leading-relaxed max-w-lg">
+            <p className="p-medium text-white/50 max-w-lg">
               Every detail crafted for the fastest, most intuitive payment
               experience. From your first transfer to your thousandth.
             </p>

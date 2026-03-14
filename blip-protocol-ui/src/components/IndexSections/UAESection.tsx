@@ -74,12 +74,8 @@ const UAESection = () => {
 
         {/* Heading */}
         <h2
-          className="text-white text-center"
+          className="heading-h2 text-white text-center"
           style={{
-            fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
-            fontWeight: 700,
-            letterSpacing: "-0.04em",
-            lineHeight: 1.08,
             marginBottom: 24,
           }}
         >
@@ -88,7 +84,7 @@ const UAESection = () => {
           <span className="text-white/80">Dubai.</span>
         </h2>
 
-        <p className="text-base md:text-lg text-white font-medium max-w-lg mx-auto text-center leading-relaxed mb-14">
+        <p className="p-large text-white max-w-lg mx-auto text-center mb-14">
           The UAE is the world's fastest-growing crypto hub. Blip's pilot starts
           here — live corridors, merchant onboarding, and on-chain settlement
           from day one.

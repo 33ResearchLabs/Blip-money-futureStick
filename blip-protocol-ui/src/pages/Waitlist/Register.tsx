@@ -246,6 +246,43 @@ export default function Register({
     }
   };
 
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    const newErrors = { ...errors };
+
+    if (name === "email") {
+      if (!value) {
+        newErrors.email = "Email is required";
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+        newErrors.email = "Invalid email format";
+      } else {
+        delete newErrors.email;
+      }
+    }
+
+    if (name === "password") {
+      if (!value) {
+        newErrors.password = "Password is required";
+      } else if (value.length < 8) {
+        newErrors.password = "Password must be at least 8 characters";
+      } else {
+        delete newErrors.password;
+      }
+    }
+
+    if (name === "confirmPassword") {
+      if (!value) {
+        newErrors.confirmPassword = "Please confirm your password";
+      } else if (value !== formData.password) {
+        newErrors.confirmPassword = "Passwords do not match";
+      } else {
+        delete newErrors.confirmPassword;
+      }
+    }
+
+    setErrors(newErrors);
+  };
+
   return (
     <div
       className={`${showStandalone ? "min-h-screen bg-[#FAF8F5] dark:bg-black mt-20" : ""} flex items-center justify-center `}
@@ -292,6 +329,7 @@ export default function Register({
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
+                onBlur={handleBlur}
                 className={`w-full pl-12 pr-4 py-3.5 bg-black/[0.02] dark:bg-white/[0.03] border ${
                   errors.email
                     ? "border-red-500/50 ring-2 ring-red-500/10"
@@ -324,6 +362,7 @@ export default function Register({
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
+                onBlur={handleBlur}
                 className={`w-full pl-12 pr-12 py-3.5 bg-black/[0.02] dark:bg-white/[0.03] border ${
                   errors.password
                     ? "border-red-500/50 ring-2 ring-red-500/10"
@@ -437,6 +476,7 @@ export default function Register({
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
+                onBlur={handleBlur}
                 className={`w-full pl-12 pr-12 py-3.5 bg-black/[0.02] dark:bg-white/[0.03] border ${
                   errors.confirmPassword
                     ? "border-red-500/50 ring-2 ring-red-500/10"

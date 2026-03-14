@@ -659,7 +659,7 @@ function InstantBiddingUnwrap() {
         transition={{ delay: 0.2, duration: 0.6 }}
         className="text-center mb-8"
       >
-        <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-black dark:text-white tracking-tight font-display">
+        <h3 className="heading-h3 text-black dark:text-white tracking-tight font-display">
           {stageCopy.instantBidding.headline}
         </h3>
         <p className="text-sm text-black/40 dark:text-white/40 mt-2 tracking-wide">
@@ -772,7 +772,7 @@ function VerifiedUnwrap() {
         transition={{ delay: 0.2, duration: 0.6 }}
         className="text-center mb-8"
       >
-        <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-black dark:text-white tracking-tight font-display">
+        <h3 className="heading-h3 text-black dark:text-white tracking-tight font-display">
           {stageCopy.verified.headline}
         </h3>
         <p className="text-sm text-black/40 dark:text-white/40 mt-2 tracking-wide">
@@ -1297,7 +1297,7 @@ function PremiumFintechSection() {
                     initial={{ opacity: 0, x: -40 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 1, delay: 0.1, ease: EASE }}
-                    className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight font-display bg-gradient-to-br from-black via-black/80 to-black/50 dark:from-white dark:via-white/80 dark:to-white/40 bg-clip-text text-transparent"
+                    className="heading-h3 leading-tight font-display bg-gradient-to-br from-black via-black/80 to-black/50 dark:from-white dark:via-white/80 dark:to-white/40 bg-clip-text text-transparent"
                   >
                     {stageCopy.phone.headline}
                   </motion.h3>
@@ -1365,13 +1365,7 @@ function PremiumFintechSection() {
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 2, delay: 0.3, ease: EASE }}
-                    className="bg-gradient-to-br from-black via-black/80 to-black/50 dark:from-white dark:via-white/80 dark:to-white/40 bg-clip-text text-transparent"
-                    style={{
-                      fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
-                      fontWeight: 700,
-                      letterSpacing: "-0.04em",
-                      lineHeight: 1.08,
-                    }}
+                    className="heading-h2 bg-gradient-to-br from-black via-black/80 to-black/50 dark:from-white dark:via-white/80 dark:to-white/40 bg-clip-text text-transparent"
                   >
                     {stageCopy.finale.headline}
                   </motion.h2>
@@ -1435,13 +1429,7 @@ function PremiumFintechSection() {
                       className="text-center"
                     >
                       <h2
-                        className="bg-gradient-to-br from-black via-black/80 to-black/50 dark:from-white dark:via-white/80 dark:to-white/40 bg-clip-text text-transparent inline-block"
-                        style={{
-                          fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
-                          fontWeight: 700,
-                          letterSpacing: "-0.04em",
-                          lineHeight: 1.08,
-                        }}
+                        className="heading-h2 bg-gradient-to-br from-black via-black/80 to-black/50 dark:from-white dark:via-white/80 dark:to-white/40 bg-clip-text text-transparent inline-block"
                       >
                         {stageCopy.list.headline}
                       </h2>
@@ -1472,13 +1460,7 @@ function PremiumFintechSection() {
                       className="text-center"
                     >
                       <h2
-                        className="bg-gradient-to-br from-black via-black/80 to-[#ff6b35]/70 dark:from-white dark:via-white/80 dark:to-[#ff6b35]/70 bg-clip-text text-transparent inline-block"
-                        style={{
-                          fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
-                          fontWeight: 700,
-                          letterSpacing: "-0.04em",
-                          lineHeight: 1.08,
-                        }}
+                        className="heading-h2 bg-gradient-to-br from-black via-black/80 to-[#ff6b35]/70 dark:from-white dark:via-white/80 dark:to-[#ff6b35]/70 bg-clip-text text-transparent inline-block"
                       >
                         {stageCopy.stacked.headline}
                       </h2>
@@ -1508,7 +1490,7 @@ function PremiumFintechSection() {
                       transition={{ duration: 0.8, delay: 0.2, ease: EASE }}
                       className="text-center"
                     >
-                      <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-black dark:text-white tracking-tight font-display inline-block">
+                      <h3 className="heading-h3 text-black dark:text-white tracking-tight font-display inline-block">
                         {stage === "trading"
                           ? stageCopy.trading.headline
                           : stageCopy.receipt.headline}

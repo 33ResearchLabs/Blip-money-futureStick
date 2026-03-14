@@ -1,10 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import {
-  motion,
-  useScroll,
-  useTransform,
-  MotionValue,
-} from "framer-motion";
+import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { Shield, Check } from "lucide-react";
 import { MerchantDashboardVisual } from "../MerchantDashboard";
 import { EscrowUI, BiddingUI, ExplorerUI } from "../FeatureCinema";
@@ -101,17 +96,14 @@ function Scene({
             >
               {eyebrow}
             </div>
-            <h2
-              className="font-display font-semibold text-white tracking-[-0.04em] leading-[0.95] mb-5"
-              style={{ fontSize: "clamp(2rem, 3.5vw, 3.5rem)" }}
-            >
+            <h2 className="heading-h3 text-white mb-5">
               {headline[0]}
               <br />
               <span style={{ color: "rgba(255,255,255,0.28)" }}>
                 {headline[1]}
               </span>
             </h2>
-            <p className="text-base text-white/40 leading-relaxed mb-8 max-w-[300px]">
+            <p className="p-medium text-white/40 mb-8 max-w-[300px]">
               {subline}
             </p>
             <div className="flex flex-col gap-3">

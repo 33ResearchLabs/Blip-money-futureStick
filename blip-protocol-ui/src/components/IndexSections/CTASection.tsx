@@ -96,11 +96,8 @@ const CTASection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          className="heading-h2"
           style={{
-            fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
-            fontWeight: 700,
-            letterSpacing: "-0.04em",
-            lineHeight: 1.08,
             marginBottom: 24,
           }}
         >
@@ -114,7 +111,7 @@ const CTASection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="text-base sm:text-lg text-black dark:text-white/40 font-medium max-w-md mx-auto mb-8 sm:mb-12 px-4"
+          className="p-large text-black dark:text-white/40 max-w-md mx-auto mb-8 sm:mb-12 px-4"
         >
           Access global liquidity. Start trading instantly.
         </motion.p>

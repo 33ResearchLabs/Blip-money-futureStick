@@ -150,10 +150,8 @@ const ProtocolInterstitial = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, ease: EASE }}
+            className="p-large"
             style={{
-              fontSize: 10,
-              fontWeight: 600,
-              letterSpacing: "3px",
               textTransform: "uppercase",
               color: isDark ? "#808080" : "#555555",
               marginBottom: 28,
@@ -167,12 +165,9 @@ const ProtocolInterstitial = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, ease: EASE }}
+            className="heading-h2"
             style={{
               textAlign: "center",
-              fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
-              fontWeight: 700,
-              letterSpacing: "-0.04em",
-              lineHeight: 1.08,
               marginBottom: 20,
             }}
           >
@@ -200,11 +195,9 @@ const ProtocolInterstitial = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.45, ease: EASE }}
+            className="p-large"
             style={{
               marginTop: 40,
-              fontSize: "clamp(0.95rem, 1.6vw, 1.25rem)",
-              fontWeight: 500,
-              lineHeight: 1.7,
               color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.35)",
               maxWidth: 480,
               marginLeft: "auto",

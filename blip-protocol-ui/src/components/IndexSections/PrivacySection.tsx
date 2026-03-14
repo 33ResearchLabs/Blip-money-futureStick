@@ -44,13 +44,7 @@ const PrivacySection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-black dark:text-white"
-            style={{
-              fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
-              fontWeight: 700,
-              letterSpacing: "-0.04em",
-              lineHeight: 1.08,
-            }}
+            className="heading-h2 text-black dark:text-white"
           >
             Your wallet.
             <br />
@@ -68,7 +62,7 @@ const PrivacySection = () => {
             transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="bg-[#FAF8F5] dark:bg-black p-6 sm:p-10 md:p-12 max-w-sm w-full text-center"
           >
-            <h3 className="text-xl font-medium text-black dark:text-white mb-6">Privacy</h3>
+            <h3 className="heading-h3 text-black dark:text-white mb-6">Privacy</h3>
 
             {/* ALIGNED LIST */}
             <ul className="space-y-4 mx-auto max-w-xs text-left pl-16 sm:pl-12">
@@ -96,7 +90,7 @@ const PrivacySection = () => {
             transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="bg-[#FAF8F5] dark:bg-black p-6 sm:p-10 md:p-12 max-w-sm w-full text-center"
           >
-            <h3 className="text-xl font-medium text-black dark:text-white mb-6">Trust</h3>
+            <h3 className="heading-h3 text-black dark:text-white mb-6">Trust</h3>
 
             {/* ALIGNED LIST */}
             <ul className="space-y-4 mx-auto max-w-xs text-left pl-16 sm:pl-12">

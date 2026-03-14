@@ -38,6 +38,7 @@ const BlipAirdropHub = () => {
   const [email, setEmail] = useState("");
   const [referral_code, setReferralCode] = useState("");
   const [isConnecting, setIsConnecting] = useState(false);
+  const [emailError, setEmailError] = useState("");
   // Derived state from wallet
   const isWalletConnected = connected;
   const walletAddress = publicKey
@@ -109,9 +110,20 @@ const BlipAirdropHub = () => {
   ]);
 
   // Actions
+  const validateEmail = (value: string) => {
+    if (!value) {
+      return "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+      return "Please enter a valid email address";
+    }
+    return "";
+  };
+
   const handleJoinWaitlist = (e) => {
     e.preventDefault();
-    if (email.includes("@")) {
+    const error = validateEmail(email);
+    setEmailError(error);
+    if (!error) {
       setView("connect");
     }
   };
@@ -398,11 +410,20 @@ const BlipAirdropHub = () => {
                   type="email"
                   required
                   placeholder="example@gmail.com"
-                  className="w-full bg-zinc-900/50 border border-zinc-800 py-4 pl-12 pr-4 rounded-sm text-white focus:outline-none focus:border-[#39ff14]/50 focus:ring-1 focus:ring-[#39ff14]/20 transition-all"
+                  className={`w-full bg-zinc-900/50 border ${emailError ? 'border-red-500/50 ring-1 ring-red-500/20' : 'border-zinc-800'} py-4 pl-12 pr-4 rounded-sm text-white focus:outline-none focus:border-[#39ff14]/50 focus:ring-1 focus:ring-[#39ff14]/20 transition-all`}
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (emailError) setEmailError("");
+                  }}
+                  onBlur={() => {
+                    if (email) setEmailError(validateEmail(email));
+                  }}
                 />
               </div>
+              {emailError && (
+                <p className="mt-1.5 text-xs text-red-400">{emailError}</p>
+              )}
               <div className="relative group">
                 {" "}
                 <HandCoins

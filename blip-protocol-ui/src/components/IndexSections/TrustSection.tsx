@@ -78,13 +78,13 @@ const TrustSection = () => {
         </div>
 
         {/* Heading */}
-        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight leading-[1.08] text-black dark:text-white text-center mb-6">
+        <h2 className="heading-h2 text-black dark:text-white text-center mb-6">
           Built for trust.
           <br />
           Designed for speed.
         </h2>
 
-        <p className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-lg text-center mx-auto leading-relaxed mb-10 font-medium">
+        <p className="p-large text-black/80 dark:text-white/50 max-w-lg text-center mx-auto mb-10">
           Blip is infrastructure, not a product. Designed to operate without
           trust — verified by code, secured by escrow, governed by reputation.
         </p>
@@ -125,7 +125,7 @@ const TrustSection = () => {
                   <h3 className="text-lg md:text-xl font-semibold text-black dark:text-white mb-2">
                     {card.title}
                   </h3>
-                  <p className="text-sm text-black/50 dark:text-white/40 leading-relaxed mb-3">
+                  <p className="p-small text-black/50 dark:text-white/40 mb-3">
                     {card.desc}
                   </p>
 

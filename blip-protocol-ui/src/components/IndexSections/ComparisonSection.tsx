@@ -226,11 +226,8 @@ const ComparisonSection = () => {
             Why Blip
           </p>
           <h2
+            className="heading-h2"
             style={{
-              fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
-              fontWeight: 700,
-              letterSpacing: "-0.04em",
-              lineHeight: 1.08,
               color: isDark ? "#ffffff" : "#1a1a1a",
               marginBottom: 16,
             }}
@@ -243,12 +240,11 @@ const ComparisonSection = () => {
             </span>
           </h2>
           <p
+            className="p-medium"
             style={{
-              fontSize: 20,
               color: isDark ? "rgba(255,255,255,0.35)" : "#555555",
               maxWidth: 440,
               margin: "0 auto",
-              lineHeight: 1.65,
             }}
           >
             Every alternative forces a trade-off. Blip doesn't.

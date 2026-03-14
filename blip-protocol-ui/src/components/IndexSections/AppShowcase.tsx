@@ -36,7 +36,7 @@ const AppShowcase = () => {
           <span className="text-[11px] uppercase tracking-[0.3em] text-white/30 font-light block mb-4">
             The Experience
           </span>
-          <h2 className="text-white" style={{ fontSize: "clamp(2.8rem, 5.5vw, 5rem)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 1.08 }}>
+          <h2 className="heading-h2 text-white">
             Simple. Fast. Beautiful.
           </h2>
         </motion.div>

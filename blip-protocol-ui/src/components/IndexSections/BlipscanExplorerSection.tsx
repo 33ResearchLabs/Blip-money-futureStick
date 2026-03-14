@@ -114,12 +114,8 @@ const BlipscanExplorerSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-black dark:text-white"
+            className="heading-h2 text-black dark:text-white"
             style={{
-              fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
-              fontWeight: 700,
-              letterSpacing: "-0.04em",
-              lineHeight: 1.08,
               marginBottom: 16,
             }}
           >
@@ -132,7 +128,7 @@ const BlipscanExplorerSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 font-medium max-w-2xl mx-auto hidden sm:block leading-relaxed"
+            className="p-large text-black/80 dark:text-white/50 max-w-2xl mx-auto hidden sm:block"
           >
             Every settlement is public and verifiable on Blipscan.
           </motion.p>

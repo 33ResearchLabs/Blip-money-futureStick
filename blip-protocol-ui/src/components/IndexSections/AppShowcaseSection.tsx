@@ -55,12 +55,8 @@ const AppShowcaseSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="text-black dark:text-white text-center"
+          className="heading-h2 text-black dark:text-white text-center"
           style={{
-            fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
-            fontWeight: 700,
-            letterSpacing: "-0.04em",
-            lineHeight: 1.08,
             marginBottom: 24,
           }}
         >
@@ -72,7 +68,7 @@ const AppShowcaseSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.15 }}
-          className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-lg text-center mx-auto leading-relaxed mb-10 font-medium"
+          className="p-large text-black/80 dark:text-white/50 max-w-lg text-center mx-auto mb-10"
         >
           Every screen engineered for speed. Every tap designed to disappear.
         </motion.p>

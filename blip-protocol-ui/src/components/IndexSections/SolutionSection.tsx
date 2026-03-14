@@ -178,11 +178,8 @@ const SolutionSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.9, delay: 0.1, ease: EASE }}
+            className="heading-h2"
             style={{
-              fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
-              fontWeight: 700,
-              letterSpacing: "-0.04em",
-              lineHeight: 1.08,
               marginBottom: 24,
             }}
           >
@@ -206,7 +203,7 @@ const SolutionSection = () => {
 
           {/* Subtitle */}
           <motion.p
-            className="text-base md:text-lg lg:text-xl text-black/60 dark:text-white/45 max-w-2xl mx-auto leading-relaxed font-medium"
+            className="p-large text-black/60 dark:text-white/45 max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

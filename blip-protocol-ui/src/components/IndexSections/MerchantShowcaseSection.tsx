@@ -115,11 +115,8 @@ const MerchantShowcaseSection = () => {
             Merchant Console
           </p>
           <h2
+            className="heading-h2"
             style={{
-              fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
-              fontWeight: 700,
-              letterSpacing: "-0.04em",
-              lineHeight: 1.08,
               color: "#ffffff",
               marginBottom: 16,
             }}
