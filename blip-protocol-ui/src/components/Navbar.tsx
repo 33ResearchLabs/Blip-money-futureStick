@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, memo, useCallback } from "react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import {
   ChevronRight,
@@ -130,7 +130,7 @@ export const Navbar = () => {
 
 /* ---------------- Logo ---------------- */
 
-export const Logo = ({ className = "", onDark = false }) => {
+export const Logo = memo(({ className = "", onDark = false }: { className?: string; onDark?: boolean }) => {
   return (
     <Link
       to="/"
@@ -168,7 +168,7 @@ export const Logo = ({ className = "", onDark = false }) => {
       </motion.span>
     </Link>
   );
-};
+});
 
 /* ---------------- Nav Item ---------------- */
 
@@ -244,8 +244,8 @@ export const CTAButton = ({
           hover:scale-[1.02] active:scale-[0.98]
           ${
             isPrimary
-              ? "bg-white text-black border border-black/10 hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)]"
-              : "bg-transparent text-white border border-gray-500 hover:border-gray-300 hover:bg-white/5 hover:shadow-[0_4px_16px_rgba(255,255,255,0.06)]"
+              ? "dark:bg-white dark:text-black border bg-black text-white border-black/10 hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)]"
+              : "dark:bg-transparent dark:text-white text-black  border border-gray-500 hover:border-gray-300 hover:bg-white/5 hover:shadow-[0_4px_16px_rgba(255,255,255,0.06)]"
           }
         `}
       >
@@ -264,14 +264,14 @@ export const CTAButton = ({
 
 /* ---------------- Theme Switcher ---------------- */
 
-const ThemeSwitcher = () => {
+const ThemeSwitcher = memo(() => {
   const { theme, setTheme } = useTheme();
 
-  const toggleTheme = () => {
+  const toggleTheme = useCallback(() => {
     const newTheme = theme === "dark" ? "light" : "dark";
     sounds.toggle(newTheme === "light");
     setTheme(newTheme);
-  };
+  }, [theme, setTheme]);
 
   return (
     <motion.button
@@ -290,11 +290,11 @@ const ThemeSwitcher = () => {
       )}
     </motion.button>
   );
-};
+});
 
 /* ---------------- Mobile Menu ---------------- */
 
-const MobileMenu = ({
+const MobileMenu = memo(({
   isOpen,
   onClose,
 }: {
@@ -373,4 +373,4 @@ const MobileMenu = ({
       </div>
     </>
   );
-};
+});

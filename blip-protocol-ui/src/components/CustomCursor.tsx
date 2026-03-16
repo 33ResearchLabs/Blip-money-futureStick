@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import { motion, useSpring, useMotionValue } from "framer-motion";
 
 /* ============================================
@@ -6,8 +6,9 @@ import { motion, useSpring, useMotionValue } from "framer-motion";
    Smooth, magnetic, context-aware cursor
    ============================================ */
 
-export const CustomCursor = () => {
+export const CustomCursor = memo(() => {
   const [isVisible, setIsVisible] = useState(false);
+  const [isTabActive, setIsTabActive] = useState(true);
   const [cursorVariant, setCursorVariant] = useState<"default" | "hover" | "click" | "text">("default");
   const cursorX = useMotionValue(0);
   const cursorY = useMotionValue(0);
@@ -100,7 +101,14 @@ export const CustomCursor = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // MotionValues are stable refs — no need in deps
 
-  if (!isVisible) return null;
+  // Pause rendering when tab is not visible to save CPU
+  useEffect(() => {
+    const handleVisibility = () => setIsTabActive(!document.hidden);
+    document.addEventListener("visibilitychange", handleVisibility);
+    return () => document.removeEventListener("visibilitychange", handleVisibility);
+  }, []);
+
+  if (!isVisible || !isTabActive) return null;
 
   const variants = {
     default: {
@@ -179,6 +187,6 @@ export const CustomCursor = () => {
       `}</style>
     </>
   );
-};
+});
 
 export default CustomCursor;

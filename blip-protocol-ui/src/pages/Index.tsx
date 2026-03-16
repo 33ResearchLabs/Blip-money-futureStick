@@ -1,10 +1,13 @@
 import { useEffect, lazy, Suspense } from "react";
 import { SEO } from "@/components";
-import CinematicHero from "@/components/IndexSections/CinematicHero";
-import ProblemSection from "@/components/IndexSections/ProblemSection";
-import DarkFintechSection from "@/components/IndexSections/DarkFintechSection";
-import ProtocolInterstitial from "@/components/IndexSections/ProtocolInterstitial";
 
+// Only the hero is eagerly loaded (above the fold)
+import CinematicHero from "@/components/IndexSections/CinematicHero";
+
+// Below-fold sections are lazy loaded to reduce initial bundle
+const ProblemSection = lazy(() => import("@/components/IndexSections/ProblemSection"));
+const DarkFintechSection = lazy(() => import("@/components/IndexSections/DarkFintechSection"));
+const ProtocolInterstitial = lazy(() => import("@/components/IndexSections/ProtocolInterstitial"));
 const ComparisonSection = lazy(() => import("@/components/IndexSections/ComparisonSection"));
 const HowItWorksSection = lazy(() => import("@/components/IndexSections/HowItWorksSection"));
 const AppShowcaseSection = lazy(() => import("@/components/IndexSections/AppShowcaseSection"));
@@ -56,15 +59,21 @@ const Index = () => {
             <CinematicHero />
 
             {/* 2. Problem → Why Now */}
-            <ProblemSection />
+            <Suspense fallback={null}>
+              <ProblemSection />
+            </Suspense>
 
           </div>
         </div>
         {/* Dark Fintech — Trading & Currency Section */}
-        <DarkFintechSection />
+        <Suspense fallback={null}>
+          <DarkFintechSection />
+        </Suspense>
 
         {/* 4. The Blip Protocol */}
-        <ProtocolInterstitial />
+        <Suspense fallback={null}>
+          <ProtocolInterstitial />
+        </Suspense>
 
         <Suspense fallback={null}>
           {/* 5. Why Blip — competitive comparison */}

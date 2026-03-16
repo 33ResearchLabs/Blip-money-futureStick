@@ -11,9 +11,11 @@ import {
   useSearchParams,
 } from "react-router-dom";
 
-import GoogleAnalytics from "@/components/GoogleAnalytics";
-import StructuredData from "@/components/StructuredData";
 import "./i18n";
+
+// Lazy load non-critical components that don't affect initial render
+const GoogleAnalytics = lazy(() => import("@/components/GoogleAnalytics"));
+const StructuredData = lazy(() => import("@/components/StructuredData"));
 
 import MainLayout from "./Layout/RootLayout";
 import ScrollToTop from "./components/ScrollToTop";
@@ -52,7 +54,6 @@ const RedeemTelegram = lazy(() => import("./pages/Waitlist/RedeemTelegram"));
 
 // Lazy load page components
 const Index = lazy(() => import("./pages/Index"));
-const RewardsLanding = lazy(() => import("./pages/Unused/Rewards"));
 const UAELandingPage = lazy(() => import("./pages/Unused/uae"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const BlipTokenomics = lazy(() => import("./pages/Protocol/BlipTokenomics"));
@@ -65,7 +66,6 @@ const HowItWorksPage = lazy(() =>
 const ContactUs = lazy(() => import("./pages/Company/ContactUs"));
 const UserLogin = lazy(() => import("./pages/Waitlist/UserLogin"));
 const Dashboard = lazy(() => import("./pages/Waitlist/Dashboard"));
-const AdminDashboard = lazy(() => import("./pages/Unused/AdminDashboard"));
 const Privacy = lazy(() => import("./pages/Legel/Privecy"));
 const TermsService = lazy(() => import("./components/TermsService"));
 const Cookies = lazy(() => import("./components/Cookies"));
@@ -120,7 +120,6 @@ const BestCryptoExchangeUae = lazy(
   () => import("./pages/Markets/BestCryptoExchangeUae"),
 );
 const BitcoinPriceUae = lazy(() => import("./pages/Markets/BitcoinPriceUae"));
-const Airdrop = lazy(() => import("./pages/Airdrop"));
 const Bounty = lazy(() => import("./pages/Bounty"));
 const RewardPage = lazy(() => import("./pages/RewardPage"));
 
@@ -141,7 +140,14 @@ const FirebaseActionHandler = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5 min — avoid refetching on every mount
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 // Loading fallback component
 const PageLoader = () => (
@@ -165,9 +171,11 @@ const App = () => (
             <Sonner />
 
             <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-              <GoogleAnalytics />
-              <StructuredData type="organization" />
-              <StructuredData type="website" />
+              <Suspense fallback={null}>
+                <GoogleAnalytics />
+                <StructuredData type="organization" />
+                <StructuredData type="website" />
+              </Suspense>
               <ScrollToTop />
               <Suspense fallback={<PageLoader />}>
                 <Routes>
