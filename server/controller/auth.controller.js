@@ -9,7 +9,8 @@ import jwt from "jsonwebtoken";
 import {
   sendVerificationEmail,
   sendCustomPasswordResetEmail,
-  sendPasswordResetEmailSMTP,
+  sendPasswordResetEmailSES,
+  sendVerificationEmailSES,
   sendWelcomeEmail,
 } from "../services/email.service.js";
 import { getFirebaseAdminAuth } from "../config/firebase-admin.js";
@@ -105,11 +106,17 @@ export const registerWithEmail = async (req, res) => {
       codeExists = await User.findOne({ referralCode });
     }
 
-    // Create user with email verification pending (Firebase handles verification)
+    // Generate secure email verification token
+    const verificationToken = crypto.randomBytes(32).toString("hex");
+    const hashedVerificationToken = crypto.createHash("sha256").update(verificationToken).digest("hex");
+
+    // Create user with email verification pending
     const newUser = await User.create({
       email: email.toLowerCase(),
       password: hashedPassword,
       emailVerified: false,
+      emailVerificationToken: hashedVerificationToken,
+      emailVerificationExpires: new Date(Date.now() + 30 * 60 * 1000), // 30 minutes
       referralCode,
       totalBlipPoints: registerPoints,
       status: "WAITLISTED",
@@ -176,10 +183,25 @@ export const registerWithEmail = async (req, res) => {
       }
     }
 
-    // Don't set JWT cookie - user must verify email first via Firebase
+    // Send verification email via SES
+    const verificationUrl = `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}`;
+    try {
+      await sendVerificationEmailSES(email, verificationUrl);
+    } catch (emailError) {
+      // Clear token if email fails so user can retry
+      newUser.emailVerificationToken = undefined;
+      newUser.emailVerificationExpires = undefined;
+      await newUser.save();
+
+      return res.status(500).json({
+        success: false,
+        message: "Failed to send verification email. Please try again.",
+      });
+    }
+
     res.status(201).json({
       success: true,
-      message: "Registration successful. Please verify your email.",
+      message: "Registration successful. Please check your email to verify your account.",
       emailVerified: false,
     });
   } catch (error) {
@@ -452,16 +474,26 @@ export const resendOTP = async (req, res) => {
 };
 
 /**
- * Verify email address (old method with URL token)
- * GET /api/auth/verify-email/:token
+ * Verify email address with token
+ * GET /api/auth/verify-email?token=TOKEN
  */
 export const verifyEmail = async (req, res) => {
   try {
-    const { token } = req.params;
+    const { token } = req.query;
 
-    // Find user with valid token
+    if (!token) {
+      return res.status(400).json({
+        success: false,
+        message: "Verification token is required",
+      });
+    }
+
+    // Hash the incoming token to compare with stored hash
+    const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+
+    // Find user with valid hashed token
     const user = await User.findOne({
-      emailVerificationToken: token,
+      emailVerificationToken: hashedToken,
       emailVerificationExpires: { $gt: Date.now() },
     });
 
@@ -472,13 +504,13 @@ export const verifyEmail = async (req, res) => {
       });
     }
 
-    // Update user
+    // Mark email as verified and clear token
     user.emailVerified = true;
     user.emailVerificationToken = undefined;
     user.emailVerificationExpires = undefined;
     await user.save();
 
-    // Send welcome email
+    // Send welcome email (non-blocking)
     try {
       await sendWelcomeEmail(user.email);
     } catch (_emailError) {
@@ -488,6 +520,7 @@ export const verifyEmail = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Email verified successfully! You can now log in.",
+      role: user.role,
     });
   } catch (error) {
     res.status(500).json({
@@ -639,10 +672,11 @@ export const resendVerificationEmail = async (req, res) => {
       });
     }
 
-    // Fallback: check User model (old flow)
+    // Check User model for token-based verification flow
     const user = await User.findOne({ email: email.toLowerCase() });
 
     if (!user) {
+      // Don't reveal whether email exists
       return res.status(200).json({
         success: true,
         message: "If the email exists, a verification link has been sent.",
@@ -656,16 +690,18 @@ export const resendVerificationEmail = async (req, res) => {
       });
     }
 
-    // Generate new token for old flow
+    // Generate new secure verification token
     const verificationToken = crypto.randomBytes(32).toString("hex");
-    const verificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000);
+    const hashedToken = crypto.createHash("sha256").update(verificationToken).digest("hex");
 
-    user.emailVerificationToken = verificationToken;
-    user.emailVerificationExpires = verificationExpires;
+    user.emailVerificationToken = hashedToken;
+    user.emailVerificationExpires = new Date(Date.now() + 30 * 60 * 1000); // 30 minutes
     await user.save();
 
+    const verificationUrl = `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}`;
+
     try {
-      await sendVerificationEmail(email, verificationToken);
+      await sendVerificationEmailSES(email, verificationUrl);
     } catch (emailError) {
       return res.status(500).json({
         success: false,
@@ -882,28 +918,31 @@ export const forgotPassword = async (req, res) => {
 
     const user = await User.findOne({ email: email.toLowerCase() });
 
+    // Always return same response to prevent email enumeration
+    const successResponse = {
+      success: true,
+      message: "If the email exists, a reset link has been sent.",
+    };
+
     if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: "No account found with this email",
-      });
+      return res.status(200).json(successResponse);
     }
 
     // Generate a secure reset token
     const resetToken = crypto.randomBytes(32).toString("hex");
     const hashedToken = crypto.createHash("sha256").update(resetToken).digest("hex");
 
-    // Save token and expiry to user (1 hour)
+    // Save token and expiry to user (15 minutes)
     user.passwordResetToken = hashedToken;
-    user.passwordResetExpires = new Date(Date.now() + 60 * 60 * 1000);
+    user.passwordResetExpires = new Date(Date.now() + 15 * 60 * 1000);
     await user.save();
 
     // Build reset URL pointing to your website
     const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
 
     try {
-      // Send via Nodemailer SMTP
-      await sendPasswordResetEmailSMTP(email, resetUrl);
+      // Send via Amazon SES
+      await sendPasswordResetEmailSES(email, resetUrl);
     } catch (emailError) {
       // Clear token if email fails
       user.passwordResetToken = undefined;
@@ -916,10 +955,7 @@ export const forgotPassword = async (req, res) => {
       });
     }
 
-    res.status(200).json({
-      success: true,
-      message: "Password reset email sent successfully",
-    });
+    res.status(200).json(successResponse);
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -960,6 +996,13 @@ export const resetPassword = async (req, res) => {
       });
     }
 
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      return res.status(400).json({
+        success: false,
+        message: "Password must contain at least one special character",
+      });
+    }
+
     // Hash the token to compare with stored hash
     const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
 
@@ -979,11 +1022,18 @@ export const resetPassword = async (req, res) => {
     // Hash new password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Update user
+    // Update user and clear reset token
     user.password = hashedPassword;
     user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
     await user.save();
+
+    // Invalidate existing sessions by clearing the cookie
+    res.clearCookie("token", {
+      httpOnly: true,
+      sameSite: production ? "none" : "lax",
+      secure: production ? true : false,
+    });
 
     res.status(200).json({
       success: true,

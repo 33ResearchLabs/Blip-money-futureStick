@@ -25,7 +25,7 @@ const router = express.Router();
 // Public routes
 router.post("/contact-form", submitContactForm);
 router.post("/register", registerWithEmail);
-router.get("/verify-email/:token", verifyEmail); // Old method (URL token)
+router.get("/verify-email", verifyEmail); // Token via query param ?token=TOKEN
 router.post("/verify-otp", verifyEmailOTP); // New method (OTP)
 router.post("/confirm-email-verified", confirmEmailVerified); // Firebase verification
 router.post("/login", loginWithEmail);

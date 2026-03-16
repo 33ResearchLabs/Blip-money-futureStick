@@ -4,6 +4,9 @@ import BlipPointLog from "../models/BlipPointLog.model.js";
 import twitterService from "../services/twitter.service.js";
 import { merchantBlipPoints } from "../utils/blipPoints.js";
 
+const X_FOLLOW_POINTS = 50;
+const X_FOLLOW_MERCHANT_POINTS = 250;
+
 /**
  * Verify Twitter/X tweet and award points
  * POST /api/twitter/verify
@@ -342,6 +345,128 @@ export const verifyRetweet = async (req, res) => {
       return res.status(400).json({
         success: false,
         message: "This tweet has already been verified.",
+      });
+    }
+
+    return res.status(500).json({
+      success: false,
+      message: "Server error during verification. Please try again later.",
+    });
+  }
+};
+
+/**
+ * Verify X/Twitter follow and award points
+ * User submits their X username, backend records it and awards points
+ * POST /api/twitter/verify-follow
+ */
+export const verifyFollow = async (req, res) => {
+  try {
+    const { xUsername } = req.body;
+    const userId = req.user?._id;
+
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: "Authentication required. Please log in.",
+      });
+    }
+
+    if (!xUsername || typeof xUsername !== "string") {
+      return res.status(400).json({
+        success: false,
+        message: "X/Twitter username is required.",
+      });
+    }
+
+    // Sanitize username
+    const cleanUsername = xUsername.trim().replace(/^@/, "");
+    if (!/^[a-zA-Z0-9_]{1,15}$/.test(cleanUsername)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid X/Twitter username format.",
+      });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    // Check if user already claimed the x_follow campaign
+    const hasVerified = await TweetVerification.hasUserVerifiedCampaign(
+      userId,
+      "x_follow"
+    );
+
+    if (hasVerified) {
+      return res.status(400).json({
+        success: false,
+        message: "You have already completed the X follow task.",
+      });
+    }
+
+    // Check if this X username was already claimed by another user
+    const existingClaim = await TweetVerification.findOne({
+      tweetAuthorId: cleanUsername.toLowerCase(),
+      campaignId: "x_follow",
+      userId: { $ne: userId },
+    });
+
+    if (existingClaim) {
+      return res.status(400).json({
+        success: false,
+        message: "This X account is already linked to another user.",
+      });
+    }
+
+    // Points to award
+    const pointsAwarded = user.role === "MERCHANT" ? X_FOLLOW_MERCHANT_POINTS : X_FOLLOW_POINTS;
+
+    // Save verification record
+    await TweetVerification.create({
+      userId,
+      walletAddress: user.wallet_address || "",
+      tweetId: `x_follow_${cleanUsername.toLowerCase()}_${Date.now()}`,
+      tweetUrl: `https://x.com/${cleanUsername}`,
+      tweetText: `Followed @blip_money on X`,
+      tweetAuthorId: cleanUsername.toLowerCase(),
+      tweetCreatedAt: new Date(),
+      pointsAwarded,
+      verificationStatus: "verified",
+      campaignId: "x_follow",
+      ipAddress: req.ip,
+      userAgent: req.headers["user-agent"],
+    });
+
+    // Create BlipPointLog entry
+    await BlipPointLog.create({
+      userId,
+      event: "TWITTER_FOLLOW",
+      bonusPoints: pointsAwarded,
+      totalPoints: (user.totalBlipPoints || 0) + pointsAwarded,
+    });
+
+    // Update user's cached total
+    user.totalBlipPoints = (user.totalBlipPoints || 0) + pointsAwarded;
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "X follow verified! Points awarded.",
+      data: {
+        pointsAwarded,
+        totalPoints: user.totalBlipPoints,
+      },
+    });
+  } catch (error) {
+    if (error.code === 11000) {
+      return res.status(400).json({
+        success: false,
+        message: "This follow has already been verified.",
       });
     }
 

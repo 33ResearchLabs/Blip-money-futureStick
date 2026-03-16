@@ -2,6 +2,7 @@ import express from "express";
 import {
   verifyTweet,
   verifyRetweet,
+  verifyFollow,
   getUserVerifications,
   getCampaignStatus,
 } from "../controller/twitter.controller.js";
@@ -27,6 +28,9 @@ router.post("/verify", protect, verifyTweetLimiter, verifyTweet);
 
 // POST /api/twitter/verify-retweet - Verify retweet and award points
 router.post("/verify-retweet", protect, verifyTweetLimiter, verifyRetweet);
+
+// POST /api/twitter/verify-follow - Verify X follow and award points
+router.post("/verify-follow", protect, verifyTweetLimiter, verifyFollow);
 
 // GET /api/twitter/verifications - Get user's verification history
 router.get("/verifications", protect, getUserVerifications);

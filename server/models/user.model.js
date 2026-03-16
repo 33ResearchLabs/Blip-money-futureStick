@@ -105,9 +105,23 @@ const userSchema = new mongoose.Schema(
       default: false,
     },
 
-    // 🔴🔴 NEW (Google Authenticator Secret)
     twoFactorSecret: {
-      type: String, // base32
+      type: String,
+      select: false, // Never expose in default queries
+    },
+
+    recoveryCodes: {
+      type: [String], // bcrypt-hashed recovery codes
+      select: false,
+    },
+
+    twoFactorAttempts: {
+      type: Number,
+      default: 0,
+    },
+
+    twoFactorLockUntil: {
+      type: Date,
     },
 
     // Telegram verification

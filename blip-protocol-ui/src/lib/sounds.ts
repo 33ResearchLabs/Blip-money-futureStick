@@ -4,7 +4,16 @@
    ============================================ */
 
 // Sound URLs - Using Web Audio API synthesized sounds
-const audioContext = typeof window !== 'undefined' ? new (window.AudioContext || (window as any).webkitAudioContext)() : null;
+// Lazy-init AudioContext on first user interaction to avoid browser autoplay warning
+let _audioContext: AudioContext | null = null;
+
+function getAudioContext(): AudioContext | null {
+  if (typeof window === 'undefined') return null;
+  if (!_audioContext) {
+    _audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+  }
+  return _audioContext;
+}
 
 // Enable/disable sounds globally
 let soundEnabled = true;
@@ -29,55 +38,58 @@ if (typeof window !== 'undefined') {
 
 // Soft click sound
 const playClick = () => {
-  if (!audioContext || !soundEnabled) return;
+  const ctx = getAudioContext();
+  if (!ctx || !soundEnabled) return;
 
-  const oscillator = audioContext.createOscillator();
-  const gainNode = audioContext.createGain();
+  const oscillator = ctx.createOscillator();
+  const gainNode = ctx.createGain();
 
   oscillator.connect(gainNode);
-  gainNode.connect(audioContext.destination);
+  gainNode.connect(ctx.destination);
 
-  oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-  oscillator.frequency.exponentialRampToValueAtTime(600, audioContext.currentTime + 0.05);
+  oscillator.frequency.setValueAtTime(800, ctx.currentTime);
+  oscillator.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.05);
 
-  gainNode.gain.setValueAtTime(0.08, audioContext.currentTime);
-  gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.05);
+  gainNode.gain.setValueAtTime(0.08, ctx.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
 
-  oscillator.start(audioContext.currentTime);
-  oscillator.stop(audioContext.currentTime + 0.05);
+  oscillator.start(ctx.currentTime);
+  oscillator.stop(ctx.currentTime + 0.05);
 };
 
 // Soft hover sound
 const playHover = () => {
-  if (!audioContext || !soundEnabled) return;
+  const ctx = getAudioContext();
+  if (!ctx || !soundEnabled) return;
 
-  const oscillator = audioContext.createOscillator();
-  const gainNode = audioContext.createGain();
+  const oscillator = ctx.createOscillator();
+  const gainNode = ctx.createGain();
 
   oscillator.connect(gainNode);
-  gainNode.connect(audioContext.destination);
+  gainNode.connect(ctx.destination);
 
   oscillator.type = 'sine';
-  oscillator.frequency.setValueAtTime(1200, audioContext.currentTime);
-  oscillator.frequency.exponentialRampToValueAtTime(1400, audioContext.currentTime + 0.03);
+  oscillator.frequency.setValueAtTime(1200, ctx.currentTime);
+  oscillator.frequency.exponentialRampToValueAtTime(1400, ctx.currentTime + 0.03);
 
-  gainNode.gain.setValueAtTime(0.03, audioContext.currentTime);
-  gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.03);
+  gainNode.gain.setValueAtTime(0.03, ctx.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.03);
 
-  oscillator.start(audioContext.currentTime);
-  oscillator.stop(audioContext.currentTime + 0.03);
+  oscillator.start(ctx.currentTime);
+  oscillator.stop(ctx.currentTime + 0.03);
 };
 
 // Success sound
 const playSuccess = () => {
-  if (!audioContext || !soundEnabled) return;
+  const ctx = getAudioContext();
+  if (!ctx || !soundEnabled) return;
 
   const playNote = (freq: number, startTime: number, duration: number) => {
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
+    const oscillator = ctx.createOscillator();
+    const gainNode = ctx.createGain();
 
     oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
+    gainNode.connect(ctx.destination);
 
     oscillator.type = 'sine';
     oscillator.frequency.setValueAtTime(freq, startTime);
@@ -89,7 +101,7 @@ const playSuccess = () => {
     oscillator.stop(startTime + duration);
   };
 
-  const now = audioContext.currentTime;
+  const now = ctx.currentTime;
   playNote(523.25, now, 0.1);        // C5
   playNote(659.25, now + 0.08, 0.1); // E5
   playNote(783.99, now + 0.16, 0.15); // G5
@@ -97,124 +109,129 @@ const playSuccess = () => {
 
 // Error sound
 const playError = () => {
-  if (!audioContext || !soundEnabled) return;
+  const ctx = getAudioContext();
+  if (!ctx || !soundEnabled) return;
 
-  const oscillator = audioContext.createOscillator();
-  const gainNode = audioContext.createGain();
+  const oscillator = ctx.createOscillator();
+  const gainNode = ctx.createGain();
 
   oscillator.connect(gainNode);
-  gainNode.connect(audioContext.destination);
+  gainNode.connect(ctx.destination);
 
   oscillator.type = 'sawtooth';
-  oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
-  oscillator.frequency.exponentialRampToValueAtTime(150, audioContext.currentTime + 0.15);
+  oscillator.frequency.setValueAtTime(200, ctx.currentTime);
+  oscillator.frequency.exponentialRampToValueAtTime(150, ctx.currentTime + 0.15);
 
-  gainNode.gain.setValueAtTime(0.05, audioContext.currentTime);
-  gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.15);
+  gainNode.gain.setValueAtTime(0.05, ctx.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
 
-  oscillator.start(audioContext.currentTime);
-  oscillator.stop(audioContext.currentTime + 0.15);
+  oscillator.start(ctx.currentTime);
+  oscillator.stop(ctx.currentTime + 0.15);
 };
 
 // Toggle switch sound
 const playToggle = (on: boolean) => {
-  if (!audioContext || !soundEnabled) return;
+  const ctx = getAudioContext();
+  if (!ctx || !soundEnabled) return;
 
-  const oscillator = audioContext.createOscillator();
-  const gainNode = audioContext.createGain();
+  const oscillator = ctx.createOscillator();
+  const gainNode = ctx.createGain();
 
   oscillator.connect(gainNode);
-  gainNode.connect(audioContext.destination);
+  gainNode.connect(ctx.destination);
 
   oscillator.type = 'sine';
 
   if (on) {
-    oscillator.frequency.setValueAtTime(600, audioContext.currentTime);
-    oscillator.frequency.exponentialRampToValueAtTime(900, audioContext.currentTime + 0.08);
+    oscillator.frequency.setValueAtTime(600, ctx.currentTime);
+    oscillator.frequency.exponentialRampToValueAtTime(900, ctx.currentTime + 0.08);
   } else {
-    oscillator.frequency.setValueAtTime(900, audioContext.currentTime);
-    oscillator.frequency.exponentialRampToValueAtTime(600, audioContext.currentTime + 0.08);
+    oscillator.frequency.setValueAtTime(900, ctx.currentTime);
+    oscillator.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.08);
   }
 
-  gainNode.gain.setValueAtTime(0.05, audioContext.currentTime);
-  gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.08);
+  gainNode.gain.setValueAtTime(0.05, ctx.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
 
-  oscillator.start(audioContext.currentTime);
-  oscillator.stop(audioContext.currentTime + 0.08);
+  oscillator.start(ctx.currentTime);
+  oscillator.stop(ctx.currentTime + 0.08);
 };
 
 // Pop sound
 const playPop = () => {
-  if (!audioContext || !soundEnabled) return;
+  const ctx = getAudioContext();
+  if (!ctx || !soundEnabled) return;
 
-  const oscillator = audioContext.createOscillator();
-  const gainNode = audioContext.createGain();
+  const oscillator = ctx.createOscillator();
+  const gainNode = ctx.createGain();
 
   oscillator.connect(gainNode);
-  gainNode.connect(audioContext.destination);
+  gainNode.connect(ctx.destination);
 
   oscillator.type = 'sine';
-  oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
-  oscillator.frequency.exponentialRampToValueAtTime(150, audioContext.currentTime + 0.1);
+  oscillator.frequency.setValueAtTime(400, ctx.currentTime);
+  oscillator.frequency.exponentialRampToValueAtTime(150, ctx.currentTime + 0.1);
 
-  gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-  gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
+  gainNode.gain.setValueAtTime(0.1, ctx.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
 
-  oscillator.start(audioContext.currentTime);
-  oscillator.stop(audioContext.currentTime + 0.1);
+  oscillator.start(ctx.currentTime);
+  oscillator.stop(ctx.currentTime + 0.1);
 };
 
 // Whoosh sound (for transitions)
 const playWhoosh = () => {
-  if (!audioContext || !soundEnabled) return;
+  const ctx = getAudioContext();
+  if (!ctx || !soundEnabled) return;
 
-  const bufferSize = audioContext.sampleRate * 0.15;
-  const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+  const bufferSize = ctx.sampleRate * 0.15;
+  const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
   const data = buffer.getChannelData(0);
 
   for (let i = 0; i < bufferSize; i++) {
     data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufferSize, 2);
   }
 
-  const noise = audioContext.createBufferSource();
-  const filter = audioContext.createBiquadFilter();
-  const gainNode = audioContext.createGain();
+  const noise = ctx.createBufferSource();
+  const filter = ctx.createBiquadFilter();
+  const gainNode = ctx.createGain();
 
   noise.buffer = buffer;
   filter.type = 'bandpass';
-  filter.frequency.setValueAtTime(1000, audioContext.currentTime);
-  filter.frequency.exponentialRampToValueAtTime(3000, audioContext.currentTime + 0.15);
+  filter.frequency.setValueAtTime(1000, ctx.currentTime);
+  filter.frequency.exponentialRampToValueAtTime(3000, ctx.currentTime + 0.15);
   filter.Q.value = 1;
 
   noise.connect(filter);
   filter.connect(gainNode);
-  gainNode.connect(audioContext.destination);
+  gainNode.connect(ctx.destination);
 
-  gainNode.gain.setValueAtTime(0.03, audioContext.currentTime);
-  gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.15);
+  gainNode.gain.setValueAtTime(0.03, ctx.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
 
-  noise.start(audioContext.currentTime);
-  noise.stop(audioContext.currentTime + 0.15);
+  noise.start(ctx.currentTime);
+  noise.stop(ctx.currentTime + 0.15);
 };
 
 // Tick sound (for typing)
 const playTick = () => {
-  if (!audioContext || !soundEnabled) return;
+  const ctx = getAudioContext();
+  if (!ctx || !soundEnabled) return;
 
-  const oscillator = audioContext.createOscillator();
-  const gainNode = audioContext.createGain();
+  const oscillator = ctx.createOscillator();
+  const gainNode = ctx.createGain();
 
   oscillator.connect(gainNode);
-  gainNode.connect(audioContext.destination);
+  gainNode.connect(ctx.destination);
 
   oscillator.type = 'square';
-  oscillator.frequency.setValueAtTime(1800 + Math.random() * 200, audioContext.currentTime);
+  oscillator.frequency.setValueAtTime(1800 + Math.random() * 200, ctx.currentTime);
 
-  gainNode.gain.setValueAtTime(0.02, audioContext.currentTime);
-  gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.015);
+  gainNode.gain.setValueAtTime(0.02, ctx.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.015);
 
-  oscillator.start(audioContext.currentTime);
-  oscillator.stop(audioContext.currentTime + 0.015);
+  oscillator.start(ctx.currentTime);
+  oscillator.stop(ctx.currentTime + 0.015);
 };
 
 /* ---------------- Export Sound Functions ---------------- */
@@ -232,7 +249,7 @@ export const sounds = {
 
 /* ---------------- React Hooks ---------------- */
 
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useRef } from 'react';
 
 // Hook for click sound
 export const useClickSound = () => {
@@ -275,8 +292,9 @@ export const useInteractionSounds = () => {
 /* ---------------- Initialize Audio Context on First Interaction ---------------- */
 
 export const initializeAudio = () => {
-  if (audioContext && audioContext.state === 'suspended') {
-    audioContext.resume();
+  const ctx = getAudioContext();
+  if (ctx && ctx.state === 'suspended') {
+    ctx.resume();
   }
 };
 

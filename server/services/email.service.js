@@ -1,18 +1,17 @@
 import { Resend } from "resend";
-import nodemailer from "nodemailer";
+import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const FROM_EMAIL = process.env.EMAIL_FROM || "Blip Money <onboarding@resend.dev>";
 
-// Nodemailer SMTP transporter
-const smtpTransporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST,
-  port: parseInt(process.env.EMAIL_PORT) || 587,
-  secure: false,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD || process.env.EMAIL_PASS,
+// Amazon SES client
+const sesClient = new SESClient({
+  region: process.env.AWS_SES_REGION || "ap-south-1",
+  endpoint: process.env.AWS_SES_ENDPOINT || "https://email.ap-south-1.amazonaws.com",
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   },
 });
 
@@ -338,17 +337,25 @@ export const sendWelcomeEmail = async (email, name = "there") => {
 };
 
 /**
- * Send password reset email via Nodemailer SMTP
+ * Send password reset email via Amazon SES
  * @param {string} email - User's email address
  * @param {string} resetUrl - Full reset URL with token
  */
-export const sendPasswordResetEmailSMTP = async (email, resetUrl) => {
-  try {
-    await smtpTransporter.sendMail({
-      from: FROM_EMAIL,
-      to: email,
-      subject: "Reset Your Password - Blip Money",
-      html: `
+export const sendPasswordResetEmailSES = async (email, resetUrl) => {
+  const params = {
+    Source: process.env.AWS_SES_FROM_EMAIL || FROM_EMAIL,
+    Destination: {
+      ToAddresses: [email],
+    },
+    Message: {
+      Subject: {
+        Charset: "UTF-8",
+        Data: "Reset Your Password - Blip Money",
+      },
+      Body: {
+        Html: {
+          Charset: "UTF-8",
+          Data: `
       <!DOCTYPE html>
       <html>
         <head>
@@ -407,13 +414,120 @@ export const sendPasswordResetEmailSMTP = async (email, resetUrl) => {
           </div>
         </body>
       </html>
-      `,
-      text: `Password Reset Request - Blip Money\n\nReset Link: ${resetUrl}\n\nThis link will expire in 1 hour.\n\nIf you didn't request a password reset, please ignore this email.`,
-    });
-    console.log(`✅ Password reset email sent via SMTP to ${email}`);
+          `,
+        },
+        Text: {
+          Charset: "UTF-8",
+          Data: `Password Reset Request - Blip Money\n\nReset Link: ${resetUrl}\n\nThis link will expire in 1 hour.\n\nIf you didn't request a password reset, please ignore this email.`,
+        },
+      },
+    },
+  };
+
+  try {
+    const command = new SendEmailCommand(params);
+    await sesClient.send(command);
+    console.log(`✅ Password reset email sent via SES to ${email}`);
   } catch (error) {
-    console.error("❌ Error sending password reset email via SMTP:", error);
+    console.error("❌ Error sending password reset email via SES:", error);
     throw new Error("Failed to send password reset email");
+  }
+};
+
+/**
+ * Send email verification link via Amazon SES
+ * @param {string} email - User's email address
+ * @param {string} verificationUrl - Full verification URL with token
+ */
+export const sendVerificationEmailSES = async (email, verificationUrl) => {
+  const params = {
+    Source: process.env.AWS_SES_FROM_EMAIL || FROM_EMAIL,
+    Destination: {
+      ToAddresses: [email],
+    },
+    Message: {
+      Subject: {
+        Charset: "UTF-8",
+        Data: "Verify Your Email - Blip Money",
+      },
+      Body: {
+        Html: {
+          Charset: "UTF-8",
+          Data: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <style>
+            body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.6; color: #333; background: #f5f5f5; margin: 0; padding: 0; }
+            .container { max-width: 600px; margin: 40px auto; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+            .header { background: #000000; color: #ffffff; padding: 30px; text-align: center; }
+            .header h1 { margin: 0; font-size: 28px; font-weight: 700; }
+            .content { padding: 40px 30px; }
+            .content h2 { color: #000000; font-size: 20px; margin-top: 0; }
+            .content p { color: #666; font-size: 16px; margin: 16px 0; }
+            .button-container { text-align: center; margin: 30px 0; }
+            .button { display: inline-block; background: #000000; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 4px; font-weight: 600; font-size: 16px; }
+            .footer { background: #f9f9f9; padding: 20px 30px; text-align: center; font-size: 14px; color: #888; }
+            .footer a { color: #000000; text-decoration: none; }
+            .note { background: #f9f9f9; border-left: 4px solid #000000; padding: 16px; margin: 20px 0; font-size: 14px; color: #666; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>Blip Money</h1>
+            </div>
+            <div class="content">
+              <h2>Verify Your Email Address</h2>
+              <p>Thank you for registering with Blip Money! Please click the button below to verify your email address and activate your account.</p>
+
+              <div class="button-container">
+                <a href="${verificationUrl}" class="button">Verify Email</a>
+              </div>
+
+              <div class="note">
+                <strong>Note:</strong> This verification link will expire in 30 minutes for security reasons.
+              </div>
+
+              <p style="font-size: 14px; color: #888;">
+                If the button above doesn't work, copy and paste this link into your browser:<br>
+                <a href="${verificationUrl}" style="color: #000000; word-break: break-all;">${verificationUrl}</a>
+              </p>
+
+              <p style="font-size: 14px; color: #888;">
+                If you didn't create an account with Blip Money, please ignore this email.
+              </p>
+            </div>
+            <div class="footer">
+              <p>&copy; ${new Date().getFullYear()} Blip Money. All rights reserved.</p>
+              <p>
+                <a href="${process.env.FRONTEND_URL}">Home</a> &middot;
+                <a href="${process.env.FRONTEND_URL}/contact">Support</a> &middot;
+                <a href="${process.env.FRONTEND_URL}/privacy">Privacy Policy</a>
+              </p>
+            </div>
+          </div>
+        </body>
+      </html>
+          `,
+        },
+        Text: {
+          Charset: "UTF-8",
+          Data: `Verify Your Email - Blip Money\n\nPlease verify your email by clicking the link below:\n\n${verificationUrl}\n\nThis link will expire in 30 minutes.\n\nIf you didn't create an account with Blip Money, please ignore this email.`,
+        },
+      },
+    },
+  };
+
+  try {
+    const command = new SendEmailCommand(params);
+    await sesClient.send(command);
+    console.log(`Verification email sent via SES to ${email}`);
+  } catch (error) {
+    console.error("Error sending verification email via SES:", error);
+    throw new Error("Failed to send verification email");
   }
 };
 
@@ -421,6 +535,7 @@ export default {
   sendVerificationEmail,
   sendPasswordResetEmail,
   sendCustomPasswordResetEmail,
-  sendPasswordResetEmailSMTP,
+  sendPasswordResetEmailSES,
+  sendVerificationEmailSES,
   sendWelcomeEmail,
 };

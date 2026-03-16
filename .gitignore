@@ -1,4 +1,15 @@
 /docs
 /ze
+
+
+# Ignore markdown files
+*.md
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.production
+.env.test
 # Firebase service account key (contains secrets)
 server/config/firebase-service-account.json
