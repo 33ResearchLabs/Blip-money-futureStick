@@ -593,6 +593,41 @@
     <priority>0.7</priority>
   </url>
 
+  <url>
+    <loc>https://blip.money/blog/how-blip-merchant-bidding-gets-you-best-rates</loc>
+    <lastmod>2026-03-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://blip.money/blog/crypto-salary-payments-how-employers-pay-global-teams-with-blip</loc>
+    <lastmod>2026-03-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://blip.money/blog/uae-to-india-remittance-corridor-how-blip-cuts-costs-by-80-percent</loc>
+    <lastmod>2026-03-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://blip.money/blog/what-is-on-chain-reputation-and-why-blip-built-it</loc>
+    <lastmod>2026-03-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://blip.money/blog/blip-vs-traditional-money-transfer-cost-breakdown-per-1000</loc>
+    <lastmod>2026-03-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
   <!-- RESEARCH ARTICLES SITEMAP -->
   <url>
     <loc>https://blip.money/research</loc>
