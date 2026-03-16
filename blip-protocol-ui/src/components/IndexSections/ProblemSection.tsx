@@ -104,7 +104,7 @@ const CARDS_LIGHT = [
 /* ── Bento stats ── */
 const BENTO = [
   { val: "<2s", lbl: "Settlement" },
-  { val: "0.1%", lbl: "Fee" },
+  { val: "1.5%", lbl: "Cheapest in market" },
   { val: "Non-custodial", lbl: "You keep control" },
   { val: "On-chain", lbl: "Full transparency" },
 ];

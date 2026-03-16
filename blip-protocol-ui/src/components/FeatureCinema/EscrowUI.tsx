@@ -40,8 +40,8 @@ export default function EscrowUI() {
 
   return (
     <div
+      className="w-[280px] sm:w-[320px] md:w-[340px]"
       style={{
-        width: 340,
         background: "#0d0d0d",
         border: "1px solid rgba(255,255,255,0.08)",
         borderRadius: 20,

@@ -403,7 +403,7 @@ const App = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1 }}
-          className="heading-h2 text-black dark:text-white"
+          className="heading-h2 text-center text-black dark:text-white"
           style={{
             marginBottom: 12,
           }}
@@ -478,7 +478,7 @@ const App = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.5 }}
-            className="space-y-3"
+            className="space-y-3 text-center"
           >
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]">
               <span className="text-xs text-black/60 dark:text-white/40 font-bold tracking-widest uppercase">
@@ -486,7 +486,7 @@ const App = () => {
               </span>
             </div>
             <h3
-              className="heading-h3 select-none text-black dark:text-white"
+              className="heading-h3 select-none text-center text-black dark:text-white"
             >
               {step.h1}
               <br />

@@ -69,8 +69,7 @@ export const blogArticles: BlogArticle[] = [
     date: "2026-02-05",
     category: "Escrow",
     readTime: "6 min read",
-    coverImage:
-      "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1200&h=630&fit=crop&q=80",
+    coverImage: "/blog.png",
     coverGradient: "from-neon-mint/20 via-neon-cyan/10 to-transparent",
     seo: {
       title: "How Escrow Protects Every Blip Transaction | Blip Money Blog",
@@ -3145,8 +3144,7 @@ export const blogArticles: BlogArticle[] = [
   {
     id: "38",
     slug: "uae-to-india-remittance-corridor-how-blip-cuts-costs-by-80-percent",
-    title:
-      "UAE to India Remittance Corridor: How Blip Cuts Costs by 80%",
+    title: "UAE to India Remittance Corridor: How Blip Cuts Costs by 80%",
     excerpt:
       "The UAE-India remittance corridor moves $4.2 billion annually. Here's how Blip Money is making it faster, cheaper, and safer with on-chain settlement.",
     author: { name: "Blip Team", role: "Core Contributors" },

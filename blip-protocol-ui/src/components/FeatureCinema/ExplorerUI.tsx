@@ -77,7 +77,7 @@ export default function ExplorerUI() {
   }, []);
 
   return (
-    <div className="w-[540px] rounded-2xl border border-white/[0.06] bg-black/40 backdrop-blur-xl overflow-hidden shadow-[0_8px_60px_-12px_rgba(0,0,0,0.8),0_0_80px_rgba(20,241,149,0.05)]">
+    <div className="w-[320px] sm:w-[420px] md:w-[500px] lg:w-[540px] rounded-2xl border border-white/[0.06] bg-black/40 backdrop-blur-xl overflow-hidden shadow-[0_8px_60px_-12px_rgba(0,0,0,0.8),0_0_80px_rgba(20,241,149,0.05)]">
       {/* Browser chrome */}
       <div className="flex items-center justify-between px-5 py-3.5 bg-black/60 border-b border-white/[0.06]">
         <div className="flex items-center gap-3">

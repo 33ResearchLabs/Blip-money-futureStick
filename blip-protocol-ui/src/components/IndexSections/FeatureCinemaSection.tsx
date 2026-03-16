@@ -83,57 +83,39 @@ function Scene({
         }}
       />
 
-      <div className="absolute inset-0 flex items-center">
-        <div className="w-full max-w-7xl mx-auto px-6 flex items-center gap-12 h-full">
-          {/* Left text column */}
+      <div className="absolute inset-0 flex flex-col">
+        <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 flex flex-col items-center h-full pt-16 sm:pt-20">
+          {/* Text on top — centered */}
           <motion.div
             style={{ y: textY, opacity: textOp }}
-            className="flex-shrink-0 w-[360px] xl:w-[420px]"
+            className="flex-shrink-0 w-full text-center mb-6 sm:mb-8"
           >
             <div
-              className="text-[10px] uppercase tracking-[3px] mb-5 font-semibold"
+              className="text-[10px] uppercase tracking-[3px] mb-3 font-semibold"
               style={{ color: accent }}
             >
               {eyebrow}
             </div>
-            <h2 className="heading-h3 text-white mb-5">
+            <h2 className="heading-h3 text-white mb-3 text-2xl sm:text-3xl lg:text-5xl">
               {headline[0]}
               <br />
               <span style={{ color: "rgba(255,255,255,0.28)" }}>
                 {headline[1]}
               </span>
             </h2>
-            <p className="p-medium text-white/40 mb-8 max-w-[300px]">
+            <p className="p-medium text-white/40 max-w-[440px] mx-auto text-sm lg:text-base">
               {subline}
             </p>
-            <div className="flex flex-col gap-3">
-              {bullets.map((b) => (
-                <div key={b} className="flex items-center gap-3">
-                  <div
-                    className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
-                    style={{
-                      background: "rgba(255,255,255,0.06)",
-                      border: "1px solid rgba(255,255,255,0.12)",
-                    }}
-                  >
-                    <Check
-                      style={{
-                        width: 9,
-                        height: 9,
-                        color: "rgba(255,255,255,0.5)",
-                      }}
-                      strokeWidth={3}
-                    />
-                  </div>
-                  <span className="text-sm text-white/45">{b}</span>
-                </div>
-              ))}
-            </div>
           </motion.div>
 
-          {/* Right: zoom-in UI */}
-          <div className="flex-1 flex items-center justify-center">
-            <motion.div style={{ scale, filter }}>{children}</motion.div>
+          {/* Screen below — zoom-in UI */}
+          <div className="flex-1 flex items-start justify-center w-full max-w-full overflow-hidden">
+            <motion.div
+              className="origin-top scale-[0.55] sm:scale-[0.7] md:scale-[0.85] lg:scale-100"
+              style={{ scale, filter }}
+            >
+              {children}
+            </motion.div>
           </div>
         </div>
       </div>
@@ -224,7 +206,7 @@ export default function FeatureCinemaSection() {
   }, [scrollYProgress]);
 
   return (
-    <div ref={containerRef} style={{ height: "450vh" }}>
+    <div ref={containerRef} className="h-[350vh] sm:h-[400vh] lg:h-[450vh]">
       <div
         className="sticky top-0 overflow-hidden"
         style={{ height: "100vh", background: "#060606" }}
@@ -240,7 +222,7 @@ export default function FeatureCinemaSection() {
         />
 
         {/* Top pill label */}
-        <div className="absolute top-8 left-1/2 -translate-x-1/2 z-20">
+        <div className="absolute top-4 sm:top-8 left-1/2 -translate-x-1/2 z-20">
           <div
             className="flex items-center gap-2 px-4 py-2 rounded-full"
             style={{
@@ -285,17 +267,16 @@ export default function FeatureCinemaSection() {
             ) : (
               <div
                 key={1}
+                className="w-[300px] sm:w-[400px] md:w-[500px] lg:w-[560px] h-[225px] sm:h-[300px] md:h-[375px] lg:h-[420px]"
                 style={{
-                  width: 560,
-                  height: 420,
                   position: "relative",
                   overflow: "hidden",
                   borderRadius: 16,
                 }}
               >
                 <div
+                  className="scale-[0.25] sm:scale-[0.33] md:scale-[0.41] lg:scale-[0.46]"
                   style={{
-                    transform: "scale(0.46)",
                     transformOrigin: "top left",
                     width: 1220,
                     position: "absolute",
@@ -311,7 +292,7 @@ export default function FeatureCinemaSection() {
         ))}
 
         {/* Progress dots */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-2.5 z-30">
+        <div className="absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-2.5 z-30">
           {SCENES_DATA.map((s, i) => (
             <motion.div
               key={i}
@@ -329,9 +310,9 @@ export default function FeatureCinemaSection() {
           ))}
         </div>
 
-        {/* Scroll cue (fades out early) */}
+        {/* Scroll cue (fades out early, hidden on mobile) */}
         <motion.div
-          className="absolute right-10 bottom-12 flex flex-col items-center gap-2 z-20"
+          className="absolute right-6 sm:right-10 bottom-8 sm:bottom-12 hidden sm:flex flex-col items-center gap-2 z-20"
           style={{ opacity: scrollHintOpacity }}
         >
           <div

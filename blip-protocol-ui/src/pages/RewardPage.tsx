@@ -28,7 +28,7 @@ const IMAGES = {
   lightModeGlobe:
     "https://lh3.googleusercontent.com/gg-dl/AOI_d_8EiIYRBtnO2zznoeqW-A9YI9Kyy4_cGwnqWGRARqKLO7GED7LMHwmt79MFG8M1vAzgq22oVXSJFppOphvsJ7MdjieWt8oatnzkZnL2yJMx8uI5neF4myA8uwIPM2vLncZlizL63RQzLKDshdWqQOg5Q0YG3dMoXFFnlzc-eEdmOzk-=s1600-rj",
   fiberOptics:
-    "https://t3.ftcdn.net/jpg/02/74/91/02/360_F_274910292_Xm3dgmmfMJVFrcjUR1eqJmIC7giRrsTF.jpg",
+    "https://plus.unsplash.com/premium_photo-1700428143495-ce0435fefa38?q=80&w=752&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   dataStream:
     "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format",
   blockchainNodes:
@@ -393,9 +393,9 @@ export default function RewardPage() {
               title="Global Liquidity Provider"
               subtitle="Power the PeopleBank network by providing deep liquidity to settlement pairs."
               image={IMAGES.fiberOptics}
-              overlayOpacity="opacity-70"
+              overlayOpacity="opacity-100"
             >
-              <div className="flex flex-col md:flex-row items-center justify-between w-full gap-8 p-6 bg-[#FAF8F5]/80 dark:bg-black/40 backdrop-blur-xl rounded-[2rem] border border-black/5 dark:border-white/5">
+              <div className="flex flex-col md:flex-row items-center justify-between w-full gap-8 p-6 rounded-[2rem] border border-black/5 dark:border-white/5">
                 <div className="flex items-center gap-6">
                   <div className="w-16 h-16 rounded-full bg-[#ffb088]/20 border border-[#ffb088]/30 flex items-center justify-center">
                     <Cpu className="text-[#ffb088]" size={32} />

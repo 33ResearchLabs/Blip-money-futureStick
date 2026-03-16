@@ -76,7 +76,7 @@ export default function BiddingUI() {
   const bestBid = bids[0];
 
   return (
-    <div className="w-[560px] rounded-2xl overflow-hidden border border-white/[0.08] bg-[#0a0a0a] shadow-[0_30px_60px_rgba(0,0,0,0.5),0_0_80px_rgba(255,107,53,0.06)]">
+    <div className="w-[320px] sm:w-[420px] md:w-[500px] lg:w-[560px] rounded-2xl overflow-hidden border border-white/[0.08] bg-[#0a0a0a] shadow-[0_30px_60px_rgba(0,0,0,0.5),0_0_80px_rgba(255,107,53,0.06)]">
       {/* Browser chrome */}
       <div className="flex items-center gap-3 px-5 py-3.5 bg-[#111] border-b border-white/[0.06]">
         <div className="flex items-center gap-1.5">
@@ -85,7 +85,7 @@ export default function BiddingUI() {
           <div className="w-3 h-3 rounded-full bg-[#28ca42]" />
         </div>
         <div className="flex-1 flex justify-center">
-          <div className="flex items-center gap-2 px-4 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.06] w-full max-w-[300px]">
+          <div className="flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.06] w-full max-w-[180px] sm:max-w-[300px]">
             <div className="w-4 h-4 rounded-full bg-white/10 flex items-center justify-center shrink-0">
               <Lock className="w-2.5 h-2.5 text-white/40" />
             </div>

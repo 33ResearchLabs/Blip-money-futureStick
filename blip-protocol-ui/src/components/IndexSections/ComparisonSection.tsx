@@ -22,7 +22,7 @@ const ROWS: Array<{
   },
   {
     label: "Transaction fee",
-    blip: "0.1%",
+    blip: "1.5%",
     swift: "5–7%",
     stripe: "2.9% + $0.30",
     ripple: "~0.5%",
@@ -492,9 +492,9 @@ const ComparisonSection = () => {
         >
           {[
             {
-              val: "70×",
+              val: "4×",
               label: "Cheaper than SWIFT",
-              sub: "0.1% vs 5–7% average",
+              sub: "1.5% vs 5–7% average",
             },
             {
               val: "∞",
