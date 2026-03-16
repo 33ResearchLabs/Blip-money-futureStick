@@ -1,19 +1,16 @@
-import { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Mail, RefreshCw, CheckCircle, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { firebaseAuth } from "@/config/firebase";
-import { sendEmailVerification, onAuthStateChanged } from "firebase/auth";
 import authApi from "@/services/auth";
 
 export default function EmailVerificationPending() {
   const location = useLocation();
-  const navigate = useNavigate();
 
   // Use location state first, then sessionStorage as fallback
   const stateEmail = location.state?.email || "";
   const stateRole = location.state?.role || "";
-  const [email, setEmail] = useState(() => {
+  const [email] = useState(() => {
     if (stateEmail) {
       sessionStorage.setItem("verification_email", stateEmail);
       return stateEmail;
@@ -33,103 +30,42 @@ export default function EmailVerificationPending() {
 
   const [isResending, setIsResending] = useState(false);
   const [resent, setResent] = useState(false);
-  const [isChecking, setIsChecking] = useState(false);
-  const [firebaseReady, setFirebaseReady] = useState(false);
-
-  // Wait for Firebase auth to initialize before polling
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
-      setFirebaseReady(true);
-      if (user && !email) {
-        setEmail(user.email || "");
-      }
-    });
-    return () => unsubscribe();
-  }, []);
-
-  // Auto-check Firebase verification status every 5 seconds (only after Firebase is ready)
-  useEffect(() => {
-    if (!firebaseReady) return;
-
-    const interval = setInterval(async () => {
-      const user = firebaseAuth.currentUser;
-      if (user) {
-        await user.reload();
-        if (user.emailVerified) {
-          clearInterval(interval);
-          await handleVerified();
-        }
-      }
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [firebaseReady, email]);
-
-  const handleVerified = async () => {
-    setIsChecking(true);
-    try {
-      const verifyEmail = email || firebaseAuth.currentUser?.email || "";
-      await authApi.confirmEmailVerified(verifyEmail);
-      sessionStorage.removeItem("verification_email");
-      sessionStorage.removeItem("verification_role");
-      toast.success("Email verified! You can now login.");
-      navigate(loginPath, { state: { email: verifyEmail } });
-    } catch (error: any) {
-      toast.error("Something went wrong. Please try logging in.");
-      navigate(loginPath);
-    } finally {
-      setIsChecking(false);
-    }
-  };
-
-  const handleCheckNow = async () => {
-    setIsChecking(true);
-    try {
-      const user = firebaseAuth.currentUser;
-      if (user) {
-        await user.reload();
-        if (user.emailVerified) {
-          await handleVerified();
-          return;
-        }
-        toast.error("Email not verified yet. Please check your inbox.");
-      } else {
-        toast.error("Session expired. Please register again.");
-        navigate("/register");
-      }
-    } catch (error) {
-      toast.error("Could not check verification status.");
-    } finally {
-      setIsChecking(false);
-    }
-  };
+  const [resendCooldown, setResendCooldown] = useState(0);
 
   const handleResend = async () => {
+    if (!email || resendCooldown > 0) return;
+
     setIsResending(true);
     try {
-      const user = firebaseAuth.currentUser;
-      if (user) {
-        await sendEmailVerification(user);
-        setResent(true);
-        toast.success("Verification email resent! Please check your inbox.");
-        setTimeout(() => setResent(false), 5000);
-      } else {
-        toast.error("Session expired. Please register again.");
-        navigate("/register");
-      }
+      await authApi.resendVerification(email);
+      setResent(true);
+      toast.success("Verification email resent! Please check your inbox.");
+
+      // Start cooldown timer (60 seconds)
+      setResendCooldown(60);
+      const interval = setInterval(() => {
+        setResendCooldown((prev) => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      setTimeout(() => setResent(false), 5000);
     } catch (error: any) {
-      if (error.code === "auth/too-many-requests") {
-        toast.error("Too many requests. Please wait before trying again.");
-      } else {
-        toast.error("Failed to resend email. Please try again.");
-      }
+      const message =
+        error.response?.data?.message ||
+        "Failed to resend email. Please try again.";
+      toast.error(message);
     } finally {
       setIsResending(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center p-4 mt-16  ">
+    <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center p-4 mt-16">
       <div className="w-full max-w-md text-center">
         {/* Icon */}
         <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-black/10 dark:bg-white/10 mb-6">
@@ -163,31 +99,20 @@ export default function EmailVerificationPending() {
             </li>
             <li className="flex items-start gap-2">
               <span className="font-bold text-black dark:text-white">3.</span>
-              <span>Come back here - we'll detect it automatically</span>
+              <span>Once verified, you can log in to your account</span>
             </li>
           </ol>
         </div>
 
-        {/* Check Now Button */}
-        <button
-          onClick={handleCheckNow}
-          disabled={isChecking}
-          className="w-full py-3 bg-white text-black border border-black/10 font-medium rounded-sm hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 mb-3"
-        >
-          {isChecking ? (
-            <>
-              <Loader2 className="w-5 h-5 animate-spin" />
-              Checking...
-            </>
-          ) : (
-            "I've Verified My Email"
-          )}
-        </button>
+        {/* Note about link expiry */}
+        <p className="text-sm text-black/40 dark:text-white/40 mb-4">
+          The verification link expires in 30 minutes
+        </p>
 
         {/* Resend Button */}
         <button
           onClick={handleResend}
-          disabled={isResending || resent}
+          disabled={isResending || resent || resendCooldown > 0}
           className="w-full py-3 border border-black/20 dark:border-white/20 text-black dark:text-white font-medium rounded-sm hover:bg-black/5 dark:hover:bg-white/5 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 mb-4"
         >
           {isResending ? (
@@ -200,6 +125,8 @@ export default function EmailVerificationPending() {
               <CheckCircle className="w-5 h-5 text-green-500" />
               Email Sent!
             </>
+          ) : resendCooldown > 0 ? (
+            `Resend available in ${resendCooldown}s`
           ) : (
             <>
               <RefreshCw className="w-5 h-5" />
@@ -207,11 +134,6 @@ export default function EmailVerificationPending() {
             </>
           )}
         </button>
-
-        {/* Auto-check notice */}
-        <p className="text-sm text-black/80 dark:text-white/40 mb-4">
-          This page automatically checks every 5 seconds
-        </p>
 
         {/* Back to Login */}
         <Link

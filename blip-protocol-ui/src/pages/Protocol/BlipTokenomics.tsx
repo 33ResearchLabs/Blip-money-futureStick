@@ -153,7 +153,7 @@ const HeroSection = () => {
         >
           <span className="text-black dark:text-white">BLIP</span>
           <span className="text-3xl text-black/70 dark:text-white">•</span>
-          <span className="text-black/80 dark:text-white/50">TOKENS</span>
+          <span className="text-black dark:text-white">TOKENS</span>
         </motion.div>
 
         {/* Scroll indicator */}

@@ -39,6 +39,7 @@ export default function ResetPassword() {
       uppercase: /[A-Z]/.test(pw),
       lowercase: /[a-z]/.test(pw),
       number: /[0-9]/.test(pw),
+      special: /[!@#$%^&*(),.?":{}|<>]/.test(pw),
     };
     const score = Object.values(checks).filter(Boolean).length;
     return { checks, score };
@@ -59,6 +60,8 @@ export default function ResetPassword() {
       newErrors.password = "Password must contain at least one uppercase letter";
     } else if (!passwordStrength.checks.number) {
       newErrors.password = "Password must contain at least one number";
+    } else if (!passwordStrength.checks.special) {
+      newErrors.password = "Password must contain at least one special character";
     }
 
     if (!confirmPassword) {
@@ -245,17 +248,19 @@ export default function ResetPassword() {
                     <div
                       className={`h-full transition-all duration-300 ${
                         passwordStrength.score <= 2
-                          ? "bg-red-500 w-1/3"
-                          : passwordStrength.score === 3
-                            ? "bg-yellow-500 w-2/3"
-                            : "bg-green-500 w-full"
+                          ? "bg-red-500 w-1/4"
+                          : passwordStrength.score <= 3
+                            ? "bg-yellow-500 w-2/4"
+                            : passwordStrength.score === 4
+                              ? "bg-yellow-500 w-3/4"
+                              : "bg-green-500 w-full"
                       }`}
                     />
                   </div>
                   <span className="text-xs text-black/60 dark:text-white/60">
                     {passwordStrength.score <= 2
                       ? "Weak"
-                      : passwordStrength.score === 3
+                      : passwordStrength.score <= 4
                         ? "Medium"
                         : "Strong"}
                   </span>
@@ -324,6 +329,22 @@ export default function ResetPassword() {
                       }
                     >
                       Lowercase
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    {passwordStrength.checks.special ? (
+                      <CheckCircle className="w-3 h-3 text-green-500" />
+                    ) : (
+                      <XCircle className="w-3 h-3 text-black/30 dark:text-white/30" />
+                    )}
+                    <span
+                      className={
+                        passwordStrength.checks.special
+                          ? "text-green-600 dark:text-green-400"
+                          : "text-black/40 dark:text-white/40"
+                      }
+                    >
+                      Special char
                     </span>
                   </div>
                 </div>

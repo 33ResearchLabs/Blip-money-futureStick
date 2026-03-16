@@ -25,6 +25,8 @@ import {
   Check,
   Info,
   RefreshCw,
+  Clock,
+  UserPlus,
 } from "lucide-react";
 import DashboardNavbar from "@/components/DashboardNavbar";
 import { api } from "@/services/api";
@@ -36,6 +38,7 @@ import ReferralModal from "@/components/ReferralModal";
 import WalletLinkingModal from "@/components/WalletLinkingModal";
 import TwitterVerificationModal from "@/components/TwitterVerificationModal";
 import TelegramVerificationModal from "@/components/TelegramVerificationModal";
+import XFollowVerificationModal from "@/components/XFollowVerificationModal";
 import { Footer } from "@/components/Footer";
 import { airdropApi } from "@/services/Airdrop";
 
@@ -435,24 +438,45 @@ const Modal = ({ task, onClose, onExecute }) => {
 
 const TaskCard = ({ task, onClick, redeemed = false }) => {
   const { title, description, reward, status, icon: Icon } = task;
+  const isDisabled = status === "coming_soon" || status === "locked";
 
   return (
     <div
-      onClick={() => !redeemed && onClick(task)}
+      onClick={() => !redeemed && !isDisabled && onClick(task)}
       className={`w-full text-left p-5 flex flex-col h-full
-        border transition-all duration-300 group
+        border transition-all duration-300 group relative
         ${
           redeemed
             ? "bg-white dark:bg-white/[0.02] border-green-500/20 dark:border-green-500/20 cursor-default"
-            : "bg-white dark:bg-neutral-900/50 border-black/10 dark:border-neutral-800 hover:border-black/30 dark:hover:border-white/40 cursor-pointer"
+            : isDisabled
+              ? "bg-black/[0.02] dark:bg-neutral-900/20 border-black/5 dark:border-neutral-800/50 cursor-not-allowed opacity-60"
+              : "bg-white dark:bg-neutral-900/50 border-black/10 dark:border-neutral-800 hover:border-black/30 dark:hover:border-white/40 cursor-pointer"
         }`}
     >
       <div className="flex justify-between items-start mb-4">
         <div
-          className={`p-2 border rounded-sm bg-black/5 dark:bg-neutral-900 border-black/10 dark:border-neutral-800 text-black dark:text-neutral-400 `}
+          className={`p-2 border rounded-sm ${
+            isDisabled
+              ? "bg-black/[0.03] dark:bg-neutral-900/50 border-black/5 dark:border-neutral-800/50 text-black/30 dark:text-neutral-600"
+              : "bg-black/5 dark:bg-neutral-900 border-black/10 dark:border-neutral-800 text-black dark:text-neutral-400"
+          }`}
         >
           <Icon className="w-5 h-5" />
         </div>
+
+        {status === "coming_soon" && (
+          <span className="text-[10px] tracking-wider px-2 py-0.5 border bg-amber-500/10 border-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center gap-1">
+            <Clock className="w-3 h-3" />
+            COMING SOON
+          </span>
+        )}
+
+        {status === "locked" && (
+          <span className="text-[10px] tracking-wider px-2 py-0.5 border bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-black/40 dark:text-neutral-500 flex items-center gap-1">
+            <Lock className="w-3 h-3" />
+            LOCKED
+          </span>
+        )}
 
         {status === "active" && (
           <span
@@ -467,11 +491,11 @@ const TaskCard = ({ task, onClick, redeemed = false }) => {
         )}
       </div>
 
-      <h3 className="text-sm font-medium mb-1 text-black dark:text-neutral-200">
+      <h3 className={`text-sm font-medium mb-1 ${isDisabled ? "text-black/40 dark:text-neutral-500" : "text-black dark:text-neutral-200"}`}>
         {title}
       </h3>
 
-      <p className="text-xs text-black/60 dark:text-neutral-500 leading-relaxed mb-4">
+      <p className={`text-xs leading-relaxed mb-4 ${isDisabled ? "text-black/30 dark:text-neutral-600" : "text-black/60 dark:text-neutral-500"}`}>
         {description}
       </p>
 
@@ -482,13 +506,11 @@ const TaskCard = ({ task, onClick, redeemed = false }) => {
             Redeemed
           </span>
         </div>
-      ) : (
-        status === "active" && (
-          <div className="mt-auto text-xs text-black/60 dark:text-neutral-400 uppercase tracking-wider group-hover:translate-x-1 transition-transform">
-            Start →
-          </div>
-        )
-      )}
+      ) : status === "active" ? (
+        <div className="mt-auto text-xs text-black/60 dark:text-neutral-400 uppercase tracking-wider group-hover:translate-x-1 transition-transform">
+          Start →
+        </div>
+      ) : null}
     </div>
   );
 };
@@ -584,9 +606,18 @@ const TASKS_DATA = {
       difficulty: "Easy",
     },
     {
+      id: "s4",
+      title: "Follow on X (Twitter)",
+      description: "Follow @blip_money on X to stay updated and earn points.",
+      reward: "50",
+      status: "active",
+      icon: UserPlus,
+      difficulty: "Very Easy",
+    },
+    {
       id: "s2",
       title: "Share on X (Twitter)",
-      description: "Retweet the latest protocol announcement to earn points.",
+      description: "Post about Blip Money on X with the campaign message to earn points.",
       reward: "100",
       status: "active",
       icon: Megaphone,
@@ -609,7 +640,7 @@ const TASKS_DATA = {
       description:
         "Deposit at least 1000 USDC into the Genesis Vault for 30 days.",
       reward: "5000",
-      status: "locked",
+      status: "coming_soon",
       icon: Database,
       difficulty: "Hard",
     },
@@ -618,7 +649,7 @@ const TASKS_DATA = {
       title: "Swap Tokens on Testnet",
       description: "Complete a token swap on the Goerli Testnet.",
       reward: "500",
-      status: "locked",
+      status: "coming_soon",
       icon: Terminal,
       difficulty: "Medium",
     },
@@ -627,7 +658,7 @@ const TASKS_DATA = {
       title: "Secure Your Vault",
       description: "Deposit ETH collateral to initialize your primary vault.",
       reward: "2500",
-      status: "locked",
+      status: "coming_soon",
       icon: Landmark,
       difficulty: "Hard",
     },
@@ -636,7 +667,7 @@ const TASKS_DATA = {
       title: "Sync Network Node",
       description: "Calibrate your local node with the mainnet beacon chain.",
       reward: "1200",
-      status: "active",
+      status: "coming_soon",
       icon: Cpu,
       difficulty: "Expert",
     },
@@ -667,7 +698,7 @@ const TASKS_DATA = {
       title: "Vote on Proposal",
       description: "Cast your vote on the Fee Structure Amendment (BIP-12).",
       reward: "150",
-      status: "locked",
+      status: "coming_soon",
       icon: Vote,
       difficulty: "Easy",
     },
@@ -676,7 +707,7 @@ const TASKS_DATA = {
       title: "Bug Bounty Program",
       description: "Found a vulnerability? Report it via Immunefi.",
       reward: "Var",
-      status: "locked",
+      status: "coming_soon",
       icon: ShieldCheck,
       difficulty: "Expert",
     },
@@ -685,7 +716,7 @@ const TASKS_DATA = {
       title: "Test Merchant API",
       description: "Process a test transaction using our Merchant API.",
       reward: "5000",
-      status: "locked",
+      status: "coming_soon",
       icon: Wallet,
       difficulty: "Hard",
     },
@@ -709,10 +740,12 @@ export default function BlipDashboard() {
   const [showWalletLinkingModal, setShowWalletLinkingModal] = useState(false);
   const [showTwitterModal, setShowTwitterModal] = useState(false);
   const [showTelegramModal, setShowTelegramModal] = useState(false);
+  const [showXFollowModal, setShowXFollowModal] = useState(false);
   const [rewardStatus, setRewardStatus] = useState({
     signup: true,
     telegram: false,
     twitter: false,
+    xFollow: false,
   });
 
   const { publicKey, disconnect, connected } = useWallet();
@@ -736,15 +769,17 @@ export default function BlipDashboard() {
   useEffect(() => {
     const checkRewardStatus = async () => {
       try {
-        const [telegramRes, twitterRes]: any[] = await Promise.all([
+        const [telegramRes, twitterRes, xFollowRes]: any[] = await Promise.all([
           api.get("/telegram/status"),
           api.get("/twitter/campaign-status/general_twitter_share"),
+          api.get("/twitter/campaign-status/x_follow").catch(() => ({ data: { completed: false } })),
         ]);
 
         setRewardStatus((prev) => ({
           ...prev,
           telegram: !!telegramRes?.data?.verified,
           twitter: !!twitterRes?.data?.completed,
+          xFollow: !!xFollowRes?.data?.completed,
         }));
       } catch (err) {
         // Failed to check reward status
@@ -855,19 +890,31 @@ export default function BlipDashboard() {
   };
 
   const handleTaskClick = (task) => {
-    // Special handling for Twitter task — open X profile directly
+    // Open verification modals for social tasks
+    if (task.id === "s4") {
+      setShowXFollowModal(true);
+      return;
+    }
     if (task.id === "s2") {
-      window.open("https://x.com/blip_money", "_blank");
+      setShowTwitterModal(true);
       return;
     }
-
-    // Special handling for Telegram task — open channel link directly
     if (task.id === "s3") {
-      window.open("https://t.me/blipmoney", "_blank");
+      setShowTelegramModal(true);
       return;
     }
 
-    // Default behavior for other tasks
+    // Coming soon / locked tasks
+    if (task.status === "coming_soon") {
+      handleComingSoon();
+      return;
+    }
+    if (task.status === "locked") {
+      handleLocked();
+      return;
+    }
+
+    // Default behavior for other active tasks
     setSelectedTask(task);
   };
 
@@ -885,6 +932,12 @@ export default function BlipDashboard() {
     showToast(`Telegram verified! +${points} points awarded`, "success");
     updatePoints(points);
     setRewardStatus((prev) => ({ ...prev, telegram: true }));
+  };
+
+  const handleXFollowSuccess = (points) => {
+    showToast(`X follow verified! +${points} points awarded`, "success");
+    updatePoints(points);
+    setRewardStatus((prev) => ({ ...prev, xFollow: true }));
   };
 
   const handleComingSoon = () => {
@@ -946,6 +999,14 @@ export default function BlipDashboard() {
         isOpen={showTelegramModal}
         onClose={() => setShowTelegramModal(false)}
         onSuccess={handleTelegramSuccess}
+      />
+
+      {/* X Follow Verification Modal */}
+      <XFollowVerificationModal
+        isOpen={showXFollowModal}
+        onClose={() => setShowXFollowModal(false)}
+        onSuccess={handleXFollowSuccess}
+        userRole={user?.role}
       />
 
       {/* Referral Modal */}
@@ -1213,11 +1274,10 @@ export default function BlipDashboard() {
                     key={task.id}
                     task={task}
                     onClick={handleTaskClick}
-                    onComingSoon={handleComingSoon}
-                    onLocked={handleLocked}
                     redeemed={
                       (task.id === "s2" && rewardStatus.twitter) ||
-                      (task.id === "s3" && rewardStatus.telegram)
+                      (task.id === "s3" && rewardStatus.telegram) ||
+                      (task.id === "s4" && rewardStatus.xFollow)
                     }
                   />
                 ))}
@@ -1230,8 +1290,6 @@ export default function BlipDashboard() {
                     key={task.id}
                     task={task}
                     onClick={handleTaskClick}
-                    onComingSoon={handleComingSoon}
-                    onLocked={handleLocked}
                   />
                 ))}
               </div>
@@ -1243,8 +1301,6 @@ export default function BlipDashboard() {
                     key={task.id}
                     task={task}
                     onClick={handleTaskClick}
-                    onComingSoon={handleComingSoon}
-                    onLocked={handleLocked}
                   />
                 ))}
               </div>
@@ -1258,8 +1314,6 @@ export default function BlipDashboard() {
                     key={task.id}
                     task={task}
                     onClick={handleTaskClick}
-                    onComingSoon={handleComingSoon}
-                    onLocked={handleLocked}
                   />
                 ))}
               </div>

@@ -42,6 +42,9 @@ import {
   Rocket,
   ChevronUp,
   Menu,
+  Download,
+  Check,
+  KeyRound,
 } from "lucide-react";
 import { ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import { useTheme } from "next-themes";
@@ -171,10 +174,15 @@ export default function MerchantDashboard() {
 
   // 2FA state
   const [twoFaQrCode, setTwoFaQrCode] = useState<string | null>(null);
+  const [twoFaManualKey, setTwoFaManualKey] = useState<string | null>(null);
+  const [twoFaCopiedKey, setTwoFaCopiedKey] = useState(false);
   const [twoFaOtp, setTwoFaOtp] = useState("");
   const [twoFaDisableOtp, setTwoFaDisableOtp] = useState("");
   const [twoFaShowDisable, setTwoFaShowDisable] = useState(false);
   const [twoFaLoading, setTwoFaLoading] = useState(false);
+  const [twoFaRecoveryCodes, setTwoFaRecoveryCodes] = useState<string[] | null>(null);
+  const [twoFaShowRegenerate, setTwoFaShowRegenerate] = useState(false);
+  const [twoFaRegenOtp, setTwoFaRegenOtp] = useState("");
 
   // Account modal state
   const [showAccountModal, setShowAccountModal] = useState(false);
@@ -421,8 +429,9 @@ export default function MerchantDashboard() {
   const handleEnable2FA = async () => {
     try {
       const res = await twoFactorApi.enableGoogleAuth();
-      setTwoFaQrCode((res as any).data?.qrCode || (res as any).qrCode);
-      toast.success("Google Authenticator setup started");
+      setTwoFaQrCode(res.qrCode);
+      setTwoFaManualKey(res.manualEntryKey);
+      toast.success("Scan the QR code with your authenticator app");
     } catch (error: any) {
       toast.error(error?.response?.data?.message || "Failed to enable 2FA");
     }
@@ -435,13 +444,84 @@ export default function MerchantDashboard() {
     }
     try {
       setTwoFaLoading(true);
-      await twoFactorApi.verifyGoogleAuth(twoFaOtp);
-      toast.success("2FA Enabled Successfully");
+      const res = await twoFactorApi.verifyGoogleAuth(twoFaOtp);
+      setTwoFaRecoveryCodes(res.recoveryCodes);
       setTwoFaQrCode(null);
+      setTwoFaManualKey(null);
       setTwoFaOtp("");
-      await refreshSession();
+      toast.success("2FA enabled! Save your recovery codes now.");
     } catch (error: any) {
-      toast.error(error?.response?.data?.message || "Failed to verify OTP");
+      toast.error(error?.message || "Failed to verify OTP");
+    } finally {
+      setTwoFaLoading(false);
+    }
+  };
+
+  const handleDownloadRecoveryCodes = () => {
+    if (!twoFaRecoveryCodes) return;
+    const content = [
+      "===========================================",
+      "  BLIP MONEY - 2FA RECOVERY CODES",
+      "===========================================",
+      "",
+      "  Keep these codes in a safe place.",
+      "  Each code can only be used ONCE.",
+      "",
+      `  Generated: ${new Date().toLocaleDateString()}`,
+      `  Account: ${user?.email}`,
+      "",
+      "-------------------------------------------",
+      "",
+      ...twoFaRecoveryCodes.map((code, i) => `  ${i + 1}.  ${code}`),
+      "",
+      "-------------------------------------------",
+      "",
+      "  If you lose access to your authenticator",
+      "  app, use one of these codes to sign in.",
+      "",
+      "===========================================",
+    ].join("\n");
+
+    const blob = new Blob([content], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "blip-money-recovery-codes.txt";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toast.success("Recovery codes downloaded");
+  };
+
+  const handleConfirmRecoveryCodes = async () => {
+    setTwoFaRecoveryCodes(null);
+    await refreshSession();
+    toast.success("2FA setup complete!");
+  };
+
+  const handleCopyManualKey = () => {
+    if (!twoFaManualKey) return;
+    navigator.clipboard.writeText(twoFaManualKey);
+    setTwoFaCopiedKey(true);
+    toast.success("Manual key copied");
+    setTimeout(() => setTwoFaCopiedKey(false), 2000);
+  };
+
+  const handleRegenerateRecoveryCodes = async () => {
+    if (twoFaRegenOtp.length !== 6) {
+      toast.error("Enter a valid 6-digit OTP");
+      return;
+    }
+    try {
+      setTwoFaLoading(true);
+      const res = await twoFactorApi.regenerateRecoveryCodes(twoFaRegenOtp);
+      setTwoFaRecoveryCodes(res.recoveryCodes);
+      setTwoFaShowRegenerate(false);
+      setTwoFaRegenOtp("");
+      toast.success("New recovery codes generated!");
+    } catch (error: any) {
+      toast.error(error?.message || "Failed to regenerate codes");
     } finally {
       setTwoFaLoading(false);
     }
@@ -464,6 +544,18 @@ export default function MerchantDashboard() {
     } finally {
       setTwoFaLoading(false);
     }
+  };
+
+  const reset2FAModal = () => {
+    setShow2FAModal(false);
+    setTwoFaQrCode(null);
+    setTwoFaManualKey(null);
+    setTwoFaOtp("");
+    setTwoFaDisableOtp("");
+    setTwoFaShowDisable(false);
+    setTwoFaShowRegenerate(false);
+    setTwoFaRegenOtp("");
+    // Don't reset recovery codes here — user might still be saving them
   };
 
   const referralCode = user?.referralCode || "";
@@ -2187,24 +2279,84 @@ export default function MerchantDashboard() {
         retweetNumber={retweetCount}
       />
 
+      {/* ── 2FA Recovery Codes Modal ────────────────────────────────────────── */}
+      {twoFaRecoveryCodes && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+          <div
+            className={`relative w-full max-w-lg mx-4 ${surface} border ${border} rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto`}
+          >
+            {/* Header */}
+            <div className={`px-6 py-4 border-b ${divider} flex items-center gap-3`}>
+              <div className="p-2 rounded-lg bg-emerald-500/10">
+                <KeyRound className="w-5 h-5 text-emerald-500" />
+              </div>
+              <div>
+                <h2 className={`text-sm font-bold font-display ${txt}`}>
+                  Save Your Recovery Codes
+                </h2>
+                <p className={`text-[11px] ${sub}`}>
+                  Each code can only be used once
+                </p>
+              </div>
+            </div>
+
+            <div className="px-6 py-5 space-y-4">
+              {/* Warning */}
+              <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20">
+                <p className="text-xs text-amber-600 dark:text-amber-400 font-medium">
+                  If you lose access to your authenticator app, you'll need one
+                  of these codes to sign in. Save them now — you won't see them
+                  again.
+                </p>
+              </div>
+
+              {/* Codes grid */}
+              <div className={`grid grid-cols-2 gap-2 p-3 rounded-xl ${inputBg} border ${border}`}>
+                {twoFaRecoveryCodes.map((code, i) => (
+                  <div
+                    key={i}
+                    className={`flex items-center gap-2 px-3 py-2 rounded-lg ${surface} border ${border} font-mono text-xs ${txt}`}
+                  >
+                    <span className={`${sub} text-[10px] w-4`}>{i + 1}.</span>
+                    {code}
+                  </div>
+                ))}
+              </div>
+
+              {/* Actions */}
+              <div className="flex gap-2">
+                <button
+                  onClick={handleDownloadRecoveryCodes}
+                  className={`flex-1 flex items-center justify-center gap-2 py-3 ${accentBg} ${d ? "text-black" : "text-white"} text-xs font-bold rounded-xl hover:opacity-90 transition-all`}
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  Download (.txt)
+                </button>
+                <button
+                  onClick={handleConfirmRecoveryCodes}
+                  className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition-all"
+                >
+                  I've Saved My Codes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* ── 2FA Settings Modal ─────────────────────────────────────────────── */}
-      {show2FAModal && (
+      {show2FAModal && !twoFaRecoveryCodes && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center">
           {/* Backdrop */}
           <div
             className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-            onClick={() => {
-              setShow2FAModal(false);
-              setTwoFaQrCode(null);
-              setTwoFaOtp("");
-              setTwoFaDisableOtp("");
-              setTwoFaShowDisable(false);
-            }}
+            onClick={reset2FAModal}
           />
 
           {/* Modal card */}
           <div
-            className={`relative w-full max-w-md mx-4 ${surface} border ${border} rounded-2xl shadow-2xl overflow-hidden`}
+            className={`relative w-full max-w-md mx-4 ${surface} border ${border} rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto`}
           >
             {/* Header */}
             <div
@@ -2224,13 +2376,7 @@ export default function MerchantDashboard() {
                 </div>
               </div>
               <button
-                onClick={() => {
-                  setShow2FAModal(false);
-                  setTwoFaQrCode(null);
-                  setTwoFaOtp("");
-                  setTwoFaDisableOtp("");
-                  setTwoFaShowDisable(false);
-                }}
+                onClick={reset2FAModal}
                 className={`p-1.5 rounded-lg ${hov} transition-colors`}
               >
                 <X className={`w-4 h-4 ${muted}`} />
@@ -2251,7 +2397,7 @@ export default function MerchantDashboard() {
                 </span>
               </div>
 
-              {/* Enable section */}
+              {/* ── Enable section ──────────────────────────────────── */}
               {!user?.twoFactorEnabled && (
                 <>
                   {!twoFaQrCode ? (
@@ -2263,14 +2409,62 @@ export default function MerchantDashboard() {
                     </button>
                   ) : (
                     <div className="space-y-4">
-                      <p className={`text-xs ${muted} text-center`}>
-                        Scan this QR code with Google Authenticator
-                      </p>
+                      {/* Step 1 */}
+                      <div>
+                        <p className={`text-xs font-semibold ${txt} mb-1`}>
+                          Step 1: Scan QR Code
+                        </p>
+                        <p className={`text-[11px] ${sub}`}>
+                          Open Google Authenticator (or any TOTP app) and scan
+                          this code.
+                        </p>
+                      </div>
+
                       <img
                         src={twoFaQrCode}
                         alt="QR Code"
                         className="mx-auto w-40 h-40 rounded-xl"
                       />
+
+                      {/* Manual entry key */}
+                      {twoFaManualKey && (
+                        <div>
+                          <p className={`text-[11px] ${sub} mb-1.5`}>
+                            Can't scan? Enter this key manually:
+                          </p>
+                          <div
+                            className={`flex items-center gap-2 px-3 py-2.5 rounded-lg ${inputBg} border ${border}`}
+                          >
+                            <code
+                              className={`flex-1 text-[11px] font-mono ${txt} break-all select-all`}
+                            >
+                              {twoFaManualKey}
+                            </code>
+                            <button
+                              onClick={handleCopyManualKey}
+                              className={`shrink-0 p-1.5 rounded-md ${hov} transition`}
+                              title="Copy key"
+                            >
+                              {twoFaCopiedKey ? (
+                                <Check className="w-3.5 h-3.5 text-emerald-500" />
+                              ) : (
+                                <Copy className={`w-3.5 h-3.5 ${muted}`} />
+                              )}
+                            </button>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Step 2 */}
+                      <div>
+                        <p className={`text-xs font-semibold ${txt} mb-1`}>
+                          Step 2: Enter Verification Code
+                        </p>
+                        <p className={`text-[11px] ${sub}`}>
+                          Enter the 6-digit code from your authenticator app.
+                        </p>
+                      </div>
+
                       <input
                         value={twoFaOtp}
                         onChange={(e) =>
@@ -2279,7 +2473,7 @@ export default function MerchantDashboard() {
                           )
                         }
                         maxLength={6}
-                        placeholder="Enter 6-digit OTP"
+                        placeholder="Enter 6-digit code"
                         className={`w-full px-4 py-3 text-center text-lg tracking-[0.3em] font-mono ${inputBg} border ${border} rounded-xl ${txt} focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 transition-all`}
                         autoFocus
                       />
@@ -2289,11 +2483,12 @@ export default function MerchantDashboard() {
                           disabled={twoFaLoading || twoFaOtp.length !== 6}
                           className={`flex-1 py-3 ${accentBg} ${d ? "text-black" : "text-white"} text-xs font-bold rounded-xl hover:opacity-90 disabled:opacity-40 transition-all`}
                         >
-                          {twoFaLoading ? "Verifying..." : "Verify OTP"}
+                          {twoFaLoading ? "Verifying..." : "Verify & Enable"}
                         </button>
                         <button
                           onClick={() => {
                             setTwoFaQrCode(null);
+                            setTwoFaManualKey(null);
                             setTwoFaOtp("");
                           }}
                           className={`flex-1 py-3 border ${border} ${muted} text-xs font-bold rounded-xl ${hov} transition-all`}
@@ -2306,55 +2501,121 @@ export default function MerchantDashboard() {
                 </>
               )}
 
-              {/* Disable section */}
+              {/* ── Enabled: Recovery Codes + Disable ──────────────── */}
               {user?.twoFactorEnabled && (
-                <div className="space-y-3">
-                  {!twoFaShowDisable ? (
-                    <button
-                      onClick={() => setTwoFaShowDisable(true)}
-                      className="w-full py-3 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-xl transition-all"
-                    >
-                      Disable 2FA
-                    </button>
-                  ) : (
-                    <>
-                      <p className={`text-xs ${muted}`}>
-                        Enter the OTP from your authenticator app to disable 2FA
-                      </p>
-                      <input
-                        value={twoFaDisableOtp}
-                        onChange={(e) =>
-                          setTwoFaDisableOtp(
-                            e.target.value.replace(/\D/g, "").slice(0, 6),
-                          )
-                        }
-                        maxLength={6}
-                        placeholder="Enter 6-digit OTP"
-                        className={`w-full px-4 py-3 text-center text-lg tracking-[0.3em] font-mono ${inputBg} border ${border} rounded-xl ${txt} focus:outline-none focus:ring-2 focus:ring-red-500/30 transition-all`}
-                        autoFocus
-                      />
-                      <div className="flex gap-2">
-                        <button
-                          onClick={handleDisable2FA}
-                          disabled={
-                            twoFaLoading || twoFaDisableOtp.length !== 6
+                <div className="space-y-4">
+                  {/* Recovery Codes Section */}
+                  <div>
+                    <p className={`text-xs font-semibold ${txt} mb-1`}>
+                      Recovery Codes
+                    </p>
+                    <p className={`text-[11px] ${sub} mb-3`}>
+                      Lost or used your recovery codes? Generate new ones here.
+                    </p>
+
+                    {!twoFaShowRegenerate ? (
+                      <button
+                        onClick={() => setTwoFaShowRegenerate(true)}
+                        className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold ${inputBg} border ${border} ${txt} ${hov} transition-all`}
+                      >
+                        <RefreshCw className="w-3.5 h-3.5" />
+                        Regenerate Recovery Codes
+                      </button>
+                    ) : (
+                      <div className={`space-y-3 p-3 rounded-xl ${inputBg} border ${border}`}>
+                        <p className={`text-[11px] ${sub}`}>
+                          Enter your authenticator code to generate new codes.
+                          Old codes will be invalidated.
+                        </p>
+                        <input
+                          value={twoFaRegenOtp}
+                          onChange={(e) =>
+                            setTwoFaRegenOtp(
+                              e.target.value.replace(/\D/g, "").slice(0, 6),
+                            )
                           }
-                          className="flex-1 py-3 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-xl disabled:opacity-40 transition-all"
-                        >
-                          {twoFaLoading ? "Disabling..." : "Confirm Disable"}
-                        </button>
-                        <button
-                          onClick={() => {
-                            setTwoFaShowDisable(false);
-                            setTwoFaDisableOtp("");
-                          }}
-                          className={`flex-1 py-3 border ${border} ${muted} text-xs font-bold rounded-xl ${hov} transition-all`}
-                        >
-                          Cancel
-                        </button>
+                          maxLength={6}
+                          placeholder="Enter 6-digit code"
+                          className={`w-full px-4 py-2.5 text-center font-mono tracking-[0.2em] ${surface} border ${border} rounded-lg ${txt} focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 transition-all`}
+                        />
+                        <div className="flex gap-2">
+                          <button
+                            onClick={handleRegenerateRecoveryCodes}
+                            disabled={twoFaLoading || twoFaRegenOtp.length !== 6}
+                            className={`flex-1 py-2.5 ${accentBg} ${d ? "text-black" : "text-white"} text-xs font-bold rounded-xl hover:opacity-90 disabled:opacity-40 transition-all`}
+                          >
+                            {twoFaLoading ? "Generating..." : "Generate New Codes"}
+                          </button>
+                          <button
+                            onClick={() => {
+                              setTwoFaShowRegenerate(false);
+                              setTwoFaRegenOtp("");
+                            }}
+                            className={`px-4 py-2.5 border ${border} ${muted} text-xs font-bold rounded-xl ${hov} transition-all`}
+                          >
+                            Cancel
+                          </button>
+                        </div>
                       </div>
-                    </>
-                  )}
+                    )}
+                  </div>
+
+                  {/* Divider */}
+                  <div className={`border-t ${divider}`} />
+
+                  {/* Disable Section */}
+                  <div>
+                    <p className="text-xs font-semibold text-red-500 mb-3">
+                      Disable Two-Factor Authentication
+                    </p>
+
+                    {!twoFaShowDisable ? (
+                      <button
+                        onClick={() => setTwoFaShowDisable(true)}
+                        className="w-full py-3 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-xl transition-all"
+                      >
+                        Disable 2FA
+                      </button>
+                    ) : (
+                      <div className="space-y-3">
+                        <p className={`text-[11px] ${muted}`}>
+                          Enter your authenticator code to disable 2FA.
+                        </p>
+                        <input
+                          value={twoFaDisableOtp}
+                          onChange={(e) =>
+                            setTwoFaDisableOtp(
+                              e.target.value.replace(/\D/g, "").slice(0, 6),
+                            )
+                          }
+                          maxLength={6}
+                          placeholder="Enter 6-digit OTP"
+                          className={`w-full px-4 py-3 text-center text-lg tracking-[0.3em] font-mono ${inputBg} border ${border} rounded-xl ${txt} focus:outline-none focus:ring-2 focus:ring-red-500/30 transition-all`}
+                          autoFocus
+                        />
+                        <div className="flex gap-2">
+                          <button
+                            onClick={handleDisable2FA}
+                            disabled={
+                              twoFaLoading || twoFaDisableOtp.length !== 6
+                            }
+                            className="flex-1 py-3 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-xl disabled:opacity-40 transition-all"
+                          >
+                            {twoFaLoading ? "Disabling..." : "Confirm Disable"}
+                          </button>
+                          <button
+                            onClick={() => {
+                              setTwoFaShowDisable(false);
+                              setTwoFaDisableOtp("");
+                            }}
+                            className={`flex-1 py-3 border ${border} ${muted} text-xs font-bold rounded-xl ${hov} transition-all`}
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
             </div>

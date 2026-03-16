@@ -6,8 +6,6 @@ import authApi from "@/services/auth";
 import { useAuth } from "@/contexts/AuthContext";
 import { twoFactorApi } from "@/services/twoFatctor";
 import { motion } from "framer-motion";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { firebaseAuth } from "@/config/firebase";
 
 export default function Login({ role }: { role?: "user" | "merchant" }) {
   const navigate = useNavigate();
@@ -46,6 +44,8 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
   // 2FA state
   const [show2FA, setShow2FA] = useState(false);
   const [twoFactorCode, setTwoFactorCode] = useState("");
+  const [useRecoveryCode, setUseRecoveryCode] = useState(false);
+  const [recoveryCode, setRecoveryCode] = useState("");
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -98,33 +98,6 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
         error.response?.status === 403 &&
         error.response?.data?.emailVerified === false
       ) {
-        // Check if Firebase has it verified - if so, sync to backend and retry
-        try {
-          const fbUser = await signInWithEmailAndPassword(
-            firebaseAuth,
-            formData.email,
-            formData.password,
-          );
-          if (fbUser.user.emailVerified) {
-            await authApi.confirmEmailVerified(formData.email);
-            // Retry login now that backend is synced
-            const retryResponse = await authApi.login({
-              email: formData.email,
-              password: formData.password,
-            });
-            if (retryResponse.twoFactorRequired) {
-              setShow2FA(true);
-              setIsLoading(false);
-              return;
-            }
-            login(retryResponse.user);
-            toast.success("Login successful!");
-            navigate(getDashboardForUser(retryResponse.user));
-            return;
-          }
-        } catch {
-          // Firebase sign-in failed or sync failed - show original error
-        }
         toast.error("Please verify your email before logging in");
         navigate("/email-verification-pending", {
           state: { email: formData.email, role },
@@ -161,6 +134,37 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
         error.response?.data?.message || "Invalid verification code";
       toast.error(message);
       setTwoFactorCode("");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleRecoverySubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!recoveryCode || recoveryCode.replace(/-/g, "").length !== 8) {
+      toast.error("Please enter a valid recovery code (e.g. ABCD-1234)");
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const response = await twoFactorApi.verifyRecoveryCode({
+        email: formData.email,
+        recoveryCode,
+      });
+
+      if (response.warning) {
+        toast.warning(response.warning);
+      }
+
+      login(response.user);
+      toast.success("Login successful!");
+      navigate(getDashboardForUser(response.user));
+    } catch (error: any) {
+      toast.error(error.message || "Invalid recovery code");
+      setRecoveryCode("");
     } finally {
       setIsLoading(false);
     }
@@ -219,54 +223,139 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
               Two-Factor Authentication
             </h1>
             <p className="text-sm text-black/50 dark:text-white/50">
-              Enter the 6-digit code from your authenticator app
+              {useRecoveryCode
+                ? "Enter one of your recovery codes"
+                : "Enter the 6-digit code from your authenticator app"}
             </p>
           </div>
 
-          <form onSubmit={handle2FASubmit} className="space-y-5">
-            <div>
-              <input
-                type="text"
-                value={twoFactorCode}
-                onChange={(e) =>
-                  setTwoFactorCode(
-                    e.target.value.replace(/\D/g, "").slice(0, 6),
-                  )
+          {/* TOTP Code Form */}
+          {!useRecoveryCode && (
+            <form onSubmit={handle2FASubmit} className="space-y-5">
+              <div>
+                <input
+                  type="text"
+                  value={twoFactorCode}
+                  onChange={(e) =>
+                    setTwoFactorCode(
+                      e.target.value.replace(/\D/g, "").slice(0, 6),
+                    )
+                  }
+                  className="w-full px-4 py-4 text-center text-2xl tracking-[0.3em] font-mono bg-black/[0.02] dark:bg-white/[0.03] border border-black/10 dark:border-white/10 rounded-xl text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-transparent transition-all"
+                  placeholder="000000"
+                  maxLength={6}
+                  autoFocus
+                  disabled={isLoading}
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isLoading || twoFactorCode.length !== 6}
+                className="w-full py-3.5 bg-white text-black border border-black/10 font-semibold rounded-xl transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    Verifying...
+                  </>
+                ) : (
+                  "Verify & Login"
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setUseRecoveryCode(true);
+                  setTwoFactorCode("");
+                }}
+                className="w-full py-3 text-sm text-black/50 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors text-center"
+              >
+                Lost access to authenticator? Use a recovery code
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setShow2FA(false);
+                  setTwoFactorCode("");
+                }}
+                className="w-full py-3.5 bg-black text-white border border-black font-semibold rounded-xl transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-900 hover:shadow-[0_4px_16px_rgba(0,0,0,0.18)] active:scale-[0.98]"
+              >
+                Back to Login
+              </button>
+            </form>
+          )}
+
+          {/* Recovery Code Form */}
+          {useRecoveryCode && (
+            <form onSubmit={handleRecoverySubmit} className="space-y-5">
+              <div>
+                <input
+                  type="text"
+                  value={recoveryCode}
+                  onChange={(e) =>
+                    setRecoveryCode(
+                      e.target.value
+                        .toUpperCase()
+                        .replace(/[^A-Z0-9-]/g, "")
+                        .slice(0, 9),
+                    )
+                  }
+                  className="w-full px-4 py-4 text-center text-xl tracking-[0.15em] font-mono bg-black/[0.02] dark:bg-white/[0.03] border border-black/10 dark:border-white/10 rounded-xl text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-transparent transition-all"
+                  placeholder="XXXX-XXXX"
+                  maxLength={9}
+                  autoFocus
+                  disabled={isLoading}
+                />
+                <p className="mt-2 text-xs text-black/40 dark:text-white/40 text-center">
+                  Enter one of the recovery codes you saved during 2FA setup
+                </p>
+              </div>
+
+              <button
+                type="submit"
+                disabled={
+                  isLoading || recoveryCode.replace(/-/g, "").length !== 8
                 }
-                className="w-full px-4 py-4 text-center text-2xl tracking-[0.3em] font-mono bg-black/[0.02] dark:bg-white/[0.03] border border-black/10 dark:border-white/10 rounded-xl text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-transparent transition-all"
-                placeholder="000000"
-                maxLength={6}
-                autoFocus
-                disabled={isLoading}
-              />
-            </div>
+                className="w-full py-3.5 bg-white text-black border border-black/10 font-semibold rounded-xl transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    Verifying...
+                  </>
+                ) : (
+                  "Login with Recovery Code"
+                )}
+              </button>
 
-            <button
-              type="submit"
-              disabled={isLoading || twoFactorCode.length !== 6}
-              className="w-full py-3.5 bg-white text-black border border-black/10 font-semibold rounded-xl transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                  Verifying...
-                </>
-              ) : (
-                "Verify & Login"
-              )}
-            </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setUseRecoveryCode(false);
+                  setRecoveryCode("");
+                }}
+                className="w-full py-3 text-sm text-black/50 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors text-center"
+              >
+                Use authenticator code instead
+              </button>
 
-            <button
-              type="button"
-              onClick={() => {
-                setShow2FA(false);
-                setTwoFactorCode("");
-              }}
-              className="w-full py-3.5 bg-black text-white border border-black font-semibold rounded-xl transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-900 hover:shadow-[0_4px_16px_rgba(0,0,0,0.18)] active:scale-[0.98]"
-            >
-              Back to Login
-            </button>
-          </form>
+              <button
+                type="button"
+                onClick={() => {
+                  setShow2FA(false);
+                  setTwoFactorCode("");
+                  setUseRecoveryCode(false);
+                  setRecoveryCode("");
+                }}
+                className="w-full py-3.5 bg-black text-white border border-black font-semibold rounded-xl transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-900 hover:shadow-[0_4px_16px_rgba(0,0,0,0.18)] active:scale-[0.98]"
+              >
+                Back to Login
+              </button>
+            </form>
+          )}
         </motion.div>
       </div>
     );

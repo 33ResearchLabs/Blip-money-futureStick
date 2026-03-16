@@ -14,12 +14,6 @@ import { toast } from "sonner";
 import authApi from "@/services/auth";
 import { useAuth } from "@/contexts/AuthContext";
 import ReCAPTCHA from "react-google-recaptcha";
-import {
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import { firebaseAuth } from "@/config/firebase";
 
 export default function Register({
   role,
@@ -114,15 +108,7 @@ export default function Register({
     setIsLoading(true);
 
     try {
-      // 1. Create Firebase user and send verification email
-      const firebaseUser = await createUserWithEmailAndPassword(
-        firebaseAuth,
-        formData.email,
-        formData.password,
-      );
-      await sendEmailVerification(firebaseUser.user);
-
-      // 2. Register on backend (creates MongoDB user with emailVerified: false)
+      // Register on backend - generates verification token and sends email via SES
       await authApi.register({
         email: formData.email,
         password: formData.password,
@@ -131,46 +117,16 @@ export default function Register({
         ...(isMerchant && { role: "merchant" }),
       });
 
-      // 3. Navigate to verification pending page
       toast.success("Verification email sent! Please check your inbox.");
       navigate("/email-verification-pending", {
         state: { email: formData.email, role },
       });
     } catch (error: any) {
-      // Handle Firebase-specific errors
-      if (error.code === "auth/email-already-in-use") {
-        // Try to sign in - if user exists but isn't verified, resend verification
-        try {
-          const existingUser = await signInWithEmailAndPassword(
-            firebaseAuth,
-            formData.email,
-            formData.password,
-          );
-          if (!existingUser.user.emailVerified) {
-            await sendEmailVerification(existingUser.user);
-            toast.success(
-              "Verification email resent! Please check your inbox.",
-            );
-            navigate("/email-verification-pending", {
-              state: { email: formData.email, role },
-            });
-            return;
-          }
-          // Firebase says verified - sync to backend then redirect to login
-          try {
-            await authApi.confirmEmailVerified(formData.email);
-          } catch {}
-          toast.info("Email already verified. Please login.");
-        } catch {
-          toast.error("Email already registered. Please login instead.");
-        }
-      } else {
-        const message =
-          error.response?.data?.message ||
-          error.message ||
-          "Registration failed. Please try again.";
-        toast.error(message);
-      }
+      const message =
+        error.response?.data?.message ||
+        error.message ||
+        "Registration failed. Please try again.";
+      toast.error(message);
     } finally {
       setIsLoading(false);
     }

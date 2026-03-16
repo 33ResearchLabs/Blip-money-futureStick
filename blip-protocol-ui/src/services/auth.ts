@@ -35,9 +35,9 @@ export const authApi = {
   login: (data: LoginData) => api.post("/auth/login", data) as Promise<LoginResponse>,
 
   /**
-   * Verify email with token from URL (old method)
+   * Verify email with token from URL query param
    */
-  verifyEmail: (token: string) => api.get(`/auth/verify-email/${token}`),
+  verifyEmail: (token: string) => api.get(`/auth/verify-email?token=${token}`),
 
   /**
    * Verify email with OTP (new method)
