@@ -27,16 +27,14 @@ const IMAGES = {
     "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000&auto=format",
   lightModeGlobe:
     "https://lh3.googleusercontent.com/gg-dl/AOI_d_8EiIYRBtnO2zznoeqW-A9YI9Kyy4_cGwnqWGRARqKLO7GED7LMHwmt79MFG8M1vAzgq22oVXSJFppOphvsJ7MdjieWt8oatnzkZnL2yJMx8uI5neF4myA8uwIPM2vLncZlizL63RQzLKDshdWqQOg5Q0YG3dMoXFFnlzc-eEdmOzk-=s1600-rj",
-  fiberOptics:
-    "https://plus.unsplash.com/premium_photo-1700428143495-ce0435fefa38?q=80&w=752&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  fiberOptics: "/globalprovider.png",
   dataStream:
     "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format",
-  blockchainNodes:
-    "https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=1200&auto=format",
+  blockchainNodes: "/blockchainNodes.png",
   vault:
     "https://www.gettrx.com/wp-content/uploads/2023/08/Merchant-Account-vs-Payment-Gateway-vs-PSP.jpg",
   deepNetwork:
-    "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2000&auto=format",
+    "https://plus.unsplash.com/premium_photo-1677488181730-780718b005e0?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjV8fGNvaW5zJTIwY3J5cHRvJTIwYmFubmVyfGVufDB8fDB8fHww",
 };
 
 /**
@@ -94,6 +92,8 @@ const BentoCard = ({
   subtitle,
   image,
   dark = true,
+  opacity = 0,
+  titleColor,
   overlayOpacity = "opacity-40",
 }: {
   children: React.ReactNode;
@@ -102,6 +102,8 @@ const BentoCard = ({
   subtitle?: string;
   image?: string;
   dark?: boolean;
+  opacity?: number;
+  titleColor?: string;
   overlayOpacity?: string;
 }) => (
   <div
@@ -114,9 +116,11 @@ const BentoCard = ({
           alt={title || "Tech Visual"}
           className={`absolute inset-0 w-full h-full object-fill ${overlayOpacity} group-hover:scale-105 transition-transform duration-1000 ease-out`}
         />
-        <div
-          className={`absolute inset-0 bg-gradient-to-t ${dark ? "from-[#FAF8F5] dark:from-black via-[#FAF8F5]/80 dark:via-black/80" : "from-white via-white/40"} to-transparent opacity-100 transition-opacity`}
-        />
+        {!opacity && (
+          <div
+            className={`absolute inset-0 bg-gradient-to-t ${dark ? "from-[#FAF8F5] dark:from-black via-[#FAF8F5]/80 dark:via-black/80" : "from-white via-white/40"} to-transparent opacity-100 transition-opacity`}
+          />
+        )}
       </>
     )}
     <div className="relative z-10 p-10 h-full flex flex-col">
@@ -124,14 +128,14 @@ const BentoCard = ({
         <div>
           {title && (
             <h3
-              className={`text-3xl font-bold tracking-tight mb-2 ${dark ? "text-black dark:text-white" : "text-black"}`}
+              className={`text-3xl font-bold tracking-tight mb-2 ${titleColor ? "text-black" : dark ? "text-black dark:text-white" : "text-black"}`}
             >
               {title}
             </h3>
           )}
           {subtitle && (
             <p
-              className={`text-base max-w-[280px] leading-relaxed ${dark ? "text-black/60 dark:text-gray-400" : "text-gray-600"}`}
+              className={`text-base max-w-[280px] leading-relaxed ${titleColor ? "text-black/60" : dark ? "text-black/60 dark:text-gray-400" : "text-gray-600"}`}
             >
               {subtitle}
             </p>
@@ -274,7 +278,7 @@ export default function RewardPage() {
         <section className="relative h-screen flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img
-              src={isDark ? IMAGES.heroGlobe : "/lightModeGlobe.png"}
+              src={isDark ? IMAGES.heroGlobe : "/lightModeGlobe.webp"}
               alt="Global Network"
               className="w-full h-full object-cover opacity-50 scale-110 animate-subtle-zoom"
             />
@@ -321,15 +325,16 @@ export default function RewardPage() {
         <section className="max-w-[1400px] mx-auto px-10  relative z-20 ">
           <BentoCard
             className="min-h-[380px] bg-black "
-            // image={IMAGES.deepNetwork}
+            image={IMAGES.deepNetwork}
             overlayOpacity="opacity-100"
+            opacity={1}
           >
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8 mb-8">
               <div>
-                <h3 className="text-3xl font-bold tracking-tight mb-2 text-black dark:text-white">
+                <h3 className="text-3xl font-bold tracking-tight mb-2 text-black dark:text-black">
                   $25 Welcome Incentive
                 </h3>
-                <p className="text-base max-w-[280px] leading-relaxed text-black/60 dark:text-gray-400">
+                <p className="text-lg max-w-[280px] leading-relaxed text-black/60 dark:text-black">
                   Initiate your first settlement and unlock immediate protocol
                   rewards.
                 </p>
@@ -442,16 +447,20 @@ export default function RewardPage() {
               className="md:col-span-4 h-[500px]"
               title="Merchant Gateway"
               subtitle="Pay verified partners on-chain. Zero fees. Zero friction."
-              // image={"/merchantGateway.png"}
+              image={
+                "https://plus.unsplash.com/premium_photo-1682339354902-b19775dccc77?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTMxfHxwYXltZW50fGVufDB8fDB8fHww"
+              }
+              opacity={1}
+              titleColor="true"
               overlayOpacity="opacity-100"
             >
               <div className="flex items-center justify-between w-full pt-6">
-                <div className="text-3xl font-black flex items-center gap-2">
-                  <Zap className="text-yellow-400" size={24} /> 20.00
+                <div className="text-3xl font-black text-black flex items-center gap-2">
+                  <Zap className="text-black" size={24} /> 20.00
                 </div>
                 <AppleButton
                   variant="link"
-                  className="rounded-2xl border text-white/90  hover:border-white/40   border-white/20 hover:text-white"
+                  className="rounded-2xl border dark:bg-black text-white/90  hover:border-white/40   border-white/20 hover:text-white"
                 >
                   Use Pay
                 </AppleButton>
