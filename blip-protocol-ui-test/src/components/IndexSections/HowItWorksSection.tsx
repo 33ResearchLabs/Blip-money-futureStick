@@ -21,6 +21,7 @@ import {
   Signal,
   ArrowDownCircle,
   Coins,
+  SunriseIcon,
 } from "lucide-react";
 import { CTAButton } from "../Navbar";
 import { useTheme } from "next-themes";
@@ -485,9 +486,7 @@ const App = () => {
                 {step.num} • {step.label}
               </span>
             </div>
-            <h3
-              className="heading-h3 select-none text-center text-black dark:text-white"
-            >
+            <h3 className="heading-h3 select-none text-center text-black dark:text-white">
               {step.h1}
               <br />
               <span className="text-black/50 dark:text-white/40">
@@ -868,7 +867,7 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
           <span
             style={{ fontSize: 15, fontWeight: 900, letterSpacing: "-0.035em" }}
           >
-            Jhon <span style={{ color: "green" }}>●</span>
+            Jhon{" "}
           </span>
         </div>
         <div className="flex items-center gap-2">
@@ -1875,7 +1874,7 @@ const BILLS = [
     amt: "4,200",
     due: "Due 5 Mar",
     emoji: "🏠",
-    color: "#ff6b35",
+    color: "#6b7280",
     active: true,
   },
   {
@@ -1965,11 +1964,8 @@ const PayScreen = ({ isDark }: { isDark: boolean }) => {
           transition={{ delay: 0.05 }}
           className="rounded-[22px] p-4 mb-4 relative overflow-hidden"
           style={{
-            background: isDark
-              ? "linear-gradient(140deg, rgba(255,107,53,0.14), rgba(59,130,246,0.08))"
-              : "linear-gradient(140deg, rgba(255,107,53,0.07), rgba(59,130,246,0.04))",
-            border: `1px solid ${isDark ? "rgba(255,107,53,0.22)" : "rgba(255,107,53,0.12)"}`,
-            boxShadow: "0 8px 32px rgba(255,107,53,0.08)",
+            border: `1px solid ${isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.08)"}`,
+            boxShadow: "none",
           }}
         >
           <motion.div
@@ -1983,7 +1979,7 @@ const PayScreen = ({ isDark }: { isDark: boolean }) => {
             className="absolute inset-0 skew-x-12"
             style={{
               background:
-                "linear-gradient(90deg, transparent 30%, rgba(255,107,53,0.04) 50%, transparent 70%)",
+                "linear-gradient(90deg, transparent 30%, rgba(255,255,255,0.03) 50%, transparent 70%)",
             }}
           />
           <p
@@ -1991,7 +1987,7 @@ const PayScreen = ({ isDark }: { isDark: boolean }) => {
               fontSize: 7,
               fontWeight: 900,
               letterSpacing: "0.28em",
-              color: "#ff8f5e",
+              color: c.muted,
               textTransform: "uppercase" as const,
               marginBottom: 5,
             }}
@@ -2034,13 +2030,10 @@ const PayScreen = ({ isDark }: { isDark: boolean }) => {
               className="flex items-center gap-2.5 rounded-[16px]"
               style={{
                 padding: "9px 11px",
-                background: b.active
-                  ? isDark
-                    ? `${b.color}10`
-                    : `${b.color}06`
-                  : c.card,
-                border: `1px solid ${b.active ? b.color + "30" : c.border}`,
-                boxShadow: b.active ? `0 4px 16px ${b.color}12` : "none",
+                background: b.active ? "#fff" : c.card,
+                border: `1px solid ${b.active ? "#fff" : c.border}`,
+                boxShadow: b.active ? "0 4px 16px rgba(255,255,255,0.1)" : "none",
+                color: b.active ? "#000" : undefined,
               }}
             >
               <div
@@ -2060,12 +2053,12 @@ const PayScreen = ({ isDark }: { isDark: boolean }) => {
                   <p style={{ fontSize: 11, fontWeight: 900 }}>{b.name}</p>
                   <p style={{ fontSize: 11, fontWeight: 900 }}>
                     {b.amt}{" "}
-                    <span style={{ fontSize: 7.5, color: c.muted }}>AED</span>
+                    <span style={{ fontSize: 7.5, color: b.active ? "rgba(0,0,0,0.5)" : c.muted }}>AED</span>
                   </p>
                 </div>
                 <div className="flex items-center justify-between">
                   <span
-                    style={{ fontSize: 7.5, fontWeight: 600, color: c.muted }}
+                    style={{ fontSize: 7.5, fontWeight: 600, color: b.active ? "rgba(0,0,0,0.5)" : c.muted }}
                   >
                     {b.due}
                   </span>
@@ -2074,7 +2067,7 @@ const PayScreen = ({ isDark }: { isDark: boolean }) => {
                       style={{
                         fontSize: 7.5,
                         fontWeight: 900,
-                        color: b.color,
+                        color: "#000",
                         textTransform: "uppercase" as const,
                         letterSpacing: "0.1em",
                       }}
@@ -2150,9 +2143,9 @@ const CashOutScreen = ({ isDark }: { isDark: boolean }) => {
       {/* Radial glow */}
       <div
         className="absolute inset-0 pointer-events-none"
-        style={{
-          background: `radial-gradient(ellipse at 50% 35%, ${isDark ? "rgba(255,107,53,0.15)" : "rgba(255,107,53,0.08)"} 0%, ${isDark ? "rgba(255,107,53,0.08)" : "rgba(255,107,53,0.04)"} 40%, transparent 70%)`,
-        }}
+        // style={{
+        //   background: `radial-gradient(ellipse at 50% 35%, ${isDark ? "rgba(255,107,53,0.15)" : "rgba(255,107,53,0.08)"} 0%, ${isDark ? "rgba(255,107,53,0.08)" : "rgba(255,107,53,0.04)"} 40%, transparent 70%)`,
+        // }}
       />
       {/* Pulse rings */}
       <motion.div
@@ -2195,9 +2188,7 @@ const CashOutScreen = ({ isDark }: { isDark: boolean }) => {
           height: 96,
           borderRadius: 34,
           marginBottom: 22,
-          background: "transparent",
-          boxShadow:
-            "0 0 50px rgba(255,107,53,0.25), 0 0 80px rgba(255,107,53,0.15), 0 16px 40px rgba(0,0,0,0.3)",
+          background: "black",
         }}
       >
         <img

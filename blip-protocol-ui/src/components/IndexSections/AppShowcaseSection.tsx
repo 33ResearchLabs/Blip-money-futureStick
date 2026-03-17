@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useRef, memo } from "react";
+import TradePhoneUI from "../TradePhoneUI";
 
 /* ============================================
    APP SHOWCASE — Apple-style bento grid
@@ -82,19 +83,26 @@ const AppShowcaseSection = () => {
             style={{
               y: p1,
               background:
-                "linear-gradient(145deg, #1c0900 0%, #0f0f0f 55%, #000 100%)",
+                "linear-gradient(145deg, #2a1200 0%, #0d0a14 55%, #0a0e1a 100%)",
             }}
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="md:col-span-5 relative rounded-3xl overflow-hidden max-h-[540px]"
+            className="md:col-span-5 relative rounded-3xl overflow-hidden"
           >
-            <img
-              src="/card1.png"
-              alt="Initiate Order"
-              className="w-full h-full object-cover"
-            />
+            <TradePhoneUI />
+            <div className="relative z-10 px-6 pb-6">
+              <div className="text-[10px] text-white/25 uppercase tracking-[0.2em] font-semibold mb-1">
+                Step 01
+              </div>
+              <h3 className="text-white font-semibold text-base leading-snug">
+                Best rates, instant liquidity
+              </h3>
+              <p className="text-white/35 text-xs mt-1">
+                Seamless multi-corridor transfers, instantly.
+              </p>
+            </div>
           </motion.div>
 
           {/* ── RIGHT COLUMN — 2×2 ─────────────────────────────── */}
@@ -492,6 +500,8 @@ const AppShowcaseSection = () => {
                   <motion.img
                     src="/images/merchant-dashboard.webp"
                     alt="Blip merchant dashboard"
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover object-top"
                     style={{ willChange: "transform" }}
                     animate={{ scale: [1, 1.03, 1] }}
@@ -872,8 +882,9 @@ const AppShowcaseSection = () => {
           >
             <motion.img
               src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1172&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              // src="https://plus.unsplash.com/premium_photo-1713163890188-6807aa2641de?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fGVhcnRoJTIwYXQlMjBuaWdodHxlbnwwfHwwfHx8MA%3D%3D"
               alt="Global reach"
+              loading="lazy"
+              decoding="async"
               className="absolute inset-0 w-full h-full object-contain"
               style={{ willChange: "transform" }}
               animate={{ scale: [1, 1.05, 1] }}
@@ -902,4 +913,4 @@ const AppShowcaseSection = () => {
   );
 };
 
-export default AppShowcaseSection;
+export default memo(AppShowcaseSection);

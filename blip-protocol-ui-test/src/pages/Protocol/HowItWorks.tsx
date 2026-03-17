@@ -164,17 +164,17 @@ const KeyConceptsSection = () => {
     {
       icon: Lock,
       title: "Non-Custodial Escrow",
-      desc: "Funds are secured by code, not intermediaries.",
+      desc: "Keep total sovereignty over your digital assets. Our audited smart contracts ensure that you\u2014and only you\u2014control your funds at all times.",
     },
     {
       icon: Zap,
       title: "Zero Intermediaries",
-      desc: "Direct settlement between wallet and merchant.",
+      desc: "Remove the friction of traditional banking. Settle transactions instantly and directly between your wallet and any merchant globally.",
     },
     {
       icon: Shield,
       title: "Privacy-First Design",
-      desc: "Wallet-based access with zero KYC required.",
+      desc: "Financial privacy is a right, not a feature. Transact securely without invasive KYC or data tracking, powered by zero-knowledge logic.",
     },
   ];
 
@@ -183,9 +183,6 @@ const KeyConceptsSection = () => {
       ref={ref}
       className="relative md:py-32 py-12 bg-[#FAF8F5] dark:bg-black overflow-hidden"
     >
-      {/* Background glow */}
-      {/* <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-white/5 blur-[150px] rounded-full" /> */}
-
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -219,35 +216,31 @@ const KeyConceptsSection = () => {
                 delay: i * 0.15,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="group relative p-8 rounded-3xl overflow-hidden cursor-pointer border border-white/40  hover:border-black/20 dark:hover:border-white/20 dark:hover:scale-105 duration-500 transition-colors"
-              style={{
-                background: "rgba(255, 255, 255, 0.02)",
-                // border: "1px solid rgba(255, 255, 255, 0.05)",
-              }}
+              className="group relative p-8 pb-6 rounded-3xl overflow-hidden cursor-pointer
+                bg-white dark:bg-white
+                border border-black/[0.06] dark:border-black/[0.06]
+                shadow-[0_1px_3px_rgba(0,0,0,0.04)]
+                hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]
+                transition-all duration-500 flex flex-col"
               onMouseEnter={() => sounds.hover()}
             >
-              {/* Hover gradient */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#ffffff]/[0.05] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 " />
-
-              <div className="relative z-10">
-                <div className="w-14 h-14 rounded-2xl bg-black/5 dark:bg-white/5 flex items-center justify-center mb-6 group-hover:bg-black/10 dark:group-hover:bg-white/10 transition-colors duration-500">
-                  <concept.icon className="w-6 h-6 text-black/70 dark:text-white/70 group-hover:text-black dark:group-hover:text-[#ffffff] transition-colors duration-500" />
+              <div className="relative z-10 flex flex-col flex-1">
+                {/* Icon */}
+                <div className="w-12 h-12 rounded-2xl bg-black/[0.04] flex items-center justify-center mb-8 group-hover:bg-black/[0.07] transition-colors duration-500">
+                  <concept.icon className="w-5 h-5 text-black/60 group-hover:text-black transition-colors duration-500" strokeWidth={1.5} />
                 </div>
-                <h3 className="text-lg font-semibold text-black/70 dark:text-white/70 mb-3">
+
+                {/* Title */}
+                <h3 className="text-xl font-bold text-black mb-3 tracking-tight">
                   {concept.title}
                 </h3>
-                <p className="text-sm font-medium text-black/50 dark:text-white/50">
+
+                {/* Description */}
+                <p className="text-sm leading-relaxed text-black/50 mb-8 flex-1">
                   {concept.desc}
                 </p>
-              </div>
 
-              {/* Bottom accent line */}
-              <motion.div
-                className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#ffffff] to-transparent group-hover:opacity-0"
-                initial={{ scaleX: 0, originX: 0 }}
-                animate={isInView ? { scaleX: 1 } : {}}
-                transition={{ duration: 1, delay: 0.5 + i * 0.1 }}
-              />
+              </div>
             </motion.div>
           ))}
         </div>

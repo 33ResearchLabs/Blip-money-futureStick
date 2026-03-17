@@ -398,6 +398,7 @@ export default function RewardPage() {
               title="Global Liquidity Provider"
               subtitle="Power the PeopleBank network by providing deep liquidity to settlement pairs."
               image={IMAGES.fiberOptics}
+              opacity={1}
               overlayOpacity="opacity-100"
             >
               <div className="flex flex-col md:flex-row items-center justify-between w-full gap-8 p-6 rounded-[2rem] border border-black/5 dark:border-white/5">
