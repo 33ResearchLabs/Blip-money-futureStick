@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, memo } from "react";
+import TradePhoneUI from "../TradePhoneUI";
 
 /* ============================================
    APP SHOWCASE — Apple-style bento grid
@@ -82,21 +83,26 @@ const AppShowcaseSection = () => {
             style={{
               y: p1,
               background:
-                "linear-gradient(145deg, #1c0900 0%, #0f0f0f 55%, #000 100%)",
+                "linear-gradient(145deg, #2a1200 0%, #0d0a14 55%, #0a0e1a 100%)",
             }}
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="md:col-span-5 relative rounded-3xl overflow-hidden max-h-[540px]"
+            className="md:col-span-5 relative rounded-3xl overflow-hidden"
           >
-            <img
-              src="/card1.webp"
-              alt="Initiate Order"
-              loading="lazy"
-              decoding="async"
-              className="w-full h-full object-cover"
-            />
+            <TradePhoneUI />
+            <div className="relative z-10 px-6 pb-6">
+              <div className="text-[10px] text-white/25 uppercase tracking-[0.2em] font-semibold mb-1">
+                Step 01
+              </div>
+              <h3 className="text-white font-semibold text-base leading-snug">
+                Best rates, instant liquidity
+              </h3>
+              <p className="text-white/35 text-xs mt-1">
+                Seamless multi-corridor transfers, instantly.
+              </p>
+            </div>
           </motion.div>
 
           {/* ── RIGHT COLUMN — 2×2 ─────────────────────────────── */}

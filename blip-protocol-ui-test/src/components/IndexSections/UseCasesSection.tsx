@@ -22,11 +22,12 @@ const Card = ({
   bgImage,
   imagePosition = "center",
 }) => (
-  <div className="relative group overflow-hidden rounded-3xl bg-white h-full flex flex-col transition-all duration-700 ease-out hover:scale-[1.03] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] shadow-[0_8px_30px_-10px_rgba(0,0,0,0.08)] will-change-transform">
+  <div className="relative group overflow-hidden rounded-3xl bg-white h-[90%] flex flex-col transition-all duration-700 ease-out hover:scale-[1.03] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] shadow-[0_8px_30px_-10px_rgba(0,0,0,0.08)] will-change-transform">
     {/* Background Image */}
     <div
-      className="absolute inset-0 z-0 transition-all duration-[1200ms] ease-out group-hover:scale-110 group-hover:brightness-105"
+      className="absolute z-0 transition-all duration-[1200ms] ease-out group-hover:scale-110 group-hover:brightness-105"
       style={{
+        inset: "-15%",
         backgroundImage: `url('${bgImage}')`,
         backgroundSize: "cover",
         backgroundPosition: imagePosition,
@@ -88,7 +89,9 @@ const TransactionRow = ({ icon: Icon, name, amount, rebate }) => (
     </div>
     <div className="text-right">
       <div className="text-sm font-bold text-emerald-600">+{amount}</div>
-      <div className="text-[10px] text-neutral-400 font-medium">{rebate}% back</div>
+      <div className="text-[10px] text-neutral-400 font-medium">
+        {rebate}% back
+      </div>
     </div>
   </div>
 );
@@ -99,13 +102,15 @@ const UseCasesSection = () => {
       <div className="max-w-7xl mx-auto px-6 py-24">
         {/* Header Section */}
         <div className="text-center mb-20">
-          <div className="inline-block px-4 py-1.5 rounded-full border border-neutral-200 bg-neutral-50 text-[10px] font-bold tracking-widest uppercase text-neutral-500 mb-6">
-            Use Cases
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-black/[0.08] bg-white/60 mb-6">
+            <span className="text-[10px] uppercase tracking-[0.25em] text-black/50 font-semibold">
+              Use Cases
+            </span>
           </div>
-          <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-8 text-neutral-900">
+          <h2 className="heading-h2 text-neutral-900 mb-6">
             Built for everyone.
-          </h1>
-          <p className="max-w-2xl mx-auto text-lg text-neutral-600 leading-relaxed font-medium">
+          </h2>
+          <p className="p-large text-neutral-500 max-w-lg mx-auto">
             Whether you're sending value globally or running a merchant
             business, Blip is the network that makes it possible.
           </p>
@@ -123,8 +128,8 @@ const UseCasesSection = () => {
                 Globally.
               </>
             }
-            bgImage="https://images.unsplash.com/photo-1662695088711-acfdfda51c01?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTYzfHxnaXJsJTIwcGhvbmUlMjB1c2luZyUyMGZvciUyMHBheW1lbnR8ZW58MHx8MHx8fDA%3D"
-            imagePosition="center"
+            bgImage="https://images.unsplash.com/photo-1662695088711-acfdfda51c01?w=800&auto=format&q=80&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTYzfHxnaXJsJTIwcGhvbmUlMjB1c2luZyUyMGZvciUyMHBheW1lbnR8ZW58MHx8MHx8fDA%3D&crop=entropy&gravity=south"
+            imagePosition="center 80%"
           >
             <div className="mt-6">
               <FeatureItem

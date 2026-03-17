@@ -21,7 +21,11 @@ const PILLARS = [
     value: "Trustless",
     desc: "Non-custodial smart contracts hold funds until both sides confirm.",
     color: "#3ddc84",
-    glow: "rgba(61,220,132,0.15)",
+    gradFrom: "#e8faf0",
+    gradTo: "#d0f5e0",
+    darkGradFrom: "#0a2618",
+    darkGradTo: "#071a10",
+    num: "01",
   },
   {
     Icon: Cpu,
@@ -29,15 +33,23 @@ const PILLARS = [
     value: "< 8s",
     desc: "150+ merchants compete in real-time to offer the best rate.",
     color: "#ff6b35",
-    glow: "rgba(255,107,53,0.15)",
+    gradFrom: "#fff0e8",
+    gradTo: "#ffe0cc",
+    darkGradFrom: "#261408",
+    darkGradTo: "#1a0e05",
+    num: "02",
   },
   {
     Icon: Users,
     label: "Reputation Graph",
     value: "On-chain",
     desc: "Every merchant carries a verifiable trust score built over time.",
-    color: "#3ddc84",
-    glow: "rgba(61,220,132,0.15)",
+    color: "#6366f1",
+    gradFrom: "#eef0ff",
+    gradTo: "#dde0ff",
+    darkGradFrom: "#0e0f26",
+    darkGradTo: "#08091a",
+    num: "03",
   },
   {
     Icon: Globe,
@@ -45,7 +57,11 @@ const PILLARS = [
     value: "12 corridors",
     desc: "Crypto-to-cash rails spanning UAE, SEA, Africa & beyond.",
     color: "#ff6b35",
-    glow: "rgba(255,107,53,0.15)",
+    gradFrom: "#fff0e8",
+    gradTo: "#ffe0cc",
+    darkGradFrom: "#261408",
+    darkGradTo: "#1a0e05",
+    num: "04",
   },
 ];
 
@@ -212,181 +228,135 @@ const ProtocolInterstitial = () => {
 
         {/* ── Protocol architecture pillars ── */}
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
           style={{ y: pillarsY }}
         >
           {PILLARS.map((p, i) => (
             <motion.div
               key={p.label}
-              initial={{ opacity: 0, y: 32 }}
+              initial={{ opacity: 0, y: 36 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.15 + i * 0.1, ease: EASE }}
-              whileHover={{ y: -6 }}
+              transition={{ duration: 0.7, delay: 0.12 + i * 0.1, ease: EASE }}
+              whileHover={{ y: -6, transition: { duration: 0.3 } }}
               style={{
                 position: "relative",
-                background: isDark
-                  ? "rgba(255,255,255,0.025)"
-                  : "rgba(0,0,0,0.018)",
-                border: isDark
-                  ? "1px solid rgba(255,255,255,0.06)"
-                  : "1px solid rgba(0,0,0,0.05)",
                 borderRadius: 20,
-                padding: "28px 24px 24px",
+                padding: 1,
+                background: `linear-gradient(160deg, ${p.color}30, transparent 40%, transparent 60%, ${p.color}15)`,
                 cursor: "default",
-                overflow: "hidden",
-                transition: "border-color 0.3s, background 0.3s",
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLDivElement;
-                el.style.borderColor = isDark
-                  ? "rgba(255,255,255,0.12)"
-                  : "rgba(0,0,0,0.1)";
-                el.style.background = isDark
-                  ? "rgba(255,255,255,0.04)"
-                  : "rgba(0,0,0,0.025)";
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLDivElement;
-                el.style.borderColor = isDark
-                  ? "rgba(255,255,255,0.06)"
-                  : "rgba(0,0,0,0.05)";
-                el.style.background = isDark
-                  ? "rgba(255,255,255,0.025)"
-                  : "rgba(0,0,0,0.018)";
               }}
             >
-              {/* Top-edge accent line */}
-              <div
-                aria-hidden
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: "15%",
-                  right: "15%",
-                  height: 1,
-                  background: `linear-gradient(90deg, transparent, ${p.color}40, transparent)`,
-                }}
-              />
-
-              {/* Corner glow */}
-              <div
-                aria-hidden
-                style={{
-                  position: "absolute",
-                  top: -40,
-                  right: -40,
-                  width: 120,
-                  height: 120,
-                  borderRadius: "50%",
-                  background: `radial-gradient(circle, ${p.glow} 0%, transparent 70%)`,
-                  pointerEvents: "none",
-                }}
-              />
-
-              {/* Icon */}
+              {/* Inner card */}
               <div
                 style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 12,
-                  background: `${p.color}12`,
-                  border: `1px solid ${p.color}25`,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginBottom: 16,
+                  position: "relative",
+                  borderRadius: 19,
+                  background: isDark
+                    ? "linear-gradient(160deg, #141414 0%, #0a0a0a 100%)"
+                    : "linear-gradient(160deg, #ffffff 0%, #fafafa 100%)",
+                  padding: "28px 24px 26px",
+                  overflow: "hidden",
+                  height: "100%",
                 }}
               >
-                <p.Icon
-                  style={{ width: 18, height: 18, color: isDark ? "#ffffff" : "#111111" }}
-                  strokeWidth={1.6}
-                />
-              </div>
+                {/* Large watermark number */}
+                <div
+                  aria-hidden
+                  style={{
+                    position: "absolute",
+                    top: -8,
+                    right: 8,
+                    fontSize: 88,
+                    fontWeight: 900,
+                    color: isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.03)",
+                    lineHeight: 1,
+                    fontFamily: "monospace",
+                    pointerEvents: "none",
+                    userSelect: "none",
+                  }}
+                >
+                  {p.num}
+                </div>
 
-              {/* Value */}
-              <div
-                style={{
-                  fontSize: 22,
-                  fontWeight: 700,
-                  letterSpacing: "-0.03em",
-                  color: isDark ? "#ffffff" : "#111",
-                  marginBottom: 4,
-                }}
-              >
-                {p.value}
-              </div>
+                {/* Colored dot + label row */}
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
+                  <motion.div
+                    style={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      background: p.color,
+                      boxShadow: `0 0 12px ${p.color}60`,
+                      flexShrink: 0,
+                    }}
+                    animate={{ boxShadow: [
+                      `0 0 12px ${p.color}60`,
+                      `0 0 20px ${p.color}90`,
+                      `0 0 12px ${p.color}60`,
+                    ]}}
+                    transition={{ duration: 3, repeat: Infinity, delay: i * 0.5 }}
+                  />
+                  <span
+                    style={{
+                      fontSize: 10,
+                      fontWeight: 700,
+                      letterSpacing: "2px",
+                      textTransform: "uppercase",
+                      color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)",
+                    }}
+                  >
+                    {p.label}
+                  </span>
+                </div>
 
-              {/* Label */}
-              <div
-                style={{
-                  fontSize: 11,
-                  fontWeight: 600,
-                  letterSpacing: "1.5px",
-                  textTransform: "uppercase",
-                  color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.45)",
-                  marginBottom: 10,
-                }}
-              >
-                {p.label}
-              </div>
+                {/* Icon */}
+                <div
+                  style={{
+                    width: 44,
+                    height: 44,
+                    borderRadius: 12,
+                    background: `${p.color}12`,
+                    border: `1px solid ${p.color}20`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginBottom: 20,
+                  }}
+                >
+                  <p.Icon
+                    style={{ width: 20, height: 20, color: "#ffffff" }}
+                    strokeWidth={1.8}
+                  />
+                </div>
 
-              {/* Desc */}
-              <div
-                style={{
-                  fontSize: 13,
-                  lineHeight: 1.5,
-                  color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.4)",
-                  fontWeight: 450,
-                }}
-              >
-                {p.desc}
+                {/* Value */}
+                <div
+                  style={{
+                    fontSize: 26,
+                    fontWeight: 800,
+                    letterSpacing: "-0.03em",
+                    color: isDark ? "#ffffff" : "#111",
+                    marginBottom: 8,
+                    lineHeight: 1.1,
+                  }}
+                >
+                  {p.value}
+                </div>
+
+                {/* Desc */}
+                <div
+                  style={{
+                    fontSize: 13,
+                    lineHeight: 1.55,
+                    color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.42)",
+                    fontWeight: 450,
+                  }}
+                >
+                  {p.desc}
+                </div>
               </div>
             </motion.div>
-          ))}
-        </motion.div>
-
-        {/* ── Connecting line between pillars (desktop) ── */}
-        <motion.div
-          className="hidden lg:block relative mx-auto mt-8"
-          style={{ height: 2, maxWidth: "80%" }}
-          initial={{ scaleX: 0 }}
-          whileInView={{ scaleX: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.2, delay: 0.6, ease: EASE }}
-        >
-          <div
-            style={{
-              height: 1,
-              background: isDark
-                ? "linear-gradient(90deg, transparent, rgba(255,255,255,0.08), rgba(255,255,255,0.08), transparent)"
-                : "linear-gradient(90deg, transparent, rgba(0,0,0,0.06), rgba(0,0,0,0.06), transparent)",
-            }}
-          />
-          {/* Dots at each quarter */}
-          {[0, 0.33, 0.66, 1].map((pos, i) => (
-            <motion.div
-              key={i}
-              initial={{ scale: 0 }}
-              whileInView={{ scale: 1 }}
-              viewport={{ once: true }}
-              transition={{
-                delay: 0.8 + i * 0.1,
-                type: "spring",
-                stiffness: 300,
-              }}
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: `${pos * 100}%`,
-                transform: "translate(-50%, -50%)",
-                width: 5,
-                height: 5,
-                borderRadius: "50%",
-                background: PILLARS[i].color,
-                boxShadow: `0 0 8px ${PILLARS[i].glow}`,
-              }}
-            />
           ))}
         </motion.div>
       </motion.div>

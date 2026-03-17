@@ -47,22 +47,18 @@ function Scene({
   const range = end - start;
 
   // 5-phase keyframes: quick enter → LONG hold at 100% → quick exit
-  const k0 = start;                    // fully offscreen right
-  const k1 = start + range * 0.1;      // arriving center
-  const k2 = start + range * 0.15;     // fully settled — hold starts
-  const k3 = end - range * 0.15;       // hold ends — begin exit
-  const k4 = end - range * 0.1;        // exiting
-  const k5 = end;                      // fully offscreen left
+  const k0 = start; // fully offscreen right
+  const k1 = start + range * 0.1; // arriving center
+  const k2 = start + range * 0.15; // fully settled — hold starts
+  const k3 = end - range * 0.15; // hold ends — begin exit
+  const k4 = end - range * 0.1; // exiting
+  const k5 = end; // fully offscreen left
 
   // --- Horizontal X: slide right → center → left ---
   const xRaw = useTransform(
     progress,
-    isLast
-      ? [k0, k1, k2]
-      : [k0, k1, k2, k3, k4, k5],
-    isLast
-      ? [80, 10, 0]
-      : [80, 10, 0, 0, -10, -80],
+    isLast ? [k0, k1, k2] : [k0, k1, k2, k3, k4, k5],
+    isLast ? [80, 10, 0] : [80, 10, 0, 0, -10, -80],
   );
   const x = useSpring(xRaw, SPRING_CONFIG);
   // Convert to vw for responsive movement
@@ -71,48 +67,32 @@ function Scene({
   // --- Opacity: smooth fade in & out ---
   const opacityRaw = useTransform(
     progress,
-    isLast
-      ? [k0, k1, k2]
-      : [k0, k1, k2, k3, k4, k5],
-    isLast
-      ? [0, 0.6, 1]
-      : [0, 0.6, 1, 1, 0.6, 0],
+    isLast ? [k0, k1, k2] : [k0, k1, k2, k3, k4, k5],
+    isLast ? [0, 0.6, 1] : [0, 0.6, 1, 1, 0.6, 0],
   );
   const opacity = useSpring(opacityRaw, SPRING_CONFIG);
 
   // --- Scale: grow in, shrink out ---
   const scaleRaw = useTransform(
     progress,
-    isLast
-      ? [k0, k1, k2]
-      : [k0, k1, k2, k3, k4, k5],
-    isLast
-      ? [0.82, 0.94, 1]
-      : [0.82, 0.94, 1, 1, 0.94, 0.82],
+    isLast ? [k0, k1, k2] : [k0, k1, k2, k3, k4, k5],
+    isLast ? [0.82, 0.94, 1] : [0.82, 0.94, 1, 1, 0.94, 0.82],
   );
   const scale = useSpring(scaleRaw, SPRING_CONFIG);
 
   // --- Subtle Y rotation for 3D depth feel ---
   const rotateYRaw = useTransform(
     progress,
-    isLast
-      ? [k0, k1, k2]
-      : [k0, k1, k2, k3, k4, k5],
-    isLast
-      ? [6, 1, 0]
-      : [6, 1, 0, 0, -1, -6],
+    isLast ? [k0, k1, k2] : [k0, k1, k2, k3, k4, k5],
+    isLast ? [6, 1, 0] : [6, 1, 0, 0, -1, -6],
   );
   const rotateY = useSpring(rotateYRaw, SPRING_CONFIG);
 
   // --- Blur for depth ---
   const blurRaw = useTransform(
     progress,
-    isLast
-      ? [k0, k1, k2]
-      : [k0, k1, k2, k3, k4, k5],
-    isLast
-      ? [8, 2, 0]
-      : [8, 2, 0, 0, 2, 8],
+    isLast ? [k0, k1, k2] : [k0, k1, k2, k3, k4, k5],
+    isLast ? [8, 2, 0] : [8, 2, 0, 0, 2, 8],
   );
   const blur = useSpring(blurRaw, SPRING_CONFIG);
   const filter = useTransform(blur, (v) => `blur(${v}px)`);
@@ -120,12 +100,8 @@ function Scene({
   // --- Ambient glow ---
   const glowOp = useTransform(
     progress,
-    isLast
-      ? [k0, k2]
-      : [k0, k2, k3, k5],
-    isLast
-      ? [0, 0.6]
-      : [0, 0.6, 0.6, 0],
+    isLast ? [k0, k2] : [k0, k2, k3, k5],
+    isLast ? [0, 0.6] : [0, 0.6, 0.6, 0],
   );
 
   // --- Text: quick entrance, stays visible through hold ---
@@ -136,18 +112,14 @@ function Scene({
     isLast
       ? [textEnterStart, textEnterEnd]
       : [textEnterStart, textEnterEnd, k3, k5],
-    isLast
-      ? [0, 1]
-      : [0, 1, 1, 0],
+    isLast ? [0, 1] : [0, 1, 1, 0],
   );
   const textYRaw = useTransform(
     progress,
     isLast
       ? [textEnterStart, textEnterEnd]
       : [textEnterStart, textEnterEnd, k3, k5],
-    isLast
-      ? [40, 0]
-      : [40, 0, 0, -20],
+    isLast ? [40, 0] : [40, 0, 0, -20],
   );
   const textY = useSpring(textYRaw, SPRING_CONFIG);
 
@@ -156,21 +128,13 @@ function Scene({
   const uiEnterEnd = start + range * 0.16;
   const uiOp = useTransform(
     progress,
-    isLast
-      ? [uiEnterStart, uiEnterEnd]
-      : [uiEnterStart, uiEnterEnd, k3, k5],
-    isLast
-      ? [0, 1]
-      : [0, 1, 1, 0],
+    isLast ? [uiEnterStart, uiEnterEnd] : [uiEnterStart, uiEnterEnd, k3, k5],
+    isLast ? [0, 1] : [0, 1, 1, 0],
   );
   const uiYRaw = useTransform(
     progress,
-    isLast
-      ? [uiEnterStart, uiEnterEnd]
-      : [uiEnterStart, uiEnterEnd, k3, k5],
-    isLast
-      ? [30, 0]
-      : [30, 0, 0, -15],
+    isLast ? [uiEnterStart, uiEnterEnd] : [uiEnterStart, uiEnterEnd, k3, k5],
+    isLast ? [30, 0] : [30, 0, 0, -15],
   );
   const uiY = useSpring(uiYRaw, SPRING_CONFIG);
 
@@ -194,7 +158,7 @@ function Scene({
         }}
       />
 
-      <div className="absolute inset-0 flex items-center justify-center">
+      <div className="absolute inset-0 flex flex-col items-center pt-[60px] sm:pt-[72px]">
         <motion.div
           className="w-full max-w-5xl mx-auto px-4 sm:px-6 flex flex-col items-center text-center"
           style={{
@@ -207,20 +171,18 @@ function Scene({
           {/* Text — staggered entrance */}
           <motion.div
             style={{ y: textY, opacity: textOp }}
-            className="w-full mb-6 sm:mb-8"
+            className="w-full mb-4 sm:mb-6"
           >
             <div
-              className="text-[10px] uppercase tracking-[3px] mb-3 font-semibold"
+              className="text-[10px] uppercase tracking-[3px] mb-2 font-semibold"
               style={{ color: accent }}
             >
               {eyebrow}
             </div>
-            <h2 className="heading-h3 text-gray-900 mb-3 text-2xl sm:text-3xl lg:text-5xl">
+            <h2 className="heading-h3 text-gray-900 mb-2 text-2xl sm:text-3xl lg:text-5xl">
               {headline[0]}
               <br />
-              <span className="text-gray-400">
-                {headline[1]}
-              </span>
+              <span className="text-gray-400">{headline[1]}</span>
             </h2>
             <p className="p-medium text-gray-500 max-w-[440px] mx-auto text-sm lg:text-base">
               {subline}
@@ -332,7 +294,10 @@ const FeatureCinemaSection = () => {
   }, [scrollYProgress]);
 
   return (
-    <div ref={containerRef} className="h-[600vh] sm:h-[650vh] lg:h-[700vh]">
+    <div
+      ref={containerRef}
+      className="h-[600vh] my-10 sm:h-[650vh] lg:h-[700vh]"
+    >
       <div className="sticky top-0 overflow-hidden" style={{ height: "100vh" }}>
         {/* Animated background */}
         <motion.div
@@ -341,14 +306,14 @@ const FeatureCinemaSection = () => {
         />
 
         {/* Subtle grid */}
-        <div
+        {/* <div
           className="absolute inset-0 pointer-events-none"
           style={{
             backgroundImage:
               "linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px)",
             backgroundSize: "80px 80px",
           }}
-        />
+        /> */}
 
         {/* Top pill label */}
         <div className="absolute top-4 sm:top-8 left-1/2 -translate-x-1/2 z-20">
@@ -402,7 +367,8 @@ const FeatureCinemaSection = () => {
                   overflow: "hidden",
                   borderRadius: 16,
                   background: "#0a0a0a",
-                  boxShadow: "0 25px 60px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.06)",
+                  boxShadow:
+                    "0 25px 60px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.06)",
                 }}
               >
                 <div

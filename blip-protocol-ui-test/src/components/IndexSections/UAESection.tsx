@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useRef, useEffect, useState } from "react";
 import { MapPin } from "lucide-react";
 import { CTAButton } from "../Navbar";
 
@@ -44,19 +44,44 @@ const stats = [
 ];
 
 const UAESection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      (entries: IntersectionObserverEntry[]) => {
+        const entry = entries[0];
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black/70"
     >
-      {/* Dubai photo */}
-      <div className="absolute inset-0 w-full h-full">
-        <img
-          src="/Dubai.webp"
-          alt="Dubai skyline"
-          loading="lazy"
-          className="w-full h-full object-cover object-center"
-        />
-      </div>
+      {/* Dubai photo — only rendered when section is near viewport */}
+      {isVisible && (
+        <div className="absolute inset-0 w-full h-full">
+          <img
+            src="/Dubai.webp"
+            alt="Dubai skyline"
+            loading="lazy"
+            decoding="async"
+            fetchPriority="low"
+            className="w-full h-full object-cover object-center"
+          />
+        </div>
+      )}
 
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/90" />
@@ -105,32 +130,34 @@ const UAESection = () => {
           ))}
         </div>
 
-        {/* Corridor cards */}
+        {/* Corridor cards — GPU-accelerated hover (translate3d instead of translate-y) */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-14">
           {corridors.map((corridor) => (
             <div
               key={corridor.toLabel}
-              className="relative p-5 rounded-2xl border border-white/[0.1] bg-white/[0.05] overflow-hidden group hover:-translate-y-1 hover:border-[#ff6b35]/30 transition-all duration-200"
+              className="relative p-5 rounded-2xl bg-gradient-to-br from-white/90 via-white/70 to-white/50 backdrop-blur-md border border-white/60 shadow-[0_4px_24px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.9)] overflow-hidden group hover:border-[#ff6b35]/40 hover:shadow-[0_8px_32px_rgba(255,107,53,0.12),inset_0_1px_0_rgba(255,255,255,0.9)] transition-all duration-300"
             >
+              {/* Glossy shine overlay */}
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/40 via-transparent to-transparent pointer-events-none" />
               <div className="relative">
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-xl">{corridor.from}</span>
                   <div className="flex-1 flex items-center gap-1">
-                    <div className="h-px flex-1 bg-white/20" />
+                    <div className="h-px flex-1 bg-neutral-400" />
                     <div className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]" />
-                    <div className="h-px flex-1 bg-white/20" />
+                    <div className="h-px flex-1 bg-neutral-400" />
                   </div>
                   <span className="text-xl">{corridor.to}</span>
                 </div>
 
-                <div className="text-sm font-semibold text-white mb-1.5">
+                <div className="text-sm font-bold text-neutral-900 mb-1.5">
                   {corridor.fromCcy} → {corridor.toCcy}
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] uppercase tracking-wider text-white/70 font-semibold">
+                  <span className="text-[10px] uppercase tracking-wider text-neutral-600 font-semibold">
                     {corridor.fromLabel} → {corridor.toLabel}
                   </span>
-                  <span className="text-xs text-[#00e599] font-mono font-semibold">
+                  <span className="text-xs text-[#ff6b35] font-mono font-bold">
                     {corridor.volume}
                   </span>
                 </div>
@@ -145,7 +172,11 @@ const UAESection = () => {
             Join Dubai Beta
           </CTAButton>
 
-          <CTAButton to="/merchant" variant="secondary" className="h-[52px] px-6">
+          <CTAButton
+            to="/merchant"
+            variant="secondary"
+            className="h-[52px] px-6"
+          >
             Merchant onboarding
           </CTAButton>
         </div>
