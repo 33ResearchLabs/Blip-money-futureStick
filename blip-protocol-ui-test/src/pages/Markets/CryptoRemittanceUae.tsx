@@ -556,7 +556,7 @@ export default function CryptoRemittanceUae() {
                   to="/waitlist"
                   onClick={() => sounds.click()}
                   onMouseEnter={() => sounds.hover()}
-                  className="group relative flex items-center justify-center gap-2 w-full py-4 rounded-xl bg-black dark:bg-white text-white dark:text-black font-semibold text-[15px] overflow-hidden transition-all hover:opacity-90"
+                  className="group relative flex items-center justify-center gap-2 w-full py-4 rounded-xl bg-white text-black border border-black/10 font-semibold text-[15px] overflow-hidden transition-all hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98]"
                 >
                   <Send className="w-4 h-4" />
                   <span className="relative z-10">Start Saving on Remittance</span>
@@ -799,7 +799,7 @@ export default function CryptoRemittanceUae() {
               to="/waitlist"
               onClick={() => sounds.click()}
               onMouseEnter={() => sounds.hover()}
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-black dark:bg-white text-white dark:text-black font-semibold text-[15px] hover:opacity-90 transition-opacity"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-black border border-black/10 font-semibold text-[15px] hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all"
             >
               <Send className="w-4 h-4" />
               Start Saving Now

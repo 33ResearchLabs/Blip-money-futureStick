@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { PulseIcon } from "./PulseIcon";
-import { FaLinkedin, FaTelegramPlane, FaYoutube } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
+import { Linkedin, Send, Youtube, Twitter } from "lucide-react";
 
 /* ================= FOOTER DATA ================= */
 
@@ -33,6 +32,7 @@ const FOOTER_SECTIONS = [
       { label: "FAQ", to: "/faq" },
       { label: "Glossary", to: "/glossary" },
       { label: "Compare", to: "/compare" },
+      { label: "Rewards", to: "/rewards" },
     ],
   },
   {
@@ -45,6 +45,8 @@ const FOOTER_SECTIONS = [
       { label: "Crypto OTC Dubai", to: "/crypto-otc-dubai" },
       { label: "Bitcoin Price UAE", to: "/bitcoin-price-uae" },
       { label: "Crypto Tax UAE", to: "/crypto-tax-uae" },
+      { label: "Crypto to INR", to: "/crypto-to-inr" },
+      { label: "BTC to INR", to: "/btc-to-inr" },
     ],
   },
   {
@@ -54,15 +56,27 @@ const FOOTER_SECTIONS = [
       { label: "Press", to: "/press" },
       { label: "Community", to: "/community" },
       { label: "Waitlist", to: "/waitlist" },
+      { label: "Privacy Policy", to: "/privacy" },
+      { label: "Terms of Service", to: "/terms" },
+      { label: "Cookies", to: "/cookies" },
+      { label: "Legal", to: "/legal" },
     ],
   },
 ];
 
 const SOCIAL_PLATFORMS = [
-  { icon: FaTelegramPlane, href: "https://t.me/+3DpHLzc2BfJhOWEx", label: "Telegram" },
-  { icon: FaXTwitter, href: "https://x.com/blip_money", label: "X (Twitter)" },
-  { icon: FaYoutube, href: "https://www.youtube.com/@BlipMoney", label: "YouTube" },
-  { icon: FaLinkedin, href: "https://www.linkedin.com/company/blipmoneyofficial/", label: "LinkedIn" },
+  { icon: Send, href: "https://t.me/blipmoney", label: "Telegram" },
+  { icon: Twitter, href: "https://x.com/blip_money", label: "X (Twitter)" },
+  {
+    icon: Youtube,
+    href: "https://www.youtube.com/@BlipMoney",
+    label: "YouTube",
+  },
+  {
+    icon: Linkedin,
+    href: "https://www.linkedin.com/company/blipmoneyofficial/about/?viewAsMember=true",
+    label: "LinkedIn",
+  },
 ];
 
 /* ================= SMALL COMPONENTS ================= */
@@ -182,10 +196,7 @@ export const Footer = ({
 
           <div className="flex items-center gap-3 text-sm uppercase tracking-widest font-bold text-black/70 dark:text-white/50">
             <div className="w-5 h-5 rounded-sm flex items-center justify-center">
-              <PulseIcon
-                size={14}
-                className="text-black dark:text-white"
-              />
+              <PulseIcon size={14} className="text-black dark:text-white" />
             </div>
             Fast. Simple. Blip.
           </div>

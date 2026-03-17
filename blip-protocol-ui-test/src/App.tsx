@@ -11,35 +11,52 @@ import {
   useSearchParams,
 } from "react-router-dom";
 
-import GoogleAnalytics from "@/components/GoogleAnalytics";
-import StructuredData from "@/components/StructuredData";
 import "./i18n";
+
+// Lazy load non-critical components that don't affect initial render
+const GoogleAnalytics = lazy(() => import("@/components/GoogleAnalytics"));
+const StructuredData = lazy(() => import("@/components/StructuredData"));
 
 import MainLayout from "./Layout/RootLayout";
 import ScrollToTop from "./components/ScrollToTop";
-import { SolanaWalletProvider } from "./providers/SolanaWalletProvider";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
-// Import wallet adapter CSS
-import "@solana/wallet-adapter-react-ui/styles.css";
 import { Toaster } from "./components/ui/toaster";
+
+// Lazy-load Solana wallet provider — only needed on dashboard routes (~1-2MB)
+const LazySolanaWalletProvider = lazy(() =>
+  import("./providers/SolanaWalletProvider").then((m) => ({
+    default: m.SolanaWalletProvider,
+  })),
+);
 
 const CryptoToUae = lazy(() => import("./pages/Markets/CryptoToUae"));
 const LegalPage = lazy(() => import("./pages/Legel/LeagalPage"));
 const UserRegister = lazy(() => import("./pages/Waitlist/UserRegister"));
 const ForgotPassword = lazy(() => import("./pages/Waitlist/ForgotPassword"));
 const ResetPassword = lazy(() => import("./pages/Waitlist/ResetPassword"));
-const EmailVerificationPending = lazy(() => import("./pages/Waitlist/EmailVerificationPending"));
+const EmailVerificationPending = lazy(
+  () => import("./pages/Waitlist/EmailVerificationPending"),
+);
 const VerifyEmail = lazy(() => import("./pages/Waitlist/VerifyEmail"));
-const MerchantDashboard = lazy(() => import("./pages/Waitlist/MerchantDashboard"));
-const MerchantLogin = lazy(() => import("./pages/Waitlist/MerchantLogin").then((m) => ({ default: m.MerchantLogin })));
-const MerchantRegister = lazy(() => import("./pages/Waitlist/MerchantRegister"));
-const SuperAdminDashboard = lazy(() => import("./pages/Waitlist/SuperAdminDashboard"));
+const MerchantDashboard = lazy(
+  () => import("./pages/Waitlist/MerchantDashboard"),
+);
+const MerchantLogin = lazy(() =>
+  import("./pages/Waitlist/MerchantLogin").then((m) => ({
+    default: m.MerchantLogin,
+  })),
+);
+const MerchantRegister = lazy(
+  () => import("./pages/Waitlist/MerchantRegister"),
+);
+const SuperAdminDashboard = lazy(
+  () => import("./pages/Waitlist/SuperAdminDashboard"),
+);
 const RedeemTelegram = lazy(() => import("./pages/Waitlist/RedeemTelegram"));
 
 // Lazy load page components
 const Index = lazy(() => import("./pages/Index"));
-const RewardsLanding = lazy(() => import("./pages/Unused/Rewards"));
 const UAELandingPage = lazy(() => import("./pages/Unused/uae"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const BlipTokenomics = lazy(() => import("./pages/Protocol/BlipTokenomics"));
@@ -52,7 +69,6 @@ const HowItWorksPage = lazy(() =>
 const ContactUs = lazy(() => import("./pages/Company/ContactUs"));
 const UserLogin = lazy(() => import("./pages/Waitlist/UserLogin"));
 const Dashboard = lazy(() => import("./pages/Waitlist/Dashboard"));
-const AdminDashboard = lazy(() => import("./pages/Unused/AdminDashboard"));
 const Privacy = lazy(() => import("./pages/Legel/Privecy"));
 const TermsService = lazy(() => import("./components/TermsService"));
 const Cookies = lazy(() => import("./components/Cookies"));
@@ -92,6 +108,10 @@ const CryptoRemittanceUae = lazy(
 const BtcToAed = lazy(() => import("./pages/Markets/BtcToAed"));
 const EthToAed = lazy(() => import("./pages/Markets/EthToAed"));
 const SolToAed = lazy(() => import("./pages/Markets/SolToAed"));
+const CryptoToInr = lazy(() => import("./pages/Markets/CryptoToInr"));
+const BtcToInr = lazy(() => import("./pages/Markets/BtcToInr"));
+const EthToInr = lazy(() => import("./pages/Markets/EthToInr"));
+const SolToInr = lazy(() => import("./pages/Markets/SolToInr"));
 const CryptoToBankUae = lazy(() => import("./pages/Markets/CryptoToBankUae"));
 const UsdtVsUsdc = lazy(() => import("./pages/Markets/UsdtVsUsdc"));
 const CryptoTaxUae = lazy(() => import("./pages/Markets/CryptoTaxUae"));
@@ -103,6 +123,8 @@ const BestCryptoExchangeUae = lazy(
   () => import("./pages/Markets/BestCryptoExchangeUae"),
 );
 const BitcoinPriceUae = lazy(() => import("./pages/Markets/BitcoinPriceUae"));
+const Bounty = lazy(() => import("./pages/Bounty"));
+const RewardPage = lazy(() => import("./pages/RewardPage"));
 
 // Handle Firebase auth action URLs (e.g. /?mode=resetPassword&oobCode=...)
 const FirebaseActionHandler = ({ children }: { children: React.ReactNode }) => {
@@ -121,7 +143,14 @@ const FirebaseActionHandler = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5 min — avoid refetching on every mount
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 // Loading fallback component
 const PageLoader = () => (
@@ -132,7 +161,6 @@ const PageLoader = () => (
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <SolanaWalletProvider>
       <AuthProvider>
         <ThemeProvider
           attribute="class"
@@ -144,10 +172,12 @@ const App = () => (
             <Toaster />
             <Sonner />
 
-            <BrowserRouter>
-              <GoogleAnalytics />
-              <StructuredData type="organization" />
-              <StructuredData type="website" />
+            <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+              <Suspense fallback={null}>
+                <GoogleAnalytics />
+                <StructuredData type="organization" />
+                <StructuredData type="website" />
+              </Suspense>
               <ScrollToTop />
               <Suspense fallback={<PageLoader />}>
                 <Routes>
@@ -173,11 +203,14 @@ const App = () => (
                     <Route path="/reset-password" element={<ResetPassword />} />
                     <Route path="/verify-email" element={<VerifyEmail />} />
                     <Route path="/tokenomics" element={<BlipTokenomics />} />
-                    <Route path="/rewards" element={<RewardsLanding />} />
+                    {/* <Route path="/rewards" element={<RewardsLanding />} /> */}
                     <Route path="/merchant" element={<Merchant />} />
                     <Route path="/uae" element={<UAELandingPage />} />
                     <Route path="/coming-soon" element={<ComingSoon />} />
                     <Route path="/how-it-works" element={<HowItWorksPage />} />
+                    {/* <Route path="/airdrop" element={<Airdrop />} /> */}
+                    <Route path="/bounty" element={<Bounty />} />
+                    <Route path="/rewards" element={<RewardPage />} />
                     <Route path="/contact" element={<ContactUs />} />
                     <Route path="/privacy" element={<Privacy />} />
                     <Route path="/terms" element={<TermsService />} />
@@ -236,6 +269,12 @@ const App = () => (
                     <Route path="/eth-to-aed" element={<EthToAed />} />
                     <Route path="/sol-to-aed" element={<SolToAed />} />
 
+                    {/* Per-Coin INR Converter Pages */}
+                    <Route path="/crypto-to-inr" element={<CryptoToInr />} />
+                    <Route path="/btc-to-inr" element={<BtcToInr />} />
+                    <Route path="/eth-to-inr" element={<EthToInr />} />
+                    <Route path="/sol-to-inr" element={<SolToInr />} />
+
                     {/* Keyword Landing Pages */}
                     <Route
                       path="/crypto-to-bank-uae"
@@ -283,31 +322,43 @@ const App = () => (
                     />
                   </Route>
 
-                  {/* PROTECTED DASHBOARD (NO LAYOUT) */}
+                  {/* PROTECTED DASHBOARD (NO LAYOUT) — Solana wallet lazy-loaded here */}
                   <Route
                     path="/dashboard"
                     element={
-                      <ProtectedRoute requiredRole="user">
-                        <Dashboard />
-                      </ProtectedRoute>
+                      <Suspense fallback={<PageLoader />}>
+                        <LazySolanaWalletProvider>
+                          <ProtectedRoute requiredRole="user">
+                            <Dashboard />
+                          </ProtectedRoute>
+                        </LazySolanaWalletProvider>
+                      </Suspense>
                     }
                   />
 
                   <Route
                     path="/merchant-dashboard"
                     element={
-                      <ProtectedRoute requiredRole="merchant">
-                        <MerchantDashboard />
-                      </ProtectedRoute>
+                      <Suspense fallback={<PageLoader />}>
+                        <LazySolanaWalletProvider>
+                          <ProtectedRoute requiredRole="merchant">
+                            <MerchantDashboard />
+                          </ProtectedRoute>
+                        </LazySolanaWalletProvider>
+                      </Suspense>
                     }
                   />
 
                   <Route
                     path="/superadmin"
                     element={
-                      <ProtectedRoute requiredRole="admin">
-                        <SuperAdminDashboard />
-                      </ProtectedRoute>
+                      <Suspense fallback={<PageLoader />}>
+                        <LazySolanaWalletProvider>
+                          <ProtectedRoute requiredRole="admin">
+                            <SuperAdminDashboard />
+                          </ProtectedRoute>
+                        </LazySolanaWalletProvider>
+                      </Suspense>
                     }
                   />
 
@@ -322,7 +373,6 @@ const App = () => (
           </TooltipProvider>
         </ThemeProvider>
       </AuthProvider>
-    </SolanaWalletProvider>
   </QueryClientProvider>
 );
 

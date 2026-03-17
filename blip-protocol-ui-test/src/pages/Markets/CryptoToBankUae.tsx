@@ -466,7 +466,7 @@ export default function CryptoToBankUae() {
                   to="/waitlist"
                   onClick={() => sounds.click()}
                   onMouseEnter={() => sounds.hover()}
-                  className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-black dark:bg-white text-white dark:text-black font-semibold text-[15px] hover:opacity-90 transition-opacity"
+                  className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-white text-black border border-black/10 font-semibold text-[15px] hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all"
                 >
                   Cash Out Now
                   <ArrowRight className="w-4 h-4" />
@@ -675,7 +675,7 @@ export default function CryptoToBankUae() {
                             to="/waitlist"
                             onClick={() => sounds.click()}
                             onMouseEnter={() => sounds.hover()}
-                            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-black dark:bg-white text-white dark:text-black font-semibold text-[14px] hover:opacity-90 transition-opacity"
+                            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black border border-black/10 font-semibold text-[14px] hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all"
                           >
                             Try Blip Settlement
                             <ArrowRight className="w-4 h-4" />
@@ -975,7 +975,7 @@ export default function CryptoToBankUae() {
               to="/waitlist"
               onClick={() => sounds.click()}
               onMouseEnter={() => sounds.hover()}
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-black dark:bg-white text-white dark:text-black font-semibold text-[15px] hover:opacity-90 transition-opacity"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-black border border-black/10 font-semibold text-[15px] hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all"
             >
               Get Started with Blip
               <ArrowRight className="w-4 h-4" />

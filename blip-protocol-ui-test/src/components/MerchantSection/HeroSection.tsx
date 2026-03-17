@@ -1,10 +1,8 @@
 import { useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
-import {
-  MerchantDashboardVisual,
-  MerchantHeroDashbaord,
-} from "../MerchantDashboard";
+import { MerchantDashboardVisual } from "../MerchantDashboard";
+import { MerchantHeroDashbaord } from "../MerchantHeroDashboard";
 import { HeroDashboardVisual } from "../HeroDashbaordVisual";
 import { CTAButton } from "../Navbar";
 

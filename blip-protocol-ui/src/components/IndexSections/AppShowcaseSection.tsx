@@ -91,7 +91,7 @@ const AppShowcaseSection = () => {
             className="md:col-span-5 relative rounded-3xl overflow-hidden max-h-[540px]"
           >
             <img
-              src="/Showcase1.png"
+              src="/card1.png"
               alt="Initiate Order"
               className="w-full h-full object-cover"
             />
@@ -686,7 +686,8 @@ const AppShowcaseSection = () => {
           <motion.div
             style={{
               y: p3,
-              background: "linear-gradient(145deg, #0a0014 0%, #050008 50%, #000 100%)",
+              background:
+                "linear-gradient(145deg, #0a0014 0%, #050008 50%, #000 100%)",
             }}
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -708,7 +709,13 @@ const AppShowcaseSection = () => {
               { icon: "₿", color: "#f7931a", startX: -40, delay: 0, size: 28 },
               { icon: "Ξ", color: "#627eea", startX: 10, delay: 0.9, size: 26 },
               { icon: "◎", color: "#9945ff", startX: 50, delay: 1.8, size: 24 },
-              { icon: "₮", color: "#26a17b", startX: -20, delay: 2.7, size: 26 },
+              {
+                icon: "₮",
+                color: "#26a17b",
+                startX: -20,
+                delay: 2.7,
+                size: 26,
+              },
               { icon: "◆", color: "#2775ca", startX: 35, delay: 3.6, size: 22 },
             ].map((token, i) => (
               <motion.div
@@ -757,18 +764,27 @@ const AppShowcaseSection = () => {
               <motion.div
                 className="absolute -inset-4 rounded-2xl pointer-events-none"
                 style={{
-                  background: "radial-gradient(ellipse, rgba(255,107,53,0.25) 0%, transparent 70%)",
+                  background:
+                    "radial-gradient(ellipse, rgba(255,107,53,0.25) 0%, transparent 70%)",
                   filter: "blur(10px)",
                   willChange: "opacity",
                 }}
                 animate={{ opacity: [0.3, 0.7, 0.3] }}
-                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                transition={{
+                  duration: 2.5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
               />
 
               <motion.div
                 className="relative flex items-center justify-center"
                 animate={{ scale: [1, 1.03, 1] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
               >
                 <svg
                   width="110"
@@ -818,13 +834,7 @@ const AppShowcaseSection = () => {
                     strokeWidth="1"
                   />
                   {/* Clasp circle */}
-                  <circle
-                    cx="84"
-                    cy="47"
-                    r="5"
-                    fill="#ff6b35"
-                    opacity="0.8"
-                  />
+                  <circle cx="84" cy="47" r="5" fill="#ff6b35" opacity="0.8" />
                   {/* Blip logo text */}
                   <text
                     x="30"

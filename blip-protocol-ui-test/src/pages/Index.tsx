@@ -1,25 +1,45 @@
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense } from "react";
 import { SEO } from "@/components";
+
+// Only the hero is eagerly loaded (above the fold)
 import CinematicHero from "@/components/IndexSections/CinematicHero";
-import {
-  ProblemSection,
-  SolutionSection,
-  FeatureStrip,
-  LockedAndSecuredSection,
-  InstantBiddingSection,
-  BlipscanExplorerSection,
-  UseCasesSection,
-  RewardsSection,
-  CashbackBanner,
-  UAESection,
-  ProtocolSection,
-  TrustSection,
-  CTASection,
-  HowItWorksSection,
-  AppShowcaseSection,
-  DarkFintechSection,
-  DashboardShowcaseSection,
-} from "@/components/IndexSections";
+
+// Below-fold sections are lazy loaded to reduce initial bundle
+const ProblemSection = lazy(
+  () => import("@/components/IndexSections/ProblemSection"),
+);
+const DarkFintechSection = lazy(
+  () => import("@/components/IndexSections/DarkFintechSection"),
+);
+const ProtocolInterstitial = lazy(
+  () => import("@/components/IndexSections/ProtocolInterstitial"),
+);
+const ComparisonSection = lazy(
+  () => import("@/components/IndexSections/ComparisonSection"),
+);
+const HowItWorksSection = lazy(
+  () => import("@/components/IndexSections/HowItWorksSection"),
+);
+const AppShowcaseSection = lazy(
+  () => import("@/components/IndexSections/AppShowcaseSection"),
+);
+const FeatureStrip = lazy(
+  () => import("@/components/IndexSections/FeatureStrip"),
+);
+const FeatureCinemaSection = lazy(
+  () => import("@/components/IndexSections/FeatureCinemaSection"),
+);
+const UseCasesSection = lazy(
+  () => import("@/components/IndexSections/UseCasesSection"),
+);
+const RewardsSection = lazy(
+  () => import("@/components/IndexSections/RewardsSection"),
+);
+const UAESection = lazy(() => import("@/components/IndexSections/UAESection"));
+const TrustSection = lazy(
+  () => import("@/components/IndexSections/TrustSection"),
+);
+const CTASection = lazy(() => import("@/components/IndexSections/CTASection"));
 
 /* ============================================
    MAIN INDEX PAGE
@@ -51,8 +71,8 @@ const Index = () => {
         canonical="https://blip.money/"
       />
 
-      <div className="bg-white dark:bg-transparent text-black dark:text-white relative overflow-x-clip">
-        <div className="bg-white dark:bg-transparent text-black dark:text-white relative">
+      <div className="bg-[#FAF8F5] dark:bg-black text-black dark:text-white relative overflow-x-clip">
+        <div className="bg-[#FAF8F5] dark:bg-black text-black dark:text-white relative">
           <div className="overflow-x-clip">
             {/* Grain overlay for premium film texture */}
             <div className="grain-overlay" />
@@ -61,52 +81,72 @@ const Index = () => {
             <CinematicHero />
 
             {/* 2. Problem → Why Now */}
-            <ProblemSection />
-
-            {/* Dark Fintech — Trading & Currency Section */}
-            <DarkFintechSection />
-
-            {/* 3. Solution — Blip Protocol flow diagram */}
-            <SolutionSection />
+            <Suspense fallback={null}>
+              <ProblemSection />
+            </Suspense>
           </div>
         </div>
-
-        {/* 4. How It Works — isolated (no overflow-x-hidden parent) */}
-        <HowItWorksSection />
-
-        {/* 5. App Showcase — Apple bento grid with device mockups */}
-        <AppShowcaseSection />
-
-        <div className="overflow-x-clip">
-          {/* 6. Core Features */}
-          <FeatureStrip />
-          <LockedAndSecuredSection />
-
-          {/* 6. Instant Bidding */}
-          <InstantBiddingSection />
-
-          {/* 7. Verified on Blockchain (Blipscan explorer) */}
-          <BlipscanExplorerSection />
-
-          {/* 8. Use Cases */}
-          <UseCasesSection />
-
-          {/* 9. Earn & Incentives */}
-          <RewardsSection />
-          <CashbackBanner />
-
-          {/* 10. Dubai Launch */}
-          <UAESection />
-
-          {/* 11. Protocol Benefits */}
-          <ProtocolSection />
-
-          {/* 12. Trust / Architecture */}
-          <TrustSection />
-
-          {/* 13. Final CTA */}
-          <CTASection />
+        {/* Dark Fintech — Trading & Currency Section */}
+        <div className="contain-section">
+          <Suspense fallback={null}>
+            <DarkFintechSection />
+          </Suspense>
         </div>
+
+        {/* 4. The Blip Protocol */}
+        <div className="contain-section">
+          <Suspense fallback={null}>
+            <ProtocolInterstitial />
+          </Suspense>
+        </div>
+
+        <Suspense fallback={null}>
+          {/* 5. Why Blip — competitive comparison */}
+          <div className="contain-section">
+            <ComparisonSection />
+          </div>
+
+          {/* How It Works — isolated (no overflow-x-hidden parent) */}
+          <div className="contain-section">
+            <HowItWorksSection />
+          </div>
+
+          {/* 6-7-8. Locked & Secured · Instant Bidding · Verified — cinematic scroll */}
+          <FeatureCinemaSection />
+
+          <div className="overflow-x-clip">
+            {/* 6. Core Features */}
+            <FeatureStrip />
+
+            {/* App Showcase — Apple bento grid with device mockups */}
+            <div className="contain-section">
+              <AppShowcaseSection />
+            </div>
+
+            {/* 8. Use Cases */}
+            <div className="contain-section">
+              <UseCasesSection />
+            </div>
+
+            {/* 9. Earn & Incentives */}
+            <div className="contain-section">
+              <RewardsSection />
+            </div>
+
+            {/* 10. Dubai Launch */}
+            <div className="contain-section">
+              <UAESection />
+            </div>
+
+            {/* 12. Trust / Architecture */}
+            <div className="contain-section">
+              <TrustSection />
+            </div>
+
+            {/* 13. Final CTA */}
+            <CTASection />
+          </div>
+        </Suspense>
       </div>
     </>
   );

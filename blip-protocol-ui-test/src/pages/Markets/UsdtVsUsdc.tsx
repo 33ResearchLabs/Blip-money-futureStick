@@ -254,7 +254,7 @@ const HeroSection = () => {
             href="#comparison"
             onClick={() => sounds.click()}
             onMouseEnter={() => sounds.hover()}
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-black dark:bg-white text-white dark:text-black font-semibold hover:opacity-90 transition-all"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white text-black border border-black/10 font-semibold hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all"
           >
             View Comparison
             <ArrowRight className="w-4 h-4" />
@@ -905,7 +905,7 @@ const CTASection = () => {
             to="/waitlist"
             onClick={() => sounds.click()}
             onMouseEnter={() => sounds.hover()}
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-black dark:bg-white text-white dark:text-black font-semibold hover:opacity-90 transition-all"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white text-black border border-black/10 font-semibold hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all"
           >
             Start Using Blip
             <ArrowRight className="w-4 h-4" />

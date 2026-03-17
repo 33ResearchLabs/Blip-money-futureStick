@@ -6,6 +6,9 @@ import {
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 
+// Co-locate wallet CSS with the provider so it's only loaded when needed
+import "@solana/wallet-adapter-react-ui/styles.css";
+
 import {
   PhantomWalletAdapter,
   SolflareWalletAdapter,

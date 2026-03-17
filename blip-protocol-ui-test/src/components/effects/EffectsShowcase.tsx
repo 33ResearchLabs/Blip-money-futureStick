@@ -94,7 +94,7 @@ export const EffectsShowcase = () => {
               </h3>
               <div className="flex items-center justify-center min-h-[120px]">
                 <MagneticHover strength={0.3}>
-                  <button className="px-8 py-4 bg-black dark:bg-white text-white dark:text-black rounded-full font-semibold">
+                  <button className="px-8 py-4 bg-white text-black border border-black/10 rounded-full font-semibold transition-all duration-200 ease-out hover:scale-[1.02] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98]">
                     Magnetic Button
                   </button>
                 </MagneticHover>
@@ -111,7 +111,7 @@ export const EffectsShowcase = () => {
               </h3>
               <div className="flex items-center justify-center min-h-[120px]">
                 <MicroBounce>
-                  <button className="px-8 py-4 bg-black dark:bg-white text-white dark:text-black rounded-full font-semibold">
+                  <button className="px-8 py-4 bg-white text-black border border-black/10 rounded-full font-semibold transition-all duration-200 ease-out hover:scale-[1.02] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98]">
                     Bouncy Button
                   </button>
                 </MicroBounce>
@@ -258,7 +258,7 @@ export const EffectsShowcase = () => {
             <div className="flex gap-4 justify-center flex-wrap">
               <MagneticHover strength={0.2}>
                 <MicroBounce>
-                  <button className="px-8 py-4 bg-black dark:bg-white text-white dark:text-black rounded-full font-semibold hover:shadow-2xl transition-shadow">
+                  <button className="px-8 py-4 bg-white text-black border border-black/10 rounded-full font-semibold transition-all duration-200 ease-out hover:scale-[1.02] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] hover:shadow-2xl transition-shadow">
                     Get Started
                   </button>
                 </MicroBounce>

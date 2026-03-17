@@ -1,7 +1,6 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
-import { ArrowRight, MapPin, Zap } from "lucide-react";
-import { Link } from "react-router-dom";
+import { memo } from "react";
+import { MapPin } from "lucide-react";
+import { CTAButton } from "../Navbar";
 
 /* ============================================
    SECTION 8: DUBAI LAUNCH
@@ -9,147 +8,110 @@ import { Link } from "react-router-dom";
    ============================================ */
 
 const corridors = [
-  { from: "🇦🇪", fromLabel: "UAE", fromCcy: "AED", to: "🇮🇳", toLabel: "India", toCcy: "INR", volume: "$4.2B/yr", delay: 0 },
-  { from: "🇦🇪", fromLabel: "UAE", fromCcy: "USDT", to: "💵", toLabel: "USD", toCcy: "USD", volume: "$6.1B/yr", delay: 0.1 },
-  { from: "🇦🇪", fromLabel: "UAE", fromCcy: "AED", to: "🇵🇭", toLabel: "Philippines", toCcy: "PHP", volume: "$1.6B/yr", delay: 0.2 },
+  {
+    from: "🇦🇪",
+    fromLabel: "UAE",
+    fromCcy: "AED",
+    to: "🇮🇳",
+    toLabel: "India",
+    toCcy: "INR",
+    volume: "$4.2B/yr",
+  },
+  {
+    from: "🇦🇪",
+    fromLabel: "UAE",
+    fromCcy: "USDT",
+    to: "💵",
+    toLabel: "USD",
+    toCcy: "USD",
+    volume: "$6.1B/yr",
+  },
+  {
+    from: "🇦🇪",
+    fromLabel: "UAE",
+    fromCcy: "AED",
+    to: "🇵🇭",
+    toLabel: "Philippines",
+    toCcy: "PHP",
+    volume: "$1.6B/yr",
+  },
 ];
 
 const stats = [
   { value: "30%", label: "UAE crypto adoption" },
-  { value: "Q2 2025", label: "Dubai beta launch" },
+  { value: "Live", label: "Dubai beta" },
   { value: "3", label: "Live corridors" },
 ];
 
 const UAESection = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  });
-
-  const imgY = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
-  const overlayOpacity = useTransform(scrollYProgress, [0, 0.4, 1], [0.75, 0.65, 0.8]);
-
   return (
     <section
-      ref={containerRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black/70"
     >
-      {/* Dubai photo — parallax */}
-      <motion.div
-        className="absolute inset-0 w-full h-full"
-        style={{ y: imgY }}
-      >
+      {/* Dubai photo */}
+      <div className="absolute inset-0 w-full h-full">
         <img
-          src="/Dubai.jpeg"
+          src="/Dubai.webp"
           alt="Dubai skyline"
-          className="w-full h-full object-cover object-center scale-110"
-        />
-      </motion.div>
-
-      {/* Dark overlay — layered for depth */}
-      <motion.div
-        className="absolute inset-0"
-        style={{ opacity: overlayOpacity }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/90" />
-      </motion.div>
-
-      {/* Orange accent glow — brand color (static, no animation) */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[900px] h-[400px] rounded-full opacity-80"
-          style={{ background: "radial-gradient(ellipse, rgba(255,107,53,0.12) 0%, transparent 70%)" }}
-        />
-        <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full opacity-60"
-          style={{ background: "radial-gradient(ellipse, rgba(0,229,153,0.06) 0%, transparent 70%)" }}
+          loading="lazy"
+          className="w-full h-full object-cover object-center"
         />
       </div>
 
+      {/* Dark overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/90" />
+
       <div className="relative z-10 w-full max-w-6xl mx-auto px-6 py-24 md:py-40">
         {/* Label */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="flex justify-center mb-6"
-        >
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/[0.15] bg-white/[0.06] ">
+        <div className="flex justify-center mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/[0.15] bg-white/[0.06]">
             <MapPin className="w-3 h-3 text-[#ff6b35]" strokeWidth={1.5} />
             <span className="text-[10px] uppercase tracking-[0.25em] text-white/60 font-semibold">
               Dubai, UAE · First market
             </span>
             <div className="w-1.5 h-1.5 rounded-full bg-[#00e599]" />
           </div>
-        </motion.div>
+        </div>
 
         {/* Heading */}
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[1.05] text-center mb-6"
+        <h2
+          className="heading-h2 text-white text-center"
+          style={{
+            marginBottom: 24,
+          }}
         >
           Launching in
           <br />
-          <span className="text-white/50">Dubai.</span>
-        </motion.h2>
+          <span className="text-white/80">Dubai.</span>
+        </h2>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.15 }}
-          className="text-base md:text-lg text-white/50 font-medium max-w-lg mx-auto text-center leading-relaxed mb-14"
-        >
-          The UAE is the world's fastest-growing crypto hub. Blip's pilot starts here — live corridors, merchant onboarding, and on-chain settlement from day one.
-        </motion.p>
+        <p className="p-large text-white max-w-lg mx-auto text-center mb-14">
+          The UAE is the world's fastest-growing crypto hub. Blip's pilot starts
+          here — live corridors, merchant onboarding, and on-chain settlement
+          from day one.
+        </p>
 
         {/* Stats row */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="flex justify-center gap-10 md:gap-20 mb-14"
-        >
-          {stats.map((stat, i) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.3 + i * 0.1 }}
-              className="text-center"
-            >
+        <div className="flex justify-center gap-10 md:gap-20 mb-14">
+          {stats.map((stat) => (
+            <div key={stat.label} className="text-center">
               <div className="font-display text-2xl md:text-3xl font-bold text-white tracking-tight">
                 {stat.value}
               </div>
-              <div className="text-[10px] uppercase tracking-[0.15em] text-white/30 font-semibold mt-1 max-w-[90px] mx-auto leading-tight">
+              <div className="text-[10px] uppercase tracking-[0.15em] text-white/70 font-semibold mt-1 max-w-[90px] mx-auto leading-tight">
                 {stat.label}
               </div>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
 
         {/* Corridor cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-14">
           {corridors.map((corridor) => (
-            <motion.div
+            <div
               key={corridor.toLabel}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: corridor.delay }}
-              whileHover={{ y: -4, borderColor: "rgba(255,107,53,0.35)" }}
-              className="relative p-5 rounded-2xl border border-white/[0.1] bg-white/[0.05] overflow-hidden group transition-all duration-300"
+              className="relative p-5 rounded-2xl border border-white/[0.1] bg-white/[0.05] overflow-hidden group hover:-translate-y-1 hover:border-[#ff6b35]/30 transition-all duration-200"
             >
-              {/* Hover glow */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#ff6b35]/0 to-[#ff6b35]/0 group-hover:from-[#ff6b35]/[0.05] group-hover:to-transparent transition-all duration-500 rounded-2xl" />
-
               <div className="relative">
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-xl">{corridor.from}</span>
@@ -165,7 +127,7 @@ const UAESection = () => {
                   {corridor.fromCcy} → {corridor.toCcy}
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] uppercase tracking-wider text-white/30 font-semibold">
+                  <span className="text-[10px] uppercase tracking-wider text-white/70 font-semibold">
                     {corridor.fromLabel} → {corridor.toLabel}
                   </span>
                   <span className="text-xs text-[#00e599] font-mono font-semibold">
@@ -173,38 +135,23 @@ const UAESection = () => {
                   </span>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
         {/* CTA buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.35 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
-        >
-          <Link
-            to="/waitlist"
-            className="group relative overflow-hidden inline-flex items-center justify-center gap-3 px-8 h-[52px] rounded-full bg-[#ff6b35] text-white text-sm font-semibold transition-all duration-300 hover:bg-[#ff8050]"
-          >
-            <Zap className="w-4 h-4" strokeWidth={2} />
-            <span>Join Dubai Beta</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Link>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <CTAButton to="/waitlist" className="h-[52px] px-8">
+            Join Dubai Beta
+          </CTAButton>
 
-          <Link
-            to="/merchant"
-            className="inline-flex items-center gap-2 text-sm text-white/50 font-medium hover:text-white/80 transition-colors border border-white/[0.12] px-6 h-[52px] rounded-full hover:border-white/25 "
-          >
+          <CTAButton to="/merchant" variant="secondary" className="h-[52px] px-6">
             Merchant onboarding
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-        </motion.div>
+          </CTAButton>
+        </div>
       </div>
     </section>
   );
 };
 
-export default UAESection;
+export default memo(UAESection);

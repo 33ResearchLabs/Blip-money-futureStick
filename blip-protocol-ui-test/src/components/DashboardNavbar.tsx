@@ -13,7 +13,7 @@ import {
   Wallet,
   MenuIcon,
 } from "lucide-react";
-import { BsPeople } from "react-icons/bs";
+import { Users as BsPeople } from "lucide-react";
 import { twoFactorApi } from "@/services/twoFatctor";
 import { toast } from "sonner";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";

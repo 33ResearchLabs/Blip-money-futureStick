@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, memo } from "react";
 import { motion, useSpring, useMotionValue } from "framer-motion";
 
 /* ============================================
@@ -6,8 +6,9 @@ import { motion, useSpring, useMotionValue } from "framer-motion";
    Smooth, magnetic, context-aware cursor
    ============================================ */
 
-export const CustomCursor = () => {
+export const CustomCursor = memo(() => {
   const [isVisible, setIsVisible] = useState(false);
+  const [isTabActive, setIsTabActive] = useState(true);
   const [cursorVariant, setCursorVariant] = useState<"default" | "hover" | "click" | "text">("default");
   const cursorX = useMotionValue(0);
   const cursorY = useMotionValue(0);
@@ -30,11 +31,17 @@ export const CustomCursor = () => {
 
     setIsVisible(true);
 
+    // Throttled mousemove — update at ~60fps max instead of every event
+    let rafId: number | null = null;
     const moveCursor = (e: MouseEvent) => {
-      cursorX.set(e.clientX);
-      cursorY.set(e.clientY);
-      dotX.set(e.clientX);
-      dotY.set(e.clientY);
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(() => {
+        cursorX.set(e.clientX);
+        cursorY.set(e.clientY);
+        dotX.set(e.clientX);
+        dotY.set(e.clientY);
+        rafId = null;
+      });
     };
 
     const handleMouseDown = () => setCursorVariant("click");
@@ -77,22 +84,31 @@ export const CustomCursor = () => {
       setCursorVariant("default");
     };
 
-    window.addEventListener("mousemove", moveCursor);
+    window.addEventListener("mousemove", moveCursor, { passive: true });
     window.addEventListener("mousedown", handleMouseDown);
     window.addEventListener("mouseup", handleMouseUp);
     document.addEventListener("mouseover", handleMouseEnter);
     document.addEventListener("mouseout", handleMouseLeave);
 
     return () => {
+      if (rafId !== null) cancelAnimationFrame(rafId);
       window.removeEventListener("mousemove", moveCursor);
       window.removeEventListener("mousedown", handleMouseDown);
       window.removeEventListener("mouseup", handleMouseUp);
       document.removeEventListener("mouseover", handleMouseEnter);
       document.removeEventListener("mouseout", handleMouseLeave);
     };
-  }, [cursorX, cursorY, dotX, dotY]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // MotionValues are stable refs — no need in deps
 
-  if (!isVisible) return null;
+  // Pause rendering when tab is not visible to save CPU
+  useEffect(() => {
+    const handleVisibility = () => setIsTabActive(!document.hidden);
+    document.addEventListener("visibilitychange", handleVisibility);
+    return () => document.removeEventListener("visibilitychange", handleVisibility);
+  }, []);
+
+  if (!isVisible || !isTabActive) return null;
 
   const variants = {
     default: {
@@ -171,6 +187,6 @@ export const CustomCursor = () => {
       `}</style>
     </>
   );
-};
+});
 
 export default CustomCursor;

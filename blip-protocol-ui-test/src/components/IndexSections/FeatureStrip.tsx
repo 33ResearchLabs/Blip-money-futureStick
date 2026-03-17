@@ -1,5 +1,6 @@
+import { memo } from "react";
 import { motion } from "framer-motion";
-import { Zap, Lock, Eye, CheckCircle2, Star, LayoutDashboard } from "lucide-react";
+import { Zap, Lock, Eye, CheckCircle2 } from "lucide-react";
 import { MicroIcon } from "../visuals/MicroIcon";
 
 /* ============================================
@@ -8,7 +9,7 @@ import { MicroIcon } from "../visuals/MicroIcon";
 
 const FeatureStrip = () => {
   return (
-    <section className="relative py-20 bg-[#FAF8F5] dark:bg-black overflow-hidden">
+    <section className="relative py-20 bg-[#FAF8F5] dark:bg-black/70 overflow-hidden">
       {/* Subtle gradient line */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-black/20 dark:via-white/20 to-transparent" />
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-black/20 dark:via-white/20 to-transparent" />
@@ -24,34 +25,29 @@ const FeatureStrip = () => {
           {/* Centered block (like button) */}
           <div className="w-fit md:flex gap-12">
             {[
-              { text: "Instant settlement", icon: Zap },
-              { text: "Reputation layer", icon: Star },
-              { text: "Escrow protection", icon: Lock },
-              { text: "On-demand liquidity", icon: CheckCircle2 },
-              { text: "Chain-agnostic", icon: Eye },
-              { text: "Merchant dashboard", icon: LayoutDashboard },
+              { text: "Sub-second settlement", icon: Zap },
+              { text: "Zero custody", icon: Lock },
+              { text: "Privacy by default", icon: Eye },
+              { text: "On-chain proofs", icon: CheckCircle2 },
             ].map((feature, i) => (
               <motion.div
-  key={feature.text}
-  initial={{ opacity: 0, y: 20 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true }}
-  
-  className="group flex items-center gap-3 mb-4 cursor-pointer"
->
-  <MicroIcon
-    icon={feature.icon}
-    variant="glow"
-    size={16}
-    
-    className="transition-all duration-300 group-hover:scale-110"
-  />
+                key={feature.text}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="group flex items-center gap-3 mb-4 cursor-pointer"
+              >
+                <MicroIcon
+                  icon={feature.icon}
+                  variant="glow"
+                  size={16}
+                  className="transition-all duration-300 group-hover:scale-110"
+                />
 
-  <span className="text-sm text-black dark:text-white/50 font-medium tracking-wide text-left transition-colors group-hover:text-black dark:group-hover:text-white">
-    {feature.text}
-  </span>
-</motion.div>
-
+                <span className="text-sm text-black dark:text-white/50 font-medium tracking-wide text-left transition-colors group-hover:text-black dark:group-hover:text-white">
+                  {feature.text}
+                </span>
+              </motion.div>
             ))}
           </div>
         </motion.div>
@@ -60,4 +56,4 @@ const FeatureStrip = () => {
   );
 };
 
-export default FeatureStrip;
+export default memo(FeatureStrip);

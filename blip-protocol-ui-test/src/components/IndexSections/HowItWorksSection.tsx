@@ -2,94 +2,281 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion";
 import {
   Send,
-  RefreshCcw,
   ShieldCheck,
   Globe,
   Lock,
   Zap,
   ArrowRight,
+  ArrowDownLeft,
   Wallet,
   CheckCircle2,
-  TrendingUp,
-  Fingerprint,
   Activity,
   ChevronRight,
+  ChevronDown,
   MousePointer2,
   CreditCard,
   Layers,
-  Bell,
   Wifi,
   Battery,
   Signal,
-  Plus,
   ArrowDownCircle,
   Coins,
 } from "lucide-react";
 import { CTAButton } from "../Navbar";
+import { useTheme } from "next-themes";
 
-// Desktop Phone Mockup Component
-const DesktopPhoneMockup = ({ activeSection, steps }) => (
-  <div className="relative w-full max-w-[320px] h-[580px]">
-    <motion.div
-      animate={{ opacity: [0.02, 0.04, 0.02], scale: [1, 1.1, 1] }}
-      transition={{ duration: 8, repeat: Infinity }}
-      className="absolute inset-0 bg-black dark:bg-white dark:bg-white blur-[140px] rounded-full pointer-events-none"
-    />
+// Desktop Phone Mockup Component — iPhone 17 Pro / Black Titanium
+const DesktopPhoneMockup = ({ activeSection, steps, isDark }) => {
+  const FRAME = 11;
+  const OUTER_R = 48;
+  const INNER_R = 38;
+  const SIDEBUTTON = 3;
+  return (
+    <div className="relative w-full max-w-[300px] h-[600px] mx-auto">
+      <motion.div
+        animate={{ y: [0, -9, 0] }}
+        style={{ position: "relative", width: "100%", height: "100%" }}
+      >
+        {/* ── Black Titanium outer frame ── */}
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            borderRadius: OUTER_R,
+            padding: FRAME,
+            position: "relative",
+            background: `linear-gradient(
+              158deg,
+              #a0a0a5 0%,
+              #6c6c70 4%,
+              #3a3a3c 12%,
+              #2c2c2e 28%,
+              #1c1c1e 46%,
+              #2c2c2e 64%,
+              #3d3d3f 78%,
+              #5a5a5e 90%,
+              #8a8a8f 100%
+            )`,
+            boxShadow: [
+              "0 100px 180px -20px rgba(0,0,0,0.95)",
+              "0 50px 80px rgba(0,0,0,0.7)",
+              "0 20px 40px rgba(0,0,0,0.5)",
+              "inset 0 1px 0 rgba(255,255,255,0.22)",
+              "inset 0 0 0 1px rgba(255,255,255,0.07)",
+              "0 0 80px rgba(255,107,53,0.09)",
+            ].join(", "),
+          }}
+        >
+          {/* Top edge catch-light */}
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: "18%",
+              right: "18%",
+              height: 1,
+              borderRadius: "50%",
+              background:
+                "linear-gradient(90deg, transparent, rgba(255,255,255,0.52), transparent)",
+              zIndex: 30,
+            }}
+          />
+          {/* Bottom secondary catch-light */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: 0,
+              left: "30%",
+              right: "30%",
+              height: 1,
+              borderRadius: "50%",
+              background:
+                "linear-gradient(90deg, transparent, rgba(255,255,255,0.16), transparent)",
+              zIndex: 30,
+            }}
+          />
 
-    <div className="relative z-10 w-full h-full bg-black/5 dark:bg-[#0a0a0a] rounded-[4rem] p-3 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.2)] dark:shadow-[0_50px_100px_-20px_rgba(0,0,0,1)] border-[1.5px] border-black/10 dark:border-white/10 ring-1 ring-black/5 dark:ring-white/5">
-      <div className="w-full h-full bg-white dark:bg-black rounded-[3.4rem] p-2 relative overflow-hidden border border-black/5 dark:border-white/5">
-        {/* Dynamic Island */}
-        <div className="absolute top-6 left-1/2 -translate-x-1/2 w-28 h-8 bg-black/70 dark:bg-black rounded-full z-[60] flex items-center justify-between px-5 border border-black/10 dark:border-white/10">
-          <div className="w-1.5 h-1.5 rounded-full bg-black/20 dark:bg-white/20" />
-          <div className="w-1 h-1 rounded-full dark:bg-black bg-white/70" />
-        </div>
+          {/* Dynamic Island */}
+          <div
+            style={{
+              position: "absolute",
+              top: FRAME + 13,
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: 112,
+              height: 32,
+              background: "#000",
+              borderRadius: 999,
+              zIndex: 20,
+              boxShadow:
+                "inset 0 1px 2px rgba(0,0,0,0.8), 0 0 0 0.5px rgba(255,255,255,0.04)",
+            }}
+          />
 
-        <div className="w-full h-full bg-[#FAF8F5] dark:bg-black rounded-[2.8rem] overflow-hidden relative shadow-[inset_0_0_40px_rgba(0,0,0,0.05)] dark:shadow-[inset_0_0_40px_rgba(0,0,0,1)]">
-          <div className="absolute top-0 left-0 right-0 h-14 flex items-center justify-between px-8 z-[55] text-[10px] font-bold text-black/80 dark:text-white/70 ml-4">
-            <span>9:41</span>
-            <div className="flex gap-1.5 items-center">
-              <Signal size={10} />
-              <Wifi size={10} />
-              <Battery size={10} />
-            </div>
-          </div>
+          {/* Left buttons */}
+          <div
+            style={{
+              position: "absolute",
+              left: -SIDEBUTTON - 1,
+              top: 72,
+              width: SIDEBUTTON,
+              height: 28,
+              borderRadius: "1px 0 0 3px",
+              background: "linear-gradient(to right, #111, #2e2e30)",
+              zIndex: 10,
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              left: -SIDEBUTTON - 1,
+              top: 118,
+              width: SIDEBUTTON + 1,
+              height: 54,
+              borderRadius: "3px 0 0 3px",
+              background: "linear-gradient(to right, #111, #2e2e30)",
+              zIndex: 10,
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              left: -SIDEBUTTON - 1,
+              top: 184,
+              width: SIDEBUTTON + 1,
+              height: 54,
+              borderRadius: "3px 0 0 3px",
+              background: "linear-gradient(to right, #111, #2e2e30)",
+              zIndex: 10,
+            }}
+          />
 
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeSection}
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.02 }}
-              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full h-full"
+          {/* Power button */}
+          <div
+            style={{
+              position: "absolute",
+              right: -SIDEBUTTON - 1,
+              top: 148,
+              width: SIDEBUTTON + 1,
+              height: 72,
+              borderRadius: "0 3px 3px 0",
+              background: "linear-gradient(to left, #111, #2e2e30)",
+              zIndex: 10,
+            }}
+          />
+
+          {/* ── Screen ── */}
+          <div
+            style={{
+              position: "relative",
+              width: "100%",
+              height: "100%",
+              borderRadius: INNER_R,
+              overflow: "hidden",
+              background: isDark ? "#000" : "#FFFFFF",
+            }}
+          >
+            {/* Status bar */}
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                height: 52,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "0 22px 0 26px",
+                zIndex: 55,
+                color: isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.70)",
+                fontSize: 10,
+                fontWeight: 700,
+              }}
             >
-              {steps[activeSection % 3].screen}
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </div>
-    </div>
+              <span>9:41</span>
+              <div
+                style={{
+                  display: "flex",
+                  gap: 6,
+                  alignItems: "center",
+                  color: isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.70)",
+                }}
+              >
+                <Signal size={10} />
+                <Wifi size={10} />
+                <Battery size={10} />
+              </div>
+            </div>
 
-    <Cursor
-      name="Gateway"
-      color="bg-black dark:bg-white"
-      textColor="text-white dark:text-black"
-      initialPos={{ top: "15%", left: "-25%" }}
-      delay={0}
-    />
-    <Cursor
-      name="Blip_Bot"
-      color="bg-black/10 dark:bg-white/10"
-      textColor="text-black dark:text-white"
-      initialPos={{ bottom: "25%", right: "-25%" }}
-      delay={2}
-    />
-  </div>
-);
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeSection}
+                initial={{ opacity: 0, scale: 0.97, y: 8 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 1.01, y: -6 }}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                style={{ width: "100%", height: "100%" }}
+              >
+                {steps[Math.min(activeSection, steps.length - 1)].screen}
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Glass glare overlay */}
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                background:
+                  "linear-gradient(138deg, rgba(255,255,255,0.055) 0%, rgba(255,255,255,0.02) 25%, transparent 50%, transparent 75%, rgba(255,255,255,0.018) 100%)",
+                pointerEvents: "none",
+                zIndex: 60,
+                borderRadius: "inherit",
+              }}
+            />
+          </div>
+        </div>
+
+        {/* Ambient glow beneath */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: -55,
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: 240,
+            height: 55,
+            background:
+              "radial-gradient(ellipse, rgba(255,107,53,0.2) 0%, transparent 70%)",
+            filter: "blur(20px)",
+            pointerEvents: "none",
+          }}
+        />
+      </motion.div>
+
+      <Cursor
+        name="Gateway"
+        color="bg-black dark:bg-white"
+        textColor="text-white dark:text-black"
+        initialPos={{ top: "15%", left: "-25%" }}
+        delay={0}
+      />
+      <Cursor
+        name="Blip_Bot"
+        color="bg-black/10 dark:bg-white/10"
+        textColor="text-black dark:text-white"
+        initialPos={{ bottom: "25%", right: "-25%" }}
+        delay={2}
+      />
+    </div>
+  );
+};
 
 const App = () => {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
   const [activeSection, setActiveSection] = useState(0);
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -103,22 +290,47 @@ const App = () => {
   });
 
   useEffect(() => {
+    let hasEnteredView = false;
+
     const handleScroll = () => {
+      if (!containerRef.current) return;
+
+      const container = containerRef.current;
+      const containerRect = container.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+
+      // Only activate when the container is actually in view
+      const containerInView =
+        containerRect.top < viewportHeight * 0.8 &&
+        containerRect.bottom > viewportHeight * 0.2;
+
+      if (!containerInView) return;
+
+      // Prevent the first-frame flicker: lock to section 0 until
+      // the user has scrolled far enough into the container
+      if (!hasEnteredView) {
+        // Wait until the container top has scrolled above the viewport midpoint
+        if (containerRect.top > viewportHeight * 0.5) return;
+        hasEnteredView = true;
+      }
+
       const isDesktop = window.innerWidth >= 1024; // lg breakpoint
 
       if (isDesktop) {
         // Desktop: scroll-based detection for content sections
-        const sections = document.querySelectorAll(".content-section");
-        const viewportHeight = window.innerHeight;
-        const triggerPoint = viewportHeight * 0.45; // More responsive trigger
+        // Use top-third of section as trigger anchor so the phone
+        // switches as soon as the section's text enters view
+        const sections = container.querySelectorAll(".content-section");
+        const triggerPoint = viewportHeight * 0.4;
 
         let newActiveSection = 0;
         let closestDistance = Infinity;
 
         sections.forEach((section, index) => {
           const rect = section.getBoundingClientRect();
-          const sectionCenter = rect.top + rect.height / 2;
-          const distance = Math.abs(sectionCenter - triggerPoint);
+          // Anchor near the top of each section where the text actually sits
+          const sectionAnchor = rect.top + rect.height * 0.25;
+          const distance = Math.abs(sectionAnchor - triggerPoint);
 
           if (
             distance < closestDistance &&
@@ -133,39 +345,45 @@ const App = () => {
         setActiveSection(newActiveSection);
       } else {
         // Mobile: container-based scroll progress
-        if (!containerRef.current) return;
-        const container = containerRef.current;
-        const rect = container.getBoundingClientRect();
-        const scrollProgress = -rect.top / (rect.height - window.innerHeight);
+        const scrollProgress =
+          -containerRect.top / (containerRect.height - viewportHeight);
 
         let newSection = 0;
-        if (scrollProgress > 0.5) {
-          newSection = 2;
-        } else if (scrollProgress > 0.25) {
-          newSection = 1;
-        }
+        if (scrollProgress > 0.8) newSection = 4;
+        else if (scrollProgress > 0.6) newSection = 3;
+        else if (scrollProgress > 0.4) newSection = 2;
+        else if (scrollProgress > 0.2) newSection = 1;
 
         setActiveSection(newSection);
       }
     };
 
-    // Initial check
-    handleScroll();
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    let ticking = false;
+    const throttledScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+      }
+    };
+    window.addEventListener("scroll", throttledScroll, { passive: true });
+    return () => window.removeEventListener("scroll", throttledScroll);
   }, []);
 
   const steps = [
-    { title: "Initiation", screen: <RequestScreen /> },
-    { title: "Match", screen: <MatchScreen /> },
-    { title: "Verify", screen: <VerifyScreen /> },
+    { title: "Dashboard", screen: <DashboardScreen isDark={isDark} /> },
+    { title: "Send Money", screen: <SendScreen isDark={isDark} /> },
+    { title: "Trade", screen: <TradeScreen isDark={isDark} /> },
+    { title: "Pay Bills", screen: <PayScreen isDark={isDark} /> },
+    { title: "Cash Out", screen: <CashOutScreen isDark={isDark} /> },
   ];
 
   return (
     <div
       ref={containerRef}
-      className="relative min-h-screen bg-[#FAF8F5] dark:bg-black text-black dark:text-white selection:bg-black/[0.10] isolate py-12 md:py-20"
+      className="relative min-h-screen bg-[#FAF8F5] dark:bg-black/70 text-black dark:text-white selection:bg-black/[0.10] dark:selection:bg-white/[0.10] isolate py-12 md:py-20"
     >
       <div className="text-center mb-12 lg:mb-16">
         <motion.div
@@ -185,20 +403,15 @@ const App = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1 }}
-          className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-black dark:text-white tracking-[-0.025em] leading-[0.96] mb-3"
+          className="heading-h2 text-center text-black dark:text-white"
+          style={{
+            marginBottom: 12,
+          }}
         >
-          Three steps.
+          One app.
           <br />
-          <span
-            style={{
-              background:
-                "linear-gradient(90deg, #FF6B35 0%, #FFB347 40%, #FF8C42 70%, #FF6B35 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-          >
-            Zero friction.
+          <span className="text-black/70 dark:text-white/50">
+            Every use case.
           </span>
         </motion.h2>
         <motion.p
@@ -206,9 +419,9 @@ const App = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.1 }}
-          className="text-sm md:text-base text-black/80 dark:text-white/50 font-medium max-w-2xl mx-auto px-2"
+          className="p-large text-black/80 dark:text-white/50 max-w-lg text-center mx-auto mb-10"
         >
-          From crypto to cash in under 2 seconds.
+          Send, trade, pay, or cash out — all from your crypto balance.
           <br /> No banks, no delays, no complexity.
         </motion.p>
       </div>
@@ -221,379 +434,165 @@ const App = () => {
 
       {/* MOBILE LAYOUT - Card-based instead of phone mockup */}
       <div className="lg:hidden max-w-7xl mx-auto px-4 space-y-12 py-8">
-        {/* Step 1: Initiation */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.5 }}
-          className="space-y-4"
-        >
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]">
-            <span className="text-xs text-black/60 dark:text-white/40 font-bold tracking-widest uppercase">
-              01 • Initiation
-            </span>
-          </div>
-
-          <h3 className="text-2xl font-semibold leading-snug text-black dark:text-white">
-            Request Your <br />
-            <span className="text-black/70 dark:text-white/50">
-              Capital Flow.
-            </span>
-          </h3>
-
-          <p className="text-base text-black/80 dark:text-white/60 leading-relaxed">
-            Enter your USDT amount and choose your destination — Dubai, Abu
-            Dhabi, or beyond. Blip handles the rest with sub-second finality
-            across UAE fiat rails.
-          </p>
-
-          <div className="bg-white/80 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/10 p-5 rounded-2xl">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center">
-                <Send size={18} className="text-black/60 dark:text-white/50" />
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-black dark:text-white">
-                  Quick Request
-                </p>
-                <p className="text-xs text-black/50 dark:text-white/30">
-                  DXB • AUH destinations
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {["USDT → AED", "DXB • AUH", "SECURE AUTH"].map((tag) => (
-                <span
-                  key={tag}
-                  className="px-3 py-1 bg-black/5 dark:bg-white/5 rounded-full text-xs font-semibold text-black/60 dark:text-white/40"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Step 2: Match */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.5 }}
-          className="space-y-4"
-        >
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]">
-            <span className="text-xs text-black/60 dark:text-white/40 font-bold tracking-widest uppercase">
-              02 • Match
-            </span>
-          </div>
-
-          <h3 className="text-2xl font-semibold leading-snug text-black dark:text-white">
-            Price <br />
-            <span className="text-black/70 dark:text-white/50">
-              Optimization.
-            </span>
-          </h3>
-
-          <p className="text-base text-black/80 dark:text-white/60 leading-relaxed">
-            Our engine simultaneously scans global LPs — London, Singapore,
-            local OTC — locking in the best real-time AED rate for your trade.
-          </p>
-
-          <div className="grid grid-cols-2 gap-3">
-            <div className="bg-white/80 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/10 p-4 rounded-2xl">
-              <Layers
-                size={18}
-                className="text-black/40 dark:text-white/40 mb-2"
-              />
-              <p className="text-sm font-semibold text-black dark:text-white mb-0.5">
-                Best Rate
-              </p>
-              <p className="text-xs text-black/40 dark:text-white/30 font-medium">
-                1 USDT = 3.6732 AED
-              </p>
-            </div>
-            <div className="bg-white/80 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/10 p-4 rounded-2xl">
-              <Activity
-                size={18}
-                className="text-black/40 dark:text-white/40 mb-2"
-              />
-              <p className="text-sm font-semibold text-black dark:text-white mb-0.5">
-                99.98% Efficient
-              </p>
-              <p className="text-xs text-black/40 dark:text-white/30 font-medium">
-                Global LP Scan
-              </p>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Step 3: Verify */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.5 }}
-          className="space-y-4"
-        >
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]">
-            <span className="text-xs text-black/60 dark:text-white/40 font-bold tracking-widest uppercase">
-              03 • Verify
-            </span>
-          </div>
-
-          <h3 className="text-2xl font-semibold leading-snug text-black dark:text-white">
-            Secure <br />
-            <span className="text-black/70 dark:text-white/50">Execution.</span>
-          </h3>
-
-          <p className="text-base text-black/80 dark:text-white/60 leading-relaxed">
-            Authorization confirmed. Settlement executes in 420ms — your AED
-            is released to your destination with a permanent on-chain ledger
-            ID.
-          </p>
-
-          <div className="bg-white/80 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/10 rounded-2xl overflow-hidden">
-            <div className="px-4 py-3 bg-black/[0.03] dark:bg-white/5 border-b border-black/[0.06] dark:border-white/5 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <CheckCircle2
-                  size={16}
-                  className="text-black/60 dark:text-white/50"
-                />
-                <span className="text-xs font-semibold text-black/60 dark:text-white/40 uppercase tracking-wider">
-                  Verified
-                </span>
-              </div>
-              <span className="text-xs font-semibold text-black dark:text-white">
-                420ms
+        {[
+          {
+            num: "01",
+            label: "Dashboard",
+            h1: "Your Wallet,",
+            h2: "At a Glance.",
+            desc: "See balances, sparklines, and your entire portfolio — one screen, zero noise.",
+          },
+          {
+            num: "02",
+            label: "Send Money",
+            h1: "Transfer to",
+            h2: "Anyone, Anywhere.",
+            desc: "Send stablecoins to anyone. They receive cash in local currency — no bank needed.",
+          },
+          {
+            num: "03",
+            label: "Trade",
+            h1: "Buy & Sell,",
+            h2: "Instantly.",
+            desc: "Swap between USDT, AED, and BTC with live merchant matching. Best rate wins.",
+          },
+          {
+            num: "04",
+            label: "Pay Bills",
+            h1: "Bills & Rent,",
+            h2: "Handled.",
+            desc: "Use your crypto to pay rent, utilities, or tuition — settled in local currency, instantly.",
+          },
+          {
+            num: "05",
+            label: "Cash Out",
+            h1: "Withdraw",
+            h2: "Anytime.",
+            desc: "Convert USDT to AED and withdraw — directly to your bank or in person. Under 2 seconds.",
+            cta: true,
+          },
+        ].map((step) => (
+          <motion.div
+            key={step.num}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.5 }}
+            className="space-y-3 text-center"
+          >
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/[0.03] dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]">
+              <span className="text-xs text-black/60 dark:text-white/40 font-bold tracking-widest uppercase">
+                {step.num} • {step.label}
               </span>
             </div>
-            <div className="p-4 space-y-2">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Fingerprint
-                    size={14}
-                    className="text-black/60 dark:text-white/40"
-                  />
-                  <span className="text-xs font-medium text-black/60 dark:text-white/40">
-                    Authorization
-                  </span>
-                </div>
-                <span className="text-xs font-semibold text-black dark:text-white/70">
-                  Success
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Zap size={14} className="text-black dark:text-white" />
-                  <span className="text-xs font-medium text-black/60 dark:text-white/40">
-                    Settlement
-                  </span>
-                </div>
-                <span className="text-xs font-semibold text-black dark:text-white/70">
-                  Instant
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="flex md:justify-start justify-center">
-            <CTAButton
-              to="/waitlist"
-              className="w-[220px] h-12 uppercase text-sm "
+            <h3
+              className="heading-h3 select-none text-center text-black dark:text-white"
             >
-              Initiate Trade
-            </CTAButton>{" "}
-          </div>
-        </motion.div>
+              {step.h1}
+              <br />
+              <span className="text-black/50 dark:text-white/40">
+                {step.h2}
+              </span>
+            </h3>
+            <p className="p-small text-black/70 dark:text-white/45">
+              {step.desc}
+            </p>
+            {step.cta && (
+              <div className="flex md:justify-start justify-center pt-1">
+                <CTAButton
+                  to="/waitlist"
+                  className="w-[220px] h-12 uppercase text-sm"
+                >
+                  Get Started
+                </CTAButton>
+              </div>
+            )}
+          </motion.div>
+        ))}
       </div>
 
       {/* DESKTOP LAYOUT - Sticky phone with scrolling content sections */}
-      <div className="hidden lg:block max-w-7xl mx-auto px-8 lg:px-12 relative min-h-screen">
+      <div className="hidden lg:block max-w-7xl mx-auto px-8 lg:px-12 relative">
         <div className="flex gap-16">
           {/* LEFT SIDE: Sticky Phone UI */}
           <div className="w-full lg:w-[45%] lg:sticky lg:top-0 h-screen flex items-center justify-center py-12">
-            <DesktopPhoneMockup activeSection={activeSection} steps={steps} />
+            <DesktopPhoneMockup
+              activeSection={activeSection}
+              steps={steps}
+              isDark={isDark}
+            />
           </div>
 
           {/* RIGHT SIDE: Content Narrative */}
-          <div className="w-full lg:w-[55%] min-h-[150vh] flex flex-col lg:mt-32 justify-end space-y-40 pb-[calc(50vh-290px)]">
-            {/* Section 01: Initiation */}
-            <section className="content-section space-y-8">
-              {/* <div className="space-y-3 ">
-                <span className="text-black/80 dark:text-white/50 font-bold tracking-[0.3em] uppercase text-xs">
-                  Initiation
-                </span>
-
-                <motion.span
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  className="text-3xl font-semibold tracking-tight leading-tight text-black dark:text-white"
-                >
-                  Request Your <br />
-                  <span className="text-black/70 dark:text-white/50">
-                    Capital Flow.
-                  </span>
-                </motion.span>
-              </div> */}
-              <div className="space-y-3">
-                <span className="text-black/80 dark:text-white/50 font-bold tracking-[0.3em] uppercase text-xs">
-                  Initiation
-                </span>
-
-                <motion.h2
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  className="text-3xl font-semibold tracking-tight leading-tight text-black dark:text-white"
-                >
-                  Request Your <br />
-                  <span className="text-black/70 dark:text-white/50  decoration-black/10 dark:decoration-white/10">
-                    Capital Flow.
-                  </span>
-                </motion.h2>
-              </div>
-
-              <p className="text-lg text-black/80 dark:text-white/60 leading-relaxed max-w-xl">
-                Enter your USDT amount and choose your destination — Dubai, Abu
-                Dhabi, or beyond. Blip handles the rest with sub-second
-                finality across UAE fiat rails.
-              </p>
-
-              <div className="bg-white/80 dark:bg-white/[0.03] border-l border-black/10 dark:border-white/10 p-6 rounded-r-2xl backdrop-blur-md">
-                <p className="text-base leading-relaxed text-black/70 dark:text-white/60">
-                  <span className="font-semibold text-black dark:text-white">
-                    Smart Routing:
-                  </span>{" "}
-                  Blip instantly routes your funds to your chosen destination
-                  (DXB or AUH) with zero intermediaries and full on-chain
-                  transparency.
-                </p>
-              </div>
-
-              <div className="flex flex-wrap gap-3">
-                {["USDT → AED", "DXB • AUH", "SECURE AUTH"].map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-4 py-2 bg-white/80 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/10 rounded-full text-xs font-semibold tracking-widest text-black/80 dark:text-white/50"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </section>
-
-            {/* Section 02: Match */}
-            <section className="content-section space-y-8">
-              <div className="space-y-3">
-                <span className="text-black/80 dark:text-white/50 font-bold tracking-[0.3em] uppercase text-xs">
-                  Match
-                </span>
-
-                <motion.h2
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  className="text-3xl font-semibold tracking-tight leading-tight text-black dark:text-white"
-                >
-                  Price <br />
-                  <span className="text-black/70 dark:text-white/50  decoration-black/10 dark:decoration-white/10">
-                    Optimization.
-                  </span>
-                </motion.h2>
-              </div>
-
-              <p className="text-lg text-black/80 dark:text-white/60 leading-relaxed max-w-xl">
-                Our engine simultaneously scans global liquidity providers —
-                from London to Singapore to local OTC desks — locking in the
-                best real-time AED rate for your trade.
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="p-6 bg-white/80 dark:bg-white/[0.03] rounded-2xl border border-black/[0.06] dark:border-white/5 transition-all">
-                  <Layers
-                    className="text-black/40 dark:text-white/40 mb-4"
-                    size={20}
-                  />
-                  <h4 className="font-semibold text-base mb-1 text-black dark:text-white">
-                    Best Rate
-                  </h4>
-                  <p className="text-xs text-black/40 dark:text-white/30 font-medium tracking-widest uppercase">
-                    1 USDT = 3.6732 AED
-                  </p>
-                </div>
-
-                <div className="p-6 bg-white/80 dark:bg-white/[0.03] rounded-2xl border border-black/[0.06] dark:border-white/5 transition-all">
-                  <Activity
-                    className="text-black/40 dark:text-white/40 mb-4"
-                    size={20}
-                  />
-                  <h4 className="font-semibold text-base mb-1 text-black dark:text-white">
-                    99.98% Efficient
-                  </h4>
-                  <p className="text-xs text-black/40 dark:text-white/30 font-medium tracking-widest uppercase">
-                    Global LP Scan
-                  </p>
-                </div>
-              </div>
-
-              <div className="bg-white/80 dark:bg-white/5  border-black/20 dark:border-white/20 p-6 rounded-2xl backdrop-blur-md">
-                <p className="text-base leading-relaxed text-black/70 dark:text-white/70">
-                  <span className="font-semibold text-black dark:text-white">
-                    Global Scan, Local Settlement:
-                  </span>{" "}
-                  We source the best price across London, Singapore, and local
-                  OTC desks — then settle directly into your UAE destination at
-                  99.98% efficiency.
-                </p>
-              </div>
-            </section>
-
-            {/* Section 03: Verify */}
-            <section className="content-section space-y-8">
-              <div className="space-y-3">
-                <span className="text-black/80 dark:text-white/50 font-bold tracking-[0.3em] uppercase text-xs">
-                  Verify
-                </span>
-
-                <motion.h2
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  className="text-3xl font-semibold tracking-tight leading-tight text-black dark:text-white"
-                >
-                  Secure <br />
-                  <span className="text-black/70 dark:text-white/50">
-                    Execution.
-                  </span>
-                </motion.h2>
-              </div>
-
-              <p className="text-lg text-black/80 dark:text-white/60 leading-relaxed max-w-xl">
-                Authorization confirmed. Settlement executes in 420ms — your
-                AED is released to your destination with a permanent on-chain
-                ledger ID.
-              </p>
-
-              <div className="bg-white/90 dark:bg-[#080808] rounded-2xl overflow-hidden shadow-xl border border-black/[0.06] dark:border-white/10">
-                <div className="flex items-center justify-between px-6 py-3 bg-black/[0.03] dark:bg-white/5 border-b border-black/[0.06] dark:border-white/5">
-                  <div className="text-xs text-black/40 dark:text-white/20 font-mono tracking-widest uppercase">
-                    trade_finalize.v1
-                  </div>
-                </div>
-
-                <div className="p-6 font-mono text-sm leading-relaxed text-black/80 dark:text-white/50 space-y-2">
-                  <div>01 await ledger.confirm(trade_USDT_AED);</div>
-                  <div>02 // Status: Compliance Verified</div>
-                  <div>03 const receipt = "AED_TX_DUBAI_SAFE";</div>
-                  <div>04 blip.release(receipt);</div>
-                </div>
-              </div>
-
-              <CTAButton
-                to="/waitlist"
-                className="w-[220px] h-12 uppercase text-sm"
+          <div className="w-full lg:w-[55%] flex flex-col">
+            {[
+              {
+                label: "Dashboard",
+                h1: "Your Wallet,",
+                h2: "At a Glance.",
+                desc: "See balances, sparklines, and your entire portfolio — one screen, zero noise.",
+              },
+              {
+                label: "Send Money",
+                h1: "Transfer to",
+                h2: "Anyone, Anywhere.",
+                desc: "Send stablecoins to anyone. They receive cash in local currency — no bank needed.",
+              },
+              {
+                label: "Trade",
+                h1: "Buy & Sell,",
+                h2: "Instantly.",
+                desc: "Swap between USDT, AED, and BTC with live merchant matching. Best rate wins.",
+              },
+              {
+                label: "Pay Bills",
+                h1: "Bills & Rent,",
+                h2: "Handled.",
+                desc: "Use your crypto to pay rent, utilities, or tuition — settled in local currency, instantly.",
+              },
+              {
+                label: "Cash Out",
+                h1: "Withdraw",
+                h2: "Anytime.",
+                desc: "Convert USDT to AED and withdraw — directly to your bank or in person. Under 2 seconds.",
+                last: true,
+              },
+            ].map((s, i, arr) => (
+              <section
+                key={s.label}
+                className={`content-section space-y-5 min-h-screen flex flex-col justify-center ${i === arr.length - 1 ? "pb-[30vh]" : ""}`}
               >
-                Initiate Trade
-              </CTAButton>
-            </section>
+                <span className="text-black/80 dark:text-white/50 font-bold tracking-[0.3em] uppercase text-xs">
+                  {s.label}
+                </span>
+                <motion.h3
+                  initial={{ opacity: 0, scale: 0.99 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1.2, ease: "easeOut" }}
+                  className="heading-h3 select-none text-black dark:text-white"
+                >
+                  {s.h1}
+                  <br />
+                  <span className="text-black/50 dark:text-white/40">
+                    {s.h2}
+                  </span>
+                </motion.h3>
+                <p className="p-medium text-black/70 dark:text-white/45 max-w-md">
+                  {s.desc}
+                </p>
+                {s.last && (
+                  <div className="mt-auto">
+                    <CTAButton
+                      to="/waitlist"
+                      className="w-[220px] h-12 uppercase text-sm"
+                    >
+                      Get Started
+                    </CTAButton>
+                  </div>
+                )}
+              </section>
+            ))}
           </div>
         </div>
       </div>
@@ -601,224 +600,1731 @@ const App = () => {
   );
 };
 
-// --- APP SCREENS ---
+// --- APP THEME SCREENS ---
 
-const RequestScreen = () => (
-  <div className="p-4 pt-[8vh] flex flex-col h-full bg-[#FAF8F5] dark:bg-black text-black dark:text-white font-sans">
-    <div className="flex justify-between items-start mb-3">
-      <div>
-        <p className="text-[0.65em] font-semibold text-black/40 dark:text-white/30 uppercase tracking-[0.2em] mb-0.5">
-          Portfolio
-        </p>
-        <h3 className="text-[2em] font-semibold tracking-tight text-black dark:text-white/90">
-          24,500.00
-        </h3>
-        <p className="text-[0.65em] text-black/60 dark:text-white/50 font-medium mt-0.5 tracking-tight italic">
-          USDT (ERC-20)
-        </p>
-      </div>
-      <div className="w-8 h-8 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center">
-        <Bell size={14} className="text-black/50 dark:text-white/40" />
-      </div>
-    </div>
+/* Sparkline chart for the wallet card */
+const SPARK_DATA = [28, 42, 33, 58, 44, 70, 55, 82, 69, 98, 87, 115, 102, 138];
 
-    <div className="space-y-1">
-      <div className="bg-white/80 dark:bg-white/[0.03] p-2.5 rounded-[2rem] border border-black/[0.06] dark:border-white/5">
-        <div className="flex justify-between items-center mb-1.5">
-          <span className="text-[0.65em] font-semibold text-black/50 dark:text-white/30 uppercase tracking-widest">
-            Swap
-          </span>
-          <span className="text-[0.65em] text-black/60 dark:text-white/40 font-medium uppercase tracking-wider">
-            Sell
+const Sparkline = ({
+  width = 220,
+  height = 40,
+  isDark,
+}: {
+  width?: number;
+  height?: number;
+  isDark: boolean;
+}) => {
+  const max = Math.max(...SPARK_DATA),
+    min = Math.min(...SPARK_DATA),
+    rng = max - min || 1;
+  const pts = SPARK_DATA.map((v, i) => ({
+    x: (i / (SPARK_DATA.length - 1)) * width,
+    y: height - 4 - ((v - min) / rng) * (height - 10),
+  }));
+  const line = pts
+    .map((p, i) => `${i === 0 ? "M" : "L"}${p.x.toFixed(1)},${p.y.toFixed(1)}`)
+    .join(" ");
+  const area = `${line} L${width},${height} L0,${height} Z`;
+  const last = pts[pts.length - 1];
+  const color = "#10b981";
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox={`0 0 ${width} ${height}`}
+      preserveAspectRatio="none"
+      style={{ width: "100%" }}
+    >
+      <defs>
+        <linearGradient id="sparkGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={color} stopOpacity="0.25" />
+          <stop offset="100%" stopColor={color} stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <path d={area} fill="url(#sparkGrad)" />
+      <path
+        d={line}
+        fill="none"
+        stroke={color}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle cx={last.x} cy={last.y} r="2.5" fill={color} />
+      <circle
+        cx={last.x}
+        cy={last.y}
+        r="5"
+        fill="none"
+        stroke={color}
+        strokeWidth="0.8"
+        opacity="0.35"
+      />
+    </svg>
+  );
+};
+
+/* Friends data for Circle section */
+const CIRCLE_FRIENDS = [
+  {
+    name: "Alex",
+    color: "#ff6b35",
+    emoji: "🧑",
+    status: "active",
+    action: "Sent",
+    amount: "$50",
+  },
+  {
+    name: "Sasha",
+    color: "#3b82f6",
+    emoji: "👩",
+    status: "online",
+    action: "Received",
+    amount: "$20",
+  },
+  {
+    name: "Jordan",
+    color: "#10b981",
+    emoji: "🧔",
+    status: "online",
+    action: "Received",
+    amount: "$10",
+  },
+  {
+    name: "Taylor",
+    color: "#f59e0b",
+    emoji: "👱",
+    status: "offline",
+    action: "Remived",
+    amount: "$10",
+  },
+];
+
+/* Activity feed data */
+const ACTIVITY_FEED = [
+  {
+    merchant: "Apple Store",
+    location: "Fifth Ave",
+    amount: "1,299.00",
+    time: "2m ago",
+    type: "out" as const,
+    cat: "Tech",
+    catColor: "#007AFF",
+    emoji: "🍎",
+  },
+  {
+    merchant: "Starbucks",
+    location: "Met Square",
+    amount: "12.40",
+    time: "1h ago",
+    type: "out" as const,
+    cat: "Food",
+    catColor: "#00b14f",
+    emoji: "☕",
+  },
+  {
+    merchant: "Settlement",
+    location: "P2P Trade",
+    amount: "4,500.00",
+    time: "Yesterday",
+    type: "in" as const,
+    cat: "Income",
+    catColor: "#10b981",
+    emoji: "💰",
+  },
+];
+
+/* Stat chip */
+const StatChip = ({
+  label,
+  value,
+  color,
+  isDark,
+}: {
+  label: string;
+  value: string;
+  color: string;
+  isDark: boolean;
+}) => (
+  <div
+    style={{
+      flex: 1,
+      borderRadius: 14,
+      padding: "8px 8px",
+      background: isDark ? "rgba(255,255,255,0.025)" : "rgba(0,0,0,0.03)",
+      border: `1px solid ${isDark ? "rgba(255,255,255,0.055)" : "rgba(0,0,0,0.06)"}`,
+    }}
+  >
+    <p
+      style={{
+        fontSize: 6,
+        fontWeight: 900,
+        letterSpacing: "0.14em",
+        textTransform: "uppercase" as const,
+        marginBottom: 3,
+        color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.35)",
+      }}
+    >
+      {label}
+    </p>
+    <p style={{ fontSize: 11, fontWeight: 900, color }}>{value}</p>
+  </div>
+);
+
+// ─── SHARED SCREEN HELPERS ───────────────────────────────────────────────────
+
+const useC = (isDark: boolean) => ({
+  bg: isDark ? "#080810" : "#FAFAFA",
+  text: isDark ? "#fff" : "#111",
+  muted: isDark ? "rgba(255,255,255,0.22)" : "rgba(0,0,0,0.28)",
+  sub: isDark ? "rgba(255,255,255,0.42)" : "rgba(0,0,0,0.42)",
+  card: isDark ? "rgba(255,255,255,0.035)" : "rgba(0,0,0,0.025)",
+  border: isDark ? "rgba(255,255,255,0.065)" : "rgba(0,0,0,0.055)",
+  hover: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.04)",
+});
+
+const Orbs = ({ isDark }: { isDark: boolean }) => (
+  <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+    <motion.div
+      animate={{
+        x: [0, 18, -12, 0],
+        y: [0, -18, 22, 0],
+        scale: [1, 1.08, 0.94, 1],
+      }}
+      transition={{ duration: 20, ease: "linear" }}
+      className="absolute rounded-full"
+      style={{
+        top: "-18%",
+        left: "-12%",
+        width: "60%",
+        height: "55%",
+        background: `radial-gradient(ellipse, ${isDark ? "rgba(255,107,53,0.13)" : "rgba(255,107,53,0.06)"} 0%, transparent 70%)`,
+        filter: "blur(50px)",
+      }}
+    />
+    <div
+      className="absolute rounded-full"
+      style={{
+        bottom: "-18%",
+        right: "-12%",
+        width: "55%",
+        height: "50%",
+        background: `radial-gradient(ellipse, ${isDark ? "rgba(16,185,129,0.09)" : "rgba(16,185,129,0.05)"} 0%, transparent 70%)`,
+        filter: "blur(50px)",
+      }}
+    />
+  </div>
+);
+
+const Label = ({
+  children,
+  c,
+}: {
+  children: React.ReactNode;
+  c: ReturnType<typeof useC>;
+}) => (
+  <p
+    style={{
+      fontSize: 6.5,
+      fontWeight: 900,
+      letterSpacing: "0.28em",
+      textTransform: "uppercase" as const,
+      color: c.muted,
+      marginBottom: 2,
+    }}
+  >
+    {children}
+  </p>
+);
+
+// ─── SCREEN 1: DASHBOARD ─────────────────────────────────────────────────────
+
+const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
+  const d = isDark;
+  return (
+    <div
+      className="flex flex-col h-full w-full relative overflow-hidden"
+      style={{
+        background: d ? "#080816" : "#FAFAFA",
+        paddingTop: 52,
+        color: d ? "#fff" : "#111",
+      }}
+    >
+      {/* Header */}
+      <div className="px-4 pb-3 flex items-center justify-between z-10">
+        <div>
+          <p
+            style={{
+              fontSize: 6.5,
+              fontWeight: 900,
+              letterSpacing: "0.28em",
+              textTransform: "uppercase" as const,
+              color: d ? "rgba(255,255,255,0.22)" : "rgba(0,0,0,0.28)",
+              marginBottom: 2,
+            }}
+          >
+            Portfolio
+          </p>
+          <span
+            style={{ fontSize: 15, fontWeight: 900, letterSpacing: "-0.035em" }}
+          >
+            Jhon <span style={{ color: "green" }}>●</span>
           </span>
         </div>
-        <div className="flex justify-between items-baseline">
-          <span className="text-[2em] font-semibold tracking-tight text-black dark:text-white/90">
-            10,000
-          </span>
-          <span className="text-[0.7em] font-semibold text-black/60 dark:text-white/50 tracking-widest uppercase">
-            USDT
-          </span>
-        </div>
-      </div>
-
-      <div className="flex justify-center -my-5 relative z-10">
-        <div className="bg-[#FAF8F5] dark:bg-black p-1">
-          <div className="bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 w-8 h-8 rounded-full flex items-center justify-center text-black/60 dark:text-white/50 shadow-xl">
-            <ArrowRight size={16} className="rotate-90" />
+        <div className="flex items-center gap-2">
+          <div
+            className="w-7 h-7 rounded-full flex items-center justify-center"
+            style={{
+              background: d ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.04)",
+              border: `1px solid ${d ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)"}`,
+            }}
+          >
+            <svg
+              width="11"
+              height="11"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke={d ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.35)"}
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+              <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+            </svg>
+          </div>
+          <div
+            className="w-7 h-7 rounded-full overflow-hidden"
+            style={{ background: "linear-gradient(135deg, #6366f1, #818cf8)" }}
+          >
+            <div className="w-full h-full flex items-center justify-center">
+              <span style={{ fontSize: 10, fontWeight: 900, color: "#fff" }}>
+                K
+              </span>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="bg-black dark:bg-white p-3.5 rounded-[2rem] shadow-2xl">
-        <div className="flex justify-between items-center mb-1.5 text-white/60 dark:text-black/70">
-          <span className="text-[0.65em] font-semibold uppercase tracking-widest">
-            Receive
-          </span>
-          <span className="text-[0.65em] font-medium tracking-wider">
-            Spot_AED
-          </span>
-        </div>
-        <div className="flex justify-between items-baseline text-white dark:text-black">
-          <span className="text-[2em] font-semibold tracking-tight">
-            36,730
-          </span>
-          <span className="text-[0.7em] font-semibold opacity-60 uppercase tracking-widest font-mono italic">
-            AED
-          </span>
-        </div>
-      </div>
-    </div>
-
-    <div className="mt-3">
-      <p className="text-[0.65em] font-semibold text-black/50 dark:text-white/30 uppercase tracking-widest mb-1.5">
-        Destination
-      </p>
-      <div className="flex gap-2">
-        <div className="w-9 h-9 rounded-full bg-black/10 dark:bg-white/10 border border-black/10 dark:border-white/10 flex items-center justify-center text-[0.7em] font-semibold text-black dark:text-white/70">
-          DXB
-        </div>
-        <div className="w-9 h-9 rounded-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center text-[0.7em] font-semibold text-black/60 dark:text-white/40">
-          AUH
-        </div>
-        <div className="w-9 h-9 rounded-full border border-dashed border-black/10 dark:border-white/10 flex items-center justify-center text-black/50 dark:text-white/30">
-          <Plus size={11} />
-        </div>
-      </div>
-    </div>
-
-    <div className="mt-1 mb-2.5 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-black/60 dark:text-white/50 py-2 rounded-3xl text-center font-semibold text-[0.65em] uppercase tracking-[0.2em] flex items-center justify-center gap-2">
-      <Lock size={9} className="text-black dark:text-white" />
-      Secure Authorization
-    </div>
-  </div>
-);
-
-const MatchScreen = () => (
-  <div className="p-4 pt-[12vh] flex flex-col h-full bg-[#FAF8F5] dark:bg-black items-center font-sans">
-    <div className="relative w-24 h-24 mb-4">
-      <motion.div
-        animate={{ rotate: 360, opacity: [0.05, 0.1, 0.05] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-        className="absolute inset-0 border border-black/10 dark:border-white/10 rounded-full"
-      />
-      <motion.div
-        animate={{ rotate: -360 }}
-        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-        className="absolute inset-6 border border-black/5 dark:border-white/5 border-dashed rounded-full"
-      />
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-16 h-16 bg-white/80 dark:bg-white/5 backdrop-blur-xl rounded-full border border-black/10 dark:border-white/10 flex flex-col items-center justify-center shadow-2xl text-black/60 dark:text-white/50">
-          <RefreshCcw size={22} className="mb-0.5" />
-          <span className="text-[0.5em] font-semibold tracking-[0.2em] uppercase text-black/50 dark:text-white/30">
-            Routing
-          </span>
-        </div>
-      </div>
-    </div>
-
-    <div className="w-full space-y-1">
-      <div className="flex justify-between items-baseline px-2 mb-1">
-        <h3 className="text-[1.3em] font-semibold text-black dark:text-white/90 tracking-tight">
-          Liquidity
-        </h3>
-        <span className="text-[0.6em] text-black dark:text-white font-semibold tracking-[0.2em] uppercase animate-pulse">
-          Syncing AED
-        </span>
-      </div>
-
-      {[
-        { city: "London LP", value: "3.6732", active: true },
-        { city: "Singapore LP", value: "3.6719", active: false },
-        { city: "Local OTC", value: "3.6730", active: false },
-      ].map((node, i) => (
+      {/* Scrollable */}
+      <div
+        className="flex-1 overflow-y-auto z-10 px-4 pb-16"
+        style={{ scrollbarWidth: "none" }}
+      >
+        {/* ── BALANCE CARD ── */}
         <motion.div
-          key={i}
-          initial={{ opacity: 0, y: 5 }}
+          initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white/80 dark:bg-white/[0.02] p-2.5 rounded-2xl border border-black/[0.06] dark:border-white/5 flex items-center justify-between"
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="relative mb-4 overflow-hidden rounded-[18px]"
+          style={{
+            background: d
+              ? "linear-gradient(135deg, rgba(16,20,48,0.95) 0%, rgba(20,16,50,0.9) 40%, rgba(10,30,40,0.95) 100%)"
+              : "linear-gradient(135deg, rgba(99,102,241,0.08) 0%, rgba(16,185,129,0.06) 40%, rgba(59,130,246,0.05) 100%)",
+            border: `1px solid ${d ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)"}`,
+            boxShadow: d
+              ? "0 12px 40px rgba(0,0,0,0.5)"
+              : "0 8px 32px rgba(0,0,0,0.06)",
+          }}
         >
-          <div className="flex items-center gap-2.5">
-            <div
-              className={`w-1.5 h-1.5 rounded-full bg-black/20 dark:bg-white/10 `}
-            />
-            <div>
-              <p className="text-[0.7em] font-semibold text-black dark:text-white/70 uppercase tracking-tight">
-                {node.city}
+          {/* Top row: BLIP badge + SIGNATURE */}
+          <div className="flex items-center justify-between px-4 pt-3">
+            <div className="flex items-center gap-2">
+              <div
+                className="flex items-center gap-1.5 px-2 py-1 rounded-full"
+                style={{
+                  background: "rgba(16,185,129,0.12)",
+                  border: "1px solid rgba(16,185,129,0.2)",
+                }}
+              >
+                <div
+                  style={{
+                    width: 12,
+                    height: 12,
+                    borderRadius: "50%",
+                    background: "linear-gradient(135deg, #10b981, #34d399)",
+                  }}
+                />
+                <span
+                  style={{
+                    fontSize: 7,
+                    fontWeight: 900,
+                    color: d ? "#fff" : "#111",
+                    letterSpacing: "0.05em",
+                  }}
+                >
+                  BLIP
+                </span>
+              </div>
+              <div className="flex items-center gap-1">
+                <motion.div
+                  animate={{ opacity: [1, 0.3, 1] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                  style={{
+                    width: 4,
+                    height: 4,
+                    borderRadius: "50%",
+                    background: "#10b981",
+                  }}
+                />
+                <span
+                  style={{ fontSize: 6, fontWeight: 700, color: "#10b981" }}
+                >
+                  LIVE
+                </span>
+              </div>
+            </div>
+            <div style={{ textAlign: "right" }}>
+              <p
+                style={{
+                  fontSize: 5.5,
+                  fontWeight: 700,
+                  letterSpacing: "0.2em",
+                  color: d ? "rgba(255,255,255,0.18)" : "rgba(0,0,0,0.2)",
+                  textTransform: "uppercase" as const,
+                }}
+              >
+                Signature
               </p>
-              <p className="text-[0.6em] text-black/60 dark:text-white/40 tracking-widest font-mono">
-                RATE: {node.value}
+              <p
+                style={{
+                  fontSize: 6,
+                  fontWeight: 600,
+                  color: d ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.15)",
+                }}
+              >
+                V 2.0
               </p>
             </div>
           </div>
-          <span
-            className={`text-[0.6em] font-semibold tracking-widest uppercase ${node.active ? "text-black dark:text-white/70" : "text-black/50 dark:text-white/30"}`}
+
+          {/* Balance */}
+          <div className="px-4 pt-2 pb-1">
+            <p
+              style={{
+                fontSize: 6,
+                fontWeight: 900,
+                letterSpacing: "0.28em",
+                color: d ? "rgba(255,255,255,0.22)" : "rgba(0,0,0,0.28)",
+                textTransform: "uppercase" as const,
+                marginBottom: 4,
+              }}
+            >
+              Total Balance
+            </p>
+            <div className="flex items-baseline">
+              <motion.span
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+                style={{
+                  fontSize: 32,
+                  fontWeight: 900,
+                  letterSpacing: "-0.045em",
+                  lineHeight: 1,
+                }}
+              >
+                10,860
+              </motion.span>
+              <motion.span
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.35 }}
+                style={{
+                  fontSize: 16,
+                  fontWeight: 900,
+                  color: d ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.18)",
+                  lineHeight: 1,
+                }}
+              >
+                .83
+              </motion.span>
+              <motion.div
+                animate={{ opacity: [1, 0.4, 1] }}
+                transition={{ duration: 1.2, repeat: Infinity }}
+                style={{
+                  width: 5,
+                  height: 5,
+                  borderRadius: "50%",
+                  background: "#ef4444",
+                  marginLeft: 4,
+                  marginBottom: 4,
+                }}
+              />
+            </div>
+            <div className="flex items-center gap-1.5 mt-1.5">
+              <div
+                className="flex items-center gap-0.5 px-1.5 py-0.5 rounded-full"
+                style={{ background: "rgba(16,185,129,0.15)" }}
+              >
+                <span
+                  style={{ fontSize: 7, fontWeight: 900, color: "#10b981" }}
+                >
+                  ↑ Ready
+                </span>
+              </div>
+              <span
+                style={{
+                  fontSize: 6.5,
+                  fontWeight: 600,
+                  color: d ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.25)",
+                }}
+              >
+                1.67 AED
+              </span>
+            </div>
+          </div>
+
+          {/* Sparkline */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            className="px-4 pt-1 pb-2"
           >
-            {node.active ? "Match" : "Wait"}
-          </span>
+            <Sparkline isDark={isDark} />
+          </motion.div>
+
+          {/* ID Hash row */}
+          <div className="flex items-center justify-between px-4 pb-3">
+            <div>
+              <p
+                style={{
+                  fontSize: 5.5,
+                  fontWeight: 900,
+                  letterSpacing: "0.2em",
+                  color: d ? "rgba(255,255,255,0.18)" : "rgba(0,0,0,0.2)",
+                  textTransform: "uppercase" as const,
+                  marginBottom: 2,
+                }}
+              >
+                ID Hash
+              </p>
+              <p
+                style={{
+                  fontSize: 7,
+                  fontWeight: 700,
+                  color: d ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)",
+                  fontFamily: "monospace",
+                }}
+              >
+                6za1...8P6m
+              </p>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <div
+                style={{
+                  width: 20,
+                  height: 11,
+                  borderRadius: 999,
+                  background: "linear-gradient(90deg, #6366f1, #818cf8)",
+                  position: "relative",
+                }}
+              >
+                <div
+                  style={{
+                    position: "absolute",
+                    right: 1,
+                    top: 1,
+                    width: 9,
+                    height: 9,
+                    borderRadius: "50%",
+                    background: "#fff",
+                  }}
+                />
+              </div>
+              <div
+                style={{
+                  width: 14,
+                  height: 14,
+                  borderRadius: "50%",
+                  background: "rgba(139,92,246,0.2)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <div
+                  style={{
+                    width: 6,
+                    height: 6,
+                    borderRadius: "50%",
+                    background: "#8b5cf6",
+                  }}
+                />
+              </div>
+            </div>
+          </div>
         </motion.div>
-      ))}
-    </div>
 
-    <div className="mt-auto w-full p-2.5 bg-white/80 dark:bg-white/5 rounded-2xl border border-black/[0.06] dark:border-white/5 flex justify-between items-center mb-2.5">
-      <span className="text-[0.6em] font-semibold text-black/60 dark:text-white/40 uppercase tracking-[0.2em]">
-        Efficiency
-      </span>
-      <span className="text-[0.9em] font-semibold text-black dark:text-white/90 tracking-tight">
-        99.98%
-      </span>
-    </div>
-  </div>
-);
-
-const VerifyScreen = () => (
-  <div className="p-4 pt-[15vh] flex flex-col h-full bg-[#FAF8F5] dark:bg-black items-center font-sans text-center">
-    <div className="flex flex-col items-center justify-center flex-1 w-full">
-      <div className="relative mb-3">
+        {/* ── STAT CHIPS ── */}
         <motion.div
-          initial={{ scale: 0, rotate: -45 }}
-          animate={{ scale: 1, rotate: 0 }}
-          transition={{ type: "spring", damping: 15 }}
-          className="relative w-14 h-14 bg-black dark:bg-white rounded-full flex items-center justify-center shadow-2xl"
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="flex gap-2 mb-5"
         >
-          <CheckCircle2 size={24} className="text-white dark:text-black" />
+          {[
+            { label: "Total In", value: "+0..", color: "#10b981" },
+            { label: "Total Out", value: "-0..", color: "#ef4444" },
+            { label: "Pending", value: "0 txns", color: d ? "#fff" : "#111" },
+          ].map((stat) => (
+            <div
+              key={stat.label}
+              style={{
+                flex: 1,
+                borderRadius: 12,
+                padding: "8px 8px",
+                background: d ? "rgba(255,255,255,0.025)" : "rgba(0,0,0,0.025)",
+                border: `1px solid ${d ? "rgba(255,255,255,0.055)" : "rgba(0,0,0,0.06)"}`,
+              }}
+            >
+              <p
+                style={{
+                  fontSize: 5.5,
+                  fontWeight: 900,
+                  letterSpacing: "0.14em",
+                  textTransform: "uppercase" as const,
+                  marginBottom: 3,
+                  color: d ? "rgba(255,255,255,0.22)" : "rgba(0,0,0,0.28)",
+                }}
+              >
+                {stat.label}
+              </p>
+              <p style={{ fontSize: 10, fontWeight: 900, color: stat.color }}>
+                {stat.value}
+              </p>
+            </div>
+          ))}
+        </motion.div>
+
+        {/* ── ACTION BUTTONS ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="grid grid-cols-4 gap-2 mb-5"
+        >
+          {[
+            { label: "Send", icon: "↗", active: true },
+            { label: "Receive", icon: "↙", active: false },
+            { label: "Activity", icon: "⚡", active: false },
+            { label: "Scan", icon: "⊞", active: false },
+          ].map(({ label, icon, active }) => (
+            <div key={label} className="flex flex-col items-center gap-1.5">
+              <div
+                className="flex items-center justify-center"
+                style={{
+                  width: 44,
+                  height: 44,
+                  borderRadius: 14,
+                  background: active
+                    ? d
+                      ? "#fff"
+                      : "#111"
+                    : d
+                      ? "rgba(255,255,255,0.04)"
+                      : "rgba(0,0,0,0.03)",
+                  border: active
+                    ? "none"
+                    : `1px solid ${d ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)"}`,
+                  color: active
+                    ? d
+                      ? "#080816"
+                      : "#fff"
+                    : d
+                      ? "rgba(255,255,255,0.4)"
+                      : "rgba(0,0,0,0.35)",
+                  fontSize: 18,
+                  fontWeight: 700,
+                }}
+              >
+                {icon}
+              </div>
+              <span
+                style={{
+                  fontSize: 7,
+                  fontWeight: 900,
+                  letterSpacing: "0.12em",
+                  textTransform: "uppercase" as const,
+                  color: d ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)",
+                }}
+              >
+                {label}
+              </span>
+            </div>
+          ))}
+        </motion.div>
+
+        {/* ── CIRCLE ── */}
+        <div className="mb-5">
+          <p
+            style={{
+              fontSize: 6.5,
+              fontWeight: 900,
+              letterSpacing: "0.28em",
+              textTransform: "uppercase" as const,
+              color: d ? "rgba(255,255,255,0.22)" : "rgba(0,0,0,0.28)",
+              marginBottom: 6,
+            }}
+          >
+            Circle
+          </p>
+          <p
+            style={{
+              fontSize: 9,
+              fontWeight: 600,
+              color: d ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.2)",
+            }}
+          >
+            No trading partners yet
+          </p>
+        </div>
+
+        {/* ── RECENT PULSE ── */}
+        <div>
+          <div className="flex justify-between items-center mb-2.5">
+            <p
+              style={{
+                fontSize: 6.5,
+                fontWeight: 900,
+                letterSpacing: "0.28em",
+                textTransform: "uppercase" as const,
+                color: d ? "rgba(255,255,255,0.22)" : "rgba(0,0,0,0.28)",
+              }}
+            >
+              Recent Pulse
+            </p>
+            <span
+              style={{
+                fontSize: 7,
+                fontWeight: 900,
+                letterSpacing: "0.1em",
+                color: "#ff8f5e",
+                textTransform: "uppercase" as const,
+              }}
+            >
+              See all
+            </span>
+          </div>
+          <div
+            className="flex items-center justify-center rounded-[14px]"
+            style={{
+              padding: "18px 12px",
+              background: d ? "rgba(255,255,255,0.02)" : "rgba(0,0,0,0.02)",
+              border: `1px solid ${d ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)"}`,
+            }}
+          >
+            <p
+              style={{
+                fontSize: 8,
+                fontWeight: 600,
+                color: d ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.18)",
+              }}
+            >
+              No recent activity
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* ── BOTTOM NAV ── */}
+      <div
+        className="absolute bottom-0 left-0 right-0 z-20 flex items-center justify-around"
+        style={{
+          height: 52,
+          background: d ? "rgba(8,8,22,0.95)" : "rgba(255,255,255,0.95)",
+          borderTop: `1px solid ${d ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.06)"}`,
+          backdropFilter: "blur(20px)",
+        }}
+      >
+        {[
+          { label: "Home", icon: "⌂", active: true },
+          { label: "Activity", icon: "⚡", active: false },
+          { label: "Trade", icon: "↕", active: false },
+          { label: "You", icon: "●", active: false },
+        ].map(({ label, icon, active }) => (
+          <div key={label} className="flex flex-col items-center gap-0.5">
+            <div
+              className="flex items-center justify-center"
+              style={{
+                width: active ? 32 : 24,
+                height: active ? 32 : 24,
+                borderRadius: active ? 10 : 8,
+                background: active ? "white" : "transparent",
+                color: active
+                  ? "black"
+                  : d
+                    ? "rgba(255,255,255,0.2)"
+                    : "rgba(0,0,0,0.25)",
+                fontSize: active ? 14 : 12,
+              }}
+            >
+              {icon}
+            </div>
+            <span
+              style={{
+                fontSize: 6,
+                fontWeight: 700,
+                color: active
+                  ? "white"
+                  : d
+                    ? "rgba(255,255,255,0.2)"
+                    : "rgba(0,0,0,0.25)",
+                textTransform: "uppercase" as const,
+                letterSpacing: "0.08em",
+              }}
+            >
+              {label}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// ─── SCREEN 2: SEND MONEY ────────────────────────────────────────────────────
+
+const SendScreen = ({ isDark }: { isDark: boolean }) => {
+  const c = useC(isDark);
+  return (
+    <div
+      className="flex flex-col h-full w-full relative overflow-hidden"
+      style={{ background: c.bg, paddingTop: 52, color: c.text }}
+    >
+      <Orbs isDark={isDark} />
+      {/* Header */}
+      <div className="px-4 pb-3 flex items-center gap-3 z-10">
+        <div
+          className="w-8 h-8 rounded-[10px] flex items-center justify-center"
+          style={{ background: c.card, border: `1px solid ${c.border}` }}
+        >
+          <ArrowDownLeft
+            size={13}
+            style={{ color: c.sub, transform: "rotate(90deg)" }}
+          />
+        </div>
+        <div>
+          <Label c={c}>New Settlement</Label>
+          <p
+            style={{ fontSize: 12, fontWeight: 900, letterSpacing: "-0.02em" }}
+          >
+            Send to Circle
+          </p>
+        </div>
+      </div>
+
+      <div className="flex-1 px-4 pt-1 flex flex-col items-center z-10">
+        {/* Recipient chips */}
+        <div
+          className="w-full flex gap-2.5 overflow-x-auto mb-6"
+          style={{ scrollbarWidth: "none" }}
+        >
+          {CIRCLE_FRIENDS.slice(0, 3).map((f, i) => (
+            <motion.div
+              key={f.name}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.05 + i * 0.06 }}
+              className="shrink-0 flex items-center gap-2 rounded-[14px]"
+              style={{
+                padding: "6px 10px",
+                background:
+                  i === 0
+                    ? isDark
+                      ? "rgba(255,107,53,0.12)"
+                      : "rgba(255,107,53,0.06)"
+                    : c.card,
+                border: `1px solid ${i === 0 ? "rgba(255,107,53,0.25)" : c.border}`,
+              }}
+            >
+              <div
+                className="flex items-center justify-center"
+                style={{
+                  width: 22,
+                  height: 22,
+                  borderRadius: 8,
+                  background: f.color + "20",
+                }}
+              >
+                <span style={{ fontSize: 11 }}>{f.emoji}</span>
+              </div>
+              <span
+                style={{
+                  fontSize: 9,
+                  fontWeight: 900,
+                  color: i === 0 ? (isDark ? "#ff8f5e" : "#ff6b35") : c.sub,
+                }}
+              >
+                {f.name}
+              </span>
+              {i === 0 && (
+                <CheckCircle2 size={10} style={{ color: "#ff8f5e" }} />
+              )}
+            </motion.div>
+          ))}
+        </div>
+
+        <Label c={c}>Amount</Label>
+        <div
+          className="flex items-baseline justify-center mt-3"
+          style={{ marginBottom: 28 }}
+        >
+          <span
+            style={{
+              fontSize: 30,
+              fontWeight: 900,
+              letterSpacing: "-0.03em",
+              color: isDark ? "rgba(255,255,255,0.18)" : "rgba(0,0,0,0.12)",
+              marginRight: 4,
+            }}
+          >
+            $
+          </span>
+          <motion.span
+            initial={{ scale: 0.92, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            style={{
+              fontSize: 60,
+              fontWeight: 900,
+              letterSpacing: "-0.05em",
+              lineHeight: 1,
+            }}
+          >
+            5,000
+          </motion.span>
+        </div>
+
+        {/* Conversion hint */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="flex items-center gap-1.5 mb-5 px-3 py-1.5 rounded-full"
+          style={{ background: c.card, border: `1px solid ${c.border}` }}
+        >
+          <span style={{ fontSize: 8, fontWeight: 700, color: c.muted }}>
+            ≈
+          </span>
+          <span style={{ fontSize: 9, fontWeight: 900, color: "#FF6B35" }}>
+            18,360 AED
+          </span>
+          <span style={{ fontSize: 7, fontWeight: 700, color: c.muted }}>
+            @ 3.672
+          </span>
+        </motion.div>
+
+        {/* Numpad */}
+        <div
+          className="grid grid-cols-3 mb-5"
+          style={{ gap: "5px 22px", maxWidth: 210, width: "100%" }}
+        >
+          {["1", "2", "3", "4", "5", "6", "7", "8", "9", "·", "0", "←"].map(
+            (k) => (
+              <div
+                key={k}
+                className="flex items-center justify-center rounded-[14px]"
+                style={{
+                  height: 38,
+                  fontSize: 22,
+                  fontWeight: 900,
+                  color: isDark ? "rgba(255,255,255,0.65)" : "rgba(0,0,0,0.65)",
+                }}
+              >
+                {k}
+              </div>
+            ),
+          )}
+        </div>
+
+        {/* CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="w-full flex items-center justify-center gap-2.5"
+          style={{
+            height: 52,
+            borderRadius: 24,
+            fontSize: 14,
+            fontWeight: 900,
+            background: isDark ? "#fff" : "#111",
+            color: isDark ? "#000" : "#fff",
+            boxShadow: isDark
+              ? "0 16px 40px rgba(255,255,255,0.1)"
+              : "0 16px 40px rgba(0,0,0,0.15)",
+          }}
+        >
+          Confirm & Send
         </motion.div>
       </div>
-
-      <h3 className="text-[1.6em] font-semibold text-black dark:text-white/90 uppercase tracking-[0.1em]">
-        Settled
-      </h3>
-      <p className="text-[0.65em] text-black/50 dark:text-white/30 font-semibold tracking-[0.3em] uppercase mt-2">
-        LEDGER_ID: 0x9A...F21
-      </p>
     </div>
+  );
+};
 
-    <div className="w-full space-y-1 mb-2.5">
-      <div className="bg-white/80 dark:bg-white/5 p-2.5 rounded-2xl border border-black/[0.06] dark:border-white/5 flex justify-between items-center">
-        <div className="flex items-center gap-2">
-          <Fingerprint size={12} className="text-black/60 dark:text-white/40" />
-          <span className="text-[0.6em] font-semibold text-black/60 dark:text-white/40 uppercase tracking-widest">
-            Authorization
-          </span>
-        </div>
-        <span className="text-[0.6em] font-semibold text-black dark:text-white/70 tracking-widest uppercase">
-          Success
-        </span>
+// ─── SCREEN 3: TRADE ─────────────────────────────────────────────────────────
+
+const PAIRS = [
+  {
+    from: "USDT",
+    to: "AED",
+    rate: "3.672",
+    chg: "+0.3%",
+    color: "#10b981",
+    emoji: "🪙",
+  },
+  {
+    from: "BTC",
+    to: "AED",
+    rate: "367,200",
+    chg: "+2.1%",
+    color: "#f59e0b",
+    emoji: "₿",
+  },
+  {
+    from: "ETH",
+    to: "AED",
+    rate: "13,400",
+    chg: "-0.8%",
+    color: "#ef4444",
+    emoji: "◆",
+  },
+];
+
+const TradeScreen = ({ isDark }: { isDark: boolean }) => {
+  const c = useC(isDark);
+  return (
+    <div
+      className="flex flex-col h-full w-full relative overflow-hidden"
+      style={{ background: c.bg, paddingTop: 52, color: c.text }}
+    >
+      <Orbs isDark={isDark} />
+      <div className="px-4 pb-2 z-10">
+        <Label c={c}>Markets</Label>
+        <p style={{ fontSize: 17, fontWeight: 900, letterSpacing: "-0.035em" }}>
+          Trade
+        </p>
       </div>
-      <div className="bg-white/80 dark:bg-white/5 p-2.5 rounded-2xl border border-black/[0.06] dark:border-white/5 flex justify-between items-center">
-        <div className="flex items-center gap-2">
-          <Zap size={12} className="text-black dark:text-white" />
-          <span className="text-[0.6em] font-semibold text-black/60 dark:text-white/40 uppercase tracking-widest">
-            Settlement
-          </span>
+
+      <div
+        className="flex-1 overflow-y-auto z-10 px-4 pb-6"
+        style={{ scrollbarWidth: "none" }}
+      >
+        {/* Toggle */}
+        <div
+          className="flex rounded-[14px] p-[3px] mb-4"
+          style={{ background: c.card, border: `1px solid ${c.border}` }}
+        >
+          <div
+            className="flex-1 text-center py-2 rounded-[11px]"
+            style={{
+              background: isDark ? "#fff" : "#111",
+              color: isDark ? "#000" : "#fff",
+              fontSize: 9,
+              fontWeight: 900,
+              letterSpacing: "0.12em",
+              textTransform: "uppercase" as const,
+            }}
+          >
+            Buy
+          </div>
+          <div
+            className="flex-1 text-center py-2 rounded-[11px]"
+            style={{
+              fontSize: 9,
+              fontWeight: 900,
+              letterSpacing: "0.12em",
+              textTransform: "uppercase" as const,
+              color: c.muted,
+            }}
+          >
+            Sell
+          </div>
         </div>
-        <span className="text-[0.6em] font-semibold text-black dark:text-white/70 tracking-widest uppercase">
-          420MS
-        </span>
+
+        {/* Swap card */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+          className="rounded-[22px] overflow-hidden mb-4"
+          style={{
+            background: c.card,
+            border: `1px solid ${c.border}`,
+            boxShadow: isDark
+              ? "0 12px 40px rgba(0,0,0,0.3)"
+              : "0 12px 40px rgba(0,0,0,0.04)",
+          }}
+        >
+          <div className="p-4 pb-3">
+            <p
+              style={{
+                fontSize: 7,
+                fontWeight: 900,
+                letterSpacing: "0.22em",
+                color: c.muted,
+                textTransform: "uppercase" as const,
+                marginBottom: 8,
+              }}
+            >
+              You Pay
+            </p>
+            <div className="flex items-center justify-between">
+              <span
+                style={{
+                  fontSize: 30,
+                  fontWeight: 900,
+                  letterSpacing: "-0.04em",
+                }}
+              >
+                10,000
+              </span>
+              <div
+                className="flex items-center gap-1.5 px-3 py-2 rounded-[12px]"
+                style={{ background: c.hover, border: `1px solid ${c.border}` }}
+              >
+                <span style={{ fontSize: 13 }}>🪙</span>
+                <span style={{ fontSize: 10, fontWeight: 900 }}>USDT</span>
+                <ChevronDown size={10} style={{ color: c.muted }} />
+              </div>
+            </div>
+          </div>
+          <div
+            className="relative flex items-center justify-center"
+            style={{ height: 1, background: c.border }}
+          >
+            <motion.div
+              animate={{ rotate: [0, 180] }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="absolute w-8 h-8 rounded-full flex items-center justify-center"
+              style={{
+                background: isDark ? "#14142a" : "#f0f0f5",
+                border: `1.5px solid ${c.border}`,
+                boxShadow: isDark
+                  ? "0 4px 12px rgba(0,0,0,0.4)"
+                  : "0 4px 12px rgba(0,0,0,0.06)",
+              }}
+            >
+              <ArrowDownCircle size={16} style={{ color: "#FF6B35" }} />
+            </motion.div>
+          </div>
+          <div className="p-4 pt-5">
+            <p
+              style={{
+                fontSize: 7,
+                fontWeight: 900,
+                letterSpacing: "0.22em",
+                color: c.muted,
+                textTransform: "uppercase" as const,
+                marginBottom: 8,
+              }}
+            >
+              You Receive
+            </p>
+            <div className="flex items-center justify-between">
+              <motion.span
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4 }}
+                style={{
+                  fontSize: 30,
+                  fontWeight: 900,
+                  letterSpacing: "-0.04em",
+                  color: "#FF6B35",
+                }}
+              >
+                36,720
+              </motion.span>
+              <div
+                className="flex items-center gap-1.5 px-3 py-2 rounded-[12px]"
+                style={{ background: c.hover, border: `1px solid ${c.border}` }}
+              >
+                <span style={{ fontSize: 13 }}>🇦🇪</span>
+                <span style={{ fontSize: 10, fontWeight: 900 }}>AED</span>
+                <ChevronDown size={10} style={{ color: c.muted }} />
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Rate bar */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.15 }}
+          className="flex items-center justify-between rounded-[14px] px-3 py-2.5 mb-5"
+          style={{ background: c.card, border: `1px solid ${c.border}` }}
+        >
+          <span style={{ fontSize: 8, fontWeight: 700, color: c.muted }}>
+            Rate
+          </span>
+          <div className="flex items-center gap-2">
+            <span
+              style={{
+                fontSize: 9.5,
+                fontWeight: 900,
+                fontFamily: "monospace",
+              }}
+            >
+              1 USDT = 3.672 AED
+            </span>
+            <motion.div
+              animate={{ opacity: [1, 0.3, 1] }}
+              transition={{ duration: 1.5, repeat: 3 }}
+              className="flex items-center gap-0.5 px-1.5 py-0.5 rounded-full"
+              style={{
+                background: "rgba(16,185,129,0.12)",
+                border: "1px solid rgba(16,185,129,0.25)",
+              }}
+            >
+              <div
+                style={{
+                  width: 4,
+                  height: 4,
+                  borderRadius: "50%",
+                  background: "#10b981",
+                }}
+              />
+              <span
+                style={{ fontSize: 6.5, fontWeight: 900, color: "#10b981" }}
+              >
+                LIVE
+              </span>
+            </motion.div>
+          </div>
+        </motion.div>
+
+        {/* Pairs */}
+        <Label c={c}>Live Pairs</Label>
+        <div
+          className="mt-2"
+          style={{ display: "flex", flexDirection: "column", gap: 7 }}
+        >
+          {PAIRS.map((p, i) => (
+            <motion.div
+              key={p.from}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 + i * 0.07, ease: [0.22, 1, 0.36, 1] }}
+              className="flex items-center justify-between rounded-[16px] px-3 py-2.5"
+              style={{ background: c.card, border: `1px solid ${c.border}` }}
+            >
+              <div className="flex items-center gap-2.5">
+                <div
+                  className="w-8 h-8 rounded-[10px] flex items-center justify-center"
+                  style={{
+                    background: p.color + "15",
+                    border: `1px solid ${p.color}25`,
+                  }}
+                >
+                  <span style={{ fontSize: 14, color: p.color }}>
+                    {p.emoji}
+                  </span>
+                </div>
+                <div>
+                  <p
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 900,
+                      letterSpacing: "-0.01em",
+                    }}
+                  >
+                    {p.from}
+                    <span style={{ color: c.muted }}>/{p.to}</span>
+                  </p>
+                  <p
+                    style={{
+                      fontSize: 7.5,
+                      fontWeight: 600,
+                      color: c.muted,
+                      fontFamily: "monospace",
+                    }}
+                  >
+                    {p.rate}
+                  </p>
+                </div>
+              </div>
+              <div
+                className="px-2 py-1 rounded-full"
+                style={{
+                  background: p.color + "15",
+                  border: `1px solid ${p.color}28`,
+                }}
+              >
+                <span
+                  style={{ fontSize: 8.5, fontWeight: 900, color: p.color }}
+                >
+                  {p.chg}
+                </span>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
+
+// ─── SCREEN 4: PAY BILLS ─────────────────────────────────────────────────────
+
+const BILLS = [
+  {
+    name: "Rent",
+    amt: "4,200",
+    due: "Due 5 Mar",
+    emoji: "🏠",
+    color: "#ff6b35",
+    active: true,
+  },
+  {
+    name: "DEWA",
+    amt: "380",
+    due: "Due 12 Mar",
+    emoji: "⚡",
+    color: "#f59e0b",
+    active: false,
+  },
+  {
+    name: "Du Mobile",
+    amt: "199",
+    due: "Due 15 Mar",
+    emoji: "📱",
+    color: "#3b82f6",
+    active: false,
+  },
+  {
+    name: "Salik",
+    amt: "50",
+    due: "Due 20 Mar",
+    emoji: "🚗",
+    color: "#10b981",
+    active: false,
+  },
+];
+
+const PayScreen = ({ isDark }: { isDark: boolean }) => {
+  const c = useC(isDark);
+  return (
+    <div
+      className="flex flex-col h-full w-full relative overflow-hidden"
+      style={{ background: c.bg, paddingTop: 52, color: c.text }}
+    >
+      <Orbs isDark={isDark} />
+      <div className="px-4 pb-2 z-10">
+        <Label c={c}>Payments</Label>
+        <p style={{ fontSize: 17, fontWeight: 900, letterSpacing: "-0.035em" }}>
+          Pay Bills
+        </p>
+      </div>
+
+      <div
+        className="flex-1 overflow-y-auto z-10 px-4 pb-6"
+        style={{ scrollbarWidth: "none" }}
+      >
+        {/* Filter */}
+        <div
+          className="flex gap-2 mb-4 overflow-x-auto"
+          style={{ scrollbarWidth: "none" }}
+        >
+          {["All", "Upcoming", "Paid", "Auto-pay"].map((f, i) => (
+            <div
+              key={f}
+              className="shrink-0 px-3.5 py-1.5 rounded-full"
+              style={
+                i === 0
+                  ? {
+                      background: isDark ? "#fff" : "#111",
+                      color: isDark ? "#000" : "#fff",
+                      fontSize: 8,
+                      fontWeight: 900,
+                      textTransform: "uppercase" as const,
+                      letterSpacing: "0.1em",
+                    }
+                  : {
+                      background: c.card,
+                      border: `1px solid ${c.border}`,
+                      color: c.muted,
+                      fontSize: 8,
+                      fontWeight: 900,
+                      textTransform: "uppercase" as const,
+                      letterSpacing: "0.1em",
+                    }
+              }
+            >
+              {f}
+            </div>
+          ))}
+        </div>
+
+        {/* Total due */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.05 }}
+          className="rounded-[22px] p-4 mb-4 relative overflow-hidden"
+          style={{
+            background: isDark
+              ? "linear-gradient(140deg, rgba(255,107,53,0.14), rgba(59,130,246,0.08))"
+              : "linear-gradient(140deg, rgba(255,107,53,0.07), rgba(59,130,246,0.04))",
+            border: `1px solid ${isDark ? "rgba(255,107,53,0.22)" : "rgba(255,107,53,0.12)"}`,
+            boxShadow: "0 8px 32px rgba(255,107,53,0.08)",
+          }}
+        >
+          <motion.div
+            animate={{ x: ["-200%", "200%"] }}
+            transition={{
+              duration: 5,
+              repeat: 2,
+              repeatDelay: 8,
+              ease: "easeInOut",
+            }}
+            className="absolute inset-0 skew-x-12"
+            style={{
+              background:
+                "linear-gradient(90deg, transparent 30%, rgba(255,107,53,0.04) 50%, transparent 70%)",
+            }}
+          />
+          <p
+            style={{
+              fontSize: 7,
+              fontWeight: 900,
+              letterSpacing: "0.28em",
+              color: "#ff8f5e",
+              textTransform: "uppercase" as const,
+              marginBottom: 5,
+            }}
+          >
+            Total Due This Month
+          </p>
+          <div className="flex items-baseline gap-1.5">
+            <span
+              style={{
+                fontSize: 32,
+                fontWeight: 900,
+                letterSpacing: "-0.04em",
+              }}
+            >
+              4,829
+            </span>
+            <span style={{ fontSize: 15, fontWeight: 900, color: c.muted }}>
+              AED
+            </span>
+          </div>
+          <p
+            style={{ fontSize: 8, fontWeight: 700, color: c.sub, marginTop: 5 }}
+          >
+            4 bills · Next due in 3 days
+          </p>
+        </motion.div>
+
+        {/* Bills */}
+        <Label c={c}>Upcoming</Label>
+        <div
+          className="mt-2"
+          style={{ display: "flex", flexDirection: "column", gap: 7 }}
+        >
+          {BILLS.map((b, i) => (
+            <motion.div
+              key={b.name}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.12 + i * 0.07, ease: [0.22, 1, 0.36, 1] }}
+              className="flex items-center gap-2.5 rounded-[16px]"
+              style={{
+                padding: "9px 11px",
+                background: b.active
+                  ? isDark
+                    ? `${b.color}10`
+                    : `${b.color}06`
+                  : c.card,
+                border: `1px solid ${b.active ? b.color + "30" : c.border}`,
+                boxShadow: b.active ? `0 4px 16px ${b.color}12` : "none",
+              }}
+            >
+              <div
+                className="shrink-0 w-10 h-10 rounded-[12px] flex items-center justify-center"
+                style={{
+                  background: b.color + "15",
+                  border: `1px solid ${b.color}20`,
+                }}
+              >
+                <span style={{ fontSize: 18 }}>{b.emoji}</span>
+              </div>
+              <div className="flex-1 min-w-0">
+                <div
+                  className="flex justify-between items-center"
+                  style={{ marginBottom: 3 }}
+                >
+                  <p style={{ fontSize: 11, fontWeight: 900 }}>{b.name}</p>
+                  <p style={{ fontSize: 11, fontWeight: 900 }}>
+                    {b.amt}{" "}
+                    <span style={{ fontSize: 7.5, color: c.muted }}>AED</span>
+                  </p>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span
+                    style={{ fontSize: 7.5, fontWeight: 600, color: c.muted }}
+                  >
+                    {b.due}
+                  </span>
+                  {b.active ? (
+                    <span
+                      style={{
+                        fontSize: 7.5,
+                        fontWeight: 900,
+                        color: b.color,
+                        textTransform: "uppercase" as const,
+                        letterSpacing: "0.1em",
+                      }}
+                    >
+                      Pay Now →
+                    </span>
+                  ) : (
+                    <span
+                      style={{
+                        fontSize: 7.5,
+                        fontWeight: 700,
+                        color: c.muted,
+                        textTransform: "uppercase" as const,
+                        letterSpacing: "0.08em",
+                      }}
+                    >
+                      Pending
+                    </span>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Auto-pay */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35 }}
+          className="mt-4 rounded-[16px] p-3.5 flex items-center gap-2.5"
+          style={{
+            background: isDark
+              ? "rgba(16,185,129,0.08)"
+              : "rgba(16,185,129,0.04)",
+            border: "1px solid rgba(16,185,129,0.18)",
+          }}
+        >
+          <div
+            className="w-8 h-8 rounded-[10px] flex items-center justify-center"
+            style={{ background: "rgba(16,185,129,0.15)" }}
+          >
+            <Zap size={14} style={{ color: "#10b981" }} />
+          </div>
+          <div className="flex-1">
+            <p style={{ fontSize: 9.5, fontWeight: 900, color: "#10b981" }}>
+              Auto-pay enabled
+            </p>
+            <p style={{ fontSize: 7.5, fontWeight: 600, color: c.muted }}>
+              Bills paid from your USDT balance
+            </p>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+};
+
+// ─── SCREEN 5: CASH OUT ──────────────────────────────────────────────────────
+
+const CashOutScreen = ({ isDark }: { isDark: boolean }) => {
+  const c = useC(isDark);
+  return (
+    <div
+      className="h-full w-full flex flex-col items-center justify-center relative overflow-hidden"
+      style={{
+        background: isDark ? "#06060e" : c.bg,
+        padding: 28,
+        textAlign: "center" as const,
+        color: c.text,
+      }}
+    >
+      {/* Radial glow */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: `radial-gradient(ellipse at 50% 35%, ${isDark ? "rgba(255,107,53,0.15)" : "rgba(255,107,53,0.08)"} 0%, ${isDark ? "rgba(255,107,53,0.08)" : "rgba(255,107,53,0.04)"} 40%, transparent 70%)`,
+        }}
+      />
+      {/* Pulse rings */}
+      <motion.div
+        animate={{ scale: [1, 1.6, 1], opacity: [0.15, 0, 0.15] }}
+        transition={{ duration: 2.5, repeat: 3 }}
+        className="absolute z-0"
+        style={{
+          width: 160,
+          height: 160,
+          borderRadius: "50%",
+          border: `1px solid ${isDark ? "rgba(255,107,53,0.2)" : "rgba(255,107,53,0.12)"}`,
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -65%)",
+        }}
+      />
+      <motion.div
+        animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0, 0.2] }}
+        transition={{ duration: 2.5, repeat: 3, delay: 0.4 }}
+        className="absolute z-0"
+        style={{
+          width: 120,
+          height: 120,
+          borderRadius: "50%",
+          border: `1px solid ${isDark ? "rgba(255,107,53,0.15)" : "rgba(255,107,53,0.1)"}`,
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -65%)",
+        }}
+      />
+
+      {/* Success icon */}
+      <motion.div
+        initial={{ scale: 0.3, rotate: -20, opacity: 0 }}
+        animate={{ scale: 1, rotate: 0, opacity: 1 }}
+        transition={{ type: "spring", stiffness: 350, damping: 14, delay: 0.1 }}
+        className="flex items-center justify-center z-10"
+        style={{
+          width: 96,
+          height: 96,
+          borderRadius: 34,
+          marginBottom: 22,
+          background: "transparent",
+          boxShadow:
+            "0 0 50px rgba(255,107,53,0.25), 0 0 80px rgba(255,107,53,0.15), 0 16px 40px rgba(0,0,0,0.3)",
+        }}
+      >
+        <img
+          src="/brand/blip-icon.svg"
+          alt="Blip"
+          style={{ width: 58, height: 58, borderRadius: 16 }}
+        />
+      </motion.div>
+
+      <motion.p
+        initial={{ y: 16, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.2 }}
+        style={{
+          fontSize: 42,
+          fontWeight: 900,
+          letterSpacing: "-0.045em",
+          lineHeight: 1,
+          marginBottom: 6,
+          zIndex: 1,
+        }}
+      >
+        Done.
+      </motion.p>
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.3 }}
+        style={{
+          fontSize: 13,
+          fontWeight: 900,
+          textTransform: "uppercase" as const,
+          letterSpacing: "0.18em",
+          color: c.muted,
+          marginBottom: 10,
+          zIndex: 1,
+        }}
+      >
+        Settled $5,000
+      </motion.p>
+
+      {/* Receipt */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.35 }}
+        className="w-full z-10 mb-5"
+        style={{ display: "flex", flexDirection: "column", gap: 7 }}
+      >
+        {[
+          {
+            label: "Method",
+            value: "Bank Transfer",
+            icon: <Wallet size={11} style={{ color: c.sub }} />,
+            color: c.text,
+          },
+          {
+            label: "Speed",
+            value: "1.8s",
+            icon: <Zap size={11} style={{ color: "#FF6B35" }} />,
+            color: "#FF6B35",
+          },
+          {
+            label: "Amount",
+            value: "36,730 AED",
+            icon: <Coins size={11} style={{ color: c.sub }} />,
+            color: c.text,
+          },
+        ].map((r, i) => (
+          <motion.div
+            key={r.label}
+            initial={{ opacity: 0, x: -8 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4 + i * 0.08 }}
+            className="flex items-center justify-between rounded-[14px]"
+            style={{
+              padding: "9px 12px",
+              background: c.card,
+              border: `1px solid ${c.border}`,
+            }}
+          >
+            <div className="flex items-center gap-2.5">
+              <div
+                className="w-7 h-7 rounded-[9px] flex items-center justify-center"
+                style={{ background: c.hover }}
+              >
+                {r.icon}
+              </div>
+              <span
+                style={{
+                  fontSize: 8.5,
+                  fontWeight: 700,
+                  color: c.muted,
+                  textTransform: "uppercase" as const,
+                  letterSpacing: "0.1em",
+                }}
+              >
+                {r.label}
+              </span>
+            </div>
+            <span style={{ fontSize: 11, fontWeight: 900, color: r.color }}>
+              {r.value}
+            </span>
+          </motion.div>
+        ))}
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.55 }}
+        className="w-full z-10 flex items-center justify-center"
+        style={{
+          height: 46,
+          borderRadius: 22,
+          fontSize: 12,
+          fontWeight: 900,
+          background: c.card,
+          border: `1px solid ${c.border}`,
+          color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)",
+        }}
+      >
+        Back to Home
+      </motion.div>
+    </div>
+  );
+};
 
 const Cursor = ({ name, color, textColor, initialPos, delay }) => (
   <motion.div
@@ -828,7 +2334,7 @@ const Cursor = ({ name, color, textColor, initialPos, delay }) => (
     }}
     transition={{
       duration: 6,
-      repeat: Infinity,
+      repeat: 3,
       ease: "easeInOut",
       delay,
     }}

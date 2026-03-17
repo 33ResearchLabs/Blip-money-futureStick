@@ -32,12 +32,12 @@ const ProductShowcase = () => {
             <span className="text-[11px] uppercase tracking-[0.3em] text-white/30 font-light block mb-4">
               Experience
             </span>
-            <h2 className="text-4xl md:text-6xl font-semibold text-white tracking-tight leading-[1.1] mb-6">
+            <h2 className="heading-h2 text-white" style={{ marginBottom: 24 }}>
               Built for speed.
               <br />
               <span className="text-white/40">Designed for you.</span>
             </h2>
-            <p className="text-lg text-white/50 leading-relaxed max-w-lg">
+            <p className="p-medium text-white/50 max-w-lg">
               Every detail crafted for the fastest, most intuitive payment
               experience. From your first transfer to your thousandth.
             </p>
@@ -51,7 +51,7 @@ const ProductShowcase = () => {
               className="absolute top-0 right-20 w-64 rounded-2xl overflow-hidden shadow-2xl"
             >
               <img
-                src="/images/app-flow-1.jpg"
+                src="/images/app-flow-1.webp"
                 alt="App interface"
                 className="w-full h-auto"
                 style={{
@@ -66,7 +66,7 @@ const ProductShowcase = () => {
               className="absolute bottom-20 left-0 w-48 rounded-xl overflow-hidden shadow-2xl"
             >
               <img
-                src="/images/app-flow-2.jpg"
+                src="/images/app-flow-2.webp"
                 alt="Transaction details"
                 className="w-full h-auto opacity-90"
                 style={{
@@ -81,7 +81,7 @@ const ProductShowcase = () => {
               className="absolute top-40 left-12 w-56 rounded-xl overflow-hidden shadow-2xl"
             >
               <img
-                src="/images/app-flow-3.jpg"
+                src="/images/app-flow-3.webp"
                 alt="Payment confirmation"
                 className="w-full h-auto opacity-80"
                 style={{

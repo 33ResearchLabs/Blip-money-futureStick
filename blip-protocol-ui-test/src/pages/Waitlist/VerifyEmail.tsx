@@ -1,61 +1,74 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, useNavigate, Link } from "react-router-dom";
 import { Loader2, CheckCircle2, AlertCircle, ArrowLeft } from "lucide-react";
-import { applyActionCode } from "firebase/auth";
-import { firebaseAuth } from "@/config/firebase";
 import authApi from "@/services/auth";
+import { toast } from "sonner";
 import { motion } from "framer-motion";
 
 export default function VerifyEmail() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const oobCode = searchParams.get("oobCode");
+  const token = searchParams.get("token");
 
   const [status, setStatus] = useState<"verifying" | "success" | "error">(
     "verifying",
   );
   const [errorMessage, setErrorMessage] = useState("");
+  const [resendEmail, setResendEmail] = useState("");
+  const [isResending, setIsResending] = useState(false);
+  const [resendCooldown, setResendCooldown] = useState(0);
+  const [userRole, setUserRole] = useState<string>("USER");
 
   useEffect(() => {
     const verify = async () => {
-      if (!oobCode) {
+      if (!token) {
         setStatus("error");
         setErrorMessage("Invalid verification link.");
         return;
       }
 
       try {
-        // Apply the action code to verify email in Firebase
-        await applyActionCode(firebaseAuth, oobCode);
-
-        // Get the current user's email to sync with backend
-        const user = firebaseAuth.currentUser;
-        if (user) {
-          await user.reload();
-          if (user.email) {
-            await authApi.confirmEmailVerified(user.email);
-          }
-        }
-
+        const res = await authApi.verifyEmail(token);
+        setUserRole(res.data?.role || "USER");
         setStatus("success");
+        toast.success("Email verified successfully!");
       } catch (error: any) {
         setStatus("error");
-        if (error.code === "auth/expired-action-code") {
-          setErrorMessage(
-            "This verification link has expired. Please request a new one.",
-          );
-        } else if (error.code === "auth/invalid-action-code") {
-          setErrorMessage(
-            "This verification link is invalid or has already been used.",
-          );
-        } else {
-          setErrorMessage("Verification failed. Please try again.");
-        }
+        const message =
+          error.response?.data?.message ||
+          "Verification failed. The link may be invalid or expired.";
+        setErrorMessage(message);
       }
     };
 
     verify();
-  }, [oobCode]);
+  }, [token]);
+
+  const handleResendVerification = async () => {
+    if (!resendEmail || resendCooldown > 0) return;
+
+    setIsResending(true);
+    try {
+      await authApi.resendVerification(resendEmail);
+      toast.success("Verification email sent! Check your inbox.");
+      setResendCooldown(60);
+      const interval = setInterval(() => {
+        setResendCooldown((prev) => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    } catch (error: any) {
+      const message =
+        error.response?.data?.message || "Failed to resend verification email.";
+      toast.error(message);
+    } finally {
+      setIsResending(false);
+    }
+  };
 
   if (status === "verifying") {
     return (
@@ -88,20 +101,43 @@ export default function VerifyEmail() {
           <p className="text-black/50 dark:text-white/50 mb-8">
             {errorMessage}
           </p>
-          <div className="space-y-3">
+
+          {/* Resend verification email */}
+          <div className="space-y-3 mb-6">
+            <p className="text-sm text-black/60 dark:text-white/60">
+              Enter your email to receive a new verification link:
+            </p>
+            <input
+              type="email"
+              value={resendEmail}
+              onChange={(e) => setResendEmail(e.target.value)}
+              className="w-full px-4 py-3 bg-white dark:bg-black border border-black/20 dark:border-white/20 rounded-sm text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/40 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
+              placeholder="you@example.com"
+            />
             <button
-              onClick={() => navigate("/register")}
-              className="w-full py-3 bg-black dark:bg-white text-white dark:text-black font-medium rounded-sm hover:bg-black/90 dark:hover:bg-white/90 transition-all"
+              onClick={handleResendVerification}
+              disabled={isResending || !resendEmail || resendCooldown > 0}
+              className="w-full py-3 bg-white text-black border border-black/10 font-medium rounded-sm hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
             >
-              Register Again
+              {isResending ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  Sending...
+                </>
+              ) : resendCooldown > 0 ? (
+                `Resend available in ${resendCooldown}s`
+              ) : (
+                "Resend Verification Email"
+              )}
             </button>
-            <Link
-              to="/waitlist"
-              className="w-full py-3 flex items-center justify-center gap-2 text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white text-sm transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4" /> Back to Login
-            </Link>
           </div>
+
+          <Link
+            to="/waitlist"
+            className="w-full py-3 flex items-center justify-center gap-2 text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white text-sm transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" /> Back to Login
+          </Link>
         </motion.div>
       </div>
     );
@@ -126,10 +162,10 @@ export default function VerifyEmail() {
           account.
         </p>
         <button
-          onClick={() => navigate("/waitlist")}
-          className="w-full py-3 bg-black dark:bg-white text-white dark:text-black font-medium rounded-sm hover:bg-black/90 dark:hover:bg-white/90 transition-all"
+          onClick={() => navigate(userRole === "MERCHANT" ? "/merchant-waitlist" : "/waitlist")}
+          className="w-full py-3 bg-white text-black border border-black/10 font-medium rounded-sm hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all"
         >
-          Go to Login
+          Go to {userRole === "MERCHANT" ? "Merchant" : ""} Login
         </button>
       </motion.div>
     </div>

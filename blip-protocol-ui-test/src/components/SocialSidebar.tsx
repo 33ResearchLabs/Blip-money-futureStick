@@ -1,19 +1,17 @@
 import { motion } from "framer-motion";
-import { Twitter, X } from "lucide-react";
-import { RiTelegram2Fill } from "react-icons/ri";
-import { BsTwitterX } from "react-icons/bs";
+import { Send, Twitter } from "lucide-react";
 import React from "react";
 
 export const SocialSidebar = () => {
   const items = [
     {
       label: "Telegram",
-      icon: RiTelegram2Fill,
-      link: "https://t.me/+3DpHLzc2BfJhOWEx",
+      icon: Send,
+      link: "https://t.me/blipmoney",
     },
     {
       label: "Twitter",
-      icon: BsTwitterX,
+      icon: Twitter,
       link: "https://x.com/blip_money",
     },
   ];

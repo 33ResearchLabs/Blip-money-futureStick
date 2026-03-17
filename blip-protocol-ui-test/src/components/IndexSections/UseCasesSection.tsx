@@ -1,155 +1,267 @@
-import { motion } from "framer-motion";
-import { Globe, Coins, Gift, Eye, Store, Zap, ShieldOff, TrendingDown } from "lucide-react";
+import React, { memo } from "react";
+import {
+  Globe,
+  Smartphone,
+  Gift,
+  ShieldCheck,
+  Zap,
+  Banknote,
+  Lock,
+  TrendingDown,
+  Plane,
+  ShoppingBag,
+  Coffee,
+  ArrowUpRight,
+} from "lucide-react";
 
-/* ============================================
-   SECTION 6: USE CASES — Users vs Merchants
-   ============================================ */
+const Card = ({
+  category,
+  title,
+  description,
+  children,
+  bgImage,
+  imagePosition = "center",
+}) => (
+  <div className="relative group overflow-hidden rounded-3xl bg-white h-full flex flex-col transition-all duration-700 ease-out hover:scale-[1.03] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] shadow-[0_8px_30px_-10px_rgba(0,0,0,0.08)] will-change-transform">
+    {/* Background Image */}
+    <div
+      className="absolute inset-0 z-0 transition-all duration-[1200ms] ease-out group-hover:scale-110 group-hover:brightness-105"
+      style={{
+        backgroundImage: `url('${bgImage}')`,
+        backgroundSize: "cover",
+        backgroundPosition: imagePosition,
+      }}
+    />
 
-const userCases = [
-  { icon: Globe, label: "Pay globally", desc: "Send money to anyone, anywhere — instantly." },
-  { icon: Coins, label: "Spend stablecoins", desc: "Use USDT like cash, without conversion friction." },
-  { icon: Gift, label: "Earn rewards", desc: "Cashback and points on every transaction." },
-  { icon: Eye, label: "Private by default", desc: "Non-custodial. Your keys, your funds, your data." },
-];
+    {/* Overlay gradient for text readability */}
+    <div className="absolute inset-0 z-10 bg-gradient-to-b from-white/60 via-white/20 to-white/40 transition-opacity duration-700 group-hover:opacity-80" />
 
-const merchantCases = [
-  { icon: Store, label: "Accept global payments", desc: "Receive from any corridor without bank accounts." },
-  { icon: Zap, label: "Instant liquidity", desc: "Access on-demand liquidity matched to your trade." },
-  { icon: ShieldOff, label: "No chargebacks", desc: "Escrow-settled trades are final and irreversible." },
-  { icon: TrendingDown, label: "Lower fees", desc: "0.1% protocol fee vs 3–7% traditional rails." },
-];
+    {/* Content */}
+    <div className="relative z-20 p-8 md:p-10 flex flex-col h-full">
+      <span className="text-[11px] font-semibold tracking-[0.25em] text-blue-600/90 uppercase mb-5">
+        {category}
+      </span>
+      <h3 className="text-3xl md:text-4xl font-black text-neutral-900 mb-2 leading-[1.1] tracking-tight">
+        {title}
+      </h3>
+      {description && (
+        <p className="text-neutral-700 text-sm mb-8 leading-relaxed font-medium">
+          {description}
+        </p>
+      )}
+
+      <div className="flex-grow">{children}</div>
+    </div>
+  </div>
+);
+
+const FeatureItem = ({ icon: Icon, title, desc }) => (
+  <div className="flex items-start gap-3.5 mb-5 group/item cursor-pointer transition-transform duration-300 hover:translate-x-1">
+    {/* Icon */}
+    <div className="mt-0.5 p-2.5 rounded-xl bg-white/90 backdrop-blur-sm border border-white/60 shadow-sm transition-all duration-300 group-hover/item:bg-neutral-900 group-hover/item:shadow-md">
+      <Icon
+        size={16}
+        strokeWidth={2}
+        className="text-neutral-700 transition-colors duration-300 group-hover/item:text-white"
+      />
+    </div>
+
+    {/* Content */}
+    <div className="flex-1 min-w-0 bg-white/80 backdrop-blur-sm p-2.5 rounded-xl border border-white/50 shadow-sm">
+      <h4 className="text-neutral-900 font-bold text-sm mb-0.5 truncate">
+        {title}
+      </h4>
+      <p className="text-neutral-600 text-xs leading-relaxed font-medium line-clamp-2">
+        {desc}
+      </p>
+    </div>
+  </div>
+);
+
+const TransactionRow = ({ icon: Icon, name, amount, rebate }) => (
+  <div className="flex items-center justify-between py-3 border-b border-neutral-100 last:border-0 transition-colors duration-200 hover:bg-neutral-50/50 -mx-2 px-2 rounded-lg">
+    <div className="flex items-center gap-3">
+      <div className="p-2 rounded-lg bg-neutral-50 border border-neutral-100">
+        <Icon size={14} className="text-neutral-600" />
+      </div>
+      <span className="text-sm text-neutral-900 font-semibold">{name}</span>
+    </div>
+    <div className="text-right">
+      <div className="text-sm font-bold text-emerald-600">+{amount}</div>
+      <div className="text-[10px] text-neutral-400 font-medium">{rebate}% back</div>
+    </div>
+  </div>
+);
 
 const UseCasesSection = () => {
   return (
-    <section className="relative py-24 md:py-40 bg-[#FAF8F5] dark:bg-black overflow-hidden">
-      {/* Top divider */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-black/10 dark:via-white/10 to-transparent" />
-
-      <div className="relative z-10 max-w-6xl mx-auto px-6">
-        {/* Label */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="flex justify-center mb-6"
-        >
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-black/[0.08] dark:border-white/[0.08] bg-white/60 dark:bg-white/[0.03]">
-            <span className="text-[10px] uppercase tracking-[0.25em] text-black/50 dark:text-white/40 font-semibold">
-              Use cases
-            </span>
+    <div className="min-h-screen bg-white text-neutral-900 font-sans selection:bg-blue-100">
+      <div className="max-w-7xl mx-auto px-6 py-24">
+        {/* Header Section */}
+        <div className="text-center mb-20">
+          <div className="inline-block px-4 py-1.5 rounded-full border border-neutral-200 bg-neutral-50 text-[10px] font-bold tracking-widest uppercase text-neutral-500 mb-6">
+            Use Cases
           </div>
-        </motion.div>
+          <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-8 text-neutral-900">
+            Built for everyone.
+          </h1>
+          <p className="max-w-2xl mx-auto text-lg text-neutral-600 leading-relaxed font-medium">
+            Whether you're sending value globally or running a merchant
+            business, Blip is the network that makes it possible.
+          </p>
+        </div>
 
-        {/* Heading */}
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-black dark:text-white tracking-tight leading-[1.05] text-center mb-6"
-        >
-          Built for everyone.
-        </motion.h2>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.15 }}
-          className="text-base md:text-lg text-black/50 dark:text-white/40 font-medium max-w-lg mx-auto text-center leading-relaxed mb-20"
-        >
-          Whether you're sending value globally or running a merchant business, Blip is the network that makes it possible.
-        </motion.p>
-
-        {/* Two columns */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* For Users */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="rounded-2xl sm:rounded-3xl border border-black/[0.08] dark:border-white/[0.08] bg-white/60 dark:bg-white/[0.03] p-8 shadow-[0_4px_40px_-12px_rgba(0,0,0,0.08)] dark:shadow-none"
+        {/* Cards Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+          {/* For Users - Updated with image matching image_4a9a0d.png */}
+          <Card
+            category="For Users"
+            title={
+              <>
+                Pay freely.
+                <br />
+                Globally.
+              </>
+            }
+            bgImage="https://images.unsplash.com/photo-1662695088711-acfdfda51c01?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTYzfHxnaXJsJTIwcGhvbmUlMjB1c2luZyUyMGZvciUyMHBheW1lbnR8ZW58MHx8MHx8fDA%3D"
+            imagePosition="center"
           >
-            <div className="mb-6">
-              <div className="text-[10px] uppercase tracking-[0.3em] text-black/30 dark:text-white/30 font-semibold mb-2">For Users</div>
-              <h3 className="font-display text-2xl md:text-3xl font-semibold text-black dark:text-white">
-                Send & spend freely.
-              </h3>
+            <div className="mt-6">
+              <FeatureItem
+                icon={Globe}
+                title="Pay globally"
+                desc="Send to anyone, anywhere — instantly."
+              />
+              <FeatureItem
+                icon={Smartphone}
+                title="Pay anywhere"
+                desc="Tap to pay at stores and across borders."
+              />
+              <FeatureItem
+                icon={Gift}
+                title="Earn rewards"
+                desc="Cashback on every transaction."
+              />
+              <FeatureItem
+                icon={ShieldCheck}
+                title="Private by default"
+                desc="Your keys, your funds, your data."
+              />
             </div>
-
-            <div className="space-y-3">
-              {userCases.map((item, i) => {
-                const Icon = item.icon;
-                return (
-                  <motion.div
-                    key={item.label}
-                    initial={{ opacity: 0, y: 12 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.1 + i * 0.08 }}
-                    className="flex items-start gap-3.5 p-4 rounded-xl border border-black/[0.06] dark:border-white/[0.06] bg-white/40 dark:bg-white/[0.02] hover:border-black/[0.12] dark:hover:border-white/[0.1] transition-colors group"
-                  >
-                    <div className="w-9 h-9 rounded-lg bg-black/[0.04] dark:bg-white/[0.04] flex items-center justify-center flex-shrink-0 group-hover:bg-black/[0.07] dark:group-hover:bg-white/[0.07] transition-colors">
-                      <Icon className="w-4 h-4 text-black/50 dark:text-white/50" strokeWidth={1.5} />
-                    </div>
-                    <div>
-                      <div className="text-sm font-semibold text-black dark:text-white mb-0.5">{item.label}</div>
-                      <div className="text-xs text-black/40 dark:text-white/30 leading-relaxed">{item.desc}</div>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </motion.div>
+          </Card>
 
           {/* For Merchants */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="rounded-2xl sm:rounded-3xl border border-black dark:border-white bg-black dark:bg-white p-8 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.2)] dark:shadow-[0_20px_60px_-15px_rgba(255,255,255,0.08)]"
+          <Card
+            category="For Merchants"
+            title={
+              <>
+                Scale without
+                <br />
+                limits.
+              </>
+            }
+            bgImage="https://images.unsplash.com/photo-1556742111-a301076d9d18?auto=format&fit=crop&q=80&w=1200"
+            imagePosition="center"
           >
-            <div className="mb-6">
-              <div className="text-[10px] uppercase tracking-[0.3em] text-white/30 dark:text-black/30 font-semibold mb-2">For Merchants</div>
-              <h3 className="font-display text-2xl md:text-3xl font-semibold text-white dark:text-black">
-                Scale without limits.
-              </h3>
+            <div className="mt-6">
+              <FeatureItem
+                icon={Banknote}
+                title="Global payments"
+                desc="Receive from any corridor without banks."
+              />
+              <FeatureItem
+                icon={Zap}
+                title="Instant liquidity"
+                desc="On-demand liquidity for every trade."
+              />
+              <FeatureItem
+                icon={Lock}
+                title="No chargebacks"
+                desc="Escrow-settled trades are final."
+              />
+              <FeatureItem
+                icon={TrendingDown}
+                title="Lower fees"
+                desc="0.1% vs 3-7% on traditional rails."
+              />
+            </div>
+          </Card>
+
+          {/* Rewards Dashboard */}
+          <Card
+            category="Rewards"
+            title={<>Earn while you spend.</>}
+            description="Every payment earns BLIP rewards automatically."
+            bgImage="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200"
+          >
+            <div className="mt-2 p-6 rounded-2xl bg-white/95 backdrop-blur-md border border-white/60 shadow-lg">
+              <div className="flex justify-between items-center mb-6">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="text-[10px] uppercase tracking-wider text-neutral-500 font-bold">
+                    My Rewards
+                  </span>
+                </div>
+                <div className="px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 text-[10px] font-black border border-emerald-200">
+                  2% BACK
+                </div>
+              </div>
+
+              <div className="mb-8">
+                <div className="text-[10px] uppercase tracking-widest text-neutral-400 mb-1 font-bold">
+                  Total Earned
+                </div>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-4xl font-black text-neutral-900">
+                    $1,357.90
+                  </span>
+                  <span className="text-xs font-bold text-neutral-400 uppercase">
+                    BLIP
+                  </span>
+                </div>
+                <div className="mt-2 inline-flex items-center px-2 py-1 rounded-full bg-neutral-100 text-[10px] text-neutral-600 font-bold border border-neutral-200">
+                  <Zap
+                    size={10}
+                    className="mr-1 text-yellow-500 fill-yellow-500"
+                  />{" "}
+                  ×5 STREAK
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <TransactionRow
+                  icon={Plane}
+                  name="Emirates Air"
+                  amount="12.80"
+                  rebate="2"
+                />
+                <TransactionRow
+                  icon={ShoppingBag}
+                  name="Dubai Mall"
+                  amount="2.40"
+                  rebate="2"
+                />
+                <TransactionRow
+                  icon={Coffee}
+                  name="The Coffee Co."
+                  amount="0.50"
+                  rebate="2"
+                />
+              </div>
             </div>
 
-            <div className="space-y-3">
-              {merchantCases.map((item, i) => {
-                const Icon = item.icon;
-                return (
-                  <motion.div
-                    key={item.label}
-                    initial={{ opacity: 0, y: 12 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.1 + i * 0.08 }}
-                    className="flex items-start gap-3.5 p-4 rounded-xl border border-white/[0.1] dark:border-black/[0.08] bg-white/[0.04] dark:bg-black/[0.03] hover:border-white/20 dark:hover:border-black/[0.15] transition-colors group"
-                  >
-                    <div className="w-9 h-9 rounded-lg bg-white/[0.08] dark:bg-black/[0.06] flex items-center justify-center flex-shrink-0 group-hover:bg-white/[0.14] dark:group-hover:bg-black/[0.1] transition-colors">
-                      <Icon className="w-4 h-4 text-white/60 dark:text-black/50" strokeWidth={1.5} />
-                    </div>
-                    <div>
-                      <div className="text-sm font-semibold text-white dark:text-black mb-0.5">{item.label}</div>
-                      <div className="text-xs text-white/40 dark:text-black/40 leading-relaxed">{item.desc}</div>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </motion.div>
+            <button className="w-full mt-6 py-3 flex items-center justify-center gap-2 text-sm font-semibold text-neutral-700 hover:text-neutral-900 transition-all duration-300 group/btn">
+              Learn about Blip Rewards
+              <ArrowUpRight
+                size={14}
+                className="transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5"
+              />
+            </button>
+          </Card>
         </div>
       </div>
-
-      {/* Bottom divider */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-black/10 dark:via-white/10 to-transparent" />
-    </section>
+    </div>
   );
 };
 
-export default UseCasesSection;
+export default memo(UseCasesSection);

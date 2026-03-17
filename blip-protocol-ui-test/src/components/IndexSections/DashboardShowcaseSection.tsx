@@ -339,13 +339,13 @@ export default function DashboardShowcaseSection() {
               willChange: "transform, opacity",
             }}
           >
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight leading-[1.1] text-black dark:text-white px-2">
+            <h2 className="heading-h2 text-black dark:text-white px-2">
               Crafted with
               <br />
               care.
             </h2>
 
-            <p className="mt-4 sm:mt-6 p-2 text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 font-medium leading-relaxed">
+            <p className="mt-4 sm:mt-6 p-2 p-large text-black/80 dark:text-white/50">
               Every pixel, every shade, every detail — intentional.
             </p>
           </motion.div>

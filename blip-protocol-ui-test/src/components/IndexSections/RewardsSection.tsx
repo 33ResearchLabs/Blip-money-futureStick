@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, memo } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -53,11 +53,13 @@ const RewardsSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-4 sm:mb-6"
+            className="heading-h2 text-black dark:text-white mb-4 sm:mb-6"
           >
             Earn while you spend.
             <br />
-            <span className="text-black/70 dark:text-white/50">Every transaction.</span>
+            <span className="text-black/70 dark:text-white/50">
+              Every transaction.
+            </span>
           </motion.h2>
 
           <motion.p
@@ -65,7 +67,7 @@ const RewardsSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-xl mx-auto leading-relaxed font-medium"
+            className="p-large text-black/80 dark:text-white/50 max-w-xl mx-auto"
           >
             Up to 2.5% back in BLIP tokens on every payment. Early supporters
             unlock multipliers and exclusive airdrops.
@@ -113,13 +115,13 @@ const RewardsSection = () => {
             <span>View Rewards</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link> */}
-          <CTAButton to="rewards" className="w-[220px] h-[48px]">View Rewards</CTAButton>
+          <CTAButton to="rewards" className="w-[220px] h-[48px]">
+            View Rewards
+          </CTAButton>
         </motion.div>
-       
-
       </motion.div>
     </section>
   );
 };
 
-export default RewardsSection;
+export default memo(RewardsSection);

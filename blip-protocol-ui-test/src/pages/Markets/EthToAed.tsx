@@ -32,7 +32,7 @@ const COIN_DECIMALS = 6;
 const COINGECKO_URL =
   "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=aed,usd&include_24hr_change=true";
 
-const REFRESH_INTERVAL = 30_000;
+const REFRESH_INTERVAL = 300_000; // 5 minutes (CoinGecko free tier rate limit)
 
 const STATIC_RATE = { aed: 9800, usd: 2670, aed_24h_change: 0.8 };
 
@@ -644,7 +644,7 @@ export default function EthToAed() {
                   to="/waitlist"
                   onClick={() => sounds.click()}
                   onMouseEnter={() => sounds.hover()}
-                  className="group relative flex items-center justify-center gap-2 w-full py-4 rounded-xl bg-black dark:bg-white text-white dark:text-black font-semibold text-[15px] overflow-hidden transition-all hover:opacity-90"
+                  className="group relative flex items-center justify-center gap-2 w-full py-4 rounded-xl bg-white text-black border border-black/10 font-semibold text-[15px] overflow-hidden transition-all hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98]"
                 >
                   <span className="relative z-10">Convert ETH to AED</span>
                   <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />
@@ -949,7 +949,7 @@ export default function EthToAed() {
               to="/waitlist"
               onClick={() => sounds.click()}
               onMouseEnter={() => sounds.hover()}
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-black dark:bg-white text-white dark:text-black font-semibold text-[15px] hover:opacity-90 transition-opacity"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-black border border-black/10 font-semibold text-[15px] hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all"
             >
               Get Started
               <ArrowRight className="w-4 h-4" />

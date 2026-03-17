@@ -920,135 +920,135 @@ export default function DashboardPreview() {
           >
             {/* Animated gradient border wrapper */}
             <div className="animated-border rounded-[18px] p-[3px]">
-            {/* Browser window */}
-            <div className="relative bg-[#0a0a0a] rounded-2xl shadow-[0_30px_100px_-20px_rgba(0,0,0,0.8)] overflow-hidden">
-              {/* ── Title bar / Header ──────────────────────────────────────── */}
-              <div className="flex items-center justify-between px-5 py-3 border-b border-white/[0.06] bg-[#080808]">
-                {/* Left — Logo */}
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center shadow-[0_0_10px_rgba(255,107,53,0.3)]">
-                    <svg
-                      className="w-3.5 h-3.5 text-white"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                    >
-                      <path d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                  </div>
-                  <span className="text-xs font-bold text-white">
-                    Blip{" "}
-                    <span className="text-white/40 font-normal italic">
-                      money
-                    </span>
-                  </span>
-                </div>
-
-                {/* Center — Nav */}
-                <div className="flex items-center gap-1 bg-white/[0.03] rounded-xl p-1 border border-white/[0.06]">
-                  {["Dashboard", "Analytics", "Wallet", "Settings"].map(
-                    (t, i) => (
-                      <span
-                        key={t}
-                        className={`text-[11px] font-medium px-4 py-1.5 rounded-lg ${i === 0 ? "bg-white/10 text-white border border-white/[0.08]" : "text-white/30"}`}
-                      >
-                        {t}
-                      </span>
-                    ),
-                  )}
-                </div>
-
-                {/* Right — Actions + User */}
-                <div className="flex items-center gap-3">
+              {/* Browser window */}
+              <div className="relative bg-[#0a0a0a] rounded-2xl shadow-[0_30px_100px_-20px_rgba(0,0,0,0.8)] overflow-hidden">
+                {/* ── Title bar / Header ──────────────────────────────────────── */}
+                <div className="flex items-center justify-between px-5 py-3 border-b border-white/[0.06] bg-[#080808]">
+                  {/* Left — Logo */}
                   <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-center">
+                    <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center shadow-[0_0_10px_rgba(255,107,53,0.3)]">
                       <svg
-                        className="w-4 h-4 text-white/25"
-                        fill="none"
+                        className="w-3.5 h-3.5 text-white"
                         viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={1.5}
+                        fill="currentColor"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M12 4v16m8-8H4"
-                        />
+                        <path d="M13 10V3L4 14h7v7l9-11h-7z" />
                       </svg>
                     </div>
-                    <div className="w-7 h-7 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-center">
-                      <svg
-                        className="w-4 h-4 text-white/25"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={1.5}
-                      >
-                        <circle cx="12" cy="12" r="1" />
-                        <circle cx="19" cy="12" r="1" />
-                        <circle cx="5" cy="12" r="1" />
-                      </svg>
-                    </div>
-                    <div className="relative w-7 h-7 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-center">
-                      <svg
-                        className="w-4 h-4 text-white/25"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={1.5}
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2 pl-3 border-l border-white/[0.06]">
-                    <div className="w-7 h-7 rounded-full bg-white/[0.05] flex items-center justify-center text-[9px] font-bold text-white/30 ring-1 ring-white/[0.08]">
-                      J
-                    </div>
-                    <span className="text-[11px] text-white/35 font-medium">
-                      jojo2
+                    <span className="text-xs font-bold text-white">
+                      Blip{" "}
+                      <span className="text-white/40 font-normal italic">
+                        money
+                      </span>
                     </span>
                   </div>
+
+                  {/* Center — Nav */}
+                  <div className="flex items-center gap-1 bg-white/[0.03] rounded-xl p-1 border border-white/[0.06]">
+                    {["Dashboard", "Analytics", "Wallet", "Settings"].map(
+                      (t, i) => (
+                        <span
+                          key={t}
+                          className={`text-[11px] font-medium px-4 py-1.5 rounded-lg ${i === 0 ? "bg-white/10 text-white border border-white/[0.08]" : "text-white/30"}`}
+                        >
+                          {t}
+                        </span>
+                      ),
+                    )}
+                  </div>
+
+                  {/* Right — Actions + User */}
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2">
+                      <div className="w-7 h-7 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-center">
+                        <svg
+                          className="w-4 h-4 text-white/25"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={1.5}
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M12 4v16m8-8H4"
+                          />
+                        </svg>
+                      </div>
+                      <div className="w-7 h-7 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-center">
+                        <svg
+                          className="w-4 h-4 text-white/25"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={1.5}
+                        >
+                          <circle cx="12" cy="12" r="1" />
+                          <circle cx="19" cy="12" r="1" />
+                          <circle cx="5" cy="12" r="1" />
+                        </svg>
+                      </div>
+                      <div className="relative w-7 h-7 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-center">
+                        <svg
+                          className="w-4 h-4 text-white/25"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={1.5}
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 pl-3 border-l border-white/[0.06]">
+                      <div className="w-7 h-7 rounded-full bg-white/[0.05] flex items-center justify-center text-[9px] font-bold text-white/30 ring-1 ring-white/[0.08]">
+                        J
+                      </div>
+                      <span className="text-[11px] text-white/35 font-medium">
+                        jojo2
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* ── Dashboard Content — 5 column grid ──────────────────────── */}
+                <div
+                  className="grid gap-2 p-2"
+                  style={{
+                    gridTemplateColumns: "250px 270px 1fr 280px 220px",
+                    height: "780px",
+                  }}
+                >
+                  {/* Trade Panel */}
+                  <div className="bg-[#0c0c0c] border border-white/[0.06] rounded-xl p-3 overflow-hidden">
+                    <TradePanel />
+                  </div>
+
+                  {/* Pending Orders */}
+                  <div className="bg-[#0c0c0c] border border-white/[0.06] rounded-xl p-3 overflow-hidden">
+                    <PendingOrdersPanel />
+                  </div>
+
+                  {/* In Progress */}
+                  <div className="bg-[#0c0c0c] border border-white/[0.06] rounded-xl p-3 overflow-hidden">
+                    <InProgressPanel />
+                  </div>
+
+                  {/* Leaderboard + Activity */}
+                  <div className="bg-[#0c0c0c] border border-white/[0.06] rounded-xl p-3 overflow-hidden">
+                    <LeaderboardPanel />
+                  </div>
+
+                  {/* Notifications + Messages */}
+                  <div className="bg-[#0c0c0c] border border-white/[0.06] rounded-xl p-3 overflow-hidden">
+                    <NotificationsPanel />
+                  </div>
                 </div>
               </div>
-
-              {/* ── Dashboard Content — 5 column grid ──────────────────────── */}
-              <div
-                className="grid gap-2 p-2"
-                style={{
-                  gridTemplateColumns: "250px 270px 1fr 280px 220px",
-                  height: "780px",
-                }}
-              >
-                {/* Trade Panel */}
-                <div className="bg-[#0c0c0c] border border-white/[0.06] rounded-xl p-3 overflow-hidden">
-                  <TradePanel />
-                </div>
-
-                {/* Pending Orders */}
-                <div className="bg-[#0c0c0c] border border-white/[0.06] rounded-xl p-3 overflow-hidden">
-                  <PendingOrdersPanel />
-                </div>
-
-                {/* In Progress */}
-                <div className="bg-[#0c0c0c] border border-white/[0.06] rounded-xl p-3 overflow-hidden">
-                  <InProgressPanel />
-                </div>
-
-                {/* Leaderboard + Activity */}
-                <div className="bg-[#0c0c0c] border border-white/[0.06] rounded-xl p-3 overflow-hidden">
-                  <LeaderboardPanel />
-                </div>
-
-                {/* Notifications + Messages */}
-                <div className="bg-[#0c0c0c] border border-white/[0.06] rounded-xl p-3 overflow-hidden">
-                  <NotificationsPanel />
-                </div>
-              </div>
-            </div>
             </div>
           </div>
         </div>

@@ -91,13 +91,13 @@ const Whitepaper = () => {
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-tight">
               Blip
               <span className="text-black/80 dark:text-white/50">.money</span>:
-               On Chain P2p settlements
+              On Chain P2P Settlement
             </h1>
 
             {/* Download Button */}
             <button
               onClick={handleDownload}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-black dark:bg-white text-white dark:text-black rounded-full font-medium hover:bg-black/80 dark:hover:bg-white/90 transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-white text-black border border-black/10 rounded-full font-medium hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all"
             >
               <Download className="w-5 h-5" />
               Download PDF
@@ -1406,7 +1406,7 @@ const Whitepaper = () => {
                   </p>
                   <button
                     onClick={handleDownload}
-                    className="inline-flex items-center gap-2 px-8 py-4 bg-black dark:bg-white text-white dark:text-black rounded-full font-semibold hover:bg-black/80 dark:hover:bg-white/90 transition-colors"
+                    className="inline-flex items-center gap-2 px-8 py-4 bg-white text-black border border-black/10 rounded-full font-semibold hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all"
                   >
                     <Download className="w-5 h-5" />
                     Download PDF

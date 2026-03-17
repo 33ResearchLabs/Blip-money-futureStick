@@ -6,9 +6,9 @@ import { motion } from "framer-motion";
 
 const AppShowcase = () => {
   const images = [
-    { src: "/images/showcase-1.jpg", alt: "Instant transfers" },
-    { src: "/images/showcase-2.jpg", alt: "Merchant dashboard" },
-    { src: "/images/showcase-3.jpg", alt: "Transaction history" },
+    { src: "/images/showcase-1.webp", alt: "Instant transfers" },
+    { src: "/images/showcase-2.webp", alt: "Merchant dashboard" },
+    { src: "/images/showcase-3.webp", alt: "Transaction history" },
   ];
 
   return (
@@ -36,9 +36,7 @@ const AppShowcase = () => {
           <span className="text-[11px] uppercase tracking-[0.3em] text-white/30 font-light block mb-4">
             The Experience
           </span>
-          <h2 className="text-3xl md:text-5xl font-semibold text-white tracking-tight">
-            Simple. Fast. Beautiful.
-          </h2>
+          <h2 className="heading-h2 text-white">Simple. Fast. Beautiful.</h2>
         </motion.div>
 
         {/* Image Grid */}

@@ -14,12 +14,6 @@ import { toast } from "sonner";
 import authApi from "@/services/auth";
 import { useAuth } from "@/contexts/AuthContext";
 import ReCAPTCHA from "react-google-recaptcha";
-import {
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import { firebaseAuth } from "@/config/firebase";
 
 export default function Register({
   role,
@@ -114,15 +108,7 @@ export default function Register({
     setIsLoading(true);
 
     try {
-      // 1. Create Firebase user and send verification email
-      const firebaseUser = await createUserWithEmailAndPassword(
-        firebaseAuth,
-        formData.email,
-        formData.password,
-      );
-      await sendEmailVerification(firebaseUser.user);
-
-      // 2. Register on backend (creates MongoDB user with emailVerified: false)
+      // Register on backend - generates verification token and sends email via SES
       await authApi.register({
         email: formData.email,
         password: formData.password,
@@ -131,46 +117,16 @@ export default function Register({
         ...(isMerchant && { role: "merchant" }),
       });
 
-      // 3. Navigate to verification pending page
       toast.success("Verification email sent! Please check your inbox.");
       navigate("/email-verification-pending", {
         state: { email: formData.email, role },
       });
     } catch (error: any) {
-      // Handle Firebase-specific errors
-      if (error.code === "auth/email-already-in-use") {
-        // Try to sign in - if user exists but isn't verified, resend verification
-        try {
-          const existingUser = await signInWithEmailAndPassword(
-            firebaseAuth,
-            formData.email,
-            formData.password,
-          );
-          if (!existingUser.user.emailVerified) {
-            await sendEmailVerification(existingUser.user);
-            toast.success(
-              "Verification email resent! Please check your inbox.",
-            );
-            navigate("/email-verification-pending", {
-              state: { email: formData.email, role },
-            });
-            return;
-          }
-          // Firebase says verified - sync to backend then redirect to login
-          try {
-            await authApi.confirmEmailVerified(formData.email);
-          } catch {}
-          toast.info("Email already verified. Please login.");
-        } catch {
-          toast.error("Email already registered. Please login instead.");
-        }
-      } else {
-        const message =
-          error.response?.data?.message ||
-          error.message ||
-          "Registration failed. Please try again.";
-        toast.error(message);
-      }
+      const message =
+        error.response?.data?.message ||
+        error.message ||
+        "Registration failed. Please try again.";
+      toast.error(message);
     } finally {
       setIsLoading(false);
     }
@@ -246,6 +202,43 @@ export default function Register({
     }
   };
 
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    const newErrors = { ...errors };
+
+    if (name === "email") {
+      if (!value) {
+        newErrors.email = "Email is required";
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+        newErrors.email = "Invalid email format";
+      } else {
+        delete newErrors.email;
+      }
+    }
+
+    if (name === "password") {
+      if (!value) {
+        newErrors.password = "Password is required";
+      } else if (value.length < 8) {
+        newErrors.password = "Password must be at least 8 characters";
+      } else {
+        delete newErrors.password;
+      }
+    }
+
+    if (name === "confirmPassword") {
+      if (!value) {
+        newErrors.confirmPassword = "Please confirm your password";
+      } else if (value !== formData.password) {
+        newErrors.confirmPassword = "Passwords do not match";
+      } else {
+        delete newErrors.confirmPassword;
+      }
+    }
+
+    setErrors(newErrors);
+  };
+
   return (
     <div
       className={`${showStandalone ? "min-h-screen bg-[#FAF8F5] dark:bg-black mt-20" : ""} flex items-center justify-center `}
@@ -292,6 +285,7 @@ export default function Register({
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
+                onBlur={handleBlur}
                 className={`w-full pl-12 pr-4 py-3.5 bg-black/[0.02] dark:bg-white/[0.03] border ${
                   errors.email
                     ? "border-red-500/50 ring-2 ring-red-500/10"
@@ -324,6 +318,7 @@ export default function Register({
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
+                onBlur={handleBlur}
                 className={`w-full pl-12 pr-12 py-3.5 bg-black/[0.02] dark:bg-white/[0.03] border ${
                   errors.password
                     ? "border-red-500/50 ring-2 ring-red-500/10"
@@ -437,6 +432,7 @@ export default function Register({
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
+                onBlur={handleBlur}
                 className={`w-full pl-12 pr-12 py-3.5 bg-black/[0.02] dark:bg-white/[0.03] border ${
                   errors.confirmPassword
                     ? "border-red-500/50 ring-2 ring-red-500/10"
@@ -513,7 +509,7 @@ export default function Register({
                 isLoading ||
                 (!!import.meta.env.VITE_RECAPTCHA_SITE_KEY && !captchaToken)
               }
-              className="w-full py-3.5 bg-black dark:bg-white text-white dark:text-black font-semibold rounded-xl hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2 shadow-sm"
+              className="w-full py-3.5 bg-white text-black border border-black/10 font-semibold rounded-xl transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
             >
               {isLoading ? (
                 <>
@@ -608,7 +604,7 @@ export default function Register({
               <button
                 type="submit"
                 disabled={isVerifying || otp.length !== 6}
-                className="w-full py-3.5 bg-black dark:bg-white text-white dark:text-black font-semibold rounded-xl hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2 shadow-sm"
+                className="w-full py-3.5 bg-white text-black border border-black/10 font-semibold rounded-xl transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
               >
                 {isVerifying ? (
                   <>
@@ -641,7 +637,7 @@ export default function Register({
               <button
                 type="button"
                 onClick={() => setShowOTPModal(false)}
-                className="w-full py-3.5 border border-black/10 dark:border-white/10 text-black/70 dark:text-white/70 font-medium rounded-xl hover:bg-black/[0.03] dark:hover:bg-white/[0.03] transition-all duration-200"
+                className="w-full py-3.5 bg-black text-white border border-black font-semibold rounded-xl transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-900 hover:shadow-[0_4px_16px_rgba(0,0,0,0.18)] active:scale-[0.98]"
               >
                 Go Back
               </button>

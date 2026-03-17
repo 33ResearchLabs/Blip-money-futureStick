@@ -48,20 +48,21 @@ export function NotificationBannerProvider({
             className="fixed top-0 left-0 right-0 z-[60] overflow-hidden"
           >
             <div className="bg-white dark:bg-[#18181B] border-b border-black/10 dark:border-white/10">
-              <div className="max-w-7xl mx-auto px-4 py-2.5 flex items-center justify-center gap-3">
+              <div className="max-w-7xl mx-auto px-4 py-1.5 sm:py-2.5 flex items-center justify-center gap-2 sm:gap-3">
                 <Rocket
                   className="flex-shrink-0 hidden sm:block w-4 h-4 text-black dark:text-white"
                 />
-                <p className="text-center text-sm text-black dark:text-white">
+                <p className="text-center text-xs sm:text-sm text-black dark:text-white whitespace-nowrap">
                   <span className="font-bold">Airdrop is Live!</span>{" "}
-                  Over 20 million $BLIP is being airdropped to early
-                  supporters.{" "}
+                  <span className="hidden sm:inline">Over 20 million $BLIP is being airdropped to early
+                  supporters.{" "}</span>
                   <Link
                     to="/tokenomics"
                     className="font-semibold underline underline-offset-2 text-black dark:text-white"
                   >
                     Learn More
                   </Link>
+                  <span className="hidden sm:inline"></span>
                 </p>
                 <button
                   onClick={() => setVisible(false)}

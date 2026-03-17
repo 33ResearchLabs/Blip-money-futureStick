@@ -81,7 +81,6 @@ const coreValues = [
   },
 ];
 
-
 /* -- Animated Section Wrapper -- */
 
 const AnimatedSection = ({
@@ -181,7 +180,6 @@ const ValueCard = ({
   );
 };
 
-
 /* ============================================
    MAIN ABOUT PAGE
    ============================================ */
@@ -201,7 +199,9 @@ export default function About() {
         {/* ── Hero ── */}
         <section className="relative pt-32 sm:pt-36 pb-12 sm:pb-16">
           <div className="max-w-[900px] mx-auto px-4 sm:px-6">
-            <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "About" }]} />
+            <Breadcrumbs
+              items={[{ label: "Home", href: "/" }, { label: "About" }]}
+            />
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -224,31 +224,31 @@ export default function About() {
         <section className="py-16 sm:py-24">
           <div className="max-w-[900px] mx-auto px-4 sm:px-6">
             <AnimatedSection>
-              <div className="flex items-center gap-4 mb-8">
+              <div className="flex items-center justify-center text-center gap-4 mb-8">
                 <span className="text-[11px] uppercase tracking-[0.3em] text-black/80 dark:text-white/40">
                   Our Mission
                 </span>
-                <div className="flex-1 h-px bg-gray-100 dark:bg-white/[0.06]" />
+                {/* <div className="flex-1 h-px bg-gray-100 dark:bg-white/[0.06]" /> */}
               </div>
 
-              <div className="max-w-3xl">
+              <div className="max-w-3xl text-center">
                 <h2 className="text-3xl sm:text-4xl font-bold text-black dark:text-white tracking-tight mb-6">
                   Settlement infrastructure for the next billion users.
                 </h2>
                 <p className="text-[15px] sm:text-lg text-gray-500 dark:text-white/40 leading-relaxed mb-4">
-                  Blip Money exists to make global payments instant, transparent,
-                  and accessible to everyone. We believe that sending money
-                  should be as simple as sending a message, without relying on
-                  centralized intermediaries that add friction, fees, and
-                  gatekeeping.
+                  Blip Money exists to make global payments instant,
+                  transparent, and accessible to everyone. We believe that
+                  sending money should be as simple as sending a message,
+                  without relying on centralized intermediaries that add
+                  friction, fees, and gatekeeping.
                 </p>
                 <p className="text-[15px] sm:text-lg text-gray-500 dark:text-white/40 leading-relaxed">
                   Our protocol provides non-custodial settlement infrastructure
                   that connects buyers, merchants, and liquidity providers in a
                   trustless ecosystem. Built on Solana for sub-second finality,
                   Blip leverages on-chain escrow, stablecoin rails, and
-                  decentralized dispute resolution to create a payment layer that
-                  works for everyone, from a street vendor in Lagos to an
+                  decentralized dispute resolution to create a payment layer
+                  that works for everyone, from a street vendor in Lagos to an
                   e-commerce platform in Dubai.
                 </p>
               </div>
@@ -296,7 +296,6 @@ export default function About() {
           </div>
         </section>
 
-
         {/* ── Join Us CTA ── */}
         <section className="py-16 sm:py-24 pb-24 sm:pb-32">
           <div className="max-w-[900px] mx-auto px-4 sm:px-6">
@@ -307,8 +306,8 @@ export default function About() {
                   Want to build with us?
                 </h2>
                 <p className="text-lg text-gray-500 dark:text-white/40 max-w-md mx-auto mb-8 leading-relaxed">
-                  We are always looking for talented people who share our
-                  vision for open, decentralized finance.
+                  We are always looking for talented people who share our vision
+                  for open, decentralized finance.
                 </p>
                 {/* <Link
                   to="/contact"
@@ -319,7 +318,9 @@ export default function About() {
                   Get in Touch
                   <ArrowRight className="w-4 h-4" />
                 </Link> */}
-                <CTAButton to="/contact" className="w-[220px] h-[48px]">Get in Touch</CTAButton>
+                <CTAButton to="/contact" className="w-[220px] h-[48px]">
+                  Get in Touch
+                </CTAButton>
               </div>
             </AnimatedSection>
           </div>

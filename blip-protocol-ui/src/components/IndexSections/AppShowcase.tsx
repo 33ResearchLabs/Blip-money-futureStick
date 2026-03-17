@@ -36,9 +36,7 @@ const AppShowcase = () => {
           <span className="text-[11px] uppercase tracking-[0.3em] text-white/30 font-light block mb-4">
             The Experience
           </span>
-          <h2 className="heading-h2 text-white">
-            Simple. Fast. Beautiful.
-          </h2>
+          <h2 className="heading-h2 text-white">Simple. Fast. Beautiful.</h2>
         </motion.div>
 
         {/* Image Grid */}

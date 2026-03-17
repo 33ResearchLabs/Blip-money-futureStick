@@ -15,7 +15,7 @@ const MainLayout = () => {
       {/* <SocialSidebar /> */}
 
       <Outlet />
-      <ScrollToBottomButton />
+      <ScrollToBottomButton/>
 
       <Footer />
     </NotificationBannerProvider>

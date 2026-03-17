@@ -1,25 +1,62 @@
-import { motion } from "framer-motion";
-import { Globe, Shield, Zap } from "lucide-react";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { ArrowRight, Globe, Shield, Zap } from "lucide-react";
 import { CTAButton } from "../Navbar";
+import sounds from "@/lib/sounds";
 
 /* ============================================
    SECTION 5: BLIP PROTOCOL
    ============================================ */
 
 const ProtocolSection = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], [80, -80]);
+  const rotateGlow = useTransform(scrollYProgress, [0, 1], [0, 90]);
+
   return (
     <section
+      ref={containerRef}
       className="relative md:py-40 py-12 bg-[#FAF8F5] dark:bg-black overflow-hidden"
     >
-      {/* Soft static gradient background */}
+      {/* Apple-style mesh gradient background */}
       <div className="absolute inset-0 pointer-events-none">
-        <div
+        {/* Large soft color blobs - visible in light, muted in dark */}
+        <motion.div
           className="absolute -top-[20%] -right-[10%] w-[800px] h-[800px] rounded-full opacity-[0.15] dark:opacity-[0.05]"
-          style={{ background: "radial-gradient(circle, rgba(120,119,255,0.8) 0%, rgba(120,119,255,0) 70%)" }}
+          style={{
+            background:
+              "radial-gradient(circle, rgba(120,119,255,0.8) 0%, rgba(120,119,255,0) 70%)",
+            y,
+          }}
         />
-        <div
+        <motion.div
+          className="absolute top-[10%] -left-[15%] w-[700px] h-[700px] rounded-full opacity-[0.12] dark:opacity-[0.04]"
+          style={{
+            background:
+              "radial-gradient(circle, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 70%)",
+            y: useTransform(scrollYProgress, [0, 1], [-40, 40]),
+          }}
+        />
+        <motion.div
           className="absolute -bottom-[15%] left-[20%] w-[900px] h-[600px] rounded-full opacity-[0.1] dark:opacity-[0.04]"
-          style={{ background: "radial-gradient(ellipse, rgba(52,199,165,0.7) 0%, rgba(52,199,165,0) 70%)" }}
+          style={{
+            background:
+              "radial-gradient(ellipse, rgba(52,199,165,0.7) 0%, rgba(52,199,165,0) 70%)",
+            rotate: rotateGlow,
+          }}
+        />
+        <motion.div
+          className="absolute top-[40%] right-[10%] w-[500px] h-[500px] rounded-full opacity-[0.08] dark:opacity-[0.03]"
+          style={{
+            background:
+              "radial-gradient(circle, rgba(168,85,247,0.6) 0%, rgba(168,85,247,0) 70%)",
+            y: useTransform(scrollYProgress, [0, 1], [30, -30]),
+          }}
         />
       </div>
 
@@ -34,7 +71,7 @@ const ProtocolSection = () => {
             className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-8 backdrop-blur-sm bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-white/10"
           >
             <motion.span className="w-2 h-2 rounded-full bg-black dark:bg-white" />
-            <span className="text-[11px] uppercase tracking-[0.3em] text-black dark:text-white/60">
+            <span className="text-[10px] uppercase tracking-[0.25em] text-black/80 dark:text-white/40 font-semibold">
               The Protocol
             </span>
           </motion.div>
@@ -44,7 +81,10 @@ const ProtocolSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className=" text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold tracking-tight leading-[1.1] mb-6 text-black dark:text-white"
+            className="heading-h2 text-black dark:text-white"
+            style={{
+              marginBottom: 24,
+            }}
           >
             Blip Protocol
           </motion.h2>
@@ -54,7 +94,7 @@ const ProtocolSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-2xl mx-auto leading-relaxed font-medium"
+            className="p-large text-black/80 dark:text-white/50 max-w-2xl mx-auto"
           >
             A decentralized settlement layer for instant,
             <br className="hidden md:block" />
@@ -122,6 +162,7 @@ const ProtocolSection = () => {
         p-5 sm:p-8
         text-center cursor-default overflow-hidden
         bg-white/60 dark:bg-white/[0.03]
+        backdrop-blur-xl
         border border-black/[0.08] dark:border-white/[0.06]
         shadow-[0_4px_30px_-8px_rgba(0,0,0,0.08)] dark:shadow-none
         md:hover:scale-[1.02] transition-transform duration-300

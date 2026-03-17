@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { Check, ArrowRight, Globe } from "lucide-react";
 
 /* ============================================
@@ -7,6 +7,20 @@ import { Check, ArrowRight, Globe } from "lucide-react";
    Interactive real-time transaction viewer
    ============================================ */
 const BlipscanExplorerSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+
+  const headerY = useTransform(scrollYProgress, [0, 1], [60, -50]);
+  const windowY = useTransform(scrollYProgress, [0, 1], [90, -50]);
+  const glowY = useTransform(scrollYProgress, [0, 1], [30, -80]);
+
+  // Zoom-in & fade-out as section scrolls away
+  const sectionScale = useTransform(scrollYProgress, [0, 0.3, 0.65, 1], [0.92, 1, 1, 1.08]);
+  const sectionOpacity = useTransform(scrollYProgress, [0, 0.25, 0.7, 1], [0, 1, 1, 0]);
+
   const [transactions, setTransactions] = useState([
     {
       id: "BLP-7x2K",
@@ -78,10 +92,10 @@ const BlipscanExplorerSection = () => {
   }, []);
 
   return (
-    <section className="relative bg-[#FAF8F5] dark:bg-black py-10 sm:py-32 overflow-hidden">
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
-        {/* Header */}
-        <div className="text-center mb-12 sm:mb-16">
+    <section ref={sectionRef} className="relative bg-[#FAF8F5] dark:bg-black py-10 sm:py-32 overflow-hidden">
+      <motion.div className="relative max-w-7xl mx-auto px-4 sm:px-6" style={{ scale: sectionScale, opacity: sectionOpacity }}>
+        {/* Header (parallax) */}
+        <motion.div className="text-center mb-12 sm:mb-16" style={{ y: headerY }}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -100,9 +114,13 @@ const BlipscanExplorerSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black dark:text-white mb-4 tracking-tight"
+            className="heading-h2 text-black dark:text-white"
+            style={{
+              marginBottom: 16,
+            }}
           >
-            Every transaction, <span className="text-black dark:text-white/20">verified.</span>
+            Every transaction,{" "}
+            <span className="text-black dark:text-white/20">verified.</span>
           </motion.h2>
 
           <motion.p
@@ -110,22 +128,23 @@ const BlipscanExplorerSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-black/80 dark:text-white/50 font-medium text-base sm:text-lg max-w-2xl mx-auto"
+            className="p-large text-black/80 dark:text-white/50 max-w-2xl mx-auto hidden sm:block"
           >
             Every settlement is public and verifiable on Blipscan.
           </motion.p>
-        </div>
+        </motion.div>
 
-        {/* Blipscan Window - Linear style */}
+        {/* Blipscan Window - Linear style (parallax) */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.3 }}
           className="relative"
+          style={{ y: windowY }}
         >
-          {/* Ambient glow */}
-          <div className="absolute -inset-4 bg-gradient-to-b from-white/[0.03] via-transparent to-transparent blur-3xl" />
+          {/* Ambient glow (parallax) */}
+          <motion.div className="absolute -inset-4 bg-gradient-to-b from-white/[0.03] via-transparent to-transparent blur-3xl" style={{ y: glowY }} />
 
           {/* Main container */}
           <div className="relative h-[450px] sm:h-[600px] rounded-2xl border border-black/[0.08] dark:border-white/[0.06] bg-[#FAF8F5] dark:bg-black/40 backdrop-blur-xl overflow-hidden shadow-[0_8px_60px_-12px_rgba(0,0,0,0.15)] dark:shadow-none">
@@ -226,7 +245,9 @@ const BlipscanExplorerSection = () => {
                             <span className="text-sm font-mono text-black dark:text-white/60 truncate">
                               {tx.id}
                             </span>
-                            <span className="text-xs text-black dark:text-white/20">→</span>
+                            <span className="text-xs text-black dark:text-white/20">
+                              →
+                            </span>
                             <span className="text-sm text-black dark:text-white font-medium truncate">
                               {tx.to}
                             </span>
@@ -242,7 +263,9 @@ const BlipscanExplorerSection = () => {
                           <div className="text-base font-semibold text-black dark:text-white">
                             {tx.amount}
                           </div>
-                          <div className="text-xs text-black dark:text-white/30">USDT</div>
+                          <div className="text-xs text-black dark:text-white/30">
+                            USDT
+                          </div>
                         </div>
                         <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-md bg-emerald-500/10 border border-emerald-500/20">
                           <span className="text-xs text-black dark:text-white font-medium whitespace-nowrap">
@@ -271,7 +294,7 @@ const BlipscanExplorerSection = () => {
             </div>
           </div>
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   );
 };

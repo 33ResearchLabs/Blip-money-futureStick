@@ -82,7 +82,7 @@ const ScrollFAQ = () => {
                     transition={{ duration: 0.3 }}
                     className="overflow-hidden"
                   >
-                    <div className="px-5 pb-5 pt-4 text-sm text-black dark:text-white/60 border-t border-black/[0.06] dark:border-white/[0.06]">
+                    <div className="px-5 pb-5 pt-4 text-sm text-black dark:text-white/60 border-t border-black/[0.06] dark:border-white/[0.06] bg-black/[0.03] dark:bg-white/[0.04]">
                       {faq.answer}
                     </div>
                   </motion.div>

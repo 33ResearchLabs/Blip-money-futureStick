@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Zap, Lock, ArrowRight } from "lucide-react";
 
 /* ============================================
@@ -9,6 +9,7 @@ import { Zap, Lock, ArrowRight } from "lucide-react";
 
 const InstantBiddingSection = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -20,24 +21,41 @@ const InstantBiddingSection = () => {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+
+  // Scroll-based parallax layers
+  const headerY = useTransform(scrollYProgress, [0, 1], [70, -50]);
+  const badgeY = useTransform(scrollYProgress, [0, 1], [40, -30]);
+  const mockupY = useTransform(scrollYProgress, [0, 1], [100, -60]);
+  const bgBlobY = useTransform(scrollYProgress, [0, 1], [50, -120]);
+
+  // Zoom-in & fade-out as section scrolls away
+  const sectionScale = useTransform(scrollYProgress, [0, 0.3, 0.65, 1], [0.92, 1, 1, 1.08]);
+  const sectionOpacity = useTransform(scrollYProgress, [0, 0.25, 0.7, 1], [0, 1, 1, 0]);
+
   return (
-    <section className="relative min-h-screen flex items-start justify-center bg-[#FAF8F5] dark:bg-black overflow-hidden py-16 sm:py-20 lg:pt-28">
-      {/* Background */}
+    <section ref={sectionRef} className="relative min-h-screen flex items-start justify-center bg-[#FAF8F5] dark:bg-black overflow-hidden py-16 sm:py-20 lg:pt-28">
+      {/* Background (parallax blobs) */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-b from-white dark:from-black via-gray-50/80 dark:via-[#050505] to-white dark:to-black" />
         {/* Light mode soft ambient blobs */}
-        <div
+        <motion.div
           className="absolute top-[20%] right-[10%] w-[500px] h-[500px] rounded-full opacity-[0.07] dark:opacity-0"
           style={{
             background:
               "radial-gradient(circle, rgba(120,119,255,0.8) 0%, transparent 70%)",
+            y: bgBlobY,
           }}
         />
-        <div
+        <motion.div
           className="absolute top-[50%] left-[5%] w-[400px] h-[400px] rounded-full opacity-[0.05] dark:opacity-0"
           style={{
             background:
               "radial-gradient(circle, rgba(0,0,0,0.7) 0%, transparent 70%)",
+            y: bgBlobY,
           }}
         />
         <motion.div
@@ -45,18 +63,20 @@ const InstantBiddingSection = () => {
           style={{
             background:
               "radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 60%)",
+            y: bgBlobY,
           }}
         />
       </div>
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6">
-        {/* Header */}
+      <motion.div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6" style={{ scale: sectionScale, opacity: sectionOpacity }}>
+        {/* Header (parallax) */}
         <motion.div
           className="text-center mb-4 sm:mb-6 lg:mb-8"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          style={{ y: headerY }}
         >
           <div className="inline-flex items-center gap-3 mb-4 sm:mb-6">
             <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-lg border border-black/[0.08] dark:border-white/[0.08] flex items-center justify-center group hover:border-black/20 hover:dark:border-white/20 transition-colors">
@@ -74,7 +94,7 @@ const InstantBiddingSection = () => {
               Match
             </span>
           </div>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white mb-2 sm:mb-4 tracking-tight leading-[1.1]">
+          <h2 className="heading-h2 text-black dark:text-white" style={{ marginBottom: 16 }}>
             Instant{" "}
             <span className="text-black/70 dark:text-white/50 relative inline-block">
               <span className="relative z-10">bidding.</span>
@@ -91,20 +111,21 @@ const InstantBiddingSection = () => {
               /> */}
             </span>
           </h2>
-          <p className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 font-medium max-w-2xl mx-auto hidden sm:block leading-relaxed">
+          <p className="p-large text-black/80 dark:text-white/50 max-w-2xl mx-auto hidden sm:block">
             Merchants compete in real-time for your order.
             <br />
             You automatically get the best rate.
           </p>
         </motion.div>
 
-        {/* Powered by badge */}
+        {/* Powered by badge (parallax) */}
         <motion.div
           className="hidden sm:flex justify-center mb-4 lg:mb-6"
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
+          style={{ y: badgeY }}
         >
           <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.06] dark:border-white/[0.06]">
             <motion.div
@@ -121,12 +142,12 @@ const InstantBiddingSection = () => {
           </div>
         </motion.div>
 
-        {/* Browser Mockup - Larger size */}
+        {/* Browser Mockup - Larger size (scroll + mouse parallax) */}
         <motion.div
           className="relative mx-auto max-w-6xl lg:max-w-7xl"
           style={{
             x: mousePosition.x * -6,
-            y: mousePosition.y * -4,
+            y: mockupY,
           }}
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -489,7 +510,7 @@ const InstantBiddingSection = () => {
             <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white/90 via-white/30 to-transparent dark:from-[#0a0a0a] dark:via-[#0a0a0a]/80 pointer-events-none" />
           </div>
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   );
 };

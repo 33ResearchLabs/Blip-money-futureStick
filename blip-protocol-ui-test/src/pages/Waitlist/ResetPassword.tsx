@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import {
   Lock,
@@ -13,27 +13,24 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
-import { verifyPasswordResetCode, confirmPasswordReset } from "firebase/auth";
-import { firebaseAuth } from "@/config/firebase";
 import authApi from "@/services/auth";
 
 export default function ResetPassword() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const oobCode = searchParams.get("oobCode");
+  const token = searchParams.get("token");
+  const isMerchant = searchParams.get("role") === "merchant";
+  const loginPath = isMerchant ? "/merchant-waitlist" : "/waitlist";
 
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isVerifying, setIsVerifying] = useState(true);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [isInvalidLink, setIsInvalidLink] = useState(false);
+  const [isInvalidLink] = useState(!token);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [loginPath, setLoginPath] = useState("/waitlist");
 
   // Password strength checker
   const checkPasswordStrength = (pw: string) => {
@@ -42,34 +39,13 @@ export default function ResetPassword() {
       uppercase: /[A-Z]/.test(pw),
       lowercase: /[a-z]/.test(pw),
       number: /[0-9]/.test(pw),
+      special: /[!@#$%^&*(),.?":{}|<>]/.test(pw),
     };
     const score = Object.values(checks).filter(Boolean).length;
     return { checks, score };
   };
 
   const passwordStrength = checkPasswordStrength(password);
-
-  // Verify the oobCode on mount
-  useEffect(() => {
-    const verifyCode = async () => {
-      if (!oobCode) {
-        setIsInvalidLink(true);
-        setIsVerifying(false);
-        return;
-      }
-
-      try {
-        const userEmail = await verifyPasswordResetCode(firebaseAuth, oobCode);
-        setEmail(userEmail);
-      } catch {
-        setIsInvalidLink(true);
-      } finally {
-        setIsVerifying(false);
-      }
-    };
-
-    verifyCode();
-  }, [oobCode]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -84,6 +60,8 @@ export default function ResetPassword() {
       newErrors.password = "Password must contain at least one uppercase letter";
     } else if (!passwordStrength.checks.number) {
       newErrors.password = "Password must contain at least one number";
+    } else if (!passwordStrength.checks.special) {
+      newErrors.password = "Password must contain at least one special character";
     }
 
     if (!confirmPassword) {
@@ -92,7 +70,7 @@ export default function ResetPassword() {
       newErrors.confirmPassword = "Passwords do not match";
     }
 
-    if (!oobCode) {
+    if (!token) {
       newErrors.password = "Invalid reset link";
     }
 
@@ -102,51 +80,23 @@ export default function ResetPassword() {
     setIsLoading(true);
 
     try {
-      // Reset password in Firebase
-      await confirmPasswordReset(firebaseAuth, oobCode, password);
-
-      // Sync new password to backend MongoDB and get user role
-      try {
-        const syncRes: any = await authApi.syncPassword(email, password);
-        if (syncRes?.role === "MERCHANT" || syncRes?.data?.role === "MERCHANT") {
-          setLoginPath("/merchant-waitlist");
-        }
-      } catch {
-        // Backend sync failure is non-critical - Firebase password is already updated
-      }
-
+      await authApi.resetPassword(token!, password);
       setIsSuccess(true);
       toast.success("Password reset successfully!");
     } catch (error: any) {
-      if (error.code === "auth/expired-action-code") {
-        toast.error("Reset link has expired. Please request a new one.");
-      } else if (error.code === "auth/invalid-action-code") {
-        toast.error("Invalid reset link. Please request a new one.");
-      } else if (error.code === "auth/weak-password") {
-        toast.error("Password is too weak. Please choose a stronger password.");
+      const status = error.response?.status;
+      if (status === 400) {
+        toast.error("Reset link has expired or is invalid. Please request a new one.");
       } else {
-        toast.error("Failed to reset password. Please try again.");
+        const message = error.response?.data?.message || "Failed to reset password. Please try again.";
+        toast.error(message);
       }
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Loading state while verifying oobCode
-  if (isVerifying) {
-    return (
-      <div className="min-h-screen flex items-center justify-center p-4">
-        <div className="text-center">
-          <Loader2 className="w-8 h-8 animate-spin text-black/40 dark:text-white/40 mx-auto mb-4" />
-          <p className="text-black/50 dark:text-white/50">
-            Verifying reset link...
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  // Invalid or expired link
+  // Invalid or expired link (no token in URL)
   if (isInvalidLink) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
@@ -170,7 +120,7 @@ export default function ResetPassword() {
           <div className="space-y-3">
             <button
               onClick={() => navigate("/forgot-password")}
-              className="w-full py-3 bg-black dark:bg-white text-white dark:text-black font-medium rounded-sm hover:bg-black/90 dark:hover:bg-white/90 transition-all"
+              className="w-full py-3 bg-white text-black border border-black/10 font-semibold rounded-full transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98]"
             >
               Request New Link
             </button>
@@ -208,7 +158,7 @@ export default function ResetPassword() {
 
           <button
             onClick={() => navigate(loginPath)}
-            className="w-full py-3 bg-black dark:bg-white text-white dark:text-black font-medium rounded-sm hover:bg-black/90 dark:hover:bg-white/90 transition-all"
+            className="w-full py-3 bg-white text-black border border-black/10 font-semibold rounded-full transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98]"
           >
             Go to Login
           </button>
@@ -239,10 +189,7 @@ export default function ResetPassword() {
             Set New Password
           </h2>
           <p className="text-black/50 dark:text-white/50">
-            Enter your new password for{" "}
-            <span className="text-black dark:text-white font-medium">
-              {email}
-            </span>
+            Enter your new password below
           </p>
         </div>
 
@@ -301,17 +248,19 @@ export default function ResetPassword() {
                     <div
                       className={`h-full transition-all duration-300 ${
                         passwordStrength.score <= 2
-                          ? "bg-red-500 w-1/3"
-                          : passwordStrength.score === 3
-                            ? "bg-yellow-500 w-2/3"
-                            : "bg-green-500 w-full"
+                          ? "bg-red-500 w-1/4"
+                          : passwordStrength.score <= 3
+                            ? "bg-yellow-500 w-2/4"
+                            : passwordStrength.score === 4
+                              ? "bg-yellow-500 w-3/4"
+                              : "bg-green-500 w-full"
                       }`}
                     />
                   </div>
                   <span className="text-xs text-black/60 dark:text-white/60">
                     {passwordStrength.score <= 2
                       ? "Weak"
-                      : passwordStrength.score === 3
+                      : passwordStrength.score <= 4
                         ? "Medium"
                         : "Strong"}
                   </span>
@@ -382,6 +331,22 @@ export default function ResetPassword() {
                       Lowercase
                     </span>
                   </div>
+                  <div className="flex items-center gap-1">
+                    {passwordStrength.checks.special ? (
+                      <CheckCircle className="w-3 h-3 text-green-500" />
+                    ) : (
+                      <XCircle className="w-3 h-3 text-black/30 dark:text-white/30" />
+                    )}
+                    <span
+                      className={
+                        passwordStrength.checks.special
+                          ? "text-green-600 dark:text-green-400"
+                          : "text-black/40 dark:text-white/40"
+                      }
+                    >
+                      Special char
+                    </span>
+                  </div>
                 </div>
               </div>
             )}
@@ -436,7 +401,7 @@ export default function ResetPassword() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-3 bg-black dark:bg-white text-white dark:text-black font-medium rounded-sm hover:bg-black/90 dark:hover:bg-white/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+            className="w-full py-3 bg-white text-black border border-black/10 font-semibold rounded-full transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
           >
             {isLoading ? (
               <>

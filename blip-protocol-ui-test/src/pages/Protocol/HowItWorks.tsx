@@ -5,6 +5,7 @@ import {
   useTransform,
   useSpring,
   useInView,
+  scale,
 } from "framer-motion";
 import {
   Shield,
@@ -108,7 +109,7 @@ border border-black/10 dark:border-white/20"
                 delay: 0.3,
                 ease: [0.16, 1, 0.3, 1], //text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl
               }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white leading-[1.1] tracking-tight"
+              className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-semibold text-black dark:text-white leading-[1.1] tracking-tight"
             >
               <span className="block">Value. Settled.</span>
 
@@ -129,7 +130,7 @@ border border-black/10 dark:border-white/20"
           </motion.p>
 
           {/* Scroll indicator */}
-          <motion.div
+          {/* <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.5 }}
@@ -144,7 +145,7 @@ border border-black/10 dark:border-white/20"
             >
               <ChevronDown className="w-5 h-5 text-black/60 dark:text-white/50 " />
             </motion.div>
-          </motion.div>
+          </motion.div> */}
         </div>
       </div>
     </motion.section>
@@ -186,6 +187,27 @@ const KeyConceptsSection = () => {
       {/* <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-white/5 blur-[150px] rounded-full" /> */}
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1 }}
+          className="text-center mb-24"
+        >
+          <span className="text-[11px] uppercase tracking-[0.3em] text-black/70 dark:text-white/30 mb-6 block font-semibold">
+            BLIP CORE PRINCIPLES
+          </span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6">
+            Built for Secure
+            <br />
+            <span className="text-black/70 dark:text-white/50">
+              Digital Value
+            </span>
+          </h2>
+          <p className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-xl mx-auto font-medium leading-relaxed">
+            A secure foundation for private and trustless digital payments.
+          </p>
+        </motion.div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {concepts.map((concept, i) => (
             <motion.div
@@ -197,7 +219,7 @@ const KeyConceptsSection = () => {
                 delay: i * 0.15,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="group relative p-8 rounded-3xl overflow-hidden cursor-pointer border border-transparent hover:border-black/20 dark:hover:border-white/20 duration-500 transition-colors"
+              className="group relative p-8 rounded-3xl overflow-hidden cursor-pointer border border-white/40  hover:border-black/20 dark:hover:border-white/20 dark:hover:scale-105 duration-500 transition-colors"
               style={{
                 background: "rgba(255, 255, 255, 0.02)",
                 // border: "1px solid rgba(255, 255, 255, 0.05)",
@@ -285,7 +307,7 @@ const CoreProtocolSection = () => {
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         {/* Header */}
-        {/* <motion.div
+        <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -300,7 +322,7 @@ const CoreProtocolSection = () => {
             <br />
             <span className="text-black/70 dark:text-white/50">Redefined.</span>
           </h2>
-        </motion.div> */}
+        </motion.div>
 
         {/* Pillars grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -787,43 +809,11 @@ const CTASection = () => {
               Get Started
             </CTAButton>
 
-            {/* Whitepaper */}
-
-            {/* <a
-              href="/whitepaper.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => sounds.click()}
-              onMouseEnter={() => sounds.hover()}
-              className="
-        group relative overflow-hidden
-        w-[220px]  h-[48px]
-        inline-flex items-center justify-center gap-3
-        rounded-full
-        border border-black/10 dark:border-white/10
-        text-black dark:text-white font-medium
-        transition-all duration-300
-      "
+            <CTAButton
+              variant="secondary"
+              to="/whitepaper"
+              className="w-[220px] h-[48px]"
             >
-             
-              <span
-                className="
-        absolute inset-0
-        bg-black/10 dark:bg-white/20
-        rounded-full
-        scale-x-0 group-hover:scale-x-100
-        origin-left
-        transition-transform duration-700 ease-out
-      "
-              />
-
-              
-              <span className="relative z-10 flex items-center gap-2">
-                Read Whitepaper
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-              </span>
-            </a> */}
-            <CTAButton to="/whitepaper" className="w-[220px] h-[48px]">
               {" "}
               Read Whitepaper{" "}
             </CTAButton>

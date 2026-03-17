@@ -116,7 +116,10 @@ const PeopleBankSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-4xl md:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.1] mb-6"
+            className="heading-h2"
+            style={{
+              marginBottom: 24,
+            }}
           >
             <span className="text-white">People</span>
             <span className="text-white/20"> Bank</span>
@@ -127,7 +130,7 @@ const PeopleBankSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="text-base md:text-lg text-white/30 max-w-xl mx-auto leading-relaxed"
+            className="p-medium text-white/30 max-w-xl mx-auto"
           >
             A decentralized, human-powered liquidity network
           </motion.p>

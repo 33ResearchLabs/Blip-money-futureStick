@@ -12,16 +12,16 @@ const AppScreens = () => {
 
       <div className="flex flex-row md:justify-center gap-6 sm:gap-8 px-4 sm:px-6 overflow-x-auto pb-8 snap-x snap-mandatory scrollbar-hide">
         {[
-          { title: "My Ads", color: "from-black to-black", img: "/myads.jpg" },
+          { title: "My Ads", color: "from-black to-black", img: "/myads.webp" },
           {
             title: "P2P",
             color: "from-black to-[#2BFF88]/10",
-            img: "/p2p.jpg",
+            img: "/p2p.webp",
           },
           {
             title: "Profile",
             color: "from-black to-[#FFD43B]/10",
-            img: "/profile.jpg",
+            img: "/profile.webp",
           },
         ].map((screen, i) => (
           <div

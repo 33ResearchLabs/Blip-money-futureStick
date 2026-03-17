@@ -1,15 +1,65 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ── Performance: CSS Containment ──
+   Isolate heavy sections so paint/layout changes
+   don't cascade across the entire page. */
+.contain-section {
+  contain: layout style paint;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 100vh;
+}
+
+/* Heading defaults */
+.heading-h2 {
+  font-size: clamp(2.8rem, 5.5vw, 5rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+}
+
+.heading-h3 {
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+/* ===== Paragraphs ===== */
+.p-large {
+  font-size: clamp(1rem, 1.2vw, 1.2rem);
+  line-height: 1.7;
+  letter-spacing: -0.01em;
+  font-weight: 500;
+}
+
+.p-medium {
+  font-size: clamp(0.9rem, 1vw, 1rem);
+  line-height: 1.6;
+  letter-spacing: -0.005em;
+  font-weight: 500;
+}
+
+.p-small {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  letter-spacing: -0.005em;
+}
+
 /* ============================================
-   MINIMAL BLACK & WHITE DESIGN SYSTEM
-   With subtle neon accents
+   BLIP DESIGN SYSTEM
+   Cinematic dark · Orange brand accent
    ============================================ */
 
 :root {
+  /* Brand */
+  --brand: #ff6b35;
+  --brand-light: #ff8c50;
+  --brand-muted: rgba(255, 107, 53, 0.12);
+  --brand-border: rgba(255, 107, 53, 0.22);
+  --brand-glow: rgba(255, 107, 53, 0.06);
+
   /* Light Mode - Core Palette */
   --bg-primary: #FAF8F5;
   --bg-secondary: #fafafa;
@@ -190,6 +240,47 @@
 
  
 
+  /* ── Heading type scale ─────────────────────────────────────────────
+     Blip cinematic style — tight tracking, high weight, balanced scale.
+     Components may override size; tracking/weight/lh default here.    */
+  h1, h2, h3, h4 {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* H1 — Hero / display — "Blip Protocol." scale */
+  h1 {
+    font-size: clamp(3.5rem, 9vw, 8rem);
+    font-weight: 800;
+    letter-spacing: -0.045em;
+    line-height: 0.95;
+  }
+
+  /* H2 — Section title — "The infrastructure gap." */
+  h2 {
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+  }
+
+  /* H3 — Card / subsection title — "Scale without limits." */
+  h3 {
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+  }
+
+  /* H4 — Minor heading */
+  h4 {
+    font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+  }
+
   /* Smooth scroll container for hero sections */
   .smooth-scroll-container {
     scroll-behavior: smooth;
@@ -203,8 +294,8 @@
   }
 
   ::selection {
-    background: var(--accent-muted);
-    color: var(--text-primary);
+    background: var(--brand-muted);
+    color: var(--brand);
   }
 
   :focus-visible {
@@ -258,37 +349,79 @@
     text-wrap: balance;
   }
 
-  /* Headings - matching main page font (Space Grotesk) */
-  .heading-xl {
-    font-family: 'Space Grotesk', system-ui, sans-serif;
-    font-size: clamp(3rem, 8vw, 7rem);
+  /* ── Blip type utilities ─────────────────────────────────────────── */
+
+  /* Eyebrow / label — "REWARDS" / "USE CASES" / "Introducing" */
+  .blip-label {
+    font-size: 0.625rem;          /* 10px */
     font-weight: 600;
-    letter-spacing: -0.025em;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--brand);
+  }
+
+  .blip-label-dim {
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.28);
+  }
+
+  /* Gradient text — white fade for dark-bg headings */
+  .blip-gradient-heading {
+    display: inline-block;
+    background: linear-gradient(180deg, #ffffff 0%, rgba(255,255,255,0.55) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Orange gradient text */
+  .blip-gradient-brand {
+    display: inline-block;
+    background: linear-gradient(135deg, #ff6b35 0%, #ff8c50 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Headings — symmetrical scale matching h1–h4 base */
+  .heading-xl {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-size: clamp(3.5rem, 9vw, 8rem);
+    font-weight: 800;
+    letter-spacing: -0.045em;
     line-height: 0.95;
   }
 
+  /* H2 scale — section titles */
   .heading-lg {
-    font-family: 'Space Grotesk', system-ui, sans-serif;
-    font-size: clamp(2.5rem, 6vw, 5rem);
-    font-weight: 600;
-    letter-spacing: -0.022em;
-    line-height: 1;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
   }
 
+  /* H3 scale — card/subsection titles */
   .heading-md {
-    font-family: 'Space Grotesk', system-ui, sans-serif;
-    font-size: clamp(2rem, 4vw, 3.5rem);
-    font-weight: 600;
-    letter-spacing: -0.019em;
-    line-height: 1.1;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
   }
 
+  /* H4 scale — minor headings */
   .heading-sm {
-    font-family: 'Space Grotesk', system-ui, sans-serif;
-    font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-size: clamp(1.1rem, 1.6vw, 1.35rem);
     font-weight: 600;
-    letter-spacing: -0.015em;
-    line-height: 1.15;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
   }
 
   .body-lg {
@@ -606,9 +739,12 @@
     background-size: 32px 32px;
   }
 
-  /* Noise texture */
+  /* Noise texture — static PNG instead of feTurbulence for better perf */
   .bg-noise {
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.015'/%3E%3C/svg%3E");
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwBAMAAAClLOS0AAAAElBMVEUAAAD///8AAAD///8AAAD///9sIgzxAAAABnRSTlMAESIzRFVmd4iZqrvM3e7/ESIzRFVmd4iZqrvM3e4RIjNEVWZ3iJmqu8zd7hEiM0RVZneImaq7zN3uESIzRFVmd4iZqrvM3e6kA4gDAAABSUlEQVQ4y2MQJQIIJ6zYvHnzlk0bN2xYv37dunVr1qxetWrlimXLli5ZvGjhgvnz5s6ZPWvmjOnTpk6ZPGnihPHjxo4ZPYY5gC2Ata6+vrautrqmuqqyory8rLS0pKS4qKiwoL8/Ly8nJyc7KysrMzMjIz09LS0VOYAliCWoKCgYJbgkJDQ0LCw8PCIiMioqOiYmNi4+PiExKSkZOYAlmCW4JCQ0NCw8IjIqOiY2Lj4hMSk5JSU1LR05gDWMBZQQEREZFR0TGxcfEJiUnJKalp6RkYmcwBrJEtwaEhoWHhEZFR0TGxcfEJiUnJKalp6BiNzAFskawRLcEhIaFh4RGRUdExsXHxCYlJySmpaenoGSwBbOGtYWHhEZFR0TGxcfEJiUnJKalp6egZrGFtYWHhEZFR0TGxcfEJiUnJKalp6enoGABBcZqABsNbXAAAAAElFTkSuQmCC");
+    background-repeat: repeat;
+    background-size: 48px 48px;
+    opacity: 0.015;
   }
 
   /* Gradient fade top */
@@ -1651,13 +1787,18 @@
 }
 
 /* ---------------- GRAIN OVERLAY ---------------- */
+/* Replaced feTurbulence SVG filter (GPU-heavy, recomputes every frame)
+   with a tiny static base64 noise PNG tiled at low opacity — same visual
+   effect at near-zero cost. */
 .grain-overlay {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 9998;
-  opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E");
+  opacity: 0.04;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwBAMAAAClLOS0AAAAElBMVEUAAAD///8AAAD///8AAAD///9sIgzxAAAABnRSTlMAESIzRFVmd4iZqrvM3e7/ESIzRFVmd4iZqrvM3e4RIjNEVWZ3iJmqu8zd7hEiM0RVZneImaq7zN3uESIzRFVmd4iZqrvM3e6kA4gDAAABSUlEQVQ4y2MQJQIIJ6zYvHnzlk0bN2xYv37tunVr1qxetWrlimXLli5ZvGjhgvnz5s6ZPWvmjOnTpk6ZPGnihPHjxo4ZPYY5gC2Ata6+vrautrqmuqqyory8rLS0pKS4qKiwoL8/Ly8nJyc7KysrMzMjIz09LS0VOYAliCWoKCgYJbgkJDQ0LCw8PCIiMioqOiYmNi4+PiExKSkZOYAlmCW4JCQ0NCw8IjIqOiY2Lj4hMSk5JSU1LR05gDWMBZQQEREZFR0TGxcfEJiUnJKalp6RkYmcwBrJEtwaEhoWHhEZFR0TGxcfEJiUnJKalp6BiNzAFskawRLcEhIaFh4RGRUdExsXHxCYlJySmpaenoGSwBbOGtYWHhEZFR0TGxcfEJiUnJKalp6egZrGFtYWHhEZFR0TGxcfEJiUnJKalp6enoGABBcZqABsNbXAAAAAElFTkSuQmCC");
+  background-repeat: repeat;
+  background-size: 48px 48px;
 }
 
 /* ---------------- GRADIENT TEXT ANIMATIONS ---------------- */
@@ -1668,6 +1809,15 @@
   50% {
     background-position: 100% 50%;
   }
+}
+
+/* Hero shimmer — pure CSS instead of Framer Motion for infinite loop */
+.hero-shimmer {
+  animation: hero-shimmer 7s ease-in-out infinite;
+}
+@keyframes hero-shimmer {
+  0%, 100% { background-position: 100% 50%; }
+  50% { background-position: 0% 50%; }
 }
 
 .text-gradient-animated {

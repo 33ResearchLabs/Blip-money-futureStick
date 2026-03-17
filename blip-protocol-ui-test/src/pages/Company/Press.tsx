@@ -413,7 +413,7 @@ export default function Press() {
                   href="mailto:press@blip.money"
                   onClick={() => sounds.click()}
                   onMouseEnter={() => sounds.hover()}
-                  className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-black dark:bg-white text-white dark:text-black font-semibold hover:opacity-90 transition-all mb-8"
+                  className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-black border border-black/10 font-semibold hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all mb-8"
                 >
                   <Mail className="w-4 h-4" />
                   press@blip.money
@@ -425,7 +425,7 @@ export default function Press() {
                     { label: "Twitter / X", href: "https://x.com/blip_money" },
                     {
                       label: "Telegram",
-                      href: "https://t.me/+3DpHLzc2BfJhOWEx",
+                      href: "https://t.me/blipmoney",
                     },
                     {
                       label: "Youtube",
@@ -433,7 +433,7 @@ export default function Press() {
                     },
                     {
                       label: "LinkedIn",
-                      href: "https://www.linkedin.com/in/blip-money-849946386/",
+                      href: "https://www.linkedin.com/company/blipmoneyofficial/about/?viewAsMember=true",
                     },
                   ].map((social) => (
                     <a

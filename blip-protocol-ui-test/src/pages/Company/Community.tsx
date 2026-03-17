@@ -23,8 +23,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { HreflangTags } from "@/components/HreflangTags";
 import { sounds } from "@/lib/sounds";
 import { CTAButton } from "@/components/Navbar";
-import { FaTelegramPlane, FaYoutube, FaGithub, FaLinkedin } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
+import { Send, Youtube, Linkedin, Twitter } from "lucide-react";
 
 
 /* ============================================
@@ -38,15 +37,15 @@ const easeOut = [0.19, 1, 0.22, 1] as const;
 
 const socialPlatforms = [
   {
-    icon: FaTelegramPlane,
+    icon: Send,
     name: "Telegram",
     description:
       "Join our main community chat for real-time discussions, announcements, and support from the core team.",
     members: "12K+ members",
-    href: "https://t.me/+_Whot_m12JE4YWVl",
+    href: "https://t.me/blipmoney",
   },
   {
-    icon: FaXTwitter,
+    icon: Twitter,
     name: "Twitter / X",
     description:
       "Follow us for the latest protocol updates, partnerships, product launches, and ecosystem news.",
@@ -54,7 +53,7 @@ const socialPlatforms = [
     href: "https://x.com/blip_money",
   },
   {
-    icon: FaYoutube,
+    icon: Youtube,
     name: "YouTube",
     description:
       "Watch product demos, feature walkthroughs, announcements, and ecosystem updates.",
@@ -62,12 +61,12 @@ const socialPlatforms = [
     href: "https://www.youtube.com/@BlipMoney",
   },
 {
-  icon: FaLinkedin,
+  icon: Linkedin,
   name: "LinkedIn",
   description:
     "Connect with us for company updates, hiring announcements, partnerships, and professional ecosystem news.",
   members: "Professional network",
-  href: "https://www.linkedin.com/company/blipmoneyofficial/",
+  href: "https://www.linkedin.com/company/blipmoneyofficial/about/?viewAsMember=true",
 },
 
 ];
@@ -557,7 +556,7 @@ export default function Community() {
                   href="#"
                   onClick={() => sounds.click()}
                   onMouseEnter={() => sounds.hover()}
-                  className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-black dark:bg-white text-white dark:text-black font-semibold hover:opacity-90 transition-all"
+                  className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-black border border-black/10 font-semibold hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all"
                 >
                   Apply Now
                   <ArrowRight className="w-4 h-4" />
@@ -568,7 +567,7 @@ export default function Community() {
           </div>
         </section>
 
-        {/* ── Community Stats ── */}
+        {/* ── Community Stats (Hidden) ──
         <section className="py-16 sm:py-24">
           <div className="max-w-[1100px] mx-auto px-4 sm:px-6">
             <AnimatedSection className="text-center mb-14">
@@ -587,6 +586,7 @@ export default function Community() {
             </div>
           </div>
         </section>
+        */}
 
         {/* ── CTA ── */}
         <section className="py-16 sm:py-24 pb-24 sm:pb-32">
@@ -602,12 +602,12 @@ export default function Community() {
                   infrastructure for the world.
                 </p>
                 <a
-                  href="https://t.me/+_Whot_m12JE4YWVl"
+                  href="https://t.me/blipmoney"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => sounds.click()}
                   onMouseEnter={() => sounds.hover()}
-                  className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-black dark:bg-white text-white dark:text-black font-semibold hover:opacity-90 transition-all"
+                  className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-black border border-black/10 font-semibold hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all"
                 >
                   <MessageCircle className="w-4 h-4" />
                   Join on Telegram

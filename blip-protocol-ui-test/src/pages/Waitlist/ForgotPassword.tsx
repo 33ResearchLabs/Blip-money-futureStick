@@ -2,8 +2,7 @@ import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { Mail, Loader2, ArrowLeft, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
-import { sendPasswordResetEmail } from "firebase/auth";
-import { firebaseAuth } from "@/config/firebase";
+import authApi from "@/services/auth";
 import { motion } from "framer-motion";
 
 export default function ForgotPassword() {
@@ -15,6 +14,7 @@ export default function ForgotPassword() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSent, setIsSent] = useState(false);
   const [error, setError] = useState("");
+  const [cooldown, setCooldown] = useState(0);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,13 +32,27 @@ export default function ForgotPassword() {
     setIsLoading(true);
 
     try {
-      await sendPasswordResetEmail(firebaseAuth, email, {
-        url: `${window.location.origin}/reset-password`,
-      });
+      await authApi.forgotPassword(email);
       setIsSent(true);
-      toast.success("Reset link sent! Check your email.");
-    } catch {
-      toast.error("Failed to send reset email. Please try again.");
+      toast.success("If the email exists, a reset link has been sent.");
+
+      // Start cooldown timer (60 seconds)
+      setCooldown(60);
+      const interval = setInterval(() => {
+        setCooldown((prev) => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    } catch (err: any) {
+      const message =
+        err.response?.data?.message ||
+        "Failed to send reset email. Please try again.";
+      setError(message);
+      toast.error(message);
     } finally {
       setIsLoading(false);
     }
@@ -60,11 +74,11 @@ export default function ForgotPassword() {
             Check Your Email
           </h2>
           <p className="text-black/50 dark:text-white/50 mb-8">
-            We've sent a password reset link to{" "}
+            If the email exists, a password reset link has been sent to{" "}
             <span className="text-black dark:text-white font-medium">
               {email}
             </span>
-            . The link will expire in 1 hour.
+            . The link will expire in 15 minutes.
           </p>
 
           <div className="space-y-3">
@@ -152,14 +166,16 @@ export default function ForgotPassword() {
 
           <button
             type="submit"
-            disabled={isLoading}
-            className="w-full py-3 bg-black dark:bg-white text-white dark:text-black font-medium rounded-sm hover:bg-black/90 dark:hover:bg-white/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+            disabled={isLoading || cooldown > 0}
+            className="w-full py-3 bg-white text-black border border-black/10 font-medium rounded-sm hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
           >
             {isLoading ? (
               <>
                 <Loader2 className="w-5 h-5 animate-spin" />
                 Sending...
               </>
+            ) : cooldown > 0 ? (
+              `Resend available in ${cooldown}s`
             ) : (
               "Send Reset Link"
             )}

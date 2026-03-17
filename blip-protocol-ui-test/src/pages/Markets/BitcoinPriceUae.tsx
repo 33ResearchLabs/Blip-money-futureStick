@@ -227,7 +227,7 @@ const BitcoinPriceUae = () => {
       }
     };
     fetchPrice();
-    const interval = setInterval(fetchPrice, 60000);
+    const interval = setInterval(fetchPrice, 300_000); // 5 minutes (CoinGecko free tier rate limit)
     return () => clearInterval(interval);
   }, []);
 
@@ -302,7 +302,7 @@ const BitcoinPriceUae = () => {
                 to="/btc-to-aed"
                 onClick={() => sounds.click()}
                 onMouseEnter={() => sounds.hover()}
-                className="group inline-flex items-center gap-2 px-8 py-4 rounded-full bg-black dark:bg-white text-white dark:text-black font-semibold text-[15px] hover:opacity-90 transition-opacity"
+                className="group inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-black border border-black/10 font-semibold text-[15px] hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all"
               >
                 Convert BTC to AED
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -631,7 +631,7 @@ const BitcoinPriceUae = () => {
               to="/btc-to-aed"
               onClick={() => sounds.click()}
               onMouseEnter={() => sounds.hover()}
-              className="group inline-flex items-center gap-2 px-8 py-4 rounded-full bg-black dark:bg-white text-white dark:text-black font-semibold text-[15px] hover:opacity-90 transition-opacity"
+              className="group inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-black border border-black/10 font-semibold text-[15px] hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all"
             >
               Convert BTC to AED
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
