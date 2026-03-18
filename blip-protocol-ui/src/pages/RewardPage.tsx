@@ -325,16 +325,16 @@ export default function RewardPage() {
         <section className="max-w-[1400px] mx-auto px-10  relative z-20 ">
           <BentoCard
             className="min-h-[380px] bg-black "
-            image={IMAGES.deepNetwork}
+            // image={IMAGES.deepNetwork}
             overlayOpacity="opacity-100"
-            opacity={1}
+            opacity={0}
           >
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8 mb-8">
               <div>
-                <h3 className="text-3xl font-bold tracking-tight mb-2 text-black dark:text-black">
+                <h3 className="text-3xl font-bold tracking-tight mb-2 text-white">
                   $25 Welcome Incentive
                 </h3>
-                <p className="text-lg max-w-[280px] leading-relaxed text-black/60 dark:text-black">
+                <p className="text-lg max-w-[280px] leading-relaxed text-gray-400">
                   Initiate your first settlement and unlock immediate protocol
                   rewards.
                 </p>
@@ -398,7 +398,7 @@ export default function RewardPage() {
               title="Global Liquidity Provider"
               subtitle="Power the PeopleBank network by providing deep liquidity to settlement pairs."
               image={IMAGES.fiberOptics}
-              opacity={1}
+              opacity={0}
               overlayOpacity="opacity-100"
             >
               <div className="flex flex-col md:flex-row items-center justify-between w-full gap-8 p-6 rounded-[2rem] border border-black/5 dark:border-white/5">
@@ -451,17 +451,17 @@ export default function RewardPage() {
               image={
                 "https://plus.unsplash.com/premium_photo-1682339354902-b19775dccc77?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTMxfHxwYXltZW50fGVufDB8fDB8fHww"
               }
-              opacity={1}
+              opacity={0}
               titleColor="true"
               overlayOpacity="opacity-100"
             >
               <div className="flex items-center justify-between w-full pt-6">
-                <div className="text-3xl font-black text-black flex items-center gap-2">
+                <div className="text-3xl font-black text-white flex items-center gap-2">
                   <Zap className="text-black" size={24} /> 20.00
                 </div>
                 <AppleButton
                   variant="link"
-                  className="rounded-2xl border dark:bg-black text-white/90  hover:border-white/40   border-white/20 hover:text-white"
+                  className="rounded-2xl border dark:bg-white text-black  hover:border-white/40   border-white/20 hover:text-white"
                 >
                   Use Pay
                 </AppleButton>
