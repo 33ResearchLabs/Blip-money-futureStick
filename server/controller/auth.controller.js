@@ -8,9 +8,7 @@ import { signToken } from "../utils/jwt.js";
 import jwt from "jsonwebtoken";
 import {
   sendVerificationEmail,
-  sendCustomPasswordResetEmail,
-  sendPasswordResetEmailSES,
-  sendVerificationEmailSES,
+  sendPasswordResetEmail,
   sendWelcomeEmail,
 } from "../services/email.service.js";
 import { getFirebaseAdminAuth } from "../config/firebase-admin.js";
@@ -183,10 +181,10 @@ export const registerWithEmail = async (req, res) => {
       }
     }
 
-    // Send verification email via SES
+    // Send verification email via Resend
     const verificationUrl = `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}`;
     try {
-      await sendVerificationEmailSES(email, verificationUrl);
+      await sendVerificationEmail(email, verificationUrl);
     } catch (emailError) {
       // Clear token if email fails so user can retry
       newUser.emailVerificationToken = undefined;
@@ -701,7 +699,7 @@ export const resendVerificationEmail = async (req, res) => {
     const verificationUrl = `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}`;
 
     try {
-      await sendVerificationEmailSES(email, verificationUrl);
+      await sendVerificationEmail(email, verificationUrl);
     } catch (emailError) {
       return res.status(500).json({
         success: false,
@@ -941,8 +939,7 @@ export const forgotPassword = async (req, res) => {
     const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
 
     try {
-      // Send via Amazon SES
-      await sendPasswordResetEmailSES(email, resetUrl);
+      await sendPasswordResetEmail(email, resetUrl);
     } catch (emailError) {
       // Clear token if email fails
       user.passwordResetToken = undefined;

@@ -76,7 +76,7 @@ export default function BiddingUI() {
   const bestBid = bids[0];
 
   return (
-    <div className="w-[320px] sm:w-[420px] md:w-[500px] lg:w-[560px] rounded-2xl overflow-hidden border border-white/[0.08] bg-[#0a0a0a] shadow-[0_30px_60px_rgba(0,0,0,0.5),0_0_80px_rgba(255,107,53,0.06)]">
+    <div className="w-full rounded-2xl overflow-hidden border border-white/[0.08] bg-[#0a0a0a] shadow-[0_30px_60px_rgba(0,0,0,0.5),0_0_80px_rgba(255,107,53,0.06)]">
       {/* Browser chrome */}
       <div className="flex items-center gap-3 px-5 py-3.5 bg-[#111] border-b border-white/[0.06]">
         <div className="flex items-center gap-1.5">

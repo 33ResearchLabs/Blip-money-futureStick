@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Shield, CheckCircle2, FileText, Map, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -161,4 +162,4 @@ const TrustSection = () => {
   );
 };
 
-export default TrustSection;
+export default memo(TrustSection);

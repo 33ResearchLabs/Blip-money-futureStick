@@ -1,4 +1,4 @@
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, memo } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { CTAButton } from "../Navbar";
 
@@ -135,4 +135,4 @@ const CTASection = () => {
   );
 };
 
-export default CTASection;
+export default memo(CTASection);

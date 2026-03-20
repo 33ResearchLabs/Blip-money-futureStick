@@ -2,7 +2,7 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const FROM_EMAIL = process.env.EMAIL_FROM || "Blip Money <onboarding@resend.dev>";
+const FROM_EMAIL = process.env.EMAIL_FROM || "Blip Money <noreply@blip.money>";
 
 export const sendVerificationEmailNew = async (email, otp) => {
   try {

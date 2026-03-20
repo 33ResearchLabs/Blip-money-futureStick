@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { motion } from "framer-motion";
 import { Check, X } from "lucide-react";
 import { useTheme } from "next-themes";
@@ -561,4 +562,4 @@ const ComparisonSection = () => {
   );
 };
 
-export default ComparisonSection;
+export default memo(ComparisonSection);

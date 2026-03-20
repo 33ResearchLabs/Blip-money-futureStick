@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { MapPin } from "lucide-react";
 import { CTAButton } from "../Navbar";
 
@@ -53,6 +54,7 @@ const UAESection = () => {
           src="/Dubai.webp"
           alt="Dubai skyline"
           loading="lazy"
+          decoding="async"
           className="w-full h-full object-cover object-center"
         />
       </div>
@@ -153,4 +155,4 @@ const UAESection = () => {
   );
 };
 
-export default UAESection;
+export default memo(UAESection);

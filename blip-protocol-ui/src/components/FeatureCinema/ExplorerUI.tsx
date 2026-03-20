@@ -77,16 +77,16 @@ export default function ExplorerUI() {
   }, []);
 
   return (
-    <div className="w-[320px] sm:w-[420px] md:w-[500px] lg:w-[540px] rounded-2xl border border-white/[0.06] bg-black/40 backdrop-blur-xl overflow-hidden shadow-[0_8px_60px_-12px_rgba(0,0,0,0.8),0_0_80px_rgba(20,241,149,0.05)]">
+    <div className="w-full rounded-2xl border border-white/[0.06] bg-black overflow-hidden shadow-[0_8px_60px_-12px_rgba(0,0,0,0.8)]">
       {/* Browser chrome */}
-      <div className="flex items-center justify-between px-5 py-3.5 bg-black/60 border-b border-white/[0.06]">
+      <div className="flex items-center justify-between px-5 py-3.5 bg-black border-b border-white/[0.06]">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5">
             <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
             <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
             <div className="w-3 h-3 rounded-full bg-[#28ca42]" />
           </div>
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.04]">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.06]">
             <Globe className="w-3.5 h-3.5 text-white/30" />
             <span className="text-xs text-white/40 font-mono">
               blipscan.io/explorer
@@ -106,7 +106,7 @@ export default function ExplorerUI() {
       </div>
 
       {/* Stats row */}
-      <div className="grid grid-cols-4 border-b border-white/[0.05]">
+      <div className="grid grid-cols-4 border-b border-white/[0.06]">
         {[
           { label: "Block", value: block.toLocaleString() },
           { label: "24h Volume", value: "$2.4M" },
@@ -115,7 +115,7 @@ export default function ExplorerUI() {
         ].map((s, i) => (
           <div
             key={s.label}
-            className={`text-center p-3 ${i < 3 ? "border-r border-white/[0.05]" : ""}`}
+            className={`text-center p-3 ${i < 3 ? "border-r border-white/[0.06]" : ""}`}
           >
             <motion.div
               key={s.value}

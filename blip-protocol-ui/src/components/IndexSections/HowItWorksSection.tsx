@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, memo } from "react";
 import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion";
 import {
   Send,
@@ -485,9 +485,7 @@ const App = () => {
                 {step.num} • {step.label}
               </span>
             </div>
-            <h3
-              className="heading-h3 select-none text-center text-black dark:text-white"
-            >
+            <h3 className="heading-h3 select-none text-center text-black dark:text-white">
               {step.h1}
               <br />
               <span className="text-black/50 dark:text-white/40">
@@ -837,94 +835,96 @@ const Label = ({
   </p>
 );
 
-// ─── SCREEN 1: DASHBOARD ─────────────────────────────────────────────────────
+// ─── SCREEN 1: DASHBOARD (Violet Portfolio) ─────────────────────────────────
 
-const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
-  const d = isDark;
+const DashboardScreen = ({ isDark: _isDark }: { isDark: boolean }) => {
   return (
     <div
       className="flex flex-col h-full w-full relative overflow-hidden"
       style={{
-        background: d ? "#080816" : "#FAFAFA",
+        background: "#050505",
         paddingTop: 52,
-        color: d ? "#fff" : "#111",
+        color: "#fff",
+        fontFamily: "system-ui, -apple-system, sans-serif",
       }}
     >
-      {/* Header */}
-      <div className="px-4 pb-3 flex items-center justify-between z-10">
-        <div>
-          <p
-            style={{
-              fontSize: 6.5,
-              fontWeight: 900,
-              letterSpacing: "0.28em",
-              textTransform: "uppercase" as const,
-              color: d ? "rgba(255,255,255,0.22)" : "rgba(0,0,0,0.28)",
-              marginBottom: 2,
-            }}
-          >
-            Portfolio
-          </p>
-          <span
-            style={{ fontSize: 15, fontWeight: 900, letterSpacing: "-0.035em" }}
-          >
-            Jhon <span style={{ color: "green" }}>●</span>
-          </span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div
-            className="w-7 h-7 rounded-full flex items-center justify-center"
-            style={{
-              background: d ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.04)",
-              border: `1px solid ${d ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)"}`,
-            }}
-          >
-            <svg
-              width="11"
-              height="11"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke={d ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.35)"}
-              strokeWidth="2.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-              <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-            </svg>
-          </div>
-          <div
-            className="w-7 h-7 rounded-full overflow-hidden"
-            style={{ background: "linear-gradient(135deg, #6366f1, #818cf8)" }}
-          >
-            <div className="w-full h-full flex items-center justify-center">
-              <span style={{ fontSize: 10, fontWeight: 900, color: "#fff" }}>
-                K
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Scrollable */}
+      {/* Scrollable Content */}
       <div
         className="flex-1 overflow-y-auto z-10 px-4 pb-16"
         style={{ scrollbarWidth: "none" }}
       >
-        {/* ── BALANCE CARD ── */}
+        {/* Header */}
+        <div className="flex justify-between items-end mb-4">
+          <div>
+            <p
+              style={{
+                fontSize: 6,
+                fontWeight: 900,
+                letterSpacing: "0.28em",
+                textTransform: "uppercase" as const,
+                color: "rgba(255,255,255,0.3)",
+                marginBottom: 2,
+              }}
+            >
+              Portfolio
+            </p>
+            <span
+              style={{
+                fontSize: 15,
+                fontWeight: 900,
+                letterSpacing: "-0.035em",
+              }}
+            >
+              Jhon
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div
+              className="w-7 h-7 rounded-full flex items-center justify-center"
+              style={{
+                background: "rgba(255,255,255,0.06)",
+                border: "1px solid rgba(255,255,255,0.08)",
+              }}
+            >
+              <svg
+                width="11"
+                height="11"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="rgba(255,255,255,0.4)"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+              </svg>
+            </div>
+            <div
+              className="w-7 h-7 rounded-full overflow-hidden"
+              style={{
+                background: "linear-gradient(135deg, #8b5cf6, #a78bfa)",
+              }}
+            >
+              <div className="w-full h-full flex items-center justify-center">
+                <span style={{ fontSize: 10, fontWeight: 900, color: "#fff" }}>
+                  K
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── MAIN BALANCE CARD (Violet) ── */}
         <motion.div
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="relative mb-4 overflow-hidden rounded-[18px]"
           style={{
-            background: d
-              ? "linear-gradient(135deg, rgba(16,20,48,0.95) 0%, rgba(20,16,50,0.9) 40%, rgba(10,30,40,0.95) 100%)"
-              : "linear-gradient(135deg, rgba(99,102,241,0.08) 0%, rgba(16,185,129,0.06) 40%, rgba(59,130,246,0.05) 100%)",
-            border: `1px solid ${d ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)"}`,
-            boxShadow: d
-              ? "0 12px 40px rgba(0,0,0,0.5)"
-              : "0 8px 32px rgba(0,0,0,0.06)",
+            background: "linear-gradient(135deg, #161420 0%, #0a0a0a 100%)",
+            border: "1px solid rgba(139,92,246,0.15)",
+            boxShadow: "0 12px 40px rgba(0,0,0,0.5)",
           }}
         >
           {/* Top row: BLIP badge + SIGNATURE */}
@@ -933,24 +933,25 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
               <div
                 className="flex items-center gap-1.5 px-2 py-1 rounded-full"
                 style={{
-                  background: "rgba(16,185,129,0.12)",
-                  border: "1px solid rgba(16,185,129,0.2)",
+                  background: "rgba(139,92,246,0.15)",
+                  border: "1px solid rgba(139,92,246,0.25)",
                 }}
               >
                 <div
                   style={{
-                    width: 12,
-                    height: 12,
+                    width: 7,
+                    height: 7,
                     borderRadius: "50%",
-                    background: "linear-gradient(135deg, #10b981, #34d399)",
+                    background: "#a78bfa",
+                    boxShadow: "0 0 8px rgba(167,139,250,0.8)",
                   }}
                 />
                 <span
                   style={{
                     fontSize: 7,
                     fontWeight: 900,
-                    color: d ? "#fff" : "#111",
-                    letterSpacing: "0.05em",
+                    color: "#a78bfa",
+                    letterSpacing: "0.08em",
                   }}
                 >
                   BLIP
@@ -964,11 +965,11 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
                     width: 4,
                     height: 4,
                     borderRadius: "50%",
-                    background: "#10b981",
+                    background: "#8b5cf6",
                   }}
                 />
                 <span
-                  style={{ fontSize: 6, fontWeight: 700, color: "#10b981" }}
+                  style={{ fontSize: 6, fontWeight: 700, color: "#8b5cf6" }}
                 >
                   LIVE
                 </span>
@@ -980,7 +981,7 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
                   fontSize: 5.5,
                   fontWeight: 700,
                   letterSpacing: "0.2em",
-                  color: d ? "rgba(255,255,255,0.18)" : "rgba(0,0,0,0.2)",
+                  color: "rgba(255,255,255,0.18)",
                   textTransform: "uppercase" as const,
                 }}
               >
@@ -990,7 +991,7 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
                 style={{
                   fontSize: 6,
                   fontWeight: 600,
-                  color: d ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.15)",
+                  color: "rgba(255,255,255,0.12)",
                 }}
               >
                 V 2.0
@@ -1005,7 +1006,7 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
                 fontSize: 6,
                 fontWeight: 900,
                 letterSpacing: "0.28em",
-                color: d ? "rgba(255,255,255,0.22)" : "rgba(0,0,0,0.28)",
+                color: "rgba(255,255,255,0.3)",
                 textTransform: "uppercase" as const,
                 marginBottom: 4,
               }}
@@ -1022,6 +1023,7 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
                   fontWeight: 900,
                   letterSpacing: "-0.045em",
                   lineHeight: 1,
+                  color: "#fff",
                 }}
               >
                 10,860
@@ -1033,32 +1035,20 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
                 style={{
                   fontSize: 16,
                   fontWeight: 900,
-                  color: d ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.18)",
+                  color: "rgba(255,255,255,0.25)",
                   lineHeight: 1,
                 }}
               >
                 .83
               </motion.span>
-              <motion.div
-                animate={{ opacity: [1, 0.4, 1] }}
-                transition={{ duration: 1.2, repeat: Infinity }}
-                style={{
-                  width: 5,
-                  height: 5,
-                  borderRadius: "50%",
-                  background: "#ef4444",
-                  marginLeft: 4,
-                  marginBottom: 4,
-                }}
-              />
             </div>
             <div className="flex items-center gap-1.5 mt-1.5">
               <div
                 className="flex items-center gap-0.5 px-1.5 py-0.5 rounded-full"
-                style={{ background: "rgba(16,185,129,0.15)" }}
+                style={{ background: "rgba(139,92,246,0.15)" }}
               >
                 <span
-                  style={{ fontSize: 7, fontWeight: 900, color: "#10b981" }}
+                  style={{ fontSize: 7, fontWeight: 900, color: "#a78bfa" }}
                 >
                   ↑ Ready
                 </span>
@@ -1067,7 +1057,7 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
                 style={{
                   fontSize: 6.5,
                   fontWeight: 600,
-                  color: d ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.25)",
+                  color: "rgba(255,255,255,0.25)",
                 }}
               >
                 1.67 AED
@@ -1075,14 +1065,39 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
             </div>
           </div>
 
-          {/* Sparkline */}
+          {/* Violet Sparkline / Graph */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
             className="px-4 pt-1 pb-2"
           >
-            <Sparkline isDark={isDark} />
+            <svg
+              width="220"
+              height="40"
+              viewBox="0 0 200 60"
+              preserveAspectRatio="none"
+              style={{ width: "100%" }}
+            >
+              <defs>
+                <linearGradient id="violetGradDash" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#a78bfa" stopOpacity="0.3" />
+                  <stop offset="100%" stopColor="#a78bfa" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+              <path
+                d="M0,50 L20,48 L40,42 L60,45 L80,38 L100,42 L120,35 L140,38 L160,32 L180,35 L200,20"
+                fill="none"
+                stroke="#a78bfa"
+                strokeWidth="2"
+                vectorEffect="non-scaling-stroke"
+              />
+              <path
+                d="M0,50 L20,48 L40,42 L60,45 L80,38 L100,42 L120,35 L140,38 L160,32 L180,35 L200,20 L200,60 L0,60 Z"
+                fill="url(#violetGradDash)"
+              />
+              <circle cx="200" cy="20" r="3" fill="#a78bfa" />
+            </svg>
           </motion.div>
 
           {/* ID Hash row */}
@@ -1093,7 +1108,7 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
                   fontSize: 5.5,
                   fontWeight: 900,
                   letterSpacing: "0.2em",
-                  color: d ? "rgba(255,255,255,0.18)" : "rgba(0,0,0,0.2)",
+                  color: "rgba(255,255,255,0.18)",
                   textTransform: "uppercase" as const,
                   marginBottom: 2,
                 }}
@@ -1104,7 +1119,7 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
                 style={{
                   fontSize: 7,
                   fontWeight: 700,
-                  color: d ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)",
+                  color: "rgba(255,255,255,0.3)",
                   fontFamily: "monospace",
                 }}
               >
@@ -1117,7 +1132,7 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
                   width: 20,
                   height: 11,
                   borderRadius: 999,
-                  background: "linear-gradient(90deg, #6366f1, #818cf8)",
+                  background: "linear-gradient(90deg, #8b5cf6, #a78bfa)",
                   position: "relative",
                 }}
               >
@@ -1165,9 +1180,13 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
           className="flex gap-2 mb-5"
         >
           {[
-            { label: "Total In", value: "+0..", color: "#10b981" },
-            { label: "Total Out", value: "-0..", color: "#ef4444" },
-            { label: "Pending", value: "0 txns", color: d ? "#fff" : "#111" },
+            { label: "Total In", value: "+0..", color: "#a78bfa" },
+            {
+              label: "Total Out",
+              value: "-0..",
+              color: "rgba(255,255,255,0.4)",
+            },
+            { label: "Pending", value: "0 txns", color: "#fff" },
           ].map((stat) => (
             <div
               key={stat.label}
@@ -1175,8 +1194,8 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
                 flex: 1,
                 borderRadius: 12,
                 padding: "8px 8px",
-                background: d ? "rgba(255,255,255,0.025)" : "rgba(0,0,0,0.025)",
-                border: `1px solid ${d ? "rgba(255,255,255,0.055)" : "rgba(0,0,0,0.06)"}`,
+                background: "rgba(255,255,255,0.02)",
+                border: "1px solid rgba(255,255,255,0.05)",
               }}
             >
               <p
@@ -1186,7 +1205,7 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
                   letterSpacing: "0.14em",
                   textTransform: "uppercase" as const,
                   marginBottom: 3,
-                  color: d ? "rgba(255,255,255,0.22)" : "rgba(0,0,0,0.28)",
+                  color: "rgba(255,255,255,0.22)",
                 }}
               >
                 {stat.label}
@@ -1218,25 +1237,12 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
                   width: 44,
                   height: 44,
                   borderRadius: 14,
-                  background: active
-                    ? d
-                      ? "#fff"
-                      : "#111"
-                    : d
-                      ? "rgba(255,255,255,0.04)"
-                      : "rgba(0,0,0,0.03)",
-                  border: active
-                    ? "none"
-                    : `1px solid ${d ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)"}`,
-                  color: active
-                    ? d
-                      ? "#080816"
-                      : "#fff"
-                    : d
-                      ? "rgba(255,255,255,0.4)"
-                      : "rgba(0,0,0,0.35)",
+                  background: active ? "#8b5cf6" : "rgba(255,255,255,0.03)",
+                  border: active ? "none" : "1px solid rgba(255,255,255,0.06)",
+                  color: active ? "#fff" : "rgba(255,255,255,0.35)",
                   fontSize: 18,
                   fontWeight: 700,
+                  boxShadow: active ? "0 0 15px rgba(139,92,246,0.3)" : "none",
                 }}
               >
                 {icon}
@@ -1247,7 +1253,7 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
                   fontWeight: 900,
                   letterSpacing: "0.12em",
                   textTransform: "uppercase" as const,
-                  color: d ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)",
+                  color: "rgba(255,255,255,0.3)",
                 }}
               >
                 {label}
@@ -1264,7 +1270,7 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
               fontWeight: 900,
               letterSpacing: "0.28em",
               textTransform: "uppercase" as const,
-              color: d ? "rgba(255,255,255,0.22)" : "rgba(0,0,0,0.28)",
+              color: "rgba(255,255,255,0.22)",
               marginBottom: 6,
             }}
           >
@@ -1274,7 +1280,7 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
             style={{
               fontSize: 9,
               fontWeight: 600,
-              color: d ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.2)",
+              color: "rgba(255,255,255,0.15)",
             }}
           >
             No trading partners yet
@@ -1290,7 +1296,7 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
                 fontWeight: 900,
                 letterSpacing: "0.28em",
                 textTransform: "uppercase" as const,
-                color: d ? "rgba(255,255,255,0.22)" : "rgba(0,0,0,0.28)",
+                color: "rgba(255,255,255,0.22)",
               }}
             >
               Recent Pulse
@@ -1300,7 +1306,7 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
                 fontSize: 7,
                 fontWeight: 900,
                 letterSpacing: "0.1em",
-                color: "#ff8f5e",
+                color: "#8b5cf6",
                 textTransform: "uppercase" as const,
               }}
             >
@@ -1311,15 +1317,15 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
             className="flex items-center justify-center rounded-[14px]"
             style={{
               padding: "18px 12px",
-              background: d ? "rgba(255,255,255,0.02)" : "rgba(0,0,0,0.02)",
-              border: `1px solid ${d ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)"}`,
+              background: "rgba(255,255,255,0.02)",
+              border: "1px dashed rgba(255,255,255,0.06)",
             }}
           >
             <p
               style={{
                 fontSize: 8,
                 fontWeight: 600,
-                color: d ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.18)",
+                color: "rgba(255,255,255,0.12)",
               }}
             >
               No recent activity
@@ -1333,8 +1339,8 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
         className="absolute bottom-0 left-0 right-0 z-20 flex items-center justify-around"
         style={{
           height: 52,
-          background: d ? "rgba(8,8,22,0.95)" : "rgba(255,255,255,0.95)",
-          borderTop: `1px solid ${d ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.06)"}`,
+          background: "rgba(5,5,5,0.95)",
+          borderTop: "1px solid rgba(255,255,255,0.05)",
           backdropFilter: "blur(20px)",
         }}
       >
@@ -1351,12 +1357,8 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
                 width: active ? 32 : 24,
                 height: active ? 32 : 24,
                 borderRadius: active ? 10 : 8,
-                background: active ? "white" : "transparent",
-                color: active
-                  ? "black"
-                  : d
-                    ? "rgba(255,255,255,0.2)"
-                    : "rgba(0,0,0,0.25)",
+                background: active ? "#8b5cf6" : "transparent",
+                color: active ? "#fff" : "rgba(255,255,255,0.2)",
                 fontSize: active ? 14 : 12,
               }}
             >
@@ -1366,11 +1368,7 @@ const DashboardScreen = ({ isDark }: { isDark: boolean }) => {
               style={{
                 fontSize: 6,
                 fontWeight: 700,
-                color: active
-                  ? "white"
-                  : d
-                    ? "rgba(255,255,255,0.2)"
-                    : "rgba(0,0,0,0.25)",
+                color: active ? "#8b5cf6" : "rgba(255,255,255,0.2)",
                 textTransform: "uppercase" as const,
                 letterSpacing: "0.08em",
               }}
@@ -2141,7 +2139,7 @@ const CashOutScreen = ({ isDark }: { isDark: boolean }) => {
     <div
       className="h-full w-full flex flex-col items-center justify-center relative overflow-hidden"
       style={{
-        background: isDark ? "#06060e" : c.bg,
+        background: isDark ? "black" : c.bg,
         padding: 28,
         textAlign: "center" as const,
         color: c.text,
@@ -2352,4 +2350,4 @@ const Cursor = ({ name, color, textColor, initialPos, delay }) => (
   </motion.div>
 );
 
-export default App;
+export default memo(App);

@@ -54,6 +54,8 @@ const ProductShowcase = () => {
                 src="/images/app-flow-1.webp"
                 alt="App interface"
                 className="w-full h-auto"
+                loading="lazy"
+                decoding="async"
                 style={{
                   border: "1px solid rgba(255, 255, 255, 0.1)",
                 }}
@@ -69,6 +71,8 @@ const ProductShowcase = () => {
                 src="/images/app-flow-2.webp"
                 alt="Transaction details"
                 className="w-full h-auto opacity-90"
+                loading="lazy"
+                decoding="async"
                 style={{
                   border: "1px solid rgba(255, 255, 255, 0.08)",
                 }}
@@ -84,6 +88,8 @@ const ProductShowcase = () => {
                 src="/images/app-flow-3.webp"
                 alt="Payment confirmation"
                 className="w-full h-auto opacity-80"
+                loading="lazy"
+                decoding="async"
                 style={{
                   border: "1px solid rgba(255, 255, 255, 0.06)",
                 }}

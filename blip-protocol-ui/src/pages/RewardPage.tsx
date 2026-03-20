@@ -30,7 +30,7 @@ const IMAGES = {
   fiberOptics: "/globalprovider.png",
   dataStream:
     "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format",
-  blockchainNodes: "/blockchainNodes.png",
+  blockchainNodes: "/blockchainNodes_opt.webp",
   vault:
     "https://www.gettrx.com/wp-content/uploads/2023/08/Merchant-Account-vs-Payment-Gateway-vs-PSP.jpg",
   deepNetwork:

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, memo } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -124,4 +124,4 @@ const RewardsSection = () => {
   );
 };
 
-export default RewardsSection;
+export default memo(RewardsSection);

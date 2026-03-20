@@ -1,5 +1,6 @@
 import { useEffect, lazy, Suspense } from "react";
 import { SEO } from "@/components";
+import LazySection from "@/components/LazySection";
 
 // Only the hero is eagerly loaded (above the fold)
 import CinematicHero from "@/components/IndexSections/CinematicHero";
@@ -50,63 +51,104 @@ const Index = () => {
       />
 
       <div className="bg-[#FAF8F5] dark:bg-black text-black dark:text-white relative overflow-x-clip">
-        <div className="bg-[#FAF8F5] dark:bg-black text-black dark:text-white relative">
-          <div className="overflow-x-clip">
-            {/* Grain overlay for premium film texture */}
-            <div className="grain-overlay" />
+        {/* Grain overlay for premium film texture */}
+        <div className="grain-overlay" />
 
-            {/* 1. Hero */}
-            <CinematicHero />
+        {/* 1. Hero — eagerly loaded, above the fold */}
+        <CinematicHero />
 
-            {/* 2. Problem → Why Now */}
-            <Suspense fallback={null}>
-              <ProblemSection />
-            </Suspense>
+        {/* 2. Problem → Why Now */}
+        <LazySection minHeight="100vh">
+          <Suspense fallback={null}>
+            <ProblemSection />
+          </Suspense>
+        </LazySection>
 
-          </div>
-        </div>
         {/* Dark Fintech — Trading & Currency Section */}
-        <Suspense fallback={null}>
-          <DarkFintechSection />
-        </Suspense>
+        <LazySection minHeight="100vh">
+          <Suspense fallback={null}>
+            <DarkFintechSection />
+          </Suspense>
+        </LazySection>
 
         {/* 4. The Blip Protocol */}
-        <Suspense fallback={null}>
-          <ProtocolInterstitial />
-        </Suspense>
+        <LazySection minHeight="80vh">
+          <Suspense fallback={null}>
+            <ProtocolInterstitial />
+          </Suspense>
+        </LazySection>
 
-        <Suspense fallback={null}>
-          {/* 5. Why Blip — competitive comparison */}
-          <ComparisonSection />
+        {/* 5. Why Blip — competitive comparison */}
+        <LazySection minHeight="80vh">
+          <Suspense fallback={null}>
+            <ComparisonSection />
+          </Suspense>
+        </LazySection>
 
-          {/* How It Works — isolated (no overflow-x-hidden parent) */}
-          <HowItWorksSection />
+        {/* How It Works — isolated (no overflow-x-hidden parent) */}
+        <LazySection minHeight="100vh">
+          <Suspense fallback={null}>
+            <HowItWorksSection />
+          </Suspense>
+        </LazySection>
 
-          {/* App Showcase — Apple bento grid with device mockups */}
-          <AppShowcaseSection />
+        {/* App Showcase — Apple bento grid with device mockups */}
+        <LazySection minHeight="100vh">
+          <Suspense fallback={null}>
+            <AppShowcaseSection />
+          </Suspense>
+        </LazySection>
 
-          <div className="overflow-x-clip">
-            {/* 6. Core Features */}
-            <FeatureStrip />
+        <div className="overflow-x-clip">
+          {/* 6. Core Features */}
+          <LazySection minHeight="20vh">
+            <Suspense fallback={null}>
+              <FeatureStrip />
+            </Suspense>
+          </LazySection>
 
-            {/* 6-7-8. Locked & Secured · Instant Bidding · Verified — cinematic scroll */}
-            <FeatureCinemaSection />
+          {/* 6-7-8. Locked & Secured · Instant Bidding · Verified — cinematic scroll */}
+          <LazySection minHeight="300vh">
+            <Suspense fallback={null}>
+              <FeatureCinemaSection />
+            </Suspense>
+          </LazySection>
 
-            {/* 8. Use Cases */}
-            <UseCasesSection />
+          {/* 8. Use Cases */}
+          <LazySection minHeight="80vh">
+            <Suspense fallback={null}>
+              <UseCasesSection />
+            </Suspense>
+          </LazySection>
 
-            {/* 9. Earn & Incentives */}
-            <RewardsSection />
-            {/* 10. Dubai Launch */}
-            <UAESection />
+          {/* 9. Earn & Incentives */}
+          <LazySection minHeight="60vh">
+            <Suspense fallback={null}>
+              <RewardsSection />
+            </Suspense>
+          </LazySection>
 
-            {/* 12. Trust / Architecture */}
-            <TrustSection />
+          {/* 10. Dubai Launch */}
+          <LazySection minHeight="60vh">
+            <Suspense fallback={null}>
+              <UAESection />
+            </Suspense>
+          </LazySection>
 
-            {/* 13. Final CTA */}
-            <CTASection />
-          </div>
-        </Suspense>
+          {/* 12. Trust / Architecture */}
+          <LazySection minHeight="60vh">
+            <Suspense fallback={null}>
+              <TrustSection />
+            </Suspense>
+          </LazySection>
+
+          {/* 13. Final CTA */}
+          <LazySection minHeight="40vh">
+            <Suspense fallback={null}>
+              <CTASection />
+            </Suspense>
+          </LazySection>
+        </div>
       </div>
     </>
   );

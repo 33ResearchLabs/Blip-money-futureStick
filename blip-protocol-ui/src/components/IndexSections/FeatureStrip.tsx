@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { motion } from "framer-motion";
 import { Zap, Lock, Eye, CheckCircle2 } from "lucide-react";
 import { MicroIcon } from "../visuals/MicroIcon";
@@ -55,4 +56,4 @@ const FeatureStrip = () => {
   );
 };
 
-export default FeatureStrip;
+export default memo(FeatureStrip);

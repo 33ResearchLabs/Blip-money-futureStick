@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
 import {
@@ -748,4 +748,4 @@ const UseCasesSection = () => {
   );
 };
 
-export default UseCasesSection;
+export default memo(UseCasesSection);
