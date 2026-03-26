@@ -21,9 +21,23 @@ import {
   Signal,
   ArrowDownCircle,
   Coins,
+  Bell,
+  ArrowUpRight,
+  QrCode,
+  Home,
+  MessageCircle,
+  User,
 } from "lucide-react";
 import { CTAButton } from "../Navbar";
 import { useTheme } from "next-themes";
+
+const TABS = [
+  { key: "home", Icon: Home, label: "Home" },
+  { key: "trade", Icon: Zap, label: "Trade" },
+  { key: "chats", Icon: MessageCircle, label: "Inbox" },
+  { key: "orders", Icon: Activity, label: "Activity" },
+  { key: "profile", Icon: User, label: "You" },
+] as const;
 
 // Desktop Phone Mockup Component — iPhone 17 Pro / Black Titanium
 const DesktopPhoneMockup = ({ activeSection, steps, isDark }) => {
@@ -841,542 +855,144 @@ const DashboardScreen = ({ isDark: _isDark }: { isDark: boolean }) => {
   return (
     <div
       className="flex flex-col h-full w-full relative overflow-hidden"
-      style={{
-        background: "#050505",
-        paddingTop: 52,
-        color: "#fff",
-        fontFamily: "system-ui, -apple-system, sans-serif",
-      }}
+      style={{ background: "#050505", paddingTop: 52, color: "#fff" }}
     >
-      {/* Scrollable Content */}
+      {/* Main card */}
       <div
-        className="flex-1 overflow-y-auto z-10 px-4 pb-16"
-        style={{ scrollbarWidth: "none" }}
+        className="mx-3 rounded-[24px] shrink-0"
+        style={{ background: "#000", padding: "12px 14px 14px" }}
       >
-        {/* Header */}
-        <div className="flex justify-between items-end mb-4">
-          <div>
-            <p
-              style={{
-                fontSize: 6,
-                fontWeight: 900,
-                letterSpacing: "0.28em",
-                textTransform: "uppercase" as const,
-                color: "rgba(255,255,255,0.3)",
-                marginBottom: 2,
-              }}
-            >
-              Portfolio
-            </p>
-            <span
-              style={{
-                fontSize: 15,
-                fontWeight: 900,
-                letterSpacing: "-0.035em",
-              }}
-            >
-              Jhon
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div
-              className="w-7 h-7 rounded-full flex items-center justify-center"
-              style={{
-                background: "rgba(255,255,255,0.06)",
-                border: "1px solid rgba(255,255,255,0.08)",
-              }}
-            >
-              <svg
-                width="11"
-                height="11"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="rgba(255,255,255,0.4)"
-                strokeWidth="2.2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-              </svg>
+        {/* Top row */}
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-1.5">
+            <div className="w-7 h-7 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-white font-bold text-xs">
+              J
             </div>
-            <div
-              className="w-7 h-7 rounded-full overflow-hidden"
-              style={{
-                background: "linear-gradient(135deg, #8b5cf6, #a78bfa)",
-              }}
-            >
-              <div className="w-full h-full flex items-center justify-center">
-                <span style={{ fontSize: 10, fontWeight: 900, color: "#fff" }}>
-                  K
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* ── MAIN BALANCE CARD (Violet) ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="relative mb-4 overflow-hidden rounded-[18px]"
-          style={{
-            background: "linear-gradient(135deg, #161420 0%, #0a0a0a 100%)",
-            border: "1px solid rgba(139,92,246,0.15)",
-            boxShadow: "0 12px 40px rgba(0,0,0,0.5)",
-          }}
-        >
-          {/* Top row: BLIP badge + SIGNATURE */}
-          <div className="flex items-center justify-between px-4 pt-3">
-            <div className="flex items-center gap-2">
-              <div
-                className="flex items-center gap-1.5 px-2 py-1 rounded-full"
-                style={{
-                  background: "rgba(139,92,246,0.15)",
-                  border: "1px solid rgba(139,92,246,0.25)",
-                }}
-              >
-                <div
-                  style={{
-                    width: 7,
-                    height: 7,
-                    borderRadius: "50%",
-                    background: "#a78bfa",
-                    boxShadow: "0 0 8px rgba(167,139,250,0.8)",
-                  }}
-                />
-                <span
-                  style={{
-                    fontSize: 7,
-                    fontWeight: 900,
-                    color: "#a78bfa",
-                    letterSpacing: "0.08em",
-                  }}
-                >
-                  BLIP
-                </span>
-              </div>
-              <div className="flex items-center gap-1">
-                <motion.div
-                  animate={{ opacity: [1, 0.3, 1] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                  style={{
-                    width: 4,
-                    height: 4,
-                    borderRadius: "50%",
-                    background: "#8b5cf6",
-                  }}
-                />
-                <span
-                  style={{ fontSize: 6, fontWeight: 700, color: "#8b5cf6" }}
-                >
-                  LIVE
-                </span>
-              </div>
-            </div>
-            <div style={{ textAlign: "right" }}>
-              <p
-                style={{
-                  fontSize: 5.5,
-                  fontWeight: 700,
-                  letterSpacing: "0.2em",
-                  color: "rgba(255,255,255,0.18)",
-                  textTransform: "uppercase" as const,
-                }}
-              >
-                Signature
-              </p>
-              <p
-                style={{
-                  fontSize: 6,
-                  fontWeight: 600,
-                  color: "rgba(255,255,255,0.12)",
-                }}
-              >
-                V 2.0
-              </p>
-            </div>
-          </div>
-
-          {/* Balance */}
-          <div className="px-4 pt-2 pb-1">
-            <p
-              style={{
-                fontSize: 6,
-                fontWeight: 900,
-                letterSpacing: "0.28em",
-                color: "rgba(255,255,255,0.3)",
-                textTransform: "uppercase" as const,
-                marginBottom: 4,
-              }}
-            >
-              Total Balance
-            </p>
-            <div className="flex items-baseline">
-              <motion.span
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-                style={{
-                  fontSize: 32,
-                  fontWeight: 900,
-                  letterSpacing: "-0.045em",
-                  lineHeight: 1,
-                  color: "#fff",
-                }}
-              >
-                10,860
-              </motion.span>
-              <motion.span
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.35 }}
-                style={{
-                  fontSize: 16,
-                  fontWeight: 900,
-                  color: "rgba(255,255,255,0.25)",
-                  lineHeight: 1,
-                }}
-              >
-                .83
-              </motion.span>
-            </div>
-            <div className="flex items-center gap-1.5 mt-1.5">
-              <div
-                className="flex items-center gap-0.5 px-1.5 py-0.5 rounded-full"
-                style={{ background: "rgba(139,92,246,0.15)" }}
-              >
-                <span
-                  style={{ fontSize: 7, fontWeight: 900, color: "#a78bfa" }}
-                >
-                  ↑ Ready
-                </span>
-              </div>
-              <span
-                style={{
-                  fontSize: 6.5,
-                  fontWeight: 600,
-                  color: "rgba(255,255,255,0.25)",
-                }}
-              >
-                1.67 AED
-              </span>
-            </div>
-          </div>
-
-          {/* Violet Sparkline / Graph */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="px-4 pt-1 pb-2"
-          >
-            <svg
-              width="220"
-              height="40"
-              viewBox="0 0 200 60"
-              preserveAspectRatio="none"
-              style={{ width: "100%" }}
-            >
-              <defs>
-                <linearGradient id="violetGradDash" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#a78bfa" stopOpacity="0.3" />
-                  <stop offset="100%" stopColor="#a78bfa" stopOpacity="0" />
-                </linearGradient>
-              </defs>
-              <path
-                d="M0,50 L20,48 L40,42 L60,45 L80,38 L100,42 L120,35 L140,38 L160,32 L180,35 L200,20"
-                fill="none"
-                stroke="#a78bfa"
-                strokeWidth="2"
-                vectorEffect="non-scaling-stroke"
-              />
-              <path
-                d="M0,50 L20,48 L40,42 L60,45 L80,38 L100,42 L120,35 L140,38 L160,32 L180,35 L200,20 L200,60 L0,60 Z"
-                fill="url(#violetGradDash)"
-              />
-              <circle cx="200" cy="20" r="3" fill="#a78bfa" />
-            </svg>
-          </motion.div>
-
-          {/* ID Hash row */}
-          <div className="flex items-center justify-between px-4 pb-3">
             <div>
-              <p
-                style={{
-                  fontSize: 5.5,
-                  fontWeight: 900,
-                  letterSpacing: "0.2em",
-                  color: "rgba(255,255,255,0.18)",
-                  textTransform: "uppercase" as const,
-                  marginBottom: 2,
-                }}
-              >
-                ID Hash
-              </p>
-              <p
-                style={{
-                  fontSize: 7,
-                  fontWeight: 700,
-                  color: "rgba(255,255,255,0.3)",
-                  fontFamily: "monospace",
-                }}
-              >
-                6za1...8P6m
-              </p>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <div
-                style={{
-                  width: 20,
-                  height: 11,
-                  borderRadius: 999,
-                  background: "linear-gradient(90deg, #8b5cf6, #a78bfa)",
-                  position: "relative",
-                }}
-              >
-                <div
-                  style={{
-                    position: "absolute",
-                    right: 1,
-                    top: 1,
-                    width: 9,
-                    height: 9,
-                    borderRadius: "50%",
-                    background: "#fff",
-                  }}
-                />
-              </div>
-              <div
-                style={{
-                  width: 14,
-                  height: 14,
-                  borderRadius: "50%",
-                  background: "rgba(139,92,246,0.2)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <div
-                  style={{
-                    width: 6,
-                    height: 6,
-                    borderRadius: "50%",
-                    background: "#8b5cf6",
-                  }}
-                />
-              </div>
+              <p style={{ fontSize: 11, fontWeight: 600, color: "#fff", lineHeight: 1 }}>Joe</p>
+              <p style={{ fontSize: 9, color: "#737373", marginTop: 2 }}>9mE1x...w8Lg7</p>
             </div>
           </div>
-        </motion.div>
-
-        {/* ── STAT CHIPS ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15 }}
-          className="flex gap-2 mb-5"
-        >
-          {[
-            { label: "Total In", value: "+0..", color: "#a78bfa" },
-            {
-              label: "Total Out",
-              value: "-0..",
-              color: "rgba(255,255,255,0.4)",
-            },
-            { label: "Pending", value: "0 txns", color: "#fff" },
-          ].map((stat) => (
-            <div
-              key={stat.label}
-              style={{
-                flex: 1,
-                borderRadius: 12,
-                padding: "8px 8px",
-                background: "rgba(255,255,255,0.02)",
-                border: "1px solid rgba(255,255,255,0.05)",
-              }}
-            >
-              <p
-                style={{
-                  fontSize: 5.5,
-                  fontWeight: 900,
-                  letterSpacing: "0.14em",
-                  textTransform: "uppercase" as const,
-                  marginBottom: 3,
-                  color: "rgba(255,255,255,0.22)",
-                }}
-              >
-                {stat.label}
-              </p>
-              <p style={{ fontSize: 10, fontWeight: 900, color: stat.color }}>
-                {stat.value}
-              </p>
-            </div>
-          ))}
-        </motion.div>
-
-        {/* ── ACTION BUTTONS ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="grid grid-cols-4 gap-2 mb-5"
-        >
-          {[
-            { label: "Send", icon: "↗", active: true },
-            { label: "Receive", icon: "↙", active: false },
-            { label: "Activity", icon: "⚡", active: false },
-            { label: "Scan", icon: "⊞", active: false },
-          ].map(({ label, icon, active }) => (
-            <div key={label} className="flex flex-col items-center gap-1.5">
-              <div
-                className="flex items-center justify-center"
-                style={{
-                  width: 44,
-                  height: 44,
-                  borderRadius: 14,
-                  background: active ? "#8b5cf6" : "rgba(255,255,255,0.03)",
-                  border: active ? "none" : "1px solid rgba(255,255,255,0.06)",
-                  color: active ? "#fff" : "rgba(255,255,255,0.35)",
-                  fontSize: 18,
-                  fontWeight: 700,
-                  boxShadow: active ? "0 0 15px rgba(139,92,246,0.3)" : "none",
-                }}
-              >
-                {icon}
-              </div>
-              <span
-                style={{
-                  fontSize: 7,
-                  fontWeight: 900,
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase" as const,
-                  color: "rgba(255,255,255,0.3)",
-                }}
-              >
-                {label}
-              </span>
-            </div>
-          ))}
-        </motion.div>
-
-        {/* ── CIRCLE ── */}
-        <div className="mb-5">
-          <p
-            style={{
-              fontSize: 6.5,
-              fontWeight: 900,
-              letterSpacing: "0.28em",
-              textTransform: "uppercase" as const,
-              color: "rgba(255,255,255,0.22)",
-              marginBottom: 6,
-            }}
-          >
-            Circle
-          </p>
-          <p
-            style={{
-              fontSize: 9,
-              fontWeight: 600,
-              color: "rgba(255,255,255,0.15)",
-            }}
-          >
-            No trading partners yet
-          </p>
+          <div className="w-7 h-7 rounded-full bg-[#111] flex items-center justify-center border border-white/10">
+            <Bell size={13} className="text-white/70" />
+          </div>
         </div>
 
-        {/* ── RECENT PULSE ── */}
-        <div>
-          <div className="flex justify-between items-center mb-2.5">
-            <p
-              style={{
-                fontSize: 6.5,
-                fontWeight: 900,
-                letterSpacing: "0.28em",
-                textTransform: "uppercase" as const,
-                color: "rgba(255,255,255,0.22)",
-              }}
-            >
-              Recent Pulse
-            </p>
-            <span
-              style={{
-                fontSize: 7,
-                fontWeight: 900,
-                letterSpacing: "0.1em",
-                color: "#8b5cf6",
-                textTransform: "uppercase" as const,
-              }}
-            >
-              See all
-            </span>
-          </div>
-          <div
-            className="flex items-center justify-center rounded-[14px]"
-            style={{
-              padding: "18px 12px",
-              background: "rgba(255,255,255,0.02)",
-              border: "1px dashed rgba(255,255,255,0.06)",
-            }}
-          >
-            <p
-              style={{
-                fontSize: 8,
-                fontWeight: 600,
-                color: "rgba(255,255,255,0.12)",
-              }}
-            >
-              No recent activity
-            </p>
+        {/* Balance */}
+        <p style={{ fontSize: 7, letterSpacing: "0.3em", color: "rgba(255,255,255,0.4)", fontWeight: 700, marginBottom: 2 }}>
+          TOTAL BALANCE
+        </p>
+        <div className="flex items-end gap-1">
+          <span style={{ fontSize: 32, fontWeight: 900, lineHeight: 1, color: "#fff" }}>3,563</span>
+          <span style={{ fontSize: 14, fontWeight: 700, color: "rgba(255,255,255,0.3)" }}>.70</span>
+          <span style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginLeft: 2, marginBottom: 1 }}>USDT</span>
+        </div>
+        <p style={{ fontSize: 10, color: "#4ade80", marginTop: 2 }}>+$557.00 today</p>
+
+        {/* Sparkline */}
+        <div style={{ marginTop: 8 }}>
+          <svg viewBox="0 0 200 50" className="w-full" style={{ height: 38 }}>
+            <defs>
+              <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#888" stopOpacity="0.2" />
+                <stop offset="100%" stopColor="#fff" stopOpacity="1" />
+              </linearGradient>
+              <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#fff" stopOpacity="0.12" />
+                <stop offset="100%" stopColor="#fff" stopOpacity="0" />
+              </linearGradient>
+              <filter id="glow">
+                <feGaussianBlur stdDeviation="2" result="coloredBlur" />
+                <feMerge><feMergeNode in="coloredBlur" /><feMergeNode in="SourceGraphic" /></feMerge>
+              </filter>
+            </defs>
+            <path d="M0,42 C20,37 30,40 50,34 S80,30 100,32 S130,22 150,26 S180,18 200,14"
+              fill="none" stroke="url(#lineGrad)" strokeWidth="2" filter="url(#glow)" />
+            <path d="M0,42 C20,37 30,40 50,34 S80,30 100,32 S130,22 150,26 S180,18 200,14 L200,50 L0,50 Z"
+              fill="url(#areaGrad)" />
+            <circle cx="200" cy="14" r="3" fill="#fff" />
+          </svg>
+        </div>
+
+        {/* Actions */}
+        <div className="grid grid-cols-4 gap-2 mt-2">
+          {[
+            { label: "SEND",     Icon: ArrowUpRight },
+            { label: "PAY",      Icon: ArrowDownLeft },
+            { label: "ACTIVITY", Icon: Activity },
+            { label: "DEPOSIT",  Icon: QrCode },
+          ].map(({ label, Icon }, i) => (
+            <div key={label} className="flex flex-col items-center gap-1">
+              <div
+                className="w-9 h-9 rounded-xl flex items-center justify-center"
+                style={{
+                  background: i === 0 ? "#fff" : "#111",
+                  color: i === 0 ? "#000" : "rgba(255,255,255,0.4)",
+                  border: i !== 0 ? "1px solid rgba(255,255,255,0.06)" : "none",
+                }}
+              >
+                <Icon size={15} />
+              </div>
+              <span style={{ fontSize: 8, color: "rgba(255,255,255,0.4)", fontWeight: 700 }}>{label}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Circle */}
+        <div style={{ marginTop: 10 }}>
+          <p style={{ fontSize: 7, color: "#737373", fontWeight: 700, letterSpacing: "0.1em", marginBottom: 5 }}>CIRCLE</p>
+          <div className="flex gap-2.5">
+            {[{ t: "T", name: "toj" }, { t: "G", name: "Gaurav" }].map(({ t, name }) => (
+              <div key={name} className="text-center">
+                <div className="w-8 h-8 rounded-xl bg-black border border-white/10 flex items-center justify-center text-white font-bold text-xs">{t}</div>
+                <p style={{ fontSize: 8, color: "#737373", marginTop: 3 }}>{name}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* ── BOTTOM NAV ── */}
-      <div
-        className="absolute bottom-0 left-0 right-0 z-20 flex items-center justify-around"
-        style={{
-          height: 52,
-          background: "rgba(5,5,5,0.95)",
-          borderTop: "1px solid rgba(255,255,255,0.05)",
-          backdropFilter: "blur(20px)",
-        }}
-      >
+      {/* Recent transactions */}
+      <div className="mx-3 mt-2 shrink-0">
+        <p style={{ fontSize: 7, color: "#737373", fontWeight: 700, letterSpacing: "0.1em", marginBottom: 6 }}>RECENT</p>
         {[
-          { label: "Home", icon: "⌂", active: true },
-          { label: "Activity", icon: "⚡", active: false },
-          { label: "Trade", icon: "↕", active: false },
-          { label: "You", icon: "●", active: false },
-        ].map(({ label, icon, active }) => (
-          <div key={label} className="flex flex-col items-center gap-0.5">
-            <div
-              className="flex items-center justify-center"
-              style={{
-                width: active ? 32 : 24,
-                height: active ? 32 : 24,
-                borderRadius: active ? 10 : 8,
-                background: active ? "#8b5cf6" : "transparent",
-                color: active ? "#fff" : "rgba(255,255,255,0.2)",
-                fontSize: active ? 14 : 12,
-              }}
-            >
-              {icon}
+          { label: "Received USDT", sub: "from toj",  amt: "+85.00",  color: "#4ade80" },
+          { label: "Paid Rent",     sub: "via IBAN",  amt: "-4,200",  color: "rgba(255,255,255,0.4)" },
+        ].map(({ label, sub, amt, color }) => (
+          <div key={label} className="flex justify-between items-center mb-2">
+            <div>
+              <p style={{ fontSize: 10, fontWeight: 600, color: "#fff" }}>{label}</p>
+              <p style={{ fontSize: 8, color: "#737373" }}>{sub}</p>
             </div>
-            <span
-              style={{
-                fontSize: 6,
-                fontWeight: 700,
-                color: active ? "#8b5cf6" : "rgba(255,255,255,0.2)",
-                textTransform: "uppercase" as const,
-                letterSpacing: "0.08em",
-              }}
-            >
-              {label}
-            </span>
+            <p style={{ fontSize: 11, fontWeight: 700, color }}>{amt}</p>
           </div>
         ))}
+      </div>
+
+      {/* Bottom nav */}
+      <div
+        className="absolute bottom-0 left-0 right-0 z-50 border-t"
+        style={{ background: "rgba(5,5,5,0.97)", borderColor: "rgba(255,255,255,0.06)" }}
+      >
+        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+        <div className="flex items-center justify-between px-4 pt-1.5 pb-1.5">
+          {TABS.map(({ key, Icon, label }) => {
+            const active = key === "home";
+            return (
+              <div key={key} className="relative flex flex-col items-center gap-0.5">
+                {active && (
+                  <div className="absolute -top-1 w-9 h-9 rounded-xl" style={{ background: "rgba(255,255,255,0.08)" }} />
+                )}
+                <div className="relative z-10 flex items-center justify-center w-9 h-9">
+                  <Icon size={17} strokeWidth={active ? 2.4 : 1.6} className={active ? "text-white" : "text-white/30"} />
+                </div>
+                <span style={{ fontSize: 8, color: active ? "#fff" : "rgba(255,255,255,0.3)", fontWeight: active ? 600 : 400 }}>
+                  {label}
+                </span>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
@@ -1593,273 +1209,171 @@ const PAIRS = [
 
 const TradeScreen = ({ isDark }: { isDark: boolean }) => {
   const c = useC(isDark);
+  const activeTabBg  = isDark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.08)";
+  const inactiveTabBg = isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)";
+  const cardBg    = isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)";
+  const cardBorder = isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.07)";
+  const divider   = isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.06)";
+  const ctaBg     = isDark ? "#fff" : "#111";
+  const ctaText   = isDark ? "#000" : "#fff";
+
   return (
     <div
       className="flex flex-col h-full w-full relative overflow-hidden"
       style={{ background: c.bg, paddingTop: 52, color: c.text }}
     >
       <Orbs isDark={isDark} />
-      <div className="px-4 pb-2 z-10">
+
+      {/* Header */}
+      <div className="px-4 pb-1.5 z-10 shrink-0">
         <Label c={c}>Markets</Label>
-        <p style={{ fontSize: 17, fontWeight: 900, letterSpacing: "-0.035em" }}>
-          Trade
-        </p>
+        <p style={{ fontSize: 15, fontWeight: 900, letterSpacing: "-0.035em" }}>Trade</p>
       </div>
 
-      <div
-        className="flex-1 overflow-y-auto z-10 px-4 pb-6"
-        style={{ scrollbarWidth: "none" }}
-      >
-        {/* Toggle */}
+      {/* Fixed layout — no scroll so all sections stay visible */}
+      <div className="flex-1 flex flex-col z-10 px-4 pb-3" style={{ gap: 8, overflow: "hidden" }}>
+
+        {/* Buy / Sell toggle */}
         <div
-          className="flex rounded-[14px] p-[3px] mb-4"
-          style={{ background: c.card, border: `1px solid ${c.border}` }}
+          className="flex gap-1 p-0.5 rounded-xl shrink-0"
+          style={{ background: inactiveTabBg, border: `1px solid ${cardBorder}` }}
         >
-          <div
-            className="flex-1 text-center py-2 rounded-[11px]"
-            style={{
-              background: isDark ? "#fff" : "#111",
-              color: isDark ? "#000" : "#fff",
-              fontSize: 9,
-              fontWeight: 900,
-              letterSpacing: "0.12em",
-              textTransform: "uppercase" as const,
-            }}
-          >
-            Buy
-          </div>
-          <div
-            className="flex-1 text-center py-2 rounded-[11px]"
-            style={{
-              fontSize: 9,
-              fontWeight: 900,
-              letterSpacing: "0.12em",
-              textTransform: "uppercase" as const,
-              color: c.muted,
-            }}
-          >
-            Sell
-          </div>
-        </div>
-
-        {/* Swap card */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
-          className="rounded-[22px] overflow-hidden mb-4"
-          style={{
-            background: c.card,
-            border: `1px solid ${c.border}`,
-            boxShadow: isDark
-              ? "0 12px 40px rgba(0,0,0,0.3)"
-              : "0 12px 40px rgba(0,0,0,0.04)",
-          }}
-        >
-          <div className="p-4 pb-3">
-            <p
+          {["Buy", "Sell"].map((tab) => (
+            <div
+              key={tab}
+              className="flex-1 rounded-lg text-center"
               style={{
-                fontSize: 7,
-                fontWeight: 900,
-                letterSpacing: "0.22em",
-                color: c.muted,
-                textTransform: "uppercase" as const,
-                marginBottom: 8,
+                padding: "5px 0",
+                background: tab === "Buy" ? activeTabBg : "transparent",
+                fontWeight: 700,
+                fontSize: 12,
+                color: tab === "Buy" ? c.text : c.muted,
               }}
             >
-              You Pay
-            </p>
-            <div className="flex items-center justify-between">
-              <span
-                style={{
-                  fontSize: 30,
-                  fontWeight: 900,
-                  letterSpacing: "-0.04em",
-                }}
-              >
-                10,000
-              </span>
-              <div
-                className="flex items-center gap-1.5 px-3 py-2 rounded-[12px]"
-                style={{ background: c.hover, border: `1px solid ${c.border}` }}
-              >
-                <span style={{ fontSize: 13 }}>🪙</span>
-                <span style={{ fontSize: 10, fontWeight: 900 }}>USDT</span>
-                <ChevronDown size={10} style={{ color: c.muted }} />
-              </div>
+              {tab}
             </div>
-          </div>
-          <div
-            className="relative flex items-center justify-center"
-            style={{ height: 1, background: c.border }}
-          >
-            <motion.div
-              animate={{ rotate: [0, 180] }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="absolute w-8 h-8 rounded-full flex items-center justify-center"
-              style={{
-                background: isDark ? "#14142a" : "#f0f0f5",
-                border: `1.5px solid ${c.border}`,
-                boxShadow: isDark
-                  ? "0 4px 12px rgba(0,0,0,0.4)"
-                  : "0 4px 12px rgba(0,0,0,0.06)",
-              }}
-            >
-              <ArrowDownCircle size={16} style={{ color: "#FF6B35" }} />
-            </motion.div>
-          </div>
-          <div className="p-4 pt-5">
-            <p
-              style={{
-                fontSize: 7,
-                fontWeight: 900,
-                letterSpacing: "0.22em",
-                color: c.muted,
-                textTransform: "uppercase" as const,
-                marginBottom: 8,
-              }}
-            >
-              You Receive
-            </p>
-            <div className="flex items-center justify-between">
-              <motion.span
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
-                style={{
-                  fontSize: 30,
-                  fontWeight: 900,
-                  letterSpacing: "-0.04em",
-                  color: "#FF6B35",
-                }}
-              >
-                36,720
-              </motion.span>
-              <div
-                className="flex items-center gap-1.5 px-3 py-2 rounded-[12px]"
-                style={{ background: c.hover, border: `1px solid ${c.border}` }}
-              >
-                <span style={{ fontSize: 13 }}>🇦🇪</span>
-                <span style={{ fontSize: 10, fontWeight: 900 }}>AED</span>
-                <ChevronDown size={10} style={{ color: c.muted }} />
-              </div>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Rate bar */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.15 }}
-          className="flex items-center justify-between rounded-[14px] px-3 py-2.5 mb-5"
-          style={{ background: c.card, border: `1px solid ${c.border}` }}
-        >
-          <span style={{ fontSize: 8, fontWeight: 700, color: c.muted }}>
-            Rate
-          </span>
-          <div className="flex items-center gap-2">
-            <span
-              style={{
-                fontSize: 9.5,
-                fontWeight: 900,
-                fontFamily: "monospace",
-              }}
-            >
-              1 USDT = 3.672 AED
-            </span>
-            <motion.div
-              animate={{ opacity: [1, 0.3, 1] }}
-              transition={{ duration: 1.5, repeat: 3 }}
-              className="flex items-center gap-0.5 px-1.5 py-0.5 rounded-full"
-              style={{
-                background: "rgba(16,185,129,0.12)",
-                border: "1px solid rgba(16,185,129,0.25)",
-              }}
-            >
-              <div
-                style={{
-                  width: 4,
-                  height: 4,
-                  borderRadius: "50%",
-                  background: "#10b981",
-                }}
-              />
-              <span
-                style={{ fontSize: 6.5, fontWeight: 900, color: "#10b981" }}
-              >
-                LIVE
-              </span>
-            </motion.div>
-          </div>
-        </motion.div>
-
-        {/* Pairs */}
-        <Label c={c}>Live Pairs</Label>
-        <div
-          className="mt-2"
-          style={{ display: "flex", flexDirection: "column", gap: 7 }}
-        >
-          {PAIRS.map((p, i) => (
-            <motion.div
-              key={p.from}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2 + i * 0.07, ease: [0.22, 1, 0.36, 1] }}
-              className="flex items-center justify-between rounded-[16px] px-3 py-2.5"
-              style={{ background: c.card, border: `1px solid ${c.border}` }}
-            >
-              <div className="flex items-center gap-2.5">
-                <div
-                  className="w-8 h-8 rounded-[10px] flex items-center justify-center"
-                  style={{
-                    background: p.color + "15",
-                    border: `1px solid ${p.color}25`,
-                  }}
-                >
-                  <span style={{ fontSize: 14, color: p.color }}>
-                    {p.emoji}
-                  </span>
-                </div>
-                <div>
-                  <p
-                    style={{
-                      fontSize: 11,
-                      fontWeight: 900,
-                      letterSpacing: "-0.01em",
-                    }}
-                  >
-                    {p.from}
-                    <span style={{ color: c.muted }}>/{p.to}</span>
-                  </p>
-                  <p
-                    style={{
-                      fontSize: 7.5,
-                      fontWeight: 600,
-                      color: c.muted,
-                      fontFamily: "monospace",
-                    }}
-                  >
-                    {p.rate}
-                  </p>
-                </div>
-              </div>
-              <div
-                className="px-2 py-1 rounded-full"
-                style={{
-                  background: p.color + "15",
-                  border: `1px solid ${p.color}28`,
-                }}
-              >
-                <span
-                  style={{ fontSize: 8.5, fontWeight: 900, color: p.color }}
-                >
-                  {p.chg}
-                </span>
-              </div>
-            </motion.div>
           ))}
         </div>
+
+        {/* Live rate card */}
+        <div
+          className="rounded-xl shrink-0"
+          style={{ background: cardBg, border: `1px solid ${cardBorder}`, padding: "8px 12px" }}
+        >
+          <p style={{ fontSize: 7, fontWeight: 900, letterSpacing: "0.22em", textTransform: "uppercase", color: c.muted, marginBottom: 4 }}>
+            LIVE RATE · USDT / AED
+          </p>
+          <div className="flex justify-between items-center">
+            <div>
+              <p style={{ fontSize: 22, fontWeight: 900, letterSpacing: "-0.03em", color: c.text, lineHeight: 1 }}>3.670</p>
+              <p style={{ fontSize: 9, color: "#10b981", fontWeight: 600, marginTop: 2 }}>▲ +0.24% today</p>
+            </div>
+            <svg width="72" height="28">
+              <path d="M0,22 C8,17 18,25 28,19 S46,13 56,15 S64,10 72,8" fill="none" stroke="#10b981" strokeWidth="1.5" strokeLinecap="round" />
+            </svg>
+          </div>
+          <div
+            className="flex justify-between mt-2 pt-2"
+            style={{ borderTop: `1px solid ${divider}`, fontSize: 8, color: c.muted, fontWeight: 700, letterSpacing: "0.08em" }}
+          >
+            <span>7D LOW 3.651</span>
+            <span>HIGH 3.694</span>
+          </div>
+        </div>
+
+        {/* Amount input card */}
+        <div
+          className="rounded-xl shrink-0"
+          style={{ background: cardBg, border: `1px solid ${cardBorder}`, padding: "8px 12px" }}
+        >
+          <p style={{ fontSize: 7, fontWeight: 900, letterSpacing: "0.22em", textTransform: "uppercase", color: c.muted, marginBottom: 4 }}>
+            YOU PAY (AED)
+          </p>
+          <div className="flex items-end justify-between">
+            <div className="flex items-baseline gap-1">
+              <span style={{ fontSize: 30, fontWeight: 900, letterSpacing: "-0.04em", color: c.text, lineHeight: 1 }}>558</span>
+              <span style={{ fontSize: 11, fontWeight: 600, color: c.muted }}>AED</span>
+            </div>
+            <p style={{ fontSize: 9, color: c.sub }}>≈ 152.00 USDT</p>
+          </div>
+          <div
+            className="flex justify-between mt-2 pt-2"
+            style={{ borderTop: `1px solid ${divider}` }}
+          >
+            {[
+              { label: "RATE", val: "3.670" },
+              { label: "FEE",  val: "2.5%" },
+              { label: "YOU GET", val: "152 USDT" },
+            ].map(({ label, val }) => (
+              <div key={label}>
+                <p style={{ fontSize: 7, fontWeight: 900, letterSpacing: "0.12em", color: c.muted, textTransform: "uppercase" }}>{label}</p>
+                <p style={{ fontSize: 10, fontWeight: 700, color: c.text, marginTop: 1 }}>{val}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Pay via */}
+        <div className="shrink-0">
+          <p style={{ fontSize: 7, fontWeight: 900, letterSpacing: "0.22em", textTransform: "uppercase", color: c.muted, marginBottom: 5 }}>
+            PAY VIA
+          </p>
+          <div className="flex gap-2">
+            {[
+              { label: "Bank Transfer", sub: "Wire / IBAN",    active: true },
+              { label: "Cash",          sub: "Meet in person", active: false },
+            ].map(({ label, sub, active }) => (
+              <div
+                key={label}
+                className="flex-1 rounded-xl"
+                style={{
+                  padding: "7px 10px",
+                  background: active ? activeTabBg : inactiveTabBg,
+                  border: `1px solid ${active ? (isDark ? "rgba(255,255,255,0.14)" : "rgba(0,0,0,0.12)") : cardBorder}`,
+                }}
+              >
+                <p style={{ fontSize: 10, fontWeight: 700, color: c.text }}>{label}</p>
+                <p style={{ fontSize: 8, color: c.muted, marginTop: 1 }}>{sub}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Priority */}
+        <div className="shrink-0">
+          <p style={{ fontSize: 7, fontWeight: 900, letterSpacing: "0.22em", textTransform: "uppercase", color: c.muted, marginBottom: 5 }}>
+            PRIORITY
+          </p>
+          <div className="flex gap-2">
+            {[
+              { label: "Fastest",   val: "3.0%", color: "#f97316" },
+              { label: "Best Rate", val: "2.5%", color: "#3b82f6" },
+              { label: "Cheapest",  val: "1.5%", color: "#10b981" },
+            ].map(({ label, val, color }, i) => (
+              <div
+                key={label}
+                className="flex-1 rounded-xl text-center"
+                style={{
+                  padding: "5px 4px",
+                  background: i === 1 ? activeTabBg : inactiveTabBg,
+                  border: `1px solid ${i === 1 ? (isDark ? "rgba(255,255,255,0.14)" : "rgba(0,0,0,0.10)") : cardBorder}`,
+                }}
+              >
+                <p style={{ fontSize: 8, fontWeight: 600, color: c.sub }}>{label}</p>
+                <p style={{ fontSize: 9, fontWeight: 800, color, marginTop: 1 }}>{val}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* CTA */}
+        <button
+          className="w-full rounded-xl font-bold flex items-center justify-center gap-1.5 shrink-0"
+          style={{ padding: "9px 0", background: ctaBg, color: ctaText, fontSize: 12, letterSpacing: "-0.01em" }}
+        >
+          Buy 152 USDT
+          <ArrowUpRight className="w-3 h-3" />
+        </button>
       </div>
     </div>
   );

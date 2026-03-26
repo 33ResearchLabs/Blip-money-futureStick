@@ -33,7 +33,7 @@ export default function AuthCardStack({
                 Welcome back
               </div>
               <div className="text-[11px] font-semibold text-black dark:text-white">
-                Gaurav 👋
+                Alex👋
               </div>
             </div>
             <div className="relative">
