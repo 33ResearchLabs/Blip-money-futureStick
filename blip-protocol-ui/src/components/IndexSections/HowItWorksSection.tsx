@@ -869,8 +869,19 @@ const DashboardScreen = ({ isDark: _isDark }: { isDark: boolean }) => {
               J
             </div>
             <div>
-              <p style={{ fontSize: 11, fontWeight: 600, color: "#fff", lineHeight: 1 }}>Joe</p>
-              <p style={{ fontSize: 9, color: "#737373", marginTop: 2 }}>9mE1x...w8Lg7</p>
+              <p
+                style={{
+                  fontSize: 11,
+                  fontWeight: 600,
+                  color: "#fff",
+                  lineHeight: 1,
+                }}
+              >
+                Joe
+              </p>
+              <p style={{ fontSize: 9, color: "#737373", marginTop: 2 }}>
+                9mE1x...w8Lg7
+              </p>
             </div>
           </div>
           <div className="w-7 h-7 rounded-full bg-[#111] flex items-center justify-center border border-white/10">
@@ -879,15 +890,51 @@ const DashboardScreen = ({ isDark: _isDark }: { isDark: boolean }) => {
         </div>
 
         {/* Balance */}
-        <p style={{ fontSize: 7, letterSpacing: "0.3em", color: "rgba(255,255,255,0.4)", fontWeight: 700, marginBottom: 2 }}>
+        <p
+          style={{
+            fontSize: 7,
+            letterSpacing: "0.3em",
+            color: "rgba(255,255,255,0.4)",
+            fontWeight: 700,
+            marginBottom: 4,
+          }}
+        >
           TOTAL BALANCE
         </p>
         <div className="flex items-end gap-1">
-          <span style={{ fontSize: 32, fontWeight: 900, lineHeight: 1, color: "#fff" }}>3,563</span>
-          <span style={{ fontSize: 14, fontWeight: 700, color: "rgba(255,255,255,0.3)" }}>.70</span>
-          <span style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginLeft: 2, marginBottom: 1 }}>USDT</span>
+          <span
+            style={{
+              fontSize: 32,
+              fontWeight: 900,
+              lineHeight: 1,
+              color: "#fff",
+            }}
+          >
+            3,563
+          </span>
+          <span
+            style={{
+              fontSize: 14,
+              fontWeight: 700,
+              color: "rgba(255,255,255,0.3)",
+            }}
+          >
+            .70
+          </span>
+          <span
+            style={{
+              fontSize: 11,
+              color: "rgba(255,255,255,0.4)",
+              marginLeft: 2,
+              marginBottom: 1,
+            }}
+          >
+            USDT
+          </span>
         </div>
-        <p style={{ fontSize: 10, color: "#4ade80", marginTop: 2 }}>+$557.00 today</p>
+        <p style={{ fontSize: 10, color: "#4ade80", marginTop: 4 }}>
+          +$557.00 today
+        </p>
 
         {/* Sparkline */}
         <div style={{ marginTop: 8 }}>
@@ -903,13 +950,23 @@ const DashboardScreen = ({ isDark: _isDark }: { isDark: boolean }) => {
               </linearGradient>
               <filter id="glow">
                 <feGaussianBlur stdDeviation="2" result="coloredBlur" />
-                <feMerge><feMergeNode in="coloredBlur" /><feMergeNode in="SourceGraphic" /></feMerge>
+                <feMerge>
+                  <feMergeNode in="coloredBlur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
               </filter>
             </defs>
-            <path d="M0,42 C20,37 30,40 50,34 S80,30 100,32 S130,22 150,26 S180,18 200,14"
-              fill="none" stroke="url(#lineGrad)" strokeWidth="2" filter="url(#glow)" />
-            <path d="M0,42 C20,37 30,40 50,34 S80,30 100,32 S130,22 150,26 S180,18 200,14 L200,50 L0,50 Z"
-              fill="url(#areaGrad)" />
+            <path
+              d="M0,42 C20,37 30,40 50,34 S80,30 100,32 S130,22 150,26 S180,18 200,14"
+              fill="none"
+              stroke="url(#lineGrad)"
+              strokeWidth="2"
+              filter="url(#glow)"
+            />
+            <path
+              d="M0,42 C20,37 30,40 50,34 S80,30 100,32 S130,22 150,26 S180,18 200,14 L200,50 L0,50 Z"
+              fill="url(#areaGrad)"
+            />
             <circle cx="200" cy="14" r="3" fill="#fff" />
           </svg>
         </div>
@@ -917,10 +974,10 @@ const DashboardScreen = ({ isDark: _isDark }: { isDark: boolean }) => {
         {/* Actions */}
         <div className="grid grid-cols-4 gap-2 mt-2">
           {[
-            { label: "SEND",     Icon: ArrowUpRight },
-            { label: "PAY",      Icon: ArrowDownLeft },
+            { label: "SEND", Icon: ArrowUpRight },
+            { label: "PAY", Icon: ArrowDownLeft },
             { label: "ACTIVITY", Icon: Activity },
-            { label: "DEPOSIT",  Icon: QrCode },
+            { label: "DEPOSIT", Icon: QrCode },
           ].map(({ label, Icon }, i) => (
             <div key={label} className="flex flex-col items-center gap-1">
               <div
@@ -933,19 +990,44 @@ const DashboardScreen = ({ isDark: _isDark }: { isDark: boolean }) => {
               >
                 <Icon size={15} />
               </div>
-              <span style={{ fontSize: 8, color: "rgba(255,255,255,0.4)", fontWeight: 700 }}>{label}</span>
+              <span
+                style={{
+                  fontSize: 8,
+                  color: "rgba(255,255,255,0.4)",
+                  fontWeight: 700,
+                }}
+              >
+                {label}
+              </span>
             </div>
           ))}
         </div>
 
         {/* Circle */}
-        <div style={{ marginTop: 10 }}>
-          <p style={{ fontSize: 7, color: "#737373", fontWeight: 700, letterSpacing: "0.1em", marginBottom: 5 }}>CIRCLE</p>
+        <div style={{ marginTop: 8 }}>
+          <p
+            style={{
+              fontSize: 7,
+              color: "#737373",
+              fontWeight: 700,
+              letterSpacing: "0.1em",
+              marginBottom: 5,
+            }}
+          >
+            CIRCLE
+          </p>
           <div className="flex gap-2.5">
-            {[{ t: "T", name: "toj" }, { t: "G", name: "Gaurav" }].map(({ t, name }) => (
+            {[
+              { t: "J", name: "John" },
+              { t: "E", name: "Emma" },
+            ].map(({ t, name }) => (
               <div key={name} className="text-center">
-                <div className="w-8 h-8 rounded-xl bg-black border border-white/10 flex items-center justify-center text-white font-bold text-xs">{t}</div>
-                <p style={{ fontSize: 8, color: "#737373", marginTop: 3 }}>{name}</p>
+                <div className="w-8 h-8 rounded-xl bg-black border border-white/10 flex items-center justify-center text-white font-bold text-xs">
+                  {t}
+                </div>
+                <p style={{ fontSize: 8, color: "#737373", marginTop: 3 }}>
+                  {name}
+                </p>
               </div>
             ))}
           </div>
@@ -954,39 +1036,72 @@ const DashboardScreen = ({ isDark: _isDark }: { isDark: boolean }) => {
 
       {/* Recent transactions */}
       <div className="mx-3 mt-2 shrink-0">
-        <p style={{ fontSize: 7, color: "#737373", fontWeight: 700, letterSpacing: "0.1em", marginBottom: 6 }}>RECENT</p>
+        <p style={{ fontSize: 7, color: "#737373", fontWeight: 700, letterSpacing: "0.1em", marginBottom: 6 }}>
+          RECENT
+        </p>
         {[
-          { label: "Received USDT", sub: "from toj",  amt: "+85.00",  color: "#4ade80" },
-          { label: "Paid Rent",     sub: "via IBAN",  amt: "-4,200",  color: "rgba(255,255,255,0.4)" },
-        ].map(({ label, sub, amt, color }) => (
-          <div key={label} className="flex justify-between items-center mb-2">
-            <div>
-              <p style={{ fontSize: 10, fontWeight: 600, color: "#fff" }}>{label}</p>
-              <p style={{ fontSize: 8, color: "#737373" }}>{sub}</p>
+          { type: "Buy USDT",  user: "John Smith",    date: "27 Mar", amount: "-378.01", usdt: "103 USDT", initial: "J" },
+          { type: "Buy USDT",  user: "Emma Johnson",  date: "26 Mar", amount: "-517.47", usdt: "141 USDT", initial: "E" },
+          { type: "Sell USDT", user: "Lucas Martin",  date: "26 Mar", amount: "+372.31", usdt: "102 USDT", initial: "L" },
+          { type: "Buy USDT",  user: "Sophie Dubois", date: "25 Mar", amount: "-458.75", usdt: "125 USDT", initial: "S" },
+        ].map((item, i) => (
+          <div key={i} className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2">
+              <div
+                className="w-7 h-7 rounded-full flex items-center justify-center text-white font-semibold shrink-0"
+                style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.10)", fontSize: 9 }}
+              >
+                {item.initial}
+              </div>
+              <div>
+                <p style={{ fontSize: 10, fontWeight: 600, color: "#fff", lineHeight: 1 }}>{item.type}</p>
+                <p style={{ fontSize: 8, color: "#737373", marginTop: 1 }}>{item.user} · {item.date}</p>
+              </div>
             </div>
-            <p style={{ fontSize: 11, fontWeight: 700, color }}>{amt}</p>
+            <div className="text-right">
+              <p style={{ fontSize: 10, fontWeight: 600, color: item.amount.startsWith("+") ? "#4ade80" : "#fff" }}>
+                {item.amount}
+              </p>
+              <p style={{ fontSize: 8, color: "#737373" }}>{item.usdt}</p>
+            </div>
           </div>
         ))}
       </div>
 
       {/* Bottom nav */}
       <div
-        className="absolute bottom-0 left-0 right-0 z-50 border-t"
-        style={{ background: "rgba(5,5,5,0.97)", borderColor: "rgba(255,255,255,0.06)" }}
+        className="absolute bottom-0 left-0 right-0 z-50"
+        style={{ background: "rgba(5,5,5,0.97)" }}
       >
-        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+        <div className="absolute top-1 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
         <div className="flex items-center justify-between px-4 pt-1.5 pb-1.5">
           {TABS.map(({ key, Icon, label }) => {
             const active = key === "home";
             return (
-              <div key={key} className="relative flex flex-col items-center gap-0.5">
+              <div
+                key={key}
+                className="relative flex flex-col items-center gap-0.5"
+              >
                 {active && (
-                  <div className="absolute -top-1 w-9 h-9 rounded-xl" style={{ background: "rgba(255,255,255,0.08)" }} />
+                  <div
+                    className="absolute top-1 w-7 h-7 rounded-xl"
+                    style={{ background: "rgba(255,255,255,0.08)" }}
+                  />
                 )}
                 <div className="relative z-10 flex items-center justify-center w-9 h-9">
-                  <Icon size={17} strokeWidth={active ? 2.4 : 1.6} className={active ? "text-white" : "text-white/30"} />
+                  <Icon
+                    size={17}
+                    strokeWidth={active ? 2.4 : 1.6}
+                    className={active ? "text-white" : "text-white/30"}
+                  />
                 </div>
-                <span style={{ fontSize: 8, color: active ? "#fff" : "rgba(255,255,255,0.3)", fontWeight: active ? 600 : 400 }}>
+                <span
+                  style={{
+                    fontSize: 8,
+                    color: active ? "#fff" : "rgba(255,255,255,0.3)",
+                    fontWeight: active ? 600 : 400,
+                  }}
+                >
                   {label}
                 </span>
               </div>
@@ -1029,10 +1144,10 @@ const SendScreen = ({ isDark }: { isDark: boolean }) => {
         </div>
       </div>
 
-      <div className="flex-1 px-4 pt-1 flex flex-col items-center z-10">
+      <div className="flex-1 px-4 pt-1  flex flex-col items-center z-10">
         {/* Recipient chips */}
         <div
-          className="w-full flex gap-2.5 overflow-x-auto mb-6"
+          className="w-full flex gap-2.5 overflow-x-auto mb-4"
           style={{ scrollbarWidth: "none" }}
         >
           {CIRCLE_FRIENDS.slice(0, 3).map((f, i) => (
@@ -1083,11 +1198,11 @@ const SendScreen = ({ isDark }: { isDark: boolean }) => {
         <Label c={c}>Amount</Label>
         <div
           className="flex items-baseline justify-center mt-3"
-          style={{ marginBottom: 28 }}
+          style={{ marginBottom: 20 }}
         >
           <span
             style={{
-              fontSize: 30,
+              fontSize: 28,
               fontWeight: 900,
               letterSpacing: "-0.03em",
               color: isDark ? "rgba(255,255,255,0.18)" : "rgba(0,0,0,0.12)",
@@ -1101,7 +1216,7 @@ const SendScreen = ({ isDark }: { isDark: boolean }) => {
             animate={{ scale: 1, opacity: 1 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
             style={{
-              fontSize: 60,
+              fontSize: 50,
               fontWeight: 900,
               letterSpacing: "-0.05em",
               lineHeight: 1,
@@ -1132,7 +1247,7 @@ const SendScreen = ({ isDark }: { isDark: boolean }) => {
 
         {/* Numpad */}
         <div
-          className="grid grid-cols-3 mb-5"
+          className="grid grid-cols-3 mb-2"
           style={{ gap: "5px 22px", maxWidth: 210, width: "100%" }}
         >
           {["1", "2", "3", "4", "5", "6", "7", "8", "9", "·", "0", "←"].map(
@@ -1142,7 +1257,7 @@ const SendScreen = ({ isDark }: { isDark: boolean }) => {
                 className="flex items-center justify-center rounded-[14px]"
                 style={{
                   height: 38,
-                  fontSize: 22,
+                  fontSize: 20,
                   fontWeight: 900,
                   color: isDark ? "rgba(255,255,255,0.65)" : "rgba(0,0,0,0.65)",
                 }}
@@ -1160,7 +1275,7 @@ const SendScreen = ({ isDark }: { isDark: boolean }) => {
           transition={{ delay: 0.15 }}
           className="w-full flex items-center justify-center gap-2.5"
           style={{
-            height: 52,
+            height: 40,
             borderRadius: 24,
             fontSize: 14,
             fontWeight: 900,
@@ -1173,6 +1288,27 @@ const SendScreen = ({ isDark }: { isDark: boolean }) => {
         >
           Confirm & Send
         </motion.div>
+      </div>
+
+      {/* Bottom nav */}
+      <div className="absolute bottom-0 left-0 right-0 z-50" style={{ background: isDark ? "rgba(5,5,5,0.97)" : "rgba(250,248,245,0.97)" }}>
+        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        <div className="flex items-center justify-between px-4 pt-1.5 pb-1.5">
+          {TABS.map(({ key, Icon, label }) => {
+            const active = key === "trade";
+            return (
+              <div key={key} className="relative flex flex-col items-center gap-0.5">
+                {active && (
+                  <div className="absolute top-1 w-7 h-7 rounded-xl" style={{ background: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)" }} />
+                )}
+                <div className="relative z-10 flex items-center justify-center w-9 h-9">
+                  <Icon size={17} strokeWidth={active ? 2.4 : 1.6} style={{ color: active ? c.text : c.muted }} />
+                </div>
+                <span style={{ fontSize: 8, color: active ? c.text : c.muted, fontWeight: active ? 600 : 400 }}>{label}</span>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
@@ -1209,13 +1345,13 @@ const PAIRS = [
 
 const TradeScreen = ({ isDark }: { isDark: boolean }) => {
   const c = useC(isDark);
-  const activeTabBg  = isDark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.08)";
+  const activeTabBg = isDark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.08)";
   const inactiveTabBg = isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)";
-  const cardBg    = isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)";
+  const cardBg = isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)";
   const cardBorder = isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.07)";
-  const divider   = isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.06)";
-  const ctaBg     = isDark ? "#fff" : "#111";
-  const ctaText   = isDark ? "#000" : "#fff";
+  const divider = isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.06)";
+  const ctaBg = isDark ? "#fff" : "#111";
+  const ctaText = isDark ? "#000" : "#fff";
 
   return (
     <div
@@ -1225,18 +1361,25 @@ const TradeScreen = ({ isDark }: { isDark: boolean }) => {
       <Orbs isDark={isDark} />
 
       {/* Header */}
-      <div className="px-4 pb-1.5 z-10 shrink-0">
+      <div className="px-4 pb-1 z-10 shrink-0">
         <Label c={c}>Markets</Label>
-        <p style={{ fontSize: 15, fontWeight: 900, letterSpacing: "-0.035em" }}>Trade</p>
+        <p style={{ fontSize: 15, fontWeight: 900, letterSpacing: "-0.035em" }}>
+          Trade
+        </p>
       </div>
 
       {/* Fixed layout — no scroll so all sections stay visible */}
-      <div className="flex-1 flex flex-col z-10 px-4 pb-3" style={{ gap: 8, overflow: "hidden" }}>
-
+      <div
+        className="flex-1 flex flex-col z-10 px-4 "
+        style={{ gap: 6, overflow: "hidden" }}
+      >
         {/* Buy / Sell toggle */}
         <div
           className="flex gap-1 p-0.5 rounded-xl shrink-0"
-          style={{ background: inactiveTabBg, border: `1px solid ${cardBorder}` }}
+          style={{
+            background: inactiveTabBg,
+            border: `1px solid ${cardBorder}`,
+          }}
         >
           {["Buy", "Sell"].map((tab) => (
             <div
@@ -1258,23 +1401,67 @@ const TradeScreen = ({ isDark }: { isDark: boolean }) => {
         {/* Live rate card */}
         <div
           className="rounded-xl shrink-0"
-          style={{ background: cardBg, border: `1px solid ${cardBorder}`, padding: "8px 12px" }}
+          style={{
+            background: cardBg,
+            border: `1px solid ${cardBorder}`,
+            padding: "8px 12px",
+          }}
         >
-          <p style={{ fontSize: 7, fontWeight: 900, letterSpacing: "0.22em", textTransform: "uppercase", color: c.muted, marginBottom: 4 }}>
+          <p
+            style={{
+              fontSize: 7,
+              fontWeight: 900,
+              letterSpacing: "0.22em",
+              textTransform: "uppercase",
+              color: c.muted,
+              marginBottom: 4,
+            }}
+          >
             LIVE RATE · USDT / AED
           </p>
           <div className="flex justify-between items-center">
             <div>
-              <p style={{ fontSize: 22, fontWeight: 900, letterSpacing: "-0.03em", color: c.text, lineHeight: 1 }}>3.670</p>
-              <p style={{ fontSize: 9, color: "#10b981", fontWeight: 600, marginTop: 2 }}>▲ +0.24% today</p>
+              <p
+                style={{
+                  fontSize: 22,
+                  fontWeight: 900,
+                  letterSpacing: "-0.03em",
+                  color: c.text,
+                  lineHeight: 1,
+                }}
+              >
+                3.670
+              </p>
+              <p
+                style={{
+                  fontSize: 9,
+                  color: "#10b981",
+                  fontWeight: 600,
+                  marginTop: 2,
+                }}
+              >
+                ▲ +0.24% today
+              </p>
             </div>
             <svg width="72" height="28">
-              <path d="M0,22 C8,17 18,25 28,19 S46,13 56,15 S64,10 72,8" fill="none" stroke="#10b981" strokeWidth="1.5" strokeLinecap="round" />
+              <path
+                d="M0,22 C8,17 18,25 28,19 S46,13 56,15 S64,10 72,8"
+                fill="none"
+                stroke="#10b981"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+              />
             </svg>
           </div>
           <div
             className="flex justify-between mt-2 pt-2"
-            style={{ borderTop: `1px solid ${divider}`, fontSize: 8, color: c.muted, fontWeight: 700, letterSpacing: "0.08em" }}
+            style={{
+              borderTop: `1px solid ${divider}`,
+              fontSize: 8,
+              color: c.muted,
+              fontWeight: 700,
+              letterSpacing: "0.08em",
+            }}
           >
             <span>7D LOW 3.651</span>
             <span>HIGH 3.694</span>
@@ -1284,15 +1471,40 @@ const TradeScreen = ({ isDark }: { isDark: boolean }) => {
         {/* Amount input card */}
         <div
           className="rounded-xl shrink-0"
-          style={{ background: cardBg, border: `1px solid ${cardBorder}`, padding: "8px 12px" }}
+          style={{
+            background: cardBg,
+            border: `1px solid ${cardBorder}`,
+            padding: "8px 12px",
+          }}
         >
-          <p style={{ fontSize: 7, fontWeight: 900, letterSpacing: "0.22em", textTransform: "uppercase", color: c.muted, marginBottom: 4 }}>
+          <p
+            style={{
+              fontSize: 7,
+              fontWeight: 900,
+              letterSpacing: "0.22em",
+              textTransform: "uppercase",
+              color: c.muted,
+              marginBottom: 4,
+            }}
+          >
             YOU PAY (AED)
           </p>
           <div className="flex items-end justify-between">
             <div className="flex items-baseline gap-1">
-              <span style={{ fontSize: 30, fontWeight: 900, letterSpacing: "-0.04em", color: c.text, lineHeight: 1 }}>558</span>
-              <span style={{ fontSize: 11, fontWeight: 600, color: c.muted }}>AED</span>
+              <span
+                style={{
+                  fontSize: 30,
+                  fontWeight: 900,
+                  letterSpacing: "-0.04em",
+                  color: c.text,
+                  lineHeight: 1,
+                }}
+              >
+                558
+              </span>
+              <span style={{ fontSize: 11, fontWeight: 600, color: c.muted }}>
+                AED
+              </span>
             </div>
             <p style={{ fontSize: 9, color: c.sub }}>≈ 152.00 USDT</p>
           </div>
@@ -1302,12 +1514,31 @@ const TradeScreen = ({ isDark }: { isDark: boolean }) => {
           >
             {[
               { label: "RATE", val: "3.670" },
-              { label: "FEE",  val: "2.5%" },
+              { label: "FEE", val: "2.5%" },
               { label: "YOU GET", val: "152 USDT" },
             ].map(({ label, val }) => (
               <div key={label}>
-                <p style={{ fontSize: 7, fontWeight: 900, letterSpacing: "0.12em", color: c.muted, textTransform: "uppercase" }}>{label}</p>
-                <p style={{ fontSize: 10, fontWeight: 700, color: c.text, marginTop: 1 }}>{val}</p>
+                <p
+                  style={{
+                    fontSize: 7,
+                    fontWeight: 900,
+                    letterSpacing: "0.12em",
+                    color: c.muted,
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {label}
+                </p>
+                <p
+                  style={{
+                    fontSize: 10,
+                    fontWeight: 700,
+                    color: c.text,
+                    marginTop: 1,
+                  }}
+                >
+                  {val}
+                </p>
               </div>
             ))}
           </div>
@@ -1315,13 +1546,22 @@ const TradeScreen = ({ isDark }: { isDark: boolean }) => {
 
         {/* Pay via */}
         <div className="shrink-0">
-          <p style={{ fontSize: 7, fontWeight: 900, letterSpacing: "0.22em", textTransform: "uppercase", color: c.muted, marginBottom: 5 }}>
+          <p
+            style={{
+              fontSize: 7,
+              fontWeight: 900,
+              letterSpacing: "0.22em",
+              textTransform: "uppercase",
+              color: c.muted,
+              marginBottom: 5,
+            }}
+          >
             PAY VIA
           </p>
           <div className="flex gap-2">
             {[
-              { label: "Bank Transfer", sub: "Wire / IBAN",    active: true },
-              { label: "Cash",          sub: "Meet in person", active: false },
+              { label: "Bank Transfer", sub: "Wire / IBAN", active: true },
+              { label: "Cash", sub: "Meet in person", active: false },
             ].map(({ label, sub, active }) => (
               <div
                 key={label}
@@ -1332,8 +1572,12 @@ const TradeScreen = ({ isDark }: { isDark: boolean }) => {
                   border: `1px solid ${active ? (isDark ? "rgba(255,255,255,0.14)" : "rgba(0,0,0,0.12)") : cardBorder}`,
                 }}
               >
-                <p style={{ fontSize: 10, fontWeight: 700, color: c.text }}>{label}</p>
-                <p style={{ fontSize: 8, color: c.muted, marginTop: 1 }}>{sub}</p>
+                <p style={{ fontSize: 10, fontWeight: 700, color: c.text }}>
+                  {label}
+                </p>
+                <p style={{ fontSize: 8, color: c.muted, marginTop: 1 }}>
+                  {sub}
+                </p>
               </div>
             ))}
           </div>
@@ -1341,14 +1585,23 @@ const TradeScreen = ({ isDark }: { isDark: boolean }) => {
 
         {/* Priority */}
         <div className="shrink-0">
-          <p style={{ fontSize: 7, fontWeight: 900, letterSpacing: "0.22em", textTransform: "uppercase", color: c.muted, marginBottom: 5 }}>
+          <p
+            style={{
+              fontSize: 7,
+              fontWeight: 900,
+              letterSpacing: "0.22em",
+              textTransform: "uppercase",
+              color: c.muted,
+              marginBottom: 5,
+            }}
+          >
             PRIORITY
           </p>
           <div className="flex gap-2">
             {[
-              { label: "Fastest",   val: "3.0%", color: "#f97316" },
+              { label: "Fastest", val: "3.0%", color: "#f97316" },
               { label: "Best Rate", val: "2.5%", color: "#3b82f6" },
-              { label: "Cheapest",  val: "1.5%", color: "#10b981" },
+              { label: "Cheapest", val: "1.5%", color: "#10b981" },
             ].map(({ label, val, color }, i) => (
               <div
                 key={label}
@@ -1359,8 +1612,14 @@ const TradeScreen = ({ isDark }: { isDark: boolean }) => {
                   border: `1px solid ${i === 1 ? (isDark ? "rgba(255,255,255,0.14)" : "rgba(0,0,0,0.10)") : cardBorder}`,
                 }}
               >
-                <p style={{ fontSize: 8, fontWeight: 600, color: c.sub }}>{label}</p>
-                <p style={{ fontSize: 9, fontWeight: 800, color, marginTop: 1 }}>{val}</p>
+                <p style={{ fontSize: 8, fontWeight: 600, color: c.sub }}>
+                  {label}
+                </p>
+                <p
+                  style={{ fontSize: 9, fontWeight: 800, color, marginTop: 1 }}
+                >
+                  {val}
+                </p>
               </div>
             ))}
           </div>
@@ -1369,11 +1628,38 @@ const TradeScreen = ({ isDark }: { isDark: boolean }) => {
         {/* CTA */}
         <button
           className="w-full rounded-xl font-bold flex items-center justify-center gap-1.5 shrink-0"
-          style={{ padding: "9px 0", background: ctaBg, color: ctaText, fontSize: 12, letterSpacing: "-0.01em" }}
+          style={{
+            padding: "9px 0",
+            background: ctaBg,
+            color: ctaText,
+            fontSize: 12,
+            letterSpacing: "-0.01em",
+          }}
         >
           Buy 152 USDT
           <ArrowUpRight className="w-3 h-3" />
         </button>
+      </div>
+
+      {/* Bottom nav */}
+      <div className="absolute bottom-0 left-0 right-0 z-50" style={{ background: isDark ? "rgba(5,5,5,0.97)" : "rgba(250,248,245,0.97)" }}>
+        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        <div className="flex items-center justify-between px-4 pt-1.5 pb-1.5">
+          {TABS.map(({ key, Icon, label }) => {
+            const active = key === "trade";
+            return (
+              <div key={key} className="relative flex flex-col items-center gap-0.5">
+                {active && (
+                  <div className="absolute top-1 w-7 h-7 rounded-xl" style={{ background: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)" }} />
+                )}
+                <div className="relative z-10 flex items-center justify-center w-9 h-9">
+                  <Icon size={17} strokeWidth={active ? 2.4 : 1.6} style={{ color: active ? c.text : c.muted }} />
+                </div>
+                <span style={{ fontSize: 8, color: active ? c.text : c.muted, fontWeight: active ? 600 : 400 }}>{label}</span>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
@@ -1432,12 +1718,12 @@ const PayScreen = ({ isDark }: { isDark: boolean }) => {
       </div>
 
       <div
-        className="flex-1 overflow-y-auto z-10 px-4 pb-6"
+        className="flex-1 overflow-y-auto z-10 px-4 "
         style={{ scrollbarWidth: "none" }}
       >
         {/* Filter */}
-        <div
-          className="flex gap-2 mb-4 overflow-x-auto"
+        {/* <div
+          className="flex gap-2 mb-0 overflow-x-auto"
           style={{ scrollbarWidth: "none" }}
         >
           {["All", "Upcoming", "Paid", "Auto-pay"].map((f, i) => (
@@ -1468,14 +1754,14 @@ const PayScreen = ({ isDark }: { isDark: boolean }) => {
               {f}
             </div>
           ))}
-        </div>
+        </div> */}
 
         {/* Total due */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.05 }}
-          className="rounded-[22px] p-4 mb-4 relative overflow-hidden"
+          className="rounded-[18px] p-3 mb-3 relative overflow-hidden"
           style={{
             background: isDark
               ? "linear-gradient(140deg, rgba(255,107,53,0.14), rgba(59,130,246,0.08))"
@@ -1513,19 +1799,19 @@ const PayScreen = ({ isDark }: { isDark: boolean }) => {
           <div className="flex items-baseline gap-1.5">
             <span
               style={{
-                fontSize: 32,
+                fontSize: 24,
                 fontWeight: 900,
                 letterSpacing: "-0.04em",
               }}
             >
               4,829
             </span>
-            <span style={{ fontSize: 15, fontWeight: 900, color: c.muted }}>
+            <span style={{ fontSize: 11, fontWeight: 900, color: c.muted }}>
               AED
             </span>
           </div>
           <p
-            style={{ fontSize: 8, fontWeight: 700, color: c.sub, marginTop: 5 }}
+            style={{ fontSize: 8, fontWeight: 700, color: c.sub, marginTop: 2 }}
           >
             4 bills · Next due in 3 days
           </p>
@@ -1535,7 +1821,7 @@ const PayScreen = ({ isDark }: { isDark: boolean }) => {
         <Label c={c}>Upcoming</Label>
         <div
           className="mt-2"
-          style={{ display: "flex", flexDirection: "column", gap: 7 }}
+          style={{ display: "flex", flexDirection: "column", gap: 5 }}
         >
           {BILLS.map((b, i) => (
             <motion.div
@@ -1543,9 +1829,9 @@ const PayScreen = ({ isDark }: { isDark: boolean }) => {
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.12 + i * 0.07, ease: [0.22, 1, 0.36, 1] }}
-              className="flex items-center gap-2.5 rounded-[16px]"
+              className="flex items-center gap-2 rounded-[13px]"
               style={{
-                padding: "9px 11px",
+                padding: "7px 9px",
                 background: b.active
                   ? isDark
                     ? `${b.color}10`
@@ -1556,21 +1842,21 @@ const PayScreen = ({ isDark }: { isDark: boolean }) => {
               }}
             >
               <div
-                className="shrink-0 w-10 h-10 rounded-[12px] flex items-center justify-center"
+                className="shrink-0 w-8 h-8 rounded-[10px] flex items-center justify-center"
                 style={{
                   background: b.color + "15",
                   border: `1px solid ${b.color}20`,
                 }}
               >
-                <span style={{ fontSize: 18 }}>{b.emoji}</span>
+                <span style={{ fontSize: 14 }}>{b.emoji}</span>
               </div>
               <div className="flex-1 min-w-0">
                 <div
                   className="flex justify-between items-center"
-                  style={{ marginBottom: 3 }}
+                  style={{ marginBottom: 2 }}
                 >
-                  <p style={{ fontSize: 11, fontWeight: 900 }}>{b.name}</p>
-                  <p style={{ fontSize: 11, fontWeight: 900 }}>
+                  <p style={{ fontSize: 10, fontWeight: 900 }}>{b.name}</p>
+                  <p style={{ fontSize: 10, fontWeight: 900 }}>
                     {b.amt}{" "}
                     <span style={{ fontSize: 7.5, color: c.muted }}>AED</span>
                   </p>
@@ -1617,7 +1903,7 @@ const PayScreen = ({ isDark }: { isDark: boolean }) => {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35 }}
-          className="mt-4 rounded-[16px] p-3.5 flex items-center gap-2.5"
+          className="my-2 rounded-[16px] p-3 flex items-center gap-2.5"
           style={{
             background: isDark
               ? "rgba(16,185,129,0.08)"
@@ -1641,6 +1927,27 @@ const PayScreen = ({ isDark }: { isDark: boolean }) => {
           </div>
         </motion.div>
       </div>
+
+      {/* Bottom nav */}
+      <div className="absolute bottom-0 left-0 right-0 z-50" style={{ background: isDark ? "rgba(5,5,5,0.97)" : "rgba(250,248,245,0.97)" }}>
+        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        <div className="flex items-center justify-between px-4 pt-1.5 pb-1.5">
+          {TABS.map(({ key, Icon, label }) => {
+            const active = key === "trade";
+            return (
+              <div key={key} className="relative flex flex-col items-center gap-0.5">
+                {active && (
+                  <div className="absolute top-1 w-7 h-7 rounded-xl" style={{ background: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)" }} />
+                )}
+                <div className="relative z-10 flex items-center justify-center w-9 h-9">
+                  <Icon size={17} strokeWidth={active ? 2.4 : 1.6} style={{ color: active ? c.text : c.muted }} />
+                </div>
+                <span style={{ fontSize: 8, color: active ? c.text : c.muted, fontWeight: active ? 600 : 400 }}>{label}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 };
@@ -1655,6 +1962,7 @@ const CashOutScreen = ({ isDark }: { isDark: boolean }) => {
       style={{
         background: isDark ? "black" : c.bg,
         padding: 28,
+        paddingBottom: 72,
         textAlign: "center" as const,
         color: c.text,
       }}
@@ -1834,6 +2142,27 @@ const CashOutScreen = ({ isDark }: { isDark: boolean }) => {
       >
         Back to Home
       </motion.div>
+
+      {/* Bottom nav */}
+      <div className="absolute bottom-0 left-0 right-0 z-50" style={{ background: isDark ? "rgba(5,5,5,0.97)" : "rgba(250,248,245,0.97)" }}>
+        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        <div className="flex items-center justify-between px-4 pt-1.5 pb-1.5">
+          {TABS.map(({ key, Icon, label }) => {
+            const active = key === "trade";
+            return (
+              <div key={key} className="relative flex flex-col items-center gap-0.5">
+                {active && (
+                  <div className="absolute top-1 w-7 h-7 rounded-xl" style={{ background: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)" }} />
+                )}
+                <div className="relative z-10 flex items-center justify-center w-9 h-9">
+                  <Icon size={17} strokeWidth={active ? 2.4 : 1.6} style={{ color: active ? c.text : c.muted }} />
+                </div>
+                <span style={{ fontSize: 8, color: active ? c.text : c.muted, fontWeight: active ? 600 : 400 }}>{label}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 };

@@ -6,8 +6,15 @@ import React, {
   useCallback,
 } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
-import { Globe, ChevronDown, Check } from "lucide-react";
+import { Globe, ChevronDown, Check, Home, Zap, MessageCircle, Activity, User } from "lucide-react";
 
+const TABS = [
+  { key: "home", Icon: Home, label: "Home" },
+  { key: "trade", Icon: Zap, label: "Trade" },
+  { key: "chats", Icon: MessageCircle, label: "Inbox" },
+  { key: "orders", Icon: Activity, label: "Activity" },
+  { key: "profile", Icon: User, label: "You" },
+] as const;
 
 /* ═══════════════════════════════════════════════════════════════
    TYPES & CONSTANTS
@@ -232,30 +239,39 @@ function PhoneChrome({
 
 function BottomNav({ activeTab = "Home" }: { activeTab?: string }) {
   return (
-    <div className="bg-white/90 dark:bg-[#111]/90 backdrop-blur-xl rounded-2xl px-4 py-2.5 flex items-center justify-around border border-black/[0.06] dark:border-white/[0.06] shadow-lg dark:shadow-none">
-      {[
-        { icon: "\u{1F3E0}", label: "Home" },
-        { icon: "\u{1F4CA}", label: "Markets" },
-        { icon: "\u{1F4B0}", label: "Wallet" },
-        { icon: "\u{1F464}", label: "Profile" },
-      ].map((tab) => (
-        <div key={tab.label} className="flex flex-col items-center gap-0.5">
-          <span
-            className={`text-[12px] ${tab.label === activeTab ? "" : "opacity-40"}`}
-          >
-            {tab.icon}
-          </span>
-          <span
-            className={`text-[7px] font-medium ${
-              tab.label === activeTab
-                ? "text-[#ff6b35]"
-                : "text-black/40 dark:text-white/30"
-            }`}
-          >
-            {tab.label}
-          </span>
-        </div>
-      ))}
+    <div className="bg-white/90 dark:bg-[#111]/90 backdrop-blur-xl rounded-2xl px-3 py-1 flex items-center justify-around border border-black/[0.06] dark:border-white/[0.06] shadow-lg dark:shadow-none">
+      {TABS.map(({ key, Icon, label }) => {
+            const active = key === "home";
+            return (
+              <div
+                key={key}
+                className="relative flex flex-col items-center gap-0.5"
+              >
+                {active && (
+                  <div
+                    className="absolute top-1 w-7 h-7 rounded-xl"
+                    style={{ background: "rgba(255,255,255,0.08)" }}
+                  />
+                )}
+                <div className="relative z-10 flex items-center justify-center w-9 h-9">
+                  <Icon
+                    size={15}
+                    strokeWidth={active ? 2.4 : 1.6}
+                    className={active ? "text-white" : "text-white/30"}
+                  />
+                </div>
+                <span
+                  style={{
+                    fontSize: 8,
+                    color: active ? "#fff" : "rgba(255,255,255,0.3)",
+                    fontWeight: active ? 600 : 400,
+                  }}
+                >
+                  {label}
+                </span>
+              </div>
+            );
+          })}
     </div>
   );
 }
@@ -443,99 +459,84 @@ function OrderReceiptScreen() {
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: EASE }}
-      className="h-full flex flex-col"
+      className="h-full flex flex-col overflow-hidden pt-[46px] pb-[60px]"
     >
-      <div className="pt-[46px] px-4 pb-3">
-        <div className="flex items-center justify-between mb-4">
-          <span className="text-[9px] text-gray-400 dark:text-white/40 font-medium">
-            &larr; Back
-          </span>
-          <span className="text-[11px] font-semibold text-gray-900 dark:text-white">
-            Order Receipt
-          </span>
-          <div className="w-8" />
-        </div>
-
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{
-            delay: 0.3,
-            duration: 0.5,
-            type: "spring",
-            stiffness: 200,
-          }}
-          className="flex justify-center mb-3"
-        >
-          <div className="w-12 h-12 rounded-full bg-emerald-50 dark:bg-emerald-500/20 border border-emerald-200 dark:border-emerald-500/30 flex items-center justify-center">
-            <Check
-              size={20}
-              className="text-emerald-500 dark:text-emerald-400"
-            />
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.5 }}
-          className="text-center mb-4"
-        >
-          <p className="text-[20px] font-bold text-gray-900 dark:text-white">
-            5,000.00 USDT
-          </p>
-          <div className="flex items-center justify-center gap-1.5 mt-1">
-            <span className="text-[9px] text-gray-400 dark:text-white/40">
-              &rarr;
-            </span>
-            <span className="text-[13px] font-semibold text-emerald-500 dark:text-emerald-400">
-              18,350.00 AED
-            </span>
-          </div>
-          <p className="text-[8px] text-gray-400 dark:text-white/30 mt-1">
-            Rate: 1 USDT = 3.67 AED
-          </p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 0.5 }}
-          className="bg-gray-50 dark:bg-neutral-900 rounded-xl p-3 border border-gray-200 dark:border-white/[0.04] mb-3"
-        >
-          {[
-            { label: "Order ID", value: "#BLP-48291" },
-            { label: "Type", value: "Buy AED" },
-            { label: "Pay via", value: "Bank Transfer" },
-            { label: "Merchant", value: "FastExchange.ae" },
-            { label: "Fee", value: "0.00 USDT" },
-          ].map((item, i) => (
-            <div
-              key={item.label}
-              className={`flex items-center justify-between py-1.5 ${
-                i < 4
-                  ? "border-b border-gray-200/60 dark:border-white/[0.04]"
-                  : ""
-              }`}
-            >
-              <span className="text-[8px] text-gray-400 dark:text-white/40">
-                {item.label}
-              </span>
-              <span className="text-[8px] font-medium text-gray-700 dark:text-white/80">
-                {item.value}
-              </span>
-            </div>
-          ))}
-        </motion.div>
+      {/* Header */}
+      <div className="flex items-center justify-between px-4 mb-2 shrink-0">
+        <span className="text-[9px] text-gray-400 dark:text-white/40 font-medium">&larr; Back</span>
+        <span className="text-[12px] font-semibold text-gray-900 dark:text-white">Order Receipt</span>
+        <div className="w-8" />
       </div>
 
+      {/* Check + Amount */}
+<div className="flex flex-col items-center justify-center px-4 mb-2 shrink-0">
+
+  {/* Check */}
+  <motion.div
+    initial={{ scale: 0 }}
+    animate={{ scale: 1 }}
+    transition={{ delay: 0.3, duration: 0.5, type: "spring", stiffness: 200 }}
+    className="w-10 h-10 rounded-full bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center mb-3"
+  >
+    <Check size={18} className="text-emerald-400" />
+  </motion.div>
+
+  {/* Amount */}
+  <motion.div
+    initial={{ opacity: 0, y: 10 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.4, duration: 0.5 }}
+    className="text-center"
+  >
+    <p className="text-[18px] font-semibold text-gray-900 dark:text-white">
+      5,000.00 USDT
+    </p>
+
+    <div className="flex items-center justify-center gap-1 mt-1">
+      <span className="text-[10px] text-gray-400">≈</span>
+      <span className="text-[12px] font-semibold text-emerald-500 dark:text-emerald-400">
+        18,350.00 AED
+      </span>
+    </div>
+
+    <p className="text-[9px] text-gray-400 dark:text-white/40 mt-1">
+      1 USDT = 3.67 AED
+    </p>
+  </motion.div>
+</div>
+
+      {/* Order Details */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.6, duration: 0.5 }}
+        className="mx-4 mb-2 bg-gray-50 dark:bg-neutral-900 rounded-xl border border-gray-200 dark:border-white/[0.04] shrink-0"
+      >
+        {[
+          { label: "Order ID", value: "#BLP-48291" },
+          { label: "Type", value: "Buy AED" },
+          { label: "Pay via", value: "Bank Transfer" },
+          { label: "Merchant", value: "FastExchange.ae" },
+          { label: "Fee", value: "0.00 USDT" },
+        ].map((item, i, arr) => (
+          <div
+            key={item.label}
+            className={`flex items-center justify-between px-3 py-1.5 ${i < arr.length - 1 ? "border-b border-gray-200/60 dark:border-white/[0.04]" : ""}`}
+          >
+            <span className="text-[8px] text-gray-400 dark:text-white/40">{item.label}</span>
+            <span className="text-[8px] font-medium text-gray-700 dark:text-white/80">{item.value}</span>
+          </div>
+        ))}
+      </motion.div>
+
+      {/* Status Timeline */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.9, duration: 0.5 }}
-        className="px-4 flex-1"
+        transition={{ delay: 0.8, duration: 0.5 }}
+        className="px-4 shrink-0"
       >
-        <p className="text-[8px] text-gray-400 dark:text-white/40 uppercase tracking-wider mb-2.5">
+        <p className="text-[7px] text-gray-400 dark:text-white/40 uppercase tracking-wider mb-1.5 shrink-0">
           Status Timeline
         </p>
         <div className="relative">
@@ -548,55 +549,33 @@ function OrderReceiptScreen() {
                 key={step.label}
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1 + i * 0.15, duration: 0.4 }}
-                className="flex items-start gap-2.5 relative"
+                transition={{ delay: 0.9 + i * 0.12, duration: 0.4 }}
+                className="flex items-start gap-2 relative"
               >
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center shrink-0">
                   <motion.div
                     animate={{
-                      backgroundColor: isActive ? "#10b981" : "#ADADAD",
-                      scale: isCurrent ? 1.2 : 1,
+                      backgroundColor: isActive ? "#10b981" : "#d1d5db",
+                      scale: isCurrent ? 1.15 : 1,
                     }}
                     transition={{ duration: 0.4 }}
-                    className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 border border-gray-200 dark:border-white/[0.06]"
+                    className="w-3.5 h-3.5 rounded-full flex items-center justify-center border border-gray-200 dark:border-white/[0.06]"
                   >
                     {isActive && (
-                      <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{ duration: 0.3, type: "spring" }}
-                      >
-                        <Check size={8} className="text-white" />
+                      <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.3, type: "spring" }}>
+                        <Check size={7} className="text-white" />
                       </motion.div>
                     )}
                   </motion.div>
                   {!isLast && (
-                    <div
-                      className={`w-[1.5px] h-5 transition-colors duration-400 ${
-                        i < activeStep
-                          ? "bg-emerald-500"
-                          : "bg-gray-300 dark:bg-white/[0.06]"
-                      }`}
-                    />
+                    <div className={`w-[1.5px] h-3.5 ${i < activeStep ? "bg-emerald-500" : "bg-gray-200 dark:bg-white/[0.06]"}`} />
                   )}
                 </div>
-                <div className="pb-2">
-                  <p
-                    className={`text-[9px] font-medium leading-none ${
-                      isActive
-                        ? "text-gray-900 dark:text-white"
-                        : "text-gray-300 dark:text-white/30"
-                    }`}
-                  >
+                <div className="pb-0.5">
+                  <p className={`text-[8px] font-medium leading-none ${isActive ? "text-gray-900 dark:text-white" : "text-gray-300 dark:text-white/25"}`}>
                     {step.label}
                   </p>
-                  <p
-                    className={`text-[7px] mt-0.5 font-mono ${
-                      isActive
-                        ? "text-gray-400 dark:text-white/40"
-                        : "text-gray-200 dark:text-white/15"
-                    }`}
-                  >
+                  <p className={`text-[7px] mt-0.5 font-mono ${isActive ? "text-gray-400 dark:text-white/35" : "text-gray-200 dark:text-white/12"}`}>
                     {step.time}
                   </p>
                 </div>
@@ -606,13 +585,14 @@ function OrderReceiptScreen() {
         </div>
       </motion.div>
 
+      {/* Done Button */}
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
+        initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.5, duration: 0.5 }}
-        className="px-4 pb-14 pt-2"
+        transition={{ delay: 1.4, duration: 0.5 }}
+        className="px-4  shrink-0"
       >
-        <div className="w-full py-2.5 rounded-xl bg-emerald-500 text-center">
+        <div className="w-full py-1 rounded-xl bg-emerald-500 text-center">
           <span className="text-[10px] font-semibold text-white">Done</span>
         </div>
       </motion.div>
@@ -1082,6 +1062,7 @@ function PremiumFintechSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-10%" });
   const { cardW, phoneW, phoneH } = useDimensions();
+  const autoPlayTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   useEffect(() => {
     if (!isInView) return;
@@ -1098,8 +1079,16 @@ function PremiumFintechSection() {
         setAnimDone(true);
       }, 25000),
     ];
+    autoPlayTimers.current = timers;
     return () => timers.forEach(clearTimeout);
   }, [isInView, animKey]);
+
+  const handleStepClick = useCallback((key: Stage) => {
+    autoPlayTimers.current.forEach(clearTimeout);
+    autoPlayTimers.current = [];
+    setAnimDone(false);
+    setStage(key);
+  }, []);
 
   /* Protocol lock shot — brief overlay during "stacked" stage */
   useEffect(() => {
@@ -2130,7 +2119,7 @@ function PremiumFintechSection() {
             const isPast = stepIdx < currentIdx;
             return (
               <div key={step.key} className="flex items-center">
-                <div className="flex flex-col items-center gap-0.5 relative">
+                <div className="flex flex-col items-center gap-0.5 relative cursor-pointer" onClick={() => handleStepClick(step.key as Stage)}>
                   <motion.div
                     animate={{
                       backgroundColor:
