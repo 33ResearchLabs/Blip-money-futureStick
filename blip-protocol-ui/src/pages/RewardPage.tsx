@@ -305,9 +305,10 @@ export default function RewardPage() {
               native rewards for every contribution to the ecosystem.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-6 pt-10">
+              <Link to="/">
               <AppleButton className="h-16 px-12 text-xl shadow-[0_0_50px_rgba(0,0,0,0.15)] dark:shadow-[0_0_50px_rgba(255,255,255,0.15)] hover:scale-105">
                 Explore Rewards
-              </AppleButton>
+              </AppleButton></Link>
               <Link to="/whitepaper">
                 <AppleButton
                   variant="link"

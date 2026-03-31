@@ -1418,9 +1418,9 @@ function PremiumFintechSection() {
                       className="text-center"
                     >
                       <h2
-                        className="heading-h2 bg-gradient-to-br from-black via-black/80 to-black/50 dark:from-white dark:via-white/80 dark:to-white/40 bg-clip-text text-transparent inline-block"
+                        className="heading-h2 bg-gradient-to-br from-black via-black/80 to-black/50 dark:from-white dark:via-white/80 dark:to-white/40 bg-clip-text text-transparent inline-block leading-[1.2] pb-1"
                       >
-                        {stageCopy.list.headline}
+                        {stageCopy.list.headline} 
                       </h2>
                       <motion.p
                         initial={{ opacity: 0 }}
@@ -2057,7 +2057,7 @@ function PremiumFintechSection() {
       </motion.div>
 
       {/* ── Protocol Lock Shot ── */}
-      <ProtocolLockShot show={showProtocolLock} />
+      {/* <ProtocolLockShot show={showProtocolLock} /> */}
 
       {/* ── Micro-Proof Overlay Chips ── */}
       <div className="absolute bottom-28 left-1/2 -translate-x-1/2 z-[38] flex flex-col items-center gap-1.5 pointer-events-none">

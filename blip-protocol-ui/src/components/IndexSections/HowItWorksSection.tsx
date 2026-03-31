@@ -855,214 +855,182 @@ const DashboardScreen = ({ isDark: _isDark }: { isDark: boolean }) => {
   return (
     <div
       className="flex flex-col h-full w-full relative overflow-hidden"
-      style={{ background: "#050505", paddingTop: 52, color: "#fff" }}
+      style={{ background: "#050508", paddingTop: 52, color: "#fff" }}
     >
-      {/* Main card */}
-      <div
-        className="mx-3 rounded-[24px] shrink-0"
-        style={{ background: "#000", padding: "12px 14px 14px" }}
-      >
-        {/* Top row */}
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center gap-1.5">
-            <div className="w-7 h-7 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-white font-bold text-xs">
-              J
+      {/* ── Dark top section ── */}
+      <div className="px-4 shrink-0 z-50" style={{ background: "#0a0a0a", borderRadius: "0 0 26px 26px", paddingBottom: 14 }}>
+
+        {/* Top row: avatar + username + bell */}
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <div
+              className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-white text-xs shrink-0"
+              style={{ background: "linear-gradient(135deg,#7c3aed,#4f46e5)" }}
+            >
+              A•
             </div>
             <div>
-              <p
-                style={{
-                  fontSize: 11,
-                  fontWeight: 600,
-                  color: "#fff",
-                  lineHeight: 1,
-                }}
-              >
-                Joe
-              </p>
-              <p style={{ fontSize: 9, color: "#737373", marginTop: 2 }}>
-                9mE1x...w8Lg7
-              </p>
+              <p style={{ fontSize: 11, fontWeight: 700, color: "#fff", lineHeight: 1 }}>alex_321</p>
+              <div className="flex items-center gap-1 mt-0.5">
+                <p style={{ fontSize: 8, color: "#555", fontFamily: "monospace" }}>EWkjzP_eRZ4NN</p>
+                <div className="w-3 h-3 rounded flex items-center justify-center" style={{ background: "#1a1a1a" }}>
+                  <span style={{ fontSize: 7, color: "#555" }}>⧉</span>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="w-7 h-7 rounded-full bg-[#111] flex items-center justify-center border border-white/10">
-            <Bell size={13} className="text-white/70" />
+          <div className="relative w-8 h-8 rounded-full flex items-center justify-center" style={{ background: "#111", border: "1px solid rgba(255,255,255,0.08)" }}>
+            <Bell size={13} className="text-white/60" />
+            <div className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-white flex items-center justify-center">
+              <span style={{ fontSize: 7, fontWeight: 700, color: "#000" }}>2</span>
+            </div>
           </div>
         </div>
 
         {/* Balance */}
-        <p
-          style={{
-            fontSize: 7,
-            letterSpacing: "0.3em",
-            color: "rgba(255,255,255,0.4)",
-            fontWeight: 700,
-            marginBottom: 4,
-          }}
-        >
-          TOTAL BALANCE
-        </p>
-        <div className="flex items-end gap-1">
-          <span
-            style={{
-              fontSize: 32,
-              fontWeight: 900,
-              lineHeight: 1,
-              color: "#fff",
-            }}
-          >
-            3,563
-          </span>
-          <span
-            style={{
-              fontSize: 14,
-              fontWeight: 700,
-              color: "rgba(255,255,255,0.3)",
-            }}
-          >
-            .70
-          </span>
-          <span
-            style={{
-              fontSize: 11,
-              color: "rgba(255,255,255,0.4)",
-              marginLeft: 2,
-              marginBottom: 1,
-            }}
-          >
-            USDT
-          </span>
+        <div className="flex items-center justify-between mb-0.5">
+          <p style={{ fontSize: 7, letterSpacing: "0.25em", color: "rgba(255,255,255,0.35)", fontWeight: 700 }}>TOTAL BALANCE</p>
+          <div className="flex items-center gap-1">
+            <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+            <p style={{ fontSize: 8, color: "rgba(255,255,255,0.5)", fontWeight: 600 }}>3.67 AED</p>
+          </div>
         </div>
-        <p style={{ fontSize: 10, color: "#4ade80", marginTop: 4 }}>
-          +$557.00 today
-        </p>
+        <div className="flex items-end gap-1 mb-1">
+          <span style={{ fontSize: 36, fontWeight: 900, lineHeight: 1, color: "#fff" }}>620</span>
+          <span style={{ fontSize: 16, fontWeight: 700, color: "rgba(255,255,255,0.35)", marginBottom: 2 }}>.88</span>
+          <span style={{ fontSize: 11, color: "rgba(255,255,255,0.35)", marginBottom: 3, marginLeft: 1 }}>USDT</span>
+        </div>
+        <div className="flex items-center gap-1 mb-2">
+          <span style={{ fontSize: 10, color: "#4ade80" }}>↗ +$557.00 today</span>
+        </div>
 
-        {/* Sparkline */}
-        <div style={{ marginTop: 8 }}>
-          <svg viewBox="0 0 200 50" className="w-full" style={{ height: 38 }}>
+        {/* Chart */}
+        <div style={{ marginBottom: 4 }}>
+          <div className="flex items-center justify-between mb-1">
+            <span style={{ fontSize: 7, color: "#555", fontWeight: 600 }}>7D</span>
+            <span style={{ fontSize: 8, color: "#4ade80", fontWeight: 700 }}>↑ 3.6%</span>
+          </div>
+          <svg viewBox="0 0 200 44" className="w-full" style={{ height: 34 }}>
             <defs>
-              <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="#888" stopOpacity="0.2" />
-                <stop offset="100%" stopColor="#fff" stopOpacity="1" />
+              <linearGradient id="dbLineGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#fff" stopOpacity="0.15" />
+                <stop offset="100%" stopColor="#fff" stopOpacity="0.9" />
               </linearGradient>
-              <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#fff" stopOpacity="0.12" />
+              <linearGradient id="dbAreaGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#fff" stopOpacity="0.08" />
                 <stop offset="100%" stopColor="#fff" stopOpacity="0" />
               </linearGradient>
-              <filter id="glow">
-                <feGaussianBlur stdDeviation="2" result="coloredBlur" />
-                <feMerge>
-                  <feMergeNode in="coloredBlur" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
             </defs>
-            <path
-              d="M0,42 C20,37 30,40 50,34 S80,30 100,32 S130,22 150,26 S180,18 200,14"
-              fill="none"
-              stroke="url(#lineGrad)"
-              strokeWidth="2"
-              filter="url(#glow)"
-            />
-            <path
-              d="M0,42 C20,37 30,40 50,34 S80,30 100,32 S130,22 150,26 S180,18 200,14 L200,50 L0,50 Z"
-              fill="url(#areaGrad)"
-            />
-            <circle cx="200" cy="14" r="3" fill="#fff" />
+            <path d="M0,36 C15,32 25,38 45,30 S70,26 95,28 S125,18 148,22 S178,12 200,8" fill="none" stroke="url(#dbLineGrad)" strokeWidth="1.8" strokeLinecap="round" />
+            <path d="M0,36 C15,32 25,38 45,30 S70,26 95,28 S125,18 148,22 S178,12 200,8 L200,44 L0,44 Z" fill="url(#dbAreaGrad)" />
+            <circle cx="200" cy="8" r="2.5" fill="#fff" />
+            <circle cx="200" cy="8" r="5" fill="rgba(255,255,255,0.15)" />
           </svg>
+          <div className="flex justify-between">
+            <span style={{ fontSize: 7, color: "#444" }}>Mar 13</span>
+            <span style={{ fontSize: 7, color: "#444" }}>Today</span>
+          </div>
         </div>
 
         {/* Actions */}
-        <div className="grid grid-cols-4 gap-2 mt-2">
+        <div className="grid grid-cols-4 gap-2 mb-3">
           {[
-            { label: "SEND", Icon: ArrowUpRight },
-            { label: "PAY", Icon: ArrowDownLeft },
-            { label: "ACTIVITY", Icon: Activity },
-            { label: "DEPOSIT", Icon: QrCode },
-          ].map(({ label, Icon }, i) => (
+            { label: "SEND", Icon: ArrowUpRight, active: true },
+            { label: "PAY", Icon: ArrowDownLeft, active: false },
+            { label: "ACTIVITY", Icon: Activity, active: false },
+            { label: "DEPOSIT", Icon: QrCode, active: false },
+          ].map(({ label, Icon, active }) => (
             <div key={label} className="flex flex-col items-center gap-1">
               <div
-                className="w-9 h-9 rounded-xl flex items-center justify-center"
+                className="w-10 h-10 rounded-2xl flex items-center justify-center"
                 style={{
-                  background: i === 0 ? "#fff" : "#111",
-                  color: i === 0 ? "#000" : "rgba(255,255,255,0.4)",
-                  border: i !== 0 ? "1px solid rgba(255,255,255,0.06)" : "none",
+                  background: active ? "#fff" : "#111",
+                  color: active ? "#000" : "rgba(255,255,255,0.45)",
+                  border: active ? "none" : "1px solid rgba(255,255,255,0.07)",
                 }}
               >
-                <Icon size={15} />
+                <Icon size={16} />
               </div>
-              <span
-                style={{
-                  fontSize: 8,
-                  color: "rgba(255,255,255,0.4)",
-                  fontWeight: 700,
-                }}
-              >
-                {label}
-              </span>
+              <span style={{ fontSize: 8, color: "rgba(255,255,255,0.4)", fontWeight: 700, letterSpacing: "0.05em" }}>{label}</span>
             </div>
           ))}
         </div>
+      </div>
 
+      {/* ── White bottom card ── */}
+      <div
+        className="flex-1 flex flex-col -mt-4"
+        style={{ background: "#fff", padding: "12px 14px 0", }}
+      >
         {/* Circle */}
-        <div style={{ marginTop: 8 }}>
-          <p
-            style={{
-              fontSize: 7,
-              color: "#737373",
-              fontWeight: 700,
-              letterSpacing: "0.1em",
-              marginBottom: 5,
-            }}
-          >
-            CIRCLE
-          </p>
-          <div className="flex gap-2.5">
+        <div className="mb-2 shrink-0 mt-3">
+          <p style={{ fontSize: 7, color: "#aaa", fontWeight: 700, letterSpacing: "0.15em", marginBottom: 6 }}>CIRCLE</p>
+          <div className="flex gap-3">
             {[
-              { t: "J", name: "John" },
-              { t: "E", name: "Emma" },
-            ].map(({ t, name }) => (
-              <div key={name} className="text-center">
-                <div className="w-8 h-8 rounded-xl bg-black border border-white/10 flex items-center justify-center text-white font-bold text-xs">
-                  {t}
+              { initial: "G", name: "george_smith12", color: "#111" },
+              { initial: "S", name: "sara_trader",    color: "#1a1a1a", dot: true },
+            ].map(({ initial, name, color, dot }) => (
+              <div key={name} className="text-center relative">
+                <div
+                  className="w-9 h-9 rounded-xl flex items-center justify-center text-white font-bold text-xs relative"
+                  style={{ background: color }}
+                >
+                  {initial}
+                  {dot && <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-white" />}
                 </div>
-                <p style={{ fontSize: 8, color: "#737373", marginTop: 3 }}>
-                  {name}
-                </p>
+                <p style={{ fontSize: 7.5, color: "#888", marginTop: 3, maxWidth: 44 }} className="truncate">{name}</p>
               </div>
             ))}
           </div>
         </div>
-      </div>
 
-      {/* Recent transactions */}
-      <div className="mx-3 mt-2 shrink-0">
-        <p style={{ fontSize: 7, color: "#737373", fontWeight: 700, letterSpacing: "0.1em", marginBottom: 6 }}>
-          RECENT
-        </p>
+        {/* Transactions header */}
+        <div className="flex items-center justify-between mb-1 shrink-0">
+          <p style={{ fontSize: 13, fontWeight: 700, color: "#111" }}>Transactions</p>
+          <div className="flex items-center gap-0.5">
+            <span style={{ fontSize: 9, color: "#888", fontWeight: 600 }}>See all</span>
+            <span style={{ fontSize: 9, color: "#888" }}>›</span>
+          </div>
+        </div>
+
+        {/* Active order banner */}
+        {/* <div
+          className="flex items-center justify-between rounded-2xl mb-2 shrink-0"
+          style={{ background: "#111", padding: "8px 12px" }}
+        >
+          <div className="flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+            <div>
+              <p style={{ fontSize: 10, fontWeight: 700, color: "#fff" }}>Buying 141.00 USDT</p>
+              <p style={{ fontSize: 8, color: "#666", marginTop: 1 }}>Step 3 of 4 · Tap to continue</p>
+            </div>
+          </div>
+          <ArrowUpRight size={14} className="text-white/40" />
+        </div> */}
+
+        {/* Transaction rows */}
         {[
-          { type: "Buy USDT",  user: "John Smith",    date: "27 Mar", amount: "-378.01", usdt: "103 USDT", initial: "J" },
-          { type: "Buy USDT",  user: "Emma Johnson",  date: "26 Mar", amount: "-517.47", usdt: "141 USDT", initial: "E" },
-          { type: "Sell USDT", user: "Lucas Martin",  date: "26 Mar", amount: "+372.31", usdt: "102 USDT", initial: "L" },
-          { type: "Buy USDT",  user: "Sophie Dubois", date: "25 Mar", amount: "-458.75", usdt: "125 USDT", initial: "S" },
+          { initial: "G", color: "#3b82f6", type: "Sell USDT", user: "george_smith12", date: "27 Mar 2026", amount: "+368.65", currency: "د.إ", usdt: "101.00 USDT" },
+          { initial: "J", color: "#f97316", type: "Buy USDT",  user: "Joe", date: "27 Mar 2026", amount: "-378.01", currency: "د.إ", usdt: "103.00 USDT" },
         ].map((item, i) => (
-          <div key={i} className="flex items-center justify-between mb-2">
+          <div key={i} className="flex items-center justify-between py-2" style={{ borderTop: "1px solid rgba(0,0,0,0.05)" }}>
             <div className="flex items-center gap-2">
               <div
-                className="w-7 h-7 rounded-full flex items-center justify-center text-white font-semibold shrink-0"
-                style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.10)", fontSize: 9 }}
+                className="w-8 h-8 rounded-full flex items-center justify-center text-white font-bold shrink-0"
+                style={{ background: item.color, fontSize: 11 }}
               >
                 {item.initial}
               </div>
               <div>
-                <p style={{ fontSize: 10, fontWeight: 600, color: "#fff", lineHeight: 1 }}>{item.type}</p>
-                <p style={{ fontSize: 8, color: "#737373", marginTop: 1 }}>{item.user} · {item.date}</p>
+                <p style={{ fontSize: 10, fontWeight: 600, color: "#111", lineHeight: 1 }}>{item.type}</p>
+                <p className="text-black/80" style={{ fontSize: 8, marginTop: 1 }}>{item.user} · {item.date}</p>
               </div>
             </div>
             <div className="text-right">
-              <p style={{ fontSize: 10, fontWeight: 600, color: item.amount.startsWith("+") ? "#4ade80" : "#fff" }}>
-                {item.amount}
+              <p style={{ fontSize: 10, fontWeight: 700, color: item.amount.startsWith("+") ? "#16a34a" : "#111" }}>
+                {item.amount}{item.currency}
               </p>
-              <p style={{ fontSize: 8, color: "#737373" }}>{item.usdt}</p>
+              <p style={{ fontSize: 8, color: "#aaa" }}>{item.usdt}</p>
             </div>
           </div>
         ))}
@@ -1071,37 +1039,21 @@ const DashboardScreen = ({ isDark: _isDark }: { isDark: boolean }) => {
       {/* Bottom nav */}
       <div
         className="absolute bottom-0 left-0 right-0 z-50"
-        style={{ background: "rgba(5,5,5,0.97)" }}
+        style={{ background: "rgba(5,5,8,0.97)" }}
       >
-        <div className="absolute top-1 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
         <div className="flex items-center justify-between px-4 pt-1.5 pb-1.5">
           {TABS.map(({ key, Icon, label }) => {
             const active = key === "home";
             return (
-              <div
-                key={key}
-                className="relative flex flex-col items-center gap-0.5"
-              >
+              <div key={key} className="relative flex flex-col items-center gap-0.5">
                 {active && (
-                  <div
-                    className="absolute top-1 w-7 h-7 rounded-xl"
-                    style={{ background: "rgba(255,255,255,0.08)" }}
-                  />
+                  <div className="absolute top-1 w-7 h-7 rounded-xl" style={{ background: "rgba(255,255,255,0.08)" }} />
                 )}
                 <div className="relative z-10 flex items-center justify-center w-9 h-9">
-                  <Icon
-                    size={17}
-                    strokeWidth={active ? 2.4 : 1.6}
-                    className={active ? "text-white" : "text-white/30"}
-                  />
+                  <Icon size={17} strokeWidth={active ? 2.4 : 1.6} className={active ? "text-white" : "text-white/30"} />
                 </div>
-                <span
-                  style={{
-                    fontSize: 8,
-                    color: active ? "#fff" : "rgba(255,255,255,0.3)",
-                    fontWeight: active ? 600 : 400,
-                  }}
-                >
+                <span style={{ fontSize: 8, color: active ? "#fff" : "rgba(255,255,255,0.3)", fontWeight: active ? 600 : 400 }}>
                   {label}
                 </span>
               </div>
