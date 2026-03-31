@@ -461,9 +461,9 @@ const UtilitySection = () => {
 
 const DeflationSection = () => {
   const deflation = [
-    { title: "Buyback", icon: TrendingUp, sub: "Protocol Revenue" },
-    { title: "Burn", icon: Flame, sub: "Permanent Removal" },
-    { title: "Volume", icon: Zap, sub: "Dynamic Events" },
+    { title: "Buyback", icon: TrendingUp, sub: "Protocol Revenue", image: "https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=600&auto=format&fit=crop&q=80" },
+    { title: "Burn", icon: Flame, sub: "Permanent Removal", image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=80" },
+    { title: "Volume", icon: Zap, sub: "Dynamic Events", image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&auto=format&fit=crop&q=80" },
   ];
 
   return (
@@ -506,23 +506,30 @@ const DeflationSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: i * 0.15 }}
-              className="group p-10 rounded-3xl text-center border border-black/[0.06] dark:border-white/[0.06] hover:border-black/20 dark:hover:border-white/20 transition-colors duration-500"
+              className="group relative p-10 rounded-3xl text-center border border-black/[0.06] dark:border-white/[0.06] hover:border-black/20 dark:hover:border-white/20 transition-colors duration-500 overflow-hidden"
               style={{
                 background: "rgba(255, 255, 255, 0.02)",
-                // border: "1px solid rgba(255, 255, 255, 0.05)",
               }}
               onMouseEnter={() => sounds.hover()}
             >
-              <div className="mb-8 p-5 rounded-full border border-black/5 dark:border-white/5 bg-white/20 dark:bg-black/20 inline-flex group-hover:border-black/20 dark:group-hover:border-white/20 transition-colors duration-500">
+              {/* Background image */}
+              <img
+                src={item.image}
+                alt=""
+                className="absolute inset-0 w-full h-full object-cover opacity-[0.4] dark:opacity-[0.5] group-hover:opacity-[0.5] dark:group-hover:opacity-[0.6] transition-opacity duration-500 pointer-events-none"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#FAF8F5]/80 dark:from-black/70 via-[#FAF8F5]/30 dark:via-black/30 to-transparent pointer-events-none" />
+
+              <div className="relative z-10 mb-8 p-5 rounded-full border border-black/5 dark:border-white/5 bg-white/20 dark:bg-black/20 inline-flex group-hover:border-black/20 dark:group-hover:border-white/20 transition-colors duration-500">
                 <item.icon
                   className="w-10 h-10 text-black dark:text-white group-hover:text-black dark:group-hover:text-white transition-colors"
                   strokeWidth={1.5}
                 />
               </div>
-              <h3 className="text-3xl font-light text-black dark:text-white mb-3">
+              <h3 className="relative z-10 text-3xl font-light text-black dark:text-white mb-3">
                 {item.title}
               </h3>
-              <p className="text-sm text-black/80 dark:text-white/50 uppercase tracking-widest">
+              <p className="relative z-10 text-sm text-black/80 dark:text-white/50 uppercase tracking-widest">
                 {item.sub}
               </p>
             </motion.div>

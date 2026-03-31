@@ -218,11 +218,10 @@ export default function Research() {
               className="text-center"
             >
               <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold text-black dark:text-white tracking-tight mb-5">
-                Research
+                Infrastructure Research
               </h1>
               <p className="text-lg sm:text-xl text-black dark:text-white/40 max-w-lg mx-auto leading-relaxed">
-                Deep dives into AI agents, autonomous trading, and the
-                infrastructure powering the next era of payments.
+                Exploring the systems, protocols, and technologies behind fast, trust-minimized financial transactions.
               </p>
             </motion.div>
           </div>

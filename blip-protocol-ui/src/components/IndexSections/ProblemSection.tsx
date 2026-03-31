@@ -35,7 +35,7 @@ const CARDS_DARK = [
     hasCurrencies: false,
     hasProgress: false,
     hasDotGrid: false,
-    image: "https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=600&auto=format&fit=crop&q=80",
+    image: "/images/1st.jpg",
     imagePosition: undefined as string | undefined,
   },
   {
@@ -63,7 +63,7 @@ const CARDS_DARK = [
     hasCurrencies: false,
     hasProgress: false,
     hasDotGrid: false,
-    image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&auto=format&fit=crop&q=80",
+    image: "images/3rd.jpg",
     imagePosition: undefined as string | undefined,
   },
 ];
@@ -80,7 +80,7 @@ const CARDS_LIGHT = [
     hasCurrencies: false,
     hasProgress: false,
     hasDotGrid: false,
-    image: "https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=600&auto=format&fit=crop&q=80",
+    image: "/images/1st.jpg",
     imagePosition: undefined as string | undefined,
   },
   {
@@ -94,7 +94,7 @@ const CARDS_LIGHT = [
     hasCurrencies: false,
     hasProgress: true,
     hasDotGrid: false,
-    image: "https://images.unsplash.com/photo-1501139083538-0139583c060f?w=600&auto=format&fit=crop&q=80",
+    image: "/images/3rd.jpg",
     imagePosition: "left center" as string | undefined,
   },
   {
@@ -108,7 +108,7 @@ const CARDS_LIGHT = [
     hasCurrencies: false,
     hasProgress: false,
     hasDotGrid: false,
-    image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&auto=format&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&auto=format&fit=crop&q=80",
     imagePosition: undefined as string | undefined,
   },
 ];

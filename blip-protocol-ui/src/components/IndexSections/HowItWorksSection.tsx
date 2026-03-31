@@ -434,7 +434,7 @@ const App = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.1 }}
-          className="p-large text-black/80 dark:text-white/50 max-w-lg text-center mx-auto mb-10"
+          className="p-large text-black/80 dark:text-white/50 max-w-lg text-center mx-auto mb-10 mt-1"
         >
           Send, trade, pay, or cash out — all from your crypto balance.
           <br /> No banks, no delays, no complexity.
@@ -455,35 +455,40 @@ const App = () => {
             label: "Dashboard",
             h1: "Your Wallet,",
             h2: "At a Glance.",
-            desc: "See balances, sparklines, and your entire portfolio — one screen, zero noise.",
+            desc: "View your complete crypto balance, transactions, and portfolio in one simple dashboard.",
+            bullets: ["View your complete crypto balance, transactions, and portfolio in one simple dashboard.", "Track performance instantly with real-time updates and clean visual insights."],
           },
           {
             num: "02",
             label: "Send Money",
             h1: "Transfer to",
             h2: "Anyone, Anywhere.",
-            desc: "Send stablecoins to anyone. They receive cash in local currency — no bank needed.",
+            desc: "Send crypto or stablecoins globally in seconds—no bank dependency required.",
+            bullets: ["Send crypto or stablecoins globally in seconds—no bank dependency required.", "Receiver gets funds in their local currency through P2P settlement."],
           },
           {
             num: "03",
             label: "Trade",
             h1: "Buy & Sell,",
             h2: "Instantly.",
-            desc: "Swap between USDT, AED, and BTC with live merchant matching. Best rate wins.",
+            desc: "Trade crypto (like USDT, BTC) directly with users at live market rates.",
+            bullets: ["Trade crypto (like USDT, BTC) directly with users at live market rates.", "Fast, peer-to-peer transactions without intermediaries or delays."],
           },
           {
             num: "04",
             label: "Pay Bills",
             h1: "Bills & Rent,",
             h2: "Handled.",
-            desc: "Use your crypto to pay rent, utilities, or tuition — settled in local currency, instantly.",
+            desc: "Pay everyday expenses like rent, utilities, or mobile bills using crypto.",
+            bullets: ["Pay everyday expenses like rent, utilities, or mobile bills using crypto.", "Seamless conversion from crypto to local currency for real-world payments."],
           },
           {
             num: "05",
             label: "Cash Out",
             h1: "Withdraw",
             h2: "Anytime.",
-            desc: "Convert USDT to AED and withdraw — directly to your bank or in person. Under 2 seconds.",
+            desc: "Convert crypto to cash and withdraw directly to bank or in-person instantly.",
+            bullets: ["Convert crypto to cash and withdraw directly to bank or in-person instantly.", "Quick settlement ensures funds are available without long waiting times."],
             cta: true,
           },
         ].map((step) => (
@@ -503,15 +508,25 @@ const App = () => {
             <h3 className="heading-h3 select-none text-center text-black dark:text-white">
               {step.h1}
               <br />
-              <span className="bg-orange-600/10 text-[#ff6b35] px-3 py-.5  rounded-md">
+              <span className="inline-block mt-1 bg-orange-600/10 text-[#ff6b35] px-3 py-.5  rounded-md">
                 {step.h2}
               </span>
             </h3>
             <p className="p-small text-black/70 dark:text-white/45">
               {step.desc}
             </p>
+            {step.bullets && (
+              <ul className="space-y-1.5 text-left mx-auto max-w-sm">
+                {step.bullets.map((b, bi) => (
+                  <li key={bi} className="flex items-start gap-2 p-small text-black/60 dark:text-white/40">
+                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#ff6b35] flex-shrink-0" />
+                    {b}
+                  </li>
+                ))}
+              </ul>
+            )}
             {step.cta && (
-              <div className="flex md:justify-start justify-center pt-1">
+              <div className="flex md:justify-start justify-center pt-10">
                 <CTAButton
                   to="/waitlist"
                   className="w-[220px] h-12 uppercase text-sm"
@@ -543,31 +558,36 @@ const App = () => {
                 label: "Dashboard",
                 h1: "Your Wallet,",
                 h2: "At a Glance.",
-                desc: "See balances, sparklines, and your entire portfolio — one screen, zero noise.",
+                desc: "View your complete crypto balance, transactions, and portfolio in one simple dashboard.",
+                bullets: ["View your complete crypto balance, transactions, and portfolio in one simple dashboard.", "Track performance instantly with real-time updates and clean visual insights."],
               },
               {
                 label: "Send Money",
                 h1: "Transfer to",
                 h2: "Anyone, Anywhere.",
-                desc: "Send stablecoins to anyone. They receive cash in local currency — no bank needed.",
+                desc: "Send crypto or stablecoins globally in seconds—no bank dependency required.",
+                bullets: ["Send crypto or stablecoins globally in seconds—no bank dependency required.", "Receiver gets funds in their local currency through P2P settlement."],
               },
               {
                 label: "Trade",
                 h1: "Buy & Sell,",
                 h2: "Instantly.",
-                desc: "Swap between USDT, AED, and BTC with live merchant matching. Best rate wins.",
+                desc: "Trade crypto (like USDT, BTC) directly with users at live market rates.",
+                bullets: ["Trade crypto (like USDT, BTC) directly with users at live market rates.", "Fast, peer-to-peer transactions without intermediaries or delays."],
               },
               {
                 label: "Pay Bills",
                 h1: "Bills & Rent,",
                 h2: "Handled.",
-                desc: "Use your crypto to pay rent, utilities, or tuition — settled in local currency, instantly.",
+                desc: "Pay everyday expenses like rent, utilities, or mobile bills using crypto.",
+                bullets: ["Pay everyday expenses like rent, utilities, or mobile bills using crypto.", "Seamless conversion from crypto to local currency for real-world payments."],
               },
               {
                 label: "Cash Out",
                 h1: "Withdraw",
                 h2: "Anytime.",
-                desc: "Convert USDT to AED and withdraw — directly to your bank or in person. Under 2 seconds.",
+                desc: "Convert crypto to cash and withdraw directly to bank or in-person instantly.",
+                bullets: ["Convert crypto to cash and withdraw directly to bank or in-person instantly.", "Quick settlement ensures funds are available without long waiting times."],
                 last: true,
               },
             ].map((s, i, arr) => (
@@ -587,15 +607,25 @@ const App = () => {
                 >
                   {s.h1}
                   <br />
-                  <span className="bg-orange-600/10 text-[#ff6b35] px-3 py-.5 rounded-md ">
+                  <span className="inline-block mt-1 bg-orange-600/10 text-[#ff6b35] px-3 py-.5 rounded-md ">
                     {s.h2}
                   </span>
                 </motion.h3>
                 <p className="p-medium text-black/70 dark:text-white/45 max-w-md">
                   {s.desc}
                 </p>
+                {s.bullets && (
+                  <ul className="space-y-2 max-w-md">
+                    {s.bullets.map((b, bi) => (
+                      <li key={bi} className="flex items-start gap-2.5 p-small text-black/60 dark:text-white/40">
+                        <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#ff6b35] flex-shrink-0" />
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
+                )}
                 {s.last && (
-                  <div className="mt-auto">
+                  <div className="pt-8">
                     <CTAButton
                       to="/waitlist"
                       className="w-[220px] h-12 uppercase text-sm"

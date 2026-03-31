@@ -221,11 +221,10 @@ export default function Blog() {
               className="text-center"
             >
               <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-5">
-                Blog
+                Protocol Insights
               </h1>
               <p className="text-base md:text-lg lg:text-xl text-black dark:text-white/50 max-w-lg mx-auto leading-relaxed font-medium">
-                Insights on crypto payments, escrow, and the infrastructure
-                powering global settlement.
+                Deep insights into crypto payments, escrow systems, and global settlement infrastructure.
               </p>
             </motion.div>
           </div>

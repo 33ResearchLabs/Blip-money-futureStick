@@ -21,7 +21,7 @@ const corridors = [
     from: "🇦🇪",
     fromLabel: "UAE",
     fromCcy: "USDT",
-    to: "💵",
+    to: "🇺🇸",
     toLabel: "USD",
     toCcy: "USD",
     volume: "$6.1B/yr",
@@ -83,7 +83,7 @@ const UAESection = () => {
         >
           Launching in
           <br />
-          <span className="text-white/80">Dubai.</span>
+          <span className=" bg-orange-600/10 text-[#ff6b35] px-3 py-.5  rounded-md">Dubai.</span>
         </h2>
 
         <p className="p-large text-white max-w-lg mx-auto text-center mb-14">

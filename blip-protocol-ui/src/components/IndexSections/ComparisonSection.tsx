@@ -242,11 +242,11 @@ const ComparisonSection = () => {
               nobody else closes.
             </span>
           <p
-            className="p-medium"
+            className="p-medium mx-auto mt-2"
             style={{
               color: isDark ? "rgba(255,255,255,0.35)" : "#555555",
               maxWidth: 440,
-              margin: "0 auto",
+              
             }}
           >
             Every alternative forces a trade-off. Blip doesn't.
