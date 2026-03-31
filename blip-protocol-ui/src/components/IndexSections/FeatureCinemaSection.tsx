@@ -166,7 +166,7 @@ function Scene({
             <h2 className="heading-h3 text-white mb-2 text-2xl sm:text-3xl lg:text-5xl">
               {headline[0]}
               <br />
-              <span className="text-white/70">{headline[1]}</span>
+              <span className="bg-orange-600/10 text-[#ff6b35] px-3 py-.5  rounded-md ">{headline[1]}</span>
             </h2>
             <p className="p-medium text-white/50 max-w-[440px] mx-auto text-sm lg:text-base">
               {subline}

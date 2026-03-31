@@ -83,11 +83,17 @@ export const Navbar = () => {
               <NavItem to="/merchant" onDark={!isScrolled && isDark}>
                 Merchant
               </NavItem>
-              <NavItem to="/research" onDark={!isScrolled && isDark}>
+              {/* <NavItem to="/research" onDark={!isScrolled && isDark}>
                 Research
               </NavItem>
               <NavItem to="/blog" onDark={!isScrolled && isDark}>
                 Blog
+              </NavItem> */}
+              <NavItem to="/user" onDark={!isScrolled && isDark}>
+                User
+              </NavItem>
+              <NavItem to="/whitepaper" onDark={!isScrolled && isDark}>
+                Whitepaper
               </NavItem>
             </div>
 
@@ -322,8 +328,10 @@ const MobileMenu = memo(({
   const menuItems = [
     { to: "/how-it-works", label: t("howItWorks") },
     { to: "/merchant", label: "Merchant" },
-    { to: "/research", label: "Research" },
-    { to: "/blog", label: "Blog" },
+    // { to: "/research", label: "Research" },
+    // { to: "/blog", label: "Blog" },
+    { to: "/user", label: "User" },
+    { to: "/whitepaper", label: "Whitepaper" },
   ];
 
   return (

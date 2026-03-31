@@ -423,11 +423,12 @@ const App = () => {
           }}
         >
           One app.
-          <br />
-          <span className="text-black/70 dark:text-white/50">
+          
+          
+        </motion.h2>
+        <span className="heading-h2 bg-orange-600/10 text-[#ff6b35] px-3 py-.5  rounded-md">
             Every use case.
           </span>
-        </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -502,7 +503,7 @@ const App = () => {
             <h3 className="heading-h3 select-none text-center text-black dark:text-white">
               {step.h1}
               <br />
-              <span className="text-black/50 dark:text-white/40">
+              <span className="bg-orange-600/10 text-[#ff6b35] px-3 py-.5  rounded-md">
                 {step.h2}
               </span>
             </h3>
@@ -582,11 +583,11 @@ const App = () => {
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 1.2, ease: "easeOut" }}
-                  className="heading-h3 select-none text-black dark:text-white"
+                  className="heading-h3 select-none text-black dark:text-white "
                 >
                   {s.h1}
                   <br />
-                  <span className="text-black/50 dark:text-white/40">
+                  <span className="bg-orange-600/10 text-[#ff6b35] px-3 py-.5 rounded-md ">
                     {s.h2}
                   </span>
                 </motion.h3>

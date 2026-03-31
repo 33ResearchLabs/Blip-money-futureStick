@@ -30,11 +30,13 @@ const CARDS_DARK = [
     headline: "7%",
     sub: "Lost before it arrives." as string | null,
     micro: "Every cross-border transfer.",
-    glowColor: "rgba(255,122,69,0.08)",
-    headlineGradient: "linear-gradient(135deg, #ffffff 25%, #ffb07a 100%)",
-    hasCurrencies: true,
+    glowColor: "rgba(99,102,241,0.10)",
+    headlineGradient: "linear-gradient(135deg, #ffffff 25%, #818cf8 100%)",
+    hasCurrencies: false,
     hasProgress: false,
     hasDotGrid: false,
+    image: "https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=600&auto=format&fit=crop&q=80",
+    imagePosition: undefined as string | undefined,
   },
   {
     eyebrow: "The Wait",
@@ -42,11 +44,13 @@ const CARDS_DARK = [
     headline: "3 – 5 Days",
     sub: "To settle." as string | null,
     micro: "Global payments shouldn't crawl.",
-    glowColor: "rgba(106,168,255,0.08)",
-    headlineGradient: "linear-gradient(135deg, #ffffff 25%, #6aa8ff 100%)",
+    glowColor: "rgba(59,130,246,0.10)",
+    headlineGradient: "linear-gradient(135deg, #ffffff 25%, #60a5fa 100%)",
     hasCurrencies: false,
     hasProgress: true,
     hasDotGrid: false,
+    image: "https://images.unsplash.com/photo-1501139083538-0139583c060f?w=600&auto=format&fit=crop&q=80",
+    imagePosition: "left center" as string | undefined,
   },
   {
     eyebrow: "The Exposure",
@@ -54,11 +58,13 @@ const CARDS_DARK = [
     headline: "Tracked.",
     sub: null as string | null,
     micro: "Stored. Shared. Permanent.",
-    glowColor: "rgba(176,124,255,0.08)",
-    headlineGradient: "linear-gradient(135deg, #ffffff 25%, #b07cff 100%)",
+    glowColor: "rgba(139,92,246,0.10)",
+    headlineGradient: "linear-gradient(135deg, #ffffff 25%, #a78bfa 100%)",
     hasCurrencies: false,
     hasProgress: false,
-    hasDotGrid: true,
+    hasDotGrid: false,
+    image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&auto=format&fit=crop&q=80",
+    imagePosition: undefined as string | undefined,
   },
 ];
 
@@ -69,11 +75,13 @@ const CARDS_LIGHT = [
     headline: "7%",
     sub: "Lost before it arrives." as string | null,
     micro: "Every cross-border transfer.",
-    glowColor: "rgba(255,122,69,0.08)",
-    headlineGradient: "linear-gradient(135deg, #2a2a2a 20%, #e8663a 100%)",
-    hasCurrencies: true,
+    glowColor: "rgba(99,102,241,0.06)",
+    headlineGradient: "linear-gradient(135deg, #2a2a2a 20%, #6366f1 100%)",
+    hasCurrencies: false,
     hasProgress: false,
     hasDotGrid: false,
+    image: "https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=600&auto=format&fit=crop&q=80",
+    imagePosition: undefined as string | undefined,
   },
   {
     eyebrow: "The Wait",
@@ -81,11 +89,13 @@ const CARDS_LIGHT = [
     headline: "3 – 5 Days",
     sub: "To settle." as string | null,
     micro: "Global payments shouldn't crawl.",
-    glowColor: "rgba(106,168,255,0.08)",
-    headlineGradient: "linear-gradient(135deg, #2a2a2a 20%, #3a7bd5 100%)",
+    glowColor: "rgba(59,130,246,0.06)",
+    headlineGradient: "linear-gradient(135deg, #2a2a2a 20%, #3b82f6 100%)",
     hasCurrencies: false,
     hasProgress: true,
     hasDotGrid: false,
+    image: "https://images.unsplash.com/photo-1501139083538-0139583c060f?w=600&auto=format&fit=crop&q=80",
+    imagePosition: "left center" as string | undefined,
   },
   {
     eyebrow: "The Exposure",
@@ -93,11 +103,13 @@ const CARDS_LIGHT = [
     headline: "Tracked.",
     sub: null as string | null,
     micro: "Stored. Shared. Permanent.",
-    glowColor: "rgba(176,124,255,0.08)",
-    headlineGradient: "linear-gradient(135deg, #2a2a2a 20%, #7a4ae0 100%)",
+    glowColor: "rgba(139,92,246,0.06)",
+    headlineGradient: "linear-gradient(135deg, #2a2a2a 20%, #8b5cf6 100%)",
     hasCurrencies: false,
     hasProgress: false,
-    hasDotGrid: true,
+    hasDotGrid: false,
+    image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&auto=format&fit=crop&q=80",
+    imagePosition: undefined as string | undefined,
   },
 ];
 
@@ -208,6 +220,9 @@ const ProblemSection = () => {
         overflow: "hidden",
       }}
     >
+      {/* Blue/purple ambient glow */}
+      <div className="section-glow" aria-hidden />
+
       {/* Vignette */}
       <div
         aria-hidden
@@ -216,12 +231,16 @@ const ProblemSection = () => {
           inset: 0,
           background: isDark
             ? `
-            radial-gradient(ellipse 80% 40% at 50% 0%,  rgba(255,255,255,0.015) 0%, transparent 100%),
-            radial-gradient(ellipse 80% 50% at 50% 100%, rgba(0,0,0,0.45)       0%, transparent 100%)
+            radial-gradient(ellipse 60% 35% at 35% 0%,  rgba(59,130,246,0.035) 0%, transparent 100%),
+            radial-gradient(ellipse 50% 30% at 55% 0%,  rgba(139,92,246,0.025) 0%, transparent 100%),
+            radial-gradient(ellipse 40% 25% at 65% 0%,  rgba(6,182,212,0.02)  0%, transparent 100%),
+            radial-gradient(ellipse 80% 50% at 50% 100%, rgba(0,0,0,0.45)      0%, transparent 100%)
           `
             : `
-            radial-gradient(ellipse 80% 40% at 50% 0%,  rgba(0,0,0,0.01) 0%, transparent 100%),
-            radial-gradient(ellipse 80% 50% at 50% 100%, rgba(0,0,0,0.02) 0%, transparent 100%)
+            radial-gradient(ellipse 60% 35% at 35% 0%,  rgba(59,130,246,0.018) 0%, transparent 100%),
+            radial-gradient(ellipse 50% 30% at 55% 0%,  rgba(139,92,246,0.012) 0%, transparent 100%),
+            radial-gradient(ellipse 40% 25% at 65% 0%,  rgba(6,182,212,0.01)   0%, transparent 100%),
+            radial-gradient(ellipse 80% 50% at 50% 100%, rgba(0,0,0,0.02)      0%, transparent 100%)
           `,
           pointerEvents: "none",
           zIndex: 0,
@@ -298,7 +317,7 @@ const ProblemSection = () => {
             marginBottom: 20,
           }}
         >
-          <span
+          <span className="mb-3"
             style={{
               color: isDark ? "#ffffff" : "#1a1a1a",
               display: "block",
@@ -306,14 +325,17 @@ const ProblemSection = () => {
           >
             Global payments
           </span>
-          <span
+          {/* <span
             style={{
               display: "block",
               color: isDark ? "rgba(255,255,255,0.4)" : "#555555",
             }}
           >
             are broken.
-          </span>
+          </span> */}
+          <span className="bg-orange-600/10 text-[#ff6b35] px-3 py-.5  rounded-md">
+  are broken.
+</span>
         </motion.h2>
 
         <motion.p
@@ -421,6 +443,39 @@ const ProblemSection = () => {
                   </div>
                 ))}
 
+              {/* Background image */}
+              {card.image && (
+                <>
+                  <img
+                    src={card.image}
+                    alt=""
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      objectPosition: card.imagePosition || "center",
+                      opacity: isDark ? 0.7 : 0.6,
+                      zIndex: 1,
+                      pointerEvents: "none",
+                    }}
+                  />
+                  <div
+                    aria-hidden
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      background: isDark
+                        ? "linear-gradient(to top, rgba(15,15,15,0.85) 5%, rgba(15,15,15,0.15) 45%, rgba(15,15,15,0.3) 100%)"
+                        : "linear-gradient(to top, rgba(255,255,255,0.85) 5%, rgba(255,255,255,0.15) 45%, rgba(255,255,255,0.3) 100%)",
+                      zIndex: 1,
+                      pointerEvents: "none",
+                    }}
+                  />
+                </>
+              )}
+
               {/* Content */}
               <div
                 style={{
@@ -440,9 +495,10 @@ const ProblemSection = () => {
                     letterSpacing: "2.5px",
                     textTransform: "uppercase",
                     color: isDark
-                      ? "rgba(255,255,255,0.22)"
+                      ? "rgba(255,255,255,0.5)"
                       : "rgba(0,0,0,0.70)",
                     marginBottom: 22,
+                    textShadow: isDark ? "0 1px 6px rgba(0,0,0,0.6)" : "none",
                   }}
                 >
                   {card.eyebrow}
@@ -455,7 +511,7 @@ const ProblemSection = () => {
                       fontSize: "clamp(1.1rem, 1.8vw, 1.35rem)",
                       fontWeight: 500,
                       color: isDark
-                        ? "rgba(255,255,255,0.42)"
+                        ? "rgba(255,255,255,0.75)"
                         : "rgba(0,0,0,0.45)",
                       letterSpacing: "-0.02em",
                       lineHeight: 1.3,
@@ -478,6 +534,8 @@ const ProblemSection = () => {
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
                     color: "transparent",
+                    opacity: 0.85,
+                    filter: "drop-shadow(0 2px 12px rgba(0,0,0,0.4))",
                   }}
                 >
                   {card.headline}
@@ -489,7 +547,7 @@ const ProblemSection = () => {
                       fontSize: "clamp(1rem, 1.6vw, 1.2rem)",
                       fontWeight: 500,
                       color: isDark
-                        ? "rgba(255,255,255,0.38)"
+                        ? "rgba(255,255,255,0.7)"
                         : "rgba(0,0,0,0.42)",
                       letterSpacing: "-0.02em",
                       lineHeight: 1.3,
@@ -506,7 +564,7 @@ const ProblemSection = () => {
                     fontSize: 11.5,
                     fontWeight: 400,
                     color: isDark
-                      ? "rgba(255,255,255,0.16)"
+                      ? "rgba(255,255,255,0.5)"
                       : "rgba(0,0,0,0.70)",
                     letterSpacing: "-0.01em",
                   }}

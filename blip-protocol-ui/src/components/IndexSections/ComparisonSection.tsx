@@ -227,19 +227,20 @@ const ComparisonSection = () => {
             Why Blip
           </p>
           <h2
-            className="heading-h2"
+            className="heading-h2 mb-3"
             style={{
               color: isDark ? "#ffffff" : "#1a1a1a",
               marginBottom: 16,
             }}
           >
             The infrastructure gap{" "}
-            <span
-              style={{ color: isDark ? "rgba(255,255,255,0.28)" : "#555555" }}
+            
+          </h2>
+          <span
+              className="heading-h2 bg-orange-600/10 text-[#ff6b35] px-3 py-.5  rounded-md"
             >
               nobody else closes.
             </span>
-          </h2>
           <p
             className="p-medium"
             style={{

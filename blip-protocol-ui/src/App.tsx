@@ -73,6 +73,7 @@ const Gdpr = lazy(() => import("./pages/Legel/Gdpr"));
 const TwoFactorAuth = lazy(() => import("./components/TwoFactorAuth"));
 const Whitepaper = lazy(() => import("./pages/Protocol/Whitepaper"));
 const Merchant = lazy(() => import("./pages/UseCases/Merchant"));
+const User = lazy(() => import("./pages/User"));
 const Blog = lazy(() => import("./pages/Resources/Blog"));
 const BlogArticle = lazy(() => import("./pages/Resources/BlogArticle"));
 const Research = lazy(() => import("./pages/Resources/Research"));
@@ -203,6 +204,7 @@ const App = () => (
                     <Route path="/tokenomics" element={<BlipTokenomics />} />
                     {/* <Route path="/rewards" element={<RewardsLanding />} /> */}
                     <Route path="/merchant" element={<Merchant />} />
+                    <Route path="/user" element={<User />} />
                     <Route path="/uae" element={<UAELandingPage />} />
                     <Route path="/coming-soon" element={<ComingSoon />} />
                     <Route path="/how-it-works" element={<HowItWorksPage />} />

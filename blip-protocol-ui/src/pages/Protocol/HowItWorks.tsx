@@ -113,7 +113,7 @@ border border-black/10 dark:border-white/20"
             >
               <span className="block">Value. Settled.</span>
 
-              <span className="text-black/70 dark:text-white/50">
+              <span className="inline-block mt-1 bg-orange-600/10 text-[#ff6b35] px-3 py-0.5 rounded-md">
                 Privately.
               </span>
             </motion.h1>
@@ -165,16 +165,19 @@ const KeyConceptsSection = () => {
       icon: Lock,
       title: "Non-Custodial Escrow",
       desc: "Funds are secured by code, not intermediaries.",
+      image: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=600&auto=format&fit=crop&q=80",
     },
     {
       icon: Zap,
       title: "Zero Intermediaries",
       desc: "Direct settlement between wallet and merchant.",
+      image: "/images/image.png",
     },
     {
       icon: Shield,
       title: "Privacy-First Design",
       desc: "Wallet-based access with zero KYC required.",
+      image: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=600&auto=format&fit=crop&q=80",
     },
   ];
 
@@ -200,7 +203,7 @@ const KeyConceptsSection = () => {
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6">
             Built for Secure
             <br />
-            <span className="text-black/70 dark:text-white/50">
+            <span className="inline-block mt-1 bg-orange-600/10 text-[#ff6b35] px-3 py-0.5 rounded-md">
               Digital Value
             </span>
           </h2>
@@ -226,6 +229,14 @@ const KeyConceptsSection = () => {
               }}
               onMouseEnter={() => sounds.hover()}
             >
+              {/* Background image */}
+              <img
+                src={concept.image}
+                alt=""
+                className="absolute inset-0 w-full h-full object-cover opacity-[0.25] dark:opacity-[0.35] group-hover:opacity-[0.35] dark:group-hover:opacity-[0.45] transition-opacity duration-500 pointer-events-none"
+              />
+              {/* Overlay gradient */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#FAF8F5] dark:from-black via-[#FAF8F5]/60 dark:via-black/50 to-[#FAF8F5]/20 dark:to-black/20 pointer-events-none" />
               {/* Hover gradient */}
               <div className="absolute inset-0 bg-gradient-to-br from-[#ffffff]/[0.05] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 " />
 
@@ -320,7 +331,7 @@ const CoreProtocolSection = () => {
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1]">
             Trust
             <br />
-            <span className="text-black/70 dark:text-white/50">Redefined.</span>
+            <span className="inline-block mt-1 bg-orange-600/10 text-[#ff6b35] px-3 py-0.5 rounded-md">Redefined.</span>
           </h2>
         </motion.div>
 
@@ -446,7 +457,7 @@ const TransactionFlowSection = () => {
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6">
             Atomic.
             <br />
-            <span className="text-black/70 dark:text-white/50">
+            <span className="inline-block mt-1 bg-orange-600/10 text-[#ff6b35] px-3 py-0.5 rounded-md">
               Guaranteed.
             </span>
           </h2>
@@ -615,7 +626,7 @@ const SecuritySection = () => {
               <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6">
                 Cryptographic
                 <br />
-                <span className="text-black/70 dark:text-white/50">
+                <span className="inline-block mt-1 bg-orange-600/10 text-[#ff6b35] px-3 py-0.5 rounded-md">
                   Security.
                 </span>
               </h2>
@@ -691,7 +702,7 @@ const OrderTypesSection = () => {
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1]">
             Multiple
             <br />
-            <span className="text-black/70 dark:text-white/50">
+            <span className="inline-block mt-1 bg-orange-600/10 text-[#ff6b35] px-3 py-0.5 rounded-md">
               Destinations.
             </span>
           </h2>
@@ -791,7 +802,7 @@ const CTASection = () => {
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white leading-[1.1] mb-6 sm:mb-8 tracking-tight max-w-xl mx-auto lg:mx-0">
             Code over
             <br />
-            <span className="text-black/70 dark:text-white/50">Trust.</span>
+            <span className="inline-block mt-1 bg-orange-600/10 text-[#ff6b35] px-3 py-0.5 rounded-md">Trust.</span>
           </h2>
 
           <p className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-xl mx-auto mb-12 font-medium leading-relaxed">

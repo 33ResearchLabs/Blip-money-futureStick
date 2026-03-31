@@ -206,7 +206,7 @@ const DistributionSection = () => {
         <h2 className="text-4xl md:text-5xl font-semibold text-black dark:text-white tracking-tight">
           Token
           <br />
-          <span className="text-black/80 dark:text-white/30">Split</span>
+          <span className="inline-block mt-1 bg-orange-600/10 text-[#ff6b35] px-3 py-0.5 rounded-md">Split</span>
         </h2>
       </motion.div>
 
@@ -405,7 +405,7 @@ const UtilitySection = () => {
           </span>
 
           <h2 className="text-4xl md:text-6xl font-semibold text-black dark:text-white tracking-tight mb-6">
-            Utility<span className="text-black dark:text-white">.</span>
+            <span className="inline-block mt-1 bg-orange-600/10 text-[#ff6b35] px-3 py-0.5 rounded-md">Utility.</span>
           </h2>
 
           <p className="text-xl text-black/50 dark:text-white/50 max-w-xl mx-auto md:mx-0">
@@ -493,7 +493,7 @@ const DeflationSection = () => {
           <h2 className="text-4xl md:text-6xl font-semibold text-black dark:text-white tracking-tight">
             Deflationary
             <br />
-            <span className="text-black/80 dark:text-white/30">Model.</span>
+            <span className="inline-block mt-1 bg-orange-600/10 text-[#ff6b35] px-3 py-0.5 rounded-md">Model.</span>
           </h2>
         </motion.div>
 
@@ -599,7 +599,7 @@ const EmissionsSection = () => {
           </span>
 
           <h2 className="text-4xl md:text-5xl font-semibold text-black dark:text-white tracking-tight mb-4">
-            Emissions
+            <span className="inline-block mt-1 bg-orange-600/10 text-[#ff6b35] px-3 py-0.5 rounded-md">Emissions</span>
           </h2>
 
           <p className="text-xl text-black/50 dark:text-white/50 mx-auto md:mx-0">

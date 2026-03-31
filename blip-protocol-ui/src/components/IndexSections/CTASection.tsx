@@ -103,7 +103,7 @@ const CTASection = () => {
         >
           <span className="text-black dark:text-white">Join the merchant</span>
           <br />
-          <span className="text-black/80 dark:text-white/40">network.</span>
+          <span className="bg-orange-600/10 text-[#ff6b35] px-3 py-.5  rounded-md">Network.</span>
         </motion.h2>
 
         <motion.p

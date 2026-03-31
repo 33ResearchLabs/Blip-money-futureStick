@@ -131,27 +131,45 @@ const ProtocolInterstitial = () => {
     >
       {/* ── Network mesh background ── */}
 
-      {/* ── Ambient orbs ── */}
-      {/* <div aria-hidden className="absolute inset-0 pointer-events-none">
-        <div
-          className="absolute top-[20%] left-[10%] w-[500px] h-[500px] rounded-full"
-          style={{
-            background: isDark
-              ? "radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 60%)"
-              : "radial-gradient(circle, rgba(99,102,241,0.05) 0%, transparent 60%)",
-            filter: "blur(80px)",
-          }}
-        />
-        <div
-          className="absolute bottom-[15%] right-[8%] w-[400px] h-[400px] rounded-full"
-          style={{
-            background: isDark
-              ? "radial-gradient(circle, rgba(61,220,132,0.06) 0%, transparent 60%)"
-              : "radial-gradient(circle, rgba(61,220,132,0.04) 0%, transparent 60%)",
-            filter: "blur(80px)",
-          }}
-        />
-      </div> */}
+      {/* Blue/purple ambient glow */}
+      <div className="section-glow" aria-hidden />
+
+      {/* ── Vignette ── */}
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: isDark
+            ? `
+            radial-gradient(ellipse 60% 35% at 35% 0%,  rgba(59,130,246,0.035) 0%, transparent 100%),
+            radial-gradient(ellipse 50% 30% at 55% 0%,  rgba(139,92,246,0.025) 0%, transparent 100%),
+            radial-gradient(ellipse 40% 25% at 65% 0%,  rgba(6,182,212,0.02)  0%, transparent 100%),
+            radial-gradient(ellipse 80% 50% at 50% 100%, rgba(0,0,0,0.45)      0%, transparent 100%)
+          `
+            : `
+            radial-gradient(ellipse 60% 35% at 35% 0%,  rgba(59,130,246,0.018) 0%, transparent 100%),
+            radial-gradient(ellipse 50% 30% at 55% 0%,  rgba(139,92,246,0.012) 0%, transparent 100%),
+            radial-gradient(ellipse 40% 25% at 65% 0%,  rgba(6,182,212,0.01)   0%, transparent 100%),
+            radial-gradient(ellipse 80% 50% at 50% 100%, rgba(0,0,0,0.02)      0%, transparent 100%)
+          `,
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      />
+
+      {/* ── Grain noise (same as ProblemSection) ── */}
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E")`,
+          opacity: isDark ? 0.022 : 0.012,
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      />
 
       {/* ── Content ── */}
       <motion.div
@@ -187,7 +205,7 @@ const ProtocolInterstitial = () => {
               marginBottom: 20,
             }}
           >
-            <span
+            <span className="mb-2"
               style={{
                 color: isDark ? "#ffffff" : "#1a1a1a",
                 display: "block",
@@ -195,14 +213,17 @@ const ProtocolInterstitial = () => {
             >
               The Blip
             </span>
-            <span
+            {/* <span
               style={{
                 display: "block",
                 color: isDark ? "rgba(255,255,255,0.4)" : "#555555",
               }}
             >
               Protocol.
-            </span>
+            </span> */}
+            <span className="bg-orange-600/10 text-[#ff6b35] px-3 py-.5  rounded-md">
+  Protocol
+</span>
           </motion.h2>
 
           {/* Tagline */}
@@ -239,11 +260,10 @@ const ProtocolInterstitial = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.12 + i * 0.1, ease: EASE }}
               whileHover={{ y: -6, transition: { duration: 0.3 } }}
+              className="glass-card"
               style={{
                 position: "relative",
-                borderRadius: 20,
                 padding: 1,
-                background: `linear-gradient(160deg, ${p.color}30, transparent 40%, transparent 60%, ${p.color}15)`,
                 cursor: "default",
               }}
             >
@@ -400,17 +420,6 @@ const ProtocolInterstitial = () => {
         }}
       />
 
-      {/* ── Grain ── */}
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none z-[6]"
-        style={{
-          opacity: isDark ? 0.025 : 0.015,
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-          backgroundRepeat: "repeat",
-          backgroundSize: "128px 128px",
-        }}
-      />
     </section>
   );
 };
