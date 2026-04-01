@@ -134,7 +134,7 @@ const UseCasesSection = () => {
                 <div className="text-4xl font-bold text-black/80 dark:text-white tracking-tight mb-1">$2,500</div>
                 <div className="text-sm text-black/30 dark:text-white/30 mb-6">USDT → AED</div>
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-full bg-black/5 dark:bg-white/10 flex items-center justify-center text-sm font-bold text-black/50 dark:text-white/50">A</div>
+                  <div className="w-10 h-10 rounded-full bg-[#ff6b35]/10 flex items-center justify-center text-sm font-bold text-[#ff6b35]">A</div>
                   <div>
                     <div className="text-sm font-semibold text-black/70 dark:text-white/70">Ahmed K.</div>
                     <div className="text-xs text-black/30 dark:text-white/30">Dubai, UAE</div>
@@ -258,7 +258,7 @@ function FeatureBlock({
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 1, ease: EASE }}
         >
-          <div className="text-[11px] font-bold uppercase tracking-[2px] mb-4" style={{ color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)" }}>
+          <div className="text-[11px] font-bold uppercase tracking-[2px] text-[#ff6b35] mb-4">
             {label}
           </div>
           <h3 style={{
@@ -299,8 +299,8 @@ function FeatureBlock({
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.3 + i * 0.08, ease: EASE }}
               >
-                <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.05)" }}>
-                  <span className="text-[10px]" style={{ color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.4)" }}>✓</span>
+                <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: "rgba(255,107,53,0.1)" }}>
+                  <span className="text-[10px] text-[#ff6b35]">✓</span>
                 </div>
                 <span className="text-sm font-medium" style={{ color: isDark ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.55)" }}>
                   {f}
@@ -387,7 +387,7 @@ function EarnBlock({ isDark }: { isDark: boolean }) {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.45, ease: EASE }}
           >
-            <span className="text-xs font-semibold text-[#1d1d1f]">2% back on everything</span>
+            <span className="text-xs font-semibold text-[#ff6b35]">2% back on everything</span>
           </motion.div>
 
           {/* Big centered text on image */}
@@ -445,9 +445,9 @@ function EarnBlock({ isDark }: { isDark: boolean }) {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.9, delay: 0.4, ease: EASE }}
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full mb-5" style={{ background: "rgba(0,0,0,0.04)" }}>
-              <div className="w-1.5 h-1.5 rounded-full bg-black/20" />
-              <span className="text-[10px] font-bold uppercase tracking-[2px] text-black/35">How it works</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full mb-5" style={{ background: "rgba(255,107,53,0.08)" }}>
+              <div className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]" />
+              <span className="text-[10px] font-bold uppercase tracking-[2px] text-[#ff6b35]">How it works</span>
             </div>
 
             <p style={{
@@ -545,11 +545,11 @@ function EarnBlock({ isDark }: { isDark: boolean }) {
               <div className="mb-2">
                 <div className="flex justify-between mb-1">
                   <span className="text-[9px] font-semibold text-black/30">Monthly goal</span>
-                  <span className="text-[9px] font-bold text-black/50">$847 / $1,000</span>
+                  <span className="text-[9px] font-bold text-[#ff6b35]">$847 / $1,000</span>
                 </div>
                 <div className="h-1.5 rounded-full bg-black/[0.04] overflow-hidden">
                   <motion.div
-                    className="h-full rounded-full bg-[#1d1d1f]"
+                    className="h-full rounded-full bg-[#ff6b35]"
                     initial={{ width: 0 }}
                     animate={isInView ? { width: "84.7%" } : {}}
                     transition={{ duration: 1.5, delay: 0.6, ease: EASE }}
@@ -562,7 +562,7 @@ function EarnBlock({ isDark }: { isDark: boolean }) {
             <div className="rounded-2xl p-5" style={{ background: "#fafafa", border: "1px solid rgba(0,0,0,0.04)" }}>
               <div className="flex items-center justify-between mb-4">
                 <span className="text-[9px] font-bold uppercase tracking-widest text-black/30">Recent rewards</span>
-                <span className="text-[9px] font-semibold text-black/35">See all →</span>
+                <span className="text-[9px] font-semibold text-[#ff6b35]">See all →</span>
               </div>
               <LiveEarnFeed isInView={isInView} />
             </div>
@@ -575,14 +575,14 @@ function EarnBlock({ isDark }: { isDark: boolean }) {
               animate={isInView ? { opacity: 1 } : {}}
               transition={{ duration: 0.8, delay: 0.7, ease: EASE }}
             >
-              <div className="w-12 h-12 rounded-xl bg-black/[0.04] flex items-center justify-center flex-shrink-0">
+              <div className="w-12 h-12 rounded-xl bg-[#ff6b35]/10 flex items-center justify-center flex-shrink-0">
                 <span className="text-xl">🏆</span>
               </div>
               <div className="flex-1">
                 <div className="text-sm font-semibold text-[#1d1d1f]">Gold tier unlocked</div>
                 <div className="text-xs text-black/35">3x multiplier active — earning 6% on every transaction</div>
               </div>
-              <div className="text-[#1d1d1f] font-bold text-lg">3x</div>
+              <div className="text-[#ff6b35] font-bold text-lg">3x</div>
             </motion.div>
           </motion.div>
         </div>

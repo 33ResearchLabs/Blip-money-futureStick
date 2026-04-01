@@ -106,7 +106,24 @@ const CinematicHero = () => {
           }}
         >
           <span>Borderless finance.</span>
-          <span>Settled on-chain.</span>
+          {/* Animated warm-to-orange shimmer sweep */}
+          <motion.span
+            key={isDark ? "dark" : "light"}
+            style={{
+              background: isDark
+                ? "linear-gradient(90deg, #ffffff 0%, #ffe8dc 18%, #ffb899 30%, #ff8c50 42%, #ff6b35 50%, #ff8c50 58%, #ffb899 70%, #ffe8dc 82%, #ffffff 100%)"
+                : "linear-gradient(90deg, #1a1a1a 0%, #4a2a1a 18%, #c0623a 30%, #ff8c50 42%, #ff6b35 50%, #ff8c50 58%, #c0623a 70%, #4a2a1a 82%, #1a1a1a 100%)",
+              backgroundSize: "300% 100%",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+              color: "transparent",
+            }}
+            animate={{ backgroundPosition: ["100% 50%", "0% 50%", "100% 50%"] }}
+            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+          >
+            Settled on-chain.
+          </motion.span>
         </motion.h1>
 
         {/* Subtext */}

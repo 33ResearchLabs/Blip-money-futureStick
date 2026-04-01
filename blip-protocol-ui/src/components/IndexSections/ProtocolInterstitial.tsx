@@ -447,7 +447,7 @@ const ProtocolInterstitial = () => {
             marginBottom: 24,
           }}
         >
-          The Blip Protocol
+          The Blip <span style={{ color: "#ff6b35" }}>Protocol</span>
         </motion.h2>
 
         <motion.p
@@ -484,7 +484,7 @@ const ProtocolInterstitial = () => {
       >
         <div style={{
           width: 48, height: 1,
-          background: isDark ? "linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)" : "linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent)",
+          background: "linear-gradient(90deg, transparent, rgba(255,107,53,0.4), transparent)",
           margin: "0 auto 28px",
         }} />
         <p style={{
@@ -537,7 +537,7 @@ function FeatureBlock({
         >
           <div style={{
             fontSize: 11, fontWeight: 700, letterSpacing: "2px",
-            textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)", marginBottom: 16,
+            textTransform: "uppercase", color: "#ff6b35", marginBottom: 16,
           }}>
             {feature.label}
           </div>

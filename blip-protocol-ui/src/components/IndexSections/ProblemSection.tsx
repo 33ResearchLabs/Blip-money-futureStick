@@ -270,14 +270,9 @@ const ProblemSection = () => {
           >
             are broken.
           </span> */}
-          <span
-            style={{
-              display: "block",
-              color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)",
-            }}
-          >
-            are broken.
-          </span>
+          <span className="bg-orange-600/10 text-[#ff6b35] px-3 py-.5  rounded-md">
+  are broken.
+</span>
         </motion.h2>
 
         <motion.p

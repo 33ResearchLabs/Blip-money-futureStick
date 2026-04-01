@@ -236,7 +236,11 @@ const ComparisonSection = () => {
             The infrastructure gap{" "}
             
           </h2>
-          <span className="heading-h2">nobody else closes.</span>
+          <span
+              className="heading-h2 bg-orange-600/10 text-[#ff6b35] px-3 py-.5  rounded-md"
+            >
+              nobody else closes.
+            </span>
           <p
             className="p-medium mx-auto mt-2"
             style={{
@@ -527,7 +531,7 @@ const ComparisonSection = () => {
                         color: "transparent",
                       }
                     : {
-                        color: isDark ? "#ffffff" : "#1d1d1f",
+                        color: "#ff6b35",
                       }),
                 }}
               >

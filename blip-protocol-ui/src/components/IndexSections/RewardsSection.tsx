@@ -57,7 +57,9 @@ const RewardsSection = () => {
           >
             Earn while you spend.
             <br />
-            Every transaction.
+            <span className="inline-block bg-orange-600/10 text-[#ff6b35] px-3 py-.5  rounded-md mt-1">
+              Every transaction.
+            </span>
           </motion.h2>
 
           <motion.p
