@@ -47,19 +47,25 @@ const CinematicHero = () => {
 
   return (
     <section className="relative min-h-screen overflow-hidden flex items-center justify-center text-center bg-[#FAF8F5] dark:bg-black">
-      {/* Subtle orange radial glow centred slightly above the headline */}
+      {/* Background image — Earth from space */}
       <div
         aria-hidden="true"
-        className="absolute pointer-events-none"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -60%)",
-          width: 700,
-          height: 400,
+          backgroundImage: "url('/hero-bg.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      />
+      {/* Dark overlay so text stays readable */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 pointer-events-none"
+        style={{
           background: isDark
-            ? "radial-gradient(ellipse at center, rgba(224,112,64,0.07) 0%, transparent 70%)"
-            : "radial-gradient(ellipse at center, rgba(224,112,64,0.12) 0%, transparent 70%)",
+            ? "rgba(0,0,0,0.55)"
+            : "rgba(250,248,245,0.7)",
         }}
       />
 

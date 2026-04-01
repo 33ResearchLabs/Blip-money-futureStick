@@ -21,40 +21,39 @@ const TABS = [
    ═══════════════════════════════════════════════════════════════ */
 
 type Stage =
-  | "list"
-  | "stacked"
-  | "phone"
-  | "trading"
-  | "instantBidding"
-  | "verified"
-  | "receipt"
-  | "finale";
+  | "sendUsdt"
+  | "instantMatch"
+  | "lockEscrow"
+  | "fiatPayout"
+  | "proofOnChain"
+  | "globalRemittance";
 
 const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
 const stageCopy: Record<Stage, { headline: string; subline: string }> = {
-  list: {
-    headline: "Money is fragmented.",
-    subline: "Crypto. Banks. Separate rails.",
+  sendUsdt: {
+    headline: "Send USDT.",
+    subline: "From your wallet to the world.",
   },
-  stacked: {
-    headline: "One settlement layer.",
-    subline: "Match. Lock. Confirm. Release.",
+  instantMatch: {
+    headline: "Instant Match.",
+    subline: "Fastest matching engine pairs you with a merchant.",
   },
-  phone: {
-    headline: "Pay with crypto.",
-    subline: "Recipient receives local currency.",
+  lockEscrow: {
+    headline: "Lock & Escrow.",
+    subline: "Funds locked in smart contract escrow.",
   },
-  trading: { headline: "Place your order.", subline: "Matched in seconds." },
-  instantBidding: { headline: "Live bidding.", subline: "Best rate wins." },
-  verified: {
-    headline: "Verified on-chain.",
-    subline: "Immutable. Transparent.",
+  fiatPayout: {
+    headline: "Fiat Payout.",
+    subline: "Recipient receives cash or bank transfer in local currency.",
   },
-  receipt: { headline: "Settlement complete.", subline: "Funds delivered." },
-  finale: {
-    headline: "Blip Money",
-    subline: "Global crypto liquidity. Settled.",
+  proofOnChain: {
+    headline: "Proof on Chain.",
+    subline: "Every settlement verified and recorded on-chain.",
+  },
+  globalRemittance: {
+    headline: "Global Remittance.",
+    subline: "Send money to anyone, anywhere across the globe.",
   },
 };
 
@@ -95,14 +94,12 @@ const orderTimelineSteps = [
 ];
 
 const STAGE_ORDER: Stage[] = [
-  "list",
-  "stacked",
-  "phone",
-  "trading",
-  "instantBidding",
-  "verified",
-  "receipt",
-  "finale",
+  "sendUsdt",
+  "instantMatch",
+  "lockEscrow",
+  "fiatPayout",
+  "proofOnChain",
+  "globalRemittance",
 ];
 
 /* ═══════════════════════════════════════════════════════════════
@@ -640,10 +637,10 @@ function InstantBiddingUnwrap() {
         className="text-center mb-8"
       >
         <h3 className="heading-h3 text-black dark:text-white tracking-tight font-display">
-          {stageCopy.instantBidding.headline}
+          {stageCopy.lockEscrow.headline}
         </h3>
         <p className="text-sm text-black/40 dark:text-white/40 mt-2 tracking-wide">
-          {stageCopy.instantBidding.subline}
+          {stageCopy.lockEscrow.subline}
         </p>
         <motion.div
           initial={{ scaleX: 0 }}
@@ -753,10 +750,10 @@ function VerifiedUnwrap() {
         className="text-center mb-8"
       >
         <h3 className="heading-h3 text-black dark:text-white tracking-tight font-display">
-          {stageCopy.verified.headline}
+          {stageCopy.proofOnChain.headline}
         </h3>
         <p className="text-sm text-black/40 dark:text-white/40 mt-2 tracking-wide">
-          {stageCopy.verified.subline}
+          {stageCopy.proofOnChain.subline}
         </p>
         <motion.div
           initial={{ scaleX: 0 }}
@@ -1055,7 +1052,7 @@ function ProtocolLockShot({ show }: { show: boolean }) {
    ═══════════════════════════════════════════════════════════════ */
 
 function PremiumFintechSection() {
-  const [stage, setStage] = useState<Stage>("list");
+  const [stage, setStage] = useState<Stage>("sendUsdt");
   const [animKey, setAnimKey] = useState(0);
   const [animDone, setAnimDone] = useState(false);
   const [showProtocolLock, setShowProtocolLock] = useState(false);
@@ -1068,16 +1065,15 @@ function PremiumFintechSection() {
     if (!isInView) return;
     setAnimDone(false);
     const timers = [
-      setTimeout(() => setStage("stacked"), 2000),
-      setTimeout(() => setStage("phone"), 4200),
-      setTimeout(() => setStage("trading"), 7000),
-      setTimeout(() => setStage("instantBidding"), 11000),
-      setTimeout(() => setStage("verified"), 15500),
-      setTimeout(() => setStage("receipt"), 20000),
+      setTimeout(() => setStage("instantMatch"), 3000),
+      setTimeout(() => setStage("lockEscrow"), 6000),
+      setTimeout(() => setStage("fiatPayout"), 9500),
+      setTimeout(() => setStage("proofOnChain"), 13000),
+      setTimeout(() => setStage("globalRemittance"), 17000),
       setTimeout(() => {
-        setStage("list");
+        setStage("sendUsdt");
         setAnimDone(true);
-      }, 25000),
+      }, 22000),
     ];
     autoPlayTimers.current = timers;
     return () => timers.forEach(clearTimeout);
@@ -1092,7 +1088,7 @@ function PremiumFintechSection() {
 
   /* Protocol lock shot — brief overlay during "stacked" stage */
   useEffect(() => {
-    if (stage !== "stacked") {
+    if (stage !== "lockEscrow") {
       setShowProtocolLock(false);
       return;
     }
@@ -1108,26 +1104,26 @@ function PremiumFintechSection() {
     sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     setAnimDone(false);
     setShowProtocolLock(false);
-    setStage("list");
+    setStage("sendUsdt");
     setTimeout(() => setAnimKey((k) => k + 1), 800);
   }, []);
 
   /* ─── Derived state ─── */
-  const isFinale = stage === "finale";
-  const isInstantBidding = stage === "instantBidding";
-  const isVerified = stage === "verified";
+  const isFinale = stage === "globalRemittance";
+  const isInstantBidding = stage === "lockEscrow";
+  const isVerified = stage === "proofOnChain";
   const isUnwrapStage = isInstantBidding || isVerified;
-  const isTrading = stage === "trading";
-  const isReceipt = stage === "receipt";
-  const isTradingOrReceipt = isTrading || isReceipt;
-  const isPhone = stage === "phone" || isTradingOrReceipt;
-  const isStacked = stage !== "list" && !isFinale;
+  const isTrading = stage === "fiatPayout";
+  const isReceipt = false; // no separate receipt stage
+  const isTradingOrReceipt = isTrading;
+  const isPhone = stage === "instantMatch" || isTradingOrReceipt;
+  const isStacked = stage !== "sendUsdt" && !isFinale;
   const isFocusMoment = isTradingOrReceipt || isUnwrapStage;
-  const isCalm = isReceipt || isFinale;
+  const isCalm = isFinale;
 
   const getCardY = useCallback(
     (idx: number) =>
-      stage === "list" ? idx * (CARD_HEIGHT + LIST_GAP) : idx * STACK_OFFSET,
+      stage === "sendUsdt" ? idx * (CARD_HEIGHT + LIST_GAP) : idx * STACK_OFFSET,
     [stage],
   );
 
@@ -1239,7 +1235,7 @@ function PremiumFintechSection() {
 
       {/* ── Bottom Fade Gradient ── */}
       <AnimatePresence>
-        {(stage === "list" || stage === "stacked") && (
+        {(stage === "sendUsdt" || stage === "instantMatch") && (
           <motion.div
             key="bottom-fade"
             initial={{ opacity: 0 }}
@@ -1267,7 +1263,7 @@ function PremiumFintechSection() {
           <div className="relative w-full max-w-6xl flex items-center justify-center">
             {/* ── Left Text — phone stage, desktop ── */}
             <AnimatePresence>
-              {isPhone && !isTradingOrReceipt && !isFinale && (
+              {isPhone && !isTradingOrReceipt && !isFinale && stage === "instantMatch" && (
                 <motion.div
                   key="left-text"
                   initial={{ opacity: 0, x: -60 }}
@@ -1288,7 +1284,7 @@ function PremiumFintechSection() {
                     transition={{ duration: 1, delay: 0.1, ease: EASE }}
                     className="heading-h3 leading-tight font-display bg-gradient-to-br from-black via-black/80 to-black/50 dark:from-white dark:via-white/80 dark:to-white/40 bg-clip-text text-transparent"
                   >
-                    {stageCopy.phone.headline}
+                    {stageCopy.instantMatch.headline}
                   </motion.h3>
                   <motion.div
                     initial={{ scaleX: 0 }}
@@ -1302,7 +1298,7 @@ function PremiumFintechSection() {
                     transition={{ duration: 0.6, delay: 0.5, ease: EASE }}
                     className="text-black/40 dark:text-white/40 text-base md:text-lg mt-5 max-w-xs"
                   >
-                    {stageCopy.phone.subline}
+                    {stageCopy.instantMatch.subline}
                   </motion.p>
                 </motion.div>
               )}
@@ -1310,7 +1306,7 @@ function PremiumFintechSection() {
 
             {/* ── Instant Bidding Unwrap ── */}
             <AnimatePresence>
-              {isInstantBidding && (
+              {stage === "lockEscrow" && (
                 <motion.div
                   key="instant-bidding-unwrap"
                   initial={{ opacity: 0, scale: 0.92, filter: "blur(10px)" }}
@@ -1326,7 +1322,7 @@ function PremiumFintechSection() {
 
             {/* ── Verified Unwrap ── */}
             <AnimatePresence>
-              {isVerified && (
+              {stage === "proofOnChain" && (
                 <motion.div
                   key="verified-unwrap"
                   initial={{ opacity: 0, scale: 0.92, filter: "blur(10px)" }}
@@ -1356,7 +1352,7 @@ function PremiumFintechSection() {
                     transition={{ duration: 2, delay: 0.3, ease: EASE }}
                     className="heading-h2 bg-gradient-to-br from-black via-black/80 to-black/50 dark:from-white dark:via-white/80 dark:to-white/40 bg-clip-text text-transparent"
                   >
-                    {stageCopy.finale.headline}
+                    {stageCopy.globalRemittance.headline}
                   </motion.h2>
                   <motion.div
                     initial={{ scaleX: 0 }}
@@ -1370,7 +1366,7 @@ function PremiumFintechSection() {
                     transition={{ duration: 2, delay: 1.5, ease: EASE }}
                     className="text-base sm:text-lg text-black/35 dark:text-white/35 mt-5 tracking-wide"
                   >
-                    {stageCopy.finale.subline}
+                    {stageCopy.globalRemittance.subline}
                   </motion.p>
                 </motion.div>
               )}
@@ -1404,9 +1400,9 @@ function PremiumFintechSection() {
                 className="overflow-hidden"
               >
                 <AnimatePresence mode="wait">
-                  {stage === "list" && (
+                  {stage === "sendUsdt" && (
                     <motion.div
-                      key="list-title"
+                      key="sendUsdt-title"
                       initial={{ opacity: 0, x: -80, filter: "blur(8px)" }}
                       animate={
                         isInView
@@ -1420,7 +1416,7 @@ function PremiumFintechSection() {
                       <h2
                         className="heading-h2 bg-gradient-to-br from-black via-black/80 to-black/50 dark:from-white dark:via-white/80 dark:to-white/40 bg-clip-text text-transparent inline-block leading-[1.2] pb-1"
                       >
-                        {stageCopy.list.headline} 
+                        {stageCopy.sendUsdt.headline}
                       </h2>
                       <motion.p
                         initial={{ opacity: 0 }}
@@ -1428,7 +1424,7 @@ function PremiumFintechSection() {
                         transition={{ delay: 0.5, duration: 0.8 }}
                         className="text-sm sm:text-base text-black/35 dark:text-white/35 mt-3 tracking-wide"
                       >
-                        {stageCopy.list.subline}
+                        {stageCopy.sendUsdt.subline}
                       </motion.p>
                       <motion.div
                         initial={{ scaleX: 0 }}
@@ -1439,40 +1435,9 @@ function PremiumFintechSection() {
                     </motion.div>
                   )}
 
-                  {stage === "stacked" && (
+                  {stage === "fiatPayout" && (
                     <motion.div
-                      key="stacked-title"
-                      initial={{ opacity: 0, x: 80, filter: "blur(8px)" }}
-                      animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-                      exit={{ opacity: 0, x: -60, filter: "blur(6px)" }}
-                      transition={{ duration: 1, ease: EASE }}
-                      className="text-center"
-                    >
-                      <h2
-                        className="heading-h2 bg-gradient-to-br from-black via-black/80 to-[#ff6b35]/70 dark:from-white dark:via-white/80 dark:to-[#ff6b35]/70 bg-clip-text text-transparent inline-block"
-                      >
-                        {stageCopy.stacked.headline}
-                      </h2>
-                      <motion.p
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.4, duration: 0.8 }}
-                        className="text-sm sm:text-base text-black/35 dark:text-white/35 mt-3 tracking-wide"
-                      >
-                        {stageCopy.stacked.subline}
-                      </motion.p>
-                      <motion.div
-                        initial={{ scaleX: 0 }}
-                        animate={{ scaleX: 1 }}
-                        transition={{ duration: 0.6, delay: 0.3, ease: EASE }}
-                        className="h-[1px] mt-4 mx-auto bg-gradient-to-r from-transparent via-[#ff6b35]/50 to-transparent origin-right"
-                      />
-                    </motion.div>
-                  )}
-
-                  {isTradingOrReceipt && (
-                    <motion.div
-                      key="user-title"
+                      key="fiatPayout-title"
                       initial={{ opacity: 0, y: -15, filter: "blur(6px)" }}
                       animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                       exit={{ opacity: 0, y: 10, filter: "blur(4px)" }}
@@ -1480,14 +1445,10 @@ function PremiumFintechSection() {
                       className="text-center"
                     >
                       <h3 className="heading-h3 text-black dark:text-white tracking-tight font-display inline-block">
-                        {stage === "trading"
-                          ? stageCopy.trading.headline
-                          : stageCopy.receipt.headline}
+                        {stageCopy.fiatPayout.headline}
                       </h3>
                       <p className="text-xs text-black/35 dark:text-white/35 mt-1.5 tracking-wide">
-                        {stage === "trading"
-                          ? stageCopy.trading.subline
-                          : stageCopy.receipt.subline}
+                        {stageCopy.fiatPayout.subline}
                       </p>
                       <motion.div
                         initial={{ scaleX: 0 }}
@@ -1616,7 +1577,7 @@ function PremiumFintechSection() {
                         transition={{
                           duration: isStacked ? 1.2 : 0.9,
                           delay:
-                            isInView && stage === "list"
+                            isInView && stage === "sendUsdt"
                               ? idx * 0.15
                               : idx * 0.05,
                           ease: EASE,
@@ -1753,7 +1714,7 @@ function PremiumFintechSection() {
 
                 {/* ── Trading Screen ── */}
                 <AnimatePresence>
-                  {stage === "trading" && (
+                  {stage === "fiatPayout" && (
                     <motion.div
                       initial={{ opacity: 0, scale: 0.92, filter: "blur(6px)" }}
                       animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
@@ -2105,13 +2066,12 @@ function PremiumFintechSection() {
       >
         <div className="flex items-center gap-0 bg-white/40 dark:bg-white/[0.03] backdrop-blur-xl rounded-full px-2.5 py-1.5 border border-black/[0.03] dark:border-white/[0.04]">
           {[
-            { key: "list", label: "Assets" },
-            { key: "stacked", label: "Protocol" },
-            { key: "phone", label: "Wallet" },
-            { key: "trading", label: "Trade" },
-            { key: "instantBidding", label: "Match" },
-            { key: "verified", label: "Verify" },
-            { key: "receipt", label: "Settle" },
+            { key: "sendUsdt", label: "Send" },
+            { key: "instantMatch", label: "Match" },
+            { key: "lockEscrow", label: "Escrow" },
+            { key: "fiatPayout", label: "Payout" },
+            { key: "proofOnChain", label: "Proof" },
+            { key: "globalRemittance", label: "Global" },
           ].map((step, i, arr) => {
             const currentIdx = STAGE_ORDER.indexOf(stage);
             const stepIdx = STAGE_ORDER.indexOf(step.key as Stage);

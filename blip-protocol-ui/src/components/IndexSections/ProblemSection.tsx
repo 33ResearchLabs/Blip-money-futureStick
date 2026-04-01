@@ -22,21 +22,15 @@ const CURRENCIES: Array<{
   { char: "¥", size: 52, bottom: 72, right: 28, rotate: -5 },
 ];
 
-/* ── Card definitions ── */
-const CARDS_DARK = [
+/* ── Card definitions (Apple-style: white cards, black text) ── */
+const CARDS = [
   {
     eyebrow: "The Cost",
     headlinePre: null as string | null,
     headline: "7%",
     sub: "Lost before it arrives." as string | null,
     micro: "Every cross-border transfer.",
-    glowColor: "rgba(99,102,241,0.10)",
-    headlineGradient: "linear-gradient(135deg, #ffffff 25%, #818cf8 100%)",
-    hasCurrencies: false,
     hasProgress: false,
-    hasDotGrid: false,
-    image: "/images/1st.jpg",
-    imagePosition: undefined as string | undefined,
   },
   {
     eyebrow: "The Wait",
@@ -44,13 +38,7 @@ const CARDS_DARK = [
     headline: "3 – 5 Days",
     sub: "To settle." as string | null,
     micro: "Global payments shouldn't crawl.",
-    glowColor: "rgba(59,130,246,0.10)",
-    headlineGradient: "linear-gradient(135deg, #ffffff 25%, #60a5fa 100%)",
-    hasCurrencies: false,
     hasProgress: true,
-    hasDotGrid: false,
-    image: "https://images.unsplash.com/photo-1501139083538-0139583c060f?w=600&auto=format&fit=crop&q=80",
-    imagePosition: "left center" as string | undefined,
   },
   {
     eyebrow: "The Exposure",
@@ -58,58 +46,7 @@ const CARDS_DARK = [
     headline: "Tracked.",
     sub: null as string | null,
     micro: "Stored. Shared. Permanent.",
-    glowColor: "rgba(139,92,246,0.10)",
-    headlineGradient: "linear-gradient(135deg, #ffffff 25%, #a78bfa 100%)",
-    hasCurrencies: false,
     hasProgress: false,
-    hasDotGrid: false,
-    image: "images/3rd.jpg",
-    imagePosition: undefined as string | undefined,
-  },
-];
-
-const CARDS_LIGHT = [
-  {
-    eyebrow: "The Cost",
-    headlinePre: null as string | null,
-    headline: "7%",
-    sub: "Lost before it arrives." as string | null,
-    micro: "Every cross-border transfer.",
-    glowColor: "rgba(99,102,241,0.06)",
-    headlineGradient: "linear-gradient(135deg, #2a2a2a 20%, #6366f1 100%)",
-    hasCurrencies: false,
-    hasProgress: false,
-    hasDotGrid: false,
-    image: "/images/1st.jpg",
-    imagePosition: undefined as string | undefined,
-  },
-  {
-    eyebrow: "The Wait",
-    headlinePre: null as string | null,
-    headline: "3 – 5 Days",
-    sub: "To settle." as string | null,
-    micro: "Global payments shouldn't crawl.",
-    glowColor: "rgba(59,130,246,0.06)",
-    headlineGradient: "linear-gradient(135deg, #2a2a2a 20%, #3b82f6 100%)",
-    hasCurrencies: false,
-    hasProgress: true,
-    hasDotGrid: false,
-    image: "/images/3rd.jpg",
-    imagePosition: "left center" as string | undefined,
-  },
-  {
-    eyebrow: "The Exposure",
-    headlinePre: "Every transaction" as string | null,
-    headline: "Tracked.",
-    sub: null as string | null,
-    micro: "Stored. Shared. Permanent.",
-    glowColor: "rgba(139,92,246,0.06)",
-    headlineGradient: "linear-gradient(135deg, #2a2a2a 20%, #8b5cf6 100%)",
-    hasCurrencies: false,
-    hasProgress: false,
-    hasDotGrid: false,
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&auto=format&fit=crop&q=80",
-    imagePosition: undefined as string | undefined,
   },
 ];
 
@@ -209,7 +146,7 @@ const ProblemSection = () => {
   useEffect(() => setMounted(true), []);
   const isDark = mounted ? theme === "dark" : true;
 
-  const CARDS = isDark ? CARDS_DARK : CARDS_LIGHT;
+  const cards = CARDS;
 
   return (
     <section
@@ -350,169 +287,65 @@ const ProblemSection = () => {
         </motion.p>
 
         {/* ── 3 Problem Cards ── */}
+        {/* ── 3 Problem Cards — Apple style ── */}
         <div
-          key={`cards-${isDark ? "dark" : "light"}`}
           className="grid grid-cols-1 md:grid-cols-3"
-          style={{ gap: 14, marginBottom: 14 }}
+          style={{ gap: 16, marginBottom: 16 }}
         >
-          {CARDS.map((card, i) => (
+          {cards.map((card, i) => (
             <motion.div
               key={card.eyebrow}
               initial={{ opacity: 0, y: 28 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.08 + i * 0.1, ease: EASE }}
-              whileHover={{ y: -4 }}
+              whileHover={{ y: -6, boxShadow: "0 20px 60px rgba(0,0,0,0.12)" }}
               style={{
                 position: "relative",
-                background: isDark
-                  ? card.hasDotGrid
-                    ? `radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px) #0f0f0f`
-                    : "#0f0f0f"
-                  : card.hasDotGrid
-                    ? `radial-gradient(circle, rgba(0,0,0,0.06) 1px, transparent 1px) #ffffff`
-                    : "#ffffff",
-                backgroundSize: card.hasDotGrid ? "22px 22px" : undefined,
-                borderRadius: 24,
+                background: "#ffffff",
+                borderRadius: 20,
                 overflow: "hidden",
-                height: 360,
-                border: isDark
-                  ? "1px solid rgba(255,255,255,0.085)"
-                  : "1px solid rgba(0,0,0,0.06)",
-                backdropFilter: "blur(20px)",
-                WebkitBackdropFilter: "blur(20px)",
-                boxShadow: isDark
-                  ? `
-                  inset 0 1px 0 rgba(255,255,255,0.06),
-                  0 0 80px 28px ${card.glowColor},
-                  0 2px 4px rgba(0,0,0,0.55),
-                  0 16px 48px rgba(0,0,0,0.65)
-                `
-                  : `
-                  0 0 40px 12px ${card.glowColor},
-                  0 1px 2px rgba(0,0,0,0.04),
-                  0 4px 16px rgba(0,0,0,0.05),
-                  0 12px 40px rgba(0,0,0,0.04)
-                `,
-                transition:
-                  "box-shadow 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+                height: 340,
+                border: "none",
+                boxShadow: "0 2px 20px rgba(0,0,0,0.06)",
+                transition: "all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+                cursor: "default",
               }}
             >
-              {/* Top-edge highlight */}
-              {isDark && (
-                <div
-                  aria-hidden
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    height: 1,
-                    background:
-                      "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.11) 50%, transparent 100%)",
-                    pointerEvents: "none",
-                    zIndex: 10,
-                  }}
-                />
-              )}
-
-              {/* Currency bg symbols — Card 1 only */}
-              {card.hasCurrencies &&
-                CURRENCIES.map((c, ci) => (
-                  <div
-                    key={ci}
-                    aria-hidden
-                    style={{
-                      position: "absolute",
-                      fontSize: c.size,
-                      fontWeight: 700,
-                      color: isDark ? "white" : "black",
-                      opacity: isDark ? 0.035 : 0.055,
-                      pointerEvents: "none",
-                      userSelect: "none",
-                      lineHeight: 1,
-                      zIndex: 1,
-                      top: c.top,
-                      bottom: c.bottom,
-                      left: c.left,
-                      right: c.right,
-                      transform: `rotate(${c.rotate}deg)`,
-                    }}
-                  >
-                    {c.char}
-                  </div>
-                ))}
-
-              {/* Background image */}
-              {card.image && (
-                <>
-                  <img
-                    src={card.image}
-                    alt=""
-                    style={{
-                      position: "absolute",
-                      inset: 0,
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      objectPosition: card.imagePosition || "center",
-                      opacity: isDark ? 0.7 : 0.6,
-                      zIndex: 1,
-                      pointerEvents: "none",
-                    }}
-                  />
-                  <div
-                    aria-hidden
-                    style={{
-                      position: "absolute",
-                      inset: 0,
-                      background: isDark
-                        ? "linear-gradient(to top, rgba(15,15,15,0.85) 5%, rgba(15,15,15,0.15) 45%, rgba(15,15,15,0.3) 100%)"
-                        : "linear-gradient(to top, rgba(255,255,255,0.85) 5%, rgba(255,255,255,0.15) 45%, rgba(255,255,255,0.3) 100%)",
-                      zIndex: 1,
-                      pointerEvents: "none",
-                    }}
-                  />
-                </>
-              )}
-
               {/* Content */}
               <div
                 style={{
                   position: "relative",
                   zIndex: 2,
-                  padding: "32px 32px 36px",
+                  padding: "36px 32px 32px",
                   display: "flex",
                   flexDirection: "column",
                   height: "100%",
                 }}
               >
+                {/* Eyebrow */}
                 <span
                   style={{
                     display: "block",
-                    fontSize: 9,
-                    fontWeight: 700,
-                    letterSpacing: "2.5px",
+                    fontSize: 11,
+                    fontWeight: 600,
+                    letterSpacing: "1.5px",
                     textTransform: "uppercase",
-                    color: isDark
-                      ? "rgba(255,255,255,0.5)"
-                      : "rgba(0,0,0,0.70)",
-                    marginBottom: 22,
-                    textShadow: isDark ? "0 1px 6px rgba(0,0,0,0.6)" : "none",
+                    color: "rgba(0,0,0,0.4)",
+                    marginBottom: 24,
                   }}
                 >
                   {card.eyebrow}
                 </span>
 
+                {/* Pre-headline */}
                 {card.headlinePre && (
                   <span
                     style={{
                       display: "block",
                       fontSize: "clamp(1.1rem, 1.8vw, 1.35rem)",
                       fontWeight: 500,
-                      color: isDark
-                        ? "rgba(255,255,255,0.75)"
-                        : "rgba(0,0,0,0.45)",
+                      color: "rgba(0,0,0,0.45)",
                       letterSpacing: "-0.02em",
                       lineHeight: 1.3,
                       marginBottom: 4,
@@ -522,50 +355,43 @@ const ProblemSection = () => {
                   </span>
                 )}
 
+                {/* Headline */}
                 <div
                   style={{
-                    fontSize: "clamp(3.8rem, 5.5vw, 5.2rem)",
+                    fontSize: "clamp(3.5rem, 5vw, 4.8rem)",
                     fontWeight: 700,
-                    letterSpacing: "-0.05em",
+                    letterSpacing: "-0.04em",
                     lineHeight: 0.95,
                     marginBottom: 12,
-                    background: card.headlineGradient,
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
-                    color: "transparent",
-                    opacity: 0.85,
-                    filter: "drop-shadow(0 2px 12px rgba(0,0,0,0.4))",
+                    color: "#1d1d1f",
                   }}
                 >
                   {card.headline}
                 </div>
 
+                {/* Sub */}
                 {card.sub && (
                   <div
                     style={{
-                      fontSize: "clamp(1rem, 1.6vw, 1.2rem)",
+                      fontSize: "clamp(1rem, 1.6vw, 1.15rem)",
                       fontWeight: 500,
-                      color: isDark
-                        ? "rgba(255,255,255,0.7)"
-                        : "rgba(0,0,0,0.42)",
-                      letterSpacing: "-0.02em",
-                      lineHeight: 1.3,
+                      color: "rgba(0,0,0,0.5)",
+                      letterSpacing: "-0.01em",
+                      lineHeight: 1.4,
                     }}
                   >
                     {card.sub}
                   </div>
                 )}
 
+                {/* Micro */}
                 <div
                   style={{
                     marginTop: "auto",
                     paddingTop: 20,
-                    fontSize: 11.5,
+                    fontSize: 13,
                     fontWeight: 400,
-                    color: isDark
-                      ? "rgba(255,255,255,0.5)"
-                      : "rgba(0,0,0,0.70)",
+                    color: "rgba(0,0,0,0.35)",
                     letterSpacing: "-0.01em",
                   }}
                 >
@@ -582,18 +408,14 @@ const ProblemSection = () => {
                     left: 0,
                     right: 0,
                     height: 3,
-                    background: isDark
-                      ? "rgba(255,255,255,0.04)"
-                      : "rgba(0,0,0,0.06)",
+                    background: "rgba(0,0,0,0.06)",
                     zIndex: 3,
                   }}
                 >
                   <motion.div
                     style={{
                       height: "100%",
-                      background: isDark
-                        ? "rgba(255,255,255,0.22)"
-                        : "rgba(0,0,0,0.22)",
+                      background: "#1d1d1f",
                       borderRadius: "0 2px 2px 0",
                     }}
                     animate={{
@@ -613,9 +435,8 @@ const ProblemSection = () => {
           ))}
         </div>
 
-        {/* ── Enter Blip card ── */}
+        {/* ── Enter Blip card — Apple-style colorful ── */}
         <motion.div
-          key={`blip-${isDark ? "dark" : "light"}`}
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -623,65 +444,42 @@ const ProblemSection = () => {
           whileHover={{ y: -3 }}
           className="flex flex-col md:flex-row items-center"
           style={{
-            background: isDark ? "#0f0f0f" : "#ffffff",
-            border: isDark
-              ? "1px solid rgba(255,255,255,0.08)"
-              : "1px solid rgba(0,0,0,0.06)",
+            background: "linear-gradient(135deg, #1d1d1f 0%, #2d1b4e 25%, #4a1942 45%, #c0392b 70%, #f39c12 100%)",
             borderRadius: 20,
             padding: "40px 48px",
             gap: 48,
             overflow: "hidden",
             position: "relative",
-            backdropFilter: "blur(20px)",
-            WebkitBackdropFilter: "blur(20px)",
-            boxShadow: isDark
-              ? `
-              inset 0 1px 0 rgba(255,255,255,0.05),
-              0 0 60px 22px rgba(255,107,53,0.07),
-              0 2px 4px rgba(0,0,0,0.5),
-              0 20px 60px rgba(0,0,0,0.65)
-            `
-              : `
-              0 0 40px 12px rgba(255,107,53,0.04),
-              0 1px 2px rgba(0,0,0,0.04),
-              0 4px 16px rgba(0,0,0,0.05),
-              0 12px 40px rgba(0,0,0,0.04)
-            `,
-            transition: "box-shadow 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+            border: "none",
+            boxShadow: "0 4px 30px rgba(192,57,43,0.15), 0 20px 60px rgba(0,0,0,0.2)",
+            transition: "all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
           }}
         >
-          {/* Orange glow top-left */}
+          {/* Ambient color blobs */}
           <div
             aria-hidden
             style={{
               position: "absolute",
-              top: -60,
-              left: -60,
-              width: 280,
-              height: 280,
-              background: isDark
-                ? "radial-gradient(circle, rgba(255,107,53,0.08) 0%, transparent 70%)"
-                : "radial-gradient(circle, rgba(255,107,53,0.06) 0%, transparent 70%)",
+              top: -80,
+              right: -80,
+              width: 350,
+              height: 350,
+              background: "radial-gradient(circle, rgba(243,156,18,0.3) 0%, transparent 70%)",
               pointerEvents: "none",
             }}
           />
-          {/* Top-edge highlight */}
-          {isDark && (
-            <div
-              aria-hidden
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                height: 1,
-                background:
-                  "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%)",
-                pointerEvents: "none",
-                zIndex: 2,
-              }}
-            />
-          )}
+          <div
+            aria-hidden
+            style={{
+              position: "absolute",
+              bottom: -60,
+              left: -60,
+              width: 300,
+              height: 300,
+              background: "radial-gradient(circle, rgba(142,68,173,0.25) 0%, transparent 70%)",
+              pointerEvents: "none",
+            }}
+          />
 
           {/* Left — text */}
           <div style={{ flex: 1, minWidth: 0, position: "relative" }}>
@@ -691,15 +489,15 @@ const ProblemSection = () => {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: 7,
-                padding: "4px 10px",
-                background: "rgba(255,107,53,0.12)",
-                border: "1px solid rgba(255,107,53,0.2)",
+                padding: "4px 12px",
+                background: "rgba(255,255,255,0.15)",
+                border: "1px solid rgba(255,255,255,0.2)",
                 borderRadius: 999,
                 fontSize: 9,
                 fontWeight: 700,
                 letterSpacing: "2px",
                 textTransform: "uppercase",
-                color: "#ff6b35",
+                color: "#ffffff",
                 marginBottom: 16,
               }}
             >
@@ -714,7 +512,7 @@ const ProblemSection = () => {
                   width: 5,
                   height: 5,
                   borderRadius: "50%",
-                  background: "#ff6b35",
+                  background: "#ffffff",
                   flexShrink: 0,
                 }}
               />
@@ -729,13 +527,7 @@ const ProblemSection = () => {
                 letterSpacing: "-0.05em",
                 lineHeight: 0.95,
                 marginBottom: 14,
-                background: isDark
-                  ? "linear-gradient(140deg, #ffffff 25%, #ff8c50 100%)"
-                  : "linear-gradient(140deg, #2a2a2a 20%, #e8663a 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-                color: "transparent",
+                color: "#ffffff",
               }}
             >
               Enter Blip.
@@ -745,7 +537,7 @@ const ProblemSection = () => {
               style={{
                 fontSize: 14,
                 lineHeight: 1.65,
-                color: isDark ? "rgba(255,255,255,0.32)" : "rgba(0,0,0,0.70)",
+                color: "rgba(255,255,255,0.7)",
                 marginBottom: 28,
                 letterSpacing: "-0.01em",
                 maxWidth: 340,
@@ -766,9 +558,7 @@ const ProblemSection = () => {
             <div
               className="grid grid-cols-1 md:grid-cols-2 rounded-[18px] overflow-hidden"
               style={{
-                border: isDark
-                  ? "1px solid rgba(255,255,255,0.1)"
-                  : "1px solid rgba(0,0,0,0.06)",
+                border: "1px solid rgba(255,255,255,0.15)",
               }}
             >
               {BENTO.map((stat, i) => (
@@ -779,23 +569,15 @@ const ProblemSection = () => {
                     transition: "background 0.2s",
                     background:
                       i === 0
-                        ? isDark
-                          ? "rgba(249,115,22,0.05)"
-                          : "rgba(255,107,53,0.06)"
-                        : isDark
-                          ? "rgba(255,255,255,0.012)"
-                          : "rgba(0,0,0,0.015)",
+                        ? "rgba(255,255,255,0.08)"
+                        : "rgba(255,255,255,0.03)",
                     borderRight:
                       i % 2 === 0
-                        ? isDark
-                          ? "1px solid rgba(255,255,255,0.1)"
-                          : "1px solid rgba(0,0,0,0.06)"
+                        ? "1px solid rgba(255,255,255,0.15)"
                         : "none",
                     borderBottom:
                       i < 2
-                        ? isDark
-                          ? "1px solid rgba(255,255,255,0.1)"
-                          : "1px solid rgba(0,0,0,0.06)"
+                        ? "1px solid rgba(255,255,255,0.15)"
                         : "none",
                   }}
                 >
@@ -809,16 +591,14 @@ const ProblemSection = () => {
                       letterSpacing: "-0.04em",
                       ...(i === 0
                         ? {
-                            background: isDark
-                              ? "linear-gradient(to bottom right, white, #fb923c)"
-                              : "linear-gradient(to bottom right, #2a2a2a, #e8663a)",
+                            background: "linear-gradient(to bottom right, #ffffff, #f39c12)",
                             WebkitBackgroundClip: "text",
                             WebkitTextFillColor: "transparent",
                             backgroundClip: "text",
                             color: "transparent",
                           }
                         : {
-                            color: isDark ? "#ffffff" : "#2a2a2a",
+                            color: "#ffffff",
                           }),
                     }}
                   >
@@ -832,9 +612,7 @@ const ProblemSection = () => {
                       fontWeight: 600,
                       letterSpacing: "1.5px",
                       textTransform: "uppercase",
-                      color: isDark
-                        ? "rgba(255,255,255,0.25)"
-                        : "rgba(0,0,0,0.70)",
+                      color: "rgba(255,255,255,0.5)",
                     }}
                   >
                     {stat.lbl}
