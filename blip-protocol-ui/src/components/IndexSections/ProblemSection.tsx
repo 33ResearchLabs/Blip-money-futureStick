@@ -522,7 +522,7 @@ const ProblemSection = () => {
             {/* Title */}
             <div
               style={{
-                fontSize: "clamp(2.6rem, 4.2vw, 4rem)",
+                fontSize: "clamp(2.5rem, 4.5vw, 3.5rem)",
                 fontWeight: 700,
                 letterSpacing: "-0.05em",
                 lineHeight: 0.95,

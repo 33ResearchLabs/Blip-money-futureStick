@@ -95,7 +95,7 @@ const CinematicHero = () => {
           transition={{ duration: 1.2, ease: "easeOut", delay: 0.08 }}
           className="select-none text-[#1a1a1a] dark:text-white"
           style={{
-            fontSize: "clamp(3.5rem, 7vw, 7rem)",
+            fontSize: "clamp(3rem, 6vw, 5rem)",
             fontWeight: 700,
             lineHeight: 1.05,
             letterSpacing: "-0.04em",

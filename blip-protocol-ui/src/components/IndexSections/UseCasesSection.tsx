@@ -262,7 +262,7 @@ function FeatureBlock({
             {label}
           </div>
           <h3 style={{
-            fontSize: "clamp(2rem, 4vw, 3rem)",
+            fontSize: "clamp(1.8rem, 3vw, 2.5rem)",
             fontWeight: 700,
             letterSpacing: "-0.035em",
             lineHeight: 1.1,
@@ -398,7 +398,7 @@ function EarnBlock({ isDark }: { isDark: boolean }) {
             transition={{ duration: 1, ease: EASE }}
           >
             <h3 style={{
-              fontSize: "clamp(3rem, 6vw, 5rem)",
+              fontSize: "clamp(2.5rem, 4.5vw, 3.5rem)",
               fontWeight: 700,
               letterSpacing: "-0.04em",
               lineHeight: 1,

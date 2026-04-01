@@ -439,7 +439,7 @@ const ProtocolInterstitial = () => {
           viewport={{ once: true }}
           transition={{ duration: 1, ease: EASE }}
           style={{
-            fontSize: "clamp(3rem, 7vw, 6rem)",
+            fontSize: "clamp(2.5rem, 4.5vw, 3.5rem)",
             fontWeight: 700,
             letterSpacing: "-0.04em",
             lineHeight: 1.05,
@@ -542,7 +542,7 @@ function FeatureBlock({
             {feature.label}
           </div>
           <h3 style={{
-            fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 700,
+            fontSize: "clamp(1.8rem, 3vw, 2.5rem)", fontWeight: 700,
             letterSpacing: "-0.035em", lineHeight: 1.1,
             color: isDark ? "#fff" : "#1d1d1f", marginBottom: 8,
           }}>
