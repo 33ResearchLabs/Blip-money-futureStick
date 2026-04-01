@@ -426,9 +426,7 @@ const App = () => {
           
           
         </motion.h2>
-        <span className="heading-h2 bg-orange-600/10 text-[#ff6b35] px-3 py-.5  rounded-md">
-            Every use case.
-          </span>
+        <span className="heading-h2">Every use case.</span>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -508,7 +506,7 @@ const App = () => {
             <h3 className="heading-h3 select-none text-center text-black dark:text-white">
               {step.h1}
               <br />
-              <span className="inline-block mt-1 bg-orange-600/10 text-[#ff6b35] px-3 py-.5  rounded-md">
+              <span className="inline-block mt-1">
                 {step.h2}
               </span>
             </h3>
@@ -607,7 +605,7 @@ const App = () => {
                 >
                   {s.h1}
                   <br />
-                  <span className="inline-block mt-1 bg-orange-600/10 text-[#ff6b35] px-3 py-.5 rounded-md ">
+                  <span className="inline-block mt-1">
                     {s.h2}
                   </span>
                 </motion.h3>
@@ -711,7 +709,7 @@ const Sparkline = ({
 const CIRCLE_FRIENDS = [
   {
     name: "Alex",
-    color: "#ff6b35",
+    color: "#86868b",
     emoji: "🧑",
     status: "active",
     action: "Sent",
@@ -1166,7 +1164,7 @@ const SendScreen = ({ isDark }: { isDark: boolean }) => {
                 style={{
                   fontSize: 9,
                   fontWeight: 900,
-                  color: i === 0 ? (isDark ? "#ff8f5e" : "#ff6b35") : c.sub,
+                  color: i === 0 ? (isDark ? "#ffffff" : "#1d1d1f") : c.sub,
                 }}
               >
                 {f.name}
@@ -1656,7 +1654,7 @@ const BILLS = [
     amt: "4,200",
     due: "Due 5 Mar",
     emoji: "🏠",
-    color: "#ff6b35",
+    color: "#86868b",
     active: true,
   },
   {

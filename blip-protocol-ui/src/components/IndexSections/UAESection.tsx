@@ -83,7 +83,7 @@ const UAESection = () => {
         >
           Launching in
           <br />
-          <span className=" bg-orange-600/10 text-[#ff6b35] px-3 py-.5  rounded-md">Dubai.</span>
+          Dubai.
         </h2>
 
         <p className="p-large text-white max-w-lg mx-auto text-center mb-14">

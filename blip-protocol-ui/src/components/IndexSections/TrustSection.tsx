@@ -83,9 +83,7 @@ const TrustSection = () => {
           Built for trust.
           <br />
          
-          <span className="bg-orange-600/10 text-[#ff6b35] px-3 py-.5  rounded-md">
-             Designed for speed.
-          </span>
+Designed for speed.
         </h2>
 
         <p className="p-large text-black/80 dark:text-white/50 max-w-lg text-center mx-auto mb-10">

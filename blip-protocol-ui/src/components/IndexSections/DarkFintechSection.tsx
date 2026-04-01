@@ -646,7 +646,7 @@ function InstantBiddingUnwrap() {
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 0.6, delay: 0.5, ease: EASE }}
-          className="h-[1px] mt-4 mx-auto w-20 bg-gradient-to-r from-transparent via-[#ff6b35]/60 to-transparent"
+          className="h-[1px] mt-4 mx-auto w-20 bg-gradient-to-r from-transparent via-black/10 dark:via-white/10 to-transparent"
         />
       </motion.div>
 
@@ -1276,13 +1276,13 @@ function PremiumFintechSection() {
                     initial={{ scaleX: 0 }}
                     animate={{ scaleX: 1 }}
                     transition={{ duration: 0.8, delay: 0.3, ease: EASE }}
-                    className="w-16 h-[1px] bg-gradient-to-r from-[#ff6b35]/60 to-transparent mb-10 origin-left"
+                    className="w-16 h-[1px] bg-gradient-to-r from-black/15 dark:from-white/15 to-transparent mb-10 origin-left"
                   />
                   <motion.h3
                     initial={{ opacity: 0, x: -40 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 1, delay: 0.1, ease: EASE }}
-                    className="heading-h3 leading-tight font-display bg-gradient-to-br from-black via-black/80 to-black/50 dark:from-white dark:via-white/80 dark:to-white/40 bg-clip-text text-transparent"
+                    className="heading-h3 leading-tight font-display text-[#1d1d1f] dark:text-white"
                   >
                     {stageCopy.instantMatch.headline}
                   </motion.h3>
@@ -1290,7 +1290,7 @@ function PremiumFintechSection() {
                     initial={{ scaleX: 0 }}
                     animate={{ scaleX: 1 }}
                     transition={{ duration: 0.6, delay: 0.6, ease: EASE }}
-                    className="h-[1px] mt-4 w-32 bg-gradient-to-r from-[#ff6b35]/50 to-transparent origin-left"
+                    className="h-[1px] mt-4 w-32 bg-gradient-to-r from-black/10 dark:from-white/10 to-transparent origin-left"
                   />
                   <motion.p
                     initial={{ opacity: 0, y: 10 }}
@@ -1350,7 +1350,7 @@ function PremiumFintechSection() {
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 2, delay: 0.3, ease: EASE }}
-                    className="heading-h2 bg-gradient-to-br from-black via-black/80 to-black/50 dark:from-white dark:via-white/80 dark:to-white/40 bg-clip-text text-transparent"
+                    className="heading-h2 text-[#1d1d1f] dark:text-white"
                   >
                     {stageCopy.globalRemittance.headline}
                   </motion.h2>
@@ -1358,7 +1358,7 @@ function PremiumFintechSection() {
                     initial={{ scaleX: 0 }}
                     animate={{ scaleX: 1 }}
                     transition={{ duration: 1, delay: 1.2, ease: EASE }}
-                    className="h-[1px] mt-5 w-24 bg-gradient-to-r from-transparent via-[#ff6b35]/40 to-transparent"
+                    className="h-[1px] mt-5 w-24 bg-gradient-to-r from-transparent via-black/10 dark:via-white/10 to-transparent"
                   />
                   <motion.p
                     initial={{ opacity: 0 }}
@@ -1414,7 +1414,7 @@ function PremiumFintechSection() {
                       className="text-center"
                     >
                       <h2
-                        className="heading-h2 bg-gradient-to-br from-black via-black/80 to-black/50 dark:from-white dark:via-white/80 dark:to-white/40 bg-clip-text text-transparent inline-block leading-[1.2] pb-1"
+                        className="heading-h2 text-[#1d1d1f] dark:text-white inline-block leading-[1.2] pb-1"
                       >
                         {stageCopy.sendUsdt.headline}
                       </h2>
@@ -1430,7 +1430,7 @@ function PremiumFintechSection() {
                         initial={{ scaleX: 0 }}
                         animate={{ scaleX: 1 }}
                         transition={{ duration: 0.6, delay: 0.4, ease: EASE }}
-                        className="h-[1px] mt-4 mx-auto bg-gradient-to-r from-transparent via-[#ff6b35]/50 to-transparent origin-left"
+                        className="h-[1px] mt-4 mx-auto bg-gradient-to-r from-transparent via-black/10 dark:via-white/10 to-transparent origin-left"
                       />
                     </motion.div>
                   )}
@@ -1454,7 +1454,7 @@ function PremiumFintechSection() {
                         initial={{ scaleX: 0 }}
                         animate={{ scaleX: 1 }}
                         transition={{ duration: 0.5, delay: 0.5, ease: EASE }}
-                        className="h-[1px] mt-3 mx-auto w-16 bg-gradient-to-r from-transparent via-[#ff6b35]/40 to-transparent origin-left"
+                        className="h-[1px] mt-3 mx-auto w-16 bg-gradient-to-r from-transparent via-black/10 dark:via-white/10 to-transparent origin-left"
                       />
                     </motion.div>
                   )}
@@ -1660,7 +1660,7 @@ function PremiumFintechSection() {
                             <span className="text-[11px] font-semibold text-gray-900 dark:text-white">
                               Transactions
                             </span>
-                            <span className="text-[10px] font-semibold text-[#ff6b35]">
+                            <span className="text-[10px] font-semibold text-black/35 dark:text-white/35">
                               See all &gt;
                             </span>
                           </div>
