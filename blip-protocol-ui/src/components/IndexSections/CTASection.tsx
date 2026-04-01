@@ -101,9 +101,7 @@ const CTASection = () => {
             marginBottom: 24,
           }}
         >
-          <span className="text-black dark:text-white">Join the merchant</span>
-          <br />
-          <span className="bg-orange-600/10 text-[#ff6b35] px-3 py-.5  rounded-md">Network.</span>
+          <span className="text-black dark:text-white">The new financial rail is being built.</span>
         </motion.h2>
 
         <motion.p
@@ -113,7 +111,7 @@ const CTASection = () => {
           transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           className="p-large text-black dark:text-white/40 max-w-md mx-auto mb-8 sm:mb-12 px-4"
         >
-          Access global liquidity. Start trading instantly.
+          Join early. Secure your position.
         </motion.p>
 
         <motion.div
@@ -124,10 +122,13 @@ const CTASection = () => {
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <CTAButton to="/waitlist" className="w-[180px] h-[48px]">
-            Join Waitlist
+            Join waitlist
           </CTAButton>
-          <CTAButton to="/whitepaper" variant="secondary" className="w-[180px] h-[48px]">
-            Whitepaper
+          <CTAButton to="/start" variant="secondary" className="w-[180px] h-[48px]">
+            Start using
+          </CTAButton>
+          <CTAButton to="/liquidity" variant="secondary" className="w-[180px] h-[48px]">
+            Provide liquidity
           </CTAButton>
         </motion.div>
       </motion.div>

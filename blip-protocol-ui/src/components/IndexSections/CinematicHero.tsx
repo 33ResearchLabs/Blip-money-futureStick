@@ -131,19 +131,8 @@ const CinematicHero = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: EASE, delay: 0.22 }}
-          style={{ maxWidth: 360, margin: "0 auto 36px" }}
+          style={{ maxWidth: 480, margin: "0 auto 36px" }}
         >
-          <p
-            className="text-[#1a1a1a] dark:text-white text-base"
-            style={{
-              fontSize: 22,
-              fontWeight: 500,
-              letterSpacing: "-0.4px",
-              marginBottom: 14,
-            }}
-          >
-            Send value to anyone, anywhere.
-          </p>
           <p
             className="text-[#666] dark:text-[#888]"
             style={{
@@ -151,27 +140,46 @@ const CinematicHero = () => {
               lineHeight: 1.6,
             }}
           >
-            Powered by open, permissionless infrastructure and non-custodial
-            liquidity.
+            Instant fiat settlement powered by global liquidity.
+            No banks. No delays. No middlemen.
           </p>
         </motion.div>
 
-        {/* CTA buttons */}
+        {/* Segmented CTAs */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: EASE, delay: 0.38 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-3"
+          className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-10"
         >
-          {/* Primary */}
           <CTAButton to="/waitlist">
-            Join Waitlist
+            Join as User
           </CTAButton>
-
-          {/* Secondary */}
+          <CTAButton to="/waitlist" variant="secondary">
+            Provide Liquidity
+          </CTAButton>
           <CTAButton to="/merchant" variant="secondary">
-            Become a Merchant
+            Accept Payments
           </CTAButton>
+        </motion.div>
+
+        {/* Micro-proof stats */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, ease: EASE, delay: 0.6 }}
+          className="flex items-center justify-center gap-6"
+        >
+          {[
+            { label: "Avg settlement", value: "~42s" },
+            { label: "Active routes", value: "42" },
+          ].map((s, i) => (
+            <div key={s.label} className="flex items-center gap-2">
+              {i > 0 && <div className="w-px h-3 bg-black/10 dark:bg-white/10" />}
+              <span className="text-[11px] text-[#999] dark:text-[#555]">{s.label}:</span>
+              <span className="text-[11px] font-semibold font-mono text-[#666] dark:text-[#888]">{s.value}</span>
+            </div>
+          ))}
         </motion.div>
       </main>
     </section>

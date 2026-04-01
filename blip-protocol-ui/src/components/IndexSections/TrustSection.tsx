@@ -10,35 +10,33 @@ import { Link } from "react-router-dom";
 const trustCards = [
   {
     icon: Shield,
-    title: "Non-custodial",
-    desc: "Funds never touch Blip servers. You hold the keys. Smart contracts enforce every step.",
-    tag: "Security",
+    title: "Deterministic settlement",
+    desc: "Settlement logic is deterministic — no ambiguity, no manual intervention. Every outcome is predefined by protocol rules.",
+    tag: "Settlement",
     accent: "rgba(255,107,53,0.12)",
     accentBorder: "rgba(255,107,53,0.2)",
   },
   {
     icon: CheckCircle2,
-    title: "On-chain settlement",
-    desc: "Every trade is verifiable on-chain. No hidden clearing. No trust required.",
-    tag: "Transparency",
+    title: "Escrow + execution guarantees",
+    desc: "Funds are locked in escrow before execution begins. Guarantees are enforced by smart contracts, not promises.",
+    tag: "Guarantees",
     accent: "rgba(0,229,153,0.08)",
     accentBorder: "rgba(0,229,153,0.2)",
   },
   {
     icon: FileText,
-    title: "Whitepaper",
-    desc: "Full protocol documentation — escrow mechanics, reputation scoring, liquidity auctions.",
-    tag: "Documentation",
-    link: "/whitepaper",
-    linkLabel: "Read whitepaper →",
+    title: "On-chain verification",
+    desc: "Every transaction is verifiable on-chain. Full transparency, no hidden clearing, no trust required.",
+    tag: "Verification",
     accent: "rgba(120,119,255,0.08)",
     accentBorder: "rgba(120,119,255,0.2)",
   },
   {
     icon: Map,
-    title: "Roadmap",
-    desc: "Q2 2025 Dubai beta · Q3 Global expansion · Q4 DAO governance · 2026 Open protocol.",
-    tag: "Milestones",
+    title: "System isolation",
+    desc: "No single point of failure. Each component operates independently — if one fails, the rest continue unaffected.",
+    tag: "Resilience",
     accent: "rgba(255,107,53,0.08)",
     accentBorder: "rgba(255,107,53,0.15)",
   },
@@ -80,17 +78,12 @@ const TrustSection = () => {
 
         {/* Heading */}
         <h2 className="heading-h2 text-black dark:text-white text-center mb-6">
-          Built for trust.
-          <br />
-         
-          <span className="bg-orange-600/10 text-[#ff6b35] px-3 py-.5  rounded-md">
-             Designed for speed.
-          </span>
+          Built to not break.
         </h2>
 
         <p className="p-large text-black/80 dark:text-white/50 max-w-lg text-center mx-auto mb-10">
-          Blip is infrastructure, not a product. Designed to operate without
-          trust — verified by code, secured by escrow, governed by reputation.
+          Engineered with deterministic logic, escrow-backed execution,
+          on-chain verification, and full system isolation.
         </p>
 
         {/* 2×2 grid */}

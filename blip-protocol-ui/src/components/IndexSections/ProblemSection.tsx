@@ -1,8 +1,21 @@
-import { useState, useEffect, useRef, memo } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useRef, memo, useCallback } from "react";
+import { motion, useInView } from "framer-motion";
 import { useTheme } from "next-themes";
 import { CTAButton } from "../Navbar";
 import createGlobe from "cobe";
+
+/* ── Live counter hook ── */
+function useLiveCounter(rate: number, start: boolean) {
+  const [value, setValue] = useState(0);
+  useEffect(() => {
+    if (!start) return;
+    const interval = setInterval(() => {
+      setValue((v) => v + rate);
+    }, 50);
+    return () => clearInterval(interval);
+  }, [rate, start]);
+  return value;
+}
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -52,7 +65,7 @@ const CARDS = [
 
 /* ── Bento stats ── */
 const BENTO = [
-  { val: "<2s", lbl: "Settlement" },
+  { val: "<60s", lbl: "Settlement" },
   { val: "1.5%", lbl: "Cheapest in market" },
   { val: "Non-custodial", lbl: "You keep control" },
   { val: "On-chain", lbl: "Full transparency" },
@@ -140,13 +153,328 @@ function NightGlobe() {
   );
 }
 
+/* ── Card wrapper ── */
+function CardShell({ children }: { children: React.ReactNode }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 28 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.7, ease: EASE }}
+      whileHover={{ y: -6, boxShadow: "0 20px 60px rgba(0,0,0,0.12)" }}
+      style={{
+        position: "relative",
+        background: "#ffffff",
+        borderRadius: 20,
+        overflow: "hidden",
+        minHeight: 360,
+        boxShadow: "0 2px 20px rgba(0,0,0,0.06)",
+        transition: "all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+        cursor: "default",
+      }}
+    >
+      <div style={{ position: "relative", zIndex: 2, padding: "36px 32px 32px", display: "flex", flexDirection: "column", height: "100%" }}>
+        {children}
+      </div>
+    </motion.div>
+  );
+}
+
+/* ── Card 1: The Cost — live money lost counter ── */
+function CostCard() {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true });
+  const lost = useLiveCounter(isInView ? 127 : 0, isInView); // $127 lost every 50ms = ~$2,540/sec globally
+
+  return (
+    <div ref={ref}>
+      <CardShell>
+        <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginBottom: 16 }}>
+          The Cost
+        </span>
+
+        {/* Big stat */}
+        <div style={{ fontSize: "clamp(3.5rem, 5vw, 4.8rem)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 0.95, marginBottom: 6, color: "#1d1d1f" }}>
+          7%
+        </div>
+        <div style={{ fontSize: "clamp(1rem, 1.6vw, 1.15rem)", fontWeight: 500, color: "rgba(0,0,0,0.5)", marginBottom: 20 }}>
+          Lost before it arrives.
+        </div>
+
+        {/* Live counter */}
+        <div style={{ background: "rgba(0,0,0,0.03)", borderRadius: 12, padding: "14px 16px", marginBottom: 8 }}>
+          <div style={{ fontSize: 9, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.3)", marginBottom: 6 }}>
+            Money lost to fees right now
+          </div>
+          <div className="font-mono" style={{ fontSize: 24, fontWeight: 700, color: "#e53e3e", letterSpacing: "-0.03em" }}>
+            ${Math.floor(lost).toLocaleString()}
+          </div>
+          <motion.div
+            animate={{ opacity: [0.4, 1, 0.4] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+            style={{ fontSize: 10, color: "#e53e3e", marginTop: 4, fontWeight: 500 }}
+          >
+            ● counting...
+          </motion.div>
+        </div>
+
+        <div style={{ marginTop: "auto", paddingTop: 12, fontSize: 13, fontWeight: 400, color: "rgba(0,0,0,0.35)" }}>
+          Every cross-border transfer.
+        </div>
+      </CardShell>
+    </div>
+  );
+}
+
+/* ── Card 2: The Wait — live clock counting up ── */
+function WaitCard() {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true });
+  const [elapsed, setElapsed] = useState(0);
+
+  useEffect(() => {
+    if (!isInView) return;
+    const start = Date.now();
+    const id = setInterval(() => setElapsed(Date.now() - start), 100);
+    return () => clearInterval(id);
+  }, [isInView]);
+
+  const hours = Math.floor(elapsed / 3600000);
+  const mins = Math.floor((elapsed % 3600000) / 60000);
+  const secs = Math.floor((elapsed % 60000) / 1000);
+  const ms = Math.floor((elapsed % 1000) / 10);
+
+  return (
+    <div ref={ref}>
+      <CardShell>
+        <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginBottom: 16 }}>
+          The Wait
+        </span>
+
+        <div style={{ fontSize: "clamp(2.8rem, 4vw, 3.8rem)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 0.95, marginBottom: 6, color: "#1d1d1f" }}>
+          3 – 5 Days
+        </div>
+        <div style={{ fontSize: "clamp(1rem, 1.6vw, 1.15rem)", fontWeight: 500, color: "rgba(0,0,0,0.5)", marginBottom: 20 }}>
+          To settle.
+        </div>
+
+        {/* Live timer */}
+        <div style={{ background: "rgba(0,0,0,0.03)", borderRadius: 12, padding: "14px 16px", marginBottom: 8 }}>
+          <div style={{ fontSize: 9, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.3)", marginBottom: 6 }}>
+            Time waiting on this page
+          </div>
+          <div className="font-mono" style={{ fontSize: 24, fontWeight: 700, color: "#1d1d1f", letterSpacing: "0.02em" }}>
+            {String(hours).padStart(2, "0")}:{String(mins).padStart(2, "0")}:{String(secs).padStart(2, "0")}
+            <span style={{ fontSize: 14, color: "rgba(0,0,0,0.25)" }}>.{String(ms).padStart(2, "0")}</span>
+          </div>
+          <div style={{ fontSize: 10, color: "rgba(0,0,0,0.3)", marginTop: 4, fontWeight: 500 }}>
+            Traditional rails: 72–120 hours
+          </div>
+        </div>
+
+        {/* Stalled progress */}
+        <div style={{ marginTop: "auto", paddingTop: 12 }}>
+          <div className="flex justify-between mb-1">
+            <span style={{ fontSize: 10, color: "rgba(0,0,0,0.3)" }}>Settlement progress</span>
+            <span style={{ fontSize: 10, fontWeight: 600, color: "rgba(0,0,0,0.3)" }}>Pending...</span>
+          </div>
+          <div style={{ height: 3, background: "rgba(0,0,0,0.06)", borderRadius: 4 }}>
+            <motion.div
+              style={{ height: "100%", background: "#1d1d1f", borderRadius: 4 }}
+              animate={{ width: ["0%", "73%", "75%", "75%", "0%"], opacity: [1, 1, 1, 0, 0] }}
+              transition={{ duration: 5.5, times: [0, 0.55, 0.72, 0.88, 1], repeat: Infinity, ease: "easeInOut" }}
+            />
+          </div>
+        </div>
+      </CardShell>
+    </div>
+  );
+}
+
+/* ── Card 3: The Exposure — live transaction tracker ── */
+function TrackedCard() {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true });
+  const [txCount, setTxCount] = useState(0);
+  const [logs, setLogs] = useState<string[]>([]);
+
+  const txTypes = ["Wire transfer", "Card payment", "Bank deposit", "SWIFT transfer", "ACH debit", "Direct debit"];
+
+  useEffect(() => {
+    if (!isInView) return;
+    const id = setInterval(() => {
+      setTxCount((v) => v + 1);
+      const type = txTypes[Math.floor(Math.random() * txTypes.length)];
+      const id = Math.random().toString(36).slice(2, 8).toUpperCase();
+      setLogs((prev) => [`${type} · ${id}`, ...prev].slice(0, 3));
+    }, 1800);
+    return () => clearInterval(id);
+  }, [isInView]);
+
+  return (
+    <div ref={ref}>
+      <CardShell>
+        <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginBottom: 16 }}>
+          The Exposure
+        </span>
+
+        <div style={{ marginBottom: 4 }}>
+          <span style={{ fontSize: "clamp(1.1rem, 1.8vw, 1.35rem)", fontWeight: 500, color: "rgba(0,0,0,0.45)" }}>
+            Every transaction
+          </span>
+        </div>
+        <div style={{ fontSize: "clamp(3.5rem, 5vw, 4.8rem)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 0.95, marginBottom: 6, color: "#1d1d1f" }}>
+          Tracked.
+        </div>
+        <div style={{ fontSize: "clamp(1rem, 1.6vw, 1.15rem)", fontWeight: 500, color: "rgba(0,0,0,0.5)", marginBottom: 20 }}>
+          Stored. Shared. Permanent.
+        </div>
+
+        {/* Live log */}
+        <div style={{ background: "rgba(0,0,0,0.03)", borderRadius: 12, padding: "14px 16px" }}>
+          <div className="flex items-center justify-between mb-2">
+            <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.3)" }}>
+              Transactions logged
+            </span>
+            <span className="font-mono" style={{ fontSize: 12, fontWeight: 700, color: "#1d1d1f" }}>
+              {txCount.toLocaleString()}
+            </span>
+          </div>
+          <div className="space-y-1">
+            {logs.map((log, i) => (
+              <motion.div
+                key={`${log}-${i}`}
+                initial={i === 0 ? { opacity: 0, y: -6 } : false}
+                animate={{ opacity: i === 0 ? 1 : 0.5, y: 0 }}
+                className="flex items-center gap-2"
+              >
+                <div className="w-1 h-1 rounded-full" style={{ background: i === 0 ? "#e53e3e" : "rgba(0,0,0,0.15)" }} />
+                <span className="font-mono" style={{ fontSize: 10, color: i === 0 ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.25)" }}>
+                  {log}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </CardShell>
+    </div>
+  );
+}
+
+/* ── Live network dashboard for Enter Blip card ── */
+function BlipSettlementDemo() {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true });
+  const [txCount, setTxCount] = useState(148392);
+  const [volume, setVolume] = useState(24847192);
+  const [blockNum, setBlockNum] = useState(248173);
+  const [settlements, setSettlements] = useState([
+    { tx: "7xKm...4pQn", amount: "$2,400", pair: "USDT→AED", time: "42s" },
+    { tx: "3aRt...9mWz", amount: "$850", pair: "USDT→INR", time: "38s" },
+    { tx: "9pLx...2cNv", amount: "$5,100", pair: "USDT→PHP", time: "55s" },
+  ]);
+  const [bestRates, setBestRates] = useState([
+    { pair: "USDT/AED", rate: "3.665", merchant: "AlphaFX" },
+    { pair: "USDT/INR", rate: "83.42", merchant: "SwiftExch" },
+    { pair: "USDT/PHP", rate: "55.81", merchant: "GulfTrade" },
+  ]);
+
+  const txPairs = ["USDT→AED", "USDT→INR", "USDT→PHP", "USDT→NGN", "USDT→PKR", "USDT→EGP"];
+  const merchants = ["AlphaFX", "GulfTrade", "SwiftExch", "NovaP2P", "CedarFX"];
+
+  useEffect(() => {
+    if (!isInView) return;
+    const id = setInterval(() => {
+      const addTx = Math.floor(Math.random() * 3) + 1;
+      const addVol = Math.floor(Math.random() * 15000) + 2000;
+      setTxCount((v) => v + addTx);
+      setVolume((v) => v + addVol);
+      setBlockNum((v) => v + 1);
+
+      // New settlement
+      const pair = txPairs[Math.floor(Math.random() * txPairs.length)];
+      const amt = (Math.random() * 8000 + 200).toFixed(0);
+      const t = Math.floor(Math.random() * 35 + 25);
+      const hash = Math.random().toString(36).slice(2, 6) + "..." + Math.random().toString(36).slice(2, 6);
+      setSettlements((prev) => [{ tx: hash, amount: `$${Number(amt).toLocaleString()}`, pair, time: `${t}s` }, ...prev].slice(0, 4));
+
+      // Fluctuate rates
+      setBestRates((prev) => prev.map((r) => ({
+        ...r,
+        rate: (parseFloat(r.rate) + (Math.random() - 0.5) * 0.01).toFixed(r.rate.length > 4 ? 2 : 3),
+        merchant: merchants[Math.floor(Math.random() * merchants.length)],
+      })));
+    }, 2200);
+    return () => clearInterval(id);
+  }, [isInView]);
+
+  return (
+    <div ref={ref} className="rounded-xl overflow-hidden" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}>
+      {/* Stats row */}
+      <div className="flex" style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
+        {[
+          { label: "Tx", value: txCount.toLocaleString() },
+          { label: "Vol", value: `$${(volume / 1000000).toFixed(1)}M` },
+          { label: "Block", value: `#${blockNum.toLocaleString()}` },
+        ].map((s, i) => (
+          <div key={s.label} className="flex-1 py-2.5 px-3" style={{ borderRight: i < 2 ? "1px solid rgba(255,255,255,0.04)" : "none" }}>
+            <div style={{ fontSize: 7, fontWeight: 600, letterSpacing: "1px", textTransform: "uppercase", color: "rgba(255,255,255,0.25)", marginBottom: 2 }}>{s.label}</div>
+            <motion.div key={s.value} initial={{ y: -2, opacity: 0.6 }} animate={{ y: 0, opacity: 1 }} className="font-mono" style={{ fontSize: 12, fontWeight: 700, color: "#fff" }}>{s.value}</motion.div>
+          </div>
+        ))}
+      </div>
+
+      {/* Settlements — 2 rows */}
+      <div style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
+        <div className="flex items-center justify-between px-3 py-1.5">
+          <div className="flex items-center gap-1.5">
+            <motion.div className="w-1 h-1 rounded-full bg-[#3ddc84]" animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 1.2, repeat: Infinity }} />
+            <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", color: "rgba(255,255,255,0.25)" }}>Settlements</span>
+          </div>
+          <span className="font-mono" style={{ fontSize: 8, color: "rgba(255,255,255,0.15)" }}>Solana</span>
+        </div>
+        {settlements.slice(0, 2).map((s, i) => (
+          <motion.div key={`${s.tx}-${i}`} initial={i === 0 ? { opacity: 0, x: -6 } : false} animate={{ opacity: 1, x: 0 }} className="flex items-center justify-between px-3 py-1.5" style={{ borderTop: "1px solid rgba(255,255,255,0.03)" }}>
+            <div className="flex items-center gap-2">
+              <span style={{ fontSize: 8, color: "#3ddc84" }}>✓</span>
+              <span className="font-mono" style={{ fontSize: 9, color: "rgba(255,255,255,0.4)" }}>{s.tx}</span>
+              <span style={{ fontSize: 8, color: "rgba(255,255,255,0.2)" }}>{s.pair}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="font-mono" style={{ fontSize: 9, color: "#3ddc84" }}>{s.time}</span>
+              <span style={{ fontSize: 10, fontWeight: 600, color: "rgba(255,255,255,0.5)" }}>{s.amount}</span>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Best rates — 2 rows */}
+      <div>
+        <div className="flex items-center justify-between px-3 py-1.5">
+          <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", color: "rgba(255,255,255,0.25)" }}>Best rates</span>
+          <span style={{ fontSize: 8, color: "rgba(255,255,255,0.15)" }}>Live</span>
+        </div>
+        {bestRates.slice(0, 2).map((r, i) => (
+          <div key={r.pair} className="flex items-center justify-between px-3 py-1.5" style={{ borderTop: "1px solid rgba(255,255,255,0.03)" }}>
+            <div className="flex items-center gap-2">
+              <span style={{ fontSize: 10, fontWeight: 600, color: "rgba(255,255,255,0.5)" }}>{r.pair}</span>
+              <span style={{ fontSize: 8, color: "rgba(255,255,255,0.15)" }}>{r.merchant}</span>
+            </div>
+            <motion.span key={r.rate} initial={{ opacity: 0.5 }} animate={{ opacity: 1 }} className="font-mono" style={{ fontSize: 11, fontWeight: 700, color: "#fff" }}>{r.rate}</motion.span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 const ProblemSection = () => {
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
   const isDark = mounted ? theme === "dark" : true;
 
-  const cards = CARDS;
+  // CARDS data kept for reference but cards now rendered by individual components
 
   return (
     <section
@@ -286,153 +614,14 @@ const ProblemSection = () => {
           Stablecoin adoption is rising. Merchants are stuck. The timing is now.
         </motion.p>
 
-        {/* ── 3 Problem Cards ── */}
-        {/* ── 3 Problem Cards — Apple style ── */}
+        {/* ── 3 Problem Cards — Live animated data ── */}
         <div
           className="grid grid-cols-1 md:grid-cols-3"
           style={{ gap: 16, marginBottom: 16 }}
         >
-          {cards.map((card, i) => (
-            <motion.div
-              key={card.eyebrow}
-              initial={{ opacity: 0, y: 28 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.08 + i * 0.1, ease: EASE }}
-              whileHover={{ y: -6, boxShadow: "0 20px 60px rgba(0,0,0,0.12)" }}
-              style={{
-                position: "relative",
-                background: "#ffffff",
-                borderRadius: 20,
-                overflow: "hidden",
-                height: 340,
-                border: "none",
-                boxShadow: "0 2px 20px rgba(0,0,0,0.06)",
-                transition: "all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-                cursor: "default",
-              }}
-            >
-              {/* Content */}
-              <div
-                style={{
-                  position: "relative",
-                  zIndex: 2,
-                  padding: "36px 32px 32px",
-                  display: "flex",
-                  flexDirection: "column",
-                  height: "100%",
-                }}
-              >
-                {/* Eyebrow */}
-                <span
-                  style={{
-                    display: "block",
-                    fontSize: 11,
-                    fontWeight: 600,
-                    letterSpacing: "1.5px",
-                    textTransform: "uppercase",
-                    color: "rgba(0,0,0,0.4)",
-                    marginBottom: 24,
-                  }}
-                >
-                  {card.eyebrow}
-                </span>
-
-                {/* Pre-headline */}
-                {card.headlinePre && (
-                  <span
-                    style={{
-                      display: "block",
-                      fontSize: "clamp(1.1rem, 1.8vw, 1.35rem)",
-                      fontWeight: 500,
-                      color: "rgba(0,0,0,0.45)",
-                      letterSpacing: "-0.02em",
-                      lineHeight: 1.3,
-                      marginBottom: 4,
-                    }}
-                  >
-                    {card.headlinePre}
-                  </span>
-                )}
-
-                {/* Headline */}
-                <div
-                  style={{
-                    fontSize: "clamp(3.5rem, 5vw, 4.8rem)",
-                    fontWeight: 700,
-                    letterSpacing: "-0.04em",
-                    lineHeight: 0.95,
-                    marginBottom: 12,
-                    color: "#1d1d1f",
-                  }}
-                >
-                  {card.headline}
-                </div>
-
-                {/* Sub */}
-                {card.sub && (
-                  <div
-                    style={{
-                      fontSize: "clamp(1rem, 1.6vw, 1.15rem)",
-                      fontWeight: 500,
-                      color: "rgba(0,0,0,0.5)",
-                      letterSpacing: "-0.01em",
-                      lineHeight: 1.4,
-                    }}
-                  >
-                    {card.sub}
-                  </div>
-                )}
-
-                {/* Micro */}
-                <div
-                  style={{
-                    marginTop: "auto",
-                    paddingTop: 20,
-                    fontSize: 13,
-                    fontWeight: 400,
-                    color: "rgba(0,0,0,0.35)",
-                    letterSpacing: "-0.01em",
-                  }}
-                >
-                  {card.micro}
-                </div>
-              </div>
-
-              {/* Stalled progress bar — Card 2 only */}
-              {card.hasProgress && (
-                <div
-                  style={{
-                    position: "absolute",
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    height: 3,
-                    background: "rgba(0,0,0,0.06)",
-                    zIndex: 3,
-                  }}
-                >
-                  <motion.div
-                    style={{
-                      height: "100%",
-                      background: "#1d1d1f",
-                      borderRadius: "0 2px 2px 0",
-                    }}
-                    animate={{
-                      width: ["0%", "73%", "75%", "75%", "0%"],
-                      opacity: [1, 1, 1, 0, 0],
-                    }}
-                    transition={{
-                      duration: 5.5,
-                      times: [0, 0.55, 0.72, 0.88, 1],
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
-                  />
-                </div>
-              )}
-            </motion.div>
-          ))}
+          <CostCard />
+          <WaitCard />
+          <TrackedCard />
         </div>
 
         {/* ── Enter Blip card — Apple-style colorful ── */}
@@ -444,39 +633,27 @@ const ProblemSection = () => {
           whileHover={{ y: -3 }}
           className="flex flex-col md:flex-row items-center"
           style={{
-            background: "linear-gradient(135deg, #1d1d1f 0%, #2d1b4e 25%, #4a1942 45%, #c0392b 70%, #f39c12 100%)",
+            background: "#1d1d1f",
             borderRadius: 20,
-            padding: "40px 48px",
-            gap: 48,
+            padding: "32px 36px",
+            gap: 32,
             overflow: "hidden",
             position: "relative",
             border: "none",
-            boxShadow: "0 4px 30px rgba(192,57,43,0.15), 0 20px 60px rgba(0,0,0,0.2)",
+            boxShadow: "0 20px 60px rgba(0,0,0,0.2)",
             transition: "all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
           }}
         >
-          {/* Ambient color blobs */}
+          {/* Subtle top highlight line */}
           <div
             aria-hidden
             style={{
               position: "absolute",
-              top: -80,
-              right: -80,
-              width: 350,
-              height: 350,
-              background: "radial-gradient(circle, rgba(243,156,18,0.3) 0%, transparent 70%)",
-              pointerEvents: "none",
-            }}
-          />
-          <div
-            aria-hidden
-            style={{
-              position: "absolute",
-              bottom: -60,
-              left: -60,
-              width: 300,
-              height: 300,
-              background: "radial-gradient(circle, rgba(142,68,173,0.25) 0%, transparent 70%)",
+              top: 0,
+              left: 0,
+              right: 0,
+              height: 1,
+              background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent)",
               pointerEvents: "none",
             }}
           />
@@ -530,96 +707,55 @@ const ProblemSection = () => {
                 color: "#ffffff",
               }}
             >
-              Enter Blip.
+              This is not a payments app.
+            </div>
+            <div
+              style={{
+                fontSize: "clamp(1.2rem, 2.5vw, 1.6rem)",
+                fontWeight: 500,
+                color: "rgba(255,255,255,0.4)",
+                marginBottom: 20,
+                letterSpacing: "-0.02em",
+              }}
+            >
+              This is a settlement layer.
             </div>
 
             <p
               style={{
-                fontSize: 14,
-                lineHeight: 1.65,
-                color: "rgba(255,255,255,0.7)",
-                marginBottom: 28,
+                fontSize: 15,
+                lineHeight: 1.7,
+                color: "rgba(255,255,255,0.5)",
+                marginBottom: 16,
                 letterSpacing: "-0.01em",
-                maxWidth: 340,
+                maxWidth: 360,
               }}
             >
-              Instant settlement. Minimal fees.
-              <br />
-              Complete privacy.
+              Deterministic execution. On-chain proof. Global liquidity matched in seconds.
             </p>
+
+            {/* Inline stats */}
+            <div className="flex gap-6 mb-8">
+              {[
+                { val: "<60s", lbl: "Settlement" },
+                { val: "150+", lbl: "Merchants" },
+                { val: "On-chain", lbl: "Proof" },
+              ].map((s) => (
+                <div key={s.lbl}>
+                  <div style={{ fontSize: 22, fontWeight: 700, color: "#ffffff", letterSpacing: "-0.03em" }}>{s.val}</div>
+                  <div style={{ fontSize: 9, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(255,255,255,0.3)" }}>{s.lbl}</div>
+                </div>
+              ))}
+            </div>
 
             <CTAButton to="/waitlist">
               Join Waitlist
             </CTAButton>
           </div>
 
-          {/* Right — Bento 2×2 */}
-          <div className="w-full md:w-[380px] flex-shrink-0">
-            <div
-              className="grid grid-cols-1 md:grid-cols-2 rounded-[18px] overflow-hidden"
-              style={{
-                border: "1px solid rgba(255,255,255,0.15)",
-              }}
-            >
-              {BENTO.map((stat, i) => (
-                <div
-                  key={stat.lbl}
-                  style={{
-                    padding: "20px",
-                    transition: "background 0.2s",
-                    background:
-                      i === 0
-                        ? "rgba(255,255,255,0.08)"
-                        : "rgba(255,255,255,0.03)",
-                    borderRight:
-                      i % 2 === 0
-                        ? "1px solid rgba(255,255,255,0.15)"
-                        : "none",
-                    borderBottom:
-                      i < 2
-                        ? "1px solid rgba(255,255,255,0.15)"
-                        : "none",
-                  }}
-                >
-                  {/* Value */}
-                  <div
-                    style={{
-                      fontWeight: 700,
-                      lineHeight: 1,
-                      marginBottom: 4,
-                      fontSize: "clamp(1.25rem, 2vw, 1.75rem)",
-                      letterSpacing: "-0.04em",
-                      ...(i === 0
-                        ? {
-                            background: "linear-gradient(to bottom right, #ffffff, #f39c12)",
-                            WebkitBackgroundClip: "text",
-                            WebkitTextFillColor: "transparent",
-                            backgroundClip: "text",
-                            color: "transparent",
-                          }
-                        : {
-                            color: "#ffffff",
-                          }),
-                    }}
-                  >
-                    {stat.val}
-                  </div>
-
-                  {/* Label */}
-                  <div
-                    style={{
-                      fontSize: 9.5,
-                      fontWeight: 600,
-                      letterSpacing: "1.5px",
-                      textTransform: "uppercase",
-                      color: "rgba(255,255,255,0.5)",
-                    }}
-                  >
-                    {stat.lbl}
-                  </div>
-                </div>
-              ))}
-            </div>
+          {/* Right — Live network stats */}
+          <div className="w-full md:w-[340px] flex-shrink-0">
+            <BlipSettlementDemo />
           </div>
         </motion.div>
       </div>

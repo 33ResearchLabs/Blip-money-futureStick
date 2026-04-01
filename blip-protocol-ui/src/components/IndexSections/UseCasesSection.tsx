@@ -105,490 +105,327 @@ function LiveEarnFeed({ isInView }: { isInView: boolean }) {
   );
 }
 
-/* ── Main section ── */
-const UseCasesSection = () => {
-  const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme === "dark";
-
-  return (
-    <section className="relative overflow-hidden" style={{ background: isDark ? "#000" : "#FAF8F5" }}>
-
-      {/* ── Block 1: Users ── */}
-      <FeatureBlock
-        isDark={isDark}
-        label="For you"
-        headline="Send money like a text message."
-        subline="To anyone. Anywhere. In seconds."
-        desc="Pay with USDT. Your recipient gets local currency — cash, bank transfer, or mobile money. No forms, no delays, no banks in between."
-        features={["Pay globally in seconds", "Recipient gets local fiat", "Private by default", "Earn rewards on every tx"]}
-        visual={
-          <div className="w-full max-w-[380px] mx-auto">
-            {/* Mini phone mockup showing a send flow */}
-            <div className="rounded-3xl overflow-hidden" style={{
-              background: isDark ? "#111" : "#fff",
-              border: isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.06)",
-              boxShadow: "0 20px 60px rgba(0,0,0,0.08)",
-            }}>
-              <div className="px-6 pt-8 pb-4">
-                <div className="text-[10px] font-semibold uppercase tracking-widest text-black/25 dark:text-white/25 mb-4">Sending</div>
-                <div className="text-4xl font-bold text-black/80 dark:text-white tracking-tight mb-1">$2,500</div>
-                <div className="text-sm text-black/30 dark:text-white/30 mb-6">USDT → AED</div>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-full bg-[#ff6b35]/10 flex items-center justify-center text-sm font-bold text-[#ff6b35]">A</div>
-                  <div>
-                    <div className="text-sm font-semibold text-black/70 dark:text-white/70">Ahmed K.</div>
-                    <div className="text-xs text-black/30 dark:text-white/30">Dubai, UAE</div>
-                  </div>
-                  <div className="ml-auto text-xs font-mono text-[#3ddc84] font-semibold">1.2s</div>
-                </div>
-              </div>
-              <div className="px-6 py-4" style={{ borderTop: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.06)" }}>
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-black/30 dark:text-white/30">Fee</span>
-                  <span className="text-xs font-semibold text-black/50 dark:text-white/50">$1.25 (0.05%)</span>
-                </div>
-              </div>
-              <div className="px-6 pb-6 pt-3">
-                <div className="w-full py-3 rounded-xl text-center text-sm font-semibold text-white" style={{ background: "#ff6b35" }}>
-                  Confirm & Send
-                </div>
-              </div>
-            </div>
-          </div>
-        }
-        isEven={true}
-      />
-
-      {/* ── Block 2: Merchants ── */}
-      <FeatureBlock
-        isDark={isDark}
-        label="For merchants"
-        headline="Accept crypto. Get paid in fiat."
-        subline="Zero chargebacks. Instant settlement."
-        desc="Join our merchant network and tap into global crypto liquidity. Our matching engine brings you orders — you provide liquidity and earn on every trade."
-        features={["Receive from any corridor", "No chargebacks — ever", "0.1% merchant fee", "On-demand liquidity"]}
-        visual={
-          <div className="w-full max-w-[380px] mx-auto">
-            <div className="rounded-3xl overflow-hidden" style={{
-              background: isDark ? "#111" : "#fff",
-              border: isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.06)",
-              boxShadow: "0 20px 60px rgba(0,0,0,0.08)",
-            }}>
-              <div className="px-6 pt-8 pb-5">
-                <div className="text-[10px] font-semibold uppercase tracking-widest text-black/25 dark:text-white/25 mb-4">Merchant dashboard</div>
-                <div className="grid grid-cols-2 gap-3 mb-5">
-                  {[
-                    { label: "Today", value: "$24,847", sub: "+12.3%" },
-                    { label: "Orders", value: "142", sub: "matched" },
-                  ].map((s) => (
-                    <div key={s.label} className="rounded-xl p-3" style={{ background: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.02)" }}>
-                      <div className="text-[9px] font-semibold uppercase tracking-wider text-black/25 dark:text-white/25">{s.label}</div>
-                      <div className="text-xl font-bold text-black/80 dark:text-white tracking-tight">{s.value}</div>
-                      <div className="text-[10px] font-semibold text-[#3ddc84]">{s.sub}</div>
-                    </div>
-                  ))}
-                </div>
-                {/* Recent orders */}
-                <div className="text-[9px] font-semibold uppercase tracking-wider text-black/25 dark:text-white/25 mb-2">Recent orders</div>
-                {[
-                  { pair: "USDT → AED", amount: "$1,200", time: "0.8s" },
-                  { pair: "USDT → AED", amount: "$3,400", time: "1.1s" },
-                  { pair: "USDT → AED", amount: "$850", time: "0.6s" },
-                ].map((o, i) => (
-                  <div key={i} className="flex items-center justify-between py-2.5" style={{
-                    borderBottom: i < 2 ? (isDark ? "1px solid rgba(255,255,255,0.05)" : "1px solid rgba(0,0,0,0.05)") : "none",
-                  }}>
-                    <span className="text-xs text-black/50 dark:text-white/50">{o.pair}</span>
-                    <div className="flex items-center gap-3">
-                      <span className="text-xs font-mono text-[#3ddc84]">{o.time}</span>
-                      <span className="text-xs font-semibold text-black/60 dark:text-white/60">{o.amount}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        }
-        isEven={false}
-      />
-
-      {/* ── Block 3: Earn ── */}
-      <EarnBlock isDark={isDark} />
-
-    </section>
-  );
-};
-
-/* ── Full-width feature block ── */
-function FeatureBlock({
-  isDark,
-  label,
-  headline,
-  subline,
-  desc,
-  features,
-  visual,
-  isEven,
-}: {
-  isDark: boolean;
-  label: string;
-  headline: string;
-  subline: string;
-  desc: string;
-  features: string[];
-  visual: React.ReactNode;
-  isEven: boolean;
-}) {
+/* ── Live send animation ── */
+function LiveSendVisual({ isDark }: { isDark: boolean }) {
+  const [phase, setPhase] = useState<"typing" | "sending" | "matching" | "done">("typing");
+  const [cycle, setCycle] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-12%" });
+  const isInView = useInView(ref, { once: false });
+
+  useEffect(() => {
+    if (!isInView) return;
+    const run = () => {
+      setPhase("typing");
+      setTimeout(() => setPhase("sending"), 1500);
+      setTimeout(() => setPhase("matching"), 2500);
+      setTimeout(() => setPhase("done"), 4000);
+      setTimeout(() => setCycle((c) => c + 1), 7000);
+    };
+    run();
+    const id = setInterval(run, 7500);
+    return () => clearInterval(id);
+  }, [isInView, cycle]);
 
   return (
-    <div
-      ref={ref}
-      style={{
-        padding: "100px 24px",
-        borderTop: isDark ? "1px solid rgba(255,255,255,0.04)" : "1px solid rgba(0,0,0,0.04)",
-      }}
-    >
-      <div className={`max-w-6xl mx-auto flex flex-col gap-12 md:gap-20 ${isEven ? "md:flex-row" : "md:flex-row-reverse"} md:items-center`}>
-        {/* Text */}
-        <motion.div
-          className="flex-1 min-w-0"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 1, ease: EASE }}
-        >
-          <div className="text-[11px] font-bold uppercase tracking-[2px] text-[#ff6b35] mb-4">
-            {label}
-          </div>
-          <h3 style={{
-            fontSize: "clamp(1.8rem, 3vw, 2.5rem)",
-            fontWeight: 700,
-            letterSpacing: "-0.035em",
-            lineHeight: 1.1,
-            color: isDark ? "#fff" : "#1d1d1f",
-            marginBottom: 8,
-          }}>
-            {headline}
-          </h3>
-          <p style={{
-            fontSize: "clamp(1.1rem, 2vw, 1.35rem)",
-            fontWeight: 500,
-            color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)",
-            marginBottom: 20,
-          }}>
-            {subline}
-          </p>
-          <p style={{
-            fontSize: 16,
-            lineHeight: 1.7,
-            color: isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.45)",
-            maxWidth: 440,
-            marginBottom: 28,
-          }}>
-            {desc}
-          </p>
+    <div ref={ref} className="w-full max-w-[380px] mx-auto rounded-3xl overflow-hidden" style={{
+      background: isDark ? "#111" : "#fff",
+      border: isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.06)",
+      boxShadow: isDark ? "0 20px 60px rgba(0,0,0,0.4)" : "0 20px 60px rgba(0,0,0,0.08)",
+    }}>
+      <div className="px-6 pt-7 pb-5">
+        <div className="flex items-center justify-between mb-5">
+          <div className="text-[10px] font-semibold uppercase tracking-widest text-black/25 dark:text-white/25">Send money</div>
+          <motion.div className="flex items-center gap-1.5" animate={{ opacity: phase === "done" ? 1 : 0.4 }}>
+            <div className="w-1.5 h-1.5 rounded-full" style={{ background: phase === "done" ? "#3ddc84" : "rgba(0,0,0,0.15)" }} />
+            <span className="text-[9px] font-semibold" style={{ color: phase === "done" ? "#3ddc84" : "rgba(0,0,0,0.25)" }}>
+              {phase === "done" ? "Settled" : phase === "matching" ? "Matching..." : phase === "sending" ? "Sending..." : "Ready"}
+            </span>
+          </motion.div>
+        </div>
 
-          {/* Feature checklist */}
-          <div className="space-y-3">
-            {features.map((f, i) => (
-              <motion.div
-                key={f}
-                className="flex items-center gap-3"
-                initial={{ opacity: 0, x: -10 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.3 + i * 0.08, ease: EASE }}
-              >
-                <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: "rgba(255,107,53,0.1)" }}>
-                  <span className="text-[10px] text-[#ff6b35]">✓</span>
-                </div>
-                <span className="text-sm font-medium" style={{ color: isDark ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.55)" }}>
-                  {f}
-                </span>
-              </motion.div>
-            ))}
-          </div>
+        {/* Amount */}
+        <motion.div className="font-mono mb-1" animate={{ opacity: phase === "typing" ? [0.5, 1, 0.5] : 1 }} transition={{ duration: 1, repeat: phase === "typing" ? Infinity : 0 }}
+          style={{ fontSize: 36, fontWeight: 700, color: isDark ? "#fff" : "#1d1d1f", letterSpacing: "-0.03em" }}>
+          $2,500
         </motion.div>
+        <div className="text-sm text-black/30 dark:text-white/30 mb-5">USDT → AED</div>
 
-        {/* Visual */}
-        <motion.div
-          className="flex-1 min-w-0 flex items-center justify-center"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 1, delay: 0.15, ease: EASE }}
-        >
-          {visual}
+        {/* Recipient */}
+        <div className="flex items-center gap-3 mb-5 p-3 rounded-xl" style={{ background: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.02)" }}>
+          <div className="w-10 h-10 rounded-full bg-black/5 dark:bg-white/10 flex items-center justify-center text-sm font-bold text-black/40 dark:text-white/40">A</div>
+          <div className="flex-1">
+            <div className="text-sm font-semibold text-black/70 dark:text-white/70">Ahmed K.</div>
+            <div className="text-[11px] text-black/30 dark:text-white/30">Dubai, UAE</div>
+          </div>
+          <motion.div animate={{ scale: phase === "done" ? [1, 1.2, 1] : 1 }} className="text-right">
+            <div className="font-mono text-sm font-bold" style={{ color: phase === "done" ? "#3ddc84" : "rgba(0,0,0,0.3)" }}>
+              {phase === "done" ? "~42s" : "—"}
+            </div>
+            <div className="text-[9px] text-black/20 dark:text-white/20">settle time</div>
+          </motion.div>
+        </div>
+
+        {/* Progress steps */}
+        <div className="flex gap-1 mb-5">
+          {["Send", "Match", "Escrow", "Settle"].map((s, i) => {
+            const stepDone = (phase === "sending" && i < 1) || (phase === "matching" && i < 2) || (phase === "done" && i < 4);
+            return (
+              <div key={s} className="flex-1">
+                <motion.div className="h-1 rounded-full mb-1" animate={{ backgroundColor: stepDone ? "#3ddc84" : isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)" }} transition={{ duration: 0.3 }} />
+                <span className="text-[8px] font-semibold uppercase" style={{ color: stepDone ? "#3ddc84" : "rgba(0,0,0,0.2)" }}>{s}</span>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* CTA */}
+        <motion.div className="w-full py-3 rounded-xl text-center text-sm font-semibold" animate={{
+          backgroundColor: phase === "done" ? "#3ddc84" : "#1d1d1f",
+          color: "#ffffff",
+        }}>
+          {phase === "done" ? "✓ Settled" : phase === "typing" ? "Confirm & Send" : "Processing..."}
         </motion.div>
       </div>
     </div>
   );
 }
 
-/* ── Earn block — full-section white card, Apple style ── */
-function EarnBlock({ isDark }: { isDark: boolean }) {
+/* ── Live merchant earnings visual ── */
+function LiveMerchantVisual({ isDark }: { isDark: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-10%" });
+  const isInView = useInView(ref, { once: true });
+  const [totalEarned, setTotalEarned] = useState(12420);
+  const [orders, setOrders] = useState(142);
+  const [trades, setTrades] = useState([
+    { pair: "USDT→AED", amount: "$3,400", earned: "+$25.80", time: "38s" },
+    { pair: "USDT→INR", amount: "$1,200", earned: "+$9.10", time: "45s" },
+    { pair: "USDT→PHP", amount: "$5,800", earned: "+$43.50", time: "31s" },
+  ]);
 
-  /* Animated counter */
-  const [earnedToday, setEarnedToday] = useState(47.2);
-  const [txCount, setTxCount] = useState(12);
+  const pairs = ["USDT→AED", "USDT→INR", "USDT→PHP", "USDT→NGN"];
+
   useEffect(() => {
     if (!isInView) return;
     const id = setInterval(() => {
-      setEarnedToday((v) => parseFloat((v + (Math.random() * 3 + 0.5)).toFixed(2)));
-      setTxCount((v) => v + 1);
-    }, 3500);
+      const pair = pairs[Math.floor(Math.random() * pairs.length)];
+      const amt = Math.floor(Math.random() * 7000 + 500);
+      const earn = (amt * (Math.random() * 0.01 + 0.005)).toFixed(2);
+      const time = Math.floor(Math.random() * 25 + 25);
+      setTotalEarned((v) => v + parseFloat(earn));
+      setOrders((v) => v + 1);
+      setTrades((prev) => [{ pair, amount: `$${amt.toLocaleString()}`, earned: `+$${earn}`, time: `${time}s` }, ...prev].slice(0, 3));
+    }, 2500);
     return () => clearInterval(id);
   }, [isInView]);
 
   return (
-    <div ref={ref} className="flex justify-center" style={{ padding: "40px 24px 100px" }}>
-      <div
-        className="relative overflow-hidden w-full"
-        style={{
-          maxWidth: "82%",
-          borderRadius: 32,
-          background: "#ffffff",
-          boxShadow: "0 4px 40px rgba(0,0,0,0.06)",
-        }}
-      >
-        {/* ── Top: Full-width hero image area ── */}
-        <div className="relative w-full overflow-hidden" style={{ height: "50vh", minHeight: 340 }}>
-          <img
-            src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1400&auto=format&fit=crop&q=80"
-            alt="Shopping and earning rewards"
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-          {/* Bottom fade into white */}
-          <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 40%, rgba(255,255,255,0.6) 75%, #ffffff 100%)" }} />
-
-          {/* Floating badges */}
-          <motion.div
-            className="absolute top-8 left-8 px-5 py-2.5 rounded-full backdrop-blur-md"
-            style={{ background: "rgba(255,255,255,0.88)", boxShadow: "0 4px 24px rgba(0,0,0,0.08)" }}
-            initial={{ opacity: 0, y: -15 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.3, ease: EASE }}
-          >
-            <div className="flex items-center gap-2">
-              <motion.div
-                className="w-2 h-2 rounded-full bg-[#3ddc84]"
-                animate={{ scale: [1, 1.3, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              />
-              <span className="text-xs font-semibold text-[#1d1d1f]">Rewards active</span>
-            </div>
-          </motion.div>
-
-          <motion.div
-            className="absolute top-8 right-8 px-5 py-2.5 rounded-full backdrop-blur-md"
-            style={{ background: "rgba(255,255,255,0.88)", boxShadow: "0 4px 24px rgba(0,0,0,0.08)" }}
-            initial={{ opacity: 0, y: -15 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.45, ease: EASE }}
-          >
-            <span className="text-xs font-semibold text-[#ff6b35]">2% back on everything</span>
-          </motion.div>
-
-          {/* Big centered text on image */}
-          <motion.div
-            className="absolute inset-0 flex items-center justify-center"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={isInView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 1, ease: EASE }}
-          >
-            <h3 style={{
-              fontSize: "clamp(2.5rem, 4.5vw, 3.5rem)",
-              fontWeight: 700,
-              letterSpacing: "-0.04em",
-              lineHeight: 1,
-              color: "#ffffff",
-              textShadow: "0 4px 30px rgba(0,0,0,0.3)",
-              textAlign: "center",
-            }}>
-              Earn while<br />you spend.
-            </h3>
-          </motion.div>
+    <div ref={ref} className="w-full max-w-[380px] mx-auto rounded-3xl overflow-hidden" style={{
+      background: isDark ? "#111" : "#fff",
+      border: isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.06)",
+      boxShadow: isDark ? "0 20px 60px rgba(0,0,0,0.4)" : "0 20px 60px rgba(0,0,0,0.08)",
+    }}>
+      <div className="px-6 pt-7 pb-5">
+        <div className="flex items-center justify-between mb-5">
+          <div className="text-[10px] font-semibold uppercase tracking-widest text-black/25 dark:text-white/25">Merchant dashboard</div>
+          <div className="flex items-center gap-1.5">
+            <motion.div className="w-1.5 h-1.5 rounded-full bg-[#3ddc84]" animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 1.2, repeat: Infinity }} />
+            <span className="text-[9px] font-semibold text-black/25 dark:text-white/25">Live</span>
+          </div>
         </div>
 
-        {/* ── Middle: Stats strip ── */}
-        <motion.div
-          className="flex flex-wrap items-center justify-center gap-6 sm:gap-12 px-8 py-8"
-          style={{ borderBottom: "1px solid rgba(0,0,0,0.05)" }}
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.3, ease: EASE }}
-        >
-          {[
-            { value: "2%", label: "Cashback rate" },
-            { value: "Instant", label: "Credit to wallet" },
-            { value: "$0", label: "To get started" },
-            { value: "On-chain", label: "Verified rewards" },
-          ].map((s, i) => (
-            <div key={s.label} className="text-center flex items-center gap-6">
+        {/* Stats */}
+        <div className="grid grid-cols-2 gap-3 mb-5">
+          <div className="rounded-xl p-3" style={{ background: "rgba(61,220,132,0.04)", border: "1px solid rgba(61,220,132,0.08)" }}>
+            <div className="text-[9px] font-semibold uppercase tracking-wider text-black/25 dark:text-white/25">Total earned</div>
+            <motion.div key={Math.floor(totalEarned)} initial={{ y: -3, opacity: 0.6 }} animate={{ y: 0, opacity: 1 }}
+              className="text-xl font-bold font-mono text-[#3ddc84] tracking-tight">${Math.floor(totalEarned).toLocaleString()}</motion.div>
+          </div>
+          <div className="rounded-xl p-3" style={{ background: isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)" }}>
+            <div className="text-[9px] font-semibold uppercase tracking-wider text-black/25 dark:text-white/25">Orders today</div>
+            <motion.div key={orders} initial={{ y: -3, opacity: 0.6 }} animate={{ y: 0, opacity: 1 }}
+              className="text-xl font-bold font-mono text-black/80 dark:text-white tracking-tight">{orders}</motion.div>
+          </div>
+        </div>
+
+        {/* Trade feed with earnings */}
+        <div className="text-[9px] font-semibold uppercase tracking-wider text-black/25 dark:text-white/25 mb-2">Settled trades — your earnings</div>
+        <AnimatePresence mode="popLayout">
+          {trades.map((t, i) => (
+            <motion.div key={`${t.pair}-${t.amount}-${i}`} initial={i === 0 ? { opacity: 0, y: -8 } : false} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+              className="flex items-center justify-between py-2.5" style={{ borderBottom: i < 2 ? `1px solid ${isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)"}` : "none" }}>
               <div>
-                <div className="text-2xl sm:text-3xl font-bold text-[#1d1d1f] tracking-tight">{s.value}</div>
-                <div className="text-[10px] font-semibold uppercase tracking-wider text-black/30 mt-1">{s.label}</div>
+                <span className="text-xs font-medium text-black/60 dark:text-white/60">{t.pair}</span>
+                <span className="text-[10px] text-black/25 dark:text-white/25 ml-2">{t.amount}</span>
               </div>
-              {i < 3 && <div className="hidden sm:block w-px h-10 bg-black/[0.06]" />}
-            </div>
-          ))}
-        </motion.div>
-
-        {/* ── Bottom: Two-column content ── */}
-        <div className="flex flex-col md:flex-row gap-0">
-
-          {/* Left — description + features */}
-          <motion.div
-            className="flex-1 px-10 sm:px-14 py-12 md:py-16"
-            initial={{ opacity: 0, y: 25 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.9, delay: 0.4, ease: EASE }}
-          >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full mb-5" style={{ background: "rgba(255,107,53,0.08)" }}>
-              <div className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]" />
-              <span className="text-[10px] font-bold uppercase tracking-[2px] text-[#ff6b35]">How it works</span>
-            </div>
-
-            <p style={{
-              fontSize: 17,
-              lineHeight: 1.75,
-              color: "rgba(0,0,0,0.5)",
-              marginBottom: 32,
-              maxWidth: 420,
-            }}>
-              Every payment you make on Blip automatically earns you BLIP tokens. No sign-ups, no loyalty programs, no points to track. Just spend and earn — it's that simple.
-            </p>
-
-            {/* Steps */}
-            <div className="space-y-5">
-              {[
-                { num: "01", title: "Make a payment", desc: "Send USDT to anyone, anywhere through Blip." },
-                { num: "02", title: "Earn instantly", desc: "2% cashback credited to your wallet in real-time." },
-                { num: "03", title: "Stack rewards", desc: "Rewards compound. The more you use, the more you earn." },
-              ].map((step, i) => (
-                <motion.div
-                  key={step.num}
-                  className="flex gap-4"
-                  initial={{ opacity: 0, x: -15 }}
-                  animate={isInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.6, delay: 0.5 + i * 0.1, ease: EASE }}
-                >
-                  <div className="w-9 h-9 rounded-xl bg-[#1d1d1f] flex items-center justify-center flex-shrink-0">
-                    <span className="text-[10px] font-bold text-white font-mono">{step.num}</span>
-                  </div>
-                  <div>
-                    <div className="text-sm font-semibold text-[#1d1d1f] mb-1">{step.title}</div>
-                    <div className="text-sm text-black/40 leading-relaxed">{step.desc}</div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* CTA */}
-            <motion.a
-              href="/waitlist"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold mt-10"
-              style={{ background: "#1d1d1f", color: "#ffffff" }}
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              Start earning
-              <span style={{ fontSize: 16 }}>→</span>
-            </motion.a>
-          </motion.div>
-
-          {/* Right — live dashboard */}
-          <motion.div
-            className="flex-1 px-10 sm:px-14 py-12 md:py-16"
-            style={{ borderLeft: "1px solid rgba(0,0,0,0.05)" }}
-            initial={{ opacity: 0, y: 25 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.9, delay: 0.5, ease: EASE }}
-          >
-            {/* Live counter card */}
-            <div className="rounded-2xl p-6 mb-6" style={{ background: "#fafafa", border: "1px solid rgba(0,0,0,0.04)" }}>
-              <div className="flex items-center gap-2 mb-4">
-                <motion.div
-                  className="w-2 h-2 rounded-full bg-[#3ddc84]"
-                  animate={{ opacity: [1, 0.4, 1] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                />
-                <span className="text-[9px] font-bold uppercase tracking-widest text-black/30">Live — your rewards</span>
+              <div className="flex items-center gap-3">
+                <span className="text-[10px] font-mono text-black/25 dark:text-white/25">{t.time}</span>
+                <motion.span initial={i === 0 ? { scale: 1.2 } : false} animate={{ scale: 1 }}
+                  className="text-xs font-bold font-mono text-[#3ddc84]">{t.earned}</motion.span>
               </div>
-              <div className="flex items-end justify-between mb-5">
-                <div>
-                  <div className="text-[10px] font-semibold uppercase tracking-wider text-black/30 mb-1">Earned today</div>
-                  <motion.div
-                    key={earnedToday}
-                    initial={{ y: -4, opacity: 0.5 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    className="text-3xl font-bold text-[#1d1d1f] tracking-tight font-mono"
-                  >
-                    ${earnedToday.toFixed(2)}
-                  </motion.div>
-                </div>
-                <div className="text-right">
-                  <div className="text-[10px] font-semibold uppercase tracking-wider text-black/30 mb-1">Transactions</div>
-                  <motion.div
-                    key={txCount}
-                    initial={{ y: -4, opacity: 0.5 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    className="text-3xl font-bold text-[#1d1d1f] tracking-tight font-mono"
-                  >
-                    {txCount}
-                  </motion.div>
-                </div>
-              </div>
-
-              {/* Mini progress bar */}
-              <div className="mb-2">
-                <div className="flex justify-between mb-1">
-                  <span className="text-[9px] font-semibold text-black/30">Monthly goal</span>
-                  <span className="text-[9px] font-bold text-[#ff6b35]">$847 / $1,000</span>
-                </div>
-                <div className="h-1.5 rounded-full bg-black/[0.04] overflow-hidden">
-                  <motion.div
-                    className="h-full rounded-full bg-[#ff6b35]"
-                    initial={{ width: 0 }}
-                    animate={isInView ? { width: "84.7%" } : {}}
-                    transition={{ duration: 1.5, delay: 0.6, ease: EASE }}
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Live feed */}
-            <div className="rounded-2xl p-5" style={{ background: "#fafafa", border: "1px solid rgba(0,0,0,0.04)" }}>
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-[9px] font-bold uppercase tracking-widest text-black/30">Recent rewards</span>
-                <span className="text-[9px] font-semibold text-[#ff6b35]">See all →</span>
-              </div>
-              <LiveEarnFeed isInView={isInView} />
-            </div>
-
-            {/* Reward tiers teaser */}
-            <motion.div
-              className="mt-6 rounded-2xl p-5 flex items-center gap-4"
-              style={{ background: "#fafafa", border: "1px solid rgba(0,0,0,0.04)" }}
-              initial={{ opacity: 0 }}
-              animate={isInView ? { opacity: 1 } : {}}
-              transition={{ duration: 0.8, delay: 0.7, ease: EASE }}
-            >
-              <div className="w-12 h-12 rounded-xl bg-[#ff6b35]/10 flex items-center justify-center flex-shrink-0">
-                <span className="text-xl">🏆</span>
-              </div>
-              <div className="flex-1">
-                <div className="text-sm font-semibold text-[#1d1d1f]">Gold tier unlocked</div>
-                <div className="text-xs text-black/35">3x multiplier active — earning 6% on every transaction</div>
-              </div>
-              <div className="text-[#ff6b35] font-bold text-lg">3x</div>
             </motion.div>
-          </motion.div>
-        </div>
+          ))}
+        </AnimatePresence>
       </div>
     </div>
   );
 }
+
+/* ── Tab data ── */
+const TABS = [
+  {
+    id: "users",
+    label: "Users",
+    headline: "Send USDT \u2192 real-world cash instantly",
+    bullets: ["No banks, no delays", "Transparent execution", "Settled in under 60s"],
+    cta: "Start sending \u2192",
+  },
+  {
+    id: "merchants",
+    label: "Merchants",
+    headline: "Accept global payments. Earn on every trade.",
+    bullets: ["Instant fiat settlement", "No chargebacks", "Earn margin on each order"],
+    cta: "Accept payments \u2192",
+  },
+  {
+    id: "lps",
+    label: "Liquidity Providers",
+    headline: "Deploy capital. Capture spread.",
+    bullets: ["Fund settlement routes", "Real-time earnings", "Full control of your capital"],
+    cta: "Provide liquidity \u2192",
+  },
+] as const;
+
+/* ── Main section ── */
+const UseCasesSection = () => {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
+  const [activeTab, setActiveTab] = useState(0);
+
+  const tab = TABS[activeTab];
+
+  return (
+    <section className="relative overflow-hidden" style={{ background: isDark ? "#000" : "#FAF8F5" }}>
+      <div style={{ padding: "120px 24px" }}>
+        <div className="max-w-6xl mx-auto">
+
+          {/* Section heading */}
+          <motion.h2
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, ease: EASE }}
+            className="text-center"
+            style={{
+              fontSize: "clamp(2.2rem, 4.5vw, 3.5rem)",
+              fontWeight: 700,
+              letterSpacing: "-0.04em",
+              lineHeight: 1.1,
+              color: isDark ? "#fff" : "#1d1d1f",
+              marginBottom: 48,
+            }}
+          >
+            Built for everyone.
+          </motion.h2>
+
+          {/* Tabs */}
+          <div className="flex justify-center gap-1 mb-16">
+            {TABS.map((t, i) => (
+              <button
+                key={t.id}
+                onClick={() => setActiveTab(i)}
+                className="relative px-5 py-2.5 text-sm font-medium transition-colors duration-200"
+                style={{
+                  color: activeTab === i
+                    ? (isDark ? "#fff" : "#1d1d1f")
+                    : (isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)"),
+                  background: "transparent",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+              >
+                {t.label}
+                {activeTab === i && (
+                  <motion.div
+                    layoutId="tab-underline"
+                    className="absolute bottom-0 left-2 right-2 h-0.5 rounded-full"
+                    style={{ background: isDark ? "#fff" : "#1d1d1f" }}
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  />
+                )}
+              </button>
+            ))}
+          </div>
+
+          {/* Tab content */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={tab.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.4, ease: EASE }}
+              className="flex flex-col md:flex-row md:items-center gap-12 md:gap-20"
+            >
+              {/* Text side */}
+              <div className="flex-1 min-w-0">
+                <h3 style={{
+                  fontSize: "clamp(1.6rem, 3vw, 2.4rem)",
+                  fontWeight: 700,
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1.15,
+                  color: isDark ? "#fff" : "#1d1d1f",
+                  marginBottom: 28,
+                }}>
+                  {tab.headline}
+                </h3>
+
+                <div className="space-y-4 mb-10">
+                  {tab.bullets.map((b, i) => (
+                    <motion.div
+                      key={b}
+                      initial={{ opacity: 0, x: -12 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.4, delay: 0.1 + i * 0.07, ease: EASE }}
+                      className="flex items-center gap-3"
+                    >
+                      <div
+                        className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                        style={{ background: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.25)" }}
+                      />
+                      <span
+                        className="text-base"
+                        style={{ color: isDark ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.5)" }}
+                      >
+                        {b}
+                      </span>
+                    </motion.div>
+                  ))}
+                </div>
+
+                <motion.a
+                  href="/waitlist"
+                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold"
+                  style={{ background: isDark ? "#fff" : "#1d1d1f", color: isDark ? "#1d1d1f" : "#fff" }}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                >
+                  {tab.cta}
+                </motion.a>
+              </div>
+
+              {/* Visual side */}
+              <div className="flex-1 min-w-0 flex items-center justify-center">
+                {activeTab === 0 && <LiveSendVisual isDark={isDark} />}
+                {activeTab === 1 && <LiveMerchantVisual isDark={isDark} />}
+                {activeTab === 2 && <LiveEarnFeed isInView={true} />}
+              </div>
+            </motion.div>
+          </AnimatePresence>
+
+        </div>
+      </div>
+    </section>
+  );
+};
 
 export default memo(UseCasesSection);

@@ -6,31 +6,24 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 
 const FEATURES = [
   {
-    label: "Settlement speed",
-    headline: "Best-in-class matching engine.",
-    subline: "Settled before you blink.",
-    desc: "Our proprietary matching engine processes orders in under 2 seconds. 150+ merchants compete simultaneously — the fastest, most reliable one wins your trade.",
+    label: "Settlement engine",
+    headline: "Deterministic. Timed. Final.",
+    subline: "Every order settled in under 60 seconds.",
+    desc: "Our matching engine pairs your order with the best merchant, locks it in escrow, and executes settlement — all deterministic, all on-chain, all under 60 seconds.",
     visual: "speed" as const,
   },
   {
-    label: "Fees",
-    headline: "The lowest fees. Guaranteed.",
-    subline: "Merchants bid. You save.",
-    desc: "Real-time auction between verified merchants drives your cost down to 1.5%. No hidden spreads. No markups. Transparent, every time.",
+    label: "Rate auction",
+    headline: "Merchants compete. Best rate wins.",
+    subline: "150+ LPs bid on every trade.",
+    desc: "Merchants provide liquidity and compete in real-time auctions. The fastest, most competitive one wins your trade and earns a margin. You always get the best rate.",
     visual: "rates" as const,
   },
   {
-    label: "Matching engine",
-    headline: "150+ merchants. One winner.",
-    subline: "Matched in milliseconds.",
-    desc: "Our engine evaluates reputation, speed, rate, and liquidity across 150+ merchants — then locks the best match instantly. You don't lift a finger.",
-    visual: "engine" as const,
-  },
-  {
-    label: "Proof",
-    headline: "On-chain settlement.",
-    subline: "Immutable. Verifiable. Always.",
-    desc: "Every trade is recorded on Solana. Full transparency — no trust required. Verify any settlement, anytime, from anywhere in the world.",
+    label: "On-chain proof",
+    headline: "Every transaction. Verifiable.",
+    subline: "Immutable settlement records on Solana.",
+    desc: "Every trade is recorded on-chain. Full transparency — no trust required. Verify any settlement, anytime, from anywhere in the world.",
     visual: "chain" as const,
   },
 ];
@@ -96,7 +89,7 @@ function SpeedVisual({ isInView }: { isInView: boolean }) {
     return () => { clearInterval(loop); };
   }, [isInView, cycle]);
 
-  const displayTime = phase === "done" ? "1.38" : timer.toFixed(2);
+  const displayTime = phase === "done" ? "42" : Math.min(Math.floor(timer * 30), 42).toString();
 
   return (
     <div className="w-full max-w-[420px] mx-auto">
@@ -112,9 +105,9 @@ function SpeedVisual({ isInView }: { isInView: boolean }) {
             color: phase === "done" ? "#3ddc84" : "#1d1d1f",
             transition: "color 0.3s",
           }}
-          className="dark:text-white"
+          className="dark:text-white tabular-nums"
         >
-          {displayTime}<span className="text-[0.4em] opacity-40">s</span>
+          {displayTime}<span className="text-[0.35em] opacity-30 ml-1">sec</span>
         </div>
       </div>
 
@@ -245,79 +238,112 @@ function RatesVisual({ isInView }: { isInView: boolean }) {
   );
 }
 
-/* ─── Engine Visual: Live metrics dashboard ─── */
+/* ─── Engine Visual: Merchant earnings dashboard ─── */
 function EngineVisual({ isInView }: { isInView: boolean }) {
-  const ordersProcessed = useCountUp(14847, 2, isInView);
-  const avgMatch = useCountUp(0.8, 1.5, isInView, 1);
-  const tick = useTicker(3000, isInView);
-  const uptime = "99.97";
+  const [totalEarned, setTotalEarned] = useState(12847);
+  const [todayTrades, setTodayTrades] = useState(47);
+  const [trades, setTrades] = useState([
+    { id: 1, pair: "USDT → AED", amount: "$2,400", margin: "+$18.20", time: "34s", status: "settled" },
+    { id: 2, pair: "USDT → INR", amount: "$850", margin: "+$6.40", time: "41s", status: "settled" },
+    { id: 3, pair: "USDT → PHP", amount: "$5,100", margin: "+$38.70", time: "28s", status: "settled" },
+  ]);
+  const [flash, setFlash] = useState(false);
 
-  const recentMatches = [
-    { pair: "USDT → AED", time: "0.6s", amount: "$2,400" },
-    { pair: "USDT → INR", time: "0.9s", amount: "$850" },
-    { pair: "USDT → PHP", time: "0.4s", amount: "$1,200" },
-    { pair: "USDT → NGN", time: "1.1s", amount: "$3,100" },
-    { pair: "USDT → PKR", time: "0.7s", amount: "$500" },
-  ];
+  const pairs = ["USDT → AED", "USDT → INR", "USDT → PHP", "USDT → NGN", "USDT → PKR"];
 
-  const visibleMatches = recentMatches.slice(tick % 3, (tick % 3) + 3);
+  useEffect(() => {
+    if (!isInView) return;
+    const id = setInterval(() => {
+      const pair = pairs[Math.floor(Math.random() * pairs.length)];
+      const amt = Math.floor(Math.random() * 8000 + 500);
+      const margin = (amt * (Math.random() * 0.012 + 0.004)).toFixed(2);
+      const time = Math.floor(Math.random() * 30 + 20);
+      const hash = Math.floor(Math.random() * 9000 + 1000);
+
+      setTotalEarned((v) => v + parseFloat(margin));
+      setTodayTrades((v) => v + 1);
+      setTrades((prev) => [
+        { id: hash, pair, amount: `$${amt.toLocaleString()}`, margin: `+$${margin}`, time: `${time}s`, status: "settled" },
+        ...prev,
+      ].slice(0, 3));
+      setFlash(true);
+      setTimeout(() => setFlash(false), 600);
+    }, 2800);
+    return () => clearInterval(id);
+  }, [isInView]);
 
   return (
     <div className="w-full max-w-[420px] mx-auto">
-      {/* Top stats row */}
-      <div className="grid grid-cols-3 gap-3 mb-5">
-        {[
-          { label: "Orders", value: Number(ordersProcessed).toLocaleString(), sub: "processed" },
-          { label: "Avg match", value: `${avgMatch}s`, sub: "latency" },
-          { label: "Uptime", value: `${uptime}%`, sub: "last 30d" },
-        ].map((s) => (
-          <div key={s.label} className="text-center rounded-xl py-3 px-2" style={{ background: "rgba(0,0,0,0.02)" }}>
-            <div className="text-lg sm:text-xl font-bold font-mono text-black/80 dark:text-white/80 leading-tight">{s.value}</div>
-            <div className="text-[8px] font-semibold uppercase tracking-wider text-black/25 dark:text-white/25 mt-0.5">{s.sub}</div>
+      {/* Merchant header */}
+      <div className="flex items-center gap-3 mb-5">
+        <div className="w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold" style={{ background: "rgba(0,0,0,0.05)", color: "rgba(0,0,0,0.4)" }}>
+          AF
+        </div>
+        <div>
+          <div className="text-sm font-semibold text-black/80 dark:text-white/80">AlphaFX</div>
+          <div className="flex items-center gap-1.5">
+            <div className="w-1.5 h-1.5 rounded-full bg-[#3ddc84]" />
+            <span className="text-[10px] text-black/30 dark:text-white/30">Active merchant · Dubai</span>
           </div>
-        ))}
+        </div>
       </div>
 
-      {/* Live match feed */}
+      {/* Earnings summary */}
+      <div className="grid grid-cols-3 gap-2 mb-4">
+        <div className="rounded-xl py-3 px-3" style={{ background: "rgba(61,220,132,0.05)", border: "1px solid rgba(61,220,132,0.08)" }}>
+          <div className="text-[8px] font-semibold uppercase tracking-wider text-black/25 dark:text-white/25 mb-1">Total earned</div>
+          <motion.div key={Math.floor(totalEarned)} initial={{ y: -3, opacity: 0.6 }} animate={{ y: 0, opacity: 1 }} className="font-mono text-base font-bold text-[#3ddc84]">
+            ${Math.floor(totalEarned).toLocaleString()}
+          </motion.div>
+        </div>
+        <div className="rounded-xl py-3 px-3" style={{ background: "rgba(0,0,0,0.02)", border: "1px solid rgba(0,0,0,0.04)" }}>
+          <div className="text-[8px] font-semibold uppercase tracking-wider text-black/25 dark:text-white/25 mb-1">Today</div>
+          <motion.div key={todayTrades} initial={{ y: -3, opacity: 0.6 }} animate={{ y: 0, opacity: 1 }} className="font-mono text-base font-bold text-black/80 dark:text-white/80">
+            {todayTrades} trades
+          </motion.div>
+        </div>
+        <div className="rounded-xl py-3 px-3" style={{ background: "rgba(0,0,0,0.02)", border: "1px solid rgba(0,0,0,0.04)" }}>
+          <div className="text-[8px] font-semibold uppercase tracking-wider text-black/25 dark:text-white/25 mb-1">Avg settle</div>
+          <div className="font-mono text-base font-bold text-black/80 dark:text-white/80">~35s</div>
+        </div>
+      </div>
+
+      {/* Live trade feed — showing earnings per trade */}
       <div className="rounded-xl overflow-hidden" style={{ border: "1px solid rgba(0,0,0,0.05)" }}>
-        <div className="flex items-center justify-between px-4 py-2" style={{ background: "rgba(0,0,0,0.03)" }}>
-          <div className="flex items-center gap-2">
-            <motion.div
-              className="w-1.5 h-1.5 rounded-full bg-[#3ddc84]"
-              animate={{ opacity: [1, 0.3, 1] }}
-              transition={{ duration: 1, repeat: Infinity }}
-            />
-            <span className="text-[9px] font-bold uppercase tracking-widest text-black/30 dark:text-white/30">Live matches</span>
+        <div className="flex items-center justify-between px-3 py-2" style={{ background: "rgba(0,0,0,0.02)" }}>
+          <div className="flex items-center gap-1.5">
+            <motion.div className="w-1.5 h-1.5 rounded-full bg-[#3ddc84]" animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 1.2, repeat: Infinity }} />
+            <span className="text-[8px] font-bold uppercase tracking-widest text-black/25 dark:text-white/25">Settled trades</span>
           </div>
-          <motion.span
-            className="text-[9px] font-mono text-black/20 dark:text-white/20"
-            animate={{ opacity: [0.5, 1, 0.5] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
-            streaming
-          </motion.span>
+          <span className="text-[8px] font-mono text-black/15 dark:text-white/15">live</span>
         </div>
         <AnimatePresence mode="popLayout">
-          {visibleMatches.map((m, i) => (
+          {trades.map((t, i) => (
             <motion.div
-              key={`${m.pair}-${tick}-${i}`}
-              layout
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 8 }}
-              transition={{ duration: 0.35, delay: i * 0.05 }}
-              className="flex items-center justify-between px-4 py-2.5"
+              key={`${t.id}-${i}`}
+              initial={i === 0 ? { opacity: 0, y: -8, backgroundColor: "rgba(61,220,132,0.06)" } : false}
+              animate={{ opacity: 1, y: 0, backgroundColor: "transparent" }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4 }}
+              className="flex items-center justify-between px-3 py-2.5"
               style={{ borderTop: "1px solid rgba(0,0,0,0.04)" }}
             >
-              <div className="flex items-center gap-2.5">
-                <div className="w-6 h-6 rounded-md flex items-center justify-center" style={{ background: "rgba(255,107,53,0.08)" }}>
-                  <span className="text-[8px] font-bold text-[#ff6b35]">✓</span>
+              <div className="flex items-center gap-2">
+                <span className="text-[8px] text-[#3ddc84]">✓</span>
+                <div>
+                  <span className="text-[11px] font-medium text-black/60 dark:text-white/60">{t.pair}</span>
+                  <span className="text-[10px] text-black/25 dark:text-white/25 ml-2">{t.amount}</span>
                 </div>
-                <span className="text-xs font-medium text-black/60 dark:text-white/60">{m.pair}</span>
               </div>
-              <div className="flex items-center gap-4">
-                <span className="text-[10px] font-mono text-[#3ddc84]">{m.time}</span>
-                <span className="text-xs font-semibold text-black/40 dark:text-white/40">{m.amount}</span>
+              <div className="flex items-center gap-3">
+                <span className="text-[10px] font-mono text-black/25 dark:text-white/25">{t.time}</span>
+                <motion.span
+                  className="text-[11px] font-bold font-mono text-[#3ddc84]"
+                  animate={i === 0 && flash ? { scale: [1, 1.15, 1] } : {}}
+                  transition={{ duration: 0.3 }}
+                >
+                  {t.margin}
+                </motion.span>
               </div>
             </motion.div>
           ))}
@@ -522,17 +548,14 @@ function FeatureBlock({
   return (
     <div
       ref={blockRef}
-      style={{
-        padding: "80px 24px",
-        borderTop: isDark ? "1px solid rgba(255,255,255,0.04)" : "1px solid rgba(0,0,0,0.04)",
-      }}
+      style={{ padding: "80px 24px" }}
     >
-      <div className={`max-w-6xl mx-auto flex flex-col gap-12 md:gap-20 ${isEven ? "md:flex-row" : "md:flex-row-reverse"} md:items-center`}>
+      <div className={`max-w-6xl mx-auto flex flex-col gap-12 md:gap-16 ${isEven ? "md:flex-row" : "md:flex-row-reverse"} md:items-center`}>
         {/* Text */}
         <motion.div
           className="flex-1 min-w-0"
-          initial={{ opacity: 0, x: isEven ? -40 : 40 }}
-          animate={isInView ? { opacity: 1, x: 0 } : {}}
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 1, ease: EASE }}
         >
           <div style={{
@@ -556,22 +579,47 @@ function FeatureBlock({
             {feature.subline}
           </p>
           <p style={{
-            fontSize: 16, lineHeight: 1.7,
-            color: isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.45)",
+            fontSize: 15, lineHeight: 1.7,
+            color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)",
             maxWidth: 420, fontWeight: 400,
           }}>
             {feature.desc}
           </p>
         </motion.div>
 
-        {/* Visual */}
+        {/* Visual — elevated card container */}
         <motion.div
           className="flex-1 min-w-0"
-          initial={{ opacity: 0, x: isEven ? 40 : -40 }}
-          animate={isInView ? { opacity: 1, x: 0 } : {}}
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 1, delay: 0.15, ease: EASE }}
         >
-          <VisualComponent isInView={isInView} />
+          <motion.div
+            className="rounded-3xl overflow-hidden p-6"
+            style={{
+              background: isDark ? "#111" : "#ffffff",
+              border: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.06)",
+              boxShadow: isDark
+                ? "0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.03) inset"
+                : "0 20px 60px rgba(0,0,0,0.06), 0 0 0 1px rgba(255,255,255,0.8) inset",
+            }}
+            whileHover={{ y: -4, boxShadow: isDark
+              ? "0 30px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05) inset"
+              : "0 30px 80px rgba(0,0,0,0.1), 0 0 0 1px rgba(255,255,255,0.8) inset"
+            }}
+            transition={{ duration: 0.4 }}
+          >
+            {/* Top bar */}
+            <div className="flex items-center gap-1.5 mb-5">
+              <div className="w-2.5 h-2.5 rounded-full" style={{ background: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)" }} />
+              <div className="w-2.5 h-2.5 rounded-full" style={{ background: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)" }} />
+              <div className="w-2.5 h-2.5 rounded-full" style={{ background: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)" }} />
+              <span className="ml-auto text-[9px] font-mono" style={{ color: isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.15)" }}>
+                blip.money
+              </span>
+            </div>
+            <VisualComponent isInView={isInView} />
+          </motion.div>
         </motion.div>
       </div>
     </div>

@@ -5,36 +5,29 @@ import LazySection from "@/components/LazySection";
 // Only the hero is eagerly loaded (above the fold)
 import CinematicHero from "@/components/IndexSections/CinematicHero";
 
-// Below-fold sections are lazy loaded to reduce initial bundle
+// Below-fold sections are lazy loaded
 const ProblemSection = lazy(() => import("@/components/IndexSections/ProblemSection"));
 const DarkFintechSection = lazy(() => import("@/components/IndexSections/DarkFintechSection"));
 const ProtocolInterstitial = lazy(() => import("@/components/IndexSections/ProtocolInterstitial"));
-const ComparisonSection = lazy(() => import("@/components/IndexSections/ComparisonSection"));
-const HowItWorksSection = lazy(() => import("@/components/IndexSections/HowItWorksSection"));
-const AppShowcaseSection = lazy(() => import("@/components/IndexSections/AppShowcaseSection"));
-const FeatureStrip = lazy(() => import("@/components/IndexSections/FeatureStrip"));
-const FeatureCinemaSection = lazy(() => import("@/components/IndexSections/FeatureCinemaSection"));
 const UseCasesSection = lazy(() => import("@/components/IndexSections/UseCasesSection"));
-const RewardsSection = lazy(() => import("@/components/IndexSections/RewardsSection"));
-const UAESection = lazy(() => import("@/components/IndexSections/UAESection"));
+const LiquidityLayer = lazy(() => import("@/components/IndexSections/LiquidityLayer"));
+const LiveNetworkFeed = lazy(() => import("@/components/IndexSections/LiveNetworkFeed"));
+const AppShowcaseSection = lazy(() => import("@/components/IndexSections/AppShowcaseSection"));
 const TrustSection = lazy(() => import("@/components/IndexSections/TrustSection"));
 const CTASection = lazy(() => import("@/components/IndexSections/CTASection"));
 
 /* ============================================
-   MAIN INDEX PAGE
-   1  Hero
-   2  Problem → Why Now
-   3  Solution (Blip Protocol diagram)
-   4  How It Works (3 screens)
-   5  Core Features (strip + escrow)
-   6  Instant Bidding
-   7  Verified on Blockchain (Blipscan)
-   8  Use Cases (users & merchants)
-   9  Earn & Incentives
-   10 Dubai Launch
-   11 Protocol Benefits
-   12 Trust / Architecture
-   13 Final CTA
+   MAIN INDEX PAGE — 10 Section Architecture
+   1  Cinematic Hero (Entry Point)
+   2  The Break (Problem → Settlement Layer)
+   3  How It Works (Animated Flow)
+   4  The Blip Protocol (Proof Layer)
+   5  Use Cases (Tabbed: Users / Merchants / LPs)
+   6  Liquidity Layer (Capital Section)
+   7  Live Network / Airdrop Feed
+   8  Product Experience (Showcase)
+   9  Trust & Architecture
+   10 Final CTA
    ============================================ */
 
 const Index = () => {
@@ -54,95 +47,67 @@ const Index = () => {
         {/* Grain overlay for premium film texture */}
         <div className="grain-overlay" />
 
-        {/* 1. Hero — eagerly loaded, above the fold */}
+        {/* 1. Cinematic Hero */}
         <CinematicHero />
 
-        {/* 2. Problem → Why Now */}
+        {/* 2. The Break — Problem → Settlement Layer */}
         <LazySection minHeight="100vh">
           <Suspense fallback={null}>
             <ProblemSection />
           </Suspense>
         </LazySection>
 
-        {/* Dark Fintech — Trading & Currency Section */}
+        {/* 3. How It Works — Animated Flow */}
         <LazySection minHeight="100vh">
           <Suspense fallback={null}>
             <DarkFintechSection />
           </Suspense>
         </LazySection>
 
-        {/* 4. The Blip Protocol */}
+        {/* 4. The Blip Protocol — Proof Layer */}
         <LazySection minHeight="80vh">
           <Suspense fallback={null}>
             <ProtocolInterstitial />
           </Suspense>
         </LazySection>
 
-        {/* 5. Why Blip — competitive comparison */}
-        <LazySection minHeight="80vh">
-          <Suspense fallback={null}>
-            <ComparisonSection />
-          </Suspense>
-        </LazySection>
-
-        {/* How It Works — isolated (no overflow-x-hidden parent) */}
-        <LazySection minHeight="100vh">
-          <Suspense fallback={null}>
-            <HowItWorksSection />
-          </Suspense>
-        </LazySection>
-
-        {/* App Showcase — Apple bento grid with device mockups */}
-        <LazySection minHeight="100vh">
-          <Suspense fallback={null}>
-            <AppShowcaseSection />
-          </Suspense>
-        </LazySection>
-
         <div className="overflow-x-clip">
-          {/* 6. Core Features */}
-          <LazySection minHeight="20vh">
-            <Suspense fallback={null}>
-              <FeatureStrip />
-            </Suspense>
-          </LazySection>
-
-          {/* 6-7-8. Locked & Secured · Instant Bidding · Verified — cinematic scroll */}
-          <LazySection minHeight="300vh">
-            <Suspense fallback={null}>
-              <FeatureCinemaSection />
-            </Suspense>
-          </LazySection>
-
-          {/* 8. Use Cases */}
+          {/* 5. Use Cases — Tabbed (Users / Merchants / LPs) */}
           <LazySection minHeight="80vh">
             <Suspense fallback={null}>
               <UseCasesSection />
             </Suspense>
           </LazySection>
 
-          {/* 9. Earn & Incentives */}
+          {/* 6. Liquidity Layer — Capital Section */}
           <LazySection minHeight="60vh">
             <Suspense fallback={null}>
-              <RewardsSection />
+              <LiquidityLayer />
             </Suspense>
           </LazySection>
 
-          {/* 10. Dubai Launch */}
+          {/* 7. Live Network / Airdrop Feed */}
           <LazySection minHeight="60vh">
             <Suspense fallback={null}>
-              <UAESection />
+              <LiveNetworkFeed />
             </Suspense>
           </LazySection>
 
-          {/* 12. Trust / Architecture */}
+          {/* 8. Product Experience */}
+          <LazySection minHeight="100vh">
+            <Suspense fallback={null}>
+              <AppShowcaseSection />
+            </Suspense>
+          </LazySection>
+
+          {/* 9. Trust & Architecture */}
           <LazySection minHeight="60vh">
             <Suspense fallback={null}>
               <TrustSection />
             </Suspense>
           </LazySection>
 
-          {/* 13. Final CTA */}
+          {/* 10. Final CTA */}
           <LazySection minHeight="40vh">
             <Suspense fallback={null}>
               <CTASection />
