@@ -98,7 +98,7 @@ export const Navbar = () => {
             </div>
 
             <div className="hidden lg:flex items-center gap-3">
-              {/* <ThemeSwitcher /> */}
+              <ThemeSwitcher />
               {isAuthenticated ? (
                 <CTAButton to="/dashboard">Dashboard</CTAButton>
               ) : (
@@ -107,7 +107,7 @@ export const Navbar = () => {
             </div>
 
             <div className="flex gap-2 lg:hidden">
-              {/* <ThemeSwitcher /> */}
+              <ThemeSwitcher />
               <button
                 onClick={() => setMobileMenuOpen((prev) => !prev)}
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
@@ -270,7 +270,6 @@ export const CTAButton = ({
 
 /* ---------------- Theme Switcher ---------------- */
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ThemeSwitcher = memo(() => {
   const { theme, setTheme } = useTheme();
 

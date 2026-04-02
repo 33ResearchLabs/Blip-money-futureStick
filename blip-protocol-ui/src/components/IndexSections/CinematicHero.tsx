@@ -5,72 +5,85 @@ import { CTAButton } from "../Navbar";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-/* ── Status dot at the bottom ── */
-const StatusDot = ({
-  label,
-  color,
-  glow,
-  delay,
-}: {
-  label: string;
-  color: string;
-  glow: string;
-  delay: number;
-}) => (
-  <div
-    className="flex items-center gap-1.5"
-    style={{ fontSize: 11, fontWeight: 500, color: "#555555" }}
-  >
-    <motion.span
-      animate={{ opacity: [1, 0.45, 1] }}
-      transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut", delay }}
-      style={{
-        display: "inline-block",
-        width: 7,
-        height: 7,
-        borderRadius: "50%",
-        flexShrink: 0,
-        background: color,
-        boxShadow: `0 0 6px ${glow}`,
-      }}
-    />
-    {label}
-  </div>
-);
-
 /* ── Hero ── */
 const CinematicHero = () => {
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
-  const isDark = mounted ? theme === "dark" : true; // default to dark until mounted
+  const isDark = mounted ? theme === "dark" : true;
 
   return (
     <section className="relative min-h-screen overflow-hidden flex items-center justify-center text-center bg-[#FAF8F5] dark:bg-black">
-      {/* Background image — Earth from space */}
-      <motion.div
-        aria-hidden="true"
-        className="absolute inset-0 pointer-events-none"
-        initial={{ scale: 1 }}
-        animate={{ scale: 1.15 }}
-        transition={{ duration: 10, ease: "linear", repeat: Infinity, repeatType: "reverse" }}
-        style={{
-          backgroundImage: "url('/hero-bg.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
-      />
-      {/* Dark overlay so text stays readable */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: isDark
-            ? "rgba(0,0,0,0.72)"
-            : "rgba(250,248,245,0.7)",
-        }}
-      />
+
+      {/* ── DARK MODE: Earth bg + zoom + overlay ── */}
+      {isDark && (
+        <>
+          <motion.div
+            aria-hidden="true"
+            className="absolute inset-0 pointer-events-none"
+            initial={{ scale: 1 }}
+            animate={{ scale: 1.15 }}
+            transition={{ duration: 10, ease: "linear", repeat: Infinity, repeatType: "reverse" }}
+            style={{
+              backgroundImage: "url('/hero-bg.jpg')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 pointer-events-none"
+            style={{ background: "rgba(0,0,0,0.72)" }}
+          />
+        </>
+      )}
+
+      {/* ── LIGHT MODE: warm gradient + orange glow + ghost Earth ── */}
+      {!isDark && mounted && (
+        <>
+          {/* Base warm gradient */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: "linear-gradient(180deg, #FFFBF7 0%, #FFF5EE 30%, #FAF8F5 60%, #F5F0EB 100%)",
+            }}
+          />
+          {/* Orange radial glow — center warmth */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: "radial-gradient(ellipse 60% 50% at 50% 45%, rgba(255,107,53,0.08) 0%, transparent 70%)",
+            }}
+          />
+          {/* Ghost Earth image — very faint */}
+          <motion.div
+            aria-hidden="true"
+            className="absolute inset-0 pointer-events-none"
+            initial={{ scale: 1 }}
+            animate={{ scale: 1.1 }}
+            transition={{ duration: 14, ease: "linear", repeat: Infinity, repeatType: "reverse" }}
+            style={{
+              backgroundImage: "url('/hero-bg.jpg')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              opacity: 0.06,
+              filter: "saturate(0.3)",
+            }}
+          />
+          {/* Soft vignette edges */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: "radial-gradient(ellipse 80% 70% at 50% 50%, transparent 40%, #FAF8F5 100%)",
+            }}
+          />
+        </>
+      )}
 
       {/* Content */}
       <main className="relative z-10 w-full max-w-[860px] mx-auto px-6 md:px-10 pt-28 pb-44 text-center">
@@ -109,7 +122,7 @@ const CinematicHero = () => {
           }}
         >
           <span>Borderless finance.</span>
-          {/* Animated warm-to-orange shimmer sweep */}
+          {/* Animated shimmer — orange in both modes */}
           <motion.span
             key={isDark ? "dark" : "light"}
             style={{
@@ -148,7 +161,7 @@ const CinematicHero = () => {
           </p>
         </motion.div>
 
-        {/* Segmented CTAs */}
+        {/* CTAs */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -166,7 +179,7 @@ const CinematicHero = () => {
           </CTAButton>
         </motion.div>
 
-        {/* Micro-proof stats */}
+        {/* Stats */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
