@@ -39,12 +39,28 @@ const CinematicHero = () => {
         </>
       )}
 
-      {/* ── LIGHT MODE: clean white ── */}
+      {/* ── LIGHT MODE: same Earth bg ── */}
       {!isDark && mounted && (
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 pointer-events-none bg-white"
-        />
+        <>
+          <motion.div
+            aria-hidden="true"
+            className="absolute inset-0 pointer-events-none"
+            initial={{ scale: 1 }}
+            animate={{ scale: 1.15 }}
+            transition={{ duration: 10, ease: "linear", repeat: Infinity, repeatType: "reverse" }}
+            style={{
+              backgroundImage: "url('/hero-bg.jpg')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 pointer-events-none"
+            style={{ background: "rgba(0,0,0,0.72)" }}
+          />
+        </>
       )}
 
       {/* Content */}
@@ -54,7 +70,7 @@ const CinematicHero = () => {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: EASE }}
-          className="text-[#86868b] dark:text-[#555555]"
+          className="text-white/50 dark:text-[#555555]"
           style={{
             fontSize: "10.5px",
             fontWeight: 600,
@@ -71,7 +87,7 @@ const CinematicHero = () => {
           initial={{ opacity: 0, scale: 0.99 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.2, ease: "easeOut", delay: 0.08 }}
-          className="select-none text-[#1d1d1f] dark:text-white"
+          className="select-none text-white dark:text-white"
           style={{
             fontSize: "clamp(3.5rem, 8vw, 6.5rem)",
             fontWeight: 600,
@@ -90,7 +106,7 @@ const CinematicHero = () => {
             style={{
               background: isDark
                 ? "linear-gradient(90deg, #ffffff 0%, #ffe8dc 18%, #ffb899 30%, #ff8c50 42%, #ff6b35 50%, #ff8c50 58%, #ffb899 70%, #ffe8dc 82%, #ffffff 100%)"
-                : "linear-gradient(90deg, #1a1a1a 0%, #4a2a1a 18%, #c0623a 30%, #ff8c50 42%, #ff6b35 50%, #ff8c50 58%, #c0623a 70%, #4a2a1a 82%, #1a1a1a 100%)",
+                : "linear-gradient(90deg, #ffffff 0%, #ffe8dc 18%, #ffb899 30%, #ff8c50 42%, #ff6b35 50%, #ff8c50 58%, #ffb899 70%, #ffe8dc 82%, #ffffff 100%)",
               backgroundSize: "300% 100%",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
@@ -112,7 +128,7 @@ const CinematicHero = () => {
           style={{ maxWidth: 480, margin: "0 auto 36px" }}
         >
           <p
-            className="text-[#555] dark:text-[#888]"
+            className="text-white/60 dark:text-[#888]"
             style={{
               fontSize: 18,
               lineHeight: 1.6,
@@ -154,8 +170,8 @@ const CinematicHero = () => {
           ].map((s, i) => (
             <div key={s.label} className="flex items-center gap-2">
               {i > 0 && <div className="w-px h-3 bg-black/10 dark:bg-white/10" />}
-              <span className="text-[11px] text-[#86868b] dark:text-[#555]">{s.label}:</span>
-              <span className="text-[11px] font-semibold font-mono text-[#1d1d1f] dark:text-[#888]">{s.value}</span>
+              <span className="text-[11px] text-white/40 dark:text-[#555]">{s.label}:</span>
+              <span className="text-[11px] font-semibold font-mono text-white/70 dark:text-[#888]">{s.value}</span>
             </div>
           ))}
         </motion.div>

@@ -289,17 +289,7 @@ export const MerchantDashboardSection = () => {
             </span>
           </motion.h2>
 
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="p-large text-black/80 dark:text-white/40 max-w-2xl md:mx-auto mx-4"
-          >
-            Real-time order matching. Set your rates. Accept orders.
-            <br />
-            Get paid instantly. No custody, no risk.
-          </motion.p>
+
         </div>
 
         {/* Advanced Trading Dashboard Preview */}

@@ -123,15 +123,6 @@ const BlipscanExplorerSection = () => {
             <span className="text-black dark:text-white/20">verified.</span>
           </motion.h2>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="p-large text-black/80 dark:text-white/50 max-w-2xl mx-auto hidden sm:block"
-          >
-            Every settlement is public and verifiable on Blipscan.
-          </motion.p>
         </motion.div>
 
         {/* Blipscan Window - Linear style (parallax) */}

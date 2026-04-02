@@ -465,61 +465,98 @@ const ProtocolInterstitial = () => {
           viewport={{ once: true }}
           transition={{ duration: 1, ease: EASE }}
           style={{
-            fontSize: "clamp(2.5rem, 4.5vw, 3.5rem)",
+            fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
             fontWeight: 700,
             letterSpacing: "-0.04em",
             lineHeight: 1.05,
             color: isDark ? "#fff" : "#1d1d1f",
-            marginBottom: 24,
+            marginBottom: 48,
           }}
         >
-          The Blip <span style={{ color: "#ff6b35" }}>Protocol</span>
+          The Blip Protocol
         </motion.h2>
 
-        <motion.p
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.3, ease: EASE }}
-          style={{
-            fontSize: "clamp(1rem, 2vw, 1.2rem)",
-            lineHeight: 1.6,
-            color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)",
-            maxWidth: 520,
-            margin: "0 auto",
-          }}
-        >
-          Best-in-class matching engine. Real-time merchant auctions.
-          On-chain settlement proof. This is how money should move.
-        </motion.p>
       </div>
 
-      {/* Feature blocks */}
-      {FEATURES.map((f, i) => (
-        <FeatureBlock key={f.label} feature={f} index={i} isDark={isDark} />
-      ))}
+      {/* 3 Feature cards */}
+      <div className="max-w-6xl mx-auto px-6" style={{ paddingBottom: 120 }}>
+        {/* Top row — first card full width */}
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: EASE }}
+          whileHover={{ y: -4 }}
+          className="rounded-[24px] overflow-hidden mb-4"
+          style={{
+            background: isDark ? "#111" : "#ffffff",
+            border: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.06)",
+            boxShadow: isDark ? "0 20px 60px rgba(0,0,0,0.3)" : "0 2px 20px rgba(0,0,0,0.06)",
+            transition: "all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+          }}
+        >
+          <div className="flex flex-col md:flex-row md:items-center gap-8 p-8 md:p-10">
+            <div className="flex-1 min-w-0">
+              <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)", marginBottom: 12 }}>
+                {FEATURES[0].label}
+              </div>
+              <h3 style={{ fontSize: "clamp(1.6rem, 3vw, 2.2rem)", fontWeight: 700, letterSpacing: "-0.035em", lineHeight: 1.15, color: isDark ? "#fff" : "#1d1d1f", marginBottom: 8 }}>
+                {FEATURES[0].headline}
+              </h3>
+              <p style={{ fontSize: 15, lineHeight: 1.6, color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)", maxWidth: 400 }}>
+                {FEATURES[0].desc}
+              </p>
+            </div>
+            <div className="flex-1 min-w-0">
+              <SpeedVisual isInView={true} />
+            </div>
+          </div>
+        </motion.div>
 
-      {/* Bottom */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1.2 }}
-        className="text-center"
-        style={{ padding: "60px 24px 140px" }}
-      >
-        <div style={{
-          width: 48, height: 1,
-          background: "linear-gradient(90deg, transparent, rgba(255,107,53,0.4), transparent)",
-          margin: "0 auto 28px",
-        }} />
-        <p style={{
-          fontSize: 16, fontWeight: 500,
-          color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)",
-        }}>
-          Non-custodial. Permissionless. Built on Solana.
-        </p>
-      </motion.div>
+        {/* Bottom row — 2 cards side by side */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {FEATURES.slice(1).map((f, i) => {
+            const Visual = i === 0 ? RatesVisual : ChainVisual;
+            return (
+              <motion.div
+                key={f.label}
+                initial={{ opacity: 0, y: 28 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7, delay: 0.1 + i * 0.1, ease: EASE }}
+                whileHover={{ y: -4 }}
+                className="rounded-[24px] overflow-hidden"
+                style={{
+                  background: isDark ? "#111" : "#ffffff",
+                  border: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.06)",
+                  boxShadow: isDark ? "0 20px 60px rgba(0,0,0,0.3)" : "0 2px 20px rgba(0,0,0,0.06)",
+                  transition: "all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+                }}
+              >
+                <div className="p-7">
+                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)", marginBottom: 12 }}>
+                    {f.label}
+                  </div>
+                  <h3 style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.03em", lineHeight: 1.2, color: isDark ? "#fff" : "#1d1d1f", marginBottom: 6 }}>
+                    {f.headline}
+                  </h3>
+                  <p style={{ fontSize: 14, lineHeight: 1.6, color: isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)", marginBottom: 20 }}>
+                    {f.subline}
+                  </p>
+                  <Visual isInView={true} />
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Bottom line */}
+        <div className="text-center mt-12">
+          <p style={{ fontSize: 14, fontWeight: 500, color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.25)" }}>
+            Non-custodial. Permissionless. Built on Solana.
+          </p>
+        </div>
+      </div>
     </section>
   );
 };

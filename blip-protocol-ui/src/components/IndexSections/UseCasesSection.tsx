@@ -299,133 +299,298 @@ const TABS = [
 const UseCasesSection = () => {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
-  const [activeTab, setActiveTab] = useState(0);
-
-  const tab = TABS[activeTab];
 
   return (
     <section className="relative overflow-hidden" style={{ background: isDark ? "#000" : "#FAF8F5" }}>
       <div style={{ padding: "120px 24px" }}>
         <div className="max-w-6xl mx-auto">
 
-          {/* Section heading */}
+          {/* Heading */}
           <motion.h2
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, ease: EASE }}
-            className="text-center"
-            style={{
-              fontSize: "clamp(2.2rem, 4.5vw, 3.5rem)",
-              fontWeight: 700,
-              letterSpacing: "-0.04em",
-              lineHeight: 1.1,
-              color: isDark ? "#fff" : "#1d1d1f",
-              marginBottom: 48,
-            }}
+            className="heading-h2 text-center"
+            style={{ color: isDark ? "#fff" : "#1d1d1f", marginBottom: 48 }}
           >
             Built for everyone.
           </motion.h2>
 
-          {/* Tabs */}
-          <div className="flex justify-center gap-1 mb-16">
-            {TABS.map((t, i) => (
-              <button
-                key={t.id}
-                onClick={() => setActiveTab(i)}
-                className="relative px-5 py-2.5 text-sm font-medium transition-colors duration-200"
-                style={{
-                  color: activeTab === i
-                    ? (isDark ? "#fff" : "#1d1d1f")
-                    : (isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)"),
-                  background: "transparent",
-                  border: "none",
-                  cursor: "pointer",
-                }}
-              >
-                {t.label}
-                {activeTab === i && (
-                  <motion.div
-                    layoutId="tab-underline"
-                    className="absolute bottom-0 left-2 right-2 h-0.5 rounded-full"
-                    style={{ background: isDark ? "#fff" : "#1d1d1f" }}
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  />
-                )}
-              </button>
-            ))}
-          </div>
+          {/* ── Hero card: Users — full width with image ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: EASE }}
+            whileHover={{ y: -4 }}
+            className="rounded-[24px] overflow-hidden mb-4 relative"
+            style={{
+              background: "#1d1d1f",
+              boxShadow: "0 20px 60px rgba(0,0,0,0.2)",
+              minHeight: 400,
+              transition: "all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+            }}
+          >
+            {/* Background image */}
+            <img
+              src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=1200&auto=format&fit=crop&q=80"
+              alt=""
+              className="absolute inset-0 w-full h-full object-cover"
+              style={{ opacity: 0.3 }}
+            />
+            <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(29,29,31,0.95) 40%, rgba(29,29,31,0.4) 100%)" }} />
 
-          {/* Tab content */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={tab.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.4, ease: EASE }}
-              className="flex flex-col md:flex-row md:items-center gap-12 md:gap-20"
-            >
-              {/* Text side */}
+            <div className="relative z-10 flex flex-col md:flex-row md:items-center gap-8 p-8 md:p-12">
+              {/* Left — text */}
               <div className="flex-1 min-w-0">
-                <h3 style={{
-                  fontSize: "clamp(1.6rem, 3vw, 2.4rem)",
-                  fontWeight: 700,
-                  letterSpacing: "-0.03em",
-                  lineHeight: 1.15,
-                  color: isDark ? "#fff" : "#1d1d1f",
-                  marginBottom: 28,
-                }}>
-                  {tab.headline}
+                <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", marginBottom: 14 }}>
+                  For users
+                </span>
+                <h3 style={{ fontSize: "clamp(2rem, 3.5vw, 2.8rem)", fontWeight: 700, letterSpacing: "-0.035em", lineHeight: 1.15, color: "#ffffff", marginBottom: 12 }}>
+                  Send USDT.<br />Get cash delivered.
                 </h3>
-
-                <div className="space-y-4 mb-10">
-                  {tab.bullets.map((b, i) => (
-                    <motion.div
-                      key={b}
-                      initial={{ opacity: 0, x: -12 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.4, delay: 0.1 + i * 0.07, ease: EASE }}
-                      className="flex items-center gap-3"
-                    >
-                      <div
-                        className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-                        style={{ background: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.25)" }}
-                      />
-                      <span
-                        className="text-base"
-                        style={{ color: isDark ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.5)" }}
-                      >
-                        {b}
-                      </span>
-                    </motion.div>
+                <p style={{ fontSize: 16, lineHeight: 1.6, color: "rgba(255,255,255,0.5)", marginBottom: 24, maxWidth: 380 }}>
+                  Cross-border remittance in under 60 seconds. No banks. No forms. Recipient gets local currency instantly.
+                </p>
+                <div className="flex items-center gap-5 mb-6">
+                  {[{ val: "<60s", lbl: "Settle" }, { val: "42", lbl: "Routes" }, { val: "On-chain", lbl: "Proof" }].map((s, i) => (
+                    <div key={s.lbl} className="flex items-center gap-1.5">
+                      {i > 0 && <div className="w-px h-4 bg-white/10 mr-2" />}
+                      <span className="font-mono text-sm font-bold text-white">{s.val}</span>
+                      <span className="text-[9px] uppercase text-white/30">{s.lbl}</span>
+                    </div>
                   ))}
                 </div>
-
                 <motion.a
                   href="/waitlist"
-                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold"
-                  style={{ background: isDark ? "#fff" : "#1d1d1f", color: isDark ? "#1d1d1f" : "#fff" }}
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-[13px] font-semibold"
+                  style={{ background: "#ffffff", color: "#1d1d1f" }}
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
                 >
-                  {tab.cta}
+                  Start sending <span>→</span>
                 </motion.a>
               </div>
+            </div>
+          </motion.div>
 
-              {/* Visual side */}
-              <div className="flex-1 min-w-0 flex items-center justify-center">
-                {activeTab === 0 && <LiveSendVisual isDark={isDark} />}
-                {activeTab === 1 && <LiveMerchantVisual isDark={isDark} />}
-                {activeTab === 2 && <LiveEarnFeed isInView={true} />}
+          {/* ── Bottom row: Merchants + Liquidity ── */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Merchants — with image */}
+            <motion.div
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.1, ease: EASE }}
+              whileHover={{ y: -4 }}
+              className="rounded-[24px] overflow-hidden relative"
+              style={{
+                background: "#1d1d1f",
+                boxShadow: "0 20px 60px rgba(0,0,0,0.2)",
+                minHeight: 380,
+                transition: "all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+              }}
+            >
+              {/* Image */}
+              <img
+                src="https://images.unsplash.com/photo-1556742031-c6961e8560b0?w=800&auto=format&fit=crop&q=80"
+                alt=""
+                className="absolute inset-0 w-full h-full object-cover"
+                style={{ opacity: 0.2 }}
+              />
+              <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(29,29,31,0.95) 50%, rgba(29,29,31,0.6) 100%)" }} />
+
+              <div className="relative z-10 p-7 flex flex-col h-full justify-end" style={{ minHeight: 380 }}>
+                <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", marginBottom: 10 }}>
+                  For merchants
+                </span>
+                <h3 style={{ fontSize: 24, fontWeight: 700, letterSpacing: "-0.03em", lineHeight: 1.2, color: "#fff", marginBottom: 10 }}>
+                  Accept crypto.<br />Earn on every trade.
+                </h3>
+                <p style={{ fontSize: 14, lineHeight: 1.6, color: "rgba(255,255,255,0.45)", marginBottom: 20 }}>
+                  Instant settlement. Zero chargebacks. Margin on every order.
+                </p>
+                <div className="flex items-center gap-4 mb-5">
+                  <div>
+                    <div className="font-mono text-lg font-bold text-[#3ddc84]">$1,247</div>
+                    <div className="text-[8px] uppercase tracking-wider text-white/25">Earned today</div>
+                  </div>
+                  <div className="w-px h-8 bg-white/10" />
+                  <div>
+                    <div className="font-mono text-lg font-bold text-white">34</div>
+                    <div className="text-[8px] uppercase tracking-wider text-white/25">Trades</div>
+                  </div>
+                  <div className="w-px h-8 bg-white/10" />
+                  <div>
+                    <div className="font-mono text-lg font-bold text-white">~38s</div>
+                    <div className="text-[8px] uppercase tracking-wider text-white/25">Avg settle</div>
+                  </div>
+                </div>
+                <motion.a
+                  href="/merchant"
+                  className="inline-flex items-center gap-2 self-start px-5 py-2.5 rounded-full text-[13px] font-semibold"
+                  style={{ background: "rgba(255,255,255,0.12)", color: "#fff", border: "1px solid rgba(255,255,255,0.12)" }}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                >
+                  Accept payments <span>→</span>
+                </motion.a>
               </div>
             </motion.div>
-          </AnimatePresence>
+
+            {/* Liquidity — with image */}
+            <motion.div
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.2, ease: EASE }}
+              whileHover={{ y: -4 }}
+              className="rounded-[24px] overflow-hidden relative"
+              style={{
+                background: isDark ? "#111" : "#ffffff",
+                boxShadow: isDark ? "0 20px 60px rgba(0,0,0,0.3)" : "0 2px 24px rgba(0,0,0,0.06)",
+                minHeight: 380,
+                transition: "all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+              }}
+            >
+              {/* Image */}
+              <img
+                src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop&q=80"
+                alt=""
+                className="absolute inset-0 w-full h-full object-cover"
+                style={{ opacity: isDark ? 0.15 : 0.08 }}
+              />
+              <div className="absolute inset-0" style={{ background: isDark ? "linear-gradient(to top, rgba(17,17,17,0.95) 50%, rgba(17,17,17,0.7) 100%)" : "linear-gradient(to top, rgba(255,255,255,0.95) 50%, rgba(255,255,255,0.8) 100%)" }} />
+
+              <div className="relative z-10 p-7 flex flex-col h-full justify-end" style={{ minHeight: 380 }}>
+                <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.3)", marginBottom: 10 }}>
+                  For liquidity providers
+                </span>
+                <h3 style={{ fontSize: 24, fontWeight: 700, letterSpacing: "-0.03em", lineHeight: 1.2, color: isDark ? "#fff" : "#1d1d1f", marginBottom: 10 }}>
+                  Deploy capital.<br />Capture spread.
+                </h3>
+                <p style={{ fontSize: 14, lineHeight: 1.6, color: isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.4)", marginBottom: 20 }}>
+                  Fund settlement routes. Earn infrastructure yield. Full control.
+                </p>
+                <div className="flex items-center gap-4 mb-5">
+                  <div>
+                    <div className="font-mono text-lg font-bold text-[#3ddc84]">11.2%</div>
+                    <div className="text-[8px] uppercase tracking-wider" style={{ color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.25)" }}>Avg APY</div>
+                  </div>
+                  <div className="w-px h-8" style={{ background: isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.08)" }} />
+                  <div>
+                    <div className="font-mono text-lg font-bold" style={{ color: isDark ? "#fff" : "#1d1d1f" }}>42</div>
+                    <div className="text-[8px] uppercase tracking-wider" style={{ color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.25)" }}>Routes</div>
+                  </div>
+                  <div className="w-px h-8" style={{ background: isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.08)" }} />
+                  <div>
+                    <div className="font-mono text-lg font-bold" style={{ color: isDark ? "#fff" : "#1d1d1f" }}>$4.8M</div>
+                    <div className="text-[8px] uppercase tracking-wider" style={{ color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.25)" }}>Deployed</div>
+                  </div>
+                </div>
+                <motion.a
+                  href="/waitlist"
+                  className="inline-flex items-center gap-2 self-start px-5 py-2.5 rounded-full text-[13px] font-semibold"
+                  style={{ background: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)", color: isDark ? "#fff" : "#1d1d1f", border: isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.08)" }}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                >
+                  Provide liquidity <span>→</span>
+                </motion.a>
+              </div>
+            </motion.div>
+          </div>
 
         </div>
       </div>
     </section>
   );
 };
+
+/* ── Mini merchant earnings ticker ── */
+function LiveMerchantMini() {
+  const [earned, setEarned] = useState(1247);
+  const [trades, setTrades] = useState(34);
+  useEffect(() => {
+    const id = setInterval(() => {
+      setEarned((v) => v + parseFloat((Math.random() * 15 + 3).toFixed(2)));
+      setTrades((v) => v + 1);
+    }, 3000);
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-3">
+        <div>
+          <div className="text-[8px] font-semibold uppercase tracking-wider text-white/25 mb-1">Today's earnings</div>
+          <motion.div key={Math.floor(earned)} initial={{ y: -3, opacity: 0.6 }} animate={{ y: 0, opacity: 1 }} className="font-mono text-xl font-bold text-[#3ddc84]">
+            ${Math.floor(earned).toLocaleString()}
+          </motion.div>
+        </div>
+        <div className="text-right">
+          <div className="text-[8px] font-semibold uppercase tracking-wider text-white/25 mb-1">Trades</div>
+          <motion.div key={trades} initial={{ y: -3, opacity: 0.6 }} animate={{ y: 0, opacity: 1 }} className="font-mono text-xl font-bold text-white">
+            {trades}
+          </motion.div>
+        </div>
+      </div>
+      <div className="h-1 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.06)" }}>
+        <motion.div
+          className="h-full rounded-full bg-[#3ddc84]"
+          animate={{ width: ["30%", "65%", "45%", "80%", "55%"] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
+      </div>
+      <div className="flex justify-between mt-1.5">
+        <span className="text-[8px] text-white/20">Volume</span>
+        <span className="text-[8px] font-mono text-white/20">$24.8K today</span>
+      </div>
+    </div>
+  );
+}
+
+/* ── Mini LP route stats ── */
+function LiveLPMini({ isDark }: { isDark: boolean }) {
+  const [deployed, setDeployed] = useState(48700);
+  useEffect(() => {
+    const id = setInterval(() => setDeployed((v) => v + Math.floor(Math.random() * 200 + 50)), 3500);
+    return () => clearInterval(id);
+  }, []);
+
+  const routes = [
+    { name: "UAE → India", apy: "12.4%", util: 87 },
+    { name: "UAE → PH", apy: "9.8%", util: 72 },
+  ];
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-4">
+        <div>
+          <div className="text-[8px] font-semibold uppercase tracking-wider" style={{ color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.25)" }}>Deployed</div>
+          <motion.div key={Math.floor(deployed)} initial={{ y: -3, opacity: 0.6 }} animate={{ y: 0, opacity: 1 }} className="font-mono text-xl font-bold" style={{ color: isDark ? "#fff" : "#1d1d1f" }}>
+            ${(deployed / 1000).toFixed(1)}K
+          </motion.div>
+        </div>
+        <div className="text-right">
+          <div className="text-[8px] font-semibold uppercase tracking-wider" style={{ color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.25)" }}>Avg APY</div>
+          <div className="font-mono text-xl font-bold text-[#3ddc84]">11.2%</div>
+        </div>
+      </div>
+      {routes.map((r, i) => (
+        <div key={r.name} className="flex items-center justify-between py-2" style={{ borderTop: `1px solid ${isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)"}` }}>
+          <span className="text-xs" style={{ color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)" }}>{r.name}</span>
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-1 rounded-full overflow-hidden" style={{ background: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)" }}>
+              <div className="h-full rounded-full bg-[#3ddc84]" style={{ width: `${r.util}%` }} />
+            </div>
+            <span className="text-xs font-bold font-mono text-[#3ddc84]">{r.apy}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export default memo(UseCasesSection);

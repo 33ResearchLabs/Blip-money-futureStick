@@ -154,7 +154,7 @@ function NightGlobe() {
 }
 
 /* ── Card wrapper ── */
-function CardShell({ children }: { children: React.ReactNode }) {
+function CardShell({ children, bg }: { children: React.ReactNode; bg?: string }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 28 }}
@@ -164,10 +164,10 @@ function CardShell({ children }: { children: React.ReactNode }) {
       whileHover={{ y: -6, boxShadow: "0 20px 60px rgba(0,0,0,0.12)" }}
       style={{
         position: "relative",
-        background: "#ffffff",
-        borderRadius: 20,
+        background: bg || "#ffffff",
+        borderRadius: 24,
         overflow: "hidden",
-        minHeight: 360,
+        minHeight: 380,
         boxShadow: "0 2px 20px rgba(0,0,0,0.06)",
         transition: "all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
         cursor: "default",
@@ -188,7 +188,7 @@ function CostCard() {
 
   return (
     <div ref={ref}>
-      <CardShell>
+      <CardShell bg="linear-gradient(165deg, #fff5f0 0%, #ffe8dc 100%)">
         <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginBottom: 16 }}>
           The Cost
         </span>
@@ -246,7 +246,7 @@ function WaitCard() {
 
   return (
     <div ref={ref}>
-      <CardShell>
+      <CardShell bg="linear-gradient(165deg, #f0f4ff 0%, #dce4f8 100%)">
         <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginBottom: 16 }}>
           The Wait
         </span>
@@ -313,7 +313,7 @@ function TrackedCard() {
 
   return (
     <div ref={ref}>
-      <CardShell>
+      <CardShell bg="linear-gradient(165deg, #f5f0ff 0%, #e8dff8 100%)">
         <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginBottom: 16 }}>
           The Exposure
         </span>
@@ -579,7 +579,7 @@ const ProblemSection = () => {
           className="heading-h2"
           style={{
             textAlign: "center",
-            marginBottom: 20,
+            marginBottom: 48,
           }}
         >
           <span className="mb-3"
@@ -598,21 +598,8 @@ const ProblemSection = () => {
           >
             are broken.
           </span> */}
-          <span className="bg-orange-600/10 text-[#ff6b35] px-3 py-.5  rounded-md">
-  are broken.
-</span>
+          <span>are broken.</span>
         </motion.h2>
-
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, delay: 0.15, ease: EASE }}
-          className="p-large text-black/80 dark:text-white/50 max-w-lg text-center mx-auto mb-10"
-        >
-          The traditional financial system was built for a different era.
-          Stablecoin adoption is rising. Merchants are stuck. The timing is now.
-        </motion.p>
 
         {/* ── 3 Problem Cards — Live animated data ── */}
         <div
@@ -624,138 +611,87 @@ const ProblemSection = () => {
           <TrackedCard />
         </div>
 
-        {/* ── Enter Blip card — Apple-style colorful ── */}
+        {/* ── The Fix — full-width cinematic card ── */}
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.9, delay: 0.35, ease: EASE }}
-          whileHover={{ y: -3 }}
-          className="flex flex-col md:flex-row items-center"
+          transition={{ duration: 0.7, ease: EASE }}
           style={{
-            background: "#1d1d1f",
-            borderRadius: 20,
-            padding: "32px 36px",
-            gap: 32,
-            overflow: "hidden",
             position: "relative",
-            border: "none",
-            boxShadow: "0 20px 60px rgba(0,0,0,0.2)",
-            transition: "all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+            borderRadius: 24,
+            overflow: "hidden",
+            minHeight: 360,
+            border: "1px solid rgba(255,255,255,0.08)",
           }}
         >
-          {/* Subtle top highlight line */}
-          <div
-            aria-hidden
+          {/* Background image — zooms on scroll */}
+          <motion.div
+            animate={{
+              scale: [1, 1.2, 1.15, 1.25, 1.1, 1],
+              x: [0, -20, 15, -10, 20, 0],
+              y: [0, -15, 10, -20, 5, 0],
+            }}
+            transition={{ duration: 30, ease: "easeInOut", repeat: Infinity }}
             style={{
               position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              height: 1,
-              background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent)",
-              pointerEvents: "none",
+              inset: -40,
+              backgroundImage: "url('/fix-bg.jpg')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          />
+          {/* Dark overlay for text readability */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: "linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.55) 100%)",
             }}
           />
 
-          {/* Left — text */}
-          <div style={{ flex: 1, minWidth: 0, position: "relative" }}>
-            {/* Badge */}
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 7,
-                padding: "4px 12px",
-                background: "rgba(255,255,255,0.15)",
-                border: "1px solid rgba(255,255,255,0.2)",
-                borderRadius: 999,
-                fontSize: 9,
-                fontWeight: 700,
-                letterSpacing: "2px",
-                textTransform: "uppercase",
-                color: "#ffffff",
-                marginBottom: 16,
-              }}
-            >
-              <motion.div
-                animate={{ opacity: [1, 0.4, 1] }}
-                transition={{
-                  duration: 1.6,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                style={{
-                  width: 5,
-                  height: 5,
-                  borderRadius: "50%",
-                  background: "#ffffff",
-                  flexShrink: 0,
-                }}
-              />
+          {/* Content */}
+          <div className="relative z-10 flex flex-col items-center justify-center text-center" style={{ padding: "64px 32px" }}>
+            <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: 24 }}>
               The Fix
-            </div>
-
-            {/* Title */}
-            <div
-              style={{
-                fontSize: "clamp(2.5rem, 4.5vw, 3.5rem)",
-                fontWeight: 700,
-                letterSpacing: "-0.05em",
-                lineHeight: 0.95,
-                marginBottom: 14,
-                color: "#ffffff",
-              }}
-            >
+            </span>
+            <div style={{
+              fontSize: "clamp(2rem, 4vw, 3.2rem)",
+              fontWeight: 700,
+              letterSpacing: "-0.04em",
+              lineHeight: 1.1,
+              color: "rgba(255,255,255,0.5)",
+              marginBottom: 8,
+            }}>
               This is not a payments app.
             </div>
-            <div
-              style={{
-                fontSize: "clamp(1.2rem, 2.5vw, 1.6rem)",
-                fontWeight: 500,
-                color: "rgba(255,255,255,0.4)",
-                marginBottom: 20,
-                letterSpacing: "-0.02em",
-              }}
-            >
+            <div style={{
+              fontSize: "clamp(2rem, 4vw, 3.2rem)",
+              fontWeight: 700,
+              letterSpacing: "-0.04em",
+              lineHeight: 1.1,
+              color: "#ffffff",
+              marginBottom: 40,
+            }}>
               This is a settlement layer.
             </div>
 
-            <p
-              style={{
-                fontSize: 15,
-                lineHeight: 1.7,
-                color: "rgba(255,255,255,0.5)",
-                marginBottom: 16,
-                letterSpacing: "-0.01em",
-                maxWidth: 360,
-              }}
-            >
-              Deterministic execution. On-chain proof. Global liquidity matched in seconds.
-            </p>
-
-            {/* Inline stats */}
-            <div className="flex gap-6 mb-8">
+            {/* Stats row */}
+            <div className="flex items-center gap-10 md:gap-16">
               {[
                 { val: "<60s", lbl: "Settlement" },
                 { val: "150+", lbl: "Merchants" },
                 { val: "On-chain", lbl: "Proof" },
-              ].map((s) => (
-                <div key={s.lbl}>
-                  <div style={{ fontSize: 22, fontWeight: 700, color: "#ffffff", letterSpacing: "-0.03em" }}>{s.val}</div>
-                  <div style={{ fontSize: 9, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(255,255,255,0.3)" }}>{s.lbl}</div>
+              ].map((s, i) => (
+                <div key={s.lbl} className="flex items-center gap-10 md:gap-16">
+                  {i > 0 && <div className="w-px h-8 bg-white/10" style={{ marginLeft: -20, marginRight: -20 }} />}
+                  <div className="text-center">
+                    <div style={{ fontSize: 28, fontWeight: 700, color: "#ffffff", letterSpacing: "-0.03em", marginBottom: 4 }}>{s.val}</div>
+                    <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(255,255,255,0.3)" }}>{s.lbl}</div>
+                  </div>
                 </div>
               ))}
             </div>
-
-            <CTAButton to="/waitlist">
-              Join Waitlist
-            </CTAButton>
-          </div>
-
-          {/* Right — Live network stats */}
-          <div className="w-full md:w-[340px] flex-shrink-0">
-            <BlipSettlementDemo />
           </div>
         </motion.div>
       </div>

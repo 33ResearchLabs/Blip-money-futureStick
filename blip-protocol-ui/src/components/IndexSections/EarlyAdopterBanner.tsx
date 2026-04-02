@@ -114,10 +114,7 @@ const EarlyAdopterBanner = () => {
                 </div>
               </div>
 
-              <p className="p-large text-black dark:text-white/50 max-w-lg mx-auto px-4">
-                Early supporters get rewarded. Connect your wallet and start
-                earning today.
-              </p>
+
             </div>
 
             {/* Rewards breakdown */}

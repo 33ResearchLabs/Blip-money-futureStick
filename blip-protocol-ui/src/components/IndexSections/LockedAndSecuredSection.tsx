@@ -694,10 +694,6 @@ const LockedAndSecuredSection = () => {
             className="text-base mx-auto text-center md:text-lg text-black/50 dark:text-white/40 font-medium leading-relaxed mb-10 max-w-md"
             style={{ y: featuresY }}
           >
-            <p className="p-large text-black/80 dark:text-white/50 max-w-lg text-center mx-auto mb-10">
-              Your funds are held in a secure on-chain escrow. Neither party can
-              touch them until the trade is complete.
-            </p>
 
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {FEATURES.map((f, i) => (

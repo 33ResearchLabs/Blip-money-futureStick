@@ -36,7 +36,8 @@ export const Navbar = () => {
   useMotionValueEvent(scrollY, "change", (latest) => {
     const direction = latest > lastScrollY.current ? "down" : "up";
 
-    if (direction === "down" && latest > 100 && !mobileMenuOpen) {
+    // Hide once scrolled past hero, show only at top
+    if (latest > 100) {
       setIsHidden(true);
     } else {
       setIsHidden(false);
@@ -68,31 +69,31 @@ export const Navbar = () => {
         style={{ top: bannerHeight }}
         className={`fixed w-full z-50 ${
           isScrolled
-            ? "bg-[#FAF8F5] dark:bg-[rgba(10,10,11,0.8)] dark:backdrop-blur-xl border-b border-black/[0.06] dark:border-white/[0.06]"
-            : "bg-transparent border-b border-black/[0.04] dark:border-white/[0.06]"
+            ? "bg-[#1d1d1f]/90 dark:bg-[rgba(10,10,11,0.8)] backdrop-blur-xl dark:backdrop-blur-xl border-b border-white/[0.06] dark:border-white/[0.06]"
+            : "bg-transparent border-b border-white/[0.06] dark:border-white/[0.06]"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="h-[72px] flex items-center justify-between">
-            <Logo onDark={!isScrolled && isDark} />
+            <Logo onDark={true} />
 
             <div className="hidden lg:flex items-center gap-1">
-              <NavItem to="/how-it-works" onDark={!isScrolled && isDark}>
+              <NavItem to="/how-it-works" onDark={true}>
                 {t("howItWorks")}
               </NavItem>
-              <NavItem to="/merchant" onDark={!isScrolled && isDark}>
+              <NavItem to="/merchant" onDark={true}>
                 Merchant
               </NavItem>
-              {/* <NavItem to="/research" onDark={!isScrolled && isDark}>
+              {/* <NavItem to="/research" onDark={true}>
                 Research
               </NavItem>
-              <NavItem to="/blog" onDark={!isScrolled && isDark}>
+              <NavItem to="/blog" onDark={true}>
                 Blog
               </NavItem> */}
-              <NavItem to="/user" onDark={!isScrolled && isDark}>
+              <NavItem to="/user" onDark={true}>
                 User
               </NavItem>
-              <NavItem to="/whitepaper" onDark={!isScrolled && isDark}>
+              <NavItem to="/whitepaper" onDark={true}>
                 Whitepaper
               </NavItem>
             </div>
@@ -113,12 +114,12 @@ export const Navbar = () => {
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={mobileMenuOpen}
                 aria-controls="mobile-menu"
-                className="w-9 h-9 rounded-lg bg-black/5 dark:bg-[#18181B] border border-black/10 dark:border-white/[0.06] flex items-center justify-center"
+                className="w-9 h-9 rounded-lg bg-white/10 dark:bg-[#18181B] border border-white/[0.1] dark:border-white/[0.06] flex items-center justify-center"
               >
                 {mobileMenuOpen ? (
-                  <X className="w-4 h-4 text-black dark:text-white" />
+                  <X className="w-4 h-4 text-white dark:text-white" />
                 ) : (
-                  <Menu className="w-4 h-4 text-black dark:text-white" />
+                  <Menu className="w-4 h-4 text-white dark:text-white" />
                 )}
               </button>
             </div>
@@ -250,8 +251,8 @@ export const CTAButton = ({
           hover:scale-[1.02] active:scale-[0.98]
           ${
             isPrimary
-              ? "dark:bg-white dark:text-black border bg-black text-white border-black/10 hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)]"
-              : "dark:bg-transparent dark:text-white text-black  border border-gray-500 hover:border-gray-300 hover:bg-white/5 hover:shadow-[0_4px_16px_rgba(255,255,255,0.06)]"
+              ? "dark:bg-white dark:text-black border bg-white text-black border-white/20 hover:bg-white/90 hover:shadow-[0_4px_16px_rgba(255,255,255,0.10)]"
+              : "dark:bg-transparent dark:text-white text-white border border-white/30 hover:border-white/50 hover:bg-white/10 hover:shadow-[0_4px_16px_rgba(255,255,255,0.06)]"
           }
         `}
       >
@@ -285,14 +286,14 @@ const ThemeSwitcher = memo(() => {
       aria-label={
         theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
       }
-      className="relative w-9 h-9 rounded-lg flex items-center justify-center bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 hover:bg-black/10 dark:hover:bg-white/10 transition-colors"
+      className="relative w-9 h-9 rounded-lg flex items-center justify-center bg-white/10 dark:bg-white/5 border border-white/10 dark:border-white/10 hover:bg-white/20 dark:hover:bg-white/10 transition-colors"
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
     >
       {theme === "dark" ? (
         <Sun className="w-4 h-4 text-white" />
       ) : (
-        <Moon className="w-4 h-4 text-black" />
+        <Moon className="w-4 h-4 text-white" />
       )}
     </motion.button>
   );

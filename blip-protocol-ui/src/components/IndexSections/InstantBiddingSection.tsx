@@ -111,11 +111,7 @@ const InstantBiddingSection = () => {
               /> */}
             </span>
           </h2>
-          <p className="p-large text-black/80 dark:text-white/50 max-w-2xl mx-auto hidden sm:block">
-            Merchants compete in real-time for your order.
-            <br />
-            You automatically get the best rate.
-          </p>
+
         </motion.div>
 
         {/* Powered by badge (parallax) */}

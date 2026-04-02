@@ -83,14 +83,9 @@ const UAESection = () => {
         >
           Launching in
           <br />
-          <span className=" bg-orange-600/10 text-[#ff6b35] px-3 py-.5  rounded-md">Dubai.</span>
+          Dubai.
         </h2>
 
-        <p className="p-large text-white max-w-lg mx-auto text-center mb-14">
-          The UAE is the world's fastest-growing crypto hub. Blip's pilot starts
-          here — live corridors, merchant onboarding, and on-chain settlement
-          from day one.
-        </p>
 
         {/* Stats row */}
         <div className="flex justify-center gap-10 md:gap-20 mb-14">

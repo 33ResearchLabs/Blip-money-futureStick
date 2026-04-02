@@ -64,16 +64,6 @@ const AppShowcaseSection = () => {
           Built to be felt.
         </motion.h2>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.15 }}
-          className="p-large text-black/80 dark:text-white/50 max-w-lg text-center mx-auto mb-10"
-        >
-          Every screen engineered for speed. Every tap designed to disappear.
-        </motion.p>
-
         {/* ══════════════════════════════════════════════════════════
             ROW 1 — Big phone + 2×2 right grid
             ══════════════════════════════════════════════════════════ */}

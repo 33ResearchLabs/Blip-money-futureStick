@@ -19,6 +19,7 @@ export function NotificationBannerProvider({
   children: React.ReactNode;
 }) {
   const [visible, setVisible] = useState(true);
+  const [dismissed, setDismissed] = useState(false);
   const [height, setHeight] = useState(40);
   const bannerRef = useRef<HTMLDivElement>(null);
 
@@ -33,6 +34,23 @@ export function NotificationBannerProvider({
     window.addEventListener("resize", measureHeight);
     return () => window.removeEventListener("resize", measureHeight);
   }, [measureHeight, visible]);
+
+  // Hide on scroll down, show on scroll up
+  useEffect(() => {
+    if (dismissed) return;
+    let lastY = 0;
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (y > 200 && y > lastY) {
+        setVisible(false);
+      } else if (y < lastY) {
+        setVisible(true);
+      }
+      lastY = y;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [dismissed]);
 
   return (
     <BannerContext.Provider value={{ bannerHeight: visible ? height : 0 }}>
@@ -65,7 +83,7 @@ export function NotificationBannerProvider({
                   <span className="hidden sm:inline"></span>
                 </p>
                 <button
-                  onClick={() => setVisible(false)}
+                  onClick={() => { setVisible(false); setDismissed(true); }}
                   className="flex-shrink-0 p-1 rounded-md hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
                   aria-label="Dismiss notification"
                 >

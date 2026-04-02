@@ -201,18 +201,7 @@ const SolutionSection = () => {
             className="h-[2px] mx-auto w-24 bg-gradient-to-r from-transparent via-[#ff6b35] to-transparent mb-6"
           />
 
-          {/* Subtitle */}
-          <motion.p
-            className="p-large text-black/60 dark:text-white/45 max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.3, ease: EASE }}
-          >
-            A merchant-to-merchant settlement network. Liquidity is matched,
-            funds are locked in escrow, and settlement is enforced on-chain —
-            no intermediaries, no trust required.
-          </motion.p>
+
         </motion.div>
 
         {/* ─── Flow Visualization ─── */}

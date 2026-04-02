@@ -426,19 +426,9 @@ const App = () => {
           
           
         </motion.h2>
-        <span className="heading-h2 bg-orange-600/10 text-[#ff6b35] px-3 py-.5  rounded-md">
+        <span className="heading-h2">
             Every use case.
           </span>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, delay: 0.1 }}
-          className="p-large text-black/80 dark:text-white/50 max-w-lg text-center mx-auto mb-10 mt-1"
-        >
-          Send, trade, pay, or cash out — all from your crypto balance.
-          <br /> No banks, no delays, no complexity.
-        </motion.p>
       </div>
 
       {/* Top Progress Bar */}
@@ -508,9 +498,7 @@ const App = () => {
             <h3 className="heading-h3 select-none text-center text-black dark:text-white">
               {step.h1}
               <br />
-              <span className="inline-block mt-1 bg-orange-600/10 text-[#ff6b35] px-3 py-.5  rounded-md">
-                {step.h2}
-              </span>
+              {step.h2}
             </h3>
             <p className="p-small text-black/70 dark:text-white/45">
               {step.desc}
@@ -607,9 +595,7 @@ const App = () => {
                 >
                   {s.h1}
                   <br />
-                  <span className="inline-block mt-1 bg-orange-600/10 text-[#ff6b35] px-3 py-.5 rounded-md ">
-                    {s.h2}
-                  </span>
+                  {s.h2}
                 </motion.h3>
                 <p className="p-medium text-black/70 dark:text-white/45 max-w-md">
                   {s.desc}

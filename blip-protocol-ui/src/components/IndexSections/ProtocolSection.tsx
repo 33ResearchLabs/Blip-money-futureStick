@@ -89,17 +89,7 @@ const ProtocolSection = () => {
             Blip Protocol
           </motion.h2>
 
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="p-large text-black/80 dark:text-white/50 max-w-2xl mx-auto"
-          >
-            A decentralized settlement layer for instant,
-            <br className="hidden md:block" />
-            private, global value transfer.
-          </motion.p>
+
         </div>
 
         {/* Features - with flat transparent icons */}

@@ -59,14 +59,8 @@ const TrustSection = () => {
           >
             Built to not break.
           </h2>
-          <p
-            className="text-black/50 dark:text-white/50"
-            style={{ fontSize: "17px", lineHeight: 1.5, maxWidth: 480 }}
-          >
-            Deterministic logic, escrow-backed execution,
-            on-chain verification, and full system isolation.
-          </p>
         </div>
+        <div className="mb-10" />
 
         {/* Apple Store-style grid: 1 large + 1 large on top, 2 smaller below */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

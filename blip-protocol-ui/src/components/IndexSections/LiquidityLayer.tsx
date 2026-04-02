@@ -57,8 +57,7 @@ const LiquidityLayer = () => {
             className="heading-h2"
             style={{ color: isDark ? "#fff" : "#1d1d1f", marginBottom: 16 }}
           >
-            Infrastructure yield,{" "}
-            <span className="bg-orange-600/10 text-[#ff6b35] px-3 py-0.5 rounded-md">not speculation.</span>
+            Infrastructure yield, not speculation.
           </motion.h2>
 
           <motion.p

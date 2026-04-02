@@ -57,21 +57,9 @@ const RewardsSection = () => {
           >
             Earn while you spend.
             <br />
-            <span className="inline-block bg-orange-600/10 text-[#ff6b35] px-3 py-.5  rounded-md mt-1">
-              Every transaction.
-            </span>
+            Every transaction.
           </motion.h2>
 
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="p-large text-black/80 dark:text-white/50 max-w-xl mx-auto"
-          >
-            Up to 2.5% back in BLIP tokens on every payment. Early supporters
-            unlock multipliers and exclusive airdrops.
-          </motion.p>
         </div>
 
         {/* Stats grid */}

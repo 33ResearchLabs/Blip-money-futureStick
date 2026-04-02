@@ -345,9 +345,7 @@ export default function DashboardShowcaseSection() {
               care.
             </h2>
 
-            <p className="mt-4 sm:mt-6 p-2 p-large text-black/80 dark:text-white/50">
-              Every pixel, every shade, every detail — intentional.
-            </p>
+
           </motion.div>
         </div>
       </div>
