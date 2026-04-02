@@ -48,9 +48,12 @@ const CinematicHero = () => {
   return (
     <section className="relative min-h-screen overflow-hidden flex items-center justify-center text-center bg-[#FAF8F5] dark:bg-black">
       {/* Background image — Earth from space */}
-      <div
+      <motion.div
         aria-hidden="true"
         className="absolute inset-0 pointer-events-none"
+        initial={{ scale: 1 }}
+        animate={{ scale: 1.15 }}
+        transition={{ duration: 10, ease: "linear", repeat: Infinity, repeatType: "reverse" }}
         style={{
           backgroundImage: "url('/hero-bg.jpg')",
           backgroundSize: "cover",
@@ -64,7 +67,7 @@ const CinematicHero = () => {
         className="absolute inset-0 pointer-events-none"
         style={{
           background: isDark
-            ? "rgba(0,0,0,0.55)"
+            ? "rgba(0,0,0,0.72)"
             : "rgba(250,248,245,0.7)",
         }}
       />
@@ -96,7 +99,7 @@ const CinematicHero = () => {
           className="select-none text-[#1a1a1a] dark:text-white"
           style={{
             fontSize: "clamp(3.5rem, 8vw, 6.5rem)",
-            fontWeight: 700,
+            fontWeight: 600,
             lineHeight: 1.05,
             letterSpacing: "-0.04em",
             marginBottom: 32,
