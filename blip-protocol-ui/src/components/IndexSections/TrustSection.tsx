@@ -4,136 +4,140 @@ import { Link } from "react-router-dom";
 
 /* ============================================
    SECTION 10: TRUST & ARCHITECTURE
-   Security, audits, whitepaper, roadmap — futuristic
+   Apple Store-style card grid
    ============================================ */
 
 const trustCards = [
   {
     icon: Shield,
     title: "Deterministic settlement",
-    desc: "Settlement logic is deterministic — no ambiguity, no manual intervention. Every outcome is predefined by protocol rules.",
+    desc: "No ambiguity. No manual intervention. Every outcome predefined by protocol rules.",
     tag: "Settlement",
-    accent: "rgba(255,107,53,0.12)",
-    accentBorder: "rgba(255,107,53,0.2)",
+    color: "#ff6b35",
+    image: "/settlement.webp",
   },
   {
     icon: CheckCircle2,
     title: "Escrow + execution guarantees",
-    desc: "Funds are locked in escrow before execution begins. Guarantees are enforced by smart contracts, not promises.",
+    desc: "Funds locked before execution. Enforced by smart contracts, not promises.",
     tag: "Guarantees",
-    accent: "rgba(0,229,153,0.08)",
-    accentBorder: "rgba(0,229,153,0.2)",
+    color: "#00e599",
+    image: "/escrowlocked.webp",
   },
   {
     icon: FileText,
     title: "On-chain verification",
-    desc: "Every transaction is verifiable on-chain. Full transparency, no hidden clearing, no trust required.",
+    desc: "Every transaction verifiable on-chain. Full transparency, zero trust required.",
     tag: "Verification",
-    accent: "rgba(120,119,255,0.08)",
-    accentBorder: "rgba(120,119,255,0.2)",
+    color: "#7877ff",
+    image: "/blockchainNodes_opt.webp",
   },
   {
     icon: Map,
     title: "System isolation",
-    desc: "No single point of failure. Each component operates independently — if one fails, the rest continue unaffected.",
+    desc: "No single point of failure. Each component operates independently.",
     tag: "Resilience",
-    accent: "rgba(255,107,53,0.08)",
-    accentBorder: "rgba(255,107,53,0.15)",
+    color: "#ff6b35",
+    image: "/global.webp",
   },
 ];
 
 const TrustSection = () => {
   return (
-    <section className="relative py-24 md:py-40 bg-[#FAF8F5] dark:bg-black overflow-hidden">
-      {/* Top divider */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-black/10 dark:via-white/10 to-transparent" />
-
-      {/* Ambient glows */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div
-          className="absolute top-[30%] left-[10%] w-[400px] h-[400px] rounded-full opacity-[0.04] dark:opacity-[0.06]"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(255,107,53,0.8) 0%, transparent 70%)",
-          }}
-        />
-        <div
-          className="absolute bottom-[20%] right-[10%] w-[350px] h-[350px] rounded-full opacity-[0.04] dark:opacity-[0.06]"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(0,229,153,0.6) 0%, transparent 70%)",
-          }}
-        />
-      </div>
-
+    <section className="relative py-24 md:py-36 bg-[#f5f5f7] dark:bg-[#111] overflow-hidden">
       <div className="relative z-10 max-w-6xl mx-auto px-6">
-        {/* Label */}
-        <div className="flex justify-center mb-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-black/[0.08] dark:border-white/[0.08] bg-white/60 dark:bg-white/[0.03]">
-            <span className="text-[10px] uppercase tracking-[0.25em] text-black/80 dark:text-white/40 font-semibold">
-              Architecture
-            </span>
-          </div>
+        {/* Heading — Apple style: bold + muted subtext */}
+        <div className="mb-12">
+          <h2
+            className="text-black dark:text-white mb-4"
+            style={{
+              fontSize: "clamp(2rem, 4vw, 3rem)",
+              fontWeight: 600,
+              letterSpacing: "-0.025em",
+              lineHeight: 1.1,
+            }}
+          >
+            Built to not break.
+          </h2>
+          <p
+            className="text-black/50 dark:text-white/50"
+            style={{ fontSize: "17px", lineHeight: 1.5, maxWidth: 480 }}
+          >
+            Deterministic logic, escrow-backed execution,
+            on-chain verification, and full system isolation.
+          </p>
         </div>
 
-        {/* Heading */}
-        <h2 className="heading-h2 text-black dark:text-white text-center mb-6">
-          Built to not break.
-        </h2>
-
-        <p className="p-large text-black/80 dark:text-white/50 max-w-lg text-center mx-auto mb-10">
-          Engineered with deterministic logic, escrow-backed execution,
-          on-chain verification, and full system isolation.
-        </p>
-
-        {/* 2×2 grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
-          {trustCards.map((card) => {
+        {/* Apple Store-style grid: 1 large + 1 large on top, 2 smaller below */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {trustCards.map((card, i) => {
             const Icon = card.icon;
+            const isLarge = i < 2;
             return (
               <div
                 key={card.title}
-                className="relative p-7 rounded-2xl border border-black/[0.08] dark:border-white/[0.08] bg-white/60 dark:bg-white/[0.03] shadow-[0_4px_30px_-8px_rgba(0,0,0,0.06)] dark:shadow-none overflow-hidden group hover:border-black/[0.14] dark:hover:border-white/[0.1] transition-all duration-300"
+                className={`group relative rounded-3xl overflow-hidden transition-transform duration-500 hover:scale-[1.01] ${
+                  isLarge ? "min-h-[340px] sm:min-h-[380px]" : "min-h-[280px] sm:min-h-[300px]"
+                }`}
+                style={{
+                  background: "rgba(255,255,255,0.8)",
+                }}
               >
-                {/* Hover accent glow */}
+                {/* Dark mode override */}
+                <div className="absolute inset-0 bg-transparent dark:bg-[#1a1a1a] rounded-3xl" />
+
+                {/* Subtle color glow on hover */}
                 <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
                   style={{
-                    background: `radial-gradient(circle at 30% 30%, ${card.accent}, transparent 60%)`,
+                    background: `radial-gradient(circle at 70% 80%, ${card.color}10, transparent 60%)`,
                   }}
                 />
 
-                <div className="relative">
-                  <div className="flex items-start justify-between mb-5">
-                    <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300"
-                      style={{ background: "rgba(0,0,0,0.04)" }}
+                <div className="relative z-10 h-full flex flex-col justify-between p-8 sm:p-10">
+                  {/* Top: text content */}
+                  <div>
+                    <span
+                      className="text-[11px] uppercase tracking-[0.15em] font-semibold inline-block mb-4"
+                      style={{ color: card.color }}
                     >
-                      <Icon
-                        className="w-5 h-5 text-black/50 dark:text-white/50"
-                        strokeWidth={1.5}
-                      />
-                    </div>
-                    <span className="text-[9px] uppercase tracking-[0.2em] text-black/60 dark:text-white/25 font-semibold border border-black/[0.08] dark:border-white/[0.08] px-2 py-0.5 rounded-full">
                       {card.tag}
                     </span>
+                    <h3
+                      className="text-black dark:text-white mb-2"
+                      style={{
+                        fontSize: isLarge ? "24px" : "20px",
+                        fontWeight: 600,
+                        letterSpacing: "-0.02em",
+                        lineHeight: 1.2,
+                      }}
+                    >
+                      {card.title}
+                    </h3>
+                    <p
+                      className="text-black/50 dark:text-white/45"
+                      style={{
+                        fontSize: "15px",
+                        lineHeight: 1.5,
+                        maxWidth: 320,
+                      }}
+                    >
+                      {card.desc}
+                    </p>
                   </div>
 
-                  <h3 className="text-lg md:text-xl font-semibold text-black dark:text-white mb-2">
-                    {card.title}
-                  </h3>
-                  <p className="p-small text-black/50 dark:text-white/40 mb-3">
-                    {card.desc}
-                  </p>
-
-                  {card.link && (
-                    <Link
-                      to={card.link}
-                      className="inline-flex items-center gap-1.5 text-xs text-black/50 dark:text-white/40 font-medium hover:text-black dark:hover:text-white transition-colors"
-                    >
-                      {card.linkLabel}
-                    </Link>
-                  )}
+                  {/* Bottom: small image */}
+                  <div className="flex justify-end mt-4">
+                    <img
+                      src={card.image}
+                      alt={card.title}
+                      className="rounded-xl object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"
+                      style={{
+                        width: isLarge ? 140 : 100,
+                        height: isLarge ? 100 : 72,
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
             );
@@ -141,19 +145,17 @@ const TrustSection = () => {
         </div>
 
         {/* Bottom CTA */}
-        <div className="flex justify-center">
+        <div className="flex justify-start mt-10">
           <Link
             to="/whitepaper"
-            className="inline-flex items-center gap-2 text-sm text-black/50 dark:text-white/40 font-medium hover:text-black dark:hover:text-white transition-colors border border-black/[0.08] dark:border-white/[0.08] px-5 py-2.5 rounded-full hover:border-black/20 dark:hover:border-white/20"
+            className="inline-flex items-center gap-2 text-sm font-medium transition-colors"
+            style={{ color: "#ff6b35" }}
           >
             Read the whitepaper
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
       </div>
-
-      {/* Bottom divider */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-black/10 dark:via-white/10 to-transparent" />
     </section>
   );
 };
