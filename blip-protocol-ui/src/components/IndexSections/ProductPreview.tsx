@@ -27,10 +27,10 @@ const ProductPreview = () => {
     offset: ["start end", "end start"],
   });
 
-  const scale = useTransform(scrollYProgress, [0, 0.35], [0.8, 1]);
-  const rotateX = useTransform(scrollYProgress, [0, 0.35], [8, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.35], [0.88, 1]);
+  const rotateX = useTransform(scrollYProgress, [0, 0.35], [6, 0]);
   const opacity = useTransform(scrollYProgress, [0, 0.2], [0, 1]);
-  const y = useTransform(scrollYProgress, [0, 0.35], [100, 0]);
+  const y = useTransform(scrollYProgress, [0, 0.35], [60, 0]);
 
   return (
     <section
@@ -87,13 +87,13 @@ const ProductPreview = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.12, ease: EASE }}
-          className="text-center mx-auto"
+          className="text-center mx-auto px-4"
           style={{
-            fontSize: 18,
+            fontSize: "clamp(15px, 3.5vw, 18px)",
             lineHeight: 1.6,
             color: "rgba(255,255,255,0.4)",
             maxWidth: 480,
-            marginBottom: 64,
+            marginBottom: "clamp(32px, 8vw, 64px)",
           }}
         >
           One dashboard. Every order, every corridor, every settlement — live.
@@ -147,19 +147,19 @@ const ProductPreview = () => {
             >
               {/* Chrome bar */}
               <div
-                className="flex items-center gap-2 px-5 py-3"
+                className="flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-2 md:py-3"
                 style={{
                   background: "linear-gradient(180deg, #1e1e1e 0%, #1a1a1a 100%)",
                   borderBottom: "1px solid rgba(255,255,255,0.06)",
                 }}
               >
-                <div className="flex gap-[6px]">
-                  <div className="w-[12px] h-[12px] rounded-full bg-[#ff5f57]" />
-                  <div className="w-[12px] h-[12px] rounded-full bg-[#febc2e]" />
-                  <div className="w-[12px] h-[12px] rounded-full bg-[#28ca42]" />
+                <div className="flex gap-[5px]">
+                  <div className="w-[10px] h-[10px] md:w-[12px] md:h-[12px] rounded-full bg-[#ff5f57]" />
+                  <div className="w-[10px] h-[10px] md:w-[12px] md:h-[12px] rounded-full bg-[#febc2e]" />
+                  <div className="w-[10px] h-[10px] md:w-[12px] md:h-[12px] rounded-full bg-[#28ca42]" />
                 </div>
                 <div
-                  className="flex-1 mx-8 flex items-center justify-center gap-2 px-4 py-[6px] rounded-lg"
+                  className="flex-1 mx-2 md:mx-8 flex items-center justify-center gap-1.5 md:gap-2 px-2 md:px-4 py-[5px] md:py-[6px] rounded-lg"
                   style={{
                     background: "rgba(255,255,255,0.04)",
                     border: "1px solid rgba(255,255,255,0.06)",
@@ -172,24 +172,25 @@ const ProductPreview = () => {
                     fill="none"
                     stroke="rgba(255,255,255,0.25)"
                     strokeWidth={2}
+                    className="hidden sm:block"
                   >
                     <rect x="3" y="11" width="18" height="11" rx="2" />
                     <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                   </svg>
                   <span
-                    className="text-[11px] font-mono"
+                    className="text-[9px] md:text-[11px] font-mono truncate"
                     style={{ color: "rgba(255,255,255,0.3)" }}
                   >
                     merchant.blip.money
                   </span>
-                  <div className="ml-3 flex items-center gap-1.5">
+                  <div className="ml-1 md:ml-3 flex items-center gap-1 md:gap-1.5 shrink-0">
                     <motion.div
-                      className="w-[6px] h-[6px] rounded-full bg-[#00e599]"
+                      className="w-[5px] h-[5px] md:w-[6px] md:h-[6px] rounded-full bg-[#00e599]"
                       animate={{ opacity: [1, 0.3, 1] }}
                       transition={{ duration: 1.5, repeat: Infinity }}
                     />
                     <span
-                      className="text-[9px] font-semibold uppercase tracking-wider"
+                      className="text-[8px] md:text-[9px] font-semibold uppercase tracking-wider"
                       style={{ color: "rgba(255,255,255,0.25)" }}
                     >
                       Live
@@ -223,9 +224,9 @@ const ProductPreview = () => {
               </div>
             </div>
 
-            {/* Reflection underneath */}
+            {/* Reflection underneath — desktop only */}
             <div
-              className="mx-auto mt-0 overflow-hidden pointer-events-none"
+              className="mx-auto mt-0 overflow-hidden pointer-events-none hidden md:block"
               style={{
                 maxWidth: "85%",
                 height: 80,
@@ -242,6 +243,33 @@ const ProductPreview = () => {
                 aria-hidden="true"
               />
             </div>
+
+            {/* Mobile stat row */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3, ease: EASE }}
+              className="flex md:hidden justify-center gap-3 mt-6 flex-wrap"
+            >
+              {stats.map((stat) => (
+                <div
+                  key={stat.label}
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl"
+                  style={{
+                    background: "rgba(255,255,255,0.04)",
+                    border: "1px solid rgba(255,255,255,0.07)",
+                  }}
+                >
+                  <span className="font-semibold text-sm" style={{ color: "#ff6b35" }}>
+                    {stat.value}
+                  </span>
+                  <span className="text-[10px]" style={{ color: "rgba(255,255,255,0.3)" }}>
+                    {stat.label}
+                  </span>
+                </div>
+              ))}
+            </motion.div>
 
             {/* Surface glow */}
             <div
