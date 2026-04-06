@@ -49,7 +49,7 @@ function LiveEarnFeed({ isInView }: { isInView: boolean }) {
           transition={{ duration: 0.25 }}
           className="font-mono"
           style={{
-            fontSize: "clamp(2.5rem, 5vw, 3.5rem)",
+            fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
             fontWeight: 800,
             letterSpacing: "-0.04em",
             lineHeight: 1,

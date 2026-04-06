@@ -47,20 +47,16 @@ const TrustSection = () => {
     <section className="relative py-24 md:py-36 bg-[#f5f5f7] dark:bg-[#111] overflow-hidden">
       <div className="relative z-10 max-w-6xl mx-auto px-6">
         {/* Heading — Apple style: bold + muted subtext */}
-        <div className="mb-12">
-          <h2
-            className="text-black dark:text-white mb-4"
-            style={{
-              fontSize: "clamp(2rem, 4vw, 3rem)",
-              fontWeight: 600,
-              letterSpacing: "-0.025em",
-              lineHeight: 1.1,
-            }}
-          >
-            Built to not break.
-          </h2>
-        </div>
-        <div className="mb-10" />
+        <motion.h2
+          className="heading-h2 text-black dark:text-white"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, ease: EASE }}
+          style={{ marginBottom: 48 }}
+        >
+          Built to not break.
+        </motion.h2>
 
         {/* Apple Store-style grid: 1 large + 1 large on top, 2 smaller below */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

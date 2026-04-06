@@ -460,18 +460,12 @@ const ProtocolInterstitial = () => {
         </motion.p>
 
         <motion.h2
+          className="heading-h2 text-black dark:text-white"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, ease: EASE }}
-          style={{
-            fontSize: "clamp(2.8rem, 5.5vw, 5rem)",
-            fontWeight: 700,
-            letterSpacing: "-0.04em",
-            lineHeight: 1.05,
-            color: isDark ? "#fff" : "#1d1d1f",
-            marginBottom: 48,
-          }}
+          style={{ marginBottom: 48 }}
         >
           The Blip Protocol
         </motion.h2>

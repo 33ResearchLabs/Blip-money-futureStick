@@ -157,10 +157,10 @@ function NightGlobe() {
 function CardShell({ children, bg }: { children: React.ReactNode; bg?: string }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.7, ease: EASE }}
+      initial={{ opacity: 0, y: 28, scale: 0.95 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: "-5%" }}
+      transition={{ duration: 0.8, ease: EASE }}
       whileHover={{ y: -6, boxShadow: "0 20px 60px rgba(0,0,0,0.12)" }}
       style={{
         position: "relative",

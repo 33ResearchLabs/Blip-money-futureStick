@@ -6,6 +6,7 @@ import LazySection from "@/components/LazySection";
 import CinematicHero from "@/components/IndexSections/CinematicHero";
 
 // Below-fold sections are lazy loaded
+const ProductPreview = lazy(() => import("@/components/IndexSections/ProductPreview"));
 const ProblemSection = lazy(() => import("@/components/IndexSections/ProblemSection"));
 const DarkFintechSection = lazy(() => import("@/components/IndexSections/DarkFintechSection"));
 const ProtocolInterstitial = lazy(() => import("@/components/IndexSections/ProtocolInterstitial"));
@@ -68,6 +69,13 @@ const Index = () => {
         <LazySection minHeight="80vh">
           <Suspense fallback={null}>
             <ProtocolInterstitial />
+          </Suspense>
+        </LazySection>
+
+        {/* 4.5 Product Reveal — "This is Blip." Keynote moment */}
+        <LazySection minHeight="80vh">
+          <Suspense fallback={null}>
+            <ProductPreview />
           </Suspense>
         </LazySection>
 
