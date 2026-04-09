@@ -2670,6 +2670,7 @@ document.querySelectorAll('.tool-switch[data-tool="analytics"]').forEach(b=>b.ad
     <button class="ve-tab" data-ve="clusters">clusters</button>
     <button class="ve-tab" data-ve="queue">queue</button>
     <button class="ve-tab" data-ve="performance">performance</button>
+    <button class="ve-tab" data-ve="social">social feed</button>
     <button class="ve-tab" data-ve="logs">logs</button>
   </div>
 
@@ -2795,6 +2796,7 @@ function veRender(){
   else if(VE_TAB==='clusters') renderClusters(body);
   else if(VE_TAB==='queue') renderQueue(body);
   else if(VE_TAB==='performance') renderPerformance(body);
+  else if(VE_TAB==='social') renderSocial(body);
   else if(VE_TAB==='logs') renderLogs(body);
 }
 
@@ -2810,6 +2812,7 @@ function renderDashboard(el){
   h+='<div class="ve-card orange"><div class="ve-card-val">'+fmtN(d.clusters?.total||0)+'</div><div class="ve-card-lbl">clusters</div><div class="ve-card-sub">'+fmtN(d.clusters?.hot||0)+' hot</div></div>';
   h+='<div class="ve-card green"><div class="ve-card-val">'+fmtN(d.queue?.total||0)+'</div><div class="ve-card-lbl">queued</div><div class="ve-card-sub">'+fmtN(d.queue?.pending||0)+' pending · '+fmtN(d.queue?.urgent||0)+' urgent</div></div>';
   h+='<div class="ve-card blue"><div class="ve-card-val">'+fmtN(d.performance?.entries||0)+'</div><div class="ve-card-lbl">perf entries</div><div class="ve-card-sub">avg eng: '+(d.performance?.avg_engagement||0)+'%</div></div>';
+  h+='<div class="ve-card" style="border-left:2px solid #ec4899"><div class="ve-card-val">'+fmtN(d.social?.total||0)+'</div><div class="ve-card-lbl">social posts</div><div class="ve-card-sub">'+fmtN(d.social?.with_video||0)+' with video</div></div>';
   h+='<div class="ve-card"><div class="ve-card-val">'+(d.worker?.runs||0)+'</div><div class="ve-card-lbl">cycles run</div><div class="ve-card-sub">last: '+ago(d.worker?.last_run)+'</div></div>';
   h+='<div class="ve-card"><div class="ve-card-val">'+(d.latency?.avg_total_human||'—')+'</div><div class="ve-card-lbl">avg latency</div><div class="ve-card-sub">detect → queue</div></div>';
   h+='</div>';
@@ -2856,8 +2859,104 @@ function renderDashboard(el){
     h+='</div>';
   }
 
+  // Social feed preview (top posts from tracked accounts)
+  if(d.social?.top_posts?.length){
+    h+='<div class="ve-section"><div class="ve-section-h">social feed <span class="ve-badge">from your accounts</span> <button class="ve-btn" style="font-size:.48rem;padding:2px 8px;margin-left:auto" onclick="veSocialRefresh()">↻ refresh accounts</button></div>';
+    d.social.top_posts.slice(0,8).forEach(p=>{
+      const hasVid=p.has_video;
+      h+='<div class="ve-row" style="grid-template-columns:60px 1fr 90px 55px 55px 55px 60px" onclick="window.open(\''+escV(p.url||'')+'\',\'_blank\')">';
+      // Thumbnail
+      h+='<div style="width:56px;height:38px;border-radius:3px;background:'+(p.thumb?'url('+escV(p.thumb)+') center/cover':'#14161e')+';border:1px solid #1e2030;position:relative">';
+      if(hasVid) h+='<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.3);color:#fff;font-size:.7rem">▶</div>';
+      h+='</div>';
+      // Title + source
+      h+='<div style="min-width:0"><div style="color:#d6dde6;font-size:.62rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escV((p.title||'').slice(0,120)||'(no caption)')+'</div>';
+      h+='<div style="font-size:.48rem;color:#ec4899;margin-top:1px">'+escV(p.source||'')+'</div></div>';
+      // Platform
+      h+='<div style="font-size:.5rem;color:#5b8aff">'+escV(p.source_platform||'')+'</div>';
+      // Stats
+      h+='<div style="font-size:.58rem;color:#d6dde6;text-align:right">'+fmtN(p.views||0)+'<div style="font-size:.45rem;color:#4b5060">views</div></div>';
+      h+='<div style="font-size:.58rem;color:#d6dde6;text-align:right">'+fmtN(p.ups||0)+'<div style="font-size:.45rem;color:#4b5060">likes</div></div>';
+      h+='<div style="font-size:.58rem;color:#d6dde6;text-align:right">'+fmtN(p.comments||0)+'<div style="font-size:.45rem;color:#4b5060">cmts</div></div>';
+      // Video action
+      h+='<div style="text-align:right">';
+      if(hasVid && p.video_url) h+='<button class="ve-btn" style="font-size:.45rem;padding:2px 6px;color:#ec4899;border-color:#4a1942" onclick="event.stopPropagation();window.open(\''+escV(p.video_url)+'\',\'_blank\')">▶ vid</button>';
+      h+='</div>';
+      h+='</div>';
+    });
+    h+='</div>';
+  }
+
   el.innerHTML=h;
 }
+
+async function renderSocial(el){
+  el.innerHTML='<div style="padding:20px;color:#5a606c;font-size:.65rem">loading social feed...</div>';
+  const r=await fetch('/api/social/feed?limit=100');
+  const d=await r.json();
+
+  let h='';
+  // Filter controls
+  h+='<div style="display:flex;gap:6px;margin-bottom:12px;align-items:center;flex-wrap:wrap">';
+  h+='<button class="ve-btn" style="font-size:.55rem;padding:4px 10px;color:#ec4899;border-color:#4a1942" onclick="veSocialRefresh()">↻ refresh all accounts</button>';
+  h+='<span style="font-size:.52rem;color:#5a606c">'+fmtN(d.total||0)+' posts · updated '+ago(d.updated_at)+'</span>';
+  h+='</div>';
+
+  if(!d.items?.length){
+    h+='<div style="padding:40px;text-align:center;color:#5a606c;font-size:.65rem">no social posts yet — click refresh or wait for next cycle</div>';
+    el.innerHTML=h;return;
+  }
+
+  // Group by brand/platform
+  const byBrand={};
+  d.items.forEach(p=>{
+    const key=(p.source_brand||'unknown');
+    if(!byBrand[key])byBrand[key]=[];
+    byBrand[key].push(p);
+  });
+
+  for(const[brand,posts] of Object.entries(byBrand)){
+    const videoCount=posts.filter(p=>p.has_video).length;
+    const totalViews=posts.reduce((s,p)=>s+(p.views||0),0);
+    const totalLikes=posts.reduce((s,p)=>s+(p.ups||0),0);
+
+    h+='<div class="ve-section"><div class="ve-section-h">'+escV(brand)+' <span class="ve-badge">'+posts.length+' posts · '+videoCount+' videos · '+fmtN(totalViews)+' views · '+fmtN(totalLikes)+' likes</span></div>';
+
+    posts.forEach(p=>{
+      const hasVid=p.has_video;
+      h+='<div class="ve-row" style="grid-template-columns:70px 1fr 80px 50px 50px 50px 80px" onclick="window.open(\''+escV(p.url||'')+'\',\'_blank\')">';
+      // Thumb
+      h+='<div style="width:66px;height:44px;border-radius:3px;background:'+(p.thumb?'url('+escV(p.thumb)+') center/cover':'#14161e')+';border:1px solid #1e2030;position:relative">';
+      if(hasVid) h+='<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35);color:#fff;font-size:.8rem">▶</div>';
+      h+='</div>';
+      // Caption
+      h+='<div style="min-width:0"><div style="color:#d6dde6;font-size:.62rem;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.3">'+escV((p.title||'').slice(0,200)||'(no caption)')+'</div>';
+      h+='<div style="font-size:.48rem;color:#ec4899;margin-top:2px">@'+escV(p.source_handle||'')+' · '+escV(p.source_platform||'')+' · '+ago(p.published_at)+'</div></div>';
+      // Followers
+      h+='<div style="font-size:.5rem;color:#5a606c;text-align:center">'+fmtN(p.account_followers||0)+'<div style="font-size:.42rem">followers</div></div>';
+      // Views
+      h+='<div style="font-size:.58rem;color:#d6dde6;text-align:right">'+fmtN(p.views||0)+'</div>';
+      h+='<div style="font-size:.58rem;color:#d6dde6;text-align:right">'+fmtN(p.ups||0)+'</div>';
+      h+='<div style="font-size:.58rem;color:#d6dde6;text-align:right">'+fmtN(p.comments||0)+'</div>';
+      // Actions
+      h+='<div style="display:flex;gap:3px;justify-content:flex-end">';
+      if(hasVid&&p.video_url) h+='<button class="ve-btn" style="font-size:.45rem;padding:2px 6px;color:#ec4899;border-color:#4a1942" onclick="event.stopPropagation();window.open(\''+escV(p.video_url)+'\',\'_blank\')">▶ video</button>';
+      h+='<button class="ve-btn" style="font-size:.45rem;padding:2px 6px" onclick="event.stopPropagation();navigator.clipboard.writeText(\''+escV(p.url||'')+'\')">⎘</button>';
+      h+='</div>';
+      h+='</div>';
+    });
+    h+='</div>';
+  }
+
+  el.innerHTML=h;
+}
+
+window.veSocialRefresh=async function(){
+  const btn=event?.target;if(btn){btn.textContent='refreshing...';btn.disabled=true;}
+  await fetch('/api/social/refresh',{method:'POST'});
+  if(btn){btn.textContent='↻ refresh all accounts';btn.disabled=false;}
+  veLoad();
+};
 
 async function renderClusters(el){
   el.innerHTML='<div style="padding:20px;color:#5a606c;font-size:.65rem">loading clusters...</div>';

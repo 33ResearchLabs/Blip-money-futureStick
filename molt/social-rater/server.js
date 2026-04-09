@@ -14,6 +14,7 @@ const contentEngine = require('./services/contentEngine');
 const contentQueue = require('./services/queue');
 const feedbackLoop = require('./services/feedback');
 const workerEngine = require('./services/worker');
+const socialIngest = require('./services/socialIngest');
 
 const app = express();
 const PORT = process.env.PORT || 3033;
@@ -1131,6 +1132,33 @@ app.post('/api/worker/config', (req, res) => {
   res.json({ ok: true, state });
 });
 
+// ── Social Ingestion ──
+app.get('/api/social/accounts', (req, res) => {
+  res.json({ ok: true, accounts: socialIngest.getTrackedAccounts() });
+});
+
+app.get('/api/social/feed', (req, res) => {
+  const feed = socialIngest.getCachedFeed();
+  let items = feed.items || [];
+  const plat = req.query.platform;
+  if (plat) items = items.filter(i => i.source_platform === plat);
+  const brand = req.query.brand;
+  if (brand) items = items.filter(i => i.source_brand === brand);
+  const videoOnly = req.query.video === '1';
+  if (videoOnly) items = items.filter(i => i.has_video);
+  res.json({ ok: true, items: items.slice(0, parseInt(req.query.limit) || 100), total: items.length, updated_at: feed.updated_at });
+});
+
+app.post('/api/social/refresh', async (req, res) => {
+  try {
+    const baseUrl = `http://127.0.0.1:${PORT}`;
+    const result = await socialIngest.fetchAllAccounts(baseUrl);
+    res.json({ ok: true, posts: result.items.length, accounts_fetched: result.accounts_fetched, accounts_failed: result.accounts_failed, by_platform: result.by_platform });
+  } catch (e) {
+    res.json({ ok: false, error: e.message });
+  }
+});
+
 // ── Full Engine Dashboard ──
 app.get('/api/engine/dashboard', (req, res) => {
   const trending = readJSON(path.join(DATA_DIR, 'trending.json'), { items: [] });
@@ -1141,10 +1169,14 @@ app.get('/api/engine/dashboard', (req, res) => {
   const latency = contentQueue.getLatencyStats();
 
   const topItems = (trending.items || []).filter(i => i.priority === 'high').slice(0, 10);
+  const socialFeed = socialIngest.getCachedFeed();
+  const socialItems = socialFeed.items || [];
+  const socialWithVideo = socialItems.filter(i => i.has_video);
 
   res.json({
     ok: true,
     trending: { total: (trending.items || []).length, top: topItems.length, updated_at: trending.updated_at },
+    social: { total: socialItems.length, with_video: socialWithVideo.length, updated_at: socialFeed.updated_at, top_posts: socialItems.slice(0, 10) },
     clusters: { total: (clusters.clusters || []).length, hot: (clusters.hot || []).length, top_clusters: (clusters.hot || []).slice(0, 5) },
     queue: queueStats,
     performance: perfSummary,

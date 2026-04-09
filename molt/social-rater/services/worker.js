@@ -12,6 +12,7 @@ const clustering = require('./clustering');
 const contentEngine = require('./contentEngine');
 const queue = require('./queue');
 const feedback = require('./feedback');
+const socialIngest = require('./socialIngest');
 
 const DATA_DIR = path.join(__dirname, '..', 'data');
 const LOG_FILE = path.join(DATA_DIR, 'worker_log.json');
@@ -65,20 +66,41 @@ async function runCycle(fetchTrending) {
   const report = { started_at: Date.now(), steps: {} };
 
   try {
-    // ── Step 1: Fetch fresh data ──
+    // ── Step 1: Fetch trending data ──
     log('step 1 — fetching trending data');
     let items = [];
     try {
       items = await fetchTrending();
       report.steps.fetch = { ok: true, count: items.length };
-      log(`fetched ${items.length} items`);
+      log(`fetched ${items.length} trending items`);
     } catch (e) {
       report.steps.fetch = { ok: false, error: e.message };
-      log('fetch failed', { error: e.message });
-      // Try to use cached data
+      log('trending fetch failed', { error: e.message });
       const cached = readJSON(path.join(DATA_DIR, 'trending.json'), { items: [] });
       items = cached.items || [];
       log(`using ${items.length} cached items`);
+    }
+
+    // ── Step 1b: Fetch social account posts ──
+    log('step 1b — fetching social accounts');
+    try {
+      const baseUrl = 'http://127.0.0.1:' + (process.env.PORT || 3033);
+      const social = await socialIngest.fetchAllAccounts(baseUrl);
+      report.steps.social = {
+        ok: true,
+        posts: social.items.length,
+        accounts_fetched: social.accounts_fetched,
+        accounts_failed: social.accounts_failed,
+        by_platform: social.by_platform,
+      };
+      log(`social: ${social.items.length} posts from ${social.accounts_fetched} accounts (${social.accounts_failed} failed)`);
+
+      // Merge social posts with trending items
+      items = socialIngest.mergeWithTrending(social.items, items);
+      log(`merged total: ${items.length} items`);
+    } catch (e) {
+      report.steps.social = { ok: false, error: e.message };
+      log('social fetch failed', { error: e.message });
     }
 
     if (!items.length) {
@@ -101,9 +123,12 @@ async function runCycle(fetchTrending) {
     // ── Step 3: Cluster ──
     log('step 3 — clustering');
     const clusters = clustering.clusterTrends(top);
-    const hotClusters = clustering.getHotClusters(clusters, state.score_threshold);
-    report.steps.clustering = { total_clusters: clusters.length, hot_clusters: hotClusters.length };
-    log(`clusters: ${clusters.length} total, ${hotClusters.length} hot`);
+    // Use dynamic threshold: at least top 3 clusters, or anything above half the max score
+    const maxClusterScore = clusters.length ? clusters[0].cluster_score : 0;
+    const dynamicThreshold = Math.min(state.score_threshold, Math.floor(maxClusterScore * 0.5));
+    const hotClusters = clustering.getHotClusters(clusters, dynamicThreshold || 1);
+    report.steps.clustering = { total_clusters: clusters.length, hot_clusters: hotClusters.length, dynamic_threshold: dynamicThreshold };
+    log(`clusters: ${clusters.length} total, ${hotClusters.length} hot (threshold: ${dynamicThreshold})`);
 
     // Save clusters
     writeJSON(path.join(DATA_DIR, 'clusters.json'), { clusters, hot: hotClusters, updated_at: Date.now() });
@@ -111,7 +136,7 @@ async function runCycle(fetchTrending) {
     // ── Step 4: Auto content generation (if enabled) ──
     if (state.auto_generate && hotClusters.length > 0) {
       log('step 4 — generating content');
-      const generated = contentEngine.batchGenerate(hotClusters, state.score_threshold);
+      const generated = contentEngine.batchGenerate(hotClusters, dynamicThreshold || 1);
       report.steps.generation = { count: generated.length };
       log(`generated ${generated.length} content packages`);
 
