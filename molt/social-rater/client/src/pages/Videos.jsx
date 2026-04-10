@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { api } from '../services/api';
+import ScoreBadge from '../components/ScoreBadge';
 
 const fmtN = n => { if(!n) return '0'; if(n>=1e6) return (n/1e6).toFixed(1)+'M'; if(n>=1e3) return (n/1e3).toFixed(1)+'K'; return n.toLocaleString(); };
 const ago = ms => { if(!ms) return '—'; const s=Math.floor((Date.now()-ms)/1000); if(s<60) return s+'s'; if(s<3600) return Math.floor(s/60)+'m'; if(s<86400) return Math.floor(s/3600)+'h'; return Math.floor(s/86400)+'d'; };
@@ -174,9 +175,7 @@ export default function Videos() {
               <div style={{ textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{it.comments ? fmtN(it.comments) : '—'}</div>
 
               {/* Viral score */}
-              <div style={{ textAlign: 'center', fontWeight: 700, fontSize: '0.7rem', color: scoreColor, background: scoreColor + '15', padding: '2px 0', borderRadius: 3 }}>
-                {viralScore}
-              </div>
+              <ScoreBadge score={viralScore} size="sm" />
 
               {/* Age */}
               <div style={{ textAlign: 'right', fontSize: '0.52rem', color: '#5a606c' }}>{(it.pubAt || it.published_at) ? ago(it.pubAt || it.published_at) : '—'}</div>

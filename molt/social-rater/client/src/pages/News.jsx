@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { api } from '../services/api';
+import ScoreBadge from '../components/ScoreBadge';
 
 const fmtN = n => { if(!n) return '0'; if(n>=1e6) return (n/1e6).toFixed(1)+'M'; if(n>=1e3) return (n/1e3).toFixed(1)+'K'; return n.toLocaleString(); };
 const ago = ms => { if(!ms) return '—'; const s=Math.floor((Date.now()-ms)/1000); if(s<60) return s+'s'; if(s<3600) return Math.floor(s/60)+'m'; if(s<86400) return Math.floor(s/3600)+'h'; return Math.floor(s/86400)+'d'; };
@@ -80,17 +81,7 @@ export default function News() {
             onMouseOut={e => e.currentTarget.style.background = ''}
           >
             {/* Score */}
-            <div style={{
-              width: 44, height: 44, flexShrink: 0,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontWeight: 700, fontSize: '0.9rem',
-              color: scoreColor(it.score || 0),
-              background: scoreColor(it.score || 0) + '12',
-              border: '1px solid ' + scoreColor(it.score || 0) + '30',
-              borderRadius: 6,
-            }}>
-              {it.score || 0}
-            </div>
+            <ScoreBadge score={it.score} />
 
             {/* Thumbnail */}
             {it.image ? (
