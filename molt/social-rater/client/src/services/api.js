@@ -86,6 +86,15 @@ export const api = {
   rateImage: (url) => post(`${BASE}/ai`, { prompt: `Rate this image for social media: ${url}` }),
   checkHandle: (u) => get(`${BASE}/checkhandle?u=${u}`),
   getRadar: (niche) => get(`${BASE}/radar?niche=${niche}`),
+
+  // Shares
+  sendShare: (data) => post(`${BASE}/shares`, data),
+  getShares: (status) => get(`${BASE}/shares${status ? '?status=' + status : ''}`),
+  getUnread: () => get(`${BASE}/shares/unread`),
+  markRead: (id) => post(`${BASE}/shares/${id}/read`),
+  markDone: (id) => post(`${BASE}/shares/${id}/done`),
+  getSentShares: () => get(`${BASE}/shares/sent`),
+  getShareUsers: () => get(`${BASE}/shares/users`),
   searchVideos: (q, source, time) => get(`${BASE}/videos/search?q=${encodeURIComponent(q||'')}&source=${source||'all'}&time=${time||'all'}`),
   getVideosDB: (platform, category, limit) => get(`${BASE}/videos/db?${platform?'platform='+platform+'&':''}${category?'category='+category+'&':''}limit=${limit||200}`),
   getVideoStats: () => get(`${BASE}/videos/stats`),

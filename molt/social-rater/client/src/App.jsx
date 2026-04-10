@@ -11,6 +11,7 @@ import Tools from './pages/Tools';
 import Vault from './pages/Vault';
 import Accounts from './pages/Accounts';
 import Engine from './pages/Engine';
+import Inbox from './pages/Inbox';
 import './styles/global.css';
 
 const tabs = [
@@ -24,6 +25,7 @@ const tabs = [
   { to: '/vault', label: '💾 vault' },
   { to: '/accounts', label: '📊 accounts' },
   { to: '/engine', label: '⚡ engine' },
+  { to: '/inbox', label: '📨 inbox' },
 ];
 
 function Titlebar() {
@@ -133,6 +135,7 @@ function ProtectedLayout() {
           <Route path="/vault" element={<Vault />} />
           <Route path="/accounts" element={<Accounts />} />
           <Route path="/engine" element={<Engine />} />
+          <Route path="/inbox" element={<Inbox />} />
         </Routes>
       </main>
       <StatusBar />
