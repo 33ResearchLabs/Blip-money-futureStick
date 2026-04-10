@@ -13,17 +13,26 @@ export default function Videos() {
   const [source, setSource] = useState('all');
   const [range, setRange] = useState('all');
 
-  const load = useCallback(() => {
+  const load = useCallback(async () => {
     setLoading(true);
-    const p = new URLSearchParams();
-    p.set('video', '1');
-    if (source !== 'all') p.set('source', source);
-    if (range !== 'all') p.set('range', range);
-    if (search) p.set('q', search);
-    api.getTrending(p.toString())
-      .then(d => { setItems((d.items || []).filter(i => i.has_video || i.video_url || i.format === 'video')); })
-      .catch(() => setItems([]))
-      .finally(() => setLoading(false));
+    try {
+      // Pull from trending + social feed for more video content
+      const [trending, social] = await Promise.all([
+        api.getTrending(`video=1&range=${range}&limit=100`),
+        api.getSocialFeed('video=1&limit=50'),
+      ]);
+      const isVideo = i => i.has_video || i.video_url || /youtu|tiktok|vimeo|v\.redd/i.test(i.url || '');
+      let all = [
+        ...(trending.items || []).filter(isVideo).map(i => ({ ...i, _src: 'trending' })),
+        ...(social.items || []).filter(isVideo).map(i => ({ ...i, title: i.title || '(no caption)', _src: 'social', trend_score: i.views || 0 })),
+      ];
+      if (source === 'youtube') all = all.filter(i => /youtu/i.test(i.url || '') || /youtu/i.test(i.source || ''));
+      else if (source === 'tiktok') all = all.filter(i => /tiktok/i.test(i.url || '') || /tiktok/i.test(i.source || ''));
+      if (search) { const q = search.toLowerCase(); all = all.filter(i => (i.title||'').toLowerCase().includes(q)); }
+      all.sort((a, b) => (b.views || b.trend_score || 0) - (a.views || a.trend_score || 0));
+      setItems(all);
+    } catch { setItems([]); }
+    setLoading(false);
   }, [source, range, search]);
 
   useEffect(() => { load(); }, [source, range]);
