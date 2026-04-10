@@ -810,6 +810,10 @@ select {
     </select>
   </div>
   <div class="tl-right">
+    <div style="display:flex;align-items:center;gap:4px">
+      <span style="font-size:.48rem;color:#5a606c;text-transform:uppercase;letter-spacing:.08em">key</span>
+      <input type="password" id="apiKeyInput" placeholder="sk-ant-..." style="width:120px;background:#0a0a0a;border:1px solid #1c1e24;color:#5b8aff;padding:4px 7px;border-radius:3px;font-family:'SF Mono','JetBrains Mono',monospace;font-size:.55rem;outline:none" />
+    </div>
     <div class="tl-meta" id="tlClock">--:--:--</div>
     <button id="logoutBtn" style="background:transparent;border:1px solid var(--color-border);color:var(--color-secondary);font-family:var(--font-mono);font-size:.65rem;padding:5px 11px;border-radius:5px;cursor:pointer;transition:all .12s">↪ logout</button>
   </div>
@@ -1602,6 +1606,7 @@ if(tkuAi)tkuAi.onclick=async()=>{
     <div>viral</div><div>headline</div><div>source</div><div>vel/h</div><div>sources</div><div>age</div><div></div>
   </div>
   <div class="nf-list" id="nfList"><div class="vf-empty" style="padding:60px 20px;text-align:center;color:var(--rt-mute);font-size:.7rem">loading latest news...</div></div>
+  <div id="nfForge" style="display:none"></div>
 </div>
 
 <style>
@@ -1974,6 +1979,14 @@ if(tkuAi)tkuAi.onclick=async()=>{
   <select id="anPlatform"><option value="instagram">📸 instagram</option><option value="twitter">𝕏 twitter</option><option value="youtube">▶ youtube</option><option value="tiktok">🎵 tiktok</option><option value="threads">🧵 threads</option><option value="linkedin">💼 linkedin</option><option value="facebook">📘 facebook</option></select>
 </div>
 <div class="an2-shell">
+  <!-- Sub-tabs: brand accounts vs support network -->
+  <div class="an2-subtabs">
+    <button class="an2-stab active" data-atab="brands">📊 brand accounts</button>
+    <button class="an2-stab" data-atab="network">🌐 support network</button>
+  </div>
+
+  <!-- ===== TAB 1: BRAND ACCOUNTS (existing) ===== -->
+  <div class="an2-tabpane active" id="atab-brands">
   <div class="an2-top">
     <span class="an2-mod">ACCOUNTS</span>
     <span style="font-size:.55rem;color:#6a7180;margin-left:4px;white-space:nowrap">click any to view analytics</span>
@@ -2007,7 +2020,167 @@ if(tkuAi)tkuAi.onclick=async()=>{
       <div style="text-align:center;color:#5a606c;padding:60px 20px;font-size:.7rem">▸ click any account on the left to view live analytics</div>
     </main>
   </div>
-</div>
+  </div><!-- /atab-brands -->
+
+  <!-- ===== TAB 2: SUPPORT NETWORK ===== -->
+  <div class="an2-tabpane" id="atab-network" style="display:none;flex-direction:column;flex:1;min-height:0">
+  <div class="an2-top" style="flex-wrap:wrap">
+    <span class="an2-mod" style="background:#1c1108;color:#f97316;border-color:#3d2508">NETWORK</span>
+    <span style="font-size:.52rem;color:#6a7180;margin-left:4px">support accounts to amplify brand content</span>
+    <div style="margin-left:auto;display:flex;gap:4px;align-items:center;flex-wrap:wrap">
+      <select id="snBrand" class="an2-w" style="width:100px">
+        <option value="all">all brands</option>
+        <option value="blip">⚡ blip</option>
+        <option value="lifestyle">🌴 lifestyle</option>
+        <option value="finance">$ finance</option>
+        <option value="crypto">₿ crypto</option>
+      </select>
+      <select id="snPlat" class="an2-w" style="width:90px">
+        <option value="instagram">📸 IG</option>
+        <option value="x">𝕏 X</option>
+        <option value="youtube">▶ YT</option>
+        <option value="tiktok">🎵 TT</option>
+        <option value="linkedin">💼 LI</option>
+        <option value="facebook">👥 FB</option>
+        <option value="threads">🧵 Threads</option>
+        <option value="telegram">✈ TG</option>
+        <option value="discord">💬 Discord</option>
+        <option value="reddit">🔴 Reddit</option>
+        <option value="pinterest">📌 Pinterest</option>
+      </select>
+      <input id="snHandle" class="an2-w" placeholder="@handle" style="width:140px">
+      <input id="snNote" class="an2-w" placeholder="note (optional)" style="width:110px">
+      <button class="an2-btn an2-btn-prim" id="snAddBtn">+ add</button>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:6px;padding:6px 10px;background:#0c0e14;border-bottom:1px solid #14161e">
+    <span style="font-size:.5rem;color:#5a606c;text-transform:uppercase;letter-spacing:.1em">bulk</span>
+    <textarea id="snBulk" class="an2-w" style="flex:1;min-height:28px;max-height:70px;resize:vertical;font-size:.58rem" placeholder="one per line: platform @handle (e.g. instagram @user1 · x @user2)"></textarea>
+    <button class="an2-btn" id="snBulkBtn">+ bulk add</button>
+    <span id="snCount" style="font-size:.52rem;color:#6a7180;white-space:nowrap">0</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:3px;padding:5px 10px;background:#0a0c12;border-bottom:1px solid #14161e;flex-wrap:wrap">
+    <button class="sn-filt active" data-sf="all">all</button>
+    <button class="sn-filt" data-sf="instagram">IG</button>
+    <button class="sn-filt" data-sf="x">X</button>
+    <button class="sn-filt" data-sf="youtube">YT</button>
+    <button class="sn-filt" data-sf="tiktok">TT</button>
+    <button class="sn-filt" data-sf="linkedin">LI</button>
+    <button class="sn-filt" data-sf="facebook">FB</button>
+    <button class="sn-filt" data-sf="threads">@</button>
+    <button class="sn-filt" data-sf="telegram">TG</button>
+    <button class="sn-filt" data-sf="discord">DC</button>
+    <button class="sn-filt" data-sf="reddit">R</button>
+    <input id="snSearch" class="an2-w" placeholder="search..." style="width:130px;margin-left:auto;padding:4px 8px;font-size:.56rem">
+  </div>
+  <div id="snList" style="flex:1;overflow-y:auto;padding:6px 10px;scrollbar-width:thin"><div style="padding:40px;text-align:center;color:#5a606c;font-size:.65rem">no support accounts yet — add above or bulk paste</div></div>
+  </div><!-- /atab-network -->
+
+</div><!-- /an2-shell -->
+
+<style>
+.an2-subtabs{display:flex;gap:1px;padding:0 10px;background:#0a0c12;border-bottom:1px solid #14161e;flex-shrink:0}
+.an2-stab{background:transparent;border:none;border-bottom:2px solid transparent;color:#5a606c;font-family:inherit;font-size:.6rem;padding:8px 16px;cursor:pointer;transition:all .1s;text-transform:lowercase}
+.an2-stab:hover{color:#d6dde6}
+.an2-stab.active{color:#5b8aff;border-bottom-color:#5b8aff}
+.sn-filt{background:transparent;border:1px solid transparent;color:#5a606c;font-family:inherit;font-size:.55rem;padding:4px 9px;border-radius:3px;cursor:pointer}
+.sn-filt:hover{color:#d6dde6;background:#15171d}
+.sn-filt.active{color:#f97316;background:#1c1108;border-color:#3d2508}
+.sn-row{display:grid;grid-template-columns:70px 1fr 80px 70px 1fr 26px;gap:8px;padding:7px 10px;background:#0c0e14;border:1px solid #14161e;border-radius:3px;margin-bottom:3px;font-size:.62rem;align-items:center}
+.sn-row:hover{border-color:#1e2030}
+</style>
+
+<script>
+(function(){
+// Sub-tab switching
+document.querySelectorAll('.an2-stab').forEach(b=>b.onclick=function(){
+  document.querySelectorAll('.an2-stab').forEach(x=>x.classList.remove('active'));
+  this.classList.add('active');
+  document.getElementById('atab-brands').style.display=this.dataset.atab==='brands'?'flex':'none';
+  document.getElementById('atab-network').style.display=this.dataset.atab==='network'?'flex':'none';
+  if(this.dataset.atab==='network')snLoad();
+});
+
+const SN_KEY='supportNetwork';
+let SN_DATA=[],SN_FILTER='all',SN_SEARCH='';
+const _platIcons={instagram:'📸',x:'𝕏',youtube:'▶',tiktok:'🎵',linkedin:'💼',facebook:'👥',threads:'🧵',telegram:'✈',discord:'💬',reddit:'🔴',pinterest:'📌'};
+function _esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+
+async function snLoad(){
+  try{const r=await fetch('/api/kv?k='+SN_KEY);const d=await r.json();if(d.ok&&Array.isArray(d.value))SN_DATA=d.value;}catch{}
+  snRender();
+}
+async function snSave(){
+  await fetch('/api/kv',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({k:SN_KEY,v:SN_DATA})});
+}
+function snRender(){
+  const list=document.getElementById('snList');
+  const cnt=document.getElementById('snCount');
+  if(cnt)cnt.textContent=SN_DATA.length+' accounts';
+  let items=SN_DATA;
+  if(SN_FILTER!=='all')items=items.filter(a=>a.platform===SN_FILTER);
+  if(SN_SEARCH){const q=SN_SEARCH.toLowerCase();items=items.filter(a=>(a.handle||'').toLowerCase().includes(q)||(a.note||'').toLowerCase().includes(q)||(a.brand||'').toLowerCase().includes(q));}
+  if(!items.length){list.innerHTML='<div style="padding:40px;text-align:center;color:#5a606c;font-size:.65rem">'+(SN_DATA.length?'no matches':'no support accounts yet — add above or bulk paste')+'</div>';return;}
+  list.innerHTML=items.map(a=>{
+    const idx=SN_DATA.indexOf(a);
+    return '<div class="sn-row">'+
+      '<div style="font-size:.55rem;color:#f97316;font-weight:600;text-transform:uppercase">'+(_platIcons[a.platform]||'•')+' '+_esc(a.platform)+'</div>'+
+      '<div style="color:#d6dde6;font-weight:500">@'+_esc(a.handle)+'</div>'+
+      '<div><span style="font-size:.48rem;padding:2px 6px;border-radius:2px;background:#1a1f2e;color:#5b8aff">'+(a.brand==='all'?'all':_esc(a.brand||'all'))+'</span></div>'+
+      '<div style="font-size:.48rem;color:#4b5060">'+new Date(a.added_at||0).toLocaleDateString()+'</div>'+
+      '<div style="font-size:.52rem;color:#5a606c;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+_esc(a.note||'')+'</div>'+
+      '<button style="background:transparent;border:1px solid #1e2030;color:#5a606c;width:22px;height:22px;border-radius:3px;cursor:pointer;font-size:.6rem;display:flex;align-items:center;justify-content:center" onclick="window._snDel('+idx+')" title="remove">×</button>'+
+    '</div>';
+  }).join('');
+}
+
+// Add single
+document.getElementById('snAddBtn').onclick=function(){
+  const plat=document.getElementById('snPlat').value;
+  const handle=document.getElementById('snHandle').value.trim().replace(/^@/,'');
+  if(!handle)return;
+  const brand=document.getElementById('snBrand').value;
+  const note=document.getElementById('snNote').value.trim();
+  const id=plat+'_'+handle.toLowerCase();
+  if(SN_DATA.find(a=>a.id===id))return;
+  SN_DATA.push({id,platform:plat,handle,brand,note,added_at:Date.now()});
+  snSave();snRender();
+  document.getElementById('snHandle').value='';document.getElementById('snNote').value='';
+};
+document.getElementById('snHandle').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('snAddBtn').click();});
+
+// Bulk add
+document.getElementById('snBulkBtn').onclick=function(){
+  const raw=document.getElementById('snBulk').value.trim();if(!raw)return;
+  const brand=document.getElementById('snBrand').value;
+  const platMap={ig:'instagram',insta:'instagram',instagram:'instagram',x:'x',twitter:'x',yt:'youtube',youtube:'youtube',tt:'tiktok',tiktok:'tiktok',li:'linkedin',linkedin:'linkedin',fb:'facebook',facebook:'facebook',threads:'threads',tg:'telegram',telegram:'telegram',dc:'discord',discord:'discord',reddit:'reddit',pin:'pinterest',pinterest:'pinterest'};
+  let added=0;
+  raw.split('\n').map(l=>l.trim()).filter(Boolean).forEach(line=>{
+    let parts=line.replace(/[,\t]+/g,' ').split(/\s+/);
+    let plat='instagram',handle='';
+    if(parts.length>=2){const p=parts[0].toLowerCase().replace(/[^a-z]/g,'');if(platMap[p]){plat=platMap[p];handle=parts.slice(1).join('');}else handle=parts.join('');}
+    else handle=parts[0];
+    handle=handle.replace(/^@/,'').trim();if(!handle)return;
+    const id=plat+'_'+handle.toLowerCase();
+    if(SN_DATA.find(a=>a.id===id))return;
+    SN_DATA.push({id,platform:plat,handle,brand,note:'bulk',added_at:Date.now()});added++;
+  });
+  if(added){snSave();snRender();}
+  document.getElementById('snBulk').value='';
+  if(typeof toast==='function')toast(added+' added');
+};
+
+// Delete
+window._snDel=function(idx){SN_DATA.splice(idx,1);snSave();snRender();};
+
+// Filters
+document.querySelectorAll('.sn-filt').forEach(b=>b.onclick=function(){
+  document.querySelectorAll('.sn-filt').forEach(x=>x.classList.remove('active'));
+  this.classList.add('active');SN_FILTER=this.dataset.sf;snRender();
+});
+document.getElementById('snSearch').addEventListener('input',function(){SN_SEARCH=this.value;snRender();});
+})();
+</script>
 
 <style>
 #tool-accounts{background:#0a0a0c;color:#d6dde6;font-family:'SF Mono','JetBrains Mono','Menlo',monospace}
@@ -3538,6 +3711,11 @@ const GLOBAL_NEGATIVE='no text, no letters, no words, no numbers, no watermark, 
 async function applyOverlay(imgUrl,brandKey,pos,style){
   if(pos==='none')return imgUrl;
   const b=BRANDS[brandKey];if(!b||!b.context)return imgUrl;
+  // Proxy external images to avoid CORS canvas tainting
+  let safeUrl=imgUrl;
+  if(imgUrl&&!imgUrl.startsWith('blob:')&&!imgUrl.startsWith('data:')&&!imgUrl.startsWith('/')){
+    try{const r=await fetch('/dl/proxy?u='+encodeURIComponent(imgUrl));const bl=await r.blob();safeUrl=URL.createObjectURL(bl);}catch{}
+  }
   return new Promise((resolve,reject)=>{
     const img=new Image();img.crossOrigin='anonymous';
     img.onload=()=>{
@@ -3656,7 +3834,7 @@ async function applyOverlay(imgUrl,brandKey,pos,style){
       resolve(canvas.toDataURL('image/png'));
     };
     img.onerror=()=>resolve(imgUrl);
-    img.src=imgUrl;
+    img.src=safeUrl;
   });
 }
 
@@ -3670,8 +3848,14 @@ let genPlat='instagram',upPlat='instagram',upB64=null,upType=null;
 let genB64=null,genUrl=null,attempts=0,scores=[],autoMode=false,lastResult=null;
 let saved=JSON.parse(localStorage.getItem('moltSaved')||'[]');
 const storedKey=localStorage.getItem('moltKey');
-if(storedKey)$('apiKey').value=storedKey;
+if(storedKey){$('apiKey').value=storedKey;const ki=document.getElementById('apiKeyInput');if(ki)ki.value=storedKey;}
 $('apiKey').addEventListener('change',()=>localStorage.setItem('moltKey',$('apiKey').value.trim()));
+// Sync visible key input → hidden apiKey field
+const _apiKeyInput=document.getElementById('apiKeyInput');
+if(_apiKeyInput){
+  _apiKeyInput.addEventListener('input',()=>{const v=_apiKeyInput.value.trim();$('apiKey').value=v;localStorage.setItem('moltKey',v);});
+  _apiKeyInput.addEventListener('change',()=>{const v=_apiKeyInput.value.trim();$('apiKey').value=v;localStorage.setItem('moltKey',v);});
+}
 
 function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800)}
 function getColor(s){return s>=80?'#16A34A':s>=60?'#F59E0B':s>=40?'#F97316':'#DC2626'}
@@ -5467,13 +5651,18 @@ const CD_RATIOS = {
   '2:3':[1000,1500],
 };
 
-function cdLoadImage(src){
+async function cdLoadImage(src){
+  // Proxy external URLs to avoid CORS canvas tainting
+  let safeSrc=src;
+  if(src&&!src.startsWith('blob:')&&!src.startsWith('data:')&&!src.startsWith('/')){
+    try{const r=await fetch('/dl/proxy?u='+encodeURIComponent(src));const bl=await r.blob();safeSrc=URL.createObjectURL(bl);}catch{}
+  }
   return new Promise((resolve,reject)=>{
     const img = new Image();
     img.crossOrigin = 'anonymous';
     img.onload = ()=>resolve(img);
     img.onerror = ()=>reject(new Error('image load failed'));
-    img.src = src;
+    img.src = safeSrc;
   });
 }
 
@@ -6488,51 +6677,13 @@ function nfRender(){
     };
   });
 }
-/* auto-forge: click news item → switch to studio, fill keyword, run full AI suggest */
+/* auto-forge: click news item → open the in-page News Forge (not studio) */
 async function nfForgePost(item){
-  // Switch to studio tab
-  document.querySelector('.tool-switch[data-tool="studio"]')?.click();
-
-  // Set type to news and fill keyword with article title
-  const stType=$('stType');if(stType)stType.value='news';
-  const stKw=$('stKeyword');if(stKw)stKw.value=item.title||'';
-
-  // Try to load article OG image as background first
-  let ogLoaded=false;
-  try{
-    const r=await fetch('/dl/og?u='+encodeURIComponent(item.url||''));
-    const d=await r.json();
-    if(d.ok&&d.image){
-      const im=new Image();im.crossOrigin='anonymous';
-      await new Promise((res,rej)=>{im.onload=res;im.onerror=rej;im.src='/dl/proxy?u='+encodeURIComponent(d.image);});
-      ST_BG_IMG=im;ogLoaded=true;
-    }
-  }catch(e){}
-
-  // Now trigger the AI suggest — it generates category, headline, caption AND image
-  // But if we already loaded OG image, we just need text
-  if(ogLoaded){
-    // Generate text only via AI
-    const key=$('apiKey')?.value;if(!key)return toast('No API key');
-    const b=(typeof BRANDS_DB!=='undefined'&&typeof CURRENT_BRAND!=='undefined')?BRANDS_DB[CURRENT_BRAND]:{};
-    try{
-      const prompt='Generate a social media post for brand "'+((b&&b.name)||'33 Labs')+'" ('+((b&&b.niche)||'')+', voice: '+((b&&b.voice)||'sharp')+').\nNews article: '+item.title+'\nSource: '+(item.source||'')+'\nSummary: '+((item.description||item.summary||'').slice(0,500))+'\n\nOutput JSON only:\n{"category":"ALL CAPS SHORT WORD","headline":"PUNCHY HEADLINE UNDER 80 CHARS ALL CAPS","caption":"full post caption with hashtags"}';
-      const r2=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
-      const j=await r2.json();
-      let txt=(j.content&&j.content[0]&&j.content[0].text)||'';
-      txt=txt.replace(/```json|```/g,'').trim();
-      const data=JSON.parse(txt);
-      $('stOvCat').value=data.category||'';
-      $('stOvHead').value=data.headline||'';
-      $('stCaption').value=data.caption||'';
-      $('stChars').textContent=(data.caption||'').length;
-      stRender();
-      toast('post ready — article image + AI text');
-    }catch(e){toast('AI text failed: '+e.message);}
+  // Use the in-page forge panel instead of switching to studio
+  if(typeof nfOpenForge === 'function'){
+    nfOpenForge(item);
   } else {
-    // No OG image — let stAiSuggest do everything (text + image gen)
-    toast('generating post from: '+(item.title||'').slice(0,40)+'...');
-    stAiSuggest();
+    toast('forge not ready — try again');
   }
 }
 
@@ -6586,63 +6737,86 @@ function nfCloseCardModal(){
 let NF_CURRENT=null,NF_PLAT='twitter',NF_IMG_SEED=0;
 async function nfOpenForge(item){
   NF_CURRENT=item;NF_PLAT='twitter';
-  const f=document.getElementById('nfForge');
+  // Full-screen forge overlay (studio-like layout)
+  let f=document.getElementById('nfForge');
+  if(!f){f=document.createElement('div');f.id='nfForge';document.body.appendChild(f);}
+  f.style.cssText='position:fixed;inset:0;z-index:9999;background:#06060a;display:flex;flex-direction:column;font-family:"SF Mono","JetBrains Mono","Menlo",monospace';
+
   f.innerHTML=`
-    <div class="nf-forge-grp">
-      <div class="nf-forge-lbl">source</div>
-      <div style="font-size:.65rem;color:var(--rt-dim);line-height:1.4">${nfEsc((item.srcLabel||'').slice(0,40))} · <a href="${nfEsc(item.url)}" target="_blank" style="color:var(--rt-acc);text-decoration:none">↗ open</a></div>
-    </div>
-    <div class="nf-forge-grp">
-      <div class="nf-forge-lbl">headline</div>
-      <input id="nfHead" class="nf-forge-input" value="${nfEsc((item.title||'').slice(0,180))}">
-    </div>
-    <div class="nf-forge-grp">
-      <div class="nf-forge-img" id="nfImgBox">
-        <div class="nf-forge-img-loading" id="nfImgLoad">⏳ generating image...</div>
+  <div style="display:flex;align-items:center;gap:8px;padding:8px 14px;background:#0a0c12;border-bottom:1px solid #14161e;flex-shrink:0">
+    <span style="font-size:.62rem;font-weight:700;color:#a855f7;letter-spacing:.15em;padding:3px 8px;background:#1a0d2e;border:1px solid #2d1856;border-radius:3px">FORGE</span>
+    <span style="font-size:.58rem;color:#6b7280;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${nfEsc((item.title||'').slice(0,80))}</span>
+    <a href="${nfEsc(item.url||'')}" target="_blank" style="font-size:.55rem;color:#5b8aff;text-decoration:none">↗ source</a>
+    <button onclick="document.getElementById('nfForge').style.display='none'" style="background:#15171d;border:1px solid #1e2030;color:#9ba3af;padding:5px 14px;border-radius:3px;font-family:inherit;font-size:.6rem;cursor:pointer">✕ close</button>
+  </div>
+  <div style="flex:1;display:grid;grid-template-columns:260px 1fr 320px;gap:1px;background:#14161e;overflow:hidden;min-height:0">
+    <!-- LEFT: controls -->
+    <div style="background:#0a0a0c;overflow-y:auto;padding:10px;scrollbar-width:thin">
+      <div class="nf-forge-grp"><div class="nf-forge-lbl">headline</div>
+        <input id="nfHead" class="nf-forge-input" value="${nfEsc((item.title||'').slice(0,180))}">
       </div>
-      <div class="nf-forge-row">
-        <button class="nf-act-prim" id="nfImgRegen" style="padding:6px;font-size:.6rem">🔄 regenerate image</button>
-        <button id="nfImgDl" style="padding:6px;font-size:.6rem">⬇ download</button>
+      <div class="nf-forge-grp"><div class="nf-forge-lbl">platform</div>
+        <div class="nf-forge-row" id="nfPlatRow">
+          <button class="nf-plat active" data-p="twitter">𝕏</button>
+          <button class="nf-plat" data-p="instagram">IG</button>
+          <button class="nf-plat" data-p="linkedin">LI</button>
+          <button class="nf-plat" data-p="threads">@</button>
+          <button class="nf-plat" data-p="facebook">FB</button>
+        </div>
       </div>
-    </div>
-    <div class="nf-forge-grp">
-      <div class="nf-forge-lbl">platform</div>
-      <div class="nf-forge-row" id="nfPlatRow">
-        <button class="nf-plat active" data-p="twitter">𝕏</button>
-        <button class="nf-plat" data-p="instagram">IG</button>
-        <button class="nf-plat" data-p="linkedin">LI</button>
-        <button class="nf-plat" data-p="threads">@</button>
-        <button class="nf-plat" data-p="facebook">FB</button>
-      </div>
-    </div>
-    <div class="nf-forge-grp">
-      <div class="nf-forge-lbl">tone · hook</div>
-      <div class="nf-forge-row">
+      <div class="nf-forge-grp"><div class="nf-forge-lbl">tone</div>
         <select id="nfTone" class="nf-forge-input">
           <option value="alpha">🔥 alpha</option><option value="degen">💎 degen</option><option value="pro">▶ pro</option><option value="storyteller">📖 story</option><option value="contrarian">⚡ contrarian</option><option value="analyst">📊 analyst</option><option value="memey">😂 memey</option>
         </select>
+      </div>
+      <div class="nf-forge-grp"><div class="nf-forge-lbl">hook style</div>
         <select id="nfHook" class="nf-forge-input">
-          <option value="auto">auto hook</option><option value="question">❓ question</option><option value="stat">📊 stat</option><option value="story">📖 story</option><option value="contrarian">⚡ hot take</option><option value="list">📋 list</option>
+          <option value="auto">auto</option><option value="question">❓ question</option><option value="stat">📊 stat</option><option value="story">📖 story</option><option value="contrarian">⚡ hot take</option><option value="list">📋 list</option>
         </select>
       </div>
+      <div class="nf-forge-grp"><div class="nf-forge-lbl">image style</div>
+        <select id="nfImgStyle" class="nf-forge-input">
+          <option value="editorial photo, cinematic lighting, premium magazine">editorial</option>
+          <option value="dark moody, neon accents, dramatic">dark neon</option>
+          <option value="3d render, octane, futuristic">3d render</option>
+          <option value="minimal abstract, geometric shapes">abstract</option>
+          <option value="oil painting, classical art">oil painting</option>
+        </select>
+      </div>
+      <div class="nf-forge-grp"><div class="nf-forge-lbl">source</div>
+        <div style="font-size:.58rem;color:#5a606c;line-height:1.4">${nfEsc((item.source||item.srcLabel||''))}<br>${nfEsc((item.description||item.summary||item.body||'').slice(0,200))}</div>
+      </div>
     </div>
-    <div class="nf-forge-grp">
-      <div class="nf-forge-lbl">post text <b id="nfChars">0</b></div>
-      <textarea id="nfPostText" class="nf-forge-ta" placeholder="generating..."></textarea>
+    <!-- CENTER: image preview -->
+    <div style="background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px;overflow:hidden">
+      <div id="nfImgBox" style="width:100%;max-width:512px;aspect-ratio:1;background:#0c0e14 center/cover no-repeat;border:1px solid #1e2030;border-radius:4px;position:relative">
+        <div id="nfImgLoad" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#5a606c;font-size:.65rem;background:#0c0e14">⏳ generating image...</div>
+      </div>
+      <div style="display:flex;gap:4px;margin-top:8px">
+        <button class="nf-act-prim" id="nfImgRegen" style="padding:6px 14px;font-size:.6rem">🔄 regenerate</button>
+        <button id="nfImgDl" style="padding:6px 14px;font-size:.6rem;background:#15171d;border:1px solid #1e2030;color:#9ba3af;border-radius:3px;cursor:pointer;font-family:inherit">⬇ download</button>
+      </div>
     </div>
-    <div class="nf-forge-actions">
-      <button id="nfRegenText" class="nf-act-prim">⚡ generate</button>
-      <button id="nfRemix">↻ remix</button>
+    <!-- RIGHT: caption -->
+    <div style="background:#0a0a0c;overflow-y:auto;padding:10px;scrollbar-width:thin;display:flex;flex-direction:column">
+      <div class="nf-forge-grp" style="flex:1;display:flex;flex-direction:column">
+        <div class="nf-forge-lbl">post text <b id="nfChars">0</b></div>
+        <textarea id="nfPostText" class="nf-forge-ta" style="flex:1;min-height:200px" placeholder="generating..."></textarea>
+      </div>
+      <div style="display:flex;gap:4px;margin-top:6px">
+        <button id="nfRegenText" style="flex:1;padding:8px;font-size:.62rem;background:#1e3056;border:1px solid #2a4276;color:#a8c4ff;border-radius:3px;cursor:pointer;font-family:inherit">⚡ generate</button>
+        <button id="nfRemix" style="flex:1;padding:8px;font-size:.62rem;background:#15171d;border:1px solid #1e2030;color:#9ba3af;border-radius:3px;cursor:pointer;font-family:inherit">↻ remix</button>
+      </div>
+      <div style="display:flex;gap:4px;margin-top:4px">
+        <button id="nfCopy" style="flex:1;padding:8px;font-size:.62rem;background:#15171d;border:1px solid #1e2030;color:#9ba3af;border-radius:3px;cursor:pointer;font-family:inherit">📋 copy</button>
+        <button id="nfShare" style="flex:1;padding:8px;font-size:.62rem;background:#15171d;border:1px solid #1e2030;color:#9ba3af;border-radius:3px;cursor:pointer;font-family:inherit">🚀 share</button>
+        <button id="nfSaveVault" style="flex:1;padding:8px;font-size:.62rem;background:#143020;border:1px solid #1f4630;color:#7ee0a4;border-radius:3px;cursor:pointer;font-family:inherit">💾 vault</button>
+      </div>
     </div>
-    <div class="nf-forge-actions">
-      <button id="nfCopy">📋 copy</button>
-      <button id="nfShare">🚀 open in app</button>
-      <button id="nfSaveVault" class="nf-act-ok">💾 save to vault</button>
-    </div>
-  `;
+  </div>`;
   // wire up
   document.getElementById('nfImgRegen').onclick=()=>nfGenImage(true);
-  document.getElementById('nfImgDl').onclick=()=>{const img=document.getElementById('nfImgBox');const url=img.style.backgroundImage.match(/url\(["']?([^"')]+)/)?.[1];if(url){const a=document.createElement('a');a.href=url;a.download='news-'+Date.now()+'.jpg';a.click();}};
+  document.getElementById('nfImgDl').onclick=()=>{const img=document.getElementById('nfImgBox');const url=img.style.backgroundImage.match(/url\(["']?([^"')]+)/)?.[1];if(url){const a=document.createElement('a');a.href=url;a.download='forge-'+Date.now()+'.jpg';a.click();}};
   document.getElementById('nfRegenText').onclick=()=>nfGenText(false);
   document.getElementById('nfRemix').onclick=()=>nfGenText(true);
   document.getElementById('nfCopy').onclick=()=>{const b=document.getElementById('nfCopy');navigator.clipboard.writeText(document.getElementById('nfPostText').value);b.textContent='✓ copied';setTimeout(()=>b.textContent='📋 copy',1000);};
@@ -6657,16 +6831,29 @@ async function nfOpenForge(item){
 async function nfGenImage(force){
   if(!NF_CURRENT)return;
   const box=document.getElementById('nfImgBox');
-  box.innerHTML='<div class="nf-forge-img-loading">⏳ generating image...</div>';
+  const loadEl=document.getElementById('nfImgLoad');
+  if(loadEl)loadEl.style.display='flex';
+  if(loadEl)loadEl.textContent='⏳ generating image...';
   NF_IMG_SEED=Math.floor(Math.random()*999999);
-  // Use a simple Pollinations prompt derived from the headline
-  const prompt=(document.getElementById('nfHead')?.value||NF_CURRENT.title||'').slice(0,180)+', editorial photo, cinematic lighting, premium magazine, scroll-stopping social media, no text';
-  const url='https://image.pollinations.ai/prompt/'+encodeURIComponent(prompt)+'?width=1024&height=1024&seed='+NF_IMG_SEED+'&nologo=true&enhance=true';
-  // Preload then set as background
-  const img=new Image();img.crossOrigin='anonymous';
-  img.onload=()=>{box.innerHTML='';box.style.backgroundImage='url("'+url+'")';};
-  img.onerror=()=>{box.innerHTML='<div class="nf-forge-img-loading">⚠ image failed</div>';};
-  img.src=url;
+  const style=(document.getElementById('nfImgStyle')?.value)||'editorial photo, cinematic lighting, premium magazine';
+  const prompt=(document.getElementById('nfHead')?.value||NF_CURRENT.title||'').slice(0,180)+', '+style+', scroll-stopping social media, no text';
+  const polUrl='https://image.pollinations.ai/prompt/'+encodeURIComponent(prompt)+'?width=1024&height=1024&seed='+NF_IMG_SEED+'&nologo=true&enhance=true';
+  // Proxy through server to avoid CORS
+  const proxyUrl='/dl/proxy?u='+encodeURIComponent(polUrl);
+  try{
+    const r=await fetch(proxyUrl);
+    if(!r.ok)throw new Error(r.status);
+    const blob=await r.blob();
+    const objUrl=URL.createObjectURL(blob);
+    box.style.backgroundImage='url("'+objUrl+'")';
+    if(loadEl)loadEl.style.display='none';
+  }catch(e){
+    // Fallback: direct load
+    const img=new Image();
+    img.onload=()=>{box.style.backgroundImage='url("'+polUrl+'")';if(loadEl)loadEl.style.display='none';};
+    img.onerror=()=>{if(loadEl){loadEl.style.display='flex';loadEl.textContent='⚠ image failed — click regenerate';}};
+    img.src=polUrl;
+  }
 }
 const NF_PLAT_RULES={
   twitter:{name:'X / Twitter',limit:280,fmt:'Single tweet, max 280 chars. Strong hook line 1, payoff line 2. 0-2 hashtags max. Use line breaks.'},
@@ -6693,8 +6880,8 @@ HOOK: ${hook==='auto'?'pick the strongest hook':hook}
 
 SOURCE:
 Title: ${head}
-Source: ${NF_CURRENT.srcLabel}
-Body: ${(NF_CURRENT.body||'').slice(0,1200)}
+Source: ${NF_CURRENT.source||NF_CURRENT.srcLabel||''}
+Body: ${(NF_CURRENT.summary||NF_CURRENT.body||NF_CURRENT.description||'').slice(0,1200)}
 
 INSTRUCTIONS:
 1. DO NOT just copy the headline. Repackage with a strong opinion/angle.
@@ -6704,13 +6891,15 @@ INSTRUCTIONS:
 5. NO fluff, no "in conclusion", no "stay tuned".
 6. Output ONLY the post text. No commentary, no labels.`;
   try{
-    const key=document.getElementById('apiKey').value;
+    const key=(document.getElementById('apiKey')?.value||'').trim();
+    if(!key){ta.value='⚠ No API key — paste your Anthropic key in the "key" field (top-right corner of titlebar)';return;}
     const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1200,messages:[{role:'user',content:sys}]})});
     const j=await r.json();
-    const txt=(j.content&&j.content[0]&&j.content[0].text)||'(failed: '+(j.error?.message||'unknown')+')';
+    if(j.error){ta.value='⚠ API error: '+(j.error.message||JSON.stringify(j.error));return;}
+    const txt=(j.content&&j.content[0]&&j.content[0].text)||'(empty response)';
     ta.value=txt;
     document.getElementById('nfChars').textContent=txt.length;
-  }catch(e){ta.value='Error: '+e.message;}
+  }catch(e){ta.value='⚠ Error: '+e.message;}
 }
 function nfShare(){
   const t=encodeURIComponent(document.getElementById('nfPostText').value);
@@ -7503,10 +7692,13 @@ async function generateImage(){
   try{
     const prompt=`${CURRENT_ITEM.title}, premium editorial photo, cinematic lighting, high contrast, modern minimal, scroll-stopping social media composition`;
     // Use Pollinations (free, no key, reliable) — same as the news cards generator
-    const url='https://image.pollinations.ai/prompt/'+encodeURIComponent(prompt)+'?width=1024&height=1024&seed='+Math.floor(Math.random()*999999)+'&nologo=true&enhance=true';
-    // Preload to bake the bytes into the page (needed for save-to-vault)
-    await new Promise((res,rej)=>{const im=new Image();im.crossOrigin='anonymous';im.onload=()=>res();im.onerror=rej;im.src=url;});
-    $r('rdmImgEl').src=url;
+    const polUrl='https://image.pollinations.ai/prompt/'+encodeURIComponent(prompt)+'?width=1024&height=1024&seed='+Math.floor(Math.random()*999999)+'&nologo=true&enhance=true';
+    // Proxy to avoid CORS issues
+    const proxyUrl='/dl/proxy?u='+encodeURIComponent(polUrl);
+    try{
+      const r=await fetch(proxyUrl);const blob=await r.blob();
+      $r('rdmImgEl').src=URL.createObjectURL(blob);
+    }catch{$r('rdmImgEl').src=polUrl;}
     $r('rdmImgWrap').style.display='block';
   }catch(e){alert('Image error: '+e.message);}
   btn.textContent='🎨 Image';btn.disabled=false;
@@ -7720,11 +7912,25 @@ async function stGenImage(){
   const style=document.getElementById('stImgStyle').value;
   const ratio=document.getElementById('stRatio').value.split('x');
   const btn=document.getElementById('stImgGen');btn.disabled=true;btn.textContent='⏳ generating...';
-  const url='https://image.pollinations.ai/prompt/'+encodeURIComponent(kw+', '+style+', no text')+'?width='+ratio[0]+'&height='+ratio[1]+'&seed='+Math.floor(Math.random()*999999)+'&nologo=true&enhance=true';
-  const im=new Image();im.crossOrigin='anonymous';
-  im.onload=()=>{ST_BG_IMG=im;stCanvas.width=+ratio[0];stCanvas.height=+ratio[1];stRender();btn.disabled=false;btn.textContent='⚡ generate image';};
-  im.onerror=()=>{btn.disabled=false;btn.textContent='⚡ generate image';alert('image gen failed');};
-  im.src=url;
+  const polUrl='https://image.pollinations.ai/prompt/'+encodeURIComponent(kw+', '+style+', no text')+'?width='+ratio[0]+'&height='+ratio[1]+'&seed='+Math.floor(Math.random()*999999)+'&nologo=true&enhance=true';
+  // Proxy through server to avoid CORS issues
+  const proxyUrl='/dl/proxy?u='+encodeURIComponent(polUrl);
+  try{
+    const r=await fetch(proxyUrl);
+    if(!r.ok) throw new Error('proxy returned '+r.status);
+    const blob=await r.blob();
+    const objUrl=URL.createObjectURL(blob);
+    const im=new Image();
+    im.onload=()=>{ST_BG_IMG=im;stCanvas.width=+ratio[0];stCanvas.height=+ratio[1];stRender();btn.disabled=false;btn.textContent='⚡ generate image';URL.revokeObjectURL(objUrl);};
+    im.onerror=()=>{btn.disabled=false;btn.textContent='⚡ generate image';alert('image gen failed — try again');URL.revokeObjectURL(objUrl);};
+    im.src=objUrl;
+  }catch(e){
+    // Fallback: try direct load without crossOrigin
+    const im=new Image();
+    im.onload=()=>{ST_BG_IMG=im;stCanvas.width=+ratio[0];stCanvas.height=+ratio[1];stRender();btn.disabled=false;btn.textContent='⚡ generate image';};
+    im.onerror=()=>{btn.disabled=false;btn.textContent='⚡ generate image';alert('image gen failed: '+e.message);};
+    im.src=polUrl;
+  }
 }
 async function stAiSuggest(){
   const kw=document.getElementById('stKeyword').value.trim();
