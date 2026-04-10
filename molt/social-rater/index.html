@@ -3853,8 +3853,11 @@ $('apiKey').addEventListener('change',()=>localStorage.setItem('moltKey',$('apiK
 // Sync visible key input → hidden apiKey field
 const _apiKeyInput=document.getElementById('apiKeyInput');
 if(_apiKeyInput){
-  _apiKeyInput.addEventListener('input',()=>{const v=_apiKeyInput.value.trim();$('apiKey').value=v;localStorage.setItem('moltKey',v);});
-  _apiKeyInput.addEventListener('change',()=>{const v=_apiKeyInput.value.trim();$('apiKey').value=v;localStorage.setItem('moltKey',v);});
+  const _syncKey=()=>{const v=_apiKeyInput.value.trim();$('apiKey').value=v;localStorage.setItem('moltKey',v);};
+  _apiKeyInput.addEventListener('input',_syncKey);
+  _apiKeyInput.addEventListener('change',_syncKey);
+  _apiKeyInput.addEventListener('paste',()=>setTimeout(_syncKey,50));
+  _apiKeyInput.addEventListener('blur',_syncKey);
 }
 
 function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800)}
@@ -6828,6 +6831,24 @@ async function nfOpenForge(item){
   nfGenImage(false);
   nfGenText(false);
 }
+async function nfBuildImagePrompt(){
+  // Try AI-generated prompt using article context for better relevance
+  const head=document.getElementById('nfHead')?.value||NF_CURRENT.title||'';
+  const body=(NF_CURRENT.summary||NF_CURRENT.description||NF_CURRENT.body||'').slice(0,500);
+  const style=(document.getElementById('nfImgStyle')?.value)||'editorial photo, cinematic lighting, premium magazine';
+  let key=(document.getElementById('apiKey')?.value||'').trim()||localStorage.getItem('moltKey')||'';
+  if(key&&body){
+    try{
+      const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:200,messages:[{role:'user',content:`Convert this news story into ONE vivid image generation prompt (1-2 sentences). Describe a VISUAL SCENE that represents the story's meaning — NOT literal text. Focus on symbols, metaphors, objects, settings. No text in the image. No logos.\n\nHeadline: ${head}\nSummary: ${body}\nStyle: ${style}\n\nOutput ONLY the image prompt, nothing else.`}]})});
+      const j=await r.json();
+      const txt=(j.content&&j.content[0]&&j.content[0].text||'').trim();
+      if(txt&&txt.length>20)return txt+', '+style+', no text, no words, no letters';
+    }catch{}
+  }
+  // Fallback: expand headline with context keywords
+  const contextWords=(body||'').split(/\s+/).filter(w=>w.length>5).slice(0,5).join(' ');
+  return head+' '+contextWords+', '+style+', conceptual editorial illustration, symbolic, no text, no words, no letters';
+}
 async function nfGenImage(force){
   if(!NF_CURRENT)return;
   const box=document.getElementById('nfImgBox');
@@ -6835,8 +6856,7 @@ async function nfGenImage(force){
   if(loadEl)loadEl.style.display='flex';
   if(loadEl)loadEl.textContent='⏳ generating image...';
   NF_IMG_SEED=Math.floor(Math.random()*999999);
-  const style=(document.getElementById('nfImgStyle')?.value)||'editorial photo, cinematic lighting, premium magazine';
-  const prompt=(document.getElementById('nfHead')?.value||NF_CURRENT.title||'').slice(0,180)+', '+style+', scroll-stopping social media, no text';
+  const prompt=await nfBuildImagePrompt();
   const polUrl='https://image.pollinations.ai/prompt/'+encodeURIComponent(prompt)+'?width=1024&height=1024&seed='+NF_IMG_SEED+'&nologo=true&enhance=true';
   // Proxy through server to avoid CORS
   const proxyUrl='/dl/proxy?u='+encodeURIComponent(polUrl);
@@ -6891,8 +6911,12 @@ INSTRUCTIONS:
 5. NO fluff, no "in conclusion", no "stay tuned".
 6. Output ONLY the post text. No commentary, no labels.`;
   try{
-    const key=(document.getElementById('apiKey')?.value||'').trim();
+    let key=(document.getElementById('apiKey')?.value||'').trim();
+    if(!key)key=(document.getElementById('apiKeyInput')?.value||'').trim();
+    if(!key)key=localStorage.getItem('moltKey')||'';
     if(!key){ta.value='⚠ No API key — paste your Anthropic key in the "key" field (top-right corner of titlebar)';return;}
+    // Sync back
+    if(document.getElementById('apiKey'))document.getElementById('apiKey').value=key;
     const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1200,messages:[{role:'user',content:sys}]})});
     const j=await r.json();
     if(j.error){ta.value='⚠ API error: '+(j.error.message||JSON.stringify(j.error));return;}
