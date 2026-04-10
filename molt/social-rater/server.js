@@ -1186,6 +1186,49 @@ app.get('/api/engine/dashboard', (req, res) => {
   });
 });
 
+// ============ AI PROXY (server-side Anthropic key) ============
+const AI_KEY = process.env.ANTHROPIC_API_KEY || '';
+
+app.post('/api/ai', async (req, res) => {
+  const key = AI_KEY || readJSON(path.join(DATA_DIR, 'ai_key.json'), {}).key || '';
+  if (!key) return res.json({ ok: false, error: 'no AI key configured on server' });
+  const { messages, system, max_tokens, model } = req.body;
+  if (!messages) return res.json({ ok: false, error: 'no messages' });
+  try {
+    const body = {
+      model: model || 'claude-haiku-4-5-20251001',
+      max_tokens: Math.min(max_tokens || 1000, 4000),
+      messages,
+    };
+    if (system) body.system = system;
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': key,
+        'anthropic-version': '2023-06-01',
+      },
+      body: JSON.stringify(body),
+      timeout: 30000,
+    });
+    const j = await r.json();
+    if (j.error) return res.json({ ok: false, error: j.error.message || JSON.stringify(j.error), content: [{ text: '' }] });
+    // Return both our format AND Anthropic-compatible format for legacy code
+    const text = (j.content && j.content[0] && j.content[0].text) || '';
+    res.json({ ok: true, text, content: j.content, usage: j.usage });
+  } catch (e) {
+    res.json({ ok: false, error: e.message });
+  }
+});
+
+// Set AI key via API (one-time setup)
+app.post('/api/ai/key', (req, res) => {
+  const { key } = req.body;
+  if (!key) return res.json({ ok: false });
+  writeJSON(path.join(DATA_DIR, 'ai_key.json'), { key, set_at: Date.now() });
+  res.json({ ok: true });
+});
+
 // ============ START ============
 let WORKER_HANDLE;
 app.listen(PORT, () => {

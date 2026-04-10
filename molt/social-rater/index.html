@@ -1058,10 +1058,7 @@ select {
 (function(){
 const $tk=id=>document.getElementById(id);
 async function tkClaude(prompt,maxTokens){
-  const key=typeof getApiKey==='function'?getApiKey():(localStorage.getItem('moltKey')||'');
-  const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:maxTokens||1000,messages:[{role:'user',content:prompt}]})});
-  const j=await r.json();
-  return (j.content&&j.content[0]&&j.content[0].text)||'(failed)';
+  return callAI({messages:[{role:'user',content:prompt}],max_tokens:maxTokens||1000});
 }
 const tkiGen=$tk('tkiGen');
 if(tkiGen)tkiGen.onclick=async()=>{
@@ -1113,7 +1110,7 @@ if(tkrRate)tkrRate.onclick=async()=>{
   $tk('tkrResult').innerHTML='<div class="tk-empty">⏳ analyzing...</div>';
   try{
     const key=typeof getApiKey==='function'?getApiKey():(localStorage.getItem('moltKey')||'');
-    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,messages:[{role:'user',content:[{type:'image',source:{type:'base64',media_type:TKR_TYPE,data:TKR_B64}},{type:'text',text:'Rate this image for social media use. Output JSON only: {"score":0-100,"aesthetic":0-10,"engagement":0-10,"clarity":0-10,"working":["3 things working"],"improve":["3 things to fix"]}'}]}]})});
+    const r=await fetch('/api/ai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,messages:[{role:'user',content:[{type:'image',source:{type:'base64',media_type:TKR_TYPE,data:TKR_B64}},{type:'text',text:'Rate this image for social media use. Output JSON only: {"score":0-100,"aesthetic":0-10,"engagement":0-10,"clarity":0-10,"working":["3 things working"],"improve":["3 things to fix"]}'}]}]})});
     const j=await r.json();
     let txt=(j.content&&j.content[0]&&j.content[0].text)||'';
     txt=txt.replace(/```json|```/g,'').trim();
@@ -3846,27 +3843,16 @@ function refreshBrand(){
 let genPlat='instagram',upPlat='instagram',upB64=null,upType=null;
 let genB64=null,genUrl=null,attempts=0,scores=[],autoMode=false,lastResult=null;
 let saved=JSON.parse(localStorage.getItem('moltSaved')||'[]');
-// Global API key getter — single source of truth
-window.getApiKey=function(silent){
-  let k=($('apiKey')?.value||'').trim();
-  if(!k)k=(document.getElementById('apiKeyInput')?.value||'').trim();
-  if(!k)k=localStorage.getItem('moltKey')||'';
-  // If still no key, prompt user once
-  if(!k&&!silent&&!window._apiKeyPrompted){
-    window._apiKeyPrompted=true;
-    const input=prompt('Paste your Anthropic API key (sk-ant-...).\nThis is saved in your browser only.');
-    if(input&&input.trim().startsWith('sk-')){
-      k=input.trim();
-      localStorage.setItem('moltKey',k);
-    }
-  }
-  // Sync back so all readers see it
-  if(k){
-    if($('apiKey'))$('apiKey').value=k;
-    const ki=document.getElementById('apiKeyInput');if(ki)ki.value=k;
-  }
-  return k;
+// Global AI call — goes through server proxy, no key needed on frontend
+window.callAI=async function(opts){
+  // opts: { messages, system, max_tokens, model }
+  const r=await fetch('/api/ai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(opts)});
+  const d=await r.json();
+  if(!d.ok)throw new Error(d.error||'AI call failed');
+  return d.text;
 };
+// Legacy compat — getApiKey returns 'server' so old checks pass
+window.getApiKey=function(){return 'server-proxy';};
 const storedKey=localStorage.getItem('moltKey');
 if(storedKey){$('apiKey').value=storedKey;const ki=document.getElementById('apiKeyInput');if(ki)ki.value=storedKey;}
 $('apiKey').addEventListener('change',()=>localStorage.setItem('moltKey',$('apiKey').value.trim()));
@@ -3943,9 +3929,9 @@ RULES:
 User idea: "${userPrompt}"
 
 Return ONLY the final prompt as a single paragraph. No explanations, no quotes, no markdown.`;
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
+    const res=await fetch('/api/ai',{
       method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      headers:{'Content-Type':'application/json',},
       body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,messages:[{role:'user',content:sys}]})
     });
     if(!res.ok){const e=await res.json();throw new Error(e.error?.message||'API failed')}
@@ -4006,9 +3992,9 @@ CRITICAL RULES:
 5. If text_accuracy is below 100, the overall "score" MUST be capped at 35 — broken text makes the image completely unusable for social media.
 
 Be honest and critical. Consider resolution, aspect ratio, visual hierarchy, emotional impact, AI artifacts, color harmony, contrast, uniqueness, and organic performance on ${plat}.`;
-  const res=await fetch('https://api.anthropic.com/v1/messages',{
+  const res=await fetch('/api/ai',{
     method:'POST',
-    headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+    headers:{'Content-Type':'application/json',},
     body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1024,messages:[{role:'user',content:[{type:'image',source:{type:'base64',media_type:type,data:b64}},{type:'text',text:prompt}]}]})
   });
   if(!res.ok){const e=await res.json();throw new Error(e.error?.message||'API failed')}
@@ -4370,9 +4356,9 @@ $('scoreAllBtn').onclick=async()=>{
   const list=todo.map((it,i)=>i+'. '+it.title+(it.body?' — '+it.body.slice(0,140):'')).join('\n');
   const prompt='You are a viral content strategist for a "'+cfg.niche+'" media brand. Brand voice: '+cfg.voice+'.\n\nFor each item below, return a JSON array. Each entry: {"i":<index>,"score":<0-100 viral potential for our niche/voice>,"angle":"<one-line repackaging angle, the unexpected take>","format":"<quote|carousel|thread|reel|meme>","platform":"<instagram|twitter|linkedin|tiktok>"}\n\nScore harshly. 80+ = must-post, urgent. 60-79 = solid. <50 = skip.\nReturn ONLY the JSON array, no prose, no fences.\n\nItems:\n'+list;
   try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{
+    const r=await fetch('/api/ai',{
       method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      headers:{'Content-Type':'application/json',},
       body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:3500,messages:[{role:'user',content:prompt}]})
     });
     const data=await r.json();
@@ -4419,9 +4405,9 @@ $('genContentBtn').onclick=async()=>{
   const prompt='You are a top-tier social copywriter for a "'+cfg.niche+'" brand. Voice: '+cfg.voice+'. Target platform: '+plat+'.\n\nSource title: '+studioItem.title+'\nSource body: '+(studioItem.body||'(none)')+'\nSource URL: '+studioItem.url+'\nAngle: '+(angle||'(pick the best angle)')+'\n\nTask: '+instr+'\n\nReturn ONLY valid JSON, no fences, no prose.';
 
   try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{
+    const r=await fetch('/api/ai',{
       method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      headers:{'Content-Type':'application/json',},
       body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2500,messages:[{role:'user',content:prompt}]})
     });
     const data=await r.json();
@@ -4796,9 +4782,9 @@ $('cyGenBtn').onclick=async()=>{
   if(fbContext) fbContext = '\n\n=== PERFORMANCE CONTEXT (use this to bias ideas toward what\'s already working) ===\n'+fbContext;
   const prompt='You are the head writer for "'+CY.cfg.handle+'", a crypto education brand. Voice: '+CY.cfg.voice+'. Angle: '+CY.cfg.niche+'\n\nLive price snapshot: '+priceCtx+fbContext+'\n\nGenerate 10 post ideas mixing these categories: fact (surprising true crypto fact), history (something that happened in crypto past), howto (explain a concept simply), news (tied to current price action above), meme (witty observation). Each idea must be evergreen-leaning OR tied to today\'s prices.\n\nReturn ONLY a JSON array. Each entry: {"category":"<fact|history|howto|news|meme>","title":"<scroll-stopping headline, max 12 words>","body":"<2-3 sentence summary that proves the angle, max 60 words>","key_fact":"<the single most surprising number/date/quote in this story>"}\n\nNo prose, no fences, just the JSON array.';
   try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{
+    const r=await fetch('/api/ai',{
       method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      headers:{'Content-Type':'application/json',},
       body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:3500,messages:[{role:'user',content:prompt}]})
     });
     const data=await r.json();
@@ -4860,9 +4846,9 @@ async function cyGenFormat(idea,fmt){
 
   const prompt='You are the writer for "'+CY.cfg.handle+'". Voice: '+CY.cfg.voice+'. Angle: '+CY.cfg.niche+'.\n\nIdea title: '+idea.title+'\nIdea body: '+idea.body+'\nKey fact: '+(idea.key_fact||'')+'\nCategory: '+idea.category+'\n\nTask: '+instr+'\n\nReturn ONLY valid JSON, no fences, no prose.';
   try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{
+    const r=await fetch('/api/ai',{
       method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      headers:{'Content-Type':'application/json',},
       body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2200,messages:[{role:'user',content:prompt}]})
     });
     const data=await r.json();
@@ -5017,9 +5003,9 @@ async function cdGeneratePost(){
     const handle = (CY && CY.cfg && CY.cfg.handle) || '@yourbrand';
     const prompt = 'You are a top-tier social media writer for "'+handle+'". Voice: '+voice+'. Niche: '+niche+'.\n\nThis is a news card post. Headline: "'+CD.headline+'". Source: '+(CD.sourceTitle||'(unknown)')+'\n\nWrite 3 caption variants for posting this card. Each caption: max 220 chars, scroll-stopping hook, ends with a question or punch, no "follow me" CTA. Then 12 trending hashtags.\n\nReturn ONLY JSON: {"captions":["c1","c2","c3"],"hashtags":["tag1","tag2"]}';
     try {
-      const r = await fetch('https://api.anthropic.com/v1/messages',{
+      const r = await fetch('/api/ai',{
         method:'POST',
-        headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+        headers:{'Content-Type':'application/json',},
         body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1500,messages:[{role:'user',content:prompt}]})
       });
       const data = await r.json();
@@ -5294,9 +5280,9 @@ async function psGenCaptions(){
   const handle = (CY && CY.cfg && CY.cfg.handle) || '@yourbrand';
   const prompt = 'You are a top-tier social media writer for "'+handle+'". Voice: '+voice+'. Niche: '+niche+'.\n\nVideo title: "'+PS.videoTitle+'"\nPlatform: '+PS.platform+'\n\nWrite 3 caption variants for this video repost. Each caption: max 220 chars, scroll-stopping hook, ends with a question or punch, no "follow me" CTA, no AI giveaways. Then 12 trending hashtags relevant to this content (mix of broad + niche, no spam).\n\nReturn ONLY JSON: {"captions":["c1","c2","c3"],"hashtags":["tag1","tag2"]}\nNo prose, no fences.';
   try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{
+    const r=await fetch('/api/ai',{
       method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      headers:{'Content-Type':'application/json',},
       body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1500,messages:[{role:'user',content:prompt}]})
     });
     const data=await r.json();
@@ -5905,7 +5891,7 @@ function cdBindCard(){
       const prompt=`You are a photo editor. Given this news headline, write ONE vivid editorial image prompt (1 sentence, under 35 words) that captures the story visually. NO text in the image. Be specific about subject, framing, lighting. Output ONLY the prompt, nothing else.
 
 HEADLINE: ${headline}`;
-      const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:200,messages:[{role:'user',content:prompt}]})});
+      const r=await fetch('/api/ai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:200,messages:[{role:'user',content:prompt}]})});
       const j=await r.json();
       const txt=((j.content&&j.content[0]&&j.content[0].text)||'').trim().replace(/^["']|["']$/g,'');
       if(txt){$('cdBgPrompt').value=txt;await cdBgRunGen();}
@@ -5998,7 +5984,7 @@ Source: ${top.srcLabel}
 Body: ${(top.body||'').slice(0,800)}
 
 Return ONLY the JSON object, no markdown, no commentary.`;
-      const ar=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1200,messages:[{role:'user',content:prompt}]})});
+      const ar=await fetch('/api/ai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1200,messages:[{role:'user',content:prompt}]})});
       const aj=await ar.json();
       let txt=(aj.content&&aj.content[0]&&aj.content[0].text)||'';
       txt=txt.replace(/```json|```/g,'').trim();
@@ -6301,9 +6287,9 @@ async function anAnalyze(a, d){
   const postSummary = d.posts.map((p,i)=>(i+1)+'. ['+ (p.is_video?'video':'image')+'] views:'+(p.video_view_count||p.play_count||0)+' likes:'+(p.likes||0)+' comments:'+(p.comments||0)+' caption:"'+(p.caption||'').slice(0,150)+'"').join('\n');
   const prompt='You are a social media performance analyst. Below are the last 12 Instagram posts from @'+a.handle+' ('+d.followers+' followers).\n\nPosts:\n'+postSummary+'\n\nAnalyze:\n1. Which 3 posts performed best and why?\n2. What pattern/format/topic is winning?\n3. What\'s NOT working (the dead posts)?\n4. 3 specific concrete recommendations for the next 5 posts (based on what worked).\n\nBe ruthless and direct. No fluff. Markdown bullets ok. Max 250 words.';
   try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{
+    const r=await fetch('/api/ai',{
       method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      headers:{'Content-Type':'application/json',},
       body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1200,messages:[{role:'user',content:prompt}]})
     });
     const data=await r.json();
@@ -6884,7 +6870,7 @@ Context: ${body||head}
 Visual style: ${style}
 
 Write ONE image prompt (2-3 sentences max). Output ONLY the prompt.`;
-      const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:250,system:sysPrompt,messages:[{role:'user',content:userPrompt}]})});
+      const r=await fetch('/api/ai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:250,system:sysPrompt,messages:[{role:'user',content:userPrompt}]})});
       const j=await r.json();
       const txt=(j.content&&j.content[0]&&j.content[0].text||'').trim();
       if(txt&&txt.length>20)return txt+', absolutely no text, no words, no letters, no logos, no watermarks';
@@ -6972,7 +6958,7 @@ INSTRUCTIONS:
   try{
     const key=typeof getApiKey==='function'?getApiKey():localStorage.getItem('moltKey')||'';
     if(!key){ta.value='⚠ No API key — run in browser console: localStorage.setItem("moltKey","sk-ant-YOUR-KEY")  then refresh';return;}
-    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1200,messages:[{role:'user',content:sys}]})});
+    const r=await fetch('/api/ai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1200,messages:[{role:'user',content:sys}]})});
     const j=await r.json();
     if(j.error){ta.value='⚠ API error: '+(j.error.message||JSON.stringify(j.error));return;}
     const txt=(j.content&&j.content[0]&&j.content[0].text)||'(empty response)';
@@ -7750,7 +7736,7 @@ INSTRUCTIONS:
 5. NO fluff, NO "in conclusion", NO "stay tuned".
 6. Output ONLY the post text. No commentary, no labels like "Hook:", no markdown.`;
   try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':ANTHROPIC_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1200,messages:[{role:'user',content:sys}]})});
+    const r=await fetch('/api/ai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1200,messages:[{role:'user',content:sys}]})});
     const j=await r.json();
     const text=(j.content&&j.content[0]&&j.content[0].text)||'(generation failed: '+(j.error?.message||'unknown')+')';
     $r('rdmText').value=text;
@@ -8022,7 +8008,7 @@ async function stAiSuggest(){
 
 Output JSON only:
 {"category":"ALL CAPS WORD","headline":"PUNCHY HEADLINE UNDER 80 CHARS","caption":"full post caption with brand voice"}`;
-    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+    const r=await fetch('/api/ai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
     const j=await r.json();
     let txt=(j.content&&j.content[0]&&j.content[0].text)||'';
     txt=txt.replace(/```json|```/g,'').trim();
@@ -8045,7 +8031,7 @@ async function stCapGen(remix){
   try{
     const key=typeof getApiKey==='function'?getApiKey():localStorage.getItem('moltKey')||'';
     const prompt=`Write a ${plat} caption for brand "${b.name}" (voice: ${b.voice}, audience: ${b.audience}, avoid: ${b.avoid}). Topic: ${head}. ${remix?'Be COMPLETELY DIFFERENT from any prior version.':''} Output ONLY the caption text, no commentary.`;
-    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+    const r=await fetch('/api/ai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
     const j=await r.json();
     const txt=(j.content&&j.content[0]&&j.content[0].text)||'';
     document.getElementById('stCaption').value=txt;
@@ -8195,7 +8181,7 @@ function vfOpenVideoModal(it){
       const key=typeof getApiKey==='function'?getApiKey():localStorage.getItem('moltKey')||'';
       const brand=localStorage.getItem('33tools_brand')||'blip';
       const prompt=`Write a ${plat} caption for a video with this title: "${it.title}". Tone: ${tone}. Brand context: ${brand}. The caption should reference what makes this video viral and add commentary. Output ONLY the caption.`;
-      const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:800,messages:[{role:'user',content:prompt}]})});
+      const r=await fetch('/api/ai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:800,messages:[{role:'user',content:prompt}]})});
       const j=await r.json();
       ta.value=(j.content&&j.content[0]&&j.content[0].text)||'(failed)';
     }catch(e){ta.value='Error: '+e.message;}
