@@ -85,7 +85,15 @@ export default function Accounts() {
     });
     accountRows.sort((a, b) => b.fol - a.fol);
     const engRate = totalFollowers ? (((totalLikes + totalComments) / (totalPosts || 1)) / totalFollowers * 100).toFixed(2) : '\u2014';
-    setDashData({ totalFollowers, totalFollowing, totalViews, totalLikes, totalComments, totalPosts, engRate, byBrand, accountRows, count: accountRows.length });
+    const avgViewsPerPost = totalPosts ? Math.round(totalViews / totalPosts) : 0;
+    const bestAccount = accountRows[0] || null;
+    // By platform
+    const byPlatform = {};
+    accountRows.forEach(r => {
+      if (!byPlatform[r.plat]) byPlatform[r.plat] = { followers: 0, views: 0, likes: 0, accounts: 0, posts: 0 };
+      byPlatform[r.plat].followers += r.fol; byPlatform[r.plat].views += r.views; byPlatform[r.plat].likes += r.likes; byPlatform[r.plat].accounts++; byPlatform[r.plat].posts += r.posts;
+    });
+    setDashData({ totalFollowers, totalFollowing, totalViews, totalLikes, totalComments, totalPosts, engRate, avgViewsPerPost, bestAccount, byBrand, byPlatform, accountRows, count: accountRows.length });
     setDashLoading(false);
   }, [brandAccounts]);
 
@@ -94,7 +102,9 @@ export default function Accounts() {
     setSnData(Array.isArray(d.value) ? d.value : []);
   }, []);
 
-  useEffect(() => { loadBrands(); }, []);
+  useEffect(() => { loadBrands().then(()=>{}); }, []);
+  // Auto-load dashboard when brands are loaded
+  useEffect(() => { if (Object.keys(brandAccounts).length > 0 && !dashData && !dashLoading && !selected) loadDashboard(brandAccounts); }, [brandAccounts]);
   useEffect(() => { if (subTab === 'network') loadSN(); }, [subTab]);
 
   const addBrandAccount = async () => {
@@ -355,34 +365,88 @@ export default function Accounts() {
 
                 {!dashLoading && dashData && (
                   <>
-                    {/* Top stats */}
-                    <div style={{ display: 'flex', gap: 12, marginBottom: 16 }}>
+                    {/* Row 1: Key metrics */}
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10, marginBottom: 14 }}>
                       {[
-                        { val: dashData.count, lbl: 'accounts', color: '#6366f1' },
                         { val: fmtN(dashData.totalFollowers), lbl: 'total followers', color: '#fafafa' },
-                        { val: fmtN(dashData.totalViews), lbl: 'total views', color: '#4ade80' },
+                        { val: fmtN(dashData.totalViews), lbl: 'total views (recent)', color: '#4ade80' },
                         { val: fmtN(dashData.totalLikes), lbl: 'total likes', color: '#fb923c' },
-                        { val: fmtN(dashData.totalComments), lbl: 'comments', color: '#a855f7' },
-                        { val: dashData.engRate + '%', lbl: 'eng rate', color: '#ec4899' },
+                        { val: dashData.engRate + '%', lbl: 'engagement rate', color: '#6366f1' },
                       ].map((s, i) => (
-                        <div key={i} style={{ flex: 1, padding: '12px 14px', background: '#111113', borderRadius: 8, border: '1px solid #1c1c1f' }}>
-                          <div style={{ fontSize: '1.1rem', fontWeight: 700, color: s.color, fontVariantNumeric: 'tabular-nums' }}>{s.val}</div>
-                          <div style={{ fontSize: '0.48rem', color: '#3f3f46', textTransform: 'uppercase', marginTop: 3 }}>{s.lbl}</div>
+                        <div key={i} style={{ padding: '14px 16px', background: '#111113', borderRadius: 8, border: '1px solid #1c1c1f' }}>
+                          <div style={{ fontSize: '1.4rem', fontWeight: 700, color: s.color, fontVariantNumeric: 'tabular-nums', lineHeight: 1 }}>{s.val}</div>
+                          <div style={{ fontSize: '0.52rem', color: '#3f3f46', marginTop: 5 }}>{s.lbl}</div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Row 2: Secondary metrics */}
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 10, marginBottom: 18 }}>
+                      {[
+                        { val: dashData.count, lbl: 'accounts' },
+                        { val: fmtN(dashData.totalFollowing), lbl: 'total following' },
+                        { val: fmtN(dashData.totalComments), lbl: 'total comments' },
+                        { val: fmtN(dashData.totalPosts), lbl: 'recent posts' },
+                        { val: fmtN(dashData.avgViewsPerPost), lbl: 'avg views/post' },
+                      ].map((s, i) => (
+                        <div key={i} style={{ padding: '10px 12px', background: '#111113', borderRadius: 8, border: '1px solid #1c1c1f' }}>
+                          <div style={{ fontSize: '0.95rem', fontWeight: 600, color: '#a1a1aa', fontVariantNumeric: 'tabular-nums' }}>{s.val}</div>
+                          <div style={{ fontSize: '0.48rem', color: '#3f3f46', marginTop: 3 }}>{s.lbl}</div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Best account highlight */}
+                    {dashData.bestAccount && (
+                      <div style={{ padding: '12px 16px', background: '#111113', borderRadius: 8, border: '1px solid #1c1c1f', borderLeft: '3px solid #4ade80', marginBottom: 18, display: 'flex', alignItems: 'center', gap: 14, cursor: 'pointer' }}
+                        onClick={() => loadProfile(dashData.bestAccount.brand, dashData.bestAccount.plat, dashData.bestAccount.handle)}
+                        onMouseOver={e => e.currentTarget.style.background = '#18181b'}
+                        onMouseOut={e => e.currentTarget.style.background = '#111113'}
+                      >
+                        <div>
+                          <div style={{ fontSize: '0.5rem', color: '#4ade80', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600, marginBottom: 4 }}>top account</div>
+                          <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#fafafa' }}>@{dashData.bestAccount.handle}</div>
+                          <div style={{ fontSize: '0.55rem', color: '#52525b', marginTop: 2 }}>{dashData.bestAccount.plat} · {dashData.bestAccount.brand}</div>
+                        </div>
+                        <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
+                          <div style={{ fontSize: '1rem', fontWeight: 700, color: '#fafafa' }}>{fmtN(dashData.bestAccount.fol)}</div>
+                          <div style={{ fontSize: '0.52rem', color: '#3f3f46' }}>followers</div>
+                        </div>
+                        <div style={{ textAlign: 'right' }}>
+                          <div style={{ fontSize: '0.75rem', fontWeight: 600, color: '#4ade80' }}>{fmtN(dashData.bestAccount.views)}</div>
+                          <div style={{ fontSize: '0.52rem', color: '#3f3f46' }}>views</div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* By platform */}
+                    <div style={{ fontSize: '0.55rem', color: '#3f3f46', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8, fontWeight: 500 }}>by platform</div>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 8, marginBottom: 18 }}>
+                      {Object.entries(dashData.byPlatform).sort((a, b) => b[1].followers - a[1].followers).map(([plat, s]) => (
+                        <div key={plat} style={{ padding: '10px 12px', background: '#111113', borderRadius: 8, border: '1px solid #1c1c1f' }}>
+                          <div style={{ fontSize: '0.6rem', color: '#a1a1aa', fontWeight: 500, marginBottom: 4 }}>
+                            {PLAT_LABELS[plat] || plat} · {s.accounts}
+                          </div>
+                          <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#fafafa', fontVariantNumeric: 'tabular-nums' }}>{fmtN(s.followers)}</div>
+                          <div style={{ display: 'flex', gap: 8, marginTop: 4, fontSize: '0.5rem', color: '#52525b' }}>
+                            <span>{fmtN(s.views)} views</span>
+                            <span>{fmtN(s.likes)} likes</span>
+                            <span>{s.posts} posts</span>
+                          </div>
                         </div>
                       ))}
                     </div>
 
                     {/* By brand */}
                     <div style={{ fontSize: '0.55rem', color: '#3f3f46', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8, fontWeight: 500 }}>by brand</div>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 8, marginBottom: 16 }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 8, marginBottom: 18 }}>
                       {Object.entries(dashData.byBrand).sort((a, b) => b[1].followers - a[1].followers).map(([brand, s]) => (
-                        <div key={brand} style={{ padding: '12px 14px', background: '#111113', borderRadius: 8, border: '1px solid #1c1c1f' }}>
-                          <div style={{ fontSize: '0.58rem', color: '#6366f1', fontWeight: 500, marginBottom: 6 }}>
-                            {BRANDS.find(b => b.id === brand)?.name || brand} {'\u00b7'} {s.accounts} acc
+                        <div key={brand} style={{ padding: '10px 12px', background: '#111113', borderRadius: 8, border: '1px solid #1c1c1f' }}>
+                          <div style={{ fontSize: '0.6rem', color: '#6366f1', fontWeight: 500, marginBottom: 4 }}>
+                            {BRANDS.find(b => b.id === brand)?.name || brand} · {s.accounts} acc
                           </div>
-                          <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#fafafa', fontVariantNumeric: 'tabular-nums' }}>{fmtN(s.followers)}</div>
-                          <div style={{ fontSize: '0.48rem', color: '#3f3f46' }}>followers</div>
-                          <div style={{ display: 'flex', gap: 8, marginTop: 6, fontSize: '0.52rem', color: '#52525b' }}>
+                          <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#fafafa', fontVariantNumeric: 'tabular-nums' }}>{fmtN(s.followers)}</div>
+                          <div style={{ display: 'flex', gap: 8, marginTop: 4, fontSize: '0.5rem', color: '#52525b' }}>
                             <span>{fmtN(s.views)} views</span>
                             <span>{fmtN(s.likes)} likes</span>
                           </div>
@@ -390,8 +454,8 @@ export default function Accounts() {
                       ))}
                     </div>
 
-                    {/* Ranked accounts */}
-                    <div style={{ fontSize: '0.55rem', color: '#3f3f46', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8, fontWeight: 500 }}>all accounts {'\u00b7'} ranked by followers</div>
+                    {/* All accounts ranked */}
+                    <div style={{ fontSize: '0.55rem', color: '#3f3f46', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8, fontWeight: 500 }}>all accounts · ranked by followers</div>
                     {dashData.accountRows.map((r, i) => (
                       <div key={i} onClick={() => loadProfile(r.brand, r.plat, r.handle)} style={{
                         display: 'flex', gap: 14, alignItems: 'center', padding: '10px 8px',
@@ -400,13 +464,14 @@ export default function Accounts() {
                         onMouseOver={e => e.currentTarget.style.background = '#111113'}
                         onMouseOut={e => e.currentTarget.style.background = ''}
                       >
+                        <span style={{ fontSize: '0.72rem', color: '#52525b', fontWeight: 500, minWidth: 18, textAlign: 'right' }}>{i + 1}</span>
                         <span style={{ fontSize: '0.55rem', color: '#52525b', fontWeight: 600, minWidth: 22 }}>{PLAT_LABELS[r.plat] || r.plat.slice(0,2).toUpperCase()}</span>
                         <div style={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontSize: '0.72rem', fontWeight: 500, color: '#fafafa' }}>@{r.handle}</div>
-                        <span style={{ fontSize: '0.65rem', fontWeight: 600, color: '#fafafa', fontVariantNumeric: 'tabular-nums', minWidth: 60, textAlign: 'right' }}>{fmtN(r.fol)}</span>
-                        <span style={{ fontSize: '0.58rem', color: '#52525b', fontVariantNumeric: 'tabular-nums', minWidth: 55, textAlign: 'right' }}>{fmtN(r.views)} v</span>
-                        <span style={{ fontSize: '0.58rem', color: '#52525b', fontVariantNumeric: 'tabular-nums', minWidth: 55, textAlign: 'right' }}>{fmtN(r.likes)} l</span>
-                        <span style={{ fontSize: '0.58rem', color: '#52525b', fontVariantNumeric: 'tabular-nums', minWidth: 55, textAlign: 'right' }}>{fmtN(r.comments)} c</span>
-                        <span style={{ fontSize: '0.52rem', color: '#3f3f46' }}>{r.brand}</span>
+                        <span style={{ fontSize: '0.68rem', fontWeight: 600, color: '#fafafa', fontVariantNumeric: 'tabular-nums', minWidth: 65, textAlign: 'right' }}>{fmtN(r.fol)}</span>
+                        <span style={{ fontSize: '0.58rem', color: '#52525b', fontVariantNumeric: 'tabular-nums', minWidth: 60, textAlign: 'right' }}>{fmtN(r.views)} views</span>
+                        <span style={{ fontSize: '0.58rem', color: '#52525b', fontVariantNumeric: 'tabular-nums', minWidth: 55, textAlign: 'right' }}>{fmtN(r.likes)} likes</span>
+                        <span style={{ fontSize: '0.58rem', color: '#52525b', fontVariantNumeric: 'tabular-nums', minWidth: 50, textAlign: 'right' }}>{fmtN(r.comments)} cmt</span>
+                        <span style={{ fontSize: '0.52rem', color: '#3f3f46', minWidth: 50 }}>{r.brand}</span>
                       </div>
                     ))}
                   </>
