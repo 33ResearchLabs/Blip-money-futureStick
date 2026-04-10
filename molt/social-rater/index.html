@@ -7137,9 +7137,19 @@ async function nfGenImage(force){
   if(loadEl)loadEl.textContent='⏳ generating image...';
   NF_IMG_SEED=Math.floor(Math.random()*999999);
   const prompt=await nfBuildImagePrompt();
+  // Try with retry on failure
+  let r=null,lastErr='';
+  for(let attempt=0;attempt<2;attempt++){
+    try{
+      if(attempt>0&&loadEl)loadEl.textContent='⏳ retrying...';
+      r=await fetch('/api/imagegen',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt,width:1024,height:1024,seed:NF_IMG_SEED+attempt})});
+      if(r.ok)break;
+      lastErr=r.status;r=null;
+      await new Promise(x=>setTimeout(x,3000));
+    }catch(e){lastErr=e.message;r=null;}
+  }
   try{
-    const r=await fetch('/api/imagegen',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt,width:1024,height:1024,seed:NF_IMG_SEED})});
-    if(!r.ok)throw new Error(r.status);
+    if(!r||!r.ok)throw new Error(lastErr||'failed');
     const blob=await r.blob();
     const objUrl=URL.createObjectURL(blob);
     box.style.backgroundImage='url("'+objUrl+'")';

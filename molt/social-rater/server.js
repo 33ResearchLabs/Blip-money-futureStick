@@ -1186,17 +1186,39 @@ app.get('/api/engine/dashboard', (req, res) => {
   });
 });
 
-// ============ IMAGE GEN (server-side Pollinations proxy) ============
+// ============ IMAGE GEN (server-side, multi-provider) ============
+async function tryImageProviders(prompt, w, h, seed) {
+  const providers = [
+    // Pollinations (primary)
+    `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=${w}&height=${h}&seed=${seed}&nologo=true&enhance=true`,
+    // Pollinations with different model
+    `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=${w}&height=${h}&seed=${seed + 1}&nologo=true&enhance=true&model=flux`,
+    // Pollinations retry with delay
+    null, // placeholder for retry
+  ];
+  for (let i = 0; i < providers.length; i++) {
+    if (providers[i] === null) {
+      // Wait 3s before retry
+      await new Promise(r => setTimeout(r, 3000));
+      providers[i] = providers[0]; // retry first URL
+    }
+    try {
+      const r = await fetch(providers[i], { timeout: 60000 });
+      if (r.ok) return r;
+    } catch {}
+  }
+  return null;
+}
+
 app.post('/api/imagegen', async (req, res) => {
   const { prompt, width, height, seed } = req.body;
   if (!prompt) return res.status(400).json({ ok: false, error: 'no prompt' });
   const w = Math.min(width || 1024, 1536);
   const h = Math.min(height || 1024, 1536);
   const s = seed || Math.floor(Math.random() * 999999);
-  const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=${w}&height=${h}&seed=${s}&nologo=true&enhance=true`;
   try {
-    const r = await fetch(url, { timeout: 60000 });
-    if (!r.ok) throw new Error('pollinations returned ' + r.status);
+    const r = await tryImageProviders(prompt, w, h, s);
+    if (!r) throw new Error('all image providers failed (rate limited) — try again in 30s');
     const ct = r.headers.get('content-type') || 'image/jpeg';
     res.set('Content-Type', ct);
     res.set('Cache-Control', 'public, max-age=3600');
