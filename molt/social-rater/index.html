@@ -2063,6 +2063,7 @@ if(tkuAi)tkuAi.onclick=async()=>{
         <button class="sn-filt" data-sf="other">other</button>
       </div>
       <input id="snSearch" class="an2-w" placeholder="search..." style="padding:4px 8px;font-size:.56rem;margin-bottom:6px">
+      <div class="an2-brand" id="snSummaryBtn" style="border-left:2px solid #f97316;margin-bottom:6px;cursor:pointer;font-size:.6rem;color:#f97316;font-weight:600">📊 all accounts summary</div>
       <div class="an2-grp-h">support accounts · <span id="snCount">0</span></div>
       <div id="snList"></div>
     </aside>
@@ -2206,6 +2207,113 @@ function snRenderProfile(a,d){
 
   view.innerHTML=h;
 }
+
+// Summary dashboard — fetch all accounts in parallel
+async function snLoadSummary(){
+  const view=document.getElementById('snView');
+  SN_SELECTED=null;snRender();
+  document.getElementById('snSummaryBtn').classList.add('active');
+  const supportable=SN_DATA.filter(a=>['instagram','x','twitter','youtube','tiktok'].includes(a.platform));
+  if(!supportable.length){view.innerHTML='<div style="padding:40px;text-align:center;color:#5a606c;font-size:.7rem">no IG/X/YT/TT accounts to summarize — add some first</div>';return;}
+  view.innerHTML='<div style="text-align:center;color:#9ba3af;padding:60px 20px;font-size:.7rem">⏳ loading '+supportable.length+' accounts...</div>';
+
+  const epMap={instagram:'/dl/insta',x:'/dl/twitter',twitter:'/dl/twitter',youtube:'/dl/youtube',tiktok:'/dl/tiktok'};
+  const results=[];
+  // Fetch in batches of 3
+  for(let i=0;i<supportable.length;i+=3){
+    const batch=supportable.slice(i,i+3);
+    const fetched=await Promise.allSettled(batch.map(async a=>{
+      const ep=epMap[a.platform];if(!ep)return null;
+      const r=await fetch(ep+'?u='+encodeURIComponent(a.handle));const d=await r.json();
+      if(!d.ok)return null;
+      return{account:a,data:d};
+    }));
+    fetched.forEach(r=>{if(r.status==='fulfilled'&&r.value)results.push(r.value);});
+    view.innerHTML='<div style="text-align:center;color:#9ba3af;padding:60px 20px;font-size:.7rem">⏳ loaded '+results.length+'/'+supportable.length+'...</div>';
+  }
+
+  const toInt=v=>{if(typeof v==='number')return v;if(typeof v==='string'){const n=v.replace(/,/g,'');const m=n.match(/([\d.]+)\s*([KkMm]?)/);if(!m)return 0;let x=parseFloat(m[1]);if(/[Kk]/.test(m[2]))x*=1000;if(/[Mm]/.test(m[2]))x*=1e6;return Math.round(x);}return 0;};
+  const fmtN=n=>{if(!n)return '0';if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return n.toLocaleString();};
+
+  // Aggregate
+  let totalFollowers=0,totalFollowing=0,totalViews=0,totalLikes=0,totalComments=0,totalPosts=0;
+  const byPlatform={},byBrand={};
+  results.forEach(({account:a,data:d})=>{
+    const posts=d.posts||d.recent||[];
+    const fol=toInt(d.followers);
+    totalFollowers+=fol;
+    totalFollowing+=toInt(d.following);
+    posts.forEach(p=>{
+      totalViews+=toInt(p.video_view_count||p.play_count||p.view_count)||0;
+      totalLikes+=toInt(p.likes||p.like_count)||0;
+      totalComments+=toInt(p.comments||p.comment_count)||0;
+      totalPosts++;
+    });
+    // By platform
+    if(!byPlatform[a.platform])byPlatform[a.platform]={accounts:0,followers:0,views:0,likes:0,posts:0};
+    const bp=byPlatform[a.platform];bp.accounts++;bp.followers+=fol;
+    posts.forEach(p=>{bp.views+=toInt(p.video_view_count||p.play_count||p.view_count)||0;bp.likes+=toInt(p.likes||p.like_count)||0;bp.posts++;});
+    // By brand
+    const br=a.brand||'all';
+    if(!byBrand[br])byBrand[br]={accounts:0,followers:0,views:0,likes:0};
+    byBrand[br].accounts++;byBrand[br].followers+=fol;
+    posts.forEach(p=>{byBrand[br].views+=toInt(p.video_view_count||p.play_count||p.view_count)||0;byBrand[br].likes+=toInt(p.likes||p.like_count)||0;});
+  });
+  const engRate=totalFollowers?(((totalLikes+totalComments)/(totalPosts||1))/totalFollowers*100).toFixed(2):'—';
+
+  let h='<div style="font-size:.6rem;color:#f97316;text-transform:uppercase;letter-spacing:.12em;margin-bottom:12px;font-weight:600">📊 support network summary · '+results.length+'/'+supportable.length+' loaded</div>';
+
+  // Top stats
+  h+='<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:14px">';
+  h+='<div style="background:#0c0e14;border:1px solid #14161e;border-radius:4px;padding:10px"><div style="font-size:1.2rem;font-weight:700;color:#fff">'+results.length+'</div><div style="font-size:.48rem;color:#5a606c;text-transform:uppercase;margin-top:2px">accounts</div></div>';
+  h+='<div style="background:#0c0e14;border:1px solid #14161e;border-radius:4px;padding:10px"><div style="font-size:1.2rem;font-weight:700;color:#fff">'+fmtN(totalFollowers)+'</div><div style="font-size:.48rem;color:#5a606c;text-transform:uppercase;margin-top:2px">total followers</div></div>';
+  h+='<div style="background:#0c0e14;border:1px solid #14161e;border-radius:4px;padding:10px"><div style="font-size:1.2rem;font-weight:700;color:#fff">'+fmtN(totalViews)+'</div><div style="font-size:.48rem;color:#5a606c;text-transform:uppercase;margin-top:2px">total views</div></div>';
+  h+='<div style="background:#0c0e14;border:1px solid #14161e;border-radius:4px;padding:10px"><div style="font-size:1.2rem;font-weight:700;color:#fff">'+fmtN(totalLikes)+'</div><div style="font-size:.48rem;color:#5a606c;text-transform:uppercase;margin-top:2px">total likes</div></div>';
+  h+='<div style="background:#0c0e14;border:1px solid #14161e;border-radius:4px;padding:10px"><div style="font-size:1.2rem;font-weight:700;color:#fff">'+fmtN(totalComments)+'</div><div style="font-size:.48rem;color:#5a606c;text-transform:uppercase;margin-top:2px">comments</div></div>';
+  h+='<div style="background:#0c0e14;border:1px solid #14161e;border-radius:4px;padding:10px"><div style="font-size:1.2rem;font-weight:700;color:#fff">'+engRate+'%</div><div style="font-size:.48rem;color:#5a606c;text-transform:uppercase;margin-top:2px">eng rate</div></div>';
+  h+='</div>';
+
+  // By platform
+  h+='<div style="font-size:.52rem;color:#5a606c;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">by platform</div>';
+  h+='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:6px;margin-bottom:14px">';
+  Object.entries(byPlatform).sort((a,b)=>b[1].followers-a[1].followers).forEach(([plat,s])=>{
+    h+='<div style="background:#0c0e14;border:1px solid #14161e;border-radius:4px;padding:8px"><div style="font-size:.58rem;color:#f97316;font-weight:600;margin-bottom:4px">'+(_platIcons[plat]||'')+' '+_esc(plat)+' · '+s.accounts+' acc</div>'+
+      '<div style="font-size:.78rem;font-weight:700;color:#fff">'+fmtN(s.followers)+'</div><div style="font-size:.45rem;color:#5a606c">followers</div>'+
+      '<div style="display:flex;gap:8px;margin-top:4px;font-size:.48rem;color:#5a606c"><span>👁 '+fmtN(s.views)+'</span><span>♥ '+fmtN(s.likes)+'</span><span>📝 '+s.posts+'</span></div></div>';
+  });
+  h+='</div>';
+
+  // By brand
+  h+='<div style="font-size:.52rem;color:#5a606c;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">by brand</div>';
+  h+='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:6px;margin-bottom:14px">';
+  Object.entries(byBrand).sort((a,b)=>b[1].followers-a[1].followers).forEach(([brand,s])=>{
+    h+='<div style="background:#0c0e14;border:1px solid #14161e;border-radius:4px;padding:8px"><div style="font-size:.58rem;color:#5b8aff;font-weight:600;margin-bottom:4px">'+_esc(brand)+' · '+s.accounts+' acc</div>'+
+      '<div style="font-size:.78rem;font-weight:700;color:#fff">'+fmtN(s.followers)+'</div><div style="font-size:.45rem;color:#5a606c">followers</div>'+
+      '<div style="display:flex;gap:8px;margin-top:4px;font-size:.48rem;color:#5a606c"><span>👁 '+fmtN(s.views)+'</span><span>♥ '+fmtN(s.likes)+'</span></div></div>';
+  });
+  h+='</div>';
+
+  // Per-account table
+  h+='<div style="font-size:.52rem;color:#5a606c;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">all accounts ranked by followers</div>';
+  const sorted=results.sort((a,b)=>toInt(b.data.followers)-toInt(a.data.followers));
+  sorted.forEach(({account:a,data:d})=>{
+    const posts=d.posts||d.recent||[];
+    const views=posts.reduce((s,p)=>s+(toInt(p.video_view_count||p.play_count||p.view_count)||0),0);
+    const likes=posts.reduce((s,p)=>s+(toInt(p.likes||p.like_count)||0),0);
+    h+='<div style="display:grid;grid-template-columns:24px 1fr 80px 70px 70px 60px;gap:8px;padding:6px 8px;background:#0c0e14;border:1px solid #14161e;border-radius:3px;margin-bottom:2px;font-size:.6rem;align-items:center;cursor:pointer" onclick="SN_SELECTED=SN_DATA.find(x=>x.id===\''+_esc(a.id)+'\');snRender();snLoadProfile(SN_SELECTED)">'+
+      '<span style="color:#f97316">'+(_platIcons[a.platform]||'•')+'</span>'+
+      '<div style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#d6dde6;font-weight:500">@'+_esc(a.handle)+'</div>'+
+      '<div style="text-align:right;color:#fff;font-weight:600">'+fmtN(toInt(d.followers))+'</div>'+
+      '<div style="text-align:right;color:#9ba3af">👁 '+fmtN(views)+'</div>'+
+      '<div style="text-align:right;color:#9ba3af">♥ '+fmtN(likes)+'</div>'+
+      '<div><span style="font-size:.45rem;padding:1px 5px;border-radius:2px;background:#1a1f2e;color:#5b8aff">'+_esc(a.brand||'all')+'</span></div>'+
+    '</div>';
+  });
+
+  view.innerHTML=h;
+}
+
+document.getElementById('snSummaryBtn').onclick=snLoadSummary;
 
 // Add single
 document.getElementById('snAddBtn').onclick=function(){
