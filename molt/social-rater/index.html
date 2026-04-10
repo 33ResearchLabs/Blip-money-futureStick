@@ -7098,22 +7098,15 @@ async function nfGenImage(force){
   if(loadEl)loadEl.textContent='⏳ generating image...';
   NF_IMG_SEED=Math.floor(Math.random()*999999);
   const prompt=await nfBuildImagePrompt();
-  const polUrl='https://image.pollinations.ai/prompt/'+encodeURIComponent(prompt)+'?width=1024&height=1024&seed='+NF_IMG_SEED+'&nologo=true&enhance=true';
-  // Proxy through server to avoid CORS
-  const proxyUrl='/dl/proxy?u='+encodeURIComponent(polUrl);
   try{
-    const r=await fetch(proxyUrl);
+    const r=await fetch('/api/imagegen',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt,width:1024,height:1024,seed:NF_IMG_SEED})});
     if(!r.ok)throw new Error(r.status);
     const blob=await r.blob();
     const objUrl=URL.createObjectURL(blob);
     box.style.backgroundImage='url("'+objUrl+'")';
     if(loadEl)loadEl.style.display='none';
   }catch(e){
-    // Fallback: direct load
-    const img=new Image();
-    img.onload=()=>{box.style.backgroundImage='url("'+polUrl+'")';if(loadEl)loadEl.style.display='none';};
-    img.onerror=()=>{if(loadEl){loadEl.style.display='flex';loadEl.textContent='⚠ image failed — click regenerate';}};
-    img.src=polUrl;
+    if(loadEl){loadEl.style.display='flex';loadEl.textContent='⚠ image failed ('+e.message+') — click regenerate';}
   }
 }
 const NF_PLAT_RULES={
@@ -8173,24 +8166,17 @@ async function stGenImage(){
   const style=document.getElementById('stImgStyle').value;
   const ratio=document.getElementById('stRatio').value.split('x');
   const btn=document.getElementById('stImgGen');btn.disabled=true;btn.textContent='⏳ generating...';
-  const polUrl='https://image.pollinations.ai/prompt/'+encodeURIComponent(kw+', '+style+', no text')+'?width='+ratio[0]+'&height='+ratio[1]+'&seed='+Math.floor(Math.random()*999999)+'&nologo=true&enhance=true';
-  // Proxy through server to avoid CORS issues
-  const proxyUrl='/dl/proxy?u='+encodeURIComponent(polUrl);
   try{
-    const r=await fetch(proxyUrl);
-    if(!r.ok) throw new Error('proxy returned '+r.status);
+    const r=await fetch('/api/imagegen',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:kw+', '+style+', no text',width:+ratio[0],height:+ratio[1]})});
+    if(!r.ok)throw new Error(r.status);
     const blob=await r.blob();
     const objUrl=URL.createObjectURL(blob);
     const im=new Image();
-    im.onload=()=>{ST_BG_IMG=im;stCanvas.width=+ratio[0];stCanvas.height=+ratio[1];stRender();btn.disabled=false;btn.textContent='⚡ generate image';URL.revokeObjectURL(objUrl);};
-    im.onerror=()=>{btn.disabled=false;btn.textContent='⚡ generate image';alert('image gen failed — try again');URL.revokeObjectURL(objUrl);};
+    im.onload=()=>{ST_BG_IMG=im;stCanvas.width=+ratio[0];stCanvas.height=+ratio[1];stRender();btn.disabled=false;btn.textContent='⚡ generate image';};
+    im.onerror=()=>{btn.disabled=false;btn.textContent='⚡ generate image';alert('image gen failed');};
     im.src=objUrl;
   }catch(e){
-    // Fallback: try direct load without crossOrigin
-    const im=new Image();
-    im.onload=()=>{ST_BG_IMG=im;stCanvas.width=+ratio[0];stCanvas.height=+ratio[1];stRender();btn.disabled=false;btn.textContent='⚡ generate image';};
-    im.onerror=()=>{btn.disabled=false;btn.textContent='⚡ generate image';alert('image gen failed: '+e.message);};
-    im.src=polUrl;
+    btn.disabled=false;btn.textContent='⚡ generate image';alert('image gen failed: '+e.message);
   }
 }
 async function stAiSuggest(){

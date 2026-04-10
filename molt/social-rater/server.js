@@ -1186,6 +1186,26 @@ app.get('/api/engine/dashboard', (req, res) => {
   });
 });
 
+// ============ IMAGE GEN (server-side Pollinations proxy) ============
+app.post('/api/imagegen', async (req, res) => {
+  const { prompt, width, height, seed } = req.body;
+  if (!prompt) return res.status(400).json({ ok: false, error: 'no prompt' });
+  const w = Math.min(width || 1024, 1536);
+  const h = Math.min(height || 1024, 1536);
+  const s = seed || Math.floor(Math.random() * 999999);
+  const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=${w}&height=${h}&seed=${s}&nologo=true&enhance=true`;
+  try {
+    const r = await fetch(url, { timeout: 60000 });
+    if (!r.ok) throw new Error('pollinations returned ' + r.status);
+    const ct = r.headers.get('content-type') || 'image/jpeg';
+    res.set('Content-Type', ct);
+    res.set('Cache-Control', 'public, max-age=3600');
+    r.body.pipe(res);
+  } catch (e) {
+    res.status(502).json({ ok: false, error: e.message });
+  }
+});
+
 // ============ AI PROXY (server-side Anthropic key) ============
 const AI_KEY = process.env.ANTHROPIC_API_KEY || '';
 
