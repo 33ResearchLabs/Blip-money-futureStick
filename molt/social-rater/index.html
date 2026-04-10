@@ -3847,12 +3847,24 @@ let genPlat='instagram',upPlat='instagram',upB64=null,upType=null;
 let genB64=null,genUrl=null,attempts=0,scores=[],autoMode=false,lastResult=null;
 let saved=JSON.parse(localStorage.getItem('moltSaved')||'[]');
 // Global API key getter — single source of truth
-window.getApiKey=function(){
+window.getApiKey=function(silent){
   let k=($('apiKey')?.value||'').trim();
   if(!k)k=(document.getElementById('apiKeyInput')?.value||'').trim();
   if(!k)k=localStorage.getItem('moltKey')||'';
+  // If still no key, prompt user once
+  if(!k&&!silent&&!window._apiKeyPrompted){
+    window._apiKeyPrompted=true;
+    const input=prompt('Paste your Anthropic API key (sk-ant-...).\nThis is saved in your browser only.');
+    if(input&&input.trim().startsWith('sk-')){
+      k=input.trim();
+      localStorage.setItem('moltKey',k);
+    }
+  }
   // Sync back so all readers see it
-  if(k&&$('apiKey'))$('apiKey').value=k;
+  if(k){
+    if($('apiKey'))$('apiKey').value=k;
+    const ki=document.getElementById('apiKeyInput');if(ki)ki.value=k;
+  }
   return k;
 };
 const storedKey=localStorage.getItem('moltKey');
@@ -6750,7 +6762,7 @@ async function nfOpenForge(item){
   // Full-screen forge overlay (studio-like layout)
   let f=document.getElementById('nfForge');
   if(!f){f=document.createElement('div');f.id='nfForge';document.body.appendChild(f);}
-  f.style.cssText='position:fixed;inset:0;z-index:9999;background:#06060a;display:flex;flex-direction:column;font-family:"SF Mono","JetBrains Mono","Menlo",monospace';
+  f.style.cssText='position:fixed;top:48px;left:0;right:0;bottom:0;z-index:199;background:#06060a;display:flex;flex-direction:column;font-family:"SF Mono","JetBrains Mono","Menlo",monospace';
 
   f.innerHTML=`
   <div style="display:flex;align-items:center;gap:8px;padding:8px 14px;background:#0a0c12;border-bottom:1px solid #14161e;flex-shrink:0">
@@ -6844,22 +6856,57 @@ async function nfOpenForge(item){
   nfGenText(false);
 }
 async function nfBuildImagePrompt(){
-  // Try AI-generated prompt using article context for better relevance
   const head=document.getElementById('nfHead')?.value||NF_CURRENT.title||'';
-  const body=(NF_CURRENT.summary||NF_CURRENT.description||NF_CURRENT.body||'').slice(0,500);
+  const body=(NF_CURRENT.summary||NF_CURRENT.description||NF_CURRENT.body||'').slice(0,800);
   const style=(document.getElementById('nfImgStyle')?.value)||'editorial photo, cinematic lighting, premium magazine';
-  let key=typeof getApiKey==='function'?getApiKey():localStorage.getItem('moltKey')||'';
-  if(key&&body){
+  let key=typeof getApiKey==='function'?getApiKey(true):localStorage.getItem('moltKey')||'';
+
+  if(key){
     try{
-      const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:200,messages:[{role:'user',content:`Convert this news story into ONE vivid image generation prompt (1-2 sentences). Describe a VISUAL SCENE that represents the story's meaning — NOT literal text. Focus on symbols, metaphors, objects, settings. No text in the image. No logos.\n\nHeadline: ${head}\nSummary: ${body}\nStyle: ${style}\n\nOutput ONLY the image prompt, nothing else.`}]})});
+      const sysPrompt=`You are an expert visual director for a premium news publication. Your job: convert a news headline into an image generation prompt for AI (Stable Diffusion / Flux).
+
+CRITICAL RULES:
+- NEVER describe text, logos, words, letters, or UI elements
+- NEVER literally depict what words say — instead find the VISUAL METAPHOR
+- Think like a Reuters/Bloomberg photo editor choosing the perfect stock image
+- Use CONCRETE visual objects: devices, buildings, people, landscapes, objects
+- Include lighting, mood, composition, camera angle
+
+EXAMPLES of good translations:
+- "EFF is leaving X" → "A shattered blue bird logo dissolving into pixels, with a shield of digital privacy rising from the fragments, dark dramatic lighting, tech editorial photography"
+- "Bitcoin hits 100K" → "A golden coin reflecting city skyline lights, shot from below with dramatic upward perspective, warm amber glow, financial editorial photography"
+- "Apple announces new AI features" → "A sleek minimalist device glowing with neural network patterns, floating in dark space, clean Apple-style product photography"
+- "Congress passes new crypto bill" → "A gavel striking next to a holographic blockchain visualization in a marble government chamber, dramatic side lighting"
+
+Now convert this story:`;
+      const userPrompt=`Headline: ${head}
+Context: ${body||head}
+Visual style: ${style}
+
+Write ONE image prompt (2-3 sentences max). Output ONLY the prompt.`;
+      const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:250,system:sysPrompt,messages:[{role:'user',content:userPrompt}]})});
       const j=await r.json();
       const txt=(j.content&&j.content[0]&&j.content[0].text||'').trim();
-      if(txt&&txt.length>20)return txt+', '+style+', no text, no words, no letters';
+      if(txt&&txt.length>20)return txt+', absolutely no text, no words, no letters, no logos, no watermarks';
     }catch{}
   }
-  // Fallback: expand headline with context keywords
-  const contextWords=(body||'').split(/\s+/).filter(w=>w.length>5).slice(0,5).join(' ');
-  return head+' '+contextWords+', '+style+', conceptual editorial illustration, symbolic, no text, no words, no letters';
+  // Fallback without API: build a conceptual prompt from keywords
+  const keywords=(body||head).toLowerCase();
+  let scene='abstract conceptual editorial illustration';
+  if(/crypto|bitcoin|blockchain|defi/i.test(keywords))scene='golden digital coins and blockchain nodes floating in dark space, neon blue connections';
+  else if(/ai|artificial|gpt|model|neural/i.test(keywords))scene='neural network visualization with glowing nodes and data streams, futuristic tech environment';
+  else if(/market|stock|finance|etf|invest/i.test(keywords))scene='financial charts and trading screens reflected in glass, dramatic Wall Street lighting';
+  else if(/hack|breach|security|privacy|data/i.test(keywords))scene='cracked digital shield with data fragments scattering, red alert glow, cybersecurity concept';
+  else if(/social|twitter|meta|tiktok|platform/i.test(keywords))scene='interconnected social media holographic interfaces floating in dark space, digital communication';
+  else if(/climate|energy|green|solar/i.test(keywords))scene='dramatic landscape split between industrial pollution and clean renewable energy, aerial view';
+  else if(/law|regulation|congress|government|bill/i.test(keywords))scene='gavel and scales of justice with digital holographic overlays, marble government architecture';
+  else if(/apple|google|microsoft|tech/i.test(keywords))scene='sleek modern technology devices in a minimalist studio with dramatic product lighting';
+  else if(/war|conflict|military|defense/i.test(keywords))scene='geopolitical map with strategic overlays, dramatic satellite perspective, dark moody atmosphere';
+  else{
+    const words=(body||'').split(/\s+/).filter(w=>w.length>5).slice(0,8).join(' ');
+    scene=words+', conceptual editorial visualization, symbolic';
+  }
+  return scene+', '+style+', absolutely no text, no words, no letters, no logos';
 }
 async function nfGenImage(force){
   if(!NF_CURRENT)return;
