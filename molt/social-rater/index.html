@@ -1982,7 +1982,7 @@ if(tkuAi)tkuAi.onclick=async()=>{
   </div>
 
   <!-- ===== TAB 1: BRAND ACCOUNTS (existing) ===== -->
-  <div class="an2-tabpane active" id="atab-brands">
+  <div id="atab-brands" style="flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column">
   <div class="an2-top">
     <span class="an2-mod">ACCOUNTS</span>
     <span style="font-size:.55rem;color:#6a7180;margin-left:4px;white-space:nowrap">click any to view analytics</span>
@@ -2007,7 +2007,7 @@ if(tkuAi)tkuAi.onclick=async()=>{
     <button class="an2-btn an2-btn-prim" id="an2AddAcc">+ add</button>
     <button class="an2-btn" id="an2Refresh">↻</button>
   </div>
-  <div class="an2-body" style="grid-template-columns:260px 1fr">
+  <div class="an2-body" style="grid-template-columns:260px 1fr;flex:1;min-height:0">
     <aside class="an2-side">
       <div class="an2-grp-h">all accounts</div>
       <div id="an2List"></div>
@@ -2093,8 +2093,15 @@ if(tkuAi)tkuAi.onclick=async()=>{
 document.querySelectorAll('.an2-stab').forEach(b=>b.onclick=function(){
   document.querySelectorAll('.an2-stab').forEach(x=>x.classList.remove('active'));
   this.classList.add('active');
-  document.getElementById('atab-brands').style.display=this.dataset.atab==='brands'?'flex':'none';
-  document.getElementById('atab-network').style.display=this.dataset.atab==='network'?'flex':'none';
+  const brandsPane=document.getElementById('atab-brands');
+  const networkPane=document.getElementById('atab-network');
+  if(this.dataset.atab==='brands'){
+    brandsPane.style.cssText='flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column';
+    networkPane.style.display='none';
+  }else{
+    brandsPane.style.display='none';
+    networkPane.style.cssText='display:flex;flex-direction:column;flex:1;min-height:0';
+  }
   if(this.dataset.atab==='network')snLoad();
 });
 
