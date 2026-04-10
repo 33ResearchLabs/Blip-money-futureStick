@@ -810,13 +810,10 @@ select {
     </select>
   </div>
   <div class="tl-right">
-    <div style="display:flex;align-items:center;gap:4px">
-      <span style="font-size:.48rem;color:#5a606c;text-transform:uppercase;letter-spacing:.08em">key</span>
-      <input type="password" id="apiKeyInput" placeholder="sk-ant-..." style="width:120px;background:#0a0a0a;border:1px solid #1c1e24;color:#5b8aff;padding:4px 7px;border-radius:3px;font-family:'SF Mono','JetBrains Mono',monospace;font-size:.55rem;outline:none" />
-    </div>
     <div class="tl-meta" id="tlClock">--:--:--</div>
-    <button id="logoutBtn" style="background:transparent;border:1px solid var(--color-border);color:var(--color-secondary);font-family:var(--font-mono);font-size:.65rem;padding:5px 11px;border-radius:5px;cursor:pointer;transition:all .12s">↪ logout</button>
   </div>
+  <!-- Hidden key input synced via localStorage -->
+  <input type="hidden" id="apiKeyInput" value="" />
 </div>
 <div class="app-body">
 <aside class="sidebar">
@@ -947,14 +944,16 @@ select {
 <!-- ============ DISCOVER ============ -->
 <div class="tool-view" id="tool-discover">
 <div class="st-shell">
-  <div class="st-top">
-    <span class="st-mod">DISCOVER</span>
-    <span style="font-size:.6rem;color:#6a7180;margin-left:6px">all hot signals · news · videos · images</span>
-    <div style="margin-left:auto;display:flex;gap:4px">
-      <button class="st-btn" data-disc-filter="all">all</button>
-      <button class="st-btn" data-disc-filter="news">📰 news</button>
-      <button class="st-btn" data-disc-filter="videos">🎬 videos</button>
-      <button class="st-btn" id="discRefresh">↻ refresh</button>
+  <div class="st-top" style="flex-wrap:wrap">
+    <span class="st-mod" style="background:#1c1108;color:#f97316;border-color:#3d2508">DISCOVER</span>
+    <span style="font-size:.52rem;color:#6a7180;margin-left:4px">what's working now · competitors · hot clusters · your accounts</span>
+    <div style="margin-left:auto;display:flex;gap:3px;flex-wrap:wrap">
+      <button class="st-btn disc-src active" data-disc-filter="all">all</button>
+      <button class="st-btn disc-src" data-disc-filter="social">📱 social feed</button>
+      <button class="st-btn disc-src" data-disc-filter="clusters">🔥 hot clusters</button>
+      <button class="st-btn disc-src" data-disc-filter="trending">📈 trending</button>
+      <button class="st-btn disc-src" data-disc-filter="news">📰 news</button>
+      <button class="st-btn" id="discRefresh">↻</button>
     </div>
   </div>
   <div id="discList" style="flex:1;overflow-y:auto;padding:0;background:#1c1e24;display:flex;flex-direction:column;gap:1px"><div style="padding:60px;text-align:center;color:#6a7180;font-size:.7rem;background:#0a0a0c">loading...</div></div>
@@ -8016,40 +8015,88 @@ const stCap=document.getElementById('stCaption');if(stCap)stCap.addEventListener
 
 /* ============ DISCOVER LOGIC ============ */
 let DISC_FILTER='all';
+function _de(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
 async function discLoad(){
-  const niche=(BRANDS_DB[CURRENT_BRAND]?.niches?.[0])||'crypto';
   const list=document.getElementById('discList');if(!list)return;
-  list.innerHTML='<div style="padding:60px;text-align:center;color:#6a7180;font-size:.7rem;background:#0a0a0c">loading '+niche+'...</div>';
+  list.innerHTML='<div style="padding:60px;text-align:center;color:#6a7180;font-size:.7rem;background:#0a0a0c">loading...</div>';
   try{
-    const r=await fetch('/api/radar?niche='+niche);const j=await r.json();
-    let items=j.items||[];
-    if(DISC_FILTER==='news')items=items.filter(i=>!/youtube\.com|youtu\.be|tiktok\.com|v\.redd\.it/.test(i.url||'')&&i.src!=='yt'&&i.src!=='ytrend');
-    else if(DISC_FILTER==='videos')items=items.filter(i=>/youtube\.com|youtu\.be|tiktok\.com|v\.redd\.it/.test(i.url||'')||i.src==='yt'||i.src==='ytrend');
-    list.innerHTML=items.slice(0,80).map(it=>{
-      const isVid=/youtube\.com|youtu\.be|tiktok\.com/.test(it.url||'')||it.src==='yt'||it.src==='ytrend';
-      return `<div style="display:grid;grid-template-columns:120px 1fr 80px 60px 100px;gap:10px;padding:6px 10px;background:#0a0a0c;align-items:center;cursor:pointer" data-url="${(it.url||'').replace(/"/g,'&quot;')}" data-title="${(it.title||'').replace(/"/g,'&quot;')}">
-        ${it.thumb?`<div style="width:120px;height:68px;background:#000 url('${(it.thumb||'').replace(/'/g,'')}') center/cover;border-radius:3px"></div>`:'<div style="width:120px;height:68px;background:#15171d;display:flex;align-items:center;justify-content:center;color:#5a606c">'+(isVid?'🎬':'📰')+'</div>'}
-        <div style="font-size:.72rem;color:#d6dde6;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${(it.title||'').replace(/</g,'&lt;').slice(0,150)}</div>
-        <div style="font-size:.6rem;color:#5b8aff">${(it.srcLabel||'').slice(0,15)}</div>
-        <div style="font-size:.65rem;color:#9ba3af;text-align:right">${it.score||0}</div>
-        <div style="display:flex;justify-content:flex-end"><button style="background:#1e3056;color:#a8c4ff;border:1px solid #2a4276;padding:4px 9px;border-radius:3px;font-size:.6rem;cursor:pointer;font-family:inherit">⚡ forge</button></div>
+    let allItems=[];
+
+    // 1. Social feed (your accounts' posts)
+    if(DISC_FILTER==='all'||DISC_FILTER==='social'){
+      try{const r=await fetch('/api/social/feed?limit=50');const d=await r.json();
+      (d.items||[]).forEach(p=>allItems.push({title:p.title||'(no caption)',url:p.url,thumb:p.thumb,source:p.source,score:p.views||p.ups||0,type:'social',has_video:p.has_video,video_url:p.video_url,description:p.title,views:p.views,likes:p.ups,comments:p.comments,brand:p.source_brand}));}catch{}
+    }
+
+    // 2. Hot clusters from engine
+    if(DISC_FILTER==='all'||DISC_FILTER==='clusters'){
+      try{const r=await fetch('/api/engine/clusters?limit=20');const d=await r.json();
+      (d.clusters||[]).forEach(c=>allItems.push({title:c.label+' ('+c.item_count+' items, '+c.source_count+' sources)',url:c.items?.[0]?.url||'',thumb:'',source:'cluster · '+c.emotion,score:c.cluster_score,type:'cluster',has_video:false,description:c.keywords?.join(', '),cluster_id:c.cluster_id}));}catch{}
+    }
+
+    // 3. Trending items (high priority)
+    if(DISC_FILTER==='all'||DISC_FILTER==='trending'){
+      try{const r=await fetch('/dl/trending?limit=30');const d=await r.json();
+      (d.items||[]).filter(i=>!i.auto_filtered).slice(0,30).forEach(t=>allItems.push({title:t.title,url:t.url,thumb:t.thumb,source:t.source,score:t.trend_score||t.velocity||0,type:'trending',has_video:t.has_video,video_url:t.video_url,description:t.title,views:t.views,ups:t.ups,comments:t.comments}));}catch{}
+    }
+
+    // 4. News
+    if(DISC_FILTER==='all'||DISC_FILTER==='news'){
+      try{const r=await fetch('/dl/news/list?limit=20');const d=await r.json();
+      (d.items||[]).slice(0,20).forEach(n=>allItems.push({title:n.title,url:n.url,thumb:n.image,source:n.source,score:n.score||0,type:'news',has_video:false,description:n.description}));}catch{}
+    }
+
+    // Sort by score desc, dedupe
+    allItems.sort((a,b)=>(b.score||0)-(a.score||0));
+    const seen=new Set();
+    allItems=allItems.filter(i=>{const k=(i.title||'').toLowerCase().slice(0,40);if(seen.has(k))return false;seen.add(k);return true;});
+
+    const typeColors={social:'#ec4899',cluster:'#a855f7',trending:'#f97316',news:'#5b8aff'};
+    const typeIcons={social:'📱',cluster:'🔥',trending:'📈',news:'📰'};
+
+    list.innerHTML=allItems.slice(0,100).map((it,i)=>{
+      return `<div class="disc-row" data-idx="${i}">
+        <div class="disc-thumb" style="${it.thumb?'background-image:url('+_de(it.thumb)+')':''}">${!it.thumb?(it.has_video?'▶':'◻'):''}</div>
+        <div class="disc-main">
+          <div class="disc-title">${_de((it.title||'').slice(0,150))}</div>
+          <div class="disc-meta"><span style="color:${typeColors[it.type]||'#5a606c'}">${typeIcons[it.type]||'•'} ${it.type}</span> · ${_de(it.source||'')}${it.views?' · 👁'+it.views:''}${it.likes?' · ♥'+it.likes:''}${it.has_video?' · 🎬 video':''}</div>
+        </div>
+        <div class="disc-score" style="color:${typeColors[it.type]}">${it.score||0}</div>
+        <div class="disc-acts">
+          ${it.has_video&&it.video_url?'<button class="disc-act" onclick="event.stopPropagation();window.open(\''+_de(it.video_url)+'\',\'_blank\')">▶</button>':''}
+          <button class="disc-act disc-act-forge">⚡ forge</button>
+        </div>
       </div>`;
     }).join('')||'<div style="padding:60px;text-align:center;color:#6a7180;font-size:.7rem;background:#0a0a0c">no items</div>';
-    // Attach click → open studio with prefilled
-    list.querySelectorAll('[data-url]').forEach(row=>{
+
+    // Store items for forge click
+    window.__discItems=allItems;
+    list.querySelectorAll('.disc-row').forEach(row=>{
       row.onclick=()=>{
-        document.getElementById('stKeyword').value=row.dataset.title.slice(0,100);
-        document.getElementById('stOvHead').value=row.dataset.title.slice(0,90).toUpperCase();
-        document.querySelector('.tool-switch[data-tool="studio"]').click();
-        setTimeout(()=>{stRender();stAiSuggest();},200);
+        const it=window.__discItems[+row.dataset.idx];if(!it)return;
+        if(typeof nfOpenForge==='function'){
+          nfOpenForge({title:it.title,url:it.url,source:it.source,description:it.description,summary:it.description,srcLabel:it.source});
+        }
       };
     });
   }catch(e){list.innerHTML='<div style="padding:60px;color:#ff5566;background:#0a0a0c">err: '+e.message+'</div>';}
 }
-document.querySelectorAll('[data-disc-filter]').forEach(b=>b.onclick=()=>{DISC_FILTER=b.dataset.discFilter;discLoad();});
+document.querySelectorAll('.disc-src').forEach(b=>b.onclick=function(){
+  document.querySelectorAll('.disc-src').forEach(x=>x.classList.remove('active'));
+  this.classList.add('active');
+  DISC_FILTER=this.dataset.discFilter;
+  discLoad();
+});
 const dr=document.getElementById('discRefresh');if(dr)dr.onclick=discLoad;
 let _discLoaded=false;
 document.querySelectorAll('.tool-switch[data-tool="discover"]').forEach(b=>b.addEventListener('click',()=>{if(!_discLoaded){_discLoaded=true;discLoad();}}));
+
+// Discover row styles
+if(!document.getElementById('disc-row-style')){
+  const s=document.createElement('style');s.id='disc-row-style';
+  s.textContent=`.disc-row{display:grid;grid-template-columns:80px 1fr 50px 90px;gap:8px;padding:7px 10px;background:#0a0a0c;align-items:center;cursor:pointer;transition:background .1s;font-family:inherit}.disc-row:hover{background:#0f1118}.disc-thumb{width:76px;height:48px;background:#15171d center/cover no-repeat;border-radius:3px;border:1px solid #1e2030;display:flex;align-items:center;justify-content:center;color:#5a606c;font-size:.8rem;flex-shrink:0}.disc-main{min-width:0}.disc-title{font-size:.68rem;color:#d6dde6;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.disc-meta{font-size:.5rem;color:#5a606c;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.disc-score{font-weight:700;font-size:.72rem;text-align:center}.disc-acts{display:flex;gap:3px;justify-content:flex-end}.disc-act{background:#15171d;border:1px solid #1e2030;color:#9ba3af;padding:4px 9px;border-radius:3px;font-size:.55rem;cursor:pointer;font-family:inherit;white-space:nowrap}.disc-act:hover{background:#1a1d2a;color:#fff}.disc-act-forge{background:#1e3056;color:#a8c4ff;border-color:#2a4276}`;
+  document.head.appendChild(s);
+}
 
 function vfOpenVideoModal(it){
   let m=document.getElementById('vfVideoModal');
