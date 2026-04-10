@@ -27,6 +27,8 @@ export default function Accounts() {
   const [profile, setProfile] = useState(null);
   const [profileLoading, setProfileLoading] = useState(false);
   const [showDashboard, setShowDashboard] = useState(true);
+  const [dashData, setDashData] = useState(null);
+  const [dashLoading, setDashLoading] = useState(false);
 
   // Add form
   const [addBrand, setAddBrand] = useState('blip');
@@ -48,6 +50,43 @@ export default function Accounts() {
     const d = await api.kvGet('brandAccounts');
     setBrandAccounts(d.value || d.v || {});
   }, []);
+
+  // Load dashboard — fetch all brand accounts in parallel
+  const loadDashboard = useCallback(async (accs) => {
+    const ba = accs || brandAccounts;
+    if (!Object.keys(ba).length) return;
+    setDashLoading(true);
+    const results = [];
+    for (const [brand, plats] of Object.entries(ba)) {
+      for (const [plat, handle] of Object.entries(plats)) {
+        const clean = (handle || '').replace(/^@/, '');
+        const fetcher = PLAT_FETCHER[plat];
+        if (!fetcher || !clean) continue;
+        results.push({ brand, plat, handle: clean, promise: fetcher(clean).catch(() => null) });
+      }
+    }
+    const fetched = await Promise.all(results.map(r => r.promise));
+    let totalFollowers = 0, totalFollowing = 0, totalViews = 0, totalLikes = 0, totalComments = 0, totalPosts = 0;
+    const byBrand = {};
+    const accountRows = [];
+    results.forEach((r, i) => {
+      const d = fetched[i];
+      if (!d || d.ok === false) return;
+      const posts = d.posts || d.recent || [];
+      const fol = toInt(d.followers);
+      const views = posts.reduce((s, p) => s + toInt(p.video_view_count || p.play_count || p.view_count || 0), 0);
+      const likes = posts.reduce((s, p) => s + toInt(p.likes || p.like_count || 0), 0);
+      const comments = posts.reduce((s, p) => s + toInt(p.comments || p.comment_count || 0), 0);
+      totalFollowers += fol; totalFollowing += toInt(d.following); totalViews += views; totalLikes += likes; totalComments += comments; totalPosts += posts.length;
+      if (!byBrand[r.brand]) byBrand[r.brand] = { followers: 0, views: 0, likes: 0, accounts: 0 };
+      byBrand[r.brand].followers += fol; byBrand[r.brand].views += views; byBrand[r.brand].likes += likes; byBrand[r.brand].accounts++;
+      accountRows.push({ ...r, d, fol, views, likes, comments, posts: posts.length });
+    });
+    accountRows.sort((a, b) => b.fol - a.fol);
+    const engRate = totalFollowers ? (((totalLikes + totalComments) / (totalPosts || 1)) / totalFollowers * 100).toFixed(2) : '—';
+    setDashData({ totalFollowers, totalFollowing, totalViews, totalLikes, totalComments, totalPosts, engRate, byBrand, accountRows, count: accountRows.length });
+    setDashLoading(false);
+  }, [brandAccounts]);
 
   const loadSN = useCallback(async () => {
     const d = await api.kvGet('supportNetwork');
@@ -297,7 +336,83 @@ export default function Accounts() {
               {profileLoading && <div style={{ textAlign: 'center', padding: 60, color: '#9ba3af', fontSize: '0.7rem' }}>⏳ loading @{selected?.handle}...</div>}
               {!profileLoading && profile && selected && renderProfileView(profile, selected.handle, selected.plat, selected.brand)}
               {!profileLoading && !profile && !selected && (
-                <div style={{ textAlign: 'center', color: '#5a606c', padding: 60, fontSize: '0.7rem' }}>▸ click any account on the left to view live analytics</div>
+                <div className="fade-in">
+                  {/* Dashboard view */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+                    <span style={{ fontSize: '0.6rem', color: '#5b8aff', textTransform: 'uppercase', letterSpacing: '.12em', fontWeight: 600 }}>📊 dashboard · all brands</span>
+                    <button className="btn btn-primary btn-sm" onClick={() => loadDashboard()} disabled={dashLoading}>
+                      {dashLoading ? '⏳ loading...' : '↻ refresh all'}
+                    </button>
+                  </div>
+
+                  {dashLoading && <div style={{ textAlign: 'center', padding: 40, color: '#9ba3af', fontSize: '0.7rem' }}>⏳ fetching all accounts...</div>}
+
+                  {!dashLoading && !dashData && (
+                    <div style={{ textAlign: 'center', color: '#5a606c', padding: 40, fontSize: '0.7rem' }}>
+                      click "refresh all" to load dashboard, or click any account on the left
+                    </div>
+                  )}
+
+                  {!dashLoading && dashData && (
+                    <>
+                      {/* Top stats */}
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 8, marginBottom: 14 }}>
+                        {[
+                          { val: dashData.count, lbl: 'accounts', color: '#5b8aff' },
+                          { val: fmtN(dashData.totalFollowers), lbl: 'total followers', color: '#fff' },
+                          { val: fmtN(dashData.totalViews), lbl: 'total views', color: '#22c55e' },
+                          { val: fmtN(dashData.totalLikes), lbl: 'total likes', color: '#f97316' },
+                          { val: fmtN(dashData.totalComments), lbl: 'comments', color: '#a855f7' },
+                          { val: dashData.engRate + '%', lbl: 'eng rate', color: '#ec4899' },
+                        ].map((s, i) => (
+                          <div key={i} style={{ background: '#0c0e14', border: '1px solid #14161e', borderRadius: 4, padding: 10 }}>
+                            <div style={{ fontSize: '1.2rem', fontWeight: 700, color: s.color }}>{s.val}</div>
+                            <div style={{ fontSize: '0.45rem', color: '#5a606c', textTransform: 'uppercase', marginTop: 2 }}>{s.lbl}</div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* By brand */}
+                      <div style={{ fontSize: '0.52rem', color: '#5a606c', textTransform: 'uppercase', letterSpacing: '.1em', marginBottom: 6, fontWeight: 600 }}>by brand</div>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 6, marginBottom: 14 }}>
+                        {Object.entries(dashData.byBrand).sort((a, b) => b[1].followers - a[1].followers).map(([brand, s]) => (
+                          <div key={brand} style={{ background: '#0c0e14', border: '1px solid #14161e', borderRadius: 4, padding: 8 }}>
+                            <div style={{ fontSize: '0.58rem', color: '#5b8aff', fontWeight: 600, marginBottom: 4 }}>
+                              {(BRANDS.find(b => b.id === brand)?.name || brand)} · {s.accounts} acc
+                            </div>
+                            <div style={{ fontSize: '0.85rem', fontWeight: 700 }}>{fmtN(s.followers)}</div>
+                            <div style={{ fontSize: '0.45rem', color: '#5a606c' }}>followers</div>
+                            <div style={{ display: 'flex', gap: 8, marginTop: 4, fontSize: '0.48rem', color: '#5a606c' }}>
+                              <span>👁 {fmtN(s.views)}</span>
+                              <span>♥ {fmtN(s.likes)}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* All accounts ranked */}
+                      <div style={{ fontSize: '0.52rem', color: '#5a606c', textTransform: 'uppercase', letterSpacing: '.1em', marginBottom: 6, fontWeight: 600 }}>all accounts · ranked by followers</div>
+                      {dashData.accountRows.map((r, i) => (
+                        <div key={i} onClick={() => loadProfile(r.brand, r.plat, r.handle)} style={{
+                          display: 'grid', gridTemplateColumns: '24px 1fr 80px 70px 70px 70px 60px', gap: 8,
+                          padding: '6px 8px', background: '#0c0e14', border: '1px solid #14161e', borderRadius: 3,
+                          marginBottom: 2, fontSize: '0.6rem', alignItems: 'center', cursor: 'pointer',
+                        }}
+                          onMouseOver={e => e.currentTarget.style.borderColor = '#2a3346'}
+                          onMouseOut={e => e.currentTarget.style.borderColor = '#14161e'}
+                        >
+                          <span style={{ color: '#f97316' }}>{PLAT_ICONS[r.plat] || '?'}</span>
+                          <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontWeight: 500 }}>@{r.handle}</div>
+                          <div style={{ textAlign: 'right', fontWeight: 600 }}>{fmtN(r.fol)}</div>
+                          <div style={{ textAlign: 'right', color: '#9ba3af' }}>👁 {fmtN(r.views)}</div>
+                          <div style={{ textAlign: 'right', color: '#9ba3af' }}>♥ {fmtN(r.likes)}</div>
+                          <div style={{ textAlign: 'right', color: '#9ba3af' }}>💬 {fmtN(r.comments)}</div>
+                          <div><span style={{ fontSize: '0.45rem', padding: '1px 5px', borderRadius: 2, background: '#1a1f2e', color: '#5b8aff' }}>{r.brand}</span></div>
+                        </div>
+                      ))}
+                    </>
+                  )}
+                </div>
               )}
             </main>
           </div>
