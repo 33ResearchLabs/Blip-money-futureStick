@@ -2177,21 +2177,50 @@ function snRenderProfile(a,d){
   const followers=toInt(d.followers);
   const engRate=followers?(((totalLikes+totalComments)/(posts.length||1))/followers*100).toFixed(2):'—';
 
+  // Estimate 24h views from recent posts timestamps
+  const now=Math.floor(Date.now()/1000);
+  const day=86400;
+  const posts24h=posts.filter(p=>{const t=toInt(p.taken_at||p.timestamp);return t&&(now-t)<day;});
+  const views24h=posts24h.reduce((s,p)=>s+(toInt(p.video_view_count||p.play_count||p.view_count)||0),0);
+  // If no posts in 24h, estimate from avg views per post × typical daily post rate
+  const avgViewsPerPost=posts.length?Math.round(totalViews/posts.length):0;
+  const postsPerDay=posts.length>=2?(()=>{
+    const times=posts.map(p=>toInt(p.taken_at||p.timestamp)).filter(t=>t>0).sort();
+    if(times.length<2)return 1;
+    const span=(times[times.length-1]-times[0])/day;
+    return span>0?Math.round(times.length/span*10)/10:1;
+  })():1;
+  const est24h=posts24h.length>0?views24h:Math.round(avgViewsPerPost*postsPerDay);
+
+  // Profile URL
+  const profileUrls={instagram:'https://instagram.com/',x:'https://x.com/',twitter:'https://x.com/',youtube:'https://youtube.com/@',tiktok:'https://tiktok.com/@'};
+  const profileUrl=(profileUrls[a.platform]||'')+a.handle;
+
   let h='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">'+
-    '<div style="font-size:.6rem;color:#f97316;text-transform:uppercase;letter-spacing:.1em">'+_esc(a.platform)+' · @'+_esc(a.handle)+' · <span style="color:#5b8aff">'+_esc(a.brand||'all')+'</span></div>'+
-    '<button onclick="snLoadProfile(SN_SELECTED,true)" style="background:#15171d;color:#9ba3af;border:1px solid #1c1e24;padding:5px 11px;border-radius:3px;font-family:inherit;font-size:.6rem;cursor:pointer">↻ refresh</button></div>';
+    '<div style="font-size:.6rem;color:#f97316;text-transform:uppercase;letter-spacing:.1em">'+_esc(a.platform)+' · <span style="color:#5b8aff">'+_esc(a.brand||'all')+'</span></div>'+
+    '<div style="display:flex;gap:4px">'+
+      '<a href="'+_esc(profileUrl)+'" target="_blank" style="background:#15171d;color:#5b8aff;border:1px solid #1c1e24;padding:5px 11px;border-radius:3px;font-family:inherit;font-size:.6rem;cursor:pointer;text-decoration:none">↗ profile</a>'+
+      '<button onclick="snLoadProfile(SN_SELECTED,true)" style="background:#15171d;color:#9ba3af;border:1px solid #1c1e24;padding:5px 11px;border-radius:3px;font-family:inherit;font-size:.6rem;cursor:pointer">↻ refresh</button>'+
+    '</div></div>';
 
-  // Stats row
-  h+='<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px">';
-  h+='<div style="background:#0c0e14;border:1px solid #14161e;border-radius:4px;padding:10px"><div style="font-size:1.1rem;font-weight:700;color:#fff">'+fmtN(followers)+'</div><div style="font-size:.48rem;color:#5a606c;text-transform:uppercase;margin-top:2px">followers</div></div>';
-  h+='<div style="background:#0c0e14;border:1px solid #14161e;border-radius:4px;padding:10px"><div style="font-size:1.1rem;font-weight:700;color:#fff">'+fmtN(toInt(d.following))+'</div><div style="font-size:.48rem;color:#5a606c;text-transform:uppercase;margin-top:2px">following</div></div>';
-  h+='<div style="background:#0c0e14;border:1px solid #14161e;border-radius:4px;padding:10px"><div style="font-size:1.1rem;font-weight:700;color:#fff">'+fmtN(totalViews)+'</div><div style="font-size:.48rem;color:#5a606c;text-transform:uppercase;margin-top:2px">views</div></div>';
-  h+='<div style="background:#0c0e14;border:1px solid #14161e;border-radius:4px;padding:10px"><div style="font-size:1.1rem;font-weight:700;color:#fff">'+fmtN(totalLikes)+'</div><div style="font-size:.48rem;color:#5a606c;text-transform:uppercase;margin-top:2px">likes</div></div>';
-  h+='<div style="background:#0c0e14;border:1px solid #14161e;border-radius:4px;padding:10px"><div style="font-size:1.1rem;font-weight:700;color:#fff">'+engRate+'%</div><div style="font-size:.48rem;color:#5a606c;text-transform:uppercase;margin-top:2px">eng rate</div></div>';
+  // Avatar + Name + Bio header
+  h+='<div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;padding:12px;background:#0c0e14;border:1px solid #14161e;border-radius:6px">';
+  if(d.avatar) h+='<img src="/dl/proxy?u='+encodeURIComponent(d.avatar)+'" onerror="this.style.display=\'none\'" style="width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid #1e2030;flex-shrink:0">';
+  h+='<div style="flex:1;min-width:0">'+
+    '<div style="font-size:.85rem;font-weight:700;color:#fff">'+_esc(d.name||d.full_name||a.handle)+(d.verified||d.is_verified?' <span style="color:#5b8aff">✓</span>':'')+'</div>'+
+    '<a href="'+_esc(profileUrl)+'" target="_blank" style="font-size:.58rem;color:#f97316;text-decoration:none">@'+_esc(a.handle)+' · '+_esc(a.platform)+'</a>'+
+    (d.bio?'<div style="font-size:.6rem;color:#9ba3af;line-height:1.4;margin-top:6px">'+_esc(d.bio)+'</div>':'')+
+  '</div></div>';
+
+  // Stats row — 6 cards including 24h views
+  h+='<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:14px">';
+  h+='<div style="background:#0c0e14;border:1px solid #14161e;border-radius:4px;padding:10px"><div style="font-size:1.1rem;font-weight:700;color:#fff">'+fmtN(followers)+'</div><div style="font-size:.45rem;color:#5a606c;text-transform:uppercase;margin-top:2px">followers</div></div>';
+  h+='<div style="background:#0c0e14;border:1px solid #14161e;border-radius:4px;padding:10px"><div style="font-size:1.1rem;font-weight:700;color:#fff">'+fmtN(toInt(d.following))+'</div><div style="font-size:.45rem;color:#5a606c;text-transform:uppercase;margin-top:2px">following</div></div>';
+  h+='<div style="background:#0c0e14;border:1px solid #14161e;border-left:2px solid #22c55e;border-radius:4px;padding:10px"><div style="font-size:1.1rem;font-weight:700;color:#22c55e">~'+fmtN(est24h)+'</div><div style="font-size:.45rem;color:#5a606c;text-transform:uppercase;margin-top:2px">24h views'+(posts24h.length===0?' (est)':'')+'</div></div>';
+  h+='<div style="background:#0c0e14;border:1px solid #14161e;border-radius:4px;padding:10px"><div style="font-size:1.1rem;font-weight:700;color:#fff">'+fmtN(totalViews)+'</div><div style="font-size:.45rem;color:#5a606c;text-transform:uppercase;margin-top:2px">total views</div></div>';
+  h+='<div style="background:#0c0e14;border:1px solid #14161e;border-radius:4px;padding:10px"><div style="font-size:1.1rem;font-weight:700;color:#fff">'+fmtN(totalLikes)+'</div><div style="font-size:.45rem;color:#5a606c;text-transform:uppercase;margin-top:2px">likes</div></div>';
+  h+='<div style="background:#0c0e14;border:1px solid #14161e;border-radius:4px;padding:10px"><div style="font-size:1.1rem;font-weight:700;color:#fff">'+engRate+'%</div><div style="font-size:.45rem;color:#5a606c;text-transform:uppercase;margin-top:2px">eng rate</div></div>';
   h+='</div>';
-
-  // Bio
-  if(d.bio) h+='<div style="font-size:.62rem;color:#9ba3af;margin-bottom:12px;line-height:1.4;padding:8px;background:#0c0e14;border:1px solid #14161e;border-radius:4px">'+_esc(d.bio)+'</div>';
 
   // Posts grid
   h+='<div style="font-size:.52rem;color:#5a606c;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">recent posts · '+posts.length+'</div>';
