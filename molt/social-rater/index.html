@@ -1058,7 +1058,7 @@ select {
 (function(){
 const $tk=id=>document.getElementById(id);
 async function tkClaude(prompt,maxTokens){
-  const key=$tk('apiKey').value;
+  const key=typeof getApiKey==='function'?getApiKey():(localStorage.getItem('moltKey')||'');
   const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:maxTokens||1000,messages:[{role:'user',content:prompt}]})});
   const j=await r.json();
   return (j.content&&j.content[0]&&j.content[0].text)||'(failed)';
@@ -1112,7 +1112,7 @@ if(tkrRate)tkrRate.onclick=async()=>{
   tkrRate.disabled=true;tkrRate.textContent='⏳';
   $tk('tkrResult').innerHTML='<div class="tk-empty">⏳ analyzing...</div>';
   try{
-    const key=$tk('apiKey').value;
+    const key=typeof getApiKey==='function'?getApiKey():(localStorage.getItem('moltKey')||'');
     const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,messages:[{role:'user',content:[{type:'image',source:{type:'base64',media_type:TKR_TYPE,data:TKR_B64}},{type:'text',text:'Rate this image for social media use. Output JSON only: {"score":0-100,"aesthetic":0-10,"engagement":0-10,"clarity":0-10,"working":["3 things working"],"improve":["3 things to fix"]}'}]}]})});
     const j=await r.json();
     let txt=(j.content&&j.content[0]&&j.content[0].text)||'';
@@ -3846,10 +3846,18 @@ function refreshBrand(){
 let genPlat='instagram',upPlat='instagram',upB64=null,upType=null;
 let genB64=null,genUrl=null,attempts=0,scores=[],autoMode=false,lastResult=null;
 let saved=JSON.parse(localStorage.getItem('moltSaved')||'[]');
+// Global API key getter — single source of truth
+window.getApiKey=function(){
+  let k=($('apiKey')?.value||'').trim();
+  if(!k)k=(document.getElementById('apiKeyInput')?.value||'').trim();
+  if(!k)k=localStorage.getItem('moltKey')||'';
+  // Sync back so all readers see it
+  if(k&&$('apiKey'))$('apiKey').value=k;
+  return k;
+};
 const storedKey=localStorage.getItem('moltKey');
 if(storedKey){$('apiKey').value=storedKey;const ki=document.getElementById('apiKeyInput');if(ki)ki.value=storedKey;}
 $('apiKey').addEventListener('change',()=>localStorage.setItem('moltKey',$('apiKey').value.trim()));
-// Sync visible key input → hidden apiKey field
 const _apiKeyInput=document.getElementById('apiKeyInput');
 if(_apiKeyInput){
   const _syncKey=()=>{const v=_apiKeyInput.value.trim();$('apiKey').value=v;localStorage.setItem('moltKey',v);};
@@ -3903,7 +3911,7 @@ $('contentType').addEventListener('change',e=>{
 $('enhanceBtn').addEventListener('click',async()=>{
   const userPrompt=$('genPrompt').value.trim();
   if(!userPrompt)return toast('Write an idea first');
-  const key=$('apiKey').value.trim();if(!key)return toast('Enter API key');
+  const key=getApiKey();if(!key)return toast('No API key — run: localStorage.setItem("moltKey","sk-ant-...")  in console');
   const b=BRANDS[currentBrand];
   $('enhanceBtn').disabled=true;$('enhanceBtn').textContent='✨ Enhancing...';
   try{
@@ -3953,7 +3961,7 @@ async function genImage(prompt,style,ratio,seed){
 
 // Rate via Claude
 async function rate(b64,type,plat){
-  const key=$('apiKey').value.trim();if(!key)throw new Error('Enter API key');
+  const key=getApiKey();if(!key)throw new Error('No API key');
   const b=BRANDS[currentBrand];
   const ovPos=$('overlayPos').value;
   const overlayBlock = (b.context && ovPos!=='none') ? `
@@ -4010,7 +4018,7 @@ $('approveBtn').addEventListener('click',()=>{
 async function startLoop(){
   let prompt=$('genPrompt').value.trim();
   if(!prompt)return toast('Enter a prompt first');
-  if(!$('apiKey').value.trim())return toast('Enter API key');
+  if(!getApiKey())return toast('No API key — run: localStorage.setItem("moltKey","sk-ant-...")  in console');
   const style=$('genStyle').value,ratio=$('genRatio').value,target=+$('targetScore').value;
   attempts=0;scores=[];$('attemptBar').style.display='flex';$('attemptDots').innerHTML='';
   $('genResults').style.display='none';$('genActions').style.display='none';$('generateBtn').disabled=true;
@@ -4342,7 +4350,7 @@ document.querySelectorAll('.fire-filter').forEach(b=>b.onclick=()=>{
 
 // ===== AI Score (Haiku batch) =====
 $('scoreAllBtn').onclick=async()=>{
-  const key=$('apiKey').value.trim();if(!key)return toast('Enter API key (top of page)');
+  const key=getApiKey();if(!key)return toast('No API key — run: localStorage.setItem("moltKey","sk-ant-...")  in console');
   const todo=ENG.firehose.filter(i=>i.score==null).slice(0,30);
   if(!todo.length)return toast('Nothing to score');
   $('scoreAllBtn').disabled=true;$('scoreAllBtn').textContent='Scoring...';
@@ -4384,7 +4392,7 @@ function openStudio(it){
 
 $('genContentBtn').onclick=async()=>{
   if(!studioItem)return;
-  const key=$('apiKey').value.trim();if(!key)return toast('Enter API key');
+  const key=getApiKey();if(!key)return toast('No API key — run: localStorage.setItem("moltKey","sk-ant-...")  in console');
   const fmt=$('studioFormat').value,plat=$('studioPlatform').value,angle=$('studioAngle').value;
   const cfg=ENG.config;
   $('studioOutput').innerHTML='<div class="loader" style="display:block"><div class="spinner"></div><p>Generating '+fmt+'...</p></div>';
@@ -4765,7 +4773,7 @@ async function cyLoadPrices(){
 
 // Generate ideas via Claude
 $('cyGenBtn').onclick=async()=>{
-  const key=$('apiKey').value.trim();if(!key)return toast('No API key');
+  const key=getApiKey();if(!key)return toast('No API key — run: localStorage.setItem("moltKey","sk-ant-...")  in console');
   $('cyGenBtn').disabled=true;$('cyStatus').textContent='generating...';
   const priceCtx = CY.prices.slice(0,5).map(p=>p.symbol.toUpperCase()+' $'+(p.current_price>=1?Math.round(p.current_price):p.current_price.toFixed(3))+' ('+(p.price_change_percentage_24h>=0?'+':'')+(p.price_change_percentage_24h||0).toFixed(1)+'%)').join(', ');
   // Pull the latest analytics feedback (if any) to inform what works
@@ -4829,7 +4837,7 @@ function renderCyFeed(){
 }
 
 async function cyGenFormat(idea,fmt){
-  const key=$('apiKey').value.trim();if(!key)return toast('No API key');
+  const key=getApiKey();if(!key)return toast('No API key — run: localStorage.setItem("moltKey","sk-ant-...")  in console');
   const out=$('cyOutput');
   out.innerHTML='<div class="cy-out"><div class="loader" style="display:block;padding:20px"><div class="spinner"></div><p style="color:#888;font-family:var(--font-mono);font-size:.7rem;margin-top:10px">generating '+fmt+'...</p></div></div>';
   let instr='';
@@ -4985,7 +4993,7 @@ async function cdGeneratePost(){
   async function genCaptions(){
     const ce = overlay.querySelector('#cdPvCaptions');
     const he = overlay.querySelector('#cdPvHashtags');
-    const key = $('apiKey').value.trim();
+    const key = getApiKey();
     if(!key){
       ce.innerHTML = '<div style="color:#5a5a5a;font-size:.7rem">no API key</div>';
       return;
@@ -5260,7 +5268,7 @@ $('psOverlay').addEventListener('click',e=>{if(e.target.id==='psOverlay')psClose
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('psOverlay').classList.contains('shown'))psClose()});
 
 async function psGenCaptions(){
-  const key = $('apiKey').value.trim();
+  const key = getApiKey();
   if(!key){
     $('psCaptions').innerHTML='<div class="ps-loader" style="color:var(--color-danger)">no api key — captions skipped</div>';
     $('psHashtags').innerHTML='<div style="color:#5a5a5a">no api key</div>';
@@ -5391,7 +5399,7 @@ window.psOpen = psOpen;
    EXPLODE NEWS — multi-format Claude expansion
    ============================================================ */
 async function psExplode(item){
-  const key = $('apiKey').value.trim();
+  const key = getApiKey();
   if(!key) return toast('No API key');
   toast('Exploding "'+(item.title||'').slice(0,40)+'"...');
 
@@ -5881,7 +5889,7 @@ function cdBindCard(){
     const headline=$('cdHead').value.trim();if(!headline)return toast('write a headline first');
     const btn=$('cdBgSuggest');btn.disabled=true;btn.textContent='⏳ thinking...';
     try{
-      const key=$('apiKey').value;
+      const key=getApiKey();
       const prompt=`You are a photo editor. Given this news headline, write ONE vivid editorial image prompt (1 sentence, under 35 words) that captures the story visually. NO text in the image. Be specific about subject, framing, lighting. Output ONLY the prompt, nothing else.
 
 HEADLINE: ${headline}`;
@@ -5963,7 +5971,7 @@ HEADLINE: ${headline}`;
   async function cdRemixFromItem(top){
     const btn=$('cdAutoNews');btn.disabled=true;btn.textContent='⏳ remixing...';
     try{
-      const key=$('apiKey').value;
+      const key=getApiKey();
       const prompt=`You are a viral news editor. Take this trending story and produce JSON ONLY with these exact keys:
 {"headline":"a punchy ALL-CAPS news headline under 90 chars",
 "category":"a single ALL-CAPS category word",
@@ -6275,7 +6283,7 @@ function anRenderProfile(a, d, prev){
 }
 
 async function anAnalyze(a, d){
-  const key=$('apiKey').value.trim();if(!key)return toast('No API key');
+  const key=getApiKey();if(!key)return toast('No API key — run: localStorage.setItem("moltKey","sk-ant-...")  in console');
   const body=$('anFbBody');
   body.innerHTML='<div class="spinner" style="display:inline-block;width:14px;height:14px;vertical-align:middle;margin-right:6px"></div>analyzing...';
   const postSummary = d.posts.map((p,i)=>(i+1)+'. ['+ (p.is_video?'video':'image')+'] views:'+(p.video_view_count||p.play_count||0)+' likes:'+(p.likes||0)+' comments:'+(p.comments||0)+' caption:"'+(p.caption||'').slice(0,150)+'"').join('\n');
@@ -6826,6 +6834,11 @@ async function nfOpenForge(item){
   document.getElementById('nfSaveVault').onclick=nfSave;
   document.getElementById('nfPostText').addEventListener('input',()=>{document.getElementById('nfChars').textContent=document.getElementById('nfPostText').value.length;});
   document.querySelectorAll('#nfPlatRow .nf-plat').forEach(b=>b.onclick=()=>{document.querySelectorAll('#nfPlatRow .nf-plat').forEach(x=>x.classList.remove('active'));b.classList.add('active');NF_PLAT=b.dataset.p;nfGenText(false);});
+  // Enrich item with OG data if description is thin
+  if(NF_CURRENT.url&&!(NF_CURRENT.description||NF_CURRENT.summary||NF_CURRENT.body||'').trim()){
+    try{const ogr=await fetch('/dl/og?u='+encodeURIComponent(NF_CURRENT.url));const ogd=await ogr.json();
+    if(ogd.ok){if(ogd.description)NF_CURRENT.description=ogd.description;if(ogd.title&&!NF_CURRENT.title)NF_CURRENT.title=ogd.title;}}catch{}
+  }
   // generate first time
   nfGenImage(false);
   nfGenText(false);
@@ -6835,7 +6848,7 @@ async function nfBuildImagePrompt(){
   const head=document.getElementById('nfHead')?.value||NF_CURRENT.title||'';
   const body=(NF_CURRENT.summary||NF_CURRENT.description||NF_CURRENT.body||'').slice(0,500);
   const style=(document.getElementById('nfImgStyle')?.value)||'editorial photo, cinematic lighting, premium magazine';
-  let key=(document.getElementById('apiKey')?.value||'').trim()||localStorage.getItem('moltKey')||'';
+  let key=typeof getApiKey==='function'?getApiKey():localStorage.getItem('moltKey')||'';
   if(key&&body){
     try{
       const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:200,messages:[{role:'user',content:`Convert this news story into ONE vivid image generation prompt (1-2 sentences). Describe a VISUAL SCENE that represents the story's meaning — NOT literal text. Focus on symbols, metaphors, objects, settings. No text in the image. No logos.\n\nHeadline: ${head}\nSummary: ${body}\nStyle: ${style}\n\nOutput ONLY the image prompt, nothing else.`}]})});
@@ -6910,12 +6923,8 @@ INSTRUCTIONS:
 5. NO fluff, no "in conclusion", no "stay tuned".
 6. Output ONLY the post text. No commentary, no labels.`;
   try{
-    let key=(document.getElementById('apiKey')?.value||'').trim();
-    if(!key)key=(document.getElementById('apiKeyInput')?.value||'').trim();
-    if(!key)key=localStorage.getItem('moltKey')||'';
-    if(!key){ta.value='⚠ No API key — paste your Anthropic key in the "key" field (top-right corner of titlebar)';return;}
-    // Sync back
-    if(document.getElementById('apiKey'))document.getElementById('apiKey').value=key;
+    const key=typeof getApiKey==='function'?getApiKey():localStorage.getItem('moltKey')||'';
+    if(!key){ta.value='⚠ No API key — run in browser console: localStorage.setItem("moltKey","sk-ant-YOUR-KEY")  then refresh';return;}
     const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1200,messages:[{role:'user',content:sys}]})});
     const j=await r.json();
     if(j.error){ta.value='⚠ API error: '+(j.error.message||JSON.stringify(j.error));return;}
@@ -7404,7 +7413,7 @@ function renderVF(items){
 /* ======================== TREND RADAR ENGINE ======================== */
 (function(){
 const GEMINI_KEY='AIzaSyB-6yV4r4PG34H7UxZ5gYtOI2hZRMqQUW8';
-const ANTHROPIC_KEY=document.getElementById('apiKey').value;
+const ANTHROPIC_KEY=typeof getApiKey==='function'?getApiKey():localStorage.getItem('moltKey')||'';
 
 const PRESETS={
   crypto:{q:'crypto bitcoin ethereum',subs:['CryptoCurrency','Bitcoin','ethereum','CryptoMarkets','defi'],hn:'crypto OR bitcoin OR ethereum'},
@@ -7961,7 +7970,7 @@ async function stAiSuggest(){
   const btn=document.getElementById('stAiSuggest');btn.disabled=true;btn.textContent='⏳';
   try{
     const b=BRANDS_DB[CURRENT_BRAND]||{};
-    const key=document.getElementById('apiKey').value;
+    const key=typeof getApiKey==='function'?getApiKey():localStorage.getItem('moltKey')||'';
     const prompt=`Generate a complete social media post for brand "${b.name}" (${b.niche}, voice: ${b.voice}). Topic: ${kw}.
 
 Output JSON only:
@@ -7987,7 +7996,7 @@ async function stCapGen(remix){
   const plat=document.getElementById('stPlat').value;
   const btn=document.getElementById('stCapGen');btn.disabled=true;btn.textContent='⏳';
   try{
-    const key=document.getElementById('apiKey').value;
+    const key=typeof getApiKey==='function'?getApiKey():localStorage.getItem('moltKey')||'';
     const prompt=`Write a ${plat} caption for brand "${b.name}" (voice: ${b.voice}, audience: ${b.audience}, avoid: ${b.avoid}). Topic: ${head}. ${remix?'Be COMPLETELY DIFFERENT from any prior version.':''} Output ONLY the caption text, no commentary.`;
     const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
     const j=await r.json();
@@ -8022,10 +8031,10 @@ async function discLoad(){
   try{
     let allItems=[];
 
-    // 1. Social feed (your accounts' posts)
-    if(DISC_FILTER==='all'||DISC_FILTER==='social'){
-      try{const r=await fetch('/api/social/feed?limit=50');const d=await r.json();
-      (d.items||[]).forEach(p=>allItems.push({title:p.title||'(no caption)',url:p.url,thumb:p.thumb,source:p.source,score:p.views||p.ups||0,type:'social',has_video:p.has_video,video_url:p.video_url,description:p.title,views:p.views,likes:p.ups,comments:p.comments,brand:p.source_brand}));}catch{}
+    // 1. Social feed (your accounts' posts — only 10K+ views, only when explicitly filtered)
+    if(DISC_FILTER==='social'){
+      try{const r=await fetch('/api/social/feed?limit=100');const d=await r.json();
+      (d.items||[]).filter(p=>(p.views||p.ups||0)>=10000).forEach(p=>allItems.push({title:p.title||'(no caption)',url:p.url,thumb:p.thumb,source:p.source,score:p.views||p.ups||0,type:'social',has_video:p.has_video,video_url:p.video_url,description:p.title,views:p.views,likes:p.ups,comments:p.comments,brand:p.source_brand}));}catch{}
     }
 
     // 2. Hot clusters from engine
@@ -8136,7 +8145,7 @@ function vfOpenVideoModal(it){
     const tone=body.querySelector('#vfvTone').value;
     const plat=body.querySelector('#vfvPlat').value;
     try{
-      const key=document.getElementById('apiKey').value;
+      const key=typeof getApiKey==='function'?getApiKey():localStorage.getItem('moltKey')||'';
       const brand=localStorage.getItem('33tools_brand')||'blip';
       const prompt=`Write a ${plat} caption for a video with this title: "${it.title}". Tone: ${tone}. Brand context: ${brand}. The caption should reference what makes this video viral and add commentary. Output ONLY the caption.`;
       const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:800,messages:[{role:'user',content:prompt}]})});
