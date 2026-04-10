@@ -8,23 +8,59 @@ const ranges = ['all', '1h', '4h', '24h', '7d', '30d'];
 
 export default function Videos() {
   const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState('');
   const [source, setSource] = useState('all');
   const [range, setRange] = useState('all');
+  const [category, setCategory] = useState('');
   const [stats, setStats] = useState(null);
   const [fetchedAt, setFetchedAt] = useState(null);
+  const [crawling, setCrawling] = useState(false);
 
-  const search = useCallback(async () => {
+  const categories = ['', 'crypto', 'finance', 'lifestyle', 'tech', 'ai', 'business', 'motivation', 'luxury'];
+
+  // Load from DB on mount
+  const loadDB = useCallback(async () => {
+    setLoading(true);
+    try {
+      const d = await api.getVideosDB(source !== 'all' ? source : '', category, 200);
+      let items = d.items || [];
+      // Client-side time filter
+      if (range !== 'all') {
+        const cutoff = Date.now() - ({ '1h': 36e5, '4h': 144e5, '24h': 864e5, '7d': 6048e5, '30d': 2592e6 }[range] || 0);
+        if (cutoff) items = items.filter(v => v.published_at && v.published_at >= cutoff);
+      }
+      // Client-side search filter
+      if (query) { const q = query.toLowerCase(); items = items.filter(v => (v.title || '').toLowerCase().includes(q) || (v.author || '').toLowerCase().includes(q) || (v.category || '').includes(q)); }
+      setItems(items);
+      setStats(d.stats || null);
+      setFetchedAt(d.stats?.last_fetched || null);
+    } catch { setItems([]); }
+    setLoading(false);
+  }, [source, category, range, query]);
+
+  // Live search (external APIs)
+  const liveSearch = useCallback(async () => {
     setLoading(true);
     try {
       const d = await api.searchVideos(query, source, range);
       setItems(d.items || []);
-      setStats({ total: d.total, totalViews: d.totalViews, totalLikes: d.totalLikes, sources: d.sources });
+      setStats({ total: d.total, total_views: d.totalViews, total_likes: d.totalLikes });
       setFetchedAt(Date.now());
     } catch { setItems([]); }
     setLoading(false);
   }, [query, source, range]);
+
+  // Trigger full crawl
+  const crawl = async () => {
+    setCrawling(true);
+    try { await api.crawlVideos(); await loadDB(); } catch {}
+    setCrawling(false);
+  };
+
+  // Load on mount + filter change
+  useState(() => { loadDB(); }, []);
+  useCallback(() => { loadDB(); }, [source, category, range]);
 
   return (
     <div className="fade-in" style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 80px)' }}>
@@ -39,7 +75,9 @@ export default function Videos() {
             style={{ width: '100%', padding: '8px 12px', fontSize: '0.72rem' }}
           />
         </div>
-        <button className="btn btn-primary" onClick={search}>▸ search</button>
+        <button className="btn btn-primary" onClick={liveSearch}>▸ live search</button>
+        <button className="btn btn-ghost" onClick={loadDB}>↻ db</button>
+        <button className="btn btn-ghost" onClick={crawl} disabled={crawling}>{crawling ? '⏳' : '🎬 crawl all'}</button>
       </div>
 
       {/* Filters */}
@@ -48,13 +86,18 @@ export default function Videos() {
         {sources.map(s => <button key={s} className={`tab ${source === s ? 'active' : ''}`} onClick={() => setSource(s)}>{s === 'all' ? 'all' : s === 'youtube' ? 'yt shorts' : 'tiktok'}</button>)}
         <span style={{ width: 1, height: 16, background: 'var(--border)', margin: '0 6px' }} />
         <span style={{ fontSize: '0.5rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '.08em' }}>range</span>
-        {ranges.map(r => <button key={r} className={`tab ${range === r ? 'active' : ''}`} onClick={() => setRange(r)}>{r}</button>)}
+        {ranges.map(r => <button key={r} className={`tab ${range === r ? 'active' : ''}`} onClick={() => { setRange(r); setTimeout(loadDB, 50); }}>{r}</button>)}
+        <span style={{ width: 1, height: 16, background: 'var(--border)', margin: '0 6px' }} />
+        <span style={{ fontSize: '0.5rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '.08em' }}>cat</span>
+        {categories.map(c => <button key={c||'all'} className={`tab ${category === c ? 'active' : ''}`} onClick={() => { setCategory(c); setTimeout(loadDB, 50); }}>{c || 'all'}</button>)}
         {stats && (
           <span style={{ marginLeft: 'auto', fontSize: '0.52rem', color: 'var(--text-muted)', display: 'flex', gap: 8, alignItems: 'center' }}>
-            <span>{stats.total} results</span>
-            <span>👁 {fmtN(stats.totalViews)}</span>
-            <span>♥ {fmtN(stats.totalLikes)}</span>
-            {stats.sources && Object.entries(stats.sources).map(([k, v]) => <span key={k}>{k}: {v}</span>)}
+            <span>{items.length} showing</span>
+            {stats.total && <span>({stats.total} in db)</span>}
+            <span>👁 {fmtN(stats.total_views)}</span>
+            <span>♥ {fmtN(stats.total_likes)}</span>
+            {stats.youtube > 0 && <span>yt:{stats.youtube}</span>}
+            {stats.tiktok > 0 && <span>tt:{stats.tiktok}</span>}
             {fetchedAt && <span>fetched {ago(fetchedAt)}</span>}
           </span>
         )}
@@ -83,9 +126,9 @@ export default function Videos() {
         )}
 
         {!loading && items.map((it, i) => {
-          const viralScore = Math.min(100, Math.round(
+          const viralScore = it.viral_score || Math.min(100, Math.round(
             ((it.views || 0) / 10000 + (it.likes || 0) / 1000 + (it.comments || 0) / 500) *
-            (it.pubAt ? Math.max(1, 24 / Math.max(1, (Date.now() - it.pubAt) / 3600000)) : 1)
+            (it.pubAt || it.published_at ? Math.max(1, 24 / Math.max(1, (Date.now() - (it.pubAt || it.published_at)) / 3600000)) : 1)
           ));
           const scoreColor = viralScore >= 70 ? '#22c55e' : viralScore >= 40 ? '#f59e0b' : viralScore >= 20 ? '#f97316' : '#5a606c';
 
@@ -136,7 +179,7 @@ export default function Videos() {
               </div>
 
               {/* Age */}
-              <div style={{ textAlign: 'right', fontSize: '0.52rem', color: '#5a606c' }}>{it.pubAt ? ago(it.pubAt) : '—'}</div>
+              <div style={{ textAlign: 'right', fontSize: '0.52rem', color: '#5a606c' }}>{(it.pubAt || it.published_at) ? ago(it.pubAt || it.published_at) : '—'}</div>
             </div>
           );
         })}
