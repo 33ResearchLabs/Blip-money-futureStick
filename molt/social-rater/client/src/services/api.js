@@ -86,6 +86,7 @@ export const api = {
   rateImage: (url) => post(`${BASE}/ai`, { prompt: `Rate this image for social media: ${url}` }),
   checkHandle: (u) => get(`${BASE}/checkhandle?u=${u}`),
   getRadar: (niche) => get(`${BASE}/radar?niche=${niche}`),
+  searchVideos: (q, source, time) => get(`${BASE}/videos/search?q=${encodeURIComponent(q||'')}&source=${source||'all'}&time=${time||'all'}`),
   generateImage: (prompt) => post(`${BASE}/imagegen`, { prompt }),
   callAI: (prompt, system) => post(`${BASE}/ai`, { prompt, system }),
   getOG: (u) => get(`${DL}/og?u=${encodeURIComponent(u)}`),

@@ -35,10 +35,12 @@ let TRENDING_LAST = 0;
 const REMIX_JOBS = {};
 
 // ── Helper: yt-dlp with VPS fallback ──
+const YTDLP = process.env.YTDLP_PATH || '/home/blipmoney9/.local/bin/yt-dlp';
 function ytdlpExec(cmd) {
   const { execSync } = require('child_process');
+  const fullCmd = cmd.replace(/^yt-dlp\b/, YTDLP);
   try {
-    return execSync(cmd, { timeout: 45000, encoding: 'utf8' });
+    return execSync(fullCmd, { timeout: 45000, encoding: 'utf8', env: { ...process.env, PATH: process.env.PATH + ':/home/blipmoney9/.local/bin' } });
   } catch {
     return execSync(
       `ssh -i ~/.ssh/gcp_vm -o ConnectTimeout=10 blipmoney9@${VPS_HOST} "${cmd.replace(/"/g, '\\"')}"`,
@@ -98,8 +100,8 @@ async function getTwitterPosts(handle) {
   const posts = [];
   try {
     const result = execSync(
-      `yt-dlp --flat-playlist -j --playlist-items 1-12 "https://x.com/${handle}"`,
-      { timeout: 30000, encoding: 'utf8' }
+      `${YTDLP} --flat-playlist -j --playlist-items 1-12 "https://x.com/${handle}"`,
+      { timeout: 30000, encoding: 'utf8', env: { ...process.env, PATH: process.env.PATH + ':/home/blipmoney9/.local/bin' } }
     );
     const lines = result.trim().split('\n').filter(Boolean);
     for (const line of lines) {
@@ -223,7 +225,7 @@ async function fetchTrending() {
     const { execSync } = require('child_process');
     let raw;
     try {
-      raw = execSync('yt-dlp --flat-playlist -j --playlist-items 1-20 "https://www.youtube.com/feed/trending"', { timeout: 30000, encoding: 'utf8' });
+      raw = execSync(YTDLP + ' --flat-playlist -j --playlist-items 1-20 "https://www.youtube.com/feed/trending?bp=6gQJRkVleHBsb3Jl"', { timeout: 30000, encoding: 'utf8', env: { ...process.env, PATH: process.env.PATH + ':/home/blipmoney9/.local/bin' } });
     } catch {
       raw = execSync(`ssh -i ~/.ssh/gcp_vm -o ConnectTimeout=10 blipmoney9@${VPS_HOST} "yt-dlp --flat-playlist -j --playlist-items 1-20 'https://www.youtube.com/feed/trending'"`, { timeout: 30000, encoding: 'utf8' });
     }
@@ -573,7 +575,7 @@ router.get('/youtube', async (req, res) => {
 
     try {
       const { execSync } = require('child_process');
-      const meta = execSync(`yt-dlp --dump-json --playlist-items 1 "${channelUrl}/videos"`, { timeout: 30000, encoding: 'utf8' });
+      const meta = execSync(`${YTDLP} --dump-json --playlist-items 1 "${channelUrl}/videos"`, { timeout: 30000, encoding: 'utf8', env: { ...process.env, PATH: process.env.PATH + ':/home/blipmoney9/.local/bin' } });
       const md = JSON.parse(meta);
       if (md.channel_follower_count) subscribers = md.channel_follower_count;
       if (md.channel) channelName = md.channel;
@@ -678,7 +680,7 @@ router.get('/resolve', async (req, res) => {
     const { execSync } = require('child_process');
     let result;
     try {
-      result = execSync(`yt-dlp -j --no-download "${url}"`, { timeout: 30000, encoding: 'utf8' });
+      result = execSync(`${YTDLP} -j --no-download "${url}"`, { timeout: 30000, encoding: 'utf8', env: { ...process.env, PATH: process.env.PATH + ':/home/blipmoney9/.local/bin' } });
     } catch {
       result = execSync(`ssh -i ~/.ssh/gcp_vm -o ConnectTimeout=10 blipmoney9@${VPS_HOST} "yt-dlp -j --no-download '${url.replace(/'/g, "'\\''")}'"`
         , { timeout: 30000, encoding: 'utf8' });
@@ -716,7 +718,7 @@ router.get('/trending', (req, res) => {
   else if (range === '7d') items = items.filter(i => (i.published_at || 0) > now - 7 * 86400000);
   else if (range === '30d') items = items.filter(i => (i.published_at || 0) > now - 30 * 86400000);
   const videoOnly = req.query.video === '1';
-  if (videoOnly) items = items.filter(i => i.has_video);
+  if (videoOnly) items = items.filter(i => i.has_video || /youtu|tiktok|vimeo|v\.redd\.it|twitch/i.test(i.url || '') || /youtu|tiktok|vimeo|v\.redd\.it/i.test(i.video_url || ''));
   const limit = parseInt(req.query.limit) || 200;
   res.json({ ok: true, items: items.slice(0, limit), total: items.length, updated_at: data.updated_at || 0 });
 });

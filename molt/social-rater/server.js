@@ -39,6 +39,7 @@ app.use('/api/worker', require('./routes/worker'));
 app.use('/api/social', require('./routes/social'));
 app.use('/api/radar', require('./routes/radar'));
 app.use('/api/publish', require('./routes/publish'));
+app.use('/api/videos', require('./routes/video-search'));
 app.use('/dl', require('./routes/download'));
 
 // /api/checkhandle lives outside /dl — reuse download router's handler

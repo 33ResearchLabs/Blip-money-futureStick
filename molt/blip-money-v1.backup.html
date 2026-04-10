@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blip Money — The Settlement Protocol</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #090909;
+      --text: #ffffff;
+      --text-muted: #888888;
+      --text-dim: #555555;
+      --border: rgba(255,255,255,0.08);
+      --nav-height: 60px;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-height);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      background: rgba(9,9,9,0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 15px; font-weight: 600;
+      color: var(--text); text-decoration: none; letter-spacing: -0.3px;
+    }
+    .nav-logo svg { width: 18px; height: 18px; }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links a {
+      font-size: 13.5px; font-weight: 500; color: var(--text-muted);
+      text-decoration: none; transition: color 0.2s; letter-spacing: -0.1px;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-right { display: flex; align-items: center; gap: 14px; }
+    .theme-toggle {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background 0.2s; color: var(--text-muted);
+    }
+    .theme-toggle:hover { background: rgba(255,255,255,0.1); color: var(--text); }
+    .btn-waitlist-nav {
+      display: flex; align-items: center; gap: 6px;
+      padding: 8px 18px; background: var(--text); color: #090909;
+      font-size: 13.5px; font-weight: 600; border-radius: 999px;
+      text-decoration: none; letter-spacing: -0.2px;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-waitlist-nav:hover { background: #e8e8e8; transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    main {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: calc(var(--nav-height) + 40px) 24px 120px;
+      text-align: center; position: relative;
+    }
+    main::before {
+      content: '';
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -60%);
+      width: 700px; height: 400px;
+      background: radial-gradient(ellipse at center, rgba(224,112,64,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-label {
+      font-size: 10.5px; font-weight: 600;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--text-dim); margin-bottom: 28px;
+    }
+    .hero-heading {
+      font-size: clamp(3.5rem, 7vw, 7rem);
+      font-weight: 700; line-height: 1.05;
+      letter-spacing: -0.04em; color: var(--text);
+      max-width: 1000px; margin-bottom: 32px;
+    }
+    .hero-heading .gradient-text {
+      background: linear-gradient(90deg,
+        #ffffff 0%, #ffe8dc 18%, #ffb899 30%, #ff8c50 42%,
+        #ff6b35 50%, #ff8c50 58%, #ffb899 70%, #ffe8dc 82%, #ffffff 100%
+      );
+      background-size: 300% 100%;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: flow 7s ease-in-out infinite;
+    }
+    @keyframes flow {
+      0%   { background-position: 100% 50%; }
+      50%  { background-position:   0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+    .hero-sub {
+      font-size: 18px; font-weight: 500; color: var(--text);
+      letter-spacing: -0.4px; margin-bottom: 14px;
+    }
+    .hero-desc {
+      font-size: 13.5px; color: var(--text-muted);
+      max-width: 340px; line-height: 1.6; margin-bottom: 36px;
+    }
+    .hero-ctas { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .btn-primary {
+      display: flex; align-items: center; gap: 7px;
+      padding: 11px 24px; background: var(--text); color: #090909;
+      font-size: 14px; font-weight: 600; border-radius: 999px;
+      text-decoration: none; letter-spacing: -0.2px;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: #e8e8e8; transform: translateY(-1px); }
+    .btn-secondary {
+      display: flex; align-items: center;
+      padding: 11px 24px; background: transparent; color: var(--text);
+      font-size: 14px; font-weight: 500; border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.2); text-decoration: none;
+      letter-spacing: -0.2px;
+      transition: border-color 0.2s, background 0.2s, transform 0.15s;
+    }
+    .btn-secondary:hover {
+      border-color: rgba(255,255,255,0.45);
+      background: rgba(255,255,255,0.04);
+      transform: translateY(-1px);
+    }
+
+    /* ── STATUS BAR ── */
+    .status-bar {
+      position: fixed; bottom: 24px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; align-items: center; gap: 20px;
+    }
+    .status-item {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 500; color: var(--text-dim);
+    }
+    .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .dot-green { background: #3ddc84; box-shadow: 0 0 6px rgba(61,220,132,0.7); }
+    .dot-blue  { background: #4b94f5; box-shadow: 0 0 6px rgba(75,148,245,0.7); }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.45; } }
+    .dot { animation: pulse 2.4s ease-in-out infinite; }
+    .dot-blue { animation-delay: 0.8s; }
+
+    /* ══════════════════════════════════════
+       BROKEN SECTION
+    ══════════════════════════════════════ */
+    .broken {
+      background: #080808;
+      padding: 100px 48px 90px;
+    }
+    .broken-inner { max-width: 1120px; margin: 0 auto; }
+
+    .broken-eyebrow {
+      text-align: center; font-size: 10px; font-weight: 600;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: #3a3a3a; margin-bottom: 28px;
+    }
+    .broken-heading {
+      text-align: center;
+      font-size: clamp(2.8rem, 5.5vw, 5rem);
+      font-weight: 700; letter-spacing: -0.04em; line-height: 1.08;
+      margin-bottom: 20px;
+    }
+    .broken-heading .white { color: #ffffff; display: block; }
+    .broken-heading .grey  { color: #333333; display: block; }
+    .broken-sub {
+      text-align: center; font-size: 14px; color: #555555;
+      line-height: 1.7; max-width: 420px;
+      margin: 0 auto 64px;
+    }
+
+    /* ══════════════════════════════════════
+       PROBLEM CARDS
+    ══════════════════════════════════════ */
+    .prob-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .prob-card {
+      position: relative;
+      background: #0f0f0f;
+      border-radius: 24px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 360px;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.4), 0 16px 48px rgba(0,0,0,0.55);
+    }
+
+    /* Card 3 dot grid bg */
+    .card-exposure {
+      background-color: #0f0f0f;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px);
+      background-size: 22px 22px;
+    }
+
+    .pc-content {
+      position: relative;
+      z-index: 2;
+      padding: 32px 32px 36px;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .pc-eyebrow {
+      display: block;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.22);
+      margin-bottom: 22px;
+    }
+
+    .pc-headline {
+      font-size: clamp(3.8rem, 5.5vw, 5.2rem);
+      font-weight: 700;
+      letter-spacing: -0.05em;
+      color: #ffffff;
+      line-height: 0.95;
+      margin-bottom: 12px;
+    }
+
+    .pc-headline-pre {
+      display: block;
+      font-size: clamp(1.1rem, 1.8vw, 1.35rem);
+      font-weight: 500;
+      color: rgba(255,255,255,0.42);
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+      margin-bottom: 4px;
+    }
+
+    .pc-sub {
+      font-size: clamp(1rem, 1.6vw, 1.2rem);
+      font-weight: 500;
+      color: rgba(255,255,255,0.38);
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+    }
+
+    .pc-micro {
+      margin-top: auto;
+      padding-top: 20px;
+      font-size: 11.5px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.16);
+      letter-spacing: -0.01em;
+    }
+
+    /* Currency bg symbols — Card 1 */
+    .pc-curr {
+      position: absolute;
+      font-weight: 700;
+      color: white;
+      opacity: 0.035;
+      pointer-events: none;
+      user-select: none;
+      line-height: 1;
+      z-index: 1;
+    }
+
+    /* Progress bar — Card 2 */
+    .pc-progress {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: rgba(255,255,255,0.04);
+      z-index: 3;
+    }
+    .pc-progress-bar {
+      height: 100%;
+      background: rgba(255,255,255,0.22);
+      border-radius: 0 2px 2px 0;
+      width: 0;
+      animation: progress-stall 5.5s ease-in-out infinite;
+    }
+    @keyframes progress-stall {
+      0%   { width: 0;   opacity: 1; }
+      55%  { width: 73%; opacity: 1; }
+      72%  { width: 75%; opacity: 1; }
+      88%  { width: 75%; opacity: 0; }
+      100% { width: 0;   opacity: 0; }
+    }
+
+    /* ═══════════════════════════════
+       ENTER BLIP CARD
+    ═══════════════════════════════ */
+    .blip-card {
+      background: #0f0f0f;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 20px;
+      padding: 40px 48px;
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 48px;
+      overflow: hidden; position: relative;
+    }
+    .blip-card::before {
+      content: '';
+      position: absolute; top: -60px; left: -60px;
+      width: 280px; height: 280px;
+      background: radial-gradient(circle, rgba(255,107,53,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .blip-card-left { flex: 1; min-width: 0; position: relative; }
+    .blip-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 4px 10px;
+      background: rgba(255,107,53,0.12);
+      border: 1px solid rgba(255,107,53,0.2);
+      border-radius: 999px;
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: #ff6b35; margin-bottom: 16px;
+    }
+    .blip-badge-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: #ff6b35;
+      animation: pulse 1.6s ease-in-out infinite;
+    }
+    .blip-title {
+      font-size: clamp(2rem, 3.5vw, 3.2rem);
+      font-weight: 700; letter-spacing: -0.04em;
+      color: #fff; margin-bottom: 8px;
+    }
+    .blip-desc { font-size: 13.5px; color: #444; margin-bottom: 28px; }
+    .blip-stats { display: flex; gap: 28px; flex-wrap: wrap; }
+    .blip-stat-val {
+      font-size: 16px; font-weight: 700;
+      color: #fff; letter-spacing: -0.03em; margin-bottom: 2px;
+    }
+    .blip-stat-lbl {
+      font-size: 9px; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase; color: #333;
+    }
+    .phone-mockup { width: 160px; flex-shrink: 0; }
+    .phone-shell {
+      width: 140px; height: 240px; border-radius: 24px;
+      background: #1a1a1a; border: 1.5px solid rgba(255,255,255,0.1);
+      overflow: hidden; margin: 0 auto;
+    }
+    .phone-notch { width: 50px; height: 6px; border-radius: 3px; background: #0f0f0f; margin: 10px auto 12px; }
+    .phone-screen-content { padding: 0 12px; }
+    .phone-row { height: 8px; border-radius: 4px; background: rgba(255,255,255,0.06); margin-bottom: 7px; }
+    .phone-row.short  { width: 60%; }
+    .phone-row.orange { background: rgba(255,107,53,0.3); width: 80%; }
+    .phone-row.bright { background: rgba(255,107,53,0.5); width: 45%; }
+    .phone-amount { font-size: 22px; font-weight: 700; color: #fff; letter-spacing: -0.04em; padding: 12px 12px 6px; }
+    .phone-label-sm { font-size: 8px; color: #333; letter-spacing: 1px; text-transform: uppercase; padding: 0 12px; margin-bottom: 12px; }
+    .phone-btn { margin: 8px 12px 0; height: 28px; border-radius: 8px; background: linear-gradient(135deg, #ff6b35, #ff8c50); }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+      </svg>
+      Blip money
+    </a>
+    <ul class="nav-links">
+      <li><a href="#">How it works</a></li>
+      <li><a href="#">Merchant</a></li>
+      <li><a href="#">Research</a></li>
+      <li><a href="#">Blog</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="theme-toggle" title="Toggle theme">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+      <a href="#" class="btn-waitlist-nav">Join Waitlist <span>→</span></a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <main>
+    <p class="hero-label">The Settlement Protocol</p>
+    <h1 class="hero-heading">
+      Borderless finance.<br>
+      <span class="gradient-text">Settled on-chain.</span>
+    </h1>
+    <p class="hero-sub">Send value to anyone, anywhere.</p>
+    <p class="hero-desc">Powered by open, permissionless infrastructure and non-custodial liquidity.</p>
+    <div class="hero-ctas">
+      <a href="#" class="btn-primary">Join Waitlist <span>→</span></a>
+      <a href="#" class="btn-secondary">Become a Merchant</a>
+    </div>
+  </main>
+
+  <!-- BROKEN SECTION -->
+  <section class="broken">
+    <div class="broken-inner">
+
+      <p class="broken-eyebrow">Why now</p>
+      <h2 class="broken-heading">
+        <span class="white">Global payments</span>
+        <span class="grey">are broken.</span>
+      </h2>
+      <p class="broken-sub">The traditional financial system was built for a different era. Stablecoin adoption is rising. Merchants are stuck. The timing is now.</p>
+
+      <!-- 3 White Premium Problem Cards -->
+      <div class="prob-grid">
+
+        <!-- Card 1: The Cost -->
+        <div class="prob-card card-cost">
+          <div class="pc-curr" style="font-size:170px;top:-35px;right:-18px;transform:rotate(-12deg)">$</div>
+          <div class="pc-curr" style="font-size:90px;bottom:24px;left:-14px;transform:rotate(9deg)">€</div>
+          <div class="pc-curr" style="font-size:65px;top:55px;right:62px;transform:rotate(5deg)">£</div>
+          <div class="pc-curr" style="font-size:52px;bottom:72px;right:28px;transform:rotate(-5deg)">¥</div>
+          <div class="pc-content">
+            <span class="pc-eyebrow">The Cost</span>
+            <div class="pc-headline">7%</div>
+            <div class="pc-sub">Lost before it arrives.</div>
+            <div class="pc-micro">Every cross-border transfer.</div>
+          </div>
+        </div>
+
+        <!-- Card 2: The Wait -->
+        <div class="prob-card card-wait">
+          <div class="pc-content">
+            <span class="pc-eyebrow">The Wait</span>
+            <div class="pc-headline">3–5 Days</div>
+            <div class="pc-sub">To settle.</div>
+            <div class="pc-micro">Global payments shouldn't crawl.</div>
+          </div>
+          <div class="pc-progress"><div class="pc-progress-bar"></div></div>
+        </div>
+
+        <!-- Card 3: The Exposure -->
+        <div class="prob-card card-exposure">
+          <div class="pc-content">
+            <span class="pc-eyebrow">The Exposure</span>
+            <span class="pc-headline-pre">Every transaction</span>
+            <div class="pc-headline">Tracked.</div>
+            <div class="pc-micro">Stored. Shared. Permanent.</div>
+          </div>
+        </div>
+
+      </div><!-- /prob-grid -->
+
+      <!-- Enter Blip card -->
+      <div class="blip-card">
+        <div class="blip-card-left">
+          <div class="blip-badge">
+            <div class="blip-badge-dot"></div>
+            Top Answer
+          </div>
+          <div class="blip-title">Enter Blip.</div>
+          <div class="blip-desc">Instant settlement. Minimal fees. Complete privacy.</div>
+          <div class="blip-stats">
+            <div>
+              <div class="blip-stat-val">&lt;2s</div>
+              <div class="blip-stat-lbl">Settlement</div>
+            </div>
+            <div>
+              <div class="blip-stat-val">0.1%</div>
+              <div class="blip-stat-lbl">Withdrawal fee</div>
+            </div>
+            <div>
+              <div class="blip-stat-val">Non-custodial</div>
+              <div class="blip-stat-lbl">You keep control</div>
+            </div>
+            <div>
+              <div class="blip-stat-val">On-chain</div>
+              <div class="blip-stat-lbl">Full transparency</div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-mockup">
+          <div class="phone-shell">
+            <div class="phone-notch"></div>
+            <div class="phone-amount">$840.00</div>
+            <div class="phone-label-sm">Settlement complete</div>
+            <div class="phone-screen-content">
+              <div class="phone-row orange"></div>
+              <div class="phone-row short"></div>
+              <div class="phone-row"></div>
+              <div class="phone-row bright"></div>
+              <div class="phone-row short"></div>
+            </div>
+            <div class="phone-btn"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- STATUS BAR -->
+  <div class="status-bar">
+    <div class="status-item"><span class="dot dot-green"></span><span>Base</span></div>
+    <div class="status-item"><span class="dot dot-blue"></span><span>Solana</span></div>
+  </div>
+
+</body>
+</html>

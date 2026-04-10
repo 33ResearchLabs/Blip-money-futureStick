@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P2P.me Contract Analysis - Base Chain</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, monospace;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 24px 32px;
+            border-bottom: 1px solid #2a2a4a;
+        }
+        .header h1 {
+            font-size: 20px;
+            color: #00d4ff;
+            margin-bottom: 8px;
+        }
+        .header .address {
+            font-size: 13px;
+            color: #888;
+            font-family: monospace;
+        }
+        .header .address a { color: #5b8def; text-decoration: none; }
+        .header .address a:hover { text-decoration: underline; }
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #4caf50;
+            margin-left: 16px;
+        }
+        .live-dot {
+            width: 8px; height: 8px;
+            background: #4caf50;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .controls {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+            align-items: center;
+        }
+        .btn {
+            padding: 8px 16px;
+            background: #1e3a5f;
+            color: #00d4ff;
+            border: 1px solid #2a4a7f;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+        .btn:hover { background: #2a4a7f; }
+        .btn.active { background: #00d4ff; color: #000; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .status-bar {
+            padding: 8px 32px;
+            background: #111;
+            font-size: 12px;
+            color: #666;
+            border-bottom: 1px solid #222;
+        }
+        .dashboard {
+            padding: 24px 32px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border: 1px solid #2a2a4a;
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .stat-card .label {
+            font-size: 12px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        .stat-card .value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .stat-card .sub {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+        }
+        .stat-card .value.green { color: #4caf50; }
+        .stat-card .value.red { color: #f44336; }
+        .stat-card .value.blue { color: #00d4ff; }
+        .charts-grid {
+            padding: 0 32px 32px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .chart-card {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border: 1px solid #2a2a4a;
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .chart-card.full-width {
+            grid-column: 1 / -1;
+        }
+        .chart-card h3 {
+            font-size: 14px;
+            color: #aaa;
+            margin-bottom: 16px;
+        }
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+        .chart-container.tall {
+            height: 400px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        th {
+            text-align: left;
+            padding: 10px 12px;
+            color: #888;
+            border-bottom: 1px solid #2a2a4a;
+            font-weight: 500;
+        }
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #1a1a2a;
+        }
+        .tx-hash { color: #5b8def; font-family: monospace; font-size: 12px; }
+        .amount-in { color: #4caf50; }
+        .amount-out { color: #f44336; }
+        .loading-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(10,10,15,0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .loading-overlay.hidden { display: none; }
+        .spinner {
+            width: 40px; height: 40px;
+            border: 3px solid #333;
+            border-top-color: #00d4ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading-text {
+            margin-top: 16px;
+            color: #888;
+            font-size: 14px;
+        }
+        .progress-bar {
+            width: 300px;
+            height: 4px;
+            background: #222;
+            border-radius: 2px;
+            margin-top: 12px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: #00d4ff;
+            transition: width 0.3s;
+            width: 0%;
+        }
+        .recent-tx {
+            padding: 0 32px 32px;
+        }
+        .recent-tx h3 {
+            font-size: 14px;
+            color: #aaa;
+            margin-bottom: 12px;
+        }
+        .table-wrapper {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border: 1px solid #2a2a4a;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .table-scroll {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .table-scroll::-webkit-scrollbar { width: 6px; }
+        .table-scroll::-webkit-scrollbar-track { background: #1a1a2e; }
+        .table-scroll::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+        @media (max-width: 900px) {
+            .dashboard { grid-template-columns: repeat(2, 1fr); }
+            .charts-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <div class="loading-text" id="loadingText">Connecting to Base network...</div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+
+    <div class="header">
+        <h1>P2P.me Contract Analysis - Base Chain
+            <span class="live-indicator" id="liveIndicator" style="display:none">
+                <span class="live-dot"></span> LIVE
+            </span>
+        </h1>
+        <div class="address">
+            Contract: <a href="https://basescan.org/address/0x4cad6ec90e65babec9335cad728ddc610c316368" target="_blank">0x4cad6eC90e65baBec9335cAd728DDC610c316368</a>
+            &nbsp;|&nbsp; EIP-2535 Diamond Proxy &nbsp;|&nbsp; P2P USDC/Fiat Swap Protocol &nbsp;|&nbsp; Created: <span id="createdDate">Loading...</span>
+        </div>
+        <div style="font-size:12px;color:#666;margin-top:6px;">
+            Dune Dashboards:
+            <a href="https://dune.com/p2pme/latest" target="_blank" style="color:#5b8def;">p2pme/latest</a> &nbsp;|&nbsp;
+            <a href="https://dune.com/mehranp2p/p2pme-ops-dashboard" target="_blank" style="color:#5b8def;">Ops Dashboard</a> &nbsp;|&nbsp;
+            <a href="https://dune.com/p2px/metrics" target="_blank" style="color:#5b8def;">p2px/metrics</a>
+        </div>
+        <div class="controls">
+            <button class="btn active" id="btnRefresh" onclick="fullRefresh()">Refresh Data</button>
+            <button class="btn" id="btnLive" onclick="toggleLive()">Enable Live Mode (30s)</button>
+            <button class="btn" onclick="exportCSV()">Export CSV</button>
+            <button class="btn" onclick="stopFetch()" style="color:#ff9800;border-color:#ff9800;" id="btnStop">Stop Fetch</button>
+            <button class="btn" onclick="clearCacheAndRefresh()" style="color:#f44336;border-color:#f44336;">Clear Cache & Restart</button>
+            <span style="font-size:12px;color:#666;" id="lastUpdate">Last update: --</span>
+        </div>
+    </div>
+    <div class="status-bar" id="statusBar">Initializing...</div>
+
+    <div class="dashboard">
+        <div class="stat-card">
+            <div class="label">Total Transactions</div>
+            <div class="value blue" id="totalTx">--</div>
+            <div class="sub" id="txPerDay">-- tx/day avg</div>
+        </div>
+        <div class="stat-card">
+            <div class="label">Total Token Transfers</div>
+            <div class="value" id="totalTransfers">--</div>
+            <div class="sub" id="transfersPerDay">-- transfers/day avg</div>
+        </div>
+        <div class="stat-card">
+            <div class="label">USDC Inflow (Fetched)</div>
+            <div class="value green" id="totalIn">--</div>
+            <div class="sub" id="inPerDay">-- /day avg</div>
+        </div>
+        <div class="stat-card">
+            <div class="label">USDC Outflow (Fetched)</div>
+            <div class="value red" id="totalOut">--</div>
+            <div class="sub" id="outPerDay">-- /day avg</div>
+        </div>
+    </div>
+
+    <!-- Estimated Totals based on sample extrapolation -->
+    <div class="dashboard" style="padding-top:0;">
+        <div class="stat-card" style="grid-column: span 2;">
+            <div class="label">Est. Total Inflow (Extrapolated)</div>
+            <div class="value green" id="estTotalIn">--</div>
+            <div class="sub">Based on daily avg * contract age</div>
+        </div>
+        <div class="stat-card" style="grid-column: span 2;">
+            <div class="label">Est. Total Outflow (Extrapolated)</div>
+            <div class="value red" id="estTotalOut">--</div>
+            <div class="sub">Based on daily avg * contract age</div>
+        </div>
+        <div class="stat-card" style="grid-column: 1 / -1;">
+            <div class="sub" id="sampleInfo" style="color:#ff9800;">Sample info loading...</div>
+        </div>
+    </div>
+
+    <!-- Protocol Revenue & Merchant Stakes -->
+    <div class="dashboard" style="padding-top:0;">
+        <div class="stat-card">
+            <div class="label">Protocol Fee</div>
+            <div class="value blue">1.2-2%</div>
+            <div class="sub">Base spread per trade (retained in contract)</div>
+        </div>
+        <div class="stat-card">
+            <div class="label">Merchant Reward</div>
+            <div class="value green">1-2%</div>
+            <div class="sub">Per fulfilled order (paid via batch settlement)</div>
+        </div>
+        <div class="stat-card">
+            <div class="label">INR Total Staked</div>
+            <div class="value">$78.7K</div>
+            <div class="sub">Merchant stakes (INR market)</div>
+        </div>
+        <div class="stat-card">
+            <div class="label">BRL Total Staked</div>
+            <div class="value">$116.4K</div>
+            <div class="sub">Merchant stakes (BRL market)</div>
+        </div>
+    </div>
+
+    <div class="recent-tx" style="padding-bottom:0;">
+        <h3>Known Merchant Stakes (On-Chain)</h3>
+        <div class="table-wrapper">
+            <div class="table-scroll" style="max-height:250px;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Merchant Address</th>
+                            <th>Stake (USDC)</th>
+                            <th>Market</th>
+                            <th>Total Volume</th>
+                            <th>Fees Earned</th>
+                            <th>Basescan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="tx-hash">0xb72b5fa8...d8a11</td>
+                            <td class="amount-in">$300.00</td>
+                            <td>INR</td>
+                            <td>$47,019.78</td>
+                            <td class="amount-in">$632.92</td>
+                            <td><a class="tx-hash" href="https://basescan.org/address/0xb72b5fa8155da444e8fce598a5896b05b69d8a11" target="_blank">View</a></td>
+                        </tr>
+                        <tr>
+                            <td class="tx-hash">0x0a0af698...c028</td>
+                            <td class="amount-in">$300.00</td>
+                            <td>--</td>
+                            <td>--</td>
+                            <td>--</td>
+                            <td><a class="tx-hash" href="https://basescan.org/address/0x0a0af69807f0344f42681e6f3f9560db2e96c028" target="_blank">View</a></td>
+                        </tr>
+                        <tr>
+                            <td class="tx-hash">0x2ec873f9...b769</td>
+                            <td class="amount-in">$1,000.05</td>
+                            <td>INR</td>
+                            <td>$7,042.06</td>
+                            <td class="amount-in">$142.84</td>
+                            <td><a class="tx-hash" href="https://basescan.org/address/0x2ec873f9e2ea8f63de1cc2491e50f5f68c2eb769" target="_blank">View</a></td>
+                        </tr>
+                        <tr>
+                            <td class="tx-hash">0x47b00abf...6200</td>
+                            <td class="amount-in">$401.46</td>
+                            <td>--</td>
+                            <td>--</td>
+                            <td>--</td>
+                            <td><a class="tx-hash" href="https://basescan.org/address/0x47b00abf786371a3eb6b686a4ef8ee130d286200" target="_blank">View</a></td>
+                        </tr>
+                        <tr>
+                            <td class="tx-hash">0x8f78f871...3e31</td>
+                            <td class="amount-in">$250.00</td>
+                            <td>--</td>
+                            <td>--</td>
+                            <td>--</td>
+                            <td><a class="tx-hash" href="https://basescan.org/address/0x8f78f87122730cd3d70ac95b74c07f872ff43e31" target="_blank">View</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Yearly Overview -->
+    <div class="dashboard" style="padding-top:0;" id="yearlyOverview"></div>
+
+    <div class="charts-grid">
+        <div class="chart-card full-width">
+            <h3>Yearly USDC Volume (In vs Out)</h3>
+            <div class="chart-container">
+                <canvas id="yearlyVolChart"></canvas>
+            </div>
+        </div>
+        <div class="chart-card full-width">
+            <h3>Daily Transaction Count</h3>
+            <div class="chart-container tall">
+                <canvas id="dailyTxChart"></canvas>
+            </div>
+        </div>
+        <div class="chart-card">
+            <h3>Monthly Transaction Count</h3>
+            <div class="chart-container">
+                <canvas id="monthlyTxChart"></canvas>
+            </div>
+        </div>
+        <div class="chart-card">
+            <h3>Monthly USDC Volume (In vs Out)</h3>
+            <div class="chart-container">
+                <canvas id="monthlyVolChart"></canvas>
+            </div>
+        </div>
+        <div class="chart-card full-width">
+            <h3>Daily USDC Volume (In vs Out)</h3>
+            <div class="chart-container tall">
+                <canvas id="dailyVolChart"></canvas>
+            </div>
+        </div>
+        <div class="chart-card">
+            <h3>Top Interacting Addresses</h3>
+            <div class="chart-container">
+                <canvas id="topAddressChart"></canvas>
+            </div>
+        </div>
+        <div class="chart-card">
+            <h3>Transaction Method Distribution</h3>
+            <div class="chart-container">
+                <canvas id="methodChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Daily Breakdown Table -->
+    <div class="recent-tx">
+        <h3>Daily USDC Volume Breakdown</h3>
+        <div class="table-wrapper">
+            <div class="table-scroll" style="max-height:500px;">
+                <table id="dailyTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Day</th>
+                            <th>Inflow (USDC)</th>
+                            <th>Outflow (USDC)</th>
+                            <th>Net</th>
+                            <th>Total Volume</th>
+                            <th>Transfers</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dailyBody"></tbody>
+                    <tfoot id="dailyFoot"></tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="charts-grid" style="padding-top:0">
+        <div class="chart-card full-width">
+            <h3>Dune Analytics - P2P.me Metrics (External)</h3>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                <a href="https://dune.com/p2pme/latest" target="_blank" class="btn" style="display:inline-block;text-decoration:none;">Open p2pme/latest Dashboard</a>
+                <a href="https://dune.com/mehranp2p/p2pme-ops-dashboard" target="_blank" class="btn" style="display:inline-block;text-decoration:none;">Open Ops Dashboard</a>
+                <a href="https://dune.com/p2px/metrics" target="_blank" class="btn" style="display:inline-block;text-decoration:none;">Open p2px/metrics</a>
+            </div>
+            <p style="color:#666;font-size:12px;margin-top:12px;">Dune dashboards cannot be embedded due to CORS restrictions. Click the links above to view full Dune analytics in a new tab.</p>
+        </div>
+    </div>
+
+    <div class="recent-tx">
+        <h3>Recent Token Transfers</h3>
+        <div class="table-wrapper">
+            <div class="table-scroll">
+                <table id="recentTable">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Direction</th>
+                            <th>Amount (USDC)</th>
+                            <th>Counterparty</th>
+                            <th>Tx Hash</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recentBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+<script>
+const WALLET = '0x4cad6ec90e65babec9335cad728ddc610c316368';
+const BLOCKSCOUT_API = 'https://base.blockscout.com/api/v2';
+const CREATED_DATE = new Date('2025-05-06T13:58:05Z');
+const USDC_CONTRACT = '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913';
+const TARGET_DAYS = 100;
+
+let allTransactions = [];
+let liveInterval = null;
+let charts = {};
+let fetchAborted = false;
+
+// ---- API Helpers ----
+async function fetchJSON(url) {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    return resp.json();
+}
+
+async function fetchPaginated(baseUrl, maxPages, progressCb) {
+    let items = [];
+    let url = baseUrl;
+    let page = 0;
+    while (url && page < maxPages) {
+        const data = await fetchJSON(url);
+        items = items.concat(data.items || []);
+        page++;
+        if (progressCb) progressCb(page, items.length);
+        if (data.next_page_params) {
+            const params = new URLSearchParams(data.next_page_params);
+            url = `${baseUrl}${baseUrl.includes('?') ? '&' : '?'}${params.toString()}`;
+        } else break;
+    }
+    return items;
+}
+
+// ---- Data Fetching ----
+async function fetchCounters() {
+    return fetchJSON(`${BLOCKSCOUT_API}/addresses/${WALLET}/counters`);
+}
+
+async function fetchTransactions(maxPages = 15) {
+    return fetchPaginated(
+        `${BLOCKSCOUT_API}/addresses/${WALLET}/transactions`, maxPages,
+        (p, c) => updateLoading(`Fetching transactions... page ${p}/${maxPages} (${c} txs)`, p / maxPages * 15)
+    );
+}
+
+// ---- Incremental Token Transfer Fetching ----
+// Cache stores daily aggregates. On first visit we backfill TARGET_DAYS.
+// On return visits we only fetch new data since last cache.
+
+function emptyAgg() {
+    return {
+        dailyIn: {}, dailyOut: {}, dailyTxCount: {},
+        monthlyIn: {}, monthlyOut: {},
+        yearlyIn: {}, yearlyOut: {}, yearlyTxCount: {},
+        totalIn: 0, totalOut: 0, totalProcessed: 0, skippedSpam: 0,
+        newestTs: null, oldestTs: null,
+        oldestCursor: null, backfillComplete: false,
+        recentTransfers: []
+    };
+}
+
+function processTransferItem(t, agg) {
+    const walletLower = WALLET.toLowerCase();
+    const usdcLower = USDC_CONTRACT.toLowerCase();
+    const tokenAddr = (t.token?.address_hash || t.token?.address || '').toLowerCase();
+    if (tokenAddr !== usdcLower) { agg.skippedSpam++; return; }
+
+    const decimals = parseInt(t.token?.decimals || '6');
+    const value = parseFloat(t.total?.value || '0') / Math.pow(10, decimals);
+    const date = t.timestamp?.substring(0, 10);
+    const month = t.timestamp?.substring(0, 7);
+    const year = t.timestamp?.substring(0, 4);
+    if (!date) return;
+
+    const isIn = t.to?.hash?.toLowerCase() === walletLower;
+    const ts = new Date(t.timestamp).getTime();
+    if (!agg.newestTs || ts > agg.newestTs) agg.newestTs = ts;
+    if (!agg.oldestTs || ts < agg.oldestTs) agg.oldestTs = ts;
+
+    if (isIn) {
+        agg.totalIn += value;
+        agg.dailyIn[date] = (agg.dailyIn[date] || 0) + value;
+        agg.monthlyIn[month] = (agg.monthlyIn[month] || 0) + value;
+        agg.yearlyIn[year] = (agg.yearlyIn[year] || 0) + value;
+    } else {
+        agg.totalOut += value;
+        agg.dailyOut[date] = (agg.dailyOut[date] || 0) + value;
+        agg.monthlyOut[month] = (agg.monthlyOut[month] || 0) + value;
+        agg.yearlyOut[year] = (agg.yearlyOut[year] || 0) + value;
+    }
+    agg.dailyTxCount[date] = (agg.dailyTxCount[date] || 0) + 1;
+    agg.yearlyTxCount[year] = (agg.yearlyTxCount[year] || 0) + 1;
+    agg.totalProcessed++;
+
+    if (agg.recentTransfers.length < 100) {
+        agg.recentTransfers.push({
+            time: t.timestamp, direction: isIn ? 'IN' : 'OUT', amount: value,
+            counterparty: isIn ? t.from?.hash : t.to?.hash,
+            hash: t.transaction_hash || t.tx_hash
+        });
+    }
+}
+
+async function fetchTransfersIncremental() {
+    let agg = loadAggCache();
+    const isResume = !!agg;
+    if (!agg) agg = emptyAgg();
+
+    const cutoff = Date.now() - TARGET_DAYS * 86400000;
+    const baseUrl = `${BLOCKSCOUT_API}/addresses/${WALLET}/token-transfers?type=ERC-20`;
+
+    // Phase 1: Fetch NEW transfers (if we have cached data)
+    if (agg.newestTs) {
+        updateLoading('Fetching new transfers...', 16);
+        let url = baseUrl;
+        let page = 0;
+        let done = false;
+        // Clear recent transfers so we rebuild from newest
+        agg.recentTransfers = [];
+        while (url && !done && page < 500 && !fetchAborted) {
+            const data = await fetchJSON(url);
+            const items = data.items || [];
+            for (const t of items) {
+                const ts = new Date(t.timestamp).getTime();
+                if (ts <= agg.newestTs) { done = true; break; }
+                processTransferItem(t, agg);
+            }
+            page++;
+            updateLoading(`Catching up... page ${page} (${agg.recentTransfers.length} new transfers)`, 16 + Math.min(page, 20));
+            if (!done && data.next_page_params) {
+                const p = new URLSearchParams(data.next_page_params);
+                url = `${baseUrl}&${p.toString()}`;
+            } else break;
+        }
+        if (page > 0) saveAggCache(agg);
+    }
+
+    // Phase 2: Backfill old data (first visit or resume interrupted backfill)
+    if (!agg.backfillComplete && !fetchAborted) {
+        let url;
+        if (agg.oldestCursor) {
+            const p = new URLSearchParams(agg.oldestCursor);
+            url = `${baseUrl}&${p.toString()}`;
+        } else if (!agg.newestTs) {
+            url = baseUrl; // very first fetch
+        }
+
+        if (url) {
+            let page = 0;
+            while (url && !fetchAborted) {
+                const data = await fetchJSON(url);
+                const items = data.items || [];
+                for (const t of items) processTransferItem(t, agg);
+                page++;
+
+                const daysBack = agg.oldestTs ? Math.floor((Date.now() - agg.oldestTs) / 86400000) : 0;
+                const numDays = Object.keys(agg.dailyIn).length;
+                const pct = Math.min(90, 36 + (daysBack / TARGET_DAYS * 54));
+                updateLoading(
+                    `Backfilling history... ${daysBack} days back, ${numDays} days collected, page ${page} (${agg.totalProcessed.toLocaleString()} USDC transfers)`,
+                    pct
+                );
+
+                // Save progress every 20 pages
+                if (page % 20 === 0) {
+                    if (data.next_page_params) agg.oldestCursor = data.next_page_params;
+                    saveAggCache(agg);
+                }
+
+                // Check if we've reached target
+                if (agg.oldestTs && agg.oldestTs <= cutoff) {
+                    agg.backfillComplete = true;
+                    break;
+                }
+
+                if (data.next_page_params) {
+                    agg.oldestCursor = data.next_page_params;
+                    const p = new URLSearchParams(data.next_page_params);
+                    url = `${baseUrl}&${p.toString()}`;
+                } else {
+                    agg.backfillComplete = true; // reached end of all transfers
+                    break;
+                }
+            }
+            saveAggCache(agg);
+        }
+    }
+
+    return agg;
+}
+
+// ---- Transaction Analysis (fresh each time, small) ----
+function analyzeTransactions(txs) {
+    const dailyCounts = {}, monthlyCounts = {}, methodCounts = {}, addressCounts = {};
+    txs.forEach(tx => {
+        const date = tx.timestamp?.substring(0, 10);
+        const month = tx.timestamp?.substring(0, 7);
+        if (date) dailyCounts[date] = (dailyCounts[date] || 0) + 1;
+        if (month) monthlyCounts[month] = (monthlyCounts[month] || 0) + 1;
+        const method = tx.method || tx.decoded_input?.method_call?.split('(')[0] || 'unknown';
+        methodCounts[method] = (methodCounts[method] || 0) + 1;
+        const cp = tx.from?.hash?.toLowerCase() === WALLET.toLowerCase() ? tx.to?.hash : tx.from?.hash;
+        if (cp) addressCounts[cp] = (addressCounts[cp] || 0) + 1;
+    });
+    return { dailyCounts, monthlyCounts, methodCounts, addressCounts };
+}
+
+// ---- Chart Rendering ----
+function destroyCharts() {
+    Object.values(charts).forEach(c => c.destroy());
+    charts = {};
+}
+
+const chartDefaults = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+        legend: { labels: { color: '#aaa', font: { size: 11 } } }
+    },
+    scales: {
+        x: { ticks: { color: '#666', maxRotation: 45 }, grid: { color: '#1a1a2a' } },
+        y: { ticks: { color: '#666' }, grid: { color: '#1a1a2a' } }
+    }
+};
+
+function renderDailyTxChart(dailyCounts) {
+    const sorted = Object.entries(dailyCounts).sort((a, b) => a[0].localeCompare(b[0]));
+    const ctx = document.getElementById('dailyTxChart').getContext('2d');
+    charts.dailyTx = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: sorted.map(d => d[0]),
+            datasets: [{
+                label: 'Transactions',
+                data: sorted.map(d => d[1]),
+                backgroundColor: 'rgba(0, 212, 255, 0.6)',
+                borderColor: '#00d4ff',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            ...chartDefaults,
+            plugins: {
+                ...chartDefaults.plugins,
+                tooltip: {
+                    callbacks: {
+                        label: ctx => `${ctx.parsed.y.toLocaleString()} txs`
+                    }
+                }
+            }
+        }
+    });
+}
+
+function renderMonthlyTxChart(monthlyCounts) {
+    const sorted = Object.entries(monthlyCounts).sort((a, b) => a[0].localeCompare(b[0]));
+    const ctx = document.getElementById('monthlyTxChart').getContext('2d');
+    charts.monthlyTx = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: sorted.map(d => d[0]),
+            datasets: [{
+                label: 'Transactions',
+                data: sorted.map(d => d[1]),
+                backgroundColor: 'rgba(0, 212, 255, 0.7)',
+                borderColor: '#00d4ff',
+                borderWidth: 1,
+                borderRadius: 4
+            }]
+        },
+        options: chartDefaults
+    });
+}
+
+function renderMonthlyVolChart(monthlyIn, monthlyOut) {
+    const allMonths = [...new Set([...Object.keys(monthlyIn), ...Object.keys(monthlyOut)])].sort();
+    const ctx = document.getElementById('monthlyVolChart').getContext('2d');
+    charts.monthlyVol = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: allMonths,
+            datasets: [
+                {
+                    label: 'Inflow (USDC)',
+                    data: allMonths.map(m => (monthlyIn[m] || 0)),
+                    backgroundColor: 'rgba(76, 175, 80, 0.7)',
+                    borderColor: '#4caf50',
+                    borderWidth: 1,
+                    borderRadius: 4
+                },
+                {
+                    label: 'Outflow (USDC)',
+                    data: allMonths.map(m => (monthlyOut[m] || 0)),
+                    backgroundColor: 'rgba(244, 67, 54, 0.7)',
+                    borderColor: '#f44336',
+                    borderWidth: 1,
+                    borderRadius: 4
+                }
+            ]
+        },
+        options: {
+            ...chartDefaults,
+            plugins: {
+                ...chartDefaults.plugins,
+                tooltip: {
+                    callbacks: {
+                        label: ctx => `$${ctx.parsed.y.toLocaleString(undefined, {maximumFractionDigits: 2})}`
+                    }
+                }
+            },
+            scales: {
+                ...chartDefaults.scales,
+                y: {
+                    ...chartDefaults.scales.y,
+                    ticks: {
+                        ...chartDefaults.scales.y.ticks,
+                        callback: v => '$' + (v >= 1e6 ? (v/1e6).toFixed(1) + 'M' : v >= 1e3 ? (v/1e3).toFixed(0) + 'K' : v)
+                    }
+                }
+            }
+        }
+    });
+}
+
+function renderDailyVolChart(dailyIn, dailyOut) {
+    const allDays = [...new Set([...Object.keys(dailyIn), ...Object.keys(dailyOut)])].sort();
+    const ctx = document.getElementById('dailyVolChart').getContext('2d');
+    charts.dailyVol = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: allDays,
+            datasets: [
+                {
+                    label: 'Inflow (USDC)',
+                    data: allDays.map(d => (dailyIn[d] || 0)),
+                    borderColor: '#4caf50',
+                    backgroundColor: 'rgba(76,175,80,0.1)',
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: allDays.length > 60 ? 0 : 2
+                },
+                {
+                    label: 'Outflow (USDC)',
+                    data: allDays.map(d => (dailyOut[d] || 0)),
+                    borderColor: '#f44336',
+                    backgroundColor: 'rgba(244,67,54,0.1)',
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: allDays.length > 60 ? 0 : 2
+                }
+            ]
+        },
+        options: {
+            ...chartDefaults,
+            plugins: {
+                ...chartDefaults.plugins,
+                tooltip: {
+                    callbacks: {
+                        label: ctx => `$${ctx.parsed.y.toLocaleString(undefined, {maximumFractionDigits: 2})}`
+                    }
+                }
+            },
+            scales: {
+                ...chartDefaults.scales,
+                y: {
+                    ...chartDefaults.scales.y,
+                    ticks: {
+                        ...chartDefaults.scales.y.ticks,
+                        callback: v => '$' + (v >= 1e6 ? (v/1e6).toFixed(1) + 'M' : v >= 1e3 ? (v/1e3).toFixed(0) + 'K' : v)
+                    }
+                }
+            }
+        }
+    });
+}
+
+function renderTopAddressChart(addressCounts) {
+    const sorted = Object.entries(addressCounts).sort((a, b) => b[1] - a[1]).slice(0, 8);
+    const ctx = document.getElementById('topAddressChart').getContext('2d');
+    charts.topAddr = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: sorted.map(d => d[0].substring(0, 8) + '...' + d[0].substring(38)),
+            datasets: [{
+                data: sorted.map(d => d[1]),
+                backgroundColor: ['#00d4ff', '#4caf50', '#f44336', '#ff9800', '#9c27b0', '#2196f3', '#ffeb3b', '#795548']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right',
+                    labels: { color: '#aaa', font: { size: 10 }, padding: 8 }
+                }
+            }
+        }
+    });
+}
+
+function renderMethodChart(methodCounts) {
+    const sorted = Object.entries(methodCounts).sort((a, b) => b[1] - a[1]).slice(0, 6);
+    const ctx = document.getElementById('methodChart').getContext('2d');
+    charts.methods = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: sorted.map(d => d[0].length > 20 ? d[0].substring(0, 18) + '...' : d[0]),
+            datasets: [{
+                data: sorted.map(d => d[1]),
+                backgroundColor: ['#00d4ff', '#4caf50', '#f44336', '#ff9800', '#9c27b0', '#2196f3']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right',
+                    labels: { color: '#aaa', font: { size: 10 }, padding: 8 }
+                }
+            }
+        }
+    });
+}
+
+function renderYearlyVolChart(yearlyIn, yearlyOut) {
+    const allYears = [...new Set([...Object.keys(yearlyIn), ...Object.keys(yearlyOut)])].sort();
+    const ctx = document.getElementById('yearlyVolChart').getContext('2d');
+    charts.yearlyVol = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: allYears,
+            datasets: [
+                {
+                    label: 'Inflow (USDC)',
+                    data: allYears.map(y => (yearlyIn[y] || 0)),
+                    backgroundColor: 'rgba(76, 175, 80, 0.7)',
+                    borderColor: '#4caf50',
+                    borderWidth: 1,
+                    borderRadius: 4
+                },
+                {
+                    label: 'Outflow (USDC)',
+                    data: allYears.map(y => (yearlyOut[y] || 0)),
+                    backgroundColor: 'rgba(244, 67, 54, 0.7)',
+                    borderColor: '#f44336',
+                    borderWidth: 1,
+                    borderRadius: 4
+                }
+            ]
+        },
+        options: {
+            ...chartDefaults,
+            plugins: {
+                ...chartDefaults.plugins,
+                tooltip: {
+                    callbacks: {
+                        label: ctx => `$${ctx.parsed.y.toLocaleString(undefined, {maximumFractionDigits: 2})}`
+                    }
+                }
+            },
+            scales: {
+                ...chartDefaults.scales,
+                y: {
+                    ...chartDefaults.scales.y,
+                    ticks: {
+                        ...chartDefaults.scales.y.ticks,
+                        callback: v => '$' + (v >= 1e6 ? (v/1e6).toFixed(1) + 'M' : v >= 1e3 ? (v/1e3).toFixed(0) + 'K' : v)
+                    }
+                }
+            }
+        }
+    });
+}
+
+function renderYearlyOverview(yearlyIn, yearlyOut, yearlyTxCount) {
+    const container = document.getElementById('yearlyOverview');
+    const allYears = [...new Set([...Object.keys(yearlyIn), ...Object.keys(yearlyOut)])].sort();
+    container.innerHTML = allYears.map(year => {
+        const inVal = yearlyIn[year] || 0;
+        const outVal = yearlyOut[year] || 0;
+        const txCount = yearlyTxCount[year] || 0;
+        const net = inVal - outVal;
+        return `
+            <div class="stat-card">
+                <div class="label">${year} Overview</div>
+                <div class="value blue">${formatUSD(inVal + outVal)}</div>
+                <div class="sub" style="color:#4caf50;">In: ${formatUSD(inVal)}</div>
+                <div class="sub" style="color:#f44336;">Out: ${formatUSD(outVal)}</div>
+                <div class="sub">${txCount.toLocaleString()} USDC transfers</div>
+            </div>
+        `;
+    }).join('');
+}
+
+// ---- Daily Breakdown Table ----
+function renderDailyTable(dailyIn, dailyOut, dailyTxCount) {
+    const allDays = [...new Set([...Object.keys(dailyIn), ...Object.keys(dailyOut)])].sort().reverse();
+    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const tbody = document.getElementById('dailyBody');
+    const tfoot = document.getElementById('dailyFoot');
+
+    let grandIn = 0, grandOut = 0, grandTx = 0;
+
+    const fmt = v => v.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+    tbody.innerHTML = allDays.map(day => {
+        const inVal = dailyIn[day] || 0;
+        const outVal = dailyOut[day] || 0;
+        const net = inVal - outVal;
+        const vol = inVal + outVal;
+        const txCount = dailyTxCount[day] || 0;
+        const d = new Date(day + 'T00:00:00Z');
+        const dayName = dayNames[d.getUTCDay()];
+        grandIn += inVal;
+        grandOut += outVal;
+        grandTx += txCount;
+
+        return `<tr>
+            <td style="white-space:nowrap;">${day}</td>
+            <td>${dayName}</td>
+            <td class="amount-in">$${fmt(inVal)}</td>
+            <td class="amount-out">$${fmt(outVal)}</td>
+            <td style="color:${net >= 0 ? '#4caf50' : '#f44336'}">$${fmt(net)}</td>
+            <td style="color:#00d4ff;font-weight:600;">$${fmt(vol)}</td>
+            <td>${txCount.toLocaleString()}</td>
+        </tr>`;
+    }).join('');
+
+    const grandNet = grandIn - grandOut;
+    const grandVol = grandIn + grandOut;
+    const n = allDays.length || 1;
+
+    tfoot.innerHTML = `
+        <tr style="border-top:2px solid #2a4a7f;font-weight:700;">
+            <td colspan="2">TOTAL (${allDays.length} days)</td>
+            <td class="amount-in">$${fmt(grandIn)}</td>
+            <td class="amount-out">$${fmt(grandOut)}</td>
+            <td style="color:${grandNet >= 0 ? '#4caf50' : '#f44336'}">$${fmt(grandNet)}</td>
+            <td style="color:#00d4ff;">$${fmt(grandVol)}</td>
+            <td>${grandTx.toLocaleString()}</td>
+        </tr>
+        <tr style="color:#ff9800;">
+            <td colspan="2">DAILY AVG</td>
+            <td class="amount-in">$${fmt(grandIn / n)}</td>
+            <td class="amount-out">$${fmt(grandOut / n)}</td>
+            <td>--</td>
+            <td style="color:#00d4ff;">$${fmt(grandVol / n)}</td>
+            <td>${Math.round(grandTx / n).toLocaleString()}</td>
+        </tr>`;
+}
+
+// ---- Table ----
+function renderRecentTable(recentTransfers) {
+    const tbody = document.getElementById('recentBody');
+    tbody.innerHTML = recentTransfers.slice(0, 50).map(t => `
+        <tr>
+            <td>${new Date(t.time).toLocaleString()}</td>
+            <td class="${t.direction === 'IN' ? 'amount-in' : 'amount-out'}">${t.direction}</td>
+            <td class="${t.direction === 'IN' ? 'amount-in' : 'amount-out'}">$${t.amount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+            <td class="tx-hash">${t.counterparty ? t.counterparty.substring(0, 10) + '...' + t.counterparty.substring(36) : '--'}</td>
+            <td><a class="tx-hash" href="https://basescan.org/tx/${t.hash}" target="_blank">${t.hash ? t.hash.substring(0, 14) + '...' : '--'}</a></td>
+        </tr>
+    `).join('');
+}
+
+// ---- UI Helpers ----
+function updateLoading(text, progress) {
+    document.getElementById('loadingText').textContent = text;
+    if (progress !== undefined) {
+        document.getElementById('progressFill').style.width = progress + '%';
+    }
+}
+
+function formatUSD(val) {
+    if (val >= 1e9) return '$' + (val / 1e9).toFixed(2) + 'B';
+    if (val >= 1e6) return '$' + (val / 1e6).toFixed(2) + 'M';
+    if (val >= 1e3) return '$' + (val / 1e3).toFixed(2) + 'K';
+    return '$' + val.toFixed(2);
+}
+
+// ---- Cache (stores daily aggregates, ~15KB for 100 days) ----
+const CACHE_VERSION = 4;
+const AGG_KEY = 'p2pme_agg_v' + CACHE_VERSION;
+
+function saveAggCache(agg) {
+    try {
+        agg.cachedAt = Date.now();
+        localStorage.setItem(AGG_KEY, JSON.stringify(agg));
+    } catch (e) { console.warn('Cache save failed:', e); }
+}
+
+function loadAggCache() {
+    try {
+        const raw = localStorage.getItem(AGG_KEY);
+        return raw ? JSON.parse(raw) : null;
+    } catch (e) { return null; }
+}
+
+// ---- Render Dashboard from aggregates ----
+function renderDashboard(agg, txAnalysis, counters) {
+    const daysSinceCreation = Math.max(1, Math.floor((Date.now() - CREATED_DATE.getTime()) / 86400000));
+    const totalTxCount = parseInt(counters?.transactions_count || 0);
+    const totalTransferCount = parseInt(counters?.token_transfers_count || 0);
+
+    document.getElementById('totalTx').textContent = totalTxCount.toLocaleString();
+    document.getElementById('txPerDay').textContent = `~${(totalTxCount / daysSinceCreation).toFixed(0)} tx/day avg (${daysSinceCreation} days)`;
+    document.getElementById('totalTransfers').textContent = totalTransferCount.toLocaleString();
+    document.getElementById('transfersPerDay').textContent = `~${(totalTransferCount / daysSinceCreation).toFixed(0)} transfers/day avg`;
+
+    // Calculate from actual fetched days
+    const numDays = Object.keys(agg.dailyIn).length || 1;
+    const avgDailyIn = agg.totalIn / numDays;
+    const avgDailyOut = agg.totalOut / numDays;
+    const estTotalIn = avgDailyIn * daysSinceCreation;
+    const estTotalOut = avgDailyOut * daysSinceCreation;
+    const coverage = agg.backfillComplete ? `${numDays} days (complete)` : `${numDays} days so far...`;
+
+    document.getElementById('totalIn').textContent = formatUSD(agg.totalIn);
+    document.getElementById('inPerDay').textContent = `${formatUSD(avgDailyIn)} /day (${coverage})`;
+    document.getElementById('totalOut').textContent = formatUSD(agg.totalOut);
+    document.getElementById('outPerDay').textContent = `${formatUSD(avgDailyOut)} /day (${coverage})`;
+    document.getElementById('estTotalIn').textContent = formatUSD(estTotalIn);
+    document.getElementById('estTotalOut').textContent = formatUSD(estTotalOut);
+
+    const oldest = agg.oldestTs ? new Date(agg.oldestTs).toISOString().substring(0, 10) : '?';
+    const newest = agg.newestTs ? new Date(agg.newestTs).toISOString().substring(0, 10) : '?';
+    const status = agg.backfillComplete ? 'Complete' : 'Backfilling...';
+    document.getElementById('sampleInfo').textContent =
+        `${status} | ${oldest} to ${newest} | ${numDays} days | ${agg.totalProcessed.toLocaleString()} USDC transfers (${agg.skippedSpam.toLocaleString()} spam skipped)`;
+
+    document.getElementById('createdDate').textContent = CREATED_DATE.toLocaleDateString();
+
+    destroyCharts();
+    renderYearlyOverview(agg.yearlyIn, agg.yearlyOut, agg.yearlyTxCount);
+    renderYearlyVolChart(agg.yearlyIn, agg.yearlyOut);
+    if (txAnalysis) {
+        renderDailyTxChart(txAnalysis.dailyCounts);
+        renderMonthlyTxChart(txAnalysis.monthlyCounts);
+        renderTopAddressChart(txAnalysis.addressCounts);
+        renderMethodChart(txAnalysis.methodCounts);
+    }
+    renderMonthlyVolChart(agg.monthlyIn, agg.monthlyOut);
+    renderDailyVolChart(agg.dailyIn, agg.dailyOut);
+    renderRecentTable(agg.recentTransfers || []);
+    renderDailyTable(agg.dailyIn, agg.dailyOut, agg.dailyTxCount);
+
+    const cacheTime = agg.cachedAt ? new Date(agg.cachedAt) : new Date();
+    const ago = Math.round((Date.now() - cacheTime.getTime()) / 60000);
+    const agoText = ago < 1 ? 'just now' : ago < 60 ? `${ago}m ago` : `${Math.round(ago/60)}h ago`;
+
+    document.getElementById('statusBar').textContent =
+        `${agg.totalProcessed.toLocaleString()} USDC transfers | ${oldest} to ${newest} (${numDays} days) | Daily vol: ${formatUSD(avgDailyIn + avgDailyOut)} | ${status} | Data: ${agoText}`;
+    document.getElementById('lastUpdate').textContent = `Data: ${cacheTime.toLocaleString()} (${agoText})`;
+}
+
+// ---- Main ----
+async function fullRefresh() {
+    const overlay = document.getElementById('loadingOverlay');
+    overlay.classList.remove('hidden');
+    document.getElementById('btnRefresh').disabled = true;
+    fetchAborted = false;
+
+    try {
+        updateLoading('Fetching address counters...', 2);
+        const counters = await fetchCounters();
+
+        updateLoading('Fetching transactions (for charts)...', 5);
+        allTransactions = await fetchTransactions(15);
+        const txAnalysis = analyzeTransactions(allTransactions);
+
+        // Incremental fetch: resumes from cache, only fetches new + missing history
+        updateLoading('Fetching USDC transfers...', 16);
+        const agg = await fetchTransfersIncremental();
+
+        updateLoading('Rendering...', 95);
+        // Store counters & txAnalysis alongside agg for quick re-render
+        agg._counters = counters;
+        agg._txAnalysis = txAnalysis;
+        saveAggCache(agg);
+
+        renderDashboard(agg, txAnalysis, counters);
+        updateLoading('Done!', 100);
+    } catch (err) {
+        console.error(err);
+        document.getElementById('statusBar').textContent = `Error: ${err.message}. Cached data shown if available.`;
+        // Try to render cached data on error
+        const cached = loadAggCache();
+        if (cached) renderDashboard(cached, cached._txAnalysis, cached._counters);
+    } finally {
+        overlay.classList.add('hidden');
+        document.getElementById('btnRefresh').disabled = false;
+    }
+}
+
+function toggleLive() {
+    const btn = document.getElementById('btnLive');
+    const indicator = document.getElementById('liveIndicator');
+    if (liveInterval) {
+        clearInterval(liveInterval);
+        liveInterval = null;
+        btn.classList.remove('active');
+        btn.textContent = 'Enable Live Mode (30s)';
+        indicator.style.display = 'none';
+    } else {
+        liveInterval = setInterval(fullRefresh, 30000);
+        btn.classList.add('active');
+        btn.textContent = 'Disable Live Mode';
+        indicator.style.display = 'inline-flex';
+    }
+}
+
+function exportCSV() {
+    const agg = loadAggCache();
+    if (!agg || !agg.dailyIn) { alert('No data loaded yet.'); return; }
+    let csv = 'date,inflow_usdc,outflow_usdc,net,total_volume,transfer_count\n';
+    const allDays = [...new Set([...Object.keys(agg.dailyIn), ...Object.keys(agg.dailyOut)])].sort();
+    allDays.forEach(day => {
+        const inVal = (agg.dailyIn[day] || 0).toFixed(2);
+        const outVal = (agg.dailyOut[day] || 0).toFixed(2);
+        const net = ((agg.dailyIn[day] || 0) - (agg.dailyOut[day] || 0)).toFixed(2);
+        const vol = ((agg.dailyIn[day] || 0) + (agg.dailyOut[day] || 0)).toFixed(2);
+        const count = agg.dailyTxCount[day] || 0;
+        csv += `${day},${inVal},${outVal},${net},${vol},${count}\n`;
+    });
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `p2pme_daily_${new Date().toISOString().substring(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+function clearCacheAndRefresh() {
+    for (let i = localStorage.length - 1; i >= 0; i--) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith('p2pme_')) localStorage.removeItem(key);
+    }
+    fullRefresh();
+}
+
+function stopFetch() {
+    fetchAborted = true;
+}
+
+// ---- Init: render cached data instantly, then update in background ----
+(function init() {
+    const cached = loadAggCache();
+    if (cached && cached.totalProcessed > 0) {
+        document.getElementById('loadingOverlay').classList.add('hidden');
+        renderDashboard(cached, cached._txAnalysis, cached._counters);
+        // If backfill isn't done, show a "Continue backfilling" note
+        if (!cached.backfillComplete) {
+            document.getElementById('statusBar').textContent += ' | Click "Refresh Data" to continue backfilling history';
+        }
+    } else {
+        fullRefresh();
+    }
+})();
+</script>
+</body>
+</html>
