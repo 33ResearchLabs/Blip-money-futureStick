@@ -1,177 +1,132 @@
 import { useState, useEffect, useCallback } from 'react';
 import { api } from '../services/api';
 
-const EMOTION_COLORS = {
-  anger: '#ff4757', fear: '#ff9f43', money: '#00d68f',
-  status: '#a855f7', curiosity: '#0abde3',
-};
-const STATUS_COLORS = { pending: '#ff9f43', approved: '#00d68f', published: '#0abde3', rejected: '#ff4757' };
-
-const pill = (bg, extra = {}) => ({
-  display: 'inline-block', padding: '2px 8px', borderRadius: 12,
-  fontSize: 11, fontWeight: 600, background: bg, color: '#fff', ...extra,
-});
-
-function timeAgo(ts) {
-  if (!ts) return '';
-  const d = (Date.now() - new Date(ts).getTime()) / 1000;
-  if (d < 60) return 'just now';
-  if (d < 3600) return `${Math.floor(d / 60)}m ago`;
-  if (d < 86400) return `${Math.floor(d / 3600)}h ago`;
-  return `${Math.floor(d / 86400)}d ago`;
-}
+const ago = ms => { if(!ms) return '--'; const s=Math.floor((Date.now()-ms)/1000); if(s<60) return s+'s'; if(s<3600) return Math.floor(s/60)+'m'; if(s<86400) return Math.floor(s/3600)+'h'; return Math.floor(s/86400)+'d'; };
+const statusColors = { pending: 'var(--warning)', approved: 'var(--success)', published: 'var(--accent)', rejected: 'var(--danger)' };
 
 export default function QueuePanel() {
-  const [stats, setStats] = useState({ total: 0, pending: 0, approved: 0, published: 0, rejected: 0, urgent: 0 });
   const [items, setItems] = useState([]);
-  const [expanded, setExpanded] = useState(null);
+  const [stats, setStats] = useState({});
   const [loading, setLoading] = useState(true);
+  const [expanded, setExpanded] = useState(null);
+  const [filter, setFilter] = useState('all');
 
   const load = useCallback(() => {
-    Promise.all([api.getQueueStats(), api.getQueue('limit=50')])
-      .then(([s, q]) => {
-        if (s) setStats(s);
-        if (q?.items) setItems(q.items);
-        setLoading(false);
-      }).catch(() => setLoading(false));
+    setLoading(true);
+    Promise.all([api.getQueue('limit=50'), api.getQueueStats()])
+      .then(([q, s]) => {
+        if (q.ok !== false) setItems(q.items || []);
+        if (s.ok !== false) setStats(s);
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
   }, []);
 
   useEffect(() => { load(); }, [load]);
 
-  const act = async (fn) => { await fn; load(); };
+  const updateStatus = async (e, id, status) => {
+    e.stopPropagation();
+    await api.updateQueueStatus(id, status);
+    load();
+  };
 
-  if (loading) return <div style={{ padding: 24, color: 'var(--text-muted)' }}>Loading queue...</div>;
+  const remove = async (e, id) => {
+    e.stopPropagation();
+    await api.removeFromQueue(id);
+    load();
+  };
 
-  const statCards = [
-    { label: 'Total', val: stats.total, bg: 'var(--bg-tertiary)' },
-    { label: 'Pending', val: stats.pending, bg: '#ff9f43' },
-    { label: 'Approved', val: stats.approved, bg: '#00d68f' },
-    { label: 'Published', val: stats.published, bg: '#0abde3' },
-    { label: 'Urgent', val: stats.urgent, bg: '#ff4757' },
-  ];
+  const filtered = items.filter(it => filter === 'all' || it.status === filter);
 
   return (
-    <div style={{ padding: 0 }}>
-      <h2 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 16 }}>
-        Queue
-      </h2>
+    <div>
+      <div className="stat-row" style={{ gridTemplateColumns: 'repeat(5, 1fr)', marginBottom: 10 }}>
+        <div className="stat-card"><div className="stat-val">{stats.total || 0}</div><div className="stat-lbl">total</div></div>
+        <div className="stat-card"><div className="stat-val" style={{ color: 'var(--warning)' }}>{stats.pending || 0}</div><div className="stat-lbl">pending</div></div>
+        <div className="stat-card"><div className="stat-val" style={{ color: 'var(--success)' }}>{stats.approved || 0}</div><div className="stat-lbl">approved</div></div>
+        <div className="stat-card"><div className="stat-val" style={{ color: 'var(--accent)' }}>{stats.published || 0}</div><div className="stat-lbl">published</div></div>
+        <div className="stat-card"><div className="stat-val" style={{ color: 'var(--danger)' }}>{stats.urgent || 0}</div><div className="stat-lbl">urgent</div></div>
+      </div>
 
-      <div style={{ display: 'flex', gap: 10, marginBottom: 20, flexWrap: 'wrap' }}>
-        {statCards.map(s => (
-          <div key={s.label} style={{
-            background: 'var(--bg-secondary)', border: '1px solid var(--border)',
-            borderRadius: 10, padding: '10px 16px', minWidth: 90, textAlign: 'center',
-          }}>
-            <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--text-primary)' }}>{s.val}</div>
-            <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>
-              <span style={{ ...pill(s.bg), padding: '1px 6px' }}>{s.label}</span>
-            </div>
-          </div>
+      <div style={{ display: 'flex', gap: 4, marginBottom: 8 }}>
+        {['all', 'pending', 'approved', 'published', 'rejected'].map(s => (
+          <button key={s} className={`tab ${filter === s ? 'active' : ''}`} onClick={() => setFilter(s)}>{s}</button>
         ))}
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-        {items.map(item => {
-          const isOpen = expanded === item.id;
-          return (
-            <div key={item.id}
-              onClick={() => setExpanded(isOpen ? null : item.id)}
-              style={{
-                background: 'var(--bg-secondary)', borderRadius: 10,
-                border: '1px solid var(--border)', cursor: 'pointer',
-                borderColor: isOpen ? 'var(--accent)' : 'var(--border)',
-              }}>
-              <div style={{
-                display: 'flex', alignItems: 'center', gap: 10,
-                padding: '12px 16px', flexWrap: 'wrap',
-              }}>
-                <span style={pill(item.priority === 'urgent' ? '#ff4757' : '#666')}>
-                  {item.priority || 'normal'}
-                </span>
-                <span style={{
-                  flex: 1, fontSize: 14, fontWeight: 600,
-                  color: 'var(--text-primary)', minWidth: 120,
-                  overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                }}>{item.trend_title}</span>
-                <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>
-                  {(item.platforms || []).join(', ')}
-                </span>
-                {item.emotion && (
-                  <span style={pill(EMOTION_COLORS[item.emotion] || '#666')}>{item.emotion}</span>
-                )}
-                <span style={pill(STATUS_COLORS[item.status] || '#666')}>{item.status}</span>
-                <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>{timeAgo(item.queued_at)}</span>
-                {item.reviewed && <span style={{ fontSize: 13 }} title="Reviewed">&#10003;</span>}
+      {loading ? <div style={{ textAlign: 'center', padding: 20 }}><span className="spinner" /></div> : (
+        <div>
+          {filtered.map((it, i) => (
+            <div key={it.id || i} className="card">
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer' }} onClick={() => setExpanded(expanded === i ? null : i)}>
+                <div style={{ display: 'flex', gap: 8, alignItems: 'center', flex: 1, minWidth: 0 }}>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: it.trend_score >= 70 ? 'var(--danger)' : 'var(--accent)', minWidth: 24 }}>{Math.round(it.trend_score || 0)}</span>
+                  <span className="truncate" style={{ fontSize: 11, fontWeight: 500 }}>{it.trend_title}</span>
+                </div>
+                <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexShrink: 0 }}>
+                  {it.priority === 'urgent' && <span className="badge badge-danger">urgent</span>}
+                  <span style={{ fontSize: 10, color: statusColors[it.status] || 'var(--text-muted)', fontWeight: 600 }}>{it.status}</span>
+                  {it.emotion && <span className="badge badge-warning">{it.emotion}</span>}
+                  {it.format && <span className="badge badge-info">{it.format}</span>}
+                  <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>{it.queued_at ? ago(new Date(it.queued_at).getTime()) : ''}</span>
+                  <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>{expanded === i ? 'v' : '>'}</span>
+                </div>
               </div>
 
-              {isOpen && (
-                <div style={{ padding: '0 16px 12px', borderTop: '1px solid var(--border)' }}>
-                  {item.aggressive && (
-                    <div style={{
-                      margin: '8px 0', padding: '6px 10px', borderRadius: 6,
-                      background: 'rgba(255,71,87,.12)', color: '#ff4757',
-                      fontSize: 12, fontWeight: 600,
-                    }}>&#9888; Aggressive content flagged</div>
+              {expanded === i && (
+                <div style={{ marginTop: 8, paddingTop: 6, borderTop: '1px solid var(--border)', fontSize: 10 }}>
+                  {it.aggressive && (
+                    <div style={{ padding: '4px 8px', background: 'var(--danger-bg)', color: 'var(--danger)', borderRadius: 3, marginBottom: 6, fontWeight: 600 }}>aggressive content flagged</div>
                   )}
-                  {item.hooks?.length > 0 && (
-                    <div style={{ margin: '8px 0' }}>
-                      <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 4 }}>Hooks</div>
-                      {item.hooks.map((h, i) => (
-                        <div key={i} style={{ fontSize: 13, color: 'var(--text-secondary)', padding: '2px 0' }}>
-                          &bull; {h}
-                        </div>
+                  {it.platforms && (
+                    <div style={{ marginBottom: 4 }}>
+                      <span style={{ color: 'var(--text-muted)' }}>platforms: </span>
+                      {(Array.isArray(it.platforms) ? it.platforms : [it.platforms]).join(', ')}
+                    </div>
+                  )}
+                  {it.hooks && it.hooks.length > 0 && (
+                    <div style={{ marginBottom: 4 }}>
+                      <span style={{ color: 'var(--text-muted)' }}>hooks:</span>
+                      {it.hooks.map((h, j) => <div key={j} style={{ paddingLeft: 8, color: 'var(--text-secondary)' }}>- {h}</div>)}
+                    </div>
+                  )}
+                  {it.angles && it.angles.length > 0 && (
+                    <div style={{ marginBottom: 4 }}>
+                      <span style={{ color: 'var(--text-muted)' }}>angles:</span>
+                      {it.angles.map((a, j) => <div key={j} style={{ paddingLeft: 8, color: 'var(--text-secondary)' }}>- {a}</div>)}
+                    </div>
+                  )}
+                  {it.scripts && (
+                    <div style={{ marginBottom: 4 }}>
+                      <span style={{ color: 'var(--text-muted)' }}>scripts:</span>
+                      {(Array.isArray(it.scripts) ? it.scripts : [it.scripts]).map((s, j) => (
+                        <pre key={j} style={{ paddingLeft: 8, color: 'var(--text-secondary)', whiteSpace: 'pre-wrap', margin: '2px 0', fontFamily: 'inherit', background: 'var(--bg-hover)', padding: 6, borderRadius: 3 }}>
+                          {typeof s === 'string' ? s : JSON.stringify(s, null, 2)}
+                        </pre>
                       ))}
                     </div>
                   )}
-                  {item.angles?.length > 0 && (
-                    <div style={{ margin: '8px 0' }}>
-                      <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 4 }}>Angles</div>
-                      {item.angles.map((a, i) => (
-                        <div key={i} style={{ fontSize: 13, color: 'var(--text-secondary)', padding: '2px 0' }}>
-                          &bull; {a}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  {item.scripts && (
-                    <div style={{ margin: '8px 0' }}>
-                      <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 4 }}>Script</div>
-                      <pre style={{
-                        fontSize: 12, color: 'var(--text-secondary)',
-                        background: 'var(--bg-tertiary)', padding: 10, borderRadius: 6,
-                        whiteSpace: 'pre-wrap', margin: 0, maxHeight: 160, overflow: 'auto',
-                      }}>{typeof item.scripts === 'string' ? item.scripts : JSON.stringify(item.scripts, null, 2)}</pre>
-                    </div>
-                  )}
-                  <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
-                    {item.status === 'pending' && <>
-                      <button onClick={e => { e.stopPropagation(); act(api.updateQueueStatus(item.id, 'approved')); }}
-                        style={{ padding: '4px 12px', borderRadius: 6, border: 'none', background: '#00d68f', color: '#fff', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>
-                        Approve</button>
-                      <button onClick={e => { e.stopPropagation(); act(api.updateQueueStatus(item.id, 'rejected')); }}
-                        style={{ padding: '4px 12px', borderRadius: 6, border: 'none', background: '#ff4757', color: '#fff', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>
-                        Reject</button>
-                    </>}
-                    {item.status === 'approved' && (
-                      <button onClick={e => { e.stopPropagation(); act(api.updateQueueStatus(item.id, 'published')); }}
-                        style={{ padding: '4px 12px', borderRadius: 6, border: 'none', background: '#0abde3', color: '#fff', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>
-                        Mark Published</button>
+                  {it.captions && <div style={{ marginBottom: 4 }}><span style={{ color: 'var(--text-muted)' }}>captions: </span>{it.captions}</div>}
+
+                  <div style={{ display: 'flex', gap: 4, marginTop: 8 }}>
+                    {it.status === 'pending' && (
+                      <>
+                        <button className="btn btn-success btn-sm" onClick={e => updateStatus(e, it.id, 'approved')}>approve</button>
+                        <button className="btn btn-danger btn-sm" onClick={e => updateStatus(e, it.id, 'rejected')}>reject</button>
+                      </>
                     )}
-                    <button onClick={e => { e.stopPropagation(); act(api.removeFromQueue(item.id)); }}
-                      style={{ padding: '4px 12px', borderRadius: 6, border: 'none', background: '#666', color: '#fff', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>
-                      Delete</button>
+                    {it.status === 'approved' && (
+                      <button className="btn btn-primary btn-sm" onClick={e => updateStatus(e, it.id, 'published')}>publish</button>
+                    )}
+                    <button className="btn btn-ghost btn-sm" onClick={e => remove(e, it.id)}>remove</button>
                   </div>
                 </div>
               )}
             </div>
-          );
-        })}
-        {items.length === 0 && (
-          <div style={{ padding: 24, color: 'var(--text-muted)', textAlign: 'center' }}>
-            Queue is empty.
-          </div>
-        )}
-      </div>
+          ))}
+          {filtered.length === 0 && <div style={{ color: 'var(--text-muted)', padding: 12, textAlign: 'center' }}>queue empty</div>}
+        </div>
+      )}
     </div>
   );
 }

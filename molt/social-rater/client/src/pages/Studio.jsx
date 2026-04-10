@@ -1,146 +1,178 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { api } from '../services/api';
-import { Sparkles, Image, Copy, Send, Check, Save } from 'lucide-react';
 
-const platforms = ['tiktok', 'youtube', 'instagram', 'twitter'];
-const badge = (bg) => ({ display: 'inline-block', padding: '2px 8px', borderRadius: 12, fontSize: 11, fontWeight: 600, background: bg, color: '#fff', marginRight: 6 });
-const platColors = { tiktok: '#ff0050', youtube: '#f00', instagram: '#e1306c', twitter: '#1da1f2' };
+const types = ['post', 'story', 'reel', 'thumbnail', 'banner'];
+const platformsList = ['instagram', 'twitter', 'youtube', 'tiktok'];
+const styles = ['photorealistic', 'cinematic', 'minimal', 'neon', 'abstract', 'vintage', 'cyberpunk'];
+const aspects = ['1:1', '9:16', '16:9', '4:5'];
+const aspectDims = { '1:1': [400, 400], '9:16': [360, 640], '16:9': [640, 360], '4:5': [400, 500] };
 
 export default function Studio() {
-  const [topic, setTopic] = useState('');
-  const [selected, setSelected] = useState(['instagram', 'twitter']);
-  const [captions, setCaptions] = useState(null);
-  const [genLoading, setGenLoading] = useState(false);
-  const [copied, setCopied] = useState(null);
-  const [imgPrompt, setImgPrompt] = useState('');
-  const [imgUrl, setImgUrl] = useState(null);
-  const [imgLoading, setImgLoading] = useState(false);
+  const canvasRef = useRef(null);
+  const [type, setType] = useState('post');
+  const [platform, setPlatform] = useState('instagram');
+  const [keyword, setKeyword] = useState('');
+  const [imageStyle, setImageStyle] = useState('cinematic');
+  const [aspect, setAspect] = useState('1:1');
+  const [overlay, setOverlay] = useState('');
+  const [caption, setCaption] = useState('');
+  const [generating, setGenerating] = useState(false);
+  const [suggesting, setSuggesting] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [chatInput, setChatInput] = useState('');
-  const [chatReply, setChatReply] = useState('');
-  const [chatLoading, setChatLoading] = useState(false);
+  const [imageData, setImageData] = useState(null);
 
-  const togglePlat = (p) => setSelected(s => s.includes(p) ? s.filter(x => x !== p) : [...s, p]);
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const [w, h] = aspectDims[aspect] || [400, 400];
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext('2d');
 
-  const generateCaptions = async () => {
-    if (!topic || !selected.length) return;
-    setGenLoading(true);
-    try {
-      const sys = 'You are a social media content expert. Return JSON: { "platform": "caption" } for each requested platform. Captions only, no extra text.';
-      const prompt = `Write captions for: "${topic}"\nPlatforms: ${selected.join(', ')}\nReturn JSON object mapping platform to caption.`;
-      const res = await api.callAI(prompt, sys);
-      const text = res.response || res.text || '';
-      const match = text.match(/\{[\s\S]*\}/);
-      setCaptions(match ? JSON.parse(match[0]) : { raw: text });
-    } catch (e) { setCaptions({ error: 'Failed to generate' }); }
-    setGenLoading(false);
-  };
+    ctx.fillStyle = '#0f1014';
+    ctx.fillRect(0, 0, w, h);
 
-  const copyText = (txt, key) => {
-    navigator.clipboard.writeText(txt);
-    setCopied(key);
-    setTimeout(() => setCopied(null), 1500);
-  };
+    const drawOvl = () => {
+      if (!overlay) return;
+      ctx.fillStyle = 'rgba(0,0,0,0.55)';
+      ctx.fillRect(0, h - 48, w, 48);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 14px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(overlay, w / 2, h - 18);
+    };
+
+    if (imageData) {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => { ctx.drawImage(img, 0, 0, w, h); drawOvl(); };
+      img.onerror = () => drawOvl();
+      img.src = imageData;
+    } else {
+      ctx.strokeStyle = '#1c1e24';
+      ctx.lineWidth = 0.5;
+      for (let x = 0; x < w; x += 20) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+      for (let y = 0; y < h; y += 20) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+      ctx.fillStyle = '#2a3346';
+      ctx.font = '11px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(`${w} x ${h} -- ${aspect}`, w / 2, h / 2);
+      drawOvl();
+    }
+  }, [aspect, imageData, overlay]);
 
   const generateImage = async () => {
-    if (!imgPrompt) return;
-    setImgLoading(true);
+    setGenerating(true);
     try {
-      const res = await api.generateImage(imgPrompt);
-      setImgUrl(res.url || res.image || null);
-    } catch (e) { console.error(e); }
-    setImgLoading(false);
+      const prompt = `${imageStyle} style, ${keyword || type}, ${aspect} aspect ratio, social media ${type} for ${platform}`;
+      const d = await api.generateImage(prompt);
+      if (d && d.url) setImageData(d.url);
+      else if (d && d.image) setImageData(d.image);
+    } catch {}
+    setGenerating(false);
+  };
+
+  const suggest = async () => {
+    setSuggesting(true);
+    try {
+      const d = await api.callAI(
+        `Generate a social media ${type} for ${platform}. Topic: ${keyword || 'trending'}. Return JSON: {"headline":"...","category":"...","caption":"..."}`,
+        'You are a social media content strategist. Return only valid JSON.'
+      );
+      if (d.ok && d.text) {
+        try {
+          const parsed = JSON.parse(d.text);
+          if (parsed.headline) setOverlay(parsed.headline);
+          if (parsed.caption) setCaption(parsed.caption);
+        } catch {
+          setCaption(d.text);
+        }
+      }
+    } catch {}
+    setSuggesting(false);
+  };
+
+  const generateCaption = async () => {
+    setSuggesting(true);
+    try {
+      const d = await api.callAI(
+        `Write a ${platform} caption for: ${keyword || overlay || type}. Max 200 chars. Include hashtags.`,
+        'You are a social media copywriter. Be concise and engaging.'
+      );
+      if (d.ok && d.text) setCaption(d.text);
+    } catch {}
+    setSuggesting(false);
   };
 
   const saveToVault = async () => {
-    if (!imgUrl) return;
     setSaving(true);
-    await api.saveToVault({ title: imgPrompt, url: imgUrl, source: 'studio', type: 'image' });
+    await api.saveToVault({
+      title: overlay || keyword || type,
+      platform,
+      caption,
+      type,
+      image: imageData,
+      saved_at: new Date().toISOString(),
+    });
     setSaving(false);
   };
 
-  const sendChat = async () => {
-    if (!chatInput) return;
-    setChatLoading(true);
-    try {
-      const res = await api.callAI(chatInput, 'You are a helpful creative assistant. Be concise.');
-      setChatReply(res.response || res.text || 'No response');
-    } catch (e) { setChatReply('Error'); }
-    setChatLoading(false);
-  };
-
   return (
-    <div>
-      <div className="flex items-center justify-between mb-4">
+    <div className="fade-in">
+      <div className="page-header">
+        <div className="page-label">create</div>
+        <div className="page-title">Studio</div>
+        <div className="page-subtitle">content creation studio</div>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '200px 1fr 240px', gap: 12 }}>
+        {/* Left panel */}
         <div>
-          <h2 style={{ fontSize: 24, fontWeight: 700 }}>Studio</h2>
-          <p className="text-sm text-muted">Create content with AI & brand tools</p>
-        </div>
-      </div>
-
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-        {/* Left: Content Creator */}
-        <div className="card" style={{ padding: 16 }}>
-          <h3 style={{ fontWeight: 600, marginBottom: 12 }}><Sparkles size={16} style={{ display: 'inline', marginRight: 6 }} />Content Creator</h3>
-          <textarea value={topic} onChange={e => setTopic(e.target.value)} placeholder="Enter topic or content idea..."
-            style={{ width: '100%', minHeight: 80, padding: 8, borderRadius: 8, border: '1px solid var(--border)', background: 'var(--bg-card)', color: 'var(--text)', resize: 'vertical', marginBottom: 8 }} />
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 10 }}>
-            {platforms.map(p => (
-              <label key={p} style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 13, cursor: 'pointer' }}>
-                <input type="checkbox" checked={selected.includes(p)} onChange={() => togglePlat(p)} />
-                <span style={badge(platColors[p])}>{p}</span>
-              </label>
-            ))}
-          </div>
-          <button className="btn btn-primary" onClick={generateCaptions} disabled={genLoading} style={{ marginBottom: 12 }}>
-            {genLoading ? 'Generating...' : 'Generate Captions'}
+          <div className="label">type</div>
+          <select value={type} onChange={e => setType(e.target.value)} style={{ width: '100%', marginBottom: 8 }}>
+            {types.map(t => <option key={t} value={t}>{t}</option>)}
+          </select>
+          <div className="label">platform</div>
+          <select value={platform} onChange={e => setPlatform(e.target.value)} style={{ width: '100%', marginBottom: 8 }}>
+            {platformsList.map(p => <option key={p} value={p}>{p}</option>)}
+          </select>
+          <div className="label">keyword</div>
+          <input value={keyword} onChange={e => setKeyword(e.target.value)} placeholder="topic..." style={{ width: '100%', marginBottom: 8 }} />
+          <div className="label">image style</div>
+          <select value={imageStyle} onChange={e => setImageStyle(e.target.value)} style={{ width: '100%', marginBottom: 8 }}>
+            {styles.map(s => <option key={s} value={s}>{s}</option>)}
+          </select>
+          <div className="label">aspect ratio</div>
+          <select value={aspect} onChange={e => setAspect(e.target.value)} style={{ width: '100%', marginBottom: 8 }}>
+            {aspects.map(a => <option key={a} value={a}>{a}</option>)}
+          </select>
+          <div className="label">overlay text</div>
+          <input value={overlay} onChange={e => setOverlay(e.target.value)} placeholder="headline..." style={{ width: '100%', marginBottom: 8 }} />
+          <button className="btn btn-primary" onClick={generateImage} disabled={generating} style={{ width: '100%', justifyContent: 'center', marginBottom: 4 }}>
+            {generating ? <span className="spinner" /> : 'generate image'}
           </button>
-          {captions && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {Object.entries(captions).map(([plat, text]) => (
-                <div key={plat} style={{ padding: 10, borderRadius: 8, background: 'var(--bg)', border: '1px solid var(--border)' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-                    <span style={badge(platColors[plat] || '#666')}>{plat}</span>
-                    <button onClick={() => copyText(text, plat)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}>
-                      {copied === plat ? <Check size={14} /> : <Copy size={14} />}
-                    </button>
-                  </div>
-                  <p style={{ fontSize: 13, margin: 0, whiteSpace: 'pre-wrap' }}>{text}</p>
-                </div>
-              ))}
-            </div>
-          )}
+          <button className="btn btn-ghost" onClick={suggest} disabled={suggesting} style={{ width: '100%', justifyContent: 'center' }}>
+            {suggesting ? <span className="spinner" /> : 'AI suggest'}
+          </button>
         </div>
 
-        {/* Right: Image Generator */}
-        <div className="card" style={{ padding: 16 }}>
-          <h3 style={{ fontWeight: 600, marginBottom: 12 }}><Image size={16} style={{ display: 'inline', marginRight: 6 }} />Image Generator</h3>
-          <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
-            <input value={imgPrompt} onChange={e => setImgPrompt(e.target.value)} placeholder="Describe the image..."
-              style={{ flex: 1, padding: 8, borderRadius: 8, border: '1px solid var(--border)', background: 'var(--bg-card)', color: 'var(--text)' }} />
-            <button className="btn btn-primary" onClick={generateImage} disabled={imgLoading}>{imgLoading ? '...' : 'Generate'}</button>
-          </div>
-          {imgUrl && (
-            <div style={{ textAlign: 'center' }}>
-              <img src={imgUrl} alt="Generated" style={{ maxWidth: '100%', borderRadius: 8, marginBottom: 8 }} />
-              <button className="btn" onClick={saveToVault} disabled={saving}>
-                <Save size={14} style={{ marginRight: 4 }} />{saving ? 'Saving...' : 'Save to Vault'}
-              </button>
-            </div>
-          )}
+        {/* Center canvas */}
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
+          <canvas ref={canvasRef} style={{ border: '1px solid var(--border)', borderRadius: 4, maxWidth: '100%' }} />
         </div>
-      </div>
 
-      {/* Quick AI Chat */}
-      <div className="card" style={{ padding: 16, marginTop: 16 }}>
-        <h3 style={{ fontWeight: 600, marginBottom: 8 }}>Quick AI Chat</h3>
-        <div style={{ display: 'flex', gap: 8 }}>
-          <input value={chatInput} onChange={e => setChatInput(e.target.value)} placeholder="Ask AI anything..."
-            onKeyDown={e => e.key === 'Enter' && sendChat()}
-            style={{ flex: 1, padding: 8, borderRadius: 8, border: '1px solid var(--border)', background: 'var(--bg-card)', color: 'var(--text)' }} />
-          <button className="btn btn-primary" onClick={sendChat} disabled={chatLoading}><Send size={14} /></button>
+        {/* Right panel */}
+        <div>
+          <div className="label">caption</div>
+          <textarea value={caption} onChange={e => setCaption(e.target.value)} rows={10} style={{ width: '100%', marginBottom: 4, resize: 'vertical' }} placeholder="write caption..." />
+          <div style={{ fontSize: 10, color: 'var(--text-muted)', marginBottom: 8, textAlign: 'right' }}>{caption.length} chars</div>
+          <button className="btn btn-ghost" onClick={generateCaption} disabled={suggesting} style={{ width: '100%', justifyContent: 'center', marginBottom: 6 }}>
+            {suggesting ? <span className="spinner" /> : 'generate caption'}
+          </button>
+          <button className="btn btn-success" onClick={saveToVault} disabled={saving} style={{ width: '100%', justifyContent: 'center' }}>
+            {saving ? <span className="spinner" /> : 'save to vault'}
+          </button>
         </div>
-        {chatReply && <p style={{ marginTop: 10, fontSize: 13, whiteSpace: 'pre-wrap', padding: 10, background: 'var(--bg)', borderRadius: 8 }}>{chatReply}</p>}
       </div>
     </div>
   );

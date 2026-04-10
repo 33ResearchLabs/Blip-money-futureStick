@@ -1,109 +1,50 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { Navigate } from 'react-router-dom';
 
 export default function Login() {
+  const { user, login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [busy, setBusy] = useState(false);
-  const { login } = useAuth();
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  if (user) return <Navigate to="/" />;
+
+  const submit = async (e) => {
     e.preventDefault();
     setError('');
-    setBusy(true);
+    setLoading(true);
     try {
-      const d = await login(email, password);
-      if (d.ok) navigate('/');
-      else setError(d.error || 'Invalid credentials');
-    } catch { setError('Network error'); }
-    finally { setBusy(false); }
+      const r = await login(email, password);
+      if (!r.ok) setError(r.error || 'invalid credentials');
+    } catch { setError('connection failed'); }
+    setLoading(false);
   };
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      background: '#0a0a0c',
-    }}>
-      <form onSubmit={handleSubmit} style={{
-        background: '#0f1014',
-        border: '1px solid #1c1e24',
-        borderRadius: 6,
-        padding: '24px 20px',
-        width: 320,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 10,
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-          <div style={{
-            width: 28, height: 28,
-            background: '#1a1f2e',
-            color: '#5b8aff',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontWeight: 800, fontSize: 11, borderRadius: 5,
-            border: '1px solid #2a3346',
-            fontFamily: 'monospace',
-          }}>33</div>
-          <div>
-            <div style={{ fontSize: 14, fontWeight: 600, color: '#d6dde6' }}>33 Tools</div>
-            <div style={{ fontSize: 9, color: '#5a606c', letterSpacing: '0.1em', textTransform: 'uppercase' }}>sign in</div>
-          </div>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: 'var(--bg)' }}>
+      <div className="card fade-in" style={{ width: 320, padding: 24 }}>
+        <div style={{ textAlign: 'center', marginBottom: 20 }}>
+          <div style={{ width: 36, height: 36, background: 'var(--accent-bg)', color: 'var(--accent)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 14, borderRadius: 6, border: '1px solid var(--border2)', marginBottom: 8 }}>33</div>
+          <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)' }}>33 Tools</div>
+          <div style={{ fontSize: 10, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>content engine</div>
         </div>
-
-        {error && (
-          <div style={{
-            background: 'rgba(255,85,102,0.08)',
-            border: '1px solid rgba(255,85,102,0.2)',
-            borderRadius: 3,
-            padding: '5px 8px',
-            color: '#ff5566',
-            fontSize: 11,
-          }}>{error}</div>
-        )}
-
-        <input
-          type="email" placeholder="email" value={email}
-          onChange={e => setEmail(e.target.value)} required
-          style={inputStyle}
-        />
-        <input
-          type="password" placeholder="password" value={password}
-          onChange={e => setPassword(e.target.value)} required
-          style={inputStyle}
-        />
-        <button type="submit" disabled={busy} style={{
-          padding: '6px',
-          borderRadius: 3,
-          border: '1px solid #2a3346',
-          background: '#1a1f2e',
-          color: '#5b8aff',
-          fontWeight: 600,
-          fontSize: 11,
-          fontFamily: 'inherit',
-          cursor: busy ? 'wait' : 'pointer',
-          opacity: busy ? 0.6 : 1,
-          transition: 'all 0.12s',
-        }}>
-          {busy ? 'signing in...' : 'sign in →'}
-        </button>
-      </form>
+        {error && <div style={{ background: 'var(--danger-bg)', color: 'var(--danger)', padding: '6px 10px', borderRadius: 3, fontSize: 11, marginBottom: 12, border: '1px solid #3a1520' }}>{error}</div>}
+        <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          <div>
+            <label className="label">email</label>
+            <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="admin@33labs.io" style={{ width: '100%' }} required />
+          </div>
+          <div>
+            <label className="label">password</label>
+            <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="........" style={{ width: '100%' }} required />
+          </div>
+          <button className="btn btn-primary" type="submit" disabled={loading} style={{ width: '100%', justifyContent: 'center', marginTop: 4 }}>
+            {loading ? <span className="spinner" /> : 'sign in'}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
-
-const inputStyle = {
-  padding: '6px 8px',
-  borderRadius: 3,
-  border: '1px solid #1c1e24',
-  background: '#15171d',
-  color: '#d6dde6',
-  fontSize: 11,
-  fontFamily: "'SF Mono', 'JetBrains Mono', monospace",
-  outline: 'none',
-};

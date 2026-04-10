@@ -1,48 +1,65 @@
 import { useState, useEffect, useRef } from 'react';
 import { api } from '../services/api';
 
-function fmtTime(ts) {
-  try { const d = new Date(ts); return d.toTimeString().slice(0, 8); }
-  catch { return '??:??:??'; }
+function fmtTs(ts) {
+  if (!ts) return '--';
+  try {
+    const d = new Date(ts);
+    return d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+  } catch { return '--'; }
 }
 
 export default function LogsPanel() {
   const [logs, setLogs] = useState([]);
-  const [busy, setBusy] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [limit, setLimit] = useState(50);
   const endRef = useRef(null);
 
-  const load = async () => {
-    const res = await api.getWorkerLogs(80);
-    setLogs(res.logs || []);
+  const load = () => {
+    setLoading(true);
+    api.getWorkerLogs(limit)
+      .then(d => { if (d.ok !== false) setLogs(d.logs || []); })
+      .catch(() => {})
+      .finally(() => setLoading(false));
   };
 
-  useEffect(() => { load(); }, []);
+  useEffect(load, [limit]);
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [logs]);
 
-  const refresh = async () => { setBusy(true); await load(); setBusy(false); };
-
   return (
-    <div className="fade-in" style={{ padding: 24, maxWidth: 860 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-        <h3 style={{ margin: 0, fontSize: 15, color: 'var(--text-primary)' }}>Worker Logs</h3>
-        <button onClick={refresh} disabled={busy} className="btn-primary"
-          style={{ padding: '6px 16px', borderRadius: 6, fontSize: 13 }}>
-          {busy ? 'Loading...' : 'Refresh'}
-        </button>
+    <div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+        <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>{logs.length} entries</span>
+        <div style={{ display: 'flex', gap: 4 }}>
+          <select value={limit} onChange={e => setLimit(+e.target.value)} style={{ width: 60 }}>
+            {[20, 50, 100, 200].map(n => <option key={n} value={n}>{n}</option>)}
+          </select>
+          <button className="btn btn-ghost btn-sm" onClick={load}>refresh</button>
+        </div>
       </div>
 
-      <div style={{
-        background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 10,
-        padding: 16, maxHeight: 520, overflowY: 'auto', fontFamily: 'monospace', fontSize: 13, lineHeight: 1.7,
-      }}>
-        {logs.length === 0 && <div style={{ color: 'var(--text-muted)' }}>No logs yet.</div>}
-        {logs.map((entry, i) => (
-          <div key={i} style={{ color: entry.error ? 'var(--danger)' : 'var(--text-secondary)' }}>
-            <span style={{ color: 'var(--text-muted)' }}>[{fmtTime(entry.ts)}]</span> {entry.message}
-          </div>
-        ))}
-        <div ref={endRef} />
-      </div>
+      {loading ? <div style={{ textAlign: 'center', padding: 20 }}><span className="spinner" /></div> : (
+        <div style={{ maxHeight: 500, overflowY: 'auto', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 4, padding: 4 }}>
+          {logs.map((log, i) => (
+            <div key={i} style={{
+              padding: '3px 8px',
+              fontSize: 10,
+              borderBottom: '1px solid var(--border)',
+              display: 'flex',
+              gap: 10,
+              background: log.error ? 'var(--danger-bg)' : 'transparent',
+            }}>
+              <span style={{ color: 'var(--text-muted)', flexShrink: 0, minWidth: 110 }}>{fmtTs(log.ts)}</span>
+              <span style={{ color: log.error ? 'var(--danger)' : 'var(--text-secondary)', flex: 1 }}>
+                {log.message}
+                {log.error && <span style={{ color: 'var(--danger)', marginLeft: 6, fontWeight: 600 }}>[ERR]</span>}
+              </span>
+            </div>
+          ))}
+          {logs.length === 0 && <div style={{ color: 'var(--text-muted)', padding: 12, textAlign: 'center' }}>no logs</div>}
+          <div ref={endRef} />
+        </div>
+      )}
     </div>
   );
 }

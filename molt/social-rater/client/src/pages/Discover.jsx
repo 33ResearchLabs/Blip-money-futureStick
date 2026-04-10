@@ -1,95 +1,90 @@
 import { useState, useEffect } from 'react';
 import { api } from '../services/api';
-import { Radar, Bookmark, ExternalLink, Loader2 } from 'lucide-react';
 
-const NICHES = ['tech', 'crypto', 'ai', 'business', 'gaming', 'science', 'politics', 'entertainment', 'sports'];
+const fmtN = n => { if(!n) return '0'; if(n>=1e6) return (n/1e6).toFixed(1)+'M'; if(n>=1e3) return (n/1e3).toFixed(1)+'K'; return n.toLocaleString(); };
+const ago = ms => { if(!ms) return '--'; const s=Math.floor((Date.now()-ms)/1000); if(s<60) return s+'s'; if(s<3600) return Math.floor(s/60)+'m'; if(s<86400) return Math.floor(s/3600)+'h'; return Math.floor(s/86400)+'d'; };
+
+const tabs = ['all', 'social feed', 'hot clusters', 'trending', 'news'];
 
 export default function Discover() {
-  const [niche, setNiche] = useState('tech');
+  const [tab, setTab] = useState('all');
   const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [saved, setSaved] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);
-    fetch(`/api/radar?niche=${niche}`)
-      .then(r => r.json())
-      .then(d => setItems(d.items || []))
-      .catch(() => setItems([]))
-      .finally(() => setLoading(false));
-  }, [niche]);
+    setItems([]);
 
-  const save = async (item) => {
-    await api.saveToVault({ title: item.title, url: item.url, source: item.source });
-    setSaved(p => ({ ...p, [item.url]: true }));
-  };
+    const load = async () => {
+      try {
+        let combined = [];
 
-  const pill = (n) => ({
-    padding: '6px 16px', borderRadius: 20, border: 'none', cursor: 'pointer', fontSize: 13, fontWeight: 600,
-    background: n === niche ? 'var(--accent, #7c3aed)' : 'var(--card, #1e1e2e)',
-    color: n === niche ? '#fff' : 'var(--muted, #888)',
-  });
+        if (tab === 'all' || tab === 'news') {
+          const d = await api.getNews();
+          if (d.ok) combined.push(...(d.items || []).slice(0, tab === 'all' ? 10 : 50).map(it => ({ ...it, _type: 'news' })));
+        }
+        if (tab === 'all' || tab === 'trending') {
+          const d = await api.getTrending();
+          if (d.items) combined.push(...(d.items || []).slice(0, tab === 'all' ? 10 : 50).map(it => ({ ...it, _type: 'trending' })));
+        }
+        if (tab === 'all' || tab === 'hot clusters') {
+          const d = await api.getClusters(0, 50);
+          if (d.ok) combined.push(...(d.clusters || []).map(c => ({ ...c, _type: 'cluster', title: c.label })));
+        }
+        if (tab === 'social feed') {
+          const d = await api.getSocialFeed('min_views=10000');
+          if (d.ok) combined.push(...(d.items || []).map(it => ({ ...it, _type: 'social' })));
+        }
+
+        setItems(combined);
+      } catch {}
+      setLoading(false);
+    };
+
+    load();
+  }, [tab]);
 
   return (
-    <div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
-        <Radar size={22} style={{ color: 'var(--accent, #7c3aed)' }} />
-        <h2 style={{ fontSize: 24, fontWeight: 700, margin: 0 }}>Discover</h2>
-      </div>
-      <p style={{ color: 'var(--muted, #888)', fontSize: 14, margin: '0 0 20px' }}>
-        Trending radar across Reddit niches
-      </p>
-
-      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 20 }}>
-        {NICHES.map(n => (
-          <button key={n} style={pill(n)} onClick={() => setNiche(n)}>
-            {n}
-          </button>
-        ))}
+    <div className="fade-in">
+      <div className="page-header">
+        <div className="page-label">explore</div>
+        <div className="page-title">Discover</div>
+        <div className="page-subtitle">unified feed from all sources</div>
       </div>
 
-      {loading ? (
-        <div style={{ textAlign: 'center', padding: 40, color: 'var(--muted, #888)' }}>
-          <Loader2 size={28} style={{ animation: 'spin 1s linear infinite' }} />
-          <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
-        </div>
-      ) : items.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: 40, color: 'var(--muted, #888)' }}>
-          No items found for <strong>{niche}</strong>
-        </div>
-      ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: 14 }}>
-          {items.map((item, i) => (
-            <div key={i} style={{
-              background: 'var(--card, #1e1e2e)', borderRadius: 10, padding: 16,
-              border: '1px solid var(--border, #2a2a3a)',
-            }}>
-              <h3 style={{ fontSize: 15, fontWeight: 600, margin: '0 0 8px', lineHeight: 1.4 }}>
-                {item.title}
-              </h3>
-              <div style={{ display: 'flex', gap: 14, fontSize: 13, color: 'var(--muted, #888)', marginBottom: 10 }}>
-                {item.ups != null && <span>{item.ups} ups</span>}
-                {item.comments != null && <span>{item.comments} comments</span>}
-                {item.source && <span style={{ opacity: 0.7 }}>{item.source}</span>}
-              </div>
-              <div style={{ display: 'flex', gap: 8 }}>
-                {item.url && (
-                  <a href={item.url} target="_blank" rel="noreferrer"
-                    style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 12, color: 'var(--accent, #7c3aed)' }}>
-                    <ExternalLink size={13} /> Open
-                  </a>
-                )}
-                <button onClick={() => save(item)} disabled={saved[item.url]}
-                  style={{
-                    display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 12, border: 'none',
-                    background: 'none', cursor: 'pointer',
-                    color: saved[item.url] ? 'var(--success, #22c55e)' : 'var(--muted, #888)',
-                  }}>
-                  <Bookmark size={13} /> {saved[item.url] ? 'Saved' : 'Save to vault'}
-                </button>
+      <div className="tabs" style={{ marginBottom: 10 }}>
+        {tabs.map(t => <button key={t} className={`tab ${tab === t ? 'active' : ''}`} onClick={() => setTab(t)}>{t}</button>)}
+      </div>
+
+      {loading ? <div style={{ textAlign: 'center', padding: 30 }}><span className="spinner" /></div> : (
+        <div>
+          {items.map((it, i) => (
+            <div key={i} className="card" style={{ display: 'flex', gap: 10, cursor: it.url ? 'pointer' : 'default', alignItems: 'flex-start' }} onClick={() => it.url && window.open(it.url, '_blank')}>
+              {(it.thumb || it.image) && (
+                <img src={api.proxyImage(it.thumb || it.image)} alt="" style={{ width: 44, height: 44, objectFit: 'cover', borderRadius: 3, flexShrink: 0 }} onError={e => e.target.style.display='none'} />
+              )}
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                  <span className="badge badge-info" style={{ flexShrink: 0 }}>{it._type}</span>
+                  <span className="truncate" style={{ fontSize: 11, fontWeight: 500 }}>{it.title || it.label || 'untitled'}</span>
+                  {it.has_video && <span className="badge badge-danger">video</span>}
+                </div>
+                <div style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 2, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                  {it.source && <span>{it.source}</span>}
+                  {it.source_brand && <span>{it.source_brand}</span>}
+                  {it.views > 0 && <span>{fmtN(it.views)} views</span>}
+                  {it.ups > 0 && <span>{fmtN(it.ups)} ups</span>}
+                  {it.comments > 0 && <span>{fmtN(it.comments)} cmt</span>}
+                  {it.trend_score > 0 && <span>score: {Math.round(it.trend_score)}</span>}
+                  {it.item_count > 0 && <span>{it.item_count} items</span>}
+                  {it.cluster_score > 0 && <span>heat: {Math.round(it.cluster_score)}</span>}
+                  {it.emotion && <span className="badge badge-warning">{it.emotion}</span>}
+                  {it.published_at && <span>{ago(new Date(it.published_at).getTime())}</span>}
+                </div>
               </div>
             </div>
           ))}
+          {items.length === 0 && <div style={{ textAlign: 'center', padding: 30, color: 'var(--text-muted)' }}>no items found</div>}
         </div>
       )}
     </div>

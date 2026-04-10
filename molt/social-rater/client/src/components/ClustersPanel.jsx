@@ -1,150 +1,83 @@
 import { useState, useEffect } from 'react';
 import { api } from '../services/api';
 
-const EMOTION_COLORS = {
-  anger: '#ff4757', fear: '#ff9f43', money: '#00d68f',
-  status: '#a855f7', curiosity: '#0abde3',
-};
-
-function scoreTier(s) {
-  if (s >= 70) return { label: 'hot', bg: '#a855f7' };
-  if (s >= 40) return { label: 'warm', bg: '#ff9f43' };
-  return { label: 'cool', bg: '#666' };
+function scoreColor(s) {
+  if (s >= 70) return 'var(--danger)';
+  if (s >= 40) return 'var(--warning)';
+  return 'var(--accent)';
 }
 
-const pill = (bg, text, extra = {}) => ({
-  display: 'inline-block', padding: '2px 8px', borderRadius: 12,
-  fontSize: 11, fontWeight: 600, background: bg, color: '#fff', ...extra,
-});
-
 export default function ClustersPanel() {
-  const [data, setData] = useState({ total: 0, hot: 0, clusters: [] });
-  const [expanded, setExpanded] = useState(null);
-  const [toast, setToast] = useState(null);
+  const [clusters, setClusters] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [hot, setHot] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [expanded, setExpanded] = useState(null);
+  const [generating, setGenerating] = useState(null);
 
   useEffect(() => {
-    api.getClusters(0, 50).then(r => {
-      if (r.ok) setData(r);
-      setLoading(false);
-    }).catch(() => setLoading(false));
+    api.getClusters(0, 100)
+      .then(d => {
+        if (d.ok) { setClusters(d.clusters || []); setTotal(d.total || 0); setHot(d.hot || 0); }
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
   }, []);
 
-  const handleGenerate = async (e, cluster_id) => {
+  const generate = async (e, clusterId) => {
     e.stopPropagation();
-    try {
-      const r = await api.generateSingle({ cluster_id });
-      setToast(r.ok ? 'Generated successfully' : 'Generation failed');
-    } catch { setToast('Generation failed'); }
-    setTimeout(() => setToast(null), 2500);
+    setGenerating(clusterId);
+    try { await api.generateSingle({ cluster_id: clusterId }); } catch {}
+    setGenerating(null);
   };
 
-  if (loading) return <div style={{ padding: 24, color: 'var(--text-muted)' }}>Loading clusters...</div>;
+  if (loading) return <div style={{ textAlign: 'center', padding: 20 }}><span className="spinner" /></div>;
 
   return (
-    <div style={{ padding: 0 }}>
-      {toast && (
-        <div style={{
-          position: 'fixed', top: 20, right: 20, zIndex: 999,
-          background: '#00d68f', color: '#fff', padding: '10px 20px',
-          borderRadius: 8, fontSize: 13, fontWeight: 600,
-        }}>{toast}</div>
-      )}
-
-      <div style={{
-        display: 'flex', gap: 16, alignItems: 'center',
-        marginBottom: 20, padding: '0 4px',
-      }}>
-        <h2 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
-          Clusters
-        </h2>
-        <span style={pill('var(--bg-tertiary)', '', { color: 'var(--text-secondary)' })}>
-          {data.total} total
-        </span>
-        <span style={pill('#a855f7', '')}>
-          {data.hot} hot
-        </span>
+    <div>
+      <div style={{ display: 'flex', gap: 8, marginBottom: 10, alignItems: 'center' }}>
+        <span className="badge badge-info">{total} clusters</span>
+        <span className="badge badge-danger">{hot} hot</span>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-        {data.clusters.map(c => {
-          const tier = scoreTier(c.cluster_score);
-          const isOpen = expanded === c.cluster_id;
-          return (
-            <div key={c.cluster_id}
-              onClick={() => setExpanded(isOpen ? null : c.cluster_id)}
-              style={{
-                background: 'var(--bg-secondary)', borderRadius: 10,
-                border: '1px solid var(--border)', cursor: 'pointer',
-                transition: 'border-color .15s',
-                borderColor: isOpen ? 'var(--accent)' : 'var(--border)',
-              }}>
-              <div style={{
-                display: 'flex', alignItems: 'center', gap: 10,
-                padding: '12px 16px', flexWrap: 'wrap',
-              }}>
-                <span style={pill(tier.bg, '')}>{Math.round(c.cluster_score)}</span>
-                <span style={{
-                  flex: 1, fontSize: 14, fontWeight: 600,
-                  color: 'var(--text-primary)', minWidth: 120,
-                }}>{c.label}</span>
-                <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>
-                  {c.item_count} items &middot; {c.source_count} sources
-                </span>
-                {c.emotion && (
-                  <span style={pill(EMOTION_COLORS[c.emotion] || '#666', '')}>
-                    {c.emotion}
-                  </span>
-                )}
-                {c.format && (
-                  <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>{c.format}</span>
-                )}
-                <button
-                  onClick={(e) => handleGenerate(e, c.cluster_id)}
-                  style={{
-                    padding: '4px 12px', borderRadius: 6, border: 'none',
-                    background: 'var(--accent)', color: '#fff', fontSize: 12,
-                    fontWeight: 600, cursor: 'pointer',
-                  }}>Generate</button>
-              </div>
-
-              {isOpen && c.items && c.items.length > 0 && (
-                <div style={{
-                  padding: '0 16px 12px', borderTop: '1px solid var(--border)',
-                  marginTop: 0,
-                }}>
-                  <div style={{ fontSize: 11, color: 'var(--text-muted)', padding: '8px 0 4px' }}>
-                    Top items
-                  </div>
-                  {c.items.slice(0, 5).map((item, i) => (
-                    <div key={i} style={{
-                      display: 'flex', gap: 10, alignItems: 'center',
-                      padding: '6px 0', borderBottom: i < Math.min(c.items.length, 5) - 1
-                        ? '1px solid var(--border)' : 'none',
-                    }}>
-                      <span style={{ fontSize: 11, color: 'var(--text-muted)', minWidth: 60 }}>
-                        {item.source}
-                      </span>
-                      <span style={{
-                        flex: 1, fontSize: 13, color: 'var(--text-primary)',
-                        overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                      }}>{item.title}</span>
-                      <span style={pill(scoreTier(item.trend_score).bg, '')}>
-                        {Math.round(item.trend_score)}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              )}
+      {clusters.map((c, i) => (
+        <div key={c.cluster_id || i} className="card" style={{ cursor: 'pointer' }} onClick={() => setExpanded(expanded === i ? null : i)}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', gap: 8, alignItems: 'center', flex: 1, minWidth: 0 }}>
+              <span style={{ fontWeight: 700, fontSize: 13, color: scoreColor(c.cluster_score), minWidth: 28 }}>{Math.round(c.cluster_score || 0)}</span>
+              <span className="truncate" style={{ fontSize: 11, fontWeight: 500 }}>{c.label}</span>
             </div>
-          );
-        })}
-        {data.clusters.length === 0 && (
-          <div style={{ padding: 24, color: 'var(--text-muted)', textAlign: 'center' }}>
-            No clusters found. Run the cluster engine first.
+            <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexShrink: 0 }}>
+              {c.emotion && <span className="badge badge-warning">{c.emotion}</span>}
+              {c.format && <span style={{ fontSize: 9, color: 'var(--text-muted)' }}>{c.format}</span>}
+              <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>{c.item_count} items</span>
+              <button className="btn btn-primary btn-sm" onClick={e => generate(e, c.cluster_id)} disabled={generating === c.cluster_id}>
+                {generating === c.cluster_id ? <span className="spinner" /> : 'generate'}
+              </button>
+              <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>{expanded === i ? 'v' : '>'}</span>
+            </div>
           </div>
-        )}
-      </div>
+          {c.keywords && (
+            <div style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 2 }}>
+              {(Array.isArray(c.keywords) ? c.keywords : [c.keywords]).join(', ')}
+            </div>
+          )}
+          {expanded === i && c.items && c.items.length > 0 && (
+            <div style={{ marginTop: 8, paddingTop: 6, borderTop: '1px solid var(--border)' }}>
+              {c.items.slice(0, 8).map((it, j) => (
+                <div key={j} style={{ fontSize: 10, padding: '3px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: j < c.items.length - 1 ? '1px solid var(--border)' : 'none', cursor: it.url ? 'pointer' : 'default' }} onClick={e => { e.stopPropagation(); it.url && window.open(it.url, '_blank'); }}>
+                  <span className="truncate" style={{ flex: 1, color: 'var(--text-primary)' }}>{it.title}</span>
+                  <div style={{ display: 'flex', gap: 6, flexShrink: 0, marginLeft: 8 }}>
+                    <span style={{ color: 'var(--text-muted)' }}>{it.source}</span>
+                    {it.trend_score > 0 && <span style={{ color: scoreColor(it.trend_score), fontWeight: 600 }}>{Math.round(it.trend_score)}</span>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+      {clusters.length === 0 && <div style={{ color: 'var(--text-muted)', padding: 12, textAlign: 'center' }}>no clusters found. run the cluster engine first.</div>}
     </div>
   );
 }

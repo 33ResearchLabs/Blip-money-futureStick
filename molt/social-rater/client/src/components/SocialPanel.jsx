@@ -1,78 +1,78 @@
 import { useState, useEffect } from 'react';
 import { api } from '../services/api';
 
-const badge = (platform) => {
-  const colors = { tiktok: '#ff0050', youtube: '#ff0000', instagram: '#e1306c', twitter: '#1da1f2', reddit: '#ff4500' };
-  return { display: 'inline-block', padding: '2px 8px', borderRadius: 10, fontSize: 11, fontWeight: 600, color: '#fff', background: colors[platform?.toLowerCase()] || 'var(--text-muted)' };
-};
-
-const fmt = (n) => { if (!n) return '0'; if (n >= 1e6) return (n/1e6).toFixed(1)+'M'; if (n >= 1e3) return (n/1e3).toFixed(1)+'K'; return String(n); };
+const fmtN = n => { if(!n) return '0'; if(n>=1e6) return (n/1e6).toFixed(1)+'M'; if(n>=1e3) return (n/1e3).toFixed(1)+'K'; return n.toLocaleString(); };
 
 export default function SocialPanel() {
-  const [data, setData] = useState(null);
-  const [busy, setBusy] = useState(false);
+  const [items, setItems] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
-  const load = () => api.getSocialFeed('limit=100').then(setData);
-  useEffect(() => { load(); }, []);
+  const load = () => {
+    setLoading(true);
+    api.getSocialFeed('limit=100')
+      .then(d => {
+        if (d.ok !== false) { setItems(d.items || []); setTotal(d.total || 0); }
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  };
 
-  const refresh = async () => { setBusy(true); await api.refreshSocial(); await load(); setBusy(false); };
+  useEffect(load, []);
 
-  if (!data) return <div className="fade-in" style={{ padding: 24, color: 'var(--text-muted)' }}>Loading...</div>;
+  const refresh = async () => {
+    setRefreshing(true);
+    await api.refreshSocial();
+    load();
+    setRefreshing(false);
+  };
 
+  // Group by brand
   const grouped = {};
-  (data.items || []).forEach(item => {
-    const key = item.source_brand || item.source_handle || 'Other';
-    (grouped[key] = grouped[key] || []).push(item);
+  items.forEach(it => {
+    const b = it.source_brand || it.source_handle || 'other';
+    if (!grouped[b]) grouped[b] = [];
+    grouped[b].push(it);
   });
 
   return (
-    <div className="fade-in" style={{ padding: 24, maxWidth: 960 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-        <div style={{ fontSize: 14, color: 'var(--text-muted)' }}>{data.total ?? 0} posts</div>
-        <button onClick={refresh} disabled={busy} className="btn-primary"
-          style={{ padding: '6px 16px', borderRadius: 6, fontSize: 13 }}>
-          {busy ? 'Refreshing...' : 'Refresh all accounts'}
+    <div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+        <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>{total} posts total</span>
+        <button className="btn btn-ghost btn-sm" onClick={refresh} disabled={refreshing}>
+          {refreshing ? <span className="spinner" /> : 'refresh'}
         </button>
       </div>
 
-      {Object.entries(grouped).map(([brand, items]) => (
-        <div key={brand} style={{ marginBottom: 24 }}>
-          <h3 style={{ fontSize: 14, color: 'var(--text-secondary)', margin: '0 0 10px', borderBottom: '1px solid var(--border)', paddingBottom: 6 }}>{brand}</h3>
-          {items.map((item, i) => (
-            <div key={i} style={{ display: 'flex', gap: 12, padding: '10px 0', borderBottom: '1px solid var(--border)', alignItems: 'center' }}>
-              {item.thumb && (
-                <div style={{ position: 'relative', flexShrink: 0 }}>
-                  <img src={item.thumb} alt="" style={{ width: 66, height: 44, objectFit: 'cover', borderRadius: 6, background: 'var(--border)' }} />
-                  {item.has_video && (
-                    <a href={item.video_url || item.url} target="_blank" rel="noreferrer"
-                      style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,.4)', borderRadius: 6, color: '#fff', fontSize: 18 }}>
-                      ▶
-                    </a>
-                  )}
-                </div>
-              )}
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <a href={item.url} target="_blank" rel="noreferrer"
-                  style={{ fontSize: 13, color: 'var(--text-primary)', textDecoration: 'none', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                  {item.title || '(no title)'}
-                </a>
-                <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 3, display: 'flex', gap: 8, alignItems: 'center' }}>
-                  <span>{item.source_handle}</span>
-                  <span style={badge(item.source_platform)}>{item.source_platform}</span>
-                  {item.account_followers > 0 && <span>{fmt(item.account_followers)} followers</span>}
+      {loading ? <div style={{ textAlign: 'center', padding: 20 }}><span className="spinner" /></div> : (
+        Object.entries(grouped).map(([brand, posts]) => (
+          <div key={brand} style={{ marginBottom: 12 }}>
+            <div className="label" style={{ marginBottom: 4 }}>{brand}</div>
+            {posts.map((p, i) => (
+              <div key={i} className="card" style={{ display: 'flex', gap: 8, cursor: p.url ? 'pointer' : 'default' }} onClick={() => p.url && window.open(p.url, '_blank')}>
+                {p.thumb && (
+                  <div style={{ position: 'relative', flexShrink: 0 }}>
+                    <img src={api.proxyImage(p.thumb)} alt="" style={{ width: 50, height: 36, objectFit: 'cover', borderRadius: 3 }} onError={e => e.target.style.display='none'} />
+                    {p.has_video && <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,.4)', borderRadius: 3, color: '#fff', fontSize: 12 }}>{'▶'}</div>}
+                  </div>
+                )}
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div className="truncate" style={{ fontSize: 11, fontWeight: 500 }}>{p.title || '(no title)'}</div>
+                  <div style={{ fontSize: 10, color: 'var(--text-muted)', display: 'flex', gap: 8, marginTop: 2, flexWrap: 'wrap' }}>
+                    {p.source_handle && <span>@{p.source_handle}</span>}
+                    {p.source_platform && <span className="badge badge-info">{p.source_platform}</span>}
+                    {p.views > 0 && <span>{fmtN(p.views)} views</span>}
+                    {p.ups > 0 && <span>{fmtN(p.ups)} likes</span>}
+                    {p.comments > 0 && <span>{fmtN(p.comments)} cmt</span>}
+                  </div>
                 </div>
               </div>
-              <div style={{ display: 'flex', gap: 14, fontSize: 12, color: 'var(--text-muted)', flexShrink: 0 }}>
-                {item.views > 0 && <span title="Views">👁 {fmt(item.views)}</span>}
-                <span title="Likes">♥ {fmt(item.ups)}</span>
-                <span title="Comments">💬 {fmt(item.comments)}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      ))}
-
-      {!(data.items || []).length && <div style={{ color: 'var(--text-muted)', textAlign: 'center', padding: 40 }}>No posts yet. Add accounts and refresh.</div>}
+            ))}
+          </div>
+        ))
+      )}
+      {!loading && items.length === 0 && <div style={{ color: 'var(--text-muted)', padding: 12, textAlign: 'center' }}>no social data. add accounts and refresh.</div>}
     </div>
   );
 }

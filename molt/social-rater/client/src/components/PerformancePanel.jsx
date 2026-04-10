@@ -1,96 +1,117 @@
 import { useState, useEffect } from 'react';
 import { api } from '../services/api';
 
-const EMOTIONS = ['funny','shocking','inspiring','relatable','nostalgic','controversial','heartwarming','educational'];
-const FORMATS = ['skit','storytime','reaction','tutorial','vlog','duet','trend','challenge','listicle'];
-const PLATFORMS = ['tiktok','youtube','instagram','twitter'];
+const fmtN = n => { if(!n) return '0'; if(n>=1e6) return (n/1e6).toFixed(1)+'M'; if(n>=1e3) return (n/1e3).toFixed(1)+'K'; return n.toLocaleString(); };
+
+function Bar({ label, value, max, color }) {
+  const pct = max > 0 ? (value / max * 100) : 0;
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+      <span style={{ fontSize: 10, color: 'var(--text-muted)', width: 80, textAlign: 'right' }}>{label}</span>
+      <div style={{ flex: 1, height: 8, background: 'var(--bg-hover)', borderRadius: 2, overflow: 'hidden' }}>
+        <div style={{ width: Math.min(pct, 100) + '%', height: '100%', background: color || 'var(--accent)', borderRadius: 2, transition: 'width 0.3s' }} />
+      </div>
+      <span style={{ fontSize: 10, color: 'var(--text-secondary)', width: 50, textAlign: 'right' }}>{typeof value === 'number' ? value.toFixed(1) : value}</span>
+    </div>
+  );
+}
 
 export default function PerformancePanel() {
   const [data, setData] = useState(null);
-  const [form, setForm] = useState({ platform:'tiktok', views:'', likes:'', comments:'', shares:'', emotion:'funny', format:'skit' });
-  const [busy, setBusy] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [adjusting, setAdjusting] = useState(false);
+  const [form, setForm] = useState({ trend_title: '', platform: 'tiktok', views: '', likes: '', comments: '', shares: '', emotion: 'funny', format: 'skit' });
+  const [recording, setRecording] = useState(false);
 
-  const load = () => api.getPerformanceSummary().then(setData);
-  useEffect(() => { load(); }, []);
-
-  const submit = async () => {
-    setBusy(true);
-    await api.recordPerformance({ ...form, views:+form.views, likes:+form.likes, comments:+form.comments, shares:+form.shares });
-    setForm(f => ({ ...f, views:'', likes:'', comments:'', shares:'' }));
-    await load();
-    setBusy(false);
+  const load = () => {
+    api.getPerformanceSummary()
+      .then(d => { if (d.ok !== false) setData(d); })
+      .catch(() => {})
+      .finally(() => setLoading(false));
   };
 
-  const adjust = async () => { setBusy(true); await api.adjustWeights(); await load(); setBusy(false); };
+  useEffect(load, []);
 
-  if (!data) return <div className="fade-in" style={{ padding: 24, color: 'var(--text-muted)' }}>Loading...</div>;
+  const adjust = async () => {
+    setAdjusting(true);
+    await api.adjustWeights();
+    load();
+    setAdjusting(false);
+  };
 
-  const bar = (val, max) => ({ width: `${Math.min((val / max) * 100, 100)}%`, height: 8, borderRadius: 4, background: 'var(--accent)', transition: 'width .3s' });
+  const record = async () => {
+    setRecording(true);
+    await api.recordPerformance({
+      ...form,
+      views: +form.views || 0,
+      likes: +form.likes || 0,
+      comments: +form.comments || 0,
+      shares: +form.shares || 0,
+    });
+    setForm(f => ({ ...f, trend_title: '', views: '', likes: '', comments: '', shares: '' }));
+    load();
+    setRecording(false);
+  };
+
+  if (loading) return <div style={{ textAlign: 'center', padding: 20 }}><span className="spinner" /></div>;
+  if (!data) return <div style={{ color: 'var(--text-muted)', padding: 12 }}>failed to load</div>;
+
+  const emotions = data?.top_emotions || [];
+  const formats = data?.top_formats || [];
+  const maxE = Math.max(...emotions.map(e => e.avg_engagement || e.avg || e.score || 0), 1);
+  const maxF = Math.max(...formats.map(f => f.avg_engagement || f.avg || f.score || 0), 1);
 
   return (
-    <div className="fade-in" style={{ padding: 24, maxWidth: 860 }}>
-      <div style={{ display: 'flex', gap: 16, marginBottom: 24, flexWrap: 'wrap' }}>
-        {[
-          { label: 'Tracked entries', val: data.entries, color: 'var(--info)' },
-          { label: 'Avg engagement', val: `${(data.avg_engagement ?? 0).toFixed(1)}%`, color: 'var(--success)' },
-          { label: 'Weight adjustments', val: data.adjustment_count ?? 0, color: '#a78bfa' },
-        ].map(c => (
-          <div key={c.label} style={{ flex: 1, minWidth: 180, background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 10, padding: 18 }}>
-            <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>{c.label}</div>
-            <div style={{ fontSize: 28, fontWeight: 700, color: c.color, marginTop: 4 }}>{c.val}</div>
-          </div>
-        ))}
+    <div>
+      <div className="stat-row" style={{ gridTemplateColumns: 'repeat(3, 1fr)', marginBottom: 12 }}>
+        <div className="stat-card"><div className="stat-val">{data?.entries || 0}</div><div className="stat-lbl">entries</div></div>
+        <div className="stat-card"><div className="stat-val" style={{ color: 'var(--accent)' }}>{(data?.avg_engagement || 0).toFixed(1)}%</div><div className="stat-lbl">avg engagement</div></div>
+        <div className="stat-card"><div className="stat-val">{Object.keys(data?.platforms || {}).length}</div><div className="stat-lbl">platforms</div></div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 24 }}>
-        {[{ title: 'Best Emotions', items: data.top_emotions }, { title: 'Best Formats', items: data.top_formats }].map(sec => (
-          <div key={sec.title} style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 10, padding: 16 }}>
-            <h3 style={{ margin: '0 0 12px', fontSize: 15, color: 'var(--text-primary)' }}>{sec.title}</h3>
-            {(sec.items || []).map(r => (
-              <div key={r.name || r.emotion || r.format} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-                <span style={{ minWidth: 90, fontSize: 13, color: 'var(--text-secondary)', background: 'var(--border)', borderRadius: 12, padding: '2px 10px', textAlign: 'center' }}>
-                  {r.name || r.emotion || r.format}
-                </span>
-                <div style={{ flex: 1, background: 'var(--border)', borderRadius: 4, height: 8 }}>
-                  <div style={bar(r.avg, 10)} />
-                </div>
-                <span style={{ fontSize: 12, color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>{(r.avg ?? 0).toFixed(1)}% · {r.count}</span>
-              </div>
-            ))}
-            {!(sec.items || []).length && <div style={{ color: 'var(--text-muted)', fontSize: 13 }}>No data yet</div>}
-          </div>
-        ))}
-      </div>
-
-      <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 10, padding: 18, marginBottom: 16 }}>
-        <h3 style={{ margin: '0 0 12px', fontSize: 15, color: 'var(--text-primary)' }}>Record Performance</h3>
-        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'flex-end' }}>
-          {[
-            { key: 'platform', type: 'select', opts: PLATFORMS },
-            { key: 'views', type: 'number', ph: 'Views' },
-            { key: 'likes', type: 'number', ph: 'Likes' },
-            { key: 'comments', type: 'number', ph: 'Comments' },
-            { key: 'shares', type: 'number', ph: 'Shares' },
-            { key: 'emotion', type: 'select', opts: EMOTIONS },
-            { key: 'format', type: 'select', opts: FORMATS },
-          ].map(f => f.type === 'select' ? (
-            <select key={f.key} value={form[f.key]} onChange={e => setForm(p => ({ ...p, [f.key]: e.target.value }))}
-              style={{ padding: '6px 10px', borderRadius: 6, border: '1px solid var(--border)', background: 'var(--bg-card)', color: 'var(--text-primary)', fontSize: 13 }}>
-              {f.opts.map(o => <option key={o} value={o}>{o}</option>)}
-            </select>
-          ) : (
-            <input key={f.key} type="number" placeholder={f.ph} value={form[f.key]}
-              onChange={e => setForm(p => ({ ...p, [f.key]: e.target.value }))}
-              style={{ width: 80, padding: '6px 10px', borderRadius: 6, border: '1px solid var(--border)', background: 'var(--bg-card)', color: 'var(--text-primary)', fontSize: 13 }} />
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
+        <div className="card">
+          <div className="label" style={{ marginBottom: 6 }}>top emotions</div>
+          {emotions.map((e, i) => (
+            <Bar key={i} label={e.emotion || e.name || e.label} value={e.avg_engagement || e.avg || e.score || 0} max={maxE} color="var(--warning)" />
           ))}
-          <button onClick={submit} disabled={busy} className="btn-primary" style={{ padding: '6px 16px', borderRadius: 6, fontSize: 13 }}>Submit</button>
+          {emotions.length === 0 && <div style={{ fontSize: 10, color: 'var(--text-muted)' }}>no data</div>}
+        </div>
+        <div className="card">
+          <div className="label" style={{ marginBottom: 6 }}>top formats</div>
+          {formats.map((f, i) => (
+            <Bar key={i} label={f.format || f.name || f.label} value={f.avg_engagement || f.avg || f.score || 0} max={maxF} color="var(--success)" />
+          ))}
+          {formats.length === 0 && <div style={{ fontSize: 10, color: 'var(--text-muted)' }}>no data</div>}
         </div>
       </div>
 
-      <button onClick={adjust} disabled={busy} className="btn-secondary"
-        style={{ padding: '8px 20px', borderRadius: 8, fontSize: 13, border: '1px solid var(--border)', background: 'var(--bg-card)', color: 'var(--accent)', cursor: 'pointer' }}>
-        Adjust weights from data
+      <button className="btn btn-primary" onClick={adjust} disabled={adjusting} style={{ marginBottom: 12 }}>
+        {adjusting ? <span className="spinner" /> : 'adjust weights from data'}
       </button>
+
+      <div className="card">
+        <div className="label" style={{ marginBottom: 6 }}>record performance</div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6 }}>
+          <input placeholder="trend title" value={form.trend_title} onChange={e => setForm({ ...form, trend_title: e.target.value })} />
+          <select value={form.platform} onChange={e => setForm({ ...form, platform: e.target.value })}>
+            {['tiktok', 'youtube', 'instagram', 'twitter'].map(p => <option key={p} value={p}>{p}</option>)}
+          </select>
+          <select value={form.emotion} onChange={e => setForm({ ...form, emotion: e.target.value })}>
+            {['funny', 'shocking', 'inspiring', 'relatable', 'nostalgic', 'controversial', 'heartwarming', 'educational'].map(e => <option key={e} value={e}>{e}</option>)}
+          </select>
+          <input type="number" placeholder="views" value={form.views} onChange={e => setForm({ ...form, views: e.target.value })} />
+          <input type="number" placeholder="likes" value={form.likes} onChange={e => setForm({ ...form, likes: e.target.value })} />
+          <input type="number" placeholder="comments" value={form.comments} onChange={e => setForm({ ...form, comments: e.target.value })} />
+          <input type="number" placeholder="shares" value={form.shares} onChange={e => setForm({ ...form, shares: e.target.value })} />
+          <select value={form.format} onChange={e => setForm({ ...form, format: e.target.value })}>
+            {['skit', 'storytime', 'reaction', 'tutorial', 'vlog', 'duet', 'trend', 'challenge', 'listicle'].map(f => <option key={f} value={f}>{f}</option>)}
+          </select>
+          <button className="btn btn-success btn-sm" onClick={record} disabled={recording} style={{ justifyContent: 'center' }}>
+            {recording ? <span className="spinner" /> : 'record'}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
