@@ -92,14 +92,6 @@ export default function News() {
               onMouseOver={e => e.currentTarget.style.background = '#111113'}
               onMouseOut={e => e.currentTarget.style.background = ''}
             >
-              {/* Score — just a number, clean */}
-              <div style={{ width: 36, flexShrink: 0, textAlign: 'right', paddingTop: 2 }}>
-                <span style={{
-                  fontSize: '0.85rem', fontWeight: 700, fontVariantNumeric: 'tabular-nums',
-                  color: score >= 80 ? '#4ade80' : score >= 60 ? '#fbbf24' : score >= 40 ? '#fb923c' : '#52525b',
-                }}>{score}</span>
-              </div>
-
               {/* Thumbnail */}
               {it.image ? (
                 <img src={api.proxyImage(it.image)} alt="" style={{
@@ -135,6 +127,14 @@ export default function News() {
                   <span>published {it.published_at ? ago(it.published_at) : '—'}</span>
                   <span>fetched {it.fetched_at ? ago(it.fetched_at) : '—'}</span>
                 </div>
+              </div>
+
+              {/* Score — right side */}
+              <div style={{ width: 36, flexShrink: 0, textAlign: 'center', paddingTop: 2 }}>
+                <span style={{
+                  fontSize: '0.9rem', fontWeight: 700, fontVariantNumeric: 'tabular-nums',
+                  color: score >= 80 ? '#4ade80' : score >= 60 ? '#fbbf24' : score >= 40 ? '#fb923c' : '#52525b',
+                }}>{score}</span>
               </div>
 
               {/* Action */}

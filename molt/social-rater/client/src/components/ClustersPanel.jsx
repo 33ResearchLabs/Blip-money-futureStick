@@ -1,11 +1,7 @@
 import { useState, useEffect } from 'react';
 import { api } from '../services/api';
 
-function scoreColor(s) {
-  if (s >= 70) return 'var(--danger)';
-  if (s >= 40) return 'var(--warning)';
-  return 'var(--accent)';
-}
+const fmtN = n => { if(!n) return '0'; if(n>=1e6) return (n/1e6).toFixed(1)+'M'; if(n>=1e3) return (n/1e3).toFixed(1)+'K'; return n.toLocaleString(); };
 
 export default function ClustersPanel() {
   const [clusters, setClusters] = useState([]);
@@ -31,45 +27,64 @@ export default function ClustersPanel() {
     setGenerating(null);
   };
 
-  if (loading) return <div style={{ textAlign: 'center', padding: 20 }}><span className="spinner" /></div>;
+  if (loading) return <div style={{ textAlign: 'center', padding: 60 }}><span className="spinner" /></div>;
 
   return (
     <div>
-      <div style={{ display: 'flex', gap: 8, marginBottom: 10, alignItems: 'center' }}>
-        <span className="badge badge-info">{total} clusters</span>
-        <span className="badge badge-danger">{hot} hot</span>
+      <div style={{ display: 'flex', gap: 12, marginBottom: 12, fontSize: '0.6rem', color: '#52525b' }}>
+        <span>{total} clusters</span>
+        <span>{'\u00b7'} {hot} hot</span>
       </div>
 
       {clusters.map((c, i) => (
-        <div key={c.cluster_id || i} className="card" style={{ cursor: 'pointer' }} onClick={() => setExpanded(expanded === i ? null : i)}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div style={{ display: 'flex', gap: 8, alignItems: 'center', flex: 1, minWidth: 0 }}>
-              <span style={{ fontWeight: 700, fontSize: 13, color: scoreColor(c.cluster_score), minWidth: 28 }}>{Math.round(c.cluster_score || 0)}</span>
-              <span className="truncate" style={{ fontSize: 11, fontWeight: 500 }}>{c.label}</span>
+        <div key={c.cluster_id || i} style={{
+          padding: '12px 8px', borderBottom: '1px solid #18181b',
+          cursor: 'pointer', transition: 'background 0.12s',
+        }}
+          onClick={() => setExpanded(expanded === i ? null : i)}
+          onMouseOver={e => e.currentTarget.style.background = '#111113'}
+          onMouseOut={e => e.currentTarget.style.background = ''}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <span style={{
+              fontWeight: 700, fontSize: '0.85rem', fontVariantNumeric: 'tabular-nums', minWidth: 30,
+              color: (c.cluster_score || 0) >= 70 ? '#4ade80' : (c.cluster_score || 0) >= 40 ? '#fbbf24' : '#52525b',
+            }}>{Math.round(c.cluster_score || 0)}</span>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontSize: '0.75rem', fontWeight: 500, color: '#fafafa', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{c.label}</div>
+              {c.keywords && (
+                <div style={{ fontSize: '0.55rem', color: '#3f3f46', marginTop: 3 }}>
+                  {(Array.isArray(c.keywords) ? c.keywords : [c.keywords]).join(', ')}
+                </div>
+              )}
             </div>
-            <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexShrink: 0 }}>
-              {c.emotion && <span className="badge badge-warning">{c.emotion}</span>}
-              {c.format && <span style={{ fontSize: 9, color: 'var(--text-muted)' }}>{c.format}</span>}
-              <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>{c.item_count} items</span>
-              <button className="btn btn-primary btn-sm" onClick={e => generate(e, c.cluster_id)} disabled={generating === c.cluster_id}>
-                {generating === c.cluster_id ? <span className="spinner" /> : 'generate'}
-              </button>
-              <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>{expanded === i ? 'v' : '>'}</span>
+            <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexShrink: 0 }}>
+              {c.emotion && <span style={{ fontSize: '0.55rem', color: '#52525b' }}>{c.emotion}</span>}
+              {c.format && <span style={{ fontSize: '0.55rem', color: '#3f3f46' }}>{c.format}</span>}
+              <span style={{ fontSize: '0.58rem', color: '#3f3f46' }}>{c.item_count} items</span>
+              <button onClick={e => generate(e, c.cluster_id)} disabled={generating === c.cluster_id} style={{
+                padding: '4px 12px', fontSize: '0.58rem', borderRadius: 6, border: 'none',
+                background: '#6366f1', color: '#fafafa', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 500,
+              }}>{generating === c.cluster_id ? '...' : 'generate'}</button>
+              <span style={{ fontSize: '0.58rem', color: '#3f3f46' }}>{expanded === i ? '\u25be' : '\u203a'}</span>
             </div>
           </div>
-          {c.keywords && (
-            <div style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 2 }}>
-              {(Array.isArray(c.keywords) ? c.keywords : [c.keywords]).join(', ')}
-            </div>
-          )}
+
           {expanded === i && c.items && c.items.length > 0 && (
-            <div style={{ marginTop: 8, paddingTop: 6, borderTop: '1px solid var(--border)' }}>
+            <div style={{ marginTop: 10, paddingTop: 8, borderTop: '1px solid #18181b', marginLeft: 42 }}>
               {c.items.slice(0, 8).map((it, j) => (
-                <div key={j} style={{ fontSize: 10, padding: '3px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: j < c.items.length - 1 ? '1px solid var(--border)' : 'none', cursor: it.url ? 'pointer' : 'default' }} onClick={e => { e.stopPropagation(); it.url && window.open(it.url, '_blank'); }}>
-                  <span className="truncate" style={{ flex: 1, color: 'var(--text-primary)' }}>{it.title}</span>
-                  <div style={{ display: 'flex', gap: 6, flexShrink: 0, marginLeft: 8 }}>
-                    <span style={{ color: 'var(--text-muted)' }}>{it.source}</span>
-                    {it.trend_score > 0 && <span style={{ color: scoreColor(it.trend_score), fontWeight: 600 }}>{Math.round(it.trend_score)}</span>}
+                <div key={j} style={{
+                  display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                  padding: '6px 0', borderBottom: j < Math.min(c.items.length, 8) - 1 ? '1px solid #18181b' : 'none',
+                  cursor: it.url ? 'pointer' : 'default', fontSize: '0.62rem',
+                }} onClick={e => { e.stopPropagation(); it.url && window.open(it.url, '_blank'); }}>
+                  <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', color: '#a1a1aa' }}>{it.title}</span>
+                  <div style={{ display: 'flex', gap: 8, flexShrink: 0, marginLeft: 10 }}>
+                    <span style={{ color: '#3f3f46' }}>{it.source}</span>
+                    {it.trend_score > 0 && <span style={{
+                      fontWeight: 700, fontVariantNumeric: 'tabular-nums',
+                      color: it.trend_score >= 70 ? '#4ade80' : it.trend_score >= 40 ? '#fbbf24' : '#52525b',
+                    }}>{Math.round(it.trend_score)}</span>}
                   </div>
                 </div>
               ))}
@@ -77,7 +92,7 @@ export default function ClustersPanel() {
           )}
         </div>
       ))}
-      {clusters.length === 0 && <div style={{ color: 'var(--text-muted)', padding: 12, textAlign: 'center' }}>no clusters found. run the cluster engine first.</div>}
+      {clusters.length === 0 && <div style={{ textAlign: 'center', padding: 40, color: '#3f3f46', fontSize: '0.7rem' }}>no clusters found. run the cluster engine first.</div>}
     </div>
   );
 }

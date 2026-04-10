@@ -1,11 +1,11 @@
-import { useState, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { api } from '../services/api';
-import ScoreBadge from '../components/ScoreBadge';
 
 const fmtN = n => { if(!n) return '0'; if(n>=1e6) return (n/1e6).toFixed(1)+'M'; if(n>=1e3) return (n/1e3).toFixed(1)+'K'; return n.toLocaleString(); };
-const ago = ms => { if(!ms) return '—'; const s=Math.floor((Date.now()-ms)/1000); if(s<60) return s+'s'; if(s<3600) return Math.floor(s/60)+'m'; if(s<86400) return Math.floor(s/3600)+'h'; return Math.floor(s/86400)+'d'; };
+const ago = ms => { if(!ms) return '\u2014'; const s=Math.floor((Date.now()-ms)/1000); if(s<60) return s+'s'; if(s<3600) return Math.floor(s/60)+'m'; if(s<86400) return Math.floor(s/3600)+'h'; return Math.floor(s/86400)+'d'; };
 const sources = ['all', 'youtube', 'tiktok'];
 const ranges = ['all', '1h', '4h', '24h', '7d', '30d'];
+const categories = ['', 'crypto', 'finance', 'lifestyle', 'tech', 'ai', 'business', 'motivation', 'luxury'];
 
 export default function Videos() {
   const [items, setItems] = useState([]);
@@ -18,29 +18,23 @@ export default function Videos() {
   const [fetchedAt, setFetchedAt] = useState(null);
   const [crawling, setCrawling] = useState(false);
 
-  const categories = ['', 'crypto', 'finance', 'lifestyle', 'tech', 'ai', 'business', 'motivation', 'luxury'];
-
-  // Load from DB on mount
   const loadDB = useCallback(async () => {
     setLoading(true);
     try {
       const d = await api.getVideosDB(source !== 'all' ? source : '', category, 200);
-      let items = d.items || [];
-      // Client-side time filter
+      let vids = d.items || [];
       if (range !== 'all') {
         const cutoff = Date.now() - ({ '1h': 36e5, '4h': 144e5, '24h': 864e5, '7d': 6048e5, '30d': 2592e6 }[range] || 0);
-        if (cutoff) items = items.filter(v => v.published_at && v.published_at >= cutoff);
+        if (cutoff) vids = vids.filter(v => v.published_at && v.published_at >= cutoff);
       }
-      // Client-side search filter
-      if (query) { const q = query.toLowerCase(); items = items.filter(v => (v.title || '').toLowerCase().includes(q) || (v.author || '').toLowerCase().includes(q) || (v.category || '').includes(q)); }
-      setItems(items);
+      if (query) { const q = query.toLowerCase(); vids = vids.filter(v => (v.title || '').toLowerCase().includes(q) || (v.author || '').toLowerCase().includes(q) || (v.category || '').includes(q)); }
+      setItems(vids);
       setStats(d.stats || null);
       setFetchedAt(d.stats?.last_fetched || null);
     } catch { setItems([]); }
     setLoading(false);
   }, [source, category, range, query]);
 
-  // Live search (external APIs)
   const liveSearch = useCallback(async () => {
     setLoading(true);
     try {
@@ -52,77 +46,103 @@ export default function Videos() {
     setLoading(false);
   }, [query, source, range]);
 
-  // Trigger full crawl
   const crawl = async () => {
     setCrawling(true);
     try { await api.crawlVideos(); await loadDB(); } catch {}
     setCrawling(false);
   };
 
-  // Load on mount + filter change
-  useState(() => { loadDB(); }, []);
-  useCallback(() => { loadDB(); }, [source, category, range]);
+  useEffect(() => { loadDB(); }, []);
+  useEffect(() => { loadDB(); }, [source, category, range]);
 
   return (
     <div className="fade-in" style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 80px)' }}>
       {/* Top bar */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '6px 0', borderBottom: '1px solid var(--border)', marginBottom: 0, flexWrap: 'wrap', flexShrink: 0 }}>
-        <span style={{ fontSize: '0.62rem', fontWeight: 700, color: '#5b8aff', letterSpacing: '.15em', padding: '3px 8px', background: '#1a1f2e', border: '1px solid #2a3346', borderRadius: 3 }}>VIRAL</span>
-        <div style={{ flex: 1, position: 'relative' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 4px', borderBottom: '1px solid #18181b', flexShrink: 0 }}>
+        <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#fafafa', letterSpacing: '-0.01em' }}>Videos</span>
+        <div style={{ flex: 1 }}>
           <input
             value={query} onChange={e => setQuery(e.target.value)}
-            onKeyDown={e => e.key === 'Enter' && search()}
-            placeholder="search youtube · tiktok · keywords or paste a url..."
-            style={{ width: '100%', padding: '8px 12px', fontSize: '0.72rem' }}
+            onKeyDown={e => e.key === 'Enter' && liveSearch()}
+            placeholder="search youtube, tiktok, keywords..."
+            style={{ width: '100%', padding: '5px 10px', fontSize: '0.65rem', background: '#18181b', border: '1px solid #27272a', borderRadius: 6, color: '#a1a1aa' }}
           />
         </div>
-        <button className="btn btn-primary" onClick={liveSearch}>▸ live search</button>
-        <button className="btn btn-ghost" onClick={loadDB}>↻ db</button>
-        <button className="btn btn-ghost" onClick={crawl} disabled={crawling}>{crawling ? '⏳' : '🎬 crawl all'}</button>
+        <button onClick={liveSearch} style={{
+          padding: '5px 14px', fontSize: '0.6rem', borderRadius: 6, border: 'none',
+          background: '#6366f1', color: '#fafafa', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 500,
+        }}>live search</button>
+        <button onClick={loadDB} style={{
+          padding: '5px 12px', fontSize: '0.6rem', borderRadius: 6, border: '1px solid #27272a',
+          background: 'transparent', color: '#a1a1aa', cursor: 'pointer', fontFamily: 'inherit',
+        }}>{'\u21bb'} db</button>
+        <button onClick={crawl} disabled={crawling} style={{
+          padding: '5px 12px', fontSize: '0.6rem', borderRadius: 6, border: '1px solid #27272a',
+          background: 'transparent', color: '#a1a1aa', cursor: 'pointer', fontFamily: 'inherit',
+        }}>{crawling ? '...' : 'crawl all'}</button>
       </div>
 
       {/* Filters */}
-      <div style={{ display: 'flex', gap: 4, padding: '6px 0', alignItems: 'center', flexWrap: 'wrap', borderBottom: '1px solid var(--border)', flexShrink: 0 }}>
-        <span style={{ fontSize: '0.5rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '.08em' }}>src</span>
-        {sources.map(s => <button key={s} className={`tab ${source === s ? 'active' : ''}`} onClick={() => setSource(s)}>{s === 'all' ? 'all' : s === 'youtube' ? 'yt shorts' : 'tiktok'}</button>)}
-        <span style={{ width: 1, height: 16, background: 'var(--border)', margin: '0 6px' }} />
-        <span style={{ fontSize: '0.5rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '.08em' }}>range</span>
-        {ranges.map(r => <button key={r} className={`tab ${range === r ? 'active' : ''}`} onClick={() => { setRange(r); setTimeout(loadDB, 50); }}>{r}</button>)}
-        <span style={{ width: 1, height: 16, background: 'var(--border)', margin: '0 6px' }} />
-        <span style={{ fontSize: '0.5rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '.08em' }}>cat</span>
-        {categories.map(c => <button key={c||'all'} className={`tab ${category === c ? 'active' : ''}`} onClick={() => { setCategory(c); setTimeout(loadDB, 50); }}>{c || 'all'}</button>)}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 4px', borderBottom: '1px solid #18181b', flexShrink: 0, flexWrap: 'wrap' }}>
+        <span style={{ fontSize: '0.52rem', color: '#3f3f46', textTransform: 'uppercase', letterSpacing: '0.06em' }}>src</span>
+        <div style={{ display: 'flex', gap: 2, background: '#18181b', borderRadius: 6, padding: 2 }}>
+          {sources.map(s => (
+            <button key={s} onClick={() => setSource(s)} style={{
+              padding: '4px 10px', fontSize: '0.6rem', borderRadius: 4,
+              border: 'none', cursor: 'pointer', fontFamily: 'inherit',
+              background: source === s ? '#27272a' : 'transparent',
+              color: source === s ? '#fafafa' : '#71717a',
+              fontWeight: source === s ? 500 : 400, transition: 'all 0.15s',
+            }}>{s === 'all' ? 'all' : s === 'youtube' ? 'yt shorts' : 'tiktok'}</button>
+          ))}
+        </div>
+
+        <span style={{ fontSize: '0.52rem', color: '#3f3f46', textTransform: 'uppercase', letterSpacing: '0.06em' }}>range</span>
+        <div style={{ display: 'flex', gap: 2, background: '#18181b', borderRadius: 6, padding: 2 }}>
+          {ranges.map(r => (
+            <button key={r} onClick={() => setRange(r)} style={{
+              padding: '4px 10px', fontSize: '0.6rem', borderRadius: 4,
+              border: 'none', cursor: 'pointer', fontFamily: 'inherit',
+              background: range === r ? '#27272a' : 'transparent',
+              color: range === r ? '#fafafa' : '#71717a',
+              fontWeight: range === r ? 500 : 400, transition: 'all 0.15s',
+            }}>{r}</button>
+          ))}
+        </div>
+
+        <span style={{ fontSize: '0.52rem', color: '#3f3f46', textTransform: 'uppercase', letterSpacing: '0.06em' }}>cat</span>
+        <div style={{ display: 'flex', gap: 2, background: '#18181b', borderRadius: 6, padding: 2 }}>
+          {categories.map(c => (
+            <button key={c||'all'} onClick={() => setCategory(c)} style={{
+              padding: '4px 10px', fontSize: '0.6rem', borderRadius: 4,
+              border: 'none', cursor: 'pointer', fontFamily: 'inherit',
+              background: category === c ? '#27272a' : 'transparent',
+              color: category === c ? '#fafafa' : '#71717a',
+              fontWeight: category === c ? 500 : 400, transition: 'all 0.15s',
+            }}>{c || 'all'}</button>
+          ))}
+        </div>
+
         {stats && (
-          <span style={{ marginLeft: 'auto', fontSize: '0.52rem', color: 'var(--text-muted)', display: 'flex', gap: 8, alignItems: 'center' }}>
+          <span style={{ marginLeft: 'auto', fontSize: '0.52rem', color: '#3f3f46', display: 'flex', gap: 8, alignItems: 'center' }}>
             <span>{items.length} showing</span>
-            {stats.total && <span>({stats.total} in db)</span>}
-            <span>👁 {fmtN(stats.total_views)}</span>
-            <span>♥ {fmtN(stats.total_likes)}</span>
-            {stats.youtube > 0 && <span>yt:{stats.youtube}</span>}
-            {stats.tiktok > 0 && <span>tt:{stats.tiktok}</span>}
-            {fetchedAt && <span>fetched {ago(fetchedAt)}</span>}
+            {stats.total && <span>{'\u00b7'} {stats.total} in db</span>}
+            <span>{'\u00b7'} {fmtN(stats.total_views)} views</span>
+            <span>{'\u00b7'} {fmtN(stats.total_likes)} likes</span>
+            {stats.youtube > 0 && <span>{'\u00b7'} yt:{stats.youtube}</span>}
+            {stats.tiktok > 0 && <span>{'\u00b7'} tt:{stats.tiktok}</span>}
+            {fetchedAt && <span>{'\u00b7'} fetched {ago(fetchedAt)}</span>}
           </span>
         )}
       </div>
 
-      {/* Column header */}
-      <div style={{ display: 'grid', gridTemplateColumns: '60px 1fr 90px 65px 65px 65px 60px 55px', gap: 8, padding: '5px 10px', fontSize: '0.5rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '.1em', borderBottom: '1px solid var(--border)', flexShrink: 0 }}>
-        <div>thumb</div>
-        <div>title</div>
-        <div>source</div>
-        <div style={{ textAlign: 'right' }}>views</div>
-        <div style={{ textAlign: 'right' }}>likes</div>
-        <div style={{ textAlign: 'right' }}>cmts</div>
-        <div style={{ textAlign: 'right' }}>score</div>
-        <div style={{ textAlign: 'right' }}>age</div>
-      </div>
-
-      {/* Rows */}
+      {/* List */}
       <div style={{ flex: 1, overflowY: 'auto', scrollbarWidth: 'thin' }}>
-        {loading && <div style={{ textAlign: 'center', padding: 40 }}><span className="spinner" /><div style={{ marginTop: 10, fontSize: '0.7rem', color: 'var(--text-muted)' }}>querying {source === 'all' ? 'youtube · tiktok' : source}...</div></div>}
+        {loading && <div style={{ textAlign: 'center', padding: 60 }}><span className="spinner" /></div>}
 
         {!loading && items.length === 0 && (
-          <div style={{ textAlign: 'center', padding: 60, color: 'var(--text-muted)', fontSize: '0.7rem' }}>
-            {stats ? 'no videos found — try different keywords or time range' : 'type a keyword and hit search, or just click ▸ search for trending'}
+          <div style={{ textAlign: 'center', padding: 60, color: '#3f3f46', fontSize: '0.75rem' }}>
+            {stats ? 'no videos found' : 'type a keyword and search, or click crawl all'}
           </div>
         )}
 
@@ -131,54 +151,62 @@ export default function Videos() {
             ((it.views || 0) / 10000 + (it.likes || 0) / 1000 + (it.comments || 0) / 500) *
             (it.pubAt || it.published_at ? Math.max(1, 24 / Math.max(1, (Date.now() - (it.pubAt || it.published_at)) / 3600000)) : 1)
           ));
-          const scoreColor = viralScore >= 70 ? '#22c55e' : viralScore >= 40 ? '#f59e0b' : viralScore >= 20 ? '#f97316' : '#5a606c';
 
           return (
             <div key={it.id || i} style={{
-              display: 'grid', gridTemplateColumns: '60px 1fr 90px 65px 65px 65px 60px 55px', gap: 8,
-              padding: '6px 10px', borderBottom: '1px solid #111317', alignItems: 'center',
-              cursor: 'pointer', transition: 'background 0.1s', fontSize: '0.62rem',
+              display: 'flex', gap: 14, padding: '12px 8px',
+              borderBottom: '1px solid #18181b',
+              cursor: 'pointer', transition: 'background 0.12s',
+              alignItems: 'center',
             }}
               onClick={() => window.open(it.url, '_blank')}
-              onMouseOver={e => e.currentTarget.style.background = '#0f1118'}
+              onMouseOver={e => e.currentTarget.style.background = '#111113'}
               onMouseOut={e => e.currentTarget.style.background = ''}
             >
               {/* Thumb */}
-              <div style={{ position: 'relative' }}>
+              <div style={{ position: 'relative', flexShrink: 0 }}>
                 {it.thumb ? (
-                  <img src={it.thumb} alt="" style={{ width: 56, height: 36, objectFit: 'cover', borderRadius: 3, border: '1px solid #1c1e24', display: 'block' }} onError={e => e.target.style.display = 'none'} />
+                  <img src={it.thumb} alt="" style={{ width: 72, height: 48, objectFit: 'cover', borderRadius: 6, display: 'block' }} onError={e => e.target.style.display = 'none'} />
                 ) : (
-                  <div style={{ width: 56, height: 36, background: '#15171d', borderRadius: 3, border: '1px solid #1c1e24', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#5a606c', fontSize: 12 }}>{'▶'}</div>
+                  <div style={{ width: 72, height: 48, background: '#18181b', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#27272a', fontSize: 14 }}>{'\u25b6'}</div>
                 )}
-                {/* Platform badge */}
-                <div style={{ position: 'absolute', top: 1, left: 1, fontSize: '0.4rem', padding: '1px 4px', borderRadius: 2, background: it.platform === 'youtube' ? 'rgba(255,0,0,.8)' : 'rgba(0,0,0,.8)', color: '#fff', fontWeight: 700 }}>
-                  {it.platform === 'youtube' ? 'YT' : 'TT'}
+              </div>
+
+              {/* Content */}
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontSize: '0.78rem', fontWeight: 500, color: '#fafafa', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', lineHeight: 1.35 }}>{it.title}</div>
+                <div style={{ display: 'flex', gap: 6, marginTop: 4, fontSize: '0.58rem', color: '#3f3f46', alignItems: 'center' }}>
+                  <span style={{ color: '#52525b', fontWeight: 500 }}>{it.author}</span>
+                  <span>{'\u00b7'} {it.platform}</span>
+                  {it.duration > 0 && <span>{'\u00b7'} {Math.floor(it.duration / 60)}:{(it.duration % 60).toString().padStart(2, '0')}</span>}
+                  {it.category && <span>{'\u00b7'} {it.category}</span>}
+                  {(it.pubAt || it.published_at) && <span>{'\u00b7'} {ago(it.pubAt || it.published_at)}</span>}
                 </div>
               </div>
 
-              {/* Title + author */}
-              <div style={{ minWidth: 0 }}>
-                <div style={{ fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{it.title}</div>
-                <div style={{ fontSize: '0.5rem', color: '#5a606c', marginTop: 1 }}>{it.author}{it.duration > 0 && ` · ${Math.floor(it.duration / 60)}:${(it.duration % 60).toString().padStart(2, '0')}`}</div>
+              {/* Stats */}
+              <div style={{ display: 'flex', gap: 16, flexShrink: 0, fontSize: '0.62rem', color: '#52525b', fontVariantNumeric: 'tabular-nums', alignItems: 'center' }}>
+                <div style={{ textAlign: 'right', minWidth: 48 }}>
+                  <div style={{ color: '#a1a1aa' }}>{fmtN(it.views)}</div>
+                  <div style={{ fontSize: '0.48rem', color: '#3f3f46' }}>views</div>
+                </div>
+                <div style={{ textAlign: 'right', minWidth: 40 }}>
+                  <div style={{ color: '#a1a1aa' }}>{it.likes ? fmtN(it.likes) : '\u2014'}</div>
+                  <div style={{ fontSize: '0.48rem', color: '#3f3f46' }}>likes</div>
+                </div>
+                <div style={{ textAlign: 'right', minWidth: 40 }}>
+                  <div style={{ color: '#a1a1aa' }}>{it.comments ? fmtN(it.comments) : '\u2014'}</div>
+                  <div style={{ fontSize: '0.48rem', color: '#3f3f46' }}>cmts</div>
+                </div>
               </div>
 
-              {/* Source */}
-              <div style={{ fontSize: '0.55rem', color: '#5b8aff' }}>{it.platform}</div>
-
-              {/* Views */}
-              <div style={{ textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{fmtN(it.views)}</div>
-
-              {/* Likes */}
-              <div style={{ textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{it.likes ? fmtN(it.likes) : '—'}</div>
-
-              {/* Comments */}
-              <div style={{ textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{it.comments ? fmtN(it.comments) : '—'}</div>
-
-              {/* Viral score */}
-              <ScoreBadge score={viralScore} size="sm" />
-
-              {/* Age */}
-              <div style={{ textAlign: 'right', fontSize: '0.52rem', color: '#5a606c' }}>{(it.pubAt || it.published_at) ? ago(it.pubAt || it.published_at) : '—'}</div>
+              {/* Score */}
+              <div style={{ width: 36, flexShrink: 0, textAlign: 'center' }}>
+                <span style={{
+                  fontSize: '0.9rem', fontWeight: 700, fontVariantNumeric: 'tabular-nums',
+                  color: viralScore >= 70 ? '#4ade80' : viralScore >= 40 ? '#fbbf24' : viralScore >= 20 ? '#fb923c' : '#52525b',
+                }}>{viralScore}</span>
+              </div>
             </div>
           );
         })}

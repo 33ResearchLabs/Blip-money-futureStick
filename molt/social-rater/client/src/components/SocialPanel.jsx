@@ -28,7 +28,6 @@ export default function SocialPanel() {
     setRefreshing(false);
   };
 
-  // Group by brand
   const grouped = {};
   items.forEach(it => {
     const b = it.source_brand || it.source_handle || 'other';
@@ -38,33 +37,41 @@ export default function SocialPanel() {
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-        <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>{total} posts total</span>
-        <button className="btn btn-ghost btn-sm" onClick={refresh} disabled={refreshing}>
-          {refreshing ? <span className="spinner" /> : 'refresh'}
-        </button>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+        <span style={{ fontSize: '0.6rem', color: '#52525b' }}>{total} posts total</span>
+        <button onClick={refresh} disabled={refreshing} style={{
+          padding: '5px 12px', fontSize: '0.6rem', borderRadius: 6, border: '1px solid #27272a',
+          background: 'transparent', color: '#a1a1aa', cursor: 'pointer', fontFamily: 'inherit',
+        }}>{refreshing ? '...' : '\u21bb refresh'}</button>
       </div>
 
-      {loading ? <div style={{ textAlign: 'center', padding: 20 }}><span className="spinner" /></div> : (
+      {loading ? <div style={{ textAlign: 'center', padding: 60 }}><span className="spinner" /></div> : (
         Object.entries(grouped).map(([brand, posts]) => (
-          <div key={brand} style={{ marginBottom: 12 }}>
-            <div className="label" style={{ marginBottom: 4 }}>{brand}</div>
+          <div key={brand} style={{ marginBottom: 16 }}>
+            <div style={{ fontSize: '0.55rem', color: '#52525b', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6, fontWeight: 500 }}>{brand}</div>
             {posts.map((p, i) => (
-              <div key={i} className="card" style={{ display: 'flex', gap: 8, cursor: p.url ? 'pointer' : 'default' }} onClick={() => p.url && window.open(p.url, '_blank')}>
+              <div key={i} style={{
+                display: 'flex', gap: 12, padding: '12px 8px', borderBottom: '1px solid #18181b',
+                cursor: p.url ? 'pointer' : 'default', transition: 'background 0.12s',
+              }}
+                onClick={() => p.url && window.open(p.url, '_blank')}
+                onMouseOver={e => e.currentTarget.style.background = '#111113'}
+                onMouseOut={e => e.currentTarget.style.background = ''}
+              >
                 {p.thumb && (
                   <div style={{ position: 'relative', flexShrink: 0 }}>
-                    <img src={api.proxyImage(p.thumb)} alt="" style={{ width: 50, height: 36, objectFit: 'cover', borderRadius: 3 }} onError={e => e.target.style.display='none'} />
-                    {p.has_video && <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,.4)', borderRadius: 3, color: '#fff', fontSize: 12 }}>{'▶'}</div>}
+                    <img src={api.proxyImage(p.thumb)} alt="" style={{ width: 56, height: 40, objectFit: 'cover', borderRadius: 6 }} onError={e => e.target.style.display='none'} />
+                    {p.has_video && <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,.4)', borderRadius: 6, color: '#fff', fontSize: 12 }}>{'\u25b6'}</div>}
                   </div>
                 )}
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div className="truncate" style={{ fontSize: 11, fontWeight: 500 }}>{p.title || '(no title)'}</div>
-                  <div style={{ fontSize: 10, color: 'var(--text-muted)', display: 'flex', gap: 8, marginTop: 2, flexWrap: 'wrap' }}>
-                    {p.source_handle && <span>@{p.source_handle}</span>}
-                    {p.source_platform && <span className="badge badge-info">{p.source_platform}</span>}
-                    {p.views > 0 && <span>{fmtN(p.views)} views</span>}
-                    {p.ups > 0 && <span>{fmtN(p.ups)} likes</span>}
-                    {p.comments > 0 && <span>{fmtN(p.comments)} cmt</span>}
+                  <div style={{ fontSize: '0.75rem', fontWeight: 500, color: '#fafafa', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.title || '(no title)'}</div>
+                  <div style={{ display: 'flex', gap: 6, marginTop: 4, fontSize: '0.55rem', color: '#3f3f46', alignItems: 'center' }}>
+                    {p.source_handle && <span style={{ color: '#52525b' }}>@{p.source_handle}</span>}
+                    {p.source_platform && <span>{'\u00b7'} {p.source_platform}</span>}
+                    {p.views > 0 && <span>{'\u00b7'} {fmtN(p.views)} views</span>}
+                    {p.ups > 0 && <span>{'\u00b7'} {fmtN(p.ups)} likes</span>}
+                    {p.comments > 0 && <span>{'\u00b7'} {fmtN(p.comments)} cmt</span>}
                   </div>
                 </div>
               </div>
@@ -72,7 +79,7 @@ export default function SocialPanel() {
           </div>
         ))
       )}
-      {!loading && items.length === 0 && <div style={{ color: 'var(--text-muted)', padding: 12, textAlign: 'center' }}>no social data. add accounts and refresh.</div>}
+      {!loading && items.length === 0 && <div style={{ textAlign: 'center', padding: 40, color: '#3f3f46', fontSize: '0.7rem' }}>no social data. add accounts and refresh.</div>}
     </div>
   );
 }
