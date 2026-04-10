@@ -2412,6 +2412,9 @@ document.getElementById('snSearch').addEventListener('input',function(){SN_SEARC
 .an2-list-row .an2-h{color:#d6dde6;font-weight:600;font-size:.7rem;line-height:1.2}
 .an2-list-row .an2-meta{color:#5a606c;font-size:.55rem;text-transform:uppercase;letter-spacing:.08em;margin-top:1px}
 .an2-list-row .an2-rmx{background:transparent;border:1px solid #2a1520;color:#ff5566;padding:3px 7px;border-radius:3px;font-size:.55rem;cursor:pointer;font-family:inherit}
+.an2-del{background:transparent;border:none;color:#3b3f4a;font-size:.6rem;cursor:pointer;padding:2px 4px;border-radius:2px;opacity:0;transition:opacity .1s}
+.an2-list-row:hover .an2-del{opacity:1}
+.an2-del:hover{color:#ef4444}
 .an2-brand-h{font-size:.55rem;color:#5b8aff;text-transform:uppercase;letter-spacing:.12em;margin:10px 0 4px;padding-left:2px;font-weight:600}
 .an2-brand-h:first-child{margin-top:0}
 /* analytics view inside tool-accounts */
@@ -8476,7 +8479,7 @@ function an2Render(){
       html+='<div class="an2-list-row '+(sel?'active':'')+'" data-brand="'+b.id+'" data-plat="'+plat+'" data-h="'+escAA(cleanH)+'">'+
         '<div class="an2-plat">'+(PLAT_ICONS[plat]||'?')+'</div>'+
         '<div><div class="an2-h">@'+escAA(cleanH)+'</div><div class="an2-meta">'+plat+'</div></div>'+
-        '<div></div>'+
+        '<button class="an2-del" data-del-brand="'+b.id+'" data-del-plat="'+plat+'" title="remove">×</button>'+
       '</div>';
     });
   });
@@ -8487,6 +8490,21 @@ function an2Render(){
       AN2_SELECTED={brand:row.dataset.brand,plat:row.dataset.plat,handle:row.dataset.h};
       an2Render();
       an2LoadProfile();
+    };
+  });
+  $a('an2List').querySelectorAll('.an2-del').forEach(btn=>{
+    btn.onclick=(e)=>{
+      e.stopPropagation();
+      const b=btn.dataset.delBrand,p=btn.dataset.delPlat;
+      if(AN2_ACCOUNTS[b]&&AN2_ACCOUNTS[b][p]){
+        delete AN2_ACCOUNTS[b][p];
+        // Remove brand if empty
+        if(!Object.keys(AN2_ACCOUNTS[b]).length)delete AN2_ACCOUNTS[b];
+        fetch('/api/kv',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({k:'brandAccounts',v:AN2_ACCOUNTS})});
+        if(AN2_SELECTED&&AN2_SELECTED.brand===b&&AN2_SELECTED.plat===p)AN2_SELECTED=null;
+        an2Render();
+        $a('an2View').innerHTML='<div style="text-align:center;color:#5a606c;padding:60px 20px;font-size:.7rem">▸ account removed</div>';
+      }
     };
   });
 }
