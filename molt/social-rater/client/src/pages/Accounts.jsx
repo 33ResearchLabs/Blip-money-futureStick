@@ -102,9 +102,19 @@ export default function Accounts() {
     setSnData(Array.isArray(d.value) ? d.value : []);
   }, []);
 
-  useEffect(() => { loadBrands().then(()=>{}); }, []);
-  // Auto-load dashboard when brands are loaded
-  useEffect(() => { if (Object.keys(brandAccounts).length > 0 && !dashData && !dashLoading && !selected) loadDashboard(brandAccounts); }, [brandAccounts]);
+  // Load dashboard from DB (instant) then brands for sidebar
+  const loadDashFromDB = useCallback(async () => {
+    setDashLoading(true);
+    try {
+      const d = await api.getAccountDashboard();
+      if (d.ok && !d.empty) {
+        setDashData({ ...d, accountRows: (d.accounts || []).map(a => ({ ...a, plat: a.platform, handle: a.handle, fol: a.followers, views: a.total_views, likes: a.total_likes, comments: a.total_comments, posts: a.posts_count })) });
+      }
+    } catch {}
+    setDashLoading(false);
+  }, []);
+
+  useEffect(() => { loadBrands(); loadDashFromDB(); }, []);
   useEffect(() => { if (subTab === 'network') loadSN(); }, [subTab]);
 
   const addBrandAccount = async () => {
@@ -349,10 +359,13 @@ export default function Accounts() {
               <div className="fade-in">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
                   <span style={{ fontSize: '0.6rem', color: '#52525b', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 500 }}>dashboard {'\u00b7'} all brands</span>
-                  <button onClick={() => loadDashboard()} disabled={dashLoading} style={{
-                    padding: '5px 14px', fontSize: '0.6rem', borderRadius: 6, border: 'none',
-                    background: '#6366f1', color: '#fafafa', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 500,
-                  }}>{dashLoading ? '...' : '\u21bb refresh all'}</button>
+                  <div style={{ display: 'flex', gap: 6 }}>
+                    {dashData?.last_fetched && <span style={{ fontSize: '0.52rem', color: '#3f3f46', alignSelf: 'center' }}>synced {ago(dashData.last_fetched)}</span>}
+                    <button onClick={async () => { setDashLoading(true); try { await api.syncAccounts(); } catch {} await loadDashFromDB(); }} disabled={dashLoading} style={{
+                      padding: '5px 14px', fontSize: '0.6rem', borderRadius: 6, border: 'none',
+                      background: '#6366f1', color: '#fafafa', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 500,
+                    }}>{dashLoading ? 'syncing...' : '\u21bb sync all'}</button>
+                  </div>
                 </div>
 
                 {dashLoading && <div style={{ textAlign: 'center', padding: 40, color: '#52525b', fontSize: '0.7rem' }}>fetching all accounts...</div>}

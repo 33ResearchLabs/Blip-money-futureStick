@@ -86,6 +86,10 @@ export const api = {
   rateImage: (url) => post(`${BASE}/ai`, { prompt: `Rate this image for social media: ${url}` }),
   checkHandle: (u) => get(`${BASE}/checkhandle?u=${u}`),
   getRadar: (niche) => get(`${BASE}/radar?niche=${niche}`),
+  getAccountDashboard: () => get(`${BASE}/account-sync/dashboard`),
+  getAccountSnapshots: (brand, platform) => get(`${BASE}/account-sync/snapshots?${brand?'brand='+brand+'&':''}${platform?'platform='+platform:''}`),
+  getAccountProfile: (id) => get(`${BASE}/account-sync/profile/${id}`),
+  syncAccounts: () => post(`${BASE}/account-sync/sync`),
 
   // Shares
   sendShare: (data) => post(`${BASE}/shares`, data),
