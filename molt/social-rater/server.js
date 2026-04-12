@@ -39,6 +39,8 @@ app.use('/api/worker', require('./routes/worker'));
 app.use('/api/social', require('./routes/social'));
 app.use('/api/radar', require('./routes/radar'));
 app.use('/api/publish', require('./routes/publish'));
+app.use('/api/shares', require('./routes/shares'));
+app.use('/api/account-sync', require('./routes/account-sync'));
 app.use('/api/videos', require('./routes/video-search'));
 app.use('/dl', require('./routes/download'));
 
@@ -80,5 +82,27 @@ const server = app.listen(PORT, () => {
   // Boot virality worker
   const dl = require('./routes/download');
   app.locals.workerHandle = workerEngine.startWorker(dl.fetchTrending);
-  console.log('  🤖 Background worker started (15 min cycle)\n');
+  console.log('  🤖 Background worker started (15 min cycle)');
+
+  // Boot account sync — first run after 30s, then every 30 min
+  const accountSync = require('./routes/account-sync');
+  setTimeout(() => {
+    console.log('  📊 Account sync: first run...');
+    accountSync.syncAll(`http://127.0.0.1:${PORT}`).then(r => console.log(`  📊 Synced ${r.synced} accounts`)).catch(() => {});
+  }, 30000);
+  setInterval(() => {
+    accountSync.syncAll(`http://127.0.0.1:${PORT}`).then(r => console.log(`[account-sync] refreshed ${r.synced} accounts`)).catch(() => {});
+  }, 30 * 60 * 1000);
+  console.log('  📊 Account sync: auto-fetch every 30 min');
+
+  // Boot video crawler — first run after 20s, then every 30 min
+  const videoCrawler = require('./services/videoCrawler');
+  setTimeout(() => {
+    console.log('  🎬 Video crawler: first run...');
+    videoCrawler.crawlAll().then(r => console.log(`  🎬 Crawled ${r.total} videos`)).catch(() => {});
+  }, 20000);
+  setInterval(() => {
+    videoCrawler.crawlAll().then(r => console.log(`[videoCrawler] refreshed ${r.total} videos`)).catch(() => {});
+  }, 30 * 60 * 1000);
+  console.log('  🎬 Video crawler: auto-fetch every 30 min\n');
 });

@@ -136,4 +136,34 @@ router.get('/search', async (req, res) => {
   res.json({ ok: true, items: all, total: all.length, totalViews, totalLikes, sources: status });
 });
 
+// GET /api/videos/db — read from cached DB (fast, no external calls)
+router.get('/db', (req, res) => {
+  const crawler = require('../services/videoCrawler');
+  const { platform, category, limit } = req.query;
+  const items = crawler.getCachedVideos({
+    platform: platform || undefined,
+    category: category || undefined,
+    limit: parseInt(limit) || 200,
+  });
+  const stats = crawler.getStats();
+  res.json({ ok: true, items, total: items.length, stats });
+});
+
+// GET /api/videos/stats
+router.get('/stats', (req, res) => {
+  const crawler = require('../services/videoCrawler');
+  res.json({ ok: true, ...crawler.getStats() });
+});
+
+// POST /api/videos/crawl — trigger a full crawl (takes 1-2 min)
+router.post('/crawl', async (req, res) => {
+  const crawler = require('../services/videoCrawler');
+  try {
+    const report = await crawler.crawlAll();
+    res.json({ ok: true, ...report });
+  } catch (e) {
+    res.json({ ok: false, error: e.message });
+  }
+});
+
 module.exports = router;

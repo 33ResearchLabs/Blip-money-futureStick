@@ -55,9 +55,81 @@ CREATE TABLE IF NOT EXISTS performance (
   watch_time REAL, retention REAL, engagement_rate REAL, emotion TEXT, format TEXT,
   trend_score REAL, keywords TEXT, recorded_at INTEGER
 );
+CREATE TABLE IF NOT EXISTS account_snapshots (
+  id TEXT PRIMARY KEY,
+  brand TEXT,
+  platform TEXT NOT NULL,
+  handle TEXT NOT NULL,
+  name TEXT,
+  bio TEXT,
+  avatar TEXT,
+  followers INTEGER DEFAULT 0,
+  following INTEGER DEFAULT 0,
+  posts_count INTEGER DEFAULT 0,
+  total_views INTEGER DEFAULT 0,
+  total_likes INTEGER DEFAULT 0,
+  total_comments INTEGER DEFAULT 0,
+  avg_views_per_post INTEGER DEFAULT 0,
+  eng_rate REAL DEFAULT 0,
+  verified INTEGER DEFAULT 0,
+  recent_posts TEXT,
+  fetched_at INTEGER
+);
+CREATE INDEX IF NOT EXISTS idx_snapshots_brand ON account_snapshots(brand);
+CREATE INDEX IF NOT EXISTS idx_snapshots_platform ON account_snapshots(platform);
+
 CREATE TABLE IF NOT EXISTS kv (
   key TEXT PRIMARY KEY, value TEXT, updated_at INTEGER
 );
+CREATE TABLE IF NOT EXISTS videos (
+  id TEXT PRIMARY KEY,
+  platform TEXT NOT NULL,
+  title TEXT,
+  author TEXT,
+  author_id TEXT,
+  url TEXT,
+  thumb TEXT,
+  views INTEGER DEFAULT 0,
+  likes INTEGER DEFAULT 0,
+  comments INTEGER DEFAULT 0,
+  shares INTEGER DEFAULT 0,
+  duration INTEGER DEFAULT 0,
+  published_at INTEGER,
+  fetched_at INTEGER,
+  category TEXT DEFAULT 'general',
+  query TEXT,
+  viral_score REAL DEFAULT 0,
+  velocity REAL DEFAULT 0,
+  download_url TEXT,
+  description TEXT,
+  hashtags TEXT,
+  is_short INTEGER DEFAULT 0
+);
+CREATE TABLE IF NOT EXISTS shares (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  from_user TEXT NOT NULL,
+  from_name TEXT,
+  to_user TEXT,
+  type TEXT DEFAULT 'link',
+  title TEXT,
+  url TEXT,
+  thumb TEXT,
+  note TEXT,
+  source TEXT,
+  platform TEXT,
+  action TEXT DEFAULT 'review',
+  status TEXT DEFAULT 'pending',
+  created_at INTEGER,
+  read_at INTEGER
+);
+CREATE INDEX IF NOT EXISTS idx_shares_to ON shares(to_user);
+CREATE INDEX IF NOT EXISTS idx_shares_status ON shares(status);
+
+CREATE INDEX IF NOT EXISTS idx_videos_platform ON videos(platform);
+CREATE INDEX IF NOT EXISTS idx_videos_category ON videos(category);
+CREATE INDEX IF NOT EXISTS idx_videos_score ON videos(viral_score);
+CREATE INDEX IF NOT EXISTS idx_videos_fetched ON videos(fetched_at);
+
 CREATE TABLE IF NOT EXISTS worker_state (
   id INTEGER PRIMARY KEY DEFAULT 1, last_run INTEGER, runs INTEGER DEFAULT 0,
   last_clusters INTEGER DEFAULT 0, last_generated INTEGER DEFAULT 0,
@@ -352,6 +424,123 @@ function migrateFromJSON() {
   console.log('[db] Migration complete.');
 }
 
+// --- Videos ---
+function getVideos({ platform, category, minScore, limit = 200, offset = 0 } = {}) {
+  let sql = 'SELECT * FROM videos WHERE 1=1';
+  const params = [];
+  if (platform) { sql += ' AND platform = ?'; params.push(platform); }
+  if (category) { sql += ' AND category = ?'; params.push(category); }
+  if (minScore != null) { sql += ' AND viral_score >= ?'; params.push(minScore); }
+  sql += ' ORDER BY viral_score DESC, fetched_at DESC LIMIT ? OFFSET ?';
+  params.push(limit, offset);
+  return db.prepare(sql).all(...params);
+}
+
+function getVideoStats() {
+  return db.prepare(`SELECT
+    COUNT(*) as total,
+    SUM(platform='youtube') as youtube,
+    SUM(platform='tiktok') as tiktok,
+    SUM(platform='instagram') as instagram,
+    SUM(platform='twitter') as twitter,
+    SUM(views) as total_views,
+    SUM(likes) as total_likes,
+    MAX(fetched_at) as last_fetched
+  FROM videos`).get();
+}
+
+const upsertVideo = db.prepare(`INSERT OR REPLACE INTO videos
+  (id, platform, title, author, author_id, url, thumb, views, likes, comments, shares,
+   duration, published_at, fetched_at, category, query, viral_score, velocity, download_url,
+   description, hashtags, is_short)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
+
+const upsertVideoBatch = db.transaction((videos) => {
+  for (const v of videos) {
+    upsertVideo.run(
+      v.id, v.platform, v.title, v.author, v.author_id, v.url, v.thumb,
+      v.views || 0, v.likes || 0, v.comments || 0, v.shares || 0,
+      v.duration || 0, v.published_at, v.fetched_at || Date.now(),
+      v.category || 'general', v.query || '', v.viral_score || 0, v.velocity || 0,
+      v.download_url || '', v.description || '', v.hashtags || '', v.is_short ? 1 : 0
+    );
+  }
+});
+
+// --- Account Snapshots ---
+function upsertSnapshot(snap) {
+  const id = snap.platform + '_' + (snap.handle || '').toLowerCase();
+  db.prepare(`INSERT OR REPLACE INTO account_snapshots
+    (id, brand, platform, handle, name, bio, avatar, followers, following, posts_count,
+     total_views, total_likes, total_comments, avg_views_per_post, eng_rate, verified, recent_posts, fetched_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`).run(
+    id, snap.brand || '', snap.platform, snap.handle, snap.name || '', snap.bio || '', snap.avatar || '',
+    snap.followers || 0, snap.following || 0, snap.posts_count || 0,
+    snap.total_views || 0, snap.total_likes || 0, snap.total_comments || 0,
+    snap.avg_views_per_post || 0, snap.eng_rate || 0, snap.verified ? 1 : 0,
+    JSON.stringify(snap.recent_posts || []), Date.now()
+  );
+}
+
+function getSnapshots({ brand, platform } = {}) {
+  let sql = 'SELECT * FROM account_snapshots WHERE 1=1';
+  const params = [];
+  if (brand) { sql += ' AND brand = ?'; params.push(brand); }
+  if (platform) { sql += ' AND platform = ?'; params.push(platform); }
+  sql += ' ORDER BY followers DESC';
+  const rows = db.prepare(sql).all(...params);
+  return rows.map(r => ({ ...r, recent_posts: r.recent_posts ? JSON.parse(r.recent_posts) : [] }));
+}
+
+function getSnapshotsDashboard() {
+  const all = db.prepare('SELECT * FROM account_snapshots ORDER BY followers DESC').all();
+  if (!all.length) return null;
+  let totalFollowers = 0, totalFollowing = 0, totalViews = 0, totalLikes = 0, totalComments = 0, totalPosts = 0;
+  const byBrand = {}, byPlatform = {};
+  all.forEach(a => {
+    totalFollowers += a.followers; totalFollowing += a.following;
+    totalViews += a.total_views; totalLikes += a.total_likes;
+    totalComments += a.total_comments; totalPosts += a.posts_count;
+    const b = a.brand || 'other';
+    if (!byBrand[b]) byBrand[b] = { followers: 0, views: 0, likes: 0, accounts: 0 };
+    byBrand[b].followers += a.followers; byBrand[b].views += a.total_views; byBrand[b].likes += a.total_likes; byBrand[b].accounts++;
+    const p = a.platform;
+    if (!byPlatform[p]) byPlatform[p] = { followers: 0, views: 0, likes: 0, accounts: 0, posts: 0 };
+    byPlatform[p].followers += a.followers; byPlatform[p].views += a.total_views; byPlatform[p].likes += a.total_likes; byPlatform[p].accounts++; byPlatform[p].posts += a.posts_count;
+  });
+  const engRate = totalFollowers ? (((totalLikes + totalComments) / (totalPosts || 1)) / totalFollowers * 100).toFixed(2) : '0';
+  const avgViewsPerPost = totalPosts ? Math.round(totalViews / totalPosts) : 0;
+  return {
+    totalFollowers, totalFollowing, totalViews, totalLikes, totalComments, totalPosts,
+    engRate, avgViewsPerPost, byBrand, byPlatform,
+    accounts: all.map(a => ({ ...a, recent_posts: undefined })),
+    count: all.length, last_fetched: all.reduce((max, a) => Math.max(max, a.fetched_at || 0), 0),
+  };
+}
+
+// --- Shares ---
+function addShare(share) {
+  const stmt = db.prepare(`INSERT INTO shares (from_user, from_name, to_user, type, title, url, thumb, note, source, platform, action, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
+  const info = stmt.run(share.from_user, share.from_name || '', share.to_user || 'all', share.type || 'link', share.title || '', share.url || '', share.thumb || '', share.note || '', share.source || '', share.platform || '', share.action || 'review', 'pending', Date.now());
+  return info.lastInsertRowid;
+}
+function getShares({ to_user, status, limit = 50 } = {}) {
+  let sql = 'SELECT * FROM shares WHERE 1=1';
+  const params = [];
+  if (to_user) { sql += ' AND (to_user = ? OR to_user = "all")'; params.push(to_user); }
+  if (status) { sql += ' AND status = ?'; params.push(status); }
+  sql += ' ORDER BY created_at DESC LIMIT ?';
+  params.push(limit);
+  return db.prepare(sql).all(...params);
+}
+function updateShare(id, updates) {
+  const sets = Object.keys(updates).map(k => `${k} = ?`).join(', ');
+  db.prepare(`UPDATE shares SET ${sets} WHERE id = ?`).run(...Object.values(updates), id);
+}
+function getUnreadCount(to_user) {
+  return db.prepare('SELECT COUNT(*) as count FROM shares WHERE (to_user = ? OR to_user = "all") AND status = "pending"').get(to_user)?.count || 0;
+}
+
 module.exports = {
   db, kvGet, kvSet,
   getTrending, upsertTrending, upsertTrendingBatch,
@@ -362,5 +551,8 @@ module.exports = {
   getVault, saveVault,
   getPerformance, recordPerformance, getPerformanceSummary,
   getWorkerState, updateWorkerState, addWorkerLog, getWorkerLogs,
+  getVideos, getVideoStats, upsertVideoBatch,
+  upsertSnapshot, getSnapshots, getSnapshotsDashboard,
+  addShare, getShares, updateShare, getUnreadCount,
   migrateFromJSON,
 };
