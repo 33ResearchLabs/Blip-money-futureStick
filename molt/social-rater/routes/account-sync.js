@@ -50,6 +50,7 @@ async function syncAccount(baseUrl, brand, plat, handle) {
         views: toInt(p.video_view_count || p.play_count || p.view_count || 0),
         likes: toInt(p.likes || p.like_count || 0),
         comments: toInt(p.comments || p.comment_count || 0),
+        taken_at: p.taken_at || p.timestamp || p.taken_at_timestamp || (p.upload_date ? Math.floor(new Date(p.upload_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')).getTime() / 1000) : 0) || 0,
         caption: (p.caption || p.title || p.description || '').slice(0, 120),
         url: p.url || '',
         is_video: p.is_video || false,
