@@ -76,8 +76,24 @@ async function syncAll(baseUrl) {
       await new Promise(r => setTimeout(r, 1500));
     }
   }
-  console.log(`[account-sync] done: ${synced} synced, ${failed} failed`);
-  return { synced, failed };
+  // Clean up orphaned snapshots (accounts removed from sidebar but still in DB)
+  const validIds = new Set();
+  for (const [brand, plats] of Object.entries(brands)) {
+    for (const [plat, handle] of Object.entries(plats)) {
+      const clean = (handle || '').replace(/^@/, '').toLowerCase();
+      if (clean) validIds.add(plat + '_' + clean);
+    }
+  }
+  const allSnaps = db.getSnapshots();
+  let cleaned = 0;
+  for (const snap of allSnaps) {
+    if (!validIds.has(snap.id)) {
+      db.deleteSnapshot(snap.platform, snap.handle);
+      cleaned++;
+    }
+  }
+  console.log(`[account-sync] done: ${synced} synced, ${failed} failed, ${cleaned} orphans cleaned`);
+  return { synced, failed, cleaned };
 }
 
 // GET /api/account-sync/dashboard — read from DB (instant)

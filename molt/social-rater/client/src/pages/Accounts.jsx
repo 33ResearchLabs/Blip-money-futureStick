@@ -146,6 +146,8 @@ export default function Accounts() {
       const d = await api.getAccountDashboard();
       if (d.ok && !d.empty) {
         setDashData({ ...d, accountRows: (d.accounts || []).map(a => ({ ...a, plat: a.platform, handle: a.handle, fol: a.followers, views: a.total_views, likes: a.total_likes, comments: a.total_comments, posts: a.posts_count })) });
+      } else {
+        setDashData(null);
       }
     } catch {}
     setDashLoading(false);

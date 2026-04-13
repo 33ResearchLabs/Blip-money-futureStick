@@ -493,7 +493,17 @@ function getSnapshots({ brand, platform } = {}) {
 }
 
 function getSnapshotsDashboard() {
-  const all = db.prepare('SELECT * FROM account_snapshots ORDER BY followers DESC').all();
+  // Only show accounts that still exist in brandAccounts KV
+  const brands = kvGet('brandAccounts') || {};
+  const validIds = new Set();
+  for (const [brand, plats] of Object.entries(brands)) {
+    for (const [plat, handle] of Object.entries(plats)) {
+      const clean = (handle || '').replace(/^@/, '').toLowerCase();
+      if (clean) validIds.add(plat + '_' + clean);
+    }
+  }
+  const allRows = db.prepare('SELECT * FROM account_snapshots ORDER BY followers DESC').all();
+  const all = validIds.size > 0 ? allRows.filter(a => validIds.has(a.id)) : allRows;
   if (!all.length) return null;
   let totalFollowers = 0, totalFollowing = 0, totalViews = 0, totalLikes = 0, totalComments = 0, totalPosts = 0;
   const byBrand = {}, byPlatform = {};
