@@ -107,6 +107,22 @@ router.post('/sync', async (req, res) => {
   res.json({ ok: true, ...result });
 });
 
+// POST /api/account-sync/save-snapshot — save a single snapshot from frontend
+router.post('/save-snapshot', (req, res) => {
+  const s = req.body;
+  if (!s || !s.platform || !s.handle) return res.json({ ok: false });
+  const posts = Array.isArray(s.recent_posts) ? s.recent_posts : [];
+  const avgViews = posts.length ? Math.round((s.total_views || 0) / posts.length) : 0;
+  const engRate = s.followers > 0 ? (((s.total_likes || 0) + (s.total_comments || 0)) / (posts.length || 1)) / s.followers * 100 : 0;
+  db.upsertSnapshot({
+    ...s,
+    avg_views_per_post: avgViews,
+    eng_rate: Math.round(engRate * 100) / 100,
+    recent_posts: posts,
+  });
+  res.json({ ok: true });
+});
+
 // POST /api/account-sync/delete — remove snapshot from DB
 router.post('/delete', (req, res) => {
   const { platform, handle } = req.body;

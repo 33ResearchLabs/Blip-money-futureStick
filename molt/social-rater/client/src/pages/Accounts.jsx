@@ -190,8 +190,18 @@ export default function Accounts() {
     if (!fetcher) { setProfileLoading(false); return; }
     try {
       const d = await fetcher(clean);
-      if (d && d.ok !== false) setProfile(d);
-      else setProfile(null);
+      if (d && d.ok !== false) {
+        setProfile(d);
+        // Save snapshot to DB so dashboard stays in sync
+        const posts = Array.isArray(d.posts) ? d.posts : Array.isArray(d.recent) ? d.recent : [];
+        const totalViews = posts.reduce((s, p) => s + toInt(p.video_view_count || p.play_count || p.view_count || 0), 0);
+        const totalLikes = posts.reduce((s, p) => s + toInt(p.likes || p.like_count || 0), 0);
+        const totalComments = posts.reduce((s, p) => s + toInt(p.comments || p.comment_count || 0), 0);
+        fetch('/api/account-sync/save-snapshot', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ brand, platform: plat, handle: clean, name: d.name || d.full_name || clean, bio: d.bio || '', avatar: d.avatar || '', followers: toInt(d.followers), following: toInt(d.following), posts_count: posts.length, total_views: totalViews, total_likes: totalLikes, total_comments: totalComments, verified: d.verified || d.is_verified || false, recent_posts: posts.slice(0, 12).map(p => ({ id: p.id, thumb: p.thumb || p.thumbnail || '', views: toInt(p.video_view_count || p.play_count || p.view_count || 0), likes: toInt(p.likes || p.like_count || 0), comments: toInt(p.comments || p.comment_count || 0), taken_at: p.taken_at || p.timestamp || 0, caption: (p.caption || p.title || '').slice(0, 120), url: p.url || '', is_video: p.is_video || false })) }),
+        }).catch(() => {});
+      } else setProfile(null);
     } catch {}
     setProfileLoading(false);
   };
