@@ -497,10 +497,25 @@ function getSnapshotsDashboard() {
   if (!all.length) return null;
   let totalFollowers = 0, totalFollowing = 0, totalViews = 0, totalLikes = 0, totalComments = 0, totalPosts = 0;
   const byBrand = {}, byPlatform = {};
+  const now = Math.floor(Date.now() / 1000);
+  const day = 86400;
+  let v24 = 0, v7 = 0, v30 = 0, l24 = 0, l7 = 0, l30 = 0, c24 = 0, c7 = 0, c30 = 0;
+  let posts24 = 0, posts7 = 0, posts30 = 0;
+
   all.forEach(a => {
     totalFollowers += a.followers; totalFollowing += a.following;
     totalViews += a.total_views; totalLikes += a.total_likes;
     totalComments += a.total_comments; totalPosts += a.posts_count;
+    // Parse posts for time windows
+    let posts = [];
+    try { posts = a.recent_posts ? JSON.parse(a.recent_posts) : []; } catch {}
+    posts.forEach(p => {
+      const ts = p.taken_at || p.timestamp || 0;
+      const age = ts ? now - ts : 999999;
+      if (age < day) { v24 += (p.views || 0); l24 += (p.likes || 0); c24 += (p.comments || 0); posts24++; }
+      if (age < day * 7) { v7 += (p.views || 0); l7 += (p.likes || 0); c7 += (p.comments || 0); posts7++; }
+      if (age < day * 30) { v30 += (p.views || 0); l30 += (p.likes || 0); c30 += (p.comments || 0); posts30++; }
+    });
     const b = a.brand || 'other';
     if (!byBrand[b]) byBrand[b] = { followers: 0, views: 0, likes: 0, accounts: 0 };
     byBrand[b].followers += a.followers; byBrand[b].views += a.total_views; byBrand[b].likes += a.total_likes; byBrand[b].accounts++;
@@ -513,6 +528,11 @@ function getSnapshotsDashboard() {
   return {
     totalFollowers, totalFollowing, totalViews, totalLikes, totalComments, totalPosts,
     engRate, avgViewsPerPost, byBrand, byPlatform,
+    // Time windows
+    views_24h: v24, views_7d: v7, views_30d: v30,
+    likes_24h: l24, likes_7d: l7, likes_30d: l30,
+    comments_24h: c24, comments_7d: c7, comments_30d: c30,
+    posts_24h: posts24, posts_7d: posts7, posts_30d: posts30,
     accounts: all.map(a => ({ ...a, recent_posts: undefined })),
     count: all.length, last_fetched: all.reduce((max, a) => Math.max(max, a.fetched_at || 0), 0),
   };

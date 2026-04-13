@@ -404,6 +404,55 @@ export default function Accounts() {
             ))}
           </div>
 
+          {/* Time-windowed stats */}
+          <div style={{ fontSize: '.55rem', color: C.muted, textTransform: 'uppercase', letterSpacing: '.1em', marginBottom: 6, fontWeight: 600 }}>performance by time window</div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6, marginBottom: 14 }}>
+            {/* 24h */}
+            <div style={{ padding: '10px 12px', background: C.card, border: `1px solid ${C.border}`, borderLeft: `2px solid ${C.green}`, borderRadius: 4 }}>
+              <div style={{ fontSize: '.5rem', color: C.green, textTransform: 'uppercase', letterSpacing: '.08em', fontWeight: 600, marginBottom: 6 }}>last 24h</div>
+              <div style={{ fontSize: '.85rem', fontWeight: 700, color: '#fff', fontVariantNumeric: 'tabular-nums' }}>{fmtN(dashData.views_24h || 0)}</div>
+              <div style={{ fontSize: '.5rem', color: C.muted }}>views</div>
+              <div style={{ display: 'flex', gap: 8, marginTop: 4, fontSize: '.5rem', color: C.dim }}>
+                <span>{fmtN(dashData.likes_24h || 0)} likes</span>
+                <span>{fmtN(dashData.comments_24h || 0)} cmt</span>
+                <span>{dashData.posts_24h || 0} posts</span>
+              </div>
+            </div>
+            {/* 7d */}
+            <div style={{ padding: '10px 12px', background: C.card, border: `1px solid ${C.border}`, borderLeft: '2px solid #5b8aff', borderRadius: 4 }}>
+              <div style={{ fontSize: '.5rem', color: '#5b8aff', textTransform: 'uppercase', letterSpacing: '.08em', fontWeight: 600, marginBottom: 6 }}>last 7 days</div>
+              <div style={{ fontSize: '.85rem', fontWeight: 700, color: '#fff', fontVariantNumeric: 'tabular-nums' }}>{fmtN(dashData.views_7d || 0)}</div>
+              <div style={{ fontSize: '.5rem', color: C.muted }}>views</div>
+              <div style={{ display: 'flex', gap: 8, marginTop: 4, fontSize: '.5rem', color: C.dim }}>
+                <span>{fmtN(dashData.likes_7d || 0)} likes</span>
+                <span>{fmtN(dashData.comments_7d || 0)} cmt</span>
+                <span>{dashData.posts_7d || 0} posts</span>
+              </div>
+            </div>
+            {/* 30d */}
+            <div style={{ padding: '10px 12px', background: C.card, border: `1px solid ${C.border}`, borderLeft: '2px solid #a855f7', borderRadius: 4 }}>
+              <div style={{ fontSize: '.5rem', color: '#a855f7', textTransform: 'uppercase', letterSpacing: '.08em', fontWeight: 600, marginBottom: 6 }}>last 30 days</div>
+              <div style={{ fontSize: '.85rem', fontWeight: 700, color: '#fff', fontVariantNumeric: 'tabular-nums' }}>{fmtN(dashData.views_30d || 0)}</div>
+              <div style={{ fontSize: '.5rem', color: C.muted }}>views</div>
+              <div style={{ display: 'flex', gap: 8, marginTop: 4, fontSize: '.5rem', color: C.dim }}>
+                <span>{fmtN(dashData.likes_30d || 0)} likes</span>
+                <span>{fmtN(dashData.comments_30d || 0)} cmt</span>
+                <span>{dashData.posts_30d || 0} posts</span>
+              </div>
+            </div>
+            {/* All time */}
+            <div style={{ padding: '10px 12px', background: C.card, border: `1px solid ${C.border}`, borderLeft: '2px solid #f97316', borderRadius: 4 }}>
+              <div style={{ fontSize: '.5rem', color: '#f97316', textTransform: 'uppercase', letterSpacing: '.08em', fontWeight: 600, marginBottom: 6 }}>all recent posts</div>
+              <div style={{ fontSize: '.85rem', fontWeight: 700, color: '#fff', fontVariantNumeric: 'tabular-nums' }}>{fmtN(dashData.totalViews || 0)}</div>
+              <div style={{ fontSize: '.5rem', color: C.muted }}>views</div>
+              <div style={{ display: 'flex', gap: 8, marginTop: 4, fontSize: '.5rem', color: C.dim }}>
+                <span>{fmtN(dashData.totalLikes || 0)} likes</span>
+                <span>{fmtN(dashData.totalComments || 0)} cmt</span>
+                <span>{dashData.totalPosts || 0} posts</span>
+              </div>
+            </div>
+          </div>
+
           {/* Best account */}
           {dashData.bestAccount && (
             <div style={{ padding: '10px 12px', background: C.card, border: `1px solid ${C.border}`, borderLeft: `2px solid ${C.green}`, borderRadius: 4, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 14, cursor: 'pointer' }}
