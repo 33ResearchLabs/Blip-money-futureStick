@@ -392,99 +392,50 @@ export default function Accounts() {
 
       {!dashLoading && dashData && (
         <>
-          {/* Key metrics row */}
+          {/* Totals */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 6, marginBottom: 14 }}>
             {[
-              { val: fmtN(dashData.totalFollowers), lbl: 'total followers', border: '#fff' },
-              { val: fmtN(dashData.totalViews), lbl: 'total views (recent)', border: C.green },
-              { val: fmtN(dashData.totalLikes), lbl: 'total likes' },
-              { val: fmtN(dashData.totalPosts), lbl: 'total posts' },
-              { val: dashData.engRate + '%', lbl: 'avg eng rate' },
-            ].map((s, i) => (
-              <div key={i} style={{ padding: '10px 12px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 4, borderLeft: s.border ? `2px solid ${s.border}` : undefined }}>
-                <div style={{ fontSize: '1rem', fontWeight: 700, color: '#fff', fontVariantNumeric: 'tabular-nums' }}>{s.val}</div>
-                <div style={{ fontSize: '.55rem', color: C.muted, textTransform: 'uppercase', letterSpacing: '.1em', marginTop: 3 }}>{s.lbl}</div>
-              </div>
-            ))}
-          </div>
-
-          {/* Last 24h highlight */}
-          <div style={{ fontSize: '.55rem', color: C.green, textTransform: 'uppercase', letterSpacing: '.1em', marginBottom: 6, fontWeight: 600 }}>last 24 hours</div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6, marginBottom: 14 }}>
-            {[
-              { val: fmtN(dashData.views_24h || 0), lbl: 'views', color: C.green },
-              { val: fmtN(dashData.likes_24h || 0), lbl: 'likes', color: '#fb923c' },
-              { val: fmtN(dashData.comments_24h || 0), lbl: 'comments', color: '#a855f7' },
-              { val: String(dashData.posts_24h || 0), lbl: 'posts', color: '#5b8aff' },
-            ].map((s, i) => (
-              <div key={i} style={{ padding: '10px 12px', background: C.card, border: `1px solid ${C.border}`, borderLeft: `2px solid ${s.color}`, borderRadius: 4 }}>
-                <div style={{ fontSize: '1rem', fontWeight: 700, color: s.color, fontVariantNumeric: 'tabular-nums' }}>{s.val}</div>
-                <div style={{ fontSize: '.55rem', color: C.muted, marginTop: 3 }}>{s.lbl}</div>
-              </div>
-            ))}
-          </div>
-
-          {/* Secondary */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6, marginBottom: 14 }}>
-            {[
-              { val: dashData.count, lbl: 'accounts tracked' },
-              { val: fmtN(dashData.totalComments), lbl: 'total comments' },
-              { val: fmtN(dashData.avgViewsPerPost), lbl: 'avg views/post' },
-              { val: fmtN(dashData.totalFollowing), lbl: 'total following' },
+              { val: dashData.count, lbl: 'accounts', color: '#5b8aff' },
+              { val: fmtN(dashData.totalFollowers), lbl: 'followers', color: '#fff' },
+              { val: fmtN(dashData.totalPosts), lbl: 'posts', color: '#a1a1aa' },
+              { val: fmtN(dashData.avgViewsPerPost), lbl: 'avg views/post', color: '#a1a1aa' },
+              { val: dashData.engRate + '%', lbl: 'eng rate', color: '#a1a1aa' },
             ].map((s, i) => (
               <div key={i} style={{ padding: '10px 12px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 4 }}>
-                <div style={{ fontSize: '.85rem', fontWeight: 600, color: C.dim, fontVariantNumeric: 'tabular-nums' }}>{s.val}</div>
-                <div style={{ fontSize: '.5rem', color: C.muted, marginTop: 3 }}>{s.lbl}</div>
+                <div style={{ fontSize: '1rem', fontWeight: 700, color: s.color, fontVariantNumeric: 'tabular-nums' }}>{s.val}</div>
+                <div style={{ fontSize: '.5rem', color: C.muted, textTransform: 'uppercase', letterSpacing: '.08em', marginTop: 3 }}>{s.lbl}</div>
               </div>
             ))}
           </div>
 
-          {/* Time-windowed stats */}
-          <div style={{ fontSize: '.55rem', color: C.muted, textTransform: 'uppercase', letterSpacing: '.1em', marginBottom: 6, fontWeight: 600 }}>performance by time window</div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6, marginBottom: 14 }}>
-            {/* 24h */}
-            <div style={{ padding: '10px 12px', background: C.card, border: `1px solid ${C.border}`, borderLeft: `2px solid ${C.green}`, borderRadius: 4 }}>
-              <div style={{ fontSize: '.5rem', color: C.green, textTransform: 'uppercase', letterSpacing: '.08em', fontWeight: 600, marginBottom: 6 }}>last 24h</div>
-              <div style={{ fontSize: '.85rem', fontWeight: 700, color: '#fff', fontVariantNumeric: 'tabular-nums' }}>{fmtN(dashData.views_24h || 0)}</div>
-              <div style={{ fontSize: '.5rem', color: C.muted }}>views</div>
-              <div style={{ display: 'flex', gap: 8, marginTop: 4, fontSize: '.5rem', color: C.dim }}>
-                <span>{fmtN(dashData.likes_24h || 0)} likes</span>
-                <span>{fmtN(dashData.comments_24h || 0)} cmt</span>
-                <span>{dashData.posts_24h || 0} posts</span>
-              </div>
-            </div>
-            {/* 7d */}
-            <div style={{ padding: '10px 12px', background: C.card, border: `1px solid ${C.border}`, borderLeft: '2px solid #5b8aff', borderRadius: 4 }}>
-              <div style={{ fontSize: '.5rem', color: '#5b8aff', textTransform: 'uppercase', letterSpacing: '.08em', fontWeight: 600, marginBottom: 6 }}>last 7 days</div>
-              <div style={{ fontSize: '.85rem', fontWeight: 700, color: '#fff', fontVariantNumeric: 'tabular-nums' }}>{fmtN(dashData.views_7d || 0)}</div>
-              <div style={{ fontSize: '.5rem', color: C.muted }}>views</div>
-              <div style={{ display: 'flex', gap: 8, marginTop: 4, fontSize: '.5rem', color: C.dim }}>
-                <span>{fmtN(dashData.likes_7d || 0)} likes</span>
-                <span>{fmtN(dashData.comments_7d || 0)} cmt</span>
-                <span>{dashData.posts_7d || 0} posts</span>
-              </div>
-            </div>
-            {/* 30d */}
-            <div style={{ padding: '10px 12px', background: C.card, border: `1px solid ${C.border}`, borderLeft: '2px solid #a855f7', borderRadius: 4 }}>
-              <div style={{ fontSize: '.5rem', color: '#a855f7', textTransform: 'uppercase', letterSpacing: '.08em', fontWeight: 600, marginBottom: 6 }}>last 30 days</div>
-              <div style={{ fontSize: '.85rem', fontWeight: 700, color: '#fff', fontVariantNumeric: 'tabular-nums' }}>{fmtN(dashData.views_30d || 0)}</div>
-              <div style={{ fontSize: '.5rem', color: C.muted }}>views</div>
-              <div style={{ display: 'flex', gap: 8, marginTop: 4, fontSize: '.5rem', color: C.dim }}>
-                <span>{fmtN(dashData.likes_30d || 0)} likes</span>
-                <span>{fmtN(dashData.comments_30d || 0)} cmt</span>
-                <span>{dashData.posts_30d || 0} posts</span>
-              </div>
-            </div>
-            {/* All time */}
-            <div style={{ padding: '10px 12px', background: C.card, border: `1px solid ${C.border}`, borderLeft: '2px solid #f97316', borderRadius: 4 }}>
-              <div style={{ fontSize: '.5rem', color: '#f97316', textTransform: 'uppercase', letterSpacing: '.08em', fontWeight: 600, marginBottom: 6 }}>all recent posts</div>
-              <div style={{ fontSize: '.85rem', fontWeight: 700, color: '#fff', fontVariantNumeric: 'tabular-nums' }}>{fmtN(dashData.totalViews || 0)}</div>
-              <div style={{ fontSize: '.5rem', color: C.muted }}>views</div>
-              <div style={{ display: 'flex', gap: 8, marginTop: 4, fontSize: '.5rem', color: C.dim }}>
-                <span>{fmtN(dashData.totalLikes || 0)} likes</span>
-                <span>{fmtN(dashData.totalComments || 0)} cmt</span>
-                <span>{dashData.totalPosts || 0} posts</span>
-              </div>
+          {/* Views / Likes / Comments — by time window in one table */}
+          <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 4, marginBottom: 14, overflow: 'hidden' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '80px 1fr 1fr 1fr 1fr', gap: 0 }}>
+              {/* Header */}
+              <div style={{ padding: '8px 12px', fontSize: '.5rem', color: C.muted, textTransform: 'uppercase', letterSpacing: '.08em', borderBottom: `1px solid ${C.border}` }}></div>
+              {['24h', '7 days', '30 days', 'all time'].map(h => (
+                <div key={h} style={{ padding: '8px 12px', fontSize: '.5rem', color: C.muted, textTransform: 'uppercase', letterSpacing: '.08em', textAlign: 'right', borderBottom: `1px solid ${C.border}` }}>{h}</div>
+              ))}
+              {/* Views row */}
+              <div style={{ padding: '8px 12px', fontSize: '.6rem', color: C.green, fontWeight: 600 }}>views</div>
+              {[dashData.views_24h, dashData.views_7d, dashData.views_30d, dashData.totalViews].map((v, i) => (
+                <div key={i} style={{ padding: '8px 12px', fontSize: '.75rem', fontWeight: 700, color: '#fff', textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{fmtN(v || 0)}</div>
+              ))}
+              {/* Likes row */}
+              <div style={{ padding: '8px 12px', fontSize: '.6rem', color: '#fb923c', fontWeight: 600 }}>likes</div>
+              {[dashData.likes_24h, dashData.likes_7d, dashData.likes_30d, dashData.totalLikes].map((v, i) => (
+                <div key={i} style={{ padding: '8px 12px', fontSize: '.75rem', fontWeight: 600, color: C.dim, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{fmtN(v || 0)}</div>
+              ))}
+              {/* Comments row */}
+              <div style={{ padding: '8px 12px', fontSize: '.6rem', color: '#a855f7', fontWeight: 600 }}>comments</div>
+              {[dashData.comments_24h, dashData.comments_7d, dashData.comments_30d, dashData.totalComments].map((v, i) => (
+                <div key={i} style={{ padding: '8px 12px', fontSize: '.75rem', fontWeight: 600, color: C.dim, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{fmtN(v || 0)}</div>
+              ))}
+              {/* Posts row */}
+              <div style={{ padding: '8px 12px', fontSize: '.6rem', color: '#5b8aff', fontWeight: 600 }}>posts</div>
+              {[dashData.posts_24h, dashData.posts_7d, dashData.posts_30d, dashData.totalPosts].map((v, i) => (
+                <div key={i} style={{ padding: '8px 12px', fontSize: '.75rem', fontWeight: 600, color: C.dim, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{fmtN(v || 0)}</div>
+              ))}
             </div>
           </div>
 
