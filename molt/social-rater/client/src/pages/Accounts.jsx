@@ -185,7 +185,8 @@ export default function Accounts() {
     if (!fetcher) { setProfileLoading(false); return; }
     try {
       const d = await fetcher(clean);
-      if (d.ok !== false) setProfile(d);
+      if (d && d.ok !== false) setProfile(d);
+      else setProfile(null);
     } catch {}
     setProfileLoading(false);
   };
@@ -224,7 +225,8 @@ export default function Accounts() {
   // ── Profile view (matches old an-prof / an-summary / an-posts) ──
   const renderProfileView = (d, handle, plat, brand) => {
     if (!d) return null;
-    const posts = d.posts || d.recent || [];
+    const rawPosts = d.posts || d.recent || [];
+    const posts = Array.isArray(rawPosts) ? rawPosts : [];
     const totalViews = posts.reduce((s, p) => s + toInt(p.video_view_count || p.play_count || p.view_count || 0), 0);
     const totalLikes = posts.reduce((s, p) => s + toInt(p.likes || p.like_count || 0), 0);
     const totalComments = posts.reduce((s, p) => s + toInt(p.comments || p.comment_count || 0), 0);
