@@ -167,13 +167,18 @@ export default function Accounts() {
 
   const deleteBrandAccount = async (brand, plat) => {
     const updated = { ...brandAccounts };
+    const handle = updated[brand]?.[plat]?.replace(/^@/, '') || '';
     if (updated[brand]) {
       delete updated[brand][plat];
       if (!Object.keys(updated[brand]).length) delete updated[brand];
     }
     setBrandAccounts(updated);
     await api.kvSet('brandAccounts', updated);
+    // Also delete snapshot from DB
+    if (handle) await api.deleteSnapshot(plat, handle);
     if (selected?.brand === brand && selected?.plat === plat) { setSelected(null); setProfile(null); }
+    // Refresh dashboard
+    loadDashFromDB();
   };
 
   const loadProfile = async (brand, plat, handle) => {

@@ -538,6 +538,11 @@ function getSnapshotsDashboard() {
   };
 }
 
+function deleteSnapshot(platform, handle) {
+  const id = platform + '_' + (handle || '').toLowerCase();
+  db.prepare('DELETE FROM account_snapshots WHERE id = ?').run(id);
+}
+
 // --- Shares ---
 function addShare(share) {
   const stmt = db.prepare(`INSERT INTO shares (from_user, from_name, to_user, type, title, url, thumb, note, source, platform, action, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
@@ -572,7 +577,7 @@ module.exports = {
   getPerformance, recordPerformance, getPerformanceSummary,
   getWorkerState, updateWorkerState, addWorkerLog, getWorkerLogs,
   getVideos, getVideoStats, upsertVideoBatch,
-  upsertSnapshot, getSnapshots, getSnapshotsDashboard,
+  upsertSnapshot, getSnapshots, getSnapshotsDashboard, deleteSnapshot,
   addShare, getShares, updateShare, getUnreadCount,
   migrateFromJSON,
 };

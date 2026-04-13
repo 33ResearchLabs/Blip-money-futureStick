@@ -90,6 +90,7 @@ export const api = {
   getAccountSnapshots: (brand, platform) => get(`${BASE}/account-sync/snapshots?${brand?'brand='+brand+'&':''}${platform?'platform='+platform:''}`),
   getAccountProfile: (id) => get(`${BASE}/account-sync/profile/${id}`),
   syncAccounts: () => post(`${BASE}/account-sync/sync`),
+  deleteSnapshot: (platform, handle) => post(`${BASE}/account-sync/delete`, { platform, handle }),
 
   // Shares
   sendShare: (data) => post(`${BASE}/shares`, data),

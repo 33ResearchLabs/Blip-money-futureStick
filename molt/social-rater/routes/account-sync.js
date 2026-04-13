@@ -107,5 +107,13 @@ router.post('/sync', async (req, res) => {
   res.json({ ok: true, ...result });
 });
 
+// POST /api/account-sync/delete — remove snapshot from DB
+router.post('/delete', (req, res) => {
+  const { platform, handle } = req.body;
+  if (!platform || !handle) return res.json({ ok: false, error: 'need platform + handle' });
+  db.deleteSnapshot(platform, handle);
+  res.json({ ok: true });
+});
+
 module.exports = router;
 module.exports.syncAll = syncAll;
