@@ -393,11 +393,12 @@ export default function Accounts() {
       {!dashLoading && dashData && (
         <>
           {/* Key metrics row */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6, marginBottom: 14 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 6, marginBottom: 14 }}>
             {[
               { val: fmtN(dashData.totalFollowers), lbl: 'total followers', border: '#fff' },
               { val: fmtN(dashData.totalViews), lbl: 'total views (recent)', border: C.green },
               { val: fmtN(dashData.totalLikes), lbl: 'total likes' },
+              { val: fmtN(dashData.totalPosts), lbl: 'total posts' },
               { val: dashData.engRate + '%', lbl: 'avg eng rate' },
             ].map((s, i) => (
               <div key={i} style={{ padding: '10px 12px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 4, borderLeft: s.border ? `2px solid ${s.border}` : undefined }}>
@@ -407,18 +408,33 @@ export default function Accounts() {
             ))}
           </div>
 
-          {/* Secondary metrics */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 6, marginBottom: 14 }}>
+          {/* Last 24h highlight */}
+          <div style={{ fontSize: '.55rem', color: C.green, textTransform: 'uppercase', letterSpacing: '.1em', marginBottom: 6, fontWeight: 600 }}>last 24 hours</div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6, marginBottom: 14 }}>
             {[
-              { val: dashData.count, lbl: 'accounts' },
-              { val: fmtN(dashData.totalFollowing), lbl: 'total following' },
+              { val: fmtN(dashData.views_24h || 0), lbl: 'views', color: C.green },
+              { val: fmtN(dashData.likes_24h || 0), lbl: 'likes', color: '#fb923c' },
+              { val: fmtN(dashData.comments_24h || 0), lbl: 'comments', color: '#a855f7' },
+              { val: String(dashData.posts_24h || 0), lbl: 'posts', color: '#5b8aff' },
+            ].map((s, i) => (
+              <div key={i} style={{ padding: '10px 12px', background: C.card, border: `1px solid ${C.border}`, borderLeft: `2px solid ${s.color}`, borderRadius: 4 }}>
+                <div style={{ fontSize: '1rem', fontWeight: 700, color: s.color, fontVariantNumeric: 'tabular-nums' }}>{s.val}</div>
+                <div style={{ fontSize: '.55rem', color: C.muted, marginTop: 3 }}>{s.lbl}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Secondary */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6, marginBottom: 14 }}>
+            {[
+              { val: dashData.count, lbl: 'accounts tracked' },
               { val: fmtN(dashData.totalComments), lbl: 'total comments' },
-              { val: fmtN(dashData.totalPosts), lbl: 'recent posts' },
               { val: fmtN(dashData.avgViewsPerPost), lbl: 'avg views/post' },
+              { val: fmtN(dashData.totalFollowing), lbl: 'total following' },
             ].map((s, i) => (
               <div key={i} style={{ padding: '10px 12px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 4 }}>
-                <div style={{ fontSize: '.95rem', fontWeight: 600, color: C.dim, fontVariantNumeric: 'tabular-nums' }}>{s.val}</div>
-                <div style={{ fontSize: '.55rem', color: C.muted, marginTop: 3 }}>{s.lbl}</div>
+                <div style={{ fontSize: '.85rem', fontWeight: 600, color: C.dim, fontVariantNumeric: 'tabular-nums' }}>{s.val}</div>
+                <div style={{ fontSize: '.5rem', color: C.muted, marginTop: 3 }}>{s.lbl}</div>
               </div>
             ))}
           </div>
