@@ -739,9 +739,11 @@ router.get('/news/list', (req, res) => {
   let items = data.items || [];
   const type = req.query.type;
   if (type && type !== 'all') items = items.filter(i => i.source_type === type);
-  const limit = parseInt(req.query.limit) || 100;
   const since = req.query.since ? parseInt(req.query.since) : 0;
   if (since) items = items.filter(i => (i.published_at || 0) >= since);
+  // Sort by published_at DESC (newest first)
+  items = items.slice().sort((a, b) => (b.published_at || 0) - (a.published_at || 0));
+  const limit = parseInt(req.query.limit) || 100;
   res.json({ ok: true, items: items.slice(0, limit), total: items.length });
 });
 
