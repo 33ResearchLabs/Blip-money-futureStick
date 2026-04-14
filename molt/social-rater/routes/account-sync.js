@@ -123,6 +123,13 @@ router.post('/sync', async (req, res) => {
   res.json({ ok: true, ...result });
 });
 
+// GET /api/account-sync/history?days=30
+router.get('/history', (req, res) => {
+  const days = parseInt(req.query.days) || 30;
+  const history = db.getHistory(days);
+  res.json({ ok: true, history });
+});
+
 // POST /api/account-sync/save-snapshot — save a single snapshot from frontend
 router.post('/save-snapshot', (req, res) => {
   const s = req.body;

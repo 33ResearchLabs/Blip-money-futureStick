@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { api } from '../services/api';
+import LineChart from '../components/LineChart';
 
 const FONT = "'JetBrains Mono', 'SF Mono', 'Menlo', monospace";
 const fmtN = n => { if(!n) return '0'; if(n>=1e6) return (n/1e6).toFixed(1)+'M'; if(n>=1e3) return (n/1e3).toFixed(1)+'K'; return n.toLocaleString(); };
@@ -72,6 +73,9 @@ export default function Accounts() {
   const [profile, setProfile] = useState(null);
   const [profileLoading, setProfileLoading] = useState(false);
   const [dashData, setDashData] = useState(null);
+  const [history, setHistory] = useState([]);
+  const [chartMetric, setChartMetric] = useState('views');
+  const [chartDays, setChartDays] = useState(30);
   const [dashLoading, setDashLoading] = useState(false);
 
   const [addBrand, setAddBrand] = useState('blip');
@@ -149,9 +153,11 @@ export default function Accounts() {
       } else {
         setDashData(null);
       }
+      // Also fetch history for chart
+      try { const h = await api.getAccountHistory(chartDays); setHistory(h.history || []); } catch {}
     } catch {}
     setDashLoading(false);
-  }, []);
+  }, [chartDays]);
 
   useEffect(() => { loadBrands(); loadDashFromDB(); }, []);
   useEffect(() => { if (subTab === 'network') loadSN(); }, [subTab]);
@@ -437,6 +443,40 @@ export default function Accounts() {
                 <div key={i} style={{ padding: '8px 12px', fontSize: '.75rem', fontWeight: 600, color: C.dim, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{fmtN(v || 0)}</div>
               ))}
             </div>
+          </div>
+
+          {/* Growth chart */}
+          <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 4, padding: '12px 14px', marginBottom: 14 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+              <span style={{ fontSize: '.55rem', color: C.muted, textTransform: 'uppercase', letterSpacing: '.1em', fontWeight: 600 }}>growth over time</span>
+              <div style={{ marginLeft: 'auto', display: 'flex', gap: 2, background: C.input, padding: 2, borderRadius: 5 }}>
+                {['followers', 'views', 'likes', 'comments', 'posts'].map(m => (
+                  <button key={m} onClick={() => setChartMetric(m)} style={{
+                    padding: '3px 10px', fontSize: '.55rem', borderRadius: 3,
+                    border: 'none', cursor: 'pointer', fontFamily: FONT,
+                    background: chartMetric === m ? C.bg : 'transparent',
+                    color: chartMetric === m ? '#fff' : C.muted,
+                    fontWeight: chartMetric === m ? 500 : 400,
+                  }}>{m}</button>
+                ))}
+              </div>
+              <div style={{ display: 'flex', gap: 2, background: C.input, padding: 2, borderRadius: 5 }}>
+                {[7, 30, 90].map(d => (
+                  <button key={d} onClick={() => setChartDays(d)} style={{
+                    padding: '3px 10px', fontSize: '.55rem', borderRadius: 3,
+                    border: 'none', cursor: 'pointer', fontFamily: FONT,
+                    background: chartDays === d ? C.bg : 'transparent',
+                    color: chartDays === d ? '#fff' : C.muted,
+                  }}>{d}d</button>
+                ))}
+              </div>
+            </div>
+            <LineChart
+              data={history.map(h => ({ date: h.date, value: h[chartMetric] || 0 }))}
+              color={chartMetric === 'views' ? '#4ade80' : chartMetric === 'likes' ? '#fb923c' : chartMetric === 'comments' ? '#a855f7' : chartMetric === 'followers' ? '#fff' : '#5b8aff'}
+              height={160}
+              label={`total ${chartMetric}`}
+            />
           </div>
 
           {/* Per account breakdown */}

@@ -91,6 +91,7 @@ export const api = {
   getAccountProfile: (id) => get(`${BASE}/account-sync/profile/${id}`),
   syncAccounts: () => post(`${BASE}/account-sync/sync`),
   deleteSnapshot: (platform, handle) => post(`${BASE}/account-sync/delete`, { platform, handle }),
+  getAccountHistory: (days) => get(`${BASE}/account-sync/history?days=${days||30}`),
 
   // Shares
   sendShare: (data) => post(`${BASE}/shares`, data),

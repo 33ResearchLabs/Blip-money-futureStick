@@ -55,6 +55,23 @@ CREATE TABLE IF NOT EXISTS performance (
   watch_time REAL, retention REAL, engagement_rate REAL, emotion TEXT, format TEXT,
   trend_score REAL, keywords TEXT, recorded_at INTEGER
 );
+CREATE TABLE IF NOT EXISTS account_history (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  date TEXT NOT NULL,
+  platform TEXT NOT NULL,
+  handle TEXT NOT NULL,
+  brand TEXT,
+  followers INTEGER DEFAULT 0,
+  total_views INTEGER DEFAULT 0,
+  total_likes INTEGER DEFAULT 0,
+  total_comments INTEGER DEFAULT 0,
+  posts_count INTEGER DEFAULT 0,
+  recorded_at INTEGER,
+  UNIQUE(date, platform, handle)
+);
+CREATE INDEX IF NOT EXISTS idx_history_date ON account_history(date);
+CREATE INDEX IF NOT EXISTS idx_history_handle ON account_history(platform, handle);
+
 CREATE TABLE IF NOT EXISTS account_snapshots (
   id TEXT PRIMARY KEY,
   brand TEXT,
@@ -480,6 +497,8 @@ function upsertSnapshot(snap) {
     snap.avg_views_per_post || 0, snap.eng_rate || 0, snap.verified ? 1 : 0,
     JSON.stringify(snap.recent_posts || []), Date.now()
   );
+  // Also record to history for daily tracking
+  try { recordHistory(snap); } catch {}
 }
 
 function getSnapshots({ brand, platform } = {}) {
@@ -548,6 +567,34 @@ function getSnapshotsDashboard() {
   };
 }
 
+function recordHistory(snap) {
+  const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+  db.prepare(`INSERT OR REPLACE INTO account_history
+    (date, platform, handle, brand, followers, total_views, total_likes, total_comments, posts_count, recorded_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`).run(
+    today, snap.platform, snap.handle, snap.brand || '',
+    snap.followers || 0, snap.total_views || 0, snap.total_likes || 0,
+    snap.total_comments || 0, snap.posts_count || 0, Date.now()
+  );
+}
+
+function getHistory(days = 30) {
+  // Get aggregate totals by date across all accounts
+  const since = new Date(Date.now() - days * 86400000).toISOString().slice(0, 10);
+  const rows = db.prepare(`
+    SELECT date,
+      SUM(followers) as followers,
+      SUM(total_views) as views,
+      SUM(total_likes) as likes,
+      SUM(total_comments) as comments,
+      SUM(posts_count) as posts
+    FROM account_history
+    WHERE date >= ?
+    GROUP BY date ORDER BY date ASC
+  `).all(since);
+  return rows;
+}
+
 function deleteSnapshot(platform, handle) {
   const id = platform + '_' + (handle || '').toLowerCase();
   db.prepare('DELETE FROM account_snapshots WHERE id = ?').run(id);
@@ -588,6 +635,7 @@ module.exports = {
   getWorkerState, updateWorkerState, addWorkerLog, getWorkerLogs,
   getVideos, getVideoStats, upsertVideoBatch,
   upsertSnapshot, getSnapshots, getSnapshotsDashboard, deleteSnapshot,
+  recordHistory, getHistory,
   addShare, getShares, updateShare, getUnreadCount,
   migrateFromJSON,
 };
