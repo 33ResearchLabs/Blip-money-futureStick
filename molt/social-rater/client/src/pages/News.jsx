@@ -3,13 +3,21 @@ import { api } from '../services/api';
 
 const fmtN = n => { if(!n) return '0'; if(n>=1e6) return (n/1e6).toFixed(1)+'M'; if(n>=1e3) return (n/1e3).toFixed(1)+'K'; return n.toLocaleString(); };
 const ago = ms => { if(!ms) return '—'; const s=Math.floor((Date.now()-ms)/1000); if(s<60) return s+'s'; if(s<3600) return Math.floor(s/60)+'m'; if(s<86400) return Math.floor(s/3600)+'h'; return Math.floor(s/86400)+'d'; };
-const types = ['all', 'crypto', 'ai', 'tech', 'business', 'world'];
+const types = ['all', 'crypto', 'ai', 'tech', 'business', 'culture', 'world'];
+const ranges = [
+  { k: '4h', label: 'last 4h', ms: 4 * 3600000 },
+  { k: '24h', label: 'last 24h', ms: 24 * 3600000 },
+  { k: '48h', label: 'last 48h', ms: 48 * 3600000 },
+  { k: 'all', label: 'all', ms: 0 },
+];
 
 export default function News() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [filter, setFilter] = useState('all');
+  const [range, setRange] = useState('24h');
+  const [withImageOnly, setWithImageOnly] = useState(false);
   const [search, setSearch] = useState('');
   const [lastFetched, setLastFetched] = useState(null);
 
@@ -36,12 +44,16 @@ export default function News() {
     setRefreshing(false);
   };
 
+  const rangeMs = (ranges.find(r => r.k === range) || {}).ms || 0;
+  const now = Date.now();
   const filtered = items.filter(it => {
     if (filter !== 'all') {
       const t = (it.source_type || it.type || '').toLowerCase();
       const s = (it.source || '').toLowerCase();
       if (!t.includes(filter) && !s.includes(filter)) return false;
     }
+    if (rangeMs > 0 && (now - (it.published_at || 0)) > rangeMs) return false;
+    if (withImageOnly && !it.image) return false;
     if (search && !(it.title || '').toLowerCase().includes(search.toLowerCase()) && !(it.source || '').toLowerCase().includes(search.toLowerCase())) return false;
     return true;
   });
@@ -65,6 +77,24 @@ export default function News() {
             }}>{t}</button>
           ))}
         </div>
+        <div style={{ display: 'flex', gap: 2, background: '#18181b', borderRadius: 6, padding: 2 }}>
+          {ranges.map(r => (
+            <button key={r.k} onClick={() => setRange(r.k)} style={{
+              padding: '4px 10px', fontSize: '0.6rem', borderRadius: 4,
+              border: 'none', cursor: 'pointer', fontFamily: 'inherit',
+              background: range === r.k ? '#27272a' : 'transparent',
+              color: range === r.k ? '#fafafa' : '#71717a',
+              fontWeight: range === r.k ? 500 : 400,
+            }}>{r.k}</button>
+          ))}
+        </div>
+        <button onClick={() => setWithImageOnly(!withImageOnly)} style={{
+          padding: '5px 10px', fontSize: '0.6rem', borderRadius: 6,
+          border: `1px solid ${withImageOnly ? '#4ade80' : '#27272a'}`,
+          background: withImageOnly ? '#0a2614' : '#18181b',
+          color: withImageOnly ? '#4ade80' : '#71717a',
+          cursor: 'pointer', fontFamily: 'inherit',
+        }}>🖼 with image</button>
         <input placeholder="Search..." value={search} onChange={e => setSearch(e.target.value)} style={{
           width: 180, padding: '5px 10px', fontSize: '0.65rem',
           background: '#18181b', border: '1px solid #27272a', borderRadius: 6, color: '#a1a1aa',
@@ -138,16 +168,24 @@ export default function News() {
               </div>
 
               {/* Action */}
-              <div style={{ flexShrink: 0, display: 'flex', alignItems: 'flex-start', paddingTop: 2 }}>
-                <button onClick={e => e.stopPropagation()} style={{
-                  padding: '5px 12px', fontSize: '0.58rem', borderRadius: 5,
+              <div style={{ flexShrink: 0, display: 'flex', alignItems: 'flex-start', paddingTop: 2, gap: 4 }}>
+                <button onClick={e => { e.stopPropagation(); window.open(it.url, '_blank'); }} title="Open source" style={{
+                  padding: '6px 10px', fontSize: '0.58rem', borderRadius: 5,
                   border: '1px solid #27272a', background: 'transparent',
                   color: '#71717a', cursor: 'pointer', fontFamily: 'inherit',
-                  fontWeight: 500, transition: 'all 0.12s',
                 }}
                   onMouseOver={e => { e.currentTarget.style.background = '#27272a'; e.currentTarget.style.color = '#fafafa'; }}
                   onMouseOut={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#71717a'; }}
-                >forge</button>
+                >↗</button>
+                <button onClick={e => { e.stopPropagation(); if (typeof window.nfOpenForge === 'function') window.nfOpenForge(it); else window.alert('Forge opens in old /rater/ — use it there'); }} title="Repurpose this" style={{
+                  padding: '6px 14px', fontSize: '0.62rem', borderRadius: 5,
+                  border: '1px solid #4f46e5', background: '#6366f1',
+                  color: '#fff', cursor: 'pointer', fontFamily: 'inherit',
+                  fontWeight: 600,
+                }}
+                  onMouseOver={e => e.currentTarget.style.background = '#818cf8'}
+                  onMouseOut={e => e.currentTarget.style.background = '#6366f1'}
+                >⚡ repurpose</button>
               </div>
             </div>
           );

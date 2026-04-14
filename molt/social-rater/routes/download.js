@@ -283,71 +283,131 @@ async function fetchTrending() {
   return deduped;
 }
 
-// ── News feeds config ──
+// ── News feeds config — viral + fresh sources ──
 const NEWS_FEEDS = [
+  // Tech / Viral
   { url: 'https://feeds.feedburner.com/TechCrunch/', type: 'tech', source: 'TechCrunch' },
   { url: 'https://www.theverge.com/rss/index.xml', type: 'tech', source: 'The Verge' },
   { url: 'https://feeds.arstechnica.com/arstechnica/index', type: 'tech', source: 'Ars Technica' },
+  { url: 'https://mashable.com/feed/', type: 'tech', source: 'Mashable' },
+  { url: 'https://www.engadget.com/rss.xml', type: 'tech', source: 'Engadget' },
+  { url: 'https://www.wired.com/feed/rss', type: 'tech', source: 'Wired' },
+  // Crypto
   { url: 'https://cointelegraph.com/rss', type: 'crypto', source: 'CoinTelegraph' },
   { url: 'https://www.coindesk.com/arc/outboundfeeds/rss/', type: 'crypto', source: 'CoinDesk' },
-  { url: 'https://feeds.bbci.co.uk/news/business/rss.xml', type: 'business', source: 'BBC Business' },
+  { url: 'https://decrypt.co/feed', type: 'crypto', source: 'Decrypt' },
+  { url: 'https://cryptoslate.com/feed/', type: 'crypto', source: 'CryptoSlate' },
+  // AI
   { url: 'https://techcrunch.com/category/artificial-intelligence/feed/', type: 'ai', source: 'TC AI' },
+  { url: 'https://venturebeat.com/category/ai/feed/', type: 'ai', source: 'VentureBeat AI' },
+  // Business / Finance
+  { url: 'https://feeds.bbci.co.uk/news/business/rss.xml', type: 'business', source: 'BBC Business' },
+  { url: 'https://www.cnbc.com/id/10001147/device/rss/rss.html', type: 'business', source: 'CNBC' },
+  // Culture / Viral
+  { url: 'https://www.buzzfeed.com/tech.xml', type: 'culture', source: 'BuzzFeed Tech' },
+  { url: 'https://feeds.npr.org/1001/rss.xml', type: 'world', source: 'NPR' },
 ];
 const REDDIT_NEWS_SUBS = [
-  { sub: 'technology', type: 'tech' },
-  { sub: 'cryptocurrency', type: 'crypto' },
-  { sub: 'artificial', type: 'ai' },
-  { sub: 'business', type: 'business' },
-  { sub: 'worldnews', type: 'world' },
+  // Hot subs with high viral potential
+  { sub: 'technology', type: 'tech', sort: 'top', t: 'day' },
+  { sub: 'Futurology', type: 'tech', sort: 'top', t: 'day' },
+  { sub: 'cryptocurrency', type: 'crypto', sort: 'top', t: 'day' },
+  { sub: 'Bitcoin', type: 'crypto', sort: 'top', t: 'day' },
+  { sub: 'artificial', type: 'ai', sort: 'top', t: 'day' },
+  { sub: 'singularity', type: 'ai', sort: 'top', t: 'day' },
+  { sub: 'OpenAI', type: 'ai', sort: 'hot' },
+  { sub: 'business', type: 'business', sort: 'top', t: 'day' },
+  { sub: 'worldnews', type: 'world', sort: 'top', t: 'day' },
+  { sub: 'UpliftingNews', type: 'world', sort: 'top', t: 'day' },
+  { sub: 'nottheonion', type: 'culture', sort: 'top', t: 'day' },
+  { sub: 'interestingasfuck', type: 'culture', sort: 'top', t: 'day' },
 ];
 
 // ── Helper: fetchAllNews ──
 async function fetchAllNews() {
   const items = [];
 
-  // RSS feeds
+  // RSS feeds — only last 48h, extract image from content if no enclosure
+  const cutoff48h = Date.now() - 48 * 3600000;
+  const extractImage = (it) => {
+    if (it.enclosure?.url) return it.enclosure.url;
+    if (it['media:thumbnail']?.['$']?.url) return it['media:thumbnail']['$'].url;
+    if (it['media:content']?.['$']?.url) return it['media:content']['$'].url;
+    const html = it['content:encoded'] || it.content || '';
+    const match = html.match(/<img[^>]+src=["']([^"']+)["']/i);
+    return match ? match[1] : '';
+  };
   const rssResults = await Promise.allSettled(
     NEWS_FEEDS.map(async feed => {
       try {
         const parsed = await rssParser.parseURL(feed.url);
-        return (parsed.items || []).slice(0, 15).map(it => ({
-          id: uid(),
-          title: it.title || '',
-          url: it.link || '',
-          source: feed.source,
-          source_type: feed.type,
-          published_at: it.pubDate ? new Date(it.pubDate).getTime() : Date.now(),
-          fetched_at: Date.now(),
-          description: (it.contentSnippet || it.content || '').slice(0, 300),
-          image: it.enclosure?.url || '',
-          score: Math.floor(Math.random() * 40 + 50),
-        }));
+        return (parsed.items || [])
+          .map(it => {
+            const pubMs = it.pubDate ? new Date(it.pubDate).getTime() : Date.now();
+            const ageHours = Math.max(0.5, (Date.now() - pubMs) / 3600000);
+            // Fresher = higher base score
+            const freshScore = ageHours < 2 ? 90 : ageHours < 6 ? 75 : ageHours < 12 ? 60 : ageHours < 24 ? 45 : 30;
+            return {
+              id: uid(),
+              title: it.title || '',
+              url: it.link || '',
+              source: feed.source,
+              source_type: feed.type,
+              published_at: pubMs,
+              fetched_at: Date.now(),
+              description: (it.contentSnippet || it.content || '').slice(0, 300),
+              image: extractImage(it),
+              score: freshScore,
+            };
+          })
+          .filter(i => i.published_at >= cutoff48h) // only last 48h
+          .slice(0, 20);
       } catch { return []; }
     })
   );
   rssResults.forEach(r => { if (r.status === 'fulfilled') items.push(...r.value); });
 
-  // Reddit
+  // Reddit — top posts of the day from viral subs
   const redditResults = await Promise.allSettled(
-    REDDIT_NEWS_SUBS.map(async ({ sub, type }) => {
+    REDDIT_NEWS_SUBS.map(async ({ sub, type, sort = 'top', t = 'day' }) => {
       try {
-        const r = await fetch(`https://www.reddit.com/r/${sub}/hot.json?limit=20`, {
-          headers: { 'User-Agent': 'SocialRater/1.0' }, timeout: 10000
+        const url = `https://www.reddit.com/r/${sub}/${sort}.json?limit=15${t ? '&t=' + t : ''}`;
+        const r = await fetch(url, {
+          headers: { 'User-Agent': 'SocialRater/2.0' }, timeout: 10000
         });
         const d = await r.json();
-        return (d.data?.children || []).filter(c => !c.data?.stickied).slice(0, 15).map(c => ({
-          id: uid(),
-          title: c.data?.title || '',
-          url: c.data?.url || `https://reddit.com${c.data?.permalink}`,
-          source: `r/${sub}`,
-          source_type: type,
-          published_at: (c.data?.created_utc || 0) * 1000,
-          fetched_at: Date.now(),
-          ups: c.data?.ups || 0,
-          comments: c.data?.num_comments || 0,
-          score: Math.min(100, Math.floor((c.data?.ups || 0) / 50 + 40)),
-          image: c.data?.thumbnail && c.data.thumbnail.startsWith('http') ? c.data.thumbnail : '',
-        }));
+        return (d.data?.children || [])
+          .filter(c => !c.data?.stickied && c.data?.ups > 100)
+          .slice(0, 12)
+          .map(c => {
+            const pubMs = (c.data?.created_utc || 0) * 1000;
+            const ageHours = Math.max(0.5, (Date.now() - pubMs) / 3600000);
+            const ups = c.data?.ups || 0;
+            const comments = c.data?.num_comments || 0;
+            // Velocity: engagement per hour since post
+            const velocity = (ups + comments * 2) / ageHours;
+            // Viral score 0-100 based on velocity (log scale)
+            const score = Math.min(100, Math.round(Math.log10(velocity + 1) * 25));
+            // Get best preview image available
+            let image = '';
+            const preview = c.data?.preview?.images?.[0];
+            if (preview?.source?.url) image = preview.source.url.replace(/&amp;/g, '&');
+            else if (c.data?.thumbnail && c.data.thumbnail.startsWith('http')) image = c.data.thumbnail;
+            else if (c.data?.url_overridden_by_dest && /\.(jpg|png|jpeg|webp)/i.test(c.data.url_overridden_by_dest)) image = c.data.url_overridden_by_dest;
+            return {
+              id: uid(),
+              title: c.data?.title || '',
+              url: c.data?.url || `https://reddit.com${c.data?.permalink}`,
+              source: `r/${sub}`,
+              source_type: type,
+              published_at: pubMs,
+              fetched_at: Date.now(),
+              ups, comments,
+              velocity: Math.round(velocity),
+              score,
+              image,
+            };
+          });
       } catch { return []; }
     })
   );
@@ -373,11 +433,14 @@ async function fetchAllNews() {
     });
   } catch {}
 
-  // Sort by score desc
-  items.sort((a, b) => (b.score || 0) - (a.score || 0));
+  // Drop items older than 48h (keep feed fresh)
+  const cutoff = Date.now() - 48 * 3600000;
+  const fresh = items.filter(i => (i.published_at || 0) >= cutoff);
+  // Sort by score desc (higher = more viral/fresher)
+  fresh.sort((a, b) => (b.score || 0) - (a.score || 0));
   // Dedupe
   const seen = new Set();
-  const deduped = items.filter(it => {
+  const deduped = fresh.filter(it => {
     const key = (it.title || '').toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 40);
     if (seen.has(key)) return false;
     seen.add(key);
