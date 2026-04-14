@@ -76,6 +76,7 @@ export default function Accounts() {
   const [history, setHistory] = useState([]);
   const [chartMetric, setChartMetric] = useState('views');
   const [chartDays, setChartDays] = useState(30);
+  const [dashView, setDashView] = useState('dashboard'); // 'dashboard' | 'analytics'
   const [dashLoading, setDashLoading] = useState(false);
 
   const [addBrand, setAddBrand] = useState('blip');
@@ -379,7 +380,18 @@ export default function Accounts() {
   const renderDashboard = () => (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-        <div style={{ fontSize: '.55rem', color: C.muted, textTransform: 'uppercase', letterSpacing: '.12em', fontWeight: 600 }}>dashboard {'\u00b7'} all brands</div>
+        {/* Dashboard / Analytics toggle */}
+        <div style={{ display: 'flex', gap: 2, background: C.input, padding: 2, borderRadius: 5 }}>
+          {[['dashboard', '📊 Dashboard'], ['analytics', '📈 Analytics']].map(([k, label]) => (
+            <button key={k} onClick={() => setDashView(k)} style={{
+              padding: '4px 14px', fontSize: '.6rem', borderRadius: 3,
+              border: 'none', cursor: 'pointer', fontFamily: FONT,
+              background: dashView === k ? C.bg : 'transparent',
+              color: dashView === k ? '#fff' : C.muted,
+              fontWeight: dashView === k ? 500 : 400,
+            }}>{label}</button>
+          ))}
+        </div>
         <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
           {dashData?.last_fetched && <span style={{ fontSize: '.55rem', color: C.muted }}>synced {ago(dashData.last_fetched)}</span>}
           <button onClick={async () => { setDashLoading(true); try { await api.syncAccounts(); } catch {} await loadDashFromDB(); }} disabled={dashLoading} style={btnPrimStyle}>
@@ -396,7 +408,7 @@ export default function Accounts() {
         </div>
       )}
 
-      {!dashLoading && dashData && (
+      {!dashLoading && dashData && dashView === 'dashboard' && (
         <>
           {/* Totals */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 6, marginBottom: 14 }}>
@@ -472,39 +484,70 @@ export default function Accounts() {
               </div>
             </div>
             <LineChart
-              data={history.map(h => ({ date: h.date, value: h[chartMetric] || 0 }))}
+              data={(() => {
+                // For followers: show cumulative (follower count per day)
+                // For views/likes/comments/posts: show daily delta (gained that day)
+                if (chartMetric === 'followers') {
+                  return history.map(h => ({ date: h.date, value: h.followers || 0 }));
+                }
+                return history.map((h, i) => {
+                  if (i === 0) return { date: h.date, value: 0 };
+                  const prev = history[i - 1];
+                  const diff = (h[chartMetric] || 0) - (prev[chartMetric] || 0);
+                  return { date: h.date, value: Math.max(0, diff) };
+                }).slice(1); // skip first day (no delta)
+              })()}
               color={chartMetric === 'views' ? '#4ade80' : chartMetric === 'likes' ? '#fb923c' : chartMetric === 'comments' ? '#a855f7' : chartMetric === 'followers' ? '#fff' : '#5b8aff'}
               height={160}
-              label={`total ${chartMetric}`}
+              label={chartMetric === 'followers' ? 'total followers' : `daily ${chartMetric} gained`}
             />
           </div>
 
-          {/* Per account breakdown */}
-          <div style={{ fontSize: '.55rem', color: C.muted, textTransform: 'uppercase', letterSpacing: '.12em', marginBottom: 6, fontWeight: 600 }}>per account breakdown</div>
+        </>
+      )}
+
+      {/* ANALYTICS VIEW — per account engagement */}
+      {!dashLoading && dashData && dashView === 'analytics' && (
+        <>
+          <div style={{ fontSize: '.55rem', color: C.muted, textTransform: 'uppercase', letterSpacing: '.12em', marginBottom: 6, fontWeight: 600 }}>per account engagement</div>
           {/* Header */}
-          <div style={{ display: 'grid', gridTemplateColumns: '24px 28px 1fr 70px 70px 60px 50px 60px', gap: 6, padding: '4px 10px', fontSize: '.5rem', color: C.muted, textTransform: 'uppercase', letterSpacing: '.08em', borderBottom: `1px solid ${C.border}`, marginBottom: 2 }}>
-            <div></div><div></div><div>account</div><div style={{ textAlign: 'right' }}>followers</div><div style={{ textAlign: 'right' }}>views</div><div style={{ textAlign: 'right' }}>likes</div><div style={{ textAlign: 'right' }}>eng%</div><div style={{ textAlign: 'right' }}>brand</div>
+          <div style={{ display: 'grid', gridTemplateColumns: '24px 28px 1.5fr 75px 75px 65px 65px 65px 55px', gap: 6, padding: '6px 10px', fontSize: '.5rem', color: C.muted, textTransform: 'uppercase', letterSpacing: '.08em', borderBottom: `1px solid ${C.border}`, marginBottom: 2 }}>
+            <div></div><div></div><div>account</div>
+            <div style={{ textAlign: 'right' }}>followers</div>
+            <div style={{ textAlign: 'right' }}>views</div>
+            <div style={{ textAlign: 'right' }}>likes</div>
+            <div style={{ textAlign: 'right' }}>comments</div>
+            <div style={{ textAlign: 'right' }}>posts</div>
+            <div style={{ textAlign: 'right' }}>eng%</div>
           </div>
-          <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 4, overflow: 'hidden' }}>
-            {(dashData.accountRows || []).map((r, i) => (
-              <div key={i} onClick={() => loadProfile(r.brand, r.plat, r.handle)} style={{
-                display: 'grid', gridTemplateColumns: '24px 28px 1fr 70px 70px 60px 50px 60px',
-                gap: 6, alignItems: 'center', padding: '8px 10px', borderBottom: `1px solid ${C.border}`,
-                cursor: 'pointer', transition: 'all .1s', fontSize: '.65rem',
-              }}
-                onMouseOver={e => e.currentTarget.style.background = C.input}
-                onMouseOut={e => e.currentTarget.style.background = ''}
-              >
-                <span style={{ color: C.muted, fontWeight: 500, textAlign: 'right' }}>{i + 1}</span>
-                <span style={{ textAlign: 'center' }}>{PLAT_ICONS[r.plat] || '?'}</span>
-                <span style={{ color: C.text, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>@{r.handle}</span>
-                <span style={{ color: '#fff', fontWeight: 600, fontVariantNumeric: 'tabular-nums', textAlign: 'right' }}>{fmtN(r.fol)}</span>
-                <span style={{ color: C.muted, fontVariantNumeric: 'tabular-nums', textAlign: 'right', fontSize: '.58rem' }}>{fmtN(r.views)} views</span>
-                <span style={{ color: C.muted, fontVariantNumeric: 'tabular-nums', textAlign: 'right', fontSize: '.58rem' }}>{fmtN(r.likes)} likes</span>
-                <span style={{ color: C.muted, fontVariantNumeric: 'tabular-nums', textAlign: 'right', fontSize: '.58rem' }}>{r.fol > 0 ? (((r.likes + (r.comments||0)) / (r.posts || 1)) / r.fol * 100).toFixed(1) + '%' : '\u2014'}</span>
-                <span style={{ color: C.muted, fontSize: '.55rem' }}>{r.brand}</span>
-              </div>
-            ))}
+          <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 4, overflow: 'hidden', marginBottom: 14 }}>
+            {(dashData.accountRows || []).map((r, i) => {
+              const eng = r.fol > 0 ? (((r.likes + (r.comments || 0)) / (r.posts || 1)) / r.fol * 100) : 0;
+              const engColor = eng >= 5 ? '#4ade80' : eng >= 2 ? '#fbbf24' : eng >= 0.5 ? '#fb923c' : '#52525b';
+              return (
+                <div key={i} onClick={() => loadProfile(r.brand, r.plat, r.handle)} style={{
+                  display: 'grid', gridTemplateColumns: '24px 28px 1.5fr 75px 75px 65px 65px 65px 55px',
+                  gap: 6, alignItems: 'center', padding: '10px 10px', borderBottom: `1px solid ${C.border}`,
+                  cursor: 'pointer', transition: 'all .1s', fontSize: '.68rem',
+                }}
+                  onMouseOver={e => e.currentTarget.style.background = C.input}
+                  onMouseOut={e => e.currentTarget.style.background = ''}
+                >
+                  <span style={{ color: C.muted, fontWeight: 500, textAlign: 'right' }}>{i + 1}</span>
+                  <span style={{ textAlign: 'center' }}>{PLAT_ICONS[r.plat] || '?'}</span>
+                  <div style={{ overflow: 'hidden' }}>
+                    <div style={{ color: C.text, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>@{r.handle}</div>
+                    <div style={{ fontSize: '.5rem', color: C.muted, marginTop: 1 }}>{r.brand}</div>
+                  </div>
+                  <span style={{ color: '#fff', fontWeight: 600, fontVariantNumeric: 'tabular-nums', textAlign: 'right' }}>{fmtN(r.fol)}</span>
+                  <span style={{ color: '#4ade80', fontVariantNumeric: 'tabular-nums', textAlign: 'right', fontWeight: 500 }}>{fmtN(r.views)}</span>
+                  <span style={{ color: '#fb923c', fontVariantNumeric: 'tabular-nums', textAlign: 'right', fontWeight: 500 }}>{fmtN(r.likes)}</span>
+                  <span style={{ color: '#a855f7', fontVariantNumeric: 'tabular-nums', textAlign: 'right', fontWeight: 500 }}>{fmtN(r.comments)}</span>
+                  <span style={{ color: '#5b8aff', fontVariantNumeric: 'tabular-nums', textAlign: 'right', fontWeight: 500 }}>{fmtN(r.posts)}</span>
+                  <span style={{ color: engColor, fontWeight: 600, fontVariantNumeric: 'tabular-nums', textAlign: 'right' }}>{eng > 0 ? eng.toFixed(1) + '%' : '\u2014'}</span>
+                </div>
+              );
+            })}
           </div>
         </>
       )}
