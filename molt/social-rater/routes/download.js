@@ -168,12 +168,29 @@ async function fetchTrending() {
     { sub: 'sports', cat: 'sports' },
     { sub: 'gaming', cat: 'gaming' },
   ];
+  // Try proxies that bypass Reddit's VPS block
+  const redditProxies = [
+    u => `https://www.reddit.com${u}`,
+    u => `https://api.reddit.com${u.replace('.json', '')}`,
+    u => `https://r.jina.ai/https://www.reddit.com${u}`, // Jina AI reader
+  ];
   const redditResults = await Promise.allSettled(
     trendSubs.map(async ({ sub, cat }) => {
-      const r = await fetch(`https://www.reddit.com/r/${sub}/hot.json?limit=25`, {
-        headers: { 'User-Agent': 'SocialRater/2.0' }, timeout: 10000
-      });
-      const d = await r.json();
+      const path = `/r/${sub}/hot.json?limit=25`;
+      let d = null;
+      for (const makeUrl of redditProxies) {
+        try {
+          const r = await fetch(makeUrl(path), {
+            headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:128.0) Gecko/20100101 Firefox/128.0', 'Accept': 'application/json' }, timeout: 10000
+          });
+          if (!r.ok) continue;
+          const text = await r.text();
+          if (!text.trim().startsWith('{')) continue;
+          d = JSON.parse(text);
+          if (d?.data?.children) break;
+        } catch {}
+      }
+      if (!d) return [];
       return (d.data?.children || []).filter(c => !c.data?.stickied).map(c => ({
         id: uid(),
         title: c.data?.title || '',
@@ -220,14 +237,20 @@ async function fetchTrending() {
     });
   } catch {}
 
-  // 3. YouTube trending via yt-dlp
+  // 3. YouTube trending via yt-dlp — try multiple URLs
   try {
     const { execSync } = require('child_process');
-    let raw;
-    try {
-      raw = execSync(YTDLP + ' --flat-playlist -j --playlist-items 1-20 "https://www.youtube.com/feed/trending?bp=6gQJRkVleHBsb3Jl"', { timeout: 30000, encoding: 'utf8', env: { ...process.env, PATH: process.env.PATH + ':/home/blipmoney9/.local/bin' } });
-    } catch {
-      raw = execSync(`ssh -i ~/.ssh/gcp_vm -o ConnectTimeout=10 blipmoney9@${VPS_HOST} "yt-dlp --flat-playlist -j --playlist-items 1-20 'https://www.youtube.com/feed/trending'"`, { timeout: 30000, encoding: 'utf8' });
+    const trendingUrls = [
+      'https://www.youtube.com/feed/trending',
+      'https://www.youtube.com/playlist?list=PLFgquLnL59akA2PflFpeQG9L01VFg90wS', // YouTube Trending playlist
+      'ytsearch20:trending today',
+    ];
+    let raw = '';
+    for (const url of trendingUrls) {
+      try {
+        raw = execSync(`${YTDLP} --flat-playlist -j --playlist-items 1-20 "${url}"`, { timeout: 30000, encoding: 'utf8', env: { ...process.env, PATH: process.env.PATH + ':/home/blipmoney9/.local/bin' } });
+        if (raw.trim()) break;
+      } catch {}
     }
     const lines = raw.trim().split('\n').filter(Boolean);
     for (const line of lines) {
@@ -367,15 +390,30 @@ async function fetchAllNews() {
   );
   rssResults.forEach(r => { if (r.status === 'fulfilled') items.push(...r.value); });
 
-  // Reddit — top posts of the day from viral subs
+  // Reddit — top posts of the day from viral subs (with proxy fallback for blocked VPS)
+  const redditBases = [
+    'https://www.reddit.com',
+    'https://api.reddit.com',
+    'https://r.jina.ai/https://www.reddit.com',
+  ];
   const redditResults = await Promise.allSettled(
     REDDIT_NEWS_SUBS.map(async ({ sub, type, sort = 'top', t = 'day' }) => {
       try {
-        const url = `https://www.reddit.com/r/${sub}/${sort}.json?limit=15${t ? '&t=' + t : ''}`;
-        const r = await fetch(url, {
-          headers: { 'User-Agent': 'SocialRater/2.0' }, timeout: 10000
-        });
-        const d = await r.json();
+        const path = `/r/${sub}/${sort}.json?limit=15${t ? '&t=' + t : ''}`;
+        let d = null;
+        for (const base of redditBases) {
+          try {
+            const r = await fetch(base + path, {
+              headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:128.0) Gecko/20100101 Firefox/128.0', 'Accept': 'application/json' }, timeout: 10000
+            });
+            if (!r.ok) continue;
+            const text = await r.text();
+            if (!text.trim().startsWith('{')) continue;
+            d = JSON.parse(text);
+            if (d?.data?.children) break;
+          } catch {}
+        }
+        if (!d) return [];
         return (d.data?.children || [])
           .filter(c => !c.data?.stickied && c.data?.ups > 100)
           .slice(0, 12)
