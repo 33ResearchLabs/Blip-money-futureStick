@@ -483,6 +483,7 @@ export default function Accounts() {
       </select>
       <input value={addHandle} onChange={e => setAddHandle(e.target.value)} placeholder="@handle" style={{ ...inputStyle, width: 140 }} onKeyDown={e => e.key === 'Enter' && addBrandAccount()} />
       <button onClick={addBrandAccount} style={btnPrimStyle}>+ add</button>
+      <button onClick={() => { setSelected(null); setProfile(null); }} style={{ ...btnStyle, background: selected ? C.blueBg : C.input, color: selected ? C.btnPrimColor : C.dim, border: `1px solid ${selected ? C.btnPrimBorder : C.border}` }}>{'\u2302'} dashboard</button>
       <button onClick={async () => { setDashLoading(true); try { await api.syncAccounts(); } catch {} await loadDashFromDB(); }} style={btnStyle}>{'\u21bb'}</button>
     </div>
   );
@@ -506,6 +507,23 @@ export default function Accounts() {
   // ── Brand sidebar ──
   const renderBrandSidebar = () => (
     <aside style={{ width: 260, background: C.bg, padding: '8px 10px', overflowY: 'auto', scrollbarWidth: 'thin', flexShrink: 0 }}>
+      {/* Dashboard button */}
+      <div
+        onClick={() => { setSelected(null); setProfile(null); loadDashFromDB(); }}
+        style={{
+          display: 'flex', alignItems: 'center', gap: 8, padding: '8px 10px',
+          background: !selected ? C.input : 'transparent',
+          border: `1px solid ${!selected ? C.blue : C.border}`,
+          borderRadius: 4, cursor: 'pointer', marginBottom: 8,
+          transition: 'all .1s',
+        }}
+        onMouseOver={e => { if (selected) e.currentTarget.style.background = C.card; }}
+        onMouseOut={e => { if (selected) e.currentTarget.style.background = 'transparent'; }}
+      >
+        <span style={{ fontSize: '.85rem' }}>📊</span>
+        <span style={{ fontSize: '.7rem', color: !selected ? C.blue : C.text, fontWeight: 600 }}>Dashboard</span>
+        <span style={{ marginLeft: 'auto', fontSize: '.52rem', color: C.muted }}>{dashData?.count || 0}</span>
+      </div>
       <div style={{ fontSize: '.55rem', color: C.muted, textTransform: 'uppercase', letterSpacing: '.12em', marginBottom: 6, fontWeight: 600 }}>all accounts</div>
       {[...BRANDS, ...Object.keys(brandAccounts).filter(k => !BRANDS.find(b => b.id === k)).map(k => ({ id: k, name: k }))].map(b => {
         const accs = brandAccounts[b.id] || {};
