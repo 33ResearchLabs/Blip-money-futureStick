@@ -526,25 +526,11 @@ function getSnapshotsDashboard() {
   if (!all.length) return null;
   let totalFollowers = 0, totalFollowing = 0, totalViews = 0, totalLikes = 0, totalComments = 0, totalPosts = 0;
   const byBrand = {}, byPlatform = {};
-  const now = Math.floor(Date.now() / 1000);
-  const day = 86400;
-  let v24 = 0, v7 = 0, v30 = 0, l24 = 0, l7 = 0, l30 = 0, c24 = 0, c7 = 0, c30 = 0;
-  let posts24 = 0, posts7 = 0, posts30 = 0;
 
   all.forEach(a => {
     totalFollowers += a.followers; totalFollowing += a.following;
     totalViews += a.total_views; totalLikes += a.total_likes;
     totalComments += a.total_comments; totalPosts += a.posts_count;
-    // Parse posts for time windows
-    let posts = [];
-    try { posts = a.recent_posts ? JSON.parse(a.recent_posts) : []; } catch {}
-    posts.forEach(p => {
-      const ts = p.taken_at || p.timestamp || 0;
-      const age = ts ? now - ts : 999999;
-      if (age < day) { v24 += (p.views || 0); l24 += (p.likes || 0); c24 += (p.comments || 0); posts24++; }
-      if (age < day * 7) { v7 += (p.views || 0); l7 += (p.likes || 0); c7 += (p.comments || 0); posts7++; }
-      if (age < day * 30) { v30 += (p.views || 0); l30 += (p.likes || 0); c30 += (p.comments || 0); posts30++; }
-    });
     const b = a.brand || 'other';
     if (!byBrand[b]) byBrand[b] = { followers: 0, views: 0, likes: 0, accounts: 0 };
     byBrand[b].followers += a.followers; byBrand[b].views += a.total_views; byBrand[b].likes += a.total_likes; byBrand[b].accounts++;
@@ -552,6 +538,31 @@ function getSnapshotsDashboard() {
     if (!byPlatform[p]) byPlatform[p] = { followers: 0, views: 0, likes: 0, accounts: 0, posts: 0 };
     byPlatform[p].followers += a.followers; byPlatform[p].views += a.total_views; byPlatform[p].likes += a.total_likes; byPlatform[p].accounts++; byPlatform[p].posts += a.posts_count;
   });
+
+  // Time windows from HISTORY (delta vs N days ago)
+  function getDelta(daysAgo) {
+    const targetDate = new Date(Date.now() - daysAgo * 86400000).toISOString().slice(0, 10);
+    const row = db.prepare(`
+      SELECT SUM(total_views) as v, SUM(total_likes) as l, SUM(total_comments) as c, SUM(posts_count) as p
+      FROM account_history WHERE date <= ? ORDER BY date DESC LIMIT 1
+    `).get(targetDate);
+    return row || { v: 0, l: 0, c: 0, p: 0 };
+  }
+  const h1 = getDelta(1);
+  const h7 = getDelta(7);
+  const h30 = getDelta(30);
+  const v24 = Math.max(0, totalViews - (h1.v || 0));
+  const v7 = Math.max(0, totalViews - (h7.v || 0));
+  const v30 = Math.max(0, totalViews - (h30.v || 0));
+  const l24 = Math.max(0, totalLikes - (h1.l || 0));
+  const l7 = Math.max(0, totalLikes - (h7.l || 0));
+  const l30 = Math.max(0, totalLikes - (h30.l || 0));
+  const c24 = Math.max(0, totalComments - (h1.c || 0));
+  const c7 = Math.max(0, totalComments - (h7.c || 0));
+  const c30 = Math.max(0, totalComments - (h30.c || 0));
+  const posts24 = Math.max(0, totalPosts - (h1.p || 0));
+  const posts7 = Math.max(0, totalPosts - (h7.p || 0));
+  const posts30 = Math.max(0, totalPosts - (h30.p || 0));
   const engRate = totalFollowers ? (((totalLikes + totalComments) / (totalPosts || 1)) / totalFollowers * 100).toFixed(2) : '0';
   const avgViewsPerPost = totalPosts ? Math.round(totalViews / totalPosts) : 0;
   return {
