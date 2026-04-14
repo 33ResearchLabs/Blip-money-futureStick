@@ -437,22 +437,22 @@ export default function Accounts() {
               {/* Views row */}
               <div style={{ padding: '8px 12px', fontSize: '.6rem', color: C.green, fontWeight: 600 }}>views</div>
               {[dashData.views_24h, dashData.views_7d, dashData.views_30d, dashData.totalViews].map((v, i) => (
-                <div key={i} style={{ padding: '8px 12px', fontSize: '.75rem', fontWeight: 700, color: '#fff', textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{fmtN(v || 0)}</div>
+                <div key={i} style={{ padding: '8px 12px', fontSize: '.75rem', fontWeight: 700, color: '#fff', textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{v == null ? '—' : fmtN(v)}</div>
               ))}
               {/* Likes row */}
               <div style={{ padding: '8px 12px', fontSize: '.6rem', color: '#fb923c', fontWeight: 600 }}>likes</div>
               {[dashData.likes_24h, dashData.likes_7d, dashData.likes_30d, dashData.totalLikes].map((v, i) => (
-                <div key={i} style={{ padding: '8px 12px', fontSize: '.75rem', fontWeight: 600, color: C.dim, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{fmtN(v || 0)}</div>
+                <div key={i} style={{ padding: '8px 12px', fontSize: '.75rem', fontWeight: 600, color: C.dim, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{v == null ? '—' : fmtN(v)}</div>
               ))}
               {/* Comments row */}
               <div style={{ padding: '8px 12px', fontSize: '.6rem', color: '#a855f7', fontWeight: 600 }}>comments</div>
               {[dashData.comments_24h, dashData.comments_7d, dashData.comments_30d, dashData.totalComments].map((v, i) => (
-                <div key={i} style={{ padding: '8px 12px', fontSize: '.75rem', fontWeight: 600, color: C.dim, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{fmtN(v || 0)}</div>
+                <div key={i} style={{ padding: '8px 12px', fontSize: '.75rem', fontWeight: 600, color: C.dim, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{v == null ? '—' : fmtN(v)}</div>
               ))}
               {/* Posts row */}
               <div style={{ padding: '8px 12px', fontSize: '.6rem', color: '#5b8aff', fontWeight: 600 }}>posts</div>
               {[dashData.posts_24h, dashData.posts_7d, dashData.posts_30d, dashData.totalPosts].map((v, i) => (
-                <div key={i} style={{ padding: '8px 12px', fontSize: '.75rem', fontWeight: 600, color: C.dim, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{fmtN(v || 0)}</div>
+                <div key={i} style={{ padding: '8px 12px', fontSize: '.75rem', fontWeight: 600, color: C.dim, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{v == null ? '—' : fmtN(v)}</div>
               ))}
             </div>
           </div>

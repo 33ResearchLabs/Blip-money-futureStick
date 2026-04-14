@@ -540,9 +540,12 @@ function getSnapshotsDashboard() {
   });
 
   // Time windows from HISTORY (delta vs N days ago)
-  // For each account, get its latest snapshot ≤ target date, sum across accounts
+  // Returns null if we don't have history that old (so frontend can show —)
   function getDelta(daysAgo) {
     const targetDate = new Date(Date.now() - daysAgo * 86400000).toISOString().slice(0, 10);
+    // Check if any history exists on or before target date
+    const has = db.prepare('SELECT COUNT(*) as n FROM account_history WHERE date <= ?').get(targetDate);
+    if (!has || has.n === 0) return null;
     const row = db.prepare(`
       WITH latest_per_acc AS (
         SELECT platform, handle, MAX(date) as max_date
@@ -558,23 +561,24 @@ function getSnapshotsDashboard() {
       INNER JOIN latest_per_acc lp
         ON h.platform = lp.platform AND h.handle = lp.handle AND h.date = lp.max_date
     `).get(targetDate);
-    return row || { v: 0, l: 0, c: 0, p: 0 };
+    return row || null;
   }
   const h1 = getDelta(1);
   const h7 = getDelta(7);
   const h30 = getDelta(30);
-  const v24 = Math.max(0, totalViews - (h1.v || 0));
-  const v7 = Math.max(0, totalViews - (h7.v || 0));
-  const v30 = Math.max(0, totalViews - (h30.v || 0));
-  const l24 = Math.max(0, totalLikes - (h1.l || 0));
-  const l7 = Math.max(0, totalLikes - (h7.l || 0));
-  const l30 = Math.max(0, totalLikes - (h30.l || 0));
-  const c24 = Math.max(0, totalComments - (h1.c || 0));
-  const c7 = Math.max(0, totalComments - (h7.c || 0));
-  const c30 = Math.max(0, totalComments - (h30.c || 0));
-  const posts24 = Math.max(0, totalPosts - (h1.p || 0));
-  const posts7 = Math.max(0, totalPosts - (h7.p || 0));
-  const posts30 = Math.max(0, totalPosts - (h30.p || 0));
+  const delta = (current, h, key) => h === null ? null : Math.max(0, current - (h[key] || 0));
+  const v24 = delta(totalViews, h1, 'v');
+  const v7 = delta(totalViews, h7, 'v');
+  const v30 = delta(totalViews, h30, 'v');
+  const l24 = delta(totalLikes, h1, 'l');
+  const l7 = delta(totalLikes, h7, 'l');
+  const l30 = delta(totalLikes, h30, 'l');
+  const c24 = delta(totalComments, h1, 'c');
+  const c7 = delta(totalComments, h7, 'c');
+  const c30 = delta(totalComments, h30, 'c');
+  const posts24 = delta(totalPosts, h1, 'p');
+  const posts7 = delta(totalPosts, h7, 'p');
+  const posts30 = delta(totalPosts, h30, 'p');
   const engRate = totalFollowers ? (((totalLikes + totalComments) / (totalPosts || 1)) / totalFollowers * 100).toFixed(2) : '0';
   const avgViewsPerPost = totalPosts ? Math.round(totalViews / totalPosts) : 0;
   return {
