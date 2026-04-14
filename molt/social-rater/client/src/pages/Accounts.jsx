@@ -498,7 +498,7 @@ export default function Accounts() {
                 }).slice(1); // skip first day (no delta)
               })()}
               color={chartMetric === 'views' ? '#4ade80' : chartMetric === 'likes' ? '#fb923c' : chartMetric === 'comments' ? '#a855f7' : chartMetric === 'followers' ? '#fff' : '#5b8aff'}
-              height={160}
+              height={280}
               label={chartMetric === 'followers' ? 'total followers' : `daily ${chartMetric} gained`}
             />
           </div>
