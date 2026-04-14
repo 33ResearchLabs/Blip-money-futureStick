@@ -540,11 +540,23 @@ function getSnapshotsDashboard() {
   });
 
   // Time windows from HISTORY (delta vs N days ago)
+  // For each account, get its latest snapshot ≤ target date, sum across accounts
   function getDelta(daysAgo) {
     const targetDate = new Date(Date.now() - daysAgo * 86400000).toISOString().slice(0, 10);
     const row = db.prepare(`
-      SELECT SUM(total_views) as v, SUM(total_likes) as l, SUM(total_comments) as c, SUM(posts_count) as p
-      FROM account_history WHERE date <= ? ORDER BY date DESC LIMIT 1
+      WITH latest_per_acc AS (
+        SELECT platform, handle, MAX(date) as max_date
+        FROM account_history WHERE date <= ?
+        GROUP BY platform, handle
+      )
+      SELECT
+        SUM(h.total_views) as v,
+        SUM(h.total_likes) as l,
+        SUM(h.total_comments) as c,
+        SUM(h.posts_count) as p
+      FROM account_history h
+      INNER JOIN latest_per_acc lp
+        ON h.platform = lp.platform AND h.handle = lp.handle AND h.date = lp.max_date
     `).get(targetDate);
     return row || { v: 0, l: 0, c: 0, p: 0 };
   }
