@@ -177,7 +177,7 @@ export default function News() {
                   onMouseOver={e => { e.currentTarget.style.background = '#27272a'; e.currentTarget.style.color = '#fafafa'; }}
                   onMouseOut={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#71717a'; }}
                 >↗</button>
-                <button onClick={e => { e.stopPropagation(); if (typeof window.nfOpenForge === 'function') window.nfOpenForge(it); else window.alert('Forge opens in old /rater/ — use it there'); }} title="Repurpose this" style={{
+                <button onClick={e => { e.stopPropagation(); if (typeof window.nfOpenForge === 'function') window.nfOpenForge(it); else window.alert('Forge not loaded — refresh the page'); }} title="Repurpose this" style={{
                   padding: '6px 14px', fontSize: '0.62rem', borderRadius: 5,
                   border: '1px solid #4f46e5', background: '#6366f1',
                   color: '#fff', cursor: 'pointer', fontFamily: 'inherit',
