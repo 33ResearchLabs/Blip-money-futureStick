@@ -1,29 +1,29 @@
 import { BrowserRouter, Routes, Route, Navigate, NavLink } from 'react-router-dom';
+const APP_VERSION = 'v2';
 import { AuthProvider, useAuth } from './hooks/useAuth';
 import Login from './pages/Login';
-import Today from './pages/Today';
-import Discover from './pages/Discover';
 import News from './pages/News';
 import Trending from './pages/Trending';
 import Videos from './pages/Videos';
 import Studio from './pages/Studio';
+import VideoStudio from './pages/VideoStudio';
 import Tools from './pages/Tools';
 import Vault from './pages/Vault';
 import Accounts from './pages/Accounts';
 import Engine from './pages/Engine';
 import Inbox from './pages/Inbox';
+import Growth from './pages/Growth';
 import './styles/global.css';
 
 const tabs = [
-  { to: '/discover', label: '🔭 discover' },
   { to: '/news', label: '📰 news' },
   { to: '/trending', label: '🔥 trending' },
-  { to: '/', label: '🎯 today' },
   { to: '/videos', label: '🎬 videos' },
   { to: '/studio', label: '✍ studio' },
   { to: '/tools', label: '🛠 tools' },
   { to: '/vault', label: '💾 vault' },
   { to: '/accounts', label: '📊 accounts' },
+  { to: '/growth', label: '🧬 growth' },
   { to: '/engine', label: '⚡ engine' },
   { to: '/inbox', label: '📨 inbox' },
 ];
@@ -122,15 +122,16 @@ function ProtectedLayout() {
       <Titlebar />
       <main style={{ flex: 1, overflow: 'auto', padding: '8px 16px' }}>
         <Routes>
-          <Route path="/" element={<Today />} />
-          <Route path="/discover" element={<Discover />} />
+          <Route path="/" element={<Navigate to="/news" replace />} />
           <Route path="/news" element={<News />} />
           <Route path="/trending" element={<Trending />} />
           <Route path="/videos" element={<Videos />} />
           <Route path="/studio" element={<Studio />} />
+          <Route path="/video-studio" element={<VideoStudio />} />
           <Route path="/tools" element={<Tools />} />
           <Route path="/vault" element={<Vault />} />
           <Route path="/accounts" element={<Accounts />} />
+          <Route path="/growth" element={<Growth />} />
           <Route path="/engine" element={<Engine />} />
           <Route path="/inbox" element={<Inbox />} />
         </Routes>

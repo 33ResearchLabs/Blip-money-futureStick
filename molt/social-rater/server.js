@@ -19,7 +19,7 @@ app.use(express.static(__dirname));
 // Serve React frontend (production build)
 const CLIENT_DIST = path.join(__dirname, 'client', 'dist');
 if (fs.existsSync(CLIENT_DIST)) {
-  app.use('/33/app', express.static(CLIENT_DIST));
+  app.use('/33/app', express.static(CLIENT_DIST, { maxAge: 0, etag: false }));
 }
 
 // Run JSON→SQLite migration on first boot
@@ -42,6 +42,7 @@ app.use('/api/publish', require('./routes/publish'));
 app.use('/api/shares', require('./routes/shares'));
 app.use('/api/account-sync', require('./routes/account-sync'));
 app.use('/api/videos', require('./routes/video-search'));
+app.use('/api/growth', require('./routes/growth'));
 app.use('/dl', require('./routes/download'));
 
 // /api/checkhandle lives outside /dl — reuse download router's handler
@@ -84,23 +85,30 @@ const server = app.listen(PORT, () => {
   app.locals.workerHandle = workerEngine.startWorker(dl.fetchTrending);
   console.log('  🤖 Background worker started (15 min cycle)');
 
-  // Boot account sync — first run after 30s, then every 30 min
+  // Heal snapshot totals from posts on startup (defensive — never let totals drop below posts we have)
+  try {
+    const db = require('./services/database');
+    const healed = db.healSnapshotsFromPosts();
+    console.log(`  🩹 Healed ${healed} snapshot rows from posts`);
+  } catch (e) { console.log('  ⚠️  heal failed:', e.message); }
+
+  // Boot account sync — first run after 2 min, then every 30 min
   const accountSync = require('./routes/account-sync');
   setTimeout(() => {
     console.log('  📊 Account sync: first run...');
     accountSync.syncAll(`http://127.0.0.1:${PORT}`).then(r => console.log(`  📊 Synced ${r.synced} accounts`)).catch(() => {});
-  }, 30000);
+  }, 2 * 60 * 1000);
   setInterval(() => {
     accountSync.syncAll(`http://127.0.0.1:${PORT}`).then(r => console.log(`[account-sync] refreshed ${r.synced} accounts`)).catch(() => {});
   }, 30 * 60 * 1000);
   console.log('  📊 Account sync: auto-fetch every 30 min');
 
-  // Boot video crawler — first run after 20s, then every 30 min
+  // Boot video crawler — first run after 5 min, then every 30 min
   const videoCrawler = require('./services/videoCrawler');
   setTimeout(() => {
     console.log('  🎬 Video crawler: first run...');
     videoCrawler.crawlAll().then(r => console.log(`  🎬 Crawled ${r.total} videos`)).catch(() => {});
-  }, 20000);
+  }, 5 * 60 * 1000);
   setInterval(() => {
     videoCrawler.crawlAll().then(r => console.log(`[videoCrawler] refreshed ${r.total} videos`)).catch(() => {});
   }, 30 * 60 * 1000);
