@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
 import LineChart from '../components/LineChart';
 
@@ -72,11 +73,22 @@ export default function Accounts() {
   const [selected, setSelected] = useState(null);
   const [profile, setProfile] = useState(null);
   const [profileLoading, setProfileLoading] = useState(false);
+  const [profileTab, setProfileTab] = useState('posts'); // posts | analysis
+  const [analysis, setAnalysis] = useState(null);
+  const [analysisLoading, setAnalysisLoading] = useState(false);
   const [dashData, setDashData] = useState(null);
   const [history, setHistory] = useState([]);
   const [chartMetric, setChartMetric] = useState('views');
   const [chartDays, setChartDays] = useState(30);
-  const [dashView, setDashView] = useState('dashboard'); // 'dashboard' | 'analytics'
+  const [dashView, setDashView] = useState('dashboard'); // 'dashboard' | 'analytics' | 'recent'
+  const [recentHours, setRecentHours] = useState(24);
+  const [recentPosts, setRecentPosts] = useState([]);
+  const [recentLoading, setRecentLoading] = useState(false);
+  const [recentSort, setRecentSort] = useState({ key: 'posted', dir: 'desc' });
+  const [postModal, setPostModal] = useState(null); // { post, handle, plat, followers }
+  const [postReport, setPostReport] = useState(null);
+  const [postReportLoading, setPostReportLoading] = useState(false);
+  const navigate = useNavigate();
   const [dashLoading, setDashLoading] = useState(false);
 
   const [addBrand, setAddBrand] = useState('blip');
@@ -93,8 +105,13 @@ export default function Accounts() {
   const [snAddBrand, setSnAddBrand] = useState('all');
 
   const loadBrands = useCallback(async () => {
-    const d = await api.kvGet('brandAccounts');
-    setBrandAccounts(d.value || d.v || {});
+    try {
+      const d = await api.kvGet('brandAccounts');
+      const v = d?.value ?? d?.v;
+      // Only replace state if the API returned a real value. Never silently overwrite with {}.
+      if (v && typeof v === 'object' && Object.keys(v).length) setBrandAccounts(v);
+      else if (d && d.ok === false) console.warn('brandAccounts load failed, keeping existing state');
+    } catch (e) { console.warn('brandAccounts load error:', e?.message); }
   }, []);
 
   const loadDashboard = useCallback(async (accs) => {
@@ -163,6 +180,13 @@ export default function Accounts() {
   useEffect(() => { loadBrands(); loadDashFromDB(); }, []);
   useEffect(() => { if (subTab === 'network') loadSN(); }, [subTab]);
 
+  const loadRecent = useCallback(async (hours) => {
+    setRecentLoading(true);
+    try { const r = await api.getRecentPosts(hours, 10000); setRecentPosts(r.posts || []); } catch { setRecentPosts([]); }
+    setRecentLoading(false);
+  }, []);
+  useEffect(() => { if (dashView === 'recent') loadRecent(recentHours); }, [dashView, recentHours, loadRecent]);
+
   const addBrandAccount = async () => {
     if (!addHandle.trim()) return;
     const h = addHandle.trim().replace(/^@/, '');
@@ -193,25 +217,18 @@ export default function Accounts() {
   const loadProfile = async (brand, plat, handle) => {
     const clean = handle.replace(/^@/, '');
     setSelected({ brand, plat, handle: clean });
-    setProfileLoading(true);
     setProfile(null);
-    const fetcher = PLAT_FETCHER[plat];
-    if (!fetcher) { setProfileLoading(false); return; }
+    setProfileLoading(true);
     try {
-      const d = await fetcher(clean);
-      if (d && d.ok !== false) {
-        setProfile(d);
-        // Save snapshot to DB so dashboard stays in sync
-        const posts = Array.isArray(d.posts) ? d.posts : Array.isArray(d.recent) ? d.recent : [];
-        const totalViews = posts.reduce((s, p) => s + toInt(p.video_view_count || p.play_count || p.view_count || 0), 0);
-        const totalLikes = posts.reduce((s, p) => s + toInt(p.likes || p.like_count || 0), 0);
-        const totalComments = posts.reduce((s, p) => s + toInt(p.comments || p.comment_count || 0), 0);
-        fetch('/api/account-sync/save-snapshot', {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ brand, platform: plat, handle: clean, name: d.name || d.full_name || clean, bio: d.bio || '', avatar: d.avatar || '', followers: toInt(d.followers), following: toInt(d.following), posts_count: posts.length, total_views: totalViews, total_likes: totalLikes, total_comments: totalComments, verified: d.verified || d.is_verified || false, recent_posts: posts.slice(0, 12).map(p => ({ id: p.id, thumb: p.thumb || p.thumbnail || '', views: toInt(p.video_view_count || p.play_count || p.view_count || 0), likes: toInt(p.likes || p.like_count || 0), comments: toInt(p.comments || p.comment_count || 0), taken_at: p.taken_at || p.timestamp || 0, caption: (p.caption || p.title || '').slice(0, 120), url: p.url || '', is_video: p.is_video || false })) }),
-        }).catch(() => {});
-      } else setProfile(null);
-    } catch {}
+      const snapId = plat + '_' + clean.toLowerCase();
+      const sr = await fetch(`/api/account-sync/profile/${encodeURIComponent(snapId)}`);
+      const snap = await sr.json();
+      if (snap && snap.ok) {
+        setProfile({ ...snap, posts: snap.recent_posts || [], stale: false, stale_age: 0 });
+      } else {
+        setProfile(null);
+      }
+    } catch { setProfile(null); }
     setProfileLoading(false);
   };
 
@@ -247,15 +264,339 @@ export default function Accounts() {
   };
 
   // ── Profile view (matches old an-prof / an-summary / an-posts) ──
+  const runAnalysis = async (posts, handle, plat, followers) => {
+    if (!posts.length) return;
+    setAnalysisLoading(true); setAnalysis(null);
+    const sorted = [...posts].sort((a, b) => toInt(b.views || b.video_view_count || b.play_count || b.view_count || 0) - toInt(a.views || a.video_view_count || a.play_count || a.view_count || 0));
+    const postData = sorted.map((p, i) => ({
+      rank: i + 1,
+      caption: (p.caption || p.title || '').slice(0, 120),
+      views: toInt(p.views || p.video_view_count || p.play_count || p.view_count || 0),
+      likes: toInt(p.likes || p.like_count || 0),
+      comments: toInt(p.comments || p.comment_count || 0),
+      is_video: !!(p.is_video || p.video_view_count || p.play_count),
+    }));
+    const prompt = `You are a social media analyst. Analyze these ${plat} posts from @${handle} (${fmtN(followers)} followers), sorted by views (highest first).
+
+POSTS:
+${postData.map(p => `#${p.rank}. "${p.caption}" — ${fmtN(p.views)} views, ${fmtN(p.likes)} likes, ${fmtN(p.comments)} comments${p.is_video ? ' (video)' : ''}`).join('\n')}
+
+Return STRICT JSON (no markdown fences):
+{
+  "summary": "2-3 sentence overall takeaway about what works for this account",
+  "top_performers": [{"rank": 1, "why": "1-2 sentence explanation of WHY this post performed well"}, ...for top 4],
+  "underperformers": [{"rank": N, "why": "1-2 sentence explanation of why this underperformed"}, ...for bottom 3],
+  "recommendations": ["actionable tip 1", "actionable tip 2", "actionable tip 3"],
+  "best_format": "video or photo or carousel",
+  "best_topics": ["topic1", "topic2", "topic3"],
+  "posting_insight": "one sentence about timing, frequency, or format"
+}`;
+    try {
+      const r = await fetch('/api/ai', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ max_tokens: 2000, messages: [{ role: 'user', content: prompt }] }),
+      });
+      const j = await r.json();
+      let txt = (j.content && j.content[0] && j.content[0].text) || j.text || '';
+      txt = txt.replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/i, '').trim();
+      const m = txt.match(/\{[\s\S]*\}/);
+      if (m) txt = m[0];
+      setAnalysis(JSON.parse(txt));
+    } catch (e) { setAnalysis({ error: e.message }); }
+    setAnalysisLoading(false);
+  };
+
+  const renderAnalysis = (a, posts) => {
+    if (a.error) return <div style={{ color: C.red, padding: 20, fontSize: '.7rem' }}>Analysis failed: {a.error}</div>;
+    const sorted = [...posts].sort((a, b) => toInt(b.views || b.video_view_count || b.play_count || b.view_count || 0) - toInt(a.views || a.video_view_count || a.play_count || a.view_count || 0));
+    const getPost = (rank) => sorted[rank - 1];
+    return (
+      <div>
+        {/* Summary */}
+        <div style={{ padding: '14px 16px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 5, marginBottom: 14, fontSize: '.75rem', color: C.text, lineHeight: 1.6 }}>
+          {a.summary}
+        </div>
+
+        {/* Insights row */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6, marginBottom: 14 }}>
+          <div style={{ padding: '10px 12px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 4 }}>
+            <div style={{ fontSize: '.5rem', color: C.muted, textTransform: 'uppercase', letterSpacing: '.1em', marginBottom: 4 }}>Best Format</div>
+            <div style={{ fontSize: '.85rem', fontWeight: 700, color: '#fff' }}>{a.best_format || '—'}</div>
+          </div>
+          <div style={{ padding: '10px 12px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 4 }}>
+            <div style={{ fontSize: '.5rem', color: C.muted, textTransform: 'uppercase', letterSpacing: '.1em', marginBottom: 4 }}>Top Topics</div>
+            <div style={{ fontSize: '.7rem', color: '#fff' }}>{(a.best_topics || []).join(', ')}</div>
+          </div>
+          <div style={{ padding: '10px 12px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 4 }}>
+            <div style={{ fontSize: '.5rem', color: C.muted, textTransform: 'uppercase', letterSpacing: '.1em', marginBottom: 4 }}>Posting Insight</div>
+            <div style={{ fontSize: '.65rem', color: '#fff', lineHeight: 1.4 }}>{a.posting_insight || '—'}</div>
+          </div>
+        </div>
+
+        {/* Top performers */}
+        <div style={{ fontSize: '.6rem', textTransform: 'uppercase', letterSpacing: '.15em', color: '#4ade80', fontWeight: 700, marginBottom: 8 }}>Top Performers</div>
+        {(a.top_performers || []).map((tp, i) => {
+          const p = getPost(tp.rank);
+          if (!p) return null;
+          const views = toInt(p.views || p.video_view_count || p.play_count || p.view_count || 0);
+          return (
+            <div key={i} style={{ display: 'flex', gap: 12, padding: '10px 12px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 4, marginBottom: 6, alignItems: 'center', cursor: 'pointer' }}
+              onClick={() => p.url && window.open(p.url, '_blank')}
+            >
+              <div style={{ fontSize: '1.1rem', fontWeight: 800, color: '#4ade80', width: 28, textAlign: 'center', flexShrink: 0 }}>#{tp.rank}</div>
+              {(p.thumb || p.thumbnail) && (
+                <img src={api.proxyImage(p.thumb || p.thumbnail)} alt="" style={{ width: 56, height: 56, objectFit: 'cover', borderRadius: 3, flexShrink: 0 }} onError={e => e.target.style.display = 'none'} />
+              )}
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontSize: '.72rem', color: '#fff', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{(p.caption || p.title || '').slice(0, 80)}</div>
+                <div style={{ fontSize: '.58rem', color: C.dim, marginTop: 3, display: 'flex', gap: 8 }}>
+                  <span style={{ color: '#4ade80', fontWeight: 700 }}>{fmtN(views)} views</span>
+                  <span>{fmtN(toInt(p.likes || p.like_count || 0))} likes</span>
+                  <span>{fmtN(toInt(p.comments || p.comment_count || 0))} comments</span>
+                </div>
+                <div style={{ fontSize: '.62rem', color: C.text, marginTop: 4, lineHeight: 1.5 }}>{tp.why}</div>
+              </div>
+            </div>
+          );
+        })}
+
+        {/* Underperformers */}
+        <div style={{ fontSize: '.6rem', textTransform: 'uppercase', letterSpacing: '.15em', color: '#fb923c', fontWeight: 700, marginTop: 16, marginBottom: 8 }}>Underperformers</div>
+        {(a.underperformers || []).map((tp, i) => {
+          const p = getPost(tp.rank);
+          if (!p) return null;
+          const views = toInt(p.views || p.video_view_count || p.play_count || p.view_count || 0);
+          return (
+            <div key={i} style={{ display: 'flex', gap: 12, padding: '10px 12px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 4, marginBottom: 6, alignItems: 'center', cursor: 'pointer' }}
+              onClick={() => p.url && window.open(p.url, '_blank')}
+            >
+              <div style={{ fontSize: '1.1rem', fontWeight: 800, color: '#fb923c', width: 28, textAlign: 'center', flexShrink: 0 }}>#{tp.rank}</div>
+              {(p.thumb || p.thumbnail) && (
+                <img src={api.proxyImage(p.thumb || p.thumbnail)} alt="" style={{ width: 56, height: 56, objectFit: 'cover', borderRadius: 3, flexShrink: 0 }} onError={e => e.target.style.display = 'none'} />
+              )}
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontSize: '.72rem', color: '#fff', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{(p.caption || p.title || '').slice(0, 80)}</div>
+                <div style={{ fontSize: '.58rem', color: C.dim, marginTop: 3, display: 'flex', gap: 8 }}>
+                  <span style={{ color: '#fb923c', fontWeight: 700 }}>{fmtN(views)} views</span>
+                  <span>{fmtN(toInt(p.likes || p.like_count || 0))} likes</span>
+                </div>
+                <div style={{ fontSize: '.62rem', color: C.text, marginTop: 4, lineHeight: 1.5 }}>{tp.why}</div>
+              </div>
+            </div>
+          );
+        })}
+
+        {/* Recommendations */}
+        <div style={{ fontSize: '.6rem', textTransform: 'uppercase', letterSpacing: '.15em', color: C.blue, fontWeight: 700, marginTop: 16, marginBottom: 8 }}>Recommendations</div>
+        <div style={{ padding: '12px 14px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 4 }}>
+          {(a.recommendations || []).map((r, i) => (
+            <div key={i} style={{ display: 'flex', gap: 8, padding: '6px 0', borderBottom: i < (a.recommendations || []).length - 1 ? `1px solid ${C.border}` : 'none', fontSize: '.7rem', color: C.text, lineHeight: 1.5 }}>
+              <span style={{ color: C.blue, fontWeight: 700, flexShrink: 0 }}>{i + 1}.</span>
+              <span>{r}</span>
+            </div>
+          ))}
+        </div>
+
+        <button onClick={() => runAnalysis(posts, selected?.handle, selected?.plat, toInt(profile?.followers))} style={{ ...btnStyle, marginTop: 14, width: '100%', textAlign: 'center' }}>
+          {'\u21bb'} Re-analyze
+        </button>
+      </div>
+    );
+  };
+
+  // ── Single-post "why it performed" report ──
+  const openPostReport = async (post, handle, plat, followers) => {
+    setPostModal({ post, handle, plat, followers });
+    setPostReport(null);
+    setPostReportLoading(true);
+    const views = toInt(post.views || post.video_view_count || post.play_count || post.view_count || 0);
+    const likes = toInt(post.likes || post.like_count || 0);
+    const comments = toInt(post.comments || post.comment_count || 0);
+    const isVideo = !!(post.is_video || post.video_view_count || post.play_count);
+    const caption = (post.caption || post.title || post.description || '').slice(0, 400);
+    const engPct = followers ? (((likes + comments) / followers) * 100).toFixed(2) : null;
+    const prompt = `You are a social media performance analyst. Analyze ONE ${plat} ${isVideo ? 'video' : 'post'} from @${handle} (${fmtN(followers)} followers).
+
+POST:
+- Caption/Title: "${caption}"
+- Views: ${fmtN(views)}
+- Likes: ${fmtN(likes)}
+- Comments: ${fmtN(comments)}
+- Format: ${isVideo ? 'video' : 'image/carousel'}
+${engPct ? `- Engagement rate: ${engPct}%` : ''}
+
+Return STRICT JSON (no markdown fences):
+{
+  "why_it_performed": "3-4 sentences explaining the specific factors that likely drove views (hook, topic appeal, format, algorithm signals, emotion, timing)",
+  "strengths": ["specific strength 1", "specific strength 2", "specific strength 3"],
+  "hook_breakdown": "1-2 sentences on what the opening/first frame likely did to stop the scroll",
+  "keywords": ["keyword1", "keyword2", "keyword3", "keyword4", "keyword5"],
+  "search_query": "a 3-7 word search query to find similar winning videos on YouTube/TikTok",
+  "replicate_ideas": ["content idea 1 inspired by this post", "content idea 2", "content idea 3"]
+}`;
+    try {
+      const r = await fetch('/api/ai', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ max_tokens: 1500, messages: [{ role: 'user', content: prompt }] }),
+      });
+      const j = await r.json();
+      let txt = (j.content && j.content[0] && j.content[0].text) || j.text || '';
+      txt = txt.replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/i, '').trim();
+      const m = txt.match(/\{[\s\S]*\}/);
+      if (m) txt = m[0];
+      setPostReport(JSON.parse(txt));
+    } catch (e) { setPostReport({ error: e.message }); }
+    setPostReportLoading(false);
+  };
+
+  const closePostReport = () => { setPostModal(null); setPostReport(null); setPostReportLoading(false); };
+
+  const findSimilar = (q) => {
+    if (!q) return;
+    closePostReport();
+    navigate(`/videos?q=${encodeURIComponent(q)}`);
+  };
+
+  const renderPostReportModal = () => {
+    if (!postModal) return null;
+    const { post, handle, plat } = postModal;
+    const views = toInt(post.views || post.video_view_count || post.play_count || post.view_count || 0);
+    const likes = toInt(post.likes || post.like_count || 0);
+    const comments = toInt(post.comments || post.comment_count || 0);
+    const caption = (post.caption || post.title || post.description || '').slice(0, 240);
+    const r = postReport;
+    return (
+      <div onClick={closePostReport} style={{
+        position: 'fixed', inset: 0, background: 'rgba(0,0,0,.7)', zIndex: 1000,
+        display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20,
+      }}>
+        <div onClick={e => e.stopPropagation()} style={{
+          background: C.bg, border: `1px solid ${C.border}`, borderRadius: 6,
+          maxWidth: 720, width: '100%', maxHeight: '90vh', overflowY: 'auto',
+          fontFamily: FONT, color: C.text,
+        }}>
+          {/* Header */}
+          <div style={{ display: 'flex', gap: 12, padding: 16, borderBottom: `1px solid ${C.border}`, alignItems: 'flex-start' }}>
+            {(post.thumb || post.thumbnail || post.thumbnail_src) && (
+              <img src={api.proxyImage(post.thumb || post.thumbnail || post.thumbnail_src)} alt=""
+                style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 4, flexShrink: 0 }}
+                onError={e => e.target.style.display = 'none'} />
+            )}
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontSize: '.62rem', color: C.muted, textTransform: 'uppercase', letterSpacing: '.12em', marginBottom: 4 }}>
+                {PLAT_ICONS[plat] || plat} @{handle}
+              </div>
+              <div style={{ fontSize: '.72rem', color: C.text, lineHeight: 1.4, marginBottom: 6 }}>{caption || '(no caption)'}</div>
+              <div style={{ display: 'flex', gap: 12, fontSize: '.6rem' }}>
+                <span style={{ color: '#4ade80', fontWeight: 700 }}>{fmtN(views)} views</span>
+                <span style={{ color: '#fb923c' }}>{fmtN(likes)} likes</span>
+                <span style={{ color: '#a855f7' }}>{fmtN(comments)} comments</span>
+              </div>
+            </div>
+            <button onClick={closePostReport} style={{ ...btnStyle, flexShrink: 0 }}>{'\u2715'}</button>
+          </div>
+
+          {/* Body */}
+          <div style={{ padding: 16 }}>
+            {postReportLoading && (
+              <div style={{ textAlign: 'center', padding: 40, color: C.muted, fontSize: '.7rem' }}>
+                Analyzing what made this post perform...
+              </div>
+            )}
+            {r && r.error && (
+              <div style={{ color: C.red, fontSize: '.7rem', padding: 12 }}>Analysis failed: {r.error}</div>
+            )}
+            {r && !r.error && (
+              <>
+                <div style={{ fontSize: '.55rem', color: C.muted, textTransform: 'uppercase', letterSpacing: '.15em', marginBottom: 6, fontWeight: 700 }}>Why it performed</div>
+                <div style={{ padding: 12, background: C.card, border: `1px solid ${C.border}`, borderRadius: 4, fontSize: '.72rem', lineHeight: 1.6, marginBottom: 14 }}>
+                  {r.why_it_performed}
+                </div>
+
+                {r.hook_breakdown && (
+                  <>
+                    <div style={{ fontSize: '.55rem', color: C.muted, textTransform: 'uppercase', letterSpacing: '.15em', marginBottom: 6, fontWeight: 700 }}>Hook</div>
+                    <div style={{ padding: 12, background: C.card, border: `1px solid ${C.border}`, borderRadius: 4, fontSize: '.7rem', lineHeight: 1.5, marginBottom: 14, color: C.dim }}>
+                      {r.hook_breakdown}
+                    </div>
+                  </>
+                )}
+
+                {(r.strengths || []).length > 0 && (
+                  <>
+                    <div style={{ fontSize: '.55rem', color: '#4ade80', textTransform: 'uppercase', letterSpacing: '.15em', marginBottom: 6, fontWeight: 700 }}>Strengths</div>
+                    <div style={{ marginBottom: 14 }}>
+                      {r.strengths.map((s, i) => (
+                        <div key={i} style={{ display: 'flex', gap: 8, padding: '6px 12px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 4, marginBottom: 4, fontSize: '.68rem' }}>
+                          <span style={{ color: '#4ade80', fontWeight: 700 }}>+</span>
+                          <span>{s}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
+
+                {(r.keywords || []).length > 0 && (
+                  <>
+                    <div style={{ fontSize: '.55rem', color: C.muted, textTransform: 'uppercase', letterSpacing: '.15em', marginBottom: 6, fontWeight: 700 }}>Keywords</div>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 14 }}>
+                      {r.keywords.map((k, i) => (
+                        <span key={i} onClick={() => findSimilar(k)}
+                          style={{ padding: '4px 9px', background: C.input, border: `1px solid ${C.border}`, borderRadius: 12, fontSize: '.6rem', color: C.dim, cursor: 'pointer' }}
+                          onMouseOver={e => e.currentTarget.style.borderColor = C.blueBorder}
+                          onMouseOut={e => e.currentTarget.style.borderColor = C.border}
+                        >{k}</span>
+                      ))}
+                    </div>
+                  </>
+                )}
+
+                {(r.replicate_ideas || []).length > 0 && (
+                  <>
+                    <div style={{ fontSize: '.55rem', color: '#5b8aff', textTransform: 'uppercase', letterSpacing: '.15em', marginBottom: 6, fontWeight: 700 }}>Replicate this — content ideas</div>
+                    <div style={{ marginBottom: 14 }}>
+                      {r.replicate_ideas.map((s, i) => (
+                        <div key={i} style={{ padding: '8px 12px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 4, marginBottom: 4, fontSize: '.68rem', lineHeight: 1.45 }}>
+                          <span style={{ color: '#5b8aff', fontWeight: 700, marginRight: 6 }}>#{i + 1}</span>{s}
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
+
+                {/* Action row */}
+                <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
+                  <button onClick={() => findSimilar(r.search_query || (r.keywords || []).slice(0, 3).join(' '))}
+                    style={{ ...btnPrimStyle, flex: 1, padding: '10px 16px', fontSize: '.72rem', textAlign: 'center', fontWeight: 600 }}>
+                    {'\ud83d\udd0d'} Find similar winning videos {r.search_query ? `\u2014 "${r.search_query}"` : ''}
+                  </button>
+                  {post.url && (
+                    <button onClick={() => window.open(post.url, '_blank')} style={{ ...btnStyle, padding: '10px 14px', fontSize: '.7rem' }}>
+                      open post {'\u2197'}
+                    </button>
+                  )}
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   const renderProfileView = (d, handle, plat, brand) => {
     if (!d) return null;
     const rawPosts = d.posts || d.recent || [];
     const posts = Array.isArray(rawPosts) ? rawPosts : [];
-    const totalViews = posts.reduce((s, p) => s + toInt(p.video_view_count || p.play_count || p.view_count || 0), 0);
-    const totalLikes = posts.reduce((s, p) => s + toInt(p.likes || p.like_count || 0), 0);
-    const totalComments = posts.reduce((s, p) => s + toInt(p.comments || p.comment_count || 0), 0);
+    // Prefer snapshot's persisted totals (already healed from account_posts); fall back to summing posts.
+    const postsViews = posts.reduce((s, p) => s + toInt(p.views || p.video_view_count || p.play_count || p.view_count || 0), 0);
+    const postsLikes = posts.reduce((s, p) => s + toInt(p.likes || p.like_count || 0), 0);
+    const postsComments = posts.reduce((s, p) => s + toInt(p.comments || p.comment_count || 0), 0);
+    const totalViews = Math.max(toInt(d.total_views), postsViews);
+    const totalLikes = Math.max(toInt(d.total_likes), postsLikes);
+    const totalComments = Math.max(toInt(d.total_comments), postsComments);
     const followers = toInt(d.followers);
-    const avgViews = posts.length ? Math.round(totalViews / posts.length) : 0;
+    const avgViews = posts.length ? Math.round(totalViews / posts.length) : (d.avg_views_per_post || 0);
     const engRate = followers ? (((totalLikes + totalComments) / (posts.length || 1)) / followers * 100).toFixed(2) : '\u2014';
 
     return (
@@ -267,7 +608,7 @@ export default function Accounts() {
           ) : <div style={{ width: 90, height: 90, borderRadius: '50%', background: C.input, border: `1px solid ${C.border}` }} />}
           <div>
             <div style={{ fontSize: '1rem', fontWeight: 600, color: '#fff' }}>{d.name || d.full_name || handle}{(d.verified || d.is_verified) && <span style={{ color: C.blue }}> {'\u2713'}</span>}</div>
-            <div style={{ fontSize: '.65rem', color: C.blue, marginTop: 2 }}>@{handle}{d.stale ? ` \u00b7 (cached ${Math.round((d.stale_age||0)/3600)}h ago)` : ''}</div>
+            <div style={{ fontSize: '.65rem', color: C.blue, marginTop: 2 }}>@{handle}{d.stale && d.stale_age > 0 && d.stale_age < 30 * 86400 ? ` \u00b7 (cached ${d.stale_age < 60 ? d.stale_age + 's' : d.stale_age < 3600 ? Math.round(d.stale_age/60) + 'm' : Math.round(d.stale_age/3600) + 'h'} ago)` : ''}</div>
             {d.bio && <div style={{ fontSize: '.65rem', color: C.dim, marginTop: 6, lineHeight: 1.4, maxWidth: 500 }}>{d.bio}</div>}
           </div>
           <div style={{ display: 'flex', gap: 18 }}>
@@ -300,39 +641,62 @@ export default function Accounts() {
           ))}
         </div>
 
-        {/* Posts heading */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-          <div style={{ fontSize: '.65rem', textTransform: 'uppercase', letterSpacing: '1px', color: C.muted, fontWeight: 600 }}>last {posts.length} posts</div>
+        {/* Tabs: Last Posts | AI Analysis */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+          <div style={{ display: 'flex', gap: 2, background: C.input, borderRadius: 5, padding: 2 }}>
+            {[['posts', `Last ${posts.length} Posts`], ['analysis', 'AI Analysis']].map(([k, label]) => (
+              <button key={k} onClick={() => { setProfileTab(k); if (k === 'analysis' && !analysis && !analysisLoading) runAnalysis(posts, handle, plat, followers); }} style={{
+                padding: '6px 14px', fontSize: '.6rem', borderRadius: 3,
+                border: 'none', cursor: 'pointer', fontFamily: FONT,
+                background: profileTab === k ? C.borderHover : 'transparent',
+                color: profileTab === k ? '#fff' : C.muted, fontWeight: profileTab === k ? 600 : 400,
+              }}>{label}</button>
+            ))}
+          </div>
           <button onClick={() => loadProfile(brand || '', plat, handle)} style={btnStyle}>{'\u21bb'} refresh</button>
         </div>
 
-        {/* Posts grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 6 }}>
-          {posts.map((p, i) => (
-            <div key={i} style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 3, overflow: 'hidden', cursor: 'pointer', transition: 'all .12s' }}
-              onClick={() => p.url && window.open(p.url, '_blank')}
-              onMouseOver={e => e.currentTarget.style.borderColor = C.borderHover}
-              onMouseOut={e => e.currentTarget.style.borderColor = C.border}
-            >
-              <div style={{ width: '100%', aspectRatio: '1', background: '#000', position: 'relative' }}>
-                {(p.thumb || p.thumbnail || p.thumbnail_src) && (
-                  <img src={api.proxyImage(p.thumb || p.thumbnail || p.thumbnail_src)} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={e => e.target.style.display = 'none'} />
-                )}
-                {(p.is_video || p.video_view_count || p.play_count) && (
-                  <div style={{ position: 'absolute', top: 4, right: 4, background: 'rgba(0,0,0,.7)', color: '#fff', padding: '2px 6px', borderRadius: 2, fontSize: '.5rem', fontFamily: FONT, fontWeight: 700 }}>{'\u25b6'} video</div>
-                )}
+        {profileTab === 'posts' && (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 6 }}>
+            {posts.map((p, i) => (
+              <div key={i} style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 3, overflow: 'hidden', cursor: 'pointer', transition: 'all .12s' }}
+                onClick={() => p.url && window.open(p.url, '_blank')}
+                onMouseOver={e => e.currentTarget.style.borderColor = C.borderHover}
+                onMouseOut={e => e.currentTarget.style.borderColor = C.border}
+              >
+                <div style={{ width: '100%', aspectRatio: '1', background: '#000', position: 'relative' }}>
+                  {(p.thumb || p.thumbnail || p.thumbnail_src) && (
+                    <img src={api.proxyImage(p.thumb || p.thumbnail || p.thumbnail_src)} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={e => e.target.style.display = 'none'} />
+                  )}
+                  {(p.is_video || p.video_view_count || p.play_count) && (
+                    <div style={{ position: 'absolute', top: 4, right: 4, background: 'rgba(0,0,0,.7)', color: '#fff', padding: '2px 6px', borderRadius: 2, fontSize: '.5rem', fontFamily: FONT, fontWeight: 700 }}>{'\u25b6'} video</div>
+                  )}
+                  <button onClick={e => { e.stopPropagation(); openPostReport(p, handle, plat, followers); }}
+                    title="Why did this perform?"
+                    style={{ position: 'absolute', top: 4, left: 4, background: 'rgba(0,0,0,.8)', color: '#ffd54a', border: '1px solid rgba(255,213,74,.35)', padding: '2px 6px', borderRadius: 3, fontSize: '.55rem', fontFamily: FONT, fontWeight: 700, cursor: 'pointer' }}>
+                    {'\u26a1'} why?
+                  </button>
+                </div>
+                <div style={{ display: 'flex', gap: 6, padding: '6px 8px', fontSize: '.55rem', color: C.dim, borderTop: `1px solid ${C.border}` }}>
+                  <div style={{ display: 'flex', gap: 3 }}>{'\ud83d\udc41'} <span style={{ color: '#fff', fontWeight: 600 }}>{fmtN(toInt(p.views || p.video_view_count || p.play_count || p.view_count || 0))}</span></div>
+                  <div style={{ display: 'flex', gap: 3 }}>{'\u2665'} <span style={{ color: '#fff', fontWeight: 600 }}>{fmtN(toInt(p.likes || p.like_count || 0))}</span></div>
+                  <div style={{ display: 'flex', gap: 3 }}>{'\ud83d\udcac'} <span style={{ color: '#fff', fontWeight: 600 }}>{fmtN(toInt(p.comments || p.comment_count || 0))}</span></div>
+                </div>
+                <div style={{ padding: '0 8px 6px', fontSize: '.55rem', color: C.muted, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', lineHeight: 1.3 }}>
+                  {(p.caption || p.title || p.description || '').slice(0, 80)}
+                </div>
               </div>
-              <div style={{ display: 'flex', gap: 6, padding: '6px 8px', fontSize: '.55rem', color: C.dim, borderTop: `1px solid ${C.border}` }}>
-                <div style={{ display: 'flex', gap: 3 }}>{'\ud83d\udc41'} <span style={{ color: '#fff', fontWeight: 600 }}>{fmtN(toInt(p.video_view_count || p.play_count || p.view_count || 0))}</span></div>
-                <div style={{ display: 'flex', gap: 3 }}>{'\u2665'} <span style={{ color: '#fff', fontWeight: 600 }}>{fmtN(toInt(p.likes || p.like_count || 0))}</span></div>
-                <div style={{ display: 'flex', gap: 3 }}>{'\ud83d\udcac'} <span style={{ color: '#fff', fontWeight: 600 }}>{fmtN(toInt(p.comments || p.comment_count || 0))}</span></div>
-              </div>
-              <div style={{ padding: '0 8px 6px', fontSize: '.55rem', color: C.muted, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', lineHeight: 1.3 }}>
-                {(p.caption || p.title || p.description || '').slice(0, 80)}
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
+
+        {profileTab === 'analysis' && (
+          <div>
+            {analysisLoading && <div style={{ textAlign: 'center', padding: 40, color: C.muted, fontSize: '.7rem' }}>Analyzing {posts.length} posts with AI...</div>}
+            {analysis && renderAnalysis(analysis, posts)}
+            {!analysis && !analysisLoading && <div style={{ textAlign: 'center', padding: 40, color: C.muted, fontSize: '.7rem' }}>Click AI Analysis tab to generate</div>}
+          </div>
+        )}
       </div>
     );
   };
@@ -382,7 +746,7 @@ export default function Accounts() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
         {/* Dashboard / Analytics toggle */}
         <div style={{ display: 'flex', gap: 2, background: C.input, padding: 2, borderRadius: 5 }}>
-          {[['dashboard', '📊 Dashboard'], ['analytics', '📈 Analytics']].map(([k, label]) => (
+          {[['dashboard', '📊 Dashboard'], ['analytics', '📈 Analytics'], ['recent', '🕒 Last posts']].map(([k, label]) => (
             <button key={k} onClick={() => setDashView(k)} style={{
               padding: '4px 14px', fontSize: '.6rem', borderRadius: 3,
               border: 'none', cursor: 'pointer', fontFamily: FONT,
@@ -394,7 +758,7 @@ export default function Accounts() {
         </div>
         <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
           {dashData?.last_fetched && <span style={{ fontSize: '.55rem', color: C.muted }}>synced {ago(dashData.last_fetched)}</span>}
-          <button onClick={async () => { setDashLoading(true); try { await api.syncAccounts(); } catch {} await loadDashFromDB(); }} disabled={dashLoading} style={btnPrimStyle}>
+          <button onClick={async () => { setDashLoading(true); try { await api.syncAccounts(true); } catch {} await loadDashFromDB(); }} disabled={dashLoading} style={btnPrimStyle}>
             {dashLoading ? 'syncing...' : '\u21bb sync all'}
           </button>
         </div>
@@ -426,33 +790,47 @@ export default function Accounts() {
             ))}
           </div>
 
-          {/* Views / Likes / Comments — by time window in one table */}
+          {/* LAST 24 HOURS — rolling window from now */}
+          <div style={{ fontSize: '.55rem', color: C.muted, textTransform: 'uppercase', letterSpacing: '.12em', marginBottom: 6, fontWeight: 600 }}>last 24 hours</div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 6, marginBottom: 14 }}>
+            {[
+              { lbl: 'posts', val: dashData.posted?.h24?.posts || 0, color: '#5b8aff' },
+              { lbl: 'views', val: dashData.posted?.h24?.views || 0, color: '#4ade80' },
+              { lbl: 'likes', val: dashData.posted?.h24?.likes || 0, color: '#fb923c' },
+              { lbl: 'comments', val: dashData.posted?.h24?.comments || 0, color: '#a855f7' },
+              { lbl: 'followers Δ', val: dashData.followers_24h, color: '#22d3ee', signed: true },
+            ].map((s, i) => (
+              <div key={i} style={{ padding: '14px 14px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 4 }}>
+                <div style={{ fontSize: '1.4rem', fontWeight: 700, color: s.color, fontVariantNumeric: 'tabular-nums' }}>
+                  {s.val == null ? '—' : (s.signed && s.val > 0 ? '+' : '') + fmtN(s.val)}
+                </div>
+                <div style={{ fontSize: '.5rem', color: C.muted, textTransform: 'uppercase', letterSpacing: '.08em', marginTop: 4 }}>{s.lbl}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* 7d / 30d / all-time — compact reference table */}
           <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 4, marginBottom: 14, overflow: 'hidden' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '80px 1fr 1fr 1fr 1fr', gap: 0 }}>
-              {/* Header */}
+            <div style={{ display: 'grid', gridTemplateColumns: '80px 1fr 1fr 1fr', gap: 0 }}>
               <div style={{ padding: '8px 12px', fontSize: '.5rem', color: C.muted, textTransform: 'uppercase', letterSpacing: '.08em', borderBottom: `1px solid ${C.border}` }}></div>
-              {['24h', '7 days', '30 days', 'all time'].map(h => (
+              {['7 days', '30 days', 'all time'].map(h => (
                 <div key={h} style={{ padding: '8px 12px', fontSize: '.5rem', color: C.muted, textTransform: 'uppercase', letterSpacing: '.08em', textAlign: 'right', borderBottom: `1px solid ${C.border}` }}>{h}</div>
               ))}
-              {/* Views row */}
-              <div style={{ padding: '8px 12px', fontSize: '.6rem', color: C.green, fontWeight: 600 }}>views</div>
-              {[dashData.views_24h, dashData.views_7d, dashData.views_30d, dashData.totalViews].map((v, i) => (
-                <div key={i} style={{ padding: '8px 12px', fontSize: '.75rem', fontWeight: 700, color: '#fff', textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{v == null ? '—' : fmtN(v)}</div>
-              ))}
-              {/* Likes row */}
-              <div style={{ padding: '8px 12px', fontSize: '.6rem', color: '#fb923c', fontWeight: 600 }}>likes</div>
-              {[dashData.likes_24h, dashData.likes_7d, dashData.likes_30d, dashData.totalLikes].map((v, i) => (
-                <div key={i} style={{ padding: '8px 12px', fontSize: '.75rem', fontWeight: 600, color: C.dim, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{v == null ? '—' : fmtN(v)}</div>
-              ))}
-              {/* Comments row */}
-              <div style={{ padding: '8px 12px', fontSize: '.6rem', color: '#a855f7', fontWeight: 600 }}>comments</div>
-              {[dashData.comments_24h, dashData.comments_7d, dashData.comments_30d, dashData.totalComments].map((v, i) => (
-                <div key={i} style={{ padding: '8px 12px', fontSize: '.75rem', fontWeight: 600, color: C.dim, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{v == null ? '—' : fmtN(v)}</div>
-              ))}
-              {/* Posts row */}
-              <div style={{ padding: '8px 12px', fontSize: '.6rem', color: '#5b8aff', fontWeight: 600 }}>posts</div>
-              {[dashData.posts_24h, dashData.posts_7d, dashData.posts_30d, dashData.totalPosts].map((v, i) => (
-                <div key={i} style={{ padding: '8px 12px', fontSize: '.75rem', fontWeight: 600, color: C.dim, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{v == null ? '—' : fmtN(v)}</div>
+              {[
+                { lbl: 'posts', color: '#5b8aff', vals: [dashData.posted?.d7?.posts, dashData.posted?.d30?.posts, dashData.totalPosts] },
+                { lbl: 'views', color: '#4ade80', vals: [dashData.posted?.d7?.views, dashData.posted?.d30?.views, dashData.totalViews] },
+                { lbl: 'likes', color: '#fb923c', vals: [dashData.posted?.d7?.likes, dashData.posted?.d30?.likes, dashData.totalLikes] },
+                { lbl: 'comments', color: '#a855f7', vals: [dashData.posted?.d7?.comments, dashData.posted?.d30?.comments, dashData.totalComments] },
+                { lbl: 'followers Δ', color: '#22d3ee', vals: [dashData.followers_7d, dashData.followers_30d, dashData.totalFollowers], signed: [true, true, false] },
+              ].map(row => (
+                <React.Fragment key={row.lbl}>
+                  <div style={{ padding: '8px 12px', fontSize: '.6rem', color: row.color, fontWeight: 600 }}>{row.lbl}</div>
+                  {row.vals.map((v, i) => (
+                    <div key={i} style={{ padding: '8px 12px', fontSize: '.75rem', fontWeight: 600, color: '#fff', textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>
+                      {v == null ? '—' : ((row.signed?.[i] && v > 0) ? '+' : '') + fmtN(v)}
+                    </div>
+                  ))}
+                </React.Fragment>
               ))}
             </div>
           </div>
@@ -485,17 +863,10 @@ export default function Accounts() {
             </div>
             <LineChart
               data={(() => {
-                // For followers: show cumulative (follower count per day)
-                // For views/likes/comments/posts: show daily delta (gained that day)
-                if (chartMetric === 'followers') {
-                  return history.map(h => ({ date: h.date, value: h.followers || 0 }));
-                }
-                return history.map((h, i) => {
-                  if (i === 0) return { date: h.date, value: 0 };
-                  const prev = history[i - 1];
-                  const diff = (h[chartMetric] || 0) - (prev[chartMetric] || 0);
-                  return { date: h.date, value: Math.max(0, diff) };
-                }).slice(1); // skip first day (no delta)
+                // Backend returns per-day engagement (bucketed by post publish date).
+                // Followers: cumulative total per day from pulses.
+                // Everything else: direct sum (already a daily value, no delta math needed).
+                return history.map(h => ({ date: h.date, value: h[chartMetric] || 0 }));
               })()}
               color={chartMetric === 'views' ? '#4ade80' : chartMetric === 'likes' ? '#fb923c' : chartMetric === 'comments' ? '#a855f7' : chartMetric === 'followers' ? '#fff' : '#5b8aff'}
               height={280}
@@ -551,6 +922,123 @@ export default function Accounts() {
           </div>
         </>
       )}
+
+      {/* RECENT POSTS VIEW — posts from last N hours, read from DB */}
+      {dashView === 'recent' && (
+        <>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+            <span style={{ fontSize: '.55rem', color: C.muted, textTransform: 'uppercase', letterSpacing: '.12em', fontWeight: 600 }}>posts in last</span>
+            <div style={{ display: 'flex', gap: 2, background: C.input, padding: 2, borderRadius: 5 }}>
+              {[[1,'1h'],[6,'6h'],[24,'24h'],[24*2,'2d'],[24*7,'7d'],[24*30,'30d'],[24*365*20,'all']].map(([h, label]) => (
+                <button key={h} onClick={() => setRecentHours(h)} style={{
+                  padding: '3px 10px', fontSize: '.55rem', borderRadius: 3,
+                  border: 'none', cursor: 'pointer', fontFamily: FONT,
+                  background: recentHours === h ? C.bg : 'transparent',
+                  color: recentHours === h ? '#fff' : C.muted,
+                  fontWeight: recentHours === h ? 500 : 400,
+                }}>{label}</button>
+              ))}
+            </div>
+            <span style={{ marginLeft: 'auto', fontSize: '.55rem', color: C.muted }}>
+              {recentLoading ? 'loading…' : `${recentPosts.length} posts`}
+            </span>
+          </div>
+
+          {!recentLoading && recentPosts.length === 0 && (
+            <div style={{ padding: '30px', textAlign: 'center', color: C.muted, fontSize: '.7rem', background: C.card, border: `1px solid ${C.border}`, borderRadius: 4 }}>
+              No posts published in this window
+            </div>
+          )}
+
+          {recentPosts.length > 0 && (() => {
+            const totV = recentPosts.reduce((s, p) => s + (p.views || 0), 0);
+            const totL = recentPosts.reduce((s, p) => s + (p.likes || 0), 0);
+            const totC = recentPosts.reduce((s, p) => s + (p.comments || 0), 0);
+            return (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6, marginBottom: 10 }}>
+                {[
+                  { lbl: 'posts', val: recentPosts.length, color: '#5b8aff' },
+                  { lbl: 'views', val: totV, color: '#4ade80' },
+                  { lbl: 'likes', val: totL, color: '#fb923c' },
+                  { lbl: 'comments', val: totC, color: '#a855f7' },
+                ].map(s => (
+                  <div key={s.lbl} style={{ padding: '10px 12px', background: C.card, border: `1px solid ${C.border}`, borderRadius: 4 }}>
+                    <div style={{ fontSize: '1rem', fontWeight: 700, color: s.color, fontVariantNumeric: 'tabular-nums' }}>{fmtN(s.val)}</div>
+                    <div style={{ fontSize: '.5rem', color: C.muted, textTransform: 'uppercase', letterSpacing: '.08em', marginTop: 3 }}>{s.lbl}</div>
+                  </div>
+                ))}
+              </div>
+            );
+          })()}
+
+          {recentPosts.length > 0 && (() => {
+            const sortVal = (p, key) => {
+              if (key === 'posted') return p.published_at || 0;
+              if (key === 'account') return (p.handle || '').toLowerCase();
+              return toInt(p[key] || 0);
+            };
+            const sorted = [...recentPosts].sort((a, b) => {
+              const va = sortVal(a, recentSort.key);
+              const vb = sortVal(b, recentSort.key);
+              if (va < vb) return recentSort.dir === 'asc' ? -1 : 1;
+              if (va > vb) return recentSort.dir === 'asc' ? 1 : -1;
+              return 0;
+            });
+            const onSort = (key) => setRecentSort(s => s.key === key ? { key, dir: s.dir === 'asc' ? 'desc' : 'asc' } : { key, dir: key === 'account' ? 'asc' : 'desc' });
+            const arrow = (key) => recentSort.key === key ? (recentSort.dir === 'asc' ? ' \u2191' : ' \u2193') : '';
+            const headStyle = (align) => ({ textAlign: align, cursor: 'pointer', userSelect: 'none' });
+            return (
+            <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 4, overflow: 'hidden', marginBottom: 14 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '60px 28px 1.3fr 2fr 80px 65px 65px 65px 56px', gap: 6, padding: '6px 10px', fontSize: '.5rem', color: C.muted, textTransform: 'uppercase', letterSpacing: '.08em', borderBottom: `1px solid ${C.border}` }}>
+                <div>thumb</div><div></div>
+                <div style={headStyle('left')} onClick={() => onSort('account')}>account{arrow('account')}</div>
+                <div>caption</div>
+                <div style={headStyle('right')} onClick={() => onSort('posted')}>posted{arrow('posted')}</div>
+                <div style={headStyle('right')} onClick={() => onSort('views')}>views{arrow('views')}</div>
+                <div style={headStyle('right')} onClick={() => onSort('likes')}>likes{arrow('likes')}</div>
+                <div style={headStyle('right')} onClick={() => onSort('comments')}>comments{arrow('comments')}</div>
+                <div style={{ textAlign: 'center' }}>why?</div>
+              </div>
+              {sorted.map((p, i) => {
+                const ageMs = Date.now() - (p.published_at || 0);
+                const ageStr = ageMs < 3600000 ? Math.round(ageMs / 60000) + 'm' : ageMs < 86400000 ? Math.round(ageMs / 3600000) + 'h' : Math.round(ageMs / 86400000) + 'd';
+                return (
+                  <div key={p.platform + p.id + i} onClick={() => p.url && window.open(p.url, '_blank')} style={{
+                    display: 'grid', gridTemplateColumns: '60px 28px 1.3fr 2fr 80px 65px 65px 65px 56px',
+                    gap: 6, alignItems: 'center', padding: '8px 10px', borderBottom: `1px solid ${C.border}`,
+                    cursor: p.url ? 'pointer' : 'default', fontSize: '.65rem',
+                  }}
+                    onMouseOver={e => e.currentTarget.style.background = C.input}
+                    onMouseOut={e => e.currentTarget.style.background = ''}
+                  >
+                    {p.thumb ? (
+                      <img src={p.thumb} alt="" style={{ width: 52, height: 52, objectFit: 'cover', borderRadius: 3, background: C.input }} onError={e => { e.target.style.display = 'none'; }} />
+                    ) : <div style={{ width: 52, height: 52, background: C.input, borderRadius: 3 }} />}
+                    <span style={{ textAlign: 'center' }}>{PLAT_ICONS[p.platform] || '?'}</span>
+                    <div style={{ overflow: 'hidden' }}>
+                      <div style={{ color: C.text, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>@{p.handle}</div>
+                      <div style={{ fontSize: '.5rem', color: C.muted, marginTop: 1 }}>{p.brand || ''}</div>
+                    </div>
+                    <div style={{ color: C.dim, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', textOverflow: 'ellipsis' }}>
+                      {p.caption || ''}
+                    </div>
+                    <span style={{ color: C.muted, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{ageStr} ago</span>
+                    <span style={{ color: '#4ade80', fontWeight: 600, fontVariantNumeric: 'tabular-nums', textAlign: 'right' }}>{fmtN(p.views || 0)}</span>
+                    <span style={{ color: '#fb923c', fontWeight: 500, fontVariantNumeric: 'tabular-nums', textAlign: 'right' }}>{fmtN(p.likes || 0)}</span>
+                    <span style={{ color: '#a855f7', fontWeight: 500, fontVariantNumeric: 'tabular-nums', textAlign: 'right' }}>{fmtN(p.comments || 0)}</span>
+                    <button onClick={e => { e.stopPropagation(); openPostReport(p, p.handle, p.platform, 0); }}
+                      title="Why did this perform?"
+                      style={{ background: C.input, color: '#ffd54a', border: `1px solid ${C.border}`, padding: '4px 8px', borderRadius: 3, fontSize: '.58rem', fontFamily: FONT, fontWeight: 700, cursor: 'pointer' }}>
+                      {'\u26a1'} why
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+            );
+          })()}
+        </>
+      )}
     </div>
   );
 
@@ -567,7 +1055,7 @@ export default function Accounts() {
       <input value={addHandle} onChange={e => setAddHandle(e.target.value)} placeholder="@handle" style={{ ...inputStyle, width: 140 }} onKeyDown={e => e.key === 'Enter' && addBrandAccount()} />
       <button onClick={addBrandAccount} style={btnPrimStyle}>+ add</button>
       <button onClick={() => { setSelected(null); setProfile(null); }} style={{ ...btnStyle, background: selected ? C.blueBg : C.input, color: selected ? C.btnPrimColor : C.dim, border: `1px solid ${selected ? C.btnPrimBorder : C.border}` }}>{'\u2302'} dashboard</button>
-      <button onClick={async () => { setDashLoading(true); try { await api.syncAccounts(); } catch {} await loadDashFromDB(); }} style={btnStyle}>{'\u21bb'}</button>
+      <button onClick={async () => { setDashLoading(true); try { await api.syncAccounts(true); } catch {} await loadDashFromDB(); }} style={btnStyle}>{'\u21bb'}</button>
     </div>
   );
 
@@ -708,6 +1196,8 @@ export default function Accounts() {
           </div>
         </div>
       )}
+
+      {renderPostReportModal()}
     </div>
   );
 }

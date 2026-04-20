@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { api } from '../services/api';
 
 const fmtN = n => { if(!n) return '0'; if(n>=1e6) return (n/1e6).toFixed(1)+'M'; if(n>=1e3) return (n/1e3).toFixed(1)+'K'; return n.toLocaleString(); };
@@ -8,9 +9,10 @@ const ranges = ['all', '1h', '4h', '24h', '7d', '30d'];
 const categories = ['', 'crypto', 'finance', 'lifestyle', 'tech', 'ai', 'business', 'motivation', 'luxury'];
 
 export default function Videos() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState(searchParams.get('q') || '');
   const [source, setSource] = useState('all');
   const [range, setRange] = useState('all');
   const [category, setCategory] = useState('');
@@ -52,8 +54,16 @@ export default function Videos() {
     setCrawling(false);
   };
 
-  useEffect(() => { loadDB(); }, []);
-  useEffect(() => { loadDB(); }, [source, category, range]);
+  useEffect(() => {
+    const q = searchParams.get('q') || '';
+    if (q) { setQuery(q); liveSearch(); }
+    else { loadDB(); }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
+    if (!searchParams.get('q')) loadDB();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [source, category, range]);
 
   return (
     <div className="fade-in" style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 80px)' }}>
@@ -207,6 +217,34 @@ export default function Videos() {
                   color: viralScore >= 70 ? '#4ade80' : viralScore >= 40 ? '#fbbf24' : viralScore >= 20 ? '#fb923c' : '#52525b',
                 }}>{viralScore}</span>
               </div>
+
+              {/* Download source mp4 */}
+              <a
+                href={`/dl/source?u=${encodeURIComponent(it.url || '')}&name=${encodeURIComponent((it.title || 'video').slice(0, 60))}`}
+                onClick={e => e.stopPropagation()}
+                title="Download MP4"
+                style={{
+                  flexShrink: 0, padding: '6px 10px', fontSize: '0.62rem', borderRadius: 5,
+                  border: '1px solid #333', background: '#1a1a1a', color: '#fff',
+                  cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600, textDecoration: 'none',
+                }}
+                onMouseOver={e => e.currentTarget.style.background = '#2a2a2a'}
+                onMouseOut={e => e.currentTarget.style.background = '#1a1a1a'}
+              >↓ mp4</a>
+
+              {/* Remix → open Video Studio */}
+              <button onClick={e => {
+                e.stopPropagation();
+                const qs = new URLSearchParams({ url: it.url || '', title: it.title || '', thumb: it.thumb || '' }).toString();
+                window.location.href = '/33/app/video-studio?' + qs;
+              }} title="Open in Video Studio" style={{
+                flexShrink: 0, padding: '6px 12px', fontSize: '0.62rem', borderRadius: 5,
+                border: '1px solid #4f46e5', background: '#6366f1', color: '#fff',
+                cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600,
+              }}
+                onMouseOver={e => e.currentTarget.style.background = '#818cf8'}
+                onMouseOut={e => e.currentTarget.style.background = '#6366f1'}
+              >⚡ remix</button>
             </div>
           );
         })}
