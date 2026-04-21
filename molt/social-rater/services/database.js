@@ -982,13 +982,13 @@ function getLibrary({ niche, platform } = {}) {
 }
 function getWinnersStats() {
   return db.prepare(`
-    SELECT niche, platform,
-      COUNT(*) as winners,
-      SUM(CASE WHEN p.winner_id IS NOT NULL THEN 1 ELSE 0 END) as mined,
-      MAX(scraped_at) as last_scrape
+    SELECT w.niche AS niche, w.platform AS platform,
+      COUNT(*) AS winners,
+      SUM(CASE WHEN p.winner_id IS NOT NULL THEN 1 ELSE 0 END) AS mined,
+      MAX(w.scraped_at) AS last_scrape
     FROM winners w LEFT JOIN winner_patterns p ON p.winner_id = w.id
-    GROUP BY niche, platform
-    ORDER BY niche, platform
+    GROUP BY w.niche, w.platform
+    ORDER BY w.niche, w.platform
   `).all();
 }
 
