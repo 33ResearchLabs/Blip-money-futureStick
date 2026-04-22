@@ -679,70 +679,87 @@ export default function BlipRates() {
               </div>
             </div>
 
-            {/* Search bar */}
+            {/* Big hero search bar */}
             <div
-              className="flex items-center gap-3 px-5 py-3 md:px-6 md:py-4 rounded-full transition"
+              className="relative rounded-[32px] transition-all"
               style={{
                 background: "#ffffff",
                 border: "1px solid var(--border-default)",
-                boxShadow: "var(--shadow-sm)",
+                boxShadow:
+                  "0 30px 80px -30px rgba(255,107,53,0.22), 0 10px 30px -10px rgba(0,0,0,0.08)",
               }}
             >
-              <Search
-                size={18}
-                style={{ color: "var(--text-muted)" }}
-                className="shrink-0"
-              />
-
-              {unitSymbol && (
-                <span
-                  className="font-semibold shrink-0 tabular-nums text-lg md:text-xl"
-                  style={{ color: "var(--text-tertiary)" }}
-                >
-                  {unitSymbol}
-                </span>
-              )}
-
-              <input
-                type="number"
-                inputMode="decimal"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                placeholder={amountPlaceholder}
-                className="flex-1 bg-transparent outline-none font-semibold tabular-nums min-w-0 text-lg md:text-xl"
+              {/* subtle brand aura behind */}
+              <div
+                aria-hidden
+                className="absolute inset-0 -z-10 blur-3xl opacity-60 rounded-[32px] pointer-events-none"
                 style={{
-                  letterSpacing: "-0.01em",
-                  color: "var(--text-primary)",
+                  background:
+                    "radial-gradient(70% 100% at 50% 50%, rgba(255,107,53,0.18) 0%, rgba(255,107,53,0) 70%)",
                 }}
               />
 
-              {unitSuffix && (
-                <span
-                  className="font-semibold shrink-0 text-sm md:text-base"
-                  style={{ color: "var(--text-tertiary)" }}
-                >
-                  {unitSuffix}
-                </span>
-              )}
-
-              <button
-                type="submit"
-                disabled={loading || !amountNum}
-                className="px-5 md:px-6 py-2 md:py-2.5 rounded-full font-semibold text-sm transition shrink-0 disabled:opacity-50 hover:opacity-90"
-                style={{
-                  background: "var(--text-primary)",
-                  color: "#fff",
-                }}
-              >
-                {loading ? (
-                  <span className="flex items-center gap-2">
-                    <Loader2 size={14} className="animate-spin" />
-                    Searching
+              <div className="flex items-center gap-2 md:gap-4 px-5 md:px-8 py-4 md:py-6">
+                {unitSymbol && (
+                  <span
+                    className="font-bold shrink-0 tabular-nums leading-none"
+                    style={{
+                      fontSize: "clamp(2rem, 5.5vw, 4rem)",
+                      letterSpacing: "-0.04em",
+                      color: "var(--text-tertiary)",
+                    }}
+                  >
+                    {unitSymbol}
                   </span>
-                ) : (
-                  "Search"
                 )}
-              </button>
+
+                <input
+                  type="number"
+                  inputMode="decimal"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  placeholder={isBuy ? "10,000" : "100"}
+                  aria-label={amountPlaceholder}
+                  className="flex-1 bg-transparent outline-none font-bold tabular-nums min-w-0 placeholder:opacity-30 leading-none"
+                  style={{
+                    fontSize: "clamp(2rem, 5.5vw, 4rem)",
+                    letterSpacing: "-0.04em",
+                    color: "var(--text-primary)",
+                    caretColor: "var(--brand)",
+                  }}
+                />
+
+                {unitSuffix && (
+                  <span
+                    className="font-bold shrink-0 leading-none"
+                    style={{
+                      fontSize: "clamp(1rem, 1.8vw, 1.5rem)",
+                      letterSpacing: "-0.01em",
+                      color: "var(--text-tertiary)",
+                    }}
+                  >
+                    {unitSuffix}
+                  </span>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={loading || !amountNum}
+                  className="shrink-0 rounded-full font-semibold transition hover:opacity-90 disabled:opacity-50 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center"
+                  style={{
+                    background: "var(--text-primary)",
+                    color: "#fff",
+                    boxShadow: "0 10px 24px rgba(0,0,0,0.18)",
+                  }}
+                  aria-label="Search rates"
+                >
+                  {loading ? (
+                    <Loader2 size={20} className="animate-spin" />
+                  ) : (
+                    <Search size={20} strokeWidth={2.5} />
+                  )}
+                </button>
+              </div>
             </div>
 
             {/* Quick amount chips */}
