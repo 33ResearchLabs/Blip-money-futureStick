@@ -16,7 +16,6 @@ import {
   Copy,
   Check,
   Zap,
-  ImageDown,
 } from "lucide-react";
 import SEO from "@/components/SEO";
 
@@ -562,19 +561,24 @@ export default function BlipRates() {
       } — live at blip.money/blip-rates`
     : "";
 
-  const copyRate = async () => {
-    if (!shareText) return;
+  const [shareHint, setShareHint] = useState<string | null>(null);
+  const flashHint = (msg: string) => {
+    setShareHint(msg);
+    setTimeout(() => setShareHint(null), 2400);
+  };
+
+  const copyLink = async () => {
     try {
-      await navigator.clipboard.writeText(shareText);
+      await navigator.clipboard.writeText("https://blip.money/blip-rates");
       setCopied(true);
       setTimeout(() => setCopied(false), 1800);
     } catch {}
   };
 
-  // Share as media (image). On mobile the native share sheet lets user pick
-  // WhatsApp/Telegram/etc and the PNG attaches. On desktop, download the PNG
-  // + open the chat app with the text (user manually attaches the image).
-  const shareAsMedia = async (channel: "native" | "whatsapp" | "telegram") => {
+  // On mobile, native share sheet attaches the PNG when user picks WA/TG.
+  // On desktop, copy the PNG to the clipboard AND open the chat with text,
+  // so the user can paste the image into the conversation.
+  const shareTo = async (channel: "whatsapp" | "telegram") => {
     if (!best) return;
     const blob = await renderShareImage({
       price: best.price,
@@ -584,6 +588,7 @@ export default function BlipRates() {
       globalRate,
     });
     if (!blob) return;
+
     const file = new File([blob], "blip-rates.png", { type: "image/png" });
     const nav = navigator as Navigator & {
       canShare?: (d: { files?: File[] }) => boolean;
@@ -593,49 +598,52 @@ export default function BlipRates() {
         text?: string;
       }) => Promise<void>;
     };
-    const canShareFiles = !!(
-      nav.canShare &&
-      nav.canShare({ files: [file] }) &&
-      nav.share
-    );
 
-    if (canShareFiles) {
+    // Mobile path — native share sheet with image + text
+    if (nav.canShare?.({ files: [file] }) && nav.share) {
       try {
-        await nav.share!({
+        await nav.share({
           files: [file],
           title: "Blip Rates",
           text: shareText,
         });
         return;
       } catch {
-        // user cancelled — fall through
+        // user cancelled — fall through to desktop path
       }
     }
 
-    // Desktop fallback: trigger download so the user has the image,
-    // then open the chat app with text pre-filled.
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `blip-rates-${new Date().toISOString().slice(0, 10)}.png`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
+    // Desktop path — copy image to clipboard, then open chat app
+    let clipboardOk = false;
+    try {
+      if ("ClipboardItem" in window && navigator.clipboard?.write) {
+        await navigator.clipboard.write([
+          new ClipboardItem({ "image/png": blob }),
+        ]);
+        clipboardOk = true;
+      }
+    } catch {}
 
-    if (channel === "whatsapp") {
-      window.open(
-        `https://wa.me/?text=${encodeURIComponent(shareText)}`,
-        "_blank",
-        "noopener",
-      );
-    } else if (channel === "telegram") {
-      window.open(
-        `https://t.me/share/url?url=${encodeURIComponent("https://blip.money/blip-rates")}&text=${encodeURIComponent(shareText)}`,
-        "_blank",
-        "noopener",
-      );
+    if (!clipboardOk) {
+      // Final fallback: download so the user has the image to attach manually
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `blip-rates-${new Date().toISOString().slice(0, 10)}.png`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      flashHint("Image downloaded — attach it in chat");
+    } else {
+      flashHint("Image copied — paste with Ctrl/⌘+V in chat");
     }
+
+    const chatUrl =
+      channel === "whatsapp"
+        ? `https://wa.me/?text=${encodeURIComponent(shareText)}`
+        : `https://t.me/share/url?url=${encodeURIComponent("https://blip.money/blip-rates")}&text=${encodeURIComponent(shareText)}`;
+    window.open(chatUrl, "_blank", "noopener");
   };
 
   const onSubmit = (e: React.FormEvent) => {
@@ -1078,49 +1086,37 @@ export default function BlipRates() {
                         <div className="flex flex-col items-end gap-2">
                           <div className="flex items-center gap-1.5 flex-wrap justify-end">
                             <button
-                              onClick={() => shareAsMedia("native")}
-                              className="inline-flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-full transition hover:brightness-110 active:scale-95"
-                              style={{
-                                background:
-                                  "linear-gradient(135deg, var(--brand) 0%, #ff8c50 100%)",
-                                color: "#fff",
-                                boxShadow:
-                                  "0 8px 20px rgba(255,107,53,0.38)",
-                              }}
-                              title="Share with image"
-                            >
-                              <ImageDown size={13} /> Share image
-                            </button>
-                            <button
-                              onClick={() => shareAsMedia("whatsapp")}
-                              className="inline-flex items-center justify-center text-xs font-semibold px-3 py-2 rounded-full transition hover:brightness-110"
+                              onClick={() => shareTo("whatsapp")}
+                              className="inline-flex items-center justify-center text-xs font-semibold px-3.5 py-2 rounded-full transition hover:brightness-110 active:scale-95"
                               style={{
                                 background: "#25D366",
                                 color: "#fff",
+                                boxShadow: "0 6px 16px rgba(37,211,102,0.35)",
                               }}
                               title="Share on WhatsApp with image"
                             >
                               WhatsApp
                             </button>
                             <button
-                              onClick={() => shareAsMedia("telegram")}
-                              className="inline-flex items-center justify-center text-xs font-semibold px-3 py-2 rounded-full transition hover:brightness-110"
+                              onClick={() => shareTo("telegram")}
+                              className="inline-flex items-center justify-center text-xs font-semibold px-3.5 py-2 rounded-full transition hover:brightness-110 active:scale-95"
                               style={{
                                 background: "#229ED9",
                                 color: "#fff",
+                                boxShadow: "0 6px 16px rgba(34,158,217,0.35)",
                               }}
                               title="Share on Telegram with image"
                             >
                               Telegram
                             </button>
                             <button
-                              onClick={copyRate}
+                              onClick={copyLink}
                               className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-2 rounded-full transition"
                               style={{
                                 background: "var(--bg-tertiary)",
                                 color: "var(--text-secondary)",
                               }}
-                              title="Copy rate"
+                              title="Copy link"
                             >
                               {copied ? (
                                 <>
@@ -1128,11 +1124,25 @@ export default function BlipRates() {
                                 </>
                               ) : (
                                 <>
-                                  <Copy size={12} /> Copy
+                                  <Copy size={12} /> Copy link
                                 </>
                               )}
                             </button>
                           </div>
+                          <AnimatePresence>
+                            {shareHint && (
+                              <motion.div
+                                initial={{ opacity: 0, y: -4 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -4 }}
+                                transition={{ duration: 0.2 }}
+                                className="text-[11px] font-medium"
+                                style={{ color: "var(--brand)" }}
+                              >
+                                {shareHint}
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
                           <button
                             onClick={runSearch}
                             disabled={loading}
