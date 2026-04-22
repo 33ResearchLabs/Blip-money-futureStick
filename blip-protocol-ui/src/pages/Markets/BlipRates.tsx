@@ -1078,7 +1078,7 @@ export default function BlipRates() {
                       Based on top listings from {results.filter((r) => r.ok && r.quotes.length > 0).map((r) => r.source).join(", ") || "P2P exchanges"}.
                     </div>
 
-                    {/* Listings table */}
+                    {/* Listings */}
                     <div
                       className="rounded-3xl overflow-hidden"
                       style={{
@@ -1086,139 +1086,175 @@ export default function BlipRates() {
                         border: "1px solid var(--border-default)",
                       }}
                     >
-                      <div
-                        className="hidden md:grid grid-cols-[1fr_110px_130px_1.2fr_110px] gap-4 px-6 py-3 text-xs font-semibold uppercase tracking-wider"
-                        style={{
-                          background: "var(--bg-tertiary)",
-                          color: "var(--text-tertiary)",
-                          borderBottom: "1px solid var(--border-default)",
-                        }}
-                      >
-                        <div>Exchange</div>
-                        <div className="text-right">Price (₹)</div>
-                        <div className="text-right">You get</div>
-                        <div>Merchant</div>
-                        <div className="text-right">Go</div>
-                      </div>
-
                       {ranked.slice(0, 15).map((q, i) => {
-                        const youGet = isINR
-                          ? (amountNum / q.price).toFixed(2) + " USDT"
-                          : "₹" +
-                            (amountNum * q.price).toLocaleString("en-IN", {
-                              maximumFractionDigits: 0,
-                            });
-                        const diff = ((q.price - best.price) / best.price) * 100;
+                        const inr = isINR ? amountNum : amountNum * q.price;
+                        const usdt = isINR ? amountNum / q.price : amountNum;
+                        const inrStr = inr.toLocaleString("en-IN", {
+                          maximumFractionDigits: 0,
+                        });
+                        const usdtStr = usdt.toLocaleString("en-IN", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        });
+                        const diff =
+                          ((q.price - best.price) / best.price) * 100;
+                        const isCheapest = i === 0;
+
                         return (
                           <div
                             key={i}
-                            className="grid grid-cols-[1fr_auto] md:grid-cols-[1fr_110px_130px_1.2fr_110px] gap-x-4 gap-y-1 px-6 py-4 items-center"
+                            className="flex items-start justify-between gap-4 px-5 md:px-6 py-4"
                             style={{
                               borderBottom:
                                 i === ranked.slice(0, 15).length - 1
                                   ? "none"
                                   : "1px solid var(--border-subtle)",
-                              background:
-                                i === 0 ? "var(--bg-tertiary)" : "transparent",
-                              boxShadow:
-                                i === 0
-                                  ? "inset 3px 0 0 var(--brand)"
-                                  : "none",
+                              background: isCheapest
+                                ? "var(--bg-tertiary)"
+                                : "transparent",
+                              boxShadow: isCheapest
+                                ? "inset 3px 0 0 var(--brand)"
+                                : "none",
                             }}
                           >
-                            {/* Exchange */}
-                            <div className="flex items-center gap-2 min-w-0">
+                            {/* Left: identity + conversion */}
+                            <div className="flex items-start gap-3 min-w-0 flex-1">
                               <div
-                                className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0"
+                                className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold shrink-0"
                                 style={{
-                                  background:
-                                    i === 0
-                                      ? "var(--text-primary)"
-                                      : "var(--bg-tertiary)",
-                                  color:
-                                    i === 0 ? "#fff" : "var(--text-primary)",
-                                  border:
-                                    i === 0
-                                      ? "none"
-                                      : "1px solid var(--border-default)",
+                                  background: isCheapest
+                                    ? "var(--text-primary)"
+                                    : "#fff",
+                                  color: isCheapest
+                                    ? "#fff"
+                                    : "var(--text-primary)",
+                                  border: isCheapest
+                                    ? "none"
+                                    : "1px solid var(--border-default)",
                                 }}
                               >
                                 {q.source.charAt(0)}
                               </div>
-                              <div className="min-w-0">
-                                <div className="font-semibold text-sm truncate">
-                                  {q.source}
+                              <div className="min-w-0 flex-1">
+                                <div className="flex items-center gap-2 flex-wrap">
+                                  <span className="font-semibold text-sm">
+                                    {q.source}
+                                  </span>
+                                  {isCheapest && (
+                                    <span
+                                      className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded-full"
+                                      style={{
+                                        background: "var(--brand-muted)",
+                                        color: "var(--brand)",
+                                      }}
+                                    >
+                                      <TrendingDown size={10} /> Cheapest
+                                    </span>
+                                  )}
                                 </div>
-                                {i === 0 && (
-                                  <div
-                                    className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide"
-                                    style={{ color: "var(--text-tertiary)" }}
-                                  >
-                                    <TrendingDown size={10} /> Cheapest
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-
-                            {/* Price */}
-                            <div className="md:text-right">
-                              <div className="font-bold text-base tabular-nums">
-                                ₹<AnimatedPrice value={q.price} />
-                              </div>
-                              {i > 0 && (
                                 <div
-                                  className="text-[11px]"
+                                  className="text-[11px] truncate mt-0.5"
                                   style={{ color: "var(--text-muted)" }}
                                 >
-                                  +{diff.toFixed(2)}%
+                                  {q.merchant}
+                                  {q.completionRate != null &&
+                                    ` · ${(q.completionRate * 100).toFixed(1)}%`}
+                                  {q.orders != null && ` · ${q.orders} orders`}
                                 </div>
-                              )}
-                            </div>
-
-                            {/* You get */}
-                            <div
-                              className="md:text-right text-sm font-medium hidden md:block"
-                              style={{ color: "var(--text-secondary)" }}
-                            >
-                              {youGet}
-                            </div>
-
-                            {/* Merchant */}
-                            <div className="hidden md:block min-w-0">
-                              <div className="text-sm font-medium truncate">
-                                {q.merchant}
+                                {/* Conversion — always visible */}
+                                <div
+                                  className="mt-1.5 font-semibold tabular-nums"
+                                  style={{
+                                    fontSize: isCheapest
+                                      ? "0.95rem"
+                                      : "0.85rem",
+                                    color: isCheapest
+                                      ? "var(--text-primary)"
+                                      : "var(--text-secondary)",
+                                  }}
+                                >
+                                  {isBuy ? (
+                                    <>
+                                      <span
+                                        style={{
+                                          color: "var(--text-tertiary)",
+                                        }}
+                                      >
+                                        ₹{inrStr}
+                                      </span>
+                                      <span
+                                        className="mx-1.5"
+                                        style={{ color: "var(--brand)" }}
+                                      >
+                                        →
+                                      </span>
+                                      <span>
+                                        <AnimatedPrice
+                                          value={usdt}
+                                          decimals={2}
+                                        />{" "}
+                                        USDT
+                                      </span>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <span
+                                        style={{
+                                          color: "var(--text-tertiary)",
+                                        }}
+                                      >
+                                        {usdtStr} USDT
+                                      </span>
+                                      <span
+                                        className="mx-1.5"
+                                        style={{ color: "var(--brand)" }}
+                                      >
+                                        →
+                                      </span>
+                                      <span>
+                                        ₹
+                                        <AnimatedPrice
+                                          value={inr}
+                                          decimals={0}
+                                        />
+                                      </span>
+                                    </>
+                                  )}
+                                </div>
                               </div>
-                              <div
-                                className="text-[11px]"
-                                style={{ color: "var(--text-muted)" }}
-                              >
-                                {q.completionRate != null &&
-                                  `${(q.completionRate * 100).toFixed(1)}% · `}
-                                {q.orders != null && `${q.orders} orders`}
-                              </div>
                             </div>
 
-                            {/* CTA */}
-                            <div className="md:text-right">
+                            {/* Right: unit price + trade */}
+                            <div className="flex flex-col items-end gap-2 shrink-0">
+                              <div className="text-right">
+                                <div className="font-bold text-base tabular-nums leading-none">
+                                  ₹<AnimatedPrice value={q.price} />
+                                </div>
+                                <div
+                                  className="text-[10px] mt-0.5"
+                                  style={{ color: "var(--text-muted)" }}
+                                >
+                                  {isCheapest ? "per USDT" : `+${diff.toFixed(2)}%`}
+                                </div>
+                              </div>
                               <a
                                 href={q.sourceUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full text-xs font-semibold transition hover:brightness-110 active:scale-95"
                                 style={{
-                                  background:
-                                    i === 0
-                                      ? "linear-gradient(135deg, var(--brand) 0%, #ff8c50 100%)"
-                                      : "#fff",
-                                  color: i === 0 ? "#fff" : "var(--text-primary)",
-                                  border:
-                                    i === 0
-                                      ? "none"
-                                      : "1px solid var(--border-default)",
-                                  boxShadow:
-                                    i === 0
-                                      ? "0 6px 18px rgba(255,107,53,0.38)"
-                                      : "none",
+                                  background: isCheapest
+                                    ? "linear-gradient(135deg, var(--brand) 0%, #ff8c50 100%)"
+                                    : "#fff",
+                                  color: isCheapest
+                                    ? "#fff"
+                                    : "var(--text-primary)",
+                                  border: isCheapest
+                                    ? "none"
+                                    : "1px solid var(--border-default)",
+                                  boxShadow: isCheapest
+                                    ? "0 6px 18px rgba(255,107,53,0.38)"
+                                    : "none",
                                 }}
                               >
                                 Trade
