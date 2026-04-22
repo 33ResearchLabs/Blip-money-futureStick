@@ -46,142 +46,29 @@ type SourceResult = {
 };
 
 /* ═══════════════════════════════════════════════
-   FETCHERS — one per exchange
-   Uses corsproxy.io; swap to own backend for prod
+   FETCHER — calls our own /api/rates Edge function
+   (avoids CORS and unreliable public proxies)
    ═══════════════════════════════════════════════ */
 
-const PROXY = "https://corsproxy.io/?";
-const px = (url: string) => PROXY + encodeURIComponent(url);
-
-async function fetchBinance(side: Side): Promise<Quote[]> {
-  const res = await fetch(px("https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search"), {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({
-      asset: "USDT",
-      fiat: "INR",
-      tradeType: side,
-      page: 1,
-      rows: 10,
-      publisherType: null,
-      payTypes: [],
-    }),
-  });
+async function fetchFromAPI(slug: string, side: Side): Promise<Quote[]> {
+  const res = await fetch(
+    `/api/rates?source=${slug}&side=${side}`,
+    { headers: { accept: "application/json" } },
+  );
+  if (!res.ok) throw new Error(`${slug} ${res.status}`);
   const json = await res.json();
-  const rows = json?.data ?? [];
-  return rows.map((r: any): Quote => ({
-    source: "Binance P2P",
-    sourceUrl: "https://p2p.binance.com/en/trade/all-payments/USDT?fiat=INR",
-    price: parseFloat(r.adv.price),
-    minINR: parseFloat(r.adv.minSingleTransAmount),
-    maxINR: parseFloat(r.adv.dynamicMaxSingleTransAmount ?? r.adv.maxSingleTransAmount),
-    availableUSDT: parseFloat(r.adv.tradableQuantity),
-    merchant: r.advertiser.nickName,
-    completionRate: r.advertiser.monthFinishRate ?? null,
-    orders: r.advertiser.monthOrderCount ?? null,
-    payments: (r.adv.tradeMethods ?? []).map((m: any) => m.tradeMethodName || m.identifier),
-  }));
+  if (json?.error && (!json.quotes || json.quotes.length === 0)) {
+    throw new Error(String(json.error));
+  }
+  return (json?.quotes ?? []) as Quote[];
 }
 
-async function fetchBybit(side: Side): Promise<Quote[]> {
-  const res = await fetch(px("https://api2.bybit.com/fiat/otc/item/online"), {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({
-      userId: "",
-      tokenId: "USDT",
-      currencyId: "INR",
-      payment: [],
-      side: side === "BUY" ? "1" : "0",
-      size: "10",
-      page: "1",
-      amount: "",
-      authMaker: false,
-      canTrade: false,
-    }),
-  });
-  const json = await res.json();
-  const rows = json?.result?.items ?? [];
-  return rows.map((r: any): Quote => ({
-    source: "Bybit P2P",
-    sourceUrl: "https://www.bybit.com/fiat/trade/otc/?actionType=0&token=USDT&fiat=INR",
-    price: parseFloat(r.price),
-    minINR: parseFloat(r.minAmount),
-    maxINR: parseFloat(r.maxAmount),
-    availableUSDT: parseFloat(r.lastQuantity ?? r.quantity),
-    merchant: r.nickName,
-    completionRate: r.recentExecuteRate != null ? r.recentExecuteRate / 100 : null,
-    orders: r.recentOrderNum ?? null,
-    payments: (r.payments ?? []).map((p: any) => (typeof p === "string" ? p : p.paymentType)),
-  }));
-}
-
-async function fetchOkx(side: Side): Promise<Quote[]> {
-  const okxSide = side === "BUY" ? "sell" : "buy";
-  const url = `https://www.okx.com/v3/c2c/tradingOrders/books?quoteCurrency=INR&baseCurrency=USDT&side=${okxSide}&paymentMethod=all&userType=all&receivingAds=false&showTrade=false&showFollow=false&showAlreadyTraded=false&isAbleFilter=false`;
-  const res = await fetch(px(url));
-  const json = await res.json();
-  const rows = json?.data?.[okxSide] ?? json?.data ?? [];
-  return (Array.isArray(rows) ? rows : []).slice(0, 10).map((r: any): Quote => ({
-    source: "OKX P2P",
-    sourceUrl: "https://www.okx.com/p2p-markets/inr/buy-usdt",
-    price: parseFloat(r.price),
-    minINR: parseFloat(r.quoteMinAmountPerOrder ?? r.minAmount ?? 0),
-    maxINR: parseFloat(r.quoteMaxAmountPerOrder ?? r.maxAmount ?? 0),
-    availableUSDT: parseFloat(r.availableAmount ?? r.quantity ?? 0),
-    merchant: r.nickName ?? r.merchantName ?? "OKX Merchant",
-    completionRate: r.completedRate != null ? parseFloat(r.completedRate) : null,
-    orders: r.completedOrderQuantity ?? null,
-    payments: (r.paymentMethods ?? []).map((p: any) => p.name ?? p),
-  }));
-}
-
-async function fetchKucoin(side: Side): Promise<Quote[]> {
-  const kuSide = side === "BUY" ? "SELL" : "BUY";
-  const url = `https://www.kucoin.com/_api/otc/ad/list?currency=INR&legal=INR&lang=en_US&status=PUTUP&side=${kuSide}&page=1&pageSize=10&token=USDT`;
-  const res = await fetch(px(url));
-  const json = await res.json();
-  const rows = json?.items ?? json?.data?.items ?? [];
-  return rows.slice(0, 10).map((r: any): Quote => ({
-    source: "KuCoin P2P",
-    sourceUrl: "https://www.kucoin.com/otc/buy/USDT-INR",
-    price: parseFloat(r.floatPrice ?? r.price),
-    minINR: parseFloat(r.limitMinQuote ?? r.minQuote ?? 0),
-    maxINR: parseFloat(r.limitMaxQuote ?? r.maxQuote ?? 0),
-    availableUSDT: parseFloat(r.currencyQuantity ?? r.quantity ?? 0),
-    merchant: r.userName ?? r.nickName ?? "KuCoin Merchant",
-    completionRate: r.completedRate != null ? parseFloat(r.completedRate) / 100 : null,
-    orders: r.completedCount ?? null,
-    payments: (r.premiumPayMethodList ?? r.payMethodList ?? []).map((p: any) => p.payMethod ?? p.name ?? p),
-  }));
-}
-
-async function fetchHtx(side: Side): Promise<Quote[]> {
-  const htxType = side === "BUY" ? "sell" : "buy";
-  const url = `https://www.htx.com/-/x/otc/v1/data/trade-market?coinId=2&currency=102&tradeType=${htxType}&currPage=1&payMethod=0&acceptOrder=0&country=37&blockType=general&online=1&range=0&amount=`;
-  const res = await fetch(px(url));
-  const json = await res.json();
-  const rows = json?.data ?? [];
-  return rows.slice(0, 10).map((r: any): Quote => ({
-    source: "HTX P2P",
-    sourceUrl: "https://www.htx.com/en-us/fiat-crypto/trade/buy-usdt_inr/",
-    price: parseFloat(r.price),
-    minINR: parseFloat(r.minTradeLimit ?? 0),
-    maxINR: parseFloat(r.maxTradeLimit ?? 0),
-    availableUSDT: parseFloat(r.tradeCount ?? 0),
-    merchant: r.userName ?? "HTX Merchant",
-    completionRate: r.orderCompleteRate != null ? parseFloat(r.orderCompleteRate) / 100 : null,
-    orders: r.tradeMonthTimes ?? null,
-    payments: (r.payMethods ?? []).map((p: any) => p.name ?? p),
-  }));
-}
-
-const SOURCES: { name: string; fetch: (side: Side) => Promise<Quote[]> }[] = [
-  { name: "Binance P2P", fetch: fetchBinance },
-  { name: "Bybit P2P", fetch: fetchBybit },
-  { name: "OKX P2P", fetch: fetchOkx },
-  { name: "KuCoin P2P", fetch: fetchKucoin },
-  { name: "HTX P2P", fetch: fetchHtx },
+const SOURCES: { name: string; slug: string }[] = [
+  { name: "Binance P2P", slug: "binance" },
+  { name: "Bybit P2P", slug: "bybit" },
+  { name: "OKX P2P", slug: "okx" },
+  { name: "KuCoin P2P", slug: "kucoin" },
+  { name: "HTX P2P", slug: "htx" },
 ];
 
 /* ═══════════════════════════════════════════════
@@ -483,7 +370,7 @@ export default function BlipRates() {
     setLoading(true);
     setSearched(true);
     const [settled, g] = await Promise.all([
-      Promise.allSettled(SOURCES.map((s) => s.fetch(side))),
+      Promise.allSettled(SOURCES.map((s) => fetchFromAPI(s.slug, side))),
       fetchGlobalUsdtInr(),
     ]);
     const out: SourceResult[] = settled.map((r, i) => {

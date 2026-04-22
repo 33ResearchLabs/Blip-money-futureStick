@@ -1,0 +1,238 @@
+// Vercel Edge function — server-side P2P rate fetcher.
+// Replaces the corsproxy.io client-side hack which started returning 403.
+//
+// GET /api/rates?source=binance|bybit|okx|kucoin|htx&side=BUY|SELL
+// Returns { quotes: Quote[] }
+
+export const config = { runtime: "edge" };
+
+type Side = "BUY" | "SELL";
+type Source = "binance" | "bybit" | "okx" | "kucoin" | "htx";
+
+type Quote = {
+  source: string;
+  sourceUrl: string;
+  price: number;
+  minINR: number;
+  maxINR: number;
+  availableUSDT: number;
+  merchant: string;
+  completionRate: number | null;
+  orders: number | null;
+  payments: string[];
+};
+
+const UA =
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36";
+
+const jsonHeaders = {
+  "content-type": "application/json",
+  accept: "application/json, text/plain, */*",
+  "user-agent": UA,
+  "accept-language": "en-US,en;q=0.9",
+};
+
+async function fetchBinance(side: Side): Promise<Quote[]> {
+  const res = await fetch(
+    "https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search",
+    {
+      method: "POST",
+      headers: jsonHeaders,
+      body: JSON.stringify({
+        asset: "USDT",
+        fiat: "INR",
+        tradeType: side,
+        page: 1,
+        rows: 10,
+        publisherType: null,
+        payTypes: [],
+      }),
+    },
+  );
+  const json: any = await res.json();
+  const rows: any[] = json?.data ?? [];
+  return rows.map(
+    (r): Quote => ({
+      source: "Binance P2P",
+      sourceUrl:
+        "https://p2p.binance.com/en/trade/all-payments/USDT?fiat=INR",
+      price: parseFloat(r.adv.price),
+      minINR: parseFloat(r.adv.minSingleTransAmount),
+      maxINR: parseFloat(
+        r.adv.dynamicMaxSingleTransAmount ?? r.adv.maxSingleTransAmount,
+      ),
+      availableUSDT: parseFloat(r.adv.tradableQuantity),
+      merchant: r.advertiser.nickName,
+      completionRate: r.advertiser.monthFinishRate ?? null,
+      orders: r.advertiser.monthOrderCount ?? null,
+      payments: (r.adv.tradeMethods ?? []).map(
+        (m: any) => m.tradeMethodName || m.identifier,
+      ),
+    }),
+  );
+}
+
+async function fetchBybit(side: Side): Promise<Quote[]> {
+  const res = await fetch("https://api2.bybit.com/fiat/otc/item/online", {
+    method: "POST",
+    headers: jsonHeaders,
+    body: JSON.stringify({
+      userId: "",
+      tokenId: "USDT",
+      currencyId: "INR",
+      payment: [],
+      side: side === "BUY" ? "1" : "0",
+      size: "10",
+      page: "1",
+      amount: "",
+      authMaker: false,
+      canTrade: false,
+    }),
+  });
+  const json: any = await res.json();
+  const rows: any[] = json?.result?.items ?? [];
+  return rows.map(
+    (r): Quote => ({
+      source: "Bybit P2P",
+      sourceUrl:
+        "https://www.bybit.com/fiat/trade/otc/?actionType=0&token=USDT&fiat=INR",
+      price: parseFloat(r.price),
+      minINR: parseFloat(r.minAmount),
+      maxINR: parseFloat(r.maxAmount),
+      availableUSDT: parseFloat(r.lastQuantity ?? r.quantity),
+      merchant: r.nickName,
+      completionRate:
+        r.recentExecuteRate != null ? r.recentExecuteRate / 100 : null,
+      orders: r.recentOrderNum ?? null,
+      payments: (r.payments ?? []).map((p: any) =>
+        typeof p === "string" ? p : p.paymentType,
+      ),
+    }),
+  );
+}
+
+async function fetchOkx(side: Side): Promise<Quote[]> {
+  const okxSide = side === "BUY" ? "sell" : "buy";
+  const url = `https://www.okx.com/v3/c2c/tradingOrders/books?quoteCurrency=INR&baseCurrency=USDT&side=${okxSide}&paymentMethod=all&userType=all&receivingAds=false&showTrade=false&showFollow=false&showAlreadyTraded=false&isAbleFilter=false`;
+  const res = await fetch(url, { headers: jsonHeaders });
+  const json: any = await res.json();
+  const rows: any[] = json?.data?.[okxSide] ?? json?.data ?? [];
+  return (Array.isArray(rows) ? rows : []).slice(0, 10).map(
+    (r): Quote => ({
+      source: "OKX P2P",
+      sourceUrl: "https://www.okx.com/p2p-markets/inr/buy-usdt",
+      price: parseFloat(r.price),
+      minINR: parseFloat(r.quoteMinAmountPerOrder ?? r.minAmount ?? 0),
+      maxINR: parseFloat(r.quoteMaxAmountPerOrder ?? r.maxAmount ?? 0),
+      availableUSDT: parseFloat(r.availableAmount ?? r.quantity ?? 0),
+      merchant: r.nickName ?? r.merchantName ?? "OKX Merchant",
+      completionRate:
+        r.completedRate != null ? parseFloat(r.completedRate) : null,
+      orders: r.completedOrderQuantity ?? null,
+      payments: (r.paymentMethods ?? []).map((p: any) => p.name ?? p),
+    }),
+  );
+}
+
+async function fetchKucoin(side: Side): Promise<Quote[]> {
+  const kuSide = side === "BUY" ? "SELL" : "BUY";
+  const url = `https://www.kucoin.com/_api/otc/ad/list?currency=INR&legal=INR&lang=en_US&status=PUTUP&side=${kuSide}&page=1&pageSize=10&token=USDT`;
+  const res = await fetch(url, {
+    headers: {
+      ...jsonHeaders,
+      referer: "https://www.kucoin.com/otc/buy/USDT-INR",
+    },
+  });
+  const json: any = await res.json();
+  const rows: any[] = json?.items ?? json?.data?.items ?? [];
+  return rows.slice(0, 10).map(
+    (r): Quote => ({
+      source: "KuCoin P2P",
+      sourceUrl: "https://www.kucoin.com/otc/buy/USDT-INR",
+      price: parseFloat(r.floatPrice ?? r.price),
+      minINR: parseFloat(r.limitMinQuote ?? r.minQuote ?? 0),
+      maxINR: parseFloat(r.limitMaxQuote ?? r.maxQuote ?? 0),
+      availableUSDT: parseFloat(r.currencyQuantity ?? r.quantity ?? 0),
+      merchant: r.userName ?? r.nickName ?? "KuCoin Merchant",
+      completionRate:
+        r.completedRate != null ? parseFloat(r.completedRate) / 100 : null,
+      orders: r.completedCount ?? null,
+      payments: (r.premiumPayMethodList ?? r.payMethodList ?? []).map(
+        (p: any) => p.payMethod ?? p.name ?? p,
+      ),
+    }),
+  );
+}
+
+async function fetchHtx(side: Side): Promise<Quote[]> {
+  const htxType = side === "BUY" ? "sell" : "buy";
+  const url = `https://www.htx.com/-/x/otc/v1/data/trade-market?coinId=2&currency=102&tradeType=${htxType}&currPage=1&payMethod=0&acceptOrder=0&country=37&blockType=general&online=1&range=0&amount=`;
+  const res = await fetch(url, {
+    headers: {
+      ...jsonHeaders,
+      referer: "https://www.htx.com/en-us/fiat-crypto/trade/buy-usdt_inr/",
+    },
+  });
+  const json: any = await res.json();
+  const rows: any[] = json?.data ?? [];
+  return rows.slice(0, 10).map(
+    (r): Quote => ({
+      source: "HTX P2P",
+      sourceUrl:
+        "https://www.htx.com/en-us/fiat-crypto/trade/buy-usdt_inr/",
+      price: parseFloat(r.price),
+      minINR: parseFloat(r.minTradeLimit ?? 0),
+      maxINR: parseFloat(r.maxTradeLimit ?? 0),
+      availableUSDT: parseFloat(r.tradeCount ?? 0),
+      merchant: r.userName ?? "HTX Merchant",
+      completionRate:
+        r.orderCompleteRate != null
+          ? parseFloat(r.orderCompleteRate) / 100
+          : null,
+      orders: r.tradeMonthTimes ?? null,
+      payments: (r.payMethods ?? []).map((p: any) => p.name ?? p),
+    }),
+  );
+}
+
+const fetchers: Record<Source, (side: Side) => Promise<Quote[]>> = {
+  binance: fetchBinance,
+  bybit: fetchBybit,
+  okx: fetchOkx,
+  kucoin: fetchKucoin,
+  htx: fetchHtx,
+};
+
+export default async function handler(req: Request): Promise<Response> {
+  const url = new URL(req.url);
+  const source = url.searchParams.get("source") as Source | null;
+  const sideParam = (url.searchParams.get("side") ?? "BUY").toUpperCase();
+  const side: Side = sideParam === "SELL" ? "SELL" : "BUY";
+
+  const commonHeaders = {
+    "content-type": "application/json",
+    "access-control-allow-origin": "*",
+    "cache-control": "public, s-maxage=20, stale-while-revalidate=60",
+  };
+
+  if (!source || !(source in fetchers)) {
+    return new Response(JSON.stringify({ error: "unknown source" }), {
+      status: 400,
+      headers: commonHeaders,
+    });
+  }
+
+  try {
+    const quotes = await fetchers[source](side);
+    return new Response(JSON.stringify({ quotes }), {
+      status: 200,
+      headers: commonHeaders,
+    });
+  } catch (e: unknown) {
+    const msg = e instanceof Error ? e.message : String(e);
+    return new Response(JSON.stringify({ error: msg, quotes: [] }), {
+      status: 200, // soft-fail so other sources still show
+      headers: commonHeaders,
+    });
+  }
+}
