@@ -1,4 +1,5 @@
 import { memo } from "react";
+import { motion } from "framer-motion";
 import { Shield, CheckCircle2, FileText, Map, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
