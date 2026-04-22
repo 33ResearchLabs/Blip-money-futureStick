@@ -1,0 +1,1000 @@
+import { useState, useMemo, useCallback, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Search,
+  RefreshCw,
+  TrendingDown,
+  TrendingUp,
+  ExternalLink,
+  Loader2,
+  Copy,
+  Check,
+  Zap,
+} from "lucide-react";
+import SEO from "@/components/SEO";
+
+/* ═══════════════════════════════════════════════
+   TYPES
+   ═══════════════════════════════════════════════ */
+
+type Side = "BUY" | "SELL";
+
+type Quote = {
+  source: string;
+  sourceUrl: string;
+  price: number;
+  minINR: number;
+  maxINR: number;
+  availableUSDT: number;
+  merchant: string;
+  completionRate: number | null;
+  orders: number | null;
+  payments: string[];
+};
+
+type SourceResult = {
+  source: string;
+  ok: boolean;
+  quotes: Quote[];
+  error?: string;
+};
+
+/* ═══════════════════════════════════════════════
+   FETCHERS — one per exchange
+   Uses corsproxy.io; swap to own backend for prod
+   ═══════════════════════════════════════════════ */
+
+const PROXY = "https://corsproxy.io/?";
+const px = (url: string) => PROXY + encodeURIComponent(url);
+
+async function fetchBinance(side: Side): Promise<Quote[]> {
+  const res = await fetch(px("https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search"), {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      asset: "USDT",
+      fiat: "INR",
+      tradeType: side,
+      page: 1,
+      rows: 10,
+      publisherType: null,
+      payTypes: [],
+    }),
+  });
+  const json = await res.json();
+  const rows = json?.data ?? [];
+  return rows.map((r: any): Quote => ({
+    source: "Binance P2P",
+    sourceUrl: "https://p2p.binance.com/en/trade/all-payments/USDT?fiat=INR",
+    price: parseFloat(r.adv.price),
+    minINR: parseFloat(r.adv.minSingleTransAmount),
+    maxINR: parseFloat(r.adv.dynamicMaxSingleTransAmount ?? r.adv.maxSingleTransAmount),
+    availableUSDT: parseFloat(r.adv.tradableQuantity),
+    merchant: r.advertiser.nickName,
+    completionRate: r.advertiser.monthFinishRate ?? null,
+    orders: r.advertiser.monthOrderCount ?? null,
+    payments: (r.adv.tradeMethods ?? []).map((m: any) => m.tradeMethodName || m.identifier),
+  }));
+}
+
+async function fetchBybit(side: Side): Promise<Quote[]> {
+  const res = await fetch(px("https://api2.bybit.com/fiat/otc/item/online"), {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      userId: "",
+      tokenId: "USDT",
+      currencyId: "INR",
+      payment: [],
+      side: side === "BUY" ? "1" : "0",
+      size: "10",
+      page: "1",
+      amount: "",
+      authMaker: false,
+      canTrade: false,
+    }),
+  });
+  const json = await res.json();
+  const rows = json?.result?.items ?? [];
+  return rows.map((r: any): Quote => ({
+    source: "Bybit P2P",
+    sourceUrl: "https://www.bybit.com/fiat/trade/otc/?actionType=0&token=USDT&fiat=INR",
+    price: parseFloat(r.price),
+    minINR: parseFloat(r.minAmount),
+    maxINR: parseFloat(r.maxAmount),
+    availableUSDT: parseFloat(r.lastQuantity ?? r.quantity),
+    merchant: r.nickName,
+    completionRate: r.recentExecuteRate != null ? r.recentExecuteRate / 100 : null,
+    orders: r.recentOrderNum ?? null,
+    payments: (r.payments ?? []).map((p: any) => (typeof p === "string" ? p : p.paymentType)),
+  }));
+}
+
+async function fetchOkx(side: Side): Promise<Quote[]> {
+  const okxSide = side === "BUY" ? "sell" : "buy";
+  const url = `https://www.okx.com/v3/c2c/tradingOrders/books?quoteCurrency=INR&baseCurrency=USDT&side=${okxSide}&paymentMethod=all&userType=all&receivingAds=false&showTrade=false&showFollow=false&showAlreadyTraded=false&isAbleFilter=false`;
+  const res = await fetch(px(url));
+  const json = await res.json();
+  const rows = json?.data?.[okxSide] ?? json?.data ?? [];
+  return (Array.isArray(rows) ? rows : []).slice(0, 10).map((r: any): Quote => ({
+    source: "OKX P2P",
+    sourceUrl: "https://www.okx.com/p2p-markets/inr/buy-usdt",
+    price: parseFloat(r.price),
+    minINR: parseFloat(r.quoteMinAmountPerOrder ?? r.minAmount ?? 0),
+    maxINR: parseFloat(r.quoteMaxAmountPerOrder ?? r.maxAmount ?? 0),
+    availableUSDT: parseFloat(r.availableAmount ?? r.quantity ?? 0),
+    merchant: r.nickName ?? r.merchantName ?? "OKX Merchant",
+    completionRate: r.completedRate != null ? parseFloat(r.completedRate) : null,
+    orders: r.completedOrderQuantity ?? null,
+    payments: (r.paymentMethods ?? []).map((p: any) => p.name ?? p),
+  }));
+}
+
+async function fetchKucoin(side: Side): Promise<Quote[]> {
+  const kuSide = side === "BUY" ? "SELL" : "BUY";
+  const url = `https://www.kucoin.com/_api/otc/ad/list?currency=INR&legal=INR&lang=en_US&status=PUTUP&side=${kuSide}&page=1&pageSize=10&token=USDT`;
+  const res = await fetch(px(url));
+  const json = await res.json();
+  const rows = json?.items ?? json?.data?.items ?? [];
+  return rows.slice(0, 10).map((r: any): Quote => ({
+    source: "KuCoin P2P",
+    sourceUrl: "https://www.kucoin.com/otc/buy/USDT-INR",
+    price: parseFloat(r.floatPrice ?? r.price),
+    minINR: parseFloat(r.limitMinQuote ?? r.minQuote ?? 0),
+    maxINR: parseFloat(r.limitMaxQuote ?? r.maxQuote ?? 0),
+    availableUSDT: parseFloat(r.currencyQuantity ?? r.quantity ?? 0),
+    merchant: r.userName ?? r.nickName ?? "KuCoin Merchant",
+    completionRate: r.completedRate != null ? parseFloat(r.completedRate) / 100 : null,
+    orders: r.completedCount ?? null,
+    payments: (r.premiumPayMethodList ?? r.payMethodList ?? []).map((p: any) => p.payMethod ?? p.name ?? p),
+  }));
+}
+
+async function fetchHtx(side: Side): Promise<Quote[]> {
+  const htxType = side === "BUY" ? "sell" : "buy";
+  const url = `https://www.htx.com/-/x/otc/v1/data/trade-market?coinId=2&currency=102&tradeType=${htxType}&currPage=1&payMethod=0&acceptOrder=0&country=37&blockType=general&online=1&range=0&amount=`;
+  const res = await fetch(px(url));
+  const json = await res.json();
+  const rows = json?.data ?? [];
+  return rows.slice(0, 10).map((r: any): Quote => ({
+    source: "HTX P2P",
+    sourceUrl: "https://www.htx.com/en-us/fiat-crypto/trade/buy-usdt_inr/",
+    price: parseFloat(r.price),
+    minINR: parseFloat(r.minTradeLimit ?? 0),
+    maxINR: parseFloat(r.maxTradeLimit ?? 0),
+    availableUSDT: parseFloat(r.tradeCount ?? 0),
+    merchant: r.userName ?? "HTX Merchant",
+    completionRate: r.orderCompleteRate != null ? parseFloat(r.orderCompleteRate) / 100 : null,
+    orders: r.tradeMonthTimes ?? null,
+    payments: (r.payMethods ?? []).map((p: any) => p.name ?? p),
+  }));
+}
+
+const SOURCES: { name: string; fetch: (side: Side) => Promise<Quote[]> }[] = [
+  { name: "Binance P2P", fetch: fetchBinance },
+  { name: "Bybit P2P", fetch: fetchBybit },
+  { name: "OKX P2P", fetch: fetchOkx },
+  { name: "KuCoin P2P", fetch: fetchKucoin },
+  { name: "HTX P2P", fetch: fetchHtx },
+];
+
+/* ═══════════════════════════════════════════════
+   GLOBAL SPOT + BASELINE + SIGNAL
+   ═══════════════════════════════════════════════ */
+
+async function fetchGlobalUsdtInr(): Promise<number | null> {
+  try {
+    const res = await fetch(
+      "https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=inr",
+    );
+    const j = await res.json();
+    const v = j?.tether?.inr;
+    return typeof v === "number" ? v : null;
+  } catch {
+    return null;
+  }
+}
+
+function readTodayBaseline(price: number, side: Side): number {
+  if (typeof window === "undefined") return price;
+  const key = `blip-rates-baseline-${side}-${new Date().toISOString().slice(0, 10)}`;
+  const stored = localStorage.getItem(key);
+  if (stored) {
+    const n = parseFloat(stored);
+    if (!Number.isNaN(n) && n > 0) return n;
+  }
+  localStorage.setItem(key, String(price));
+  return price;
+}
+
+function buildSignal(args: {
+  best: number;
+  baseline: number;
+  spreadPct: number;
+  premiumPct: number | null;
+}): { text: string; tone: "up" | "down" | "neutral" } {
+  const change = ((args.best - args.baseline) / args.baseline) * 100;
+  if (args.spreadPct > 0 && args.spreadPct < 0.35) {
+    return {
+      text: "Spread tightening — good execution window",
+      tone: "neutral",
+    };
+  }
+  if (change >= 1) {
+    return {
+      text: `Rates jumped +${change.toFixed(2)}% today — momentum building`,
+      tone: "up",
+    };
+  }
+  if (change <= -1) {
+    return {
+      text: `Rates dropped ${change.toFixed(2)}% today — cheap entry`,
+      tone: "down",
+    };
+  }
+  if (args.premiumPct != null && args.premiumPct >= 12) {
+    return {
+      text: `Premium at ${args.premiumPct.toFixed(1)}% — India paying above global`,
+      tone: "up",
+    };
+  }
+  if (args.premiumPct != null && args.premiumPct <= 2) {
+    return {
+      text: `Premium near zero (${args.premiumPct.toFixed(1)}%) — rare arb window`,
+      tone: "down",
+    };
+  }
+  return {
+    text: `Market stable — ${args.premiumPct != null ? args.premiumPct.toFixed(1) + "% premium vs global" : "tracking global spot"}`,
+    tone: "neutral",
+  };
+}
+
+/* ═══════════════════════════════════════════════
+   PAGE
+   ═══════════════════════════════════════════════ */
+
+const QUICK_AMOUNTS_BUY = [10000, 50000, 100000, 500000];
+const QUICK_AMOUNTS_SELL = [100, 500, 1000, 5000];
+const DEFAULTS = { BUY: "10000", SELL: "500" } as const;
+
+export default function BlipRates() {
+  const [amount, setAmount] = useState<string>("10000");
+  const [side, setSide] = useState<Side>("BUY");
+  const [results, setResults] = useState<SourceResult[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [searched, setSearched] = useState(false);
+  const [lastFetched, setLastFetched] = useState<number | null>(null);
+  const [globalRate, setGlobalRate] = useState<number | null>(null);
+  const [now, setNow] = useState(Date.now());
+  const [copied, setCopied] = useState(false);
+  const didAutoRun = useRef(false);
+
+  const amountNum = parseFloat(amount) || 0;
+  const isBuy = side === "BUY";
+  const quickAmounts = isBuy ? QUICK_AMOUNTS_BUY : QUICK_AMOUNTS_SELL;
+  const unitSymbol = isBuy ? "₹" : "";
+  const unitSuffix = isBuy ? "" : "USDT";
+  const amountPlaceholder = isBuy ? "Amount in INR" : "Amount in USDT";
+
+  const onSideChange = (next: Side) => {
+    if (next === side) return;
+    setSide(next);
+    setAmount(DEFAULTS[next]);
+  };
+
+  const runSearch = useCallback(async () => {
+    setLoading(true);
+    setSearched(true);
+    const [settled, g] = await Promise.all([
+      Promise.allSettled(SOURCES.map((s) => s.fetch(side))),
+      fetchGlobalUsdtInr(),
+    ]);
+    const out: SourceResult[] = settled.map((r, i) => {
+      if (r.status === "fulfilled") {
+        return { source: SOURCES[i].name, ok: true, quotes: r.value };
+      }
+      return { source: SOURCES[i].name, ok: false, quotes: [], error: String(r.reason) };
+    });
+    setResults(out);
+    if (g != null) setGlobalRate(g);
+    setLastFetched(Date.now());
+    setLoading(false);
+  }, [side]);
+
+  // Auto-fetch on first mount so page is instantly useful
+  useEffect(() => {
+    if (didAutoRun.current) return;
+    didAutoRun.current = true;
+    runSearch();
+  }, [runSearch]);
+
+  // Tick "updated Xs ago"
+  useEffect(() => {
+    if (!lastFetched) return;
+    const id = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, [lastFetched]);
+
+  // Flatten + filter + rank for current amount
+  const ranked = useMemo(() => {
+    const all = results.flatMap((r) => r.quotes).filter((q) => q.price > 0);
+    if (all.length === 0) return [];
+    const sortedPrices = [...all.map((q) => q.price)].sort((a, b) => a - b);
+    const medianPrice = sortedPrices[Math.floor(sortedPrices.length / 2)];
+    // Convert user amount to INR for limit filtering
+    const inrAmount = isBuy ? amountNum : amountNum * medianPrice;
+    const viable = all.filter((q) => {
+      if (inrAmount > 0) {
+        if (q.minINR > inrAmount) return false;
+        if (q.maxINR > 0 && q.maxINR < inrAmount) return false;
+      }
+      return Math.abs(q.price - medianPrice) / medianPrice <= 0.05;
+    });
+    viable.sort((a, b) => (isBuy ? a.price - b.price : b.price - a.price));
+    return viable;
+  }, [results, amountNum, isBuy]);
+
+  const best = ranked[0];
+  const worst = ranked[ranked.length - 1];
+  const spread = best && worst ? Math.abs(worst.price - best.price) : 0;
+  const spreadPct = best && worst ? (spread / best.price) * 100 : 0;
+
+  const premiumPct =
+    best && globalRate ? ((best.price - globalRate) / globalRate) * 100 : null;
+
+  const baseline = best ? readTodayBaseline(best.price, side) : 0;
+  const signal = best
+    ? buildSignal({
+        best: best.price,
+        baseline,
+        spreadPct,
+        premiumPct,
+      })
+    : null;
+
+  const secondsAgo = lastFetched
+    ? Math.max(0, Math.floor((now - lastFetched) / 1000))
+    : 0;
+
+  const shareText = best
+    ? `USDT/INR is ₹${best.price.toFixed(2)} right now${
+        premiumPct != null
+          ? ` (${premiumPct >= 0 ? "+" : ""}${premiumPct.toFixed(1)}% premium vs global)`
+          : ""
+      } — live at blip.money/blip-rates`
+    : "";
+
+  const copyRate = async () => {
+    if (!shareText) return;
+    try {
+      await navigator.clipboard.writeText(shareText);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    } catch {}
+  };
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    runSearch();
+  };
+
+  return (
+    <>
+      <SEO
+        title="Blip Rates — Live USDT/INR P2P Prices from Binance, Bybit, OKX & more"
+        description="Search live USDT to INR rates across every major P2P exchange. Find the cheapest price in seconds. No login, no paywall."
+        canonical="https://blip.money/blip-rates"
+        keywords="usdt to inr, usdt inr rate, binance p2p, bybit p2p, buy usdt india, sell usdt india, p2p usdt"
+      />
+
+      <main
+        className="min-h-screen"
+        style={{ background: "var(--bg-primary)", color: "var(--text-primary)" }}
+      >
+        <div className="max-w-3xl mx-auto px-6 pt-24 md:pt-28 pb-24">
+          {/* Wordmark — subtle */}
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="text-center mb-10"
+          >
+            <div
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full mb-4 text-[11px] font-semibold uppercase tracking-wider"
+              style={{
+                background: "#fff",
+                border: "1px solid var(--border-default)",
+                color: "var(--text-tertiary)",
+              }}
+            >
+              <span
+                className="w-1.5 h-1.5 rounded-full animate-pulse"
+                style={{ background: "var(--brand)" }}
+              />
+              Live market
+            </div>
+            <h1
+              className="font-bold tracking-tight"
+              style={{
+                fontSize: "clamp(2.25rem, 4.5vw, 3.5rem)",
+                letterSpacing: "-0.035em",
+                lineHeight: 1.05,
+                color: "var(--text-primary)",
+              }}
+            >
+              Blip Rates
+            </h1>
+            <p
+              className="mt-3 text-sm md:text-base max-w-xl mx-auto"
+              style={{ color: "var(--text-tertiary)" }}
+            >
+              The real USDT/INR market price in India — not exchange price.
+            </p>
+          </motion.div>
+
+          {/* Search box — majestic */}
+          <motion.form
+            onSubmit={onSubmit}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="mb-5 relative"
+          >
+            {/* Side toggle pill */}
+            <div className="flex justify-center mb-4">
+              <div
+                className="inline-flex items-center gap-1 p-1 rounded-full"
+                style={{
+                  background: "#fff",
+                  border: "1px solid var(--border-default)",
+                }}
+              >
+                {(["BUY", "SELL"] as Side[]).map((s) => (
+                  <button
+                    key={s}
+                    type="button"
+                    onClick={() => onSideChange(s)}
+                    className="px-5 py-1.5 rounded-full text-xs md:text-sm font-semibold transition"
+                    style={{
+                      background:
+                        side === s ? "var(--text-primary)" : "transparent",
+                      color: side === s ? "#fff" : "var(--text-secondary)",
+                    }}
+                  >
+                    {s === "BUY" ? "Buy USDT" : "Sell USDT"}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Search bar */}
+            <div
+              className="flex items-center gap-3 px-5 py-3 md:px-6 md:py-4 rounded-full transition"
+              style={{
+                background: "#ffffff",
+                border: "1px solid var(--border-default)",
+                boxShadow: "var(--shadow-sm)",
+              }}
+            >
+              <Search
+                size={18}
+                style={{ color: "var(--text-muted)" }}
+                className="shrink-0"
+              />
+
+              {unitSymbol && (
+                <span
+                  className="font-semibold shrink-0 tabular-nums text-lg md:text-xl"
+                  style={{ color: "var(--text-tertiary)" }}
+                >
+                  {unitSymbol}
+                </span>
+              )}
+
+              <input
+                type="number"
+                inputMode="decimal"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                placeholder={amountPlaceholder}
+                className="flex-1 bg-transparent outline-none font-semibold tabular-nums min-w-0 text-lg md:text-xl"
+                style={{
+                  letterSpacing: "-0.01em",
+                  color: "var(--text-primary)",
+                }}
+              />
+
+              {unitSuffix && (
+                <span
+                  className="font-semibold shrink-0 text-sm md:text-base"
+                  style={{ color: "var(--text-tertiary)" }}
+                >
+                  {unitSuffix}
+                </span>
+              )}
+
+              <button
+                type="submit"
+                disabled={loading || !amountNum}
+                className="px-5 md:px-6 py-2 md:py-2.5 rounded-full font-semibold text-sm transition shrink-0 disabled:opacity-50 hover:opacity-90"
+                style={{
+                  background: "var(--text-primary)",
+                  color: "#fff",
+                }}
+              >
+                {loading ? (
+                  <span className="flex items-center gap-2">
+                    <Loader2 size={14} className="animate-spin" />
+                    Searching
+                  </span>
+                ) : (
+                  "Search"
+                )}
+              </button>
+            </div>
+
+            {/* Quick amount chips */}
+            <div className="flex flex-wrap gap-2 mt-4 justify-center">
+              {quickAmounts.map((v) => {
+                const active = parseFloat(amount) === v;
+                const label = isBuy
+                  ? "₹" + v.toLocaleString("en-IN")
+                  : v.toLocaleString("en-IN") + " USDT";
+                return (
+                  <button
+                    key={v}
+                    type="button"
+                    onClick={() => setAmount(String(v))}
+                    className="px-3 py-1.5 rounded-full text-xs font-medium transition"
+                    style={{
+                      background: active ? "var(--text-primary)" : "#fff",
+                      border: `1px solid ${active ? "var(--text-primary)" : "var(--border-default)"}`,
+                      color: active ? "#fff" : "var(--text-secondary)",
+                    }}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
+          </motion.form>
+
+          {/* Results */}
+          <AnimatePresence mode="wait">
+            {searched && (
+              <motion.div
+                key="results"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}
+                className="mt-8"
+              >
+                {loading && ranked.length === 0 ? (
+                  <div
+                    className="text-center py-16"
+                    style={{ color: "var(--text-tertiary)" }}
+                  >
+                    <Loader2
+                      size={28}
+                      className="animate-spin mx-auto mb-3"
+                      style={{ color: "var(--brand)" }}
+                    />
+                    Fetching live rates from {SOURCES.length} exchanges…
+                  </div>
+                ) : ranked.length === 0 ? (
+                  <div
+                    className="text-center py-16 rounded-3xl"
+                    style={{
+                      background: "#fff",
+                      border: "1px solid var(--border-default)",
+                    }}
+                  >
+                    <p style={{ color: "var(--text-secondary)" }}>
+                      No listings found for ₹{amountNum.toLocaleString("en-IN")}.
+                      Try a different amount.
+                    </p>
+                  </div>
+                ) : (
+                  <>
+                    {/* Global vs P2P comparison */}
+                    {globalRate && (
+                      <div
+                        className="rounded-2xl px-5 py-4 mb-4 flex items-center justify-between gap-4 flex-wrap"
+                        style={{
+                          background: "#fff",
+                          border: "1px solid var(--border-default)",
+                        }}
+                      >
+                        <div className="flex items-center gap-6 flex-wrap">
+                          <div>
+                            <div
+                              className="text-[11px] uppercase tracking-wider font-semibold"
+                              style={{ color: "var(--text-muted)" }}
+                            >
+                              Global spot
+                            </div>
+                            <div className="text-lg font-bold tabular-nums">
+                              ₹{globalRate.toFixed(2)}
+                            </div>
+                          </div>
+                          <div
+                            className="text-xl"
+                            style={{ color: "var(--text-muted)" }}
+                          >
+                            →
+                          </div>
+                          <div>
+                            <div
+                              className="text-[11px] uppercase tracking-wider font-semibold"
+                              style={{ color: "var(--text-muted)" }}
+                            >
+                              India P2P
+                            </div>
+                            <div className="text-lg font-bold tabular-nums">
+                              ₹{best.price.toFixed(2)}
+                            </div>
+                          </div>
+                        </div>
+                        {premiumPct != null && (
+                          <div
+                            className="px-3 py-2 rounded-xl flex items-center gap-2"
+                            style={{
+                              background:
+                                premiumPct >= 0
+                                  ? "rgba(16, 185, 129, 0.10)"
+                                  : "rgba(239, 68, 68, 0.10)",
+                              color: premiumPct >= 0 ? "#059669" : "#dc2626",
+                            }}
+                          >
+                            {premiumPct >= 0 ? (
+                              <TrendingUp size={16} />
+                            ) : (
+                              <TrendingDown size={16} />
+                            )}
+                            <div className="leading-tight">
+                              <div className="text-[10px] uppercase tracking-wider font-semibold opacity-80">
+                                Premium
+                              </div>
+                              <div className="text-base font-bold tabular-nums">
+                                {premiumPct >= 0 ? "+" : ""}
+                                {premiumPct.toFixed(2)}%
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Hero — live market signal */}
+                    <div
+                      className="rounded-2xl p-6 mb-4"
+                      style={{
+                        background: "#fff",
+                        border: "1px solid var(--border-default)",
+                      }}
+                    >
+                      <div className="flex flex-wrap items-end justify-between gap-4">
+                        <div>
+                          <div
+                            className="flex items-center gap-1.5 mb-2 text-xs font-semibold uppercase tracking-wider"
+                            style={{ color: "var(--text-tertiary)" }}
+                          >
+                            <span
+                              className="w-1.5 h-1.5 rounded-full animate-pulse"
+                              style={{ background: "var(--brand)" }}
+                            />
+                            Best rate right now
+                          </div>
+                          <div
+                            className="font-bold tracking-tight tabular-nums"
+                            style={{
+                              fontSize: "clamp(2rem, 4.5vw, 2.75rem)",
+                              lineHeight: 1,
+                              color: "var(--text-primary)",
+                            }}
+                          >
+                            ₹{best.price.toFixed(2)}
+                            <span
+                              className="text-sm font-medium ml-2"
+                              style={{ color: "var(--text-tertiary)" }}
+                            >
+                              / USDT
+                            </span>
+                          </div>
+                          <div
+                            className="text-sm mt-2"
+                            style={{ color: "var(--text-secondary)" }}
+                          >
+                            on {best.source} — you {isBuy ? "get" : "receive"}{" "}
+                            <b style={{ color: "var(--text-primary)" }}>
+                              {isBuy
+                                ? (amountNum / best.price).toFixed(2) + " USDT"
+                                : "₹" +
+                                  (amountNum * best.price).toLocaleString("en-IN", {
+                                    maximumFractionDigits: 0,
+                                  })}
+                            </b>
+                          </div>
+                          <div
+                            className="text-xs mt-1.5"
+                            style={{ color: "var(--text-muted)" }}
+                          >
+                            ₹{spread.toFixed(2)} spread across {ranked.length}{" "}
+                            listings · updated {secondsAgo}s ago
+                          </div>
+                        </div>
+                        <div className="flex flex-col items-end gap-2">
+                          <div className="flex items-center gap-1.5">
+                            <button
+                              onClick={copyRate}
+                              className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full transition"
+                              style={{
+                                background: "var(--bg-tertiary)",
+                                color: "var(--text-secondary)",
+                              }}
+                              title="Copy rate"
+                            >
+                              {copied ? (
+                                <>
+                                  <Check size={12} /> Copied
+                                </>
+                              ) : (
+                                <>
+                                  <Copy size={12} /> Copy
+                                </>
+                              )}
+                            </button>
+                            <a
+                              href={`https://wa.me/?text=${encodeURIComponent(shareText)}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center justify-center text-xs font-medium px-3 py-1.5 rounded-full transition"
+                              style={{
+                                background: "var(--bg-tertiary)",
+                                color: "var(--text-secondary)",
+                              }}
+                              title="Share on WhatsApp"
+                            >
+                              WhatsApp
+                            </a>
+                            <a
+                              href={`https://t.me/share/url?url=${encodeURIComponent("https://blip.money/blip-rates")}&text=${encodeURIComponent(shareText)}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center justify-center text-xs font-medium px-3 py-1.5 rounded-full transition"
+                              style={{
+                                background: "var(--bg-tertiary)",
+                                color: "var(--text-secondary)",
+                              }}
+                              title="Share on Telegram"
+                            >
+                              Telegram
+                            </a>
+                          </div>
+                          <button
+                            onClick={runSearch}
+                            disabled={loading}
+                            className="inline-flex items-center gap-1 text-[11px] font-medium px-2.5 py-1 rounded-full transition"
+                            style={{ color: "var(--text-muted)" }}
+                          >
+                            <RefreshCw
+                              size={11}
+                              className={loading ? "animate-spin" : ""}
+                            />
+                            Refresh
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Market signal line */}
+                    {signal && (
+                      <div
+                        className="flex items-center gap-2 px-4 py-3 mb-2 rounded-xl"
+                        style={{
+                          background:
+                            signal.tone === "up"
+                              ? "rgba(16, 185, 129, 0.08)"
+                              : signal.tone === "down"
+                                ? "rgba(239, 68, 68, 0.08)"
+                                : "var(--bg-tertiary)",
+                          color:
+                            signal.tone === "up"
+                              ? "#059669"
+                              : signal.tone === "down"
+                                ? "#dc2626"
+                                : "var(--text-secondary)",
+                        }}
+                      >
+                        <Zap size={14} />
+                        <span className="text-sm font-semibold">{signal.text}</span>
+                      </div>
+                    )}
+
+                    {/* Trust line */}
+                    <div
+                      className="text-xs mb-6 px-1"
+                      style={{ color: "var(--text-muted)" }}
+                    >
+                      Based on top listings from {results.filter((r) => r.ok && r.quotes.length > 0).map((r) => r.source).join(", ") || "P2P exchanges"}.
+                    </div>
+
+                    {/* Listings table */}
+                    <div
+                      className="rounded-3xl overflow-hidden"
+                      style={{
+                        background: "#fff",
+                        border: "1px solid var(--border-default)",
+                      }}
+                    >
+                      <div
+                        className="hidden md:grid grid-cols-[1fr_110px_130px_1.2fr_110px] gap-4 px-6 py-3 text-xs font-semibold uppercase tracking-wider"
+                        style={{
+                          background: "var(--bg-tertiary)",
+                          color: "var(--text-tertiary)",
+                          borderBottom: "1px solid var(--border-default)",
+                        }}
+                      >
+                        <div>Exchange</div>
+                        <div className="text-right">Price (₹)</div>
+                        <div className="text-right">You get</div>
+                        <div>Merchant</div>
+                        <div className="text-right">Go</div>
+                      </div>
+
+                      {ranked.slice(0, 15).map((q, i) => {
+                        const youGet = isBuy
+                          ? (amountNum / q.price).toFixed(2) + " USDT"
+                          : "₹" +
+                            (amountNum * q.price).toLocaleString("en-IN", {
+                              maximumFractionDigits: 0,
+                            });
+                        const diff = ((q.price - best.price) / best.price) * 100;
+                        return (
+                          <div
+                            key={i}
+                            className="grid grid-cols-[1fr_auto] md:grid-cols-[1fr_110px_130px_1.2fr_110px] gap-x-4 gap-y-1 px-6 py-4 items-center"
+                            style={{
+                              borderBottom:
+                                i === ranked.slice(0, 15).length - 1
+                                  ? "none"
+                                  : "1px solid var(--border-subtle)",
+                              background:
+                                i === 0 ? "var(--bg-tertiary)" : "transparent",
+                            }}
+                          >
+                            {/* Exchange */}
+                            <div className="flex items-center gap-2 min-w-0">
+                              <div
+                                className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0"
+                                style={{
+                                  background:
+                                    i === 0
+                                      ? "var(--text-primary)"
+                                      : "var(--bg-tertiary)",
+                                  color:
+                                    i === 0 ? "#fff" : "var(--text-primary)",
+                                  border:
+                                    i === 0
+                                      ? "none"
+                                      : "1px solid var(--border-default)",
+                                }}
+                              >
+                                {q.source.charAt(0)}
+                              </div>
+                              <div className="min-w-0">
+                                <div className="font-semibold text-sm truncate">
+                                  {q.source}
+                                </div>
+                                {i === 0 && (
+                                  <div
+                                    className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide"
+                                    style={{ color: "var(--text-tertiary)" }}
+                                  >
+                                    <TrendingDown size={10} /> Cheapest
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+
+                            {/* Price */}
+                            <div className="md:text-right">
+                              <div className="font-bold text-base">
+                                ₹{q.price.toFixed(2)}
+                              </div>
+                              {i > 0 && (
+                                <div
+                                  className="text-[11px]"
+                                  style={{ color: "var(--text-muted)" }}
+                                >
+                                  +{diff.toFixed(2)}%
+                                </div>
+                              )}
+                            </div>
+
+                            {/* You get */}
+                            <div
+                              className="md:text-right text-sm font-medium hidden md:block"
+                              style={{ color: "var(--text-secondary)" }}
+                            >
+                              {youGet}
+                            </div>
+
+                            {/* Merchant */}
+                            <div className="hidden md:block min-w-0">
+                              <div className="text-sm font-medium truncate">
+                                {q.merchant}
+                              </div>
+                              <div
+                                className="text-[11px]"
+                                style={{ color: "var(--text-muted)" }}
+                              >
+                                {q.completionRate != null &&
+                                  `${(q.completionRate * 100).toFixed(1)}% · `}
+                                {q.orders != null && `${q.orders} orders`}
+                              </div>
+                            </div>
+
+                            {/* CTA */}
+                            <div className="md:text-right">
+                              <a
+                                href={q.sourceUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold transition"
+                                style={{
+                                  background:
+                                    i === 0
+                                      ? "var(--text-primary)"
+                                      : "#fff",
+                                  color: i === 0 ? "#fff" : "var(--text-primary)",
+                                  border:
+                                    i === 0
+                                      ? "none"
+                                      : "1px solid var(--border-default)",
+                                }}
+                              >
+                                Trade
+                                <ExternalLink size={11} />
+                              </a>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {/* Source status footer */}
+                    <div
+                      className="mt-4 flex flex-wrap items-center justify-between gap-2 px-2 text-xs"
+                      style={{ color: "var(--text-muted)" }}
+                    >
+                      <div className="flex flex-wrap gap-3">
+                        {results.map((r) => (
+                          <span key={r.source} className="flex items-center gap-1.5">
+                            <span
+                              className="w-1.5 h-1.5 rounded-full"
+                              style={{
+                                background: r.ok && r.quotes.length > 0
+                                  ? "#10b981"
+                                  : "#ef4444",
+                              }}
+                            />
+                            {r.source}
+                          </span>
+                        ))}
+                      </div>
+                      {lastFetched && <span>Updated {secondsAgo}s ago</span>}
+                    </div>
+                  </>
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+        </div>
+      </main>
+    </>
+  );
+}

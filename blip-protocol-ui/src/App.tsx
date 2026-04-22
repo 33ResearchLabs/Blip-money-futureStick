@@ -121,6 +121,7 @@ const BestCryptoExchangeUae = lazy(
   () => import("./pages/Markets/BestCryptoExchangeUae"),
 );
 const BitcoinPriceUae = lazy(() => import("./pages/Markets/BitcoinPriceUae"));
+const BlipRates = lazy(() => import("./pages/Markets/BlipRates"));
 const Bounty = lazy(() => import("./pages/Bounty"));
 const RewardPage = lazy(() => import("./pages/RewardPage"));
 
@@ -303,6 +304,7 @@ const App = () => (
                       path="/bitcoin-price-uae"
                       element={<BitcoinPriceUae />}
                     />
+                    <Route path="/blip-rates" element={<BlipRates />} />
 
                     <Route
                       path="/waitlist"
