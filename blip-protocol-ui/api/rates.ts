@@ -251,10 +251,20 @@ async function fetchFromDb(
   side: Side,
   fiat: string,
   crypto: string,
-): Promise<{ quotes: Quote[]; observedAt: number | null }> {
-  const url = process.env.VITE_SUPABASE_URL;
-  const key = process.env.VITE_SUPABASE_ANON_KEY;
-  if (!url || !key) return { quotes: [], observedAt: null };
+): Promise<{ quotes: Quote[]; observedAt: number | null; dbStatus: string }> {
+  // Try both server-side and VITE_-prefixed env var names — Vercel exposes
+  // either convention depending on how the project was configured.
+  const url =
+    process.env.SUPABASE_URL ?? process.env.VITE_SUPABASE_URL;
+  const key =
+    process.env.SUPABASE_ANON_KEY ?? process.env.VITE_SUPABASE_ANON_KEY;
+  if (!url || !key) {
+    return {
+      quotes: [],
+      observedAt: null,
+      dbStatus: `missing-env(url=${Boolean(url)},key=${Boolean(key)})`,
+    };
+  }
 
   const meta = SOURCE_META[source];
   const restUrl =
@@ -274,9 +284,17 @@ async function fetchFromDb(
       accept: "application/json",
     },
   });
-  if (!res.ok) return { quotes: [], observedAt: null };
+  if (!res.ok) {
+    return {
+      quotes: [],
+      observedAt: null,
+      dbStatus: `http-${res.status}`,
+    };
+  }
   const rows: RatesFeedRow[] = await res.json();
-  if (!rows.length) return { quotes: [], observedAt: null };
+  if (!rows.length) {
+    return { quotes: [], observedAt: null, dbStatus: "empty" };
+  }
 
   const quotes: Quote[] = rows.map((r) => ({
     source: meta.display,
@@ -297,7 +315,7 @@ async function fetchFromDb(
   const newest = Math.max(
     ...rows.map((r) => new Date(r.observed_at).getTime()),
   );
-  return { quotes, observedAt: newest };
+  return { quotes, observedAt: newest, dbStatus: "ok" };
 }
 
 export default async function handler(req: Request): Promise<Response> {
@@ -322,42 +340,48 @@ export default async function handler(req: Request): Promise<Response> {
   }
 
   // Try DB first. Fall back to live scrape if empty or stale.
+  let dbStatus = "uninit";
   try {
-    const { quotes, observedAt } = await fetchFromDb(
-      source,
-      side,
-      fiat,
-      crypto,
-    );
+    const r = await fetchFromDb(source, side, fiat, crypto);
+    dbStatus = r.dbStatus;
     const fresh =
-      observedAt != null && Date.now() - observedAt < STALE_THRESHOLD_MS;
-    if (quotes.length > 0 && fresh) {
+      r.observedAt != null && Date.now() - r.observedAt < STALE_THRESHOLD_MS;
+    if (r.quotes.length > 0 && fresh) {
       return new Response(
         JSON.stringify({
-          quotes,
+          quotes: r.quotes,
           source: "db",
-          observed_at: observedAt,
-          age_seconds: Math.floor((Date.now() - observedAt) / 1000),
+          observed_at: r.observedAt,
+          age_seconds: Math.floor((Date.now() - (r.observedAt ?? 0)) / 1000),
         }),
         { status: 200, headers: commonHeaders },
       );
     }
-  } catch {
-    // fall through to live scrape
+    if (r.observedAt != null && !fresh) dbStatus = "stale";
+  } catch (e) {
+    dbStatus = `throw:${e instanceof Error ? e.message : String(e)}`;
   }
 
   // Fallback: live exchange scrape (original behavior).
   try {
     const quotes = await fetchers[source](side);
     return new Response(
-      JSON.stringify({ quotes, source: "live", observed_at: Date.now() }),
+      JSON.stringify({
+        quotes,
+        source: "live",
+        db_status: dbStatus,
+        observed_at: Date.now(),
+      }),
       { status: 200, headers: commonHeaders },
     );
   } catch (e: unknown) {
     const msg = e instanceof Error ? e.message : String(e);
-    return new Response(JSON.stringify({ error: msg, quotes: [] }), {
-      status: 200, // soft-fail so other sources still show
-      headers: commonHeaders,
-    });
+    return new Response(
+      JSON.stringify({ error: msg, db_status: dbStatus, quotes: [] }),
+      {
+        status: 200, // soft-fail so other sources still show
+        headers: commonHeaders,
+      },
+    );
   }
 }
