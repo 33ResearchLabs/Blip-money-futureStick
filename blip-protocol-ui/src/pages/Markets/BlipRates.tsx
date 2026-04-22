@@ -1,5 +1,11 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useMotionValue,
+  useTransform,
+  animate,
+} from "framer-motion";
 import {
   Search,
   RefreshCw,
@@ -10,6 +16,7 @@ import {
   Copy,
   Check,
   Zap,
+  ImageDown,
 } from "lucide-react";
 import SEO from "@/components/SEO";
 
@@ -251,6 +258,175 @@ function buildSignal(args: {
 }
 
 /* ═══════════════════════════════════════════════
+   SHARE IMAGE — canvas-rendered 1200×630 OG card
+   ═══════════════════════════════════════════════ */
+
+function renderShareImage(args: {
+  price: number;
+  side: Side;
+  source: string;
+  premiumPct: number | null;
+  globalRate: number | null;
+}): Promise<Blob | null> {
+  return new Promise((resolve) => {
+    const W = 1200;
+    const H = 630;
+    const canvas = document.createElement("canvas");
+    canvas.width = W;
+    canvas.height = H;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return resolve(null);
+
+    // Background
+    const bg = ctx.createLinearGradient(0, 0, W, H);
+    bg.addColorStop(0, "#FAF8F5");
+    bg.addColorStop(1, "#FFFFFF");
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, W, H);
+
+    // Soft brand corner glow (top-right)
+    const glow = ctx.createRadialGradient(W - 100, 100, 10, W - 100, 100, 600);
+    glow.addColorStop(0, "rgba(255,107,53,0.22)");
+    glow.addColorStop(1, "rgba(255,107,53,0)");
+    ctx.fillStyle = glow;
+    ctx.fillRect(0, 0, W, H);
+
+    // Live dot + label
+    ctx.fillStyle = "#ff6b35";
+    ctx.beginPath();
+    ctx.arc(80, 90, 7, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#666";
+    ctx.font = "600 18px -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif";
+    ctx.textBaseline = "middle";
+    ctx.fillText("LIVE MARKET", 100, 90);
+
+    // Wordmark "Blip Rates"
+    ctx.font =
+      "800 72px -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif";
+    ctx.textBaseline = "alphabetic";
+    ctx.fillStyle = "#000";
+    ctx.fillText("Blip ", 80, 180);
+    const blipW = ctx.measureText("Blip ").width;
+    ctx.fillStyle = "#ff6b35";
+    ctx.fillText("Rates", 80 + blipW, 180);
+
+    // "USDT / INR · BUY" tag
+    ctx.font =
+      "600 22px -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif";
+    ctx.fillStyle = "#888";
+    ctx.fillText(`USDT / INR · ${args.side === "BUY" ? "Best buy" : "Best sell"}`, 80, 220);
+
+    // Big price
+    ctx.font =
+      "800 180px -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif";
+    ctx.fillStyle = "#000";
+    const priceStr = `₹${args.price.toLocaleString("en-IN", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`;
+    ctx.fillText(priceStr, 72, 400);
+
+    // "/ USDT" suffix
+    const priceW = ctx.measureText(priceStr).width;
+    ctx.font =
+      "600 32px -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif";
+    ctx.fillStyle = "#888";
+    ctx.fillText("/ USDT", 88 + priceW, 400);
+
+    // Premium pill
+    if (args.premiumPct != null) {
+      const up = args.premiumPct >= 0;
+      const pillX = 80;
+      const pillY = 440;
+      const pillText = `${up ? "+" : ""}${args.premiumPct.toFixed(2)}% vs global`;
+      ctx.font =
+        "700 28px -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif";
+      const pw = ctx.measureText(pillText).width + 56;
+      const ph = 56;
+      ctx.fillStyle = up ? "rgba(16,185,129,0.16)" : "rgba(239,68,68,0.16)";
+      roundRect(ctx, pillX, pillY, pw, ph, 28);
+      ctx.fill();
+      ctx.fillStyle = up ? "#047857" : "#b91c1c";
+      ctx.fillText(pillText, pillX + 28, pillY + ph / 2 + 10);
+    }
+
+    // Global spot sub-line
+    if (args.globalRate != null) {
+      ctx.font =
+        "500 22px -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif";
+      ctx.fillStyle = "#666";
+      ctx.fillText(
+        `Global spot ₹${args.globalRate.toFixed(2)} · India P2P ₹${args.price.toFixed(2)}`,
+        80,
+        535,
+      );
+    }
+
+    // Source + URL footer
+    ctx.font =
+      "600 22px -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif";
+    ctx.fillStyle = "#888";
+    ctx.fillText(`Cheapest on ${args.source}`, 80, 580);
+    ctx.textAlign = "right";
+    ctx.fillStyle = "#ff6b35";
+    ctx.fillText("blip.money/blip-rates", W - 80, 580);
+    ctx.textAlign = "left";
+
+    canvas.toBlob((b) => resolve(b), "image/png");
+  });
+}
+
+function roundRect(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  r: number,
+) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+/* ═══════════════════════════════════════════════
+   ANIMATED PRICE — smooth count-up on updates
+   ═══════════════════════════════════════════════ */
+
+function AnimatedPrice({
+  value,
+  decimals = 2,
+}: {
+  value: number;
+  decimals?: number;
+}) {
+  const mv = useMotionValue(value);
+  const display = useTransform(mv, (v) =>
+    v.toLocaleString("en-IN", {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
+    }),
+  );
+  useEffect(() => {
+    const controls = animate(mv, value, {
+      duration: 0.7,
+      ease: [0.16, 1, 0.3, 1],
+    });
+    return controls.stop;
+  }, [value, mv]);
+  return <motion.span>{display}</motion.span>;
+}
+
+/* ═══════════════════════════════════════════════
    PAGE
    ═══════════════════════════════════════════════ */
 
@@ -374,6 +550,41 @@ export default function BlipRates() {
     } catch {}
   };
 
+  const shareImage = async () => {
+    if (!best) return;
+    const blob = await renderShareImage({
+      price: best.price,
+      side,
+      source: best.source,
+      premiumPct,
+      globalRate,
+    });
+    if (!blob) return;
+    const file = new File([blob], "blip-rates.png", { type: "image/png" });
+    // Mobile: native share sheet
+    const nav = navigator as Navigator & {
+      canShare?: (d: { files?: File[] }) => boolean;
+      share?: (d: { files?: File[]; title?: string; text?: string }) => Promise<void>;
+    };
+    if (nav.canShare && nav.canShare({ files: [file] }) && nav.share) {
+      try {
+        await nav.share({ files: [file], title: "Blip Rates", text: shareText });
+        return;
+      } catch {
+        // user cancelled — fall through to download
+      }
+    }
+    // Desktop: download
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `blip-rates-${new Date().toISOString().slice(0, 10)}.png`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  };
+
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     runSearch();
@@ -417,13 +628,13 @@ export default function BlipRates() {
             <h1
               className="font-bold tracking-tight"
               style={{
-                fontSize: "clamp(2.25rem, 4.5vw, 3.5rem)",
-                letterSpacing: "-0.035em",
-                lineHeight: 1.05,
+                fontSize: "clamp(3rem, 7vw, 5.5rem)",
+                letterSpacing: "-0.05em",
+                lineHeight: 1,
                 color: "var(--text-primary)",
               }}
             >
-              Blip Rates
+              Blip <span style={{ color: "var(--brand)" }}>Rates</span>
             </h1>
             <p
               className="mt-3 text-sm md:text-base max-w-xl mx-auto"
@@ -616,15 +827,21 @@ export default function BlipRates() {
                               Global spot
                             </div>
                             <div className="text-lg font-bold tabular-nums">
-                              ₹{globalRate.toFixed(2)}
+                              ₹<AnimatedPrice value={globalRate} />
                             </div>
                           </div>
-                          <div
+                          <motion.div
+                            animate={{ x: [0, 4, 0] }}
+                            transition={{
+                              duration: 2.2,
+                              repeat: Infinity,
+                              ease: "easeInOut",
+                            }}
                             className="text-xl"
-                            style={{ color: "var(--text-muted)" }}
+                            style={{ color: "var(--brand)" }}
                           >
                             →
-                          </div>
+                          </motion.div>
                           <div>
                             <div
                               className="text-[11px] uppercase tracking-wider font-semibold"
@@ -633,19 +850,23 @@ export default function BlipRates() {
                               India P2P
                             </div>
                             <div className="text-lg font-bold tabular-nums">
-                              ₹{best.price.toFixed(2)}
+                              ₹<AnimatedPrice value={best.price} />
                             </div>
                           </div>
                         </div>
                         {premiumPct != null && (
-                          <div
+                          <motion.div
+                            key={`prem-${Math.round(premiumPct * 10)}`}
+                            initial={{ scale: 0.95, opacity: 0.6 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                             className="px-3 py-2 rounded-xl flex items-center gap-2"
                             style={{
                               background:
                                 premiumPct >= 0
-                                  ? "rgba(16, 185, 129, 0.10)"
-                                  : "rgba(239, 68, 68, 0.10)",
-                              color: premiumPct >= 0 ? "#059669" : "#dc2626",
+                                  ? "rgba(16, 185, 129, 0.14)"
+                                  : "rgba(239, 68, 68, 0.14)",
+                              color: premiumPct >= 0 ? "#047857" : "#b91c1c",
                             }}
                           >
                             {premiumPct >= 0 ? (
@@ -654,15 +875,15 @@ export default function BlipRates() {
                               <TrendingDown size={16} />
                             )}
                             <div className="leading-tight">
-                              <div className="text-[10px] uppercase tracking-wider font-semibold opacity-80">
+                              <div className="text-[10px] uppercase tracking-wider font-semibold opacity-90">
                                 Premium
                               </div>
                               <div className="text-base font-bold tabular-nums">
                                 {premiumPct >= 0 ? "+" : ""}
-                                {premiumPct.toFixed(2)}%
+                                <AnimatedPrice value={premiumPct} />%
                               </div>
                             </div>
-                          </div>
+                          </motion.div>
                         )}
                       </div>
                     )}
@@ -687,7 +908,14 @@ export default function BlipRates() {
                             />
                             Best rate right now
                           </div>
-                          <div
+                          <motion.div
+                            key={best.price}
+                            initial={{ scale: 0.98, opacity: 0.6 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            transition={{
+                              duration: 0.35,
+                              ease: [0.16, 1, 0.3, 1],
+                            }}
                             className="font-bold tracking-tight tabular-nums"
                             style={{
                               fontSize: "clamp(2rem, 4.5vw, 2.75rem)",
@@ -695,14 +923,14 @@ export default function BlipRates() {
                               color: "var(--text-primary)",
                             }}
                           >
-                            ₹{best.price.toFixed(2)}
+                            ₹<AnimatedPrice value={best.price} />
                             <span
                               className="text-sm font-medium ml-2"
                               style={{ color: "var(--text-tertiary)" }}
                             >
                               / USDT
                             </span>
-                          </div>
+                          </motion.div>
                           <div
                             className="text-sm mt-2"
                             style={{ color: "var(--text-secondary)" }}
@@ -726,7 +954,18 @@ export default function BlipRates() {
                           </div>
                         </div>
                         <div className="flex flex-col items-end gap-2">
-                          <div className="flex items-center gap-1.5">
+                          <div className="flex items-center gap-1.5 flex-wrap justify-end">
+                            <button
+                              onClick={shareImage}
+                              className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full transition"
+                              style={{
+                                background: "var(--text-primary)",
+                                color: "#fff",
+                              }}
+                              title="Share as image"
+                            >
+                              <ImageDown size={12} /> Share image
+                            </button>
                             <button
                               onClick={copyRate}
                               className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full transition"
@@ -863,6 +1102,10 @@ export default function BlipRates() {
                                   : "1px solid var(--border-subtle)",
                               background:
                                 i === 0 ? "var(--bg-tertiary)" : "transparent",
+                              boxShadow:
+                                i === 0
+                                  ? "inset 3px 0 0 var(--brand)"
+                                  : "none",
                             }}
                           >
                             {/* Exchange */}
@@ -901,8 +1144,8 @@ export default function BlipRates() {
 
                             {/* Price */}
                             <div className="md:text-right">
-                              <div className="font-bold text-base">
-                                ₹{q.price.toFixed(2)}
+                              <div className="font-bold text-base tabular-nums">
+                                ₹<AnimatedPrice value={q.price} />
                               </div>
                               {i > 0 && (
                                 <div
