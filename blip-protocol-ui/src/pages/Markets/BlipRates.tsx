@@ -430,13 +430,19 @@ function AnimatedPrice({
    PAGE
    ═══════════════════════════════════════════════ */
 
-const QUICK_AMOUNTS_BUY = [10000, 50000, 100000, 500000];
-const QUICK_AMOUNTS_SELL = [100, 500, 1000, 5000];
-const DEFAULTS = { BUY: "10000", SELL: "500" } as const;
+type AmountUnit = "INR" | "USDT";
+
+const QUICK_AMOUNTS_INR = [10000, 50000, 100000, 500000];
+const QUICK_AMOUNTS_USDT = [100, 500, 1000, 5000];
+const DEFAULTS: Record<Side, { unit: AmountUnit; amount: string }> = {
+  BUY: { unit: "INR", amount: "10000" },
+  SELL: { unit: "USDT", amount: "500" },
+};
 
 export default function BlipRates() {
   const [amount, setAmount] = useState<string>("10000");
   const [side, setSide] = useState<Side>("BUY");
+  const [amountUnit, setAmountUnit] = useState<AmountUnit>("INR");
   const [results, setResults] = useState<SourceResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
@@ -448,15 +454,30 @@ export default function BlipRates() {
 
   const amountNum = parseFloat(amount) || 0;
   const isBuy = side === "BUY";
-  const quickAmounts = isBuy ? QUICK_AMOUNTS_BUY : QUICK_AMOUNTS_SELL;
-  const unitSymbol = isBuy ? "₹" : "";
-  const unitSuffix = isBuy ? "" : "USDT";
-  const amountPlaceholder = isBuy ? "Amount in INR" : "Amount in USDT";
+  const isINR = amountUnit === "INR";
+  const quickAmounts = isINR ? QUICK_AMOUNTS_INR : QUICK_AMOUNTS_USDT;
+  const unitSymbol = isINR ? "₹" : "$";
+  const amountPlaceholder = isINR ? "10,000" : "500";
 
   const onSideChange = (next: Side) => {
     if (next === side) return;
     setSide(next);
-    setAmount(DEFAULTS[next]);
+    setAmountUnit(DEFAULTS[next].unit);
+    setAmount(DEFAULTS[next].amount);
+  };
+
+  const onUnitChange = (next: AmountUnit) => {
+    if (next === amountUnit) return;
+    setAmountUnit(next);
+    // Reset to that unit's default so it feels clean
+    const defaults = isINR ? QUICK_AMOUNTS_USDT[1] : QUICK_AMOUNTS_INR[0];
+    setAmount(String(defaults));
+  };
+
+  const onAmountInput = (v: string) => {
+    // allow only digits + single decimal
+    const cleaned = v.replace(/[^0-9.]/g, "").replace(/(\..*)\./g, "$1");
+    setAmount(cleaned);
   };
 
   const runSearch = useCallback(async () => {
@@ -499,7 +520,7 @@ export default function BlipRates() {
     const sortedPrices = [...all.map((q) => q.price)].sort((a, b) => a - b);
     const medianPrice = sortedPrices[Math.floor(sortedPrices.length / 2)];
     // Convert user amount to INR for limit filtering
-    const inrAmount = isBuy ? amountNum : amountNum * medianPrice;
+    const inrAmount = isINR ? amountNum : amountNum * medianPrice;
     const viable = all.filter((q) => {
       if (inrAmount > 0) {
         if (q.minINR > inrAmount) return false;
@@ -509,7 +530,7 @@ export default function BlipRates() {
     });
     viable.sort((a, b) => (isBuy ? a.price - b.price : b.price - a.price));
     return viable;
-  }, [results, amountNum, isBuy]);
+  }, [results, amountNum, isBuy, isINR]);
 
   const best = ranked[0];
   const worst = ranked[ranked.length - 1];
@@ -550,7 +571,10 @@ export default function BlipRates() {
     } catch {}
   };
 
-  const shareImage = async () => {
+  // Share as media (image). On mobile the native share sheet lets user pick
+  // WhatsApp/Telegram/etc and the PNG attaches. On desktop, download the PNG
+  // + open the chat app with the text (user manually attaches the image).
+  const shareAsMedia = async (channel: "native" | "whatsapp" | "telegram") => {
     if (!best) return;
     const blob = await renderShareImage({
       price: best.price,
@@ -561,20 +585,35 @@ export default function BlipRates() {
     });
     if (!blob) return;
     const file = new File([blob], "blip-rates.png", { type: "image/png" });
-    // Mobile: native share sheet
     const nav = navigator as Navigator & {
       canShare?: (d: { files?: File[] }) => boolean;
-      share?: (d: { files?: File[]; title?: string; text?: string }) => Promise<void>;
+      share?: (d: {
+        files?: File[];
+        title?: string;
+        text?: string;
+      }) => Promise<void>;
     };
-    if (nav.canShare && nav.canShare({ files: [file] }) && nav.share) {
+    const canShareFiles = !!(
+      nav.canShare &&
+      nav.canShare({ files: [file] }) &&
+      nav.share
+    );
+
+    if (canShareFiles) {
       try {
-        await nav.share({ files: [file], title: "Blip Rates", text: shareText });
+        await nav.share!({
+          files: [file],
+          title: "Blip Rates",
+          text: shareText,
+        });
         return;
       } catch {
-        // user cancelled — fall through to download
+        // user cancelled — fall through
       }
     }
-    // Desktop: download
+
+    // Desktop fallback: trigger download so the user has the image,
+    // then open the chat app with text pre-filled.
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -583,6 +622,20 @@ export default function BlipRates() {
     a.click();
     a.remove();
     URL.revokeObjectURL(url);
+
+    if (channel === "whatsapp") {
+      window.open(
+        `https://wa.me/?text=${encodeURIComponent(shareText)}`,
+        "_blank",
+        "noopener",
+      );
+    } else if (channel === "telegram") {
+      window.open(
+        `https://t.me/share/url?url=${encodeURIComponent("https://blip.money/blip-rates")}&text=${encodeURIComponent(shareText)}`,
+        "_blank",
+        "noopener",
+      );
+    }
   };
 
   const onSubmit = (e: React.FormEvent) => {
@@ -679,84 +732,104 @@ export default function BlipRates() {
               </div>
             </div>
 
-            {/* Big hero search bar */}
+            {/* Hero search bar */}
             <div
-              className="relative rounded-[32px] transition-all"
+              className="relative rounded-[28px] transition-all"
               style={{
                 background: "#ffffff",
                 border: "1px solid var(--border-default)",
                 boxShadow:
-                  "0 30px 80px -30px rgba(255,107,53,0.22), 0 10px 30px -10px rgba(0,0,0,0.08)",
+                  "0 24px 60px -30px rgba(255,107,53,0.22), 0 8px 24px -10px rgba(0,0,0,0.08)",
               }}
             >
-              {/* subtle brand aura behind */}
               <div
                 aria-hidden
-                className="absolute inset-0 -z-10 blur-3xl opacity-60 rounded-[32px] pointer-events-none"
+                className="absolute inset-0 -z-10 blur-3xl opacity-50 rounded-[28px] pointer-events-none"
                 style={{
                   background:
                     "radial-gradient(70% 100% at 50% 50%, rgba(255,107,53,0.18) 0%, rgba(255,107,53,0) 70%)",
                 }}
               />
 
-              <div className="flex items-center gap-2 md:gap-4 px-5 md:px-8 py-4 md:py-6">
-                {unitSymbol && (
-                  <span
-                    className="font-bold shrink-0 tabular-nums leading-none"
-                    style={{
-                      fontSize: "clamp(2rem, 5.5vw, 4rem)",
-                      letterSpacing: "-0.04em",
-                      color: "var(--text-tertiary)",
-                    }}
-                  >
-                    {unitSymbol}
-                  </span>
-                )}
+              <div className="flex items-center gap-2 md:gap-3 px-4 md:px-6 py-3.5 md:py-5">
+                <motion.span
+                  key={unitSymbol}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                  className="font-bold shrink-0 tabular-nums leading-none"
+                  style={{
+                    fontSize: "clamp(1.75rem, 4.2vw, 3rem)",
+                    letterSpacing: "-0.035em",
+                    color: "var(--text-tertiary)",
+                  }}
+                >
+                  {unitSymbol}
+                </motion.span>
 
                 <input
-                  type="number"
+                  type="text"
                   inputMode="decimal"
+                  autoComplete="off"
                   value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                  placeholder={isBuy ? "10,000" : "100"}
-                  aria-label={amountPlaceholder}
-                  className="flex-1 bg-transparent outline-none font-bold tabular-nums min-w-0 placeholder:opacity-30 leading-none"
+                  onChange={(e) => onAmountInput(e.target.value)}
+                  placeholder={amountPlaceholder}
+                  aria-label={`Amount in ${amountUnit}`}
+                  className="flex-1 bg-transparent outline-none font-bold tabular-nums min-w-0 placeholder:opacity-25 leading-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                   style={{
-                    fontSize: "clamp(2rem, 5.5vw, 4rem)",
-                    letterSpacing: "-0.04em",
+                    fontSize: "clamp(1.75rem, 4.2vw, 3rem)",
+                    letterSpacing: "-0.035em",
                     color: "var(--text-primary)",
                     caretColor: "var(--brand)",
                   }}
                 />
 
-                {unitSuffix && (
-                  <span
-                    className="font-bold shrink-0 leading-none"
-                    style={{
-                      fontSize: "clamp(1rem, 1.8vw, 1.5rem)",
-                      letterSpacing: "-0.01em",
-                      color: "var(--text-tertiary)",
-                    }}
-                  >
-                    {unitSuffix}
-                  </span>
-                )}
+                {/* INR / USDT unit toggle */}
+                <div
+                  className="inline-flex items-center p-0.5 rounded-full shrink-0"
+                  style={{
+                    background: "var(--bg-tertiary)",
+                    border: "1px solid var(--border-default)",
+                  }}
+                >
+                  {(["INR", "USDT"] as AmountUnit[]).map((u) => (
+                    <button
+                      key={u}
+                      type="button"
+                      onClick={() => onUnitChange(u)}
+                      className="px-2.5 py-1 rounded-full text-[11px] font-semibold transition"
+                      style={{
+                        background:
+                          amountUnit === u ? "#fff" : "transparent",
+                        color:
+                          amountUnit === u
+                            ? "var(--text-primary)"
+                            : "var(--text-muted)",
+                        boxShadow:
+                          amountUnit === u ? "var(--shadow-sm)" : "none",
+                      }}
+                    >
+                      {u}
+                    </button>
+                  ))}
+                </div>
 
                 <button
                   type="submit"
                   disabled={loading || !amountNum}
-                  className="shrink-0 rounded-full font-semibold transition hover:opacity-90 disabled:opacity-50 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center"
+                  className="shrink-0 rounded-full font-semibold transition hover:brightness-110 active:scale-95 disabled:opacity-50 w-11 h-11 md:w-12 md:h-12 flex items-center justify-center"
                   style={{
-                    background: "var(--text-primary)",
+                    background:
+                      "linear-gradient(135deg, var(--brand) 0%, #ff8c50 100%)",
                     color: "#fff",
-                    boxShadow: "0 10px 24px rgba(0,0,0,0.18)",
+                    boxShadow: "0 10px 24px rgba(255,107,53,0.4)",
                   }}
                   aria-label="Search rates"
                 >
                   {loading ? (
-                    <Loader2 size={20} className="animate-spin" />
+                    <Loader2 size={18} className="animate-spin" />
                   ) : (
-                    <Search size={20} strokeWidth={2.5} />
+                    <Search size={18} strokeWidth={2.5} />
                   )}
                 </button>
               </div>
@@ -766,7 +839,7 @@ export default function BlipRates() {
             <div className="flex flex-wrap gap-2 mt-4 justify-center">
               {quickAmounts.map((v) => {
                 const active = parseFloat(amount) === v;
-                const label = isBuy
+                const label = isINR
                   ? "₹" + v.toLocaleString("en-IN")
                   : v.toLocaleString("en-IN") + " USDT";
                 return (
@@ -952,15 +1025,47 @@ export default function BlipRates() {
                             className="text-sm mt-2"
                             style={{ color: "var(--text-secondary)" }}
                           >
-                            on {best.source} — you {isBuy ? "get" : "receive"}{" "}
-                            <b style={{ color: "var(--text-primary)" }}>
-                              {isBuy
-                                ? (amountNum / best.price).toFixed(2) + " USDT"
-                                : "₹" +
-                                  (amountNum * best.price).toLocaleString("en-IN", {
-                                    maximumFractionDigits: 0,
-                                  })}
-                            </b>
+                            on {best.source} — {(() => {
+                              const usdt = isINR
+                                ? amountNum / best.price
+                                : amountNum;
+                              const inr = isINR
+                                ? amountNum
+                                : amountNum * best.price;
+                              const usdtStr =
+                                usdt.toFixed(2) + " USDT";
+                              const inrStr =
+                                "₹" +
+                                inr.toLocaleString("en-IN", {
+                                  maximumFractionDigits: 0,
+                                });
+                              if (isBuy) {
+                                return (
+                                  <>
+                                    you pay{" "}
+                                    <b style={{ color: "var(--text-primary)" }}>
+                                      {inrStr}
+                                    </b>{" "}
+                                    → get{" "}
+                                    <b style={{ color: "var(--text-primary)" }}>
+                                      {usdtStr}
+                                    </b>
+                                  </>
+                                );
+                              }
+                              return (
+                                <>
+                                  you sell{" "}
+                                  <b style={{ color: "var(--text-primary)" }}>
+                                    {usdtStr}
+                                  </b>{" "}
+                                  → get{" "}
+                                  <b style={{ color: "var(--text-primary)" }}>
+                                    {inrStr}
+                                  </b>
+                                </>
+                              );
+                            })()}
                           </div>
                           <div
                             className="text-xs mt-1.5"
@@ -973,19 +1078,44 @@ export default function BlipRates() {
                         <div className="flex flex-col items-end gap-2">
                           <div className="flex items-center gap-1.5 flex-wrap justify-end">
                             <button
-                              onClick={shareImage}
-                              className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full transition"
+                              onClick={() => shareAsMedia("native")}
+                              className="inline-flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-full transition hover:brightness-110 active:scale-95"
                               style={{
-                                background: "var(--text-primary)",
+                                background:
+                                  "linear-gradient(135deg, var(--brand) 0%, #ff8c50 100%)",
+                                color: "#fff",
+                                boxShadow:
+                                  "0 8px 20px rgba(255,107,53,0.38)",
+                              }}
+                              title="Share with image"
+                            >
+                              <ImageDown size={13} /> Share image
+                            </button>
+                            <button
+                              onClick={() => shareAsMedia("whatsapp")}
+                              className="inline-flex items-center justify-center text-xs font-semibold px-3 py-2 rounded-full transition hover:brightness-110"
+                              style={{
+                                background: "#25D366",
                                 color: "#fff",
                               }}
-                              title="Share as image"
+                              title="Share on WhatsApp with image"
                             >
-                              <ImageDown size={12} /> Share image
+                              WhatsApp
+                            </button>
+                            <button
+                              onClick={() => shareAsMedia("telegram")}
+                              className="inline-flex items-center justify-center text-xs font-semibold px-3 py-2 rounded-full transition hover:brightness-110"
+                              style={{
+                                background: "#229ED9",
+                                color: "#fff",
+                              }}
+                              title="Share on Telegram with image"
+                            >
+                              Telegram
                             </button>
                             <button
                               onClick={copyRate}
-                              className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full transition"
+                              className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-2 rounded-full transition"
                               style={{
                                 background: "var(--bg-tertiary)",
                                 color: "var(--text-secondary)",
@@ -1002,32 +1132,6 @@ export default function BlipRates() {
                                 </>
                               )}
                             </button>
-                            <a
-                              href={`https://wa.me/?text=${encodeURIComponent(shareText)}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center justify-center text-xs font-medium px-3 py-1.5 rounded-full transition"
-                              style={{
-                                background: "var(--bg-tertiary)",
-                                color: "var(--text-secondary)",
-                              }}
-                              title="Share on WhatsApp"
-                            >
-                              WhatsApp
-                            </a>
-                            <a
-                              href={`https://t.me/share/url?url=${encodeURIComponent("https://blip.money/blip-rates")}&text=${encodeURIComponent(shareText)}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center justify-center text-xs font-medium px-3 py-1.5 rounded-full transition"
-                              style={{
-                                background: "var(--bg-tertiary)",
-                                color: "var(--text-secondary)",
-                              }}
-                              title="Share on Telegram"
-                            >
-                              Telegram
-                            </a>
                           </div>
                           <button
                             onClick={runSearch}
@@ -1101,7 +1205,7 @@ export default function BlipRates() {
                       </div>
 
                       {ranked.slice(0, 15).map((q, i) => {
-                        const youGet = isBuy
+                        const youGet = isINR
                           ? (amountNum / q.price).toFixed(2) + " USDT"
                           : "₹" +
                             (amountNum * q.price).toLocaleString("en-IN", {
@@ -1203,17 +1307,21 @@ export default function BlipRates() {
                                 href={q.sourceUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold transition"
+                                className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full text-xs font-semibold transition hover:brightness-110 active:scale-95"
                                 style={{
                                   background:
                                     i === 0
-                                      ? "var(--text-primary)"
+                                      ? "linear-gradient(135deg, var(--brand) 0%, #ff8c50 100%)"
                                       : "#fff",
                                   color: i === 0 ? "#fff" : "var(--text-primary)",
                                   border:
                                     i === 0
                                       ? "none"
                                       : "1px solid var(--border-default)",
+                                  boxShadow:
+                                    i === 0
+                                      ? "0 6px 18px rgba(255,107,53,0.38)"
+                                      : "none",
                                 }}
                               >
                                 Trade
