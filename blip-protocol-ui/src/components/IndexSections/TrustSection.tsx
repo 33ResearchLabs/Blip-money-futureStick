@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { Shield, CheckCircle2, FileText, Map, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
+const EASE = [0.16, 1, 0.3, 1] as const;
+
 /* ============================================
    SECTION 10: TRUST & ARCHITECTURE
    Apple Store-style card grid
