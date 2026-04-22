@@ -51,6 +51,10 @@ const SOURCES: { name: string; slug: string }[] = [
   { name: "OKX P2P", slug: "okx" },
   { name: "KuCoin P2P", slug: "kucoin" },
   { name: "HTX P2P", slug: "htx" },
+  { name: "Bitget P2P", slug: "bitget" },
+  { name: "MEXC P2P", slug: "mexc" },
+  { name: "Gate P2P", slug: "gate" },
+  { name: "BingX P2P", slug: "bingx" },
 ];
 
 const QUICK_CAPITAL = [25000, 100000, 500000, 1000000];
@@ -69,18 +73,24 @@ async function fetchFromAPI(slug: string, side: Side): Promise<Quote[]> {
   return (json?.quotes ?? []) as Quote[];
 }
 
-// Pick the best executable quote on one side for a single exchange.
-// BUY side = cheapest ask (lowest price); SELL side = highest bid.
-function bestQuote(quotes: Quote[], side: Side): Quote | null {
-  const gated = quotes.filter((q) => {
+// Merchant-quality gate + non-zero inventory. BUY side = asks, SELL side = bids.
+function gatedQuotes(quotes: Quote[]): Quote[] {
+  return quotes.filter((q) => {
     if (!q.price || q.price <= 0) return false;
     if (q.completionRate != null && q.completionRate < 0.9) return false;
     if (q.orders != null && q.orders < 50) return false;
+    if (q.availableUSDT != null && q.availableUSDT <= 0) return false;
     return true;
   });
-  if (gated.length === 0) return null;
-  gated.sort((a, b) => (side === "BUY" ? a.price - b.price : b.price - a.price));
-  return gated[0];
+}
+
+// Top-of-book price on one side after gating (for diagnostics only).
+function topPrice(quotes: Quote[], side: Side): number | null {
+  const g = gatedQuotes(quotes);
+  if (!g.length) return null;
+  return side === "BUY"
+    ? Math.min(...g.map((q) => q.price))
+    : Math.max(...g.map((q) => q.price));
 }
 
 function AnimatedNumber({
@@ -113,60 +123,110 @@ function AnimatedNumber({
   return <motion.span>{display}</motion.span>;
 }
 
+type FillKind = "single" | "multi";
+
 type Opportunity = {
   id: string;
-  buy: Quote;
-  sell: Quote;
+  buy: Quote; // representative top-of-book buy merchant
+  sell: Quote; // representative top-of-book sell merchant
   maxUSDT: number;
   capitalUsed: number;
   profitPerUSDT: number;
   profitTotal: number;
   profitPct: number;
+  fill: FillKind;
+  fillNote: string;
 };
 
+// Any cross-exchange positive spread is an opportunity. We represent each
+// (buyExchange → sellExchange) direction as a single card using top-of-book
+// prices. If a single merchant pair can clear the trade we mark it "single";
+// if the best pair's INR ranges don't overlap, we mark it "multi" and
+// estimate volume from pooled liquidity across all qualifying merchants.
 function computeOpportunities(
   buyResults: SourceResult[],
   sellResults: SourceResult[],
   capitalINR: number,
 ): Opportunity[] {
-  const buys: Quote[] = [];
+  const buysByExchange = new Map<string, Quote[]>();
   for (const r of buyResults) {
-    const b = bestQuote(r.quotes, "BUY");
-    if (b) buys.push(b);
+    const g = gatedQuotes(r.quotes).sort((a, b) => a.price - b.price);
+    if (g.length) buysByExchange.set(r.source, g);
   }
-  const sells: Quote[] = [];
+  const sellsByExchange = new Map<string, Quote[]>();
   for (const r of sellResults) {
-    const s = bestQuote(r.quotes, "SELL");
-    if (s) sells.push(s);
+    const g = gatedQuotes(r.quotes).sort((a, b) => b.price - a.price);
+    if (g.length) sellsByExchange.set(r.source, g);
   }
 
-  const opps: Opportunity[] = [];
-  for (const buy of buys) {
-    for (const sell of sells) {
-      if (buy.source === sell.source) continue; // only cross-exchange
+  const out: Opportunity[] = [];
+  for (const [bSrc, buys] of buysByExchange) {
+    for (const [sSrc, sells] of sellsByExchange) {
+      if (bSrc === sSrc) continue;
+      const buy = buys[0];
+      const sell = sells[0];
       if (sell.price <= buy.price) continue;
 
       const profitPerUSDT = sell.price - buy.price;
 
-      // Max USDT we can push through this route:
-      let maxUSDT = capitalINR > 0 ? capitalINR / buy.price : Infinity;
-      maxUSDT = Math.min(maxUSDT, buy.availableUSDT || maxUSDT);
-      if (buy.maxINR > 0) maxUSDT = Math.min(maxUSDT, buy.maxINR / buy.price);
-      maxUSDT = Math.min(maxUSDT, sell.availableUSDT || maxUSDT);
+      // Single-trade volume with the top-of-book pair.
+      let singleMax = capitalINR > 0 ? capitalINR / buy.price : Infinity;
+      if (buy.availableUSDT > 0)
+        singleMax = Math.min(singleMax, buy.availableUSDT);
+      if (buy.maxINR > 0) singleMax = Math.min(singleMax, buy.maxINR / buy.price);
+      if (sell.availableUSDT > 0)
+        singleMax = Math.min(singleMax, sell.availableUSDT);
       if (sell.maxINR > 0)
-        maxUSDT = Math.min(maxUSDT, sell.maxINR / sell.price);
-      if (!isFinite(maxUSDT) || maxUSDT <= 0) continue;
+        singleMax = Math.min(singleMax, sell.maxINR / sell.price);
 
-      // Ensure we don't fall below buy min-order
-      if (buy.minINR > 0 && maxUSDT * buy.price < buy.minINR) continue;
-      if (sell.minINR > 0 && maxUSDT * sell.price < sell.minINR) continue;
+      const singleMin = Math.max(
+        buy.minINR > 0 ? buy.minINR / buy.price : 0,
+        sell.minINR > 0 ? sell.minINR / sell.price : 0,
+      );
+
+      let fill: FillKind;
+      let maxUSDT: number;
+      let fillNote: string;
+
+      if (isFinite(singleMax) && singleMax > 0 && singleMin <= singleMax) {
+        fill = "single";
+        maxUSDT = singleMax;
+        fillNote = "One trade clears both legs.";
+      } else {
+        // Pool qualifying merchants: any buy priced ≤ sell.price and any sell
+        // priced ≥ buy.price still captures (part of) the spread.
+        const poolBuys = buys.filter(
+          (q) => q.price <= sell.price && q.availableUSDT > 0,
+        );
+        const poolSells = sells.filter(
+          (q) => q.price >= buy.price && q.availableUSDT > 0,
+        );
+        const buyLiquidity = poolBuys.reduce(
+          (s, q) => s + q.availableUSDT,
+          0,
+        );
+        const sellLiquidity = poolSells.reduce(
+          (s, q) => s + q.availableUSDT,
+          0,
+        );
+        const capCap = capitalINR > 0 ? capitalINR / buy.price : Infinity;
+        maxUSDT = Math.min(buyLiquidity, sellLiquidity, capCap);
+        fill = "multi";
+        fillNote = `Split across ${poolBuys.length} buyer${
+          poolBuys.length === 1 ? "" : "s"
+        } / ${poolSells.length} seller${
+          poolSells.length === 1 ? "" : "s"
+        } — min trade on one leg exceeds max trade on the other.`;
+      }
+
+      if (!isFinite(maxUSDT) || maxUSDT <= 0) continue;
 
       const capitalUsed = maxUSDT * buy.price;
       const profitTotal = profitPerUSDT * maxUSDT;
       const profitPct = (profitPerUSDT / buy.price) * 100;
 
-      opps.push({
-        id: `${buy.source}→${sell.source}`,
+      out.push({
+        id: `${bSrc}→${sSrc}`,
         buy,
         sell,
         maxUSDT,
@@ -174,11 +234,12 @@ function computeOpportunities(
         profitPerUSDT,
         profitTotal,
         profitPct,
+        fill,
+        fillNote,
       });
     }
   }
-  opps.sort((a, b) => b.profitTotal - a.profitTotal);
-  return opps;
+  return out.sort((a, b) => b.profitTotal - a.profitTotal);
 }
 
 /* ═══════════════════════════════════════════════
@@ -366,33 +427,7 @@ export default function BlipArbitrage() {
           Scanning 5 exchanges × 2 sides for opportunities…
         </div>
       ) : opportunities.length === 0 ? (
-        <div
-          className="text-center py-14 rounded-3xl"
-          style={{
-            background: "#fff",
-            border: "1px solid var(--border-default)",
-          }}
-        >
-          <AlertTriangle
-            size={22}
-            className="mx-auto mb-3"
-            style={{ color: "var(--text-muted)" }}
-          />
-          <div
-            className="text-sm font-semibold mb-1"
-            style={{ color: "var(--text-primary)" }}
-          >
-            No arbitrage window right now
-          </div>
-          <div
-            className="text-xs max-w-sm mx-auto"
-            style={{ color: "var(--text-muted)" }}
-          >
-            Across all exchange pairs, the highest sell bid is lower than the
-            cheapest buy ask. Check back in a minute — windows open and close
-            fast.
-          </div>
-        </div>
+        <EmptyState />
       ) : (
         <>
           {/* Summary */}
@@ -523,7 +558,7 @@ function OpportunityCard({ opp, rank }: { opp: Opportunity; rank: number }) {
           borderBottom: "1px solid var(--border-subtle)",
         }}
       >
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <span
             className="inline-flex items-center justify-center w-6 h-6 rounded-full text-[11px] font-bold"
             style={{
@@ -540,6 +575,19 @@ function OpportunityCard({ opp, rank }: { opp: Opportunity; rank: number }) {
             }}
           >
             {isTop ? "Top route" : "Route"}
+          </span>
+          <span
+            className="text-[9px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full"
+            style={{
+              background:
+                opp.fill === "single"
+                  ? "rgba(16,185,129,0.14)"
+                  : "rgba(234,179,8,0.14)",
+              color: opp.fill === "single" ? "#047857" : "#a16207",
+            }}
+            title={opp.fillNote}
+          >
+            {opp.fill === "single" ? "Single trade" : "Multi-fill"}
           </span>
         </div>
         <div className="flex items-baseline gap-2 tabular-nums">
@@ -594,6 +642,19 @@ function OpportunityCard({ opp, rank }: { opp: Opportunity; rank: number }) {
           tone="good"
         />
       </div>
+
+      {opp.fill === "multi" && (
+        <div
+          className="px-5 py-2.5 text-[11px]"
+          style={{
+            borderTop: "1px solid var(--border-subtle)",
+            background: "rgba(234,179,8,0.06)",
+            color: "#854d0e",
+          }}
+        >
+          {opp.fillNote}
+        </div>
+      )}
     </motion.div>
   );
 }
@@ -654,6 +715,37 @@ function Leg({ leg, quote }: { leg: "BUY" | "SELL"; quote: Quote }) {
         {isBuy ? "Go buy" : "Go sell"}
         <ExternalLink size={10} />
       </a>
+    </div>
+  );
+}
+
+function EmptyState() {
+  return (
+    <div
+      className="text-center py-14 rounded-3xl"
+      style={{
+        background: "#fff",
+        border: "1px solid var(--border-default)",
+      }}
+    >
+      <AlertTriangle
+        size={22}
+        className="mx-auto mb-3"
+        style={{ color: "var(--text-muted)" }}
+      />
+      <div
+        className="text-sm font-semibold mb-1"
+        style={{ color: "var(--text-primary)" }}
+      >
+        No arbitrage window right now
+      </div>
+      <div
+        className="text-xs max-w-sm mx-auto"
+        style={{ color: "var(--text-muted)" }}
+      >
+        Across all exchange pairs, the highest sell bid is at or below the
+        cheapest buy ask. Check back in a minute — windows open and close fast.
+      </div>
     </div>
   );
 }

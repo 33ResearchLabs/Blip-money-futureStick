@@ -1,13 +1,26 @@
 // Vercel Edge function — server-side P2P rate fetcher.
-// Replaces the corsproxy.io client-side hack which started returning 403.
+// Reads from Supabase (populated by blip-rates-crawler on VPS):
+//   - rates_feed (per-ad detail) for direct-crawled exchanges
+//   - p2p_army_latest (per-payment-method aggregate) for the rest
+// Falls back to live exchange scraping only when the DB has no recent data.
 //
-// GET /api/rates?source=binance|bybit|okx|kucoin|htx&side=BUY|SELL
-// Returns { quotes: Quote[] }
+// GET /api/rates?source=<exchange>&side=BUY|SELL[&fiat=INR&crypto=USDT]
+// Returns { quotes: Quote[], source: "db" | "live", observed_at, age_seconds }
 
 export const config = { runtime: "edge" };
 
 type Side = "BUY" | "SELL";
-type Source = "binance" | "bybit" | "okx" | "kucoin" | "htx";
+type Source =
+  | "binance"
+  | "bybit"
+  | "okx"
+  | "kucoin"
+  | "htx"
+  | "bitget"
+  | "mexc"
+  | "gate"
+  | "bingx";
+type Strategy = "direct" | "p2p_army";
 
 type Quote = {
   source: string;
@@ -195,7 +208,9 @@ async function fetchHtx(side: Side): Promise<Quote[]> {
   );
 }
 
-const fetchers: Record<Source, (side: Side) => Promise<Quote[]>> = {
+// Live fetchers only exist for the direct-crawled exchanges (fallback path
+// when the DB is empty/stale). p2p.army-covered exchanges have no live path.
+const fetchers: Partial<Record<Source, (side: Side) => Promise<Quote[]>>> = {
   binance: fetchBinance,
   bybit: fetchBybit,
   okx: fetchOkx,
@@ -203,26 +218,55 @@ const fetchers: Record<Source, (side: Side) => Promise<Quote[]>> = {
   htx: fetchHtx,
 };
 
-const SOURCE_META: Record<Source, { display: string; url: string }> = {
+const SOURCE_META: Record<
+  Source,
+  { display: string; url: string; strategy: Strategy }
+> = {
   binance: {
     display: "Binance P2P",
     url: "https://p2p.binance.com/en/trade/all-payments/USDT?fiat=INR",
+    strategy: "direct",
   },
   bybit: {
     display: "Bybit P2P",
     url: "https://www.bybit.com/fiat/trade/otc/?actionType=0&token=USDT&fiat=INR",
+    strategy: "direct",
   },
   okx: {
     display: "OKX P2P",
     url: "https://www.okx.com/p2p-markets/inr/buy-usdt",
+    strategy: "direct",
+  },
+  // htx direct-crawled but the GCP VM's IP is blocked (403), so rely on p2p.army.
+  htx: {
+    display: "HTX P2P",
+    url: "https://www.htx.com/en-us/fiat-crypto/trade/buy-usdt_inr/",
+    strategy: "p2p_army",
   },
   kucoin: {
     display: "KuCoin P2P",
     url: "https://www.kucoin.com/otc/buy/USDT-INR",
+    strategy: "p2p_army",
   },
-  htx: {
-    display: "HTX P2P",
-    url: "https://www.htx.com/en-us/fiat-crypto/trade/buy-usdt_inr/",
+  bitget: {
+    display: "Bitget P2P",
+    url: "https://www.bitget.com/p2p-trade",
+    strategy: "p2p_army",
+  },
+  mexc: {
+    display: "MEXC P2P",
+    url: "https://p2p.mexc.com/",
+    strategy: "p2p_army",
+  },
+  gate: {
+    display: "Gate P2P",
+    url: "https://www.gate.com/c2c",
+    strategy: "p2p_army",
+  },
+  bingx: {
+    display: "BingX P2P",
+    url: "https://bingx.com/en/c2c/",
+    strategy: "p2p_army",
   },
 };
 
@@ -246,29 +290,37 @@ type RatesFeedRow = {
   merchant_monthly_orders: number | null;
 };
 
-async function fetchFromDb(
+type P2pArmyRow = {
+  exchange: string;
+  fiat: string;
+  crypto: string;
+  payment_method: string;
+  buy_price: string | number | null;
+  sell_price: string | number | null;
+  buy_ads_count: number | null;
+  sell_ads_count: number | null;
+  activity_24h: number | null;
+  observed_at: string;
+};
+
+function supabaseCreds(): { url: string; key: string } | null {
+  const url = process.env.SUPABASE_URL ?? process.env.VITE_SUPABASE_URL;
+  const key =
+    process.env.SUPABASE_ANON_KEY ?? process.env.VITE_SUPABASE_ANON_KEY;
+  if (!url || !key) return null;
+  return { url, key };
+}
+
+async function fetchFromDbDirect(
   source: Source,
   side: Side,
   fiat: string,
   crypto: string,
+  creds: { url: string; key: string },
 ): Promise<{ quotes: Quote[]; observedAt: number | null; dbStatus: string }> {
-  // Try both server-side and VITE_-prefixed env var names — Vercel exposes
-  // either convention depending on how the project was configured.
-  const url =
-    process.env.SUPABASE_URL ?? process.env.VITE_SUPABASE_URL;
-  const key =
-    process.env.SUPABASE_ANON_KEY ?? process.env.VITE_SUPABASE_ANON_KEY;
-  if (!url || !key) {
-    return {
-      quotes: [],
-      observedAt: null,
-      dbStatus: `missing-env(url=${Boolean(url)},key=${Boolean(key)})`,
-    };
-  }
-
   const meta = SOURCE_META[source];
   const restUrl =
-    `${url}/rest/v1/rates_feed` +
+    `${creds.url}/rest/v1/rates_feed` +
     `?select=*` +
     `&exchange=eq.${source}` +
     `&side=eq.${side}` +
@@ -279,17 +331,13 @@ async function fetchFromDb(
 
   const res = await fetch(restUrl, {
     headers: {
-      apikey: key,
-      authorization: `Bearer ${key}`,
+      apikey: creds.key,
+      authorization: `Bearer ${creds.key}`,
       accept: "application/json",
     },
   });
   if (!res.ok) {
-    return {
-      quotes: [],
-      observedAt: null,
-      dbStatus: `http-${res.status}`,
-    };
+    return { quotes: [], observedAt: null, dbStatus: `http-${res.status}` };
   }
   const rows: RatesFeedRow[] = await res.json();
   if (!rows.length) {
@@ -318,6 +366,95 @@ async function fetchFromDb(
   return { quotes, observedAt: newest, dbStatus: "ok" };
 }
 
+// Serve p2p.army-aggregated data (per-payment-method granularity, no individual
+// merchants). We synthesize one Quote per payment method with the top-of-book
+// price for that method, so the frontend's ranking UI Just Works.
+async function fetchFromDbP2pArmy(
+  source: Source,
+  side: Side,
+  fiat: string,
+  crypto: string,
+  creds: { url: string; key: string },
+): Promise<{ quotes: Quote[]; observedAt: number | null; dbStatus: string }> {
+  const meta = SOURCE_META[source];
+  const priceCol = side === "BUY" ? "buy_price" : "sell_price";
+  const restUrl =
+    `${creds.url}/rest/v1/p2p_army_latest` +
+    `?select=*` +
+    `&exchange=eq.${source}` +
+    `&fiat=eq.${encodeURIComponent(fiat)}` +
+    `&crypto=eq.${encodeURIComponent(crypto)}` +
+    `&price_type=eq.TOP1` +
+    `&${priceCol}=not.is.null` +
+    `&order=${priceCol}.${side === "BUY" ? "asc" : "desc"}` +
+    `&limit=50`;
+
+  const res = await fetch(restUrl, {
+    headers: {
+      apikey: creds.key,
+      authorization: `Bearer ${creds.key}`,
+      accept: "application/json",
+    },
+  });
+  if (!res.ok) {
+    return { quotes: [], observedAt: null, dbStatus: `http-${res.status}` };
+  }
+  const rows: P2pArmyRow[] = await res.json();
+  if (!rows.length) {
+    return { quotes: [], observedAt: null, dbStatus: "empty" };
+  }
+
+  const quotes: Quote[] = rows
+    .map((r): Quote | null => {
+      const price = side === "BUY" ? r.buy_price : r.sell_price;
+      const adsCount = side === "BUY" ? r.buy_ads_count : r.sell_ads_count;
+      if (price == null) return null;
+      return {
+        source: meta.display,
+        sourceUrl: meta.url,
+        price: Number(price),
+        minINR: 0,
+        maxINR: 0,
+        availableUSDT: 0,
+        merchant: `via ${r.payment_method}`,
+        completionRate: null,
+        orders: adsCount,
+        payments: [r.payment_method],
+      };
+    })
+    .filter((q): q is Quote => q !== null);
+
+  const newest = Math.max(
+    ...rows.map((r) => new Date(r.observed_at).getTime()),
+  );
+  return { quotes, observedAt: newest, dbStatus: "ok" };
+}
+
+// p2p.army snapshots are refreshed daily (vs direct crawler's 60s), so the
+// stale window has to be much wider for these exchanges.
+const STALE_THRESHOLD_P2PARMY_MS = 48 * 60 * 60 * 1000;
+
+async function fetchFromDb(
+  source: Source,
+  side: Side,
+  fiat: string,
+  crypto: string,
+): Promise<{ quotes: Quote[]; observedAt: number | null; dbStatus: string }> {
+  const creds = supabaseCreds();
+  if (!creds) {
+    return {
+      quotes: [],
+      observedAt: null,
+      dbStatus: "missing-env",
+    };
+  }
+  const strategy = SOURCE_META[source].strategy;
+  if (strategy === "direct") {
+    return fetchFromDbDirect(source, side, fiat, crypto, creds);
+  }
+  return fetchFromDbP2pArmy(source, side, fiat, crypto, creds);
+}
+
 export default async function handler(req: Request): Promise<Response> {
   const url = new URL(req.url);
   const source = url.searchParams.get("source") as Source | null;
@@ -332,25 +469,30 @@ export default async function handler(req: Request): Promise<Response> {
     "cache-control": "public, s-maxage=20, stale-while-revalidate=60",
   };
 
-  if (!source || !(source in fetchers)) {
+  if (!source || !(source in SOURCE_META)) {
     return new Response(JSON.stringify({ error: "unknown source" }), {
       status: 400,
       headers: commonHeaders,
     });
   }
 
-  // Try DB first. Fall back to live scrape if empty or stale.
+  const strategy = SOURCE_META[source].strategy;
+  const staleMs =
+    strategy === "direct" ? STALE_THRESHOLD_MS : STALE_THRESHOLD_P2PARMY_MS;
+
+  // Try DB first. Fall back to live scrape only for direct-crawled exchanges.
   let dbStatus = "uninit";
   try {
     const r = await fetchFromDb(source, side, fiat, crypto);
     dbStatus = r.dbStatus;
     const fresh =
-      r.observedAt != null && Date.now() - r.observedAt < STALE_THRESHOLD_MS;
+      r.observedAt != null && Date.now() - r.observedAt < staleMs;
     if (r.quotes.length > 0 && fresh) {
       return new Response(
         JSON.stringify({
           quotes: r.quotes,
           source: "db",
+          strategy,
           observed_at: r.observedAt,
           age_seconds: Math.floor((Date.now() - (r.observedAt ?? 0)) / 1000),
         }),
@@ -362,26 +504,38 @@ export default async function handler(req: Request): Promise<Response> {
     dbStatus = `throw:${e instanceof Error ? e.message : String(e)}`;
   }
 
-  // Fallback: live exchange scrape (original behavior).
-  try {
-    const quotes = await fetchers[source](side);
-    return new Response(
-      JSON.stringify({
-        quotes,
-        source: "live",
-        db_status: dbStatus,
-        observed_at: Date.now(),
-      }),
-      { status: 200, headers: commonHeaders },
-    );
-  } catch (e: unknown) {
-    const msg = e instanceof Error ? e.message : String(e);
-    return new Response(
-      JSON.stringify({ error: msg, db_status: dbStatus, quotes: [] }),
-      {
-        status: 200, // soft-fail so other sources still show
-        headers: commonHeaders,
-      },
-    );
+  // Fallback: live exchange scrape — only available for direct-crawled exchanges.
+  if (strategy === "direct" && source in fetchers) {
+    try {
+      const quotes = await fetchers[source as keyof typeof fetchers](side);
+      return new Response(
+        JSON.stringify({
+          quotes,
+          source: "live",
+          strategy,
+          db_status: dbStatus,
+          observed_at: Date.now(),
+        }),
+        { status: 200, headers: commonHeaders },
+      );
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : String(e);
+      return new Response(
+        JSON.stringify({ error: msg, db_status: dbStatus, quotes: [] }),
+        { status: 200, headers: commonHeaders },
+      );
+    }
   }
+
+  // p2p.army-only source with empty/stale DB: return empty with diagnostic.
+  return new Response(
+    JSON.stringify({
+      quotes: [],
+      source: "db",
+      strategy,
+      db_status: dbStatus,
+      observed_at: null,
+    }),
+    { status: 200, headers: commonHeaders },
+  );
 }

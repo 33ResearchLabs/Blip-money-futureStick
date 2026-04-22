@@ -19,6 +19,8 @@ import {
 } from "lucide-react";
 import SEO from "@/components/SEO";
 import BlipArbitrage from "./BlipArbitrage";
+import BlipMerchants from "./BlipMerchants";
+import BlipRatesNavbar from "./BlipRatesNavbar";
 
 /* ═══════════════════════════════════════════════
    TYPES
@@ -70,6 +72,10 @@ const SOURCES: { name: string; slug: string }[] = [
   { name: "OKX P2P", slug: "okx" },
   { name: "KuCoin P2P", slug: "kucoin" },
   { name: "HTX P2P", slug: "htx" },
+  { name: "Bitget P2P", slug: "bitget" },
+  { name: "MEXC P2P", slug: "mexc" },
+  { name: "Gate P2P", slug: "gate" },
+  { name: "BingX P2P", slug: "bingx" },
 ];
 
 /* ═══════════════════════════════════════════════
@@ -327,7 +333,7 @@ const DEFAULTS: Record<Side, { unit: AmountUnit; amount: string }> = {
 };
 
 export default function BlipRates() {
-  const [tab, setTab] = useState<"rates" | "arb">("rates");
+  const [tab, setTab] = useState<"rates" | "arb" | "merchants">("rates");
   const [amount, setAmount] = useState<string>("10000");
   const [side, setSide] = useState<Side>("BUY");
   const [amountUnit, setAmountUnit] = useState<AmountUnit>("INR");
@@ -549,6 +555,8 @@ export default function BlipRates() {
         keywords="usdt to inr, usdt inr rate, binance p2p, bybit p2p, buy usdt india, sell usdt india, p2p usdt"
       />
 
+      <BlipRatesNavbar tab={tab} onChange={setTab} />
+
       <main
         className="min-h-screen"
         style={{ background: "var(--bg-primary)", color: "var(--text-primary)" }}
@@ -584,57 +592,26 @@ export default function BlipRates() {
                 color: "var(--text-primary)",
               }}
             >
-              Blip <span style={{ color: "var(--brand)" }}>Rates</span>
+              {tab === "merchants" ? (
+                <>Top <span style={{ color: "var(--brand)" }}>Merchants</span></>
+              ) : (
+                <>Blip <span style={{ color: "var(--brand)" }}>Rates</span></>
+              )}
             </h1>
             <p
               className="mt-3 text-sm md:text-base max-w-xl mx-auto"
               style={{ color: "var(--text-tertiary)" }}
             >
-              The real USDT/INR market price in India — not exchange price.
+              {tab === "merchants"
+                ? "Live P2P merchants ranked by reliability across Binance, Bybit, OKX, HTX."
+                : "The real USDT/INR market price in India — not exchange price."}
             </p>
           </motion.div>
 
-          {/* Tab selector: Rates | Arbitrage */}
-          <div className="flex justify-center mb-6">
-            <div
-              className="inline-flex items-center gap-1 p-1 rounded-full"
-              style={{
-                background: "#fff",
-                border: "1px solid var(--border-default)",
-                boxShadow: "var(--shadow-sm)",
-              }}
-            >
-              {(
-                [
-                  { id: "rates", label: "Rates" },
-                  { id: "arb", label: "Arbitrage" },
-                ] as const
-              ).map((t) => (
-                <button
-                  key={t.id}
-                  type="button"
-                  onClick={() => setTab(t.id)}
-                  className="px-5 py-2 rounded-full text-sm font-semibold transition"
-                  style={{
-                    background:
-                      tab === t.id
-                        ? "linear-gradient(135deg, var(--brand) 0%, #ff8c50 100%)"
-                        : "transparent",
-                    color: tab === t.id ? "#fff" : "var(--text-secondary)",
-                    boxShadow:
-                      tab === t.id
-                        ? "0 6px 18px rgba(255,107,53,0.32)"
-                        : "none",
-                  }}
-                >
-                  {t.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
           {tab === "arb" ? (
             <BlipArbitrage />
+          ) : tab === "merchants" ? (
+            <BlipMerchants />
           ) : (
           <>
 
