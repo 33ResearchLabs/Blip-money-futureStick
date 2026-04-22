@@ -18,6 +18,7 @@ import {
   Zap,
 } from "lucide-react";
 import SEO from "@/components/SEO";
+import BlipArbitrage from "./BlipArbitrage";
 
 /* ═══════════════════════════════════════════════
    TYPES
@@ -326,6 +327,7 @@ const DEFAULTS: Record<Side, { unit: AmountUnit; amount: string }> = {
 };
 
 export default function BlipRates() {
+  const [tab, setTab] = useState<"rates" | "arb">("rates");
   const [amount, setAmount] = useState<string>("10000");
   const [side, setSide] = useState<Side>("BUY");
   const [amountUnit, setAmountUnit] = useState<AmountUnit>("INR");
@@ -591,6 +593,50 @@ export default function BlipRates() {
               The real USDT/INR market price in India — not exchange price.
             </p>
           </motion.div>
+
+          {/* Tab selector: Rates | Arbitrage */}
+          <div className="flex justify-center mb-6">
+            <div
+              className="inline-flex items-center gap-1 p-1 rounded-full"
+              style={{
+                background: "#fff",
+                border: "1px solid var(--border-default)",
+                boxShadow: "var(--shadow-sm)",
+              }}
+            >
+              {(
+                [
+                  { id: "rates", label: "Rates" },
+                  { id: "arb", label: "Arbitrage" },
+                ] as const
+              ).map((t) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  onClick={() => setTab(t.id)}
+                  className="px-5 py-2 rounded-full text-sm font-semibold transition"
+                  style={{
+                    background:
+                      tab === t.id
+                        ? "linear-gradient(135deg, var(--brand) 0%, #ff8c50 100%)"
+                        : "transparent",
+                    color: tab === t.id ? "#fff" : "var(--text-secondary)",
+                    boxShadow:
+                      tab === t.id
+                        ? "0 6px 18px rgba(255,107,53,0.32)"
+                        : "none",
+                  }}
+                >
+                  {t.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {tab === "arb" ? (
+            <BlipArbitrage />
+          ) : (
+          <>
 
           {/* Search box — majestic */}
           <motion.form
@@ -1293,6 +1339,8 @@ export default function BlipRates() {
               </motion.div>
             )}
           </AnimatePresence>
+          </>
+          )}
 
         </div>
       </main>
