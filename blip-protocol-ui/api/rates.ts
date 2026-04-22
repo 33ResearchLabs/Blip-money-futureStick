@@ -203,11 +203,110 @@ const fetchers: Record<Source, (side: Side) => Promise<Quote[]>> = {
   htx: fetchHtx,
 };
 
+const SOURCE_META: Record<Source, { display: string; url: string }> = {
+  binance: {
+    display: "Binance P2P",
+    url: "https://p2p.binance.com/en/trade/all-payments/USDT?fiat=INR",
+  },
+  bybit: {
+    display: "Bybit P2P",
+    url: "https://www.bybit.com/fiat/trade/otc/?actionType=0&token=USDT&fiat=INR",
+  },
+  okx: {
+    display: "OKX P2P",
+    url: "https://www.okx.com/p2p-markets/inr/buy-usdt",
+  },
+  kucoin: {
+    display: "KuCoin P2P",
+    url: "https://www.kucoin.com/otc/buy/USDT-INR",
+  },
+  htx: {
+    display: "HTX P2P",
+    url: "https://www.htx.com/en-us/fiat-crypto/trade/buy-usdt_inr/",
+  },
+};
+
+// Stale threshold: if newest ad is older than this, treat DB as empty and
+// fall back to live scraping. Crawler runs every 60s, so 5 min = 5 missed polls.
+const STALE_THRESHOLD_MS = 5 * 60 * 1000;
+
+type RatesFeedRow = {
+  exchange: string;
+  fiat: string;
+  crypto: string;
+  side: string;
+  price: string | number;
+  min_fiat: string | number | null;
+  max_fiat: string | number | null;
+  available_crypto: string | number | null;
+  payment_methods: string[] | null;
+  observed_at: string;
+  merchant_nickname: string | null;
+  merchant_completion_rate: string | number | null;
+  merchant_monthly_orders: number | null;
+};
+
+async function fetchFromDb(
+  source: Source,
+  side: Side,
+  fiat: string,
+  crypto: string,
+): Promise<{ quotes: Quote[]; observedAt: number | null }> {
+  const url = process.env.VITE_SUPABASE_URL;
+  const key = process.env.VITE_SUPABASE_ANON_KEY;
+  if (!url || !key) return { quotes: [], observedAt: null };
+
+  const meta = SOURCE_META[source];
+  const restUrl =
+    `${url}/rest/v1/rates_feed` +
+    `?select=*` +
+    `&exchange=eq.${source}` +
+    `&side=eq.${side}` +
+    `&fiat=eq.${encodeURIComponent(fiat)}` +
+    `&crypto=eq.${encodeURIComponent(crypto)}` +
+    `&order=price.${side === "BUY" ? "asc" : "desc"}` +
+    `&limit=100`;
+
+  const res = await fetch(restUrl, {
+    headers: {
+      apikey: key,
+      authorization: `Bearer ${key}`,
+      accept: "application/json",
+    },
+  });
+  if (!res.ok) return { quotes: [], observedAt: null };
+  const rows: RatesFeedRow[] = await res.json();
+  if (!rows.length) return { quotes: [], observedAt: null };
+
+  const quotes: Quote[] = rows.map((r) => ({
+    source: meta.display,
+    sourceUrl: meta.url,
+    price: Number(r.price),
+    minINR: r.min_fiat != null ? Number(r.min_fiat) : 0,
+    maxINR: r.max_fiat != null ? Number(r.max_fiat) : 0,
+    availableUSDT: r.available_crypto != null ? Number(r.available_crypto) : 0,
+    merchant: r.merchant_nickname ?? "—",
+    completionRate:
+      r.merchant_completion_rate != null
+        ? Number(r.merchant_completion_rate)
+        : null,
+    orders: r.merchant_monthly_orders,
+    payments: r.payment_methods ?? [],
+  }));
+
+  const newest = Math.max(
+    ...rows.map((r) => new Date(r.observed_at).getTime()),
+  );
+  return { quotes, observedAt: newest };
+}
+
 export default async function handler(req: Request): Promise<Response> {
   const url = new URL(req.url);
   const source = url.searchParams.get("source") as Source | null;
   const sideParam = (url.searchParams.get("side") ?? "BUY").toUpperCase();
   const side: Side = sideParam === "SELL" ? "SELL" : "BUY";
+  const fiat = (url.searchParams.get("fiat") ?? "INR").toUpperCase();
+  const crypto = (url.searchParams.get("crypto") ?? "USDT").toUpperCase();
 
   const commonHeaders = {
     "content-type": "application/json",
@@ -222,12 +321,38 @@ export default async function handler(req: Request): Promise<Response> {
     });
   }
 
+  // Try DB first. Fall back to live scrape if empty or stale.
+  try {
+    const { quotes, observedAt } = await fetchFromDb(
+      source,
+      side,
+      fiat,
+      crypto,
+    );
+    const fresh =
+      observedAt != null && Date.now() - observedAt < STALE_THRESHOLD_MS;
+    if (quotes.length > 0 && fresh) {
+      return new Response(
+        JSON.stringify({
+          quotes,
+          source: "db",
+          observed_at: observedAt,
+          age_seconds: Math.floor((Date.now() - observedAt) / 1000),
+        }),
+        { status: 200, headers: commonHeaders },
+      );
+    }
+  } catch {
+    // fall through to live scrape
+  }
+
+  // Fallback: live exchange scrape (original behavior).
   try {
     const quotes = await fetchers[source](side);
-    return new Response(JSON.stringify({ quotes }), {
-      status: 200,
-      headers: commonHeaders,
-    });
+    return new Response(
+      JSON.stringify({ quotes, source: "live", observed_at: Date.now() }),
+      { status: 200, headers: commonHeaders },
+    );
   } catch (e: unknown) {
     const msg = e instanceof Error ? e.message : String(e);
     return new Response(JSON.stringify({ error: msg, quotes: [] }), {
