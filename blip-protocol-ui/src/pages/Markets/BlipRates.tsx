@@ -21,7 +21,6 @@ import SEO from "@/components/SEO";
 import BlipArbitrage from "./BlipArbitrage";
 import BlipMerchants from "./BlipMerchants";
 import BlipRatesNavbar from "./BlipRatesNavbar";
-import BlipRatesHistoryChart from "./BlipRatesHistoryChart";
 
 /* ═══════════════════════════════════════════════
    TYPES
@@ -791,7 +790,6 @@ export default function BlipRates() {
                 transition={{ duration: 0.4 }}
                 className="mt-8"
               >
-                <BlipRatesHistoryChart fiat="INR" crypto="USDT" />
                 {loading && ranked.length === 0 ? (
                   <div
                     className="text-center py-16"
