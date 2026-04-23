@@ -1,23 +1,27 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { HashRedirectScroll } from "@/components/HashRedirectScroll";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { NotificationBannerProvider } from "@/components/NotificationPopup";
 import ScrollToBottomButton from "@/components/ScrollToBottomButton";
+import { ScrollProgressBar } from "@/components/GlobalPolish";
 
 const MainLayout = () => {
+  const location = useLocation();
+  const isBlipRates = location.pathname.startsWith("/blip-rates");
+
   return (
     <NotificationBannerProvider>
-      <Navbar />
+      <ScrollProgressBar />
 
-      {/* ✅ SAFE PLACE for non-route logic */}
+      {!isBlipRates && <Navbar />}
+
       <HashRedirectScroll />
-      {/* <SocialSidebar /> */}
 
       <Outlet />
-      <ScrollToBottomButton/>
 
-      <Footer />
+      <ScrollToBottomButton />
+      {!isBlipRates && <Footer />}
     </NotificationBannerProvider>
   );
 };

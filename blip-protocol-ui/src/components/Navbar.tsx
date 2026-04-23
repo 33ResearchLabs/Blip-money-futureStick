@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, memo, useCallback } from "react";
-import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import { motion, useScroll, useMotionValueEvent, useMotionValue, useSpring } from "framer-motion";
 import {
   ChevronRight,
   ArrowRight,
@@ -29,6 +29,7 @@ export const Navbar = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const bannerHeight = useBannerHeight();
+  const isBlipRates = location.pathname.startsWith("/blip-rates");
 
   const { scrollY } = useScroll();
   const lastScrollY = useRef(0);
@@ -102,7 +103,7 @@ export const Navbar = () => {
               <ThemeSwitcher />
               {isAuthenticated ? (
                 <CTAButton to="/dashboard">Dashboard</CTAButton>
-              ) : (
+              ) : isBlipRates ? null : (
                 <CTAButton to="/waitlist">Join Waitlist</CTAButton>
               )}
             </div>
@@ -237,8 +238,35 @@ export const CTAButton = ({
   variant?: "primary" | "secondary";
 }) => {
   const isPrimary = variant === "primary";
+  const ref = React.useRef<HTMLDivElement>(null);
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const sx = useSpring(mx, { stiffness: 220, damping: 18, mass: 0.4 });
+  const sy = useSpring(my, { stiffness: 220, damping: 18, mass: 0.4 });
+
+  const handleMove = (e: React.MouseEvent) => {
+    if (!ref.current) return;
+    const r = ref.current.getBoundingClientRect();
+    // Subtle magnetic pull (max 6px)
+    const dx = ((e.clientX - r.left) / r.width - 0.5) * 12;
+    const dy = ((e.clientY - r.top) / r.height - 0.5) * 10;
+    mx.set(dx);
+    my.set(dy);
+  };
+  const reset = () => {
+    mx.set(0);
+    my.set(0);
+  };
+
   return (
-    <motion.div whileTap={{ scale: 0.97 }} className="relative">
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMove}
+      onMouseLeave={reset}
+      whileTap={{ scale: 0.97 }}
+      style={{ x: sx, y: sy }}
+      className="relative inline-block"
+    >
       <Link
         to={to}
         onClick={() => sounds.click()}
@@ -247,19 +275,28 @@ export const CTAButton = ({
           ${className}
           group relative overflow-hidden inline-flex
           items-center justify-center px-5 py-2.5 rounded-full
-          text-[16px] font-semibold transition-all duration-200 ease-out
-          hover:scale-[1.02] active:scale-[0.98]
+          text-[16px] font-semibold transition-all duration-300 ease-out
           ${
             isPrimary
-              ? "dark:bg-white dark:text-black border bg-white text-black border-white/20 hover:bg-white/90 hover:shadow-[0_4px_16px_rgba(255,255,255,0.10)]"
-              : "dark:bg-transparent dark:text-white text-white border border-white/30 hover:border-white/50 hover:bg-white/10 hover:shadow-[0_4px_16px_rgba(255,255,255,0.06)]"
+              ? "dark:bg-white dark:text-black border bg-white text-black border-white/20 hover:shadow-[0_8px_28px_rgba(255,255,255,0.14)]"
+              : "dark:bg-transparent dark:text-white text-white border border-white/30 hover:border-white/60 hover:bg-white/10 hover:shadow-[0_8px_24px_rgba(255,255,255,0.08)]"
           }
         `}
       >
+        {/* Shine sweep on hover */}
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-[900ms] ease-out"
+          style={{
+            background: isPrimary
+              ? "linear-gradient(110deg, transparent 35%, rgba(255,107,53,0.35) 50%, transparent 65%)"
+              : "linear-gradient(110deg, transparent 35%, rgba(255,255,255,0.2) 50%, transparent 65%)",
+          }}
+        />
         <span className="relative z-10 font-semibold flex items-center gap-2">
           {children}
           {isPrimary ? (
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
           ) : (
             ""
           )}
@@ -311,7 +348,9 @@ const MobileMenu = memo(({
   const { t } = useTranslation();
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const bannerH = useBannerHeight();
+  const isBlipRates = location.pathname.startsWith("/blip-rates");
 
   if (!isOpen) return null;
 
@@ -360,25 +399,27 @@ const MobileMenu = memo(({
           ))}
         </div>
 
-        <div className="p-4 border-t border-black/5 dark:border-white/5 space-y-2">
-          {isAuthenticated ? (
-            <a
-              href="/dashboard"
-              onClick={(e) => handleNavClick(e, "/dashboard")}
-              className="block w-full text-center py-1.5 rounded-full bg-white text-black border border-black/10 text-sm font-semibold transition-all duration-200 hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98]"
-            >
-              Dashboard
-            </a>
-          ) : (
-            <a
-              href="/waitlist"
-              onClick={(e) => handleNavClick(e, "/waitlist")}
-              className="block w-full text-center py-1.5 rounded-full bg-white text-black border border-black/10 text-sm font-semibold transition-all duration-200 hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98]"
-            >
-              Join Waitlist
-            </a>
-          )}
-        </div>
+        {(isAuthenticated || !isBlipRates) && (
+          <div className="p-4 border-t border-black/5 dark:border-white/5 space-y-2">
+            {isAuthenticated ? (
+              <a
+                href="/dashboard"
+                onClick={(e) => handleNavClick(e, "/dashboard")}
+                className="block w-full text-center py-1.5 rounded-full bg-white text-black border border-black/10 text-sm font-semibold transition-all duration-200 hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98]"
+              >
+                Dashboard
+              </a>
+            ) : (
+              <a
+                href="/waitlist"
+                onClick={(e) => handleNavClick(e, "/waitlist")}
+                className="block w-full text-center py-1.5 rounded-full bg-white text-black border border-black/10 text-sm font-semibold transition-all duration-200 hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98]"
+              >
+                Join Waitlist
+              </a>
+            )}
+          </div>
+        )}
       </div>
     </>
   );
