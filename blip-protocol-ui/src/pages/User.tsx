@@ -379,11 +379,11 @@ const AppPreviewSection = () => {
           className="relative rounded-3xl overflow-hidden border border-black/[0.06] dark:border-white/[0.06] bg-gradient-to-br from-[#FAF8F5] to-white dark:from-[#111] dark:to-[#050505]"
         >
           <img
-            src="/home.webp"
-            alt="Blip app preview"
-            className="w-full h-auto max-h-[620px] object-cover object-top"
+            src="/home.svg"
+            alt="Blip app preview — USDT to AED in under 60 seconds"
+            className="w-full h-auto max-h-[620px] object-contain"
             onError={(e) => {
-              (e.target as HTMLImageElement).src = "/home.png";
+              (e.target as HTMLImageElement).src = "/home.webp";
             }}
           />
           {/* Overlay stats */}
