@@ -2,12 +2,13 @@ import { useEffect, lazy, Suspense } from "react";
 import { SEO } from "@/components";
 import LazySection from "@/components/LazySection";
 
-// Only the hero is eagerly loaded (above the fold)
+// Hero + the immediately-next section are eagerly loaded — every scroller sees them,
+// so deferring ProblemSection just produces a black flash on dark-themed first paint.
 import CinematicHero from "@/components/IndexSections/CinematicHero";
+import ProblemSection from "@/components/IndexSections/ProblemSection";
 
 // Below-fold sections are lazy loaded
 const ProductPreview = lazy(() => import("@/components/IndexSections/ProductPreview"));
-const ProblemSection = lazy(() => import("@/components/IndexSections/ProblemSection"));
 const DarkFintechSection = lazy(() => import("@/components/IndexSections/DarkFintechSection"));
 const ProtocolInterstitial = lazy(() => import("@/components/IndexSections/ProtocolInterstitial"));
 const UseCasesSection = lazy(() => import("@/components/IndexSections/UseCasesSection"));
@@ -51,12 +52,8 @@ const Index = () => {
         {/* 1. Cinematic Hero */}
         <CinematicHero />
 
-        {/* 2. The Break — Problem → Settlement Layer */}
-        <LazySection minHeight="100vh">
-          <Suspense fallback={null}>
-            <ProblemSection />
-          </Suspense>
-        </LazySection>
+        {/* 2. The Break — Problem → Settlement Layer (eager: visible to every scroller) */}
+        <ProblemSection />
 
         {/* 3. How It Works — Animated Flow */}
         <LazySection minHeight="100vh">
