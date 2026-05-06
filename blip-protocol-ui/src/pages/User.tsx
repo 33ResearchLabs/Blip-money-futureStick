@@ -286,13 +286,13 @@ const UserHowItWorks = () => {
         {/* Step cards with connecting line */}
         <div className="relative grid grid-cols-1 md:grid-cols-4 gap-4">
           {/* Connecting line (desktop only) */}
-          <div className="hidden md:block absolute top-12 left-[12%] right-[12%] h-px bg-black/10 dark:bg-white/10" />
+          {/* <div className="hidden md:block absolute top-12 left-[12%] right-[12%] h-px bg-black/10 dark:bg-white/10" />
           <motion.div
             initial={{ scaleX: 0 }}
             animate={isInView ? { scaleX: 1 } : {}}
             transition={{ duration: 1.6, delay: 0.6, ease: "easeOut" }}
             className="hidden md:block absolute top-12 left-[12%] right-[12%] h-px bg-gradient-to-r from-[#ff6b35] via-[#ff6b35] to-transparent origin-left"
-          />
+          /> */}
 
           {steps.map((s, i) => {
             const Icon = s.icon;
@@ -387,7 +387,7 @@ const AppPreviewSection = () => {
             }}
           />
           {/* Overlay stats */}
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-8 md:p-12">
+          <div className="absolute -bottom-6 left-0 right-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-8 md:p-12">
             <div className="grid grid-cols-3 gap-6 max-w-xl">
               {[
                 { val: "<60s", lbl: "avg settlement" },
@@ -400,7 +400,7 @@ const AppPreviewSection = () => {
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.6, delay: 0.5 + i * 0.1 }}
                 >
-                  <div className="font-display text-2xl md:text-3xl font-semibold text-white tracking-tight tabular-nums">
+                  <div className="font-display text-xl md:text-2xl font-semibold text-white tracking-tight tabular-nums">
                     {s.val}
                   </div>
                   <div className="text-[10px] uppercase tracking-[0.2em] text-white/60 mt-1">

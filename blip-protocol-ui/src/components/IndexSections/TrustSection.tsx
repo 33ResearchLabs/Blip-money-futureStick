@@ -65,7 +65,7 @@ const TrustSection = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {trustCards.map((card, i) => {
             const Icon = card.icon;
-            const isLarge = i < 2;
+            const isLarge = i < 4;
             return (
               <div
                 key={card.title}
@@ -126,8 +126,8 @@ const TrustSection = () => {
                       alt={card.title}
                       className="rounded-xl object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"
                       style={{
-                        width: isLarge ? 140 : 100,
-                        height: isLarge ? 100 : 72,
+                        width: isLarge ? 300 : 100,    // 140 : 100
+                        height: isLarge ? 140 : 72,    // 100:72
                       }}
                     />
                   </div>

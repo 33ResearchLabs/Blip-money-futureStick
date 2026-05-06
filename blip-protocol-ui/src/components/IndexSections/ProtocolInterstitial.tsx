@@ -222,7 +222,7 @@ function RatesVisual({ isInView }: { isInView: boolean }) {
                   </div>
                 </div>
                 <div className="text-right">
-                  <span className="text-sm font-bold font-mono" style={{ color: isBest ? "#ff6b35" : "rgba(0,0,0,0.6)" }}>
+                  <span className="text-sm font-bold font-mono" style={{ color: isBest ? "#ff6b35" : "#fff" }}>
                     {liveRate}
                   </span>
                   {isBest && (

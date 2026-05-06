@@ -113,7 +113,7 @@ border border-black/10 dark:border-white/20"
             >
               <span className="block">Value. Settled.</span>
 
-              <span className="inline-block mt-1 bg-orange-600/10 text-[#ff6b35] px-3 py-0.5 rounded-md">
+              <span className="inline-block  mt-1  px-3 py-0.5 rounded-md">
                 Privately.
               </span>
             </motion.h1>
@@ -203,7 +203,7 @@ const KeyConceptsSection = () => {
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6">
             Built for Secure
             <br />
-            <span className="inline-block mt-1 bg-orange-600/10 text-[#ff6b35] px-3 py-0.5 rounded-md">
+            <span className="inline-block mt-1 px-3 py-0.5 rounded-md">
               Digital Value
             </span>
           </h2>
@@ -331,7 +331,7 @@ const CoreProtocolSection = () => {
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1]">
             Trust
             <br />
-            <span className="inline-block mt-1 bg-orange-600/10 text-[#ff6b35] px-3 py-0.5 rounded-md">Redefined.</span>
+            <span className="inline-block mt-1  px-3 py-0.5 rounded-md">Redefined.</span>
           </h2>
         </motion.div>
 
@@ -457,7 +457,7 @@ const TransactionFlowSection = () => {
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6">
             Atomic.
             <br />
-            <span className="inline-block mt-1 bg-orange-600/10 text-[#ff6b35] px-3 py-0.5 rounded-md">
+            <span className="inline-block mt-1  px-3 py-0.5 rounded-md">
               Guaranteed.
             </span>
           </h2>
@@ -626,7 +626,7 @@ const SecuritySection = () => {
               <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6">
                 Cryptographic
                 <br />
-                <span className="inline-block mt-1 bg-orange-600/10 text-[#ff6b35] px-3 py-0.5 rounded-md">
+                <span className="inline-block mt-1 px-3 py-0.5 rounded-md">
                   Security.
                 </span>
               </h2>
@@ -702,7 +702,7 @@ const OrderTypesSection = () => {
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1]">
             Multiple
             <br />
-            <span className="inline-block mt-1 bg-orange-600/10 text-[#ff6b35] px-3 py-0.5 rounded-md">
+            <span className="inline-block mt-1  px-3 py-0.5 rounded-md">
               Destinations.
             </span>
           </h2>
@@ -802,7 +802,7 @@ const CTASection = () => {
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white leading-[1.1] mb-6 sm:mb-8 tracking-tight max-w-xl mx-auto lg:mx-0">
             Code over
             <br />
-            <span className="inline-block mt-1 bg-orange-600/10 text-[#ff6b35] px-3 py-0.5 rounded-md">Trust.</span>
+            <span className="inline-block mt-1  px-3 py-0.5 rounded-md">Trust.</span>
           </h2>
 
           <p className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-xl mx-auto mb-12 font-medium leading-relaxed">

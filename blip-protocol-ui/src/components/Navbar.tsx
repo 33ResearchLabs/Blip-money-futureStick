@@ -68,10 +68,10 @@ export const Navbar = () => {
         }}
         transition={{ duration: 0.25 }}
         style={{ top: bannerHeight }}
-        className={`fixed w-full z-50 ${
+        className={`fixed w-full z-50  ${
           isScrolled
             ? "bg-[#1d1d1f]/90 dark:bg-[rgba(10,10,11,0.8)] backdrop-blur-xl dark:backdrop-blur-xl border-b border-white/[0.06] dark:border-white/[0.06]"
-            : "bg-transparent border-b border-white/[0.06] dark:border-white/[0.06]"
+            : "bg-black border-b border-white/[0.06] dark:border-white/[0.06]"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">

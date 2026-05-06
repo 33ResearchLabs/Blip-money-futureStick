@@ -101,7 +101,9 @@ const CTASection = () => {
             marginBottom: 24,
           }}
         >
-          <span className="text-black dark:text-white">The new financial rail is being built.</span>
+          <span className="text-black dark:text-white">
+            The new financial rail is being built.
+          </span>
         </motion.h2>
 
         <motion.div
@@ -114,12 +116,29 @@ const CTASection = () => {
           <CTAButton to="/waitlist" className="w-[180px] h-[48px]">
             Join waitlist
           </CTAButton>
-          <CTAButton to="/start" variant="secondary" className="w-[180px] h-[48px]">
+          <CTAButton
+            to="/merchant"
+            variant="secondary"
+            className="w-[180px] h-[48px]"
+          >
             Start using
           </CTAButton>
-          <CTAButton to="/liquidity" variant="secondary" className="w-[180px] h-[48px]">
+          {/* <CTAButton to="/" variant="secondary" className="w-[180px] h-[48px]">
             Provide liquidity
-          </CTAButton>
+          </CTAButton> */}
+          <a
+            href="https://app.blip.money/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span
+              className="w-[180px] h-[48px] dark:bg-transparent dark:text-white text-white border border-white/30 hover:border-white/60 hover:bg-white/10 hover:shadow-[0_8px_24px_rgba(255,255,255,0.08)] inline-flex
+          items-center justify-center px-5 py-2.5 rounded-full
+          text-[16px] font-semibold transition-all duration-300 ease-out"
+            >
+              Provide liquidity
+            </span>
+          </a>
         </motion.div>
       </motion.div>
     </section>
