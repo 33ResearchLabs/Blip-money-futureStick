@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { PulseIcon } from "./PulseIcon";
-import { FaLinkedin, FaTelegramPlane, FaYoutube } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
 
 /* ================= FOOTER DATA ================= */
 
@@ -61,21 +59,6 @@ const FOOTER_SECTIONS = [
       // { label: "Cookies", to: "/cookies" },
       { label: "Legal", to: "/legal" },
     ],
-  },
-];
-
-const SOCIAL_PLATFORMS = [
-  { icon: FaTelegramPlane, href: "https://t.me/blipmoney", label: "Telegram" },
-  { icon: FaXTwitter, href: "https://x.com/blip_money", label: "X (Twitter)" },
-  {
-    icon: FaYoutube,
-    href: "https://www.youtube.com/@BlipMoney",
-    label: "YouTube",
-  },
-  {
-    icon: FaLinkedin,
-    href: "https://www.linkedin.com/company/blipmoneyofficial/about/?viewAsMember=true",
-    label: "LinkedIn",
   },
 ];
 
@@ -175,23 +158,6 @@ export const Footer = ({
             <div className="text-sm text-black/80 dark:text-white/30 uppercase tracking-widest">
               © {new Date().getFullYear()} blip.money
             </div>
-          </div>
-
-          <div className="flex items-center gap-6">
-            {SOCIAL_PLATFORMS.map((platform, i) => {
-              const Icon = platform.icon;
-              return (
-                <a
-                  key={i}
-                  href={platform.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={platform.label}
-                >
-                  <Icon className="w-5 h-5 text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white hover:scale-110 transition-all duration-300" />
-                </a>
-              );
-            })}
           </div>
 
           <div className="flex items-center gap-3 text-sm uppercase tracking-widest font-bold text-black/70 dark:text-white/50">
