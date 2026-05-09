@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, memo } from "react";
 import TradePhoneUI from "../TradePhoneUI";
+import { SwipeHint } from "./SwipeHint";
 
 /* ============================================
    APP SHOWCASE — Apple-style bento grid
@@ -95,8 +96,8 @@ const AppShowcaseSection = () => {
             </div>
           </motion.div>
 
-          {/* ── RIGHT COLUMN — 2×2 ─────────────────────────────── */}
-          <div className="md:col-span-7 grid grid-cols-2 gap-4">
+          {/* ── RIGHT COLUMN — snap-scroll on mobile, 2×2 grid at md+ ── */}
+          <div className="md:col-span-7 -mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-2 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {/* CARD 2 — Matching, purple */}
             <motion.div
               style={{
@@ -107,7 +108,7 @@ const AppShowcaseSection = () => {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.1 }}
-              className="relative rounded-3xl overflow-hidden h-[280px] md:h-[293px]"
+              className="snap-start shrink-0 w-[88%] md:w-auto relative rounded-3xl overflow-hidden h-[280px] md:h-[293px]"
             >
               <div
                 className="absolute inset-0 pointer-events-none"
@@ -273,7 +274,7 @@ const AppShowcaseSection = () => {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.15 }}
-              className="relative rounded-3xl overflow-hidden h-[280px] md:h-[293px]"
+              className="snap-start shrink-0 w-[88%] md:w-auto relative rounded-3xl overflow-hidden h-[280px] md:h-[293px]"
             >
               <div
                 className="absolute inset-0 pointer-events-none"
@@ -420,7 +421,7 @@ const AppShowcaseSection = () => {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="col-span-2 relative rounded-3xl overflow-hidden h-[246px] md:h-[258px]"
+              className="snap-start shrink-0 w-[88%] md:w-auto md:col-span-2 relative rounded-3xl overflow-hidden h-[246px] md:h-[258px]"
             >
               {/* Inset browser */}
               <div
@@ -524,12 +525,13 @@ const AppShowcaseSection = () => {
               </div>
             </motion.div>
           </div>
+          <SwipeHint />
         </div>
 
         {/* ══════════════════════════════════════════════════════════
-            ROW 2 — Three landscape cards
+            ROW 2 — Three landscape cards (snap-scroll on mobile)
             ══════════════════════════════════════════════════════════ */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
+        <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-3 gap-4 mt-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {/* Card 5 — Escrow / app-flow-3 */}
           <motion.div
             style={{
@@ -540,7 +542,7 @@ const AppShowcaseSection = () => {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.25 }}
-            className="relative rounded-3xl overflow-hidden h-[210px]"
+            className="snap-start shrink-0 w-[88%] md:w-auto relative rounded-3xl overflow-hidden h-[210px]"
           >
             <div
               className="absolute inset-0 pointer-events-none"
@@ -693,7 +695,7 @@ const AppShowcaseSection = () => {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="relative rounded-3xl overflow-hidden h-[210px]"
+            className="snap-start shrink-0 w-[88%] md:w-auto relative rounded-3xl overflow-hidden h-[210px]"
           >
             {/* Subtle radial glow behind wallet */}
             <div
@@ -868,7 +870,7 @@ const AppShowcaseSection = () => {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.35 }}
-            className="relative rounded-3xl overflow-hidden h-[210px]"
+            className="snap-start shrink-0 w-[88%] md:w-auto relative rounded-3xl overflow-hidden h-[210px]"
           >
             <motion.img
               src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1172&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -895,6 +897,7 @@ const AppShowcaseSection = () => {
             </div>
           </motion.div>
         </div>
+        <SwipeHint />
       </div>
 
       {/* Bottom divider */}
