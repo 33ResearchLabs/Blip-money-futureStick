@@ -364,7 +364,17 @@ const RateFinder = () => {
   const amt = parseFloat(values.amount) || 0;
   const live = useLiveRates(currency.code, values.direction, amt);
 
-  const market = live.mid ?? currency.fallbackMid;
+  // Derive the market reference from the live venue prices directly.
+  // The API's `mid` field is ignored on purpose — older deployments
+  // returned `max` for SELL direction, which inflated the Blip rate.
+  // Lowest live venue price is the only stable reference.
+  const market = useMemo(() => {
+    const venuePrices = Object.values(live.venues).filter(
+      (p): p is number => p != null && Number.isFinite(p) && p > 0,
+    );
+    if (venuePrices.length > 0) return Math.min(...venuePrices);
+    return currency.fallbackMid;
+  }, [live.venues, currency.fallbackMid]);
 
   // Blip is always 0.2% better than the live market — cheaper to buy, more
   // received on sell — instead of a fixed paise/fils gap that drifts when
@@ -576,7 +586,7 @@ const RateFinder = () => {
                     </span>
                   </div>
                   <div className="text-[11px] text-black/50 dark:text-white/50">
-                    Settle in &lt;60s · 0.2% better than market · 0% protocol fee
+                    Settle in &lt;60s · 0% protocol fee · Non-custodial escrow
                   </div>
                 </div>
               </div>
