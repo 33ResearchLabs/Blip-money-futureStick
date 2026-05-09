@@ -230,8 +230,7 @@ const CinematicHero = () => {
             {[
               { value: "3+", label: "Countries" },
               { value: "100+", label: "Merchants" },
-              { value: "1,000+", label: "Users" },
-              { value: "~1 min", label: "Avg settlement" },
+              { value: "1 min", label: "Avg settlement" },
             ].map((s, i) => (
               <div key={s.label} className="flex items-center gap-3">
                 {i > 0 && (
