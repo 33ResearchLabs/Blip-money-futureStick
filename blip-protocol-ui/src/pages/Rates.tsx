@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
-import { motion } from "framer-motion";
-import { ArrowRight, Check, X, Search, RefreshCw, Sparkles } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, Check, X, Search, RefreshCw, Sparkles, ChevronDown, TrendingDown } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SEO } from "@/components";
 import { CTAButton } from "@/components/Navbar";
@@ -31,6 +31,7 @@ const CURRENCIES: Currency[] = [
   { code: "AED", flag: "🇦🇪", name: "UAE Dirham", fallbackMid: 3.6735, edge: 0.005, digits: 4, symbol: "د.إ ", edgeLabel: "5 fils better" },
   { code: "PHP", flag: "🇵🇭", name: "Philippine Peso", fallbackMid: 56.4, edge: 0.18, digits: 2, symbol: "₱", edgeLabel: "18 sentimo better" },
   { code: "PKR", flag: "🇵🇰", name: "Pakistani Rupee", fallbackMid: 278.5, edge: 0.7, digits: 2, symbol: "₨", edgeLabel: "70 paisa better" },
+  { code: "USD", flag: "🇺🇸", name: "US Dollar", fallbackMid: 1.001, edge: 0.0015, digits: 4, symbol: "$", edgeLabel: "0.15¢ better" },
 ];
 
 interface CompetitorMeta {
@@ -130,6 +131,7 @@ function useLiveRates(fiat: string, direction: Direction, amount: number): LiveR
 /* ============================================
    SEARCH PANEL — Skyscanner-style
    Amount first, then currency, then direction.
+   Currency uses a searchable dropdown that scales to 100+ entries.
    ============================================ */
 
 interface SearchValues {
@@ -137,6 +139,130 @@ interface SearchValues {
   currencyCode: string;
   direction: Direction;
 }
+
+const CurrencyPicker = ({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (code: string) => void;
+}) => {
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const current = CURRENCIES.find((c) => c.code === value) ?? CURRENCIES[0];
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return CURRENCIES;
+    return CURRENCIES.filter(
+      (c) =>
+        c.code.toLowerCase().includes(q) || c.name.toLowerCase().includes(q),
+    );
+  }, [query]);
+
+  // Close on outside click
+  useEffect(() => {
+    if (!open) return;
+    const onClick = (e: MouseEvent) => {
+      if (!wrapRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    window.addEventListener("mousedown", onClick);
+    return () => window.removeEventListener("mousedown", onClick);
+  }, [open]);
+
+  // Auto-focus search on open
+  useEffect(() => {
+    if (open) inputRef.current?.focus();
+  }, [open]);
+
+  return (
+    <div ref={wrapRef} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        className="w-full flex items-center justify-between gap-2 px-3 py-2 rounded-xl border border-black/[0.10] dark:border-white/[0.10] bg-white dark:bg-white/[0.04] hover:border-black/[0.25] dark:hover:border-white/[0.25] transition-colors"
+      >
+        <span className="flex items-center gap-2 min-w-0">
+          <span className="text-lg leading-none">{current.flag}</span>
+          <span className="text-sm font-bold text-black dark:text-white">
+            {current.code}
+          </span>
+          <span className="text-[12px] text-black/45 dark:text-white/45 truncate hidden sm:inline">
+            {current.name}
+          </span>
+        </span>
+        <ChevronDown
+          className={`w-4 h-4 text-black/45 dark:text-white/45 shrink-0 transition-transform ${open ? "rotate-180" : ""}`}
+        />
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.15 }}
+            className="absolute z-30 left-0 right-0 mt-2 rounded-2xl border border-black/[0.10] dark:border-white/[0.12] bg-white dark:bg-[#111] shadow-[0_12px_40px_-10px_rgba(0,0,0,0.30)] overflow-hidden"
+          >
+            <div className="px-3 py-2 border-b border-black/[0.06] dark:border-white/[0.06]">
+              <div className="flex items-center gap-2">
+                <Search className="w-3.5 h-3.5 text-black/40 dark:text-white/40" />
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Search currency"
+                  className="flex-1 bg-transparent border-0 focus:outline-none text-sm text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/35"
+                />
+              </div>
+            </div>
+            <ul role="listbox" className="max-h-64 overflow-y-auto py-1">
+              {filtered.length === 0 ? (
+                <li className="px-3 py-2 text-[13px] text-black/45 dark:text-white/40">
+                  No matches
+                </li>
+              ) : (
+                filtered.map((c) => {
+                  const selected = c.code === value;
+                  return (
+                    <li key={c.code}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          onChange(c.code);
+                          setOpen(false);
+                          setQuery("");
+                        }}
+                        className={`w-full flex items-center gap-3 px-3 py-2 text-left transition-colors ${selected ? "bg-black/[0.05] dark:bg-white/[0.06]" : "hover:bg-black/[0.03] dark:hover:bg-white/[0.04]"}`}
+                      >
+                        <span className="text-lg leading-none">{c.flag}</span>
+                        <span className="font-bold text-sm text-black dark:text-white w-12 shrink-0">
+                          {c.code}
+                        </span>
+                        <span className="text-[13px] text-black/55 dark:text-white/55 truncate flex-1">
+                          {c.name}
+                        </span>
+                        {selected && (
+                          <Check className="w-3.5 h-3.5 text-[#ff6b35] shrink-0" strokeWidth={3} />
+                        )}
+                      </button>
+                    </li>
+                  );
+                })
+              )}
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
 
 const SearchPanel = ({
   values,
@@ -168,29 +294,18 @@ const SearchPanel = ({
           </div>
         </label>
 
-        {/* Currency */}
-        <fieldset className="block px-5 py-4">
-          <legend className="text-[10px] uppercase tracking-[0.2em] font-semibold text-black/45 dark:text-white/40">
+        {/* Currency — searchable dropdown so this scales beyond a tab strip */}
+        <div className="block px-5 py-4">
+          <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-black/45 dark:text-white/40">
             Currency
-          </legend>
-          <div className="flex gap-1 mt-2 -mx-1">
-            {CURRENCIES.map((c) => (
-              <button
-                key={c.code}
-                type="button"
-                onClick={() => onChange({ ...values, currencyCode: c.code })}
-                aria-label={c.name}
-                className={`flex-1 py-2 rounded-lg text-sm font-bold transition-colors ${
-                  values.currencyCode === c.code
-                    ? "bg-black text-white dark:bg-white dark:text-black"
-                    : "text-black/55 dark:text-white/55 hover:bg-black/[0.05] dark:hover:bg-white/[0.05]"
-                }`}
-              >
-                {c.code}
-              </button>
-            ))}
+          </span>
+          <div className="mt-2">
+            <CurrencyPicker
+              value={values.currencyCode}
+              onChange={(code) => onChange({ ...values, currencyCode: code })}
+            />
           </div>
-        </fieldset>
+        </div>
 
         {/* Direction */}
         <fieldset className="block px-5 py-4">
@@ -348,9 +463,9 @@ const RateFinder = () => {
           <SearchPanel values={values} onChange={setValues} />
         </motion.div>
 
-        {/* Status + savings bar */}
-        <div className="mt-5 flex items-center justify-between text-[12px] gap-3">
-          <div className="flex items-center gap-2 text-black/55 dark:text-white/50 min-w-0">
+        {/* Status row */}
+        <div className="mt-5 flex items-center justify-between text-[12px] gap-3 text-black/55 dark:text-white/50">
+          <div className="flex items-center gap-2 min-w-0">
             {live.loading ? (
               <>
                 <RefreshCw className="w-3 h-3 animate-spin shrink-0" />
@@ -367,21 +482,60 @@ const RateFinder = () => {
               </>
             ) : null}
           </div>
-          {youSaveVsWorst != null && youSaveVsWorst > 0 ? (
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black text-white dark:bg-white dark:text-black">
-              <span className="text-[9px] font-bold uppercase tracking-[0.16em] text-[#ff6b35]">
-                You save
-              </span>
-              <span className="font-mono text-[12px] font-bold tabular-nums">
-                {formatRate(youSaveVsWorst, currency.digits, currency.symbol)}
-              </span>
-            </span>
-          ) : (
-            <span className="text-black/40 dark:text-white/35 hidden sm:inline">
-              {competitorRows.length + 1} venues compared
-            </span>
-          )}
+          <span className="text-black/40 dark:text-white/35 hidden sm:inline">
+            {competitorRows.length + 1} venues compared
+          </span>
         </div>
+
+        {/* SAVINGS CARD — big, obvious moat */}
+        <AnimatePresence>
+          {youSaveVsWorst != null && youSaveVsWorst > 0 && (
+            <motion.div
+              key="savings-card"
+              initial={{ opacity: 0, y: 10, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10, scale: 0.98 }}
+              transition={{ duration: 0.4, ease: EASE }}
+              className="mt-5 relative overflow-hidden rounded-3xl border border-[#ff6b35]/25 bg-black text-white"
+            >
+              {/* Subtle orange wash from the right */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 opacity-80"
+                style={{
+                  background:
+                    "radial-gradient(80% 100% at 100% 50%, rgba(255,107,53,0.32) 0%, transparent 60%)",
+                }}
+              />
+              <div className="relative px-6 py-5 sm:px-8 sm:py-6 flex flex-col sm:flex-row sm:items-center gap-4">
+                <div className="flex items-center gap-3 flex-1 min-w-0">
+                  <div className="flex items-center justify-center w-11 h-11 rounded-2xl bg-[#ff6b35] shrink-0 shadow-[0_6px_20px_-4px_rgba(255,107,53,0.55)]">
+                    <TrendingDown className="w-5 h-5 text-white" strokeWidth={2.6} />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#ff8c50]">
+                      You save with Blip
+                    </div>
+                    <div className="font-mono text-3xl sm:text-4xl font-bold tabular-nums leading-none mt-1">
+                      {formatRate(youSaveVsWorst, currency.digits, currency.symbol)}
+                    </div>
+                    <div className="text-[12px] text-white/55 mt-1.5">
+                      vs the worst quote on this page
+                      {amt > 0 ? ` · on ${amt.toLocaleString("en-US")} USDT` : ""}
+                    </div>
+                  </div>
+                </div>
+                <Link
+                  to="/waitlist"
+                  className="inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-full bg-white text-black text-[13px] font-bold hover:scale-[1.02] active:scale-[0.98] transition-transform shrink-0"
+                >
+                  Lock this rate
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Results — Blip first then competitors */}
         <div className="mt-3 space-y-2">
