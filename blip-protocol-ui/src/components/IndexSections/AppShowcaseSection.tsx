@@ -71,32 +71,48 @@ const AppShowcaseSection = () => {
         <div className="md:hidden relative">
           <div className="-mx-5 px-5 flex gap-3 overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {[
-              { step: "01", title: "Best rates, instant liquidity", desc: "Seamless multi-corridor transfers.", bg: "linear-gradient(145deg, #2a1200 0%, #0d0a14 55%, #0a0e1a 100%)", accent: "#ff6b35" },
-              { step: "02", title: "Instant matching", desc: "Fastest engine pairs you with merchants.", bg: "linear-gradient(145deg, #060014 0%, #090011 100%)", accent: "#6941ff" },
-              { step: "03", title: "Settled on-chain", desc: "Every transfer verified on Solana.", bg: "linear-gradient(145deg, #001108 0%, #000d06 100%)", accent: "#00e599" },
-              { step: "04", title: "Merchant Dashboard", desc: "Live P&L · Active orders · Blipscan.", bg: "#080808", accent: "#ffffff" },
-              { step: "05", title: "Escrow secured", desc: "Funds locked in smart-contract escrow.", bg: "linear-gradient(145deg, #120600 0%, #0a0a0a 100%)", accent: "#ff6b35" },
-              { step: "06", title: "Non-custodial wallet", desc: "Your keys, your funds. Always.", bg: "linear-gradient(145deg, #0a0a0a 0%, #050505 100%)", accent: "#7877ff" },
-              { step: "07", title: "Global reach", desc: "150+ countries · Any currency.", bg: "#0a0a0a", accent: "#3ddc84" },
+              { step: "01", title: "Best rates, instant liquidity", desc: "Seamless multi-corridor transfers.", bg: "linear-gradient(145deg, #2a1200 0%, #0d0a14 55%, #0a0e1a 100%)", accent: "#ff6b35", image: "/settlement.webp" },
+              { step: "02", title: "Instant matching", desc: "Fastest engine pairs you with merchants.", bg: "linear-gradient(145deg, #060014 0%, #090011 100%)", accent: "#6941ff", image: "/globalprovider.png" },
+              { step: "03", title: "Settled on-chain", desc: "Every transfer verified on Solana.", bg: "linear-gradient(145deg, #001108 0%, #000d06 100%)", accent: "#00e599", image: "/blockchainNodes_opt.webp" },
+              { step: "04", title: "Merchant Dashboard", desc: "Live P&L · Active orders · Blipscan.", bg: "#080808", accent: "#ffffff", image: "/merchantGateway.png" },
+              { step: "05", title: "Escrow secured", desc: "Funds locked in smart-contract escrow.", bg: "linear-gradient(145deg, #120600 0%, #0a0a0a 100%)", accent: "#ff6b35", image: "/escrowlocked.webp" },
+              { step: "06", title: "Non-custodial wallet", desc: "Your keys, your funds. Always.", bg: "linear-gradient(145deg, #0a0a0a 0%, #050505 100%)", accent: "#7877ff", image: "/home_opt.webp" },
+              { step: "07", title: "Global reach", desc: "150+ countries · Any currency.", bg: "#0a0a0a", accent: "#3ddc84", image: "/global-hd.jpg" },
             ].map((c) => (
               <div
                 key={c.step}
-                className="snap-start shrink-0 w-[80%] rounded-3xl p-6 flex flex-col justify-end min-h-[260px] relative overflow-hidden"
+                className="snap-start shrink-0 w-[80%] rounded-3xl flex flex-col min-h-[320px] relative overflow-hidden"
                 style={{ background: c.bg }}
               >
+                {/* Image — fixed height for visual consistency across cards */}
+                <div className="relative h-[140px] w-full overflow-hidden flex-shrink-0">
+                  <img
+                    src={c.image}
+                    alt=""
+                    loading="lazy"
+                    className="w-full h-full object-cover opacity-75"
+                  />
+                  <div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, rgba(0,0,0,0) 30%, rgba(0,0,0,0.55) 100%)",
+                    }}
+                  />
+                </div>
                 <div
                   aria-hidden
                   className="absolute inset-0 pointer-events-none"
                   style={{ background: `radial-gradient(120% 80% at 100% 0%, ${c.accent}22 0%, transparent 55%)` }}
                 />
-                <div className="relative z-10">
+                <div className="relative z-10 p-6 flex-1 flex flex-col justify-end">
                   <div className="text-[10px] uppercase tracking-[0.2em] font-semibold mb-2" style={{ color: c.accent }}>
                     Step {c.step}
                   </div>
                   <h3 className="text-white text-xl font-semibold leading-snug mb-2">
                     {c.title}
                   </h3>
-                  <p className="text-white/45 text-sm leading-relaxed">
+                  <p className="text-white/55 text-sm leading-relaxed">
                     {c.desc}
                   </p>
                 </div>
