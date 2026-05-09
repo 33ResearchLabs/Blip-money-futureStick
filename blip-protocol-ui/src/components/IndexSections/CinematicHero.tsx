@@ -147,7 +147,7 @@ const CinematicHero = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: EASE, delay: 0.22 }}
-          style={{ maxWidth: 480, margin: "0 auto 36px" }}
+          style={{ maxWidth: 480, margin: "0 auto 24px" }}
         >
           <p
             className="text-white/60 dark:text-[#888]"
@@ -159,6 +159,24 @@ const CinematicHero = () => {
             Instant fiat settlement powered by global liquidity.
             No banks. No delays. No middlemen.
           </p>
+        </motion.div>
+
+        {/* Price-match guarantee badge */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: EASE, delay: 0.3 }}
+          className="mb-9 flex justify-center"
+        >
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#ff6b35]/30 bg-[#ff6b35]/10 text-[#ffb899]">
+            <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#ff6b35]">
+              Cheapest rates
+            </span>
+            <span className="w-px h-3 bg-white/15" />
+            <span className="text-[12px] font-medium text-white/70">
+              Find lower? We'll match it — and beat it.
+            </span>
+          </div>
         </motion.div>
 
         {/* CTAs */}

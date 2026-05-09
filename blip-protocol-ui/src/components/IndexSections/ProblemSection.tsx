@@ -449,10 +449,10 @@ function BlipSettlementDemo() {
         ))}
       </div>
 
-      {/* Best rates — 2 rows */}
+      {/* Cheapest rates — 2 rows */}
       <div>
         <div className="flex items-center justify-between px-3 py-1.5">
-          <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", color: "rgba(255,255,255,0.25)" }}>Best rates</span>
+          <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", color: "rgba(255,255,255,0.25)" }}>Cheapest rates</span>
           <span style={{ fontSize: 8, color: "rgba(255,255,255,0.15)" }}>Live</span>
         </div>
         {bestRates.slice(0, 2).map((r, i) => (

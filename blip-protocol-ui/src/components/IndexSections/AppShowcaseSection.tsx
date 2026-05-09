@@ -71,7 +71,7 @@ const AppShowcaseSection = () => {
         <div className="md:hidden relative">
           <div className="-mx-5 px-5 flex gap-3 overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {[
-              { step: "01", title: "Best rates, instant liquidity", desc: "Seamless multi-corridor transfers.", bg: "linear-gradient(145deg, #2a1200 0%, #0d0a14 55%, #0a0e1a 100%)", accent: "#ff6b35", image: "/settlement.webp" },
+              { step: "01", title: "Cheapest rates, instant liquidity", desc: "Seamless multi-corridor transfers.", bg: "linear-gradient(145deg, #2a1200 0%, #0d0a14 55%, #0a0e1a 100%)", accent: "#ff6b35", image: "/settlement.webp" },
               { step: "02", title: "Instant matching", desc: "Fastest engine pairs you with merchants.", bg: "linear-gradient(145deg, #060014 0%, #090011 100%)", accent: "#6941ff", image: "/globalprovider.png" },
               { step: "03", title: "Settled on-chain", desc: "Every transfer verified on Solana.", bg: "linear-gradient(145deg, #001108 0%, #000d06 100%)", accent: "#00e599", image: "/blockchainNodes_opt.webp" },
               { step: "04", title: "Merchant Dashboard", desc: "Live P&L · Active orders · Blipscan.", bg: "#080808", accent: "#ffffff", image: "/merchantGateway.png" },
@@ -146,7 +146,7 @@ const AppShowcaseSection = () => {
                 Step 01
               </div>
               <h3 className="text-white font-semibold text-base leading-snug">
-                Best rates, instant liquidity
+                Cheapest rates, instant liquidity
               </h3>
               <p className="text-white/35 text-xs mt-1">
                 Seamless multi-corridor transfers, instantly.
