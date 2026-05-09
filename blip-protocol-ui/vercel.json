@@ -2,6 +2,10 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": "vite",
+  "redirects": [
+    { "source": "/blip-rates", "destination": "https://p2prate.live", "permanent": true },
+    { "source": "/blip-rates/:path*", "destination": "https://p2prate.live/:path*", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/api/:path*", "destination": "/api/:path*" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }

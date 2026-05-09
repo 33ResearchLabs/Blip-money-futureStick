@@ -1,9 +1,7 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
-  ArrowDown,
-  ArrowUp,
   Check,
   X,
   Shield,
@@ -12,6 +10,7 @@ import {
   Zap,
   Globe,
   Award,
+  RefreshCw,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SEO } from "@/components";
@@ -87,28 +86,92 @@ const CURRENCIES: Currency[] = [
   },
 ];
 
-/* Competitors with realistic spread vs market */
-interface Competitor {
+/* Competitor metadata. Live prices are fetched from /api/p2p-rates;
+   when the API is unreachable we fall back to a static spread vs market. */
+interface CompetitorMeta {
+  /** Backend venue name from /api/p2p-rates (must match) */
+  apiName?: string;
   name: string;
   logo: string;
-  /** Spread on BUY side (user pays MORE) */
-  buyMarkup: number;
-  /** Spread on SELL side (user receives LESS) */
-  sellMarkdown: number;
-  /** Settlement time string */
+  /** Fallback spread vs market when live data is unavailable */
+  fallbackBuy: number;
+  fallbackSell: number;
   settle: string;
 }
 
-/* All multipliers are fractions of the mid-market rate. */
-const COMPETITORS: Competitor[] = [
-  { name: "Binance P2P", logo: "🟡", buyMarkup: 0.0014, sellMarkdown: 0.0014, settle: "5–15 min" },
-  { name: "Paxful", logo: "🟢", buyMarkup: 0.0035, sellMarkdown: 0.0035, settle: "10–30 min" },
-  { name: "Bybit P2P", logo: "🟠", buyMarkup: 0.0020, sellMarkdown: 0.0020, settle: "5–20 min" },
-  { name: "Direct P2P", logo: "⚪", buyMarkup: 0.0050, sellMarkdown: 0.0050, settle: "Variable" },
+const COMPETITORS: CompetitorMeta[] = [
+  { apiName: "Binance P2P", name: "Binance P2P", logo: "🟡", fallbackBuy: 0.0014, fallbackSell: 0.0014, settle: "5–15 min" },
+  { apiName: "Bybit P2P", name: "Bybit P2P", logo: "🟠", fallbackBuy: 0.0020, fallbackSell: 0.0020, settle: "5–20 min" },
+  { apiName: "OKX P2P", name: "OKX P2P", logo: "⚫", fallbackBuy: 0.0025, fallbackSell: 0.0025, settle: "5–20 min" },
+  { name: "Paxful", logo: "🟢", fallbackBuy: 0.0035, fallbackSell: 0.0035, settle: "10–30 min" },
+  { name: "Direct P2P", logo: "⚪", fallbackBuy: 0.0050, fallbackSell: 0.0050, settle: "Variable" },
 ];
 
 function formatRate(value: number, digits: number, symbol: string) {
   return symbol + value.toFixed(digits);
+}
+
+/* ───────── Live rate hook ─────────
+   Fetches /api/p2p-rates whenever fiat/direction/amount changes.
+   Returns a map of venue name -> live price, plus a mid value used as
+   the market reference (the best of all live venues). */
+type LiveRate = { mid: number | null; venues: Record<string, number | null>; loading: boolean; error: string | null; observed_at: number | null };
+
+function useLiveRates(fiat: string, direction: Direction, amount: number): LiveRate {
+  const [state, setState] = useState<LiveRate>({
+    mid: null,
+    venues: {},
+    loading: true,
+    error: null,
+    observed_at: null,
+  });
+  const abortRef = useRef<AbortController | null>(null);
+
+  useEffect(() => {
+    abortRef.current?.abort();
+    const ctrl = new AbortController();
+    abortRef.current = ctrl;
+
+    setState((s) => ({ ...s, loading: true, error: null }));
+
+    const params = new URLSearchParams({
+      fiat,
+      tradeType: direction === "buy" ? "BUY" : "SELL",
+      amount: String(Math.max(0, amount)),
+    });
+    fetch(`/api/p2p-rates?${params.toString()}`, { signal: ctrl.signal })
+      .then(async (r) => {
+        if (!r.ok) throw new Error(`http-${r.status}`);
+        return r.json() as Promise<{
+          mid: number | null;
+          venues: Array<{ name: string; price: number | null; error?: string }>;
+          observed_at: number;
+        }>;
+      })
+      .then((data) => {
+        const venueMap: Record<string, number | null> = {};
+        for (const v of data.venues) venueMap[v.name] = v.price;
+        setState({
+          mid: data.mid ?? null,
+          venues: venueMap,
+          loading: false,
+          error: null,
+          observed_at: data.observed_at ?? Date.now(),
+        });
+      })
+      .catch((err: unknown) => {
+        if ((err as { name?: string })?.name === "AbortError") return;
+        setState((s) => ({
+          ...s,
+          loading: false,
+          error: err instanceof Error ? err.message : String(err),
+        }));
+      });
+
+    return () => ctrl.abort();
+  }, [fiat, direction, amount]);
+
+  return state;
 }
 
 /* ============================================
@@ -124,32 +187,41 @@ const RateFinder = () => {
     [currencyCode],
   );
 
-  const blipRate = useMemo(() => {
-    return direction === "buy"
-      ? currency.market - currency.edge
-      : currency.market + currency.edge;
-  }, [currency, direction]);
+  const amt = parseFloat(amount) || 0;
+  const live = useLiveRates(currency.code, direction, amt);
 
-  const blipTotal = useMemo(() => {
-    const amt = parseFloat(amount) || 0;
-    return blipRate * amt;
-  }, [blipRate, amount]);
+  // Use live mid-market if available; fall back to static reference rate.
+  const market = live.mid ?? currency.market;
+
+  const blipRate = useMemo(() => {
+    return direction === "buy" ? market - currency.edge : market + currency.edge;
+  }, [market, currency.edge, direction]);
+
+  const blipTotal = blipRate * amt;
 
   const competitorRows = useMemo(() => {
     return COMPETITORS.map((c) => {
-      const rate =
-        direction === "buy"
-          ? currency.market * (1 + c.buyMarkup)
-          : currency.market * (1 - c.sellMarkdown);
-      const amt = parseFloat(amount) || 0;
+      const livePrice = c.apiName ? live.venues[c.apiName] : null;
+      let rate: number;
+      let live_: boolean;
+      if (livePrice != null && Number.isFinite(livePrice) && livePrice > 0) {
+        rate = livePrice;
+        live_ = true;
+      } else {
+        rate =
+          direction === "buy"
+            ? market * (1 + c.fallbackBuy)
+            : market * (1 - c.fallbackSell);
+        live_ = false;
+      }
       const total = rate * amt;
       const youLose =
         direction === "buy"
           ? (rate - blipRate) * amt
           : (blipRate - rate) * amt;
-      return { ...c, rate, total, youLose };
+      return { ...c, rate, total, youLose, isLive: live_ };
     });
-  }, [currency, direction, amount, blipRate]);
+  }, [direction, amt, blipRate, market, live.venues]);
 
   return (
     <section className="relative pt-28 pb-16 sm:pt-32 sm:pb-20 px-5 sm:px-6">
@@ -330,8 +402,20 @@ const RateFinder = () => {
                   {c.logo}
                 </div>
                 <div className="min-w-0">
-                  <div className="text-[14px] font-semibold text-black dark:text-white">
-                    {c.name}
+                  <div className="flex items-center gap-2">
+                    <span className="text-[14px] font-semibold text-black dark:text-white">
+                      {c.name}
+                    </span>
+                    {c.isLive ? (
+                      <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-[#3ddc84]/15 border border-[#3ddc84]/30 text-[#3ddc84]">
+                        <span className="w-1 h-1 rounded-full bg-[#3ddc84] animate-pulse" />
+                        <span className="text-[8px] font-bold uppercase tracking-wider">Live</span>
+                      </span>
+                    ) : (
+                      <span className="text-[8px] font-bold uppercase tracking-wider text-black/35 dark:text-white/30 px-1.5 py-0.5 rounded-full bg-black/[0.04] dark:bg-white/[0.04]">
+                        Indicative
+                      </span>
+                    )}
                   </div>
                   <div className="text-[11px] text-black/50 dark:text-white/45">
                     Settle: {c.settle}
@@ -371,10 +455,27 @@ const RateFinder = () => {
           ))}
         </div>
 
-        <p className="mt-6 text-center text-[12px] text-black/45 dark:text-white/40">
-          Indicative rates · Live merchant quotes can vary slightly within
-          protocol limits · No hidden fees on Blip
-        </p>
+        <div className="mt-6 flex flex-col items-center gap-1">
+          {live.loading ? (
+            <span className="inline-flex items-center gap-2 text-[12px] text-black/55 dark:text-white/50">
+              <RefreshCw className="w-3 h-3 animate-spin" />
+              Fetching live rates from Binance, Bybit, OKX…
+            </span>
+          ) : live.error ? (
+            <span className="text-[12px] text-black/55 dark:text-white/50">
+              Live feed unavailable — showing indicative spreads
+            </span>
+          ) : live.observed_at ? (
+            <span className="inline-flex items-center gap-2 text-[12px] text-black/55 dark:text-white/50">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#3ddc84] animate-pulse" />
+              Live · last updated {Math.max(0, Math.round((Date.now() - live.observed_at) / 1000))}s ago
+            </span>
+          ) : null}
+          <span className="text-[11px] text-black/40 dark:text-white/35">
+            Live merchant quotes vary slightly within protocol limits · No
+            hidden fees on Blip
+          </span>
+        </div>
 
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
           <CTAButton to="/waitlist">
