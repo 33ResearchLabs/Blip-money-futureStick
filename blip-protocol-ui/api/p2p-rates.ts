@@ -3,6 +3,14 @@
 // quotes server-side, so this proxy just calls four sources in parallel and
 // returns the top-of-book per venue.
 //
+// Rate semantics (v2 — both directions use the lowest live ask):
+//   mid       = min(venue prices)          // market reference
+//   Blip BUY  = mid * 0.998                // 0.2% cheaper than market
+//   Blip SELL = mid * 1.002                // 0.2% more than market
+// Older deploys returned `max` for SELL — that produced inflated rates
+// because the public aggregator only carries sell ads (asks), and the
+// highest ask is a thin-tail outlier, not a buy bid.
+//
 // GET /api/p2p-rates?fiat=INR&tradeType=BUY&amount=100
 //   - fiat: INR | AED | PHP | PKR
 //   - tradeType: BUY | SELL  (direction is the user's perspective)
