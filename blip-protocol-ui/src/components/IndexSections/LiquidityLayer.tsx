@@ -93,102 +93,61 @@ const LiquidityLayer = () => {
         <SwipeHint />
         </div>
 
-        {/* Comparison — table on md+, swipeable per-metric cards on mobile */}
-
-        {/* Mobile: per-metric snap-scroll cards */}
-        <div className="md:hidden relative">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.9, delay: 0.3, ease: EASE }}
-            className="-mx-5 px-5 flex gap-3 overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-          >
-            {COMPARISONS.map((r) => (
-              <div
-                key={r.metric}
-                className="snap-start shrink-0 w-[80%] rounded-2xl p-5"
-                style={{
-                  background: isDark ? "rgba(255,255,255,0.03)" : "#ffffff",
-                  border: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.06)",
-                  boxShadow: isDark ? "none" : "0 2px 16px rgba(0,0,0,0.04)",
-                }}
-              >
-                <div className="text-[10px] font-bold uppercase tracking-[0.15em] mb-4" style={{ color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)" }}>
-                  {r.metric}
-                </div>
-                <div className="space-y-3">
-                  <div>
-                    <div className="text-[10px] uppercase tracking-wider mb-1" style={{ color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)" }}>
-                      Traditional
-                    </div>
-                    <div className="font-mono text-base font-medium line-through" style={{ color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.45)" }}>
-                      {r.traditional}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-[10px] uppercase tracking-wider mb-1" style={{ color: "#ff6b35" }}>
-                      Blip Protocol
-                    </div>
-                    <div className="font-mono text-base font-bold" style={{ color: isDark ? "#fff" : "#1d1d1f" }}>
-                      {r.blip}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </motion.div>
-          <SwipeHint />
-        </div>
-
-        {/* Desktop: full comparison table */}
+        {/* Comparison table — full width at md+, horizontally scrollable on mobile */}
+        <div className="relative">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.9, delay: 0.3, ease: EASE }}
-          className="hidden md:block rounded-2xl overflow-hidden"
-          style={{
-            background: isDark ? "rgba(255,255,255,0.03)" : "#ffffff",
-            border: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.06)",
-            boxShadow: isDark ? "none" : "0 2px 16px rgba(0,0,0,0.04)",
-          }}
+          className="-mx-5 md:mx-0 px-5 md:px-0 overflow-x-auto md:overflow-visible [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
-          {/* Column headers */}
-          <div className="grid grid-cols-3 px-6 py-4" style={{ borderBottom: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.06)" }}>
-            <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "1.5px", textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)" }}>
-              Metric
-            </span>
-            <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "1.5px", textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.2)" }}>
-              Traditional
-            </span>
-            <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "1.5px", textTransform: "uppercase", color: isDark ? "#fff" : "#1d1d1f" }}>
-              Blip Protocol
-            </span>
-          </div>
+          <div
+            className="rounded-2xl overflow-hidden min-w-[640px] md:min-w-0"
+            style={{
+              background: isDark ? "rgba(255,255,255,0.03)" : "#ffffff",
+              border: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.06)",
+              boxShadow: isDark ? "none" : "0 2px 16px rgba(0,0,0,0.04)",
+            }}
+          >
+            {/* Column headers */}
+            <div className="grid grid-cols-3 px-6 py-4" style={{ borderBottom: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.06)" }}>
+              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "1.5px", textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)" }}>
+                Metric
+              </span>
+              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "1.5px", textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.2)" }}>
+                Traditional
+              </span>
+              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "1.5px", textTransform: "uppercase", color: isDark ? "#fff" : "#1d1d1f" }}>
+                Blip Protocol
+              </span>
+            </div>
 
-          {/* Rows */}
-          {COMPARISONS.map((r, i) => (
-            <motion.div
-              key={r.metric}
-              initial={{ opacity: 0, x: -10 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.4 + i * 0.08, ease: EASE }}
-              className="grid grid-cols-3 items-center px-6 py-4"
-              style={{ borderBottom: i < COMPARISONS.length - 1 ? (isDark ? "1px solid rgba(255,255,255,0.04)" : "1px solid rgba(0,0,0,0.04)") : "none" }}
-            >
-              <span className="text-sm font-medium" style={{ color: isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.7)" }}>
-                {r.metric}
-              </span>
-              <span className="text-sm font-mono" style={{ color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.25)" }}>
-                {r.traditional}
-              </span>
-              <span className="text-sm font-bold font-mono" style={{ color: isDark ? "#fff" : "#1d1d1f" }}>
-                {r.blip}
-              </span>
-            </motion.div>
-          ))}
+            {/* Rows */}
+            {COMPARISONS.map((r, i) => (
+              <motion.div
+                key={r.metric}
+                initial={{ opacity: 0, x: -10 }}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.4 + i * 0.08, ease: EASE }}
+                className="grid grid-cols-3 items-center px-6 py-4"
+                style={{ borderBottom: i < COMPARISONS.length - 1 ? (isDark ? "1px solid rgba(255,255,255,0.04)" : "1px solid rgba(0,0,0,0.04)") : "none" }}
+              >
+                <span className="text-sm font-medium" style={{ color: isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.7)" }}>
+                  {r.metric}
+                </span>
+                <span className="text-sm font-mono" style={{ color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.25)" }}>
+                  {r.traditional}
+                </span>
+                <span className="text-sm font-bold font-mono" style={{ color: isDark ? "#fff" : "#1d1d1f" }}>
+                  {r.blip}
+                </span>
+              </motion.div>
+            ))}
+          </div>
         </motion.div>
+        <SwipeHint />
+        </div>
 
         {/* CTA */}
         <motion.div

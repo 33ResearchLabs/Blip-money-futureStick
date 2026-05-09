@@ -66,8 +66,50 @@ const AppShowcaseSection = () => {
         </motion.h2>
 
         {/* ══════════════════════════════════════════════════════════
-            ROW 1 — Big phone + 2×2 right grid
+            MOBILE — single horizontal snap-scroll, no animations
             ══════════════════════════════════════════════════════════ */}
+        <div className="md:hidden relative">
+          <div className="-mx-5 px-5 flex gap-3 overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {[
+              { step: "01", title: "Best rates, instant liquidity", desc: "Seamless multi-corridor transfers.", bg: "linear-gradient(145deg, #2a1200 0%, #0d0a14 55%, #0a0e1a 100%)", accent: "#ff6b35" },
+              { step: "02", title: "Instant matching", desc: "Fastest engine pairs you with merchants.", bg: "linear-gradient(145deg, #060014 0%, #090011 100%)", accent: "#6941ff" },
+              { step: "03", title: "Settled on-chain", desc: "Every transfer verified on Solana.", bg: "linear-gradient(145deg, #001108 0%, #000d06 100%)", accent: "#00e599" },
+              { step: "04", title: "Merchant Dashboard", desc: "Live P&L · Active orders · Blipscan.", bg: "#080808", accent: "#ffffff" },
+              { step: "05", title: "Escrow secured", desc: "Funds locked in smart-contract escrow.", bg: "linear-gradient(145deg, #120600 0%, #0a0a0a 100%)", accent: "#ff6b35" },
+              { step: "06", title: "Non-custodial wallet", desc: "Your keys, your funds. Always.", bg: "linear-gradient(145deg, #0a0a0a 0%, #050505 100%)", accent: "#7877ff" },
+              { step: "07", title: "Global reach", desc: "150+ countries · Any currency.", bg: "#0a0a0a", accent: "#3ddc84" },
+            ].map((c) => (
+              <div
+                key={c.step}
+                className="snap-start shrink-0 w-[80%] rounded-3xl p-6 flex flex-col justify-end min-h-[260px] relative overflow-hidden"
+                style={{ background: c.bg }}
+              >
+                <div
+                  aria-hidden
+                  className="absolute inset-0 pointer-events-none"
+                  style={{ background: `radial-gradient(120% 80% at 100% 0%, ${c.accent}22 0%, transparent 55%)` }}
+                />
+                <div className="relative z-10">
+                  <div className="text-[10px] uppercase tracking-[0.2em] font-semibold mb-2" style={{ color: c.accent }}>
+                    Step {c.step}
+                  </div>
+                  <h3 className="text-white text-xl font-semibold leading-snug mb-2">
+                    {c.title}
+                  </h3>
+                  <p className="text-white/45 text-sm leading-relaxed">
+                    {c.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <SwipeHint />
+        </div>
+
+        {/* ══════════════════════════════════════════════════════════
+            DESKTOP — full bento, hidden on mobile
+            ══════════════════════════════════════════════════════════ */}
+        <div className="hidden md:block">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
           {/* ── CARD 1 — Hero iPhone, orange ──────────────────────── */}
           <motion.div
@@ -900,8 +942,9 @@ const AppShowcaseSection = () => {
             </div>
           </motion.div>
         </div>
-        <SwipeHint />
         </div>
+        </div>
+        {/* end hidden md:block desktop wrapper */}
       </div>
 
       {/* Bottom divider */}
