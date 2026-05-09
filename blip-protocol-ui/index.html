@@ -92,17 +92,21 @@
 
   <body>
     <script>
-      // Prevent theme flash: apply saved theme before React renders
+      // Prevent theme flash: pick the route's default before React renders.
+      // Landing ("/") defaults to light, every other route defaults to dark.
       (function() {
         try {
-          var theme = localStorage.getItem('theme') || 'light';
-          if (theme === 'dark') {
+          var path = window.location.pathname || '/';
+          var routeDefault = (path === '/' || path === '') ? 'light' : 'dark';
+          // Route default takes precedence so each page paints in its intended mode.
+          if (routeDefault === 'dark') {
             document.documentElement.classList.add('dark');
           } else {
             document.documentElement.classList.remove('dark');
           }
         } catch (e) {
-          // default to light when storage is unavailable
+          // Safe fallback: dark, since most pages are dark.
+          document.documentElement.classList.add('dark');
         }
       })();
     </script>
