@@ -2625,3 +2625,168 @@
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
   transform: translateY(-2px);
 }
+
+/* ============================================
+   $1M GLOBAL POLISH LAYER
+   Subtle, Apple/Linear-grade motion defaults.
+   Keep everything restrained — motion should
+   serve content, never compete with it.
+   ============================================ */
+
+/* Smoother anchor scrolling */
+html {
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "kern" 1, "liga" 1, "ss01" 1, "cv01" 1;
+}
+
+/* `.force-light` — override dark-mode utilities for a section even when the
+   page is rendered in dark mode. Add to the outer <section> or wrapper.
+   Uses !important to outrank Tailwind's compiled `.dark .dark:X { ... }`
+   selectors. Covers the most common dark utilities used across this codebase. */
+.force-light { color-scheme: light; background-color: #FAF8F5; color: #1d1d1f; }
+.force-light .dark\:bg-black,
+.force-light .dark\:bg-\[\#0a0a0a\],
+.force-light .dark\:bg-\[\#050505\],
+.force-light .dark\:bg-\[\#111\],
+.force-light .dark\:bg-\[\#1a1a1a\],
+.force-light .dark\:bg-neutral-800,
+.force-light .dark\:bg-neutral-900 { background-color: #FAF8F5 !important; }
+.force-light .dark\:bg-white\/\[0\.03\],
+.force-light .dark\:bg-white\/\[0\.04\],
+.force-light .dark\:bg-white\/\[0\.05\],
+.force-light .dark\:bg-white\/5,
+.force-light .dark\:bg-white\/10 { background-color: rgba(0,0,0,0.03) !important; }
+.force-light .dark\:text-white { color: #1d1d1f !important; }
+.force-light .dark\:text-white\/30 { color: rgba(0,0,0,0.3) !important; }
+.force-light .dark\:text-white\/35 { color: rgba(0,0,0,0.35) !important; }
+.force-light .dark\:text-white\/40 { color: rgba(0,0,0,0.4) !important; }
+.force-light .dark\:text-white\/45 { color: rgba(0,0,0,0.45) !important; }
+.force-light .dark\:text-white\/50 { color: rgba(0,0,0,0.5) !important; }
+.force-light .dark\:text-white\/55 { color: rgba(0,0,0,0.55) !important; }
+.force-light .dark\:text-white\/60 { color: rgba(0,0,0,0.6) !important; }
+.force-light .dark\:text-white\/65 { color: rgba(0,0,0,0.65) !important; }
+.force-light .dark\:text-white\/70 { color: rgba(0,0,0,0.7) !important; }
+.force-light .dark\:text-white\/80 { color: rgba(0,0,0,0.8) !important; }
+.force-light .dark\:border-white\/\[0\.06\],
+.force-light .dark\:border-white\/\[0\.08\],
+.force-light .dark\:border-white\/10,
+.force-light .dark\:border-white\/15,
+.force-light .dark\:border-white\/20 { border-color: rgba(0,0,0,0.08) !important; }
+.force-light .dark\:via-white\/10,
+.force-light .dark\:via-white\/5 { --tw-gradient-via: rgba(0,0,0,0.06) !important; }
+.force-light .dark\:from-\[\#111\],
+.force-light .dark\:from-\[\#0a0a0a\],
+.force-light .dark\:from-black { --tw-gradient-from: #FAF8F5 !important; }
+.force-light .dark\:to-\[\#050505\],
+.force-light .dark\:to-black { --tw-gradient-to: #ffffff !important; }
+
+/* Section reveal on scroll — triggered by GlobalRevealObserver.
+   Subtle 16px lift + fade, spring-like easing. */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+[data-reveal].revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+[data-reveal="fade"] {
+  transform: none;
+}
+[data-reveal="scale"] {
+  transform: scale(0.985);
+}
+[data-reveal="scale"].revealed {
+  transform: scale(1);
+}
+
+/* Stagger helpers */
+[data-reveal-delay="1"] { transition-delay: 0.08s; }
+[data-reveal-delay="2"] { transition-delay: 0.16s; }
+[data-reveal-delay="3"] { transition-delay: 0.24s; }
+[data-reveal-delay="4"] { transition-delay: 0.32s; }
+[data-reveal-delay="5"] { transition-delay: 0.4s; }
+[data-reveal-delay="6"] { transition-delay: 0.48s; }
+
+/* Subtle default hover lift on interactive cards.
+   Only applies if the element opts in via .lift-on-hover. */
+.lift-on-hover {
+  transition:
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.4s ease;
+  will-change: transform;
+}
+.lift-on-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+}
+.dark .lift-on-hover:hover {
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+/* Subtle focus-visible — accessibility + polish */
+*:focus-visible {
+  outline: 2px solid rgba(255, 107, 53, 0.6);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Better selection color */
+::selection {
+  background: rgba(255, 107, 53, 0.22);
+  color: inherit;
+}
+
+/* Custom scrollbar — thin + subtle */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 107, 53, 0.5);
+  background-clip: padding-box;
+}
+
+/* Shimmer for numeric stats */
+@keyframes shimmer-text {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.75; }
+}
+.stat-pulse {
+  animation: shimmer-text 2.4s ease-in-out infinite;
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

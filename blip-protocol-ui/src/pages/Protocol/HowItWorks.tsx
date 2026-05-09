@@ -576,7 +576,7 @@ const SecuritySection = () => {
   return (
     <section
       ref={ref}
-      className="relative md:py-40 py-12 bg-[#FAF8F5] dark:bg-black overflow-hidden"
+      className="force-light relative md:py-40 py-12 bg-[#FAF8F5] dark:bg-black overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
@@ -693,7 +693,7 @@ const OrderTypesSection = () => {
   ];
 
   return (
-    <section className="relative md:py-40 py-12 bg-[#FAF8F5] dark:bg-black">
+    <section className="force-light relative md:py-40 py-12 bg-[#FAF8F5] dark:bg-black">
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
         <motion.div

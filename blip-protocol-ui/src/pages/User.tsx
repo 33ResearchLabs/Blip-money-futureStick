@@ -243,21 +243,29 @@ const UserHowItWorks = () => {
       icon: Wallet,
       title: "Connect wallet",
       desc: "Phantom, Solflare, or any Solana-compatible wallet.",
+      accent: "#7877ff",
+      glow: "rgba(120,119,255,0.18)",
     },
     {
       icon: Sparkles,
       title: "Pick your rate",
       desc: "See live market rates. Pick the best merchant match.",
+      accent: "#ff6b35",
+      glow: "rgba(255,107,53,0.18)",
     },
     {
       icon: Lock,
       title: "Escrow locks funds",
       desc: "Your crypto is locked on-chain. The merchant is committed.",
+      accent: "#3ddc84",
+      glow: "rgba(61,220,132,0.18)",
     },
     {
       icon: Zap,
       title: "Cash lands",
       desc: "Fiat hits your bank. Escrow releases. Done.",
+      accent: "#3ec5ff",
+      glow: "rgba(62,197,255,0.18)",
     },
   ];
 
@@ -306,24 +314,49 @@ const UserHowItWorks = () => {
                 transition={{ duration: 0.7, delay: 0.2 + i * 0.1, ease: EASE }}
                 className="snap-start shrink-0 w-[80%] md:w-auto relative group"
               >
-                <div className="relative bg-white dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] rounded-2xl p-6 lift-on-hover">
-                  {/* Step number */}
-                  <div className="flex items-center justify-between mb-5">
-                    <div className="relative">
-                      <div className="w-10 h-10 rounded-xl bg-[#ff6b35]/10 border border-[#ff6b35]/25 flex items-center justify-center">
-                        <Icon className="w-4 h-4 text-[#ff6b35]" />
-                      </div>
-                    </div>
-                    <span className="text-[10px] font-mono tabular-nums text-black/30 dark:text-white/30">
+                <div className="relative bg-white dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] rounded-2xl overflow-hidden lift-on-hover">
+                  {/* Visual hero — colored scene with large icon */}
+                  <div
+                    className="relative h-[140px] flex items-center justify-center overflow-hidden"
+                    style={{
+                      background: `linear-gradient(135deg, ${s.accent}26 0%, ${s.accent}0d 60%, transparent 100%)`,
+                    }}
+                  >
+                    {/* Soft radial glow */}
+                    <div
+                      aria-hidden
+                      className="absolute inset-0 pointer-events-none"
+                      style={{
+                        background: `radial-gradient(60% 70% at 50% 50%, ${s.glow} 0%, transparent 70%)`,
+                      }}
+                    />
+                    {/* Step number badge */}
+                    <span
+                      className="absolute top-3 right-3 text-[10px] font-mono font-bold tabular-nums px-2 py-0.5 rounded-full bg-white/85 dark:bg-black/40 backdrop-blur-md"
+                      style={{ color: s.accent }}
+                    >
                       0{i + 1}
                     </span>
+                    {/* Big icon panel */}
+                    <div
+                      className="relative z-10 w-16 h-16 rounded-2xl flex items-center justify-center transition-transform duration-500 group-hover:scale-105"
+                      style={{
+                        background: `linear-gradient(135deg, ${s.accent} 0%, ${s.accent}cc 100%)`,
+                        boxShadow: `0 10px 30px -8px ${s.glow}`,
+                      }}
+                    >
+                      <Icon className="w-7 h-7 text-white" strokeWidth={2.2} />
+                    </div>
                   </div>
-                  <h3 className="font-semibold text-black dark:text-white text-base mb-1.5 tracking-tight">
-                    {s.title}
-                  </h3>
-                  <p className="text-sm text-black/55 dark:text-white/50 leading-relaxed">
-                    {s.desc}
-                  </p>
+                  {/* Body */}
+                  <div className="p-6">
+                    <h3 className="font-semibold text-black dark:text-white text-base mb-1.5 tracking-tight">
+                      {s.title}
+                    </h3>
+                    <p className="text-sm text-black/60 dark:text-white/55 leading-relaxed">
+                      {s.desc}
+                    </p>
+                  </div>
                 </div>
               </motion.div>
             );
@@ -382,20 +415,23 @@ const AppPreviewSection = () => {
           transition={{ duration: 1, delay: 0.2, ease: EASE }}
           className="relative rounded-3xl overflow-hidden border border-black/[0.06] dark:border-white/[0.06] bg-gradient-to-br from-[#FAF8F5] to-white dark:from-[#111] dark:to-[#050505]"
         >
-          <img
-            src="/home.svg"
-            alt="Blip app preview — USDT to AED in under 60 seconds"
-            className="w-full h-auto max-h-[620px] object-contain"
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = "/home.webp";
-            }}
-          />
-          {/* Overlay stats */}
-          <div className="absolute -bottom-6 left-0 right-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-8 md:p-12">
-            <div className="grid grid-cols-3 gap-6 max-w-xl">
+          {/* Image — fully visible, no overlay covering it */}
+          <div className="px-6 pt-10 sm:px-12 sm:pt-14">
+            <img
+              src="/home.svg"
+              alt="Blip app preview — USDT to AED in under 60 seconds"
+              className="w-full h-auto max-h-[620px] object-contain mx-auto"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = "/home.webp";
+              }}
+            />
+          </div>
+          {/* Stats — sit below the image, not overlaid */}
+          <div className="border-t border-black/[0.06] dark:border-white/[0.06] mt-2 px-6 sm:px-12 py-8 md:py-10">
+            <div className="grid grid-cols-3 gap-4 sm:gap-6 max-w-xl mx-auto">
               {[
                 { val: "<60s", lbl: "avg settlement" },
-                { val: "0.5%", lbl: "protocol fee" },
+                { val: "0%", lbl: "protocol fees · for now" },
                 { val: "24/7", lbl: "always on" },
               ].map((s, i) => (
                 <motion.div
@@ -403,11 +439,12 @@ const AppPreviewSection = () => {
                   initial={{ opacity: 0, y: 12 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.6, delay: 0.5 + i * 0.1 }}
+                  className="text-center md:text-left"
                 >
-                  <div className="font-display text-xl md:text-2xl font-semibold text-white tracking-tight tabular-nums">
+                  <div className="font-display text-2xl md:text-3xl font-semibold text-black dark:text-white tracking-tight tabular-nums">
                     {s.val}
                   </div>
-                  <div className="text-[10px] uppercase tracking-[0.2em] text-white/60 mt-1">
+                  <div className="text-[10px] uppercase tracking-[0.2em] text-black/55 dark:text-white/50 mt-1.5">
                     {s.lbl}
                   </div>
                 </motion.div>
@@ -432,21 +469,29 @@ const UserTrustSection = () => {
       icon: Lock,
       title: "Non-custodial",
       desc: "You hold your keys. We never touch your funds.",
+      accent: "#7877ff",
+      glow: "rgba(120,119,255,0.20)",
     },
     {
       icon: Shield,
       title: "Escrow-backed",
       desc: "Every trade protected by on-chain escrow.",
+      accent: "#ff6b35",
+      glow: "rgba(255,107,53,0.22)",
     },
     {
       icon: Eye,
       title: "Fully transparent",
       desc: "Every transaction verifiable on Blip Scan.",
+      accent: "#3ec5ff",
+      glow: "rgba(62,197,255,0.22)",
     },
     {
       icon: BadgeCheck,
       title: "Vetted merchants",
       desc: "Reputation tracked. Non-performers removed.",
+      accent: "#3ddc84",
+      glow: "rgba(61,220,132,0.20)",
     },
   ];
 

@@ -30,7 +30,7 @@ const FOOTER_SECTIONS = [
       { label: "FAQ", to: "/faq" },
       { label: "Glossary", to: "/glossary" },
       { label: "Compare", to: "/compare" },
-      { label: "Rewards", to: "/rewards" },
+      // { label: "Rewards", to: "/rewards" }, // hidden for now
     ],
   },
   {

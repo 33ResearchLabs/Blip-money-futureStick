@@ -408,7 +408,7 @@ const PricingSection = () => {
   }, [isInView]);
 
   return (
-    <section ref={ref} className="relative py-24 md:py-32 overflow-hidden">
+    <section ref={ref} className="force-light relative py-24 md:py-32 overflow-hidden">
       <div className="absolute inset-0 bg-[#FAF8F5] dark:bg-black" />
       <div
         aria-hidden
@@ -441,7 +441,7 @@ const PricingSection = () => {
               control pricing.
             </span>{" "}
             <br className="hidden md:block" />
-            We keep it simple.
+            We make it simple.
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 16 }}
@@ -672,7 +672,7 @@ const RolloutSection = () => {
   ];
 
   return (
-    <section ref={ref} className="relative py-24 md:py-32 overflow-hidden">
+    <section ref={ref} className="force-light relative py-24 md:py-32 overflow-hidden">
       <div className="absolute inset-0 bg-[#FAF8F5] dark:bg-black" />
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-black/10 dark:via-white/10 to-transparent" />
 
