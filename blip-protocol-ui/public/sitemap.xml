@@ -30,6 +30,13 @@
   </url>
 
   <url>
+    <loc>https://blip.money/rates</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>0.95</priority>
+  </url>
+
+  <url>
     <loc>https://blip.money/waitlist</loc>
     <lastmod>2026-01-20</lastmod>
     <changefreq>weekly</changefreq>
@@ -628,6 +635,76 @@
     <priority>0.7</priority>
   </url>
 
+  <url>
+    <loc>https://blip.money/blog/send-usdt-to-bank-under-60-seconds</loc>
+    <lastmod>2026-04-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://blip.money/blog/hidden-cost-of-swift-7-percent</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://blip.money/blog/uae-crypto-tax-2026-guide</loc>
+    <lastmod>2026-05-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://blip.money/blog/stablecoins-vs-cbdcs-why-usdt-won</loc>
+    <lastmod>2026-05-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://blip.money/blog/indian-freelancers-usdt-to-inr</loc>
+    <lastmod>2026-05-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://blip.money/blog/on-chain-settlement-b2b-quiet-revolution</loc>
+    <lastmod>2026-05-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://blip.money/blog/phantom-vs-solflare-best-solana-wallet</loc>
+    <lastmod>2026-05-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://blip.money/blog/behind-the-scenes-blip-trade-walkthrough</loc>
+    <lastmod>2026-05-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://blip.money/blog/crypto-remittance-pakistan-usdt-vs-hawala</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://blip.money/blog/merchant-spread-profitability-guide</loc>
+    <lastmod>2026-05-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
   <!-- RESEARCH ARTICLES SITEMAP -->
   <url>
     <loc>https://blip.money/research</loc>
@@ -716,6 +793,76 @@
 <url>
   <loc>https://blip.money/research/agentic-finance-future-ai-blockchain</loc>
   <lastmod>2026-01-28</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.7</priority>
+</url>
+
+<url>
+  <loc>https://blip.money/research/on-chain-kyc-zk-compliance</loc>
+  <lastmod>2026-04-18</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.7</priority>
+</url>
+
+<url>
+  <loc>https://blip.money/research/stablecoin-trilemma-decentralization-stability-scale</loc>
+  <lastmod>2026-04-23</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.7</priority>
+</url>
+
+<url>
+  <loc>https://blip.money/research/cross-chain-liquidity-solana-evm-bridges</loc>
+  <lastmod>2026-04-28</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.7</priority>
+</url>
+
+<url>
+  <loc>https://blip.money/research/account-abstraction-on-solana-email-login-wallets</loc>
+  <lastmod>2026-05-03</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.7</priority>
+</url>
+
+<url>
+  <loc>https://blip.money/research/game-theory-bonded-merchants-reputation</loc>
+  <lastmod>2026-05-08</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.7</priority>
+</url>
+
+<url>
+  <loc>https://blip.money/research/real-world-asset-tokenization-16-trillion-frontier</loc>
+  <lastmod>2026-05-13</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.7</priority>
+</url>
+
+<url>
+  <loc>https://blip.money/research/privacy-preserving-payments-zk-stablecoins</loc>
+  <lastmod>2026-05-18</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.7</priority>
+</url>
+
+<url>
+  <loc>https://blip.money/research/decentralized-forex-aed-usdt-markets</loc>
+  <lastmod>2026-05-22</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.7</priority>
+</url>
+
+<url>
+  <loc>https://blip.money/research/solana-65k-tps-true-throughput</loc>
+  <lastmod>2026-05-26</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.7</priority>
+</url>
+
+<url>
+  <loc>https://blip.money/research/verifiable-credentials-spl-identity-programmable-money</loc>
+  <lastmod>2026-05-30</lastmod>
   <changefreq>weekly</changefreq>
   <priority>0.7</priority>
 </url>
