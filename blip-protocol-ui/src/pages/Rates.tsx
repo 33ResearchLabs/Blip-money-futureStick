@@ -335,8 +335,8 @@ const SearchPanel = ({
           </div>
         </div>
 
-        {/* Search action — reactive */}
-        <div className="px-5 py-4 md:py-3 md:pl-3 md:pr-5 flex md:items-center md:justify-end">
+        {/* Search badge — visual only on md+; hidden on mobile to save vertical space */}
+        <div className="hidden md:flex md:py-3 md:pl-3 md:pr-5 md:items-center md:justify-end">
           <div className="w-12 h-12 rounded-2xl bg-black text-white dark:bg-white dark:text-black flex items-center justify-center shadow-md">
             <Search className="w-5 h-5" strokeWidth={2.4} />
           </div>
@@ -364,26 +364,55 @@ const RateFinder = () => {
   const amt = parseFloat(values.amount) || 0;
   const live = useLiveRates(currency.code, values.direction, amt);
 
-  // Derive the market reference from the live venue prices directly.
-  // The API's `mid` field is ignored on purpose — older deployments
-  // returned `max` for SELL direction, which inflated the Blip rate.
-  // Lowest live venue price is the only stable reference.
-  const market = useMemo(() => {
-    const venuePrices = Object.values(live.venues).filter(
-      (p): p is number => p != null && Number.isFinite(p) && p > 0,
-    );
-    if (venuePrices.length > 0) return Math.min(...venuePrices);
-    return currency.fallbackMid;
-  }, [live.venues, currency.fallbackMid]);
+  // Live venue prices, with scam outliers filtered out.
+  // P2P aggregators sometimes carry quotes 15–25% above the realistic
+  // market — those aren't real merchants we can transact against. Keep
+  // only quotes within ±5% of the median.
+  const livePrices = useMemo(
+    () =>
+      Object.values(live.venues).filter(
+        (p): p is number => p != null && Number.isFinite(p) && p > 0,
+      ),
+    [live.venues],
+  );
 
-  // Blip is always 0.2% better than the live market — cheaper to buy, more
-  // received on sell — instead of a fixed paise/fils gap that drifts when
-  // the SELL-side mid jumps to the highest quote on a thin order book.
+  const trustedPrices = useMemo(() => {
+    if (livePrices.length === 0) return [] as number[];
+    const sorted = [...livePrices].sort((a, b) => a - b);
+    const median = sorted[Math.floor(sorted.length / 2)];
+    if (!median) return livePrices;
+    return livePrices.filter(
+      (p) => Math.abs(p - median) / median <= 0.05,
+    );
+  }, [livePrices]);
+
+  // "Best realistic" rate for the user's direction:
+  //   BUY  → lowest trusted ask (cheapest place to buy USDT)
+  //   SELL → highest trusted ask (most INR per USDT among legit merchants)
+  // Blip then beats this by 0.2% in the user's favor.
+  const bestRealistic = useMemo(() => {
+    const list = trustedPrices.length > 0 ? trustedPrices : livePrices;
+    if (list.length === 0) return currency.fallbackMid;
+    return values.direction === "buy" ? Math.min(...list) : Math.max(...list);
+  }, [trustedPrices, livePrices, currency.fallbackMid, values.direction]);
+
   const blipRate =
     values.direction === "buy"
-      ? market * (1 - BLIP_EDGE_PCT)
-      : market * (1 + BLIP_EDGE_PCT);
+      ? bestRealistic * (1 - BLIP_EDGE_PCT)
+      : bestRealistic * (1 + BLIP_EDGE_PCT);
   const blipTotal = blipRate * amt;
+
+  // The on-page "market" reference used for indicative competitor fallbacks:
+  //   - for BUY, the cheapest competitor is what users see, so the market is
+  //     the lowest competitor price.
+  //   - for SELL, indicative competitors should sit a notch below the
+  //     trusted best, so we anchor on bestRealistic.
+  const market =
+    values.direction === "buy"
+      ? livePrices.length > 0
+        ? Math.min(...livePrices)
+        : currency.fallbackMid
+      : bestRealistic;
 
   const competitorRows = useMemo(() => {
     return COMPETITORS.map((c) => {
@@ -409,14 +438,18 @@ const RateFinder = () => {
     });
   }, [values.direction, amt, blipRate, market, live.venues]);
 
-  // Savings estimate computed against the AVERAGE competitor rate on the
-  // page — fairer than picking the worst (which inflates the number) or
-  // the best (which under-states it).
+  // Savings vs the AVERAGE of trusted competitor rates (outliers excluded).
   const avgCompetitorRate = useMemo(() => {
+    // Use trusted live prices when we have at least 2; otherwise fall back
+    // to the full competitor row average (which includes indicative spreads).
+    const liveSet = trustedPrices.length >= 2 ? trustedPrices : livePrices;
+    if (liveSet.length > 0) {
+      return liveSet.reduce((s, r) => s + r, 0) / liveSet.length;
+    }
     const rates = competitorRows.map((c) => c.rate);
     if (rates.length === 0) return null;
     return rates.reduce((sum, r) => sum + r, 0) / rates.length;
-  }, [competitorRows]);
+  }, [trustedPrices, livePrices, competitorRows]);
   const youSaveVsAvg = useMemo(() => {
     if (avgCompetitorRate == null || amt === 0) return null;
     return values.direction === "buy"
@@ -552,19 +585,19 @@ const RateFinder = () => {
                     "radial-gradient(80% 100% at 100% 50%, rgba(255,107,53,0.32) 0%, transparent 60%)",
                 }}
               />
-              <div className="relative px-6 py-5 sm:px-8 sm:py-6 flex flex-col sm:flex-row sm:items-center gap-4">
-                <div className="flex items-center gap-3 flex-1 min-w-0">
-                  <div className="flex items-center justify-center w-11 h-11 rounded-2xl bg-[#ff6b35] shrink-0 shadow-[0_6px_20px_-4px_rgba(255,107,53,0.55)]">
-                    <TrendingDown className="w-5 h-5 text-white" strokeWidth={2.6} />
+              <div className="relative px-5 py-5 sm:px-8 sm:py-6 flex flex-col sm:flex-row sm:items-center gap-4">
+                <div className="flex items-start sm:items-center gap-3 flex-1 min-w-0">
+                  <div className="flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-[#ff6b35] shrink-0 shadow-[0_6px_20px_-4px_rgba(255,107,53,0.55)] mt-0.5 sm:mt-0">
+                    <TrendingDown className="w-4 h-4 sm:w-5 sm:h-5 text-white" strokeWidth={2.6} />
                   </div>
-                  <div className="min-w-0">
+                  <div className="min-w-0 flex-1">
                     <div className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#ff8c50]">
                       You save with Blip
                     </div>
-                    <div className="font-mono text-3xl sm:text-4xl font-bold tabular-nums leading-none mt-1">
+                    <div className="font-mono text-[28px] sm:text-4xl font-bold tabular-nums leading-none mt-1">
                       {formatRate(youSaveVsAvg, currency.digits, currency.symbol)}
                     </div>
-                    <div className="text-[12px] text-white/55 mt-1.5">
+                    <div className="text-[11px] sm:text-[12px] text-white/55 mt-1.5 leading-snug">
                       vs the average rate across {competitorRows.length} venues
                       {amt > 0 ? ` · on ${amt.toLocaleString("en-US")} USDT` : ""}
                     </div>
@@ -572,7 +605,7 @@ const RateFinder = () => {
                 </div>
                 <Link
                   to="/waitlist"
-                  className="inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-full bg-white text-black text-[13px] font-bold hover:scale-[1.02] active:scale-[0.98] transition-transform shrink-0"
+                  className="inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-full bg-white text-black text-[13px] font-bold hover:scale-[1.02] active:scale-[0.98] transition-transform shrink-0 w-full sm:w-auto"
                 >
                   Lock this rate
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -592,7 +625,7 @@ const RateFinder = () => {
             className="relative group"
           >
             <div className="absolute -left-1 top-3 bottom-3 w-1 rounded-full bg-[#ff6b35]" />
-            <div className="rounded-2xl bg-white dark:bg-white/[0.035] border border-black/[0.08] dark:border-white/[0.08] hover:border-black/20 dark:hover:border-white/20 px-5 py-4 transition-colors flex flex-col sm:flex-row sm:items-center gap-3">
+            <div className="rounded-2xl bg-white dark:bg-white/[0.035] border border-black/[0.08] dark:border-white/[0.08] hover:border-black/20 dark:hover:border-white/20 px-4 sm:px-5 py-4 transition-colors flex flex-col sm:flex-row sm:items-center gap-3">
               <div className="flex items-center gap-3 flex-1 min-w-0">
                 {/* Tiny logo mark */}
                 <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-black dark:bg-white shrink-0">
@@ -614,10 +647,10 @@ const RateFinder = () => {
                   </div>
                 </div>
               </div>
-              <div className="grid grid-cols-2 sm:flex sm:items-center gap-x-6 gap-y-1 sm:text-right">
+              <div className="flex items-center justify-between gap-3 sm:flex-1 sm:gap-6 sm:justify-end sm:text-right">
                 <div>
                   <div className="text-[9px] uppercase tracking-[0.16em] text-black/40 dark:text-white/40">Rate</div>
-                  <div className="font-mono text-base sm:text-lg font-bold text-black dark:text-white tabular-nums">
+                  <div className="font-mono text-lg font-bold text-black dark:text-white tabular-nums">
                     {formatRate(blipRate, currency.digits, currency.symbol)}
                   </div>
                 </div>
@@ -625,20 +658,26 @@ const RateFinder = () => {
                   <div className="text-[9px] uppercase tracking-[0.16em] text-black/40 dark:text-white/40">
                     {values.direction === "buy" ? "You pay" : "You get"}
                   </div>
-                  <div className="font-mono text-base sm:text-lg font-bold text-black dark:text-white tabular-nums">
+                  <div className="font-mono text-lg font-bold text-black dark:text-white tabular-nums">
                     {formatRate(blipTotal, currency.digits, currency.symbol)}
                   </div>
                 </div>
-                <div className="col-span-2 sm:col-auto sm:ml-3">
-                  <Link
-                    to="/waitlist"
-                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-black text-white dark:bg-white dark:text-black text-[12px] font-semibold hover:opacity-90 transition-opacity"
-                  >
-                    Get rate
-                    <ArrowRight className="w-3 h-3" />
-                  </Link>
-                </div>
+                <Link
+                  to="/waitlist"
+                  className="hidden sm:inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-black text-white dark:bg-white dark:text-black text-[12px] font-semibold hover:opacity-90 transition-opacity sm:ml-2"
+                >
+                  Get rate
+                  <ArrowRight className="w-3 h-3" />
+                </Link>
               </div>
+              {/* Mobile-only Get rate button — full width below the rates */}
+              <Link
+                to="/waitlist"
+                className="sm:hidden inline-flex items-center justify-center gap-1 mt-1 w-full px-3 py-2 rounded-full bg-black text-white dark:bg-white dark:text-black text-[13px] font-semibold"
+              >
+                Get this rate
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
             </div>
           </motion.div>
 
@@ -675,7 +714,7 @@ const RateFinder = () => {
                   </div>
                 </div>
               </div>
-              <div className="grid grid-cols-2 sm:flex sm:items-center gap-x-6 gap-y-1 sm:text-right">
+              <div className="flex items-center justify-between gap-3 sm:flex-1 sm:gap-6 sm:justify-end sm:text-right">
                 <div>
                   <div className="text-[9px] uppercase tracking-[0.16em] text-black/35 dark:text-white/35">Rate</div>
                   <div className="font-mono text-sm sm:text-base font-medium text-black/65 dark:text-white/60 tabular-nums">
@@ -691,7 +730,7 @@ const RateFinder = () => {
                   </div>
                 </div>
                 {c.youLose > 0 && (
-                  <div className="col-span-2 sm:col-auto sm:ml-3">
+                  <div className="sm:ml-3">
                     <div className="text-[9px] uppercase tracking-[0.16em] text-black/35 dark:text-white/35">
                       vs Blip
                     </div>
