@@ -191,23 +191,45 @@ const CinematicHero = () => {
           </div>
         </motion.div>
 
-        {/* Stats */}
+        {/* Stats — live network pulse */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, ease: EASE, delay: 0.6 }}
-          className="flex items-center justify-center gap-6"
+          className="flex flex-col items-center gap-3"
         >
-          {[
-            { label: "Avg settlement", value: "~42s" },
-            { label: "Active routes", value: "42" },
-          ].map((s, i) => (
-            <div key={s.label} className="flex items-center gap-2">
-              {i > 0 && <div className="w-px h-3 bg-black/10 dark:bg-white/10" />}
-              <span className="text-[11px] text-white/40 dark:text-[#555]">{s.label}:</span>
-              <span className="text-[11px] font-semibold font-mono text-white/70 dark:text-[#888]">{s.value}</span>
-            </div>
-          ))}
+          <div className="flex items-center gap-2">
+            <motion.span
+              className="w-1.5 h-1.5 rounded-full bg-[#3ddc84]"
+              animate={isInView ? { opacity: [1, 0.3, 1] } : { opacity: 0.6 }}
+              transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <span className="text-[10px] font-semibold tracking-[0.22em] uppercase text-white/45">
+              Live
+            </span>
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 sm:gap-x-8">
+            {[
+              { value: "3+", label: "Countries" },
+              { value: "100+", label: "Merchants" },
+              { value: "1,000+", label: "Users" },
+              { value: "~1 min", label: "Avg settlement" },
+            ].map((s, i) => (
+              <div key={s.label} className="flex items-center gap-3">
+                {i > 0 && (
+                  <div className="hidden sm:block w-px h-6 bg-white/10" />
+                )}
+                <div className="text-center">
+                  <div className="font-mono text-base sm:text-lg font-bold text-white tracking-tight">
+                    {s.value}
+                  </div>
+                  <div className="text-[9px] sm:text-[10px] font-semibold tracking-[0.18em] uppercase text-white/35 mt-0.5">
+                    {s.label}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </motion.div>
       </main>
     </section>
