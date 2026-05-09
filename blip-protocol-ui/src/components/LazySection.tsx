@@ -43,7 +43,11 @@ const LazySection = memo(function LazySection({
   }, [rootMargin]);
 
   return (
-    <div ref={ref} className={className} style={isVisible ? undefined : { minHeight }}>
+    <div
+      ref={ref}
+      className={className}
+      style={isVisible ? undefined : { minHeight }}
+    >
       {isVisible ? children : null}
     </div>
   );

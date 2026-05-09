@@ -601,14 +601,16 @@ const ProblemSection = () => {
           <span>are broken.</span>
         </motion.h2>
 
-        {/* ── 3 Problem Cards — Live animated data ── */}
+        {/* ── 3 Problem Cards — Live animated data ──
+            Mobile: Apple-style horizontal snap-scroll (cards peek at edges).
+            md+ : 3-column grid as before. */}
         <div
-          className="grid grid-cols-1 md:grid-cols-3"
-          style={{ gap: 16, marginBottom: 16 }}
+          className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-3 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          style={{ marginBottom: 16, scrollPaddingLeft: 20 }}
         >
-          <CostCard />
-          <WaitCard />
-          <TrackedCard />
+          <div className="snap-start shrink-0 w-[85%] md:w-auto"><CostCard /></div>
+          <div className="snap-start shrink-0 w-[85%] md:w-auto"><WaitCard /></div>
+          <div className="snap-start shrink-0 w-[85%] md:w-auto"><TrackedCard /></div>
         </div>
 
         {/* ── The Fix — full-width cinematic card ── */}
@@ -677,16 +679,16 @@ const ProblemSection = () => {
             </div>
 
             {/* Stats row */}
-            <div className="flex items-center gap-10 md:gap-16">
+            <div className="flex items-center gap-5 md:gap-16">
               {[
                 { val: "<60s", lbl: "Settlement" },
                 { val: "150+", lbl: "Merchants" },
                 { val: "On-chain", lbl: "Proof" },
               ].map((s, i) => (
-                <div key={s.lbl} className="flex items-center gap-10 md:gap-16">
-                  {i > 0 && <div className="w-px h-8 bg-white/10" style={{ marginLeft: -20, marginRight: -20 }} />}
+                <div key={s.lbl} className="flex items-center gap-5 md:gap-16">
+                  {i > 0 && <div className="w-px h-8 bg-white/10 -mx-2 md:-mx-5" />}
                   <div className="text-center">
-                    <div style={{ fontSize: 28, fontWeight: 700, color: "#ffffff", letterSpacing: "-0.03em", marginBottom: 4 }}>{s.val}</div>
+                    <div className="text-2xl md:text-[28px] font-bold text-white tracking-tight" style={{ marginBottom: 4 }}>{s.val}</div>
                     <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(255,255,255,0.3)" }}>{s.lbl}</div>
                   </div>
                 </div>

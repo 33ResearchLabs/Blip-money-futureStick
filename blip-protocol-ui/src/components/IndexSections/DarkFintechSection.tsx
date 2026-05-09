@@ -1057,7 +1057,11 @@ function PremiumFintechSection() {
   const [animDone, setAnimDone] = useState(false);
   const [showProtocolLock, setShowProtocolLock] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  // Latches true on first entry — used to start the auto-play timeline.
   const isInView = useInView(sectionRef, { once: true, margin: "-10%" });
+  // Live in/out tracking — used to pause always-on framer-motion infinite animations
+  // (camera drift, particles) when the section is fully off-screen.
+  const isOnScreen = useInView(sectionRef, { margin: "-10%" });
   const { cardW, phoneW, phoneH } = useDimensions();
   const autoPlayTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
@@ -1230,7 +1234,7 @@ function PremiumFintechSection() {
         animate={{ opacity: isFinale ? 0 : isCalm ? 0.3 : 1 }}
         transition={{ duration: 2.5 }}
       >
-        <FloatingParticles count={24} isActive={isInView} />
+        <FloatingParticles count={12} isActive={isOnScreen} />
       </motion.div>
 
       {/* ── Bottom Fade Gradient ── */}
@@ -1250,8 +1254,13 @@ function PremiumFintechSection() {
       {/* ── Camera Drift Wrapper ── */}
       <motion.div
         className="absolute inset-0"
-        animate={{ x: [0, 5, -3, 4, 0], y: [0, -3, 2, -2, 0] }}
-        transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
+        style={{ willChange: "transform" }}
+        animate={isOnScreen ? { x: [0, 5, -3, 4, 0], y: [0, -3, 2, -2, 0] } : { x: 0, y: 0 }}
+        transition={
+          isOnScreen
+            ? { duration: 35, repeat: Infinity, ease: "linear" }
+            : { duration: 0 }
+        }
       >
         <div
           className={`h-full flex justify-center px-4 sm:px-6 md:px-20 overflow-hidden ${
@@ -1455,6 +1464,34 @@ function PremiumFintechSection() {
                         animate={{ scaleX: 1 }}
                         transition={{ duration: 0.5, delay: 0.5, ease: EASE }}
                         className="h-[1px] mt-3 mx-auto w-16 bg-gradient-to-r from-transparent via-[#ff6b35]/40 to-transparent origin-left"
+                      />
+                    </motion.div>
+                  )}
+
+                  {/* Mobile-only stage titles — desktop has side panels for these */}
+                  {(stage === "instantMatch" ||
+                    stage === "lockEscrow" ||
+                    stage === "proofOnChain" ||
+                    stage === "globalRemittance") && (
+                    <motion.div
+                      key={`${stage}-mobile-title`}
+                      initial={{ opacity: 0, y: -12, filter: "blur(6px)" }}
+                      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                      exit={{ opacity: 0, y: 8, filter: "blur(4px)" }}
+                      transition={{ duration: 0.7, ease: EASE }}
+                      className="md:hidden text-center"
+                    >
+                      <h3 className="heading-h3 bg-gradient-to-br from-black via-black/80 to-black/50 dark:from-white dark:via-white/80 dark:to-white/40 bg-clip-text text-transparent inline-block leading-[1.2] pb-1">
+                        {stageCopy[stage].headline}
+                      </h3>
+                      <p className="text-xs text-black/40 dark:text-white/40 mt-1.5 tracking-wide max-w-[280px] mx-auto">
+                        {stageCopy[stage].subline}
+                      </p>
+                      <motion.div
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: 1 }}
+                        transition={{ duration: 0.5, delay: 0.4, ease: EASE }}
+                        className="h-[1px] mt-3 mx-auto w-16 bg-gradient-to-r from-transparent via-[#ff6b35]/50 to-transparent origin-left"
                       />
                     </motion.div>
                   )}
@@ -1722,6 +1759,16 @@ function PremiumFintechSection() {
                       transition={{ duration: 1, ease: EASE }}
                       className="absolute inset-[3px] rounded-[2.7rem] z-40 overflow-hidden bg-white dark:bg-[#0a0a0a]"
                     >
+                      {/* Ambient color wash — picks up brand orange + violet, very subtle */}
+                      <div
+                        aria-hidden
+                        className="pointer-events-none absolute inset-0 z-0"
+                        style={{
+                          background:
+                            "radial-gradient(120% 80% at 0% 0%, rgba(255,107,53,0.10) 0%, transparent 55%)," +
+                            "radial-gradient(110% 70% at 100% 100%, rgba(105,65,255,0.10) 0%, transparent 55%)",
+                        }}
+                      />
                       <PhoneChrome inset />
 
                       <div className="pt-[48px] px-4 pb-14 h-full overflow-hidden">
@@ -1732,7 +1779,13 @@ function PremiumFintechSection() {
                           className="flex items-center justify-between mb-3"
                         >
                           <div className="flex items-center gap-1.5">
-                            <div className="w-6 h-6 rounded-full bg-gray-100 dark:bg-neutral-800 flex items-center justify-center text-[8px] font-bold text-gray-500 dark:text-white/60">
+                            <div
+                              className="w-6 h-6 rounded-full flex items-center justify-center text-[8px] font-bold text-white shadow-[0_2px_8px_-2px_rgba(255,107,53,0.45)]"
+                              style={{
+                                background:
+                                  "linear-gradient(135deg, #ff8c50 0%, #ff6b35 55%, #d94d1f 100%)",
+                              }}
+                            >
                               G
                             </div>
                             <div>
@@ -1817,7 +1870,13 @@ function PremiumFintechSection() {
                               <span className="text-[14px] font-bold text-gray-300 dark:text-white/30">
                                 0 {"\u062F.\u0625"}
                               </span>
-                              <div className="flex items-center gap-1 bg-gray-200 dark:bg-neutral-700/50 rounded-full px-2 py-0.5">
+                              <div
+                                className="flex items-center gap-1 rounded-full px-2 py-0.5 border border-red-500/15 dark:border-red-500/25"
+                                style={{
+                                  background:
+                                    "linear-gradient(90deg, rgba(239,68,68,0.10) 0%, rgba(34,197,94,0.10) 100%)",
+                                }}
+                              >
                                 <span className="text-[8px]">
                                   {"\u{1F1E6}\u{1F1EA}"}
                                 </span>
@@ -1851,8 +1910,8 @@ function PremiumFintechSection() {
                               Matching priority
                             </span>
                             <div className="flex gap-1">
-                              <div className="flex-1 bg-emerald-50 dark:bg-emerald-500/20 border border-emerald-200 dark:border-emerald-500/30 rounded-lg py-1.5 text-center">
-                                <span className="text-[8px] font-semibold text-emerald-600 dark:text-emerald-400">
+                              <div className="flex-1 bg-[#ff6b35]/10 dark:bg-[#ff6b35]/20 border border-[#ff6b35]/30 dark:border-[#ff6b35]/40 rounded-lg py-1.5 text-center">
+                                <span className="text-[8px] font-semibold text-[#ff6b35] dark:text-[#ff8c50]">
                                   Fastest
                                 </span>
                               </div>
@@ -1882,16 +1941,16 @@ function PremiumFintechSection() {
                                 animate={{
                                   backgroundColor: [
                                     "rgb(64,64,64)",
-                                    "rgb(16,185,129)",
-                                    "rgb(16,185,129)",
-                                    "rgb(16,185,129)",
+                                    "rgb(255,107,53)",
+                                    "rgb(255,107,53)",
+                                    "rgb(255,107,53)",
                                   ],
                                   scale: [1, 1, 1, 0.93],
                                   boxShadow: [
-                                    "0 0 0 0 rgba(16,185,129,0)",
-                                    "0 0 0 0 rgba(16,185,129,0)",
-                                    "0 0 24px 4px rgba(16,185,129,0.25)",
-                                    "0 0 0 0 rgba(16,185,129,0)",
+                                    "0 0 0 0 rgba(255,107,53,0)",
+                                    "0 0 0 0 rgba(255,107,53,0)",
+                                    "0 0 24px 4px rgba(255,107,53,0.25)",
+                                    "0 0 0 0 rgba(255,107,53,0)",
                                   ],
                                 }}
                                 transition={{

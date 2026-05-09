@@ -22,8 +22,8 @@ const LiquidityLayer = () => {
   return (
     <section
       ref={ref}
-      className="relative overflow-hidden"
-      style={{ background: isDark ? "#000" : "#FAF8F5", padding: "140px 24px" }}
+      className="relative overflow-hidden py-20 px-5 md:py-[140px] md:px-6"
+      style={{ background: isDark ? "#000" : "#FAF8F5" }}
     >
       <div className="max-w-5xl mx-auto">
         {/* Header */}
@@ -56,7 +56,7 @@ const LiquidityLayer = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.2, ease: EASE }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12"
+          className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-4 gap-4 mb-12 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {[
             { label: "Speed", old: "3–5 days", new: "< 60s" },
@@ -70,7 +70,7 @@ const LiquidityLayer = () => {
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.1, ease: EASE }}
-              className="rounded-2xl p-5 text-center"
+              className="snap-start shrink-0 w-[58%] md:w-auto rounded-2xl p-5 text-center"
               style={{
               background: isDark ? "rgba(255,255,255,0.03)" : "#ffffff",
               border: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.06)",

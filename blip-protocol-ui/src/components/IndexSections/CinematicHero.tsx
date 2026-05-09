@@ -1,5 +1,5 @@
-import { useState, useEffect, memo } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useRef, memo } from "react";
+import { motion, useInView } from "framer-motion";
 import { useTheme } from "next-themes";
 import { CTAButton } from "../Navbar";
 
@@ -12,8 +12,20 @@ const CinematicHero = () => {
   useEffect(() => setMounted(true), []);
   const isDark = mounted ? theme === "dark" : true;
 
+  const sectionRef = useRef<HTMLElement>(null);
+  // Once the hero is ~halfway out of view, pause infinite animations to free up GPU/CPU
+  const isInView = useInView(sectionRef, { amount: 0.2 });
+
+  const bgZoomAnimate = isInView ? { scale: 1.15 } : { scale: 1 };
+  const bgZoomTransition = isInView
+    ? { duration: 10, ease: "linear", repeat: Infinity, repeatType: "reverse" as const }
+    : { duration: 0 };
+
   return (
-    <section className="relative min-h-screen overflow-hidden flex items-center justify-center text-center bg-[#FAF8F5] dark:bg-black">
+    <section
+      ref={sectionRef}
+      className="relative min-h-screen overflow-hidden flex items-center justify-center text-center bg-[#FAF8F5] dark:bg-black"
+    >
 
       {/* ── DARK MODE: Earth bg + zoom + overlay ── */}
       {isDark && (
@@ -22,8 +34,8 @@ const CinematicHero = () => {
             aria-hidden="true"
             className="absolute inset-0 pointer-events-none"
             initial={{ scale: 1 }}
-            animate={{ scale: 1.15 }}
-            transition={{ duration: 10, ease: "linear", repeat: Infinity, repeatType: "reverse" }}
+            animate={bgZoomAnimate}
+            transition={bgZoomTransition}
             style={{
               backgroundImage: "url('/hero-bg.jpg')",
               backgroundSize: "cover",
@@ -46,8 +58,8 @@ const CinematicHero = () => {
             aria-hidden="true"
             className="absolute inset-0 pointer-events-none"
             initial={{ scale: 1 }}
-            animate={{ scale: 1.15 }}
-            transition={{ duration: 10, ease: "linear", repeat: Infinity, repeatType: "reverse" }}
+            animate={bgZoomAnimate}
+            transition={bgZoomTransition}
             style={{
               backgroundImage: "url('/hero-bg.jpg')",
               backgroundSize: "cover",
@@ -113,8 +125,16 @@ const CinematicHero = () => {
               backgroundClip: "text",
               color: "transparent",
             }}
-            animate={{ backgroundPosition: ["100% 50%", "0% 50%", "100% 50%"] }}
-            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+            animate={
+              isInView
+                ? { backgroundPosition: ["100% 50%", "0% 50%", "100% 50%"] }
+                : { backgroundPosition: "100% 50%" }
+            }
+            transition={
+              isInView
+                ? { duration: 7, repeat: Infinity, ease: "easeInOut" }
+                : { duration: 0 }
+            }
           >
             Settled on-chain.
           </motion.span>

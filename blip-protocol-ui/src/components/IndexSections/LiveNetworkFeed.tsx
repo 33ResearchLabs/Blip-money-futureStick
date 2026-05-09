@@ -60,8 +60,8 @@ const LiveNetworkFeed = () => {
   return (
     <section
       ref={ref}
-      className="relative overflow-hidden"
-      style={{ background: isDark ? "#000" : "#1d1d1f", padding: "120px 24px" }}
+      className="relative overflow-hidden py-20 px-5 md:py-[120px] md:px-6"
+      style={{ background: isDark ? "#000" : "#1d1d1f" }}
     >
       <div className="max-w-5xl mx-auto">
         {/* Header */}
