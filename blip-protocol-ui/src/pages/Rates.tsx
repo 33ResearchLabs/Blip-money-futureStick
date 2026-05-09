@@ -468,11 +468,34 @@ const RateFinder = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.7, delay: 0.18 }}
-          className="text-center text-base md:text-lg text-black/55 dark:text-white/50 max-w-xl mx-auto mb-10 sm:mb-12"
+          className="text-center text-base md:text-lg text-black/55 dark:text-white/50 max-w-2xl mx-auto mb-6"
         >
-          We aggregate every major P2P venue and undercut the best price on
-          every trade. Live numbers. Zero spread tricks.
+          Cheaper than every P2P venue we compare against. Safer than custody.
+          Private by design. Verifiable on-chain.
         </motion.p>
+
+        {/* Pillar chips — cheaper / safer / private / on-chain */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.25 }}
+          className="flex flex-wrap items-center justify-center gap-2 mb-10 sm:mb-12"
+        >
+          {[
+            { label: "Cheapest rate" },
+            { label: "Non-custodial" },
+            { label: "Private by design" },
+            { label: "On-chain verifiable" },
+          ].map((p) => (
+            <span
+              key={p.label}
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-black/[0.10] dark:border-white/[0.10] bg-white/60 dark:bg-white/[0.03] text-[11px] font-semibold text-black/65 dark:text-white/60"
+            >
+              <Check className="w-3 h-3 text-[#ff6b35]" strokeWidth={3} />
+              {p.label}
+            </span>
+          ))}
+        </motion.div>
 
         {/* Search panel — narrower than the results column for visual focus */}
         <motion.div
