@@ -525,25 +525,37 @@ const UserTrustSection = () => {
             return (
               <motion.div
                 key={c.title}
-                initial={{ opacity: 0, y: 24 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.7, delay: 0.15 + i * 0.08, ease: EASE }}
-                className="snap-start shrink-0 w-[80%] md:w-auto relative rounded-2xl bg-white dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] p-6 lift-on-hover group"
+                initial={{ opacity: 0, y: 60 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.8, delay: i * 0.1 }}
+                className="snap-start shrink-0 w-[80%] md:w-auto group relative p-8 rounded-3xl text-center border border-black/[0.06] dark:border-white/[0.08] hover:border-black/20 dark:hover:border-white/20 duration-500 transition-colors"
+                style={{ background: "rgba(255, 255, 255, 0.02)" }}
               >
+                {/* Step number watermark in corner */}
+                <span
+                  className="absolute top-4 right-4 text-4xl font-bold select-none"
+                  style={{ color: `${c.accent}26` }}
+                >
+                  0{i + 1}
+                </span>
+
+                {/* Big colored icon panel, centered */}
                 <div
-                  className="w-11 h-11 rounded-xl flex items-center justify-center mb-5 transition-transform duration-500 group-hover:scale-[1.08]"
+                  className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 transition-all duration-500 group-hover:scale-105"
                   style={{
-                    background:
-                      "linear-gradient(135deg, rgba(255,107,53,0.12), rgba(255,107,53,0.04))",
-                    border: "1px solid rgba(255,107,53,0.18)",
+                    background: `linear-gradient(135deg, ${c.accent}26 0%, ${c.accent}0d 100%)`,
+                    border: `1px solid ${c.accent}33`,
+                    boxShadow: `0 8px 24px -8px ${c.glow}`,
                   }}
                 >
-                  <Icon className="w-5 h-5 text-[#ff6b35]" />
+                  <Icon className="w-7 h-7" style={{ color: c.accent }} strokeWidth={2.2} />
                 </div>
-                <h3 className="font-semibold text-black dark:text-white mb-2 tracking-tight">
+
+                <h3 className="text-lg font-semibold text-black/80 dark:text-white/85 mb-2 tracking-tight">
                   {c.title}
                 </h3>
-                <p className="text-sm text-black/55 dark:text-white/50 leading-relaxed">
+                <p className="text-sm font-medium text-black/55 dark:text-white/55 leading-relaxed">
                   {c.desc}
                 </p>
               </motion.div>

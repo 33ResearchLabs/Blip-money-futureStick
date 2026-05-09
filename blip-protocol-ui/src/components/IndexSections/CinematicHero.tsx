@@ -160,43 +160,22 @@ const CinematicHero = () => {
           </p>
         </motion.div>
 
-        {/* Lowest-rate promise — two-line card with tag icon and orange halo */}
+        {/* Lowest-rate promise — ghost outline, no fill */}
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: EASE, delay: 0.3 }}
           className="mb-9 flex justify-center"
         >
-          <div className="relative inline-block">
-            {/* Orange halo behind the card */}
-            <div
-              aria-hidden
-              className="absolute -inset-3 rounded-[28px] blur-2xl pointer-events-none opacity-70"
-              style={{
-                background:
-                  "radial-gradient(60% 80% at 50% 50%, rgba(255,107,53,0.35) 0%, transparent 70%)",
-              }}
-            />
-            <div
-              className="relative inline-flex items-center gap-3.5 px-5 py-3 rounded-2xl bg-white border border-[#ff6b35]/30"
-              style={{
-                boxShadow:
-                  "0 12px 40px -10px rgba(255,107,53,0.45), 0 4px 20px rgba(0,0,0,0.10)",
-              }}
-            >
-              {/* Price-tag chip */}
-              <div className="flex items-center justify-center w-9 h-9 rounded-xl shrink-0 bg-gradient-to-br from-[#ff8c50] to-[#ff6b35] shadow-[0_4px_12px_-2px_rgba(255,107,53,0.55)]">
-                <Tag className="w-4 h-4 text-white" strokeWidth={2.6} />
-              </div>
-              <div className="text-left">
-                <div className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#ff6b35] mb-0.5 leading-none">
-                  Lowest rate, guaranteed
-                </div>
-                <div className="text-[14px] font-semibold text-black tracking-tight leading-tight whitespace-nowrap">
-                  Find cheaper. We&apos;ll cut deeper.
-                </div>
-              </div>
-            </div>
+          <div className="inline-flex items-center gap-3 px-4 py-2.5 rounded-full border border-[#ff6b35]/35 bg-[#ff6b35]/[0.04] backdrop-blur-sm">
+            <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.22em] text-[#ff6b35] leading-none">
+              <Tag className="w-3 h-3" strokeWidth={2.8} />
+              Lowest rate, guaranteed
+            </span>
+            <span className="w-px h-3.5 bg-white/20" />
+            <span className="text-[13px] font-semibold text-white/90 tracking-tight whitespace-nowrap leading-none">
+              Find cheaper. We&apos;ll cut deeper.
+            </span>
           </div>
         </motion.div>
 

@@ -2657,8 +2657,8 @@ html {
 .force-light .dark\:bg-white\/\[0\.03\],
 .force-light .dark\:bg-white\/\[0\.04\],
 .force-light .dark\:bg-white\/\[0\.05\],
-.force-light .dark\:bg-white\/5,
-.force-light .dark\:bg-white\/10 { background-color: rgba(0,0,0,0.03) !important; }
+.force-light .dark\:bg-white\/5 { background-color: #ffffff !important; }
+.force-light .dark\:bg-white\/10 { background-color: rgba(0,0,0,0.04) !important; }
 .force-light .dark\:text-white { color: #1d1d1f !important; }
 .force-light .dark\:text-white\/30 { color: rgba(0,0,0,0.3) !important; }
 .force-light .dark\:text-white\/35 { color: rgba(0,0,0,0.35) !important; }

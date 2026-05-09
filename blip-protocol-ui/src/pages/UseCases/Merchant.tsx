@@ -454,14 +454,15 @@ const PricingSection = () => {
           </motion.p>
         </div>
 
-        {/* Live rate card + margin slider preview */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-5">
+        {/* Live rate card + margin slider preview — mobile snap-scroll */}
+        <div className="relative">
+        <div className="-mx-5 lg:mx-0 px-5 lg:px-0 flex lg:grid lg:grid-cols-5 gap-5 overflow-x-auto lg:overflow-visible snap-x snap-mandatory lg:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {/* Live rate ticker card */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-3 relative rounded-3xl overflow-hidden bg-white dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] p-8 md:p-10"
+            className="snap-start shrink-0 w-[88%] lg:w-auto lg:col-span-3 relative rounded-3xl overflow-hidden bg-white dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] p-8 md:p-10"
           >
             <div className="flex items-start justify-between mb-8">
               <div>
@@ -536,7 +537,7 @@ const PricingSection = () => {
             initial={{ opacity: 0, y: 24 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-2 relative rounded-3xl overflow-hidden bg-black dark:bg-white/[0.04] text-white border border-black/[0.06] dark:border-white/[0.06] p-8 md:p-10 flex flex-col justify-between"
+            className="snap-start shrink-0 w-[88%] lg:w-auto lg:col-span-2 relative rounded-3xl overflow-hidden bg-black dark:bg-white/[0.04] text-white border border-black/[0.06] dark:border-white/[0.06] p-8 md:p-10 flex flex-col justify-between"
           >
             <div>
               <div className="text-[10px] uppercase tracking-[0.25em] font-semibold text-white/50 mb-3">
@@ -568,6 +569,8 @@ const PricingSection = () => {
               </div>
             </div>
           </motion.div>
+        </div>
+        <SwipeHint className="lg:!hidden" />
         </div>
 
         {/* Footnote */}
