@@ -121,10 +121,9 @@ const BestCryptoExchangeUae = lazy(
   () => import("./pages/Markets/BestCryptoExchangeUae"),
 );
 const BitcoinPriceUae = lazy(() => import("./pages/Markets/BitcoinPriceUae"));
-const BlipRates = lazy(() => import("./pages/Markets/BlipRates"));
-const BlipRatesApp = lazy(() => import("./pages/Markets/BlipRatesApp"));
 const Bounty = lazy(() => import("./pages/Bounty"));
 const RewardPage = lazy(() => import("./pages/RewardPage"));
+const Rates = lazy(() => import("./pages/Rates"));
 
 // Handle Firebase auth action URLs (e.g. /?mode=resetPassword&oobCode=...)
 const FirebaseActionHandler = ({ children }: { children: React.ReactNode }) => {
@@ -204,6 +203,7 @@ const App = () => (
                     <Route path="/reset-password" element={<ResetPassword />} />
                     <Route path="/verify-email" element={<VerifyEmail />} />
                     <Route path="/tokenomics" element={<BlipTokenomics />} />
+                    <Route path="/rates" element={<Rates />} />
                     {/* <Route path="/rewards" element={<RewardsLanding />} /> */}
                     <Route path="/merchant" element={<Merchant />} />
                     <Route path="/user" element={<User />} />
@@ -305,8 +305,7 @@ const App = () => (
                       path="/bitcoin-price-uae"
                       element={<BitcoinPriceUae />}
                     />
-                    <Route path="/blip-rates" element={<BlipRates />} />
-                    <Route path="/rates" element={<BlipRatesApp />} />
+                    {/* Rates moved to p2prate.live — Vercel handles 308 redirects via vercel.json */}
 
                     <Route
                       path="/waitlist"

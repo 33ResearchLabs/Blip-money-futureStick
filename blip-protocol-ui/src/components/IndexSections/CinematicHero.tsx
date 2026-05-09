@@ -160,14 +160,17 @@ const CinematicHero = () => {
           </p>
         </motion.div>
 
-        {/* Lowest-rate promise — ghost outline, no fill */}
+        {/* Lowest-rate promise — ghost outline, links to live rate finder */}
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: EASE, delay: 0.3 }}
           className="mb-9 flex justify-center"
         >
-          <div className="inline-flex items-center gap-3 px-4 py-2.5 rounded-full border border-[#ff6b35]/35 bg-[#ff6b35]/[0.04] backdrop-blur-sm">
+          <Link
+            to="/rates"
+            className="group inline-flex items-center gap-3 px-4 py-2.5 rounded-full border border-[#ff6b35]/35 bg-[#ff6b35]/[0.04] backdrop-blur-sm hover:border-[#ff6b35]/60 hover:bg-[#ff6b35]/[0.10] transition-colors"
+          >
             <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.22em] text-[#ff6b35] leading-none">
               <Tag className="w-3 h-3" strokeWidth={2.8} />
               Lowest rate, guaranteed
@@ -176,7 +179,12 @@ const CinematicHero = () => {
             <span className="text-[13px] font-semibold text-white/90 tracking-tight whitespace-nowrap leading-none">
               Find cheaper. We&apos;ll cut deeper.
             </span>
-          </div>
+            <span className="w-px h-3.5 bg-white/15 hidden sm:inline-block" />
+            <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-semibold text-white/70 group-hover:text-white">
+              See rates
+              <ArrowRight className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-0.5" />
+            </span>
+          </Link>
         </motion.div>
 
         {/* CTAs */}
