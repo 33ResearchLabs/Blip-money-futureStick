@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, memo, useCallback } from "react";
 import { motion, useInView } from "framer-motion";
 import { useTheme } from "next-themes";
 import { CTAButton } from "../Navbar";
+import { SwipeHint } from "./SwipeHint";
 import createGlobe from "cobe";
 
 /* ── Live counter hook ── */
@@ -612,6 +613,7 @@ const ProblemSection = () => {
           <div className="snap-start shrink-0 w-[85%] md:w-auto"><WaitCard /></div>
           <div className="snap-start shrink-0 w-[85%] md:w-auto"><TrackedCard /></div>
         </div>
+        <SwipeHint className="mb-6" />
 
         {/* ── The Fix — full-width cinematic card ── */}
         <motion.div

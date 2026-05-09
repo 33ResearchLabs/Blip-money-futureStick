@@ -1,6 +1,7 @@
 import { useRef, memo } from "react";
 import { motion, useInView } from "framer-motion";
 import { useTheme } from "next-themes";
+import { SwipeHint } from "./SwipeHint";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -88,6 +89,7 @@ const LiquidityLayer = () => {
             </motion.div>
           ))}
         </motion.div>
+        <SwipeHint className="-mt-6 mb-8" />
 
         {/* Comparison table */}
         <motion.div

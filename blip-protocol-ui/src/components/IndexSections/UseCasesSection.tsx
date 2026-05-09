@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, memo } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useTheme } from "next-themes";
+import { SwipeHint } from "./SwipeHint";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -302,7 +303,7 @@ const UseCasesSection = () => {
 
   return (
     <section className="relative overflow-hidden" style={{ background: isDark ? "#000" : "#FAF8F5" }}>
-      <div style={{ padding: "120px 24px" }}>
+      <div className="py-20 px-5 md:py-[120px] md:px-6">
         <div className="max-w-6xl mx-auto">
 
           {/* Heading */}
@@ -375,8 +376,8 @@ const UseCasesSection = () => {
             </div>
           </motion.div>
 
-          {/* ── Bottom row: Merchants + Liquidity ── */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* ── Bottom row: Merchants + Liquidity — snap-scroll on mobile ── */}
+          <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-2 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {/* Merchants — with image */}
             <motion.div
               initial={{ opacity: 0, y: 28 }}
@@ -384,7 +385,7 @@ const UseCasesSection = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.1, ease: EASE }}
               whileHover={{ y: -4 }}
-              className="rounded-[24px] overflow-hidden relative"
+              className="snap-start shrink-0 w-[88%] md:w-auto rounded-[24px] overflow-hidden relative"
               style={{
                 background: "#1d1d1f",
                 boxShadow: "0 20px 60px rgba(0,0,0,0.2)",
@@ -446,7 +447,7 @@ const UseCasesSection = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.2, ease: EASE }}
               whileHover={{ y: -4 }}
-              className="rounded-[24px] overflow-hidden relative"
+              className="snap-start shrink-0 w-[88%] md:w-auto rounded-[24px] overflow-hidden relative"
               style={{
                 background: isDark ? "#111" : "#ffffff",
                 boxShadow: isDark ? "0 20px 60px rgba(0,0,0,0.3)" : "0 2px 24px rgba(0,0,0,0.06)",
@@ -501,6 +502,7 @@ const UseCasesSection = () => {
               </div>
             </motion.div>
           </div>
+          <SwipeHint />
 
         </div>
       </div>

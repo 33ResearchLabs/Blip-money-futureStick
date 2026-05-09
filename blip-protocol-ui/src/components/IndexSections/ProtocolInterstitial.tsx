@@ -1,6 +1,7 @@
 import { useRef, memo, useState, useEffect, useCallback } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
+import { SwipeHint } from "./SwipeHint";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -543,6 +544,7 @@ const ProtocolInterstitial = () => {
             );
           })}
         </div>
+        <SwipeHint />
 
         {/* Bottom line */}
         <div className="text-center mt-12">
