@@ -138,7 +138,7 @@ const CinematicHero = () => {
                 : { duration: 0 }
             }
           >
-            Cheapest. On-chain. Private.
+            Settled on-chain.
           </motion.span>
         </motion.h1>
 
@@ -150,31 +150,30 @@ const CinematicHero = () => {
           style={{ maxWidth: 480, margin: "0 auto 24px" }}
         >
           <p
-            className="text-white/60 dark:text-[#888]"
+            className="text-white/65 dark:text-[#999]"
             style={{
               fontSize: 18,
               lineHeight: 1.6,
             }}
           >
-            Instant fiat settlement powered by global liquidity.
-            No banks. No delays. No middlemen.
+            The cheapest way to move money. Private by design. Settled on-chain.
           </p>
         </motion.div>
 
-        {/* Price-match guarantee badge */}
+        {/* Lowest-rate promise */}
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: EASE, delay: 0.3 }}
           className="mb-9 flex justify-center"
         >
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#ff6b35]/30 bg-[#ff6b35]/10 text-[#ffb899]">
+          <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-[#ff6b35]/30 bg-[#ff6b35]/10">
             <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#ff6b35]">
-              Cheapest rates
+              Lowest rate. Always.
             </span>
             <span className="w-px h-3 bg-white/15" />
-            <span className="text-[12px] font-medium text-white/70">
-              Find lower? We'll match it — and beat it.
+            <span className="text-[12px] font-medium text-white/75">
+              Find cheaper. We'll go lower.
             </span>
           </div>
         </motion.div>
