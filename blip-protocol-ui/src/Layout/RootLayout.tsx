@@ -9,16 +9,18 @@ import ScrollToBottomButton from "@/components/ScrollToBottomButton";
 import { ScrollProgressBar } from "@/components/GlobalPolish";
 
 /**
- * Forces light theme on the landing page, dark theme on every other route.
+ * Forces light theme on the landing page (and a few specific routes that
+ * are designed light-first), dark theme on every other route.
  * Runs on every route change so navigation between pages re-applies the
  * route's preferred default.
  */
+const LIGHT_ROUTES = new Set<string>(["/", "", "/rates"]);
+
 const RouteThemeSync = () => {
   const { setTheme } = useTheme();
   const location = useLocation();
   useEffect(() => {
-    const isLanding = location.pathname === "/" || location.pathname === "";
-    setTheme(isLanding ? "light" : "dark");
+    setTheme(LIGHT_ROUTES.has(location.pathname) ? "light" : "dark");
   }, [location.pathname, setTheme]);
   return null;
 };

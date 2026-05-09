@@ -93,12 +93,12 @@
   <body>
     <script>
       // Prevent theme flash: pick the route's default before React renders.
-      // Landing ("/") defaults to light, every other route defaults to dark.
+      // Light-first routes paint light; everything else paints dark.
       (function() {
         try {
           var path = window.location.pathname || '/';
-          var routeDefault = (path === '/' || path === '') ? 'light' : 'dark';
-          // Route default takes precedence so each page paints in its intended mode.
+          var lightRoutes = ['/', '', '/rates'];
+          var routeDefault = lightRoutes.indexOf(path) !== -1 ? 'light' : 'dark';
           if (routeDefault === 'dark') {
             document.documentElement.classList.add('dark');
           } else {

@@ -108,7 +108,14 @@ const COMPETITORS: CompetitorMeta[] = [
 ];
 
 function formatRate(value: number, digits: number, symbol: string) {
-  return symbol + value.toFixed(digits);
+  if (!Number.isFinite(value)) return symbol + "—";
+  return (
+    symbol +
+    value.toLocaleString("en-US", {
+      minimumFractionDigits: digits,
+      maximumFractionDigits: digits,
+    })
+  );
 }
 
 /* ───────── Live rate hook ─────────
