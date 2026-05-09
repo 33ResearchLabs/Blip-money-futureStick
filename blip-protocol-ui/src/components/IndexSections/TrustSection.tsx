@@ -52,7 +52,7 @@ const TrustSection = () => {
       <div className="relative z-10 max-w-6xl mx-auto px-5 md:px-6">
         {/* Heading — Apple style: bold + muted subtext */}
         <motion.h2
-          className="heading-h2 text-black dark:text-white"
+          className="heading-h2 text-black dark:text-white text-center md:text-center"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

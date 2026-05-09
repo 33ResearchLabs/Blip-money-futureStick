@@ -34,7 +34,7 @@ export const useCases: UseCase[] = [
     ],
     howBlipHelps: [
       { title: "Instant Settlement", description: "Receive USDT/USDC from clients worldwide and convert to local currency in under 15 minutes through Blip's escrow-protected network." },
-      { title: "Low Fees", description: "Pay a fraction of traditional wire transfer fees. Solana's network costs are under $0.01 per transaction, and Blip's protocol fees are transparent and competitive." },
+      { title: "Zero Protocol Fees", description: "Pay a fraction of traditional wire transfer fees. Solana's network costs are under $0.01 per transaction, and Blip charges 0% protocol fee — you only pay the merchant's tight spread." },
       { title: "No Platform Lock-in", description: "Your crypto goes directly to your wallet — no platform can freeze, hold, or limit your funds. You're in full control." },
       { title: "Earn While You Settle", description: "Get BLIP token cashback on every conversion, turning your regular payment settlement into a rewards-earning activity." },
     ],
@@ -117,7 +117,7 @@ export const useCases: UseCase[] = [
       "Lack of transparency — hidden fees and unfavorable exchange rates",
     ],
     howBlipHelps: [
-      { title: "Fraction of the Cost", description: "Send crypto across borders for under $0.01 in network fees. Blip's protocol fee is transparent and a fraction of traditional remittance costs." },
+      { title: "Fraction of the Cost", description: "Send crypto across borders for under $0.01 in network fees. Blip charges 0% protocol fee — a fraction of traditional remittance costs." },
       { title: "Minutes, Not Days", description: "Your recipient can convert received crypto to local currency through Blip's merchant network in under 15 minutes. No more waiting days for bank transfers." },
       { title: "Full Transparency", description: "Every step is visible on-chain. Both sender and recipient can track the transaction through Blip Scan in real time." },
       { title: "No Middlemen", description: "Non-custodial, direct transfer. No correspondent banks, no hidden fees, no exchange rate manipulation." },

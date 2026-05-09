@@ -33,7 +33,7 @@ export const comparisons: ComparisonPage[] = [
     competitorName: "Wise",
     features: [
       { feature: "Settlement Speed", blip: "Under 15 minutes", competitor: "1-3 business days", blipAdvantage: true },
-      { feature: "Transfer Fees", blip: "~0.5-1% protocol fee", competitor: "0.4-1.5% + conversion markup", blipAdvantage: true },
+      { feature: "Transfer Fees", blip: "0% protocol fee", competitor: "0.4-1.5% + conversion markup", blipAdvantage: true },
       { feature: "Crypto Support", blip: "Native (USDT, USDC, SOL)", competitor: "None — fiat only", blipAdvantage: true },
       { feature: "KYC Requirements", blip: "Minimal (phone/email + wallet)", competitor: "Full KYC (ID, address, selfie)", blipAdvantage: true },
       { feature: "Custody Model", blip: "Non-custodial (your wallet)", competitor: "Custodial (Wise holds funds)", blipAdvantage: true },
@@ -63,7 +63,7 @@ export const comparisons: ComparisonPage[] = [
       { feature: "Escrow Type", blip: "On-chain smart contract", competitor: "Centralized (Binance holds)", blipAdvantage: true },
       { feature: "KYC Requirements", blip: "Minimal verification", competitor: "Full KYC required", blipAdvantage: true },
       { feature: "Account Freezing Risk", blip: "None — non-custodial", competitor: "Account can be frozen by exchange", blipAdvantage: true },
-      { feature: "Trading Fees", blip: "Small protocol fee", competitor: "Free for makers, taker fee applies", blipAdvantage: false },
+      { feature: "Trading Fees", blip: "0% protocol fee", competitor: "Free for makers, taker fee applies", blipAdvantage: true },
       { feature: "Merchant Volume", blip: "Growing (beta phase)", competitor: "Massive global network", blipAdvantage: false },
       { feature: "Currency Pairs", blip: "AED corridor (expanding)", competitor: "100+ fiat currencies", blipAdvantage: false },
       { feature: "Transaction Verification", blip: "On-chain via Blip Scan", competitor: "Internal only", blipAdvantage: true },
@@ -89,7 +89,7 @@ export const comparisons: ComparisonPage[] = [
     features: [
       { feature: "Trust Model", blip: "Trustless (code-based)", competitor: "Trust-based (third-party agent)", blipAdvantage: true },
       { feature: "Settlement Speed", blip: "Minutes (automatic release)", competitor: "Days to weeks", blipAdvantage: true },
-      { feature: "Fees", blip: "~0.5-1% protocol fee", competitor: "1-5% + flat fees", blipAdvantage: true },
+      { feature: "Fees", blip: "0% protocol fee", competitor: "1-5% + flat fees", blipAdvantage: true },
       { feature: "Transparency", blip: "Fully visible on-chain", competitor: "Opaque — trust the agent", blipAdvantage: true },
       { feature: "Availability", blip: "24/7, 365 days", competitor: "Business hours only", blipAdvantage: true },
       { feature: "Geographic Limits", blip: "Global (internet access)", competitor: "Jurisdiction-dependent", blipAdvantage: true },

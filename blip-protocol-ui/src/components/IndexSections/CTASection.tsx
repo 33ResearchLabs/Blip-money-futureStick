@@ -96,7 +96,7 @@ const CTASection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="heading-h2"
+          className="heading-h2 text-center"
           style={{
             marginBottom: 24,
           }}
@@ -111,7 +111,7 @@ const CTASection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 mx-auto w-fit"
         >
           <CTAButton to="/waitlist" className="w-[180px] h-[48px]">
             Join waitlist

@@ -17,7 +17,7 @@ const stats = [
   { label: "Settlement", value: "<1s", position: "top-4 left-4 md:top-8 md:-left-4" },
   { label: "Uptime", value: "99.9%", position: "top-4 right-4 md:top-12 md:-right-6" },
   { label: "Countries", value: "150+", position: "bottom-16 left-4 md:bottom-20 md:-left-2" },
-  { label: "Avg Fee", value: "0.1%", position: "bottom-16 right-4 md:bottom-16 md:-right-4" },
+  { label: "Protocol Fee", value: "0%", position: "bottom-16 right-4 md:bottom-16 md:-right-4" },
 ];
 
 const ProductPreview = () => {

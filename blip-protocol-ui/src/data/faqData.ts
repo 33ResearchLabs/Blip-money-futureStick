@@ -56,7 +56,7 @@ export const faqItems: FAQItem[] = [
   },
   {
     question: "What are the fees for using Blip?",
-    answer: "Blip charges a small protocol fee on each transaction, which varies by corridor and trade size. Exact fees are displayed transparently before you confirm any trade. During the beta phase, reduced fees may apply for early adopters.",
+    answer: "Blip charges 0% protocol fee. The only cost on a trade is the merchant's tight spread, which is shown transparently before you confirm. No hidden fees, no maker/taker, no withdrawal fees.",
     category: "Payments",
   },
   {
