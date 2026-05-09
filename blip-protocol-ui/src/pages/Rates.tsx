@@ -409,19 +409,20 @@ const RateFinder = () => {
     });
   }, [values.direction, amt, blipRate, market, live.venues]);
 
-  // Quick saving estimate vs the worst competitor on the page (gives the
-  // hero a concrete savings claim instead of an abstract one).
-  const worstCompetitorRate = useMemo(() => {
+  // Savings estimate computed against the AVERAGE competitor rate on the
+  // page — fairer than picking the worst (which inflates the number) or
+  // the best (which under-states it).
+  const avgCompetitorRate = useMemo(() => {
     const rates = competitorRows.map((c) => c.rate);
     if (rates.length === 0) return null;
-    return values.direction === "buy" ? Math.max(...rates) : Math.min(...rates);
-  }, [competitorRows, values.direction]);
-  const youSaveVsWorst = useMemo(() => {
-    if (worstCompetitorRate == null || amt === 0) return null;
+    return rates.reduce((sum, r) => sum + r, 0) / rates.length;
+  }, [competitorRows]);
+  const youSaveVsAvg = useMemo(() => {
+    if (avgCompetitorRate == null || amt === 0) return null;
     return values.direction === "buy"
-      ? (worstCompetitorRate - blipRate) * amt
-      : (blipRate - worstCompetitorRate) * amt;
-  }, [worstCompetitorRate, blipRate, amt, values.direction]);
+      ? (avgCompetitorRate - blipRate) * amt
+      : (blipRate - avgCompetitorRate) * amt;
+  }, [avgCompetitorRate, blipRate, amt, values.direction]);
 
   return (
     <section className="relative pt-24 pb-12 sm:pt-28 sm:pb-16 px-5 sm:px-6">
@@ -533,7 +534,7 @@ const RateFinder = () => {
 
         {/* SAVINGS CARD — big, obvious moat */}
         <AnimatePresence>
-          {youSaveVsWorst != null && youSaveVsWorst > 0 && (
+          {youSaveVsAvg != null && youSaveVsAvg > 0 && (
             <motion.div
               key="savings-card"
               initial={{ opacity: 0, y: 10, scale: 0.98 }}
@@ -561,10 +562,10 @@ const RateFinder = () => {
                       You save with Blip
                     </div>
                     <div className="font-mono text-3xl sm:text-4xl font-bold tabular-nums leading-none mt-1">
-                      {formatRate(youSaveVsWorst, currency.digits, currency.symbol)}
+                      {formatRate(youSaveVsAvg, currency.digits, currency.symbol)}
                     </div>
                     <div className="text-[12px] text-white/55 mt-1.5">
-                      vs the worst quote on this page
+                      vs the average rate across {competitorRows.length} venues
                       {amt > 0 ? ` · on ${amt.toLocaleString("en-US")} USDT` : ""}
                     </div>
                   </div>
