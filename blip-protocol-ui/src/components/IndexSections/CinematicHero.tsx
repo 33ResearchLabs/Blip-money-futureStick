@@ -156,7 +156,7 @@ const CinematicHero = () => {
               lineHeight: 1.6,
             }}
           >
-            The cheapest way to move money. Private by design. Settled on-chain.
+            Best rates, guaranteed. Private by design. Settled on-chain.
           </p>
         </motion.div>
 
@@ -173,7 +173,7 @@ const CinematicHero = () => {
           >
             <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.22em] text-[#ff6b35] leading-none">
               <Tag className="w-3 h-3" strokeWidth={2.8} />
-              Lowest rate, guaranteed
+              Best rates, guaranteed
             </span>
             <span className="w-px h-3.5 bg-white/20" />
             <span className="text-[13px] font-semibold text-white/90 tracking-tight whitespace-nowrap leading-none">

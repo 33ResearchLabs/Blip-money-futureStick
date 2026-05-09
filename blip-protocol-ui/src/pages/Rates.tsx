@@ -504,8 +504,8 @@ const RateFinder = () => {
           transition={{ duration: 0.7, delay: 0.18 }}
           className="text-center text-base md:text-lg text-black/55 dark:text-white/50 max-w-2xl mx-auto mb-6"
         >
-          Cheaper than every P2P venue we compare against. Safer than custody.
-          Private by design. Verifiable on-chain.
+          Best rates, guaranteed across every P2P venue we compare against.
+          Safer than custody. Private by design. Verifiable on-chain.
         </motion.p>
 
         {/* Pillar chips — cheaper / safer / private / on-chain */}
@@ -516,7 +516,7 @@ const RateFinder = () => {
           className="flex flex-wrap items-center justify-center gap-2 mb-10 sm:mb-12"
         >
           {[
-            { label: "Cheapest rate" },
+            { label: "Best rates, guaranteed" },
             { label: "Non-custodial" },
             { label: "Private by design" },
             { label: "On-chain verifiable" },
@@ -772,7 +772,7 @@ const COMPARE_ROWS: CompareRow[] = [
   { feature: "Privacy", blip: { value: "Minimal KYC", good: true }, binance: { value: "Full KYC", good: false }, paxful: { value: "Tiered KYC", good: false }, direct: { value: "None", good: false } },
   { feature: "Non-custodial", blip: { value: "Smart-contract escrow", good: true }, binance: { value: "Binance custody", good: false }, paxful: { value: "Paxful custody", good: false }, direct: { value: "Counterparty risk", good: false } },
   { feature: "Settlement speed", blip: { value: "< 60 seconds", good: true }, binance: { value: "5–15 minutes", good: false }, paxful: { value: "10–30 minutes", good: false }, direct: { value: "Variable", good: false } },
-  { feature: "Cheapest rate", blip: { value: "Best price match", good: true }, binance: { value: "+0.14% spread", good: false }, paxful: { value: "+0.35% spread", good: false }, direct: { value: "+0.50% typical", good: false } },
+  { feature: "Best rates, guaranteed", blip: { value: "0.2% under best", good: true }, binance: { value: "+0.14% spread", good: false }, paxful: { value: "+0.35% spread", good: false }, direct: { value: "+0.50% typical", good: false } },
   { feature: "Bonded merchants", blip: { value: "On-chain bond", good: true }, binance: { value: "Verified, no bond", good: false }, paxful: { value: "Reputation only", good: false }, direct: { value: "Personal trust", good: false } },
   { feature: "Dispute resolution", blip: { value: "DAO arbitration", good: true }, binance: { value: "Centralized support", good: false }, paxful: { value: "Moderator queue", good: false }, direct: { value: "Self-resolve", good: false } },
   { feature: "Hidden fees", blip: { value: "0% protocol fee", good: true }, binance: { value: "Maker/taker fees", good: false }, paxful: { value: "1% escrow fee", good: false }, direct: { value: "Hawala-style", good: false } },
