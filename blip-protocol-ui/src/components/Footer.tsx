@@ -11,7 +11,6 @@ const FOOTER_SECTIONS = [
     title: "Protocol",
     links: [
       { label: "How It Works", to: "/how-it-works" },
-      { label: "Tokenomics", to: "/tokenomics" },
       { label: "Whitepaper", to: "/whitepaper" },
     ],
   },
