@@ -20,18 +20,21 @@ interface Currency {
   flag: string;
   name: string;
   fallbackMid: number; // used when the live feed is unavailable
-  edge: number;
   digits: number;
   symbol: string;
-  edgeLabel: string;
 }
 
+/** Blip's price advantage as a fraction of the live market.
+ *  0.2% on either side: cheaper than the cheapest BUY ad,
+ *  higher than what other venues would pay on a SELL. */
+const BLIP_EDGE_PCT = 0.002;
+
 const CURRENCIES: Currency[] = [
-  { code: "INR", flag: "🇮🇳", name: "Indian Rupee", fallbackMid: 99.5, edge: 0.25, digits: 2, symbol: "₹", edgeLabel: "25 paise better" },
-  { code: "AED", flag: "🇦🇪", name: "UAE Dirham", fallbackMid: 3.6735, edge: 0.005, digits: 4, symbol: "د.إ ", edgeLabel: "5 fils better" },
-  { code: "PHP", flag: "🇵🇭", name: "Philippine Peso", fallbackMid: 56.4, edge: 0.18, digits: 2, symbol: "₱", edgeLabel: "18 sentimo better" },
-  { code: "PKR", flag: "🇵🇰", name: "Pakistani Rupee", fallbackMid: 278.5, edge: 0.7, digits: 2, symbol: "₨", edgeLabel: "70 paisa better" },
-  { code: "USD", flag: "🇺🇸", name: "US Dollar", fallbackMid: 1.001, edge: 0.0015, digits: 4, symbol: "$", edgeLabel: "0.15¢ better" },
+  { code: "INR", flag: "🇮🇳", name: "Indian Rupee", fallbackMid: 99.5, digits: 2, symbol: "₹" },
+  { code: "AED", flag: "🇦🇪", name: "UAE Dirham", fallbackMid: 3.6735, digits: 4, symbol: "د.إ " },
+  { code: "PHP", flag: "🇵🇭", name: "Philippine Peso", fallbackMid: 56.4, digits: 2, symbol: "₱" },
+  { code: "PKR", flag: "🇵🇰", name: "Pakistani Rupee", fallbackMid: 278.5, digits: 2, symbol: "₨" },
+  { code: "USD", flag: "🇺🇸", name: "US Dollar", fallbackMid: 1.001, digits: 4, symbol: "$" },
 ];
 
 interface CompetitorMeta {
@@ -273,12 +276,37 @@ const SearchPanel = ({
 }) => {
   return (
     <div className="rounded-3xl bg-white dark:bg-white/[0.04] border border-black/[0.08] dark:border-white/[0.08] overflow-hidden shadow-[0_2px_30px_rgba(0,0,0,0.08)]">
-      <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr_1fr_auto] divide-y md:divide-y-0 md:divide-x divide-black/[0.07] dark:divide-white/[0.07]">
-        {/* Amount */}
+      <div className="grid grid-cols-1 md:grid-cols-[1.6fr_1fr_auto] divide-y md:divide-y-0 md:divide-x divide-black/[0.07] dark:divide-white/[0.07]">
+        {/* Amount + Buy/Sell selector inline (p2prate-style) */}
         <label className="block px-5 py-4 hover:bg-black/[0.015] dark:hover:bg-white/[0.02] transition-colors cursor-text">
-          <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-black/45 dark:text-white/40">
-            Amount
-          </span>
+          <div className="flex items-center justify-between gap-3">
+            <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-black/45 dark:text-white/40">
+              Amount
+            </span>
+            {/* Compact Buy/Sell selector right where the eye lands */}
+            <div
+              role="tablist"
+              className="flex gap-0.5 rounded-full p-0.5 bg-black/[0.05] dark:bg-white/[0.06]"
+              onClick={(e) => e.preventDefault()}
+            >
+              {(["buy", "sell"] as const).map((d) => (
+                <button
+                  key={d}
+                  type="button"
+                  role="tab"
+                  aria-selected={values.direction === d}
+                  onClick={() => onChange({ ...values, direction: d })}
+                  className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider transition-colors ${
+                    values.direction === d
+                      ? "bg-black text-white dark:bg-white dark:text-black"
+                      : "text-black/50 dark:text-white/50"
+                  }`}
+                >
+                  {d}
+                </button>
+              ))}
+            </div>
+          </div>
           <div className="flex items-baseline gap-2 mt-1">
             <input
               type="number"
@@ -294,7 +322,7 @@ const SearchPanel = ({
           </div>
         </label>
 
-        {/* Currency — searchable dropdown so this scales beyond a tab strip */}
+        {/* Currency — searchable dropdown */}
         <div className="block px-5 py-4">
           <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-black/45 dark:text-white/40">
             Currency
@@ -307,30 +335,7 @@ const SearchPanel = ({
           </div>
         </div>
 
-        {/* Direction */}
-        <fieldset className="block px-5 py-4">
-          <legend className="text-[10px] uppercase tracking-[0.2em] font-semibold text-black/45 dark:text-white/40">
-            I want to
-          </legend>
-          <div className="flex gap-1 mt-2 rounded-lg p-0.5 bg-black/[0.04] dark:bg-white/[0.05]">
-            {(["buy", "sell"] as const).map((d) => (
-              <button
-                key={d}
-                type="button"
-                onClick={() => onChange({ ...values, direction: d })}
-                className={`flex-1 py-1.5 rounded-md text-sm font-bold transition-colors ${
-                  values.direction === d
-                    ? "bg-white dark:bg-black text-black dark:text-white shadow-sm"
-                    : "text-black/55 dark:text-white/55"
-                }`}
-              >
-                {d === "buy" ? "Buy USDT" : "Sell USDT"}
-              </button>
-            ))}
-          </div>
-        </fieldset>
-
-        {/* Search action — just an indicator, search is reactive */}
+        {/* Search action — reactive */}
         <div className="px-5 py-4 md:py-3 md:pl-3 md:pr-5 flex md:items-center md:justify-end">
           <div className="w-12 h-12 rounded-2xl bg-black text-white dark:bg-white dark:text-black flex items-center justify-center shadow-md">
             <Search className="w-5 h-5" strokeWidth={2.4} />
@@ -361,8 +366,13 @@ const RateFinder = () => {
 
   const market = live.mid ?? currency.fallbackMid;
 
+  // Blip is always 0.2% better than the live market — cheaper to buy, more
+  // received on sell — instead of a fixed paise/fils gap that drifts when
+  // the SELL-side mid jumps to the highest quote on a thin order book.
   const blipRate =
-    values.direction === "buy" ? market - currency.edge : market + currency.edge;
+    values.direction === "buy"
+      ? market * (1 - BLIP_EDGE_PCT)
+      : market * (1 + BLIP_EDGE_PCT);
   const blipTotal = blipRate * amt;
 
   const competitorRows = useMemo(() => {
@@ -565,7 +575,7 @@ const RateFinder = () => {
                     </span>
                   </div>
                   <div className="text-[11px] text-black/50 dark:text-white/50">
-                    Settle in &lt;60s · {currency.edgeLabel} · 0% protocol fee
+                    Settle in &lt;60s · 0.2% better than market · 0% protocol fee
                   </div>
                 </div>
               </div>

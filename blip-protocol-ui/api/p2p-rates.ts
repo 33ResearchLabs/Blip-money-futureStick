@@ -90,11 +90,14 @@ async function fetchVenue(
         error: "no-quotes",
       };
     }
-    // BUY USDT  → user pays fiat; cheapest ad wins (smallest price).
-    // SELL USDT → user receives fiat; we approximate with the highest ad
-    //              since the public aggregator only carries sell ads.
+    // p2prate.live's quotes are sell-side ads (merchants asking for fiat).
+    // The lowest ad price = cheapest market reference for both directions:
+    //  - BUY USDT  → user pays this rate, lowest is best.
+    //  - SELL USDT → we use the same lowest ad as a stable market mid; the
+    //                  highest ad is a thin-tail outlier, not a sell-side
+    //                  reference, and using it inflates the apparent rate.
     const sorted = [...list].sort((a, b) => a.price - b.price);
-    const top = tradeType === "BUY" ? sorted[0] : sorted[sorted.length - 1];
+    const top = sorted[0];
     return {
       name: label,
       price: top.price,
@@ -132,12 +135,10 @@ export default async function handler(req: Request): Promise<Response> {
   const prices = venues
     .map((v) => v.price)
     .filter((p): p is number => p != null && Number.isFinite(p));
-  const mid =
-    prices.length === 0
-      ? null
-      : tradeType === "BUY"
-        ? Math.min(...prices)
-        : Math.max(...prices);
+  // Always pick the lowest live quote as the market mid. The aggregator
+  // carries sell-side ads only, so the lowest is the most stable market
+  // reference regardless of user direction.
+  const mid = prices.length === 0 ? null : Math.min(...prices);
 
   return new Response(
     JSON.stringify({
