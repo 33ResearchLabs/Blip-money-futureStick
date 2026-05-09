@@ -156,7 +156,9 @@ const CinematicHero = () => {
               lineHeight: 1.6,
             }}
           >
-            Best rates, guaranteed. Private by design. Settled on-chain.
+            Best rates, guaranteed. Private by design.
+            <br />
+            Settled on-chain.
           </p>
         </motion.div>
 
