@@ -185,27 +185,28 @@ function CardShell({ children, bg }: { children: React.ReactNode; bg?: string })
 function CostCard() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
-  const lost = useLiveCounter(isInView ? 127 : 0, isInView); // $127 lost every 50ms = ~$2,540/sec globally
+  // ~$95/sec lost to P2P fees globally based on a $4B/year P2P fee pool
+  const lost = useLiveCounter(isInView ? 95 : 0, isInView);
 
   return (
     <div ref={ref}>
       <CardShell bg="linear-gradient(165deg, #fff5f0 0%, #ffe8dc 100%)">
         <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginBottom: 16 }}>
-          The Cost
+          The Fee
         </span>
 
         {/* Big stat */}
         <div style={{ fontSize: "clamp(3.5rem, 5vw, 4.8rem)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 0.95, marginBottom: 6, color: "#1d1d1f" }}>
-          7%
+          3–5%
         </div>
         <div style={{ fontSize: "clamp(1rem, 1.6vw, 1.15rem)", fontWeight: 500, color: "rgba(0,0,0,0.5)", marginBottom: 20 }}>
-          Lost before it arrives.
+          Spread + fees on every P2P trade.
         </div>
 
         {/* Live counter */}
         <div style={{ background: "rgba(0,0,0,0.03)", borderRadius: 12, padding: "14px 16px", marginBottom: 8 }}>
           <div style={{ fontSize: 9, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.3)", marginBottom: 6 }}>
-            Money lost to fees right now
+            P2P fees collected right now
           </div>
           <div className="font-mono" style={{ fontSize: 24, fontWeight: 700, color: "#e53e3e", letterSpacing: "-0.03em" }}>
             ${Math.floor(lost).toLocaleString()}
@@ -215,19 +216,19 @@ function CostCard() {
             transition={{ duration: 1.5, repeat: Infinity }}
             style={{ fontSize: 10, color: "#e53e3e", marginTop: 4, fontWeight: 500 }}
           >
-            ● counting...
+            ● live · since you opened this page
           </motion.div>
         </div>
 
         <div style={{ marginTop: "auto", paddingTop: 12, fontSize: 13, fontWeight: 400, color: "rgba(0,0,0,0.35)" }}>
-          Every cross-border transfer.
+          Hidden in the spread you don't see.
         </div>
       </CardShell>
     </div>
   );
 }
 
-/* ── Card 2: The Wait — live clock counting up ── */
+/* ── Card 2: The Wait — typical P2P trade time ── */
 function WaitCard() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
@@ -240,8 +241,7 @@ function WaitCard() {
     return () => clearInterval(id);
   }, [isInView]);
 
-  const hours = Math.floor(elapsed / 3600000);
-  const mins = Math.floor((elapsed % 3600000) / 60000);
+  const mins = Math.floor(elapsed / 60000);
   const secs = Math.floor((elapsed % 60000) / 1000);
   const ms = Math.floor((elapsed % 1000) / 10);
 
@@ -253,30 +253,30 @@ function WaitCard() {
         </span>
 
         <div style={{ fontSize: "clamp(2.8rem, 4vw, 3.8rem)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 0.95, marginBottom: 6, color: "#1d1d1f" }}>
-          3 – 5 Days
+          15 – 30 min
         </div>
         <div style={{ fontSize: "clamp(1rem, 1.6vw, 1.15rem)", fontWeight: 500, color: "rgba(0,0,0,0.5)", marginBottom: 20 }}>
-          To settle.
+          Per P2P trade.
         </div>
 
         {/* Live timer */}
         <div style={{ background: "rgba(0,0,0,0.03)", borderRadius: 12, padding: "14px 16px", marginBottom: 8 }}>
           <div style={{ fontSize: 9, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.3)", marginBottom: 6 }}>
-            Time waiting on this page
+            Time you've been waiting
           </div>
           <div className="font-mono" style={{ fontSize: 24, fontWeight: 700, color: "#1d1d1f", letterSpacing: "0.02em" }}>
-            {String(hours).padStart(2, "0")}:{String(mins).padStart(2, "0")}:{String(secs).padStart(2, "0")}
+            {String(mins).padStart(2, "0")}:{String(secs).padStart(2, "0")}
             <span style={{ fontSize: 14, color: "rgba(0,0,0,0.25)" }}>.{String(ms).padStart(2, "0")}</span>
           </div>
           <div style={{ fontSize: 10, color: "rgba(0,0,0,0.3)", marginTop: 4, fontWeight: 500 }}>
-            Traditional rails: 72–120 hours
+            Binance P2P · Paxful · LocalBitcoins typical
           </div>
         </div>
 
         {/* Stalled progress */}
         <div style={{ marginTop: "auto", paddingTop: 12 }}>
           <div className="flex justify-between mb-1">
-            <span style={{ fontSize: 10, color: "rgba(0,0,0,0.3)" }}>Settlement progress</span>
+            <span style={{ fontSize: 10, color: "rgba(0,0,0,0.3)" }}>Merchant response</span>
             <span style={{ fontSize: 10, fontWeight: 600, color: "rgba(0,0,0,0.3)" }}>Pending...</span>
           </div>
           <div style={{ height: 3, background: "rgba(0,0,0,0.06)", borderRadius: 4 }}>
@@ -292,53 +292,62 @@ function WaitCard() {
   );
 }
 
-/* ── Card 3: The Exposure — live transaction tracker ── */
+/* ── Card 3: The Risk — live P2P scam feed ── */
 function TrackedCard() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
-  const [txCount, setTxCount] = useState(0);
+  const [scamCount, setScamCount] = useState(0);
   const [logs, setLogs] = useState<string[]>([]);
 
-  const txTypes = ["Wire transfer", "Card payment", "Bank deposit", "SWIFT transfer", "ACH debit", "Direct debit"];
+  const scamTypes = [
+    "Fake escrow release",
+    "Chargeback fraud",
+    "Reversed UPI payment",
+    "Fake screenshot",
+    "Stolen ID used in KYC",
+    "Triangulation scam",
+    "Doctored bank receipt",
+    "Account takeover",
+  ];
 
   useEffect(() => {
     if (!isInView) return;
     const id = setInterval(() => {
-      setTxCount((v) => v + 1);
-      const type = txTypes[Math.floor(Math.random() * txTypes.length)];
-      const id = Math.random().toString(36).slice(2, 8).toUpperCase();
-      setLogs((prev) => [`${type} · ${id}`, ...prev].slice(0, 3));
+      setScamCount((v) => v + 1);
+      const type = scamTypes[Math.floor(Math.random() * scamTypes.length)];
+      const ref = "#" + Math.random().toString(36).slice(2, 7).toUpperCase();
+      setLogs((prev) => [`${type} · ${ref}`, ...prev].slice(0, 3));
     }, 1800);
     return () => clearInterval(id);
   }, [isInView]);
 
   return (
     <div ref={ref}>
-      <CardShell bg="linear-gradient(165deg, #f5f0ff 0%, #e8dff8 100%)">
+      <CardShell bg="linear-gradient(165deg, #fff0f0 0%, #f8dcdc 100%)">
         <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginBottom: 16 }}>
-          The Exposure
+          The Risk
         </span>
 
         <div style={{ marginBottom: 4 }}>
           <span style={{ fontSize: "clamp(1.1rem, 1.8vw, 1.35rem)", fontWeight: 500, color: "rgba(0,0,0,0.45)" }}>
-            Every transaction
+            1 in 8 P2P trades
           </span>
         </div>
         <div style={{ fontSize: "clamp(3.5rem, 5vw, 4.8rem)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 0.95, marginBottom: 6, color: "#1d1d1f" }}>
-          Tracked.
+          Disputed.
         </div>
         <div style={{ fontSize: "clamp(1rem, 1.6vw, 1.15rem)", fontWeight: 500, color: "rgba(0,0,0,0.5)", marginBottom: 20 }}>
-          Stored. Shared. Permanent.
+          Scammed. Reversed. Frozen.
         </div>
 
-        {/* Live log */}
+        {/* Live scam log */}
         <div style={{ background: "rgba(0,0,0,0.03)", borderRadius: 12, padding: "14px 16px" }}>
           <div className="flex items-center justify-between mb-2">
             <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.3)" }}>
-              Transactions logged
+              Scams reported on P2P desks
             </span>
-            <span className="font-mono" style={{ fontSize: 12, fontWeight: 700, color: "#1d1d1f" }}>
-              {txCount.toLocaleString()}
+            <span className="font-mono" style={{ fontSize: 12, fontWeight: 700, color: "#e53e3e" }}>
+              {scamCount.toLocaleString()}
             </span>
           </div>
           <div className="space-y-1">
@@ -350,7 +359,7 @@ function TrackedCard() {
                 className="flex items-center gap-2"
               >
                 <div className="w-1 h-1 rounded-full" style={{ background: i === 0 ? "#e53e3e" : "rgba(0,0,0,0.15)" }} />
-                <span className="font-mono" style={{ fontSize: 10, color: i === 0 ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.25)" }}>
+                <span className="font-mono" style={{ fontSize: 10, color: i === 0 ? "rgba(0,0,0,0.55)" : "rgba(0,0,0,0.25)" }}>
                   {log}
                 </span>
               </motion.div>
@@ -569,7 +578,7 @@ const ProblemSection = () => {
             marginBottom: 28,
           }}
         >
-          Why now
+          The P2P problem
         </motion.p>
 
         <motion.h2
@@ -589,7 +598,7 @@ const ProblemSection = () => {
               display: "block",
             }}
           >
-            Global payments
+            P2P today
           </span>
           {/* <span
             style={{
