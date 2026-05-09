@@ -14,6 +14,7 @@ import SEO from "@/components/SEO";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { HreflangTags } from "@/components/HreflangTags";
 import { sounds } from "@/lib/sounds";
+import { SwipeHint } from "@/components/IndexSections/SwipeHint";
 
 /* ============================================
    PRESS & MEDIA PAGE
@@ -358,14 +359,15 @@ export default function Press() {
                 </h2>
               </AnimatedSection>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                {mediaMentions.map((mention, index) => (
-                  <MediaMentionCard
-                    key={mention.publication + mention.date}
-                    mention={mention}
-                    index={index}
-                  />
-                ))}
+              <div className="relative">
+                <div className="-mx-4 sm:-mx-6 md:mx-0 px-4 sm:px-6 md:px-0 flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                  {mediaMentions.map((mention, index) => (
+                    <div key={mention.publication + mention.date} className="snap-start shrink-0 w-[85%] md:w-auto">
+                      <MediaMentionCard mention={mention} index={index} />
+                    </div>
+                  ))}
+                </div>
+                <SwipeHint />
               </div>
             </div>
           </section>
@@ -387,10 +389,15 @@ export default function Press() {
               </p>
             </AnimatedSection>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-              {brandAssets.map((asset, index) => (
-                <BrandAssetCard key={asset.title} asset={asset} index={index} />
-              ))}
+            <div className="relative">
+              <div className="-mx-4 sm:-mx-6 md:mx-0 px-4 sm:px-6 md:px-0 flex md:grid md:grid-cols-3 gap-4 sm:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {brandAssets.map((asset, index) => (
+                  <div key={asset.title} className="snap-start shrink-0 w-[85%] md:w-auto">
+                    <BrandAssetCard asset={asset} index={index} />
+                  </div>
+                ))}
+              </div>
+              <SwipeHint />
             </div>
           </div>
         </section>

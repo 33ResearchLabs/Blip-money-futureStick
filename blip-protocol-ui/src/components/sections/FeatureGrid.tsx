@@ -2,6 +2,7 @@ import { useRef, ReactNode } from "react";
 import { motion, useInView } from "framer-motion";
 import { sounds } from "@/lib/sounds";
 import { LucideIcon } from "lucide-react";
+import { SwipeHint } from "@/components/IndexSections/SwipeHint";
 
 /* ============================================
    FEATURE GRID SECTION
@@ -124,10 +125,11 @@ export const FeatureGrid = ({
   const headerRef = useRef(null);
   const isHeaderInView = useInView(headerRef, { once: true, margin: "-100px" });
 
+  // md+ grid layout — mobile uses a flex snap-scroll instead.
   const columnClasses = {
-    2: "grid-cols-1 md:grid-cols-2",
-    3: "grid-cols-1 md:grid-cols-2 lg:grid-cols-3",
-    4: "grid-cols-1 md:grid-cols-2 lg:grid-cols-4",
+    2: "md:grid-cols-2",
+    3: "md:grid-cols-2 lg:grid-cols-3",
+    4: "md:grid-cols-2 lg:grid-cols-4",
   };
 
   return (
@@ -168,16 +170,25 @@ export const FeatureGrid = ({
           )}
         </div>
 
-        {/* Grid */}
-        <div className={`grid ${columnClasses[columns]} gap-6`}>
+        {/* Grid — mobile snap-scroll, md+ grid */}
+        <div className="relative">
+        <div
+          className={`-mx-5 md:mx-0 px-5 md:px-0 flex md:grid ${columnClasses[columns]} gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden`}
+        >
           {features.map((feature, index) => (
-            <FeatureCard
-              key={feature.title}
-              feature={feature}
-              index={index}
-              variant={variant}
-            />
+            <div
+              key={`fc-${index}`}
+              className="snap-start shrink-0 w-[85%] md:w-auto"
+            >
+              <FeatureCard
+                feature={feature}
+                index={index}
+                variant={variant}
+              />
+            </div>
           ))}
+        </div>
+        <SwipeHint />
         </div>
       </div>
     </section>

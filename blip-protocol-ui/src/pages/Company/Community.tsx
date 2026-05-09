@@ -23,6 +23,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { HreflangTags } from "@/components/HreflangTags";
 import { sounds } from "@/lib/sounds";
 import { CTAButton } from "@/components/Navbar";
+import { SwipeHint } from "@/components/IndexSections/SwipeHint";
 import { FaTelegramPlane, FaYoutube, FaGithub, FaLinkedin } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
@@ -444,14 +445,15 @@ export default function Community() {
               </h2>
             </AnimatedSection>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-              {socialPlatforms.map((platform, index) => (
-                <SocialCard
-                  key={platform.name}
-                  platform={platform}
-                  index={index}
-                />
-              ))}
+            <div className="relative">
+              <div className="-mx-4 sm:-mx-6 md:mx-0 px-4 sm:px-6 md:px-0 flex md:grid md:grid-cols-2 gap-4 sm:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {socialPlatforms.map((platform, index) => (
+                  <div key={platform.name} className="snap-start shrink-0 w-[88%] md:w-auto">
+                    <SocialCard platform={platform} index={index} />
+                  </div>
+                ))}
+              </div>
+              <SwipeHint />
             </div>
           </div>
         </section>
@@ -472,14 +474,15 @@ export default function Community() {
               </p>
             </AnimatedSection>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-              {ecosystemPartners.map((partner, index) => (
-                <EcosystemCard
-                  key={partner.category}
-                  partner={partner}
-                  index={index}
-                />
-              ))}
+            <div className="relative">
+              <div className="-mx-4 sm:-mx-6 md:mx-0 px-4 sm:px-6 md:px-0 flex md:grid md:grid-cols-2 gap-4 sm:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {ecosystemPartners.map((partner, index) => (
+                  <div key={partner.category} className="snap-start shrink-0 w-[88%] md:w-auto">
+                    <EcosystemCard partner={partner} index={index} />
+                  </div>
+                ))}
+              </div>
+              <SwipeHint />
             </div>
           </div>
         </section>
@@ -501,10 +504,15 @@ export default function Community() {
               </p>
             </AnimatedSection>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-              {daoSteps.map((step, index) => (
-                <DaoStepCard key={step.title} step={step} index={index} />
-              ))}
+            <div className="relative">
+              <div className="-mx-4 sm:-mx-6 md:mx-0 px-4 sm:px-6 md:px-0 flex md:grid md:grid-cols-3 gap-4 sm:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {daoSteps.map((step, index) => (
+                  <div key={step.title} className="snap-start shrink-0 w-[85%] md:w-auto">
+                    <DaoStepCard step={step} index={index} />
+                  </div>
+                ))}
+              </div>
+              <SwipeHint />
             </div>
           </div>
         </section>

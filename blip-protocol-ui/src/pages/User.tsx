@@ -18,6 +18,7 @@ import { Link } from "react-router-dom";
 import { SEO, StructuredData } from "@/components";
 import { HreflangTags } from "@/components/HreflangTags";
 import { CTAButton } from "@/components/Navbar";
+import { SwipeHint } from "@/components/IndexSections/SwipeHint";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -283,8 +284,9 @@ const UserHowItWorks = () => {
           </motion.h2>
         </div>
 
-        {/* Step cards with connecting line */}
-        <div className="relative grid grid-cols-1 md:grid-cols-4 gap-4">
+        {/* Step cards with connecting line — mobile snap-scroll */}
+        <div className="relative">
+        <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-4 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {/* Connecting line (desktop only) */}
           {/* <div className="hidden md:block absolute top-12 left-[12%] right-[12%] h-px bg-black/10 dark:bg-white/10" />
           <motion.div
@@ -302,7 +304,7 @@ const UserHowItWorks = () => {
                 initial={{ opacity: 0, y: 24 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.7, delay: 0.2 + i * 0.1, ease: EASE }}
-                className="relative group"
+                className="snap-start shrink-0 w-[80%] md:w-auto relative group"
               >
                 <div className="relative bg-white dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] rounded-2xl p-6 lift-on-hover">
                   {/* Step number */}
@@ -326,6 +328,8 @@ const UserHowItWorks = () => {
               </motion.div>
             );
           })}
+        </div>
+        <SwipeHint />
         </div>
       </div>
     </section>
@@ -469,7 +473,8 @@ const UserTrustSection = () => {
           </motion.h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="relative">
+        <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {cards.map((c, i) => {
             const Icon = c.icon;
             return (
@@ -478,7 +483,7 @@ const UserTrustSection = () => {
                 initial={{ opacity: 0, y: 24 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.7, delay: 0.15 + i * 0.08, ease: EASE }}
-                className="relative rounded-2xl bg-white dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] p-6 lift-on-hover group"
+                className="snap-start shrink-0 w-[80%] md:w-auto relative rounded-2xl bg-white dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] p-6 lift-on-hover group"
               >
                 <div
                   className="w-11 h-11 rounded-xl flex items-center justify-center mb-5 transition-transform duration-500 group-hover:scale-[1.08]"
@@ -499,6 +504,8 @@ const UserTrustSection = () => {
               </motion.div>
             );
           })}
+        </div>
+        <SwipeHint />
         </div>
       </div>
     </section>

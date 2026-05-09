@@ -20,6 +20,7 @@ import { HreflangTags } from "@/components/HreflangTags";
 import StructuredData from "@/components/StructuredData";
 import { sounds } from "@/lib/sounds";
 import { CTAButton } from "@/components/Navbar";
+import { SwipeHint } from "@/components/IndexSections/SwipeHint";
 
 /* ============================================
    HERO SECTION
@@ -146,7 +147,8 @@ const HowItWorksSection = () => {
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="relative">
+        <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-3 gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {steps.map((step, i) => {
             const Icon = step.icon;
             return (
@@ -155,7 +157,7 @@ const HowItWorksSection = () => {
                 initial={{ opacity: 0, y: 40 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.8, delay: i * 0.15 }}
-                className="group relative p-8 rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] hover:border-black/20 dark:hover:border-white/20 transition-colors duration-500"
+                className="snap-start shrink-0 w-[85%] md:w-auto group relative p-8 rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] hover:border-black/20 dark:hover:border-white/20 transition-colors duration-500"
                 onMouseEnter={() => sounds.hover()}
               >
                 <span className="absolute top-4 right-4 text-5xl font-bold text-black/[0.04] dark:text-white/[0.04] select-none">
@@ -175,6 +177,8 @@ const HowItWorksSection = () => {
               </motion.div>
             );
           })}
+        </div>
+        <SwipeHint />
         </div>
       </div>
     </section>
@@ -234,7 +238,8 @@ const WhyBuySection = () => {
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="relative">
+        <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-2 gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {features.map((feature, i) => {
             const Icon = feature.icon;
             return (
@@ -243,7 +248,7 @@ const WhyBuySection = () => {
                 initial={{ opacity: 0, y: 40 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.8, delay: i * 0.1 }}
-                className="group flex items-start gap-5 p-6 rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] hover:border-black/20 dark:hover:border-white/20 transition-colors duration-500"
+                className="snap-start shrink-0 w-[88%] md:w-auto group flex items-start gap-5 p-6 rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] hover:border-black/20 dark:hover:border-white/20 transition-colors duration-500"
                 onMouseEnter={() => sounds.hover()}
               >
                 <div className="w-12 h-12 rounded-xl bg-black/5 dark:bg-white/5 flex items-center justify-center flex-shrink-0 group-hover:bg-black/10 dark:group-hover:bg-white/10 transition-colors duration-500">
@@ -260,6 +265,8 @@ const WhyBuySection = () => {
               </motion.div>
             );
           })}
+        </div>
+        <SwipeHint />
         </div>
       </div>
     </section>
@@ -319,7 +326,8 @@ const PaymentMethodsSection = () => {
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="relative">
+        <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-3 gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {methods.map((method, i) => {
             const Icon = method.icon;
             return (
@@ -328,7 +336,7 @@ const PaymentMethodsSection = () => {
                 initial={{ opacity: 0, y: 40 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.8, delay: i * 0.15 }}
-                className="group relative p-8 rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] hover:border-black/20 dark:hover:border-white/20 transition-colors duration-500 text-center"
+                className="snap-start shrink-0 w-[80%] md:w-auto group relative p-8 rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] hover:border-black/20 dark:hover:border-white/20 transition-colors duration-500 text-center"
                 onMouseEnter={() => sounds.hover()}
               >
                 {method.badge && (
@@ -348,6 +356,8 @@ const PaymentMethodsSection = () => {
               </motion.div>
             );
           })}
+        </div>
+        <SwipeHint />
         </div>
       </div>
     </section>

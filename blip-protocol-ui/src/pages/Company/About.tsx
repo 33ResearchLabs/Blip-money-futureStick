@@ -16,6 +16,7 @@ import SEO from "@/components/SEO";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { HreflangTags } from "@/components/HreflangTags";
 import { sounds } from "@/lib/sounds";
+import { SwipeHint } from "@/components/IndexSections/SwipeHint";
 import { CTAButton } from "@/components/Navbar";
 
 /* ============================================
@@ -268,10 +269,15 @@ export default function About() {
               </h2>
             </AnimatedSection>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-              {visionPillars.map((pillar, index) => (
-                <VisionCard key={pillar.title} pillar={pillar} index={index} />
-              ))}
+            <div className="relative">
+              <div className="-mx-4 sm:-mx-6 md:mx-0 px-4 sm:px-6 md:px-0 flex md:grid md:grid-cols-2 gap-4 sm:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {visionPillars.map((pillar, index) => (
+                  <div key={pillar.title} className="snap-start shrink-0 w-[88%] md:w-auto">
+                    <VisionCard pillar={pillar} index={index} />
+                  </div>
+                ))}
+              </div>
+              <SwipeHint />
             </div>
           </div>
         </section>
@@ -288,10 +294,15 @@ export default function About() {
               </h2>
             </AnimatedSection>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-              {coreValues.map((value, index) => (
-                <ValueCard key={value.title} value={value} index={index} />
-              ))}
+            <div className="relative">
+              <div className="-mx-4 sm:-mx-6 md:mx-0 px-4 sm:px-6 md:px-0 flex md:grid md:grid-cols-2 gap-4 sm:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {coreValues.map((value, index) => (
+                  <div key={value.title} className="snap-start shrink-0 w-[88%] md:w-auto">
+                    <ValueCard value={value} index={index} />
+                  </div>
+                ))}
+              </div>
+              <SwipeHint />
             </div>
           </div>
         </section>

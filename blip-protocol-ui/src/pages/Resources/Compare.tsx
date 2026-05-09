@@ -18,6 +18,7 @@ import {
 } from "@/data/comparisonData";
 import { sounds } from "@/lib/sounds";
 import { CTAButton } from "@/components/Navbar";
+import { SwipeHint } from "@/components/IndexSections/SwipeHint";
 
 /* ============================================
    LISTING PAGE COMPONENTS
@@ -131,14 +132,21 @@ const CompareListing = () => {
 
         {/* Comparison Cards Grid */}
         <section className="max-w-[900px] mx-auto px-4 sm:px-6 pb-24">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {comparisons.map((comparison, index) => (
-              <ComparisonCard
-                key={comparison.id}
-                comparison={comparison}
-                index={index}
-              />
-            ))}
+          <div className="relative">
+            <div className="-mx-4 sm:-mx-6 md:mx-0 px-4 sm:px-6 md:px-0 flex md:grid md:grid-cols-2 gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {comparisons.map((comparison, index) => (
+                <div
+                  key={comparison.id}
+                  className="snap-start shrink-0 w-[88%] md:w-auto"
+                >
+                  <ComparisonCard
+                    comparison={comparison}
+                    index={index}
+                  />
+                </div>
+              ))}
+            </div>
+            <SwipeHint />
           </div>
         </section>
       </div>

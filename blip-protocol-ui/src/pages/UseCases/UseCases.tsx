@@ -7,6 +7,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { HreflangTags } from "@/components/HreflangTags";
 import { useCases, type UseCase } from "@/data/useCasesData";
 import { sounds } from "@/lib/sounds";
+import { SwipeHint } from "@/components/IndexSections/SwipeHint";
 
 /* ── Icon mapping ── */
 const iconMap: Record<string, React.FC<{ className?: string }>> = {
@@ -113,10 +114,15 @@ export default function UseCases() {
 
         {/* Use Cases Grid */}
         <section className="max-w-[900px] mx-auto px-4 sm:px-6 pb-24">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {useCases.map((useCase, index) => (
-              <UseCaseCard key={useCase.id} useCase={useCase} index={index} />
-            ))}
+          <div className="relative">
+            <div className="-mx-4 sm:-mx-6 md:mx-0 px-4 sm:px-6 md:px-0 flex md:grid md:grid-cols-2 gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {useCases.map((useCase, index) => (
+                <div key={useCase.id} className="snap-start shrink-0 w-[88%] md:w-auto">
+                  <UseCaseCard useCase={useCase} index={index} />
+                </div>
+              ))}
+            </div>
+            <SwipeHint />
           </div>
         </section>
       </div>

@@ -24,6 +24,7 @@ import { HreflangTags } from "@/components/HreflangTags";
 import { sounds } from "@/lib/sounds";
 import { MagneticWrapper } from "@/components/MagneticButton";
 import { CTAButton } from "@/components/Navbar";
+import { SwipeHint } from "@/components/IndexSections/SwipeHint";
 
 /* ============================================
    AWARD-WINNING HOW IT WORKS PAGE
@@ -211,7 +212,8 @@ const KeyConceptsSection = () => {
             A secure foundation for private and trustless digital payments.
           </p>
         </motion.div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="relative">
+        <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-3 gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {concepts.map((concept, i) => (
             <motion.div
               key={concept.title}
@@ -222,7 +224,7 @@ const KeyConceptsSection = () => {
                 delay: i * 0.15,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="group relative p-8 rounded-3xl overflow-hidden cursor-pointer border border-white/40  hover:border-black/20 dark:hover:border-white/20 dark:hover:scale-105 duration-500 transition-colors"
+              className="snap-start shrink-0 w-[85%] md:w-auto group relative p-8 rounded-3xl overflow-hidden cursor-pointer border border-white/40  hover:border-black/20 dark:hover:border-white/20 dark:hover:scale-105 duration-500 transition-colors"
               style={{
                 background: "rgba(255, 255, 255, 0.02)",
                 // border: "1px solid rgba(255, 255, 255, 0.05)",
@@ -261,6 +263,8 @@ const KeyConceptsSection = () => {
               />
             </motion.div>
           ))}
+        </div>
+        <SwipeHint />
         </div>
       </div>
     </section>
@@ -336,7 +340,8 @@ const CoreProtocolSection = () => {
         </motion.div>
 
         {/* Pillars grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="relative">
+        <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {pillars.map((pillar, i) => (
             <motion.div
               key={pillar.title}
@@ -344,7 +349,7 @@ const CoreProtocolSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8, delay: i * 0.1 }}
-              className="group relative p-8 rounded-3xl text-center border hover:border-black/20 dark:hover:border-white/20 duration-500 transition-colors"
+              className="snap-start shrink-0 w-[80%] md:w-auto group relative p-8 rounded-3xl text-center border hover:border-black/20 dark:hover:border-white/20 duration-500 transition-colors"
               style={{
                 background: "rgba(255, 255, 255, 0.02)",
                 // border: "1px solid rgba(255, 255, 255, 0.05)",
@@ -367,6 +372,8 @@ const CoreProtocolSection = () => {
               </p>
             </motion.div>
           ))}
+        </div>
+        <SwipeHint />
         </div>
       </div>
     </section>
@@ -709,7 +716,8 @@ const OrderTypesSection = () => {
         </motion.div>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="relative">
+        <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-3 gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {orderTypes.map((type, i) => (
             <motion.div
               key={type.title}
@@ -717,7 +725,7 @@ const OrderTypesSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8, delay: i * 0.15 }}
-              className="group relative aspect-[3/4] rounded-3xl overflow-hidden cursor-pointer"
+              className="snap-start shrink-0 w-[85%] md:w-auto group relative aspect-[3/4] rounded-3xl overflow-hidden cursor-pointer"
               onMouseEnter={() => sounds.hover()}
             >
               {/* Image */}
@@ -742,6 +750,8 @@ const OrderTypesSection = () => {
               <div className="absolute inset-0 rounded-3xl border border-white/0 group-hover:border-[#ffffff]/30 transition-all duration-500" />
             </motion.div>
           ))}
+        </div>
+        <SwipeHint />
         </div>
       </div>
     </section>

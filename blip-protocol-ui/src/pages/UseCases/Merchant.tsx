@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import {
   ArrowRight,
@@ -29,6 +29,7 @@ import { LayoutDashboard, ShieldCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SEO } from "@/components";
 import { HreflangTags } from "@/components/HreflangTags";
+import { SwipeHint } from "@/components/IndexSections/SwipeHint";
 import StructuredData from "@/components/StructuredData";
 import { MagneticWrapper } from "@/components/MagneticButton";
 import { HeroDashboardVisual } from "@/components/HeroDashbaordVisual";
@@ -385,62 +386,200 @@ const DashboardSection = () => {
 };
 
 /* ============================================
-   PRICING & MARGIN CONTROLS SECTION
+   PRICING & MARGIN CONTROLS SECTION — modernized
    ============================================ */
 const PricingSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [rate, setRate] = useState(3.673);
+  const [trend, setTrend] = useState<"up" | "down">("up");
+
+  // Live-feel rate ticker
+  useEffect(() => {
+    if (!isInView) return;
+    const id = setInterval(() => {
+      setRate((r) => {
+        const delta = (Math.random() - 0.5) * 0.008;
+        setTrend(delta >= 0 ? "up" : "down");
+        return Math.max(3.66, Math.min(3.69, r + delta));
+      });
+    }, 1600);
+    return () => clearInterval(id);
+  }, [isInView]);
 
   return (
     <section ref={ref} className="relative py-24 md:py-32 overflow-hidden">
-      {/* Background */}
       <div className="absolute inset-0 bg-[#FAF8F5] dark:bg-black" />
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none opacity-60"
+        style={{
+          background:
+            "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(255,107,53,0.06), transparent 70%)",
+        }}
+      />
 
-      <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-[11px] uppercase tracking-[0.3em] text-black/80 dark:text-white/30 font-semibold mb-4"
-        >
-          Pricing
-        </motion.p>
+      <div className="relative z-10 max-w-6xl mx-auto px-6">
+        {/* Heading */}
+        <div className="text-center mb-14">
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+            className="text-[11px] uppercase tracking-[0.3em] text-black/60 dark:text-white/30 font-semibold mb-4"
+          >
+            Pricing
+          </motion.p>
+          <motion.h2
+            initial={{ opacity: 0, y: 24 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.9, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.08] mb-5"
+          >
+            You{" "}
+            <span className="text-black/60 dark:text-white/40">
+              control pricing.
+            </span>{" "}
+            <br className="hidden md:block" />
+            We keep it simple.
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="text-base md:text-lg text-black/60 dark:text-white/50 max-w-2xl mx-auto leading-relaxed"
+          >
+            Blip shows a live market reference rate. Adjust your quote within
+            allowed ranges to win orders faster.
+          </motion.p>
+        </div>
 
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.1 }}
-          className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6"
-        >
-          You{" "}
-          <span className="text-black/70 dark:text-white/50">
-            control pricing.
-          </span>{" "}
-          We keep it simple.
-        </motion.h2>
+        {/* Live rate card + margin slider preview */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-5">
+          {/* Live rate ticker card */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-3 relative rounded-3xl overflow-hidden bg-white dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] p-8 md:p-10"
+          >
+            <div className="flex items-start justify-between mb-8">
+              <div>
+                <div className="text-[10px] uppercase tracking-[0.25em] font-semibold text-black/40 dark:text-white/30 mb-2">
+                  Live market reference
+                </div>
+                <div className="text-sm font-mono text-black/60 dark:text-white/50">
+                  USDT / AED
+                </div>
+              </div>
+              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-500/10 border border-green-500/20">
+                <motion.div
+                  animate={{ opacity: [0.5, 1, 0.5] }}
+                  transition={{ duration: 1.4, repeat: Infinity }}
+                  className="w-1.5 h-1.5 rounded-full bg-green-500"
+                />
+                <span className="text-[10px] font-semibold text-green-600 dark:text-green-400 tracking-wider uppercase">
+                  Live
+                </span>
+              </div>
+            </div>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-base md:text-lg lg:text-xl text-black/60 dark:text-white/50 mb-10 max-w-2xl mx-auto leading-relaxed font-medium"
-        >
-          Blip shows a live market reference rate. You can adjust your quote
-          within allowed ranges to win the request faster when needed.
-        </motion.p>
+            <div className="flex items-end gap-4 mb-8">
+              <motion.div
+                key={rate.toFixed(3)}
+                initial={{ opacity: 0.7, y: trend === "up" ? 4 : -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="font-display text-6xl md:text-7xl font-semibold text-black dark:text-white tracking-tight leading-none tabular-nums"
+              >
+                {rate.toFixed(3)}
+              </motion.div>
+              <div
+                className={`text-sm font-semibold pb-2 tabular-nums ${
+                  trend === "up"
+                    ? "text-green-600 dark:text-green-400"
+                    : "text-red-500"
+                }`}
+              >
+                {trend === "up" ? "↑" : "↓"} 0.0{Math.floor(Math.random() * 8) + 1}%
+              </div>
+            </div>
 
+            {/* Sparkline-ish animated bars */}
+            <div className="flex items-end gap-1.5 h-12">
+              {Array.from({ length: 28 }).map((_, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ scaleY: 0 }}
+                  animate={isInView ? { scaleY: 1 } : {}}
+                  transition={{
+                    duration: 0.5,
+                    delay: 0.4 + i * 0.02,
+                    ease: "easeOut",
+                  }}
+                  className="flex-1 rounded-full origin-bottom bg-gradient-to-t from-black/10 to-[#ff6b35]/70 dark:from-white/10 dark:to-[#ff6b35]"
+                  style={{
+                    height: `${35 + Math.sin(i * 0.6) * 25 + (i % 4) * 8}%`,
+                  }}
+                />
+              ))}
+            </div>
+
+            <div className="mt-6 pt-6 border-t border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between text-[11px] text-black/40 dark:text-white/40">
+              <span>Updated continuously</span>
+              <span className="font-mono">Last tick · just now</span>
+            </div>
+          </motion.div>
+
+          {/* Margin control card */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-2 relative rounded-3xl overflow-hidden bg-black dark:bg-white/[0.04] text-white border border-black/[0.06] dark:border-white/[0.06] p-8 md:p-10 flex flex-col justify-between"
+          >
+            <div>
+              <div className="text-[10px] uppercase tracking-[0.25em] font-semibold text-white/50 mb-3">
+                Your margin
+              </div>
+              <div className="font-display text-5xl font-semibold tracking-tight mb-2">
+                ±0.5%
+              </div>
+              <div className="text-sm text-white/50">
+                Adjustable range within protocol limits
+              </div>
+            </div>
+
+            <div className="mt-8">
+              <div className="relative h-1 bg-white/10 rounded-full overflow-hidden">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={isInView ? { width: "55%" } : {}}
+                  transition={{ duration: 1.4, delay: 0.6, ease: "easeOut" }}
+                  className="absolute left-[15%] h-full bg-[#ff6b35]"
+                />
+                <div className="absolute left-[15%] top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-white shadow-lg" />
+                <div className="absolute left-[70%] top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-white shadow-lg" />
+              </div>
+              <div className="flex justify-between mt-3 text-[10px] font-mono text-white/40">
+                <span>min</span>
+                <span className="text-[#ff6b35]">reference</span>
+                <span>max</span>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Footnote */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="p-6 rounded-2xl bg-white/60 dark:bg-white/[0.02] border border-black/[0.08] dark:border-white/5 max-w-xl mx-auto hover:border-black/20 dark:hover:border-white/30 transition-colors duration-500 backdrop-blur-xl"
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-xs text-black/40 dark:text-white/40"
         >
-          <div className="space-y-3 text-sm text-black dark:text-white/40">
-            <p>
-              Exact fees and ranges may vary by corridor and stage (Alpha/Beta).
-            </p>
-            <p>Your dashboard shows the full breakdown per trade.</p>
-          </div>
+          <span>· Fees vary by corridor</span>
+          <span>· Full breakdown per trade in your dashboard</span>
+          <span>· No hidden cuts</span>
         </motion.div>
       </div>
     </section>
@@ -494,137 +633,187 @@ const TrustSection = () => {
 };
 
 /* ============================================
-   ALPHA / BETA ROLLOUT SECTION
+   ALPHA / BETA ROLLOUT SECTION — modernized timeline
    ============================================ */
 const RolloutSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  const earlyBenefits = [
+  const phases = [
+    {
+      id: "alpha",
+      label: "Alpha",
+      status: "Complete",
+      dotClass: "bg-green-500",
+      desc: "We tested flows, edge cases, and reliability with an internal team.",
+    },
+    {
+      id: "beta",
+      label: "Beta",
+      status: "Now — invite only",
+      dotClass: "bg-[#ff6b35]",
+      pulse: true,
+      desc: "Select merchants + partners in focused Dubai corridors.",
+    },
+    {
+      id: "live",
+      label: "Live",
+      status: "Coming soon",
+      dotClass: "bg-black/20 dark:bg-white/20",
+      desc: "Public availability with expanded corridors and lower fees.",
+    },
+  ];
+
+  const benefits = [
     "Priority visibility in matching",
     "Direct access to the team",
-    "Early incentives (limited)",
+    "Early liquidity incentives",
+    "Lower fees during pilot",
   ];
 
   return (
     <section ref={ref} className="relative py-24 md:py-32 overflow-hidden">
-      {/* Background */}
       <div className="absolute inset-0 bg-[#FAF8F5] dark:bg-black" />
-
-      {/* Border lines */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-black/10 dark:via-white/10 to-transparent" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
-          {/* Left: Rollout Phases */}
-          <div>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6 }}
-              className="text-[11px] uppercase tracking-[0.3em] text-black/70 dark:text-white/30 font-semibold mb-4"
-            >
-              Rollout
-            </motion.p>
+      <div className="relative z-10 max-w-6xl mx-auto px-6">
+        {/* Header */}
+        <div className="text-center mb-14">
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+            className="text-[11px] uppercase tracking-[0.3em] text-black/60 dark:text-white/30 font-semibold mb-4"
+          >
+            Rollout
+          </motion.p>
+          <motion.h2
+            initial={{ opacity: 0, y: 24 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.9, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.08] mb-5"
+          >
+            Invite-only{" "}
+            <span className="text-black/60 dark:text-white/40">rollout.</span>
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="text-base md:text-lg text-black/60 dark:text-white/50 max-w-2xl mx-auto leading-relaxed"
+          >
+            We're expanding in stages. Get in early and shape the protocol.
+          </motion.p>
+        </div>
 
-            <motion.h2
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.1 }}
-              className="font-display text-2xl sm:text-3xl md:text-4xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-8"
-            >
-              Invite-only rollout
-            </motion.h2>
+        {/* Horizontal timeline */}
+        <div className="relative mb-16">
+          {/* Track */}
+          <div className="absolute top-5 left-0 right-0 h-px bg-black/10 dark:bg-white/10" />
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={isInView ? { scaleX: 0.5 } : {}}
+            transition={{ duration: 1.4, delay: 0.4, ease: "easeOut" }}
+            className="absolute top-5 left-0 h-px bg-gradient-to-r from-green-500 via-[#ff6b35] to-transparent origin-left"
+            style={{ right: 0 }}
+          />
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="space-y-6"
-            >
-              {/* Alpha */}
-              <div className="group p-5 rounded-xl bg-white/60 dark:bg-white/[0.02] hover:bg-white/80 dark:hover:bg-white/5 border border-black/[0.08] dark:border-transparent hover:border-black/15 dark:hover:border-white/10 backdrop-blur-xl">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-2 h-2 rounded-full bg-black/30 dark:bg-white/30 group-hover:bg-black/60 dark:group-hover:bg-white/60" />
-                  <h3 className="text-lg font-semibold text-black dark:text-white">
-                    Alpha
-                  </h3>
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-black/5 dark:bg-white/5 text-black/40 dark:text-white/40">
-                    Internal
-                  </span>
-                </div>
-                <p className="text-black dark:text-white/40 text-sm">
-                  We test flows, edge cases, and reliability.
-                </p>
-              </div>
-
-              {/* Beta */}
-              <div className="group p-5 rounded-xl bg-white/60 dark:bg-transparent hover:bg-white/80 dark:hover:bg-white/5 border border-black/[0.08] dark:border-transparent hover:border-black/15 dark:hover:border-white/10 backdrop-blur-xl">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-2 h-2 rounded-full bg-black/30 dark:bg-white/30 group-hover:bg-black/60 dark:group-hover:bg-white/60 animate-pulse" />
-                  <h3 className="text-lg font-semibold text-black dark:text-white">
-                    Beta
-                  </h3>
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-black/10 dark:bg-white/10 text-black/60 dark:text-white/60">
-                    Invite-only
-                  </span>
-                </div>
-                <p className="text-black dark:text-white/40 text-sm">
-                  Select merchants + partners in focused corridors.
-                </p>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Right: Early Benefits */}
-          <div>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-[11px] uppercase tracking-[0.3em] text-black/70 dark:text-white/30 font-semibold mb-4"
-            >
-              Benefits
-            </motion.p>
-
-            <motion.h2
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="font-display text-2xl sm:text-3xl md:text-4xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-8"
-            >
-              Early merchant benefits
-            </motion.h2>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="space-y-4"
-            >
-              {earlyBenefits.map((benefit, index) => (
-                <div
-                  key={index}
-                  className="group flex items-center gap-4 p-4 rounded-xl bg-white/60 dark:bg-white/[0.02] border border-black/[0.08] dark:border-white/5 hover:bg-white/80 dark:hover:bg-white/5 hover:border-black/15 dark:hover:border-white/10 backdrop-blur-xl"
-                >
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <CheckCircle2 className="w-4 h-4 text-black/40 dark:text-gray-600 group-hover:text-black/60 dark:group-hover:text-white/60" />
+          <div className="relative">
+          <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-3 gap-8 md:gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {phases.map((p, i) => (
+              <motion.div
+                key={p.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.7, delay: 0.25 + i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                className="snap-start shrink-0 w-[85%] md:w-auto relative"
+              >
+                {/* Dot */}
+                <div className="flex justify-center md:justify-start mb-6">
+                  <div className="relative">
+                    <div className={`w-2.5 h-2.5 rounded-full ${p.dotClass}`} />
+                    {p.pulse && (
+                      <motion.div
+                        animate={{ scale: [1, 2.2, 1], opacity: [0.6, 0, 0.6] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                        className={`absolute inset-0 rounded-full ${p.dotClass}`}
+                      />
+                    )}
                   </div>
-                  <span className="text-black dark:text-white/70">
-                    {benefit}
-                  </span>
                 </div>
-              ))}
-            </motion.div>
+
+                {/* Card */}
+                <div className="group relative p-6 rounded-2xl bg-white dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] lift-on-hover">
+                  <div className="flex items-baseline justify-between mb-2">
+                    <h3 className="text-xl font-semibold text-black dark:text-white tracking-tight">
+                      {p.label}
+                    </h3>
+                    <span
+                      className={`text-[10px] uppercase tracking-widest font-semibold ${
+                        p.id === "beta"
+                          ? "text-[#ff6b35]"
+                          : p.id === "alpha"
+                            ? "text-green-600 dark:text-green-400"
+                            : "text-black/40 dark:text-white/40"
+                      }`}
+                    >
+                      {p.status}
+                    </span>
+                  </div>
+                  <p className="text-sm text-black/60 dark:text-white/50 leading-relaxed">
+                    {p.desc}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+          <SwipeHint />
           </div>
         </div>
+
+        {/* Benefits row */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="rounded-3xl bg-black text-white dark:bg-white/[0.04] border border-black/[0.06] dark:border-white/[0.06] p-8 md:p-10"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-8 md:gap-12 items-start">
+            <div>
+              <div className="text-[10px] uppercase tracking-[0.25em] font-semibold text-white/50 mb-3">
+                Early merchant perks
+              </div>
+              <h3 className="font-display text-2xl md:text-3xl font-semibold tracking-tight">
+                Join early,
+                <br />
+                earn more.
+              </h3>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {benefits.map((b, i) => (
+                <motion.div
+                  key={b}
+                  initial={{ opacity: 0, x: -8 }}
+                  animate={isInView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 0.7 + i * 0.08 }}
+                  className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.04] border border-white/[0.06] hover:border-[#ff6b35]/40 transition-colors duration-300"
+                >
+                  <div className="w-6 h-6 rounded-full bg-[#ff6b35]/15 border border-[#ff6b35]/30 flex items-center justify-center flex-shrink-0">
+                    <CheckCircle2 className="w-3 h-3 text-[#ff6b35]" />
+                  </div>
+                  <span className="text-sm text-white/80">{b}</span>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
 };
 
 /* ============================================
-   REQUIREMENTS SECTION
+   REQUIREMENTS SECTION — modernized numbered cards
    ============================================ */
 const RequirementsSection = () => {
   const ref = useRef(null);
@@ -633,68 +822,113 @@ const RequirementsSection = () => {
   const requirements = [
     {
       icon: Wallet,
-      text: "You can provide liquidity for at least one corridor",
+      title: "Liquidity ready",
+      text: "You can provide liquidity for at least one corridor.",
     },
     {
       icon: Zap,
-      text: "You respond fast and execute reliably",
+      title: "Fast execution",
+      text: "You respond quickly and complete trades reliably.",
     },
     {
       icon: FileCheck,
-      text: "You can verify basic identity (phone/email + wallet)",
+      title: "Basic verification",
+      text: "Phone, email, and wallet — no full KYC during Beta.",
     },
     {
       icon: Shield,
-      text: "You follow trade rules and dispute policy",
+      title: "Policy compliant",
+      text: "You follow trade rules and dispute policy.",
     },
   ];
 
   return (
     <section ref={ref} className="relative py-24 md:py-32 overflow-hidden">
-      {/* Background */}
       <div className="absolute inset-0 bg-[#FAF8F5] dark:bg-black" />
 
-      <div className="relative z-10 max-w-4xl mx-auto px-6">
-        <div className="text-center mb-12">
+      <div className="relative z-10 max-w-6xl mx-auto px-6">
+        {/* Header */}
+        <div className="text-center mb-14">
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="text-[11px] uppercase tracking-[0.3em] text-black/80 dark:text-white/30 font-semibold mb-4"
+            className="text-[11px] uppercase tracking-[0.3em] text-black/60 dark:text-white/30 font-semibold mb-4"
           >
             Requirements
           </motion.p>
           <motion.h2
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1]"
+            transition={{ duration: 0.9, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.08] mb-5"
           >
-            Who should apply
+            Who should{" "}
+            <span className="text-black/60 dark:text-white/40">apply.</span>
           </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="text-base md:text-lg text-black/60 dark:text-white/50 max-w-2xl mx-auto leading-relaxed"
+          >
+            Four simple boxes to tick. If you match, we want to talk to you.
+          </motion.p>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-4"
-        >
-          {requirements.map((req, index) => {
-            const Icon = req.icon;
+        {/* Numbered grid */}
+        <div className="relative">
+        <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-2 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {requirements.map((r, i) => {
+            const Icon = r.icon;
             return (
-              <div
-                key={index}
-                className="group flex items-start gap-4 p-5 rounded-xl bg-white/60 dark:bg-white/[0.02] border border-black/[0.08] dark:border-white/5 hover:border-black/20 dark:hover:border-white/20 backdrop-blur-xl"
+              <motion.div
+                key={r.title}
+                initial={{ opacity: 0, y: 24 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.7, delay: 0.25 + i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                className="snap-start shrink-0 w-[88%] md:w-auto group relative rounded-2xl overflow-hidden bg-white dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] p-7 lift-on-hover"
               >
-                <div className="w-10 h-10 rounded-lg bg-black/5 dark:bg-white/5 flex items-center justify-center flex-shrink-0">
-                  <Icon className="w-5 h-5 text-black/60 dark:text-white/60 group-hover:text-black/80 dark:group-hover:text-white/80" />
+                {/* Giant number watermark */}
+                <div
+                  aria-hidden
+                  className="absolute -top-4 -right-2 font-display font-semibold text-black/[0.04] dark:text-white/[0.05] select-none pointer-events-none"
+                  style={{ fontSize: 120, lineHeight: 1 }}
+                >
+                  0{i + 1}
                 </div>
-                <p className="text-black dark:text-white/70 pt-2">{req.text}</p>
-              </div>
+
+                <div className="relative z-10">
+                  {/* Icon in gradient circle */}
+                  <div
+                    className="w-11 h-11 rounded-xl flex items-center justify-center mb-5 transition-all duration-500 group-hover:scale-[1.08]"
+                    style={{
+                      background:
+                        "linear-gradient(135deg, rgba(255,107,53,0.12), rgba(255,107,53,0.04))",
+                      border: "1px solid rgba(255,107,53,0.18)",
+                    }}
+                  >
+                    <Icon className="w-5 h-5 text-[#ff6b35]" />
+                  </div>
+
+                  <div className="flex items-baseline gap-3 mb-2">
+                    <span className="text-[10px] font-mono text-black/30 dark:text-white/30 tabular-nums">
+                      0{i + 1}
+                    </span>
+                    <h3 className="text-lg font-semibold text-black dark:text-white tracking-tight">
+                      {r.title}
+                    </h3>
+                  </div>
+                  <p className="text-sm text-black/60 dark:text-white/50 leading-relaxed pl-7">
+                    {r.text}
+                  </p>
+                </div>
+              </motion.div>
             );
           })}
-        </motion.div>
+        </div>
+        <SwipeHint />
+        </div>
       </div>
     </section>
   );

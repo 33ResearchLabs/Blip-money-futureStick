@@ -24,6 +24,7 @@ import { HreflangTags } from "@/components/HreflangTags";
 import StructuredData from "@/components/StructuredData";
 import { sounds } from "@/lib/sounds";
 import { CTAButton } from "@/components/Navbar";
+import { SwipeHint } from "@/components/IndexSections/SwipeHint";
 
 /* ═══════════════════════════════════════════════
    TYPES
@@ -1118,11 +1119,12 @@ export default function CryptoToAed() {
               steps.
             </p>
 
-            <div className="grid sm:grid-cols-2 gap-6">
+            <div className="relative">
+            <div className="-mx-4 sm:-mx-6 md:mx-0 px-4 sm:px-6 md:px-0 flex md:grid md:grid-cols-2 gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {HOW_TO_STEPS.map((s) => (
                 <div
                   key={s.step}
-                  className="relative p-6 rounded-2xl bg-white/60 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]"
+                  className="snap-start shrink-0 w-[88%] md:w-auto relative p-6 rounded-2xl bg-white/60 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]"
                 >
                   <div className="flex items-center gap-3 mb-3">
                     <div className="w-8 h-8 rounded-full bg-black dark:bg-white flex items-center justify-center text-white dark:text-black text-sm font-bold">
@@ -1138,6 +1140,8 @@ export default function CryptoToAed() {
                 </div>
               ))}
             </div>
+            <SwipeHint />
+            </div>
           </div>
         </Section>
 
@@ -1150,7 +1154,8 @@ export default function CryptoToAed() {
               Why Convert Crypto to AED on Blip
             </h2>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="relative">
+            <div className="-mx-4 sm:-mx-6 md:mx-0 px-4 sm:px-6 md:px-0 flex md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {[
                 {
                   icon: Zap,
@@ -1175,7 +1180,7 @@ export default function CryptoToAed() {
               ].map((item) => (
                 <div
                   key={item.title}
-                  className="p-6 rounded-2xl bg-white/60 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]"
+                  className="snap-start shrink-0 w-[80%] md:w-auto p-6 rounded-2xl bg-white/60 dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06]"
                 >
                   <item.icon className="w-5 h-5 text-black/30 dark:text-white/25 mb-4" />
                   <h3 className="text-[15px] font-bold text-black dark:text-white mb-2">
@@ -1186,6 +1191,8 @@ export default function CryptoToAed() {
                   </p>
                 </div>
               ))}
+            </div>
+            <SwipeHint />
             </div>
           </div>
         </Section>

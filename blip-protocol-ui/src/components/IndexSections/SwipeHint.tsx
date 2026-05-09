@@ -1,17 +1,46 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * Mobile-only side-overlay chevron button positioned at the right edge of a
- * horizontal snap-scroll container, vertically centered with the cards.
- * Once the user taps it (or swipes), they discover that left swipe is
- * possible too — so we only surface the right arrow.
+ * horizontal snap-scroll container. Auto-hides once the user has scrolled to
+ * the last card. Once they tap or swipe right, they discover left-swipe
+ * naturally — so we only ever surface the right arrow.
  *
  * Usage: wrap the snap-scroll track + <SwipeHint /> in a `relative` parent.
- * The hint is `position: absolute` and finds its previousElementSibling (the
- * snap track) on click to scroll by one card-width.
+ * The hint finds its previousElementSibling (the snap track) on click and
+ * scrolls by one card-width. It also listens to that track's scroll events
+ * to know when it's reached the end.
  */
 export const SwipeHint = ({ className = "" }: { className?: string }) => {
   const ref = useRef<HTMLDivElement>(null);
+  const [atEnd, setAtEnd] = useState(false);
+
+  useEffect(() => {
+    const track = ref.current?.previousElementSibling as HTMLElement | null;
+    if (!track) return;
+
+    const update = () => {
+      // 8px slop so we hit "end" even if scrollWidth has sub-pixel rounding.
+      const reachedEnd =
+        track.scrollLeft + track.clientWidth >= track.scrollWidth - 8;
+      // If the track is shorter than the viewport (no overflow), there's
+      // nothing to scroll — treat as "at end" so the hint hides.
+      const noOverflow = track.scrollWidth <= track.clientWidth + 1;
+      setAtEnd(reachedEnd || noOverflow);
+    };
+
+    update();
+    track.addEventListener("scroll", update, { passive: true });
+
+    // Card widths can change with viewport / late image loads — re-check.
+    const ro = new ResizeObserver(update);
+    ro.observe(track);
+
+    return () => {
+      track.removeEventListener("scroll", update);
+      ro.disconnect();
+    };
+  }, []);
 
   const scrollNext = () => {
     const track = ref.current?.previousElementSibling as HTMLElement | null;
@@ -24,13 +53,16 @@ export const SwipeHint = ({ className = "" }: { className?: string }) => {
   return (
     <div
       ref={ref}
-      className={`md:hidden absolute inset-y-0 right-2 flex items-center pointer-events-none z-20 ${className}`}
+      aria-hidden={atEnd}
+      className={`md:hidden absolute inset-y-0 right-2 flex items-center pointer-events-none z-20 transition-opacity duration-300 ${atEnd ? "opacity-0" : "opacity-100"} ${className}`}
     >
       <button
         type="button"
         onClick={scrollNext}
         aria-label="Scroll right"
-        className="pointer-events-auto w-10 h-10 rounded-full bg-white/90 dark:bg-black/55 backdrop-blur-md flex items-center justify-center text-black/70 dark:text-white/85 shadow-[0_2px_12px_rgba(0,0,0,0.18)] active:scale-95 transition"
+        disabled={atEnd}
+        tabIndex={atEnd ? -1 : 0}
+        className="pointer-events-auto w-10 h-10 rounded-full bg-white/90 dark:bg-black/55 backdrop-blur-md flex items-center justify-center text-black/70 dark:text-white/85 shadow-[0_2px_12px_rgba(0,0,0,0.18)] active:scale-95 transition disabled:pointer-events-none"
       >
         <svg
           width="15"

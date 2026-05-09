@@ -21,6 +21,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { SEO } from "@/components";
 import { HreflangTags } from "@/components/HreflangTags";
 import { sounds } from "@/lib/sounds";
+import { SwipeHint } from "@/components/IndexSections/SwipeHint";
 
 /* ============================================
    AWARD-WINNING TOKENOMICS PAGE
@@ -414,7 +415,8 @@ const UtilitySection = () => {
         </motion.div>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 ">
+        <div className="relative">
+        <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-2 lg:grid-cols-5 gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {utilities.map((utility, i) => (
             <motion.div
               key={utility.title}
@@ -422,7 +424,7 @@ const UtilitySection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8, delay: i * 0.1 }}
-              className="group relative p-8 rounded-3xl min-h-[280px] flex flex-col justify-between overflow-hidden border border-black/[0.06] dark:border-white/[0.06] hover:border-black/20 dark:hover:border-white/20 transition-colors duration-500 ease-out
+              className="snap-start shrink-0 w-[80%] md:w-auto group relative p-8 rounded-3xl min-h-[280px] flex flex-col justify-between overflow-hidden border border-black/[0.06] dark:border-white/[0.06] hover:border-black/20 dark:hover:border-white/20 transition-colors duration-500 ease-out
  "
               style={{
                 background: "rgba(255, 255, 255, 0.02)",
@@ -449,6 +451,8 @@ const UtilitySection = () => {
               <div className="w-8 h-[2px] bg-black/20 dark:bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </motion.div>
           ))}
+        </div>
+        <SwipeHint />
         </div>
       </div>
     </section>
@@ -498,7 +502,8 @@ const DeflationSection = () => {
         </motion.div>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+        <div className="relative max-w-4xl mx-auto">
+        <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-3 gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {deflation.map((item, i) => (
             <motion.div
               key={item.title}
@@ -506,7 +511,7 @@ const DeflationSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: i * 0.15 }}
-              className="group relative p-10 rounded-3xl text-center border border-black/[0.06] dark:border-white/[0.06] hover:border-black/20 dark:hover:border-white/20 transition-colors duration-500 overflow-hidden"
+              className="snap-start shrink-0 w-[85%] md:w-auto group relative p-10 rounded-3xl text-center border border-black/[0.06] dark:border-white/[0.06] hover:border-black/20 dark:hover:border-white/20 transition-colors duration-500 overflow-hidden"
               style={{
                 background: "rgba(255, 255, 255, 0.02)",
               }}
@@ -534,6 +539,8 @@ const DeflationSection = () => {
               </p>
             </motion.div>
           ))}
+        </div>
+        <SwipeHint />
         </div>
       </div>
     </section>
