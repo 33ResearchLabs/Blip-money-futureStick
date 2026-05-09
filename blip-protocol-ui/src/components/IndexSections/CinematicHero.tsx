@@ -167,12 +167,12 @@ const CinematicHero = () => {
           transition={{ duration: 0.9, ease: EASE, delay: 0.3 }}
           className="mb-9 flex justify-center"
         >
-          <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-[#ff6b35]/30 bg-[#ff6b35]/10">
+          <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white text-black shadow-[0_4px_20px_rgba(0,0,0,0.18)]">
             <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#ff6b35]">
               Lowest rate. Always.
             </span>
-            <span className="w-px h-3 bg-white/15" />
-            <span className="text-[12px] font-medium text-white/75">
+            <span className="w-px h-3 bg-black/15" />
+            <span className="text-[13px] font-medium text-black/80">
               Find cheaper. We'll go lower.
             </span>
           </div>
@@ -194,16 +194,13 @@ const CinematicHero = () => {
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
           </Link>
 
-          {/* Desktop: three CTAs side by side */}
+          {/* Desktop: two CTAs side by side */}
           <div className="hidden sm:flex items-center justify-center gap-3">
             <CTAButton to="/waitlist">
               Join Waitlist
             </CTAButton>
-            <CTAButton to="/waitlist" variant="secondary">
-              Provide Liquidity
-            </CTAButton>
             <CTAButton to="/merchant" variant="secondary">
-              Accept Payments
+              Join as Merchant
             </CTAButton>
           </div>
         </motion.div>
