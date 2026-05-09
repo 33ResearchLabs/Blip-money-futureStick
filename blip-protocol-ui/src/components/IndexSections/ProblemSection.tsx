@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, memo, useCallback } from "react";
 import { motion, useInView } from "framer-motion";
 import { useTheme } from "next-themes";
+import { Tag, Zap, Link2 } from "lucide-react";
 import { CTAButton } from "../Navbar";
 import { SwipeHint } from "./SwipeHint";
 import createGlobe from "cobe";
@@ -677,25 +678,66 @@ const ProblemSection = () => {
               This is a settlement layer.
             </div>
 
-            {/* Stats row — compact on mobile, spaced on desktop */}
-            <div className="grid grid-cols-3 gap-3 md:flex md:items-center md:gap-16 w-full max-w-[420px] md:max-w-none">
+            {/* Three pillar chips — replaces the old <60s/150+/on-chain stats row.
+                Each chip pairs a small icon with a single declarative claim,
+                so the row reads as positioning, not a benchmark. */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 w-full max-w-[700px]">
               {[
-                { val: "<60s", lbl: "Settlement" },
-                { val: "150+", lbl: "Merchants" },
-                { val: "On-chain", lbl: "Proof" },
-              ].map((s, i) => (
-                <div key={s.lbl} className="flex md:items-center md:gap-16">
-                  {i > 0 && <div className="hidden md:block w-px h-8 bg-white/10 -mx-5" />}
-                  <div className="text-center w-full">
-                    <div className="text-base sm:text-lg md:text-[28px] font-bold text-white tracking-tight mb-1 whitespace-nowrap">
-                      {s.val}
+                {
+                  icon: Tag,
+                  label: "Best rates",
+                  sub: "Guaranteed",
+                  accent: "#ff6b35",
+                },
+                {
+                  icon: Zap,
+                  label: "Fast transactions",
+                  sub: "Settle in <60s",
+                  accent: "#3ec5ff",
+                },
+                {
+                  icon: Link2,
+                  label: "On-chain proof",
+                  sub: "Verifiable on Solana",
+                  accent: "#3ddc84",
+                },
+              ].map((p, i) => {
+                const Icon = p.icon;
+                return (
+                  <motion.div
+                    key={p.label}
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.1 + i * 0.08, ease: EASE }}
+                    className="group relative flex items-center gap-3 px-4 py-3 rounded-2xl border border-white/10 hover:border-white/25 transition-colors"
+                    style={{
+                      background:
+                        "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%)",
+                      backdropFilter: "blur(8px)",
+                    }}
+                  >
+                    <div
+                      className="flex items-center justify-center w-9 h-9 rounded-xl shrink-0 transition-transform duration-500 group-hover:scale-105"
+                      style={{
+                        background: `linear-gradient(135deg, ${p.accent}33 0%, ${p.accent}0d 100%)`,
+                        border: `1px solid ${p.accent}40`,
+                        boxShadow: `0 4px 16px -4px ${p.accent}66`,
+                      }}
+                    >
+                      <Icon className="w-4 h-4" style={{ color: p.accent }} strokeWidth={2.4} />
                     </div>
-                    <div className="text-[9px] md:text-[10px] font-semibold uppercase tracking-[0.15em] text-white/40">
-                      {s.lbl}
+                    <div className="text-left min-w-0">
+                      <div className="text-[14px] font-semibold text-white leading-tight">
+                        {p.label}
+                      </div>
+                      <div className="text-[11px] font-medium text-white/45 leading-tight mt-0.5">
+                        {p.sub}
+                      </div>
                     </div>
-                  </div>
-                </div>
-              ))}
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </motion.div>
