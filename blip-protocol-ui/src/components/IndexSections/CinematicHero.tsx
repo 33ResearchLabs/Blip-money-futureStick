@@ -138,7 +138,7 @@ const CinematicHero = () => {
                 : { duration: 0 }
             }
           >
-            Settled on-chain.
+            Cheapest. On-chain. Private.
           </motion.span>
         </motion.h1>
 
