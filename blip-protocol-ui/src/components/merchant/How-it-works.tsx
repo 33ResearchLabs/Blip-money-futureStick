@@ -10,6 +10,7 @@ import {
   Cpu,
   Scan,
 } from "lucide-react";
+import { SwipeHint } from "@/components/IndexSections/SwipeHint";
 
 const HowItWorksSection = () => {
   const ref = useRef(null);
@@ -191,46 +192,57 @@ const HowItWorksSection = () => {
         </h2>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card
-          title="Dashboard Stream"
-          subtitle="Live routing engine."
-          icon={LayoutDashboard}
-          delay={0.2}
-          step={1}
-        >
-          <MockupDashboard />
-        </Card>
+      <div className="relative">
+        <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="snap-start shrink-0 w-[80%] md:w-auto">
+            <Card
+              title="Dashboard Stream"
+              subtitle="Live routing engine."
+              icon={LayoutDashboard}
+              delay={0.2}
+              step={1}
+            >
+              <MockupDashboard />
+            </Card>
+          </div>
 
-        <Card
-          title="Protocol Lock"
-          subtitle="Atomic rate locks."
-          icon={Lock}
-          delay={0.3}
-          step={2}
-        >
-          <MockupLock />
-        </Card>
+          <div className="snap-start shrink-0 w-[80%] md:w-auto">
+            <Card
+              title="Protocol Lock"
+              subtitle="Atomic rate locks."
+              icon={Lock}
+              delay={0.3}
+              step={2}
+            >
+              <MockupLock />
+            </Card>
+          </div>
 
-        <Card
-          title="Escrow Vault"
-          subtitle="Non-custodial security."
-          icon={ShieldCheck}
-          delay={0.4}
-          step={3}
-        >
-          <MockupDashboard />
-        </Card>
+          <div className="snap-start shrink-0 w-[80%] md:w-auto">
+            <Card
+              title="Escrow Vault"
+              subtitle="Non-custodial security."
+              icon={ShieldCheck}
+              delay={0.4}
+              step={3}
+            >
+              <MockupDashboard />
+            </Card>
+          </div>
 
-        <Card
-          title="Chain Finality"
-          subtitle="On-chain proof."
-          icon={Activity}
-          delay={0.5}
-          step={4}
-        >
-          <MockupDashboard />
-        </Card>
+          <div className="snap-start shrink-0 w-[80%] md:w-auto">
+            <Card
+              title="Chain Finality"
+              subtitle="On-chain proof."
+              icon={Activity}
+              delay={0.5}
+              step={4}
+            >
+              <MockupDashboard />
+            </Card>
+          </div>
+        </div>
+        <SwipeHint />
       </div>
     </section>
   );
