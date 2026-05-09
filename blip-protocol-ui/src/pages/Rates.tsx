@@ -354,7 +354,7 @@ const RateFinder = () => {
   const [values, setValues] = useState<SearchValues>({
     amount: "100",
     currencyCode: "INR",
-    direction: "buy",
+    direction: "sell",
   });
 
   const currency = useMemo(
