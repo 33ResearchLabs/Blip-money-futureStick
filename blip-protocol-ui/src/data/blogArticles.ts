@@ -3553,4 +3553,784 @@ export const blogArticles: BlogArticle[] = [
       },
     ],
   },
+  {
+    id: "41",
+    slug: "send-usdt-to-bank-under-60-seconds",
+    title: "How to Send USDT from Wallet to Bank Account in Under 60 Seconds",
+    excerpt:
+      "A practical, step-by-step walkthrough of moving USDT from your self-custody wallet to a local bank account on Blip — with on-chain proof at every step.",
+    author: { name: "Blip Team", role: "Core Contributors" },
+    date: "2026-04-22",
+    category: "Payments",
+    readTime: "5 min read",
+    coverImage: "/blog.png",
+    coverGradient: "from-neon-cyan/20 via-neon-mint/10 to-transparent",
+    seo: {
+      title: "How to Send USDT to a Bank Account in 60 Seconds | Blip Money",
+      description:
+        "Step-by-step guide to converting USDT to local fiat in under a minute on Blip Money. Wallet to bank, secured by on-chain escrow, with no banks in the middle.",
+      keywords:
+        "USDT to bank, USDT to fiat, send USDT to bank account, fast crypto to cash, Blip Money guide",
+      canonical: "https://blip.money/blog/send-usdt-to-bank-under-60-seconds",
+    },
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "If you've ever tried to move stablecoins from a Solana wallet to a local bank account, you know the friction: KYC delays, exchange limits, withdrawal fees, weekend bank closures, and the queasy moment you click 'send' to a stranger. Blip Money compresses that whole flow into a single tap, and it usually finishes in under a minute.",
+      },
+      {
+        type: "heading",
+        content: "What You Need Before You Start",
+      },
+      {
+        type: "list",
+        content: "",
+        items: [
+          "A Solana-compatible wallet (Phantom, Solflare, Backpack) with USDT",
+          "Bank account details for the currency you want to receive (e.g. AED, INR, PHP)",
+          "A few minutes for one-time identity verification",
+        ],
+      },
+      {
+        type: "heading",
+        content: "Step 1 — Connect Your Wallet",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Open Blip and tap 'Connect Wallet'. Sign a free message to prove ownership — no transaction, no gas. Your USDT stays in your wallet; Blip never custodies it.",
+      },
+      {
+        type: "heading",
+        content: "Step 2 — Pick the Best Rate",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Bonded merchants compete in real time for your trade. You see live AED/INR/PHP quotes, the merchant's reputation score, and the expected settlement time. Pick whichever combination of rate and speed you prefer.",
+      },
+      {
+        type: "heading",
+        content: "Step 3 — Funds Lock in Escrow",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Your USDT moves into a non-custodial escrow program on Solana. The merchant sees on-chain proof that the funds are locked but cannot withdraw them — they can only collect once you confirm fiat receipt.",
+      },
+      {
+        type: "heading",
+        content: "Step 4 — Cash Lands in Your Bank",
+      },
+      {
+        type: "paragraph",
+        content:
+          "The merchant initiates the bank transfer. For AED on UAE-domestic rails, this is typically instant. For INR via IMPS, expect under a minute. Once you confirm receipt, the smart contract releases USDT to the merchant — no manual steps required from you.",
+      },
+      {
+        type: "callout",
+        content:
+          "Every escrow lock and release is signed on-chain. You don't have to trust Blip — you can verify the entire flow in any Solana explorer.",
+      },
+      {
+        type: "heading",
+        content: "What If Something Goes Wrong?",
+      },
+      {
+        type: "paragraph",
+        content:
+          "If the merchant fails to send the bank transfer, you raise a dispute. The DAO arbitration committee reviews the on-chain timestamps and bank-transfer evidence; if the merchant defaulted, the smart contract releases your USDT back to your wallet automatically. You never lose principal.",
+      },
+    ],
+  },
+  {
+    id: "42",
+    slug: "hidden-cost-of-swift-7-percent",
+    title: "The Hidden Cost of SWIFT: Why International Wires Lose You 7%",
+    excerpt:
+      "International bank transfers feel like a fixed-fee service, but the real cost is hidden in correspondent-bank spreads and lifting fees. Here's how the 7% disappears.",
+    author: { name: "Blip Team", role: "Core Contributors" },
+    date: "2026-04-26",
+    category: "Payments",
+    readTime: "7 min read",
+    coverImage: "/blog.png",
+    coverGradient: "from-warm-gold/20 via-neon-mint/10 to-transparent",
+    seo: {
+      title: "The Hidden Cost of SWIFT: Why International Wires Lose 7% | Blip",
+      description:
+        "Most senders assume an international wire costs a flat $30. The actual cost is closer to 6-7% once correspondent FX spreads, lifting fees, and recipient bank charges are factored in.",
+      keywords:
+        "SWIFT cost, international wire fees, correspondent bank fees, FX spread, hidden bank fees, cheaper alternative to SWIFT",
+      canonical: "https://blip.money/blog/hidden-cost-of-swift-7-percent",
+    },
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "When your bank quotes you '$30' for an international wire, that's the visible cost. The invisible cost — buried in spreads, lifting fees, and intermediary charges — typically swallows another 5–7% of the principal. For migrant workers and SMBs sending real money home, that's the difference between a school year and a missed term.",
+      },
+      {
+        type: "heading",
+        content: "Where the 7% Actually Hides",
+      },
+      {
+        type: "list",
+        content: "Anatomy of a $1,000 wire from the UAE to India:",
+        items: [
+          "Sending bank fee: $25 (visible)",
+          "FX spread vs mid-market rate: ~2.5% = $25",
+          "Correspondent bank lifting fee: $15–25 (deducted en route)",
+          "Recipient bank credit fee: $10–15",
+          "Effective cost: $75–90, or 7.5–9% on the principal",
+        ],
+      },
+      {
+        type: "heading",
+        content: "Why the Spread Is the Worst Part",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Banks quote you a 'retail' FX rate that's typically 2–3% worse than the mid-market rate Bloomberg shows. You don't see this fee on a statement — it's baked into the conversion. A $10,000 transfer can lose $200–300 in spread alone, and the customer never sees a line item.",
+      },
+      {
+        type: "heading",
+        content: "Correspondent Banks: The Toll Booth You Forgot About",
+      },
+      {
+        type: "paragraph",
+        content:
+          "SWIFT messages don't move money — they move instructions. Your dollars route through a chain of correspondent banks, each entitled to a small lifting fee. By the time it lands, your $1,000 might be $972, and the recipient's bank charges another $10 to credit the account.",
+      },
+      {
+        type: "quote",
+        content:
+          "SWIFT was designed in 1973 for a world where wires happened weekly between major banks. The protocol works. The economics, for the average consumer, do not.",
+      },
+      {
+        type: "heading",
+        content: "What On-Chain Settlement Replaces",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Stablecoin settlement on Solana replaces every step except the last mile. There are no correspondent banks. There is no FX spread — the merchant on the other side quotes a real, transparent rate before you commit. Settlement clears in seconds, and the on-chain proof eliminates the reconciliation overhead that traditional rails recover via fees.",
+      },
+      {
+        type: "callout",
+        content:
+          "Blip's all-in cost on a $1,000 UAE → India transfer is under 1%. The same $1,000 via SWIFT typically costs $75–90 once the spread is included.",
+      },
+    ],
+  },
+  {
+    id: "43",
+    slug: "uae-crypto-tax-2026-guide",
+    title: "Crypto Tax in the UAE: Your Complete 2026 Guide",
+    excerpt:
+      "The UAE's crypto tax framework in 2026 is one of the most founder-friendly on the planet — but free isn't the same as 'no rules'. Here's what you need to file, report, and prove.",
+    author: { name: "Blip Team", role: "Core Contributors" },
+    date: "2026-05-02",
+    category: "Payments",
+    readTime: "8 min read",
+    coverImage: "/blog.png",
+    coverGradient: "from-warm-gold/20 via-neon-cyan/10 to-transparent",
+    seo: {
+      title: "UAE Crypto Tax 2026: Complete Guide for Residents and Businesses",
+      description:
+        "How crypto income, capital gains, VAT, and corporate tax apply to digital assets in the UAE in 2026. Personal vs business treatment, VARA registration, and reporting requirements.",
+      keywords:
+        "UAE crypto tax, Dubai crypto tax, VARA tax rules, crypto capital gains UAE, UAE corporate tax crypto",
+      canonical: "https://blip.money/blog/uae-crypto-tax-2026-guide",
+    },
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "The UAE remains one of the most attractive jurisdictions for crypto activity in 2026. Personal crypto gains are not subject to income tax, and most P2P trading is exempt from VAT. But the introduction of corporate tax in 2023, combined with VARA's evolving licensing regime, means that businesses dealing with crypto have real reporting obligations.",
+      },
+      {
+        type: "heading",
+        content: "Personal Crypto: The Default Is Zero",
+      },
+      {
+        type: "paragraph",
+        content:
+          "If you're a UAE resident trading crypto on your personal account, capital gains and ordinary trading profits are not taxed. There's no equivalent to the US capital gains regime or India's 30% flat tax. This is the headline reason so many crypto founders and traders relocate.",
+      },
+      {
+        type: "heading",
+        content: "Business Activity: 9% Above AED 375,000",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Once your activity rises to the level of a business — high frequency, repeated trading for profit, OTC desk operations, market-making — corporate tax kicks in at 9% on profits above AED 375,000 per year. The Federal Tax Authority looks at substance, not just labels: a 'personal' account doing 500 trades a month with formal counterparties may be reclassified.",
+      },
+      {
+        type: "heading",
+        content: "VAT on Crypto Services",
+      },
+      {
+        type: "list",
+        content: "What is and isn't VAT-able:",
+        items: [
+          "Buying or selling crypto for personal investment: exempt",
+          "P2P trades between residents: exempt",
+          "Crypto exchange services and platform fees: 5% VAT",
+          "Custody and wallet services for businesses: 5% VAT",
+          "Mining revenue treated as a business activity: 5% VAT",
+        ],
+      },
+      {
+        type: "heading",
+        content: "VARA Registration",
+      },
+      {
+        type: "paragraph",
+        content:
+          "If you're operating a Virtual Asset Service Provider (VASP) — exchange, broker-dealer, custodian, advisory, lending — you almost certainly need a VARA license. The threshold is activity, not size: even a small operation that intermediates trades for fees needs to be registered. Operating without one is a criminal offence under the 2022 Virtual Assets Law.",
+      },
+      {
+        type: "callout",
+        content:
+          "This article is not tax advice. UAE residents handling material crypto activity should consult a licensed tax advisor familiar with both Federal Tax Authority guidance and VARA rulings before filing.",
+      },
+      {
+        type: "heading",
+        content: "Record-Keeping: What to Save",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Even when the headline tax is zero, you must be able to prove it. Save transaction hashes, exchange statements, P2P counterparty receipts, and bank statements that show the AED leg. The FTA can request seven years of records during an audit, and 'I traded on Solana' is not, by itself, a defense.",
+      },
+    ],
+  },
+  {
+    id: "44",
+    slug: "stablecoins-vs-cbdcs-why-usdt-won",
+    title: "Stablecoins vs CBDCs: Why USDT and USDC Won the Race",
+    excerpt:
+      "Central banks spent five years building digital currencies. While they were building, stablecoins quietly became the dollar's largest distribution channel outside the US.",
+    author: { name: "Blip Research", role: "Research Team" },
+    date: "2026-05-06",
+    category: "Tokenomics",
+    readTime: "9 min read",
+    coverImage: "/blog.png",
+    coverGradient: "from-neon-purple/20 via-warm-gold/10 to-transparent",
+    seo: {
+      title: "Stablecoins vs CBDCs: Why USDT and USDC Won | Blip Money",
+      description:
+        "Central bank digital currencies were supposed to dominate the digital money landscape. Instead, USDT and USDC quietly became the de facto dollar of emerging markets.",
+      keywords:
+        "stablecoins vs CBDC, USDT adoption, USDC growth, digital dollar, central bank digital currency, emerging market stablecoins",
+      canonical: "https://blip.money/blog/stablecoins-vs-cbdcs-why-usdt-won",
+    },
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "When the Bank for International Settlements published its first major CBDC report in 2020, central bankers were confident that retail digital currencies would arrive within five years and reshape the dollar's distribution. Six years later, the real winner is something the same report barely mentioned: privately-issued, dollar-pegged stablecoins.",
+      },
+      {
+        type: "heading",
+        content: "By the Numbers",
+      },
+      {
+        type: "list",
+        content: "Stablecoin vs CBDC scoreboard, 2026:",
+        items: [
+          "USDT supply: $140B+, settling more than $10T in annual transaction volume",
+          "USDC supply: $40B+, with $200B+ daily on-chain settlement on a routine day",
+          "Live retail CBDCs: 4 (Bahamas, Jamaica, Nigeria, Eastern Caribbean)",
+          "Combined retail CBDC user base: under 1 million active wallets",
+          "Stablecoin holders globally: estimated 80 million wallets, growing ~25% YoY",
+        ],
+      },
+      {
+        type: "heading",
+        content: "Why Stablecoins Won the Distribution Game",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Stablecoins won because they were already on the rails users wanted to use. USDT runs natively on Ethereum, Tron, and Solana — chains that already had wallets, exchanges, and DeFi liquidity. CBDCs require building entirely new infrastructure, partnering with commercial banks who view them as competitive threats, and convincing users to install government apps for everyday spending.",
+      },
+      {
+        type: "heading",
+        content: "The Emerging-Market Dollar",
+      },
+      {
+        type: "paragraph",
+        content:
+          "In Argentina, Turkey, Nigeria, Lebanon, and parts of Southeast Asia, USDT functions as the working dollar. Holders earn salary in local currency, convert to USDT to escape inflation, transact in USDT for cross-border payments, and convert back only when local spending is required. No CBDC offers anything similar — by design, CBDCs are tied to the issuing central bank's domestic system.",
+      },
+      {
+        type: "quote",
+        content:
+          "Central banks built CBDCs for sovereignty. Users bought stablecoins for survival. Sovereignty lost.",
+      },
+      {
+        type: "heading",
+        content: "The Regulatory Backlash That Didn't Happen",
+      },
+      {
+        type: "paragraph",
+        content:
+          "For years, the conventional wisdom was that stablecoin issuers would be regulated out of existence. Instead, the US passed the Genius Act in 2025 establishing a federal stablecoin charter, the UAE's VARA explicitly licensed AED-pegged stablecoins, and the EU's MiCA created a workable issuer framework. Stablecoins are now legitimate financial infrastructure, regulated alongside traditional rails rather than against them.",
+      },
+      {
+        type: "callout",
+        content:
+          "For builders: the stablecoin layer is settled. The next decade is about the application layer on top — payments, remittances, lending, payroll, and the on-/off-ramps that connect stablecoin balances to local currency.",
+      },
+    ],
+  },
+  {
+    id: "45",
+    slug: "indian-freelancers-usdt-to-inr",
+    title: "How Indian Freelancers Get Paid in USDT and Convert to INR",
+    excerpt:
+      "An Indian developer earning $4,000 a month from a US client can lose $300 to fees and FX spread on a Wise transfer. Here's how a USDT payout collapses that to $40.",
+    author: { name: "Blip Team", role: "Core Contributors" },
+    date: "2026-05-09",
+    category: "Payments",
+    readTime: "6 min read",
+    coverImage: "/blog.png",
+    coverGradient: "from-neon-cyan/20 via-neon-purple/10 to-transparent",
+    seo: {
+      title: "USDT for Freelancers in India: A Complete Payment Guide",
+      description:
+        "How Indian freelancers can accept USDT from international clients, convert to INR via P2P, and reduce payment fees by up to 90% versus Wise, PayPal, or Payoneer.",
+      keywords:
+        "USDT for freelancers India, freelance payment crypto, USDT to INR, international freelance payments, alternative to Wise",
+      canonical: "https://blip.money/blog/indian-freelancers-usdt-to-inr",
+    },
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "If you're an Indian designer, developer, or writer billing international clients, you've already done the math: PayPal eats 4–6%, Wise lands you at the official mid-market rate plus a flat fee, and Payoneer adds withdrawal charges on top. For monthly billings of $3,000–$10,000, those fees compound into a meaningful portion of your annual income.",
+      },
+      {
+        type: "heading",
+        content: "The Three-Step Setup",
+      },
+      {
+        type: "list",
+        content: "",
+        items: [
+          "Open a self-custody Solana wallet (Phantom or Backpack)",
+          "Share your USDT receive address with your client",
+          "Use Blip to convert USDT → INR via IMPS/UPI to your bank",
+        ],
+      },
+      {
+        type: "heading",
+        content: "Why Clients Will Say Yes",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Most international clients prefer paying in stablecoins because it's easier on their side too. They send USDT in seconds, settle is final, and they avoid the awkward FX pricing conversation. If you're the first vendor offering USDT settlement, you often become the easiest invoice to pay.",
+      },
+      {
+        type: "heading",
+        content: "Converting USDT to INR Without Drama",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Once USDT lands in your wallet, open Blip and request a quote for INR. Bonded merchants in your region compete on rate; you typically get within 0.5% of the official USDT/INR rate. Funds lock in escrow, the merchant sends INR via IMPS or UPI to your registered bank account, and the smart contract releases USDT once you confirm.",
+      },
+      {
+        type: "heading",
+        content: "What About Tax?",
+      },
+      {
+        type: "paragraph",
+        content:
+          "India's 2022 tax framework treats crypto as Virtual Digital Assets (VDAs). Income received in USDT is treated like any other foreign-currency income at the AED/INR equivalent on the date of receipt. The 1% TDS applies to crypto-to-crypto trades on Indian exchanges; receiving USDT from a client and converting via P2P is a different transaction stream — talk to your CA about the specifics.",
+      },
+      {
+        type: "callout",
+        content:
+          "A freelancer billing $5,000/month who switches from PayPal (4.5% fee, ~2% spread) to USDT + Blip (combined ~0.8%) keeps an extra ₹50,000+ per month. That's a holiday, an emergency fund, or a compounding investment — your money, in your hands.",
+      },
+    ],
+  },
+  {
+    id: "46",
+    slug: "on-chain-settlement-b2b-quiet-revolution",
+    title: "On-Chain Settlement for B2B: The Quiet Revolution in Cross-Border Trade",
+    excerpt:
+      "Consumer crypto gets the headlines. The real volume is invoiced B2B trade settling on-chain because nobody wants a 30-day Letter of Credit anymore.",
+    author: { name: "Blip Research", role: "Research Team" },
+    date: "2026-05-13",
+    category: "Payments",
+    readTime: "8 min read",
+    coverImage: "/blog.png",
+    coverGradient: "from-neon-mint/20 via-warm-gold/10 to-transparent",
+    seo: {
+      title: "On-Chain B2B Settlement: The Quiet Revolution in Trade Finance",
+      description:
+        "Stablecoin-based B2B settlement is replacing letters of credit and SWIFT-routed wires for cross-border invoices. Why CFOs are quietly migrating supplier payments to on-chain rails.",
+      keywords:
+        "B2B crypto settlement, stablecoin B2B payments, on-chain trade finance, supplier payments crypto, cross-border B2B",
+      canonical: "https://blip.money/blog/on-chain-settlement-b2b-quiet-revolution",
+    },
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "The B2B payment story doesn't get retweeted, but it's the largest pool of value moving on-chain in 2026. SMB importers in Dubai paying suppliers in Vietnam, agencies in Mumbai billing clients in California, and trading companies in Singapore settling commodity contracts in Latin America — they're all quietly moving from SWIFT and Letters of Credit to USDC settlement.",
+      },
+      {
+        type: "heading",
+        content: "Why CFOs Are Switching",
+      },
+      {
+        type: "list",
+        content: "The unit economics are unambiguous:",
+        items: [
+          "Settlement time: 5 days → under 60 seconds",
+          "All-in cost on a $50K invoice: 1.2% → under 0.2%",
+          "Reconciliation cost: hours of finance time → automatic on-chain receipts",
+          "FX spread visibility: opaque correspondent rates → live merchant quotes",
+          "Letter of Credit fees: 0.5–1% → eliminated entirely",
+        ],
+      },
+      {
+        type: "heading",
+        content: "The Letter of Credit Replacement",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Letters of Credit existed because international parties didn't trust each other and SWIFT didn't carry collateral. On-chain escrow does both jobs in a single primitive: funds lock the moment the LC would have been issued, release on a digital bill-of-lading or proof-of-delivery oracle, and produce a tamper-proof audit trail without human intermediation.",
+      },
+      {
+        type: "heading",
+        content: "Audit and Compliance",
+      },
+      {
+        type: "paragraph",
+        content:
+          "The pushback CFOs used to get from auditors has flipped. Tamper-proof on-chain receipts are easier to audit than email-attached SWIFT confirmations. Big Four firms in 2026 routinely accept Solana transaction hashes as primary evidence for settlement reconciliation, and integrate with Blip Scan for automated workpapers.",
+      },
+      {
+        type: "callout",
+        content:
+          "If your finance team still spends Friday afternoons chasing 'where did the wire go?' confirmations, on-chain settlement removes that work entirely. The reconciliation is the transaction.",
+      },
+    ],
+  },
+  {
+    id: "47",
+    slug: "phantom-vs-solflare-best-solana-wallet",
+    title: "Phantom vs Solflare: Which Solana Wallet Is Right for You?",
+    excerpt:
+      "Phantom owns the brand. Solflare owns the power-user features. Here's how to pick between them in 2026 — and when you might want both.",
+    author: { name: "Blip Team", role: "Core Contributors" },
+    date: "2026-05-16",
+    category: "Blockchain",
+    readTime: "6 min read",
+    coverImage: "/blog.png",
+    coverGradient: "from-neon-purple/20 via-neon-cyan/10 to-transparent",
+    seo: {
+      title: "Phantom vs Solflare: Best Solana Wallet for 2026 | Blip Money",
+      description:
+        "A 2026 comparison of Phantom and Solflare for Solana users. Security, staking, hardware wallet support, multi-chain features, and which one fits your trading style.",
+      keywords:
+        "Phantom vs Solflare, best Solana wallet, Solana wallet comparison, Phantom wallet, Solflare wallet, Solana wallet 2026",
+      canonical: "https://blip.money/blog/phantom-vs-solflare-best-solana-wallet",
+    },
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "If you're using Blip — or any Solana app in 2026 — the first decision you make is which wallet to install. Both Phantom and Solflare are non-custodial, both support SPL tokens including USDT and USDC, and both work with hardware wallets. The differences are in defaults, depth, and developer ergonomics.",
+      },
+      {
+        type: "heading",
+        content: "Phantom: The Default for Most Users",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Phantom prioritizes onboarding. Its install-to-first-tx flow is two minutes; the UI hides the complexity (RPC selection, priority fees, slippage tolerance) behind sensible defaults. It now supports Bitcoin and Ethereum alongside Solana, with built-in swaps. For someone whose primary need is 'send USDT, sign transactions, hold a few NFTs', Phantom is the path of least resistance.",
+      },
+      {
+        type: "heading",
+        content: "Solflare: For When You Want the Knobs",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Solflare exposes more of Solana's machinery — finer-grained staking control, RPC overrides, raw transaction inspection, multi-account batching, and a built-in portfolio analytics view. If you're running a validator, doing concentrated DeFi positions, or just want to see what you're signing, Solflare's the wallet for you.",
+      },
+      {
+        type: "heading",
+        content: "Hardware Support",
+      },
+      {
+        type: "list",
+        content: "Both wallets support Ledger; the integrations differ:",
+        items: [
+          "Phantom: pairs Ledger as a single account, works for sends and most dApps",
+          "Solflare: pairs multiple Ledger accounts, supports SPL token signing in raw form, integrates with hardware-only validators",
+          "Both: support Trezor (Solflare more reliably), Keystone, and the new Solana Saga seed-vault flow",
+        ],
+      },
+      {
+        type: "heading",
+        content: "Security: They're Both Strong",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Neither wallet has had a meaningful protocol-level security incident. Both run the same simulation engine to warn you about token-drain transactions. The most common attack vector for both — phishing in fake apps — is mitigated by domain-allowlist features and signing-message verification. Use a hardware wallet for amounts you can't afford to lose, regardless of which app you choose.",
+      },
+      {
+        type: "callout",
+        content:
+          "Easiest decision rule: install Phantom for daily activity, Solflare for staking management, and a Ledger for any wallet holding more than a month's salary.",
+      },
+    ],
+  },
+  {
+    id: "48",
+    slug: "behind-the-scenes-blip-trade-walkthrough",
+    title: "Behind the Scenes: What Happens to Your USDT During a Blip Trade",
+    excerpt:
+      "From wallet sign to fiat receipt, this is the exact lifecycle of a USDT trade on Blip — every state change, every signature, every on-chain event.",
+    author: { name: "Blip Team", role: "Core Contributors" },
+    date: "2026-05-19",
+    category: "Escrow",
+    readTime: "9 min read",
+    coverImage: "/blog.png",
+    coverGradient: "from-neon-mint/20 via-neon-cyan/10 to-transparent",
+    seo: {
+      title: "How a Blip Trade Works: USDT Escrow Lifecycle | Blip Money",
+      description:
+        "A technical, step-by-step look at how Blip Money executes a USDT-to-fiat trade: from wallet connection through escrow lock, merchant matching, fiat settlement, and final release.",
+      keywords:
+        "Blip trade lifecycle, USDT escrow flow, how Blip works, P2P crypto escrow, on-chain settlement steps",
+      canonical: "https://blip.money/blog/behind-the-scenes-blip-trade-walkthrough",
+    },
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "Most users only see two screens: the rate-picker and the 'cash landed' confirmation. Underneath, a Blip trade traverses six on-chain states and three signed messages. Knowing the lifecycle helps when you want to verify what's happening or troubleshoot an unusual case.",
+      },
+      {
+        type: "heading",
+        content: "State 1 — Quote Request",
+      },
+      {
+        type: "paragraph",
+        content:
+          "When you open the trade screen, Blip queries the bonded merchant network with your corridor (USDT → AED), amount, and preferred payment rail. The response is a list of live quotes signed by each merchant's wallet, with timestamp and rate validity. Nothing has happened on-chain yet.",
+      },
+      {
+        type: "heading",
+        content: "State 2 — Order Creation",
+      },
+      {
+        type: "paragraph",
+        content:
+          "You pick a merchant and tap 'lock'. Blip's program creates an order PDA (program-derived account) on Solana with the trade parameters, your wallet, the merchant's wallet, and the fiat-receipt destination hash. This costs about 0.00012 SOL in rent.",
+      },
+      {
+        type: "heading",
+        content: "State 3 — Escrow Lock",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Your wallet signs a single SPL transfer that moves the USDT from your associated token account into the order PDA's vault. The merchant's bond is also locked into a separate vault — they cannot withdraw it until the trade resolves. Now both sides have skin on-chain.",
+      },
+      {
+        type: "heading",
+        content: "State 4 — Fiat Send",
+      },
+      {
+        type: "paragraph",
+        content:
+          "The merchant initiates the off-chain bank transfer. They submit the transaction reference back to the Blip API, which posts it as a memo on the order PDA. You see this update in real time — 'Bank transfer sent, ref XYZ' — without leaving the app.",
+      },
+      {
+        type: "heading",
+        content: "State 5 — Confirmation",
+      },
+      {
+        type: "paragraph",
+        content:
+          "When the AED hits your bank, you tap 'received'. Your wallet signs a second message — this is the release authorization. The order program verifies your signature and timestamp, releases USDT from the vault to the merchant, and refunds the merchant's bond. Both events are emitted as Solana program logs.",
+      },
+      {
+        type: "heading",
+        content: "State 6 — Settlement Final",
+      },
+      {
+        type: "paragraph",
+        content:
+          "The order PDA closes. Rent SOL is refunded to the order initiator. A final settlement event is indexed into Blip Scan, and the trade is queryable forever via the order ID or transaction hash.",
+      },
+      {
+        type: "callout",
+        content:
+          "If you ever want to reconstruct a trade independently of Blip's UI, every state above is on-chain. Open a Solana explorer, paste the order PDA, and the entire lifecycle is right there.",
+      },
+    ],
+  },
+  {
+    id: "49",
+    slug: "crypto-remittance-pakistan-usdt-vs-hawala",
+    title: "Crypto Remittance to Pakistan: Why USDT Beats Hawala in Speed and Trust",
+    excerpt:
+      "Hawala has worked for hundreds of years on a single primitive — trust between two brokers. USDT replicates the trust with code, and adds speed, audit, and reach Hawala can't match.",
+    author: { name: "Blip Research", role: "Research Team" },
+    date: "2026-05-23",
+    category: "Payments",
+    readTime: "8 min read",
+    coverImage: "/blog.png",
+    coverGradient: "from-warm-gold/20 via-neon-mint/10 to-transparent",
+    seo: {
+      title: "USDT vs Hawala for Pakistan Remittance: Speed, Cost, Trust",
+      description:
+        "Comparing stablecoin remittances on Solana with traditional Hawala for the UAE-to-Pakistan corridor. Cost, settlement time, regulatory exposure, and trust mechanics.",
+      keywords:
+        "Pakistan remittance, USDT vs Hawala, UAE Pakistan transfer, stablecoin remittance, crypto remittance Pakistan",
+      canonical: "https://blip.money/blog/crypto-remittance-pakistan-usdt-vs-hawala",
+    },
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "The UAE-to-Pakistan corridor moves more than $7 billion in remittances annually, and a meaningful share of it has historically run on Hawala — informal value-transfer networks built on personal trust between brokers. Hawala is fast, cheap, and reliable when it works. It's also opaque, hard to audit, and increasingly difficult to operate at scale under tightening AML regimes.",
+      },
+      {
+        type: "heading",
+        content: "What Hawala Got Right",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Hawala worked because it solved a real problem: moving value across borders without moving money. A broker in Dubai accepts cash; a counterpart broker in Karachi pays out cash; the brokers settle their books later through a third trade or a multi-leg netting. Settlement was effectively instant for the user, fees were minimal, and trust was maintained by personal reputation.",
+      },
+      {
+        type: "heading",
+        content: "Where USDT Improves Every Axis",
+      },
+      {
+        type: "list",
+        content: "Same mechanics, better primitives:",
+        items: [
+          "Trust: replaced by smart-contract escrow that releases on bank-receipt proof",
+          "Settlement: still seconds, but now cryptographically verifiable",
+          "Cost: typically under 1% all-in, comparable to or better than Hawala",
+          "Audit: complete on-chain trail, suitable for tax filing or compliance review",
+          "Reach: works for anyone with a phone and a bank account, not just brokered networks",
+        ],
+      },
+      {
+        type: "heading",
+        content: "What About Regulation?",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Pakistan's State Bank has historically banned crypto-related banking transactions. In late 2025, the position softened: licensed Virtual Asset Service Providers can now operate in coordination with the Securities and Exchange Commission. Receiving USDT and converting via licensed merchants is increasingly viable; what's not viable is operating an unlicensed exchange or treating crypto as legal tender for goods.",
+      },
+      {
+        type: "quote",
+        content:
+          "Hawala was Web1 for cross-border value. Stablecoins on Solana are Web3. The user experience is the same; the trust assumptions are completely different.",
+      },
+      {
+        type: "callout",
+        content:
+          "A typical $500 monthly remittance from Dubai to Karachi: Hawala broker, $5–10 fee, cash to cash. Blip via PKR-bonded merchants, $4–7 fee, USDT to bank. The on-chain trail makes Blip the only one you can show a tax officer.",
+      },
+    ],
+  },
+  {
+    id: "50",
+    slug: "merchant-spread-profitability-guide",
+    title: "How Merchants Earn Spread on Blip: A Profitability Playbook",
+    excerpt:
+      "If you're applying to be a Blip merchant, here's the actual unit economics — what you charge, what you keep, and how reputation compounds into pricing power.",
+    author: { name: "Blip Team", role: "Core Contributors" },
+    date: "2026-05-26",
+    category: "Merchant",
+    readTime: "9 min read",
+    coverImage: "/blog.png",
+    coverGradient: "from-neon-cyan/20 via-warm-gold/10 to-transparent",
+    seo: {
+      title: "Blip Merchant Profitability Guide: Spread, Volume, Reputation",
+      description:
+        "How Blip merchants make money. Spread economics, volume tiers, reputation pricing, capital costs, and a worked example showing monthly profit on $200K of trade volume.",
+      keywords:
+        "Blip merchant profit, P2P merchant economics, USDT merchant spread, become a Blip merchant, OTC merchant playbook",
+      canonical: "https://blip.money/blog/merchant-spread-profitability-guide",
+    },
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "Becoming a Blip merchant is closer to running an OTC desk than a retail crypto exchange. You quote rates, post collateral, fulfill bank-leg payments, and earn the bid-ask spread on every trade you close. The economics work — they're public on-chain — but they reward operators who treat reliability as a product.",
+      },
+      {
+        type: "heading",
+        content: "Where the Money Comes From",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Every merchant quote includes a small spread above the live mid-market rate. On UAE corridors, that's typically 0.4–0.9%; on emerging market rails like INR or PHP, 0.6–1.4%. The spread is your gross profit. Blip charges no take rate on the merchant's spread — the protocol fee is separately disclosed to the user and not deducted from your earnings.",
+      },
+      {
+        type: "heading",
+        content: "Worked Example: $200K Monthly Volume",
+      },
+      {
+        type: "list",
+        content: "Realistic month for a mid-tier UAE merchant:",
+        items: [
+          "Volume: $200,000 across 600 trades",
+          "Average spread: 0.55% = $1,100 gross",
+          "Bank rail fees (your AED transfer cost): $150",
+          "Capital cost on the bond (assumed at 6% APR on $30K): $150 monthly",
+          "Net profit: ~$800/month, or 0.4% on volume",
+        ],
+      },
+      {
+        type: "heading",
+        content: "Why Reputation Is the Compounder",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Newer merchants are forced to quote tighter to win volume — sometimes 0.3% spreads. As your reputation score climbs and you accumulate verified trades, customers will pick you over a marginally cheaper newer merchant because they trust your settlement reliability. Within 6–9 months, reputable merchants typically operate at 0.6–0.8% spreads on the same volume, doubling their effective margin.",
+      },
+      {
+        type: "heading",
+        content: "Volume Tiers and Bond Sizing",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Bond size scales with the maximum single-trade volume you want to support. A $30K bond covers trades up to $10K. Most active merchants run bonds of $50–250K, supporting $20–80K single trades and $1–5M monthly volume. Your bond earns a baseline yield from the protocol's reserve mechanism, but the real return comes from the trades it unlocks.",
+      },
+      {
+        type: "callout",
+        content:
+          "Application requirements: a registered business, working capital for the bank leg, a verifiable bank account, and one full week of API integration before going live. We're invite-only through Q3 2026 — the form is at blip.money/merchant.",
+      },
+    ],
+  },
 ];

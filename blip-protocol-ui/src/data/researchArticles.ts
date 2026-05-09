@@ -1302,4 +1302,808 @@ export const researchArticles: ResearchArticle[] = [
       },
     ],
   },
+  {
+    id: "13",
+    slug: "on-chain-kyc-zk-compliance",
+    title: "On-Chain KYC: How Zero-Knowledge Proofs Will Transform Compliance",
+    excerpt:
+      "Compliance teams want to know who you are. Privacy advocates want them not to. Zero-knowledge identity proofs end the war by letting users prove eligibility without revealing the underlying identity.",
+    author: { name: "Blip Research", role: "Research Team" },
+    date: "2026-04-18",
+    category: "Security",
+    readTime: "11 min read",
+    coverImage:
+      "https://images.unsplash.com/photo-1614064548237-096d7b1f0bba?w=1200&h=630&fit=crop&q=80",
+    coverGradient: "from-red-500/20 via-neon-purple/10 to-transparent",
+    seo: {
+      title: "On-Chain KYC and Zero-Knowledge Proofs | Blip Research",
+      description:
+        "How zero-knowledge proofs allow users to prove KYC eligibility — age, residency, sanctions clearance — without exposing identity to dApps, merchants, or other users.",
+      keywords:
+        "on-chain KYC, zero-knowledge KYC, ZK identity, privacy compliance, decentralized identity, KYC blockchain",
+      canonical: "https://blip.money/research/on-chain-kyc-zk-compliance",
+    },
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "For a decade, on-chain identity was an oxymoron: blockchains are public, KYC data is private, and the only way to reconcile them was to NOT put the data on-chain. Zero-knowledge proofs collapse that contradiction. In 2026, the first wave of ZK-based credentials is letting users prove jurisdictional and sanctions-clearance status to dApps without revealing a name, passport, or wallet history.",
+      },
+      {
+        type: "heading",
+        content: "What ZK Lets You Prove",
+      },
+      {
+        type: "list",
+        content: "Common claims provable in zero-knowledge:",
+        items: [
+          "Age over 18 (or any threshold) without revealing date of birth",
+          "Residency in a specific jurisdiction without revealing the address",
+          "Not on any sanctions list without revealing the identity check itself",
+          "Holds a verified bank account without revealing the bank or balance",
+          "Has completed a Tier-2 KYC at any approved issuer, without disclosing which",
+        ],
+      },
+      {
+        type: "heading",
+        content: "How the Cryptography Works (in plain terms)",
+      },
+      {
+        type: "paragraph",
+        content:
+          "A trusted issuer — a licensed KYC provider, a government, a bank — signs a credential vouching for one fact about you. Your wallet generates a proof that the credential exists and meets the dApp's requirement, without revealing the credential itself. The dApp verifies the proof against the issuer's public key and accepts the user. The data never leaves your device.",
+      },
+      {
+        type: "heading",
+        content: "Why Regulators Are Quietly Excited",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Regulators in Switzerland, the UAE, and Singapore have indicated openness to ZK credentials because they preserve enforceability without forcing data hoards. A platform can demonstrate that 100% of its users were sanctions-screened without storing a single passport scan. That solves both compliance and breach-risk problems at once.",
+      },
+      {
+        type: "quote",
+        content:
+          "ZK doesn't ask compliance teams to trust users more. It asks them to need less data. That's the move that makes everyone safer.",
+      },
+      {
+        type: "heading",
+        content: "The Production Stack in 2026",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Polygon ID, zkPass, Worldcoin's Orb-attested credentials, and Aleo's program-level ZK are all live. On Solana, Light Protocol and the SPL credential standard are emerging primitives. We expect Blip to integrate ZK-credential checking for jurisdiction-specific corridors before the end of 2026 — letting a UAE-resident user prove residency for AED settlement without exposing the underlying ID.",
+      },
+      {
+        type: "callout",
+        content:
+          "If you're building a P2P or DeFi product, design for ZK credentials from day one. Retrofitting privacy into a system that has already collected raw KYC data is much harder than starting privacy-first.",
+      },
+    ],
+  },
+  {
+    id: "14",
+    slug: "stablecoin-trilemma-decentralization-stability-scale",
+    title: "The Stablecoin Trilemma: Decentralization, Stability, and Scale",
+    excerpt:
+      "Every stablecoin design picks two of three properties — decentralized, stable, and scalable — and compromises on the third. The trade-offs explain why USDT dominates and DAI doesn't.",
+    author: { name: "Blip Research", role: "Research Team" },
+    date: "2026-04-23",
+    category: "DeFi",
+    readTime: "10 min read",
+    coverImage:
+      "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1200&h=630&fit=crop&q=80",
+    coverGradient: "from-neon-purple/20 via-warm-gold/10 to-transparent",
+    seo: {
+      title: "The Stablecoin Trilemma: Decentralization, Stability, Scale | Blip Research",
+      description:
+        "An analytical framework for understanding stablecoin design. Why fiat-backed, crypto-collateralized, and algorithmic stablecoins each trade off one of decentralization, stability, or scale.",
+      keywords:
+        "stablecoin trilemma, USDT vs DAI, fiat-backed stablecoin, algorithmic stablecoin, stablecoin design, USDC analysis",
+      canonical: "https://blip.money/research/stablecoin-trilemma-decentralization-stability-scale",
+    },
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "Stablecoins are now the largest single segment of crypto by daily volume. With $200B+ in circulation across hundreds of designs, the field has stabilized into three archetypes — and each archetype trades off one of the three properties stablecoin users actually want.",
+      },
+      {
+        type: "heading",
+        content: "The Three Archetypes",
+      },
+      {
+        type: "list",
+        content: "",
+        items: [
+          "Fiat-backed (USDT, USDC): scalable + stable, sacrifices decentralization. A central issuer holds dollar reserves and can be sanctioned, frozen, or compelled to seize tokens.",
+          "Crypto-collateralized (DAI, LUSD, GHO): decentralized + stable, sacrifices scale. Capital efficiency caps growth — every $1 of stablecoin requires $1.50+ of locked crypto collateral.",
+          "Algorithmic (FRAX, dynamic supply systems): decentralized + scalable, historically sacrifices stability. Pure-algo designs (UST) collapsed; partial-collateral designs survive but never reach centralized scale.",
+        ],
+      },
+      {
+        type: "heading",
+        content: "Why USDT Won the Race for Now",
+      },
+      {
+        type: "paragraph",
+        content:
+          "USDT picked stable + scalable and accepted centralized custody. That's an unromantic answer to anyone who started in crypto for decentralization, but it's why USDT moves more dollars across borders today than Visa moves through retail. The trade-off is real — USDT addresses can be frozen — but the consumer demand for a stable instrument that just works overwhelmed the philosophical objection.",
+      },
+      {
+        type: "heading",
+        content: "The DAI Compromise",
+      },
+      {
+        type: "paragraph",
+        content:
+          "DAI evolved into a hybrid. The MakerDAO collateral basket now includes USDC, real-world asset (RWA) loans, and treasury bonds. That made DAI more scalable and more stable — but at the cost of the original 'fully decentralized' promise. The Maker community accepted the trade-off because the alternative was depegging during sharp ETH drawdowns.",
+      },
+      {
+        type: "quote",
+        content:
+          "There is no Pareto-optimal stablecoin. There are good designs for specific use cases — and choosing wrong by use case is more costly than choosing wrong on philosophy.",
+      },
+      {
+        type: "heading",
+        content: "What Comes Next",
+      },
+      {
+        type: "paragraph",
+        content:
+          "The frontier in 2026 is regulated, jurisdiction-specific stablecoins. AED-pegged tokens issued under VARA, EUR-pegged tokens under MiCA, and Singapore-domiciled SGD stablecoins are launching with reserve transparency, real-time attestations, and on-chain proof-of-reserves. They're scalable, stable, and locally-decentralized within their jurisdictional remit. The 'decentralization' axis is being redefined as 'censorship-proof within the rules' rather than 'permissionless globally'.",
+      },
+      {
+        type: "callout",
+        content:
+          "For payment infrastructure like Blip, the right stablecoin depends on the corridor. USDT for emerging-market reach. USDC for US-regulated touchpoints. AED-pegged regulated tokens for UAE-domestic settlement. We support all three — the user shouldn't have to think about which.",
+      },
+    ],
+  },
+  {
+    id: "15",
+    slug: "cross-chain-liquidity-solana-evm-bridges",
+    title: "Cross-Chain Liquidity: Bridging Solana to the EVM Ecosystem",
+    excerpt:
+      "Solana and Ethereum hold $400B+ between them, but moving liquidity between them is still hard. The 2026 bridge landscape, the security trade-offs, and what's actually production-ready.",
+    author: { name: "Blip Research", role: "Research Team" },
+    date: "2026-04-28",
+    category: "Infrastructure",
+    readTime: "12 min read",
+    coverImage:
+      "https://images.unsplash.com/photo-1639322537228-f710d846310a?w=1200&h=630&fit=crop&q=80",
+    coverGradient: "from-warm-gold/20 via-neon-purple/10 to-transparent",
+    seo: {
+      title: "Cross-Chain Liquidity: Solana to EVM Bridges in 2026 | Blip Research",
+      description:
+        "The 2026 state of cross-chain liquidity between Solana and Ethereum-compatible chains. Native bridges, intent-based architectures, and the security trade-offs that matter.",
+      keywords:
+        "cross-chain liquidity, Solana EVM bridge, Wormhole, deBridge, cross-chain security, intent-based bridges",
+      canonical: "https://blip.money/research/cross-chain-liquidity-solana-evm-bridges",
+    },
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "If Solana and Ethereum are the two largest production smart-contract platforms, the connection between them should be a solved problem. It isn't. Bridge security has been the largest single source of crypto loss historically — Ronin, Wormhole, Nomad, Multichain, between them, more than $3B in user funds. The 2026 landscape is materially safer, but the trust assumptions still differ wildly between bridge designs.",
+      },
+      {
+        type: "heading",
+        content: "The Three Bridge Architectures",
+      },
+      {
+        type: "list",
+        content: "",
+        items: [
+          "Lock-and-mint: assets are locked on the source chain, wrapped tokens minted on the destination. Trust is in the validator set holding the locked assets (Wormhole, Portal).",
+          "Liquidity network: liquidity providers on each chain take user funds in exchange for native assets on the other side. Trust is in the LP solvency and the rebalancing oracle (deBridge, Across).",
+          "Intent-based: users sign an intent ('I want X on chain B for Y on chain A'); a network of fillers competes to deliver, with proofs verified post-hoc. Trust shifts to the proof system, not the bridge operator (Across, Squid, UniswapX).",
+        ],
+      },
+      {
+        type: "heading",
+        content: "What's Production-Ready",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Wormhole's V2 with Native Token Transfers (NTT) is now the dominant lock-and-mint primitive between Solana and EVM, with a re-architected guardian set and per-corridor limits that cap blast radius. CCTP from Circle handles USDC natively across nine chains by burn-and-mint, eliminating wrapped tokens entirely. For instant intent settlement, Across has matured into the lowest-slippage option for sub-$1M transfers.",
+      },
+      {
+        type: "heading",
+        content: "Why Solana Liquidity Is Different",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Solana's account model means bridge designs that work on EVM don't drop in cleanly. Token accounts must be pre-created (associated token accounts), priority fees can spike during congestion, and SPL tokens follow different transfer semantics than ERC-20. Production bridges in 2026 handle this transparently, but it explains why bridge teams spend disproportionate engineering on the Solana side.",
+      },
+      {
+        type: "quote",
+        content:
+          "The safest bridge is the one that doesn't bridge. CCTP burns USDC on chain A and mints USDC on chain B — there's no escrow vault to compromise. That's the design pattern of the next decade.",
+      },
+      {
+        type: "heading",
+        content: "What This Means for Payment Infrastructure",
+      },
+      {
+        type: "paragraph",
+        content:
+          "For a payment platform like Blip, cross-chain flexibility means we can accept USDC on Ethereum, settle on Solana, and never expose the user to bridge risk by routing through CCTP. As intent-based architectures generalize beyond USDC to arbitrary token pairs, payment apps will increasingly become chain-agnostic — the user picks 'I want AED', and the back-end finds the cheapest path through whatever stablecoin and chain serves that corridor best.",
+      },
+      {
+        type: "callout",
+        content:
+          "Bridges should disappear from the user experience. In 2026, that means using CCTP for stablecoin moves, intent layers for arbitrary swaps, and never showing a chain-selection menu unless the user really wants one.",
+      },
+    ],
+  },
+  {
+    id: "16",
+    slug: "account-abstraction-on-solana-email-login-wallets",
+    title: "Account Abstraction on Solana: A Path to Email-Login Wallets",
+    excerpt:
+      "Solana doesn't have ERC-4337, but it has something arguably better. Native account abstraction primitives, social recovery, and email-login wallets are landing throughout 2026.",
+    author: { name: "Blip Research", role: "Research Team" },
+    date: "2026-05-03",
+    category: "Infrastructure",
+    readTime: "10 min read",
+    coverImage:
+      "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=1200&h=630&fit=crop&q=80",
+    coverGradient: "from-warm-gold/20 via-neon-cyan/10 to-transparent",
+    seo: {
+      title: "Account Abstraction on Solana: Email-Login Wallets | Blip Research",
+      description:
+        "How Solana's native account model enables account-abstraction features like email login, social recovery, and gasless transactions without an ERC-4337 equivalent.",
+      keywords:
+        "Solana account abstraction, email login wallet, social recovery, gasless transactions, smart wallets, Solana wallet UX",
+      canonical: "https://blip.money/research/account-abstraction-on-solana-email-login-wallets",
+    },
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "The dominant frustration in onboarding crypto users is the seed phrase. Twelve random words, lost forever if you misplace them, with no support hotline. Account abstraction solves this. On Ethereum, that means ERC-4337 and a complex bundler-paymaster ecosystem. On Solana, it means using the native primitives the chain already has.",
+      },
+      {
+        type: "heading",
+        content: "What Solana Already Provides Natively",
+      },
+      {
+        type: "list",
+        content: "Built into the runtime, not a separate standard:",
+        items: [
+          "Programmatic accounts (PDAs): smart-contract-controlled wallets with no seed phrase",
+          "Multi-signer transactions: a single transaction can carry multiple authorizations",
+          "Fee payer separation: any account can sponsor another's transaction fees",
+          "Durable nonces: pre-signed transactions that execute later without replay risk",
+          "Lookup tables: high-density transactions that compress into smaller signatures",
+        ],
+      },
+      {
+        type: "heading",
+        content: "How Email-Login Wallets Are Built",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Providers like Privy, Web3Auth, and Phantom Embedded use a multi-party computation (MPC) scheme. The user's email triggers an OAuth login that derives one share of a key; the provider holds another share; a third optional share lives in a recovery email or device. No single party can sign — but the user, with email + recovery, always can. The address looks and behaves like a regular Solana account, and any program treats it the same.",
+      },
+      {
+        type: "heading",
+        content: "Gasless Transactions",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Solana's fee-payer separation lets an app sponsor user transactions transparently. A user holding only USDC can pay 0 SOL — the app submits the transaction with itself as the fee payer, optionally collecting equivalent USDC from the user as part of the same transaction. This is how Blip can let a first-time user complete a trade with no SOL in their wallet.",
+      },
+      {
+        type: "heading",
+        content: "Social Recovery That Actually Works",
+      },
+      {
+        type: "paragraph",
+        content:
+          "On-chain social recovery has been theoretically possible on EVM for years; in practice, the gas overhead made it impractical for most users. Solana's cheap transactions make multi-guardian recovery cost less than a dollar. A wallet can be configured so that 2-of-3 designated guardians (a partner, a friend, a hardware key) can together rotate the wallet's authority. Used correctly, this is materially safer than seed phrases.",
+      },
+      {
+        type: "quote",
+        content:
+          "Account abstraction isn't a feature. It's a UX baseline. The wallets that don't ship it by 2027 will be the ones that haven't onboarded a non-crypto user in a year.",
+      },
+      {
+        type: "callout",
+        content:
+          "Builders: design your dApp UX assuming the user logs in with email and pays fees in USDC. Then add advanced wallet support for power users. Lead with the simple case.",
+      },
+    ],
+  },
+  {
+    id: "17",
+    slug: "game-theory-bonded-merchants-reputation",
+    title: "The Game Theory of Bonded Merchants: Reputation as Collateral",
+    excerpt:
+      "Why posting a bond and earning reputation creates a dynamic equilibrium where cheating is always worse than performing — even in a one-shot game.",
+    author: { name: "Blip Research", role: "Research Team" },
+    date: "2026-05-08",
+    category: "Payments",
+    readTime: "11 min read",
+    coverImage:
+      "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=1200&h=630&fit=crop&q=80",
+    coverGradient: "from-neon-mint/20 via-neon-cyan/10 to-transparent",
+    seo: {
+      title: "Game Theory of Bonded P2P Merchants | Blip Research",
+      description:
+        "A formal analysis of how bonded P2P marketplaces achieve incentive compatibility. Reputation, collateral, and why bonded merchants almost always perform.",
+      keywords:
+        "bonded merchant, P2P game theory, reputation systems, on-chain bond, incentive compatibility, marketplace economics",
+      canonical: "https://blip.money/research/game-theory-bonded-merchants-reputation",
+    },
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "Why does a bonded P2P merchant — someone with strong financial incentive to defect on a single trade — almost always perform? The answer comes from a classic result in game theory: when defection costs more than the gain, even a one-shot interaction has an equilibrium of cooperation.",
+      },
+      {
+        type: "heading",
+        content: "The Single-Trade Math",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Consider a $5,000 trade with a 0.7% spread ($35 profit) and a $30,000 bond. If the merchant defects — accepts USDC, fails to send AED — the maximum gain is $5,000 (the user's escrowed crypto, IF the merchant could exit before the dispute). The smart contract makes that impossible: the funds release on user confirmation, not on time. Defection's actual outcome is bond loss + reputation destruction. Expected payoff of defection: -$30,000+. Expected payoff of performing: +$35.",
+      },
+      {
+        type: "heading",
+        content: "Why It Generalizes",
+      },
+      {
+        type: "list",
+        content: "Even in single-shot interactions, the game converges to cooperation when:",
+        items: [
+          "Bond > expected gain from defection",
+          "Defection is observable and verifiable (on-chain proof)",
+          "Reputation has positive future value (more trades, better spreads)",
+          "Slashing the bond is automatic, not discretionary",
+          "Dispute resolution time < user's patience for new merchants",
+        ],
+      },
+      {
+        type: "heading",
+        content: "The Reputation Compounder",
+      },
+      {
+        type: "paragraph",
+        content:
+          "On Blip, reputation compounds. A merchant with 1,000 verified trades earns trust pricing — users will pay 0.2% more spread to trade with them. Over a year, the difference between a 0.4% spread merchant and a 0.7% spread merchant on $5M annual volume is $15,000. Defecting once destroys not just the bond but the future spread premium. The game's expected horizon shifts the calculus dramatically.",
+      },
+      {
+        type: "quote",
+        content:
+          "Reputation as collateral is more capital-efficient than bond as collateral. One scales with trust; the other costs the same dollar regardless of trust. Combine them and you get a market that polices itself.",
+      },
+      {
+        type: "heading",
+        content: "Why Pure Reputation Systems Fail",
+      },
+      {
+        type: "paragraph",
+        content:
+          "eBay-style reputation alone fails because reputations can be bought and sold. Marketplaces have observed sellers building reputation on small transactions, then defecting on a single large one for an outsized payoff. Bonded reputation breaks that attack: even with a perfect history, a defection costs more than any single trade's gain. The bond is the floor; reputation is the ceiling.",
+      },
+      {
+        type: "callout",
+        content:
+          "If you're designing any P2P marketplace, the bond + reputation pair is the most robust incentive structure available. Implementation matters — slashing must be automatic, observable, and disconnected from the marketplace's own discretion.",
+      },
+    ],
+  },
+  {
+    id: "18",
+    slug: "real-world-asset-tokenization-16-trillion-frontier",
+    title: "Real-World Asset Tokenization: The $16T Frontier Beyond DeFi",
+    excerpt:
+      "Treasuries, real estate, private credit, and commodities are migrating on-chain at $1B+ per month in 2026. The bottleneck is no longer technology — it's title-deed integration.",
+    author: { name: "Blip Research", role: "Research Team" },
+    date: "2026-05-13",
+    category: "DeFi",
+    readTime: "12 min read",
+    coverImage:
+      "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=1200&h=630&fit=crop&q=80",
+    coverGradient: "from-warm-gold/20 via-neon-mint/10 to-transparent",
+    seo: {
+      title: "Real-World Asset Tokenization in 2026 | Blip Research",
+      description:
+        "The $16 trillion RWA opportunity in 2026. How tokenized treasuries, real estate, and private credit are moving on-chain — and what's still bottlenecked.",
+      keywords:
+        "RWA tokenization, real-world assets, tokenized treasuries, tokenized real estate, on-chain credit, RWA market",
+      canonical: "https://blip.money/research/real-world-asset-tokenization-16-trillion-frontier",
+    },
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "RWAs — real-world assets brought on-chain — were a small experiment in 2022. By 2026, they are the second-largest growth category in DeFi after stablecoins. Tokenized US treasuries crossed $10B in early 2026; private credit on-chain crossed $4B; tokenized real estate is at $1.5B and accelerating. The total addressable market, depending who you read, is somewhere between $16T and $30T.",
+      },
+      {
+        type: "heading",
+        content: "What's Already Working",
+      },
+      {
+        type: "list",
+        content: "Production-grade RWA categories in 2026:",
+        items: [
+          "US Treasuries: BlackRock BUIDL, Franklin Templeton BENJI, Ondo USDY — combined $12B AUM",
+          "Private credit: Maple Finance, Centrifuge — predictable yields, institutional underwriting",
+          "Money market funds: WisdomTree's WIIA on Stellar, Securitize's S$BENJI on Ethereum",
+          "Commodities: PAX Gold, Tether Gold — together >$1B in tokenized gold",
+          "Tokenized stocks: Backed Finance's bSTOCKs, available 24/7 to non-US investors",
+        ],
+      },
+      {
+        type: "heading",
+        content: "Why Solana Is Quietly the RWA Winner",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Most RWA narrative coverage focuses on Ethereum because BUIDL launched there. But low gas costs, sub-second finality, and SPL token compliance extensions mean Solana is the better venue for retail-sized RWA distribution. Ondo, Centrifuge, and Maple have all launched parallel deployments. By volume of small-ticket trades ($100–$10K), Solana is already ahead.",
+      },
+      {
+        type: "heading",
+        content: "Where the Bottleneck Actually Is",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Technology is no longer the constraint. Custodial integration with title registries, escrow agents, and government records is. Tokenizing a Dubai apartment requires the Dubai Land Department to recognize the tokenized share as a legal property right. Some jurisdictions (Switzerland, Liechtenstein, the BVI, parts of the UAE) have explicit legal recognition. Most don't yet.",
+      },
+      {
+        type: "quote",
+        content:
+          "RWAs are the bridge that will move trillions of off-chain value on-chain. The bottleneck isn't blockchain — it's land registry and securities law. Solve those, and the rails are ready.",
+      },
+      {
+        type: "heading",
+        content: "What's Next: Composable Yield",
+      },
+      {
+        type: "paragraph",
+        content:
+          "The most interesting RWA frontier in 2026 is composable yield. A user holds tokenized treasuries earning 4%, deposits them as collateral in a DeFi protocol, borrows USDC, and uses the USDC for stablecoin payments via Blip. The treasuries continue to earn yield while the user has access to spending liquidity. That stack — yield + collateral + payments — is the killer app of programmable real-world value.",
+      },
+      {
+        type: "callout",
+        content:
+          "For payment infrastructure, RWAs change the question 'what stablecoin do you accept?' to 'what yield-bearing token can I send?'. Designs that route automatically across yield-bearing stablecoins will dominate the next cycle.",
+      },
+    ],
+  },
+  {
+    id: "19",
+    slug: "privacy-preserving-payments-zk-stablecoins",
+    title: "Privacy-Preserving Payments: When ZK Tech Meets Stablecoins",
+    excerpt:
+      "Public blockchains are great for audit, terrible for privacy. Stealth addresses, ZK-shielded transfers, and confidential transactions are starting to make stablecoin payments private without breaking compliance.",
+    author: { name: "Blip Research", role: "Research Team" },
+    date: "2026-05-18",
+    category: "Security",
+    readTime: "10 min read",
+    coverImage:
+      "https://images.unsplash.com/photo-1633265486064-086b219458ec?w=1200&h=630&fit=crop&q=80",
+    coverGradient: "from-red-500/20 via-neon-purple/10 to-transparent",
+    seo: {
+      title: "Privacy-Preserving Stablecoin Payments | Blip Research",
+      description:
+        "How zero-knowledge proofs, stealth addresses, and confidential transfers are bringing privacy to stablecoin payments without compromising regulatory compliance.",
+      keywords:
+        "private stablecoin payments, ZK stablecoins, confidential transfers, stealth addresses, payment privacy, ZK payments",
+      canonical: "https://blip.money/research/privacy-preserving-payments-zk-stablecoins",
+    },
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "When a user sends $10,000 USDT to a friend, the entire world can see it. Address, amount, timing — all public, forever. That's a fundamental property of public blockchains, and for most institutional adoption it's a feature. For everyday consumer payments, it's a privacy disaster. The tools to fix it are arriving.",
+      },
+      {
+        type: "heading",
+        content: "Three Privacy Layers",
+      },
+      {
+        type: "list",
+        content: "Different mechanisms protect different things:",
+        items: [
+          "Stealth addresses: each payment goes to a unique one-time address. Recipient identity is unlinkable across payments.",
+          "Confidential transfers: the AMOUNT is hidden. Sender, receiver, and timing are still visible, but the magnitude is encrypted.",
+          "Shielded pools: full ZK shielding of sender, receiver, and amount. Withdrawal back to a transparent address is the only public event.",
+        ],
+      },
+      {
+        type: "heading",
+        content: "What's Live in 2026",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Solana's Token-2022 standard ships native confidential transfers — amounts can be encrypted at the protocol level for any SPL token, including USDC. Light Protocol provides shielded pool functionality on Solana. On Ethereum, Aztec's mainnet relaunch in 2026 brings shielded ETH and shielded stablecoin payments to a production network. Privacy is no longer a niche — it's a checkbox.",
+      },
+      {
+        type: "heading",
+        content: "Compliance Without Surveillance",
+      },
+      {
+        type: "paragraph",
+        content:
+          "The hard part of private payments was always: how do regulators audit? The answer that's emerging is selective disclosure — the user holds a 'view key' that can prove specific properties of the transaction (this was a salary, this was a B2B payment, this was within sanctions limits) without revealing the rest. Switzerland's FINMA has signaled acceptance of this model; the EU's TFR2 includes provisions for proof-bound private transfers.",
+      },
+      {
+        type: "quote",
+        content:
+          "Privacy and compliance are not opposites. Compliance with surveillance is a 20th-century compromise. Compliance with cryptographic proof is the 21st-century replacement.",
+      },
+      {
+        type: "heading",
+        content: "Why This Matters for Payment Infrastructure",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Most B2B treasury teams will not move payments on-chain until amounts can be confidential. A supplier shouldn't see how much their competitor was paid. A customer shouldn't see a vendor's full receivable book. As confidential-transfer support becomes standard in stablecoin contracts, the gravitational pull on B2B settlement becomes much stronger.",
+      },
+      {
+        type: "callout",
+        content:
+          "The user shouldn't have to think about privacy. Default-private payments with selective auditability is the right design. The technology to deliver that is finally here.",
+      },
+    ],
+  },
+  {
+    id: "20",
+    slug: "decentralized-forex-aed-usdt-markets",
+    title: "Decentralized Forex: AED-USDT Markets Without an Intermediary",
+    excerpt:
+      "The traditional FX market is one of the most centralized in finance. AED-USDT pairs settled on Solana are quietly building the first credible decentralized FX layer.",
+    author: { name: "Blip Research", role: "Research Team" },
+    date: "2026-05-22",
+    category: "Payments",
+    readTime: "11 min read",
+    coverImage:
+      "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&h=630&fit=crop&q=80",
+    coverGradient: "from-neon-mint/20 via-warm-gold/10 to-transparent",
+    seo: {
+      title: "Decentralized Forex: On-Chain AED-USDT Markets | Blip Research",
+      description:
+        "How on-chain AED-USDT settlement is building a credible decentralized FX market. The economics, the volume, and what changes when forex doesn't need a bank.",
+      keywords:
+        "decentralized forex, on-chain FX, AED USDT, dFX, stablecoin forex, P2P FX market",
+      canonical: "https://blip.money/research/decentralized-forex-aed-usdt-markets",
+    },
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "Foreign exchange is a $7.5 trillion daily market dominated by a handful of banks acting as primary dealers. Retail FX is a fee-extraction business — your bank quotes you a rate 2-3% off the interbank market and pockets the spread. On-chain FX flips the architecture: the dealer is the smart contract, and the market is whoever bonds liquidity.",
+      },
+      {
+        type: "heading",
+        content: "Why AED-USDT First",
+      },
+      {
+        type: "paragraph",
+        content:
+          "The AED is pegged to USD at 3.6725, which makes the AED/USDT pair effectively a fixed-spread product. The settlement legs are simple: USDT moves on-chain, AED moves on UAE-domestic banking rails (instant). That makes it a perfect testbed for decentralized FX — the rate volatility is bounded, the settlement infrastructure is fast, and the regulatory environment (VARA) is friendly to crypto-fiat bridges.",
+      },
+      {
+        type: "heading",
+        content: "How It Works In Practice",
+      },
+      {
+        type: "list",
+        content: "On-chain dFX flow on the AED-USDT corridor:",
+        items: [
+          "Liquidity providers post AED bank capacity + USDT collateral",
+          "Users request quotes; LPs compete in real-time on rate",
+          "Best LP wins, escrows USDT vs the user's AED-bound order",
+          "Bank transfer initiates; on-chain confirmation releases USDT",
+          "LP earns the bid-ask spread on the trade, typically 0.4-0.9%",
+        ],
+      },
+      {
+        type: "heading",
+        content: "Volume in 2026",
+      },
+      {
+        type: "paragraph",
+        content:
+          "AED-USDT on-chain volume crossed $200M monthly across all venues in early 2026, growing roughly 18% month-over-month. The migration is from informal P2P (Telegram, Binance P2P) and Hawala into protocol-native venues with on-chain proof. Most of the volume is split between two clusters: remittance corridors (UAE-to-India, UAE-to-Pakistan) and B2B trade settlement.",
+      },
+      {
+        type: "quote",
+        content:
+          "FX without a primary dealer was supposed to be impossible. Stablecoins and bonded merchant networks made it routine. The interbank market should be paying attention.",
+      },
+      {
+        type: "heading",
+        content: "What Comes After",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Once AED-USDT is solved, the same architecture applies to any G20-pegged stablecoin pair. EUR-USDT, GBP-USDC, SGD-USDT all run on identical rails. The 2027 outlook: a continuous on-chain FX market, 24/7, with bonded LPs in every major corridor and quote latency in milliseconds. Banks will continue to dominate large interbank settlement; the long tail moves on-chain.",
+      },
+      {
+        type: "callout",
+        content:
+          "For protocol designers, the lesson is that bonded liquidity beats market-maker permissioned liquidity for retail-scale FX. The bond is the access pass; the rate is the competition; reputation is the moat.",
+      },
+    ],
+  },
+  {
+    id: "21",
+    slug: "solana-65k-tps-true-throughput",
+    title: "Solana at 65,000 TPS: What True Throughput Unlocks",
+    excerpt:
+      "Solana's throughput is no longer a benchmark talking point — it's a working capacity buffer that unlocks payment patterns Ethereum can't host. What 65,000 TPS actually changes.",
+    author: { name: "Blip Research", role: "Research Team" },
+    date: "2026-05-26",
+    category: "Infrastructure",
+    readTime: "9 min read",
+    coverImage:
+      "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1200&h=630&fit=crop&q=80",
+    coverGradient: "from-warm-gold/20 via-neon-mint/10 to-transparent",
+    seo: {
+      title: "Solana 65,000 TPS: What Real Throughput Unlocks | Blip Research",
+      description:
+        "Solana's actual throughput in 2026 — measured in real-world conditions, not benchmarks. What 65k TPS enables for payments, gaming, social, and high-frequency on-chain applications.",
+      keywords:
+        "Solana TPS, Solana throughput, high-throughput blockchain, Solana scalability, Firedancer, Solana payments",
+      canonical: "https://blip.money/research/solana-65k-tps-true-throughput",
+    },
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "Solana's TPS number has been a marketing punchline for years — the protocol claims 65,000 in theory and historically hit 2,000-4,000 in practice. In 2026, with Firedancer in production and quic-only transaction delivery, the realised throughput on mainnet is consistently in the 50,000-65,000 TPS range during peak loads. The number now matches the marketing.",
+      },
+      {
+        type: "heading",
+        content: "Why True Throughput Matters",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Throughput is not about handling a peak burst. It's about having a capacity buffer so wide that congestion never raises fees, queue times, or transaction failures. At 65,000 TPS sustained, Solana can handle the entire global card network's transaction volume — Visa averages 7,000 TPS, peaks at ~24,000. With 3x peak Visa headroom on Solana, payment apps can guarantee constant fees and constant settlement times under any traffic.",
+      },
+      {
+        type: "heading",
+        content: "What This Unlocks",
+      },
+      {
+        type: "list",
+        content: "Application patterns that didn't work at 2,000 TPS:",
+        items: [
+          "Real-time game economies (per-action on-chain state, not just outcomes)",
+          "Streaming payments (per-second salary, per-byte content payment)",
+          "On-chain order books with sub-second matching at retail scale",
+          "Per-tx attribution for ad networks (no batching delay)",
+          "Payment apps that don't need an off-chain orderbook layer",
+        ],
+      },
+      {
+        type: "heading",
+        content: "Firedancer: Why the Number Got Real",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Firedancer is Solana's second independent validator client, written in C++ by Jump Crypto. Released in 2025, it brought wire-format optimisations, lock-free networking, and CPU-aware transaction scheduling. Mainnet validators running Firedancer hit theoretical throughput consistently. With dual-client diversity now in production, Solana also reduced its single-client tail risk — a long-standing concern for institutional integrators.",
+      },
+      {
+        type: "quote",
+        content:
+          "Throughput as a constant — not a benchmark — is what changes how product teams design. You stop architecting around limits and start architecting around the user experience.",
+      },
+      {
+        type: "heading",
+        content: "What This Means for Payment Infrastructure",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Blip can confidently route every escrow lock, release, and dispute resolution on-chain. The previous architecture compromise — batch processing on busy days — is no longer required. Every trade is on-chain, atomically, with the same fee. That's a stronger guarantee than any traditional payment rail can offer.",
+      },
+      {
+        type: "callout",
+        content:
+          "For builders evaluating chains in 2026, the question is no longer 'can it handle our volume?'. It's 'does it sustain throughput when the rest of the network is also busy?'. Solana, with Firedancer, is the first L1 where the answer is unambiguously yes.",
+      },
+    ],
+  },
+  {
+    id: "22",
+    slug: "verifiable-credentials-spl-identity-programmable-money",
+    title: "Verifiable Credentials on SPL: Identity for Programmable Money",
+    excerpt:
+      "Programmable money needs programmable identity. SPL Verifiable Credentials are the missing primitive — letting smart contracts read credentials without knowing who you are.",
+    author: { name: "Blip Research", role: "Research Team" },
+    date: "2026-05-30",
+    category: "Security",
+    readTime: "10 min read",
+    coverImage:
+      "https://images.unsplash.com/photo-1633265486064-086b219458ec?w=1200&h=630&fit=crop&q=80",
+    coverGradient: "from-red-500/20 via-neon-cyan/10 to-transparent",
+    seo: {
+      title: "SPL Verifiable Credentials: Identity for Programmable Money | Blip Research",
+      description:
+        "How Solana's SPL Verifiable Credentials standard lets programs read identity claims privately. Use cases for jurisdictional payments, accredited investors, and KYC-bound compliance.",
+      keywords:
+        "verifiable credentials, SPL credentials, decentralized identity, on-chain identity, programmable identity, Solana KYC",
+      canonical: "https://blip.money/research/verifiable-credentials-spl-identity-programmable-money",
+    },
+    content: [
+      {
+        type: "paragraph",
+        content:
+          "Programmable money sounds powerful until you realize that 'programmable' just means 'can read on-chain state'. The gap between on-chain state and real-world identity has been the wall between DeFi and regulated finance. SPL Verifiable Credentials is Solana's answer — a standard for issuing, holding, and verifying identity claims with cryptographic proofs.",
+      },
+      {
+        type: "heading",
+        content: "What SPL VC Actually Provides",
+      },
+      {
+        type: "paragraph",
+        content:
+          "An issuer (a KYC provider, a government agency, a bank, an accredited-investor platform) creates a credential signed against an SPL credential schema. The user holds the credential as a metadata attachment to their wallet. A consuming program — a DeFi pool, a payment app, a token gate — verifies the credential's signature and claims without retrieving the underlying data. Selective disclosure is built in: the user reveals only the fields the program demands.",
+      },
+      {
+        type: "heading",
+        content: "Practical Use Cases",
+      },
+      {
+        type: "list",
+        content: "What you can do with VC primitives in 2026:",
+        items: [
+          "Jurisdiction-gated payments: only UAE-resident wallets can settle in regulated AED-stablecoins",
+          "Accredited-investor pools: only verified accredited investors can subscribe to tokenized credit",
+          "Age-gated tokens: NFT collections that enforce 18+ holders without storing IDs",
+          "Sanctions screening: every transfer privately verified against the latest sanctions list",
+          "Enterprise compliance: B2B treasury wallets that can prove KYB status to counterparties",
+        ],
+      },
+      {
+        type: "heading",
+        content: "Why This Beats Off-Chain Whitelist",
+      },
+      {
+        type: "paragraph",
+        content:
+          "The traditional pattern was off-chain whitelist: a centralised KYC operator maintains a list of approved addresses, and protocols query it. That's slow, centralised, and brittle. SPL VC moves the verification on-chain, lets multiple issuers compete, and gives the user portability — your KYC done at one issuer is recognised by every program that trusts that issuer's signing key.",
+      },
+      {
+        type: "heading",
+        content: "Privacy + Compliance, Together",
+      },
+      {
+        type: "paragraph",
+        content:
+          "VCs work hand-in-hand with ZK identity primitives. A user can prove they hold a 'sanctions-clear' credential without revealing which credential, which issuer, or what data was checked. Compliance teams get cryptographic proof of clearance. Users keep their data on their device. The protocol gets a passable transaction. Everyone wins, finally.",
+      },
+      {
+        type: "quote",
+        content:
+          "The future of identity isn't a giant database. It's a sea of small credentials, each signed by a trusted issuer, held by users, and verified on-demand. That's the architecture finance has been waiting for.",
+      },
+      {
+        type: "callout",
+        content:
+          "We expect Blip to integrate SPL VC for jurisdiction-bound corridors during 2026. Users will hold a residency credential that gates access to AED-pegged stablecoin settlement, with the underlying identity never leaving their wallet.",
+      },
+    ],
+  },
 ];

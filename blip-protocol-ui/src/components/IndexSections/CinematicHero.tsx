@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, memo } from "react";
 import { motion, useInView } from "framer-motion";
 import { useTheme } from "next-themes";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Tag } from "lucide-react";
 import { CTAButton } from "../Navbar";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -160,21 +160,43 @@ const CinematicHero = () => {
           </p>
         </motion.div>
 
-        {/* Lowest-rate promise */}
+        {/* Lowest-rate promise — two-line card with tag icon and orange halo */}
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: EASE, delay: 0.3 }}
           className="mb-9 flex justify-center"
         >
-          <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white text-black shadow-[0_4px_20px_rgba(0,0,0,0.18)]">
-            <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#ff6b35]">
-              Lowest rate. Always.
-            </span>
-            <span className="w-px h-3 bg-black/15" />
-            <span className="text-[13px] font-medium text-black/80">
-              Find cheaper. We'll go lower.
-            </span>
+          <div className="relative inline-block">
+            {/* Orange halo behind the card */}
+            <div
+              aria-hidden
+              className="absolute -inset-3 rounded-[28px] blur-2xl pointer-events-none opacity-70"
+              style={{
+                background:
+                  "radial-gradient(60% 80% at 50% 50%, rgba(255,107,53,0.35) 0%, transparent 70%)",
+              }}
+            />
+            <div
+              className="relative inline-flex items-center gap-3.5 px-5 py-3 rounded-2xl bg-white border border-[#ff6b35]/30"
+              style={{
+                boxShadow:
+                  "0 12px 40px -10px rgba(255,107,53,0.45), 0 4px 20px rgba(0,0,0,0.10)",
+              }}
+            >
+              {/* Price-tag chip */}
+              <div className="flex items-center justify-center w-9 h-9 rounded-xl shrink-0 bg-gradient-to-br from-[#ff8c50] to-[#ff6b35] shadow-[0_4px_12px_-2px_rgba(255,107,53,0.55)]">
+                <Tag className="w-4 h-4 text-white" strokeWidth={2.6} />
+              </div>
+              <div className="text-left">
+                <div className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#ff6b35] mb-0.5 leading-none">
+                  Lowest rate, guaranteed
+                </div>
+                <div className="text-[14px] font-semibold text-black tracking-tight leading-tight whitespace-nowrap">
+                  Find cheaper. We&apos;ll cut deeper.
+                </div>
+              </div>
+            </div>
           </div>
         </motion.div>
 
