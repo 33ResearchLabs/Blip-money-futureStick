@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Check, X, Search, RefreshCw } from "lucide-react";
+import { ArrowRight, Check, X, Search, RefreshCw, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SEO } from "@/components";
 import { CTAButton } from "@/components/Navbar";
@@ -274,23 +274,70 @@ const RateFinder = () => {
     });
   }, [values.direction, amt, blipRate, market, live.venues]);
 
+  // Quick saving estimate vs the worst competitor on the page (gives the
+  // hero a concrete savings claim instead of an abstract one).
+  const worstCompetitorRate = useMemo(() => {
+    const rates = competitorRows.map((c) => c.rate);
+    if (rates.length === 0) return null;
+    return values.direction === "buy" ? Math.max(...rates) : Math.min(...rates);
+  }, [competitorRows, values.direction]);
+  const youSaveVsWorst = useMemo(() => {
+    if (worstCompetitorRate == null || amt === 0) return null;
+    return values.direction === "buy"
+      ? (worstCompetitorRate - blipRate) * amt
+      : (blipRate - worstCompetitorRate) * amt;
+  }, [worstCompetitorRate, blipRate, amt, values.direction]);
+
   return (
     <section className="relative pt-24 pb-12 sm:pt-28 sm:pb-16 px-5 sm:px-6">
-      <div className="max-w-5xl mx-auto">
+      {/* Subtle hero backdrop */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-0"
+        style={{
+          background:
+            "radial-gradient(60% 50% at 50% 0%, rgba(255,107,53,0.08) 0%, transparent 70%), radial-gradient(50% 40% at 100% 30%, rgba(120,119,255,0.06) 0%, transparent 70%)",
+        }}
+      />
+
+      <div className="relative max-w-5xl mx-auto">
+        {/* Eyebrow pill */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: EASE }}
+          className="flex justify-center mb-6"
+        >
+          <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-black/[0.10] dark:border-white/[0.10] bg-white/70 dark:bg-white/[0.04] backdrop-blur">
+            <Sparkles className="w-3 h-3 text-[#ff6b35]" />
+            <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-black/65 dark:text-white/55">
+              Live · Comparing 4 venues
+            </span>
+          </span>
+        </motion.div>
+
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: EASE }}
-          className="text-center mb-10 sm:mb-12"
+          transition={{ duration: 0.8, delay: 0.05, ease: EASE }}
+          className="text-center mb-3"
         >
-          <span className="text-[11px] uppercase tracking-[0.3em] text-black/55 dark:text-white/40 font-semibold mb-3 block">
-            Live USDT Rates
-          </span>
-          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.05]">
-            Find the cheapest<br className="hidden sm:block" /> rate.
+          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.02]">
+            Always cheaper.<br className="hidden sm:block" />{" "}
+            <span className="text-black/55 dark:text-white/45">Anywhere you look.</span>
           </h1>
         </motion.div>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.7, delay: 0.18 }}
+          className="text-center text-base md:text-lg text-black/55 dark:text-white/50 max-w-xl mx-auto mb-10 sm:mb-12"
+        >
+          We aggregate every major P2P venue and undercut the best price on
+          every trade. Live numbers. Zero spread tricks.
+        </motion.p>
 
         {/* Search panel */}
         <motion.div
@@ -301,7 +348,7 @@ const RateFinder = () => {
           <SearchPanel values={values} onChange={setValues} />
         </motion.div>
 
-        {/* Status bar */}
+        {/* Status + savings bar */}
         <div className="mt-5 flex items-center justify-between text-[12px] gap-3">
           <div className="flex items-center gap-2 text-black/55 dark:text-white/50 min-w-0">
             {live.loading ? (
@@ -320,9 +367,20 @@ const RateFinder = () => {
               </>
             ) : null}
           </div>
-          <span className="text-black/40 dark:text-white/35 hidden sm:inline">
-            {competitorRows.length + 1} venues compared
-          </span>
+          {youSaveVsWorst != null && youSaveVsWorst > 0 ? (
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black text-white dark:bg-white dark:text-black">
+              <span className="text-[9px] font-bold uppercase tracking-[0.16em] text-[#ff6b35]">
+                You save
+              </span>
+              <span className="font-mono text-[12px] font-bold tabular-nums">
+                {formatRate(youSaveVsWorst, currency.digits, currency.symbol)}
+              </span>
+            </span>
+          ) : (
+            <span className="text-black/40 dark:text-white/35 hidden sm:inline">
+              {competitorRows.length + 1} venues compared
+            </span>
+          )}
         </div>
 
         {/* Results — Blip first then competitors */}
@@ -550,64 +608,64 @@ const ComparisonSection = () => {
           ))}
         </div>
 
-        {/* Desktop minimal table */}
-        <div className="hidden md:block rounded-3xl overflow-hidden bg-white dark:bg-white/[0.025] border border-black/[0.08] dark:border-white/[0.06]">
-          <div className="grid grid-cols-[1.6fr_1fr_1fr_1fr_1fr] px-7 py-4 bg-black/[0.025] dark:bg-white/[0.03] border-b border-black/[0.06] dark:border-white/[0.06]">
-            <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-black/55 dark:text-white/45">
-              Feature
-            </span>
-            <span className="text-center inline-flex items-center justify-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-black dark:text-white">
-              <svg viewBox="0 0 70 60" className="w-3.5 h-3.5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M4 36 L16 36 L25 8 L38 52 L47 28 L66 28" className="stroke-current" strokeWidth="9" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              Blip
-            </span>
-            <span className="text-center text-[11px] font-bold uppercase tracking-[0.14em] text-black/55 dark:text-white/45">
-              Binance P2P
-            </span>
-            <span className="text-center text-[11px] font-bold uppercase tracking-[0.14em] text-black/55 dark:text-white/45">
-              Paxful
-            </span>
-            <span className="text-center text-[11px] font-bold uppercase tracking-[0.14em] text-black/55 dark:text-white/45">
-              Direct P2P
-            </span>
+        {/* Desktop minimal table — Blip column is one continuous black band */}
+        <div className="hidden md:grid grid-cols-[1.6fr_1fr_1fr_1fr_1fr] rounded-3xl overflow-hidden bg-white dark:bg-white/[0.025] border border-black/[0.08] dark:border-white/[0.06]">
+          {/* HEADER ROW (5 cells) */}
+          <div className="px-7 py-5 bg-black/[0.025] dark:bg-white/[0.03] border-b border-black/[0.06] dark:border-white/[0.06] text-[11px] font-bold uppercase tracking-[0.16em] text-black/55 dark:text-white/45">
+            Feature
           </div>
-          {COMPARE_ROWS.map((row, i) => (
-            <motion.div
-              key={row.feature}
-              initial={{ opacity: 0, x: -8 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.4, delay: 0.05 + i * 0.03, ease: EASE }}
-              className={`grid grid-cols-[1.6fr_1fr_1fr_1fr_1fr] px-7 py-4 items-center ${i < COMPARE_ROWS.length - 1 ? "border-b border-black/[0.04] dark:border-white/[0.04]" : ""}`}
+          <div className="px-4 py-5 bg-black text-white text-center inline-flex items-center justify-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.18em]">
+            <svg viewBox="0 0 70 60" className="w-3.5 h-3.5" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 36 L16 36 L25 8 L38 52 L47 28 L66 28" stroke="white" strokeWidth="9" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            Blip
+          </div>
+          {[ "Binance P2P", "Paxful", "Direct P2P" ].map((label) => (
+            <div
+              key={label}
+              className="px-4 py-5 bg-black/[0.025] dark:bg-white/[0.03] border-b border-black/[0.06] dark:border-white/[0.06] text-center text-[11px] font-bold uppercase tracking-[0.14em] text-black/55 dark:text-white/45"
             >
-              <span className="text-[14px] font-semibold text-black dark:text-white">
-                {row.feature}
-              </span>
-              <div className="text-center px-2">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black text-white dark:bg-white dark:text-black">
-                  <Check className="w-3 h-3 text-[#ff6b35]" strokeWidth={3} />
-                  <span className="text-[12px] font-bold tabular-nums">
+              {label}
+            </div>
+          ))}
+
+          {/* DATA ROWS — Blip cells share continuous bg-black */}
+          {COMPARE_ROWS.map((row, i) => {
+            const isLast = i === COMPARE_ROWS.length - 1;
+            return (
+              <Fragment key={row.feature}>
+                {/* Feature label */}
+                <div
+                  className={`px-7 py-4 text-[14px] font-semibold text-black dark:text-white flex items-center ${isLast ? "" : "border-b border-black/[0.04] dark:border-white/[0.04]"}`}
+                >
+                  {row.feature}
+                </div>
+                {/* Blip cell — continuous black */}
+                <div className="px-4 py-4 bg-black text-white text-center flex items-center justify-center gap-1.5">
+                  <Check className="w-3.5 h-3.5 text-[#ff6b35] shrink-0" strokeWidth={3} />
+                  <span className="text-[13px] font-bold tabular-nums">
                     {row.blip.value}
                   </span>
                 </div>
-              </div>
-              {[row.binance, row.paxful, row.direct].map((c, idx) => (
-                <div key={idx} className="text-center px-2">
-                  <div className="inline-flex items-center gap-1.5">
+                {/* Competitor cells */}
+                {[row.binance, row.paxful, row.direct].map((c, idx) => (
+                  <div
+                    key={idx}
+                    className={`px-4 py-4 text-center flex items-center justify-center gap-1.5 ${isLast ? "" : "border-b border-black/[0.04] dark:border-white/[0.04]"}`}
+                  >
                     {c.good ? (
-                      <Check className="w-3 h-3 text-[#3ddc84]" strokeWidth={3} />
+                      <Check className="w-3 h-3 text-[#3ddc84] shrink-0" strokeWidth={3} />
                     ) : (
-                      <X className="w-3 h-3 text-black/30 dark:text-white/25" strokeWidth={3} />
+                      <X className="w-3 h-3 text-black/25 dark:text-white/25 shrink-0" strokeWidth={3} />
                     )}
                     <span className="text-[12px] text-black/65 dark:text-white/55 tabular-nums">
                       {c.value}
                     </span>
                   </div>
-                </div>
-              ))}
-            </motion.div>
-          ))}
+                ))}
+              </Fragment>
+            );
+          })}
         </div>
 
         <motion.div
