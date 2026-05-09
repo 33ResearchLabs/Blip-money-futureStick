@@ -2,6 +2,7 @@ import { memo } from "react";
 import { motion } from "framer-motion";
 import { Shield, CheckCircle2, FileText, Map, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { SwipeHint } from "./SwipeHint";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -47,8 +48,8 @@ const trustCards = [
 
 const TrustSection = () => {
   return (
-    <section className="relative py-24 md:py-36 bg-[#f5f5f7] dark:bg-[#111] overflow-hidden">
-      <div className="relative z-10 max-w-6xl mx-auto px-6">
+    <section className="relative py-20 md:py-36 bg-[#f5f5f7] dark:bg-[#111] overflow-hidden">
+      <div className="relative z-10 max-w-6xl mx-auto px-5 md:px-6">
         {/* Heading — Apple style: bold + muted subtext */}
         <motion.h2
           className="heading-h2 text-black dark:text-white"
@@ -61,15 +62,16 @@ const TrustSection = () => {
           Built to not break.
         </motion.h2>
 
-        {/* Apple Store-style grid: 1 large + 1 large on top, 2 smaller below */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* Mobile: horizontal snap-scroll. md+: 2-col grid. */}
+        <div className="relative">
+        <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-2 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {trustCards.map((card, i) => {
             const Icon = card.icon;
             const isLarge = i < 4;
             return (
               <div
                 key={card.title}
-                className={`group relative rounded-3xl overflow-hidden transition-transform duration-500 hover:scale-[1.01] ${
+                className={`snap-start shrink-0 w-[88%] md:w-auto group relative rounded-3xl overflow-hidden transition-transform duration-500 hover:scale-[1.01] ${
                   isLarge ? "min-h-[340px] sm:min-h-[380px]" : "min-h-[280px] sm:min-h-[300px]"
                 }`}
                 style={{
@@ -108,7 +110,7 @@ const TrustSection = () => {
                       {card.title}
                     </h3>
                     <p
-                      className="text-black/50 dark:text-white/45"
+                      className="text-black/70 dark:text-white/65"
                       style={{
                         fontSize: "15px",
                         lineHeight: 1.5,
@@ -135,6 +137,8 @@ const TrustSection = () => {
               </div>
             );
           })}
+        </div>
+        <SwipeHint />
         </div>
 
         {/* Bottom CTA */}

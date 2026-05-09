@@ -97,7 +97,8 @@ const AppShowcaseSection = () => {
           </motion.div>
 
           {/* ── RIGHT COLUMN — snap-scroll on mobile, 2×2 grid at md+ ── */}
-          <div className="md:col-span-7 -mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-2 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="md:col-span-7 relative">
+          <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-2 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {/* CARD 2 — Matching, purple */}
             <motion.div
               style={{
@@ -526,11 +527,13 @@ const AppShowcaseSection = () => {
             </motion.div>
           </div>
           <SwipeHint />
+          </div>
         </div>
 
         {/* ══════════════════════════════════════════════════════════
             ROW 2 — Three landscape cards (snap-scroll on mobile)
             ══════════════════════════════════════════════════════════ */}
+        <div className="relative">
         <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-3 gap-4 mt-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {/* Card 5 — Escrow / app-flow-3 */}
           <motion.div
@@ -898,6 +901,7 @@ const AppShowcaseSection = () => {
           </motion.div>
         </div>
         <SwipeHint />
+        </div>
       </div>
 
       {/* Bottom divider */}

@@ -605,15 +605,17 @@ const ProblemSection = () => {
         {/* ── 3 Problem Cards — Live animated data ──
             Mobile: Apple-style horizontal snap-scroll (cards peek at edges).
             md+ : 3-column grid as before. */}
-        <div
-          className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-3 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-          style={{ marginBottom: 16, scrollPaddingLeft: 20 }}
-        >
-          <div className="snap-start shrink-0 w-[85%] md:w-auto"><CostCard /></div>
-          <div className="snap-start shrink-0 w-[85%] md:w-auto"><WaitCard /></div>
-          <div className="snap-start shrink-0 w-[85%] md:w-auto"><TrackedCard /></div>
+        <div className="relative" style={{ marginBottom: 16 }}>
+          <div
+            className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-3 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            style={{ scrollPaddingLeft: 20 }}
+          >
+            <div className="snap-start shrink-0 w-[85%] md:w-auto"><CostCard /></div>
+            <div className="snap-start shrink-0 w-[85%] md:w-auto"><WaitCard /></div>
+            <div className="snap-start shrink-0 w-[85%] md:w-auto"><TrackedCard /></div>
+          </div>
+          <SwipeHint />
         </div>
-        <SwipeHint className="mb-6" />
 
         {/* ── The Fix — full-width cinematic card ── */}
         <motion.div
@@ -655,43 +657,33 @@ const ProblemSection = () => {
           />
 
           {/* Content */}
-          <div className="relative z-10 flex flex-col items-center justify-center text-center" style={{ padding: "64px 32px" }}>
-            <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: 24 }}>
+          <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 py-12 md:px-8 md:py-[64px]">
+            <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: 20 }}>
               The Fix
             </span>
-            <div style={{
-              fontSize: "clamp(2rem, 4vw, 3.2rem)",
-              fontWeight: 700,
-              letterSpacing: "-0.04em",
-              lineHeight: 1.1,
-              color: "rgba(255,255,255,0.5)",
-              marginBottom: 8,
-            }}>
+            <div className="text-[26px] sm:text-[32px] md:text-[3.2rem] font-bold tracking-tight leading-[1.1] mb-1.5 md:mb-2 text-white/50">
               This is not a payments app.
             </div>
-            <div style={{
-              fontSize: "clamp(2rem, 4vw, 3.2rem)",
-              fontWeight: 700,
-              letterSpacing: "-0.04em",
-              lineHeight: 1.1,
-              color: "#ffffff",
-              marginBottom: 40,
-            }}>
+            <div className="text-[26px] sm:text-[32px] md:text-[3.2rem] font-bold tracking-tight leading-[1.1] text-white mb-7 md:mb-10">
               This is a settlement layer.
             </div>
 
-            {/* Stats row */}
-            <div className="flex items-center gap-5 md:gap-16">
+            {/* Stats row — compact on mobile, spaced on desktop */}
+            <div className="grid grid-cols-3 gap-3 md:flex md:items-center md:gap-16 w-full max-w-[420px] md:max-w-none">
               {[
                 { val: "<60s", lbl: "Settlement" },
                 { val: "150+", lbl: "Merchants" },
                 { val: "On-chain", lbl: "Proof" },
               ].map((s, i) => (
-                <div key={s.lbl} className="flex items-center gap-5 md:gap-16">
-                  {i > 0 && <div className="w-px h-8 bg-white/10 -mx-2 md:-mx-5" />}
-                  <div className="text-center">
-                    <div className="text-2xl md:text-[28px] font-bold text-white tracking-tight" style={{ marginBottom: 4 }}>{s.val}</div>
-                    <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(255,255,255,0.3)" }}>{s.lbl}</div>
+                <div key={s.lbl} className="flex md:items-center md:gap-16">
+                  {i > 0 && <div className="hidden md:block w-px h-8 bg-white/10 -mx-5" />}
+                  <div className="text-center w-full">
+                    <div className="text-base sm:text-lg md:text-[28px] font-bold text-white tracking-tight mb-1 whitespace-nowrap">
+                      {s.val}
+                    </div>
+                    <div className="text-[9px] md:text-[10px] font-semibold uppercase tracking-[0.15em] text-white/40">
+                      {s.lbl}
+                    </div>
                   </div>
                 </div>
               ))}

@@ -52,12 +52,13 @@ const LiquidityLayer = () => {
         </div>
 
         {/* Stats row — key differences at a glance */}
+        <div className="relative mb-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.2, ease: EASE }}
-          className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-4 gap-4 mb-12 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-4 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {[
             { label: "Speed", old: "3–5 days", new: "< 60s" },
@@ -89,15 +90,64 @@ const LiquidityLayer = () => {
             </motion.div>
           ))}
         </motion.div>
-        <SwipeHint className="-mt-6 mb-8" />
+        <SwipeHint />
+        </div>
 
-        {/* Comparison table */}
+        {/* Comparison — table on md+, swipeable per-metric cards on mobile */}
+
+        {/* Mobile: per-metric snap-scroll cards */}
+        <div className="md:hidden relative">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.9, delay: 0.3, ease: EASE }}
+            className="-mx-5 px-5 flex gap-3 overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          >
+            {COMPARISONS.map((r) => (
+              <div
+                key={r.metric}
+                className="snap-start shrink-0 w-[80%] rounded-2xl p-5"
+                style={{
+                  background: isDark ? "rgba(255,255,255,0.03)" : "#ffffff",
+                  border: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.06)",
+                  boxShadow: isDark ? "none" : "0 2px 16px rgba(0,0,0,0.04)",
+                }}
+              >
+                <div className="text-[10px] font-bold uppercase tracking-[0.15em] mb-4" style={{ color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)" }}>
+                  {r.metric}
+                </div>
+                <div className="space-y-3">
+                  <div>
+                    <div className="text-[10px] uppercase tracking-wider mb-1" style={{ color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)" }}>
+                      Traditional
+                    </div>
+                    <div className="font-mono text-base font-medium line-through" style={{ color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.45)" }}>
+                      {r.traditional}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-[10px] uppercase tracking-wider mb-1" style={{ color: "#ff6b35" }}>
+                      Blip Protocol
+                    </div>
+                    <div className="font-mono text-base font-bold" style={{ color: isDark ? "#fff" : "#1d1d1f" }}>
+                      {r.blip}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+          <SwipeHint />
+        </div>
+
+        {/* Desktop: full comparison table */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.9, delay: 0.3, ease: EASE }}
-          className="rounded-2xl overflow-hidden"
+          className="hidden md:block rounded-2xl overflow-hidden"
           style={{
             background: isDark ? "rgba(255,255,255,0.03)" : "#ffffff",
             border: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.06)",
