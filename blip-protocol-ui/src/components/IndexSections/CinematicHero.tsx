@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef, memo } from "react";
 import { motion, useInView } from "framer-motion";
 import { useTheme } from "next-themes";
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 import { CTAButton } from "../Navbar";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -166,15 +168,27 @@ const CinematicHero = () => {
           transition={{ duration: 0.9, ease: EASE, delay: 0.38 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-10"
         >
-          <CTAButton to="/waitlist">
+          {/* Mobile: single oversized primary CTA */}
+          <Link
+            to="/waitlist"
+            className="sm:hidden group inline-flex items-center justify-center w-full max-w-[340px] py-4 px-6 rounded-full bg-white text-black text-[18px] font-semibold gap-2 shadow-[0_8px_28px_rgba(255,255,255,0.14)] active:scale-[0.98] transition-transform"
+          >
             Join as User
-          </CTAButton>
-          <CTAButton to="/waitlist" variant="secondary">
-            Provide Liquidity
-          </CTAButton>
-          <CTAButton to="/merchant" variant="secondary">
-            Accept Payments
-          </CTAButton>
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+          </Link>
+
+          {/* Desktop: three CTAs side by side */}
+          <div className="hidden sm:flex items-center justify-center gap-3">
+            <CTAButton to="/waitlist">
+              Join as User
+            </CTAButton>
+            <CTAButton to="/waitlist" variant="secondary">
+              Provide Liquidity
+            </CTAButton>
+            <CTAButton to="/merchant" variant="secondary">
+              Accept Payments
+            </CTAButton>
+          </div>
         </motion.div>
 
         {/* Stats */}

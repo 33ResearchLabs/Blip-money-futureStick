@@ -441,7 +441,7 @@ const ProtocolInterstitial = () => {
   return (
     <section className="relative overflow-hidden" style={{ background: isDark ? "#000000" : "#FAF8F5" }}>
       {/* Header */}
-      <div className="text-center" style={{ padding: "140px 24px 60px" }}>
+      <div className="text-center pt-20 px-5 pb-12 md:pt-[140px] md:px-6 md:pb-[60px]">
         <motion.p
           initial={{ opacity: 0, y: 8 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -507,8 +507,8 @@ const ProtocolInterstitial = () => {
           </div>
         </motion.div>
 
-        {/* Bottom row — 2 cards side by side */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Bottom row — Apple-style snap-scroll on mobile, 2-up grid at md+ */}
+        <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-2 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {FEATURES.slice(1).map((f, i) => {
             const Visual = i === 0 ? RatesVisual : ChainVisual;
             return (
@@ -519,7 +519,7 @@ const ProtocolInterstitial = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.7, delay: 0.1 + i * 0.1, ease: EASE }}
                 whileHover={{ y: -4 }}
-                className="rounded-[24px] overflow-hidden"
+                className="snap-start shrink-0 w-[88%] md:w-auto rounded-[24px] overflow-hidden"
                 style={{
                   background: isDark ? "#111" : "#ffffff",
                   border: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.06)",
@@ -579,7 +579,7 @@ function FeatureBlock({
   return (
     <div
       ref={blockRef}
-      style={{ padding: "80px 24px" }}
+      className="py-14 px-5 md:py-20 md:px-6"
     >
       <div className={`max-w-6xl mx-auto flex flex-col gap-12 md:gap-16 ${isEven ? "md:flex-row" : "md:flex-row-reverse"} md:items-center`}>
         {/* Text */}
