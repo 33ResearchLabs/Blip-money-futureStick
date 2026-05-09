@@ -464,11 +464,12 @@ const RateFinder = () => {
           every trade. Live numbers. Zero spread tricks.
         </motion.p>
 
-        {/* Search panel */}
+        {/* Search panel — narrower than the results column for visual focus */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1, ease: EASE }}
+          className="max-w-3xl mx-auto"
         >
           <SearchPanel values={values} onChange={setValues} />
         </motion.div>
