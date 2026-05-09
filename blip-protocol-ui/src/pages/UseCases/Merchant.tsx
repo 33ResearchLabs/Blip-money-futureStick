@@ -827,21 +827,29 @@ const RequirementsSection = () => {
       icon: Wallet,
       title: "Liquidity ready",
       text: "You can provide liquidity for at least one corridor.",
+      accent: "#ff6b35",
+      glow: "rgba(255,107,53,0.18)",
     },
     {
       icon: Zap,
       title: "Fast execution",
       text: "You respond quickly and complete trades reliably.",
+      accent: "#3ddc84",
+      glow: "rgba(61,220,132,0.18)",
     },
     {
       icon: FileCheck,
       title: "Basic verification",
       text: "Phone, email, and wallet — no full KYC during Beta.",
+      accent: "#3ec5ff",
+      glow: "rgba(62,197,255,0.18)",
     },
     {
       icon: Shield,
       title: "Policy compliant",
       text: "You follow trade rules and dispute policy.",
+      accent: "#7877ff",
+      glow: "rgba(120,119,255,0.18)",
     },
   ];
 
@@ -887,45 +895,39 @@ const RequirementsSection = () => {
             return (
               <motion.div
                 key={r.title}
-                initial={{ opacity: 0, y: 24 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.7, delay: 0.25 + i * 0.08, ease: [0.16, 1, 0.3, 1] }}
-                className="snap-start shrink-0 w-[88%] md:w-auto group relative rounded-2xl overflow-hidden bg-white dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] p-7 lift-on-hover"
+                initial={{ opacity: 0, y: 60 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.8, delay: i * 0.1 }}
+                className="snap-start shrink-0 w-[88%] md:w-auto group relative p-8 rounded-3xl text-center border border-black/[0.06] dark:border-white/[0.08] hover:border-black/20 dark:hover:border-white/20 duration-500 transition-colors"
+                style={{ background: "rgba(255, 255, 255, 0.02)" }}
               >
-                {/* Giant number watermark */}
-                <div
-                  aria-hidden
-                  className="absolute -top-4 -right-2 font-display font-semibold text-black/[0.04] dark:text-white/[0.05] select-none pointer-events-none"
-                  style={{ fontSize: 120, lineHeight: 1 }}
+                {/* Step number watermark */}
+                <span
+                  className="absolute top-4 right-4 text-4xl font-bold select-none"
+                  style={{ color: `${r.accent}26` }}
                 >
                   0{i + 1}
+                </span>
+
+                {/* Big colored icon panel, centered */}
+                <div
+                  className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 transition-all duration-500 group-hover:scale-105"
+                  style={{
+                    background: `linear-gradient(135deg, ${r.accent}26 0%, ${r.accent}0d 100%)`,
+                    border: `1px solid ${r.accent}33`,
+                    boxShadow: `0 8px 24px -8px ${r.glow}`,
+                  }}
+                >
+                  <Icon className="w-7 h-7" style={{ color: r.accent }} strokeWidth={2.2} />
                 </div>
 
-                <div className="relative z-10">
-                  {/* Icon in gradient circle */}
-                  <div
-                    className="w-11 h-11 rounded-xl flex items-center justify-center mb-5 transition-all duration-500 group-hover:scale-[1.08]"
-                    style={{
-                      background:
-                        "linear-gradient(135deg, rgba(255,107,53,0.12), rgba(255,107,53,0.04))",
-                      border: "1px solid rgba(255,107,53,0.18)",
-                    }}
-                  >
-                    <Icon className="w-5 h-5 text-[#ff6b35]" />
-                  </div>
-
-                  <div className="flex items-baseline gap-3 mb-2">
-                    <span className="text-[10px] font-mono text-black/30 dark:text-white/30 tabular-nums">
-                      0{i + 1}
-                    </span>
-                    <h3 className="text-lg font-semibold text-black dark:text-white tracking-tight">
-                      {r.title}
-                    </h3>
-                  </div>
-                  <p className="text-sm text-black/60 dark:text-white/50 leading-relaxed pl-7">
-                    {r.text}
-                  </p>
-                </div>
+                <h3 className="text-lg font-semibold text-black/80 dark:text-white/85 mb-2 tracking-tight">
+                  {r.title}
+                </h3>
+                <p className="text-sm font-medium text-black/55 dark:text-white/55 leading-relaxed">
+                  {r.text}
+                </p>
               </motion.div>
             );
           })}

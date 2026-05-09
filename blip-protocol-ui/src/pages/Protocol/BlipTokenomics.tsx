@@ -366,15 +366,37 @@ const UtilitySection = () => {
       title: "Cashback",
       icon: RefreshCw,
       desc: "Instant rewards on every transaction.",
+      accent: "#ff6b35",
+      glow: "rgba(255,107,53,0.18)",
     },
     {
       title: "Merchants",
       icon: ShoppingBag,
       desc: "0% partner fees for holders.",
+      accent: "#3ddc84",
+      glow: "rgba(61,220,132,0.18)",
     },
-    { title: "Discounts", icon: Percent, desc: "Reduced trading fees." },
-    { title: "Staking", icon: Layers, desc: "Yield multiplier rewards." },
-    { title: "Liquidity", icon: Activity, desc: "Market maker incentives." },
+    {
+      title: "Discounts",
+      icon: Percent,
+      desc: "Reduced trading fees.",
+      accent: "#3ec5ff",
+      glow: "rgba(62,197,255,0.18)",
+    },
+    {
+      title: "Staking",
+      icon: Layers,
+      desc: "Yield multiplier rewards.",
+      accent: "#7877ff",
+      glow: "rgba(120,119,255,0.18)",
+    },
+    {
+      title: "Liquidity",
+      icon: Activity,
+      desc: "Market maker incentives.",
+      accent: "#f5b54f",
+      glow: "rgba(245,181,79,0.18)",
+    },
   ];
 
   return (
@@ -424,31 +446,34 @@ const UtilitySection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8, delay: i * 0.1 }}
-              className="snap-start shrink-0 w-[80%] md:w-auto group relative p-8 rounded-3xl min-h-[280px] flex flex-col justify-between overflow-hidden border border-black/[0.06] dark:border-white/[0.06] hover:border-black/20 dark:hover:border-white/20 transition-colors duration-500 ease-out
- "
-              style={{
-                background: "rgba(255, 255, 255, 0.02)",
-                // border: "1px solid rgba(255, 255, 255, 0.05)",
-              }}
+              className="snap-start shrink-0 w-[80%] md:w-auto group relative p-8 rounded-3xl text-center border border-black/[0.06] dark:border-white/[0.08] hover:border-black/20 dark:hover:border-white/20 duration-500 transition-colors"
+              style={{ background: "rgba(255, 255, 255, 0.02)" }}
               onMouseEnter={() => sounds.hover()}
             >
-              {/* Hover glow */}
-              <div className="absolute -top-10 -right-10 w-32 h-32 bg-black/[0.10] opacity-0 group-hover:opacity-[0.08] blur-[40px] rounded-full transition-opacity duration-500" />
+              <span
+                className="absolute top-4 right-4 text-4xl font-bold select-none"
+                style={{ color: `${utility.accent}26` }}
+              >
+                0{i + 1}
+              </span>
 
-              <div className="relative z-10">
-                <div className="mb-8 text-black/40 dark:text-white/40 group-hover:text-black dark:group-hover:text-white transition-colors duration-500">
-                  <utility.icon className="w-8 h-8" strokeWidth={1.5} />
-                </div>
-                <h3 className="text-2xl font-light text-black dark:text-white mb-3">
-                  {utility.title}
-                </h3>
-                <p className="text-sm text-black/80 dark:text-white/50">
-                  {utility.desc}
-                </p>
+              <div
+                className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 transition-all duration-500 group-hover:scale-105"
+                style={{
+                  background: `linear-gradient(135deg, ${utility.accent}26 0%, ${utility.accent}0d 100%)`,
+                  border: `1px solid ${utility.accent}33`,
+                  boxShadow: `0 8px 24px -8px ${utility.glow}`,
+                }}
+              >
+                <utility.icon className="w-7 h-7" style={{ color: utility.accent }} strokeWidth={2.2} />
               </div>
 
-              {/* Accent line */}
-              <div className="w-8 h-[2px] bg-black/20 dark:bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <h3 className="text-lg font-semibold text-black/80 dark:text-white/85 mb-2 tracking-tight">
+                {utility.title}
+              </h3>
+              <p className="text-sm font-medium text-black/55 dark:text-white/55 leading-relaxed">
+                {utility.desc}
+              </p>
             </motion.div>
           ))}
         </div>
