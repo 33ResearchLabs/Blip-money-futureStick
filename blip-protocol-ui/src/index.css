@@ -2642,11 +2642,24 @@ html {
   font-feature-settings: "kern" 1, "liga" 1, "ss01" 1, "cv01" 1;
 }
 
-/* `.force-light` — override dark-mode utilities for a section even when the
-   page is rendered in dark mode. Add to the outer <section> or wrapper.
-   Uses !important to outrank Tailwind's compiled `.dark .dark:X { ... }`
-   selectors. Covers the most common dark utilities used across this codebase. */
+/* `.force-light` — pin a section to a light look even when the page is
+   in dark mode. Overrides BOTH unconditional dark utilities (bg-black,
+   text-white, etc.) AND `.dark:` variants, with `!important` so it
+   outranks Tailwind's compiled `.dark .dark:X { ... }` rules. */
 .force-light { color-scheme: light; background-color: #FAF8F5; color: #1d1d1f; }
+
+/* Backgrounds — base utilities that hard-code a dark color get flipped
+   to white inside a force-light section. Pair with text-white overrides
+   below so the cards stay readable. */
+.force-light .bg-black,
+.force-light .bg-\[\#0a0a0a\],
+.force-light .bg-\[\#050505\],
+.force-light .bg-\[\#111\],
+.force-light .bg-\[\#1a1a1a\],
+.force-light .bg-neutral-800,
+.force-light .bg-neutral-900 { background-color: #ffffff !important; }
+
+/* Backgrounds — `dark:` variants (only fire in dark mode) */
 .force-light .dark\:bg-black,
 .force-light .dark\:bg-\[\#0a0a0a\],
 .force-light .dark\:bg-\[\#050505\],
@@ -2659,22 +2672,64 @@ html {
 .force-light .dark\:bg-white\/\[0\.05\],
 .force-light .dark\:bg-white\/5 { background-color: #ffffff !important; }
 .force-light .dark\:bg-white\/10 { background-color: rgba(0,0,0,0.04) !important; }
+
+/* Text — base white utilities (when a card was meant to be white-on-dark
+   but we've flipped the card bg to light, the text needs to flip too) */
+.force-light .text-white { color: #1d1d1f !important; }
+.force-light .text-white\/12 { color: rgba(0,0,0,0.25) !important; }
+.force-light .text-white\/25 { color: rgba(0,0,0,0.4) !important; }
+.force-light .text-white\/30 { color: rgba(0,0,0,0.45) !important; }
+.force-light .text-white\/35 { color: rgba(0,0,0,0.5) !important; }
+.force-light .text-white\/40 { color: rgba(0,0,0,0.5) !important; }
+.force-light .text-white\/45 { color: rgba(0,0,0,0.55) !important; }
+.force-light .text-white\/50 { color: rgba(0,0,0,0.55) !important; }
+.force-light .text-white\/55 { color: rgba(0,0,0,0.6) !important; }
+.force-light .text-white\/60 { color: rgba(0,0,0,0.6) !important; }
+.force-light .text-white\/65 { color: rgba(0,0,0,0.65) !important; }
+.force-light .text-white\/70 { color: rgba(0,0,0,0.7) !important; }
+.force-light .text-white\/80 { color: rgba(0,0,0,0.8) !important; }
+.force-light .text-white\/85 { color: rgba(0,0,0,0.85) !important; }
+.force-light .text-white\/90 { color: rgba(0,0,0,0.9) !important; }
+
+/* Faint white backgrounds used for chips, slider tracks, icon halos —
+   re-tinted to faint dark so they're still visible on the flipped white card */
+.force-light .bg-white\/5,
+.force-light .bg-white\/8,
+.force-light .bg-white\/10 { background-color: rgba(0,0,0,0.06) !important; }
+.force-light .bg-white\/15,
+.force-light .bg-white\/20 { background-color: rgba(0,0,0,0.08) !important; }
+
+/* Solid bg-white (e.g. slider thumbs sitting on a now-white card) needs
+   to flip to a contrasting fill so it stays visible */
+.force-light .bg-white\.shadow-lg,
+.force-light [class~="bg-white"][class~="shadow-lg"] { background-color: #1d1d1f !important; }
+
+/* Text — `dark:` variants */
 .force-light .dark\:text-white { color: #1d1d1f !important; }
-.force-light .dark\:text-white\/30 { color: rgba(0,0,0,0.3) !important; }
-.force-light .dark\:text-white\/35 { color: rgba(0,0,0,0.35) !important; }
-.force-light .dark\:text-white\/40 { color: rgba(0,0,0,0.4) !important; }
-.force-light .dark\:text-white\/45 { color: rgba(0,0,0,0.45) !important; }
-.force-light .dark\:text-white\/50 { color: rgba(0,0,0,0.5) !important; }
-.force-light .dark\:text-white\/55 { color: rgba(0,0,0,0.55) !important; }
+.force-light .dark\:text-white\/30 { color: rgba(0,0,0,0.45) !important; }
+.force-light .dark\:text-white\/35 { color: rgba(0,0,0,0.5) !important; }
+.force-light .dark\:text-white\/40 { color: rgba(0,0,0,0.55) !important; }
+.force-light .dark\:text-white\/45 { color: rgba(0,0,0,0.55) !important; }
+.force-light .dark\:text-white\/50 { color: rgba(0,0,0,0.55) !important; }
+.force-light .dark\:text-white\/55 { color: rgba(0,0,0,0.6) !important; }
 .force-light .dark\:text-white\/60 { color: rgba(0,0,0,0.6) !important; }
 .force-light .dark\:text-white\/65 { color: rgba(0,0,0,0.65) !important; }
 .force-light .dark\:text-white\/70 { color: rgba(0,0,0,0.7) !important; }
 .force-light .dark\:text-white\/80 { color: rgba(0,0,0,0.8) !important; }
+
+/* Borders — base white + dark variants */
+.force-light .border-white\/10,
+.force-light .border-white\/\[0\.06\],
+.force-light .border-white\/\[0\.08\],
+.force-light .border-white\/15,
+.force-light .border-white\/20,
 .force-light .dark\:border-white\/\[0\.06\],
 .force-light .dark\:border-white\/\[0\.08\],
 .force-light .dark\:border-white\/10,
 .force-light .dark\:border-white\/15,
-.force-light .dark\:border-white\/20 { border-color: rgba(0,0,0,0.08) !important; }
+.force-light .dark\:border-white\/20 { border-color: rgba(0,0,0,0.10) !important; }
+
+/* Gradients */
 .force-light .dark\:via-white\/10,
 .force-light .dark\:via-white\/5 { --tw-gradient-via: rgba(0,0,0,0.06) !important; }
 .force-light .dark\:from-\[\#111\],

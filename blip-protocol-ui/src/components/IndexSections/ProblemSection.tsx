@@ -599,7 +599,7 @@ const ProblemSection = () => {
               display: "block",
             }}
           >
-            P2P today
+            P2P payments
           </span>
           {/* <span
             style={{
