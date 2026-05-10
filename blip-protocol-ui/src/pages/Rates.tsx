@@ -275,7 +275,7 @@ const SearchPanel = ({
   onChange: (v: SearchValues) => void;
 }) => {
   return (
-    <div className="rounded-3xl bg-white dark:bg-white/[0.04] border border-black/[0.08] dark:border-white/[0.08] overflow-hidden shadow-[0_2px_30px_rgba(0,0,0,0.08)]">
+    <div className="rounded-3xl bg-white dark:bg-white/[0.04] border border-black/[0.08] dark:border-white/[0.08] shadow-[0_2px_30px_rgba(0,0,0,0.08)]">
       <div className="grid grid-cols-1 md:grid-cols-[1.6fr_1fr_auto] divide-y md:divide-y-0 md:divide-x divide-black/[0.07] dark:divide-white/[0.07]">
         {/* Amount + Buy/Sell selector inline (p2prate-style) */}
         <label className="block px-5 py-4 hover:bg-black/[0.015] dark:hover:bg-white/[0.02] transition-colors cursor-text">
