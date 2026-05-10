@@ -12,7 +12,7 @@
 // highest ask is a thin-tail outlier, not a buy bid.
 //
 // GET /api/p2p-rates?fiat=INR&tradeType=BUY&amount=100
-//   - fiat: INR | AED | PHP | PKR
+//   - fiat: INR | AED | PHP | THB | USD
 //   - tradeType: BUY | SELL  (direction is the user's perspective)
 //   - amount: optional filter for ads with sufficient size
 //
@@ -128,7 +128,7 @@ export default async function handler(req: Request): Promise<Response> {
   const rawType = (url.searchParams.get("tradeType") ?? "BUY").toUpperCase();
   const tradeType: TradeType = rawType === "SELL" ? "SELL" : "BUY";
 
-  const supported = ["INR", "AED", "PHP", "PKR", "USD"];
+  const supported = ["INR", "AED", "PHP", "THB", "USD"];
   if (!supported.includes(fiat)) {
     return new Response(
       JSON.stringify({ error: "unsupported fiat", venues: [], mid: null }),

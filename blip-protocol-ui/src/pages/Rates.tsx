@@ -33,7 +33,7 @@ const CURRENCIES: Currency[] = [
   { code: "INR", flag: "🇮🇳", name: "Indian Rupee", fallbackMid: 99.5, digits: 2, symbol: "₹" },
   { code: "AED", flag: "🇦🇪", name: "UAE Dirham", fallbackMid: 3.6735, digits: 4, symbol: "د.إ " },
   { code: "PHP", flag: "🇵🇭", name: "Philippine Peso", fallbackMid: 56.4, digits: 2, symbol: "₱" },
-  { code: "PKR", flag: "🇵🇰", name: "Pakistani Rupee", fallbackMid: 278.5, digits: 2, symbol: "₨" },
+  { code: "THB", flag: "🇹🇭", name: "Thai Baht", fallbackMid: 35.4, digits: 2, symbol: "฿" },
   { code: "USD", flag: "🇺🇸", name: "US Dollar", fallbackMid: 1.001, digits: 4, symbol: "$" },
 ];
 
