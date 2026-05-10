@@ -576,7 +576,7 @@ const SecuritySection = () => {
   return (
     <section
       ref={ref}
-      className="force-light relative md:py-40 py-12 bg-[#FAF8F5] dark:bg-black overflow-hidden"
+      className="force-light relative md:py-40 py-12 bg-[#FAF8F5] overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
@@ -627,10 +627,10 @@ const SecuritySection = () => {
               transition={{ duration: 1 }}
               className="mb-12"
             >
-              <span className="text-[11px] uppercase tracking-[0.3em] text-black/70 dark:text-white/30 mb-6 block font-semibold">
+              <span className="text-[11px] uppercase tracking-[0.3em] text-black/70 mb-6 block font-semibold">
                 Security Model
               </span>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black tracking-tight leading-[1.1] mb-6">
                 Cryptographic
                 <br />
                 <span className="inline-block mt-1 px-3 py-0.5 rounded-md">
@@ -647,13 +647,13 @@ const SecuritySection = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
                   transition={{ duration: 0.6, delay: i * 0.1 }}
-                  className="group p-6 rounded-2xl transition-all duration-300 hover:bg-black/[0.02] dark:hover:bg-white/[0.02]"
+                  className="group p-6 rounded-2xl transition-all duration-300 hover:bg-black/[0.02]"
                   onMouseEnter={() => sounds.hover()}
                 >
-                  <h3 className="text-lg font-semibold text-black/70 dark:text-white/70 mb-2 group-hover:text-black dark:group-hover:text-white transition-colors">
+                  <h3 className="text-lg font-semibold text-black/70 mb-2 group-hover:text-black transition-colors">
                     {pillar.title}
                   </h3>
-                  <p className="text-sm font-medium text-black/50 dark:text-white/50">
+                  <p className="text-sm font-medium text-black/50">
                     {pillar.desc}
                   </p>
                 </motion.div>
@@ -693,7 +693,7 @@ const OrderTypesSection = () => {
   ];
 
   return (
-    <section className="force-light relative md:py-40 py-12 bg-[#FAF8F5] dark:bg-black">
+    <section className="force-light relative md:py-40 py-12 bg-[#FAF8F5]">
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
         <motion.div
@@ -703,10 +703,10 @@ const OrderTypesSection = () => {
           transition={{ duration: 1 }}
           className="text-center mb-20"
         >
-          <span className="text-[11px] uppercase tracking-[0.3em] text-black/70 dark:text-white/30 mb-6 block font-semibold">
+          <span className="text-[11px] uppercase tracking-[0.3em] text-black/70 mb-6 block font-semibold">
             Order Types
           </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1]">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black tracking-tight leading-[1.1]">
             Multiple
             <br />
             <span className="inline-block mt-1  px-3 py-0.5 rounded-md">
