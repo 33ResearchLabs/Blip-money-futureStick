@@ -313,7 +313,7 @@ const SearchPanel = ({
               inputMode="decimal"
               value={values.amount}
               onChange={(e) => onChange({ ...values, amount: e.target.value })}
-              placeholder="100"
+              placeholder="1000"
               className="w-full bg-transparent border-0 focus:outline-none font-display text-2xl md:text-3xl font-semibold text-black dark:text-white tracking-tight tabular-nums placeholder:text-black/25 dark:placeholder:text-white/25"
             />
             <span className="text-sm font-semibold text-black/55 dark:text-white/45">
@@ -352,7 +352,7 @@ const SearchPanel = ({
 
 const RateFinder = () => {
   const [values, setValues] = useState<SearchValues>({
-    amount: "100",
+    amount: "1000",
     currencyCode: "INR",
     direction: "sell",
   });
