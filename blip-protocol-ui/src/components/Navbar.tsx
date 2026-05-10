@@ -29,7 +29,6 @@ export const Navbar = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const bannerHeight = useBannerHeight();
-  const isBlipRates = location.pathname.startsWith("/blip-rates");
 
   const { scrollY } = useScroll();
   const lastScrollY = useRef(0);
@@ -100,16 +99,14 @@ export const Navbar = () => {
             </div>
 
             <div className="hidden lg:flex items-center gap-3">
-              <ThemeSwitcher />
               {isAuthenticated ? (
                 <CTAButton to="/dashboard">Dashboard</CTAButton>
-              ) : isBlipRates ? null : (
+              ) : (
                 <CTAButton to="/waitlist">Join Waitlist</CTAButton>
               )}
             </div>
 
             <div className="flex gap-2 lg:hidden">
-              <ThemeSwitcher />
               <button
                 onClick={() => setMobileMenuOpen((prev) => !prev)}
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
@@ -350,7 +347,6 @@ const MobileMenu = memo(({
   const navigate = useNavigate();
   const location = useLocation();
   const bannerH = useBannerHeight();
-  const isBlipRates = location.pathname.startsWith("/blip-rates");
 
   if (!isOpen) return null;
 
@@ -399,8 +395,8 @@ const MobileMenu = memo(({
           ))}
         </div>
 
-        {(isAuthenticated || !isBlipRates) && (
-          <div className="p-4 border-t border-black/5 dark:border-white/5 space-y-2">
+        {/* mobile nav footer — always rendered now that rates moved to p2prate.live */}
+        <div className="p-4 border-t border-black/5 dark:border-white/5 space-y-2">
             {isAuthenticated ? (
               <a
                 href="/dashboard"
@@ -419,7 +415,6 @@ const MobileMenu = memo(({
               </a>
             )}
           </div>
-        )}
       </div>
     </>
   );

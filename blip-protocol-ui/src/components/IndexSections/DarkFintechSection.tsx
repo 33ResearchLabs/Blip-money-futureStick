@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { Globe, ChevronDown, Check, Home, Zap, MessageCircle, Activity, User } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const TABS = [
   { key: "home", Icon: Home, label: "Home" },
@@ -1051,7 +1052,7 @@ function ProtocolLockShot({ show }: { show: boolean }) {
    MAIN COMPONENT
    ═══════════════════════════════════════════════════════════════ */
 
-function PremiumFintechSection() {
+function DesktopFlow() {
   const [stage, setStage] = useState<Stage>("sendUsdt");
   const [animKey, setAnimKey] = useState(0);
   const [animDone, setAnimDone] = useState(false);
@@ -2210,6 +2211,65 @@ function PremiumFintechSection() {
       </AnimatePresence>
     </section>
   );
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MOBILE FALLBACK — static, no autoplay/blurs/AnimatePresence.
+   The desktop slideshow can hang weak phones (heavy blurs + 22s
+   autoplay timeline). On <768px we render a simple swipeable list.
+   ═══════════════════════════════════════════════════════════════ */
+function MobileFlow() {
+  return (
+    <section className="relative bg-[#FAF8F5] dark:bg-black overflow-hidden py-20">
+      <div className="px-5 mb-10">
+        <div className="text-center">
+          <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-black/40 dark:text-white/40">
+            How it works
+          </span>
+        </div>
+        <h2 className="text-center heading-h2 leading-[1.05] mt-4 text-black dark:text-white">
+          <span className="block">From wallet</span>
+          <span className="block text-black/40 dark:text-white/30">to cash.</span>
+        </h2>
+        <p className="text-center text-[15px] text-black/55 dark:text-white/55 max-w-md mx-auto mt-6 leading-relaxed">
+          Six stages. Under sixty seconds.
+        </p>
+      </div>
+
+      <div
+        className="px-5 flex gap-3 overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        style={{ scrollPaddingLeft: 20 }}
+      >
+        {STAGE_ORDER.map((s, i) => (
+          <div
+            key={s}
+            className="snap-start shrink-0 w-[80%] rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-white/[0.02] p-6"
+          >
+            <div className="flex items-center justify-between mb-8">
+              <span className="font-mono text-[11px] text-black/30 dark:text-white/30">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className="text-[9px] font-semibold uppercase tracking-[0.28em] text-black/40 dark:text-white/40">
+                Step {i + 1}
+              </span>
+            </div>
+            <h3 className="font-display text-[22px] font-semibold tracking-tight leading-tight text-black dark:text-white mb-3">
+              {stageCopy[s].headline}
+            </h3>
+            <p className="text-[13px] text-black/55 dark:text-white/45 leading-snug">
+              {stageCopy[s].subline}
+            </p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function PremiumFintechSection() {
+  const isMobile = useIsMobile();
+  if (isMobile) return <MobileFlow />;
+  return <DesktopFlow />;
 }
 
 export default React.memo(PremiumFintechSection);
