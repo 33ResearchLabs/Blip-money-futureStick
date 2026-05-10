@@ -197,9 +197,9 @@ function BiddingCard() {
   return (
     <CardShell
       index="01"
-      tag="Routing"
-      title="Competitive settlement routing."
-      caption="Liquidity providers compete to fulfill transactions in real time."
+      tag="Pricing"
+      title="Best rates, guaranteed."
+      caption="Competitive liquidity providers compress spreads on every transfer."
     >
       <div ref={ref} className="space-y-1.5">
         {bids.map((b, i) => (
@@ -247,100 +247,157 @@ function BiddingCard() {
   );
 }
 
-/* ─── Card 2: Best rates, guaranteed ───────────────────────────── */
+/* ─── Card 2: Send money in minutes (Speed) ────────────────────── */
 function RatesCard() {
-  const rows = [
-    { name: "Blip", val: "0%", isBest: true },
-    { name: "Binance P2P", val: "2.4%", isBest: false },
-    { name: "Wise", val: "3.1%", isBest: false },
-    { name: "Bank wire", val: "6.8%", isBest: false },
-  ];
-  const widthFor = (v: string) => {
-    const n = parseFloat(v);
-    if (n === 0) return 4; // tiny visible sliver so 0% still renders
-    return Math.min(100, (n / 6.8) * 100);
-  };
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-10%" });
+  const [feed, setFeed] = useState([
+    { pair: "USDT→AED", time: 42 },
+    { pair: "USDT→INR", time: 38 },
+    { pair: "USDT→PHP", time: 55 },
+    { pair: "USDT→NGN", time: 47 },
+  ]);
+
+  useEffect(() => {
+    if (!inView) return;
+    const pairs = ["USDT→AED", "USDT→INR", "USDT→PHP", "USDT→NGN", "USDT→EGP", "USDT→THB"];
+    const id = setInterval(() => {
+      setFeed((prev) => {
+        const next = [
+          {
+            pair: pairs[Math.floor(Math.random() * pairs.length)],
+            time: Math.floor(Math.random() * 35) + 25,
+          },
+          ...prev,
+        ].slice(0, 4);
+        return next;
+      });
+    }, 2400);
+    return () => clearInterval(id);
+  }, [inView]);
+
+  const avg = Math.round(feed.reduce((s, r) => s + r.time, 0) / feed.length);
 
   return (
     <CardShell
       index="02"
-      tag="Pricing"
-      title="Market-driven pricing."
-      caption="Competition compresses spreads and improves execution."
+      tag="Speed"
+      title="Send money in minutes."
+      caption="Cross-border transfers without banking delays."
     >
-      <div className="space-y-2.5">
-        {rows.map((r) => (
-          <div key={r.name}>
-            <div className="flex items-center justify-between mb-1">
-              <span
-                className={`text-[12px] ${r.isBest ? "text-white" : "text-white/45"}`}
-              >
-                {r.name}
-              </span>
-              <span
-                className={`font-mono text-[12px] font-semibold ${
-                  r.isBest ? "text-[#3ddc84]" : "text-white/40"
-                }`}
-              >
-                {r.val}
-              </span>
-            </div>
-            <div className="h-[3px] rounded-full bg-white/[0.05] overflow-hidden">
+      <div ref={ref}>
+        {/* Live feed */}
+        <div className="rounded-md border border-white/[0.08] bg-black/30 overflow-hidden">
+          <div className="flex items-center justify-between px-3 py-1.5 border-b border-white/[0.06]">
+            <div className="flex items-center gap-1.5">
               <motion.div
-                initial={{ width: 0 }}
-                whileInView={{ width: `${widthFor(r.val)}%` }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.1, ease: EASE, delay: 0.1 }}
-                className={`h-full rounded-full ${
-                  r.isBest ? "bg-[#3ddc84]" : "bg-white/20"
-                }`}
+                className="w-1 h-1 rounded-full bg-[#3ddc84]"
+                animate={{ opacity: [1, 0.3, 1] }}
+                transition={{ duration: 1.2, repeat: Infinity }}
               />
+              <span className="text-[8px] font-bold uppercase tracking-[0.18em] text-white/40">
+                Live · last 4 settled
+              </span>
             </div>
+            <span className="font-mono text-[8px] text-white/25">Solana</span>
           </div>
-        ))}
+          {feed.map((r, i) => (
+            <motion.div
+              key={`${r.pair}-${r.time}-${i}`}
+              initial={i === 0 ? { opacity: 0, y: -4 } : false}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex items-center justify-between px-3 py-1.5 border-t border-white/[0.04]"
+            >
+              <div className="flex items-center gap-2">
+                <span className="text-[#3ddc84] text-[9px]">✓</span>
+                <span className="text-[11px] text-white/55">{r.pair}</span>
+              </div>
+              <span className="font-mono text-[11px] text-[#3ddc84]">{r.time}s</span>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Avg vs benchmark */}
+        <div className="mt-3 flex items-center justify-between text-[11px]">
+          <div>
+            <span className="text-white/35">Avg</span>{" "}
+            <span className="font-mono text-white/85 font-semibold">{avg}s</span>
+          </div>
+          <div>
+            <span className="text-white/35">Bank wire</span>{" "}
+            <span className="font-mono text-white/40">3–5 days</span>
+          </div>
+        </div>
       </div>
     </CardShell>
   );
 }
 
-/* ─── Card 3: On-chain proof ───────────────────────────────────── */
+/* ─── Card 3: Secure by design ─────────────────────────────────── */
 function ProofCard() {
+  const layers = [
+    {
+      label: "Reputation",
+      value: "4.9★ avg LP",
+      detail: "Reviews on every counterparty",
+    },
+    {
+      label: "Escrow",
+      value: "Smart-locked",
+      detail: "Funds released only on settlement",
+    },
+    {
+      label: "On-chain",
+      value: "Solana verified",
+      detail: "Cryptographic proof of every trade",
+    },
+  ];
+
   return (
     <CardShell
       index="03"
-      tag="Verification"
-      title="On-chain verification."
-      caption="Every settlement is cryptographically verifiable and traceable."
+      tag="Security"
+      title="Secure by design."
+      caption="Escrow, reputation, and on-chain verification built into every transaction."
     >
-      <div className="rounded-md border border-white/[0.08] bg-black/40 p-3 font-mono text-[11px] space-y-2">
-        <div className="flex items-center justify-between">
-          <span className="text-white/30">tx</span>
-          <span className="text-white/70">7xKm…4pQn</span>
-        </div>
-        <div className="flex items-center justify-between">
-          <span className="text-white/30">block</span>
-          <span className="text-white/70">#248,173</span>
-        </div>
-        <div className="flex items-center justify-between">
-          <span className="text-white/30">amount</span>
-          <span className="text-white/70">1,000 USDT</span>
-        </div>
-        <div className="border-t border-white/[0.06] pt-2 flex items-center justify-between">
-          <span className="text-white/30">status</span>
-          <span className="flex items-center gap-1 text-[#3ddc84]">
-            <svg
-              width="10"
-              height="10"
-              viewBox="0 0 12 12"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.4"
-            >
-              <path d="M2 6.5l2.5 2.5L10 3" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            Verified · Solana
-          </span>
-        </div>
+      <div className="space-y-2">
+        {layers.map((l, i) => (
+          <motion.div
+            key={l.label}
+            initial={{ opacity: 0, x: -4 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 + i * 0.08, ease: EASE }}
+            className="rounded-md border border-white/[0.08] bg-white/[0.02] px-3 py-2.5"
+          >
+            <div className="flex items-center justify-between mb-0.5">
+              <div className="flex items-center gap-1.5">
+                <svg
+                  width="10"
+                  height="10"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.4"
+                  className="text-[#3ddc84]"
+                >
+                  <path
+                    d="M2 6.5l2.5 2.5L10 3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/85">
+                  {l.label}
+                </span>
+              </div>
+              <span className="font-mono text-[11px] text-white/65">{l.value}</span>
+            </div>
+            <div className="text-[11px] text-white/40 leading-snug pl-[18px]">
+              {l.detail}
+            </div>
+          </motion.div>
+        ))}
       </div>
     </CardShell>
   );
