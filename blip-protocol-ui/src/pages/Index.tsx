@@ -8,6 +8,7 @@ import CinematicHero from "@/components/IndexSections/CinematicHero";
 import ProblemSection from "@/components/IndexSections/ProblemSection";
 
 // Below-fold sections are lazy loaded
+const BanklessSection = lazy(() => import("@/components/IndexSections/BanklessSection"));
 const ProductPreview = lazy(() => import("@/components/IndexSections/ProductPreview"));
 const DarkFintechSection = lazy(() => import("@/components/IndexSections/DarkFintechSection"));
 const ProtocolInterstitial = lazy(() => import("@/components/IndexSections/ProtocolInterstitial"));
@@ -54,6 +55,13 @@ const Index = () => {
 
         {/* 2. The Break — Problem → Settlement Layer (eager: visible to every scroller) */}
         <ProblemSection />
+
+        {/* 2.5 Bankless / Global — P2P is the future of payments */}
+        <LazySection minHeight="80vh">
+          <Suspense fallback={null}>
+            <BanklessSection />
+          </Suspense>
+        </LazySection>
 
         {/* 3. How It Works — Animated Flow */}
         <LazySection minHeight="100vh">
