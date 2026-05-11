@@ -193,10 +193,22 @@ export const registerWithEmail = async (req, res) => {
     try {
       await sendVerificationEmail(email, verificationUrl);
     } catch (emailError) {
-      // Clear token if email fails so user can retry
-      newUser.emailVerificationToken = undefined;
-      newUser.emailVerificationExpires = undefined;
-      await newUser.save();
+      // Email send failed — roll back the whole signup so the user can retry
+      // cleanly with the same email instead of being stuck behind a 409.
+      console.error(
+        `[register] email send failed, rolling back signup for ${email}:`,
+        emailError?.message || emailError,
+      );
+      try {
+        await User.deleteOne({ _id: newUser._id });
+        await UserBlipPoints.deleteOne({ userId: newUser._id });
+        await BlipPointLog.deleteMany({ userId: newUser._id });
+      } catch (rollbackErr) {
+        console.error(
+          `[register] rollback failed for ${email}:`,
+          rollbackErr?.message || rollbackErr,
+        );
+      }
 
       return res.status(500).json({
         success: false,
