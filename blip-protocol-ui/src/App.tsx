@@ -56,7 +56,8 @@ const RedeemTelegram = lazy(() => import("./pages/Waitlist/RedeemTelegram"));
 const Index = lazy(() => import("./pages/Index"));
 const UAELandingPage = lazy(() => import("./pages/Unused/uae"));
 const NotFound = lazy(() => import("./pages/NotFound"));
-const BlipTokenomics = lazy(() => import("./pages/Protocol/BlipTokenomics"));
+// Tokenomics page removed — no token launch
+// const BlipTokenomics = lazy(() => import("./pages/Protocol/BlipTokenomics"));
 const ComingSoon = lazy(() => import("./components/ComingSoon"));
 const HowItWorksPage = lazy(() =>
   import("./pages/Protocol/HowItWorks").then((module) => ({
@@ -202,7 +203,8 @@ const App = () => (
                     />
                     <Route path="/reset-password" element={<ResetPassword />} />
                     <Route path="/verify-email" element={<VerifyEmail />} />
-                    <Route path="/tokenomics" element={<BlipTokenomics />} />
+                    {/* Tokenomics route removed — no token launch */}
+                    <Route path="/tokenomics" element={<Navigate to="/" replace />} />
                     <Route path="/rates" element={<Rates />} />
                     {/* <Route path="/rewards" element={<RewardsLanding />} /> */}
                     <Route path="/merchant" element={<Merchant />} />

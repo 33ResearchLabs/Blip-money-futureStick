@@ -6,34 +6,34 @@ import AuthPageLayout from "@/components/auth/AuthPageLayout";
 
 const merchantFeatures = [
   {
-    icon: Gift,
-    title: "Genesis Token Allocation",
-    desc: "Earn BLIP allocation for onboarding early and providing volume.",
+    icon: Activity,
+    title: "Early App Access",
+    desc: "Test the merchant dashboard before public launch.",
   },
   {
     icon: HandCoins,
     title: "Zero Settlement Fees",
-    desc: "Early merchants receive reduced or zero fees during test phase.",
+    desc: "Early merchants receive reduced or zero fees during the beta phase.",
   },
   {
     icon: Zap,
     title: "Priority Routing",
-    desc: "Merchant nodes get faster matching + network priority.",
-  },
-  {
-    icon: Activity,
-    title: "Early App Access",
-    desc: "Test merchant dashboard before public launch.",
+    desc: "Merchant nodes get faster matching and network priority.",
   },
   {
     icon: Users,
-    title: "Governance Rights",
-    desc: "Vote on fees, routes, and network policies.",
+    title: "Referral Rewards",
+    desc: "Refer other merchants and unlock priority access perks.",
   },
   {
     icon: Wallet,
-    title: "Liquidity Rewards",
-    desc: "Earn rewards for committing settlement volume.",
+    title: "Direct Settlement",
+    desc: "Get paid directly on-chain — no banks, no chargebacks.",
+  },
+  {
+    icon: Gift,
+    title: "Founding Merchant Status",
+    desc: "Recognised as a founding partner during the beta.",
   },
 ];
 
@@ -51,7 +51,7 @@ export default function MerchantRegister() {
         <main className="relative z-10 max-w-7xl mx-auto px-6 pt-14 pb-24">
           <AuthPageLayout
             badge="Merchant Registration"
-            heading="Create Merchant Account"
+            heading="Join Merchant Waitlist"
             description="Join the Blip P2P merchant network before public launch."
             variant="merchant"
             bottomContent={
