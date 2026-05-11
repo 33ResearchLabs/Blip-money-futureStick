@@ -478,17 +478,17 @@ const UseCasesSection = () => {
                 <div className="flex items-center gap-4 mb-5">
                   <div>
                     <div className="font-mono text-lg font-bold text-[#3ddc84]">11.2%</div>
-                    <div className="text-[8px] uppercase tracking-wider" style={{ color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.25)" }}>Avg APY</div>
+                    <div className="text-[8px] uppercase tracking-wider" style={{ color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.6)" }}>Avg APY</div>
                   </div>
                   <div className="w-px h-8" style={{ background: isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.08)" }} />
                   <div>
                     <div className="font-mono text-lg font-bold" style={{ color: isDark ? "#fff" : "#1d1d1f" }}>42</div>
-                    <div className="text-[8px] uppercase tracking-wider" style={{ color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.25)" }}>Routes</div>
+                    <div className="text-[8px] uppercase tracking-wider" style={{ color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.6)" }}>Routes</div>
                   </div>
                   <div className="w-px h-8" style={{ background: isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.08)" }} />
                   <div>
                     <div className="font-mono text-lg font-bold" style={{ color: isDark ? "#fff" : "#1d1d1f" }}>$4.8M</div>
-                    <div className="text-[8px] uppercase tracking-wider" style={{ color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.25)" }}>Deployed</div>
+                    <div className="text-[8px] uppercase tracking-wider" style={{ color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.6)" }}>Deployed</div>
                   </div>
                 </div>
                 <motion.a

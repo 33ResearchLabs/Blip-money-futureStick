@@ -26,7 +26,7 @@ const BanklessSection = () => {
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(50% 40% at 50% 30%, rgba(255,107,53,0.10) 0%, transparent 70%)",
+            "radial-gradient(50% 40% at 50% 30%, rgba(255,255,255,0.04) 0%, transparent 70%)",
         }}
       />
 
@@ -210,13 +210,13 @@ function BiddingCard() {
             transition={{ duration: 0.4 }}
             className={`flex items-center justify-between px-3 py-2 rounded-md ${
               i === 0
-                ? "bg-[#ff6b35]/10 border border-[#ff6b35]/25"
+                ? "bg-white/[0.06] border border-white/20"
                 : "bg-white/[0.02] border border-white/[0.04]"
             }`}
           >
             <div className="flex items-center gap-2">
               {i === 0 ? (
-                <span className="text-[9px] font-bold uppercase tracking-wider text-[#ff6b35]">
+                <span className="text-[9px] font-bold uppercase tracking-wider text-white/80">
                   Winner
                 </span>
               ) : (
@@ -235,7 +235,7 @@ function BiddingCard() {
               initial={{ opacity: 0.5 }}
               animate={{ opacity: 1 }}
               className={`font-mono text-[12px] font-semibold ${
-                i === 0 ? "text-[#ff6b35]" : "text-white/40"
+                i === 0 ? "text-white" : "text-white/40"
               }`}
             >
               {b.rate.toFixed(3)}
@@ -291,7 +291,7 @@ function RatesCard() {
           <div className="flex items-center justify-between px-3 py-1.5 border-b border-white/[0.06]">
             <div className="flex items-center gap-1.5">
               <motion.div
-                className="w-1 h-1 rounded-full bg-[#3ddc84]"
+                className="w-1 h-1 rounded-full bg-white/60"
                 animate={{ opacity: [1, 0.3, 1] }}
                 transition={{ duration: 1.2, repeat: Infinity }}
               />
@@ -309,10 +309,10 @@ function RatesCard() {
               className="flex items-center justify-between px-3 py-1.5 border-t border-white/[0.04]"
             >
               <div className="flex items-center gap-2">
-                <span className="text-[#3ddc84] text-[9px]">✓</span>
+                <span className="text-white/50 text-[9px]">✓</span>
                 <span className="text-[11px] text-white/55">{r.pair}</span>
               </div>
-              <span className="font-mono text-[11px] text-[#3ddc84]">{r.time}s</span>
+              <span className="font-mono text-[11px] text-white/80">{r.time}s</span>
             </motion.div>
           ))}
         </div>
@@ -379,7 +379,7 @@ function ProofCard() {
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2.4"
-                  className="text-[#3ddc84]"
+                  className="text-white/55"
                 >
                   <path
                     d="M2 6.5l2.5 2.5L10 3"

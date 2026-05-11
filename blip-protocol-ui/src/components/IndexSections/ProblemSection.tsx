@@ -687,19 +687,16 @@ const ProblemSection = () => {
                   icon: Tag,
                   label: "Best rates",
                   sub: "Guaranteed",
-                  accent: "#ff6b35",
                 },
                 {
                   icon: Zap,
                   label: "Fast transactions",
                   sub: "Settle in <60s",
-                  accent: "#3ec5ff",
                 },
                 {
                   icon: Link2,
                   label: "On-chain proof",
                   sub: "Verifiable on Solana",
-                  accent: "#3ddc84",
                 },
               ].map((p, i) => {
                 const Icon = p.icon;
@@ -710,23 +707,12 @@ const ProblemSection = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.1 + i * 0.08, ease: EASE }}
-                    className="group relative flex items-center gap-3 px-4 py-3 rounded-2xl border border-white/10 hover:border-white/25 transition-colors"
-                    style={{
-                      background:
-                        "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%)",
-                      backdropFilter: "blur(8px)",
-                    }}
+                    className="group relative flex items-center gap-3 px-4 py-3 rounded-2xl border border-white/10 hover:border-white/20 transition-colors"
                   >
-                    <div
-                      className="flex items-center justify-center w-9 h-9 rounded-xl shrink-0 transition-transform duration-500 group-hover:scale-105"
-                      style={{
-                        background: `linear-gradient(135deg, ${p.accent}33 0%, ${p.accent}0d 100%)`,
-                        border: `1px solid ${p.accent}40`,
-                        boxShadow: `0 4px 16px -4px ${p.accent}66`,
-                      }}
-                    >
-                      <Icon className="w-4 h-4" style={{ color: p.accent }} strokeWidth={2.4} />
-                    </div>
+                    <Icon
+                      className="w-4 h-4 shrink-0 text-white/70"
+                      strokeWidth={1.75}
+                    />
                     <div className="text-left min-w-0">
                       <div className="text-[14px] font-semibold text-white leading-tight">
                         {p.label}

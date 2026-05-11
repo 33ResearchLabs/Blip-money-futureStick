@@ -103,7 +103,7 @@ function SpeedVisual({ isInView }: { isInView: boolean }) {
             fontWeight: 800,
             letterSpacing: "-0.04em",
             lineHeight: 1,
-            color: phase === "done" ? "#3ddc84" : "#1d1d1f",
+            color: "#1d1d1f",
             transition: "color 0.3s",
           }}
           className="dark:text-white tabular-nums"
@@ -117,13 +117,13 @@ function SpeedVisual({ isInView }: { isInView: boolean }) {
         <motion.div
           className="w-2 h-2 rounded-full"
           animate={{
-            backgroundColor: phase === "done" ? "#3ddc84" : phase === "idle" ? "rgba(0,0,0,0.15)" : "#ff6b35",
+            backgroundColor: phase === "idle" ? "rgba(0,0,0,0.15)" : "rgba(0,0,0,0.6)",
             scale: phase === "matching" || phase === "settling" ? [1, 1.4, 1] : 1,
           }}
           transition={{ duration: 0.5, repeat: phase === "matching" ? Infinity : 0, repeatType: "loop" }}
         />
         <span className="text-xs font-semibold uppercase tracking-widest" style={{
-          color: phase === "done" ? "#3ddc84" : phase === "idle" ? "rgba(0,0,0,0.25)" : "#ff6b35",
+          color: phase === "idle" ? "rgba(0,0,0,0.25)" : "rgba(0,0,0,0.6)",
           transition: "color 0.3s",
         }}>
           {phase === "idle" ? "Ready" : phase === "matching" ? "Matching merchant..." : phase === "settling" ? "Settling..." : "Complete"}
@@ -140,12 +140,12 @@ function SpeedVisual({ isInView }: { isInView: boolean }) {
               <motion.div
                 className="h-1 rounded-full"
                 animate={{
-                  backgroundColor: active ? (phase === "done" ? "#3ddc84" : "#ff6b35") : "rgba(0,0,0,0.06)",
+                  backgroundColor: active ? "rgba(0,0,0,0.6)" : "rgba(0,0,0,0.06)",
                 }}
                 transition={{ duration: 0.3, delay: i * 0.05 }}
               />
               <span className="block text-[9px] font-medium mt-1.5 text-center" style={{
-                color: active ? (phase === "done" ? "#3ddc84" : "#ff6b35") : "rgba(0,0,0,0.2)",
+                color: active ? "rgba(0,0,0,0.6)" : "rgba(0,0,0,0.2)",
                 transition: "color 0.3s",
               }}>{step}</span>
             </div>
@@ -180,7 +180,7 @@ function RatesVisual({ isInView }: { isInView: boolean }) {
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <motion.div
-            className="w-1.5 h-1.5 rounded-full bg-[#3ddc84]"
+            className="w-1.5 h-1.5 rounded-full bg-black/40 dark:bg-white/40"
             animate={{ opacity: [1, 0.3, 1] }}
             transition={{ duration: 1.5, repeat: Infinity }}
           />
@@ -204,14 +204,14 @@ function RatesVisual({ isInView }: { isInView: boolean }) {
                 transition={{ duration: 0.4, ease: EASE }}
                 className="flex items-center justify-between px-4 py-3 rounded-xl"
                 style={{
-                  background: isBest ? "rgba(255,107,53,0.06)" : "rgba(0,0,0,0.02)",
-                  border: isBest ? "1px solid rgba(255,107,53,0.15)" : "1px solid transparent",
+                  background: isBest ? "rgba(0,0,0,0.05)" : "rgba(0,0,0,0.02)",
+                  border: isBest ? "1px solid rgba(0,0,0,0.15)" : "1px solid transparent",
                 }}
               >
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center text-[10px] font-bold"
                     style={{
-                      background: isBest ? "#ff6b35" : "rgba(0,0,0,0.05)",
+                      background: isBest ? "#1d1d1f" : "rgba(0,0,0,0.05)",
                       color: isBest ? "#fff" : "rgba(0,0,0,0.3)",
                     }}
                   >
@@ -223,11 +223,11 @@ function RatesVisual({ isInView }: { isInView: boolean }) {
                   </div>
                 </div>
                 <div className="text-right">
-                  <span className="text-sm font-bold font-mono" style={{ color: isBest ? "#ff6b35" : "#fff" }}>
+                  <span className="text-sm font-bold font-mono" style={{ color: isBest ? "#1d1d1f" : "rgba(0,0,0,0.4)" }}>
                     {liveRate}
                   </span>
                   {isBest && (
-                    <span className="block text-[8px] font-bold uppercase tracking-wider text-[#ff6b35]">Best rate</span>
+                    <span className="block text-[8px] font-bold uppercase tracking-wider text-black/60">Best rate</span>
                   )}
                 </div>
               </motion.div>
@@ -283,7 +283,7 @@ function EngineVisual({ isInView }: { isInView: boolean }) {
         <div>
           <div className="text-sm font-semibold text-black/80 dark:text-white/80">AlphaFX</div>
           <div className="flex items-center gap-1.5">
-            <div className="w-1.5 h-1.5 rounded-full bg-[#3ddc84]" />
+            <div className="w-1.5 h-1.5 rounded-full bg-black/40 dark:bg-white/40" />
             <span className="text-[10px] text-black/30 dark:text-white/30">Active merchant · Dubai</span>
           </div>
         </div>
@@ -291,9 +291,9 @@ function EngineVisual({ isInView }: { isInView: boolean }) {
 
       {/* Earnings summary */}
       <div className="grid grid-cols-3 gap-2 mb-4">
-        <div className="rounded-xl py-3 px-3" style={{ background: "rgba(61,220,132,0.05)", border: "1px solid rgba(61,220,132,0.08)" }}>
+        <div className="rounded-xl py-3 px-3" style={{ background: "rgba(0,0,0,0.04)", border: "1px solid rgba(0,0,0,0.06)" }}>
           <div className="text-[8px] font-semibold uppercase tracking-wider text-black/25 dark:text-white/25 mb-1">Total earned</div>
-          <motion.div key={Math.floor(totalEarned)} initial={{ y: -3, opacity: 0.6 }} animate={{ y: 0, opacity: 1 }} className="font-mono text-base font-bold text-[#3ddc84]">
+          <motion.div key={Math.floor(totalEarned)} initial={{ y: -3, opacity: 0.6 }} animate={{ y: 0, opacity: 1 }} className="font-mono text-base font-bold text-black/80 dark:text-white/80">
             ${Math.floor(totalEarned).toLocaleString()}
           </motion.div>
         </div>
@@ -313,7 +313,7 @@ function EngineVisual({ isInView }: { isInView: boolean }) {
       <div className="rounded-xl overflow-hidden" style={{ border: "1px solid rgba(0,0,0,0.05)" }}>
         <div className="flex items-center justify-between px-3 py-2" style={{ background: "rgba(0,0,0,0.02)" }}>
           <div className="flex items-center gap-1.5">
-            <motion.div className="w-1.5 h-1.5 rounded-full bg-[#3ddc84]" animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 1.2, repeat: Infinity }} />
+            <motion.div className="w-1.5 h-1.5 rounded-full bg-black/40 dark:bg-white/40" animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 1.2, repeat: Infinity }} />
             <span className="text-[8px] font-bold uppercase tracking-widest text-black/25 dark:text-white/25">Settled trades</span>
           </div>
           <span className="text-[8px] font-mono text-black/15 dark:text-white/15">live</span>
@@ -322,7 +322,7 @@ function EngineVisual({ isInView }: { isInView: boolean }) {
           {trades.map((t, i) => (
             <motion.div
               key={`${t.id}-${i}`}
-              initial={i === 0 ? { opacity: 0, y: -8, backgroundColor: "rgba(61,220,132,0.06)" } : false}
+              initial={i === 0 ? { opacity: 0, y: -8, backgroundColor: "rgba(0,0,0,0.04)" } : false}
               animate={{ opacity: 1, y: 0, backgroundColor: "transparent" }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.4 }}
@@ -330,7 +330,7 @@ function EngineVisual({ isInView }: { isInView: boolean }) {
               style={{ borderTop: "1px solid rgba(0,0,0,0.04)" }}
             >
               <div className="flex items-center gap-2">
-                <span className="text-[8px] text-[#3ddc84]">✓</span>
+                <span className="text-[8px] text-black/40 dark:text-white/40">✓</span>
                 <div>
                   <span className="text-[11px] font-medium text-black/60 dark:text-white/60">{t.pair}</span>
                   <span className="text-[10px] text-black/25 dark:text-white/25 ml-2">{t.amount}</span>
@@ -339,7 +339,7 @@ function EngineVisual({ isInView }: { isInView: boolean }) {
               <div className="flex items-center gap-3">
                 <span className="text-[10px] font-mono text-black/25 dark:text-white/25">{t.time}</span>
                 <motion.span
-                  className="text-[11px] font-bold font-mono text-[#3ddc84]"
+                  className="text-[11px] font-bold font-mono text-black/80 dark:text-white/80"
                   animate={i === 0 && flash ? { scale: [1, 1.15, 1] } : {}}
                   transition={{ duration: 0.3 }}
                 >
@@ -410,7 +410,7 @@ function ChainVisual({ isInView }: { isInView: boolean }) {
           >
             <div className="flex items-center gap-3">
               <div className="w-7 h-7 rounded-md flex items-center justify-center" style={{
-                background: s.status === "confirmed" ? "rgba(61,220,132,0.1)" : "rgba(153,69,255,0.1)",
+                background: s.status === "confirmed" ? "rgba(0,0,0,0.05)" : "rgba(153,69,255,0.1)",
               }}>
                 <span className="text-[10px]">{s.status === "confirmed" ? "✓" : "◆"}</span>
               </div>
@@ -421,7 +421,7 @@ function ChainVisual({ isInView }: { isInView: boolean }) {
             </div>
             <div className="text-right">
               <span className="text-[10px] font-semibold" style={{
-                color: s.status === "confirmed" ? "#3ddc84" : "#9945FF",
+                color: s.status === "confirmed" ? "rgba(0,0,0,0.5)" : "#9945FF",
               }}>{s.status}</span>
               <span className="block text-[9px] font-mono text-black/20 dark:text-white/20">{s.time}</span>
             </div>
@@ -595,7 +595,7 @@ function FeatureBlock({
         >
           <div style={{
             fontSize: 11, fontWeight: 700, letterSpacing: "2px",
-            textTransform: "uppercase", color: "#ff6b35", marginBottom: 16,
+            textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)", marginBottom: 16,
           }}>
             {feature.label}
           </div>

@@ -607,10 +607,10 @@ const SecuritySection = () => {
                     border: "1px solid rgba(255, 255, 255, 0.1)",
                   }}
                 >
-                  <div className="text-xs sm:text-2xl font-semibold text-white">
+                  <div className="text-xs sm:text-2xl font-semibold text-[#ffffff]">
                     {metric.value}
                   </div>
-                  <div className="text-[9px] sm:text-xs text-white/60 uppercase tracking-tight">
+                  <div className="text-[9px] sm:text-xs text-[rgba(255,255,255,0.7)] uppercase tracking-tight">
                     {metric.label}
                   </div>
                 </motion.div>
@@ -736,14 +736,16 @@ const OrderTypesSection = () => {
               />
 
               {/* Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent" />
 
               {/* Content */}
               <div className="absolute inset-0 p-8 flex flex-col justify-end">
-                <h3 className="text-2xl font-semibold text-white mb-3">
+                <h3 className="text-2xl font-semibold text-[#ffffff] mb-3 drop-shadow-md">
                   {type.title}
                 </h3>
-                <p className="text-white/60 leading-relaxed">{type.desc}</p>
+                <p className="text-sm text-[rgba(255,255,255,0.9)] leading-relaxed drop-shadow">
+                  {type.desc}
+                </p>
               </div>
 
               {/* Hover border */}

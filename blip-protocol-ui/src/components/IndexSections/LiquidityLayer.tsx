@@ -115,7 +115,7 @@ const LiquidityLayer = () => {
               <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "1.5px", textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)" }}>
                 Metric
               </span>
-              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "1.5px", textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.2)" }}>
+              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "1.5px", textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.7)" }}>
                 Traditional
               </span>
               <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "1.5px", textTransform: "uppercase", color: isDark ? "#fff" : "#1d1d1f" }}>
@@ -136,7 +136,7 @@ const LiquidityLayer = () => {
                 <span className="text-sm font-medium" style={{ color: isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.7)" }}>
                   {r.metric}
                 </span>
-                <span className="text-sm font-mono" style={{ color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.25)" }}>
+                <span className="text-sm font-mono" style={{ color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.8)" }}>
                   {r.traditional}
                 </span>
                 <span className="text-sm font-bold font-mono" style={{ color: isDark ? "#fff" : "#1d1d1f" }}>
