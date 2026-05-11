@@ -13,6 +13,7 @@ import {
   BadgeCheck,
   Sparkles,
   Clock,
+  Tag,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SEO, StructuredData } from "@/components";
@@ -26,59 +27,147 @@ const EASE = [0.16, 1, 0.3, 1] as const;
    1. CINEMATIC HERO
    ============================================ */
 const UserHero = () => {
-  return (
-    <section className="relative min-h-[88vh] overflow-hidden flex items-center justify-center text-center bg-[#FAF8F5] dark:bg-black">
-      {/* Background image with slow drift */}
-      <motion.div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none"
-        initial={{ scale: 1.02 }}
-        animate={{ scale: 1.1 }}
-        transition={{ duration: 14, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }}
-        style={{
-          backgroundImage: "url('/hero-bg.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/70 to-black/95" />
+  // Corridor cycling — INR shown by default, rotates through corridors
+  const CORRIDORS = [
+    { fiat: "INR", base: 97.2, decimals: 2 },
+    { fiat: "AED", base: 3.672, decimals: 3 },
+    { fiat: "PHP", base: 55.81, decimals: 2 },
+  ] as const;
+  const [corridorIdx, setCorridorIdx] = useState(0);
+  const corridor = CORRIDORS[corridorIdx];
 
-      {/* Soft warm halo */}
-      <motion.div
+  useEffect(() => {
+    const id = setInterval(() => {
+      setCorridorIdx((i) => (i + 1) % CORRIDORS.length);
+    }, 3200);
+    return () => clearInterval(id);
+  }, []);
+
+  // Live-jitter rate around the corridor's base
+  const [rate, setRate] = useState(corridor.base);
+  useEffect(() => {
+    setRate(corridor.base);
+    const id = setInterval(() => {
+      setRate((r) =>
+        +(corridor.base + (Math.random() - 0.5) * corridor.base * 0.001).toFixed(
+          corridor.decimals,
+        ),
+      );
+    }, 1800);
+    return () => clearInterval(id);
+  }, [corridorIdx]);
+
+  // Receiving amount (1,000 USDT * rate, with small live wobble)
+  const [outAmount, setOutAmount] = useState(
+    Math.round(1000 * corridor.base),
+  );
+  useEffect(() => {
+    let frame = 0;
+    const baseOut = Math.round(1000 * corridor.base);
+    setOutAmount(baseOut);
+    const id = setInterval(() => {
+      frame = (frame + 1) % 60;
+      const wobble = Math.floor(Math.sin(frame * 0.1) * baseOut * 0.002);
+      setOutAmount(baseOut + wobble);
+    }, 100);
+    return () => clearInterval(id);
+  }, [corridorIdx]);
+
+  return (
+    <section className="relative min-h-[92vh] overflow-hidden flex items-center justify-center text-center bg-black">
+      {/* Deep gradient base */}
+      <div
         aria-hidden
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 55% 45% at 50% 55%, rgba(255,107,53,0.10), transparent 70%)",
+            "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,107,53,0.16) 0%, rgba(255,107,53,0.04) 30%, transparent 65%), radial-gradient(ellipse 60% 50% at 50% 100%, rgba(120,119,255,0.10) 0%, transparent 70%), #050507",
         }}
-        animate={{ opacity: [0.7, 1, 0.7] }}
-        transition={{ duration: 10, ease: "easeInOut", repeat: Infinity }}
       />
 
-      <main className="relative z-10 w-full max-w-[820px] mx-auto px-6 md:px-10 pt-28 pb-32 text-center">
-        {/* Eyebrow */}
+      {/* Dotted constellation grid */}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none opacity-50"
+        style={{
+          backgroundImage:
+            "radial-gradient(rgba(255,255,255,0.14) 1px, transparent 1px)",
+          backgroundSize: "26px 26px",
+          maskImage:
+            "radial-gradient(ellipse 75% 65% at 50% 50%, black 25%, transparent 80%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 75% 65% at 50% 50%, black 25%, transparent 80%)",
+        }}
+      />
+
+      {/* Drifting motes */}
+      {Array.from({ length: 14 }).map((_, i) => (
+        <motion.span
+          key={i}
+          aria-hidden
+          className="absolute w-1 h-1 rounded-full bg-white/30"
+          style={{
+            left: `${6 + ((i * 43 + 11) % 88)}%`,
+            top: `${12 + ((i * 53 + 7) % 72)}%`,
+          }}
+          animate={{
+            y: [0, -28, 0],
+            opacity: [0.2, 0.7, 0.2],
+          }}
+          transition={{
+            duration: 5 + (i % 4) * 0.6,
+            repeat: Infinity,
+            delay: (i % 6) * 0.4,
+          }}
+        />
+      ))}
+
+      <main className="relative z-10 w-full max-w-[920px] mx-auto px-6 md:px-10 pt-28 pb-24 text-center">
+        {/* Live rate chip */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          className="flex items-center justify-center gap-3 mb-7"
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-white/10 bg-white/[0.04] backdrop-blur-md mb-8"
         >
-          <div className="h-px w-10 bg-white/30" />
-          <p className="text-white/60 text-[10.5px] font-semibold tracking-[2.5px] uppercase">
-            For Users
-          </p>
-          <div className="h-px w-10 bg-white/30" />
+          <motion.span
+            animate={{ opacity: [1, 0.3, 1] }}
+            transition={{ duration: 1.4, repeat: Infinity }}
+            className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]"
+            style={{ boxShadow: "0 0 8px rgba(255,107,53,0.7)" }}
+          />
+          <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-white/65">
+            Live · USDT / {corridor.fiat}
+          </span>
+          <motion.span
+            key={`${corridor.fiat}-${rate}`}
+            initial={{ opacity: 0.6, y: -1 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-[10px] font-mono font-bold text-white tabular-nums"
+          >
+            {rate.toFixed(corridor.decimals)}
+          </motion.span>
         </motion.div>
 
         <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: EASE }}
-          className="font-display text-white font-semibold tracking-tight leading-[1.05] mb-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          className="font-display text-white font-semibold tracking-tight leading-[1.04] mb-7"
           style={{ fontSize: "clamp(3rem, 7vw, 5.5rem)", letterSpacing: "-0.04em" }}
         >
-          <span className="block">Send crypto.</span>
-          <span
+          <motion.span
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: EASE }}
+            className="block"
+          >
+            Send crypto.
+          </motion.span>
+          <motion.span
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.18, ease: EASE }}
             className="block"
             style={{
               background:
@@ -91,28 +180,147 @@ const UserHero = () => {
             }}
           >
             Get fiat instantly.
-          </span>
+          </motion.span>
         </motion.h1>
 
         <motion.p
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.25, ease: EASE }}
-          className="text-white/70 text-lg md:text-xl leading-relaxed max-w-lg mx-auto mb-10"
+          transition={{ duration: 0.9, delay: 0.35, ease: EASE }}
+          className="text-white/60 text-base md:text-lg leading-relaxed max-w-xl mx-auto mb-8"
         >
-          Convert USDT, USDC, or SOL to AED, INR, and more — settled on-chain, landed in your bank.
+          Convert USDT, USDC, or SOL to AED, INR, and more —
+          settled on-chain, landed in your bank.
         </motion.p>
 
+        {/* Best-rates promise — same pill as home hero, dark-bg safe */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.4, ease: EASE }}
+          transition={{ duration: 0.9, delay: 0.45, ease: EASE }}
+          className="mb-10 flex justify-center"
+        >
+          <Link
+            to="/rates"
+            className="group inline-flex flex-col items-center gap-1 px-5 py-2.5 rounded-2xl bg-white text-black shadow-[0_4px_20px_rgba(0,0,0,0.45)] hover:shadow-[0_6px_28px_rgba(255,107,53,0.35)] active:scale-[0.98] transition-all duration-300 max-w-[260px]"
+          >
+            <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#ff6b35] leading-none">
+              <Tag className="w-3 h-3" strokeWidth={2.8} />
+              Best rates, guaranteed
+            </span>
+            <span className="inline-flex items-center gap-1 text-[12px] font-semibold text-black/75 group-hover:text-black tracking-tight leading-none">
+              Find cheaper. We&apos;ll cut deeper.
+              <ArrowRight className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-0.5" />
+            </span>
+          </Link>
+        </motion.div>
+
+        {/* Live mini-converter mockup */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.5, ease: EASE }}
+          className="mx-auto mb-10 w-full max-w-[460px] rounded-2xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-xl p-4"
+        >
+          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
+            {/* From */}
+            <div className="text-left">
+              <div className="text-[9px] font-semibold uppercase tracking-[0.2em] text-white/35 mb-1">
+                You send
+              </div>
+              <div className="flex items-baseline gap-1.5">
+                <span className="font-mono font-bold text-white text-[20px] tabular-nums">
+                  1,000
+                </span>
+                <span className="text-[11px] font-semibold text-white/60">
+                  USDT
+                </span>
+              </div>
+            </div>
+
+            {/* Arrow with pulse */}
+            <motion.div
+              animate={{ x: [0, 4, 0] }}
+              transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+              className="w-9 h-9 rounded-full flex items-center justify-center border border-[#ff6b35]/40 bg-[#ff6b35]/10"
+            >
+              <ArrowRight className="w-4 h-4 text-[#ff6b35]" strokeWidth={2.5} />
+            </motion.div>
+
+            {/* To */}
+            <div className="text-right">
+              <div className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#ff6b35] mb-1">
+                You receive
+              </div>
+              <div className="flex items-baseline gap-1.5 justify-end">
+                <motion.span
+                  key={`${corridor.fiat}-${outAmount}`}
+                  initial={{ opacity: 0.7, y: -2 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="font-mono font-bold text-white text-[20px] tabular-nums"
+                >
+                  {outAmount.toLocaleString()}
+                </motion.span>
+                <motion.span
+                  key={`fiat-${corridor.fiat}`}
+                  initial={{ opacity: 0, y: -2 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="text-[11px] font-semibold text-white/60"
+                >
+                  {corridor.fiat}
+                </motion.span>
+              </div>
+            </div>
+          </div>
+
+          {/* Footer strip */}
+          <div className="mt-3 pt-3 border-t border-white/[0.06] flex items-center justify-between text-[10px] text-white/40">
+            <span className="flex items-center gap-1.5">
+              <Lock className="w-2.5 h-2.5" /> Escrow secured
+            </span>
+            <span className="font-mono">~42s settlement</span>
+            <span className="flex items-center gap-1.5">
+              <CheckCircle2 className="w-2.5 h-2.5 text-[#ff6b35]" />
+              On-chain
+            </span>
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.7, ease: EASE }}
           className="flex flex-col sm:flex-row items-center justify-center gap-3"
         >
           <CTAButton to="/waitlist">Join waitlist</CTAButton>
           <CTAButton to="/how-it-works" variant="secondary">
             See how it works
           </CTAButton>
+        </motion.div>
+
+        {/* Token strip */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1.0 }}
+          className="mt-12 flex items-center justify-center gap-5 flex-wrap"
+        >
+          <span className="text-[9px] font-semibold uppercase tracking-[0.22em] text-white/30">
+            Supports
+          </span>
+          {["USDT", "USDC", "SOL", "·", "AED", "INR", "PHP", "NGN"].map((t, i) =>
+            t === "·" ? (
+              <span key={i} className="text-white/25">·</span>
+            ) : (
+              <span
+                key={i}
+                className="text-[11px] font-mono font-bold text-white/55 tracking-tight"
+              >
+                {t}
+              </span>
+            ),
+          )}
         </motion.div>
       </main>
 

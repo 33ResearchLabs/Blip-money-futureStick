@@ -126,7 +126,7 @@ const WhyBlipSection = () => {
             <h2 className=" text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white leading-[1.1] mb-6">
               Why Merchants{" "}
               <span className="text-black/70 dark:text-white/70">Choose</span>{" "}
-              Blip
+              Blip?
             </h2>
 
             <p className="text-base md:text-lg lg:text-xl text-black/60 dark:text-white/50 font-medium leading-relaxed mb-10">
@@ -506,24 +506,38 @@ const PricingSection = () => {
               </div>
             </div>
 
-            {/* Sparkline-ish animated bars */}
+            {/* Sparkline — orange bars, continuous up/down */}
             <div className="flex items-end gap-1.5 h-12">
-              {Array.from({ length: 28 }).map((_, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ scaleY: 0 }}
-                  animate={isInView ? { scaleY: 1 } : {}}
-                  transition={{
-                    duration: 0.5,
-                    delay: 0.4 + i * 0.02,
-                    ease: "easeOut",
-                  }}
-                  className="flex-1 rounded-full origin-bottom bg-gradient-to-t from-black/20 to-black"
-                  style={{
-                    height: `${35 + Math.sin(i * 0.6) * 25 + (i % 4) * 8}%`,
-                  }}
-                />
-              ))}
+              {Array.from({ length: 28 }).map((_, i) => {
+                const base = 35 + Math.sin(i * 0.6) * 25 + (i % 4) * 8;
+                const lo = Math.max(18, base - 22);
+                const hi = Math.min(100, base + 22);
+                return (
+                  <motion.div
+                    key={i}
+                    initial={{ height: `${base}%`, opacity: 0 }}
+                    animate={
+                      isInView
+                        ? {
+                            height: [`${lo}%`, `${hi}%`, `${lo}%`],
+                            opacity: 1,
+                          }
+                        : {}
+                    }
+                    transition={{
+                      height: {
+                        duration: 1.6 + (i % 5) * 0.18,
+                        delay: (i % 6) * 0.08,
+                        repeat: Infinity,
+                        repeatType: "loop",
+                        ease: "easeInOut",
+                      },
+                      opacity: { duration: 0.4, delay: 0.2 + i * 0.02 },
+                    }}
+                    className="flex-1 rounded-full bg-gradient-to-t from-[#ff6b35]/30 to-[#ff6b35]"
+                  />
+                );
+              })}
             </div>
 
             <div className="mt-6 pt-6 border-t border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between text-[11px] text-black/40 dark:text-white/40">
@@ -557,14 +571,15 @@ const PricingSection = () => {
                   initial={{ width: 0 }}
                   animate={isInView ? { width: "55%" } : {}}
                   transition={{ duration: 1.4, delay: 0.6, ease: "easeOut" }}
-                  className="absolute left-[15%] h-full bg-[#1d1d1f]"
+                  className="absolute left-[15%] h-full bg-[#ff6b35]"
+                  style={{ boxShadow: "0 0 12px rgba(255,107,53,0.45)" }}
                 />
                 <div className="absolute left-[15%] top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-white shadow-lg" />
                 <div className="absolute left-[70%] top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-white shadow-lg" />
               </div>
               <div className="flex justify-between mt-3 text-[10px] font-mono text-white/40">
                 <span>min</span>
-                <span className="text-black font-semibold">reference</span>
+                <span className="text-[#ff6b35] font-semibold">reference</span>
                 <span>max</span>
               </div>
             </div>

@@ -1,5 +1,6 @@
-import { useRef, useEffect, useState } from "react";
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { Link } from "react-router-dom";
 import {
   Globe,
   Shield,
@@ -9,7 +10,6 @@ import {
   Lock,
   Heart,
   Target,
-  Sparkles,
   ArrowRight,
 } from "lucide-react";
 import SEO from "@/components/SEO";
@@ -17,37 +17,82 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { HreflangTags } from "@/components/HreflangTags";
 import { sounds } from "@/lib/sounds";
 import { SwipeHint } from "@/components/IndexSections/SwipeHint";
-import { CTAButton } from "@/components/Navbar";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-const ORANGE = "#ff6b35";
 
-/* ── Data ───────────────────────────────────────────────────── */
+/* Light-bg primary — solid black, white text */
+const PrimaryLink = ({
+  to,
+  children,
+  className = "",
+}: {
+  to: string;
+  children: React.ReactNode;
+  className?: string;
+}) => (
+  <Link
+    to={to}
+    onClick={() => sounds.click()}
+    onMouseEnter={() => sounds.hover()}
+    className={
+      "group inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-[16px] font-semibold transition-all duration-300 ease-out bg-black text-white border border-black hover:shadow-[0_8px_28px_rgba(0,0,0,0.25)] active:scale-[0.98] " +
+      className
+    }
+  >
+    {children}
+    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+  </Link>
+);
+
+/* Light-bg secondary — outlined black */
+const SecondaryLink = ({
+  to,
+  children,
+  className = "",
+}: {
+  to: string;
+  children: React.ReactNode;
+  className?: string;
+}) => (
+  <Link
+    to={to}
+    onClick={() => sounds.click()}
+    onMouseEnter={() => sounds.hover()}
+    className={
+      "inline-flex items-center justify-center px-5 py-2.5 rounded-full text-[16px] font-semibold transition-all duration-300 ease-out text-black border border-black/25 hover:border-black/55 hover:bg-black/[0.04] active:scale-[0.98] " +
+      className
+    }
+  >
+    {children}
+  </Link>
+);
+
+/* ── Data ────────────────────────────────────────────────── */
 
 const visionPillars = [
   {
     icon: Globe,
     title: "Financial Freedom",
     description:
-      "Anyone, anywhere — transacting without intermediaries or geography deciding their access.",
+      "Anyone, anywhere — transacting without intermediaries or geography deciding access.",
   },
   {
     icon: Eye,
     title: "Transparency",
     description:
-      "Every settlement verifiable on-chain. No hidden fees, no black boxes — just open infrastructure.",
+      "Every settlement verifiable on-chain. No hidden fees. No black boxes.",
   },
   {
     icon: Zap,
     title: "Speed",
     description:
-      "Sub-second finality on Solana. Payments should be instant, not delayed by legacy rails.",
+      "Sub-second finality on Solana. Payments instant, not delayed by legacy rails.",
   },
   {
     icon: Heart,
     title: "Accessibility",
     description:
-      "From a solo merchant to an enterprise checkout — crypto payments made simple and intuitive.",
+      "From a solo merchant to enterprise checkout — crypto payments, simple.",
   },
 ];
 
@@ -56,319 +101,125 @@ const coreValues = [
     icon: Globe,
     title: "Decentralization",
     description:
-      "No single point of failure. The protocol is distributed, permissionless, censorship-resistant.",
+      "No single point of failure. Distributed, permissionless, censorship-resistant.",
   },
   {
     icon: Shield,
-    title: "Security First",
+    title: "Security first",
     description:
-      "Non-custodial architecture with on-chain escrow. Your funds stay under your control.",
+      "Non-custodial architecture with on-chain escrow. Funds stay under your control.",
   },
   {
     icon: Users,
-    title: "User-Centric",
+    title: "User-centric",
     description:
-      "Built from the user backward. We obsess over simplicity and a seamless experience.",
+      "Built from the user backward. Obsessive about simplicity and the seamless experience.",
   },
   {
     icon: Lock,
-    title: "Trust by Proof",
+    title: "Trust by proof",
     description:
       "Open-source protocol, public audits, real-time on-chain data. Verify, don't trust.",
   },
 ];
 
 const metrics = [
-  { value: "150+", label: "Merchant LPs" },
+  { value: "100+", label: "Merchants" },
   { value: "<60s", label: "Avg settlement" },
   { value: "24/7", label: "Always-on" },
   { value: "0", label: "Custodians" },
 ];
 
-/* ── Cinematic Hero ─────────────────────────────────────────── */
+/* ── Reveal wrapper ──────────────────────────────────────── */
 
-function CinematicAboutHero() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-  const glowY = useTransform(scrollYProgress, [0, 1], [0, -120]);
-  const titleY = useTransform(scrollYProgress, [0, 1], [0, -40]);
-
-  return (
-    <section
-      ref={ref}
-      className="relative min-h-[88vh] flex items-center justify-center overflow-hidden bg-[#FAF8F5] dark:bg-black"
-    >
-      {/* Background field */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none"
-        style={{ y: glowY }}
-      >
-        <div
-          className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1100px] h-[700px] rounded-full"
-          style={{
-            background:
-              "radial-gradient(ellipse, rgba(255,107,53,0.15) 0%, rgba(255,107,53,0.04) 40%, transparent 70%)",
-            filter: "blur(20px)",
-          }}
-        />
-        <div
-          className="hidden dark:block absolute bottom-0 left-1/2 -translate-x-1/2 w-[900px] h-[400px] rounded-full"
-          style={{
-            background:
-              "radial-gradient(ellipse, rgba(255,255,255,0.04) 0%, transparent 60%)",
-          }}
-        />
-      </motion.div>
-
-      {/* Particles */}
-      {Array.from({ length: 14 }).map((_, i) => (
-        <motion.span
-          key={i}
-          className="absolute w-1 h-1 rounded-full bg-black/30 dark:bg-white/40"
-          style={{
-            left: `${8 + ((i * 41 + 11) % 84)}%`,
-            top: `${10 + ((i * 53 + 7) % 80)}%`,
-          }}
-          animate={{
-            y: [0, -30, 0],
-            opacity: [0.15, 0.6, 0.15],
-          }}
-          transition={{
-            duration: 4 + (i % 4) * 0.7,
-            repeat: Infinity,
-            delay: (i % 5) * 0.4,
-          }}
-        />
-      ))}
-
-      <motion.div
-        className="relative z-10 text-center px-6 max-w-4xl mx-auto"
-        style={{ y: titleY }}
-      >
-        <div className="mb-6 flex justify-center">
-          <Breadcrumbs
-            items={[{ label: "Home", href: "/" }, { label: "About" }]}
-          />
-        </div>
-
-        {/* Eyebrow pill */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: EASE }}
-          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-black/10 dark:border-white/15 bg-white/40 dark:bg-white/[0.04] backdrop-blur-md mb-7"
-        >
-          <Sparkles className="w-3 h-3" style={{ color: ORANGE }} />
-          <span
-            className="text-[10px] font-bold uppercase tracking-[0.22em]"
-            style={{ color: ORANGE }}
-          >
-            The team behind Blip
-          </span>
-        </motion.div>
-
-        {/* Headline */}
-        <motion.h1
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: EASE, delay: 0.1 }}
-          className="font-display text-[40px] sm:text-6xl md:text-7xl lg:text-[88px] font-semibold text-black dark:text-white tracking-tight leading-[1.04] mb-7"
-        >
-          Settlement
-          <br />
-          <span className="text-black/55 dark:text-white/45">
-            for the next
-          </span>
-          <br />
-          <motion.span
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: EASE, delay: 0.4 }}
-            style={{ color: ORANGE }}
-            className="italic"
-          >
-            billion users.
-          </motion.span>
-        </motion.h1>
-
-        {/* Subtext */}
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: EASE, delay: 0.55 }}
-          className="text-[16px] sm:text-lg text-black/65 dark:text-white/50 max-w-xl mx-auto leading-relaxed mb-9"
-        >
-          A non-custodial protocol for cash, wire, and crypto transfers.
-          Sub-second finality. On-chain proof. No custodians.
-        </motion.p>
-
-        {/* CTA pill */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: EASE, delay: 0.7 }}
-          className="flex flex-col sm:flex-row gap-3 items-center justify-center"
-        >
-          <CTAButton to="/whitepaper" className="w-[200px] h-[48px]">
-            Read whitepaper
-          </CTAButton>
-          <CTAButton
-            to="/contact"
-            variant="secondary"
-            className="w-[180px] h-[48px]"
-          >
-            Get in touch
-          </CTAButton>
-        </motion.div>
-      </motion.div>
-    </section>
-  );
-}
-
-/* ── Animated Counter ───────────────────────────────────────── */
-
-function MetricCard({
-  value,
-  label,
-  index,
+function Reveal({
+  children,
+  delay = 0,
+  className,
 }: {
-  value: string;
-  label: string;
-  index: number;
+  children: React.ReactNode;
+  delay?: number;
+  className?: string;
 }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-30px" });
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
   return (
     <motion.div
       ref={ref}
       initial={{ opacity: 0, y: 18 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay: index * 0.08, ease: EASE }}
-      className="text-center px-2 py-5"
+      transition={{ duration: 0.8, delay, ease: EASE }}
+      className={className}
     >
-      <div
-        className="font-display text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight tabular-nums leading-none"
-        style={{ color: index === 0 ? ORANGE : undefined }}
-      >
-        {value}
-      </div>
-      <div className="mt-2 text-[10px] font-bold uppercase tracking-[0.22em] text-black/40 dark:text-white/35">
-        {label}
-      </div>
+      {children}
     </motion.div>
   );
 }
 
-/* ── Mission Marquee Section ────────────────────────────────── */
+/* ── Pillar / Value card (shared, minimal) ───────────────── */
 
-function MissionSection() {
-  return (
-    <section className="relative py-28 sm:py-36 overflow-hidden">
-      <div className="max-w-5xl mx-auto px-6">
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6 }}
-          className="text-[11px] font-bold uppercase tracking-[0.3em] text-center mb-7"
-          style={{ color: ORANGE }}
-        >
-          Our mission
-        </motion.p>
-        <motion.h2
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 1, ease: EASE }}
-          className="font-display text-3xl sm:text-5xl md:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.08] text-center max-w-4xl mx-auto"
-        >
-          Make global payments feel like{" "}
-          <span className="text-black/55 dark:text-white/45">
-            sending a message —
-          </span>{" "}
-          without anyone in the middle.
-        </motion.h2>
-      </div>
-    </section>
-  );
-}
-
-/* ── Vision / Values Cards ──────────────────────────────────── */
-
-function FeatureCard({
+function MinimalCard({
   icon: Icon,
   title,
   description,
+  onDark,
   index,
 }: {
   icon: React.ElementType;
   title: string;
   description: string;
+  onDark: boolean;
   index: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
-  const [hovered, setHovered] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-
-  const onMove = (e: React.MouseEvent) => {
-    if (!ref.current) return;
-    const r = ref.current.getBoundingClientRect();
-    setMousePos({ x: e.clientX - r.left, y: e.clientY - r.top });
-  };
-
   return (
     <motion.div
       ref={ref}
-      onMouseMove={onMove}
-      onMouseEnter={() => {
-        setHovered(true);
-        sounds.hover();
-      }}
-      onMouseLeave={() => setHovered(false)}
-      initial={{ opacity: 0, y: 22 }}
+      initial={{ opacity: 0, y: 14 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: index * 0.08, ease: EASE }}
-      className="group relative overflow-hidden p-7 rounded-[1.75rem] border border-black/[0.08] dark:border-white/[0.06] bg-white/70 dark:bg-white/[0.025] backdrop-blur-xl hover:border-[#ff6b35]/30 hover:-translate-y-1 transition-all duration-500"
+      transition={{ duration: 0.6, delay: index * 0.06, ease: EASE }}
+      onMouseEnter={() => sounds.hover()}
+      className={
+        onDark
+          ? "p-7 sm:p-8 rounded-2xl border border-white/[0.08] bg-white/[0.02] hover:bg-white/[0.04] transition-colors"
+          : "p-7 sm:p-8 rounded-2xl border border-black/[0.08] bg-white hover:bg-white transition-colors"
+      }
     >
-      {/* Spotlight */}
       <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 transition-opacity duration-500"
-        style={{
-          opacity: hovered ? 1 : 0,
-          background: `radial-gradient(420px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255,107,53,0.08), transparent 45%)`,
-        }}
-      />
-
-      <div className="relative z-10">
-        <div
-          className={`w-11 h-11 rounded-2xl flex items-center justify-center mb-5 border transition-all duration-300 ${
-            hovered
-              ? "border-[#ff6b35]/30 bg-[#ff6b35]/[0.08] scale-110"
-              : "border-black/10 dark:border-white/[0.08] bg-black/[0.03] dark:bg-white/[0.04]"
-          }`}
-        >
-          <Icon
-            className="w-5 h-5 transition-colors"
-            style={{ color: hovered ? ORANGE : undefined }}
-          />
-        </div>
-        <h3 className="text-lg font-semibold text-black dark:text-white mb-2 tracking-tight">
-          {title}
-        </h3>
-        <p className="text-[14px] text-black/55 dark:text-white/45 leading-relaxed">
-          {description}
-        </p>
+        className={
+          "w-10 h-10 rounded-xl flex items-center justify-center mb-5 " +
+          (onDark
+            ? "bg-white/[0.04] border border-white/[0.08]"
+            : "bg-black/[0.03] border border-black/[0.08]")
+        }
+      >
+        <Icon
+          className={onDark ? "w-5 h-5 text-white/85" : "w-5 h-5 text-black/80"}
+          strokeWidth={1.7}
+        />
       </div>
+      <h3
+        className={
+          "text-[17px] font-semibold mb-1.5 tracking-tight " +
+          (onDark ? "text-white" : "text-black")
+        }
+      >
+        {title}
+      </h3>
+      <p
+        className={
+          "text-[14px] leading-relaxed " +
+          (onDark ? "text-white/55" : "text-black/55")
+        }
+      >
+        {description}
+      </p>
     </motion.div>
   );
 }
 
-/* ── Main page ──────────────────────────────────────────────── */
+/* ── Main ────────────────────────────────────────────────── */
 
 export default function About() {
   return (
@@ -381,73 +232,232 @@ export default function About() {
       />
       <HreflangTags path="/about" />
 
-      <div className="min-h-screen bg-[#FAF8F5] dark:bg-black text-black dark:text-white">
-        <CinematicAboutHero />
+      <div className="min-h-screen bg-[#FAF8F5] text-black">
+        {/* ── Hero — Grand, Apple-cinematic ── */}
+        <section className="relative min-h-[92vh] flex items-center pt-32 sm:pt-36 pb-20 overflow-hidden">
+          {/* Dotted grid — Apple-style backdrop */}
+          <div
+            aria-hidden
+            className="absolute inset-0 pointer-events-none opacity-[0.5]"
+            style={{
+              backgroundImage:
+                "radial-gradient(rgba(0,0,0,0.18) 1px, transparent 1px)",
+              backgroundSize: "22px 22px",
+              maskImage:
+                "radial-gradient(ellipse 70% 60% at 50% 45%, black 30%, transparent 80%)",
+              WebkitMaskImage:
+                "radial-gradient(ellipse 70% 60% at 50% 45%, black 30%, transparent 80%)",
+            }}
+          />
+          {/* Soft orange light wash */}
+          <div
+            aria-hidden
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                "radial-gradient(60% 55% at 50% 38%, rgba(255,107,53,0.12) 0%, rgba(255,107,53,0.04) 40%, transparent 75%)",
+            }}
+          />
+          {/* Floating particles */}
+          {Array.from({ length: 10 }).map((_, i) => (
+            <motion.span
+              key={i}
+              aria-hidden
+              className="absolute w-1 h-1 rounded-full bg-black/25"
+              style={{
+                left: `${8 + ((i * 43 + 11) % 84)}%`,
+                top: `${14 + ((i * 53 + 7) % 72)}%`,
+              }}
+              animate={{
+                y: [0, -22, 0],
+                opacity: [0.18, 0.55, 0.18],
+              }}
+              transition={{
+                duration: 4.5 + (i % 4) * 0.7,
+                repeat: Infinity,
+                delay: (i % 5) * 0.5,
+              }}
+            />
+          ))}
+          {/* Top fade line */}
+          <div
+            aria-hidden
+            className="absolute top-24 left-1/2 -translate-x-1/2 w-px h-16 bg-gradient-to-b from-transparent via-black/15 to-transparent"
+          />
 
-        {/* Metrics strip */}
-        <section className="relative -mt-12 sm:-mt-16 z-10">
-          <div className="max-w-5xl mx-auto px-6">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 rounded-3xl border border-black/[0.08] dark:border-white/[0.06] bg-white/70 dark:bg-white/[0.02] backdrop-blur-xl px-4 py-4 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.25)] dark:shadow-[0_30px_80px_-30px_rgba(255,107,53,0.15)]">
+          <div className="relative max-w-[1200px] mx-auto px-6 w-full">
+            <div className="mb-8 flex justify-center">
+              <Breadcrumbs
+                items={[{ label: "Home", href: "/" }, { label: "About" }]}
+              />
+            </div>
+
+            <motion.p
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, ease: EASE }}
+              className="text-center text-[11px] font-semibold uppercase tracking-[0.32em] text-[#ff6b35] mb-8"
+            >
+              About Blip Money
+            </motion.p>
+
+            {/* Headline — word-by-word reveal, a touch smaller than home */}
+            <h1
+              className="font-display text-center font-semibold text-black tracking-tight leading-[1.04]"
+              style={{ fontSize: "clamp(2.75rem, 6.5vw, 5.25rem)" }}
+            >
+              <motion.span
+                initial={{ opacity: 0, y: 40, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 1.1, ease: EASE }}
+                className="block"
+              >
+                Settlement
+              </motion.span>
+              <motion.span
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.1, delay: 0.15, ease: EASE }}
+                className="block text-black/35"
+              >
+                for the next
+              </motion.span>
+              <motion.span
+                initial={{ opacity: 0, y: 40, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 1.2, delay: 0.32, ease: EASE }}
+                className="block italic"
+                style={{ color: "#ff6b35" }}
+              >
+                billion users.
+              </motion.span>
+            </h1>
+
+            {/* Underline rule */}
+            <motion.div
+              initial={{ scaleX: 0, opacity: 0 }}
+              animate={{ scaleX: 1, opacity: 1 }}
+              transition={{ duration: 1.2, delay: 0.7, ease: EASE }}
+              style={{ originX: 0.5 }}
+              className="mx-auto mt-12 h-[2px] w-32 bg-gradient-to-r from-transparent via-black/30 to-transparent"
+            />
+
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.85, ease: EASE }}
+              className="text-center text-[17px] sm:text-xl text-black/55 max-w-2xl mx-auto leading-relaxed mt-10"
+            >
+              A non-custodial protocol for cash, wire, and crypto transfers.
+              <br className="hidden sm:block" />
+              Sub-second finality. On-chain proof. No custodians.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 1.0, ease: EASE }}
+              className="mt-12 flex flex-col sm:flex-row gap-3 items-center justify-center"
+            >
+              <PrimaryLink to="/whitepaper" className="w-[200px] h-[48px]">
+                Read whitepaper
+              </PrimaryLink>
+              <SecondaryLink to="/contact" className="w-[180px] h-[48px]">
+                Get in touch
+              </SecondaryLink>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ── Metrics strip — light, restrained ── */}
+        <section className="border-t border-b border-black/[0.06] bg-white">
+          <div className="max-w-[1100px] mx-auto px-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-black/[0.06]">
               {metrics.map((m, i) => (
-                <MetricCard key={m.label} value={m.value} label={m.label} index={i} />
+                <Reveal
+                  key={m.label}
+                  delay={i * 0.06}
+                  className="text-center py-10"
+                >
+                  <div className="font-display text-3xl sm:text-4xl md:text-5xl font-semibold tabular-nums tracking-tight">
+                    {m.value}
+                  </div>
+                  <div className="mt-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-black/40">
+                    {m.label}
+                  </div>
+                </Reveal>
               ))}
             </div>
           </div>
         </section>
 
-        <MissionSection />
+        {/* ── Mission — DARK ── */}
+        <section className="bg-black text-white py-28 sm:py-36">
+          <div className="max-w-3xl mx-auto px-6">
+            <Reveal>
+              <p className="text-center text-[11px] font-semibold uppercase tracking-[0.3em] text-white/40 mb-7">
+                Our mission
+              </p>
+            </Reveal>
 
-        {/* Mission body */}
-        <section className="-mt-12 pb-24">
-          <div className="max-w-3xl mx-auto px-6 space-y-5 text-black/65 dark:text-white/55 text-[16px] sm:text-lg leading-relaxed text-center">
-            <p>
-              Blip Money exists because sending money should be as simple as
-              sending a message. We are building non-custodial settlement
-              infrastructure that connects buyers, merchants, and liquidity
-              providers in a trustless ecosystem.
-            </p>
-            <p>
-              Built on Solana for sub-second finality, Blip leverages on-chain
-              escrow, stablecoin rails, and decentralized dispute resolution to
-              create a payment layer that works for everyone — from a street
-              vendor in Lagos to an e-commerce checkout in Dubai.
-            </p>
+            <Reveal delay={0.1}>
+              <h2 className="font-display text-center text-3xl sm:text-5xl md:text-6xl font-semibold tracking-tight leading-[1.08]">
+                Sending money
+                <br className="hidden sm:block" />
+                <span className="text-white/45">
+                  {" "}should be as easy as
+                </span>{" "}
+                sending a message.
+              </h2>
+            </Reveal>
+
+            <Reveal delay={0.25}>
+              <div className="mt-10 space-y-5 text-center text-white/55 text-[15px] sm:text-base leading-relaxed">
+                <p>
+                  Blip Money exists because sending money across borders should
+                  not depend on banks, business hours, or paperwork. We are
+                  building non-custodial settlement infrastructure that
+                  connects buyers, merchants, and liquidity providers in a
+                  trustless ecosystem.
+                </p>
+                <p>
+                  Built on Solana for sub-second finality, Blip leverages
+                  on-chain escrow, stablecoin rails, and decentralized dispute
+                  resolution — a payment layer that works for a street vendor
+                  in Lagos and an e-commerce checkout in Dubai equally.
+                </p>
+              </div>
+            </Reveal>
           </div>
         </section>
 
-        {/* ── Our Vision ── */}
-        <section className="py-20 sm:py-24">
-          <div className="max-w-[1100px] mx-auto px-4 sm:px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.7, ease: EASE }}
-              className="text-center mb-14"
-            >
-              <span
-                className="text-[11px] uppercase tracking-[0.3em] font-bold block mb-4"
-                style={{ color: ORANGE }}
-              >
+        {/* ── Vision — LIGHT ── */}
+        <section className="bg-[#FAF8F5] text-black py-24 sm:py-32">
+          <div className="max-w-[1100px] mx-auto px-6">
+            <Reveal>
+              <p className="text-center text-[11px] font-semibold uppercase tracking-[0.3em] text-black/45 mb-5">
                 Our vision
-              </span>
-              <h2 className="font-display text-3xl sm:text-5xl font-semibold text-black dark:text-white tracking-tight">
+              </p>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <h2 className="font-display text-center text-3xl sm:text-5xl font-semibold tracking-tight mb-14">
                 What we are building toward.
               </h2>
-            </motion.div>
+            </Reveal>
 
             <div className="relative">
-              <div className="-mx-4 sm:-mx-6 md:mx-0 px-4 sm:px-6 md:px-0 flex md:grid md:grid-cols-2 gap-4 sm:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                {visionPillars.map((pillar, index) => (
+              <div className="-mx-4 sm:-mx-6 md:mx-0 px-4 sm:px-6 md:px-0 flex md:grid md:grid-cols-2 gap-4 sm:gap-5 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {visionPillars.map((p, i) => (
                   <div
-                    key={pillar.title}
+                    key={p.title}
                     className="snap-start shrink-0 w-[86%] md:w-auto"
                   >
-                    <FeatureCard
-                      icon={pillar.icon}
-                      title={pillar.title}
-                      description={pillar.description}
-                      index={index}
+                    <MinimalCard
+                      icon={p.icon}
+                      title={p.title}
+                      description={p.description}
+                      onDark={false}
+                      index={i}
                     />
                   </div>
                 ))}
@@ -457,39 +467,33 @@ export default function About() {
           </div>
         </section>
 
-        {/* ── Core Values ── */}
-        <section className="py-20 sm:py-24">
-          <div className="max-w-[1100px] mx-auto px-4 sm:px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.7, ease: EASE }}
-              className="text-center mb-14"
-            >
-              <span
-                className="text-[11px] uppercase tracking-[0.3em] font-bold block mb-4"
-                style={{ color: ORANGE }}
-              >
+        {/* ── Values — DARK ── */}
+        <section className="bg-black text-white py-24 sm:py-32">
+          <div className="max-w-[1100px] mx-auto px-6">
+            <Reveal>
+              <p className="text-center text-[11px] font-semibold uppercase tracking-[0.3em] text-white/40 mb-5">
                 Core values
-              </span>
-              <h2 className="font-display text-3xl sm:text-5xl font-semibold text-black dark:text-white tracking-tight">
+              </p>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <h2 className="font-display text-center text-3xl sm:text-5xl font-semibold tracking-tight mb-14">
                 The principles that guide us.
               </h2>
-            </motion.div>
+            </Reveal>
 
             <div className="relative">
-              <div className="-mx-4 sm:-mx-6 md:mx-0 px-4 sm:px-6 md:px-0 flex md:grid md:grid-cols-2 gap-4 sm:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                {coreValues.map((value, index) => (
+              <div className="-mx-4 sm:-mx-6 md:mx-0 px-4 sm:px-6 md:px-0 flex md:grid md:grid-cols-2 gap-4 sm:gap-5 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {coreValues.map((v, i) => (
                   <div
-                    key={value.title}
+                    key={v.title}
                     className="snap-start shrink-0 w-[86%] md:w-auto"
                   >
-                    <FeatureCard
-                      icon={value.icon}
-                      title={value.title}
-                      description={value.description}
-                      index={index}
+                    <MinimalCard
+                      icon={v.icon}
+                      title={v.title}
+                      description={v.description}
+                      onDark={true}
+                      index={i}
                     />
                   </div>
                 ))}
@@ -499,49 +503,36 @@ export default function About() {
           </div>
         </section>
 
-        {/* ── Build with us CTA ── */}
-        <section className="relative py-24 sm:py-32 overflow-hidden">
-          <div className="absolute inset-0 pointer-events-none">
-            <div
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] rounded-full"
-              style={{
-                background:
-                  "radial-gradient(ellipse, rgba(255,107,53,0.10) 0%, rgba(255,107,53,0.02) 45%, transparent 75%)",
-                filter: "blur(10px)",
-              }}
-            />
-          </div>
-          <div className="relative max-w-3xl mx-auto px-6 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.9, ease: EASE }}
-            >
+        {/* ── CTA — LIGHT ── */}
+        <section className="bg-[#FAF8F5] text-black py-24 sm:py-32">
+          <div className="max-w-3xl mx-auto px-6 text-center">
+            <Reveal>
               <Target
-                className="w-9 h-9 mx-auto mb-6"
-                style={{ color: ORANGE }}
+                className="w-9 h-9 mx-auto mb-7 text-black/65"
+                strokeWidth={1.5}
               />
-              <h2 className="font-display text-3xl sm:text-5xl font-semibold text-black dark:text-white tracking-tight mb-5">
+            </Reveal>
+            <Reveal delay={0.08}>
+              <h2 className="font-display text-3xl sm:text-5xl font-semibold tracking-tight mb-5">
                 Want to build with us?
               </h2>
-              <p className="text-base sm:text-lg text-black/60 dark:text-white/45 max-w-xl mx-auto mb-9 leading-relaxed">
+            </Reveal>
+            <Reveal delay={0.15}>
+              <p className="text-base sm:text-lg text-black/55 max-w-xl mx-auto mb-10 leading-relaxed">
                 We&apos;re always looking for builders who share our vision for
                 open, decentralized finance.
               </p>
+            </Reveal>
+            <Reveal delay={0.22}>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                <CTAButton to="/contact" className="w-[200px] h-[48px]">
+                <PrimaryLink to="/contact" className="w-[200px] h-[48px]">
                   Get in touch
-                </CTAButton>
-                <CTAButton
-                  to="/whitepaper"
-                  variant="secondary"
-                  className="w-[180px] h-[48px]"
-                >
+                </PrimaryLink>
+                <SecondaryLink to="/whitepaper" className="w-[180px] h-[48px]">
                   Read whitepaper
-                </CTAButton>
+                </SecondaryLink>
               </div>
-            </motion.div>
+            </Reveal>
           </div>
         </section>
       </div>

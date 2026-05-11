@@ -1,7 +1,19 @@
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { Radar, Zap, CheckCircle2, ArrowRight } from "lucide-react";
+import {
+  Radar,
+  Zap,
+  CheckCircle2,
+  ArrowRight,
+  Bell,
+  Hand,
+  Trophy,
+  Receipt,
+  Lock,
+} from "lucide-react";
 import { SwipeHint } from "@/components/IndexSections/SwipeHint";
+
+const ORANGE = "#ff6b35";
 
 const STEPS = [
   {
@@ -10,7 +22,7 @@ const STEPS = [
     subtitle: "Live order feed.",
     icon: Radar,
     desc: "Incoming user requests stream into your dashboard the moment they're created — filtered by your corridors, limits, and risk profile.",
-    accent: "#ff6b35",
+    accent: ORANGE,
   },
   {
     step: 2,
@@ -18,7 +30,7 @@ const STEPS = [
     subtitle: "First merchant wins.",
     icon: Zap,
     desc: "150+ merchants compete on every order. The fastest competitive bid wins — one tap to lock it in.",
-    accent: "#ff6b35",
+    accent: ORANGE,
   },
   {
     step: 3,
@@ -26,203 +38,374 @@ const STEPS = [
     subtitle: "Escrow handles the rest.",
     icon: CheckCircle2,
     desc: "Funds release the moment fiat lands. On-chain proof, deterministic settlement, no chargebacks.",
-    accent: "#ff6b35",
+    accent: ORANGE,
   },
 ] as const;
 
-/* ------------------------------------------------------------------ */
-/* Mockup 1: Live order feed                                          */
-/* ------------------------------------------------------------------ */
-function OrderFeedMockup({ hovered }: { hovered?: boolean }) {
-  const [orders, setOrders] = useState([
-    { id: 1, pair: "USDT→AED", amt: "$2,400", rate: "3.672", fresh: true },
-    { id: 2, pair: "USDT→INR", amt: "$850", rate: "97.20", fresh: false },
-    { id: 3, pair: "USDT→PHP", amt: "$5,100", rate: "55.81", fresh: false },
-  ]);
+/* ── Borderless stage (matches TrustSection style) ─────────────── */
+const Stage = ({ children }: { children: React.ReactNode }) => (
+  <div
+    className="relative mx-auto"
+    style={{ width: 260, height: 200 }}
+  >
+    {children}
+  </div>
+);
 
-  useEffect(() => {
-    if (!hovered) return;
-    const id = setInterval(() => {
-      const pairs = ["USDT→AED", "USDT→INR", "USDT→PHP", "USDT→NGN"];
-      const rates: Record<string, string> = {
-        "USDT→AED": "3.67",
-        "USDT→INR": "97.2",
-        "USDT→PHP": "55.8",
-        "USDT→NGN": "1680",
-      };
-      const pair = pairs[Math.floor(Math.random() * pairs.length)];
-      const amt = `$${Math.floor(Math.random() * 8000 + 500).toLocaleString()}`;
-      setOrders((prev) =>
-        [{ id: Date.now(), pair, amt, rate: rates[pair], fresh: true }, ...prev.map((o) => ({ ...o, fresh: false }))].slice(0, 3),
-      );
-    }, 1500);
-    return () => clearInterval(id);
-  }, [hovered]);
-
+/* ── 01 — Find a new order: iPhone with order alert ───────────── */
+function OrderAlertVisual() {
   return (
-    <div className="p-3 flex flex-col gap-1.5">
-      <div className="flex items-center justify-between mb-1">
-        <div className="flex items-center gap-1.5">
-          <motion.span
-            className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]"
-            animate={{ opacity: [1, 0.3, 1] }}
-            transition={{ duration: 1.2, repeat: Infinity }}
-          />
-          <span className="text-[8px] font-bold uppercase tracking-widest text-black/50 dark:text-white/40">Live feed</span>
-        </div>
-        <span className="text-[8px] font-mono text-black/30 dark:text-white/25">{orders.length} open</span>
-      </div>
-      <AnimatePresence mode="popLayout">
-        {orders.map((o) => (
-          <motion.div
-            key={o.id}
-            layout
-            initial={{ opacity: 0, x: -8, backgroundColor: "rgba(255,107,53,0.12)" }}
-            animate={{ opacity: 1, x: 0, backgroundColor: "rgba(0,0,0,0.04)" }}
-            exit={{ opacity: 0, x: 8 }}
-            transition={{ duration: 0.35 }}
-            className="flex items-center justify-between px-2.5 py-1.5 rounded-md border border-black/[0.04] dark:border-white/[0.04]"
-          >
-            <div className="flex items-center gap-2">
-              <span className="text-[9px] font-mono text-black/40 dark:text-white/30">{o.pair}</span>
-              <span className="text-[9px] font-semibold text-black/70 dark:text-white/70">{o.amt}</span>
-            </div>
-            <span className="text-[9px] font-mono text-black/50 dark:text-white/50">{o.rate}</span>
-          </motion.div>
-        ))}
-      </AnimatePresence>
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* Mockup 2: Accept-before-others bid race                            */
-/* ------------------------------------------------------------------ */
-function BidRaceMockup({ hovered }: { hovered?: boolean }) {
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    if (!hovered) return;
-    const id = setInterval(() => {
-      setProgress((p) => (p >= 100 ? 0 : p + 4));
-    }, 60);
-    return () => clearInterval(id);
-  }, [hovered]);
-
-  const merchants = [
-    { name: "You", color: "#ff6b35", lead: progress },
-    { name: "AlphaFX", color: "rgba(0,0,0,0.45)", lead: Math.max(0, progress - 18) },
-    { name: "GulfTrade", color: "rgba(0,0,0,0.3)", lead: Math.max(0, progress - 32) },
-  ];
-
-  return (
-    <div className="p-3 flex flex-col gap-2 h-full justify-center">
-      {merchants.map((m, i) => (
-        <div key={m.name} className="flex items-center gap-2">
-          <span
-            className="text-[9px] font-bold w-14 shrink-0"
-            style={{ color: i === 0 ? "#ff6b35" : undefined }}
-          >
-            {m.name}
-          </span>
-          <div className="flex-1 h-1.5 rounded-full bg-black/[0.06] dark:bg-white/[0.06] overflow-hidden">
-            <motion.div
-              className="h-full rounded-full"
-              animate={{ width: `${Math.min(m.lead, 100)}%` }}
-              transition={{ duration: 0.05 }}
-              style={{ background: m.color }}
-            />
-          </div>
-          {i === 0 && progress >= 100 && (
-            <span className="text-[8px] font-bold uppercase tracking-wider" style={{ color: "#ff6b35" }}>
-              Won
+    <Stage>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <motion.div
+          animate={{ y: [0, -3, 0] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          className="relative rounded-[22px] overflow-hidden flex flex-col items-center"
+          style={{
+            width: 132,
+            height: 188,
+            background:
+              "linear-gradient(155deg, #1a1a1d 0%, #0a0a0c 50%, #050507 100%)",
+            boxShadow:
+              "0 30px 60px -20px rgba(0,0,0,0.55), 0 0 0 1.5px rgba(255,255,255,0.06), inset 0 0 0 1px rgba(255,255,255,0.04)",
+          }}
+        >
+          {/* status bar */}
+          <div className="w-full flex items-center justify-between px-3 pt-2">
+            <span className="text-[6.5px] font-semibold text-white/80">
+              9:41
             </span>
-          )}
-        </div>
-      ))}
-      <div className="mt-1 flex items-center justify-center gap-1">
-        <Zap size={9} className="text-[#ff6b35]" />
-        <span className="text-[8px] font-mono uppercase tracking-wider text-black/40 dark:text-white/40">
-          {progress >= 100 ? "Order locked" : "Bidding..."}
-        </span>
-      </div>
-    </div>
-  );
-}
+            <div className="flex items-center gap-[2px]">
+              <div className="w-[7px] h-[3.5px] rounded-[1.5px] bg-white/55" />
+              <div className="w-[3.5px] h-[3.5px] rounded-full bg-white/55" />
+            </div>
+          </div>
+          <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-7 h-1.5 rounded-full bg-black" />
 
-/* ------------------------------------------------------------------ */
-/* Mockup 3: Execute / Settle flow                                    */
-/* ------------------------------------------------------------------ */
-function SettleMockup({ hovered }: { hovered?: boolean }) {
-  const stages = ["Lock", "Fiat", "Release", "Done"];
-  const [idx, setIdx] = useState(0);
-
-  useEffect(() => {
-    if (!hovered) {
-      setIdx(0);
-      return;
-    }
-    const id = setInterval(() => {
-      setIdx((v) => (v >= stages.length - 1 ? 0 : v + 1));
-    }, 600);
-    return () => clearInterval(id);
-  }, [hovered]);
-
-  return (
-    <div className="p-3 h-full flex flex-col justify-center gap-3">
-      <div className="flex items-center gap-1.5">
-        {stages.map((s, i) => (
-          <React.Fragment key={s}>
-            <motion.div
-              animate={{
-                backgroundColor:
-                  i <= idx ? "#ff6b35" : "rgba(0,0,0,0.08)",
-                scale: i === idx ? [1, 1.25, 1] : 1,
-              }}
-              transition={{ duration: 0.4 }}
-              className="w-2 h-2 rounded-full shrink-0"
-            />
-            {i < stages.length - 1 && (
-              <motion.div
-                animate={{
-                  background:
-                    i < idx
-                      ? "#ff6b35"
-                      : "rgba(0,0,0,0.06)",
-                }}
-                className="flex-1 h-[1.5px] rounded-full"
-              />
-            )}
-          </React.Fragment>
-        ))}
-      </div>
-      <div className="flex items-center justify-between text-[8px] font-mono">
-        {stages.map((s, i) => (
-          <span
-            key={s}
-            className="uppercase tracking-wider transition-colors"
+          {/* notification card */}
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0, y: -6 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.6,
+              ease: [0.22, 1, 0.36, 1],
+              repeat: Infinity,
+              repeatDelay: 2.6,
+              repeatType: "reverse",
+            }}
+            className="mt-4 mx-2 rounded-[10px] overflow-hidden"
             style={{
-              color: i <= idx ? "#ff6b35" : "rgba(0,0,0,0.25)",
+              width: "calc(100% - 16px)",
+              background:
+                "linear-gradient(160deg, rgba(255,107,53,0.22) 0%, rgba(255,107,53,0.08) 100%)",
+              border: "1px solid rgba(255,107,53,0.4)",
+              boxShadow:
+                "0 6px 16px -6px rgba(255,107,53,0.5), inset 0 1px 0 rgba(255,255,255,0.08)",
             }}
           >
-            {s}
+            <div className="px-2.5 py-2">
+              <div className="flex items-center gap-1.5 mb-1.5">
+                <motion.div
+                  animate={{
+                    rotate: [0, -12, 12, -6, 6, 0],
+                  }}
+                  transition={{
+                    duration: 0.8,
+                    repeat: Infinity,
+                    repeatDelay: 2.4,
+                  }}
+                  className="w-3.5 h-3.5 rounded-full flex items-center justify-center"
+                  style={{ background: ORANGE }}
+                >
+                  <Bell size={7} strokeWidth={2.6} className="text-white" />
+                </motion.div>
+                <span className="text-[6.5px] font-bold uppercase tracking-[0.18em] text-white">
+                  New order
+                </span>
+                <span className="ml-auto text-[5.5px] font-mono text-white/45">
+                  now
+                </span>
+              </div>
+              <div className="text-[9px] font-bold font-mono text-white tabular-nums leading-tight">
+                $2,400
+              </div>
+              <div className="text-[6.5px] text-white/55 leading-tight mt-0.5">
+                USDT → AED · 3.672
+              </div>
+            </div>
+          </motion.div>
+
+          {/* second muted notification */}
+          <div
+            className="mt-1.5 mx-2 rounded-[8px] px-2 py-1.5 opacity-50"
+            style={{
+              width: "calc(100% - 16px)",
+              background: "rgba(255,255,255,0.04)",
+              border: "1px solid rgba(255,255,255,0.05)",
+            }}
+          >
+            <div className="text-[6px] font-bold uppercase tracking-[0.15em] text-white/45 mb-0.5">
+              Order
+            </div>
+            <div className="text-[7px] font-mono text-white/55">
+              $850 · USDT/INR
+            </div>
+          </div>
+
+          <span className="absolute bottom-3 left-1/2 -translate-x-1/2 text-[5.5px] font-mono text-white/30 tracking-wider">
+            Live feed · {`{2 new}`}
           </span>
-        ))}
+        </motion.div>
       </div>
-      <div className="mt-1 rounded-md border border-black/[0.06] dark:border-white/[0.06] px-2.5 py-1.5 flex items-center justify-between">
-        <span className="text-[9px] font-semibold text-black/70 dark:text-white/70">Margin earned</span>
-        <motion.span
-          key={idx}
-          initial={{ y: -2, opacity: 0.5 }}
-          animate={{ y: 0, opacity: 1 }}
-          className="text-[10px] font-bold font-mono text-black/80 dark:text-white/80"
-        >
-          +${(18.2 + idx * 1.4).toFixed(2)}
-        </motion.span>
-      </div>
-    </div>
+    </Stage>
   );
 }
+
+/* ── 02 — Accept before others: tap button + WON badge ────────── */
+function AcceptVisual() {
+  return (
+    <Stage>
+      <div className="absolute inset-0 flex items-center justify-center">
+        {/* WON trophy ribbon — top */}
+        <motion.div
+          initial={{ y: -10, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{
+            duration: 0.6,
+            ease: [0.22, 1, 0.36, 1],
+            repeat: Infinity,
+            repeatDelay: 2.6,
+            repeatType: "reverse",
+          }}
+          className="absolute top-2 left-1/2 -translate-x-1/2 z-10 flex items-center gap-1.5 px-2.5 py-1 rounded-full"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(255,107,53,1) 0%, rgba(220,82,30,1) 100%)",
+            boxShadow:
+              "0 6px 18px -4px rgba(255,107,53,0.6), inset 0 1px 0 rgba(255,255,255,0.4)",
+          }}
+        >
+          <Trophy size={9} strokeWidth={2.6} className="text-white" />
+          <span className="text-[8px] font-bold uppercase tracking-[0.22em] text-white">
+            Won · 1.2s
+          </span>
+        </motion.div>
+
+        {/* Tap button — large glossy */}
+        <motion.div
+          animate={{ y: [0, -2, 0] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          className="relative"
+        >
+          <motion.div
+            animate={{
+              boxShadow: [
+                `0 16px 32px -10px rgba(255,107,53,0.5), inset 0 1px 0 rgba(255,255,255,0.25)`,
+                `0 16px 32px -10px rgba(255,107,53,0.8), inset 0 1px 0 rgba(255,255,255,0.25)`,
+                `0 16px 32px -10px rgba(255,107,53,0.5), inset 0 1px 0 rgba(255,255,255,0.25)`,
+              ],
+            }}
+            transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+            className="relative rounded-[26px] flex flex-col items-center justify-center"
+            style={{
+              width: 130,
+              height: 130,
+              background:
+                "linear-gradient(155deg, #ff8c5a 0%, #ff6b35 45%, #d44d1f 100%)",
+            }}
+          >
+            {/* glossy highlight */}
+            <div
+              className="absolute"
+              style={{
+                top: 6,
+                left: 6,
+                right: 6,
+                height: 36,
+                borderRadius: 22,
+                background:
+                  "linear-gradient(180deg, rgba(255,255,255,0.42), rgba(255,255,255,0))",
+                opacity: 0.85,
+              }}
+            />
+            <Hand
+              size={42}
+              strokeWidth={1.8}
+              className="text-white relative z-10"
+            />
+            <span className="mt-1 relative z-10 text-[9px] font-bold uppercase tracking-[0.18em] text-white drop-shadow-sm">
+              Accept
+            </span>
+
+            {/* pulsing ripple */}
+            <motion.span
+              className="absolute inset-0 rounded-[26px] border-2"
+              style={{ borderColor: ORANGE }}
+              animate={{
+                scale: [1, 1.18, 1],
+                opacity: [0.55, 0, 0.55],
+              }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut" }}
+            />
+          </motion.div>
+        </motion.div>
+
+        {/* Competing dots below */}
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5">
+          {[0, 1, 2, 3, 4].map((i) => (
+            <motion.span
+              key={i}
+              animate={{ opacity: [0.2, 0.6, 0.2] }}
+              transition={{
+                duration: 1.5,
+                delay: i * 0.15,
+                repeat: Infinity,
+              }}
+              className="w-1 h-1 rounded-full bg-white/45"
+            />
+          ))}
+          <span className="ml-1.5 text-[6.5px] font-mono uppercase tracking-[0.2em] text-white/40">
+            150+ bidding
+          </span>
+        </div>
+      </div>
+    </Stage>
+  );
+}
+
+/* ── 03 — Execute & settle: settled receipt with check ────────── */
+function SettleReceiptVisual() {
+  return (
+    <Stage>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <motion.div
+          animate={{ y: [0, -3, 0], rotate: [-1.5, 1.5, -1.5] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          className="relative rounded-[14px] overflow-hidden"
+          style={{
+            width: 168,
+            height: 188,
+            background:
+              "linear-gradient(170deg, #ffffff 0%, #f4f4f6 60%, #e8e8eb 100%)",
+            boxShadow:
+              "0 30px 50px -20px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,1)",
+          }}
+        >
+          {/* zig-zag bottom edge (receipt look) */}
+          <div
+            className="absolute bottom-0 left-0 right-0 h-2"
+            style={{
+              background:
+                "linear-gradient(135deg, transparent 25%, white 25%) -3px 0/6px 6px, linear-gradient(225deg, transparent 25%, white 25%) -3px 0/6px 6px",
+              backgroundColor: "transparent",
+            }}
+          />
+
+          {/* top header band */}
+          <div
+            className="px-3 py-2 flex items-center justify-between"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(255,107,53,0.12), rgba(255,107,53,0))",
+              borderBottom: "1px dashed rgba(0,0,0,0.1)",
+            }}
+          >
+            <span className="text-[7px] font-bold uppercase tracking-[0.22em] text-black/55">
+              Settlement
+            </span>
+            <span className="text-[6.5px] font-mono text-black/35">
+              #487192
+            </span>
+          </div>
+
+          {/* check badge */}
+          <div className="flex flex-col items-center pt-3 pb-2">
+            <motion.div
+              className="rounded-full flex items-center justify-center"
+              style={{
+                width: 44,
+                height: 44,
+                background:
+                  "linear-gradient(155deg, rgba(255,107,53,0.18), rgba(255,107,53,0.05))",
+                border: `2px solid ${ORANGE}`,
+              }}
+              animate={{
+                boxShadow: [
+                  `0 0 0 0 rgba(255,107,53,0.55)`,
+                  `0 0 0 14px rgba(255,107,53,0)`,
+                ],
+              }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
+            >
+              <CheckCircle2
+                size={22}
+                strokeWidth={2.6}
+                style={{ color: ORANGE }}
+              />
+            </motion.div>
+            <span className="mt-2 text-[10px] font-bold text-black tracking-tight">
+              Settled
+            </span>
+            <span className="text-[7px] font-semibold uppercase tracking-[0.18em] text-black/40">
+              On-chain
+            </span>
+          </div>
+
+          {/* details rows */}
+          <div className="mx-3 mt-1 space-y-1.5 text-[7px]">
+            <div className="flex items-center justify-between">
+              <span className="text-black/40">Amount</span>
+              <span className="font-mono font-bold text-black tabular-nums">
+                $2,400
+              </span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-black/40">Margin</span>
+              <motion.span
+                animate={{ opacity: [0.85, 1, 0.85] }}
+                transition={{ duration: 1.8, repeat: Infinity }}
+                className="font-mono font-bold tabular-nums"
+                style={{ color: ORANGE }}
+              >
+                +$18.20
+              </motion.span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-black/40">Tx</span>
+              <span className="font-mono text-black/55 tabular-nums">
+                0x7a…4f3b
+              </span>
+            </div>
+          </div>
+
+          {/* chain confirmations */}
+          <div className="absolute bottom-3 left-3 right-3 flex items-center gap-1.5">
+            {[0, 1, 2, 3].map((i) => (
+              <motion.div
+                key={i}
+                animate={{ backgroundColor: [ORANGE, "#d44d1f", ORANGE] }}
+                transition={{
+                  duration: 1.6,
+                  delay: i * 0.18,
+                  repeat: Infinity,
+                }}
+                className="flex-1 h-1 rounded-full"
+                style={{ background: ORANGE }}
+              />
+            ))}
+            <Lock
+              size={8}
+              strokeWidth={2.2}
+              className="ml-1 text-black/35"
+            />
+          </div>
+        </motion.div>
+      </div>
+    </Stage>
+  );
+}
+
+const VISUALS = [OrderAlertVisual, AcceptVisual, SettleReceiptVisual];
 
 /* ------------------------------------------------------------------ */
 /* Card                                                                */
@@ -233,18 +416,16 @@ function StepCard({
   subtitle,
   desc,
   icon: Icon,
-  index,
   delay,
-  Mockup,
+  Visual,
 }: {
   step: number;
   title: string;
   subtitle: string;
   desc: string;
   icon: React.ElementType;
-  index: number;
   delay: number;
-  Mockup: React.ComponentType<{ hovered?: boolean }>;
+  Visual: React.ComponentType;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [hovered, setHovered] = useState(false);
@@ -257,7 +438,7 @@ function StepCard({
     const x = e.clientX - r.left;
     const y = e.clientY - r.top;
     setMousePos({ x, y });
-    setRotate({ x: (y - r.height / 2) / 30, y: (r.width / 2 - x) / 30 });
+    setRotate({ x: (y - r.height / 2) / 35, y: (r.width / 2 - x) / 35 });
   };
 
   return (
@@ -274,7 +455,7 @@ function StepCard({
         bg-white/80 dark:bg-[#0a0a0c]
         backdrop-blur-xl p-7
         transition-all duration-500
-        hover:shadow-[0_30px_80px_rgba(255,107,53,0.12)]
+        hover:shadow-[0_30px_80px_rgba(255,107,53,0.18)]
         hover:-translate-y-2
         hover:border-[#ff6b35]/30"
       style={{
@@ -282,7 +463,6 @@ function StepCard({
         transform: `perspective(1000px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg)`,
       }}
     >
-      {/* Spotlight */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 transition-opacity duration-500"
@@ -292,23 +472,21 @@ function StepCard({
         }}
       />
 
-      {/* Step pill */}
       <div className="absolute top-5 right-5 flex items-center gap-1.5">
         <span
           className="text-[9px] font-mono tracking-[0.18em] uppercase"
-          style={{ color: hovered ? "#ff6b35" : "rgba(0,0,0,0.35)" }}
+          style={{ color: hovered ? ORANGE : "rgba(255,255,255,0.35)" }}
         >
           Step
         </span>
         <span
           className="text-[10px] font-bold font-mono"
-          style={{ color: "#ff6b35" }}
+          style={{ color: ORANGE }}
         >
           0{step}
         </span>
       </div>
 
-      {/* Icon + title */}
       <div className="relative z-10 flex flex-col gap-5 mb-6">
         <div
           className={`flex h-12 w-12 items-center justify-center rounded-2xl border transition-all duration-300 ${
@@ -332,9 +510,9 @@ function StepCard({
         </div>
       </div>
 
-      {/* Mockup panel */}
-      <div className="relative mt-auto h-44 overflow-hidden rounded-2xl border border-black/[0.06] dark:border-white/[0.05] bg-black/[0.02] dark:bg-[#050507]">
-        <Mockup hovered={hovered} />
+      {/* Visual — rendered, premium */}
+      <div className="relative mt-auto rounded-2xl overflow-hidden bg-black/[0.02] dark:bg-[#050507] border border-black/[0.04] dark:border-white/[0.04]">
+        <Visual />
         <div className="absolute bottom-0 inset-x-0 h-6 border-t border-black/[0.05] dark:border-white/[0.05] bg-white/60 dark:bg-black/80 backdrop-blur-sm flex items-center justify-between px-3">
           <span className="text-[8px] font-mono text-black/40 dark:text-white/40">
             STEP_0{step}
@@ -352,8 +530,6 @@ function StepCard({
 const HowItWorksSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-120px" });
-
-  const MOCKUPS = [OrderFeedMockup, BidRaceMockup, SettleMockup];
 
   return (
     <section
@@ -373,7 +549,7 @@ const HowItWorksSection = () => {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
           className="text-[11px] uppercase tracking-[0.3em] font-semibold mb-4"
-          style={{ color: "#ff6b35" }}
+          style={{ color: ORANGE }}
         >
           Three taps. One settled trade.
         </motion.p>
@@ -392,9 +568,8 @@ const HowItWorksSection = () => {
                 subtitle={s.subtitle}
                 desc={s.desc}
                 icon={s.icon}
-                index={i}
                 delay={0.2 + i * 0.1}
-                Mockup={MOCKUPS[i]}
+                Visual={VISUALS[i]}
               />
             </div>
           ))}

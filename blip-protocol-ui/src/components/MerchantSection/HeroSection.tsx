@@ -76,34 +76,32 @@ export const CinematicHeroOfMerchant = () => {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="mb-8"
           >
-            <span className="text-[11px]  uppercase tracking-[0.3em] text-black dark:text-white/30 font-semibold">
-              The merchant protocol
+            <span className="text-[11px]  uppercase tracking-[0.3em] text-[#ff6b35] font-semibold">
+              Merchant-first protocol
             </span>
           </motion.div>
           <motion.h1 className="font-display font-bold text-black dark:text-white leading-[1.1] tracking-tight text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl mb-8">
-            The settlement layer
-            <br /> for{" "}
+            Built for{" "}
+            <span className="text-[#ff6b35]">merchants.</span>
+            <br />
             <span className="text-black/80 dark:text-white/50">
-              borderless
-            </span>{" "}
-            money.
+              From day one.
+            </span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-black dark:text-white/40 text-base sm:text-lg max-w-md mx-auto mb-12 leading-relaxed font-medium"
+            className="text-black dark:text-white/45 text-base sm:text-lg max-w-md mx-auto mb-12 leading-relaxed font-medium"
           >
-            Users create requests.{" "}
-            <strong className="text-black/70 dark:text-white/70">
-              Merchants accept
-            </strong>
-            , price, and settle off-chain.{" "}
-            <strong className="text-black/70 dark:text-white/70">
-              Escrow-secured
-            </strong>
-            , on-chain verified.
+            <strong className="text-black dark:text-white/80">
+              You set your margin.
+            </strong>{" "}
+            <strong className="text-black dark:text-white/80">
+              You win the order.
+            </strong>{" "}
+            Paid on-chain — no banks, no chargebacks.
           </motion.p>
 
           <motion.div
