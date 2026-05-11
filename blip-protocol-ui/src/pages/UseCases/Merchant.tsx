@@ -518,7 +518,7 @@ const PricingSection = () => {
                     delay: 0.4 + i * 0.02,
                     ease: "easeOut",
                   }}
-                  className="flex-1 rounded-full origin-bottom bg-gradient-to-t from-black/10 to-[#ff6b35]/70 dark:from-white/10 dark:to-[#ff6b35]"
+                  className="flex-1 rounded-full origin-bottom bg-gradient-to-t from-black/20 to-black"
                   style={{
                     height: `${35 + Math.sin(i * 0.6) * 25 + (i % 4) * 8}%`,
                   }}
@@ -557,14 +557,14 @@ const PricingSection = () => {
                   initial={{ width: 0 }}
                   animate={isInView ? { width: "55%" } : {}}
                   transition={{ duration: 1.4, delay: 0.6, ease: "easeOut" }}
-                  className="absolute left-[15%] h-full bg-[#ff6b35]"
+                  className="absolute left-[15%] h-full bg-[#1d1d1f]"
                 />
                 <div className="absolute left-[15%] top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-white shadow-lg" />
                 <div className="absolute left-[70%] top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-white shadow-lg" />
               </div>
               <div className="flex justify-between mt-3 text-[10px] font-mono text-white/40">
                 <span>min</span>
-                <span className="text-[#ff6b35]">reference</span>
+                <span className="text-black font-semibold">reference</span>
                 <span>max</span>
               </div>
             </div>
