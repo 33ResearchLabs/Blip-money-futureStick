@@ -124,20 +124,34 @@ export default function Register({
     } catch (error: any) {
       const status = error.response?.status;
       const serverMessage = error.response?.data?.message;
+      const serverCode = error.response?.data?.code;
       // Always log full error to console so we can diagnose in prod from devtools
       console.error("[register] failed", {
         status,
+        serverCode,
         serverMessage,
         responseBody: error.response?.data,
         errorMessage: error.message,
         url: error.config?.url,
       });
-      const message =
-        serverMessage ||
-        (status
-          ? `Registration failed (HTTP ${status}). Please try again.`
-          : error.message || "Registration failed. Please try again.");
-      toast.error(message);
+
+      // Email-already-exists → surface a clear toast with a Log in shortcut
+      if (status === 409 || serverCode === "EMAIL_EXISTS") {
+        const loginPath = isMerchant ? "/merchant-login" : "/login";
+        toast.error("Email already registered. Please log in.", {
+          action: {
+            label: "Log in",
+            onClick: () => navigate(loginPath),
+          },
+        });
+      } else {
+        const message =
+          serverMessage ||
+          (status
+            ? `Registration failed (HTTP ${status}). Please try again.`
+            : error.message || "Registration failed. Please try again.");
+        toast.error(message);
+      }
     } finally {
       setIsLoading(false);
     }
