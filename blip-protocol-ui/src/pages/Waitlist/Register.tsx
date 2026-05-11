@@ -509,31 +509,31 @@ export default function Register({
             />
           </div>
 
-          {/* reCAPTCHA */}
-          {import.meta.env.VITE_RECAPTCHA_SITE_KEY && (
-            <div className="flex justify-center">
-              <ReCAPTCHA
-                ref={recaptchaRef}
-                sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
-                onChange={(token) => setCaptchaToken(token)}
-                onExpired={() => setCaptchaToken(null)}
-                theme={
-                  document.documentElement.classList.contains("dark")
-                    ? "dark"
-                    : "light"
-                }
-              />
-            </div>
-          )}
+          {/* reCAPTCHA — only render if site key is a real Google key (not the placeholder) */}
+          {import.meta.env.VITE_RECAPTCHA_SITE_KEY &&
+            import.meta.env.VITE_RECAPTCHA_SITE_KEY !==
+              "your_recaptcha_site_key" && (
+              <div className="flex justify-center">
+                <ReCAPTCHA
+                  ref={recaptchaRef}
+                  sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+                  onChange={(token) => setCaptchaToken(token)}
+                  onExpired={() => setCaptchaToken(null)}
+                  theme={
+                    document.documentElement.classList.contains("dark")
+                      ? "dark"
+                      : "light"
+                  }
+                />
+              </div>
+            )}
 
-          {/* Submit Button */}
+          {/* Submit Button — captcha state no longer blocks submission;
+              backend gates on RECAPTCHA_SECRET_KEY presence anyway */}
           <div className="pt-1">
             <button
               type="submit"
-              disabled={
-                isLoading ||
-                (!!import.meta.env.VITE_RECAPTCHA_SITE_KEY && !captchaToken)
-              }
+              disabled={isLoading}
               className="w-full py-3.5 bg-white text-black border border-black/10 font-semibold rounded-xl transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
             >
               {isLoading ? (
