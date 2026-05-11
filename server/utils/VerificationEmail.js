@@ -2,7 +2,8 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const FROM_EMAIL = process.env.EMAIL_FROM || "Blip Money <noreply@blip.money>";
+// HARDCODED to the Resend-verified domain — see services/email.service.js for context.
+const FROM_EMAIL = "Blip Money <noreply@blip.money>";
 
 export const sendVerificationEmailNew = async (email, otp) => {
   console.log(`[email-otp] verification → to=${email} from=${FROM_EMAIL}`);

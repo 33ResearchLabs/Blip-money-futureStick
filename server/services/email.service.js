@@ -1,7 +1,12 @@
 import { Resend } from "resend";
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
-const FROM_EMAIL = process.env.EMAIL_FROM || "Blip Money <noreply@blip.money>";
+// HARDCODED to the Resend-verified domain. The env var EMAIL_FROM on Railway
+// was set to "blipmoney.com" (unverified) and was causing Resend to reject
+// every send. The verified domain in Resend is "blip.money" (with the dot,
+// because .money is a real TLD). We ignore EMAIL_FROM intentionally — if you
+// ever need to switch sender, change this line.
+const FROM_EMAIL = "Blip Money <noreply@blip.money>";
 
 // Boot-time visibility — log once so we can confirm prod env in Railway logs
 console.log(
@@ -9,6 +14,11 @@ console.log(
 );
 if (!RESEND_API_KEY) {
   console.error("[email] RESEND_API_KEY is not set — every send call will fail.");
+}
+if (process.env.EMAIL_FROM && process.env.EMAIL_FROM !== FROM_EMAIL) {
+  console.warn(
+    `[email] ignoring EMAIL_FROM=${process.env.EMAIL_FROM} — using hardcoded verified sender ${FROM_EMAIL}`,
+  );
 }
 
 const resend = new Resend(RESEND_API_KEY);
