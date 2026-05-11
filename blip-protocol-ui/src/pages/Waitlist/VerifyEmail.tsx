@@ -162,7 +162,7 @@ export default function VerifyEmail() {
           account.
         </p>
         <button
-          onClick={() => navigate(userRole === "MERCHANT" ? "/merchant-waitlist" : "/waitlist")}
+          onClick={() => navigate(userRole === "MERCHANT" ? "/merchant-login" : "/login")}
           className="w-full py-3 bg-white text-black border border-black/10 font-medium rounded-sm hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all"
         >
           Go to {userRole === "MERCHANT" ? "Merchant" : ""} Login

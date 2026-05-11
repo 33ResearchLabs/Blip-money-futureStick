@@ -26,7 +26,7 @@ export default function EmailVerificationPending() {
   });
 
   const isMerchant = role === "MERCHANT" || role === "merchant";
-  const loginPath = isMerchant ? "/merchant-waitlist" : "/waitlist";
+  const loginPath = isMerchant ? "/merchant-login" : "/login";
 
   const [isResending, setIsResending] = useState(false);
   const [resent, setResent] = useState(false);

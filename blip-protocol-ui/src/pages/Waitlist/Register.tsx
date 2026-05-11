@@ -26,7 +26,7 @@ export default function Register({
 
   const isMerchant = role === "merchant";
   const showStandalone = !isMerchant && !embedded;
-  const loginPath = isMerchant ? "/merchant-waitlist" : "/waitlist";
+  const loginPath = isMerchant ? "/merchant-login" : "/login";
 
   const [formData, setFormData] = useState({
     email: "",

@@ -21,7 +21,7 @@ export default function ResetPassword() {
 
   const token = searchParams.get("token");
   const isMerchant = searchParams.get("role") === "merchant";
-  const loginPath = isMerchant ? "/merchant-waitlist" : "/waitlist";
+  const loginPath = isMerchant ? "/merchant-login" : "/login";
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");

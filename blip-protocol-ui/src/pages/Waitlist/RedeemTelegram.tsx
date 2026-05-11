@@ -230,7 +230,7 @@ const RedeemTelegram: React.FC = () => {
   if (!isAuthenticated || !user) {
     const isMerchant = redeemRole === "merchant";
     const registerUrl = isMerchant ? "/merchant-register" : "/register";
-    const loginUrl = isMerchant ? "/merchant-waitlist" : "/waitlist";
+    const loginUrl = isMerchant ? "/merchant-login" : "/login";
     const label = isMerchant ? "Merchant Account" : "Blip Points";
 
     return (
@@ -279,7 +279,7 @@ const RedeemTelegram: React.FC = () => {
                   hover:bg-orange-600 transition-all flex items-center justify-center gap-2"
               >
                 <UserPlus className="w-5 h-5" />
-                Create {isMerchant ? "Merchant " : ""}Account
+                Join {isMerchant ? "Merchant " : ""}Waitlist
               </button>
 
               <button
