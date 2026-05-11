@@ -6,6 +6,45 @@ import { SwipeHint } from "./SwipeHint";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
+/* Inline on-chain verification visual — themed, on-brand replacement for stock image */
+const OnChainVerifyVisual = ({ large }: { large: boolean }) => {
+  const blocks = [0, 1, 2, 3];
+  return (
+    <div
+      className="relative rounded-xl overflow-hidden bg-gradient-to-br from-black/[0.04] to-black/[0.02] dark:from-white/[0.05] dark:to-white/[0.02] border border-black/[0.06] dark:border-white/[0.06] flex items-center justify-center"
+      style={{
+        width: large ? 300 : 100,
+        height: large ? 140 : 72,
+      }}
+    >
+      <div className="flex items-center gap-1.5 px-3">
+        {blocks.map((i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0.3 }}
+            animate={{ opacity: [0.3, 1, 0.5] }}
+            transition={{ duration: 1.8, delay: i * 0.25, repeat: Infinity }}
+            className="relative w-12 h-12 rounded-md border border-black/10 dark:border-white/10 bg-white/60 dark:bg-white/[0.06] backdrop-blur flex items-center justify-center"
+          >
+            <CheckCircle2
+              className="w-4 h-4 text-[#ff6b35]"
+              strokeWidth={2}
+            />
+            {i < blocks.length - 1 && (
+              <div className="absolute -right-1.5 top-1/2 -translate-y-1/2 w-1.5 h-px bg-black/15 dark:bg-white/15" />
+            )}
+          </motion.div>
+        ))}
+      </div>
+      {/* tx hash strip */}
+      <div className="absolute bottom-1.5 left-3 right-3 flex items-center justify-between text-[8px] font-mono text-black/30 dark:text-white/30">
+        <span>0x7a…4f3b</span>
+        <span>verified</span>
+      </div>
+    </div>
+  );
+};
+
 /* ============================================
    SECTION 10: TRUST & ARCHITECTURE
    Apple Store-style card grid
@@ -121,17 +160,21 @@ const TrustSection = () => {
                     </p>
                   </div>
 
-                  {/* Bottom: small image */}
+                  {/* Bottom: visual or image */}
                   <div className="flex justify-end mt-4">
-                    <img
-                      src={card.image}
-                      alt={card.title}
-                      className="rounded-xl object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"
-                      style={{
-                        width: isLarge ? 300 : 100,    // 140 : 100
-                        height: isLarge ? 140 : 72,    // 100:72
-                      }}
-                    />
+                    {card.title === "On-chain verification" ? (
+                      <OnChainVerifyVisual large={isLarge} />
+                    ) : (
+                      <img
+                        src={card.image}
+                        alt={card.title}
+                        className="rounded-xl object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"
+                        style={{
+                          width: isLarge ? 300 : 100,
+                          height: isLarge ? 140 : 72,
+                        }}
+                      />
+                    )}
                   </div>
                 </div>
               </div>

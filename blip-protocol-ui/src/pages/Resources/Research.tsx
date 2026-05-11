@@ -188,10 +188,13 @@ export default function Research() {
     ResearchCategory | "All"
   >("All");
 
-  const filteredArticles =
+  const filteredArticles = (
     activeCategory === "All"
       ? researchArticles
-      : researchArticles.filter((a) => a.category === activeCategory);
+      : researchArticles.filter((a) => a.category === activeCategory)
+  )
+    .slice()
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   const featuredArticle = filteredArticles[0];
   const feedArticles = filteredArticles.slice(1);

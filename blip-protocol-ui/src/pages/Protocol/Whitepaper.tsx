@@ -91,7 +91,7 @@ const Whitepaper = () => {
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-tight">
               Blip
               <span className="text-black/80 dark:text-white/50">.money</span>:
-              <span className="bg-orange-600/10 text-[#ff6b35] px-3 py-.5 rounded-md">
+              <span className="text-[#ff6b35]">
                 On Chain P2P Settlement
               </span>
             </h1>

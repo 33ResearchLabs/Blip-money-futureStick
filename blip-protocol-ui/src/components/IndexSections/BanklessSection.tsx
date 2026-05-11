@@ -157,10 +157,10 @@ function BiddingCard() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-10%" });
   const [bids, setBids] = useState([
-    { name: "AlphaFX", rate: 83.42 },
-    { name: "GulfTrade", rate: 83.39 },
-    { name: "NovaP2P", rate: 83.37 },
-    { name: "SwiftExch", rate: 83.35 },
+    { name: "AlphaFX", rate: 97.20 },
+    { name: "GulfTrade", rate: 97.17 },
+    { name: "NovaP2P", rate: 97.15 },
+    { name: "SwiftExch", rate: 97.13 },
   ]);
 
   useEffect(() => {
@@ -210,7 +210,7 @@ function BiddingCard() {
             transition={{ duration: 0.4 }}
             className={`flex items-center justify-between px-3 py-2 rounded-md ${
               i === 0
-                ? "bg-white/[0.06] border border-white/20"
+                ? "bg-[#ff6b35]/[0.06] border border-[#ff6b35]/40 shadow-[0_0_0_1px_rgba(255,107,53,0.08)]"
                 : "bg-white/[0.02] border border-white/[0.04]"
             }`}
           >

@@ -437,7 +437,7 @@ const PricingSection = () => {
             className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.08] mb-5"
           >
             You{" "}
-            <span className="text-black/60 dark:text-white/40">
+            <span className="text-[#ff6b35]">
               control pricing.
             </span>{" "}
             <br className="hidden md:block" />
@@ -473,13 +473,13 @@ const PricingSection = () => {
                   USDT / AED
                 </div>
               </div>
-              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-500/10 border border-green-500/20">
+              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#ff6b35]/10 border border-[#ff6b35]/25">
                 <motion.div
                   animate={{ opacity: [0.5, 1, 0.5] }}
                   transition={{ duration: 1.4, repeat: Infinity }}
-                  className="w-1.5 h-1.5 rounded-full bg-green-500"
+                  className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]"
                 />
-                <span className="text-[10px] font-semibold text-green-600 dark:text-green-400 tracking-wider uppercase">
+                <span className="text-[10px] font-semibold text-[#ff6b35] tracking-wider uppercase">
                   Live
                 </span>
               </div>
@@ -498,8 +498,8 @@ const PricingSection = () => {
               <div
                 className={`text-sm font-semibold pb-2 tabular-nums ${
                   trend === "up"
-                    ? "text-green-600 dark:text-green-400"
-                    : "text-red-500"
+                    ? "text-[#ff6b35]"
+                    : "text-black/45 dark:text-white/45"
                 }`}
               >
                 {trend === "up" ? "↑" : "↓"} 0.0{Math.floor(Math.random() * 8) + 1}%
@@ -902,24 +902,18 @@ const RequirementsSection = () => {
                 className="snap-start shrink-0 w-[88%] md:w-auto group relative p-8 rounded-3xl text-center border border-black/[0.06] dark:border-white/[0.08] hover:border-black/20 dark:hover:border-white/20 duration-500 transition-colors"
                 style={{ background: "rgba(255, 255, 255, 0.02)" }}
               >
-                {/* Step number watermark */}
+                {/* Step number watermark — subtle orange */}
                 <span
-                  className="absolute top-4 right-4 text-4xl font-bold select-none"
-                  style={{ color: `${r.accent}26` }}
+                  className="absolute top-4 right-4 text-4xl font-bold select-none text-[#ff6b35]/15 dark:text-[#ff6b35]/20"
                 >
                   0{i + 1}
                 </span>
 
-                {/* Big colored icon panel, centered */}
+                {/* Subtle monochrome icon panel */}
                 <div
-                  className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 transition-all duration-500 group-hover:scale-105"
-                  style={{
-                    background: `linear-gradient(135deg, ${r.accent}26 0%, ${r.accent}0d 100%)`,
-                    border: `1px solid ${r.accent}33`,
-                    boxShadow: `0 8px 24px -8px ${r.glow}`,
-                  }}
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-6 transition-all duration-500 group-hover:scale-105 bg-black/[0.04] dark:bg-white/[0.05] border border-black/10 dark:border-white/10 group-hover:border-[#ff6b35]/30"
                 >
-                  <Icon className="w-7 h-7" style={{ color: r.accent }} strokeWidth={2.2} />
+                  <Icon className="w-6 h-6 text-black/70 dark:text-white/80 group-hover:text-[#ff6b35] transition-colors" strokeWidth={1.8} />
                 </div>
 
                 <h3 className="text-lg font-semibold text-black/80 dark:text-white/85 mb-2 tracking-tight">

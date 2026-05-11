@@ -74,7 +74,7 @@ export const Navbar = () => {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="h-[72px] flex items-center justify-between">
+          <div className="h-[61px] flex items-center justify-between">
             <Logo onDark={true} />
 
             <div className="hidden lg:flex items-center gap-1">
@@ -144,7 +144,7 @@ export const Logo = memo(({ className = "", onDark = false }: { className?: stri
     >
       <svg
         viewBox="0 0 70 60"
-        className="h-5 w-auto"
+        className="h-[17px] w-auto"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -158,7 +158,7 @@ export const Logo = memo(({ className = "", onDark = false }: { className?: stri
       </svg>
 
       <motion.span
-        className={`${className} text-[23px] font-semibold tracking-tight leading-none flex items-center`}
+        className={`${className} text-[20px] font-semibold tracking-tight leading-none flex items-center`}
         whileHover={{ scale: 1.02 }}
         transition={{ duration: 0.2 }}
       >
@@ -378,7 +378,7 @@ const MobileMenu = memo(({
 
       <div
         id="mobile-menu"
-        style={{ top: 72 + bannerH }}
+        style={{ top: 61 + bannerH }}
         className="fixed left-4 right-4 z-50 rounded-xl overflow-hidden bg-[#FAF8F5] dark:bg-[#111113] border border-black/10 dark:border-white/[0.08]"
       >
         <div className="p-4 space-y-1">

@@ -171,21 +171,15 @@ const CinematicHero = () => {
         >
           <Link
             to="/rates"
-            className="group inline-flex flex-col sm:flex-row items-center gap-1.5 sm:gap-3 px-4 py-2.5 rounded-3xl sm:rounded-full bg-white text-black shadow-[0_4px_20px_rgba(0,0,0,0.18)] hover:shadow-[0_6px_28px_rgba(255,107,53,0.30)] active:scale-[0.98] transition-all duration-300"
+            className="group inline-flex flex-col items-center gap-1 px-5 py-2.5 rounded-2xl bg-white text-black shadow-[0_4px_20px_rgba(0,0,0,0.18)] hover:shadow-[0_6px_28px_rgba(255,107,53,0.30)] active:scale-[0.98] transition-all duration-300 max-w-[260px]"
           >
-            <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.22em] text-[#ff6b35] leading-none">
+            <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#ff6b35] leading-none">
               <Tag className="w-3 h-3" strokeWidth={2.8} />
               Best rates, guaranteed
             </span>
-            <span className="hidden sm:inline-block w-px h-3.5 bg-black/15" />
-            <span className="flex items-center gap-2">
-              <span className="text-[13px] font-semibold text-black/80 tracking-tight leading-none">
-                Find cheaper. We&apos;ll cut deeper.
-              </span>
-              <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-black/65 group-hover:text-black leading-none">
-                <span className="hidden sm:inline">See rates</span>
-                <ArrowRight className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-0.5" />
-              </span>
+            <span className="inline-flex items-center gap-1 text-[12px] font-semibold text-black/75 group-hover:text-black tracking-tight leading-none">
+              Find cheaper. We&apos;ll cut deeper.
+              <ArrowRight className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-0.5" />
             </span>
           </Link>
         </motion.div>

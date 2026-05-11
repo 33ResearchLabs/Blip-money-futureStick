@@ -135,12 +135,14 @@ function SpeedVisual({ isInView }: { isInView: boolean }) {
         {["Order", "Match", "Escrow", "Settle"].map((step, i) => {
           const stepIdx = phase === "idle" ? -1 : phase === "matching" ? 0 : phase === "settling" ? 2 : 3;
           const active = i <= stepIdx;
+          const isCurrent = i === stepIdx;
           return (
             <div key={step} className="flex-1">
               <motion.div
                 className="h-1 rounded-full"
                 animate={{
-                  backgroundColor: active ? "rgba(0,0,0,0.6)" : "rgba(0,0,0,0.06)",
+                  backgroundColor: active ? "#ff6b35" : "rgba(0,0,0,0.06)",
+                  boxShadow: isCurrent ? "0 0 8px rgba(255,107,53,0.45)" : "0 0 0 rgba(0,0,0,0)",
                 }}
                 transition={{ duration: 0.3, delay: i * 0.05 }}
               />
@@ -204,8 +206,9 @@ function RatesVisual({ isInView }: { isInView: boolean }) {
                 transition={{ duration: 0.4, ease: EASE }}
                 className="flex items-center justify-between px-4 py-3 rounded-xl"
                 style={{
-                  background: isBest ? "rgba(0,0,0,0.05)" : "rgba(0,0,0,0.02)",
-                  border: isBest ? "1px solid rgba(0,0,0,0.15)" : "1px solid transparent",
+                  background: isBest ? "rgba(255,107,53,0.05)" : "rgba(0,0,0,0.02)",
+                  border: isBest ? "1px solid rgba(255,107,53,0.4)" : "1px solid transparent",
+                  boxShadow: isBest ? "0 0 0 1px rgba(255,107,53,0.06)" : "none",
                 }}
               >
                 <div className="flex items-center gap-3">
@@ -227,7 +230,7 @@ function RatesVisual({ isInView }: { isInView: boolean }) {
                     {liveRate}
                   </span>
                   {isBest && (
-                    <span className="block text-[8px] font-bold uppercase tracking-wider text-black/60">Best rate</span>
+                    <span className="block text-[8px] font-bold uppercase tracking-wider" style={{ color: "#ff6b35" }}>Best rate</span>
                   )}
                 </div>
               </motion.div>
@@ -493,6 +496,7 @@ const ProtocolInterstitial = () => {
           <div className="flex flex-col md:flex-row md:items-center gap-8 p-8 md:p-10">
             <div className="flex-1 min-w-0">
               <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)", marginBottom: 12 }}>
+                <span style={{ color: "#ff6b35", marginRight: 8 }}>01</span>
                 {FEATURES[0].label}
               </div>
               <h3 style={{ fontSize: "clamp(1.6rem, 3vw, 2.2rem)", fontWeight: 700, letterSpacing: "-0.035em", lineHeight: 1.15, color: isDark ? "#fff" : "#1d1d1f", marginBottom: 8 }}>
@@ -531,6 +535,7 @@ const ProtocolInterstitial = () => {
               >
                 <div className="p-7">
                   <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)", marginBottom: 12 }}>
+                    <span style={{ color: "#ff6b35", marginRight: 8 }}>{`0${i + 2}`}</span>
                     {f.label}
                   </div>
                   <h3 style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.03em", lineHeight: 1.2, color: isDark ? "#fff" : "#1d1d1f", marginBottom: 6 }}>

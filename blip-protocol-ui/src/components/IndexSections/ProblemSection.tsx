@@ -386,7 +386,7 @@ function BlipSettlementDemo() {
   ]);
   const [bestRates, setBestRates] = useState([
     { pair: "USDT/AED", rate: "3.665", merchant: "AlphaFX" },
-    { pair: "USDT/INR", rate: "83.42", merchant: "SwiftExch" },
+    { pair: "USDT/INR", rate: "97.20", merchant: "SwiftExch" },
     { pair: "USDT/PHP", rate: "55.81", merchant: "GulfTrade" },
   ]);
 

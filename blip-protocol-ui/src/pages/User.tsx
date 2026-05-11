@@ -314,38 +314,21 @@ const UserHowItWorks = () => {
                 transition={{ duration: 0.7, delay: 0.2 + i * 0.1, ease: EASE }}
                 className="snap-start shrink-0 w-[80%] md:w-auto relative group"
               >
-                <div className="relative bg-white dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] rounded-2xl overflow-hidden lift-on-hover">
-                  {/* Visual hero — colored scene with large icon */}
-                  <div
-                    className="relative h-[140px] flex items-center justify-center overflow-hidden"
-                    style={{
-                      background: `linear-gradient(135deg, ${s.accent}26 0%, ${s.accent}0d 60%, transparent 100%)`,
-                    }}
-                  >
-                    {/* Soft radial glow */}
-                    <div
-                      aria-hidden
-                      className="absolute inset-0 pointer-events-none"
-                      style={{
-                        background: `radial-gradient(60% 70% at 50% 50%, ${s.glow} 0%, transparent 70%)`,
-                      }}
-                    />
-                    {/* Step number badge */}
+                <div className="relative bg-white dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] rounded-2xl overflow-hidden lift-on-hover group-hover:border-[#ff6b35]/25 transition-colors">
+                  {/* Visual hero — subtle monochrome scene */}
+                  <div className="relative h-[140px] flex items-center justify-center overflow-hidden bg-black/[0.02] dark:bg-white/[0.015]">
+                    {/* Step number badge — minimal orange */}
                     <span
-                      className="absolute top-3 right-3 text-[10px] font-mono font-bold tabular-nums px-2 py-0.5 rounded-full bg-white/85 dark:bg-black/40 backdrop-blur-md"
-                      style={{ color: s.accent }}
+                      className="absolute top-3 right-3 text-[10px] font-mono font-bold tabular-nums px-2 py-0.5 rounded-full bg-white/85 dark:bg-black/40 backdrop-blur-md text-[#ff6b35]"
                     >
                       0{i + 1}
                     </span>
-                    {/* Big icon panel */}
-                    <div
-                      className="relative z-10 w-16 h-16 rounded-2xl flex items-center justify-center transition-transform duration-500 group-hover:scale-105"
-                      style={{
-                        background: `linear-gradient(135deg, ${s.accent} 0%, ${s.accent}cc 100%)`,
-                        boxShadow: `0 10px 30px -8px ${s.glow}`,
-                      }}
-                    >
-                      <Icon className="w-7 h-7 text-white" strokeWidth={2.2} />
+                    {/* Monochrome icon panel */}
+                    <div className="relative z-10 w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 group-hover:scale-105 bg-black/[0.04] dark:bg-white/[0.05] border border-black/10 dark:border-white/10 group-hover:border-[#ff6b35]/30">
+                      <Icon
+                        className="w-6 h-6 text-black/75 dark:text-white/85 group-hover:text-[#ff6b35] transition-colors"
+                        strokeWidth={1.8}
+                      />
                     </div>
                   </div>
                   {/* Body */}
