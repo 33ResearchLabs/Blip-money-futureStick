@@ -5,8 +5,12 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const FROM_EMAIL = process.env.EMAIL_FROM || "Blip Money <noreply@blip.money>";
 
 export const sendVerificationEmailNew = async (email, otp) => {
+  console.log(`[email-otp] verification → to=${email} from=${FROM_EMAIL}`);
+  if (!process.env.RESEND_API_KEY) {
+    console.error("[email-otp] RESEND_API_KEY is not set — send will fail.");
+  }
   try {
-    await resend.emails.send({
+    const result = await resend.emails.send({
       from: FROM_EMAIL,
       to: [email],
       subject: "Verify Your Email - Blip Money",
@@ -21,9 +25,22 @@ export const sendVerificationEmailNew = async (email, otp) => {
         </div>
       `,
     });
-    console.log("Verification email sent successfully");
+    console.log(
+      `[email-otp] verification result for ${email}:`,
+      JSON.stringify(result, null, 2),
+    );
+    // Resend SDK v6 returns { data, error } instead of throwing on rejection.
+    if (result?.error) {
+      console.error(`[email-otp] Resend returned an error object:`, result.error);
+      throw new Error(
+        result.error.message || result.error.name || "Resend rejected the send",
+      );
+    }
   } catch (error) {
-    console.error("Error sending email:", error);
+    console.error(
+      `[email-otp] sendVerificationEmailNew FAILED to=${email}:`,
+      error?.message || error,
+    );
     throw error;
   }
 };

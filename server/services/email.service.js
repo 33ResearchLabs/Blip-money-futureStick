@@ -1,8 +1,17 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
+const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const FROM_EMAIL = process.env.EMAIL_FROM || "Blip Money <noreply@blip.money>";
+
+// Boot-time visibility — log once so we can confirm prod env in Railway logs
+console.log(
+  `[email] init  key=${RESEND_API_KEY ? `present (${RESEND_API_KEY.slice(0, 6)}…, len=${RESEND_API_KEY.length})` : "MISSING"}  from=${FROM_EMAIL}`,
+);
+if (!RESEND_API_KEY) {
+  console.error("[email] RESEND_API_KEY is not set — every send call will fail.");
+}
+
+const resend = new Resend(RESEND_API_KEY);
 
 /**
  * Send email verification link via Resend
@@ -10,6 +19,7 @@ const FROM_EMAIL = process.env.EMAIL_FROM || "Blip Money <noreply@blip.money>";
  * @param {string} verificationUrl - Full verification URL with token
  */
 export const sendVerificationEmail = async (email, verificationUrl) => {
+  console.log(`[email] verification → to=${email} from=${FROM_EMAIL}`);
   try {
     const result = await resend.emails.send({
       from: FROM_EMAIL,
@@ -76,9 +86,23 @@ export const sendVerificationEmail = async (email, verificationUrl) => {
     `,
       text: `Verify Your Email - Blip Money\n\nPlease verify your email by clicking the link below:\n\n${verificationUrl}\n\nThis link will expire in 30 minutes.\n\nIf you didn't create an account with Blip Money, please ignore this email.`,
     });
-    console.log(`✅ Verification email sent to ${email}`, result);
+    console.log(
+      `[email] verification result for ${email}:`,
+      JSON.stringify(result, null, 2),
+    );
+    // Resend SDK returns { data, error } — when domain/key is wrong, error is non-null
+    // but no exception is thrown. Surface that as an exception so callers retry.
+    if (result?.error) {
+      console.error(`[email] Resend returned an error object:`, result.error);
+      throw new Error(
+        result.error.message || result.error.name || "Resend rejected the send",
+      );
+    }
   } catch (error) {
-    console.error("❌ Error sending verification email:", error?.message || error);
+    console.error(
+      `[email] sendVerificationEmail FAILED to=${email}:`,
+      error?.message || error,
+    );
     if (error?.response) console.error("Resend API response:", error.response);
     throw new Error("Failed to send verification email");
   }
@@ -159,9 +183,21 @@ export const sendPasswordResetEmail = async (email, resetUrl) => {
     `,
       text: `Password Reset Request - Blip Money\n\nReset Link: ${resetUrl}\n\nThis link will expire in 15 minutes.\n\nIf you didn't request a password reset, please ignore this email.`,
     });
-    console.log(`✅ Password reset email sent to ${email}`, result);
+    console.log(
+      `[email] password-reset result for ${email}:`,
+      JSON.stringify(result, null, 2),
+    );
+    if (result?.error) {
+      console.error(`[email] Resend returned an error object:`, result.error);
+      throw new Error(
+        result.error.message || result.error.name || "Resend rejected the send",
+      );
+    }
   } catch (error) {
-    console.error("❌ Error sending password reset email:", error);
+    console.error(
+      `[email] sendPasswordResetEmail FAILED to=${email}:`,
+      error?.message || error,
+    );
     throw new Error("Failed to send password reset email");
   }
 };

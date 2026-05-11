@@ -122,10 +122,21 @@ export default function Register({
         state: { email: formData.email, role },
       });
     } catch (error: any) {
+      const status = error.response?.status;
+      const serverMessage = error.response?.data?.message;
+      // Always log full error to console so we can diagnose in prod from devtools
+      console.error("[register] failed", {
+        status,
+        serverMessage,
+        responseBody: error.response?.data,
+        errorMessage: error.message,
+        url: error.config?.url,
+      });
       const message =
-        error.response?.data?.message ||
-        error.message ||
-        "Registration failed. Please try again.";
+        serverMessage ||
+        (status
+          ? `Registration failed (HTTP ${status}). Please try again.`
+          : error.message || "Registration failed. Please try again.");
       toast.error(message);
     } finally {
       setIsLoading(false);
@@ -259,7 +270,7 @@ export default function Register({
               </span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold text-black dark:text-white mb-3">
-              Create Account
+              {isMerchant ? "Join Merchant Waitlist" : "Join Waitlist"}
             </h1>
             <p className="text-black/50 dark:text-white/50">
               Join Blip Money and start earning rewards
@@ -515,13 +526,13 @@ export default function Register({
                 <>
                   <Loader2 className="w-5 h-5 animate-spin" />
                   {isMerchant
-                    ? "Creating Merchant Account..."
-                    : "Creating Account..."}
+                    ? "Joining Merchant Waitlist..."
+                    : "Joining Waitlist..."}
                 </>
               ) : isMerchant ? (
-                "Create Merchant Account"
+                "Join Merchant Waitlist"
               ) : (
-                "Create Account"
+                "Join Waitlist"
               )}
             </button>
           </div>
