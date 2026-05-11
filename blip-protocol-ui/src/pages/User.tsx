@@ -27,51 +27,28 @@ const EASE = [0.16, 1, 0.3, 1] as const;
    1. CINEMATIC HERO
    ============================================ */
 const UserHero = () => {
-  // Corridor cycling — INR shown by default, rotates through corridors
-  const CORRIDORS = [
-    { fiat: "INR", base: 97.2, decimals: 2 },
-    { fiat: "AED", base: 3.672, decimals: 3 },
-    { fiat: "PHP", base: 55.81, decimals: 2 },
-  ] as const;
-  const [corridorIdx, setCorridorIdx] = useState(0);
-  const corridor = CORRIDORS[corridorIdx];
-
+  // USDT / INR only
+  const BASE_RATE = 97.2;
+  const [rate, setRate] = useState(BASE_RATE);
   useEffect(() => {
     const id = setInterval(() => {
-      setCorridorIdx((i) => (i + 1) % CORRIDORS.length);
-    }, 3200);
+      setRate(+(BASE_RATE + (Math.random() - 0.5) * 0.1).toFixed(2));
+    }, 1800);
     return () => clearInterval(id);
   }, []);
 
-  // Live-jitter rate around the corridor's base
-  const [rate, setRate] = useState(corridor.base);
-  useEffect(() => {
-    setRate(corridor.base);
-    const id = setInterval(() => {
-      setRate((r) =>
-        +(corridor.base + (Math.random() - 0.5) * corridor.base * 0.001).toFixed(
-          corridor.decimals,
-        ),
-      );
-    }, 1800);
-    return () => clearInterval(id);
-  }, [corridorIdx]);
-
   // Receiving amount (1,000 USDT * rate, with small live wobble)
-  const [outAmount, setOutAmount] = useState(
-    Math.round(1000 * corridor.base),
-  );
+  const [outAmount, setOutAmount] = useState(Math.round(1000 * BASE_RATE));
   useEffect(() => {
     let frame = 0;
-    const baseOut = Math.round(1000 * corridor.base);
-    setOutAmount(baseOut);
+    const baseOut = Math.round(1000 * BASE_RATE);
     const id = setInterval(() => {
       frame = (frame + 1) % 60;
-      const wobble = Math.floor(Math.sin(frame * 0.1) * baseOut * 0.002);
+      const wobble = Math.floor(Math.sin(frame * 0.1) * 180);
       setOutAmount(baseOut + wobble);
     }, 100);
     return () => clearInterval(id);
-  }, [corridorIdx]);
+  }, []);
 
   return (
     <section className="relative min-h-[92vh] overflow-hidden flex items-center justify-center text-center bg-black">
@@ -137,15 +114,15 @@ const UserHero = () => {
             style={{ boxShadow: "0 0 8px rgba(255,107,53,0.7)" }}
           />
           <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-white/65">
-            Live · USDT / {corridor.fiat}
+            Live · USDT / INR
           </span>
           <motion.span
-            key={`${corridor.fiat}-${rate}`}
+            key={rate}
             initial={{ opacity: 0.6, y: -1 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-[10px] font-mono font-bold text-white tabular-nums"
           >
-            {rate.toFixed(corridor.decimals)}
+            {rate.toFixed(2)}
           </motion.span>
         </motion.div>
 
@@ -254,22 +231,16 @@ const UserHero = () => {
               </div>
               <div className="flex items-baseline gap-1.5 justify-end">
                 <motion.span
-                  key={`${corridor.fiat}-${outAmount}`}
+                  key={outAmount}
                   initial={{ opacity: 0.7, y: -2 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="font-mono font-bold text-white text-[20px] tabular-nums"
                 >
                   {outAmount.toLocaleString()}
                 </motion.span>
-                <motion.span
-                  key={`fiat-${corridor.fiat}`}
-                  initial={{ opacity: 0, y: -2 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="text-[11px] font-semibold text-white/60"
-                >
-                  {corridor.fiat}
-                </motion.span>
+                <span className="text-[11px] font-semibold text-white/60">
+                  INR
+                </span>
               </div>
             </div>
           </div>
