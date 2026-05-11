@@ -259,7 +259,8 @@ const UserLogin = ({ initialView }: AirdropLoginProps) => {
       return;
     }
 
-    setView("connect");
+    // Wallet step removed — send users to the standard email/password Sign In view
+    setView("waitlist");
   };
 
   const handleLogout = async () => {
@@ -642,7 +643,7 @@ const UserLogin = ({ initialView }: AirdropLoginProps) => {
           )}
 
           {/* CONNECT WALLET VIEW */}
-          {view === "connect" && !isAuthenticated && (
+          {false && view === "connect" && !isAuthenticated && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

@@ -246,7 +246,8 @@ export const MerchantLogin = ({ initialView }: AirdropLoginProps) => {
       return;
     }
 
-    setView("connect");
+    // Wallet step removed
+    setView("waitlist");
   };
 
   const handleLogout = async () => {
