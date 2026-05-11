@@ -604,7 +604,7 @@ const RateFinder = () => {
                   </div>
                 </div>
                 <Link
-                  to="/waitlist"
+                  to="/register"
                   className="inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-full bg-white text-black text-[13px] font-bold hover:scale-[1.02] active:scale-[0.98] transition-transform shrink-0 w-full sm:w-auto"
                 >
                   Lock this rate
@@ -663,7 +663,7 @@ const RateFinder = () => {
                   </div>
                 </div>
                 <Link
-                  to="/waitlist"
+                  to="/register"
                   className="hidden sm:inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-black text-white dark:bg-white dark:text-black text-[12px] font-semibold hover:opacity-90 transition-opacity sm:ml-2"
                 >
                   Get rate
@@ -672,7 +672,7 @@ const RateFinder = () => {
               </div>
               {/* Mobile-only Get rate button — full width below the rates */}
               <Link
-                to="/waitlist"
+                to="/register"
                 className="sm:hidden inline-flex items-center justify-center gap-1 mt-1 w-full px-3 py-2 rounded-full bg-black text-white dark:bg-white dark:text-black text-[13px] font-semibold"
               >
                 Get this rate
@@ -920,7 +920,7 @@ const ComparisonSection = () => {
             One protocol. Every venue beat on the row that matters: the rate
             you actually pay.
           </p>
-          <CTAButton to="/waitlist">Join Waitlist</CTAButton>
+          <CTAButton to="/register">Join Waitlist</CTAButton>
         </motion.div>
       </div>
     </section>

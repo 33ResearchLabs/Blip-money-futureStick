@@ -142,7 +142,7 @@ export const CinematicHeroOfMerchant = () => {
   >
     Join Waitlist
   </Link> */}
-            <CTAButton to="/merchant-waitlist" className="w-[225px]  h-[48px]">
+            <CTAButton to="/merchant-register" className="w-[225px]  h-[48px]">
               Join Waitlist
             </CTAButton>
           </motion.div>

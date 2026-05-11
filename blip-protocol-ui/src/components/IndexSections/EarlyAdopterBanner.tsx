@@ -162,7 +162,7 @@ const EarlyAdopterBanner = () => {
                   <span>Claim Your Tokens</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link> */}
-                <CTAButton to="/waitlist" className="w-[220px] h-[48px]">
+                <CTAButton to="/register" className="w-[220px] h-[48px]">
                   Claim Your Tokens
                 </CTAButton>
               </motion.div>

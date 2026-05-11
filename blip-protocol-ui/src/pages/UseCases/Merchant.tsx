@@ -1036,9 +1036,9 @@ const Merchant = () => {
         }
         description="Apply now. Get access to the dashboard and start executing requests."
         primaryButtonText="Apply as Merchant"
-        primaryButtonLink="/waitlist"
+        primaryButtonLink="/merchant-register"
         secondaryButtonText="Join Merchant "
-        secondaryButtonLink="/waitlist"
+        secondaryButtonLink="/merchant-register"
         // secondaryButtonLink="https://t.me/blip_money"
         // background="gradient"
       />

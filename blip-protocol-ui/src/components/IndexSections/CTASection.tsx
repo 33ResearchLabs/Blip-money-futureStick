@@ -117,7 +117,7 @@ const CTASection = () => {
         >
           {/* Primary — black on light, white on dark (inverts page bg) */}
           <Link
-            to="/waitlist"
+            to="/register"
             onClick={() => sounds.click()}
             className="group w-[180px] h-[48px] inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-[16px] font-semibold transition-all duration-300 ease-out bg-black text-white border border-black hover:shadow-[0_8px_28px_rgba(0,0,0,0.25)] dark:bg-white dark:text-black dark:border-white dark:hover:shadow-[0_8px_28px_rgba(255,255,255,0.18)] active:scale-[0.98]"
           >

@@ -102,7 +102,7 @@ export const Navbar = () => {
               {isAuthenticated ? (
                 <CTAButton to="/dashboard">Dashboard</CTAButton>
               ) : (
-                <CTAButton to="/waitlist">Join Waitlist</CTAButton>
+                <CTAButton to="/register">Join Waitlist</CTAButton>
               )}
             </div>
 
@@ -407,7 +407,7 @@ const MobileMenu = memo(({
               </a>
             ) : (
               <a
-                href="/waitlist"
+                href="/register"
                 onClick={(e) => handleNavClick(e, "/waitlist")}
                 className="block w-full text-center py-1.5 rounded-full bg-white text-black border border-black/10 text-sm font-semibold transition-all duration-200 hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98]"
               >

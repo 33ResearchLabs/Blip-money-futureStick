@@ -209,7 +209,7 @@ export const GradientHeroSection = () => {
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <Link
-            to="/waitlist"
+            to="/register"
             className="group inline-flex items-center gap-3 px-8 py-4 rounded-full text-black text-[15px] font-medium transition-all duration-500 hover:shadow-[0_0_60px_rgba(0,0,0,0.25)]"
             style={{
               background:

@@ -340,7 +340,7 @@ export default function RewardPage() {
                   rewards.
                 </p>
               </div>
-              <Link to="/waitlist">
+              <Link to="/register">
                 <AppleButton
                   variant="primary"
                   onClick={connectWallet}

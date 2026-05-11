@@ -137,7 +137,7 @@ const UAESection = () => {
 
         {/* CTA buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <CTAButton to="/waitlist" className="h-[52px] px-8">
+          <CTAButton to="/register" className="h-[52px] px-8">
             Join Dubai Beta
           </CTAButton>
 

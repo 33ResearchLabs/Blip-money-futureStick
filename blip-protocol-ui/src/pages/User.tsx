@@ -264,7 +264,7 @@ const UserHero = () => {
           transition={{ duration: 0.9, delay: 0.7, ease: EASE }}
           className="flex flex-col sm:flex-row items-center justify-center gap-3"
         >
-          <CTAButton to="/waitlist">Join waitlist</CTAButton>
+          <CTAButton to="/register">Join waitlist</CTAButton>
           <CTAButton to="/how-it-works" variant="secondary">
             See how it works
           </CTAButton>
@@ -762,7 +762,7 @@ const UserCTA = () => {
           Join the waitlist. Early users get priority access and bonus rewards.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-          <CTAButton to="/waitlist">Join waitlist</CTAButton>
+          <CTAButton to="/register">Join waitlist</CTAButton>
           <CTAButton to="/how-it-works" variant="secondary">
             Learn more
           </CTAButton>

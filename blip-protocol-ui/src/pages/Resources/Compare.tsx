@@ -393,7 +393,7 @@ const CompareDetail = ({ comparison }: { comparison: ComparisonPage }) => {
             </p>
 
             {/* <Link
-              to="/waitlist"
+              to="/register"
               onClick={() => sounds.click()}
               onMouseEnter={() => sounds.hover()}
               className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-black dark:bg-white text-white dark:text-black font-medium text-[15px] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
@@ -401,7 +401,7 @@ const CompareDetail = ({ comparison }: { comparison: ComparisonPage }) => {
               Join Waitlist
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
             </Link> */}
-            <CTAButton to="/waitlist"  className="w-[220px] h-[48px]">Join Waitlist</CTAButton>
+            <CTAButton to="/register"  className="w-[220px] h-[48px]">Join Waitlist</CTAButton>
           </motion.div>
         </section>
       </div>
