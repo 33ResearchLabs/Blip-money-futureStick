@@ -42,6 +42,7 @@ export const registerWithEmail = async (req, res) => {
     // Verify reCAPTCHA (only in production when secret key is set)
     if (process.env.RECAPTCHA_SECRET_KEY) {
       if (!captchaToken) {
+        console.warn(`[register] missing captchaToken for ${email}`);
         return res.status(400).json({
           success: false,
           message: "Captcha verification required",
@@ -55,13 +56,17 @@ export const registerWithEmail = async (req, res) => {
         );
         const captchaData = await captchaResponse.json();
         if (!captchaData.success) {
+          console.warn(
+            `[register] captcha rejected for ${email}:`,
+            captchaData["error-codes"] || captchaData,
+          );
           return res.status(400).json({
             success: false,
             message: "Captcha verification failed",
           });
         }
       } catch (captchaError) {
-        // captcha error
+        console.error(`[register] captcha call failed for ${email}:`, captchaError?.message || captchaError);
         return res.status(500).json({
           success: false,
           message: "Captcha verification failed",
@@ -78,9 +83,41 @@ export const registerWithEmail = async (req, res) => {
 
     const existingUser = await User.findOne({ email: email.toLowerCase() });
     if (existingUser) {
-      return res.status(400).json({
-        success: false,
-        message: "Email already registered",
+      // If the user already registered but never verified their email, treat
+      // this re-attempt as "resend verification" so they're not stuck. Only
+      // reject hard if the email is fully verified (i.e. the account is real).
+      if (existingUser.emailVerified) {
+        console.log(`[register] already-verified email re-attempt: ${email}`);
+        return res.status(400).json({
+          success: false,
+          message: "Email already registered. Please log in.",
+        });
+      }
+
+      console.log(`[register] unverified re-attempt → resending verification: ${email}`);
+      const verificationToken = crypto.randomBytes(32).toString("hex");
+      const hashedVerificationToken = crypto
+        .createHash("sha256")
+        .update(verificationToken)
+        .digest("hex");
+      existingUser.emailVerificationToken = hashedVerificationToken;
+      existingUser.emailVerificationExpires = new Date(Date.now() + 30 * 60 * 1000);
+      await existingUser.save();
+
+      const verificationUrl = `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}`;
+      try {
+        await sendVerificationEmail(email, verificationUrl);
+      } catch (emailError) {
+        console.error(`[register] resend verification failed for ${email}:`, emailError?.message || emailError);
+        return res.status(500).json({
+          success: false,
+          message: "Failed to send verification email. Please try again.",
+        });
+      }
+      return res.status(200).json({
+        success: true,
+        message: "Verification email re-sent. Please check your inbox.",
+        emailVerified: false,
       });
     }
 
