@@ -1089,42 +1089,6 @@ export default function BlipDashboard() {
             )}
           </div>
 
-          {/* Points Card */}
-          <div
-            className="bg-white dark:bg-white/5 border border-black/10 dark:border-white/10 p-6 rounded-sm shadow-sm hover:shadow-md transition-all cursor-pointer group relative"
-          >
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-[9px] font-black uppercase tracking-widest text-black/60 dark:text-white/50">
-                Accumulated Points
-              </span>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleRefreshPoints();
-                }}
-                disabled={isRefreshingPoints}
-                className="p-1 rounded-sm hover:bg-black/10 dark:hover:bg-white/10 transition-colors disabled:opacity-50"
-                title="Refresh points"
-              >
-                <RefreshCw className={`w-3.5 h-3.5 text-black/40 dark:text-white/40 ${isRefreshingPoints ? "animate-spin" : ""}`} />
-              </button>
-            </div>
-            <span
-              onClick={() => setShowPointsHistoryModal(true)}
-              className="text-3xl font-black text-black dark:text-white"
-            >
-              {blipPoints}
-            </span>
-            <div className="absolute bottom-0 left-0 w-full h-[2px] bg-black/10 dark:bg-white/10">
-              <div
-                className="h-full bg-black dark:bg-white transition-all duration-1000"
-                style={{
-                  width: `${Math.min((blipPoints / 4000) * 100, 100)}%`,
-                }}
-              />
-            </div>
-          </div>
-
           {/* Protocol Status */}
           <div className="bg-white dark:bg-white/5 border border-black/10 dark:border-white/10 p-6 rounded-sm shadow-sm">
             <span className="text-[9px] font-black uppercase tracking-widest text-black/60 dark:text-white/50 block mb-2">
@@ -1182,153 +1146,22 @@ export default function BlipDashboard() {
           </div>
         )}
 
-        {/* ===== TELEGRAM LINK BANNER ===== */}
-        {telegramLink && !telegramLink.linked && !dismissedTelegramBanner && (
-          <div className="relative mb-6 bg-gradient-to-r from-blue-500/10 via-indigo-500/10 to-blue-500/10 border border-blue-500/30 dark:border-blue-400/30 rounded-sm p-6 animate-in fade-in slide-in-from-top-4 duration-500">
-            <button
-              onClick={() => {
-                setDismissedTelegramBanner(true);
-                localStorage.setItem("blip_dismiss_telegram_banner", "true");
-              }}
-              className="absolute top-3 right-3 text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white transition-colors"
-            >
-              <X className="w-4 h-4" />
-            </button>
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-blue-500/20 dark:bg-blue-400/20 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Globe className="w-6 h-6 text-blue-600 dark:text-blue-400" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-black dark:text-white mb-1">
-                    Link Telegram Bot
-                  </h3>
-                  <p className="text-sm text-black/70 dark:text-white/70">
-                    Link your Telegram bot account to merge your Blip Points. Use /redeem in the bot to get an OTP code.
-                  </p>
-                </div>
-              </div>
-              <button
-                onClick={() => navigate("/redeem")}
-                className="whitespace-nowrap px-6 py-3 bg-white text-black border border-black/10 font-bold text-sm uppercase tracking-wider transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] flex items-center gap-2"
-              >
-                <Globe className="w-4 h-4" />
-                Link Telegram
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* Telegram linked — show aggregated points */}
-        {telegramLink && telegramLink.linked && telegramLink.telegramPoints > 0 && (
-          <div className="mb-6 bg-white dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-sm p-6">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-green-500/20 rounded-full flex items-center justify-center">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
-                </div>
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-widest text-black/60 dark:text-white/50">
-                    Telegram Linked
-                    {telegramLink.telegram_username && (
-                      <span className="normal-case tracking-normal font-normal ml-2 text-black/40 dark:text-white/30">
-                        @{telegramLink.telegram_username}
-                      </span>
-                    )}
-                  </p>
-                  <div className="flex items-center gap-4 mt-1">
-                    <span className="text-sm text-black/60 dark:text-white/50">
-                      Website: <span className="font-bold text-black dark:text-white">{blipPoints}</span>
-                    </span>
-                    <span className="text-sm text-black/60 dark:text-white/50">
-                      Telegram: <span className="font-bold text-black dark:text-white">{telegramLink.telegramPoints}</span>
-                    </span>
-                    <span className="text-sm text-orange-500 font-bold">
-                      Total: {telegramLink.totalPoints}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ===== MAIN CONTENT ===== */}
+        {/* ===== MAIN CONTENT — Social Quests only ===== */}
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
-          <div className="mb-8">
-            <h1 className="text-4xl font-semibold text-black dark:text-white mb-2">
-              Mission Control
-            </h1>
-            <p className="text-sm text-black/60 dark:text-white/50">
-              Complete verification tasks to initialize vault allocation.
-            </p>
-          </div>
-
-          {/* Your Task Sections Stay Same */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-            <div className="lg:col-span-8">
-              <SectionTitle title="Social Quests" />
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
-                {getVisibleTasks(TASKS_DATA.social).map((task) => (
-                  <TaskCard
-                    key={task.id}
-                    task={task}
-                    onClick={handleTaskClick}
-                    redeemed={
-                      (task.id === "s2" && rewardStatus.twitter) ||
-                      (task.id === "s3" && rewardStatus.telegram) ||
-                      (task.id === "s4" && rewardStatus.xFollow)
-                    }
-                  />
-                ))}
-              </div>
-
-              <SectionTitle title="On-Chain Activity" />
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
-                {getVisibleTasks(TASKS_DATA.activity).map((task) => (
-                  <TaskCard
-                    key={task.id}
-                    task={task}
-                    onClick={handleTaskClick}
-                  />
-                ))}
-              </div>
-
-              <SectionTitle title="Core Infrastructure" />
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {getVisibleTasks(TASKS_DATA.core).map((task) => (
-                  <TaskCard
-                    key={task.id}
-                    task={task}
-                    onClick={handleTaskClick}
-                  />
-                ))}
-              </div>
-            </div>
-
-            <div className="lg:col-span-4">
-              <SectionTitle title="Governance & Security" />
-              <div className="flex flex-col gap-4">
-                {getVisibleTasks(TASKS_DATA.governance).map((task) => (
-                  <TaskCard
-                    key={task.id}
-                    task={task}
-                    onClick={handleTaskClick}
-                  />
-                ))}
-              </div>
-
-              {/* System Notice */}
-              <div className="mt-8 p-6 border border-black/10 dark:border-neutral-800 bg-black/5 dark:bg-neutral-900/20 rounded-sm">
-                <p className="text-[10px] uppercase tracking-widest font-bold mb-3 text-black dark:text-white">
-                  System Notice
-                </p>
-                <p className="text-xs text-black/60 dark:text-neutral-500 leading-relaxed">
-                  Rewards non-transferable until TGE. Unauthorized access
-                  attempts will result in immediate wallet blacklisting.
-                </p>
-              </div>
-            </div>
+          <SectionTitle title="Social Quests" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {getVisibleTasks(TASKS_DATA.social).map((task) => (
+              <TaskCard
+                key={task.id}
+                task={task}
+                onClick={handleTaskClick}
+                redeemed={
+                  (task.id === "s2" && rewardStatus.twitter) ||
+                  (task.id === "s3" && rewardStatus.telegram) ||
+                  (task.id === "s4" && rewardStatus.xFollow)
+                }
+              />
+            ))}
           </div>
         </div>
       </main>
