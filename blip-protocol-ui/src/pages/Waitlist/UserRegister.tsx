@@ -17,7 +17,7 @@ export default function UserRegister() {
         <main className="relative z-10 max-w-7xl mx-auto px-6 pt-14 pb-24">
           <AuthPageLayout
             badge="Get Started"
-            heading="Create Account"
+            heading="Join Waitlist"
             description="Join Blip Money and start earning rewards"
             variant="user"
           >
