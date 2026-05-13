@@ -360,7 +360,7 @@ export default function Press() {
               </AnimatedSection>
 
               <div className="relative">
-                <div className="-mx-4 sm:-mx-6 md:mx-0 px-4 sm:px-6 md:px-0 flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                <div className="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                   {mediaMentions.map((mention, index) => (
                     <div key={mention.publication + mention.date} className="snap-start shrink-0 w-[85%] md:w-auto">
                       <MediaMentionCard mention={mention} index={index} />
@@ -390,7 +390,7 @@ export default function Press() {
             </AnimatedSection>
 
             <div className="relative">
-              <div className="-mx-4 sm:-mx-6 md:mx-0 px-4 sm:px-6 md:px-0 flex md:grid md:grid-cols-3 gap-4 sm:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <div className="flex md:grid md:grid-cols-3 gap-4 sm:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 {brandAssets.map((asset, index) => (
                   <div key={asset.title} className="snap-start shrink-0 w-[85%] md:w-auto">
                     <BrandAssetCard asset={asset} index={index} />

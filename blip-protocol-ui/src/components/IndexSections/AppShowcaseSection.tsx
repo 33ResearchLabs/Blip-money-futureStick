@@ -69,7 +69,7 @@ const AppShowcaseSection = () => {
             MOBILE — single horizontal snap-scroll, no animations
             ══════════════════════════════════════════════════════════ */}
         <div className="md:hidden relative">
-          <div className="-mx-5 px-5 flex gap-3 overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {[
               { step: "01", title: "Best rates, guaranteed", desc: "Seamless multi-corridor transfers.", bg: "linear-gradient(145deg, #2a1200 0%, #0d0a14 55%, #0a0e1a 100%)", accent: "#ff6b35", image: "/settlement.webp" },
               { step: "02", title: "Instant matching", desc: "Fastest engine pairs you with merchants.", bg: "linear-gradient(145deg, #060014 0%, #090011 100%)", accent: "#6941ff", image: "/globalprovider.png" },
@@ -156,7 +156,7 @@ const AppShowcaseSection = () => {
 
           {/* ── RIGHT COLUMN — snap-scroll on mobile, 2×2 grid at md+ ── */}
           <div className="md:col-span-7 relative">
-          <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-2 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="flex md:grid md:grid-cols-2 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {/* CARD 2 — Matching, purple */}
             <motion.div
               style={{
@@ -592,7 +592,7 @@ const AppShowcaseSection = () => {
             ROW 2 — Three landscape cards (snap-scroll on mobile)
             ══════════════════════════════════════════════════════════ */}
         <div className="relative">
-        <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-3 gap-4 mt-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex md:grid md:grid-cols-3 gap-4 mt-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {/* Card 5 — Escrow / app-flow-3 */}
           <motion.div
             style={{

@@ -588,7 +588,7 @@ const TrustSection = () => {
         </motion.h2>
 
         <div className="relative">
-          <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-2 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="flex md:grid md:grid-cols-2 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {trustCards.map((card, i) => {
               const Visual = VISUALS[card.visual];
               return (
@@ -608,8 +608,8 @@ const TrustSection = () => {
                     }}
                   />
 
-                  {/* Apple-style: text left, visual right, both filling height */}
-                  <div className="relative z-10 h-full flex items-center gap-4 sm:gap-6 p-7 sm:p-9">
+                  {/* Apple-style: text left, visual right, both filling height — stacks vertically on mobile */}
+                  <div className="relative z-10 h-full flex flex-col md:flex-row md:items-center gap-6 md:gap-6 p-7 sm:p-9">
                     <div className="flex-1 min-w-0">
                       <span
                         className="text-[11px] uppercase tracking-[0.15em] font-semibold inline-block mb-3"

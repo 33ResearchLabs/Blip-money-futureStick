@@ -2221,7 +2221,7 @@ function DesktopFlow() {
 function MobileFlow() {
   return (
     <section className="relative bg-[#FAF8F5] dark:bg-black overflow-hidden py-20">
-      <div className="px-5 mb-10">
+      <div className="px-7 mb-10">
         <div className="text-center">
           <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-black/40 dark:text-white/40">
             How it works
@@ -2237,8 +2237,7 @@ function MobileFlow() {
       </div>
 
       <div
-        className="px-5 flex gap-3 overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-        style={{ scrollPaddingLeft: 20 }}
+        className="ml-6 px-7 flex gap-3 overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {STAGE_ORDER.map((s, i) => (
           <div

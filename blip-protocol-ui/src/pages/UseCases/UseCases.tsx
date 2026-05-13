@@ -115,7 +115,7 @@ export default function UseCases() {
         {/* Use Cases Grid */}
         <section className="max-w-[900px] mx-auto px-4 sm:px-6 pb-24">
           <div className="relative">
-            <div className="-mx-4 sm:-mx-6 md:mx-0 px-4 sm:px-6 md:px-0 flex md:grid md:grid-cols-2 gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="flex md:grid md:grid-cols-2 gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {useCases.map((useCase, index) => (
                 <div key={useCase.id} className="snap-start shrink-0 w-[88%] md:w-auto">
                   <UseCaseCard useCase={useCase} index={index} />

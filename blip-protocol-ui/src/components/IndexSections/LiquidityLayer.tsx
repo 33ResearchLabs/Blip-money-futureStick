@@ -58,7 +58,7 @@ const LiquidityLayer = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.2, ease: EASE }}
-          className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-4 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="flex md:grid md:grid-cols-4 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {[
             { label: "Speed", old: "3–5 days", new: "< 60s" },
@@ -100,7 +100,7 @@ const LiquidityLayer = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.9, delay: 0.3, ease: EASE }}
-          className="-mx-5 md:mx-0 px-5 md:px-0 overflow-x-auto md:overflow-visible [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="overflow-x-auto md:overflow-visible [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           <div
             className="rounded-2xl overflow-hidden min-w-[640px] md:min-w-0"
@@ -112,7 +112,7 @@ const LiquidityLayer = () => {
           >
             {/* Column headers */}
             <div className="grid grid-cols-3 px-6 py-4" style={{ borderBottom: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.06)" }}>
-              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "1.5px", textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)" }}>
+              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "1.5px", textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.7)" }}>
                 Metric
               </span>
               <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "1.5px", textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.7)" }}>
@@ -136,10 +136,10 @@ const LiquidityLayer = () => {
                 <span className="text-sm font-medium" style={{ color: isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.7)" }}>
                   {r.metric}
                 </span>
-                <span className="text-sm font-mono" style={{ color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.8)" }}>
+                <span className="text-sm " style={{ color: isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.7)" }}>
                   {r.traditional}
                 </span>
-                <span className="text-sm font-bold font-mono" style={{ color: isDark ? "#fff" : "#1d1d1f" }}>
+                <span className="text-sm font-bold " style={{ color: isDark ? "#fff" : "#1d1d1f" }}>
                   {r.blip}
                 </span>
               </motion.div>

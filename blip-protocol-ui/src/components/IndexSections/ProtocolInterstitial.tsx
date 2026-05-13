@@ -514,7 +514,7 @@ const ProtocolInterstitial = () => {
 
         {/* Bottom row — Apple-style snap-scroll on mobile, 2-up grid at md+ */}
         <div className="relative">
-        <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-2 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex md:grid md:grid-cols-2 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {FEATURES.slice(1).map((f, i) => {
             const Visual = i === 0 ? RatesVisual : ChainVisual;
             return (

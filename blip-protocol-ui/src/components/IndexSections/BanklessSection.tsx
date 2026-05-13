@@ -74,8 +74,7 @@ const BanklessSection = () => {
             md+ : 3-column grid. */}
         <div className="relative mt-20 sm:mt-24">
           <div
-            className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-3 gap-4 md:gap-5 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-            style={{ scrollPaddingLeft: 20 }}
+            className="flex md:grid md:grid-cols-3 gap-4 md:gap-5 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
             <div className="snap-start shrink-0 w-[85%] md:w-auto flex">
               <BiddingCard />

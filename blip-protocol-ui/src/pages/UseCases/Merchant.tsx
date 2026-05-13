@@ -456,7 +456,7 @@ const PricingSection = () => {
 
         {/* Live rate card + margin slider preview — mobile snap-scroll */}
         <div className="relative">
-        <div className="-mx-5 lg:mx-0 px-5 lg:px-0 flex lg:grid lg:grid-cols-5 gap-5 overflow-x-auto lg:overflow-visible snap-x snap-mandatory lg:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex lg:grid lg:grid-cols-5 gap-5 overflow-x-auto lg:overflow-visible snap-x snap-mandatory lg:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {/* Live rate ticker card */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -737,7 +737,7 @@ const RolloutSection = () => {
           />
 
           <div className="relative">
-          <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-3 gap-8 md:gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="flex md:grid md:grid-cols-3 gap-8 md:gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {phases.map((p, i) => (
               <motion.div
                 key={p.id}
@@ -904,7 +904,7 @@ const RequirementsSection = () => {
 
         {/* Numbered grid */}
         <div className="relative">
-        <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-2 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex md:grid md:grid-cols-2 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {requirements.map((r, i) => {
             const Icon = r.icon;
             return (

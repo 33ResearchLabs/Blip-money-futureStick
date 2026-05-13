@@ -559,7 +559,7 @@ const HowItWorksSection = () => {
       </div>
 
       <div className="relative">
-        <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-3 gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex md:grid md:grid-cols-3 gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {STEPS.map((s, i) => (
             <div key={s.step} className="snap-start shrink-0 w-[82%] md:w-auto">
               <StepCard

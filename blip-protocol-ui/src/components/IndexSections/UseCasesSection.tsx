@@ -378,7 +378,7 @@ const UseCasesSection = () => {
 
           {/* ── Bottom row: Merchants + Liquidity — snap-scroll on mobile ── */}
           <div className="relative">
-          <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-2 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="flex md:grid md:grid-cols-2 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {/* Merchants — with image */}
             <motion.div
               initial={{ opacity: 0, y: 28 }}

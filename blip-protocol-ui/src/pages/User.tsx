@@ -44,9 +44,9 @@ const UserHero = () => {
     const baseOut = Math.round(1000 * BASE_RATE);
     const id = setInterval(() => {
       frame = (frame + 1) % 60;
-      const wobble = Math.floor(Math.sin(frame * 0.1) * 180);
+      const wobble = Math.floor(Math.sin(frame * 0.6) * 180);
       setOutAmount(baseOut + wobble);
-    }, 100);
+    }, 500);
     return () => clearInterval(id);
   }, []);
 
@@ -233,7 +233,7 @@ const UserHero = () => {
                 <motion.span
                   key={outAmount}
                   initial={{ opacity: 0.7, y: -2 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  // animate={{ opacity: 1, y: 0 }}
                   className="font-mono font-bold text-white text-[20px] tabular-nums"
                 >
                   {outAmount.toLocaleString()}
@@ -264,8 +264,8 @@ const UserHero = () => {
           transition={{ duration: 0.9, delay: 0.7, ease: EASE }}
           className="flex flex-col sm:flex-row items-center justify-center gap-3"
         >
-          <CTAButton to="/register">Join waitlist</CTAButton>
-          <CTAButton to="/how-it-works" variant="secondary">
+          <CTAButton to="/register" className="min-w-[220px] sm:min-w-0">Join waitlist</CTAButton>
+          <CTAButton to="/how-it-works" variant="secondary" className="min-w-[220px] sm:min-w-0">
             See how it works
           </CTAButton>
         </motion.div>
@@ -361,9 +361,9 @@ const WhyBlipForUsers = () => {
                   transition={{ duration: 0.6, delay: 0.3 + i * 0.08 }}
                   className="flex items-start gap-4 p-4 rounded-xl bg-white dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] lift-on-hover"
                 >
-                  <div className="w-6 h-6 rounded-full bg-[#ff6b35]/15 border border-[#ff6b35]/30 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#ff6b35]" />
-                  </div>
+                  <div className="w-6 h-6 rounded-full bg-white dark:bg-black border border-black/10 dark:border-white/15 flex items-center justify-center flex-shrink-0 mt-0.5">
+  <CheckCircle2 className="w-3.5 h-3.5 text-black/75 dark:text-white/85" />
+</div>
                   <div>
                     <div className="font-semibold text-black dark:text-white mb-0.5">
                       {f.title}
@@ -385,22 +385,23 @@ const WhyBlipForUsers = () => {
             className="relative rounded-3xl overflow-hidden aspect-[4/5] bg-gradient-to-br from-black to-[#1a1a1a]"
           >
             <img
-              src="/peer2peer.webp"
-              alt="Peer-to-peer settlement"
-              className="absolute inset-0 w-full h-full object-cover opacity-80"
+              src="/user-p2p.jpg"
+              alt="Crypto to cash in under a minute"
+              className="absolute inset-0 w-full h-full object-cover"
               onError={(e) => {
-                (e.target as HTMLImageElement).src = "/home.webp";
+                (e.target as HTMLImageElement).src = "/peer2peer.webp";
               }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-8">
-              <div className="text-[10px] uppercase tracking-[0.25em] font-semibold text-white/50 mb-2">
-                Peer-to-peer
+            {/* Strong bottom-to-top gradient so the overlay text reads as part of the image */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+            <div className="absolute bottom-20 left-0 right-0 p-8">
+              <div className="text-[10px] uppercase tracking-[0.25em] font-semibold text-[#ff6b35] mb-3">
+                Instant
               </div>
               <div className="font-display text-2xl md:text-3xl font-semibold text-white tracking-tight leading-tight">
-                Direct routes.
+                Crypto to cash.
                 <br />
-                <span className="text-white/60">No banks in between.</span>
+                <span className="text-white/70">In under a minute.</span>
               </div>
             </div>
           </motion.div>
@@ -473,7 +474,7 @@ const UserHowItWorks = () => {
 
         {/* Step cards with connecting line — mobile snap-scroll */}
         <div className="relative">
-        <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-4 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex md:grid md:grid-cols-4 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {/* Connecting line (desktop only) */}
           {/* <div className="hidden md:block absolute top-12 left-[12%] right-[12%] h-px bg-black/10 dark:bg-white/10" />
           <motion.div
@@ -498,7 +499,7 @@ const UserHowItWorks = () => {
                   <div className="relative h-[140px] flex items-center justify-center overflow-hidden bg-black/[0.02] dark:bg-white/[0.015]">
                     {/* Step number badge — minimal orange */}
                     <span
-                      className="absolute top-3 right-3 text-[10px] font-mono font-bold tabular-nums px-2 py-0.5 rounded-full bg-white/85 dark:bg-black/40 backdrop-blur-md text-[#ff6b35]"
+                      className="absolute top-3 right-3 text-[10px] font-mono font-bold tabular-nums px-2 py-0.5 rounded-full bg-white/85 dark:bg-black/40 backdrop-blur-md text-black/75 dark:text-white/85"
                     >
                       0{i + 1}
                     </span>
@@ -681,7 +682,7 @@ const UserTrustSection = () => {
         </div>
 
         <div className="relative">
-        <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex md:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {cards.map((c, i) => {
             const Icon = c.icon;
             return (
@@ -762,8 +763,8 @@ const UserCTA = () => {
           Join the waitlist. Early users get priority access and bonus rewards.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-          <CTAButton to="/register">Join waitlist</CTAButton>
-          <CTAButton to="/how-it-works" variant="secondary">
+          <CTAButton to="/register" className="min-w-[220px]">Join waitlist</CTAButton>
+          <CTAButton to="/how-it-works" variant="secondary" className="min-w-[220px]">
             Learn more
           </CTAButton>
         </div>

@@ -617,8 +617,7 @@ const ProblemSection = () => {
             md+ : 3-column grid as before. */}
         <div className="relative" style={{ marginBottom: 16 }}>
           <div
-            className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-3 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-            style={{ scrollPaddingLeft: 20 }}
+            className="flex md:grid md:grid-cols-3 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
             <div className="snap-start shrink-0 w-[85%] md:w-auto"><CostCard /></div>
             <div className="snap-start shrink-0 w-[85%] md:w-auto"><WaitCard /></div>

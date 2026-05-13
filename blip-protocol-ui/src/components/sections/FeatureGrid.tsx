@@ -173,7 +173,7 @@ export const FeatureGrid = ({
         {/* Grid — mobile snap-scroll, md+ grid */}
         <div className="relative">
         <div
-          className={`-mx-5 md:mx-0 px-5 md:px-0 flex md:grid ${columnClasses[columns]} gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden`}
+          className={`flex md:grid ${columnClasses[columns]} gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden`}
         >
           {features.map((feature, index) => (
             <div

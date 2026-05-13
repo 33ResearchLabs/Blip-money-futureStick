@@ -95,7 +95,7 @@ bg-black/5 dark:bg-white/10
 border border-black/10 dark:border-white/20"
           >
             <span className="w-2 h-2 rounded-full bg-black dark:bg-white " />
-            <span className="text-[11px] uppercase tracking-[0.3em] text-black/70 dark:text-white/70 font-semibold">
+            <span className="text-[11px] uppercase tracking-[0.3em] text-black/70 dark:text-white/90 font-semibold">
               How Blip Works
             </span>
           </motion.div>
@@ -124,7 +124,7 @@ border border-black/10 dark:border-white/20"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.6 }}
-            className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-2xl mx-auto leading-relaxed font-medium"
+            className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/75 max-w-2xl mx-auto leading-relaxed font-medium"
           >
             The on-chain protocol for instant, secure, and KYC-free global value
             transfer.
@@ -137,14 +137,14 @@ border border-black/10 dark:border-white/20"
             transition={{ delay: 1.5 }}
             className="absolute top-[400px] sm:top-[400px] left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
           >
-            <span className="text-[11px] text-black/60 dark:text-white/50 uppercase tracking-[0.3em] font-semibold">
+            <span className="text-[11px] text-black/60 dark:text-white/75 uppercase tracking-[0.3em] font-semibold">
               Explore
             </span>
             <motion.div
               animate={{ y: [0, 8, 0] }}
               transition={{ duration: 1.5, repeat: Infinity }}
             >
-              <ChevronDown className="w-5 h-5 text-black/60 dark:text-white/50 " />
+              <ChevronDown className="w-5 h-5 text-black/60 dark:text-white/75 " />
             </motion.div>
           </motion.div> */}
         </div>
@@ -198,7 +198,7 @@ const KeyConceptsSection = () => {
           transition={{ duration: 1 }}
           className="text-center mb-24"
         >
-          <span className="text-[11px] uppercase tracking-[0.3em] text-black/70 dark:text-white/30 mb-6 block font-semibold">
+          <span className="text-[11px] uppercase tracking-[0.3em] text-black/70 dark:text-white/80 mb-6 block font-semibold">
             BLIP CORE PRINCIPLES
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6">
@@ -208,12 +208,12 @@ const KeyConceptsSection = () => {
               Digital Value
             </span>
           </h2>
-          <p className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-xl mx-auto font-medium leading-relaxed">
+          <p className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/75 max-w-xl mx-auto font-medium leading-relaxed">
             A secure foundation for private and trustless digital payments.
           </p>
         </motion.div>
         <div className="relative">
-        <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-3 gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex md:grid md:grid-cols-3 gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {concepts.map((concept, i) => (
             <motion.div
               key={concept.title}
@@ -244,12 +244,12 @@ const KeyConceptsSection = () => {
 
               <div className="relative z-10">
                 <div className="w-14 h-14 rounded-2xl bg-black/5 dark:bg-white/5 flex items-center justify-center mb-6 group-hover:bg-black/10 dark:group-hover:bg-white/10 transition-colors duration-500">
-                  <concept.icon className="w-6 h-6 text-black/70 dark:text-white/70 group-hover:text-black dark:group-hover:text-[#ffffff] transition-colors duration-500" />
+                  <concept.icon className="w-6 h-6 text-black/70 dark:text-white/90 group-hover:text-black dark:group-hover:text-[#ffffff] transition-colors duration-500" />
                 </div>
-                <h3 className="text-lg font-semibold text-black/70 dark:text-white/70 mb-3">
+                <h3 className="text-lg font-semibold text-black/70 dark:text-white/90 mb-3">
                   {concept.title}
                 </h3>
-                <p className="text-sm font-medium text-black/50 dark:text-white/50">
+                <p className="text-sm font-medium text-black/50 dark:text-white/75">
                   {concept.desc}
                 </p>
               </div>
@@ -329,7 +329,7 @@ const CoreProtocolSection = () => {
           transition={{ duration: 1 }}
           className="text-center mb-24"
         >
-          <span className="text-[11px] uppercase tracking-[0.3em] text-black/70 dark:text-white/30 mb-6 block font-semibold">
+          <span className="text-[11px] uppercase tracking-[0.3em] text-black/70 dark:text-white/80 mb-6 block font-semibold">
             The Protocol
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1]">
@@ -341,7 +341,7 @@ const CoreProtocolSection = () => {
 
         {/* Pillars grid */}
         <div className="relative">
-        <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {pillars.map((pillar, i) => (
             <motion.div
               key={pillar.title}
@@ -362,12 +362,12 @@ const CoreProtocolSection = () => {
               </span>
 
               <div className="w-16 h-16 rounded-2xl bg-black/5 dark:bg-white/5 flex items-center justify-center mx-auto mb-6 group-hover:bg-black/10 dark:group-hover:bg-white/10 transition-colors duration-500">
-                <pillar.icon className="w-7 h-7 text-black/60 dark:text-white/60 group-hover:text-black dark:group-hover:text-[#ffffff]" />
+                <pillar.icon className="w-7 h-7 text-black/60 dark:text-white/80 group-hover:text-black dark:group-hover:text-[#ffffff]" />
               </div>
-              <h3 className="text-lg font-semibold text-black/70 dark:text-white/70 mb-3">
+              <h3 className="text-lg font-semibold text-black/70 dark:text-white/90 mb-3">
                 {pillar.title}
               </h3>
-              <p className="text-sm font-medium text-black/50 dark:text-white/50">
+              <p className="text-sm font-medium text-black/50 dark:text-white/75">
                 {pillar.desc}
               </p>
             </motion.div>
@@ -458,7 +458,7 @@ const TransactionFlowSection = () => {
           transition={{ duration: 1 }}
           className="text-center mb-24"
         >
-          <span className="text-[11px] uppercase tracking-[0.3em] text-black/70 dark:text-white/30 mb-6 block font-semibold">
+          <span className="text-[11px] uppercase tracking-[0.3em] text-black/70 dark:text-white/80 mb-6 block font-semibold">
             Transaction Flow
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-6">
@@ -468,7 +468,7 @@ const TransactionFlowSection = () => {
               Guaranteed.
             </span>
           </h2>
-          <p className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-xl mx-auto font-medium leading-relaxed">
+          <p className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/75 max-w-xl mx-auto font-medium leading-relaxed">
             Every transaction executes atomically, guaranteed by on-chain escrow
             state transitions.
           </p>
@@ -497,7 +497,7 @@ const TransactionFlowSection = () => {
               >
                 {/* Number circle */}
                 <div className="absolute left-0 top-0 w-12 h-12 rounded-full bg-[#FAF8F5] dark:bg-black border-2 border-black/50 dark:border-white/70 flex items-center justify-center">
-                  <span className="text-sm font-mono text-black/60 dark:text-white/60">
+                  <span className="text-sm font-mono text-black/60 dark:text-white/80">
                     {step.num}
                   </span>
                 </div>
@@ -510,15 +510,15 @@ const TransactionFlowSection = () => {
                     border: "1px solid rgba(255, 255, 255, 0.05)",
                   }}
                 >
-                  <h3 className="text-lg font-semibold text-black/70 dark:text-white/70 mb-3">
+                  <h3 className="text-lg font-semibold text-black/70 dark:text-white/90 mb-3">
                     {step.title}
                   </h3>
-                  <p className="text-sm font-medium text-black/60 dark:text-white/50 mb-4">
+                  <p className="text-sm font-medium text-black/60 dark:text-white/75 mb-4">
                     {step.content}
                   </p>
                   <div className="flex items-center gap-2 text-sm">
-                    <CheckCircle2 className="w-4 h-4 text-black/50 dark:text-white/50" />
-                    <span className="text-black/50 dark:text-white/50 font-medium">
+                    <CheckCircle2 className="w-4 h-4 text-black/50 dark:text-white/75" />
+                    <span className="text-black/50 dark:text-white/75 font-medium">
                       Result: {step.result}
                     </span>
                   </div>
@@ -610,7 +610,7 @@ const SecuritySection = () => {
                   <div className="text-xs sm:text-2xl font-semibold text-[#ffffff]">
                     {metric.value}
                   </div>
-                  <div className="text-[9px] sm:text-xs text-[rgba(255,255,255,0.7)] uppercase tracking-tight">
+                  <div className="text-[9px] sm:text-xs text-[rgba(255,255,255,0.9)] uppercase tracking-tight">
                     {metric.label}
                   </div>
                 </motion.div>
@@ -717,7 +717,7 @@ const OrderTypesSection = () => {
 
         {/* Cards */}
         <div className="relative">
-        <div className="-mx-5 md:mx-0 px-5 md:px-0 flex md:grid md:grid-cols-3 gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex md:grid md:grid-cols-3 gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {orderTypes.map((type, i) => (
             <motion.div
               key={type.title}
@@ -817,7 +817,7 @@ const CTASection = () => {
             <span className="inline-block mt-1  px-3 py-0.5 rounded-md">Trust.</span>
           </h2>
 
-          <p className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/50 max-w-xl mx-auto mb-12 font-medium leading-relaxed">
+          <p className="text-base md:text-lg lg:text-xl text-black/80 dark:text-white/75 max-w-xl mx-auto mb-12 font-medium leading-relaxed">
             The certainty of code replacing the necessity of trust. Start your
             journey with Blip today.
           </p>
