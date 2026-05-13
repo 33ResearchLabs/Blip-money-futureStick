@@ -99,7 +99,7 @@ const Gdpr = () => {
                         className={`block text-sm transition-all text-left w-full rounded-md ${
                           activeSection === section.id
                             ? "text-black dark:text-white font-bold bg-black/10 dark:bg-white/10 px-3 py-2"
-                            : "text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 px-3 py-2"
+                            : "text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 px-3 py-2"
                         }`}
                       >
                         {index + 1}. {section.title}
@@ -116,7 +116,7 @@ const Gdpr = () => {
                   <h2 className="text-xl font-semibold mb-3">
                     1. Our Commitment to Data Protection and GDPR
                   </h2>
-                  <p className="text-gray-500 dark:text-gray-400 leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                     Blip.money is fundamentally designed to be a
                     privacy-preserving, trust-minimized protocol. Our approach
                     to privacy and data protection, including compliance with
@@ -131,7 +131,7 @@ const Gdpr = () => {
                   <h2 className="text-xl font-semibold mb-3">
                     2. Data Controller and Processor
                   </h2>
-                  <p className="text-gray-500 dark:text-gray-400 leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                     The Blip.money protocol is a decentralized, autonomous
                     software application. There is no central entity that acts
                     as a data controller or data processor in the traditional
@@ -148,13 +148,13 @@ const Gdpr = () => {
                   <h2 className="text-xl font-semibold mb-3">
                     3. Personal Data Collection and Processing
                   </h2>
-                  <p className="text-gray-500 dark:text-gray-400 mb-4 leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
                     Blip.money is privacy-preserving by design. We do not
                     collect, store, or process any Personal Identifiable
                     Information (PII). This includes:
                   </p>
 
-                  <ul className="list-disc list-inside text-gray-500 dark:text-gray-400 space-y-2 mb-4">
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
                     <li>
                       Names, email addresses, phone numbers, or physical
                       addresses.
@@ -163,7 +163,7 @@ const Gdpr = () => {
                     <li>KYC (Know Your Customer) documentation.</li>
                   </ul>
 
-                  <p className="text-gray-500 dark:text-gray-400 leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                     Your interaction with the protocol is solely through a
                     non-custodial cryptocurrency wallet. We have no means of
                     linking your public wallet address to your real-world
@@ -176,19 +176,19 @@ const Gdpr = () => {
                   <h2 className="text-xl font-semibold mb-3">
                     4. Blockchain and Public Data
                   </h2>
-                  <p className="text-gray-500 dark:text-gray-400 mb-4 leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
                     All transactions conducted on the Blip.money protocol are
                     recorded on a public blockchain. This is an inherent and
                     necessary feature of decentralized technology. This on-chain
                     data includes:
                   </p>
 
-                  <ul className="list-disc list-inside text-gray-500 dark:text-gray-400 space-y-2 mb-4">
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
                     <li>Pseudonymous wallet addresses.</li>
                     <li>Transaction amounts and timestamps.</li>
                   </ul>
 
-                  <p className="text-gray-500 dark:text-gray-400 leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                     This information is public by nature and is not controlled
                     by Blip.money. Users should be aware that blockchain data is
                     immutable and public. Your on-chain privacy is your own
@@ -201,20 +201,20 @@ const Gdpr = () => {
                   <h2 className="text-xl font-semibold mb-3">
                     5. User Rights Under GDPR
                   </h2>
-                  <p className="text-gray-500 dark:text-gray-400 mb-4 leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
                     GDPR grants individuals several rights concerning their
                     personal data, including the right to access, rectify,
                     erase, and restrict processing.
                   </p>
 
-                  <p className="text-gray-500 dark:text-gray-400 mb-4 leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
                     Since Blip.money does not collect or store any of your
                     personal data, these rights are not directly applicable in
                     the conventional sense. You are in full control of your
                     data.
                   </p>
 
-                  <ul className="list-disc list-inside text-gray-500 dark:text-gray-400 space-y-2">
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2">
                     <li>
                       <span className="text-black dark:text-white">
                         Control :
@@ -238,7 +238,7 @@ const Gdpr = () => {
                   <h2 className="text-xl font-semibold mb-3">
                     6. Legal Basis for Processing
                   </h2>
-                  <p className="text-gray-500 dark:text-gray-400 leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                     We do not process personal data, and therefore, we do not
                     require a legal basis for processing under GDPR. The
                     functioning of the protocol relies on the public and
@@ -252,7 +252,7 @@ const Gdpr = () => {
                   <h2 className="text-xl font-semibold mb-3">
                     7. Data Security
                   </h2>
-                  <p className="text-gray-500 dark:text-gray-400 leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                     While we do not hold your data, we are committed to the
                     security of the protocol itself. However, the security of
                     your assets is your responsibility. You are solely
@@ -264,7 +264,7 @@ const Gdpr = () => {
                 {/* Section 8 */}
                 <section id="conclusion">
                   <h2 className="text-xl font-semibold mb-3">8. Conclusion</h2>
-                  <p className="text-gray-500 dark:text-gray-400 leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                     Blip.money's architecture is designed to be fundamentally
                     compliant with the spirit of GDPR by championing data
                     minimization and user control. By not collecting personal

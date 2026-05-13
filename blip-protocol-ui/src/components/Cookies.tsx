@@ -97,7 +97,7 @@ const Cookies = () => {
                         className={`block text-sm transition-all text-left w-full rounded-md ${
                           activeSection === section.id
                             ? "text-black dark:text-white font-bold bg-black/10 dark:bg-white/10 px-3 py-2"
-                            : "text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 px-3 py-2"
+                            : "text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 px-3 py-2"
                         }`}
                       >
                         {index + 1}. {section.title}
@@ -122,7 +122,7 @@ const Cookies = () => {
                   <h2 className="text-xl font-semibold mb-3">
                     1. Our Philosophy on Cookies
                   </h2>
-                  <p className="text-gray-500 dark:text-gray-400 leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                     Our goal is to build a privacy-preserving financial
                     protocol. As such, we are committed to using as few cookies
                     as possible. The Blip.money protocol itself is a
@@ -137,12 +137,12 @@ const Cookies = () => {
                     2. What Cookies We Use and Why
                   </h2>
 
-                  <p className="text-gray-500 dark:text-gray-400 mb-4 leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
                     We use only strictly necessary cookies to provide basic
                     website functionality. We do not use cookies for:
                   </p>
 
-                  <ul className="list-disc list-inside text-gray-500 dark:text-gray-400 space-y-2 mb-4">
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
                     <li>
                       <span className="text-black dark:text-white">
                         Analytics or Tracking:
@@ -165,11 +165,11 @@ const Cookies = () => {
                     </li>
                   </ul>
 
-                  <p className="text-gray-500 dark:text-gray-400 mb-4 leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
                     The types of cookies we may use are:
                   </p>
 
-                  <ul className="list-disc list-inside text-gray-500 dark:text-gray-400 space-y-2">
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2">
                     <li>
                       <span className="text-black dark:text-white">
                         Session Cookies:
@@ -195,7 +195,7 @@ const Cookies = () => {
                   <h2 className="text-xl font-semibold mb-3">
                     3. Third-Party Cookies
                   </h2>
-                  <p className="text-gray-500 dark:text-gray-400 leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                     We do not use any third-party services on our website that
                     would place tracking or advertising cookies on your browser.
                   </p>
@@ -207,13 +207,13 @@ const Cookies = () => {
                     4. How to Control Cookies
                   </h2>
 
-                  <p className="text-gray-500 dark:text-gray-400 mb-4 leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
                     You can control and/or delete cookies as you wish. Most web
                     browsers allow you to manage your cookie preferences through
                     their settings. You can typically:
                   </p>
 
-                  <ul className="list-disc list-inside text-gray-500 dark:text-gray-400 space-y-2 mb-4">
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
                     <li>View the cookies stored on your device.</li>
                     <li>Delete some or all cookies.</li>
                     <li>Block third-party cookies.</li>
@@ -221,7 +221,7 @@ const Cookies = () => {
                     <li>Receive a notification when a cookie is issued.</li>
                   </ul>
 
-                  <p className="text-gray-500 dark:text-gray-400 leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                     Please note that if you choose to block all cookies, our
                     website may not function as intended, as you would be
                     disabling strictly necessary cookies required for its
@@ -234,7 +234,7 @@ const Cookies = () => {
                   <h2 className="text-xl font-semibold mb-3">
                     5. Changes to This Policy
                   </h2>
-                  <p className="text-gray-500 dark:text-gray-400 leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                     We may update this Cookie Policy from time to time. Any
                     changes will be posted on this page with an updated "Last
                     Updated" date.
@@ -244,7 +244,7 @@ const Cookies = () => {
                 {/* Section 6 */}
                 <section id="contact">
                   <h2 className="text-xl font-semibold mb-3">6. Contact Us</h2>
-                  <p className="text-gray-500 dark:text-gray-400 leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                     If you have any questions about our use of cookies, please
                     contact us through our official channels.
                   </p>

@@ -3152,7 +3152,7 @@ export const blogArticles: BlogArticle[] = [
     category: "Payments",
     readTime: "9 min read",
     coverImage:
-      "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=1200&h=630&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1483478550801-ceba5fe50e8e?w=1200&h=630&fit=crop&q=80",
     coverGradient: "from-neon-purple/20 via-neon-purple/10 to-transparent",
     seo: {
       title:
@@ -3563,7 +3563,8 @@ export const blogArticles: BlogArticle[] = [
     date: "2026-04-22",
     category: "Payments",
     readTime: "5 min read",
-    coverImage: "/blog.png",
+    coverImage:
+      "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=1200&h=630&fit=crop&q=80",
     coverGradient: "from-neon-cyan/20 via-neon-mint/10 to-transparent",
     seo: {
       title: "How to Send USDT to a Bank Account in 60 Seconds | Blip Money",
@@ -3654,7 +3655,8 @@ export const blogArticles: BlogArticle[] = [
     date: "2026-04-26",
     category: "Payments",
     readTime: "7 min read",
-    coverImage: "/blog.png",
+    coverImage:
+      "https://images.unsplash.com/photo-1535320903710-d993d3d77d29?w=1200&h=630&fit=crop&q=80",
     coverGradient: "from-warm-gold/20 via-neon-mint/10 to-transparent",
     seo: {
       title: "The Hidden Cost of SWIFT: Why International Wires Lose 7% | Blip",
@@ -3734,7 +3736,8 @@ export const blogArticles: BlogArticle[] = [
     date: "2026-05-02",
     category: "Payments",
     readTime: "8 min read",
-    coverImage: "/blog.png",
+    coverImage:
+      "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1200&h=630&fit=crop&q=80",
     coverGradient: "from-warm-gold/20 via-neon-cyan/10 to-transparent",
     seo: {
       title: "UAE Crypto Tax 2026: Complete Guide for Residents and Businesses",
@@ -3818,7 +3821,8 @@ export const blogArticles: BlogArticle[] = [
     date: "2026-05-06",
     category: "Tokenomics",
     readTime: "9 min read",
-    coverImage: "/blog.png",
+    coverImage:
+      "https://images.unsplash.com/photo-1605792657660-596af9009e82?w=1200&h=630&fit=crop&q=80",
     coverGradient: "from-neon-purple/20 via-warm-gold/10 to-transparent",
     seo: {
       title: "Stablecoins vs CBDCs: Why USDT and USDC Won | Blip Money",
@@ -3898,7 +3902,8 @@ export const blogArticles: BlogArticle[] = [
     date: "2026-05-09",
     category: "Payments",
     readTime: "6 min read",
-    coverImage: "/blog.png",
+    coverImage:
+      "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1200&h=630&fit=crop&q=80",
     coverGradient: "from-neon-cyan/20 via-neon-purple/10 to-transparent",
     seo: {
       title: "USDT for Freelancers in India: A Complete Payment Guide",
@@ -3971,7 +3976,8 @@ export const blogArticles: BlogArticle[] = [
     date: "2026-05-13",
     category: "Payments",
     readTime: "8 min read",
-    coverImage: "/blog.png",
+    coverImage:
+      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&h=630&fit=crop&q=80",
     coverGradient: "from-neon-mint/20 via-warm-gold/10 to-transparent",
     seo: {
       title: "On-Chain B2B Settlement: The Quiet Revolution in Trade Finance",
@@ -4037,7 +4043,8 @@ export const blogArticles: BlogArticle[] = [
     date: "2026-05-16",
     category: "Blockchain",
     readTime: "6 min read",
-    coverImage: "/blog.png",
+    coverImage:
+      "https://images.unsplash.com/photo-1556742044-3c52d6e88c62?w=1200&h=630&fit=crop&q=80",
     coverGradient: "from-neon-purple/20 via-neon-cyan/10 to-transparent",
     seo: {
       title: "Phantom vs Solflare: Best Solana Wallet for 2026 | Blip Money",
@@ -4110,7 +4117,8 @@ export const blogArticles: BlogArticle[] = [
     date: "2026-05-19",
     category: "Escrow",
     readTime: "9 min read",
-    coverImage: "/blog.png",
+    coverImage:
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&h=630&fit=crop&q=80",
     coverGradient: "from-neon-mint/20 via-neon-cyan/10 to-transparent",
     seo: {
       title: "How a Blip Trade Works: USDT Escrow Lifecycle | Blip Money",
@@ -4197,7 +4205,8 @@ export const blogArticles: BlogArticle[] = [
     date: "2026-05-23",
     category: "Payments",
     readTime: "8 min read",
-    coverImage: "/blog.png",
+    coverImage:
+      "https://images.unsplash.com/photo-1604594849809-dfedbc827105?w=1200&h=630&fit=crop&q=80",
     coverGradient: "from-warm-gold/20 via-neon-mint/10 to-transparent",
     seo: {
       title: "USDT vs Hawala for Pakistan Remittance: Speed, Cost, Trust",
@@ -4268,7 +4277,8 @@ export const blogArticles: BlogArticle[] = [
     date: "2026-05-26",
     category: "Merchant",
     readTime: "9 min read",
-    coverImage: "/blog.png",
+    coverImage:
+      "https://images.unsplash.com/photo-1543286386-713bdd548da4?w=1200&h=630&fit=crop&q=80",
     coverGradient: "from-neon-cyan/20 via-warm-gold/10 to-transparent",
     seo: {
       title: "Blip Merchant Profitability Guide: Spread, Volume, Reputation",

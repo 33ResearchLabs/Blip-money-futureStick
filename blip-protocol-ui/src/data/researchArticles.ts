@@ -1313,7 +1313,7 @@ export const researchArticles: ResearchArticle[] = [
     category: "Security",
     readTime: "11 min read",
     coverImage:
-      "https://images.unsplash.com/photo-1614064548237-096d7b1f0bba?w=1200&h=630&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&h=630&fit=crop&q=80",
     coverGradient: "from-red-500/20 via-neon-purple/10 to-transparent",
     seo: {
       title: "On-Chain KYC and Zero-Knowledge Proofs | Blip Research",

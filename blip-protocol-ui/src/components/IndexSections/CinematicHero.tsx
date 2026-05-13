@@ -192,16 +192,16 @@ const CinematicHero = () => {
           className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-10"
         >
           {/* Mobile: single oversized primary CTA */}
-          <Link
+          {/* <Link
             to="/register"
             className="sm:hidden group inline-flex items-center justify-center w-full max-w-[340px] py-4 px-6 rounded-full bg-white text-black text-[18px] font-semibold gap-2 shadow-[0_8px_28px_rgba(255,255,255,0.14)] active:scale-[0.98] transition-transform"
           >
             Join Waitlist
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-          </Link>
+          </Link> */}
 
           {/* Desktop: two CTAs side by side */}
-          <div className="hidden sm:flex items-center justify-center gap-3">
+          <div className="flex  items-center justify-center gap-3">
             <CTAButton to="/register">
               Join Waitlist
             </CTAButton>

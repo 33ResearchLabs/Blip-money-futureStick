@@ -101,7 +101,7 @@ const Privacy = () => {
                         className={`block text-sm transition-all text-left w-full rounded-md ${
                           activeSection === section.id
                             ? "text-black dark:text-white font-bold bg-black/10 dark:bg-white/10 px-3 py-2"
-                            : "text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 px-3 py-2"
+                            : "text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 px-3 py-2"
                         }`}
                       >
                         {index + 1}. {section.title}
@@ -134,7 +134,7 @@ const Privacy = () => {
                     1. Information We Collect
                   </h2>
 
-                  <p className="text-gray-500 dark:text-gray-400 mb-4 leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
                     We may collect and process the following categories of
                     information depending on how you use the Services.
                   </p>
@@ -142,7 +142,7 @@ const Privacy = () => {
                   <p className="text-black dark:text-white mb-2 font-medium">
                     1.1 Information You Provide
                   </p>
-                  <ul className="list-disc list-inside text-gray-500 dark:text-gray-400 space-y-2 mb-4">
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
                     <li>Email address or username (if applicable)</li>
                     <li>Wallet addresses</li>
                     <li>
@@ -155,7 +155,7 @@ const Privacy = () => {
                   <p className="text-black dark:text-white mb-2 font-medium">
                     1.2 Automatically Collected Information
                   </p>
-                  <ul className="list-disc list-inside text-gray-500 dark:text-gray-400 space-y-2 mb-4">
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2 mb-4">
                     <li>IP address, device type, and browser type</li>
                     <li>Log data, timestamps, and usage patterns</li>
                     <li>Security and fraud-prevention signals</li>
@@ -164,12 +164,12 @@ const Privacy = () => {
                   <p className="text-black dark:text-white mb-2 font-medium">
                     1.3 Transaction Metadata
                   </p>
-                  <ul className="list-disc list-inside text-gray-500 dark:text-gray-400 space-y-2">
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2">
                     <li>Transaction references or identifiers</li>
                     <li>Timestamps, amounts, and transaction status</li>
                   </ul>
 
-                  <p className="text-gray-500 dark:text-gray-400 mt-4 leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 mt-4 leading-relaxed">
                     blip.money does not custody user funds and does not store
                     private keys or wallet credentials.
                   </p>
@@ -181,7 +181,7 @@ const Privacy = () => {
                     2. How We Use Your Information
                   </h2>
 
-                  <ul className="list-disc list-inside text-gray-500 dark:text-gray-400 space-y-2">
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2">
                     <li>Operate, maintain, and secure the platform</li>
                     <li>
                       Facilitate escrow coordination and dispute resolution
@@ -198,7 +198,7 @@ const Privacy = () => {
                     3. Legal Basis for Processing
                   </h2>
 
-                  <ul className="list-disc list-inside text-gray-500 dark:text-gray-400 space-y-2">
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2">
                     <li>Contractual necessity to provide the Services</li>
                     <li>Compliance with legal obligations</li>
                     <li>
@@ -215,11 +215,11 @@ const Privacy = () => {
                     4. Data Sharing
                   </h2>
 
-                  <p className="text-gray-500 dark:text-gray-400 mb-4 leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
                     We may share limited information with:
                   </p>
 
-                  <ul className="list-disc list-inside text-gray-500 dark:text-gray-400 space-y-2">
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2">
                     <li>Compliance and verification partners</li>
                     <li>Dispute resolution service providers</li>
                     <li>
@@ -228,7 +228,7 @@ const Privacy = () => {
                     </li>
                   </ul>
 
-                  <p className="text-gray-500 dark:text-gray-400 mt-4 leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 mt-4 leading-relaxed">
                     We do not sell personal data.
                   </p>
                 </section>
@@ -239,13 +239,13 @@ const Privacy = () => {
                     5. Data Retention
                   </h2>
 
-                  <p className="text-gray-500 dark:text-gray-400 leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                     We retain information only for as long as necessary to
                     operate and secure the Services, comply with legal
                     obligations, resolve disputes, and prevent fraud or abuse.
                   </p>
 
-                  <p className="text-gray-500 dark:text-gray-400 mt-4 leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 mt-4 leading-relaxed">
                     Blockchain transaction data is permanent and is not
                     controlled by blip.money.
                   </p>
@@ -257,7 +257,7 @@ const Privacy = () => {
                     6. Data Security
                   </h2>
 
-                  <p className="text-gray-500 dark:text-gray-400 leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                     We use appropriate technical and organizational security
                     measures, including encryption, access controls, monitoring,
                     and secure infrastructure practices. However, no system is
@@ -272,7 +272,7 @@ const Privacy = () => {
                     7. International Data Transfers
                   </h2>
 
-                  <p className="text-gray-500 dark:text-gray-400 leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                     Your information may be processed in multiple jurisdictions
                     depending on our infrastructure and operational needs. Where
                     required, appropriate safeguards are applied.
@@ -283,7 +283,7 @@ const Privacy = () => {
                 <section id="rights" className="mb-8">
                   <h2 className="text-xl font-semibold mb-3">8. Your Rights</h2>
 
-                  <ul className="list-disc list-inside text-gray-500 dark:text-gray-400 space-y-2">
+                  <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2">
                     <li>Access information about you</li>
                     <li>Request correction of your information</li>
                     <li>Request deletion of your information</li>
@@ -296,7 +296,7 @@ const Privacy = () => {
                 <section id="contact">
                   <h2 className="text-xl font-semibold mb-3">9. Contact</h2>
 
-                  <p className="text-gray-500 dark:text-gray-400 leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                     If you have any questions about this Privacy Policy or our
                     data practices, you may contact us at:
                   </p>

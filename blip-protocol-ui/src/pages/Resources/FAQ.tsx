@@ -57,7 +57,7 @@ const FAQAccordionItem = ({
           transition={{ duration: 0.3, ease: [0.19, 1, 0.22, 1] }}
           className="flex-shrink-0 w-8 h-8 rounded-full bg-black/[0.04] dark:bg-white/[0.06] flex items-center justify-center"
         >
-          <ChevronDown className="w-4 h-4 text-black/50 dark:text-white/50" />
+          <ChevronDown className="w-4 h-4 text-black/60 dark:text-white/70" />
         </motion.div>
       </button>
 
@@ -71,7 +71,7 @@ const FAQAccordionItem = ({
             className="overflow-hidden"
           >
             <div className="pb-6 pr-12">
-              <p className="text-[15px] text-gray-500 dark:text-white/40 leading-relaxed">
+              <p className="text-[15px] text-gray-600 dark:text-white/75 leading-relaxed">
                 {item.answer}
               </p>
             </div>
@@ -160,7 +160,7 @@ export default function FAQ() {
               <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold text-black dark:text-white tracking-tight mb-5">
                 FAQ
               </h1>
-              <p className="text-lg sm:text-xl text-black dark:text-white/40 max-w-lg mx-auto leading-relaxed">
+              <p className="text-lg sm:text-xl text-gray-700 dark:text-white/70 max-w-lg mx-auto leading-relaxed">
                 Everything you need to know about Blip Money, from getting
                 started to advanced protocol details.
               </p>
@@ -188,7 +188,7 @@ export default function FAQ() {
                 className={`relative px-4 py-3 text-[13px] font-medium whitespace-nowrap transition-colors ${
                   activeCategory === cat
                     ? "text-black dark:text-white"
-                    : "text-gray-400 dark:text-white/35 hover:text-gray-600 dark:hover:text-white/60"
+                    : "text-gray-600 dark:text-white/60 hover:text-black dark:hover:text-white"
                 }`}
               >
                 {cat}
@@ -251,7 +251,7 @@ export default function FAQ() {
                     {faq.question}
                   </span>
                   <ChevronDown
-                    className={`w-4 h-4 text-black/40 dark:text-white/40 flex-shrink-0 transition-transform duration-300 ${
+                    className={`w-4 h-4 text-black/60 dark:text-white/70 flex-shrink-0 transition-transform duration-300 ${
                       openFaq === i ? "rotate-180" : ""
                     }`}
                   />
@@ -266,7 +266,7 @@ export default function FAQ() {
                       transition={{ duration: 0.35 }}
                       className="overflow-hidden bg-gray-200 dark:bg-black"
                     >
-                      <div className="px-5 pb-5 text-sm text-black dark:text-white/40 leading-relaxed border-t border-black/[0.06] dark:border-white/[0.06] pt-4">
+                      <div className="px-5 pb-5 text-sm text-gray-700 dark:text-white/75 leading-relaxed border-t border-black/[0.06] dark:border-white/[0.06] pt-4">
                         {faq.answer}
                       </div>
                     </motion.div>
@@ -278,7 +278,7 @@ export default function FAQ() {
 
           {filteredItems.length === 0 && (
             <div className="text-center py-24">
-              <p className="text-lg text-gray-400 dark:text-white/30">
+              <p className="text-lg text-gray-600 dark:text-white/60">
                 No questions in this category yet.
               </p>
             </div>

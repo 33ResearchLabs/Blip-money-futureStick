@@ -108,7 +108,7 @@ const CompareListing = () => {
       />
       <HreflangTags path="/compare" />
 
-      <div className="min-h-screen bg-[#FAF8F5] dark:bg-transparent">
+      <div className="bg-[#FAF8F5] dark:bg-transparent">
         {/* Hero */}
         <section className="relative pt-32 sm:pt-36 pb-12 sm:pb-16">
           <div className="max-w-[900px] mx-auto px-4 sm:px-6">
