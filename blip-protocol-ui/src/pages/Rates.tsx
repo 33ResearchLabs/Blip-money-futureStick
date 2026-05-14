@@ -911,16 +911,42 @@ const ComparisonSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-center mt-14"
+          className="relative mt-20 overflow-hidden rounded-3xl bg-black text-center px-6 py-20 sm:py-24"
         >
-          <h3 className="font-display text-2xl sm:text-3xl font-semibold text-black dark:text-white tracking-tight mb-3">
-            Lower price. Stronger guarantees.
-          </h3>
-          <p className="text-base text-black/55 dark:text-white/50 max-w-md mx-auto mb-6">
-            One protocol. Every venue beat on the row that matters: the rate
-            you actually pay.
-          </p>
-          <CTAButton to="/register">Join Waitlist</CTAButton>
+          {/* glow accents */}
+          <div className="pointer-events-none absolute inset-0">
+            <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-[#ff6b35]/20 blur-[120px]" />
+            <div className="absolute -bottom-40 -left-20 w-[400px] h-[400px] rounded-full bg-[#ff6b35]/10 blur-[100px]" />
+            <div className="absolute -bottom-40 -right-20 w-[400px] h-[400px] rounded-full bg-white/5 blur-[100px]" />
+          </div>
+          {/* subtle grid */}
+          <div
+            className="pointer-events-none absolute inset-0 opacity-[0.07]"
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)",
+              backgroundSize: "44px 44px",
+              maskImage:
+                "radial-gradient(ellipse at center, black 40%, transparent 75%)",
+            }}
+          />
+
+          <div className="relative">
+            <h3 className="font-display text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-[1.05] mb-6">
+              <span className="bg-gradient-to-b from-white via-white to-white/60 bg-clip-text text-transparent">
+                Lower price.
+              </span>
+              <br />
+              <span className="bg-gradient-to-r from-[#ff6b35] via-[#ff8c5a] to-[#ff6b35] bg-clip-text text-transparent">
+                Stronger guarantees.
+              </span>
+            </h3>
+            <p className="text-base sm:text-lg text-white/55 max-w-xl mx-auto mb-10 leading-relaxed">
+              One protocol. Every venue beat on the row that matters: the rate
+              you actually pay.
+            </p>
+            <CTAButton to="/register">Join Waitlist</CTAButton>
+          </div>
         </motion.div>
       </div>
     </section>
