@@ -78,7 +78,7 @@ const CinematicHero = () => {
       )}
 
       {/* Content */}
-      <main className="relative z-10 w-full max-w-[860px] mx-auto px-6 md:px-10 pt-28 pb-44 text-center">
+      <main className="relative z-10 w-full max-w-[860px] mx-auto px-6 md:px-10 pt-28 pb-0 md:pb-8 text-center">
         {/* Eyebrow */}
         <motion.p
           initial={{ opacity: 0, y: 8 }}
@@ -192,16 +192,16 @@ const CinematicHero = () => {
           className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-10"
         >
           {/* Mobile: single oversized primary CTA */}
-          {/* <Link
+          <Link
             to="/register"
-            className="sm:hidden group inline-flex items-center justify-center w-full max-w-[340px] py-4 px-6 rounded-full bg-white text-black text-[18px] font-semibold gap-2 shadow-[0_8px_28px_rgba(255,255,255,0.14)] active:scale-[0.98] transition-transform"
+            className="sm:hidden group inline-flex items-center justify-center w-full max-w-[220px] py-4 px-6 rounded-full bg-white text-black text-[18px] font-semibold gap-2 shadow-[0_8px_28px_rgba(255,255,255,0.14)] active:scale-[0.98] transition-transform"
           >
             Join Waitlist
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-          </Link> */}
+          </Link>
 
           {/* Desktop: two CTAs side by side */}
-          <div className="flex  items-center justify-center gap-3">
+          <div className="sm:flex hidden  items-center justify-center gap-3">
             <CTAButton to="/register">
               Join Waitlist
             </CTAButton>

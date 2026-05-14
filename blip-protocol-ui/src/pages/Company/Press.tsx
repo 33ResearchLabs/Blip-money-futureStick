@@ -1,20 +1,30 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import {
   Calendar,
   ArrowUpRight,
   Download,
+  Eye,
   FileText,
   Package,
   Mail,
   ArrowRight,
   Palette,
+  X,
 } from "lucide-react";
 import SEO from "@/components/SEO";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { HreflangTags } from "@/components/HreflangTags";
 import { sounds } from "@/lib/sounds";
 import { SwipeHint } from "@/components/IndexSections/SwipeHint";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+  DialogClose,
+} from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 
 /* ============================================
    PRESS & MEDIA PAGE
@@ -51,36 +61,49 @@ const pressReleases = [
 const mediaMentions: { publication: string; title: string; date: string }[] =
   [];
 
-const brandAssets = [
+type BrandAsset = {
+  icon: typeof FileText;
+  title: string;
+  description: string;
+  href: string;
+  previewBg?: "light" | "dark";
+};
+
+const brandAssets: BrandAsset[] = [
   {
     icon: FileText,
     title: "Logo — Dark",
-    description: "Blip Money wordmark (black on transparent) — SVG.",
+    description: "Blip Money wordmark in white — for use on dark backgrounds.",
     href: "/brand/blip-logo-dark.svg",
+    previewBg: "dark",
   },
   {
     icon: FileText,
     title: "Logo — Light",
-    description: "Blip Money wordmark (white on transparent) — SVG.",
+    description: "Blip Money wordmark in black — for use on light backgrounds.",
     href: "/brand/blip-logo-light.svg",
+    previewBg: "light",
   },
   {
     icon: Package,
     title: "Icon — Black",
-    description: "Standalone Zap icon in black — SVG.",
+    description: "Standalone Zap icon on a black rounded tile — SVG.",
     href: "/brand/blip-icon.svg",
+    previewBg: "light",
   },
   {
     icon: Package,
     title: "Icon — White",
-    description: "Standalone Zap icon in white — SVG.",
+    description: "Standalone Zap icon in white on transparent — for dark backgrounds.",
     href: "/brand/blip-icon-white.svg",
+    previewBg: "dark",
   },
   {
     icon: Package,
     title: "Icon — Orange",
-    description: "Standalone Zap icon in brand orange (#ff6b35) — SVG.",
+    description: "Standalone Zap icon in brand orange (#f97316) on transparent — SVG.",
     href: "/brand/blip-icon-orange.svg",
+    previewBg: "light",
   },
   {
     icon: Palette,
@@ -224,9 +247,11 @@ const MediaMentionCard = ({
 const BrandAssetCard = ({
   asset,
   index,
+  onPreview,
 }: {
-  asset: (typeof brandAssets)[0];
+  asset: BrandAsset;
   index: number;
+  onPreview: (asset: BrandAsset) => void;
 }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-40px" });
@@ -239,7 +264,10 @@ const BrandAssetCard = ({
           <asset.icon className="w-5 h-5 text-black dark:text-white" />
         </div>
         {isDownloadable && (
-          <Download className="w-4 h-4 text-black/80 dark:text-white/40 group-hover:text-black dark:group-hover:text-white transition-colors" />
+          <div className="flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.12em] text-black/60 dark:text-white/40 group-hover:text-black dark:group-hover:text-white transition-colors">
+            <Eye className="w-3.5 h-3.5" />
+            Preview
+          </div>
         )}
       </div>
 
@@ -254,32 +282,107 @@ const BrandAssetCard = ({
 
   return (
     <motion.div
-  ref={ref}
-  className="h-full"
-  initial={{ opacity: 0, y: 20 }}
-  animate={isInView ? { opacity: 1, y: 0 } : {}}
-  transition={{ duration: 0.5, delay: index * 0.1, ease: easeOut }}
->
-  {isDownloadable ? (
-    <a
-      href={asset.href}
-      download
-      onMouseEnter={() => sounds.hover()}
-      onClick={() => sounds.click()}
-      className="group flex flex-col h-full p-6 sm:p-8 rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] hover:border-black/[0.15] dark:hover:border-white/[0.12] transition-all duration-300 cursor-pointer"
+      ref={ref}
+      className="h-full"
+      initial={{ opacity: 0, y: 20 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.5, delay: index * 0.1, ease: easeOut }}
     >
-      {inner}
-    </a>
-  ) : (
-    <div
-      onMouseEnter={() => sounds.hover()}
-      className="group flex flex-col h-full p-6 sm:p-8 rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] transition-all duration-300"
-    >
-      {inner}
-    </div>
-  )}
-</motion.div>
+      {isDownloadable ? (
+        <button
+          type="button"
+          onMouseEnter={() => sounds.hover()}
+          onClick={() => {
+            sounds.click();
+            onPreview(asset);
+          }}
+          className="group flex flex-col h-full w-full text-left p-6 sm:p-8 rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] hover:border-black/[0.15] dark:hover:border-white/[0.12] transition-all duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-black/20 dark:focus-visible:ring-white/20"
+        >
+          {inner}
+        </button>
+      ) : (
+        <div
+          onMouseEnter={() => sounds.hover()}
+          className="group flex flex-col h-full p-6 sm:p-8 rounded-2xl bg-white/60 dark:bg-white/[0.03] backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.06] transition-all duration-300"
+        >
+          {inner}
+        </div>
+      )}
+    </motion.div>
+  );
+};
 
+/* ============================================
+   BRAND ASSET PREVIEW DIALOG
+   ============================================ */
+
+const BrandAssetPreview = ({
+  asset,
+  onOpenChange,
+}: {
+  asset: BrandAsset | null;
+  onOpenChange: (open: boolean) => void;
+}) => {
+  return (
+    <Dialog open={!!asset} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-2xl bg-[#FAF8F5] dark:bg-zinc-950 border border-black/[0.08] dark:border-white/[0.08] rounded-2xl p-0 overflow-hidden gap-0 [&>button.absolute]:hidden">
+        {asset && (
+          <>
+            <div
+              className={cn(
+                "relative flex items-center justify-center w-full aspect-[16/9] p-12 border-b border-black/[0.06] dark:border-white/[0.06]",
+                asset.previewBg === "dark"
+                  ? "bg-black"
+                  : "bg-white",
+              )}
+            >
+              <img
+                src={asset.href}
+                alt={asset.title}
+                className="max-h-full max-w-full object-contain"
+                draggable={false}
+              />
+              <DialogClose
+                className={cn(
+                  "absolute top-3 right-3 z-10 inline-flex items-center justify-center w-9 h-9 rounded-full backdrop-blur-md ring-1 transition-colors focus:outline-none focus-visible:ring-2",
+                  asset.previewBg === "dark"
+                    ? "bg-white/10 ring-white/20 text-white hover:bg-white/20"
+                    : "bg-black/10 ring-black/15 text-black hover:bg-black/20",
+                )}
+              >
+                <X className="w-4 h-4" />
+                <span className="sr-only">Close</span>
+              </DialogClose>
+            </div>
+
+            <div className="p-6 sm:p-8">
+              <DialogTitle className="text-xl font-bold text-black dark:text-white mb-2">
+                {asset.title}
+              </DialogTitle>
+              <DialogDescription className="text-[14px] text-gray-500 dark:text-white/40 leading-relaxed mb-6">
+                {asset.description}
+              </DialogDescription>
+
+              <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3">
+                <span className="text-[11px] font-mono uppercase tracking-[0.12em] text-black/40 dark:text-white/30 truncate">
+                  {asset.href.split("/").pop()}
+                </span>
+                <a
+                  href={asset.href}
+                  download
+                  onClick={() => sounds.click()}
+                  onMouseEnter={() => sounds.hover()}
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-black text-white dark:bg-white dark:text-black font-semibold text-[14px] hover:scale-[1.01] active:scale-[0.98] hover:shadow-[0_4px_16px_rgba(0,0,0,0.18)] transition-all"
+                >
+                  <Download className="w-4 h-4" />
+                  Download SVG
+                </a>
+              </div>
+            </div>
+          </>
+        )}
+      </DialogContent>
+    </Dialog>
   );
 };
 
@@ -288,6 +391,8 @@ const BrandAssetCard = ({
    ============================================ */
 
 export default function Press() {
+  const [previewAsset, setPreviewAsset] = useState<BrandAsset | null>(null);
+
   return (
     <>
       <SEO
@@ -393,7 +498,11 @@ export default function Press() {
               <div className="flex md:grid md:grid-cols-3 gap-4 sm:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 {brandAssets.map((asset, index) => (
                   <div key={asset.title} className="snap-start shrink-0 w-[85%] md:w-auto">
-                    <BrandAssetCard asset={asset} index={index} />
+                    <BrandAssetCard
+                      asset={asset}
+                      index={index}
+                      onPreview={setPreviewAsset}
+                    />
                   </div>
                 ))}
               </div>
@@ -461,6 +570,11 @@ export default function Press() {
           </div>
         </section>
       </div>
+
+      <BrandAssetPreview
+        asset={previewAsset}
+        onOpenChange={(open) => !open && setPreviewAsset(null)}
+      />
     </>
   );
 }
