@@ -450,7 +450,7 @@ function StepCard({
         setHovered(false);
         setRotate({ x: 0, y: 0 });
       }}
-      className="group relative flex flex-col overflow-hidden rounded-[2rem]
+      className="group relative flex flex-col h-full overflow-hidden rounded-[2rem]
         border border-black/10 dark:border-white/[0.08]
         bg-white/80 dark:bg-[#0a0a0c]
         backdrop-blur-xl p-7
@@ -561,7 +561,7 @@ const HowItWorksSection = () => {
       <div className="relative">
         <div className="flex md:grid md:grid-cols-3 gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {STEPS.map((s, i) => (
-            <div key={s.step} className="snap-start shrink-0 w-[82%] md:w-auto">
+            <div key={s.step} className="snap-start shrink-0 w-[82%] md:w-auto h-auto">
               <StepCard
                 step={s.step}
                 title={s.title}

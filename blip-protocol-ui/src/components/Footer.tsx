@@ -1,6 +1,21 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import { FaTelegramPlane, FaYoutube, FaLinkedinIn } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import { PulseIcon } from "./PulseIcon";
+
+/* ================= SOCIAL LINKS ================= */
+
+const SOCIAL_LINKS = [
+  { label: "X (Twitter)", href: "https://x.com/blip_money", Icon: FaXTwitter },
+  { label: "Telegram", href: "https://t.me/blipmoney", Icon: FaTelegramPlane },
+  { label: "YouTube", href: "https://www.youtube.com/@BlipMoney", Icon: FaYoutube },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/company/blipmoneyofficial/about/?viewAsMember=true",
+    Icon: FaLinkedinIn,
+  },
+];
 
 /* ================= FOOTER DATA ================= */
 
@@ -153,11 +168,26 @@ export const Footer = ({
       {/* ================= BOTTOM BAR ================= */}
 
       <div className="border-t border-black/5 dark:border-white/5 bg-[#F5F3F0] dark:bg-[#050505] px-6 py-10">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-10">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 md:gap-10">
           <div className="flex  gap-4">
             <div className="text-sm text-black/80 dark:text-white/30 uppercase tracking-widest">
               © {new Date().getFullYear()} blip.money
             </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            {SOCIAL_LINKS.map(({ label, href, Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="w-9 h-9 inline-flex items-center justify-center rounded-full text-black/60 dark:text-white/50 hover:text-black dark:hover:text-white bg-black/[0.03] dark:bg-white/[0.04] hover:bg-black/[0.07] dark:hover:bg-white/[0.08] border border-black/[0.06] dark:border-white/[0.06] transition-colors"
+              >
+                <Icon className="w-4 h-4" aria-hidden="true" />
+              </a>
+            ))}
           </div>
 
           <div className="flex items-center gap-3 text-sm uppercase tracking-widest font-bold text-black/70 dark:text-white/50">

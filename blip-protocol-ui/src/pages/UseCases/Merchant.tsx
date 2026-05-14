@@ -904,7 +904,7 @@ const RequirementsSection = () => {
 
         {/* Numbered grid */}
         <div className="relative">
-        <div className="flex md:grid md:grid-cols-2 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex gap-4 overflow-x-auto overflow-y-hidden snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {requirements.map((r, i) => {
             const Icon = r.icon;
             return (
@@ -914,7 +914,7 @@ const RequirementsSection = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.8, delay: i * 0.1 }}
-                className="snap-start shrink-0 w-[88%] md:w-auto group relative p-8 rounded-3xl text-center border border-black/[0.06] dark:border-white/[0.08] hover:border-black/20 dark:hover:border-white/20 duration-500 transition-colors"
+                className="snap-start shrink-0 w-[88%] sm:w-[60%] md:w-[44%] lg:w-[32%] group relative p-8 rounded-3xl text-center border border-black/[0.06] dark:border-white/[0.08] hover:border-black/20 dark:hover:border-white/20 duration-500 transition-colors"
                 style={{ background: "rgba(255, 255, 255, 0.02)" }}
               >
                 {/* Step number watermark — subtle orange */}

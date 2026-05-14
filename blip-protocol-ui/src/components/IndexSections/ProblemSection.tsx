@@ -170,6 +170,7 @@ function CardShell({ children, bg }: { children: React.ReactNode; bg?: string })
         borderRadius: 24,
         overflow: "hidden",
         minHeight: 380,
+        height: "100%",
         boxShadow: "0 2px 20px rgba(0,0,0,0.06)",
         transition: "all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
         cursor: "default",
@@ -190,7 +191,7 @@ function CostCard() {
   const lost = useLiveCounter(isInView ? 95 : 0, isInView);
 
   return (
-    <div ref={ref}>
+    <div ref={ref} className="h-full">
       <CardShell bg="linear-gradient(165deg, #fff5f0 0%, #ffe8dc 100%)">
         <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginBottom: 16 }}>
           The Fee
@@ -247,7 +248,7 @@ function WaitCard() {
   const ms = Math.floor((elapsed % 1000) / 10);
 
   return (
-    <div ref={ref}>
+    <div ref={ref} className="h-full">
       <CardShell bg="linear-gradient(165deg, #f0f4ff 0%, #dce4f8 100%)">
         <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginBottom: 16 }}>
           The Wait
@@ -323,7 +324,7 @@ function TrackedCard() {
   }, [isInView]);
 
   return (
-    <div ref={ref}>
+    <div ref={ref} className="h-full">
       <CardShell bg="linear-gradient(165deg, #fff0f0 0%, #f8dcdc 100%)">
         <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginBottom: 16 }}>
           The Risk
@@ -334,7 +335,7 @@ function TrackedCard() {
             1 in 8 P2P trades
           </span>
         </div>
-        <div style={{ fontSize: "clamp(3.5rem, 5vw, 4.8rem)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 0.95, marginBottom: 6, color: "#1d1d1f" }}>
+        <div className="text-[2.8rem] lg:text-[4.1rem] " style={{  fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 0.95, marginBottom: 6, color: "#1d1d1f" }}>
           Disputed.
         </div>
         <div style={{ fontSize: "clamp(1rem, 1.6vw, 1.15rem)", fontWeight: 500, color: "rgba(0,0,0,0.5)", marginBottom: 20 }}>

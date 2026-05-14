@@ -26,7 +26,7 @@ const CinematicHero = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen overflow-hidden flex items-center justify-center text-center bg-[#FAF8F5] dark:bg-black"
+      className="relative min-h-screen md:min-h-0 lg:min-h-screen overflow-hidden flex items-center justify-center text-center bg-[#FAF8F5] dark:bg-black"
     >
 
       {/* ── DARK MODE: Earth bg + zoom + overlay ── */}
@@ -78,7 +78,7 @@ const CinematicHero = () => {
       )}
 
       {/* Content */}
-      <main className="relative z-10 w-full max-w-[860px] mx-auto px-6 md:px-10 pt-28 pb-6 md:pb-8 text-center">
+      <main className="relative z-10 w-full max-w-[860px] mx-auto px-6 md:px-10 pt-28 pb-6 md:pb-12 lg:pb-24 text-center">
         {/* Eyebrow */}
         <motion.p
           initial={{ opacity: 0, y: 8 }}

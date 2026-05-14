@@ -45,7 +45,7 @@ const FeatureCard = ({
         initial={{ opacity: 0, y: 40 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.8, delay: index * 0.1 }}
-        className="group relative overflow-hidden rounded-2xl aspect-[4/3] cursor-pointer"
+        className="group relative overflow-hidden rounded-2xl aspect-[4/3] cursor-pointer h-full"
         onMouseEnter={() => sounds.hover()}
       >
         <img
@@ -71,7 +71,7 @@ const FeatureCard = ({
         initial={{ opacity: 0, y: 30 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.6, delay: index * 0.1 }}
-        className="group"
+        className="group h-full flex flex-col"
         onMouseEnter={() => sounds.hover()}
       >
         {Icon && (
@@ -96,7 +96,7 @@ const FeatureCard = ({
       initial={{ opacity: 0, y: 40 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.8, delay: index * 0.1 }}
-      className="group p-6 rounded-2xl bg-white/60 dark:bg-white/[0.02] border border-black/[0.08] dark:border-transparent hover:border-black/20 dark:hover:border-white/20 transition-colors duration-500 backdrop-blur-xl"
+      className="group h-full flex flex-col p-6 rounded-2xl bg-white/60 dark:bg-white/[0.02] border border-black/[0.08] dark:border-transparent hover:border-black/20 dark:hover:border-white/20 transition-colors duration-500 backdrop-blur-xl"
       onMouseEnter={() => sounds.hover()}
     >
       {Icon && (
@@ -125,11 +125,11 @@ export const FeatureGrid = ({
   const headerRef = useRef(null);
   const isHeaderInView = useInView(headerRef, { once: true, margin: "-100px" });
 
-  // md+ grid layout — mobile uses a flex snap-scroll instead.
-  const columnClasses = {
-    2: "md:grid-cols-2",
-    3: "md:grid-cols-2 lg:grid-cols-3",
-    4: "md:grid-cols-2 lg:grid-cols-4",
+  // Card width per card count — keeps horizontal scroll on every breakpoint.
+  const cardWidthClasses = {
+    2: "w-[85%] sm:w-[60%] md:w-[46%]",
+    3: "w-[85%] sm:w-[55%] md:w-[40%] lg:w-[31%]",
+    4: "w-[85%] sm:w-[55%] md:w-[40%] lg:w-[23%]",
   };
 
   return (
@@ -170,15 +170,15 @@ export const FeatureGrid = ({
           )}
         </div>
 
-        {/* Grid — mobile snap-scroll, md+ grid */}
+        {/* Horizontal snap-scroll on every breakpoint */}
         <div className="relative">
         <div
-          className={`flex md:grid ${columnClasses[columns]} gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden`}
+          className="flex gap-6 overflow-x-auto overflow-y-hidden snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {features.map((feature, index) => (
             <div
               key={`fc-${index}`}
-              className="snap-start shrink-0 w-[85%] md:w-auto"
+              className={`snap-start shrink-0 h-auto ${cardWidthClasses[columns]}`}
             >
               <FeatureCard
                 feature={feature}
