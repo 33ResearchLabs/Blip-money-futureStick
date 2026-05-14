@@ -175,6 +175,7 @@ export const Footer = ({
             </div>
           </div>
 
+          {/* Social links — hidden for now
           <div className="flex items-center gap-2">
             {SOCIAL_LINKS.map(({ label, href, Icon }) => (
               <a
@@ -189,6 +190,7 @@ export const Footer = ({
               </a>
             ))}
           </div>
+          */}
 
           <div className="flex items-center gap-3 text-sm uppercase tracking-widest font-bold text-black/70 dark:text-white/50">
             <div className="w-5 h-5 rounded-sm flex items-center justify-center">

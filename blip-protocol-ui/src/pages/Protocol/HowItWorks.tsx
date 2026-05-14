@@ -147,6 +147,15 @@ border border-black/10 dark:border-white/20"
               <ChevronDown className="w-5 h-5 text-black/60 dark:text-white/75 " />
             </motion.div>
           </motion.div> */}
+
+          <CTAButton
+              
+              to="/whitepaper"
+              className="w-[220px] h-[48px] mt-8"
+            >
+              {" "}
+              Read Whitepaper{" "}
+            </CTAButton>
         </div>
       </div>
     </motion.section>
@@ -308,11 +317,11 @@ const CoreProtocolSection = () => {
   return (
     <section
       ref={ref}
-      className="relative md:py-40 py-12 bg-[#FAF8F5] dark:bg-black overflow-hidden"
+      className="relative md:py-40 py-12 bg-black dark:bg-white overflow-hidden"
     >
       {/* Background text */}
       {/* <motion.div
-        className="absolute top-1/2 left-0 -translate-y-1/2 whitespace-nowrap text-[15vw] font-bold text-black/[0.015] dark:text-white/[0.015] select-none pointer-events-none"
+        className="absolute top-1/2 left-0 -translate-y-1/2 whitespace-nowrap text-[15vw] font-bold text-white/[0.015] dark:text-black/[0.015] select-none pointer-events-none"
         style={{
           x: useTransform(scrollYProgress, [0, 1], ["0%", "-30%"]),
         }}
@@ -329,10 +338,10 @@ const CoreProtocolSection = () => {
           transition={{ duration: 1 }}
           className="text-center mb-24"
         >
-          <span className="text-[11px] uppercase tracking-[0.3em] text-black/70 dark:text-white/80 mb-6 block font-semibold">
+          <span className="text-[11px] uppercase tracking-[0.3em] text-white/70 dark:text-black/80 mb-6 block font-semibold">
             The Protocol
           </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1]">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-white dark:text-black tracking-tight leading-[1.1]">
             Trust
             <br />
             <span className="inline-block mt-1  px-3 py-0.5 rounded-md">Redefined.</span>
@@ -349,25 +358,21 @@ const CoreProtocolSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8, delay: i * 0.1 }}
-              className="snap-start shrink-0 w-[80%] md:w-auto group relative p-8 rounded-3xl text-center border hover:border-black/20 dark:hover:border-white/20 duration-500 transition-colors"
-              style={{
-                background: "rgba(255, 255, 255, 0.02)",
-                // border: "1px solid rgba(255, 255, 255, 0.05)",
-              }}
+              className="snap-start shrink-0 w-[80%] md:w-auto group relative p-8 rounded-3xl text-center border border-white/[0.06] dark:border-black/[0.08] bg-white/[0.02] dark:bg-black/[0.02] hover:border-white/20 dark:hover:border-black/20 duration-500 transition-colors"
               onMouseEnter={() => sounds.hover()}
             >
               {/* Step number */}
-              <span className="absolute top-4 right-4 text-4xl font-bold text-black/20 dark:text-white/[0.03] select-none">
+              <span className="absolute top-4 right-4 text-4xl font-bold text-white/20 dark:text-black/[0.06] select-none">
                 0{i + 1}
               </span>
 
-              <div className="w-16 h-16 rounded-2xl bg-black/5 dark:bg-white/5 flex items-center justify-center mx-auto mb-6 group-hover:bg-black/10 dark:group-hover:bg-white/10 transition-colors duration-500">
-                <pillar.icon className="w-7 h-7 text-black/60 dark:text-white/80 group-hover:text-black dark:group-hover:text-[#ffffff]" />
+              <div className="w-16 h-16 rounded-2xl bg-white/5 dark:bg-black/5 flex items-center justify-center mx-auto mb-6 group-hover:bg-white/10 dark:group-hover:bg-black/10 transition-colors duration-500">
+                <pillar.icon className="w-7 h-7 text-white/80 dark:text-black/70 group-hover:text-white dark:group-hover:text-black" />
               </div>
-              <h3 className="text-lg font-semibold text-black/70 dark:text-white/90 mb-3">
+              <h3 className="text-lg font-semibold text-white/90 dark:text-black/80 mb-3">
                 {pillar.title}
               </h3>
-              <p className="text-sm font-medium text-black/50 dark:text-white/75">
+              <p className="text-sm font-medium text-white/65 dark:text-black/55">
                 {pillar.desc}
               </p>
             </motion.div>
@@ -825,15 +830,15 @@ const CTASection = () => {
           <div className="flex flex-col sm:flex-row gap-2 justify-center items-center">
             {/* CTA */}
 
-            <CTAButton
+            {/* <CTAButton
               to="/waitlist"
               className="w-[220px]  h-[48px] border flex items-center justify-center"
             >
               Get Started
-            </CTAButton>
+            </CTAButton> */}
 
             <CTAButton
-              variant="secondary"
+              
               to="/whitepaper"
               className="w-[220px] h-[48px]"
             >

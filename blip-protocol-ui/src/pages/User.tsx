@@ -697,22 +697,19 @@ const UserTrustSection = () => {
               >
                 {/* Step number watermark in corner */}
                 <span
-                  className="absolute top-4 right-4 text-4xl font-bold select-none"
-                  style={{ color: `${c.accent}26` }}
+                  className="absolute top-4 right-4 text-4xl font-bold select-none text-black/25 dark:text-[#ff6b35]/40" //dark:text-white/20
                 >
                   0{i + 1}
                 </span>
 
-                {/* Big colored icon panel, centered */}
+                {/* Icon panel — adapts to theme */}
                 <div
-                  className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 transition-all duration-500 group-hover:scale-105"
-                  style={{
-                    background: `linear-gradient(135deg, ${c.accent}26 0%, ${c.accent}0d 100%)`,
-                    border: `1px solid ${c.accent}33`,
-                    boxShadow: `0 8px 24px -8px ${c.glow}`,
-                  }}
+                  className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 transition-all duration-500 group-hover:scale-105 bg-black/[0.04] dark:bg-white/[0.05] border border-black/10 dark:border-white/10"
                 >
-                  <Icon className="w-7 h-7" style={{ color: c.accent }} strokeWidth={2.2} />
+                  <Icon
+                    className="w-7 h-7 text-black/80 dark:text-white/85"
+                    strokeWidth={2.2}
+                  />
                 </div>
 
                 <h3 className="text-lg font-semibold text-black/80 dark:text-white/85 mb-2 tracking-tight">
