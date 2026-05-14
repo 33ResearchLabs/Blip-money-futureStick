@@ -905,14 +905,15 @@ const ComparisonSection = () => {
             );
           })}
         </div>
+      </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="relative mt-20 overflow-hidden rounded-3xl bg-black text-center px-6 py-20 sm:py-24"
-        >
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="relative mt-20 sm:mt-28 overflow-hidden bg-black text-center px-6 py-24 sm:py-32 -mx-5 sm:-mx-6"
+      >
           {/* glow accents */}
           <div className="pointer-events-none absolute inset-0">
             <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-[#ff6b35]/20 blur-[120px]" />
@@ -947,8 +948,7 @@ const ComparisonSection = () => {
             </p>
             <CTAButton to="/register">Join Waitlist</CTAButton>
           </div>
-        </motion.div>
-      </div>
+      </motion.div>
     </section>
   );
 };
