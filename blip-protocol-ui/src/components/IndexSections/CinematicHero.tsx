@@ -78,7 +78,7 @@ const CinematicHero = () => {
       )}
 
       {/* Content */}
-      <main className="relative z-10 w-full max-w-[860px] mx-auto px-6 md:px-10 pt-28 pb-0 md:pb-8 text-center">
+      <main className="relative z-10 w-full max-w-[860px] mx-auto px-6 md:px-10 pt-28 pb-6 md:pb-8 text-center">
         {/* Eyebrow */}
         <motion.p
           initial={{ opacity: 0, y: 8 }}
