@@ -336,15 +336,15 @@ const ContactForm = ({ isInView }: ContactFormProps) => {
     setError("");
 
     try {
-      const telegramData = {
+      const contactData = {
         name: formData.name || "Anonymous",
         email: formData.email,
-        companyName: formData.inquiryType,
+        inquiryType: formData.inquiryType,
         website: window.location.origin,
-        goals: formData.message,
+        message: formData.message,
       };
 
-      await sendFormNotification(telegramData);
+      await sendFormNotification(contactData);
       sounds.click();
 
       setTimeout(() => {
