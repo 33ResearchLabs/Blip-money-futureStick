@@ -156,13 +156,13 @@ const EarlyAdopterBanner = () => {
                 whileTap={{ scale: 0.98 }}
               >
                 {/* <Link
-                  to="/join-waitlist"
+                  to="/"
                   className="group inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 rounded-full bg-white text-black text-sm sm:text-base font-semibold hover:shadow-[0_0_40px_rgba(255,255,255,0.2)] transition-all duration-300"
                 >
                   <span>Claim Your Tokens</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link> */}
-                <CTAButton to="/register" className="w-[220px] h-[48px]">
+                <CTAButton to="/" className="w-[220px] h-[48px]">
                   Claim Your Tokens
                 </CTAButton>
               </motion.div>

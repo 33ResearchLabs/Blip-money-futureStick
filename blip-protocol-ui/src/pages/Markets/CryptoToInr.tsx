@@ -906,7 +906,7 @@ export default function CryptoToInr() {
 
                 {/* CTA */}
                 <Link
-                  to="/waitlist"
+                  to="/"
                   onClick={() => sounds.click()}
                   onMouseEnter={() => sounds.hover()}
                   className="group relative flex items-center justify-center gap-2 w-full py-4 rounded-xl bg-white text-black border border-black/10 font-semibold text-[15px] overflow-hidden transition-all hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98]"
@@ -1472,7 +1472,7 @@ export default function CryptoToInr() {
               secure settlement protocol in India.
             </p>
             {/* <Link
-              to="/waitlist"
+              to="/"
               onClick={() => sounds.click()}
               onMouseEnter={() => sounds.hover()}
               className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-black border border-black/10 font-semibold text-[15px] hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all"
@@ -1480,7 +1480,7 @@ export default function CryptoToInr() {
               Get Started
               <ArrowRight className="w-4 h-4" />
             </Link> */}
-            <CTAButton to="/waitlist" className="w-[220px] h-[48px]">
+            <CTAButton to="/" className="w-[220px] h-[48px]">
               Get Started
             </CTAButton>
           </div>

@@ -38,7 +38,7 @@ export const useCases: UseCase[] = [
       { title: "No Platform Lock-in", description: "Your crypto goes directly to your wallet — no platform can freeze, hold, or limit your funds. You're in full control." },
       { title: "Earn While You Settle", description: "Get BLIP token cashback on every conversion, turning your regular payment settlement into a rewards-earning activity." },
     ],
-    cta: { text: "Start Receiving Payments", link: "/waitlist" },
+    cta: { text: "Start Receiving Payments", link: "/" },
     seo: {
       title: "Blip for Freelancers - Get Paid in Crypto, Settle in Local Currency",
       description: "Freelancers: receive international crypto payments and convert to local currency in minutes. Low fees, instant settlement, no platform restrictions. Powered by Blip Money.",
@@ -66,7 +66,7 @@ export const useCases: UseCase[] = [
       { title: "Competitive Rates", description: "Set your own rates within allowed ranges. The matching engine connects you with the best available counterparty based on price, speed, and reputation." },
       { title: "Reputation System", description: "Build a verifiable trading history on-chain. High-reputation traders get priority matching and access to larger trade corridors." },
     ],
-    cta: { text: "Start Trading on Blip", link: "/waitlist" },
+    cta: { text: "Start Trading on Blip", link: "/" },
     seo: {
       title: "Blip for OTC Traders - Escrow-Protected Large Volume Crypto Trading",
       description: "OTC traders: execute high-value crypto trades with on-chain escrow protection. No counterparty risk, transparent settlement, competitive rates. Powered by Blip Money.",
@@ -122,7 +122,7 @@ export const useCases: UseCase[] = [
       { title: "Full Transparency", description: "Every step is visible on-chain. Both sender and recipient can track the transaction through Blip Scan in real time." },
       { title: "No Middlemen", description: "Non-custodial, direct transfer. No correspondent banks, no hidden fees, no exchange rate manipulation." },
     ],
-    cta: { text: "Send Money Now", link: "/waitlist" },
+    cta: { text: "Send Money Now", link: "/" },
     seo: {
       title: "Blip for Remittances - Fast, Cheap Cross-Border Money Transfers",
       description: "Send money abroad faster and cheaper with crypto-powered remittances. Near-instant transfers, transparent fees, no middlemen. Powered by Blip Money.",

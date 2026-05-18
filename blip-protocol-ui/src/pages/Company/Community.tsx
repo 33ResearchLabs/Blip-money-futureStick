@@ -570,7 +570,7 @@ export default function Community() {
                   Apply Now
                   <ArrowRight className="w-4 h-4" />
                 </a> */}
-                <CTAButton to="/waitlist" className="w-[220px] h-[48px]"> Apply Now</CTAButton>
+                <CTAButton to="/" className="w-[220px] h-[48px]"> Apply Now</CTAButton>
               </div>
             </AnimatedSection>
           </div>

@@ -98,13 +98,7 @@ export const Navbar = () => {
               </NavItem>
             </div>
 
-            <div className="hidden lg:flex items-center gap-3">
-              {isAuthenticated ? (
-                <CTAButton to="/dashboard">Dashboard</CTAButton>
-              ) : (
-                <CTAButton to="/register">Join Waitlist</CTAButton>
-              )}
-            </div>
+            <div className="hidden lg:flex items-center gap-3" />
 
             <div className="flex gap-2 lg:hidden">
               <button
@@ -395,26 +389,6 @@ const MobileMenu = memo(({
           ))}
         </div>
 
-        {/* mobile nav footer — always rendered now that rates moved to p2prate.live */}
-        <div className="p-4 border-t border-black/5 dark:border-white/5 space-y-2">
-            {isAuthenticated ? (
-              <a
-                href="/dashboard"
-                onClick={(e) => handleNavClick(e, "/dashboard")}
-                className="block w-full text-center py-1.5 rounded-full bg-white text-black border border-black/10 text-sm font-semibold transition-all duration-200 hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98]"
-              >
-                Dashboard
-              </a>
-            ) : (
-              <a
-                href="/register"
-                onClick={(e) => handleNavClick(e, "/waitlist")}
-                className="block w-full text-center py-1.5 rounded-full bg-white text-black border border-black/10 text-sm font-semibold transition-all duration-200 hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98]"
-              >
-                Join Waitlist
-              </a>
-            )}
-          </div>
       </div>
     </>
   );
