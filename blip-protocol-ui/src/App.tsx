@@ -192,17 +192,12 @@ const App = () => (
                         </FirebaseActionHandler>
                       }
                     />
-                    <Route path="/register" element={<UserRegister />} />
-                    <Route
-                      path="/email-verification-pending"
-                      element={<EmailVerificationPending />}
-                    />
-                    <Route
-                      path="/forgot-password"
-                      element={<ForgotPassword />}
-                    />
-                    <Route path="/reset-password" element={<ResetPassword />} />
-                    <Route path="/verify-email" element={<VerifyEmail />} />
+                    {/* Waitlist + auth routes disabled — Google Form coming soon. Files kept; routes redirect home. */}
+                    <Route path="/register" element={<Navigate to="/" replace />} />
+                    <Route path="/email-verification-pending" element={<Navigate to="/" replace />} />
+                    <Route path="/forgot-password" element={<Navigate to="/" replace />} />
+                    <Route path="/reset-password" element={<Navigate to="/" replace />} />
+                    <Route path="/verify-email" element={<Navigate to="/" replace />} />
                     {/* Tokenomics route removed — no token launch */}
                     <Route path="/tokenomics" element={<Navigate to="/" replace />} />
                     <Route path="/rates" element={<Rates />} />
@@ -309,46 +304,22 @@ const App = () => (
                     />
                     {/* Rates moved to p2prate.live — Vercel handles 308 redirects via vercel.json */}
 
-                    {/* All waitlist entry points land on register — new app, every user signs up fresh */}
-                    <Route path="/waitlist" element={<UserRegister />} />
-                    <Route path="/join-waitlist" element={<UserRegister />} />
-                    <Route path="/merchant-waitlist" element={<MerchantRegister />} />
-                    <Route path="/merchant-register" element={<MerchantRegister />} />
-                    {/* Explicit login routes for users who already have an account */}
-                    <Route path="/login" element={<UserLogin initialView="waitlist" />} />
-                    <Route path="/merchant-login" element={<MerchantLogin initialView="waitlist" />} />
+                    {/* Waitlist + auth entry points disabled — redirect home */}
+                    <Route path="/waitlist" element={<Navigate to="/" replace />} />
+                    <Route path="/join-waitlist" element={<Navigate to="/" replace />} />
+                    <Route path="/merchant-waitlist" element={<Navigate to="/" replace />} />
+                    <Route path="/merchant-register" element={<Navigate to="/" replace />} />
+                    <Route path="/login" element={<Navigate to="/" replace />} />
+                    <Route path="/merchant-login" element={<Navigate to="/" replace />} />
                   </Route>
 
                   {/* PROTECTED DASHBOARD (NO LAYOUT) */}
-                  <Route
-                    path="/dashboard"
-                    element={
-                      <ProtectedRoute requiredRole="user">
-                        <Dashboard />
-                      </ProtectedRoute>
-                    }
-                  />
+                  {/* Dashboards disabled — redirect home */}
+                  <Route path="/dashboard" element={<Navigate to="/" replace />} />
+                  <Route path="/merchant-dashboard" element={<Navigate to="/" replace />} />
 
-                  <Route
-                    path="/merchant-dashboard"
-                    element={
-                      <ProtectedRoute requiredRole="merchant">
-                        <MerchantDashboard />
-                      </ProtectedRoute>
-                    }
-                  />
-
-                  <Route
-                    path="/superadmin"
-                    element={
-                      <ProtectedRoute requiredRole="admin">
-                        <SuperAdminDashboard />
-                      </ProtectedRoute>
-                    }
-                  />
-
-                  {/* REDEEM TELEGRAM (public — handles auth internally) */}
-                  <Route path="/redeem" element={<RedeemTelegram />} />
+                  <Route path="/superadmin" element={<Navigate to="/" replace />} />
+                  <Route path="/redeem" element={<Navigate to="/" replace />} />
 
                   {/* 404 */}
                   <Route path="*" element={<NotFound />} />
