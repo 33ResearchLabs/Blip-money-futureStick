@@ -311,6 +311,11 @@ const App = () => (
 
                     {/* Programmatic SEO corridor pages — driven by src/data/pseoCorridors.ts */}
                     <Route path="/usdt-to-inr-without-kyc" element={<PseoCorridor />} />
+                    <Route path="/usdt-to-inr-p2p" element={<PseoCorridor />} />
+                    <Route path="/sell-usdt-india-instant" element={<PseoCorridor />} />
+                    <Route path="/usdt-to-inr-via-upi" element={<PseoCorridor />} />
+                    <Route path="/usdt-to-aed-without-kyc" element={<PseoCorridor />} />
+                    <Route path="/usdt-to-inr-1-minute-settlement" element={<PseoCorridor />} />
 
                     {/* Rates moved to p2prate.live — Vercel handles 308 redirects via vercel.json */}
 
