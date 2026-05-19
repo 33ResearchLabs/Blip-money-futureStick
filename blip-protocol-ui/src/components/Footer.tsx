@@ -68,6 +68,7 @@ const FOOTER_SECTIONS = [
       { label: "About", to: "/about" },
       { label: "Press", to: "/press" },
       { label: "Community", to: "/community" },
+      { label: "Waitlist", to: "/waitlist" },
       // { label: "Privacy Policy", to: "/privacy" },
       // { label: "Terms of Service", to: "/terms" },
       // { label: "Cookies", to: "/cookies" },

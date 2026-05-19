@@ -124,10 +124,27 @@ export const CinematicHeroOfMerchant = () => {
   >
     Become a Merchant
   </Link> */}
-            {/* <CTAButton to="/" className="w-[225px]  h-[48px]">
+            {/* <CTAButton to="/waitlist" className="w-[225px]  h-[48px]">
               Become a Merchant
             </CTAButton> */}
 
+            {/* <Link
+    to="/waitlist"
+    className="group inline-flex items-center justify-center gap-3
+      px-10 py-4
+      min-h-[52px] w-[220px]
+      rounded-full
+      border border-white/20
+      text-white
+      text-sm font-semibold
+      hover:bg-white/10
+      transition-all duration-300"
+  >
+    Join Waitlist
+  </Link> */}
+            <CTAButton to="/merchant-waitlist" className="w-[225px]  h-[48px]">
+              Join Waitlist
+            </CTAButton>
           </motion.div>
         </div>
       </main>

@@ -106,7 +106,7 @@ const HeroSection: React.FC<{
             >
               Broadcast Request
             </button> */}
-            <CTAButton to="/" className="w-[220px] h-[48px]">
+            <CTAButton to="/waitlist" className="w-[220px] h-[48px]">
               Broadcast Request
             </CTAButton>
             {/* <button

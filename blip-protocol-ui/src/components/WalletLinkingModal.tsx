@@ -101,7 +101,7 @@ export default function WalletLinkingModal({
             await disconnect();
           } catch {}
           await logout();
-          navigate("/", { replace: true });
+          navigate("/waitlist", { replace: true });
         }, 1500);
       }
     } finally {

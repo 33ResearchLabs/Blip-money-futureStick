@@ -1,5 +1,6 @@
-import { useRef, memo } from "react";
+import { useState, useEffect, useRef, memo } from "react";
 import { motion, useInView } from "framer-motion";
+import { useTheme } from "next-themes";
 import { Link } from "react-router-dom";
 import { ArrowRight, Tag } from "lucide-react";
 import { CTAButton } from "../Navbar";
@@ -8,9 +9,19 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 
 /* ── Hero ── */
 const CinematicHero = () => {
+  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const isDark = mounted ? theme === "dark" : true;
+
   const sectionRef = useRef<HTMLElement>(null);
+  // Once the hero is ~halfway out of view, pause infinite animations to free up GPU/CPU
   const isInView = useInView(sectionRef, { amount: 0.2 });
-  const isDark = true;
+
+  const bgZoomAnimate = isInView ? { scale: 1.15 } : { scale: 1 };
+  const bgZoomTransition = isInView
+    ? { duration: 10, ease: "linear", repeat: Infinity, repeatType: "reverse" as const }
+    : { duration: 0 };
 
   return (
     <section
@@ -18,112 +29,53 @@ const CinematicHero = () => {
       className="relative min-h-screen md:min-h-0 lg:min-h-screen overflow-hidden flex items-center justify-center text-center bg-[#FAF8F5] dark:bg-black"
     >
 
-      {/* ── Apple-style cinematic hero: pure black void + radiant Earth focal ── */}
-      {/* Pure black base */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 pointer-events-none bg-black"
-      />
+      {/* ── DARK MODE: Earth bg + zoom + overlay ── */}
+      {isDark && (
+        <>
+          <motion.div
+            aria-hidden="true"
+            className="absolute inset-0 pointer-events-none"
+            initial={{ scale: 1 }}
+            animate={bgZoomAnimate}
+            transition={bgZoomTransition}
+            style={{
+              backgroundImage: "url('/hero-bg.jpg')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 pointer-events-none"
+            style={{ background: "rgba(0,0,0,0.72)" }}
+          />
+        </>
+      )}
 
-      {/* Atmospheric halo — orange bloom radiating from Earth */}
-      <motion.div
-        aria-hidden="true"
-        className="absolute inset-0 pointer-events-none"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 2.4, ease: EASE }}
-        style={{
-          background:
-            "radial-gradient(ellipse 75% 55% at 50% 88%, rgba(255,140,80,0.35), rgba(255,107,53,0.12) 30%, transparent 60%)",
-        }}
-      />
-
-      {/* Cool atmospheric rim — adds dimension at top */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 60% 40% at 50% 0%, rgba(80,110,180,0.10), transparent 60%)",
-        }}
-      />
-
-      {/* THE Earth — bottom-anchored, crisp, with breathing scale */}
-      <motion.div
-        aria-hidden="true"
-        className="absolute inset-x-0 bottom-0 pointer-events-none"
-        initial={{ scale: 1.02, y: 20 }}
-        animate={isInView ? { scale: [1.02, 1.08, 1.02], y: 0 } : { scale: 1.02, y: 0 }}
-        transition={
-          isInView
-            ? { scale: { duration: 18, repeat: Infinity, ease: "easeInOut" }, y: { duration: 1.6, ease: EASE } }
-            : { duration: 0 }
-        }
-        style={{
-          height: "85%",
-          backgroundImage: "url('/hero-bg.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center bottom",
-          backgroundRepeat: "no-repeat",
-          filter: "contrast(1.18) saturate(1.3) brightness(1.08)",
-          maskImage:
-            "radial-gradient(ellipse 90% 100% at 50% 100%, black 40%, rgba(0,0,0,0.5) 75%, transparent 95%)",
-          WebkitMaskImage:
-            "radial-gradient(ellipse 90% 100% at 50% 100%, black 40%, rgba(0,0,0,0.5) 75%, transparent 95%)",
-          transform: "translateZ(0)",
-        }}
-      />
-
-      {/* Top darken — clean canvas for headline */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-0 top-0 h-[72%] pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(180deg, #000 0%, rgba(0,0,0,0.85) 55%, rgba(0,0,0,0.35) 88%, transparent 100%)",
-        }}
-      />
-
-      {/* Side vignette — keeps focus center */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 100% at 50% 50%, transparent 45%, rgba(0,0,0,0.4) 90%, rgba(0,0,0,0.8) 100%)",
-        }}
-      />
-
-      {/* Drifting starlight — subtle motion */}
-      <motion.div
-        aria-hidden="true"
-        className="absolute inset-0 pointer-events-none opacity-60"
-        animate={
-          isInView
-            ? { backgroundPosition: ["0% 0%", "100% 50%"] }
-            : { backgroundPosition: "0% 0%" }
-        }
-        transition={
-          isInView
-            ? { duration: 40, repeat: Infinity, ease: "linear" }
-            : { duration: 0 }
-        }
-        style={{
-          backgroundImage:
-            "radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.5), transparent), radial-gradient(1px 1px at 75% 18%, rgba(255,255,255,0.4), transparent), radial-gradient(1px 1px at 42% 12%, rgba(255,255,255,0.35), transparent), radial-gradient(1px 1px at 88% 35%, rgba(255,255,255,0.45), transparent), radial-gradient(1px 1px at 12% 22%, rgba(255,255,255,0.3), transparent)",
-          backgroundSize: "200% 200%",
-        }}
-      />
-
-      {/* Ultra-fine grain */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 pointer-events-none opacity-[0.03] mix-blend-overlay"
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
-        }}
-      />
+      {/* ── LIGHT MODE: same Earth bg ── */}
+      {!isDark && mounted && (
+        <>
+          <motion.div
+            aria-hidden="true"
+            className="absolute inset-0 pointer-events-none"
+            initial={{ scale: 1 }}
+            animate={bgZoomAnimate}
+            transition={bgZoomTransition}
+            style={{
+              backgroundImage: "url('/hero-bg.jpg')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 pointer-events-none"
+            style={{ background: "rgba(0,0,0,0.72)" }}
+          />
+        </>
+      )}
 
       {/* Content */}
       <main className="relative z-10 w-full max-w-[860px] mx-auto px-6 md:px-10 pt-28 pb-6 md:pb-12 lg:pb-24 text-center">
@@ -132,13 +84,13 @@ const CinematicHero = () => {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: EASE }}
-          className="text-white/55"
+          className="text-white/50 dark:text-[#555555]"
           style={{
-            fontSize: "11px",
-            fontWeight: 500,
-            letterSpacing: "0.32em",
+            fontSize: "10.5px",
+            fontWeight: 600,
+            letterSpacing: "2.5px",
             textTransform: "uppercase",
-            marginBottom: 32,
+            marginBottom: 28,
           }}
         >
           The Settlement Protocol
@@ -151,11 +103,11 @@ const CinematicHero = () => {
           transition={{ duration: 1.2, ease: "easeOut", delay: 0.08 }}
           className="select-none text-white dark:text-white"
           style={{
-            fontSize: "clamp(3.25rem, 8.2vw, 7rem)",
-            fontWeight: 500,
-            lineHeight: 1.02,
-            letterSpacing: "-0.045em",
-            marginBottom: 36,
+            fontSize: "clamp(3.5rem, 8vw, 6.5rem)",
+            fontWeight: 600,
+            lineHeight: 1.05,
+            letterSpacing: "-0.04em",
+            marginBottom: 32,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -232,6 +184,32 @@ const CinematicHero = () => {
           </Link>
         </motion.div>
 
+        {/* CTAs */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: EASE, delay: 0.38 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-10"
+        >
+          {/* Mobile: single oversized primary CTA */}
+          <Link
+            to="/register"
+            className="sm:hidden group inline-flex items-center justify-center w-full max-w-[220px] py-4 px-6 rounded-full bg-white text-black text-[18px] font-semibold gap-2 shadow-[0_8px_28px_rgba(255,255,255,0.14)] active:scale-[0.98] transition-transform"
+          >
+            Join Waitlist
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+          </Link>
+
+          {/* Desktop: two CTAs side by side */}
+          <div className="sm:flex hidden  items-center justify-center gap-3">
+            <CTAButton to="/register">
+              Join Waitlist
+            </CTAButton>
+            <CTAButton to="/merchant" variant="secondary">
+              Join as Merchant
+            </CTAButton>
+          </div>
+        </motion.div>
 
         {/* Stats — live network pulse */}
         <motion.div
