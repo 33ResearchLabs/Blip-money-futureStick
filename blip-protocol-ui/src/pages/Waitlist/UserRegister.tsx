@@ -9,7 +9,7 @@ export default function UserRegister() {
       <SEO
         title="Create Account | Blip Money"
         description="Create your Blip Money account. Get early access to fast, secure, and borderless crypto payments. Earn bonus points on signup."
-        canonical="https://blip.money/register"
+        canonical="https://www.blip.money/register"
       />
       <HreflangTags path="/register" />
 

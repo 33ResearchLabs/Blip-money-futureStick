@@ -43,7 +43,7 @@ export default function MerchantRegister() {
       <SEO
         title="Register as Merchant | Blip Money"
         description="Register as a merchant on Blip Money. Get early access to the P2P merchant network, earn genesis token allocation, and enjoy zero settlement fees."
-        canonical="https://blip.money/merchant-register"
+        canonical="https://www.blip.money/merchant-register"
       />
       <HreflangTags path="/merchant-register" />
 

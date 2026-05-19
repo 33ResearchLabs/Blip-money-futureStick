@@ -31,8 +31,8 @@ const defaultOrganizationSchema: OrganizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'Blip Money',
-  url: 'https://blip.money',
-  logo: 'https://blip.money/logo.png',
+  url: 'https://www.blip.money',
+  logo: 'https://www.blip.money/logo.png',
   description: 'Fast, secure, and simple payment processing solutions for businesses of all sizes.',
   contactPoint: {
     '@type': 'ContactPoint',
@@ -50,7 +50,7 @@ const defaultWebsiteSchema: WebsiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: 'Blip Money',
-  url: 'https://blip.money',
+  url: 'https://www.blip.money',
   description: 'Fast, secure, and simple payment processing solutions.',
   publisher: {
     '@type': 'Organization',
@@ -145,7 +145,7 @@ export const createArticleSchema = (article: {
     name: 'Blip Money',
     logo: {
       '@type': 'ImageObject',
-      url: 'https://blip.money/logo.png',
+      url: 'https://www.blip.money/logo.png',
     },
   },
 });

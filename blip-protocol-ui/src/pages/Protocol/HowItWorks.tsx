@@ -866,7 +866,7 @@ export const HowItWorksPage = () => {
       <SEO
         title="How Blip Money Works | Simple Crypto Payment Flow"
         description="Learn how Blip Money enables seamless crypto payments through a simple, transparent, and secure settlement process."
-        canonical="https://blip.money/how-it-works"
+        canonical="https://www.blip.money/how-it-works"
       />
       <HreflangTags path="/how-it-works" />
 

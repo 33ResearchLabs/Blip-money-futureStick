@@ -635,7 +635,7 @@ const AcceptCryptoBusiness = () => {
       <SEO
         title="Accept Crypto Payments for Your Business | Blip Money"
         description="Accept cryptocurrency payments for your business with Blip Money. Instant AED settlement, zero chargebacks, lower fees, and a full merchant dashboard."
-        canonical="https://blip.money/accept-crypto-business"
+        canonical="https://www.blip.money/accept-crypto-business"
         keywords="accept crypto payments business, cryptocurrency payment gateway, crypto merchant, accept Bitcoin business, crypto payments for business, accept USDT business"
       />
       <HreflangTags path="/accept-crypto-business" />

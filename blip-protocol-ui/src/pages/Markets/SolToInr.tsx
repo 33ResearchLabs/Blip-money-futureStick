@@ -359,13 +359,13 @@ function buildSchemas(rate: RateData) {
     name: "Blip Money — Solana to INR Converter",
     description:
       "Convert Solana to Indian Rupees instantly with native on-chain escrow. Live SOL/INR rates, sub-$0.01 fees, fastest settlement available. Built natively on Solana.",
-    url: "https://blip.money/sol-to-inr",
+    url: "https://www.blip.money/sol-to-inr",
     areaServed: { "@type": "Country", name: "India" },
     serviceType: "Cryptocurrency Exchange",
     provider: {
       "@type": "Organization",
       name: "Blip Money",
-      url: "https://blip.money",
+      url: "https://www.blip.money",
     },
     offers: {
       "@type": "Offer",
@@ -462,7 +462,7 @@ export default function SolToInr() {
       <SEO
         title="Solana to INR — Live SOL/INR Rate | Blip Money"
         description="Convert Solana to Indian Rupees instantly. Live SOL/INR exchange rate updated every 30 seconds. Native Solana escrow, sub-$0.01 fees, fastest settlement. Best SOL to INR rate in India."
-        canonical="https://blip.money/sol-to-inr"
+        canonical="https://www.blip.money/sol-to-inr"
         keywords="SOL to INR, solana to INR, solana price INR, SOL INR rate, convert solana to INR, sell solana India, solana price India, 1 SOL to INR, solana to Indian Rupee, SOL to INR today"
         type="website"
       />

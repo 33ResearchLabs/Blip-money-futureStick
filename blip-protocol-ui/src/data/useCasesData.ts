@@ -43,7 +43,7 @@ export const useCases: UseCase[] = [
       title: "Blip for Freelancers - Get Paid in Crypto, Settle in Local Currency",
       description: "Freelancers: receive international crypto payments and convert to local currency in minutes. Low fees, instant settlement, no platform restrictions. Powered by Blip Money.",
       keywords: "freelancer crypto payments, receive USDT as freelancer, crypto to fiat freelancer, international payments freelancer, Blip freelancer",
-      canonical: "https://blip.money/use-cases/freelancers",
+      canonical: "https://www.blip.money/use-cases/freelancers",
     },
   },
   {
@@ -71,7 +71,7 @@ export const useCases: UseCase[] = [
       title: "Blip for OTC Traders - Escrow-Protected Large Volume Crypto Trading",
       description: "OTC traders: execute high-value crypto trades with on-chain escrow protection. No counterparty risk, transparent settlement, competitive rates. Powered by Blip Money.",
       keywords: "OTC crypto trading, escrow OTC, large volume crypto, P2P crypto trading, secure OTC trades, Blip OTC",
-      canonical: "https://blip.money/use-cases/otc-traders",
+      canonical: "https://www.blip.money/use-cases/otc-traders",
     },
   },
   {
@@ -99,7 +99,7 @@ export const useCases: UseCase[] = [
       title: "Blip for E-Commerce - Accept Crypto Payments, Settle in Local Currency",
       description: "E-commerce businesses: accept cryptocurrency payments and settle instantly in your local currency. Simple integration, no volatility risk, transparent dashboard. Powered by Blip Money.",
       keywords: "accept crypto payments ecommerce, crypto payment gateway, USDT payments business, crypto to fiat merchant, Blip ecommerce",
-      canonical: "https://blip.money/use-cases/e-commerce",
+      canonical: "https://www.blip.money/use-cases/e-commerce",
     },
   },
   {
@@ -127,7 +127,7 @@ export const useCases: UseCase[] = [
       title: "Blip for Remittances - Fast, Cheap Cross-Border Money Transfers",
       description: "Send money abroad faster and cheaper with crypto-powered remittances. Near-instant transfers, transparent fees, no middlemen. Powered by Blip Money.",
       keywords: "crypto remittance, send money abroad crypto, cheap international transfer, cross-border payments crypto, Blip remittance",
-      canonical: "https://blip.money/use-cases/remittance",
+      canonical: "https://www.blip.money/use-cases/remittance",
     },
   },
 ];

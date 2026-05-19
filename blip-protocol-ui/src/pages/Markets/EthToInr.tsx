@@ -359,13 +359,13 @@ function buildSchemas(rate: RateData) {
     name: "Blip Money — Ethereum to INR Converter",
     description:
       "Convert Ethereum to Indian Rupees instantly with non-custodial escrow protection. Live ETH/INR rates, low fees, settlement in under 15 minutes.",
-    url: "https://blip.money/eth-to-inr",
+    url: "https://www.blip.money/eth-to-inr",
     areaServed: { "@type": "Country", name: "India" },
     serviceType: "Cryptocurrency Exchange",
     provider: {
       "@type": "Organization",
       name: "Blip Money",
-      url: "https://blip.money",
+      url: "https://www.blip.money",
     },
     offers: {
       "@type": "Offer",
@@ -462,7 +462,7 @@ export default function EthToInr() {
       <SEO
         title="Ethereum to INR — Live ETH/INR Rate | Blip Money"
         description="Convert Ethereum to Indian Rupees instantly. Live ETH/INR exchange rate updated every 30 seconds. Non-custodial escrow, 0.5% fees, settlement under 15 minutes. Best ETH to INR rate in India."
-        canonical="https://blip.money/eth-to-inr"
+        canonical="https://www.blip.money/eth-to-inr"
         keywords="ETH to INR, ethereum to INR, ethereum price INR, ETH INR rate, convert ethereum to INR, sell ethereum India, ethereum price India, 1 ETH to INR, ethereum to Indian Rupee, ETH to INR today"
         type="website"
       />

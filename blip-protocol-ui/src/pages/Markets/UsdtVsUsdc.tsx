@@ -953,7 +953,7 @@ const UsdtVsUsdc = () => {
       <SEO
         title="USDT vs USDC — Which Stablecoin is Best for UAE? | Blip Money"
         description="Compare USDT (Tether) and USDC (USD Coin) for UAE traders. Market cap, transparency, fees, AED off-ramping support, and which is better for crypto settlement."
-        canonical="https://blip.money/usdt-vs-usdc"
+        canonical="https://www.blip.money/usdt-vs-usdc"
         keywords="USDT vs USDC, USDT vs USDC UAE, best stablecoin UAE, Tether vs USD Coin, USDT USDC comparison, stablecoin for AED"
       />
       <HreflangTags path="/usdt-vs-usdc" />

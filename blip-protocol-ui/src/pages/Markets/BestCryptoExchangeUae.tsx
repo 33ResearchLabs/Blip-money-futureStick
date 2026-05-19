@@ -660,7 +660,7 @@ const BestCryptoExchangeUae = () => {
       <SEO
         title="Best Crypto Exchange UAE - Non-Custodial Settlement | Blip Money"
         description="Find the best crypto exchange in the UAE. Blip offers non-custodial escrow-protected trading, low fees, VARA-aligned architecture, and instant crypto-to-AED settlement across Dubai and Abu Dhabi."
-        canonical="https://blip.money/best-crypto-exchange-uae"
+        canonical="https://www.blip.money/best-crypto-exchange-uae"
         keywords="best crypto exchange UAE, best crypto exchange Dubai, crypto trading UAE, buy crypto UAE, sell crypto UAE, crypto to AED, VARA regulated exchange, non-custodial exchange UAE"
       />
       <HreflangTags path="/best-crypto-exchange-uae" />

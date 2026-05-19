@@ -464,7 +464,7 @@ export default function BlipRates() {
 
   const copyLink = async () => {
     try {
-      await navigator.clipboard.writeText("https://blip.money/blip-rates");
+      await navigator.clipboard.writeText("https://www.blip.money/blip-rates");
       setCopied(true);
       setTimeout(() => setCopied(false), 1800);
     } catch {}
@@ -537,7 +537,7 @@ export default function BlipRates() {
     const chatUrl =
       channel === "whatsapp"
         ? `https://wa.me/?text=${encodeURIComponent(shareText)}`
-        : `https://t.me/share/url?url=${encodeURIComponent("https://blip.money/blip-rates")}&text=${encodeURIComponent(shareText)}`;
+        : `https://t.me/share/url?url=${encodeURIComponent("https://www.blip.money/blip-rates")}&text=${encodeURIComponent(shareText)}`;
     window.open(chatUrl, "_blank", "noopener");
   };
 
@@ -551,7 +551,7 @@ export default function BlipRates() {
       <SEO
         title="Blip Rates — Live USDT/INR P2P Prices from Binance, Bybit, OKX & more"
         description="Search live USDT to INR rates across every major P2P exchange. Find the cheapest price in seconds. No login, no paywall."
-        canonical="https://blip.money/blip-rates"
+        canonical="https://www.blip.money/blip-rates"
         keywords="usdt to inr, usdt inr rate, binance p2p, bybit p2p, buy usdt india, sell usdt india, p2p usdt"
       />
 

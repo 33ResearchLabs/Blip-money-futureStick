@@ -85,7 +85,7 @@ export default function UseCases() {
       <SEO
         title="Use Cases | Blip Money - Crypto Payments for Every Need"
         description="Discover how Blip Money serves freelancers, OTC traders, e-commerce businesses, and remittance users with fast, secure crypto-to-fiat settlement."
-        canonical="https://blip.money/use-cases"
+        canonical="https://www.blip.money/use-cases"
         keywords="Blip use cases, crypto payments freelancers, OTC trading escrow, crypto ecommerce, crypto remittance"
       />
       <HreflangTags path="/use-cases" />

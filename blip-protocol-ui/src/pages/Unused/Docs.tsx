@@ -352,7 +352,7 @@ export default function Docs() {
       <SEO
         title="Developer Documentation - Blip Money API"
         description="Build on top of Blip's settlement protocol. Comprehensive API documentation for integrating trades, escrow, webhooks, and real-time rates."
-        canonical="https://blip.money/docs"
+        canonical="https://www.blip.money/docs"
         keywords="Blip Money API, developer documentation, settlement protocol API, escrow API, crypto payments API"
       />
       <HreflangTags path="/docs" />

@@ -165,7 +165,7 @@ export default function ResearchArticle() {
           description: article.seo.description,
           image: article.coverImage.startsWith("http")
             ? article.coverImage
-            : `https://blip.money${article.coverImage}`,
+            : `https://www.blip.money${article.coverImage}`,
           datePublished: article.date,
           author: article.author.name,
         })}
@@ -174,8 +174,8 @@ export default function ResearchArticle() {
       <StructuredData
         type="custom"
         schema={createBreadcrumbSchema([
-          { name: "Home", url: "https://blip.money" },
-          { name: "Research", url: "https://blip.money/research" },
+          { name: "Home", url: "https://www.blip.money" },
+          { name: "Research", url: "https://www.blip.money/research" },
           { name: article.title, url: article.seo.canonical },
         ])}
       />

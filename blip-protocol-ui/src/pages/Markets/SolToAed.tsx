@@ -359,13 +359,13 @@ function buildSchemas(rate: RateData) {
     name: "Blip Money — Solana to AED Converter",
     description:
       "Convert Solana to UAE Dirhams instantly with native on-chain escrow. Live SOL/AED rates, sub-$0.01 fees, fastest settlement available. Built natively on Solana.",
-    url: "https://blip.money/sol-to-aed",
+    url: "https://www.blip.money/sol-to-aed",
     areaServed: { "@type": "Country", name: "United Arab Emirates" },
     serviceType: "Cryptocurrency Exchange",
     provider: {
       "@type": "Organization",
       name: "Blip Money",
-      url: "https://blip.money",
+      url: "https://www.blip.money",
     },
     offers: {
       "@type": "Offer",
@@ -462,7 +462,7 @@ export default function SolToAed() {
       <SEO
         title="Solana to AED — Live SOL/AED Rate | Blip Money"
         description="Convert Solana to UAE Dirhams instantly. Live SOL/AED exchange rate updated every 30 seconds. Native Solana escrow, sub-$0.01 fees, fastest settlement. Best SOL to AED rate in Dubai and UAE."
-        canonical="https://blip.money/sol-to-aed"
+        canonical="https://www.blip.money/sol-to-aed"
         keywords="SOL to AED, solana to AED, solana price AED, SOL AED rate, convert solana to AED, sell solana Dubai, solana price UAE, 1 SOL to AED, solana to dirham, SOL to AED today"
         type="website"
       />

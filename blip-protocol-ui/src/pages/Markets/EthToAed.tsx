@@ -359,13 +359,13 @@ function buildSchemas(rate: RateData) {
     name: "Blip Money — Ethereum to AED Converter",
     description:
       "Convert Ethereum to UAE Dirhams instantly with non-custodial escrow protection. Live ETH/AED rates, low fees, settlement in under 15 minutes.",
-    url: "https://blip.money/eth-to-aed",
+    url: "https://www.blip.money/eth-to-aed",
     areaServed: { "@type": "Country", name: "United Arab Emirates" },
     serviceType: "Cryptocurrency Exchange",
     provider: {
       "@type": "Organization",
       name: "Blip Money",
-      url: "https://blip.money",
+      url: "https://www.blip.money",
     },
     offers: {
       "@type": "Offer",
@@ -462,7 +462,7 @@ export default function EthToAed() {
       <SEO
         title="Ethereum to AED — Live ETH/AED Rate | Blip Money"
         description="Convert Ethereum to UAE Dirhams instantly. Live ETH/AED exchange rate updated every 30 seconds. Non-custodial escrow, 0.5% fees, settlement under 15 minutes. Best ETH to AED rate in Dubai and UAE."
-        canonical="https://blip.money/eth-to-aed"
+        canonical="https://www.blip.money/eth-to-aed"
         keywords="ETH to AED, ethereum to AED, ethereum price AED, ETH AED rate, convert ethereum to AED, sell ethereum Dubai, ethereum price UAE, 1 ETH to AED, ethereum to dirham, ETH to AED today"
         type="website"
       />

@@ -577,13 +577,13 @@ function buildSchemas(rates: Rates | null) {
     name: "Blip Money — Crypto to AED Converter",
     description:
       "Convert cryptocurrency to UAE Dirhams instantly with non-custodial escrow protection. Live rates, low fees, settlement in under 15 minutes.",
-    url: "https://blip.money/crypto-to-aed",
+    url: "https://www.blip.money/crypto-to-aed",
     areaServed: { "@type": "Country", name: "United Arab Emirates" },
     serviceType: "Cryptocurrency Exchange",
     provider: {
       "@type": "Organization",
       name: "Blip Money",
-      url: "https://blip.money",
+      url: "https://www.blip.money",
     },
     ...(rates?.tether && {
       offers: {
@@ -674,7 +674,7 @@ export default function CryptoToAed() {
       <SEO
         title="Crypto to AED Converter — Live Rates | Blip Money"
         description="Convert USDT, USDC, BTC, ETH, SOL to AED instantly. Live exchange rates updated every 30 seconds. Non-custodial escrow, low fees, settlement under 15 minutes. Best crypto to AED rates in UAE."
-        canonical="https://blip.money/crypto-to-aed"
+        canonical="https://www.blip.money/crypto-to-aed"
         keywords="crypto to AED, USDT to AED, convert crypto to AED, USDC to AED rate, sell crypto UAE, crypto to AED rate today, best crypto exchange UAE, USDT AED live rate, buy AED with crypto, crypto cashout Dubai"
         type="website"
       />

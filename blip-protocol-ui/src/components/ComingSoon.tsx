@@ -270,7 +270,7 @@ const ComingSoon = () => {
       <SEO
         title="Coming Soon | Blip Money"
         description="Something big is coming. Join the waitlist to be the first to know when we launch new features."
-        canonical="https://blip.money/coming-soon"
+        canonical="https://www.blip.money/coming-soon"
       />
 
       <div className="min-h-screen bg-black text-white overflow-hidden">

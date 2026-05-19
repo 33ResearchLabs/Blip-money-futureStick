@@ -2956,7 +2956,7 @@ export default function MerchantDashboard() {
               </div>
               <button
                 onClick={() =>
-                  window.open("https://blip.money/merchant-waitlist", "_blank")
+                  window.open("https://www.blip.money/merchant-waitlist", "_blank")
                 }
                 className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-[11px] font-bold rounded-lg transition-colors shrink-0"
               >

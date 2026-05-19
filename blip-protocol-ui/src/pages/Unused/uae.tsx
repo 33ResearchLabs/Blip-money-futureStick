@@ -358,7 +358,7 @@ const UAELaunchPage = () => {
     <SEO
   title="Blip money UAE | Digital Payments & Rewards Platform"
   description="Blip money in the UAE offers seamless digital payments, rewards, and merchant benefits across the United Arab Emirates."
-  canonical="https://blip.money/uae"
+  canonical="https://www.blip.money/uae"
 />
     <HreflangTags path="/uae" />
 

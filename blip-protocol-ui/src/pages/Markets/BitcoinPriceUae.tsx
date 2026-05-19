@@ -246,7 +246,7 @@ const BitcoinPriceUae = () => {
       <SEO
         title="Bitcoin Price UAE - Live BTC to AED Rate | Blip Money"
         description="Track the live Bitcoin price in UAE Dirhams (AED). Real-time BTC/AED rate, market insights, and instant conversion tools for UAE residents. Convert BTC to AED with escrow protection on Blip Money."
-        canonical="https://blip.money/bitcoin-price-uae"
+        canonical="https://www.blip.money/bitcoin-price-uae"
         keywords="bitcoin price uae, bitcoin price in uae, btc price aed, bitcoin uae dirham, bitcoin rate dubai, btc to aed rate, bitcoin price in dubai, bitcoin aed live, crypto price uae"
         type="website"
       />

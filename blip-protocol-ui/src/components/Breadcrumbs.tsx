@@ -17,10 +17,10 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
   const schemaItems = items.map((item) => ({
     name: item.label,
     url: item.href
-      ? `https://blip.money${item.href}`
+      ? `https://www.blip.money${item.href}`
       : typeof window !== "undefined"
         ? window.location.href
-        : "https://blip.money",
+        : "https://www.blip.money",
   }));
 
   return (

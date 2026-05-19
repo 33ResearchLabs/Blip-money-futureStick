@@ -1062,7 +1062,7 @@ const Rewards = () => {
       <SEO
         title="Blip Money Rewards | Earn Cashback on Every Transaction"
         description="Earn up to 10% cashback in BLIP tokens on every payment. Tiered rewards, instant credits, and first-transfer bonuses. Join the Blip rewards program today."
-        canonical="https://blip.money/rewards"
+        canonical="https://www.blip.money/rewards"
       />
       <HreflangTags path="/rewards" />
 

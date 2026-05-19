@@ -69,7 +69,7 @@ const Privacy = () => {
       <SEO
         title="Blip Money – Privacy & Personal Data Policy"
         description="Read Blip Money’s Privacy Policy to understand how we collect, use, and protect your personal information, safeguard your privacy, and handle data securely on our platform."
-        canonical="https://blip.money/privacy"
+        canonical="https://www.blip.money/privacy"
       />
 
       <div className="min-h-screen  text-black dark:text-white mt-12">

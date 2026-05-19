@@ -103,7 +103,7 @@ const CompareListing = () => {
       <SEO
         title="Compare | Blip Money vs Competitors - Honest Feature Comparisons"
         description="See how Blip Money stacks up against Wise, Binance P2P, and traditional escrow. Transparent feature-by-feature comparisons on speed, fees, security, and more."
-        canonical="https://blip.money/compare"
+        canonical="https://www.blip.money/compare"
         keywords="Blip vs Wise, Blip vs Binance P2P, crypto comparison, P2P trading comparison, escrow comparison"
       />
       <HreflangTags path="/compare" />

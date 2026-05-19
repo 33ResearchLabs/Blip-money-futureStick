@@ -43,7 +43,7 @@ const Index = () => {
       <SEO
         title="Blip Money - Instant Merchant-to-Merchant Crypto Settlement"
         description="No banks. No delays. Global liquidity. Blip is the non-custodial settlement protocol for instant crypto-to-cash transfers, secured by escrow and reputation."
-        canonical="https://blip.money/"
+        canonical="https://www.blip.money/"
       />
 
       <div className="bg-[#FAF8F5] dark:bg-black text-black dark:text-white relative overflow-x-clip">

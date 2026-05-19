@@ -1793,7 +1793,7 @@ const CryptoToUae: React.FC = () => {
       "@context": "https://schema.org",
       "@type": "FinancialService",
       name: "Blip.money",
-      url: "https://blip.money",
+      url: "https://www.blip.money",
       description:
         "Decentralized crypto cashout and USDT to AED settlement protocol in the UAE.",
       areaServed: {
@@ -1821,7 +1821,7 @@ const CryptoToUae: React.FC = () => {
         title="Crypto to AED | USDT to AED Converter & Cashout in UAE | Blip Money
 "
         description="Convert crypto to AED effortlessly with Blip Money. Instantly estimate USDT to AED rates, sell crypto in UAE, and explore reliable crypto cashout, withdrawals, and crypto-to-cash solutions tailored for UAE users."
-        canonical="https://blip.money/cryptoToAed"
+        canonical="https://www.blip.money/cryptoToAed"
       />
       <HreflangTags path="/cryptoToAed" />
 

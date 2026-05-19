@@ -15,7 +15,7 @@ export default function SEO({
   description,
   canonical,
   keywords,
-  image = "https://blip.money/og-image.png",
+  image = "https://www.blip.money/og-image.png",
   type = "website",
   twitterCard = "summary_large_image",
 }: SEOProps) {

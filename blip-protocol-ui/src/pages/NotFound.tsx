@@ -25,7 +25,7 @@ const NotFound = () => {
       <SEO
         title="Page Not Found | Blip Money"
         description="The page you're looking for doesn't exist or has been moved. Browse our site to find what you need."
-        canonical="https://blip.money/404"
+        canonical="https://www.blip.money/404"
       />
 
       <div className="min-h-screen bg-[#FAF8F5] dark:bg-transparent">

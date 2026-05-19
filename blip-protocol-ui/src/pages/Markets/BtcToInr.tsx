@@ -385,13 +385,13 @@ function buildSchemas(rate: RateData) {
     name: "Blip Money — Bitcoin to INR Converter",
     description:
       "Convert Bitcoin to Indian Rupees instantly with non-custodial escrow protection. Live BTC/INR rates, low fees, settlement in under 15 minutes.",
-    url: "https://blip.money/btc-to-inr",
+    url: "https://www.blip.money/btc-to-inr",
     areaServed: { "@type": "Country", name: "India" },
     serviceType: "Cryptocurrency Exchange",
     provider: {
       "@type": "Organization",
       name: "Blip Money",
-      url: "https://blip.money",
+      url: "https://www.blip.money",
     },
     offers: {
       "@type": "Offer",
@@ -490,7 +490,7 @@ export default function BtcToInr() {
       <SEO
         title="Bitcoin to INR — Live BTC/INR Rate | Blip Money"
         description="Convert Bitcoin to Indian Rupees instantly. Live BTC/INR exchange rate updated every 30 seconds. Non-custodial escrow, 0.5% fees, settlement under 15 minutes. Best BTC to INR rate in India."
-        canonical="https://blip.money/btc-to-inr"
+        canonical="https://www.blip.money/btc-to-inr"
         keywords="BTC to INR, bitcoin to INR, bitcoin price INR, BTC INR rate, convert bitcoin to INR, sell bitcoin India, bitcoin price India, 1 BTC to INR, bitcoin to Indian Rupee, BTC to INR today"
         type="website"
       />

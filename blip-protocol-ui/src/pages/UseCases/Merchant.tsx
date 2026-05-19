@@ -961,7 +961,7 @@ const Merchant = () => {
     <>
       <SEO
         title="Blip Money Merchant Payments – Fast & Secure Business Solutions"
-        canonical="https://blip.money/merchant"
+        canonical="https://www.blip.money/merchant"
         description="Grow your business with Blip Money's merchant payment solutions — fast, secure, and simple tools to accept payments, manage sales, and boost revenue online and in-store"
         keywords="P2P merchant, crypto settlement, liquidity provider, escrow trading, Blip merchant"
       />

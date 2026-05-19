@@ -78,7 +78,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "crypto escrow, on-chain escrow, secure crypto payments, non-custodial escrow, Blip Money escrow, blockchain escrow",
       canonical:
-        "https://blip.money/blog/how-escrow-protects-every-blip-transaction",
+        "https://www.blip.money/blog/how-escrow-protects-every-blip-transaction",
     },
     content: [
       {
@@ -184,7 +184,7 @@ export const blogArticles: BlogArticle[] = [
         "Explore how Blip Money is transforming global payments with instant settlement, zero borders, and crypto-native infrastructure built on Solana.",
       keywords:
         "crypto payments, global payments, borderless payments, instant settlement, cross-border crypto, Blip Money payments, Solana payments",
-      canonical: "https://blip.money/blog/future-of-crypto-payments",
+      canonical: "https://www.blip.money/blog/future-of-crypto-payments",
     },
     content: [
       {
@@ -294,7 +294,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "crypto merchant solutions, accept crypto payments, merchant crypto dashboard, crypto to cash settlement, Blip Money merchant, business crypto payments",
       canonical:
-        "https://blip.money/blog/blip-merchant-solutions-accept-crypto-settle-cash",
+        "https://www.blip.money/blog/blip-merchant-solutions-accept-crypto-settle-cash",
     },
     content: [
       {
@@ -401,7 +401,7 @@ export const blogArticles: BlogArticle[] = [
         "Learn why Blip Money built its non-custodial settlement protocol on Solana, leveraging sub-second finality, near-zero fees, and full on-chain transparency.",
       keywords:
         "Solana blockchain, Solana payments, Solana DeFi, why Solana, Blip Money Solana, blockchain payments, Solana speed, Solana fees",
-      canonical: "https://blip.money/blog/why-blip-chose-solana",
+      canonical: "https://www.blip.money/blog/why-blip-chose-solana",
     },
     content: [
       {
@@ -508,7 +508,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "BLIP token, crypto rewards, token utility, deflationary tokenomics, crypto cashback, staking rewards, Blip Money token, token economics",
       canonical:
-        "https://blip.money/blog/blip-token-utility-rewards-deflationary-economics",
+        "https://www.blip.money/blog/blip-token-utility-rewards-deflationary-economics",
     },
     content: [
       {
@@ -643,7 +643,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "crypto to aed, convert crypto to aed, bitcoin to aed, usdt to aed, cryptocurrency dubai, sell crypto dubai, crypto exchange dubai, crypto to dirham",
       canonical:
-        "https://blip.money/blog/crypto-to-aed-complete-guide-converting-cryptocurrency-dubai",
+        "https://www.blip.money/blog/crypto-to-aed-complete-guide-converting-cryptocurrency-dubai",
     },
     content: [
       {
@@ -757,7 +757,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "usdt to aed, sell usdt dubai, tether to aed, usdt to dirham, sell tether uae, usdt exchange dubai, convert usdt aed, tether dubai",
       canonical:
-        "https://blip.money/blog/usdt-to-aed-how-to-sell-tether-uae-instantly",
+        "https://www.blip.money/blog/usdt-to-aed-how-to-sell-tether-uae-instantly",
     },
     content: [
       {
@@ -845,7 +845,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "dubai crypto, crypto capital, vara dubai, dubai blockchain, crypto regulation uae, dubai web3, crypto business dubai, bitcoin dubai",
       canonical:
-        "https://blip.money/blog/why-dubai-becoming-crypto-capital-world",
+        "https://www.blip.money/blog/why-dubai-becoming-crypto-capital-world",
     },
     content: [
       {
@@ -929,7 +929,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "buy bitcoin dubai, bitcoin dubai, btc to aed, buy crypto dubai, bitcoin uae, purchase bitcoin dubai, bitcoin exchange dubai, crypto dubai guide",
       canonical:
-        "https://blip.money/blog/buy-bitcoin-dubai-step-by-step-guide-2026",
+        "https://www.blip.money/blog/buy-bitcoin-dubai-step-by-step-guide-2026",
     },
     content: [
       {
@@ -1014,7 +1014,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "otc crypto dubai, otc trading uae, crypto otc desk, over the counter crypto, large crypto trades dubai, escrow otc, safe crypto trading dubai",
       canonical:
-        "https://blip.money/blog/crypto-otc-trading-dubai-how-blip-makes-it-safe",
+        "https://www.blip.money/blog/crypto-otc-trading-dubai-how-blip-makes-it-safe",
     },
     content: [
       {
@@ -1089,7 +1089,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "vara dubai, crypto regulation uae, dubai crypto law, vara license, crypto compliance dubai, uae virtual assets, vara regulation 2026, crypto legal dubai",
       canonical:
-        "https://blip.money/blog/dubai-crypto-regulation-vara-what-you-need-to-know-2026",
+        "https://www.blip.money/blog/dubai-crypto-regulation-vara-what-you-need-to-know-2026",
     },
     content: [
       {
@@ -1168,7 +1168,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "crypto payments uae, accept crypto dubai, business crypto payments, merchant crypto uae, crypto adoption dubai, crypto commerce uae, pay with crypto dubai",
       canonical:
-        "https://blip.money/blog/how-uae-businesses-adopting-crypto-payments-2026",
+        "https://www.blip.money/blog/how-uae-businesses-adopting-crypto-payments-2026",
     },
     content: [
       {
@@ -1241,7 +1241,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "crypto to cash dubai, sell crypto for cash, bitcoin to cash dubai, crypto cash exchange dubai, physical crypto exchange, otc cash dubai, crypto cash pickup",
       canonical:
-        "https://blip.money/blog/crypto-to-cash-dubai-safest-way-convert",
+        "https://www.blip.money/blog/crypto-to-cash-dubai-safest-way-convert",
     },
     content: [
       {
@@ -1313,7 +1313,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "crypto settlement, blockchain settlement, instant settlement, payment finality, T+0 settlement, settlement protocol, crypto payment settlement, Blip settlement",
       canonical:
-        "https://blip.money/blog/what-is-crypto-settlement-complete-guide",
+        "https://www.blip.money/blog/what-is-crypto-settlement-complete-guide",
     },
     content: [
       {
@@ -1385,7 +1385,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "stablecoin payments, usdt payments, usdc payments, stablecoin wire transfer, crypto business payments, global stablecoin settlement, tether payments",
       canonical:
-        "https://blip.money/blog/stablecoin-payments-usdt-usdc-replacing-wire-transfers",
+        "https://www.blip.money/blog/stablecoin-payments-usdt-usdc-replacing-wire-transfers",
     },
     content: [
       {
@@ -1458,7 +1458,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "crypto remittance, send money crypto, cross-border crypto payments, remittance fees, cheap international transfer, crypto money transfer, send money dubai",
       canonical:
-        "https://blip.money/blog/how-crypto-solving-48-billion-remittance-problem",
+        "https://www.blip.money/blog/how-crypto-solving-48-billion-remittance-problem",
     },
     content: [
       {
@@ -1525,7 +1525,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "p2p crypto trading, peer to peer crypto, escrow crypto trading, safe p2p trading, crypto p2p platform, decentralized trading, p2p bitcoin trading",
       canonical:
-        "https://blip.money/blog/peer-to-peer-crypto-trading-how-escrow-makes-it-safe",
+        "https://www.blip.money/blog/peer-to-peer-crypto-trading-how-escrow-makes-it-safe",
     },
     content: [
       {
@@ -1597,7 +1597,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "crypto gold trading, dubai gold crypto, gold dealer crypto, dmcc crypto, gold settlement blockchain, crypto gold purchase dubai, gold otc crypto",
       canonical:
-        "https://blip.money/blog/case-study-dubai-gold-dealer-2m-monthly-crypto-settlement",
+        "https://www.blip.money/blog/case-study-dubai-gold-dealer-2m-monthly-crypto-settlement",
     },
     content: [
       {
@@ -1662,7 +1662,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "freelancer crypto payments, freelance crypto uae, international freelance payments, usdt invoicing, freelancer crypto settlement, pay freelancers crypto",
       canonical:
-        "https://blip.money/blog/case-study-freelancers-uae-crypto-international-payments",
+        "https://www.blip.money/blog/case-study-freelancers-uae-crypto-international-payments",
     },
     content: [
       {
@@ -1727,7 +1727,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "otc trading escrow, counterparty risk crypto, otc crypto case study, escrow trading results, safe otc trading, crypto escrow results",
       canonical:
-        "https://blip.money/blog/case-study-otc-traders-eliminated-counterparty-risk-escrow",
+        "https://www.blip.money/blog/case-study-otc-traders-eliminated-counterparty-risk-escrow",
     },
     content: [
       {
@@ -1797,7 +1797,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "ecommerce crypto payments, cross border ecommerce settlement, international payment settlement, crypto ecommerce, online store crypto, merchant crypto settlement",
       canonical:
-        "https://blip.money/blog/case-study-cross-border-ecommerce-settlement-blip",
+        "https://www.blip.money/blog/case-study-cross-border-ecommerce-settlement-blip",
     },
     content: [
       {
@@ -1867,7 +1867,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "buy property crypto dubai, real estate crypto, dubai property bitcoin, crypto real estate deposit, property crypto payment, dubai apartment crypto",
       canonical:
-        "https://blip.money/blog/case-study-dubai-real-estate-agency-crypto-deposits",
+        "https://www.blip.money/blog/case-study-dubai-real-estate-agency-crypto-deposits",
     },
     content: [
       {
@@ -1933,7 +1933,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "crypto payments market research, crypto payments 2026, stablecoin market size, crypto adoption statistics, crypto payment trends, blockchain payments research",
       canonical:
-        "https://blip.money/blog/state-of-crypto-payments-2026-market-research-report",
+        "https://www.blip.money/blog/state-of-crypto-payments-2026-market-research-report",
     },
     content: [
       {
@@ -2010,7 +2010,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "on-chain escrow, traditional escrow, escrow comparison, blockchain escrow analysis, smart contract escrow, escrow service comparison, decentralized escrow",
       canonical:
-        "https://blip.money/blog/on-chain-escrow-vs-traditional-escrow-comparative-analysis",
+        "https://www.blip.money/blog/on-chain-escrow-vs-traditional-escrow-comparative-analysis",
     },
     content: [
       {
@@ -2085,7 +2085,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "solana vs ethereum, solana payments, ethereum payments, blockchain comparison, solana speed, solana fees, blockchain benchmarks, payment blockchain",
       canonical:
-        "https://blip.money/blog/solana-vs-ethereum-payments-performance-benchmarks-2026",
+        "https://www.blip.money/blog/solana-vs-ethereum-payments-performance-benchmarks-2026",
     },
     content: [
       {
@@ -2167,7 +2167,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "usdt economics, stablecoin analysis, tether emerging markets, usdt dominance, digital dollar, stablecoin adoption, usdt market share, tether analysis",
       canonical:
-        "https://blip.money/blog/economics-of-stablecoins-why-usdt-dominates-emerging-markets",
+        "https://www.blip.money/blog/economics-of-stablecoins-why-usdt-dominates-emerging-markets",
     },
     content: [
       {
@@ -2238,7 +2238,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "defi payments, defi payment infrastructure, decentralized payments, crypto payment protocol, defi settlement, blockchain payment layer, payment defi",
       canonical:
-        "https://blip.money/blog/defi-payment-infrastructure-next-trillion-dollar-opportunity",
+        "https://www.blip.money/blog/defi-payment-infrastructure-next-trillion-dollar-opportunity",
     },
     content: [
       {
@@ -2308,7 +2308,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "blockchain transparency, financial transparency, on-chain auditing, crypto transparency, blockchain accountability, blip scan, transparent finance",
       canonical:
-        "https://blip.money/blog/blockchain-transparency-in-finance-why-it-matters",
+        "https://www.blip.money/blog/blockchain-transparency-in-finance-why-it-matters",
     },
     content: [
       {
@@ -2378,7 +2378,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "non-custodial finance, self custody crypto, non-custodial wallet, custodial vs non-custodial, crypto self custody, defi non-custodial, not your keys",
       canonical:
-        "https://blip.money/blog/what-is-non-custodial-finance-why-it-matters-your-money",
+        "https://www.blip.money/blog/what-is-non-custodial-finance-why-it-matters-your-money",
     },
     content: [
       {
@@ -2450,7 +2450,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "how to use blip money, blip money guide, blip money tutorial, blip money beginner, crypto escrow guide, blip money walkthrough, getting started blip",
       canonical:
-        "https://blip.money/blog/how-to-use-blip-money-complete-beginners-guide",
+        "https://www.blip.money/blog/how-to-use-blip-money-complete-beginners-guide",
     },
     content: [
       {
@@ -2534,7 +2534,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "gas fees explained, solana gas fees, solana fees, ethereum gas fees, blockchain transaction fees, cheap crypto transactions, solana low fees",
       canonical:
-        "https://blip.money/blog/understanding-gas-fees-why-solana-costs-less-than-one-cent",
+        "https://www.blip.money/blog/understanding-gas-fees-why-solana-costs-less-than-one-cent",
     },
     content: [
       {
@@ -2603,7 +2603,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "crypto cashback, blip rewards, crypto rewards, token cashback, earn crypto, blip token rewards, crypto loyalty program, cashback crypto",
       canonical:
-        "https://blip.money/blog/rise-of-crypto-cashback-how-blip-rewards-every-transaction",
+        "https://www.blip.money/blog/rise-of-crypto-cashback-how-blip-rewards-every-transaction",
     },
     content: [
       {
@@ -2673,7 +2673,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "smart contract security, crypto security, escrow security, smart contract audit, solana security, defi security, non-custodial security, blip security",
       canonical:
-        "https://blip.money/blog/smart-contract-security-how-blip-protects-your-funds",
+        "https://www.blip.money/blog/smart-contract-security-how-blip-protects-your-funds",
     },
     content: [
       {
@@ -2747,7 +2747,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "real-time settlement, instant settlement, banking comparison, swift vs crypto, traditional banking settlement, crypto vs bank, settlement speed comparison",
       canonical:
-        "https://blip.money/blog/real-time-settlement-vs-traditional-banking-comparison",
+        "https://www.blip.money/blog/real-time-settlement-vs-traditional-banking-comparison",
     },
     content: [
       {
@@ -2830,7 +2830,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "crypto infrastructure uae, crypto payment uae, crypto ecosystem dubai, uae crypto landscape, crypto platforms uae, dubai crypto infrastructure, vara licensed platforms",
       canonical:
-        "https://blip.money/blog/crypto-payment-infrastructure-uae-2026-landscape",
+        "https://www.blip.money/blog/crypto-payment-infrastructure-uae-2026-landscape",
     },
     content: [
       {
@@ -2907,7 +2907,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "crypto exchange rates, merchant bidding, best crypto rates, Blip Money bidding, competitive crypto pricing, P2P crypto rates",
       canonical:
-        "https://blip.money/blog/how-blip-merchant-bidding-gets-you-best-rates",
+        "https://www.blip.money/blog/how-blip-merchant-bidding-gets-you-best-rates",
     },
     content: [
       {
@@ -3035,7 +3035,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "crypto salary, crypto payroll, pay employees crypto, global payroll blockchain, Blip Money salary, remote team payments crypto",
       canonical:
-        "https://blip.money/blog/crypto-salary-payments-how-employers-pay-global-teams-with-blip",
+        "https://www.blip.money/blog/crypto-salary-payments-how-employers-pay-global-teams-with-blip",
     },
     content: [
       {
@@ -3162,7 +3162,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "UAE India remittance, AED to INR crypto, send money India Dubai, cheap remittance UAE India, Blip Money remittance, crypto remittance corridor",
       canonical:
-        "https://blip.money/blog/uae-to-india-remittance-corridor-how-blip-cuts-costs-by-80-percent",
+        "https://www.blip.money/blog/uae-to-india-remittance-corridor-how-blip-cuts-costs-by-80-percent",
     },
     content: [
       {
@@ -3290,7 +3290,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "on-chain reputation, crypto trust score, blockchain reputation system, Blip Money reputation, verifiable merchant trust, decentralized trust",
       canonical:
-        "https://blip.money/blog/what-is-on-chain-reputation-and-why-blip-built-it",
+        "https://www.blip.money/blog/what-is-on-chain-reputation-and-why-blip-built-it",
     },
     content: [
       {
@@ -3419,7 +3419,7 @@ export const blogArticles: BlogArticle[] = [
       keywords:
         "money transfer comparison, SWIFT vs crypto, Wise vs Blip, cheap money transfer, crypto vs bank transfer cost, international transfer fees comparison",
       canonical:
-        "https://blip.money/blog/blip-vs-traditional-money-transfer-cost-breakdown-per-1000",
+        "https://www.blip.money/blog/blip-vs-traditional-money-transfer-cost-breakdown-per-1000",
     },
     content: [
       {
@@ -3572,7 +3572,7 @@ export const blogArticles: BlogArticle[] = [
         "Step-by-step guide to converting USDT to local fiat in under a minute on Blip Money. Wallet to bank, secured by on-chain escrow, with no banks in the middle.",
       keywords:
         "USDT to bank, USDT to fiat, send USDT to bank account, fast crypto to cash, Blip Money guide",
-      canonical: "https://blip.money/blog/send-usdt-to-bank-under-60-seconds",
+      canonical: "https://www.blip.money/blog/send-usdt-to-bank-under-60-seconds",
     },
     content: [
       {
@@ -3664,7 +3664,7 @@ export const blogArticles: BlogArticle[] = [
         "Most senders assume an international wire costs a flat $30. The actual cost is closer to 6-7% once correspondent FX spreads, lifting fees, and recipient bank charges are factored in.",
       keywords:
         "SWIFT cost, international wire fees, correspondent bank fees, FX spread, hidden bank fees, cheaper alternative to SWIFT",
-      canonical: "https://blip.money/blog/hidden-cost-of-swift-7-percent",
+      canonical: "https://www.blip.money/blog/hidden-cost-of-swift-7-percent",
     },
     content: [
       {
@@ -3745,7 +3745,7 @@ export const blogArticles: BlogArticle[] = [
         "How crypto income, capital gains, VAT, and corporate tax apply to digital assets in the UAE in 2026. Personal vs business treatment, VARA registration, and reporting requirements.",
       keywords:
         "UAE crypto tax, Dubai crypto tax, VARA tax rules, crypto capital gains UAE, UAE corporate tax crypto",
-      canonical: "https://blip.money/blog/uae-crypto-tax-2026-guide",
+      canonical: "https://www.blip.money/blog/uae-crypto-tax-2026-guide",
     },
     content: [
       {
@@ -3830,7 +3830,7 @@ export const blogArticles: BlogArticle[] = [
         "Central bank digital currencies were supposed to dominate the digital money landscape. Instead, USDT and USDC quietly became the de facto dollar of emerging markets.",
       keywords:
         "stablecoins vs CBDC, USDT adoption, USDC growth, digital dollar, central bank digital currency, emerging market stablecoins",
-      canonical: "https://blip.money/blog/stablecoins-vs-cbdcs-why-usdt-won",
+      canonical: "https://www.blip.money/blog/stablecoins-vs-cbdcs-why-usdt-won",
     },
     content: [
       {
@@ -3911,7 +3911,7 @@ export const blogArticles: BlogArticle[] = [
         "How Indian freelancers can accept USDT from international clients, convert to INR via P2P, and reduce payment fees by up to 90% versus Wise, PayPal, or Payoneer.",
       keywords:
         "USDT for freelancers India, freelance payment crypto, USDT to INR, international freelance payments, alternative to Wise",
-      canonical: "https://blip.money/blog/indian-freelancers-usdt-to-inr",
+      canonical: "https://www.blip.money/blog/indian-freelancers-usdt-to-inr",
     },
     content: [
       {
@@ -3985,7 +3985,7 @@ export const blogArticles: BlogArticle[] = [
         "Stablecoin-based B2B settlement is replacing letters of credit and SWIFT-routed wires for cross-border invoices. Why CFOs are quietly migrating supplier payments to on-chain rails.",
       keywords:
         "B2B crypto settlement, stablecoin B2B payments, on-chain trade finance, supplier payments crypto, cross-border B2B",
-      canonical: "https://blip.money/blog/on-chain-settlement-b2b-quiet-revolution",
+      canonical: "https://www.blip.money/blog/on-chain-settlement-b2b-quiet-revolution",
     },
     content: [
       {
@@ -4052,7 +4052,7 @@ export const blogArticles: BlogArticle[] = [
         "A 2026 comparison of Phantom and Solflare for Solana users. Security, staking, hardware wallet support, multi-chain features, and which one fits your trading style.",
       keywords:
         "Phantom vs Solflare, best Solana wallet, Solana wallet comparison, Phantom wallet, Solflare wallet, Solana wallet 2026",
-      canonical: "https://blip.money/blog/phantom-vs-solflare-best-solana-wallet",
+      canonical: "https://www.blip.money/blog/phantom-vs-solflare-best-solana-wallet",
     },
     content: [
       {
@@ -4126,7 +4126,7 @@ export const blogArticles: BlogArticle[] = [
         "A technical, step-by-step look at how Blip Money executes a USDT-to-fiat trade: from wallet connection through escrow lock, merchant matching, fiat settlement, and final release.",
       keywords:
         "Blip trade lifecycle, USDT escrow flow, how Blip works, P2P crypto escrow, on-chain settlement steps",
-      canonical: "https://blip.money/blog/behind-the-scenes-blip-trade-walkthrough",
+      canonical: "https://www.blip.money/blog/behind-the-scenes-blip-trade-walkthrough",
     },
     content: [
       {
@@ -4214,7 +4214,7 @@ export const blogArticles: BlogArticle[] = [
         "Comparing stablecoin remittances on Solana with traditional Hawala for the UAE-to-Pakistan corridor. Cost, settlement time, regulatory exposure, and trust mechanics.",
       keywords:
         "Pakistan remittance, USDT vs Hawala, UAE Pakistan transfer, stablecoin remittance, crypto remittance Pakistan",
-      canonical: "https://blip.money/blog/crypto-remittance-pakistan-usdt-vs-hawala",
+      canonical: "https://www.blip.money/blog/crypto-remittance-pakistan-usdt-vs-hawala",
     },
     content: [
       {
@@ -4286,7 +4286,7 @@ export const blogArticles: BlogArticle[] = [
         "How Blip merchants make money. Spread economics, volume tiers, reputation pricing, capital costs, and a worked example showing monthly profit on $200K of trade volume.",
       keywords:
         "Blip merchant profit, P2P merchant economics, USDT merchant spread, become a Blip merchant, OTC merchant playbook",
-      canonical: "https://blip.money/blog/merchant-spread-profitability-guide",
+      canonical: "https://www.blip.money/blog/merchant-spread-profitability-guide",
     },
     content: [
       {

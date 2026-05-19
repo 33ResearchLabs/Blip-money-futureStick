@@ -5,7 +5,7 @@ interface HreflangTagsProps {
 }
 
 export function HreflangTags({ path }: HreflangTagsProps) {
-  const baseUrl = "https://blip.money";
+  const baseUrl = "https://www.blip.money";
 
   return (
     <Helmet>

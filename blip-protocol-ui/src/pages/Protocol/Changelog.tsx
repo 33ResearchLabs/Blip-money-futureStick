@@ -150,7 +150,7 @@ export default function Changelog() {
       <SEO
         title="Changelog | Blip Money - Product Updates & Release Notes"
         description="Track the latest updates, features, improvements, and fixes across the Blip Money platform. See our full development history and release timeline."
-        canonical="https://blip.money/changelog"
+        canonical="https://www.blip.money/changelog"
         keywords="Blip Money changelog, product updates, release notes, Blip features, development timeline"
       />
       <HreflangTags path="/changelog" />

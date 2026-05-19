@@ -2,16 +2,23 @@ User-agent: *
 Allow: /
 
 Disallow: /admin/
+Disallow: /admin
 Disallow: /dashboard/
+Disallow: /dashboard
+Disallow: /merchant-dashboard
 Disallow: /api/
 Disallow: /login
+Disallow: /merchant-login
 Disallow: /register
 Disallow: /reset-password
+Disallow: /forgot-password
 Disallow: /verify-email
+Disallow: /email-verification-pending
 Disallow: /superadmin
+Disallow: /redeem
 
 # Allow PDF documents
 Allow: /whitepaper.pdf
 
 # Sitemap location
-Sitemap: https://blip.money/sitemap.xml
+Sitemap: https://www.blip.money/sitemap.xml

@@ -621,7 +621,7 @@ const CryptoOtcDubai = () => {
       <SEO
         title="Crypto OTC Trading Dubai - Secure Large Trades | Blip Money"
         description="Execute large-volume crypto OTC trades in Dubai with escrow-protected settlement. Competitive spreads, bonded merchants, and on-chain transparency for institutional-grade crypto trading in the UAE."
-        canonical="https://blip.money/crypto-otc-dubai"
+        canonical="https://www.blip.money/crypto-otc-dubai"
         keywords="crypto OTC Dubai, OTC trading Dubai, crypto OTC desk UAE, large crypto trades Dubai, institutional crypto Dubai, OTC bitcoin Dubai, USDT OTC Dubai, crypto escrow OTC"
       />
       <HreflangTags path="/crypto-otc-dubai" />

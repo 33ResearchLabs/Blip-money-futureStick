@@ -72,7 +72,7 @@ const TermsService = () => {
       <SEO
         title="Blip Money – Terms of Service & User Agreement"
         description="Read the official Terms of Service for Blip Money. Learn about your rights, responsibilities, and the legal conditions governing the use of our platform and services."
-        canonical="https://blip.money/terms"
+        canonical="https://www.blip.money/terms"
       />
 
       <div className="min-h-screen  text-black dark:text-white mt-12">

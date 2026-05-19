@@ -227,7 +227,7 @@ export default function About() {
       <SEO
         title="About Blip Money — Our Mission & Vision"
         description="Blip Money is the non-custodial settlement layer for the world. Instant payments, on-chain escrow, powered by Solana."
-        canonical="https://blip.money/about"
+        canonical="https://www.blip.money/about"
         keywords="Blip Money about, Blip team, crypto payments mission, settlement infrastructure"
       />
       <HreflangTags path="/about" />

@@ -48,7 +48,7 @@ export const comparisons: ComparisonPage[] = [
       title: "Blip vs Wise (2026) - Which Is Better for International Transfers?",
       description: "Compare Blip Money and Wise for international money transfers. Speed, fees, crypto support, KYC requirements, and more. Find out which is right for you.",
       keywords: "Blip vs Wise, Wise alternative crypto, TransferWise vs crypto, international transfer comparison, Blip Money comparison",
-      canonical: "https://blip.money/compare/blip-vs-wise",
+      canonical: "https://www.blip.money/compare/blip-vs-wise",
     },
   },
   {
@@ -76,7 +76,7 @@ export const comparisons: ComparisonPage[] = [
       title: "Blip vs Binance P2P (2026) - Non-Custodial vs Centralized P2P Trading",
       description: "Compare Blip Money and Binance P2P for crypto trading. Non-custodial vs custodial, on-chain escrow vs centralized, fees, security, and more.",
       keywords: "Blip vs Binance P2P, Binance P2P alternative, decentralized P2P trading, crypto P2P comparison, non-custodial P2P",
-      canonical: "https://blip.money/compare/blip-vs-binance-p2p",
+      canonical: "https://www.blip.money/compare/blip-vs-binance-p2p",
     },
   },
   {
@@ -103,7 +103,7 @@ export const comparisons: ComparisonPage[] = [
       title: "On-Chain Escrow vs Traditional Escrow (2026) - Complete Comparison",
       description: "Compare on-chain smart contract escrow with traditional escrow services. Speed, fees, transparency, trust model, and more. Learn why on-chain escrow is the future.",
       keywords: "on-chain escrow vs traditional, smart contract escrow, blockchain escrow comparison, crypto escrow, Blip escrow",
-      canonical: "https://blip.money/compare/onchain-vs-traditional-escrow",
+      canonical: "https://www.blip.money/compare/onchain-vs-traditional-escrow",
     },
   },
 ];

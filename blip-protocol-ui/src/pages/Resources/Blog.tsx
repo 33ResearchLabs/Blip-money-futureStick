@@ -202,7 +202,7 @@ export default function Blog() {
       <SEO
         title="Blog | Blip Money - Insights on Crypto Payments, Escrow & DeFi"
         description="Explore articles on crypto payments, on-chain escrow, merchant solutions, Solana blockchain, and tokenomics from the Blip Money team."
-        canonical="https://blip.money/blog"
+        canonical="https://www.blip.money/blog"
         keywords="Blip Money blog, crypto payments blog, escrow blog, Solana blog, DeFi insights"
       />
       <HreflangTags path="/blog" />

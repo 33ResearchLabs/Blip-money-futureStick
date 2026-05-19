@@ -80,7 +80,7 @@ const Whitepaper = () => {
       <SEO
         title="Whitepaper | Blip Money"
         description="Blip.money: A Pseudonymous, On-Chain Protocol for Global Peer-to-Peer Value Settlement"
-        canonical="https://blip.money/whitepaper"
+        canonical="https://www.blip.money/whitepaper"
       />
       <HreflangTags path="/whitepaper" />
 

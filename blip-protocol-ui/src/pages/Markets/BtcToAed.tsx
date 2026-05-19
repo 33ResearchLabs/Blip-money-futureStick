@@ -385,13 +385,13 @@ function buildSchemas(rate: RateData) {
     name: "Blip Money — Bitcoin to AED Converter",
     description:
       "Convert Bitcoin to UAE Dirhams instantly with non-custodial escrow protection. Live BTC/AED rates, low fees, settlement in under 15 minutes.",
-    url: "https://blip.money/btc-to-aed",
+    url: "https://www.blip.money/btc-to-aed",
     areaServed: { "@type": "Country", name: "United Arab Emirates" },
     serviceType: "Cryptocurrency Exchange",
     provider: {
       "@type": "Organization",
       name: "Blip Money",
-      url: "https://blip.money",
+      url: "https://www.blip.money",
     },
     offers: {
       "@type": "Offer",
@@ -490,7 +490,7 @@ export default function BtcToAed() {
       <SEO
         title="Bitcoin to AED — Live BTC/AED Rate | Blip Money"
         description="Convert Bitcoin to UAE Dirhams instantly. Live BTC/AED exchange rate updated every 30 seconds. Non-custodial escrow, 0.5% fees, settlement under 15 minutes. Best BTC to AED rate in Dubai and UAE."
-        canonical="https://blip.money/btc-to-aed"
+        canonical="https://www.blip.money/btc-to-aed"
         keywords="BTC to AED, bitcoin to AED, bitcoin price AED, BTC AED rate, convert bitcoin to AED, sell bitcoin Dubai, bitcoin price UAE, 1 BTC to AED, bitcoin to dirham, BTC to AED today"
         type="website"
       />

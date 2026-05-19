@@ -23,8 +23,8 @@ interface RetweetVerificationModalProps {
 type Step = "compose" | "submit" | "verifying" | "success" | "error";
 
 const TWEET_TEMPLATES = [
-  "I just joined @BlipMoney — the non-custodial settlement protocol for crypto payments. Join the waitlist and earn BLIP rewards! 🚀\n\nhttps://blip.money",
-  "Loving the @BlipMoney experience — instant cross-border settlements with zero hassle. The future of crypto payments is here! 💸🌍\n\nhttps://blip.money",
+  "I just joined @BlipMoney — the non-custodial settlement protocol for crypto payments. Join the waitlist and earn BLIP rewards! 🚀\n\nhttps://www.blip.money",
+  "Loving the @BlipMoney experience — instant cross-border settlements with zero hassle. The future of crypto payments is here! 💸🌍\n\nhttps://www.blip.money",
 ];
 
 export default function RetweetVerificationModal({

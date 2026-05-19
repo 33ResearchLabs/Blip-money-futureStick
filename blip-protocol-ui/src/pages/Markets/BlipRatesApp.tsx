@@ -598,7 +598,7 @@ export default function BlipRatesApp() {
       <SEO
         title="Blip Rates — Live USDT, Cash & Wire Prices · Built like an app"
         description="The real USD/USDT to INR, AED, and PHP market price across P2P, OTC cash, wires and remittance. One terminal. Live. No login."
-        canonical="https://blip.money/rates"
+        canonical="https://www.blip.money/rates"
         keywords="usdt inr rate, usdt aed rate, usdt php, p2p rate, otc rate, wire rate, cash rate, arbitrage"
       />
 
@@ -1184,7 +1184,7 @@ function P2PView({
               </a>
               <a
                 href={`https://t.me/share/url?url=${encodeURIComponent(
-                  "https://blip.money/rates",
+                  "https://www.blip.money/rates",
                 )}&text=${encodeURIComponent(shareText)}`}
                 target="_blank"
                 rel="noopener noreferrer"

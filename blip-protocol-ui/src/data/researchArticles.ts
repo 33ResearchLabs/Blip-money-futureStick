@@ -85,7 +85,7 @@ export const researchArticles: ResearchArticle[] = [
         "Explore how AI-powered trading bots are transforming peer-to-peer cryptocurrency transactions with autonomous negotiation, settlement, and risk management.",
       keywords:
         "AI crypto bots, P2P trading bots, autonomous crypto agents, AI trading, cryptocurrency automation",
-      canonical: "https://blip.money/research/ai-bots-p2p-crypto-transactions",
+      canonical: "https://www.blip.money/research/ai-bots-p2p-crypto-transactions",
     },
     content: [
       {
@@ -200,7 +200,7 @@ export const researchArticles: ResearchArticle[] = [
         "Comprehensive guide to Telegram crypto trading bots including Trojan, BONKbot, Banana Gun, and Maestro. Features, fees, security risks, and volume analysis.",
       keywords:
         "Telegram trading bots, Trojan bot, Banana Gun, BONKbot, Maestro bot, crypto trading telegram, DEX bot",
-      canonical: "https://blip.money/research/telegram-trading-bots-complete-guide",
+      canonical: "https://www.blip.money/research/telegram-trading-bots-complete-guide",
     },
     content: [
       {
@@ -333,7 +333,7 @@ export const researchArticles: ResearchArticle[] = [
         "Deep dive into autonomous AI agents making on-chain transactions. Covering x402 protocol, Visa Trusted Agent Protocol, Virtuals, ai16z, and the emerging DePAI ecosystem.",
       keywords:
         "autonomous AI agents, x402 protocol, Visa TAP, Virtuals Protocol, ai16z, DePAI, agentic finance, on-chain AI",
-      canonical: "https://blip.money/research/autonomous-ai-agents-on-chain",
+      canonical: "https://www.blip.money/research/autonomous-ai-agents-on-chain",
     },
     content: [
       {
@@ -447,7 +447,7 @@ export const researchArticles: ResearchArticle[] = [
         "How AI is enhancing smart contracts with dynamic decision-making, predictive triggers, automated auditing, and natural language contract generation.",
       keywords:
         "smart contract AI, Chainlink automation, AI smart contracts, automated auditing, contract automation, blockchain AI",
-      canonical: "https://blip.money/research/smart-contract-automation-with-ai",
+      canonical: "https://www.blip.money/research/smart-contract-automation-with-ai",
     },
     content: [
       {
@@ -548,7 +548,7 @@ export const researchArticles: ResearchArticle[] = [
         "Deep analysis of MEV extraction, sandwich attacks, AI-powered DeFi bots, and protection mechanisms. Understanding the invisible battle happening in every DEX transaction.",
       keywords:
         "MEV bots, sandwich attacks, Flashbots, DeFi dark forest, front-running, AI trading bots, DEX protection",
-      canonical: "https://blip.money/research/mev-bots-and-defi-dark-forest",
+      canonical: "https://www.blip.money/research/mev-bots-and-defi-dark-forest",
     },
     content: [
       {
@@ -640,7 +640,7 @@ export const researchArticles: ResearchArticle[] = [
         "How Telegram's mini-app ecosystem and TON blockchain integration is creating a Web3 payment gateway for 900M+ users with sub-cent transaction fees.",
       keywords:
         "Telegram mini apps, TON blockchain, TON Pay, Web3 payments, Telegram Web3, crypto mini apps",
-      canonical: "https://blip.money/research/telegram-mini-apps-web3-payments",
+      canonical: "https://www.blip.money/research/telegram-mini-apps-web3-payments",
     },
     content: [
       {
@@ -731,7 +731,7 @@ export const researchArticles: ResearchArticle[] = [
         "How AI escrow systems use multimodal models to parse contracts, deploy smart contracts, verify deliverables, and resolve disputes automatically in P2P trades.",
       keywords:
         "AI escrow, smart contract escrow, P2P escrow, Circle AI agent, automated escrow, dispute resolution AI",
-      canonical: "https://blip.money/research/ai-escrow-systems-p2p-trading",
+      canonical: "https://www.blip.money/research/ai-escrow-systems-p2p-trading",
     },
     content: [
       {
@@ -824,7 +824,7 @@ export const researchArticles: ResearchArticle[] = [
         "How text-to-transaction technology is making crypto payments as simple as sending a text message, with Coinbase MCP, Solflare AI, and natural language wallets.",
       keywords:
         "text-to-transaction, natural language crypto, Coinbase MCP, Solflare AI, crypto wallet AI, conversational payments",
-      canonical: "https://blip.money/research/text-to-transaction-natural-language-crypto",
+      canonical: "https://www.blip.money/research/text-to-transaction-natural-language-crypto",
     },
     content: [
       {
@@ -929,7 +929,7 @@ export const researchArticles: ResearchArticle[] = [
         "How AI-powered fraud detection systems use graph neural networks, federated learning, and NLP to protect P2P crypto markets from scams and money laundering.",
       keywords:
         "AI fraud detection, crypto fraud, AnChain AI, blockchain analytics, AML crypto, graph neural networks, P2P security",
-      canonical: "https://blip.money/research/ai-fraud-detection-p2p-crypto",
+      canonical: "https://www.blip.money/research/ai-fraud-detection-p2p-crypto",
     },
     content: [
       {
@@ -1023,7 +1023,7 @@ export const researchArticles: ResearchArticle[] = [
         "How AI-powered bots and stablecoins are disrupting the $900B remittance market with 60%+ fee reductions, instant settlement, and automated compliance.",
       keywords:
         "stablecoin remittance, cross-border payments, USDC remittance, AI payments, crypto remittance, global transfers",
-      canonical: "https://blip.money/research/stablecoin-remittance-ai-bots",
+      canonical: "https://www.blip.money/research/stablecoin-remittance-ai-bots",
     },
     content: [
       {
@@ -1120,7 +1120,7 @@ export const researchArticles: ResearchArticle[] = [
         "How AI-powered market makers like Hummingbot provide billions in crypto liquidity through spread optimization, concentrated liquidity management, and cross-exchange arbitrage.",
       keywords:
         "AI market maker, Hummingbot, liquidity bots, DeFi liquidity, automated market making, crypto arbitrage",
-      canonical: "https://blip.money/research/ai-market-makers-liquidity-bots",
+      canonical: "https://www.blip.money/research/ai-market-makers-liquidity-bots",
     },
     content: [
       {
@@ -1207,7 +1207,7 @@ export const researchArticles: ResearchArticle[] = [
         "The $30 trillion convergence of AI and blockchain is creating autonomous financial systems. How Visa, JPMorgan, and Coinbase are building the agentic economy.",
       keywords:
         "agentic finance, DePAI, autonomous economy, AI blockchain convergence, autonomous agents, machine-to-machine payments",
-      canonical: "https://blip.money/research/agentic-finance-future-ai-blockchain",
+      canonical: "https://www.blip.money/research/agentic-finance-future-ai-blockchain",
     },
     content: [
       {
@@ -1321,7 +1321,7 @@ export const researchArticles: ResearchArticle[] = [
         "How zero-knowledge proofs allow users to prove KYC eligibility — age, residency, sanctions clearance — without exposing identity to dApps, merchants, or other users.",
       keywords:
         "on-chain KYC, zero-knowledge KYC, ZK identity, privacy compliance, decentralized identity, KYC blockchain",
-      canonical: "https://blip.money/research/on-chain-kyc-zk-compliance",
+      canonical: "https://www.blip.money/research/on-chain-kyc-zk-compliance",
     },
     content: [
       {
@@ -1402,7 +1402,7 @@ export const researchArticles: ResearchArticle[] = [
         "An analytical framework for understanding stablecoin design. Why fiat-backed, crypto-collateralized, and algorithmic stablecoins each trade off one of decentralization, stability, or scale.",
       keywords:
         "stablecoin trilemma, USDT vs DAI, fiat-backed stablecoin, algorithmic stablecoin, stablecoin design, USDC analysis",
-      canonical: "https://blip.money/research/stablecoin-trilemma-decentralization-stability-scale",
+      canonical: "https://www.blip.money/research/stablecoin-trilemma-decentralization-stability-scale",
     },
     content: [
       {
@@ -1481,7 +1481,7 @@ export const researchArticles: ResearchArticle[] = [
         "The 2026 state of cross-chain liquidity between Solana and Ethereum-compatible chains. Native bridges, intent-based architectures, and the security trade-offs that matter.",
       keywords:
         "cross-chain liquidity, Solana EVM bridge, Wormhole, deBridge, cross-chain security, intent-based bridges",
-      canonical: "https://blip.money/research/cross-chain-liquidity-solana-evm-bridges",
+      canonical: "https://www.blip.money/research/cross-chain-liquidity-solana-evm-bridges",
     },
     content: [
       {
@@ -1560,7 +1560,7 @@ export const researchArticles: ResearchArticle[] = [
         "How Solana's native account model enables account-abstraction features like email login, social recovery, and gasless transactions without an ERC-4337 equivalent.",
       keywords:
         "Solana account abstraction, email login wallet, social recovery, gasless transactions, smart wallets, Solana wallet UX",
-      canonical: "https://blip.money/research/account-abstraction-on-solana-email-login-wallets",
+      canonical: "https://www.blip.money/research/account-abstraction-on-solana-email-login-wallets",
     },
     content: [
       {
@@ -1641,7 +1641,7 @@ export const researchArticles: ResearchArticle[] = [
         "A formal analysis of how bonded P2P marketplaces achieve incentive compatibility. Reputation, collateral, and why bonded merchants almost always perform.",
       keywords:
         "bonded merchant, P2P game theory, reputation systems, on-chain bond, incentive compatibility, marketplace economics",
-      canonical: "https://blip.money/research/game-theory-bonded-merchants-reputation",
+      canonical: "https://www.blip.money/research/game-theory-bonded-merchants-reputation",
     },
     content: [
       {
@@ -1722,7 +1722,7 @@ export const researchArticles: ResearchArticle[] = [
         "The $16 trillion RWA opportunity in 2026. How tokenized treasuries, real estate, and private credit are moving on-chain — and what's still bottlenecked.",
       keywords:
         "RWA tokenization, real-world assets, tokenized treasuries, tokenized real estate, on-chain credit, RWA market",
-      canonical: "https://blip.money/research/real-world-asset-tokenization-16-trillion-frontier",
+      canonical: "https://www.blip.money/research/real-world-asset-tokenization-16-trillion-frontier",
     },
     content: [
       {
@@ -1803,7 +1803,7 @@ export const researchArticles: ResearchArticle[] = [
         "How zero-knowledge proofs, stealth addresses, and confidential transfers are bringing privacy to stablecoin payments without compromising regulatory compliance.",
       keywords:
         "private stablecoin payments, ZK stablecoins, confidential transfers, stealth addresses, payment privacy, ZK payments",
-      canonical: "https://blip.money/research/privacy-preserving-payments-zk-stablecoins",
+      canonical: "https://www.blip.money/research/privacy-preserving-payments-zk-stablecoins",
     },
     content: [
       {
@@ -1882,7 +1882,7 @@ export const researchArticles: ResearchArticle[] = [
         "How on-chain AED-USDT settlement is building a credible decentralized FX market. The economics, the volume, and what changes when forex doesn't need a bank.",
       keywords:
         "decentralized forex, on-chain FX, AED USDT, dFX, stablecoin forex, P2P FX market",
-      canonical: "https://blip.money/research/decentralized-forex-aed-usdt-markets",
+      canonical: "https://www.blip.money/research/decentralized-forex-aed-usdt-markets",
     },
     content: [
       {
@@ -1963,7 +1963,7 @@ export const researchArticles: ResearchArticle[] = [
         "Solana's actual throughput in 2026 — measured in real-world conditions, not benchmarks. What 65k TPS enables for payments, gaming, social, and high-frequency on-chain applications.",
       keywords:
         "Solana TPS, Solana throughput, high-throughput blockchain, Solana scalability, Firedancer, Solana payments",
-      canonical: "https://blip.money/research/solana-65k-tps-true-throughput",
+      canonical: "https://www.blip.money/research/solana-65k-tps-true-throughput",
     },
     content: [
       {
@@ -2044,7 +2044,7 @@ export const researchArticles: ResearchArticle[] = [
         "How Solana's SPL Verifiable Credentials standard lets programs read identity claims privately. Use cases for jurisdictional payments, accredited investors, and KYC-bound compliance.",
       keywords:
         "verifiable credentials, SPL credentials, decentralized identity, on-chain identity, programmable identity, Solana KYC",
-      canonical: "https://blip.money/research/verifiable-credentials-spl-identity-programmable-money",
+      canonical: "https://www.blip.money/research/verifiable-credentials-spl-identity-programmable-money",
     },
     content: [
       {

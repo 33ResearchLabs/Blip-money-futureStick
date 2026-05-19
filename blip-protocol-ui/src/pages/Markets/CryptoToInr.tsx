@@ -577,13 +577,13 @@ function buildSchemas(rates: Rates | null) {
     name: "Blip Money \u2014 Crypto to INR Converter",
     description:
       "Convert cryptocurrency to Indian Rupees instantly with non-custodial escrow protection. Live rates, low fees, settlement in under 15 minutes.",
-    url: "https://blip.money/crypto-to-inr",
+    url: "https://www.blip.money/crypto-to-inr",
     areaServed: { "@type": "Country", name: "India" },
     serviceType: "Cryptocurrency Exchange",
     provider: {
       "@type": "Organization",
       name: "Blip Money",
-      url: "https://blip.money",
+      url: "https://www.blip.money",
     },
     ...(rates?.tether && {
       offers: {
@@ -674,7 +674,7 @@ export default function CryptoToInr() {
       <SEO
         title="Crypto to INR Converter \u2014 Live Rates | Blip Money"
         description="Convert USDT, USDC, BTC, ETH, SOL to INR instantly. Live exchange rates updated every 30 seconds. Non-custodial escrow, low fees, settlement under 15 minutes. Best crypto to INR rates in India."
-        canonical="https://blip.money/crypto-to-inr"
+        canonical="https://www.blip.money/crypto-to-inr"
         keywords="crypto to INR, USDT to INR, convert crypto to INR, USDC to INR rate, sell crypto India, crypto to INR rate today, best crypto exchange India, USDT INR live rate, buy INR with crypto, crypto cashout India"
         type="website"
       />
