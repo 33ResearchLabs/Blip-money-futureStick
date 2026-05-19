@@ -125,6 +125,7 @@ const BitcoinPriceUae = lazy(() => import("./pages/Markets/BitcoinPriceUae"));
 const Bounty = lazy(() => import("./pages/Bounty"));
 const RewardPage = lazy(() => import("./pages/RewardPage"));
 const Rates = lazy(() => import("./pages/Rates"));
+const PseoCorridor = lazy(() => import("./pages/Markets/PseoCorridor"));
 
 // Handle Firebase auth action URLs (e.g. /?mode=resetPassword&oobCode=...)
 const FirebaseActionHandler = ({ children }: { children: React.ReactNode }) => {
@@ -307,6 +308,10 @@ const App = () => (
                       path="/bitcoin-price-uae"
                       element={<BitcoinPriceUae />}
                     />
+
+                    {/* Programmatic SEO corridor pages — driven by src/data/pseoCorridors.ts */}
+                    <Route path="/usdt-to-inr-without-kyc" element={<PseoCorridor />} />
+
                     {/* Rates moved to p2prate.live — Vercel handles 308 redirects via vercel.json */}
 
                     {/* All waitlist entry points land on register — new app, every user signs up fresh */}
