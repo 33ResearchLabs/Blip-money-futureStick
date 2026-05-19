@@ -12,4 +12,4 @@
 .env.production
 .env.test
 # Firebase service account key (contains secrets)
-server/config/firebase-service-account.json
+server/config/firebase-service-account.jsoncrypto-dashboard.html
