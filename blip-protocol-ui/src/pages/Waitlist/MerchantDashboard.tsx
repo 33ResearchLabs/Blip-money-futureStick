@@ -724,7 +724,7 @@ export default function MerchantDashboard() {
       : 0;
 
   const gaugeFilled = [
-    { value: unlockedPercent, color: "#ff6b35" },
+    { value: unlockedPercent, color: d ? "#ffffff" : "#000000" },
     { value: 100 - unlockedPercent, color: gaugeEmpty },
   ];
 
@@ -1069,19 +1069,11 @@ export default function MerchantDashboard() {
             <div
               className={`${surface} border ${border} rounded-xl p-5 md:p-6 relative overflow-hidden`}
             >
-              {/* Orange ambient glow */}
+              {/* Subtle neutral dot pattern */}
               <div
-                className="absolute top-0 right-0 bottom-0 w-3/5 pointer-events-none"
+                className="absolute top-0 right-0 bottom-0 w-1/2 opacity-50 pointer-events-none"
                 style={{
-                  background:
-                    "radial-gradient(ellipse at 75% 50%, rgba(255,107,53,0.22), rgba(255,107,53,0.08) 35%, transparent 65%)",
-                }}
-              />
-              {/* Orange dot pattern */}
-              <div
-                className="absolute top-0 right-0 bottom-0 w-1/2 opacity-70 pointer-events-none"
-                style={{
-                  backgroundImage: `radial-gradient(circle, rgba(255,107,53,0.35) 1.2px, transparent 1.2px)`,
+                  backgroundImage: `radial-gradient(circle, ${d ? "rgba(255,255,255,0.18)" : "rgba(0,0,0,0.12)"} 1.2px, transparent 1.2px)`,
                   backgroundSize: "14px 14px",
                   maskImage:
                     "linear-gradient(to right, transparent, black 40%, black)",
@@ -1109,7 +1101,7 @@ export default function MerchantDashboard() {
                     className={`flex items-start gap-3 text-left group ${hov} rounded-md -m-1 p-1 transition`}
                     title="View points history"
                   >
-                    <TrendingUp className="w-5 h-5 text-[#ff6b35] shrink-0 mt-0.5" />
+                    <TrendingUp className={`w-5 h-5 ${txt} shrink-0 mt-0.5`} />
                     <div>
                       <p className={`text-2xl font-black font-display ${txt} leading-none mb-0.5`}>
                         {blipPoints.toLocaleString()}{" "}
@@ -1118,13 +1110,13 @@ export default function MerchantDashboard() {
                       <p className={`text-[11px] font-bold ${txt}`}>
                         BLIP Points
                       </p>
-                      <p className="text-[10px] text-[#ff6b35] font-semibold flex items-center gap-1 group-hover:underline">
+                      <p className={`text-[10px] ${muted} font-semibold flex items-center gap-1 group-hover:underline group-hover:${txt}`}>
                         View History <ArrowRight className="w-2.5 h-2.5" />
                       </p>
                     </div>
                   </button>
                   <div className="flex items-start gap-3">
-                    <UserPlus className="w-5 h-5 text-[#ff6b35] shrink-0 mt-0.5" />
+                    <UserPlus className={`w-5 h-5 ${txt} shrink-0 mt-0.5`} />
                     <div>
                       <p className={`text-2xl font-black font-display ${txt} leading-none mb-0.5`}>
                         {referralCount}
@@ -1138,7 +1130,7 @@ export default function MerchantDashboard() {
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Award className="w-5 h-5 text-[#ff6b35] shrink-0 mt-0.5" />
+                    <Award className={`w-5 h-5 ${txt} shrink-0 mt-0.5`} />
                     <div>
                       <p className={`text-2xl font-black font-display ${txt} leading-none mb-0.5`}>
                         {(referralCount * 1000).toLocaleString()}{" "}
@@ -1253,7 +1245,7 @@ export default function MerchantDashboard() {
                           ) : (
                             <button
                               onClick={() => handleQuestClick(quest.id)}
-                              className="bg-[#ff6b35] text-white px-6 py-2 rounded-md text-[11px] font-bold uppercase tracking-[0.14em] hover:bg-[#ff7a4a] active:scale-[0.98] transition"
+                              className={`${accentBg} ${d ? "text-black" : "text-white"} px-6 py-2 rounded-md text-[11px] font-bold uppercase tracking-[0.14em] hover:opacity-90 active:scale-[0.98] transition`}
                             >
                               Start
                             </button>
@@ -1270,8 +1262,8 @@ export default function MerchantDashboard() {
               className={`${surface} border ${border} rounded-xl p-4 mt-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-3`}
             >
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[#ff6b35]/15 border border-[#ff6b35]/30 flex items-center justify-center shrink-0">
-                  <Users className="w-5 h-5 text-[#ff6b35]" />
+                <div className={`w-10 h-10 rounded-full ${inputBg} border ${border} flex items-center justify-center shrink-0`}>
+                  <Users className={`w-5 h-5 ${txt}`} />
                 </div>
                 <div>
                   <p className={`text-sm font-bold ${txt}`}>
@@ -1320,7 +1312,7 @@ export default function MerchantDashboard() {
                   setShowReferralModal(true);
                 }
               }}
-              className={`${surface} border ${border} rounded-xl p-4 cursor-pointer ${hov} hover:border-[#ff6b35]/40 transition-all`}
+              className={`${surface} border ${border} rounded-xl p-4 cursor-pointer ${hov} hover:border-black/20 dark:hover:border-white/20 transition-all`}
             >
               <div className="flex items-center gap-2 mb-2">
                 <div
