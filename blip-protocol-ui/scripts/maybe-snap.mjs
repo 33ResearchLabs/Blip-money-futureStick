@@ -27,4 +27,12 @@ if (process.env.BLIP_PRERENDER !== "1") {
 
 console.log("[maybe-snap] BLIP_PRERENDER=1 — running react-snap.");
 const child = spawn("npx", ["react-snap"], { stdio: "inherit" });
-child.on("exit", (code) => process.exit(code ?? 0));
+child.on("exit", (code) => {
+  if (code && code !== 0) {
+    console.warn(
+      `[maybe-snap] react-snap exited ${code}. SPA build is still valid — site stays up. Continuing without prerender.`,
+    );
+    process.exit(0); // never fail the build because of prerender
+  }
+  process.exit(0);
+});
