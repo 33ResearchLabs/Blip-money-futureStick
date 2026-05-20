@@ -303,8 +303,13 @@ export const getMe = async (req, res) => {
       return res.status(401).json({ message: "Not authenticated" });
     }
 
-    // Points mapping for events - role-aware (merchants get higher rewards)
-    const isMerchant = user.role === "MERCHANT";
+    // Points mapping for events - role-aware (merchants get higher rewards).
+    // Treat anyone holding the MERCHANT role (legacy single-field or in roles[])
+    // as a merchant for points purposes — multi-role upgraders sit on
+    // role=USER + roles=[USER, MERCHANT] and still expect merchant rewards.
+    const isMerchant =
+      user.role === "MERCHANT" ||
+      (Array.isArray(user.roles) && user.roles.includes("MERCHANT"));
     const pointsMap = isMerchant
       ? {
           MERCHANT_REGISTER: merchantBlipPoints.register,
@@ -331,14 +336,31 @@ export const getMe = async (req, res) => {
     // Backfill missing BlipPointLog entries
     const existingEvents = await BlipPointLog.find({ userId: user._id }).distinct("event");
 
-    // Backfill missing MERCHANT_REGISTER log for merchants
-    if (isMerchant && !existingEvents.includes("MERCHANT_REGISTER") && !existingEvents.includes("REGISTER")) {
-      await BlipPointLog.create({
+    // Backfill MERCHANT_REGISTER for merchants whose join bonus is missing or
+    // under-credited. Two cases:
+    //   1) Fresh merchant with no register log at all → credit the full bonus.
+    //   2) Existing user upgraded to merchant — their REGISTER log was stored
+    //      at the user-level value (200). Top up the delta so their balance
+    //      reflects the merchant join bonus (2,000) without double-paying.
+    if (isMerchant && !existingEvents.includes("MERCHANT_REGISTER")) {
+      const existingRegisterLog = await BlipPointLog.findOne({
         userId: user._id,
-        event: "MERCHANT_REGISTER",
-        bonusPoints: merchantBlipPoints.register,
-        totalPoints: (user.totalBlipPoints || 0),
+        event: "REGISTER",
       });
+      const alreadyCredited = existingRegisterLog?.bonusPoints || 0;
+      const merchantBonusDelta = Math.max(
+        merchantBlipPoints.register - alreadyCredited,
+        0,
+      );
+
+      if (merchantBonusDelta > 0) {
+        await BlipPointLog.create({
+          userId: user._id,
+          event: "MERCHANT_REGISTER",
+          bonusPoints: merchantBonusDelta,
+          totalPoints: (user.totalBlipPoints || 0),
+        });
+      }
     }
 
     if (!existingEvents.includes("TWITTER_FOLLOW")) {
@@ -399,6 +421,7 @@ export const getMe = async (req, res) => {
         totalBlipPoints: actualPoints,
         status: user.status,
         role: user.role,
+        roles: (user.roles && user.roles.length > 0) ? user.roles : (user.role ? [user.role] : []),
         twoFactorEnabled: user.twoFactorEnabled,
         emailVerified: user.emailVerified || false,
         walletLinked: user.walletLinked || false,

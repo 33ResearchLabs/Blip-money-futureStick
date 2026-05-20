@@ -27,7 +27,7 @@ interface WalletLinkingModalProps {
 export default function WalletLinkingModal({
   isOpen,
   onClose,
-  required = true,
+  required = false,
 }: WalletLinkingModalProps) {
   const { publicKey, connected, disconnect } = useWallet();
   const { linkWallet, user, logout } = useAuth();
@@ -110,7 +110,7 @@ export default function WalletLinkingModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 dark:bg-black/80 backdrop-blur-sm">
+    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 dark:bg-black/80 backdrop-blur-sm">
       <div className="w-full max-w-md bg-white dark:bg-black border border-black/10 dark:border-white/10 rounded-sm shadow-2xl animate-in zoom-in-95 duration-200">
         {/* Header */}
         <div className="relative p-6 border-b border-black/10 dark:border-white/10">

@@ -753,17 +753,8 @@ export default function BlipDashboard() {
   const [isRefreshingPoints, setIsRefreshingPoints] = useState(false);
   const navigate = useNavigate();
 
-  // Show wallet linking modal only if user hasn't linked wallet (first time login)
-  // For subsequent sessions, we just show the banner with "Connect Wallet" button
-  useEffect(() => {
-    if (user && booted) {
-      // Auto-open modal only if wallet has never been linked (first time user)
-      // Otherwise, user can click the banner or card to connect
-      if (!user.walletLinked) {
-        setShowWalletLinkingModal(true);
-      }
-    }
-  }, [user, booted]);
+  // Wallet linking is optional — the modal opens only when the user
+  // explicitly clicks the wallet status card or "Connect Wallet" banner.
 
   // Check reward verification status
   useEffect(() => {
@@ -1021,7 +1012,6 @@ export default function BlipDashboard() {
       <WalletLinkingModal
         isOpen={showWalletLinkingModal}
         onClose={() => setShowWalletLinkingModal(false)}
-        required={!user?.walletLinked}
       />
 
       {/* Points History Modal */}
@@ -1096,6 +1086,16 @@ export default function BlipDashboard() {
             </span>
             <span className="text-sm font-bold text-black dark:text-white">
               {user?.status === "ACTIVE" ? "Active Participant" : "Waitlisted"}
+            </span>
+          </div>
+
+          {/* Protocol Balance */}
+          <div className="bg-white dark:bg-white/5 border border-black/10 dark:border-white/10 p-6 rounded-sm shadow-sm">
+            <span className="text-[9px] font-black uppercase tracking-widest text-black/60 dark:text-white/50 block mb-2">
+              Protocol Balance
+            </span>
+            <span className="text-sm font-bold text-black dark:text-white">
+              {blipPoints.toLocaleString()} pts
             </span>
           </div>
 

@@ -10,6 +10,8 @@ import React, {
 import { useWallet } from "@solana/wallet-adapter-react";
 import { api } from "@/services/api"; // axios instance withCredentials:true
 
+type Role = "USER" | "ADMIN" | "MERCHANT" | "SUPERADMIN";
+
 interface User {
   id: string;
   userName?: string;
@@ -19,7 +21,9 @@ interface User {
   referralCode?: string;
   totalBlipPoints: number;
   status?: string;
-  role?: "USER" | "ADMIN" | "MERCHANT" | "SUPERADMIN";
+  role?: Role;
+  // Additive: one user can hold multiple roles. Empty/missing → fall back to `role`.
+  roles?: Role[];
   twoFactorEnabled?: boolean;
   emailVerified: boolean;
   walletLinked: boolean;

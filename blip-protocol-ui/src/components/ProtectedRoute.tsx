@@ -10,8 +10,15 @@ interface ProtectedRouteProps {
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredRole }) => {
   const { isAuthenticated, isLoading, user } = useAuth();
 
-  const isMerchant = user?.role === "MERCHANT";
-  const isSuperAdmin = user?.role === "SUPERADMIN";
+  // Effective role set: prefer the new `roles[]` array, fall back to legacy
+  // single `role` for users created before the multi-role migration.
+  const effectiveRoles = (user?.roles && user.roles.length > 0)
+    ? user.roles
+    : (user?.role ? [user.role] : []);
+  const hasMerchantAccess = effectiveRoles.includes("MERCHANT");
+  const hasUserAccess = effectiveRoles.includes("USER");
+  const isSuperAdmin = effectiveRoles.includes("SUPERADMIN");
+  const isAdmin = effectiveRoles.includes("ADMIN");
   const loginRedirect = requiredRole === "merchant" ? "/merchant-waitlist" : "/waitlist";
 
   // Show loading while checking authentication
@@ -39,13 +46,13 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requir
   }
 
   // SUPERADMIN and ADMIN can access any dashboard
-  if (isSuperAdmin || user.role === "ADMIN") {
+  if (isSuperAdmin || isAdmin) {
     return <>{children}</>;
   }
-  if (requiredRole === "merchant" && !isMerchant) {
+  if (requiredRole === "merchant" && !hasMerchantAccess) {
     return <Navigate to="/dashboard" replace />;
   }
-  if (requiredRole === "user" && isMerchant) {
+  if (requiredRole === "user" && !hasUserAccess) {
     return <Navigate to="/merchant-dashboard" replace />;
   }
 

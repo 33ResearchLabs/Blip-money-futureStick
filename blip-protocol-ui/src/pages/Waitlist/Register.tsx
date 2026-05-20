@@ -109,13 +109,23 @@ export default function Register({
 
     try {
       // Register on backend - generates verification token and sends email via SES
-      await authApi.register({
+      const response: any = await authApi.register({
         email: formData.email,
         password: formData.password,
         referral_code: formData.referral_code || undefined,
         captchaToken: captchaToken || undefined,
         ...(isMerchant && { role: "merchant" }),
       });
+
+      // Multi-role upgrade path: existing verified user provided matching
+      // password and we added a new role. Backend already issued a session
+      // cookie — log them in and route to the appropriate dashboard.
+      if (response?.code === "ROLE_ADDED" && response?.user) {
+        login(response.user);
+        toast.success(response.message || "Role added to your account.");
+        navigate(isMerchant ? "/merchant-dashboard" : "/dashboard");
+        return;
+      }
 
       toast.success("Verification email sent! Please check your inbox.");
       navigate("/email-verification-pending", {
@@ -135,8 +145,22 @@ export default function Register({
         url: error.config?.url,
       });
 
-      // Email-already-exists → surface a clear toast with a Log in shortcut
-      if (status === 409 || serverCode === "EMAIL_EXISTS") {
+      // Email-already-exists with a wrong password → user is trying to
+      // add a role to an account they don't own (or typed the wrong
+      // password). Send them to login.
+      if (serverCode === "EMAIL_EXISTS_WRONG_PASSWORD" || status === 401) {
+        const loginPath = isMerchant ? "/merchant-login" : "/login";
+        toast.error(
+          serverMessage ||
+            "Email already registered. Log in to your existing account to add this role.",
+          {
+            action: {
+              label: "Log in",
+              onClick: () => navigate(loginPath),
+            },
+          },
+        );
+      } else if (status === 409 || serverCode === "EMAIL_EXISTS") {
         const loginPath = isMerchant ? "/merchant-login" : "/login";
         toast.error("Email already registered. Please log in.", {
           action: {

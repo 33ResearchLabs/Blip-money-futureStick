@@ -1,33 +1,16 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
-  ChevronRight,
-  Globe,
-  Mail,
-  ArrowLeft,
   Loader2,
-  HandCoins,
-  Activity,
   Shield,
   Layers,
   Zap,
-  ShieldCheck,
   ArrowRight,
-  Wallet,
   Gift,
   Users,
-  CheckCircle2,
-  Lock,
-  Eye,
-  EyeOff,
 } from "lucide-react";
-import { WalletConnectButton } from "@/components/wallet/WalletConnectButton";
-import { useWallet } from "@solana/wallet-adapter-react";
-import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
-import { airdropApi } from "@/services/Airdrop";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { twoFactorApi } from "@/services/twoFatctor";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { SEO } from "@/components";
 import { HreflangTags } from "@/components/HreflangTags";
 import { CTAButton } from "@/components/Navbar";
@@ -48,23 +31,16 @@ interface AirdropLoginProps {
 }
 
 const UserLogin = ({ initialView }: AirdropLoginProps) => {
-  const { publicKey, connected, disconnect, connecting } = useWallet();
-  const { toast } = useToast();
-  const { login, isAuthenticated, logout, isLoading, user } = useAuth();
+  const { isAuthenticated, isLoading, user } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   // Navigation & Identity State
   const refFromUrl = searchParams.get("ref") || "";
   const [view, setView] = useState(
     initialView || (refFromUrl ? "waitlist" : "landing"),
   );
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [hasRedirected, setHasRedirected] = useState(false);
 
   // Sync view state with initialView prop when it changes (for route changes)
   useEffect(() => {
@@ -74,278 +50,35 @@ const UserLogin = ({ initialView }: AirdropLoginProps) => {
       setView("landing");
     }
   }, [initialView, refFromUrl]);
-  const [referral_code, setReferralCode] = useState(refFromUrl);
-  const [isConnecting, setIsConnecting] = useState(false);
-  const [hasRedirected, setHasRedirected] = useState(false);
-  const [walletReady, setWalletReady] = useState(false);
-  const [show2FAModal, setShow2FAModal] = useState(false);
-  const [otp, setOtp] = useState("");
-  const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
-  const [pendingEmail, setPendingEmail] = useState("");
 
-  // Derived state from wallet
-  const isWalletConnected = connected;
-  const walletAddress = publicKey
-    ? `${publicKey.toBase58().slice(0, 4)}...${publicKey.toBase58().slice(-4)}`
-    : "";
-
-  // Mouse tracking for parallax
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 2;
-      const y = (e.clientY / window.innerHeight - 0.5) * 2;
-      setMousePosition({ x, y });
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
-
-  // Wait for wallet to finish initializing
-  useEffect(() => {
-    if (connecting) {
-      setWalletReady(false);
-      return;
-    }
-    const timer = setTimeout(() => {
-      setWalletReady(true);
-    }, 500);
-    return () => clearTimeout(timer);
-  }, [connecting, connected]);
-
-  // Redirect if already authenticated and email verified
-  // Wallet connection is NOT required - dashboard handles wallet linking
+  // Only fast-forward away if the user already holds the user role (or is
+  // an admin). A logged-in MERCHANT-only user landing on /login should still
+  // see the form so they can sign in fresh or be guided to /register.
   useEffect(() => {
     if (isLoading) return;
     if (isAuthenticated && user?.emailVerified && !hasRedirected) {
-      const dest = user?.role === "SUPERADMIN" ? "/admin-dashboard" : user?.role === "MERCHANT" ? "/merchant-dashboard" : "/dashboard";
-      setHasRedirected(true);
-      navigate(dest, { replace: true });
+      const effectiveRoles = (user.roles && user.roles.length > 0)
+        ? user.roles
+        : (user.role ? [user.role] : []);
+      if (effectiveRoles.includes("SUPERADMIN")) {
+        setHasRedirected(true);
+        navigate("/admin-dashboard", { replace: true });
+      } else if (effectiveRoles.includes("USER")) {
+        setHasRedirected(true);
+        navigate("/dashboard", { replace: true });
+      }
     }
   }, [isAuthenticated, isLoading, navigate, hasRedirected, user]);
 
-  // Save user data to backend when wallet connects
-  useEffect(() => {
-    const saveUserData = async () => {
-      if (!connected || !publicKey || view !== "connect" || show2FAModal)
-        return;
-
-      setIsConnecting(true);
-
-      try {
-        const response: any = await airdropApi.login({
-          email: email,
-          password: password,
-          referral_code: referral_code,
-          wallet_address: publicKey.toBase58(),
-        });
-
-        if (response.twoFactorRequired) {
-          setPendingEmail(email);
-          setShow2FAModal(true);
-          setIsConnecting(false);
-          return;
-        }
-
-        login({
-          id: response.user?._id,
-          wallet_address: publicKey.toBase58(),
-          email,
-          referralCode: response.user?.referralCode,
-          totalBlipPoints: response.user?.totalBlipPoints || 200,
-          status: response.user?.status,
-          twoFactorEnabled: response.user?.twoFactorEnabled || false,
-          emailVerified: response.user?.emailVerified ?? true,
-          walletLinked: response.user?.walletLinked ?? true,
-        });
-
-        toast({
-          title: "Success! +200 Points",
-          description: "Your account has been created with 200 bonus points!",
-        });
-
-        setTimeout(() => {
-          const dest = response.user?.role === "MERCHANT" ? "/merchant-dashboard" : "/dashboard";
-          navigate(dest, { replace: true });
-          setIsConnecting(false);
-        }, 1000);
-      } catch (error: any) {
-        const errorCode = error.response?.data?.code;
-        const errorMessage = error.response?.data?.message;
-
-        if (
-          errorCode === "WALLET_EMAIL_MISMATCH" ||
-          error.response?.status === 409
-        ) {
-          toast({
-            variant: "destructive",
-            title: "Wallet Already Registered",
-            description:
-              errorMessage ||
-              "This wallet is already registered with a different email. Please use the correct email or disconnect wallet.",
-          });
-          await disconnect();
-          setEmail("");
-          setView("waitlist");
-          setIsConnecting(false);
-          return;
-        }
-
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: errorMessage || "Failed to save data. Please try again.",
-        });
-
-        setIsConnecting(false);
-      }
-    };
-
-    saveUserData();
-  }, [
-    connected,
-    publicKey,
-    view,
-    email,
-    referral_code,
-    toast,
-    login,
-    navigate,
-    disconnect,
-  ]);
-
-  const handleJoinWaitlist = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Validate email
-    if (!email.includes("@")) {
-      toast({
-        variant: "destructive",
-        title: "Invalid Email",
-        description: "Please enter a valid email address",
-      });
-      return;
-    }
-
-    // Validate password
-    if (!password || password.length < 8) {
-      toast({
-        variant: "destructive",
-        title: "Invalid Password",
-        description: "Password must be at least 8 characters long",
-      });
-      return;
-    }
-
-    // Check if password has uppercase, number
-    const hasUppercase = /[A-Z]/.test(password);
-    const hasNumber = /[0-9]/.test(password);
-    if (!hasUppercase || !hasNumber) {
-      toast({
-        variant: "destructive",
-        title: "Weak Password",
-        description:
-          "Password must contain at least 1 uppercase letter and 1 number",
-      });
-      return;
-    }
-
-    // Validate password match
-    if (password !== confirmPassword) {
-      toast({
-        variant: "destructive",
-        title: "Passwords Don't Match",
-        description: "Please make sure both passwords match",
-      });
-      return;
-    }
-
-    // Wallet step removed — send users to the standard email/password Sign In view
-    setView("waitlist");
-  };
-
-  const handleLogout = async () => {
-    try {
-      await disconnect();
-      await logout();
-      toast({
-        title: "Logged out",
-        description: "You have been successfully logged out.",
-      });
-      navigate("/waitlist");
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to logout. Please try again.",
-      });
-    }
-  };
-
-  const handleVerifyLoginOtp = async () => {
-    if (otp.length !== 6) {
-      toast({
-        variant: "destructive",
-        title: "Invalid OTP",
-        description: "Enter a valid 6-digit OTP",
-      });
-      return;
-    }
-
-    try {
-      setIsVerifyingOtp(true);
-      const res: any = await twoFactorApi.verifyOtpLogin({
-        email: pendingEmail,
-        otp,
-      });
-
-      if (!res || !res.user) {
-        throw new Error("Invalid OTP response from server");
-      }
-
-      login({
-        id: res.user._id,
-        wallet_address: publicKey?.toBase58(),
-        email: res.user.email,
-        referralCode: res.user.referralCode,
-        totalBlipPoints: res.user.totalBlipPoints,
-        status: res.user.status,
-        twoFactorEnabled: res.user.twoFactorEnabled || false,
-        emailVerified: res.user.emailVerified ?? true,
-        walletLinked: res.user.walletLinked ?? false,
-      });
-
-      setShow2FAModal(false);
-      setOtp("");
-
-      toast({
-        title: "Login Successful",
-        description: "OTP verified successfully",
-      });
-
-      const dest2fa = res.user?.role === "MERCHANT" ? "/merchant-dashboard" : "/dashboard";
-      navigate(dest2fa);
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "OTP Failed",
-        description:
-          error?.message ||
-          error?.response?.data?.message ||
-          "OTP verification failed",
-      });
-    } finally {
-      setIsVerifyingOtp(false);
-    }
-  };
-
-  // Loading state
-  if (isLoading || connecting || !walletReady) {
+  // Loading state — wallet checks removed; wallet linking now happens entirely
+  // on the dashboard, not during the waitlist sign-in flow.
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-[#FAF8F5] dark:bg-black flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <Loader2 className="w-8 h-8 text-[#ffffff] animate-spin" />
           <span className="text-black/50 dark:text-white/50 text-sm">
-            {isLoading ? "Loading..." : "Connecting wallet..."}
+            Loading...
           </span>
         </div>
       </div>
@@ -642,143 +375,8 @@ const UserLogin = ({ initialView }: AirdropLoginProps) => {
             </AuthPageLayout>
           )}
 
-          {/* CONNECT WALLET VIEW */}
-          {false && view === "connect" && !isAuthenticated && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="max-w-lg mx-auto py-16"
-            >
-              <div className="mb-12 text-center">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.1 }}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
-                  style={{
-                    background: "rgba(0,0,0,0.05)",
-                    border: "1px solid rgba(0,0,0,0.15)",
-                  }}
-                >
-                  <span className="text-[11px] font-semibold text-[#ffffff] uppercase tracking-wider">
-                    Step 2 of 2
-                  </span>
-                </motion.div>
-                <h2 className="text-3xl md:text-4xl font-bold text-black dark:text-white mb-3">
-                  Connect Wallet
-                </h2>
-                <p className="text-black/50 dark:text-white/50">
-                  Link your Solana wallet to complete registration
-                </p>
-              </div>
-
-              <div className="rounded-3xl bg-white/80 dark:bg-white/[0.02] border border-black/[0.06] dark:border-white/[0.06] p-8 relative overflow-hidden">
-                {/* Loading overlay */}
-                {isConnecting && (
-                  <div className="absolute inset-0 bg-black/80 backdrop-blur-sm z-10 flex flex-col items-center justify-center gap-4 rounded-3xl">
-                    <Loader2
-                      className="text-[#ffffff] animate-spin"
-                      size={40}
-                    />
-                    <span className="text-sm text-white/70 dark:text-white/70">
-                      Creating your account...
-                    </span>
-                  </div>
-                )}
-
-                {/* Email display */}
-                <div className="text-center mb-8">
-                  <p className="text-black/50 dark:text-white/50 text-sm">
-                    Authorized account:{" "}
-                    <span className="text-black dark:text-white font-medium">
-                      {email}
-                    </span>
-                  </p>
-                </div>
-
-                {/* Wallet connect button */}
-                <div className="flex justify-center mb-8">
-                  <WalletConnectButton />
-                </div>
-
-                {/* Trust badges */}
-                <div className="flex items-center justify-center gap-8 pt-6 border-t border-black/[0.06] dark:border-white/[0.06]">
-                  <div className="flex flex-col items-center">
-                    <ShieldCheck
-                      size={18}
-                      className="text-black/30 dark:text-white/30 mb-2"
-                    />
-                    <span className="text-[10px] text-black/30 dark:text-white/30 uppercase tracking-wider">
-                      Secure
-                    </span>
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <Globe
-                      size={18}
-                      className="text-black/30 dark:text-white/30 mb-2"
-                    />
-                    <span className="text-[10px] text-black/30 dark:text-white/30 uppercase tracking-wider">
-                      Global
-                    </span>
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <Zap
-                      size={18}
-                      className="text-black/30 dark:text-white/30 mb-2"
-                    />
-                    <span className="text-[10px] text-black/30 dark:text-white/30 uppercase tracking-wider">
-                      Instant
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <button
-                onClick={() => setView("waitlist")}
-                className="mt-8 flex items-center justify-center gap-2 text-black/40 dark:text-white/40 hover:text-black/60 dark:hover:text-white/60 text-sm mx-auto transition-colors"
-              >
-                <ArrowLeft size={14} /> Change Email
-              </button>
-            </motion.div>
-          )}
         </main>
       </div>
-
-      {/* 2FA Modal */}
-      {show2FAModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="w-full max-w-sm  border border-black/10 dark:border-white/10 rounded-3xl p-6"
-          >
-            <h3 className="text-lg font-semibold text-black dark:text-white mb-2">
-              Two-Factor Authentication
-            </h3>
-            <p className="text-sm text-black/50 dark:text-white/50 mb-6">
-              Enter the 6-digit code from Google Authenticator
-            </p>
-
-            <input
-              type="text"
-              maxLength={6}
-              value={otp}
-              onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
-              className="w-full bg-white dark:bg-white/[0.03] border border-black/10 dark:border-white/10 px-4 py-3 text-black dark:text-white rounded-xl text-center text-xl tracking-[0.3em] mb-4 focus:outline-none focus:border-[#ffffff]/50"
-              placeholder="000000"
-            />
-
-            <button
-              onClick={handleVerifyLoginOtp}
-              disabled={isVerifyingOtp}
-              className="w-full bg-[#ffffff] text-black py-3 rounded-full font-semibold disabled:opacity-50 hover:bg-[#e5e5e5] transition-colors"
-            >
-              {isVerifyingOtp ? "Verifying..." : "Verify & Login"}
-            </button>
-          </motion.div>
-        </div>
-      )}
     </>
   );
 };

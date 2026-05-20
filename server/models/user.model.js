@@ -93,6 +93,15 @@ const userSchema = new mongoose.Schema(
       default: "USER",
     },
 
+    // Additive: one user can hold multiple roles (e.g. both USER and MERCHANT).
+    // `role` above stays as the primary/original role and continues to drive
+    // points + admin behavior; `roles` only controls dashboard access.
+    roles: {
+      type: [String],
+      enum: ["USER", "ADMIN", "MERCHANT", "SUPERADMIN"],
+      default: [],
+    },
+
     totalBlipPoints: {
       type: Number,
       default: 200, // 🔥 cache for fast reads

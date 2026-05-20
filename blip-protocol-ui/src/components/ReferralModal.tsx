@@ -106,7 +106,7 @@ export default function ReferralModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 dark:bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-black/50 dark:bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
       <div
         className="
           bg-white dark:bg-[#0A0A0A]

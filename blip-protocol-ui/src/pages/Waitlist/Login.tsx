@@ -14,15 +14,63 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
   const isMerchant = role === "merchant";
   const registerPath = isMerchant ? "/merchant-register" : "/register";
 
-  // Determine dashboard from the server response user role, or fall back to prop/context
+  const extractRoles = (candidate: any): string[] => {
+    const list: string[] = Array.isArray(candidate?.roles) && candidate.roles.length > 0
+      ? candidate.roles
+      : (candidate?.role ? [candidate.role] : []);
+    return list.map((r: string) => String(r).toUpperCase());
+  };
+
+  // Determine dashboard from the server response: respect the login entry
+  // point (isMerchant) when the user actually has that role. Falls back to
+  // whichever role they do have, with legacy single-`role` support.
   const getDashboardForUser = (u?: any) => {
-    if (u?.role === "SUPERADMIN" || user?.role === "SUPERADMIN")
-      return "/admin-dashboard";
-    if (u?.role === "MERCHANT" || u?.role === "merchant")
-      return "/merchant-dashboard";
-    if (user?.role === "MERCHANT") return "/merchant-dashboard";
-    if (isMerchant) return "/merchant-dashboard";
+    const candidate = u || user;
+    const normalized = extractRoles(candidate);
+
+    if (normalized.includes("SUPERADMIN")) return "/admin-dashboard";
+
+    const hasMerchant = normalized.includes("MERCHANT");
+    const hasUser = normalized.includes("USER");
+
+    // Respect the entry point if the user actually has that role.
+    if (isMerchant && hasMerchant) return "/merchant-dashboard";
+    if (!isMerchant && hasUser) return "/dashboard";
+
+    // Fallback: send them to whichever they do have.
+    if (hasMerchant) return "/merchant-dashboard";
     return "/dashboard";
+  };
+
+  // True when the user authenticated successfully but their account doesn't
+  // have the role required by THIS login entry point (eg. they hit
+  // /merchant-login but their account is USER-only).
+  const isMissingRequiredRole = (u: any) => {
+    const normalized = extractRoles(u);
+    // Admins bypass — they can reach any dashboard.
+    if (normalized.includes("SUPERADMIN") || normalized.includes("ADMIN")) return false;
+    if (isMerchant) return !normalized.includes("MERCHANT");
+    return !normalized.includes("USER");
+  };
+
+  // Handle the missing-role case uniformly across regular login, 2FA, and
+  // recovery flows: toast a clear message and send them to the matching
+  // register page (which can upgrade their existing account when they
+  // re-submit with the same password).
+  const handleMissingRole = () => {
+    if (isMerchant) {
+      toast.error(
+        "This account isn't registered as a merchant. Sign up as a merchant with the same email and password — we'll add merchant access.",
+        { duration: 6000 },
+      );
+      navigate("/merchant-register", { replace: true });
+    } else {
+      toast.error(
+        "This account doesn't have user access yet. Sign up as a user with the same email and password to upgrade.",
+        { duration: 6000 },
+      );
+      navigate("/register", { replace: true });
+    }
   };
 
   // Redirect already-authenticated users to dashboard
@@ -86,6 +134,14 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
         return;
       }
 
+      // Block entry into the wrong portal: if you hit /merchant-login but
+      // your account isn't a merchant (or vice versa), don't sign you in —
+      // route to the register page so you can upgrade the same account.
+      if (isMissingRequiredRole(response.user)) {
+        handleMissingRole();
+        return;
+      }
+
       // Regular login success - redirect based on server response role
       login(response.user);
       toast.success("Login successful!");
@@ -126,6 +182,11 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
         otp: twoFactorCode,
       });
 
+      if (isMissingRequiredRole(response.user)) {
+        handleMissingRole();
+        return;
+      }
+
       login(response.user);
       toast.success("Login successful!");
       navigate(getDashboardForUser(response.user));
@@ -157,6 +218,11 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
 
       if (response.warning) {
         toast.warning(response.warning);
+      }
+
+      if (isMissingRequiredRole(response.user)) {
+        handleMissingRole();
+        return;
       }
 
       login(response.user);

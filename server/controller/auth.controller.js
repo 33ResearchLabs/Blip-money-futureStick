@@ -81,13 +81,126 @@ export const registerWithEmail = async (req, res) => {
       });
     }
 
-    const existingUser = await User.findOne({ email: email.toLowerCase() });
+    const requestedRole = isMerchant ? "MERCHANT" : "USER";
+
+    const existingUser = await User.findOne({ email: email.toLowerCase() }).select("+password");
     if (existingUser) {
-      console.log(`[register] email already exists: ${email} (verified=${!!existingUser.emailVerified})`);
-      return res.status(409).json({
-        success: false,
-        code: "EMAIL_EXISTS",
-        message: "Email already registered. Please log in.",
+      console.log(`[register] email already exists: ${email} (verified=${!!existingUser.emailVerified}) role=${existingUser.role}`);
+
+      // If existing account is unverified, keep the old behavior — they need
+      // to complete the original verification first.
+      if (!existingUser.emailVerified) {
+        return res.status(409).json({
+          success: false,
+          code: "EMAIL_EXISTS",
+          message: "Email already registered. Please verify your email and log in.",
+        });
+      }
+
+      // Existing roles (with backward-compat fallback to the legacy single `role`).
+      const existingRoles = (existingUser.roles && existingUser.roles.length > 0)
+        ? existingUser.roles
+        : (existingUser.role ? [existingUser.role] : []);
+
+      // Already has this role — nothing to add.
+      if (existingRoles.includes(requestedRole)) {
+        return res.status(409).json({
+          success: false,
+          code: "EMAIL_EXISTS",
+          message: "Email already registered. Please log in.",
+        });
+      }
+
+      // Verify they actually own the account by checking the password they
+      // submitted matches the existing hash. This is the merchant-upgrade
+      // (or user-upgrade) entry point.
+      const passwordMatches = await bcrypt.compare(password, existingUser.password);
+      if (!passwordMatches) {
+        return res.status(401).json({
+          success: false,
+          code: "EMAIL_EXISTS_WRONG_PASSWORD",
+          message: "Email already registered. Log in to your existing account to add this role.",
+        });
+      }
+
+      // Add the new role. `role` stays as-is (primary/original role),
+      // points logic + admin checks are unaffected.
+      const updatedRoles = Array.from(new Set([...existingRoles, requestedRole]));
+      existingUser.roles = updatedRoles;
+
+      // Award the merchant join bonus the first time MERCHANT is added on
+      // top of an existing USER account. Without this, upgraders only see
+      // their original user-level register bonus (200) and miss the 2,000
+      // merchant founding bonus that direct merchant signups receive.
+      if (requestedRole === "MERCHANT" && !existingRoles.includes("MERCHANT")) {
+        const alreadyHasMerchantLog = await BlipPointLog.exists({
+          userId: existingUser._id,
+          event: "MERCHANT_REGISTER",
+        });
+
+        if (!alreadyHasMerchantLog) {
+          const existingRegisterLog = await BlipPointLog.findOne({
+            userId: existingUser._id,
+            event: "REGISTER",
+          });
+          const alreadyCredited = existingRegisterLog?.bonusPoints || 0;
+          const merchantBonusDelta = Math.max(
+            merchantBlipPoints.register - alreadyCredited,
+            0,
+          );
+
+          if (merchantBonusDelta > 0) {
+            await BlipPointLog.create({
+              userId: existingUser._id,
+              bonusPoints: merchantBonusDelta,
+              event: "MERCHANT_REGISTER",
+              totalPoints: existingUser.totalBlipPoints || 0,
+            });
+            await UserBlipPoints.findOneAndUpdate(
+              { userId: existingUser._id },
+              { $inc: { points: merchantBonusDelta } },
+              { upsert: true },
+            );
+            existingUser.totalBlipPoints =
+              (existingUser.totalBlipPoints || 0) + merchantBonusDelta;
+          }
+        }
+      }
+
+      await existingUser.save();
+
+      // Issue a session cookie so the upgrade flow lands them logged in,
+      // ready to navigate to the newly-granted dashboard.
+      const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET, {
+        expiresIn: "7d",
+      });
+      res.cookie("token", token, {
+        httpOnly: true,
+        sameSite: production ? "none" : "lax",
+        secure: production ? true : false,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      });
+
+      return res.status(200).json({
+        success: true,
+        code: "ROLE_ADDED",
+        message: requestedRole === "MERCHANT"
+          ? "Merchant role added to your account."
+          : "User role added to your account.",
+        user: {
+          id: existingUser._id,
+          email: existingUser.email,
+          wallet_address: existingUser.wallet_address,
+          phone: existingUser.phone,
+          referralCode: existingUser.referralCode,
+          totalBlipPoints: existingUser.totalBlipPoints,
+          status: existingUser.status,
+          role: existingUser.role,
+          roles: updatedRoles,
+          twoFactorEnabled: existingUser.twoFactorEnabled || false,
+          emailVerified: existingUser.emailVerified,
+          walletLinked: existingUser.walletLinked || false,
+        },
       });
     }
 
@@ -126,6 +239,7 @@ export const registerWithEmail = async (req, res) => {
       totalBlipPoints: registerPoints,
       status: "WAITLISTED",
       role: isMerchant ? "MERCHANT" : "USER",
+      roles: [isMerchant ? "MERCHANT" : "USER"],
     });
 
     // Create UserBlipPoints entry
@@ -353,6 +467,7 @@ export const verifyEmailOTP = async (req, res) => {
       totalBlipPoints: otpRegisterPoints,
       status: "WAITLISTED",
       role: pendingIsMerchant ? "MERCHANT" : "USER",
+      roles: [pendingIsMerchant ? "MERCHANT" : "USER"],
     });
 
     // Create UserBlipPoints entry
@@ -436,6 +551,7 @@ export const verifyEmailOTP = async (req, res) => {
         totalBlipPoints: newUser.totalBlipPoints,
         status: newUser.status,
         role: newUser.role,
+        roles: (newUser.roles && newUser.roles.length > 0) ? newUser.roles : (newUser.role ? [newUser.role] : []),
         twoFactorEnabled: newUser.twoFactorEnabled || false,
         emailVerified: newUser.emailVerified,
         walletLinked: newUser.walletLinked || false,
@@ -628,6 +744,7 @@ export const loginWithEmail = async (req, res) => {
       totalBlipPoints: user.totalBlipPoints,
       status: user.status,
       role: user.role,
+      roles: (user.roles && user.roles.length > 0) ? user.roles : (user.role ? [user.role] : []),
       twoFactorEnabled: user.twoFactorEnabled,
       emailVerified: user.emailVerified,
       walletLinked: user.walletLinked,
@@ -813,6 +930,7 @@ export const linkWallet = async (req, res) => {
         totalBlipPoints: user.totalBlipPoints,
         status: user.status,
         role: user.role,
+        roles: (user.roles && user.roles.length > 0) ? user.roles : (user.role ? [user.role] : []),
         twoFactorEnabled: user.twoFactorEnabled || false,
         emailVerified: user.emailVerified || false,
         walletLinked: true,
@@ -867,6 +985,7 @@ export const unlinkWallet = async (req, res) => {
         totalBlipPoints: user.totalBlipPoints,
         status: user.status,
         role: user.role,
+        roles: (user.roles && user.roles.length > 0) ? user.roles : (user.role ? [user.role] : []),
         twoFactorEnabled: user.twoFactorEnabled || false,
         emailVerified: user.emailVerified || false,
         walletLinked: false,
