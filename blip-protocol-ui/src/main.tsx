@@ -51,7 +51,7 @@ if (import.meta.env.DEV) {
   console.info = wrap(console.info);
 }
 
-import { createRoot } from "react-dom/client";
+import { createRoot, hydrateRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
 import { HelmetProvider } from "react-helmet-async";
@@ -81,10 +81,20 @@ window.addEventListener("unhandledrejection", (e) => {
   window.location.reload();
 });
 
-createRoot(document.getElementById("root")!).render(
+const rootEl = document.getElementById("root")!;
+const app = (
   <ErrorBoundary>
     <HelmetProvider>
       <App />
     </HelmetProvider>
   </ErrorBoundary>
 );
+
+// react-snap prerenders pages to static HTML. When that HTML loads in a real
+// browser, we hydrate instead of replacing the DOM. If root is empty (no
+// prerender for this route), fall back to a normal mount.
+if (rootEl.hasChildNodes()) {
+  hydrateRoot(rootEl, app);
+} else {
+  createRoot(rootEl).render(app);
+}
