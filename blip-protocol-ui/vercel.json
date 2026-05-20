@@ -4,7 +4,13 @@
   "framework": "vite",
   "redirects": [
     { "source": "/blip-rates", "destination": "https://p2prate.live", "permanent": true },
-    { "source": "/blip-rates/:path*", "destination": "https://p2prate.live/:path*", "permanent": true }
+    { "source": "/blip-rates/:path*", "destination": "https://p2prate.live/:path*", "permanent": true },
+    { "source": "/ae", "destination": "/", "permanent": true },
+    { "source": "/ae/:path*", "destination": "/:path*", "permanent": true },
+    { "source": "/usdt-to-inr", "destination": "/usdt-to-inr-p2p", "permanent": true },
+    { "source": "/reward", "destination": "/rewards", "permanent": true },
+    { "source": "/protocol", "destination": "/how-it-works", "permanent": true },
+    { "source": "/cryptoToAed", "destination": "/crypto-to-aed", "permanent": true }
   ],
   "rewrites": [
     { "source": "/api/:path*", "destination": "/api/:path*" },
