@@ -316,6 +316,16 @@ const App = () => (
                     <Route path="/usdt-to-inr-via-upi" element={<PseoCorridor />} />
                     <Route path="/usdt-to-aed-without-kyc" element={<PseoCorridor />} />
                     <Route path="/usdt-to-inr-1-minute-settlement" element={<PseoCorridor />} />
+                    <Route path="/binance-p2p-alternative-india" element={<PseoCorridor />} />
+                    <Route path="/wazirx-p2p-alternative" element={<PseoCorridor />} />
+                    <Route path="/cheapest-way-to-convert-usdt-to-inr" element={<PseoCorridor />} />
+                    <Route path="/usdt-to-inr-no-fees" element={<PseoCorridor />} />
+                    <Route path="/instant-usdt-to-bank-transfer-india" element={<PseoCorridor />} />
+                    <Route path="/crypto-to-upi-instant" element={<PseoCorridor />} />
+                    <Route path="/usdc-to-inr-without-kyc" element={<PseoCorridor />} />
+                    <Route path="/btc-to-inr-without-kyc" element={<PseoCorridor />} />
+                    <Route path="/sol-to-inr-without-kyc" element={<PseoCorridor />} />
+                    <Route path="/is-usdt-to-inr-legal-in-india" element={<PseoCorridor />} />
 
                     {/* Rates moved to p2prate.live — Vercel handles 308 redirects via vercel.json */}
 

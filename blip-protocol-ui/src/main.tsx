@@ -57,6 +57,30 @@ import "./index.css";
 import { HelmetProvider } from "react-helmet-async";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 
+// Recover from stale lazy-chunk references after a deploy.
+// When a user has an old index.html cached but the chunk hash has changed,
+// dynamic imports throw. Detect once per session and hard-reload.
+const STALE_CHUNK_KEY = "blip-stale-chunk-reload";
+const isChunkError = (msg: string) =>
+  msg.includes("Failed to fetch dynamically imported module") ||
+  msg.includes("Importing a module script failed") ||
+  msg.includes("error loading dynamically imported module");
+
+window.addEventListener("error", (e) => {
+  if (!e.message || !isChunkError(e.message)) return;
+  if (sessionStorage.getItem(STALE_CHUNK_KEY)) return;
+  sessionStorage.setItem(STALE_CHUNK_KEY, "1");
+  window.location.reload();
+});
+
+window.addEventListener("unhandledrejection", (e) => {
+  const msg = String(e.reason?.message ?? e.reason ?? "");
+  if (!isChunkError(msg)) return;
+  if (sessionStorage.getItem(STALE_CHUNK_KEY)) return;
+  sessionStorage.setItem(STALE_CHUNK_KEY, "1");
+  window.location.reload();
+});
+
 createRoot(document.getElementById("root")!).render(
   <ErrorBoundary>
     <HelmetProvider>

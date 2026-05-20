@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Crypto VC Funding — Stablecoins & Off-Ramp (90d)</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root{--bg:#0b0d10;--panel:#13171c;--line:#1f262e;--text:#e6edf3;--muted:#8b949e;--accent:#4ade80;--bad:#f87171;--warn:#fbbf24}
+  *{box-sizing:border-box}
+  body{margin:0;font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,sans-serif;background:var(--bg);color:var(--text)}
+  header{padding:24px 28px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px}
+  h1{margin:0;font-size:20px;font-weight:600;letter-spacing:-.01em}
+  .sub{color:var(--muted);font-size:13px;margin-top:4px}
+  .status{font-size:12px;color:var(--muted)}
+  main{padding:20px 28px 60px;display:grid;gap:16px;grid-template-columns:repeat(12,1fr)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px}
+  .card h2{margin:0 0 8px;font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+  .big{font-size:24px;font-weight:600}
+  .delta{font-size:12px;margin-top:4px;color:var(--muted)}
+  .pos{color:var(--accent)} .neg{color:var(--bad)}
+  .span3{grid-column:span 3}.span4{grid-column:span 4}.span6{grid-column:span 6}.span8{grid-column:span 8}.span12{grid-column:span 12}
+  @media (max-width:1000px){.span3,.span4,.span6,.span8{grid-column:span 12}}
+  canvas{width:100%!important;height:300px!important}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--muted);font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:.06em;position:sticky;top:0;background:var(--panel)}
+  td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .scroll{max-height:560px;overflow-y:auto}
+  .tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;margin-right:4px}
+  .t-stable{background:#26a17b22;color:#26a17b}
+  .t-ramp{background:#f7931a22;color:#f7931a}
+  .t-pay{background:#2775ca22;color:#2775ca}
+  .t-infra{background:#7c3aed22;color:#a78bfa}
+  .t-other{background:#33333322;color:var(--muted)}
+  .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+  .filters button{background:#1f262e;border:1px solid #2a323b;color:var(--text);padding:6px 12px;border-radius:6px;font-size:12px;cursor:pointer}
+  .filters button.on{background:#4ade8022;border-color:#4ade80;color:#4ade80}
+  .note{font-size:12px;color:var(--muted);line-height:1.5}
+  .note a{color:#79c0ff}
+  a{color:#79c0ff;text-decoration:none}
+  a:hover{text-decoration:underline}
+  .lead{font-size:12px;color:var(--muted)}
+  .empty{padding:30px;text-align:center;color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Crypto VC Funding — Stablecoins, P2P & Off-Ramp Focus</h1>
+    <div class="sub">Last 90 days · live from DefiLlama Raises (free, public)</div>
+  </div>
+  <div class="status" id="status">Loading…</div>
+</header>
+
+<main>
+  <div class="card span3"><h2>Total Raised (90d)</h2><div class="big" id="kpi-total">—</div><div class="delta" id="kpi-total-d">across filtered sectors</div></div>
+  <div class="card span3"><h2># of Rounds</h2><div class="big" id="kpi-count">—</div><div class="delta">filtered rounds</div></div>
+  <div class="card span3"><h2>Median Round</h2><div class="big" id="kpi-median">—</div><div class="delta">where amount disclosed</div></div>
+  <div class="card span3"><h2>Largest Round</h2><div class="big" id="kpi-max">—</div><div class="delta" id="kpi-max-name">&nbsp;</div></div>
+
+  <div class="card span8">
+    <h2>Weekly Funding Volume — by sector</h2>
+    <canvas id="chart-weekly"></canvas>
+  </div>
+  <div class="card span4">
+    <h2>Sector Mix (90d)</h2>
+    <canvas id="chart-sector"></canvas>
+  </div>
+
+  <div class="card span6">
+    <h2>Top Companies by Raise</h2>
+    <div class="scroll"><table id="tbl-top"><thead><tr>
+      <th>Company</th><th>Sector</th><th class="num">Amount</th><th>Stage</th>
+    </tr></thead><tbody></tbody></table></div>
+  </div>
+  <div class="card span6">
+    <h2>Most Active Investors</h2>
+    <div class="scroll"><table id="tbl-inv"><thead><tr>
+      <th>Investor</th><th class="num">Deals</th><th class="num">Total $ (where disclosed)</th>
+    </tr></thead><tbody></tbody></table></div>
+  </div>
+
+  <div class="card span12">
+    <h2>All Rounds — Filter by Sector</h2>
+    <div class="filters" id="filters"></div>
+    <div class="scroll"><table id="tbl-all"><thead><tr>
+      <th>Date</th><th>Company</th><th>Sector</th><th class="num">Amount</th><th>Stage</th><th>Lead / Notable</th>
+    </tr></thead><tbody></tbody></table></div>
+    <div class="note" style="margin-top:10px">
+      Sectors classified heuristically from DefiLlama category + company description.
+      <b>Stablecoin</b> = issuers, infrastructure & yield. <b>Off-Ramp</b> = crypto-to-cash, P2P, remittance. <b>Payments</b> = merchant rails, cards, B2B settlement. <b>Infra</b> = custody, compliance, on-chain tooling that powers the above.
+      Source: <a href="https://defillama.com/raises" target="_blank">defillama.com/raises</a>. Amounts in USD. Undisclosed rounds counted but excluded from totals.
+    </div>
+  </div>
+</main>
+
+<script>
+const status = t => document.getElementById('status').textContent = t;
+const fmtUSD = n => {
+  if (n == null || isNaN(n) || n === 0) return '—';
+  const a = Math.abs(n);
+  if (a >= 1e9) return '$' + (n/1e9).toFixed(2) + 'B';
+  if (a >= 1e6) return '$' + (n/1e6).toFixed(1) + 'M';
+  if (a >= 1e3) return '$' + (n/1e3).toFixed(0) + 'K';
+  return '$' + n.toFixed(0);
+};
+const fmtDate = ts => new Date(ts*1000).toISOString().slice(0,10);
+
+// Classify each raise
+const STABLE_KW = /stable|usd[ct]|peg|yield.?bear|treasur|t.?bill|reserv|tokenized.?dollar|rwa.?dollar|usdy|pyusd|fdusd/i;
+const RAMP_KW  = /off.?ramp|on.?ramp|p2p|remittan|cash.?out|payout|fiat.?gateway|fx|cross.?border|money.?transfer|local.?bitcoin|crypto.?to.?cash|paxful|moonpay|transak|ramp|mercuryo/i;
+const PAY_KW   = /payment|merchant|checkout|card|payroll|invoice|settle|b2b.?pay|acquir|pos\b/i;
+const INFRA_KW = /custod|compliance|kyc|aml|orchestr|wallet.?as.?a.?service|api|infrastructure|node|rpc|oracle|bridge/i;
+
+function classify(r){
+  const blob = ((r.name||'') + ' ' + (r.description||'') + ' ' + (r.category||'') + ' ' + ((r.sector||[]).join(' '))).toLowerCase();
+  if (STABLE_KW.test(blob)) return 'Stablecoin';
+  if (RAMP_KW.test(blob))   return 'Off-Ramp / P2P';
+  if (PAY_KW.test(blob))    return 'Payments';
+  if (INFRA_KW.test(blob))  return 'Infra';
+  return 'Other';
+}
+
+const SECTOR_COLORS = {
+  'Stablecoin':'#26a17b',
+  'Off-Ramp / P2P':'#f7931a',
+  'Payments':'#2775ca',
+  'Infra':'#a78bfa',
+  'Other':'#6b7280'
+};
+const FOCUS = new Set(['Stablecoin','Off-Ramp / P2P','Payments']);
+let activeSectors = new Set(['Stablecoin','Off-Ramp / P2P','Payments']);
+let allRaises = [];
+
+async function load(){
+  status('Fetching DefiLlama raises…');
+  let json;
+  try {
+    json = await fetch('https://api.llama.fi/raises').then(r=>r.json());
+  } catch(e){ status('Failed: '+e.message); return; }
+
+  const cutoff = Math.floor(Date.now()/1000) - 90*86400;
+  const raises = (json.raises||[]).filter(r => r.date >= cutoff);
+  raises.forEach(r => r._sector = classify(r));
+  allRaises = raises.sort((a,b)=>b.date-a.date);
+
+  status('Loaded ' + raises.length + ' raises · last 90d');
+  renderKPIs();
+  renderCharts();
+  renderTop();
+  renderInvestors();
+  renderFilters();
+  renderAll();
+}
+
+function filtered(){ return allRaises.filter(r => activeSectors.has(r._sector)); }
+
+function renderKPIs(){
+  const f = filtered();
+  const amounts = f.map(r=>r.amount||0).filter(x=>x>0);
+  const total = amounts.reduce((a,c)=>a+c,0) * 1e6; // DefiLlama amounts are in $M
+  const sorted = [...amounts].sort((a,b)=>a-b);
+  const median = sorted.length ? sorted[Math.floor(sorted.length/2)] * 1e6 : 0;
+  const max = f.reduce((m,r)=> (r.amount||0) > (m.amount||0) ? r : m, {amount:0});
+
+  document.getElementById('kpi-total').textContent = fmtUSD(total);
+  document.getElementById('kpi-count').textContent = f.length.toString();
+  document.getElementById('kpi-median').textContent = fmtUSD(median);
+  document.getElementById('kpi-max').textContent = fmtUSD((max.amount||0)*1e6);
+  document.getElementById('kpi-max-name').textContent = max.name || '';
+}
+
+let chartWeekly, chartSector;
+function renderCharts(){
+  const f = filtered();
+  // weekly buckets, last 13 weeks
+  const now = Date.now();
+  const weeks = [];
+  for (let i=12;i>=0;i--){
+    const end = now - i*7*86400*1000;
+    weeks.push({label:new Date(end).toISOString().slice(5,10), end:Math.floor(end/1000)});
+  }
+  const sectors = [...new Set(f.map(r=>r._sector))];
+  const datasets = sectors.map(s=>{
+    const data = weeks.map((w,i)=>{
+      const start = i===0 ? 0 : weeks[i-1].end;
+      const sum = f.filter(r=>r._sector===s && r.date>start && r.date<=w.end)
+                   .reduce((a,c)=>a+(c.amount||0),0) * 1e6;
+      return sum;
+    });
+    return {label:s, data, backgroundColor:SECTOR_COLORS[s]||'#888'};
+  });
+
+  if(chartWeekly) chartWeekly.destroy();
+  chartWeekly = new Chart(document.getElementById('chart-weekly'),{
+    type:'bar',
+    data:{labels:weeks.map(w=>w.label), datasets},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#e6edf3'}},tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmtUSD(c.parsed.y)}}},
+      scales:{
+        x:{stacked:true,ticks:{color:'#8b949e'},grid:{display:false}},
+        y:{stacked:true,ticks:{color:'#8b949e',callback:v=>fmtUSD(v)},grid:{color:'#1f262e'}}
+      }
+    }
+  });
+
+  // pie
+  const sectorTotals = {};
+  f.forEach(r=>{ sectorTotals[r._sector] = (sectorTotals[r._sector]||0) + (r.amount||0)*1e6; });
+  const labels = Object.keys(sectorTotals);
+  if(chartSector) chartSector.destroy();
+  chartSector = new Chart(document.getElementById('chart-sector'),{
+    type:'doughnut',
+    data:{labels, datasets:[{data:labels.map(l=>sectorTotals[l]),
+      backgroundColor:labels.map(l=>SECTOR_COLORS[l]||'#888'),borderColor:'#13171c',borderWidth:2}]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom',labels:{color:'#e6edf3',font:{size:11}}},
+        tooltip:{callbacks:{label:c=>c.label+': '+fmtUSD(c.parsed)}}}
+    }
+  });
+}
+
+function renderTop(){
+  const tbody = document.querySelector('#tbl-top tbody');
+  const top = [...filtered()].sort((a,b)=>(b.amount||0)-(a.amount||0)).slice(0,15);
+  if (!top.length){ tbody.innerHTML = '<tr><td colspan="4" class="empty">No rounds</td></tr>'; return; }
+  tbody.innerHTML = top.map(r=>`
+    <tr>
+      <td>${r.source?`<a href="${r.source}" target="_blank">${r.name||'—'}</a>`:r.name||'—'}<div class="lead">${(r.description||'').slice(0,80)}</div></td>
+      <td><span class="tag t-${tagCls(r._sector)}">${r._sector}</span></td>
+      <td class="num">${fmtUSD((r.amount||0)*1e6)}</td>
+      <td>${r.round||'—'}</td>
+    </tr>`).join('');
+}
+
+function tagCls(s){
+  return s==='Stablecoin'?'stable':s==='Off-Ramp / P2P'?'ramp':s==='Payments'?'pay':s==='Infra'?'infra':'other';
+}
+
+function renderInvestors(){
+  const tbody = document.querySelector('#tbl-inv tbody');
+  const map = {};
+  filtered().forEach(r=>{
+    const investors = [...(r.leadInvestors||[]),...(r.otherInvestors||[])];
+    investors.forEach(inv=>{
+      if(!map[inv]) map[inv] = {deals:0,total:0};
+      map[inv].deals++;
+      map[inv].total += (r.amount||0)*1e6;
+    });
+  });
+  const top = Object.entries(map).sort((a,b)=>b[1].deals-a[1].deals).slice(0,20);
+  if (!top.length){ tbody.innerHTML = '<tr><td colspan="3" class="empty">No investor data</td></tr>'; return; }
+  tbody.innerHTML = top.map(([inv,v])=>`<tr><td>${inv}</td><td class="num">${v.deals}</td><td class="num">${fmtUSD(v.total)}</td></tr>`).join('');
+}
+
+function renderFilters(){
+  const sectors = ['Stablecoin','Off-Ramp / P2P','Payments','Infra','Other'];
+  document.getElementById('filters').innerHTML = sectors.map(s=>
+    `<button data-s="${s}" class="${activeSectors.has(s)?'on':''}">${s}</button>`
+  ).join('');
+  document.querySelectorAll('#filters button').forEach(b=>{
+    b.onclick = () => {
+      const s = b.dataset.s;
+      if(activeSectors.has(s)) activeSectors.delete(s); else activeSectors.add(s);
+      b.classList.toggle('on');
+      renderKPIs(); renderCharts(); renderTop(); renderInvestors(); renderAll();
+    };
+  });
+}
+
+function renderAll(){
+  const tbody = document.querySelector('#tbl-all tbody');
+  const f = filtered();
+  if (!f.length){ tbody.innerHTML = '<tr><td colspan="6" class="empty">No rounds match filter</td></tr>'; return; }
+  tbody.innerHTML = f.map(r=>{
+    const leads = (r.leadInvestors||[]).join(', ');
+    const others = (r.otherInvestors||[]).slice(0,3).join(', ');
+    const inv = leads || others || '—';
+    return `<tr>
+      <td>${fmtDate(r.date)}</td>
+      <td>${r.source?`<a href="${r.source}" target="_blank">${r.name||'—'}</a>`:r.name||'—'}<div class="lead">${(r.description||'').slice(0,90)}</div></td>
+      <td><span class="tag t-${tagCls(r._sector)}">${r._sector}</span></td>
+      <td class="num">${fmtUSD((r.amount||0)*1e6)}</td>
+      <td>${r.round||'—'}</td>
+      <td>${inv}</td>
+    </tr>`;
+  }).join('');
+}
+
+load();
+</script>
+</body>
+</html>
