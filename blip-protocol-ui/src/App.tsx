@@ -317,12 +317,15 @@ const App = () => (
 
                     {/* Rates moved to p2prate.live — Vercel handles 308 redirects via vercel.json */}
 
-                    {/* All waitlist entry points land on register — new app, every user signs up fresh */}
-                    <Route path="/waitlist" element={<UserRegister />} />
+                    {/* Default waitlist entry points show the LOGIN screen; users
+                        click "Create one" / "Register as Merchant" to reach the
+                        register pages below. */}
+                    <Route path="/waitlist" element={<UserLogin initialView="waitlist" />} />
+                    <Route path="/merchant-waitlist" element={<MerchantLogin initialView="waitlist" />} />
+                    {/* Explicit register routes */}
                     <Route path="/join-waitlist" element={<UserRegister />} />
-                    <Route path="/merchant-waitlist" element={<MerchantRegister />} />
                     <Route path="/merchant-register" element={<MerchantRegister />} />
-                    {/* Explicit login routes for users who already have an account */}
+                    {/* Explicit login routes (aliases of the waitlist defaults) */}
                     <Route path="/login" element={<UserLogin initialView="waitlist" />} />
                     <Route path="/merchant-login" element={<MerchantLogin initialView="waitlist" />} />
                   </Route>

@@ -23,6 +23,7 @@ import {
   Hash,
   Repeat2,
   Link,
+  Send,
   ChevronLeft,
   ChevronRight,
   QrCode,
@@ -45,6 +46,13 @@ import {
   Download,
   Check,
   KeyRound,
+  Star,
+  Gift,
+  ArrowRight,
+  Crown,
+  Users,
+  UserPlus,
+  Award,
 } from "lucide-react";
 import { ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import { useTheme } from "next-themes";
@@ -52,11 +60,13 @@ import { useAuth } from "@/contexts/AuthContext";
 import { airdropApi } from "@/services/Airdrop";
 import { api } from "@/services/api";
 import { Logo } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 import TwitterVerificationModal from "@/components/TwitterVerificationModal";
 import TelegramVerificationModal from "@/components/TelegramVerificationModal";
 import ReferralModal from "@/components/ReferralModal";
 import RetweetVerificationModal from "@/components/RetweetVerificationModal";
 import WalletLinkingModal from "@/components/WalletLinkingModal";
+import PointsHistoryModal from "@/components/PointsHistoryModal";
 import { MerchantWalletButton } from "@/components/wallet/MerchantWalletButton";
 import { twoFactorApi } from "@/services/twoFatctor";
 import { toast } from "sonner";
@@ -97,6 +107,18 @@ const typeColors: Record<string, { bg: string; text: string; border: string }> =
       border: "border-black/10 dark:border-white/10",
     },
   };
+
+// X (Twitter) brand logo — lucide doesn't ship one
+const XBrand = ({ className }: { className?: string }) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    aria-hidden="true"
+  >
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  </svg>
+);
 
 const TypeIcon = ({ type }: { type: string }) => {
   const c = typeColors[type] ?? typeColors.check;
@@ -166,6 +188,7 @@ export default function MerchantDashboard() {
   const [showTelegramModal, setShowTelegramModal] = useState(false);
   const [showReferralModal, setShowReferralModal] = useState(false);
   const [showRetweetModal, setShowRetweetModal] = useState(false);
+  const [showPointsHistoryModal, setShowPointsHistoryModal] = useState(false);
 
   // Settings dropdown & 2FA modal
   const [showSettingsMenu, setShowSettingsMenu] = useState(false);
@@ -180,7 +203,9 @@ export default function MerchantDashboard() {
   const [twoFaDisableOtp, setTwoFaDisableOtp] = useState("");
   const [twoFaShowDisable, setTwoFaShowDisable] = useState(false);
   const [twoFaLoading, setTwoFaLoading] = useState(false);
-  const [twoFaRecoveryCodes, setTwoFaRecoveryCodes] = useState<string[] | null>(null);
+  const [twoFaRecoveryCodes, setTwoFaRecoveryCodes] = useState<string[] | null>(
+    null,
+  );
   const [twoFaShowRegenerate, setTwoFaShowRegenerate] = useState(false);
   const [twoFaRegenOtp, setTwoFaRegenOtp] = useState("");
 
@@ -355,12 +380,8 @@ export default function MerchantDashboard() {
     if (isAuthenticated) fetchPointsHistory();
   }, [isAuthenticated]);
 
-  // Auto-open wallet linking modal when wallet isn't linked
-  useEffect(() => {
-    if (isAuthenticated && user && !user.walletLinked) {
-      setShowWalletLinkingModal(true);
-    }
-  }, [isAuthenticated, user]);
+  // Wallet linking is optional — the modal opens only when the user
+  // explicitly clicks the "Link Wallet" button or the wallet status card.
 
   // Fetch activity feed
   useEffect(() => {
@@ -624,13 +645,13 @@ export default function MerchantDashboard() {
       id: "twitter",
       title: "Follow Us on Twitter",
       reward: "+500 BLIP",
-      icon: Share2,
+      icon: XBrand,
     },
     {
       id: "telegram",
       title: "Follow Us on Telegram",
       reward: "+500 BLIP",
-      icon: MessageCircle,
+      icon: Users,
     },
     {
       id: "retweet",
@@ -642,7 +663,7 @@ export default function MerchantDashboard() {
       id: "referral",
       title: "Share Referral Link",
       reward: "+1,000 BLIP",
-      icon: Link,
+      icon: Send,
     },
   ];
 
@@ -674,7 +695,7 @@ export default function MerchantDashboard() {
   const border = d ? "border-white/[0.06]" : "border-black/[0.08]";
   const txt = d ? "text-white" : "text-black";
   const muted = d ? "text-white/60" : "text-black/60";
-  const sub = d ? "text-white/40" : "text-black/80";
+  const sub = d ? "text-white/40" : "text-black/40";
   const hov = d ? "hover:bg-white/5" : "hover:bg-black/[0.03]";
   const inputBg = d ? "bg-white/5" : "bg-[#F5F3F0]";
   const divider = d ? "border-white/[0.06]" : "border-black/[0.06]";
@@ -703,7 +724,7 @@ export default function MerchantDashboard() {
       : 0;
 
   const gaugeFilled = [
-    { value: unlockedPercent, color: d ? "#ffffff" : "#000000" },
+    { value: unlockedPercent, color: "#ff6b35" },
     { value: 100 - unlockedPercent, color: gaugeEmpty },
   ];
 
@@ -759,193 +780,160 @@ export default function MerchantDashboard() {
     >
       {/* ── Navbar ─────────────────────────────────────────────────────────── */}
       <header
-        className={`${surface} border-b ${border} px-3 md:px-5 py-2.5 flex items-center justify-between sticky top-0 z-50 transition-colors duration-300`}
+        className={`${surface} border-b ${border} sticky top-0 z-50 transition-colors duration-300`}
       >
-        <div className="flex items-center gap-4 md:gap-8">
-          <Logo />
-          {/* Desktop nav links */}
-          <nav className="hidden md:flex items-center gap-1 text-[13px] font-semibold">
-            <button
-              onClick={() => navigate("/merchant-dashboard")}
-              className={`px-3 py-1.5 rounded-lg transition-colors ${
-                d ? "bg-white/10 text-white" : "bg-black/5 text-black font-bold"
-              }`}
-            >
-              Dashboard
-            </button>
-
-            {/* Settings dropdown */}
-            <div ref={settingsRef} className="relative">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
+          {/* Left: Logo + nav */}
+          <div className="flex items-center gap-6 md:gap-10">
+            <Logo />
+            <nav className="hidden md:flex items-center gap-1 text-[13px] font-semibold">
               <button
-                onClick={() => setShowSettingsMenu((prev) => !prev)}
-                className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1 ${muted} ${hov}`}
+                onClick={() => navigate("/merchant-dashboard")}
+                className={`relative px-3 py-1.5 ${txt} font-bold`}
               >
-                Settings
-                <ChevronDown
-                  className={`w-3 h-3 transition-transform ${showSettingsMenu ? "rotate-180" : ""}`}
+                Dashboard
+                <span
+                  className={`absolute left-2 right-2 -bottom-[22px] h-[2px] ${d ? "bg-white" : "bg-black"}`}
                 />
               </button>
+            </nav>
+          </div>
 
-              {showSettingsMenu && (
+          {/* Right: status pills + actions */}
+          <div className="hidden md:flex items-center gap-2">
+            {/* Protocol Balance pill */}
+            <div
+              className={`${inputBg} border ${border} rounded-md px-3 py-1.5 flex items-center gap-2.5`}
+            >
+              <div>
                 <div
-                  className={`absolute top-full left-0 mt-1 w-48 ${surface} border ${border} rounded-xl shadow-xl overflow-hidden z-50`}
+                  className={`text-[8px] font-black uppercase tracking-[0.18em] ${sub} leading-none mb-0.5`}
                 >
+                  Protocol Balance
+                </div>
+                <div className={`text-[11px] font-bold ${txt} leading-none`}>
+                  {blipPoints.toLocaleString()} pts
+                </div>
+              </div>
+              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+            </div>
+
+            {/* Wallet status pill */}
+            <button
+              onClick={() => setShowWalletLinkingModal(true)}
+              className={`${inputBg} border ${border} rounded-md px-3 py-1.5 flex items-center gap-2.5 ${hov} transition-all`}
+            >
+              <div className="text-left">
+                <div
+                  className={`text-[8px] font-black uppercase tracking-[0.18em] ${sub} leading-none mb-0.5`}
+                >
+                  Wallet
+                </div>
+                <div className={`text-[11px] font-bold ${txt} leading-none`}>
+                  {user?.wallet_address
+                    ? `${user.wallet_address.slice(0, 4)}…${user.wallet_address.slice(-4)}`
+                    : "Not Connected"}
+                </div>
+              </div>
+              <div
+                className={`w-1.5 h-1.5 rounded-full ${user?.wallet_address ? "bg-emerald-500" : "bg-red-500"}`}
+              />
+            </button>
+
+            {/* Theme toggle */}
+            <button
+              onClick={() => setTheme(d ? "light" : "dark")}
+              className={`w-9 h-9 rounded-md flex items-center justify-center border ${border} ${inputBg} ${hov} transition-all`}
+              aria-label="Toggle theme"
+            >
+              {d ? (
+                <Sun className={`w-4 h-4 ${txt}`} />
+              ) : (
+                <Moon className={`w-4 h-4 ${txt}`} />
+              )}
+            </button>
+
+            {/* Profile/menu */}
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setOpen(!open)}
+                className={`w-9 h-9 rounded-md flex items-center justify-center border ${border} ${inputBg} ${hov} transition-all`}
+                aria-label="Menu"
+              >
+                <Menu className={`w-4 h-4 ${txt}`} />
+              </button>
+
+              {open && (
+                <div
+                  className={`absolute right-0 mt-2 w-60 ${surface} border ${border} rounded-xl shadow-xl overflow-hidden z-50`}
+                >
+                  <div
+                    className={`px-4 py-3 border-b ${divider} flex items-center gap-3`}
+                  >
+                    <div className="w-9 h-9 bg-gradient-to-tr from-black to-black/70 dark:from-white dark:to-white/70 rounded-full flex items-center justify-center text-white dark:text-black text-sm font-black uppercase shrink-0">
+                      {userEmail?.charAt(0)}
+                    </div>
+                    <div className="min-w-0">
+                      <p className={`text-xs font-bold ${txt} truncate`}>
+                        {userEmail.split("@")[0]}
+                      </p>
+                      <p className={`text-[10px] ${sub} truncate`}>
+                        {userEmail}
+                      </p>
+                    </div>
+                  </div>
                   <button
                     onClick={() => {
-                      setShowSettingsMenu(false);
+                      setOpen(false);
                       setShow2FAModal(true);
                     }}
-                    className={`w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold ${txt} ${hov} transition-colors`}
+                    className={`w-full flex items-center gap-2.5 px-4 py-2.5 text-xs font-semibold ${txt} ${hov} transition-colors`}
                   >
-                    <ShieldCheck className="w-4 h-4" />
-                    Two-Factor Auth
+                    <ShieldCheck className="w-4 h-4" /> Two-Factor Auth
+                  </button>
+                  <button
+                    onClick={() => {
+                      setOpen(false);
+                      setShowAccountModal(true);
+                    }}
+                    className={`w-full flex items-center gap-2.5 px-4 py-2.5 text-xs font-semibold ${txt} ${hov} transition-colors`}
+                  >
+                    <User className="w-4 h-4" /> Account
+                  </button>
+                  <button
+                    onClick={() => {
+                      setOpen(false);
+                      setShowCommitVolumeModal(true);
+                    }}
+                    className={`w-full flex items-center gap-2.5 px-4 py-2.5 text-xs font-semibold ${txt} ${hov} transition-colors`}
+                  >
+                    <BarChart3 className="w-4 h-4" />
+                    {existingCommitment ? "Edit Volume" : "Commit Volume"}
                   </button>
                   <div className={`h-px ${divider}`} />
                   <button
                     onClick={() => {
-                      setShowSettingsMenu(false);
-                      setShowAccountModal(true);
+                      setOpen(false);
+                      setShowLogoutConfirm(true);
                     }}
-                    className={`w-full flex items-center gap-2.5 px-4 py-3 text-xs font-semibold ${txt} ${hov} transition-colors`}
+                    className={`w-full flex items-center gap-2.5 px-4 py-2.5 text-xs font-semibold text-red-500 ${hov} transition-colors`}
                   >
-                    <User className="w-4 h-4" />
-                    Account
+                    <LogOut className="w-4 h-4" /> Logout
                   </button>
                 </div>
               )}
             </div>
-          </nav>
-        </div>
-
-        {/* Desktop right side */}
-        <div className="hidden md:flex items-center gap-3">
-          <div className="relative group">
-            <Search
-              className={`absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 ${muted}`}
-            />
-            <input
-              placeholder="Search…"
-              value={globalSearch}
-              onChange={(e) => setGlobalSearch(e.target.value)}
-              className={`${inputBg} rounded-full pl-9 pr-4 py-1.5 text-xs w-44 outline-none border ${border} focus:ring-2 focus:ring-black/20 dark:ring-white/20/20 transition-all placeholder:${sub}`}
-            />
           </div>
 
-          <button
-            onClick={() => setTheme(d ? "light" : "dark")}
-            className={`w-8 h-8 rounded-full flex items-center justify-center border ${chip} transition-all ${hov}`}
-          >
-            {d ? (
-              <Sun className="w-3.5 h-3.5 text-amber-400" />
-            ) : (
-              <Moon className={`w-3.5 h-3.5 ${sub}`} />
-            )}
-          </button>
-
-          <div className="relative" ref={dropdownRef}>
-            {/* Profile Icon Button */}
+          {/* Mobile: hamburger */}
+          <div className="flex md:hidden items-center gap-2">
             <button
-              onClick={() => setOpen(!open)}
-              className="w-9 h-9 rounded-full flex items-center justify-center"
+              onClick={() => setShowMobileMenu(true)}
+              className={`w-9 h-9 rounded-md flex items-center justify-center border ${border} ${inputBg} ${hov}`}
             >
-              <div
-                className="w-8 h-8 bg-gradient-to-tr from-black to-black/70 
-                        dark:from-white dark:to-white/70 
-                        rounded-full flex items-center justify-center 
-                        text-white dark:text-black text-sm font-black uppercase shadow-md"
-              >
-                {userEmail?.charAt(0)}
-              </div>
+              <Menu className={`w-5 h-5 ${txt}`} />
             </button>
-
-            {/* Dropdown */}
-            {open && (
-              <div
-                className="absolute right-0 mt-3 w-56 bg-white dark:bg-neutral-900 
-                        border border-neutral-200 dark:border-neutral-700 
-                        rounded-xl shadow-xl p-3 space-y-3 text-sm"
-              >
-                {/* BLIP Points removed */}
-                <div className="space-y-2 text-sm">
-                  {/* 💼 Wallet */}
-                  <div>
-                    <div
-                      onClick={() => toggleSection("wallet")}
-                      className={headerClass}
-                    >
-                      <div className="flex items-center gap-2">
-                        <Wallet className="w-4 h-4 " />
-                        <span>Wallet</span>
-                      </div>
-                      <ChevronDown
-                        className={`w-4 h-4 transition-transform ${
-                          activeSection === "wallet" ? "rotate-180" : ""
-                        }`}
-                      />
-                    </div>
-
-                    <div className={contentClass("wallet")}>
-                      <div className="pt-2">
-                        <MerchantWalletButton isDark={d} />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* 📧 Email */}
-                  <div className="border-t border-neutral-200 dark:border-neutral-700 pt-2">
-                    <div
-                      onClick={() => toggleSection("email")}
-                      className={headerClass}
-                    >
-                      <div className="flex items-center gap-2">
-                        <Mail className="w-4 h-4" />
-                        <span>Email</span>
-                      </div>
-                      <ChevronDown
-                        className={`w-4 h-4 transition-transform ${
-                          activeSection === "email" ? "rotate-180" : ""
-                        }`}
-                      />
-                    </div>
-
-                    <div className={contentClass("email")}>
-                      <div className="text-xs text-neutral-500 bg-neutral-50 dark:bg-neutral-800 p-2 rounded-lg">
-                        {userEmail}
-                      </div>
-                    </div>
-                    <div className="border-t border-neutral-200 dark:border-neutral-700 pt-3 ">
-                      <button
-                        onClick={() => setShowLogoutConfirm(true)}
-                        className={`flex items-center gap-2      transition-all  `}
-                        title="Logout"
-                      >
-                        <LogOut className={`w-4 h-4 ${sub}`} />
-                        <span className="text-sm font-medium">Logout</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
-
-          {/* <button
-            onClick={() => setShowLogoutConfirm(true)}
-            className={`w-8 h-8 rounded-full flex items-center justify-center border ${chip} transition-all ${hov}`}
-            title="Logout"
-          >
-            <LogOut className={`w-3.5 h-3.5 ${sub}`} />
-          </button> */}
-        </div>
-
-        {/* Mobile: hamburger only (BLIP points badge removed) */}
-        <div className="flex md:hidden items-center gap-2">
-          <button
-            onClick={() => setShowMobileMenu(true)}
-            className={`w-9 h-9 rounded-xl flex items-center justify-center border ${chip} transition-all ${hov}`}
-          >
-            <Menu className={`w-5 h-5 ${txt}`} />
-          </button>
         </div>
       </header>
 
@@ -1072,224 +1060,426 @@ export default function MerchantDashboard() {
       )}
 
       {/* ── Main grid ──────────────────────────────────────────────────────── */}
-      <main className="p-2 max-w-[1800px] mx-auto min-h-screen ">
-        <div className="grid grid-cols-12 gap-2 items-stretch h-full">
-          {/* ══════════════════════════════════════════════════════════════════ */}
-          {/* ── LEFT SIDEBAR ─────────────────────────────────────────────── */}
-          {/* ══════════════════════════════════════════════════════════════════ */}
-          <aside className="col-span-12 lg:col-span-3 space-y-2 flex flex-col gap-2 ">
-            {/* blip.merchant header */}
+      <main className="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-4 relative z-10 lg:min-h-[calc(100vh-64px)] lg:flex lg:flex-col">
+        {/* Two-column grid: LEFT (Hero + Social Quests) | RIGHT (Referral + Progress + Leaderboard) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 mb-3 lg:items-stretch">
+          {/* LEFT COLUMN: Hero + Social Quests */}
+          <div className="lg:col-span-8 flex flex-col gap-3">
+            {/* Hero card — natural height */}
             <div
-              className={`${surface} border ${border} rounded-xl px-4 py-3 flex items-center justify-between`}
+              className={`${surface} border ${border} rounded-xl p-5 md:p-6 relative overflow-hidden`}
             >
-              <div className="flex items-center gap-2">
-                <Command className={`w-3.5 h-3.5 ${muted}`} />
-                <span className={`text-xs font-black ${txt}`}>
-                  blip merchant
-                </span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-black dark:bg-white shadow-[0_0_6px_rgba(0,0,0,0.4)] dark:shadow-[0_0_6px_rgba(255,255,255,0.4)]" />
+              {/* Orange ambient glow */}
+              <div
+                className="absolute top-0 right-0 bottom-0 w-3/5 pointer-events-none"
+                style={{
+                  background:
+                    "radial-gradient(ellipse at 75% 50%, rgba(255,107,53,0.22), rgba(255,107,53,0.08) 35%, transparent 65%)",
+                }}
+              />
+              {/* Orange dot pattern */}
+              <div
+                className="absolute top-0 right-0 bottom-0 w-1/2 opacity-70 pointer-events-none"
+                style={{
+                  backgroundImage: `radial-gradient(circle, rgba(255,107,53,0.35) 1.2px, transparent 1.2px)`,
+                  backgroundSize: "14px 14px",
+                  maskImage:
+                    "linear-gradient(to right, transparent, black 40%, black)",
+                  WebkitMaskImage:
+                    "linear-gradient(to right, transparent, black 40%, black)",
+                }}
+              />
+              <div className="relative z-10">
+                <h1
+                  className={`text-3xl sm:text-4xl md:text-[44px] font-black font-display mb-2 tracking-tight leading-tight`}
+                >
+                  <span className={txt}>Refer Friends. </span>
+                  <span className="text-[#ff6b35]">Earn More.</span>
+                </h1>
+                <p className={`text-sm ${muted} mb-5 max-w-md leading-relaxed`}>
+                  Earn{" "}
+                  <span className={`font-bold ${txt}`}>1,000 BLIP</span> for
+                  every merchant who joins with your code. The more friends
+                  you invite, the more you earn.
+                </p>
+
+                <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 mb-5">
+                  <button
+                    onClick={() => setShowPointsHistoryModal(true)}
+                    className={`flex items-start gap-3 text-left group ${hov} rounded-md -m-1 p-1 transition`}
+                    title="View points history"
+                  >
+                    <TrendingUp className="w-5 h-5 text-[#ff6b35] shrink-0 mt-0.5" />
+                    <div>
+                      <p className={`text-2xl font-black font-display ${txt} leading-none mb-0.5`}>
+                        {blipPoints.toLocaleString()}{" "}
+                        <span className="text-xs font-bold">pts</span>
+                      </p>
+                      <p className={`text-[11px] font-bold ${txt}`}>
+                        BLIP Points
+                      </p>
+                      <p className="text-[10px] text-[#ff6b35] font-semibold flex items-center gap-1 group-hover:underline">
+                        View History <ArrowRight className="w-2.5 h-2.5" />
+                      </p>
+                    </div>
+                  </button>
+                  <div className="flex items-start gap-3">
+                    <UserPlus className="w-5 h-5 text-[#ff6b35] shrink-0 mt-0.5" />
+                    <div>
+                      <p className={`text-2xl font-black font-display ${txt} leading-none mb-0.5`}>
+                        {referralCount}
+                      </p>
+                      <p className={`text-[11px] font-bold ${txt}`}>
+                        Your Referrals
+                      </p>
+                      <p className={`text-[10px] ${sub}`}>
+                        Merchants joined with your code
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <Award className="w-5 h-5 text-[#ff6b35] shrink-0 mt-0.5" />
+                    <div>
+                      <p className={`text-2xl font-black font-display ${txt} leading-none mb-0.5`}>
+                        {(referralCount * 1000).toLocaleString()}{" "}
+                        <span className="text-xs font-bold">BLIP</span>
+                      </p>
+                      <p className={`text-[11px] font-bold ${txt}`}>
+                        Referral Earnings
+                      </p>
+                      <p className={`text-[10px] ${sub}`}>
+                        1,000 BLIP per invite
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-5">
+                  <button
+                    onClick={() => setShowCommitVolumeModal(true)}
+                    className={`text-[11px] font-bold uppercase tracking-[0.12em] ${muted} hover:${txt} flex items-center gap-1.5 transition-colors`}
+                  >
+                    {existingCommitment ? "Edit Volume" : "Learn More"}{" "}
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
               </div>
             </div>
 
-
-            {/* ── COMPLETE SOCIAL QUESTS ─────────────────────────────────────── */}
-
-            <div
-              className={`${surface} border ${border} rounded-xl overflow-hidden flex-1 flex flex-col relative`}
-            >
-              <div
-                className={`px-4 py-3 border-b ${divider} flex items-center gap-2`}
-              >
-                <Trophy className={`w-3.5 h-3.5 ${sub}`} />
-                <span
-                  className={`text-[10px] font-black ${sub} uppercase tracking-widest`}
-                >
-                  Complete Social Quests
-                </span>
+            {/* Social Quests (under Hero in left column) */}
+            <div id="social-quests">
+              <div className="flex items-center gap-3 mb-3">
+                <div className={`p-1.5 rounded-md ${inputBg} border ${border}`}>
+                  <Layout className={`w-3.5 h-3.5 ${txt}`} />
+                </div>
+                <div>
+                  <h2
+                    className={`text-sm font-black uppercase tracking-[0.18em] ${txt}`}
+                  >
+                    Social Quests
+                  </h2>
+                  <p className={`text-[11px] ${muted}`}>
+                    Complete quests to earn points and boost your rewards
+                  </p>
+                </div>
               </div>
 
-              <div className="p-3 space-y-1">
-                {socialQuests.map((quest) => {
-                  const isDone = completedQuests.has(quest.id);
-                  const isRetweetOnCooldown =
-                    quest.id === "retweet" &&
-                    !isDone &&
-                    retweetCooldownUntil &&
-                    retweetCooldownUntil > new Date();
-                  const retweetLabel =
-                    quest.id === "retweet" && retweetCount > 0 && !isDone
-                      ? `${quest.title} (${retweetCount}/2)`
-                      : quest.title;
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {socialQuests
+                  .filter((q) => q.id !== "register")
+                  .map((quest) => {
+                    const isDone = completedQuests.has(quest.id);
+                    const isRetweetOnCooldown =
+                      quest.id === "retweet" &&
+                      !isDone &&
+                      retweetCooldownUntil &&
+                      retweetCooldownUntil > new Date();
+                    const QuestIcon = quest.icon;
+                    const description: Record<string, string> = {
+                      twitter:
+                        "Follow @blip_money on X to stay updated and earn points.",
+                      telegram:
+                        "Join our Telegram channel and verify membership.",
+                      retweet:
+                        retweetCount > 0 && !isDone
+                          ? `Retweet our campaign post (${retweetCount}/2 completed).`
+                          : "Post about Blip Money on X with the campaign message.",
+                      referral:
+                        "Invite merchants with your referral link to earn BLIP.",
+                    };
+                    return (
+                      <div
+                        key={quest.id}
+                        className={`${surface} border ${border} rounded-xl p-2 flex flex-col ${isDone ? "opacity-70" : ""}`}
+                      >
+                        {/* Top row: icon (left) + reward badge (right) */}
+                        <div className="flex items-start justify-between mb-2">
+                          <div
+                            className={`p-2 rounded-md ${inputBg} border ${border}`}
+                          >
+                            <QuestIcon className={`w-4 h-4 ${txt}`} />
+                          </div>
+                          <span className="text-[11px] font-black uppercase tracking-[0.12em] text-emerald-500 whitespace-nowrap pt-1">
+                            {quest.reward}
+                          </span>
+                        </div>
+
+                        {/* Title + description */}
+                        <div className="mb-3">
+                          <h3
+                            className={`text-sm font-bold ${txt} mb-0.5 leading-tight`}
+                          >
+                            {quest.title}
+                          </h3>
+                          <p className={`text-[11px] ${muted} leading-relaxed`}>
+                            {description[quest.id] ?? ""}
+                          </p>
+                        </div>
+
+                        {/* Action — bottom-right aligned */}
+                        <div className="mt-auto flex justify-end">
+                          {isDone ? (
+                            <div className="flex items-center gap-1.5 text-[11px] font-bold text-emerald-500">
+                              <CheckCircle2 className="w-3.5 h-3.5" /> Redeemed
+                            </div>
+                          ) : isRetweetOnCooldown ? (
+                            <div className={`text-[11px] ${sub}`}>
+                              {Math.ceil(
+                                (retweetCooldownUntil!.getTime() - Date.now()) /
+                                  (60 * 60 * 1000),
+                              )}
+                              h cooldown
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => handleQuestClick(quest.id)}
+                              className="bg-[#ff6b35] text-white px-6 py-2 rounded-md text-[11px] font-bold uppercase tracking-[0.14em] hover:bg-[#ff7a4a] active:scale-[0.98] transition"
+                            >
+                              Start
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
+
+            {/* Invite Friends — pinned to bottom of left column so it aligns with Leaderboard */}
+            <div
+              className={`${surface} border ${border} rounded-xl p-4 mt-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-3`}
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-[#ff6b35]/15 border border-[#ff6b35]/30 flex items-center justify-center shrink-0">
+                  <Users className="w-5 h-5 text-[#ff6b35]" />
+                </div>
+                <div>
+                  <p className={`text-sm font-bold ${txt}`}>
+                    Invite Friends. Earn More.
+                  </p>
+                  <p className={`text-[11px] ${muted} leading-relaxed`}>
+                    Earn 1,000 BLIP for each merchant who joins with your
+                    referral code.
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 w-full md:w-auto">
+                <div>
+                  <p
+                    className={`text-[10px] font-bold uppercase tracking-[0.14em] ${sub}`}
+                  >
+                    Your Referrals
+                  </p>
+                  <p
+                    className={`text-lg font-black font-display ${txt} leading-tight`}
+                  >
+                    {referralCount}
+                  </p>
+                </div>
+                <button
+                  onClick={() => setShowReferralModal(true)}
+                  className={`${inputBg} border ${border} rounded-md px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] ${txt} ${hov} transition`}
+                >
+                  View Referrals
+                </button>
+              </div>
+            </div>
+          </div>
+          {/* /LEFT COLUMN */}
+
+          {/* Right column: Referral + Progress + Leaderboard stacked */}
+          <div className="lg:col-span-4 flex flex-col gap-3">
+            {/* Referral Code card — clickable, opens Referral modal */}
+            <div
+              role="button"
+              tabIndex={0}
+              onClick={() => setShowReferralModal(true)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setShowReferralModal(true);
+                }
+              }}
+              className={`${surface} border ${border} rounded-xl p-4 cursor-pointer ${hov} hover:border-[#ff6b35]/40 transition-all`}
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <div
+                  className={`w-1.5 h-1.5 rounded-full ${d ? "bg-white" : "bg-black"}`}
+                />
+                <span
+                  className={`text-[10px] font-black uppercase tracking-[0.18em] ${sub}`}
+                >
+                  Your Referral Code
+                </span>
+              </div>
+              <div
+                className={`flex items-center justify-between mb-2 ${inputBg} border ${border} rounded-md px-3 py-2.5`}
+              >
+                <span
+                  className={`text-base font-black font-display ${txt} tracking-[0.08em]`}
+                >
+                  {referralCode || "—"}
+                </span>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleCopyReferralLink();
+                  }}
+                  className={`p-1 rounded ${hov} transition`}
+                >
+                  {copied ? (
+                    <Check className="w-4 h-4 text-emerald-500" />
+                  ) : (
+                    <Copy className={`w-4 h-4 ${muted}`} />
+                  )}
+                </button>
+              </div>
+              <p className={`text-[11px] ${muted} mb-3 leading-relaxed`}>
+                Share your code and earn{" "}
+                <span className={`font-bold ${txt}`}>1,000 BLIP</span> for each
+                successful referral.
+              </p>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowReferralModal(true);
+                }}
+                className={`w-full py-2 ${inputBg} border ${border} rounded-md text-[11px] font-bold uppercase tracking-[0.12em] ${txt} flex items-center justify-center gap-2 ${hov} transition-all`}
+              >
+                <Share2 className="w-3.5 h-3.5" />
+                Share Code
+              </button>
+            </div>
+
+            {/* Your Progress */}
+            <div className={`${surface} border ${border} rounded-xl p-4`}>
+              <div
+                className={`text-[10px] font-black uppercase tracking-[0.18em] ${sub} mb-1`}
+              >
+                Your Progress
+              </div>
+              <div className="flex flex-col items-center pt-1 pb-1">
+                <div className="relative w-36 h-20">
+                  <ResponsiveContainer width="100%" height={76}>
+                    <PieChart>
+                      <Pie
+                        data={gaugeFilled}
+                        cx="50%"
+                        cy="100%"
+                        startAngle={180}
+                        endAngle={0}
+                        innerRadius={52}
+                        outerRadius={66}
+                        dataKey="value"
+                        stroke="none"
+                      >
+                        {gaugeFilled.map((e, i) => (
+                          <Cell key={i} fill={e.color} />
+                        ))}
+                      </Pie>
+                    </PieChart>
+                  </ResponsiveContainer>
+                  <div className="absolute inset-x-0 bottom-0 flex flex-col items-center">
+                    <p
+                      className={`text-xl font-black font-display ${txt} leading-none`}
+                    >
+                      {blipPoints.toLocaleString()}
+                    </p>
+                    <p
+                      className={`text-[9px] font-bold uppercase tracking-[0.16em] ${sub} mt-0.5`}
+                    >
+                      Total Points
+                    </p>
+                  </div>
+                </div>
+                {(() => {
+                  const milestones = [100, 250, 500, 1000, 2500];
+                  const next =
+                    milestones.find((m) => m > blipPoints) ??
+                    milestones[milestones.length - 1];
+                  return (
+                    <p className={`text-[10px] ${muted} mt-2`}>
+                      Next Milestone:{" "}
+                      <span className={`font-bold ${txt}`}>
+                        {next.toLocaleString()} pts
+                      </span>
+                    </p>
+                  );
+                })()}
+              </div>
+              <div className={`pt-2 border-t ${divider} space-y-0.5`}>
+                {[100, 250, 500, 1000, 2500].map((m) => {
+                  const achieved = blipPoints >= m;
                   return (
                     <div
-                      key={quest.id}
-                      className={`flex items-center justify-between px-3 py-2.5 rounded-lg ${hov} transition-all`}
+                      key={m}
+                      className="flex items-center justify-between py-0.5"
                     >
-                      <div className="flex items-center gap-3 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <Plus className={`w-3 h-3 ${achieved ? txt : sub}`} />
                         <span
-                          className={`text-xs ${isDone ? "line-through opacity-50" : ""} ${muted} truncate`}
+                          className={`text-[11px] ${achieved ? txt : muted} font-medium`}
                         >
-                          {retweetLabel}
+                          {m.toLocaleString()} pts
                         </span>
                       </div>
-                      <div className="flex items-center gap-2 shrink-0">
-                        <span className={`text-[10px] font-bold ${sub}`}>
-                          {quest.reward}
-                        </span>
-                        {isDone ? (
-                          <span className="text-black dark:text-white text-[10px] font-bold flex items-center gap-1">
-                            <CheckCircle2 className="w-3 h-3" /> Redeemed
-                          </span>
-                        ) : isRetweetOnCooldown ? (
-                          <span className={`text-[10px] font-medium ${sub}`}>
-                            {Math.ceil(
-                              (retweetCooldownUntil!.getTime() - Date.now()) /
-                                (60 * 60 * 1000),
-                            )}
-                            h cooldown
-                          </span>
-                        ) : (
-                          <button
-                            onClick={() => handleQuestClick(quest.id)}
-                            className="bg-black dark:bg-white hover:bg-black/80 dark:hover:bg-white/80 text-white dark:text-black text-[10px] font-bold px-3 py-1 rounded-md transition-all"
-                          >
-                            Complete
-                          </button>
-                        )}
-                      </div>
+                      {achieved ? (
+                        <Check className={`w-3.5 h-3.5 ${txt}`} />
+                      ) : (
+                        <Lock className={`w-3 h-3 ${sub}`} />
+                      )}
                     </div>
                   );
                 })}
               </div>
-
-              <div className={`px-4 py-3 border-t  ${divider} space-y-3`}>
-                <div className="flex items-center gap-2">
-                  <span className={`text-[10px] font-bold ${sub}`}>
-                    {questsCompleted} / {socialQuests.length} Quests Completed
-                  </span>
-                  <div className="flex-1 flex gap-0.5">
-                    {[...Array(20)].map((_, i) => (
-                      <div
-                        key={i}
-                        className={`h-1 flex-1 rounded-sm ${
-                          i <
-                          Math.round(
-                            (questsCompleted / socialQuests.length) * 20,
-                          )
-                            ? "bg-black dark:bg-white"
-                            : d
-                              ? "bg-white/10"
-                              : "bg-black/10"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div>
-                    <span className={`text-xs ${muted}`}>Earn Up to </span>
-                    <span className={`text-sm font-black font-display ${txt}`}>
-                      5,000 BLIP!
-                    </span>
-                  </div>
-                </div>
-
-                {/* Progress bar */}
-                <div className="w-full h-2 rounded-full bg-black dark:bg-white/20 overflow-hidden">
-                  <div
-                    className="h-full bg-black dark:bg-white rounded-full transition-all duration-500"
-                    style={{
-                      width: `${(questsCompleted / socialQuests.length) * 100}%`,
-                    }}
-                  />
-                </div>
-              </div>
-              <hr className="absolute bottom-[43px] left-0 right-0 h-px bg-black/10 dark:bg-white/10" />
-            </div>
-          </aside>
-
-          {/* ══════════════════════════════════════════════════════════════════ */}
-          {/* ── CENTER ───────────────────────────────────────────────────── */}
-          {/* ══════════════════════════════════════════════════════════════════ */}
-          <div className="col-span-12 lg:col-span-6 space-y-2 h-full flex flex-col gap-2">
-            {/* Top tabs bar */}
-            <div
-              className={`${surface} border ${border} rounded-xl px-4 py-2.5 flex items-center justify-between`}
-            >
-              <div
-                className={`flex items-center ${d ? "bg-white/5" : "bg-[#F5F3F0]"} p-1 rounded-lg gap-0.5`}
-              >
-                {["All"].map((t) => (
-                  <button
-                    key={t}
-                    onClick={() => setActiveTab(t)}
-                    className={`px-3 py-1 rounded-md text-[11px] font-bold transition-all ${activeTab === t ? pillAct : pillIna}`}
-                  >
-                    {t}
-                  </button>
-                ))}
-              </div>
-              {/* <div className="flex items-center gap-2">
-                <button
-                  className={`${chip} border p-1.5 rounded-lg ${hov} transition-all`}
-                >
-                  <Search className={`w-3.5 h-3.5 ${sub}`} />
-                </button>
-                <button
-                  className={`${chip} border p-1.5 rounded-lg ${hov} transition-all`}
-                >
-                  <QrCode className={`w-3.5 h-3.5 ${sub}`} />
-                </button>
-              </div> */}
             </div>
 
-
-            {/* ── LEADERBOARD ──────────────────────────────────────────────── */}
+            {/* Leaderboard */}
             <div
-              className={`${surface} border ${border} rounded-xl overflow-hidden  flex-1 flex flex-col `}
+              className={`${surface} border ${border} rounded-xl overflow-hidden flex flex-col flex-1 min-h-0`}
             >
               <div
-                className={`px-4 py-3 border-b ${divider} flex items-center justify-between`}
+                className={`px-4 py-2.5 border-b ${divider} flex items-center justify-between`}
               >
                 <div className="flex items-center gap-2">
-                  <Trophy className={`w-3.5 h-3.5 ${sub}`} />
+                  <Trophy className={`w-3.5 h-3.5 ${txt}`} />
                   <span
-                    className={`text-[14px] text-black font-black font-display ${sub} uppercase tracking-widest`}
+                    className={`text-[10px] font-black uppercase tracking-[0.18em] ${sub}`}
                   >
                     Leaderboard
                   </span>
                 </div>
-                <div
-                  className={`flex ${d ? "bg-white/5" : "bg-[#F5F3F0]"} p-0.5 rounded-lg`}
+                <button
+                  onClick={() =>
+                    setLbFilter(lbFilter === "Points" ? "Followers" : "Points")
+                  }
+                  className={`text-[10px] font-bold ${muted} hover:${txt} transition-colors`}
                 >
-                  {["Points", "Followers"].map((f) => (
-                    <button
-                      key={f}
-                      onClick={() => setLbFilter(f)}
-                      className={`px-2.5 py-1 text-[9px] font-bold rounded-md transition-all ${
-                        lbFilter === f ? pillAct : pillIna
-                      }`}
-                    >
-                      {f}
-                    </button>
-                  ))}
-                </div>
+                  View All
+                </button>
               </div>
 
-              {/* Table header */}
-              <div
-                className={`px-4 py-2 grid grid-cols-12 text-[9px] font-black ${sub} uppercase tracking-wider border-b ${divider}`}
-              >
-                <span className="col-span-1"></span>
-                <span className="col-span-5">Merchant</span>
-                <span className="col-span-3 text-center">Referrals</span>
-                <span className="col-span-3 text-right">BLIP Allocation</span>
-              </div>
-
-              <div className="px-2 py-1 max-h-[356px] overflow-y-auto">
+              <div className="px-1.5 py-1 max-h-[200px] overflow-y-auto flex-1">
                 {leaderboardLoading ? (
                   <div className="flex items-center justify-center py-8">
                     <Loader2 className={`w-5 h-5 animate-spin ${sub}`} />
@@ -1299,264 +1489,49 @@ export default function MerchantDashboard() {
                     No merchants yet. Be the first!
                   </div>
                 ) : (
-                  leaderboardData.map((item) => (
+                  leaderboardData.slice(0, 5).map((item) => (
                     <div
                       key={`${item.rank}-${item.name}`}
-                      className={`grid grid-cols-12 items-center px-2 py-2.5 rounded-lg transition-all duration-500 ease-in-out ${hov} cursor-pointer group ${
-                        leaderboardLoading
-                          ? "opacity-0 translate-y-2"
-                          : "opacity-100 translate-y-0"
-                      }`}
-                      style={{ transitionDelay: `${item.rank * 30}ms` }}
+                      className={`flex items-center justify-between px-2.5 py-1.5 rounded-lg ${hov} cursor-pointer group`}
                     >
-                      <span
-                        className={`col-span-1 text-[11px] font-bold ${sub}`}
-                      >
-                        {item.rank}
-                      </span>
-                      <div className="col-span-5 flex items-center gap-2">
-                        <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-black to-black/70 dark:from-white dark:to-white/70 flex items-center justify-center text-white dark:text-black text-[7px] font-black uppercase shrink-0">
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <span className="w-4 shrink-0 flex items-center justify-center">
+                          {item.rank <= 3 ? (
+                            <Crown className={`w-3.5 h-3.5 ${txt}`} />
+                          ) : (
+                            <span className={`text-[11px] font-bold ${sub}`}>
+                              {item.rank}
+                            </span>
+                          )}
+                        </span>
+                        <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-black to-black/70 dark:from-white dark:to-white/70 flex items-center justify-center text-white dark:text-black text-[8px] font-black uppercase shrink-0">
                           {item.name[0]}
                         </div>
                         <span
-                          className={`text-[11px] font-bold ${txt} truncate`}
+                          className={`text-[11px] font-semibold ${txt} truncate`}
                         >
                           {item.name}
                         </span>
                         {item.verified && (
-                          <CircleCheck className="w-2.5 h-2.5 text-black dark:text-white shrink-0" />
+                          <CircleCheck className={`w-3 h-3 ${txt} shrink-0`} />
                         )}
                       </div>
                       <span
-                        className={`col-span-3 text-center text-[11px] font-bold ${muted}`}
+                        className={`text-[11px] font-black font-display ${txt} shrink-0`}
                       >
-                        {item.followers}
+                        {item.allocation.toLocaleString()} pts
                       </span>
-                      <div className="col-span-3 text-right">
-                        <span className="text-[10px] font-black font-display text-black dark:text-white">
-                          {item.allocation.toLocaleString()} BLIP
-                        </span>
-                      </div>
                     </div>
                   ))
                 )}
               </div>
-
-              <div
-                className={`px-4 py-2.5 border-t ${divider} flex items-center justify-between`}
-              >
-                <span className={`text-[10px] font-bold ${sub}`}>
-                  {leaderboardLastRefreshed
-                    ? `Updated ${formatTimeAgo(leaderboardLastRefreshed.toISOString())}`
-                    : "Loading..."}
-                </span>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={refreshLeaderboard}
-                    className={`${sub} hover:${txt} p-1 rounded transition-all`}
-                    title="Refresh leaderboard"
-                  >
-                    <RefreshCw
-                      className={`w-3.5 h-3.5 ${leaderboardLoading ? "animate-spin" : ""}`}
-                    />
-                  </button>
-                  {/* <ArrowUpRight className={`w-3.5 h-3.5 ${sub}`} />
-                  <Copy className={`w-3.5 h-3.5 ${sub}`} /> */}
-                </div>
-              </div>
             </div>
           </div>
-
-          {/* ══════════════════════════════════════════════════════════════════ */}
-          {/* ── RIGHT SIDEBAR ─────────────────────────────────────────────── */}
-          {/* ══════════════════════════════════════════════════════════════════ */}
-          <aside className="col-span-12 lg:col-span-3 flex flex-col gap-2">
-            {/* Notifications */}
-            <div className={`${surface} border ${border} rounded-xl p-4`}>
-              <div className="flex items-center justify-between mb-4">
-                <div
-                  className={`flex items-center gap-2 text-[10px] font-black ${sub} uppercase tracking-widest`}
-                >
-                  <Bell className="w-3.5 h-3.5" /> Notifications
-                </div>
-              </div>
-
-              <div className="mb-4">
-                <div className={`${inputBg} border ${border} p-3 rounded-xl`}>
-                  <div className="flex items-center justify-between">
-                    <p
-                      className={`text-2xl font-black font-display ${txt} leading-none`}
-                    >
-                      {referralCount}
-                    </p>
-                    <div className="flex flex-col gap-0.5">
-                      {[...Array(3)].map((_, i) => (
-                        <div
-                          key={i}
-                          className={`h-1 w-6 rounded-sm ${referralCount > 0 ? "bg-black dark:bg-white" : d ? "bg-white/10" : "bg-black/10"}`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                  <p className={`text-[9px] font-bold ${sub} uppercase mt-1`}>
-                    Referrals
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Total BLIP tile + Merchant points-history block removed */}
-
-            {/* Referrals */}
-            <div className={`${surface} border ${border} rounded-xl p-4`}>
-              <div className="flex items-center justify-between mb-3">
-                <div
-                  className={`flex items-center gap-2 text-[10px] font-black ${sub} uppercase tracking-widest`}
-                >
-                  <Share2 className="w-3.5 h-3.5" /> Referrals
-                </div>
-                <button
-                  onClick={() => setShowReferralModal(true)}
-                  className={`text-[9px] font-bold text-black dark:text-white hover:underline`}
-                >
-                  View All
-                </button>
-              </div>
-
-              {/* Referral code */}
-              <div
-                className={`${inputBg} border ${border} rounded-xl px-4 py-2.5 text-[11px] font-mono flex items-center justify-between mb-2`}
-              >
-                <span className={txt}>{referralCode || "—"}</span>
-              </div>
-
-              {/* Referral link */}
-              <div
-                className={`${inputBg} border ${border} rounded-xl px-4 py-2.5 text-[10px] font-mono flex items-center justify-between mb-3`}
-              >
-                <span className={`${muted} truncate mr-2`}>{referralLink}</span>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <p
-                  className={`text-[10px] font-bold ${sub} flex items-center gap-1.5`}
-                >
-                  <CircleCheck className="w-3.5 h-3.5 text-black dark:text-white" />
-                  <span className={`font-black font-display ${txt}`}>
-                    {referralCount}
-                  </span>{" "}
-                  merchants joined
-                </p>
-                <button
-                  onClick={handleCopyReferralLink}
-                  className={`flex items-center gap-1 ${chip} border px-2.5 py-1 rounded-md text-[9px] font-bold ${muted} ${hov} transition-all`}
-                >
-                  {copied ? (
-                    <>
-                      <CheckCircle2 className="w-3 h-3 text-black dark:text-white" />{" "}
-                      Copied
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-3 h-3" /> COPY
-                    </>
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* Network Pool Analytics */}
-            <div
-              className={`${surface} border ${border} rounded-xl overflow-hidden flex-1 flex flex-col`}
-            >
-              <div
-                className={`px-4 py-3 border-b ${divider} flex items-center gap-2`}
-              >
-                <Globe className={`w-3.5 h-3.5 ${sub}`} />
-                <span
-                  className={`text-[10px] font-black ${sub} uppercase tracking-widest`}
-                >
-                  Network Pool Analytics
-                </span>
-              </div>
-
-              <div className="p-4 space-y-4">
-                {/* Token Schedule removed */}
-
-                {/* Priority Fee Reduction / Network Priority tabs */}
-                {/* <div>
-                  <div
-                    className={`flex ${d ? "bg-white/5" : "bg-[#F5F3F0]"} p-0.5 rounded-lg gap-0.5 mb-4`}
-                  >
-                    {["Priority Fee Reduction", "Network Priority"].map((t) => (
-                      <button
-                        key={t}
-                        onClick={() => setAnalyticsTab(t)}
-                        className={`flex-1 px-2 py-1.5 rounded-md text-[10px] font-bold transition-all flex items-center justify-center gap-1.5 ${
-                          analyticsTab === t ? pillAct : pillIna
-                        }`}
-                      >
-                        {t === "Network Priority" && (
-                          <Globe className="w-3 h-3" />
-                        )}
-                        {t}
-                      </button>
-                    ))}
-                  </div>
-
-                  <ul className="space-y-2.5">
-                    {[
-                      "Priority Fee Reduction",
-                      "Governance Rights",
-                      "Network Priority",
-                    ].map((item) => (
-                      <li key={item} className="flex items-center gap-2">
-                        <div
-                          className={`w-1 h-1 rounded-full ${d ? "bg-white/40" : "bg-black/40"}`}
-                        />
-                        <span className={`text-xs ${muted}`}>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div> */}
-              </div>
-            </div>
-          </aside>
         </div>
+
       </main>
 
-      {/* ── Bottom Bar ────────────────────────────────────────────────────── */}
-      <div
-        className={`${surface} border-t ${border} px-5 py-2 flex items-center justify-between text-[11px] ${muted} sticky bottom-0 z-40`}
-      >
-        <div className="flex items-center gap-2">
-          <ChevronLeft className="w-3.5 h-3.5" />
-          <span className="font-bold uppercase tracking-wider">Merchant</span>
-          <span className={`mx-2 ${sub}`}>·</span>
-          <span className="font-bold uppercase tracking-wider">
-            {userEmail.split("@")[0]}
-          </span>
-          <ChevronRight className="w-3.5 h-3.5" />
-        </div>
-        {/* <div className="flex items-center gap-2">
-          <span className={`font-bold ${txt}`}>
-            {blipPoints.toLocaleString()} BLIP
-          </span>
-          <ArrowUpRight className="w-3.5 h-3.5" />
-        </div> */}
-        {!showP2PBanner && (
-          <div className=" ">
-            <button
-              onClick={() => setShowP2PBanner(true)}
-              className={`${surface} border ${border} rounded-xl shadow-xl p-2 flex items-center gap-2 ${hov} transition-all`}
-            >
-              <Rocket className={`w-4 h-4 ${txt}`} />
-              <span className={`text-[10px] font-bold ${txt}`}>P2P Beta</span>
-              <ChevronUp className={`w-3 h-3 ${muted}`} />
-            </button>
-          </div>
-        )}
-      </div>
+      <Footer skipAnimation />
 
       {/* ── Logout Confirmation ─────────────────────────────────────────── */}
       {showLogoutConfirm && (
@@ -1607,7 +1582,6 @@ export default function MerchantDashboard() {
       <WalletLinkingModal
         isOpen={showWalletLinkingModal}
         onClose={() => setShowWalletLinkingModal(false)}
-        required
       />
 
       <TwitterVerificationModal
@@ -1642,6 +1616,12 @@ export default function MerchantDashboard() {
         retweetNumber={retweetCount}
       />
 
+      <PointsHistoryModal
+        isOpen={showPointsHistoryModal}
+        onClose={() => setShowPointsHistoryModal(false)}
+        totalPoints={blipPoints}
+      />
+
       {/* ── 2FA Recovery Codes Modal ────────────────────────────────────────── */}
       {twoFaRecoveryCodes && (
         <div className="fixed inset-0 z-[70] flex items-center justify-center">
@@ -1650,7 +1630,9 @@ export default function MerchantDashboard() {
             className={`relative w-full max-w-lg mx-4 ${surface} border ${border} rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto`}
           >
             {/* Header */}
-            <div className={`px-6 py-4 border-b ${divider} flex items-center gap-3`}>
+            <div
+              className={`px-6 py-4 border-b ${divider} flex items-center gap-3`}
+            >
               <div className="p-2 rounded-lg bg-emerald-500/10">
                 <KeyRound className="w-5 h-5 text-emerald-500" />
               </div>
@@ -1675,7 +1657,9 @@ export default function MerchantDashboard() {
               </div>
 
               {/* Codes grid */}
-              <div className={`grid grid-cols-2 gap-2 p-3 rounded-xl ${inputBg} border ${border}`}>
+              <div
+                className={`grid grid-cols-2 gap-2 p-3 rounded-xl ${inputBg} border ${border}`}
+              >
                 {twoFaRecoveryCodes.map((code, i) => (
                   <div
                     key={i}
@@ -1885,7 +1869,9 @@ export default function MerchantDashboard() {
                         Regenerate Recovery Codes
                       </button>
                     ) : (
-                      <div className={`space-y-3 p-3 rounded-xl ${inputBg} border ${border}`}>
+                      <div
+                        className={`space-y-3 p-3 rounded-xl ${inputBg} border ${border}`}
+                      >
                         <p className={`text-[11px] ${sub}`}>
                           Enter your authenticator code to generate new codes.
                           Old codes will be invalidated.
@@ -1904,10 +1890,14 @@ export default function MerchantDashboard() {
                         <div className="flex gap-2">
                           <button
                             onClick={handleRegenerateRecoveryCodes}
-                            disabled={twoFaLoading || twoFaRegenOtp.length !== 6}
+                            disabled={
+                              twoFaLoading || twoFaRegenOtp.length !== 6
+                            }
                             className={`flex-1 py-2.5 ${accentBg} ${d ? "text-black" : "text-white"} text-xs font-bold rounded-xl hover:opacity-90 disabled:opacity-40 transition-all`}
                           >
-                            {twoFaLoading ? "Generating..." : "Generate New Codes"}
+                            {twoFaLoading
+                              ? "Generating..."
+                              : "Generate New Codes"}
                           </button>
                           <button
                             onClick={() => {
@@ -2603,7 +2593,10 @@ export default function MerchantDashboard() {
               </div>
               <button
                 onClick={() =>
-                  window.open("https://www.blip.money/merchant-waitlist", "_blank")
+                  window.open(
+                    "https://www.blip.money/merchant-waitlist",
+                    "_blank",
+                  )
                 }
                 className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-[11px] font-bold rounded-lg transition-colors shrink-0"
               >
