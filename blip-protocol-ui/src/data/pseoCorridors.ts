@@ -2058,6 +2058,14 @@ export const PSEO_CORRIDORS: PseoCorridor[] = [
   },
 ];
 
+/* Append programmatically-generated corridors */
+import { generatePseoCorridors } from "./pseoGenerator";
+PSEO_CORRIDORS.push(...generatePseoCorridors());
+
 export function getPseoCorridor(slug: string): PseoCorridor | undefined {
   return PSEO_CORRIDORS.find((c) => c.slug === slug);
+}
+
+export function getAllPseoSlugs(): string[] {
+  return PSEO_CORRIDORS.map((c) => c.slug);
 }

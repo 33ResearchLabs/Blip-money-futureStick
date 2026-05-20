@@ -126,6 +126,7 @@ const Bounty = lazy(() => import("./pages/Bounty"));
 const RewardPage = lazy(() => import("./pages/RewardPage"));
 const Rates = lazy(() => import("./pages/Rates"));
 const PseoCorridor = lazy(() => import("./pages/Markets/PseoCorridor"));
+import { getAllPseoSlugs } from "./data/pseoCorridors";
 
 // Handle Firebase auth action URLs (e.g. /?mode=resetPassword&oobCode=...)
 const FirebaseActionHandler = ({ children }: { children: React.ReactNode }) => {
@@ -309,23 +310,10 @@ const App = () => (
                       element={<BitcoinPriceUae />}
                     />
 
-                    {/* Programmatic SEO corridor pages — driven by src/data/pseoCorridors.ts */}
-                    <Route path="/usdt-to-inr-without-kyc" element={<PseoCorridor />} />
-                    <Route path="/usdt-to-inr-p2p" element={<PseoCorridor />} />
-                    <Route path="/sell-usdt-india-instant" element={<PseoCorridor />} />
-                    <Route path="/usdt-to-inr-via-upi" element={<PseoCorridor />} />
-                    <Route path="/usdt-to-aed-without-kyc" element={<PseoCorridor />} />
-                    <Route path="/usdt-to-inr-1-minute-settlement" element={<PseoCorridor />} />
-                    <Route path="/binance-p2p-alternative-india" element={<PseoCorridor />} />
-                    <Route path="/wazirx-p2p-alternative" element={<PseoCorridor />} />
-                    <Route path="/cheapest-way-to-convert-usdt-to-inr" element={<PseoCorridor />} />
-                    <Route path="/usdt-to-inr-no-fees" element={<PseoCorridor />} />
-                    <Route path="/instant-usdt-to-bank-transfer-india" element={<PseoCorridor />} />
-                    <Route path="/crypto-to-upi-instant" element={<PseoCorridor />} />
-                    <Route path="/usdc-to-inr-without-kyc" element={<PseoCorridor />} />
-                    <Route path="/btc-to-inr-without-kyc" element={<PseoCorridor />} />
-                    <Route path="/sol-to-inr-without-kyc" element={<PseoCorridor />} />
-                    <Route path="/is-usdt-to-inr-legal-in-india" element={<PseoCorridor />} />
+                    {/* Programmatic SEO corridor pages — driven by src/data/pseoCorridors.ts (hand-crafted + generated) */}
+                    {getAllPseoSlugs().map((slug) => (
+                      <Route key={slug} path={`/${slug}`} element={<PseoCorridor />} />
+                    ))}
 
                     {/* Rates moved to p2prate.live — Vercel handles 308 redirects via vercel.json */}
 
