@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   X,
   Loader2,
@@ -9,7 +9,7 @@ import {
   UserPlus,
   Gift,
   ArrowLeftRight,
-  Calendar,
+  TrendingUp,
 } from "lucide-react";
 import { airdropApi } from "@/services/Airdrop";
 
@@ -35,7 +35,6 @@ export default function PointsHistoryModal({
   const [loading, setLoading] = useState(true);
   const [history, setHistory] = useState<PointLog[]>([]);
 
-  // Calculate total from history instead of using cached value
   const calculatedTotal = history.reduce((sum, log) => sum + log.points, 0);
 
   useEffect(() => {
@@ -49,24 +48,22 @@ export default function PointsHistoryModal({
       setLoading(true);
       const res: any = await airdropApi.getMyPointsHistory();
       setHistory(res.history || []);
-    } catch (err) {
-      // Failed to fetch points history
+    } catch {
+      // ignore
     } finally {
       setLoading(false);
     }
   };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
+  const formatDate = (dateString: string) =>
+    new Date(dateString).toLocaleDateString("en-US", {
       month: "short",
       day: "numeric",
       year: "numeric",
       hour: "2-digit",
       minute: "2-digit",
     });
-  };
 
-  // Get icon based on event type
   const getEventIcon = (event: string) => {
     switch (event) {
       case "REGISTER":
@@ -87,125 +84,123 @@ export default function PointsHistoryModal({
     }
   };
 
-  // Get color based on event type
-  const getEventColor = (event: string) => {
-    switch (event) {
-      case "REGISTER":
-        return "bg-purple-500/20 text-purple-600 dark:text-purple-400 border-purple-500/30";
-      case "TWITTER_FOLLOW":
-        return "bg-blue-500/20 text-blue-600 dark:text-blue-400 border-blue-500/30";
-      case "TELEGRAM_JOIN":
-        return "bg-sky-500/20 text-sky-600 dark:text-sky-400 border-sky-500/30";
-      case "WHITEPAPER_READ":
-        return "bg-amber-500/20 text-amber-600 dark:text-amber-400 border-amber-500/30";
-      case "CROSS_BORDER_SWAP":
-        return "bg-green-500/20 text-green-600 dark:text-green-400 border-green-500/30";
-      case "REFERRAL_BONUS_EARNED":
-      case "REFERRAL_BONUS_RECEIVED":
-        return "bg-pink-500/20 text-pink-600 dark:text-pink-400 border-pink-500/30";
-      default:
-        return "bg-zinc-500/20 text-zinc-600 dark:text-zinc-400 border-zinc-500/30";
-    }
-  };
-
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 dark:bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-white dark:bg-zinc-900 border border-black/10 dark:border-zinc-800 rounded-sm max-w-lg w-full max-h-[90vh] overflow-hidden shadow-2xl">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
+      <div
+        className="
+          w-full max-w-lg max-h-[90vh] overflow-hidden
+          bg-white dark:bg-[#0f0f0f]
+          border border-black/[0.08] dark:border-white/[0.06]
+          rounded-xl shadow-2xl
+          flex flex-col
+        "
+      >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-black/10 dark:border-zinc-800">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-black/[0.06] dark:border-white/[0.06]">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center">
-              <Coins className="w-5 h-5 text-black dark:text-white" />
+            <div className="w-10 h-10 rounded-full bg-[#ff6b35]/15 border border-[#ff6b35]/30 flex items-center justify-center shrink-0">
+              <TrendingUp className="w-5 h-5 text-[#ff6b35]" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-black dark:text-white">Points History</h2>
-              <p className="text-xs text-black/50 dark:text-zinc-500">
+              <h2 className="text-base font-black font-display text-black dark:text-white tracking-tight">
+                Points History
+              </h2>
+              <p className="text-[11px] text-black/40 dark:text-white/40">
                 Track your earned rewards
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded hover:bg-black/5 dark:hover:bg-zinc-800 transition-colors"
+            className="p-1.5 rounded-md hover:bg-black/[0.03] dark:hover:bg-white/5 transition-colors"
           >
-            <X className="w-5 h-5 text-black/40 dark:text-zinc-400" />
+            <X className="w-4 h-4 text-black/40 dark:text-white/40" />
           </button>
         </div>
 
-        {/* Total Points */}
-        <div className="p-6 border-b border-black/10 dark:border-zinc-800 bg-black/5 dark:bg-white/5">
+        {/* Total + Transactions */}
+        <div className="px-5 py-4 border-b border-black/[0.06] dark:border-white/[0.06] bg-[#F5F3F0] dark:bg-white/5">
           <div className="flex items-center justify-between">
             <div>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-black/50 dark:text-zinc-500">
-                Total Accumulated Points
+              <span className="text-[10px] font-black uppercase tracking-[0.18em] text-black/40 dark:text-white/40">
+                Total Points
               </span>
-              <div className="text-4xl font-black text-black dark:text-white tracking-tighter mt-1">
-                {calculatedTotal || totalPoints}
+              <div className="flex items-baseline gap-1.5 mt-1">
+                <span className="text-3xl font-black font-display text-black dark:text-white leading-none tracking-tight">
+                  {(calculatedTotal || totalPoints).toLocaleString()}
+                </span>
+                <span className="text-xs font-bold text-black/40 dark:text-white/40">
+                  pts
+                </span>
               </div>
             </div>
             <div className="text-right">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-black/50 dark:text-zinc-500">
+              <span className="text-[10px] font-black uppercase tracking-[0.18em] text-black/40 dark:text-white/40">
                 Transactions
               </span>
-              <div className="text-2xl font-bold text-black dark:text-white mt-1">
+              <div className="text-2xl font-black font-display text-black dark:text-white leading-none mt-1">
                 {history.length}
               </div>
             </div>
           </div>
         </div>
 
-        {/* History List */}
-        <div className="p-6 max-h-[400px] overflow-y-auto">
-          <h3 className="text-[10px] font-bold uppercase tracking-widest text-black/50 dark:text-zinc-500 mb-4">
+        {/* History list */}
+        <div className="px-5 py-4 overflow-y-auto flex-1">
+          <h3 className="text-[10px] font-black uppercase tracking-[0.18em] text-black/40 dark:text-white/40 mb-3">
             Points Breakdown
           </h3>
 
           {loading ? (
             <div className="flex items-center justify-center py-8">
-              <Loader2 className="w-6 h-6 text-black dark:text-white animate-spin" />
+              <Loader2 className="w-5 h-5 text-black/40 dark:text-white/40 animate-spin" />
             </div>
           ) : history.length === 0 ? (
             <div className="text-center py-8">
-              <Coins className="w-12 h-12 text-black/20 dark:text-zinc-700 mx-auto mb-3" />
-              <p className="text-black/50 dark:text-zinc-500 text-sm">No points earned yet</p>
-              <p className="text-black/40 dark:text-zinc-600 text-xs mt-1">
-                Complete tasks to earn points!
+              <Coins className="w-10 h-10 text-black/20 dark:text-white/20 mx-auto mb-3" />
+              <p className="text-sm font-medium text-black/60 dark:text-white/60">
+                No points earned yet
+              </p>
+              <p className="text-[11px] text-black/40 dark:text-white/40 mt-1">
+                Complete quests to earn points!
               </p>
             </div>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-2">
               {history.map((log, index) => (
                 <div
                   key={log.id || index}
-                  className="flex items-center justify-between p-4 bg-black/5 dark:bg-zinc-800/30 border border-black/10 dark:border-zinc-800 rounded-sm hover:border-black/20 dark:hover:border-zinc-700 transition-colors"
+                  className="
+                    flex items-center justify-between
+                    px-3 py-2.5 rounded-md
+                    bg-[#F5F3F0] dark:bg-white/5
+                    border border-black/[0.06] dark:border-white/[0.06]
+                    hover:border-[#ff6b35]/30
+                    transition-colors
+                  "
                 >
-                  <div className="flex items-center gap-3">
-                    <div
-                      className={`w-10 h-10 rounded-full flex items-center justify-center border ${getEventColor(
-                        log.event
-                      )}`}
-                    >
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-9 h-9 rounded-md bg-white dark:bg-black/40 border border-black/[0.08] dark:border-white/[0.06] flex items-center justify-center text-black dark:text-white shrink-0">
                       {getEventIcon(log.event)}
                     </div>
-                    <div>
-                      <div className="text-sm font-medium text-black dark:text-zinc-200">
+                    <div className="min-w-0">
+                      <div className="text-sm font-bold text-black dark:text-white truncate">
                         {log.eventLabel}
                       </div>
-                      <div className="flex items-center gap-1 mt-1">
-                        <Calendar className="w-3 h-3 text-black/30 dark:text-zinc-600" />
-                        <span className="text-[10px] text-black/40 dark:text-zinc-500">
-                          {formatDate(log.date)}
-                        </span>
+                      <div className="text-[10px] text-black/40 dark:text-white/40 mt-0.5">
+                        {formatDate(log.date)}
                       </div>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <span className="text-lg font-bold text-black dark:text-white">
-                      +{log.points}
+                  <div className="text-right shrink-0 pl-2">
+                    <span className="text-base font-black font-display text-[#ff6b35]">
+                      +{log.points.toLocaleString()}
                     </span>
-                    <div className="text-[10px] text-black/40 dark:text-zinc-500">pts</div>
+                    <div className="text-[9px] font-bold uppercase tracking-[0.14em] text-black/40 dark:text-white/40">
+                      pts
+                    </div>
                   </div>
                 </div>
               ))}
@@ -214,10 +209,15 @@ export default function PointsHistoryModal({
         </div>
 
         {/* Footer */}
-        <div className="p-4 border-t border-black/10 dark:border-zinc-800">
+        <div className="px-5 py-3 border-t border-black/[0.06] dark:border-white/[0.06]">
           <button
             onClick={onClose}
-            className="w-full py-3 rounded-full font-semibold bg-white text-black border border-black/10 transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98]"
+            className="
+              w-full py-2.5 rounded-md
+              bg-black text-white dark:bg-white dark:text-black
+              text-[11px] font-bold uppercase tracking-[0.14em]
+              hover:opacity-90 active:scale-[0.98] transition
+            "
           >
             Close
           </button>
