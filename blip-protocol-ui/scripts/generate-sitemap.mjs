@@ -20,6 +20,9 @@ const INTENT_SLUGS = [
   (c, f) => `${c}-to-${f}-p2p`,
   (c, f) => `${c}-to-${f}-instant`,
   (c, f) => `cheapest-way-to-convert-${c}-to-${f}`,
+  (c, f) => `${c}-to-${f}-no-fees`,
+  (c, f) => `best-${c}-to-${f}-rate`,
+  (c, f) => `fastest-${c}-to-${f}`,
 ];
 
 const HANDCRAFTED = [
@@ -39,6 +42,14 @@ const HANDCRAFTED = [
   "btc-to-inr-without-kyc",
   "sol-to-inr-without-kyc",
   "is-usdt-to-inr-legal-in-india",
+  // Batch 3 hand-crafted hubs:
+  "usdt-premium-india-today",
+  "uae-to-india-remittance-crypto",
+  "usdt-to-php-gcash-instant",
+  "accept-stablecoin-payments-uae-business",
+  "crypto-arbitrage-india-explained",
+  "blip-vs-binance-p2p",
+  "blip-vs-wazirx",
 ];
 
 const handSet = new Set(HANDCRAFTED);

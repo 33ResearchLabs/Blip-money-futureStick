@@ -86,6 +86,9 @@ export default function PseoCorridor() {
 
   if (!corridor) return <Navigate to="/" replace />;
 
+  const isWithoutKyc = corridor.slug.includes("without-kyc");
+  const isIndia = corridor.slug.includes("inr") || corridor.slug.includes("india");
+
   return (
     <>
       <SEO
@@ -170,6 +173,21 @@ export default function PseoCorridor() {
             <p className="text-lg leading-relaxed text-black/75 dark:text-white/65">
               {corridor.intro}
             </p>
+            {isWithoutKyc && (
+              <div className="mt-6 rounded-xl border border-amber-400/30 bg-amber-50/60 dark:bg-amber-400/[0.04] px-5 py-4 text-[13px] leading-relaxed text-black/70 dark:text-white/60">
+                <strong className="font-semibold text-black/85 dark:text-white/85">
+                  Compliance note:
+                </strong>{" "}
+                "Without exchange KYC" refers to not creating an account on a
+                centralized exchange. Local tax laws still apply
+                {isIndia
+                  ? " — in India, the 30% VDA tax on gains and 1% TDS on transfers above ₹10,000/year per counterparty are statutory regardless of platform"
+                  : ""}
+                . Blip provides export-ready trade history for your tax filing.
+                This page is not legal advice; consult a qualified tax advisor
+                for your specific situation.
+              </div>
+            )}
           </div>
         </section>
 

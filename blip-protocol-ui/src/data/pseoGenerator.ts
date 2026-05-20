@@ -130,6 +130,8 @@ interface Intent {
     | "instant"
     | "cheapest"
     | "no-fees"
+    | "best-rate"
+    | "fastest"
     | "via-rail";
   rail?: string; // optional payment rail focus
 }
@@ -178,6 +180,39 @@ const INTENTS: Intent[] = [
     ledeTemplate:
       "Spread, taker fee, withdrawal fee, hidden margin. We compare the real all-in cost across every {Crypto}-{Fiat} route — and show why merchant bidding wins.",
     eyebrowTemplate: "Compare · {Crypto} · {Fiat}",
+  },
+  {
+    kind: "no-fees",
+    slugTemplate: "{crypto}-to-{fiat}-no-fees",
+    titleTemplate: "{Crypto} to {Fiat} with No Platform Fees — 0% Protocol Fee | Blip",
+    descTemplate:
+      "Convert {Crypto} to {Fiat} with 0% protocol fee. No taker fee, no maker fee, no withdrawal fee. Merchant bidding compresses the spread to 0.1-0.3%.",
+    h1Template: "{Crypto} to {Fiat} with 0% protocol fee.",
+    ledeTemplate:
+      "No taker. No maker. No withdrawal. The only cost is whatever the winning merchant bids — and competition keeps that tight.",
+    eyebrowTemplate: "Fees · {Crypto} · {Fiat}",
+  },
+  {
+    kind: "best-rate",
+    slugTemplate: "best-{crypto}-to-{fiat}-rate",
+    titleTemplate: "Best {Crypto} to {Fiat} Rate Today — Live Merchant Bidding | Blip",
+    descTemplate:
+      "Find the best {Crypto} to {Fiat} rate live. Verified merchants bid against each other for every trade — you take the top of the book.",
+    h1Template: "Best {Crypto} to {Fiat} rate, live.",
+    ledeTemplate:
+      "Static P2P ads don't update. Blip's merchant book does — every second. Take the best bid the second it's quoted.",
+    eyebrowTemplate: "Best Rate · {Crypto} · {Fiat}",
+  },
+  {
+    kind: "fastest",
+    slugTemplate: "fastest-{crypto}-to-{fiat}",
+    titleTemplate: "Fastest {Crypto} to {Fiat} — Sub-Minute Settlement | Blip",
+    descTemplate:
+      "Convert {Crypto} to {Fiat} via {fastestRail} in {fastestRailSpeed}. Bank-webhook auto-release. The fastest {Crypto}-{Fiat} off-ramp on the market.",
+    h1Template: "Fastest {Crypto} to {Fiat}.",
+    ledeTemplate:
+      "Sub-minute settlement isn't a marketing claim — it's what the contract enforces. Bank webhook fires, escrow releases, trade closes.",
+    eyebrowTemplate: "Fastest · {Crypto} · {Fiat}",
   },
 ];
 
@@ -228,6 +263,12 @@ function buildIntro(c: Crypto, f: Fiat, intent: Intent): string {
       return `Most "instant" crypto exchanges aren't really instant — P2P pages drag into 10-30 minute appeals, exchange withdrawals queue in NEFT-style batches. Blip's architecture makes the speed real: ${c.ticker} on ${c.chain} finalizes in ${c.finalitySec} seconds, ${f.fastestRail} clears in under a minute, and the bank webhook fires the contract release the instant ${f.code} posts. No human in the loop. The result: median ${c.ticker}-${f.code} trade closes in ${f.fastestRailSpeed} end-to-end. Same rate, same security as the slower routes — just no waiting.`;
     case "cheapest":
       return `"Cheapest ${c.ticker} to ${f.code}" is the wrong question if you only look at the headline fee. ${f.competitorList[0]} shows 0% taker fee — then widens the spread by 0.3-0.5%. The all-in cost is what matters: bid rate minus what hits your bank, minus any network fees you paid moving ${c.ticker} onto the chain. Blip's structure is the simplest possible: 0% protocol fee, merchants compete on rate, and the only spread is whatever the winning merchant bids. In live comparisons across ${c.ticker}-${f.code} on Blip, this delivers 0.2-0.6% more ${f.code} per ${c.ticker} than centralized P2P.`;
+    case "no-fees":
+      return `Three places exchanges charge you on ${c.ticker}→${f.code}: a taker fee on the trade, a withdrawal fee to get ${f.code} off-platform, and a hidden spread embedded in the quoted rate. Blip charges zero on all three. The protocol takes no fee. There's no withdrawal step because ${f.code} settles directly to your ${f.fastestRail} or bank. The only embedded cost is the merchant's quoted spread, and because merchants bid against each other, that spread compresses to 0.1-0.3% in normal conditions. On a typical retail ${c.ticker}-${f.code} trade that's a noticeable savings versus centralized P2P.`;
+    case "best-rate":
+      return `Most platforms show you a single quote — take it or leave it. Blip's design assumes the opposite: you should see the entire merchant book and let competition tighten the rate. Verified ${f.country} merchants submit live bids on every trade; the top of book is what you trade against. Live testing on ${c.ticker}-${f.code} consistently shows Blip's effective rate beating ${f.competitorList[0]}'s static merchant pages by 0.2-0.5%. No subscription, no fee tier — the better rate is the product.`;
+    case "fastest":
+      return `Two rails define the speed ceiling on ${c.ticker}→${f.code}: ${c.chain} finality (${c.finalitySec} seconds) on the crypto leg and ${f.fastestRail} on the fiat leg (${f.fastestRailSpeed}). Blip wires them together with a bank-webhook trigger — the moment ${f.code} posts to your account, the smart contract fires the release. There's no human button to press, no support queue, no merchant chat. End-to-end the trade closes inside the ${f.fastestRailSpeed} envelope for typical retail volumes.`;
     default:
       return `Convert ${c.ticker} to ${f.code} with Blip's non-custodial settlement protocol. ${tpl("{Crypto}", v)} on ${c.chain} settles to ${f.fastestRail} in ${f.fastestRailSpeed}.`;
   }
@@ -362,6 +403,24 @@ function buildFaqs(c: Crypto, f: Fiat, intent: Intent): PseoCorridor["faqs"] {
       a: `0% from Blip the protocol. The total cost of a trade is the merchant's spread (typically 0.1-0.3%) plus any network fee to move ${c.ticker} (${c.feeUsd}). That's the cheapest you'll find — and it's transparent.`,
     });
   }
+  if (intent.kind === "no-fees") {
+    base.push({
+      q: `How does Blip make money if you charge 0%?`,
+      a: `Long-term revenue comes from merchant-side subscription tiers (priority routing, analytics). The user-side stays 0% — that's a protocol design choice, not a promo.`,
+    });
+  }
+  if (intent.kind === "best-rate") {
+    base.push({
+      q: `Is the best rate always on Blip?`,
+      a: `No platform can promise that. Specific minutes will see ${f.competitorList[0]} undercut. But on average and at non-trivial volume, merchant bidding wins. Run a live quote on /rates and compare yourself before every trade.`,
+    });
+  }
+  if (intent.kind === "fastest") {
+    base.push({
+      q: `Is "${f.fastestRailSpeed}" actually guaranteed?`,
+      a: `It's enforced by the contract — the release transaction fires on the bank webhook event. Median trade closes in that window. Outliers happen if your bank's webhook is delayed, but the escrow has a longer fallback window so funds are never stuck.`,
+    });
+  }
   return base;
 }
 
@@ -405,6 +464,14 @@ const HANDCRAFTED_SLUGS = new Set([
   "btc-to-inr-without-kyc",
   "sol-to-inr-without-kyc",
   "is-usdt-to-inr-legal-in-india",
+  // Batch 3 hand-crafted hubs:
+  "usdt-premium-india-today",
+  "uae-to-india-remittance-crypto",
+  "usdt-to-php-gcash-instant",
+  "accept-stablecoin-payments-uae-business",
+  "crypto-arbitrage-india-explained",
+  "blip-vs-binance-p2p",
+  "blip-vs-wazirx",
 ]);
 
 export function generatePseoCorridors(): PseoCorridor[] {
