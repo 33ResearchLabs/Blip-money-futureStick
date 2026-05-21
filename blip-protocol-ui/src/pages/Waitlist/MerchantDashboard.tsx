@@ -1116,7 +1116,7 @@ export default function MerchantDashboard() {
                 <div className="flex flex-wrap items-center gap-2.5">
                   <button
                     onClick={() => setShowReferralModal(true)}
-                    className="bg-[#ff6b35] text-white px-5 py-2.5 rounded-md text-[11px] font-bold uppercase tracking-[0.14em] hover:opacity-90 active:scale-[0.98] transition flex items-center gap-2"
+                    className=" border border-[#ff6b35]/50 bg-white text-black px-5 py-2.5 rounded-md text-[11px] font-bold uppercase tracking-[0.14em] hover:opacity-90 active:scale-[0.98] transition flex items-center gap-2"
                   >
                     <Share2 className="w-3.5 h-3.5" />
                     Share Your Code
@@ -1362,7 +1362,7 @@ export default function MerchantDashboard() {
                 </div>
               </div>
               <a
-                href="https://forms.gle/your-google-form-id"
+                href="https://forms.gle/UyfhpcMdq8BSTQSZA"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-[#fff] text-black px-5 py-2.5 rounded-md text-[11px] font-bold uppercase tracking-[0.14em] hover:opacity-90 active:scale-[0.98] transition flex items-center gap-2 shrink-0 border border-[#ff6b35]/50"
@@ -1573,6 +1573,81 @@ export default function MerchantDashboard() {
                   })}
               </div>
             </div>
+
+            {/* ── P2P App Test Banner (bottom-right) ────────────────────────────────── */}
+      <div className=" ">
+        
+          <div
+            className={`w-full  ${surface} border ${border} rounded-2xl shadow-2xl overflow-hidden`}
+          >
+            {/* Header row */}
+            <div
+              className={`px-4 py-2.5 flex items-center justify-between border-b ${divider}`}
+            >
+              <div className="flex items-center gap-2">
+                <Rocket className={`w-3.5 h-3.5 ${txt}`} />
+                <span
+                  className={`text-[10px] font-bold uppercase tracking-wider ${txt}`}
+                >
+                  Merchant Beta
+                </span>
+                <span className="px-2 py-0.5 text-[8px] font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-500 border border-emerald-500/20 rounded-full">
+                  On Mainnet 
+                </span>
+              </div>
+              <button
+                onClick={() => setShowP2PBanner(false)}
+                className={`p-1 rounded-lg ${hov} transition-colors`}
+              >
+                <X className={`w-3.5 h-3.5 ${muted}`} />
+              </button>
+            </div>
+
+            {/* Content */}
+            <div className="px-4 py-3 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
+              <div className="flex-1 min-w-0">
+                <h4
+                  className={`text-xs font-bold font-display ${txt} leading-tight`}
+                >
+                  Request for Merchant P2P App Test
+                </h4>
+                <p className={`text-[10px] ${muted} mt-1 leading-relaxed`}>
+                  Trial our P2P release app. Early access &amp; governance
+                  rights included.
+                </p>
+                <div className="flex items-center gap-3 mt-1.5">
+                  <span
+                    className={`flex items-center gap-1 text-[10px] ${muted}`}
+                  >
+                    <CircleCheck className="w-3 h-3 text-emerald-500" /> P2P
+                    Access
+                  </span>
+                  <span
+                    className={`flex items-center gap-1 text-[10px] ${muted}`}
+                  >
+                    <CircleCheck className="w-3 h-3 text-emerald-500" />{" "}
+                    Governance
+                  </span>
+                  <span className={`text-[9px] font-mono ${sub}`}>
+                    iOS 9.44.6
+                  </span>
+                </div>
+              </div>
+              <button
+                onClick={() =>
+                  window.open(
+                    "https://www.blip.money/merchant-waitlist",
+                    "_blank",
+                  )
+                }
+                className="px-4 py-2 bg-white hover:bg-white/70 text-black text-[11px] font-bold rounded-lg transition-colors shrink-0"
+              >
+                Send Request
+              </button>
+            </div>
+          </div>
+        
+      </div>
 
             {/* Invite Friends — pinned to bottom of left column so it aligns with Leaderboard */}
             {/* <div
@@ -2974,79 +3049,7 @@ export default function MerchantDashboard() {
       )}
 
       {/* ── P2P App Test Banner (bottom-right) ────────────────────────────────── */}
-      <div className="fixed bottom-4 right-4 z-50 ">
-        {showP2PBanner && (
-          <div
-            className={`w-full max-w-[480px] ${surface} border ${border} rounded-2xl shadow-2xl overflow-hidden`}
-          >
-            {/* Header row */}
-            <div
-              className={`px-4 py-2.5 flex items-center justify-between border-b ${divider}`}
-            >
-              <div className="flex items-center gap-2">
-                <Rocket className={`w-3.5 h-3.5 ${txt}`} />
-                <span
-                  className={`text-[10px] font-bold uppercase tracking-wider ${txt}`}
-                >
-                  Merchant Beta
-                </span>
-                <span className="px-2 py-0.5 text-[8px] font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-500 border border-emerald-500/20 rounded-full">
-                  Mainnet in 32 Days
-                </span>
-              </div>
-              <button
-                onClick={() => setShowP2PBanner(false)}
-                className={`p-1 rounded-lg ${hov} transition-colors`}
-              >
-                <X className={`w-3.5 h-3.5 ${muted}`} />
-              </button>
-            </div>
-
-            {/* Content */}
-            <div className="px-4 py-3 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
-              <div className="flex-1 min-w-0">
-                <h4
-                  className={`text-xs font-bold font-display ${txt} leading-tight`}
-                >
-                  Request for Merchant P2P App Test
-                </h4>
-                <p className={`text-[10px] ${muted} mt-1 leading-relaxed`}>
-                  Trial our P2P release app. Early access &amp; governance
-                  rights included.
-                </p>
-                <div className="flex items-center gap-3 mt-1.5">
-                  <span
-                    className={`flex items-center gap-1 text-[10px] ${muted}`}
-                  >
-                    <CircleCheck className="w-3 h-3 text-emerald-500" /> P2P
-                    Access
-                  </span>
-                  <span
-                    className={`flex items-center gap-1 text-[10px] ${muted}`}
-                  >
-                    <CircleCheck className="w-3 h-3 text-emerald-500" />{" "}
-                    Governance
-                  </span>
-                  <span className={`text-[9px] font-mono ${sub}`}>
-                    iOS 9.44.6
-                  </span>
-                </div>
-              </div>
-              <button
-                onClick={() =>
-                  window.open(
-                    "https://www.blip.money/merchant-waitlist",
-                    "_blank",
-                  )
-                }
-                className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-[11px] font-bold rounded-lg transition-colors shrink-0"
-              >
-                Sign Up Now
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
+      
 
       {/* {!showP2PBanner && (
         <div className="fixed bottom-4 left-4 z-50">
