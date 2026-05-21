@@ -193,19 +193,19 @@ const CinematicHero = () => {
         >
           {/* Mobile: single oversized primary CTA */}
           <Link
-            to="/register"
+            to="https://app.blip.money/waitlist/user"
             className="sm:hidden group inline-flex items-center justify-center w-full max-w-[220px] py-4 px-6 rounded-full bg-white text-black text-[18px] font-semibold gap-2 shadow-[0_8px_28px_rgba(255,255,255,0.14)] active:scale-[0.98] transition-transform"
           >
             Join Waitlist
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
           </Link>
 
-          {/* Desktop: two CTAs side by side */}
+          {/* Desktop: two CTAs side by side — User and Merchant waitlists */}
           <div className="sm:flex hidden  items-center justify-center gap-3">
-            <CTAButton to="/register">
-              Join Waitlist
+            <CTAButton to="https://app.blip.money/waitlist/user">
+              Join as User
             </CTAButton>
-            <CTAButton to="/merchant" variant="secondary">
+            <CTAButton to="https://app.blip.money/waitlist/merchant" variant="secondary">
               Join as Merchant
             </CTAButton>
           </div>

@@ -264,7 +264,7 @@ const UserHero = () => {
           transition={{ duration: 0.9, delay: 0.7, ease: EASE }}
           className="flex flex-col sm:flex-row items-center justify-center gap-3"
         >
-          <CTAButton to="/register" className="min-w-[220px] sm:min-w-0">Join waitlist</CTAButton>
+          <CTAButton to="https://app.blip.money/waitlist/user" className="min-w-[220px] sm:min-w-0">Join waitlist</CTAButton>
           <CTAButton to="/how-it-works" variant="secondary" className="min-w-[220px] sm:min-w-0">
             See how it works
           </CTAButton>
@@ -760,7 +760,7 @@ const UserCTA = () => {
           Join the waitlist. Early users get priority access and bonus rewards.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-          <CTAButton to="/register" className="min-w-[220px]">Join waitlist</CTAButton>
+          <CTAButton to="https://app.blip.money/waitlist/user" className="min-w-[220px]">Join waitlist</CTAButton>
           <CTAButton to="/how-it-works" variant="secondary" className="min-w-[220px]">
             Learn more
           </CTAButton>
