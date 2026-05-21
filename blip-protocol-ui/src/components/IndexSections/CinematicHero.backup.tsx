@@ -148,7 +148,7 @@ const CinematicHero = () => (
           transition={{ duration: 0.15, ease: "easeOut" }}
         >
           <Link
-            to="/waitlist"
+            to="https://app.blip.money/waitlist/user"
             className="group relative overflow-hidden inline-flex items-center justify-center gap-2 px-8 h-[50px] rounded-[10px] bg-white text-[#0d0d0d] text-[14.5px] font-semibold tracking-[-0.01em] transition-shadow duration-300"
             style={{
               boxShadow: "0 1px 10px rgba(255,255,255,0.06)",

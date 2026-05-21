@@ -559,7 +559,7 @@ const CTABottomSection = () => {
           </Link>
 
           <Link
-            to="/waitlist"
+            to="https://app.blip.money/waitlist/user"
             onClick={() => sounds.click()}
             onMouseEnter={() => sounds.hover()}
             className="inline-flex items-center gap-3 px-8 py-4 rounded-full border border-black/10 dark:border-white/10 text-black dark:text-white font-semibold hover:bg-black/5 dark:hover:bg-white/5 transition-all"

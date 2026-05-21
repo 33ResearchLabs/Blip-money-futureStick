@@ -124,12 +124,12 @@ export const CinematicHeroOfMerchant = () => {
   >
     Become a Merchant
   </Link> */}
-            {/* <CTAButton to="/waitlist" className="w-[225px]  h-[48px]">
+            {/* <CTAButton to="https://app.blip.money/waitlist/user" className="w-[225px]  h-[48px]">
               Become a Merchant
             </CTAButton> */}
 
             {/* <Link
-    to="/waitlist"
+    to="https://app.blip.money/waitlist/user"
     className="group inline-flex items-center justify-center gap-3
       px-10 py-4
       min-h-[52px] w-[220px]
@@ -142,7 +142,7 @@ export const CinematicHeroOfMerchant = () => {
   >
     Join Waitlist
   </Link> */}
-            <CTAButton to="/merchant-waitlist" className="w-[225px]  h-[48px]">
+            <CTAButton to="https://app.blip.money/waitlist/merchant" className="w-[225px]  h-[48px]">
               Join Waitlist
             </CTAButton>
           </motion.div>

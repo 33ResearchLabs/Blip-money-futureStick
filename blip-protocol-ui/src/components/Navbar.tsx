@@ -11,8 +11,11 @@ import {
 } from "lucide-react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useAuth } from "@/contexts/AuthContext";
 import { sounds } from "@/lib/sounds";
+
+// External waitlist URLs (the waitlist app lives at app.blip.money)
+const WAITLIST_USER_URL = "https://app.blip.money/waitlist/user";
+const WAITLIST_MERCHANT_URL = "https://app.blip.money/waitlist/merchant";
 import { useTheme } from "next-themes";
 import { useBannerHeight } from "./NotificationPopup";
 
@@ -24,7 +27,6 @@ export const Navbar = () => {
   const [isHidden, setIsHidden] = useState(false);
 
   const { t } = useTranslation();
-  const { isAuthenticated } = useAuth();
   const location = useLocation();
   const { theme } = useTheme();
   const isDark = theme === "dark";
@@ -99,11 +101,7 @@ export const Navbar = () => {
             </div>
 
             <div className="hidden lg:flex items-center gap-3">
-              {isAuthenticated ? (
-                <CTAButton to="/dashboard">Dashboard</CTAButton>
-              ) : (
-                <CTAButton to="/register">Join Waitlist</CTAButton>
-              )}
+              <CTAButton to={WAITLIST_USER_URL}>Join Waitlist</CTAButton>
             </div>
 
             <div className="flex gap-2 lg:hidden">
@@ -255,6 +253,41 @@ export const CTAButton = ({
     my.set(0);
   };
 
+  const isExternal = /^https?:\/\//i.test(to);
+  const innerClassName = `
+    ${className}
+    group relative overflow-hidden inline-flex
+    items-center justify-center px-5 py-2.5 rounded-full
+    text-[16px] font-semibold transition-all duration-300 ease-out
+    ${
+      isPrimary
+        ? "dark:bg-white dark:text-black border bg-white text-black border-white/20 hover:shadow-[0_8px_28px_rgba(255,255,255,0.14)]"
+        : "dark:bg-transparent dark:text-white text-white border border-white/30 hover:border-white/60 hover:bg-white/10 hover:shadow-[0_8px_24px_rgba(255,255,255,0.08)]"
+    }
+  `;
+  const innerContent = (
+    <>
+      {/* Shine sweep on hover */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-[900ms] ease-out"
+        style={{
+          background: isPrimary
+            ? "linear-gradient(110deg, transparent 35%, rgba(255,107,53,0.35) 50%, transparent 65%)"
+            : "linear-gradient(110deg, transparent 35%, rgba(255,255,255,0.2) 50%, transparent 65%)",
+        }}
+      />
+      <span className="relative z-10 font-semibold flex items-center gap-2">
+        {children}
+        {isPrimary ? (
+          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+        ) : (
+          ""
+        )}
+      </span>
+    </>
+  );
+
   return (
     <motion.div
       ref={ref}
@@ -264,41 +297,25 @@ export const CTAButton = ({
       style={{ x: sx, y: sy }}
       className="relative inline-block"
     >
-      <Link
-        to={to}
-        onClick={() => sounds.click()}
-        onMouseEnter={() => sounds.hover()}
-        className={`
-          ${className}
-          group relative overflow-hidden inline-flex
-          items-center justify-center px-5 py-2.5 rounded-full
-          text-[16px] font-semibold transition-all duration-300 ease-out
-          ${
-            isPrimary
-              ? "dark:bg-white dark:text-black border bg-white text-black border-white/20 hover:shadow-[0_8px_28px_rgba(255,255,255,0.14)]"
-              : "dark:bg-transparent dark:text-white text-white border border-white/30 hover:border-white/60 hover:bg-white/10 hover:shadow-[0_8px_24px_rgba(255,255,255,0.08)]"
-          }
-        `}
-      >
-        {/* Shine sweep on hover */}
-        <span
-          aria-hidden
-          className="pointer-events-none absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-[900ms] ease-out"
-          style={{
-            background: isPrimary
-              ? "linear-gradient(110deg, transparent 35%, rgba(255,107,53,0.35) 50%, transparent 65%)"
-              : "linear-gradient(110deg, transparent 35%, rgba(255,255,255,0.2) 50%, transparent 65%)",
-          }}
-        />
-        <span className="relative z-10 font-semibold flex items-center gap-2">
-          {children}
-          {isPrimary ? (
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-          ) : (
-            ""
-          )}
-        </span>
-      </Link>
+      {isExternal ? (
+        <a
+          href={to}
+          onClick={() => sounds.click()}
+          onMouseEnter={() => sounds.hover()}
+          className={innerClassName}
+        >
+          {innerContent}
+        </a>
+      ) : (
+        <Link
+          to={to}
+          onClick={() => sounds.click()}
+          onMouseEnter={() => sounds.hover()}
+          className={innerClassName}
+        >
+          {innerContent}
+        </Link>
+      )}
     </motion.div>
   );
 };
@@ -343,7 +360,6 @@ const MobileMenu = memo(({
   onClose: () => void;
 }) => {
   const { t } = useTranslation();
-  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const bannerH = useBannerHeight();
@@ -397,23 +413,13 @@ const MobileMenu = memo(({
 
         {/* mobile nav footer — always rendered now that rates moved to p2prate.live */}
         <div className="p-4 border-t border-black/5 dark:border-white/5 space-y-2">
-            {isAuthenticated ? (
-              <a
-                href="/dashboard"
-                onClick={(e) => handleNavClick(e, "/dashboard")}
-                className="block w-full text-center py-1.5 rounded-full bg-white text-black border border-black/10 text-sm font-semibold transition-all duration-200 hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98]"
-              >
-                Dashboard
-              </a>
-            ) : (
-              <a
-                href="/register"
-                onClick={(e) => handleNavClick(e, "/waitlist")}
-                className="block w-full text-center py-1.5 rounded-full bg-white text-black border border-black/10 text-sm font-semibold transition-all duration-200 hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98]"
-              >
-                Join Waitlist
-              </a>
-            )}
+            <a
+              href={WAITLIST_USER_URL}
+              onClick={() => sounds.click()}
+              className="block w-full text-center py-1.5 rounded-full bg-white text-black border border-black/10 text-sm font-semibold transition-all duration-200 hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98]"
+            >
+              Join Waitlist
+            </a>
           </div>
       </div>
     </>

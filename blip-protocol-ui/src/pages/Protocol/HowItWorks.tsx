@@ -831,7 +831,7 @@ const CTASection = () => {
             {/* CTA */}
 
             {/* <CTAButton
-              to="/waitlist"
+              to="https://app.blip.money/waitlist/user"
               className="w-[220px]  h-[48px] border flex items-center justify-center"
             >
               Get Started

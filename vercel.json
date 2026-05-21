@@ -3,6 +3,18 @@
   "outputDirectory": "blip-protocol-ui/dist",
   "framework": "vite",
   "installCommand": "cd blip-protocol-ui && npm install",
+  "redirects": [
+    {
+      "source": "/waitlist",
+      "destination": "https://app.blip.money/waitlist/user",
+      "permanent": true
+    },
+    {
+      "source": "/merchant-waitlist",
+      "destination": "https://app.blip.money/waitlist/merchant",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",
