@@ -65,6 +65,7 @@ import TwitterVerificationModal from "@/components/TwitterVerificationModal";
 import TelegramVerificationModal from "@/components/TelegramVerificationModal";
 import ReferralModal from "@/components/ReferralModal";
 import RetweetVerificationModal from "@/components/RetweetVerificationModal";
+import XFollowVerificationModal from "@/components/XFollowVerificationModal";
 import WalletLinkingModal from "@/components/WalletLinkingModal";
 import PointsHistoryModal from "@/components/PointsHistoryModal";
 import { MerchantWalletButton } from "@/components/wallet/MerchantWalletButton";
@@ -185,6 +186,7 @@ export default function MerchantDashboard() {
 
   // Modal states
   const [showTwitterModal, setShowTwitterModal] = useState(false);
+  const [showXFollowModal, setShowXFollowModal] = useState(false);
   const [showTelegramModal, setShowTelegramModal] = useState(false);
   const [showReferralModal, setShowReferralModal] = useState(false);
   const [showRetweetModal, setShowRetweetModal] = useState(false);
@@ -602,6 +604,13 @@ export default function MerchantDashboard() {
     setShowTwitterModal(false);
   };
 
+  const handleXFollowSuccess = (points: number) => {
+    updatePoints(points);
+    // "Follow Us on Twitter" quest is satisfied by verifying the X follow
+    setCompletedQuests((prev) => new Set(prev).add("twitter"));
+    setShowXFollowModal(false);
+  };
+
   const handleTelegramSuccess = (points: number) => {
     updatePoints(points);
     setCompletedQuests((prev) => new Set(prev).add("telegram"));
@@ -628,7 +637,8 @@ export default function MerchantDashboard() {
       retweetCooldownUntil > new Date()
     )
       return;
-    if (questId === "twitter") setShowTwitterModal(true);
+    // "Follow Us on Twitter" should verify a follow (X username), not a tweet share
+    if (questId === "twitter") setShowXFollowModal(true);
     else if (questId === "telegram") setShowTelegramModal(true);
     else if (questId === "retweet") setShowRetweetModal(true);
     else if (questId === "referral") setShowReferralModal(true);
@@ -1581,6 +1591,13 @@ export default function MerchantDashboard() {
         onClose={() => setShowTwitterModal(false)}
         onSuccess={handleTwitterSuccess}
         userWallet={user?.wallet_address || ""}
+        userRole={user?.role}
+      />
+
+      <XFollowVerificationModal
+        isOpen={showXFollowModal}
+        onClose={() => setShowXFollowModal(false)}
+        onSuccess={handleXFollowSuccess}
         userRole={user?.role}
       />
 

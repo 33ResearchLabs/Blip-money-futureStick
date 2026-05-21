@@ -27,12 +27,29 @@ import {
   RefreshCw,
   Clock,
   UserPlus,
+  TrendingUp,
+  Award,
+  Crown,
+  Trophy,
+  Send,
+  Gift,
+  Star,
+  Plus,
+  Layout,
+  CheckCircle2,
+  Menu,
+  Sun,
+  Moon,
+  LogOut,
+  CircleCheck,
+  Repeat2,
 } from "lucide-react";
 import DashboardNavbar from "@/components/DashboardNavbar";
 import { api } from "@/services/api";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "next-themes";
 import PointsHistoryModal from "@/components/PointsHistoryModal";
 import ReferralModal from "@/components/ReferralModal";
 import WalletLinkingModal from "@/components/WalletLinkingModal";
@@ -40,7 +57,17 @@ import TwitterVerificationModal from "@/components/TwitterVerificationModal";
 import TelegramVerificationModal from "@/components/TelegramVerificationModal";
 import XFollowVerificationModal from "@/components/XFollowVerificationModal";
 import { Footer } from "@/components/Footer";
+import { Logo } from "@/components/Navbar";
 import { airdropApi } from "@/services/Airdrop";
+import { useAutoRefreshLeaderboard } from "@/hooks/useAutoRefreshLeaderboard";
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
+
+// X (Twitter) brand logo — lucide doesn't ship one
+const XBrand = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  </svg>
+);
 
 // --- Global Styles & Keyframes ---
 const GlobalStyles = () => (
@@ -601,10 +628,13 @@ const TASKS_DATA = {
       description:
         "Follow our official channels to verify your identity.",
       reward: "1000",
-      status: "coming_soon",
+      status: "hidden",
       icon: Share2,
       difficulty: "Easy",
     },
+    // Card order mirrors MerchantDashboard:
+    //   1. Follow Us on X     2. Follow Us on Telegram
+    //   3. Share on X (Tweet) 4. Share Referral Link
     {
       id: "s4",
       title: "Follow on X (Twitter)",
@@ -613,6 +643,15 @@ const TASKS_DATA = {
       status: "active",
       icon: UserPlus,
       difficulty: "Very Easy",
+    },
+    {
+      id: "s3",
+      title: "Join Telegram Channel",
+      description: "Join our Telegram channel and verify your membership to earn points.",
+      reward: "100",
+      status: "active",
+      icon: Users,
+      difficulty: "Easy",
     },
     {
       id: "s2",
@@ -624,12 +663,13 @@ const TASKS_DATA = {
       difficulty: "Very Easy",
     },
     {
-      id: "s3",
-      title: "Join Telegram Channel",
-      description: "Join our Telegram channel and verify your membership to earn points.",
+      id: "referral",
+      title: "Share Referral Link",
+      description:
+        "Earn 100 pts per user signup or 1,000 pts per merchant signup.",
       reward: "100",
       status: "active",
-      icon: Users,
+      icon: Share2,
       difficulty: "Easy",
     },
   ],
@@ -752,6 +792,41 @@ export default function BlipDashboard() {
   const { logout, user, updatePoints, refreshSession } = useAuth();
   const [isRefreshingPoints, setIsRefreshingPoints] = useState(false);
   const navigate = useNavigate();
+  const { resolvedTheme, setTheme } = useTheme();
+  const d = resolvedTheme === "dark" || resolvedTheme === undefined;
+
+  // Leaderboard + referrals data for the merchant-style layout
+  const { data: leaderboardData, isRefreshing: leaderboardLoading, refresh: refreshLeaderboard } =
+    useAutoRefreshLeaderboard(!!user);
+  const [lbFilter, setLbFilter] = useState("Points");
+  const [referralCount, setReferralCount] = useState(0);
+  const [navMenuOpen, setNavMenuOpen] = useState(false);
+  const navMenuRef = useRef<HTMLDivElement>(null);
+
+  // Fetch referrals count for the hero stats
+  useEffect(() => {
+    if (!user) return;
+    (async () => {
+      try {
+        const res: any = await airdropApi.getMyReferrals();
+        const list = res?.referrals || res?.data?.referrals || [];
+        setReferralCount(Array.isArray(list) ? list.length : 0);
+      } catch {
+        // ignore — leave count at 0
+      }
+    })();
+  }, [user]);
+
+  // Close the nav menu when clicking outside
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (navMenuRef.current && !navMenuRef.current.contains(e.target as Node)) {
+        setNavMenuOpen(false);
+      }
+    };
+    if (navMenuOpen) document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [navMenuOpen]);
 
   // Wallet linking is optional — the modal opens only when the user
   // explicitly clicks the wallet status card or "Connect Wallet" banner.
@@ -894,6 +969,10 @@ export default function BlipDashboard() {
       setShowTelegramModal(true);
       return;
     }
+    if (task.id === "referral") {
+      setShowReferralModal(true);
+      return;
+    }
 
     // Coming soon / locked tasks
     if (task.status === "coming_soon") {
@@ -945,8 +1024,10 @@ export default function BlipDashboard() {
   };
 
   const getVisibleTasks = (categoryTasks) => {
-    if (filter === "all") return categoryTasks;
-    return categoryTasks.filter((t) => t.status === "active");
+    // Always drop quests flagged as "hidden" (e.g. s1 Gleam — not shipping yet)
+    const visible = categoryTasks.filter((t) => t.status !== "hidden");
+    if (filter === "all") return visible;
+    return visible.filter((t) => t.status === "active");
   };
 
   if (!booted) {
@@ -958,11 +1039,43 @@ export default function BlipDashboard() {
     );
   }
 
+  // ── Theme tokens — match MerchantDashboard ────────────────────────────
+  const bg = d ? "bg-black" : "bg-[#FAF8F5]";
+  const surface = d ? "bg-[#0f0f0f]" : "bg-white";
+  const border = d ? "border-white/[0.06]" : "border-black/[0.08]";
+  const txt = d ? "text-white" : "text-black";
+  const muted = d ? "text-white/60" : "text-black/60";
+  const sub = d ? "text-white/40" : "text-black/40";
+  const hov = d ? "hover:bg-white/5" : "hover:bg-black/[0.03]";
+  const inputBg = d ? "bg-white/5" : "bg-[#F5F3F0]";
+  const divider = d ? "border-white/[0.06]" : "border-black/[0.06]";
+  const accentBg = d ? "bg-white" : "bg-black";
+
+  // ── Progress gauge (BLIP points vs next milestone) ────────────────────
+  const milestones = [100, 250, 500, 1000, 2500];
+  const nextMilestone =
+    milestones.find((m) => m > blipPoints) ?? milestones[milestones.length - 1];
+  const unlockedPercent = Math.min(100, (blipPoints / nextMilestone) * 100);
+  const gaugeEmpty = d ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.08)";
+  const gaugeFilled = [
+    { value: unlockedPercent, color: d ? "#ffffff" : "#000000" },
+    { value: 100 - unlockedPercent, color: gaugeEmpty },
+  ];
+
+  // Per-quest reward overrides for the user-side cards (icons + reward labels)
+  const questPresentation: Record<string, { icon: any; reward: string }> = {
+    s1: { icon: Share2, reward: "+1,000 PTS" },
+    s4: { icon: XBrand, reward: "+50 PTS" },
+    s2: { icon: Send, reward: "+100 PTS" },
+    s3: { icon: Users, reward: "+100 PTS" },
+    referral: { icon: Share2, reward: "+100 PTS" },
+  };
+
   return (
-    <div className="min-h-screen bg-[#f7f7f8] dark:bg-[#030303] text-black/80 dark:text-neutral-400 font-sans selection:bg-black/20 dark:selection:bg-white/20 selection:text-black dark:selection:text-white relative overflow-x-hidden dark:scanline mt-10">
+    <div className={`min-h-screen ${bg} ${txt} font-sans antialiased`}>
       <GlobalStyles />
 
-      {/* Toast + Modal */}
+      {/* Toast (preserved from original — same data flow) */}
       {toast && (
         <Toast
           message={toast.message}
@@ -971,197 +1084,523 @@ export default function BlipDashboard() {
         />
       )}
 
+      {/* Generic task modal — still mounted for any fall-through active task */}
       <Modal
         task={selectedTask}
         onClose={() => setSelectedTask(null)}
         onExecute={handleTaskExecute}
       />
 
-      {/* Twitter Verification Modal */}
+      {/* All verification + utility modals — wiring unchanged */}
       <TwitterVerificationModal
         isOpen={showTwitterModal}
         onClose={() => setShowTwitterModal(false)}
         onSuccess={handleTwitterSuccess}
         userWallet={publicKey?.toBase58() || ""}
       />
-
-      {/* Telegram Verification Modal */}
       <TelegramVerificationModal
         isOpen={showTelegramModal}
         onClose={() => setShowTelegramModal(false)}
         onSuccess={handleTelegramSuccess}
       />
-
-      {/* X Follow Verification Modal */}
       <XFollowVerificationModal
         isOpen={showXFollowModal}
         onClose={() => setShowXFollowModal(false)}
         onSuccess={handleXFollowSuccess}
         userRole={user?.role}
       />
-
-      {/* Referral Modal */}
       <ReferralModal
         isOpen={showReferralModal}
         onClose={() => setShowReferralModal(false)}
         referralCode={user?.referralCode || ""}
         referralLink={referralLink}
       />
-
-      {/* Wallet Linking Modal */}
       <WalletLinkingModal
         isOpen={showWalletLinkingModal}
         onClose={() => setShowWalletLinkingModal(false)}
       />
-
-      {/* Points History Modal */}
       <PointsHistoryModal
         isOpen={showPointsHistoryModal}
         onClose={() => setShowPointsHistoryModal(false)}
         totalPoints={blipPoints}
       />
 
-      {/* Grid Background */}
-      <div
-        className="fixed inset-0 z-0 pointer-events-none"
-        style={{
-          backgroundImage: `
-          linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px)
-        `,
-          backgroundSize: "40px 40px",
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-[#f7f7f8] via-transparent to-[#f7f7f8] dark:from-[#030303] dark:to-[#030303]" />
-      </div>
+      {/* ── Navbar (inline, mirrors MerchantDashboard) ─────────────────── */}
+      <header className={`${surface} border-b ${border} sticky top-0 z-50`}>
+        <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-6 md:gap-10">
+            <Logo />
+            <nav className="hidden md:flex items-center gap-1 text-[13px] font-semibold">
+              <button
+                onClick={() => navigate("/dashboard")}
+                className={`relative px-3 py-1.5 ${txt} font-bold`}
+              >
+                Dashboard
+                <span
+                  className={`absolute left-2 right-2 -bottom-[22px] h-[2px] ${d ? "bg-white" : "bg-black"}`}
+                />
+              </button>
+            </nav>
+          </div>
 
-      {/* Ambient Glow */}
-      <div
-        className="fixed top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-black/5 dark:bg-white/10 blur-[120px] rounded-full pointer-events-none z-0 animate-pulse"
-        style={{ animationDuration: "4s" }}
-      />
-
-      {/* Navbar */}
-      <DashboardNavbar
-        walletAddress={displayWalletAddress}
-        blipPoints={blipPoints}
-        onLogout={handleLogout}
-        onPointsClick={() => setShowPointsHistoryModal(true)}
-      />
-
-      <main className="max-w-7xl mx-auto px-6 py-12 relative z-10">
-        {/* ===== STATS GRID ===== */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          {/* Wallet Status Card */}
-          <div
-            className="bg-white dark:bg-white/5 border border-black/10 dark:border-white/10 p-6 rounded-sm shadow-sm hover:shadow-md transition-all cursor-pointer"
-            onClick={() => !connected && setShowWalletLinkingModal(true)}
-          >
-            <span className="text-[9px] font-black uppercase tracking-widest text-black/60 dark:text-white/50 block mb-2">
-              Wallet Status
-            </span>
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-black dark:text-white">
-                {connected && publicKey
-                  ? displayWalletAddress
-                  : "Not Connected"}
-              </span>
-              <div className={`w-2 h-2 rounded-full ${
-                connected && publicKey && user?.walletLinked
-                  ? "bg-green-600 dark:bg-green-400"
-                  : "bg-red-600 dark:bg-red-400 animate-pulse"
-              }`} />
+          <div className="hidden md:flex items-center gap-2">
+            <button
+              onClick={() => setShowPointsHistoryModal(true)}
+              className={`${inputBg} border ${border} rounded-md px-3 py-1.5 flex items-center gap-2.5 ${hov} transition`}
+              title="View points history"
+            >
+              <div className="text-left">
+                <div className={`text-[8px] font-black uppercase tracking-[0.18em] ${sub} leading-none mb-0.5`}>
+                  Protocol Balance
+                </div>
+                <div className={`text-[11px] font-bold ${txt} leading-none`}>
+                  {blipPoints.toLocaleString()} pts
+                </div>
+              </div>
+              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+            </button>
+            <button
+              onClick={() => setShowWalletLinkingModal(true)}
+              className={`${inputBg} border ${border} rounded-md px-3 py-1.5 flex items-center gap-2.5 ${hov} transition`}
+              title={connected && publicKey ? "Wallet connected" : "Connect wallet"}
+            >
+              <div className="text-left">
+                <div className={`text-[8px] font-black uppercase tracking-[0.18em] ${sub} leading-none mb-0.5`}>
+                  Wallet
+                </div>
+                <div className={`text-[11px] font-bold ${txt} leading-none`}>
+                  {connected && publicKey ? displayWalletAddress : "Not Connected"}
+                </div>
+              </div>
+              <div
+                className={`w-1.5 h-1.5 rounded-full ${
+                  connected && publicKey && user?.walletLinked ? "bg-emerald-500" : "bg-red-500"
+                }`}
+              />
+            </button>
+            <button
+              onClick={() => setTheme(d ? "light" : "dark")}
+              className={`w-9 h-9 rounded-md flex items-center justify-center border ${border} ${inputBg} ${hov}`}
+              title="Toggle theme"
+            >
+              {d ? <Sun className={`w-4 h-4 ${txt}`} /> : <Moon className={`w-4 h-4 ${txt}`} />}
+            </button>
+            <div className="relative" ref={navMenuRef}>
+              <button
+                onClick={() => setNavMenuOpen(!navMenuOpen)}
+                className={`w-9 h-9 rounded-md flex items-center justify-center border ${border} ${inputBg} ${hov}`}
+              >
+                <Menu className={`w-4 h-4 ${txt}`} />
+              </button>
+              {navMenuOpen && (
+                <div className={`absolute right-0 mt-2 w-60 ${surface} border ${border} rounded-xl shadow-xl overflow-hidden z-50`}>
+                  <div className={`px-4 py-3 border-b ${divider} flex items-center gap-3`}>
+                    <div className="w-9 h-9 bg-gradient-to-tr from-black to-black/70 dark:from-white dark:to-white/70 rounded-full flex items-center justify-center text-white dark:text-black text-sm font-black uppercase shrink-0">
+                      {(user?.email || "U").charAt(0)}
+                    </div>
+                    <div className="min-w-0">
+                      <p className={`text-xs font-bold ${txt} truncate`}>
+                        {user?.email?.split("@")[0] || "User"}
+                      </p>
+                      <p className={`text-[10px] ${sub} truncate`}>{user?.email}</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={handleRefreshPoints}
+                    className={`w-full flex items-center gap-2.5 px-4 py-2.5 text-xs font-semibold ${txt} ${hov} transition-colors`}
+                  >
+                    <RefreshCw className={`w-4 h-4 ${isRefreshingPoints ? "animate-spin" : ""}`} /> Refresh Points
+                  </button>
+                  <button
+                    onClick={async () => {
+                      setNavMenuOpen(false);
+                      await handleLogout();
+                    }}
+                    className={`w-full flex items-center gap-2.5 px-4 py-2.5 text-xs font-semibold text-red-500 ${hov} transition-colors`}
+                  >
+                    <LogOut className="w-4 h-4" /> Logout
+                  </button>
+                </div>
+              )}
             </div>
-            {(!connected || !user?.walletLinked) && (
-              <p className="text-[10px] text-black/50 dark:text-white/40 mt-2">
-                Click to connect wallet
-              </p>
-            )}
           </div>
 
-          {/* Protocol Status */}
-          <div className="bg-white dark:bg-white/5 border border-black/10 dark:border-white/10 p-6 rounded-sm shadow-sm">
-            <span className="text-[9px] font-black uppercase tracking-widest text-black/60 dark:text-white/50 block mb-2">
-              Protocol Status
-            </span>
-            <span className="text-sm font-bold text-black dark:text-white">
-              {user?.status === "ACTIVE" ? "Active Participant" : "Waitlisted"}
-            </span>
-          </div>
-
-          {/* Protocol Balance */}
-          <div className="bg-white dark:bg-white/5 border border-black/10 dark:border-white/10 p-6 rounded-sm shadow-sm">
-            <span className="text-[9px] font-black uppercase tracking-widest text-black/60 dark:text-white/50 block mb-2">
-              Protocol Balance
-            </span>
-            <span className="text-sm font-bold text-black dark:text-white">
-              {blipPoints.toLocaleString()} pts
-            </span>
-          </div>
-
-          {/* Referral */}
-          <div
-            onClick={() => setShowReferralModal(true)}
-            className="bg-white dark:bg-white/5 border border-black/10 dark:border-white/10 p-6 rounded-sm shadow-sm hover:shadow-md transition-all cursor-pointer group"
-          >
-            <div className="flex items-center justify-between">
-              <span className="text-[9px] font-black uppercase tracking-widest text-black/70 dark:text-white/70 block mb-2">
-                Your Referral Code
-              </span>
-              <ArrowRight className="w-4 h-4 text-black/30 dark:text-white/30 group-hover:text-black dark:group-hover:text-white group-hover:translate-x-0.5 transition-all" />
-            </div>
-            <span className="text-lg font-bold text-black dark:text-white">
-              {user?.referralCode || "—"}
-            </span>
+          {/* Mobile menu trigger */}
+          <div className="flex md:hidden">
+            <button
+              onClick={() => setNavMenuOpen(!navMenuOpen)}
+              className={`w-9 h-9 rounded-md flex items-center justify-center border ${border} ${inputBg}`}
+            >
+              <Menu className={`w-5 h-5 ${txt}`} />
+            </button>
           </div>
         </div>
+      </header>
 
-        {/* ===== WALLET CONNECTION BANNER ===== */}
-        {(!connected || !publicKey || !user?.walletLinked) && (
-          <div className="mb-6 bg-gradient-to-r from-orange-500/10 via-red-500/10 to-orange-500/10 border border-orange-500/30 dark:border-orange-400/30 rounded-sm p-6 animate-in fade-in slide-in-from-top-4 duration-500">
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-orange-500/20 dark:bg-orange-400/20 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Wallet className="w-6 h-6 text-orange-600 dark:text-orange-400" />
+      {/* ── Main grid ──────────────────────────────────────────────────── */}
+      <main className="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-4 relative z-10 lg:min-h-[calc(100vh-64px)] lg:flex lg:flex-col">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 mb-3 lg:items-stretch">
+          {/* LEFT COLUMN: Hero + Social Quests + Invite Friends */}
+          <div className="lg:col-span-8 flex flex-col gap-3">
+            {/* Hero card */}
+            <div className={`${surface} border ${border} rounded-xl p-5 md:p-6 relative overflow-hidden`}>
+              <div
+                className="absolute top-0 right-0 bottom-0 w-1/2 opacity-50 pointer-events-none"
+                style={{
+                  backgroundImage: `radial-gradient(circle, ${d ? "rgba(255,255,255,0.18)" : "rgba(0,0,0,0.12)"} 1.2px, transparent 1.2px)`,
+                  backgroundSize: "14px 14px",
+                  maskImage: "linear-gradient(to right, transparent, black 40%, black)",
+                  WebkitMaskImage: "linear-gradient(to right, transparent, black 40%, black)",
+                }}
+              />
+              <div className="relative z-10">
+                <h1 className={`text-3xl sm:text-4xl md:text-[44px] font-black font-display mb-2 tracking-tight leading-tight`}>
+                  <span className={txt}>Refer Friends. </span>
+                  <span className="text-[#ff6b35]">Earn More.</span>
+                </h1>
+                <p className={`text-sm ${muted} mb-5 max-w-md leading-relaxed`}>
+                  Earn <span className={`font-bold ${txt}`}>100 pts</span> when a friend joins as a user, or{" "}
+                  <span className={`font-bold ${txt}`}>1,000 pts</span> when they join as a merchant.
+                </p>
+
+                <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 mb-5">
+                  <button
+                    onClick={() => setShowPointsHistoryModal(true)}
+                    className={`flex items-start gap-3 text-left group ${hov} rounded-md -m-1 p-1 transition`}
+                    title="View points history"
+                  >
+                    <TrendingUp className={`w-5 h-5 ${txt} shrink-0 mt-0.5`} />
+                    <div>
+                      <p className={`text-2xl font-black font-display ${txt} leading-none mb-0.5`}>
+                        {blipPoints.toLocaleString()}{" "}
+                        <span className="text-xs font-bold">pts</span>
+                      </p>
+                      <p className={`text-[11px] font-bold ${txt}`}>BLIP Points</p>
+                      <p className={`text-[10px] ${muted} font-semibold flex items-center gap-1 group-hover:underline`}>
+                        View History <ArrowRight className="w-2.5 h-2.5" />
+                      </p>
+                    </div>
+                  </button>
+                  <div className="flex items-start gap-3">
+                    <UserPlus className={`w-5 h-5 ${txt} shrink-0 mt-0.5`} />
+                    <div>
+                      <p className={`text-2xl font-black font-display ${txt} leading-none mb-0.5`}>
+                        {referralCount}
+                      </p>
+                      <p className={`text-[11px] font-bold ${txt}`}>Your Referrals</p>
+                      <p className={`text-[10px] ${sub}`}>Friends joined with your code</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <Award className={`w-5 h-5 ${txt} shrink-0 mt-0.5`} />
+                    <div>
+                      <p className={`text-2xl font-black font-display ${txt} leading-none mb-0.5`}>
+                        {(referralCount * 100).toLocaleString()}
+                        <span className="text-xs font-bold ml-0.5">pts+</span>
+                      </p>
+                      <p className={`text-[11px] font-bold ${txt}`}>Referral Earnings</p>
+                      <p className={`text-[10px] ${sub}`}>100 pts user / 1,000 pts merchant</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-5">
+                  <button
+                    onClick={() => setShowReferralModal(true)}
+                    className={`text-[11px] font-bold uppercase tracking-[0.12em] ${muted} hover:${txt} flex items-center gap-1.5 transition-colors`}
+                  >
+                    Share Code <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Social Quests grid */}
+            <div id="social-quests">
+              <div className="flex items-center gap-3 mb-3">
+                <div className={`p-1.5 rounded-md ${inputBg} border ${border}`}>
+                  <Layout className={`w-3.5 h-3.5 ${txt}`} />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-black dark:text-white mb-1">
-                    Connect Your Wallet
-                  </h3>
-                  <p className="text-sm text-black/70 dark:text-white/70">
-                    {!connected || !publicKey
-                      ? "Connect your Solana wallet to participate in campaigns and earn rewards."
-                      : "Link your wallet to your account to unlock all features."}
+                  <h2 className={`text-sm font-black uppercase tracking-[0.18em] ${txt}`}>
+                    Social Quests
+                  </h2>
+                  <p className={`text-[11px] ${muted}`}>
+                    Complete quests to earn points and boost your rewards
                   </p>
                 </div>
               </div>
-              <button
-                onClick={() => setShowWalletLinkingModal(true)}
-                className="whitespace-nowrap px-6 py-3 bg-white text-black border border-black/10 font-bold text-sm uppercase tracking-wider transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] flex items-center gap-2"
-              >
-                <Wallet className="w-4 h-4" />
-                Connect Wallet
-              </button>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {getVisibleTasks(TASKS_DATA.social).map((task) => {
+                  const isRedeemed =
+                    (task.id === "s2" && rewardStatus.twitter) ||
+                    (task.id === "s3" && rewardStatus.telegram) ||
+                    (task.id === "s4" && rewardStatus.xFollow) ||
+                    (task.id === "referral" && referralCount > 0);
+                  const isComingSoon = task.status === "coming_soon";
+                  const isLocked = task.status === "locked";
+                  const preset = questPresentation[task.id] ?? { icon: Share2, reward: `+${task.reward} PTS` };
+                  const QuestIcon = preset.icon;
+                  return (
+                    <div
+                      key={task.id}
+                      className={`${surface} border ${border} rounded-xl p-4 flex flex-col ${isRedeemed || isComingSoon || isLocked ? "opacity-70" : ""}`}
+                    >
+                      <div className="flex items-start justify-between mb-2">
+                        <div className={`p-2 rounded-md ${inputBg} border ${border}`}>
+                          <QuestIcon className={`w-4 h-4 ${txt}`} />
+                        </div>
+                        <span className="text-[11px] font-black uppercase tracking-[0.12em] text-emerald-500 whitespace-nowrap pt-1">
+                          {preset.reward}
+                        </span>
+                      </div>
+                      <div className="mb-3">
+                        <h3 className={`text-sm font-bold ${txt} mb-0.5 leading-tight`}>
+                          {task.title}
+                        </h3>
+                        <p className={`text-[11px] ${muted} leading-relaxed`}>
+                          {task.description}
+                        </p>
+                      </div>
+                      <div className="mt-auto flex justify-end">
+                        {isRedeemed ? (
+                          <div className="flex items-center gap-1.5 text-[11px] font-bold text-emerald-500">
+                            <CheckCircle2 className="w-3.5 h-3.5" /> Redeemed
+                          </div>
+                        ) : isComingSoon ? (
+                          <div className={`text-[11px] font-bold uppercase tracking-[0.12em] ${sub}`}>
+                            Coming Soon
+                          </div>
+                        ) : isLocked ? (
+                          <div className={`text-[11px] font-bold uppercase tracking-[0.12em] ${sub} flex items-center gap-1`}>
+                            <Lock className="w-3 h-3" /> Locked
+                          </div>
+                        ) : (
+                          <button
+                            onClick={() => handleTaskClick(task)}
+                            className={`${accentBg} ${d ? "text-black" : "text-white"} px-6 py-2 rounded-md text-[11px] font-bold uppercase tracking-[0.14em] hover:opacity-90 active:scale-[0.98] transition`}
+                          >
+                            Start
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Invite Friends — pinned to bottom of left column */}
+            <div className={`${surface} border ${border} rounded-xl p-4 mt-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-3`}>
+              <div className="flex items-center gap-3">
+                <div className={`w-10 h-10 rounded-full ${inputBg} border ${border} flex items-center justify-center shrink-0`}>
+                  <Users className={`w-5 h-5 ${txt}`} />
+                </div>
+                <div>
+                  <p className={`text-sm font-bold ${txt}`}>Invite Friends. Earn More.</p>
+                  <p className={`text-[11px] ${muted} leading-relaxed`}>
+                    Earn 100 pts per user signup — 1,000 pts if they join as a merchant.
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 w-full md:w-auto">
+                <div>
+                  <p className={`text-[10px] font-bold uppercase tracking-[0.14em] ${sub}`}>
+                    Your Referrals
+                  </p>
+                  <p className={`text-lg font-black font-display ${txt} leading-tight`}>
+                    {referralCount}
+                  </p>
+                </div>
+                <button
+                  onClick={() => setShowReferralModal(true)}
+                  className={`${inputBg} border ${border} rounded-md px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] ${txt} ${hov} transition`}
+                >
+                  View Referrals
+                </button>
+              </div>
             </div>
           </div>
-        )}
 
-        {/* ===== MAIN CONTENT — Social Quests only ===== */}
-        <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
-          <SectionTitle title="Social Quests" />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {getVisibleTasks(TASKS_DATA.social).map((task) => (
-              <TaskCard
-                key={task.id}
-                task={task}
-                onClick={handleTaskClick}
-                redeemed={
-                  (task.id === "s2" && rewardStatus.twitter) ||
-                  (task.id === "s3" && rewardStatus.telegram) ||
-                  (task.id === "s4" && rewardStatus.xFollow)
+          {/* RIGHT COLUMN: Referral Code + Progress + Leaderboard stacked */}
+          <div className="lg:col-span-4 flex flex-col gap-3">
+            {/* Referral Code card — clickable, opens Referral modal */}
+            <div
+              role="button"
+              tabIndex={0}
+              onClick={() => setShowReferralModal(true)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setShowReferralModal(true);
                 }
-              />
-            ))}
+              }}
+              className={`${surface} border ${border} rounded-xl p-4 cursor-pointer ${hov} hover:border-black/20 dark:hover:border-white/20 transition-all`}
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <div className={`w-1.5 h-1.5 rounded-full ${d ? "bg-white" : "bg-black"}`} />
+                <span className={`text-[10px] font-black uppercase tracking-[0.18em] ${sub}`}>
+                  Your Referral Code
+                </span>
+              </div>
+              <div className={`flex items-center justify-between mb-2 ${inputBg} border ${border} rounded-md px-3 py-2.5`}>
+                <span className={`text-base font-black font-display ${txt} tracking-[0.08em]`}>
+                  {user?.referralCode || "—"}
+                </span>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleCopyReferralCode();
+                  }}
+                  className={`p-1 rounded ${hov} transition`}
+                >
+                  {copied ? (
+                    <Check className="w-4 h-4 text-emerald-500" />
+                  ) : (
+                    <Copy className={`w-4 h-4 ${muted}`} />
+                  )}
+                </button>
+              </div>
+              <p className={`text-[11px] ${muted} mb-3 leading-relaxed`}>
+                Earn <span className={`font-bold ${txt}`}>100 pts</span> per user signup or{" "}
+                <span className={`font-bold ${txt}`}>1,000 pts</span> per merchant signup.
+              </p>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowReferralModal(true);
+                }}
+                className={`w-full py-2 ${inputBg} border ${border} rounded-md text-[11px] font-bold uppercase tracking-[0.12em] ${txt} flex items-center justify-center gap-2 ${hov} transition-all`}
+              >
+                <Share2 className="w-3.5 h-3.5" />
+                Share Code
+              </button>
+            </div>
+
+            {/* Your Progress */}
+            <div className={`${surface} border ${border} rounded-xl p-4`}>
+              <div className={`text-[10px] font-black uppercase tracking-[0.18em] ${sub} mb-1`}>
+                Your Progress
+              </div>
+              <div className="flex flex-col items-center pt-1 pb-1">
+                <div className="relative w-36 h-20">
+                  <ResponsiveContainer width="100%" height={76}>
+                    <PieChart>
+                      <Pie
+                        data={gaugeFilled}
+                        cx="50%"
+                        cy="100%"
+                        startAngle={180}
+                        endAngle={0}
+                        innerRadius={52}
+                        outerRadius={66}
+                        dataKey="value"
+                        stroke="none"
+                      >
+                        {gaugeFilled.map((e, i) => (
+                          <Cell key={i} fill={e.color} />
+                        ))}
+                      </Pie>
+                    </PieChart>
+                  </ResponsiveContainer>
+                  <div className="absolute inset-x-0 bottom-0 flex flex-col items-center">
+                    <p className={`text-xl font-black font-display ${txt} leading-none`}>
+                      {blipPoints.toLocaleString()}
+                    </p>
+                    <p className={`text-[9px] font-bold uppercase tracking-[0.16em] ${sub} mt-0.5`}>
+                      Total Points
+                    </p>
+                  </div>
+                </div>
+                <p className={`text-[10px] ${muted} mt-2`}>
+                  Next Milestone:{" "}
+                  <span className={`font-bold ${txt}`}>{nextMilestone.toLocaleString()} pts</span>
+                </p>
+              </div>
+              <div className={`pt-2 border-t ${divider} space-y-0.5`}>
+                {milestones.map((m) => {
+                  const achieved = blipPoints >= m;
+                  return (
+                    <div key={m} className="flex items-center justify-between py-0.5">
+                      <div className="flex items-center gap-2">
+                        <Plus className={`w-3 h-3 ${achieved ? txt : sub}`} />
+                        <span className={`text-[11px] ${achieved ? txt : muted} font-medium`}>
+                          {m.toLocaleString()} pts
+                        </span>
+                      </div>
+                      {achieved ? (
+                        <Check className={`w-3.5 h-3.5 ${txt}`} />
+                      ) : (
+                        <Lock className={`w-3 h-3 ${sub}`} />
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Leaderboard */}
+            <div className={`${surface} border ${border} rounded-xl overflow-hidden flex flex-col flex-1 min-h-0`}>
+              <div className={`px-4 py-2.5 border-b ${divider} flex items-center justify-between`}>
+                <div className="flex items-center gap-2">
+                  <Trophy className={`w-3.5 h-3.5 ${txt}`} />
+                  <span className={`text-[10px] font-black uppercase tracking-[0.18em] ${sub}`}>
+                    Leaderboard
+                  </span>
+                </div>
+                <button
+                  onClick={() => {
+                    setLbFilter(lbFilter === "Points" ? "Followers" : "Points");
+                    refreshLeaderboard?.();
+                  }}
+                  className={`text-[10px] font-bold ${muted} hover:${txt} transition-colors`}
+                >
+                  View All
+                </button>
+              </div>
+
+              <div className="px-1.5 py-1 max-h-[200px] overflow-y-auto flex-1">
+                {leaderboardLoading ? (
+                  <div className="flex items-center justify-center py-8">
+                    <Loader2 className={`w-5 h-5 animate-spin ${sub}`} />
+                  </div>
+                ) : !leaderboardData || leaderboardData.length === 0 ? (
+                  <div className={`text-center py-8 text-xs ${sub}`}>
+                    No participants yet. Be the first!
+                  </div>
+                ) : (
+                  leaderboardData.slice(0, 5).map((item: any) => (
+                    <div
+                      key={`${item.rank}-${item.name}`}
+                      className={`flex items-center justify-between px-2.5 py-1.5 rounded-lg ${hov} cursor-pointer group`}
+                    >
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <span className="w-4 shrink-0 flex items-center justify-center">
+                          {item.rank <= 3 ? (
+                            <Crown className={`w-3.5 h-3.5 ${txt}`} />
+                          ) : (
+                            <span className={`text-[11px] font-bold ${sub}`}>{item.rank}</span>
+                          )}
+                        </span>
+                        <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-black to-black/70 dark:from-white dark:to-white/70 flex items-center justify-center text-white dark:text-black text-[8px] font-black uppercase shrink-0">
+                          {item.name[0]}
+                        </div>
+                        <span className={`text-[11px] font-semibold ${txt} truncate`}>
+                          {item.name}
+                        </span>
+                        {item.verified && (
+                          <CircleCheck className={`w-3 h-3 ${txt} shrink-0`} />
+                        )}
+                      </div>
+                      <span className={`text-[11px] font-black font-display ${txt} shrink-0`}>
+                        {(item.allocation || 0).toLocaleString()} pts
+                      </span>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </main>
