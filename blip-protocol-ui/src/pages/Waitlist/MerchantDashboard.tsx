@@ -811,9 +811,9 @@ export default function MerchantDashboard() {
                 className={`relative px-3 py-1.5 ${txt} font-bold`}
               >
                 Dashboard
-                <span
+                {/* <span
                   className={`absolute left-2 right-2 -bottom-[22px] h-[2px] ${d ? "bg-white" : "bg-black"}`}
-                />
+                /> */}
               </button>
             </nav>
           </div>
@@ -1421,7 +1421,7 @@ export default function MerchantDashboard() {
                       {referralCount}
                     </p>
                     <p className={`text-[11px] font-bold ${txt} leading-tight`}>
-                      Quests Completed
+                      Completed Quests 
                     </p>
                     <p className={`text-[10px] ${sub}`}>Completed KYC</p>
                   </div>
@@ -1595,12 +1595,7 @@ export default function MerchantDashboard() {
                   On Mainnet 
                 </span>
               </div>
-              <button
-                onClick={() => setShowP2PBanner(false)}
-                className={`p-1 rounded-lg ${hov} transition-colors`}
-              >
-                <X className={`w-3.5 h-3.5 ${muted}`} />
-              </button>
+              
             </div>
 
             {/* Content */}
@@ -1612,26 +1607,9 @@ export default function MerchantDashboard() {
                   Request for Merchant P2P App Test
                 </h4>
                 <p className={`text-[10px] ${muted} mt-1 leading-relaxed`}>
-                  Trial our P2P release app. Early access &amp; governance
-                  rights included.
+                  Trial our P2P release app. Early access 
                 </p>
-                <div className="flex items-center gap-3 mt-1.5">
-                  <span
-                    className={`flex items-center gap-1 text-[10px] ${muted}`}
-                  >
-                    <CircleCheck className="w-3 h-3 text-emerald-500" /> P2P
-                    Access
-                  </span>
-                  <span
-                    className={`flex items-center gap-1 text-[10px] ${muted}`}
-                  >
-                    <CircleCheck className="w-3 h-3 text-emerald-500" />{" "}
-                    Governance
-                  </span>
-                  <span className={`text-[9px] font-mono ${sub}`}>
-                    iOS 9.44.6
-                  </span>
-                </div>
+                
               </div>
               <button
                 onClick={() =>
