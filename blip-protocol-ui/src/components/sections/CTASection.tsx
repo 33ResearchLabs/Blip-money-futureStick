@@ -96,7 +96,7 @@ export const CTASection = ({
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
           {/* PRIMARY */}
-          <CTAButton to="/join-waitlist" className="w-[225px]  h-[48px]">
+          <CTAButton to="https://app.blip.money/waitlist/user" className="w-[225px]  h-[48px]">
             {primaryButtonText}
           </CTAButton>
 
