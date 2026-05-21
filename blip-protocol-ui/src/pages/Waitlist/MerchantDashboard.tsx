@@ -57,6 +57,8 @@ import {
   Target,
   BadgeCheck,
   Sparkles,
+  Store,
+  ExternalLink,
 } from "lucide-react";
 import { ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import { useTheme } from "next-themes";
@@ -1082,7 +1084,9 @@ export default function MerchantDashboard() {
         <div
           className={`${surface} border ${border} rounded-xl overflow-hidden mb-3 relative`}
         >
-          <div className={`grid grid-cols-1 lg:grid-cols-[1.1fr,0.9fr,1fr] divide-y lg:divide-y-0 lg:divide-x ${divider}`}>
+          <div
+            className={`grid grid-cols-1 lg:grid-cols-[1.1fr,0.9fr,1fr] divide-y lg:divide-y-0 lg:divide-x ${divider}`}
+          >
             {/* Left: heading + description + CTAs */}
             <div className="p-5 md:p-7 flex flex-col justify-center relative overflow-hidden">
               <div
@@ -1091,7 +1095,8 @@ export default function MerchantDashboard() {
                   backgroundImage: `radial-gradient(circle, ${d ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.08)"} 1px, transparent 1px)`,
                   backgroundSize: "12px 12px",
                   maskImage: "linear-gradient(to right, black, transparent)",
-                  WebkitMaskImage: "linear-gradient(to right, black, transparent)",
+                  WebkitMaskImage:
+                    "linear-gradient(to right, black, transparent)",
                 }}
               />
               <div className="relative">
@@ -1100,7 +1105,9 @@ export default function MerchantDashboard() {
                   <br />
                   <span className="text-[#ff6b35]">Earn More.</span>
                 </h2>
-                <p className={`text-[13px] ${muted} mb-5 max-w-sm leading-relaxed`}>
+                <p
+                  className={`text-[13px] ${muted} mb-5 max-w-sm leading-relaxed`}
+                >
                   Invite your friends to Blip Money and earn{" "}
                   <span className={`font-bold ${txt}`}>50 pts</span> for each
                   successful referral. There's no limit to how much you can
@@ -1142,13 +1149,17 @@ export default function MerchantDashboard() {
 
             {/* Right: referral code + link + social share */}
             <div className="p-5 md:p-6 flex flex-col justify-center gap-2.5">
-              <span className={`text-[10px] font-black uppercase tracking-[0.18em] ${sub}`}>
+              <span
+                className={`text-[10px] font-black uppercase tracking-[0.18em] ${sub}`}
+              >
                 Your Referral Code
               </span>
               <div
                 className={`flex items-center justify-between ${inputBg} border border-[#ff6b35]/40 rounded-md px-4 py-3`}
               >
-                <span className={`text-base md:text-lg font-black font-display ${txt} tracking-[0.12em]`}>
+                <span
+                  className={`text-base md:text-lg font-black font-display ${txt} tracking-[0.12em]`}
+                >
                   {referralCode || "—"}
                 </span>
                 <button
@@ -1168,7 +1179,9 @@ export default function MerchantDashboard() {
 
               <div className="flex items-center gap-2">
                 <div className={`h-px flex-1 border-t ${divider}`} />
-                <span className={`text-[9px] font-black uppercase tracking-[0.18em] ${sub}`}>
+                <span
+                  className={`text-[9px] font-black uppercase tracking-[0.18em] ${sub}`}
+                >
                   Or share your link
                 </span>
                 <div className={`h-px flex-1 border-t ${divider}`} />
@@ -1201,8 +1214,7 @@ export default function MerchantDashboard() {
                   rel="noopener noreferrer"
                   className={`${inputBg} border ${border} rounded-md px-2 py-2 text-[10px] font-bold ${txt} flex items-center justify-center gap-1.5 ${hov} transition`}
                 >
-                  <XBrand className="w-3 h-3" />
-                  X (Twitter)
+                  <XBrand className="w-3 h-3" />X (Twitter)
                 </a>
                 <a
                   href={`https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=${encodeURIComponent("Join Blip Money with my referral!")}`}
@@ -1225,8 +1237,7 @@ export default function MerchantDashboard() {
           </div>
         </div>
 
-        {/* ── Your Referral Stats ───────────────────────────────────────────── */}
-        
+        {/* ── Merchant Onboarding CTA ─────────────────────────────────────── */}
 
         {/* Two-column grid: LEFT (Hero + Social Quests) | RIGHT (Referral + Progress + Leaderboard) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 mb-3 lg:items-stretch">
@@ -1325,86 +1336,142 @@ export default function MerchantDashboard() {
               </div>
             </div> */}
 
-            {/* ── Your Referral Stats ───────────────────────────────────────────── */}
-        <div className={`${surface} border ${border} rounded-xl p-4 md:p-5 mb-3`}>
-          <div className="flex items-center gap-2 mb-3">
-            <div className={`w-1.5 h-1.5 rounded-full bg-[#ff6b35]`} />
-            <span className={`text-[10px] font-black uppercase tracking-[0.18em] ${sub}`}>
-              Your Referral Stats
-            </span>
-          </div>
-          <div
-            className={`grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-0 md:divide-x ${divider}`}
-          >
-            {/* Total Referrals */}
-            <div className="flex items-center gap-3 md:px-5 md:first:pl-0">
-              <div className={`w-11 h-11 rounded-lg ${inputBg} border ${border} flex items-center justify-center shrink-0`}>
-                <Target className={`w-5 h-5 ${txt}`} />
-              </div>
-              <div className="min-w-0">
-                <p className={`text-xl font-black font-display ${txt} leading-tight`}>
-                  {referralCount}
-                </p>
-                <p className={`text-[11px] font-bold ${txt} leading-tight`}>
-                  Total Referrals
-                </p>
-                <p className={`text-[10px] ${sub}`}>All time</p>
-              </div>
-            </div>
-
-            {/* Verified Referrals */}
-            <div className="flex items-center gap-3 md:px-5">
-              <div className={`w-11 h-11 rounded-lg ${inputBg} border ${border} flex items-center justify-center shrink-0`}>
-                <BadgeCheck className={`w-5 h-5 ${txt}`} />
-              </div>
-              <div className="min-w-0">
-                <p className={`text-xl font-black font-display ${txt} leading-tight`}>
-                  {referralCount}
-                </p>
-                <p className={`text-[11px] font-bold ${txt} leading-tight`}>
-                  Verified Referrals
-                </p>
-                <p className={`text-[10px] ${sub}`}>Completed KYC</p>
-              </div>
-            </div>
-
-            {/* Total Points Earned */}
-            <div className="flex items-center gap-3 md:px-5">
-              <div className={`w-11 h-11 rounded-lg ${inputBg} border ${border} flex items-center justify-center shrink-0`}>
-                <UserPlus className={`w-5 h-5 ${txt}`} />
-              </div>
-              <div className="min-w-0">
-                <p className={`text-xl font-black font-display ${txt} leading-tight`}>
-                  {(referralCount * 50).toLocaleString()}{" "}
-                  <span className="text-xs font-bold">pts</span>
-                </p>
-                <p className={`text-[11px] font-bold ${txt} leading-tight`}>
-                  Total Points Earned
-                </p>
-                <p className={`text-[10px] ${sub}`}>From Referrals</p>
-              </div>
-            </div>
-
-            {/* Pending Points */}
-            <div className="flex items-center gap-3 md:px-5 md:last:pr-0">
-              <div className={`w-11 h-11 rounded-lg ${inputBg} border ${border} flex items-center justify-center shrink-0`}>
-                <Sparkles className={`w-5 h-5 ${txt}`} />
-              </div>
-              <div className="min-w-0">
-                <p className={`text-xl font-black font-display ${txt} leading-tight`}>
-                  0 <span className="text-xs font-bold">pts</span>
-                </p>
-                <p
-                  className={`text-[11px] font-bold ${txt} leading-tight flex items-center gap-1`}
+            {/* ── Merchant Onboarding CTA ─────────────────────────────────────── */}
+            <div
+              className={`${surface} border border-[#ff6b35]/40 rounded-xl p-4 mb-3 shadow-[0_0_24px_rgba(255,107,53,0.12)] flex flex-col md:flex-row items-start md:items-center justify-between gap-3`}
+            >
+              <div className="flex items-center gap-3 min-w-0">
+                <div
+                  className={`w-11 h-11 rounded-lg ${inputBg} border ${border} flex items-center justify-center shrink-0`}
                 >
-                  Pending Points
-                  <Info className={`w-3 h-3 ${sub}`} />
-                </p>
-                <p className={`text-[10px] ${sub}`}>Not yet claimed</p>
+                  <Store className={`w-5 h-5 ${txt}`} />
+                </div>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <p className={`text-sm font-bold ${txt}`}>
+                      Join Merchant On Board Program
+                    </p>
+                    <span className="text-[11px] font-black uppercase tracking-[0.12em] text-emerald-500">
+                      +500 BLIP
+                    </span>
+                  </div>
+                  <p className={`text-[11px] ${muted} leading-relaxed mt-0.5`}>
+                    Submit this Google Form to join our merchant onboarding
+                    program and earn 500 pts.
+                  </p>
+                </div>
+              </div>
+              <a
+                href="https://forms.gle/your-google-form-id"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-[#fff] text-black px-5 py-2.5 rounded-md text-[11px] font-bold uppercase tracking-[0.14em] hover:opacity-90 active:scale-[0.98] transition flex items-center gap-2 shrink-0 border border-[#ff6b35]/50"
+              >
+                Submit Google Form
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            </div>
+
+            {/* ── Your Referral Stats ───────────────────────────────────────────── */}
+            <div
+              className={`${surface} border ${border} rounded-xl p-4 md:p-5 mb-3`}
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <div className={`w-1.5 h-1.5 rounded-full bg-[#ff6b35]`} />
+                <span
+                  className={`text-[10px] font-black uppercase tracking-[0.18em] ${sub}`}
+                >
+                  Your Referral Stats
+                </span>
+              </div>
+              <div
+                className={`grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-0 md:divide-x ${divider}`}
+              >
+                {/* Total Referrals */}
+                <div className="flex items-center gap-3 md:px-5 md:first:pl-0">
+                  <div
+                    className={`w-11 h-11 rounded-lg ${inputBg} border ${border} flex items-center justify-center shrink-0`}
+                  >
+                    <Target className={`w-5 h-5 ${txt}`} />
+                  </div>
+                  <div className="min-w-0">
+                    <p
+                      className={`text-xl font-black font-display ${txt} leading-tight`}
+                    >
+                      {referralCount}
+                    </p>
+                    <p className={`text-[11px] font-bold ${txt} leading-tight`}>
+                      Total Referrals
+                    </p>
+                    <p className={`text-[10px] ${sub}`}>All time</p>
+                  </div>
+                </div>
+
+                {/* Verified Referrals */}
+                <div className="flex items-center gap-3 md:px-5">
+                  <div
+                    className={`w-11 h-11 rounded-lg ${inputBg} border ${border} flex items-center justify-center shrink-0`}
+                  >
+                    <BadgeCheck className={`w-5 h-5 ${txt}`} />
+                  </div>
+                  <div className="min-w-0">
+                    <p
+                      className={`text-xl font-black font-display ${txt} leading-tight`}
+                    >
+                      {referralCount}
+                    </p>
+                    <p className={`text-[11px] font-bold ${txt} leading-tight`}>
+                      Quests Completed
+                    </p>
+                    <p className={`text-[10px] ${sub}`}>Completed KYC</p>
+                  </div>
+                </div>
+
+                {/* Total Points Earned */}
+                <div className="flex items-center gap-3 md:px-5">
+                  <div
+                    className={`w-11 h-11 rounded-lg ${inputBg} border ${border} flex items-center justify-center shrink-0`}
+                  >
+                    <UserPlus className={`w-5 h-5 ${txt}`} />
+                  </div>
+                  <div className="min-w-0">
+                    <p
+                      className={`text-xl font-black font-display ${txt} leading-tight`}
+                    >
+                      {(referralCount * 50).toLocaleString()}{" "}
+                      <span className="text-xs font-bold">pts</span>
+                    </p>
+                    <p className={`text-[11px] font-bold ${txt} leading-tight`}>
+                      Total Points Earned
+                    </p>
+                    <p className={`text-[10px] ${sub}`}>From Referrals</p>
+                  </div>
+                </div>
+
+                {/* Pending Points */}
+                <div className="flex items-center gap-3 md:px-5 md:last:pr-0">
+                  <div
+                    className={`w-11 h-11 rounded-lg ${inputBg} border ${border} flex items-center justify-center shrink-0`}
+                  >
+                    <Sparkles className={`w-5 h-5 ${txt}`} />
+                  </div>
+                  <div className="min-w-0">
+                    <p
+                      className={`text-xl font-black font-display ${txt} leading-tight`}
+                    >
+                      0 <span className="text-xs font-bold">pts</span>
+                    </p>
+                    <p
+                      className={`text-[11px] font-bold ${txt} leading-tight flex items-center gap-1`}
+                    >
+                      Pending Points
+                      <Info className={`w-3 h-3 ${sub}`} />
+                    </p>
+                    <p className={`text-[10px] ${sub}`}>Not yet claimed</p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
 
             {/* Social Quests (under Hero in left column) */}
             <div id="social-quests">
@@ -1476,8 +1543,10 @@ export default function MerchantDashboard() {
                           </p>
                         </div>
 
-                        {/* Action — bottom-right aligned */}
-                        <div className="mt-auto flex justify-end">
+                        {/* Action — Redeemed right, Start/cooldown left */}
+                        <div
+                          className={`mt-auto flex ${isDone ? "justify-end" : "justify-start"}`}
+                        >
                           {isDone ? (
                             <div className="flex items-center gap-1.5 text-[11px] font-bold text-emerald-500">
                               <CheckCircle2 className="w-3.5 h-3.5" /> Redeemed
@@ -1506,7 +1575,7 @@ export default function MerchantDashboard() {
             </div>
 
             {/* Invite Friends — pinned to bottom of left column so it aligns with Leaderboard */}
-            <div
+            {/* <div
               className={`${surface} border ${border} rounded-xl p-4 mt-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-3`}
             >
               <div className="flex items-center gap-3">
@@ -1543,7 +1612,7 @@ export default function MerchantDashboard() {
                   View Referrals
                 </button>
               </div>
-            </div>
+            </div> */}
           </div>
           {/* /LEFT COLUMN */}
 
@@ -1768,7 +1837,6 @@ export default function MerchantDashboard() {
             </div>
           </div>
         </div>
-
       </main>
 
       <Footer skipAnimation />
@@ -1911,7 +1979,9 @@ export default function MerchantDashboard() {
                   <h3 className={`text-sm font-bold ${txt} mb-1`}>
                     1. Share Your Code
                   </h3>
-                  <p className={`text-[11px] ${muted} leading-relaxed max-w-[170px]`}>
+                  <p
+                    className={`text-[11px] ${muted} leading-relaxed max-w-[170px]`}
+                  >
                     Share your referral code or link with friends.
                   </p>
                 </div>
@@ -1922,14 +1992,19 @@ export default function MerchantDashboard() {
 
                 {/* Step 2 */}
                 <div className="flex flex-col items-center text-center">
-                  <div className={`w-14 h-14 rounded-full ${inputBg} border ${border} flex items-center justify-center mb-3`}>
+                  <div
+                    className={`w-14 h-14 rounded-full ${inputBg} border ${border} flex items-center justify-center mb-3`}
+                  >
                     <CheckCircle2 className={`w-6 h-6 ${txt}`} />
                   </div>
                   <h3 className={`text-sm font-bold ${txt} mb-1`}>
                     2. Friend Joins
                   </h3>
-                  <p className={`text-[11px] ${muted} leading-relaxed max-w-[180px]`}>
-                    Your friend signs up using your link and completes verification.
+                  <p
+                    className={`text-[11px] ${muted} leading-relaxed max-w-[180px]`}
+                  >
+                    Your friend signs up using your link and completes
+                    verification.
                   </p>
                 </div>
 
@@ -1939,13 +2014,17 @@ export default function MerchantDashboard() {
 
                 {/* Step 3 */}
                 <div className="flex flex-col items-center text-center">
-                  <div className={`w-14 h-14 rounded-full ${inputBg} border ${border} flex items-center justify-center mb-3`}>
+                  <div
+                    className={`w-14 h-14 rounded-full ${inputBg} border ${border} flex items-center justify-center mb-3`}
+                  >
                     <Gift className={`w-6 h-6 ${txt}`} />
                   </div>
                   <h3 className={`text-sm font-bold ${txt} mb-1`}>
                     3. They Complete Quests
                   </h3>
-                  <p className={`text-[11px] ${muted} leading-relaxed max-w-[170px]`}>
+                  <p
+                    className={`text-[11px] ${muted} leading-relaxed max-w-[170px]`}
+                  >
                     Your friend completes at least one quest.
                   </p>
                 </div>
@@ -1956,13 +2035,17 @@ export default function MerchantDashboard() {
 
                 {/* Step 4 */}
                 <div className="flex flex-col items-center text-center">
-                  <div className={`w-14 h-14 rounded-full ${inputBg} border ${border} flex items-center justify-center mb-3`}>
+                  <div
+                    className={`w-14 h-14 rounded-full ${inputBg} border ${border} flex items-center justify-center mb-3`}
+                  >
                     <Star className={`w-6 h-6 ${txt}`} />
                   </div>
                   <h3 className={`text-sm font-bold ${txt} mb-1`}>
                     4. You Earn Points
                   </h3>
-                  <p className={`text-[11px] ${muted} leading-relaxed max-w-[180px]`}>
+                  <p
+                    className={`text-[11px] ${muted} leading-relaxed max-w-[180px]`}
+                  >
                     You earn 50 pts for each successful referral.
                   </p>
                 </div>

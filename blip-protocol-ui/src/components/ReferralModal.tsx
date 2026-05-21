@@ -37,8 +37,9 @@ export default function ReferralModal({
   referralLink,
   userRole,
 }: ReferralModalProps) {
-  const referralRewardPoints = userRole === "MERCHANT" ? 1000 : 100;
+  const referralRewardPoints = userRole === "MERCHANT" ? 50 : 100;
   const [copied, setCopied] = useState(false);
+  const [codeCopied, setCodeCopied] = useState(false);
   const [loading, setLoading] = useState(true);
   const [referrals, setReferrals] = useState<ReferredUser[]>([]);
   const [totalRewards, setTotalRewards] = useState(0);
@@ -67,6 +68,17 @@ export default function ReferralModal({
       await navigator.clipboard.writeText(referralLink);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      // Failed to copy
+    }
+  };
+
+  const handleCopyCode = async () => {
+    if (!referralCode) return;
+    try {
+      await navigator.clipboard.writeText(referralCode);
+      setCodeCopied(true);
+      setTimeout(() => setCodeCopied(false), 2000);
     } catch (err) {
       // Failed to copy
     }
@@ -147,8 +159,22 @@ export default function ReferralModal({
               Your Referral Code
             </span>
 
-            <div className="text-2xl font-mono font-bold text-black dark:text-white mt-1">
-              {referralCode}
+            <div className="flex items-center gap-2 mt-1">
+              <span className="text-2xl font-mono font-bold text-black dark:text-white">
+                {referralCode}
+              </span>
+              <button
+                onClick={handleCopyCode}
+                className="p-1.5 rounded-sm hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+                title="Copy referral code"
+                aria-label="Copy referral code"
+              >
+                {codeCopied ? (
+                  <Check className="w-4 h-4 text-green-600 dark:text-green-400" />
+                ) : (
+                  <Copy className="w-4 h-4 text-black/60 dark:text-neutral-400" />
+                )}
+              </button>
             </div>
           </div>
 
