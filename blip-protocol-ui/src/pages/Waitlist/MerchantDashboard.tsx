@@ -53,6 +53,10 @@ import {
   Users,
   UserPlus,
   Award,
+  Info,
+  Target,
+  BadgeCheck,
+  Sparkles,
 } from "lucide-react";
 import { ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import { useTheme } from "next-themes";
@@ -230,6 +234,9 @@ export default function MerchantDashboard() {
 
   // Commit Volume modal
   const [showCommitVolumeModal, setShowCommitVolumeModal] = useState(false);
+
+  // How It Works modal
+  const [showHowItWorksModal, setShowHowItWorksModal] = useState(false);
   const [selectedCorridor, setSelectedCorridor] = useState("");
   const [customCorridor, setCustomCorridor] = useState("");
   const [selectedVolume, setSelectedVolume] = useState("");
@@ -1071,15 +1078,165 @@ export default function MerchantDashboard() {
 
       {/* ── Main grid ──────────────────────────────────────────────────────── */}
       <main className="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-4 relative z-10 lg:min-h-[calc(100vh-64px)] lg:flex lg:flex-col">
+        {/* ── Refer Friends Banner ──────────────────────────────────────────── */}
+        <div
+          className={`${surface} border ${border} rounded-xl overflow-hidden mb-3 relative`}
+        >
+          <div className={`grid grid-cols-1 lg:grid-cols-[1.1fr,0.9fr,1fr] divide-y lg:divide-y-0 lg:divide-x ${divider}`}>
+            {/* Left: heading + description + CTAs */}
+            <div className="p-5 md:p-7 flex flex-col justify-center relative overflow-hidden">
+              <div
+                className="absolute inset-0 opacity-40 pointer-events-none"
+                style={{
+                  backgroundImage: `radial-gradient(circle, ${d ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.08)"} 1px, transparent 1px)`,
+                  backgroundSize: "12px 12px",
+                  maskImage: "linear-gradient(to right, black, transparent)",
+                  WebkitMaskImage: "linear-gradient(to right, black, transparent)",
+                }}
+              />
+              <div className="relative">
+                <h2 className="text-3xl md:text-[34px] font-black font-display leading-tight tracking-tight mb-2">
+                  <span className={txt}>Refer Friends.</span>
+                  <br />
+                  <span className="text-[#ff6b35]">Earn More.</span>
+                </h2>
+                <p className={`text-[13px] ${muted} mb-5 max-w-sm leading-relaxed`}>
+                  Invite your friends to Blip Money and earn{" "}
+                  <span className={`font-bold ${txt}`}>50 pts</span> for each
+                  successful referral. There's no limit to how much you can
+                  earn!
+                </p>
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <button
+                    onClick={() => setShowReferralModal(true)}
+                    className="bg-[#ff6b35] text-white px-5 py-2.5 rounded-md text-[11px] font-bold uppercase tracking-[0.14em] hover:opacity-90 active:scale-[0.98] transition flex items-center gap-2"
+                  >
+                    <Share2 className="w-3.5 h-3.5" />
+                    Share Your Code
+                  </button>
+                  <button
+                    onClick={() => setShowHowItWorksModal(true)}
+                    className={`${inputBg} border ${border} ${txt} px-5 py-2.5 rounded-md text-[11px] font-bold uppercase tracking-[0.14em] ${hov} transition flex items-center gap-2`}
+                  >
+                    How It Works
+                    <Info className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Middle: hero illustration */}
+            <div className="hidden lg:flex items-center justify-center p-4 relative overflow-hidden">
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background: `radial-gradient(circle at center, ${d ? "rgba(255,107,53,0.18)" : "rgba(255,107,53,0.10)"} 0%, transparent 65%)`,
+                }}
+              />
+              <img
+                src="/images/merchant-dashboard-hero.jpg"
+                alt="Refer friends and earn rewards"
+                className="relative max-h-[220px] w-auto object-contain"
+              />
+            </div>
+
+            {/* Right: referral code + link + social share */}
+            <div className="p-5 md:p-6 flex flex-col justify-center gap-2.5">
+              <span className={`text-[10px] font-black uppercase tracking-[0.18em] ${sub}`}>
+                Your Referral Code
+              </span>
+              <div
+                className={`flex items-center justify-between ${inputBg} border border-[#ff6b35]/40 rounded-md px-4 py-3`}
+              >
+                <span className={`text-base md:text-lg font-black font-display ${txt} tracking-[0.12em]`}>
+                  {referralCode || "—"}
+                </span>
+                <button
+                  onClick={() => handleCopy(referralCode, "Referral code")}
+                  className="p-1.5 rounded-md bg-[#ff6b35]/10 hover:bg-[#ff6b35]/20 transition"
+                  aria-label="Copy referral code"
+                  title="Copy code"
+                >
+                  <Copy className="w-3.5 h-3.5 text-[#ff6b35]" />
+                </button>
+              </div>
+              <p className={`text-[11px] ${muted} leading-relaxed`}>
+                Share your code or link and earn{" "}
+                <span className={`font-bold ${txt}`}>50 pts</span> for each
+                successful referral.
+              </p>
+
+              <div className="flex items-center gap-2">
+                <div className={`h-px flex-1 border-t ${divider}`} />
+                <span className={`text-[9px] font-black uppercase tracking-[0.18em] ${sub}`}>
+                  Or share your link
+                </span>
+                <div className={`h-px flex-1 border-t ${divider}`} />
+              </div>
+
+              <div
+                className={`flex items-center justify-between ${inputBg} border ${border} rounded-md px-3 py-2`}
+              >
+                <span className={`text-[11px] ${muted} truncate mr-2`}>
+                  {referralLink}
+                </span>
+                <button
+                  onClick={handleCopyReferralLink}
+                  className={`p-1 rounded ${hov} transition shrink-0`}
+                  aria-label="Copy referral link"
+                  title="Copy link"
+                >
+                  {copied ? (
+                    <Check className="w-3.5 h-3.5 text-emerald-500" />
+                  ) : (
+                    <Copy className={`w-3.5 h-3.5 ${muted}`} />
+                  )}
+                </button>
+              </div>
+
+              <div className="grid grid-cols-3 gap-2">
+                <a
+                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Join Blip Money with my referral code ${referralCode}! ${referralLink}`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${inputBg} border ${border} rounded-md px-2 py-2 text-[10px] font-bold ${txt} flex items-center justify-center gap-1.5 ${hov} transition`}
+                >
+                  <XBrand className="w-3 h-3" />
+                  X (Twitter)
+                </a>
+                <a
+                  href={`https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=${encodeURIComponent("Join Blip Money with my referral!")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${inputBg} border ${border} rounded-md px-2 py-2 text-[10px] font-bold ${txt} flex items-center justify-center gap-1.5 ${hov} transition`}
+                >
+                  <Send className="w-3 h-3" />
+                  Telegram
+                </a>
+                <button
+                  onClick={() => setShowReferralModal(true)}
+                  className={`${inputBg} border ${border} rounded-md px-2 py-2 text-[10px] font-bold ${txt} flex items-center justify-center gap-1.5 ${hov} transition`}
+                >
+                  <Share2 className="w-3 h-3" />
+                  More
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Your Referral Stats ───────────────────────────────────────────── */}
+        
+
         {/* Two-column grid: LEFT (Hero + Social Quests) | RIGHT (Referral + Progress + Leaderboard) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 mb-3 lg:items-stretch">
           {/* LEFT COLUMN: Hero + Social Quests */}
           <div className="lg:col-span-8 flex flex-col gap-3">
             {/* Hero card — natural height */}
-            <div
+            {/* <div
               className={`${surface} border ${border} rounded-xl p-5 md:p-6 relative overflow-hidden`}
             >
-              {/* Subtle neutral dot pattern */}
+              
               <div
                 className="absolute top-0 right-0 bottom-0 w-1/2 opacity-50 pointer-events-none"
                 style={{
@@ -1166,7 +1323,88 @@ export default function MerchantDashboard() {
                   </button>
                 </div>
               </div>
+            </div> */}
+
+            {/* ── Your Referral Stats ───────────────────────────────────────────── */}
+        <div className={`${surface} border ${border} rounded-xl p-4 md:p-5 mb-3`}>
+          <div className="flex items-center gap-2 mb-3">
+            <div className={`w-1.5 h-1.5 rounded-full bg-[#ff6b35]`} />
+            <span className={`text-[10px] font-black uppercase tracking-[0.18em] ${sub}`}>
+              Your Referral Stats
+            </span>
+          </div>
+          <div
+            className={`grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-0 md:divide-x ${divider}`}
+          >
+            {/* Total Referrals */}
+            <div className="flex items-center gap-3 md:px-5 md:first:pl-0">
+              <div className={`w-11 h-11 rounded-lg ${inputBg} border ${border} flex items-center justify-center shrink-0`}>
+                <Target className={`w-5 h-5 ${txt}`} />
+              </div>
+              <div className="min-w-0">
+                <p className={`text-xl font-black font-display ${txt} leading-tight`}>
+                  {referralCount}
+                </p>
+                <p className={`text-[11px] font-bold ${txt} leading-tight`}>
+                  Total Referrals
+                </p>
+                <p className={`text-[10px] ${sub}`}>All time</p>
+              </div>
             </div>
+
+            {/* Verified Referrals */}
+            <div className="flex items-center gap-3 md:px-5">
+              <div className={`w-11 h-11 rounded-lg ${inputBg} border ${border} flex items-center justify-center shrink-0`}>
+                <BadgeCheck className={`w-5 h-5 ${txt}`} />
+              </div>
+              <div className="min-w-0">
+                <p className={`text-xl font-black font-display ${txt} leading-tight`}>
+                  {referralCount}
+                </p>
+                <p className={`text-[11px] font-bold ${txt} leading-tight`}>
+                  Verified Referrals
+                </p>
+                <p className={`text-[10px] ${sub}`}>Completed KYC</p>
+              </div>
+            </div>
+
+            {/* Total Points Earned */}
+            <div className="flex items-center gap-3 md:px-5">
+              <div className={`w-11 h-11 rounded-lg ${inputBg} border ${border} flex items-center justify-center shrink-0`}>
+                <UserPlus className={`w-5 h-5 ${txt}`} />
+              </div>
+              <div className="min-w-0">
+                <p className={`text-xl font-black font-display ${txt} leading-tight`}>
+                  {(referralCount * 50).toLocaleString()}{" "}
+                  <span className="text-xs font-bold">pts</span>
+                </p>
+                <p className={`text-[11px] font-bold ${txt} leading-tight`}>
+                  Total Points Earned
+                </p>
+                <p className={`text-[10px] ${sub}`}>From Referrals</p>
+              </div>
+            </div>
+
+            {/* Pending Points */}
+            <div className="flex items-center gap-3 md:px-5 md:last:pr-0">
+              <div className={`w-11 h-11 rounded-lg ${inputBg} border ${border} flex items-center justify-center shrink-0`}>
+                <Sparkles className={`w-5 h-5 ${txt}`} />
+              </div>
+              <div className="min-w-0">
+                <p className={`text-xl font-black font-display ${txt} leading-tight`}>
+                  0 <span className="text-xs font-bold">pts</span>
+                </p>
+                <p
+                  className={`text-[11px] font-bold ${txt} leading-tight flex items-center gap-1`}
+                >
+                  Pending Points
+                  <Info className={`w-3 h-3 ${sub}`} />
+                </p>
+                <p className={`text-[10px] ${sub}`}>Not yet claimed</p>
+              </div>
+            </div>
+          </div>
+        </div>
 
             {/* Social Quests (under Hero in left column) */}
             <div id="social-quests">
@@ -1312,7 +1550,7 @@ export default function MerchantDashboard() {
           {/* Right column: Referral + Progress + Leaderboard stacked */}
           <div className="lg:col-span-4 flex flex-col gap-3">
             {/* Referral Code card — clickable, opens Referral modal */}
-            <div
+            {/* <div
               role="button"
               tabIndex={0}
               onClick={() => setShowReferralModal(true)}
@@ -1371,7 +1609,7 @@ export default function MerchantDashboard() {
                 <Share2 className="w-3.5 h-3.5" />
                 Share Code
               </button>
-            </div>
+            </div> */}
 
             {/* Your Progress */}
             <div className={`${surface} border ${border} rounded-xl p-4`}>
@@ -1630,6 +1868,117 @@ export default function MerchantDashboard() {
         onClose={() => setShowPointsHistoryModal(false)}
         totalPoints={blipPoints}
       />
+
+      {/* ── How It Works Modal ────────────────────────────────────────────── */}
+      {showHowItWorksModal && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center">
+          <div
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            onClick={() => setShowHowItWorksModal(false)}
+          />
+          <div
+            className={`relative w-full max-w-3xl mx-4 ${surface} border ${border} rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto`}
+          >
+            {/* Header */}
+            <div
+              className={`px-6 py-4 border-b ${divider} flex items-center justify-between`}
+            >
+              <div className="flex items-center gap-2">
+                <div className={`w-1.5 h-1.5 rounded-full bg-[#ff6b35]`} />
+                <span
+                  className={`text-[10px] font-black uppercase tracking-[0.18em] ${sub}`}
+                >
+                  How It Works
+                </span>
+              </div>
+              <button
+                onClick={() => setShowHowItWorksModal(false)}
+                className={`p-1.5 rounded-lg ${hov} transition-colors`}
+                aria-label="Close"
+              >
+                <X className={`w-4 h-4 ${muted}`} />
+              </button>
+            </div>
+
+            {/* Steps */}
+            <div className="px-6 py-7">
+              <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] gap-4 md:gap-2 items-start">
+                {/* Step 1 */}
+                <div className="flex flex-col items-center text-center">
+                  <div className="w-14 h-14 rounded-full bg-[#ff6b35]/15 border border-[#ff6b35]/30 flex items-center justify-center mb-3">
+                    <UserPlus className="w-6 h-6 text-[#ff6b35]" />
+                  </div>
+                  <h3 className={`text-sm font-bold ${txt} mb-1`}>
+                    1. Share Your Code
+                  </h3>
+                  <p className={`text-[11px] ${muted} leading-relaxed max-w-[170px]`}>
+                    Share your referral code or link with friends.
+                  </p>
+                </div>
+
+                <div className="hidden md:flex items-center justify-center pt-6">
+                  <ArrowRight className={`w-4 h-4 ${sub}`} />
+                </div>
+
+                {/* Step 2 */}
+                <div className="flex flex-col items-center text-center">
+                  <div className={`w-14 h-14 rounded-full ${inputBg} border ${border} flex items-center justify-center mb-3`}>
+                    <CheckCircle2 className={`w-6 h-6 ${txt}`} />
+                  </div>
+                  <h3 className={`text-sm font-bold ${txt} mb-1`}>
+                    2. Friend Joins
+                  </h3>
+                  <p className={`text-[11px] ${muted} leading-relaxed max-w-[180px]`}>
+                    Your friend signs up using your link and completes verification.
+                  </p>
+                </div>
+
+                <div className="hidden md:flex items-center justify-center pt-6">
+                  <ArrowRight className={`w-4 h-4 ${sub}`} />
+                </div>
+
+                {/* Step 3 */}
+                <div className="flex flex-col items-center text-center">
+                  <div className={`w-14 h-14 rounded-full ${inputBg} border ${border} flex items-center justify-center mb-3`}>
+                    <Gift className={`w-6 h-6 ${txt}`} />
+                  </div>
+                  <h3 className={`text-sm font-bold ${txt} mb-1`}>
+                    3. They Complete Quests
+                  </h3>
+                  <p className={`text-[11px] ${muted} leading-relaxed max-w-[170px]`}>
+                    Your friend completes at least one quest.
+                  </p>
+                </div>
+
+                <div className="hidden md:flex items-center justify-center pt-6">
+                  <ArrowRight className={`w-4 h-4 ${sub}`} />
+                </div>
+
+                {/* Step 4 */}
+                <div className="flex flex-col items-center text-center">
+                  <div className={`w-14 h-14 rounded-full ${inputBg} border ${border} flex items-center justify-center mb-3`}>
+                    <Star className={`w-6 h-6 ${txt}`} />
+                  </div>
+                  <h3 className={`text-sm font-bold ${txt} mb-1`}>
+                    4. You Earn Points
+                  </h3>
+                  <p className={`text-[11px] ${muted} leading-relaxed max-w-[180px]`}>
+                    You earn 50 pts for each successful referral.
+                  </p>
+                </div>
+              </div>
+
+              {/* Callout */}
+              <div className="mt-7 flex items-center gap-2.5 px-4 py-3 rounded-lg bg-[#ff6b35]/10 border border-[#ff6b35]/30">
+                <Zap className="w-4 h-4 text-[#ff6b35] shrink-0" />
+                <span className="text-[12px] font-semibold text-[#ff6b35]">
+                  The more friends you invite, the more points you earn!
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── 2FA Recovery Codes Modal ────────────────────────────────────────── */}
       {twoFaRecoveryCodes && (
