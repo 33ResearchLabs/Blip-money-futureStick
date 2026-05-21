@@ -16,11 +16,11 @@ export const verifyTweet = async (req, res) => {
     const { tweetId, tweetUrl, wallet_address } = req.body;
     const userId = req.user?._id; // Assumes auth middleware sets req.user
 
-    // Validation
-    if (!tweetId || !tweetUrl || !wallet_address) {
+    // Validation — wallet is no longer required for tweet verification
+    if (!tweetId || !tweetUrl) {
       return res.status(400).json({
         success: false,
-        message: "Missing required fields: tweetId, tweetUrl, wallet_address",
+        message: "Missing required fields: tweetId, tweetUrl",
       });
     }
 
@@ -40,12 +40,11 @@ export const verifyTweet = async (req, res) => {
       });
     }
 
-    // Check if wallet is linked to this user
-    if (!user.walletLinked || user.wallet_address !== wallet_address) {
+    // If a wallet_address was supplied, sanity-check it belongs to this user
+    if (wallet_address && user.wallet_address && user.wallet_address !== wallet_address) {
       return res.status(403).json({
         success: false,
-        message:
-          "Wallet not linked to your account. Please link your wallet first.",
+        message: "Wallet does not match this account.",
       });
     }
 
@@ -93,10 +92,10 @@ export const verifyTweet = async (req, res) => {
     // Points to award (merchants get higher rewards)
     const pointsAwarded = user.role === "MERCHANT" ? merchantBlipPoints.twitter : 100;
 
-    // Save successful verification
+    // Save successful verification (wallet is optional — fall back to user's stored wallet or empty string)
     const verification = await TweetVerification.create({
       userId,
-      walletAddress: wallet_address,
+      walletAddress: wallet_address || user.wallet_address || "",
       tweetId: tweetData.id,
       tweetUrl,
       tweetText: tweetData.text,

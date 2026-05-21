@@ -599,9 +599,9 @@ const TASKS_DATA = {
       id: "s1",
       title: "Complete Social Quest",
       description:
-        "Follow our official channels on Gleam to verify your identity.",
+        "Follow our official channels to verify your identity.",
       reward: "1000",
-      status: "active",
+      status: "coming_soon",
       icon: Share2,
       difficulty: "Easy",
     },

@@ -86,11 +86,10 @@ export default function TwitterVerificationModal({
     setStep("verifying");
 
     try {
-      const data: any = await api.post("/twitter/verify", {
-        tweetId,
-        tweetUrl,
-        wallet_address: userWallet,
-      });
+      // wallet_address is optional — only include it if the user has linked a wallet
+      const payload: Record<string, string> = { tweetId, tweetUrl };
+      if (userWallet) payload.wallet_address = userWallet;
+      const data: any = await api.post("/twitter/verify", payload);
 
       if (data.success) {
         setStep("success");

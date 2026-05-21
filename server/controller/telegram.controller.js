@@ -37,13 +37,7 @@ export const verifyMembership = async (req, res) => {
       });
     }
 
-    // Check wallet is linked
-    if (!user.walletLinked) {
-      return res.status(403).json({
-        success: false,
-        message: "Please link your wallet first.",
-      });
-    }
+    // Wallet linking is no longer required for telegram verification.
 
     // Check if already verified
     if (user.telegramVerified) {
