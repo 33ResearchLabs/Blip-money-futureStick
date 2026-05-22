@@ -5,11 +5,11 @@ import { useTheme } from "next-themes";
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 const FEED_TEMPLATES = [
-  { type: "send", msg: "Sent $AMOUNT USDT → Delivered in $TIMEs", color: "#3ddc84" },
+  { type: "send", msg: "Sent $AMOUNT USDT → Delivered in $TIMEs", color: "#cc785c" },
   { type: "lp", msg: "LP earned $$EARN from spread on $CORRIDOR", color: "#ff6b35" },
   { type: "merchant", msg: "Merchant settled $AMOUNT instantly", color: "#6366f1" },
   { type: "points", msg: "+$POINTS points awarded to $USER", color: "#f59e0b" },
-  { type: "send", msg: "$AMOUNT USDT settled on-chain in $TIMEs", color: "#3ddc84" },
+  { type: "send", msg: "$AMOUNT USDT settled on-chain in $TIMEs", color: "#cc785c" },
   { type: "lp", msg: "LP deployed $$DEPLOY into $CORRIDOR route", color: "#ff6b35" },
   { type: "merchant", msg: "Merchant earned $$EARN on $CORRIDOR trade", color: "#6366f1" },
 ];
@@ -115,7 +115,7 @@ const LiveNetworkFeed = () => {
               <div className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
             </div>
             <div className="flex items-center gap-2">
-              <motion.div className="w-1.5 h-1.5 rounded-full bg-[#3ddc84]" animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 1, repeat: Infinity }} />
+              <motion.div className="w-1.5 h-1.5 rounded-full bg-[#cc785c]" animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 1, repeat: Infinity }} />
               <span className="font-mono text-[10px] text-white/30">blip.network — live feed</span>
             </div>
           </div>

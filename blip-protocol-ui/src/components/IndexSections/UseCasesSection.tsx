@@ -97,7 +97,7 @@ function LiveEarnFeed({ isInView }: { isInView: boolean }) {
             >
               <span className="text-lg">{tx.emoji}</span>
               <span className="flex-1 text-sm text-black/50 dark:text-white/50">{tx.label}</span>
-              <span className="text-sm font-bold font-mono text-[#3ddc84]">+{tx.amount.toFixed(2)}</span>
+              <span className="text-sm font-bold font-mono text-[#cc785c]">+{tx.amount.toFixed(2)}</span>
             </motion.div>
           ))}
         </AnimatePresence>
@@ -137,8 +137,8 @@ function LiveSendVisual({ isDark }: { isDark: boolean }) {
         <div className="flex items-center justify-between mb-5">
           <div className="text-[10px] font-semibold uppercase tracking-widest text-black/25 dark:text-white/25">Send money</div>
           <motion.div className="flex items-center gap-1.5" animate={{ opacity: phase === "done" ? 1 : 0.4 }}>
-            <div className="w-1.5 h-1.5 rounded-full" style={{ background: phase === "done" ? "#3ddc84" : "rgba(0,0,0,0.15)" }} />
-            <span className="text-[9px] font-semibold" style={{ color: phase === "done" ? "#3ddc84" : "rgba(0,0,0,0.25)" }}>
+            <div className="w-1.5 h-1.5 rounded-full" style={{ background: phase === "done" ? "#cc785c" : "rgba(0,0,0,0.15)" }} />
+            <span className="text-[9px] font-semibold" style={{ color: phase === "done" ? "#cc785c" : "rgba(0,0,0,0.25)" }}>
               {phase === "done" ? "Settled" : phase === "matching" ? "Matching..." : phase === "sending" ? "Sending..." : "Ready"}
             </span>
           </motion.div>
@@ -159,7 +159,7 @@ function LiveSendVisual({ isDark }: { isDark: boolean }) {
             <div className="text-[11px] text-black/30 dark:text-white/30">Dubai, UAE</div>
           </div>
           <motion.div animate={{ scale: phase === "done" ? [1, 1.2, 1] : 1 }} className="text-right">
-            <div className="font-mono text-sm font-bold" style={{ color: phase === "done" ? "#3ddc84" : "rgba(0,0,0,0.3)" }}>
+            <div className="font-mono text-sm font-bold" style={{ color: phase === "done" ? "#cc785c" : "rgba(0,0,0,0.3)" }}>
               {phase === "done" ? "~42s" : "—"}
             </div>
             <div className="text-[9px] text-black/20 dark:text-white/20">settle time</div>
@@ -172,8 +172,8 @@ function LiveSendVisual({ isDark }: { isDark: boolean }) {
             const stepDone = (phase === "sending" && i < 1) || (phase === "matching" && i < 2) || (phase === "done" && i < 4);
             return (
               <div key={s} className="flex-1">
-                <motion.div className="h-1 rounded-full mb-1" animate={{ backgroundColor: stepDone ? "#3ddc84" : isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)" }} transition={{ duration: 0.3 }} />
-                <span className="text-[8px] font-semibold uppercase" style={{ color: stepDone ? "#3ddc84" : "rgba(0,0,0,0.2)" }}>{s}</span>
+                <motion.div className="h-1 rounded-full mb-1" animate={{ backgroundColor: stepDone ? "#cc785c" : isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)" }} transition={{ duration: 0.3 }} />
+                <span className="text-[8px] font-semibold uppercase" style={{ color: stepDone ? "#cc785c" : "rgba(0,0,0,0.2)" }}>{s}</span>
               </div>
             );
           })}
@@ -181,7 +181,7 @@ function LiveSendVisual({ isDark }: { isDark: boolean }) {
 
         {/* CTA */}
         <motion.div className="w-full py-3 rounded-xl text-center text-sm font-semibold" animate={{
-          backgroundColor: phase === "done" ? "#3ddc84" : "#1d1d1f",
+          backgroundColor: phase === "done" ? "#cc785c" : "#1d1d1f",
           color: "#ffffff",
         }}>
           {phase === "done" ? "✓ Settled" : phase === "typing" ? "Confirm & Send" : "Processing..."}
@@ -229,7 +229,7 @@ function LiveMerchantVisual({ isDark }: { isDark: boolean }) {
         <div className="flex items-center justify-between mb-5">
           <div className="text-[10px] font-semibold uppercase tracking-widest text-black/25 dark:text-white/25">Merchant dashboard</div>
           <div className="flex items-center gap-1.5">
-            <motion.div className="w-1.5 h-1.5 rounded-full bg-[#3ddc84]" animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 1.2, repeat: Infinity }} />
+            <motion.div className="w-1.5 h-1.5 rounded-full bg-[#cc785c]" animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 1.2, repeat: Infinity }} />
             <span className="text-[9px] font-semibold text-black/25 dark:text-white/25">Live</span>
           </div>
         </div>
@@ -239,7 +239,7 @@ function LiveMerchantVisual({ isDark }: { isDark: boolean }) {
           <div className="rounded-xl p-3" style={{ background: "rgba(61,220,132,0.04)", border: "1px solid rgba(61,220,132,0.08)" }}>
             <div className="text-[9px] font-semibold uppercase tracking-wider text-black/25 dark:text-white/25">Total earned</div>
             <motion.div key={Math.floor(totalEarned)} initial={{ y: -3, opacity: 0.6 }} animate={{ y: 0, opacity: 1 }}
-              className="text-xl font-bold font-mono text-[#3ddc84] tracking-tight">${Math.floor(totalEarned).toLocaleString()}</motion.div>
+              className="text-xl font-bold font-mono text-[#cc785c] tracking-tight">${Math.floor(totalEarned).toLocaleString()}</motion.div>
           </div>
           <div className="rounded-xl p-3" style={{ background: isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)" }}>
             <div className="text-[9px] font-semibold uppercase tracking-wider text-black/25 dark:text-white/25">Orders today</div>
@@ -261,7 +261,7 @@ function LiveMerchantVisual({ isDark }: { isDark: boolean }) {
               <div className="flex items-center gap-3">
                 <span className="text-[10px] font-mono text-black/25 dark:text-white/25">{t.time}</span>
                 <motion.span initial={i === 0 ? { scale: 1.2 } : false} animate={{ scale: 1 }}
-                  className="text-xs font-bold font-mono text-[#3ddc84]">{t.earned}</motion.span>
+                  className="text-xs font-bold font-mono text-[#cc785c]">{t.earned}</motion.span>
               </div>
             </motion.div>
           ))}
@@ -415,7 +415,7 @@ const UseCasesSection = () => {
                 </p>
                 <div className="flex items-center gap-4 mb-5">
                   <div>
-                    <div className="font-mono text-lg font-bold text-[#3ddc84]">$1,247</div>
+                    <div className="font-mono text-lg font-bold text-[#cc785c]">$1,247</div>
                     <div className="text-[8px] uppercase tracking-wider text-white/25">Earned today</div>
                   </div>
                   <div className="w-px h-8 bg-white/10" />
@@ -477,7 +477,7 @@ const UseCasesSection = () => {
                 </p>
                 <div className="flex items-center gap-4 mb-5">
                   <div>
-                    <div className="font-mono text-lg font-bold text-[#3ddc84]">11.2%</div>
+                    <div className="font-mono text-lg font-bold text-[#cc785c]">11.2%</div>
                     <div className="text-[8px] uppercase tracking-wider" style={{ color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.6)" }}>Avg APY</div>
                   </div>
                   <div className="w-px h-8" style={{ background: isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.08)" }} />
@@ -529,7 +529,7 @@ function LiveMerchantMini() {
       <div className="flex items-center justify-between mb-3">
         <div>
           <div className="text-[8px] font-semibold uppercase tracking-wider text-white/25 mb-1">Today's earnings</div>
-          <motion.div key={Math.floor(earned)} initial={{ y: -3, opacity: 0.6 }} animate={{ y: 0, opacity: 1 }} className="font-mono text-xl font-bold text-[#3ddc84]">
+          <motion.div key={Math.floor(earned)} initial={{ y: -3, opacity: 0.6 }} animate={{ y: 0, opacity: 1 }} className="font-mono text-xl font-bold text-[#cc785c]">
             ${Math.floor(earned).toLocaleString()}
           </motion.div>
         </div>
@@ -542,7 +542,7 @@ function LiveMerchantMini() {
       </div>
       <div className="h-1 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.06)" }}>
         <motion.div
-          className="h-full rounded-full bg-[#3ddc84]"
+          className="h-full rounded-full bg-[#cc785c]"
           animate={{ width: ["30%", "65%", "45%", "80%", "55%"] }}
           transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         />
@@ -579,7 +579,7 @@ function LiveLPMini({ isDark }: { isDark: boolean }) {
         </div>
         <div className="text-right">
           <div className="text-[8px] font-semibold uppercase tracking-wider" style={{ color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.25)" }}>Avg APY</div>
-          <div className="font-mono text-xl font-bold text-[#3ddc84]">11.2%</div>
+          <div className="font-mono text-xl font-bold text-[#cc785c]">11.2%</div>
         </div>
       </div>
       {routes.map((r, i) => (
@@ -587,9 +587,9 @@ function LiveLPMini({ isDark }: { isDark: boolean }) {
           <span className="text-xs" style={{ color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)" }}>{r.name}</span>
           <div className="flex items-center gap-3">
             <div className="w-12 h-1 rounded-full overflow-hidden" style={{ background: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)" }}>
-              <div className="h-full rounded-full bg-[#3ddc84]" style={{ width: `${r.util}%` }} />
+              <div className="h-full rounded-full bg-[#cc785c]" style={{ width: `${r.util}%` }} />
             </div>
-            <span className="text-xs font-bold font-mono text-[#3ddc84]">{r.apy}</span>
+            <span className="text-xs font-bold font-mono text-[#cc785c]">{r.apy}</span>
           </div>
         </div>
       ))}

@@ -437,7 +437,7 @@ const UserHowItWorks = () => {
       icon: Lock,
       title: "Escrow locks funds",
       desc: "Your crypto is locked on-chain. The merchant is committed.",
-      accent: "#3ddc84",
+      accent: "#cc785c",
       glow: "rgba(61,220,132,0.18)",
     },
     {
@@ -653,7 +653,7 @@ const UserTrustSection = () => {
       icon: BadgeCheck,
       title: "Vetted merchants",
       desc: "Reputation tracked. Non-performers removed.",
-      accent: "#3ddc84",
+      accent: "#cc785c",
       glow: "rgba(61,220,132,0.20)",
     },
   ];

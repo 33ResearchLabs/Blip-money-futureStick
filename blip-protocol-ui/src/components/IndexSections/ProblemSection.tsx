@@ -101,42 +101,49 @@ interface ProblemCardProps {
   metricSub: string;
   lines: string[];
 }
+/* Pastel theme variants — all orange family, three shades */
+const CARD_THEMES = [
+  {
+    bg: "linear-gradient(165deg, #fff4ea 0%, #ffe5d0 100%)",
+    eyebrowColor: "#a45a40",
+    widget: { label: "Fees collected right now", value: "$69,445", color: "#cc785c" },
+  },
+  {
+    bg: "linear-gradient(165deg, #fff8f1 0%, #ffece0 100%)",
+    eyebrowColor: "#a45a40",
+    widget: { label: "Time lost to book waiting", value: "03:14:38", color: "#cc785c" },
+  },
+  {
+    bg: "linear-gradient(165deg, #ffe8dc 0%, #ffd6c2 100%)",
+    eyebrowColor: "#a45a40",
+    widget: { label: "Scams reported on P2P desks", value: "Account Takeover #0061", color: "#cc785c" },
+  },
+];
+
 function ProblemCard({ index, eyebrow, metric, metricSub, lines }: ProblemCardProps) {
+  const theme = CARD_THEMES[index] ?? CARD_THEMES[0];
   return (
     <motion.article
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-8%" }}
       transition={{ duration: 0.9, ease: EASE, delay: index * 0.08 }}
+      whileHover={{ y: -6 }}
       className="group relative h-full flex flex-col rounded-3xl overflow-hidden"
       style={{
-        background:
-          "linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.015) 100%)",
-        border: "1px solid rgba(255,255,255,0.07)",
-        backdropFilter: "blur(20px)",
-        WebkitBackdropFilter: "blur(20px)",
+        background: theme.bg,
         boxShadow:
-          "0 24px 64px -28px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.04) inset",
+          "0 24px 64px -28px rgba(0,0,0,0.18), 0 1px 0 rgba(255,255,255,0.6) inset",
+        transition: "box-shadow 0.4s ease",
       }}
     >
-      {/* Subtle inner glow on hover */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255,255,255,0.05), transparent 70%)",
-        }}
-      />
-
-      <div className="relative z-10 flex flex-col h-full px-8 pt-8 pb-9 md:px-10 md:pt-10 md:pb-11">
+      <div className="relative z-10 flex flex-col h-full px-7 pt-7 pb-7 md:px-8 md:pt-8 md:pb-8">
         {/* Eyebrow */}
-        <div className="flex items-center gap-2.5 mb-10 md:mb-14">
-          <span className="font-mono text-[10px] font-semibold tracking-[0.22em] uppercase text-white/35">
-            {String(index + 1).padStart(2, "0")}
-          </span>
-          <span className="w-6 h-px bg-white/10" />
-          <span className="text-[10px] font-semibold tracking-[0.28em] uppercase text-white/45">
+        <div className="flex items-center gap-2.5 mb-8">
+          <span
+            className="text-[10px] font-bold tracking-[0.3em] uppercase"
+            style={{ color: theme.eyebrowColor }}
+          >
             {eyebrow}
           </span>
         </div>
@@ -144,33 +151,66 @@ function ProblemCard({ index, eyebrow, metric, metricSub, lines }: ProblemCardPr
         {/* Big metric */}
         <div className="mb-1">
           <div
-            className="font-display text-white"
+            className="font-display text-black"
             style={{
-              fontSize: "clamp(3rem, 4.6vw, 4.4rem)",
-              fontWeight: 500,
+              fontSize: "clamp(2.6rem, 4.4vw, 4rem)",
+              fontWeight: 600,
               lineHeight: 0.98,
               letterSpacing: "-0.045em",
             }}
           >
             {metric}
           </div>
-          <div className="mt-3 text-[14px] font-medium tracking-tight text-white/55">
+          <div className="mt-3 text-[14px] font-medium tracking-tight text-black/60">
             {metricSub}
           </div>
         </div>
 
-        {/* Editorial sub-lines */}
-        <ul className="mt-10 md:mt-12 space-y-2.5">
+        {/* Sub-lines */}
+        <ul className="mt-6 space-y-1.5">
           {lines.map((line) => (
             <li
               key={line}
-              className="flex items-start gap-3 text-[14px] tracking-tight text-white/55"
+              className="flex items-start gap-2 text-[12.5px] tracking-tight text-black/55"
             >
-              <span className="mt-[9px] w-1 h-1 rounded-full bg-white/30 shrink-0" />
+              <span className="mt-[7px] w-1 h-1 rounded-full bg-black/25 shrink-0" />
               <span>{line}</span>
             </li>
           ))}
         </ul>
+
+        {/* Inner live widget — shows the live cost / waiting / risk pulse */}
+        <div className="mt-auto pt-6">
+          <div
+            className="rounded-2xl px-4 py-3.5"
+            style={{
+              background: "rgba(255,255,255,0.55)",
+              border: "1px solid rgba(0,0,0,0.04)",
+              boxShadow: "0 2px 10px -4px rgba(0,0,0,0.06)",
+            }}
+          >
+            <div className="text-[8.5px] font-bold tracking-[0.22em] uppercase text-black/45">
+              {theme.widget.label}
+            </div>
+            <div className="mt-1 flex items-center gap-2">
+              <motion.span
+                animate={{ opacity: [1, 0.4, 1] }}
+                transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+                className="w-1.5 h-1.5 rounded-full shrink-0"
+                style={{ background: theme.widget.color }}
+              />
+              <span
+                className="font-mono text-[15px] font-bold tabular-nums tracking-tight"
+                style={{ color: theme.widget.color }}
+              >
+                {theme.widget.value}
+              </span>
+            </div>
+            <div className="mt-1 text-[10px] text-black/40 tracking-tight italic">
+              {index === 0 ? "Hidden in the spread you don't see" : index === 1 ? "Bank confirmations, manual release" : "Reversed. Frozen. Disputed."}
+            </div>
+          </div>
+        </div>
       </div>
     </motion.article>
   );
@@ -237,7 +277,8 @@ const ProblemSection = () => {
     <section
       className="relative overflow-hidden"
       style={{
-        background: isDark ? "#000" : "#0a0a0a",
+        background: "#ffffff",
+        color: "#0a0a0a",
         padding: "140px 20px 120px",
       }}
     >
@@ -247,7 +288,7 @@ const ProblemSection = () => {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 75% 45% at 50% 0%, rgba(70,90,160,0.08) 0%, transparent 70%), radial-gradient(ellipse 80% 50% at 50% 100%, rgba(0,0,0,0.55) 0%, transparent 70%)",
+            "radial-gradient(ellipse 75% 45% at 50% 0%, rgba(204,120,92,0.06) 0%, transparent 70%)",
         }}
       />
 
@@ -297,11 +338,11 @@ const ProblemSection = () => {
             transition={{ duration: 0.7, ease: EASE }}
             className="inline-flex items-center gap-2.5 mb-9"
           >
-            <span className="w-6 h-px bg-white/20" />
-            <span className="text-[10.5px] font-semibold tracking-[0.32em] uppercase text-white/45">
+            <span className="w-6 h-px bg-black/15" />
+            <span className="text-[10.5px] font-semibold tracking-[0.32em] uppercase text-black/55">
               The P2P Problem
             </span>
-            <span className="w-6 h-px bg-white/20" />
+            <span className="w-6 h-px bg-black/15" />
           </motion.div>
 
           <motion.h2
@@ -309,7 +350,7 @@ const ProblemSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, ease: EASE, delay: 0.08 }}
-            className="font-display text-white"
+            className="font-display text-black"
             style={{
               fontSize: "clamp(2.6rem, 6vw, 5rem)",
               fontWeight: 500,
@@ -338,7 +379,7 @@ const ProblemSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.9, ease: EASE, delay: 0.2 }}
-            className="mt-8 max-w-[520px] mx-auto text-[15.5px] md:text-[16px] leading-[1.65] text-white/45"
+            className="mt-8 max-w-[520px] mx-auto text-[15.5px] md:text-[16px] leading-[1.65] text-black/55"
           >
             Fragmented liquidity. Manual settlement. Trust risk on every trade.
             The legacy P2P stack wasn't built for global, instant payments.
@@ -423,7 +464,7 @@ const ProblemSection = () => {
                   <span className="absolute inset-0 rounded-full bg-[#ff6b35] opacity-70 animate-ping" />
                   <span className="relative inline-flex rounded-full w-1.5 h-1.5 bg-[#ff6b35]" />
                 </span>
-                <span className="text-[10.5px] font-semibold tracking-[0.32em] uppercase text-white/55">
+                <span className="text-[10.5px] font-semibold tracking-[0.32em] uppercase text-black/60">
                   The Settlement Layer
                 </span>
               </div>
@@ -438,16 +479,16 @@ const ProblemSection = () => {
                   letterSpacing: "-0.045em",
                 }}
               >
-                <span className="block text-white/40">
+                <span className="block text-black/50">
                   This is not a payments app.
                 </span>
-                <span className="block mt-2 text-white">
+                <span className="block mt-2 text-black">
                   This is a settlement layer.
                 </span>
               </h3>
 
               {/* Subtext */}
-              <p className="mt-10 max-w-[560px] mx-auto text-[15.5px] md:text-[16px] leading-[1.65] text-white/55">
+              <p className="mt-10 max-w-[560px] mx-auto text-[15.5px] md:text-[16px] leading-[1.65] text-black/60">
                 Protocol-level infrastructure for borderless, on-chain
                 settlement — with merchant-powered liquidity at every venue.
               </p>
@@ -475,14 +516,14 @@ const ProblemSection = () => {
                     }}
                   >
                     <div className="flex items-start gap-3">
-                      <span className="font-mono text-[10px] font-semibold tracking-[0.18em] text-white/35 mt-1 shrink-0">
+                      <span className="font-mono text-[10px] font-semibold tracking-[0.18em] text-black/45 mt-1 shrink-0">
                         {String(i + 1).padStart(2, "0")}
                       </span>
                       <div className="min-w-0">
-                        <div className="text-[14px] font-semibold text-white leading-tight tracking-tight">
+                        <div className="text-[14px] font-semibold text-black leading-tight tracking-tight">
                           {p.label}
                         </div>
-                        <div className="text-[12px] text-white/45 mt-1 tracking-tight">
+                        <div className="text-[12px] text-black/55 mt-1 tracking-tight">
                           {p.sub}
                         </div>
                       </div>

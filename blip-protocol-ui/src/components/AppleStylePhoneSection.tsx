@@ -103,7 +103,7 @@ const PhoneMockup = () => {
                 <div className="flex items-center justify-between">
                   <div className="text-white text-2xl font-bold">1,835</div>
                   <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-white/5">
-                    <div className="w-5 h-5 rounded-full bg-gradient-to-br from-green-400 to-emerald-500" />
+                    <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#cc785c] to-[#cc785c]" />
                     <span className="text-white text-xs font-medium">AED</span>
                   </div>
                 </div>

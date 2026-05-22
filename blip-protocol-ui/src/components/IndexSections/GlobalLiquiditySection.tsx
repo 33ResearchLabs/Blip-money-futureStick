@@ -76,8 +76,8 @@ function SettlementTicker() {
   return (
     <div className="flex items-center gap-3.5 min-h-[18px]">
       <span className="relative flex w-1.5 h-1.5">
-        <span className="absolute inset-0 rounded-full bg-[#3ddc84] opacity-60 animate-ping" />
-        <span className="relative inline-flex rounded-full w-1.5 h-1.5 bg-[#3ddc84]" />
+        <span className="absolute inset-0 rounded-full bg-[#cc785c] opacity-60 animate-ping" />
+        <span className="relative inline-flex rounded-full w-1.5 h-1.5 bg-[#cc785c]" />
       </span>
       <span className="text-[10.5px] font-semibold tracking-[0.3em] uppercase text-white/40">
         Settling now
@@ -97,7 +97,7 @@ function SettlementTicker() {
           <span className="text-white/30">·</span>
           <span className="text-white/55">{event.rail}</span>
           <span className="text-white/30">·</span>
-          <span className="font-mono text-[#3ddc84]">{event.time}</span>
+          <span className="font-mono text-[#cc785c]">{event.time}</span>
           <span className="text-white/30 hidden sm:inline">·</span>
           <span className="font-mono text-white/85 hidden sm:inline">{event.amount}</span>
         </motion.div>
@@ -323,7 +323,7 @@ function OpportunityCard({
                 {item.value}
               </span>
               {item.trend === "up" && (
-                <TrendingUp className="w-3 h-3 text-[#3ddc84]" strokeWidth={2.5} />
+                <TrendingUp className="w-3 h-3 text-[#cc785c]" strokeWidth={2.5} />
               )}
             </div>
           </motion.div>

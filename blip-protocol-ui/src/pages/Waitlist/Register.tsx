@@ -382,7 +382,7 @@ export default function Register({
                           ? "bg-red-400 w-1/3"
                           : passwordStrength.score === 3
                             ? "bg-amber-400 w-2/3"
-                            : "bg-emerald-400 w-full"
+                            : "bg-[#cc785c] w-full"
                       }`}
                     />
                   </div>
@@ -392,7 +392,7 @@ export default function Register({
                         ? "text-red-400"
                         : passwordStrength.score === 3
                           ? "text-amber-400"
-                          : "text-emerald-400"
+                          : "text-[#cc785c]"
                     }`}
                   >
                     {passwordStrength.score <= 2
@@ -421,14 +421,14 @@ export default function Register({
                   ].map((item) => (
                     <div key={item.label} className="flex items-center gap-1.5">
                       {item.check ? (
-                        <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
+                        <CheckCircle className="w-3.5 h-3.5 text-[#cc785c]" />
                       ) : (
                         <XCircle className="w-3.5 h-3.5 text-black/15 dark:text-white/15" />
                       )}
                       <span
                         className={`text-[11px] ${
                           item.check
-                            ? "text-emerald-500 dark:text-emerald-400"
+                            ? "text-[#cc785c] dark:text-[#cc785c]"
                             : "text-black/30 dark:text-white/30"
                         }`}
                       >

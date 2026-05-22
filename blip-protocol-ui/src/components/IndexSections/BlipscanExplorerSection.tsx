@@ -157,11 +157,11 @@ const BlipscanExplorerSection = () => {
 
               <div className="flex items-center gap-2">
                 <motion.div
-                  className="w-2 h-2 rounded-full bg-emerald-500"
+                  className="w-2 h-2 rounded-full bg-[#cc785c]"
                   animate={{ opacity: [1, 0.5, 1] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 />
-                <span className="text-xs text-emerald-400 font-medium">
+                <span className="text-xs text-[#cc785c] font-medium">
                   Live
                 </span>
               </div>
@@ -258,7 +258,7 @@ const BlipscanExplorerSection = () => {
                             USDT
                           </div>
                         </div>
-                        <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-md bg-emerald-500/10 border border-emerald-500/20">
+                        <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-md bg-[#cc785c]/10 border border-[#cc785c]/20">
                           <span className="text-xs text-black dark:text-white font-medium whitespace-nowrap">
                             {tx.time}
                           </span>

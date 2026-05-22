@@ -5,6 +5,7 @@ import {
   ArrowRight,
   Loader2,
   AlertCircle,
+  Lock,
 } from "lucide-react";
 import {
   MerchantDashboardBody,
@@ -363,8 +364,8 @@ export function SendReceiveWidget({
         <div className="flex items-center justify-between px-4 py-2 border-t border-white/[0.05] bg-white/[0.012] text-[10.5px] tracking-tight">
           <div className="flex items-center gap-1.5">
             <span className="relative flex w-1 h-1">
-              <span className="absolute inset-0 rounded-full bg-[#3ddc84] opacity-60 animate-ping" />
-              <span className="relative inline-flex rounded-full w-1 h-1 bg-[#3ddc84]" />
+              <span className="absolute inset-0 rounded-full bg-[#cc785c] opacity-60 animate-ping" />
+              <span className="relative inline-flex rounded-full w-1 h-1 bg-[#cc785c]" />
             </span>
             <span className="text-white/45">
               1 USD ={" "}
@@ -569,8 +570,8 @@ export function InlineMerchantDashboard({
         </div>
         <div className="flex items-center gap-2">
           <span className="relative flex w-1 h-1">
-            <span className="absolute inset-0 rounded-full bg-[#3ddc84] opacity-60 animate-ping" />
-            <span className="relative inline-flex rounded-full w-1 h-1 bg-[#3ddc84]" />
+            <span className="absolute inset-0 rounded-full bg-[#cc785c] opacity-60 animate-ping" />
+            <span className="relative inline-flex rounded-full w-1 h-1 bg-[#cc785c]" />
           </span>
           <span className="text-[8.5px] font-semibold tracking-[0.22em] uppercase text-white/50">
             {isIdle ? "Merchant · Idle" : "Merchant · Routing"}
@@ -622,7 +623,7 @@ export function InlineMerchantDashboard({
               style={{
                 background: "rgba(80,220,150,0.10)",
                 borderColor: "rgba(80,220,150,0.30)",
-                color: "#7be5ad",
+                color: "#cc785c",
               }}
               title="Active"
             >
@@ -743,7 +744,7 @@ export function InlineMerchantDashboard({
             <div className="flex items-center justify-between px-2 py-1 text-[9.5px] tracking-tight">
               <span className="text-white/40">Corridor</span>
               <span className="text-white/65">
-                <span className="text-[#3ddc84]">●</span> Online · vol $0
+                <span className="text-[#cc785c]">●</span> Online · vol $0
               </span>
             </div>
           </div>
@@ -836,7 +837,7 @@ export function InlineMerchantDashboard({
                 style={{
                   background: "rgba(80,220,150,0.12)",
                   border: "1px solid rgba(80,220,150,0.28)",
-                  color: "#7be5ad",
+                  color: "#cc785c",
                 }}
               >
                 BUY
@@ -1218,7 +1219,7 @@ function RealOrderRow({
           </div>
           <span
             className={`font-mono text-sm font-extrabold tabular-nums shrink-0 ${
-              isPending ? "text-emerald-400" : "text-white"
+              isPending ? "text-[#cc785c]" : "text-white"
             }`}
           >
             {order.amount}
@@ -1253,7 +1254,7 @@ function RealOrderRow({
               border: isPending
                 ? "1px solid rgba(80,220,150,0.28)"
                 : "1px solid rgba(255,180,100,0.22)",
-              color: isPending ? "#7be5ad" : "#ffc790",
+              color: isPending ? "#cc785c" : "#ffc790",
             }}
           >
             {isPending ? "ACCEPT" : "RELEASE ESCROW"}
@@ -1404,7 +1405,7 @@ function SpreadChip({
     >
       <div
         className="text-[9.5px] font-semibold tracking-tight"
-        style={{ color: active ? "#7be5ad" : "rgba(255,255,255,0.55)" }}
+        style={{ color: active ? "#cc785c" : "rgba(255,255,255,0.55)" }}
       >
         {label}
       </div>
@@ -1679,7 +1680,7 @@ function ActivityRow({ order }: { order: InlineOrder }) {
     >
       <div className="flex items-center gap-2.5 min-w-0">
         <CheckCircle2
-          className="w-3 h-3 text-[#7be5ad] shrink-0"
+          className="w-3 h-3 text-[#cc785c] shrink-0"
           strokeWidth={2.5}
         />
         <div className="min-w-0">
@@ -1691,7 +1692,7 @@ function ActivityRow({ order }: { order: InlineOrder }) {
           </div>
         </div>
       </div>
-      <span className="font-mono text-[11px] font-semibold tabular-nums text-[#7be5ad] shrink-0 ml-2">
+      <span className="font-mono text-[11px] font-semibold tabular-nums text-[#cc785c] shrink-0 ml-2">
         {order.profit}
       </span>
     </motion.div>
@@ -1707,7 +1708,7 @@ function NotificationRow({ notif }: { notif: DashNotification }) {
         : Bell;
   const color =
     notif.kind === "success"
-      ? "#7be5ad"
+      ? "#cc785c"
       : notif.kind === "warn"
         ? "#ffc790"
         : "#a8c8ff";
@@ -1749,6 +1750,16 @@ function NotificationRow({ notif }: { notif: DashNotification }) {
 const CinematicHero = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { amount: 0.2 });
+
+  /* Scroll-linked black → white background transition.
+     As the user scrolls past the hero into the dashboard area,
+     a white wash sweeps up from the bottom so the dashboard
+     ends up floating on a bright surface. */
+  const { scrollYProgress: heroScroll } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
+  const whiteWashOpacity = useTransform(heroScroll, [0.5, 0.95], [0, 1]);
 
   /* ── Widget inputs ── */
   const [sendAmount, setSendAmount] = useState("1,000");
@@ -1856,6 +1867,8 @@ const CinematicHero = () => {
         }}
       />
 
+      {/* White wash disabled — hero stays black through the merchant section */}
+
       {/* Layer 6: film grain */}
       <div
         aria-hidden
@@ -1869,7 +1882,7 @@ const CinematicHero = () => {
       {/* ── Content — 50/50 vertical split ── */}
       <main className="relative z-10 w-full max-w-[1180px] mx-auto px-4 md:px-10 pt-16 md:pt-24 pb-16 md:pb-24 flex-1 flex flex-col items-stretch">
         {/* ── TOP HALF — anchored ~50% from top (10% lower than before) ── */}
-        <div className="flex flex-col items-center text-center min-h-[44vh] md:min-h-[48vh] justify-end">
+        <div className="flex flex-col items-center text-center min-h-[54vh] md:min-h-[58vh] justify-end">
           {/* Eyebrow — Apple-clean */}
           <motion.div
             initial={{ opacity: 0, y: 8 }}
@@ -1958,62 +1971,68 @@ const CinematicHero = () => {
           <RealLiveDashboard state={dashboardState} />
         </div>
 
-        {/* Merchant CTAs below the dashboard — only appear after user submits a trade */}
-        {dashboardState.userHasTraded && (
+        {/* Merchant earnings — flat on black hero, no card wrapper */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: EASE }}
-          className="mt-10 md:mt-14 flex flex-col items-center text-center"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-15%" }}
+          transition={{ duration: 1, ease: EASE }}
+          className="relative mt-20 md:mt-28 mb-12 md:mb-20 flex flex-col items-center text-center w-full"
         >
-          <div className="text-[10.5px] font-semibold tracking-[0.3em] uppercase mb-4" style={{ color: "#cc785c" }}>
-            Earn on every order
+          <div className="text-[11.5px] font-bold tracking-[0.36em] uppercase mb-5" style={{ color: "#cc785c" }}>
+            Powered by Merchants
           </div>
 
           <h2
-            className="font-display text-white max-w-[680px] mx-auto"
+            className="font-display text-white mx-auto"
             style={{
-              fontSize: "clamp(1.9rem, 4.2vw, 3rem)",
+              fontSize: "clamp(1.8rem, 4vw, 2.8rem)",
               fontWeight: 500,
               lineHeight: 1.05,
               letterSpacing: "-0.04em",
               marginBottom: 14,
+              maxWidth: "720px",
             }}
           >
-            <span className="text-white/55">In this trade, the merchant made </span>
-            <motion.span
-              key={dashboardState.lastEarning ?? 0}
-              initial={{ opacity: 0.4 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, ease: EASE }}
-              className="font-mono tabular-nums"
-              style={{ color: "#cc785c" }}
-            >
-              ${(dashboardState.lastEarning ?? 30).toFixed(0)}
-            </motion.span>
-            <span className="text-white/55">.</span>
+            <span className="text-white/55">Merchants provide liquidity. </span>
+            <span>Earn on every order.</span>
           </h2>
 
-          <p className="text-white/55 max-w-[440px] mx-auto leading-[1.5] text-[14px] md:text-[15px] mb-8 tracking-tight">
-            Verified merchants bid on every order. Set your spread, win volume,
-            settle on-chain.
+          <p className="text-white/55 max-w-[480px] mx-auto leading-[1.55] text-[13px] md:text-[14.5px] mb-10 tracking-tight">
+            Verified merchants bid live, set their own spread, and capture
+            profit on every settlement — paid out instantly, on-chain.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5">
+          {/* ── 6-card horizontal scroller, flat on black ── */}
+          <MerchantCardCarousel />
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-5">
             <Link
               to="/merchant"
-              className="group relative inline-flex items-center justify-center gap-2 w-full sm:w-auto sm:min-w-[200px] h-[48px] px-7 rounded-full bg-white text-black text-[14px] font-semibold tracking-tight transition-all duration-300 shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_10px_30px_-10px_rgba(255,255,255,0.3)] hover:-translate-y-[1px] active:scale-[0.985]"
+              className="group relative inline-flex items-center justify-center gap-2 w-full sm:w-auto sm:min-w-[220px] h-[50px] px-7 rounded-full bg-white text-black text-[14px] font-semibold tracking-tight transition-all duration-300 hover:-translate-y-[1px] active:scale-[0.985]"
             >
               <span>Become a merchant now</span>
               <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
             </Link>
           </div>
 
-          <div className="mt-4 text-[11.5px] text-white/40 tracking-tight">
-            ${dashboardState.totalEarned.toFixed(0)} earned today · {dashboardState.activeTrades.length + dashboardState.pendingOrders.length} live orders
+          <div className="inline-flex items-center gap-3 text-[12px] text-white/45 tracking-tight">
+            <span className="flex items-center gap-1.5">
+              <motion.span
+                animate={{ opacity: [1, 0.4, 1] }}
+                transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+                className="w-1.5 h-1.5 rounded-full"
+                style={{ background: "#cc785c" }}
+              />
+              <span className="font-mono tabular-nums">${dashboardState.totalEarned.toFixed(0)}</span>
+              <span>earned today</span>
+            </span>
+            <span className="text-white/20">·</span>
+            <span><span className="font-mono tabular-nums">{dashboardState.activeTrades.length + dashboardState.pendingOrders.length}</span> live orders</span>
+            <span className="text-white/20">·</span>
+            <span>+2,400 merchants</span>
           </div>
         </motion.div>
-        )}
       </main>
     </section>
   );
@@ -2038,10 +2057,15 @@ function RealLiveDashboard({
     target: wrapperRef,
     offset: ["start end", "end start"],
   });
-  const blurPx = useTransform(scrollYProgress, [0, 0.35, 0.6], [6, 2, 0]);
+  const blurPx = useTransform(scrollYProgress, [0, 0.35, 0.6], [0.825, 0.275, 0]);
   const filter = useTransform(blurPx, (v) => `blur(${v}px)`);
   const opacity = useTransform(scrollYProgress, [0, 0.3, 0.55], [0.45, 0.75, 1]);
   const scale = useTransform(scrollYProgress, [0, 0.6], [0.985, 1]);
+  /* Playful scroll-linked sway: dashboard drifts gently as the user
+     scrolls past it, then settles. Adds liveliness without being distracting. */
+  const xDrift = useTransform(scrollYProgress, [0, 0.4, 0.7, 1], [0, -18, 12, 0]);
+  const rotateZ = useTransform(scrollYProgress, [0, 0.4, 0.7, 1], [0, -0.7, 0.5, 0]);
+  const yLift = useTransform(scrollYProgress, [0, 0.5, 1], [0, -28, -8]);
 
   return (
     <motion.div
@@ -2058,50 +2082,721 @@ function RealLiveDashboard({
         marginRight: "calc(50% - min(47vw, 770px))",
       }}
     >
-      {/* Dashboard surface — scroll-linked depth */}
+      {/* Dashboard surface — clean dark with macOS chrome + URL */}
       <motion.div
         className="relative rounded-2xl overflow-hidden"
         style={{
           filter,
           opacity,
           scale,
+          x: xDrift,
+          y: yLift,
+          rotate: rotateZ,
           background: "#0a0a0a",
           border: "1px solid rgba(255,255,255,0.06)",
-          boxShadow:
-            "0 60px 120px -40px rgba(0,0,0,0.85), 0 1px 0 rgba(255,255,255,0.03) inset",
+          boxShadow: "0 60px 120px -40px rgba(0,0,0,0.85)",
           transformOrigin: "center top",
         }}
       >
-        {/* Minimal chrome — no traffic-light dots, just a quiet corridor strip */}
-        <div className="flex items-center justify-center px-4 py-2 border-b border-white/[0.04]" style={{ background: "rgba(255,255,255,0.015)" }}>
-          <div className="text-[9.5px] font-mono uppercase tracking-[0.32em] text-white/30">
-            Settlement Network · Live
+        {/* Browser chrome — traffic-light dots + favicon URL pill */}
+        <div className="flex items-center gap-2 px-3 py-2.5 border-b border-white/[0.06]" style={{ background: "#0f0f10" }}>
+          <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#ff5f57" }} />
+          <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#febc2e" }} />
+          <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#28c840" }} />
+          <div className="flex-1 flex justify-center min-w-0 px-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md text-[10.5px] font-mono text-white/65 border border-white/[0.06] bg-white/[0.04] w-full max-w-[440px]">
+              {/* Favicon — orange "B" mark */}
+              <span
+                className="inline-flex items-center justify-center w-3.5 h-3.5 rounded-[3px] flex-shrink-0 text-white font-bold"
+                style={{
+                  background: "linear-gradient(135deg, #ffa473, #cc785c)",
+                  fontSize: "8px",
+                  fontFamily: "system-ui, -apple-system, sans-serif",
+                  letterSpacing: 0,
+                }}
+                aria-hidden
+              >
+                B
+              </span>
+              <span className="text-white/35">https://</span>
+              <span className="text-white/85">blip.money</span>
+              <span className="text-white/45">/markets</span>
+              <span className="flex-1" />
+              <Lock className="w-2.5 h-2.5 text-white/30" />
+            </div>
           </div>
+          <div className="w-12" />
         </div>
 
         <MerchantDashboardBody state={state} />
       </motion.div>
 
-      {/* Top fade — bleeds dashboard into hero darkness */}
-      <div
-        aria-hidden
-        className="absolute inset-x-0 top-0 h-24 pointer-events-none rounded-t-2xl"
-        style={{
-          background:
-            "linear-gradient(180deg, #000 0%, rgba(0,0,0,0.6) 50%, transparent 100%)",
-        }}
-      />
-      {/* Bottom fade — sinks dashboard into next section */}
-      <div
-        aria-hidden
-        className="absolute inset-x-0 bottom-0 h-32 pointer-events-none rounded-b-2xl"
-        style={{
-          background:
-            "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.7) 60%, #000 100%)",
-        }}
-      />
+      {/* Top fade removed — peach bezel sits clean against the hero darkness */}
+      {/* Bottom edge — clean, sits on white wash. Soft elevation shadow only. */}
     </motion.div>
   );
+}
+
+/* ────────────────────────────────────────────────────────────
+   SceneIllustration — flat editorial SVG scenes used in the
+   merchant-perk card grid (Uber-style).
+   ──────────────────────────────────────────────────────────── */
+function SceneIllustration({ kind, accent, fg }: { kind: string; accent: string; fg: string }) {
+  const skin = "#f4c79b";
+  const ink = "#1a1a1a";
+  if (kind === "city") {
+    return (
+      <svg viewBox="0 0 160 100" className="w-full h-auto max-h-[110px]">
+        {/* skyline */}
+        <rect x="10" y="50" width="20" height="40" fill={accent} opacity="0.85" />
+        <rect x="32" y="35" width="22" height="55" fill={fg} opacity="0.9" />
+        <rect x="56" y="45" width="18" height="45" fill={accent} opacity="0.7" />
+        <rect x="76" y="28" width="24" height="62" fill={fg} opacity="0.85" />
+        <rect x="102" y="48" width="20" height="42" fill={accent} opacity="0.85" />
+        <rect x="124" y="38" width="22" height="52" fill={fg} opacity="0.9" />
+        {/* windows */}
+        {Array.from({ length: 6 }).map((_, i) => (
+          <rect key={`w${i}`} x={36 + (i % 2) * 8} y={40 + Math.floor(i / 2) * 8} width="3" height="3" fill={ink} />
+        ))}
+        {/* moon */}
+        <circle cx="135" cy="20" r="6" fill={accent} />
+        {/* person */}
+        <circle cx="80" cy="78" r="4" fill={skin} />
+        <rect x="77" y="82" width="6" height="10" rx="1" fill={accent} />
+      </svg>
+    );
+  }
+  if (kind === "phone") {
+    return (
+      <svg viewBox="0 0 160 100" className="w-full h-auto max-h-[110px]">
+        {/* phone */}
+        <rect x="62" y="18" width="36" height="64" rx="6" fill={fg} />
+        <rect x="66" y="24" width="28" height="46" rx="3" fill={ink} />
+        {/* big balance number */}
+        <text x="80" y="50" textAnchor="middle" fontSize="11" fontWeight="700" fill={accent} fontFamily="ui-monospace, monospace">
+          $240
+        </text>
+        <text x="80" y="62" textAnchor="middle" fontSize="5" fill={fg} opacity="0.6" letterSpacing="1">FREE</text>
+        {/* sparkles */}
+        <circle cx="40" cy="30" r="2" fill={accent} />
+        <circle cx="125" cy="35" r="2" fill={accent} />
+        <circle cx="35" cy="70" r="1.5" fill={accent} opacity="0.7" />
+        <circle cx="130" cy="65" r="1.5" fill={accent} opacity="0.7" />
+        {/* hand */}
+        <ellipse cx="80" cy="92" rx="22" ry="5" fill={skin} />
+      </svg>
+    );
+  }
+  if (kind === "friends") {
+    return (
+      <svg viewBox="0 0 160 100" className="w-full h-auto max-h-[110px]">
+        {/* sky / hill */}
+        <ellipse cx="80" cy="98" rx="100" ry="22" fill={accent} opacity="0.5" />
+        {/* friend 1 */}
+        <circle cx="55" cy="48" r="9" fill={skin} />
+        <rect x="48" y="56" width="14" height="22" rx="2" fill={fg} opacity="0.85" />
+        {/* friend 2 */}
+        <circle cx="105" cy="48" r="9" fill={skin} />
+        <rect x="98" y="56" width="14" height="22" rx="2" fill={ink} />
+        {/* gift/coin between */}
+        <circle cx="80" cy="64" r="9" fill={accent} stroke={fg} strokeWidth="1.5" />
+        <text x="80" y="68" textAnchor="middle" fontSize="9" fontWeight="700" fill={fg} fontFamily="ui-monospace, monospace">$</text>
+        {/* arrows */}
+        <path d="M 70 64 L 64 64" stroke={fg} strokeWidth="1.2" strokeLinecap="round" />
+        <path d="M 90 64 L 96 64" stroke={fg} strokeWidth="1.2" strokeLinecap="round" />
+      </svg>
+    );
+  }
+  if (kind === "boost") {
+    return (
+      <svg viewBox="0 0 160 100" className="w-full h-auto max-h-[110px]">
+        {/* rising chart */}
+        <polyline
+          points="20,80 45,70 65,55 85,42 105,28 130,15"
+          stroke={accent}
+          strokeWidth="3"
+          fill="none"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        {/* dots */}
+        {[
+          [20, 80],
+          [45, 70],
+          [65, 55],
+          [85, 42],
+          [105, 28],
+          [130, 15],
+        ].map(([x, y], i) => (
+          <circle key={i} cx={x} cy={y} r="3" fill={fg} />
+        ))}
+        {/* +15% bubble */}
+        <rect x="98" y="36" width="36" height="16" rx="8" fill={accent} />
+        <text x="116" y="47" textAnchor="middle" fontSize="9" fontWeight="700" fill={fg} fontFamily="ui-monospace, monospace">
+          +15%
+        </text>
+        {/* base axis */}
+        <line x1="10" y1="90" x2="150" y2="90" stroke={fg} strokeOpacity="0.3" strokeWidth="1" />
+      </svg>
+    );
+  }
+  if (kind === "shop") {
+    return (
+      <svg viewBox="0 0 160 100" className="w-full h-auto max-h-[110px]">
+        {/* shop awning */}
+        <rect x="30" y="28" width="100" height="10" fill={accent} />
+        {/* shop body */}
+        <rect x="30" y="38" width="100" height="50" fill={fg} opacity="0.9" />
+        {/* OPEN sign */}
+        <rect x="68" y="50" width="24" height="10" rx="2" fill={accent} />
+        <text x="80" y="58" textAnchor="middle" fontSize="6" fontWeight="700" fill={ink} letterSpacing="1.5">OPEN</text>
+        {/* door */}
+        <rect x="74" y="68" width="12" height="20" fill={ink} />
+        <circle cx="83" cy="78" r="0.8" fill={accent} />
+        {/* windows */}
+        <rect x="40" y="68" width="22" height="14" fill={ink} opacity="0.85" />
+        <rect x="98" y="68" width="22" height="14" fill={ink} opacity="0.85" />
+        {/* moon (sleeping = night) */}
+        <path d="M 140 15 a 6 6 0 1 0 4 10 a 5 5 0 0 1 -4 -10 z" fill={accent} />
+        {/* zzz */}
+        <text x="120" y="20" fontSize="8" fill={fg} opacity="0.5" fontWeight="700">z</text>
+      </svg>
+    );
+  }
+  return null;
+}
+
+/* ────────────────────────────────────────────────────────────
+   MerchantIllustration — small Apple-style illustration scenes
+   for the merchant "Get to know" 4-card grid.
+   ──────────────────────────────────────────────────────────── */
+/* ────────────────────────────────────────────────────────────
+   MerchantCardCarousel — 6 big cards, horizontal scroll with
+   right-arrow control. Snaps to card edges.
+   ──────────────────────────────────────────────────────────── */
+function MerchantCardCarousel() {
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const updateButtons = () => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 8);
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 8);
+  };
+  useEffect(() => {
+    updateButtons();
+    const el = scrollerRef.current;
+    if (!el) return;
+    el.addEventListener("scroll", updateButtons, { passive: true });
+    window.addEventListener("resize", updateButtons);
+    return () => {
+      el.removeEventListener("scroll", updateButtons);
+      window.removeEventListener("resize", updateButtons);
+    };
+  }, []);
+
+  const scrollBy = (delta: number) => {
+    scrollerRef.current?.scrollBy({ left: delta, behavior: "smooth" });
+  };
+
+  const cards: {
+    label: string;
+    titlePre: string;
+    titleAccent: string;
+    titleAccentItalic?: boolean;
+    titleAccentColor: string;
+    titleTail?: string;
+    cta: string;
+    footnote?: string;
+    kind: string;
+  }[] = [
+    {
+      label: "PROMO · ZERO FEES",
+      titlePre: "Don't miss",
+      titleAccent: "every transfer",
+      titleAccentColor: "#e3b95c",
+      titleTail: " this week.",
+      cta: "Send now",
+      footnote: "Auto-applied at checkout",
+      kind: "shop",
+    },
+    {
+      label: "MERCHANT · REWARDS",
+      titlePre: "Stack a",
+      titleAccent: "+15% boost",
+      titleAccentColor: "#ffb38a",
+      titleTail: " on your next 5 trades.",
+      cta: "Activate boost",
+      footnote: "Expires in 48h",
+      kind: "bid",
+    },
+    {
+      label: "WELCOME · FIRST 3",
+      titlePre: "Your first 3 transfers",
+      titleAccent: "home — fee-free.",
+      titleAccentItalic: true,
+      titleAccentColor: "#a7e8d1",
+      cta: "Send home",
+      footnote: "New corridor · USD → INR live",
+      kind: "globe",
+    },
+    {
+      label: "REFER · EARN",
+      titlePre: "Bring a friend.",
+      titleAccent: "You both get $20.",
+      titleAccentItalic: true,
+      titleAccentColor: "#9ad1ff",
+      cta: "Share your invite",
+      footnote: "Limit 5 invites · live this month",
+      kind: "payout",
+    },
+    {
+      label: "SPEED · SETTLEMENT",
+      titlePre: "Money lands in",
+      titleAccent: "92 seconds.",
+      titleAccentItalic: true,
+      titleAccentColor: "#e3b95c",
+      titleTail: " Guaranteed.",
+      cta: "How it works",
+      footnote: "Faster than your bank",
+      kind: "chain",
+    },
+    {
+      label: "MARKET · LIVE",
+      titlePre: "Watch merchants",
+      titleAccent: "compete",
+      titleAccentItalic: true,
+      titleAccentColor: "#ffb38a",
+      titleTail: " for your rate.",
+      cta: "Open market",
+      footnote: "Bidding 24/7 worldwide",
+      kind: "chart",
+    },
+  ];
+
+  return (
+    <div className="relative w-full mb-10">
+      {/* Scroller */}
+      <div
+        ref={scrollerRef}
+        className="flex gap-3 sm:gap-4 overflow-x-auto pb-2 px-4 md:px-8 snap-x snap-mandatory scrollbar-hide"
+        style={{ scrollbarWidth: "none" }}
+      >
+        <style>{`
+          .scrollbar-hide::-webkit-scrollbar { display: none; }
+        `}</style>
+        {cards.map((c, i) => (
+          <motion.div
+            key={c.kind}
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-8%" }}
+            transition={{ duration: 0.55, delay: i * 0.05, ease: EASE }}
+            whileHover={{ y: -4 }}
+            className="snap-start flex-shrink-0 relative rounded-[22px] overflow-hidden text-left flex flex-col group"
+            style={{
+              background: "#0a0a0a",
+              border: "1px solid rgba(255,255,255,0.06)",
+              width: "min(360px, 86vw)",
+              transition: "transform 0.35s ease",
+            }}
+          >
+            {/* TOP — animated illustration band */}
+            <div className="relative w-full overflow-hidden" style={{ aspectRatio: "16/10" }}>
+              <MerchantIllustration kind={c.kind} />
+            </div>
+
+            {/* BOTTOM — copy + CTA */}
+            <div className="px-5 py-5 flex-1 flex flex-col">
+              {/* Label */}
+              <div className="flex items-center gap-1.5 mb-2.5">
+                <span
+                  className="w-1 h-1 rounded-full"
+                  style={{ background: c.titleAccentColor }}
+                />
+                <span className="text-[10px] font-bold tracking-[0.18em] text-white/55">
+                  {c.label}
+                </span>
+              </div>
+
+              {/* Headline */}
+              <div
+                className="font-display text-white leading-[1.1]"
+                style={{
+                  fontSize: "22px",
+                  fontWeight: 600,
+                  letterSpacing: "-0.025em",
+                }}
+              >
+                {c.titlePre}{" "}
+                <span
+                  style={{
+                    color: c.titleAccentColor,
+                    fontStyle: c.titleAccentItalic ? "italic" : "normal",
+                    fontWeight: c.titleAccentItalic ? 500 : 600,
+                    fontFamily: c.titleAccentItalic
+                      ? "ui-serif, Georgia, serif"
+                      : undefined,
+                  }}
+                >
+                  {c.titleAccent}
+                </span>
+                {c.titleTail && <span>{c.titleTail}</span>}
+              </div>
+
+              {/* CTA + footnote */}
+              <div className="mt-5 flex items-center justify-between gap-3">
+                <Link
+                  to="/register"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white text-black text-[12px] font-semibold tracking-tight hover:-translate-y-[1px] transition-transform"
+                >
+                  {c.cta}
+                  <ArrowRight className="w-3 h-3" />
+                </Link>
+                {c.footnote && (
+                  <span className="text-[10px] text-white/40 tracking-tight flex items-center gap-1.5 text-right">
+                    <span className="w-1 h-1 rounded-full bg-white/30" />
+                    <span className="leading-tight">{c.footnote}</span>
+                  </span>
+                )}
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Right arrow */}
+      <button
+        onClick={() => scrollBy(340)}
+        disabled={!canScrollRight}
+        aria-label="Scroll right"
+        className="absolute top-1/2 -translate-y-1/2 right-2 md:right-4 z-10 w-11 h-11 rounded-full flex items-center justify-center transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+        style={{
+          background: "#fff",
+          color: "#000",
+          boxShadow: "0 10px 28px -8px rgba(0,0,0,0.6)",
+        }}
+      >
+        <ArrowRight className="w-4 h-4" strokeWidth={2.5} />
+      </button>
+
+      {/* Left arrow */}
+      <button
+        onClick={() => scrollBy(-340)}
+        disabled={!canScrollLeft}
+        aria-label="Scroll left"
+        className="absolute top-1/2 -translate-y-1/2 left-2 md:left-4 z-10 w-11 h-11 rounded-full flex items-center justify-center transition-all disabled:opacity-0 disabled:cursor-not-allowed"
+        style={{
+          background: "#fff",
+          color: "#000",
+          boxShadow: "0 10px 28px -8px rgba(0,0,0,0.6)",
+        }}
+      >
+        <ArrowRight className="w-4 h-4 rotate-180" strokeWidth={2.5} />
+      </button>
+    </div>
+  );
+}
+
+function MerchantIllustration({ kind }: { kind: string }) {
+  // Refined "classy" palette — deep navy/indigo, gold + cream accents only
+  const NAVY = "#0b1a2a";
+  const INDIGO = "#1a2c4a";
+  const GOLD = "#e3b95c";
+  const CREAM = "#f0e7d2";
+  const MIST = "#7a8db0";
+
+  // 01 — Sleeping merchant under stars (Earn while you sleep)
+  if (kind === "shop") {
+    return (
+      <svg viewBox="0 0 200 240" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id="sky01" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#1e2547" />
+            <stop offset="100%" stopColor="#0b1a2a" />
+          </linearGradient>
+        </defs>
+        <rect x="0" y="0" width="200" height="240" fill="url(#sky01)" />
+        {/* Stars + crescent moon — gentle glow */}
+        <motion.g
+          animate={{ opacity: [1, 0.7, 1] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <path d="M 160 36 a 14 14 0 1 0 6 14 a 11 11 0 0 1 -6 -14 z" fill={GOLD} />
+        </motion.g>
+        {[{x:28,y:30},{x:60,y:50},{x:108,y:24},{x:138,y:60},{x:184,y:90}].map((s,i)=>(
+          <circle key={i} cx={s.x} cy={s.y} r={i%2?1.2:1.6} fill={CREAM} opacity="0.7" />
+        ))}
+        {/* zZz */}
+        <text x="100" y="60" fontSize="13" fontWeight="500" fill={GOLD} opacity="0.65" fontFamily="ui-serif, Georgia">z</text>
+        <text x="114" y="48" fontSize="10" fontWeight="500" fill={GOLD} opacity="0.45" fontFamily="ui-serif, Georgia">z</text>
+        <text x="125" y="38" fontSize="7" fontWeight="500" fill={GOLD} opacity="0.3" fontFamily="ui-serif, Georgia">z</text>
+        {/* Floor line */}
+        <line x1="20" y1="200" x2="180" y2="200" stroke={MIST} strokeOpacity="0.2" strokeWidth="1" />
+        {/* Bed silhouette */}
+        <rect x="38" y="160" width="124" height="42" rx="3" fill={INDIGO} />
+        <rect x="38" y="160" width="124" height="6" fill={GOLD} opacity="0.4" />
+        {/* Pillow */}
+        <rect x="46" y="148" width="36" height="14" rx="3" fill={CREAM} />
+        {/* Person (head + body under blanket) */}
+        <circle cx="64" cy="150" r="9" fill="#d4a878" />
+        <path d="M 80 158 Q 110 138 150 158 L 150 200 L 80 200 Z" fill={CREAM} />
+        <path d="M 88 168 Q 110 152 142 168" stroke={GOLD} strokeOpacity="0.35" strokeWidth="1" fill="none" />
+        {/* Floating coins (gentle) */}
+        <g>
+          <circle cx="160" cy="120" r="8" fill={GOLD} />
+          <text x="160" y="124" textAnchor="middle" fontSize="9" fontWeight="700" fill={NAVY}>$</text>
+        </g>
+        <g>
+          <circle cx="22" cy="148" r="6" fill={GOLD} opacity="0.7" />
+          <text x="22" y="151" textAnchor="middle" fontSize="7" fontWeight="700" fill={NAVY}>$</text>
+        </g>
+        {/* Bottom stat strip */}
+        <rect x="0" y="222" width="200" height="18" fill={NAVY} />
+        <text x="100" y="234" textAnchor="middle" fontSize="9" fontFamily="ui-monospace, monospace" fontWeight="700" fill={GOLD} letterSpacing="1.5">
+          $391 / DAY AVG
+        </text>
+      </svg>
+    );
+  }
+
+  // 02 — Live bid: stylized auction paddles
+  if (kind === "bid") {
+    return (
+      <svg viewBox="0 0 200 240" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id="sky02" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#1a1f3d" />
+            <stop offset="100%" stopColor="#0b1a2a" />
+          </linearGradient>
+        </defs>
+        <rect x="0" y="0" width="200" height="240" fill="url(#sky02)" />
+        {/* Spotlight */}
+        <ellipse cx="100" cy="120" rx="92" ry="58" fill={GOLD} opacity="0.08" />
+        {/* Five paddles, varying heights */}
+        {[
+          { x: 32, h: 96, price: "$28", d: 0 },
+          { x: 64, h: 80, price: "$30", d: 0.2 },
+          { x: 100, h: 56, price: "$32", winner: true, d: 0.4 },
+          { x: 136, h: 86, price: "$29", d: 0.6 },
+          { x: 168, h: 72, price: "$31", d: 0.8 },
+        ].map((p, i) => (
+          <motion.g
+            key={i}
+            animate={{ y: [0, -4, 0] }}
+            transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut", delay: p.d }}
+          >
+            {/* Stick */}
+            <rect x={p.x - 1.5} y={p.h + 30} width="3" height={180 - (p.h + 30)} fill={MIST} opacity="0.6" />
+            {/* Paddle */}
+            <rect x={p.x - 16} y={p.h} width="32" height="30" rx="3" fill={p.winner ? GOLD : INDIGO} stroke={CREAM} strokeOpacity="0.18" />
+            <text x={p.x} y={p.h + 19} textAnchor="middle" fontSize="11" fontWeight="800" fill={p.winner ? NAVY : CREAM} fontFamily="ui-monospace, monospace">
+              {p.price}
+            </text>
+            {/* Winner halo */}
+            {p.winner && (
+              <ellipse cx={p.x} cy={p.h + 15} rx="22" ry="22" fill="none" stroke={GOLD} strokeOpacity="0.4" strokeWidth="1" />
+            )}
+          </motion.g>
+        ))}
+        {/* Floor */}
+        <line x1="20" y1="180" x2="180" y2="180" stroke={MIST} strokeOpacity="0.2" />
+        {/* Bottom stat strip */}
+        <rect x="0" y="222" width="200" height="18" fill={NAVY} />
+        <text x="100" y="234" textAnchor="middle" fontSize="9" fontFamily="ui-monospace, monospace" fontWeight="700" fill={GOLD} letterSpacing="1.5">
+          BEST BID — $32.00
+        </text>
+      </svg>
+    );
+  }
+
+  // 03 — Single elegant chart card (Set your spread)
+  if (kind === "chart") {
+    return (
+      <svg viewBox="0 0 200 240" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+        <rect x="0" y="0" width="200" height="240" fill={NAVY} />
+        {/* Soft glow under chart */}
+        <ellipse cx="100" cy="180" rx="100" ry="34" fill={GOLD} opacity="0.05" />
+        {/* gridlines */}
+        {[60, 90, 120, 150, 180].map((y) => (
+          <line key={y} x1="20" y1={y} x2="180" y2={y} stroke={MIST} strokeOpacity="0.06" />
+        ))}
+        {/* axis */}
+        <line x1="20" y1="190" x2="180" y2="190" stroke={MIST} strokeOpacity="0.15" />
+        {/* Rising line — animated draw */}
+        <motion.polyline
+          points="26,180 50,168 76,152 100,128 126,108 152,86 176,62"
+          stroke={GOLD}
+          strokeWidth="2"
+          fill="none"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          initial={{ pathLength: 0 }}
+          whileInView={{ pathLength: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
+        />
+        {/* Area under */}
+        <polygon points="26,180 50,168 76,152 100,128 126,108 152,86 176,62 176,190 26,190" fill={GOLD} fillOpacity="0.1" />
+        {/* Dots */}
+        {[[26,180],[50,168],[76,152],[100,128],[126,108],[152,86],[176,62]].map(([x,y],i)=>(
+          <circle key={i} cx={x} cy={y} r={i===6?3.5:2} fill={i===6 ? GOLD : CREAM} />
+        ))}
+        {/* +18% chip in classy outline — pulse */}
+        <motion.g
+          animate={{ opacity: [1, 0.55, 1] }}
+          transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <rect x="124" y="70" width="46" height="16" rx="8" fill={NAVY} stroke={GOLD} />
+          <text x="147" y="81" textAnchor="middle" fontSize="9" fontFamily="ui-monospace, monospace" fontWeight="700" fill={GOLD}>+18%</text>
+        </motion.g>
+        {/* Bottom stat strip */}
+        <rect x="0" y="222" width="200" height="18" fill={INDIGO} />
+        <text x="100" y="234" textAnchor="middle" fontSize="9" fontFamily="ui-monospace, monospace" fontWeight="700" fill={GOLD} letterSpacing="1.5">
+          SPREAD CAPTURED — 3%
+        </text>
+      </svg>
+    );
+  }
+
+  // 04 — Elegant stopwatch (Settle in seconds)
+  if (kind === "chain") {
+    return (
+      <svg viewBox="0 0 200 240" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+        <rect x="0" y="0" width="200" height="240" fill={NAVY} />
+        {/* Stopwatch ring */}
+        <circle cx="100" cy="110" r="52" fill={INDIGO} stroke={CREAM} strokeOpacity="0.18" />
+        <circle cx="100" cy="110" r="52" fill="none" stroke={GOLD} strokeWidth="1.5" strokeDasharray="60 200" strokeDashoffset="-30" transform="rotate(-90 100 110)" />
+        {/* Tick marks */}
+        {Array.from({ length: 12 }).map((_, i) => {
+          const angle = (i * 30 - 90) * (Math.PI / 180);
+          const x1 = 100 + Math.cos(angle) * 46;
+          const y1 = 110 + Math.sin(angle) * 46;
+          const x2 = 100 + Math.cos(angle) * 50;
+          const y2 = 110 + Math.sin(angle) * 50;
+          return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke={CREAM} strokeOpacity={i%3===0?0.7:0.3} strokeWidth={i%3===0?1.5:1} />;
+        })}
+        {/* Hand — rotating slowly */}
+        <motion.g
+          animate={{ rotate: 360 }}
+          transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+          style={{ transformOrigin: "100px 110px" }}
+        >
+          <line x1="100" y1="110" x2="100" y2="68" stroke={GOLD} strokeWidth="2" strokeLinecap="round" />
+        </motion.g>
+        <circle cx="100" cy="110" r="3" fill={GOLD} />
+        {/* Center number */}
+        <text x="100" y="138" textAnchor="middle" fontSize="22" fontWeight="700" fill={CREAM} fontFamily="ui-serif, Georgia">92s</text>
+        <text x="100" y="150" textAnchor="middle" fontSize="6" fontWeight="600" fill={MIST} letterSpacing="2">AVG SETTLEMENT</text>
+        {/* Crown / stem */}
+        <rect x="96" y="50" width="8" height="6" rx="1" fill={GOLD} />
+        {/* Bottom stat strip */}
+        <rect x="0" y="222" width="200" height="18" fill={INDIGO} />
+        <text x="100" y="234" textAnchor="middle" fontSize="9" fontFamily="ui-monospace, monospace" fontWeight="700" fill={GOLD} letterSpacing="1.5">
+          FASTER THAN YOUR BANK
+        </text>
+      </svg>
+    );
+  }
+
+  // 05 — Classy globe with merchant pins
+  if (kind === "globe") {
+    return (
+      <svg viewBox="0 0 200 240" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+        <rect x="0" y="0" width="200" height="240" fill={NAVY} />
+        {/* Stars */}
+        {[{x:25,y:30},{x:60,y:50},{x:160,y:30},{x:175,y:80},{x:30,y:170}].map((s,i)=>(
+          <circle key={i} cx={s.x} cy={s.y} r="1.3" fill={CREAM} opacity="0.6" />
+        ))}
+        {/* Globe */}
+        <circle cx="100" cy="118" r="56" fill={INDIGO} />
+        <circle cx="100" cy="118" r="56" fill="none" stroke={GOLD} strokeOpacity="0.35" strokeWidth="1.2" />
+        {/* Latitude */}
+        <ellipse cx="100" cy="118" rx="56" ry="16" fill="none" stroke={MIST} strokeOpacity="0.3" />
+        <ellipse cx="100" cy="118" rx="56" ry="30" fill="none" stroke={MIST} strokeOpacity="0.22" />
+        {/* Longitude */}
+        <ellipse cx="100" cy="118" rx="32" ry="56" fill="none" stroke={MIST} strokeOpacity="0.25" />
+        <ellipse cx="100" cy="118" rx="16" ry="56" fill="none" stroke={MIST} strokeOpacity="0.18" />
+        {/* Continents — subtle gold, very slow drift */}
+        <motion.g
+          animate={{ x: [0, 6, 0] }}
+          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <path d="M 70 92 q 8 -6 18 -2 q 6 8 -2 14 q -14 4 -16 -12 z" fill={GOLD} opacity="0.45" />
+          <path d="M 112 110 q 14 -2 22 6 q 4 12 -10 16 q -16 -2 -12 -22 z" fill={GOLD} opacity="0.45" />
+          <path d="M 88 140 q 10 0 18 6 q -4 10 -16 8 q -10 -4 -2 -14 z" fill={GOLD} opacity="0.4" />
+        </motion.g>
+        {/* Merchant pins */}
+        {[
+          { x: 78, y: 96 },
+          { x: 124, y: 112 },
+          { x: 108, y: 148 },
+        ].map((p, i) => (
+          <g key={i}>
+            <circle cx={p.x} cy={p.y} r="3" fill={GOLD} />
+            <circle cx={p.x} cy={p.y} r="6" fill="none" stroke={GOLD} strokeOpacity="0.4" />
+          </g>
+        ))}
+        {/* Connecting arc */}
+        <path d="M 78 96 Q 100 70 124 112" stroke={GOLD} strokeOpacity="0.35" strokeWidth="1" strokeDasharray="2 3" fill="none" />
+        {/* Bottom stat strip */}
+        <rect x="0" y="222" width="200" height="18" fill={INDIGO} />
+        <text x="100" y="234" textAnchor="middle" fontSize="9" fontFamily="ui-monospace, monospace" fontWeight="700" fill={GOLD} letterSpacing="1.5">
+          47 COUNTRIES · LIVE
+        </text>
+      </svg>
+    );
+  }
+
+  // 06 — Phone receiving instant payout (refined)
+  if (kind === "payout") {
+    return (
+      <svg viewBox="0 0 200 240" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+        <rect x="0" y="0" width="200" height="240" fill={NAVY} />
+        {/* Soft halo */}
+        <ellipse cx="100" cy="120" rx="80" ry="86" fill={GOLD} opacity="0.05" />
+        {/* Phone */}
+        <rect x="62" y="48" width="76" height="140" rx="12" fill={INDIGO} stroke={CREAM} strokeOpacity="0.18" />
+        <rect x="66" y="54" width="68" height="128" rx="8" fill={CREAM} />
+        {/* Notch */}
+        <rect x="92" y="56" width="16" height="3" rx="1.5" fill={INDIGO} />
+        {/* Status label */}
+        <text x="100" y="90" textAnchor="middle" fontSize="6.5" fontWeight="700" fill={MIST} letterSpacing="2">CASHED OUT</text>
+        {/* Big number */}
+        <text x="100" y="120" textAnchor="middle" fontSize="20" fontFamily="ui-serif, Georgia" fontWeight="700" fill={NAVY}>$1,247</text>
+        <text x="100" y="130" textAnchor="middle" fontSize="6.5" fontFamily="ui-monospace, monospace" fontWeight="600" fill={MIST} letterSpacing="1.5">USDT</text>
+        {/* Status row */}
+        <rect x="76" y="142" width="48" height="14" rx="7" fill={GOLD} />
+        <text x="100" y="152" textAnchor="middle" fontSize="7" fontWeight="800" fill={NAVY} letterSpacing="1.5">INSTANT</text>
+        {/* Sparkle dots around phone — twinkle */}
+        {[
+          { cx: 34, cy: 120, r: 2, d: 0 },
+          { cx: 170, cy: 100, r: 1.8, d: 0.4 },
+          { cx: 172, cy: 160, r: 1.5, d: 0.8 },
+          { cx: 28, cy: 170, r: 1.4, d: 1.2 },
+        ].map((s, i) => (
+          <motion.circle
+            key={i}
+            cx={s.cx}
+            cy={s.cy}
+            r={s.r}
+            fill={GOLD}
+            animate={{ opacity: [0.3, 1, 0.3], scale: [0.7, 1.2, 0.7] }}
+            transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut", delay: s.d }}
+          />
+        ))}
+        {/* Bottom stat strip */}
+        <rect x="0" y="222" width="200" height="18" fill={INDIGO} />
+        <text x="100" y="234" textAnchor="middle" fontSize="9" fontFamily="ui-monospace, monospace" fontWeight="700" fill={GOLD} letterSpacing="1.5">
+          PAID IN UNDER 60s
+        </text>
+      </svg>
+    );
+  }
+
+  return null;
 }
 
 export default memo(CinematicHero);

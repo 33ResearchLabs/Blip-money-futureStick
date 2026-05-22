@@ -57,7 +57,7 @@ export const categoryColorsLight: Record<ResearchCategory, string> = {
   "AI Agents": "bg-cyan-50 text-cyan-600 border-cyan-200",
   "Telegram Bots": "bg-blue-50 text-blue-600 border-blue-200",
   DeFi: "bg-purple-50 text-purple-600 border-purple-200",
-  Payments: "bg-emerald-50 text-emerald-600 border-emerald-200",
+  Payments: "bg-[#cc785c]/5 text-[#a45a40] border-[#cc785c]/30",
   Security: "bg-red-50 text-red-600 border-red-200",
   Infrastructure: "bg-amber-50 text-amber-600 border-amber-200",
 };

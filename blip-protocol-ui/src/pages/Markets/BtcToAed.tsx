@@ -693,7 +693,7 @@ export default function BtcToAed() {
                         24h Change
                       </span>
                       <span
-                        className={`font-semibold flex items-center gap-1 ${conversion.change >= 0 ? "text-emerald-500" : "text-red-400"}`}
+                        className={`font-semibold flex items-center gap-1 ${conversion.change >= 0 ? "text-[#cc785c]" : "text-red-400"}`}
                       >
                         {conversion.change >= 0 ? (
                           <TrendingUp className="w-3.5 h-3.5" />
@@ -884,7 +884,7 @@ export default function BtcToAed() {
                   </div>
                 </div>
                 <div
-                  className={`flex items-center gap-1 text-sm font-semibold ${(rate.aed_24h_change ?? 0) >= 0 ? "text-emerald-500" : "text-red-400"}`}
+                  className={`flex items-center gap-1 text-sm font-semibold ${(rate.aed_24h_change ?? 0) >= 0 ? "text-[#cc785c]" : "text-red-400"}`}
                 >
                   {(rate.aed_24h_change ?? 0) >= 0 ? (
                     <TrendingUp className="w-4 h-4" />

@@ -474,9 +474,9 @@ function OrderReceiptScreen() {
     initial={{ scale: 0 }}
     animate={{ scale: 1 }}
     transition={{ delay: 0.3, duration: 0.5, type: "spring", stiffness: 200 }}
-    className="w-10 h-10 rounded-full bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center mb-3"
+    className="w-10 h-10 rounded-full bg-[#cc785c]/15 border border-[#cc785c]/30 flex items-center justify-center mb-3"
   >
-    <Check size={18} className="text-emerald-400" />
+    <Check size={18} className="text-[#cc785c]" />
   </motion.div>
 
   {/* Amount */}
@@ -492,7 +492,7 @@ function OrderReceiptScreen() {
 
     <div className="flex items-center justify-center gap-1 mt-1">
       <span className="text-[10px] text-gray-400">≈</span>
-      <span className="text-[12px] font-semibold text-emerald-500 dark:text-emerald-400">
+      <span className="text-[12px] font-semibold text-[#cc785c] dark:text-[#cc785c]">
         18,350.00 AED
       </span>
     </div>
@@ -566,7 +566,7 @@ function OrderReceiptScreen() {
                     )}
                   </motion.div>
                   {!isLast && (
-                    <div className={`w-[1.5px] h-3.5 ${i < activeStep ? "bg-emerald-500" : "bg-gray-200 dark:bg-white/[0.06]"}`} />
+                    <div className={`w-[1.5px] h-3.5 ${i < activeStep ? "bg-[#cc785c]" : "bg-gray-200 dark:bg-white/[0.06]"}`} />
                   )}
                 </div>
                 <div className="pb-0.5">
@@ -590,7 +590,7 @@ function OrderReceiptScreen() {
         transition={{ delay: 1.4, duration: 0.5 }}
         className="px-4  shrink-0"
       >
-        <div className="w-full py-1 rounded-xl bg-emerald-500 text-center">
+        <div className="w-full py-1 rounded-xl bg-[#cc785c] text-center">
           <span className="text-[10px] font-semibold text-white">Done</span>
         </div>
       </motion.div>
@@ -760,7 +760,7 @@ function VerifiedUnwrap() {
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 0.6, delay: 0.5, ease: EASE }}
-          className="h-[1px] mt-4 mx-auto w-20 bg-gradient-to-r from-transparent via-emerald-500/60 to-transparent"
+          className="h-[1px] mt-4 mx-auto w-20 bg-gradient-to-r from-transparent via-[#cc785c]/60 to-transparent"
         />
       </motion.div>
 
@@ -775,7 +775,7 @@ function VerifiedUnwrap() {
           <div className="p-4 border-b border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between">
             <div className="flex items-center gap-2">
               <motion.div
-                className="w-2 h-2 rounded-full bg-emerald-500"
+                className="w-2 h-2 rounded-full bg-[#cc785c]"
                 animate={{ scale: [1, 1.4, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
               />
@@ -843,7 +843,7 @@ function VerifiedUnwrap() {
                 </div>
                 <span
                   className={`text-xs font-medium font-mono ${
-                    confirmations >= 3 ? "text-emerald-500" : "text-amber-500"
+                    confirmations >= 3 ? "text-[#cc785c]" : "text-amber-500"
                   }`}
                 >
                   {confirmations}/3 Confirmed
@@ -860,7 +860,7 @@ function VerifiedUnwrap() {
             }}
             transition={{ delay: 2.2, duration: 0.8, ease: EASE }}
             style={{ transformOrigin: "top center" }}
-            className="p-4 bg-emerald-50 dark:bg-emerald-500/10 border-t border-emerald-200 dark:border-emerald-500/20 flex items-center justify-center gap-2"
+            className="p-4 bg-[#cc785c]/5 dark:bg-[#cc785c]/10 border-t border-[#cc785c]/30 dark:border-[#cc785c]/20 flex items-center justify-center gap-2"
           >
             <motion.div
               initial={{ scale: 0 }}
@@ -872,9 +872,9 @@ function VerifiedUnwrap() {
                 stiffness: 200,
               }}
             >
-              <Check size={16} className="text-emerald-500" />
+              <Check size={16} className="text-[#cc785c]" />
             </motion.div>
-            <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">
+            <span className="text-sm font-semibold text-[#a45a40] dark:text-[#cc785c]">
               Transaction Verified
             </span>
           </motion.div>
@@ -994,7 +994,7 @@ function RateChip({
           <motion.span
             animate={{ opacity: [0.4, 1, 0.4] }}
             transition={{ duration: 0.9, repeat: Infinity }}
-            className="text-[8px] text-emerald-500"
+            className="text-[8px] text-[#cc785c]"
           >
             ▲
           </motion.span>
@@ -1035,7 +1035,7 @@ function ProtocolLockShot({ show }: { show: boolean }) {
                   ease: EASE,
                 }}
               >
-                <Check size={10} className="text-emerald-400" strokeWidth={3} />
+                <Check size={10} className="text-[#cc785c]" strokeWidth={3} />
               </motion.div>
               <span className="text-[10px] font-medium tracking-[0.06em] text-black/60 dark:text-white/55">
                 {line}
@@ -1805,7 +1805,7 @@ function DesktopFlow() {
                               </span>
                             </div>
                             <div className="flex items-center gap-1 bg-gray-100 dark:bg-neutral-800 rounded-full px-2 py-1">
-                              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                              <div className="w-1.5 h-1.5 rounded-full bg-[#cc785c]" />
                               <span className="text-[9px] font-semibold text-gray-900 dark:text-white">
                                 4,847
                               </span>
@@ -1838,7 +1838,7 @@ function DesktopFlow() {
                             <div className="flex items-center justify-between">
                               <TradingAmountTyping />
                               <div className="flex items-center gap-1 bg-gray-200 dark:bg-neutral-700/50 rounded-full px-2 py-0.5">
-                                <div className="w-3.5 h-3.5 rounded-full bg-emerald-500 flex items-center justify-center">
+                                <div className="w-3.5 h-3.5 rounded-full bg-[#cc785c] flex items-center justify-center">
                                   <span className="text-[6px] font-bold text-white">
                                     T
                                   </span>

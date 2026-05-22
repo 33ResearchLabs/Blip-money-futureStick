@@ -157,8 +157,8 @@ const DashboardPreviewSection = () => {
             </div>
             <div className="flex items-center gap-2">
               <span className="relative flex w-1.5 h-1.5">
-                <span className="absolute inset-0 rounded-full bg-[#3ddc84] opacity-60 animate-ping" />
-                <span className="relative inline-flex rounded-full w-1.5 h-1.5 bg-[#3ddc84]" />
+                <span className="absolute inset-0 rounded-full bg-[#cc785c] opacity-60 animate-ping" />
+                <span className="relative inline-flex rounded-full w-1.5 h-1.5 bg-[#cc785c]" />
               </span>
               <span className="text-[9.5px] font-semibold tracking-[0.22em] uppercase text-white/50">
                 Live
@@ -190,7 +190,7 @@ const DashboardPreviewSection = () => {
                   </div>
                   <div className="flex items-center justify-between">
                     <span>Spread</span>
-                    <span className="font-mono text-[#3ddc84] tabular-nums">+0.18%</span>
+                    <span className="font-mono text-[#cc785c] tabular-nums">+0.18%</span>
                   </div>
                 </div>
               </div>
@@ -347,7 +347,7 @@ function OrderCard({
         : {
             chip: "rgba(80,220,150,0.10)",
             chipBorder: "rgba(80,220,150,0.28)",
-            chipText: "#7be5ad",
+            chipText: "#cc785c",
             dot: "#50dc96",
             label: "Settled",
           };
@@ -437,7 +437,7 @@ function OrderCard({
               className="flex items-center justify-between pt-1.5 mt-1.5 border-t border-white/[0.05]"
             >
               <span className="text-white/50">Merchant profit</span>
-              <span className="font-mono font-semibold tabular-nums text-[#7be5ad]">
+              <span className="font-mono font-semibold tabular-nums text-[#cc785c]">
                 {order.profit}
               </span>
             </motion.div>

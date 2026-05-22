@@ -908,7 +908,7 @@ const DashboardScreen = ({ isDark: _isDark }: { isDark: boolean }) => {
         <div className="flex items-center justify-between mb-0.5">
           <p style={{ fontSize: 7, letterSpacing: "0.25em", color: "rgba(255,255,255,0.35)", fontWeight: 700 }}>TOTAL BALANCE</p>
           <div className="flex items-center gap-1">
-            <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+            <div className="w-1.5 h-1.5 rounded-full bg-[#cc785c]" />
             <p style={{ fontSize: 8, color: "rgba(255,255,255,0.5)", fontWeight: 600 }}>3.67 AED</p>
           </div>
         </div>
@@ -993,7 +993,7 @@ const DashboardScreen = ({ isDark: _isDark }: { isDark: boolean }) => {
                   style={{ background: color }}
                 >
                   {initial}
-                  {dot && <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-white" />}
+                  {dot && <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[#cc785c] border-2 border-white" />}
                 </div>
                 <p style={{ fontSize: 7.5, color: "#888", marginTop: 3, maxWidth: 44 }} className="truncate">{name}</p>
               </div>
@@ -1016,7 +1016,7 @@ const DashboardScreen = ({ isDark: _isDark }: { isDark: boolean }) => {
           style={{ background: "#111", padding: "8px 12px" }}
         >
           <div className="flex items-center gap-2">
-            <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+            <div className="w-1.5 h-1.5 rounded-full bg-[#cc785c]" />
             <div>
               <p style={{ fontSize: 10, fontWeight: 700, color: "#fff" }}>Buying 141.00 USDT</p>
               <p style={{ fontSize: 8, color: "#666", marginTop: 1 }}>Step 3 of 4 · Tap to continue</p>

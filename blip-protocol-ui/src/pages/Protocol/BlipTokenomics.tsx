@@ -373,7 +373,7 @@ const UtilitySection = () => {
       title: "Merchants",
       icon: ShoppingBag,
       desc: "0% partner fees for holders.",
-      accent: "#3ddc84",
+      accent: "#cc785c",
       glow: "rgba(61,220,132,0.18)",
     },
     {

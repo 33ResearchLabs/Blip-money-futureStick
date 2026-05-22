@@ -420,7 +420,7 @@ const SolutionSection = () => {
               whileHover={{ y: -3, transition: { duration: 0.25 } }}
             >
               {/* Bottom accent */}
-              <div className="absolute bottom-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-emerald-400/40 to-transparent" />
+              <div className="absolute bottom-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-[#cc785c]/40 to-transparent" />
 
               {/* Glow on hover */}
               <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-br from-[#00e599]/[0.03] to-transparent" />

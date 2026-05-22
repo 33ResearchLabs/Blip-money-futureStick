@@ -18,9 +18,9 @@ const typeConfig: Record<
 > = {
   feature: {
     label: "Feature",
-    bg: "bg-emerald-500/10 dark:bg-emerald-400/10",
-    text: "text-emerald-600 dark:text-emerald-400",
-    dot: "bg-emerald-500 dark:bg-emerald-400",
+    bg: "bg-[#cc785c]/10 dark:bg-[#cc785c]/10",
+    text: "text-[#a45a40] dark:text-[#cc785c]",
+    dot: "bg-[#cc785c] dark:bg-[#cc785c]",
   },
   improvement: {
     label: "Improvement",

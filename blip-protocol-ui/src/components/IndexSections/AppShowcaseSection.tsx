@@ -77,7 +77,7 @@ const AppShowcaseSection = () => {
               { step: "04", title: "Merchant Dashboard", desc: "Live P&L · Active orders · Blipscan.", bg: "#080808", accent: "#ffffff", image: "/merchantGateway.png" },
               { step: "05", title: "Escrow secured", desc: "Funds locked in smart-contract escrow.", bg: "linear-gradient(145deg, #120600 0%, #0a0a0a 100%)", accent: "#ff6b35", image: "/escrowlocked.webp" },
               { step: "06", title: "Non-custodial wallet", desc: "Your keys, your funds. Always.", bg: "linear-gradient(145deg, #0a0a0a 0%, #050505 100%)", accent: "#7877ff", image: "/home_opt.webp" },
-              { step: "07", title: "Global reach", desc: "150+ countries · Any currency.", bg: "#0a0a0a", accent: "#3ddc84", image: "/global-hd.jpg" },
+              { step: "07", title: "Global reach", desc: "150+ countries · Any currency.", bg: "#0a0a0a", accent: "#cc785c", image: "/global-hd.jpg" },
             ].map((c) => (
               <div
                 key={c.step}

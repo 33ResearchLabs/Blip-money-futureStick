@@ -168,7 +168,7 @@ export const EffectsShowcase = () => {
           <div className="grid md:grid-cols-2 gap-8">
             {/* Glow Card */}
             <GlowCard glowColor="rgba(0, 255, 148, 0.15)" hoverScale={1.02}>
-              <div className="p-8 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-emerald-600/5 border border-emerald-500/20 space-y-3">
+              <div className="p-8 rounded-2xl bg-gradient-to-br from-[#cc785c]/10 to-[#a45a40]/5 border border-[#cc785c]/20 space-y-3">
                 <h3 className="text-sm font-mono text-black/50 dark:text-white/50">
                   GlowCard
                 </h3>

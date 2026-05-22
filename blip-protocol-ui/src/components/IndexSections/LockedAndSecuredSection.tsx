@@ -10,7 +10,7 @@ const FEATURES = [
     Icon: Shield,
     label: "Escrow protection",
     desc: "Funds held safely until trade is complete",
-    color: "#3ddc84",
+    color: "#cc785c",
     glow: "rgba(61,220,132,0.12)",
     border: "rgba(61,220,132,0.2)",
   },
@@ -236,7 +236,7 @@ const LockedAndSecuredSection = () => {
                       }}
                     >
                       <Shield
-                        style={{ width: 18, height: 18, color: "#3ddc84" }}
+                        style={{ width: 18, height: 18, color: "#cc785c" }}
                         strokeWidth={1.5}
                       />
                       <motion.div
@@ -255,7 +255,7 @@ const LockedAndSecuredSection = () => {
                           width: 16,
                           height: 16,
                           borderRadius: "50%",
-                          background: "#3ddc84",
+                          background: "#cc785c",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
@@ -303,14 +303,14 @@ const LockedAndSecuredSection = () => {
                         width: 7,
                         height: 7,
                         borderRadius: "50%",
-                        background: "#3ddc84",
+                        background: "#cc785c",
                         boxShadow: "0 0 6px rgba(61,220,132,0.7)",
                       }}
                     />
                     <span
                       style={{
                         fontSize: 10,
-                        color: "#3ddc84",
+                        color: "#cc785c",
                         fontWeight: 500,
                       }}
                     >
@@ -407,7 +407,7 @@ const LockedAndSecuredSection = () => {
                       style={{
                         height: "100%",
                         borderRadius: 999,
-                        background: "linear-gradient(90deg, #3ddc84, #2ab870)",
+                        background: "linear-gradient(90deg, #cc785c, #a45a40)",
                       }}
                     />
                   </div>
@@ -437,7 +437,7 @@ const LockedAndSecuredSection = () => {
                     {
                       label: "Status",
                       value: "In Escrow",
-                      valueStyle: { color: "#3ddc84" },
+                      valueStyle: { color: "#cc785c" },
                       dot: true,
                     },
                     {
@@ -496,7 +496,7 @@ const LockedAndSecuredSection = () => {
                               width: 5,
                               height: 5,
                               borderRadius: "50%",
-                              background: "#3ddc84",
+                              background: "#cc785c",
                             }}
                           />
                         )}
@@ -537,7 +537,7 @@ const LockedAndSecuredSection = () => {
                       textAlign: "center",
                       fontSize: 13,
                       fontWeight: 600,
-                      color: "#3ddc84",
+                      color: "#cc785c",
                     }}
                   >
                     Secured
@@ -582,7 +582,7 @@ const LockedAndSecuredSection = () => {
                   }}
                 >
                   <Check
-                    style={{ width: 11, height: 11, color: "#3ddc84" }}
+                    style={{ width: 11, height: 11, color: "#cc785c" }}
                     strokeWidth={2.5}
                   />
                 </div>

@@ -51,7 +51,7 @@ export const categoryColors: Record<BlogCategory, string> = {
 };
 
 export const categoryColorsLight: Record<BlogCategory, string> = {
-  Escrow: "bg-emerald-50 text-emerald-600 border-emerald-200",
+  Escrow: "bg-[#cc785c]/5 text-[#a45a40] border-[#cc785c]/30",
   Payments: "bg-cyan-50 text-cyan-600 border-cyan-200",
   Merchant: "bg-gray-100 text-gray-600 border-gray-200",
   Blockchain: "bg-purple-50 text-purple-600 border-purple-200",

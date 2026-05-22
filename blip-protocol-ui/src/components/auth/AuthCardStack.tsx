@@ -296,7 +296,7 @@ export default function AuthCardStack({
         className="absolute right-[10px] top-[10px] z-30"
       >
         <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white dark:bg-[#1a1a1a] border border-black/[0.06] dark:border-white/[0.08] shadow-[0_4px_20px_-4px_rgba(0,0,0,0.12)]">
-          <div className="w-2 h-2 rounded-full bg-emerald-400" />
+          <div className="w-2 h-2 rounded-full bg-[#cc785c]" />
           <span className="text-[9px] font-semibold text-black/70 dark:text-white/70">
             Wallet Connected
           </span>

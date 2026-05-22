@@ -849,7 +849,7 @@ const RequirementsSection = () => {
       icon: Zap,
       title: "Fast execution",
       text: "You respond quickly and complete trades reliably.",
-      accent: "#3ddc84",
+      accent: "#cc785c",
       glow: "rgba(61,220,132,0.18)",
     },
     {
