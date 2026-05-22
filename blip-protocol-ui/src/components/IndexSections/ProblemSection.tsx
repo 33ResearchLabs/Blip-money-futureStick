@@ -193,7 +193,7 @@ function CostCard() {
   return (
     <div ref={ref} className="h-full">
       <CardShell bg="linear-gradient(165deg, #fff5f0 0%, #ffe8dc 100%)">
-        <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginBottom: 16 }}>
+        <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.7)", marginBottom: 16 }}>
           The Fee
         </span>
 
@@ -201,13 +201,13 @@ function CostCard() {
         <div style={{ fontSize: "clamp(3.5rem, 5vw, 4.8rem)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 0.95, marginBottom: 6, color: "#1d1d1f" }}>
           3–5%
         </div>
-        <div style={{ fontSize: "clamp(1rem, 1.6vw, 1.15rem)", fontWeight: 500, color: "rgba(0,0,0,0.5)", marginBottom: 20 }}>
+        <div style={{ fontSize: "clamp(1rem, 1.6vw, 1.15rem)", fontWeight: 500, color: "rgba(0,0,0,0.72)", marginBottom: 20 }}>
           Spread + fees on every P2P trade.
         </div>
 
         {/* Live counter */}
         <div style={{ background: "rgba(0,0,0,0.03)", borderRadius: 12, padding: "14px 16px", marginBottom: 8 }}>
-          <div style={{ fontSize: 9, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.3)", marginBottom: 6 }}>
+          <div style={{ fontSize: 9, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.6)", marginBottom: 6 }}>
             P2P fees collected right now
           </div>
           <div className="font-mono" style={{ fontSize: 24, fontWeight: 700, color: "#e53e3e", letterSpacing: "-0.03em" }}>
@@ -222,7 +222,7 @@ function CostCard() {
           </motion.div>
         </div>
 
-        <div style={{ marginTop: "auto", paddingTop: 12, fontSize: 13, fontWeight: 400, color: "rgba(0,0,0,0.35)" }}>
+        <div style={{ marginTop: "auto", paddingTop: 12, fontSize: 13, fontWeight: 400, color: "rgba(0,0,0,0.6)" }}>
           Hidden in the spread you don't see.
         </div>
       </CardShell>
@@ -250,27 +250,27 @@ function WaitCard() {
   return (
     <div ref={ref} className="h-full">
       <CardShell bg="linear-gradient(165deg, #f0f4ff 0%, #dce4f8 100%)">
-        <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginBottom: 16 }}>
+        <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.7)", marginBottom: 16 }}>
           The Wait
         </span>
 
         <div style={{ fontSize: "clamp(2.8rem, 4vw, 3.8rem)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 0.95, marginBottom: 6, color: "#1d1d1f" }}>
           18 min
         </div>
-        <div style={{ fontSize: "clamp(1rem, 1.6vw, 1.15rem)", fontWeight: 500, color: "rgba(0,0,0,0.5)", marginBottom: 20 }}>
+        <div style={{ fontSize: "clamp(1rem, 1.6vw, 1.15rem)", fontWeight: 500, color: "rgba(0,0,0,0.72)", marginBottom: 20 }}>
           Per P2P trade.
         </div>
 
         {/* Live timer */}
         <div style={{ background: "rgba(0,0,0,0.03)", borderRadius: 12, padding: "14px 16px", marginBottom: 8 }}>
-          <div style={{ fontSize: 9, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.3)", marginBottom: 6 }}>
+          <div style={{ fontSize: 9, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.6)", marginBottom: 6 }}>
             Time you've been waiting
           </div>
           <div className="font-mono" style={{ fontSize: 24, fontWeight: 700, color: "#1d1d1f", letterSpacing: "0.02em" }}>
             {String(mins).padStart(2, "0")}:{String(secs).padStart(2, "0")}
-            <span style={{ fontSize: 14, color: "rgba(0,0,0,0.25)" }}>.{String(ms).padStart(2, "0")}</span>
+            <span style={{ fontSize: 14, color: "rgba(0,0,0,0.5)" }}>.{String(ms).padStart(2, "0")}</span>
           </div>
-          <div style={{ fontSize: 10, color: "rgba(0,0,0,0.3)", marginTop: 4, fontWeight: 500 }}>
+          <div style={{ fontSize: 10, color: "rgba(0,0,0,0.6)", marginTop: 4, fontWeight: 500 }}>
             Binance P2P · Paxful · LocalBitcoins typical
           </div>
         </div>
@@ -278,8 +278,8 @@ function WaitCard() {
         {/* Stalled progress */}
         <div style={{ marginTop: "auto", paddingTop: 12 }}>
           <div className="flex justify-between mb-1">
-            <span style={{ fontSize: 10, color: "rgba(0,0,0,0.3)" }}>Merchant response</span>
-            <span style={{ fontSize: 10, fontWeight: 600, color: "rgba(0,0,0,0.3)" }}>Pending...</span>
+            <span style={{ fontSize: 10, color: "rgba(0,0,0,0.6)" }}>Merchant response</span>
+            <span style={{ fontSize: 10, fontWeight: 600, color: "rgba(0,0,0,0.6)" }}>Pending...</span>
           </div>
           <div style={{ height: 3, background: "rgba(0,0,0,0.06)", borderRadius: 4 }}>
             <motion.div
@@ -326,26 +326,26 @@ function TrackedCard() {
   return (
     <div ref={ref} className="h-full">
       <CardShell bg="linear-gradient(165deg, #fff0f0 0%, #f8dcdc 100%)">
-        <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginBottom: 16 }}>
+        <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.7)", marginBottom: 16 }}>
           The Risk
         </span>
 
         <div style={{ marginBottom: 4 }}>
-          <span style={{ fontSize: "clamp(1.1rem, 1.8vw, 1.35rem)", fontWeight: 500, color: "rgba(0,0,0,0.45)" }}>
+          <span style={{ fontSize: "clamp(1.1rem, 1.8vw, 1.35rem)", fontWeight: 500, color: "rgba(0,0,0,0.7)" }}>
             1 in 8 P2P trades
           </span>
         </div>
         <div className="text-[2.8rem] lg:text-[4.1rem] " style={{  fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 0.95, marginBottom: 6, color: "#1d1d1f" }}>
           Disputed.
         </div>
-        <div style={{ fontSize: "clamp(1rem, 1.6vw, 1.15rem)", fontWeight: 500, color: "rgba(0,0,0,0.5)", marginBottom: 20 }}>
+        <div style={{ fontSize: "clamp(1rem, 1.6vw, 1.15rem)", fontWeight: 500, color: "rgba(0,0,0,0.72)", marginBottom: 20 }}>
           Scammed. Reversed. Frozen.
         </div>
 
         {/* Live scam log */}
         <div style={{ background: "rgba(0,0,0,0.03)", borderRadius: 12, padding: "14px 16px" }}>
           <div className="flex items-center justify-between mb-2">
-            <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.3)" }}>
+            <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(0,0,0,0.6)" }}>
               Scams reported on P2P desks
             </span>
             <span className="font-mono" style={{ fontSize: 12, fontWeight: 700, color: "#e53e3e" }}>
@@ -430,7 +430,7 @@ function BlipSettlementDemo() {
           { label: "Block", value: `#${blockNum.toLocaleString()}` },
         ].map((s, i) => (
           <div key={s.label} className="flex-1 py-2.5 px-3" style={{ borderRight: i < 2 ? "1px solid rgba(255,255,255,0.04)" : "none" }}>
-            <div style={{ fontSize: 7, fontWeight: 600, letterSpacing: "1px", textTransform: "uppercase", color: "rgba(255,255,255,0.25)", marginBottom: 2 }}>{s.label}</div>
+            <div style={{ fontSize: 7, fontWeight: 600, letterSpacing: "1px", textTransform: "uppercase", color: "rgba(255,255,255,0.55)", marginBottom: 2 }}>{s.label}</div>
             <motion.div key={s.value} initial={{ y: -2, opacity: 0.6 }} animate={{ y: 0, opacity: 1 }} className="font-mono" style={{ fontSize: 12, fontWeight: 700, color: "#fff" }}>{s.value}</motion.div>
           </div>
         ))}
@@ -441,16 +441,16 @@ function BlipSettlementDemo() {
         <div className="flex items-center justify-between px-3 py-1.5">
           <div className="flex items-center gap-1.5">
             <motion.div className="w-1 h-1 rounded-full bg-[#3ddc84]" animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 1.2, repeat: Infinity }} />
-            <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", color: "rgba(255,255,255,0.25)" }}>Settlements</span>
+            <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", color: "rgba(255,255,255,0.55)" }}>Settlements</span>
           </div>
-          <span className="font-mono" style={{ fontSize: 8, color: "rgba(255,255,255,0.15)" }}>Solana</span>
+          <span className="font-mono" style={{ fontSize: 8, color: "rgba(255,255,255,0.45)" }}>Solana</span>
         </div>
         {settlements.slice(0, 2).map((s, i) => (
           <motion.div key={`${s.tx}-${i}`} initial={i === 0 ? { opacity: 0, x: -6 } : false} animate={{ opacity: 1, x: 0 }} className="flex items-center justify-between px-3 py-1.5" style={{ borderTop: "1px solid rgba(255,255,255,0.03)" }}>
             <div className="flex items-center gap-2">
               <span style={{ fontSize: 8, color: "#3ddc84" }}>✓</span>
               <span className="font-mono" style={{ fontSize: 9, color: "rgba(255,255,255,0.4)" }}>{s.tx}</span>
-              <span style={{ fontSize: 8, color: "rgba(255,255,255,0.2)" }}>{s.pair}</span>
+              <span style={{ fontSize: 8, color: "rgba(255,255,255,0.5)" }}>{s.pair}</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="font-mono" style={{ fontSize: 9, color: "#3ddc84" }}>{s.time}</span>
@@ -463,14 +463,14 @@ function BlipSettlementDemo() {
       {/* Cheapest rates — 2 rows */}
       <div>
         <div className="flex items-center justify-between px-3 py-1.5">
-          <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", color: "rgba(255,255,255,0.25)" }}>Best rates · guaranteed</span>
-          <span style={{ fontSize: 8, color: "rgba(255,255,255,0.15)" }}>Live</span>
+          <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", color: "rgba(255,255,255,0.55)" }}>Best rates · guaranteed</span>
+          <span style={{ fontSize: 8, color: "rgba(255,255,255,0.45)" }}>Live</span>
         </div>
         {bestRates.slice(0, 2).map((r, i) => (
           <div key={r.pair} className="flex items-center justify-between px-3 py-1.5" style={{ borderTop: "1px solid rgba(255,255,255,0.03)" }}>
             <div className="flex items-center gap-2">
               <span style={{ fontSize: 10, fontWeight: 600, color: "rgba(255,255,255,0.5)" }}>{r.pair}</span>
-              <span style={{ fontSize: 8, color: "rgba(255,255,255,0.15)" }}>{r.merchant}</span>
+              <span style={{ fontSize: 8, color: "rgba(255,255,255,0.45)" }}>{r.merchant}</span>
             </div>
             <motion.span key={r.rate} initial={{ opacity: 0.5 }} animate={{ opacity: 1 }} className="font-mono" style={{ fontSize: 11, fontWeight: 700, color: "#fff" }}>{r.rate}</motion.span>
           </div>
@@ -668,10 +668,10 @@ const ProblemSection = () => {
 
           {/* Content */}
           <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 py-12 md:px-8 md:py-[64px]">
-            <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: 20 }}>
+            <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(255,255,255,0.6)", marginBottom: 20 }}>
               The Fix
             </span>
-            <div className="text-[26px] sm:text-[32px] md:text-[3.2rem] font-bold tracking-tight leading-[1.1] mb-1.5 md:mb-2 text-white/50">
+            <div className="text-[26px] sm:text-[32px] md:text-[3.2rem] font-bold tracking-tight leading-[1.1] mb-1.5 md:mb-2 text-white/65">
               This is not a payments app.
             </div>
             <div className="text-[26px] sm:text-[32px] md:text-[3.2rem] font-bold tracking-tight leading-[1.1] text-white mb-7 md:mb-10">
@@ -717,7 +717,7 @@ const ProblemSection = () => {
                       <div className="text-[14px] font-semibold text-white leading-tight">
                         {p.label}
                       </div>
-                      <div className="text-[11px] font-medium text-white/45 leading-tight mt-0.5">
+                      <div className="text-[11px] font-medium text-white/65 leading-tight mt-0.5">
                         {p.sub}
                       </div>
                     </div>

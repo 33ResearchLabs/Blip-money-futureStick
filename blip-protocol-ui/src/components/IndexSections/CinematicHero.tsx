@@ -84,7 +84,7 @@ const CinematicHero = () => {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: EASE }}
-          className="text-white/50 dark:text-[#555555]"
+          className="text-white/65 dark:text-white/55"
           style={{
             fontSize: "10.5px",
             fontWeight: 600,
@@ -150,7 +150,7 @@ const CinematicHero = () => {
           style={{ maxWidth: 480, margin: "0 auto 24px" }}
         >
           <p
-            className="text-white/65 dark:text-[#999]"
+            className="text-white/80 dark:text-white/75"
             style={{
               fontSize: 18,
               lineHeight: 1.6,
@@ -224,14 +224,14 @@ const CinematicHero = () => {
               animate={isInView ? { opacity: [1, 0.3, 1] } : { opacity: 0.6 }}
               transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
             />
-            <span className="text-[10px] font-semibold tracking-[0.22em] uppercase text-white/45">
+            <span className="text-[10px] font-semibold tracking-[0.22em] uppercase text-white/65">
               Live
             </span>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 sm:gap-x-8">
             {[
-              { value: "3+", label: "Countries" },
               { value: "100+", label: "Merchants" },
+              { value: "3+", label: "Countries" },
               { value: "1 min", label: "Avg settlement" },
             ].map((s, i) => (
               <div key={s.label} className="flex items-center gap-3">
@@ -242,7 +242,7 @@ const CinematicHero = () => {
                   <div className="font-mono text-base sm:text-lg font-bold text-white tracking-tight">
                     {s.value}
                   </div>
-                  <div className="text-[9px] sm:text-[10px] font-semibold tracking-[0.18em] uppercase text-white/35 mt-0.5">
+                  <div className="text-[9px] sm:text-[10px] font-semibold tracking-[0.18em] uppercase text-white/60 mt-0.5">
                     {s.label}
                   </div>
                 </div>

@@ -39,7 +39,7 @@ const BanklessSection = () => {
           transition={{ duration: 0.6, ease: EASE }}
           className="text-center"
         >
-          <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
+          <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/65">
             Global liquidity network
           </span>
         </motion.div>
@@ -63,7 +63,7 @@ const BanklessSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.15, ease: EASE }}
-          className="text-center text-base md:text-lg text-white/55 max-w-xl mx-auto mt-10 leading-relaxed"
+          className="text-center text-base md:text-lg text-white/75 max-w-xl mx-auto mt-10 leading-relaxed"
         >
           A global liquidity marketplace where transactions are fulfilled by
           participants instead of traditional banking rails.
@@ -129,8 +129,8 @@ function CardShell({
     >
       {/* Top row: index + tag */}
       <div className="flex items-center justify-between mb-8">
-        <span className="font-mono text-[11px] text-white/30">{index}</span>
-        <span className="text-[9px] font-semibold uppercase tracking-[0.28em] text-white/40">
+        <span className="font-mono text-[11px] text-white/55">{index}</span>
+        <span className="text-[9px] font-semibold uppercase tracking-[0.28em] text-white/65">
           {tag}
         </span>
       </div>
@@ -144,7 +144,7 @@ function CardShell({
       <div className="mb-5">{children}</div>
 
       {/* Caption */}
-      <p className="text-[13px] text-white/45 leading-snug mt-auto">
+      <p className="text-[13px] text-white/70 leading-snug mt-auto">
         {caption}
       </p>
     </motion.div>
