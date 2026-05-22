@@ -480,16 +480,12 @@ export function useMerchantDashboardState() {
                  Show a quick "Merchant earned +$X" zoom first, then the
                  main celebration card slides in after a brief beat. */
               if (t.isYours) {
-                setMerchantZoom({ earned });
-                window.setTimeout(() => setMerchantZoom(null), 1600);
-                window.setTimeout(() => {
-                  setSettledCelebration({
-                    amount: t.amount,
-                    earned,
-                    fiat: t.fiat,
-                  });
-                }, 1500);
-                window.setTimeout(() => setSettledCelebration(null), 10500);
+                setSettledCelebration({
+                  amount: t.amount,
+                  earned,
+                  fiat: t.fiat,
+                });
+                /* No auto-dismiss — user closes via X button */
               }
               pushNotification({
                 kind: "trade_settled",
@@ -681,6 +677,7 @@ export function useMerchantDashboardState() {
     totalEarned,
     lastEarning,
     settledCelebration,
+    setSettledCelebration,
     merchantZoom,
     userHasTraded,
   };
@@ -712,6 +709,7 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
     totalEarned,
     lastEarning,
     settledCelebration,
+    setSettledCelebration,
     merchantZoom,
   } = state;
 
@@ -720,6 +718,16 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
   const tradeAmountNum =
     parseFloat(tradeAmount.replace(/[^0-9.]/g, "")) || 0;
   const activeChat = chatThreads.find((t) => t.orderId === activeChatId) ?? chatThreads[0] ?? null;
+
+  // ESC key + click-anywhere closes the settled celebration
+  useEffect(() => {
+    if (!settledCelebration) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSettledCelebration(null);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [settledCelebration, setSettledCelebration]);
 
   return (
     <div className={`relative bg-black text-white ${className}`}>
@@ -733,15 +741,18 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="absolute inset-0 z-50 flex items-center justify-center px-4"
-            style={{ background: "rgba(0,0,0,0.45)", backdropFilter: "blur(10px)" }}
+            onMouseDown={(e) => {
+              if (e.target === e.currentTarget) setSettledCelebration(null);
+            }}
+            className="fixed inset-0 z-[9999] flex items-center justify-center px-4 cursor-pointer"
+            style={{ background: "rgba(0,0,0,0.55)", backdropFilter: "blur(10px)" }}
           >
             <motion.div
               initial={{ scale: 0.92, opacity: 0, y: 12 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.96, opacity: 0 }}
               transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-              className="relative w-full max-w-[320px] rounded-[20px] overflow-hidden"
+              className="relative w-full max-w-[320px] rounded-[20px] overflow-hidden cursor-auto"
               style={{
                 background: "#fff",
                 color: "#000",
@@ -751,19 +762,16 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
             >
               <button
                 onClick={() => setSettledCelebration(null)}
-                className="absolute top-2.5 right-2.5 z-20 w-6 h-6 rounded-full flex items-center justify-center text-black/40 hover:text-black hover:bg-black/[0.06] transition-colors"
+                className="absolute top-2.5 right-2.5 z-20 w-7 h-7 rounded-full flex items-center justify-center text-black/45 hover:text-black hover:bg-black/[0.08] transition-colors"
                 aria-label="Dismiss"
               >
-                <X className="w-3 h-3" />
+                <X className="w-3.5 h-3.5" />
               </button>
 
-              {/* ── Hero band — cinematic illustration scene ── */}
+              {/* ── Hero band — black & white, character stays colored ── */}
               <div
-                className="relative px-5 pt-6 pb-5 overflow-hidden text-center"
-                style={{
-                  background:
-                    "linear-gradient(180deg, #fff4ee 0%, #ffd9c2 100%)",
-                }}
+                className="relative px-5 pt-7 pb-5 overflow-hidden text-center"
+                style={{ background: "#fff" }}
               >
                 {/* Soft glow halo behind the scene */}
                 <div
@@ -779,130 +787,118 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                   }}
                 />
 
-                {/* Animated illustration — globe + route + destination flag */}
+                {/* Polished flat-illustration character — Uber editorial style */}
                 <motion.div
-                  initial={{ scale: 0.6, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-                  className="relative mx-auto mb-3"
-                  style={{ width: 168, height: 100 }}
+                  initial={{ scale: 0.92, opacity: 0, y: 12 }}
+                  animate={{ scale: 1, opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  className="relative mx-auto mb-3 rounded-2xl overflow-hidden"
+                  style={{
+                    width: 200,
+                    height: 130,
+                    background: "#f1ece4",
+                    boxShadow: "0 6px 16px -8px rgba(0,0,0,0.2)",
+                  }}
                 >
-                  <svg viewBox="0 0 168 100" fill="none" className="w-full h-full">
+                  <svg viewBox="0 0 200 130" className="w-full h-full" preserveAspectRatio="xMidYMax slice">
                     <defs>
-                      <linearGradient id="globeGrad" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0%" stopColor="#ffa473" />
-                        <stop offset="100%" stopColor="#cc785c" />
-                      </linearGradient>
-                      <linearGradient id="planeGrad" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0%" stopColor="#ffb38a" />
-                        <stop offset="100%" stopColor="#a45a40" />
-                      </linearGradient>
+                      <clipPath id="bustClip">
+                        <rect x="0" y="0" width="200" height="130" />
+                      </clipPath>
                     </defs>
-
-                    {/* Origin globe (left) with latitude lines */}
-                    <motion.g
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ duration: 0.5, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-                    >
-                      <circle cx="26" cy="58" r="18" fill="url(#globeGrad)" />
-                      <ellipse cx="26" cy="58" rx="18" ry="6" stroke="#fff" strokeOpacity="0.5" strokeWidth="0.8" fill="none" />
-                      <ellipse cx="26" cy="58" rx="10" ry="18" stroke="#fff" strokeOpacity="0.5" strokeWidth="0.8" fill="none" />
-                      <circle cx="26" cy="58" r="18" stroke="#fff" strokeOpacity="0.4" strokeWidth="0.8" fill="none" />
-                      {/* origin pin dot */}
-                      <circle cx="26" cy="42" r="2.2" fill="#fff" />
-                    </motion.g>
-
-                    {/* Animated route arc */}
-                    <motion.path
-                      d="M 26 42 Q 84 -10, 142 42"
-                      stroke="#cc785c"
-                      strokeWidth="2"
-                      strokeDasharray="3 4"
-                      strokeLinecap="round"
-                      fill="none"
-                      initial={{ pathLength: 0, opacity: 0 }}
-                      animate={{ pathLength: 1, opacity: 0.65 }}
-                      transition={{ duration: 0.9, delay: 0.2 }}
-                    />
-
-                    {/* Two hop nodes along the arc */}
-                    {[
-                      { cx: 60, cy: 16, d: 0.55 },
-                      { cx: 108, cy: 16, d: 0.75 },
-                    ].map((n, i) => (
-                      <motion.g
-                        key={i}
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{ duration: 0.35, delay: n.d, ease: [0.16, 1, 0.3, 1] }}
-                      >
-                        <circle cx={n.cx} cy={n.cy} r="4" fill="#fff" />
-                        <circle cx={n.cx} cy={n.cy} r="2" fill="#cc785c" />
-                      </motion.g>
-                    ))}
-
-                    {/* Flying plane along the arc */}
-                    <motion.g
-                      initial={{ x: -120, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      transition={{ duration: 1.1, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                    >
-                      <g transform="translate(80, 8)">
-                        <path d="M 0 0 L 16 -3 L 8 0 Z" fill="url(#planeGrad)" />
-                        <path d="M 0 0 L 16 -3 L 6 4 Z" fill="#cc785c" />
-                      </g>
-                    </motion.g>
-
-                    {/* Destination globe (right) with check pin */}
-                    <motion.g
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ duration: 0.5, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                    >
-                      <circle cx="142" cy="58" r="18" fill="url(#globeGrad)" />
-                      <ellipse cx="142" cy="58" rx="18" ry="6" stroke="#fff" strokeOpacity="0.5" strokeWidth="0.8" fill="none" />
-                      <ellipse cx="142" cy="58" rx="10" ry="18" stroke="#fff" strokeOpacity="0.5" strokeWidth="0.8" fill="none" />
-                      <circle cx="142" cy="58" r="18" stroke="#fff" strokeOpacity="0.4" strokeWidth="0.8" fill="none" />
-                    </motion.g>
-
-                    {/* Landing check badge on destination */}
-                    <motion.g
-                      initial={{ scale: 0, y: -8 }}
-                      animate={{ scale: [0, 1.25, 1], y: 0 }}
-                      transition={{ duration: 0.55, delay: 1.1, ease: [0.16, 1, 0.3, 1] }}
-                    >
-                      <circle cx="142" cy="42" r="8" fill="#fff" />
-                      <circle cx="142" cy="42" r="6" fill="#cc785c" />
+                    <g clipPath="url(#bustClip)">
+                      {/* Hair back layer (long, flowing down) */}
                       <path
-                        d="M 138.5 42 L 141 44.5 L 145.5 40"
-                        stroke="#fff"
-                        strokeWidth="1.6"
+                        d="M 56 60 Q 50 50 56 38 Q 64 22 86 22 Q 110 22 118 40 Q 124 56 118 70 L 132 100 L 122 130 L 60 130 L 50 100 Z"
+                        fill="#1a1410"
+                      />
+                      {/* Face */}
+                      <path
+                        d="M 70 56 Q 70 42 86 42 Q 102 42 102 56 L 102 74 Q 102 86 92 88 L 92 100 L 80 100 L 80 88 Q 70 86 70 74 Z"
+                        fill="#d4a878"
+                      />
+                      {/* Nose hint */}
+                      <path d="M 86 66 Q 84 72 88 74" stroke="#a8855e" strokeWidth="0.9" fill="none" strokeLinecap="round" />
+                      {/* Cheek blush */}
+                      <ellipse cx="74" cy="74" rx="3.5" ry="2" fill="#e88a7a" opacity="0.55" />
+                      <ellipse cx="100" cy="74" rx="3.5" ry="2" fill="#e88a7a" opacity="0.55" />
+                      {/* Big happy smile (teeth visible) */}
+                      <path
+                        d="M 76 80 Q 86 92 96 80 Q 86 86 76 80 Z"
+                        fill="#7a2e22"
+                      />
+                      <path
+                        d="M 78 81 Q 86 84 94 81 Q 86 82 78 81 Z"
+                        fill="#fff"
+                      />
+                      {/* Hair front fringe (covers top) */}
+                      <path
+                        d="M 56 62 Q 54 38 78 32 Q 86 28 96 32 Q 116 36 118 60 L 110 56 Q 102 50 92 52 Q 78 54 70 60 Z"
+                        fill="#1a1410"
+                      />
+                      {/* Side hair strand */}
+                      <path
+                        d="M 56 62 Q 52 80 58 96"
+                        stroke="#1a1410"
+                        strokeWidth="6"
                         strokeLinecap="round"
-                        strokeLinejoin="round"
                         fill="none"
                       />
+                      {/* Sunglasses */}
+                      <g>
+                        <rect x="70" y="58" width="16" height="10" rx="5" fill="#0a0a0a" />
+                        <rect x="88" y="58" width="16" height="10" rx="5" fill="#0a0a0a" />
+                        <rect x="86" y="61" width="2" height="2" fill="#0a0a0a" />
+                        {/* highlight on glasses */}
+                        <rect x="73" y="60" width="3" height="2" rx="1" fill="#fff" opacity="0.4" />
+                        <rect x="91" y="60" width="3" height="2" rx="1" fill="#fff" opacity="0.4" />
+                      </g>
+                      {/* Body — orange shirt */}
+                      <path
+                        d="M 50 102 Q 50 96 56 96 L 116 96 Q 122 96 122 102 L 134 130 L 38 130 Z"
+                        fill="#cc785c"
+                      />
+                      {/* Diagonal sash (subtle white stripe like a seatbelt nod) */}
+                      <path
+                        d="M 70 96 L 110 130 L 116 130 L 76 96 Z"
+                        fill="#fff"
+                        opacity="0.55"
+                      />
+                    </g>
+                    {/* Floating coins outside the bust */}
+                    <motion.g
+                      animate={{ y: [0, -5, 0] }}
+                      transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
+                    >
+                      <circle cx="20" cy="40" r="8" fill="#ffd45a" stroke="#a45a40" strokeWidth="1" />
+                      <text x="20" y="43" textAnchor="middle" fontSize="9" fontWeight="800" fill="#0a0a0a">$</text>
                     </motion.g>
-
-                    {/* Twinkling sparkles */}
+                    <motion.g
+                      animate={{ y: [0, -6, 0] }}
+                      transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                    >
+                      <circle cx="180" cy="56" r="7" fill="#ffd45a" stroke="#a45a40" strokeWidth="1" />
+                      <text x="180" y="59" textAnchor="middle" fontSize="8" fontWeight="800" fill="#0a0a0a">$</text>
+                    </motion.g>
+                    {/* sparkles — subtle black/grey */}
                     {[
-                      { cx: 50, cy: 38, d: 1.2 },
-                      { cx: 122, cy: 38, d: 1.4 },
-                      { cx: 84, cy: 6, d: 1.6 },
+                      { cx: 32, cy: 22, d: 0.4 },
+                      { cx: 170, cy: 24, d: 0.7 },
+                      { cx: 18, cy: 80, d: 1.0 },
                     ].map((s, i) => (
                       <motion.circle
                         key={i}
                         cx={s.cx}
                         cy={s.cy}
-                        r="1.5"
-                        fill="#cc785c"
+                        r="1.4"
+                        fill="#0a0a0a"
                         initial={{ scale: 0, opacity: 0 }}
-                        animate={{ scale: [0, 1.4, 0], opacity: [0, 1, 0] }}
+                        animate={{ scale: [0, 1.4, 0], opacity: [0, 0.5, 0] }}
                         transition={{
                           duration: 1.4,
                           delay: s.d,
                           repeat: Infinity,
-                          repeatDelay: 1.8,
+                          repeatDelay: 1.6,
                         }}
                       />
                     ))}
@@ -910,15 +906,15 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                 </motion.div>
 
                 <div
-                  className="relative font-display tracking-tight leading-[1.05]"
+                  className="relative font-display tracking-tight leading-[1.05] text-black"
                   style={{ fontSize: "20px", fontWeight: 600, letterSpacing: "-0.028em" }}
                 >
-                  <span style={{ color: "#cc785c" }}>Best rates</span>{" "}
-                  guaranteed.
+                  <span>Best rates</span>{" "}
+                  <span className="text-black/55">guaranteed.</span>
                 </div>
                 <p className="relative text-[11.5px] text-black/55 mt-1.5 tracking-tight">
                   0% market fees · routed through{" "}
-                  <span className="font-semibold" style={{ color: "#cc785c", fontStyle: "italic" }}>
+                  <span className="font-semibold text-black" style={{ fontStyle: "italic" }}>
                     Blip Market
                   </span>
                 </p>
@@ -936,7 +932,7 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                     </div>
                     <div className="text-[9px] text-black/40 mt-0.5 font-medium">USDT</div>
                   </div>
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: "#cc785c" }}>
+                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 bg-black">
                     <ArrowRight className="w-3 h-3 text-white" strokeWidth={2.5} />
                   </div>
                   <div className="flex-1 text-right">
@@ -955,6 +951,49 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                     </div>
                   </div>
                 </div>
+
+                {/* Merchant earned strip — promo card style */}
+                <motion.div
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  className="mt-3 rounded-xl px-3 py-2.5 flex items-center justify-between gap-3"
+                  style={{
+                    background: "#0a0a0a",
+                    color: "#fff",
+                  }}
+                >
+                  <div className="flex items-center gap-2 min-w-0">
+                    {/* avatar dot */}
+                    <div className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: "#1a1a1a" }}>
+                      <span className="text-[13px]">🤝</span>
+                    </div>
+                    <div className="text-left leading-tight">
+                      <div className="text-[8.5px] font-bold tracking-[0.2em] uppercase text-white/55">
+                        Merchant earned
+                      </div>
+                      <div className="text-[9.5px] text-white/45 tracking-tight mt-0.5">
+                        Fulfilled your trade · live now
+                      </div>
+                    </div>
+                  </div>
+                  <motion.span
+                    initial={{ opacity: 0, scale: 0.85 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                    className="font-mono tabular-nums text-[15px] font-bold text-white flex-shrink-0"
+                  >
+                    +${settledCelebration.earned.toFixed(2)}
+                  </motion.span>
+                </motion.div>
+                <Link
+                  to="/merchant"
+                  onClick={() => setSettledCelebration(null)}
+                  className="group mt-2 inline-flex items-center justify-center gap-1 w-full text-[11px] font-semibold text-black/65 hover:text-black tracking-tight transition-colors"
+                >
+                  Earn like this — join as a merchant
+                  <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-0.5" />
+                </Link>
               </div>
 
               {/* ── CTA ── */}
@@ -964,9 +1003,9 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                   onClick={() => setSettledCelebration(null)}
                   className="group inline-flex items-center justify-center gap-1.5 w-full h-[42px] rounded-full text-[13px] font-semibold tracking-tight transition-all active:scale-[0.98]"
                   style={{
-                    background: "#cc785c",
+                    background: "#0a0a0a",
                     color: "#fff",
-                    boxShadow: "0 10px 28px -10px rgba(204,120,92,0.6)",
+                    boxShadow: "0 10px 28px -10px rgba(0,0,0,0.4)",
                   }}
                 >
                   <span>Join Waitlist</span>
@@ -977,124 +1016,6 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                 </div>
               </div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ── MERCHANT ZOOM — full-section reveal showing the earnings.
-           Takes over the whole dashboard for ~1.5s before the user
-           celebration card slides in. */}
-      <AnimatePresence>
-        {merchantZoom && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="absolute inset-0 z-40 flex flex-col items-center justify-center pointer-events-none overflow-hidden"
-            style={{
-              background:
-                "linear-gradient(165deg, #fff4ea 0%, #ffd6c2 100%)",
-            }}
-          >
-            {/* Soft ambient orange glow */}
-            <motion.div
-              aria-hidden
-              initial={{ scale: 0.6, opacity: 0 }}
-              animate={{ scale: [0.6, 1.2, 1], opacity: 1 }}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background:
-                  "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(204,120,92,0.35) 0%, transparent 65%)",
-                filter: "blur(20px)",
-              }}
-            />
-
-            {/* Eyebrow */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="relative text-[13px] font-bold tracking-[0.3em] uppercase mb-4"
-              style={{ color: "#a45a40" }}
-            >
-              Merchant Earned
-            </motion.div>
-
-            {/* Giant earnings number */}
-            <motion.div
-              initial={{ scale: 0.2, opacity: 0, y: 40 }}
-              animate={{ scale: [0.2, 1.18, 1], opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.75,
-                times: [0, 0.65, 1],
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              className="relative font-display tabular-nums tracking-tight leading-none text-black"
-              style={{
-                fontSize: "clamp(7rem, 16vw, 14rem)",
-                fontWeight: 600,
-                letterSpacing: "-0.06em",
-              }}
-            >
-              +${merchantZoom.earned.toFixed(0)}
-              <span
-                className="font-display tabular-nums"
-                style={{ fontSize: "0.45em", verticalAlign: "0.18em", color: "rgba(0,0,0,0.45)" }}
-              >
-                .{merchantZoom.earned.toFixed(2).split(".")[1]}
-              </span>
-            </motion.div>
-
-            {/* Caption */}
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="relative mt-5 flex items-center gap-3 text-[14px] tracking-tight text-black/65"
-            >
-              <span className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#cc785c" }} />
-                <span className="font-semibold">Settled on-chain</span>
-              </span>
-              <span className="text-black/25">·</span>
-              <span>3% spread captured</span>
-              <span className="text-black/25">·</span>
-              <span>in &lt;60s</span>
-            </motion.div>
-
-            {/* Confetti sparkles */}
-            {[
-              { x: "12%", y: "18%", d: 0.2 },
-              { x: "88%", y: "22%", d: 0.3 },
-              { x: "8%", y: "75%", d: 0.4 },
-              { x: "90%", y: "78%", d: 0.5 },
-              { x: "50%", y: "8%", d: 0.6 },
-              { x: "20%", y: "50%", d: 0.7 },
-              { x: "80%", y: "55%", d: 0.8 },
-            ].map((s, i) => (
-              <motion.div
-                key={i}
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{
-                  scale: [0, 1.4, 0.8],
-                  opacity: [0, 1, 0.7],
-                  y: [0, -10, -20],
-                }}
-                transition={{
-                  duration: 1.2,
-                  delay: s.d,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-                className="absolute w-2 h-2 rounded-full pointer-events-none"
-                style={{
-                  left: s.x,
-                  top: s.y,
-                  background: "#cc785c",
-                }}
-              />
-            ))}
           </motion.div>
         )}
       </AnimatePresence>

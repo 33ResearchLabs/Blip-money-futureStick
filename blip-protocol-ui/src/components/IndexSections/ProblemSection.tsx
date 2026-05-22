@@ -34,17 +34,18 @@ function NightGlobe() {
     };
     window.addEventListener("scroll", onScroll, { passive: true });
 
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
     let globe: ReturnType<typeof createGlobe> | null = null;
     try {
       globe = createGlobe(canvasRef.current, {
-        devicePixelRatio: 2,
-        width: widthRef.current * 2,
-        height: widthRef.current * 2,
+        devicePixelRatio: dpr,
+        width: widthRef.current * dpr,
+        height: widthRef.current * dpr,
         phi: 0.5,
         theta: 0.4,
         dark: 1,
         diffuse: 1.2,
-        mapSamples: 18000,
+        mapSamples: 8000,
         mapBrightness: 5,
         baseColor: [0.05, 0.06, 0.1],
         markerColor: [1, 0.42, 0.21],
@@ -61,8 +62,8 @@ function NightGlobe() {
         ],
         onRender: (state) => {
           state.phi = phiRef.current;
-          state.width = widthRef.current * 2;
-          state.height = widthRef.current * 2;
+          state.width = widthRef.current * dpr;
+          state.height = widthRef.current * dpr;
         },
       });
     } catch (e) {

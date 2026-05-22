@@ -5,7 +5,7 @@ import LazySection from "@/components/LazySection";
 // Hero + the immediately-next section are eagerly loaded — every scroller sees them,
 // so deferring ProblemSection just produces a black flash on dark-themed first paint.
 import CinematicHero from "@/components/IndexSections/CinematicHero";
-import ProblemSection from "@/components/IndexSections/ProblemSection";
+// ProblemSection (P2P payments) removed
 
 // Below-fold sections are lazy loaded
 const BanklessSection = lazy(() => import("@/components/IndexSections/BanklessSection"));
@@ -55,27 +55,26 @@ const Index = () => {
 
         {/* Global Liquidity section removed — dashboard now lives in the hero */}
 
-        {/* 2. The Break — Problem → Settlement Layer (eager: visible to every scroller) */}
-        <ProblemSection />
+        {/* P2P payments / Problem section removed */}
 
-        {/* 2.5 Bankless / Global — P2P is the future of payments */}
+        {/* The Blip Protocol — Proof Layer (now above Bankless) */}
+        <LazySection minHeight="80vh">
+          <Suspense fallback={null}>
+            <ProtocolInterstitial />
+          </Suspense>
+        </LazySection>
+
+        {/* Bankless / Global — P2P is the future of payments */}
         <LazySection minHeight="80vh">
           <Suspense fallback={null}>
             <BanklessSection />
           </Suspense>
         </LazySection>
 
-        {/* 3. How It Works — Animated Flow */}
+        {/* How It Works — Animated Flow */}
         <LazySection minHeight="100vh">
           <Suspense fallback={null}>
             <DarkFintechSection />
-          </Suspense>
-        </LazySection>
-
-        {/* 4. The Blip Protocol — Proof Layer */}
-        <LazySection minHeight="80vh">
-          <Suspense fallback={null}>
-            <ProtocolInterstitial />
           </Suspense>
         </LazySection>
 

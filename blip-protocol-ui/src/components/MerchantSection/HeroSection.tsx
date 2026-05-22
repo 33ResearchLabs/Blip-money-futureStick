@@ -1,163 +1,171 @@
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
-import { MerchantDashboardVisual } from "../MerchantDashboard";
-import { MerchantHeroDashbaord } from "../MerchantHeroDashboard";
+import { ArrowRight } from "lucide-react";
 import { HeroDashboardVisual } from "../HeroDashbaordVisual";
-import { CTAButton } from "../Navbar";
+import { MerchantHeroDashbaord } from "../MerchantHeroDashboard";
+
+const EASE = [0.16, 1, 0.3, 1] as const;
 
 /**
- * CinematicHero - 3-column layout with parallax mouse tracking
- * Matches the blip.money design with iPhone mockup, center text, and dashboard panel
+ * Merchant hero — themed to match the index CinematicHero:
+ * black canvas, blue wash + slow aurora, vignette, film grain,
+ * eyebrow hairlines, Apple-display headline with two-tone emphasis,
+ * Claude-orange (#cc785c) accent, primary white pill + ghost CTA.
+ * Copy is merchant-first.
  */
 export const CinematicHeroOfMerchant = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const phoneLayerRef = useRef<HTMLDivElement>(null);
-  const textLayerRef = useRef<HTMLDivElement>(null);
-  const dashboardLayerRef = useRef<HTMLDivElement>(null);
-
-  // Mouse tracking for parallax/antigravity effect
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      const centerX = window.innerWidth / 2;
-      const centerY = window.innerHeight / 2;
-      const moveX = (e.clientX - centerX) / centerX;
-      const moveY = (e.clientY - centerY) / centerY;
-
-      // Phone layer - more movement
-      if (phoneLayerRef.current) {
-        const x = moveX * 25 * 0.02;
-        const y = moveY * 25 * 0.02;
-        const rotationX = moveY * 10 * 0.02;
-        const rotationY = -moveX * 10 * 0.02;
-        phoneLayerRef.current.style.transform = `translate3d(${x}px, ${y}px, 0) rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
-      }
-
-      // Text layer - subtle movement
-      if (textLayerRef.current) {
-        const x = moveX * 25 * 0.01;
-        const y = moveY * 25 * 0.01;
-        textLayerRef.current.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-      }
-
-      // Dashboard layer - medium movement
-      if (dashboardLayerRef.current) {
-        const x = moveX * 25 * 0.015;
-        const y = moveY * 25 * 0.015;
-        const rotationX = moveY * 10 * 0.015;
-        const rotationY = -moveX * 10 * 0.015;
-        dashboardLayerRef.current.style.transform = `translate3d(${x}px, ${y}px, 0) rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
-      }
-    };
-
-    document.addEventListener("mousemove", handleMouseMove);
-    return () => document.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+  const ref = useRef<HTMLElement>(null);
+  const isInView = useInView(ref, { amount: 0.2 });
 
   return (
     <section
       ref={ref}
-      className="relative min-h-screen overflow-hidden bg-[#FAF8F5] dark:bg-transparent"
+      className="relative overflow-hidden flex flex-col items-stretch text-white bg-black"
     >
-      {/* Main Hero Content - 2-column Layout on Desktop */}
-      <main className="relative z-10 pt-20 md:pt-24 lg:pt-20 pb-20  lg:pb-36 px-4 md:px-8 lg:px-10 max-w-7xl mx-auto flex flex-col md:flex-row md:flex-wrap lg:flex-nowrap items-center md:items-start lg:items-center justify-center md:justify-center lg:justify-start gap-6 md:gap-8 lg:gap-12">
-        {/* ==================== Phone Mockup (1st on mobile, 1st on desktop) ==================== */}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: "#000" }}
+      />
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 70% 50% at 50% 35%, rgba(60,100,200,0.08) 0%, transparent 70%)",
+        }}
+      />
+      <motion.div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none opacity-50"
+        animate={{ backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"] }}
+        transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+        style={{
+          background:
+            "radial-gradient(ellipse 35% 22% at 30% 30%, rgba(80,140,230,0.05), transparent 65%), radial-gradient(ellipse 30% 20% at 75% 65%, rgba(204,120,92,0.05), transparent 65%)",
+          backgroundSize: "240% 240%",
+        }}
+      />
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 95% 75% at 50% 45%, transparent 30%, rgba(0,0,0,0.6) 80%, rgba(0,0,0,0.96) 100%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-40 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(0,0,0,0.6) 0%, transparent 100%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 h-56 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.5) 50%, #000 100%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="absolute inset-0 opacity-[0.035] mix-blend-overlay pointer-events-none"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>\")",
+        }}
+      />
 
-        {/* ==================== Text Content (2nd on mobile, 2nd on desktop) ==================== */}
-        <div
-          ref={textLayerRef}
-          className="w-full pt-20 px-4 pb-20 sm:pb-28 lg:pb-4 lg:px-4 antigravity-layer order-2 relative z-20 text-center
-  "
-        >
+      <main className="relative z-10 w-full max-w-[1180px] mx-auto px-4 md:px-10 pt-24 md:pt-32 pb-16 md:pb-24 flex-1 flex flex-col items-stretch">
+        <div className="flex flex-col items-center text-center">
           <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="mb-8"
+            initial={{ opacity: 0, y: 8 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.9, ease: EASE }}
+            className="inline-flex items-center gap-3 mb-6"
           >
-            <span className="text-[11px]  uppercase tracking-[0.3em] text-[#ff6b35] font-semibold">
-              Merchant-first protocol
+            <span className="w-5 h-px bg-white/25" />
+            <span
+              className="text-[10px] font-semibold tracking-[0.3em] uppercase whitespace-nowrap"
+              style={{
+                color: "#ff7a3d",
+                textShadow: "0 0 18px rgba(255,122,61,0.45)",
+              }}
+            >
+              Merchant-First Protocol
             </span>
+            <span className="w-5 h-px bg-white/25" />
           </motion.div>
-          <motion.h1 className="font-display  text-black dark:text-white leading-[1.1] tracking-tight text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-semibold mb-8">
-            Built for{" "}
-            <span className="text-[#ff6b35]">merchants.</span>
-            <br />
-            <span className="text-black/80 dark:text-white/50">
-              From day one.
-            </span>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 16 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 1.1, ease: EASE, delay: 0.08 }}
+            className="font-display text-white max-w-[920px]"
+            style={{
+              fontSize: "clamp(2.1rem, 4.8vw, 3.9rem)",
+              fontWeight: 500,
+              lineHeight: 1.02,
+              letterSpacing: "-0.055em",
+              marginBottom: 22,
+              textShadow: "0 2px 24px rgba(0,0,0,0.45)",
+            }}
+          >
+            <span>You set the margin. </span>
+            <span className="text-white/75">You win the order.</span>
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-black dark:text-white/45 text-base md:text-lg lg:text-xl max-w-md mx-auto mb-12 leading-relaxed font-medium"
+            transition={{ duration: 1, ease: EASE, delay: 0.22 }}
+            className="text-white/65 max-w-[560px] mx-auto leading-[1.5] text-[15px] md:text-[16px] mb-9 tracking-tight"
           >
-            <strong className="text-black dark:text-white/80">
-              You set your margin.
-            </strong>{" "}
-            <strong className="text-black dark:text-white/80">
-              You win the order.
-            </strong>{" "}
-            Paid on-chain — no banks, no chargebacks.
+            Orders route to you through{" "}
+            <span style={{ color: "#cc785c" }}>Blip Market</span> — paid on-chain,
+            no banks, no chargebacks. Earn on every settlement.
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4"
+            transition={{ duration: 0.9, ease: EASE, delay: 0.4 }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto"
           >
-            {/* <Link
-    to="/coming-soon"
-    className="inline-flex items-center justify-center gap-3
-      px-10 py-4
-      min-h-[52px] w-[220px]
-      rounded-full
-      bg-white text-black
-      text-sm font-semibold
-      transition-all duration-300
-      hover:shadow-[0_0_30px_rgba(255,255,255,0.3)]
-      hover:-translate-y-1"
-  >
-    Become a Merchant
-  </Link> */}
-            {/* <CTAButton to="/waitlist" className="w-[225px]  h-[48px]">
-              Become a Merchant
-            </CTAButton> */}
-
-            {/* <Link
-    to="/waitlist"
-    className="group inline-flex items-center justify-center gap-3
-      px-10 py-4
-      min-h-[52px] w-[220px]
-      rounded-full
-      border border-white/20
-      text-white
-      text-sm font-semibold
-      hover:bg-white/10
-      transition-all duration-300"
-  >
-    Join Waitlist
-  </Link> */}
-            <CTAButton to="/merchant-waitlist" className="w-[225px]  h-[48px]">
-              Join Waitlist
-            </CTAButton>
+            <Link
+              to="/merchant-waitlist"
+              className="group relative inline-flex items-center justify-center gap-2 w-full sm:w-auto sm:min-w-[168px] h-[44px] px-6 rounded-full bg-white text-black text-[13.5px] font-semibold tracking-tight transition-all duration-300 shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_10px_30px_-10px_rgba(255,255,255,0.3)] hover:shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_16px_42px_-12px_rgba(255,255,255,0.4)] hover:-translate-y-[1px] active:scale-[0.985] active:translate-y-0"
+            >
+              <span>Apply as Merchant</span>
+              <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
+            </Link>
+            <Link
+              to="/merchant-login"
+              className="group inline-flex items-center justify-center gap-1.5 w-full sm:w-auto sm:min-w-[168px] h-[44px] px-6 rounded-full text-white/85 text-[13.5px] font-medium tracking-tight hover:text-white transition-colors"
+            >
+              <span>Merchant Sign-in</span>
+              <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
+            </Link>
           </motion.div>
         </div>
-      </main>
 
-      {/* ==================== Dashboard Panel - Outside main for proper z-index overlap ==================== */}
-      <div
-      // className="hidden md:block absolute  xl:right-36 top-6 md:top-16 lg:top-6 z-0 antigravity-layer"
-      // ref={dashboardLayerRef}
-      >
-        <HeroDashboardVisual>
-          <MerchantHeroDashbaord />
-        </HeroDashboardVisual>
-      </div>
+        <div className="h-[20vh] md:h-[24vh]" />
+
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 1.1, ease: EASE, delay: 0.55 }}
+          className="relative w-full"
+        >
+          <HeroDashboardVisual>
+            <MerchantHeroDashbaord />
+          </HeroDashboardVisual>
+        </motion.div>
+      </main>
     </section>
   );
 };

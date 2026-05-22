@@ -598,6 +598,10 @@ function FeatureBlock({
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 1, ease: EASE }}
         >
+          {/* Minimal cartoon mascot */}
+          <div style={{ marginBottom: 20 }}>
+            <ProtocolMascot kind={feature.visual} isDark={isDark} />
+          </div>
           <div style={{
             fontSize: 11, fontWeight: 700, letterSpacing: "2px",
             textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)", marginBottom: 16,
@@ -663,6 +667,207 @@ function FeatureBlock({
         </motion.div>
       </div>
     </div>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
+   ProtocolMascot — minimal cartoon characters that sit beside
+   each feature label. Same vibe as the merchant promo cards.
+   ──────────────────────────────────────────────────────────── */
+function ProtocolMascot({
+  kind,
+  isDark,
+}: {
+  kind: "speed" | "rates" | "chain" | "engine";
+  isDark: boolean;
+}) {
+  const SKIN = "#f4c79b";
+  const HAIR = "#1a1410";
+  const INK = isDark ? "#fff" : "#0a0a0a";
+  const SURFACE = isDark ? "#0a0a0a" : "#fff";
+  const BORDER = isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)";
+
+  const Frame = ({ accent, children }: { accent: string; children: React.ReactNode }) => (
+    <div
+      style={{
+        width: 84,
+        height: 84,
+        background: SURFACE,
+        border: `1px solid ${BORDER}`,
+        borderRadius: 18,
+        padding: 6,
+        boxShadow: isDark ? "0 8px 24px -10px rgba(0,0,0,0.55)" : "0 8px 24px -12px rgba(0,0,0,0.12)",
+        position: "relative",
+      }}
+    >
+      <span
+        style={{
+          position: "absolute",
+          top: -4,
+          right: -4,
+          width: 14,
+          height: 14,
+          borderRadius: 7,
+          background: accent,
+        }}
+      />
+      {children}
+    </div>
+  );
+
+  if (kind === "speed") {
+    const A = "#ff5d8f";
+    return (
+      <Frame accent={A}>
+        <svg viewBox="0 0 80 80" className="w-full h-full">
+          {/* runner character */}
+          <circle cx="40" cy="22" r="9" fill={SKIN} />
+          <path d="M 31 20 Q 31 10 40 8 Q 49 10 49 22 L 47 20 Q 42 14 36 18 Q 33 20 31 20 Z" fill={HAIR} />
+          <circle cx="37" cy="22" r="0.9" fill={INK} />
+          <circle cx="43" cy="22" r="0.9" fill={INK} />
+          <path d="M 37 25 Q 40 28 43 25" stroke={INK} strokeWidth="0.8" fill="none" strokeLinecap="round" />
+          {/* body leaning forward */}
+          <path d="M 34 32 L 50 30 L 54 50 L 38 54 Z" fill={INK} />
+          {/* arms swinging */}
+          <motion.rect
+            x="28" y="34" width="6" height="20" rx="3" fill={SKIN}
+            animate={{ rotate: [15, -25, 15] }}
+            transition={{ duration: 0.7, repeat: Infinity, ease: "easeInOut" }}
+            style={{ transformOrigin: "31px 36px" }}
+          />
+          <motion.rect
+            x="50" y="34" width="6" height="20" rx="3" fill={SKIN}
+            animate={{ rotate: [-15, 25, -15] }}
+            transition={{ duration: 0.7, repeat: Infinity, ease: "easeInOut" }}
+            style={{ transformOrigin: "53px 36px" }}
+          />
+          {/* legs running */}
+          <motion.g
+            animate={{ rotate: [25, -20, 25] }}
+            transition={{ duration: 0.7, repeat: Infinity, ease: "easeInOut" }}
+            style={{ transformOrigin: "40px 52px" }}
+          >
+            <rect x="36" y="52" width="6" height="20" rx="3" fill="#2a2a2a" />
+          </motion.g>
+          <motion.g
+            animate={{ rotate: [-25, 20, -25] }}
+            transition={{ duration: 0.7, repeat: Infinity, ease: "easeInOut" }}
+            style={{ transformOrigin: "44px 52px" }}
+          >
+            <rect x="44" y="52" width="6" height="20" rx="3" fill="#2a2a2a" />
+          </motion.g>
+          {/* motion lines */}
+          <motion.path d="M 20 38 L 14 38" stroke={A} strokeWidth="1.6" strokeLinecap="round"
+            animate={{ opacity: [0.3, 1, 0.3] }}
+            transition={{ duration: 0.7, repeat: Infinity, ease: "easeInOut" }} />
+          <motion.path d="M 22 46 L 12 46" stroke={A} strokeWidth="1.6" strokeLinecap="round"
+            animate={{ opacity: [0.3, 1, 0.3] }}
+            transition={{ duration: 0.7, delay: 0.15, repeat: Infinity, ease: "easeInOut" }} />
+        </svg>
+      </Frame>
+    );
+  }
+
+  if (kind === "rates") {
+    const A = "#ffd45a";
+    return (
+      <Frame accent={A}>
+        <svg viewBox="0 0 80 80" className="w-full h-full">
+          {/* character with paddle */}
+          <circle cx="40" cy="40" r="10" fill={SKIN} />
+          <path d="M 30 38 Q 30 26 40 24 Q 50 26 50 40 L 47 38 Q 42 32 36 36 Q 32 38 30 38 Z" fill={HAIR} />
+          <circle cx="37" cy="40" r="1" fill={INK} />
+          <circle cx="43" cy="40" r="1" fill={INK} />
+          <path d="M 37 44 Q 40 47 43 44" stroke={INK} strokeWidth="0.9" fill="none" strokeLinecap="round" />
+          {/* body */}
+          <path d="M 30 50 L 50 50 L 54 76 L 26 76 Z" fill={INK} />
+          {/* raised arm with paddle */}
+          <motion.g
+            animate={{ rotate: [-5, 5, -5] }}
+            transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+            style={{ transformOrigin: "30px 52px" }}
+          >
+            <rect x="22" y="22" width="4" height="32" rx="2" fill={SKIN} />
+            {/* paddle */}
+            <rect x="12" y="8" width="28" height="20" rx="3" fill={A} stroke={INK} strokeWidth="1" />
+            <text x="26" y="22" textAnchor="middle" fontSize="8" fontWeight="800" fill={INK} fontFamily="ui-monospace, monospace">$</text>
+          </motion.g>
+        </svg>
+      </Frame>
+    );
+  }
+
+  if (kind === "chain") {
+    const A = "#6ee0c5";
+    return (
+      <Frame accent={A}>
+        <svg viewBox="0 0 80 80" className="w-full h-full">
+          {/* three chain blocks */}
+          <motion.g
+            animate={{ y: [0, -2, 0] }}
+            transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <rect x="8" y="42" width="20" height="20" rx="4" fill={A} />
+            <rect x="11" y="46" width="11" height="2" fill={INK} opacity="0.6" />
+            <rect x="11" y="51" width="8" height="2" fill={INK} opacity="0.45" />
+            <rect x="11" y="56" width="14" height="2" fill={INK} opacity="0.55" />
+          </motion.g>
+          <motion.g
+            animate={{ y: [0, -3, 0] }}
+            transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
+          >
+            <rect x="30" y="36" width="20" height="20" rx="4" fill={A} />
+            <rect x="33" y="40" width="11" height="2" fill={INK} opacity="0.6" />
+            <rect x="33" y="45" width="8" height="2" fill={INK} opacity="0.45" />
+            <rect x="33" y="50" width="14" height="2" fill={INK} opacity="0.55" />
+          </motion.g>
+          <motion.g
+            animate={{ y: [0, -2, 0] }}
+            transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
+          >
+            <rect x="52" y="42" width="20" height="20" rx="4" fill={A} />
+            <rect x="55" y="46" width="11" height="2" fill={INK} opacity="0.6" />
+            <rect x="55" y="51" width="8" height="2" fill={INK} opacity="0.45" />
+            <rect x="55" y="56" width="14" height="2" fill={INK} opacity="0.55" />
+          </motion.g>
+          <path d="M 28 52 H 30" stroke={INK} strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M 50 46 H 52" stroke={INK} strokeWidth="1.5" strokeLinecap="round" />
+          {/* check on top */}
+          <motion.g
+            initial={{ scale: 0 }}
+            animate={{ scale: [0, 1.2, 1] }}
+            transition={{ duration: 0.7, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            style={{ transformOrigin: "40px 18px" }}
+          >
+            <circle cx="40" cy="18" r="9" fill={INK} />
+            <path d="M 36 18 L 39 22 L 45 14" stroke={A} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+          </motion.g>
+        </svg>
+      </Frame>
+    );
+  }
+
+  // fallback engine
+  const A = "#9ad1ff";
+  return (
+    <Frame accent={A}>
+      <svg viewBox="0 0 80 80" className="w-full h-full">
+        <motion.g
+          animate={{ rotate: 360 }}
+          transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+          style={{ transformOrigin: "40px 40px" }}
+        >
+          {Array.from({ length: 8 }).map((_, i) => {
+            const a = (i * 45) * (Math.PI / 180);
+            const x = 40 + Math.cos(a) * 22;
+            const y = 40 + Math.sin(a) * 22;
+            return <rect key={i} x={x - 4} y={y - 4} width="8" height="8" rx="1.5" fill={A} />;
+          })}
+        </motion.g>
+        <circle cx="40" cy="40" r="10" fill={INK} />
+        <circle cx="40" cy="40" r="4" fill={A} />
+      </svg>
+    </Frame>
   );
 }
 

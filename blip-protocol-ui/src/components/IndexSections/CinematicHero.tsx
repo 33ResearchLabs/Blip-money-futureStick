@@ -45,16 +45,25 @@ function QuietNetwork() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
+    let raf = 0;
+    let nextX = 0;
+    let nextY = 0;
     const onMove = (e: MouseEvent) => {
       const cx = window.innerWidth / 2;
       const cy = window.innerHeight / 2;
-      setTilt({
-        x: ((e.clientX - cx) / cx) * 6,
-        y: ((e.clientY - cy) / cy) * 4,
+      nextX = ((e.clientX - cx) / cx) * 6;
+      nextY = ((e.clientY - cy) / cy) * 4;
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        setTilt({ x: nextX, y: nextY });
       });
     };
-    window.addEventListener("mousemove", onMove);
-    return () => window.removeEventListener("mousemove", onMove);
+    window.addEventListener("mousemove", onMove, { passive: true });
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, []);
 
   const arcs = useMemo(
@@ -1912,8 +1921,8 @@ const CinematicHero = () => {
               textShadow: "0 2px 24px rgba(0,0,0,0.45)",
             }}
           >
-            <span>Your money finds </span>
-            <span className="text-white/75">the best route.</span>
+            <span>Move money through </span>
+            <span className="text-white/75">the market.</span>
           </motion.h1>
 
           {/* Subhead — Apple-clean, slightly larger */}
@@ -2075,11 +2084,11 @@ function RealLiveDashboard({
       transition={{ duration: 1.1, ease: EASE, delay: 0.5 }}
       className="relative rounded-2xl"
       style={{
-        /* Spotlight: break out of the 1180px main, span ~94vw */
-        width: "94vw",
-        maxWidth: 1540,
-        marginLeft: "calc(50% - min(47vw, 770px))",
-        marginRight: "calc(50% - min(47vw, 770px))",
+        /* Spotlight: ~80vw (15% narrower than before) */
+        width: "80vw",
+        maxWidth: 1310,
+        marginLeft: "calc(50% - min(40vw, 655px))",
+        marginRight: "calc(50% - min(40vw, 655px))",
       }}
     >
       {/* Dashboard surface — clean dark with macOS chrome + URL */}
@@ -2311,68 +2320,48 @@ function MerchantCardCarousel() {
     cta: string;
     footnote?: string;
     kind: string;
+    cardBg?: string;
+    textOnLight?: boolean;
   }[] = [
     {
-      label: "PROMO · ZERO FEES",
-      titlePre: "Don't miss",
-      titleAccent: "every transfer",
-      titleAccentColor: "#e3b95c",
+      label: "ZERO FEES THIS WEEK",
+      titlePre: "Don't miss out on",
+      titleAccent: "0% fees",
+      titleAccentColor: "#3ddc84",
       titleTail: " this week.",
-      cta: "Send now",
+      cta: "Send money",
       footnote: "Auto-applied at checkout",
       kind: "shop",
     },
     {
-      label: "MERCHANT · REWARDS",
-      titlePre: "Stack a",
-      titleAccent: "+15% boost",
-      titleAccentColor: "#ffb38a",
-      titleTail: " on your next 5 trades.",
-      cta: "Activate boost",
-      footnote: "Expires in 48h",
-      kind: "bid",
-    },
-    {
-      label: "WELCOME · FIRST 3",
+      label: "FIRST TRANSFERS · FEE-FREE",
       titlePre: "Your first 3 transfers",
       titleAccent: "home — fee-free.",
       titleAccentItalic: true,
-      titleAccentColor: "#a7e8d1",
+      titleAccentColor: "#ffd45a",
       cta: "Send home",
-      footnote: "New corridor · USD → INR live",
-      kind: "globe",
-    },
-    {
-      label: "REFER · EARN",
-      titlePre: "Bring a friend.",
-      titleAccent: "You both get $20.",
-      titleAccentItalic: true,
-      titleAccentColor: "#9ad1ff",
-      cta: "Share your invite",
-      footnote: "Limit 5 invites · live this month",
-      kind: "payout",
-    },
-    {
-      label: "SPEED · SETTLEMENT",
-      titlePre: "Money lands in",
-      titleAccent: "92 seconds.",
-      titleAccentItalic: true,
-      titleAccentColor: "#e3b95c",
-      titleTail: " Guaranteed.",
-      cta: "How it works",
-      footnote: "Faster than your bank",
+      footnote: "USD → INR live rate",
       kind: "chain",
     },
     {
-      label: "MARKET · LIVE",
-      titlePre: "Watch merchants",
-      titleAccent: "compete",
+      label: "BRING A FRIEND",
+      titlePre: "Bring a friend.",
+      titleAccent: "You both get $20.",
       titleAccentItalic: true,
-      titleAccentColor: "#ffb38a",
-      titleTail: " for your rate.",
-      cta: "Open market",
-      footnote: "Bidding 24/7 worldwide",
-      kind: "chart",
+      titleAccentColor: "#6ee0c5",
+      cta: "Share invite",
+      footnote: "Paid when they trade $100+",
+      kind: "payout",
+    },
+    {
+      label: "BOOST ON YOUR NEXT 5 TRADES",
+      titlePre: "Stack a",
+      titleAccent: "+15% boost",
+      titleAccentColor: "#9ad1ff",
+      titleTail: " on your next 5 trades.",
+      cta: "Activate boost",
+      footnote: "Avg user banked $48 last week",
+      kind: "bid",
     },
   ];
 
@@ -2395,16 +2384,15 @@ function MerchantCardCarousel() {
             viewport={{ once: true, margin: "-8%" }}
             transition={{ duration: 0.55, delay: i * 0.05, ease: EASE }}
             whileHover={{ y: -4 }}
-            className="snap-start flex-shrink-0 relative rounded-[22px] overflow-hidden text-left flex flex-col group"
+            className="snap-start flex-shrink-0 relative rounded-[22px] overflow-hidden text-left flex flex-col group w-[84vw] sm:w-[340px] md:w-[300px] lg:w-[280px]"
             style={{
               background: "#0a0a0a",
               border: "1px solid rgba(255,255,255,0.06)",
-              width: "min(360px, 86vw)",
               transition: "transform 0.35s ease",
             }}
           >
             {/* TOP — animated illustration band */}
-            <div className="relative w-full overflow-hidden" style={{ aspectRatio: "16/10" }}>
+            <div className="relative w-full overflow-hidden" style={{ aspectRatio: "1/1" }}>
               <MerchantIllustration kind={c.kind} />
             </div>
 
@@ -2416,18 +2404,22 @@ function MerchantCardCarousel() {
                   className="w-1 h-1 rounded-full"
                   style={{ background: c.titleAccentColor }}
                 />
-                <span className="text-[10px] font-bold tracking-[0.18em] text-white/55">
+                <span
+                  className="text-[10px] font-bold tracking-[0.18em]"
+                  style={{ color: "rgba(255,255,255,0.55)" }}
+                >
                   {c.label}
                 </span>
               </div>
 
               {/* Headline */}
               <div
-                className="font-display text-white leading-[1.1]"
+                className="font-display leading-[1.12] flex-1"
                 style={{
                   fontSize: "22px",
                   fontWeight: 600,
                   letterSpacing: "-0.025em",
+                  color: "#fff",
                 }}
               >
                 {c.titlePre}{" "}
@@ -2447,18 +2439,28 @@ function MerchantCardCarousel() {
               </div>
 
               {/* CTA + footnote */}
-              <div className="mt-5 flex items-center justify-between gap-3">
+              <div className="mt-5 flex items-center justify-between gap-2 flex-wrap">
                 <Link
                   to="/register"
-                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white text-black text-[12px] font-semibold tracking-tight hover:-translate-y-[1px] transition-transform"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[12px] font-semibold tracking-tight hover:-translate-y-[1px] transition-transform whitespace-nowrap flex-shrink-0"
+                  style={{
+                    background: "#fff",
+                    color: "#0a0a0a",
+                  }}
                 >
                   {c.cta}
                   <ArrowRight className="w-3 h-3" />
                 </Link>
                 {c.footnote && (
-                  <span className="text-[10px] text-white/40 tracking-tight flex items-center gap-1.5 text-right">
-                    <span className="w-1 h-1 rounded-full bg-white/30" />
-                    <span className="leading-tight">{c.footnote}</span>
+                  <span
+                    className="text-[10px] tracking-tight inline-flex items-center gap-1 leading-tight"
+                    style={{ color: "rgba(255,255,255,0.4)" }}
+                  >
+                    <span
+                      className="w-1 h-1 rounded-full shrink-0"
+                      style={{ background: "rgba(255,255,255,0.3)" }}
+                    />
+                    <span>{c.footnote}</span>
                   </span>
                 )}
               </div>
@@ -2500,298 +2502,350 @@ function MerchantCardCarousel() {
   );
 }
 
+
+/* ────────────────────────────────────────────────────────────
+   MerchantIllustration — vibrant Uber-style scenes with
+   editorial scenes with partial characters, walking animations,
+   4 scenes — 2 with characters, 2 with story/place. Base white/black,
+   one accent color per card, rich layered animation.
+   ──────────────────────────────────────────────────────────── */
 function MerchantIllustration({ kind }: { kind: string }) {
-  // Refined "classy" palette — deep navy/indigo, gold + cream accents only
-  const NAVY = "#0b1a2a";
-  const INDIGO = "#1a2c4a";
-  const GOLD = "#e3b95c";
-  const CREAM = "#f0e7d2";
-  const MIST = "#7a8db0";
+  const SKIN = "#f4c79b";
+  const SKIN2 = "#d4a878";
+  const HAIR = "#1a1a1a";
+  const INK = "#0a0a0a";
+  const PAPER = "#fff";
+  const PANTS = "#2a2a2a";
+  const SHOE = "#0a0a0a";
 
-  // 01 — Sleeping merchant under stars (Earn while you sleep)
+  /* 01 — Character at desk in front of laptop, "0% FEES" on screen */
   if (kind === "shop") {
+    const ACCENT = "#3ddc84"; // vibrant green
     return (
-      <svg viewBox="0 0 200 240" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
-        <defs>
-          <linearGradient id="sky01" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#1e2547" />
-            <stop offset="100%" stopColor="#0b1a2a" />
-          </linearGradient>
-        </defs>
-        <rect x="0" y="0" width="200" height="240" fill="url(#sky01)" />
-        {/* Stars + crescent moon — gentle glow */}
-        <motion.g
-          animate={{ opacity: [1, 0.7, 1] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <path d="M 160 36 a 14 14 0 1 0 6 14 a 11 11 0 0 1 -6 -14 z" fill={GOLD} />
-        </motion.g>
-        {[{x:28,y:30},{x:60,y:50},{x:108,y:24},{x:138,y:60},{x:184,y:90}].map((s,i)=>(
-          <circle key={i} cx={s.x} cy={s.y} r={i%2?1.2:1.6} fill={CREAM} opacity="0.7" />
-        ))}
-        {/* zZz */}
-        <text x="100" y="60" fontSize="13" fontWeight="500" fill={GOLD} opacity="0.65" fontFamily="ui-serif, Georgia">z</text>
-        <text x="114" y="48" fontSize="10" fontWeight="500" fill={GOLD} opacity="0.45" fontFamily="ui-serif, Georgia">z</text>
-        <text x="125" y="38" fontSize="7" fontWeight="500" fill={GOLD} opacity="0.3" fontFamily="ui-serif, Georgia">z</text>
-        {/* Floor line */}
-        <line x1="20" y1="200" x2="180" y2="200" stroke={MIST} strokeOpacity="0.2" strokeWidth="1" />
-        {/* Bed silhouette */}
-        <rect x="38" y="160" width="124" height="42" rx="3" fill={INDIGO} />
-        <rect x="38" y="160" width="124" height="6" fill={GOLD} opacity="0.4" />
-        {/* Pillow */}
-        <rect x="46" y="148" width="36" height="14" rx="3" fill={CREAM} />
-        {/* Person (head + body under blanket) */}
-        <circle cx="64" cy="150" r="9" fill="#d4a878" />
-        <path d="M 80 158 Q 110 138 150 158 L 150 200 L 80 200 Z" fill={CREAM} />
-        <path d="M 88 168 Q 110 152 142 168" stroke={GOLD} strokeOpacity="0.35" strokeWidth="1" fill="none" />
-        {/* Floating coins (gentle) */}
+      <svg viewBox="0 0 300 300" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+        <rect width="300" height="300" fill={PAPER} />
+        {/* desk */}
+        <rect x="20" y="220" width="260" height="8" fill={INK} />
+        <rect x="32" y="228" width="6" height="40" fill={INK} opacity="0.85" />
+        <rect x="262" y="228" width="6" height="40" fill={INK} opacity="0.85" />
+        <ellipse cx="150" cy="278" rx="120" ry="5" fill={INK} opacity="0.08" />
+        {/* coffee mug on desk */}
         <g>
-          <circle cx="160" cy="120" r="8" fill={GOLD} />
-          <text x="160" y="124" textAnchor="middle" fontSize="9" fontWeight="700" fill={NAVY}>$</text>
+          <rect x="46" y="200" width="20" height="18" rx="2" fill={INK} />
+          <ellipse cx="56" cy="200" rx="10" ry="3" fill="#5a3a1a" />
+          <path d="M 66 204 q 6 0 6 6 q 0 6 -6 6" stroke={INK} strokeWidth="2" fill="none" />
+          {/* steam */}
+          <motion.path d="M 50 196 q -2 -6 2 -10 q -2 -6 2 -10" stroke={INK} strokeOpacity="0.35" strokeWidth="1.4" fill="none" strokeLinecap="round"
+            animate={{ y: [0, -3, 0], opacity: [0.5, 0.2, 0.5] }}
+            transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }} />
+          <motion.path d="M 58 192 q -2 -6 2 -10" stroke={INK} strokeOpacity="0.35" strokeWidth="1.4" fill="none" strokeLinecap="round"
+            animate={{ y: [0, -3, 0], opacity: [0.4, 0.15, 0.4] }}
+            transition={{ duration: 2.6, delay: 0.4, repeat: Infinity, ease: "easeInOut" }} />
         </g>
+        {/* Laptop */}
         <g>
-          <circle cx="22" cy="148" r="6" fill={GOLD} opacity="0.7" />
-          <text x="22" y="151" textAnchor="middle" fontSize="7" fontWeight="700" fill={NAVY}>$</text>
+          {/* base */}
+          <path d="M 90 218 L 220 218 L 230 226 L 80 226 Z" fill={INK} />
+          {/* screen body */}
+          <rect x="98" y="120" width="114" height="100" rx="4" fill={INK} />
+          <rect x="103" y="125" width="104" height="84" rx="2" fill={PAPER} />
+          {/* screen content */}
+          <text x="155" y="142" textAnchor="middle" fontSize="7" fontWeight="700" fill={INK} letterSpacing="1.5">BLIP MARKET</text>
+          <line x1="113" y1="148" x2="197" y2="148" stroke={INK} strokeOpacity="0.15" strokeWidth="1" />
+          <text x="155" y="166" textAnchor="middle" fontSize="6" fontWeight="700" fill={INK} opacity="0.55" letterSpacing="1.2">FEES THIS WEEK</text>
+          <motion.text x="155" y="190" textAnchor="middle" fontSize="26" fontFamily="ui-serif, Georgia" fontWeight="800" fill={ACCENT}
+            animate={{ opacity: [1, 0.6, 1] }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}>0%</motion.text>
+          <rect x="133" y="196" width="44" height="10" rx="5" fill={INK} />
+          <text x="155" y="203" textAnchor="middle" fontSize="5" fontWeight="800" fill={PAPER} letterSpacing="1">CLAIMED</text>
         </g>
-        {/* Bottom stat strip */}
-        <rect x="0" y="222" width="200" height="18" fill={NAVY} />
-        <text x="100" y="234" textAnchor="middle" fontSize="9" fontFamily="ui-monospace, monospace" fontWeight="700" fill={GOLD} letterSpacing="1.5">
-          $391 / DAY AVG
-        </text>
-      </svg>
-    );
-  }
-
-  // 02 — Live bid: stylized auction paddles
-  if (kind === "bid") {
-    return (
-      <svg viewBox="0 0 200 240" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
-        <defs>
-          <linearGradient id="sky02" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#1a1f3d" />
-            <stop offset="100%" stopColor="#0b1a2a" />
-          </linearGradient>
-        </defs>
-        <rect x="0" y="0" width="200" height="240" fill="url(#sky02)" />
-        {/* Spotlight */}
-        <ellipse cx="100" cy="120" rx="92" ry="58" fill={GOLD} opacity="0.08" />
-        {/* Five paddles, varying heights */}
-        {[
-          { x: 32, h: 96, price: "$28", d: 0 },
-          { x: 64, h: 80, price: "$30", d: 0.2 },
-          { x: 100, h: 56, price: "$32", winner: true, d: 0.4 },
-          { x: 136, h: 86, price: "$29", d: 0.6 },
-          { x: 168, h: 72, price: "$31", d: 0.8 },
-        ].map((p, i) => (
-          <motion.g
-            key={i}
-            animate={{ y: [0, -4, 0] }}
-            transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut", delay: p.d }}
-          >
-            {/* Stick */}
-            <rect x={p.x - 1.5} y={p.h + 30} width="3" height={180 - (p.h + 30)} fill={MIST} opacity="0.6" />
-            {/* Paddle */}
-            <rect x={p.x - 16} y={p.h} width="32" height="30" rx="3" fill={p.winner ? GOLD : INDIGO} stroke={CREAM} strokeOpacity="0.18" />
-            <text x={p.x} y={p.h + 19} textAnchor="middle" fontSize="11" fontWeight="800" fill={p.winner ? NAVY : CREAM} fontFamily="ui-monospace, monospace">
-              {p.price}
-            </text>
-            {/* Winner halo */}
-            {p.winner && (
-              <ellipse cx={p.x} cy={p.h + 15} rx="22" ry="22" fill="none" stroke={GOLD} strokeOpacity="0.4" strokeWidth="1" />
-            )}
-          </motion.g>
+        {/* Character behind laptop — head + shoulders visible above the screen */}
+        <g>
+          <circle cx="150" cy="80" r="26" fill={SKIN} />
+          {/* hair — wavy */}
+          <path d="M 122 78 Q 120 56 138 50 Q 146 42 158 48 Q 174 50 178 70 Q 180 80 174 80 L 168 76 Q 162 64 154 66 Q 144 66 138 74 Q 132 78 122 78 Z" fill="#3a2618" />
+          <path d="M 122 78 Q 120 88 126 92" stroke="#3a2618" strokeWidth="3" fill="none" strokeLinecap="round" />
+          <circle cx="124" cy="84" r="3" fill={SKIN} />
+          <circle cx="141" cy="82" r="2" fill={INK} />
+          <circle cx="159" cy="82" r="2" fill={INK} />
+          <ellipse cx="138" cy="90" rx="3" ry="1.6" fill="#ff9a8c" opacity="0.5" />
+          <ellipse cx="162" cy="90" rx="3" ry="1.6" fill="#ff9a8c" opacity="0.5" />
+          <path d="M 142 92 Q 150 98 158 92" stroke={INK} strokeWidth="1.4" fill="none" strokeLinecap="round" />
+          <rect x="143" y="104" width="14" height="8" fill={SKIN} />
+          {/* T-shirt visible above laptop (cropped by it) */}
+          <path d="M 116 112 L 184 112 L 192 122 L 108 122 Z" fill="#4a7fb8" />
+        </g>
+        {/* Sparkles around the screen */}
+        {[{x:78,y:140,d:0},{x:230,y:160,d:0.5},{x:236,y:104,d:1}].map((s,i)=>(
+          <motion.circle key={i} cx={s.x} cy={s.y} r="2.5" fill={ACCENT}
+            animate={{ scale: [0.6, 1.4, 0.6], opacity: [0.3, 1, 0.3] }}
+            transition={{ duration: 1.8, delay: s.d, repeat: Infinity, ease: "easeInOut" }} />
         ))}
-        {/* Floor */}
-        <line x1="20" y1="180" x2="180" y2="180" stroke={MIST} strokeOpacity="0.2" />
-        {/* Bottom stat strip */}
-        <rect x="0" y="222" width="200" height="18" fill={NAVY} />
-        <text x="100" y="234" textAnchor="middle" fontSize="9" fontFamily="ui-monospace, monospace" fontWeight="700" fill={GOLD} letterSpacing="1.5">
-          BEST BID — $32.00
-        </text>
-      </svg>
-    );
-  }
-
-  // 03 — Single elegant chart card (Set your spread)
-  if (kind === "chart") {
-    return (
-      <svg viewBox="0 0 200 240" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
-        <rect x="0" y="0" width="200" height="240" fill={NAVY} />
-        {/* Soft glow under chart */}
-        <ellipse cx="100" cy="180" rx="100" ry="34" fill={GOLD} opacity="0.05" />
-        {/* gridlines */}
-        {[60, 90, 120, 150, 180].map((y) => (
-          <line key={y} x1="20" y1={y} x2="180" y2={y} stroke={MIST} strokeOpacity="0.06" />
-        ))}
-        {/* axis */}
-        <line x1="20" y1="190" x2="180" y2="190" stroke={MIST} strokeOpacity="0.15" />
-        {/* Rising line — animated draw */}
-        <motion.polyline
-          points="26,180 50,168 76,152 100,128 126,108 152,86 176,62"
-          stroke={GOLD}
-          strokeWidth="2"
-          fill="none"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          initial={{ pathLength: 0 }}
-          whileInView={{ pathLength: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
-        />
-        {/* Area under */}
-        <polygon points="26,180 50,168 76,152 100,128 126,108 152,86 176,62 176,190 26,190" fill={GOLD} fillOpacity="0.1" />
-        {/* Dots */}
-        {[[26,180],[50,168],[76,152],[100,128],[126,108],[152,86],[176,62]].map(([x,y],i)=>(
-          <circle key={i} cx={x} cy={y} r={i===6?3.5:2} fill={i===6 ? GOLD : CREAM} />
-        ))}
-        {/* +18% chip in classy outline — pulse */}
-        <motion.g
-          animate={{ opacity: [1, 0.55, 1] }}
-          transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <rect x="124" y="70" width="46" height="16" rx="8" fill={NAVY} stroke={GOLD} />
-          <text x="147" y="81" textAnchor="middle" fontSize="9" fontFamily="ui-monospace, monospace" fontWeight="700" fill={GOLD}>+18%</text>
+        {/* "FREE" tag floating */}
+        <motion.g animate={{ y: [0, -6, 0], rotate: [-3, 3, -3] }} transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut" }}>
+          <path d="M 220 50 L 244 50 L 256 62 L 256 96 L 220 96 Z" fill={ACCENT} />
+          <circle cx="235" cy="62" r="3" fill={PAPER} />
+          <text x="238" y="82" textAnchor="middle" fontSize="11" fontWeight="800" fill={INK} fontFamily="ui-serif, Georgia">FREE</text>
         </motion.g>
-        {/* Bottom stat strip */}
-        <rect x="0" y="222" width="200" height="18" fill={INDIGO} />
-        <text x="100" y="234" textAnchor="middle" fontSize="9" fontFamily="ui-monospace, monospace" fontWeight="700" fill={GOLD} letterSpacing="1.5">
-          SPREAD CAPTURED — 3%
-        </text>
       </svg>
     );
   }
 
-  // 04 — Elegant stopwatch (Settle in seconds)
+  /* 02 — Cozy home scene receiving cash through window (no character) */
   if (kind === "chain") {
+    const ACCENT = "#6ee0c5";
     return (
-      <svg viewBox="0 0 200 240" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
-        <rect x="0" y="0" width="200" height="240" fill={NAVY} />
-        {/* Stopwatch ring */}
-        <circle cx="100" cy="110" r="52" fill={INDIGO} stroke={CREAM} strokeOpacity="0.18" />
-        <circle cx="100" cy="110" r="52" fill="none" stroke={GOLD} strokeWidth="1.5" strokeDasharray="60 200" strokeDashoffset="-30" transform="rotate(-90 100 110)" />
-        {/* Tick marks */}
-        {Array.from({ length: 12 }).map((_, i) => {
-          const angle = (i * 30 - 90) * (Math.PI / 180);
-          const x1 = 100 + Math.cos(angle) * 46;
-          const y1 = 110 + Math.sin(angle) * 46;
-          const x2 = 100 + Math.cos(angle) * 50;
-          const y2 = 110 + Math.sin(angle) * 50;
-          return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke={CREAM} strokeOpacity={i%3===0?0.7:0.3} strokeWidth={i%3===0?1.5:1} />;
-        })}
-        {/* Hand — rotating slowly */}
+      <svg viewBox="0 0 300 300" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+        <rect width="300" height="300" fill={PAPER} />
+        <rect y="245" width="300" height="55" fill={INK} opacity="0.06" />
+        {/* tree */}
+        <rect x="244" y="180" width="6" height="68" fill="#2a1810" />
+        <g>
+          <circle cx="247" cy="174" r="22" fill={INK} />
+          <circle cx="235" cy="180" r="14" fill={INK} />
+          <circle cx="260" cy="178" r="14" fill={INK} />
+        </g>
+        {/* fence */}
+        <g opacity="0.15" stroke={INK} strokeWidth="1.5" fill="none">
+          <line x1="20" y1="244" x2="20" y2="220" />
+          <line x1="34" y1="244" x2="34" y2="220" />
+          <line x1="48" y1="244" x2="48" y2="220" />
+          <line x1="62" y1="244" x2="62" y2="220" />
+          <line x1="20" y1="226" x2="62" y2="226" />
+        </g>
+        {/* house */}
+        <g>
+          <rect x="92" y="138" width="146" height="110" fill={INK} />
+          <path d="M 78 138 L 165 78 L 252 138 Z" fill={INK} />
+          <rect x="206" y="84" width="18" height="34" fill={INK} />
+          {[
+            { x: 215, y: 76, r: 5, d: 0 },
+            { x: 220, y: 60, r: 4, d: 0.5 },
+            { x: 213, y: 46, r: 3.5, d: 1.0 },
+          ].map((s, i) => (
+            <motion.circle key={i} cx={s.x} cy={s.y} r={s.r} fill={INK} opacity="0.25"
+              animate={{ y: [0, -10, 0], opacity: [0.25, 0.05, 0.25] }}
+              transition={{ duration: 4, delay: s.d, repeat: Infinity, ease: "easeInOut" }} />
+          ))}
+          <rect x="148" y="190" width="34" height="58" fill={ACCENT} />
+          <circle cx="174" cy="220" r="1.5" fill={INK} />
+          <rect x="106" y="166" width="34" height="34" fill={PAPER} stroke={INK} strokeWidth="2" />
+          <line x1="123" y1="166" x2="123" y2="200" stroke={INK} strokeWidth="1.2" />
+          <line x1="106" y1="183" x2="140" y2="183" stroke={INK} strokeWidth="1.2" />
+          <rect x="108" y="168" width="30" height="30" fill={ACCENT} opacity="0.25" />
+          <rect x="196" y="166" width="34" height="34" fill={PAPER} stroke={INK} strokeWidth="2" />
+          <line x1="213" y1="166" x2="213" y2="200" stroke={INK} strokeWidth="1.2" />
+          <line x1="196" y1="183" x2="230" y2="183" stroke={INK} strokeWidth="1.2" />
+          <rect x="198" y="168" width="30" height="30" fill={ACCENT} opacity="0.25" />
+          <rect x="210" y="194" width="14" height="6" fill={ACCENT} />
+          <circle cx="217" cy="190" r="3.5" fill={INK} />
+        </g>
+        {/* mailbox */}
+        <g>
+          <rect x="46" y="218" width="3" height="30" fill={INK} />
+          <rect x="38" y="206" width="20" height="14" rx="2" fill={INK} />
+          <rect x="56" y="208" width="3" height="10" fill={ACCENT} />
+        </g>
+        {/* Flying cash IN to window */}
         <motion.g
-          animate={{ rotate: 360 }}
-          transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-          style={{ transformOrigin: "100px 110px" }}
-        >
-          <line x1="100" y1="110" x2="100" y2="68" stroke={GOLD} strokeWidth="2" strokeLinecap="round" />
+          animate={{ x: [-180, -8], y: [-30, 0], opacity: [0, 1, 1, 0.8] }}
+          transition={{ duration: 3.4, repeat: Infinity, ease: "easeInOut" }}>
+          <rect x="240" y="170" width="32" height="20" rx="3" fill={ACCENT} stroke={INK} strokeWidth="1.5" />
+          <circle cx="256" cy="180" r="5" fill={INK} />
+          <text x="256" y="183" textAnchor="middle" fontSize="6" fontWeight="800" fill={ACCENT}>$</text>
         </motion.g>
-        <circle cx="100" cy="110" r="3" fill={GOLD} />
-        {/* Center number */}
-        <text x="100" y="138" textAnchor="middle" fontSize="22" fontWeight="700" fill={CREAM} fontFamily="ui-serif, Georgia">92s</text>
-        <text x="100" y="150" textAnchor="middle" fontSize="6" fontWeight="600" fill={MIST} letterSpacing="2">AVG SETTLEMENT</text>
-        {/* Crown / stem */}
-        <rect x="96" y="50" width="8" height="6" rx="1" fill={GOLD} />
-        {/* Bottom stat strip */}
-        <rect x="0" y="222" width="200" height="18" fill={INDIGO} />
-        <text x="100" y="234" textAnchor="middle" fontSize="9" fontFamily="ui-monospace, monospace" fontWeight="700" fill={GOLD} letterSpacing="1.5">
-          FASTER THAN YOUR BANK
-        </text>
+        <motion.g
+          animate={{ x: [-200, -20], y: [-10, 0], opacity: [0, 1, 1, 0.6] }}
+          transition={{ duration: 3.8, delay: 1, repeat: Infinity, ease: "easeInOut" }}>
+          <rect x="252" y="184" width="28" height="16" rx="2" fill={ACCENT} opacity="0.85" stroke={INK} strokeWidth="1.2" />
+        </motion.g>
+        {/* path dots */}
+        <g opacity="0.15">
+          <circle cx="170" cy="262" r="2" fill={INK} />
+          <circle cx="178" cy="258" r="2" fill={INK} />
+          <circle cx="172" cy="254" r="2" fill={INK} />
+        </g>
+        {/* sun */}
+        <circle cx="44" cy="44" r="14" fill={ACCENT} />
+        <motion.circle cx="44" cy="44" r="14" fill="none" stroke={ACCENT} strokeOpacity="0.4"
+          animate={{ r: [14, 22, 14], opacity: [0.5, 0, 0.5] }}
+          transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }} />
       </svg>
     );
   }
 
-  // 05 — Classy globe with merchant pins
-  if (kind === "globe") {
+  /* 03 — Two friends walking together */
+  if (kind === "payout") {
+    const ACCENT = "#ffd45a";
     return (
-      <svg viewBox="0 0 200 240" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
-        <rect x="0" y="0" width="200" height="240" fill={NAVY} />
-        {/* Stars */}
-        {[{x:25,y:30},{x:60,y:50},{x:160,y:30},{x:175,y:80},{x:30,y:170}].map((s,i)=>(
-          <circle key={i} cx={s.x} cy={s.y} r="1.3" fill={CREAM} opacity="0.6" />
-        ))}
-        {/* Globe */}
-        <circle cx="100" cy="118" r="56" fill={INDIGO} />
-        <circle cx="100" cy="118" r="56" fill="none" stroke={GOLD} strokeOpacity="0.35" strokeWidth="1.2" />
-        {/* Latitude */}
-        <ellipse cx="100" cy="118" rx="56" ry="16" fill="none" stroke={MIST} strokeOpacity="0.3" />
-        <ellipse cx="100" cy="118" rx="56" ry="30" fill="none" stroke={MIST} strokeOpacity="0.22" />
-        {/* Longitude */}
-        <ellipse cx="100" cy="118" rx="32" ry="56" fill="none" stroke={MIST} strokeOpacity="0.25" />
-        <ellipse cx="100" cy="118" rx="16" ry="56" fill="none" stroke={MIST} strokeOpacity="0.18" />
-        {/* Continents — subtle gold, very slow drift */}
-        <motion.g
-          animate={{ x: [0, 6, 0] }}
-          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <path d="M 70 92 q 8 -6 18 -2 q 6 8 -2 14 q -14 4 -16 -12 z" fill={GOLD} opacity="0.45" />
-          <path d="M 112 110 q 14 -2 22 6 q 4 12 -10 16 q -16 -2 -12 -22 z" fill={GOLD} opacity="0.45" />
-          <path d="M 88 140 q 10 0 18 6 q -4 10 -16 8 q -10 -4 -2 -14 z" fill={GOLD} opacity="0.4" />
-        </motion.g>
-        {/* Merchant pins */}
+      <svg viewBox="0 0 300 300" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+        <rect width="300" height="300" fill={PAPER} />
+        <line x1="0" y1="270" x2="300" y2="270" stroke={INK} strokeOpacity="0.08" />
+        {/* park bench */}
+        <g opacity="0.18">
+          <rect x="14" y="218" width="50" height="3" fill={INK} />
+          <rect x="14" y="222" width="50" height="3" fill={INK} />
+          <rect x="16" y="225" width="3" height="20" fill={INK} />
+          <rect x="59" y="225" width="3" height="20" fill={INK} />
+        </g>
+        {/* lamppost */}
+        <g opacity="0.22">
+          <rect x="252" y="180" width="2.5" height="70" fill={INK} />
+          <circle cx="253" cy="174" r="6" fill={INK} />
+          <motion.circle cx="253" cy="174" r="10" fill={ACCENT} opacity="0.55"
+            animate={{ opacity: [0.4, 0.7, 0.4] }}
+            transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }} />
+        </g>
+        <path d="M 30 268 Q 150 230 270 268" stroke={INK} strokeOpacity="0.18" strokeWidth="1.5" strokeDasharray="3 5" fill="none" />
         {[
-          { x: 78, y: 96 },
-          { x: 124, y: 112 },
-          { x: 108, y: 148 },
+          { x: 96, hair: "#3a2618", skin: SKIN, shirt: "#e85d4a", shorts: "#2a3a52", d: 0, hairStyle: "wave" },
+          { x: 204, hair: "#5a3a1a", skin: SKIN2, shirt: "#4a7fb8", shorts: "#3a2a1a", d: 0.4, hairStyle: "bun" },
         ].map((p, i) => (
-          <g key={i}>
-            <circle cx={p.x} cy={p.y} r="3" fill={GOLD} />
-            <circle cx={p.x} cy={p.y} r="6" fill="none" stroke={GOLD} strokeOpacity="0.4" />
+          <g key={i} transform={`translate(${p.x}, 0)`}>
+            {/* head */}
+            <circle cx="0" cy="78" r="22" fill={p.skin} />
+            {/* hair styles */}
+            {p.hairStyle === "wave" ? (
+              <>
+                <path d="M -22 76 Q -24 56 -8 50 Q 0 44 10 50 Q 22 52 22 70 Q 22 78 18 78 L 14 74 Q 8 64 0 66 Q -10 66 -16 72 Q -20 76 -22 76 Z" fill={p.hair} />
+                <path d="M -22 76 Q -22 86 -18 90" stroke={p.hair} strokeWidth="2.5" fill="none" strokeLinecap="round" />
+              </>
+            ) : (
+              <>
+                <ellipse cx="0" cy="64" rx="22" ry="14" fill={p.hair} />
+                <circle cx="0" cy="58" r="7" fill={p.hair} />
+              </>
+            )}
+            {/* ears */}
+            <circle cx="-22" cy="86" r="2.5" fill={p.skin} />
+            <circle cx="22" cy="86" r="2.5" fill={p.skin} />
+            {/* eyes */}
+            <circle cx="-7" cy="80" r="1.8" fill={INK} />
+            <circle cx="7" cy="80" r="1.8" fill={INK} />
+            {/* blush */}
+            <ellipse cx="-12" cy="88" rx="2.5" ry="1.3" fill="#ff9a8c" opacity="0.5" />
+            <ellipse cx="12" cy="88" rx="2.5" ry="1.3" fill="#ff9a8c" opacity="0.5" />
+            {/* smile */}
+            <path d="M -5 89 Q 0 93 5 89" stroke={INK} strokeWidth="1.2" fill="none" strokeLinecap="round" />
+            {/* neck */}
+            <rect x="-5" y="98" width="10" height="6" fill={p.skin} />
+            {/* t-shirt */}
+            <path d="M -22 110 Q -22 104 -16 104 L 16 104 Q 22 104 22 110 L 28 148 L 22 152 L 22 184 L -22 184 L -22 152 L -28 148 Z" fill={p.shirt} />
+            {/* collar */}
+            <path d="M -7 104 Q 0 110 7 104" stroke="rgba(0,0,0,0.25)" strokeWidth="1" fill="none" />
+            {/* shorts */}
+            <path d="M -22 184 L 22 184 L 24 216 L 4 216 L 2 200 L -2 200 L -4 216 L -24 216 Z" fill={p.shorts} />
+            {/* arms — shoulder sleeve (shirt) + forearm (skin) */}
+            <motion.g
+              animate={{ rotate: [12, -12, 12] }}
+              transition={{ duration: 1.1, repeat: Infinity, ease: "easeInOut", delay: p.d }}
+              style={{ transformOrigin: "-27px 120px" }}>
+              <rect x="-32" y="116" width="10" height="22" rx="5" fill={p.shirt} />
+              <rect x="-32" y="136" width="10" height="22" rx="5" fill={p.skin} />
+              <circle cx="-27" cy="160" r="5" fill={p.skin} />
+            </motion.g>
+            <motion.g
+              animate={{ rotate: [-12, 12, -12] }}
+              transition={{ duration: 1.1, repeat: Infinity, ease: "easeInOut", delay: p.d }}
+              style={{ transformOrigin: "27px 120px" }}>
+              <rect x="22" y="116" width="10" height="22" rx="5" fill={p.shirt} />
+              <rect x="22" y="136" width="10" height="22" rx="5" fill={p.skin} />
+              <circle cx="27" cy="160" r="5" fill={p.skin} />
+            </motion.g>
+            {/* legs — skin (shorts) + shoes, animated walk */}
+            <motion.g animate={{ rotate: [-15, 15, -15] }}
+              transition={{ duration: 1.1, repeat: Infinity, ease: "easeInOut", delay: p.d }}
+              style={{ transformOrigin: "-8px 216px" }}>
+              <rect x="-14" y="216" width="12" height="48" rx="3" fill={p.skin} />
+              <ellipse cx="-8" cy="268" rx="11" ry="5" fill={SHOE} />
+            </motion.g>
+            <motion.g animate={{ rotate: [15, -15, 15] }}
+              transition={{ duration: 1.1, repeat: Infinity, ease: "easeInOut", delay: p.d }}
+              style={{ transformOrigin: "8px 216px" }}>
+              <rect x="2" y="216" width="12" height="48" rx="3" fill={p.skin} />
+              <ellipse cx="8" cy="268" rx="11" ry="5" fill={SHOE} />
+            </motion.g>
           </g>
         ))}
-        {/* Connecting arc */}
-        <path d="M 78 96 Q 100 70 124 112" stroke={GOLD} strokeOpacity="0.35" strokeWidth="1" strokeDasharray="2 3" fill="none" />
-        {/* Bottom stat strip */}
-        <rect x="0" y="222" width="200" height="18" fill={INDIGO} />
-        <text x="100" y="234" textAnchor="middle" fontSize="9" fontFamily="ui-monospace, monospace" fontWeight="700" fill={GOLD} letterSpacing="1.5">
-          47 COUNTRIES · LIVE
-        </text>
+        {/* chat bubble */}
+        <motion.g animate={{ y: [0, -2, 0] }} transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}>
+          <rect x="42" y="20" width="48" height="22" rx="11" fill={INK} />
+          <path d="M 76 42 L 80 50 L 84 42 Z" fill={INK} />
+          <text x="66" y="35" textAnchor="middle" fontSize="9" fontWeight="700" fill={PAPER}>+$20</text>
+        </motion.g>
+        {/* coin */}
+        <motion.g animate={{ y: [0, -8, 0] }} transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}>
+          <circle cx="150" cy="116" r="18" fill={ACCENT} stroke={INK} strokeWidth="2" />
+          <text x="150" y="124" textAnchor="middle" fontSize="18" fontWeight="800" fill={INK} fontFamily="ui-serif, Georgia">$</text>
+        </motion.g>
       </svg>
     );
   }
 
-  // 06 — Phone receiving instant payout (refined)
-  if (kind === "payout") {
+  /* 04 — Rocket launch with +15% trail (no character) */
+  if (kind === "bid") {
+    const ACCENT = "#9ad1ff";
     return (
-      <svg viewBox="0 0 200 240" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
-        <rect x="0" y="0" width="200" height="240" fill={NAVY} />
-        {/* Soft halo */}
-        <ellipse cx="100" cy="120" rx="80" ry="86" fill={GOLD} opacity="0.05" />
-        {/* Phone */}
-        <rect x="62" y="48" width="76" height="140" rx="12" fill={INDIGO} stroke={CREAM} strokeOpacity="0.18" />
-        <rect x="66" y="54" width="68" height="128" rx="8" fill={CREAM} />
-        {/* Notch */}
-        <rect x="92" y="56" width="16" height="3" rx="1.5" fill={INDIGO} />
-        {/* Status label */}
-        <text x="100" y="90" textAnchor="middle" fontSize="6.5" fontWeight="700" fill={MIST} letterSpacing="2">CASHED OUT</text>
-        {/* Big number */}
-        <text x="100" y="120" textAnchor="middle" fontSize="20" fontFamily="ui-serif, Georgia" fontWeight="700" fill={NAVY}>$1,247</text>
-        <text x="100" y="130" textAnchor="middle" fontSize="6.5" fontFamily="ui-monospace, monospace" fontWeight="600" fill={MIST} letterSpacing="1.5">USDT</text>
-        {/* Status row */}
-        <rect x="76" y="142" width="48" height="14" rx="7" fill={GOLD} />
-        <text x="100" y="152" textAnchor="middle" fontSize="7" fontWeight="800" fill={NAVY} letterSpacing="1.5">INSTANT</text>
-        {/* Sparkle dots around phone — twinkle */}
+      <svg viewBox="0 0 300 300" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+        <rect width="300" height="300" fill={INK} />
         {[
-          { cx: 34, cy: 120, r: 2, d: 0 },
-          { cx: 170, cy: 100, r: 1.8, d: 0.4 },
-          { cx: 172, cy: 160, r: 1.5, d: 0.8 },
-          { cx: 28, cy: 170, r: 1.4, d: 1.2 },
-        ].map((s, i) => (
-          <motion.circle
-            key={i}
-            cx={s.cx}
-            cy={s.cy}
-            r={s.r}
-            fill={GOLD}
-            animate={{ opacity: [0.3, 1, 0.3], scale: [0.7, 1.2, 0.7] }}
-            transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut", delay: s.d }}
-          />
+          {x:30,y:40},{x:70,y:24},{x:120,y:50},{x:180,y:30},{x:240,y:50},{x:280,y:22},
+          {x:50,y:130},{x:260,y:140},{x:20,y:200},{x:280,y:220},
+        ].map((s,i)=>(
+          <motion.circle key={i} cx={s.x} cy={s.y} r="1.4" fill={PAPER}
+            animate={{ opacity: [0.4, 1, 0.4] }}
+            transition={{ duration: 2.2, delay: i * 0.2, repeat: Infinity, ease: "easeInOut" }} />
         ))}
-        {/* Bottom stat strip */}
-        <rect x="0" y="222" width="200" height="18" fill={INDIGO} />
-        <text x="100" y="234" textAnchor="middle" fontSize="9" fontFamily="ui-monospace, monospace" fontWeight="700" fill={GOLD} letterSpacing="1.5">
-          PAID IN UNDER 60s
-        </text>
+        <ellipse cx="150" cy="298" rx="200" ry="40" fill={PAPER} opacity="0.06" />
+        <line x1="0" y1="270" x2="300" y2="270" stroke={PAPER} strokeOpacity="0.1" />
+        {/* growth chart */}
+        <g>
+          <polyline points="34,250 60,232 86,210 112,188 138,168" stroke={ACCENT} strokeWidth="2" fill="none" strokeLinecap="round" strokeOpacity="0.7" />
+          {[[34,250],[60,232],[86,210],[112,188],[138,168]].map(([x,y],i)=>(
+            <circle key={i} cx={x} cy={y} r="2" fill={ACCENT} opacity="0.85" />
+          ))}
+        </g>
+        {/* Rocket */}
+        <motion.g
+          animate={{ y: [0, -8, 0] }}
+          transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}>
+          <path d="M 150 60 L 168 110 L 168 200 L 132 200 L 132 110 Z" fill={PAPER} />
+          <circle cx="150" cy="130" r="10" fill={ACCENT} />
+          <circle cx="150" cy="130" r="10" fill="none" stroke={INK} strokeWidth="1.5" />
+          <circle cx="147" cy="127" r="3" fill={PAPER} opacity="0.55" />
+          <path d="M 132 180 L 116 220 L 132 210 Z" fill={ACCENT} />
+          <path d="M 168 180 L 184 220 L 168 210 Z" fill={ACCENT} />
+          <rect x="143" y="160" width="14" height="3" fill={INK} />
+          <rect x="143" y="170" width="14" height="3" fill={INK} />
+        </motion.g>
+        {/* Flame */}
+        <motion.g
+          animate={{ scaleY: [1, 1.2, 0.9, 1.15, 1] }}
+          transition={{ duration: 0.6, repeat: Infinity, ease: "easeInOut" }}
+          style={{ transformOrigin: "150px 200px" }}>
+          <path d="M 138 200 L 150 250 L 162 200 Z" fill={ACCENT} />
+          <path d="M 144 200 L 150 234 L 156 200 Z" fill={PAPER} />
+        </motion.g>
+        {/* Smoke */}
+        {[
+          { x: 130, y: 240, r: 8, d: 0 },
+          { x: 170, y: 244, r: 7, d: 0.3 },
+          { x: 110, y: 256, r: 6, d: 0.6 },
+          { x: 190, y: 258, r: 6, d: 0.9 },
+        ].map((c, i) => (
+          <motion.circle key={i} cx={c.x} cy={c.y} r={c.r} fill={PAPER} opacity="0.18"
+            animate={{ y: [0, 14, 0], opacity: [0.18, 0.05, 0.18], scale: [1, 1.4, 1] }}
+            transition={{ duration: 2.4, delay: c.d, repeat: Infinity, ease: "easeInOut" }} />
+        ))}
+        {/* +15% pill */}
+        <motion.g
+          animate={{ opacity: [1, 0.55, 1], scale: [1, 1.06, 1] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          style={{ transformOrigin: "236px 100px" }}>
+          <rect x="208" y="86" width="56" height="22" rx="11" fill={ACCENT} />
+          <text x="236" y="100" textAnchor="middle" fontSize="12" fontWeight="800" fill={INK} fontFamily="ui-serif, Georgia">+15%</text>
+        </motion.g>
+        <path d="M 150 60 Q 150 30 240 100" stroke={ACCENT} strokeOpacity="0.4" strokeWidth="1.5" strokeDasharray="3 4" fill="none" />
       </svg>
     );
   }
