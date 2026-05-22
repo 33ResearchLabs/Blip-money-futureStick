@@ -1,5 +1,9 @@
 import { memo, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import {
+  MerchantDashboardBody,
+  useMerchantDashboardState,
+} from "./LiveMerchantDashboard";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -13,15 +17,18 @@ const EASE = [0.16, 1, 0.3, 1] as const;
    - Single cinematic moment, no repetition
    ============================================ */
 
+// Stat pills sit OUTSIDE the dashboard frame so they don't overlap the live UI.
+// Strong negative offsets push them onto the section background at the corners.
 const stats = [
-  { label: "Settlement", value: "<1s", position: "top-4 left-4 md:top-8 md:-left-4" },
-  { label: "Uptime", value: "99.9%", position: "top-4 right-4 md:top-12 md:-right-6" },
-  { label: "Countries", value: "150+", position: "bottom-16 left-4 md:bottom-20 md:-left-2" },
-  { label: "Protocol Fee", value: "0%", position: "bottom-16 right-4 md:bottom-16 md:-right-4" },
+  { label: "Settlement", value: "<1s", position: "-top-5 -left-3 md:-top-6 md:-left-16" },
+  { label: "Uptime", value: "99.9%", position: "-top-5 -right-3 md:-top-6 md:-right-16" },
+  { label: "Countries", value: "150+", position: "-bottom-5 -left-3 md:-bottom-6 md:-left-16" },
+  { label: "Protocol Fee", value: "0%", position: "-bottom-5 -right-3 md:-bottom-6 md:-right-16" },
 ];
 
 const ProductPreview = () => {
   const sectionRef = useRef<HTMLElement>(null);
+  const dashboardState = useMerchantDashboardState();
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"],
@@ -199,49 +206,10 @@ const ProductPreview = () => {
                 </div>
               </div>
 
-              {/* Dashboard */}
-              <div className="relative">
-                <motion.img
-                  src="/images/merchant-dashboard.webp"
-                  alt="Blip Merchant Dashboard"
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-auto block"
-                  style={{ willChange: "transform" }}
-                  animate={{ scale: [1, 1.012, 1] }}
-                  transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-                />
-
-                {/* Bottom fade to black */}
-                <div
-                  className="absolute bottom-0 left-0 right-0 pointer-events-none"
-                  style={{
-                    height: "35%",
-                    background:
-                      "linear-gradient(to top, #0a0a0a 0%, transparent 100%)",
-                  }}
-                />
+              {/* Live merchant dashboard — replaces the static screenshot. */}
+              <div className="relative bg-black">
+                <MerchantDashboardBody state={dashboardState} />
               </div>
-            </div>
-
-            {/* Reflection underneath — desktop only */}
-            <div
-              className="mx-auto mt-0 overflow-hidden pointer-events-none hidden md:block"
-              style={{
-                maxWidth: "85%",
-                height: 80,
-                opacity: 0.15,
-                transform: "scaleY(-1)",
-                maskImage: "linear-gradient(to bottom, white 0%, transparent 100%)",
-                WebkitMaskImage: "linear-gradient(to bottom, white 0%, transparent 100%)",
-              }}
-            >
-              <img
-                src="/images/merchant-dashboard.webp"
-                alt=""
-                className="w-full h-auto block"
-                aria-hidden="true"
-              />
             </div>
 
             {/* Mobile stat row */}
