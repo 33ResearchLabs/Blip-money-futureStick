@@ -48,12 +48,13 @@ export const MerchantLogin = ({ initialView: _initialView }: AirdropLoginProps =
       <HreflangTags path="/waitlist" />
 
       <div className="min-h-screen bg-[#FAF8F5] dark:bg-black text-black dark:text-white overflow-hidden">
-        <main className="relative z-10 max-w-7xl mx-auto px-6 pt-20 pb-24">
+        <main className="relative z-10 max-w-7xl mx-auto px-6 pt-6 pb-24">
           {!isAuthenticated && (
             <AuthPageLayout
-              badge="Merchant Portal"
-              heading="Merchant Sign In"
-              description="Access your merchant dashboard and manage your business"
+              badge="Join the future of global payments"
+            heading="Join the merchant waitlist."
+            headingAccent="Be the first to accept money without limits."
+            description="Access your merchant dashboard and manage your business"
               variant="merchant"
               bottomContent={
                 <div className="mt-16 w-full max-w-5xl mx-auto">

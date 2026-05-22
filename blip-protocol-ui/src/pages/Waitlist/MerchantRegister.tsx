@@ -47,29 +47,42 @@ export default function MerchantRegister() {
       />
       <HreflangTags path="/merchant-register" />
 
-      <div className="bg-[#FAF8F5] dark:bg-black text-black dark:text-white overflow-hidden">
+      <div className="relative bg-[#FAF8F5] dark:bg-black text-black dark:text-white overflow-hidden">
+        {/* Ambient peach glow — premium fintech vibe */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-0 dark:opacity-100"
+          style={{
+            background:
+              "radial-gradient(900px circle at 15% 0%, rgba(244,200,168,0.10), transparent 50%), radial-gradient(700px circle at 90% 100%, rgba(244,200,168,0.06), transparent 50%)",
+          }}
+        />
+
         <main className="relative z-10 max-w-7xl mx-auto px-6 pt-14 pb-24">
           <AuthPageLayout
-            badge="Merchant Registration"
-            heading="Join Merchant Waitlist"
-            description="Join the Blip P2P merchant network before public launch."
+            badge="Join the future of global payments"
+            heading="Join the merchant waitlist."
+            headingAccent="Be the first to accept money without limits."
+            description="Blip is coming soon. Join the merchant waitlist and get early access plus exclusive benefits."
             variant="merchant"
             bottomContent={
               <div className="mt-16 w-full max-w-5xl mx-auto">
-                <p className="text-center text-xs tracking-widest text-black/40 dark:text-white/50 mb-8">
+                <p className="text-center text-[11px] font-semibold tracking-[0.25em] text-black/50 dark:text-white/60 mb-8">
                   WHAT MERCHANTS GET
                 </p>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                   {merchantFeatures.map((item, i) => (
                     <div
                       key={i}
-                      className="p-6 border border-black/10 dark:border-white/10 rounded-xl hover:border-black/20 dark:hover:border-white/20 transition"
+                      className="group p-6 border border-black/10 dark:border-white/[0.08] rounded-2xl bg-black/[0.01] dark:bg-white/[0.02] hover:border-[#f4c8a8]/40 dark:hover:border-[#f4c8a8]/30 hover:bg-black/[0.02] dark:hover:bg-white/[0.03] transition-all duration-300"
                     >
-                      <item.icon className="w-5 h-5 text-black/60 dark:text-white/50 mb-4" />
+                      <div className="w-10 h-10 rounded-xl bg-[#f4c8a8]/10 border border-[#f4c8a8]/20 flex items-center justify-center mb-4">
+                        <item.icon className="w-4 h-4 text-[#f4c8a8]" strokeWidth={2} />
+                      </div>
                       <h3 className="text-sm font-semibold text-black dark:text-white mb-2">
                         {item.title}
                       </h3>
-                      <p className="text-xs text-black/50 dark:text-white/50 leading-relaxed">
+                      <p className="text-xs text-black/55 dark:text-white/60 leading-relaxed">
                         {item.desc}
                       </p>
                     </div>

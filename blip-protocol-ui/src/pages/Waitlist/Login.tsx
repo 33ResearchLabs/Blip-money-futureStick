@@ -432,18 +432,36 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
       <div className="w-full max-w-lg">
         {/* Header - hidden when inside merchant wrapper which provides its own */}
 
+        {/* Sign up / Sign in tab toggle */}
+        <div className="mb-5 grid grid-cols-2 p-1 rounded-2xl border border-black/10 dark:border-white/[0.08] bg-black/[0.02] dark:bg-white/[0.03] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+          
+          <button
+            type="button"
+            aria-current="page"
+            className="py-3 rounded-xl text-[13px] font-semibold text-black dark:text-white bg-white dark:bg-white/[0.06] shadow-[0_2px_8px_rgba(0,0,0,0.08)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_4px_12px_rgba(0,0,0,0.4)]"
+          >
+            Sign in
+          </button>
+          <Link
+            to={registerPath}
+            className="py-3 rounded-xl text-[13px] font-semibold text-black/45 dark:text-white/45 hover:text-black/70 dark:hover:text-white/70 text-center transition-colors duration-200"
+          >
+            Sign up
+          </Link>
+        </div>
+
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Email */}
           <div>
-            <label
+            {/* <label
               htmlFor="email"
               className="block text-[13px] font-medium text-black/70 dark:text-white/70 mb-2"
             >
               Email Address
-            </label>
+            </label> */}
             <div className="relative">
-              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-black/30 dark:text-white/30" />
+              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-black/30 dark:text-white/70" />
               <input
                 type="email"
                 id="email"
@@ -455,7 +473,7 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
                   errors.email
                     ? "border-red-500/50 ring-2 ring-red-500/10"
                     : "border-black/10 dark:border-white/10"
-                } rounded-xl text-black dark:text-white placeholder:text-black/30 dark:placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-transparent transition-all duration-200`}
+                } rounded-xl text-black dark:text-white placeholder:text-black/30 dark:placeholder:text-white/70 focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-transparent transition-all duration-200`}
                 placeholder="you@example.com"
                 disabled={isLoading}
                 autoFocus
@@ -470,26 +488,26 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
 
           {/* Password */}
           <div>
-            <div className="flex items-center justify-between mb-2">
-              <label
+            <div className="flex items-center justify-end mb-2">
+              {/* <label
                 htmlFor="password"
                 className="block text-[13px] font-medium text-black/70 dark:text-white/70"
               >
                 Password
-              </label>
+              </label> */}
               <Link
                 to={
                   isMerchant
                     ? "/forgot-password?role=merchant"
                     : "/forgot-password"
                 }
-                className="text-xs text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white transition-colors duration-200"
+                className="text-xs text-black/40 dark:text-white/70 hover:text-black/60 dark:hover:text-white transition-colors duration-200"
               >
                 Forgot password?
               </Link>
             </div>
             <div className="relative">
-              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-black/30 dark:text-white/30" />
+              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-black/30 dark:text-white/70" />
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
@@ -501,7 +519,7 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
                   errors.password
                     ? "border-red-500/50 ring-2 ring-red-500/10"
                     : "border-black/10 dark:border-white/10"
-                } rounded-xl text-black dark:text-white placeholder:text-black/30 dark:placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-transparent transition-all duration-200`}
+                } rounded-xl text-black dark:text-white placeholder:text-black/30 dark:placeholder:text-white/70 focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-transparent transition-all duration-200`}
                 placeholder="Enter your password"
                 maxLength={50}
                 disabled={isLoading}
@@ -509,7 +527,7 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-black/30 dark:text-white/30 hover:text-black/60 dark:hover:text-white/60 transition-colors duration-200"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-black/30 dark:text-white/70 hover:text-black/60 dark:hover:text-white transition-colors duration-200"
               >
                 {showPassword ? (
                   <EyeOff className="w-[18px] h-[18px]" />
@@ -530,7 +548,7 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3.5 bg-white text-black border border-black/10 font-semibold rounded-xl transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
+              className="w-full py-3.5 bg-white text-black font-semibold text-[15px] border border-black/10  rounded-xl transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
             >
               {isLoading ? (
                 <>

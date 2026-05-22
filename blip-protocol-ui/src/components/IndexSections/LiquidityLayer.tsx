@@ -78,10 +78,10 @@ const LiquidityLayer = () => {
               border: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.06)",
               boxShadow: isDark ? "none" : "0 2px 16px rgba(0,0,0,0.04)",
             }}>
-              <div style={{ fontSize: 9, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)", marginBottom: 8 }}>
+              <div style={{ fontSize: 9, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.7)", marginBottom: 8 }}>
                 {s.label}
               </div>
-              <div className="font-mono" style={{ fontSize: 14, fontWeight: 500, color: isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.25)", textDecoration: "line-through", marginBottom: 4 }}>
+              <div className="font-mono" style={{ fontSize: 14, fontWeight: 500, color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)", textDecoration: "line-through", marginBottom: 4 }}>
                 {s.old}
               </div>
               <div className="font-mono" style={{ fontSize: 24, fontWeight: 700, color: isDark ? "#fff" : "#1d1d1f", letterSpacing: "-0.03em" }}>

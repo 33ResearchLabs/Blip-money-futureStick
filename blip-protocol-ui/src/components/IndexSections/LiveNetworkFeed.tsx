@@ -152,7 +152,7 @@ const LiveNetworkFeed = () => {
           className="text-center mt-12"
         >
           <div className="inline-flex items-center gap-3 px-5 py-3 rounded-full mb-8" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
-            <span className="text-xs text-white/30">Points distributed:</span>
+            <span className="text-xs text-white">Points distributed:</span>
             <motion.span
               key={totalPoints}
               initial={{ y: -3, opacity: 0.6 }}
@@ -176,7 +176,7 @@ const LiveNetworkFeed = () => {
             </motion.a>
           </div>
 
-          <p className="mt-4 text-xs text-white/20">
+          <p className="mt-4 text-xs text-white/60">
             Early participants are being rewarded. Join early access.
           </p>
         </motion.div>

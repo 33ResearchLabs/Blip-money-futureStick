@@ -9,6 +9,7 @@ import {
   XCircle,
   Loader2,
   Shield,
+  Gift,
 } from "lucide-react";
 import { toast } from "sonner";
 import authApi from "@/services/auth";
@@ -316,18 +317,46 @@ export default function Register({
           </div>
         )}
 
+        <div className="flex items-center gap-2 rounded-xl border border-[#2a2a2a] bg-[#111111] px-4 py-3 mb-2">
+  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1a1a1a]">
+    <Gift className="h-4 w-4 text-[#f4c8a8]" />
+  </div>
+
+  <p className="text-sm font-medium text-white">
+    Get<span className="text-emerald-400"> +5,000 BLIP pts</span>
+    <span className="text-white/70"> to join waitlist</span>
+  </p>
+</div>
+
+        {/* Sign up / Sign in tab toggle */}
+        <div className="mb-5 grid grid-cols-2 p-1 rounded-2xl border border-black/10 dark:border-white/[0.08] bg-black/[0.02] dark:bg-white/[0.03] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+          <button
+            type="button"
+            aria-current="page"
+            className="py-3 rounded-xl text-[13px] font-semibold text-black dark:text-white bg-white dark:bg-white/[0.06] shadow-[0_2px_8px_rgba(0,0,0,0.08)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_4px_12px_rgba(0,0,0,0.4)]"
+          >
+            Sign up
+          </button>
+          <Link
+            to={loginPath}
+            className="py-3 rounded-xl text-[13px] font-semibold text-black/45 dark:text-white/45 hover:text-black/70 dark:hover:text-white/70 text-center transition-colors duration-200"
+          >
+            Sign in
+          </Link>
+        </div>
+
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Email */}
           <div>
-            <label
+            {/* <label
               htmlFor="email"
               className="block text-[13px] font-medium text-black/70 dark:text-white/70 mb-2"
             >
               Email Address
-            </label>
+            </label> */}
             <div className="relative">
-              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-black/30 dark:text-white/30" />
+              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-black/30 dark:text-white/70" />
               <input
                 type="email"
                 id="email"
@@ -339,7 +368,7 @@ export default function Register({
                   errors.email
                     ? "border-red-500/50 ring-2 ring-red-500/10"
                     : "border-black/10 dark:border-white/10"
-                } rounded-xl text-black dark:text-white placeholder:text-black/30 dark:placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-transparent transition-all duration-200`}
+                } rounded-2xl text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] focus:outline-none focus:ring-2 focus:ring-[#f4c8a8]/60 dark:focus:ring-[#f4c8a8]/50 focus:border-[#f4c8a8]/60 dark:focus:border-[#f4c8a8]/40 transition-all duration-200`}
                 placeholder="you@example.com"
                 disabled={isLoading}
               />
@@ -353,14 +382,14 @@ export default function Register({
 
           {/* Password */}
           <div>
-            <label
+            {/* <label
               htmlFor="password"
               className="block text-[13px] font-medium text-black/70 dark:text-white/70 mb-2"
             >
               Password
-            </label>
+            </label> */}
             <div className="relative">
-              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-black/30 dark:text-white/30" />
+              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-black/30 dark:text-white/70" />
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
@@ -372,7 +401,7 @@ export default function Register({
                   errors.password
                     ? "border-red-500/50 ring-2 ring-red-500/10"
                     : "border-black/10 dark:border-white/10"
-                } rounded-xl text-black dark:text-white placeholder:text-black/30 dark:placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-transparent transition-all duration-200`}
+                } rounded-2xl text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] focus:outline-none focus:ring-2 focus:ring-[#f4c8a8]/60 dark:focus:ring-[#f4c8a8]/50 focus:border-[#f4c8a8]/60 dark:focus:border-[#f4c8a8]/40 transition-all duration-200`}
                 placeholder="Min 8 characters"
                 maxLength={50}
                 disabled={isLoading}
@@ -380,7 +409,7 @@ export default function Register({
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-black/30 dark:text-white/30 hover:text-black/60 dark:hover:text-white/60 transition-colors duration-200"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-black/30 dark:text-white/70 hover:text-black/60 dark:hover:text-white transition-colors duration-200"
               >
                 {showPassword ? (
                   <EyeOff className="w-[18px] h-[18px]" />
@@ -467,14 +496,14 @@ export default function Register({
 
           {/* Confirm Password */}
           <div>
-            <label
+            {/* <label
               htmlFor="confirmPassword"
               className="block text-[13px] font-medium text-black/70 dark:text-white/70 mb-2"
             >
               Confirm Password
-            </label>
+            </label> */}
             <div className="relative">
-              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-black/30 dark:text-white/30" />
+              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-black/30 dark:text-white/70" />
               <input
                 type={showConfirmPassword ? "text" : "password"}
                 id="confirmPassword"
@@ -486,7 +515,7 @@ export default function Register({
                   errors.confirmPassword
                     ? "border-red-500/50 ring-2 ring-red-500/10"
                     : "border-black/10 dark:border-white/10"
-                } rounded-xl text-black dark:text-white placeholder:text-black/30 dark:placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-transparent transition-all duration-200`}
+                } rounded-2xl text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] focus:outline-none focus:ring-2 focus:ring-[#f4c8a8]/60 dark:focus:ring-[#f4c8a8]/50 focus:border-[#f4c8a8]/60 dark:focus:border-[#f4c8a8]/40 transition-all duration-200`}
                 placeholder="Confirm your password"
                 maxLength={50}
                 disabled={isLoading}
@@ -494,7 +523,7 @@ export default function Register({
               <button
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-black/30 dark:text-white/30 hover:text-black/60 dark:hover:text-white/60 transition-colors duration-200"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-black/30 dark:text-white/70 hover:text-black/60 dark:hover:text-white transition-colors duration-200"
               >
                 {showConfirmPassword ? (
                   <EyeOff className="w-[18px] h-[18px]" />
@@ -514,10 +543,10 @@ export default function Register({
           <div>
             <label
               htmlFor="referral_code"
-              className="block text-[13px] font-medium text-black/70 dark:text-white/70 mb-2"
+              className="block text-[13px] font-medium text-black/70 dark:text-[#f4c8a8]/50 mb-2"
             >
               Referral Code{" "}
-              <span className="text-black/30 dark:text-white/30 font-normal">
+              <span className="text-black/30 dark:text-[#f4c8a8]/50 font-normal">
                 (Optional)
               </span>
             </label>
@@ -527,7 +556,7 @@ export default function Register({
               name="referral_code"
               value={formData.referral_code}
               onChange={handleChange}
-              className="w-full px-4 py-3.5 bg-black/[0.02] dark:bg-white/[0.03] border border-black/10 dark:border-white/10 rounded-xl text-black dark:text-white placeholder:text-black/30 dark:placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-transparent transition-all duration-200 uppercase"
+              className="w-full px-4 py-3.5 bg-black/[0.02] dark:bg-white/[0.03] border border-black/10 dark:border-white/[0.08] rounded-2xl text-black dark:text-white placeholder:text-black/40 dark:placeholder:text-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] focus:outline-none focus:ring-2 focus:ring-[#f4c8a8]/60 dark:focus:ring-[#f4c8a8]/50 focus:border-[#f4c8a8]/60 dark:focus:border-[#f4c8a8]/40 transition-all duration-200 uppercase"
               placeholder="BLIPXXXXXX"
               disabled={isLoading}
             />
@@ -554,11 +583,11 @@ export default function Register({
 
           {/* Submit Button — captcha state no longer blocks submission;
               backend gates on RECAPTCHA_SECRET_KEY presence anyway */}
-          <div className="pt-1">
+          <div className="pt-2">
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3.5 bg-white text-black border border-black/10 font-semibold rounded-xl transition-all duration-200 ease-out hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
+              className="w-full py-4 bg-white text-black font-semibold text-[15px] rounded-2xl shadow-[0_10px_30px_-8px_rgba(244,200,168,0.45)] hover:shadow-[0_14px_36px_-8px_rgba(244,200,168,0.60)] transition-all duration-200 ease-out hover:scale-[1.01] hover:from-[#fadbc0] hover:to-[#eec199] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
             >
               {isLoading ? (
                 <>
@@ -567,12 +596,17 @@ export default function Register({
                     ? "Joining Merchant Waitlist..."
                     : "Joining Waitlist..."}
                 </>
-              ) : isMerchant ? (
-                "Join Merchant Waitlist"
               ) : (
-                "Join Waitlist"
+                <>
+                  {isMerchant ? "Join Merchant Waitlist" : "Join Waitlist"}
+                  <span aria-hidden className="text-base">→</span>
+                </>
               )}
             </button>
+            <p className="mt-3 text-center text-[11px] text-black/40 dark:text-white/40 flex items-center justify-center gap-1.5">
+              <Shield className="w-3 h-3" strokeWidth={2} />
+              We respect your privacy. No spam, ever.
+            </p>
           </div>
         </form>
 
@@ -585,7 +619,7 @@ export default function Register({
               className="text-black dark:text-white font-semibold hover:underline underline-offset-4 transition-colors duration-200"
             >
               {isMerchant ? "Merchant Sign In" : "Sign in"}
-            </Link>
+            </Link>  
           </p>
           <p className="text-xs text-black/30 dark:text-white/30 leading-relaxed">
             By creating an account, you agree to our{" "}
