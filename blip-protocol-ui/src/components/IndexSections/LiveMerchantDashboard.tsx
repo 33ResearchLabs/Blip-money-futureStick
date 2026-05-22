@@ -22,6 +22,9 @@ import {
   Filter,
   Clock,
   MessageSquare,
+  MessageCircle,
+  Sparkles,
+  Home,
   AlertCircle,
 } from "lucide-react";
 
@@ -295,6 +298,9 @@ export function useMerchantDashboardState() {
   const [spread, setSpread] = useState<"Fast" | "Best" | "Cheap">("Fast");
   const [boost, setBoost] = useState<0 | 5 | 10 | 15>(0);
   const [livePulse, setLivePulse] = useState(true);
+  const [mobileTab, setMobileTab] = useState<
+    "home" | "orders" | "active" | "chat" | "notifs"
+  >("orders");
 
   const pushNotification = (n: Omit<Notification, "id" | "ts" | "read">) => {
     setNotifications((prev) =>
@@ -516,6 +522,8 @@ export function useMerchantDashboardState() {
     chatThreads,
     activeChatId,
     setActiveChatId,
+    mobileTab,
+    setMobileTab,
   };
 }
 
@@ -588,7 +596,8 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
           are fixed and narrow. On lg+ the grid is height-locked + overflow-
           hidden so streaming pending orders don't push the dashboard taller —
           inner panels clip via their own flex-1 overflow rules. */}
-      <div className="grid grid-cols-1 lg:grid-cols-[210px_minmax(220px,1fr)_minmax(220px,1fr)_220px_240px] lg:h-[600px] lg:overflow-hidden">
+      {/* Desktop / large tablet (lg+): full 5-pane grid */}
+      <div className="hidden lg:grid lg:grid-cols-[210px_minmax(220px,1fr)_minmax(220px,1fr)_220px_240px] lg:h-[600px] lg:overflow-hidden">
         {/* ===== Col 1: Wallet sidebar ===== */}
         <div className="border-r border-white/[0.05] flex flex-col min-h-0">
           <div className="flex items-center justify-between px-3 py-2 border-b border-white/[0.04] text-[9px] font-mono">
@@ -1204,7 +1213,522 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
           </div>
         </div>
       </div>
+
+      {/* Phone / small tablet (< lg): tabbed single-pane mirroring settle's
+          MobileBottomNav (Home / Orders / Active / Chat / Notifs). */}
+      <div className="lg:hidden flex flex-col h-[600px]">
+        <MobileDashboardView state={state} />
+        <MobileBottomNav state={state} />
+      </div>
     </div>
+  );
+}
+
+/* ───────────────────── Sub-components ───────────────────── */
+
+interface MobileSubProps {
+  state: ReturnType<typeof useMerchantDashboardState>;
+}
+
+function MobileDashboardView({ state }: MobileSubProps) {
+  const {
+    mobileTab,
+    pendingOrders,
+    activeTrades,
+    notifications,
+    chatThreads,
+    activeChatId,
+    setActiveChatId,
+    corridor,
+    setCorridor,
+    spread,
+    setSpread,
+    boost,
+    setBoost,
+    unread,
+    markAllRead,
+    livePulse,
+  } = state;
+
+  const activeChat =
+    chatThreads.find((t) => t.orderId === activeChatId) ?? chatThreads[0] ?? null;
+
+  return (
+    <div className="flex-1 overflow-hidden bg-black">
+      {/* === HOME (wallet sidebar) === */}
+      {mobileTab === "home" && (
+        <div className="h-full overflow-y-auto">
+          {/* Ticker */}
+          <div className="flex items-center justify-between px-3 py-2 border-b border-white/[0.04] text-[10px] font-mono">
+            <div className="flex items-center gap-3">
+              <span className="flex items-center gap-1 text-white/60">
+                <Shield className="w-3 h-3 text-emerald-400/70" />
+                <span className="tabular-nums font-bold">547</span>
+              </span>
+              <span className="flex items-center gap-1 text-white/60">
+                <span className="w-2 h-2 rounded-full bg-amber-400/80" />
+                <span className="tabular-nums font-bold">500</span>
+              </span>
+            </div>
+            <button className="w-7 h-7 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center">
+              <Radio
+                className={`w-3.5 h-3.5 text-emerald-400 ${livePulse ? "scale-110" : "scale-100"} transition-transform`}
+              />
+            </button>
+          </div>
+
+          {/* Wallet hero */}
+          <div className="px-5 py-5 relative">
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="w-56 h-28 bg-emerald-400/[0.05] rounded-full blur-[80px]" />
+            </div>
+            <div className="flex items-center justify-center gap-1.5 mb-2 relative z-10">
+              <Lock className="w-3.5 h-3.5 text-white/30" />
+              <span className="text-[10px] text-white/30 font-mono uppercase tracking-widest">
+                Wallet Locked
+              </span>
+            </div>
+            <div className="text-center relative z-10">
+              <div className="text-5xl font-black text-white/30 font-mono tracking-tight leading-none">
+                ••••
+              </div>
+              <button className="mt-3 inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-emerald-500/[0.12] border border-emerald-500/30 text-[12px] font-bold text-emerald-300 font-mono">
+                <Lock className="w-3.5 h-3.5" />
+                Unlock Wallet
+              </button>
+            </div>
+
+            <div className="mt-4 grid grid-cols-3 gap-2 relative z-10">
+              {[
+                { Icon: ArrowLeftRight, label: "SWAP" },
+                { Icon: ArrowUpFromLine, label: "SEND" },
+                { Icon: ArrowDownToLine, label: "DEPOSIT" },
+              ].map((a) => (
+                <button
+                  key={a.label}
+                  className="flex flex-col items-center gap-1 py-2.5 rounded-lg bg-white/[0.04] border border-white/[0.06] text-white/70"
+                >
+                  <a.Icon className="w-4 h-4" />
+                  <span className="text-[10px] font-bold tracking-wide">{a.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Corridor */}
+          <div className="px-3 mb-2">
+            <div className="inline-flex w-full rounded-lg bg-white/[0.03] border border-white/[0.05] p-0.5">
+              {(["AED", "INR"] as const).map((c) => {
+                const active = corridor === c;
+                return (
+                  <button
+                    key={c}
+                    onClick={() => setCorridor(c)}
+                    className={`flex-1 py-1.5 px-2 rounded-md flex items-center justify-center gap-1.5 transition-all ${
+                      active ? "bg-white/[0.08] text-white" : "text-white/40"
+                    }`}
+                  >
+                    <span className="text-[11px] font-medium">USDT/{c}</span>
+                    <span
+                      className={`text-[10px] font-mono tabular-nums ${active ? "text-white/55" : "text-white/30"}`}
+                    >
+                      {c === "INR" ? "₹95" : "3.67"}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Spread + Boost form */}
+          <div className="px-3 pb-4 space-y-2">
+            <div>
+              <div className="text-[10px] uppercase tracking-widest text-white/40 font-mono mb-1">
+                Spread
+              </div>
+              <div className="grid grid-cols-3 gap-1.5">
+                {([
+                  { label: "Fast", v: "+2.5%" },
+                  { label: "Best", v: "+2%" },
+                  { label: "Cheap", v: "+1.5%" },
+                ] as const).map((s) => {
+                  const active = spread === s.label;
+                  return (
+                    <button
+                      key={s.label}
+                      onClick={() => setSpread(s.label as typeof spread)}
+                      className={`rounded-md py-1.5 flex flex-col items-center transition-all border ${
+                        active
+                          ? "bg-white/[0.08] border-white/15 text-white"
+                          : "bg-white/[0.02] border-white/[0.04] text-white/50"
+                      }`}
+                    >
+                      <span className="text-[11px]">{s.label}</span>
+                      <span className="text-[9px] font-mono text-white/60">{s.v}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+            <div>
+              <div className="text-[10px] uppercase tracking-widest text-white/40 font-mono mb-1">
+                Boost
+              </div>
+              <div className="grid grid-cols-4 gap-1.5">
+                {([0, 5, 10, 15] as const).map((b) => {
+                  const active = boost === b;
+                  return (
+                    <button
+                      key={b}
+                      onClick={() => setBoost(b)}
+                      className={`rounded-md py-1 text-[11px] font-mono tabular-nums transition-all border ${
+                        active
+                          ? "bg-emerald-500/15 border-emerald-500/30 text-emerald-300"
+                          : "bg-white/[0.02] border-white/[0.04] text-white/40"
+                      }`}
+                    >
+                      {b}%
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-2 pt-1">
+              <button className="py-2 rounded-md bg-white/[0.08] border border-white/[0.08] text-[12px] font-bold text-white/80">
+                BUY
+              </button>
+              <button className="py-2 rounded-md bg-white/[0.06] border border-white/[0.06] text-[12px] font-bold text-white/60">
+                SELL
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* === ORDERS (pending) === */}
+      {mobileTab === "orders" && (
+        <div className="h-full flex flex-col">
+          <div className="px-3 py-2.5 border-b border-white/[0.05] flex items-center justify-between flex-shrink-0">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-emerald-300" />
+              <span className="text-[12px] font-medium text-white/85 uppercase tracking-wider">
+                New Orders
+              </span>
+            </div>
+            <span className="flex items-center gap-1 text-[10px] font-medium text-white/60">
+              <span className="relative flex w-1.5 h-1.5">
+                <span className="absolute inset-0 rounded-full bg-emerald-500 animate-ping opacity-60" />
+                <span className="relative inline-flex w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              </span>
+              Live · {pendingOrders.length}
+            </span>
+          </div>
+          <div className="flex-1 overflow-y-auto px-3 py-2 space-y-2">
+            <AnimatePresence initial={false}>
+              {pendingOrders.length === 0 ? (
+                <div className="flex flex-col items-center justify-center h-full text-center py-12">
+                  <div className="w-10 h-10 rounded-full border border-white/[0.06] bg-white/[0.02] flex items-center justify-center mb-2">
+                    <Activity className="w-5 h-5 text-white/20" />
+                  </div>
+                  <p className="text-[12px] text-white/40">No pending orders</p>
+                </div>
+              ) : (
+                pendingOrders.map((o) => (
+                  <motion.div
+                    key={o.id}
+                    layout
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, x: 60 }}
+                    transition={{ type: "spring", stiffness: 320, damping: 28 }}
+                    className="rounded-xl border border-white/[0.05] bg-white/[0.025] p-3"
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xl">{o.avatar}</span>
+                        <div>
+                          <div className="text-[12px] font-medium text-white/85">{o.user}</div>
+                          <div className="text-[9px] font-mono text-white/30">#{o.id}</div>
+                        </div>
+                      </div>
+                      <span
+                        className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded ${
+                          o.side === "BUY"
+                            ? "bg-emerald-500/10 text-emerald-300 border border-emerald-500/20"
+                            : "bg-orange-500/10 text-orange-300 border border-orange-500/20"
+                        }`}
+                      >
+                        {o.side}
+                      </span>
+                    </div>
+                    <div className="flex items-end justify-between">
+                      <div>
+                        <div className="text-lg font-bold text-white font-mono tabular-nums leading-none">
+                          {o.amount.toLocaleString()}{" "}
+                          <span className="text-[11px] text-white/40 font-normal">USDT</span>
+                        </div>
+                        <div className="text-[11px] text-white/40 font-mono mt-1">
+                          @ {o.fiat === "INR" ? "₹" : ""}
+                          {o.price.toFixed(2)}
+                          {o.fiat === "AED" ? " AED" : ""}
+                        </div>
+                      </div>
+                      <button className="px-3 py-1.5 rounded-md bg-emerald-500/15 border border-emerald-500/30 text-[11px] font-bold text-emerald-300 flex items-center gap-1">
+                        Accept <ChevronRight className="w-3 h-3" />
+                      </button>
+                    </div>
+                  </motion.div>
+                ))
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
+      )}
+
+      {/* === ACTIVE (in-progress) === */}
+      {mobileTab === "active" && (
+        <div className="h-full flex flex-col">
+          <div className="px-3 py-2.5 border-b border-white/[0.05] flex items-center justify-between flex-shrink-0">
+            <div className="flex items-center gap-2">
+              <Shield className="w-4 h-4 text-white/70" />
+              <span className="text-[12px] font-medium text-white/85 uppercase tracking-wider">
+                Active Orders
+              </span>
+            </div>
+            <span className="text-[10px] font-mono text-white/40 tabular-nums">
+              {activeTrades.length}
+            </span>
+          </div>
+          <div className="flex-1 overflow-y-auto px-3 py-2 space-y-2">
+            {activeTrades.length === 0 ? (
+              <div className="flex flex-col items-center justify-center h-full text-center py-12">
+                <div className="w-10 h-10 rounded-full border border-white/[0.06] bg-white/[0.02] flex items-center justify-center mb-2">
+                  <Shield className="w-5 h-5 text-white/20" />
+                </div>
+                <p className="text-[12px] text-white/40">No active trades</p>
+              </div>
+            ) : (
+              <AnimatePresence initial={false}>
+                {activeTrades.map((t) => (
+                  <motion.div
+                    key={t.id}
+                    layout
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, x: -30 }}
+                    className="relative rounded-xl border border-white/[0.06] bg-white/[0.03] p-3 overflow-hidden"
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xl">{t.avatar}</span>
+                        <div>
+                          <div className="text-[12px] font-medium text-white/85">{t.user}</div>
+                          <div className="text-[9px] font-mono text-white/30">#{t.id}</div>
+                        </div>
+                      </div>
+                      <StatusBadge status={t.status} />
+                    </div>
+                    <div className="flex items-end justify-between mb-2">
+                      <div>
+                        <div className="text-lg font-bold text-white font-mono tabular-nums leading-none">
+                          {t.amount.toLocaleString()}{" "}
+                          <span className="text-[11px] text-white/40 font-normal">USDT</span>
+                        </div>
+                        <div className="text-[10px] text-white/40 font-mono mt-1 flex items-center gap-1">
+                          <Clock className="w-3 h-3" />
+                          <span className="tabular-nums">{fmtTTL(t.ttl)}</span>
+                        </div>
+                      </div>
+                      <button className="px-3 py-1.5 rounded-md bg-white/[0.06] border border-white/[0.08] text-[11px] font-bold text-white/70 flex items-center gap-1">
+                        <MessageSquare className="w-3 h-3" /> Chat
+                      </button>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      {(["A", "E", "P", "S"] as const).map((step, i) => {
+                        const reached =
+                          (t.status === "ACCEPTED" && i === 0) ||
+                          (t.status === "ESCROWED" && i <= 1) ||
+                          (t.status === "PAID" && i <= 2);
+                        return (
+                          <div
+                            key={step}
+                            className={`h-1 flex-1 rounded-full ${
+                              reached ? "bg-emerald-400/60" : "bg-white/[0.05]"
+                            }`}
+                          />
+                        );
+                      })}
+                    </div>
+                    <motion.div
+                      className="absolute inset-0 rounded-xl pointer-events-none opacity-25"
+                      style={{
+                        background:
+                          "linear-gradient(90deg, transparent, rgba(16,185,129,0.1), transparent)",
+                        backgroundSize: "200% 100%",
+                      }}
+                      animate={{ backgroundPosition: ["-200% 0", "200% 0"] }}
+                      transition={{ duration: 2.4, repeat: Infinity, ease: "linear" }}
+                    />
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* === CHAT === */}
+      {mobileTab === "chat" && (
+        <div className="h-full flex flex-col">
+          {activeChat ? (
+            <ChatPanel threads={chatThreads} active={activeChat} onSelect={setActiveChatId} />
+          ) : (
+            <div className="flex flex-col items-center justify-center h-full text-center">
+              <div className="w-10 h-10 rounded-full bg-white/[0.04] border border-white/[0.06] flex items-center justify-center mb-2">
+                <MessageCircle className="w-5 h-5 text-white/30" />
+              </div>
+              <p className="text-[12px] text-white/40">No active chats</p>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* === NOTIFS === */}
+      {mobileTab === "notifs" && (
+        <div className="h-full flex flex-col">
+          <div className="px-3 py-2.5 border-b border-white/[0.05] flex items-center justify-between flex-shrink-0">
+            <div className="flex items-center gap-2">
+              <Bell className="w-4 h-4 text-white/70" />
+              <span className="text-[12px] font-medium text-white/85 uppercase tracking-wider">
+                Notifications
+              </span>
+              {unread > 0 && (
+                <span className="px-1.5 py-[1px] rounded bg-emerald-500/20 border border-emerald-500/30 text-[10px] font-bold text-emerald-300">
+                  {unread}
+                </span>
+              )}
+            </div>
+            <button
+              onClick={markAllRead}
+              className="flex items-center gap-1 text-[11px] text-white/40 hover:text-white/60"
+            >
+              <CheckCircle2 className="w-3.5 h-3.5" /> READ ALL
+            </button>
+          </div>
+          <div className="flex-1 overflow-y-auto px-3 py-2 space-y-1.5">
+            <AnimatePresence initial={false}>
+              {notifications.map((n) => (
+                <motion.div
+                  key={n.id}
+                  layout
+                  initial={{ opacity: 0, x: 30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 40 }}
+                  className={`relative rounded-xl border p-3 ${
+                    n.read
+                      ? "border-white/[0.04] bg-white/[0.015]"
+                      : "border-white/[0.08] bg-white/[0.04]"
+                  }`}
+                >
+                  {!n.read && (
+                    <span className="absolute right-3 top-3 w-2 h-2 rounded-full bg-emerald-400" />
+                  )}
+                  <div className="flex items-start gap-2 pr-4">
+                    <NotificationIcon kind={n.kind} />
+                    <div className="flex-1 min-w-0">
+                      <div className="text-[12px] font-medium text-white/85">{n.title}</div>
+                      <div className="text-[11px] text-white/50 mt-0.5">{n.body}</div>
+                      <div className="text-[9px] font-mono text-white/25 mt-1">{n.ts}</div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+            {notifications.length === 0 && (
+              <div className="flex flex-col items-center justify-center text-center py-12">
+                <div className="w-10 h-10 rounded-full bg-white/[0.04] border border-white/[0.06] flex items-center justify-center mb-2">
+                  <Bell className="w-5 h-5 text-white/30" />
+                </div>
+                <p className="text-[12px] text-white/40">All caught up</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function MobileBottomNav({ state }: MobileSubProps) {
+  const {
+    mobileTab,
+    setMobileTab,
+    pendingOrders,
+    activeTrades,
+    chatThreads,
+    unread,
+  } = state;
+
+  const totalChatUnread = chatThreads.reduce((s, t) => s + t.unread, 0);
+
+  const tabs = [
+    { id: "home" as const, label: "Home", Icon: Home, badge: 0 },
+    {
+      id: "orders" as const,
+      label: "Orders",
+      Icon: Sparkles,
+      badge: pendingOrders.length,
+    },
+    {
+      id: "active" as const,
+      label: "Active",
+      Icon: Activity,
+      badge: activeTrades.length,
+    },
+    {
+      id: "chat" as const,
+      label: "Chat",
+      Icon: MessageCircle,
+      badge: totalChatUnread,
+    },
+    { id: "notifs" as const, label: "Alerts", Icon: Bell, badge: unread },
+  ];
+
+  return (
+    <nav className="border-t border-white/[0.06] bg-black/95 backdrop-blur px-1 py-1.5 flex items-center justify-around flex-shrink-0">
+      {tabs.map((tab) => {
+        const isActive = mobileTab === tab.id;
+        return (
+          <button
+            key={tab.id}
+            onClick={() => setMobileTab(tab.id)}
+            className={`flex flex-col items-center gap-0.5 px-2 py-1.5 min-w-[56px] rounded-xl transition-all ${
+              isActive ? "bg-white/[0.08]" : ""
+            }`}
+          >
+            <div className="relative">
+              <tab.Icon
+                className={`w-[22px] h-[22px] ${
+                  isActive ? "text-emerald-300" : "text-white/35"
+                }`}
+              />
+              {tab.badge > 0 && (
+                <span className="absolute -top-1 -right-1.5 w-4 h-4 bg-emerald-500 text-black text-[9px] font-bold rounded-full flex items-center justify-center">
+                  {tab.badge > 9 ? "9+" : tab.badge}
+                </span>
+              )}
+            </div>
+            <span
+              className={`text-[10px] font-medium ${
+                isActive ? "text-white" : "text-white/40"
+              }`}
+            >
+              {tab.label}
+            </span>
+          </button>
+        );
+      })}
+    </nav>
   );
 }
 
