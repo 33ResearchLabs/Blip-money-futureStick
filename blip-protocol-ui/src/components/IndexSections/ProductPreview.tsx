@@ -110,7 +110,7 @@ const ProductPreview = () => {
         <div style={{ perspective: "1200px" }}>
           <motion.div
             style={{ scale, rotateX, opacity, y, transformOrigin: "center bottom" }}
-            className="relative mx-auto max-w-5xl"
+            className="relative mx-auto max-w-6xl"
           >
             {/* Floating stat pills */}
             {stats.map((stat, i) => (
