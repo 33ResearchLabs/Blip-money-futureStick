@@ -340,7 +340,7 @@ export default function RewardPage() {
                   rewards.
                 </p>
               </div>
-              <Link to="https://app.blip.money/waitlist/user">
+              <Link to="/register">
                 <AppleButton
                   variant="primary"
                   onClick={connectWallet}

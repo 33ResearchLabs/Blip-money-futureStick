@@ -516,7 +516,7 @@ const App = () => {
             {step.cta && (
               <div className="flex md:justify-start justify-center pt-10">
                 <CTAButton
-                  to="https://app.blip.money/waitlist/user"
+                  to="/register"
                   className="w-[220px] h-12 uppercase text-sm"
                 >
                   Get Started
@@ -613,7 +613,7 @@ const App = () => {
                 {s.last && (
                   <div className="pt-8">
                     <CTAButton
-                      to="https://app.blip.money/waitlist/user"
+                      to="/register"
                       className="w-[220px] h-12 uppercase text-sm"
                     >
                       Get Started
