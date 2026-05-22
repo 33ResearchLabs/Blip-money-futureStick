@@ -474,6 +474,38 @@ const ProtocolInterstitial = () => {
           The Blip Protocol
         </motion.h2>
 
+        {/* Protocol CTAs */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.9, delay: 0.15, ease: EASE }}
+          className="flex flex-wrap items-center justify-center gap-3"
+          style={{ marginBottom: 8 }}
+        >
+          <a
+            href="/whitepaper"
+            className="group inline-flex items-center justify-center gap-2 h-[44px] px-6 rounded-full bg-white text-black text-[13.5px] font-semibold tracking-tight transition-all duration-300 shadow-[0_10px_30px_-10px_rgba(255,255,255,0.3)] hover:-translate-y-[1px]"
+          >
+            Read Whitepaper
+            <span aria-hidden>→</span>
+          </a>
+          <a
+            href="https://github.com/blip-money"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 h-[44px] px-6 rounded-full border border-white/20 text-white/85 text-[13.5px] font-medium tracking-tight hover:bg-white/[0.04] hover:text-white transition-colors"
+          >
+            GitHub
+          </a>
+          <a
+            href="/docs"
+            className="inline-flex items-center justify-center gap-2 h-[44px] px-6 rounded-full border border-white/20 text-white/85 text-[13.5px] font-medium tracking-tight hover:bg-white/[0.04] hover:text-white transition-colors"
+          >
+            Developer Docs
+          </a>
+        </motion.div>
+
       </div>
 
       {/* 3 Feature cards */}

@@ -2,35 +2,27 @@ import { useEffect, lazy, Suspense } from "react";
 import { SEO } from "@/components";
 import LazySection from "@/components/LazySection";
 
-// Hero + the immediately-next section are eagerly loaded — every scroller sees them,
-// so deferring ProblemSection just produces a black flash on dark-themed first paint.
 import CinematicHero from "@/components/IndexSections/CinematicHero";
-// ProblemSection (P2P payments) removed
 
-// Below-fold sections are lazy loaded
-const BanklessSection = lazy(() => import("@/components/IndexSections/BanklessSection"));
-const ProductPreview = lazy(() => import("@/components/IndexSections/ProductPreview"));
-const DarkFintechSection = lazy(() => import("@/components/IndexSections/DarkFintechSection"));
+// Premium redesign (2026-05) — Uber-style alternating two-column sections.
+const SendGloballySection = lazy(() => import("@/components/IndexSections/SendGloballySection"));
+const BestRatesSection = lazy(() => import("@/components/IndexSections/BestRatesSection"));
+const EarnOnTradesSection = lazy(() => import("@/components/IndexSections/EarnOnTradesSection"));
+const BlipMarketsSection = lazy(() => import("@/components/IndexSections/BlipMarketsSection"));
 const ProtocolInterstitial = lazy(() => import("@/components/IndexSections/ProtocolInterstitial"));
-const UseCasesSection = lazy(() => import("@/components/IndexSections/UseCasesSection"));
-const LiquidityLayer = lazy(() => import("@/components/IndexSections/LiquidityLayer"));
-const LiveNetworkFeed = lazy(() => import("@/components/IndexSections/LiveNetworkFeed"));
-const AppShowcaseSection = lazy(() => import("@/components/IndexSections/AppShowcaseSection"));
-const TrustSection = lazy(() => import("@/components/IndexSections/TrustSection"));
+const BecomeMerchantSection = lazy(() => import("@/components/IndexSections/BecomeMerchantSection"));
 const CTASection = lazy(() => import("@/components/IndexSections/CTASection"));
 
 /* ============================================
-   MAIN INDEX PAGE — 10 Section Architecture
-   1  Cinematic Hero (Entry Point)
-   2  The Break (Problem → Settlement Layer)
-   3  How It Works (Animated Flow)
-   4  The Blip Protocol (Proof Layer)
-   5  Use Cases (Tabbed: Users / Merchants / LPs)
-   6  Liquidity Layer (Capital Section)
-   7  Live Network / Airdrop Feed
-   8  Product Experience (Showcase)
-   9  Trust & Architecture
-   10 Final CTA
+   MAIN INDEX PAGE — Premium Redesign 2026-05
+   1  Cinematic Hero
+   2  Pay Anyone, Anywhere, Instantly
+   3  Best Market Rates (Blip Market)
+   4  Earn Up to 10% on Every Trade
+   5  Blip Markets — Live Dashboard (keynote)
+   6  The Blip Protocol (whitepaper / docs)
+   7  Become a Merchant in 5 Minutes
+   8  Final CTA
    ============================================ */
 
 const Index = () => {
@@ -47,87 +39,59 @@ const Index = () => {
       />
 
       <div className="bg-[#FAF8F5] dark:bg-black text-black dark:text-white relative overflow-x-clip">
-        {/* Grain overlay for premium film texture */}
         <div className="grain-overlay" />
 
         {/* 1. Cinematic Hero */}
         <CinematicHero />
 
-        {/* Global Liquidity section removed — dashboard now lives in the hero */}
+        {/* 2. Pay anyone, anywhere, instantly */}
+        <LazySection minHeight="80vh">
+          <Suspense fallback={null}>
+            <SendGloballySection />
+          </Suspense>
+        </LazySection>
 
-        {/* P2P payments / Problem section removed */}
+        {/* 3. Best market rates */}
+        <LazySection minHeight="80vh">
+          <Suspense fallback={null}>
+            <BestRatesSection />
+          </Suspense>
+        </LazySection>
 
-        {/* The Blip Protocol — Proof Layer (now above Bankless) */}
+        {/* 4. Earn up to 10% on every trade */}
+        <LazySection minHeight="80vh">
+          <Suspense fallback={null}>
+            <EarnOnTradesSection />
+          </Suspense>
+        </LazySection>
+
+        {/* 5. Blip Markets — live dashboard keynote */}
+        <LazySection minHeight="100vh">
+          <Suspense fallback={null}>
+            <BlipMarketsSection />
+          </Suspense>
+        </LazySection>
+
+        {/* 6. Blip Protocol (whitepaper / github / docs) */}
         <LazySection minHeight="80vh">
           <Suspense fallback={null}>
             <ProtocolInterstitial />
           </Suspense>
         </LazySection>
 
-        {/* Bankless / Global — P2P is the future of payments */}
+        {/* 7. Become a merchant in 5 minutes */}
         <LazySection minHeight="80vh">
           <Suspense fallback={null}>
-            <BanklessSection />
+            <BecomeMerchantSection />
           </Suspense>
         </LazySection>
 
-        {/* How It Works — Animated Flow */}
-        <LazySection minHeight="100vh">
+        {/* 8. Final CTA */}
+        <LazySection minHeight="40vh">
           <Suspense fallback={null}>
-            <DarkFintechSection />
+            <CTASection />
           </Suspense>
         </LazySection>
-
-        {/* 4.5 Product Reveal — "This is Blip." Keynote moment */}
-        <LazySection minHeight="80vh">
-          <Suspense fallback={null}>
-            <ProductPreview />
-          </Suspense>
-        </LazySection>
-
-        <div className="overflow-x-clip">
-          {/* 5. Use Cases — Tabbed (Users / Merchants / LPs) */}
-          <LazySection minHeight="80vh">
-            <Suspense fallback={null}>
-              <UseCasesSection />
-            </Suspense>
-          </LazySection>
-
-          {/* 6. Liquidity Layer — Capital Section */}
-          <LazySection minHeight="60vh">
-            <Suspense fallback={null}>
-              <LiquidityLayer />
-            </Suspense>
-          </LazySection>
-
-          {/* 7. Live Network / Airdrop Feed */}
-          <LazySection minHeight="60vh">
-            <Suspense fallback={null}>
-              <LiveNetworkFeed />
-            </Suspense>
-          </LazySection>
-
-          {/* 8. Product Experience */}
-          <LazySection minHeight="100vh">
-            <Suspense fallback={null}>
-              <AppShowcaseSection />
-            </Suspense>
-          </LazySection>
-
-          {/* 9. Trust & Architecture */}
-          <LazySection minHeight="60vh">
-            <Suspense fallback={null}>
-              <TrustSection />
-            </Suspense>
-          </LazySection>
-
-          {/* 10. Final CTA */}
-          <LazySection minHeight="40vh">
-            <Suspense fallback={null}>
-              <CTASection />
-            </Suspense>
-          </LazySection>
-        </div>
       </div>
     </>
   );
