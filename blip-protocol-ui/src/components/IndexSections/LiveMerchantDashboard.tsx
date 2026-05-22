@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowLeftRight,
   ArrowUpFromLine,
@@ -7,7 +7,6 @@ import {
   Lock,
   Search,
   Radio,
-  Volume2,
   Activity,
   ChevronDown,
   ChevronRight,
@@ -23,7 +22,6 @@ import {
   Filter,
   Clock,
   MessageSquare,
-  Inbox,
   AlertCircle,
 } from "lucide-react";
 
@@ -87,6 +85,35 @@ export type ActivityEvent = {
   detail: string;
   amount: string;
   ts: string;
+};
+
+export type Notification = {
+  id: string;
+  kind: "order_new" | "order_accepted" | "escrow_locked" | "payment_received" | "trade_settled" | "system";
+  title: string;
+  body: string;
+  ts: string;
+  read: boolean;
+};
+
+export type ChatMessage = {
+  id: string;
+  from: "me" | "them";
+  text: string;
+  ts: string;
+};
+
+export type ChatThread = {
+  orderId: string;
+  user: string;
+  avatar: string;
+  side: "BUY" | "SELL";
+  amount: number;
+  fiat: "INR" | "AED";
+  unread: number;
+  isTyping: boolean;
+  isOnline: boolean;
+  messages: ChatMessage[];
 };
 
 let __orderSeq = 26050800;
@@ -160,6 +187,81 @@ function seedActivity(): ActivityEvent[] {
   ];
 }
 
+function seedNotifications(): Notification[] {
+  return [
+    {
+      id: "n-welcome",
+      kind: "system",
+      title: "Welcome back!",
+      body: "You are now online and accepting orders.",
+      ts: "now",
+      read: false,
+    },
+  ];
+}
+
+const COUNTERPARTY_LINES = [
+  "Hey, ready to start the trade?",
+  "Payment sent via UPI, can you confirm?",
+  "I've shared the bank details — please check.",
+  "Sending now, give me 2 mins.",
+  "Got the receipt, releasing escrow soon.",
+  "Thanks — fastest trade today.",
+  "Can you bump the priority fee?",
+  "Marking paid now, see chat.",
+];
+
+const MY_LINES = [
+  "Sure, locking escrow now.",
+  "Got it. Releasing once I see the bank credit.",
+  "Confirmed receipt — releasing.",
+  "Take your time, no rush.",
+  "Done. Funds released ✓",
+  "Sharing UPI details now.",
+];
+
+let __chatSeq = 0;
+function nextChatMsgId() {
+  __chatSeq += 1;
+  return `cm-${__chatSeq}`;
+}
+
+function seedChatThreads(): ChatThread[] {
+  return [
+    {
+      orderId: "F8421X",
+      user: "Mira",
+      avatar: "🦊",
+      side: "BUY",
+      amount: 1250,
+      fiat: "INR",
+      unread: 2,
+      isTyping: false,
+      isOnline: true,
+      messages: [
+        { id: nextChatMsgId(), from: "them", text: "Hey, ready to start the trade?", ts: "14:32" },
+        { id: nextChatMsgId(), from: "me", text: "Sure, locking escrow now.", ts: "14:32" },
+        { id: nextChatMsgId(), from: "them", text: "Sending UPI now, give me 2 mins.", ts: "14:33" },
+      ],
+    },
+    {
+      orderId: "F8419Q",
+      user: "Tariq",
+      avatar: "🐯",
+      side: "SELL",
+      amount: 780,
+      fiat: "AED",
+      unread: 0,
+      isTyping: false,
+      isOnline: false,
+      messages: [
+        { id: nextChatMsgId(), from: "them", text: "Got the receipt, releasing escrow soon.", ts: "14:18" },
+        { id: nextChatMsgId(), from: "me", text: "Confirmed receipt — releasing.", ts: "14:19" },
+      ],
+    },
+  ];
+}
+
 function relTs(_offset: number) {
   const now = new Date();
   return `${now.getHours().toString().padStart(2, "0")}:${now
@@ -182,6 +284,9 @@ export function useMerchantDashboardState() {
   const [pendingOrders, setPendingOrders] = useState<Order[]>(() => seedPending());
   const [activeTrades, setActiveTrades] = useState<ActiveTrade[]>(() => seedActive());
   const [activity, setActivity] = useState<ActivityEvent[]>(() => seedActivity());
+  const [notifications, setNotifications] = useState<Notification[]>(() => seedNotifications());
+  const [chatThreads, setChatThreads] = useState<ChatThread[]>(() => seedChatThreads());
+  const [activeChatId, setActiveChatId] = useState<string | null>("F8421X");
   const [tab, setTab] = useState<"Pending" | "My Orders" | "All">("Pending");
   const [progressTab, setProgressTab] = useState<
     "All" | "Accepted" | "Escrowed" | "Paid" | "Cancelled"
@@ -189,18 +294,40 @@ export function useMerchantDashboardState() {
   const [corridor, setCorridor] = useState<"AED" | "INR">("INR");
   const [spread, setSpread] = useState<"Fast" | "Best" | "Cheap">("Fast");
   const [boost, setBoost] = useState<0 | 5 | 10 | 15>(0);
-  const [unread, setUnread] = useState(1);
   const [livePulse, setLivePulse] = useState(true);
 
-  // New pending orders stream in
+  const pushNotification = (n: Omit<Notification, "id" | "ts" | "read">) => {
+    setNotifications((prev) =>
+      [
+        { ...n, id: `n-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`, ts: "now", read: false },
+        ...prev,
+      ].slice(0, 8),
+    );
+  };
+
+  const markAllRead = () =>
+    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+
+  const unread = notifications.filter((n) => !n.read).length;
+
+  // New pending orders stream in + notify
   useEffect(() => {
     const id = setInterval(() => {
-      setPendingOrders((prev) => [makeOrder(), ...prev].slice(0, 6));
+      const order = makeOrder();
+      setPendingOrders((prev) => [order, ...prev].slice(0, 6));
+      // Notify only ~50% of the time so the panel doesn't drown
+      if (Math.random() > 0.5) {
+        pushNotification({
+          kind: "order_new",
+          title: `New ${order.side} order`,
+          body: `${order.user} · ${order.amount.toLocaleString()} USDT @ ${order.fiat === "INR" ? "₹" : ""}${order.price.toFixed(2)}${order.fiat === "AED" ? " AED" : ""}`,
+        });
+      }
     }, 3200);
     return () => clearInterval(id);
   }, []);
 
-  // Oldest pending promotes to active
+  // Oldest pending promotes to active + notify + spawn chat thread
   useEffect(() => {
     const id = setInterval(() => {
       setPendingOrders((prev) => {
@@ -232,6 +359,35 @@ export function useMerchantDashboardState() {
               ...a,
             ].slice(0, 8),
           );
+          pushNotification({
+            kind: "order_accepted",
+            title: "Order accepted",
+            body: `Trade with ${oldest.user} is live — ${oldest.amount.toLocaleString()} USDT`,
+          });
+          // Spawn a chat thread for the new active trade
+          setChatThreads((threads) => {
+            if (threads.find((t) => t.orderId === oldest.id)) return threads;
+            const newThread: ChatThread = {
+              orderId: oldest.id,
+              user: oldest.user,
+              avatar: oldest.avatar,
+              side: oldest.side,
+              amount: oldest.amount,
+              fiat: oldest.fiat,
+              unread: 1,
+              isTyping: false,
+              isOnline: true,
+              messages: [
+                {
+                  id: nextChatMsgId(),
+                  from: "them",
+                  text: rand(COUNTERPARTY_LINES),
+                  ts: relTs(0),
+                },
+              ],
+            };
+            return [newThread, ...threads].slice(0, 5);
+          });
           return [promoted, ...cur].slice(0, 4);
         });
         return rest;
@@ -240,7 +396,7 @@ export function useMerchantDashboardState() {
     return () => clearInterval(id);
   }, []);
 
-  // Advance active trades through escrowed / paid / settled
+  // Advance active trades through escrowed / paid / settled + notify
   useEffect(() => {
     const id = setInterval(() => {
       setActiveTrades((prev) =>
@@ -249,8 +405,21 @@ export function useMerchantDashboardState() {
             const next = { ...t };
             next.progress = Math.min(1, t.progress + 0.08 + Math.random() * 0.04);
             next.ttl = Math.max(0, t.ttl - 6);
-            if (next.progress > 0.35 && t.status === "ACCEPTED") next.status = "ESCROWED";
-            else if (next.progress > 0.7 && t.status === "ESCROWED") next.status = "PAID";
+            if (next.progress > 0.35 && t.status === "ACCEPTED") {
+              next.status = "ESCROWED";
+              pushNotification({
+                kind: "escrow_locked",
+                title: "Escrow locked",
+                body: `${t.amount.toLocaleString()} USDT held in escrow · #${t.id}`,
+              });
+            } else if (next.progress > 0.7 && t.status === "ESCROWED") {
+              next.status = "PAID";
+              pushNotification({
+                kind: "payment_received",
+                title: "Payment received",
+                body: `${t.user} marked ${t.fiat === "INR" ? "₹" : ""}${(t.amount * (t.fiat === "INR" ? 95 : 3.67)).toLocaleString()}${t.fiat === "AED" ? " AED" : ""} as paid`,
+              });
+            }
             return next;
           })
           .filter((t) => {
@@ -268,6 +437,11 @@ export function useMerchantDashboardState() {
                   ...a,
                 ].slice(0, 8),
               );
+              pushNotification({
+                kind: "trade_settled",
+                title: "Trade settled ✓",
+                body: `${t.amount.toLocaleString()} USDT credited from ${t.user}`,
+              });
               return false;
             }
             return true;
@@ -277,10 +451,54 @@ export function useMerchantDashboardState() {
     return () => clearInterval(id);
   }, []);
 
+  // Live indicator pulse
   useEffect(() => {
     const id = setInterval(() => setLivePulse((v) => !v), 950);
     return () => clearInterval(id);
   }, []);
+
+  // Chat: simulated typing + incoming/outgoing messages on the active thread
+  useEffect(() => {
+    if (!activeChatId) return;
+    let typingTimer: number | undefined;
+    const id = setInterval(() => {
+      const incoming = Math.random() > 0.45;
+      setChatThreads((prev) => {
+        const idx = prev.findIndex((t) => t.orderId === activeChatId);
+        if (idx === -1) return prev;
+        const target = prev[idx];
+        const newMsg: ChatMessage = {
+          id: nextChatMsgId(),
+          from: incoming ? "them" : "me",
+          text: incoming ? rand(COUNTERPARTY_LINES) : rand(MY_LINES),
+          ts: relTs(0),
+        };
+        const next = [...prev];
+        next[idx] = {
+          ...target,
+          isTyping: false,
+          messages: [...target.messages.slice(-9), newMsg],
+        };
+        return next;
+      });
+    }, 4200);
+
+    // Typing indicator pulse
+    typingTimer = window.setInterval(() => {
+      setChatThreads((prev) => {
+        const idx = prev.findIndex((t) => t.orderId === activeChatId);
+        if (idx === -1) return prev;
+        const next = [...prev];
+        next[idx] = { ...next[idx], isTyping: !next[idx].isTyping };
+        return next;
+      });
+    }, 2600);
+
+    return () => {
+      clearInterval(id);
+      if (typingTimer) clearInterval(typingTimer);
+    };
+  }, [activeChatId]);
 
   return {
     tab, setTab,
@@ -288,11 +506,16 @@ export function useMerchantDashboardState() {
     corridor, setCorridor,
     spread, setSpread,
     boost, setBoost,
-    unread, setUnread,
     livePulse,
     pendingOrders,
     activeTrades,
     activity,
+    notifications,
+    unread,
+    markAllRead,
+    chatThreads,
+    activeChatId,
+    setActiveChatId,
   };
 }
 
@@ -311,10 +534,13 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
     corridor, setCorridor,
     spread, setSpread,
     boost, setBoost,
-    unread, setUnread,
+    unread, markAllRead,
     livePulse,
     pendingOrders, activeTrades, activity,
+    notifications,
+    chatThreads, activeChatId, setActiveChatId,
   } = state;
+  const activeChat = chatThreads.find((t) => t.orderId === activeChatId) ?? chatThreads[0] ?? null;
 
   return (
     <div className={`bg-black text-white ${className}`}>
@@ -883,7 +1109,7 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
 
         {/* ===== Col 5: Notifications + Messages (50/50 split) ===== */}
         <div className="grid grid-rows-2 min-w-0 min-h-0">
-          {/* Top half: Notifications */}
+          {/* Top half: Notifications — live stream */}
           <div className="flex flex-col min-h-0 border-b border-white/[0.05]">
             <div className="px-3 py-2 border-b border-white/[0.05] flex items-center justify-between flex-shrink-0">
               <div className="flex items-center gap-1.5">
@@ -898,37 +1124,47 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                 )}
               </div>
               <button
-                onClick={() => setUnread(0)}
+                onClick={markAllRead}
                 className="flex items-center gap-1 text-[10px] text-white/40 hover:text-white/60"
               >
                 <CheckCircle2 className="w-3 h-3" /> READ
               </button>
             </div>
-            <div className="flex-1 overflow-y-auto px-3 py-2 space-y-2 min-h-0">
-              <AnimatePresence>
-                {unread > 0 && (
+            <div className="flex-1 overflow-y-auto px-2 py-1.5 space-y-1 min-h-0">
+              <AnimatePresence initial={false}>
+                {notifications.map((n) => (
                   <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
+                    key={n.id}
+                    layout
+                    initial={{ opacity: 0, x: 30, scale: 0.96 }}
+                    animate={{ opacity: 1, x: 0, scale: 1 }}
                     exit={{ opacity: 0, x: 40 }}
-                    className="relative rounded-lg border border-white/[0.06] bg-white/[0.025] p-2"
+                    transition={{ type: "spring", stiffness: 300, damping: 26 }}
+                    className={`relative rounded-lg border p-2 ${
+                      n.read
+                        ? "border-white/[0.04] bg-white/[0.015]"
+                        : "border-white/[0.08] bg-white/[0.04]"
+                    }`}
                   >
-                    <span className="absolute right-2 top-2 w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                    <div className="flex items-start gap-1.5">
-                      <div className="w-5 h-5 rounded-full bg-white/[0.05] border border-white/[0.08] flex items-center justify-center flex-shrink-0">
-                        <Bell className="w-2.5 h-2.5 text-white/50" />
-                      </div>
+                    {!n.read && (
+                      <span className="absolute right-2 top-2 w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                    )}
+                    <div className="flex items-start gap-1.5 pr-3">
+                      <NotificationIcon kind={n.kind} />
                       <div className="flex-1 min-w-0">
-                        <div className="text-[10px] text-white/80 leading-snug">
-                          Welcome back! You are now online.
+                        <div className="text-[10px] font-medium text-white/85 leading-snug truncate">
+                          {n.title}
                         </div>
-                        <div className="text-[9px] font-mono text-white/30 mt-0.5">now</div>
+                        <div className="text-[9px] text-white/45 leading-tight mt-0.5 truncate">
+                          {n.body}
+                        </div>
+                        <div className="text-[8px] font-mono text-white/25 mt-0.5">{n.ts}</div>
                       </div>
                     </div>
                   </motion.div>
-                )}
+                ))}
               </AnimatePresence>
-              {unread === 0 && (
+              {notifications.length === 0 && (
                 <div className="flex flex-col items-center justify-center text-center py-4">
                   <div className="w-7 h-7 rounded-full bg-white/[0.04] border border-white/[0.06] flex items-center justify-center mb-1.5">
                     <Bell className="w-3 h-3 text-white/30" />
@@ -939,33 +1175,32 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
             </div>
           </div>
 
-          {/* Bottom half: Messages */}
+          {/* Bottom half: Messages — live chat */}
           <div className="flex flex-col min-h-0">
-            <div className="px-3 py-2 border-b border-white/[0.05] flex items-center justify-between flex-shrink-0">
-              <div className="flex items-center gap-1.5">
-                <MessageSquare className="w-3.5 h-3.5 text-white/60" />
-                <span className="text-[11px] font-medium text-white/80 uppercase tracking-wider">
-                  Messages
-                </span>
-              </div>
-            </div>
-            <div className="px-3 py-2 flex items-center gap-1 text-[10px] flex-shrink-0 border-b border-white/[0.04]">
-              <button className="px-1.5 py-0.5 rounded-md bg-white/[0.06] border border-white/[0.08] text-white font-medium">
-                Active
-              </button>
-              <button className="px-1.5 py-0.5 rounded-md text-white/40 flex items-center gap-1">
-                <Inbox className="w-2.5 h-2.5" /> Inbox
-              </button>
-              <button className="px-1.5 py-0.5 rounded-md text-white/40 flex items-center gap-1">
-                <Shield className="w-2.5 h-2.5" /> Disputes
-              </button>
-            </div>
-            <div className="flex-1 overflow-y-auto px-3 py-2 flex flex-col items-center justify-center text-center min-h-0">
-              <div className="w-7 h-7 rounded-full bg-white/[0.04] border border-white/[0.06] flex items-center justify-center mb-1.5">
-                <MessageSquare className="w-3 h-3 text-white/30" />
-              </div>
-              <span className="text-[10px] text-white/40">No active order chats</span>
-            </div>
+            {activeChat ? (
+              <ChatPanel
+                threads={chatThreads}
+                active={activeChat}
+                onSelect={setActiveChatId}
+              />
+            ) : (
+              <>
+                <div className="px-3 py-2 border-b border-white/[0.05] flex items-center justify-between flex-shrink-0">
+                  <div className="flex items-center gap-1.5">
+                    <MessageSquare className="w-3.5 h-3.5 text-white/60" />
+                    <span className="text-[11px] font-medium text-white/80 uppercase tracking-wider">
+                      Messages
+                    </span>
+                  </div>
+                </div>
+                <div className="flex-1 flex flex-col items-center justify-center text-center min-h-0">
+                  <div className="w-7 h-7 rounded-full bg-white/[0.04] border border-white/[0.06] flex items-center justify-center mb-1.5">
+                    <MessageSquare className="w-3 h-3 text-white/30" />
+                  </div>
+                  <span className="text-[10px] text-white/40">No active order chats</span>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -974,6 +1209,206 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
 }
 
 /* ───────────────────── Sub-components ───────────────────── */
+
+function NotificationIcon({ kind }: { kind: Notification["kind"] }) {
+  const map: Record<
+    Notification["kind"],
+    { Icon: React.ComponentType<{ className?: string }>; cls: string }
+  > = {
+    order_new: {
+      Icon: Activity,
+      cls: "bg-blue-500/15 border-blue-500/30 text-blue-300",
+    },
+    order_accepted: {
+      Icon: CheckCircle2,
+      cls: "bg-emerald-500/15 border-emerald-500/30 text-emerald-300",
+    },
+    escrow_locked: {
+      Icon: Lock,
+      cls: "bg-amber-500/15 border-amber-500/30 text-amber-300",
+    },
+    payment_received: {
+      Icon: ArrowDownToLine,
+      cls: "bg-violet-500/15 border-violet-500/30 text-violet-300",
+    },
+    trade_settled: {
+      Icon: Shield,
+      cls: "bg-emerald-500/15 border-emerald-500/30 text-emerald-300",
+    },
+    system: {
+      Icon: Bell,
+      cls: "bg-white/[0.06] border-white/[0.08] text-white/60",
+    },
+  };
+  const { Icon, cls } = map[kind];
+  return (
+    <div
+      className={`w-5 h-5 rounded-full border flex items-center justify-center flex-shrink-0 ${cls}`}
+    >
+      <Icon className="w-2.5 h-2.5" />
+    </div>
+  );
+}
+
+interface ChatPanelProps {
+  threads: ChatThread[];
+  active: ChatThread;
+  onSelect: (orderId: string) => void;
+}
+
+function ChatPanel({ threads, active, onSelect }: ChatPanelProps) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!scrollRef.current) return;
+    scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  }, [active.messages.length, active.orderId]);
+
+  return (
+    <>
+      {/* Header: counterparty + status */}
+      <div className="px-3 py-2 border-b border-white/[0.05] flex items-center gap-2 flex-shrink-0">
+        <div className="relative w-7 h-7 rounded-lg bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-base flex-shrink-0">
+          {active.avatar}
+          {active.isOnline && (
+            <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-black" />
+          )}
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-1.5">
+            <p className="text-[11px] font-medium text-white/85 truncate">{active.user}</p>
+            <span
+              className={`text-[9px] px-1 py-[1px] rounded font-mono border ${
+                active.side === "BUY"
+                  ? "bg-emerald-500/10 text-emerald-300 border-emerald-500/25"
+                  : "bg-orange-500/10 text-orange-300 border-orange-500/25"
+              }`}
+            >
+              {active.side}
+            </span>
+          </div>
+          <p className="text-[9px] font-mono text-white/40 truncate">
+            {active.isTyping ? (
+              <span className="text-emerald-300">typing…</span>
+            ) : active.isOnline ? (
+              <span className="text-emerald-300/80">Online</span>
+            ) : (
+              `#${active.orderId}`
+            )}
+          </p>
+        </div>
+        <span className="text-[9px] font-mono text-white/35 tabular-nums flex-shrink-0">
+          {active.amount.toLocaleString()} USDT
+        </span>
+      </div>
+
+      {/* Thread switcher — only if multiple threads */}
+      {threads.length > 1 && (
+        <div className="px-2 py-1 border-b border-white/[0.04] flex items-center gap-1 overflow-x-auto flex-shrink-0">
+          {threads.slice(0, 4).map((t) => {
+            const isActive = t.orderId === active.orderId;
+            return (
+              <button
+                key={t.orderId}
+                onClick={() => onSelect(t.orderId)}
+                className={`flex items-center gap-1 px-1.5 py-0.5 rounded-md border whitespace-nowrap transition-colors ${
+                  isActive
+                    ? "bg-white/[0.08] border-white/15 text-white"
+                    : "bg-white/[0.02] border-white/[0.05] text-white/45 hover:text-white/70"
+                }`}
+              >
+                <span className="text-xs leading-none">{t.avatar}</span>
+                <span className="text-[10px] font-medium">{t.user}</span>
+                {t.unread > 0 && !isActive && (
+                  <span className="px-1 rounded-full bg-emerald-500/25 text-emerald-300 text-[8px] font-bold tabular-nums">
+                    {t.unread}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Messages */}
+      <div
+        ref={scrollRef}
+        className="flex-1 overflow-y-auto px-3 py-2 space-y-1.5 min-h-0"
+      >
+        <AnimatePresence initial={false}>
+          {active.messages.map((m) => {
+            const isMe = m.from === "me";
+            return (
+              <motion.div
+                key={m.id}
+                layout
+                initial={{ opacity: 0, y: 6, scale: 0.96 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ type: "spring", stiffness: 380, damping: 28 }}
+                className={`flex ${isMe ? "justify-end" : "justify-start"}`}
+              >
+                <div
+                  className={`max-w-[80%] px-2 py-1 rounded-lg text-[10px] leading-snug ${
+                    isMe
+                      ? "bg-emerald-500/15 border border-emerald-500/25 text-emerald-100 rounded-br-sm"
+                      : "bg-white/[0.05] border border-white/[0.08] text-white/85 rounded-bl-sm"
+                  }`}
+                >
+                  <p>{m.text}</p>
+                  <div
+                    className={`text-[8px] font-mono mt-0.5 ${
+                      isMe ? "text-emerald-300/50 text-right" : "text-white/30"
+                    }`}
+                  >
+                    {m.ts}
+                    {isMe && <span className="ml-1">✓✓</span>}
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </AnimatePresence>
+        {active.isTyping && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="flex justify-start"
+          >
+            <div className="px-2 py-1.5 rounded-lg rounded-bl-sm bg-white/[0.05] border border-white/[0.08]">
+              <div className="flex items-center gap-1">
+                {[0, 1, 2].map((i) => (
+                  <motion.span
+                    key={i}
+                    className="w-1 h-1 rounded-full bg-white/60"
+                    animate={{ y: [0, -2, 0], opacity: [0.4, 1, 0.4] }}
+                    transition={{
+                      duration: 0.9,
+                      repeat: Infinity,
+                      delay: i * 0.15,
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </div>
+
+      {/* Input bar */}
+      <div className="border-t border-white/[0.05] p-2 flex-shrink-0">
+        <div className="flex items-center gap-1.5 bg-white/[0.03] border border-white/[0.06] rounded-md px-2 py-1">
+          <input
+            readOnly
+            placeholder="Type a message…"
+            className="flex-1 bg-transparent text-[10px] text-white/70 outline-none placeholder-white/30 min-w-0"
+          />
+          <button className="w-5 h-5 rounded-md bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 flex items-center justify-center">
+            <ChevronRight className="w-3 h-3" />
+          </button>
+        </div>
+      </div>
+    </>
+  );
+}
 
 function IconBtn({ children }: { children: React.ReactNode }) {
   return (
