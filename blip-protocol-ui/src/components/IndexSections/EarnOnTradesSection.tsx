@@ -161,7 +161,7 @@ function EarningsArt() {
 const EarnOnTradesSection = memo(function EarnOnTradesSection() {
   return (
     <section
-      className="relative text-black py-28 md:py-40 overflow-hidden"
+      className="relative text-black pt-10 md:pt-16 pb-16 md:pb-32 overflow-hidden"
       style={{ background: "#FAF8F5" }}
     >
       <div
@@ -180,47 +180,37 @@ const EarnOnTradesSection = memo(function EarnOnTradesSection() {
           viewport={{ once: true, margin: "-15%" }}
           transition={{ duration: 1, ease: EASE }}
         >
-          <div className="inline-flex items-center gap-2 mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#cc785c]" />
-            <span className="text-[11px] font-bold tracking-[0.32em] uppercase" style={{ color: "#cc785c" }}>
-              For Merchants
+          <h2
+            className="font-display leading-[1.02] mb-6"
+            style={{
+              fontSize: "clamp(2.8rem, 5.4vw, 4.4rem)",
+              fontWeight: 500,
+              letterSpacing: "-0.035em",
+            }}
+          >
+            Earn up to 10%{" "}
+            <span style={{ fontStyle: "italic", fontFamily: "ui-serif, Georgia, serif" }}>
+              on every trade.
             </span>
-          </div>
-          <h2 className="text-[clamp(2.6rem,5.8vw,4.5rem)] font-semibold tracking-[-0.025em] leading-[1.02] mb-6">
-            Earn up to <span style={{ color: "#cc785c" }}>10%</span> <br className="hidden md:block" />
-            <span className="text-black/45">on every trade.</span>
           </h2>
-          <p className="text-black/55 text-[1.05rem] md:text-[1.18rem] leading-[1.55] max-w-[480px] mb-9">
-            Fulfill real settlement demand from your local market. Set your own spreads,
-            build reputation, withdraw on your schedule.
+          <p className="text-[18px] md:text-[19px] leading-[1.55] opacity-70 max-w-[480px] mb-9">
+            Liquidity providers and merchants earn real yield by routing real orders.
+            No emissions, no farming.
           </p>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-            <Link
-              to="/merchant"
-              className="group inline-flex items-center justify-center gap-2 h-[46px] px-7 rounded-full bg-black text-white text-[13.5px] font-semibold tracking-tight transition-all duration-300 shadow-[0_12px_30px_-10px_rgba(0,0,0,0.4)] hover:shadow-[0_18px_42px_-12px_rgba(0,0,0,0.45)] hover:-translate-y-[1px]"
-            >
-              <span>Join Merchant Waitlist</span>
-              <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
-            </Link>
-            <Link
-              to="/merchant"
-              className="group inline-flex items-center gap-1.5 h-[46px] px-2 text-black/65 text-[13.5px] font-medium tracking-tight hover:text-black transition-colors"
-            >
-              <span>How merchants earn</span>
-              <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
-            </Link>
-          </div>
-          <p className="text-[11px] text-black/35 mt-5 max-w-[420px] leading-relaxed">
-            Earnings depend on volume and competitive spreads. No guaranteed returns.
-          </p>
+          <Link
+            to="/merchant"
+            className="inline-flex items-center justify-center self-start gap-1.5 px-6 h-12 rounded-full bg-black text-white text-[14px] font-semibold tracking-tight transition-transform hover:-translate-y-[1px]"
+          >
+            Start earning <ArrowRight className="w-4 h-4" />
+          </Link>
         </motion.div>
 
         {/* Visual RIGHT */}
         <div>
           <IllustrationCard>
             <img
-              src="/generated/earn-trades.jpg"
-              alt="Merchant working at a warm sunlit desk checking earnings on a laptop"
+              src="/illustrations/earn-trade-card.png"
+              alt="Sleeping woman with her capital flowing out as a golden stream to global cities earning +10%"
               className="w-full h-full object-cover"
               loading="lazy"
             />

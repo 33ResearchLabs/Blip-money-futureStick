@@ -1,9 +1,86 @@
 import { memo } from "react";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check } from "lucide-react";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
+
+/* Subtle ambient: parallax-on-scroll + gentle float + halo pulse behind the card. */
+function AnimatedMerchantVisual() {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: wrapRef,
+    offset: ["start end", "end start"],
+  });
+  const parallaxY = useTransform(scrollYProgress, [0, 1], [40, -40]);
+
+  return (
+    <div ref={wrapRef} className="relative w-full max-w-[540px] mx-auto">
+      {/* Soft warm halo — pulses */}
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute -inset-10 rounded-[60px] blur-3xl"
+        style={{
+          background:
+            "radial-gradient(60% 50% at 50% 50%, rgba(255,180,140,0.45), transparent 70%)",
+        }}
+        animate={{ opacity: [0.45, 0.7, 0.45], scale: [0.96, 1.02, 0.96] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+      />
+
+      {/* Parallax + intro lift */}
+      <motion.div
+        style={{ y: parallaxY }}
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-15%" }}
+        transition={{ duration: 1.1, ease: EASE }}
+      >
+        <div
+          className="relative rounded-[22px] overflow-hidden bg-black"
+          style={{
+            aspectRatio: "1/1",
+            boxShadow:
+              "0 60px 140px -30px rgba(80,40,20,0.35), 0 28px 70px -28px rgba(0,0,0,0.22)",
+          }}
+        >
+          <img
+            src="/illustrations/become-merchant.png"
+            alt="Become a merchant — cozy storefront opening at golden-hour sunrise"
+            className="absolute inset-0 w-full h-full object-cover block"
+            loading="lazy"
+          />
+          <div className="absolute top-3 left-3 text-[10px] font-bold tracking-[0.18em] text-white/70 px-2 py-1 rounded bg-black/40">
+            APPLY
+          </div>
+          <div className="absolute top-3 right-3 text-[10px] font-bold tracking-[0.18em] text-white/70 px-2 py-1 rounded bg-black/40 text-right">
+            ONBOARD IN <span className="text-white">5 MIN</span>
+          </div>
+          <div className="absolute inset-x-3 bottom-3 rounded-2xl bg-white/95 text-black px-4 py-3 flex items-center justify-between">
+            <div>
+              <div className="font-display text-[15px] leading-tight">
+                Three quick steps.{" "}
+                <span style={{ fontStyle: "italic", fontFamily: "ui-serif, Georgia, serif" }}>
+                  Then you're live.
+                </span>
+              </div>
+              <div className="text-[10px] tracking-tight opacity-60 mt-0.5">
+                Onboard in 5 minutes
+              </div>
+            </div>
+            <Link
+              to="/merchant"
+              className="bg-black text-white text-[12px] font-semibold rounded-full px-4 py-1.5 whitespace-nowrap inline-flex items-center gap-1"
+            >
+              Start <ArrowRight className="w-3 h-3" />
+            </Link>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
 
 const STEPS = [
   { t: "Apply", d: "30 seconds. Tell us your country and volume." },
@@ -99,7 +176,7 @@ function OnboardingVisual() {
 
 const BecomeMerchantSection = memo(function BecomeMerchantSection() {
   return (
-    <section className="relative bg-black text-white py-28 md:py-40 overflow-hidden">
+    <section className="relative bg-black text-white py-14 md:py-32 overflow-hidden">
       <div
         className="pointer-events-none absolute -right-40 top-1/4 w-[600px] h-[600px] rounded-full opacity-[0.07] blur-3xl"
         style={{ background: "radial-gradient(circle, #cc785c 0%, transparent 70%)" }}
@@ -107,15 +184,9 @@ const BecomeMerchantSection = memo(function BecomeMerchantSection() {
 
       <div className="relative max-w-7xl mx-auto px-6 md:px-10 grid md:grid-cols-2 gap-14 md:gap-20 items-center">
         {/* Visual LEFT */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-15%" }}
-          transition={{ duration: 1.1, ease: EASE }}
-          className="md:order-1 order-2"
-        >
-          <OnboardingVisual />
-        </motion.div>
+        <div className="md:order-1 order-2">
+          <AnimatedMerchantVisual />
+        </div>
 
         {/* Text RIGHT */}
         <motion.div

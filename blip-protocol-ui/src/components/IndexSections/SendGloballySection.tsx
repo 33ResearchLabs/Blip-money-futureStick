@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, Globe2 } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { IllustrationCard } from "./sceneArt";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -225,18 +225,9 @@ function PaymentMomentArt() {
 const SendGloballySection = memo(function SendGloballySection() {
   return (
     <section
-      className="relative text-black py-28 md:py-40 overflow-hidden"
-      style={{ background: "#FAF8F5" }}
+      className="relative text-black pt-16 md:pt-36 pb-10 md:pb-16 overflow-hidden"
+      style={{ background: "#ffffff" }}
     >
-      {/* Subtle film grain — premium, not retro */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.4] mix-blend-multiply"
-        style={{
-          background:
-            "radial-gradient(80% 60% at 50% 0%, rgba(204,120,92,0.07), transparent 60%)",
-        }}
-      />
-
       <div className="relative max-w-7xl mx-auto px-6 md:px-10 grid md:grid-cols-2 gap-14 md:gap-20 items-center">
         {/* Text */}
         <motion.div
@@ -245,47 +236,37 @@ const SendGloballySection = memo(function SendGloballySection() {
           viewport={{ once: true, margin: "-15%" }}
           transition={{ duration: 1, ease: EASE }}
         >
-          <div className="inline-flex items-center gap-2 mb-6">
-            <Globe2 className="w-3.5 h-3.5" style={{ color: "#cc785c" }} />
-            <span
-              className="text-[11px] font-bold tracking-[0.32em] uppercase"
-              style={{ color: "#cc785c" }}
-            >
-              Global Reach
+          <h2
+            className="font-display leading-[1.02] mb-6"
+            style={{
+              fontSize: "clamp(2.8rem, 5.4vw, 4.4rem)",
+              fontWeight: 500,
+              letterSpacing: "-0.035em",
+            }}
+          >
+            Pay anyone, anywhere.{" "}
+            <span style={{ fontStyle: "italic", fontFamily: "ui-serif, Georgia, serif" }}>
+              Instantly.
             </span>
-          </div>
-          <h2 className="text-[clamp(2.6rem,5.8vw,4.5rem)] font-semibold tracking-[-0.025em] leading-[1.02] mb-6 text-black">
-            Pay anyone, <br className="hidden md:block" />
-            <span className="text-black/45">anywhere. Instantly.</span>
           </h2>
-          <p className="text-black/55 text-[1.05rem] md:text-[1.18rem] leading-[1.55] max-w-[480px] mb-9">
-            Send money to anyone, in any country, in minutes. Blip's merchant network
-            settles locally on both sides — no banks, no waiting.
+          <p className="text-[18px] md:text-[19px] leading-[1.55] opacity-70 max-w-[480px] mb-9">
+            Send money to friends or family worldwide in under 60 seconds — no banks,
+            no friction, no waiting.
           </p>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-            <Link
-              to="/register"
-              className="group inline-flex items-center justify-center gap-2 h-[46px] px-7 rounded-full bg-black text-white text-[13.5px] font-semibold tracking-tight transition-all duration-300 shadow-[0_12px_30px_-10px_rgba(0,0,0,0.4)] hover:shadow-[0_18px_42px_-12px_rgba(0,0,0,0.45)] hover:-translate-y-[1px] active:scale-[0.985]"
-            >
-              <span>Join Waitlist</span>
-              <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
-            </Link>
-            <Link
-              to="/rates"
-              className="group inline-flex items-center gap-1.5 h-[46px] px-2 text-black/65 text-[13.5px] font-medium tracking-tight hover:text-black transition-colors"
-            >
-              <span>See live routes</span>
-              <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
-            </Link>
-          </div>
+          <Link
+            to="/register"
+            className="inline-flex items-center justify-center self-start gap-1.5 px-6 h-12 rounded-full bg-black text-white text-[14px] font-semibold tracking-tight transition-transform hover:-translate-y-[1px]"
+          >
+            Send money <ArrowRight className="w-4 h-4" />
+          </Link>
         </motion.div>
 
         {/* Visual */}
         <div className="relative">
           <IllustrationCard>
             <img
-              src="/generated/pay-anywhere.jpg"
-              alt="Person holding a phone overlooking a global city at golden hour"
+              src="/illustrations/pay-anyone-card.png"
+              alt="Dubai sender and Indian family receiver connected by a golden thread"
               className="w-full h-full object-cover"
               loading="lazy"
             />

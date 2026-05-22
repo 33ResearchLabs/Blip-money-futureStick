@@ -163,14 +163,13 @@ function RateMarketArt() {
 const BestRatesSection = memo(function BestRatesSection() {
   return (
     <section
-      className="relative text-black py-28 md:py-40 overflow-hidden"
-      style={{ background: "#FAF8F5" }}
+      className="relative bg-black text-white py-12 md:py-24 overflow-hidden"
     >
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.4] mix-blend-multiply"
+        className="pointer-events-none absolute inset-0 opacity-[0.7]"
         style={{
           background:
-            "radial-gradient(70% 60% at 0% 50%, rgba(204,120,92,0.07), transparent 60%)",
+            "radial-gradient(70% 60% at 0% 50%, rgba(110,224,197,0.07), transparent 60%), radial-gradient(60% 50% at 100% 50%, rgba(204,120,92,0.08), transparent 65%)",
         }}
       />
 
@@ -179,8 +178,8 @@ const BestRatesSection = memo(function BestRatesSection() {
         <div className="md:order-1 order-2">
           <IllustrationCard>
             <img
-              src="/generated/best-rates.jpg"
-              alt="Woman in a warm café checking live exchange rates on her phone"
+              src="/illustrations/rate-neon-card.png"
+              alt="Night bazaar with merchants bidding, middle merchant winning with mint-green sign and gold coin"
               className="w-full h-full object-cover"
               loading="lazy"
             />
@@ -195,36 +194,29 @@ const BestRatesSection = memo(function BestRatesSection() {
           transition={{ duration: 1, delay: 0.1, ease: EASE }}
           className="md:order-2 order-1"
         >
-          <div className="inline-flex items-center gap-2 mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#cc785c]" />
-            <span className="text-[11px] font-bold tracking-[0.32em] uppercase" style={{ color: "#cc785c" }}>
-              Best Rates · Guaranteed
+          <h2
+            className="font-display leading-[1.02] mb-6"
+            style={{
+              fontSize: "clamp(2.8rem, 5.4vw, 4.4rem)",
+              fontWeight: 500,
+              letterSpacing: "-0.035em",
+            }}
+          >
+            The best rate,{" "}
+            <span style={{ fontStyle: "italic", fontFamily: "ui-serif, Georgia, serif" }}>
+              every single time.
             </span>
-          </div>
-          <h2 className="text-[clamp(2.6rem,5.8vw,4.5rem)] font-semibold tracking-[-0.025em] leading-[1.02] mb-6">
-            The best rate, <br className="hidden md:block" />
-            <span className="text-black/45">every single time.</span>
           </h2>
-          <p className="text-black/55 text-[1.05rem] md:text-[1.18rem] leading-[1.55] max-w-[480px] mb-9">
-            Every transfer is sent to Blip Market, where merchants compete in real time
-            to fulfill it. You always take the winning quote.
+          <p className="text-[18px] md:text-[19px] leading-[1.55] opacity-70 max-w-[480px] mb-9">
+            Live rates from real merchants competing for your order. The winner is always
+            the best price.
           </p>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-            <Link
-              to="/rates"
-              className="group inline-flex items-center justify-center gap-2 h-[46px] px-7 rounded-full bg-black text-white text-[13.5px] font-semibold tracking-tight transition-all duration-300 shadow-[0_12px_30px_-10px_rgba(0,0,0,0.4)] hover:shadow-[0_18px_42px_-12px_rgba(0,0,0,0.45)] hover:-translate-y-[1px]"
-            >
-              <span>Check Rates</span>
-              <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
-            </Link>
-            <Link
-              to="/register"
-              className="group inline-flex items-center gap-1.5 h-[46px] px-2 text-black/65 text-[13.5px] font-medium tracking-tight hover:text-black transition-colors"
-            >
-              <span>Join Waitlist</span>
-              <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
-            </Link>
-          </div>
+          <Link
+            to="/rates"
+            className="inline-flex items-center justify-center self-start gap-1.5 px-6 h-12 rounded-full bg-white text-black text-[14px] font-semibold tracking-tight transition-transform hover:-translate-y-[1px]"
+          >
+            See live rates <ArrowRight className="w-4 h-4" />
+          </Link>
         </motion.div>
       </div>
     </section>

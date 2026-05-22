@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useMemo, memo } from "react";
 import { motion, useInView, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
+import { MerchantCardsImageCarousel } from "./MerchantCardsImageCarousel";
 import {
   ArrowRight,
   Loader2,
@@ -2012,8 +2013,8 @@ const CinematicHero = () => {
             profit on every settlement — paid out instantly, on-chain.
           </p>
 
-          {/* ── 6-card horizontal scroller, flat on black ── */}
-          <MerchantCardCarousel />
+          {/* ── 4-card image carousel (Gemini illustrations) ── */}
+          <MerchantCardsImageCarousel />
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-5">
             <Link
