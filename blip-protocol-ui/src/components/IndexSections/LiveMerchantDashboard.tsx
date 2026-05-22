@@ -359,10 +359,12 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
 
       {/* Body grid — tuned to fit a max-w-5xl (1024px) browser frame without
           column overlap. Pending/InProgress use 1fr each; sidebar + side rails
-          are fixed and narrow. */}
-      <div className="grid grid-cols-1 lg:grid-cols-[220px_minmax(200px,1fr)_minmax(200px,1fr)_220px_220px] min-h-[520px] max-h-[640px]">
+          are fixed and narrow. On lg+ the grid is height-locked + overflow-
+          hidden so streaming pending orders don't push the dashboard taller —
+          inner panels clip via their own flex-1 overflow rules. */}
+      <div className="grid grid-cols-1 lg:grid-cols-[220px_minmax(200px,1fr)_minmax(200px,1fr)_220px_220px] lg:h-[600px] lg:overflow-hidden">
         {/* ===== Col 1: Wallet sidebar ===== */}
-        <div className="border-r border-white/[0.05] flex flex-col">
+        <div className="border-r border-white/[0.05] flex flex-col min-h-0">
           <div className="flex items-center justify-between px-3 py-2 border-b border-white/[0.04] text-[9px] font-mono">
             <div className="flex items-center gap-3">
               <span className="flex items-center gap-1 text-white/60">
@@ -541,7 +543,7 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
         </div>
 
         {/* ===== Col 2: Pending Orders ===== */}
-        <div className="border-r border-white/[0.05] flex flex-col min-w-0">
+        <div className="border-r border-white/[0.05] flex flex-col min-w-0 min-h-0">
           <div className="px-3 py-2 border-b border-white/[0.05] flex items-center justify-between gap-1.5">
             <div className="flex items-center gap-0.5 text-[10px] min-w-0">
               {(["All", "Pending", "My Orders"] as const).map((t) => {
@@ -588,7 +590,7 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
             </button>
           </div>
 
-          <div className="flex-1 overflow-hidden relative">
+          <div className="flex-1 overflow-y-auto relative min-h-0">
             <AnimatePresence initial={false}>
               {pendingOrders.length === 0 ? (
                 <EmptyState
@@ -662,7 +664,7 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
         </div>
 
         {/* ===== Col 3: In Progress ===== */}
-        <div className="border-r border-white/[0.05] flex flex-col min-w-0">
+        <div className="border-r border-white/[0.05] flex flex-col min-w-0 min-h-0">
           <div className="px-3 py-2 border-b border-white/[0.05] flex items-center justify-between">
             <div className="flex items-center gap-1.5">
               <Shield className="w-3 h-3 text-white/50" />
@@ -688,7 +690,7 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
             })}
           </div>
 
-          <div className="flex-1 overflow-hidden relative">
+          <div className="flex-1 overflow-y-auto relative min-h-0">
             {activeTrades.length === 0 ? (
               <EmptyState
                 icon={<Shield className="w-5 h-5 text-white/20" />}
@@ -768,7 +770,7 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
         </div>
 
         {/* ===== Col 4: Leaderboard + Activity (50/50 split) ===== */}
-        <div className="border-r border-white/[0.05] grid grid-rows-2 min-w-0">
+        <div className="border-r border-white/[0.05] grid grid-rows-2 min-w-0 min-h-0">
           {/* Top half: Leaderboard */}
           <div className="flex flex-col min-h-0 border-b border-white/[0.05]">
             <div className="px-3 py-2 border-b border-white/[0.05] flex items-center justify-between flex-shrink-0">
@@ -880,7 +882,7 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
         </div>
 
         {/* ===== Col 5: Notifications + Messages (50/50 split) ===== */}
-        <div className="grid grid-rows-2 min-w-0">
+        <div className="grid grid-rows-2 min-w-0 min-h-0">
           {/* Top half: Notifications */}
           <div className="flex flex-col min-h-0 border-b border-white/[0.05]">
             <div className="px-3 py-2 border-b border-white/[0.05] flex items-center justify-between flex-shrink-0">
