@@ -327,7 +327,7 @@ const App = () => (
                     <Route path="/merchant-login" element={<MerchantLogin initialView="waitlist" />} />
                   </Route>
 
-                  {/* PROTECTED DASHBOARD (NO LAYOUT) */}
+                  {/* PROTECTED DASHBOARDS */}
                   <Route
                     path="/dashboard"
                     element={
@@ -336,7 +336,6 @@ const App = () => (
                       </ProtectedRoute>
                     }
                   />
-
                   <Route
                     path="/merchant-dashboard"
                     element={

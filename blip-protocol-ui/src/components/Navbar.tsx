@@ -67,29 +67,23 @@ export const Navbar = () => {
         }}
         transition={{ duration: 0.25 }}
         style={{ top: bannerHeight }}
-        className={`fixed w-full z-50  ${
+        className={`fixed w-full z-50 transition-[background-color,border-color,backdrop-filter] duration-300 ${
           isScrolled
-            ? "bg-[#1d1d1f]/90 dark:bg-[rgba(10,10,11,0.8)] backdrop-blur-xl dark:backdrop-blur-xl border-b border-white/[0.06] dark:border-white/[0.06]"
-            : "bg-black border-b border-white/[0.06] dark:border-white/[0.06]"
+            ? "bg-black/55 dark:bg-[rgba(8,8,10,0.62)] backdrop-blur-2xl border-b border-white/[0.06]"
+            : "bg-black/25 backdrop-blur-md border-b border-white/[0.03]"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="h-[61px] flex items-center justify-between">
+        <div className="max-w-[1240px] mx-auto px-6 sm:px-8 lg:px-10">
+          <div className="h-[68px] flex items-center justify-between">
             <Logo onDark={true} />
 
-            <div className="hidden lg:flex items-center gap-1">
+            <div className="hidden lg:flex items-center gap-1.5 xl:gap-2.5">
               <NavItem to="/how-it-works" onDark={true}>
                 {t("howItWorks")}
               </NavItem>
               <NavItem to="/merchant" onDark={true}>
                 Merchant
               </NavItem>
-              {/* <NavItem to="/research" onDark={true}>
-                Research
-              </NavItem>
-              <NavItem to="/blog" onDark={true}>
-                Blog
-              </NavItem> */}
               <NavItem to="/user" onDark={true}>
                 User
               </NavItem>

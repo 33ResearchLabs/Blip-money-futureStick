@@ -53,6 +53,8 @@ const Index = () => {
         {/* 1. Cinematic Hero */}
         <CinematicHero />
 
+        {/* Global Liquidity section removed — dashboard now lives in the hero */}
+
         {/* 2. The Break — Problem → Settlement Layer (eager: visible to every scroller) */}
         <ProblemSection />
 
