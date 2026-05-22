@@ -681,7 +681,7 @@ export default function MerchantDashboard() {
     {
       id: "referral",
       title: "Share Referral Link",
-      reward: "+1,000 BLIP",
+      reward: "+50 BLIP",
       icon: Send,
     },
   ];
@@ -1113,17 +1113,17 @@ export default function MerchantDashboard() {
                   successful referral. There's no limit to how much you can
                   earn!
                 </p>
-                <div className="flex flex-wrap items-center gap-2.5">
+                <div className="flex flex-wrap items-center justify-center gap-2.5">
                   <button
                     onClick={() => setShowReferralModal(true)}
-                    className=" border border-[#ff6b35]/50 bg-white text-black px-5 py-2.5 rounded-md text-[11px] font-bold uppercase tracking-[0.14em] hover:opacity-90 active:scale-[0.98] transition flex items-center gap-2"
+                    className={`border border-[#ff6b35]/50 ${accentBg} ${d ? "text-black" : "text-white"} px-5 py-2.5 rounded-md text-[11px] font-bold uppercase tracking-[0.14em] hover:opacity-90 active:scale-[0.98] transition flex items-center gap-2`}
                   >
                     <Share2 className="w-3.5 h-3.5" />
                     Share Your Code
                   </button>
                   <button
                     onClick={() => setShowHowItWorksModal(true)}
-                    className={`${inputBg} border ${border} ${txt} px-5 py-2.5 rounded-md text-[11px] font-bold uppercase tracking-[0.14em] ${hov} transition flex items-center gap-2`}
+                    className={`${inputBg} border ${border} ${txt} md:px-5 px-8 py-2.5 rounded-md text-[11px] font-bold uppercase tracking-[0.14em] ${hov} transition flex items-center gap-2`}
                   >
                     How It Works
                     <Info className="w-3.5 h-3.5" />
@@ -1214,7 +1214,8 @@ export default function MerchantDashboard() {
                   rel="noopener noreferrer"
                   className={`${inputBg} border ${border} rounded-md px-2 py-2 text-[10px] font-bold ${txt} flex items-center justify-center gap-1.5 ${hov} transition`}
                 >
-                  <XBrand className="w-3 h-3" />X (Twitter)
+                  <XBrand className="w-3 h-3" />
+                  <span className="hidden sm:inline">X (Twitter)</span>
                 </a>
                 <a
                   href={`https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=${encodeURIComponent("Join Blip Money with my referral!")}`}
@@ -1223,14 +1224,14 @@ export default function MerchantDashboard() {
                   className={`${inputBg} border ${border} rounded-md px-2 py-2 text-[10px] font-bold ${txt} flex items-center justify-center gap-1.5 ${hov} transition`}
                 >
                   <Send className="w-3 h-3" />
-                  Telegram
+                  <span className="hidden sm:inline">Telegram</span>
                 </a>
                 <button
                   onClick={() => setShowReferralModal(true)}
                   className={`${inputBg} border ${border} rounded-md px-2 py-2 text-[10px] font-bold ${txt} flex items-center justify-center gap-1.5 ${hov} transition`}
                 >
                   <Share2 className="w-3 h-3" />
-                  More
+                  <span className="hidden sm:inline">More</span>
                 </button>
               </div>
             </div>
@@ -1365,7 +1366,7 @@ export default function MerchantDashboard() {
                 href="https://forms.gle/UyfhpcMdq8BSTQSZA"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-[#fff] text-black px-5 py-2.5 rounded-md text-[11px] font-bold uppercase tracking-[0.14em] hover:opacity-90 active:scale-[0.98] transition flex items-center gap-2 shrink-0 border border-[#ff6b35]/50"
+                className={`${accentBg} ${d ? "text-black" : "text-white"} px-5 py-2.5 rounded-md text-[11px] font-bold uppercase tracking-[0.14em] hover:opacity-90 active:scale-[0.98] transition flex items-center gap-2 shrink-0 border border-[#ff6b35]/50`}
               >
                 Submit Google Form
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -1385,89 +1386,88 @@ export default function MerchantDashboard() {
                 </span>
               </div>
               <div
-                className={`grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-0 md:divide-x ${divider}`}
+                className={`grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-0 md:divide-x ${divider}`}
               >
                 {/* Total Referrals */}
-                <div className="flex items-center gap-3 md:px-5 md:first:pl-0">
+                <div className={`flex flex-col items-start gap-2.5 p-3 md:p-0 md:px-5 md:flex-row md:items-center md:gap-3 ${inputBg} border ${border} rounded-lg md:bg-transparent md:border-0 md:rounded-none md:first:pl-0`}>
                   <div
-                    className={`w-11 h-11 rounded-lg ${inputBg} border ${border} flex items-center justify-center shrink-0`}
+                    className={`w-10 h-10 md:w-11 md:h-11 rounded-lg ${surface} border ${border} flex items-center justify-center shrink-0`}
                   >
-                    <Target className={`w-5 h-5 ${txt}`} />
+                    <Target className={`w-4 h-4 md:w-5 md:h-5 ${txt}`} />
                   </div>
                   <div className="min-w-0">
                     <p
-                      className={`text-xl font-black font-display ${txt} leading-tight`}
+                      className={`text-2xl md:text-xl font-black font-display ${txt} leading-tight`}
                     >
                       {referralCount}
                     </p>
-                    <p className={`text-[11px] font-bold ${txt} leading-tight`}>
+                    <p className={`text-[11px] font-bold ${txt} leading-tight mt-0.5`}>
                       Total Referrals
                     </p>
-                    <p className={`text-[10px] ${sub}`}>All time</p>
+                    <p className={`text-[10px] ${sub} mt-0.5`}>All time</p>
                   </div>
                 </div>
 
                 {/* Verified Referrals */}
-                <div className="flex items-center gap-3 md:px-5">
+                <div className={`flex flex-col items-start gap-2.5 p-3 md:p-0 md:px-5 md:flex-row md:items-center md:gap-3 ${inputBg} border ${border} rounded-lg md:bg-transparent md:border-0 md:rounded-none`}>
                   <div
-                    className={`w-11 h-11 rounded-lg ${inputBg} border ${border} flex items-center justify-center shrink-0`}
+                    className={`w-10 h-10 md:w-11 md:h-11 rounded-lg ${surface} border ${border} flex items-center justify-center shrink-0`}
                   >
-                    <BadgeCheck className={`w-5 h-5 ${txt}`} />
+                    <BadgeCheck className={`w-4 h-4 md:w-5 md:h-5 ${txt}`} />
                   </div>
                   <div className="min-w-0">
                     <p
-                      className={`text-xl font-black font-display ${txt} leading-tight`}
+                      className={`text-2xl md:text-xl font-black font-display ${txt} leading-tight`}
                     >
                       {referralCount}
                     </p>
-                    <p className={`text-[11px] font-bold ${txt} leading-tight`}>
-                      Completed Quests 
+                    <p className={`text-[11px] font-bold ${txt} leading-tight mt-0.5`}>
+                      Completed Quests
                     </p>
-                    <p className={`text-[10px] ${sub}`}>Completed KYC</p>
+                    <p className={`text-[10px] ${sub} mt-0.5`}>Completed KYC</p>
                   </div>
                 </div>
 
                 {/* Total Points Earned */}
-                <div className="flex items-center gap-3 md:px-5">
+                <div className={`flex flex-col items-start gap-2.5 p-3 md:p-0 md:px-5 md:flex-row md:items-center md:gap-3 ${inputBg} border ${border} rounded-lg md:bg-transparent md:border-0 md:rounded-none`}>
                   <div
-                    className={`w-11 h-11 rounded-lg ${inputBg} border ${border} flex items-center justify-center shrink-0`}
+                    className={`w-10 h-10 md:w-11 md:h-11 rounded-lg ${surface} border ${border} flex items-center justify-center shrink-0`}
                   >
-                    <UserPlus className={`w-5 h-5 ${txt}`} />
+                    <UserPlus className={`w-4 h-4 md:w-5 md:h-5 ${txt}`} />
                   </div>
                   <div className="min-w-0">
                     <p
-                      className={`text-xl font-black font-display ${txt} leading-tight`}
+                      className={`text-2xl md:text-xl font-black font-display ${txt} leading-tight`}
                     >
                       {(referralCount * 50).toLocaleString()}{" "}
                       <span className="text-xs font-bold">pts</span>
                     </p>
-                    <p className={`text-[11px] font-bold ${txt} leading-tight`}>
+                    <p className={`text-[11px] font-bold ${txt} leading-tight mt-0.5`}>
                       Total Points Earned
                     </p>
-                    <p className={`text-[10px] ${sub}`}>From Referrals</p>
+                    <p className={`text-[10px] ${sub} mt-0.5`}>From Referrals</p>
                   </div>
                 </div>
 
                 {/* Pending Points */}
-                <div className="flex items-center gap-3 md:px-5 md:last:pr-0">
+                <div className={`flex flex-col items-start gap-2.5 p-3 md:p-0 md:px-5 md:flex-row md:items-center md:gap-3 ${inputBg} border ${border} rounded-lg md:bg-transparent md:border-0 md:rounded-none md:last:pr-0`}>
                   <div
-                    className={`w-11 h-11 rounded-lg ${inputBg} border ${border} flex items-center justify-center shrink-0`}
+                    className={`w-10 h-10 md:w-11 md:h-11 rounded-lg ${surface} border ${border} flex items-center justify-center shrink-0`}
                   >
-                    <Sparkles className={`w-5 h-5 ${txt}`} />
+                    <Sparkles className={`w-4 h-4 md:w-5 md:h-5 ${txt}`} />
                   </div>
                   <div className="min-w-0">
                     <p
-                      className={`text-xl font-black font-display ${txt} leading-tight`}
+                      className={`text-2xl md:text-xl font-black font-display ${txt} leading-tight`}
                     >
                       0 <span className="text-xs font-bold">pts</span>
                     </p>
                     <p
-                      className={`text-[11px] font-bold ${txt} leading-tight flex items-center gap-1`}
+                      className={`text-[11px] font-bold ${txt} leading-tight flex items-center gap-1 mt-0.5`}
                     >
                       Pending Points
-                      <Info className={`w-3 h-3 ${sub}`} />
                     </p>
-                    <p className={`text-[10px] ${sub}`}>Not yet claimed</p>
+                    <p className={`text-[10px] ${sub} mt-0.5`}>Not yet claimed</p>
                   </div>
                 </div>
               </div>
@@ -1618,7 +1618,7 @@ export default function MerchantDashboard() {
                     "_blank",
                   )
                 }
-                className="px-4 py-2 bg-white hover:bg-white/70 text-black text-[11px] font-bold rounded-lg transition-colors shrink-0"
+                className={`px-4 py-2 ${accentBg} ${d ? "text-black hover:bg-white/80" : "text-white hover:bg-black/80"} text-[11px] font-bold rounded-lg transition-colors shrink-0`}
               >
                 Send Request
               </button>
