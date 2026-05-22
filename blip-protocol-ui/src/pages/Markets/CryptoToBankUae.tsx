@@ -463,7 +463,7 @@ export default function CryptoToBankUae() {
 
               <div className="flex flex-wrap items-center gap-3">
                 <Link
-                  to="https://app.blip.money/waitlist/user"
+                  to="/waitlist"
                   onClick={() => sounds.click()}
                   onMouseEnter={() => sounds.hover()}
                   className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-white text-black border border-black/10 font-semibold text-[15px] hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all"
@@ -672,7 +672,7 @@ export default function CryptoToBankUae() {
                       {method.recommended && (
                         <div className="mt-6 pt-5 border-t border-black/[0.06] dark:border-white/[0.06]">
                           <Link
-                            to="https://app.blip.money/waitlist/user"
+                            to="/waitlist"
                             onClick={() => sounds.click()}
                             onMouseEnter={() => sounds.hover()}
                             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black border border-black/10 font-semibold text-[14px] hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all"
@@ -972,7 +972,7 @@ export default function CryptoToBankUae() {
               Escrow-protected, non-custodial, lowest fees.
             </p>
             <Link
-              to="https://app.blip.money/waitlist/user"
+              to="/waitlist"
               onClick={() => sounds.click()}
               onMouseEnter={() => sounds.hover()}
               className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-black border border-black/10 font-semibold text-[15px] hover:scale-[1.01] hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98] transition-all"

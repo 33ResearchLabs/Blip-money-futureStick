@@ -3,7 +3,13 @@ import { ThemeProvider } from "next-themes";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useSearchParams,
+} from "react-router-dom";
 
 import "./i18n";
 
@@ -13,33 +19,45 @@ const StructuredData = lazy(() => import("@/components/StructuredData"));
 
 import MainLayout from "./Layout/RootLayout";
 import ScrollToTop from "./components/ScrollToTop";
-import { Toaster } from "./components/ui/toaster";
+import { SolanaWalletProvider } from "./providers/SolanaWalletProvider";
+import { AuthProvider } from "./contexts/AuthContext";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
-// ── External-redirect component ───────────────────────────────────────
-// The waitlist now lives at app.blip.money. Any visit to the legacy
-// `/waitlist` or `/merchant-waitlist` URL on this marketing site is
-// bounced to the new external URL via window.location.replace so the
-// SPA history doesn't keep the dead path around.
-const ExternalRedirect = ({ to }: { to: string }) => {
-  if (typeof window !== "undefined") {
-    window.location.replace(to);
-  }
-  return (
-    <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
-      <p className="text-sm text-black/60 dark:text-white/60">
-        Redirecting to {to}…
-      </p>
-    </div>
-  );
-};
+// Import wallet adapter CSS
+import "@solana/wallet-adapter-react-ui/styles.css";
+import { Toaster } from "./components/ui/toaster";
 
 const CryptoToUae = lazy(() => import("./pages/Markets/CryptoToUae"));
 const LegalPage = lazy(() => import("./pages/Legel/LeagalPage"));
+const UserRegister = lazy(() => import("./pages/Waitlist/UserRegister"));
+const ForgotPassword = lazy(() => import("./pages/Waitlist/ForgotPassword"));
+const ResetPassword = lazy(() => import("./pages/Waitlist/ResetPassword"));
+const EmailVerificationPending = lazy(
+  () => import("./pages/Waitlist/EmailVerificationPending"),
+);
+const VerifyEmail = lazy(() => import("./pages/Waitlist/VerifyEmail"));
+const MerchantDashboard = lazy(
+  () => import("./pages/Waitlist/MerchantDashboard"),
+);
+const MerchantLogin = lazy(() =>
+  import("./pages/Waitlist/MerchantLogin").then((m) => ({
+    default: m.MerchantLogin,
+  })),
+);
+const MerchantRegister = lazy(
+  () => import("./pages/Waitlist/MerchantRegister"),
+);
+const SuperAdminDashboard = lazy(
+  () => import("./pages/Waitlist/SuperAdminDashboard"),
+);
+const RedeemTelegram = lazy(() => import("./pages/Waitlist/RedeemTelegram"));
 
 // Lazy load page components
 const Index = lazy(() => import("./pages/Index"));
 const UAELandingPage = lazy(() => import("./pages/Unused/uae"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+// Tokenomics page removed — no token launch
+// const BlipTokenomics = lazy(() => import("./pages/Protocol/BlipTokenomics"));
 const ComingSoon = lazy(() => import("./components/ComingSoon"));
 const HowItWorksPage = lazy(() =>
   import("./pages/Protocol/HowItWorks").then((module) => ({
@@ -47,10 +65,13 @@ const HowItWorksPage = lazy(() =>
   })),
 );
 const ContactUs = lazy(() => import("./pages/Company/ContactUs"));
+const UserLogin = lazy(() => import("./pages/Waitlist/UserLogin"));
+const Dashboard = lazy(() => import("./pages/Waitlist/Dashboard"));
 const Privacy = lazy(() => import("./pages/Legel/Privecy"));
 const TermsService = lazy(() => import("./components/TermsService"));
 const Cookies = lazy(() => import("./components/Cookies"));
 const Gdpr = lazy(() => import("./pages/Legel/Gdpr"));
+const TwoFactorAuth = lazy(() => import("./components/TwoFactorAuth"));
 const Whitepaper = lazy(() => import("./pages/Protocol/Whitepaper"));
 const Merchant = lazy(() => import("./pages/UseCases/Merchant"));
 const User = lazy(() => import("./pages/User"));
@@ -107,6 +128,23 @@ const Rates = lazy(() => import("./pages/Rates"));
 const PseoCorridor = lazy(() => import("./pages/Markets/PseoCorridor"));
 import { getAllPseoSlugs } from "./data/pseoCorridors";
 
+// Handle Firebase auth action URLs (e.g. /?mode=resetPassword&oobCode=...)
+const FirebaseActionHandler = ({ children }: { children: React.ReactNode }) => {
+  const [searchParams] = useSearchParams();
+  const mode = searchParams.get("mode");
+  const oobCode = searchParams.get("oobCode");
+
+  if (mode === "resetPassword" && oobCode) {
+    return <Navigate to={`/reset-password?oobCode=${oobCode}`} replace />;
+  }
+
+  if (mode === "verifyEmail" && oobCode) {
+    return <Navigate to={`/verify-email?oobCode=${oobCode}`} replace />;
+  }
+
+  return <>{children}</>;
+};
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -125,115 +163,213 @@ const PageLoader = () => (
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="light"
-      enableSystem={false}
-      disableTransitionOnChange
-    >
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
+    <SolanaWalletProvider>
+      <AuthProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem={false}
+          disableTransitionOnChange
+        >
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
 
-        <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-          <Suspense fallback={null}>
-            <GoogleAnalytics />
-            <StructuredData type="organization" />
-            <StructuredData type="website" />
-          </Suspense>
-          <ScrollToTop />
-          <Suspense fallback={<PageLoader />}>
-            <Routes>
-              {/* PUBLIC ROUTES WITH LAYOUT */}
-              <Route element={<MainLayout />}>
-                <Route path="/" element={<Index />} />
-                <Route path="/rates" element={<Rates />} />
-                <Route path="/merchant" element={<Merchant />} />
-                <Route path="/user" element={<User />} />
-                <Route path="/uae" element={<UAELandingPage />} />
-                <Route path="/coming-soon" element={<ComingSoon />} />
-                <Route path="/how-it-works" element={<HowItWorksPage />} />
-                <Route path="/bounty" element={<Bounty />} />
-                <Route path="/rewards" element={<RewardPage />} />
-                <Route path="/contact" element={<ContactUs />} />
-                <Route path="/privacy" element={<Privacy />} />
-                <Route path="/terms" element={<TermsService />} />
-                <Route path="/cookies" element={<Cookies />} />
-                <Route path="/gdpr" element={<Gdpr />} />
-                <Route path="/legal" element={<LegalPage />} />
+            <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+              <Suspense fallback={null}>
+                <GoogleAnalytics />
+                <StructuredData type="organization" />
+                <StructuredData type="website" />
+              </Suspense>
+              <ScrollToTop />
+              <Suspense fallback={<PageLoader />}>
+                <Routes>
+                  {/* PUBLIC ROUTES WITH LAYOUT */}
+                  <Route element={<MainLayout />}>
+                    <Route
+                      path="/"
+                      element={
+                        <FirebaseActionHandler>
+                          <Index />
+                        </FirebaseActionHandler>
+                      }
+                    />
+                    <Route path="/register" element={<UserRegister />} />
+                    <Route
+                      path="/email-verification-pending"
+                      element={<EmailVerificationPending />}
+                    />
+                    <Route
+                      path="/forgot-password"
+                      element={<ForgotPassword />}
+                    />
+                    <Route path="/reset-password" element={<ResetPassword />} />
+                    <Route path="/verify-email" element={<VerifyEmail />} />
+                    {/* Tokenomics route removed — no token launch */}
+                    <Route path="/tokenomics" element={<Navigate to="/" replace />} />
+                    <Route path="/rates" element={<Rates />} />
+                    {/* <Route path="/rewards" element={<RewardsLanding />} /> */}
+                    <Route path="/merchant" element={<Merchant />} />
+                    <Route path="/user" element={<User />} />
+                    <Route path="/uae" element={<UAELandingPage />} />
+                    <Route path="/coming-soon" element={<ComingSoon />} />
+                    <Route path="/how-it-works" element={<HowItWorksPage />} />
+                    {/* <Route path="/airdrop" element={<Airdrop />} /> */}
+                    <Route path="/bounty" element={<Bounty />} />
+                    <Route path="/rewards" element={<RewardPage />} />
+                    <Route path="/contact" element={<ContactUs />} />
+                    <Route path="/privacy" element={<Privacy />} />
+                    <Route path="/terms" element={<TermsService />} />
+                    <Route path="/cookies" element={<Cookies />} />
+                    <Route path="/gdpr" element={<Gdpr />} />
+                    <Route path="/legal" element={<LegalPage />} />
 
-                <Route path="/whitepaper" element={<Whitepaper />} />
-                <Route path="/cryptoToAed" element={<CryptoToUae />} />
-                <Route path="/blog" element={<Blog />} />
-                <Route path="/blog/:slug" element={<BlogArticle />} />
-                <Route path="/research" element={<Research />} />
-                <Route path="/research/:slug" element={<ResearchArticle />} />
+                    <Route path="/whitepaper" element={<Whitepaper />} />
+                    <Route path="/twoFactorAuth" element={<TwoFactorAuth />} />
+                    <Route path="/cryptoToAed" element={<CryptoToUae />} />
+                    <Route path="/blog" element={<Blog />} />
+                    <Route path="/blog/:slug" element={<BlogArticle />} />
+                    <Route path="/research" element={<Research />} />
+                    <Route
+                      path="/research/:slug"
+                      element={<ResearchArticle />}
+                    />
 
-                {/* SEO & Content Pages */}
-                <Route path="/faq" element={<FAQ />} />
-                <Route path="/glossary" element={<Glossary />} />
-                <Route path="/changelog" element={<Changelog />} />
-                <Route path="/use-cases" element={<UseCases />} />
-                <Route path="/use-cases/:slug" element={<UseCaseDetail />} />
-                <Route path="/compare" element={<Compare />} />
-                <Route path="/compare/:slug" element={<Compare />} />
-                <Route path="/docs" element={<Docs />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/press" element={<Press />} />
-                <Route path="/community" element={<Community />} />
+                    {/* SEO & Content Pages */}
+                    <Route path="/faq" element={<FAQ />} />
+                    <Route path="/glossary" element={<Glossary />} />
+                    <Route path="/changelog" element={<Changelog />} />
+                    <Route path="/use-cases" element={<UseCases />} />
+                    <Route
+                      path="/use-cases/:slug"
+                      element={<UseCaseDetail />}
+                    />
+                    <Route path="/compare" element={<Compare />} />
+                    <Route path="/compare/:slug" element={<Compare />} />
+                    <Route path="/docs" element={<Docs />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/press" element={<Press />} />
+                    <Route path="/community" element={<Community />} />
 
-                {/* Geo Landing Pages */}
-                <Route path="/sell-usdt-dubai" element={<SellUsdtDubai />} />
-                <Route path="/crypto-payments-uae" element={<CryptoPaymentsUAE />} />
-                <Route path="/accept-crypto-business" element={<AcceptCryptoBusiness />} />
-                <Route path="/crypto-to-aed" element={<CryptoToAed />} />
-                <Route path="/crypto-remittance-uae" element={<CryptoRemittanceUae />} />
+                    {/* Geo Landing Pages */}
+                    <Route
+                      path="/sell-usdt-dubai"
+                      element={<SellUsdtDubai />}
+                    />
+                    <Route
+                      path="/crypto-payments-uae"
+                      element={<CryptoPaymentsUAE />}
+                    />
+                    <Route
+                      path="/accept-crypto-business"
+                      element={<AcceptCryptoBusiness />}
+                    />
+                    <Route path="/crypto-to-aed" element={<CryptoToAed />} />
+                    <Route
+                      path="/crypto-remittance-uae"
+                      element={<CryptoRemittanceUae />}
+                    />
 
-                {/* Per-Coin Converter Pages */}
-                <Route path="/btc-to-aed" element={<BtcToAed />} />
-                <Route path="/eth-to-aed" element={<EthToAed />} />
-                <Route path="/sol-to-aed" element={<SolToAed />} />
+                    {/* Per-Coin Converter Pages */}
+                    <Route path="/btc-to-aed" element={<BtcToAed />} />
+                    <Route path="/eth-to-aed" element={<EthToAed />} />
+                    <Route path="/sol-to-aed" element={<SolToAed />} />
 
-                {/* Per-Coin INR Converter Pages */}
-                <Route path="/crypto-to-inr" element={<CryptoToInr />} />
-                <Route path="/btc-to-inr" element={<BtcToInr />} />
-                <Route path="/eth-to-inr" element={<EthToInr />} />
-                <Route path="/sol-to-inr" element={<SolToInr />} />
+                    {/* Per-Coin INR Converter Pages */}
+                    <Route path="/crypto-to-inr" element={<CryptoToInr />} />
+                    <Route path="/btc-to-inr" element={<BtcToInr />} />
+                    <Route path="/eth-to-inr" element={<EthToInr />} />
+                    <Route path="/sol-to-inr" element={<SolToInr />} />
 
-                {/* Keyword Landing Pages */}
-                <Route path="/crypto-to-bank-uae" element={<CryptoToBankUae />} />
-                <Route path="/usdt-vs-usdc" element={<UsdtVsUsdc />} />
-                <Route path="/crypto-tax-uae" element={<CryptoTaxUae />} />
-                <Route path="/crypto-escrow-uae" element={<CryptoEscrowUae />} />
-                <Route path="/crypto-salary-uae" element={<CryptoSalaryUae />} />
-                <Route path="/buy-usdt-dubai" element={<BuyUsdtDubai />} />
-                <Route path="/crypto-otc-dubai" element={<CryptoOtcDubai />} />
-                <Route path="/best-crypto-exchange-uae" element={<BestCryptoExchangeUae />} />
-                <Route path="/bitcoin-price-uae" element={<BitcoinPriceUae />} />
+                    {/* Keyword Landing Pages */}
+                    <Route
+                      path="/crypto-to-bank-uae"
+                      element={<CryptoToBankUae />}
+                    />
+                    <Route path="/usdt-vs-usdc" element={<UsdtVsUsdc />} />
+                    <Route path="/crypto-tax-uae" element={<CryptoTaxUae />} />
+                    <Route
+                      path="/crypto-escrow-uae"
+                      element={<CryptoEscrowUae />}
+                    />
+                    <Route
+                      path="/crypto-salary-uae"
+                      element={<CryptoSalaryUae />}
+                    />
+                    <Route path="/buy-usdt-dubai" element={<BuyUsdtDubai />} />
+                    <Route
+                      path="/crypto-otc-dubai"
+                      element={<CryptoOtcDubai />}
+                    />
+                    <Route
+                      path="/best-crypto-exchange-uae"
+                      element={<BestCryptoExchangeUae />}
+                    />
+                    <Route
+                      path="/bitcoin-price-uae"
+                      element={<BitcoinPriceUae />}
+                    />
 
-                {/* Programmatic SEO corridor pages */}
-                {getAllPseoSlugs().map((slug) => (
-                  <Route key={slug} path={`/${slug}`} element={<PseoCorridor />} />
-                ))}
+                    {/* Programmatic SEO corridor pages — driven by src/data/pseoCorridors.ts (hand-crafted + generated) */}
+                    {getAllPseoSlugs().map((slug) => (
+                      <Route key={slug} path={`/${slug}`} element={<PseoCorridor />} />
+                    ))}
 
-                {/* ── Waitlist redirects ── the waitlist app lives at app.blip.money */}
-                <Route
-                  path="/waitlist"
-                  element={<ExternalRedirect to="https://app.blip.money/waitlist/user" />}
-                />
-                <Route
-                  path="/merchant-waitlist"
-                  element={<ExternalRedirect to="https://app.blip.money/waitlist/merchant" />}
-                />
-              </Route>
+                    {/* Rates moved to p2prate.live — Vercel handles 308 redirects via vercel.json */}
 
-              {/* 404 */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
-        </BrowserRouter>
-      </TooltipProvider>
-    </ThemeProvider>
+                    {/* Default waitlist entry points show the LOGIN screen; users
+                        click "Create one" / "Register as Merchant" to reach the
+                        register pages below. */}
+                    <Route path="/waitlist" element={<UserLogin initialView="waitlist" />} />
+                    <Route path="/merchant-waitlist" element={<MerchantLogin initialView="waitlist" />} />
+                    {/* Explicit register routes */}
+                    <Route path="/join-waitlist" element={<UserRegister />} />
+                    <Route path="/merchant-register" element={<MerchantRegister />} />
+                    {/* Explicit login routes (aliases of the waitlist defaults) */}
+                    <Route path="/login" element={<UserLogin initialView="waitlist" />} />
+                    <Route path="/merchant-login" element={<MerchantLogin initialView="waitlist" />} />
+                  </Route>
+
+                  {/* PROTECTED DASHBOARD (NO LAYOUT) */}
+                  <Route
+                    path="/dashboard"
+                    element={
+                      <ProtectedRoute requiredRole="user">
+                        <Dashboard />
+                      </ProtectedRoute>
+                    }
+                  />
+
+                  <Route
+                    path="/merchant-dashboard"
+                    element={
+                      <ProtectedRoute requiredRole="merchant">
+                        <MerchantDashboard />
+                      </ProtectedRoute>
+                    }
+                  />
+
+                  <Route
+                    path="/superadmin"
+                    element={
+                      <ProtectedRoute requiredRole="admin">
+                        <SuperAdminDashboard />
+                      </ProtectedRoute>
+                    }
+                  />
+
+                  {/* REDEEM TELEGRAM (public — handles auth internally) */}
+                  <Route path="/redeem" element={<RedeemTelegram />} />
+
+                  {/* 404 */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
+            </BrowserRouter>
+          </TooltipProvider>
+        </ThemeProvider>
+      </AuthProvider>
+    </SolanaWalletProvider>
   </QueryClientProvider>
 );
 
