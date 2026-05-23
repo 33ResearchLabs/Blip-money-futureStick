@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { SECTIONS, type Section, type SectionField } from "./sectionRegistry";
 import { useOverride, clearOverride, clearAllOverrides, listAllOverrides } from "@/hooks/useOverride";
@@ -84,6 +84,25 @@ function PageEditor({ page }: { page: "home" | "merchant" | "user" }) {
   const sections = SECTIONS.filter((s) => s.page === page);
   const pageMeta = PAGES.find((p) => p.id === page)!;
   const [refreshKey, setRefreshKey] = useState(0);
+  const [savedFlash, setSavedFlash] = useState(false);
+
+  // Auto-refresh the iframe whenever ANY override changes
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | null = null;
+    const bump = () => {
+      setSavedFlash(true);
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => {
+        setRefreshKey((k) => k + 1);
+        setSavedFlash(false);
+      }, 600);
+    };
+    window.addEventListener("blip:override-changed", bump);
+    return () => {
+      window.removeEventListener("blip:override-changed", bump);
+      if (timer) clearTimeout(timer);
+    };
+  }, []);
 
   return (
     <div>
@@ -96,11 +115,19 @@ function PageEditor({ page }: { page: "home" | "merchant" | "user" }) {
             onClick={() => setRefreshKey((k) => k + 1)}
             className="text-[10px] font-semibold text-white/55 hover:text-white px-1.5 py-0.5 rounded border border-white/10"
             title="Refresh preview"
-          >↻</button>
+          >↻ Refresh preview</button>
+          <span
+            className="text-[10px] font-bold tracking-[0.15em] px-1.5 py-0.5 rounded transition-opacity"
+            style={{ background: "rgba(110,224,197,0.18)", color: "#6ee0c5", opacity: savedFlash ? 1 : 0 }}
+          >✓ SAVED · APPLYING</span>
         </div>
         <a href={pageMeta.path} target="_blank" rel="noreferrer" className="text-[11px] font-semibold text-white/70 hover:text-white">
           Open {pageMeta.path} in new tab ↗
         </a>
+      </div>
+      <div className="text-[10.5px] text-white/45 mb-3">
+        Edits save automatically and apply live. Fields only appear here if the
+        page renders them via <code className="text-white/65">EditableText</code> — text on the page that's still hard-coded won't show up; tell me which one and I'll wire it.
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-4">
