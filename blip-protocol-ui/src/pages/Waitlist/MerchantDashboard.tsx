@@ -653,6 +653,110 @@ export default function MerchantDashboard() {
     else if (questId === "referral") setShowReferralModal(true);
   };
 
+  const recentActivity: {
+    id: string;
+    name: string;
+    action: string;
+    points: number | null;
+    time: string;
+    icon: any;
+    bg: string;
+    color: string;
+  }[] = [
+    {
+      id: "a1",
+      name: "John D.",
+      action: "Completed KYC Verification",
+      points: 250,
+      time: "just now",
+      icon: BadgeCheck,
+      bg: "bg-emerald-500/10",
+      color: "text-emerald-500",
+    },
+    {
+      id: "a2",
+      name: "Nova Merchants",
+      action: "Earned from Referral",
+      points: 50,
+      time: "10 sec ago",
+      icon: Store,
+      bg: "bg-blue-500/10",
+      color: "text-blue-500",
+    },
+    {
+      id: "a3",
+      name: "Sarah M.",
+      action: "Completed Social Quest",
+      points: 100,
+      time: "30 sec ago",
+      icon: Award,
+      bg: "bg-amber-500/10",
+      color: "text-amber-500",
+    },
+    {
+      id: "a4",
+      name: "Titan Merchants",
+      action: "Reached 2,500 Points",
+      points: null,
+      time: "2 min ago",
+      icon: Trophy,
+      bg: "bg-purple-500/10",
+      color: "text-purple-500",
+    },
+    {
+      id: "a5",
+      name: "Alex P.",
+      action: "Joined Blip Money",
+      points: 50,
+      time: "3 min ago",
+      icon: UserPlus,
+      bg: "bg-sky-500/10",
+      color: "text-sky-500",
+    },
+    {
+      id: "a6",
+      name: "Beacon Finance",
+      action: "Earned from Referral",
+      points: 50,
+      time: "2 min ago",
+      icon: Store,
+      bg: "bg-[#ff6b35]/10",
+      color: "text-[#ff6b35]",
+    },
+  ];
+
+  const progressSteps: {
+    id: number;
+    title: string;
+    desc: string;
+    status: "done" | "active" | "todo";
+  }[] = [
+    {
+      id: 1,
+      title: "Join Waitlist",
+      desc: "Stay updated with Blip Money",
+      status: "done",
+    },
+    {
+      id: 2,
+      title: "Submit Google Form",
+      desc: "Join our merchant onboarding program",
+      status: existingCommitment ? "done" : "active",
+    },
+    {
+      id: 3,
+      title: "Complete Social Quests",
+      desc: "Earn points by completing social quests",
+      status: completedQuests.size >= 4 ? "done" : "active",
+    },
+    {
+      id: 4,
+      title: "Request for App",
+      desc: "Be among the first to test our P2P app",
+      status: "todo",
+    },
+  ];
+
   const socialQuests = [
     {
       id: "register",
@@ -1080,13 +1184,15 @@ export default function MerchantDashboard() {
 
       {/* ── Main grid ──────────────────────────────────────────────────────── */}
       <main className="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-4 relative z-10 lg:min-h-[calc(100vh-64px)] lg:flex lg:flex-col">
-        {/* ── Refer Friends Banner ──────────────────────────────────────────── */}
-        <div
-          className={`${surface} border ${border} rounded-xl overflow-hidden mb-3 relative`}
-        >
+        {/* ── Top row: Refer Friends | Referral Code | Real-Time Activity ─── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 mb-3 items-stretch">
+          {/* Card 1: Refer Friends (text + hero image) */}
           <div
-            className={`grid grid-cols-1 lg:grid-cols-[1.1fr,0.9fr,1fr] divide-y lg:divide-y-0 lg:divide-x ${divider}`}
+            className={`lg:col-span-6 ${surface} border ${border} rounded-xl overflow-hidden relative`}
           >
+            <div
+              className={`grid grid-cols-1 md:grid-cols-[1.2fr,0.8fr] h-full divide-y md:divide-y-0 md:divide-x ${divider}`}
+            >
             {/* Left: heading + description + CTAs */}
             <div className="p-5 md:p-7 flex flex-col justify-center relative overflow-hidden">
               <div
@@ -1123,7 +1229,7 @@ export default function MerchantDashboard() {
                   </button>
                   <button
                     onClick={() => setShowHowItWorksModal(true)}
-                    className={`${inputBg} border ${border} ${txt} md:px-5 px-8 py-2.5 rounded-md text-[11px] font-bold uppercase tracking-[0.14em] ${hov} transition flex items-center gap-2`}
+                    className={`${inputBg} border ${border} ${txt}  px-8 py-2.5 rounded-md text-[11px] font-bold uppercase tracking-[0.14em] ${hov} transition flex items-center gap-2`}
                   >
                     How It Works
                     <Info className="w-3.5 h-3.5" />
@@ -1147,8 +1253,13 @@ export default function MerchantDashboard() {
               />
             </div>
 
-            {/* Right: referral code + link + social share */}
-            <div className="p-5 md:p-6 flex flex-col justify-center gap-2.5">
+            </div>
+          </div>
+
+          {/* Card 2: Your Referral Code */}
+          <div
+            className={`lg:col-span-3 ${surface} border ${border} rounded-xl p-5 md:p-6 flex flex-col gap-2.5`}
+          >
               <span
                 className={`text-[10px] font-black uppercase tracking-[0.18em] ${sub}`}
               >
@@ -1234,7 +1345,73 @@ export default function MerchantDashboard() {
                   <span className="hidden sm:inline">More</span>
                 </button>
               </div>
+          </div>
+
+          {/* Card 3: Real-Time Activity */}
+          <div
+            className={`lg:col-span-3 ${surface} border ${border} rounded-xl overflow-hidden flex flex-col`}
+          >
+            <div
+              className={`px-4 py-2.5 border-b ${divider} flex items-center justify-between`}
+            >
+              <span
+                className={`text-[10px] font-black uppercase tracking-[0.18em] ${sub}`}
+              >
+                Real-Time Activity
+              </span>
+              <span className="flex items-center gap-1.5 text-[10px] font-bold text-emerald-500">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75 animate-ping" />
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+                </span>
+                LIVE
+              </span>
             </div>
+            <div className="px-1.5 py-1 max-h-[320px] overflow-y-auto flex-1">
+              {recentActivity.map((a) => {
+                const Icon = a.icon;
+                return (
+                  <div
+                    key={a.id}
+                    className={`flex items-center justify-between px-2.5 py-2 rounded-lg ${hov}`}
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <div
+                        className={`w-7 h-7 rounded-full ${a.bg} flex items-center justify-center shrink-0`}
+                      >
+                        <Icon className={`w-3.5 h-3.5 ${a.color}`} />
+                      </div>
+                      <div className="min-w-0">
+                        <p
+                          className={`text-[11px] font-semibold ${txt} truncate`}
+                        >
+                          {a.name}
+                        </p>
+                        <p className={`text-[10px] ${muted} truncate`}>
+                          {a.action}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-right shrink-0 ml-2">
+                      {a.points !== null && (
+                        <p className="text-[11px] font-bold text-emerald-500 leading-tight">
+                          +{a.points} pts
+                        </p>
+                      )}
+                      <p className={`text-[9px] ${sub} leading-tight mt-0.5`}>
+                        {a.time}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <button
+              className={`w-full px-4 py-2.5 border-t ${divider} flex items-center justify-between text-[11px] font-bold ${muted} hover:${txt} transition-colors`}
+            >
+              View all activity
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
           </div>
         </div>
 
@@ -1243,7 +1420,7 @@ export default function MerchantDashboard() {
         {/* Two-column grid: LEFT (Hero + Social Quests) | RIGHT (Referral + Progress + Leaderboard) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 mb-3 lg:items-stretch">
           {/* LEFT COLUMN: Hero + Social Quests */}
-          <div className="lg:col-span-8 flex flex-col gap-3">
+          <div className="lg:col-span-7 flex flex-col gap-3">
             {/* Hero card — natural height */}
             {/* <div
               className={`${surface} border ${border} rounded-xl p-5 md:p-6 relative overflow-hidden`}
@@ -1607,7 +1784,7 @@ export default function MerchantDashboard() {
                   Request for Merchant P2P App Test
                 </h4>
                 <p className={`text-[10px] ${muted} mt-1 leading-relaxed`}>
-                  Trial our P2P release app. Early access 
+                  Complete Social Quests to <span className="dark:text-white/80 text-black "> unlock the ability to send your request </span>
                 </p>
                 
               </div>
@@ -1669,8 +1846,10 @@ export default function MerchantDashboard() {
           </div>
           {/* /LEFT COLUMN */}
 
-          {/* Right column: Referral + Progress + Leaderboard stacked */}
-          <div className="lg:col-span-4 flex flex-col gap-3">
+          {/* Right column: 2 sub-columns — A: Progress + Leaderboard, B: Activity + Steps */}
+          <div className="lg:col-span-5 grid grid-cols-1 lg:grid-cols-2 gap-3 lg:items-stretch">
+            {/* Sub-col A */}
+            <div className="flex flex-col gap-3 min-w-0">
             {/* Referral Code card — clickable, opens Referral modal */}
             {/* <div
               role="button"
@@ -1816,7 +1995,7 @@ export default function MerchantDashboard() {
               </div>
             </div>
 
-            {/* Leaderboard */}
+            {/* Leaderboard (in sub-col A under Progress) */}
             <div
               className={`${surface} border ${border} rounded-xl overflow-hidden flex flex-col flex-1 min-h-0`}
             >
@@ -1841,7 +2020,7 @@ export default function MerchantDashboard() {
                 </button>
               </div>
 
-              <div className="px-1.5 py-1 max-h-[200px] overflow-y-auto flex-1">
+              <div className="px-1.5 py-1 max-h-[260px] overflow-y-auto">
                 {leaderboardLoading ? (
                   <div className="flex items-center justify-center py-8">
                     <Loader2 className={`w-5 h-5 animate-spin ${sub}`} />
@@ -1888,6 +2067,89 @@ export default function MerchantDashboard() {
                 )}
               </div>
             </div>
+            </div>
+            {/* Sub-col B */}
+            <div className="flex flex-col gap-3 min-w-0">
+
+            {/* Your Progress & Steps */}
+            <div
+              className={`${surface} border ${border} rounded-xl overflow-hidden flex flex-col flex-1 min-h-0`}
+            >
+              <div className={`px-4 py-2.5 border-b ${divider}`}>
+                <span
+                  className={`text-[10px] font-black uppercase tracking-[0.18em] ${sub}`}
+                >
+                  Your Progress & Steps
+                </span>
+              </div>
+              <div className="p-4 space-y-3">
+                {progressSteps.map((step, i) => {
+                  const isLast = i === progressSteps.length - 1;
+                  const isDone = step.status === "done";
+                  const isActive = step.status === "active";
+                  return (
+                    <div
+                      key={step.id}
+                      className="relative flex items-start gap-3"
+                    >
+                      {!isLast && (
+                        <div
+                          className={`absolute left-[13px] top-7 h-[calc(100%-4px)] w-px ${
+                            isDone ? "bg-[#ff6b35]" : d ? "bg-white/10" : "bg-black/10"
+                          }`}
+                        />
+                      )}
+                      <div
+                        className={`relative w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-[11px] font-bold ${
+                          isDone || isActive
+                            ? "bg-[#ff6b35] text-white"
+                            : `${inputBg} border ${border} ${sub}`
+                        }`}
+                      >
+                        {step.id}
+                      </div>
+                      <div className="flex-1 min-w-0 pt-0.5">
+                        <p className={`text-[12px] font-bold ${txt}`}>
+                          {step.title}
+                        </p>
+                        <p
+                          className={`text-[10px] ${muted} leading-relaxed`}
+                        >
+                          {step.desc}
+                        </p>
+                      </div>
+                      <div className="shrink-0 pt-1">
+                        {isDone ? (
+                          <div className="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center">
+                            <Check
+                              className="w-3 h-3 text-white"
+                              strokeWidth={3}
+                            />
+                          </div>
+                        ) : isActive ? (
+                          <div className="w-5 h-5 rounded-full bg-[#ff6b35] flex items-center justify-center">
+                            <span className="block w-1.5 h-1.5 rounded-full bg-white" />
+                          </div>
+                        ) : (
+                          <div
+                            className={`w-5 h-5 rounded-full border ${border} ${inputBg}`}
+                          />
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+              <button
+                className={`w-full px-4 py-2.5 border-t ${divider} flex items-center justify-between text-[11px] font-bold ${muted} hover:${txt} transition-colors`}
+              >
+                View full details
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+
+            </div>
+            {/* /Sub-col B */}
           </div>
         </div>
       </main>
