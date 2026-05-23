@@ -20,8 +20,96 @@ import { SEO, StructuredData } from "@/components";
 import { HreflangTags } from "@/components/HreflangTags";
 import { CTAButton } from "@/components/Navbar";
 import { SwipeHint } from "@/components/IndexSections/SwipeHint";
+import SendGloballySection from "@/components/IndexSections/SendGloballySection";
+import BestRatesSection from "@/components/IndexSections/BestRatesSection";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
+
+/* ============================================
+   BEST RATES — black band, image left, text right
+   ============================================ */
+const BestRatesBlackSection = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  return (
+    <section ref={ref} className="relative bg-black text-white overflow-hidden py-20 md:py-28">
+      <div className="max-w-[1180px] mx-auto px-6 md:px-10 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+        {/* LEFT — image */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={isInView ? { opacity: 1, scale: 1 } : {}}
+          transition={{ duration: 1, ease: EASE }}
+          className="relative w-full aspect-[4/5] max-w-[520px] mx-auto lg:mx-0 rounded-[28px] overflow-hidden bg-[#0f0f0f] border border-white/[0.06]"
+        >
+          <img
+            src="/illustrations/rate-neon-card.png"
+            alt="Best rates in the market — live rate ticker"
+            className="absolute inset-0 w-full h-full object-cover"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).src = "/illustrations/hero-char-2.png";
+            }}
+          />
+        </motion.div>
+
+        {/* RIGHT — text */}
+        <div className="text-left">
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7 }}
+            className="text-[11px] uppercase tracking-[0.3em] text-white/45 font-semibold mb-5"
+          >
+            Best rates · live market
+          </motion.p>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.9, delay: 0.1, ease: EASE }}
+            className="font-display font-semibold leading-[1.05] tracking-tight mb-5"
+            style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", letterSpacing: "-0.04em" }}
+          >
+            We provide the{" "}
+            <span style={{ fontStyle: "italic", fontFamily: "ui-serif, Georgia, serif", fontWeight: 500 }} className="text-white/75">
+              best rates
+            </span>{" "}
+            in the market.
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 14 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.9, delay: 0.2, ease: EASE }}
+            className="text-white/60 text-[15px] md:text-base leading-relaxed max-w-lg mb-8"
+          >
+            Find a cheaper rate anywhere — we&apos;ll beat it. Live merchant
+            quotes compete on every order so you always settle at the
+            sharpest price.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.9, delay: 0.3, ease: EASE }}
+            className="flex flex-col sm:flex-row items-start gap-3"
+          >
+            <Link
+              to="/rates"
+              className="group inline-flex items-center justify-center gap-2 h-12 px-7 rounded-full bg-white text-black text-[14.5px] font-bold tracking-tight transition-transform hover:-translate-y-[1px]"
+            >
+              <span>Find the best rate</span>
+              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+            </Link>
+            <Link
+              to="/register"
+              className="group inline-flex items-center justify-center gap-2 h-12 px-7 rounded-full border border-white/20 text-white text-[14.5px] font-semibold tracking-tight hover:bg-white/[0.06] transition-colors"
+            >
+              <span>Join waitlist</span>
+              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+            </Link>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+};
 
 /* ============================================
    1. CINEMATIC HERO
@@ -51,327 +139,165 @@ const UserHero = () => {
   }, []);
 
   return (
-    <section className="relative overflow-hidden flex items-center justify-center text-center bg-black">
-      {/* Deep gradient base */}
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,107,53,0.16) 0%, rgba(255,107,53,0.04) 30%, transparent 65%), radial-gradient(ellipse 60% 50% at 50% 100%, rgba(120,119,255,0.10) 0%, transparent 70%), #050507",
-        }}
-      />
-
-      {/* Dotted constellation grid */}
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none opacity-50"
-        style={{
-          backgroundImage:
-            "radial-gradient(rgba(255,255,255,0.14) 1px, transparent 1px)",
-          backgroundSize: "26px 26px",
-          maskImage:
-            "radial-gradient(ellipse 75% 65% at 50% 50%, black 25%, transparent 80%)",
-          WebkitMaskImage:
-            "radial-gradient(ellipse 75% 65% at 50% 50%, black 25%, transparent 80%)",
-        }}
-      />
-
-      {/* Drifting motes */}
-      {Array.from({ length: 14 }).map((_, i) => (
-        <motion.span
-          key={i}
-          aria-hidden
-          className="absolute w-1 h-1 rounded-full bg-white/30"
-          style={{
-            left: `${6 + ((i * 43 + 11) % 88)}%`,
-            top: `${12 + ((i * 53 + 7) % 72)}%`,
-          }}
-          animate={{
-            y: [0, -28, 0],
-            opacity: [0.2, 0.7, 0.2],
-          }}
-          transition={{
-            duration: 5 + (i % 4) * 0.6,
-            repeat: Infinity,
-            delay: (i % 6) * 0.4,
-          }}
-        />
-      ))}
-
-      <main className="relative z-10 w-full max-w-[920px] mx-auto px-6 md:px-10 pt-20 pb-10 text-center">
-        {/* Live rate chip */}
-        <motion.div
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-white/10 bg-white/[0.04] backdrop-blur-md mb-8"
-        >
-          <motion.span
-            animate={{ opacity: [1, 0.3, 1] }}
-            transition={{ duration: 1.4, repeat: Infinity }}
-            className="w-1.5 h-1.5 rounded-full bg-[#ff6b35]"
-            style={{ boxShadow: "0 0 8px rgba(255,107,53,0.7)" }}
-          />
-          <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-white/65">
-            Live · USDT / INR
-          </span>
-          <motion.span
-            key={rate}
-            initial={{ opacity: 0.6, y: -1 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-[10px] font-mono font-bold text-white tabular-nums"
-          >
-            {rate.toFixed(2)}
-          </motion.span>
-        </motion.div>
-
-        <motion.h1
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6 }}
-          className="font-display text-white font-semibold tracking-tight leading-[1.04] mb-7"
-          style={{ fontSize: "clamp(3rem, 7vw, 5.5rem)", letterSpacing: "-0.04em" }}
-        >
-          <motion.span
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: EASE }}
-            className="block"
-          >
-            Send crypto.
-          </motion.span>
-          <motion.span
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.18, ease: EASE }}
-            className="block"
-            style={{
-              background:
-                "linear-gradient(90deg, #ffffff 0%, #ffe8dc 18%, #ffb899 30%, #ff8c50 42%, #ff6b35 50%, #ff8c50 58%, #ffb899 70%, #ffe8dc 82%, #ffffff 100%)",
-              backgroundSize: "300% 100%",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-              animation: "headline-shimmer 8s ease-in-out infinite",
-            }}
-          >
-            Get fiat instantly.
-          </motion.span>
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.35, ease: EASE }}
-          className="text-white/60 text-base md:text-lg leading-relaxed max-w-xl mx-auto mb-8"
-        >
-          Convert USDT, USDC, or SOL to AED, INR, and more —
-          settled on-chain, landed in your bank.
-        </motion.p>
-
-        {/* Best-rates promise — same pill as home hero, dark-bg safe */}
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.45, ease: EASE }}
-          className="mb-10 flex justify-center"
-        >
-          <Link
-            to="/rates"
-            className="group inline-flex flex-col items-center gap-1 px-5 py-2.5 rounded-2xl bg-white text-black shadow-[0_4px_20px_rgba(0,0,0,0.45)] hover:shadow-[0_6px_28px_rgba(255,107,53,0.35)] active:scale-[0.98] transition-all duration-300 max-w-[260px]"
-          >
-            <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#ff6b35] leading-none">
-              <Tag className="w-3 h-3" strokeWidth={2.8} />
-              Best rates, guaranteed
-            </span>
-            <span className="inline-flex items-center gap-1 text-[12px] font-semibold text-black/75 group-hover:text-black tracking-tight leading-none">
-              Find cheaper. We&apos;ll cut deeper.
-              <ArrowRight className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-0.5" />
-            </span>
-          </Link>
-        </motion.div>
-
-        {/* Hero data row — converter + rate finder side by side */}
-        <div className="mx-auto mb-10 w-full max-w-[940px] grid grid-cols-1 md:grid-cols-2 gap-3">
-
-        {/* Live mini-converter mockup */}
-        <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.5, ease: EASE }}
-          className="rounded-2xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-xl p-4"
-        >
-          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
-            {/* From */}
-            <div className="text-left">
-              <div className="text-[9px] font-semibold uppercase tracking-[0.2em] text-white/35 mb-1">
-                You send
-              </div>
-              <div className="flex items-baseline gap-1.5">
-                <span className="font-mono font-bold text-white text-[20px] tabular-nums">
-                  1,000
-                </span>
-                <span className="text-[11px] font-semibold text-white/60">
-                  USDT
-                </span>
-              </div>
-            </div>
-
-            {/* Arrow with pulse */}
+    <section className="relative min-h-[92vh] overflow-hidden flex items-center justify-center bg-white text-black">
+      <main className="relative z-10 w-full max-w-[1180px] mx-auto px-6 md:px-10 pt-24 pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+          {/* LEFT: text + converter card + CTAs */}
+          <div className="text-left">
+            {/* Live rate chip */}
             <motion.div
-              animate={{ x: [0, 4, 0] }}
-              transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-              className="w-9 h-9 rounded-full flex items-center justify-center border border-[#ff6b35]/40 bg-[#ff6b35]/10"
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
+              className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-black/10 bg-black/[0.03] mb-6"
             >
-              <ArrowRight className="w-4 h-4 text-[#ff6b35]" strokeWidth={2.5} />
+              <motion.span
+                animate={{ opacity: [1, 0.3, 1] }}
+                transition={{ duration: 1.4, repeat: Infinity }}
+                className="w-1.5 h-1.5 rounded-full bg-black"
+              />
+              <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-black/65">
+                Live · USDT / INR
+              </span>
+              <motion.span
+                key={rate}
+                initial={{ opacity: 0.6, y: -1 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-[10px] font-mono font-bold text-black tabular-nums"
+              >
+                {rate.toFixed(2)}
+              </motion.span>
             </motion.div>
 
-            {/* To */}
-            <div className="text-right">
-              <div className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#ff6b35] mb-1">
-                You receive
-              </div>
-              <div className="flex items-baseline gap-1.5 justify-end">
-                <motion.span
-                  key={outAmount}
-                  initial={{ opacity: 0.7, y: -2 }}
-                  // animate={{ opacity: 1, y: 0 }}
-                  className="font-mono font-bold text-white text-[20px] tabular-nums"
+            <motion.h1
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6 }}
+              className="font-display text-black font-semibold tracking-tight leading-[1.04] mb-6"
+              style={{ fontSize: "clamp(1.7rem, 3.6vw, 2.6rem)", letterSpacing: "-0.04em" }}
+            >
+              <motion.span
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.9, ease: EASE }}
+                className="block"
+              >
+                Send crypto.
+              </motion.span>
+              <motion.span
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.9, delay: 0.15, ease: EASE }}
+                className="block text-black/70"
+                style={{ fontStyle: "italic", fontFamily: "ui-serif, Georgia, serif", fontWeight: 500 }}
+              >
+                Get fiat instantly.
+              </motion.span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 0.3, ease: EASE }}
+              className="text-black/60 text-[15px] md:text-base leading-relaxed max-w-md mb-7"
+            >
+              Convert USDT, USDC, or SOL to AED, INR, and more — settled
+              on-chain, landed in your bank.
+            </motion.p>
+
+            {/* Live mini-converter mockup */}
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.45, ease: EASE }}
+              className="mb-7 w-full max-w-[460px] rounded-2xl border border-black/[0.08] bg-white p-4 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.18)]"
+            >
+              <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
+                <div className="text-left">
+                  <div className="text-[9px] font-semibold uppercase tracking-[0.2em] text-black/45 mb-1">
+                    You send
+                  </div>
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="font-mono font-bold text-black text-[20px] tabular-nums">
+                      1,000
+                    </span>
+                    <span className="text-[11px] font-semibold text-black/55">
+                      USDT
+                    </span>
+                  </div>
+                </div>
+
+                <motion.div
+                  animate={{ x: [0, 4, 0] }}
+                  transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+                  className="w-9 h-9 rounded-full flex items-center justify-center border border-black/15 bg-black/[0.04]"
                 >
-                  {outAmount.toLocaleString()}
-                </motion.span>
-                <span className="text-[11px] font-semibold text-white/60">
-                  INR
+                  <ArrowRight className="w-4 h-4 text-black" strokeWidth={2.5} />
+                </motion.div>
+
+                <div className="text-right">
+                  <div className="text-[9px] font-semibold uppercase tracking-[0.2em] text-black/55 mb-1">
+                    You receive
+                  </div>
+                  <div className="flex items-baseline gap-1.5 justify-end">
+                    <motion.span
+                      key={outAmount}
+                      initial={{ opacity: 0.7, y: -2 }}
+                      className="font-mono font-bold text-black text-[20px] tabular-nums"
+                    >
+                      {outAmount.toLocaleString()}
+                    </motion.span>
+                    <span className="text-[11px] font-semibold text-black/55">
+                      INR
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-3 pt-3 border-t border-black/[0.06] flex items-center justify-between text-[10px] text-black/45">
+                <span className="flex items-center gap-1.5">
+                  <Lock className="w-2.5 h-2.5" /> Escrow secured
+                </span>
+                <span className="font-mono">~42s settlement</span>
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-2.5 h-2.5 text-black" />
+                  On-chain
                 </span>
               </div>
-            </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 0.6, ease: EASE }}
+              className="flex flex-col sm:flex-row items-start gap-3"
+            >
+              <CTAButton to="/register" className="min-w-[220px] sm:min-w-0">Join waitlist</CTAButton>
+              <CTAButton to="/how-it-works" variant="secondary" className="min-w-[220px] sm:min-w-0">
+                See how it works
+              </CTAButton>
+            </motion.div>
           </div>
 
-          {/* Footer strip */}
-          <div className="mt-3 pt-3 border-t border-white/[0.06] flex items-center justify-between text-[10px] text-white/40">
-            <span className="flex items-center gap-1.5">
-              <Lock className="w-2.5 h-2.5" /> Escrow secured
-            </span>
-            <span className="font-mono">~42s settlement</span>
-            <span className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-2.5 h-2.5 text-[#ff6b35]" />
-              On-chain
-            </span>
-          </div>
-        </motion.div>
-
-        {/* Rate finder — second card next to converter */}
-        <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.6, ease: EASE }}
-          className="rounded-2xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-xl p-4 text-left"
-        >
-          <div className="flex items-center justify-between mb-3">
-            <div className="text-[9px] font-semibold uppercase tracking-[0.22em] text-white/55">
-              Find best rate
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35] animate-pulse" />
-              <span className="text-[9px] font-semibold uppercase tracking-[0.18em] text-[#ff6b35]">
-                Live
-              </span>
-            </div>
-          </div>
-
-          {/* Amount + From/To row */}
-          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
-            <div className="rounded-xl bg-white/[0.04] border border-white/[0.06] px-3 py-2 text-left">
-              <div className="text-[9px] uppercase tracking-[0.2em] text-white/40 mb-0.5">Amount</div>
-              <div className="flex items-center gap-1.5">
-                <span className="font-mono font-bold text-white text-[20px] tabular-nums">1,000</span>
-                <span className="text-[11px] font-semibold text-white/55">USDT</span>
-              </div>
-            </div>
-            <ArrowRight className="w-3 h-3 text-white/35" strokeWidth={2.5} />
-            <div className="rounded-xl bg-white/[0.04] border border-white/[0.06] px-3 py-2 text-right">
-              <div className="text-[9px] uppercase tracking-[0.2em] text-white/40 mb-0.5">To</div>
-              <div className="flex items-center justify-end gap-1.5">
-                <span aria-hidden className="text-base">🇮🇳</span>
-                <span className="text-[12px] font-bold text-white">INR</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Find button */}
-          <Link
-            to="/rates"
-            className="mt-3 w-full inline-flex items-center justify-center gap-1.5 px-4 h-11 rounded-full bg-white text-black text-[13.5px] font-semibold tracking-tight hover:-translate-y-[1px] transition-transform"
+          {/* RIGHT: Corrector character using a phone */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.25, ease: EASE }}
+            className="relative w-full aspect-[4/5] max-w-[520px] mx-auto rounded-[28px] overflow-hidden bg-[#f7f4ee] border border-black/[0.06]"
           >
-            Find best rate
-            <ArrowRight className="w-3.5 h-3.5" strokeWidth={2.5} />
-          </Link>
-
-          {/* Footer strip */}
-          <div className="mt-3 pt-3 border-t border-white/[0.06] flex items-center justify-between text-[10px] text-white/40">
-            <span className="font-mono">Beat 12+ exchanges</span>
-            <span className="flex items-center gap-1.5">
-              <Tag className="w-2.5 h-2.5 text-[#ff6b35]" />
-              Best rate locked
-            </span>
-          </div>
-        </motion.div>
-
-        </div>{/* /grid */}
-
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.7, ease: EASE }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-3"
-        >
-          <Link
-            to="/register"
-            className="inline-flex items-center justify-center gap-2 px-8 h-14 rounded-full bg-white text-black text-[16px] font-semibold tracking-tight min-w-[240px] hover:-translate-y-[1px] transition-transform shadow-[0_8px_28px_-8px_rgba(255,255,255,0.4)]"
-          >
-            Join waitlist
-            <ArrowRight className="w-4 h-4" strokeWidth={2.5} />
-          </Link>
-          <Link
-            to="/how-it-works"
-            className="inline-flex items-center justify-center gap-2 px-8 h-14 rounded-full bg-transparent text-white border border-white/30 hover:border-white/60 text-[16px] font-semibold tracking-tight min-w-[240px] transition-colors"
-          >
-            See how it works
-          </Link>
-        </motion.div>
-
-        {/* Token strip */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.0 }}
-          className="mt-12 flex items-center justify-center gap-5 flex-wrap"
-        >
-          <span className="text-[9px] font-semibold uppercase tracking-[0.22em] text-white/30">
-            Supports
-          </span>
-          {["USDT", "USDC", "SOL", "·", "AED", "INR", "PHP", "NGN"].map((t, i) =>
-            t === "·" ? (
-              <span key={i} className="text-white/25">·</span>
-            ) : (
-              <span
-                key={i}
-                className="text-[11px] font-mono font-bold text-white/55 tracking-tight"
-              >
-                {t}
-              </span>
-            ),
-          )}
-        </motion.div>
+            <img
+              src="/illustrations/user-corrector-phone.png"
+              alt="The Corrector — character using a phone to send money"
+              className="absolute inset-0 w-full h-full object-cover"
+              onError={(e) => {
+                // Fallback while the Corrector illustration is being generated.
+                (e.currentTarget as HTMLImageElement).src = "/illustrations/hero-char-1.png";
+              }}
+            />
+          </motion.div>
+        </div>
       </main>
-
-      <style>{`
-        @keyframes headline-shimmer {
-          0%, 100% { background-position: 100% 50%; }
-          50% { background-position: 0% 50%; }
-        }
-      `}</style>
     </section>
   );
 };
@@ -386,10 +312,11 @@ const WhyBlipForUsers = () => {
   const features = [
     { title: "No middleman", desc: "Swap peer-to-peer, settle on-chain." },
     { title: "Your wallet, your keys", desc: "Non-custodial by design." },
+    { title: "Fair market rates", desc: "Live rates, transparent margin." },
   ];
 
   return (
-    <section ref={ref} className="relative bg-[#FAF8F5] dark:bg-transparent text-black dark:text-white overflow-hidden py-6 lg:py-9">
+    <section ref={ref} className="relative bg-[#FAF8F5] dark:bg-transparent text-black dark:text-white overflow-hidden py-20 lg:py-28">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
           {/* LEFT: headline + features */}
@@ -406,7 +333,7 @@ const WhyBlipForUsers = () => {
               initial={{ opacity: 0, y: 24 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.9, delay: 0.1, ease: EASE }}
-              className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight leading-[1.05] mb-6"
+              className="font-display text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight leading-[1.05] mb-6"
             >
               Crypto out,{" "}
               <span className="text-black/60 dark:text-white/40">cash in.</span>
@@ -507,7 +434,7 @@ const UserHowItWorks = () => {
       icon: Lock,
       title: "Escrow locks funds",
       desc: "Your crypto is locked on-chain. The merchant is committed.",
-      accent: "#3ddc84",
+      accent: "#cc785c",
       glow: "rgba(61,220,132,0.18)",
     },
     {
@@ -520,7 +447,7 @@ const UserHowItWorks = () => {
   ];
 
   return (
-    <section ref={ref} className="relative py-8 md:py-10 overflow-hidden bg-[#FAF8F5] dark:bg-black">
+    <section ref={ref} className="relative py-24 md:py-32 overflow-hidden bg-[#FAF8F5] dark:bg-black">
       <div className="relative z-10 max-w-6xl mx-auto px-6">
         <div className="text-center mb-14">
           <motion.p
@@ -535,7 +462,7 @@ const UserHowItWorks = () => {
             initial={{ opacity: 0, y: 24 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.9, delay: 0.1, ease: EASE }}
-            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.08] mb-5"
+            className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-black dark:text-white tracking-tight leading-[1.08] mb-5"
           >
             Four steps.{" "}
             <span className="text-black/60 dark:text-white/40">Under a minute.</span>
@@ -610,7 +537,7 @@ const AppPreviewSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="relative py-8 md:py-10 overflow-hidden bg-white dark:bg-[#0a0a0a]">
+    <section ref={ref} className="relative py-24 md:py-32 overflow-hidden bg-white dark:bg-[#0a0a0a]">
       <div className="relative z-10 max-w-6xl mx-auto px-6">
         <div className="text-center mb-14">
           <motion.p
@@ -625,7 +552,7 @@ const AppPreviewSection = () => {
             initial={{ opacity: 0, y: 24 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.9, delay: 0.1, ease: EASE }}
-            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.08] mb-5"
+            className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-black dark:text-white tracking-tight leading-[1.08] mb-5"
           >
             One app.{" "}
             <span className="text-black/60 dark:text-white/40">
@@ -648,34 +575,16 @@ const AppPreviewSection = () => {
           transition={{ duration: 1, delay: 0.2, ease: EASE }}
           className="relative rounded-3xl overflow-hidden border border-black/[0.06] dark:border-white/[0.06] bg-gradient-to-br from-[#FAF8F5] to-white dark:from-[#111] dark:to-[#050505]"
         >
-          {/* Image — real app screenshot in a phone bezel */}
-          <div className="px-6 pt-10 sm:px-12 sm:pt-14 flex justify-center">
-            <div
-              className="relative rounded-[44px] overflow-hidden mx-auto"
-              style={{
-                width: "min(280px, 80%)",
-                aspectRatio: "9/19.5",
-                background: "#0a0a0a",
-                padding: 8,
-                boxShadow:
-                  "0 1px 0 rgba(255,255,255,0.06) inset, 0 60px 120px -30px rgba(0,0,0,0.55)",
-                border: "1px solid rgba(255,255,255,0.08)",
+          {/* Image — fully visible, no overlay covering it */}
+          <div className="px-6 pt-10 sm:px-12 sm:pt-14">
+            <img
+              src="/home.svg"
+              alt="Blip app preview — USDT to AED in under 60 seconds"
+              className="w-full h-auto max-h-[620px] object-contain mx-auto"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = "/home.webp";
               }}
-            >
-              <img
-                src="/app-home.png"
-                alt="Blip app — home screen"
-                className="w-full h-full object-cover block rounded-[36px]"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = "/home.svg";
-                }}
-              />
-              {/* Dynamic island */}
-              <div
-                aria-hidden
-                className="absolute top-3 left-1/2 -translate-x-1/2 w-20 h-5 rounded-full bg-black"
-              />
-            </div>
+            />
           </div>
           {/* Stats — sit below the image, not overlaid */}
           <div className="border-t border-black/[0.06] dark:border-white/[0.06] mt-2 px-6 sm:px-12 py-8 md:py-10">
@@ -741,13 +650,13 @@ const UserTrustSection = () => {
       icon: BadgeCheck,
       title: "Vetted merchants",
       desc: "Reputation tracked. Non-performers removed.",
-      accent: "#3ddc84",
+      accent: "#cc785c",
       glow: "rgba(61,220,132,0.20)",
     },
   ];
 
   return (
-    <section ref={ref} className="relative py-8 md:py-10 overflow-hidden bg-[#FAF8F5] dark:bg-black">
+    <section ref={ref} className="relative py-24 md:py-32 overflow-hidden bg-[#FAF8F5] dark:bg-black">
       <div className="relative z-10 max-w-6xl mx-auto px-6">
         <div className="text-center mb-14">
           <motion.p
@@ -762,7 +671,7 @@ const UserTrustSection = () => {
             initial={{ opacity: 0, y: 24 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.9, delay: 0.1, ease: EASE }}
-            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.08] mb-5"
+            className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-black dark:text-white tracking-tight leading-[1.08] mb-5"
           >
             Built for{" "}
             <span className="text-black/60 dark:text-white/40">peace of mind.</span>
@@ -825,7 +734,7 @@ const UserCTA = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="relative py-6 md:py-12 overflow-hidden bg-[#FAF8F5] dark:bg-black">
+    <section ref={ref} className="relative py-12 md:py-36 overflow-hidden bg-[#FAF8F5] dark:bg-black">
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none"
@@ -840,7 +749,7 @@ const UserCTA = () => {
         transition={{ duration: 1, ease: EASE }}
         className="relative z-10 max-w-3xl mx-auto px-6 text-center"
       >
-        <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.05] mb-6">
+        <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-semibold text-black dark:text-white tracking-tight leading-[1.05] mb-6">
           Ready to try{" "}
           <span className="text-black/60 dark:text-white/40">Blip?</span>
         </h2>
@@ -848,19 +757,10 @@ const UserCTA = () => {
           Join the waitlist. Early users get priority access and bonus rewards.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-          <Link
-            to="/register"
-            className="inline-flex items-center justify-center gap-2 px-10 h-16 rounded-full bg-black text-white dark:bg-white dark:text-black text-[17px] font-semibold tracking-tight min-w-[280px] hover:-translate-y-[1px] transition-transform shadow-[0_8px_28px_-8px_rgba(0,0,0,0.3)] dark:shadow-[0_8px_28px_-8px_rgba(255,255,255,0.4)]"
-          >
-            Join waitlist
-            <ArrowRight className="w-5 h-5" strokeWidth={2.5} />
-          </Link>
-          <Link
-            to="/how-it-works"
-            className="inline-flex items-center justify-center gap-2 px-10 h-16 rounded-full bg-transparent text-black dark:text-white border border-black/30 dark:border-white/30 hover:border-black/60 dark:hover:border-white/60 text-[17px] font-semibold tracking-tight min-w-[280px] transition-colors"
-          >
+          <CTAButton to="/register" className="min-w-[220px]">Join waitlist</CTAButton>
+          <CTAButton to="/how-it-works" variant="secondary" className="min-w-[220px]">
             Learn more
-          </Link>
+          </CTAButton>
         </div>
       </motion.div>
     </section>
@@ -883,7 +783,10 @@ const User = () => {
       <StructuredData type="website" />
 
       <UserHero />
-      <WhyBlipForUsers />
+      <BestRatesBlackSection />
+      {/* Replaced "Crypto out, cash in" with the two redesign sections */}
+      <SendGloballySection />
+      <BestRatesSection />
       <UserHowItWorks />
       <AppPreviewSection />
       <UserTrustSection />

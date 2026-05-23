@@ -218,7 +218,7 @@ const Badge = ({
 }) => {
   const styles = {
     orange: "bg-orange-500/10 text-orange-500 border-orange-500/20",
-    green: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20",
+    green: "bg-[#cc785c]/10 text-[#cc785c] border-[#cc785c]/20",
     zinc: "bg-black/5 dark:bg-zinc-800 text-black/40 dark:text-zinc-400 border-black/10 dark:border-zinc-700",
   };
   return (
@@ -386,13 +386,13 @@ export default function Airdrop() {
                     <span className="text-black/50 dark:text-zinc-400">
                       Your Progress
                     </span>
-                    <span className="text-emerald-500">
+                    <span className="text-[#cc785c]">
                       {Math.round(airdropProgress)}%
                     </span>
                   </div>
                   <div className="h-3 bg-black/10 dark:bg-zinc-900 rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-emerald-500 transition-all duration-1000"
+                      className="h-full bg-[#cc785c] transition-all duration-1000"
                       style={{ width: `${airdropProgress}%` }}
                     ></div>
                   </div>
@@ -405,7 +405,7 @@ export default function Airdrop() {
                   ].map((s, i) => (
                     <div key={i} className="flex items-center gap-3">
                       <div
-                        className={`w-8 h-8 rounded-full flex items-center justify-center border-2 transition-all ${s.d ? "bg-emerald-500 border-emerald-500 text-black" : "border-black/10 dark:border-zinc-800 text-black/30 dark:text-zinc-700 font-bold"}`}
+                        className={`w-8 h-8 rounded-full flex items-center justify-center border-2 transition-all ${s.d ? "bg-[#cc785c] border-[#cc785c] text-black" : "border-black/10 dark:border-zinc-800 text-black/30 dark:text-zinc-700 font-bold"}`}
                       >
                         {s.d ? <CheckCircle2 size={16} /> : i + 1}
                       </div>
@@ -421,7 +421,7 @@ export default function Airdrop() {
               <div className="mt-12 lg:mt-0 min-w-[300px]">
                 <button
                   onClick={simulateTransfer}
-                  className="w-full bg-emerald-500 hover:bg-emerald-400 text-black font-medium py-5 rounded-2xl text-lg shadow-xl shadow-emerald-500/10 transition-all"
+                  className="w-full bg-[#cc785c] hover:bg-[#cc785c] text-black font-medium py-5 rounded-2xl text-lg shadow-xl shadow-emerald-500/10 transition-all"
                 >
                   {airdropSteps.holding
                     ? "Claimed Successfully"
@@ -666,7 +666,7 @@ export default function Airdrop() {
                       {act.action}
                     </span>
                   </div>
-                  <div className="text-xs text-emerald-500 font-bold tracking-widest">
+                  <div className="text-xs text-[#cc785c] font-bold tracking-widest">
                     +{act.amount}
                   </div>
                 </div>
@@ -944,7 +944,7 @@ export default function Airdrop() {
         <div className="bg-black/90 backdrop-blur-2xl border-2 border-zinc-800 rounded-[2rem] shadow-[0_0_100px_rgba(0,0,0,1)] p-6 w-80">
           <div className="flex items-center justify-between mb-6 pb-4 border-b border-zinc-900">
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+              <div className="w-2 h-2 rounded-full bg-[#cc785c] animate-pulse"></div>
               <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">
                 Connected
               </span>

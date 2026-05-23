@@ -198,8 +198,8 @@
 //                 <CardHeader title="Settlement Finality" />
 //                 <div className="p-5 space-y-2.5">
 //                   <div className="flex items-center gap-3">
-//                     <div className="w-9 h-9 rounded-full bg-emerald-500/15 flex items-center justify-center border border-emerald-400/20 shrink-0">
-//                       <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+//                     <div className="w-9 h-9 rounded-full bg-[#cc785c]/15 flex items-center justify-center border border-[#cc785c]/20 shrink-0">
+//                       <CheckCircle2 className="w-5 h-5 text-[#cc785c]" />
 //                     </div>
 //                     <div className="min-w-0">
 //                       <div className="text-sm text-gray-100 font-semibold">
@@ -212,8 +212,8 @@
 //                       </div>
 //                     </div>
 //                     <div className="ml-auto shrink-0">
-//                       <div className="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center">
-//                         <CheckCircle2 className="w-4 h-4 text-emerald-400/60" />
+//                       <div className="w-8 h-8 rounded-full bg-[#cc785c]/10 flex items-center justify-center">
+//                         <CheckCircle2 className="w-4 h-4 text-[#cc785c]/60" />
 //                       </div>
 //                     </div>
 //                   </div>
@@ -234,7 +234,7 @@
 //                 <CardHeader title="Funds Secured" />
 //                 <div className="p-5 space-y-2.5">
 //                   <div className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/[0.06] rounded-full px-3 py-1">
-//                     <Shield className="w-3 h-3 text-emerald-400" />
+//                     <Shield className="w-3 h-3 text-[#cc785c]" />
 //                     <span className="text-[11px] text-gray-300">
 //                       Smart contract
 //                     </span>
@@ -406,7 +406,7 @@
 //                           className="flex items-center justify-between py-1.5 px-2 rounded-lg hover:bg-gray-50 transition-colors"
 //                         >
 //                           <div className="flex items-center gap-2">
-//                             <div className="w-2 h-2 rounded-full bg-emerald-400" />
+//                             <div className="w-2 h-2 rounded-full bg-[#cc785c]" />
 //                             <span className="text-sm font-medium text-gray-700">
 //                               {r.from}
 //                             </span>

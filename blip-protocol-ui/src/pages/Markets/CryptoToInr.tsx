@@ -199,7 +199,7 @@ function AssetDropdown({
                 </span>
               </div>
               {a.id === selected.id && (
-                <Check className="w-4 h-4 text-emerald-500 ml-auto" />
+                <Check className="w-4 h-4 text-[#cc785c] ml-auto" />
               )}
             </button>
           ))}
@@ -871,7 +871,7 @@ export default function CryptoToInr() {
                         24h Change
                       </span>
                       <span
-                        className={`font-semibold flex items-center gap-1 ${conversion.change >= 0 ? "text-emerald-500" : "text-red-400"}`}
+                        className={`font-semibold flex items-center gap-1 ${conversion.change >= 0 ? "text-[#cc785c]" : "text-red-400"}`}
                       >
                         {conversion.change >= 0 ? (
                           <TrendingUp className="w-3.5 h-3.5" />
@@ -1075,7 +1075,7 @@ export default function CryptoToInr() {
                               "\u2014"
                             ) : r ? (
                               <span
-                                className={`inline-flex items-center gap-1 font-semibold ${change >= 0 ? "text-emerald-500" : "text-red-400"}`}
+                                className={`inline-flex items-center gap-1 font-semibold ${change >= 0 ? "text-[#cc785c]" : "text-red-400"}`}
                               >
                                 {change >= 0 ? (
                                   <TrendingUp className="w-3.5 h-3.5" />

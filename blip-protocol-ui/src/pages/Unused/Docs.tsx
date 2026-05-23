@@ -229,7 +229,7 @@ const MethodBadge = ({ method }: { method: "GET" | "POST" }) => (
   <span
     className={`inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider ${
       method === "POST"
-        ? "bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-400"
+        ? "bg-[#cc785c]/10 text-[#a45a40] dark:bg-[#cc785c]/15 dark:text-[#cc785c]"
         : "bg-blue-500/10 text-blue-600 dark:bg-blue-500/15 dark:text-blue-400"
     }`}
   >
@@ -255,7 +255,7 @@ const CopyButton = ({ text }: { text: string }) => {
       title="Copy to clipboard"
     >
       {copied ? (
-        <Check className="w-3.5 h-3.5 text-emerald-400" />
+        <Check className="w-3.5 h-3.5 text-[#cc785c]" />
       ) : (
         <Copy className="w-3.5 h-3.5 text-white/40" />
       )}
@@ -369,7 +369,7 @@ export default function Docs() {
               className="text-center"
             >
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/[0.04] dark:bg-white/[0.06] text-[12px] font-semibold uppercase tracking-[0.12em] text-gray-500 dark:text-white/40 mb-6">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#cc785c] animate-pulse" />
                 API v1
               </div>
               <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold text-black dark:text-white tracking-tight mb-5">

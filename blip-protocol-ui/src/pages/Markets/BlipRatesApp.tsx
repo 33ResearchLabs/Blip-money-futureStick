@@ -315,7 +315,7 @@ function TickerTape({ items }: { items: TickerItem[] }) {
               </span>
               <span
                 className={`tabular-nums text-[11px] ${
-                  up ? "text-emerald-400" : "text-rose-400"
+                  up ? "text-[#cc785c]" : "text-rose-400"
                 }`}
               >
                 {up ? "▲" : "▼"} {Math.abs(t.delta).toFixed(2)}%
@@ -784,7 +784,7 @@ export default function BlipRatesApp() {
                       className={`px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition ${
                         side === s
                           ? s === "BUY"
-                            ? "bg-emerald-500 text-black"
+                            ? "bg-[#cc785c] text-black"
                             : "bg-rose-500 text-black"
                           : "text-white/50"
                       }`}

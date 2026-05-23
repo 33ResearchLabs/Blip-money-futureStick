@@ -81,8 +81,8 @@ const SolutionCard = ({
     >
       {/* Green check accent */}
       <div className="flex items-start gap-4">
-        <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-emerald-500/10 dark:bg-emerald-500/10 flex items-center justify-center">
-          <CheckCircle2 className="w-5 h-5 text-emerald-500/70 dark:text-emerald-400/70" />
+        <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-[#cc785c]/10 dark:bg-[#cc785c]/10 flex items-center justify-center">
+          <CheckCircle2 className="w-5 h-5 text-[#cc785c]/70 dark:text-[#cc785c]/70" />
         </div>
 
         <div className="flex-1 min-w-0">
@@ -193,7 +193,7 @@ export default function UseCaseDetail() {
             transition={{ duration: 0.6 }}
             className="mb-10"
           >
-            <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-emerald-500 dark:text-emerald-400/50 mb-3 block">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-[#cc785c] dark:text-[#cc785c]/50 mb-3 block">
               The Solution
             </span>
             <h2 className="text-3xl sm:text-4xl font-bold text-black dark:text-white tracking-tight">

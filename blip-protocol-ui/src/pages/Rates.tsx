@@ -553,7 +553,7 @@ const RateFinder = () => {
               <span className="truncate">Live feed unavailable — showing indicative spreads</span>
             ) : live.observed_at ? (
               <>
-                <span className="w-1.5 h-1.5 rounded-full bg-[#3ddc84] animate-pulse shrink-0" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#cc785c] animate-pulse shrink-0" />
                 <span className="truncate">
                   Live · {Math.max(0, Math.round((Date.now() - live.observed_at) / 1000))}s ago
                 </span>
@@ -700,7 +700,7 @@ const RateFinder = () => {
                       {c.name}
                     </span>
                     {c.isLive ? (
-                      <span className="text-[8px] font-semibold uppercase tracking-wider text-[#3ddc84]">
+                      <span className="text-[8px] font-semibold uppercase tracking-wider text-[#cc785c]">
                         ● Live
                       </span>
                     ) : (
@@ -892,7 +892,7 @@ const ComparisonSection = () => {
                     className={`px-4 py-4 text-center flex items-center justify-center gap-1.5 ${isLast ? "" : "border-b border-black/[0.04] dark:border-white/[0.04]"}`}
                   >
                     {c.good ? (
-                      <Check className="w-3 h-3 text-[#3ddc84] shrink-0" strokeWidth={3} />
+                      <Check className="w-3 h-3 text-[#cc785c] shrink-0" strokeWidth={3} />
                     ) : (
                       <X className="w-3 h-3 text-black/25 dark:text-white/25 shrink-0" strokeWidth={3} />
                     )}

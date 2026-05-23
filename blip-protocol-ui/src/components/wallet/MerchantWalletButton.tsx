@@ -85,7 +85,7 @@ export function MerchantWalletButton({ isDark }: MerchantWalletButtonProps) {
           <div
             className={`w-2 h-2 rounded-full ${
               user?.walletLinked
-                ? "bg-emerald-500"
+                ? "bg-[#cc785c]"
                 : "bg-amber-500 animate-pulse"
             }`}
           />

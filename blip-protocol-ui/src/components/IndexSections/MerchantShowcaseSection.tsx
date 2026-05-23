@@ -177,7 +177,7 @@ const MerchantShowcaseSection = () => {
                   fontFamily: "monospace",
                 }}
               >
-                <span style={{ color: "#3ddc84" }}>⚡</span> merchant.blip.money
+                <span style={{ color: "#cc785c" }}>⚡</span> merchant.blip.money
               </div>
             </div>
           </div>
@@ -228,16 +228,16 @@ const MerchantShowcaseSection = () => {
             <div className="ml-auto flex items-center gap-3">
               <div
                 className="flex items-center gap-1.5"
-                style={{ fontSize: 10, color: "#3ddc84", fontFamily: "monospace" }}
+                style={{ fontSize: 10, color: "#cc785c", fontFamily: "monospace" }}
               >
                 <span
                   style={{
                     width: 6,
                     height: 6,
                     borderRadius: "50%",
-                    background: "#3ddc84",
+                    background: "#cc785c",
                     display: "inline-block",
-                    boxShadow: "0 0 6px #3ddc84",
+                    boxShadow: "0 0 6px #cc785c",
                     animation: "pulse 2s infinite",
                   }}
                 />
@@ -885,10 +885,10 @@ const MerchantShowcaseSection = () => {
                           width: 6,
                           height: 6,
                           borderRadius: "50%",
-                          background: m.online ? "#3ddc84" : "rgba(255,255,255,0.2)",
+                          background: m.online ? "#cc785c" : "rgba(255,255,255,0.2)",
                           flexShrink: 0,
                           ...(m.online
-                            ? { boxShadow: "0 0 4px #3ddc84" }
+                            ? { boxShadow: "0 0 4px #cc785c" }
                             : {}),
                         }}
                       />

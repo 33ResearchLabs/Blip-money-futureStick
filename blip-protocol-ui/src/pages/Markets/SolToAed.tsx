@@ -621,7 +621,7 @@ export default function SolToAed() {
                     </div>
                     <div className="flex justify-between">
                       <span className="text-black/40 dark:text-white/30">24h Change</span>
-                      <span className={`font-semibold flex items-center gap-1 ${conversion.change >= 0 ? "text-emerald-500" : "text-red-400"}`}>
+                      <span className={`font-semibold flex items-center gap-1 ${conversion.change >= 0 ? "text-[#cc785c]" : "text-red-400"}`}>
                         {conversion.change >= 0 ? <TrendingUp className="w-3.5 h-3.5" /> : <TrendingDown className="w-3.5 h-3.5" />}
                         {Math.abs(conversion.change).toFixed(2)}%
                       </span>
@@ -756,7 +756,7 @@ export default function SolToAed() {
                     {rate.aed.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} AED
                   </div>
                 </div>
-                <div className={`flex items-center gap-1 text-sm font-semibold ${(rate.aed_24h_change ?? 0) >= 0 ? "text-emerald-500" : "text-red-400"}`}>
+                <div className={`flex items-center gap-1 text-sm font-semibold ${(rate.aed_24h_change ?? 0) >= 0 ? "text-[#cc785c]" : "text-red-400"}`}>
                   {(rate.aed_24h_change ?? 0) >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
                   {Math.abs(rate.aed_24h_change ?? 0).toFixed(2)}% (24h)
                 </div>
