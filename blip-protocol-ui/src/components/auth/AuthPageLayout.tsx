@@ -70,7 +70,7 @@ export default function AuthPageLayout({
         </div>
 
         {/* LEFT: Card visual + tagline (hidden below lg) */}
-        <div className="hidden lg:flex  flex-col items-start justify-start overflow-hidden pl-4 pt-6">
+        <div className="hidden lg:flex  flex-col items-start justify-start overflow-hidden pl-4 ml-8 pt-6">
           <AuthCardStack variant={variant} className="" />
           {/* <motion.h1
             initial={{ opacity: 0, y: 20 }}

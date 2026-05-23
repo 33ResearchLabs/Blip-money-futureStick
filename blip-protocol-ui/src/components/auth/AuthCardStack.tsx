@@ -391,14 +391,14 @@ export default function AuthCardStack({
     //   </motion.div>
     // </div>
 
-    <div className={`relative w-full  rounded-3xl overflow-hidden bg-black ${className}`}>
+    <div className={`relative w-full   overflow-hidden bg-black ${className}`}>
       {/* Hero image with overlay cards */}
       <div className="relative">
         <img
           // src="images\merchant-waitlist.png"
           src="images\merchangt-login-register.jpg"
           alt=""
-          className="w-full block"
+          className="w-[90%] rounded-xl block"
         />
 
         

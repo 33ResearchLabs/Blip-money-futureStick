@@ -10,6 +10,7 @@ import {
   Loader2,
   Shield,
   Gift,
+  ChevronDown,
 } from "lucide-react";
 import { toast } from "sonner";
 import authApi from "@/services/auth";
@@ -41,6 +42,7 @@ export default function Register({
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [showRequirements, setShowRequirements] = useState(false);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   // OTP verification state (kept for future email verification)
@@ -397,6 +399,7 @@ export default function Register({
                 value={formData.password}
                 onChange={handleChange}
                 onBlur={handleBlur}
+                onFocus={() => setShowRequirements(true)}
                 className={`w-full pl-12 pr-12 py-3.5 bg-black/[0.02] dark:bg-white/[0.03] border ${
                   errors.password
                     ? "border-red-500/50 ring-2 ring-red-500/10"
@@ -456,39 +459,73 @@ export default function Register({
                   </span>
                 </div>
 
-                <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
-                  {[
-                    {
-                      check: passwordStrength.checks.length,
-                      label: "8+ characters",
-                    },
-                    {
-                      check: passwordStrength.checks.uppercase,
-                      label: "Uppercase",
-                    },
-                    { check: passwordStrength.checks.number, label: "Number" },
-                    {
-                      check: passwordStrength.checks.lowercase,
-                      label: "Lowercase",
-                    },
-                  ].map((item) => (
-                    <div key={item.label} className="flex items-center gap-1.5">
-                      {item.check ? (
-                        <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
-                      ) : (
-                        <XCircle className="w-3.5 h-3.5 text-black/15 dark:text-white/15" />
-                      )}
-                      <span
-                        className={`text-[11px] ${
-                          item.check
-                            ? "text-emerald-500 dark:text-emerald-400"
-                            : "text-black/30 dark:text-white/30"
-                        }`}
-                      >
-                        {item.label}
-                      </span>
+                <div>
+                  <button
+                    type="button"
+                    onClick={() => setShowRequirements((v) => !v)}
+                    aria-expanded={showRequirements}
+                    className="w-full flex items-center justify-between gap-2 text-[11px] font-medium text-black/50 dark:text-white/50 hover:text-black/70 dark:hover:text-white/70 transition-colors duration-200"
+                  >
+                    <span>
+                      Requirements ({passwordStrength.score}/
+                      {Object.keys(passwordStrength.checks).length})
+                    </span>
+                    <ChevronDown
+                      className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                        showRequirements ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+                  <div
+                    className={`grid transition-all duration-200 ease-out ${
+                      showRequirements
+                        ? "grid-rows-[1fr] opacity-100 mt-2"
+                        : "grid-rows-[0fr] opacity-0"
+                    }`}
+                  >
+                    <div className="overflow-hidden">
+                      <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
+                        {[
+                          {
+                            check: passwordStrength.checks.length,
+                            label: "8+ characters",
+                          },
+                          {
+                            check: passwordStrength.checks.uppercase,
+                            label: "Uppercase",
+                          },
+                          {
+                            check: passwordStrength.checks.number,
+                            label: "Number",
+                          },
+                          {
+                            check: passwordStrength.checks.lowercase,
+                            label: "Lowercase",
+                          },
+                        ].map((item) => (
+                          <div
+                            key={item.label}
+                            className="flex items-center gap-1.5"
+                          >
+                            {item.check ? (
+                              <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
+                            ) : (
+                              <XCircle className="w-3.5 h-3.5 text-black/15 dark:text-white/15" />
+                            )}
+                            <span
+                              className={`text-[11px] ${
+                                item.check
+                                  ? "text-emerald-500 dark:text-emerald-400"
+                                  : "text-black/30 dark:text-white/30"
+                              }`}
+                            >
+                              {item.label}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  ))}
+                  </div>
                 </div>
               </div>
             )}
