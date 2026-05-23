@@ -247,7 +247,7 @@ const NavItem = ({
       to={to}
       onClick={() => sounds.click()}
       onMouseEnter={() => sounds.hover()}
-      className="relative px-4 py-2 text-[17px] font-bold tracking-tight transition-colors duration-200"
+      className="relative px-4 py-2 text-[15.5px] font-bold tracking-tight transition-colors duration-200"
     >
       <span
         className={
