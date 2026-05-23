@@ -72,7 +72,7 @@ export default function AuthPageLayout({
         </div>
 
         {/* LEFT: Card visual + tagline (hidden below lg) */}
-        <div className="hidden lg:flex  flex-col items-start justify-start overflow-hidden  p-8">
+        <div className="hidden lg:flex  flex-col items-start justify-start overflow-hidden  ">
           <AuthCardStack variant={variant} className="" />
         </div>
       </div>

@@ -13,7 +13,6 @@ export default function AuthCardStack({
   className = "",
 }: AuthCardStackProps) {
   return (
-    
     // <div className={`relative w-[460px] h-[420px] ${className}`}>
     //   {/* ── Main phone-frame card (center, largest) ── */}
     //   <motion.div
@@ -400,8 +399,6 @@ export default function AuthCardStack({
           alt=""
           className="w-[85%] rounded-xl block"
         />
-
-        
       </div>
 
       {/* Feature row */}

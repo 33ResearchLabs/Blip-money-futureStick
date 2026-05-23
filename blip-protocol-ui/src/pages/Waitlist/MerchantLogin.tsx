@@ -47,7 +47,7 @@ export const MerchantLogin = ({ initialView: _initialView }: AirdropLoginProps =
       />
       <HreflangTags path="/waitlist" />
 
-      <div className="min-h-screen bg-[#FAF8F5] dark:bg-black text-black dark:text-white overflow-hidden">
+      <div className="min-h-screen bg-[#FAF8F5] dark:bg-black text-black dark:text-white overflow-hidden mt-8">
         <main className="relative z-10 max-w-7xl mx-auto px-6 pt-6 pb-24">
           {!isAuthenticated && (
             <AuthPageLayout
