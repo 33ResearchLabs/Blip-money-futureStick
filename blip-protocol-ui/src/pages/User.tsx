@@ -51,7 +51,7 @@ const UserHero = () => {
   }, []);
 
   return (
-    <section className="relative min-h-[92vh] overflow-hidden flex items-center justify-center text-center bg-black">
+    <section className="relative overflow-hidden flex items-center justify-center text-center bg-black">
       {/* Deep gradient base */}
       <div
         aria-hidden
@@ -99,7 +99,7 @@ const UserHero = () => {
         />
       ))}
 
-      <main className="relative z-10 w-full max-w-[920px] mx-auto px-6 md:px-10 pt-28 pb-24 text-center">
+      <main className="relative z-10 w-full max-w-[920px] mx-auto px-6 md:px-10 pt-20 pb-10 text-center">
         {/* Live rate chip */}
         <motion.div
           initial={{ opacity: 0, y: 6 }}
@@ -192,12 +192,15 @@ const UserHero = () => {
           </Link>
         </motion.div>
 
+        {/* Hero data row — converter + rate finder side by side */}
+        <div className="mx-auto mb-10 w-full max-w-[940px] grid grid-cols-1 md:grid-cols-2 gap-3">
+
         {/* Live mini-converter mockup */}
         <motion.div
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.5, ease: EASE }}
-          className="mx-auto mb-10 w-full max-w-[460px] rounded-2xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-xl p-4"
+          className="rounded-2xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-xl p-4"
         >
           <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
             {/* From */}
@@ -258,16 +261,84 @@ const UserHero = () => {
           </div>
         </motion.div>
 
+        {/* Rate finder — second card next to converter */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.6, ease: EASE }}
+          className="rounded-2xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-xl p-4 text-left"
+        >
+          <div className="flex items-center justify-between mb-3">
+            <div className="text-[9px] font-semibold uppercase tracking-[0.22em] text-white/55">
+              Find best rate
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35] animate-pulse" />
+              <span className="text-[9px] font-semibold uppercase tracking-[0.18em] text-[#ff6b35]">
+                Live
+              </span>
+            </div>
+          </div>
+
+          {/* Amount + From/To row */}
+          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
+            <div className="rounded-xl bg-white/[0.04] border border-white/[0.06] px-3 py-2 text-left">
+              <div className="text-[9px] uppercase tracking-[0.2em] text-white/40 mb-0.5">Amount</div>
+              <div className="flex items-center gap-1.5">
+                <span className="font-mono font-bold text-white text-[20px] tabular-nums">1,000</span>
+                <span className="text-[11px] font-semibold text-white/55">USDT</span>
+              </div>
+            </div>
+            <ArrowRight className="w-3 h-3 text-white/35" strokeWidth={2.5} />
+            <div className="rounded-xl bg-white/[0.04] border border-white/[0.06] px-3 py-2 text-right">
+              <div className="text-[9px] uppercase tracking-[0.2em] text-white/40 mb-0.5">To</div>
+              <div className="flex items-center justify-end gap-1.5">
+                <span aria-hidden className="text-base">🇮🇳</span>
+                <span className="text-[12px] font-bold text-white">INR</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Find button */}
+          <Link
+            to="/rates"
+            className="mt-3 w-full inline-flex items-center justify-center gap-1.5 px-4 h-11 rounded-full bg-white text-black text-[13.5px] font-semibold tracking-tight hover:-translate-y-[1px] transition-transform"
+          >
+            Find best rate
+            <ArrowRight className="w-3.5 h-3.5" strokeWidth={2.5} />
+          </Link>
+
+          {/* Footer strip */}
+          <div className="mt-3 pt-3 border-t border-white/[0.06] flex items-center justify-between text-[10px] text-white/40">
+            <span className="font-mono">Beat 12+ exchanges</span>
+            <span className="flex items-center gap-1.5">
+              <Tag className="w-2.5 h-2.5 text-[#ff6b35]" />
+              Best rate locked
+            </span>
+          </div>
+        </motion.div>
+
+        </div>{/* /grid */}
+
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.7, ease: EASE }}
           className="flex flex-col sm:flex-row items-center justify-center gap-3"
         >
-          <CTAButton to="/register" className="min-w-[220px] sm:min-w-0">Join waitlist</CTAButton>
-          <CTAButton to="/how-it-works" variant="secondary" className="min-w-[220px] sm:min-w-0">
+          <Link
+            to="/register"
+            className="inline-flex items-center justify-center gap-2 px-8 h-14 rounded-full bg-white text-black text-[16px] font-semibold tracking-tight min-w-[240px] hover:-translate-y-[1px] transition-transform shadow-[0_8px_28px_-8px_rgba(255,255,255,0.4)]"
+          >
+            Join waitlist
+            <ArrowRight className="w-4 h-4" strokeWidth={2.5} />
+          </Link>
+          <Link
+            to="/how-it-works"
+            className="inline-flex items-center justify-center gap-2 px-8 h-14 rounded-full bg-transparent text-white border border-white/30 hover:border-white/60 text-[16px] font-semibold tracking-tight min-w-[240px] transition-colors"
+          >
             See how it works
-          </CTAButton>
+          </Link>
         </motion.div>
 
         {/* Token strip */}
@@ -315,11 +386,10 @@ const WhyBlipForUsers = () => {
   const features = [
     { title: "No middleman", desc: "Swap peer-to-peer, settle on-chain." },
     { title: "Your wallet, your keys", desc: "Non-custodial by design." },
-    { title: "Fair market rates", desc: "Live rates, transparent margin." },
   ];
 
   return (
-    <section ref={ref} className="relative bg-[#FAF8F5] dark:bg-transparent text-black dark:text-white overflow-hidden py-20 lg:py-28">
+    <section ref={ref} className="relative bg-[#FAF8F5] dark:bg-transparent text-black dark:text-white overflow-hidden py-6 lg:py-9">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
           {/* LEFT: headline + features */}
@@ -450,7 +520,7 @@ const UserHowItWorks = () => {
   ];
 
   return (
-    <section ref={ref} className="relative py-24 md:py-32 overflow-hidden bg-[#FAF8F5] dark:bg-black">
+    <section ref={ref} className="relative py-8 md:py-10 overflow-hidden bg-[#FAF8F5] dark:bg-black">
       <div className="relative z-10 max-w-6xl mx-auto px-6">
         <div className="text-center mb-14">
           <motion.p
@@ -540,7 +610,7 @@ const AppPreviewSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="relative py-24 md:py-32 overflow-hidden bg-white dark:bg-[#0a0a0a]">
+    <section ref={ref} className="relative py-8 md:py-10 overflow-hidden bg-white dark:bg-[#0a0a0a]">
       <div className="relative z-10 max-w-6xl mx-auto px-6">
         <div className="text-center mb-14">
           <motion.p
@@ -578,16 +648,34 @@ const AppPreviewSection = () => {
           transition={{ duration: 1, delay: 0.2, ease: EASE }}
           className="relative rounded-3xl overflow-hidden border border-black/[0.06] dark:border-white/[0.06] bg-gradient-to-br from-[#FAF8F5] to-white dark:from-[#111] dark:to-[#050505]"
         >
-          {/* Image — fully visible, no overlay covering it */}
-          <div className="px-6 pt-10 sm:px-12 sm:pt-14">
-            <img
-              src="/home.svg"
-              alt="Blip app preview — USDT to AED in under 60 seconds"
-              className="w-full h-auto max-h-[620px] object-contain mx-auto"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = "/home.webp";
+          {/* Image — real app screenshot in a phone bezel */}
+          <div className="px-6 pt-10 sm:px-12 sm:pt-14 flex justify-center">
+            <div
+              className="relative rounded-[44px] overflow-hidden mx-auto"
+              style={{
+                width: "min(280px, 80%)",
+                aspectRatio: "9/19.5",
+                background: "#0a0a0a",
+                padding: 8,
+                boxShadow:
+                  "0 1px 0 rgba(255,255,255,0.06) inset, 0 60px 120px -30px rgba(0,0,0,0.55)",
+                border: "1px solid rgba(255,255,255,0.08)",
               }}
-            />
+            >
+              <img
+                src="/app-home.png"
+                alt="Blip app — home screen"
+                className="w-full h-full object-cover block rounded-[36px]"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = "/home.svg";
+                }}
+              />
+              {/* Dynamic island */}
+              <div
+                aria-hidden
+                className="absolute top-3 left-1/2 -translate-x-1/2 w-20 h-5 rounded-full bg-black"
+              />
+            </div>
           </div>
           {/* Stats — sit below the image, not overlaid */}
           <div className="border-t border-black/[0.06] dark:border-white/[0.06] mt-2 px-6 sm:px-12 py-8 md:py-10">
@@ -659,7 +747,7 @@ const UserTrustSection = () => {
   ];
 
   return (
-    <section ref={ref} className="relative py-24 md:py-32 overflow-hidden bg-[#FAF8F5] dark:bg-black">
+    <section ref={ref} className="relative py-8 md:py-10 overflow-hidden bg-[#FAF8F5] dark:bg-black">
       <div className="relative z-10 max-w-6xl mx-auto px-6">
         <div className="text-center mb-14">
           <motion.p
@@ -737,7 +825,7 @@ const UserCTA = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="relative py-12 md:py-36 overflow-hidden bg-[#FAF8F5] dark:bg-black">
+    <section ref={ref} className="relative py-6 md:py-12 overflow-hidden bg-[#FAF8F5] dark:bg-black">
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none"
@@ -760,10 +848,19 @@ const UserCTA = () => {
           Join the waitlist. Early users get priority access and bonus rewards.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-          <CTAButton to="/register" className="min-w-[220px]">Join waitlist</CTAButton>
-          <CTAButton to="/how-it-works" variant="secondary" className="min-w-[220px]">
+          <Link
+            to="/register"
+            className="inline-flex items-center justify-center gap-2 px-10 h-16 rounded-full bg-black text-white dark:bg-white dark:text-black text-[17px] font-semibold tracking-tight min-w-[280px] hover:-translate-y-[1px] transition-transform shadow-[0_8px_28px_-8px_rgba(0,0,0,0.3)] dark:shadow-[0_8px_28px_-8px_rgba(255,255,255,0.4)]"
+          >
+            Join waitlist
+            <ArrowRight className="w-5 h-5" strokeWidth={2.5} />
+          </Link>
+          <Link
+            to="/how-it-works"
+            className="inline-flex items-center justify-center gap-2 px-10 h-16 rounded-full bg-transparent text-black dark:text-white border border-black/30 dark:border-white/30 hover:border-black/60 dark:hover:border-white/60 text-[17px] font-semibold tracking-tight min-w-[280px] transition-colors"
+          >
             Learn more
-          </CTAButton>
+          </Link>
         </div>
       </motion.div>
     </section>
