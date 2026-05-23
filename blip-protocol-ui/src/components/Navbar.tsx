@@ -247,17 +247,13 @@ const NavItem = ({
       to={to}
       onClick={() => sounds.click()}
       onMouseEnter={() => sounds.hover()}
-      className="relative px-3 py-2 text-[17px] font-semibold tracking-tight transition-colors duration-200"
+      className="relative px-4 py-2 text-[17px] font-bold tracking-tight transition-colors duration-200"
     >
       <span
         className={
           onDark
-            ? isActive
-              ? "text-white"
-              : "text-white/85 hover:text-white"
-            : isActive
-              ? "text-black dark:text-white"
-              : "text-black/70 dark:text-[#A1A1AA] hover:text-black dark:hover:text-white"
+            ? "text-white"
+            : "text-black dark:text-white"
         }
       >
         {children}
