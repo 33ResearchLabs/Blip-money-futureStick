@@ -211,7 +211,8 @@ export const Logo = memo(({ className = "", onDark = false }: { className?: stri
       </svg>
 
       <motion.span
-        className={`${className} text-[20px] font-semibold tracking-tight leading-none flex items-center`}
+        className={`${className} font-display text-[22px] leading-none flex items-baseline`}
+        style={{ letterSpacing: "-0.045em", fontWeight: 700 }}
         whileHover={{ scale: 1.02 }}
         transition={{ duration: 0.2 }}
       >
@@ -219,7 +220,14 @@ export const Logo = memo(({ className = "", onDark = false }: { className?: stri
           Blip
         </span>
         <span
-          className={`relative ml-1 italic ${onDark ? "text-white" : "text-black dark:text-white"}`}
+          className="ml-1"
+          style={{
+            fontFamily: "ui-serif, Georgia, serif",
+            fontStyle: "italic",
+            fontWeight: 500,
+            color: "#cc785c",
+            letterSpacing: "-0.025em",
+          }}
         >
           money
         </span>
