@@ -92,7 +92,7 @@ export function CardGeneratorPanel({ onGenerated }: { onGenerated?: () => void }
         <label className="text-[10.5px] font-semibold text-white/65 block mb-1">Card type</label>
         <div className="flex flex-wrap gap-1.5 mb-2">
           {GROUPS.map((g) => (
-            <button key={g} onClick={() => { setGroup(g); setPresetIdx(0); const p = PRESETS.find((x) => x.group === g)!; applyPreset(p); }}
+            <button type="button" key={g} onClick={() => { setGroup(g); setPresetIdx(0); const p = PRESETS.find((x) => x.group === g)!; applyPreset(p); }}
               className={`text-[10.5px] font-semibold px-2.5 py-1 rounded-md transition-colors ${
                 group === g ? "bg-white text-black" : "bg-white/5 hover:bg-white/10 text-white/70"
               }`}>{g}</button>
@@ -100,7 +100,7 @@ export function CardGeneratorPanel({ onGenerated }: { onGenerated?: () => void }
         </div>
         <div className="flex flex-wrap gap-1.5">
           {groupPresets.map((p, i) => (
-            <button key={p.label} onClick={() => { setPresetIdx(i); applyPreset(p); }}
+            <button type="button" key={p.label} onClick={() => { setPresetIdx(i); applyPreset(p); }}
               className={`text-[10.5px] font-semibold px-2 py-1 rounded-md ${
                 p === current ? "bg-[#ff7a3d]/20 text-white border border-[#ff7a3d]/40" : "bg-white/5 hover:bg-white/10 text-white/70"
               }`}>{p.label}</button>
