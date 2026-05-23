@@ -3,6 +3,11 @@ import { motion, useInView, useScroll, useTransform, AnimatePresence } from "fra
 import { Link } from "react-router-dom";
 import { MerchantCardsAppStyle } from "./MerchantCardsAppStyle";
 import { DashboardMerchantCards } from "./DashboardMerchantCards";
+import { EditorialMerchantCards } from "@/pages/CardPreview";
+
+// Toggle which merchant card set renders under "Powered by Merchants".
+// To undo: flip this back to "dashboard".
+const MERCHANT_CARDS: "dashboard" | "editorial" = "editorial";
 import {
   ArrowRight,
   Loader2,
@@ -2192,10 +2197,8 @@ const CinematicHero = () => {
               <span>{sending ? "Sending…" : "Send"}</span>
               <ArrowRight className="w-5 h-5 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
             </button>
-            <a
-              href="https://app.blip.money/waitlist/user"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/register"
               className="group inline-flex items-center justify-center gap-2 w-full sm:w-auto h-14 sm:h-12 px-8 sm:px-6 rounded-full text-[17px] sm:text-[14.5px] font-bold tracking-tight transition-all hover:-translate-y-[1px]"
               style={{
                 background: "rgba(204,120,92,0.10)",
@@ -2205,7 +2208,7 @@ const CinematicHero = () => {
             >
               <span>Join Waitlist</span>
               <ArrowRight className="w-5 h-5 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
-            </a>
+            </Link>
           </motion.div>
         </div>
 
@@ -2271,19 +2274,21 @@ const CinematicHero = () => {
             profit on every settlement — paid out instantly, on-chain.
           </p>
 
-          {/* ── 4-card app-style merchant cards (animated graphics) ── */}
-          <DashboardMerchantCards />
+          {/* ── 4-card merchant set. Controlled by MERCHANT_CARDS flag at top of file. ── */}
+          {MERCHANT_CARDS === "editorial" ? (
+            <EditorialMerchantCards />
+          ) : (
+            <DashboardMerchantCards />
+          )}
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-10 md:mt-14 mb-5">
-            <a
-              href="https://app.blip.money/waitlist/merchant"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/merchant"
               className="group relative inline-flex items-center justify-center gap-2 w-full sm:w-auto sm:min-w-[220px] h-[50px] px-7 rounded-full bg-black text-white text-[14px] font-semibold tracking-tight transition-all duration-300 hover:-translate-y-[1px] active:scale-[0.985]"
             >
               <span>Become a merchant now</span>
               <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
-            </a>
+            </Link>
           </div>
 
           <div className="inline-flex items-center gap-3 text-[12px] text-black/50 tracking-tight">
@@ -2692,10 +2697,8 @@ function MerchantCardCarousel() {
 
               {/* CTA + footnote */}
               <div className="mt-5 flex items-center justify-between gap-2 flex-wrap">
-                <a
-                  href="https://app.blip.money/waitlist/user"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  to="/register"
                   className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[12px] font-semibold tracking-tight hover:-translate-y-[1px] transition-transform whitespace-nowrap flex-shrink-0"
                   style={{
                     background: "#fff",
@@ -2704,7 +2707,7 @@ function MerchantCardCarousel() {
                 >
                   {c.cta}
                   <ArrowRight className="w-3 h-3" />
-                </a>
+                </Link>
                 {c.footnote && (
                   <span
                     className="text-[10px] tracking-tight inline-flex items-center gap-1 leading-tight"
