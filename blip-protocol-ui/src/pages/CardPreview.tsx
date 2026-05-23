@@ -2,6 +2,11 @@ import { useEffect, useState } from "react";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, ArrowUpRight, Check, ChevronUp, Copy, Sparkles, Trophy } from "lucide-react";
+import {
+  useMerchantCardsVariant,
+  MERCHANT_CARDS_VARIANTS,
+  type MerchantCardsVariant,
+} from "@/hooks/useMerchantCardsVariant";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -69,6 +74,8 @@ export default function CardPreview() {
           5 cards — claude_web_theme.md
         </h1>
 
+        <HomepageVariantPicker />
+
         <MerchantBenefitsGrid />
         <UsageSnippet component="MerchantBenefitsGrid" />
 
@@ -88,10 +95,12 @@ export default function CardPreview() {
         <SectionHeading title="Card hero · painted illustrations" sub="3 painterly card-hero illustrations matched to homepage offers." />
         <CardHeroGrid />
         <UsageSnippet component="CardHeroGrid" />
+        <UseOnHomepageButton value="card-hero" />
 
         <SectionHeading title="Merchant carousel · painted scenes" sub="4 painted Gemini scenes (zero-fees / first-transfers / bring-friend / boost-trades)." />
         <MerchantCarouselPainted />
         <UsageSnippet component="MerchantCarouselPainted" />
+        <UseOnHomepageButton value="painted" />
 
         <SectionHeading title="Become a merchant · onboarding card" sub="The merchant-side card with the 'Three quick steps' message." />
         <BecomeMerchantPreview />
@@ -100,26 +109,32 @@ export default function CardPreview() {
         <SectionHeading title="Apple-style · product cards (animated)" sub="Wallet pass, Pay sheet, iMessage cash, Activity ring — inline animated mockups." />
         <DashboardAppleCards />
         <UsageSnippet component="DashboardAppleCards" />
+        <UseOnHomepageButton value="apple" />
 
         <SectionHeading title="Smart app · v2 · clear hero" sub="White cards, big focal elements (0% badge, flag route, coin between avatars, trophy)." />
         <DashboardClearCards />
         <UsageSnippet component="DashboardClearCards" />
+        <UseOnHomepageButton value="clear" />
 
         <SectionHeading title="Dashboard widgets · live rows" sub="White cards, avatar rows, sparkline, simple progress." />
         <DashboardMerchantCards />
         <UsageSnippet component="DashboardMerchantCards" />
+        <UseOnHomepageButton value="live-rows" />
 
         <SectionHeading title="Dashboard widgets · dark + kinetic" sub="Black app-style cards with ticking numbers, sliding rows, pulses." />
         <DashboardKineticCards />
         <UsageSnippet component="DashboardKineticCards" />
+        <UseOnHomepageButton value="kinetic" />
 
         <SectionHeading title="Editorial · live-data" sub="White cards, italic-serif hero stats matching homepage style." />
         <EditorialMerchantCards />
         <UsageSnippet component="EditorialMerchantCards" />
+        <UseOnHomepageButton value="editorial" />
 
         <SectionHeading title="Mixed · Apple animated + scene" sub="Alternating animated mockup and painted scene." />
         <DashboardMixedCards />
         <UsageSnippet component="DashboardMixedCards" />
+        <UseOnHomepageButton value="mixed" />
       </div>
     </main>
   );
@@ -1497,6 +1512,87 @@ export function DashboardMixedCards() {
           <CardFooter card={c} dark={false} />
         </motion.div>
       ))}
+    </div>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   HomepageVariantPicker — live UI control that sets which card variant
+   renders inside the homepage "Merchants provide liquidity" section.
+   Persists to localStorage. Both /card-preview and / stay in sync.
+   ════════════════════════════════════════════════════════════════════ */
+export function HomepageVariantPicker() {
+  const { variant, setVariant } = useMerchantCardsVariant();
+  return (
+    <div
+      className="mb-12 rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur p-4 sm:p-5"
+      style={{ boxShadow: "0 24px 60px -24px rgba(0,0,0,0.7)" }}
+    >
+      <div className="flex items-center gap-2 mb-3">
+        <span className="w-1.5 h-1.5 rounded-full bg-[#ff7a3d] animate-pulse" />
+        <span className="text-[10px] font-bold tracking-[0.22em] text-white/55">
+          HOMEPAGE MERCHANT SECTION · LIVE
+        </span>
+      </div>
+      <div className="text-[12.5px] text-white/65 mb-4 leading-relaxed">
+        Pick which card set renders on the live homepage under{" "}
+        <span className="italic" style={{ fontFamily: "ui-serif, Georgia, serif" }}>
+          Merchants provide liquidity.
+        </span>{" "}
+        Selection persists across reloads.
+      </div>
+      <div className="flex flex-wrap gap-2">
+        {MERCHANT_CARDS_VARIANTS.map((v) => {
+          const active = v.value === variant;
+          return (
+            <button
+              key={v.value}
+              onClick={() => setVariant(v.value)}
+              className="px-3 py-1.5 rounded-full text-[11.5px] font-semibold tracking-tight transition-all"
+              style={{
+                background: active ? "#fff" : "rgba(255,255,255,0.06)",
+                color: active ? "#0a0a0a" : "rgba(255,255,255,0.75)",
+                border: `1px solid ${active ? "#fff" : "rgba(255,255,255,0.1)"}`,
+              }}
+            >
+              {active && <Check className="inline w-3 h-3 mr-1 -mt-0.5" strokeWidth={3} />}
+              {v.label}
+            </button>
+          );
+        })}
+      </div>
+      <div className="mt-4 text-[10.5px] text-white/40">
+        Active: <code className="text-white/70">{variant}</code> · See it live at{" "}
+        <Link to="/" className="underline text-white/70">/</Link> (Merchants section).
+      </div>
+    </div>
+  );
+}
+
+export function UseOnHomepageButton({ value }: { value: MerchantCardsVariant }) {
+  const { variant, setVariant } = useMerchantCardsVariant();
+  const active = variant === value;
+  return (
+    <div className="flex justify-center mt-4 mb-2">
+      <button
+        onClick={() => setVariant(value)}
+        disabled={active}
+        className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] font-semibold tracking-tight transition-all"
+        style={{
+          background: active ? "rgba(255,122,61,0.18)" : "rgba(255,255,255,0.06)",
+          color: active ? "#ff7a3d" : "rgba(255,255,255,0.85)",
+          border: `1px solid ${active ? "rgba(255,122,61,0.55)" : "rgba(255,255,255,0.12)"}`,
+        }}
+      >
+        {active ? (
+          <>
+            <Check className="w-3 h-3" strokeWidth={3} />
+            Live on homepage
+          </>
+        ) : (
+          <>Use this on homepage</>
+        )}
+      </button>
     </div>
   );
 }

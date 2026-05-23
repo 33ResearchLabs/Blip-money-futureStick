@@ -114,6 +114,11 @@ const SCENES = [
     file: "hero-vibe.png",
     prompt: `Wide editorial cover scene: three friends from different cities walking toward a shared warm horizon, soft golden arcs of light connecting each of their phones into the center of the frame, hopeful warm-cream sky. One small floating coin per arc. Premium, calm, no banks, no readable text.`,
   },
+  // ── Waitlist hero ─────────────────────────────────────────────────────────
+  {
+    file: "waitlist-hero.png",
+    prompt: `A premium editorial hero scene for joining a waitlist: a calm confident character standing at a quiet vantage point at golden hour, looking out at a soft horizon where a row of warm-lit windows in distant towers form a queue of light. A single luminous numbered token (drawn as a small circular glyph, not readable text) floats gently in front of the character at chest height. Warm cream and Claude-orange palette with a soft ink silhouette of the skyline. One ambient sparkle. Hopeful, anticipatory, never crowded. Visible friendly face, eyes and a soft smile.`,
+  },
   {
     file: "app-unlocked-wallet.png",
     prompt: `A clean editorial scene of an open wallet floating mid-frame on a soft cream surface, a single Claude-orange coin descending into it with a faint arc, a tiny padlock unlocked beside the wallet. Warm light from above, restrained palette, no readable text, generous breathing room.`,

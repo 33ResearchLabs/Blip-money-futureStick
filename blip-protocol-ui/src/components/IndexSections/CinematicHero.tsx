@@ -2,14 +2,18 @@ import { useEffect, useRef, useState, useMemo, memo } from "react";
 import { motion, useInView, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { MerchantCardsAppStyle } from "./MerchantCardsAppStyle";
-import { DashboardMerchantCards } from "./DashboardMerchantCards";
-import { EditorialMerchantCards, DashboardMixedCards } from "@/pages/CardPreview";
-
-// Toggle which merchant card set renders under "Powered by Merchants".
-// Options: "dashboard" (original), "editorial", "mixed".
-const MERCHANT_CARDS: "dashboard" | "editorial" = "editorial";
-// To use the mixed set, set MERCHANT_CARDS_OVERRIDE = "mixed".
-const MERCHANT_CARDS_OVERRIDE: "mixed" | null = "mixed";
+import { DashboardMerchantCards as LocalDashboardMerchantCards } from "./DashboardMerchantCards";
+import {
+  EditorialMerchantCards,
+  DashboardMixedCards,
+  DashboardAppleCards,
+  DashboardClearCards,
+  DashboardKineticCards,
+  DashboardMerchantCards,
+  MerchantCarouselPainted,
+  CardHeroGrid,
+} from "@/pages/CardPreview";
+import { useMerchantCardsVariant } from "@/hooks/useMerchantCardsVariant";
 import {
   ArrowRight,
   Loader2,
@@ -2276,14 +2280,8 @@ const CinematicHero = () => {
             profit on every settlement — paid out instantly, on-chain.
           </p>
 
-          {/* ── 4-card merchant set. Controlled by MERCHANT_CARDS / MERCHANT_CARDS_OVERRIDE at top of file. ── */}
-          {MERCHANT_CARDS_OVERRIDE === "mixed" ? (
-            <DashboardMixedCards />
-          ) : MERCHANT_CARDS === "editorial" ? (
-            <EditorialMerchantCards />
-          ) : (
-            <DashboardMerchantCards />
-          )}
+          {/* ── 4-card merchant set. Switch live from /card-preview via the variant picker. ── */}
+          <LiveMerchantCards />
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-10 md:mt-14 mb-5">
             <Link
@@ -3112,6 +3110,20 @@ function MerchantIllustration({ kind }: { kind: string }) {
   }
 
   return null;
+}
+
+function LiveMerchantCards() {
+  const { variant } = useMerchantCardsVariant();
+  if (variant === "apple") return <DashboardAppleCards />;
+  if (variant === "clear") return <DashboardClearCards />;
+  if (variant === "kinetic") return <DashboardKineticCards />;
+  if (variant === "live-rows") return <DashboardMerchantCards />;
+  if (variant === "editorial") return <EditorialMerchantCards />;
+  if (variant === "painted") return <MerchantCarouselPainted />;
+  if (variant === "card-hero") return <CardHeroGrid />;
+  if (variant === "app-style") return <MerchantCardsAppStyle />;
+  if (variant === "local-rows") return <LocalDashboardMerchantCards />;
+  return <DashboardMixedCards />;
 }
 
 export default memo(CinematicHero);
