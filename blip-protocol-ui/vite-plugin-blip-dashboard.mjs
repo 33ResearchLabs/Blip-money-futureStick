@@ -3,7 +3,7 @@
 //   POST /__dev_upload          multipart/form-data { file, id } -> saves to public/illustrations/
 //   POST /__dev_generate_card   json { prompt, filename } -> Gemini -> saves to public/illustrations/
 
-import { writeFileSync, mkdirSync, existsSync, readFileSync } from "node:fs";
+import { writeFileSync, mkdirSync, existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { resolve, dirname, extname, basename } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -69,6 +69,26 @@ export default function blipDashboardPlugin() {
     apply: "serve",
     configureServer(server) {
       if (!existsSync(ILL_DIR)) mkdirSync(ILL_DIR, { recursive: true });
+
+      // List all illustrations on disk
+      server.middlewares.use("/__dev_list_illustrations", async (req, res, next) => {
+        if (req.method !== "GET") return next();
+        try {
+          const files = readdirSync(ILL_DIR)
+            .filter((f) => /\.(png|jpe?g|webp|svg|gif)$/i.test(f))
+            .map((f) => {
+              const s = statSync(resolve(ILL_DIR, f));
+              return { filename: f, path: `/illustrations/${f}`, bytes: s.size, mtime: s.mtimeMs };
+            })
+            .sort((a, b) => b.mtime - a.mtime);
+          res.setHeader("Content-Type", "application/json");
+          res.end(JSON.stringify({ ok: true, files }));
+        } catch (err) {
+          res.statusCode = 500;
+          res.setHeader("Content-Type", "application/json");
+          res.end(JSON.stringify({ ok: false, error: String(err.message || err) }));
+        }
+      });
 
       server.middlewares.use("/__dev_upload", async (req, res, next) => {
         if (req.method !== "POST") return next();

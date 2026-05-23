@@ -75,6 +75,8 @@ const TwoFactorAuth = lazy(() => import("./components/TwoFactorAuth"));
 const Whitepaper = lazy(() => import("./pages/Protocol/Whitepaper"));
 const Merchant = lazy(() => import("./pages/UseCases/Merchant"));
 const CardPreview = lazy(() => import("./pages/CardPreview"));
+const Admin = lazy(() => import("./pages/Admin"));
+const CardCreator = lazy(() => import("./pages/CardCreator"));
 const User = lazy(() => import("./pages/User"));
 const Blog = lazy(() => import("./pages/Resources/Blog"));
 const BlogArticle = lazy(() => import("./pages/Resources/BlogArticle"));
@@ -212,6 +214,8 @@ const App = () => (
                     {/* <Route path="/rewards" element={<RewardsLanding />} /> */}
                     <Route path="/merchant" element={<Merchant />} />
                     <Route path="/card-preview" element={<CardPreview />} />
+                    <Route path="/admin" element={<Admin />} />
+                    <Route path="/card-creator" element={<CardCreator />} />
                     <Route path="/user" element={<User />} />
                     <Route path="/uae" element={<UAELandingPage />} />
                     <Route path="/coming-soon" element={<ComingSoon />} />
