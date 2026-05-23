@@ -140,7 +140,8 @@ const UserHero = () => {
 
   return (
     <section className="relative min-h-[92vh] overflow-hidden flex flex-col items-stretch bg-white text-black">
-      <main className="relative z-10 w-full max-w-[760px] mx-auto px-4 md:px-10 pt-16 md:pt-24 pb-16 md:pb-24 flex-1 flex flex-col items-center text-center justify-center md:justify-end min-h-[80vh] md:min-h-[58vh]">
+      <main className="relative z-10 w-full max-w-[1180px] mx-auto px-4 md:px-10 pt-16 md:pt-24 pb-16 md:pb-24 flex-1 grid grid-cols-1 lg:grid-cols-[1fr_minmax(360px,460px)] gap-10 lg:gap-16 items-center min-h-[80vh] md:min-h-[58vh]">
+      <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
         {/* Eyebrow chip — live USDT/INR rate */}
         <motion.div
           initial={{ opacity: 0, y: 8 }}
@@ -287,6 +288,24 @@ const UserHero = () => {
             <ArrowRight className="w-5 h-5 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
           </Link>
         </motion.div>
+      </div>
+
+      {/* RIGHT: Corrector character — desktop only (hidden on mobile) */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.96 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1, delay: 0.25, ease: EASE }}
+        className="hidden lg:block relative w-full aspect-[4/5] max-w-[520px] mx-auto rounded-[28px] overflow-hidden bg-[#f7f4ee] border border-black/[0.06]"
+      >
+        <img
+          src="/illustrations/user-corrector-phone.png"
+          alt="The Corrector — character using a phone to send money"
+          className="absolute inset-0 w-full h-full object-cover"
+          onError={(e) => {
+            (e.currentTarget as HTMLImageElement).src = "/illustrations/hero-char-1.png";
+          }}
+        />
+      </motion.div>
       </main>
     </section>
   );
