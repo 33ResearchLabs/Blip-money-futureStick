@@ -3,11 +3,13 @@ import { motion, useInView, useScroll, useTransform, AnimatePresence } from "fra
 import { Link } from "react-router-dom";
 import { MerchantCardsAppStyle } from "./MerchantCardsAppStyle";
 import { DashboardMerchantCards } from "./DashboardMerchantCards";
-import { EditorialMerchantCards } from "@/pages/CardPreview";
+import { EditorialMerchantCards, DashboardMixedCards } from "@/pages/CardPreview";
 
 // Toggle which merchant card set renders under "Powered by Merchants".
-// To undo: flip this back to "dashboard".
+// Options: "dashboard" (original), "editorial", "mixed".
 const MERCHANT_CARDS: "dashboard" | "editorial" = "editorial";
+// To use the mixed set, set MERCHANT_CARDS_OVERRIDE = "mixed".
+const MERCHANT_CARDS_OVERRIDE: "mixed" | null = "mixed";
 import {
   ArrowRight,
   Loader2,
@@ -2274,8 +2276,10 @@ const CinematicHero = () => {
             profit on every settlement — paid out instantly, on-chain.
           </p>
 
-          {/* ── 4-card merchant set. Controlled by MERCHANT_CARDS flag at top of file. ── */}
-          {MERCHANT_CARDS === "editorial" ? (
+          {/* ── 4-card merchant set. Controlled by MERCHANT_CARDS / MERCHANT_CARDS_OVERRIDE at top of file. ── */}
+          {MERCHANT_CARDS_OVERRIDE === "mixed" ? (
+            <DashboardMixedCards />
+          ) : MERCHANT_CARDS === "editorial" ? (
             <EditorialMerchantCards />
           ) : (
             <DashboardMerchantCards />
