@@ -220,13 +220,11 @@ export const Logo = memo(({ className = "", onDark = false }: { className?: stri
           Blip
         </span>
         <span
-          className="ml-1"
+          className={`ml-1 ${onDark ? "text-white" : "text-black dark:text-white"}`}
           style={{
-            fontFamily: "ui-serif, Georgia, serif",
             fontStyle: "italic",
-            fontWeight: 500,
-            color: "#cc785c",
-            letterSpacing: "-0.025em",
+            fontWeight: 600,
+            letterSpacing: "-0.045em",
           }}
         >
           money
