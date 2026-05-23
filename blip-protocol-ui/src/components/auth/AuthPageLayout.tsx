@@ -49,12 +49,12 @@ export default function AuthPageLayout({
           )}
 
           {heading && (
-            <h2 className="text-3xl md:text-4xl font-bold text-black dark:text-white mb-3 tracking-tight leading-[1.05]">
+            <h2 className="text-2xl md:text-3xl font-bold text-black dark:text-white mb-3 ">
               {heading}
               {headingAccent && (
                 <>
                   <br />
-                  <span className="dark:text-white/70  text-xl md:text-2xl">{headingAccent}</span>
+                  <span className="dark:text-white/70  text-lg md:text-xl">{headingAccent}</span>
                 </>
               )}
             </h2>

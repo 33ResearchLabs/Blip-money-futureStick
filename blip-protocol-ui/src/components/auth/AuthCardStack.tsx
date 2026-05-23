@@ -395,7 +395,8 @@ export default function AuthCardStack({
       {/* Hero image with overlay cards */}
       <div className="relative">
         <img
-          src="images\merchant-waitlist.png"
+          // src="images\merchant-waitlist.png"
+          src="images\merchangt-login-register.jpg"
           alt=""
           className="w-full block"
         />

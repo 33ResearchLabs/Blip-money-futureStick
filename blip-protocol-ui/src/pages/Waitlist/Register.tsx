@@ -318,15 +318,15 @@ export default function Register({
         )}
 
         <div className="flex items-center gap-2 rounded-xl border border-[#2a2a2a] bg-[#111111] px-4 py-3 mb-2">
-  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1a1a1a]">
-    <Gift className="h-4 w-4 text-[#f4c8a8]" />
-  </div>
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1a1a1a]">
+            <Gift className="h-4 w-4 text-[#f4c8a8]" />
+          </div>
 
-  <p className="text-sm font-medium text-white">
-    Get<span className="text-emerald-400"> +5,000 BLIP pts</span>
-    <span className="text-white/70"> to join waitlist</span>
-  </p>
-</div>
+          <p className="text-sm font-medium text-white">
+            Get<span className="text-emerald-400"> +5,000</span>
+            <span className="text-white/70"> BLIP pts to join waitlist</span>
+          </p>
+        </div>
 
         {/* Sign up / Sign in tab toggle */}
         <div className="mb-5 grid grid-cols-2 p-1 rounded-2xl border border-black/10 dark:border-white/[0.08] bg-black/[0.02] dark:bg-white/[0.03] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
@@ -566,18 +566,22 @@ export default function Register({
           {import.meta.env.VITE_RECAPTCHA_SITE_KEY &&
             import.meta.env.VITE_RECAPTCHA_SITE_KEY !==
               "your_recaptcha_site_key" && (
-              <div className="flex justify-center">
-                <ReCAPTCHA
-                  ref={recaptchaRef}
-                  sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
-                  onChange={(token) => setCaptchaToken(token)}
-                  onExpired={() => setCaptchaToken(null)}
-                  theme={
-                    document.documentElement.classList.contains("dark")
-                      ? "dark"
-                      : "light"
-                  }
-                />
+              <div className="flex justify-center [&_iframe]:[color-scheme:light]">
+                <div className="overflow-hidden rounded w-fit">
+                  <div className="-mx-px -mt-px -mb-1 w-fit">
+                    <ReCAPTCHA
+                      ref={recaptchaRef}
+                      sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+                      onChange={(token) => setCaptchaToken(token)}
+                      onExpired={() => setCaptchaToken(null)}
+                      theme={
+                        document.documentElement.classList.contains("dark")
+                          ? "dark"
+                          : "light"
+                      }
+                    />
+                  </div>
+                </div>
               </div>
             )}
 
@@ -599,7 +603,9 @@ export default function Register({
               ) : (
                 <>
                   {isMerchant ? "Join Merchant Waitlist" : "Join Waitlist"}
-                  <span aria-hidden className="text-base">→</span>
+                  <span aria-hidden className="text-base">
+                    →
+                  </span>
                 </>
               )}
             </button>
@@ -619,7 +625,7 @@ export default function Register({
               className="text-black dark:text-white font-semibold hover:underline underline-offset-4 transition-colors duration-200"
             >
               {isMerchant ? "Merchant Sign In" : "Sign in"}
-            </Link>  
+            </Link>
           </p>
           <p className="text-xs text-black/30 dark:text-white/30 leading-relaxed">
             By creating an account, you agree to our{" "}

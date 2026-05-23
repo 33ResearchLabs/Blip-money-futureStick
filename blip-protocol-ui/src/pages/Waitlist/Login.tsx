@@ -435,6 +435,13 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
         {/* Sign up / Sign in tab toggle */}
         <div className="mb-5 grid grid-cols-2 p-1 rounded-2xl border border-black/10 dark:border-white/[0.08] bg-black/[0.02] dark:bg-white/[0.03] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
           
+          <Link
+            to={registerPath}
+            className="py-3 rounded-xl text-[13px] font-semibold text-black/45 dark:text-white/45 hover:text-black/70 dark:hover:text-white/70 text-center transition-colors duration-200"
+          >
+            Sign up
+          </Link>
+          
           <button
             type="button"
             aria-current="page"
@@ -442,12 +449,6 @@ export default function Login({ role }: { role?: "user" | "merchant" }) {
           >
             Sign in
           </button>
-          <Link
-            to={registerPath}
-            className="py-3 rounded-xl text-[13px] font-semibold text-black/45 dark:text-white/45 hover:text-black/70 dark:hover:text-white/70 text-center transition-colors duration-200"
-          >
-            Sign up
-          </Link>
         </div>
 
         {/* Form */}
