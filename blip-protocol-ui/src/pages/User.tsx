@@ -139,164 +139,154 @@ const UserHero = () => {
   }, []);
 
   return (
-    <section className="relative min-h-[92vh] overflow-hidden flex items-center justify-center bg-white text-black">
-      <main className="relative z-10 w-full max-w-[1180px] mx-auto px-6 md:px-10 pt-24 pb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-          {/* LEFT: text + converter card + CTAs */}
-          <div className="text-left">
-            {/* Live rate chip */}
-            <motion.div
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
-              className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-black/10 bg-black/[0.03] mb-6"
-            >
-              <motion.span
-                animate={{ opacity: [1, 0.3, 1] }}
-                transition={{ duration: 1.4, repeat: Infinity }}
-                className="w-1.5 h-1.5 rounded-full bg-black"
-              />
-              <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-black/65">
-                Live · USDT / INR
-              </span>
-              <motion.span
-                key={rate}
-                initial={{ opacity: 0.6, y: -1 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="text-[10px] font-mono font-bold text-black tabular-nums"
-              >
-                {rate.toFixed(2)}
-              </motion.span>
-            </motion.div>
-
-            <motion.h1
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6 }}
-              className="font-display text-black font-semibold tracking-tight leading-[1.04] mb-6"
-              style={{ fontSize: "clamp(1.7rem, 3.6vw, 2.6rem)", letterSpacing: "-0.04em" }}
-            >
-              <motion.span
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.9, ease: EASE }}
-                className="block"
-              >
-                Send crypto.
-              </motion.span>
-              <motion.span
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.9, delay: 0.15, ease: EASE }}
-                className="block text-black/70"
-                style={{ fontStyle: "italic", fontFamily: "ui-serif, Georgia, serif", fontWeight: 500 }}
-              >
-                Get fiat instantly.
-              </motion.span>
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.3, ease: EASE }}
-              className="text-black/60 text-[15px] md:text-base leading-relaxed max-w-md mb-7"
-            >
-              Convert USDT, USDC, or SOL to AED, INR, and more — settled
-              on-chain, landed in your bank.
-            </motion.p>
-
-            {/* Live mini-converter mockup */}
-            <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.45, ease: EASE }}
-              className="mb-7 w-full max-w-[460px] rounded-2xl border border-black/[0.08] bg-white p-4 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.18)]"
-            >
-              <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
-                <div className="text-left">
-                  <div className="text-[9px] font-semibold uppercase tracking-[0.2em] text-black/45 mb-1">
-                    You send
-                  </div>
-                  <div className="flex items-baseline gap-1.5">
-                    <span className="font-mono font-bold text-black text-[20px] tabular-nums">
-                      1,000
-                    </span>
-                    <span className="text-[11px] font-semibold text-black/55">
-                      USDT
-                    </span>
-                  </div>
-                </div>
-
-                <motion.div
-                  animate={{ x: [0, 4, 0] }}
-                  transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-                  className="w-9 h-9 rounded-full flex items-center justify-center border border-black/15 bg-black/[0.04]"
-                >
-                  <ArrowRight className="w-4 h-4 text-black" strokeWidth={2.5} />
-                </motion.div>
-
-                <div className="text-right">
-                  <div className="text-[9px] font-semibold uppercase tracking-[0.2em] text-black/55 mb-1">
-                    You receive
-                  </div>
-                  <div className="flex items-baseline gap-1.5 justify-end">
-                    <motion.span
-                      key={outAmount}
-                      initial={{ opacity: 0.7, y: -2 }}
-                      className="font-mono font-bold text-black text-[20px] tabular-nums"
-                    >
-                      {outAmount.toLocaleString()}
-                    </motion.span>
-                    <span className="text-[11px] font-semibold text-black/55">
-                      INR
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-3 pt-3 border-t border-black/[0.06] flex items-center justify-between text-[10px] text-black/45">
-                <span className="flex items-center gap-1.5">
-                  <Lock className="w-2.5 h-2.5" /> Escrow secured
-                </span>
-                <span className="font-mono">~42s settlement</span>
-                <span className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-2.5 h-2.5 text-black" />
-                  On-chain
-                </span>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.6, ease: EASE }}
-              className="flex flex-col sm:flex-row items-start gap-3"
-            >
-              <CTAButton to="/register" className="min-w-[220px] sm:min-w-0">Join waitlist</CTAButton>
-              <CTAButton to="/how-it-works" variant="secondary" className="min-w-[220px] sm:min-w-0">
-                See how it works
-              </CTAButton>
-            </motion.div>
-          </div>
-
-          {/* RIGHT: Corrector character using a phone */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.25, ease: EASE }}
-            className="relative w-full aspect-[4/5] max-w-[520px] mx-auto rounded-[28px] overflow-hidden bg-[#f7f4ee] border border-black/[0.06]"
-          >
-            <img
-              src="/illustrations/user-corrector-phone.png"
-              alt="The Corrector — character using a phone to send money"
-              className="absolute inset-0 w-full h-full object-cover"
-              onError={(e) => {
-                // Fallback while the Corrector illustration is being generated.
-                (e.currentTarget as HTMLImageElement).src = "/illustrations/hero-char-1.png";
-              }}
+    <section className="relative min-h-[92vh] overflow-hidden flex flex-col items-stretch bg-white text-black">
+      <main className="relative z-10 w-full max-w-[760px] mx-auto px-4 md:px-10 pt-16 md:pt-24 pb-16 md:pb-24 flex-1 flex flex-col items-center text-center justify-center md:justify-end min-h-[80vh] md:min-h-[58vh]">
+        {/* Eyebrow chip — live USDT/INR rate */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: EASE }}
+          className="inline-flex items-center gap-3 mb-6"
+        >
+          <span className="w-5 h-px bg-black/15" />
+          <span className="text-[10px] font-semibold tracking-[0.3em] uppercase whitespace-nowrap text-black inline-flex items-center gap-2">
+            <motion.span
+              animate={{ opacity: [1, 0.3, 1] }}
+              transition={{ duration: 1.4, repeat: Infinity }}
+              className="w-1.5 h-1.5 rounded-full bg-[#cc785c]"
             />
-          </motion.div>
-        </div>
+            Live · USDT / INR
+            <motion.span
+              key={rate}
+              initial={{ opacity: 0.6, y: -1 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="font-mono tabular-nums text-black/65"
+            >
+              {rate.toFixed(2)}
+            </motion.span>
+          </span>
+          <span className="w-5 h-px bg-black/15" />
+        </motion.div>
+
+        {/* Big headline — matches landing hero scale */}
+        <motion.h1
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.1, ease: EASE, delay: 0.08 }}
+          className="font-display text-black w-full max-w-none sm:max-w-[760px] px-1"
+          style={{
+            fontSize: "clamp(3.2rem, 11vw, 3.9rem)",
+            fontWeight: 700,
+            lineHeight: 0.98,
+            letterSpacing: "-0.06em",
+            marginBottom: 18,
+          }}
+        >
+          Send crypto.{" "}
+          <span style={{ fontStyle: "italic", fontWeight: 600 }}>
+            Get fiat instantly.
+          </span>
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: EASE, delay: 0.18 }}
+          className="text-black/55 text-[15px] md:text-[16px] leading-[1.55] tracking-tight max-w-[560px] mx-auto mb-7"
+        >
+          Convert USDT, USDC, or SOL to AED, INR, and more — settled
+          on-chain, landed in your bank.
+        </motion.p>
+
+        {/* Live settlement-request card — split into 2 stacked cards on mobile, single card on desktop */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: EASE, delay: 0.4 }}
+          className="w-full max-w-[440px] mb-5"
+        >
+          <div className="flex flex-col gap-2 sm:gap-0 sm:rounded-2xl sm:overflow-hidden sm:bg-white sm:border sm:border-black/[0.08]">
+            {/* Card A: header + Send */}
+            <div className="rounded-2xl sm:rounded-none bg-white border border-black/[0.08] sm:border-0">
+              <div className="flex items-center justify-between px-3 pt-2 pb-1.5">
+                <div className="flex items-center gap-1.5">
+                  <span className="relative flex w-1.5 h-1.5">
+                    <span className="absolute inset-0 rounded-full bg-[#cc785c] opacity-60 animate-ping" />
+                    <span className="relative inline-flex rounded-full w-1.5 h-1.5 bg-[#cc785c]" />
+                  </span>
+                  <span className="text-[9px] font-semibold tracking-[0.16em] uppercase text-black/55">
+                    Live Settlement Request
+                  </span>
+                </div>
+                <span className="text-[9px] font-mono text-black/40">#REQ-8421</span>
+              </div>
+
+              <div className="px-3 pb-2.5">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="min-w-0 text-left">
+                    <div className="text-[8.5px] font-semibold tracking-[0.14em] uppercase text-black/45">You send</div>
+                    <div className="font-mono text-[17px] font-semibold tracking-tight text-black tabular-nums leading-tight">
+                      1,000 <span className="text-[11px] font-semibold text-black/55">USDT</span>
+                    </div>
+                  </div>
+                  <ArrowRight className="w-3 h-3 text-black/30 shrink-0 hidden sm:block" />
+                  {/* Desktop: receive on the right */}
+                  <div className="text-right min-w-0 hidden sm:block">
+                    <div className="text-[8.5px] font-semibold tracking-[0.14em] uppercase text-black/55">You receive</div>
+                    <div className="font-mono text-[17px] font-semibold tracking-tight tabular-nums leading-tight" style={{ color: "#cc785c" }}>
+                      {outAmount.toLocaleString()} <span className="text-[11px] font-semibold text-black/55">INR</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Card B: receive — mobile only */}
+            <div className="sm:hidden rounded-2xl bg-white border border-black/[0.08]">
+              <div className="px-3 py-2.5 flex items-center justify-between gap-2">
+                <div className="text-left min-w-0">
+                  <div className="text-[8.5px] font-semibold tracking-[0.14em] uppercase text-black/55">You receive</div>
+                  <div className="font-mono text-[17px] font-semibold tracking-tight tabular-nums leading-tight" style={{ color: "#cc785c" }}>
+                    {outAmount.toLocaleString()} <span className="text-[11px] font-semibold text-black/55">INR</span>
+                  </div>
+                </div>
+                <div className="text-[8.5px] font-semibold tracking-[0.14em] uppercase text-black/45 flex items-center gap-1.5">
+                  <Lock className="w-2.5 h-2.5" /> ESCROW · ~42s
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* CTAs — same treatment as landing hero */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: EASE, delay: 0.52 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-2 mt-2 w-full"
+        >
+          <a
+            href="https://app.blip.money/waitlist/user"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center justify-center gap-2 w-full sm:w-auto h-14 sm:h-12 px-8 sm:px-7 rounded-full bg-black text-white text-[17.5px] sm:text-[15px] font-bold tracking-tight transition-transform hover:-translate-y-[1px] shadow-[0_10px_28px_-12px_rgba(0,0,0,0.55)]"
+          >
+            <span>Join Waitlist</span>
+            <ArrowRight className="w-5 h-5 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+          </a>
+          <Link
+            to="/how-it-works"
+            className="group inline-flex items-center justify-center gap-2 w-full sm:w-auto h-14 sm:h-12 px-8 sm:px-6 rounded-full text-[17px] sm:text-[14.5px] font-bold tracking-tight transition-all hover:-translate-y-[1px]"
+            style={{
+              background: "rgba(204,120,92,0.10)",
+              color: "#cc785c",
+              border: "1.5px solid #cc785c",
+            }}
+          >
+            <span>See how it works</span>
+            <ArrowRight className="w-5 h-5 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+          </Link>
+        </motion.div>
       </main>
     </section>
   );
