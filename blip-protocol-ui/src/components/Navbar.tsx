@@ -8,6 +8,7 @@ import {
   Zap,
   Menu,
   X,
+  Download,
 } from "lucide-react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -22,6 +23,52 @@ export const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
+
+  // ── PWA install + push-notification opt-in ────────────────────────────────
+  const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const [isInstalled, setIsInstalled] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const standalone =
+      window.matchMedia?.("(display-mode: standalone)").matches ||
+      (window.navigator as { standalone?: boolean }).standalone === true;
+    if (standalone) setIsInstalled(true);
+    const onBeforeInstall = (e: Event) => {
+      e.preventDefault();
+      setInstallPrompt(e as BeforeInstallPromptEvent);
+    };
+    const onInstalled = () => {
+      setIsInstalled(true);
+      setInstallPrompt(null);
+    };
+    window.addEventListener("beforeinstallprompt", onBeforeInstall);
+    window.addEventListener("appinstalled", onInstalled);
+    return () => {
+      window.removeEventListener("beforeinstallprompt", onBeforeInstall);
+      window.removeEventListener("appinstalled", onInstalled);
+    };
+  }, []);
+
+  const handleDownload = useCallback(async () => {
+    // 1) Native install prompt (Android/Chrome desktop)
+    if (installPrompt) {
+      installPrompt.prompt();
+      try { await installPrompt.userChoice; } catch (_) {}
+      setInstallPrompt(null);
+    } else if (!isInstalled) {
+      // 2) iOS Safari + browsers that don't fire the event: show a quick hint
+      const ua = navigator.userAgent;
+      const isIOS = /iPhone|iPad|iPod/.test(ua) && !(window as { MSStream?: unknown }).MSStream;
+      if (isIOS) {
+        alert("To install Blip on iPhone: tap the Share button in Safari, then \"Add to Home Screen\".");
+      }
+    }
+    // 3) Request notification permission so the team can push later via /sw.js.
+    if ("Notification" in window && Notification.permission === "default") {
+      try { await Notification.requestPermission(); } catch (_) {}
+    }
+  }, [installPrompt, isInstalled]);
+  const showDownload = !isInstalled;
 
   const { t } = useTranslation();
   const { isAuthenticated } = useAuth();
@@ -92,11 +139,27 @@ export const Navbar = () => {
               {isAuthenticated ? (
                 <CTAButton to="/dashboard">Dashboard</CTAButton>
               ) : (
-                <CTAButton to="https://app.blip.money/waitlist/user">Join Waitlist</CTAButton>
+                <CTAButton to="/register">Join Waitlist</CTAButton>
               )}
             </div>
 
             <div className="flex gap-2 lg:hidden">
+              {showDownload && (
+                <button
+                  type="button"
+                  onClick={handleDownload}
+                  aria-label="Install Blip app"
+                  className="h-9 inline-flex items-center gap-1.5 px-3 rounded-lg text-[12px] font-bold tracking-tight"
+                  style={{
+                    background: "#cc785c",
+                    color: "#ffffff",
+                    boxShadow: "0 6px 16px -6px rgba(204,120,92,0.6)",
+                  }}
+                >
+                  <Download className="w-3.5 h-3.5" strokeWidth={2.5} />
+                  Install
+                </button>
+              )}
               <button
                 onClick={() => setMobileMenuOpen((prev) => !prev)}
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
@@ -225,7 +288,6 @@ export const CTAButton = ({
   variant?: "primary" | "secondary";
 }) => {
   const isPrimary = variant === "primary";
-  const isExternal = typeof to === "string" && /^https?:\/\//.test(to);
   const ref = React.useRef<HTMLDivElement>(null);
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
@@ -255,44 +317,6 @@ export const CTAButton = ({
       style={{ x: sx, y: sy }}
       className="relative inline-block"
     >
-      {isExternal ? (
-        <a
-          href={to}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => sounds.click()}
-          onMouseEnter={() => sounds.hover()}
-          className={`
-            ${className}
-            group relative overflow-hidden inline-flex
-            items-center justify-center px-3.5 py-1.5 rounded-full
-            text-[12px] font-semibold transition-all duration-300 ease-out
-            ${
-              isPrimary
-                ? "dark:bg-white dark:text-black border bg-white text-black border-white/20 hover:shadow-[0_8px_28px_rgba(255,255,255,0.14)]"
-                : "dark:bg-transparent dark:text-white text-white border border-white/30 hover:border-white/60 hover:bg-white/10 hover:shadow-[0_8px_24px_rgba(255,255,255,0.08)]"
-            }
-          `}
-        >
-          <span
-            aria-hidden
-            className="pointer-events-none absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-[900ms] ease-out"
-            style={{
-              background: isPrimary
-                ? "linear-gradient(110deg, transparent 35%, rgba(255,107,53,0.35) 50%, transparent 65%)"
-                : "linear-gradient(110deg, transparent 35%, rgba(255,255,255,0.2) 50%, transparent 65%)",
-            }}
-          />
-          <span className="relative z-10 font-semibold flex items-center gap-2">
-            {children}
-            {isPrimary ? (
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-            ) : (
-              ""
-            )}
-          </span>
-        </a>
-      ) : (
       <Link
         to={to}
         onClick={() => sounds.click()}
@@ -328,7 +352,6 @@ export const CTAButton = ({
           )}
         </span>
       </Link>
-      )}
     </motion.div>
   );
 };
@@ -437,9 +460,8 @@ const MobileMenu = memo(({
               </a>
             ) : (
               <a
-                href="https://app.blip.money/waitlist/user"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/register"
+                onClick={(e) => handleNavClick(e, "/waitlist")}
                 className="block w-full text-center py-1.5 rounded-full bg-white text-black border border-black/10 text-sm font-semibold transition-all duration-200 hover:bg-gray-50 hover:shadow-[0_4px_16px_rgba(0,0,0,0.10)] active:scale-[0.98]"
               >
                 Join Waitlist
