@@ -87,10 +87,10 @@ export function MerchantCardsImageCarousel() {
           whileHover={{ y: -4 }}
           className="relative rounded-[22px] overflow-hidden text-left flex flex-col snap-start shrink-0 w-[78vw] sm:w-[300px] md:w-[280px] lg:w-[260px] xl:w-[280px]"
           style={{
-            background: "#0a0a0a",
-            border: "1px solid rgba(255,255,255,0.06)",
+            background: "#ffffff",
+            border: "1px solid rgba(0,0,0,0.06)",
             transition: "transform 0.35s ease",
-            boxShadow: "0 24px 60px -24px rgba(0,0,0,0.6)",
+            boxShadow: "0 24px 60px -24px rgba(0,0,0,0.15)",
           }}
         >
           <div className="relative w-full overflow-hidden" style={{ aspectRatio: "1/1" }}>
@@ -106,7 +106,7 @@ export function MerchantCardsImageCarousel() {
               <span className="w-1 h-1 rounded-full" style={{ background: c.accent }} />
               <span
                 className="text-[10px] font-bold tracking-[0.18em]"
-                style={{ color: "rgba(255,255,255,0.55)" }}
+                style={{ color: "rgba(0,0,0,0.55)" }}
               >
                 {c.label}
               </span>
@@ -117,7 +117,7 @@ export function MerchantCardsImageCarousel() {
                 fontSize: "20px",
                 fontWeight: 600,
                 letterSpacing: "-0.025em",
-                color: "#fff",
+                color: "#0a0a0a",
               }}
             >
               {c.titlePre}{" "}
@@ -136,13 +136,13 @@ export function MerchantCardsImageCarousel() {
             <div className="mt-5 flex items-center justify-between gap-2 flex-wrap">
               <button
                 className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[12px] font-semibold tracking-tight whitespace-nowrap"
-                style={{ background: "#fff", color: "#0a0a0a" }}
+                style={{ background: "#0a0a0a", color: "#fff" }}
               >
                 {c.cta} →
               </button>
               <span
                 className="text-[10px] tracking-tight leading-tight"
-                style={{ color: "rgba(255,255,255,0.4)" }}
+                style={{ color: "rgba(0,0,0,0.45)" }}
               >
                 {c.footnote}
               </span>

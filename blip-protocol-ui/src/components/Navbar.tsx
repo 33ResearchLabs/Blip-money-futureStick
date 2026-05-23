@@ -67,11 +67,7 @@ export const Navbar = () => {
         }}
         transition={{ duration: 0.25 }}
         style={{ top: bannerHeight }}
-        className={`fixed w-full z-50 transition-[background-color,border-color,backdrop-filter] duration-300 ${
-          isScrolled
-            ? "bg-black/55 dark:bg-[rgba(8,8,10,0.62)] backdrop-blur-2xl border-b border-white/[0.06]"
-            : "bg-black/25 backdrop-blur-md border-b border-white/[0.03]"
-        }`}
+        className="fixed w-full z-50 bg-black border-b border-white/[0.08]"
       >
         <div className="max-w-[1240px] mx-auto px-6 sm:px-8 lg:px-10">
           <div className="h-[68px] flex items-center justify-between">
@@ -109,9 +105,9 @@ export const Navbar = () => {
                 className="w-9 h-9 rounded-lg bg-white/10 dark:bg-[#18181B] border border-white/[0.1] dark:border-white/[0.06] flex items-center justify-center"
               >
                 {mobileMenuOpen ? (
-                  <X className="w-4 h-4 text-white dark:text-white" />
+                  <X className="w-4 h-4 text-white" />
                 ) : (
-                  <Menu className="w-4 h-4 text-white dark:text-white" />
+                  <Menu className="w-4 h-4 text-white" />
                 )}
               </button>
             </div>
@@ -188,14 +184,14 @@ const NavItem = ({
       to={to}
       onClick={() => sounds.click()}
       onMouseEnter={() => sounds.hover()}
-      className="relative px-3 py-2 text-[17px] font-semibold transition-colors duration-200"
+      className="relative px-3 py-2 text-[13.5px] font-medium tracking-tight transition-colors duration-200"
     >
       <span
         className={
           onDark
             ? isActive
               ? "text-white"
-              : "text-white/60 hover:text-white"
+              : "text-white/85 hover:text-white"
             : isActive
               ? "text-black dark:text-white"
               : "text-black/70 dark:text-[#A1A1AA] hover:text-black dark:hover:text-white"
@@ -265,8 +261,8 @@ export const CTAButton = ({
         className={`
           ${className}
           group relative overflow-hidden inline-flex
-          items-center justify-center px-5 py-2.5 rounded-full
-          text-[16px] font-semibold transition-all duration-300 ease-out
+          items-center justify-center px-3.5 py-1.5 rounded-full
+          text-[12px] font-semibold transition-all duration-300 ease-out
           ${
             isPrimary
               ? "dark:bg-white dark:text-black border bg-white text-black border-white/20 hover:shadow-[0_8px_28px_rgba(255,255,255,0.14)]"

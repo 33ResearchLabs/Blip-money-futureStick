@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState, useMemo, memo } from "react";
 import { motion, useInView, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import { MerchantCardsImageCarousel } from "./MerchantCardsImageCarousel";
+import { MerchantCardsAppStyle } from "./MerchantCardsAppStyle";
+import { DashboardMerchantCards } from "./DashboardMerchantCards";
 import {
   ArrowRight,
   Loader2,
   AlertCircle,
   Lock,
+  Check,
 } from "lucide-react";
 import {
   MerchantDashboardBody,
@@ -14,6 +16,345 @@ import {
 } from "./LiveMerchantDashboard";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
+
+/* Hero character crossfade slideshow — 4 vibe portraits, 4s per slide. */
+const HERO_CHARS = [
+  { src: "/illustrations/hero-char-1.png?v=2", alt: "Streetwear skater girl with headphones" },
+  { src: "/illustrations/hero-char-3.png?v=2", alt: "Cozy creator with laptop and coffee" },
+  { src: "/illustrations/hero-char-4.png?v=2", alt: "Chill music producer with headphones" },
+] as const;
+
+function HeroCharacterSlideshow() {
+  const [idx, setIdx] = useState(0);
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      setIdx((i) => (i + 1) % HERO_CHARS.length);
+    }, 4000);
+    return () => window.clearInterval(id);
+  }, []);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.96 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 1.1, ease: EASE, delay: 0.2 }}
+      className="relative w-full max-w-[480px] mx-auto md:mx-0 md:justify-self-end"
+    >
+      <motion.div
+        animate={{ y: [0, -8, 0] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        className="relative"
+        style={{ aspectRatio: "1 / 1" }}
+      >
+        <AnimatePresence mode="sync">
+          {HERO_CHARS.map((c, i) =>
+            i === idx ? (
+              <motion.img
+                key={c.src}
+                src={c.src}
+                alt={c.alt}
+                initial={{ opacity: 0, scale: 1.02 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ duration: 0.9, ease: EASE }}
+                className="absolute inset-0 w-full h-full object-contain"
+                loading="eager"
+              />
+            ) : null,
+          )}
+        </AnimatePresence>
+      </motion.div>
+
+      {/* Floating market pills — subtle context, max 3 */}
+      <motion.div
+        initial={{ opacity: 0, x: -10, y: 8 }}
+        animate={{ opacity: 1, x: 0, y: 0 }}
+        transition={{ duration: 0.8, delay: 1.2, ease: EASE }}
+        className="absolute left-[-6%] top-[18%] z-10 hidden sm:block"
+        style={{ pointerEvents: "none" }}
+      >
+        <div
+          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white text-black text-[10.5px] font-semibold tracking-tight"
+          style={{
+            border: "1px solid rgba(0,0,0,0.06)",
+            boxShadow: "0 10px 24px -10px rgba(0,0,0,0.18)",
+          }}
+        >
+          <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#cc785c" }} />
+          Offer matched
+        </div>
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, x: 10, y: -8 }}
+        animate={{ opacity: 1, x: 0, y: 0 }}
+        transition={{ duration: 0.8, delay: 1.45, ease: EASE }}
+        className="absolute right-[-4%] top-[44%] z-10 hidden sm:block"
+        style={{ pointerEvents: "none" }}
+      >
+        <div
+          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black text-white text-[10.5px] font-semibold tracking-tight"
+          style={{ boxShadow: "0 10px 24px -10px rgba(0,0,0,0.45)" }}
+        >
+          <span className="w-1.5 h-1.5 rounded-full bg-white/80" />
+          Escrow locked
+        </div>
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, x: -10, y: -8 }}
+        animate={{ opacity: 1, x: 0, y: 0 }}
+        transition={{ duration: 0.8, delay: 1.7, ease: EASE }}
+        className="absolute left-[2%] bottom-[12%] z-10 hidden sm:block"
+        style={{ pointerEvents: "none" }}
+      >
+        <div
+          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white text-black text-[10.5px] font-semibold tracking-tight"
+          style={{
+            border: "1px solid rgba(0,0,0,0.06)",
+            boxShadow: "0 10px 24px -10px rgba(0,0,0,0.18)",
+          }}
+        >
+          <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#6ee0c5" }} />
+          Local payout
+        </div>
+      </motion.div>
+
+      {/* Dot indicators */}
+      <div className="flex items-center justify-center gap-2 mt-4">
+        {HERO_CHARS.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setIdx(i)}
+            aria-label={`Show character ${i + 1}`}
+            className="h-1.5 rounded-full transition-all"
+            style={{
+              width: i === idx ? 18 : 6,
+              background: i === idx ? "#0a0a0a" : "rgba(0,0,0,0.2)",
+            }}
+          />
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
+   BlipMarketHeroVisual — premium market preview for the hero
+   right column. Central offers card + ambient pills + subtle
+   network nodes. No people, no crypto cliché.
+   ──────────────────────────────────────────────────────────── */
+const MARKET_OFFERS = [
+  { name: "Merchant A", rate: "₹97,850", time: "2 min", best: true },
+  { name: "Merchant B", rate: "₹97,640", time: "4 min", best: false },
+  { name: "Merchant C", rate: "₹97,420", time: "6 min", best: false },
+];
+
+function BlipMarketHeroVisual() {
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.96 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 1.1, ease: EASE, delay: 0.2 }}
+      className="relative w-full max-w-[480px] mx-auto md:mx-0 md:justify-self-end"
+    >
+      {/* Subtle network lines — sit behind everything */}
+      <svg
+        aria-hidden
+        viewBox="0 0 400 400"
+        className="absolute inset-0 w-full h-full pointer-events-none"
+        preserveAspectRatio="none"
+      >
+        <defs>
+          <pattern id="hero-dots" width="14" height="14" patternUnits="userSpaceOnUse">
+            <circle cx="1" cy="1" r="0.7" fill="rgba(0,0,0,0.05)" />
+          </pattern>
+        </defs>
+        <rect width="400" height="400" fill="url(#hero-dots)" />
+        {/* faint connector strokes */}
+        <path d="M 60 100 Q 200 60 340 120" fill="none" stroke="rgba(0,0,0,0.06)" strokeWidth="1" strokeDasharray="2 4" />
+        <path d="M 60 320 Q 200 360 340 280" fill="none" stroke="rgba(0,0,0,0.06)" strokeWidth="1" strokeDasharray="2 4" />
+        {/* tiny route nodes */}
+        {[
+          { x: 60, y: 100 },
+          { x: 340, y: 120 },
+          { x: 340, y: 280 },
+          { x: 60, y: 320 },
+        ].map((n, i) => (
+          <g key={i}>
+            <circle cx={n.x} cy={n.y} r="2.4" fill="#0a0a0a" opacity="0.18" />
+            <motion.circle
+              cx={n.x}
+              cy={n.y}
+              r="5"
+              fill="none"
+              stroke="#cc785c"
+              strokeWidth="0.6"
+              initial={{ opacity: 0, scale: 0.4 }}
+              animate={{ opacity: [0, 0.5, 0], scale: [0.4, 2, 2.4] }}
+              transition={{ duration: 3, repeat: Infinity, delay: i * 0.75, ease: "easeOut" }}
+              style={{ transformOrigin: `${n.x}px ${n.y}px` }}
+            />
+          </g>
+        ))}
+      </svg>
+
+      {/* Central market card — gently floats. On mobile, splits into 2 stacked cards. */}
+      <motion.div
+        animate={{ y: [0, -6, 0] }}
+        transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut" }}
+        className="relative flex flex-col gap-3 sm:gap-0 sm:rounded-2xl sm:bg-white sm:border sm:border-black/[0.06] sm:shadow-[0_30px_60px_-20px_rgba(0,0,0,0.18),0_8px_24px_-12px_rgba(0,0,0,0.08)]"
+      >
+        {/* ─── Card A: header (mobile gets its own chrome) ─── */}
+        <div className="rounded-2xl bg-white sm:bg-transparent sm:rounded-none border border-black/[0.06] sm:border-0 shadow-[0_20px_40px_-18px_rgba(0,0,0,0.14)] sm:shadow-none">
+        {/* Card header */}
+        <div className="px-4 pt-4 pb-3 flex items-center justify-between">
+          <div>
+            <div className="text-[15px] font-semibold tracking-tight text-black leading-none">
+              Blip Market
+            </div>
+            <div className="text-[11px] text-black/55 mt-1 tracking-tight">
+              Live settlement offers
+            </div>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span className="relative flex w-1.5 h-1.5">
+              <span className="absolute inset-0 rounded-full bg-[#cc785c] opacity-60 animate-ping" />
+              <span className="relative inline-flex rounded-full w-1.5 h-1.5 bg-[#cc785c]" />
+            </span>
+            <span className="text-[9.5px] font-mono text-black/45 uppercase tracking-[0.16em]">
+              Live
+            </span>
+          </div>
+        </div>
+
+        <div className="hidden sm:block h-px bg-black/[0.06] mx-4" />
+        </div>
+        {/* ─── Card B: offers + footer ─── */}
+        <div className="rounded-2xl bg-white sm:bg-transparent sm:rounded-none border border-black/[0.06] sm:border-0 shadow-[0_20px_40px_-18px_rgba(0,0,0,0.14)] sm:shadow-none">
+
+        {/* Offer rows */}
+        <div className="px-3 py-2 space-y-1">
+          {MARKET_OFFERS.map((o, i) => (
+            <motion.div
+              key={o.name}
+              initial={{ opacity: 0, x: -8 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.35 + i * 0.1, ease: EASE }}
+              className="flex items-center justify-between rounded-lg px-2.5 py-2"
+              style={{
+                background: o.best ? "rgba(204,120,92,0.07)" : "transparent",
+                border: o.best ? "1px solid rgba(204,120,92,0.18)" : "1px solid transparent",
+              }}
+            >
+              <div className="flex items-center gap-2 min-w-0">
+                <span
+                  className="w-1.5 h-1.5 rounded-full shrink-0"
+                  style={{ background: o.best ? "#cc785c" : "rgba(0,0,0,0.2)" }}
+                />
+                <span className="text-[12px] font-medium text-black truncate">{o.name}</span>
+                {o.best && (
+                  <span
+                    className="text-[8.5px] font-bold tracking-[0.14em] uppercase shrink-0"
+                    style={{ color: "#cc785c" }}
+                  >
+                    Best quote
+                  </span>
+                )}
+              </div>
+              <div className="flex items-center gap-2.5 shrink-0">
+                <span className="font-mono text-[12px] font-semibold text-black tabular-nums">
+                  {o.rate}
+                </span>
+                <span className="text-[10px] font-mono text-black/40 tabular-nums">
+                  {o.time}
+                </span>
+                <Check className="w-3 h-3 text-black/35" strokeWidth={2.5} />
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        <div className="h-px bg-black/[0.06] mx-4" />
+
+        {/* Card footer */}
+        <div className="px-4 py-3 flex items-center justify-between text-[10.5px] text-black/50">
+          <span>Quotes refresh in real time</span>
+          <span className="font-mono">3 / 3 live</span>
+        </div>
+        </div>
+      </motion.div>
+
+      {/* Floating pills */}
+      <motion.div
+        initial={{ opacity: 0, x: -12, y: 6 }}
+        animate={{ opacity: 1, x: 0, y: 0 }}
+        transition={{ duration: 0.8, delay: 1.0, ease: EASE }}
+        className="absolute -left-3 sm:-left-6 top-[10%] z-10"
+      >
+        <div
+          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white text-black text-[10.5px] font-semibold tracking-tight"
+          style={{
+            border: "1px solid rgba(0,0,0,0.06)",
+            boxShadow: "0 14px 30px -14px rgba(0,0,0,0.2)",
+          }}
+        >
+          <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#cc785c" }} />
+          3 merchants competing
+        </div>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, x: 12, y: -6 }}
+        animate={{ opacity: 1, x: 0, y: 0 }}
+        transition={{ duration: 0.8, delay: 1.2, ease: EASE }}
+        className="absolute -right-2 sm:-right-4 top-[44%] z-10 hidden sm:block"
+      >
+        <div
+          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black text-white text-[10.5px] font-semibold tracking-tight"
+          style={{ boxShadow: "0 14px 30px -12px rgba(0,0,0,0.45)" }}
+        >
+          <span className="w-1.5 h-1.5 rounded-full bg-white/80" />
+          Escrow locked
+        </div>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, x: -12, y: -6 }}
+        animate={{ opacity: 1, x: 0, y: 0 }}
+        transition={{ duration: 0.8, delay: 1.4, ease: EASE }}
+        className="absolute -left-2 sm:-left-5 bottom-[10%] z-10 hidden sm:block"
+      >
+        <div
+          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white text-black text-[10.5px] font-semibold tracking-tight"
+          style={{
+            border: "1px solid rgba(0,0,0,0.06)",
+            boxShadow: "0 14px 30px -14px rgba(0,0,0,0.2)",
+          }}
+        >
+          <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#cc785c" }} />
+          Best quote matched
+        </div>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, x: 12, y: 6 }}
+        animate={{ opacity: 1, x: 0, y: 0 }}
+        transition={{ duration: 0.8, delay: 1.6, ease: EASE }}
+        className="absolute -right-1 sm:-right-3 bottom-[6%] z-10"
+      >
+        <div
+          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white text-black text-[10.5px] font-semibold tracking-tight"
+          style={{
+            border: "1px solid rgba(0,0,0,0.06)",
+            boxShadow: "0 14px 30px -14px rgba(0,0,0,0.2)",
+          }}
+        >
+          <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#9ad1ff" }} />
+          Local payout ready
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
 
 /* ────────────────────────────────────────────────────────────
    Quiet global network — sits behind everything as ambient
@@ -249,168 +590,103 @@ export function SendReceiveWidget({
       initial={{ opacity: 0, y: 12 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 1, ease: EASE, delay: 0.4 }}
-      className="w-full max-w-[640px] mx-auto mb-5"
+      className="w-full max-w-[440px] mb-5"
     >
-      {/* Single-line widget */}
-      <div
-        className="rounded-2xl overflow-hidden"
-        style={{
-          background:
-            "rgba(255,255,255,0.035)",
-          border: "1px solid rgba(255,255,255,0.08)",
-          backdropFilter: "blur(18px)",
-          WebkitBackdropFilter: "blur(18px)",
-          boxShadow:
-            "0 18px 50px -28px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.04) inset",
-        }}
-      >
-        <div className="grid grid-cols-[1fr_auto_1fr_auto] items-stretch">
-          {/* Send */}
-          <label className="block px-4 py-3 text-left cursor-text min-w-0">
-            <div className="text-[9px] font-semibold tracking-[0.22em] uppercase text-white/40 mb-1">
-              You send
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="flex items-baseline gap-1 flex-1 min-w-0">
-                <span className="font-mono text-[14px] font-semibold text-white/55 tabular-nums">
-                  $
-                </span>
-                <input
-                  inputMode="decimal"
-                  value={sendAmount}
-                  onChange={(e) =>
-                    setSendAmount(e.target.value.replace(/[^0-9.,]/g, ""))
-                  }
-                  className="bg-transparent border-0 outline-none w-full font-mono text-[18px] md:text-[20px] font-semibold tracking-tight text-white tabular-nums placeholder:text-white/25 min-w-0"
-                  placeholder="0"
-                  aria-label="Send amount"
-                />
-              </div>
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border border-white/10 bg-white/[0.04] shrink-0">
-                <span className="text-[10px]">💵</span>
-                <span className="text-[10px] font-semibold tracking-tight text-white">
-                  USDT
-                </span>
-              </span>
-            </div>
-          </label>
-
-          {/* Divider with arrow */}
-          <div className="relative flex items-center justify-center px-1">
-            <div className="absolute inset-y-3 left-1/2 w-px bg-white/[0.08]" />
-            <div
-              className="relative z-10 w-7 h-7 rounded-full flex items-center justify-center"
-              style={{
-                background: "rgba(110,170,255,0.10)",
-                border: "1px solid rgba(110,170,255,0.22)",
-              }}
-            >
-              <ArrowRight className="w-3 h-3 text-[#a8c8ff]" />
-            </div>
+      {/* Live settlement-request — single card on desktop, split into 2 stacked cards on mobile */}
+      <div className="flex flex-col gap-2 sm:gap-0 sm:rounded-2xl sm:overflow-hidden sm:bg-white sm:border sm:border-black/[0.08]">
+        {/* ─── Card A: Send (Move) ─── */}
+        <div className="rounded-2xl sm:rounded-none bg-white border border-black/[0.08] sm:border-0">
+        {/* Header strip */}
+        <div className="flex items-center justify-between px-3 pt-2 pb-1.5">
+          <div className="flex items-center gap-1.5">
+            <span className="relative flex w-1.5 h-1.5">
+              <span className="absolute inset-0 rounded-full bg-[#cc785c] opacity-60 animate-ping" />
+              <span className="relative inline-flex rounded-full w-1.5 h-1.5 bg-[#cc785c]" />
+            </span>
+            <span className="text-[9px] font-semibold tracking-[0.16em] uppercase text-black/55">
+              Live Settlement Request
+            </span>
           </div>
-
-          {/* Receive */}
-          <div className="block px-4 py-3 text-right min-w-0">
-            <div className="text-[9px] font-semibold tracking-[0.22em] uppercase text-white/40 mb-1">
-              They get
-            </div>
-            <div className="flex items-center gap-2 justify-end">
-              <button
-                type="button"
-                onClick={() => setFiatIdx((i) => (i + 1) % FIATS.length)}
-                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] transition-colors shrink-0"
-                aria-label="Change currency"
-              >
-                <span className="text-[11px]">{fiat.flag}</span>
-                <span className="text-[10px] font-semibold tracking-tight text-white">
-                  {fiat.code}
-                </span>
-                <span className="text-white/35 text-[8px]">▾</span>
-              </button>
-              <div className="flex items-baseline gap-1 min-w-0">
-                <span className="font-mono text-[14px] font-semibold text-white/55 tabular-nums">
-                  {fiat.symbol === "AED" ? "AED " : fiat.symbol}
-                </span>
-                <AnimatePresence mode="wait">
-                  <motion.span
-                    key={`${fiat.code}-${receive}`}
-                    initial={{ opacity: 0, y: 3 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -3 }}
-                    transition={{ duration: 0.25, ease: EASE }}
-                    className="font-mono text-[18px] md:text-[20px] font-semibold tracking-tight text-white tabular-nums truncate"
-                  >
-                    {fmt(receive)}
-                  </motion.span>
-                </AnimatePresence>
-              </div>
-            </div>
-          </div>
-
-          {/* Send button */}
-          <div className="px-2 py-2 flex items-center">
-            <button
-              type="button"
-              onClick={handleSend}
-              disabled={!canSend}
-              className="group inline-flex items-center justify-center gap-1.5 h-10 px-4 rounded-full bg-white text-black text-[12.5px] font-semibold tracking-tight transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_6px_20px_-8px_rgba(255,255,255,0.25)] hover:not(:disabled):-translate-y-[1px] active:not(:disabled):scale-[0.985] whitespace-nowrap"
-            >
-              {sending ? (
-                <>
-                  <Loader2 className="w-3.5 h-3.5 animate-spin" strokeWidth={2.5} />
-                  <span>Sending</span>
-                </>
-              ) : (
-                <>
-                  <span>Send</span>
-                  <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
-                </>
-              )}
-            </button>
-          </div>
+          <span className="text-[9px] font-mono text-black/40">#REQ-8421</span>
         </div>
 
-        {/* Footer rate strip + balance/validation */}
-        <div className="flex items-center justify-between px-4 py-2 border-t border-white/[0.05] bg-white/[0.012] text-[10.5px] tracking-tight">
-          <div className="flex items-center gap-1.5">
-            <span className="relative flex w-1 h-1">
-              <span className="absolute inset-0 rounded-full bg-[#cc785c] opacity-60 animate-ping" />
-              <span className="relative inline-flex rounded-full w-1 h-1 bg-[#cc785c]" />
-            </span>
-            <span className="text-white/45">
-              1 USD ={" "}
-              <span className="font-mono text-white/85 tabular-nums">
-                {fiat.symbol === "AED" ? "AED " : fiat.symbol}
-                {fiat.rate.toLocaleString("en-US", {
-                  minimumFractionDigits: fiat.code === "AED" ? 4 : 2,
-                  maximumFractionDigits: fiat.code === "AED" ? 4 : 2,
-                })}
-              </span>
-            </span>
+        {/* Move + Best market quote */}
+        <div className="px-3 pb-2.5">
+          <div className="flex items-center justify-between gap-2">
+            <div className="min-w-0">
+              <div className="text-[8.5px] font-semibold tracking-[0.14em] uppercase text-black/45">Move</div>
+              <div className="font-mono text-[17px] font-semibold tracking-tight text-black tabular-nums leading-tight">
+                $1,000
+              </div>
+            </div>
+            <ArrowRight className="w-3 h-3 text-black/30 shrink-0 hidden sm:block" />
+            {/* Best quote — desktop only; mobile renders below in Card B */}
+            <div className="text-right min-w-0 hidden sm:block">
+              <div className="flex items-center justify-end gap-1">
+                <span className="text-[8.5px] font-semibold tracking-[0.14em] uppercase text-black/45">Best quote</span>
+                <button
+                  type="button"
+                  onClick={() => setFiatIdx((i) => (i + 1) % FIATS.length)}
+                  className="inline-flex items-center gap-0.5 px-1 py-0.5 rounded hover:bg-black/[0.05] transition-colors"
+                  aria-label="Change currency"
+                >
+                  <span className="text-[10px]">{fiat.flag}</span>
+                  <span className="font-mono text-[9px] font-semibold text-black tabular-nums">
+                    {fiat.symbol === "AED" ? "AED" : fiat.symbol}
+                  </span>
+                  <span className="text-black/30 text-[6px]">▾</span>
+                </button>
+              </div>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={`${fiat.code}-${receive}`}
+                  initial={{ opacity: 0, y: 3 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -3 }}
+                  transition={{ duration: 0.25, ease: EASE }}
+                  className="font-mono text-[17px] font-semibold tracking-tight tabular-nums leading-tight"
+                  style={{ color: "#cc785c" }}
+                >
+                  {fmt(receive)}
+                </motion.div>
+              </AnimatePresence>
+            </div>
           </div>
-          {insufficient ? (
-            <div className="flex items-center gap-1.5 text-[#ff9b6a]">
-              <AlertCircle className="w-3 h-3" strokeWidth={2.5} />
-              <span className="font-medium">Insufficient balance</span>
+        </div>
+        </div>
+
+        {/* ─── Card B: Receive (Best quote) — mobile only ─── */}
+        <div className="sm:hidden rounded-2xl bg-white border border-black/[0.08]">
+          <div className="px-3 py-2.5 flex items-center justify-between gap-2">
+            <div className="min-w-0">
+              <div className="text-[8.5px] font-semibold tracking-[0.14em] uppercase text-black/45">Best quote</div>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={`${fiat.code}-${receive}-m`}
+                  initial={{ opacity: 0, y: 3 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -3 }}
+                  transition={{ duration: 0.25, ease: EASE }}
+                  className="font-mono text-[17px] font-semibold tracking-tight tabular-nums leading-tight"
+                  style={{ color: "#cc785c" }}
+                >
+                  {fmt(receive)}
+                </motion.div>
+              </AnimatePresence>
             </div>
-          ) : (
-            <div className="flex items-center gap-2 text-white/40">
-              <span>
-                Avail{" "}
-                <span className="font-mono text-white/65 tabular-nums">
-                  $
-                  {availableBalance.toLocaleString("en-US", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
-                </span>
+            <button
+              type="button"
+              onClick={() => setFiatIdx((i) => (i + 1) % FIATS.length)}
+              className="inline-flex items-center gap-1 px-2 py-1 rounded-md border border-black/10 hover:bg-black/[0.04] transition-colors"
+              aria-label="Change currency"
+            >
+              <span className="text-[12px]">{fiat.flag}</span>
+              <span className="font-mono text-[10px] font-semibold text-black tabular-nums">
+                {fiat.symbol === "AED" ? "AED" : fiat.symbol}
               </span>
-              <span className="text-white/20">·</span>
-              <span>&lt; 60s</span>
-              <span className="text-white/20">·</span>
-              <span>0% fee</span>
-            </div>
-          )}
+              <span className="text-black/35 text-[7px]">▾</span>
+            </button>
+          </div>
         </div>
       </div>
     </motion.div>
@@ -1817,127 +2093,53 @@ const CinematicHero = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-[150vh] overflow-hidden flex flex-col items-stretch text-white bg-black"
+      className="relative min-h-[150vh] flex flex-col items-stretch text-black bg-white"
     >
-      {/* Solid black background (image removed) */}
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: "#000" }}
-      />
-
-      {/* Layer 2: atmospheric depth — gentle blue wash, no warm noise */}
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 70% 50% at 50% 35%, rgba(60,100,200,0.08) 0%, transparent 70%)",
-        }}
-      />
-
-      {/* Layer 3: very slow drifting aurora */}
-      <motion.div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none opacity-50"
-        animate={{ backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"] }}
-        transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-        style={{
-          background:
-            "radial-gradient(ellipse 35% 22% at 30% 30%, rgba(80,140,230,0.05), transparent 65%), radial-gradient(ellipse 30% 20% at 75% 65%, rgba(120,160,255,0.04), transparent 65%)",
-          backgroundSize: "240% 240%",
-        }}
-      />
-
-      {/* Layer 4: vignette */}
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 95% 75% at 50% 45%, transparent 30%, rgba(0,0,0,0.6) 80%, rgba(0,0,0,0.96) 100%)",
-        }}
-      />
-
-      {/* Layer 5: top + bottom fades */}
-      <div
-        aria-hidden
-        className="absolute inset-x-0 top-0 h-40 pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(0,0,0,0.6) 0%, transparent 100%)",
-        }}
-      />
-      <div
-        aria-hidden
-        className="absolute inset-x-0 bottom-0 h-56 pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.5) 50%, #000 100%)",
-        }}
-      />
-
-      {/* White wash disabled — hero stays black through the merchant section */}
-
-      {/* Layer 6: film grain */}
-      <div
-        aria-hidden
-        className="absolute inset-0 opacity-[0.035] mix-blend-overlay pointer-events-none"
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>\")",
-        }}
-      />
 
       {/* ── Content — 50/50 vertical split ── */}
-      <main className="relative z-10 w-full max-w-[1180px] mx-auto px-4 md:px-10 pt-16 md:pt-24 pb-16 md:pb-24 flex-1 flex flex-col items-stretch">
-        {/* ── TOP HALF — anchored ~50% from top (10% lower than before) ── */}
-        <div className="flex flex-col items-center text-center min-h-[54vh] md:min-h-[58vh] justify-end">
-          {/* Eyebrow — Apple-clean */}
+      <main className="relative z-10 w-full max-w-[1180px] mx-auto px-4 md:px-10 pt-16 md:pt-24 pb-0 md:pb-24 flex-1 flex flex-col items-stretch">
+        {/* ── TOP HALF — single centered column ── */}
+        <div className="flex flex-col items-center text-center min-h-[80vh] md:min-h-[58vh] justify-center md:justify-end pt-8 pb-0 md:py-16 max-w-[760px] mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: EASE }}
             className="inline-flex items-center gap-3 mb-6"
           >
-            <span className="w-5 h-px bg-white/25" />
-            <span className="text-[10px] font-semibold tracking-[0.3em] uppercase whitespace-nowrap" style={{ color: "#ff7a3d", textShadow: "0 0 18px rgba(255,122,61,0.45)" }}>
-              Global Settlement Network
+            <span className="w-5 h-px bg-black/15" />
+            <span className="text-[10px] font-semibold tracking-[0.3em] uppercase whitespace-nowrap text-black">
+              Open Liquidity Network
             </span>
-            <span className="w-5 h-px bg-white/25" />
+            <span className="w-5 h-px bg-black/15" />
           </motion.div>
 
-          {/* Headline — Apple display type */}
           <motion.h1
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.1, ease: EASE, delay: 0.08 }}
-            className="font-display text-white max-w-[920px]"
+            className="font-display text-black w-full max-w-none sm:max-w-[760px] px-1"
             style={{
-              fontSize: "clamp(2.1rem, 4.8vw, 3.9rem)",
-              fontWeight: 500,
-              lineHeight: 1.02,
-              letterSpacing: "-0.055em",
-              marginBottom: 22,
-              textShadow: "0 2px 24px rgba(0,0,0,0.45)",
+              fontSize: "clamp(3.2rem, 11vw, 3.9rem)",
+              fontWeight: 700,
+              lineHeight: 0.98,
+              letterSpacing: "-0.06em",
+              marginBottom: 18,
             }}
           >
-            <span>Move money through </span>
-            <span className="text-white/75">the market.</span>
+            Settle money globally through{" "}
+            <span style={{ fontStyle: "italic", fontWeight: 600 }}>open markets.</span>
           </motion.h1>
 
-          {/* Subhead — Apple-clean, slightly larger */}
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: EASE, delay: 0.22 }}
-            className="text-white/65 max-w-[560px] mx-auto leading-[1.5] text-[15px] md:text-[16px] mb-7 tracking-tight"
+            transition={{ duration: 1, ease: EASE, delay: 0.18 }}
+            className="text-black/55 text-[15px] md:text-[16px] leading-[1.55] tracking-tight max-w-[560px] mx-auto mb-7"
           >
-            <span style={{ color: "#cc785c" }}>Blip Market</span> automatically routes transactions through trusted
-            liquidity providers to deliver better rates and faster settlement.
+            Blip connects users with verified merchants who compete to settle
+            payments faster, safer, and at better rates.
           </motion.p>
 
-          {/* Send/Receive calculator — single-line with Send button */}
           <SendReceiveWidget
             isInView={isInView}
             onSend={handleSend}
@@ -1949,52 +2151,106 @@ const CinematicHero = () => {
             setFiatIdx={setFiatIdx}
           />
 
-          {/* CTAs — Apple hierarchy: one primary, one ghost */}
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: EASE, delay: 0.52 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto"
+            className="flex flex-col sm:flex-row items-center justify-center gap-2 mt-2"
           >
+            <button
+              type="button"
+              disabled={sending}
+              onClick={() => {
+                const numeric = parseFloat(sendAmount.replace(/[^0-9.]/g, "")) || 0;
+                if (numeric <= 0 || numeric > balance) return;
+                const fiat = FIATS[fiatIdx];
+                const receive = numeric * fiat.rate;
+                const fmt = (n: number) =>
+                  n.toLocaleString(fiat.locale, {
+                    minimumFractionDigits: fiat.digits,
+                    maximumFractionDigits: fiat.digits,
+                  });
+                const profit = (numeric * 0.0018).toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                });
+                handleSend(
+                  {
+                    id: `usr-${Date.now()}`,
+                    pair: `USD → ${fiat.code}`,
+                    amount: `$${numeric.toLocaleString("en-US")}`,
+                    payout: `${fiat.symbol === "AED" ? "AED " : fiat.symbol}${fmt(receive)}`,
+                    rate: `${fiat.symbol === "AED" ? "AED " : fiat.symbol}${fiat.rate}`,
+                    merchant: "AlphaFX",
+                    profit: `+$${profit}`,
+                  },
+                  numeric,
+                );
+              }}
+              className="group inline-flex items-center justify-center gap-2 w-full sm:w-auto h-14 sm:h-12 px-8 sm:px-7 rounded-full bg-black text-white text-[17.5px] sm:text-[15px] font-bold tracking-tight transition-transform hover:-translate-y-[1px] disabled:opacity-60 disabled:cursor-not-allowed shadow-[0_10px_28px_-12px_rgba(0,0,0,0.55)]"
+            >
+              <span>{sending ? "Sending…" : "Send"}</span>
+              <ArrowRight className="w-5 h-5 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+            </button>
             <Link
               to="/register"
-              className="group relative inline-flex items-center justify-center gap-2 w-full sm:w-auto sm:min-w-[168px] h-[44px] px-6 rounded-full bg-white text-black text-[13.5px] font-semibold tracking-tight transition-all duration-300 shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_10px_30px_-10px_rgba(255,255,255,0.3)] hover:shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_16px_42px_-12px_rgba(255,255,255,0.4)] hover:-translate-y-[1px] active:scale-[0.985] active:translate-y-0"
+              className="group inline-flex items-center justify-center gap-2 w-full sm:w-auto h-14 sm:h-12 px-8 sm:px-6 rounded-full text-[17px] sm:text-[14.5px] font-bold tracking-tight transition-all hover:-translate-y-[1px]"
+              style={{
+                background: "rgba(204,120,92,0.10)",
+                color: "#cc785c",
+                border: "1.5px solid #cc785c",
+              }}
             >
               <span>Join Waitlist</span>
-              <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
-            </Link>
-            <Link
-              to="/merchant"
-              className="group inline-flex items-center justify-center gap-1.5 w-full sm:w-auto sm:min-w-[168px] h-[44px] px-6 rounded-full text-white/85 text-[13.5px] font-medium tracking-tight hover:text-white transition-colors"
-            >
-              <span>Become a Merchant</span>
-              <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
+              <ArrowRight className="w-5 h-5 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
             </Link>
           </motion.div>
         </div>
 
-        {/* Spacer between top section and dashboard */}
-        <div className="h-[5vh] md:h-[10vh]" />
+      </main>
 
-        {/* ── Live Merchant Dashboard (real replica from feat/live-merchant-dashboard) ── */}
-        <div ref={dashboardRef}>
-          <RealLiveDashboard state={dashboardState} />
-        </div>
+      {/* Caption above the dashboard */}
+      <div className="relative z-10 w-full text-center mt-4 md:-mt-[6vh] mb-3 md:mb-4 px-6">
+        <span className="text-[10px] font-semibold tracking-[0.32em] uppercase text-black/55">
+          Live Blip Market Dashboard
+        </span>
+        <p className="text-[12.5px] md:text-[13.5px] text-black/55 max-w-[600px] mx-auto mt-1.5 leading-[1.5]">
+          Requests, merchant offers, liquidity and settlement status in one market.
+        </p>
+      </div>
 
-        {/* Merchant earnings — flat on black hero, no card wrapper */}
+      {/* ── Live Merchant Dashboard — section-level, centered on viewport ── */}
+      <div className="relative z-10 w-full flex justify-center pb-[5vh]">
+        <motion.div
+          ref={dashboardRef}
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-10%" }}
+          transition={{ duration: 1.2, ease: EASE }}
+          className="relative rounded-[28px] border border-white/[0.07] p-3 md:p-4 overflow-hidden text-white shadow-[0_30px_80px_-30px_rgba(204,120,92,0.25),0_12px_30px_-15px_rgba(0,0,0,0.18)]"
+          style={{ width: "min(98vw, 1410px)", background: "#0a0a0a" }}
+        >
+          <div className="overflow-x-auto">
+            <MerchantDashboardBody state={dashboardState} />
+          </div>
+        </motion.div>
+      </div>
+
+      {/* ── Merchant section — white band, black text ── */}
+      <div className="relative z-10 w-full bg-white text-black">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-15%" }}
           transition={{ duration: 1, ease: EASE }}
-          className="relative mt-20 md:mt-28 mb-12 md:mb-20 flex flex-col items-center text-center w-full"
+          className="relative max-w-[1180px] mx-auto px-4 md:px-10 py-20 md:py-28 flex flex-col items-center text-center w-full"
         >
           <div className="text-[11.5px] font-bold tracking-[0.36em] uppercase mb-5" style={{ color: "#cc785c" }}>
             Powered by Merchants
           </div>
 
           <h2
-            className="font-display text-white mx-auto"
+            className="font-display text-black mx-auto"
             style={{
               fontSize: "clamp(1.8rem, 4vw, 2.8rem)",
               fontWeight: 500,
@@ -2004,29 +2260,29 @@ const CinematicHero = () => {
               maxWidth: "720px",
             }}
           >
-            <span className="text-white/55">Merchants provide liquidity. </span>
-            <span>Earn on every order.</span>
+            <span className="text-black">Merchants provide liquidity. </span>
+            <span className="text-black">Earn on every order.</span>
           </h2>
 
-          <p className="text-white/55 max-w-[480px] mx-auto leading-[1.55] text-[13px] md:text-[14.5px] mb-10 tracking-tight">
+          <p className="text-black/55 max-w-[480px] mx-auto leading-[1.55] text-[13px] md:text-[14.5px] mb-10 tracking-tight">
             Verified merchants bid live, set their own spread, and capture
             profit on every settlement — paid out instantly, on-chain.
           </p>
 
-          {/* ── 4-card image carousel (Gemini illustrations) ── */}
-          <MerchantCardsImageCarousel />
+          {/* ── 4-card app-style merchant cards (animated graphics) ── */}
+          <DashboardMerchantCards />
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-5">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-10 md:mt-14 mb-5">
             <Link
               to="/merchant"
-              className="group relative inline-flex items-center justify-center gap-2 w-full sm:w-auto sm:min-w-[220px] h-[50px] px-7 rounded-full bg-white text-black text-[14px] font-semibold tracking-tight transition-all duration-300 hover:-translate-y-[1px] active:scale-[0.985]"
+              className="group relative inline-flex items-center justify-center gap-2 w-full sm:w-auto sm:min-w-[220px] h-[50px] px-7 rounded-full bg-black text-white text-[14px] font-semibold tracking-tight transition-all duration-300 hover:-translate-y-[1px] active:scale-[0.985]"
             >
               <span>Become a merchant now</span>
               <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
             </Link>
           </div>
 
-          <div className="inline-flex items-center gap-3 text-[12px] text-white/45 tracking-tight">
+          <div className="inline-flex items-center gap-3 text-[12px] text-black/50 tracking-tight">
             <span className="flex items-center gap-1.5">
               <motion.span
                 animate={{ opacity: [1, 0.4, 1] }}
@@ -2037,13 +2293,13 @@ const CinematicHero = () => {
               <span className="font-mono tabular-nums">${dashboardState.totalEarned.toFixed(0)}</span>
               <span>earned today</span>
             </span>
-            <span className="text-white/20">·</span>
+            <span className="text-black/25">·</span>
             <span><span className="font-mono tabular-nums">{dashboardState.activeTrades.length + dashboardState.pendingOrders.length}</span> live orders</span>
-            <span className="text-white/20">·</span>
+            <span className="text-black/25">·</span>
             <span>+2,400 merchants</span>
           </div>
         </motion.div>
-      </main>
+      </div>
     </section>
   );
 };
@@ -2083,16 +2339,9 @@ function RealLiveDashboard({
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1.1, ease: EASE, delay: 0.5 }}
-      className="relative rounded-2xl"
-      style={{
-        /* Spotlight: ~80vw (15% narrower than before) */
-        width: "80vw",
-        maxWidth: 1310,
-        marginLeft: "calc(50% - min(40vw, 655px))",
-        marginRight: "calc(50% - min(40vw, 655px))",
-      }}
+      className="relative rounded-2xl w-full"
     >
-      {/* Dashboard surface — clean dark with macOS chrome + URL */}
+      {/* Dashboard surface — no surrounding chrome, sits flat */}
       <motion.div
         className="relative rounded-2xl overflow-hidden"
         style={{
@@ -2102,9 +2351,7 @@ function RealLiveDashboard({
           x: xDrift,
           y: yLift,
           rotate: rotateZ,
-          background: "#0a0a0a",
-          border: "1px solid rgba(255,255,255,0.06)",
-          boxShadow: "0 60px 120px -40px rgba(0,0,0,0.85)",
+          background: "transparent",
           transformOrigin: "center top",
         }}
       >

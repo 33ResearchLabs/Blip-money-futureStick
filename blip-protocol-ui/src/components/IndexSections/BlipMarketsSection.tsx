@@ -287,7 +287,7 @@ const BlipMarketsSection = memo(function BlipMarketsSection() {
           >
             Blip Markets
           </div>
-          <h2 className="text-[clamp(2rem,6vw,4.5rem)] font-semibold tracking-[-0.025em] leading-[1.02] mb-4 md:mb-6">
+          <h2 className="font-display text-[clamp(1.8rem,4vw,3rem)] font-semibold tracking-[-0.025em] leading-[1.02] mb-4 md:mb-6">
             A live marketplace <br className="hidden md:block" />
             <span className="text-white/55">for global settlement.</span>
           </h2>
@@ -328,21 +328,11 @@ const BlipMarketsSection = memo(function BlipMarketsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10%" }}
           transition={{ duration: 1.2, delay: 0.2, ease: EASE }}
-          className="relative rounded-[28px] bg-gradient-to-b from-white/[0.03] to-white/[0.01] border border-white/[0.07] p-3 md:p-4 shadow-[0_60px_160px_-30px_rgba(0,0,0,0.9)] overflow-hidden"
-          style={{ maxHeight: "78vh" }}
+          className="relative rounded-[28px] bg-gradient-to-b from-white/[0.03] to-white/[0.01] border border-white/[0.07] p-3 md:p-4 overflow-hidden shadow-[0_30px_80px_-30px_rgba(204,120,92,0.22),0_14px_36px_-18px_rgba(0,0,0,0.35)]"
         >
-          <div className="overflow-hidden" style={{ maxHeight: "calc(78vh - 2rem)" }}>
+          <div className="overflow-x-auto">
             <MerchantDashboardBody state={state} />
           </div>
-          {/* Soft bottom fade so the dashboard never looks chopped */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-24 rounded-b-[28px]"
-            style={{
-              background:
-                "linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 60%, transparent 100%)",
-            }}
-          />
         </motion.div>
 
         {/* CTA */}

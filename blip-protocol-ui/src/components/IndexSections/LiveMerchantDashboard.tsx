@@ -1177,7 +1177,8 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                   ${totalEarned.toFixed(2)}
                 </motion.span>
               </div>
-              {/* Floating earned toast */}
+              {/* Floating earned toast — reserved slot so dashboard doesn't reflow when it shows/hides */}
+              <div className="mt-2 h-6 relative">
               <AnimatePresence>
                 {lastEarning != null && (
                   <motion.div
@@ -1185,7 +1186,7 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                    className="mt-2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full"
+                    className="absolute left-0 top-0 inline-flex items-center gap-1.5 px-3 py-1 rounded-full"
                     style={{
                       background: "rgba(204,120,92,0.12)",
                       border: "1px solid rgba(204,120,92,0.40)",
@@ -1199,6 +1200,7 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
                   </motion.div>
                 )}
               </AnimatePresence>
+              </div>
             </div>
 
             <div className="mt-3 grid grid-cols-3 gap-1.5 relative z-10">
@@ -1371,7 +1373,7 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
         </div>
 
         {/* ===== Col 2: Pending Orders ===== */}
-        <div className="border-r border-white/[0.05] flex flex-col min-w-0 min-h-0">
+        <div className="hidden lg:flex border-r border-white/[0.05] flex-col min-w-0 min-h-0">
           <div className="px-3 py-2 border-b border-white/[0.05] flex items-center justify-between gap-1.5">
             <div className="flex items-center gap-0.5 text-[10px] min-w-0">
               {(["All", "Pending", "My Orders"] as const).map((t) => {
@@ -1552,7 +1554,7 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
         </div>
 
         {/* ===== Col 3: In Progress ===== */}
-        <div className="border-r border-white/[0.05] flex flex-col min-w-0 min-h-0">
+        <div className="hidden lg:flex border-r border-white/[0.05] flex-col min-w-0 min-h-0">
           <div className="px-3 py-2 border-b border-white/[0.05] flex items-center justify-between">
             <div className="flex items-center gap-1.5">
               <Shield className="w-3 h-3 text-white/50" />
@@ -1734,7 +1736,7 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
         </div>
 
         {/* ===== Col 4: Leaderboard + Activity (50/50 split) ===== */}
-        <div className="border-r border-white/[0.05] grid grid-rows-2 min-w-0 min-h-0">
+        <div className="hidden lg:grid border-r border-white/[0.05] grid-rows-2 min-w-0 min-h-0">
           {/* Top half: Leaderboard */}
           <div className="flex flex-col min-h-0 border-b border-white/[0.05]">
             <div className="px-3 py-2 border-b border-white/[0.05] flex items-center justify-between flex-shrink-0">
@@ -1846,7 +1848,7 @@ export function MerchantDashboardBody({ state, className = "" }: MerchantDashboa
         </div>
 
         {/* ===== Col 5: Notifications + Messages (50/50 split) ===== */}
-        <div className="grid grid-rows-2 min-w-0 min-h-0">
+        <div className="hidden lg:grid grid-rows-2 min-w-0 min-h-0">
           {/* Top half: Notifications — live stream */}
           <div className="flex flex-col min-h-0 border-b border-white/[0.05]">
             <div className="px-3 py-2 border-b border-white/[0.05] flex items-center justify-between flex-shrink-0">

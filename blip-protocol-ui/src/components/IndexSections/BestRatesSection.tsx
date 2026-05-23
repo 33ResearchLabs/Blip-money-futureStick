@@ -197,7 +197,7 @@ const BestRatesSection = memo(function BestRatesSection() {
           <h2
             className="font-display leading-[1.02] mb-6"
             style={{
-              fontSize: "clamp(2.8rem, 5.4vw, 4.4rem)",
+              fontSize: "clamp(1.8rem, 4vw, 3rem)",
               fontWeight: 500,
               letterSpacing: "-0.035em",
             }}

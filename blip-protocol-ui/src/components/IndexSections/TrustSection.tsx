@@ -421,7 +421,7 @@ function IsolationVisual({ large }: { large: boolean }) {
                   style={{
                     width: large ? 5 : 3,
                     height: large ? 5 : 3,
-                    background: "#cc785c",
+                    background: "#3ddc84",
                     boxShadow: "0 0 6px rgba(61,220,132,0.7)",
                   }}
                 />
