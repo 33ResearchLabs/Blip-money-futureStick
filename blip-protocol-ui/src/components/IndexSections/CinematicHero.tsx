@@ -2119,9 +2119,11 @@ const CinematicHero = () => {
             className="inline-flex items-center gap-3 mb-6"
           >
             <span className="w-5 h-px bg-black/15" />
-            <span className="text-[10px] font-semibold tracking-[0.3em] uppercase whitespace-nowrap text-black">
-              Open Liquidity Network
-            </span>
+            <EditableText
+              id="home.hero.eyebrow"
+              default="Open Liquidity Network"
+              className="text-[10px] font-semibold tracking-[0.3em] uppercase whitespace-nowrap text-black"
+            />
             <span className="w-5 h-px bg-black/15" />
           </motion.div>
 
@@ -2138,8 +2140,13 @@ const CinematicHero = () => {
               marginBottom: 18,
             }}
           >
-            Settle money globally through{" "}
-            <span style={{ fontStyle: "italic", fontWeight: 600 }}>open markets.</span>
+            <EditableText id="home.hero.title.line1" default="Settle money globally through " />
+            <EditableText
+              id="home.hero.title.line2"
+              default="open markets."
+              as="span"
+              style={{ fontStyle: "italic", fontWeight: 600 }}
+            />
           </motion.h1>
 
           <motion.p
@@ -2148,8 +2155,11 @@ const CinematicHero = () => {
             transition={{ duration: 1, ease: EASE, delay: 0.18 }}
             className="text-black/55 text-[15px] md:text-[16px] leading-[1.55] tracking-tight max-w-[560px] mx-auto mb-7"
           >
-            Blip connects users with verified merchants who compete to settle
-            payments faster, safer, and at better rates.
+            <EditableText
+              id="home.hero.sub"
+              default="Blip connects users with verified merchants who compete to settle payments faster, safer, and at better rates."
+              multiline
+            />
           </motion.p>
 
           <SendReceiveWidget

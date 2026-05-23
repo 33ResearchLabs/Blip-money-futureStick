@@ -61,7 +61,7 @@ const BestRatesBlackSection = () => {
             transition={{ duration: 0.7 }}
             className="text-[11px] uppercase tracking-[0.3em] text-white/45 font-semibold mb-5"
           >
-            Best rates · live market
+            <EditableText id="user.bestrates.eyebrow" default="Best rates · live market" />
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -70,11 +70,15 @@ const BestRatesBlackSection = () => {
             className="font-display font-semibold leading-[1.05] tracking-tight mb-5"
             style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", letterSpacing: "-0.04em" }}
           >
-            We provide the{" "}
-            <span style={{ fontStyle: "italic", fontFamily: "ui-serif, Georgia, serif", fontWeight: 500 }} className="text-white/75">
-              best rates
-            </span>{" "}
-            in the market.
+            <EditableText id="user.bestrates.title.pre" default="We provide the " as="span" />
+            <EditableText
+              id="user.bestrates.title.accent"
+              default="best rates"
+              as="span"
+              style={{ fontStyle: "italic", fontFamily: "ui-serif, Georgia, serif", fontWeight: 500 }}
+              className="text-white/75"
+            />
+            <EditableText id="user.bestrates.title.post" default=" in the market." as="span" />
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 14 }}
@@ -82,9 +86,11 @@ const BestRatesBlackSection = () => {
             transition={{ duration: 0.9, delay: 0.2, ease: EASE }}
             className="text-white/60 text-[15px] md:text-base leading-relaxed max-w-lg mb-8"
           >
-            Find a cheaper rate anywhere — we&apos;ll beat it. Live merchant
-            quotes compete on every order so you always settle at the
-            sharpest price.
+            <EditableText
+              id="user.bestrates.sub"
+              default="Find a cheaper rate anywhere — we'll beat it. Live merchant quotes compete on every order so you always settle at the sharpest price."
+              multiline
+            />
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -96,14 +102,14 @@ const BestRatesBlackSection = () => {
               to="/rates"
               className="group inline-flex items-center justify-center gap-2 h-12 px-7 rounded-full bg-white text-black text-[14.5px] font-bold tracking-tight transition-transform hover:-translate-y-[1px]"
             >
-              <span>Find the best rate</span>
+              <EditableText id="user.bestrates.cta.primary" default="Find the best rate" as="span" />
               <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
             </Link>
             <Link
               to="/register"
               className="group inline-flex items-center justify-center gap-2 h-12 px-7 rounded-full border border-white/20 text-white text-[14.5px] font-semibold tracking-tight hover:bg-white/[0.06] transition-colors"
             >
-              <span>Join waitlist</span>
+              <EditableText id="user.bestrates.cta.secondary" default="Join waitlist" as="span" />
               <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
             </Link>
           </motion.div>
@@ -269,7 +275,7 @@ const UserHero = () => {
             rel="noopener noreferrer"
             className="group inline-flex items-center justify-center gap-2 w-full sm:w-auto h-14 sm:h-12 lg:h-11 px-8 sm:px-7 lg:px-6 rounded-full bg-black text-white text-[17.5px] sm:text-[15px] lg:text-[13.5px] font-bold tracking-tight transition-transform hover:-translate-y-[1px] shadow-[0_10px_28px_-12px_rgba(0,0,0,0.55)] lg:shadow-none"
           >
-            <span>Join Waitlist</span>
+            <EditableText id="user.hero.cta.primary" default="Join Waitlist" as="span" />
             <ArrowRight className="w-5 h-5 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
           </a>
           <Link
@@ -281,7 +287,7 @@ const UserHero = () => {
               border: "1.5px solid #cc785c",
             }}
           >
-            <span>See how it works</span>
+            <EditableText id="user.hero.cta.secondary" default="See how it works" as="span" />
             <ArrowRight className="w-5 h-5 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
           </Link>
         </motion.div>
@@ -333,7 +339,7 @@ const WhyBlipForUsers = () => {
               transition={{ duration: 0.6 }}
               className="text-[11px] uppercase tracking-[0.3em] text-black/60 dark:text-white/30 font-semibold mb-4"
             >
-              Why Blip
+              <EditableText id="user.why.eyebrow" default="Why Blip" />
             </motion.p>
             <motion.h2
               initial={{ opacity: 0, y: 24 }}
@@ -341,10 +347,10 @@ const WhyBlipForUsers = () => {
               transition={{ duration: 0.9, delay: 0.1, ease: EASE }}
               className="font-display text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight leading-[1.05] mb-6"
             >
-              Crypto out,{" "}
-              <span className="text-black/60 dark:text-white/40">cash in.</span>
+              <EditableText id="user.why.title.pre" default="Crypto out, " as="span" />
+              <EditableText id="user.why.title.accent" default="cash in." as="span" className="text-black/60 dark:text-white/40" />
               <br />
-              Under a minute.
+              <EditableText id="user.why.title.post" default="Under a minute." as="span" />
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 16 }}
@@ -352,7 +358,7 @@ const WhyBlipForUsers = () => {
               transition={{ duration: 0.7, delay: 0.2 }}
               className="text-lg text-black/60 dark:text-white/50 mb-10 max-w-lg"
             >
-              No banks. No delays. No middlemen. Blip matches you instantly with vetted merchants and settles via escrow.
+              <EditableText id="user.why.sub" default="No banks. No delays. No middlemen. Blip matches you instantly with vetted merchants and settles via escrow." multiline />
             </motion.p>
 
             <div className="space-y-3">
@@ -369,10 +375,10 @@ const WhyBlipForUsers = () => {
 </div>
                   <div>
                     <div className="font-semibold text-black dark:text-white mb-0.5">
-                      {f.title}
+                      <EditableText id={`user.why.item${i}.title`} default={f.title} as="span" />
                     </div>
                     <div className="text-sm text-black/50 dark:text-white/50">
-                      {f.desc}
+                      <EditableText id={`user.why.item${i}.desc`} default={f.desc} as="span" />
                     </div>
                   </div>
                 </motion.div>
@@ -399,12 +405,12 @@ const WhyBlipForUsers = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
             <div className="absolute bottom-20 left-0 right-0 p-8">
               <div className="text-[10px] uppercase tracking-[0.25em] font-semibold text-[#ff6b35] mb-3">
-                Instant
+                <EditableText id="user.why.overlay.eyebrow" default="Instant" as="span" />
               </div>
               <div className="font-display text-2xl md:text-3xl font-semibold text-white tracking-tight leading-tight">
-                Crypto to cash.
+                <EditableText id="user.why.overlay.line1" default="Crypto to cash." as="span" />
                 <br />
-                <span className="text-white/70">In under a minute.</span>
+                <EditableText id="user.why.overlay.line2" default="In under a minute." as="span" className="text-white/70" />
               </div>
             </div>
           </motion.div>
@@ -462,7 +468,7 @@ const UserHowItWorks = () => {
             transition={{ duration: 0.6 }}
             className="text-[11px] uppercase tracking-[0.3em] text-black/60 dark:text-white/30 font-semibold mb-4"
           >
-            How it works
+            <EditableText id="user.howitworks.eyebrow" default="How it works" />
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 24 }}
@@ -470,8 +476,8 @@ const UserHowItWorks = () => {
             transition={{ duration: 0.9, delay: 0.1, ease: EASE }}
             className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-black dark:text-white tracking-tight leading-[1.08] mb-5"
           >
-            Four steps.{" "}
-            <span className="text-black/60 dark:text-white/40">Under a minute.</span>
+            <EditableText id="user.howitworks.title.pre" default="Four steps. " as="span" />
+            <EditableText id="user.howitworks.title.accent" default="Under a minute." as="span" className="text-black/60 dark:text-white/40" />
           </motion.h2>
         </div>
 
@@ -517,10 +523,10 @@ const UserHowItWorks = () => {
                   {/* Body */}
                   <div className="p-6">
                     <h3 className="font-semibold text-black dark:text-white text-base mb-1.5 tracking-tight">
-                      {s.title}
+                      <EditableText id={`user.howitworks.step${i}.title`} default={s.title} as="span" />
                     </h3>
                     <p className="text-sm text-black/60 dark:text-white/55 leading-relaxed">
-                      {s.desc}
+                      <EditableText id={`user.howitworks.step${i}.desc`} default={s.desc} as="span" />
                     </p>
                   </div>
                 </div>
@@ -603,8 +609,8 @@ const Tooltip = ({
   side,
   delay,
 }: {
-  line: string;
-  accent: string;
+  line: React.ReactNode;
+  accent: React.ReactNode;
   Icon: React.ElementType;
   side: "left" | "right" | "mobile";
   delay: number;
@@ -739,11 +745,11 @@ const AppPreviewSection = () => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  const lines: { text: string; accent: string; Icon: React.ElementType }[] = [
-    { text: "Settle in under", accent: "a minute.", Icon: Zap },
-    { text: "Best rates,", accent: "guaranteed.", Icon: BadgeCheck },
-    { text: "Your keys.", accent: "Your money.", Icon: Lock },
-    { text: "Every order,", accent: "live.", Icon: Activity },
+  const lines: { text: React.ReactNode; accent: React.ReactNode; Icon: React.ElementType }[] = [
+    { text: <EditableText id="user.app.line0.text" default="Settle in under" as="span" />, accent: <EditableText id="user.app.line0.accent" default="a minute." as="span" />, Icon: Zap },
+    { text: <EditableText id="user.app.line1.text" default="Best rates," as="span" />, accent: <EditableText id="user.app.line1.accent" default="guaranteed." as="span" />, Icon: BadgeCheck },
+    { text: <EditableText id="user.app.line2.text" default="Your keys." as="span" />, accent: <EditableText id="user.app.line2.accent" default="Your money." as="span" />, Icon: Lock },
+    { text: <EditableText id="user.app.line3.text" default="Every order," as="span" />, accent: <EditableText id="user.app.line3.accent" default="live." as="span" />, Icon: Activity },
   ];
 
   return (
@@ -788,7 +794,7 @@ const AppPreviewSection = () => {
             className="text-[12px] font-bold uppercase tracking-[0.36em] mb-6"
             style={{ color: "#cc785c" }}
           >
-            The app
+            <EditableText id="user.app.eyebrow" default="The app" as="span" />
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 24 }}
@@ -860,7 +866,7 @@ const AppPreviewSection = () => {
               { val: "<60s", lbl: "avg settlement" },
               { val: "0%", lbl: "protocol fees" },
               { val: "24/7", lbl: "always on" },
-            ].map((s) => (
+            ].map((s, i) => (
               <div key={s.lbl}>
                 <div
                   className="font-display text-white tabular-nums"
@@ -870,10 +876,10 @@ const AppPreviewSection = () => {
                     letterSpacing: "-0.03em",
                   }}
                 >
-                  {s.val}
+                  <EditableText id={`user.app.stat${i}.val`} default={s.val} as="span" />
                 </div>
                 <div className="text-[10px] uppercase tracking-[0.22em] text-white/45 mt-1.5">
-                  {s.lbl}
+                  <EditableText id={`user.app.stat${i}.lbl`} default={s.lbl} as="span" />
                 </div>
               </div>
             ))}
@@ -932,7 +938,7 @@ const UserTrustSection = () => {
             transition={{ duration: 0.6 }}
             className="text-[11px] uppercase tracking-[0.3em] text-black/60 dark:text-white/30 font-semibold mb-4"
           >
-            Safety
+            <EditableText id="user.safety.eyebrow" default="Safety" />
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 24 }}
@@ -940,8 +946,8 @@ const UserTrustSection = () => {
             transition={{ duration: 0.9, delay: 0.1, ease: EASE }}
             className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-black dark:text-white tracking-tight leading-[1.08] mb-5"
           >
-            Built for{" "}
-            <span className="text-black/60 dark:text-white/40">peace of mind.</span>
+            <EditableText id="user.safety.title.pre" default="Built for " as="span" />
+            <EditableText id="user.safety.title.accent" default="peace of mind." as="span" className="text-black/60 dark:text-white/40" />
           </motion.h2>
         </div>
 
@@ -977,10 +983,10 @@ const UserTrustSection = () => {
                 </div>
 
                 <h3 className="text-lg font-semibold text-black/80 dark:text-white/85 mb-2 tracking-tight">
-                  {c.title}
+                  <EditableText id={`user.safety.card${i}.title`} default={c.title} as="span" />
                 </h3>
                 <p className="text-sm font-medium text-black/55 dark:text-white/55 leading-relaxed">
-                  {c.desc}
+                  <EditableText id={`user.safety.card${i}.desc`} default={c.desc} as="span" />
                 </p>
               </motion.div>
             );

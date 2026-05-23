@@ -3,6 +3,7 @@ import { useState, useEffect, useRef, memo } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useTheme } from "next-themes";
 import { SwipeHint } from "./SwipeHint";
+import { EditableText } from "@/components/dashboard/Editable";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -315,7 +316,7 @@ const UseCasesSection = () => {
             className="heading-h2 text-center"
             style={{ color: isDark ? "#fff" : "#1d1d1f", marginBottom: 48 }}
           >
-            Built for everyone.
+            <EditableText id="home.usecases.title" default="Built for everyone." />
           </motion.h2>
 
           {/* ── Hero card: Users — full width with image ── */}
@@ -346,13 +347,13 @@ const UseCasesSection = () => {
               {/* Left — text */}
               <div className="flex-1 min-w-0">
                 <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", marginBottom: 14 }}>
-                  For users
+                  <EditableText id="home.usecases.users.eyebrow" default="For users" />
                 </span>
                 <h3 style={{ fontSize: "clamp(2rem, 3.5vw, 2.8rem)", fontWeight: 700, letterSpacing: "-0.035em", lineHeight: 1.15, color: "#ffffff", marginBottom: 12 }}>
-                  Send USDT.<br />Get cash delivered.
+                  <EditableText id="home.usecases.users.title.line1" default="Send USDT." as="span" /><br /><EditableText id="home.usecases.users.title.line2" default="Get cash delivered." as="span" />
                 </h3>
                 <p style={{ fontSize: 16, lineHeight: 1.6, color: "rgba(255,255,255,0.5)", marginBottom: 24, maxWidth: 380 }}>
-                  Cross-border remittance in under 60 seconds. No banks. No forms. Recipient gets local currency instantly.
+                  <EditableText id="home.usecases.users.desc" default="Cross-border remittance in under 60 seconds. No banks. No forms. Recipient gets local currency instantly." multiline />
                 </p>
                 <div className="flex items-center gap-5 mb-6">
                   {[{ val: "<60s", lbl: "Settle" }, { val: "42", lbl: "Routes" }, { val: "On-chain", lbl: "Proof" }].map((s, i) => (
@@ -405,13 +406,13 @@ const UseCasesSection = () => {
 
               <div className="relative z-10 p-7 flex flex-col h-full justify-end" style={{ minHeight: 380 }}>
                 <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", marginBottom: 10 }}>
-                  For merchants
+                  <EditableText id="home.usecases.merchants.eyebrow" default="For merchants" />
                 </span>
                 <h3 style={{ fontSize: 24, fontWeight: 700, letterSpacing: "-0.03em", lineHeight: 1.2, color: "#fff", marginBottom: 10 }}>
-                  Accept crypto.<br />Earn on every trade.
+                  <EditableText id="home.usecases.merchants.title.line1" default="Accept crypto." as="span" /><br /><EditableText id="home.usecases.merchants.title.line2" default="Earn on every trade." as="span" />
                 </h3>
                 <p style={{ fontSize: 14, lineHeight: 1.6, color: "rgba(255,255,255,0.45)", marginBottom: 20 }}>
-                  Instant settlement. Zero chargebacks. Margin on every order.
+                  <EditableText id="home.usecases.merchants.desc" default="Instant settlement. Zero chargebacks. Margin on every order." multiline />
                 </p>
                 <div className="flex items-center gap-4 mb-5">
                   <div>
@@ -467,13 +468,13 @@ const UseCasesSection = () => {
 
               <div className="relative z-10 p-7 flex flex-col h-full justify-end" style={{ minHeight: 380 }}>
                 <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.3)", marginBottom: 10 }}>
-                  For liquidity providers
+                  <EditableText id="home.usecases.lps.eyebrow" default="For liquidity providers" />
                 </span>
                 <h3 style={{ fontSize: 24, fontWeight: 700, letterSpacing: "-0.03em", lineHeight: 1.2, color: isDark ? "#fff" : "#1d1d1f", marginBottom: 10 }}>
-                  Deploy capital.<br />Capture spread.
+                  <EditableText id="home.usecases.lps.title.line1" default="Deploy capital." as="span" /><br /><EditableText id="home.usecases.lps.title.line2" default="Capture spread." as="span" />
                 </h3>
                 <p style={{ fontSize: 14, lineHeight: 1.6, color: isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.4)", marginBottom: 20 }}>
-                  Fund settlement routes. Earn infrastructure yield. Full control.
+                  <EditableText id="home.usecases.lps.desc" default="Fund settlement routes. Earn infrastructure yield. Full control." multiline />
                 </p>
                 <div className="flex items-center gap-4 mb-5">
                   <div>

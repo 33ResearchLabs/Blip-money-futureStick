@@ -52,7 +52,7 @@ const StickyJoinWaitlist = () => {
  * Runs on every route change so navigation between pages re-applies the
  * route's preferred default.
  */
-const LIGHT_ROUTES = new Set<string>(["/", "", "/rates"]);
+const LIGHT_ROUTES = new Set<string>(["/", "", "/rates", "/waitlist"]);
 
 const RouteThemeSync = () => {
   const { setTheme } = useTheme();

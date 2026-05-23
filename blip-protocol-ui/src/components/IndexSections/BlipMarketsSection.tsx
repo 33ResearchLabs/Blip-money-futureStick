@@ -6,6 +6,7 @@ import {
   MerchantDashboardBody,
   useMerchantDashboardState,
 } from "./LiveMerchantDashboard";
+import { EditableText } from "@/components/dashboard/Editable";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -283,18 +284,19 @@ const BlipMarketsSection = memo(function BlipMarketsSection() {
           transition={{ duration: 1, ease: EASE }}
           className="text-center max-w-3xl mx-auto mb-8 md:mb-14"
         >
-          <div
+          <EditableText
+            id="home.markets.eyebrow"
+            default="Blip Markets"
+            as="div"
             className="text-[11px] font-bold tracking-[0.36em] uppercase mb-5"
             style={{ color: "#cc785c" }}
-          >
-            Blip Markets
-          </div>
+          />
           <h2 className="font-display text-[clamp(1.8rem,4vw,3rem)] font-semibold tracking-[-0.025em] leading-[1.02] mb-4 md:mb-6">
-            A live marketplace <br className="hidden md:block" />
-            <span className="text-white/55">for global settlement.</span>
+            <EditableText id="home.markets.title.line1" default="A live marketplace" as="span" /> <br className="hidden md:block" />
+            <EditableText id="home.markets.title.line2" default="for global settlement." as="span" className="text-white/55" />
           </h2>
           <p className="text-white/60 text-[0.95rem] md:text-[1.2rem] leading-[1.55] max-w-[620px] mx-auto px-2">
-            Watch real money move. Merchants compete. Trades clear in seconds.
+            <EditableText id="home.markets.sub" default="Watch real money move. Merchants compete. Trades clear in seconds." multiline />
           </p>
         </motion.div>
 
@@ -345,14 +347,14 @@ const BlipMarketsSection = memo(function BlipMarketsSection() {
             rel="noopener noreferrer"
             className="group inline-flex items-center justify-center gap-2 h-[48px] px-7 rounded-full bg-white text-black text-[14px] font-semibold tracking-tight transition-all duration-300 shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_10px_30px_-10px_rgba(255,255,255,0.3)] hover:shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_16px_42px_-12px_rgba(255,255,255,0.4)] hover:-translate-y-[1px]"
           >
-            <span>Join Waitlist</span>
+            <EditableText id="home.markets.cta.primary" default="Join Waitlist" as="span" />
             <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
           </a>
           <Link
             to="/blip-market"
             className="group inline-flex items-center gap-1.5 h-[48px] px-4 text-white/75 text-[14px] font-medium tracking-tight hover:text-white transition-colors"
           >
-            <span>Explore Blip Market</span>
+            <EditableText id="home.markets.cta.secondary" default="Explore Blip Market" as="span" />
             <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
           </Link>
         </div>

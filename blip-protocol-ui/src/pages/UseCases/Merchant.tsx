@@ -55,6 +55,7 @@ import { CTAButton } from "@/components/Navbar";
 import HowItWorksSection from "@/components/merchant/How-it-works";
 import CinematicHero from "@/components/IndexSections/CinematicHero";
 import { CinematicHeroOfMerchant } from "@/components/MerchantSection/HeroSection";
+import { EditableText } from "@/components/dashboard/Editable";
 
 const WhyBlipSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -86,31 +87,37 @@ const WhyBlipSection = () => {
 
   const features = [
     {
+      key: "item1",
       title: "No waiting",
       description: "Requests come to you instead of you hunting buyers",
       icon: <Zap className="w-5 h-5" />,
     },
     {
+      key: "item2",
       title: "More control",
       description: "Filters, limits, and corridor selection",
       icon: <Sliders className="w-5 h-5" />,
     },
     {
+      key: "item3",
       title: "Faster execution",
       description: "One flow, minimal steps, no noise",
       icon: <Activity className="w-5 h-5" />,
     },
     {
+      key: "item4",
       title: "Lower risk",
       description: "Escrow-first design reduces failed trades",
       icon: <ShieldCheck className="w-5 h-5" />,
     },
     {
+      key: "item5",
       title: "Clear operations",
       description: "Status timeline + trade history",
       icon: <LayoutList className="w-5 h-5" />,
     },
     {
+      key: "item6",
       title: "Transparent proof",
       description: "On-chain visibility via Blip Scan",
       icon: <Globe className="w-5 h-5" />,
@@ -124,13 +131,13 @@ const WhyBlipSection = () => {
           {/* LEFT */}
           <div className="max-w-xl text-center lg:text-left">
             <h2 className=" text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white leading-[1.1] mb-6">
-              Why Merchants{" "}
-              <span className="text-black/70 dark:text-white/70">Choose</span>{" "}
-              Blip?
+              <EditableText id="merchant.why.title.pre" default="Why Merchants " as="span" />
+              <EditableText id="merchant.why.title.accent" default="Choose" as="span" className="text-black/70 dark:text-white/70" />
+              <EditableText id="merchant.why.title.post" default=" Blip?" as="span" />
             </h2>
 
             <p className="text-base md:text-lg lg:text-xl text-black/60 dark:text-white/50 font-medium leading-relaxed mb-10">
-              Built for speed, control and repeat volume.
+              <EditableText id="merchant.why.sub" default="Built for speed, control and repeat volume." multiline />
             </p>
           </div>
 
@@ -216,10 +223,10 @@ const WhyBlipSection = () => {
 
                         <div>
                           <div className="text-lg font-semibold text-black/80 dark:text-white/70">
-                            {f.title}
+                            <EditableText id={`merchant.why.${f.key}.title`} default={f.title} as="span" />
                           </div>
                           <div className="text-sm font-medium text-black/70 dark:text-white/50">
-                            {f.description}
+                            <EditableText id={`merchant.why.${f.key}.description`} default={f.description} as="span" />
                           </div>
                         </div>
                       </div>
@@ -251,26 +258,31 @@ const DashboardSection = () => {
 
   const callouts = [
     {
+      key: "item1",
       icon: Radio,
       title: "New Orders Feed",
       description: "Real-time requests you can accept instantly",
     },
     {
+      key: "item2",
       icon: TrendingUp,
       title: "Margin Control",
       description: "Adjust pricing within allowed ranges",
     },
     {
+      key: "item3",
       icon: Filter,
       title: "Risk Controls",
       description: "Amount limits, corridor filters, timeouts",
     },
     {
+      key: "item4",
       icon: Activity,
       title: "Trade Timeline",
       description: "Escrow → execution → release",
     },
     {
+      key: "item5",
       icon: BarChart3,
       title: "Performance",
       description: "Volume, speed, completion rate, profit view",
@@ -300,7 +312,7 @@ const DashboardSection = () => {
             transition={{ duration: 0.6 }}
             className="text-[11px] uppercase tracking-[0.3em] text-black/80 dark:text-white/30 font-semibold mb-4"
           >
-            Merchant Dashboard
+            <EditableText id="merchant.dashboard.eyebrow" default="Merchant Dashboard" />
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
@@ -308,9 +320,9 @@ const DashboardSection = () => {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold text-black dark:text-white tracking-tight leading-[1.1] mb-4"
           >
-            Your{" "}
-            <span className="text-black/70 dark:text-white/50">command</span>{" "}
-            center
+            <EditableText id="merchant.dashboard.title.pre" default="Your " as="span" />
+            <EditableText id="merchant.dashboard.title.accent" default="command" as="span" className="text-black/70 dark:text-white/50" />
+            <EditableText id="merchant.dashboard.title.post" default=" center" as="span" />
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -318,7 +330,7 @@ const DashboardSection = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-base md:text-lg lg:text-xl text-black/60 dark:text-white/50 max-w-xl mx-auto font-medium leading-relaxed"
           >
-            Everything needed to run a desk, without the clutter.
+            <EditableText id="merchant.dashboard.sub" default="Everything needed to run a desk, without the clutter." multiline />
           </motion.p>
         </div>
 
@@ -369,10 +381,10 @@ const DashboardSection = () => {
 
                   <div>
                     <h4 className="text-base font-medium text-black dark:text-white mb-1">
-                      {callout.title}
+                      <EditableText id={`merchant.dashboard.${callout.key}.title`} default={callout.title} as="span" />
                     </h4>
                     <p className="text-sm text-black dark:text-white/40">
-                      {callout.description}
+                      <EditableText id={`merchant.dashboard.${callout.key}.description`} default={callout.description} as="span" />
                     </p>
                   </div>
                 </div>
@@ -428,7 +440,7 @@ const PricingSection = () => {
             transition={{ duration: 0.6 }}
             className="text-[11px] uppercase tracking-[0.3em] text-black/60 dark:text-white/30 font-semibold mb-4"
           >
-            Pricing
+            <EditableText id="merchant.pricing.eyebrow" default="Pricing" />
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 24 }}
@@ -436,12 +448,10 @@ const PricingSection = () => {
             transition={{ duration: 0.9, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
             className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.08] mb-5"
           >
-            You{" "}
-            <span className="text-[#ff6b35]">
-              control pricing.
-            </span>{" "}
-            <br className="hidden md:block" />
-            We make it simple.
+            <EditableText id="merchant.pricing.title.pre" default="You " as="span" />
+            <EditableText id="merchant.pricing.title.accent" default="control pricing." as="span" className="text-[#ff6b35]" />
+            {" "}<br className="hidden md:block" />
+            <EditableText id="merchant.pricing.title.post" default="We make it simple." as="span" />
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 16 }}
@@ -449,8 +459,7 @@ const PricingSection = () => {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="text-base md:text-lg text-black/60 dark:text-white/50 max-w-2xl mx-auto leading-relaxed"
           >
-            Blip shows a live market reference rate. Adjust your quote within
-            allowed ranges to win orders faster.
+            <EditableText id="merchant.pricing.sub" default="Blip shows a live market reference rate. Adjust your quote within allowed ranges to win orders faster." multiline />
           </motion.p>
         </div>
 
@@ -683,10 +692,10 @@ const RolloutSection = () => {
   ];
 
   const benefits = [
-    "Priority visibility in matching",
-    "Direct access to the team",
-    "Early liquidity incentives",
-    "Lower fees during pilot",
+    { key: "item1", text: "Priority visibility in matching" },
+    { key: "item2", text: "Direct access to the team" },
+    { key: "item3", text: "Early liquidity incentives" },
+    { key: "item4", text: "Lower fees during pilot" },
   ];
 
   return (
@@ -703,7 +712,7 @@ const RolloutSection = () => {
             transition={{ duration: 0.6 }}
             className="text-[11px] uppercase tracking-[0.3em] text-black/60 dark:text-white/30 font-semibold mb-4"
           >
-            Rollout
+            <EditableText id="merchant.rollout.eyebrow" default="Rollout" />
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 24 }}
@@ -711,8 +720,8 @@ const RolloutSection = () => {
             transition={{ duration: 0.9, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
             className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.08] mb-5"
           >
-            Invite-only{" "}
-            <span className="text-black/60 dark:text-white/40">rollout.</span>
+            <EditableText id="merchant.rollout.title.pre" default="Invite-only " as="span" />
+            <EditableText id="merchant.rollout.title.accent" default="rollout." as="span" className="text-black/60 dark:text-white/40" />
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 16 }}
@@ -720,7 +729,7 @@ const RolloutSection = () => {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="text-base md:text-lg text-black/60 dark:text-white/50 max-w-2xl mx-auto leading-relaxed"
           >
-            We're expanding in stages. Get in early and shape the protocol.
+            <EditableText id="merchant.rollout.sub" default="We're expanding in stages. Get in early and shape the protocol." multiline />
           </motion.p>
         </div>
 
@@ -764,7 +773,7 @@ const RolloutSection = () => {
                 <div className="group relative p-6 rounded-2xl bg-white dark:bg-white/[0.03] border border-black/[0.06] dark:border-white/[0.06] lift-on-hover">
                   <div className="flex items-baseline justify-between mb-2">
                     <h3 className="text-xl font-semibold text-black dark:text-white tracking-tight">
-                      {p.label}
+                      <EditableText id={`merchant.rollout.phase.${p.id}.label`} default={p.label} as="span" />
                     </h3>
                     <span
                       className={`text-[10px] uppercase tracking-widest font-semibold ${
@@ -775,11 +784,11 @@ const RolloutSection = () => {
                             : "text-black/40 dark:text-white/40"
                       }`}
                     >
-                      {p.status}
+                      <EditableText id={`merchant.rollout.phase.${p.id}.status`} default={p.status} as="span" />
                     </span>
                   </div>
                   <p className="text-sm text-black/60 dark:text-white/50 leading-relaxed">
-                    {p.desc}
+                    <EditableText id={`merchant.rollout.phase.${p.id}.desc`} default={p.desc} as="span" />
                   </p>
                 </div>
               </motion.div>
@@ -799,18 +808,18 @@ const RolloutSection = () => {
           <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-8 md:gap-12 items-start">
             <div>
               <div className="text-[10px] uppercase tracking-[0.25em] font-semibold text-white/50 mb-3">
-                Early merchant perks
+                <EditableText id="merchant.rollout.perks.eyebrow" default="Early merchant perks" as="span" />
               </div>
               <h3 className="font-display text-2xl md:text-3xl font-semibold tracking-tight">
-                Join early,
+                <EditableText id="merchant.rollout.perks.title.line1" default="Join early," as="span" />
                 <br />
-                earn more.
+                <EditableText id="merchant.rollout.perks.title.line2" default="earn more." as="span" />
               </h3>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {benefits.map((b, i) => (
                 <motion.div
-                  key={b}
+                  key={b.key}
                   initial={{ opacity: 0, x: -8 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ duration: 0.5, delay: 0.7 + i * 0.08 }}
@@ -819,7 +828,9 @@ const RolloutSection = () => {
                   <div className="w-6 h-6 rounded-full bg-[#ff6b35]/15 border border-[#ff6b35]/30 flex items-center justify-center flex-shrink-0">
                     <CheckCircle2 className="w-3 h-3 text-[#ff6b35]" />
                   </div>
-                  <span className="text-sm text-white/80">{b}</span>
+                  <span className="text-sm text-white/80">
+                    <EditableText id={`merchant.rollout.benefit.${b.key}`} default={b.text} as="span" />
+                  </span>
                 </motion.div>
               ))}
             </div>
@@ -839,6 +850,7 @@ const RequirementsSection = () => {
 
   const requirements = [
     {
+      key: "item1",
       icon: Wallet,
       title: "Liquidity ready",
       text: "You can provide liquidity for at least one corridor.",
@@ -846,6 +858,7 @@ const RequirementsSection = () => {
       glow: "rgba(255,107,53,0.18)",
     },
     {
+      key: "item2",
       icon: Zap,
       title: "Fast execution",
       text: "You respond quickly and complete trades reliably.",
@@ -853,6 +866,7 @@ const RequirementsSection = () => {
       glow: "rgba(61,220,132,0.18)",
     },
     {
+      key: "item3",
       icon: FileCheck,
       title: "Basic verification",
       text: "Phone, email, and wallet — no full KYC during Beta.",
@@ -860,6 +874,7 @@ const RequirementsSection = () => {
       glow: "rgba(62,197,255,0.18)",
     },
     {
+      key: "item4",
       icon: Shield,
       title: "Policy compliant",
       text: "You follow trade rules and dispute policy.",
@@ -881,7 +896,7 @@ const RequirementsSection = () => {
             transition={{ duration: 0.6 }}
             className="text-[11px] uppercase tracking-[0.3em] text-black/60 dark:text-white/30 font-semibold mb-4"
           >
-            Requirements
+            <EditableText id="merchant.requirements.eyebrow" default="Requirements" />
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 24 }}
@@ -889,8 +904,8 @@ const RequirementsSection = () => {
             transition={{ duration: 0.9, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
             className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-black dark:text-white tracking-tight leading-[1.08] mb-5"
           >
-            Who should{" "}
-            <span className="text-black/60 dark:text-white/40">apply.</span>
+            <EditableText id="merchant.requirements.title.pre" default="Who should " as="span" />
+            <EditableText id="merchant.requirements.title.accent" default="apply." as="span" className="text-black/60 dark:text-white/40" />
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 16 }}
@@ -898,7 +913,7 @@ const RequirementsSection = () => {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="text-base md:text-lg text-black/60 dark:text-white/50 max-w-2xl mx-auto leading-relaxed"
           >
-            Four simple boxes to tick. If you match, we want to talk to you.
+            <EditableText id="merchant.requirements.sub" default="Four simple boxes to tick. If you match, we want to talk to you." multiline />
           </motion.p>
         </div>
 
@@ -932,10 +947,10 @@ const RequirementsSection = () => {
                 </div>
 
                 <h3 className="text-lg font-semibold text-black/80 dark:text-white/85 mb-2 tracking-tight">
-                  {r.title}
+                  <EditableText id={`merchant.requirements.${r.key}.title`} default={r.title} as="span" />
                 </h3>
                 <p className="text-sm font-medium text-black/55 dark:text-white/55 leading-relaxed">
-                  {r.text}
+                  <EditableText id={`merchant.requirements.${r.key}.text`} default={r.text} as="span" />
                 </p>
               </motion.div>
             );

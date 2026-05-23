@@ -2,6 +2,7 @@ import { useRef, useMemo, memo } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { sounds } from "@/lib/sounds";
+import { EditableText } from "@/components/dashboard/Editable";
 
 /* ============================================
    SECTION 13: CTA
@@ -100,7 +101,7 @@ const CTASection = () => {
           className="text-[12px] font-bold uppercase tracking-[0.36em] mb-6"
           style={{ color: "#cc785c" }}
         >
-          The next chapter
+          <EditableText id="home.cta.eyebrow" default="The next chapter" />
         </motion.p>
 
         <motion.h2
@@ -117,13 +118,14 @@ const CTASection = () => {
             marginBottom: 64,
           }}
         >
-          <span className="text-black dark:text-white">The new financial rail is </span>
-          <span
+          <EditableText id="home.cta.title.pre" default="The new financial rail is " as="span" className="text-black dark:text-white" />
+          <EditableText
+            id="home.cta.title.accent"
+            default="being built."
+            as="span"
             className="text-black dark:text-white"
             style={{ fontStyle: "italic", fontFamily: "ui-serif, Georgia, serif", fontWeight: 500 }}
-          >
-            being built.
-          </span>
+          />
         </motion.h2>
 
         <motion.div
@@ -140,7 +142,7 @@ const CTASection = () => {
             onClick={() => sounds.click()}
             className="group w-[220px] h-[56px] inline-flex items-center justify-center gap-2 px-7 rounded-full text-[17px] font-bold tracking-tight transition-all duration-300 ease-out bg-black text-white border border-black hover:shadow-[0_14px_36px_rgba(0,0,0,0.3)] hover:-translate-y-[1px] dark:bg-white dark:text-black dark:border-white dark:hover:shadow-[0_14px_36px_rgba(255,255,255,0.2)] active:scale-[0.98]"
           >
-            Join waitlist
+            <EditableText id="home.cta.button.primary" default="Join waitlist" as="span" />
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
           </a>
 
@@ -150,7 +152,7 @@ const CTASection = () => {
             rel="noopener noreferrer"
             className="w-[220px] h-[56px] inline-flex items-center justify-center px-7 rounded-full text-[17px] font-semibold tracking-tight transition-all duration-300 ease-out text-black border border-black/30 hover:border-black/60 hover:bg-black/5 dark:text-white dark:border-white/30 dark:hover:border-white/60 dark:hover:bg-white/10 active:scale-[0.98]"
           >
-            Provide liquidity
+            <EditableText id="home.cta.button.secondary" default="Provide liquidity" as="span" />
           </a>
         </motion.div>
       </motion.div>

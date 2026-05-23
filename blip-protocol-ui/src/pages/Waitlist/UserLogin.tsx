@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Loader2,
   Shield,
@@ -17,6 +17,56 @@ import { CTAButton } from "@/components/Navbar";
 import sounds from "@/lib/sounds";
 import Login from "./Login";
 import AuthPageLayout from "@/components/auth/AuthPageLayout";
+import { EditorialMerchantCards } from "@/pages/CardPreview";
+
+const EASE = [0.16, 1, 0.3, 1] as const;
+
+/* Hero character slideshow — mirrors the home page treatment.
+   Same PNGs used by CinematicHero so the visual language is shared. */
+const HERO_CHARS = [
+  { src: "/illustrations/hero-char-1.png?v=2", alt: "" },
+  { src: "/illustrations/hero-char-3.png?v=2", alt: "" },
+  { src: "/illustrations/hero-char-4.png?v=2", alt: "" },
+] as const;
+
+function WaitlistHeroSlideshow() {
+  const [idx, setIdx] = useState(0);
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      setIdx((i) => (i + 1) % HERO_CHARS.length);
+    }, 4000);
+    return () => window.clearInterval(id);
+  }, []);
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.96 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 1.1, ease: EASE, delay: 0.2 }}
+      className="relative w-full max-w-[480px] mx-auto lg:mx-0 lg:justify-self-end"
+    >
+      <motion.div
+        animate={{ y: [0, -8, 0] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        className="relative rounded-3xl overflow-hidden"
+        style={{ aspectRatio: "1 / 1" }}
+      >
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={HERO_CHARS[idx].src}
+            src={HERO_CHARS[idx].src}
+            alt={HERO_CHARS[idx].alt}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.9, ease: EASE }}
+            className="absolute inset-0 w-full h-full object-cover"
+            loading="eager"
+          />
+        </AnimatePresence>
+      </motion.div>
+    </motion.div>
+  );
+}
 
 /* ============================================
    2025/2026 WAITLIST PAGE
@@ -94,246 +144,180 @@ const UserLogin = ({ initialView }: AirdropLoginProps) => {
       />
       <HreflangTags path="/waitlist" />
 
-      <div className="min-h-screen bg-[#FAF8F5] dark:bg-black text-black dark:text-white overflow-hidden">
+      <div className="min-h-screen bg-white text-black overflow-hidden">
         {/* Background */}
 
         {/* Main Content */}
         <main className="relative z-10 max-w-7xl mx-auto px-6 pt-20 pb-24">
-          {/* LANDING VIEW */}
+          {/* LANDING VIEW — Apple product page treatment */}
           {view === "landing" && !isAuthenticated && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8 }}
+              className="text-black"
             >
-              {/* Hero Section */}
-              <div className="flex flex-col lg:flex-row items-center gap-16 py-16 lg:py-24">
-                <div className="flex-1 max-w-2xl text-center lg:text-left">
-                  {/* Badge */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
-                    className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-10 border text-black dark:text-white "
-                  >
-                    <motion.div
-                      className="w-2 h-2 rounded-full bg-black dark:bg-white"
-                      animate={{ scale: [1, 1.3, 1], opacity: [1, 0.5, 1] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    />
-                    <span className="text-[13px] text-black/70 dark:text-white/70 font-medium tracking-wide">
-                      Mainnet Alpha: Live
-                    </span>
-                  </motion.div>
-
-                  {/* Headline */}
-                  <motion.h1
-                    initial={{ opacity: 0, y: 40 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: 1,
-                      delay: 0.3,
-                      ease: [0.16, 1, 0.3, 1],
-                    }}
-                    className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-black dark:text-white leading-[1.05] mb-6 tracking-tight"
-                  >
-                    Join the Blip
-                    <br />
-                    <span className="text-black/20 dark:text-[#ffffff]/20">
-                      Waitlist{" "}
-                    </span>
-                  </motion.h1>
-
-                  <motion.p
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 0.5 }}
-                    className="text-lg md:text-xl text-black/50 dark:text-white/50 max-w-xl mx-auto lg:mx-0 leading-relaxed mb-10"
-                  >
-                    Support the first privacy-preserving institutional payment
-                    protocol. Earn rewards by validating network integrity and
-                    contributing to the global on-chain bridge.
-                  </motion.p>
-
-                  {/* CTAs */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 0.6 }}
-                    className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center"
-                  >
-                    {/* <button
-                      onClick={() => navigate("/join-waitlist")}
-                      className="group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-[#ffffff] text-black text-sm font-semibold hover:bg-[#e5e5e5]  transition-all duration-300"
-                    >
-                      Join Waitlist
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </button> */}
-                    <CTAButton
-                      to="/join-waitlist"
-                      className=" w-[225px]  h-[48px]"
-                    >
-                      Join Waitlist{" "}
-                    </CTAButton>
-                    {/* <a
-                      href="/whitepaper.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-full border border-white/10 text-white text-sm font-medium hover:bg-white/5 hover:border-white/20 transition-all duration-300"
-                    >
-                      Read Whitepaper
-                    </a> */}
-                    <a
-                      href="/whitepaper.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => sounds.click()}
-                      onMouseEnter={() => sounds.hover()}
-                      className="
-      group relative overflow-hidden inline-flex items-center justify-center gap-2
-      md:px-6  py-1
-      rounded-full
-       w-[230px]  h-[48px]
-      
-      border border-black/10 dark:border-white/10
-      text-black dark:text-white text-lg font-medium
-      transition-all duration-300
-    "
-                    >
-                      {/* LEFT TO RIGHT HOVER FILL (Same As CTA) */}
-                      <span
-                        className="
-      absolute inset-0
-      bg-black/10 dark:bg-white/20
-      rounded-full
-      scale-x-0 group-hover:scale-x-100
-      origin-left
-      transition-transform duration-700 ease-out
-    "
-                      />
-
-                      {/* BUTTON TEXT */}
-                      <span className="relative z-10 flex items-center gap-3">
-                        Read Whitepaper
-                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-                      </span>
-                    </a>
-                  </motion.div>
-                </div>
-
-                {/* Protocol Status Card */}
+              {/* ── HERO — single centered column ───────────────────────── */}
+              <div className="flex flex-col items-center text-center pt-20 md:pt-32 pb-16 md:pb-24 max-w-[820px] mx-auto">
                 <motion.div
-                  initial={{ opacity: 0, y: 60 }}
+                  initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 1.2,
-                    delay: 0.4,
-                    ease: [0.16, 1, 0.3, 1],
-                  }}
-                  className="flex-1 w-full max-w-md"
+                  transition={{ duration: 0.9, ease: EASE }}
+                  className="inline-flex items-center gap-3 mb-7"
                 >
-                  <div className="rounded-3xl bg-white/80 dark:bg-white/[0.02] border border-black/[0.06] dark:border-white/[0.06] overflow-hidden">
-                    {/* Header */}
-                    <div className="flex justify-between items-center px-6 py-4 border-b border-black/[0.06] dark:border-white/[0.06]">
-                      <div className="flex items-center gap-2">
-                        <motion.div className="w-2 h-2 bg-black dark:bg-white rounded-full" />
-                        <span className="text-[11px] font-medium text-black/50 dark:text-white/50 uppercase tracking-wider">
-                          Protocol Status
-                        </span>
-                      </div>
-                      <span className="text-[11px] font-semibold text-[#ffffff] uppercase tracking-wider">
-                        Operational
-                      </span>
-                    </div>
+                  <span className="w-5 h-px bg-black/15" />
+                  <span className="text-[10px] font-semibold tracking-[0.3em] uppercase whitespace-nowrap text-black">
+                    Early Access
+                  </span>
+                  <span className="w-5 h-px bg-black/15" />
+                </motion.div>
 
-                    {/* Stats */}
-                    <div className="px-6 py-5 space-y-4 border-b border-black/[0.06] dark:border-white/[0.06]">
-                      <div className="flex justify-between items-center">
-                        <span className="text-[11px] text-black/40 dark:text-white/40 uppercase tracking-wider">
-                          Network Latency
-                        </span>
-                        <span className="text-sm font-semibold text-black dark:text-white">
-                          412ms
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-[11px] text-black/40 dark:text-white/40 uppercase tracking-wider">
-                          Active Vaults
-                        </span>
-                        <span className="text-sm font-semibold text-black dark:text-white">
-                          12,492
-                        </span>
-                      </div>
-                    </div>
+                <motion.h1
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1.1, ease: EASE, delay: 0.08 }}
+                  className="font-display text-black"
+                  style={{
+                    fontSize: "clamp(3rem, 9vw, 5.2rem)",
+                    fontWeight: 700,
+                    lineHeight: 0.98,
+                    letterSpacing: "-0.06em",
+                    marginBottom: 22,
+                  }}
+                >
+                  Send money like{" "}
+                  <span style={{ fontStyle: "italic", fontWeight: 600, color: "#cc785c" }}>
+                    a message.
+                  </span>
+                </motion.h1>
 
-                    {/* Volume */}
-                    <div className="px-6 py-5 flex items-end justify-between">
-                      <div>
-                        <div className="text-[10px] text-black/40 dark:text-white/40 uppercase tracking-wider mb-1">
-                          Global Vol (24H)
-                        </div>
-                        <div className="text-2xl font-bold text-black dark:text-white">
-                          $1,293.00
-                        </div>
-                      </div>
-                      <div className="w-28 h-14 flex items-end gap-[3px]">
-                        {[35, 50, 40, 65, 45, 80, 55, 90, 60, 75].map(
-                          (h, i) => (
-                            <div
-                              key={i}
-                              className="flex-1 bg-black/20 dark:bg-[#ffffff]/30 rounded-t-[2px]"
-                              style={{ height: `${h}%` }}
-                            />
-                          ),
-                        )}
-                      </div>
-                    </div>
-                  </div>
+                <motion.p
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1, ease: EASE, delay: 0.18 }}
+                  className="text-black/55 text-[16px] md:text-[18px] leading-[1.55] tracking-tight max-w-[580px] mx-auto mb-10"
+                >
+                  Join 12,400+ already in line for borderless money — settled
+                  by verified merchants in under 60 seconds. Early users earn
+                  bonus points and priority access.
+                </motion.p>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.9, ease: EASE, delay: 0.28 }}
+                  className="flex flex-col sm:flex-row items-center justify-center gap-3"
+                >
+                  <button
+                    onClick={() => navigate("/join-waitlist")}
+                    className="group inline-flex items-center justify-center gap-2 h-12 px-7 rounded-full bg-black text-white text-[15px] font-bold tracking-tight transition-transform hover:-translate-y-[1px] shadow-[0_10px_28px_-12px_rgba(0,0,0,0.55)]"
+                  >
+                    <span>Join waitlist</span>
+                    <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+                  </button>
+                  <a
+                    href="/whitepaper.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group inline-flex items-center justify-center gap-2 h-12 px-6 rounded-full text-[14.5px] font-bold tracking-tight transition-all hover:-translate-y-[1px]"
+                    style={{
+                      background: "rgba(204,120,92,0.08)",
+                      color: "#cc785c",
+                      border: "1.5px solid #cc785c",
+                    }}
+                  >
+                    <span>Read whitepaper</span>
+                    <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+                  </a>
                 </motion.div>
               </div>
 
-              {/* Feature Grid */}
+              {/* ── HERO IMAGE — one beautiful frame ────────────────────── */}
               <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.8 }}
-                className="grid grid-cols-1 md:grid-cols-3 gap-6 pb-20 border-t border-black/[0.06] dark:border-white/[0.06] pt-20"
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-10%" }}
+                transition={{ duration: 1.1, ease: EASE }}
+                className="max-w-[1100px] mx-auto px-2 md:px-0"
+              >
+                <div
+                  className="rounded-[28px] overflow-hidden border border-black/[0.06] bg-[#FAF8F5]"
+                  style={{
+                    aspectRatio: "16 / 10",
+                    boxShadow:
+                      "0 60px 120px -40px rgba(0,0,0,0.22), 0 24px 60px -24px rgba(0,0,0,0.12)",
+                  }}
+                >
+                  <img
+                    src="/illustrations/hero-vibe.png?v=2"
+                    alt=""
+                    className="w-full h-full object-cover block"
+                    loading="eager"
+                  />
+                </div>
+              </motion.div>
+
+              {/* ── STATS STRIP — quiet proof bar ───────────────────────── */}
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-8%" }}
+                transition={{ duration: 1, ease: EASE }}
+                className="max-w-[920px] mx-auto px-6 py-16 md:py-24 grid grid-cols-3 gap-6"
               >
                 {[
-                  {
-                    icon: Shield,
-                    title: "Privacy Core",
-                    desc: "Every transaction is encrypted using zero-knowledge proofs. Privacy is a protocol standard.",
-                  },
-                  {
-                    icon: Layers,
-                    title: "Scalability",
-                    desc: "Processing thousands of transactions per second with near-zero latency.",
-                  },
-                  {
-                    icon: Zap,
-                    title: "Instant Settlement",
-                    desc: "Eliminate wait times. Finality achieved in a blip, moving assets across borders in real-time.",
-                  },
-                ].map((feature, i) => (
-                  <motion.div
-                    key={feature.title}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.9 + i * 0.1 }}
-                    className="p-8 rounded-3xl bg-white/80 dark:bg-white/[0.02] border border-black/[0.06] dark:border-white/[0.06] group hover:bg-white dark:hover:bg-white/[0.03] transition-all duration-300"
-                  >
-                    <div className="w-12 h-12 rounded-2xl bg-[#ffffff]/10 border border-[#ffffff]/20 flex items-center justify-center mb-6 group-hover:bg-[#ffffff]/20 transition-colors duration-300">
-                      <feature.icon className="w-5 h-5 text-[#ffffff]" />
+                  { kpi: "12,438", label: "Already in line" },
+                  { kpi: "<60s", label: "Median settle time" },
+                  { kpi: "0.0%", label: "First-week fees" },
+                ].map((s) => (
+                  <div key={s.label} className="text-center">
+                    <div
+                      className="font-display text-black"
+                      style={{
+                        fontSize: "clamp(2rem, 5vw, 3rem)",
+                        fontWeight: 600,
+                        letterSpacing: "-0.04em",
+                        lineHeight: 1,
+                      }}
+                    >
+                      {s.kpi}
                     </div>
-                    <h3 className="text-lg font-semibold text-black dark:text-white mb-3">
-                      {feature.title}
-                    </h3>
-                    <p className="text-sm text-black/50 dark:text-white/50 leading-relaxed">
-                      {feature.desc}
-                    </p>
-                  </motion.div>
+                    <div className="mt-3 text-[11px] font-semibold tracking-[0.18em] uppercase text-black/45">
+                      {s.label}
+                    </div>
+                  </div>
                 ))}
+              </motion.div>
+
+              {/* ── CLOSING BAND — live merchant signal ─────────────────── */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-8%" }}
+                transition={{ duration: 1, ease: EASE }}
+                className="pb-24 md:pb-32 pt-8"
+              >
+                <div className="flex items-center gap-3 mb-4 justify-center">
+                  <span className="w-5 h-px bg-black/15" />
+                  <span className="text-[10px] font-semibold tracking-[0.3em] uppercase text-black/70">
+                    Live network signal
+                  </span>
+                  <span className="w-5 h-px bg-black/15" />
+                </div>
+                <h2
+                  className="font-display text-center text-black mb-12"
+                  style={{
+                    fontSize: "clamp(1.8rem, 3.6vw, 2.6rem)",
+                    fontWeight: 600,
+                    letterSpacing: "-0.04em",
+                  }}
+                >
+                  Real merchants,{" "}
+                  <span style={{ fontStyle: "italic", color: "#cc785c" }}>
+                    real numbers.
+                  </span>
+                </h2>
+                <EditorialMerchantCards />
               </motion.div>
             </motion.div>
           )}

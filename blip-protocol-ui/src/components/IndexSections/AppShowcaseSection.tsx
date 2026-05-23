@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, memo } from "react";
 import TradePhoneUI from "../TradePhoneUI";
 import { SwipeHint } from "./SwipeHint";
+import { EditableText } from "@/components/dashboard/Editable";
 
 /* ============================================
    APP SHOWCASE — Apple-style bento grid
@@ -46,9 +47,11 @@ const AppShowcaseSection = () => {
           className="flex justify-center mb-6"
         >
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-black/[0.08] dark:border-white/[0.08] bg-white/60 dark:bg-white/[0.03]">
-            <span className="text-[10px] uppercase tracking-[0.25em] text-black/50 dark:text-white/40 font-semibold">
-              The App
-            </span>
+            <EditableText
+              id="home.appshowcase.eyebrow"
+              default="The App"
+              className="text-[10px] uppercase tracking-[0.25em] text-black/50 dark:text-white/40 font-semibold"
+            />
           </div>
         </motion.div>
 
@@ -62,7 +65,7 @@ const AppShowcaseSection = () => {
             marginBottom: 24,
           }}
         >
-          Built to be felt.
+          <EditableText id="home.appshowcase.title" default="Built to be felt." />
         </motion.h2>
 
         {/* ══════════════════════════════════════════════════════════
@@ -78,7 +81,7 @@ const AppShowcaseSection = () => {
               { step: "05", title: "Escrow secured", desc: "Funds locked in smart-contract escrow.", bg: "linear-gradient(145deg, #120600 0%, #0a0a0a 100%)", accent: "#ff6b35", image: "/escrowlocked.webp" },
               { step: "06", title: "Non-custodial wallet", desc: "Your keys, your funds. Always.", bg: "linear-gradient(145deg, #0a0a0a 0%, #050505 100%)", accent: "#7877ff", image: "/home_opt.webp" },
               { step: "07", title: "Global reach", desc: "150+ countries · Any currency.", bg: "#0a0a0a", accent: "#3ddc84", image: "/global-hd.jpg" },
-            ].map((c) => (
+            ].map((c, idx) => (
               <div
                 key={c.step}
                 className="snap-start shrink-0 w-[80%] rounded-3xl flex flex-col min-h-[320px] relative overflow-hidden"
@@ -110,10 +113,10 @@ const AppShowcaseSection = () => {
                     Step {c.step}
                   </div>
                   <h3 className="text-white text-xl font-semibold leading-snug mb-2">
-                    {c.title}
+                    <EditableText id={`home.appshowcase.item${idx + 1}.title`} default={c.title} />
                   </h3>
                   <p className="text-white/55 text-sm leading-relaxed">
-                    {c.desc}
+                    <EditableText id={`home.appshowcase.item${idx + 1}.desc`} default={c.desc} multiline />
                   </p>
                 </div>
               </div>

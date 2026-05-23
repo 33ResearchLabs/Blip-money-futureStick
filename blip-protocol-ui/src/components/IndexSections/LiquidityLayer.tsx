@@ -2,6 +2,7 @@ import { useRef, memo } from "react";
 import { motion, useInView } from "framer-motion";
 import { useTheme } from "next-themes";
 import { SwipeHint } from "./SwipeHint";
+import { EditableText } from "@/components/dashboard/Editable";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -36,7 +37,7 @@ const LiquidityLayer = () => {
             transition={{ duration: 0.6, ease: EASE }}
             style={{ fontSize: 12, fontWeight: 600, letterSpacing: "3px", textTransform: "uppercase", color: isDark ? "#555" : "#999", marginBottom: 24 }}
           >
-            Why Blip
+            <EditableText id="home.liquidity.eyebrow" default="Why Blip" />
           </motion.p>
 
           <motion.h2
@@ -47,7 +48,7 @@ const LiquidityLayer = () => {
             className="heading-h2"
             style={{ color: isDark ? "#fff" : "#1d1d1f", marginBottom: 48 }}
           >
-            Traditional rails vs Blip Protocol.
+            <EditableText id="home.liquidity.title" default="Traditional rails vs Blip Protocol." />
           </motion.h2>
         </div>
 
@@ -79,13 +80,13 @@ const LiquidityLayer = () => {
               boxShadow: isDark ? "none" : "0 2px 16px rgba(0,0,0,0.04)",
             }}>
               <div style={{ fontSize: 9, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.7)", marginBottom: 8 }}>
-                {s.label}
+                <EditableText id={`home.liquidity.stat${i + 1}.label`} default={s.label} />
               </div>
               <div className="font-mono" style={{ fontSize: 14, fontWeight: 500, color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)", textDecoration: "line-through", marginBottom: 4 }}>
-                {s.old}
+                <EditableText id={`home.liquidity.stat${i + 1}.old`} default={s.old} />
               </div>
               <div className="font-mono" style={{ fontSize: 24, fontWeight: 700, color: isDark ? "#fff" : "#1d1d1f", letterSpacing: "-0.03em" }}>
-                {s.new}
+                <EditableText id={`home.liquidity.stat${i + 1}.new`} default={s.new} />
               </div>
             </motion.div>
           ))}
@@ -164,7 +165,7 @@ const LiquidityLayer = () => {
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}
           >
-            Get early access
+            <EditableText id="home.liquidity.cta" default="Get early access" as="span" />
             <span>→</span>
           </motion.a>
         </motion.div>

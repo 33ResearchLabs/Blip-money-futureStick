@@ -143,14 +143,14 @@ export const CinematicHeroOfMerchant = () => {
               to="/merchant-waitlist"
               className="group relative inline-flex items-center justify-center gap-2 w-full sm:w-auto sm:min-w-[168px] h-[44px] px-6 rounded-full bg-white text-black text-[13.5px] font-semibold tracking-tight transition-all duration-300 shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_10px_30px_-10px_rgba(255,255,255,0.3)] hover:shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_16px_42px_-12px_rgba(255,255,255,0.4)] hover:-translate-y-[1px] active:scale-[0.985] active:translate-y-0"
             >
-              <span>Apply as Merchant</span>
+              <EditableText id="merchant.hero.cta.primary" default="Apply as Merchant" as="span" />
               <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
             </Link>
             <Link
               to="/merchant-login"
               className="group inline-flex items-center justify-center gap-1.5 w-full sm:w-auto sm:min-w-[168px] h-[44px] px-6 rounded-full text-white/85 text-[13.5px] font-medium tracking-tight hover:text-white transition-colors"
             >
-              <span>Merchant Sign-in</span>
+              <EditableText id="merchant.hero.cta.secondary" default="Merchant Sign-in" as="span" />
               <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
             </Link>
           </motion.div>

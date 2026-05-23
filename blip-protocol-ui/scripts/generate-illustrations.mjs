@@ -117,7 +117,7 @@ const SCENES = [
   // ── Waitlist hero ─────────────────────────────────────────────────────────
   {
     file: "waitlist-hero.png",
-    prompt: `A premium editorial hero scene for joining a waitlist: a calm confident character standing at a quiet vantage point at golden hour, looking out at a soft horizon where a row of warm-lit windows in distant towers form a queue of light. A single luminous numbered token (drawn as a small circular glyph, not readable text) floats gently in front of the character at chest height. Warm cream and Claude-orange palette with a soft ink silhouette of the skyline. One ambient sparkle. Hopeful, anticipatory, never crowded. Visible friendly face, eyes and a soft smile.`,
+    prompt: `A premium editorial portrait of a single friendly confident person centered in the frame, 3/4 body, looking slightly off-camera at golden hour. They hold a glowing phone close to their chest; a soft warm arc of light lifts from the phone into the air above their shoulder, where a single luminous circular token gently hovers (no readable text). Warm cream backdrop with a soft Claude-orange wash, soft cinematic rim-light on hair and jaw. One small ambient sparkle. Visible friendly face with eyes and a soft smile, calm hopeful expression. Generous breathing room. No banks, no logos, no readable text. Painterly editorial flat illustration, premium and uncrowded.`,
   },
   {
     file: "app-unlocked-wallet.png",

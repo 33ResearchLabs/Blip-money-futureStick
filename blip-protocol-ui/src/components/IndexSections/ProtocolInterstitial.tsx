@@ -2,6 +2,7 @@ import { useRef, memo, useState, useEffect, useCallback } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
 import { SwipeHint } from "./SwipeHint";
+import { EditableText } from "@/components/dashboard/Editable";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -460,7 +461,7 @@ const ProtocolInterstitial = () => {
             marginBottom: 28,
           }}
         >
-          Introducing
+          <EditableText id="home.protocol.eyebrow" default="Introducing" />
         </motion.p>
 
         <motion.h2
@@ -477,10 +478,13 @@ const ProtocolInterstitial = () => {
             marginBottom: 48,
           }}
         >
-          The{" "}
-          <span style={{ fontStyle: "italic", fontFamily: "ui-serif, Georgia, serif", fontWeight: 500 }}>
-            Blip Protocol
-          </span>
+          <EditableText id="home.protocol.title.pre" default="The " as="span" />
+          <EditableText
+            id="home.protocol.title.accent"
+            default="Blip Protocol"
+            as="span"
+            style={{ fontStyle: "italic", fontFamily: "ui-serif, Georgia, serif", fontWeight: 500 }}
+          />
         </motion.h2>
 
         {/* Top CTAs — GitHub + Docs only. Read Whitepaper moved into the

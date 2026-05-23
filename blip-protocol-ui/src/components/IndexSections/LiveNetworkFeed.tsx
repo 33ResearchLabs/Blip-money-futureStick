@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, memo } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useTheme } from "next-themes";
+import { EditableText } from "@/components/dashboard/Editable";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -73,7 +74,7 @@ const LiveNetworkFeed = () => {
             transition={{ duration: 0.6, ease: EASE }}
             style={{ fontSize: 12, fontWeight: 600, letterSpacing: "3px", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: 24 }}
           >
-            Live network
+            <EditableText id="home.network.eyebrow" default="Live network" />
           </motion.p>
 
           <motion.h2
@@ -84,7 +85,7 @@ const LiveNetworkFeed = () => {
             className="heading-h2"
             style={{ color: "#ffffff", marginBottom: 16 }}
           >
-            The network is live.
+            <EditableText id="home.network.title" default="The network is live." />
           </motion.h2>
 
           <motion.p
@@ -94,7 +95,7 @@ const LiveNetworkFeed = () => {
             transition={{ duration: 0.8, delay: 0.15, ease: EASE }}
             style={{ fontSize: 18, color: "rgba(255,255,255,0.35)", lineHeight: 1.6, maxWidth: 420, margin: "0 auto" }}
           >
-            Real settlements. Real earnings. Real points. Early participants are being rewarded.
+            <EditableText id="home.network.sub" default="Real settlements. Real earnings. Real points. Early participants are being rewarded." multiline />
           </motion.p>
         </div>
 
@@ -171,13 +172,13 @@ const LiveNetworkFeed = () => {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
             >
-              Start earning points
+              <EditableText id="home.network.cta" default="Start earning points" as="span" />
               <span>→</span>
             </motion.a>
           </div>
 
           <p className="mt-4 text-xs text-white/60">
-            Early participants are being rewarded. Join early access.
+            <EditableText id="home.network.cta.note" default="Early participants are being rewarded. Join early access." multiline />
           </p>
         </motion.div>
       </div>

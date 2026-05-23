@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SwipeHint } from "./SwipeHint";
+import { EditableText } from "@/components/dashboard/Editable";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 const ORANGE = "#ff6b35";
@@ -584,7 +585,7 @@ const TrustSection = () => {
           transition={{ duration: 1, ease: EASE }}
           style={{ marginBottom: 48 }}
         >
-          Built to not break.
+          <EditableText id="home.trust.title" default="Built to not break." />
         </motion.h2>
 
         <div className="relative">
@@ -615,7 +616,7 @@ const TrustSection = () => {
                         className="text-[11px] uppercase tracking-[0.15em] font-semibold inline-block mb-3"
                         style={{ color: card.color }}
                       >
-                        {card.tag}
+                        <EditableText id={`home.trust.item${i + 1}.tag`} default={card.tag} />
                       </span>
                       <h3
                         className="text-black dark:text-white mb-2 tracking-tight"
@@ -626,7 +627,7 @@ const TrustSection = () => {
                           lineHeight: 1.18,
                         }}
                       >
-                        {card.title}
+                        <EditableText id={`home.trust.item${i + 1}.title`} default={card.title} />
                       </h3>
                       <p
                         className="text-black/65 dark:text-white/60"
@@ -635,7 +636,7 @@ const TrustSection = () => {
                           lineHeight: 1.5,
                         }}
                       >
-                        {card.desc}
+                        <EditableText id={`home.trust.item${i + 1}.desc`} default={card.desc} multiline />
                       </p>
                     </div>
 

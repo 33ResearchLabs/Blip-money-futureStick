@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { SwipeHint } from "./SwipeHint";
+import { EditableText } from "@/components/dashboard/Editable";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -39,9 +40,11 @@ const BanklessSection = () => {
           transition={{ duration: 0.6, ease: EASE }}
           className="text-center"
         >
-          <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/65">
-            Global liquidity network
-          </span>
+          <EditableText
+            id="home.bankless.eyebrow"
+            default="Global liquidity network"
+            className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/65"
+          />
         </motion.div>
 
         {/* Headline */}
@@ -53,8 +56,8 @@ const BanklessSection = () => {
           className="text-center heading-h2 leading-[1.02] mt-8"
           style={{ marginBottom: 0 }}
         >
-          <span className="block">Banking,</span>
-          <span className="block text-white/30">without the bank.</span>
+          <EditableText id="home.bankless.title.line1" default="Banking," as="span" className="block" />
+          <EditableText id="home.bankless.title.line2" default="without the bank." as="span" className="block text-white/30" />
         </motion.h2>
 
         {/* Subtext */}
@@ -65,8 +68,11 @@ const BanklessSection = () => {
           transition={{ duration: 0.8, delay: 0.15, ease: EASE }}
           className="text-center text-base md:text-lg text-white/75 max-w-xl mx-auto mt-10 leading-relaxed"
         >
-          A global liquidity marketplace where transactions are fulfilled by
-          participants instead of traditional banking rails.
+          <EditableText
+            id="home.bankless.sub"
+            default="A global liquidity marketplace where transactions are fulfilled by participants instead of traditional banking rails."
+            multiline
+          />
         </motion.p>
 
         {/* ── Three Feature Cards ──
@@ -98,8 +104,8 @@ const BanklessSection = () => {
         transition={{ duration: 1.1, delay: 0.2, ease: EASE }}
         className="relative z-10 mt-32 sm:mt-40 mx-auto max-w-5xl px-5 md:px-6 text-center font-display text-2xl sm:text-4xl md:text-5xl font-semibold tracking-[-0.02em] leading-[1.15] text-white"
       >
-        <span className="block">Settlement becomes a marketplace</span>
-        <span className="block text-white/30">instead of a monopoly.</span>
+        <EditableText id="home.bankless.outro.line1" default="Settlement becomes a marketplace" as="span" className="block" />
+        <EditableText id="home.bankless.outro.line2" default="instead of a monopoly." as="span" className="block text-white/30" />
       </motion.p>
     </section>
   );
@@ -114,9 +120,9 @@ function CardShell({
   children,
 }: {
   index: string;
-  tag: string;
-  title: string;
-  caption: string;
+  tag: React.ReactNode;
+  title: React.ReactNode;
+  caption: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
@@ -196,9 +202,9 @@ function BiddingCard() {
   return (
     <CardShell
       index="01"
-      tag="Pricing"
-      title="Best rates, guaranteed."
-      caption="Competitive liquidity providers compress spreads on every transfer."
+      tag={<EditableText id="home.bankless.item1.tag" default="Pricing" />}
+      title={<EditableText id="home.bankless.item1.title" default="Best rates, guaranteed." />}
+      caption={<EditableText id="home.bankless.item1.caption" default="Competitive liquidity providers compress spreads on every transfer." multiline />}
     >
       <div ref={ref} className="space-y-1.5">
         {bids.map((b, i) => (
@@ -280,9 +286,9 @@ function RatesCard() {
   return (
     <CardShell
       index="02"
-      tag="Speed"
-      title="Send money in minutes."
-      caption="Cross-border transfers without banking delays."
+      tag={<EditableText id="home.bankless.item2.tag" default="Speed" />}
+      title={<EditableText id="home.bankless.item2.title" default="Send money in minutes." />}
+      caption={<EditableText id="home.bankless.item2.caption" default="Cross-border transfers without banking delays." multiline />}
     >
       <div ref={ref}>
         {/* Live feed */}
@@ -355,9 +361,9 @@ function ProofCard() {
   return (
     <CardShell
       index="03"
-      tag="Security"
-      title="Secure by design."
-      caption="Escrow, reputation, and on-chain verification built into every transaction."
+      tag={<EditableText id="home.bankless.item3.tag" default="Security" />}
+      title={<EditableText id="home.bankless.item3.title" default="Secure by design." />}
+      caption={<EditableText id="home.bankless.item3.caption" default="Escrow, reputation, and on-chain verification built into every transaction." multiline />}
     >
       <div className="space-y-2">
         {layers.map((l, i) => (

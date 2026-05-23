@@ -7,6 +7,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { SwipeHint } from "@/components/IndexSections/SwipeHint";
+import { EditableText } from "@/components/dashboard/Editable";
 
 const ORANGE = "#ff6b35";
 
@@ -292,9 +293,9 @@ function StepCard({
   Visual,
 }: {
   step: number;
-  title: string;
-  subtitle: string;
-  desc: string;
+  title: React.ReactNode;
+  subtitle: React.ReactNode;
+  desc: React.ReactNode;
   icon: React.ElementType;
   delay: number;
   Visual: React.ComponentType;
@@ -424,10 +425,10 @@ const HowItWorksSection = () => {
           className="text-[11px] uppercase tracking-[0.3em] font-semibold mb-4"
           style={{ color: ORANGE }}
         >
-          Three taps. One settled trade.
+          <EditableText id="merchant.howitworks.eyebrow" default="Three taps. One settled trade." as="span" />
         </motion.p>
         <h2 className="text-4xl md:text-6xl font-bold text-black tracking-tight">
-          How merchants execute on Blip
+          <EditableText id="merchant.howitworks.title" default="How merchants execute on Blip" as="span" />
         </h2>
       </div>
 
@@ -437,9 +438,9 @@ const HowItWorksSection = () => {
             <div key={s.step} className="snap-start shrink-0 w-[72%] md:w-auto h-auto">
               <StepCard
                 step={s.step}
-                title={s.title}
-                subtitle={s.subtitle}
-                desc={s.desc}
+                title={<EditableText id={`merchant.howitworks.step${s.step}.title`} default={s.title} as="span" />}
+                subtitle={<EditableText id={`merchant.howitworks.step${s.step}.subtitle`} default={s.subtitle} as="span" />}
+                desc={<EditableText id={`merchant.howitworks.step${s.step}.desc`} default={s.desc} as="span" />}
                 icon={s.icon}
                 delay={0.2 + i * 0.1}
                 Visual={VISUALS[i]}

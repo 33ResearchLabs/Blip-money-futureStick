@@ -177,20 +177,43 @@ function FieldEditor({ field }: { field: SectionField }) {
 
 function TextField({ field }: { field: Extract<SectionField, { kind: "text" }> }) {
   const [value, setValue] = useOverride<string>(`text:${field.id}`, field.default);
+  const [draft, setDraft] = useState(value);
+  useEffect(() => { setDraft(value); }, [value]);
+  const dirty = draft !== value;
   const overridden = value !== field.default;
+  const save = () => {
+    if (draft === field.default) clearOverride(`text:${field.id}`);
+    else setValue(draft);
+  };
   return (
     <div>
       <div className="flex items-center justify-between mb-1">
-        <label className="text-[10px] font-semibold text-white/65">{field.label}</label>
+        <label className="text-[10px] font-semibold text-white/65">
+          {field.label}{dirty && <span className="ml-1.5 text-[#ff7a3d]">●</span>}
+        </label>
         {overridden && <button className="text-[9px] font-semibold text-white/45 hover:text-white" onClick={() => clearOverride(`text:${field.id}`)}>Reset</button>}
       </div>
       {field.multiline ? (
-        <textarea value={value} rows={2} onChange={(e) => setValue(e.target.value)}
+        <textarea value={draft} rows={2}
+          onChange={(e) => setDraft(e.target.value)}
+          onKeyDown={(e) => { if ((e.metaKey || e.ctrlKey) && e.key === "Enter") { e.preventDefault(); save(); } }}
           className="w-full px-2 py-1.5 rounded-md bg-black/40 border border-white/10 text-[11.5px] text-white/90 focus:outline-none focus:border-white/30" style={{ resize: "vertical" }} />
       ) : (
-        <input type="text" value={value} onChange={(e) => setValue(e.target.value)}
+        <input type="text" value={draft}
+          onChange={(e) => setDraft(e.target.value)}
+          onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); save(); } }}
           className="w-full px-2 py-1.5 rounded-md bg-black/40 border border-white/10 text-[11.5px] text-white/90 focus:outline-none focus:border-white/30" />
       )}
+      <div className="flex gap-2 mt-1.5">
+        <button
+          disabled={!dirty}
+          onClick={save}
+          className="px-2.5 py-1 rounded-md text-[10.5px] font-semibold bg-white text-black disabled:bg-white/10 disabled:text-white/30"
+        >Save</button>
+        {dirty && (
+          <button onClick={() => setDraft(value)} className="px-2 py-1 rounded-md text-[10.5px] font-semibold text-white/55 hover:text-white">Cancel</button>
+        )}
+      </div>
     </div>
   );
 }

@@ -16,6 +16,8 @@ import { Globe, ChevronDown, Check, Home, Zap, MessageCircle, Activity, User ,  
   ExternalLink,
    } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { EditableText } from "@/components/dashboard/Editable";
+import { useOverride } from "@/hooks/useOverride";
 
 const TABS = [
   { key: "home", Icon: Home, label: "Home" },
@@ -39,7 +41,7 @@ type Stage =
 
 const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
-const stageCopy: Record<Stage, { headline: string; subline: string }> = {
+const STAGE_DEFAULTS: Record<Stage, { headline: string; subline: string }> = {
   sendUsdt: {
     headline: "Send USDT.",
     subline: "From your wallet to the world.",
@@ -65,6 +67,31 @@ const stageCopy: Record<Stage, { headline: string; subline: string }> = {
     subline: "Send money to anyone, anywhere across the globe.",
   },
 };
+
+// Editable override hook — wraps each stage headline/subline with localStorage-backed override.
+// Keys mirror the `text:home.howitworks.stage.<stage>.<field>` pattern so the dashboard registry can edit them.
+function useStageCopy(): Record<Stage, { headline: string; subline: string }> {
+  const [sendH] = useOverride<string>("text:home.howitworks.stage.sendUsdt.headline", STAGE_DEFAULTS.sendUsdt.headline);
+  const [sendS] = useOverride<string>("text:home.howitworks.stage.sendUsdt.subline", STAGE_DEFAULTS.sendUsdt.subline);
+  const [matchH] = useOverride<string>("text:home.howitworks.stage.instantMatch.headline", STAGE_DEFAULTS.instantMatch.headline);
+  const [matchS] = useOverride<string>("text:home.howitworks.stage.instantMatch.subline", STAGE_DEFAULTS.instantMatch.subline);
+  const [lockH] = useOverride<string>("text:home.howitworks.stage.lockEscrow.headline", STAGE_DEFAULTS.lockEscrow.headline);
+  const [lockS] = useOverride<string>("text:home.howitworks.stage.lockEscrow.subline", STAGE_DEFAULTS.lockEscrow.subline);
+  const [fiatH] = useOverride<string>("text:home.howitworks.stage.fiatPayout.headline", STAGE_DEFAULTS.fiatPayout.headline);
+  const [fiatS] = useOverride<string>("text:home.howitworks.stage.fiatPayout.subline", STAGE_DEFAULTS.fiatPayout.subline);
+  const [proofH] = useOverride<string>("text:home.howitworks.stage.proofOnChain.headline", STAGE_DEFAULTS.proofOnChain.headline);
+  const [proofS] = useOverride<string>("text:home.howitworks.stage.proofOnChain.subline", STAGE_DEFAULTS.proofOnChain.subline);
+  const [remitH] = useOverride<string>("text:home.howitworks.stage.globalRemittance.headline", STAGE_DEFAULTS.globalRemittance.headline);
+  const [remitS] = useOverride<string>("text:home.howitworks.stage.globalRemittance.subline", STAGE_DEFAULTS.globalRemittance.subline);
+  return {
+    sendUsdt: { headline: sendH, subline: sendS },
+    instantMatch: { headline: matchH, subline: matchS },
+    lockEscrow: { headline: lockH, subline: lockS },
+    fiatPayout: { headline: fiatH, subline: fiatS },
+    proofOnChain: { headline: proofH, subline: proofS },
+    globalRemittance: { headline: remitH, subline: remitS },
+  };
+}
 
 const currencies = [
   { id: 1, title: "All Assets", amount: 12847.5, symbol: "$", icon: Globe },
@@ -638,6 +665,7 @@ function OrderReceiptScreen() {
 }
 
 function InstantBiddingUnwrap() {
+  const stageCopy = useStageCopy();
   const bids = [
     {
       name: "QuickSwap Pro",
@@ -770,6 +798,7 @@ function InstantBiddingUnwrap() {
 }
 
 function VerifiedUnwrap() {
+  const stageCopy = useStageCopy();
   const [confirmations, setConfirmations] = useState(0);
 
   useEffect(() => {
@@ -1092,6 +1121,7 @@ function ProtocolLockShot({ show }: { show: boolean }) {
    ═══════════════════════════════════════════════════════════════ */
 
 function DesktopFlow() {
+  const stageCopy = useStageCopy();
   const [stage, setStage] = useState<Stage>("sendUsdt");
   const [animKey, setAnimKey] = useState(0);
   const [animDone, setAnimDone] = useState(false);
@@ -2202,20 +2232,23 @@ function DesktopFlow() {
    autoplay timeline). On <768px we render a simple swipeable list.
    ═══════════════════════════════════════════════════════════════ */
 function MobileFlow() {
+  const stageCopy = useStageCopy();
   return (
     <section className="relative bg-[#FAF8F5] dark:bg-black overflow-hidden py-20">
       <div className="px-7 mb-10">
         <div className="text-center">
-          <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-black/40 dark:text-white/40">
-            How it works
-          </span>
+          <EditableText
+            id="home.howitworks.eyebrow"
+            default="How it works"
+            className="text-[10px] font-bold uppercase tracking-[0.3em] text-black/40 dark:text-white/40"
+          />
         </div>
         <h2 className="text-center heading-h2 leading-[1.05] mt-4 text-black dark:text-white">
-          <span className="block">From wallet</span>
-          <span className="block text-black/40 dark:text-white/30">to cash.</span>
+          <EditableText id="home.howitworks.title.line1" default="From wallet" as="span" className="block" />
+          <EditableText id="home.howitworks.title.line2" default="to cash." as="span" className="block text-black/40 dark:text-white/30" />
         </h2>
         <p className="text-center text-[15px] text-black/55 dark:text-white/55 max-w-md mx-auto mt-6 leading-relaxed">
-          Six stages. Under sixty seconds.
+          <EditableText id="home.howitworks.sub" default="Six stages. Under sixty seconds." multiline />
         </p>
       </div>
 
