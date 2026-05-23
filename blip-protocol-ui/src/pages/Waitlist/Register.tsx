@@ -331,7 +331,7 @@ export default function Register({
         </div>
 
         {/* Sign up / Sign in tab toggle */}
-        <div className="mb-5 grid grid-cols-2 p-1 rounded-2xl border border-black/10 dark:border-white/[0.08] bg-black/[0.02] dark:bg-white/[0.03] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+        <div className="mb-2 grid grid-cols-2 p-1 rounded-2xl border border-black/10 dark:border-white/[0.08] bg-black/[0.02] dark:bg-white/[0.03] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
           <button
             type="button"
             aria-current="page"
@@ -605,7 +605,7 @@ export default function Register({
               "your_recaptcha_site_key" && (
               <div className="flex justify-center [&_iframe]:[color-scheme:light]">
                 <div className="overflow-hidden rounded w-fit">
-                  <div className="-mx-px -mt-px -mb-1 w-fit">
+                  <div className="-mx-1 -mt-px -mb-1 w-fit">
                     <ReCAPTCHA
                       ref={recaptchaRef}
                       sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
@@ -624,7 +624,7 @@ export default function Register({
 
           {/* Submit Button — captcha state no longer blocks submission;
               backend gates on RECAPTCHA_SECRET_KEY presence anyway */}
-          <div className="pt-2">
+          <div className="">
             <button
               type="submit"
               disabled={isLoading}
@@ -654,7 +654,7 @@ export default function Register({
         </form>
 
         {/* Footer Links */}
-        <div className="mt-8 text-center space-y-3">
+        <div className="mt-4 text-center space-y-1">
           <p className="text-sm text-black/50 dark:text-white/40">
             Already have an account?{" "}
             <Link

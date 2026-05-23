@@ -393,19 +393,19 @@ export default function AuthCardStack({
 
     <div className={`relative w-full   overflow-hidden bg-black ${className}`}>
       {/* Hero image with overlay cards */}
-      <div className="relative">
+      <div className="relative flex justify-center ">
         <img
           // src="images\merchant-waitlist.png"
           src="images\merchangt-login-register.jpg"
           alt=""
-          className="w-[90%] rounded-xl block"
+          className="w-[85%] rounded-xl block"
         />
 
         
       </div>
 
       {/* Feature row */}
-      <div className="grid grid-cols-4 gap-3 px-6 py-5 bg-black">
+      <div className="grid grid-cols-4 gap-3 px-6  py-5 bg-black">
         {[
           { Icon: Rocket, label: "Be the first to try" },
           { Icon: Crown, label: "Exclusive early access" },
